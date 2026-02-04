@@ -17,11 +17,12 @@ import {
   Loader,
   Center,
   Badge,
+  TextInput,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import { IoCopyOutline, IoCheckmark, IoAddCircleOutline, IoCloseCircleOutline } from 'react-icons/io5';
+import { IoCopyOutline, IoCheckmark, IoAddCircleOutline, IoCloseCircleOutline, IoSearch } from 'react-icons/io5';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { GITHUB_REPO_URL } from '../constants';
 import type { Code } from '../types/code';
@@ -64,6 +65,7 @@ export default function Codes() {
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
   const [redeemed, setRedeemed] = useState<Set<string>>(loadRedeemed);
   const [view, setView] = useState<ViewFilter>('unredeemed');
+  const [search, setSearch] = useState('');
   const [markAllOpened, { open: openMarkAll, close: closeMarkAll }] = useDisclosure(false);
   const [clearAllOpened, { open: openClearAll, close: closeClearAll }] = useDisclosure(false);
 
@@ -104,8 +106,9 @@ export default function Codes() {
   }, []);
 
   const filtered = codes.filter((entry) => {
-    if (view === 'redeemed') return redeemed.has(entry.code);
-    if (view === 'unredeemed') return !redeemed.has(entry.code);
+    if (view === 'redeemed' && !redeemed.has(entry.code)) return false;
+    if (view === 'unredeemed' && redeemed.has(entry.code)) return false;
+    if (search && !entry.code.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
   });
 
@@ -138,6 +141,13 @@ export default function Codes() {
           </Text>
         </Alert>
 
+        <TextInput
+          placeholder="Search codes..."
+          leftSection={<IoSearch size={16} />}
+          value={search}
+          onChange={(e) => setSearch(e.currentTarget.value)}
+        />
+
         <Group justify="space-between" align="center" wrap="wrap">
           <SegmentedControl
             value={view}
@@ -166,11 +176,13 @@ export default function Codes() {
 
         {!loading && filtered.length === 0 && (
           <Text c="dimmed" ta="center" py="lg">
-            {view === 'redeemed'
-              ? 'No codes marked as redeemed yet.'
-              : view === 'unredeemed'
-                ? 'All codes have been redeemed!'
-                : 'No codes available.'}
+            {search
+              ? 'No codes match your search.'
+              : view === 'redeemed'
+                ? 'No codes marked as redeemed yet.'
+                : view === 'unredeemed'
+                  ? 'All codes have been redeemed!'
+                  : 'No codes available.'}
           </Text>
         )}
 
