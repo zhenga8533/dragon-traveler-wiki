@@ -55,97 +55,152 @@ export default function Home() {
 
   return (
     <Stack gap={0}>
-      {/* Hero banner with gradient fade */}
+      {/* Hero banner with overlapping content */}
       <Box
         style={{
           position: 'relative',
-          width: '100%',
-          aspectRatio: '21 / 9',
-          overflow: 'hidden',
+          width: 'calc(100% + var(--mantine-spacing-md) * 2)',
+          minHeight: 350,
+          marginLeft: 'calc(var(--mantine-spacing-md) * -1)',
+          marginRight: 'calc(var(--mantine-spacing-md) * -1)',
+          marginTop: 'calc(var(--mantine-spacing-md) * -1)',
         }}
       >
+        {/* Banner image container */}
         <Box
           style={{
             position: 'absolute',
-            inset: 0,
-            backgroundImage: `url(${banner})`,
-            backgroundSize: 'cover',
-            backgroundPosition: 'center',
+            top: 0,
+            left: 0,
+            right: 0,
+            height: '100%',
+            overflow: 'hidden',
           }}
-        />
-        <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: isDark
-              ? 'linear-gradient(to bottom, transparent 40%, var(--mantine-color-body) 100%)'
-              : 'linear-gradient(to bottom, transparent 40%, var(--mantine-color-body) 100%)',
-          }}
-        />
-        <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: isDark
-              ? 'linear-gradient(to right, var(--mantine-color-body) 0%, transparent 20%, transparent 80%, var(--mantine-color-body) 100%)'
-              : 'linear-gradient(to right, var(--mantine-color-body) 0%, transparent 20%, transparent 80%, var(--mantine-color-body) 100%)',
-          }}
-        />
+        >
+          <Box
+            style={{
+              position: 'absolute',
+              inset: 0,
+              backgroundImage: `url(${banner})`,
+              backgroundSize: 'cover',
+              backgroundPosition: 'center top',
+            }}
+          />
+          {/* Dark overlay for text readability */}
+          <Box
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: isDark
+                ? 'rgba(0, 0, 0, 0.45)'
+                : 'rgba(0, 0, 0, 0.35)',
+            }}
+          />
+          {/* Bottom gradient fade to page background */}
+          <Box
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(to bottom, transparent 40%, var(--mantine-color-body) 100%)',
+            }}
+          />
+          {/* Side gradient fades */}
+          <Box
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: 'linear-gradient(to right, var(--mantine-color-body) 0%, transparent 10%, transparent 90%, var(--mantine-color-body) 100%)',
+            }}
+          />
+        </Box>
+
+        {/* Content that overlaps the banner */}
+        <Container size="md" style={{ position: 'relative', zIndex: 1 }} pt={60} pb="xl">
+          <Stack gap="lg">
+            {/* Title */}
+            <Box style={{ textAlign: 'center' }}>
+              <Title
+                order={1}
+                style={{
+                  fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+                  color: 'white',
+                  textShadow: '0 2px 12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.5)',
+                }}
+              >
+                Dragon Traveler Wiki
+              </Title>
+              <Text
+                size="lg"
+                mt="xs"
+                style={{
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  textShadow: '0 1px 6px rgba(0, 0, 0, 0.9)',
+                }}
+              >
+                A community-driven wiki for Dragon Traveler (龙族旅人)
+              </Text>
+            </Box>
+
+            {/* Game info card - overlaps the banner */}
+            <Card
+              padding="lg"
+              radius="md"
+              withBorder
+              shadow="lg"
+              style={{
+                backdropFilter: 'blur(8px)',
+                backgroundColor: isDark
+                  ? 'rgba(37, 38, 43, 0.9)'
+                  : 'rgba(255, 255, 255, 0.9)',
+              }}
+            >
+              <Stack gap="md">
+                <Group gap="sm">
+                  <ThemeIcon variant="light" color="grape" size="lg" radius="md">
+                    <IoGameController size={20} />
+                  </ThemeIcon>
+                  <Title order={3}>About the Game</Title>
+                </Group>
+                <Text size="sm" fs="italic" c="dimmed">
+                  Love x Comedy x Isekai = The Ultimate Bishoujo RPG!
+                </Text>
+                <Text size="sm">
+                  Dragon Traveler is a free-to-play idle RPG developed and published
+                  by GameTree. Play as Fafnir, heir of the legendary dragon, in a rom-com
+                  isekai adventure featuring card-based combat, strategic Dragon Soul mechanics,
+                  and a colorful cast of characters. Battles last just three minutes — no stress, all laughs.
+                </Text>
+                <Text size="sm">
+                  Available on Android, iOS, and PC with Japanese voice acting and subtitles
+                  in seven languages.
+                </Text>
+                <Group gap="xs" wrap="wrap">
+                  {GENRES.map((genre) => (
+                    <Badge key={genre} variant="light" size="sm">{genre}</Badge>
+                  ))}
+                  <Badge variant="light" color="green" size="sm">Free to Play</Badge>
+                </Group>
+                <Group gap="sm">
+                  <ThemeIcon variant="light" color="blue" size="md" radius="md">
+                    <IoGlobe size={16} />
+                  </ThemeIcon>
+                  <Text size="sm" c="dimmed">
+                    {LANGUAGES.join(' · ')}
+                  </Text>
+                </Group>
+              </Stack>
+            </Card>
+
+            <Text size="xs" c="dimmed" fs="italic">
+              This is a fan-made project and is not affiliated with or endorsed by GameTree.
+            </Text>
+          </Stack>
+        </Container>
       </Box>
 
-      <Container size="md" py="xl" style={{ marginTop: -40, position: 'relative', zIndex: 1 }}>
+      {/* Quick links section - below the hero */}
+      <Container size="md" py="xl">
         <Stack gap="lg">
-          <div>
-            <Title order={1}>Dragon Traveler Wiki</Title>
-            <Text size="lg" c="dimmed" mt="xs">
-              A community-driven wiki for Dragon Traveler (龙族旅人).
-            </Text>
-          </div>
-
-          {/* Game info */}
-          <Card padding="lg" radius="md" withBorder>
-            <Stack gap="md">
-              <Group gap="sm">
-                <ThemeIcon variant="light" color="grape" size="lg" radius="md">
-                  <IoGameController size={20} />
-                </ThemeIcon>
-                <Title order={3}>About the Game</Title>
-              </Group>
-              <Text size="sm" fs="italic" c="dimmed">
-                Love x Comedy x Isekai = The Ultimate Bishoujo RPG!
-              </Text>
-              <Text size="sm">
-                Dragon Traveler is a free-to-play idle RPG developed and published
-                by GameTree. Play as Fafnir, heir of the legendary dragon, in a rom-com
-                isekai adventure featuring card-based combat, strategic Dragon Soul mechanics,
-                and a colorful cast of characters. Battles last just three minutes — no stress, all laughs.
-              </Text>
-              <Text size="sm">
-                Available on Android, iOS, and PC with Japanese voice acting and subtitles
-                in seven languages.
-              </Text>
-              <Group gap="xs" wrap="wrap">
-                {GENRES.map((genre) => (
-                  <Badge key={genre} variant="light" size="sm">{genre}</Badge>
-                ))}
-                <Badge variant="light" color="green" size="sm">Free to Play</Badge>
-              </Group>
-              <Group gap="sm">
-                <ThemeIcon variant="light" color="blue" size="md" radius="md">
-                  <IoGlobe size={16} />
-                </ThemeIcon>
-                <Text size="sm" c="dimmed">
-                  {LANGUAGES.join(' · ')}
-                </Text>
-              </Group>
-            </Stack>
-          </Card>
-
-          <Text size="xs" c="dimmed" fs="italic">
-            This is a fan-made project and is not affiliated with or endorsed by GameTree.
-          </Text>
-
-          {/* Quick links */}
           <Title order={3}>Explore</Title>
           <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="md">
             {QUICK_LINKS.map((item) => (
