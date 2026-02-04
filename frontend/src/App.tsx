@@ -7,6 +7,7 @@ import {
   ActionIcon,
   useMantineColorScheme,
 } from '@mantine/core';
+import { IoSunny, IoMoon } from 'react-icons/io5';
 import Home from './pages/Home';
 import Characters from './pages/Characters';
 import TierList from './pages/TierList';
@@ -38,7 +39,7 @@ function ThemeToggle() {
       onClick={toggleColorScheme}
       aria-label="Toggle color scheme"
     >
-      {colorScheme === 'dark' ? '☀️' : '🌙'}
+      {colorScheme === 'dark' ? <IoSunny /> : <IoMoon />}
     </ActionIcon>
   );
 }
