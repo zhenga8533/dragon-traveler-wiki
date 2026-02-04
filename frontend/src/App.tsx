@@ -1,12 +1,14 @@
 import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import {
   AppShell,
+  Burger,
   Group,
   Title,
   NavLink,
   ActionIcon,
   useMantineColorScheme,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { IoSunny, IoMoon } from 'react-icons/io5';
 import Home from './pages/Home';
 import Characters from './pages/Characters';
@@ -44,7 +46,7 @@ function ThemeToggle() {
   );
 }
 
-function Navigation() {
+function Navigation({ onNavigate }: { onNavigate: () => void }) {
   const location = useLocation();
   return (
     <>
@@ -55,6 +57,7 @@ function Navigation() {
           to={item.path}
           label={item.label}
           active={location.pathname === item.path}
+          onClick={onNavigate}
         />
       ))}
     </>
@@ -62,22 +65,27 @@ function Navigation() {
 }
 
 export default function App() {
+  const [opened, { toggle, close }] = useDisclosure();
+
   return (
     <HashRouter>
       <AppShell
         header={{ height: 60 }}
-        navbar={{ width: 200, breakpoint: 'sm' }}
+        navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
         padding="md"
       >
         <AppShell.Header>
           <Group h="100%" px="md" justify="space-between">
-            <Title order={3}>Dragon Traveler Wiki</Title>
+            <Group gap="sm">
+              <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+              <Title order={3}>Dragon Traveler Wiki</Title>
+            </Group>
             <ThemeToggle />
           </Group>
         </AppShell.Header>
 
         <AppShell.Navbar p="xs">
-          <Navigation />
+          <Navigation onNavigate={close} />
         </AppShell.Navbar>
 
         <AppShell.Main>
