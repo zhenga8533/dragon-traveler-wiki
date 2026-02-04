@@ -1,10 +1,10 @@
-import { useEffect, useState } from 'react';
-import { Title, Container, Stack, Card, Group, Text, Anchor, Badge } from '@mantine/core';
+import { Title, Container, Stack, Card, Group, Text, Anchor, Badge, Loader, Center } from '@mantine/core';
 import { FaDiscord } from 'react-icons/fa';
 import { SiGooglesheets } from 'react-icons/si';
 import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
 import type { UsefulLink } from '../types/useful-link';
 import type { IconType } from 'react-icons';
+import { useDataFetch } from '../hooks/use-data-fetch';
 
 const ICON_MAP: Record<string, IconType> = {
   discord: FaDiscord,
@@ -13,20 +13,20 @@ const ICON_MAP: Record<string, IconType> = {
 };
 
 export default function UsefulLinks() {
-  const [links, setLinks] = useState<UsefulLink[]>([]);
-
-  useEffect(() => {
-    fetch(import.meta.env.BASE_URL + 'data/useful-links.json')
-      .then((res) => res.json())
-      .then(setLinks)
-      .catch(console.error);
-  }, []);
+  const { data: links, loading } = useDataFetch<UsefulLink[]>('data/useful-links.json', []);
 
   return (
     <Container size="md" py="xl">
       <Stack gap="md">
         <Title order={1}>Useful Links</Title>
-        {links.map((link) => {
+
+        {loading && (
+          <Center py="xl">
+            <Loader />
+          </Center>
+        )}
+
+        {!loading && links.map((link) => {
           const Icon = ICON_MAP[link.icon] ?? IoLinkOutline;
           return (
           <Card key={link.link} padding="lg" radius="md" withBorder>

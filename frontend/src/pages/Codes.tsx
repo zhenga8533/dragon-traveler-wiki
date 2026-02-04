@@ -1,4 +1,4 @@
-import { useEffect, useState, useCallback } from 'react';
+import { useState, useCallback } from 'react';
 import {
   Title,
   Text,
@@ -14,10 +14,16 @@ import {
   CopyButton,
   Checkbox,
   Modal,
+  Loader,
+  Center,
+  Badge,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { IoCopyOutline, IoCheckmark } from 'react-icons/io5';
+import { useDataFetch } from '../hooks/use-data-fetch';
+import type { Code } from '../types/code';
 
 const STORAGE_KEY = 'redeemedCodes';
 
@@ -36,18 +42,11 @@ function saveRedeemed(set: Set<string>) {
 type ViewFilter = 'unredeemed' | 'redeemed' | 'all';
 
 export default function Codes() {
-  const [codes, setCodes] = useState<string[]>([]);
+  const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
   const [redeemed, setRedeemed] = useState<Set<string>>(loadRedeemed);
   const [view, setView] = useState<ViewFilter>('unredeemed');
   const [markAllOpened, { open: openMarkAll, close: closeMarkAll }] = useDisclosure(false);
   const [clearAllOpened, { open: openClearAll, close: closeClearAll }] = useDisclosure(false);
-
-  useEffect(() => {
-    fetch(import.meta.env.BASE_URL + 'data/codes.json')
-      .then((res) => res.json())
-      .then(setCodes)
-      .catch(console.error);
-  }, []);
 
   const toggleRedeemed = useCallback((code: string) => {
     setRedeemed((prev) => {
@@ -61,9 +60,14 @@ export default function Codes() {
 
   const markAllRedeemed = useCallback(() => {
     setRedeemed(() => {
-      const next = new Set(codes);
+      const next = new Set(codes.map((c) => c.code));
       saveRedeemed(next);
       return next;
+    });
+    notifications.show({
+      title: 'All codes redeemed',
+      message: `Marked ${codes.length} codes as redeemed.`,
+      color: 'teal',
     });
   }, [codes]);
 
@@ -73,11 +77,16 @@ export default function Codes() {
       saveRedeemed(next);
       return next;
     });
+    notifications.show({
+      title: 'Redeemed codes cleared',
+      message: 'All codes marked as unredeemed.',
+      color: 'gray',
+    });
   }, []);
 
-  const filtered = codes.filter((code) => {
-    if (view === 'redeemed') return redeemed.has(code);
-    if (view === 'unredeemed') return !redeemed.has(code);
+  const filtered = codes.filter((entry) => {
+    if (view === 'redeemed') return redeemed.has(entry.code);
+    if (view === 'unredeemed') return !redeemed.has(entry.code);
     return true;
   });
 
@@ -118,7 +127,13 @@ export default function Codes() {
           </Group>
         </Group>
 
-        {filtered.length === 0 && (
+        {loading && (
+          <Center py="xl">
+            <Loader />
+          </Center>
+        )}
+
+        {!loading && filtered.length === 0 && (
           <Text c="dimmed" ta="center" py="lg">
             {view === 'redeemed'
               ? 'No codes marked as redeemed yet.'
@@ -128,14 +143,25 @@ export default function Codes() {
           </Text>
         )}
 
-        {filtered.map((code) => (
-          <Paper key={code} p="sm" radius="md" withBorder>
+        {!loading && filtered.map((entry) => (
+          <Paper
+            key={entry.code}
+            p="sm"
+            radius="md"
+            withBorder
+            opacity={entry.active ? 1 : 0.5}
+          >
             <Group justify="space-between" wrap="nowrap">
-              <Text ff="monospace" fw={500} size="lg">
-                {code}
-              </Text>
+              <Group gap="sm" wrap="nowrap">
+                <Text ff="monospace" fw={500} size="lg" td={entry.active ? undefined : 'line-through'}>
+                  {entry.code}
+                </Text>
+                {!entry.active && (
+                  <Badge color="red" variant="light" size="sm">Expired</Badge>
+                )}
+              </Group>
               <Group gap="xs" wrap="nowrap">
-                <CopyButton value={code} timeout={1500}>
+                <CopyButton value={entry.code} timeout={1500}>
                   {({ copied, copy }) => (
                     <Tooltip label={copied ? 'Copied!' : 'Copy code'} withArrow>
                       <ActionIcon
@@ -149,8 +175,8 @@ export default function Codes() {
                   )}
                 </CopyButton>
                 <Checkbox
-                  checked={redeemed.has(code)}
-                  onChange={() => toggleRedeemed(code)}
+                  checked={redeemed.has(entry.code)}
+                  onChange={() => toggleRedeemed(entry.code)}
                   label="Redeemed"
                   styles={{ label: { paddingLeft: 8 } }}
                 />
@@ -158,6 +184,7 @@ export default function Codes() {
             </Group>
           </Paper>
         ))}
+
         <Modal opened={markAllOpened} onClose={closeMarkAll} title="Mark all redeemed?" centered>
           <Text size="sm" mb="lg">
             This will mark all {codes.length} codes as redeemed.
