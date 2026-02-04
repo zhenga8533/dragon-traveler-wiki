@@ -1,10 +1,11 @@
-import { Title, Container, Stack, Card, Group, Text, Anchor, Badge, Loader, Center } from '@mantine/core';
+import { Title, Container, Stack, Card, Group, Text, Anchor, Badge, Loader, Center, Button } from '@mantine/core';
 import { FaDiscord } from 'react-icons/fa';
 import { SiGooglesheets } from 'react-icons/si';
-import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
+import { IoBookOutline, IoLinkOutline, IoAddCircleOutline } from 'react-icons/io5';
 import type { UsefulLink } from '../types/useful-link';
 import type { IconType } from 'react-icons';
 import { useDataFetch } from '../hooks/use-data-fetch';
+import { GITHUB_REPO_URL } from '../constants';
 
 const ICON_MAP: Record<string, IconType> = {
   discord: FaDiscord,
@@ -12,13 +13,33 @@ const ICON_MAP: Record<string, IconType> = {
   spreadsheet: SiGooglesheets,
 };
 
+const SUGGEST_URL =
+  `${GITHUB_REPO_URL}/issues/new?` +
+  new URLSearchParams({
+    title: '[Link] New link suggestion',
+    body: '**Name:**\n\n**URL:**\n\n**Description:**\n',
+    labels: 'links',
+  }).toString();
+
 export default function UsefulLinks() {
   const { data: links, loading } = useDataFetch<UsefulLink[]>('data/useful-links.json', []);
 
   return (
     <Container size="md" py="xl">
       <Stack gap="md">
-        <Title order={1}>Useful Links</Title>
+        <Group justify="space-between" align="center">
+          <Title order={1}>Useful Links</Title>
+          <Button
+            component="a"
+            href={SUGGEST_URL}
+            target="_blank"
+            variant="light"
+            size="xs"
+            leftSection={<IoAddCircleOutline size={16} />}
+          >
+            Suggest a Link
+          </Button>
+        </Group>
 
         {loading && (
           <Center py="xl">

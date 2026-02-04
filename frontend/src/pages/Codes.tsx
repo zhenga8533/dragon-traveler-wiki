@@ -21,8 +21,9 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import { IoCopyOutline, IoCheckmark } from 'react-icons/io5';
+import { IoCopyOutline, IoCheckmark, IoAddCircleOutline, IoCloseCircleOutline } from 'react-icons/io5';
 import { useDataFetch } from '../hooks/use-data-fetch';
+import { GITHUB_REPO_URL } from '../constants';
 import type { Code } from '../types/code';
 
 const STORAGE_KEY = 'redeemedCodes';
@@ -37,6 +38,24 @@ function loadRedeemed(): Set<string> {
 
 function saveRedeemed(set: Set<string>) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
+}
+
+function buildIssueUrl(params: { title: string; body: string; labels: string }) {
+  return `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams(params).toString()}`;
+}
+
+const SUGGEST_URL = buildIssueUrl({
+  title: '[Code] New code suggestion',
+  body: '**Code:**\n`PASTE_CODE_HERE`\n\n**Source (optional):**\nWhere did you find this code?\n',
+  labels: 'codes',
+});
+
+function expiredUrl(code: string) {
+  return buildIssueUrl({
+    title: `[Code] Report expired: ${code}`,
+    body: `The code \`${code}\` appears to be expired or no longer working.\n`,
+    labels: 'codes',
+  });
 }
 
 type ViewFilter = 'unredeemed' | 'redeemed' | 'all';
@@ -93,7 +112,19 @@ export default function Codes() {
   return (
     <Container size="md" py="xl">
       <Stack gap="md">
-        <Title order={1}>Codes</Title>
+        <Group justify="space-between" align="center">
+          <Title order={1}>Codes</Title>
+          <Button
+            component="a"
+            href={SUGGEST_URL}
+            target="_blank"
+            variant="light"
+            size="xs"
+            leftSection={<IoAddCircleOutline size={16} />}
+          >
+            Suggest a Code
+          </Button>
+        </Group>
 
         <Alert
           icon={<IoInformationCircleOutline size={20} />}
@@ -161,6 +192,19 @@ export default function Codes() {
                 )}
               </Group>
               <Group gap="xs" wrap="nowrap">
+                {entry.active && (
+                  <Tooltip label="Report expired" withArrow>
+                    <ActionIcon
+                      component="a"
+                      href={expiredUrl(entry.code)}
+                      target="_blank"
+                      variant="subtle"
+                      color="red"
+                    >
+                      <IoCloseCircleOutline size={18} />
+                    </ActionIcon>
+                  </Tooltip>
+                )}
                 <CopyButton value={entry.code} timeout={1500}>
                   {({ copied, copy }) => (
                     <Tooltip label={copied ? 'Copied!' : 'Copy code'} withArrow>
