@@ -20,13 +20,24 @@ import Codes from './pages/Codes';
 import UsefulLinks from './pages/UsefulLinks';
 import News from './pages/News';
 
-const NAV_ITEMS = [
+type NavItem = {
+  label: string;
+  path?: string;
+  children?: { label: string; path: string }[];
+};
+
+const NAV_ITEMS: NavItem[] = [
   { label: 'Home', path: '/' },
-  { label: 'Characters', path: '/characters' },
+  {
+    label: 'Database',
+    children: [
+      { label: 'Characters', path: '/characters' },
+      { label: 'Effects', path: '/effects' },
+      { label: 'Dragon Spells', path: '/dragon-spells' },
+    ],
+  },
   { label: 'Tier List', path: '/tier-list' },
   { label: 'Teams', path: '/teams' },
-  { label: 'Effects', path: '/effects' },
-  { label: 'Dragon Spells', path: '/dragon-spells' },
   { label: 'Codes', path: '/codes' },
   { label: 'Useful Links', path: '/useful-links' },
   { label: 'News', path: '/news' },
@@ -50,16 +61,42 @@ function Navigation({ onNavigate }: { onNavigate: () => void }) {
   const location = useLocation();
   return (
     <>
-      {NAV_ITEMS.map((item) => (
-        <NavLink
-          key={item.path}
-          component={Link}
-          to={item.path}
-          label={item.label}
-          active={location.pathname === item.path}
-          onClick={onNavigate}
-        />
-      ))}
+      {NAV_ITEMS.map((item) => {
+        if (item.children) {
+          const isChildActive = item.children.some(
+            (child) => location.pathname === child.path
+          );
+          return (
+            <NavLink
+              key={item.label}
+              label={item.label}
+              defaultOpened={isChildActive}
+              childrenOffset={28}
+            >
+              {item.children.map((child) => (
+                <NavLink
+                  key={child.path}
+                  component={Link}
+                  to={child.path}
+                  label={child.label}
+                  active={location.pathname === child.path}
+                  onClick={onNavigate}
+                />
+              ))}
+            </NavLink>
+          );
+        }
+        return (
+          <NavLink
+            key={item.path}
+            component={Link}
+            to={item.path!}
+            label={item.label}
+            active={location.pathname === item.path}
+            onClick={onNavigate}
+          />
+        );
+      })}
     </>
   );
 }
