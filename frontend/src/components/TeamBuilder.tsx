@@ -23,7 +23,7 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { IoCheckmark, IoClose, IoCopy, IoTrash } from 'react-icons/io5';
 import { getPortrait } from '../assets/character';
-import { FACTION_COLOR } from '../constants/colors';
+import { FACTION_COLOR, QUALITY_ORDER } from '../constants/colors';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team, TeamMember } from '../types/team';
@@ -373,13 +373,20 @@ export default function TeamBuilder({
     return JSON.stringify(result, null, 2);
   }, [slots, bench, name, author, contentType, faction]);
 
-  const availableCharacters = useMemo(
-    () =>
-      characters.filter(
-        (c) => filteredNames.has(c.name) && !teamNames.has(c.name),
-      ),
-    [characters, filteredNames, teamNames],
-  );
+  const availableCharacters = useMemo(() => {
+    const filtered = characters.filter(
+      (c) => filteredNames.has(c.name) && !teamNames.has(c.name),
+    );
+    // Sort by quality first (using QUALITY_ORDER), then alphabetically
+    return filtered.sort((a, b) => {
+      const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
+      const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
+      if (qualityIndexA !== qualityIndexB) {
+        return qualityIndexA - qualityIndexB;
+      }
+      return a.name.localeCompare(b.name);
+    });
+  }, [characters, filteredNames, teamNames]);
 
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);

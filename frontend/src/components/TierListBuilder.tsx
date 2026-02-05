@@ -21,10 +21,10 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { IoCheckmark, IoCopy, IoTrash } from 'react-icons/io5';
 import { getPortrait } from '../assets/character';
-import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
-import { QUALITY_BORDER_COLOR } from './CharacterCard';
+import { QUALITY_ORDER, TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import type { Character } from '../types/character';
 import type { Tier, TierList } from '../types/tier-list';
+import { QUALITY_BORDER_COLOR } from './CharacterCard';
 
 interface TierListBuilderProps {
   characters: Character[];
@@ -194,13 +194,20 @@ export default function TierListBuilder({
     return JSON.stringify(result, null, 2);
   }, [placements, name, author, categoryName]);
 
-  const unrankedCharacters = useMemo(
-    () =>
-      characters.filter(
-        (c) => filteredNames.has(c.name) && !(c.name in placements),
-      ),
-    [characters, filteredNames, placements],
-  );
+  const unrankedCharacters = useMemo(() => {
+    const filtered = characters.filter(
+      (c) => filteredNames.has(c.name) && !(c.name in placements),
+    );
+    // Sort by quality first (using QUALITY_ORDER), then alphabetically
+    return filtered.sort((a, b) => {
+      const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
+      const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
+      if (qualityIndexA !== qualityIndexB) {
+        return qualityIndexA - qualityIndexB;
+      }
+      return a.name.localeCompare(b.name);
+    });
+  }, [characters, filteredNames, placements]);
 
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);

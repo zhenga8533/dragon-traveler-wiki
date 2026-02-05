@@ -7,7 +7,6 @@ import {
   Group,
   Loader,
   Paper,
-  SimpleGrid,
   Stack,
   Text,
   Title,
@@ -15,10 +14,9 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
-import CharacterCard from '../components/CharacterCard';
 import CharacterFilter from '../components/CharacterFilter';
+import CharacterGrid from '../components/CharacterGrid';
 import SuggestModal from '../components/SuggestModal';
-import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
@@ -36,13 +34,6 @@ export default function Characters() {
 
   const effectOptions = useMemo(() => extractAllEffectRefs(characters), [characters]);
   const filtered = useMemo(() => filterCharacters(characters, filters), [characters, filters]);
-
-  const groupedByQuality = useMemo(() => {
-    return QUALITY_ORDER.map((quality) => ({
-      quality,
-      characters: filtered.filter((c) => c.quality === quality),
-    })).filter((g) => g.characters.length > 0);
-  }, [filtered]);
 
   const activeFilterCount =
     (filters.search ? 1 : 0) +
@@ -104,38 +95,19 @@ export default function Characters() {
               </Paper>
             </Collapse>
 
-            {filtered.length === 0 && (
+            {filtered.length === 0 ? (
               <Text c="dimmed" size="sm" ta="center" py="md">
                 No characters match the current filters.
               </Text>
-            )}
-
-            {groupedByQuality.map(({ quality, characters: chars }) => (
-              <Paper key={quality} p="md" radius="md" withBorder>
-                <Stack gap="sm">
-                  <Badge
-                    variant="filled"
-                    color={QUALITY_COLOR[quality]}
-                    size="lg"
-                    radius="sm"
-                  >
-                    {quality}
-                  </Badge>
-                  <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
-                    {chars.map((char) => (
-                      <CharacterCard
-                        key={char.name}
-                        name={char.name}
-                        quality={char.quality}
-                      />
-                    ))}
-                  </SimpleGrid>
-                </Stack>
+            ) : (
+              <Paper p="md" radius="md" withBorder>
+                <CharacterGrid characters={filtered} />
               </Paper>
-            ))}
+            )}
           </>
         )}
       </Stack>
     </Container>
   );
 }
+            
