@@ -6,11 +6,9 @@ import {
   type DragEndEvent,
   type DragStartEvent,
 } from '@dnd-kit/core';
-import { CSS } from '@dnd-kit/utilities';
 import {
   Badge,
   Button,
-  Card,
   CopyButton,
   Group,
   Image,
@@ -22,9 +20,6 @@ import {
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { IoCheckmark, IoCopy, IoTrash } from 'react-icons/io5';
-import { QUALITY_ICON_MAP } from '../assets/character_quality';
-import { CLASS_ICON_MAP } from '../assets/class';
-import { FACTION_ICON_MAP } from '../assets/faction';
 import { getPortrait } from '../assets/portrait';
 import type { Character } from '../types/character';
 import type { Tier, TierListCategory } from '../types/tier-list';
@@ -38,6 +33,15 @@ const TIER_COLOR: Record<Tier, string> = {
   B: 'yellow',
   C: 'green',
   D: 'gray',
+};
+
+const QUALITY_BORDER_COLOR: Record<string, string> = {
+  'SSR EX': 'var(--mantine-color-red-6)',
+  'SSR+': 'var(--mantine-color-orange-5)',
+  SSR: 'var(--mantine-color-yellow-5)',
+  'SR+': 'var(--mantine-color-violet-5)',
+  R: 'var(--mantine-color-blue-5)',
+  N: 'var(--mantine-color-gray-5)',
 };
 
 interface TierListBuilderProps {
@@ -55,74 +59,45 @@ function DraggableCharCard({
   char: Character | undefined;
   overlay?: boolean;
 }) {
-  const { attributes, listeners, setNodeRef, transform, isDragging } = useDraggable({
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: name,
   });
+
+  const borderColor = char
+    ? QUALITY_BORDER_COLOR[char.quality]
+    : 'var(--mantine-color-gray-5)';
 
   const style: React.CSSProperties = overlay
     ? { cursor: 'grabbing' }
     : {
-        transform: CSS.Translate.toString(transform),
-        opacity: isDragging ? 0.4 : 1,
-        cursor: 'grab',
+        opacity: isDragging ? 0.3 : 1,
+        cursor: isDragging ? 'grabbing' : 'grab',
       };
 
-  const card = (
-    <Card
+  return (
+    <Stack
       ref={overlay ? undefined : setNodeRef}
-      padding="xs"
-      radius="md"
-      withBorder
+      gap={2}
+      align="center"
       style={style}
       {...(overlay ? {} : { ...listeners, ...attributes })}
     >
-      <Stack gap={4} align="center">
-        {getPortrait(name) && (
-          <Image
-            src={getPortrait(name)}
-            alt={name}
-            h={64}
-            w={64}
-            fit="cover"
-            radius="50%"
-          />
-        )}
-        <Text size="xs" fw={500} ta="center" lineClamp={1}>
-          {name}
-        </Text>
-        {char && (
-          <Group gap={2} justify="center" wrap="nowrap">
-            <Image
-              src={QUALITY_ICON_MAP[char.quality]}
-              alt={char.quality}
-              w={14}
-              h={14}
-              fit="contain"
-            />
-            <Image
-              src={CLASS_ICON_MAP[char.character_class]}
-              alt={char.character_class}
-              w={14}
-              h={14}
-              fit="contain"
-            />
-            {char.factions.map((f) => (
-              <Image
-                key={f}
-                src={FACTION_ICON_MAP[f]}
-                alt={f}
-                w={14}
-                h={14}
-                fit="contain"
-              />
-            ))}
-          </Group>
-        )}
-      </Stack>
-    </Card>
+      <Image
+        src={getPortrait(name)}
+        alt={name}
+        h={80}
+        w={80}
+        fit="cover"
+        radius="50%"
+        style={{
+          border: `3px solid ${borderColor}`,
+        }}
+      />
+      <Text size="xs" fw={500} ta="center" lineClamp={1}>
+        {name}
+      </Text>
+    </Stack>
   );
-
-  return card;
 }
 
 function TierDropZone({
@@ -155,8 +130,8 @@ function TierDropZone({
           {label}
         </Badge>
         <SimpleGrid
-          cols={{ base: 2, xs: 3, sm: 4, md: 5 }}
-          spacing="sm"
+          cols={{ base: 4, xs: 5, sm: 6, md: 8 }}
+          spacing={4}
           style={{ minHeight: 40 }}
         >
           {children}
@@ -186,8 +161,8 @@ function UnrankedPool({ children }: { children: React.ReactNode }) {
           Unranked Characters
         </Text>
         <SimpleGrid
-          cols={{ base: 2, xs: 3, sm: 4, md: 5 }}
-          spacing="sm"
+          cols={{ base: 4, xs: 5, sm: 6, md: 8 }}
+          spacing={4}
           style={{ minHeight: 40 }}
         >
           {children}
@@ -316,7 +291,7 @@ export default function TierListBuilder({
         </UnrankedPool>
       </Stack>
 
-      <DragOverlay>
+      <DragOverlay dropAnimation={null}>
         {activeId ? (
           <DraggableCharCard
             name={activeId}

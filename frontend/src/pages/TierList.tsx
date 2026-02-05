@@ -1,7 +1,6 @@
 import {
   Badge,
   Button,
-  Card,
   Center,
   Collapse,
   Container,
@@ -9,6 +8,7 @@ import {
   Image,
   Loader,
   Paper,
+  SegmentedControl,
   SimpleGrid,
   Stack,
   Tabs,
@@ -18,9 +18,6 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
 import { IoAddCircleOutline, IoFilter } from 'react-icons/io5';
-import { QUALITY_ICON_MAP } from '../assets/character_quality';
-import { CLASS_ICON_MAP } from '../assets/class';
-import { FACTION_ICON_MAP } from '../assets/faction';
 import { getPortrait } from '../assets/portrait';
 import CharacterFilter from '../components/CharacterFilter';
 import TierListBuilder from '../components/TierListBuilder';
@@ -57,6 +54,15 @@ const TIER_COLOR: Record<Tier, string> = {
   D: 'gray',
 };
 
+const QUALITY_BORDER_COLOR: Record<string, string> = {
+  'SSR EX': 'var(--mantine-color-red-6)',
+  'SSR+': 'var(--mantine-color-orange-5)',
+  SSR: 'var(--mantine-color-yellow-5)',
+  'SR+': 'var(--mantine-color-violet-5)',
+  R: 'var(--mantine-color-blue-5)',
+  N: 'var(--mantine-color-gray-5)',
+};
+
 export default function TierList() {
   const { data: categories, loading: loadingTiers } = useDataFetch<TierListCategory[]>(
     'data/tier-lists.json',
@@ -68,6 +74,7 @@ export default function TierList() {
   );
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
+  const [mode, setMode] = useState<'view' | 'builder'>('view');
   const loading = loadingTiers || loadingChars;
 
   const effectOptions = useMemo(() => extractAllEffectRefs(characters), [characters]);
@@ -132,6 +139,15 @@ export default function TierList() {
 
         {!loading && (
           <>
+            <SegmentedControl
+              value={mode}
+              onChange={(val) => setMode(val as 'view' | 'builder')}
+              data={[
+                { label: 'View Tier Lists', value: 'view' },
+                { label: 'Create Your Own', value: 'builder' },
+              ]}
+            />
+
             <Collapse in={filterOpen}>
               <Paper p="md" radius="md" withBorder>
                 <CharacterFilter
@@ -142,120 +158,90 @@ export default function TierList() {
               </Paper>
             </Collapse>
 
-            <Tabs defaultValue={categories[0]?.name ?? '__builder__'}>
-              <Tabs.List>
-                {categories.map((cat) => (
-                  <Tabs.Tab key={cat.name} value={cat.name}>
-                    {cat.name}
-                  </Tabs.Tab>
-                ))}
-                <Tabs.Tab value="__builder__">Builder</Tabs.Tab>
-              </Tabs.List>
+            {mode === 'view' && (
+              <Tabs defaultValue={categories[0]?.name}>
+                <Tabs.List>
+                  {categories.map((cat) => (
+                    <Tabs.Tab key={cat.name} value={cat.name}>
+                      {cat.name}
+                    </Tabs.Tab>
+                  ))}
+                </Tabs.List>
 
-              {categories.map((cat) => {
-                const visibleEntries = cat.entries.filter((e) => filteredNames.has(e.characterName));
-                const byTier = TIER_ORDER.map((tier) => ({
-                  tier,
-                  entries: visibleEntries.filter((e) => e.tier === tier),
-                })).filter((g) => g.entries.length > 0);
+                {categories.map((cat) => {
+                  const visibleEntries = cat.entries.filter((e) => filteredNames.has(e.characterName));
+                  const byTier = TIER_ORDER.map((tier) => ({
+                    tier,
+                    entries: visibleEntries.filter((e) => e.tier === tier),
+                  })).filter((g) => g.entries.length > 0);
 
-                return (
-                  <Tabs.Panel key={cat.name} value={cat.name} pt="md">
-                    <Stack gap="md">
-                      {cat.description && (
-                        <Text size="sm" c="dimmed">{cat.description}</Text>
-                      )}
+                  return (
+                    <Tabs.Panel key={cat.name} value={cat.name} pt="md">
+                      <Stack gap="md">
+                        {cat.description && (
+                          <Text size="sm" c="dimmed">{cat.description}</Text>
+                        )}
 
-                      {visibleEntries.length === 0 && (
-                        <Text c="dimmed" size="sm" ta="center" py="md">
-                          No characters match the current filters.
-                        </Text>
-                      )}
+                        {visibleEntries.length === 0 && (
+                          <Text c="dimmed" size="sm" ta="center" py="md">
+                            No characters match the current filters.
+                          </Text>
+                        )}
 
-                      {byTier.map(({ tier, entries }) => (
-                        <Paper key={tier} p="md" radius="md" withBorder>
-                          <Stack gap="sm">
-                            <Badge
-                              variant="filled"
-                              color={TIER_COLOR[tier]}
-                              size="lg"
-                              radius="sm"
-                            >
-                              {tier} Tier
-                            </Badge>
-                            <SimpleGrid cols={{ base: 2, xs: 3, sm: 4, md: 5 }} spacing="sm">
-                              {entries.map((entry) => {
-                                const char = charMap.get(entry.characterName);
-                                return (
-                                  <Card
-                                    key={entry.characterName}
-                                    padding="xs"
-                                    radius="md"
-                                    withBorder
-                                  >
-                                    <Stack gap={4} align="center">
-                                      {getPortrait(entry.characterName) && (
-                                        <Image
-                                          src={getPortrait(entry.characterName)}
-                                          alt={entry.characterName}
-                                          h={64}
-                                          w={64}
-                                          fit="cover"
-                                          radius="50%"
-                                        />
-                                      )}
+                        {byTier.map(({ tier, entries }) => (
+                          <Paper key={tier} p="md" radius="md" withBorder>
+                            <Stack gap="sm">
+                              <Badge
+                                variant="filled"
+                                color={TIER_COLOR[tier]}
+                                size="lg"
+                                radius="sm"
+                              >
+                                {tier} Tier
+                              </Badge>
+                              <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
+                                {entries.map((entry) => {
+                                  const char = charMap.get(entry.characterName);
+                                  const borderColor = char
+                                    ? QUALITY_BORDER_COLOR[char.quality]
+                                    : undefined;
+                                  return (
+                                    <Stack key={entry.characterName} gap={2} align="center">
+                                      <Image
+                                        src={getPortrait(entry.characterName)}
+                                        alt={entry.characterName}
+                                        h={80}
+                                        w={80}
+                                        fit="cover"
+                                        radius="50%"
+                                        style={{
+                                          border: `3px solid ${borderColor ?? 'var(--mantine-color-gray-5)'}`,
+                                        }}
+                                      />
                                       <Text size="xs" fw={500} ta="center" lineClamp={1}>
                                         {entry.characterName}
                                       </Text>
-                                      {char && (
-                                        <Group gap={2} justify="center" wrap="nowrap">
-                                          <Image
-                                            src={QUALITY_ICON_MAP[char.quality]}
-                                            alt={char.quality}
-                                            w={14}
-                                            h={14}
-                                            fit="contain"
-                                          />
-                                          <Image
-                                            src={CLASS_ICON_MAP[char.character_class]}
-                                            alt={char.character_class}
-                                            w={14}
-                                            h={14}
-                                            fit="contain"
-                                          />
-                                          {char.factions.map((f) => (
-                                            <Image
-                                              key={f}
-                                              src={FACTION_ICON_MAP[f]}
-                                              alt={f}
-                                              w={14}
-                                              h={14}
-                                              fit="contain"
-                                            />
-                                          ))}
-                                        </Group>
-                                      )}
                                     </Stack>
-                                  </Card>
-                                );
-                              })}
-                            </SimpleGrid>
-                          </Stack>
-                        </Paper>
-                      ))}
-                    </Stack>
-                  </Tabs.Panel>
-                );
-              })}
+                                  );
+                                })}
+                              </SimpleGrid>
+                            </Stack>
+                          </Paper>
+                        ))}
+                      </Stack>
+                    </Tabs.Panel>
+                  );
+                })}
+              </Tabs>
+            )}
 
-              <Tabs.Panel value="__builder__" pt="md">
-                <TierListBuilder
-                  characters={characters}
-                  filteredNames={filteredNames}
-                  charMap={charMap}
-                />
-              </Tabs.Panel>
-            </Tabs>
+            {mode === 'builder' && (
+              <TierListBuilder
+                characters={characters}
+                filteredNames={filteredNames}
+                charMap={charMap}
+              />
+            )}
           </>
         )}
       </Stack>
