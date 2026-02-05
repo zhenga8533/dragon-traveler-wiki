@@ -3,13 +3,15 @@ import { splitEffectRefs } from '../utils/parse-effect-refs';
 import StatusEffectBadge from './StatusEffectBadge';
 import type { StatusEffect } from '../types/status-effect';
 
+export interface RichTextProps {
+  text: string;
+  statusEffects: StatusEffect[];
+}
+
 export default function RichText({
   text,
   statusEffects,
-}: {
-  text: string;
-  statusEffects: StatusEffect[];
-}) {
+}: RichTextProps) {
   const segments = splitEffectRefs(text);
 
   return (

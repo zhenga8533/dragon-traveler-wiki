@@ -11,27 +11,20 @@ import {
   Image,
   Tabs,
 } from '@mantine/core';
+import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import RichText from '../components/RichText';
-import type { StatusEffect, StatusEffectState } from '../types/status-effect';
-
-const STATE_COLOR: Record<StatusEffectState, string> = {
-  Buff: 'green',
-  Debuff: 'red',
-  Special: 'blue',
-};
-
-const STATE_ORDER: StatusEffectState[] = ['Buff', 'Debuff', 'Special'];
+import type { StatusEffect, StatusEffectType } from '../types/status-effect';
 
 export default function StatusEffects() {
   const { data: effects, loading } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
 
-  const grouped = STATE_ORDER.reduce<Record<StatusEffectState, StatusEffect[]>>(
+  const grouped = STATE_ORDER.reduce<Record<StatusEffectType, StatusEffect[]>>(
     (acc, state) => {
-      acc[state] = effects.filter((e) => e.state === state);
+      acc[state] = effects.filter((e) => e.type === state);
       return acc;
     },
-    { Buff: [], Debuff: [], Special: [] },
+    { Buff: [], Debuff: [], Special: [], Control: [], Elemental: [], Blessing: [] },
   );
 
   return (
@@ -73,8 +66,8 @@ export default function StatusEffects() {
                             <Image src={effect.icon} alt={effect.name} w={28} h={28} fit="contain" />
                           )}
                           <Text fw={600}>{effect.name}</Text>
-                          <Badge variant="light" color={STATE_COLOR[effect.state]} size="sm">
-                            {effect.state}
+                          <Badge variant="light" color={STATE_COLOR[effect.type]} size="sm">
+                            {effect.type}
                           </Badge>
                         </Group>
                         <RichText text={effect.effect} statusEffects={effects} />

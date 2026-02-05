@@ -17,41 +17,12 @@ import { useMemo, useState } from 'react';
 import { IoAddCircleOutline, IoFilter } from 'react-icons/io5';
 import CharacterCard from '../components/CharacterCard';
 import CharacterFilter from '../components/CharacterFilter';
-import { GITHUB_REPO_URL } from '../constants';
+import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import type { Character, Quality } from '../types/character';
+import type { Character } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
 import { EMPTY_FILTERS, extractAllEffectRefs, filterCharacters } from '../utils/filter-characters';
-
-const SUGGEST_URL =
-  `${GITHUB_REPO_URL}/issues/new?` +
-  new URLSearchParams({
-    title: '[Character] New character suggestion',
-    body: [
-      '**Character Name:**',
-      '',
-      '**Quality:**',
-      '',
-      '**Class:**',
-      '',
-      '**Factions:**',
-      '',
-      '**Additional Info (optional):**',
-      '',
-    ].join('\n'),
-    labels: 'character',
-  }).toString();
-
-const QUALITY_ORDER: Quality[] = ['SSR EX', 'SSR+', 'SSR', 'SR+', 'R', 'N'];
-
-const QUALITY_COLOR: Record<Quality, string> = {
-  'SSR EX': 'red',
-  'SSR+': 'orange',
-  SSR: 'yellow',
-  'SR+': 'violet',
-  R: 'blue',
-  N: 'gray',
-};
+import { CHARACTER_SUGGEST_URL } from '../utils/github-issues';
 
 export default function Characters() {
   const { data: characters, loading } = useDataFetch<Character[]>(
@@ -102,7 +73,7 @@ export default function Characters() {
             </Button>
             <Button
               component="a"
-              href={SUGGEST_URL}
+              href={CHARACTER_SUGGEST_URL}
               target="_blank"
               variant="light"
               size="xs"

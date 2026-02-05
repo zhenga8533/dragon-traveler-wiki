@@ -1,0 +1,36 @@
+import type { Quality } from '../types/character';
+import type { StatusEffectType } from '../types/status-effect';
+import type { Tier } from '../types/tier-list';
+
+export const QUALITY_ORDER: Quality[] = ['SSR EX', 'SSR+', 'SSR', 'SR+', 'R', 'N'];
+
+export const QUALITY_COLOR: Record<Quality, string> = {
+  'SSR EX': 'red',
+  'SSR+': 'orange',
+  SSR: 'yellow',
+  'SR+': 'violet',
+  R: 'blue',
+  N: 'gray',
+};
+
+export const STATE_COLOR: Record<StatusEffectType, string> = {
+  Buff: 'green',
+  Debuff: 'red',
+  Special: 'blue',
+  Control: 'violet',
+  Elemental: 'cyan',
+  Blessing: 'yellow',
+};
+
+export const STATE_ORDER: StatusEffectType[] = ['Buff', 'Debuff', 'Special', 'Control', 'Elemental', 'Blessing'];
+
+export const TIER_ORDER: Tier[] = ['S+', 'S', 'A', 'B', 'C', 'D'];
+
+export const TIER_COLOR: Record<Tier, string> = {
+  'S+': 'pink',
+  S: 'red',
+  A: 'orange',
+  B: 'yellow',
+  C: 'green',
+  D: 'gray',
+};

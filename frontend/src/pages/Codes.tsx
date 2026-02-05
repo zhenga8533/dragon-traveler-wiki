@@ -1,4 +1,4 @@
-import { useState, useCallback } from 'react';
+import { useState, useCallback, useMemo } from 'react';
 import {
   Title,
   Text,
@@ -24,8 +24,8 @@ import { notifications } from '@mantine/notifications';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import { IoCopyOutline, IoCheckmark, IoAddCircleOutline, IoCloseCircleOutline, IoSearch } from 'react-icons/io5';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { GITHUB_REPO_URL } from '../constants';
 import type { Code } from '../types/code';
+import { CODE_SUGGEST_URL, buildExpiredCodeUrl } from '../utils/github-issues';
 
 const STORAGE_KEY = 'redeemedCodes';
 
@@ -41,29 +41,11 @@ function saveRedeemed(set: Set<string>) {
   localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
 }
 
-function buildIssueUrl(params: { title: string; body: string; labels: string }) {
-  return `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams(params).toString()}`;
-}
-
-const SUGGEST_URL = buildIssueUrl({
-  title: '[Code] New code suggestion',
-  body: '**Code:**\n`PASTE_CODE_HERE`\n\n**Source (optional):**\nWhere did you find this code?\n',
-  labels: 'codes',
-});
-
-function expiredUrl(code: string) {
-  return buildIssueUrl({
-    title: `[Code] Report expired: ${code}`,
-    body: `The code \`${code}\` appears to be expired or no longer working.\n`,
-    labels: 'codes',
-  });
-}
-
 type ViewFilter = 'unredeemed' | 'redeemed' | 'all';
 
 export default function Codes() {
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
-  const [redeemed, setRedeemed] = useState<Set<string>>(loadRedeemed);
+  const [redeemed, setRedeemed] = useState<Set<string>>(() => loadRedeemed());
   const [view, setView] = useState<ViewFilter>('unredeemed');
   const [search, setSearch] = useState('');
   const [markAllOpened, { open: openMarkAll, close: closeMarkAll }] = useDisclosure(false);
@@ -105,12 +87,12 @@ export default function Codes() {
     });
   }, []);
 
-  const filtered = codes.filter((entry) => {
+  const filtered = useMemo(() => codes.filter((entry) => {
     if (view === 'redeemed' && !redeemed.has(entry.code)) return false;
     if (view === 'unredeemed' && redeemed.has(entry.code)) return false;
     if (search && !entry.code.toLowerCase().includes(search.toLowerCase())) return false;
     return true;
-  });
+  }), [codes, view, redeemed, search]);
 
   return (
     <Container size="md" py="xl">
@@ -119,7 +101,7 @@ export default function Codes() {
           <Title order={1}>Codes</Title>
           <Button
             component="a"
-            href={SUGGEST_URL}
+            href={CODE_SUGGEST_URL}
             target="_blank"
             variant="light"
             size="xs"
@@ -208,7 +190,7 @@ export default function Codes() {
                   <Tooltip label="Report expired" withArrow>
                     <ActionIcon
                       component="a"
-                      href={expiredUrl(entry.code)}
+                      href={buildExpiredCodeUrl(entry.code)}
                       target="_blank"
                       variant="subtle"
                       color="red"

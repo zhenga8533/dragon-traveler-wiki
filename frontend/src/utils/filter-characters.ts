@@ -1,11 +1,11 @@
-import type { Character, Quality, CharacterClass, Faction } from '../types/character';
+import type { Character, Quality, CharacterClass, FactionName } from '../types/character';
 import { parseEffectRefs } from './parse-effect-refs';
 
 export interface CharacterFilters {
   search: string;
   qualities: Quality[];
   classes: CharacterClass[];
-  factions: Faction[];
+  factions: FactionName[];
   statusEffects: string[];
 }
 
@@ -44,18 +44,18 @@ export function filterCharacters(characters: Character[], filters: CharacterFilt
 
 function extractCharacterEffectRefs(character: Character): string[] {
   const refs: string[] = [];
-  for (const ability of character.abilities) {
-    refs.push(...parseEffectRefs(ability.description));
+  for (const skill of character.skills) {
+    refs.push(...parseEffectRefs(skill.description));
   }
   return refs;
 }
 
-/** Get all unique effect reference names across all characters' ability descriptions. */
+/** Get all unique effect reference names across all characters' skill descriptions. */
 export function extractAllEffectRefs(characters: Character[]): string[] {
   const names = new Set<string>();
   for (const c of characters) {
-    for (const ability of c.abilities) {
-      for (const name of parseEffectRefs(ability.description)) {
+    for (const skill of c.skills) {
+      for (const name of parseEffectRefs(skill.description)) {
         names.add(name);
       }
     }

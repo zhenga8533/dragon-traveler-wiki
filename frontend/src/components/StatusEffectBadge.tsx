@@ -1,20 +1,17 @@
 import { Badge, Popover, Stack, Group, Text, Image } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import type { StatusEffect, StatusEffectState } from '../types/status-effect';
+import { STATE_COLOR } from '../constants/colors';
+import type { StatusEffect } from '../types/status-effect';
 
-const STATE_COLOR: Record<StatusEffectState, string> = {
-  Buff: 'green',
-  Debuff: 'red',
-  Special: 'blue',
-};
+export interface StatusEffectBadgeProps {
+  name: string;
+  statusEffects: StatusEffect[];
+}
 
 export default function StatusEffectBadge({
   name,
   statusEffects,
-}: {
-  name: string;
-  statusEffects: StatusEffect[];
-}) {
+}: StatusEffectBadgeProps) {
   const [opened, { open, close }] = useDisclosure(false);
   const effect = statusEffects.find((e) => e.name === name);
 
@@ -26,7 +23,7 @@ export default function StatusEffectBadge({
     );
   }
 
-  const color = STATE_COLOR[effect.state];
+  const color = STATE_COLOR[effect.type];
 
   return (
     <Popover opened={opened} position="top" withArrow shadow="md">
@@ -50,7 +47,7 @@ export default function StatusEffectBadge({
               <Image src={effect.icon} alt={effect.name} w={24} h={24} fit="contain" />
             )}
             <Text fw={600} size="sm">{effect.name}</Text>
-            <Badge variant="light" color={color} size="xs">{effect.state}</Badge>
+            <Badge variant="light" color={color} size="xs">{effect.type}</Badge>
           </Group>
           <Text size="xs">{effect.effect}</Text>
           {effect.remark && (

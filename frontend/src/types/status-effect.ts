@@ -1,9 +1,15 @@
-export type StatusEffectState = "Buff" | "Debuff" | "Special";
+export type StatusEffectType =
+  | "Buff"
+  | "Debuff"
+  | "Special"
+  | "Control"
+  | "Elemental"
+  | "Blessing";
 
 export interface StatusEffect {
   icon: string;
   name: string;
-  state: StatusEffectState;
+  type: StatusEffectType;
   effect: string;
   remark: string;
 }

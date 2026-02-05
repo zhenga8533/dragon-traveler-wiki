@@ -2,6 +2,8 @@ from enum import Enum
 
 from pydantic import BaseModel
 
+from backend.models.faction import FactionName
+
 
 class Quality(str, Enum):
     SSR_EX = "SSR EX"
@@ -21,23 +23,8 @@ class CharacterClass(str, Enum):
     MAGE = "Mage"
 
 
-class Faction(str, Enum):
-    ELEMENTAL_ECHO = "Elemental Echo"
-    WILD_SPIRIT = "Wild Spirit"
-    ARCANE_WISDOM = "Arcane Wisdom"
-    SANCTUM_GLORY = "Sanctum Glory"
-    OTHERWORLD_RETURN = "Otherworld Return"
-    ILLUSION_VEIL = "Illusion Veil"
-
-
-class Subclass(BaseModel):
+class Skill(BaseModel):
     name: str
-    icon: str
-
-
-class Ability(BaseModel):
-    name: str
-    icon: str
     description: str
 
 
@@ -45,10 +32,13 @@ class Character(BaseModel):
     name: str
     quality: Quality
     character_class: CharacterClass
-    factions: list[Faction]
+    factions: list[FactionName]
     is_global: bool
-    subclasses: list[Subclass]
+    subclasses: list[str]
     height: str
     weight: str
     lore: str
-    abilities: list[Ability]
+    quote: str
+    origin: str
+    skills: list[Skill]
+    noble_phantasm: str

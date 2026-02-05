@@ -12,13 +12,13 @@ import { IoClose, IoSearch } from 'react-icons/io5';
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
-import type { CharacterClass, Faction, Quality } from '../types/character';
+import type { CharacterClass, FactionName, Quality } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
 import { EMPTY_FILTERS } from '../utils/filter-characters';
 
 const QUALITIES: Quality[] = ['SSR EX', 'SSR+', 'SSR', 'SR+', 'R', 'N'];
 const CLASSES: CharacterClass[] = ['Guardian', 'Priest', 'Assassin', 'Warrior', 'Archer', 'Mage'];
-const FACTIONS: Faction[] = [
+const FACTIONS: FactionName[] = [
   'Elemental Echo',
   'Wild Spirit',
   'Arcane Wisdom',
@@ -27,15 +27,17 @@ const FACTIONS: Faction[] = [
   'Illusion Veil',
 ];
 
+export interface CharacterFilterProps {
+  filters: CharacterFilters;
+  onChange: (filters: CharacterFilters) => void;
+  effectOptions: string[];
+}
+
 export default function CharacterFilter({
   filters,
   onChange,
   effectOptions,
-}: {
-  filters: CharacterFilters;
-  onChange: (filters: CharacterFilters) => void;
-  effectOptions: string[];
-}) {
+}: CharacterFilterProps) {
   const hasFilters =
     filters.search !== '' ||
     filters.qualities.length > 0 ||
@@ -111,7 +113,7 @@ export default function CharacterFilter({
         <Chip.Group
           multiple
           value={filters.factions}
-          onChange={(val) => onChange({ ...filters, factions: val as Faction[] })}
+          onChange={(val) => onChange({ ...filters, factions: val as FactionName[] })}
         >
           <Group gap="xs" wrap="wrap">
             {FACTIONS.map((f) => (

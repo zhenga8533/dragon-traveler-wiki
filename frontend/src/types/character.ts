@@ -8,7 +8,7 @@ export type CharacterClass =
   | "Archer"
   | "Mage";
 
-export type Faction =
+export type FactionName =
   | "Elemental Echo"
   | "Wild Spirit"
   | "Arcane Wisdom"
@@ -16,14 +16,8 @@ export type Faction =
   | "Otherworld Return"
   | "Illusion Veil";
 
-export interface Subclass {
+export interface Skill {
   name: string;
-  icon: string;
-}
-
-export interface Ability {
-  name: string;
-  icon: string;
   description: string;
 }
 
@@ -31,11 +25,14 @@ export interface Character {
   name: string;
   quality: Quality;
   character_class: CharacterClass;
-  factions: [Faction, Faction];
+  factions: FactionName[];
   is_global: boolean;
   subclasses: string[];
-  height: number;
-  weight: number;
+  height: string;
+  weight: string;
   lore: string;
-  abilities: Ability[];
+  quote: string;
+  origin: string;
+  skills: Skill[];
+  noble_phantasm: string;
 }

@@ -20,21 +20,11 @@ import {
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { IoCheckmark, IoCopy, IoTrash } from 'react-icons/io5';
-import { getPortrait } from '../assets/portrait';
+import { getPortrait } from '../assets/character';
+import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import { QUALITY_BORDER_COLOR } from './CharacterCard';
 import type { Character } from '../types/character';
-import type { Tier, TierListCategory } from '../types/tier-list';
-
-const TIER_ORDER: Tier[] = ['S+', 'S', 'A', 'B', 'C', 'D'];
-
-const TIER_COLOR: Record<Tier, string> = {
-  'S+': 'pink',
-  S: 'red',
-  A: 'orange',
-  B: 'yellow',
-  C: 'green',
-  D: 'gray',
-};
+import type { Tier, TierList } from '../types/tier-list';
 
 interface TierListBuilderProps {
   characters: Character[];
@@ -171,19 +161,30 @@ export default function TierListBuilder({
 }: TierListBuilderProps) {
   const [placements, setPlacements] = useState<Record<string, Tier>>({});
   const [name, setName] = useState('');
+  const [author, setAuthor] = useState('');
+  const [categoryName, setCategoryName] = useState('');
   const [activeId, setActiveId] = useState<string | null>(null);
 
   const json = useMemo(() => {
-    const result: TierListCategory = {
+    const result: TierList = {
       name: name || 'My Tier List',
-      entries: TIER_ORDER.flatMap((tier) =>
-        Object.entries(placements)
-          .filter(([, t]) => t === tier)
-          .map(([characterName]) => ({ characterName, tier })),
-      ),
+      author: author || 'Anonymous',
+      content_type: 'tier_list',
+      description: '',
+      categories: [
+        {
+          name: categoryName || 'Overall',
+          description: '',
+          entries: TIER_ORDER.flatMap((tier) =>
+            Object.entries(placements)
+              .filter(([, t]) => t === tier)
+              .map(([character_name]) => ({ character_name, tier })),
+          ),
+        },
+      ],
     };
     return JSON.stringify(result, null, 2);
-  }, [placements, name]);
+  }, [placements, name, author, categoryName]);
 
   const unrankedCharacters = useMemo(
     () =>
@@ -223,12 +224,24 @@ export default function TierListBuilder({
   return (
     <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <Stack gap="md">
-        <Group gap="sm">
+        <Group gap="sm" wrap="wrap">
           <TextInput
             placeholder="Tier list name..."
             value={name}
             onChange={(e) => setName(e.currentTarget.value)}
-            style={{ flex: 1 }}
+            style={{ flex: 1, minWidth: 150 }}
+          />
+          <TextInput
+            placeholder="Author..."
+            value={author}
+            onChange={(e) => setAuthor(e.currentTarget.value)}
+            style={{ flex: 1, minWidth: 120 }}
+          />
+          <TextInput
+            placeholder="Category name..."
+            value={categoryName}
+            onChange={(e) => setCategoryName(e.currentTarget.value)}
+            style={{ flex: 1, minWidth: 120 }}
           />
           <CopyButton value={json}>
             {({ copied, copy }) => (

@@ -6,10 +6,13 @@
     "factions": ["Elemental Echo", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": ["Thief", "Nightblade", "Scoundrel", "Masked Thief", "Executioner", "Shadow Dancer"],
-    "height": 164,
-    "weight": 42,
+    "height": "164cm",
+    "weight": "42kg",
     "lore": "A elusive humanoid beast, appearing silently in the night, swiftly delivering a fatal blow to its enemies with its agile claws before vanishing without a trace. Living entirely in nature, nocturnal and free-spirited, hunting is its greatest passion.",
-    "abilities": []
+    "quote": "",
+    "origin": "",
+    "skills": [],
+    "noble_phantasm": ""
   },
   {
     "name": "Ifrit",
@@ -18,9 +21,12 @@
     "factions": ["Elemental Echo", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": ["Tracker", "Hunter", "Ranger", "Bloodhunter", "Light Ranger", "Sniper"],
-    "height": 159,
-    "weight": 42,
+    "height": "159cm",
+    "weight": "42kg",
     "lore": "Born from the element of fire, this demon possesses the power to manipulate all flames. By nature cruel, cunning, arrogant, and eager to create chaos, she is the vanguard of the Wild Hunt, following the orders of the Black Knight. Currently, she is sowing discord and causing disasters across various regions, finding not only pleasure in the chaos and turmoil she creates, but also thoroughly enjoying it.",
-    "abilities": []
+    "quote": "",
+    "origin": "",
+    "skills": [],
+    "noble_phantasm": ""
   }
 ]

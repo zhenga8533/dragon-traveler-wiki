@@ -1,0 +1,32 @@
+[
+  {
+    "name": "Elemental Echo",
+    "wyrm": "Fire Whelp",
+    "description": ""
+  },
+  {
+    "name": "Wild Spirit",
+    "wyrm": "Butterfly Whelp",
+    "description": ""
+  },
+  {
+    "name": "Arcane Wisdom",
+    "wyrm": "Emerald Whelp",
+    "description": ""
+  },
+  {
+    "name": "Sanctum Glory",
+    "wyrm": "Light Whelp",
+    "description": ""
+  },
+  {
+    "name": "Otherworld Return",
+    "wyrm": "Shadow Whelp",
+    "description": ""
+  },
+  {
+    "name": "Illusion Veil",
+    "wyrm": "Dark Whelp",
+    "description": ""
+  }
+]

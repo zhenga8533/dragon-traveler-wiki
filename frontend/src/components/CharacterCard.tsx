@@ -1,5 +1,6 @@
-import { Image, Stack, Text } from '@mantine/core';
-import { getPortrait } from '../assets/portrait';
+import { Image, Stack, Text, UnstyledButton } from '@mantine/core';
+import { Link } from 'react-router-dom';
+import { getPortrait } from '../assets/character';
 import type { Quality } from '../types/character';
 
 const QUALITY_BORDER_COLOR: Record<Quality, string> = {
@@ -15,14 +16,15 @@ interface CharacterCardProps {
   name: string;
   quality?: Quality;
   size?: number;
+  disableLink?: boolean;
 }
 
-export default function CharacterCard({ name, quality, size = 80 }: CharacterCardProps) {
+export default function CharacterCard({ name, quality, size = 80, disableLink = false }: CharacterCardProps) {
   const borderColor = quality
     ? QUALITY_BORDER_COLOR[quality]
     : 'var(--mantine-color-gray-5)';
 
-  return (
+  const content = (
     <Stack gap={2} align="center">
       <Image
         src={getPortrait(name)}
@@ -31,14 +33,43 @@ export default function CharacterCard({ name, quality, size = 80 }: CharacterCar
         w={size}
         fit="cover"
         radius="50%"
+        fallbackSrc={`https://placehold.co/${size}x${size}?text=${encodeURIComponent(name.charAt(0))}`}
         style={{
           border: `3px solid ${borderColor}`,
+          transition: 'transform 150ms ease, box-shadow 150ms ease',
         }}
       />
       <Text size="xs" fw={500} ta="center" lineClamp={1}>
         {name}
       </Text>
     </Stack>
+  );
+
+  if (disableLink) {
+    return content;
+  }
+
+  return (
+    <UnstyledButton
+      component={Link}
+      to={`/characters/${encodeURIComponent(name)}`}
+      style={{
+        borderRadius: 'var(--mantine-radius-md)',
+        transition: 'transform 150ms ease',
+      }}
+      styles={{
+        root: {
+          '&:hover': {
+            transform: 'scale(1.05)',
+          },
+          '&:hover img': {
+            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+          },
+        },
+      }}
+    >
+      {content}
+    </UnstyledButton>
   );
 }
 

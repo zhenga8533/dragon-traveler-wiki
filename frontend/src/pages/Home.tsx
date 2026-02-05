@@ -1,29 +1,29 @@
-import { Link } from 'react-router-dom';
 import {
-  Title,
-  Text,
-  Container,
-  Stack,
-  SimpleGrid,
-  Card,
-  Group,
-  ThemeIcon,
   Badge,
   Box,
+  Card,
+  Container,
+  Group,
+  SimpleGrid,
+  Stack,
+  Text,
+  ThemeIcon,
+  Title,
   useComputedColorScheme,
 } from '@mantine/core';
 import {
-  IoPeople,
-  IoTrophy,
-  IoPricetag,
-  IoNewspaper,
-  IoLink,
   IoFlash,
-  IoShield,
-  IoSparkles,
   IoGameController,
   IoGlobe,
+  IoLink,
+  IoNewspaper,
+  IoPeople,
+  IoPricetag,
+  IoShield,
+  IoSparkles,
+  IoTrophy,
 } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 import banner from '../assets/banner.png';
 
 const QUICK_LINKS = [
@@ -31,7 +31,7 @@ const QUICK_LINKS = [
   { label: 'Tier List', path: '/tier-list', icon: IoTrophy, color: 'yellow' },
   { label: 'Teams', path: '/teams', icon: IoShield, color: 'green' },
   { label: 'Status Effects', path: '/status-effects', icon: IoFlash, color: 'orange' },
-  { label: 'Dragon Spells', path: '/dragon-spells', icon: IoSparkles, color: 'violet' },
+  { label: 'Wyrmspells', path: '/wyrmspells', icon: IoSparkles, color: 'violet' },
   { label: 'Codes', path: '/codes', icon: IoPricetag, color: 'teal' },
   { label: 'Useful Links', path: '/useful-links', icon: IoLink, color: 'cyan' },
   { label: 'News', path: '/news', icon: IoNewspaper, color: 'pink' },

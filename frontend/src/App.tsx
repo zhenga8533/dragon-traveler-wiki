@@ -1,25 +1,26 @@
-import { HashRouter, Routes, Route, Link, useLocation } from 'react-router-dom';
 import {
+  ActionIcon,
   AppShell,
   Burger,
   Group,
-  Title,
   NavLink,
-  ActionIcon,
-  useMantineColorScheme,
+  Title,
   useComputedColorScheme,
+  useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IoSunny, IoMoon } from 'react-icons/io5';
-import Home from './pages/Home';
+import { IoMoon, IoSunny } from 'react-icons/io5';
+import { HashRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
+import CharacterPage from './pages/CharacterPage';
 import Characters from './pages/Characters';
-import TierList from './pages/TierList';
-import Teams from './pages/Teams';
-import StatusEffects from './pages/StatusEffects';
-import DragonSpells from './pages/DragonSpells';
 import Codes from './pages/Codes';
-import UsefulLinks from './pages/UsefulLinks';
+import DragonSpells from './pages/DragonSpells';
+import Home from './pages/Home';
 import News from './pages/News';
+import StatusEffects from './pages/StatusEffects';
+import Teams from './pages/Teams';
+import TierList from './pages/TierList';
+import UsefulLinks from './pages/UsefulLinks';
 
 type NavItem = {
   label: string;
@@ -34,7 +35,7 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { label: 'Characters', path: '/characters' },
       { label: 'Status Effects', path: '/status-effects' },
-      { label: 'Dragon Spells', path: '/dragon-spells' },
+      { label: 'Wyrmspells', path: '/wyrmspells' },
     ],
   },
   { label: 'Tier List', path: '/tier-list' },
@@ -131,6 +132,7 @@ export default function App() {
           <Routes>
             <Route path="/" element={<Home />} />
             <Route path="/characters" element={<Characters />} />
+            <Route path="/characters/:name" element={<CharacterPage />} />
             <Route path="/tier-list" element={<TierList />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/status-effects" element={<StatusEffects />} />

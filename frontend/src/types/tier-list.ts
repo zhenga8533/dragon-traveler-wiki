@@ -1,12 +1,20 @@
 export type Tier = "S+" | "S" | "A" | "B" | "C" | "D";
 
 export interface TierEntry {
-  characterName: string;
+  character_name: string;
   tier: Tier;
 }
 
 export interface TierListCategory {
   name: string;
-  description?: string;
+  description: string;
   entries: TierEntry[];
+}
+
+export interface TierList {
+  name: string;
+  author: string;
+  content_type: string;
+  description: string;
+  categories: TierListCategory[];
 }

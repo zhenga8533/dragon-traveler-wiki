@@ -5,21 +5,13 @@ import { IoBookOutline, IoLinkOutline, IoAddCircleOutline } from 'react-icons/io
 import type { UsefulLink } from '../types/useful-link';
 import type { IconType } from 'react-icons';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { GITHUB_REPO_URL } from '../constants';
+import { LINK_SUGGEST_URL } from '../utils/github-issues';
 
 const ICON_MAP: Record<string, IconType> = {
   discord: FaDiscord,
   wiki: IoBookOutline,
   spreadsheet: SiGooglesheets,
 };
-
-const SUGGEST_URL =
-  `${GITHUB_REPO_URL}/issues/new?` +
-  new URLSearchParams({
-    title: '[Link] New link suggestion',
-    body: '**Name:**\n\n**URL:**\n\n**Description:**\n',
-    labels: 'links',
-  }).toString();
 
 export default function UsefulLinks() {
   const { data: links, loading } = useDataFetch<UsefulLink[]>('data/useful-links.json', []);
@@ -31,7 +23,7 @@ export default function UsefulLinks() {
           <Title order={1}>Useful Links</Title>
           <Button
             component="a"
-            href={SUGGEST_URL}
+            href={LINK_SUGGEST_URL}
             target="_blank"
             variant="light"
             size="xs"

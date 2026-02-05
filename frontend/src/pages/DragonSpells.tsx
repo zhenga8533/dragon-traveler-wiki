@@ -1,11 +1,11 @@
-import { Title, Text, Container, Stack } from '@mantine/core';
+import { Container, Stack, Text, Title } from '@mantine/core';
 
 export default function DragonSpells() {
   return (
     <Container size="md" py="xl">
       <Stack gap="md">
-        <Title order={1}>Dragon Spells</Title>
-        <Text c="dimmed">Dragon spell data will appear here once scraped.</Text>
+        <Title order={1}>Wyrmspells</Title>
+        <Text c="dimmed">Wyrmspell data will appear here once scraped.</Text>
       </Stack>
     </Container>
   );

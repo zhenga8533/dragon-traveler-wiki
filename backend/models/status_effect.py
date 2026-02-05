@@ -3,15 +3,18 @@ from enum import Enum
 from pydantic import BaseModel
 
 
-class StatusEffectState(str, Enum):
+class StatusEffectType(str, Enum):
     BUFF = "Buff"
     DEBUFF = "Debuff"
     SPECIAL = "Special"
+    CONTROL = "Control"
+    ELEMENTAL = "Elemental"
+    BLESSING = "Blessing"
 
 
 class StatusEffect(BaseModel):
     icon: str
     name: str
-    state: StatusEffectState
+    type: StatusEffectType
     effect: str
     remark: str
