@@ -186,21 +186,24 @@ export default function Teams() {
                           .map((m) => {
                             const char = charMap.get(m.character_name);
                             return (
-                              <div key={m.character_name} style={{ position: 'relative' }}>
+                              <div
+                                key={m.character_name}
+                                style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                              >
                                 <CharacterCard
                                   name={m.character_name}
                                   quality={char?.quality}
                                 />
                                 {m.overdrive_order != null && (
                                   <Badge
-                                    size="lg"
+                                    size="sm"
                                     circle
                                     variant="filled"
                                     color="orange"
                                     style={{
                                       position: 'absolute',
                                       top: 0,
-                                      right: 0,
+                                      right: 'calc(50% - 40px)',
                                       pointerEvents: 'none',
                                     }}
                                   >
