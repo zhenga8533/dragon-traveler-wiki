@@ -100,18 +100,22 @@ function DraggableCharCard({
   );
 }
 
-/* ── Single numbered slot (droppable) ── */
+/* ── Single team slot with overdrive toggle ── */
 
 function SlotCard({
   index,
   charName,
   char,
-  onRemoveToBench,
+  hasOverdrive,
+  onToggleOverdrive,
+  onRemove,
 }: {
   index: number;
   charName: string | null;
   char: Character | undefined;
-  onRemoveToBench: () => void;
+  hasOverdrive: boolean;
+  onToggleOverdrive: () => void;
+  onRemove: () => void;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: `slot-${index}` });
 
@@ -133,30 +137,42 @@ function SlotCard({
         position: 'relative',
       }}
     >
-      <Badge
-        size="sm"
-        circle
-        variant="filled"
-        color="orange"
-        style={{ position: 'absolute', top: 4, left: 4 }}
-      >
-        {index + 1}
-      </Badge>
-
       {charName ? (
         <>
           <ActionIcon
             size="xs"
             variant="filled"
-            color="gray"
+            color="red"
             radius="xl"
             style={{ position: 'absolute', top: 4, right: 4 }}
-            onClick={onRemoveToBench}
-            title="Move to bench"
+            onClick={onRemove}
+            title="Remove from team"
           >
             <IoClose size={12} />
           </ActionIcon>
-          <DraggableCharCard name={charName} char={char} />
+          {hasOverdrive && (
+            <Badge
+              size="sm"
+              circle
+              variant="filled"
+              color="orange"
+              style={{ position: 'absolute', top: 4, left: 4 }}
+            >
+              {index + 1}
+            </Badge>
+          )}
+          <Stack gap={4} align="center">
+            <DraggableCharCard name={charName} char={char} />
+            <Button
+              size="compact-xs"
+              variant={hasOverdrive ? 'filled' : 'light'}
+              color="orange"
+              onClick={onToggleOverdrive}
+              leftSection={hasOverdrive ? <IoCheckmark size={12} /> : undefined}
+            >
+              {hasOverdrive ? `OD ${index + 1}` : 'OD Off'}
+            </Button>
+          </Stack>
         </>
       ) : (
         <Text size="xs" c="dimmed" ta="center">
@@ -167,25 +183,29 @@ function SlotCard({
   );
 }
 
-/* ── Slots grid (6 numbered slots) ── */
+/* ── Team slots grid (6 slots) ── */
 
 function SlotsGrid({
   slots,
+  overdriveEnabled,
   charMap,
-  onRemoveToBench,
+  onToggleOverdrive,
+  onRemove,
 }: {
   slots: (string | null)[];
+  overdriveEnabled: boolean[];
   charMap: Map<string, Character>;
-  onRemoveToBench: (index: number) => void;
+  onToggleOverdrive: (index: number) => void;
+  onRemove: (index: number) => void;
 }) {
   return (
     <Stack gap="xs">
       <Group justify="space-between">
         <Text size="sm" fw={600}>
-          Overdrive Slots
+          Team Roster
         </Text>
         <Text size="xs" c="dimmed">
-          Drag characters into numbered slots
+          Drag characters here • Toggle overdrive per character
         </Text>
       </Group>
       <SimpleGrid cols={{ base: 3, xs: 6 }} spacing="xs">
@@ -195,66 +215,13 @@ function SlotsGrid({
             index={i}
             charName={charName}
             char={charName ? charMap.get(charName) : undefined}
-            onRemoveToBench={() => onRemoveToBench(i)}
+            hasOverdrive={overdriveEnabled[i]}
+            onToggleOverdrive={() => onToggleOverdrive(i)}
+            onRemove={() => onRemove(i)}
           />
         ))}
       </SimpleGrid>
     </Stack>
-  );
-}
-
-/* ── Bench zone (team members without overdrive) ── */
-
-function BenchZone({
-  bench,
-  charMap,
-}: {
-  bench: Set<string>;
-  charMap: Map<string, Character>;
-}) {
-  const { setNodeRef, isOver } = useDroppable({ id: 'bench' });
-
-  return (
-    <Paper
-      ref={setNodeRef}
-      p="md"
-      radius="md"
-      withBorder
-      style={{
-        borderColor: isOver ? 'var(--mantine-color-yellow-5)' : undefined,
-        borderWidth: isOver ? 2 : undefined,
-        transition: 'border-color 150ms ease',
-      }}
-    >
-      <Stack gap="sm">
-        <Group justify="space-between">
-          <Text size="sm" fw={600}>
-            Bench
-          </Text>
-          <Text size="xs" c="dimmed">
-            On team, no overdrive order
-          </Text>
-        </Group>
-        <SimpleGrid
-          cols={{ base: 3, xs: 4, sm: 6 }}
-          spacing={4}
-          style={{ minHeight: 40 }}
-        >
-          {[...bench].map((name) => (
-            <DraggableCharCard
-              key={name}
-              name={name}
-              char={charMap.get(name)}
-            />
-          ))}
-        </SimpleGrid>
-        {bench.size === 0 && (
-          <Text size="xs" c="dimmed" ta="center">
-            Drag characters here for no overdrive
-          </Text>
-        )}
-      </Stack>
-    </Paper>
   );
 }
 
@@ -300,12 +267,14 @@ export default function TeamBuilder({
   charMap,
   initialData,
 }: TeamBuilderProps) {
-  // Index 0 = overdrive order 1, ..., index 5 = overdrive order 6
+  // Team roster: max 6 characters
   const [slots, setSlots] = useState<(string | null)[]>(
     Array(SLOT_COUNT).fill(null),
   );
-  // Characters on the team but without an overdrive number
-  const [bench, setBench] = useState<Set<string>>(new Set());
+  // Track which slots have overdrive enabled
+  const [overdriveEnabled, setOverdriveEnabled] = useState<boolean[]>(
+    Array(SLOT_COUNT).fill(false),
+  );
 
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
@@ -320,49 +289,86 @@ export default function TeamBuilder({
     setContentType(initialData.content_type);
     setFaction(initialData.faction);
     const newSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
-    const newBench = new Set<string>();
+    const newOverdriveEnabled = Array(SLOT_COUNT).fill(false);
+
+    // Map members to slots and track overdrive status
     for (const m of initialData.members) {
-      if (m.overdrive_order != null && m.overdrive_order >= 1 && m.overdrive_order <= SLOT_COUNT) {
-        newSlots[m.overdrive_order - 1] = m.character_name;
-      } else {
-        newBench.add(m.character_name);
+      // Find first empty slot for this member
+      const emptyIdx = newSlots.findIndex((s) => s === null);
+      if (emptyIdx !== -1) {
+        newSlots[emptyIdx] = m.character_name;
+        newOverdriveEnabled[emptyIdx] = m.overdrive_order != null;
       }
     }
-    setSlots(newSlots);
-    setBench(newBench);
+
+    // Reorder slots so overdrive-enabled members come first
+    const withOverdrive = newSlots
+      .map((name, idx) => ({ name, idx, hasOD: newOverdriveEnabled[idx] }))
+      .filter((item) => item.name !== null && item.hasOD)
+      .sort((a, b) => {
+        const aOrder = initialData.members.find((m) => m.character_name === a.name)?.overdrive_order || 0;
+        const bOrder = initialData.members.find((m) => m.character_name === b.name)?.overdrive_order || 0;
+        return aOrder - bOrder;
+      });
+
+    const withoutOverdrive = newSlots
+      .map((name, idx) => ({ name, idx, hasOD: newOverdriveEnabled[idx] }))
+      .filter((item) => item.name !== null && !item.hasOD);
+
+    const reorderedSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
+    const reorderedOverdrive = Array(SLOT_COUNT).fill(false);
+
+    let i = 0;
+    for (const item of withOverdrive) {
+      reorderedSlots[i] = item.name;
+      reorderedOverdrive[i] = true;
+      i++;
+    }
+    for (const item of withoutOverdrive) {
+      reorderedSlots[i] = item.name;
+      reorderedOverdrive[i] = false;
+      i++;
+    }
+
+    setSlots(reorderedSlots);
+    setOverdriveEnabled(reorderedOverdrive);
   }, [initialData]);
 
   const factionColor = faction
     ? FACTION_COLOR[faction as FactionName]
     : 'blue';
 
-  // Set of all names currently on the team (slots + bench)
+  // Set of all names currently on the team
   const teamNames = useMemo(() => {
     const s = new Set<string>();
     for (const n of slots) {
       if (n) s.add(n);
     }
-    for (const n of bench) {
-      s.add(n);
-    }
     return s;
-  }, [slots, bench]);
+  }, [slots]);
 
   const teamSize = teamNames.size;
 
   const json = useMemo(() => {
     const members: TeamMember[] = [];
-    // Slotted members first (with overdrive_order)
+    let overdriveOrder = 1;
+
+    // Add members with overdrive first (in order)
     for (let i = 0; i < slots.length; i++) {
       const n = slots[i];
-      if (n) {
-        members.push({ character_name: n, overdrive_order: i + 1 });
+      if (n && overdriveEnabled[i]) {
+        members.push({ character_name: n, overdrive_order: overdriveOrder++ });
       }
     }
-    // Bench members (no overdrive)
-    for (const n of bench) {
-      members.push({ character_name: n, overdrive_order: null });
+
+    // Then add members without overdrive
+    for (let i = 0; i < slots.length; i++) {
+      const n = slots[i];
+      if (n && !overdriveEnabled[i]) {
+        members.push({ character_name: n, overdrive_order: null });
+      }
     }
+
     const result: Team = {
       name: name || 'My Team',
       author: author || 'Anonymous',
@@ -372,7 +378,7 @@ export default function TeamBuilder({
       members,
     };
     return JSON.stringify(result, null, 2);
-  }, [slots, bench, name, author, contentType, faction]);
+  }, [slots, overdriveEnabled, name, author, contentType, faction]);
 
   const availableCharacters = useMemo(() => {
     return characters.filter((c) => !teamNames.has(c.name));
@@ -384,10 +390,9 @@ export default function TeamBuilder({
 
   function findCharLocation(
     charName: string,
-  ): { zone: 'slot'; index: number } | { zone: 'bench' } | { zone: 'available' } {
+  ): { zone: 'slot'; index: number } | { zone: 'available' } {
     const slotIdx = slots.indexOf(charName);
     if (slotIdx !== -1) return { zone: 'slot', index: slotIdx };
-    if (bench.has(charName)) return { zone: 'bench' };
     return { zone: 'available' };
   }
 
@@ -412,30 +417,45 @@ export default function TeamBuilder({
       if (from.zone === 'available') {
         // Available → slot
         if (occupant && teamSize >= MAX_ROSTER_SIZE) {
-          // Team full, swap occupant back to available (remove occupant)
+          // Team full, swap occupant back to available
           setSlots((prev) => {
             const next = [...prev];
             next[targetSlotIndex] = charName;
+            return next;
+          });
+          setOverdriveEnabled((prev) => {
+            const next = [...prev];
+            next[targetSlotIndex] = false; // New character starts with overdrive off
             return next;
           });
         } else if (occupant) {
-          // Slot occupied but team not full — replace, move occupant to bench
-          setSlots((prev) => {
-            const next = [...prev];
-            next[targetSlotIndex] = charName;
-            return next;
-          });
-          setBench((prev) => {
-            const next = new Set(prev);
-            next.add(occupant);
-            return next;
-          });
+          // Slot occupied but team not full — find empty slot for occupant
+          const emptyIdx = slots.findIndex((s) => s === null);
+          if (emptyIdx !== -1) {
+            setSlots((prev) => {
+              const next = [...prev];
+              next[targetSlotIndex] = charName;
+              next[emptyIdx] = occupant;
+              return next;
+            });
+            setOverdriveEnabled((prev) => {
+              const next = [...prev];
+              next[targetSlotIndex] = false; // New character starts with overdrive off
+              // Keep occupant's overdrive state
+              return next;
+            });
+          }
         } else {
           // Slot empty — check team size
           if (teamSize >= MAX_ROSTER_SIZE) return;
           setSlots((prev) => {
             const next = [...prev];
             next[targetSlotIndex] = charName;
+            return next;
+          });
+          setOverdriveEnabled((prev) => {
+            const next = [...prev];
+            next[targetSlotIndex] = false; // New character starts with overdrive off
             return next;
           });
         }
@@ -449,53 +469,15 @@ export default function TeamBuilder({
           next[targetSlotIndex] = charName;
           return next;
         });
-      } else if (from.zone === 'bench') {
-        // Bench → slot
-        setBench((prev) => {
-          const next = new Set(prev);
-          next.delete(charName);
-          return next;
-        });
-        if (occupant) {
-          // Move occupant to bench
-          setBench((prev) => {
-            const next = new Set(prev);
-            next.add(occupant);
-            return next;
-          });
-        }
-        setSlots((prev) => {
+        setOverdriveEnabled((prev) => {
           const next = [...prev];
-          next[targetSlotIndex] = charName;
+          // Swap overdrive states too
+          const temp = next[fromIndex];
+          next[fromIndex] = next[targetSlotIndex];
+          next[targetSlotIndex] = temp;
           return next;
         });
       }
-      return;
-    }
-
-    // ── Drop onto bench ──
-    if (overId === 'bench') {
-      if (from.zone === 'available') {
-        if (teamSize >= MAX_ROSTER_SIZE) return;
-        setBench((prev) => {
-          const next = new Set(prev);
-          next.add(charName);
-          return next;
-        });
-      } else if (from.zone === 'slot') {
-        // Slot → bench
-        setSlots((prev) => {
-          const next = [...prev];
-          next[from.index] = null;
-          return next;
-        });
-        setBench((prev) => {
-          const next = new Set(prev);
-          next.add(charName);
-          return next;
-        });
-      }
-      // Bench → bench: no-op
       return;
     }
 
@@ -507,10 +489,9 @@ export default function TeamBuilder({
           next[from.index] = null;
           return next;
         });
-      } else if (from.zone === 'bench') {
-        setBench((prev) => {
-          const next = new Set(prev);
-          next.delete(charName);
+        setOverdriveEnabled((prev) => {
+          const next = [...prev];
+          next[from.index] = false;
           return next;
         });
       }
@@ -518,7 +499,16 @@ export default function TeamBuilder({
     }
   }
 
-  function handleRemoveToBench(slotIndex: number) {
+  function handleToggleOverdrive(slotIndex: number) {
+    if (!slots[slotIndex]) return; // No character in slot
+    setOverdriveEnabled((prev) => {
+      const next = [...prev];
+      next[slotIndex] = !next[slotIndex];
+      return next;
+    });
+  }
+
+  function handleRemoveFromTeam(slotIndex: number) {
     const charName = slots[slotIndex];
     if (!charName) return;
     setSlots((prev) => {
@@ -526,16 +516,16 @@ export default function TeamBuilder({
       next[slotIndex] = null;
       return next;
     });
-    setBench((prev) => {
-      const next = new Set(prev);
-      next.add(charName);
+    setOverdriveEnabled((prev) => {
+      const next = [...prev];
+      next[slotIndex] = false;
       return next;
     });
   }
 
   function handleClear() {
     setSlots(Array(SLOT_COUNT).fill(null));
-    setBench(new Set());
+    setOverdriveEnabled(Array(SLOT_COUNT).fill(false));
   }
 
   return (
@@ -602,11 +592,11 @@ export default function TeamBuilder({
 
         <SlotsGrid
           slots={slots}
+          overdriveEnabled={overdriveEnabled}
           charMap={charMap}
-          onRemoveToBench={handleRemoveToBench}
+          onToggleOverdrive={handleToggleOverdrive}
+          onRemove={handleRemoveFromTeam}
         />
-
-        <BenchZone bench={bench} charMap={charMap} />
 
         <FilterableCharacterPool characters={availableCharacters}>
           {(filtered, filterHeader) => (
