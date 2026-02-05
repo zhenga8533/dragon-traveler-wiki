@@ -30,7 +30,7 @@ const QUICK_LINKS = [
   { label: 'Characters', path: '/characters', icon: IoPeople, color: 'blue' },
   { label: 'Tier List', path: '/tier-list', icon: IoTrophy, color: 'yellow' },
   { label: 'Teams', path: '/teams', icon: IoShield, color: 'green' },
-  { label: 'Effects', path: '/effects', icon: IoFlash, color: 'orange' },
+  { label: 'Status Effects', path: '/status-effects', icon: IoFlash, color: 'orange' },
   { label: 'Dragon Spells', path: '/dragon-spells', icon: IoSparkles, color: 'violet' },
   { label: 'Codes', path: '/codes', icon: IoPricetag, color: 'teal' },
   { label: 'Useful Links', path: '/useful-links', icon: IoLink, color: 'cyan' },

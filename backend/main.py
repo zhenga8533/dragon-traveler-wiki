@@ -25,9 +25,9 @@ def scrape_teams() -> list:
     return []
 
 
-def scrape_effects() -> list:
-    """Scrape effect data from source databases."""
-    # TODO: Implement effect scraping
+def scrape_status_effects() -> list:
+    """Scrape status effect data from source databases."""
+    # TODO: Implement status effect scraping
     return []
 
 
@@ -62,7 +62,7 @@ def main() -> None:
     parser = argparse.ArgumentParser(description="Dragon Traveler Wiki Scraper")
     parser.add_argument(
         "--target",
-        choices=["characters", "tier-lists", "teams", "effects", "dragon-spells", "codes", "news", "all"],
+        choices=["characters", "tier-lists", "teams", "status-effects", "dragon-spells", "codes", "news", "all"],
         default="all",
         help="Which data to scrape (default: all)",
     )
@@ -72,7 +72,7 @@ def main() -> None:
         "characters": ("characters.json", scrape_characters),
         "tier-lists": ("tier-lists.json", scrape_tier_lists),
         "teams": ("teams.json", scrape_teams),
-        "effects": ("effects.json", scrape_effects),
+        "status-effects": ("status-effects.json", scrape_status_effects),
         "dragon-spells": ("dragon-spells.json", scrape_dragon_spells),
         "codes": ("codes.json", scrape_codes),
         "news": ("news.json", scrape_news),

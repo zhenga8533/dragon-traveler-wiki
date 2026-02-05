@@ -15,7 +15,7 @@ import Home from './pages/Home';
 import Characters from './pages/Characters';
 import TierList from './pages/TierList';
 import Teams from './pages/Teams';
-import Effects from './pages/Effects';
+import StatusEffects from './pages/StatusEffects';
 import DragonSpells from './pages/DragonSpells';
 import Codes from './pages/Codes';
 import UsefulLinks from './pages/UsefulLinks';
@@ -33,7 +33,7 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Database',
     children: [
       { label: 'Characters', path: '/characters' },
-      { label: 'Effects', path: '/effects' },
+      { label: 'Status Effects', path: '/status-effects' },
       { label: 'Dragon Spells', path: '/dragon-spells' },
     ],
   },
@@ -133,7 +133,7 @@ export default function App() {
             <Route path="/characters" element={<Characters />} />
             <Route path="/tier-list" element={<TierList />} />
             <Route path="/teams" element={<Teams />} />
-            <Route path="/effects" element={<Effects />} />
+            <Route path="/status-effects" element={<StatusEffects />} />
             <Route path="/dragon-spells" element={<DragonSpells />} />
             <Route path="/codes" element={<Codes />} />
             <Route path="/useful-links" element={<UsefulLinks />} />
