@@ -1,4 +1,4 @@
-import { Badge, Popover, Stack, Group, Text, Image } from '@mantine/core';
+import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { STATE_COLOR } from '../constants/colors';
 import type { StatusEffect } from '../types/status-effect';
@@ -43,9 +43,6 @@ export default function StatusEffectBadge({
       <Popover.Dropdown style={{ pointerEvents: 'none' }}>
         <Stack gap="xs" maw={280}>
           <Group gap="xs" wrap="nowrap">
-            {effect.icon && (
-              <Image src={effect.icon} alt={effect.name} w={24} h={24} fit="contain" />
-            )}
             <Text fw={600} size="sm">{effect.name}</Text>
             <Badge variant="light" color={color} size="xs">{effect.type}</Badge>
           </Group>

@@ -1,1 +1,8 @@
-[]
+[
+  {
+    "name": "Attack Boost",
+    "type": "Buff",
+    "effect": "Attack increased by 30% for 8 seconds.",
+    "remark": "Does not stack with [Greater Attack Boost]."
+  }
+]

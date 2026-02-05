@@ -7,7 +7,7 @@ export type StatusEffectType =
   | "Blessing";
 
 export interface StatusEffect {
-  icon: string;
+  icon?: string;
   name: string;
   type: StatusEffectType;
   effect: string;

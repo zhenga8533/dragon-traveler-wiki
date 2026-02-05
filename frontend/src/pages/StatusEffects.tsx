@@ -1,19 +1,20 @@
 import {
-  Title,
-  Text,
-  Container,
-  Stack,
-  Loader,
-  Center,
-  Paper,
-  Group,
   Badge,
+  Center,
+  Container,
+  Group,
   Image,
+  Loader,
+  Paper,
+  Stack,
   Tabs,
+  Text,
+  Title,
 } from '@mantine/core';
+import { getStatusEffectIcon } from '../assets/status_effect';
+import RichText from '../components/RichText';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import RichText from '../components/RichText';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
 
 export default function StatusEffects() {
@@ -58,25 +59,34 @@ export default function StatusEffects() {
                   {grouped[state].length === 0 && (
                     <Text c="dimmed" size="sm">No {state.toLowerCase()} effects.</Text>
                   )}
-                  {grouped[state].map((effect) => (
-                    <Paper key={effect.name} p="sm" radius="md" withBorder>
-                      <Stack gap="xs">
-                        <Group gap="sm" wrap="nowrap">
-                          {effect.icon && (
-                            <Image src={effect.icon} alt={effect.name} w={28} h={28} fit="contain" />
-                          )}
-                          <Text fw={600}>{effect.name}</Text>
-                          <Badge variant="light" color={STATE_COLOR[effect.type]} size="sm">
-                            {effect.type}
-                          </Badge>
-                        </Group>
+                  {grouped[state].map((effect) => {
+                    const iconSrc = getStatusEffectIcon(effect.name);
+                    return (
+                      <Paper key={effect.name} p="sm" radius="md" withBorder>
+                        <Stack gap="xs">
+                          <Group gap="sm" wrap="nowrap">
+                            {iconSrc && (
+                              <Image 
+                                src={iconSrc} 
+                                alt={effect.name} 
+                                w={28} 
+                                h={28} 
+                                fit="contain"
+                              />
+                            )}
+                            <Text fw={600}>{effect.name}</Text>
+                            <Badge variant="light" color={STATE_COLOR[effect.type]} size="sm">
+                              {effect.type}
+                            </Badge>
+                          </Group>
                         <RichText text={effect.effect} statusEffects={effects} />
                         {effect.remark && (
                           <Text size="xs" c="dimmed" fs="italic">{effect.remark}</Text>
                         )}
                       </Stack>
                     </Paper>
-                  ))}
+                    );
+                  })}
                 </Stack>
               </Tabs.Panel>
             ))}
