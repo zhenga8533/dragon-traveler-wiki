@@ -39,6 +39,15 @@ export const LINK_JSON_TEMPLATE = {
   link: 'https://example.com',
 };
 
+export const TEAM_JSON_TEMPLATE = {
+  name: 'Team Name',
+  author: 'Your Name',
+  content_type: 'e.g. PvP, PvE, Boss',
+  description: 'Brief description of this team composition',
+  faction: 'Elemental Echo | Wild Spirit | Arcane Wisdom | Sanctum Glory | Otherworld Return | Illusion Veil',
+  characters: ['Character1', 'Character2', 'Character3', 'Character4'],
+};
+
 // Keep the expired code URL builder for the inline action
 export function buildExpiredCodeUrl(code: string): string {
   return buildIssueUrl({

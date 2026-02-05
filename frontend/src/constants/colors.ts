@@ -1,4 +1,4 @@
-import type { Quality } from '../types/character';
+import type { FactionName, Quality } from '../types/character';
 import type { StatusEffectType } from '../types/status-effect';
 import type { Tier } from '../types/tier-list';
 
@@ -23,6 +23,15 @@ export const STATE_COLOR: Record<StatusEffectType, string> = {
 };
 
 export const STATE_ORDER: StatusEffectType[] = ['Buff', 'Debuff', 'Special', 'Control', 'Elemental', 'Blessing'];
+
+export const FACTION_COLOR: Record<FactionName, string> = {
+  'Elemental Echo': 'red',
+  'Wild Spirit': 'green',
+  'Arcane Wisdom': 'blue',
+  'Sanctum Glory': 'yellow',
+  'Otherworld Return': 'purple',
+  'Illusion Veil': 'black',
+};
 
 export const TIER_ORDER: Tier[] = ['S+', 'S', 'A', 'B', 'C', 'D'];
 

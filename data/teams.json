@@ -2,7 +2,7 @@
   {
     "name": "Sample Elemental Echo Team",
     "author": "Dragon Traveler Wiki",
-    "content_type": "team",
+    "content_type": "PvE",
     "description": "A sample team composition for Elemental Echo faction.",
     "faction": "Elemental Echo",
     "characters": ["Fenrir", "Ifrit"]
