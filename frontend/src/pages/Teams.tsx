@@ -17,19 +17,31 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
-import { IoFilter, IoSearch } from 'react-icons/io5';
+import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import CharacterCard from '../components/CharacterCard';
 import CharacterFilter from '../components/CharacterFilter';
+import type { ChipFilterGroup } from '../components/EntityFilter';
+import EntityFilter from '../components/EntityFilter';
 import SuggestModal from '../components/SuggestModal';
 import TeamBuilder from '../components/TeamBuilder';
 import { FACTION_COLOR } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import type { Character, FactionName } from '../types/character';
+import type { Character } from '../types/character';
+import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
 import type { CharacterFilters } from '../utils/filter-characters';
 import { EMPTY_FILTERS, extractAllEffectRefs, filterCharacters } from '../utils/filter-characters';
 import { TEAM_JSON_TEMPLATE } from '../utils/github-issues';
+
+const FACTIONS: FactionName[] = [
+  'Elemental Echo',
+  'Wild Spirit',
+  'Arcane Wisdom',
+  'Sanctum Glory',
+  'Otherworld Return',
+  'Illusion Veil',
+];
 
 export default function Teams() {
   const { data: teams, loading: loadingTeams } = useDataFetch<Team[]>('data/teams.json', []);
@@ -38,9 +50,14 @@ export default function Teams() {
     [],
   );
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
+  const [viewFilters, setViewFilters] = useState<Record<string, string[]>>({
+    factions: [],
+    contentTypes: [],
+  });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [search, setSearch] = useState('');
   const [mode, setMode] = useState<'view' | 'builder'>('view');
+  const [editData, setEditData] = useState<Team | null>(null);
   const loading = loadingTeams || loadingChars;
 
   const effectOptions = useMemo(() => extractAllEffectRefs(characters), [characters]);
@@ -56,21 +73,58 @@ export default function Teams() {
     return new Set(filtered.map((c) => c.name));
   }, [characters, filters]);
 
+  const contentTypeOptions = useMemo(
+    () => [...new Set(teams.map((t) => t.content_type))].sort(),
+    [teams],
+  );
+
+  const entityFilterGroups: ChipFilterGroup[] = useMemo(
+    () => [
+      {
+        key: 'factions',
+        label: 'Faction',
+        options: FACTIONS,
+        icon: (value: string) => (
+          <Image
+            src={FACTION_ICON_MAP[value as FactionName]}
+            alt={value}
+            w={14}
+            h={14}
+            fit="contain"
+          />
+        ),
+      },
+      {
+        key: 'contentTypes',
+        label: 'Content Type',
+        options: contentTypeOptions,
+      },
+    ],
+    [contentTypeOptions],
+  );
+
   const activeFilterCount =
-    (filters.search ? 1 : 0) +
-    filters.qualities.length +
-    filters.classes.length +
-    filters.factions.length +
-    filters.statusEffects.length;
+    mode === 'view'
+      ? viewFilters.factions.length + viewFilters.contentTypes.length
+      : (filters.search ? 1 : 0) +
+        filters.qualities.length +
+        filters.classes.length +
+        filters.factions.length +
+        filters.statusEffects.length;
 
   const filteredTeams = useMemo(() => {
     return teams.filter((team) => {
       if (search && !team.name.toLowerCase().includes(search.toLowerCase())) return false;
-      const hasVisibleChar = team.members.some((m) => filteredNames.has(m.character_name));
-      if (!hasVisibleChar) return false;
+      if (viewFilters.factions.length > 0 && !viewFilters.factions.includes(team.faction))
+        return false;
+      if (
+        viewFilters.contentTypes.length > 0 &&
+        !viewFilters.contentTypes.includes(team.content_type)
+      )
+        return false;
       return true;
     });
-  }, [teams, search, filteredNames]);
+  }, [teams, search, viewFilters]);
 
   return (
     <Container size="lg" py="xl">
@@ -113,7 +167,10 @@ export default function Teams() {
           <>
             <SegmentedControl
               value={mode}
-              onChange={(val) => setMode(val as 'view' | 'builder')}
+              onChange={(val) => {
+                setMode(val as 'view' | 'builder');
+                if (val === 'view') setEditData(null);
+              }}
               data={[
                 { label: 'View Teams', value: 'view' },
                 { label: 'Create Your Own', value: 'builder' },
@@ -122,11 +179,22 @@ export default function Teams() {
 
             <Collapse in={filterOpen}>
               <Paper p="md" radius="md" withBorder>
-                <CharacterFilter
-                  filters={filters}
-                  onChange={setFilters}
-                  effectOptions={effectOptions}
-                />
+                {mode === 'view' ? (
+                  <EntityFilter
+                    groups={entityFilterGroups}
+                    selected={viewFilters}
+                    onChange={(key, values) =>
+                      setViewFilters((prev) => ({ ...prev, [key]: values }))
+                    }
+                    onClear={() => setViewFilters({ factions: [], contentTypes: [] })}
+                  />
+                ) : (
+                  <CharacterFilter
+                    filters={filters}
+                    onChange={setFilters}
+                    effectOptions={effectOptions}
+                  />
+                )}
               </Paper>
             </Collapse>
 
@@ -178,41 +246,50 @@ export default function Teams() {
                             <Text size="sm" c="dimmed">{team.description}</Text>
                           </>
                         )}
+                        <Button
+                          variant="subtle"
+                          size="compact-xs"
+                          leftSection={<IoCreate size={14} />}
+                          onClick={() => {
+                            setEditData(team);
+                            setMode('builder');
+                          }}
+                        >
+                          Edit
+                        </Button>
                       </Group>
 
                       <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
-                        {team.members
-                          .filter((m) => filteredNames.has(m.character_name))
-                          .map((m) => {
-                            const char = charMap.get(m.character_name);
-                            return (
-                              <div
-                                key={m.character_name}
-                                style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
-                              >
-                                <CharacterCard
-                                  name={m.character_name}
-                                  quality={char?.quality}
-                                />
-                                {m.overdrive_order != null && (
-                                  <Badge
-                                    size="sm"
-                                    circle
-                                    variant="filled"
-                                    color="orange"
-                                    style={{
-                                      position: 'absolute',
-                                      top: 0,
-                                      right: 'calc(50% - 40px)',
-                                      pointerEvents: 'none',
-                                    }}
-                                  >
-                                    {m.overdrive_order}
-                                  </Badge>
-                                )}
-                              </div>
-                            );
-                          })}
+                        {team.members.map((m) => {
+                          const char = charMap.get(m.character_name);
+                          return (
+                            <div
+                              key={m.character_name}
+                              style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                            >
+                              <CharacterCard
+                                name={m.character_name}
+                                quality={char?.quality}
+                              />
+                              {m.overdrive_order != null && (
+                                <Badge
+                                  size="sm"
+                                  circle
+                                  variant="filled"
+                                  color="orange"
+                                  style={{
+                                    position: 'absolute',
+                                    top: 0,
+                                    right: 'calc(50% - 40px)',
+                                    pointerEvents: 'none',
+                                  }}
+                                >
+                                  {m.overdrive_order}
+                                </Badge>
+                              )}
+                            </div>
+                          );
+                        })}
                       </SimpleGrid>
                     </Stack>
                   </Paper>
@@ -225,6 +302,7 @@ export default function Teams() {
                 characters={characters}
                 filteredNames={filteredNames}
                 charMap={charMap}
+                initialData={editData}
               />
             )}
           </>

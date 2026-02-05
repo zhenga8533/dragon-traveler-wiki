@@ -22,16 +22,16 @@ import { useMemo, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import { Link, useParams } from 'react-router-dom';
 import { getIllustrations, getPortrait, type CharacterIllustration } from '../assets/character';
+import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
-import { QUALITY_ICON_MAP } from '../assets/character_quality';
+import { getSkillIcon } from '../assets/skill';
+import { getSubclassIcon } from '../assets/subclass';
+import RichText from '../components/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
-import RichText from '../components/RichText';
-import { getSkillIcon } from '../assets/skill';
-import { getSubclassIcon } from '../assets/subclass';
 
 export default function CharacterPage() {
   const { name } = useParams<{ name: string }>();
@@ -90,7 +90,6 @@ export default function CharacterPage() {
   }
 
   const portrait = getPortrait(character.name);
-  const currentIllustration = selectedIllustration || defaultIllustration;
 
   return (
     <Box>

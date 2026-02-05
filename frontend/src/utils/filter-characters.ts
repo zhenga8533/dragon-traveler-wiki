@@ -1,4 +1,5 @@
-import type { Character, Quality, CharacterClass, FactionName } from '../types/character';
+import type { Character, CharacterClass, Quality } from '../types/character';
+import type { FactionName } from '../types/faction';
 import { parseEffectRefs } from './parse-effect-refs';
 
 export interface CharacterFilters {

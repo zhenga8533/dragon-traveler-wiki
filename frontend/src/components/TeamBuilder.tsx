@@ -20,13 +20,14 @@ import {
   Text,
   TextInput,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoCheckmark, IoClose, IoCopy, IoTrash } from 'react-icons/io5';
 import { getPortrait } from '../assets/character';
 import { FACTION_COLOR } from '../constants/colors';
-import { QUALITY_BORDER_COLOR } from './CharacterCard';
-import type { Character, FactionName } from '../types/character';
+import type { Character } from '../types/character';
+import type { FactionName } from '../types/faction';
 import type { Team, TeamMember } from '../types/team';
+import { QUALITY_BORDER_COLOR } from './CharacterCard';
 
 const MAX_ROSTER_SIZE = 6;
 const SLOT_COUNT = 6;
@@ -44,6 +45,7 @@ interface TeamBuilderProps {
   characters: Character[];
   filteredNames: Set<string>;
   charMap: Map<string, Character>;
+  initialData?: Team | null;
 }
 
 /* ── Draggable portrait (used in available pool, bench, slots, and overlay) ── */
@@ -295,6 +297,7 @@ export default function TeamBuilder({
   characters,
   filteredNames,
   charMap,
+  initialData,
 }: TeamBuilderProps) {
   // Index 0 = overdrive order 1, ..., index 5 = overdrive order 6
   const [slots, setSlots] = useState<(string | null)[]>(
@@ -308,6 +311,25 @@ export default function TeamBuilder({
   const [contentType, setContentType] = useState('');
   const [faction, setFaction] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!initialData) return;
+    setName(initialData.name);
+    setAuthor(initialData.author);
+    setContentType(initialData.content_type);
+    setFaction(initialData.faction);
+    const newSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
+    const newBench = new Set<string>();
+    for (const m of initialData.members) {
+      if (m.overdrive_order != null && m.overdrive_order >= 1 && m.overdrive_order <= SLOT_COUNT) {
+        newSlots[m.overdrive_order - 1] = m.character_name;
+      } else {
+        newBench.add(m.character_name);
+      }
+    }
+    setSlots(newSlots);
+    setBench(newBench);
+  }, [initialData]);
 
   const factionColor = faction
     ? FACTION_COLOR[faction as FactionName]

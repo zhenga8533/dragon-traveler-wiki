@@ -1,4 +1,4 @@
-import type { FactionName } from "./character";
+import type { FactionName } from "./faction";
 
 export interface TeamMember {
   character_name: string;

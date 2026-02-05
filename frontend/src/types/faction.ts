@@ -1,4 +1,10 @@
-import { FactionName } from "./character";
+export type FactionName =
+  | "Elemental Echo"
+  | "Wild Spirit"
+  | "Arcane Wisdom"
+  | "Sanctum Glory"
+  | "Otherworld Return"
+  | "Illusion Veil";
 
 export type Wyrm =
   | "Fire Whelp"

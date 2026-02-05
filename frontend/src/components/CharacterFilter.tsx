@@ -12,7 +12,8 @@ import { IoClose, IoSearch } from 'react-icons/io5';
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
-import type { CharacterClass, FactionName, Quality } from '../types/character';
+import type { CharacterClass, Quality } from '../types/character';
+import type { FactionName } from '../types/faction';
 import type { CharacterFilters } from '../utils/filter-characters';
 import { EMPTY_FILTERS } from '../utils/filter-characters';
 

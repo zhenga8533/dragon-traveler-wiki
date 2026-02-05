@@ -1,4 +1,5 @@
-import type { FactionName, Quality } from '../types/character';
+import type { Quality } from '../types/character';
+import type { FactionName } from '../types/faction';
 import type { StatusEffectType } from '../types/status-effect';
 import type { Tier } from '../types/tier-list';
 

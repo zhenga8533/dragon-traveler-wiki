@@ -16,9 +16,11 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
-import { IoFilter } from 'react-icons/io5';
+import { IoCreate, IoFilter } from 'react-icons/io5';
 import CharacterCard from '../components/CharacterCard';
 import CharacterFilter from '../components/CharacterFilter';
+import EntityFilter from '../components/EntityFilter';
+import type { ChipFilterGroup } from '../components/EntityFilter';
 import SuggestModal from '../components/SuggestModal';
 import TierListBuilder from '../components/TierListBuilder';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
@@ -39,8 +41,12 @@ export default function TierList() {
     [],
   );
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
+  const [viewFilters, setViewFilters] = useState<Record<string, string[]>>({
+    contentTypes: [],
+  });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [mode, setMode] = useState<'view' | 'builder'>('view');
+  const [editData, setEditData] = useState<TierListType | null>(null);
   const loading = loadingTiers || loadingChars;
 
   const effectOptions = useMemo(() => extractAllEffectRefs(characters), [characters]);
@@ -56,12 +62,35 @@ export default function TierList() {
     return new Set(filtered.map((c) => c.name));
   }, [characters, filters]);
 
+  const contentTypeOptions = useMemo(
+    () => [...new Set(tierLists.map((t) => t.content_type))].sort(),
+    [tierLists],
+  );
+
+  const entityFilterGroups: ChipFilterGroup[] = useMemo(
+    () => [
+      {
+        key: 'contentTypes',
+        label: 'Content Type',
+        options: contentTypeOptions,
+      },
+    ],
+    [contentTypeOptions],
+  );
+
   const activeFilterCount =
-    (filters.search ? 1 : 0) +
-    filters.qualities.length +
-    filters.classes.length +
-    filters.factions.length +
-    filters.statusEffects.length;
+    mode === 'view'
+      ? viewFilters.contentTypes.length
+      : (filters.search ? 1 : 0) +
+        filters.qualities.length +
+        filters.classes.length +
+        filters.factions.length +
+        filters.statusEffects.length;
+
+  const visibleTierLists = useMemo(() => {
+    if (viewFilters.contentTypes.length === 0) return tierLists;
+    return tierLists.filter((tl) => viewFilters.contentTypes.includes(tl.content_type));
+  }, [tierLists, viewFilters]);
 
   return (
     <Container size="lg" py="xl">
@@ -104,7 +133,10 @@ export default function TierList() {
           <>
             <SegmentedControl
               value={mode}
-              onChange={(val) => setMode(val as 'view' | 'builder')}
+              onChange={(val) => {
+                setMode(val as 'view' | 'builder');
+                if (val === 'view') setEditData(null);
+              }}
               data={[
                 { label: 'View Tier Lists', value: 'view' },
                 { label: 'Create Your Own', value: 'builder' },
@@ -113,82 +145,129 @@ export default function TierList() {
 
             <Collapse in={filterOpen}>
               <Paper p="md" radius="md" withBorder>
-                <CharacterFilter
-                  filters={filters}
-                  onChange={setFilters}
-                  effectOptions={effectOptions}
-                />
+                {mode === 'view' ? (
+                  <EntityFilter
+                    groups={entityFilterGroups}
+                    selected={viewFilters}
+                    onChange={(key, values) =>
+                      setViewFilters((prev) => ({ ...prev, [key]: values }))
+                    }
+                    onClear={() => setViewFilters({ contentTypes: [] })}
+                  />
+                ) : (
+                  <CharacterFilter
+                    filters={filters}
+                    onChange={setFilters}
+                    effectOptions={effectOptions}
+                  />
+                )}
               </Paper>
             </Collapse>
 
             {mode === 'view' && (
-              <Tabs defaultValue={tierLists[0]?.name}>
-                <Tabs.List>
-                  {tierLists.map((tierList) => (
-                    <Tabs.Tab key={tierList.name} value={tierList.name}>
-                      {tierList.name}
-                    </Tabs.Tab>
-                  ))}
-                </Tabs.List>
+              <>
+                {visibleTierLists.length === 0 && (
+                  <Text c="dimmed" ta="center" py="lg">
+                    No tier lists match the current filters.
+                  </Text>
+                )}
 
-                {tierLists.map((tierList) => {
-                  const visibleEntries = tierList.entries.filter((e) => filteredNames.has(e.character_name));
-                  const byTier = TIER_ORDER.map((tier) => ({
-                    tier,
-                    entries: visibleEntries.filter((e) => e.tier === tier),
-                  })).filter((g) => g.entries.length > 0);
+                {visibleTierLists.length > 0 && (
+                  <Tabs defaultValue={visibleTierLists[0]?.name}>
+                    <Tabs.List>
+                      {visibleTierLists.map((tierList) => (
+                        <Tabs.Tab key={tierList.name} value={tierList.name}>
+                          {tierList.name}
+                        </Tabs.Tab>
+                      ))}
+                    </Tabs.List>
 
-                  return (
-                    <Tabs.Panel key={tierList.name} value={tierList.name} pt="md">
-                      <Stack gap="md">
-                        <Group gap="xs">
-                          <Badge variant="light" size="sm">{tierList.content_type}</Badge>
-                          <Text size="sm" c="dimmed">By {tierList.author}</Text>
-                          {tierList.description && (
-                            <>
-                              <Text size="sm" c="dimmed">•</Text>
-                              <Text size="sm" c="dimmed">{tierList.description}</Text>
-                            </>
-                          )}
-                        </Group>
+                    {visibleTierLists.map((tierList) => {
+                      const byTier = TIER_ORDER.map((tier) => ({
+                        tier,
+                        entries: tierList.entries.filter((e) => e.tier === tier),
+                      })).filter((g) => g.entries.length > 0);
 
-                        {visibleEntries.length === 0 && (
-                          <Text c="dimmed" size="sm" ta="center" py="md">
-                            No characters match the current filters.
-                          </Text>
-                        )}
+                      const rankedNames = new Set(tierList.entries.map((e) => e.character_name));
+                      const unranked = characters.filter((c) => !rankedNames.has(c.name));
 
-                        {byTier.map(({ tier, entries }) => (
-                          <Paper key={tier} p="md" radius="md" withBorder>
-                            <Stack gap="sm">
-                              <Badge
-                                variant="filled"
-                                color={TIER_COLOR[tier]}
-                                size="lg"
-                                radius="sm"
+                      return (
+                        <Tabs.Panel key={tierList.name} value={tierList.name} pt="md">
+                          <Stack gap="md">
+                            <Group gap="xs">
+                              <Badge variant="light" size="sm">{tierList.content_type}</Badge>
+                              <Text size="sm" c="dimmed">By {tierList.author}</Text>
+                              {tierList.description && (
+                                <>
+                                  <Text size="sm" c="dimmed">•</Text>
+                                  <Text size="sm" c="dimmed">{tierList.description}</Text>
+                                </>
+                              )}
+                              <Button
+                                variant="subtle"
+                                size="compact-xs"
+                                leftSection={<IoCreate size={14} />}
+                                onClick={() => {
+                                  setEditData(tierList);
+                                  setMode('builder');
+                                }}
                               >
-                                {tier} Tier
-                              </Badge>
-                              <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
-                                {entries.map((entry) => {
-                                  const char = charMap.get(entry.character_name);
-                                  return (
-                                    <CharacterCard
-                                      key={entry.character_name}
-                                      name={entry.character_name}
-                                      quality={char?.quality}
-                                    />
-                                  );
-                                })}
-                              </SimpleGrid>
-                            </Stack>
-                          </Paper>
-                        ))}
-                      </Stack>
-                    </Tabs.Panel>
-                  );
-                })}
-              </Tabs>
+                                Edit
+                              </Button>
+                            </Group>
+
+                            {byTier.map(({ tier, entries }) => (
+                              <Paper key={tier} p="md" radius="md" withBorder>
+                                <Stack gap="sm">
+                                  <Badge
+                                    variant="filled"
+                                    color={TIER_COLOR[tier]}
+                                    size="lg"
+                                    radius="sm"
+                                  >
+                                    {tier} Tier
+                                  </Badge>
+                                  <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
+                                    {entries.map((entry) => {
+                                      const char = charMap.get(entry.character_name);
+                                      return (
+                                        <CharacterCard
+                                          key={entry.character_name}
+                                          name={entry.character_name}
+                                          quality={char?.quality}
+                                        />
+                                      );
+                                    })}
+                                  </SimpleGrid>
+                                </Stack>
+                              </Paper>
+                            ))}
+
+                            {unranked.length > 0 && (
+                              <Paper p="md" radius="md" withBorder>
+                                <Stack gap="sm">
+                                  <Badge variant="filled" color="gray" size="lg" radius="sm">
+                                    Unranked
+                                  </Badge>
+                                  <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
+                                    {unranked.map((c) => (
+                                      <CharacterCard
+                                        key={c.name}
+                                        name={c.name}
+                                        quality={c.quality}
+                                      />
+                                    ))}
+                                  </SimpleGrid>
+                                </Stack>
+                              </Paper>
+                            )}
+                          </Stack>
+                        </Tabs.Panel>
+                      );
+                    })}
+                  </Tabs>
+                )}
+              </>
             )}
 
             {mode === 'builder' && (
@@ -196,6 +275,7 @@ export default function TierList() {
                 characters={characters}
                 filteredNames={filteredNames}
                 charMap={charMap}
+                initialData={editData}
               />
             )}
           </>

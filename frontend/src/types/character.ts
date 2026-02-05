@@ -1,3 +1,5 @@
+import type { FactionName } from "./faction";
+
 export type Quality = "SSR EX" | "SSR+" | "SSR" | "SR+" | "R" | "N";
 
 export type CharacterClass =
@@ -7,14 +9,6 @@ export type CharacterClass =
   | "Warrior"
   | "Archer"
   | "Mage";
-
-export type FactionName =
-  | "Elemental Echo"
-  | "Wild Spirit"
-  | "Arcane Wisdom"
-  | "Sanctum Glory"
-  | "Otherworld Return"
-  | "Illusion Veil";
 
 export interface Skill {
   name: string;

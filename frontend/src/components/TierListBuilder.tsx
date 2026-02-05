@@ -18,7 +18,7 @@ import {
   Text,
   TextInput,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoCheckmark, IoCopy, IoTrash } from 'react-icons/io5';
 import { getPortrait } from '../assets/character';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
@@ -30,6 +30,7 @@ interface TierListBuilderProps {
   characters: Character[];
   filteredNames: Set<string>;
   charMap: Map<string, Character>;
+  initialData?: TierList | null;
 }
 
 function DraggableCharCard({
@@ -158,12 +159,25 @@ export default function TierListBuilder({
   characters,
   filteredNames,
   charMap,
+  initialData,
 }: TierListBuilderProps) {
   const [placements, setPlacements] = useState<Record<string, Tier>>({});
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
   const [categoryName, setCategoryName] = useState('');
   const [activeId, setActiveId] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (!initialData) return;
+    setName(initialData.name);
+    setAuthor(initialData.author);
+    setCategoryName(initialData.content_type);
+    const p: Record<string, Tier> = {};
+    for (const entry of initialData.entries) {
+      p[entry.character_name] = entry.tier;
+    }
+    setPlacements(p);
+  }, [initialData]);
 
   const json = useMemo(() => {
     const result: TierList = {
