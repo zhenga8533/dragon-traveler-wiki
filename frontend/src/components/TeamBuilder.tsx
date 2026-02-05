@@ -25,7 +25,9 @@ import { getPortrait } from '../assets/character';
 import { FACTION_COLOR } from '../constants/colors';
 import { QUALITY_BORDER_COLOR } from './CharacterCard';
 import type { Character, FactionName } from '../types/character';
-import type { Team } from '../types/team';
+import type { Team, TeamMember } from '../types/team';
+
+const MAX_ROSTER_SIZE = 6;
 
 const FACTIONS: FactionName[] = [
   'Elemental Echo',
@@ -34,6 +36,16 @@ const FACTIONS: FactionName[] = [
   'Sanctum Glory',
   'Otherworld Return',
   'Illusion Veil',
+];
+
+const OVERDRIVE_OPTIONS = [
+  { value: '', label: 'Off' },
+  { value: '1', label: '1' },
+  { value: '2', label: '2' },
+  { value: '3', label: '3' },
+  { value: '4', label: '4' },
+  { value: '5', label: '5' },
+  { value: '6', label: '6' },
 ];
 
 interface TeamBuilderProps {
@@ -92,11 +104,75 @@ function DraggableCharCard({
   );
 }
 
+function RosterCharCard({
+  name,
+  char,
+  overdriveOrder,
+  onOverdriveChange,
+}: {
+  name: string;
+  char: Character | undefined;
+  overdriveOrder: number | null;
+  onOverdriveChange: (value: number | null) => void;
+}) {
+  const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
+    id: name,
+  });
+
+  const borderColor = char
+    ? QUALITY_BORDER_COLOR[char.quality]
+    : 'var(--mantine-color-gray-5)';
+
+  return (
+    <Stack
+      ref={setNodeRef}
+      gap={2}
+      align="center"
+      style={{ opacity: isDragging ? 0.3 : 1 }}
+    >
+      {/* Only the portrait + name act as the drag handle */}
+      <Stack
+        gap={2}
+        align="center"
+        style={{ cursor: isDragging ? 'grabbing' : 'grab' }}
+        {...listeners}
+        {...attributes}
+      >
+        <Image
+          src={getPortrait(name)}
+          alt={name}
+          h={80}
+          w={80}
+          fit="cover"
+          radius="50%"
+          style={{
+            border: `3px solid ${borderColor}`,
+          }}
+        />
+        <Text size="xs" fw={500} ta="center" lineClamp={1}>
+          {name}
+        </Text>
+      </Stack>
+      <Select
+        size="xs"
+        w={60}
+        data={OVERDRIVE_OPTIONS}
+        value={overdriveOrder !== null ? String(overdriveOrder) : ''}
+        onChange={(val) => onOverdriveChange(val ? Number(val) : null)}
+        allowDeselect={false}
+        styles={{ input: { textAlign: 'center', paddingInline: 4 } }}
+      />
+    </Stack>
+  );
+}
+
 function TeamDropZone({
   color,
+  rosterSize,
   children,
 }: {
   color: string;
+  rosterSize: number;
   children: React.ReactNode;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'team' });
@@ -114,11 +190,16 @@ function TeamDropZone({
       }}
     >
       <Stack gap="sm">
-        <Badge variant="filled" color={color} size="lg" radius="sm">
-          Team Roster
-        </Badge>
+        <Group justify="space-between">
+          <Badge variant="filled" color={color} size="lg" radius="sm">
+            Team Roster
+          </Badge>
+          <Text size="xs" c="dimmed">
+            {rosterSize} / {MAX_ROSTER_SIZE}
+          </Text>
+        </Group>
         <SimpleGrid
-          cols={{ base: 4, xs: 5, sm: 6, md: 8 }}
+          cols={{ base: 3, xs: 4, sm: 6 }}
           spacing={4}
           style={{ minHeight: 40 }}
         >
@@ -165,7 +246,8 @@ export default function TeamBuilder({
   filteredNames,
   charMap,
 }: TeamBuilderProps) {
-  const [roster, setRoster] = useState<Set<string>>(new Set());
+  // Map from character name to overdrive order (null = off)
+  const [roster, setRoster] = useState<Map<string, number | null>>(new Map());
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
   const [contentType, setContentType] = useState('');
@@ -177,13 +259,19 @@ export default function TeamBuilder({
     : 'blue';
 
   const json = useMemo(() => {
+    const members: TeamMember[] = [...roster.entries()].map(
+      ([character_name, overdrive_order]) => ({
+        character_name,
+        overdrive_order,
+      }),
+    );
     const result: Team = {
       name: name || 'My Team',
       author: author || 'Anonymous',
       content_type: contentType || 'PvE',
       description: '',
       faction: (faction || 'Elemental Echo') as FactionName,
-      characters: [...roster],
+      members,
     };
     return JSON.stringify(result, null, 2);
   }, [roster, name, author, contentType, faction]);
@@ -206,17 +294,31 @@ export default function TeamBuilder({
 
     if (overId === 'available') {
       setRoster((prev) => {
-        const next = new Set(prev);
+        const next = new Map(prev);
         next.delete(charName);
         return next;
       });
     } else if (overId === 'team') {
-      setRoster((prev) => new Set(prev).add(charName));
+      if (!roster.has(charName) && roster.size >= MAX_ROSTER_SIZE) return;
+      setRoster((prev) => {
+        if (prev.has(charName)) return prev;
+        const next = new Map(prev);
+        next.set(charName, null);
+        return next;
+      });
     }
   }
 
+  function handleOverdriveChange(charName: string, value: number | null) {
+    setRoster((prev) => {
+      const next = new Map(prev);
+      next.set(charName, value);
+      return next;
+    });
+  }
+
   function handleClear() {
-    setRoster(new Set());
+    setRoster(new Map());
   }
 
   return (
@@ -278,9 +380,15 @@ export default function TeamBuilder({
           </Button>
         </Group>
 
-        <TeamDropZone color={factionColor}>
-          {[...roster].map((n) => (
-            <DraggableCharCard key={n} name={n} char={charMap.get(n)} />
+        <TeamDropZone color={factionColor} rosterSize={roster.size}>
+          {[...roster.entries()].map(([n, od]) => (
+            <RosterCharCard
+              key={n}
+              name={n}
+              char={charMap.get(n)}
+              overdriveOrder={od}
+              onOverdriveChange={(val) => handleOverdriveChange(n, val)}
+            />
           ))}
         </TeamDropZone>
 

@@ -66,7 +66,7 @@ export default function Teams() {
   const filteredTeams = useMemo(() => {
     return teams.filter((team) => {
       if (search && !team.name.toLowerCase().includes(search.toLowerCase())) return false;
-      const hasVisibleChar = team.characters.some((name) => filteredNames.has(name));
+      const hasVisibleChar = team.members.some((m) => filteredNames.has(m.character_name));
       if (!hasVisibleChar) return false;
       return true;
     });
@@ -181,16 +181,33 @@ export default function Teams() {
                       </Group>
 
                       <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
-                        {team.characters
-                          .filter((name) => filteredNames.has(name))
-                          .map((name) => {
-                            const char = charMap.get(name);
+                        {team.members
+                          .filter((m) => filteredNames.has(m.character_name))
+                          .map((m) => {
+                            const char = charMap.get(m.character_name);
                             return (
-                              <CharacterCard
-                                key={name}
-                                name={name}
-                                quality={char?.quality}
-                              />
+                              <div key={m.character_name} style={{ position: 'relative' }}>
+                                <CharacterCard
+                                  name={m.character_name}
+                                  quality={char?.quality}
+                                />
+                                {m.overdrive_order != null && (
+                                  <Badge
+                                    size="lg"
+                                    circle
+                                    variant="filled"
+                                    color="orange"
+                                    style={{
+                                      position: 'absolute',
+                                      top: 0,
+                                      right: 0,
+                                      pointerEvents: 'none',
+                                    }}
+                                  >
+                                    {m.overdrive_order}
+                                  </Badge>
+                                )}
+                              </div>
                             );
                           })}
                       </SimpleGrid>

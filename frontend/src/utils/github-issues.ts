@@ -45,7 +45,12 @@ export const TEAM_JSON_TEMPLATE = {
   content_type: 'e.g. PvP, PvE, Boss',
   description: 'Brief description of this team composition',
   faction: 'Elemental Echo | Wild Spirit | Arcane Wisdom | Sanctum Glory | Otherworld Return | Illusion Veil',
-  characters: ['Character1', 'Character2', 'Character3', 'Character4'],
+  members: [
+    { character_name: 'Character1', overdrive_order: 1 },
+    { character_name: 'Character2', overdrive_order: 2 },
+    { character_name: 'Character3', overdrive_order: null },
+    { character_name: 'Character4', overdrive_order: null },
+  ],
 };
 
 // Keep the expired code URL builder for the inline action

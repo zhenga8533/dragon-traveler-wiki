@@ -5,6 +5,9 @@
     "content_type": "PvE",
     "description": "A sample team composition for Elemental Echo faction.",
     "faction": "Elemental Echo",
-    "characters": ["Fenrir", "Ifrit"]
+    "members": [
+      { "character_name": "Fenrir", "overdrive_order": 1 },
+      { "character_name": "Ifrit", "overdrive_order": 2 }
+    ]
   }
 ]
