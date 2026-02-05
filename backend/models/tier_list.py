@@ -17,15 +17,9 @@ class TierEntry(BaseModel):
     tier: Tier
 
 
-class TierListCategory(BaseModel):
-    name: str
-    description: str
-    entries: list[TierEntry]
-
-
 class TierList(BaseModel):
     name: str
     author: str
     content_type: str
     description: str
-    categories: list[TierListCategory]
+    entries: list[TierEntry]

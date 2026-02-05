@@ -5,16 +5,10 @@ export interface TierEntry {
   tier: Tier;
 }
 
-export interface TierListCategory {
-  name: string;
-  description: string;
-  entries: TierEntry[];
-}
-
 export interface TierList {
   name: string;
   author: string;
   content_type: string;
   description: string;
-  categories: TierListCategory[];
+  entries: TierEntry[];
 }

@@ -4,42 +4,42 @@ export function buildIssueUrl(params: { title: string; body: string; labels: str
   return `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams(params).toString()}`;
 }
 
-export const CHARACTER_SUGGEST_URL = buildIssueUrl({
-  title: '[Character] New character suggestion',
-  body: [
-    '**Character Name:**',
-    '',
-    '**Quality:**',
-    '',
-    '**Class:**',
-    '',
-    '**Factions:**',
-    '',
-    '**Additional Info (optional):**',
-    '',
-  ].join('\n'),
-  labels: 'character',
-});
+// JSON templates for suggestion modals
+export const CHARACTER_JSON_TEMPLATE = {
+  name: '',
+  quality: 'SSR | SSR+ | SR+ | R | N',
+  character_class: 'Guardian | Priest | Assassin | Warrior | Archer | Mage',
+  factions: ['Faction1', 'Faction2'],
+  is_global: true,
+  additional_info: '(optional notes)',
+};
 
-export const TIER_LIST_SUGGEST_URL = buildIssueUrl({
-  title: '[Tier List] New tier list suggestion',
-  body: [
-    '**Category** (e.g. PvE, PvP):',
-    '',
-    '**JSON Data:**',
-    '',
-    '**Reasoning (optional):**',
-    '',
-  ].join('\n'),
-  labels: 'tier-list',
-});
+export const TIER_LIST_JSON_TEMPLATE = {
+  name: 'Tier List Name',
+  author: 'Your Name',
+  content_type: 'e.g. PvE, PvP',
+  description: 'Brief description of this tier list',
+  entries: [
+    { character_name: 'Character1', tier: 'S+' },
+    { character_name: 'Character2', tier: 'S' },
+    { character_name: 'Character3', tier: 'A' },
+  ],
+};
 
-export const CODE_SUGGEST_URL = buildIssueUrl({
-  title: '[Code] New code suggestion',
-  body: '**Code:**\n`PASTE_CODE_HERE`\n\n**Source (optional):**\nWhere did you find this code?\n',
-  labels: 'codes',
-});
+export const CODE_JSON_TEMPLATE = {
+  code: 'PASTE_CODE_HERE',
+  source: '(optional) Where did you find this code?',
+};
 
+export const LINK_JSON_TEMPLATE = {
+  icon: 'discord | wiki | spreadsheet | (leave empty for generic)',
+  application: 'e.g. Discord, Google Sheets, Website',
+  name: 'Link Name',
+  description: 'Brief description of what this link provides',
+  link: 'https://example.com',
+};
+
+// Keep the expired code URL builder for the inline action
 export function buildExpiredCodeUrl(code: string): string {
   return buildIssueUrl({
     title: `[Code] Report expired: ${code}`,
@@ -47,9 +47,3 @@ export function buildExpiredCodeUrl(code: string): string {
     labels: 'codes',
   });
 }
-
-export const LINK_SUGGEST_URL = buildIssueUrl({
-  title: '[Link] New link suggestion',
-  body: '**Name:**\n\n**URL:**\n\n**Description:**\n',
-  labels: 'links',
-});

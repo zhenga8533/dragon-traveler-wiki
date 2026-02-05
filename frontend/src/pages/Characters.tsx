@@ -14,15 +14,16 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
-import { IoAddCircleOutline, IoFilter } from 'react-icons/io5';
+import { IoFilter } from 'react-icons/io5';
 import CharacterCard from '../components/CharacterCard';
 import CharacterFilter from '../components/CharacterFilter';
+import SuggestModal from '../components/SuggestModal';
 import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
 import { EMPTY_FILTERS, extractAllEffectRefs, filterCharacters } from '../utils/filter-characters';
-import { CHARACTER_SUGGEST_URL } from '../utils/github-issues';
+import { CHARACTER_JSON_TEMPLATE } from '../utils/github-issues';
 
 export default function Characters() {
   const { data: characters, loading } = useDataFetch<Character[]>(
@@ -71,16 +72,13 @@ export default function Characters() {
             >
               Filters
             </Button>
-            <Button
-              component="a"
-              href={CHARACTER_SUGGEST_URL}
-              target="_blank"
-              variant="light"
-              size="xs"
-              leftSection={<IoAddCircleOutline size={16} />}
-            >
-              Suggest a Character
-            </Button>
+            <SuggestModal
+              buttonLabel="Suggest a Character"
+              modalTitle="Suggest a New Character"
+              jsonTemplate={CHARACTER_JSON_TEMPLATE}
+              issueLabel="character"
+              issueTitle="[Character] New character suggestion"
+            />
           </Group>
         </Group>
 

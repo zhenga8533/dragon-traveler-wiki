@@ -22,10 +22,11 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import { IoCopyOutline, IoCheckmark, IoAddCircleOutline, IoCloseCircleOutline, IoSearch } from 'react-icons/io5';
+import { IoCopyOutline, IoCheckmark, IoCloseCircleOutline, IoSearch } from 'react-icons/io5';
+import SuggestModal from '../components/SuggestModal';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Code } from '../types/code';
-import { CODE_SUGGEST_URL, buildExpiredCodeUrl } from '../utils/github-issues';
+import { CODE_JSON_TEMPLATE, buildExpiredCodeUrl } from '../utils/github-issues';
 
 const STORAGE_KEY = 'redeemedCodes';
 
@@ -99,16 +100,13 @@ export default function Codes() {
       <Stack gap="md">
         <Group justify="space-between" align="center">
           <Title order={1}>Codes</Title>
-          <Button
-            component="a"
-            href={CODE_SUGGEST_URL}
-            target="_blank"
-            variant="light"
-            size="xs"
-            leftSection={<IoAddCircleOutline size={16} />}
-          >
-            Suggest a Code
-          </Button>
+          <SuggestModal
+            buttonLabel="Suggest a Code"
+            modalTitle="Suggest a New Code"
+            jsonTemplate={CODE_JSON_TEMPLATE}
+            issueLabel="codes"
+            issueTitle="[Code] New code suggestion"
+          />
         </Group>
 
         <Alert

@@ -2,22 +2,16 @@
   {
     "name": "Community Tier List",
     "author": "Dragon Traveler Wiki",
-    "content_type": "tier_list",
+    "content_type": "PvP",
     "description": "A community-curated tier list for general PvE content.",
-    "categories": [
+    "entries": [
       {
-        "name": "Overall",
-        "description": "General ranking across all content",
-        "entries": [
-          {
-            "character_name": "Fenrir",
-            "tier": "S+"
-          },
-          {
-            "character_name": "Ifrit",
-            "tier": "S"
-          }
-        ]
+        "character_name": "Fenrir",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Ifrit",
+        "tier": "S"
       }
     ]
   }

@@ -1,11 +1,12 @@
-import { Title, Container, Stack, Card, Group, Text, Anchor, Badge, Loader, Center, Button } from '@mantine/core';
+import { Title, Container, Stack, Card, Group, Text, Anchor, Badge, Loader, Center } from '@mantine/core';
 import { FaDiscord } from 'react-icons/fa';
 import { SiGooglesheets } from 'react-icons/si';
-import { IoBookOutline, IoLinkOutline, IoAddCircleOutline } from 'react-icons/io5';
+import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
+import SuggestModal from '../components/SuggestModal';
 import type { UsefulLink } from '../types/useful-link';
 import type { IconType } from 'react-icons';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { LINK_SUGGEST_URL } from '../utils/github-issues';
+import { LINK_JSON_TEMPLATE } from '../utils/github-issues';
 
 const ICON_MAP: Record<string, IconType> = {
   discord: FaDiscord,
@@ -21,16 +22,13 @@ export default function UsefulLinks() {
       <Stack gap="md">
         <Group justify="space-between" align="center">
           <Title order={1}>Useful Links</Title>
-          <Button
-            component="a"
-            href={LINK_SUGGEST_URL}
-            target="_blank"
-            variant="light"
-            size="xs"
-            leftSection={<IoAddCircleOutline size={16} />}
-          >
-            Suggest a Link
-          </Button>
+          <SuggestModal
+            buttonLabel="Suggest a Link"
+            modalTitle="Suggest a New Link"
+            jsonTemplate={LINK_JSON_TEMPLATE}
+            issueLabel="links"
+            issueTitle="[Link] New link suggestion"
+          />
         </Group>
 
         {loading && (
