@@ -5,7 +5,6 @@ import {
   Collapse,
   Container,
   Group,
-  Image,
   Loader,
   Paper,
   SegmentedControl,
@@ -18,7 +17,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
 import { IoAddCircleOutline, IoFilter } from 'react-icons/io5';
-import { getPortrait } from '../assets/portrait';
+import CharacterCard from '../components/CharacterCard';
 import CharacterFilter from '../components/CharacterFilter';
 import TierListBuilder from '../components/TierListBuilder';
 import { GITHUB_REPO_URL } from '../constants';
@@ -52,15 +51,6 @@ const TIER_COLOR: Record<Tier, string> = {
   B: 'yellow',
   C: 'green',
   D: 'gray',
-};
-
-const QUALITY_BORDER_COLOR: Record<string, string> = {
-  'SSR EX': 'var(--mantine-color-red-6)',
-  'SSR+': 'var(--mantine-color-orange-5)',
-  SSR: 'var(--mantine-color-yellow-5)',
-  'SR+': 'var(--mantine-color-violet-5)',
-  R: 'var(--mantine-color-blue-5)',
-  N: 'var(--mantine-color-gray-5)',
 };
 
 export default function TierList() {
@@ -202,26 +192,12 @@ export default function TierList() {
                               <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
                                 {entries.map((entry) => {
                                   const char = charMap.get(entry.characterName);
-                                  const borderColor = char
-                                    ? QUALITY_BORDER_COLOR[char.quality]
-                                    : undefined;
                                   return (
-                                    <Stack key={entry.characterName} gap={2} align="center">
-                                      <Image
-                                        src={getPortrait(entry.characterName)}
-                                        alt={entry.characterName}
-                                        h={80}
-                                        w={80}
-                                        fit="cover"
-                                        radius="50%"
-                                        style={{
-                                          border: `3px solid ${borderColor ?? 'var(--mantine-color-gray-5)'}`,
-                                        }}
-                                      />
-                                      <Text size="xs" fw={500} ta="center" lineClamp={1}>
-                                        {entry.characterName}
-                                      </Text>
-                                    </Stack>
+                                    <CharacterCard
+                                      key={entry.characterName}
+                                      name={entry.characterName}
+                                      quality={char?.quality}
+                                    />
                                   );
                                 })}
                               </SimpleGrid>

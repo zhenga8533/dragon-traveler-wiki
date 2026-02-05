@@ -21,6 +21,7 @@ import {
 import { useMemo, useState } from 'react';
 import { IoCheckmark, IoCopy, IoTrash } from 'react-icons/io5';
 import { getPortrait } from '../assets/portrait';
+import { QUALITY_BORDER_COLOR } from './CharacterCard';
 import type { Character } from '../types/character';
 import type { Tier, TierListCategory } from '../types/tier-list';
 
@@ -33,15 +34,6 @@ const TIER_COLOR: Record<Tier, string> = {
   B: 'yellow',
   C: 'green',
   D: 'gray',
-};
-
-const QUALITY_BORDER_COLOR: Record<string, string> = {
-  'SSR EX': 'var(--mantine-color-red-6)',
-  'SSR+': 'var(--mantine-color-orange-5)',
-  SSR: 'var(--mantine-color-yellow-5)',
-  'SR+': 'var(--mantine-color-violet-5)',
-  R: 'var(--mantine-color-blue-5)',
-  N: 'var(--mantine-color-gray-5)',
 };
 
 interface TierListBuilderProps {
