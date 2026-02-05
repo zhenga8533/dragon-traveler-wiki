@@ -23,11 +23,12 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { IoCheckmark, IoClose, IoCopy, IoTrash } from 'react-icons/io5';
 import { getPortrait } from '../assets/character';
-import { FACTION_COLOR, QUALITY_ORDER } from '../constants/colors';
+import { FACTION_COLOR } from '../constants/colors';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team, TeamMember } from '../types/team';
 import { QUALITY_BORDER_COLOR } from './CharacterCard';
+import FilterableCharacterPool from './FilterableCharacterPool';
 
 const MAX_ROSTER_SIZE = 6;
 const SLOT_COUNT = 6;
@@ -43,7 +44,6 @@ const FACTIONS: FactionName[] = [
 
 interface TeamBuilderProps {
   characters: Character[];
-  filteredNames: Set<string>;
   charMap: Map<string, Character>;
   initialData?: Team | null;
 }
@@ -260,7 +260,7 @@ function BenchZone({
 
 /* ── Available pool ── */
 
-function AvailablePool({ children }: { children: React.ReactNode }) {
+function AvailablePool({ children, filterHeader }: { children: React.ReactNode; filterHeader?: React.ReactNode }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'available' });
 
   return (
@@ -276,9 +276,11 @@ function AvailablePool({ children }: { children: React.ReactNode }) {
       }}
     >
       <Stack gap="sm">
-        <Text size="sm" fw={600} c="dimmed">
-          Available Characters
-        </Text>
+        {filterHeader || (
+          <Text size="sm" fw={600} c="dimmed">
+            Available Characters
+          </Text>
+        )}
         <SimpleGrid
           cols={{ base: 4, xs: 5, sm: 6, md: 8 }}
           spacing={4}
@@ -295,7 +297,6 @@ function AvailablePool({ children }: { children: React.ReactNode }) {
 
 export default function TeamBuilder({
   characters,
-  filteredNames,
   charMap,
   initialData,
 }: TeamBuilderProps) {
@@ -374,19 +375,8 @@ export default function TeamBuilder({
   }, [slots, bench, name, author, contentType, faction]);
 
   const availableCharacters = useMemo(() => {
-    const filtered = characters.filter(
-      (c) => filteredNames.has(c.name) && !teamNames.has(c.name),
-    );
-    // Sort by quality first (using QUALITY_ORDER), then alphabetically
-    return filtered.sort((a, b) => {
-      const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
-      const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
-      if (qualityIndexA !== qualityIndexB) {
-        return qualityIndexA - qualityIndexB;
-      }
-      return a.name.localeCompare(b.name);
-    });
-  }, [characters, filteredNames, teamNames]);
+    return characters.filter((c) => !teamNames.has(c.name));
+  }, [characters, teamNames]);
 
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);
@@ -618,11 +608,15 @@ export default function TeamBuilder({
 
         <BenchZone bench={bench} charMap={charMap} />
 
-        <AvailablePool>
-          {availableCharacters.map((c) => (
-            <DraggableCharCard key={c.name} name={c.name} char={c} />
-          ))}
-        </AvailablePool>
+        <FilterableCharacterPool characters={availableCharacters}>
+          {(filtered, filterHeader) => (
+            <AvailablePool filterHeader={filterHeader}>
+              {filtered.map((c) => (
+                <DraggableCharCard key={c.name} name={c.name} char={c} />
+              ))}
+            </AvailablePool>
+          )}
+        </FilterableCharacterPool>
       </Stack>
 
       <DragOverlay dropAnimation={null}>

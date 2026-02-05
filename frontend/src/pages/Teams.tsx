@@ -20,7 +20,6 @@ import { useMemo, useState } from 'react';
 import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import CharacterCard from '../components/CharacterCard';
-import CharacterFilter from '../components/CharacterFilter';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import SuggestModal from '../components/SuggestModal';
@@ -30,8 +29,6 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
-import type { CharacterFilters } from '../utils/filter-characters';
-import { EMPTY_FILTERS, extractAllEffectRefs, filterCharacters } from '../utils/filter-characters';
 import { TEAM_JSON_TEMPLATE } from '../utils/github-issues';
 
 const FACTIONS: FactionName[] = [
@@ -49,7 +46,6 @@ export default function Teams() {
     'data/characters.json',
     [],
   );
-  const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [viewFilters, setViewFilters] = useState<Record<string, string[]>>({
     factions: [],
     contentTypes: [],
@@ -60,18 +56,11 @@ export default function Teams() {
   const [editData, setEditData] = useState<Team | null>(null);
   const loading = loadingTeams || loadingChars;
 
-  const effectOptions = useMemo(() => extractAllEffectRefs(characters), [characters]);
-
   const charMap = useMemo(() => {
     const map = new Map<string, Character>();
     for (const c of characters) map.set(c.name, c);
     return map;
   }, [characters]);
-
-  const filteredNames = useMemo(() => {
-    const filtered = filterCharacters(characters, filters);
-    return new Set(filtered.map((c) => c.name));
-  }, [characters, filters]);
 
   const contentTypeOptions = useMemo(
     () => [...new Set(teams.map((t) => t.content_type))].sort(),
@@ -104,13 +93,7 @@ export default function Teams() {
   );
 
   const activeFilterCount =
-    mode === 'view'
-      ? viewFilters.factions.length + viewFilters.contentTypes.length
-      : (filters.search ? 1 : 0) +
-        filters.qualities.length +
-        filters.classes.length +
-        filters.factions.length +
-        filters.statusEffects.length;
+    mode === 'view' ? viewFilters.factions.length + viewFilters.contentTypes.length : 0;
 
   const filteredTeams = useMemo(() => {
     return teams.filter((team) => {
@@ -177,9 +160,9 @@ export default function Teams() {
               ]}
             />
 
-            <Collapse in={filterOpen}>
-              <Paper p="md" radius="md" withBorder>
-                {mode === 'view' ? (
+            {mode === 'view' && (
+              <Collapse in={filterOpen}>
+                <Paper p="md" radius="md" withBorder>
                   <EntityFilter
                     groups={entityFilterGroups}
                     selected={viewFilters}
@@ -188,15 +171,9 @@ export default function Teams() {
                     }
                     onClear={() => setViewFilters({ factions: [], contentTypes: [] })}
                   />
-                ) : (
-                  <CharacterFilter
-                    filters={filters}
-                    onChange={setFilters}
-                    effectOptions={effectOptions}
-                  />
-                )}
-              </Paper>
-            </Collapse>
+                </Paper>
+              </Collapse>
+            )}
 
             {mode === 'view' && (
               <>
@@ -300,7 +277,6 @@ export default function Teams() {
             {mode === 'builder' && (
               <TeamBuilder
                 characters={characters}
-                filteredNames={filteredNames}
                 charMap={charMap}
                 initialData={editData}
               />

@@ -21,14 +21,13 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { IoCheckmark, IoCopy, IoTrash } from 'react-icons/io5';
 import { getPortrait } from '../assets/character';
-import { QUALITY_ORDER, TIER_COLOR, TIER_ORDER } from '../constants/colors';
+import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import type { Character } from '../types/character';
 import type { Tier, TierList } from '../types/tier-list';
 import { QUALITY_BORDER_COLOR } from './CharacterCard';
-
+import FilterableCharacterPool from './FilterableCharacterPool';
 interface TierListBuilderProps {
   characters: Character[];
-  filteredNames: Set<string>;
   charMap: Map<string, Character>;
   initialData?: TierList | null;
 }
@@ -124,7 +123,7 @@ function TierDropZone({
   );
 }
 
-function UnrankedPool({ children }: { children: React.ReactNode }) {
+function UnrankedPool({ children, filterHeader }: { children: React.ReactNode; filterHeader?: React.ReactNode }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'unranked' });
 
   return (
@@ -140,9 +139,11 @@ function UnrankedPool({ children }: { children: React.ReactNode }) {
       }}
     >
       <Stack gap="sm">
-        <Text size="sm" fw={600} c="dimmed">
-          Unranked Characters
-        </Text>
+        {filterHeader || (
+          <Text size="sm" fw={600} c="dimmed">
+            Unranked Characters
+          </Text>
+        )}
         <SimpleGrid
           cols={{ base: 4, xs: 5, sm: 6, md: 8 }}
           spacing={4}
@@ -157,7 +158,6 @@ function UnrankedPool({ children }: { children: React.ReactNode }) {
 
 export default function TierListBuilder({
   characters,
-  filteredNames,
   charMap,
   initialData,
 }: TierListBuilderProps) {
@@ -195,19 +195,8 @@ export default function TierListBuilder({
   }, [placements, name, author, categoryName]);
 
   const unrankedCharacters = useMemo(() => {
-    const filtered = characters.filter(
-      (c) => filteredNames.has(c.name) && !(c.name in placements),
-    );
-    // Sort by quality first (using QUALITY_ORDER), then alphabetically
-    return filtered.sort((a, b) => {
-      const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
-      const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
-      if (qualityIndexA !== qualityIndexB) {
-        return qualityIndexA - qualityIndexB;
-      }
-      return a.name.localeCompare(b.name);
-    });
-  }, [characters, filteredNames, placements]);
+    return characters.filter((c) => !(c.name in placements));
+  }, [characters, placements]);
 
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);
@@ -304,11 +293,15 @@ export default function TierListBuilder({
           );
         })}
 
-        <UnrankedPool>
-          {unrankedCharacters.map((c) => (
-            <DraggableCharCard key={c.name} name={c.name} char={c} />
-          ))}
-        </UnrankedPool>
+        <FilterableCharacterPool characters={unrankedCharacters}>
+          {(filtered, filterHeader) => (
+            <UnrankedPool filterHeader={filterHeader}>
+              {filtered.map((c) => (
+                <DraggableCharCard key={c.name} name={c.name} char={c} />
+              ))}
+            </UnrankedPool>
+          )}
+        </FilterableCharacterPool>
       </Stack>
 
       <DragOverlay dropAnimation={null}>

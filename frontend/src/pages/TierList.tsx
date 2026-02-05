@@ -18,17 +18,14 @@ import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
 import { IoCreate, IoFilter } from 'react-icons/io5';
 import CharacterCard from '../components/CharacterCard';
-import CharacterFilter from '../components/CharacterFilter';
-import EntityFilter from '../components/EntityFilter';
 import type { ChipFilterGroup } from '../components/EntityFilter';
+import EntityFilter from '../components/EntityFilter';
 import SuggestModal from '../components/SuggestModal';
 import TierListBuilder from '../components/TierListBuilder';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
-import type { CharacterFilters } from '../utils/filter-characters';
-import { EMPTY_FILTERS, extractAllEffectRefs, filterCharacters } from '../utils/filter-characters';
 import { TIER_LIST_JSON_TEMPLATE } from '../utils/github-issues';
 
 export default function TierList() {
@@ -40,7 +37,6 @@ export default function TierList() {
     'data/characters.json',
     [],
   );
-  const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [viewFilters, setViewFilters] = useState<Record<string, string[]>>({
     contentTypes: [],
   });
@@ -49,18 +45,11 @@ export default function TierList() {
   const [editData, setEditData] = useState<TierListType | null>(null);
   const loading = loadingTiers || loadingChars;
 
-  const effectOptions = useMemo(() => extractAllEffectRefs(characters), [characters]);
-
   const charMap = useMemo(() => {
     const map = new Map<string, Character>();
     for (const c of characters) map.set(c.name, c);
     return map;
   }, [characters]);
-
-  const filteredNames = useMemo(() => {
-    const filtered = filterCharacters(characters, filters);
-    return new Set(filtered.map((c) => c.name));
-  }, [characters, filters]);
 
   const contentTypeOptions = useMemo(
     () => [...new Set(tierLists.map((t) => t.content_type))].sort(),
@@ -78,14 +67,7 @@ export default function TierList() {
     [contentTypeOptions],
   );
 
-  const activeFilterCount =
-    mode === 'view'
-      ? viewFilters.contentTypes.length
-      : (filters.search ? 1 : 0) +
-        filters.qualities.length +
-        filters.classes.length +
-        filters.factions.length +
-        filters.statusEffects.length;
+  const activeFilterCount = mode === 'view' ? viewFilters.contentTypes.length : 0;
 
   const visibleTierLists = useMemo(() => {
     if (viewFilters.contentTypes.length === 0) return tierLists;
@@ -143,9 +125,9 @@ export default function TierList() {
               ]}
             />
 
-            <Collapse in={filterOpen}>
-              <Paper p="md" radius="md" withBorder>
-                {mode === 'view' ? (
+            {mode === 'view' && (
+              <Collapse in={filterOpen}>
+                <Paper p="md" radius="md" withBorder>
                   <EntityFilter
                     groups={entityFilterGroups}
                     selected={viewFilters}
@@ -154,15 +136,9 @@ export default function TierList() {
                     }
                     onClear={() => setViewFilters({ contentTypes: [] })}
                   />
-                ) : (
-                  <CharacterFilter
-                    filters={filters}
-                    onChange={setFilters}
-                    effectOptions={effectOptions}
-                  />
-                )}
-              </Paper>
-            </Collapse>
+                </Paper>
+              </Collapse>
+            )}
 
             {mode === 'view' && (
               <>
@@ -273,7 +249,6 @@ export default function TierList() {
             {mode === 'builder' && (
               <TierListBuilder
                 characters={characters}
-                filteredNames={filteredNames}
                 charMap={charMap}
                 initialData={editData}
               />
