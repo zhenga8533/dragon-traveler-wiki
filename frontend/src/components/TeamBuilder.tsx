@@ -13,6 +13,7 @@ import {
   Group,
   Image,
   Paper,
+  Select,
   SimpleGrid,
   Stack,
   Text,
@@ -21,12 +22,21 @@ import {
 import { useMemo, useState } from 'react';
 import { IoCheckmark, IoCopy, IoTrash } from 'react-icons/io5';
 import { getPortrait } from '../assets/character';
-import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
+import { FACTION_COLOR } from '../constants/colors';
 import { QUALITY_BORDER_COLOR } from './CharacterCard';
-import type { Character } from '../types/character';
-import type { Tier, TierList } from '../types/tier-list';
+import type { Character, FactionName } from '../types/character';
+import type { Team } from '../types/team';
 
-interface TierListBuilderProps {
+const FACTIONS: FactionName[] = [
+  'Elemental Echo',
+  'Wild Spirit',
+  'Arcane Wisdom',
+  'Sanctum Glory',
+  'Otherworld Return',
+  'Illusion Veil',
+];
+
+interface TeamBuilderProps {
   characters: Character[];
   filteredNames: Set<string>;
   charMap: Map<string, Character>;
@@ -82,18 +92,14 @@ function DraggableCharCard({
   );
 }
 
-function TierDropZone({
-  id,
-  label,
+function TeamDropZone({
   color,
   children,
 }: {
-  id: string;
-  label: string;
   color: string;
   children: React.ReactNode;
 }) {
-  const { setNodeRef, isOver } = useDroppable({ id });
+  const { setNodeRef, isOver } = useDroppable({ id: 'team' });
 
   return (
     <Paper
@@ -109,7 +115,7 @@ function TierDropZone({
     >
       <Stack gap="sm">
         <Badge variant="filled" color={color} size="lg" radius="sm">
-          {label}
+          Team Roster
         </Badge>
         <SimpleGrid
           cols={{ base: 4, xs: 5, sm: 6, md: 8 }}
@@ -123,8 +129,8 @@ function TierDropZone({
   );
 }
 
-function UnrankedPool({ children }: { children: React.ReactNode }) {
-  const { setNodeRef, isOver } = useDroppable({ id: 'unranked' });
+function AvailablePool({ children }: { children: React.ReactNode }) {
+  const { setNodeRef, isOver } = useDroppable({ id: 'available' });
 
   return (
     <Paper
@@ -140,7 +146,7 @@ function UnrankedPool({ children }: { children: React.ReactNode }) {
     >
       <Stack gap="sm">
         <Text size="sm" fw={600} c="dimmed">
-          Unranked Characters
+          Available Characters
         </Text>
         <SimpleGrid
           cols={{ base: 4, xs: 5, sm: 6, md: 8 }}
@@ -154,38 +160,37 @@ function UnrankedPool({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function TierListBuilder({
+export default function TeamBuilder({
   characters,
   filteredNames,
   charMap,
-}: TierListBuilderProps) {
-  const [placements, setPlacements] = useState<Record<string, Tier>>({});
+}: TeamBuilderProps) {
+  const [roster, setRoster] = useState<Set<string>>(new Set());
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
-  const [categoryName, setCategoryName] = useState('');
+  const [contentType, setContentType] = useState('');
+  const [faction, setFaction] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
 
+  const factionColor = faction
+    ? FACTION_COLOR[faction as FactionName]
+    : 'blue';
+
   const json = useMemo(() => {
-    const result: TierList = {
-      name: name || 'My Tier List',
+    const result: Team = {
+      name: name || 'My Team',
       author: author || 'Anonymous',
-      content_type: categoryName || 'PvE',
+      content_type: contentType || 'PvE',
       description: '',
-      entries: TIER_ORDER.flatMap((tier) =>
-        Object.entries(placements)
-          .filter(([, t]) => t === tier)
-          .map(([character_name]) => ({ character_name, tier })),
-      ),
+      faction: (faction || 'Elemental Echo') as FactionName,
+      characters: [...roster],
     };
     return JSON.stringify(result, null, 2);
-  }, [placements, name, author, categoryName]);
+  }, [roster, name, author, contentType, faction]);
 
-  const unrankedCharacters = useMemo(
-    () =>
-      characters.filter(
-        (c) => filteredNames.has(c.name) && !(c.name in placements),
-      ),
-    [characters, filteredNames, placements],
+  const availableCharacters = useMemo(
+    () => characters.filter((c) => filteredNames.has(c.name) && !roster.has(c.name)),
+    [characters, filteredNames, roster],
   );
 
   function handleDragStart(event: DragStartEvent) {
@@ -199,20 +204,19 @@ export default function TierListBuilder({
 
     if (!overId) return;
 
-    if (overId === 'unranked') {
-      setPlacements((prev) => {
-        const next = { ...prev };
-        delete next[charName];
+    if (overId === 'available') {
+      setRoster((prev) => {
+        const next = new Set(prev);
+        next.delete(charName);
         return next;
       });
-    } else if (overId.startsWith('tier-')) {
-      const tier = overId.replace('tier-', '') as Tier;
-      setPlacements((prev) => ({ ...prev, [charName]: tier }));
+    } else if (overId === 'team') {
+      setRoster((prev) => new Set(prev).add(charName));
     }
   }
 
   function handleClear() {
-    setPlacements({});
+    setRoster(new Set());
   }
 
   return (
@@ -220,7 +224,7 @@ export default function TierListBuilder({
       <Stack gap="md">
         <Group gap="sm" wrap="wrap">
           <TextInput
-            placeholder="Tier list name..."
+            placeholder="Team name..."
             value={name}
             onChange={(e) => setName(e.currentTarget.value)}
             style={{ flex: 1, minWidth: 150 }}
@@ -233,10 +237,20 @@ export default function TierListBuilder({
           />
           <TextInput
             placeholder="Content type (e.g. PvE, PvP)..."
-            value={categoryName}
-            onChange={(e) => setCategoryName(e.currentTarget.value)}
+            value={contentType}
+            onChange={(e) => setContentType(e.currentTarget.value)}
             style={{ flex: 1, minWidth: 120 }}
           />
+          <Select
+            placeholder="Faction..."
+            data={FACTIONS}
+            value={faction}
+            onChange={setFaction}
+            style={{ minWidth: 160 }}
+          />
+        </Group>
+
+        <Group gap="sm">
           <CopyButton value={json}>
             {({ copied, copy }) => (
               <Button
@@ -258,36 +272,23 @@ export default function TierListBuilder({
             size="sm"
             leftSection={<IoTrash size={16} />}
             onClick={handleClear}
-            disabled={Object.keys(placements).length === 0}
+            disabled={roster.size === 0}
           >
             Clear All
           </Button>
         </Group>
 
-        {TIER_ORDER.map((tier) => {
-          const names = Object.entries(placements)
-            .filter(([, t]) => t === tier)
-            .map(([n]) => n);
+        <TeamDropZone color={factionColor}>
+          {[...roster].map((n) => (
+            <DraggableCharCard key={n} name={n} char={charMap.get(n)} />
+          ))}
+        </TeamDropZone>
 
-          return (
-            <TierDropZone
-              key={tier}
-              id={`tier-${tier}`}
-              label={`${tier} Tier`}
-              color={TIER_COLOR[tier]}
-            >
-              {names.map((n) => (
-                <DraggableCharCard key={n} name={n} char={charMap.get(n)} />
-              ))}
-            </TierDropZone>
-          );
-        })}
-
-        <UnrankedPool>
-          {unrankedCharacters.map((c) => (
+        <AvailablePool>
+          {availableCharacters.map((c) => (
             <DraggableCharCard key={c.name} name={c.name} char={c} />
           ))}
-        </UnrankedPool>
+        </AvailablePool>
       </Stack>
 
       <DragOverlay dropAnimation={null}>
