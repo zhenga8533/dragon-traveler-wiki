@@ -1,28 +1,54 @@
 import {
   Accordion,
+  Badge,
+  Button,
   Card,
   Center,
+  Collapse,
   Container,
   Group,
   Image,
   Loader,
+  Paper,
   SimpleGrid,
   Stack,
   Text,
   Title,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
+import { IoAddCircleOutline, IoFilter } from 'react-icons/io5';
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getPortrait } from '../assets/portrait';
 import CharacterFilter from '../components/CharacterFilter';
 import RichText from '../components/RichText';
+import { GITHUB_REPO_URL } from '../constants';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
 import type { CharacterFilters } from '../utils/filter-characters';
 import { EMPTY_FILTERS, extractAllEffectRefs, filterCharacters } from '../utils/filter-characters';
+
+const SUGGEST_URL =
+  `${GITHUB_REPO_URL}/issues/new?` +
+  new URLSearchParams({
+    title: '[Character] New character suggestion',
+    body: [
+      '**Character Name:**',
+      '',
+      '**Quality:**',
+      '',
+      '**Class:**',
+      '',
+      '**Factions:**',
+      '',
+      '**Additional Info (optional):**',
+      '',
+    ].join('\n'),
+    labels: 'character',
+  }).toString();
 
 export default function Characters() {
   const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
@@ -35,15 +61,52 @@ export default function Characters() {
   );
 
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
+  const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const loading = loadingChars || loadingEffects;
 
   const effectOptions = useMemo(() => extractAllEffectRefs(characters), [characters]);
   const filtered = useMemo(() => filterCharacters(characters, filters), [characters, filters]);
 
+  const activeFilterCount =
+    (filters.search ? 1 : 0) +
+    filters.qualities.length +
+    filters.classes.length +
+    filters.factions.length +
+    filters.statusEffects.length;
+
   return (
     <Container size="lg" py="xl">
       <Stack gap="md">
-        <Title order={1}>Characters</Title>
+        <Group justify="space-between" align="center">
+          <Title order={1}>Characters</Title>
+          <Group gap="xs">
+            <Button
+              variant="default"
+              size="xs"
+              leftSection={<IoFilter size={16} />}
+              rightSection={
+                activeFilterCount > 0 ? (
+                  <Badge size="xs" circle variant="filled">
+                    {activeFilterCount}
+                  </Badge>
+                ) : null
+              }
+              onClick={toggleFilter}
+            >
+              Filters
+            </Button>
+            <Button
+              component="a"
+              href={SUGGEST_URL}
+              target="_blank"
+              variant="light"
+              size="xs"
+              leftSection={<IoAddCircleOutline size={16} />}
+            >
+              Suggest a Character
+            </Button>
+          </Group>
+        </Group>
 
         {loading && (
           <Center py="xl">
@@ -57,11 +120,16 @@ export default function Characters() {
 
         {!loading && characters.length > 0 && (
           <>
-            <CharacterFilter
-              filters={filters}
-              onChange={setFilters}
-              effectOptions={effectOptions}
-            />
+
+            <Collapse in={filterOpen}>
+              <Paper p="md" radius="md" withBorder>
+                <CharacterFilter
+                  filters={filters}
+                  onChange={setFilters}
+                  effectOptions={effectOptions}
+                />
+              </Paper>
+            </Collapse>
 
             {filtered.length === 0 && (
               <Text c="dimmed" size="sm" ta="center" py="md">

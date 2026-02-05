@@ -95,26 +95,7 @@ export default function TierList() {
       <Stack gap="md">
         <Group justify="space-between" align="center">
           <Title order={1}>Tier List</Title>
-          <Button
-            component="a"
-            href={SUGGEST_URL}
-            target="_blank"
-            variant="light"
-            size="xs"
-            leftSection={<IoAddCircleOutline size={16} />}
-          >
-            Suggest a Tier List
-          </Button>
-        </Group>
-
-        {loading && (
-          <Center py="xl">
-            <Loader />
-          </Center>
-        )}
-
-        {!loading && (
-          <>
+          <Group gap="xs">
             <Button
               variant="default"
               size="xs"
@@ -127,11 +108,30 @@ export default function TierList() {
                 ) : null
               }
               onClick={toggleFilter}
-              style={{ alignSelf: 'flex-start' }}
             >
               Filters
             </Button>
+            <Button
+              component="a"
+              href={SUGGEST_URL}
+              target="_blank"
+              variant="light"
+              size="xs"
+              leftSection={<IoAddCircleOutline size={16} />}
+            >
+              Suggest a Tier List
+            </Button>
+          </Group>
+        </Group>
 
+        {loading && (
+          <Center py="xl">
+            <Loader />
+          </Center>
+        )}
+
+        {!loading && (
+          <>
             <Collapse in={filterOpen}>
               <Paper p="md" radius="md" withBorder>
                 <CharacterFilter
