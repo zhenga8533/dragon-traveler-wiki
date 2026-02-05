@@ -1,35 +1,28 @@
-import { useState, useMemo } from 'react';
 import {
-  Title,
-  Text,
-  Container,
-  Stack,
-  Loader,
-  Center,
-  Card,
-  SimpleGrid,
-  Group,
-  Badge,
-  Image,
   Accordion,
+  Card,
+  Center,
+  Container,
+  Group,
+  Image,
+  Loader,
+  SimpleGrid,
+  Stack,
+  Text,
+  Title,
 } from '@mantine/core';
-import { useDataFetch } from '../hooks/use-data-fetch';
-import CharacterFilter from '../components/CharacterFilter';
-import RichText from '../components/RichText';
-import { filterCharacters, extractAllEffectRefs, EMPTY_FILTERS } from '../utils/filter-characters';
-import type { CharacterFilters } from '../utils/filter-characters';
+import { useMemo, useState } from 'react';
+import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { getPortrait } from '../assets/portrait';
+import CharacterFilter from '../components/CharacterFilter';
+import RichText from '../components/RichText';
+import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
-
-const QUALITY_COLOR: Record<string, string> = {
-  Myth: 'red',
-  'Legend+': 'orange',
-  Legend: 'yellow',
-  Epic: 'violet',
-  Elite: 'blue',
-};
+import type { CharacterFilters } from '../utils/filter-characters';
+import { EMPTY_FILTERS, extractAllEffectRefs, filterCharacters } from '../utils/filter-characters';
 
 export default function Characters() {
   const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
@@ -81,29 +74,29 @@ export default function Characters() {
                 <Card key={char.name} padding="md" radius="md" withBorder>
                   <Stack gap="sm">
                     <Group gap="sm" wrap="nowrap">
-                      {char.portraits?.[0] && (
+                      {getPortrait(char.name) && (
                         <Image
-                          src={char.portraits[0]}
+                          src={getPortrait(char.name)}
                           alt={char.name}
                           h={56}
                           w={56}
                           fit="cover"
-                          radius="md"
+                          radius="50%"
                         />
                       )}
                       <Stack gap={2}>
                         <Text fw={600} lineClamp={1}>{char.name}</Text>
                         <Group gap={4}>
-                          <Badge
-                            variant="light"
-                            color={QUALITY_COLOR[char.quality] ?? 'gray'}
-                            size="xs"
-                          >
-                            {char.quality}
-                          </Badge>
                           <Image
-                            src={CLASS_ICON_MAP[char.characterClass]}
-                            alt={char.characterClass}
+                            src={QUALITY_ICON_MAP[char.quality]}
+                            alt={char.quality}
+                            w={16}
+                            h={16}
+                            fit="contain"
+                          />
+                          <Image
+                            src={CLASS_ICON_MAP[char.character_class]}
+                            alt={char.character_class}
                             w={16}
                             h={16}
                             fit="contain"

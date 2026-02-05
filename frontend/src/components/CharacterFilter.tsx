@@ -1,21 +1,22 @@
 import {
-  TextInput,
+  Button,
   Chip,
   Group,
-  Stack,
-  Button,
-  MultiSelect,
-  Text,
   Image,
+  MultiSelect,
+  Stack,
+  Text,
+  TextInput,
 } from '@mantine/core';
-import { IoSearch, IoClose } from 'react-icons/io5';
-import type { Quality, CharacterClass, Faction } from '../types/character';
-import type { CharacterFilters } from '../utils/filter-characters';
-import { EMPTY_FILTERS } from '../utils/filter-characters';
+import { IoClose, IoSearch } from 'react-icons/io5';
+import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import type { CharacterClass, Faction, Quality } from '../types/character';
+import type { CharacterFilters } from '../utils/filter-characters';
+import { EMPTY_FILTERS } from '../utils/filter-characters';
 
-const QUALITIES: Quality[] = ['Myth', 'Legend+', 'Legend', 'Epic', 'Elite'];
+const QUALITIES: Quality[] = ['SSR EX', 'SSR+', 'SSR', 'SR+', 'R', 'N'];
 const CLASSES: CharacterClass[] = ['Guardian', 'Priest', 'Assassin', 'Warrior', 'Archer', 'Mage'];
 const FACTIONS: Faction[] = [
   'Elemental Echo',
@@ -74,7 +75,12 @@ export default function CharacterFilter({
         >
           <Group gap="xs">
             {QUALITIES.map((q) => (
-              <Chip key={q} value={q} size="xs">{q}</Chip>
+              <Chip key={q} value={q} size="xs">
+                <Group gap={4} wrap="nowrap" align="center">
+                  <Image src={QUALITY_ICON_MAP[q]} alt={q} w={14} h={14} fit="contain" />
+                  <span>{q}</span>
+                </Group>
+              </Chip>
             ))}
           </Group>
         </Chip.Group>

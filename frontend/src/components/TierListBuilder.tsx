@@ -1,29 +1,31 @@
-import { useState, useMemo } from 'react';
-import {
-  Stack,
-  SimpleGrid,
-  Card,
-  Image,
-  Text,
-  Badge,
-  Group,
-  Paper,
-  TextInput,
-  Button,
-  CopyButton,
-} from '@mantine/core';
 import {
   DndContext,
   DragOverlay,
-  useDroppable,
   useDraggable,
+  useDroppable,
   type DragEndEvent,
   type DragStartEvent,
 } from '@dnd-kit/core';
 import { CSS } from '@dnd-kit/utilities';
-import { IoTrash, IoCopy, IoCheckmark } from 'react-icons/io5';
+import {
+  Badge,
+  Button,
+  Card,
+  CopyButton,
+  Group,
+  Image,
+  Paper,
+  SimpleGrid,
+  Stack,
+  Text,
+  TextInput,
+} from '@mantine/core';
+import { useMemo, useState } from 'react';
+import { IoCheckmark, IoCopy, IoTrash } from 'react-icons/io5';
+import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { getPortrait } from '../assets/portrait';
 import type { Character } from '../types/character';
 import type { Tier, TierListCategory } from '../types/tier-list';
 
@@ -75,14 +77,14 @@ function DraggableCharCard({
       {...(overlay ? {} : { ...listeners, ...attributes })}
     >
       <Stack gap={4} align="center">
-        {char?.portraits?.[0] && (
+        {getPortrait(name) && (
           <Image
-            src={char.portraits[0]}
+            src={getPortrait(name)}
             alt={name}
             h={64}
             w={64}
             fit="cover"
-            radius="md"
+            radius="50%"
           />
         )}
         <Text size="xs" fw={500} ta="center" lineClamp={1}>
@@ -90,12 +92,16 @@ function DraggableCharCard({
         </Text>
         {char && (
           <Group gap={2} justify="center" wrap="nowrap">
-            <Badge variant="light" size="xs">
-              {char.quality}
-            </Badge>
             <Image
-              src={CLASS_ICON_MAP[char.characterClass]}
-              alt={char.characterClass}
+              src={QUALITY_ICON_MAP[char.quality]}
+              alt={char.quality}
+              w={14}
+              h={14}
+              fit="contain"
+            />
+            <Image
+              src={CLASS_ICON_MAP[char.character_class]}
+              alt={char.character_class}
               w={14}
               h={14}
               fit="contain"

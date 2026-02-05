@@ -1,1 +1,14 @@
-[]
+[
+  {
+    "name": "Fenrir",
+    "quality": "SSR",
+    "character_class": "Assassin",
+    "factions": ["Elemental Echo", "Arcane Wisdom"],
+    "is_global": true,
+    "subclasses": ["Thief", "Nightblade", "Scoundrel", "Masked Thief", "Executioner", "Shadow Dancer"],
+    "height": 164,
+    "weight": 42,
+    "lore": "A elusive humanoid beast, appearing silently in the night, swiftly delivering a fatal blow to its enemies with its agile claws before vanishing without a trace. Living entirely in nature, nocturnal and free-spirited, hunting is its greatest passion.",
+    "abilities": []
+  }
+]

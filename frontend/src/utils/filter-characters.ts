@@ -26,7 +26,7 @@ export function filterCharacters(characters: Character[], filters: CharacterFilt
     if (filters.qualities.length > 0 && !filters.qualities.includes(c.quality)) {
       return false;
     }
-    if (filters.classes.length > 0 && !filters.classes.includes(c.characterClass)) {
+    if (filters.classes.length > 0 && !filters.classes.includes(c.character_class)) {
       return false;
     }
     if (filters.factions.length > 0 && !c.factions.some((f) => filters.factions.includes(f))) {

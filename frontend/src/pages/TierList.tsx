@@ -18,8 +18,10 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
 import { IoAddCircleOutline, IoFilter } from 'react-icons/io5';
+import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { getPortrait } from '../assets/portrait';
 import CharacterFilter from '../components/CharacterFilter';
 import TierListBuilder from '../components/TierListBuilder';
 import { GITHUB_REPO_URL } from '../constants';
@@ -192,14 +194,14 @@ export default function TierList() {
                                     withBorder
                                   >
                                     <Stack gap={4} align="center">
-                                      {char?.portraits?.[0] && (
+                                      {getPortrait(entry.characterName) && (
                                         <Image
-                                          src={char.portraits[0]}
+                                          src={getPortrait(entry.characterName)}
                                           alt={entry.characterName}
                                           h={64}
                                           w={64}
                                           fit="cover"
-                                          radius="md"
+                                          radius="50%"
                                         />
                                       )}
                                       <Text size="xs" fw={500} ta="center" lineClamp={1}>
@@ -207,12 +209,16 @@ export default function TierList() {
                                       </Text>
                                       {char && (
                                         <Group gap={2} justify="center" wrap="nowrap">
-                                          <Badge variant="light" size="xs">
-                                            {char.quality}
-                                          </Badge>
                                           <Image
-                                            src={CLASS_ICON_MAP[char.characterClass]}
-                                            alt={char.characterClass}
+                                            src={QUALITY_ICON_MAP[char.quality]}
+                                            alt={char.quality}
+                                            w={14}
+                                            h={14}
+                                            fit="contain"
+                                          />
+                                          <Image
+                                            src={CLASS_ICON_MAP[char.character_class]}
+                                            alt={char.character_class}
                                             w={14}
                                             h={14}
                                             fit="contain"

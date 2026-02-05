@@ -4,11 +4,12 @@ from pydantic import BaseModel
 
 
 class Quality(str, Enum):
-    MYTH = "Myth"
-    LEGEND_PLUS = "Legend+"
-    LEGEND = "Legend"
-    EPIC = "Epic"
-    ELITE = "Elite"
+    SSR_EX = "SSR EX"
+    SSR_PLUS = "SSR+"
+    SSR = "SSR"
+    SR_PLUS = "SR+"
+    R = "R"
+    N = "N"
 
 
 class CharacterClass(str, Enum):
@@ -47,8 +48,6 @@ class Character(BaseModel):
     factions: list[Faction]
     is_global: bool
     subclasses: list[Subclass]
-    portraits: list[str]
-    illustrations: list[str]
     height: str
     weight: str
     lore: str

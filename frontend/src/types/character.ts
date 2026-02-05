@@ -1,4 +1,4 @@
-export type Quality = "Myth" | "Legend+" | "Legend" | "Epic" | "Elite";
+export type Quality = "SSR EX" | "SSR+" | "SSR" | "SR+" | "R" | "N";
 
 export type CharacterClass =
   | "Guardian"
@@ -30,14 +30,12 @@ export interface Ability {
 export interface Character {
   name: string;
   quality: Quality;
-  characterClass: CharacterClass;
+  character_class: CharacterClass;
   factions: [Faction, Faction];
-  isGlobal: boolean;
-  subclasses: Subclass[];
-  portraits: string[];
-  illustrations: string[];
-  height: string;
-  weight: string;
+  is_global: boolean;
+  subclasses: string[];
+  height: number;
+  weight: number;
   lore: string;
   abilities: Ability[];
 }

@@ -1,1 +1,11 @@
-[]
+[
+  {
+    "name": "My Tier List",
+    "entries": [
+      {
+        "characterName": "Fenrir",
+        "tier": "S+"
+      }
+    ]
+  }
+]
