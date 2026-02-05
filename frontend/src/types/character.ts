@@ -1,18 +1,24 @@
-import type { FactionName } from "./faction";
+import type { FactionName } from './faction';
 
-export type Quality = "SSR EX" | "SSR+" | "SSR" | "SR+" | "R" | "N";
+export type Quality = 'SSR EX' | 'SSR+' | 'SSR' | 'SR+' | 'R' | 'N';
 
 export type CharacterClass =
-  | "Guardian"
-  | "Priest"
-  | "Assassin"
-  | "Warrior"
-  | "Archer"
-  | "Mage";
+  | 'Guardian'
+  | 'Priest'
+  | 'Assassin'
+  | 'Warrior'
+  | 'Archer'
+  | 'Mage';
 
 export interface Skill {
   name: string;
   description: string;
+  cooldown: number;
+}
+
+export interface TalentLevel {
+  level: number;
+  effect: string;
 }
 
 export interface Character {
@@ -27,6 +33,7 @@ export interface Character {
   lore: string;
   quote: string;
   origin: string;
+  talent: TalentLevel[];
   skills: Skill[];
   noble_phantasm: string;
 }

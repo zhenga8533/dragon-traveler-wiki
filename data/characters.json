@@ -5,13 +5,21 @@
     "character_class": "Assassin",
     "factions": ["Elemental Echo", "Arcane Wisdom"],
     "is_global": true,
-    "subclasses": ["Thief", "Nightblade", "Scoundrel", "Masked Thief", "Executioner", "Shadow Dancer"],
+    "subclasses": [
+      "Thief",
+      "Nightblade",
+      "Scoundrel",
+      "Masked Thief",
+      "Executioner",
+      "Shadow Dancer"
+    ],
     "height": "164cm",
     "weight": "42kg",
     "lore": "A elusive humanoid beast, appearing silently in the night, swiftly delivering a fatal blow to its enemies with its agile claws before vanishing without a trace. Living entirely in nature, nocturnal and free-spirited, hunting is its greatest passion.",
     "quote": "",
-    "origin": "",
+    "talent": "",
     "skills": [],
+    "origin": "",
     "noble_phantasm": ""
   },
   {
@@ -20,13 +28,68 @@
     "character_class": "Archer",
     "factions": ["Elemental Echo", "Arcane Wisdom"],
     "is_global": true,
-    "subclasses": ["Tracker", "Hunter", "Ranger", "Bloodhunter", "Light Ranger", "Sniper"],
+    "subclasses": [
+      "Tracker",
+      "Hunter",
+      "Ranger",
+      "Bloodhunter",
+      "Light Ranger",
+      "Sniper"
+    ],
     "height": "159cm",
     "weight": "42kg",
     "lore": "Born from the element of fire, this demon possesses the power to manipulate all flames. By nature cruel, cunning, arrogant, and eager to create chaos, she is the vanguard of the Wild Hunt, following the orders of the Black Knight. Currently, she is sowing discord and causing disasters across various regions, finding not only pleasure in the chaos and turmoil she creates, but also thoroughly enjoying it.",
     "quote": "",
     "origin": "",
-    "skills": [],
+    "talent": [
+      {
+        "level": 1,
+        "effect": "For every 3 instances of physical damage dealt to the same target, the next instance of damage will additionally deal physical damage equal to 86% of the user's attack."
+      },
+      {
+        "level": 2,
+        "effect": "After triggering an elemental reaction, the energy cost of the user's next ultimate skill is reduced by 1."
+      },
+      {
+        "level": 3,
+        "effect": "Increases own attack by 10% and critical hit rate by 50%."
+      },
+      {
+        "level": 4,
+        "effect": "When [Flame Brand] is triggered, there is a 50% chance to inflict [Physical Defense Reduction] on the target."
+      },
+      {
+        "level": 7,
+        "effect": "When [Flame Brand] is triggered, the cooldown of [Hexagram Array] is reduced by 1 second."
+      }
+    ],
+    "skills": [
+      {
+        "name": "Hexagram Formation",
+        "description": "Launches 16 fireballs to bombard all enemy units on the field, each fireball dealing 255% of the caster's attack as physical damage. The same unit will only take 20% damage when attacked by a second or more fireballs.",
+        "cooldown": 18
+      },
+      {
+        "name": "Flame Storm",
+        "description": "Releases a vortex of fire, dealing four instances of damage to enemy units within a medium circular area. Each instance deals physical damage equal to 38% of the caster's attack and applies an inflicts [Burning]. Each time our side releases an ultimate skill, we gain 1 stack of [Awakening]. When the number of [Awakening] stacks reaches 3/6, we deal 6/8 hits of damage.",
+        "cooldown": 15
+      },
+      {
+        "name": "Frenzy",
+        "description": "During battle, increases own attack by 10%, and each stack of [Awakening] further increases own attack by 4%.",
+        "cooldown": 0
+      },
+      {
+        "name": "Flame Combo",
+        "description": "Fires a fireball that deals physical damage equal to 180% of the caster's attack to enemy units within a small circular area. For each stack of [Awaken], fire an additional fireball (up to 4), with the additional fireballs dealing only 25% damage.",
+        "cooldown": 10
+      },
+      {
+        "name": "Domain of Fire",
+        "description": "[Flame Brand] At the start of battle, apply 1 stack of [Flame Brand] to all enemy units.",
+        "cooldown": 0
+      }
+    ],
     "noble_phantasm": ""
   }
 ]

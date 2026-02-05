@@ -9,8 +9,17 @@ const illustrationModules = import.meta.glob<{ default: string }>(
   { eager: true }
 );
 
+const talentModules = import.meta.glob<{ default: string }>('./**/talent.png', {
+  eager: true,
+});
+
+const skillModules = import.meta.glob<{ default: string }>(
+  './**/skills/*.png',
+  { eager: true }
+);
+
 function normalizeKey(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, '-');
+  return name.toLowerCase().replace(/\s+/g, '_');
 }
 
 export interface CharacterIllustration {
@@ -21,6 +30,8 @@ export interface CharacterIllustration {
 // Build lookup maps
 const portraits = new Map<string, string>();
 const illustrations = new Map<string, CharacterIllustration[]>();
+const talents = new Map<string, string>();
+const skills = new Map<string, Map<string, string>>();
 
 for (const [path, module] of Object.entries(portraitModules)) {
   // path is like "./fenrir/portrait.png"
@@ -45,12 +56,34 @@ for (const [path, module] of Object.entries(illustrationModules)) {
   }
 }
 
+for (const [path, module] of Object.entries(talentModules)) {
+  // path is like "./fenrir/talent.png"
+  const match = path.match(/\.\/([^/]+)\/talent\.png$/);
+  if (match) {
+    talents.set(match[1], module.default);
+  }
+}
+
+for (const [path, module] of Object.entries(skillModules)) {
+  // path is like "./fenrir/skills/skill-name.png"
+  const match = path.match(/\.\/([^/]+)\/skills\/([^/]+)\.png$/);
+  if (match) {
+    const [, charKey, skillName] = match;
+    if (!skills.has(charKey)) {
+      skills.set(charKey, new Map());
+    }
+    skills.get(charKey)!.set(skillName, module.default);
+  }
+}
+
 export function getPortrait(characterName: string): string | undefined {
   const key = normalizeKey(characterName);
   return portraits.get(key);
 }
 
-export function getIllustrations(characterName: string): CharacterIllustration[] {
+export function getIllustrations(
+  characterName: string
+): CharacterIllustration[] {
   const key = normalizeKey(characterName);
   return illustrations.get(key) || [];
 }
@@ -59,4 +92,18 @@ export function getIllustrations(characterName: string): CharacterIllustration[]
 export function getIllustration(characterName: string): string | undefined {
   const list = getIllustrations(characterName);
   return list.length > 0 ? list[0].src : undefined;
+}
+
+export function getTalentIcon(characterName: string): string | undefined {
+  const key = normalizeKey(characterName);
+  return talents.get(key);
+}
+
+export function getCharacterSkillIcon(
+  characterName: string,
+  skillName: string
+): string | undefined {
+  const charKey = normalizeKey(characterName);
+  const skillKey = normalizeKey(skillName);
+  return skills.get(charKey)?.get(skillKey);
 }

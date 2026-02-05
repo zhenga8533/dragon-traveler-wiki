@@ -23,9 +23,15 @@ class CharacterClass(str, Enum):
     MAGE = "Mage"
 
 
+class TalentLevel(BaseModel):
+    level: int
+    effect: str
+
+
 class Skill(BaseModel):
     name: str
     description: str
+    cooldown: int
 
 
 class Character(BaseModel):
@@ -40,5 +46,6 @@ class Character(BaseModel):
     lore: str
     quote: str
     origin: str
+    talent: list[TalentLevel]
     skills: list[Skill]
     noble_phantasm: str
