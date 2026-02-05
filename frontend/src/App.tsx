@@ -7,6 +7,7 @@ import {
   NavLink,
   ActionIcon,
   useMantineColorScheme,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IoSunny, IoMoon } from 'react-icons/io5';
@@ -44,7 +45,8 @@ const NAV_ITEMS: NavItem[] = [
 ];
 
 function ThemeToggle() {
-  const { colorScheme, toggleColorScheme } = useMantineColorScheme();
+  const { toggleColorScheme } = useMantineColorScheme();
+  const computedColorScheme = useComputedColorScheme('light');
   return (
     <ActionIcon
       variant="default"
@@ -52,7 +54,7 @@ function ThemeToggle() {
       onClick={toggleColorScheme}
       aria-label="Toggle color scheme"
     >
-      {colorScheme === 'dark' ? <IoSunny /> : <IoMoon />}
+      {computedColorScheme === 'dark' ? <IoSunny /> : <IoMoon />}
     </ActionIcon>
   );
 }

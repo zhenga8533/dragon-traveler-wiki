@@ -10,7 +10,7 @@ import {
   ThemeIcon,
   Badge,
   Box,
-  useMantineColorScheme,
+  useComputedColorScheme,
 } from '@mantine/core';
 import {
   IoPeople,
@@ -50,7 +50,7 @@ const LANGUAGES = [
 ];
 
 export default function Home() {
-  const { colorScheme } = useMantineColorScheme();
+  const colorScheme = useComputedColorScheme('light');
   const isDark = colorScheme === 'dark';
 
   return (
