@@ -1,11 +1,10 @@
 // Dynamic imports for skill icons
-const modules = import.meta.glob<{ default: string }>(
-  './*.png',
-  { eager: true }
-);
+const modules = import.meta.glob<{ default: string }>('./*.png', {
+  eager: true,
+});
 
 function normalizeKey(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, '-');
+  return name.toLowerCase().replace(/\s+/g, '_');
 }
 
 // Build lookup map

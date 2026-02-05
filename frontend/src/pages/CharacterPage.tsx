@@ -17,7 +17,7 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import { Link, useParams } from 'react-router-dom';
 import {
@@ -56,24 +56,62 @@ export default function CharacterPage() {
     );
   }, [characters, name]);
 
-  const illustrations = useMemo(() => {
-    if (!character) return [];
-    return getIllustrations(character.name);
-  }, [character]);
-
-  const defaultIllustration = useMemo(() => {
-    return illustrations.find((i) => i.name === 'default') || illustrations[0];
-  }, [illustrations]);
-
+  // Lazy-loaded assets
+  const [illustrations, setIllustrations] = useState<CharacterIllustration[]>(
+    []
+  );
+  const [talentIcon, setTalentIcon] = useState<string | undefined>();
+  const [skillIcons, setSkillIcons] = useState<Map<string, string>>(new Map());
   const [selectedIllustration, setSelectedIllustration] =
     useState<CharacterIllustration | null>(null);
 
-  // Set default illustration when loaded
-  useMemo(() => {
-    if (illustrations.length > 0 && !selectedIllustration) {
-      setSelectedIllustration(defaultIllustration);
+  // Load illustrations when character changes
+  useEffect(() => {
+    if (!character) {
+      setIllustrations([]);
+      setSelectedIllustration(null);
+      return;
     }
-  }, [illustrations, selectedIllustration, defaultIllustration]);
+
+    getIllustrations(character.name).then((imgs) => {
+      setIllustrations(imgs);
+      const defaultImg = imgs.find((i) => i.name === 'default') || imgs[0];
+      if (defaultImg) {
+        setSelectedIllustration(defaultImg);
+      }
+    });
+  }, [character]);
+
+  // Load talent icon when character changes
+  useEffect(() => {
+    if (!character) {
+      setTalentIcon(undefined);
+      return;
+    }
+
+    getTalentIcon(character.name).then(setTalentIcon);
+  }, [character]);
+
+  // Load skill icons when character changes
+  useEffect(() => {
+    if (!character || !character.skills) {
+      setSkillIcons(new Map());
+      return;
+    }
+
+    const loadSkillIcons = async () => {
+      const icons = new Map<string, string>();
+      for (const skill of character.skills) {
+        const icon = await getCharacterSkillIcon(character.name, skill.name);
+        if (icon) {
+          icons.set(skill.name, icon);
+        }
+      }
+      setSkillIcons(icons);
+    };
+
+    loadSkillIcons();
+  }, [character]);
 
   if (loading) {
     return (
@@ -114,12 +152,12 @@ export default function CharacterPage() {
         }}
       >
         {/* Blurred background layer using default illustration */}
-        {defaultIllustration && (
+        {selectedIllustration && (
           <Box
             style={{
               position: 'absolute',
               inset: -20,
-              backgroundImage: `url(${defaultIllustration.src})`,
+              backgroundImage: `url(${selectedIllustration.src})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               filter: 'blur(20px) brightness(0.4)',
@@ -195,9 +233,6 @@ export default function CharacterPage() {
                         w="auto"
                         fit="contain"
                       />
-                      <Text fw={500} c="white">
-                        {character.quality}
-                      </Text>
                     </Group>
                   </Tooltip>
 
@@ -278,7 +313,7 @@ export default function CharacterPage() {
             <Stack gap="md" style={{ position: 'sticky', top: 20 }}>
               {illustrations.length > 0 ? (
                 <Tabs
-                  defaultValue={defaultIllustration?.name}
+                  defaultValue={selectedIllustration?.name}
                   variant="pills"
                   onChange={(value) => {
                     const illust = illustrations.find((i) => i.name === value);
@@ -343,7 +378,10 @@ export default function CharacterPage() {
                     </Text>
                     <SimpleGrid cols={2} spacing="xs">
                       {character.subclasses.map((subclass, idx) => {
-                        const subclassIcon = getSubclassIcon(subclass);
+                        const subclassIcon = getSubclassIcon(
+                          subclass,
+                          character.character_class
+                        );
                         return (
                           <Paper key={idx} p="xs" radius="sm" withBorder>
                             <Stack gap={4} align="center">
@@ -351,8 +389,8 @@ export default function CharacterPage() {
                                 <Image
                                   src={subclassIcon}
                                   alt={subclass}
-                                  w={32}
-                                  h={32}
+                                  w={100}
+                                  h={93}
                                   fit="contain"
                                 />
                               )}
@@ -429,12 +467,12 @@ export default function CharacterPage() {
                 <Paper p="lg" radius="md" withBorder>
                   <Stack gap="md">
                     <Group gap="md">
-                      {getTalentIcon(character.name) && (
+                      {talentIcon && (
                         <Image
-                          src={getTalentIcon(character.name)}
+                          src={talentIcon}
                           alt="Talent"
-                          w={64}
-                          h={64}
+                          w={54}
+                          h={74}
                           fit="contain"
                         />
                       )}
@@ -471,10 +509,7 @@ export default function CharacterPage() {
 
                     <Stack gap="md">
                       {character.skills.map((skill, idx) => {
-                        const skillIcon = getCharacterSkillIcon(
-                          character.name,
-                          skill.name
-                        );
+                        const skillIcon = skillIcons.get(skill.name);
                         return (
                           <Paper key={idx} p="md" radius="md" withBorder>
                             <Stack gap="sm">
@@ -488,8 +523,8 @@ export default function CharacterPage() {
                                     <Image
                                       src={skillIcon}
                                       alt={skill.name}
-                                      w={56}
-                                      h={56}
+                                      w={60}
+                                      h={60}
                                       fit="contain"
                                     />
                                   )}
