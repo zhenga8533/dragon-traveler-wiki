@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   AppShell,
+  Box,
   Burger,
   Group,
   NavLink,
@@ -162,33 +163,41 @@ export default function App() {
           <Navigation onNavigate={close} />
         </AppShell.Navbar>
 
-        <AppShell.Main>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/characters" element={<Characters />} />
-            <Route path="/characters/:name" element={<CharacterPage />} />
-            <Route path="/tier-list" element={<TierList />} />
-            <Route path="/teams" element={<Teams />} />
-            <Route path="/teams/:teamName" element={<TeamPage />} />
-            <Route path="/status-effects" element={<StatusEffects />} />
-            <Route path="/wyrmspells" element={<DragonSpells />} />
-            <Route path="/codes" element={<Codes />} />
-            <Route path="/useful-links" element={<UsefulLinks />} />
-            <Route path="/changelog" element={<Changelog />} />
-            <Route path="/guides/beginner-qa" element={<BeginnerQA />} />
-            <Route
-              path="/guides/star-upgrade-calculator"
-              element={<StarUpgradeCalculator />}
-            />
-            <Route
-              path="/guides/efficient-spending"
-              element={<EfficientSpending />}
-            />
-            <Route
-              path="/guides/golden-clover-priority"
-              element={<GoldenCloverPriority />}
-            />
-          </Routes>
+        <AppShell.Main
+          style={{
+            display: 'flex',
+            flexDirection: 'column',
+            minHeight: '100vh',
+          }}
+        >
+          <Box style={{ flex: 1 }}>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/characters" element={<Characters />} />
+              <Route path="/characters/:name" element={<CharacterPage />} />
+              <Route path="/tier-list" element={<TierList />} />
+              <Route path="/teams" element={<Teams />} />
+              <Route path="/teams/:teamName" element={<TeamPage />} />
+              <Route path="/status-effects" element={<StatusEffects />} />
+              <Route path="/wyrmspells" element={<DragonSpells />} />
+              <Route path="/codes" element={<Codes />} />
+              <Route path="/useful-links" element={<UsefulLinks />} />
+              <Route path="/changelog" element={<Changelog />} />
+              <Route path="/guides/beginner-qa" element={<BeginnerQA />} />
+              <Route
+                path="/guides/star-upgrade-calculator"
+                element={<StarUpgradeCalculator />}
+              />
+              <Route
+                path="/guides/efficient-spending"
+                element={<EfficientSpending />}
+              />
+              <Route
+                path="/guides/golden-clover-priority"
+                element={<GoldenCloverPriority />}
+              />
+            </Routes>
+          </Box>
           <Footer />
         </AppShell.Main>
       </AppShell>
