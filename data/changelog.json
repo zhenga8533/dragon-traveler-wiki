@@ -1,0 +1,33 @@
+[
+  {
+    "date": "2026-02-06",
+    "version": "1.0.0",
+    "changes": [
+      {
+        "type": "added",
+        "category": "site",
+        "description": "Initial release of Dragon Traveler Wiki"
+      },
+      {
+        "type": "added",
+        "category": "characters",
+        "description": "Added character database with portraits and skill information"
+      },
+      {
+        "type": "added",
+        "category": "status-effects",
+        "description": "Added status effects database with icons and descriptions"
+      },
+      {
+        "type": "added",
+        "category": "wyrmspells",
+        "description": "Added wyrmspells database"
+      },
+      {
+        "type": "added",
+        "category": "codes",
+        "description": "Added redemption codes tracker with active/inactive status"
+      }
+    ]
+  }
+]

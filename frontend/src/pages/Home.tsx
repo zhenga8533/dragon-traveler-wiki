@@ -16,6 +16,7 @@ import {
   IoGameController,
   IoGlobe,
   IoLink,
+  IoList,
   IoPeople,
   IoPricetag,
   IoShield,
@@ -43,6 +44,7 @@ const QUICK_LINKS = [
   },
   { label: 'Codes', path: '/codes', icon: IoPricetag, color: 'teal' },
   { label: 'Useful Links', path: '/useful-links', icon: IoLink, color: 'cyan' },
+  { label: 'Changelog', path: '/changelog', icon: IoList, color: 'grape' },
 ];
 
 const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];

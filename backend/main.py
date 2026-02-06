@@ -76,7 +76,7 @@ def main() -> None:
             "tier-lists",
             "teams",
             "status-effects",
-            "dragon-spells",
+            "wyrmspells",
             "codes",
             "all",
         ],

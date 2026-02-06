@@ -12,6 +12,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IoMoon, IoSunny } from 'react-icons/io5';
 import { HashRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
 import BeginnerQA from './pages/BeginnerQA';
+import Changelog from './pages/Changelog';
 import CharacterPage from './pages/CharacterPage';
 import Characters from './pages/Characters';
 import Codes from './pages/Codes';
@@ -60,6 +61,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Teams', path: '/teams' },
   { label: 'Codes', path: '/codes' },
   { label: 'Useful Links', path: '/useful-links' },
+  { label: 'Changelog', path: '/changelog' },
 ];
 
 function ThemeToggle() {
@@ -163,9 +165,9 @@ export default function App() {
             <Route path="/teams" element={<Teams />} />
             <Route path="/status-effects" element={<StatusEffects />} />
             <Route path="/wyrmspells" element={<DragonSpells />} />
-            <Route path="/dragon-spells" element={<DragonSpells />} />
             <Route path="/codes" element={<Codes />} />
             <Route path="/useful-links" element={<UsefulLinks />} />
+            <Route path="/changelog" element={<Changelog />} />
             <Route path="/guides/beginner-qa" element={<BeginnerQA />} />
             <Route
               path="/guides/star-upgrade-calculator"
