@@ -10,7 +10,18 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IoMoon, IoSunny } from 'react-icons/io5';
+import {
+  IoBook,
+  IoGift,
+  IoHome,
+  IoLink,
+  IoList,
+  IoMoon,
+  IoServer,
+  IoShield,
+  IoSunny,
+  IoTrophy,
+} from 'react-icons/io5';
 import { HashRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
 import Footer from './components/Footer';
 import SearchModal from './components/SearchModal';
@@ -33,13 +44,15 @@ import UsefulLinks from './pages/UsefulLinks';
 type NavItem = {
   label: string;
   path?: string;
-  children?: { label: string; path: string }[];
+  icon?: React.ComponentType;
+  children?: { label: string; path: string; icon?: React.ComponentType }[];
 };
 
 const NAV_ITEMS: NavItem[] = [
-  { label: 'Home', path: '/' },
+  { label: 'Home', path: '/', icon: IoHome },
   {
     label: 'Database',
+    icon: IoServer,
     children: [
       { label: 'Characters', path: '/characters' },
       { label: 'Status Effects', path: '/status-effects' },
@@ -48,24 +61,31 @@ const NAV_ITEMS: NavItem[] = [
   },
   {
     label: 'Guides',
+    icon: IoBook,
     children: [
-      { label: 'Beginner Q&A', path: '/guides/beginner-qa' },
+      {
+        label: 'Beginner Q&A',
+        path: '/guides/beginner-qa',
+      },
       {
         label: 'Star Upgrade Calculator',
         path: '/guides/star-upgrade-calculator',
       },
-      { label: 'Efficient Spending', path: '/guides/efficient-spending' },
+      {
+        label: 'Efficient Spending',
+        path: '/guides/efficient-spending',
+      },
       {
         label: 'Golden Clover Priority',
         path: '/guides/golden-clover-priority',
       },
     ],
   },
-  { label: 'Tier List', path: '/tier-list' },
-  { label: 'Teams', path: '/teams' },
-  { label: 'Codes', path: '/codes' },
-  { label: 'Useful Links', path: '/useful-links' },
-  { label: 'Changelog', path: '/changelog' },
+  { label: 'Tier List', path: '/tier-list', icon: IoTrophy },
+  { label: 'Teams', path: '/teams', icon: IoShield },
+  { label: 'Codes', path: '/codes', icon: IoGift },
+  { label: 'Useful Links', path: '/useful-links', icon: IoLink },
+  { label: 'Changelog', path: '/changelog', icon: IoList },
 ];
 
 function ThemeToggle() {
@@ -98,6 +118,7 @@ function Navigation({ onNavigate }: { onNavigate: () => void }) {
               label={item.label}
               defaultOpened={isChildActive}
               childrenOffset={28}
+              leftSection={item.icon && <item.icon />}
             >
               {item.children.map((child) => (
                 <NavLink
@@ -118,6 +139,7 @@ function Navigation({ onNavigate }: { onNavigate: () => void }) {
             component={Link}
             to={item.path!}
             label={item.label}
+            leftSection={item.icon && <item.icon />}
             active={location.pathname === item.path}
             onClick={onNavigate}
           />
