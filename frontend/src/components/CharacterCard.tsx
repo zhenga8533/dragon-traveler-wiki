@@ -45,14 +45,7 @@ export default function CharacterCard({
           transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, box-shadow ${TRANSITION.FAST} ${TRANSITION.EASE}`,
         }}
       />
-      <Text
-        size="xs"
-        fw={500}
-        ta="center"
-        lineClamp={1}
-        c="violet"
-        td="hover:underline"
-      >
+      <Text size="xs" fw={500} ta="center" lineClamp={1} c="violet">
         {name}
       </Text>
     </Stack>

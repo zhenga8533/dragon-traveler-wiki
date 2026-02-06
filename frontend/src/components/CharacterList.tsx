@@ -202,12 +202,7 @@ export default function CharacterList({
                               flexShrink: 0,
                             }}
                           />
-                          <Text
-                            size="sm"
-                            fw={500}
-                            c="violet"
-                            td="hover:underline"
-                          >
+                          <Text size="sm" fw={500} c="violet">
                             {char.name}
                           </Text>
                         </Group>

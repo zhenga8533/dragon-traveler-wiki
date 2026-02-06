@@ -242,8 +242,6 @@ export default function Teams() {
                             href={`#/teams/${encodeURIComponent(team.name)}`}
                             style={{
                               cursor: 'pointer',
-                              textDecoration: 'underline',
-                              color: 'var(--mantine-color-violet-filled)',
                             }}
                             onClick={(e) => {
                               e.preventDefault();
