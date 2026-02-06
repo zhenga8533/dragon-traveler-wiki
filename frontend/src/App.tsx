@@ -24,6 +24,7 @@ import GoldenCloverPriority from './pages/GoldenCloverPriority';
 import Home from './pages/Home';
 import StarUpgradeCalculator from './pages/StarUpgradeCalculator';
 import StatusEffects from './pages/StatusEffects';
+import TeamPage from './pages/TeamPage';
 import Teams from './pages/Teams';
 import TierList from './pages/TierList';
 import UsefulLinks from './pages/UsefulLinks';
@@ -168,6 +169,7 @@ export default function App() {
             <Route path="/characters/:name" element={<CharacterPage />} />
             <Route path="/tier-list" element={<TierList />} />
             <Route path="/teams" element={<Teams />} />
+            <Route path="/teams/:teamName" element={<TeamPage />} />
             <Route path="/status-effects" element={<StatusEffects />} />
             <Route path="/wyrmspells" element={<DragonSpells />} />
             <Route path="/codes" element={<Codes />} />

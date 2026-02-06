@@ -16,8 +16,9 @@ import {
   Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import CharacterCard from '../components/CharacterCard';
 import type { ChipFilterGroup } from '../components/EntityFilter';
@@ -29,6 +30,7 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
+import type { Wyrmspell } from '../types/wyrmspell';
 import { TEAM_JSON_TEMPLATE } from '../utils/github-issues';
 
 const FACTIONS: FactionName[] = [
@@ -41,6 +43,8 @@ const FACTIONS: FactionName[] = [
 ];
 
 export default function Teams() {
+  const navigate = useNavigate();
+  const location = useLocation();
   const { data: teams, loading: loadingTeams } = useDataFetch<Team[]>(
     'data/teams.json',
     []
@@ -49,6 +53,9 @@ export default function Teams() {
     'data/characters.json',
     []
   );
+  const { data: wyrmspells, loading: loadingSpells } = useDataFetch<
+    Wyrmspell[]
+  >('data/wyrmspells.json', []);
   const [viewFilters, setViewFilters] = useState<Record<string, string[]>>({
     factions: [],
     contentTypes: [],
@@ -57,7 +64,17 @@ export default function Teams() {
   const [search, setSearch] = useState('');
   const [mode, setMode] = useState<'view' | 'builder'>('view');
   const [editData, setEditData] = useState<Team | null>(null);
-  const loading = loadingTeams || loadingChars;
+  const loading = loadingTeams || loadingChars || loadingSpells;
+
+  // Handle edit state from navigation
+  useEffect(() => {
+    if (location.state?.editTeam) {
+      setEditData(location.state.editTeam);
+      setMode('builder');
+      // Clear the state
+      navigate(location.pathname, { replace: true, state: {} });
+    }
+  }, [location.state, navigate, location.pathname]);
 
   const charMap = useMemo(() => {
     const map = new Map<string, Character>();
@@ -218,7 +235,24 @@ export default function Teams() {
                             w={24}
                             h={24}
                           />
-                          <Text fw={600} size="lg">
+                          <Text
+                            fw={600}
+                            size="lg"
+                            component="a"
+                            href={`#/teams/${encodeURIComponent(team.name)}`}
+                            style={{
+                              cursor: 'pointer',
+                              textDecoration: 'none',
+                              color: 'inherit',
+                            }}
+                            onClick={(e) => {
+                              e.preventDefault();
+                              navigate(
+                                `/teams/${encodeURIComponent(team.name)}`
+                              );
+                            }}
+                            td="hover:underline"
+                          >
                             {team.name}
                           </Text>
                         </Group>
@@ -233,6 +267,17 @@ export default function Teams() {
                           >
                             {team.faction}
                           </Badge>
+                          <Button
+                            variant="light"
+                            size="sm"
+                            leftSection={<IoCreate size={14} />}
+                            onClick={() => {
+                              setEditData(team);
+                              setMode('builder');
+                            }}
+                          >
+                            Edit
+                          </Button>
                         </Group>
                       </Group>
 
@@ -245,29 +290,15 @@ export default function Teams() {
                             <Text size="sm" c="dimmed">
                               •
                             </Text>
-                            <Text size="sm" c="dimmed">
+                            <Text size="sm" c="dimmed" lineClamp={1}>
                               {team.description}
                             </Text>
                           </>
                         )}
-                        <Button
-                          variant="subtle"
-                          size="compact-xs"
-                          leftSection={<IoCreate size={14} />}
-                          onClick={() => {
-                            setEditData(team);
-                            setMode('builder');
-                          }}
-                        >
-                          Edit
-                        </Button>
                       </Group>
 
-                      <SimpleGrid
-                        cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-                        spacing={4}
-                      >
-                        {team.members.map((m) => {
+                      <SimpleGrid cols={{ base: 3, xs: 4, sm: 6 }} spacing={4}>
+                        {team.members.slice(0, 6).map((m) => {
                           const char = charMap.get(m.character_name);
                           return (
                             <div
@@ -314,6 +345,7 @@ export default function Teams() {
                 characters={characters}
                 charMap={charMap}
                 initialData={editData}
+                wyrmspells={wyrmspells}
               />
             )}
           </>

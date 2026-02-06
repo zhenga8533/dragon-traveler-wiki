@@ -1,8 +1,16 @@
-import type { FactionName } from "./faction";
+import type { FactionName } from './faction';
 
 export interface TeamMember {
   character_name: string;
   overdrive_order: number | null;
+  substitutes?: string[];
+}
+
+export interface TeamWyrmspells {
+  breach?: string;
+  refuge?: string;
+  wildcry?: string;
+  dragons_call?: string;
 }
 
 export interface Team {
@@ -12,4 +20,5 @@ export interface Team {
   description: string;
   faction: FactionName;
   members: TeamMember[];
+  wyrmspells?: TeamWyrmspells;
 }

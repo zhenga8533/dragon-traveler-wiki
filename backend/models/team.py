@@ -6,6 +6,14 @@ from backend.models.faction import FactionName
 class TeamMember(BaseModel):
     character_name: str
     overdrive_order: int | None = None
+    substitutes: list[str] | None = None
+
+
+class TeamWyrmspells(BaseModel):
+    breach: str | None = None
+    refuge: str | None = None
+    wildcry: str | None = None
+    dragons_call: str | None = None
 
 
 class Team(BaseModel):
@@ -15,6 +23,7 @@ class Team(BaseModel):
     description: str
     faction: FactionName
     members: list[TeamMember]
+    wyrmspells: TeamWyrmspells | None = None
 
     @field_validator("members")
     @classmethod

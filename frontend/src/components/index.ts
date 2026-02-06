@@ -11,6 +11,7 @@ export { default as StatusEffectBadge } from './StatusEffectBadge';
 export { default as SuggestModal } from './SuggestModal';
 export { default as TeamBuilder } from './TeamBuilder';
 export { default as TierListBuilder } from './TierListBuilder';
+export { default as WyrmspellCard } from './WyrmspellCard';
 
 // Re-export component props
 export type { CharacterFilterProps } from './CharacterFilter';

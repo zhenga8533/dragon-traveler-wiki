@@ -13,20 +13,31 @@ import {
   CopyButton,
   Group,
   Image,
+  Modal,
+  MultiSelect,
   Paper,
   Select,
   SimpleGrid,
   Stack,
   Text,
   TextInput,
+  Title,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { IoCheckmark, IoClose, IoCopy, IoTrash } from 'react-icons/io5';
+import {
+  IoCheckmark,
+  IoClose,
+  IoCopy,
+  IoSettings,
+  IoTrash,
+} from 'react-icons/io5';
 import { getPortrait } from '../assets/character';
 import { FACTION_COLOR } from '../constants/colors';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
-import type { Team, TeamMember } from '../types/team';
+import type { Team, TeamMember, TeamWyrmspells } from '../types/team';
+import type { Wyrmspell } from '../types/wyrmspell';
 import { QUALITY_BORDER_COLOR } from './CharacterCard';
 import FilterableCharacterPool from './FilterableCharacterPool';
 
@@ -46,6 +57,7 @@ interface TeamBuilderProps {
   characters: Character[];
   charMap: Map<string, Character>;
   initialData?: Team | null;
+  wyrmspells?: Wyrmspell[];
 }
 
 /* ── Draggable portrait (used in available pool, bench, slots, and overlay) ── */
@@ -109,6 +121,7 @@ function SlotCard({
   hasOverdrive,
   onToggleOverdrive,
   onRemove,
+  onConfigure,
 }: {
   index: number;
   charName: string | null;
@@ -116,6 +129,7 @@ function SlotCard({
   hasOverdrive: boolean;
   onToggleOverdrive: () => void;
   onRemove: () => void;
+  onConfigure: () => void;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: `slot-${index}` });
 
@@ -149,6 +163,17 @@ function SlotCard({
             title="Remove from team"
           >
             <IoClose size={12} />
+          </ActionIcon>
+          <ActionIcon
+            size="xs"
+            variant="light"
+            color="gray"
+            radius="xl"
+            style={{ position: 'absolute', top: 4, right: 28 }}
+            onClick={onConfigure}
+            title="Configure substitutes"
+          >
+            <IoSettings size={12} />
           </ActionIcon>
           {hasOverdrive && (
             <Badge
@@ -191,12 +216,14 @@ function SlotsGrid({
   charMap,
   onToggleOverdrive,
   onRemove,
+  onConfigure,
 }: {
   slots: (string | null)[];
   overdriveEnabled: boolean[];
   charMap: Map<string, Character>;
   onToggleOverdrive: (index: number) => void;
   onRemove: (index: number) => void;
+  onConfigure: (index: number) => void;
 }) {
   return (
     <Stack gap="xs">
@@ -218,6 +245,7 @@ function SlotsGrid({
             hasOverdrive={overdriveEnabled[i]}
             onToggleOverdrive={() => onToggleOverdrive(i)}
             onRemove={() => onRemove(i)}
+            onConfigure={() => onConfigure(i)}
           />
         ))}
       </SimpleGrid>
@@ -272,6 +300,7 @@ export default function TeamBuilder({
   characters,
   charMap,
   initialData,
+  wyrmspells = [],
 }: TeamBuilderProps) {
   // Team roster: max 6 characters
   const [slots, setSlots] = useState<(string | null)[]>(
@@ -281,6 +310,20 @@ export default function TeamBuilder({
   const [overdriveEnabled, setOverdriveEnabled] = useState<boolean[]>(
     Array(SLOT_COUNT).fill(false)
   );
+  // Track substitutes for each slot
+  const [substitutes, setSubstitutes] = useState<string[][]>(
+    Array(SLOT_COUNT)
+      .fill(null)
+      .map(() => [])
+  );
+  // Track wyrmspells
+  const [teamWyrmspells, setTeamWyrmspells] = useState<TeamWyrmspells>({});
+  // Modal for configuring slot details
+  const [
+    configModalOpened,
+    { open: openConfigModal, close: closeConfigModal },
+  ] = useDisclosure(false);
+  const [configSlotIndex, setConfigSlotIndex] = useState<number | null>(null);
 
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
@@ -296,20 +339,34 @@ export default function TeamBuilder({
     setFaction(initialData.faction);
     const newSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
     const newOverdriveEnabled = Array(SLOT_COUNT).fill(false);
+    const newSubstitutes: string[][] = Array(SLOT_COUNT)
+      .fill(null)
+      .map(() => []);
 
-    // Map members to slots and track overdrive status
+    // Map members to slots and track overdrive status and substitutes
     for (const m of initialData.members) {
       // Find first empty slot for this member
       const emptyIdx = newSlots.findIndex((s) => s === null);
       if (emptyIdx !== -1) {
         newSlots[emptyIdx] = m.character_name;
         newOverdriveEnabled[emptyIdx] = m.overdrive_order != null;
+        newSubstitutes[emptyIdx] = m.substitutes || [];
       }
+    }
+
+    // Set wyrmspells
+    if (initialData.wyrmspells) {
+      setTeamWyrmspells(initialData.wyrmspells);
     }
 
     // Reorder slots so overdrive-enabled members come first
     const withOverdrive = newSlots
-      .map((name, idx) => ({ name, idx, hasOD: newOverdriveEnabled[idx] }))
+      .map((name, idx) => ({
+        name,
+        idx,
+        hasOD: newOverdriveEnabled[idx],
+        subs: newSubstitutes[idx],
+      }))
       .filter((item) => item.name !== null && item.hasOD)
       .sort((a, b) => {
         const aOrder =
@@ -322,26 +379,37 @@ export default function TeamBuilder({
       });
 
     const withoutOverdrive = newSlots
-      .map((name, idx) => ({ name, idx, hasOD: newOverdriveEnabled[idx] }))
+      .map((name, idx) => ({
+        name,
+        idx,
+        hasOD: newOverdriveEnabled[idx],
+        subs: newSubstitutes[idx],
+      }))
       .filter((item) => item.name !== null && !item.hasOD);
 
     const reorderedSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
     const reorderedOverdrive = Array(SLOT_COUNT).fill(false);
+    const reorderedSubstitutes: string[][] = Array(SLOT_COUNT)
+      .fill(null)
+      .map(() => []);
 
     let i = 0;
     for (const item of withOverdrive) {
       reorderedSlots[i] = item.name;
       reorderedOverdrive[i] = true;
+      reorderedSubstitutes[i] = item.subs;
       i++;
     }
     for (const item of withoutOverdrive) {
       reorderedSlots[i] = item.name;
       reorderedOverdrive[i] = false;
+      reorderedSubstitutes[i] = item.subs;
       i++;
     }
 
     setSlots(reorderedSlots);
     setOverdriveEnabled(reorderedOverdrive);
+    setSubstitutes(reorderedSubstitutes);
   }, [initialData]);
 
   const factionColor = faction ? FACTION_COLOR[faction as FactionName] : 'blue';
@@ -365,7 +433,11 @@ export default function TeamBuilder({
     for (let i = 0; i < slots.length; i++) {
       const n = slots[i];
       if (n && overdriveEnabled[i]) {
-        members.push({ character_name: n, overdrive_order: overdriveOrder++ });
+        members.push({
+          character_name: n,
+          overdrive_order: overdriveOrder++,
+          substitutes: substitutes[i].length > 0 ? substitutes[i] : undefined,
+        });
       }
     }
 
@@ -373,7 +445,11 @@ export default function TeamBuilder({
     for (let i = 0; i < slots.length; i++) {
       const n = slots[i];
       if (n && !overdriveEnabled[i]) {
-        members.push({ character_name: n, overdrive_order: null });
+        members.push({
+          character_name: n,
+          overdrive_order: null,
+          substitutes: substitutes[i].length > 0 ? substitutes[i] : undefined,
+        });
       }
     }
 
@@ -385,8 +461,28 @@ export default function TeamBuilder({
       faction: (faction || 'Elemental Echo') as FactionName,
       members,
     };
+
+    // Add wyrmspells if any are selected
+    const hasWyrmspells =
+      teamWyrmspells.breach ||
+      teamWyrmspells.refuge ||
+      teamWyrmspells.wildcry ||
+      teamWyrmspells.dragons_call;
+    if (hasWyrmspells) {
+      result.wyrmspells = teamWyrmspells;
+    }
+
     return JSON.stringify(result, null, 2);
-  }, [slots, overdriveEnabled, name, author, contentType, faction]);
+  }, [
+    slots,
+    overdriveEnabled,
+    substitutes,
+    teamWyrmspells,
+    name,
+    author,
+    contentType,
+    faction,
+  ]);
 
   const availableCharacters = useMemo(() => {
     return characters.filter((c) => !teamNames.has(c.name));
@@ -531,9 +627,30 @@ export default function TeamBuilder({
     });
   }
 
+  function handleOpenConfig(slotIndex: number) {
+    if (!slots[slotIndex]) return; // No character in slot
+    setConfigSlotIndex(slotIndex);
+    openConfigModal();
+  }
+
+  function handleUpdateSubstitutes(subs: string[]) {
+    if (configSlotIndex === null) return;
+    setSubstitutes((prev) => {
+      const next = [...prev];
+      next[configSlotIndex] = subs;
+      return next;
+    });
+  }
+
   function handleClear() {
     setSlots(Array(SLOT_COUNT).fill(null));
     setOverdriveEnabled(Array(SLOT_COUNT).fill(false));
+    setSubstitutes(
+      Array(SLOT_COUNT)
+        .fill(null)
+        .map(() => [])
+    );
+    setTeamWyrmspells({});
   }
 
   return (
@@ -598,12 +715,83 @@ export default function TeamBuilder({
           </Badge>
         </Group>
 
+        <Paper p="md" radius="md" withBorder>
+          <Stack gap="sm">
+            <Text size="sm" fw={600}>
+              Wyrmspells
+            </Text>
+            <SimpleGrid cols={{ base: 2, xs: 4 }} spacing="sm">
+              <Select
+                label="Breach"
+                placeholder="Select breach wyrmspell"
+                data={wyrmspells
+                  .filter((w) => w.type === 'Breach')
+                  .map((w) => ({ value: w.name, label: w.name }))}
+                value={teamWyrmspells.breach || null}
+                onChange={(value) =>
+                  setTeamWyrmspells((prev) => ({
+                    ...prev,
+                    breach: value || undefined,
+                  }))
+                }
+                clearable
+              />
+              <Select
+                label="Refuge"
+                placeholder="Select refuge wyrmspell"
+                data={wyrmspells
+                  .filter((w) => w.type === 'Refuge')
+                  .map((w) => ({ value: w.name, label: w.name }))}
+                value={teamWyrmspells.refuge || null}
+                onChange={(value) =>
+                  setTeamWyrmspells((prev) => ({
+                    ...prev,
+                    refuge: value || undefined,
+                  }))
+                }
+                clearable
+              />
+              <Select
+                label="Wildcry"
+                placeholder="Select wildcry wyrmspell"
+                data={wyrmspells
+                  .filter((w) => w.type === 'Wildcry')
+                  .map((w) => ({ value: w.name, label: w.name }))}
+                value={teamWyrmspells.wildcry || null}
+                onChange={(value) =>
+                  setTeamWyrmspells((prev) => ({
+                    ...prev,
+                    wildcry: value || undefined,
+                  }))
+                }
+                clearable
+              />
+              <Select
+                label="Dragon's Call"
+                placeholder="Select dragon's call wyrmspell"
+                data={wyrmspells
+                  .filter((w) => w.type === "Dragon's Call")
+                  .map((w) => ({ value: w.name, label: w.name }))}
+                value={teamWyrmspells.dragons_call || null}
+                onChange={(value) =>
+                  setTeamWyrmspells((prev) => ({
+                    ...prev,
+                    dragons_call: value || undefined,
+                  }))
+                }
+                clearable
+              />
+            </SimpleGrid>
+          </Stack>
+        </Paper>
+
         <SlotsGrid
           slots={slots}
           overdriveEnabled={overdriveEnabled}
           charMap={charMap}
           onToggleOverdrive={handleToggleOverdrive}
           onRemove={handleRemoveFromTeam}
+          onConfigure={handleOpenConfig}
         />
 
         <FilterableCharacterPool characters={availableCharacters}>
@@ -626,6 +814,42 @@ export default function TeamBuilder({
           />
         ) : null}
       </DragOverlay>
+
+      <Modal
+        opened={configModalOpened}
+        onClose={closeConfigModal}
+        title={
+          configSlotIndex !== null && slots[configSlotIndex] ? (
+            <Title order={4}>
+              Configure Substitutes for {slots[configSlotIndex]}
+            </Title>
+          ) : (
+            'Configure Substitutes'
+          )
+        }
+        size="md"
+      >
+        <Stack gap="md">
+          <Text size="sm" c="dimmed">
+            Select characters that can substitute for this team member.
+          </Text>
+          <MultiSelect
+            label="Substitutes"
+            placeholder="Select substitute characters"
+            data={availableCharacters
+              .filter((c) => !teamNames.has(c.name))
+              .map((c) => ({ value: c.name, label: c.name }))}
+            value={configSlotIndex !== null ? substitutes[configSlotIndex] : []}
+            onChange={(value) => {
+              if (configSlotIndex !== null) {
+                handleUpdateSubstitutes(value);
+              }
+            }}
+            searchable
+            clearable
+          />
+        </Stack>
+      </Modal>
     </DndContext>
   );
 }

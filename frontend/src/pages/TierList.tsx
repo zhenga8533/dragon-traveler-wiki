@@ -152,13 +152,15 @@ export default function TierList() {
 
                 {visibleTierLists.length > 0 && (
                   <Tabs defaultValue={visibleTierLists[0]?.name}>
-                    <Tabs.List style={{ flexWrap: 'wrap' }}>
-                      {visibleTierLists.map((tierList) => (
-                        <Tabs.Tab key={tierList.name} value={tierList.name}>
-                          {tierList.name}
-                        </Tabs.Tab>
-                      ))}
-                    </Tabs.List>
+                    <Group justify="space-between" mb="md" wrap="wrap">
+                      <Tabs.List style={{ flexWrap: 'wrap', flex: 1 }}>
+                        {visibleTierLists.map((tierList) => (
+                          <Tabs.Tab key={tierList.name} value={tierList.name}>
+                            {tierList.name}
+                          </Tabs.Tab>
+                        ))}
+                      </Tabs.List>
+                    </Group>
 
                     {visibleTierLists.map((tierList) => {
                       const byTier = TIER_ORDER.map((tier) => ({
@@ -182,26 +184,28 @@ export default function TierList() {
                           pt="md"
                         >
                           <Stack gap="md">
-                            <Group gap="xs">
-                              <Badge variant="light" size="sm">
-                                {tierList.content_type}
-                              </Badge>
-                              <Text size="sm" c="dimmed">
-                                By {tierList.author}
-                              </Text>
-                              {tierList.description && (
-                                <>
-                                  <Text size="sm" c="dimmed">
-                                    •
-                                  </Text>
-                                  <Text size="sm" c="dimmed">
-                                    {tierList.description}
-                                  </Text>
-                                </>
-                              )}
+                            <Group justify="space-between" align="flex-start">
+                              <Group gap="xs" wrap="wrap">
+                                <Badge variant="light" size="sm">
+                                  {tierList.content_type}
+                                </Badge>
+                                <Text size="sm" c="dimmed">
+                                  By {tierList.author}
+                                </Text>
+                                {tierList.description && (
+                                  <>
+                                    <Text size="sm" c="dimmed">
+                                      •
+                                    </Text>
+                                    <Text size="sm" c="dimmed">
+                                      {tierList.description}
+                                    </Text>
+                                  </>
+                                )}
+                              </Group>
                               <Button
-                                variant="subtle"
-                                size="compact-xs"
+                                variant="light"
+                                size="sm"
                                 leftSection={<IoCreate size={14} />}
                                 onClick={() => {
                                   setEditData(tierList);

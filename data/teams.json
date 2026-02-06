@@ -3,11 +3,23 @@
     "name": "Sample Elemental Echo Team",
     "author": "Dragon Traveler Wiki",
     "content_type": "PvE",
-    "description": "A sample team composition for Elemental Echo faction.",
+    "description": "A sample team composition for Elemental Echo faction with wyrmspells and substitutes.",
     "faction": "Elemental Echo",
     "members": [
-      { "character_name": "Fenrir", "overdrive_order": 1 },
-      { "character_name": "Ifrit", "overdrive_order": 2 }
-    ]
+      {
+        "character_name": "Fenrir",
+        "overdrive_order": 1,
+        "substitutes": []
+      },
+      {
+        "character_name": "Ifrit",
+        "overdrive_order": 2,
+        "substitutes": []
+      }
+    ],
+    "wyrmspells": {
+      "breach": "Attack Aura",
+      "refuge": "Evasion Aura"
+    }
   }
 ]
