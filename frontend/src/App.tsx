@@ -11,6 +11,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IoMoon, IoSunny } from 'react-icons/io5';
 import { HashRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
+import Footer from './components/Footer';
 import BeginnerQA from './pages/BeginnerQA';
 import Changelog from './pages/Changelog';
 import CharacterPage from './pages/CharacterPage';
@@ -182,6 +183,7 @@ export default function App() {
               element={<GoldenCloverPriority />}
             />
           </Routes>
+          <Footer />
         </AppShell.Main>
       </AppShell>
     </HashRouter>
