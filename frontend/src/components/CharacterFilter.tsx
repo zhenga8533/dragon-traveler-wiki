@@ -12,6 +12,7 @@ import { IoClose, IoSearch } from 'react-icons/io5';
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { IMAGE_SIZE } from '../constants/ui';
 import type { CharacterClass, Quality } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { CharacterFilters } from '../utils/filter-characters';
@@ -58,7 +59,7 @@ export default function CharacterFilter({
       <Group justify="space-between" align="center" wrap="wrap">
         <TextInput
           placeholder="Search by name..."
-          leftSection={<IoSearch size={16} />}
+          leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
           value={filters.search}
           onChange={(e) =>
             onChange({ ...filters, search: e.currentTarget.value })
@@ -70,7 +71,7 @@ export default function CharacterFilter({
             variant="subtle"
             color="gray"
             size="xs"
-            leftSection={<IoClose size={14} />}
+            leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
             onClick={() => onChange(EMPTY_FILTERS)}
           >
             Clear all
@@ -96,8 +97,8 @@ export default function CharacterFilter({
                   <Image
                     src={QUALITY_ICON_MAP[q]}
                     alt={q}
-                    w={14}
-                    h={14}
+                    w={IMAGE_SIZE.ICON_SM}
+                    h={IMAGE_SIZE.ICON_SM}
                     fit="contain"
                   />
                   <span>{q}</span>
@@ -126,8 +127,8 @@ export default function CharacterFilter({
                   <Image
                     src={CLASS_ICON_MAP[c]}
                     alt={c}
-                    w={14}
-                    h={14}
+                    w={IMAGE_SIZE.ICON_SM}
+                    h={IMAGE_SIZE.ICON_SM}
                     fit="contain"
                   />
                   <span>{c}</span>
@@ -156,8 +157,8 @@ export default function CharacterFilter({
                   <Image
                     src={FACTION_ICON_MAP[f]}
                     alt={f}
-                    w={14}
-                    h={14}
+                    w={IMAGE_SIZE.ICON_SM}
+                    h={IMAGE_SIZE.ICON_SM}
                     fit="contain"
                   />
                   <span>{f}</span>

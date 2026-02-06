@@ -29,6 +29,7 @@ import {
   IoSearch,
 } from 'react-icons/io5';
 import SuggestModal from '../components/SuggestModal';
+import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Code } from '../types/code';
 import {
@@ -36,11 +37,9 @@ import {
   buildExpiredCodeUrl,
 } from '../utils/github-issues';
 
-const STORAGE_KEY = 'redeemedCodes';
-
 function loadRedeemed(): Set<string> {
   try {
-    const raw = localStorage.getItem(STORAGE_KEY);
+    const raw = localStorage.getItem(STORAGE_KEY.REDEEMED_CODES);
     if (raw) return new Set(JSON.parse(raw));
   } catch {
     /* ignore */
@@ -49,7 +48,7 @@ function loadRedeemed(): Set<string> {
 }
 
 function saveRedeemed(set: Set<string>) {
-  localStorage.setItem(STORAGE_KEY, JSON.stringify([...set]));
+  localStorage.setItem(STORAGE_KEY.REDEEMED_CODES, JSON.stringify([...set]));
 }
 
 type ViewFilter = 'unredeemed' | 'redeemed' | 'all';
@@ -141,7 +140,7 @@ export default function Codes() {
 
         <TextInput
           placeholder="Search codes..."
-          leftSection={<IoSearch size={16} />}
+          leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
           value={search}
           onChange={(e) => setSearch(e.currentTarget.value)}
         />

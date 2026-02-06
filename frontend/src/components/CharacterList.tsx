@@ -14,8 +14,7 @@ import {
   Tooltip,
   UnstyledButton,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { IoFilter, IoGrid, IoList } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
@@ -23,6 +22,13 @@ import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ORDER } from '../constants/colors';
+import { CHARACTER_GRID_COLS, IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
+import {
+  useFilteredData,
+  useFilterPanel,
+  useFilters,
+  useViewMode,
+} from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
 import {
@@ -33,9 +39,6 @@ import {
 import CharacterCard, { QUALITY_BORDER_COLOR } from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
 
-type ViewMode = 'grid' | 'list';
-const VIEW_MODE_STORAGE_KEY = 'characters:viewMode';
-
 interface CharacterListProps {
   characters: Character[];
   cols?: { base?: number; xs?: number; sm?: number; md?: number };
@@ -45,44 +48,42 @@ interface CharacterListProps {
 
 export default function CharacterList({
   characters,
-  cols = { base: 2, xs: 3, sm: 4, md: 6 },
+  cols = CHARACTER_GRID_COLS,
   spacing = 4,
   showFilter = true,
 }: CharacterListProps) {
-  const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
-  const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
-  const [viewMode, setViewMode] = useState<ViewMode>(() => {
-    if (typeof window === 'undefined') {
-      return 'grid';
-    }
-    const stored = window.localStorage.getItem(VIEW_MODE_STORAGE_KEY);
-    return stored === 'grid' || stored === 'list' ? stored : 'grid';
+  const { filters, setFilters } = useFilters<CharacterFilters>({
+    emptyFilters: EMPTY_FILTERS,
   });
-
-  useEffect(() => {
-    window.localStorage.setItem(VIEW_MODE_STORAGE_KEY, viewMode);
-  }, [viewMode]);
+  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
+  const [viewMode, setViewMode] = useViewMode({
+    storageKey: STORAGE_KEY.CHARACTER_VIEW_MODE,
+    defaultMode: 'grid',
+  });
 
   const effectOptions = useMemo(
     () => extractAllEffectRefs(characters),
     [characters]
   );
 
-  const filteredAndSorted = useMemo(() => {
-    const filtered = filterCharacters(characters, filters);
-    return filtered.sort((a, b) => {
-      // Sort by quality first (using QUALITY_ORDER)
-      const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
-      const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
+  const filteredAndSorted = useFilteredData({
+    data: characters,
+    filters,
+    filterFn: filterCharacters,
+    sortFn: (filtered) =>
+      filtered.sort((a, b) => {
+        // Sort by quality first (using QUALITY_ORDER)
+        const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
+        const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
 
-      if (qualityIndexA !== qualityIndexB) {
-        return qualityIndexA - qualityIndexB;
-      }
+        if (qualityIndexA !== qualityIndexB) {
+          return qualityIndexA - qualityIndexB;
+        }
 
-      // Then sort alphabetically by name
-      return a.name.localeCompare(b.name);
-    });
-  }, [characters, filters]);
+        // Then sort alphabetically by name
+        return a.name.localeCompare(b.name);
+      }),
+  });
 
   const activeFilterCount =
     (filters.search ? 1 : 0) +
@@ -106,8 +107,9 @@ export default function CharacterList({
                   variant={viewMode === 'grid' ? 'filled' : 'default'}
                   size="sm"
                   onClick={() => setViewMode('grid')}
+                  aria-label="Switch to grid view"
                 >
-                  <IoGrid size={16} />
+                  <IoGrid size={IMAGE_SIZE.ICON_MD} />
                 </ActionIcon>
               </Tooltip>
               <Tooltip label="List view">
@@ -115,8 +117,9 @@ export default function CharacterList({
                   variant={viewMode === 'list' ? 'filled' : 'default'}
                   size="sm"
                   onClick={() => setViewMode('list')}
+                  aria-label="Switch to list view"
                 >
-                  <IoList size={16} />
+                  <IoList size={IMAGE_SIZE.ICON_MD} />
                 </ActionIcon>
               </Tooltip>
             </Group>
@@ -124,7 +127,7 @@ export default function CharacterList({
               <Button
                 variant="default"
                 size="xs"
-                leftSection={<IoFilter size={16} />}
+                leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
                 rightSection={
                   activeFilterCount > 0 ? (
                     <Badge size="xs" circle variant="filled">

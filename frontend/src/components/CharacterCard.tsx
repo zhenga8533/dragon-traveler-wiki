@@ -1,6 +1,7 @@
 import { Image, Stack, Text, UnstyledButton } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
+import { CHARACTER_CARD, TRANSITION } from '../constants/ui';
 import type { Quality } from '../types/character';
 
 const QUALITY_BORDER_COLOR: Record<Quality, string> = {
@@ -19,7 +20,12 @@ interface CharacterCardProps {
   disableLink?: boolean;
 }
 
-export default function CharacterCard({ name, quality, size = 80, disableLink = false }: CharacterCardProps) {
+export default function CharacterCard({
+  name,
+  quality,
+  size = CHARACTER_CARD.PORTRAIT_SIZE,
+  disableLink = false,
+}: CharacterCardProps) {
   const borderColor = quality
     ? QUALITY_BORDER_COLOR[quality]
     : 'var(--mantine-color-gray-5)';
@@ -35,8 +41,8 @@ export default function CharacterCard({ name, quality, size = 80, disableLink = 
         radius="50%"
         fallbackSrc={`https://placehold.co/${size}x${size}?text=${encodeURIComponent(name.charAt(0))}`}
         style={{
-          border: `3px solid ${borderColor}`,
-          transition: 'transform 150ms ease, box-shadow 150ms ease',
+          border: `${CHARACTER_CARD.BORDER_WIDTH}px solid ${borderColor}`,
+          transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, box-shadow ${TRANSITION.FAST} ${TRANSITION.EASE}`,
         }}
       />
       <Text size="xs" fw={500} ta="center" lineClamp={1}>
@@ -55,7 +61,7 @@ export default function CharacterCard({ name, quality, size = 80, disableLink = 
       to={`/characters/${encodeURIComponent(name)}`}
       style={{
         borderRadius: 'var(--mantine-radius-md)',
-        transition: 'transform 150ms ease',
+        transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
       }}
       styles={{
         root: {
