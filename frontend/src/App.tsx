@@ -111,13 +111,22 @@ export default function App() {
     <HashRouter>
       <AppShell
         header={{ height: 60 }}
-        navbar={{ width: 200, breakpoint: 'sm', collapsed: { mobile: !opened } }}
+        navbar={{
+          width: 200,
+          breakpoint: 'sm',
+          collapsed: { mobile: !opened },
+        }}
         padding="md"
       >
         <AppShell.Header>
           <Group h="100%" px="md" justify="space-between">
             <Group gap="sm">
-              <Burger opened={opened} onClick={toggle} hiddenFrom="sm" size="sm" />
+              <Burger
+                opened={opened}
+                onClick={toggle}
+                hiddenFrom="sm"
+                size="sm"
+              />
               <Title order={3}>Dragon Traveler Wiki</Title>
             </Group>
             <ThemeToggle />
@@ -136,6 +145,7 @@ export default function App() {
             <Route path="/tier-list" element={<TierList />} />
             <Route path="/teams" element={<Teams />} />
             <Route path="/status-effects" element={<StatusEffects />} />
+            <Route path="/wyrmspells" element={<DragonSpells />} />
             <Route path="/dragon-spells" element={<DragonSpells />} />
             <Route path="/codes" element={<Codes />} />
             <Route path="/useful-links" element={<UsefulLinks />} />
