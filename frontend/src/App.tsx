@@ -4,6 +4,7 @@ import {
   Box,
   Burger,
   Group,
+  Image,
   NavLink,
   Title,
   useComputedColorScheme,
@@ -171,6 +172,11 @@ export default function App() {
                 onClick={toggle}
                 hiddenFrom="sm"
                 size="sm"
+              />
+              <Image
+                src={`${import.meta.env.BASE_URL}logo.svg`}
+                h={30}
+                w={30}
               />
               <Title order={3}>Dragon Traveler Wiki</Title>
             </Group>
