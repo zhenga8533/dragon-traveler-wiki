@@ -11,11 +11,15 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IoMoon, IoSunny } from 'react-icons/io5';
 import { HashRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
+import BeginnerQA from './pages/BeginnerQA';
 import CharacterPage from './pages/CharacterPage';
 import Characters from './pages/Characters';
 import Codes from './pages/Codes';
 import DragonSpells from './pages/DragonSpells';
+import EfficientSpending from './pages/EfficientSpending';
+import GoldenCloverPriority from './pages/GoldenCloverPriority';
 import Home from './pages/Home';
+import StarUpgradeCalculator from './pages/StarUpgradeCalculator';
 import StatusEffects from './pages/StatusEffects';
 import Teams from './pages/Teams';
 import TierList from './pages/TierList';
@@ -35,6 +39,21 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Characters', path: '/characters' },
       { label: 'Status Effects', path: '/status-effects' },
       { label: 'Wyrmspells', path: '/wyrmspells' },
+    ],
+  },
+  {
+    label: 'Guides',
+    children: [
+      { label: 'Beginner Q&A', path: '/guides/beginner-qa' },
+      {
+        label: 'Star Upgrade Calculator',
+        path: '/guides/star-upgrade-calculator',
+      },
+      { label: 'Efficient Spending', path: '/guides/efficient-spending' },
+      {
+        label: 'Golden Clover Priority',
+        path: '/guides/golden-clover-priority',
+      },
     ],
   },
   { label: 'Tier List', path: '/tier-list' },
@@ -147,6 +166,19 @@ export default function App() {
             <Route path="/dragon-spells" element={<DragonSpells />} />
             <Route path="/codes" element={<Codes />} />
             <Route path="/useful-links" element={<UsefulLinks />} />
+            <Route path="/guides/beginner-qa" element={<BeginnerQA />} />
+            <Route
+              path="/guides/star-upgrade-calculator"
+              element={<StarUpgradeCalculator />}
+            />
+            <Route
+              path="/guides/efficient-spending"
+              element={<EfficientSpending />}
+            />
+            <Route
+              path="/guides/golden-clover-priority"
+              element={<GoldenCloverPriority />}
+            />
           </Routes>
         </AppShell.Main>
       </AppShell>
