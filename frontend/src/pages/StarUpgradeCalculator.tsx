@@ -4,14 +4,19 @@ import {
   Card,
   Container,
   Group,
+  Image,
+  NumberInput,
   Paper,
+  SegmentedControl,
   Slider,
   Stack,
+  Switch,
   Table,
   Text,
   Title,
 } from '@mantine/core';
 import { useState } from 'react';
+import { QUALITY_ICON_MAP } from '../assets/character_quality';
 
 type StarLevel = {
   label: string;
@@ -222,6 +227,20 @@ const TIER_BADGE_COLORS = {
   divine: 'orange',
 } as const;
 
+// Heart Trial sweep rates - shards per day
+const HEART_TRIAL_RATES = {
+  'SSR EX': 1, // 2 sweeps for 1 shard (2 if affection 20)
+  'SSR+': 3, // 3 sweeps for 3 shards
+  SSR: 6, // 3 sweeps for 6 shards
+  'SR+': 15, // 3 sweeps for 15 shards
+  R: 0, // Not farmable
+  N: 0, // Not farmable
+} as const;
+
+const SHARDS_PER_DUPE = 60;
+
+type QualityOption = 'SSR EX' | 'SSR+' | 'SSR' | 'SR+';
+
 type StarSelectorProps = {
   label: string;
   value: number;
@@ -298,6 +317,9 @@ export default function StarUpgradeCalculator() {
   const [targetIndex, setTargetIndex] = useState<number>(
     STAR_LEVELS.length - 1
   );
+  const [quality, setQuality] = useState<QualityOption>('SSR');
+  const [affectionLevel20, setAffectionLevel20] = useState<boolean>(false);
+  const [currentShards, setCurrentShards] = useState<number>(0);
 
   const currentLevel = STAR_LEVELS[currentIndex];
   const targetLevel = STAR_LEVELS[targetIndex];
@@ -312,6 +334,35 @@ export default function StarUpgradeCalculator() {
   const divineCrystalsNeeded = isValidSelection
     ? targetLevel.divineCrystals - currentLevel.divineCrystals
     : 0;
+
+  // Calculate heart trial time
+  let shardsPerDay = HEART_TRIAL_RATES[quality];
+  if (quality === 'SSR EX' && affectionLevel20) {
+    shardsPerDay = 2;
+  }
+
+  // SR+ only gives 4-star copies, need 2x 4-star to make 1x 5-star
+  const effectiveCopiesNeeded =
+    quality === 'SR+' ? copiesNeeded * 2 : copiesNeeded;
+  const totalShardsNeeded = effectiveCopiesNeeded * SHARDS_PER_DUPE;
+  const shardsRemaining = Math.max(0, totalShardsNeeded - currentShards);
+  const daysNeeded =
+    shardsPerDay > 0 ? Math.ceil(shardsRemaining / shardsPerDay) : 0;
+  const weeksNeeded = daysNeeded > 0 ? (daysNeeded / 7).toFixed(1) : 0;
+  const monthsNeeded = daysNeeded > 0 ? (daysNeeded / 30).toFixed(1) : 0;
+  const yearsNeeded = daysNeeded > 0 ? (daysNeeded / 365).toFixed(1) : 0;
+
+  // Calculate completion date (starting from tomorrow)
+  const completionDate = new Date();
+  completionDate.setDate(completionDate.getDate() + daysNeeded);
+  const formattedDate =
+    daysNeeded > 0
+      ? completionDate.toLocaleDateString('en-US', {
+          year: 'numeric',
+          month: 'long',
+          day: 'numeric',
+        })
+      : '';
 
   return (
     <Container size="xl">
@@ -383,6 +434,261 @@ export default function StarUpgradeCalculator() {
             )}
           </Stack>
         </Card>
+
+        {/* Heart Trial Time Calculator */}
+        {isValidSelection && copiesNeeded > 0 && (
+          <Card shadow="sm" padding="lg" radius="md" withBorder>
+            <Stack gap="lg">
+              <div>
+                <Title order={3}>Heart Trial Time Calculator</Title>
+                <Text size="sm" c="dimmed">
+                  Calculate time needed to farm dupes via heart trial sweeps.
+                  Each dupe requires {SHARDS_PER_DUPE} shards.
+                </Text>
+              </div>
+
+              <Box>
+                <Text size="sm" fw={500} mb="xs">
+                  Character Quality
+                </Text>
+                <SegmentedControl
+                  value={quality}
+                  onChange={(value) => setQuality(value as QualityOption)}
+                  data={[
+                    {
+                      value: 'SSR EX',
+                      label: (
+                        <Image
+                          src={QUALITY_ICON_MAP['SSR EX']}
+                          h={20}
+                          fit="contain"
+                        />
+                      ),
+                    },
+                    {
+                      value: 'SSR+',
+                      label: (
+                        <Image
+                          src={QUALITY_ICON_MAP['SSR+']}
+                          h={20}
+                          fit="contain"
+                        />
+                      ),
+                    },
+                    {
+                      value: 'SSR',
+                      label: (
+                        <Image
+                          src={QUALITY_ICON_MAP.SSR}
+                          h={20}
+                          fit="contain"
+                        />
+                      ),
+                    },
+                    {
+                      value: 'SR+',
+                      label: (
+                        <Image
+                          src={QUALITY_ICON_MAP['SR+']}
+                          h={20}
+                          fit="contain"
+                        />
+                      ),
+                    },
+                  ]}
+                  fullWidth
+                />
+              </Box>
+
+              {quality === 'SSR EX' && (
+                <Switch
+                  label="Affection Level 20 (2 shards/day instead of 1)"
+                  checked={affectionLevel20}
+                  onChange={(event) =>
+                    setAffectionLevel20(event.currentTarget.checked)
+                  }
+                />
+              )}
+
+              {quality === 'SR+' && (
+                <Paper p="sm" withBorder bg="var(--mantine-color-yellow-light)">
+                  <Text size="sm" c="orange">
+                    Note: SR+ heart trial gives 4-star copies. You need 2×
+                    4-star to make 1× 5-star (calculation accounts for this)
+                  </Text>
+                </Paper>
+              )}
+
+              <NumberInput
+                label="Current Shards"
+                description="How many shards do you already have?"
+                value={currentShards}
+                onChange={(value) => setCurrentShards(Number(value) || 0)}
+                min={0}
+                max={totalShardsNeeded}
+                step={1}
+                allowNegative={false}
+              />
+
+              <Paper p="md" withBorder bg="var(--mantine-color-teal-light)">
+                <Stack gap="md">
+                  <Title order={4}>Time Required</Title>
+
+                  <Group gap="xs" align="baseline">
+                    <Text size="sm" c="dimmed">
+                      Daily shards from sweeps:
+                    </Text>
+                    <Text size="lg" fw={700}>
+                      {shardsPerDay} shards/day
+                    </Text>
+                  </Group>
+
+                  <Group gap="xs" align="baseline">
+                    <Text size="sm" c="dimmed">
+                      Total shards needed:
+                    </Text>
+                    <Text size="lg" fw={700}>
+                      {totalShardsNeeded} shards
+                    </Text>
+                    <Text size="sm" c="dimmed">
+                      ({copiesNeeded} dupes × {SHARDS_PER_DUPE} shards)
+                    </Text>
+                  </Group>
+
+                  <Group gap="xs" align="baseline">
+                    <Text size="sm" c="dimmed">
+                      Shards remaining:
+                    </Text>
+                    <Text size="lg" fw={700}>
+                      {shardsRemaining} shards
+                    </Text>
+                  </Group>
+
+                  <Box
+                    p="md"
+                    style={{
+                      borderRadius: '8px',
+                      background: 'var(--mantine-color-body)',
+                    }}
+                  >
+                    <Group gap="xl" grow>
+                      <div>
+                        <Text size="sm" c="dimmed" ta="center">
+                          Days
+                        </Text>
+                        <Text size="2rem" fw={700} ta="center">
+                          {daysNeeded}
+                        </Text>
+                      </div>
+                      <div>
+                        <Text size="sm" c="dimmed" ta="center">
+                          Weeks
+                        </Text>
+                        <Text size="2rem" fw={700} ta="center">
+                          {weeksNeeded}
+                        </Text>
+                      </div>
+                      <div>
+                        <Text size="sm" c="dimmed" ta="center">
+                          Months
+                        </Text>
+                        <Text size="2rem" fw={700} ta="center">
+                          {monthsNeeded}
+                        </Text>
+                      </div>
+                      <div>
+                        <Text size="sm" c="dimmed" ta="center">
+                          Years
+                        </Text>
+                        <Text size="2rem" fw={700} ta="center">
+                          {yearsNeeded}
+                        </Text>
+                      </div>
+                    </Group>
+                  </Box>
+
+                  {daysNeeded > 0 && (
+                    <Paper
+                      p="md"
+                      withBorder
+                      style={{
+                        background: 'var(--mantine-color-violet-light)',
+                      }}
+                    >
+                      <Stack gap="xs">
+                        <Text size="sm" c="dimmed" ta="center">
+                          Goal Completion Date
+                        </Text>
+                        <Text size="xl" fw={700} ta="center">
+                          {formattedDate}
+                        </Text>
+                        <Text size="xs" c="dimmed" ta="center">
+                          (Assuming you start collecting tomorrow)
+                        </Text>
+                      </Stack>
+                    </Paper>
+                  )}
+
+                  <Table withTableBorder withColumnBorders>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th ta="center">Quality</Table.Th>
+                        <Table.Th ta="center">Sweeps/Day</Table.Th>
+                        <Table.Th ta="center">Shards/Day</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      <Table.Tr>
+                        <Table.Td>
+                          <Image
+                            src={QUALITY_ICON_MAP['SSR EX']}
+                            h={20}
+                            fit="contain"
+                          />
+                        </Table.Td>
+                        <Table.Td ta="center">2</Table.Td>
+                        <Table.Td ta="center">1 (2 at Aff. 20)</Table.Td>
+                      </Table.Tr>
+                      <Table.Tr>
+                        <Table.Td>
+                          <Image
+                            src={QUALITY_ICON_MAP['SSR+']}
+                            h={20}
+                            fit="contain"
+                          />
+                        </Table.Td>
+                        <Table.Td ta="center">3</Table.Td>
+                        <Table.Td ta="center">3</Table.Td>
+                      </Table.Tr>
+                      <Table.Tr>
+                        <Table.Td>
+                          <Image
+                            src={QUALITY_ICON_MAP.SSR}
+                            h={20}
+                            fit="contain"
+                          />
+                        </Table.Td>
+                        <Table.Td ta="center">3</Table.Td>
+                        <Table.Td ta="center">6</Table.Td>
+                      </Table.Tr>
+                      <Table.Tr>
+                        <Table.Td>
+                          <Image
+                            src={QUALITY_ICON_MAP['SR+']}
+                            h={20}
+                            fit="contain"
+                          />
+                        </Table.Td>
+                        <Table.Td ta="center">3</Table.Td>
+                        <Table.Td ta="center">15</Table.Td>
+                      </Table.Tr>
+                    </Table.Tbody>
+                  </Table>
+                </Stack>
+              </Paper>
+            </Stack>
+          </Card>
+        )}
 
         {/* Reference Table */}
         <Card shadow="sm" padding="lg" radius="md" withBorder>
