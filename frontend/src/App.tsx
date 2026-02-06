@@ -185,7 +185,9 @@ export default function App() {
                 }}
               >
                 <Image src={logo} h={48} w={128} />
-                <Title order={3}>Dragon Traveler Wiki</Title>
+                <Title order={3} visibleFrom="sm">
+                  Dragon Traveler Wiki
+                </Title>
               </Link>
             </Group>
             <Group gap="xs">

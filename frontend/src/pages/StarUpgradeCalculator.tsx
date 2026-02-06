@@ -8,6 +8,7 @@ import {
   NumberInput,
   Paper,
   SegmentedControl,
+  Select,
   Slider,
   Stack,
   Switch,
@@ -15,6 +16,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useState } from 'react';
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
 
@@ -249,7 +251,89 @@ type StarSelectorProps = {
 
 function StarSelector({ label, value, onChange }: StarSelectorProps) {
   const selectedLevel = STAR_LEVELS[value];
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
+  // Helper to render a star icon with optional number
+  const renderStarIcon = (level: StarLevel, size: number = 20) => (
+    <Box
+      style={{
+        position: 'relative',
+        display: 'inline-flex',
+        alignItems: 'center',
+      }}
+    >
+      <svg
+        width={size}
+        height={size}
+        viewBox="0 0 24 24"
+        fill={TIER_COLORS[level.tier]}
+        style={{ display: 'block' }}
+      >
+        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
+      </svg>
+      {level.stars > 0 && (
+        <Text
+          size="xs"
+          fw={700}
+          style={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            color: 'white',
+            textShadow: '0 0 3px rgba(0,0,0,0.8)',
+            lineHeight: 1,
+            fontSize: size > 20 ? '0.65rem' : '0.6rem',
+          }}
+        >
+          {level.stars}
+        </Text>
+      )}
+    </Box>
+  );
+
+  // On mobile, show Select dropdown; on desktop, show slider
+  if (isMobile) {
+    return (
+      <Stack gap="md">
+        <Group justify="space-between">
+          <Text size="sm" fw={500}>
+            {label}
+          </Text>
+          <Badge color={TIER_BADGE_COLORS[selectedLevel.tier]} size="lg">
+            {selectedLevel.label}
+          </Badge>
+        </Group>
+
+        <Select
+          value={value.toString()}
+          onChange={(val) => onChange(Number(val))}
+          data={STAR_LEVELS.map((level, index) => ({
+            value: index.toString(),
+            label: level.label,
+          }))}
+          renderOption={({ option }) => {
+            const level = STAR_LEVELS[Number(option.value)];
+            return (
+              <Group gap="sm">
+                {renderStarIcon(level, 24)}
+                <Text>{level.label}</Text>
+              </Group>
+            );
+          }}
+          styles={{
+            input: {
+              fontWeight: 600,
+            },
+          }}
+          allowDeselect={false}
+          leftSection={renderStarIcon(selectedLevel, 20)}
+        />
+      </Stack>
+    );
+  }
+
+  // Desktop: Show slider with star marks
   const marks = STAR_LEVELS.map((level, index) => ({
     value: index,
     label: (
@@ -304,6 +388,10 @@ function StarSelector({ label, value, onChange }: StarSelectorProps) {
           styles={{
             markLabel: { marginTop: 8 },
             mark: { display: 'none' },
+            thumb: {
+              width: 20,
+              height: 20,
+            },
           }}
           color={TIER_BADGE_COLORS[selectedLevel.tier]}
         />
@@ -320,6 +408,7 @@ export default function StarUpgradeCalculator() {
   const [quality, setQuality] = useState<QualityOption>('SSR');
   const [affectionLevel20, setAffectionLevel20] = useState<boolean>(false);
   const [currentShards, setCurrentShards] = useState<number>(0);
+  const isMobile = useMediaQuery('(max-width: 768px)');
 
   const currentLevel = STAR_LEVELS[currentIndex];
   const targetLevel = STAR_LEVELS[targetIndex];
@@ -571,40 +660,81 @@ export default function StarUpgradeCalculator() {
                       background: 'var(--mantine-color-body)',
                     }}
                   >
-                    <Group gap="xl" grow>
-                      <div>
-                        <Text size="sm" c="dimmed" ta="center">
-                          Days
-                        </Text>
-                        <Text size="2rem" fw={700} ta="center">
-                          {daysNeeded}
-                        </Text>
-                      </div>
-                      <div>
-                        <Text size="sm" c="dimmed" ta="center">
-                          Weeks
-                        </Text>
-                        <Text size="2rem" fw={700} ta="center">
-                          {weeksNeeded}
-                        </Text>
-                      </div>
-                      <div>
-                        <Text size="sm" c="dimmed" ta="center">
-                          Months
-                        </Text>
-                        <Text size="2rem" fw={700} ta="center">
-                          {monthsNeeded}
-                        </Text>
-                      </div>
-                      <div>
-                        <Text size="sm" c="dimmed" ta="center">
-                          Years
-                        </Text>
-                        <Text size="2rem" fw={700} ta="center">
-                          {yearsNeeded}
-                        </Text>
-                      </div>
-                    </Group>
+                    {isMobile ? (
+                      <Stack gap="sm">
+                        <Group gap="lg" grow>
+                          <div>
+                            <Text size="sm" c="dimmed" ta="center">
+                              Days
+                            </Text>
+                            <Text size="xl" fw={700} ta="center">
+                              {daysNeeded}
+                            </Text>
+                          </div>
+                          <div>
+                            <Text size="sm" c="dimmed" ta="center">
+                              Weeks
+                            </Text>
+                            <Text size="xl" fw={700} ta="center">
+                              {weeksNeeded}
+                            </Text>
+                          </div>
+                        </Group>
+                        <Group gap="lg" grow>
+                          <div>
+                            <Text size="sm" c="dimmed" ta="center">
+                              Months
+                            </Text>
+                            <Text size="xl" fw={700} ta="center">
+                              {monthsNeeded}
+                            </Text>
+                          </div>
+                          <div>
+                            <Text size="sm" c="dimmed" ta="center">
+                              Years
+                            </Text>
+                            <Text size="xl" fw={700} ta="center">
+                              {yearsNeeded}
+                            </Text>
+                          </div>
+                        </Group>
+                      </Stack>
+                    ) : (
+                      <Group gap="xl" grow>
+                        <div>
+                          <Text size="sm" c="dimmed" ta="center">
+                            Days
+                          </Text>
+                          <Text size="2rem" fw={700} ta="center">
+                            {daysNeeded}
+                          </Text>
+                        </div>
+                        <div>
+                          <Text size="sm" c="dimmed" ta="center">
+                            Weeks
+                          </Text>
+                          <Text size="2rem" fw={700} ta="center">
+                            {weeksNeeded}
+                          </Text>
+                        </div>
+                        <div>
+                          <Text size="sm" c="dimmed" ta="center">
+                            Months
+                          </Text>
+                          <Text size="2rem" fw={700} ta="center">
+                            {monthsNeeded}
+                          </Text>
+                        </div>
+                        <div>
+                          <Text size="sm" c="dimmed" ta="center">
+                            Years
+                          </Text>
+                          <Text size="2rem" fw={700} ta="center">
+                            {yearsNeeded}
+                          </Text>
+                        </div>
+                      </Group>
+                    )}
                   </Box>
 
                   {daysNeeded > 0 && (
