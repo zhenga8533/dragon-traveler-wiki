@@ -1,6 +1,20 @@
-import { ActionIcon, Badge, Button, Collapse, Group, Image, Paper, SimpleGrid, Stack, Table, Text, Tooltip, UnstyledButton } from '@mantine/core';
+import {
+  ActionIcon,
+  Badge,
+  Button,
+  Collapse,
+  Group,
+  Image,
+  Paper,
+  SimpleGrid,
+  Stack,
+  Table,
+  Text,
+  Tooltip,
+  UnstyledButton,
+} from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoFilter, IoGrid, IoList } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
@@ -10,11 +24,16 @@ import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ORDER } from '../constants/colors';
 import type { Character } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
-import { EMPTY_FILTERS, extractAllEffectRefs, filterCharacters } from '../utils/filter-characters';
+import {
+  EMPTY_FILTERS,
+  extractAllEffectRefs,
+  filterCharacters,
+} from '../utils/filter-characters';
 import CharacterCard, { QUALITY_BORDER_COLOR } from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
 
 type ViewMode = 'grid' | 'list';
+const VIEW_MODE_STORAGE_KEY = 'characters:viewMode';
 
 interface CharacterListProps {
   characters: Character[];
@@ -31,9 +50,22 @@ export default function CharacterList({
 }: CharacterListProps) {
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
-  const [viewMode, setViewMode] = useState<ViewMode>('grid');
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    if (typeof window === 'undefined') {
+      return 'grid';
+    }
+    const stored = window.localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+    return stored === 'grid' || stored === 'list' ? stored : 'grid';
+  });
 
-  const effectOptions = useMemo(() => extractAllEffectRefs(characters), [characters]);
+  useEffect(() => {
+    window.localStorage.setItem(VIEW_MODE_STORAGE_KEY, viewMode);
+  }, [viewMode]);
+
+  const effectOptions = useMemo(
+    () => extractAllEffectRefs(characters),
+    [characters]
+  );
 
   const filteredAndSorted = useMemo(() => {
     const filtered = filterCharacters(characters, filters);
@@ -63,7 +95,8 @@ export default function CharacterList({
       <Stack gap="md">
         <Group justify="space-between" align="center">
           <Text size="sm" c="dimmed">
-            {filteredAndSorted.length} character{filteredAndSorted.length !== 1 ? 's' : ''}
+            {filteredAndSorted.length} character
+            {filteredAndSorted.length !== 1 ? 's' : ''}
           </Text>
           <Group gap="xs">
             <Group gap={4}>
@@ -125,7 +158,11 @@ export default function CharacterList({
         ) : viewMode === 'grid' ? (
           <SimpleGrid cols={cols} spacing={spacing}>
             {filteredAndSorted.map((char) => (
-              <CharacterCard key={char.name} name={char.name} quality={char.quality} />
+              <CharacterCard
+                key={char.name}
+                name={char.name}
+                quality={char.quality}
+              />
             ))}
           </SimpleGrid>
         ) : (

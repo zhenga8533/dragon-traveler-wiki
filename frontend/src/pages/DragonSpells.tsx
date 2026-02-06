@@ -19,7 +19,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoFilter, IoGrid, IoList, IoSearch } from 'react-icons/io5';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
 import SuggestModal from '../components/SuggestModal';
@@ -38,6 +38,7 @@ const EMPTY_FILTERS: WyrmspellFilters = {
 };
 
 type ViewMode = 'list' | 'grid';
+const VIEW_MODE_STORAGE_KEY = 'wyrmspells:viewMode';
 
 export default function DragonSpells() {
   const { data: wyrmspells, loading } = useDataFetch<Wyrmspell[]>(
@@ -46,7 +47,17 @@ export default function DragonSpells() {
   );
   const [filters, setFilters] = useState<WyrmspellFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
-  const [viewMode, setViewMode] = useState<ViewMode>('list');
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    if (typeof window === 'undefined') {
+      return 'list';
+    }
+    const stored = window.localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+    return stored === 'grid' || stored === 'list' ? stored : 'list';
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem(VIEW_MODE_STORAGE_KEY, viewMode);
+  }, [viewMode]);
 
   const typeOptions = useMemo(() => {
     const types = new Set<string>();

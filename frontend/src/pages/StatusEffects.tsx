@@ -19,7 +19,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoFilter, IoGrid, IoList, IoSearch } from 'react-icons/io5';
 import { getStatusEffectIcon } from '../assets/status_effect';
 import RichText from '../components/RichText';
@@ -40,6 +40,7 @@ const EMPTY_FILTERS: StatusEffectFilters = {
 };
 
 type ViewMode = 'list' | 'grid';
+const VIEW_MODE_STORAGE_KEY = 'status-effects:viewMode';
 
 export default function StatusEffects() {
   const { data: effects, loading } = useDataFetch<StatusEffect[]>(
@@ -48,7 +49,17 @@ export default function StatusEffects() {
   );
   const [filters, setFilters] = useState<StatusEffectFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
-  const [viewMode, setViewMode] = useState<ViewMode>('list');
+  const [viewMode, setViewMode] = useState<ViewMode>(() => {
+    if (typeof window === 'undefined') {
+      return 'list';
+    }
+    const stored = window.localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+    return stored === 'grid' || stored === 'list' ? stored : 'list';
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem(VIEW_MODE_STORAGE_KEY, viewMode);
+  }, [viewMode]);
 
   const filtered = useMemo(() => {
     return effects
