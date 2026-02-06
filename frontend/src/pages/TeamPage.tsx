@@ -16,7 +16,7 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { IoArrowBack, IoCreate } from 'react-icons/io5';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_BORDER_COLOR } from '../components/CharacterCard';
@@ -242,7 +242,14 @@ function TeamMemberCard({
         </Box>
 
         <Stack gap={4} align="center" w="100%">
-          <Text fw={600} ta="center">
+          <Text
+            fw={600}
+            ta="center"
+            component={Link}
+            to={`/characters/${encodeURIComponent(member.character_name)}`}
+            c="violet"
+            style={{ textDecoration: 'none' }}
+          >
             {member.character_name}
           </Text>
           {character && (
@@ -282,7 +289,15 @@ function TeamMemberCard({
                         border: `2px solid ${charMap.get(sub) ? QUALITY_BORDER_COLOR[charMap.get(sub)!.quality] : 'var(--mantine-color-gray-5)'}`,
                       }}
                     />
-                    <Text size="xs">{sub}</Text>
+                    <Text
+                      size="xs"
+                      component={Link}
+                      to={`/characters/${encodeURIComponent(sub)}`}
+                      c="violet"
+                      style={{ textDecoration: 'none' }}
+                    >
+                      {sub}
+                    </Text>
                   </Group>
                 ))}
               </Stack>
