@@ -66,9 +66,9 @@ export default function CharacterPage() {
   const [selectedIllustration, setSelectedIllustration] =
     useState<CharacterIllustration | null>(null);
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [modalHoverSide, setModalHoverSide] = useState<
-    'left' | 'right' | null
-  >(null);
+  const [modalHoverSide, setModalHoverSide] = useState<'left' | 'right' | null>(
+    null
+  );
 
   // Load illustrations when character changes
   useEffect(() => {
@@ -149,7 +149,9 @@ export default function CharacterPage() {
   const activeIllustration = selectedIllustration ?? illustrations[0] ?? null;
   const activeIllustrationName = activeIllustration?.name;
   const activeIllustrationIndex = activeIllustration
-    ? illustrations.findIndex((illust) => illust.name === activeIllustration.name)
+    ? illustrations.findIndex(
+        (illust) => illust.name === activeIllustration.name
+      )
     : -1;
   const hasMultipleIllustrations = illustrations.length > 1;
 
@@ -230,7 +232,7 @@ export default function CharacterPage() {
               <Stack gap="sm">
                 <Breadcrumbs>
                   <Link to="/characters" style={{ textDecoration: 'none' }}>
-                    <Text size="sm" c="gray.4">
+                    <Text size="sm" c="gray.4" td="hover:underline">
                       Characters
                     </Text>
                   </Link>
@@ -816,9 +818,9 @@ export default function CharacterPage() {
         {/* Back Link */}
         <Box mt="xl">
           <Link to="/characters" style={{ textDecoration: 'none' }}>
-            <Group gap="xs" c="dimmed">
+            <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
               <IoArrowBack />
-              <Text>Back to Characters</Text>
+              <Text td="hover:underline">Back to Characters</Text>
             </Group>
           </Link>
         </Box>

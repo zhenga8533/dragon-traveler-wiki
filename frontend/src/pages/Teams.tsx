@@ -242,8 +242,8 @@ export default function Teams() {
                             href={`#/teams/${encodeURIComponent(team.name)}`}
                             style={{
                               cursor: 'pointer',
-                              textDecoration: 'none',
-                              color: 'inherit',
+                              textDecoration: 'underline',
+                              color: 'var(--mantine-color-violet-filled)',
                             }}
                             onClick={(e) => {
                               e.preventDefault();
@@ -251,7 +251,7 @@ export default function Teams() {
                                 `/teams/${encodeURIComponent(team.name)}`
                               );
                             }}
-                            td="hover:underline"
+                            c="violet"
                           >
                             {team.name}
                           </Text>

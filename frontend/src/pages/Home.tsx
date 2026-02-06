@@ -241,7 +241,19 @@ export default function Home() {
                 padding="lg"
                 radius="md"
                 withBorder
-                style={{ textDecoration: 'none' }}
+                style={{
+                  textDecoration: 'none',
+                  cursor: 'pointer',
+                  transition: 'transform 0.2s, box-shadow 0.2s',
+                }}
+                onMouseEnter={(e) => {
+                  e.currentTarget.style.transform = 'translateY(-2px)';
+                  e.currentTarget.style.boxShadow = 'var(--mantine-shadow-md)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'translateY(0)';
+                  e.currentTarget.style.boxShadow = '';
+                }}
               >
                 <Stack align="center" gap="xs">
                   <ThemeIcon
