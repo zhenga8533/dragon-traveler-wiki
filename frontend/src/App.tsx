@@ -24,6 +24,7 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { HashRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
+import logo from './assets/logo.png';
 import Footer from './components/Footer';
 import SearchModal from './components/SearchModal';
 import BeginnerQA from './pages/BeginnerQA';
@@ -173,12 +174,19 @@ export default function App() {
                 hiddenFrom="sm"
                 size="sm"
               />
-              <Image
-                src={`${import.meta.env.BASE_URL}logo.svg`}
-                h={30}
-                w={30}
-              />
-              <Title order={3}>Dragon Traveler Wiki</Title>
+              <Link
+                to="/"
+                style={{
+                  textDecoration: 'none',
+                  display: 'flex',
+                  alignItems: 'center',
+                  gap: '0.5rem',
+                  color: 'inherit',
+                }}
+              >
+                <Image src={logo} h={48} w={128} />
+                <Title order={3}>Dragon Traveler Wiki</Title>
+              </Link>
             </Group>
             <Group gap="xs">
               <SearchModal />
