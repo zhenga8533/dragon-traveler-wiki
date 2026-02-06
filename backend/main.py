@@ -44,12 +44,6 @@ def scrape_codes() -> list[dict[str, Any]]:
     return []
 
 
-def scrape_news() -> list[dict[str, Any]]:
-    """Scrape news/updates from source databases."""
-    # TODO: Implement news scraping
-    return []
-
-
 def write_json(filename: str, data: list[dict[str, Any]]) -> None:
     """Write data to a JSON file in the data directory.
 
@@ -84,7 +78,6 @@ def main() -> None:
             "status-effects",
             "dragon-spells",
             "codes",
-            "news",
             "all",
         ],
         default="all",
@@ -99,7 +92,6 @@ def main() -> None:
         "status-effects": ("status-effects.json", scrape_status_effects),
         "wyrmspells": ("wyrmspells.json", scrape_wyrmspells),
         "codes": ("codes.json", scrape_codes),
-        "news": ("news.json", scrape_news),
     }
 
     targets = scrapers.keys() if args.target == "all" else [args.target]

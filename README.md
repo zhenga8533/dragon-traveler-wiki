@@ -7,7 +7,6 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 - Character database with stats and abilities
 - Tier list rankings
 - Items database
-- Latest news and game updates
 - Dark/light theme toggle
 
 ## Tech Stack

@@ -16,7 +16,6 @@ import {
   IoGameController,
   IoGlobe,
   IoLink,
-  IoNewspaper,
   IoPeople,
   IoPricetag,
   IoShield,
@@ -30,11 +29,20 @@ const QUICK_LINKS = [
   { label: 'Characters', path: '/characters', icon: IoPeople, color: 'blue' },
   { label: 'Tier List', path: '/tier-list', icon: IoTrophy, color: 'yellow' },
   { label: 'Teams', path: '/teams', icon: IoShield, color: 'green' },
-  { label: 'Status Effects', path: '/status-effects', icon: IoFlash, color: 'orange' },
-  { label: 'Wyrmspells', path: '/wyrmspells', icon: IoSparkles, color: 'violet' },
+  {
+    label: 'Status Effects',
+    path: '/status-effects',
+    icon: IoFlash,
+    color: 'orange',
+  },
+  {
+    label: 'Wyrmspells',
+    path: '/wyrmspells',
+    icon: IoSparkles,
+    color: 'violet',
+  },
   { label: 'Codes', path: '/codes', icon: IoPricetag, color: 'teal' },
   { label: 'Useful Links', path: '/useful-links', icon: IoLink, color: 'cyan' },
-  { label: 'News', path: '/news', icon: IoNewspaper, color: 'pink' },
 ];
 
 const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];
@@ -101,7 +109,8 @@ export default function Home() {
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(to bottom, transparent 40%, var(--mantine-color-body) 100%)',
+              background:
+                'linear-gradient(to bottom, transparent 40%, var(--mantine-color-body) 100%)',
             }}
           />
           {/* Side gradient fades */}
@@ -109,13 +118,19 @@ export default function Home() {
             style={{
               position: 'absolute',
               inset: 0,
-              background: 'linear-gradient(to right, var(--mantine-color-body) 0%, transparent 10%, transparent 90%, var(--mantine-color-body) 100%)',
+              background:
+                'linear-gradient(to right, var(--mantine-color-body) 0%, transparent 10%, transparent 90%, var(--mantine-color-body) 100%)',
             }}
           />
         </Box>
 
         {/* Content that overlaps the banner */}
-        <Container size="md" style={{ position: 'relative', zIndex: 1 }} pt={60} pb="xl">
+        <Container
+          size="md"
+          style={{ position: 'relative', zIndex: 1 }}
+          pt={60}
+          pb="xl"
+        >
           <Stack gap="lg">
             {/* Title */}
             <Box style={{ textAlign: 'center' }}>
@@ -124,7 +139,8 @@ export default function Home() {
                 style={{
                   fontSize: 'clamp(2rem, 6vw, 3.5rem)',
                   color: 'white',
-                  textShadow: '0 2px 12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.5)',
+                  textShadow:
+                    '0 2px 12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.5)',
                 }}
               >
                 Dragon Traveler Wiki
@@ -156,7 +172,12 @@ export default function Home() {
             >
               <Stack gap="md">
                 <Group gap="sm">
-                  <ThemeIcon variant="light" color="grape" size="lg" radius="md">
+                  <ThemeIcon
+                    variant="light"
+                    color="grape"
+                    size="lg"
+                    radius="md"
+                  >
                     <IoGameController size={20} />
                   </ThemeIcon>
                   <Title order={3}>About the Game</Title>
@@ -165,20 +186,26 @@ export default function Home() {
                   Love x Comedy x Isekai = The Ultimate Bishoujo RPG!
                 </Text>
                 <Text size="sm">
-                  Dragon Traveler is a free-to-play idle RPG developed and published
-                  by GameTree. Play as Fafnir, heir of the legendary dragon, in a rom-com
-                  isekai adventure featuring card-based combat, strategic Dragon Soul mechanics,
-                  and a colorful cast of characters. Battles last just three minutes — no stress, all laughs.
+                  Dragon Traveler is a free-to-play idle RPG developed and
+                  published by GameTree. Play as Fafnir, heir of the legendary
+                  dragon, in a rom-com isekai adventure featuring card-based
+                  combat, strategic Dragon Soul mechanics, and a colorful cast
+                  of characters. Battles last just three minutes — no stress,
+                  all laughs.
                 </Text>
                 <Text size="sm">
-                  Available on Android, iOS, and PC with Japanese voice acting and subtitles
-                  in seven languages.
+                  Available on Android, iOS, and PC with Japanese voice acting
+                  and subtitles in seven languages.
                 </Text>
                 <Group gap="xs" wrap="wrap">
                   {GENRES.map((genre) => (
-                    <Badge key={genre} variant="light" size="sm">{genre}</Badge>
+                    <Badge key={genre} variant="light" size="sm">
+                      {genre}
+                    </Badge>
                   ))}
-                  <Badge variant="light" color="green" size="sm">Free to Play</Badge>
+                  <Badge variant="light" color="green" size="sm">
+                    Free to Play
+                  </Badge>
                 </Group>
                 <Group gap="sm">
                   <ThemeIcon variant="light" color="blue" size="md" radius="md">
@@ -192,7 +219,8 @@ export default function Home() {
             </Card>
 
             <Text size="xs" c="dimmed" fs="italic">
-              This is a fan-made project and is not affiliated with or endorsed by GameTree.
+              This is a fan-made project and is not affiliated with or endorsed
+              by GameTree.
             </Text>
           </Stack>
         </Container>
@@ -214,7 +242,12 @@ export default function Home() {
                 style={{ textDecoration: 'none' }}
               >
                 <Stack align="center" gap="xs">
-                  <ThemeIcon variant="light" color={item.color} size="xl" radius="md">
+                  <ThemeIcon
+                    variant="light"
+                    color={item.color}
+                    size="xl"
+                    radius="md"
+                  >
                     <item.icon size={22} />
                   </ThemeIcon>
                   <Text fw={500} size="sm" ta="center">

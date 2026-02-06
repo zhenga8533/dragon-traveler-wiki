@@ -16,7 +16,6 @@ import Characters from './pages/Characters';
 import Codes from './pages/Codes';
 import DragonSpells from './pages/DragonSpells';
 import Home from './pages/Home';
-import News from './pages/News';
 import StatusEffects from './pages/StatusEffects';
 import Teams from './pages/Teams';
 import TierList from './pages/TierList';
@@ -42,7 +41,6 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Teams', path: '/teams' },
   { label: 'Codes', path: '/codes' },
   { label: 'Useful Links', path: '/useful-links' },
-  { label: 'News', path: '/news' },
 ];
 
 function ThemeToggle() {
@@ -149,7 +147,6 @@ export default function App() {
             <Route path="/dragon-spells" element={<DragonSpells />} />
             <Route path="/codes" element={<Codes />} />
             <Route path="/useful-links" element={<UsefulLinks />} />
-            <Route path="/news" element={<News />} />
           </Routes>
         </AppShell.Main>
       </AppShell>
