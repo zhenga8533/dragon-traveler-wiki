@@ -12,6 +12,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { IoMoon, IoSunny } from 'react-icons/io5';
 import { HashRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
 import Footer from './components/Footer';
+import SearchModal from './components/SearchModal';
 import BeginnerQA from './pages/BeginnerQA';
 import Changelog from './pages/Changelog';
 import CharacterPage from './pages/CharacterPage';
@@ -149,7 +150,10 @@ export default function App() {
               />
               <Title order={3}>Dragon Traveler Wiki</Title>
             </Group>
-            <ThemeToggle />
+            <Group gap="xs">
+              <SearchModal />
+              <ThemeToggle />
+            </Group>
           </Group>
         </AppShell.Header>
 
