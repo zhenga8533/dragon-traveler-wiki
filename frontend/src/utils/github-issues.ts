@@ -41,6 +41,13 @@ export const WYRMSPELL_JSON_TEMPLATE = {
   effect: 'Describe the effect clearly',
 };
 
+export const STATUS_EFFECT_JSON_TEMPLATE = {
+  name: 'Status Effect Name',
+  type: 'Buff | Debuff | Special | Control | Elemental | Blessing',
+  effect: 'Describe the effect clearly',
+  remark: '(optional notes)',
+};
+
 export const LINK_JSON_TEMPLATE = {
   icon: 'discord | wiki | spreadsheet | (leave empty for generic)',
   application: 'e.g. Discord, Google Sheets, Website',

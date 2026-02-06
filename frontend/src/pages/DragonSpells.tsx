@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Badge,
   Button,
   Center,
@@ -9,14 +10,17 @@ import {
   Image,
   Loader,
   Paper,
+  SimpleGrid,
   Stack,
+  Table,
   Text,
   TextInput,
   Title,
+  Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
-import { IoFilter, IoSearch } from 'react-icons/io5';
+import { IoFilter, IoGrid, IoList, IoSearch } from 'react-icons/io5';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
 import SuggestModal from '../components/SuggestModal';
 import { useDataFetch } from '../hooks/use-data-fetch';
@@ -33,6 +37,8 @@ const EMPTY_FILTERS: WyrmspellFilters = {
   types: [],
 };
 
+type ViewMode = 'list' | 'grid';
+
 export default function DragonSpells() {
   const { data: wyrmspells, loading } = useDataFetch<Wyrmspell[]>(
     'data/wyrmspells.json',
@@ -40,6 +46,7 @@ export default function DragonSpells() {
   );
   const [filters, setFilters] = useState<WyrmspellFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
+  const [viewMode, setViewMode] = useState<ViewMode>('list');
 
   const typeOptions = useMemo(() => {
     const types = new Set<string>();
@@ -101,21 +108,43 @@ export default function DragonSpells() {
                 <Text size="sm" c="dimmed">
                   {filtered.length} wyrmspell{filtered.length !== 1 ? 's' : ''}
                 </Text>
-                <Button
-                  variant="default"
-                  size="xs"
-                  leftSection={<IoFilter size={16} />}
-                  rightSection={
-                    activeFilterCount > 0 ? (
-                      <Badge size="xs" circle variant="filled">
-                        {activeFilterCount}
-                      </Badge>
-                    ) : null
-                  }
-                  onClick={toggleFilter}
-                >
-                  Filters
-                </Button>
+                <Group gap="xs">
+                  <Group gap={4}>
+                    <Tooltip label="Grid view">
+                      <ActionIcon
+                        variant={viewMode === 'grid' ? 'filled' : 'default'}
+                        size="sm"
+                        onClick={() => setViewMode('grid')}
+                      >
+                        <IoGrid size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                    <Tooltip label="List view">
+                      <ActionIcon
+                        variant={viewMode === 'list' ? 'filled' : 'default'}
+                        size="sm"
+                        onClick={() => setViewMode('list')}
+                      >
+                        <IoList size={16} />
+                      </ActionIcon>
+                    </Tooltip>
+                  </Group>
+                  <Button
+                    variant="default"
+                    size="xs"
+                    leftSection={<IoFilter size={16} />}
+                    rightSection={
+                      activeFilterCount > 0 ? (
+                        <Badge size="xs" circle variant="filled">
+                          {activeFilterCount}
+                        </Badge>
+                      ) : null
+                    }
+                    onClick={toggleFilter}
+                  >
+                    Filters
+                  </Button>
+                </Group>
               </Group>
 
               <Collapse in={filterOpen}>
@@ -176,8 +205,8 @@ export default function DragonSpells() {
                 <Text c="dimmed" size="sm" ta="center" py="md">
                   No wyrmspells match the current filters.
                 </Text>
-              ) : (
-                <Stack gap="sm">
+              ) : viewMode === 'grid' ? (
+                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                   {filtered.map((spell) => {
                     const iconSrc = getWyrmspellIcon(spell.name);
                     return (
@@ -205,7 +234,51 @@ export default function DragonSpells() {
                       </Paper>
                     );
                   })}
-                </Stack>
+                </SimpleGrid>
+              ) : (
+                <Table striped highlightOnHover>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Icon</Table.Th>
+                      <Table.Th>Name</Table.Th>
+                      <Table.Th>Type</Table.Th>
+                      <Table.Th>Effect</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {filtered.map((spell) => {
+                      const iconSrc = getWyrmspellIcon(spell.name);
+                      return (
+                        <Table.Tr key={spell.name}>
+                          <Table.Td>
+                            {iconSrc && (
+                              <Image
+                                src={iconSrc}
+                                alt={spell.name}
+                                w={40}
+                                h={40}
+                                fit="contain"
+                              />
+                            )}
+                          </Table.Td>
+                          <Table.Td>
+                            <Text fw={600} size="sm">
+                              {spell.name}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td>
+                            <Badge variant="light" size="sm">
+                              {spell.type}
+                            </Badge>
+                          </Table.Td>
+                          <Table.Td>
+                            <Text size="sm">{spell.effect}</Text>
+                          </Table.Td>
+                        </Table.Tr>
+                      );
+                    })}
+                  </Table.Tbody>
+                </Table>
               )}
             </Stack>
           </Paper>
