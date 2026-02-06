@@ -7,7 +7,7 @@ const portraitModules = import.meta.glob<{ default: string }>(
 
 // Illustrations, talents, and skills load on-demand (only needed on character detail pages)
 const illustrationModules = import.meta.glob<{ default: string }>(
-  './**/illustrations/*.png'
+  './**/illustrations/*.{png,mp4}'
 );
 
 const talentModules = import.meta.glob<{ default: string }>('./**/talent.png');
@@ -18,16 +18,35 @@ function normalizeKey(name: string): string {
   return name.toLowerCase().replace(/\s+/g, '_');
 }
 
+function formatIllustrationName(fileName: string): string {
+  const words = fileName
+    .replace(/[-_]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim()
+    .toLowerCase()
+    .split(' ')
+    .filter(Boolean);
+
+  return words
+    .map((word) => word.replace(/^\w/, (char) => char.toUpperCase()))
+    .join(' ');
+}
+
 export interface CharacterIllustration {
   name: string;
   src: string;
+  type: 'image' | 'video';
 }
 
 // Build lookup maps
 const portraits = new Map<string, string>();
 const illustrationLoaders = new Map<
   string,
-  Array<{ name: string; loader: () => Promise<{ default: string }> }>
+  Array<{
+    name: string;
+    loader: () => Promise<{ default: string }>;
+    type: 'image' | 'video';
+  }>
 >();
 const talentLoaders = new Map<string, () => Promise<{ default: string }>>();
 const skillLoaders = new Map<
@@ -51,16 +70,17 @@ for (const [path, module] of Object.entries(portraitModules)) {
 
 // Build illustration loaders map (lazy loading)
 for (const [path, loader] of Object.entries(illustrationModules)) {
-  // path is like "./fenrir/illustrations/default.png"
-  const match = path.match(/\.\/([^/]+)\/illustrations\/([^/]+)\.png$/);
+  // path is like "./fenrir/illustrations/default.png" or "./fenrir/illustrations/intro.mp4"
+  const match = path.match(/\.\/([^/]+)\/illustrations\/([^/]+)\.(png|mp4)$/);
   if (match) {
-    const [, charKey, illustrationName] = match;
+    const [, charKey, illustrationName, extension] = match;
     if (!illustrationLoaders.has(charKey)) {
       illustrationLoaders.set(charKey, []);
     }
     illustrationLoaders.get(charKey)!.push({
-      name: illustrationName.replace(/-/g, ' '),
+      name: formatIllustrationName(illustrationName),
       loader: loader as () => Promise<{ default: string }>,
+      type: extension === 'mp4' ? 'video' : 'image',
     });
   }
 }
@@ -111,9 +131,10 @@ export async function getIllustrations(
   }
 
   const illustrations = await Promise.all(
-    loaders.map(async ({ name, loader }) => ({
+    loaders.map(async ({ name, loader, type }) => ({
       name,
       src: (await loader()).default,
+      type,
     }))
   );
 

@@ -21,6 +21,11 @@ export interface TalentLevel {
   effect: string;
 }
 
+export interface Talent {
+  name: string;
+  talent_levels: TalentLevel[];
+}
+
 export interface Character {
   name: string;
   quality: Quality;
@@ -33,7 +38,7 @@ export interface Character {
   lore: string;
   quote: string;
   origin: string;
-  talent: TalentLevel[];
+  talent?: Talent | null;
   skills: Skill[];
   noble_phantasm: string;
 }

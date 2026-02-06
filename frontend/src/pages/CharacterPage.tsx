@@ -9,13 +9,14 @@ import {
   Group,
   Image,
   Loader,
+  Modal,
   Paper,
   SimpleGrid,
   Stack,
-  Tabs,
   Text,
   Title,
   Tooltip,
+  UnstyledButton,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
@@ -64,6 +65,10 @@ export default function CharacterPage() {
   const [skillIcons, setSkillIcons] = useState<Map<string, string>>(new Map());
   const [selectedIllustration, setSelectedIllustration] =
     useState<CharacterIllustration | null>(null);
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [modalHoverSide, setModalHoverSide] = useState<
+    'left' | 'right' | null
+  >(null);
 
   // Load illustrations when character changes
   useEffect(() => {
@@ -75,7 +80,8 @@ export default function CharacterPage() {
 
     getIllustrations(character.name).then((imgs) => {
       setIllustrations(imgs);
-      const defaultImg = imgs.find((i) => i.name === 'default') || imgs[0];
+      const defaultImg =
+        imgs.find((i) => i.name.toLowerCase() === 'default') || imgs[0];
       if (defaultImg) {
         setSelectedIllustration(defaultImg);
       }
@@ -140,6 +146,27 @@ export default function CharacterPage() {
 
   const portrait = getPortrait(character.name);
 
+  const activeIllustration = selectedIllustration ?? illustrations[0] ?? null;
+  const activeIllustrationName = activeIllustration?.name;
+  const activeIllustrationIndex = activeIllustration
+    ? illustrations.findIndex((illust) => illust.name === activeIllustration.name)
+    : -1;
+  const hasMultipleIllustrations = illustrations.length > 1;
+
+  const showPreviousIllustration = () => {
+    if (illustrations.length === 0 || activeIllustrationIndex < 0) return;
+    const nextIndex =
+      (activeIllustrationIndex - 1 + illustrations.length) %
+      illustrations.length;
+    setSelectedIllustration(illustrations[nextIndex]);
+  };
+
+  const showNextIllustration = () => {
+    if (illustrations.length === 0 || activeIllustrationIndex < 0) return;
+    const nextIndex = (activeIllustrationIndex + 1) % illustrations.length;
+    setSelectedIllustration(illustrations[nextIndex]);
+  };
+
   return (
     <Box>
       {/* Hero Section with Blurred Background */}
@@ -152,12 +179,12 @@ export default function CharacterPage() {
         }}
       >
         {/* Blurred background layer using default illustration */}
-        {selectedIllustration && (
+        {activeIllustration?.type === 'image' && (
           <Box
             style={{
               position: 'absolute',
               inset: -20,
-              backgroundImage: `url(${selectedIllustration.src})`,
+              backgroundImage: `url(${activeIllustration.src})`,
               backgroundSize: 'cover',
               backgroundPosition: 'center',
               filter: 'blur(20px) brightness(0.4)',
@@ -312,50 +339,102 @@ export default function CharacterPage() {
           <Grid.Col span={{ base: 12, md: 4 }}>
             <Stack gap="md" style={{ position: 'sticky', top: 20 }}>
               {illustrations.length > 0 ? (
-                <Tabs
-                  defaultValue={selectedIllustration?.name}
-                  variant="pills"
-                  onChange={(value) => {
-                    const illust = illustrations.find((i) => i.name === value);
-                    if (illust) setSelectedIllustration(illust);
-                  }}
-                >
-                  {illustrations.length > 1 && (
-                    <Tabs.List mb="md" style={{ justifyContent: 'center' }}>
-                      {illustrations.map((illust) => (
-                        <Tabs.Tab
-                          key={illust.name}
-                          value={illust.name}
-                          tt="capitalize"
-                        >
-                          {illust.name}
-                        </Tabs.Tab>
-                      ))}
-                    </Tabs.List>
-                  )}
-
-                  {illustrations.map((illust) => (
-                    <Tabs.Panel key={illust.name} value={illust.name}>
-                      <Paper
-                        p="md"
-                        radius="lg"
-                        withBorder
-                        style={{
-                          background: 'var(--mantine-color-dark-7)',
-                          overflow: 'hidden',
-                        }}
-                      >
+                <Stack gap="sm">
+                  <Paper
+                    p="md"
+                    radius="lg"
+                    withBorder
+                    style={{
+                      background: 'var(--mantine-color-dark-7)',
+                      overflow: 'hidden',
+                    }}
+                  >
+                    <UnstyledButton
+                      onClick={() => setPreviewOpen(true)}
+                      style={{ display: 'block', width: '100%' }}
+                    >
+                      {activeIllustration?.type === 'video' ? (
+                        <Box
+                          component="video"
+                          src={activeIllustration.src}
+                          controls
+                          style={{
+                            width: '100%',
+                            maxHeight: 600,
+                            borderRadius: 'var(--mantine-radius-md)',
+                          }}
+                        />
+                      ) : (
                         <Image
-                          src={illust.src}
-                          alt={`${character.name} - ${illust.name}`}
+                          src={activeIllustration?.src}
+                          alt={
+                            activeIllustration
+                              ? `${character.name} - ${activeIllustration.name}`
+                              : character.name
+                          }
                           fit="contain"
                           mah={600}
                           radius="md"
                         />
-                      </Paper>
-                    </Tabs.Panel>
-                  ))}
-                </Tabs>
+                      )}
+                    </UnstyledButton>
+                  </Paper>
+
+                  {illustrations.length > 1 && (
+                    <Box
+                      style={{
+                        display: 'flex',
+                        gap: 8,
+                        overflowX: 'auto',
+                        paddingBottom: 4,
+                      }}
+                    >
+                      {illustrations.map((illust) => {
+                        const isActive = illust.name === activeIllustrationName;
+                        return (
+                          <UnstyledButton
+                            key={illust.name}
+                            onClick={() => setSelectedIllustration(illust)}
+                            aria-pressed={isActive}
+                            style={{
+                              borderRadius: 'var(--mantine-radius-md)',
+                              border: isActive
+                                ? '2px solid var(--mantine-color-blue-5)'
+                                : '1px solid var(--mantine-color-dark-4)',
+                              overflow: 'hidden',
+                              flex: '0 0 auto',
+                            }}
+                          >
+                            {illust.type === 'video' ? (
+                              <Box
+                                component="video"
+                                src={illust.src}
+                                muted
+                                loop
+                                playsInline
+                                preload="metadata"
+                                style={{
+                                  width: 120,
+                                  height: 80,
+                                  objectFit: 'cover',
+                                  display: 'block',
+                                }}
+                              />
+                            ) : (
+                              <Image
+                                src={illust.src}
+                                alt={`${character.name} - ${illust.name}`}
+                                w={120}
+                                h={80}
+                                fit="cover"
+                              />
+                            )}
+                          </UnstyledButton>
+                        );
+                      })}
+                    </Box>
+                  )}
+                </Stack>
               ) : (
                 <Paper
                   p="xl"
@@ -463,43 +542,50 @@ export default function CharacterPage() {
               )}
 
               {/* Talent Section */}
-              {character.talent?.length > 0 && (
-                <Paper p="lg" radius="md" withBorder>
-                  <Stack gap="md">
-                    <Group gap="md">
-                      {talentIcon && (
-                        <Image
-                          src={talentIcon}
-                          alt="Talent"
-                          w={54}
-                          h={74}
-                          fit="contain"
-                        />
-                      )}
-                      <Title order={3}>Talent</Title>
-                    </Group>
+              {(() => {
+                const talent = character.talent;
+                const talentLevels = talent?.talent_levels ?? [];
 
-                    <Stack gap="sm">
-                      {character.talent.map((talent, idx) => (
-                        <Box key={idx}>
-                          <Group gap="xs" mb="xs">
-                            <Badge variant="filled" color="blue">
-                              Level {talent.level}
-                            </Badge>
-                          </Group>
-                          <RichText
-                            text={talent.effect}
-                            statusEffects={statusEffects}
+                if (talentLevels.length === 0) return null;
+
+                return (
+                  <Paper p="lg" radius="md" withBorder>
+                    <Stack gap="md">
+                      <Group gap="md">
+                        {talentIcon && (
+                          <Image
+                            src={talentIcon}
+                            alt="Talent"
+                            w={54}
+                            h={74}
+                            fit="contain"
                           />
-                          {idx < character.talent.length - 1 && (
-                            <Divider mt="sm" />
-                          )}
-                        </Box>
-                      ))}
+                        )}
+                        <Title order={3}>{talent?.name ?? 'Talent'}</Title>
+                      </Group>
+
+                      <Stack gap="sm">
+                        {talentLevels.map((talent, idx) => (
+                          <Box key={idx}>
+                            <Group gap="xs" mb="xs">
+                              <Badge variant="filled" color="blue">
+                                Level {talent.level}
+                              </Badge>
+                            </Group>
+                            <RichText
+                              text={talent.effect}
+                              statusEffects={statusEffects}
+                            />
+                            {idx < talentLevels.length - 1 && (
+                              <Divider mt="sm" />
+                            )}
+                          </Box>
+                        ))}
+                      </Stack>
                     </Stack>
-                  </Stack>
-                </Paper>
-              )}
+                  </Paper>
+                );
+              })()}
 
               {/* Skills Section */}
               {character.skills.length > 0 && (
@@ -560,6 +646,172 @@ export default function CharacterPage() {
             </Stack>
           </Grid.Col>
         </Grid>
+
+        <Modal
+          opened={previewOpen}
+          onClose={() => setPreviewOpen(false)}
+          size="95%"
+          centered
+          withCloseButton={false}
+          styles={{
+            overlay: {
+              backgroundColor: 'rgba(8, 10, 14, 0.7)',
+              backdropFilter: 'blur(8px)',
+            },
+            content: {
+              background: 'rgba(12, 14, 18, 0.95)',
+              border: '1px solid var(--mantine-color-dark-4)',
+              boxShadow: '0 24px 80px rgba(0,0,0,0.6)',
+            },
+            header: { display: 'none' },
+            body: { padding: 16 },
+          }}
+        >
+          {activeIllustration && (
+            <Stack gap="md">
+              <Group justify="space-between" align="center">
+                <Text fw={600} size="lg">
+                  {activeIllustrationName ?? character.name}
+                </Text>
+                <Group gap="sm">
+                  <UnstyledButton
+                    onClick={() => setPreviewOpen(false)}
+                    style={{
+                      padding: '6px 12px',
+                      borderRadius: '999px',
+                      border: '1px solid var(--mantine-color-dark-4)',
+                    }}
+                  >
+                    X
+                  </UnstyledButton>
+                </Group>
+              </Group>
+
+              <Box
+                style={{
+                  position: 'relative',
+                  maxHeight: '78vh',
+                  overflow: 'auto',
+                  display: 'flex',
+                  justifyContent: 'center',
+                }}
+              >
+                {activeIllustration.type === 'video' ? (
+                  <Box
+                    component="video"
+                    src={activeIllustration.src}
+                    controls
+                    style={{
+                      width: '100%',
+                      maxHeight: '78vh',
+                      borderRadius: 'var(--mantine-radius-md)',
+                    }}
+                  />
+                ) : (
+                  <Image
+                    src={activeIllustration.src}
+                    alt={`${character.name} - ${activeIllustration.name}`}
+                    fit="contain"
+                    mah="78vh"
+                    radius="md"
+                  />
+                )}
+
+                {hasMultipleIllustrations && (
+                  <>
+                    <Box
+                      onMouseEnter={() => setModalHoverSide('left')}
+                      onMouseLeave={() => setModalHoverSide(null)}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        left: 0,
+                        width: 84,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <UnstyledButton
+                        onClick={showPreviousIllustration}
+                        style={{
+                          opacity: modalHoverSide === 'left' ? 1 : 0,
+                          transition: 'opacity 150ms ease',
+                          padding: '10px 14px',
+                          borderRadius: '999px',
+                          border: '1px solid var(--mantine-color-dark-4)',
+                          background: 'rgba(8, 10, 14, 0.6)',
+                          color: 'var(--mantine-color-gray-0)',
+                        }}
+                      >
+                        {'<'}
+                      </UnstyledButton>
+                    </Box>
+                    <Box
+                      onMouseEnter={() => setModalHoverSide('right')}
+                      onMouseLeave={() => setModalHoverSide(null)}
+                      style={{
+                        position: 'absolute',
+                        top: 0,
+                        bottom: 0,
+                        right: 0,
+                        width: 84,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                      }}
+                    >
+                      <UnstyledButton
+                        onClick={showNextIllustration}
+                        style={{
+                          opacity: modalHoverSide === 'right' ? 1 : 0,
+                          transition: 'opacity 150ms ease',
+                          padding: '10px 14px',
+                          borderRadius: '999px',
+                          border: '1px solid var(--mantine-color-dark-4)',
+                          background: 'rgba(8, 10, 14, 0.6)',
+                          color: 'var(--mantine-color-gray-0)',
+                        }}
+                      >
+                        {'>'}
+                      </UnstyledButton>
+                    </Box>
+                  </>
+                )}
+              </Box>
+
+              {hasMultipleIllustrations && (
+                <Box
+                  style={{
+                    display: 'flex',
+                    justifyContent: 'center',
+                    gap: 8,
+                  }}
+                >
+                  {illustrations.map((illust) => {
+                    const isActive = illust.name === activeIllustrationName;
+                    return (
+                      <UnstyledButton
+                        key={`dot-${illust.name}`}
+                        onClick={() => setSelectedIllustration(illust)}
+                        aria-label={`Go to ${illust.name}`}
+                        style={{
+                          width: 8,
+                          height: 8,
+                          borderRadius: '999px',
+                          background: isActive
+                            ? 'var(--mantine-color-blue-5)'
+                            : 'var(--mantine-color-dark-4)',
+                        }}
+                      />
+                    );
+                  })}
+                </Box>
+              )}
+            </Stack>
+          )}
+        </Modal>
 
         {/* Back Link */}
         <Box mt="xl">

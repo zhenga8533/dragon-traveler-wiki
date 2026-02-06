@@ -28,6 +28,11 @@ class TalentLevel(BaseModel):
     effect: str
 
 
+class Talent(BaseModel):
+    name: str
+    talent_levels: list[TalentLevel]
+
+
 class Skill(BaseModel):
     name: str
     description: str
@@ -46,6 +51,6 @@ class Character(BaseModel):
     lore: str
     quote: str
     origin: str
-    talent: list[TalentLevel]
+    talent: Talent
     skills: list[Skill]
     noble_phantasm: str

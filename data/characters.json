@@ -17,7 +17,10 @@
     "weight": "42kg",
     "lore": "A elusive humanoid beast, appearing silently in the night, swiftly delivering a fatal blow to its enemies with its agile claws before vanishing without a trace. Living entirely in nature, nocturnal and free-spirited, hunting is its greatest passion.",
     "quote": "",
-    "talent": "",
+    "talent": {
+      "name": "",
+      "talent_levels": []
+    },
     "skills": [],
     "origin": "",
     "noble_phantasm": ""
@@ -41,28 +44,31 @@
     "lore": "Born from the element of fire, this demon possesses the power to manipulate all flames. By nature cruel, cunning, arrogant, and eager to create chaos, she is the vanguard of the Wild Hunt, following the orders of the Black Knight. Currently, she is sowing discord and causing disasters across various regions, finding not only pleasure in the chaos and turmoil she creates, but also thoroughly enjoying it.",
     "quote": "",
     "origin": "",
-    "talent": [
-      {
-        "level": 1,
-        "effect": "For every 3 instances of physical damage dealt to the same target, the next instance of damage will additionally deal physical damage equal to 86% of the user's attack."
-      },
-      {
-        "level": 2,
-        "effect": "After triggering an elemental reaction, the energy cost of the user's next ultimate skill is reduced by 1."
-      },
-      {
-        "level": 3,
-        "effect": "Increases own attack by 10% and critical hit rate by 50%."
-      },
-      {
-        "level": 4,
-        "effect": "When [Flame Brand] is triggered, there is a 50% chance to inflict [Physical Defense Reduction] on the target."
-      },
-      {
-        "level": 7,
-        "effect": "When [Flame Brand] is triggered, the cooldown of [Hexagram Array] is reduced by 1 second."
-      }
-    ],
+    "talent": {
+      "name": "Flame Brand",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "For every 3 instances of physical damage dealt to the same target, the next instance of damage will additionally deal physical damage equal to 86% of the user's attack."
+        },
+        {
+          "level": 2,
+          "effect": "After triggering an elemental reaction, the energy cost of the user's next ultimate skill is reduced by 1."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own attack by 10% and critical hit rate by 50%."
+        },
+        {
+          "level": 4,
+          "effect": "When [Flame Brand] is triggered, there is a 50% chance to inflict [Physical Defense Reduction] on the target."
+        },
+        {
+          "level": 7,
+          "effect": "When [Flame Brand] is triggered, the cooldown of [Hexagram Array] is reduced by 1 second."
+        }
+      ]
+    },
     "skills": [
       {
         "name": "Hexagram Formation",
