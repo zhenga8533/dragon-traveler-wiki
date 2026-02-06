@@ -10,6 +10,7 @@ import {
   Image,
   Loader,
   Paper,
+  ScrollArea,
   SimpleGrid,
   Stack,
   Table,
@@ -115,7 +116,7 @@ export default function StatusEffects() {
         {!loading && effects.length > 0 && (
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
-              <Group justify="space-between" align="center">
+              <Group justify="space-between" align="center" wrap="wrap">
                 <Text size="sm" c="dimmed">
                   {totalFiltered} status effect{totalFiltered !== 1 ? 's' : ''}
                 </Text>
@@ -161,7 +162,7 @@ export default function StatusEffects() {
               <Collapse in={filterOpen}>
                 <Paper p="md" radius="md" withBorder>
                   <Stack gap="sm">
-                    <Group justify="space-between" align="center">
+                    <Group justify="space-between" align="center" wrap="wrap">
                       <TextInput
                         placeholder="Search by name..."
                         leftSection={<IoSearch size={16} />}
@@ -172,7 +173,7 @@ export default function StatusEffects() {
                             search: e.currentTarget.value,
                           })
                         }
-                        style={{ flex: 1 }}
+                        style={{ flex: 1, minWidth: 200 }}
                       />
                       {activeFilterCount > 0 && (
                         <Button
@@ -258,68 +259,70 @@ export default function StatusEffects() {
                   })}
                 </SimpleGrid>
               ) : (
-                <Table striped highlightOnHover>
-                  <Table.Thead>
-                    <Table.Tr>
-                      <Table.Th>Icon</Table.Th>
-                      <Table.Th>Name</Table.Th>
-                      <Table.Th>Type</Table.Th>
-                      <Table.Th>Effect</Table.Th>
-                      <Table.Th>Remark</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>
-                    {filtered.map((effect) => {
-                      const iconSrc = getStatusEffectIcon(effect.name);
-                      return (
-                        <Table.Tr key={effect.name}>
-                          <Table.Td>
-                            {iconSrc && (
-                              <Image
-                                src={iconSrc}
-                                alt={effect.name}
-                                w={28}
-                                h={28}
-                                fit="contain"
+                <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                  <Table striped highlightOnHover style={{ minWidth: 720 }}>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>Icon</Table.Th>
+                        <Table.Th>Name</Table.Th>
+                        <Table.Th>Type</Table.Th>
+                        <Table.Th>Effect</Table.Th>
+                        <Table.Th>Remark</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {filtered.map((effect) => {
+                        const iconSrc = getStatusEffectIcon(effect.name);
+                        return (
+                          <Table.Tr key={effect.name}>
+                            <Table.Td>
+                              {iconSrc && (
+                                <Image
+                                  src={iconSrc}
+                                  alt={effect.name}
+                                  w={32}
+                                  h={32}
+                                  fit="contain"
+                                />
+                              )}
+                            </Table.Td>
+                            <Table.Td>
+                              <Text fw={600} size="sm">
+                                {effect.name}
+                              </Text>
+                            </Table.Td>
+                            <Table.Td>
+                              <Badge
+                                variant="light"
+                                color={STATE_COLOR[effect.type]}
+                                size="sm"
+                              >
+                                {effect.type}
+                              </Badge>
+                            </Table.Td>
+                            <Table.Td>
+                              <RichText
+                                text={effect.effect}
+                                statusEffects={effects}
                               />
-                            )}
-                          </Table.Td>
-                          <Table.Td>
-                            <Text fw={600} size="sm">
-                              {effect.name}
-                            </Text>
-                          </Table.Td>
-                          <Table.Td>
-                            <Badge
-                              variant="light"
-                              color={STATE_COLOR[effect.type]}
-                              size="sm"
-                            >
-                              {effect.type}
-                            </Badge>
-                          </Table.Td>
-                          <Table.Td>
-                            <RichText
-                              text={effect.effect}
-                              statusEffects={effects}
-                            />
-                          </Table.Td>
-                          <Table.Td>
-                            {effect.remark ? (
-                              <Text size="xs" c="dimmed" fs="italic">
-                                {effect.remark}
-                              </Text>
-                            ) : (
-                              <Text size="xs" c="dimmed">
-                                -
-                              </Text>
-                            )}
-                          </Table.Td>
-                        </Table.Tr>
-                      );
-                    })}
-                  </Table.Tbody>
-                </Table>
+                            </Table.Td>
+                            <Table.Td>
+                              {effect.remark ? (
+                                <Text size="xs" c="dimmed" fs="italic">
+                                  {effect.remark}
+                                </Text>
+                              ) : (
+                                <Text size="xs" c="dimmed">
+                                  -
+                                </Text>
+                              )}
+                            </Table.Td>
+                          </Table.Tr>
+                        );
+                      })}
+                    </Table.Tbody>
+                  </Table>
+                </ScrollArea>
               )}
             </Stack>
           </Paper>

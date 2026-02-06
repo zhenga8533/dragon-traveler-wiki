@@ -1,32 +1,40 @@
-import { useState, useCallback, useMemo } from 'react';
 import {
-  Title,
-  Text,
-  Container,
-  Stack,
-  Alert,
-  SegmentedControl,
-  Group,
-  Button,
-  Paper,
   ActionIcon,
-  Tooltip,
-  CopyButton,
-  Checkbox,
-  Modal,
-  Loader,
-  Center,
+  Alert,
   Badge,
+  Button,
+  Center,
+  Checkbox,
+  Container,
+  CopyButton,
+  Group,
+  Loader,
+  Modal,
+  Paper,
+  SegmentedControl,
+  Stack,
+  Text,
   TextInput,
+  Title,
+  Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { IoInformationCircleOutline } from 'react-icons/io5';
-import { IoCopyOutline, IoCheckmark, IoCloseCircleOutline, IoSearch } from 'react-icons/io5';
+import { useCallback, useMemo, useState } from 'react';
+import {
+  IoCheckmark,
+  IoCloseCircleOutline,
+  IoCopyOutline,
+  IoInformationCircleOutline,
+  IoSearch,
+} from 'react-icons/io5';
 import SuggestModal from '../components/SuggestModal';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Code } from '../types/code';
-import { CODE_JSON_TEMPLATE, buildExpiredCodeUrl } from '../utils/github-issues';
+import {
+  CODE_JSON_TEMPLATE,
+  buildExpiredCodeUrl,
+} from '../utils/github-issues';
 
 const STORAGE_KEY = 'redeemedCodes';
 
@@ -34,7 +42,9 @@ function loadRedeemed(): Set<string> {
   try {
     const raw = localStorage.getItem(STORAGE_KEY);
     if (raw) return new Set(JSON.parse(raw));
-  } catch { /* ignore */ }
+  } catch {
+    /* ignore */
+  }
   return new Set();
 }
 
@@ -49,8 +59,10 @@ export default function Codes() {
   const [redeemed, setRedeemed] = useState<Set<string>>(() => loadRedeemed());
   const [view, setView] = useState<ViewFilter>('unredeemed');
   const [search, setSearch] = useState('');
-  const [markAllOpened, { open: openMarkAll, close: closeMarkAll }] = useDisclosure(false);
-  const [clearAllOpened, { open: openClearAll, close: closeClearAll }] = useDisclosure(false);
+  const [markAllOpened, { open: openMarkAll, close: closeMarkAll }] =
+    useDisclosure(false);
+  const [clearAllOpened, { open: openClearAll, close: closeClearAll }] =
+    useDisclosure(false);
 
   const toggleRedeemed = useCallback((code: string) => {
     setRedeemed((prev) => {
@@ -88,12 +100,17 @@ export default function Codes() {
     });
   }, []);
 
-  const filtered = useMemo(() => codes.filter((entry) => {
-    if (view === 'redeemed' && !redeemed.has(entry.code)) return false;
-    if (view === 'unredeemed' && redeemed.has(entry.code)) return false;
-    if (search && !entry.code.toLowerCase().includes(search.toLowerCase())) return false;
-    return true;
-  }), [codes, view, redeemed, search]);
+  const filtered = useMemo(
+    () =>
+      codes.filter((entry) => {
+        if (view === 'redeemed' && !redeemed.has(entry.code)) return false;
+        if (view === 'unredeemed' && redeemed.has(entry.code)) return false;
+        if (search && !entry.code.toLowerCase().includes(search.toLowerCase()))
+          return false;
+        return true;
+      }),
+    [codes, view, redeemed, search]
+  );
 
   return (
     <Container size="md" py="xl">
@@ -115,9 +132,10 @@ export default function Codes() {
           variant="light"
         >
           <Text size="sm">
-            Codes are redeemed in-game via <strong>Settings &gt; Redeem Code</strong>.
-            Each code can only be used once per account.
-            Codes are case-sensitive and must be entered without leading or trailing spaces.
+            Codes are redeemed in-game via{' '}
+            <strong>Settings &gt; Redeem Code</strong>. Each code can only be
+            used once per account. Codes are case-sensitive and must be entered
+            without leading or trailing spaces.
           </Text>
         </Alert>
 
@@ -142,7 +160,12 @@ export default function Codes() {
             <Button size="xs" variant="light" onClick={openMarkAll}>
               Mark All Redeemed
             </Button>
-            <Button size="xs" variant="light" color="gray" onClick={openClearAll}>
+            <Button
+              size="xs"
+              variant="light"
+              color="gray"
+              onClick={openClearAll}
+            >
               Clear All Redeemed
             </Button>
           </Group>
@@ -166,78 +189,122 @@ export default function Codes() {
           </Text>
         )}
 
-        {!loading && filtered.map((entry) => (
-          <Paper
-            key={entry.code}
-            p="sm"
-            radius="md"
-            withBorder
-            opacity={entry.active ? 1 : 0.5}
-          >
-            <Group justify="space-between" wrap="nowrap">
-              <Group gap="sm" wrap="nowrap">
-                <Text ff="monospace" fw={500} size="lg" td={entry.active ? undefined : 'line-through'}>
-                  {entry.code}
-                </Text>
-                {!entry.active && (
-                  <Badge color="red" variant="light" size="sm">Expired</Badge>
-                )}
-              </Group>
-              <Group gap="xs" wrap="nowrap">
-                {entry.active && (
-                  <Tooltip label="Report expired" withArrow>
-                    <ActionIcon
-                      component="a"
-                      href={buildExpiredCodeUrl(entry.code)}
-                      target="_blank"
-                      variant="subtle"
-                      color="red"
-                    >
-                      <IoCloseCircleOutline size={18} />
-                    </ActionIcon>
-                  </Tooltip>
-                )}
-                <CopyButton value={entry.code} timeout={1500}>
-                  {({ copied, copy }) => (
-                    <Tooltip label={copied ? 'Copied!' : 'Copy code'} withArrow>
+        {!loading &&
+          filtered.map((entry) => (
+            <Paper
+              key={entry.code}
+              p="sm"
+              radius="md"
+              withBorder
+              opacity={entry.active ? 1 : 0.5}
+            >
+              <Group justify="space-between" wrap="wrap" align="center">
+                <Group gap="sm" wrap="wrap" style={{ flex: 1, minWidth: 200 }}>
+                  <Text
+                    ff="monospace"
+                    fw={500}
+                    size="lg"
+                    td={entry.active ? undefined : 'line-through'}
+                  >
+                    {entry.code}
+                  </Text>
+                  {!entry.active && (
+                    <Badge color="red" variant="light" size="sm">
+                      Expired
+                    </Badge>
+                  )}
+                </Group>
+                <Group gap="xs" wrap="wrap">
+                  {entry.active && (
+                    <Tooltip label="Report expired" withArrow>
                       <ActionIcon
+                        component="a"
+                        href={buildExpiredCodeUrl(entry.code)}
+                        target="_blank"
                         variant="subtle"
-                        color={copied ? 'teal' : 'gray'}
-                        onClick={copy}
+                        color="red"
                       >
-                        {copied ? <IoCheckmark size={18} /> : <IoCopyOutline size={18} />}
+                        <IoCloseCircleOutline size={18} />
                       </ActionIcon>
                     </Tooltip>
                   )}
-                </CopyButton>
-                <Checkbox
-                  checked={redeemed.has(entry.code)}
-                  onChange={() => toggleRedeemed(entry.code)}
-                  label="Redeemed"
-                  styles={{ label: { paddingLeft: 8 } }}
-                />
+                  <CopyButton value={entry.code} timeout={1500}>
+                    {({ copied, copy }) => (
+                      <Tooltip
+                        label={copied ? 'Copied!' : 'Copy code'}
+                        withArrow
+                      >
+                        <ActionIcon
+                          variant="subtle"
+                          color={copied ? 'teal' : 'gray'}
+                          onClick={copy}
+                        >
+                          {copied ? (
+                            <IoCheckmark size={18} />
+                          ) : (
+                            <IoCopyOutline size={18} />
+                          )}
+                        </ActionIcon>
+                      </Tooltip>
+                    )}
+                  </CopyButton>
+                  <Checkbox
+                    checked={redeemed.has(entry.code)}
+                    onChange={() => toggleRedeemed(entry.code)}
+                    label="Redeemed"
+                    styles={{ label: { paddingLeft: 8 } }}
+                  />
+                </Group>
               </Group>
-            </Group>
-          </Paper>
-        ))}
+            </Paper>
+          ))}
 
-        <Modal opened={markAllOpened} onClose={closeMarkAll} title="Mark all redeemed?" centered>
+        <Modal
+          opened={markAllOpened}
+          onClose={closeMarkAll}
+          title="Mark all redeemed?"
+          centered
+        >
           <Text size="sm" mb="lg">
             This will mark all {codes.length} codes as redeemed.
           </Text>
           <Group justify="flex-end">
-            <Button variant="default" onClick={closeMarkAll}>Cancel</Button>
-            <Button onClick={() => { markAllRedeemed(); closeMarkAll(); }}>Confirm</Button>
+            <Button variant="default" onClick={closeMarkAll}>
+              Cancel
+            </Button>
+            <Button
+              onClick={() => {
+                markAllRedeemed();
+                closeMarkAll();
+              }}
+            >
+              Confirm
+            </Button>
           </Group>
         </Modal>
 
-        <Modal opened={clearAllOpened} onClose={closeClearAll} title="Clear all redeemed?" centered>
+        <Modal
+          opened={clearAllOpened}
+          onClose={closeClearAll}
+          title="Clear all redeemed?"
+          centered
+        >
           <Text size="sm" mb="lg">
             This will mark all codes as unredeemed.
           </Text>
           <Group justify="flex-end">
-            <Button variant="default" onClick={closeClearAll}>Cancel</Button>
-            <Button color="red" onClick={() => { clearAllRedeemed(); closeClearAll(); }}>Confirm</Button>
+            <Button variant="default" onClick={closeClearAll}>
+              Cancel
+            </Button>
+            <Button
+              color="red"
+              onClick={() => {
+                clearAllRedeemed();
+                closeClearAll();
+              }}
+            >
+              Confirm
+            </Button>
           </Group>
         </Modal>
       </Stack>

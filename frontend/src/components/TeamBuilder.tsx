@@ -227,7 +227,13 @@ function SlotsGrid({
 
 /* ── Available pool ── */
 
-function AvailablePool({ children, filterHeader }: { children: React.ReactNode; filterHeader?: React.ReactNode }) {
+function AvailablePool({
+  children,
+  filterHeader,
+}: {
+  children: React.ReactNode;
+  filterHeader?: React.ReactNode;
+}) {
   const { setNodeRef, isOver } = useDroppable({ id: 'available' });
 
   return (
@@ -249,7 +255,7 @@ function AvailablePool({ children, filterHeader }: { children: React.ReactNode; 
           </Text>
         )}
         <SimpleGrid
-          cols={{ base: 4, xs: 5, sm: 6, md: 8 }}
+          cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
           spacing={4}
           style={{ minHeight: 40 }}
         >
@@ -269,11 +275,11 @@ export default function TeamBuilder({
 }: TeamBuilderProps) {
   // Team roster: max 6 characters
   const [slots, setSlots] = useState<(string | null)[]>(
-    Array(SLOT_COUNT).fill(null),
+    Array(SLOT_COUNT).fill(null)
   );
   // Track which slots have overdrive enabled
   const [overdriveEnabled, setOverdriveEnabled] = useState<boolean[]>(
-    Array(SLOT_COUNT).fill(false),
+    Array(SLOT_COUNT).fill(false)
   );
 
   const [name, setName] = useState('');
@@ -306,8 +312,12 @@ export default function TeamBuilder({
       .map((name, idx) => ({ name, idx, hasOD: newOverdriveEnabled[idx] }))
       .filter((item) => item.name !== null && item.hasOD)
       .sort((a, b) => {
-        const aOrder = initialData.members.find((m) => m.character_name === a.name)?.overdrive_order || 0;
-        const bOrder = initialData.members.find((m) => m.character_name === b.name)?.overdrive_order || 0;
+        const aOrder =
+          initialData.members.find((m) => m.character_name === a.name)
+            ?.overdrive_order || 0;
+        const bOrder =
+          initialData.members.find((m) => m.character_name === b.name)
+            ?.overdrive_order || 0;
         return aOrder - bOrder;
       });
 
@@ -334,9 +344,7 @@ export default function TeamBuilder({
     setOverdriveEnabled(reorderedOverdrive);
   }, [initialData]);
 
-  const factionColor = faction
-    ? FACTION_COLOR[faction as FactionName]
-    : 'blue';
+  const factionColor = faction ? FACTION_COLOR[faction as FactionName] : 'blue';
 
   // Set of all names currently on the team
   const teamNames = useMemo(() => {
@@ -389,7 +397,7 @@ export default function TeamBuilder({
   }
 
   function findCharLocation(
-    charName: string,
+    charName: string
   ): { zone: 'slot'; index: number } | { zone: 'available' } {
     const slotIdx = slots.indexOf(charName);
     if (slotIdx !== -1) return { zone: 'slot', index: slotIdx };

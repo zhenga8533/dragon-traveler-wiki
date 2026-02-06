@@ -6,6 +6,7 @@ import {
   Group,
   Image,
   Paper,
+  ScrollArea,
   SimpleGrid,
   Stack,
   Table,
@@ -44,7 +45,7 @@ interface CharacterListProps {
 
 export default function CharacterList({
   characters,
-  cols = { base: 4, xs: 5, sm: 6, md: 8 },
+  cols = { base: 2, xs: 3, sm: 4, md: 6 },
   spacing = 4,
   showFilter = true,
 }: CharacterListProps) {
@@ -93,7 +94,7 @@ export default function CharacterList({
   return (
     <Paper p="md" radius="md" withBorder>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
+        <Group justify="space-between" align="center" wrap="wrap">
           <Text size="sm" c="dimmed">
             {filteredAndSorted.length} character
             {filteredAndSorted.length !== 1 ? 's' : ''}
@@ -166,85 +167,87 @@ export default function CharacterList({
             ))}
           </SimpleGrid>
         ) : (
-          <Table striped highlightOnHover>
-            <Table.Thead>
-              <Table.Tr>
-                <Table.Th>Name</Table.Th>
-                <Table.Th>Quality</Table.Th>
-                <Table.Th>Class</Table.Th>
-                <Table.Th>Factions</Table.Th>
-              </Table.Tr>
-            </Table.Thead>
-            <Table.Tbody>
-              {filteredAndSorted.map((char) => (
-                <Table.Tr key={char.name} style={{ cursor: 'pointer' }}>
-                  <Table.Td>
-                    <UnstyledButton
-                      component={Link}
-                      to={`/characters/${encodeURIComponent(char.name)}`}
-                    >
-                      <Group gap="sm" wrap="nowrap">
-                        <Image
-                          src={getPortrait(char.name)}
-                          alt={char.name}
-                          h={40}
-                          w={40}
-                          fit="cover"
-                          radius="50%"
-                          fallbackSrc={`https://placehold.co/40x40?text=${encodeURIComponent(char.name.charAt(0))}`}
-                          style={{
-                            border: `3px solid ${char.quality ? QUALITY_BORDER_COLOR[char.quality] : 'var(--mantine-color-gray-5)'}`,
-                            flexShrink: 0,
-                          }}
-                        />
-                        <Text size="sm" fw={500}>
-                          {char.name}
-                        </Text>
-                      </Group>
-                    </UnstyledButton>
-                  </Table.Td>
-                  <Table.Td>
-                    <Tooltip label={char.quality}>
-                      <Image
-                        src={QUALITY_ICON_MAP[char.quality]}
-                        alt={char.quality}
-                        w={24}
-                        h={24}
-                        fit="contain"
-                      />
-                    </Tooltip>
-                  </Table.Td>
-                  <Table.Td>
-                    <Group gap="xs">
-                      <Image
-                        src={CLASS_ICON_MAP[char.character_class]}
-                        alt={char.character_class}
-                        w={20}
-                        h={20}
-                        fit="contain"
-                      />
-                      <Text size="sm">{char.character_class}</Text>
-                    </Group>
-                  </Table.Td>
-                  <Table.Td>
-                    <Group gap="xs">
-                      {char.factions.map((faction) => (
-                        <Tooltip key={faction} label={faction}>
-                          <Image
-                            src={FACTION_ICON_MAP[faction]}
-                            alt={faction}
-                            w={20}
-                            h={20}
-                            fit="contain"
-                          />
-                        </Tooltip>
-                      ))}
-                    </Group>
-                  </Table.Td>
+          <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+            <Table striped highlightOnHover style={{ minWidth: 560 }}>
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>Name</Table.Th>
+                  <Table.Th>Quality</Table.Th>
+                  <Table.Th>Class</Table.Th>
+                  <Table.Th>Factions</Table.Th>
                 </Table.Tr>
-              ))}
-            </Table.Tbody>
-          </Table>
+              </Table.Thead>
+              <Table.Tbody>
+                {filteredAndSorted.map((char) => (
+                  <Table.Tr key={char.name} style={{ cursor: 'pointer' }}>
+                    <Table.Td>
+                      <UnstyledButton
+                        component={Link}
+                        to={`/characters/${encodeURIComponent(char.name)}`}
+                      >
+                        <Group gap="sm" wrap="nowrap">
+                          <Image
+                            src={getPortrait(char.name)}
+                            alt={char.name}
+                            h={40}
+                            w={40}
+                            fit="cover"
+                            radius="50%"
+                            fallbackSrc={`https://placehold.co/40x40?text=${encodeURIComponent(char.name.charAt(0))}`}
+                            style={{
+                              border: `3px solid ${char.quality ? QUALITY_BORDER_COLOR[char.quality] : 'var(--mantine-color-gray-5)'}`,
+                              flexShrink: 0,
+                            }}
+                          />
+                          <Text size="sm" fw={500}>
+                            {char.name}
+                          </Text>
+                        </Group>
+                      </UnstyledButton>
+                    </Table.Td>
+                    <Table.Td>
+                      <Tooltip label={char.quality}>
+                        <Image
+                          src={QUALITY_ICON_MAP[char.quality]}
+                          alt={char.quality}
+                          w={24}
+                          h={24}
+                          fit="contain"
+                        />
+                      </Tooltip>
+                    </Table.Td>
+                    <Table.Td>
+                      <Group gap="xs">
+                        <Image
+                          src={CLASS_ICON_MAP[char.character_class]}
+                          alt={char.character_class}
+                          w={20}
+                          h={20}
+                          fit="contain"
+                        />
+                        <Text size="sm">{char.character_class}</Text>
+                      </Group>
+                    </Table.Td>
+                    <Table.Td>
+                      <Group gap="xs">
+                        {char.factions.map((faction) => (
+                          <Tooltip key={faction} label={faction}>
+                            <Image
+                              src={FACTION_ICON_MAP[faction]}
+                              alt={faction}
+                              w={20}
+                              h={20}
+                              fit="contain"
+                            />
+                          </Tooltip>
+                        ))}
+                      </Group>
+                    </Table.Td>
+                  </Table.Tr>
+                ))}
+              </Table.Tbody>
+            </Table>
+          </ScrollArea>
         )}
       </Stack>
     </Paper>

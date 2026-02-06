@@ -5,14 +5,18 @@ import { IoFilter } from 'react-icons/io5';
 import { QUALITY_ORDER } from '../constants/colors';
 import type { Character } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
-import { EMPTY_FILTERS, extractAllEffectRefs, filterCharacters } from '../utils/filter-characters';
+import {
+  EMPTY_FILTERS,
+  extractAllEffectRefs,
+  filterCharacters,
+} from '../utils/filter-characters';
 import CharacterFilter from './CharacterFilter';
 
 interface FilterableCharacterPoolProps {
   characters: Character[];
   children: (
     filtered: Character[],
-    filterHeader: React.ReactNode,
+    filterHeader: React.ReactNode
   ) => React.ReactNode;
 }
 
@@ -23,7 +27,10 @@ export default function FilterableCharacterPool({
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
 
-  const effectOptions = useMemo(() => extractAllEffectRefs(characters), [characters]);
+  const effectOptions = useMemo(
+    () => extractAllEffectRefs(characters),
+    [characters]
+  );
 
   const filtered = useMemo(() => {
     const filteredChars = filterCharacters(characters, filters);
@@ -47,9 +54,10 @@ export default function FilterableCharacterPool({
 
   const filterHeader = (
     <>
-      <Group justify="space-between" align="center">
+      <Group justify="space-between" align="center" wrap="wrap">
         <Text size="sm" c="dimmed">
-          {filtered.length} available character{filtered.length !== 1 ? 's' : ''}
+          {filtered.length} available character
+          {filtered.length !== 1 ? 's' : ''}
         </Text>
         <Button
           variant="default"

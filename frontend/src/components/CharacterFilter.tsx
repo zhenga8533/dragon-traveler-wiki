@@ -18,7 +18,14 @@ import type { CharacterFilters } from '../utils/filter-characters';
 import { EMPTY_FILTERS } from '../utils/filter-characters';
 
 const QUALITIES: Quality[] = ['SSR EX', 'SSR+', 'SSR', 'SR+', 'R', 'N'];
-const CLASSES: CharacterClass[] = ['Guardian', 'Priest', 'Assassin', 'Warrior', 'Archer', 'Mage'];
+const CLASSES: CharacterClass[] = [
+  'Guardian',
+  'Priest',
+  'Assassin',
+  'Warrior',
+  'Archer',
+  'Mage',
+];
 const FACTIONS: FactionName[] = [
   'Elemental Echo',
   'Wild Spirit',
@@ -48,13 +55,15 @@ export default function CharacterFilter({
 
   return (
     <Stack gap="sm">
-      <Group justify="space-between" align="center">
+      <Group justify="space-between" align="center" wrap="wrap">
         <TextInput
           placeholder="Search by name..."
           leftSection={<IoSearch size={16} />}
           value={filters.search}
-          onChange={(e) => onChange({ ...filters, search: e.currentTarget.value })}
-          style={{ flex: 1 }}
+          onChange={(e) =>
+            onChange({ ...filters, search: e.currentTarget.value })
+          }
+          style={{ flex: 1, minWidth: 200 }}
         />
         {hasFilters && (
           <Button
@@ -70,17 +79,27 @@ export default function CharacterFilter({
       </Group>
 
       <Stack gap="xs">
-        <Text size="xs" fw={500} c="dimmed">Quality</Text>
+        <Text size="xs" fw={500} c="dimmed">
+          Quality
+        </Text>
         <Chip.Group
           multiple
           value={filters.qualities}
-          onChange={(val) => onChange({ ...filters, qualities: val as Quality[] })}
+          onChange={(val) =>
+            onChange({ ...filters, qualities: val as Quality[] })
+          }
         >
           <Group gap="xs">
             {QUALITIES.map((q) => (
               <Chip key={q} value={q} size="xs">
                 <Group gap={4} wrap="nowrap" align="center">
-                  <Image src={QUALITY_ICON_MAP[q]} alt={q} w={14} h={14} fit="contain" />
+                  <Image
+                    src={QUALITY_ICON_MAP[q]}
+                    alt={q}
+                    w={14}
+                    h={14}
+                    fit="contain"
+                  />
                   <span>{q}</span>
                 </Group>
               </Chip>
@@ -90,17 +109,27 @@ export default function CharacterFilter({
       </Stack>
 
       <Stack gap="xs">
-        <Text size="xs" fw={500} c="dimmed">Class</Text>
+        <Text size="xs" fw={500} c="dimmed">
+          Class
+        </Text>
         <Chip.Group
           multiple
           value={filters.classes}
-          onChange={(val) => onChange({ ...filters, classes: val as CharacterClass[] })}
+          onChange={(val) =>
+            onChange({ ...filters, classes: val as CharacterClass[] })
+          }
         >
           <Group gap="xs">
             {CLASSES.map((c) => (
               <Chip key={c} value={c} size="xs">
                 <Group gap={4} wrap="nowrap" align="center">
-                  <Image src={CLASS_ICON_MAP[c]} alt={c} w={14} h={14} fit="contain" />
+                  <Image
+                    src={CLASS_ICON_MAP[c]}
+                    alt={c}
+                    w={14}
+                    h={14}
+                    fit="contain"
+                  />
                   <span>{c}</span>
                 </Group>
               </Chip>
@@ -110,17 +139,27 @@ export default function CharacterFilter({
       </Stack>
 
       <Stack gap="xs">
-        <Text size="xs" fw={500} c="dimmed">Faction</Text>
+        <Text size="xs" fw={500} c="dimmed">
+          Faction
+        </Text>
         <Chip.Group
           multiple
           value={filters.factions}
-          onChange={(val) => onChange({ ...filters, factions: val as FactionName[] })}
+          onChange={(val) =>
+            onChange({ ...filters, factions: val as FactionName[] })
+          }
         >
           <Group gap="xs" wrap="wrap">
             {FACTIONS.map((f) => (
               <Chip key={f} value={f} size="xs">
                 <Group gap={4} wrap="nowrap" align="center">
-                  <Image src={FACTION_ICON_MAP[f]} alt={f} w={14} h={14} fit="contain" />
+                  <Image
+                    src={FACTION_ICON_MAP[f]}
+                    alt={f}
+                    w={14}
+                    h={14}
+                    fit="contain"
+                  />
                   <span>{f}</span>
                 </Group>
               </Chip>
@@ -131,7 +170,9 @@ export default function CharacterFilter({
 
       {effectOptions.length > 0 && (
         <Stack gap="xs">
-          <Text size="xs" fw={500} c="dimmed">Status Effects</Text>
+          <Text size="xs" fw={500} c="dimmed">
+            Status Effects
+          </Text>
           <MultiSelect
             data={effectOptions}
             value={filters.statusEffects}

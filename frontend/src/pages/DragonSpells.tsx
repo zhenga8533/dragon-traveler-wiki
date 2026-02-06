@@ -10,6 +10,7 @@ import {
   Image,
   Loader,
   Paper,
+  ScrollArea,
   SimpleGrid,
   Stack,
   Table,
@@ -115,7 +116,7 @@ export default function DragonSpells() {
         {!loading && wyrmspells.length > 0 && (
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
-              <Group justify="space-between" align="center">
+              <Group justify="space-between" align="center" wrap="wrap">
                 <Text size="sm" c="dimmed">
                   {filtered.length} wyrmspell{filtered.length !== 1 ? 's' : ''}
                 </Text>
@@ -161,7 +162,7 @@ export default function DragonSpells() {
               <Collapse in={filterOpen}>
                 <Paper p="md" radius="md" withBorder>
                   <Stack gap="sm">
-                    <Group justify="space-between" align="center">
+                    <Group justify="space-between" align="center" wrap="wrap">
                       <TextInput
                         placeholder="Search by name..."
                         leftSection={<IoSearch size={16} />}
@@ -172,7 +173,7 @@ export default function DragonSpells() {
                             search: e.currentTarget.value,
                           })
                         }
-                        style={{ flex: 1 }}
+                        style={{ flex: 1, minWidth: 200 }}
                       />
                       {activeFilterCount > 0 && (
                         <Button
@@ -247,49 +248,51 @@ export default function DragonSpells() {
                   })}
                 </SimpleGrid>
               ) : (
-                <Table striped highlightOnHover>
-                  <Table.Thead>
-                    <Table.Tr>
-                      <Table.Th>Icon</Table.Th>
-                      <Table.Th>Name</Table.Th>
-                      <Table.Th>Type</Table.Th>
-                      <Table.Th>Effect</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>
-                    {filtered.map((spell) => {
-                      const iconSrc = getWyrmspellIcon(spell.name);
-                      return (
-                        <Table.Tr key={spell.name}>
-                          <Table.Td>
-                            {iconSrc && (
-                              <Image
-                                src={iconSrc}
-                                alt={spell.name}
-                                w={40}
-                                h={40}
-                                fit="contain"
-                              />
-                            )}
-                          </Table.Td>
-                          <Table.Td>
-                            <Text fw={600} size="sm">
-                              {spell.name}
-                            </Text>
-                          </Table.Td>
-                          <Table.Td>
-                            <Badge variant="light" size="sm">
-                              {spell.type}
-                            </Badge>
-                          </Table.Td>
-                          <Table.Td>
-                            <Text size="sm">{spell.effect}</Text>
-                          </Table.Td>
-                        </Table.Tr>
-                      );
-                    })}
-                  </Table.Tbody>
-                </Table>
+                <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                  <Table striped highlightOnHover style={{ minWidth: 640 }}>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>Icon</Table.Th>
+                        <Table.Th>Name</Table.Th>
+                        <Table.Th>Type</Table.Th>
+                        <Table.Th>Effect</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {filtered.map((spell) => {
+                        const iconSrc = getWyrmspellIcon(spell.name);
+                        return (
+                          <Table.Tr key={spell.name}>
+                            <Table.Td>
+                              {iconSrc && (
+                                <Image
+                                  src={iconSrc}
+                                  alt={spell.name}
+                                  w={40}
+                                  h={40}
+                                  fit="contain"
+                                />
+                              )}
+                            </Table.Td>
+                            <Table.Td>
+                              <Text fw={600} size="sm">
+                                {spell.name}
+                              </Text>
+                            </Table.Td>
+                            <Table.Td>
+                              <Badge variant="light" size="sm">
+                                {spell.type}
+                              </Badge>
+                            </Table.Td>
+                            <Table.Td>
+                              <Text size="sm">{spell.effect}</Text>
+                            </Table.Td>
+                          </Table.Tr>
+                        );
+                      })}
+                    </Table.Tbody>
+                  </Table>
+                </ScrollArea>
               )}
             </Stack>
           </Paper>

@@ -29,13 +29,12 @@ import type { TierList as TierListType } from '../types/tier-list';
 import { TIER_LIST_JSON_TEMPLATE } from '../utils/github-issues';
 
 export default function TierList() {
-  const { data: tierLists, loading: loadingTiers } = useDataFetch<TierListType[]>(
-    'data/tier-lists.json',
-    [],
-  );
+  const { data: tierLists, loading: loadingTiers } = useDataFetch<
+    TierListType[]
+  >('data/tier-lists.json', []);
   const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
     'data/characters.json',
-    [],
+    []
   );
   const [viewFilters, setViewFilters] = useState<Record<string, string[]>>({
     contentTypes: [],
@@ -53,7 +52,7 @@ export default function TierList() {
 
   const contentTypeOptions = useMemo(
     () => [...new Set(tierLists.map((t) => t.content_type))].sort(),
-    [tierLists],
+    [tierLists]
   );
 
   const entityFilterGroups: ChipFilterGroup[] = useMemo(
@@ -64,14 +63,17 @@ export default function TierList() {
         options: contentTypeOptions,
       },
     ],
-    [contentTypeOptions],
+    [contentTypeOptions]
   );
 
-  const activeFilterCount = mode === 'view' ? viewFilters.contentTypes.length : 0;
+  const activeFilterCount =
+    mode === 'view' ? viewFilters.contentTypes.length : 0;
 
   const visibleTierLists = useMemo(() => {
     if (viewFilters.contentTypes.length === 0) return tierLists;
-    return tierLists.filter((tl) => viewFilters.contentTypes.includes(tl.content_type));
+    return tierLists.filter((tl) =>
+      viewFilters.contentTypes.includes(tl.content_type)
+    );
   }, [tierLists, viewFilters]);
 
   return (
@@ -150,7 +152,7 @@ export default function TierList() {
 
                 {visibleTierLists.length > 0 && (
                   <Tabs defaultValue={visibleTierLists[0]?.name}>
-                    <Tabs.List>
+                    <Tabs.List style={{ flexWrap: 'wrap' }}>
                       {visibleTierLists.map((tierList) => (
                         <Tabs.Tab key={tierList.name} value={tierList.name}>
                           {tierList.name}
@@ -161,22 +163,40 @@ export default function TierList() {
                     {visibleTierLists.map((tierList) => {
                       const byTier = TIER_ORDER.map((tier) => ({
                         tier,
-                        entries: tierList.entries.filter((e) => e.tier === tier),
+                        entries: tierList.entries.filter(
+                          (e) => e.tier === tier
+                        ),
                       })).filter((g) => g.entries.length > 0);
 
-                      const rankedNames = new Set(tierList.entries.map((e) => e.character_name));
-                      const unranked = characters.filter((c) => !rankedNames.has(c.name));
+                      const rankedNames = new Set(
+                        tierList.entries.map((e) => e.character_name)
+                      );
+                      const unranked = characters.filter(
+                        (c) => !rankedNames.has(c.name)
+                      );
 
                       return (
-                        <Tabs.Panel key={tierList.name} value={tierList.name} pt="md">
+                        <Tabs.Panel
+                          key={tierList.name}
+                          value={tierList.name}
+                          pt="md"
+                        >
                           <Stack gap="md">
                             <Group gap="xs">
-                              <Badge variant="light" size="sm">{tierList.content_type}</Badge>
-                              <Text size="sm" c="dimmed">By {tierList.author}</Text>
+                              <Badge variant="light" size="sm">
+                                {tierList.content_type}
+                              </Badge>
+                              <Text size="sm" c="dimmed">
+                                By {tierList.author}
+                              </Text>
                               {tierList.description && (
                                 <>
-                                  <Text size="sm" c="dimmed">•</Text>
-                                  <Text size="sm" c="dimmed">{tierList.description}</Text>
+                                  <Text size="sm" c="dimmed">
+                                    •
+                                  </Text>
+                                  <Text size="sm" c="dimmed">
+                                    {tierList.description}
+                                  </Text>
                                 </>
                               )}
                               <Button
@@ -203,9 +223,14 @@ export default function TierList() {
                                   >
                                     {tier} Tier
                                   </Badge>
-                                  <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
+                                  <SimpleGrid
+                                    cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
+                                    spacing={4}
+                                  >
                                     {entries.map((entry) => {
-                                      const char = charMap.get(entry.character_name);
+                                      const char = charMap.get(
+                                        entry.character_name
+                                      );
                                       return (
                                         <CharacterCard
                                           key={entry.character_name}
@@ -222,10 +247,18 @@ export default function TierList() {
                             {unranked.length > 0 && (
                               <Paper p="md" radius="md" withBorder>
                                 <Stack gap="sm">
-                                  <Badge variant="filled" color="gray" size="lg" radius="sm">
+                                  <Badge
+                                    variant="filled"
+                                    color="gray"
+                                    size="lg"
+                                    radius="sm"
+                                  >
                                     Unranked
                                   </Badge>
-                                  <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
+                                  <SimpleGrid
+                                    cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
+                                    spacing={4}
+                                  >
                                     {unranked.map((c) => (
                                       <CharacterCard
                                         key={c.name}

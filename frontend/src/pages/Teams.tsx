@@ -41,10 +41,13 @@ const FACTIONS: FactionName[] = [
 ];
 
 export default function Teams() {
-  const { data: teams, loading: loadingTeams } = useDataFetch<Team[]>('data/teams.json', []);
+  const { data: teams, loading: loadingTeams } = useDataFetch<Team[]>(
+    'data/teams.json',
+    []
+  );
   const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
     'data/characters.json',
-    [],
+    []
   );
   const [viewFilters, setViewFilters] = useState<Record<string, string[]>>({
     factions: [],
@@ -64,7 +67,7 @@ export default function Teams() {
 
   const contentTypeOptions = useMemo(
     () => [...new Set(teams.map((t) => t.content_type))].sort(),
-    [teams],
+    [teams]
   );
 
   const entityFilterGroups: ChipFilterGroup[] = useMemo(
@@ -89,16 +92,22 @@ export default function Teams() {
         options: contentTypeOptions,
       },
     ],
-    [contentTypeOptions],
+    [contentTypeOptions]
   );
 
   const activeFilterCount =
-    mode === 'view' ? viewFilters.factions.length + viewFilters.contentTypes.length : 0;
+    mode === 'view'
+      ? viewFilters.factions.length + viewFilters.contentTypes.length
+      : 0;
 
   const filteredTeams = useMemo(() => {
     return teams.filter((team) => {
-      if (search && !team.name.toLowerCase().includes(search.toLowerCase())) return false;
-      if (viewFilters.factions.length > 0 && !viewFilters.factions.includes(team.faction))
+      if (search && !team.name.toLowerCase().includes(search.toLowerCase()))
+        return false;
+      if (
+        viewFilters.factions.length > 0 &&
+        !viewFilters.factions.includes(team.faction)
+      )
         return false;
       if (
         viewFilters.contentTypes.length > 0 &&
@@ -169,7 +178,9 @@ export default function Teams() {
                     onChange={(key, values) =>
                       setViewFilters((prev) => ({ ...prev, [key]: values }))
                     }
-                    onClear={() => setViewFilters({ factions: [], contentTypes: [] })}
+                    onClear={() =>
+                      setViewFilters({ factions: [], contentTypes: [] })
+                    }
                   />
                 </Paper>
               </Collapse>
@@ -186,14 +197,20 @@ export default function Teams() {
 
                 {filteredTeams.length === 0 && (
                   <Text c="dimmed" ta="center" py="lg">
-                    {search ? 'No teams match your search.' : 'No teams match the current filters.'}
+                    {search
+                      ? 'No teams match your search.'
+                      : 'No teams match the current filters.'}
                   </Text>
                 )}
 
                 {filteredTeams.map((team) => (
                   <Paper key={team.name} p="md" radius="md" withBorder>
                     <Stack gap="sm">
-                      <Group justify="space-between" align="flex-start">
+                      <Group
+                        justify="space-between"
+                        align="flex-start"
+                        wrap="wrap"
+                      >
                         <Group gap="sm">
                           <Image
                             src={FACTION_ICON_MAP[team.faction as FactionName]}
@@ -201,10 +218,14 @@ export default function Teams() {
                             w={24}
                             h={24}
                           />
-                          <Text fw={600} size="lg">{team.name}</Text>
+                          <Text fw={600} size="lg">
+                            {team.name}
+                          </Text>
                         </Group>
                         <Group gap="xs">
-                          <Badge variant="light" size="sm">{team.content_type}</Badge>
+                          <Badge variant="light" size="sm">
+                            {team.content_type}
+                          </Badge>
                           <Badge
                             variant="light"
                             size="sm"
@@ -216,11 +237,17 @@ export default function Teams() {
                       </Group>
 
                       <Group gap="xs">
-                        <Text size="sm" c="dimmed">By {team.author}</Text>
+                        <Text size="sm" c="dimmed">
+                          By {team.author}
+                        </Text>
                         {team.description && (
                           <>
-                            <Text size="sm" c="dimmed">•</Text>
-                            <Text size="sm" c="dimmed">{team.description}</Text>
+                            <Text size="sm" c="dimmed">
+                              •
+                            </Text>
+                            <Text size="sm" c="dimmed">
+                              {team.description}
+                            </Text>
                           </>
                         )}
                         <Button
@@ -236,13 +263,21 @@ export default function Teams() {
                         </Button>
                       </Group>
 
-                      <SimpleGrid cols={{ base: 4, xs: 5, sm: 6, md: 8 }} spacing={4}>
+                      <SimpleGrid
+                        cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
+                        spacing={4}
+                      >
                         {team.members.map((m) => {
                           const char = charMap.get(m.character_name);
                           return (
                             <div
                               key={m.character_name}
-                              style={{ position: 'relative', display: 'flex', flexDirection: 'column', alignItems: 'center' }}
+                              style={{
+                                position: 'relative',
+                                display: 'flex',
+                                flexDirection: 'column',
+                                alignItems: 'center',
+                              }}
                             >
                               <CharacterCard
                                 name={m.character_name}

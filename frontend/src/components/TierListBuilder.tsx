@@ -112,7 +112,7 @@ function TierDropZone({
           {label}
         </Badge>
         <SimpleGrid
-          cols={{ base: 4, xs: 5, sm: 6, md: 8 }}
+          cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
           spacing={4}
           style={{ minHeight: 40 }}
         >
@@ -123,7 +123,13 @@ function TierDropZone({
   );
 }
 
-function UnrankedPool({ children, filterHeader }: { children: React.ReactNode; filterHeader?: React.ReactNode }) {
+function UnrankedPool({
+  children,
+  filterHeader,
+}: {
+  children: React.ReactNode;
+  filterHeader?: React.ReactNode;
+}) {
   const { setNodeRef, isOver } = useDroppable({ id: 'unranked' });
 
   return (
@@ -145,7 +151,7 @@ function UnrankedPool({ children, filterHeader }: { children: React.ReactNode; f
           </Text>
         )}
         <SimpleGrid
-          cols={{ base: 4, xs: 5, sm: 6, md: 8 }}
+          cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
           spacing={4}
           style={{ minHeight: 40 }}
         >
@@ -188,7 +194,7 @@ export default function TierListBuilder({
       entries: TIER_ORDER.flatMap((tier) =>
         Object.entries(placements)
           .filter(([, t]) => t === tier)
-          .map(([character_name]) => ({ character_name, tier })),
+          .map(([character_name]) => ({ character_name, tier }))
       ),
     };
     return JSON.stringify(result, null, 2);
