@@ -11,6 +11,7 @@ export function buildIssueUrl(params: {
 // JSON templates for suggestion modals
 export const CHARACTER_JSON_TEMPLATE = {
   name: '',
+  title: '',
   quality: 'SSR | SSR+ | SR+ | R | N',
   character_class: 'Guardian | Priest | Assassin | Warrior | Archer | Mage',
   factions: ['Faction1', 'Faction2'],

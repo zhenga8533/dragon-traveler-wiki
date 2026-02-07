@@ -49,6 +49,7 @@ class Skill(BaseModel):
 
 class Character(BaseModel):
     name: str
+    title: str
     quality: Quality
     character_class: CharacterClass
     factions: list[FactionName]

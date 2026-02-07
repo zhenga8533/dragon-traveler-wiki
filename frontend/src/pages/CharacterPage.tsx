@@ -281,6 +281,12 @@ export default function CharacterPage() {
                   )}
                 </Group>
 
+                {character.title && (
+                  <Text size="sm" fw={500} c="dimmed">
+                    {character.title}
+                  </Text>
+                )}
+
                 <Group gap="lg">
                   <Tooltip label={character.quality}>
                     <Group gap={6}>

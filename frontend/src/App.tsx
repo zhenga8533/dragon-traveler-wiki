@@ -184,8 +184,16 @@ export default function App() {
                   color: 'inherit',
                 }}
               >
-                <Image src={logo} h={48} w={128} />
-                <Title order={3}>Dragon Traveler Wiki</Title>
+                <Image
+                  src={logo}
+                  h={{ base: 32, xs: 40, sm: 48 }}
+                  w="auto"
+                  fit="contain"
+                  style={{ maxWidth: '45vw' }}
+                />
+                <Title order={3} visibleFrom="sm">
+                  Dragon Traveler Wiki
+                </Title>
               </Link>
             </Group>
             <Group gap="xs">

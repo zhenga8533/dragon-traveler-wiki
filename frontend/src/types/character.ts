@@ -29,6 +29,7 @@ export interface Talent {
 
 export interface Character {
   name: string;
+  title: string;
   quality: Quality;
   character_class: CharacterClass;
   factions: FactionName[];
