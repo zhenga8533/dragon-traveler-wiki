@@ -12,6 +12,7 @@ export type CharacterClass =
 
 export interface Skill {
   name: string;
+  type?: string;
   description: string;
   cooldown: number;
 }

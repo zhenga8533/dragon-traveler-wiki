@@ -1,5 +1,6 @@
-import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
+import { Badge, Group, Image, Popover, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { getStatusEffectIcon } from '../assets/status_effect';
 import { STATE_COLOR } from '../constants/colors';
 import type { StatusEffect } from '../types/status-effect';
 
@@ -13,7 +14,10 @@ export default function StatusEffectBadge({
   statusEffects,
 }: StatusEffectBadgeProps) {
   const [opened, { open, close }] = useDisclosure(false);
-  const effect = statusEffects.find((e) => e.name === name);
+  const normalizedName = name.trim().toLowerCase();
+  const effect = statusEffects.find(
+    (e) => e.name.trim().toLowerCase() === normalizedName
+  );
 
   if (!effect) {
     return (
@@ -24,6 +28,7 @@ export default function StatusEffectBadge({
   }
 
   const color = STATE_COLOR[effect.type];
+  const iconSrc = effect.icon ?? getStatusEffectIcon(effect.name);
 
   return (
     <Popover opened={opened} position="top" withArrow shadow="md">
@@ -36,6 +41,11 @@ export default function StatusEffectBadge({
           style={{ cursor: 'pointer' }}
           onMouseEnter={open}
           onMouseLeave={close}
+          leftSection={
+            iconSrc ? (
+              <Image src={iconSrc} alt={effect.name} w={14} h={14} />
+            ) : undefined
+          }
         >
           {name}
         </Badge>
@@ -43,12 +53,26 @@ export default function StatusEffectBadge({
       <Popover.Dropdown style={{ pointerEvents: 'none' }}>
         <Stack gap="xs" maw={280}>
           <Group gap="xs" wrap="nowrap">
-            <Text fw={600} size="sm">{effect.name}</Text>
-            <Badge variant="light" color={color} size="xs">{effect.type}</Badge>
+            {iconSrc && <Image src={iconSrc} alt={effect.name} w={18} h={18} />}
+            <Text fw={600} size="sm">
+              {effect.name}
+            </Text>
+            <Badge variant="light" color={color} size="xs">
+              {effect.type}
+            </Badge>
           </Group>
-          <Text size="xs">{effect.effect}</Text>
+          <Text size="xs" style={{ whiteSpace: 'pre-line' }}>
+            {effect.effect}
+          </Text>
           {effect.remark && (
-            <Text size="xs" c="dimmed" fs="italic">{effect.remark}</Text>
+            <Text
+              size="xs"
+              c="dimmed"
+              fs="italic"
+              style={{ whiteSpace: 'pre-line' }}
+            >
+              {effect.remark}
+            </Text>
           )}
         </Stack>
       </Popover.Dropdown>
