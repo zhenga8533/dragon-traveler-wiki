@@ -1,6 +1,1405 @@
 [
   {
+    "name": "Athena",
+    "title": "Goddess of Wisdom",
+    "quality": "SSR EX",
+    "character_class": "Guardian",
+    "factions": ["Sanctum Glory", "Wild Spirit"],
+    "is_global": true,
+    "subclasses": [
+      "Shield Guard",
+      "Centurion",
+      "Veteran",
+      "Vanguard Warrior",
+      "Lionheart Knight",
+      "Avenger"
+    ],
+    "height": "175cm",
+    "weight": "50kg",
+    "origin": "Greek Mythology",
+    "lore": "Olympian goddess of wisdom and war, daughter of Zeus, was accompanied by the owl, her messenger and symbol. Possessing radiant and dignified beauty, she taught humankind countless crafts and techniques, protected all aspects of human production and life, guided them to victory in war, and nurtured countless human heroes. She was also a defender of order, helping humanity establish a system of laws.",
+    "quote": "Mortals, halt!",
+    "talent": {
+      "name": "Battle Resolve",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Each attack deals additional physical damage equal to 12% of own lost HP. For each enemy hit, recovers 6% of lost HP. When possessing both [Morale] and [Fervor] enters the [Grace] status. While in the [Grace] status, the effect of [Battle Resolve] is increased by 30%."
+        },
+        {
+          "level": 2,
+          "effect": "While in [Grace] status, [Battle Resolve] additionally increases by 30%."
+        },
+        {
+          "level": 3,
+          "effect": "[Life Link] Additionally grants target [Fervor]."
+        },
+        {
+          "level": 4,
+          "effect": "[Counter Helix] Trigger probability increased by an additional 20%."
+        },
+        {
+          "level": 5,
+          "effect": "Increases own Block by 120 and HP by 8%."
+        },
+        {
+          "level": 6,
+          "effect": "Increases own Block by 200."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Martial Verdict",
+        "type": "Overdrive",
+        "description": "Sacrifices 40% of current HP to gain a shield equal to 60% of Max HP for 8 seconds. Slams the ground at the target location, inflicting [Taunt] on enemies within a large circular area for 8 seconds, and dealing physical damage equal to 200% of Attack.",
+        "cooldown": 20
+      },
+      {
+        "name": "Aegis of Echoes",
+        "type": "Ultimate Skill",
+        "description": "Gains [Fervor] and throws a shield at a single target that ricochets between random enemies, bouncing up to 5 times before returning to self. Each bounce deals physical damage equal to 75% of Attack. Each individual enemy can only be hit once.",
+        "cooldown": 0
+      },
+      {
+        "name": "Life Link",
+        "type": "Secret Skill",
+        "description": "When an allied Luminary's HP falls below 30%, forms a Life Link with them, increasing the target's Damage Reduction by 20% and redirecting 60% of damage taken by the target to self. Lasts for 8 seconds. This effect can trigger only once on each Luminary.",
+        "cooldown": 0
+      },
+      {
+        "name": "Counter Helix",
+        "type": "Special Skill",
+        "description": "When taking damage, has a 25% chance to deal physical damage equal to 140% of Attack to enemies within a large circular area (can trigger once every 2 seconds at most).\nGains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, the trigger chance increases to 35%, and this skill has no cooldown for the duration.",
+        "cooldown": 0
+      },
+      {
+        "name": "Holy Counter",
+        "type": "Divine Skill",
+        "description": "[Counter Helix] increases casting speed by 30%, and basic attacks also have a 40% chance to trigger [Counter Helix].",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "Anubis",
+    "title": "Judge of the Underworld",
+    "quality": "SSR+",
+    "character_class": "Guardian",
+    "factions": ["Otherworld Return", "Elemental Echo"],
+    "is_global": true,
+    "subclasses": [
+      "Royal Guard",
+      "Standard Bearer",
+      "Martyr",
+      "Templar",
+      "Guardian",
+      "Avenger"
+    ],
+    "height": "221cm",
+    "weight": "109kg",
+    "origin": "Egyptian Mythology",
+    "lore": "Anubis is the god of death, the son of Set, the god of the desert, and his wife Nephthys. He is in charge of the making of mummies and the guidance and judgment of the dead.",
+    "quote": "Unforgivable sin!",
+    "talent": {
+      "name": "Heart's Balance",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Whenever an ally is defeated, gains 1 stack of [Deathrattle].\nConsumes 3/7 stacks of [Deathrattle] to gain immunity to the first/second instance of fatal damage received, recovering 50% of Max HP (cannot trigger if there are insufficient [Deathrattle] stacks)."
+        },
+        {
+          "level": 2,
+          "effect": "[Descending Judgement] After dealing Damage, has a 50% chance to inflict [Shock]."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own Physical Defense by 15% and HP by 5%."
+        },
+        {
+          "level": 4,
+          "effect": "For each stack of [Deathrattle] consumed, gains a sheild equal to 4% of Max HP, lasting for 8 seconds."
+        },
+        {
+          "level": 7,
+          "effect": "[Heart's Balance] Can be triggered +1 time. On the 3rd trigger, consumes 15 stack(s) of [Deathrattle]."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Descending Judgement",
+        "type": "Overdrive",
+        "description": "Whenever gaining [Deathrattle], deals magic damage equal to 7% of Max HP to enemies within a large circular area.\nAfter casting, increases Physical Defense and Magic Defense by 25% for 10 seconds. During this time, whenever gaining [Deathrattle], has a 50% chance to gain an additional stack of [Deathrattle].",
+        "cooldown": 20
+      },
+      {
+        "name": "Sand Shield",
+        "type": "Ultimate Skill",
+        "description": "Gains a shield equal to 13% of Max HP, and grants an equal shield to the ally with the lowest HP. Lasts 8 seconds.",
+        "cooldown": 10
+      },
+      {
+        "name": "Might of the Dunes",
+        "type": "Secret Skill",
+        "description": "In battle, increases HP by 13%.\nHP increases by 6% each time [Descending Judgement] is cast. Stacks up to 5 times.",
+        "cooldown": 0
+      },
+      {
+        "name": "Sands of Solace",
+        "type": "Special Skill",
+        "description": "Grants all allied ranged Luminaries 3 [Balance].\nEach scale increases Damage Reduction by 12.5%. This skill only activates once at the start of battle.",
+        "cooldown": 0
+      },
+      {
+        "name": "Shelter of the Yellow Sands",
+        "type": "Divine Skill",
+        "description": "[Sand Shield] targets an additional ally with the lowest HP.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "Helveil",
+    "title": "Fallen Warborn Goddess",
+    "quality": "SSR+",
+    "character_class": "Guardian",
+    "factions": ["Otherworld Return", "Sanctum Glory"],
+    "is_global": true,
+    "subclasses": [
+      "Shield Guard",
+      "Centurion",
+      "Martyr",
+      "Vanguard Warrior",
+      "Templar",
+      "Avenger"
+    ],
+    "height": "175cm",
+    "weight": "56kg",
+    "origin": "Norse Mythology",
+    "lore": "Although once a Valkyrie of Valhalla, she betrayed the path of light and chose to join the Wild Hunt. She finds pleasure in deception, often posing as a holy Valkyrie to trick the valiant souls of warriors. Obsessed with the thrill of battle, her ferocious, beast-like fighting style is terrifying. It is said that in a rage, she broke off one of her own wings.",
+    "quote": "Your soul yearns for release.",
+    "talent": {
+      "name": "Soul Domain",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "When on the battlefield, increases Crit Resist of all allied Luminaries and Wyrms by 180. After taking non-critical damage, has a 15% chance to restore 2% of Max HP. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Crit Resist increases by an additional 20."
+        },
+        {
+          "level": 2,
+          "effect": "When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, the healing effect of [Soul Domain] is doubled."
+        },
+        {
+          "level": 3,
+          "effect": "Provides self with 15% Magic Defense and 50 Crit Resist."
+        },
+        {
+          "level": 4,
+          "effect": "[Spirit Shackles] Inflicts [Attack Down] after dealing Damage."
+        },
+        {
+          "level": 7,
+          "effect": "When taking damage, if the attacker's Crit is lower than own Crit Resist, increases own Damage Reduction by 30%."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Spirit Shackles",
+        "type": "Overdrive",
+        "description": "Summons a shield formation for 5 seconds, dealing physical damage equal to 280% of Attack to enemies within a massive circular area. While this Shield Formation is active, gains immunity to control effects and Damage Reduction is increased by 100%. When taking damage from a unit outside the Shield Formation, this Damage Reduction effect is increased to 200%. When the Shield Formation ends, gains 1 stack of [Deathrattle]. When casting skills, gains a shield equal to 24% of Max HP for 8 seconds.",
+        "cooldown": 20
+      },
+      {
+        "name": "Soul Suck",
+        "type": "Ultimate Skill",
+        "description": "Absorbs the souls of enemies within a medium cone-shaped area. For each target affected, gains a shield equal to 9% of Max HP for 6 seconds.",
+        "cooldown": 15
+      },
+      {
+        "name": "Dark Shield",
+        "type": "Secret Skill",
+        "description": "In battle, increases HP by 10%. If self-generated shield is not broken within its duration, deals physical damage equal to 15% of Max HP to enemies in a large circular area and inflicts [Crit Down].",
+        "cooldown": 0
+      },
+      {
+        "name": "Twilight Duality",
+        "type": "Special Skill",
+        "description": "Spins around and smashes the ground, dealing physical damage equal to 140% of Attack to enemies within a large circular area and gaining [Fervor].",
+        "cooldown": 0
+      },
+      {
+        "name": "The More They Fight, The Stronger They Become",
+        "type": "Divine Skill",
+        "description": "When [Spirit Shackles] ends, each unit within the shield array recovers 3.5% of its maximum health.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "Drasil",
+    "title": "Ancient Tree Guardian",
+    "quality": "SSR",
+    "character_class": "Guardian",
+    "factions": ["Wild Spirit", "Arcane Wisdom"],
+    "is_global": true,
+    "subclasses": [
+      "Shield Guard",
+      "Standard Bearer",
+      "Martyr",
+      "Vanguard Warrior",
+      "Templar",
+      "Guardian"
+    ],
+    "height": "426cm",
+    "weight": "873kg",
+    "origin": "Norse Mythology",
+    "lore": "For a long time, Drasil the tree-man was asleep, and as a result, his body was covered with vines and mushrooms, but Drasil never thought of cleaning them up.",
+    "quote": "Who awakens me...",
+    "talent": {
+      "name": "Ancient Roots",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status, instantly recovering 26% of lost HP, and then recovering 3% of lost HP per second. While in the [Wild] status, cannot move, gains immunity to control effect, and all basic attacks becomes ranged."
+        },
+        {
+          "level": 2,
+          "effect": "While in the [Wild] status, Overdrive Energy Cost is reduced by 2."
+        },
+        {
+          "level": 3,
+          "effect": "Boosts its Magic Defense by 23%."
+        },
+        {
+          "level": 4,
+          "effect": "Each time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. Each stack of [Awakening] increases Healing received by 4%."
+        },
+        {
+          "level": 7,
+          "effect": "While in the [Wild] status, each time [Awakening] is gained, dispels one debuff from self."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Nature's Embrace",
+        "type": "Overdrive",
+        "description": "Grants a shield equal to 19% of Max HP to all allies. Lasts 8 seconds.",
+        "cooldown": 20
+      },
+      {
+        "name": "Vines",
+        "type": "Ultimate Skill",
+        "description": "Deals magic damage equal to 180% of Attack to enemies within a large circular area. Recovers 36% of lost HP on use.",
+        "cooldown": 16
+      },
+      {
+        "name": "Root Juice",
+        "type": "Secret Skill",
+        "description": "When on the battlefield, allied Luminaries in the [Wild] status with a shield regenerate HP equal to 2% of their Max HP per second.",
+        "cooldown": 0
+      },
+      {
+        "name": "Thorn Guardian",
+        "type": "Special Skill",
+        "description": "While in the [Wild] status, after taking damage, deals magic damage equal to 3% of Max HP to the attacker.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "Gudong",
+    "title": "Slime King",
+    "quality": "SSR",
+    "character_class": "Guardian",
+    "factions": ["Otherworld Return", "Illusion Veil"],
+    "is_global": true,
+    "subclasses": [
+      "Royal Guard",
+      "Veteran",
+      "Martyr",
+      "Lionheart Knight",
+      "Templar",
+      "Guardian"
+    ],
+    "height": "45cm",
+    "weight": "53kg",
+    "origin": "Modern Fantasy",
+    "lore": "If you think those bouncy, slimy creatures everywhere are just the go-to grinders for newbies to farm experience—you're sorely mistaken! Before you stands the slime of slimes, the king of kings, the eternal pinnacle of monster history in human games! *Gulp!*",
+    "quote": "Bubble!",
+    "talent": {
+      "name": "Elemental Separation",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Upon death, summons three Small Slimes that inherit 20% of Attack, 20% of HP, and 100% of all other stats. Small Slimes last 20s."
+        },
+        {
+          "level": 2,
+          "effect": "For each enemy Luminary on the field with an Overdrive Energy cost of 4 or more, increases own Physical Defense by 6%."
+        },
+        {
+          "level": 3,
+          "effect": "Boosts Physical Defense by 23%."
+        },
+        {
+          "level": 4,
+          "effect": "Small Slimes have a 15% chance to inflict [Attack Down] after dealing damage."
+        },
+        {
+          "level": 7,
+          "effect": "When an enemy defeats a Small Slime, the Energy cost of their next Overdrive increases by 1."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Cheep-Cheep",
+        "type": "Overdrive",
+        "description": "Chirps, dealing physical damage to a single target equal to 320% of Attack and inflicting [Stun]. Lasts 5 seconds.",
+        "cooldown": 20
+      },
+      {
+        "name": "Split",
+        "type": "Ultimate Skill",
+        "description": "Spawns 1 Small Slime every 16s. Up to a maximum of 3 summoned by this skill at a time.",
+        "cooldown": 16
+      },
+      {
+        "name": "Slime Shield",
+        "type": "Secret Skill",
+        "description": "Upon defeat, leaves behind a puddle of Slime Goo that lasts for 5 seconds. Enemy units standing on Slime Goo have their Movement Speed reduced by 80% and Attack Speed reduced by 40%.",
+        "cooldown": 0
+      },
+      {
+        "name": "Second Breath",
+        "type": "Special Skill",
+        "description": "Gurgles, restoring 20% of Max HP.",
+        "cooldown": 16
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "Goren",
+    "title": "Ancient Golem",
+    "quality": "SSR",
+    "character_class": "Guardian",
+    "factions": ["Sanctum Glory", "Elemental Echo"],
+    "is_global": true,
+    "subclasses": [
+      "Shield Guard",
+      "Centurion",
+      "Veteran",
+      "Vanguard Warrior",
+      "Templar",
+      "Lionheart Knight"
+    ],
+    "height": "617cm",
+    "weight": "1746kg",
+    "origin": "Hebrew Legends",
+    "lore": "The colossal rock statues often encountered in ancient ruins usually lie dormant, appearing as ordinary rocks. However, if an enemy approaches, they will rise from the ground and smash their massive stone fists into the ground.",
+    "quote": "I'll form the head!",
+    "talent": {
+      "name": "Earthen Rising",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "The higher the Ancient Golem's HP percentage, the larger it grows, and the higher its Physical Defense becomes. However, its Attack Speed will also decrease. Its Physical Defense can increase by up to 45% and its Attack Speed can fall by 45%. When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, ignores HP percentage and always maintains maximum size."
+        },
+        {
+          "level": 2,
+          "effect": "[Crushing Summit] Inflicts 6 seconds of [Stun] after dealing damage to targets under an [Elemental Debuff]."
+        },
+        {
+          "level": 3,
+          "effect": "Increases HP by 15%."
+        },
+        {
+          "level": 4,
+          "effect": "Grants Immunity to control effects when at maximum size."
+        },
+        {
+          "level": 7,
+          "effect": "Grants Immunity to [Physical Defense Down] and [Damage Reduction Down] when at maximum size."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Crushing Summit",
+        "type": "Overdrive",
+        "description": "Leaps into the air and strikes down at the earth, dealing physical damage equal to 28% of Max HP to enemies within a large circular area. After dealing damage, inflicts [Stun] for 3s. The range of this skill increases with the caster's size.",
+        "cooldown": 20
+      },
+      {
+        "name": "Rocket Skull",
+        "type": "Ultimate Skill",
+        "description": "Hurls a stone at a random allied Luminary, granting [Fervor] to allied units within a medium circular area around the target. The range of this skill increases with the caster's size.",
+        "cooldown": 20
+      },
+      {
+        "name": "Hardness",
+        "type": "Secret Skill",
+        "description": "Whenever casting a skill, gains a shield equal to 12% of Max HP and lasting for 8 seconds.",
+        "cooldown": 0
+      },
+      {
+        "name": "Titanic Will",
+        "type": "Special Skill",
+        "description": "When taking damage, has a 8% chance to gain [Fervor].",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "Herman",
+    "title": "King of Beasts",
+    "quality": "SSR",
+    "character_class": "Guardian",
+    "factions": ["Arcane Wisdom", "Illusion Veil"],
+    "is_global": true,
+    "subclasses": [
+      "Royal Guard",
+      "Centurion",
+      "Veteran",
+      "Templar",
+      "Lionheart Knight",
+      "Avenger"
+    ],
+    "height": "178cm",
+    "weight": "60kg",
+    "origin": "German Folklore",
+    "lore": "The barbarian leader, formerly the daughter of the chieftain of the Fenris tribe, was sent to the Nibelgard Empire as a hostage after the failed rebellion. Due to her exceptional strength, she was selected to join the imperial army.",
+    "quote": "Spirit of the Beast, fight by my side!",
+    "talent": {
+      "name": "Soulflame Ward",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Each time an ally releases an Overdrive, gains 1 stack of [Awakening]. After releasing a skill, if at least 3 stacks of [Awakening] are present, consumes 3 stacks to unleash 3 Spirit Flames. During the duration of Spirit Flames, deals 80% of Attack as physical damage every 2s to enemy units within a medium circular area and restores 8% of Max HP to self. Spirit Flames last for 8s."
+        },
+        {
+          "level": 2,
+          "effect": "[Axe Boomerang] Increases the next Overdrive Energy Consumption by 1 for enemy units hit by 2 axes simultaneously."
+        },
+        {
+          "level": 3,
+          "effect": "Boosts Physical Defense by 23%."
+        },
+        {
+          "level": 4,
+          "effect": "While Spirit Fire is active, Overdrive Energy Consumption is reduced by 1 and Healing received is increased by 10%."
+        },
+        {
+          "level": 7,
+          "effect": "Spirit Fire damage and recovery frequency is changed to 1s."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Savage Uproar",
+        "type": "Overdrive",
+        "description": "Select a single target and roar at them, dealing physical damage equal to 450% of Attack. Additionally, enemies in a fan-shaped area in front of the caster take physical damage equal to 150% of Attack and are inflicted with [Attack Speed Down]. This skill can trigger the [Punishment] effect. When triggered, 3s of [Stun] is applied to a single target.",
+        "cooldown": 0
+      },
+      {
+        "name": "Axe Boomerang",
+        "type": "Ultimate Skill",
+        "description": "Throws two axes forward and then recalls them. Each axe deals physical damage equal to 150% of the caster's Attack to enemy units it passes through, and only hits the same target once. Applies [Healing Down] to enemy units hit by both axes.",
+        "cooldown": 0
+      },
+      {
+        "name": "Fearless Iron Bulwark",
+        "type": "Secret Skill",
+        "description": "When taking non-Overdrive Damage, increases own Damage Reduction by 16%.",
+        "cooldown": 0
+      },
+      {
+        "name": "Flame Axe Judgement",
+        "type": "Special Skill",
+        "description": "Leaps into the air and slams down on a single target, dealing physical damage equal to 230% of Attack and gaining a shield equal to 15% of Max HP. The shield lasts for 6s.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "Oberonnie",
+    "title": "Midsummer Night's Dreamer",
+    "quality": "SSR",
+    "character_class": "Guardian",
+    "factions": ["Elemental Echo", "Wild Spirit"],
+    "is_global": true,
+    "subclasses": [
+      "Shield Guard",
+      "Standard Bearer",
+      "Centurion",
+      "Vanguard Warrior",
+      "Guardian",
+      "Avenger"
+    ],
+    "height": "170cm",
+    "weight": "46kg",
+    "origin": "European Folklore",
+    "lore": "Living in the forest, she is the daughter of the Elf King, leading the elves with a serious and meticulous manner. She is methodical and rarely smiles. In battle, she always leads from the front, personally defending the peace of the forest.",
+    "quote": "The forest calls my name.",
+    "talent": {
+      "name": "Forest Blessing",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Increases Dodge by 350. When attacked by an enemy afflicted with an [Elemental Debuff], gains an additional 350 Dodge."
+        },
+        {
+          "level": 2,
+          "effect": "While in the [Wild] status, recovers HP equal to 4% of Max HP after each dodge."
+        },
+        {
+          "level": 3,
+          "effect": "Increases HP by 15%."
+        },
+        {
+          "level": 4,
+          "effect": "Upon entering the [Wild] status, instantly generates a Shield worth 20% of Max HP for 10 seconds."
+        },
+        {
+          "level": 7,
+          "effect": "When your team triggers an [Elemental Reaction], restores HP equal to 10% of Max HP. (triggers once every 5s max)."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Might of Mother Nature",
+        "type": "Overdrive",
+        "description": "Summons two tornadoes that deal physical damage equal to 240% of Attack to enemies within a large circular area and inflict [Chill]. Gains a shield equal to 35% of Max HP, while also granting a shield equal to 30% of this amount to allied units within a large circular area, both lasting 8s.",
+        "cooldown": 20
+      },
+      {
+        "name": "Shield Bash",
+        "type": "Ultimate Skill",
+        "description": "When shielded, Magic Defense increases by 44% and basic attacks deal AoE damage.",
+        "cooldown": 0
+      },
+      {
+        "name": "Warden",
+        "type": "Secret Skill",
+        "description": "Increases the effect of self-generated shields by 30%. Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, shield effects increase by an additional 30%.",
+        "cooldown": 0
+      },
+      {
+        "name": "Sylvan Solace",
+        "type": "Special Skill",
+        "description": "Grants allies within a large circular area [Magic Defense Up]. While in the [Wild] status, additionally grants a shield equal to 18% of Max HP. Lasts 8s.",
+        "cooldown": 16
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Priest",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Priest",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Priest",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Priest",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Priest",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Priest",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Priest",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Assassin",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Assassin",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Assassin",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Assassin",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Assassin",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
     "name": "Fenrir",
+    "title": "",
     "quality": "SSR",
     "character_class": "Assassin",
     "factions": ["Elemental Echo", "Arcane Wisdom"],
@@ -15,18 +1414,832 @@
     ],
     "height": "164cm",
     "weight": "42kg",
+    "origin": "",
     "lore": "A elusive humanoid beast, appearing silently in the night, swiftly delivering a fatal blow to its enemies with its agile claws before vanishing without a trace. Living entirely in nature, nocturnal and free-spirited, hunting is its greatest passion.",
     "quote": "",
     "talent": {
       "name": "",
-      "talent_levels": []
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
     },
     "skills": [],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Assassin",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
     "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Assassin",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Warrior",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Warrior",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Warrior",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Warrior",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Warrior",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Warrior",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Warrior",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Warrior",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Warrior",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Archer",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
     "noble_phantasm": ""
   },
   {
     "name": "Ifrit",
+    "title": "",
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": ["Elemental Echo", "Arcane Wisdom"],
@@ -41,9 +2254,9 @@
     ],
     "height": "159cm",
     "weight": "42kg",
+    "origin": "",
     "lore": "Born from the element of fire, this demon possesses the power to manipulate all flames. By nature cruel, cunning, arrogant, and eager to create chaos, she is the vanguard of the Wild Hunt, following the orders of the Black Knight. Currently, she is sowing discord and causing disasters across various regions, finding not only pleasure in the chaos and turmoil she creates, but also thoroughly enjoying it.",
     "quote": "",
-    "origin": "",
     "talent": {
       "name": "Flame Brand",
       "talent_levels": [
@@ -93,6 +2306,864 @@
       {
         "name": "Domain of Fire",
         "description": "[Flame Brand] At the start of battle, apply 1 stack of [Flame Brand] to all enemy units.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Archer",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Archer",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Archer",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Archer",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Mage",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Mage",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Mage",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Mage",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Mage",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Mage",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Mage",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Mage",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": ""
+  },
+  {
+    "name": "",
+    "title": "",
+    "quality": "",
+    "character_class": "Mage",
+    "factions": ["", ""],
+    "is_global": true,
+    "subclasses": ["", "", "", "", "", ""],
+    "height": "cm",
+    "weight": "kg",
+    "origin": "",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": ""
+        },
+        {
+          "level": 2,
+          "effect": ""
+        },
+        {
+          "level": 3,
+          "effect": ""
+        },
+        {
+          "level": 4,
+          "effect": ""
+        },
+        {
+          "level": 7,
+          "effect": ""
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "",
+        "type": "Overdrive",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Ultimate Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Secret Skill",
+        "description": "",
+        "cooldown": 0
+      },
+      {
+        "name": "",
+        "type": "Special Skill",
+        "description": "",
         "cooldown": 0
       }
     ],
