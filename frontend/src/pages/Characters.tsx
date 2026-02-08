@@ -1,14 +1,10 @@
-import {
-  Center,
-  Container,
-  Group,
-  Loader,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core';
+import { Container, Group, SimpleGrid, Stack, Title } from '@mantine/core';
+import { IoPeople } from 'react-icons/io5';
 import CharacterList from '../components/CharacterList';
+import EmptyState from '../components/EmptyState';
+import { CharacterCardSkeleton } from '../components/SkeletonCard';
 import SuggestModal from '../components/SuggestModal';
+import { CHARACTER_GRID_COLS } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import { CHARACTER_JSON_TEMPLATE } from '../utils/github-issues';
@@ -16,7 +12,7 @@ import { CHARACTER_JSON_TEMPLATE } from '../utils/github-issues';
 export default function Characters() {
   const { data: characters, loading } = useDataFetch<Character[]>(
     'data/characters.json',
-    [],
+    []
   );
 
   return (
@@ -34,16 +30,24 @@ export default function Characters() {
         </Group>
 
         {loading && (
-          <Center py="xl">
-            <Loader />
-          </Center>
+          <SimpleGrid cols={CHARACTER_GRID_COLS} spacing={4}>
+            {Array.from({ length: 18 }).map((_, i) => (
+              <CharacterCardSkeleton key={i} />
+            ))}
+          </SimpleGrid>
         )}
 
         {!loading && characters.length === 0 && (
-          <Text c="dimmed">Character data will appear here once available.</Text>
+          <EmptyState
+            icon={<IoPeople size={32} />}
+            title="No characters yet"
+            description="Character data will appear here once available."
+          />
         )}
 
-        {!loading && characters.length > 0 && <CharacterList characters={characters} />}
+        {!loading && characters.length > 0 && (
+          <CharacterList characters={characters} />
+        )}
       </Stack>
     </Container>
   );

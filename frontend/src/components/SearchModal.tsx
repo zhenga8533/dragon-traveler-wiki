@@ -102,7 +102,10 @@ export default function SearchModal() {
   const navigate = useNavigate();
   const { colorScheme } = useMantineColorScheme();
 
-  useHotkeys([['mod+K', open]]);
+  useHotkeys([
+    ['mod+K', open],
+    ['/', (e) => { e.preventDefault(); open(); }],
+  ]);
 
   useEffect(() => {
     if (opened) {

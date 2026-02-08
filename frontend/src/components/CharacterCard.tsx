@@ -39,6 +39,7 @@ export default function CharacterCard({
         w={size}
         fit="cover"
         radius="50%"
+        loading="lazy"
         fallbackSrc={`https://placehold.co/${size}x${size}?text=${encodeURIComponent(name.charAt(0))}`}
         style={{
           border: `${CHARACTER_CARD.BORDER_WIDTH}px solid ${borderColor}`,

@@ -1,8 +1,26 @@
-import { createTheme } from '@mantine/core';
+import { createTheme, type MantineColorsTuple } from '@mantine/core';
+
+// Custom dark color for deeper dark mode
+const dark: MantineColorsTuple = [
+  '#C1C2C5', // 0 - text
+  '#A6A7AB', // 1
+  '#909296', // 2
+  '#5c5f66', // 3
+  '#373A40', // 4
+  '#2C2E33', // 5 - borders
+  '#1A1B1E', // 6 - card backgrounds
+  '#141517', // 7 - main background
+  '#101113', // 8 - deeper background
+  '#0c0d0e', // 9 - deepest
+];
 
 export const theme = createTheme({
   primaryColor: 'violet',
-  fontFamily: 'Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+  fontFamily:
+    '"Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+  colors: {
+    dark,
+  },
 
   // Enhanced spacing scale
   spacing: {
@@ -34,7 +52,7 @@ export const theme = createTheme({
   // Enhanced heading styles
   headings: {
     fontFamily:
-      'Inter, system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+      '"Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
     fontWeight: '700',
     sizes: {
       h1: { fontSize: '2.5rem', lineHeight: '1.2' },

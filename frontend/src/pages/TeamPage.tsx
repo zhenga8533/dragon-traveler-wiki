@@ -17,6 +17,7 @@ import {
 import { useMemo } from 'react';
 import { IoArrowBack, IoCreate } from 'react-icons/io5';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_BORDER_COLOR } from '../components/CharacterCard';
@@ -86,13 +87,12 @@ export default function TeamPage() {
     <Container size="lg" py="xl">
       <Stack gap="xl">
         <Group justify="space-between">
-          <Button
-            variant="subtle"
-            onClick={() => navigate('/teams')}
-            leftSection={<IoArrowBack />}
-          >
-            Back to Teams
-          </Button>
+          <Breadcrumbs
+            items={[
+              { label: 'Teams', path: '/teams' },
+              { label: team.name },
+            ]}
+          />
           <Button
             variant="light"
             leftSection={<IoCreate size={14} />}

@@ -1,15 +1,14 @@
 import {
   Badge,
   Button,
-  Center,
   Collapse,
   Container,
   Group,
   Image,
-  Loader,
   Paper,
   SegmentedControl,
   SimpleGrid,
+  Skeleton,
   Stack,
   Text,
   TextInput,
@@ -21,6 +20,7 @@ import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import CharacterCard from '../components/CharacterCard';
+import EmptyState from '../components/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import SuggestModal from '../components/SuggestModal';
@@ -167,9 +167,11 @@ export default function Teams() {
         </Group>
 
         {loading && (
-          <Center py="xl">
-            <Loader />
-          </Center>
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Skeleton key={i} height={200} radius="md" />
+            ))}
+          </SimpleGrid>
         )}
 
         {!loading && (
@@ -213,15 +215,38 @@ export default function Teams() {
                 />
 
                 {filteredTeams.length === 0 && (
-                  <Text c="dimmed" ta="center" py="lg">
-                    {search
-                      ? 'No teams match your search.'
-                      : 'No teams match the current filters.'}
-                  </Text>
+                  <EmptyState
+                    title={search ? 'No teams found' : 'No matching teams'}
+                    description={
+                      search
+                        ? 'No teams match your search.'
+                        : 'No teams match the current filters.'
+                    }
+                  />
                 )}
 
                 {filteredTeams.map((team) => (
-                  <Paper key={team.name} p="md" radius="md" withBorder>
+                  <Paper
+                    key={team.name}
+                    p="md"
+                    radius="md"
+                    withBorder
+                    style={{
+                      transition: 'transform 150ms ease, box-shadow 150ms ease',
+                      cursor: 'pointer',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow = 'var(--mantine-shadow-md)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '';
+                    }}
+                    onClick={() =>
+                      navigate(`/teams/${encodeURIComponent(team.name)}`)
+                    }
+                  >
                     <Stack gap="sm">
                       <Group
                         justify="space-between"

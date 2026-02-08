@@ -2,18 +2,32 @@ import {
   Anchor,
   Box,
   Center,
-  Divider,
   Group,
   Stack,
   Text,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { IoLogoGithub, IoWarning } from 'react-icons/io5';
+import { getGlassStyles } from '../constants/glass';
 
 export default function Footer() {
+  const isDark = useComputedColorScheme('light') === 'dark';
+  const glassStyles = getGlassStyles(isDark, true);
+
   return (
-    <Box component="footer" mt="xl" pt="md">
-      <Divider />
-      <Center py="lg">
+    <Box
+      component="footer"
+      mt="xl"
+      py="lg"
+      style={{
+        ...glassStyles,
+        borderTop: glassStyles.border,
+        borderLeft: 'none',
+        borderRight: 'none',
+        borderBottom: 'none',
+      }}
+    >
+      <Center>
         <Stack gap="md" align="center">
           <Text size="xs" c="dimmed" fs="italic" ta="center">
             This is a fan-made project and is not affiliated with or endorsed by
