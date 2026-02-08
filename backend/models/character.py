@@ -38,6 +38,7 @@ class SkillType(str, Enum):
     ULTIMATE_SKILL = "Ultimate Skill"
     SECRET_SKILL = "Secret Skill"
     SPECIAL_SKILL = "Special Skill"
+    DIVINE_SKILL = "Divine Skill"
 
 
 class Skill(BaseModel):
