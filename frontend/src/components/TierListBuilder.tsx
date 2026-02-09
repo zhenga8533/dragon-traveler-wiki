@@ -11,7 +11,6 @@ import {
   Button,
   CopyButton,
   Group,
-  Image,
   Paper,
   SimpleGrid,
   Stack,
@@ -19,12 +18,13 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import { IoCheckmark, IoCopy, IoTrash } from 'react-icons/io5';
-import { getPortrait } from '../assets/character';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
+import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
 import type { Tier, TierList } from '../types/tier-list';
-import { QUALITY_BORDER_COLOR } from './CharacterCard';
+import CharacterCard from './CharacterCard';
 import FilterableCharacterPool from './FilterableCharacterPool';
 interface TierListBuilderProps {
   characters: Character[];
@@ -45,10 +45,6 @@ function DraggableCharCard({
     id: name,
   });
 
-  const borderColor = char
-    ? QUALITY_BORDER_COLOR[char.quality]
-    : 'var(--mantine-color-gray-5)';
-
   const style: React.CSSProperties = overlay
     ? { cursor: 'grabbing' }
     : {
@@ -57,28 +53,13 @@ function DraggableCharCard({
       };
 
   return (
-    <Stack
+    <div
       ref={overlay ? undefined : setNodeRef}
-      gap={2}
-      align="center"
       style={style}
       {...(overlay ? {} : { ...listeners, ...attributes })}
     >
-      <Image
-        src={getPortrait(name)}
-        alt={name}
-        h={80}
-        w={80}
-        fit="cover"
-        radius="50%"
-        style={{
-          border: `3px solid ${borderColor}`,
-        }}
-      />
-      <Text size="xs" fw={500} ta="center" lineClamp={1}>
-        {name}
-      </Text>
-    </Stack>
+      <CharacterCard name={name} quality={char?.quality} disableLink />
+    </div>
   );
 }
 
@@ -113,7 +94,7 @@ function TierDropZone({
         </Badge>
         <SimpleGrid
           cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-          spacing={4}
+          spacing={CHARACTER_GRID_SPACING}
           style={{ minHeight: 40 }}
         >
           {children}
@@ -152,7 +133,7 @@ function UnrankedPool({
         )}
         <SimpleGrid
           cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-          spacing={4}
+          spacing={CHARACTER_GRID_SPACING}
           style={{ minHeight: 40 }}
         >
           {children}
@@ -310,15 +291,20 @@ export default function TierListBuilder({
         </FilterableCharacterPool>
       </Stack>
 
-      <DragOverlay dropAnimation={null}>
-        {activeId ? (
-          <DraggableCharCard
-            name={activeId}
-            char={charMap.get(activeId)}
-            overlay
-          />
-        ) : null}
-      </DragOverlay>
+      {typeof document !== 'undefined'
+        ? createPortal(
+            <DragOverlay dropAnimation={null}>
+              {activeId ? (
+                <DraggableCharCard
+                  name={activeId}
+                  char={charMap.get(activeId)}
+                  overlay
+                />
+              ) : null}
+            </DragOverlay>,
+            document.body
+          )
+        : null}
     </DndContext>
   );
 }

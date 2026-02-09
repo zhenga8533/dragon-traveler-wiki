@@ -57,6 +57,8 @@ export const CHARACTER_GRID_COLS = {
   md: 6,
 } as const;
 
+export const CHARACTER_GRID_SPACING = 12;
+
 // Sidebar dimensions
 export const SIDEBAR = {
   WIDTH_EXPANDED: 220,
@@ -66,6 +68,7 @@ export const SIDEBAR = {
 // Storage keys
 export const STORAGE_KEY = {
   CHARACTER_VIEW_MODE: 'characters:viewMode',
+  CHARACTER_TIER_LIST_REFERENCE: 'characters:tierListReference',
   STATUS_EFFECT_VIEW_MODE: 'status-effects:viewMode',
   REDEEMED_CODES: 'redeemedCodes',
   SIDEBAR_COLLAPSED: 'sidebar:collapsed',

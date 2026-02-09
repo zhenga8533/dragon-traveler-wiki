@@ -23,9 +23,11 @@ import EntityFilter from '../components/EntityFilter';
 import SuggestModal from '../components/SuggestModal';
 import TierListBuilder from '../components/TierListBuilder';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
+import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
+import { sortCharactersByQualityName } from '../utils/filter-characters';
 import { TIER_LIST_JSON_TEMPLATE } from '../utils/github-issues';
 
 export default function TierList() {
@@ -173,8 +175,8 @@ export default function TierList() {
                       const rankedNames = new Set(
                         tierList.entries.map((e) => e.character_name)
                       );
-                      const unranked = characters.filter(
-                        (c) => !rankedNames.has(c.name)
+                      const unranked = sortCharactersByQualityName(
+                        characters.filter((c) => !rankedNames.has(c.name))
                       );
 
                       return (
@@ -229,7 +231,7 @@ export default function TierList() {
                                   </Badge>
                                   <SimpleGrid
                                     cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-                                    spacing={4}
+                                    spacing={CHARACTER_GRID_SPACING}
                                   >
                                     {entries.map((entry) => {
                                       const char = charMap.get(
@@ -261,7 +263,7 @@ export default function TierList() {
                                   </Badge>
                                   <SimpleGrid
                                     cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-                                    spacing={4}
+                                    spacing={CHARACTER_GRID_SPACING}
                                   >
                                     {unranked.map((c) => (
                                       <CharacterCard

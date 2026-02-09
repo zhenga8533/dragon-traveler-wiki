@@ -2,13 +2,13 @@ import { Badge, Button, Collapse, Group, Paper, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
-import { QUALITY_ORDER } from '../constants/colors';
 import type { Character } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
 import {
   EMPTY_FILTERS,
   extractAllEffectRefs,
   filterCharacters,
+  sortCharactersByQualityName,
 } from '../utils/filter-characters';
 import CharacterFilter from './CharacterFilter';
 
@@ -34,15 +34,7 @@ export default function FilterableCharacterPool({
 
   const filtered = useMemo(() => {
     const filteredChars = filterCharacters(characters, filters);
-    // Sort by quality first (using QUALITY_ORDER), then alphabetically
-    return filteredChars.sort((a, b) => {
-      const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
-      const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
-      if (qualityIndexA !== qualityIndexB) {
-        return qualityIndexA - qualityIndexB;
-      }
-      return a.name.localeCompare(b.name);
-    });
+    return sortCharactersByQualityName(filteredChars);
   }, [characters, filters]);
 
   const activeFilterCount =

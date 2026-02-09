@@ -1,6 +1,18 @@
 import type { CSSProperties } from 'react';
 import { TRANSITION } from './ui';
 
+export const BRAND_TITLE_STYLE = {
+  fontFamily: '"Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif',
+  letterSpacing: '0.02em',
+  fontWeight: 700,
+  backgroundImage:
+    'linear-gradient(120deg, var(--mantine-color-violet-4) 0%, var(--mantine-color-violet-6) 45%, var(--mantine-color-grape-6) 100%)',
+  backgroundClip: 'text',
+  WebkitBackgroundClip: 'text',
+  color: 'transparent',
+  WebkitTextFillColor: 'transparent',
+} as const satisfies CSSProperties;
+
 /**
  * Consistent hover effect styles for interactive cards
  */

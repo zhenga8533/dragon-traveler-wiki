@@ -4,7 +4,7 @@ import CharacterList from '../components/CharacterList';
 import EmptyState from '../components/EmptyState';
 import { CharacterCardSkeleton } from '../components/SkeletonCard';
 import SuggestModal from '../components/SuggestModal';
-import { CHARACTER_GRID_COLS } from '../constants/ui';
+import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import { CHARACTER_JSON_TEMPLATE } from '../utils/github-issues';
@@ -18,7 +18,7 @@ export default function Characters() {
   return (
     <Container size="lg" py="xl">
       <Stack gap="md">
-        <Group justify="space-between" align="center">
+        <Group justify="space-between" align="center" wrap="wrap">
           <Title order={1}>Characters</Title>
           <SuggestModal
             buttonLabel="Suggest a Character"
@@ -30,7 +30,10 @@ export default function Characters() {
         </Group>
 
         {loading && (
-          <SimpleGrid cols={CHARACTER_GRID_COLS} spacing={4}>
+          <SimpleGrid
+            cols={CHARACTER_GRID_COLS}
+            spacing={CHARACTER_GRID_SPACING}
+          >
             {Array.from({ length: 18 }).map((_, i) => (
               <CharacterCardSkeleton key={i} />
             ))}

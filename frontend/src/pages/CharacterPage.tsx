@@ -20,7 +20,7 @@ import {
   UnstyledButton,
   useMantineColorScheme,
 } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import {
   RiArrowLeftSLine,
@@ -43,6 +43,7 @@ import { FACTION_ICON_MAP } from '../assets/faction';
 import { getSubclassIcon } from '../assets/subclass';
 import RichText from '../components/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
+import { TierListReferenceContext } from '../contexts';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
@@ -59,6 +60,9 @@ export default function CharacterPage() {
     'data/status-effects.json',
     []
   );
+  const { tierLists, selectedTierListName } = useContext(
+    TierListReferenceContext
+  );
 
   const character = useMemo(() => {
     if (!name) return null;
@@ -67,6 +71,14 @@ export default function CharacterPage() {
       (c) => c.name.toLowerCase() === decodedName.toLowerCase()
     );
   }, [characters, name]);
+
+  const tierLabel = useMemo(() => {
+    if (!selectedTierListName || !character) return null;
+    const list = tierLists.find((l) => l.name === selectedTierListName);
+    if (!list) return null;
+    const entry = list.entries.find((e) => e.character_name === character.name);
+    return entry?.tier ?? 'Unranked';
+  }, [tierLists, selectedTierListName, character]);
 
   // Lazy-loaded assets
   const [illustrations, setIllustrations] = useState<CharacterIllustration[]>(
@@ -299,6 +311,12 @@ export default function CharacterPage() {
                       />
                     </Group>
                   </Tooltip>
+
+                  {tierLabel && (
+                    <Badge variant="light" color="gray" size="lg">
+                      Tier: {tierLabel}
+                    </Badge>
+                  )}
 
                   <Tooltip label={character.character_class}>
                     <Group gap={6}>

@@ -26,6 +26,7 @@ import EntityFilter from '../components/EntityFilter';
 import SuggestModal from '../components/SuggestModal';
 import TeamBuilder from '../components/TeamBuilder';
 import { FACTION_COLOR } from '../constants/colors';
+import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
@@ -237,7 +238,8 @@ export default function Teams() {
                     }}
                     onMouseEnter={(e) => {
                       e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow = 'var(--mantine-shadow-md)';
+                      e.currentTarget.style.boxShadow =
+                        'var(--mantine-shadow-md)';
                     }}
                     onMouseLeave={(e) => {
                       e.currentTarget.style.transform = 'translateY(0)';
@@ -320,7 +322,10 @@ export default function Teams() {
                         )}
                       </Group>
 
-                      <SimpleGrid cols={{ base: 3, xs: 4, sm: 6 }} spacing={4}>
+                      <SimpleGrid
+                        cols={{ base: 3, xs: 4, sm: 6 }}
+                        spacing={CHARACTER_GRID_SPACING}
+                      >
                         {team.members.slice(0, 6).map((m) => {
                           const char = charMap.get(m.character_name);
                           return (
@@ -336,6 +341,7 @@ export default function Teams() {
                               <CharacterCard
                                 name={m.character_name}
                                 quality={char?.quality}
+                                disableLink
                               />
                               {m.overdrive_order != null && (
                                 <Badge

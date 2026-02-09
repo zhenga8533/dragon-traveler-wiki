@@ -8,6 +8,7 @@ import {
   Kbd,
   Modal,
   NavLink,
+  Select,
   Stack,
   Text,
   Title,
@@ -16,13 +17,14 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useHotkeys, useMediaQuery } from '@mantine/hooks';
+import { useContext, useMemo } from 'react';
 import {
   IoBook,
   IoChevronBack,
   IoChevronForward,
   IoGift,
-  IoHome,
   IoHelpCircleOutline,
+  IoHome,
   IoLink,
   IoList,
   IoMoon,
@@ -46,8 +48,13 @@ import ScrollToTop from './components/ScrollToTop';
 import SearchModal from './components/SearchModal';
 import { getAccentForPath, PARENT_ACCENTS } from './constants/accents';
 import { getGlassStyles } from './constants/glass';
+import { BRAND_TITLE_STYLE } from './constants/styles';
 import { SIDEBAR, TRANSITION } from './constants/ui';
-import { SectionAccentProvider } from './contexts/SectionAccentContext';
+import {
+  SectionAccentProvider,
+  TierListReferenceContext,
+  TierListReferenceProvider,
+} from './contexts';
 import { useSidebar } from './hooks';
 import BeginnerQA from './pages/BeginnerQA';
 import Changelog from './pages/Changelog';
@@ -157,6 +164,15 @@ const expandedNavStyles = {
   },
 };
 
+const getIconColor = (accent: string, isActive: boolean) =>
+  `var(--mantine-color-${accent}-${isActive ? '6' : '5'})`;
+
+const renderNavIcon = (
+  Icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>,
+  accent: string,
+  isActive: boolean
+) => <Icon size={18} style={{ color: getIconColor(accent, isActive) }} />;
+
 function Navigation({
   onNavigate,
   showLabels,
@@ -186,7 +202,10 @@ function Navigation({
               >
                 <NavLink
                   label=""
-                  leftSection={item.icon && <item.icon />}
+                  leftSection={
+                    item.icon &&
+                    renderNavIcon(item.icon, parentAccent, isChildActive)
+                  }
                   active={isChildActive}
                   color={parentAccent}
                   styles={collapsedNavStyles}
@@ -201,7 +220,10 @@ function Navigation({
               label={item.label}
               defaultOpened={isChildActive}
               childrenOffset={28}
-              leftSection={item.icon && <item.icon />}
+              leftSection={
+                item.icon &&
+                renderNavIcon(item.icon, parentAccent, isChildActive)
+              }
               color={parentAccent}
               styles={expandedNavStyles}
             >
@@ -238,7 +260,9 @@ function Navigation({
                 component={Link}
                 to={item.path!}
                 label=""
-                leftSection={item.icon && <item.icon />}
+                leftSection={
+                  item.icon && renderNavIcon(item.icon, itemAccent, isActive)
+                }
                 active={isActive}
                 color={itemAccent}
                 onClick={onNavigate}
@@ -254,7 +278,9 @@ function Navigation({
             component={Link}
             to={item.path!}
             label={item.label}
-            leftSection={item.icon && <item.icon />}
+            leftSection={
+              item.icon && renderNavIcon(item.icon, itemAccent, isActive)
+            }
             active={isActive}
             color={itemAccent}
             onClick={onNavigate}
@@ -321,6 +347,8 @@ function AppContent() {
   const navigate = useNavigate();
   const isDark = useComputedColorScheme('light') === 'dark';
   const isMobile = useMediaQuery('(max-width: 768px)');
+  const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
+    useContext(TierListReferenceContext);
 
   // Global keyboard shortcuts
   useHotkeys([
@@ -331,10 +359,20 @@ function AppContent() {
   ]);
 
   const glassStyles = getGlassStyles(isDark);
+  const tierListOptions = useMemo(
+    () =>
+      tierLists.map((list) => ({
+        value: list.name,
+        label: `${list.name} (${list.content_type})`,
+      })),
+    [tierLists]
+  );
 
   // On mobile, always show full sidebar when opened
   const showLabels = isMobile ? true : sidebar.showLabels;
-  const navbarWidth = isMobile ? SIDEBAR.WIDTH_EXPANDED : sidebar.effectiveWidth;
+  const navbarWidth = isMobile
+    ? SIDEBAR.WIDTH_EXPANDED
+    : sidebar.effectiveWidth;
 
   return (
     <AppShell
@@ -359,7 +397,9 @@ function AppContent() {
             />
             {/* Sidebar toggle - hidden on mobile */}
             <Tooltip
-              label={sidebar.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+              label={
+                sidebar.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+              }
               position="right"
             >
               <ActionIcon
@@ -389,12 +429,23 @@ function AppContent() {
                 fit="contain"
                 style={{ maxWidth: '45vw' }}
               />
-              <Title order={3} visibleFrom="sm">
+              <Title order={3} visibleFrom="sm" style={BRAND_TITLE_STYLE}>
                 Dragon Traveler Wiki
               </Title>
             </Link>
           </Group>
           <Group gap="xs">
+            <Select
+              placeholder="Tier list reference"
+              data={tierListOptions}
+              value={selectedTierListName || null}
+              onChange={(value) => setSelectedTierListName(value ?? '')}
+              clearable
+              searchable
+              size="xs"
+              disabled={loading || tierListOptions.length === 0}
+              w={220}
+            />
             <SearchModal />
             <ThemeToggle />
           </Group>
@@ -419,39 +470,42 @@ function AppContent() {
       >
         <Box style={{ flex: 1 }}>
           <PageTransition>
-          <Routes>
-            <Route path="/" element={<Home />} />
-            <Route path="/characters" element={<Characters />} />
-            <Route path="/characters/:name" element={<CharacterPage />} />
-            <Route path="/tier-list" element={<TierList />} />
-            <Route path="/teams" element={<Teams />} />
-            <Route path="/teams/:teamName" element={<TeamPage />} />
-            <Route path="/status-effects" element={<StatusEffects />} />
-            <Route path="/wyrmspells" element={<DragonSpells />} />
-            <Route path="/codes" element={<Codes />} />
-            <Route path="/useful-links" element={<UsefulLinks />} />
-            <Route path="/changelog" element={<Changelog />} />
-            <Route path="/guides/beginner-qa" element={<BeginnerQA />} />
-            <Route
-              path="/guides/star-upgrade-calculator"
-              element={<StarUpgradeCalculator />}
-            />
-            <Route
-              path="/guides/efficient-spending"
-              element={<EfficientSpending />}
-            />
-            <Route
-              path="/guides/golden-clover-priority"
-              element={<GoldenCloverPriority />}
-            />
-          </Routes>
+            <Routes>
+              <Route path="/" element={<Home />} />
+              <Route path="/characters" element={<Characters />} />
+              <Route path="/characters/:name" element={<CharacterPage />} />
+              <Route path="/tier-list" element={<TierList />} />
+              <Route path="/teams" element={<Teams />} />
+              <Route path="/teams/:teamName" element={<TeamPage />} />
+              <Route path="/status-effects" element={<StatusEffects />} />
+              <Route path="/wyrmspells" element={<DragonSpells />} />
+              <Route path="/codes" element={<Codes />} />
+              <Route path="/useful-links" element={<UsefulLinks />} />
+              <Route path="/changelog" element={<Changelog />} />
+              <Route path="/guides/beginner-qa" element={<BeginnerQA />} />
+              <Route
+                path="/guides/star-upgrade-calculator"
+                element={<StarUpgradeCalculator />}
+              />
+              <Route
+                path="/guides/efficient-spending"
+                element={<EfficientSpending />}
+              />
+              <Route
+                path="/guides/golden-clover-priority"
+                element={<GoldenCloverPriority />}
+              />
+            </Routes>
           </PageTransition>
         </Box>
         <Footer />
       </AppShell.Main>
 
       <ScrollToTop />
-      <KeyboardShortcutsModal opened={shortcutsOpened} onClose={closeShortcuts} />
+      <KeyboardShortcutsModal
+        opened={shortcutsOpened}
+        onClose={closeShortcuts}
+      />
     </AppShell>
   );
 }
@@ -460,7 +514,9 @@ export default function App() {
   return (
     <HashRouter>
       <SectionAccentProvider>
-        <AppContent />
+        <TierListReferenceProvider>
+          <AppContent />
+        </TierListReferenceProvider>
       </SectionAccentProvider>
     </HashRouter>
   );

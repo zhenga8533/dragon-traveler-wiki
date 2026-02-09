@@ -14,15 +14,20 @@ import {
   Tooltip,
   UnstyledButton,
 } from '@mantine/core';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { IoFilter, IoGrid, IoList } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
-import { QUALITY_ORDER } from '../constants/colors';
-import { CHARACTER_GRID_COLS, IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
+import {
+  CHARACTER_GRID_COLS,
+  CHARACTER_GRID_SPACING,
+  IMAGE_SIZE,
+  STORAGE_KEY,
+} from '../constants/ui';
+import { TierListReferenceContext } from '../contexts';
 import {
   useFilteredData,
   useFilterPanel,
@@ -35,6 +40,7 @@ import {
   EMPTY_FILTERS,
   extractAllEffectRefs,
   filterCharacters,
+  sortCharactersByQualityName,
 } from '../utils/filter-characters';
 import CharacterCard, { QUALITY_BORDER_COLOR } from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
@@ -49,9 +55,12 @@ interface CharacterListProps {
 export default function CharacterList({
   characters,
   cols = CHARACTER_GRID_COLS,
-  spacing = 4,
+  spacing = CHARACTER_GRID_SPACING,
   showFilter = true,
 }: CharacterListProps) {
+  const { tierLists, selectedTierListName } = useContext(
+    TierListReferenceContext
+  );
   const { filters, setFilters } = useFilters<CharacterFilters>({
     emptyFilters: EMPTY_FILTERS,
   });
@@ -66,23 +75,27 @@ export default function CharacterList({
     [characters]
   );
 
+  const tierLookup = useMemo(() => {
+    const map = new Map<string, string>();
+    if (!selectedTierListName) return map;
+    const list = tierLists.find((l) => l.name === selectedTierListName);
+    if (!list) return map;
+    for (const entry of list.entries) {
+      map.set(entry.character_name, entry.tier);
+    }
+    return map;
+  }, [tierLists, selectedTierListName]);
+
+  const getTierLabel = (name: string) => {
+    if (!selectedTierListName) return undefined;
+    return tierLookup.get(name) ?? 'Unranked';
+  };
+
   const filteredAndSorted = useFilteredData({
     data: characters,
     filters,
     filterFn: filterCharacters,
-    sortFn: (filtered) =>
-      filtered.sort((a, b) => {
-        // Sort by quality first (using QUALITY_ORDER)
-        const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
-        const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
-
-        if (qualityIndexA !== qualityIndexB) {
-          return qualityIndexA - qualityIndexB;
-        }
-
-        // Then sort alphabetically by name
-        return a.name.localeCompare(b.name);
-      }),
+    sortFn: (filtered) => sortCharactersByQualityName(filtered),
   });
 
   const activeFilterCount =
@@ -166,6 +179,7 @@ export default function CharacterList({
                 key={char.name}
                 name={char.name}
                 quality={char.quality}
+                tierLabel={getTierLabel(char.name)}
               />
             ))}
           </SimpleGrid>
@@ -178,6 +192,7 @@ export default function CharacterList({
                   <Table.Th>Quality</Table.Th>
                   <Table.Th>Class</Table.Th>
                   <Table.Th>Factions</Table.Th>
+                  {selectedTierListName && <Table.Th>Tier</Table.Th>}
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
@@ -246,6 +261,11 @@ export default function CharacterList({
                         ))}
                       </Group>
                     </Table.Td>
+                    {selectedTierListName && (
+                      <Table.Td>
+                        <Text size="sm">{getTierLabel(char.name)}</Text>
+                      </Table.Td>
+                    )}
                   </Table.Tr>
                 ))}
               </Table.Tbody>

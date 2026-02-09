@@ -18,6 +18,7 @@ interface CharacterCardProps {
   quality?: Quality;
   size?: number;
   disableLink?: boolean;
+  tierLabel?: string;
 }
 
 export default function CharacterCard({
@@ -25,10 +26,12 @@ export default function CharacterCard({
   quality,
   size = CHARACTER_CARD.PORTRAIT_SIZE,
   disableLink = false,
+  tierLabel,
 }: CharacterCardProps) {
   const borderColor = quality
     ? QUALITY_BORDER_COLOR[quality]
     : 'var(--mantine-color-gray-5)';
+  const nameColor = disableLink ? 'dimmed' : 'violet';
 
   const content = (
     <Stack gap={2} align="center">
@@ -46,9 +49,14 @@ export default function CharacterCard({
           transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, box-shadow ${TRANSITION.FAST} ${TRANSITION.EASE}`,
         }}
       />
-      <Text size="xs" fw={500} ta="center" lineClamp={1} c="violet">
+      <Text size="xs" fw={500} ta="center" lineClamp={1} c={nameColor}>
         {name}
       </Text>
+      {tierLabel && (
+        <Text size="xs" ta="center" c="dimmed">
+          {tierLabel}
+        </Text>
+      )}
     </Stack>
   );
 

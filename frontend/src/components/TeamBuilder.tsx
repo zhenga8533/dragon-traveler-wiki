@@ -25,6 +25,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   IoCheckmark,
   IoClose,
@@ -33,12 +34,15 @@ import {
   IoTrash,
 } from 'react-icons/io5';
 import { getPortrait } from '../assets/character';
+import { FACTION_ICON_MAP } from '../assets/faction';
+import { getWyrmspellIcon } from '../assets/wyrmspell';
 import { FACTION_COLOR } from '../constants/colors';
+import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team, TeamMember, TeamWyrmspells } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
-import { QUALITY_BORDER_COLOR } from './CharacterCard';
+import CharacterCard from './CharacterCard';
 import FilterableCharacterPool from './FilterableCharacterPool';
 
 const MAX_ROSTER_SIZE = 6;
@@ -75,10 +79,6 @@ function DraggableCharCard({
     id: name,
   });
 
-  const borderColor = char
-    ? QUALITY_BORDER_COLOR[char.quality]
-    : 'var(--mantine-color-gray-5)';
-
   const style: React.CSSProperties = overlay
     ? { cursor: 'grabbing' }
     : {
@@ -87,28 +87,54 @@ function DraggableCharCard({
       };
 
   return (
-    <Stack
+    <div
       ref={overlay ? undefined : setNodeRef}
-      gap={2}
-      align="center"
       style={style}
       {...(overlay ? {} : { ...listeners, ...attributes })}
     >
+      <CharacterCard name={name} quality={char?.quality} disableLink />
+    </div>
+  );
+}
+
+function renderWyrmspellOption({ option }: { option: { label: string } }) {
+  const iconSrc = getWyrmspellIcon(option.label);
+  return (
+    <Group gap="xs" align="center">
+      {iconSrc ? (
+        <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
+      ) : null}
+      <Text size="sm">{option.label}</Text>
+    </Group>
+  );
+}
+
+function renderCharacterOption({ option }: { option: { label: string } }) {
+  return (
+    <Group gap="xs" align="center">
       <Image
-        src={getPortrait(name)}
-        alt={name}
-        h={80}
-        w={80}
+        src={getPortrait(option.label)}
+        alt=""
+        w={18}
+        h={18}
         fit="cover"
         radius="50%"
-        style={{
-          border: `3px solid ${borderColor}`,
-        }}
+        fallbackSrc={`https://placehold.co/18x18?text=${encodeURIComponent(option.label.charAt(0))}`}
       />
-      <Text size="xs" fw={500} ta="center" lineClamp={1}>
-        {name}
-      </Text>
-    </Stack>
+      <Text size="sm">{option.label}</Text>
+    </Group>
+  );
+}
+
+function renderFactionOption({ option }: { option: { label: string } }) {
+  const iconSrc = FACTION_ICON_MAP[option.label as FactionName];
+  return (
+    <Group gap="xs" align="center">
+      {iconSrc ? (
+        <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
+      ) : null}
+      <Text size="sm">{option.label}</Text>
+    </Group>
   );
 }
 
@@ -284,7 +310,7 @@ function AvailablePool({
         )}
         <SimpleGrid
           cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-          spacing={4}
+          spacing={CHARACTER_GRID_SPACING}
           style={{ minHeight: 40 }}
         >
           {children}
@@ -680,6 +706,14 @@ export default function TeamBuilder({
             data={FACTIONS}
             value={faction}
             onChange={setFaction}
+            renderOption={renderFactionOption}
+            leftSection={(() => {
+              if (!faction) return undefined;
+              const iconSrc = FACTION_ICON_MAP[faction as FactionName];
+              return iconSrc ? (
+                <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+              ) : undefined;
+            })()}
             style={{ minWidth: 160 }}
           />
         </Group>
@@ -727,6 +761,15 @@ export default function TeamBuilder({
                 data={wyrmspells
                   .filter((w) => w.type === 'Breach')
                   .map((w) => ({ value: w.name, label: w.name }))}
+                renderOption={renderWyrmspellOption}
+                leftSection={(() => {
+                  const iconSrc = teamWyrmspells.breach
+                    ? getWyrmspellIcon(teamWyrmspells.breach)
+                    : undefined;
+                  return iconSrc ? (
+                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+                  ) : undefined;
+                })()}
                 value={teamWyrmspells.breach || null}
                 onChange={(value) =>
                   setTeamWyrmspells((prev) => ({
@@ -742,6 +785,15 @@ export default function TeamBuilder({
                 data={wyrmspells
                   .filter((w) => w.type === 'Refuge')
                   .map((w) => ({ value: w.name, label: w.name }))}
+                renderOption={renderWyrmspellOption}
+                leftSection={(() => {
+                  const iconSrc = teamWyrmspells.refuge
+                    ? getWyrmspellIcon(teamWyrmspells.refuge)
+                    : undefined;
+                  return iconSrc ? (
+                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+                  ) : undefined;
+                })()}
                 value={teamWyrmspells.refuge || null}
                 onChange={(value) =>
                   setTeamWyrmspells((prev) => ({
@@ -757,6 +809,15 @@ export default function TeamBuilder({
                 data={wyrmspells
                   .filter((w) => w.type === 'Wildcry')
                   .map((w) => ({ value: w.name, label: w.name }))}
+                renderOption={renderWyrmspellOption}
+                leftSection={(() => {
+                  const iconSrc = teamWyrmspells.wildcry
+                    ? getWyrmspellIcon(teamWyrmspells.wildcry)
+                    : undefined;
+                  return iconSrc ? (
+                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+                  ) : undefined;
+                })()}
                 value={teamWyrmspells.wildcry || null}
                 onChange={(value) =>
                   setTeamWyrmspells((prev) => ({
@@ -772,6 +833,15 @@ export default function TeamBuilder({
                 data={wyrmspells
                   .filter((w) => w.type === "Dragon's Call")
                   .map((w) => ({ value: w.name, label: w.name }))}
+                renderOption={renderWyrmspellOption}
+                leftSection={(() => {
+                  const iconSrc = teamWyrmspells.dragons_call
+                    ? getWyrmspellIcon(teamWyrmspells.dragons_call)
+                    : undefined;
+                  return iconSrc ? (
+                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+                  ) : undefined;
+                })()}
                 value={teamWyrmspells.dragons_call || null}
                 onChange={(value) =>
                   setTeamWyrmspells((prev) => ({
@@ -805,15 +875,20 @@ export default function TeamBuilder({
         </FilterableCharacterPool>
       </Stack>
 
-      <DragOverlay dropAnimation={null}>
-        {activeId ? (
-          <DraggableCharCard
-            name={activeId}
-            char={charMap.get(activeId)}
-            overlay
-          />
-        ) : null}
-      </DragOverlay>
+      {typeof document !== 'undefined'
+        ? createPortal(
+            <DragOverlay dropAnimation={null}>
+              {activeId ? (
+                <DraggableCharCard
+                  name={activeId}
+                  char={charMap.get(activeId)}
+                  overlay
+                />
+              ) : null}
+            </DragOverlay>,
+            document.body
+          )
+        : null}
 
       <Modal
         opened={configModalOpened}
@@ -839,6 +914,7 @@ export default function TeamBuilder({
             data={availableCharacters
               .filter((c) => !teamNames.has(c.name))
               .map((c) => ({ value: c.name, label: c.name }))}
+            renderOption={renderCharacterOption}
             value={configSlotIndex !== null ? substitutes[configSlotIndex] : []}
             onChange={(value) => {
               if (configSlotIndex !== null) {

@@ -2,10 +2,12 @@ import {
   ActionIcon,
   Badge,
   Box,
+  Button,
   Card,
   Container,
   CopyButton,
   Group,
+  Kbd,
   SimpleGrid,
   Skeleton,
   Stack,
@@ -25,13 +27,16 @@ import {
   IoList,
   IoPeople,
   IoPricetag,
+  IoSearch,
   IoSparkles,
   IoTrophy,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import banner from '../assets/banner.png';
 import CharacterCard from '../components/CharacterCard';
+import SearchModal from '../components/SearchModal';
 import { TIER_COLOR } from '../constants/colors';
+import { BRAND_TITLE_STYLE } from '../constants/styles';
 import { useDataFetch } from '../hooks';
 import type { Character } from '../types/character';
 import type { Code } from '../types/code';
@@ -129,7 +134,11 @@ function ActiveCodesSection() {
                   size="sm"
                   onClick={copy}
                 >
-                  {copied ? <IoCheckmark size={14} /> : <IoCopyOutline size={14} />}
+                  {copied ? (
+                    <IoCheckmark size={14} />
+                  ) : (
+                    <IoCopyOutline size={14} />
+                  )}
                 </ActionIcon>
               </Tooltip>
             )}
@@ -187,6 +196,12 @@ function TopCharactersSection() {
     .filter((e) => e.tier === 'S+' || e.tier === 'S')
     .slice(0, 8);
 
+  const tierListMeta = [
+    tierList.name,
+    tierList.content_type,
+    tierList.author ? `by ${tierList.author}` : null,
+  ].filter(Boolean);
+
   if (topEntries.length === 0) {
     return (
       <Text size="sm" c="dimmed" fs="italic">
@@ -197,6 +212,11 @@ function TopCharactersSection() {
 
   return (
     <Stack gap="sm">
+      {tierListMeta.length > 0 && (
+        <Text size="xs" c="dimmed">
+          {tierListMeta.join(' · ')}
+        </Text>
+      )}
       <Group gap="md" wrap="wrap">
         {topEntries.map((entry) => {
           const char = charMap.get(entry.character_name);
@@ -207,11 +227,7 @@ function TopCharactersSection() {
                 quality={char?.quality}
                 size={64}
               />
-              <Badge
-                size="xs"
-                variant="light"
-                color={TIER_COLOR[entry.tier]}
-              >
+              <Badge size="xs" variant="light" color={TIER_COLOR[entry.tier]}>
                 {entry.tier}
               </Badge>
             </Stack>
@@ -259,6 +275,7 @@ function RecentUpdatesSection() {
   }
 
   const recentEntries = changelog.slice(0, 3);
+  const latestEntry = recentEntries[0];
 
   if (recentEntries.length === 0) {
     return (
@@ -270,6 +287,12 @@ function RecentUpdatesSection() {
 
   return (
     <Stack gap="xs">
+      {latestEntry && (
+        <Text size="xs" c="dimmed">
+          Latest update: {latestEntry.version || latestEntry.date} ·{' '}
+          {latestEntry.changes.length} changes
+        </Text>
+      )}
       {recentEntries.map((entry, idx) => (
         <Box
           key={idx}
@@ -283,9 +306,14 @@ function RecentUpdatesSection() {
             <Text size="xs" fw={600}>
               {entry.version || entry.date}
             </Text>
-            <Text size="xs" c="dimmed">
-              {entry.date}
-            </Text>
+            <Group gap="xs">
+              <Badge size="xs" variant="light" color="gray">
+                {entry.changes.length} changes
+              </Badge>
+              <Text size="xs" c="dimmed">
+                {entry.date}
+              </Text>
+            </Group>
           </Group>
           <Stack gap={2}>
             {entry.changes.slice(0, 2).map((change, cIdx) => (
@@ -405,10 +433,14 @@ export default function Home() {
               <Title
                 order={1}
                 style={{
+                  ...BRAND_TITLE_STYLE,
                   fontSize: 'clamp(2rem, 6vw, 3.5rem)',
-                  color: 'white',
-                  textShadow:
-                    '0 2px 12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.5)',
+                  backgroundImage: isDark
+                    ? 'linear-gradient(120deg, var(--mantine-color-violet-2) 0%, var(--mantine-color-violet-4) 45%, var(--mantine-color-grape-4) 100%)'
+                    : 'linear-gradient(120deg, var(--mantine-color-violet-6) 0%, var(--mantine-color-violet-5) 45%, var(--mantine-color-grape-6) 100%)',
+                  textShadow: isDark
+                    ? '0 2px 12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.5)'
+                    : '0 2px 10px rgba(0, 0, 0, 0.55), 0 0 22px rgba(0, 0, 0, 0.35)',
                 }}
               >
                 Dragon Traveler Wiki
@@ -423,6 +455,62 @@ export default function Home() {
               >
                 A community-driven wiki for Dragon Traveler
               </Text>
+              <Stack gap="sm" mt="md" align="center">
+                <Group gap="sm" justify="center">
+                  <Button
+                    component={Link}
+                    to="/characters"
+                    size="md"
+                    radius="md"
+                    leftSection={<IoPeople size={18} />}
+                  >
+                    Browse Characters
+                  </Button>
+                  <Button
+                    component={Link}
+                    to="/tier-list"
+                    size="md"
+                    radius="md"
+                    variant="light"
+                    leftSection={<IoTrophy size={18} />}
+                  >
+                    View Tier List
+                  </Button>
+                </Group>
+                <Group gap="xs" justify="center">
+                  <SearchModal
+                    trigger={({ open }) => (
+                      <Button
+                        onClick={open}
+                        size="sm"
+                        radius="md"
+                        variant="white"
+                        color="dark"
+                        leftSection={<IoSearch size={16} />}
+                      >
+                        Search the Wiki
+                      </Button>
+                    )}
+                  />
+                  <Group gap={4}>
+                    <Text
+                      size="xs"
+                      style={{ color: 'rgba(255, 255, 255, 0.9)' }}
+                    >
+                      or press
+                    </Text>
+                    <Kbd size="xs">/</Kbd>
+                    <Text
+                      size="xs"
+                      style={{ color: 'rgba(255, 255, 255, 0.9)' }}
+                    >
+                      or
+                    </Text>
+                    <Kbd size="xs">Ctrl</Kbd>
+                    <Kbd size="xs">K</Kbd>
+                  </Group>
+                </Group>
+              </Stack>
             </Box>
 
             {/* Game info card - overlaps the banner */}
@@ -493,7 +581,12 @@ export default function Home() {
             <Card padding="lg" radius="md" withBorder>
               <Stack gap="md">
                 <Group gap="sm">
-                  <ThemeIcon variant="light" color="orange" size="lg" radius="md">
+                  <ThemeIcon
+                    variant="light"
+                    color="orange"
+                    size="lg"
+                    radius="md"
+                  >
                     <IoTrophy size={20} />
                   </ThemeIcon>
                   <Title order={4}>Top Characters</Title>
@@ -506,7 +599,12 @@ export default function Home() {
             <Card padding="lg" radius="md" withBorder>
               <Stack gap="md">
                 <Group gap="sm">
-                  <ThemeIcon variant="light" color="yellow" size="lg" radius="md">
+                  <ThemeIcon
+                    variant="light"
+                    color="yellow"
+                    size="lg"
+                    radius="md"
+                  >
                     <IoPricetag size={20} />
                   </ThemeIcon>
                   <Title order={4}>Active Codes</Title>
@@ -522,7 +620,12 @@ export default function Home() {
             <Card padding="lg" radius="md" withBorder>
               <Stack gap="md">
                 <Group gap="sm">
-                  <ThemeIcon variant="light" color="grape" size="lg" radius="md">
+                  <ThemeIcon
+                    variant="light"
+                    color="grape"
+                    size="lg"
+                    radius="md"
+                  >
                     <IoList size={20} />
                   </ThemeIcon>
                   <Title order={4}>Recent Updates</Title>
