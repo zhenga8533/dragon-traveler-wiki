@@ -17,3 +17,6 @@ Thumbs.db
 .env
 .env.local
 .claude/
+
+# Dolt database
+dolt-db/

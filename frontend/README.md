@@ -134,6 +134,10 @@ npm run lint
 
 ## 📦 Key Features
 
+### Data
+
+The frontend fetches JSON files from `data/` at runtime. In development, a Vite plugin (in `vite.config.ts`) proxies requests to the repo root's `data/` directory. In production, the files are served from the deployed site under `/dragon-traveler-wiki/data/`.
+
 ### Data Fetching
 
 Custom `useDataFetch` hook for JSON data:
@@ -163,9 +167,23 @@ Lazy-loaded assets with fallbacks:
 
 Hash-based routing for GitHub Pages compatibility:
 
-- Character detail pages: `/characters/:name`
-- Guide pages: `/guides/*`
-- Database pages: `/status-effects`, `/wyrmspells`
+| Route                             | Page                   | Description                    |
+| --------------------------------- | ---------------------- | ------------------------------ |
+| `/`                               | Home                   | Landing page                   |
+| `/characters`                     | Characters             | Character list with filters    |
+| `/characters/:name`               | CharacterPage          | Character detail view          |
+| `/status-effects`                 | StatusEffects          | Status effects reference       |
+| `/wyrmspells`                     | DragonSpells           | Wyrmspell database             |
+| `/tier-list`                      | TierList               | Tier list viewer/builder       |
+| `/teams`                          | Teams                  | Team list                      |
+| `/teams/:name`                    | TeamPage               | Team detail view               |
+| `/codes`                          | Codes                  | Redemption codes tracker       |
+| `/useful-links`                   | UsefulLinks            | Community links                |
+| `/changelog`                      | Changelog              | Site changelog                 |
+| `/guides/beginner-qa`             | BeginnerQA             | Beginner guide                 |
+| `/guides/efficient-spending`      | EfficientSpending      | Spending guide                 |
+| `/guides/golden-clover-priority`  | GoldenCloverPriority   | Golden clover guide            |
+| `/guides/star-upgrade-calculator` | StarUpgradeCalculator  | Star upgrade calculator        |
 
 ## 🚀 Deployment
 
