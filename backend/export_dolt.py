@@ -29,7 +29,7 @@ QUERIES = {
     "character_factions": (
         "SELECT cf.character_id, f.name AS faction_name "
         "FROM character_factions cf JOIN factions f ON cf.faction_id = f.id "
-        "ORDER BY cf.character_id, cf.sort_order;"
+        "ORDER BY cf.character_id;"
     ),
     "character_subclasses": (
         "SELECT character_id, subclass_name FROM character_subclasses ORDER BY id;"
