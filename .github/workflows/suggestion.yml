@@ -14,84 +14,30 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Detect suggestion label from title
-        id: detect
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const title = context.payload.issue.title;
-            const prefixToLabel = {
-              '[Code]': 'codes',
-              '[Character]': 'character',
-              '[Wyrmspell]': 'wyrmspell',
-              '[Status Effect]': 'status-effect',
-              '[Link]': 'links',
-              '[Tier List]': 'tier-list',
-              '[Team]': 'team',
-            };
-            for (const [prefix, label] of Object.entries(prefixToLabel)) {
-              if (title.startsWith(prefix)) {
-                core.setOutput('label', label);
-                // Also apply the label to the issue for visibility
-                await github.rest.issues.addLabels({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  issue_number: context.issue.number,
-                  labels: [label],
-                });
-                return;
-              }
-            }
-            core.setOutput('label', '');
-
-      - name: Skip if not a suggestion
-        if: steps.detect.outputs.label == ''
-        run: |
-          echo "No suggestion prefix found in title. Skipping."
-          exit 0
-
       - uses: actions/checkout@v4
-        if: steps.detect.outputs.label != ''
 
       - uses: actions/setup-python@v5
-        if: steps.detect.outputs.label != ''
         with:
           python-version: "3.12"
 
-      - name: Install Python dependencies
-        if: steps.detect.outputs.label != ''
-        run: pip install -r backend/requirements.txt requests
-
-      - name: Install Dolt
-        if: steps.detect.outputs.label != ''
-        run: |
-          sudo bash -c 'curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | bash'
-
-      - name: Configure Dolt credentials
-        if: steps.detect.outputs.label != ''
-        run: |
-          dolt config --global --add user.email "actions@github.com"
-          dolt config --global --add user.name "GitHub Actions"
-          dolt creds import <<< "${{ secrets.DOLTHUB_TOKEN }}"
-        env:
-          DOLT_REMOTE_PASSWORD: ${{ secrets.DOLT_REMOTE_PASSWORD }}
-
-      - name: Clone DoltHub database
-        if: steps.detect.outputs.label != ''
-        run: dolt clone zhenga8533/dragon-traveler-db dolt-db
-        env:
-          DOLT_REMOTE_PASSWORD: ${{ secrets.DOLT_REMOTE_PASSWORD }}
-
       - name: Process suggestion
-        if: steps.detect.outputs.label != ''
         id: suggest
-        run: python -m backend.suggest_dolt
-        env:
-          DOLTHUB_TOKEN: ${{ secrets.DOLTHUB_TOKEN }}
-          DOLT_REMOTE_PASSWORD: ${{ secrets.DOLT_REMOTE_PASSWORD }}
+        run: python -m backend.suggest
 
-      - name: Create GitHub PR with data changes
-        if: steps.detect.outputs.label != ''
+      - name: Apply label to issue
+        if: steps.suggest.outputs.label != ''
+        uses: actions/github-script@v7
+        with:
+          script: |
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['${{ steps.suggest.outputs.label }}'],
+            });
+
+      - name: Create GitHub PR
+        if: steps.suggest.outputs.label != ''
         id: github_pr
         run: |
           BRANCH="suggestion/issue-${{ github.event.issue.number }}"
@@ -105,23 +51,20 @@ jobs:
             --title "Suggestion: ${{ github.event.issue.title }} (#${{ github.event.issue.number }})" \
             --body "Auto-generated from issue #${{ github.event.issue.number }}.
 
-          **Label:** ${{ steps.detect.outputs.label }}
+          **Label:** ${{ steps.suggest.outputs.label }}
 
-          Merging this PR will update the site data and trigger a redeploy.
-
-          > Also see the [DoltHub PR](${{ steps.suggest.outputs.pr_url }}) for a table diff view." \
+          Merging this PR will update the site data, trigger a redeploy, and sync to DoltHub." \
             --base main)
           echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
         env:
           GH_TOKEN: ${{ github.token }}
 
-      - name: Comment on issue with PR links
-        if: success() && steps.detect.outputs.label != ''
+      - name: Comment on issue with PR link
+        if: success() && steps.suggest.outputs.label != ''
         uses: actions/github-script@v7
         with:
           script: |
-            const doltPrUrl = '${{ steps.suggest.outputs.pr_url }}';
-            const ghPrUrl = '${{ steps.github_pr.outputs.pr_url }}';
+            const prUrl = '${{ steps.github_pr.outputs.pr_url }}';
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -129,17 +72,14 @@ jobs:
               body: [
                 `**Your suggestion has been processed!**`,
                 ``,
-                `Two pull requests have been created for review:`,
-                ``,
-                `- **GitHub PR** (merge to update the site): ${ghPrUrl}`,
-                `- **DoltHub PR** (table diff view): ${doltPrUrl}`,
+                `A pull request has been created for review: ${prUrl}`,
                 ``,
                 `A maintainer will review and merge if everything looks good.`
               ].join('\n')
             });
 
       - name: Comment on issue with error details
-        if: failure() && steps.detect.outputs.label != ''
+        if: failure()
         uses: actions/github-script@v7
         with:
           script: |
