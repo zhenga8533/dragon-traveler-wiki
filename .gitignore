@@ -20,3 +20,6 @@ Thumbs.db
 
 # Dolt database
 dolt-db/
+
+# Backend exports
+backend/exports/

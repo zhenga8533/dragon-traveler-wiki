@@ -1,6 +1,6 @@
 # Backend
 
-Python tools for scraping game data, validating it with Pydantic models, and syncing it into a Dolt database.
+Data management tools for the Dragon Traveler Wiki. Handles syncing JSON data into a Dolt database, exporting Dolt tables back to JSON, and validating data with Pydantic models.
 
 ## Setup
 
@@ -8,21 +8,9 @@ Python tools for scraping game data, validating it with Pydantic models, and syn
 pip install -r requirements.txt
 ```
 
-**Requirements:** Python 3.10+, [Dolt CLI](https://docs.dolthub.com/introduction/installation) (for database sync)
+**Requirements:** Python 3.10+, [Dolt CLI](https://docs.dolthub.com/introduction/installation)
 
 ## Scripts
-
-### Scraping
-
-```bash
-python -m backend.main --target all          # scrape everything
-python -m backend.main --target characters   # scrape characters only
-python -m backend.main --target codes        # scrape codes only
-```
-
-Supported targets: `characters`, `tier-lists`, `teams`, `status-effects`, `wyrmspells`, `codes`, `all`
-
-Scraped data is written to `data/` as JSON files.
 
 ### Dolt Sync
 
@@ -34,7 +22,17 @@ python -m backend.sync_dolt --push       # sync, commit, and push to DoltHub
 python -m backend.sync_dolt --dry-run    # show SQL without executing
 ```
 
-To verify after syncing:
+### Dolt Export
+
+Exports Dolt tables back to JSON files in `backend/exports/`.
+
+```bash
+python -m backend.export_dolt --target all          # export everything
+python -m backend.export_dolt --target characters   # export characters only
+python -m backend.export_dolt --target codes        # export codes only
+```
+
+### Verification
 
 ```bash
 cd dolt-db
@@ -46,19 +44,18 @@ dolt sql -q "SELECT * FROM characters;"
 
 ```
 backend/
-├── main.py              # Scraper entry point
 ├── sync_dolt.py         # JSON-to-Dolt sync script
+├── export_dolt.py       # Dolt-to-JSON export script
 ├── requirements.txt     # Python dependencies
-├── models/              # Pydantic data models
-│   ├── character.py     # Character, Skill, Talent, Quality, CharacterClass
-│   ├── faction.py       # Faction, FactionName, Wyrm
-│   ├── status_effect.py # StatusEffect, StatusEffectType
-│   ├── team.py          # Team, TeamMember, TeamWyrmspells
-│   ├── tier_list.py     # TierList, TierEntry, Tier
-│   ├── useful_link.py   # UsefulLink
-│   └── wyrmspell.py     # Wyrmspell, WyrmspellType
-├── scrapers/            # Scraper implementations (WIP)
-└── translators/         # AI translation utilities (WIP)
+├── exports/             # Export output (git-ignored)
+└── models/              # Pydantic data models
+    ├── character.py     # Character, Skill, Talent, Quality, CharacterClass
+    ├── faction.py       # Faction, FactionName, Wyrm
+    ├── status_effect.py # StatusEffect, StatusEffectType
+    ├── team.py          # Team, TeamMember, TeamWyrmspells
+    ├── tier_list.py     # TierList, TierEntry, Tier
+    ├── useful_link.py   # UsefulLink
+    └── wyrmspell.py     # Wyrmspell, WyrmspellType
 ```
 
 ## Data Files
@@ -88,7 +85,11 @@ The Dolt database (`dolt-db/`) mirrors the JSON data in a normalized relational 
 
 ## Dependencies
 
-- **requests** — HTTP client for scraping
-- **beautifulsoup4** — HTML parsing
 - **pydantic** — Data validation and serialization
-- **dolt** (CLI, not pip) — Database operations via `sync_dolt.py`
+- **dolt** (CLI, not pip) — Database operations
+
+## Roadmap
+
+- Data sorting and normalization
+- Data verification and integrity checks
+- Add/remove operations for managing entries
