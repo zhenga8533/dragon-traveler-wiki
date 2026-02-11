@@ -34,22 +34,42 @@ def escape_sql(value):
 
 
 def dolt_sql(query, dry_run=False):
-    """Run a SQL query via dolt sql -q."""
+    """Run a SQL query via dolt sql, piping through stdin to avoid command-line length limits."""
     if dry_run:
         preview = query[:200].encode("ascii", errors="replace").decode("ascii")
         print(f"  SQL: {preview}{'...' if len(query) > 200 else ''}")
         return ""
     result = subprocess.run(
-        ["dolt", "sql", "-q", query],
+        ["dolt", "sql"],
         cwd=DOLT_DIR,
+        input=query,
         capture_output=True,
         text=True,
+        encoding="utf-8",
     )
     if result.returncode != 0:
         print(f"ERROR running SQL: {query[:200]}", file=sys.stderr)
         print(result.stderr, file=sys.stderr)
         sys.exit(1)
     return result.stdout
+
+
+class SqlBatch:
+    """Collects SQL statements and executes them in a single dolt sql call."""
+
+    def __init__(self, dry_run=False):
+        self.statements = []
+        self.dry_run = dry_run
+
+    def add(self, sql):
+        self.statements.append(sql)
+
+    def flush(self):
+        if not self.statements:
+            return
+        combined = "\n".join(self.statements)
+        dolt_sql(combined, self.dry_run)
+        self.statements.clear()
 
 
 def dolt_cmd(*args):
@@ -84,42 +104,44 @@ def load_json(filename):
 # Sync functions
 # ---------------------------------------------------------------------------
 
-def sync_factions(data, dry_run=False):
+def sync_factions(data, batch):
     """Sync factions.json -> factions table."""
-    dolt_sql("DELETE FROM character_factions;", dry_run)
-    dolt_sql("DELETE FROM factions;", dry_run)
+    batch.add("DELETE FROM character_factions;")
+    batch.add("DELETE FROM factions;")
     for i, f in enumerate(data, 1):
         if not f.get("name"):
             continue
-        dolt_sql(
+        batch.add(
             f"INSERT INTO factions (id, name, wyrm, description) VALUES "
-            f"({i}, {escape_sql(f['name'])}, {escape_sql(f.get('wyrm'))}, {escape_sql(f.get('description'))});",
-            dry_run,
+            f"({i}, {escape_sql(f['name'])}, {escape_sql(f.get('wyrm'))}, {escape_sql(f.get('description'))});"
         )
-    print(f"  Synced {len([f for f in data if f.get('name')])} factions")
+    count = len([f for f in data if f.get("name")])
+    print(f"  Synced {count} factions")
 
 
-def sync_characters(data, factions, dry_run=False):
+def sync_characters(data, factions, batch):
     """Sync characters.json -> characters + related tables."""
-    # Clear child tables first (foreign keys)
     for table in ["skills", "talent_levels", "character_subclasses", "character_factions", "characters"]:
-        dolt_sql(f"DELETE FROM {table};", dry_run)
+        batch.add(f"DELETE FROM {table};")
+    for table in ["skills", "talent_levels", "character_subclasses", "characters"]:
+        batch.add(f"ALTER TABLE {table} AUTO_INCREMENT = 1;")
 
-    # Build faction name -> id lookup
     faction_ids = {}
     for i, f in enumerate(factions, 1):
         if f.get("name"):
             faction_ids[f["name"]] = i
 
     char_id = 0
+    subclass_id = 0
+    talent_id = 0
+    skill_id = 0
     for c in data:
         if not c.get("name"):
             continue
         char_id += 1
 
-        # Insert character
         talent_name = c.get("talent", {}).get("name", "") if c.get("talent") else ""
-        dolt_sql(
+        batch.add(
             f"INSERT INTO characters (id, name, title, quality, character_class, is_global, "
             f"height, weight, origin, lore, quote, talent_name, noble_phantasm) VALUES "
             f"({char_id}, {escape_sql(c['name'])}, {escape_sql(c.get('title'))}, "
@@ -127,184 +149,203 @@ def sync_characters(data, factions, dry_run=False):
             f"{escape_sql(c.get('is_global', True))}, {escape_sql(c.get('height'))}, "
             f"{escape_sql(c.get('weight'))}, {escape_sql(c.get('origin'))}, "
             f"{escape_sql(c.get('lore'))}, {escape_sql(c.get('quote'))}, "
-            f"{escape_sql(talent_name)}, {escape_sql(c.get('noble_phantasm'))});",
-            dry_run,
+            f"{escape_sql(talent_name)}, {escape_sql(c.get('noble_phantasm'))});"
         )
 
-        # Subclasses
         for sc in c.get("subclasses", []):
             if sc:
-                dolt_sql(
-                    f"INSERT INTO character_subclasses (character_id, subclass_name) VALUES "
-                    f"({char_id}, {escape_sql(sc)});",
-                    dry_run,
+                subclass_id += 1
+                batch.add(
+                    f"INSERT INTO character_subclasses (id, character_id, subclass_name) VALUES "
+                    f"({subclass_id}, {char_id}, {escape_sql(sc)});"
                 )
 
-        # Factions
         for fname in c.get("factions", []):
             fid = faction_ids.get(fname)
             if fid:
-                dolt_sql(
+                batch.add(
                     f"INSERT INTO character_factions (character_id, faction_id) VALUES "
-                    f"({char_id}, {fid});",
-                    dry_run,
+                    f"({char_id}, {fid});"
                 )
 
-        # Talent levels
         talent = c.get("talent") or {}
         for tl in talent.get("talent_levels", []):
-            dolt_sql(
-                f"INSERT INTO talent_levels (character_id, level, effect) VALUES "
-                f"({char_id}, {tl['level']}, {escape_sql(tl.get('effect'))});",
-                dry_run,
+            talent_id += 1
+            batch.add(
+                f"INSERT INTO talent_levels (id, character_id, level, effect) VALUES "
+                f"({talent_id}, {char_id}, {tl['level']}, {escape_sql(tl.get('effect'))});"
             )
 
-        # Skills
         for sk in c.get("skills", []):
             if not sk.get("name"):
                 continue
-            dolt_sql(
-                f"INSERT INTO skills (character_id, name, type, description, cooldown) VALUES "
-                f"({char_id}, {escape_sql(sk['name'])}, {escape_sql(sk.get('type'))}, "
-                f"{escape_sql(sk.get('description'))}, {escape_sql(sk.get('cooldown', 0))});",
-                dry_run,
+            skill_id += 1
+            batch.add(
+                f"INSERT INTO skills (id, character_id, name, type, description, cooldown) VALUES "
+                f"({skill_id}, {char_id}, {escape_sql(sk['name'])}, {escape_sql(sk.get('type'))}, "
+                f"{escape_sql(sk.get('description'))}, {escape_sql(sk.get('cooldown', 0))});"
             )
 
     print(f"  Synced {char_id} characters")
 
 
-def sync_wyrmspells(data, dry_run=False):
+def sync_wyrmspells(data, batch):
     """Sync wyrmspells.json -> wyrmspells table."""
-    dolt_sql("DELETE FROM wyrmspells;", dry_run)
+    batch.add("DELETE FROM wyrmspells;")
+    batch.add("ALTER TABLE wyrmspells AUTO_INCREMENT = 1;")
+    w_id = 0
     for w in data:
         if not w.get("name"):
             continue
-        dolt_sql(
-            f"INSERT INTO wyrmspells (name, effect, type) VALUES "
-            f"({escape_sql(w['name'])}, {escape_sql(w.get('effect'))}, {escape_sql(w.get('type'))});",
-            dry_run,
+        w_id += 1
+        batch.add(
+            f"INSERT INTO wyrmspells (id, name, effect, type) VALUES "
+            f"({w_id}, {escape_sql(w['name'])}, {escape_sql(w.get('effect'))}, {escape_sql(w.get('type'))});"
         )
-    print(f"  Synced {len([w for w in data if w.get('name')])} wyrmspells")
+    print(f"  Synced {w_id} wyrmspells")
 
 
-def sync_codes(data, dry_run=False):
+def sync_codes(data, batch):
     """Sync codes.json -> codes table."""
-    dolt_sql("DELETE FROM codes;", dry_run)
+    batch.add("DELETE FROM codes;")
+    batch.add("ALTER TABLE codes AUTO_INCREMENT = 1;")
+    c_id = 0
     for c in data:
         if not c.get("code"):
             continue
-        dolt_sql(
-            f"INSERT INTO codes (code, active) VALUES "
-            f"({escape_sql(c['code'])}, {escape_sql(c.get('active', True))});",
-            dry_run,
+        c_id += 1
+        batch.add(
+            f"INSERT INTO codes (id, code, active) VALUES "
+            f"({c_id}, {escape_sql(c['code'])}, {escape_sql(c.get('active', True))});"
         )
-    print(f"  Synced {len([c for c in data if c.get('code')])} codes")
+    print(f"  Synced {c_id} codes")
 
 
-def sync_status_effects(data, dry_run=False):
+def sync_status_effects(data, batch):
     """Sync status-effects.json -> status_effects table."""
-    dolt_sql("DELETE FROM status_effects;", dry_run)
+    batch.add("DELETE FROM status_effects;")
+    batch.add("ALTER TABLE status_effects AUTO_INCREMENT = 1;")
+    se_id = 0
     for se in data:
         if not se.get("name"):
             continue
-        dolt_sql(
-            f"INSERT INTO status_effects (name, type, effect, remark) VALUES "
-            f"({escape_sql(se['name'])}, {escape_sql(se.get('type'))}, "
-            f"{escape_sql(se.get('effect'))}, {escape_sql(se.get('remark'))});",
-            dry_run,
+        se_id += 1
+        batch.add(
+            f"INSERT INTO status_effects (id, name, type, effect, remark) VALUES "
+            f"({se_id}, {escape_sql(se['name'])}, {escape_sql(se.get('type'))}, "
+            f"{escape_sql(se.get('effect'))}, {escape_sql(se.get('remark'))});"
         )
-    print(f"  Synced {len([se for se in data if se.get('name')])} status effects")
+    print(f"  Synced {se_id} status effects")
 
 
-def sync_tier_lists(data, dry_run=False):
+def sync_tier_lists(data, batch):
     """Sync tier-lists.json -> tier_lists + tier_list_entries tables."""
-    dolt_sql("DELETE FROM tier_list_entries;", dry_run)
-    dolt_sql("DELETE FROM tier_lists;", dry_run)
+    batch.add("DELETE FROM tier_list_entries;")
+    batch.add("DELETE FROM tier_lists;")
+    batch.add("ALTER TABLE tier_list_entries AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE tier_lists AUTO_INCREMENT = 1;")
     tl_id = 0
+    entry_id = 0
     for tl in data:
         if not tl.get("name"):
             continue
         tl_id += 1
-        dolt_sql(
+        batch.add(
             f"INSERT INTO tier_lists (id, name, author, content_type, description) VALUES "
             f"({tl_id}, {escape_sql(tl['name'])}, {escape_sql(tl.get('author'))}, "
-            f"{escape_sql(tl.get('content_type'))}, {escape_sql(tl.get('description'))});",
-            dry_run,
+            f"{escape_sql(tl.get('content_type'))}, {escape_sql(tl.get('description'))});"
         )
         for entry in tl.get("entries", []):
-            dolt_sql(
-                f"INSERT INTO tier_list_entries (tier_list_id, character_name, tier) VALUES "
-                f"({tl_id}, {escape_sql(entry.get('character_name'))}, {escape_sql(entry.get('tier'))});",
-                dry_run,
+            entry_id += 1
+            batch.add(
+                f"INSERT INTO tier_list_entries (id, tier_list_id, character_name, tier) VALUES "
+                f"({entry_id}, {tl_id}, {escape_sql(entry.get('character_name'))}, {escape_sql(entry.get('tier'))});"
             )
     print(f"  Synced {tl_id} tier lists")
 
 
-def sync_teams(data, dry_run=False):
-    """Sync teams.json -> teams + team_members tables."""
-    dolt_sql("DELETE FROM team_members;", dry_run)
-    dolt_sql("DELETE FROM teams;", dry_run)
+def sync_teams(data, batch):
+    """Sync teams.json -> teams + team_members + team_member_substitutes tables."""
+    batch.add("DELETE FROM team_member_substitutes;")
+    batch.add("DELETE FROM team_members;")
+    batch.add("DELETE FROM teams;")
+    batch.add("ALTER TABLE team_member_substitutes AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE team_members AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE teams AUTO_INCREMENT = 1;")
     team_id = 0
+    member_id = 0
+    sub_id = 0
     for t in data:
         if not t.get("name"):
             continue
         team_id += 1
         ws = t.get("wyrmspells") or {}
-        dolt_sql(
+        batch.add(
             f"INSERT INTO teams (id, name, author, content_type, description, faction, "
-            f"breach_wyrmspell, refuge_wyrmspell) VALUES "
+            f"breach_wyrmspell, refuge_wyrmspell, wildcry_wyrmspell, dragons_call_wyrmspell) VALUES "
             f"({team_id}, {escape_sql(t['name'])}, {escape_sql(t.get('author'))}, "
             f"{escape_sql(t.get('content_type'))}, {escape_sql(t.get('description'))}, "
             f"{escape_sql(t.get('faction'))}, {escape_sql(ws.get('breach'))}, "
-            f"{escape_sql(ws.get('refuge'))});",
-            dry_run,
+            f"{escape_sql(ws.get('refuge'))}, {escape_sql(ws.get('wildcry'))}, "
+            f"{escape_sql(ws.get('dragons_call'))});"
         )
         for m in t.get("members", []):
-            dolt_sql(
-                f"INSERT INTO team_members (team_id, character_name, overdrive_order) VALUES "
-                f"({team_id}, {escape_sql(m.get('character_name'))}, "
-                f"{escape_sql(m.get('overdrive_order'))});",
-                dry_run,
+            member_id += 1
+            batch.add(
+                f"INSERT INTO team_members (id, team_id, character_name, overdrive_order) VALUES "
+                f"({member_id}, {team_id}, {escape_sql(m.get('character_name'))}, "
+                f"{escape_sql(m.get('overdrive_order'))});"
             )
+            for sub in m.get("substitutes", []):
+                if sub:
+                    sub_id += 1
+                    batch.add(
+                        f"INSERT INTO team_member_substitutes (id, team_member_id, character_name) VALUES "
+                        f"({sub_id}, {member_id}, {escape_sql(sub)});"
+                    )
     print(f"  Synced {team_id} teams")
 
 
-def sync_useful_links(data, dry_run=False):
+def sync_useful_links(data, batch):
     """Sync useful-links.json -> useful_links table."""
-    dolt_sql("DELETE FROM useful_links;", dry_run)
+    batch.add("DELETE FROM useful_links;")
+    batch.add("ALTER TABLE useful_links AUTO_INCREMENT = 1;")
+    link_id = 0
     for link in data:
         if not link.get("name"):
             continue
-        dolt_sql(
-            f"INSERT INTO useful_links (icon, application, name, description, link) VALUES "
-            f"({escape_sql(link.get('icon'))}, {escape_sql(link.get('application'))}, "
+        link_id += 1
+        batch.add(
+            f"INSERT INTO useful_links (id, icon, application, name, description, link) VALUES "
+            f"({link_id}, {escape_sql(link.get('icon'))}, {escape_sql(link.get('application'))}, "
             f"{escape_sql(link['name'])}, {escape_sql(link.get('description'))}, "
-            f"{escape_sql(link.get('link'))});",
-            dry_run,
+            f"{escape_sql(link.get('link'))});"
         )
-    print(f"  Synced {len([l for l in data if l.get('name')])} useful links")
+    print(f"  Synced {link_id} useful links")
 
 
-def sync_changelog(data, dry_run=False):
+def sync_changelog(data, batch):
     """Sync changelog.json -> changelog + changelog_changes tables."""
-    dolt_sql("DELETE FROM changelog_changes;", dry_run)
-    dolt_sql("DELETE FROM changelog;", dry_run)
+    batch.add("DELETE FROM changelog_changes;")
+    batch.add("DELETE FROM changelog;")
+    batch.add("ALTER TABLE changelog_changes AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE changelog AUTO_INCREMENT = 1;")
     cl_id = 0
+    change_id = 0
     for entry in data:
         if not entry.get("version"):
             continue
         cl_id += 1
-        dolt_sql(
+        batch.add(
             f"INSERT INTO changelog (id, date, version) VALUES "
-            f"({cl_id}, {escape_sql(entry.get('date'))}, {escape_sql(entry['version'])});",
-            dry_run,
+            f"({cl_id}, {escape_sql(entry.get('date'))}, {escape_sql(entry['version'])});"
         )
         for change in entry.get("changes", []):
-            dolt_sql(
-                f"INSERT INTO changelog_changes (changelog_id, type, category, description) VALUES "
-                f"({cl_id}, {escape_sql(change.get('type'))}, {escape_sql(change.get('category'))}, "
-                f"{escape_sql(change.get('description'))});",
-                dry_run,
+            change_id += 1
+            batch.add(
+                f"INSERT INTO changelog_changes (id, changelog_id, type, category, description) VALUES "
+                f"({change_id}, {cl_id}, {escape_sql(change.get('type'))}, {escape_sql(change.get('category'))}, "
+                f"{escape_sql(change.get('description'))});"
             )
     print(f"  Synced {cl_id} changelog entries")
 
@@ -317,6 +358,16 @@ def main():
     parser = argparse.ArgumentParser(description="Sync JSON data into Dolt database")
     parser.add_argument("--push", action="store_true", help="Push to DoltHub after commit")
     parser.add_argument("--dry-run", action="store_true", help="Show SQL without executing")
+    parser.add_argument(
+        "--target",
+        choices=[
+            "factions", "characters", "wyrmspells", "codes",
+            "status-effects", "tier-lists", "teams",
+            "useful-links", "changelog", "all",
+        ],
+        default="all",
+        help="Which table(s) to sync (default: all)",
+    )
     args = parser.parse_args()
 
     if not DOLT_DIR.exists():
@@ -336,16 +387,29 @@ def main():
 
     print("Syncing to Dolt..." + (" (dry run)" if args.dry_run else ""))
 
-    # Factions must be synced before characters (FK dependency)
-    sync_factions(factions_data, args.dry_run)
-    sync_characters(characters_data, factions_data, args.dry_run)
-    sync_wyrmspells(wyrmspells_data, args.dry_run)
-    sync_codes(codes_data, args.dry_run)
-    sync_status_effects(status_effects_data, args.dry_run)
-    sync_tier_lists(tier_lists_data, args.dry_run)
-    sync_teams(teams_data, args.dry_run)
-    sync_useful_links(useful_links_data, args.dry_run)
-    sync_changelog(changelog_data, args.dry_run)
+    batch = SqlBatch(dry_run=args.dry_run)
+    target = args.target
+
+    syncers = {
+        "factions": lambda: sync_factions(factions_data, batch),
+        "characters": lambda: sync_characters(characters_data, factions_data, batch),
+        "wyrmspells": lambda: sync_wyrmspells(wyrmspells_data, batch),
+        "codes": lambda: sync_codes(codes_data, batch),
+        "status-effects": lambda: sync_status_effects(status_effects_data, batch),
+        "tier-lists": lambda: sync_tier_lists(tier_lists_data, batch),
+        "teams": lambda: sync_teams(teams_data, batch),
+        "useful-links": lambda: sync_useful_links(useful_links_data, batch),
+        "changelog": lambda: sync_changelog(changelog_data, batch),
+    }
+
+    if target == "all":
+        for syncer in syncers.values():
+            syncer()
+    else:
+        syncers[target]()
+
+    # Execute all SQL in a single dolt process
+    batch.flush()
 
     if args.dry_run:
         print("\nDry run complete — no changes made.")
@@ -355,7 +419,11 @@ def main():
     print("\nCommitting to Dolt...")
     dolt_cmd("add", ".")
     timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    result = dolt_cmd("commit", "-m", f"Sync from JSON data ({timestamp})", "--allow-empty")
+    if target == "all":
+        msg = f"Sync all data from JSON ({timestamp})"
+    else:
+        msg = f"Sync {target} from JSON ({timestamp})"
+    result = dolt_cmd("commit", "-m", msg, "--allow-empty")
     if "nothing to commit" in result.lower():
         print("No changes to commit.")
     else:

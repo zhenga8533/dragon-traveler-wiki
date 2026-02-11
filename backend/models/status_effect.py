@@ -13,7 +13,6 @@ class StatusEffectType(str, Enum):
 
 
 class StatusEffect(BaseModel):
-    icon: str
     name: str
     type: StatusEffectType
     effect: str

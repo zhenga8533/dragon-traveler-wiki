@@ -19,7 +19,9 @@
     ],
     "wyrmspells": {
       "breach": "Attack Aura",
-      "refuge": "Evasion Aura"
+      "refuge": "Evasion Aura",
+      "wildcry": "",
+      "dragons_call": ""
     }
   }
 ]

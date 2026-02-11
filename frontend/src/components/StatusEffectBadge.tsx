@@ -28,7 +28,7 @@ export default function StatusEffectBadge({
   }
 
   const color = STATE_COLOR[effect.type];
-  const iconSrc = effect.icon ?? getStatusEffectIcon(effect.name);
+  const iconSrc = getStatusEffectIcon(effect.name);
 
   return (
     <Popover opened={opened} position="top" withArrow shadow="md">
