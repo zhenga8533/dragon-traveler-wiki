@@ -34,7 +34,7 @@ jobs:
         working-directory: frontend
 
       - name: Build
-        run: npm run build
+        run: npx tsc -b && npx vite build
         working-directory: frontend
 
       - name: Copy data into dist
