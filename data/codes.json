@@ -1,49 +1,194 @@
 [
-  { "code": "DTFDC321", "active": true },
-  { "code": "DTOBT666", "active": true },
-  { "code": "DTOB321", "active": true },
-  { "code": "DTGCKL888", "active": true },
-  { "code": "DTGIFT", "active": true },
-  { "code": "VIP6666", "active": true },
-  { "code": "VIP9999", "active": true },
-  { "code": "VIP5555", "active": true },
-  { "code": "GIFT6666", "active": true },
-  { "code": "GIFT9999", "active": true },
-  { "code": "GIFT5555", "active": true },
-  { "code": "BSVIPDT", "active": true },
-  { "code": "NOXVIPDT777", "active": true },
-  { "code": "Gabriele111", "active": true },
-  { "code": "Mage666", "active": true },
-  { "code": "888GIFT", "active": true },
-  { "code": "666GIFT", "active": true },
-  { "code": "Glory321", "active": true },
-  { "code": "SPECIAL", "active": true },
-  { "code": "mareflos", "active": true },
-  { "code": "youtube10k", "active": true },
-  { "code": "Uniquegift", "active": true },
-  { "code": "SURYUNSURYU1", "active": true },
-  { "code": "GONYO111", "active": true },
-  { "code": "DELLORYAKGUK", "active": true },
-  { "code": "BAEDON", "active": true },
-  { "code": "angrihyung", "active": true },
-  { "code": "haukau", "active": true },
-  { "code": "dongsukantv", "active": true },
-  { "code": "MONSTERRAT", "active": true },
-  { "code": "ΚΑΤO111", "active": true },
-  { "code": "MOVINGTV", "active": true },
-  { "code": "SJGIFT66", "active": true },
-  { "code": "code888", "active": true },
-  { "code": "Vivienne", "active": true },
-  { "code": "Priest", "active": true },
-  { "code": "Athena", "active": true },
-  { "code": "Oberonnie", "active": true },
-  { "code": "Guild321", "active": true },
-  { "code": "Apollo", "active": true },
-  { "code": "SWEETGIRL", "active": true },
-  { "code": "Inkbound", "active": true },
-  { "code": "Foursaints", "active": true },
-  { "code": "Valentine", "active": true },
-  { "code": "pompey", "active": true },
-  { "code": "GCSJLBM765", "active": true },
-  { "code": "Magiclamp", "active": true }
+  {
+    "code": "DTFDC321",
+    "active": true
+  },
+  {
+    "code": "DTOBT666",
+    "active": true
+  },
+  {
+    "code": "DTOB321",
+    "active": true
+  },
+  {
+    "code": "DTGCKL888",
+    "active": true
+  },
+  {
+    "code": "DTGIFT",
+    "active": true
+  },
+  {
+    "code": "VIP6666",
+    "active": true
+  },
+  {
+    "code": "VIP9999",
+    "active": true
+  },
+  {
+    "code": "VIP5555",
+    "active": true
+  },
+  {
+    "code": "GIFT6666",
+    "active": true
+  },
+  {
+    "code": "GIFT9999",
+    "active": true
+  },
+  {
+    "code": "GIFT5555",
+    "active": true
+  },
+  {
+    "code": "BSVIPDT",
+    "active": true
+  },
+  {
+    "code": "NOXVIPDT777",
+    "active": true
+  },
+  {
+    "code": "Gabriele111",
+    "active": true
+  },
+  {
+    "code": "Mage666",
+    "active": true
+  },
+  {
+    "code": "888GIFT",
+    "active": true
+  },
+  {
+    "code": "666GIFT",
+    "active": true
+  },
+  {
+    "code": "Glory321",
+    "active": true
+  },
+  {
+    "code": "SPECIAL",
+    "active": true
+  },
+  {
+    "code": "mareflos",
+    "active": true
+  },
+  {
+    "code": "youtube10k",
+    "active": true
+  },
+  {
+    "code": "Uniquegift",
+    "active": true
+  },
+  {
+    "code": "SURYUNSURYU1",
+    "active": true
+  },
+  {
+    "code": "GONYO111",
+    "active": true
+  },
+  {
+    "code": "DELLORYAKGUK",
+    "active": true
+  },
+  {
+    "code": "BAEDON",
+    "active": true
+  },
+  {
+    "code": "angrihyung",
+    "active": true
+  },
+  {
+    "code": "haukau",
+    "active": true
+  },
+  {
+    "code": "dongsukantv",
+    "active": true
+  },
+  {
+    "code": "MONSTERRAT",
+    "active": true
+  },
+  {
+    "code": "ΚΑΤO111",
+    "active": true
+  },
+  {
+    "code": "MOVINGTV",
+    "active": true
+  },
+  {
+    "code": "SJGIFT66",
+    "active": true
+  },
+  {
+    "code": "code888",
+    "active": true
+  },
+  {
+    "code": "Vivienne",
+    "active": true
+  },
+  {
+    "code": "Priest",
+    "active": true
+  },
+  {
+    "code": "Athena",
+    "active": true
+  },
+  {
+    "code": "Oberonnie",
+    "active": true
+  },
+  {
+    "code": "Guild321",
+    "active": true
+  },
+  {
+    "code": "Apollo",
+    "active": true
+  },
+  {
+    "code": "SWEETGIRL",
+    "active": true
+  },
+  {
+    "code": "Inkbound",
+    "active": true
+  },
+  {
+    "code": "Foursaints",
+    "active": true
+  },
+  {
+    "code": "Valentine",
+    "active": true
+  },
+  {
+    "code": "pompey",
+    "active": true
+  },
+  {
+    "code": "GCSJLBM765",
+    "active": true
+  },
+  {
+    "code": "Magiclamp",
+    "active": true
+  },
+  {
+    "code": "PASTE_CODE_HERE",
+    "active": true
+  }
 ]
