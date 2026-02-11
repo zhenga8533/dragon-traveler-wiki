@@ -24,13 +24,15 @@ python -m backend.sync_dolt --dry-run    # show SQL without executing
 
 ### Dolt Export
 
-Exports Dolt tables back to JSON files in `backend/exports/`.
+Exports Dolt tables back to JSON files. By default writes to `backend/exports/`; pass `--output-dir` to choose a different directory relative to the project root.
 
 ```bash
-python -m backend.export_dolt --target all          # export everything
+python -m backend.export_dolt --target all          # export everything to backend/exports/
 python -m backend.export_dolt --target characters   # export characters only
-python -m backend.export_dolt --target codes        # export codes only
+python -m backend.export_dolt --output-dir data     # export everything to data/
 ```
+
+The frontend build runs the export automatically before `dev` and `build` via npm pre-scripts (`npm run export`).
 
 ### Verification
 

@@ -1,12 +1,13 @@
 """
 Export Dolt database tables back to JSON files.
 
-Output is written to backend/exports/ to avoid overwriting the source-of-truth
-JSON files in data/.
+By default, output is written to backend/exports/.  Pass --output-dir data to
+write directly to the project's data/ directory (used by the frontend build).
 
 Usage:
-    python -m backend.export_dolt                # export all tables
-    python -m backend.export_dolt --target codes # export a specific table
+    python -m backend.export_dolt                          # export all tables
+    python -m backend.export_dolt --target codes           # export a specific table
+    python -m backend.export_dolt --output-dir data        # export to data/
 """
 
 import argparse
@@ -28,7 +29,7 @@ QUERIES = {
     "character_factions": (
         "SELECT cf.character_id, f.name AS faction_name "
         "FROM character_factions cf JOIN factions f ON cf.faction_id = f.id "
-        "ORDER BY cf.character_id, cf.faction_id;"
+        "ORDER BY cf.character_id, cf.sort_order;"
     ),
     "character_subclasses": (
         "SELECT character_id, subclass_name FROM character_subclasses ORDER BY id;"
@@ -101,16 +102,74 @@ def group_by(rows, key):
     return groups
 
 
-def write_export(filename, data):
-    """Write data to a JSON file in the exports directory."""
-    EXPORT_DIR.mkdir(parents=True, exist_ok=True)
-    path = EXPORT_DIR / filename
+def _flat_json(value):
+    """Single-line JSON representation using Prettier's style (bracketSpacing for objects)."""
+    if value is None:
+        return "null"
+    if isinstance(value, bool):
+        return "true" if value else "false"
+    if isinstance(value, (int, float)):
+        return json.dumps(value)
+    if isinstance(value, str):
+        return json.dumps(value, ensure_ascii=False)
+    if isinstance(value, list):
+        if not value:
+            return "[]"
+        return "[" + ", ".join(_flat_json(v) for v in value) + "]"
+    if isinstance(value, dict):
+        if not value:
+            return "{}"
+        items = [f"{json.dumps(k, ensure_ascii=False)}: {_flat_json(v)}" for k, v in value.items()]
+        return "{ " + ", ".join(items) + " }"
+    return json.dumps(value, ensure_ascii=False)
+
+
+def _format_json(value, print_width=80, indent_size=2, depth=0, start_col=None):
+    """Format a JSON value like Prettier (collapse to one line when it fits)."""
+    if start_col is None:
+        start_col = indent_size * depth
+    flat = _flat_json(value)
+    if start_col + len(flat) <= print_width:
+        return flat
+
+    indent = " " * (indent_size * (depth + 1))
+    outer = " " * (indent_size * depth)
+
+    if isinstance(value, list):
+        if not value:
+            return "[]"
+        items = []
+        for item in value:
+            formatted = _format_json(item, print_width, indent_size, depth + 1)
+            items.append(f"{indent}{formatted}")
+        return "[\n" + ",\n".join(items) + f"\n{outer}]"
+
+    if isinstance(value, dict):
+        if not value:
+            return "{}"
+        items = []
+        for key, val in value.items():
+            key_str = json.dumps(key, ensure_ascii=False)
+            prefix = f"{key_str}: "
+            val_col = indent_size * (depth + 1) + len(prefix)
+            formatted = _format_json(val, print_width, indent_size, depth + 1, val_col)
+            items.append(f"{indent}{prefix}{formatted}")
+        return "{\n" + ",\n".join(items) + f"\n{outer}}}"
+
+    return flat
+
+
+def write_export(filename, data, output_dir=None):
+    """Write data to a JSON file in the given output directory."""
+    dest = output_dir or EXPORT_DIR
+    dest.mkdir(parents=True, exist_ok=True)
+    path = dest / filename
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, ensure_ascii=False, indent=2)
+        f.write(_format_json(data) + "\n")
     print(f"  Exported {len(data)} entries to {path}")
 
 
-def export_factions(data):
+def export_factions(data, output_dir=None):
     result = []
     for r in data["factions"]:
         result.append({
@@ -118,10 +177,10 @@ def export_factions(data):
             "wyrm": r.get("wyrm") or "",
             "description": r.get("description") or "",
         })
-    write_export("factions.json", result)
+    write_export("factions.json", result, output_dir)
 
 
-def export_characters(data):
+def export_characters(data, output_dir=None):
     factions_by_char = group_by(data["character_factions"], "character_id")
     subclasses_by_char = group_by(data["character_subclasses"], "character_id")
     talents_by_char = group_by(data["talent_levels"], "character_id")
@@ -165,26 +224,26 @@ def export_characters(data):
             "noble_phantasm": c.get("noble_phantasm") or "",
         })
 
-    write_export("characters.json", result)
+    write_export("characters.json", result, output_dir)
 
 
-def export_wyrmspells(data):
+def export_wyrmspells(data, output_dir=None):
     result = [
         {"name": w.get("name") or "", "effect": w.get("effect") or "", "type": w.get("type") or ""}
         for w in data["wyrmspells"]
     ]
-    write_export("wyrmspells.json", result)
+    write_export("wyrmspells.json", result, output_dir)
 
 
-def export_codes(data):
+def export_codes(data, output_dir=None):
     result = [
         {"code": c.get("code") or "", "active": bool(c.get("active", True))}
         for c in data["codes"]
     ]
-    write_export("codes.json", result)
+    write_export("codes.json", result, output_dir)
 
 
-def export_status_effects(data):
+def export_status_effects(data, output_dir=None):
     result = [
         {
             "name": se.get("name") or "",
@@ -194,10 +253,10 @@ def export_status_effects(data):
         }
         for se in data["status_effects"]
     ]
-    write_export("status-effects.json", result)
+    write_export("status-effects.json", result, output_dir)
 
 
-def export_tier_lists(data):
+def export_tier_lists(data, output_dir=None):
     entries_by_tl = group_by(data["tier_list_entries"], "tier_list_id")
     result = []
     for tl in data["tier_lists"]:
@@ -212,10 +271,10 @@ def export_tier_lists(data):
             "description": tl.get("description") or "",
             "entries": entries,
         })
-    write_export("tier-lists.json", result)
+    write_export("tier-lists.json", result, output_dir)
 
 
-def export_teams(data):
+def export_teams(data, output_dir=None):
     members_by_team = group_by(data["team_members"], "team_id")
     subs_by_member = group_by(data["team_member_substitutes"], "team_member_id")
 
@@ -243,10 +302,10 @@ def export_teams(data):
                 "dragons_call": t.get("dragons_call_wyrmspell") or "",
             },
         })
-    write_export("teams.json", result)
+    write_export("teams.json", result, output_dir)
 
 
-def export_useful_links(data):
+def export_useful_links(data, output_dir=None):
     result = [
         {
             "icon": l.get("icon") or "",
@@ -257,10 +316,10 @@ def export_useful_links(data):
         }
         for l in data["useful_links"]
     ]
-    write_export("useful-links.json", result)
+    write_export("useful-links.json", result, output_dir)
 
 
-def export_changelog(data):
+def export_changelog(data, output_dir=None):
     changes_by_cl = group_by(data["changelog_changes"], "changelog_id")
     result = []
     for cl in data["changelog"]:
@@ -277,7 +336,7 @@ def export_changelog(data):
             "version": cl.get("version") or "",
             "changes": changes,
         })
-    write_export("changelog.json", result)
+    write_export("changelog.json", result, output_dir)
 
 
 # Map target names to (export_function, required_query_keys)
@@ -305,13 +364,23 @@ def main():
         default="all",
         help="Which table(s) to export (default: all)",
     )
+    parser.add_argument(
+        "--output-dir",
+        default=None,
+        help="Output directory relative to project root (default: backend/exports/)",
+    )
     args = parser.parse_args()
 
     if not DOLT_DIR.exists():
         print(f"Error: Dolt database not found at {DOLT_DIR}", file=sys.stderr)
         sys.exit(1)
 
-    print("Exporting Dolt database to JSON...")
+    output_dir = None
+    if args.output_dir:
+        output_dir = ROOT_DIR / args.output_dir
+        print(f"Exporting Dolt database to JSON in {output_dir}...")
+    else:
+        print("Exporting Dolt database to JSON...")
 
     if args.target == "all":
         targets = list(EXPORTERS.keys())
@@ -328,7 +397,7 @@ def main():
 
     # Run exporters
     for t in targets:
-        EXPORTERS[t][0](data)
+        EXPORTERS[t][0](data, output_dir=output_dir)
 
     print("Done!")
 

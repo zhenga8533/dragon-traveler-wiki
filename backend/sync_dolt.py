@@ -160,12 +160,12 @@ def sync_characters(data, factions, batch):
                     f"({subclass_id}, {char_id}, {escape_sql(sc)});"
                 )
 
-        for fname in c.get("factions", []):
+        for sort_order, fname in enumerate(c.get("factions", [])):
             fid = faction_ids.get(fname)
             if fid:
                 batch.add(
-                    f"INSERT INTO character_factions (character_id, faction_id) VALUES "
-                    f"({char_id}, {fid});"
+                    f"INSERT INTO character_factions (character_id, faction_id, sort_order) VALUES "
+                    f"({char_id}, {fid}, {sort_order});"
                 )
 
         talent = c.get("talent") or {}
