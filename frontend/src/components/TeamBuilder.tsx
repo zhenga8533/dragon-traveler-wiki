@@ -31,9 +31,11 @@ import {
   IoCheckmark,
   IoClose,
   IoCopy,
+  IoOpenOutline,
   IoSettings,
   IoTrash,
 } from 'react-icons/io5';
+import { GITHUB_REPO_URL } from '../constants';
 import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
@@ -763,6 +765,19 @@ export default function TeamBuilder({
               </Button>
             )}
           </CopyButton>
+          <Button
+            variant="light"
+            size="sm"
+            leftSection={<IoOpenOutline size={16} />}
+            onClick={() => {
+              const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
+              const url = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Team] New team suggestion', body }).toString()}`;
+              window.open(url, '_blank');
+            }}
+            disabled={teamSize === 0}
+          >
+            Submit Suggestion
+          </Button>
           <Button
             variant="light"
             color="red"

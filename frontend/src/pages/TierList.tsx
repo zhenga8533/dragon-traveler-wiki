@@ -20,7 +20,6 @@ import { IoCreate, IoFilter } from 'react-icons/io5';
 import CharacterCard from '../components/CharacterCard';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
-import SuggestModal from '../components/SuggestModal';
 import TierListBuilder from '../components/TierListBuilder';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
@@ -28,7 +27,6 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
 import { sortCharactersByQualityName } from '../utils/filter-characters';
-import { TIER_LIST_JSON_TEMPLATE } from '../utils/github-issues';
 
 export default function TierList() {
   const { data: tierLists, loading: loadingTiers } = useDataFetch<
@@ -99,13 +97,6 @@ export default function TierList() {
             >
               Filters
             </Button>
-            <SuggestModal
-              buttonLabel="Suggest a Tier List"
-              modalTitle="Suggest a New Tier List"
-              jsonTemplate={TIER_LIST_JSON_TEMPLATE}
-              issueLabel="tier-list"
-              issueTitle="[Tier List] New tier list suggestion"
-            />
           </Group>
         </Group>
 

@@ -4,12 +4,7 @@ export {
   extractAllEffectRefs,
   filterCharacters,
 } from './filter-characters';
-export {
-  CHARACTER_JSON_TEMPLATE,
-  CODE_JSON_TEMPLATE,
-  STATUS_EFFECT_JSON_TEMPLATE,
-  buildExpiredCodeUrl,
-} from './github-issues';
+export { buildExpiredCodeUrl } from './github-issues';
 export { parseEffectRefs, splitEffectRefs } from './parse-effect-refs';
 
 // Re-export utility types

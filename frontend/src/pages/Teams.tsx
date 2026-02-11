@@ -23,7 +23,6 @@ import CharacterCard from '../components/CharacterCard';
 import EmptyState from '../components/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
-import SuggestModal from '../components/SuggestModal';
 import TeamBuilder from '../components/TeamBuilder';
 import { FACTION_COLOR } from '../constants/colors';
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
@@ -32,7 +31,6 @@ import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
-import { TEAM_JSON_TEMPLATE } from '../utils/github-issues';
 
 const FACTIONS: FactionName[] = [
   'Elemental Echo',
@@ -157,13 +155,6 @@ export default function Teams() {
             >
               Filters
             </Button>
-            <SuggestModal
-              buttonLabel="Suggest a Team"
-              modalTitle="Suggest a New Team"
-              jsonTemplate={TEAM_JSON_TEMPLATE}
-              issueLabel="team"
-              issueTitle="[Team] New team suggestion"
-            />
           </Group>
         </Group>
 

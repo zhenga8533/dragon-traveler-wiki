@@ -22,7 +22,8 @@ import {
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { IoCheckmark, IoCopy, IoPencil, IoTrash } from 'react-icons/io5';
+import { IoCheckmark, IoCopy, IoOpenOutline, IoPencil, IoTrash } from 'react-icons/io5';
+import { GITHUB_REPO_URL } from '../constants';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
@@ -272,6 +273,19 @@ export default function TierListBuilder({
               </Button>
             )}
           </CopyButton>
+          <Button
+            variant="light"
+            size="sm"
+            leftSection={<IoOpenOutline size={16} />}
+            onClick={() => {
+              const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
+              const url = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Tier List] New tier list suggestion', body }).toString()}`;
+              window.open(url, '_blank');
+            }}
+            disabled={Object.keys(placements).length === 0}
+          >
+            Submit Suggestion
+          </Button>
           <Button
             variant="light"
             color="red"

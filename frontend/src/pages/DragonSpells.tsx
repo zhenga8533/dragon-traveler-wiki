@@ -23,10 +23,15 @@ import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { IoFilter, IoGrid, IoList, IoSearch } from 'react-icons/io5';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
-import SuggestModal from '../components/SuggestModal';
+import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Wyrmspell } from '../types/wyrmspell';
-import { WYRMSPELL_JSON_TEMPLATE } from '../utils/github-issues';
+
+const WYRMSPELL_FIELDS: FieldDef[] = [
+  { name: 'name', label: 'Name', type: 'text', required: true, placeholder: 'Wyrmspell name' },
+  { name: 'type', label: 'Type', type: 'select', required: true, options: ['Breach', 'Refuge', 'Wildcry', "Dragon's Call"] },
+  { name: 'effect', label: 'Effect', type: 'textarea', required: true, placeholder: 'Describe the effect' },
+];
 
 interface WyrmspellFilters {
   search: string;
@@ -97,9 +102,8 @@ export default function DragonSpells() {
           <SuggestModal
             buttonLabel="Suggest a Wyrmspell"
             modalTitle="Suggest a New Wyrmspell"
-            jsonTemplate={WYRMSPELL_JSON_TEMPLATE}
-            issueLabel="wyrmspell"
             issueTitle="[Wyrmspell] New wyrmspell suggestion"
+            fields={WYRMSPELL_FIELDS}
           />
         </Group>
 
