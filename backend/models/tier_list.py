@@ -15,6 +15,7 @@ class Tier(str, Enum):
 class TierEntry(BaseModel):
     character_name: str
     tier: Tier
+    note: str = ""
 
 
 class TierList(BaseModel):

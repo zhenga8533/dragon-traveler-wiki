@@ -20,27 +20,32 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  Textarea,
   TextInput,
   Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
+import { createPortal } from 'react-dom';
 import {
   IoCheckmark,
   IoClose,
   IoCopy,
+  IoOpenOutline,
   IoSettings,
   IoTrash,
 } from 'react-icons/io5';
+import { GITHUB_REPO_URL } from '../constants';
 import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
 import { FACTION_COLOR } from '../constants/colors';
+import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team, TeamMember, TeamWyrmspells } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
-import { QUALITY_BORDER_COLOR } from './CharacterCard';
+import CharacterCard from './CharacterCard';
 import FilterableCharacterPool from './FilterableCharacterPool';
 
 const MAX_ROSTER_SIZE = 6;
@@ -77,10 +82,6 @@ function DraggableCharCard({
     id: name,
   });
 
-  const borderColor = char
-    ? QUALITY_BORDER_COLOR[char.quality]
-    : 'var(--mantine-color-gray-5)';
-
   const style: React.CSSProperties = overlay
     ? { cursor: 'grabbing' }
     : {
@@ -89,28 +90,54 @@ function DraggableCharCard({
       };
 
   return (
-    <Stack
+    <div
       ref={overlay ? undefined : setNodeRef}
-      gap={2}
-      align="center"
       style={style}
       {...(overlay ? {} : { ...listeners, ...attributes })}
     >
+      <CharacterCard name={name} quality={char?.quality} disableLink />
+    </div>
+  );
+}
+
+function renderWyrmspellOption({ option }: { option: { label: string } }) {
+  const iconSrc = getWyrmspellIcon(option.label);
+  return (
+    <Group gap="xs" align="center">
+      {iconSrc ? (
+        <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
+      ) : null}
+      <Text size="sm">{option.label}</Text>
+    </Group>
+  );
+}
+
+function renderCharacterOption({ option }: { option: { label: string } }) {
+  return (
+    <Group gap="xs" align="center">
       <Image
-        src={getPortrait(name)}
-        alt={name}
-        h={80}
-        w={80}
+        src={getPortrait(option.label)}
+        alt=""
+        w={18}
+        h={18}
         fit="cover"
         radius="50%"
-        style={{
-          border: `3px solid ${borderColor}`,
-        }}
+        fallbackSrc={`https://placehold.co/18x18?text=${encodeURIComponent(option.label.charAt(0))}`}
       />
-      <Text size="xs" fw={500} ta="center" lineClamp={1}>
-        {name}
-      </Text>
-    </Stack>
+      <Text size="sm">{option.label}</Text>
+    </Group>
+  );
+}
+
+function renderFactionOption({ option }: { option: { label: string } }) {
+  const iconSrc = FACTION_ICON_MAP[option.label as FactionName];
+  return (
+    <Group gap="xs" align="center">
+      {iconSrc ? (
+        <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
+      ) : null}
+      <Text size="sm">{option.label}</Text>
+    </Group>
   );
 }
 
@@ -286,7 +313,7 @@ function AvailablePool({
         )}
         <SimpleGrid
           cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-          spacing={4}
+          spacing={CHARACTER_GRID_SPACING}
           style={{ minHeight: 40 }}
         >
           {children}
@@ -318,6 +345,10 @@ export default function TeamBuilder({
       .fill(null)
       .map(() => [])
   );
+  // Track notes for each slot
+  const [slotNotes, setSlotNotes] = useState<string[]>(
+    Array(SLOT_COUNT).fill('')
+  );
   // Track wyrmspells
   const [teamWyrmspells, setTeamWyrmspells] = useState<TeamWyrmspells>({});
   // Modal for configuring slot details
@@ -330,6 +361,7 @@ export default function TeamBuilder({
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
   const [contentType, setContentType] = useState('');
+  const [description, setDescription] = useState('');
   const [faction, setFaction] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -338,12 +370,14 @@ export default function TeamBuilder({
     setName(initialData.name);
     setAuthor(initialData.author);
     setContentType(initialData.content_type);
+    setDescription(initialData.description || '');
     setFaction(initialData.faction);
     const newSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
     const newOverdriveEnabled = Array(SLOT_COUNT).fill(false);
     const newSubstitutes: string[][] = Array(SLOT_COUNT)
       .fill(null)
       .map(() => []);
+    const newNotes: string[] = Array(SLOT_COUNT).fill('');
 
     // Map members to slots and track overdrive status and substitutes
     for (const m of initialData.members) {
@@ -353,6 +387,7 @@ export default function TeamBuilder({
         newSlots[emptyIdx] = m.character_name;
         newOverdriveEnabled[emptyIdx] = m.overdrive_order != null;
         newSubstitutes[emptyIdx] = m.substitutes || [];
+        newNotes[emptyIdx] = m.note || '';
       }
     }
 
@@ -368,6 +403,7 @@ export default function TeamBuilder({
         idx,
         hasOD: newOverdriveEnabled[idx],
         subs: newSubstitutes[idx],
+        note: newNotes[idx],
       }))
       .filter((item) => item.name !== null && item.hasOD)
       .sort((a, b) => {
@@ -386,6 +422,7 @@ export default function TeamBuilder({
         idx,
         hasOD: newOverdriveEnabled[idx],
         subs: newSubstitutes[idx],
+        note: newNotes[idx],
       }))
       .filter((item) => item.name !== null && !item.hasOD);
 
@@ -394,24 +431,28 @@ export default function TeamBuilder({
     const reorderedSubstitutes: string[][] = Array(SLOT_COUNT)
       .fill(null)
       .map(() => []);
+    const reorderedNotes: string[] = Array(SLOT_COUNT).fill('');
 
     let i = 0;
     for (const item of withOverdrive) {
       reorderedSlots[i] = item.name;
       reorderedOverdrive[i] = true;
       reorderedSubstitutes[i] = item.subs;
+      reorderedNotes[i] = item.note;
       i++;
     }
     for (const item of withoutOverdrive) {
       reorderedSlots[i] = item.name;
       reorderedOverdrive[i] = false;
       reorderedSubstitutes[i] = item.subs;
+      reorderedNotes[i] = item.note;
       i++;
     }
 
     setSlots(reorderedSlots);
     setOverdriveEnabled(reorderedOverdrive);
     setSubstitutes(reorderedSubstitutes);
+    setSlotNotes(reorderedNotes);
   }, [initialData]);
 
   const factionColor = faction ? FACTION_COLOR[faction as FactionName] : 'blue';
@@ -439,6 +480,7 @@ export default function TeamBuilder({
           character_name: n,
           overdrive_order: overdriveOrder++,
           substitutes: substitutes[i].length > 0 ? substitutes[i] : undefined,
+          ...(slotNotes[i] ? { note: slotNotes[i] } : {}),
         });
       }
     }
@@ -451,6 +493,7 @@ export default function TeamBuilder({
           character_name: n,
           overdrive_order: null,
           substitutes: substitutes[i].length > 0 ? substitutes[i] : undefined,
+          ...(slotNotes[i] ? { note: slotNotes[i] } : {}),
         });
       }
     }
@@ -459,7 +502,7 @@ export default function TeamBuilder({
       name: name || 'My Team',
       author: author || 'Anonymous',
       content_type: contentType || 'PvE',
-      description: '',
+      description,
       faction: (faction || 'Elemental Echo') as FactionName,
       members,
     };
@@ -479,10 +522,12 @@ export default function TeamBuilder({
     slots,
     overdriveEnabled,
     substitutes,
+    slotNotes,
     teamWyrmspells,
     name,
     author,
     contentType,
+    description,
     faction,
   ]);
 
@@ -652,6 +697,7 @@ export default function TeamBuilder({
         .fill(null)
         .map(() => [])
     );
+    setSlotNotes(Array(SLOT_COUNT).fill(''));
     setTeamWyrmspells({});
   }
 
@@ -685,6 +731,14 @@ export default function TeamBuilder({
             }))}
             value={faction}
             onChange={setFaction}
+            renderOption={renderFactionOption}
+            leftSection={(() => {
+              if (!faction) return undefined;
+              const iconSrc = FACTION_ICON_MAP[faction as FactionName];
+              return iconSrc ? (
+                <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+              ) : undefined;
+            })()}
             style={{ minWidth: 160 }}
             renderOption={({ option }) => (
               <Group gap="sm">
@@ -710,6 +764,15 @@ export default function TeamBuilder({
           />
         </Group>
 
+        <Textarea
+          placeholder="Description (optional)..."
+          value={description}
+          onChange={(e) => setDescription(e.currentTarget.value)}
+          autosize
+          minRows={1}
+          maxRows={4}
+        />
+
         <Group gap="sm">
           <CopyButton value={json}>
             {({ copied, copy }) => (
@@ -726,6 +789,19 @@ export default function TeamBuilder({
               </Button>
             )}
           </CopyButton>
+          <Button
+            variant="light"
+            size="sm"
+            leftSection={<IoOpenOutline size={16} />}
+            onClick={() => {
+              const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
+              const url = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Team] New team suggestion', body }).toString()}`;
+              window.open(url, '_blank');
+            }}
+            disabled={teamSize === 0}
+          >
+            Submit Suggestion
+          </Button>
           <Button
             variant="light"
             color="red"
@@ -753,6 +829,15 @@ export default function TeamBuilder({
                 data={wyrmspells
                   .filter((w) => w.type === 'Breach')
                   .map((w) => ({ value: w.name, label: w.name }))}
+                renderOption={renderWyrmspellOption}
+                leftSection={(() => {
+                  const iconSrc = teamWyrmspells.breach
+                    ? getWyrmspellIcon(teamWyrmspells.breach)
+                    : undefined;
+                  return iconSrc ? (
+                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+                  ) : undefined;
+                })()}
                 value={teamWyrmspells.breach || null}
                 onChange={(value) =>
                   setTeamWyrmspells((prev) => ({
@@ -787,6 +872,15 @@ export default function TeamBuilder({
                 data={wyrmspells
                   .filter((w) => w.type === 'Refuge')
                   .map((w) => ({ value: w.name, label: w.name }))}
+                renderOption={renderWyrmspellOption}
+                leftSection={(() => {
+                  const iconSrc = teamWyrmspells.refuge
+                    ? getWyrmspellIcon(teamWyrmspells.refuge)
+                    : undefined;
+                  return iconSrc ? (
+                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+                  ) : undefined;
+                })()}
                 value={teamWyrmspells.refuge || null}
                 onChange={(value) =>
                   setTeamWyrmspells((prev) => ({
@@ -821,6 +915,15 @@ export default function TeamBuilder({
                 data={wyrmspells
                   .filter((w) => w.type === 'Wildcry')
                   .map((w) => ({ value: w.name, label: w.name }))}
+                renderOption={renderWyrmspellOption}
+                leftSection={(() => {
+                  const iconSrc = teamWyrmspells.wildcry
+                    ? getWyrmspellIcon(teamWyrmspells.wildcry)
+                    : undefined;
+                  return iconSrc ? (
+                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+                  ) : undefined;
+                })()}
                 value={teamWyrmspells.wildcry || null}
                 onChange={(value) =>
                   setTeamWyrmspells((prev) => ({
@@ -855,6 +958,15 @@ export default function TeamBuilder({
                 data={wyrmspells
                   .filter((w) => w.type === "Dragon's Call")
                   .map((w) => ({ value: w.name, label: w.name }))}
+                renderOption={renderWyrmspellOption}
+                leftSection={(() => {
+                  const iconSrc = teamWyrmspells.dragons_call
+                    ? getWyrmspellIcon(teamWyrmspells.dragons_call)
+                    : undefined;
+                  return iconSrc ? (
+                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+                  ) : undefined;
+                })()}
                 value={teamWyrmspells.dragons_call || null}
                 onChange={(value) =>
                   setTeamWyrmspells((prev) => ({
@@ -907,15 +1019,20 @@ export default function TeamBuilder({
         </FilterableCharacterPool>
       </Stack>
 
-      <DragOverlay dropAnimation={null}>
-        {activeId ? (
-          <DraggableCharCard
-            name={activeId}
-            char={charMap.get(activeId)}
-            overlay
-          />
-        ) : null}
-      </DragOverlay>
+      {typeof document !== 'undefined'
+        ? createPortal(
+            <DragOverlay dropAnimation={null}>
+              {activeId ? (
+                <DraggableCharCard
+                  name={activeId}
+                  char={charMap.get(activeId)}
+                  overlay
+                />
+              ) : null}
+            </DragOverlay>,
+            document.body
+          )
+        : null}
 
       <Modal
         opened={configModalOpened}
@@ -923,15 +1040,29 @@ export default function TeamBuilder({
         title={
           configSlotIndex !== null && slots[configSlotIndex] ? (
             <Title order={4}>
-              Configure Substitutes for {slots[configSlotIndex]}
+              Configure {slots[configSlotIndex]}
             </Title>
           ) : (
-            'Configure Substitutes'
+            'Configure Member'
           )
         }
         size="md"
       >
         <Stack gap="md">
+          <TextInput
+            label="Note"
+            placeholder="Add a note (e.g., build full HP, swap for boss 2)..."
+            value={configSlotIndex !== null ? slotNotes[configSlotIndex] : ''}
+            onChange={(e) => {
+              if (configSlotIndex !== null) {
+                setSlotNotes((prev) => {
+                  const next = [...prev];
+                  next[configSlotIndex] = e.currentTarget.value;
+                  return next;
+                });
+              }
+            }}
+          />
           <Text size="sm" c="dimmed">
             Select characters that can substitute for this team member.
           </Text>
@@ -941,6 +1072,7 @@ export default function TeamBuilder({
             data={availableCharacters
               .filter((c) => !teamNames.has(c.name))
               .map((c) => ({ value: c.name, label: c.name }))}
+            renderOption={renderCharacterOption}
             value={configSlotIndex !== null ? substitutes[configSlotIndex] : []}
             onChange={(value) => {
               if (configSlotIndex !== null) {

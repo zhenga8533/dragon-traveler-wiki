@@ -1,3 +1,4 @@
+import { QUALITY_ORDER } from '../constants/colors';
 import type { Character, CharacterClass, Quality } from '../types/character';
 import type { FactionName } from '../types/faction';
 import { parseEffectRefs } from './parse-effect-refs';
@@ -19,18 +20,33 @@ export const EMPTY_FILTERS: CharacterFilters = {
 };
 
 /** Apply all active filters to a list of characters. Empty arrays mean no filter. */
-export function filterCharacters(characters: Character[], filters: CharacterFilters): Character[] {
+export function filterCharacters(
+  characters: Character[],
+  filters: CharacterFilters
+): Character[] {
   return characters.filter((c) => {
-    if (filters.search && !c.name.toLowerCase().includes(filters.search.toLowerCase())) {
+    if (
+      filters.search &&
+      !c.name.toLowerCase().includes(filters.search.toLowerCase())
+    ) {
       return false;
     }
-    if (filters.qualities.length > 0 && !filters.qualities.includes(c.quality)) {
+    if (
+      filters.qualities.length > 0 &&
+      !filters.qualities.includes(c.quality)
+    ) {
       return false;
     }
-    if (filters.classes.length > 0 && !filters.classes.includes(c.character_class)) {
+    if (
+      filters.classes.length > 0 &&
+      !filters.classes.includes(c.character_class)
+    ) {
       return false;
     }
-    if (filters.factions.length > 0 && !c.factions.some((f) => filters.factions.includes(f))) {
+    if (
+      filters.factions.length > 0 &&
+      !c.factions.some((f) => filters.factions.includes(f))
+    ) {
       return false;
     }
     if (filters.statusEffects.length > 0) {
@@ -62,4 +78,18 @@ export function extractAllEffectRefs(characters: Character[]): string[] {
     }
   }
   return [...names].sort();
+}
+
+/** Sort characters by quality (using QUALITY_ORDER), then alphabetically by name. */
+export function sortCharactersByQualityName(
+  characters: Character[]
+): Character[] {
+  return characters.sort((a, b) => {
+    const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
+    const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
+    if (qualityIndexA !== qualityIndexB) {
+      return qualityIndexA - qualityIndexB;
+    }
+    return a.name.localeCompare(b.name);
+  });
 }

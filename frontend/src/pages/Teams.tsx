@@ -1,15 +1,14 @@
 import {
   Badge,
   Button,
-  Center,
   Collapse,
   Container,
   Group,
   Image,
-  Loader,
   Paper,
   SegmentedControl,
   SimpleGrid,
+  Skeleton,
   Stack,
   Text,
   TextInput,
@@ -21,17 +20,17 @@ import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import CharacterCard from '../components/CharacterCard';
+import EmptyState from '../components/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
-import SuggestModal from '../components/SuggestModal';
 import TeamBuilder from '../components/TeamBuilder';
 import { FACTION_COLOR } from '../constants/colors';
+import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
-import { TEAM_JSON_TEMPLATE } from '../utils/github-issues';
 
 const FACTIONS: FactionName[] = [
   'Elemental Echo',
@@ -156,20 +155,15 @@ export default function Teams() {
             >
               Filters
             </Button>
-            <SuggestModal
-              buttonLabel="Suggest a Team"
-              modalTitle="Suggest a New Team"
-              jsonTemplate={TEAM_JSON_TEMPLATE}
-              issueLabel="team"
-              issueTitle="[Team] New team suggestion"
-            />
           </Group>
         </Group>
 
         {loading && (
-          <Center py="xl">
-            <Loader />
-          </Center>
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+            {Array.from({ length: 4 }).map((_, i) => (
+              <Skeleton key={i} height={200} radius="md" />
+            ))}
+          </SimpleGrid>
         )}
 
         {!loading && (
@@ -213,15 +207,39 @@ export default function Teams() {
                 />
 
                 {filteredTeams.length === 0 && (
-                  <Text c="dimmed" ta="center" py="lg">
-                    {search
-                      ? 'No teams match your search.'
-                      : 'No teams match the current filters.'}
-                  </Text>
+                  <EmptyState
+                    title={search ? 'No teams found' : 'No matching teams'}
+                    description={
+                      search
+                        ? 'No teams match your search.'
+                        : 'No teams match the current filters.'
+                    }
+                  />
                 )}
 
                 {filteredTeams.map((team) => (
-                  <Paper key={team.name} p="md" radius="md" withBorder>
+                  <Paper
+                    key={team.name}
+                    p="md"
+                    radius="md"
+                    withBorder
+                    style={{
+                      transition: 'transform 150ms ease, box-shadow 150ms ease',
+                      cursor: 'pointer',
+                    }}
+                    onMouseEnter={(e) => {
+                      e.currentTarget.style.transform = 'translateY(-2px)';
+                      e.currentTarget.style.boxShadow =
+                        'var(--mantine-shadow-md)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'translateY(0)';
+                      e.currentTarget.style.boxShadow = '';
+                    }}
+                    onClick={() =>
+                      navigate(`/teams/${encodeURIComponent(team.name)}`)
+                    }
+                  >
                     <Stack gap="sm">
                       <Group
                         justify="space-between"
@@ -295,7 +313,10 @@ export default function Teams() {
                         )}
                       </Group>
 
-                      <SimpleGrid cols={{ base: 3, xs: 4, sm: 6 }} spacing={4}>
+                      <SimpleGrid
+                        cols={{ base: 3, xs: 4, sm: 6 }}
+                        spacing={CHARACTER_GRID_SPACING}
+                      >
                         {team.members.slice(0, 6).map((m) => {
                           const char = charMap.get(m.character_name);
                           return (
@@ -311,6 +332,8 @@ export default function Teams() {
                               <CharacterCard
                                 name={m.character_name}
                                 quality={char?.quality}
+                                disableLink
+                                note={m.note}
                               />
                               {m.overdrive_order != null && (
                                 <Badge

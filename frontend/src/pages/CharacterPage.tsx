@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Badge,
   Box,
   Breadcrumbs,
@@ -17,9 +18,17 @@ import {
   Title,
   Tooltip,
   UnstyledButton,
+  useMantineColorScheme,
 } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
+import {
+  RiArrowLeftSLine,
+  RiArrowRightSLine,
+  RiCloseLine,
+  RiDoubleQuotesL,
+  RiZoomInLine,
+} from 'react-icons/ri';
 import { Link, useParams } from 'react-router-dom';
 import {
   getCharacterSkillIcon,
@@ -34,11 +43,14 @@ import { FACTION_ICON_MAP } from '../assets/faction';
 import { getSubclassIcon } from '../assets/subclass';
 import RichText from '../components/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
+import { TierListReferenceContext } from '../contexts';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
 
 export default function CharacterPage() {
+  const { colorScheme } = useMantineColorScheme();
+  const isDark = colorScheme === 'dark';
   const { name } = useParams<{ name: string }>();
   const { data: characters, loading } = useDataFetch<Character[]>(
     'data/characters.json',
@@ -48,6 +60,9 @@ export default function CharacterPage() {
     'data/status-effects.json',
     []
   );
+  const { tierLists, selectedTierListName } = useContext(
+    TierListReferenceContext
+  );
 
   const character = useMemo(() => {
     if (!name) return null;
@@ -56,6 +71,14 @@ export default function CharacterPage() {
       (c) => c.name.toLowerCase() === decodedName.toLowerCase()
     );
   }, [characters, name]);
+
+  const tierLabel = useMemo(() => {
+    if (!selectedTierListName || !character) return null;
+    const list = tierLists.find((l) => l.name === selectedTierListName);
+    if (!list) return null;
+    const entry = list.entries.find((e) => e.character_name === character.name);
+    return entry?.tier ?? 'Unranked';
+  }, [tierLists, selectedTierListName, character]);
 
   // Lazy-loaded assets
   const [illustrations, setIllustrations] = useState<CharacterIllustration[]>(
@@ -169,6 +192,10 @@ export default function CharacterPage() {
     setSelectedIllustration(illustrations[nextIndex]);
   };
 
+  const heroBlurFilter = isDark
+    ? 'blur(20px) brightness(0.4)'
+    : 'blur(20px) brightness(1.2) saturate(1.05)';
+
   return (
     <Box>
       {/* Hero Section with Blurred Background */}
@@ -177,7 +204,10 @@ export default function CharacterPage() {
           position: 'relative',
           minHeight: 350,
           overflow: 'hidden',
-          background: 'var(--mantine-color-dark-8)',
+          background: 'var(--mantine-color-body)',
+          margin:
+            'calc(-1 * var(--mantine-spacing-md)) calc(-1 * var(--mantine-spacing-md)) 0',
+          padding: 'var(--mantine-spacing-md) var(--mantine-spacing-md) 0',
         }}
       >
         {/* Blurred background layer using default illustration */}
@@ -188,9 +218,20 @@ export default function CharacterPage() {
               inset: -20,
               backgroundImage: `url(${activeIllustration.src})`,
               backgroundSize: 'cover',
-              backgroundPosition: 'center',
-              filter: 'blur(20px) brightness(0.4)',
+              backgroundPosition: 'top',
+              filter: heroBlurFilter,
               transform: 'scale(1.1)',
+            }}
+          />
+        )}
+        {!isDark && (
+          <Box
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background:
+                'linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.75))',
+              pointerEvents: 'none',
             }}
           />
         )}
@@ -232,17 +273,17 @@ export default function CharacterPage() {
               <Stack gap="sm">
                 <Breadcrumbs>
                   <Link to="/characters" style={{ textDecoration: 'none' }}>
-                    <Text size="sm" c="gray.4" td="hover:underline">
+                    <Text size="sm" td="hover:underline" c="dimmed">
                       Characters
                     </Text>
                   </Link>
-                  <Text size="sm" c="white">
+                  <Text size="sm" c={isDark ? 'white' : 'dark'}>
                     {character.name}
                   </Text>
                 </Breadcrumbs>
 
                 <Group gap="md" align="center">
-                  <Title order={1} c="white">
+                  <Title order={1} c={isDark ? 'white' : 'dark'}>
                     {character.name}
                   </Title>
                   {!character.is_global && (
@@ -251,6 +292,12 @@ export default function CharacterPage() {
                     </Badge>
                   )}
                 </Group>
+
+                {character.title && (
+                  <Text size="sm" fw={500} c="dimmed">
+                    {character.title}
+                  </Text>
+                )}
 
                 <Group gap="lg">
                   <Tooltip label={character.quality}>
@@ -265,6 +312,12 @@ export default function CharacterPage() {
                     </Group>
                   </Tooltip>
 
+                  {tierLabel && (
+                    <Badge variant="light" color="gray" size="lg">
+                      Tier: {tierLabel}
+                    </Badge>
+                  )}
+
                   <Tooltip label={character.character_class}>
                     <Group gap={6}>
                       <Image
@@ -273,7 +326,7 @@ export default function CharacterPage() {
                         w={24}
                         h={24}
                       />
-                      <Text fw={500} c="white">
+                      <Text fw={500} c={isDark ? 'white' : 'dark'}>
                         {character.character_class}
                       </Text>
                     </Group>
@@ -303,12 +356,12 @@ export default function CharacterPage() {
                 {(character.height || character.weight) && (
                   <Group gap="md">
                     {character.height && (
-                      <Text size="sm" c="gray.4">
+                      <Text size="sm" c="dimmed">
                         Height: {character.height}
                       </Text>
                     )}
                     {character.weight && (
-                      <Text size="sm" c="gray.4">
+                      <Text size="sm" c="dimmed">
                         Weight: {character.weight}
                       </Text>
                     )}
@@ -346,104 +399,95 @@ export default function CharacterPage() {
                     p="md"
                     radius="lg"
                     withBorder
-                    style={{
-                      background: 'var(--mantine-color-dark-7)',
-                      overflow: 'hidden',
-                    }}
+                    style={{ overflow: 'hidden' }}
                   >
-                    <UnstyledButton
-                      onClick={() => setPreviewOpen(true)}
-                      style={{ display: 'block', width: '100%' }}
-                    >
-                      {activeIllustration?.type === 'video' ? (
+                    <Stack gap="xs">
+                      <Group justify="space-between" align="center">
+                        <Text fw={600} size="sm">
+                          Illustrations
+                        </Text>
+                        {activeIllustrationIndex >= 0 && (
+                          <Text size="xs" c="dimmed">
+                            {activeIllustrationIndex + 1}/{illustrations.length}
+                          </Text>
+                        )}
+                      </Group>
+                      <UnstyledButton
+                        onClick={() => setPreviewOpen(true)}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          borderRadius: 'var(--mantine-radius-md)',
+                          overflow: 'hidden',
+                          position: 'relative',
+                        }}
+                      >
+                        {activeIllustration?.type === 'video' ? (
+                          <Box
+                            component="video"
+                            src={activeIllustration.src}
+                            controls
+                            style={{
+                              width: '100%',
+                              maxHeight: 600,
+                              display: 'block',
+                            }}
+                          />
+                        ) : (
+                          <Image
+                            src={activeIllustration?.src}
+                            alt={
+                              activeIllustration
+                                ? `${character.name} - ${activeIllustration.name}`
+                                : character.name
+                            }
+                            fit="contain"
+                            mah={600}
+                          />
+                        )}
                         <Box
-                          component="video"
-                          src={activeIllustration.src}
-                          controls
                           style={{
-                            width: '100%',
-                            maxHeight: 600,
-                            borderRadius: 'var(--mantine-radius-md)',
+                            position: 'absolute',
+                            inset: 0,
+                            background:
+                              'linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55) 100%)',
+                            pointerEvents: 'none',
                           }}
                         />
-                      ) : (
-                        <Image
-                          src={activeIllustration?.src}
-                          alt={
-                            activeIllustration
-                              ? `${character.name} - ${activeIllustration.name}`
-                              : character.name
-                          }
-                          fit="contain"
-                          mah={600}
-                          radius="md"
-                        />
-                      )}
-                    </UnstyledButton>
-                  </Paper>
-
-                  {illustrations.length > 1 && (
-                    <Box
-                      style={{
-                        display: 'flex',
-                        gap: 8,
-                        overflowX: 'auto',
-                        paddingBottom: 4,
-                      }}
-                    >
-                      {illustrations.map((illust) => {
-                        const isActive = illust.name === activeIllustrationName;
-                        return (
-                          <UnstyledButton
-                            key={illust.name}
-                            onClick={() => setSelectedIllustration(illust)}
-                            aria-pressed={isActive}
-                            style={{
-                              borderRadius: 'var(--mantine-radius-md)',
-                              border: isActive
-                                ? '2px solid var(--mantine-color-blue-5)'
-                                : '1px solid var(--mantine-color-dark-4)',
-                              overflow: 'hidden',
-                              flex: '0 0 auto',
-                            }}
+                        <Group
+                          justify="space-between"
+                          align="center"
+                          style={{
+                            position: 'absolute',
+                            bottom: 12,
+                            left: 12,
+                            right: 12,
+                          }}
+                        >
+                          <Stack gap={2}>
+                            <Text size="sm" fw={600} c="white">
+                              {activeIllustrationName ?? character.name}
+                            </Text>
+                            <Text size="xs" c="gray.2">
+                              {activeIllustration?.type === 'video'
+                                ? 'Animation'
+                                : 'Artwork'}
+                            </Text>
+                          </Stack>
+                          <Badge
+                            leftSection={<RiZoomInLine />}
+                            variant="light"
+                            color="gray"
                           >
-                            {illust.type === 'video' ? (
-                              <Box
-                                component="video"
-                                src={illust.src}
-                                muted
-                                loop
-                                playsInline
-                                preload="metadata"
-                                style={{
-                                  width: 120,
-                                  height: 80,
-                                  objectFit: 'cover',
-                                  display: 'block',
-                                }}
-                              />
-                            ) : (
-                              <Image
-                                src={illust.src}
-                                alt={`${character.name} - ${illust.name}`}
-                                w={120}
-                                h={80}
-                                fit="cover"
-                              />
-                            )}
-                          </UnstyledButton>
-                        );
-                      })}
-                    </Box>
-                  )}
+                            View
+                          </Badge>
+                        </Group>
+                      </UnstyledButton>
+                    </Stack>
+                  </Paper>
                 </Stack>
               ) : (
-                <Paper
-                  p="xl"
-                  radius="lg"
-                  withBorder
-                  style={{ background: 'var(--mantine-color-dark-7)' }}
-                >
+                <Paper p="xl" radius="lg" withBorder>
                   <Center h={300}>
                     <Text c="dimmed">No illustrations available</Text>
                   </Center>
@@ -500,17 +544,32 @@ export default function CharacterPage() {
                     <Text style={{ lineHeight: 1.8 }}>{character.lore}</Text>
 
                     {character.quote && (
-                      <Paper
-                        p="md"
-                        radius="md"
-                        style={{
-                          borderLeft: '4px solid var(--mantine-color-blue-5)',
-                          background: 'var(--mantine-color-dark-6)',
-                        }}
-                      >
-                        <Text fs="italic" c="dimmed">
-                          "{character.quote}"
-                        </Text>
+                      <Paper p="md" radius="md" withBorder>
+                        <Group gap="sm" align="flex-start" wrap="nowrap">
+                          <Box
+                            style={{
+                              color: 'var(--mantine-color-blue-6)',
+                              fontSize: 28,
+                              lineHeight: 1,
+                              paddingTop: 2,
+                            }}
+                            aria-hidden="true"
+                          >
+                            <RiDoubleQuotesL />
+                          </Box>
+                          <Stack gap={4}>
+                            <Text
+                              fs="italic"
+                              size="sm"
+                              style={{ lineHeight: 1.7 }}
+                            >
+                              "{character.quote}"
+                            </Text>
+                            <Text size="xs" c="dimmed">
+                              — {character.name}
+                            </Text>
+                          </Stack>
+                        </Group>
                       </Paper>
                     )}
 
@@ -577,6 +636,8 @@ export default function CharacterPage() {
                             <RichText
                               text={talent.effect}
                               statusEffects={statusEffects}
+                              skills={character.skills}
+                              talent={character.talent ?? null}
                             />
                             {idx < talentLevels.length - 1 && (
                               <Divider mt="sm" />
@@ -616,26 +677,42 @@ export default function CharacterPage() {
                                       fit="contain"
                                     />
                                   )}
-                                  <Text fw={600} size="lg">
-                                    {skill.name}
-                                  </Text>
+                                  <Group gap="xs" align="center">
+                                    <Text fw={600} size="lg">
+                                      {skill.name}
+                                    </Text>
+                                    {skill.type && (
+                                      <Badge
+                                        size="lg"
+                                        variant="light"
+                                        color="grape"
+                                      >
+                                        {skill.type}
+                                      </Badge>
+                                    )}
+                                  </Group>
                                 </Group>
-                                <Badge
-                                  size="lg"
-                                  variant={
-                                    skill.cooldown === 0 ? 'light' : 'filled'
-                                  }
-                                  color={skill.cooldown === 0 ? 'gray' : 'blue'}
-                                  style={{ flexShrink: 0 }}
-                                >
-                                  {skill.cooldown === 0
-                                    ? 'Passive'
-                                    : `${skill.cooldown}s`}
-                                </Badge>
+                                <Group gap="xs" style={{ flexShrink: 0 }}>
+                                  <Badge
+                                    size="lg"
+                                    variant={
+                                      skill.cooldown === 0 ? 'light' : 'filled'
+                                    }
+                                    color={
+                                      skill.cooldown === 0 ? 'gray' : 'blue'
+                                    }
+                                  >
+                                    {skill.cooldown === 0
+                                      ? 'Passive'
+                                      : `${skill.cooldown}s`}
+                                  </Badge>
+                                </Group>
                               </Group>
                               <RichText
                                 text={skill.description}
                                 statusEffects={statusEffects}
+                                skills={character.skills}
+                                talent={character.talent ?? null}
                               />
                             </Stack>
                           </Paper>
@@ -655,41 +732,34 @@ export default function CharacterPage() {
           size="95%"
           centered
           withCloseButton={false}
-          styles={{
-            overlay: {
-              backgroundColor: 'rgba(8, 10, 14, 0.7)',
-              backdropFilter: 'blur(8px)',
-            },
-            content: {
-              background: 'rgba(12, 14, 18, 0.95)',
-              border: '1px solid var(--mantine-color-dark-4)',
-              boxShadow: '0 24px 80px rgba(0,0,0,0.6)',
-            },
-            header: { display: 'none' },
-            body: { padding: 16 },
-          }}
         >
           {activeIllustration && (
             <Stack gap="md">
               <Group justify="space-between" align="center">
-                <Text fw={600} size="lg">
-                  {activeIllustrationName ?? character.name}
-                </Text>
-                <Group gap="sm">
-                  <UnstyledButton
-                    onClick={() => setPreviewOpen(false)}
-                    style={{
-                      padding: '6px 12px',
-                      borderRadius: '999px',
-                      border: '1px solid var(--mantine-color-dark-4)',
-                    }}
-                  >
-                    X
-                  </UnstyledButton>
+                <Group gap="sm" align="center">
+                  <Text fw={600} size="lg">
+                    {activeIllustrationName ?? character.name}
+                  </Text>
+                  {activeIllustrationIndex >= 0 && (
+                    <Badge variant="light" color="gray">
+                      {activeIllustrationIndex + 1}/{illustrations.length}
+                    </Badge>
+                  )}
                 </Group>
+                <ActionIcon
+                  onClick={() => setPreviewOpen(false)}
+                  aria-label="Close"
+                  variant="default"
+                  radius="xl"
+                >
+                  <RiCloseLine />
+                </ActionIcon>
               </Group>
 
-              <Box
+              <Paper
+                withBorder
+                radius="lg"
+                p={0}
                 style={{
                   position: 'relative',
                   maxHeight: '78vh',
@@ -706,7 +776,7 @@ export default function CharacterPage() {
                     style={{
                       width: '100%',
                       maxHeight: '78vh',
-                      borderRadius: 'var(--mantine-radius-md)',
+                      borderRadius: 'var(--mantine-radius-lg)',
                     }}
                   />
                 ) : (
@@ -715,7 +785,7 @@ export default function CharacterPage() {
                     alt={`${character.name} - ${activeIllustration.name}`}
                     fit="contain"
                     mah="78vh"
-                    radius="md"
+                    radius="lg"
                   />
                 )}
 
@@ -735,20 +805,19 @@ export default function CharacterPage() {
                         justifyContent: 'center',
                       }}
                     >
-                      <UnstyledButton
+                      <ActionIcon
                         onClick={showPreviousIllustration}
+                        aria-label="Previous illustration"
+                        variant="default"
+                        radius="xl"
                         style={{
-                          opacity: modalHoverSide === 'left' ? 1 : 0,
-                          transition: 'opacity 150ms ease',
-                          padding: '10px 14px',
-                          borderRadius: '999px',
-                          border: '1px solid var(--mantine-color-dark-4)',
-                          background: 'rgba(8, 10, 14, 0.6)',
-                          color: 'var(--mantine-color-gray-0)',
+                          opacity: modalHoverSide === 'left' ? 1 : 0.6,
+                          transition:
+                            'opacity 150ms ease, transform 150ms ease',
                         }}
                       >
-                        {'<'}
-                      </UnstyledButton>
+                        <RiArrowLeftSLine size={24} />
+                      </ActionIcon>
                     </Box>
                     <Box
                       onMouseEnter={() => setModalHoverSide('right')}
@@ -764,24 +833,23 @@ export default function CharacterPage() {
                         justifyContent: 'center',
                       }}
                     >
-                      <UnstyledButton
+                      <ActionIcon
                         onClick={showNextIllustration}
+                        aria-label="Next illustration"
+                        variant="default"
+                        radius="xl"
                         style={{
-                          opacity: modalHoverSide === 'right' ? 1 : 0,
-                          transition: 'opacity 150ms ease',
-                          padding: '10px 14px',
-                          borderRadius: '999px',
-                          border: '1px solid var(--mantine-color-dark-4)',
-                          background: 'rgba(8, 10, 14, 0.6)',
-                          color: 'var(--mantine-color-gray-0)',
+                          opacity: modalHoverSide === 'right' ? 1 : 0.6,
+                          transition:
+                            'opacity 150ms ease, transform 150ms ease',
                         }}
                       >
-                        {'>'}
-                      </UnstyledButton>
+                        <RiArrowRightSLine size={24} />
+                      </ActionIcon>
                     </Box>
                   </>
                 )}
-              </Box>
+              </Paper>
 
               {hasMultipleIllustrations && (
                 <Box

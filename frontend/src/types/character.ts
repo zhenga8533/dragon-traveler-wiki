@@ -10,8 +10,16 @@ export type CharacterClass =
   | 'Archer'
   | 'Mage';
 
+export type SkillType =
+  | 'Overdrive'
+  | 'Ultimate Skill'
+  | 'Secret Skill'
+  | 'Special Skill'
+  | 'Divine Skill';
+
 export interface Skill {
   name: string;
+  type?: SkillType;
   description: string;
   cooldown: number;
 }
@@ -28,6 +36,7 @@ export interface Talent {
 
 export interface Character {
   name: string;
+  title: string;
   quality: Quality;
   character_class: CharacterClass;
   factions: FactionName[];

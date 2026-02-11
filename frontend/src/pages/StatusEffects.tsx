@@ -24,11 +24,17 @@ import { useEffect, useMemo, useState } from 'react';
 import { IoFilter, IoGrid, IoList, IoSearch } from 'react-icons/io5';
 import { getStatusEffectIcon } from '../assets/status_effect';
 import RichText from '../components/RichText';
-import SuggestModal from '../components/SuggestModal';
+import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
-import { STATUS_EFFECT_JSON_TEMPLATE } from '../utils/github-issues';
+
+const STATUS_EFFECT_FIELDS: FieldDef[] = [
+  { name: 'name', label: 'Name', type: 'text', required: true, placeholder: 'Status effect name' },
+  { name: 'type', label: 'Type', type: 'select', required: true, options: ['Buff', 'Debuff', 'Special', 'Control', 'Elemental', 'Blessing'] },
+  { name: 'effect', label: 'Effect', type: 'textarea', required: true, placeholder: 'Describe the effect' },
+  { name: 'remark', label: 'Remark (optional)', type: 'textarea', placeholder: 'Additional notes' },
+];
 
 interface StatusEffectFilters {
   search: string;
@@ -97,9 +103,8 @@ export default function StatusEffects() {
           <SuggestModal
             buttonLabel="Suggest a Status Effect"
             modalTitle="Suggest a New Status Effect"
-            jsonTemplate={STATUS_EFFECT_JSON_TEMPLATE}
-            issueLabel="status-effect"
             issueTitle="[Status Effect] New status effect suggestion"
+            fields={STATUS_EFFECT_FIELDS}
           />
         </Group>
 

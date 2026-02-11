@@ -12,6 +12,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import Fuse from 'fuse.js';
+import type { ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
 import {
   IoClose,
@@ -91,7 +92,11 @@ const PAGES = [
   },
 ];
 
-export default function SearchModal() {
+type SearchModalProps = {
+  trigger?: (props: { open: () => void }) => ReactNode;
+};
+
+export default function SearchModal({ trigger }: SearchModalProps) {
   const [opened, { open, close }] = useDisclosure(false);
   const [query, setQuery] = useState('');
   const [characters, setCharacters] = useState<Character[]>([]);
@@ -102,7 +107,16 @@ export default function SearchModal() {
   const navigate = useNavigate();
   const { colorScheme } = useMantineColorScheme();
 
-  useHotkeys([['mod+K', open]]);
+  useHotkeys([
+    ['mod+K', open],
+    [
+      '/',
+      (e) => {
+        e.preventDefault();
+        open();
+      },
+    ],
+  ]);
 
   useEffect(() => {
     if (opened) {
@@ -258,9 +272,18 @@ export default function SearchModal() {
 
   return (
     <>
-      <ActionIcon variant="subtle" size="lg" onClick={open} aria-label="Search">
-        <IoSearch size={18} />
-      </ActionIcon>
+      {trigger ? (
+        trigger({ open })
+      ) : (
+        <ActionIcon
+          variant="subtle"
+          size="lg"
+          onClick={open}
+          aria-label="Search"
+        >
+          <IoSearch size={18} />
+        </ActionIcon>
+      )}
 
       <Modal
         opened={opened}

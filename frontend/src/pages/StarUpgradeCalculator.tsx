@@ -425,7 +425,7 @@ export default function StarUpgradeCalculator() {
     : 0;
 
   // Calculate heart trial time
-  let shardsPerDay = HEART_TRIAL_RATES[quality];
+  let shardsPerDay: number = HEART_TRIAL_RATES[quality];
   if (quality === 'SSR EX' && affectionLevel20) {
     shardsPerDay = 2;
   }

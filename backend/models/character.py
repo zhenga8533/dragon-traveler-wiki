@@ -33,14 +33,24 @@ class Talent(BaseModel):
     talent_levels: list[TalentLevel]
 
 
+class SkillType(str, Enum):
+    OVERDRIVE = "Overdrive"
+    ULTIMATE_SKILL = "Ultimate Skill"
+    SECRET_SKILL = "Secret Skill"
+    SPECIAL_SKILL = "Special Skill"
+    DIVINE_SKILL = "Divine Skill"
+
+
 class Skill(BaseModel):
     name: str
+    type: SkillType
     description: str
     cooldown: int
 
 
 class Character(BaseModel):
     name: str
+    title: str
     quality: Quality
     character_class: CharacterClass
     factions: list[FactionName]

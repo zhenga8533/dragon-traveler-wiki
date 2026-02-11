@@ -1,0 +1,42 @@
+import { Anchor, Breadcrumbs as MantineBreadcrumbs, Text } from '@mantine/core';
+import { Link } from 'react-router-dom';
+
+export interface BreadcrumbItem {
+  label: string;
+  path?: string;
+}
+
+interface BreadcrumbsProps {
+  items: BreadcrumbItem[];
+}
+
+export default function Breadcrumbs({ items }: BreadcrumbsProps) {
+  return (
+    <MantineBreadcrumbs mb="md" style={{ flexWrap: 'wrap' }}>
+      {items.map((item, index) => {
+        const isLast = index === items.length - 1;
+
+        if (isLast || !item.path) {
+          return (
+            <Text key={index} size="sm" c="dimmed">
+              {item.label}
+            </Text>
+          );
+        }
+
+        return (
+          <Anchor
+            key={index}
+            component={Link}
+            to={item.path}
+            size="sm"
+            c="dimmed"
+            underline="hover"
+          >
+            {item.label}
+          </Anchor>
+        );
+      })}
+    </MantineBreadcrumbs>
+  );
+}

@@ -28,14 +28,16 @@ import {
   IoInformationCircleOutline,
   IoSearch,
 } from 'react-icons/io5';
-import SuggestModal from '../components/SuggestModal';
+import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Code } from '../types/code';
-import {
-  CODE_JSON_TEMPLATE,
-  buildExpiredCodeUrl,
-} from '../utils/github-issues';
+import { buildExpiredCodeUrl } from '../utils/github-issues';
+
+const CODE_FIELDS: FieldDef[] = [
+  { name: 'code', label: 'Code', type: 'text', required: true, placeholder: 'e.g. DRAGONCODE123' },
+  { name: 'source', label: 'Source (optional)', type: 'text', placeholder: 'Where did you find this code?' },
+];
 
 function loadRedeemed(): Set<string> {
   try {
@@ -119,9 +121,9 @@ export default function Codes() {
           <SuggestModal
             buttonLabel="Suggest a Code"
             modalTitle="Suggest a New Code"
-            jsonTemplate={CODE_JSON_TEMPLATE}
-            issueLabel="codes"
             issueTitle="[Code] New code suggestion"
+            fields={CODE_FIELDS}
+            excludeFromJson={['source']}
           />
         </Group>
 

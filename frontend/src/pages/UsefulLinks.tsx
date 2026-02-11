@@ -2,11 +2,18 @@ import { Title, Container, Stack, Card, Group, Text, Anchor, Badge, Loader, Cent
 import { FaDiscord } from 'react-icons/fa';
 import { SiGooglesheets } from 'react-icons/si';
 import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
-import SuggestModal from '../components/SuggestModal';
+import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import type { UsefulLink } from '../types/useful-link';
 import type { IconType } from 'react-icons';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { LINK_JSON_TEMPLATE } from '../utils/github-issues';
+
+const LINK_FIELDS: FieldDef[] = [
+  { name: 'icon', label: 'Icon', type: 'select', options: ['discord', 'wiki', 'spreadsheet'] },
+  { name: 'application', label: 'Application', type: 'text', required: true, placeholder: 'e.g. Discord, Google Sheets, Website' },
+  { name: 'name', label: 'Name', type: 'text', required: true, placeholder: 'Link name' },
+  { name: 'description', label: 'Description', type: 'textarea', required: true, placeholder: 'Brief description' },
+  { name: 'link', label: 'URL', type: 'text', required: true, placeholder: 'https://example.com' },
+];
 
 const ICON_MAP: Record<string, IconType> = {
   discord: FaDiscord,
@@ -25,9 +32,8 @@ export default function UsefulLinks() {
           <SuggestModal
             buttonLabel="Suggest a Link"
             modalTitle="Suggest a New Link"
-            jsonTemplate={LINK_JSON_TEMPLATE}
-            issueLabel="links"
             issueTitle="[Link] New link suggestion"
+            fields={LINK_FIELDS}
           />
         </Group>
 

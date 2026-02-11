@@ -5,15 +5,25 @@ import {
   Burger,
   Group,
   Image,
+  Kbd,
+  Modal,
   NavLink,
+  Select,
+  Stack,
+  Text,
   Title,
+  Tooltip,
   useComputedColorScheme,
   useMantineColorScheme,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useHotkeys, useMediaQuery } from '@mantine/hooks';
+import { useContext, useMemo } from 'react';
 import {
   IoBook,
+  IoChevronBack,
+  IoChevronForward,
   IoGift,
+  IoHelpCircleOutline,
   IoHome,
   IoLink,
   IoList,
@@ -23,10 +33,29 @@ import {
   IoSunny,
   IoTrophy,
 } from 'react-icons/io5';
-import { HashRouter, Link, Route, Routes, useLocation } from 'react-router-dom';
+import {
+  HashRouter,
+  Link,
+  Route,
+  Routes,
+  useLocation,
+  useNavigate,
+} from 'react-router-dom';
 import logo from './assets/logo.png';
 import Footer from './components/Footer';
+import PageTransition from './components/PageTransition';
+import ScrollToTop from './components/ScrollToTop';
 import SearchModal from './components/SearchModal';
+import { getAccentForPath, PARENT_ACCENTS } from './constants/accents';
+import { getGlassStyles } from './constants/glass';
+import { BRAND_TITLE_STYLE } from './constants/styles';
+import { SIDEBAR, TRANSITION } from './constants/ui';
+import {
+  SectionAccentProvider,
+  TierListReferenceContext,
+  TierListReferenceProvider,
+} from './contexts';
+import { useSidebar } from './hooks';
 import BeginnerQA from './pages/BeginnerQA';
 import Changelog from './pages/Changelog';
 import CharacterPage from './pages/CharacterPage';
@@ -105,8 +134,54 @@ function ThemeToggle() {
   );
 }
 
-function Navigation({ onNavigate }: { onNavigate: () => void }) {
+// Shared styles for nav items to prevent layout shifting
+const NAV_ITEM_HEIGHT = 42;
+
+const collapsedNavStyles = {
+  root: {
+    justifyContent: 'center',
+    height: NAV_ITEM_HEIGHT,
+    padding: 'var(--mantine-spacing-xs)',
+  },
+  section: {
+    marginRight: 0,
+    marginLeft: 0,
+  },
+  body: {
+    display: 'none',
+  },
+};
+
+const expandedNavStyles = {
+  root: {
+    height: NAV_ITEM_HEIGHT,
+  },
+  section: {
+    width: 24,
+    minWidth: 24,
+    display: 'flex',
+    justifyContent: 'center',
+  },
+};
+
+const getIconColor = (accent: string, isActive: boolean) =>
+  `var(--mantine-color-${accent}-${isActive ? '6' : '5'})`;
+
+const renderNavIcon = (
+  Icon: React.ComponentType<{ size?: number; style?: React.CSSProperties }>,
+  accent: string,
+  isActive: boolean
+) => <Icon size={18} style={{ color: getIconColor(accent, isActive) }} />;
+
+function Navigation({
+  onNavigate,
+  showLabels,
+}: {
+  onNavigate: () => void;
+  showLabels: boolean;
+}) {
   const location = useLocation();
+
   return (
     <>
       {NAV_ITEMS.map((item) => {
@@ -114,36 +189,102 @@ function Navigation({ onNavigate }: { onNavigate: () => void }) {
           const isChildActive = item.children.some(
             (child) => location.pathname === child.path
           );
+          const parentAccent = PARENT_ACCENTS[item.label];
+
+          // When collapsed, show parent as a tooltip-wrapped icon
+          if (!showLabels) {
+            return (
+              <Tooltip
+                key={item.label}
+                label={item.label}
+                position="right"
+                withArrow
+              >
+                <NavLink
+                  label=""
+                  leftSection={
+                    item.icon &&
+                    renderNavIcon(item.icon, parentAccent, isChildActive)
+                  }
+                  active={isChildActive}
+                  color={parentAccent}
+                  styles={collapsedNavStyles}
+                />
+              </Tooltip>
+            );
+          }
+
           return (
             <NavLink
               key={item.label}
               label={item.label}
               defaultOpened={isChildActive}
               childrenOffset={28}
-              leftSection={item.icon && <item.icon />}
+              leftSection={
+                item.icon &&
+                renderNavIcon(item.icon, parentAccent, isChildActive)
+              }
+              color={parentAccent}
+              styles={expandedNavStyles}
             >
-              {item.children.map((child) => (
-                <NavLink
-                  key={child.path}
-                  component={Link}
-                  to={child.path}
-                  label={child.label}
-                  active={location.pathname === child.path}
-                  onClick={onNavigate}
-                />
-              ))}
+              {item.children.map((child) => {
+                const childAccent = getAccentForPath(child.path);
+                return (
+                  <NavLink
+                    key={child.path}
+                    component={Link}
+                    to={child.path}
+                    label={child.label}
+                    active={location.pathname === child.path}
+                    color={childAccent}
+                    onClick={onNavigate}
+                  />
+                );
+              })}
             </NavLink>
           );
         }
+
+        const itemAccent = getAccentForPath(item.path!);
+        const isActive = location.pathname === item.path;
+
+        if (!showLabels) {
+          return (
+            <Tooltip
+              key={item.path}
+              label={item.label}
+              position="right"
+              withArrow
+            >
+              <NavLink
+                component={Link}
+                to={item.path!}
+                label=""
+                leftSection={
+                  item.icon && renderNavIcon(item.icon, itemAccent, isActive)
+                }
+                active={isActive}
+                color={itemAccent}
+                onClick={onNavigate}
+                styles={collapsedNavStyles}
+              />
+            </Tooltip>
+          );
+        }
+
         return (
           <NavLink
             key={item.path}
             component={Link}
             to={item.path!}
             label={item.label}
-            leftSection={item.icon && <item.icon />}
-            active={location.pathname === item.path}
+            leftSection={
+              item.icon && renderNavIcon(item.icon, itemAccent, isActive)
+            }
+            active={isActive}
+            color={itemAccent}
             onClick={onNavigate}
+            styles={expandedNavStyles}
           />
         );
       })}
@@ -151,64 +292,184 @@ function Navigation({ onNavigate }: { onNavigate: () => void }) {
   );
 }
 
-export default function App() {
-  const [opened, { toggle, close }] = useDisclosure();
+const KEYBOARD_SHORTCUTS = [
+  { keys: ['/', 'Ctrl', 'K'], description: 'Open search' },
+  { keys: ['?'], description: 'Show keyboard shortcuts' },
+  { keys: ['g', 'h'], description: 'Go to home' },
+  { keys: ['g', 'c'], description: 'Go to characters' },
+  { keys: ['g', 't'], description: 'Go to tier list' },
+];
 
+function KeyboardShortcutsModal({
+  opened,
+  onClose,
+}: {
+  opened: boolean;
+  onClose: () => void;
+}) {
   return (
-    <HashRouter>
-      <AppShell
-        header={{ height: 60 }}
-        navbar={{
-          width: 200,
-          breakpoint: 'sm',
-          collapsed: { mobile: !opened },
-        }}
-        padding="md"
-      >
-        <AppShell.Header>
-          <Group h="100%" px="md" justify="space-between">
-            <Group gap="sm">
-              <Burger
-                opened={opened}
-                onClick={toggle}
-                hiddenFrom="sm"
-                size="sm"
-              />
-              <Link
-                to="/"
-                style={{
-                  textDecoration: 'none',
-                  display: 'flex',
-                  alignItems: 'center',
-                  gap: '0.5rem',
-                  color: 'inherit',
-                }}
-              >
-                <Image src={logo} h={48} w={128} />
-                <Title order={3} visibleFrom="sm">
-                  Dragon Traveler Wiki
-                </Title>
-              </Link>
-            </Group>
-            <Group gap="xs">
-              <SearchModal />
-              <ThemeToggle />
+    <Modal
+      opened={opened}
+      onClose={onClose}
+      title={
+        <Group gap="xs">
+          <IoHelpCircleOutline size={20} />
+          <Text fw={600}>Keyboard Shortcuts</Text>
+        </Group>
+      }
+      centered
+      size="sm"
+    >
+      <Stack gap="sm">
+        {KEYBOARD_SHORTCUTS.map((shortcut, index) => (
+          <Group key={index} justify="space-between">
+            <Text size="sm">{shortcut.description}</Text>
+            <Group gap={4}>
+              {shortcut.keys.map((key, keyIndex) => (
+                <Kbd key={keyIndex} size="sm">
+                  {key}
+                </Kbd>
+              ))}
             </Group>
           </Group>
-        </AppShell.Header>
+        ))}
+      </Stack>
+    </Modal>
+  );
+}
 
-        <AppShell.Navbar p="xs">
-          <Navigation onNavigate={close} />
-        </AppShell.Navbar>
+function AppContent() {
+  const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
+    useDisclosure();
+  const [shortcutsOpened, { open: openShortcuts, close: closeShortcuts }] =
+    useDisclosure();
+  const sidebar = useSidebar();
+  const navigate = useNavigate();
+  const isDark = useComputedColorScheme('light') === 'dark';
+  const isMobile = useMediaQuery('(max-width: 768px)');
+  const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
+    useContext(TierListReferenceContext);
 
-        <AppShell.Main
-          style={{
-            display: 'flex',
-            flexDirection: 'column',
-            minHeight: '100vh',
-          }}
-        >
-          <Box style={{ flex: 1 }}>
+  // Global keyboard shortcuts
+  useHotkeys([
+    ['shift+/', openShortcuts], // ? key
+    ['g+h', () => navigate('/')],
+    ['g+c', () => navigate('/characters')],
+    ['g+t', () => navigate('/tier-list')],
+  ]);
+
+  const glassStyles = getGlassStyles(isDark);
+  const tierListOptions = useMemo(
+    () =>
+      tierLists.map((list) => ({
+        value: list.name,
+        label: `${list.name} (${list.content_type})`,
+      })),
+    [tierLists]
+  );
+
+  // On mobile, always show full sidebar when opened
+  const showLabels = isMobile ? true : sidebar.showLabels;
+  const navbarWidth = isMobile
+    ? SIDEBAR.WIDTH_EXPANDED
+    : sidebar.effectiveWidth;
+
+  return (
+    <AppShell
+      header={{ height: 60 }}
+      navbar={{
+        width: navbarWidth,
+        breakpoint: 'sm',
+        collapsed: { mobile: !mobileOpened },
+      }}
+      padding="md"
+      transitionDuration={parseInt(TRANSITION.NORMAL)}
+      transitionTimingFunction={TRANSITION.EASE}
+    >
+      <AppShell.Header style={glassStyles}>
+        <Group h="100%" px="md" justify="space-between">
+          <Group gap="sm">
+            <Burger
+              opened={mobileOpened}
+              onClick={toggleMobile}
+              hiddenFrom="sm"
+              size="sm"
+            />
+            {/* Sidebar toggle - hidden on mobile */}
+            <Tooltip
+              label={
+                sidebar.isCollapsed ? 'Expand sidebar' : 'Collapse sidebar'
+              }
+              position="right"
+            >
+              <ActionIcon
+                variant="subtle"
+                size="lg"
+                onClick={sidebar.toggle}
+                aria-label="Toggle sidebar"
+                visibleFrom="sm"
+              >
+                {sidebar.isCollapsed ? <IoChevronForward /> : <IoChevronBack />}
+              </ActionIcon>
+            </Tooltip>
+            <Link
+              to="/"
+              style={{
+                textDecoration: 'none',
+                display: 'flex',
+                alignItems: 'center',
+                gap: '0.5rem',
+                color: 'inherit',
+              }}
+            >
+              <Image
+                src={logo}
+                h={{ base: 32, xs: 40, sm: 48 }}
+                w="auto"
+                fit="contain"
+                style={{ maxWidth: '45vw' }}
+              />
+              <Title order={3} visibleFrom="sm" style={BRAND_TITLE_STYLE}>
+                Dragon Traveler Wiki
+              </Title>
+            </Link>
+          </Group>
+          <Group gap="xs">
+            <Select
+              placeholder="Tier list reference"
+              data={tierListOptions}
+              value={selectedTierListName || null}
+              onChange={(value) => setSelectedTierListName(value ?? '')}
+              clearable
+              searchable
+              size="xs"
+              disabled={loading || tierListOptions.length === 0}
+              w={220}
+            />
+            <SearchModal />
+            <ThemeToggle />
+          </Group>
+        </Group>
+      </AppShell.Header>
+
+      <AppShell.Navbar
+        p="xs"
+        style={glassStyles}
+        onMouseEnter={() => sidebar.setHovered(true)}
+        onMouseLeave={() => sidebar.setHovered(false)}
+      >
+        <Navigation onNavigate={closeMobile} showLabels={showLabels} />
+      </AppShell.Navbar>
+
+      <AppShell.Main
+        style={{
+          display: 'flex',
+          flexDirection: 'column',
+          minHeight: '100vh',
+        }}
+      >
+        <Box style={{ flex: 1 }}>
+          <PageTransition>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/characters" element={<Characters />} />
@@ -235,10 +496,28 @@ export default function App() {
                 element={<GoldenCloverPriority />}
               />
             </Routes>
-          </Box>
-          <Footer />
-        </AppShell.Main>
-      </AppShell>
+          </PageTransition>
+        </Box>
+        <Footer />
+      </AppShell.Main>
+
+      <ScrollToTop />
+      <KeyboardShortcutsModal
+        opened={shortcutsOpened}
+        onClose={closeShortcuts}
+      />
+    </AppShell>
+  );
+}
+
+export default function App() {
+  return (
+    <HashRouter>
+      <SectionAccentProvider>
+        <TierListReferenceProvider>
+          <AppContent />
+        </TierListReferenceProvider>
+      </SectionAccentProvider>
     </HashRouter>
   );
 }

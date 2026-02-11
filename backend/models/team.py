@@ -7,6 +7,7 @@ class TeamMember(BaseModel):
     character_name: str
     overdrive_order: int | None = None
     substitutes: list[str] | None = None
+    note: str = ""
 
 
 class TeamWyrmspells(BaseModel):

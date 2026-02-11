@@ -4,6 +4,7 @@ export interface TeamMember {
   character_name: string;
   overdrive_order: number | null;
   substitutes?: string[];
+  note?: string;
 }
 
 export interface TeamWyrmspells {
