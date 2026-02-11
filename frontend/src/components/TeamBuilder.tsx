@@ -20,6 +20,7 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  Textarea,
   TextInput,
   Title,
 } from '@mantine/core';
@@ -358,6 +359,7 @@ export default function TeamBuilder({
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
   const [contentType, setContentType] = useState('');
+  const [description, setDescription] = useState('');
   const [faction, setFaction] = useState<string | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -366,6 +368,7 @@ export default function TeamBuilder({
     setName(initialData.name);
     setAuthor(initialData.author);
     setContentType(initialData.content_type);
+    setDescription(initialData.description || '');
     setFaction(initialData.faction);
     const newSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
     const newOverdriveEnabled = Array(SLOT_COUNT).fill(false);
@@ -497,7 +500,7 @@ export default function TeamBuilder({
       name: name || 'My Team',
       author: author || 'Anonymous',
       content_type: contentType || 'PvE',
-      description: '',
+      description,
       faction: (faction || 'Elemental Echo') as FactionName,
       members,
     };
@@ -522,6 +525,7 @@ export default function TeamBuilder({
     name,
     author,
     contentType,
+    description,
     faction,
   ]);
 
@@ -733,6 +737,15 @@ export default function TeamBuilder({
             style={{ minWidth: 160 }}
           />
         </Group>
+
+        <Textarea
+          placeholder="Description (optional)..."
+          value={description}
+          onChange={(e) => setDescription(e.currentTarget.value)}
+          autosize
+          minRows={1}
+          maxRows={4}
+        />
 
         <Group gap="sm">
           <CopyButton value={json}>

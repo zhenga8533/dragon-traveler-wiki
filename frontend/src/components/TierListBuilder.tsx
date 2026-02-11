@@ -17,6 +17,7 @@ import {
   SimpleGrid,
   Stack,
   Text,
+  Textarea,
   TextInput,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
@@ -155,6 +156,7 @@ export default function TierListBuilder({
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
   const [categoryName, setCategoryName] = useState('');
+  const [description, setDescription] = useState('');
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -162,6 +164,7 @@ export default function TierListBuilder({
     setName(initialData.name);
     setAuthor(initialData.author);
     setCategoryName(initialData.content_type);
+    setDescription(initialData.description || '');
     const p: Record<string, Tier> = {};
     const n: Record<string, string> = {};
     for (const entry of initialData.entries) {
@@ -177,7 +180,7 @@ export default function TierListBuilder({
       name: name || 'My Tier List',
       author: author || 'Anonymous',
       content_type: categoryName || 'PvE',
-      description: '',
+      description,
       entries: TIER_ORDER.flatMap((tier) =>
         Object.entries(placements)
           .filter(([, t]) => t === tier)
@@ -189,7 +192,7 @@ export default function TierListBuilder({
       ),
     };
     return JSON.stringify(result, null, 2);
-  }, [placements, notes, name, author, categoryName]);
+  }, [placements, notes, name, author, categoryName, description]);
 
   const unrankedCharacters = useMemo(() => {
     return characters.filter((c) => !(c.name in placements));
@@ -244,6 +247,15 @@ export default function TierListBuilder({
             value={categoryName}
             onChange={(e) => setCategoryName(e.currentTarget.value)}
             style={{ flex: 1, minWidth: 120 }}
+          />
+          <Textarea
+            placeholder="Description (optional)..."
+            value={description}
+            onChange={(e) => setDescription(e.currentTarget.value)}
+            autosize
+            minRows={1}
+            maxRows={4}
+            style={{ width: '100%' }}
           />
           <CopyButton value={json}>
             {({ copied, copy }) => (
