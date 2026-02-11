@@ -1,0 +1,116 @@
+name: Process Issue Suggestion
+
+on:
+  issues:
+    types: [labeled]
+
+permissions:
+  contents: write
+  pull-requests: write
+  issues: write
+
+jobs:
+  process-suggestion:
+    if: >-
+      contains(fromJSON('["codes","wyrmspell","status-effect","links","character","tier-list","team"]'), github.event.label.name)
+    runs-on: ubuntu-latest
+
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+
+      - name: Install Python dependencies
+        run: pip install -r backend/requirements.txt requests
+
+      - name: Install Dolt
+        run: |
+          sudo bash -c 'curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | bash'
+
+      - name: Configure Dolt credentials
+        run: |
+          dolt config --global --add user.email "actions@github.com"
+          dolt config --global --add user.name "GitHub Actions"
+          dolt creds import <<< "${{ secrets.DOLTHUB_TOKEN }}"
+        env:
+          DOLT_REMOTE_PASSWORD: ${{ secrets.DOLT_REMOTE_PASSWORD }}
+
+      - name: Clone DoltHub database
+        run: dolt clone zhenga8533/dragon-traveler-db dolt-db
+        env:
+          DOLT_REMOTE_PASSWORD: ${{ secrets.DOLT_REMOTE_PASSWORD }}
+
+      - name: Process suggestion
+        id: suggest
+        run: python -m backend.suggest_dolt
+        env:
+          DOLTHUB_TOKEN: ${{ secrets.DOLTHUB_TOKEN }}
+          DOLT_REMOTE_PASSWORD: ${{ secrets.DOLT_REMOTE_PASSWORD }}
+
+      - name: Create GitHub PR with data changes
+        id: github_pr
+        run: |
+          BRANCH="suggestion/issue-${{ github.event.issue.number }}"
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git checkout -b "$BRANCH"
+          git add data/
+          git commit -m "Add suggestion from issue #${{ github.event.issue.number }}"
+          git push -u origin "$BRANCH"
+          PR_URL=$(gh pr create \
+            --title "Suggestion: ${{ github.event.issue.title }} (#${{ github.event.issue.number }})" \
+            --body "Auto-generated from issue #${{ github.event.issue.number }}.
+
+          **Label:** ${{ github.event.label.name }}
+
+          Merging this PR will update the site data and trigger a redeploy.
+
+          > Also see the [DoltHub PR](${{ steps.suggest.outputs.pr_url }}) for a table diff view." \
+            --base main)
+          echo "pr_url=$PR_URL" >> "$GITHUB_OUTPUT"
+        env:
+          GH_TOKEN: ${{ github.token }}
+
+      - name: Comment on issue with PR links
+        if: success()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const doltPrUrl = '${{ steps.suggest.outputs.pr_url }}';
+            const ghPrUrl = '${{ steps.github_pr.outputs.pr_url }}';
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: [
+                `**Your suggestion has been processed!**`,
+                ``,
+                `Two pull requests have been created for review:`,
+                ``,
+                `- **GitHub PR** (merge to update the site): ${ghPrUrl}`,
+                `- **DoltHub PR** (table diff view): ${doltPrUrl}`,
+                ``,
+                `A maintainer will review and merge if everything looks good.`
+              ].join('\n')
+            });
+
+      - name: Comment on issue with error details
+        if: failure()
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: [
+                `**Failed to process suggestion.**`,
+                ``,
+                `There was an error processing your suggestion. Please check the JSON format and try again.`,
+                ``,
+                `[View workflow run](${runUrl})`
+              ].join('\n')
+            });

@@ -35,7 +35,7 @@ export default function Footer() {
           </Text>
           <Group gap="xl" wrap="wrap" justify="center">
             <Anchor
-              href="https://github.com/azheng/dragon-traveler-wiki"
+              href="https://github.com/zhenga8533/dragon-traveler-wiki"
               target="_blank"
               rel="noopener noreferrer"
               c="dimmed"
@@ -46,7 +46,7 @@ export default function Footer() {
               <span>GitHub</span>
             </Anchor>
             <Anchor
-              href="https://github.com/azheng/dragon-traveler-wiki/issues/new"
+              href="https://github.com/zhenga8533/dragon-traveler-wiki/issues/new"
               target="_blank"
               rel="noopener noreferrer"
               c="dimmed"
