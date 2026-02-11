@@ -1,13 +1,305 @@
 [
   {
-    "name": "Community Tier List",
-    "author": "Dragon Traveler Wiki",
-    "content_type": "PvP",
-    "description": "A community-curated tier list for general PvE content.",
+    "name": "Global Tier List",
+    "author": "Dag007",
+    "content_type": "All",
+    "description": "",
     "entries": [
       {
-        "character_name": "Fenrir",
+        "character_name": "Apollo",
         "tier": "S+"
+      },
+      {
+        "character_name": "Ares",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Athena",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Hades",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Poseidon",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Ifrit",
+        "tier": "S"
+      },
+      {
+        "character_name": "Gabriele",
+        "tier": "S"
+      },
+      {
+        "character_name": "Scheherazade",
+        "tier": "S"
+      },
+      {
+        "character_name": "Fenrir",
+        "tier": "S"
+      },
+      {
+        "character_name": "Atanith",
+        "tier": "S"
+      },
+      {
+        "character_name": "Huginn & Muninn",
+        "tier": "S"
+      },
+      {
+        "character_name": "Marylis",
+        "tier": "S"
+      },
+      {
+        "character_name": "Vivienne",
+        "tier": "S"
+      },
+      {
+        "character_name": "Medusa",
+        "tier": "A"
+      },
+      {
+        "character_name": "Lorillin",
+        "tier": "A"
+      },
+      {
+        "character_name": "Tyrfing",
+        "tier": "A"
+      },
+      {
+        "character_name": "Chiron",
+        "tier": "A"
+      },
+      {
+        "character_name": "Nemesis",
+        "tier": "A"
+      },
+      {
+        "character_name": "Anubis",
+        "tier": "A"
+      },
+      {
+        "character_name": "Melina",
+        "tier": "A"
+      },
+      {
+        "character_name": "Siegfried",
+        "tier": "A"
+      },
+      {
+        "character_name": "Nanalie",
+        "tier": "A"
+      },
+      {
+        "character_name": "Gullveig",
+        "tier": "A"
+      },
+      {
+        "character_name": "Oberonnie",
+        "tier": "A"
+      },
+      {
+        "character_name": "Helveil",
+        "tier": "A"
+      },
+      {
+        "character_name": "Herman",
+        "tier": "A"
+      },
+      {
+        "character_name": "Goblin War Drummer",
+        "tier": "A"
+      },
+      {
+        "character_name": "Brynhild",
+        "tier": "A"
+      },
+      {
+        "character_name": "Jormungandr",
+        "tier": "A"
+      },
+      {
+        "character_name": "Faust",
+        "tier": "A"
+      },
+      {
+        "character_name": "Drasil",
+        "tier": "A"
+      },
+      {
+        "character_name": "Caligula",
+        "tier": "A"
+      },
+      {
+        "character_name": "Ophelia",
+        "tier": "A"
+      },
+      {
+        "character_name": "Goren",
+        "tier": "A"
+      },
+      {
+        "character_name": "Titania",
+        "tier": "A"
+      },
+      {
+        "character_name": "Cleopatra",
+        "tier": "A"
+      },
+      {
+        "character_name": "Beowulf",
+        "tier": "B"
+      },
+      {
+        "character_name": "Van Helring",
+        "tier": "B"
+      },
+      {
+        "character_name": "Guna",
+        "tier": "B"
+      },
+      {
+        "character_name": "Lancelot",
+        "tier": "B"
+      },
+      {
+        "character_name": "Telperion",
+        "tier": "B"
+      },
+      {
+        "character_name": "White Tiger",
+        "tier": "B"
+      },
+      {
+        "character_name": "Asteros",
+        "tier": "B"
+      },
+      {
+        "character_name": "Flora",
+        "tier": "B"
+      },
+      {
+        "character_name": "Siren",
+        "tier": "B"
+      },
+      {
+        "character_name": "Arthur",
+        "tier": "C"
+      },
+      {
+        "character_name": "Cerberus",
+        "tier": "C"
+      },
+      {
+        "character_name": "Pan Junbao",
+        "tier": "C"
+      },
+      {
+        "character_name": "Gudong",
+        "tier": "C"
+      },
+      {
+        "character_name": "Mordred",
+        "tier": "C"
+      },
+      {
+        "character_name": "Bladeheart",
+        "tier": "D"
+      },
+      {
+        "character_name": "Buck",
+        "tier": "D"
+      },
+      {
+        "character_name": "Eurytion",
+        "tier": "D"
+      },
+      {
+        "character_name": "Grimnir",
+        "tier": "D"
+      },
+      {
+        "character_name": "Kleina",
+        "tier": "D"
+      },
+      {
+        "character_name": "Murphy",
+        "tier": "D"
+      },
+      {
+        "character_name": "Nessus",
+        "tier": "D"
+      },
+      {
+        "character_name": "Polyphemus",
+        "tier": "D"
+      },
+      {
+        "character_name": "Boar Knight",
+        "tier": "D"
+      },
+      {
+        "character_name": "Dwarf Warrior",
+        "tier": "D"
+      },
+      {
+        "character_name": "Dwarven Cannoneer",
+        "tier": "D"
+      },
+      {
+        "character_name": "Dwarven Sage",
+        "tier": "D"
+      },
+      {
+        "character_name": "Goblin Battering Ram",
+        "tier": "D"
+      },
+      {
+        "character_name": "Mummy",
+        "tier": "D"
+      },
+      {
+        "character_name": "Pharaoh",
+        "tier": "D"
+      },
+      {
+        "character_name": "Sword Dancer",
+        "tier": "D"
+      },
+      {
+        "character_name": "Viel",
+        "tier": "D"
+      },
+      {
+        "character_name": "Wood Elf Archer",
+        "tier": "D"
+      },
+      {
+        "character_name": "Breeze Slime",
+        "tier": "D"
+      },
+      {
+        "character_name": "Flame Slime",
+        "tier": "D"
+      },
+      {
+        "character_name": "Ice Slime",
+        "tier": "D"
+      },
+      {
+        "character_name": "Lightning Slime",
+        "tier": "D"
+      },
+      {
+        "character_name": "Rock Slime",
+        "tier": "D"
+      },
+      {
+        "character_name": "Shadow Slime",
+        "tier": "D"
       }
     ]
   }
