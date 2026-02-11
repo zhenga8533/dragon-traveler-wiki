@@ -342,6 +342,7 @@ export default function Teams() {
                                 name={m.character_name}
                                 quality={char?.quality}
                                 disableLink
+                                note={m.note}
                               />
                               {m.overdrive_order != null && (
                                 <Badge

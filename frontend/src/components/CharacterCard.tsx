@@ -1,4 +1,5 @@
-import { Image, Stack, Text, UnstyledButton } from '@mantine/core';
+import { Image, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
+import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { CHARACTER_CARD, TRANSITION } from '../constants/ui';
@@ -19,6 +20,7 @@ interface CharacterCardProps {
   size?: number;
   disableLink?: boolean;
   tierLabel?: string;
+  note?: string;
 }
 
 export default function CharacterCard({
@@ -27,14 +29,15 @@ export default function CharacterCard({
   size = CHARACTER_CARD.PORTRAIT_SIZE,
   disableLink = false,
   tierLabel,
+  note,
 }: CharacterCardProps) {
   const borderColor = quality
     ? QUALITY_BORDER_COLOR[quality]
     : 'var(--mantine-color-gray-5)';
   const nameColor = disableLink ? 'dimmed' : 'violet';
 
-  const content = (
-    <Stack gap={2} align="center">
+  const portrait = (
+    <div style={{ position: 'relative', display: 'inline-block' }}>
       <Image
         src={getPortrait(name)}
         alt={name}
@@ -49,6 +52,31 @@ export default function CharacterCard({
           transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, box-shadow ${TRANSITION.FAST} ${TRANSITION.EASE}`,
         }}
       />
+      {note && (
+        <IoInformationCircle
+          size={18}
+          color="var(--mantine-color-blue-5)"
+          style={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+            background: 'var(--mantine-color-body)',
+            borderRadius: '50%',
+          }}
+        />
+      )}
+    </div>
+  );
+
+  const content = (
+    <Stack gap={2} align="center">
+      {note ? (
+        <Tooltip label={note} multiline withArrow maw={250}>
+          {portrait}
+        </Tooltip>
+      ) : (
+        portrait
+      )}
       <Text size="xs" fw={500} ta="center" lineClamp={1} c={nameColor}>
         {name}
       </Text>

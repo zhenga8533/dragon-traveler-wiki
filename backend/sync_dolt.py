@@ -258,8 +258,9 @@ def sync_tier_lists(data, batch):
         for entry in tl.get("entries", []):
             entry_id += 1
             batch.add(
-                f"INSERT INTO tier_list_entries (id, tier_list_id, character_name, tier) VALUES "
-                f"({entry_id}, {tl_id}, {escape_sql(entry.get('character_name'))}, {escape_sql(entry.get('tier'))});"
+                f"INSERT INTO tier_list_entries (id, tier_list_id, character_name, tier, note) VALUES "
+                f"({entry_id}, {tl_id}, {escape_sql(entry.get('character_name'))}, {escape_sql(entry.get('tier'))}, "
+                f"{escape_sql(entry.get('note', ''))});"
             )
     print(f"  Synced {tl_id} tier lists")
 
@@ -292,9 +293,9 @@ def sync_teams(data, batch):
         for m in t.get("members", []):
             member_id += 1
             batch.add(
-                f"INSERT INTO team_members (id, team_id, character_name, overdrive_order) VALUES "
+                f"INSERT INTO team_members (id, team_id, character_name, overdrive_order, note) VALUES "
                 f"({member_id}, {team_id}, {escape_sql(m.get('character_name'))}, "
-                f"{escape_sql(m.get('overdrive_order'))});"
+                f"{escape_sql(m.get('overdrive_order'))}, {escape_sql(m.get('note', ''))});"
             )
             for sub in m.get("substitutes", []):
                 if sub:

@@ -303,6 +303,16 @@ function TeamMemberCard({
               </Stack>
             </>
           )}
+
+          {member.note && (
+            <>
+              <Divider w="100%" mt="xs" />
+              <Text size="xs" c="dimmed" fw={500}>
+                Note:
+              </Text>
+              <Text size="xs">{member.note}</Text>
+            </>
+          )}
         </Stack>
       </Stack>
     </Paper>

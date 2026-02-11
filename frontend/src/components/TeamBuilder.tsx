@@ -342,6 +342,10 @@ export default function TeamBuilder({
       .fill(null)
       .map(() => [])
   );
+  // Track notes for each slot
+  const [slotNotes, setSlotNotes] = useState<string[]>(
+    Array(SLOT_COUNT).fill('')
+  );
   // Track wyrmspells
   const [teamWyrmspells, setTeamWyrmspells] = useState<TeamWyrmspells>({});
   // Modal for configuring slot details
@@ -368,6 +372,7 @@ export default function TeamBuilder({
     const newSubstitutes: string[][] = Array(SLOT_COUNT)
       .fill(null)
       .map(() => []);
+    const newNotes: string[] = Array(SLOT_COUNT).fill('');
 
     // Map members to slots and track overdrive status and substitutes
     for (const m of initialData.members) {
@@ -377,6 +382,7 @@ export default function TeamBuilder({
         newSlots[emptyIdx] = m.character_name;
         newOverdriveEnabled[emptyIdx] = m.overdrive_order != null;
         newSubstitutes[emptyIdx] = m.substitutes || [];
+        newNotes[emptyIdx] = m.note || '';
       }
     }
 
@@ -392,6 +398,7 @@ export default function TeamBuilder({
         idx,
         hasOD: newOverdriveEnabled[idx],
         subs: newSubstitutes[idx],
+        note: newNotes[idx],
       }))
       .filter((item) => item.name !== null && item.hasOD)
       .sort((a, b) => {
@@ -410,6 +417,7 @@ export default function TeamBuilder({
         idx,
         hasOD: newOverdriveEnabled[idx],
         subs: newSubstitutes[idx],
+        note: newNotes[idx],
       }))
       .filter((item) => item.name !== null && !item.hasOD);
 
@@ -418,24 +426,28 @@ export default function TeamBuilder({
     const reorderedSubstitutes: string[][] = Array(SLOT_COUNT)
       .fill(null)
       .map(() => []);
+    const reorderedNotes: string[] = Array(SLOT_COUNT).fill('');
 
     let i = 0;
     for (const item of withOverdrive) {
       reorderedSlots[i] = item.name;
       reorderedOverdrive[i] = true;
       reorderedSubstitutes[i] = item.subs;
+      reorderedNotes[i] = item.note;
       i++;
     }
     for (const item of withoutOverdrive) {
       reorderedSlots[i] = item.name;
       reorderedOverdrive[i] = false;
       reorderedSubstitutes[i] = item.subs;
+      reorderedNotes[i] = item.note;
       i++;
     }
 
     setSlots(reorderedSlots);
     setOverdriveEnabled(reorderedOverdrive);
     setSubstitutes(reorderedSubstitutes);
+    setSlotNotes(reorderedNotes);
   }, [initialData]);
 
   const factionColor = faction ? FACTION_COLOR[faction as FactionName] : 'blue';
@@ -463,6 +475,7 @@ export default function TeamBuilder({
           character_name: n,
           overdrive_order: overdriveOrder++,
           substitutes: substitutes[i].length > 0 ? substitutes[i] : undefined,
+          ...(slotNotes[i] ? { note: slotNotes[i] } : {}),
         });
       }
     }
@@ -475,6 +488,7 @@ export default function TeamBuilder({
           character_name: n,
           overdrive_order: null,
           substitutes: substitutes[i].length > 0 ? substitutes[i] : undefined,
+          ...(slotNotes[i] ? { note: slotNotes[i] } : {}),
         });
       }
     }
@@ -503,6 +517,7 @@ export default function TeamBuilder({
     slots,
     overdriveEnabled,
     substitutes,
+    slotNotes,
     teamWyrmspells,
     name,
     author,
@@ -676,6 +691,7 @@ export default function TeamBuilder({
         .fill(null)
         .map(() => [])
     );
+    setSlotNotes(Array(SLOT_COUNT).fill(''));
     setTeamWyrmspells({});
   }
 
@@ -896,15 +912,29 @@ export default function TeamBuilder({
         title={
           configSlotIndex !== null && slots[configSlotIndex] ? (
             <Title order={4}>
-              Configure Substitutes for {slots[configSlotIndex]}
+              Configure {slots[configSlotIndex]}
             </Title>
           ) : (
-            'Configure Substitutes'
+            'Configure Member'
           )
         }
         size="md"
       >
         <Stack gap="md">
+          <TextInput
+            label="Note"
+            placeholder="Add a note (e.g., build full HP, swap for boss 2)..."
+            value={configSlotIndex !== null ? slotNotes[configSlotIndex] : ''}
+            onChange={(e) => {
+              if (configSlotIndex !== null) {
+                setSlotNotes((prev) => {
+                  const next = [...prev];
+                  next[configSlotIndex] = e.currentTarget.value;
+                  return next;
+                });
+              }
+            }}
+          />
           <Text size="sm" c="dimmed">
             Select characters that can substitute for this team member.
           </Text>

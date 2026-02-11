@@ -7,11 +7,13 @@ import {
   type DragStartEvent,
 } from '@dnd-kit/core';
 import {
+  ActionIcon,
   Badge,
   Button,
   CopyButton,
   Group,
   Paper,
+  Popover,
   SimpleGrid,
   Stack,
   Text,
@@ -19,7 +21,7 @@ import {
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { IoCheckmark, IoCopy, IoTrash } from 'react-icons/io5';
+import { IoCheckmark, IoCopy, IoPencil, IoTrash } from 'react-icons/io5';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
@@ -149,6 +151,7 @@ export default function TierListBuilder({
   initialData,
 }: TierListBuilderProps) {
   const [placements, setPlacements] = useState<Record<string, Tier>>({});
+  const [notes, setNotes] = useState<Record<string, string>>({});
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
   const [categoryName, setCategoryName] = useState('');
@@ -160,10 +163,13 @@ export default function TierListBuilder({
     setAuthor(initialData.author);
     setCategoryName(initialData.content_type);
     const p: Record<string, Tier> = {};
+    const n: Record<string, string> = {};
     for (const entry of initialData.entries) {
       p[entry.character_name] = entry.tier;
+      if (entry.note) n[entry.character_name] = entry.note;
     }
     setPlacements(p);
+    setNotes(n);
   }, [initialData]);
 
   const json = useMemo(() => {
@@ -175,11 +181,15 @@ export default function TierListBuilder({
       entries: TIER_ORDER.flatMap((tier) =>
         Object.entries(placements)
           .filter(([, t]) => t === tier)
-          .map(([character_name]) => ({ character_name, tier }))
+          .map(([character_name]) => ({
+            character_name,
+            tier,
+            ...(notes[character_name] ? { note: notes[character_name] } : {}),
+          }))
       ),
     };
     return JSON.stringify(result, null, 2);
-  }, [placements, name, author, categoryName]);
+  }, [placements, notes, name, author, categoryName]);
 
   const unrankedCharacters = useMemo(() => {
     return characters.filter((c) => !(c.name in placements));
@@ -210,6 +220,7 @@ export default function TierListBuilder({
 
   function handleClear() {
     setPlacements({});
+    setNotes({});
   }
 
   return (
@@ -274,7 +285,46 @@ export default function TierListBuilder({
               color={TIER_COLOR[tier]}
             >
               {names.map((n) => (
-                <DraggableCharCard key={n} name={n} char={charMap.get(n)} />
+                <div key={n} style={{ position: 'relative' }}>
+                  <DraggableCharCard name={n} char={charMap.get(n)} />
+                  <Popover
+                    position="top"
+                    withArrow
+                    trapFocus
+                    shadow="md"
+                  >
+                    <Popover.Target>
+                      <ActionIcon
+                        size="xs"
+                        variant={notes[n] ? 'filled' : 'light'}
+                        color={notes[n] ? 'blue' : 'gray'}
+                        radius="xl"
+                        style={{
+                          position: 'absolute',
+                          top: 0,
+                          right: 'calc(50% - 40px)',
+                        }}
+                        title="Edit note"
+                      >
+                        <IoPencil size={10} />
+                      </ActionIcon>
+                    </Popover.Target>
+                    <Popover.Dropdown>
+                      <TextInput
+                        size="xs"
+                        placeholder="Add a note..."
+                        value={notes[n] || ''}
+                        onChange={(e) =>
+                          setNotes((prev) => ({
+                            ...prev,
+                            [n]: e.currentTarget.value,
+                          }))
+                        }
+                        style={{ width: 200 }}
+                      />
+                    </Popover.Dropdown>
+                  </Popover>
+                </div>
               ))}
             </TierDropZone>
           );

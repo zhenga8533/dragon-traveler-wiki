@@ -261,7 +261,11 @@ def export_tier_lists(data, output_dir=None):
     result = []
     for tl in data["tier_lists"]:
         entries = [
-            {"character_name": e.get("character_name") or "", "tier": e.get("tier") or ""}
+            {
+                "character_name": e.get("character_name") or "",
+                "tier": e.get("tier") or "",
+                "note": e.get("note") or "",
+            }
             for e in entries_by_tl.get(tl["id"], [])
         ]
         result.append({
@@ -287,6 +291,7 @@ def export_teams(data, output_dir=None):
                 "character_name": m.get("character_name") or "",
                 "overdrive_order": m.get("overdrive_order"),
                 "substitutes": subs,
+                "note": m.get("note") or "",
             })
         result.append({
             "name": t.get("name") or "",

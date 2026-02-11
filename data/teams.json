@@ -9,12 +9,14 @@
       {
         "character_name": "Fenrir",
         "overdrive_order": 1,
-        "substitutes": []
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Ifrit",
         "overdrive_order": 2,
-        "substitutes": []
+        "substitutes": [],
+        "note": ""
       }
     ],
     "wyrmspells": {

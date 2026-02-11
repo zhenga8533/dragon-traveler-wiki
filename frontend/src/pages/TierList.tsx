@@ -242,6 +242,7 @@ export default function TierList() {
                                           key={entry.character_name}
                                           name={entry.character_name}
                                           quality={char?.quality}
+                                          note={entry.note}
                                         />
                                       );
                                     })}
