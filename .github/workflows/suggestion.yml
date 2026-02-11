@@ -59,7 +59,7 @@ jobs:
               repo: context.repo.repo,
               title: `Suggestion: ${context.payload.issue.title} (#${context.payload.issue.number})`,
               body: [
-                `Auto-generated from issue #${context.payload.issue.number}.`,
+                `Closes #${context.payload.issue.number}`,
                 ``,
                 `**Label:** ${{ steps.suggest.outputs.label }}`,
                 ``,
