@@ -13,7 +13,7 @@ permissions:
 
 jobs:
   process-suggestion:
-    if: github.event_name == 'issues'
+    if: github.event_name == 'issues' && github.event.action == 'opened'
     runs-on: ubuntu-latest
 
     steps:
@@ -27,7 +27,7 @@ jobs:
         id: suggest
         run: python -m backend.suggest
 
-      - name: Apply label to issue
+      - name: Apply labels to issue
         if: steps.suggest.outputs.label != ''
         uses: actions/github-script@v7
         with:
@@ -36,7 +36,7 @@ jobs:
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              labels: ['${{ steps.suggest.outputs.label }}'],
+              labels: ['suggestion', '${{ steps.suggest.outputs.label }}'],
             });
 
       - name: Push suggestion branch
@@ -114,7 +114,7 @@ jobs:
   cleanup:
     if: >-
       (github.event_name == 'pull_request' && !github.event.pull_request.merged && startsWith(github.event.pull_request.head.ref, 'suggestion/'))
-      || (github.event_name == 'issues' && github.event.action == 'closed')
+      || (github.event_name == 'issues' && github.event.action == 'closed' && contains(github.event.issue.labels.*.name, 'suggestion'))
     runs-on: ubuntu-latest
     steps:
       - name: PR rejected — close issue and delete branch
