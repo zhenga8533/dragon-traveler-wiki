@@ -3,7 +3,14 @@ import type { FactionName } from '../types/faction';
 import type { StatusEffectType } from '../types/status-effect';
 import type { Tier } from '../types/tier-list';
 
-export const QUALITY_ORDER: Quality[] = ['SSR EX', 'SSR+', 'SSR', 'SR+', 'R', 'N'];
+export const QUALITY_ORDER: Quality[] = [
+  'SSR EX',
+  'SSR+',
+  'SSR',
+  'SR+',
+  'R',
+  'N',
+];
 
 export const QUALITY_COLOR: Record<Quality, string> = {
   'SSR EX': 'red',
@@ -21,9 +28,18 @@ export const STATE_COLOR: Record<StatusEffectType, string> = {
   Control: 'violet',
   Elemental: 'cyan',
   Blessing: 'yellow',
+  Exclusive: 'orange',
 };
 
-export const STATE_ORDER: StatusEffectType[] = ['Buff', 'Debuff', 'Special', 'Control', 'Elemental', 'Blessing'];
+export const STATE_ORDER: StatusEffectType[] = [
+  'Buff',
+  'Debuff',
+  'Special',
+  'Control',
+  'Elemental',
+  'Blessing',
+  'Exclusive',
+];
 
 export const FACTION_COLOR: Record<FactionName, string> = {
   'Elemental Echo': 'red',

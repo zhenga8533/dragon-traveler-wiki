@@ -84,6 +84,7 @@ Status effect types:
 - **Control**: Violet
 - **Elemental**: Cyan
 - **Blessing**: Yellow
+- **Exclusive**: Orange
 
 ### Components
 
@@ -167,23 +168,23 @@ Lazy-loaded assets with fallbacks:
 
 Hash-based routing for GitHub Pages compatibility:
 
-| Route                             | Page                   | Description                    |
-| --------------------------------- | ---------------------- | ------------------------------ |
-| `/`                               | Home                   | Landing page                   |
-| `/characters`                     | Characters             | Character list with filters    |
-| `/characters/:name`               | CharacterPage          | Character detail view          |
-| `/status-effects`                 | StatusEffects          | Status effects reference       |
-| `/wyrmspells`                     | DragonSpells           | Wyrmspell database             |
-| `/tier-list`                      | TierList               | Tier list viewer/builder       |
-| `/teams`                          | Teams                  | Team list                      |
-| `/teams/:name`                    | TeamPage               | Team detail view               |
-| `/codes`                          | Codes                  | Redemption codes tracker       |
-| `/useful-links`                   | UsefulLinks            | Community links                |
-| `/changelog`                      | Changelog              | Site changelog                 |
-| `/guides/beginner-qa`             | BeginnerQA             | Beginner guide                 |
-| `/guides/efficient-spending`      | EfficientSpending      | Spending guide                 |
-| `/guides/golden-clover-priority`  | GoldenCloverPriority   | Golden clover guide            |
-| `/guides/star-upgrade-calculator` | StarUpgradeCalculator  | Star upgrade calculator        |
+| Route                             | Page                  | Description                 |
+| --------------------------------- | --------------------- | --------------------------- |
+| `/`                               | Home                  | Landing page                |
+| `/characters`                     | Characters            | Character list with filters |
+| `/characters/:name`               | CharacterPage         | Character detail view       |
+| `/status-effects`                 | StatusEffects         | Status effects reference    |
+| `/wyrmspells`                     | DragonSpells          | Wyrmspell database          |
+| `/tier-list`                      | TierList              | Tier list viewer/builder    |
+| `/teams`                          | Teams                 | Team list                   |
+| `/teams/:name`                    | TeamPage              | Team detail view            |
+| `/codes`                          | Codes                 | Redemption codes tracker    |
+| `/useful-links`                   | UsefulLinks           | Community links             |
+| `/changelog`                      | Changelog             | Site changelog              |
+| `/guides/beginner-qa`             | BeginnerQA            | Beginner guide              |
+| `/guides/efficient-spending`      | EfficientSpending     | Spending guide              |
+| `/guides/golden-clover-priority`  | GoldenCloverPriority  | Golden clover guide         |
+| `/guides/star-upgrade-calculator` | StarUpgradeCalculator | Star upgrade calculator     |
 
 ## 🚀 Deployment
 

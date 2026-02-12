@@ -63,6 +63,7 @@ export default function CharacterList({
   );
   const { filters, setFilters } = useFilters<CharacterFilters>({
     emptyFilters: EMPTY_FILTERS,
+    storageKey: STORAGE_KEY.CHARACTER_FILTERS,
   });
   const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
   const [viewMode, setViewMode] = useViewMode({

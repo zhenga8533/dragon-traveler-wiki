@@ -26,14 +26,47 @@ import { getStatusEffectIcon } from '../assets/status_effect';
 import RichText from '../components/RichText';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
+import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
+import { useFilters } from '../hooks/use-filters';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
 
 const STATUS_EFFECT_FIELDS: FieldDef[] = [
-  { name: 'name', label: 'Name', type: 'text', required: true, placeholder: 'Status effect name' },
-  { name: 'type', label: 'Type', type: 'select', required: true, options: ['Buff', 'Debuff', 'Special', 'Control', 'Elemental', 'Blessing'] },
-  { name: 'effect', label: 'Effect', type: 'textarea', required: true, placeholder: 'Describe the effect' },
-  { name: 'remark', label: 'Remark (optional)', type: 'textarea', placeholder: 'Additional notes' },
+  {
+    name: 'name',
+    label: 'Name',
+    type: 'text',
+    required: true,
+    placeholder: 'Status effect name',
+  },
+  {
+    name: 'type',
+    label: 'Type',
+    type: 'select',
+    required: true,
+    options: [
+      'Buff',
+      'Debuff',
+      'Special',
+      'Control',
+      'Elemental',
+      'Blessing',
+      'Exclusive',
+    ],
+  },
+  {
+    name: 'effect',
+    label: 'Effect',
+    type: 'textarea',
+    required: true,
+    placeholder: 'Describe the effect',
+  },
+  {
+    name: 'remark',
+    label: 'Remark (optional)',
+    type: 'textarea',
+    placeholder: 'Additional notes',
+  },
 ];
 
 interface StatusEffectFilters {
@@ -47,25 +80,29 @@ const EMPTY_FILTERS: StatusEffectFilters = {
 };
 
 type ViewMode = 'list' | 'grid';
-const VIEW_MODE_STORAGE_KEY = 'status-effects:viewMode';
 
 export default function StatusEffects() {
   const { data: effects, loading } = useDataFetch<StatusEffect[]>(
     'data/status-effects.json',
     []
   );
-  const [filters, setFilters] = useState<StatusEffectFilters>(EMPTY_FILTERS);
+  const { filters, setFilters } = useFilters<StatusEffectFilters>({
+    emptyFilters: EMPTY_FILTERS,
+    storageKey: STORAGE_KEY.STATUS_EFFECT_FILTERS,
+  });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     if (typeof window === 'undefined') {
       return 'list';
     }
-    const stored = window.localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+    const stored = window.localStorage.getItem(
+      STORAGE_KEY.STATUS_EFFECT_VIEW_MODE
+    );
     return stored === 'grid' || stored === 'list' ? stored : 'list';
   });
 
   useEffect(() => {
-    window.localStorage.setItem(VIEW_MODE_STORAGE_KEY, viewMode);
+    window.localStorage.setItem(STORAGE_KEY.STATUS_EFFECT_VIEW_MODE, viewMode);
   }, [viewMode]);
 
   const filtered = useMemo(() => {

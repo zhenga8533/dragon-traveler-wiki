@@ -68,8 +68,15 @@ export const SIDEBAR = {
 // Storage keys
 export const STORAGE_KEY = {
   CHARACTER_VIEW_MODE: 'characters:viewMode',
+  CHARACTER_FILTERS: 'characters:filters',
   CHARACTER_TIER_LIST_REFERENCE: 'characters:tierListReference',
   STATUS_EFFECT_VIEW_MODE: 'status-effects:viewMode',
+  STATUS_EFFECT_FILTERS: 'status-effects:filters',
+  WYRMSPELL_VIEW_MODE: 'wyrmspells:viewMode',
+  WYRMSPELL_FILTERS: 'wyrmspells:filters',
+  TEAMS_FILTERS: 'teams:filters',
+  TEAMS_SEARCH: 'teams:search',
+  TIER_LIST_FILTERS: 'tier-list:filters',
   REDEEMED_CODES: 'redeemedCodes',
   SIDEBAR_COLLAPSED: 'sidebar:collapsed',
 } as const;

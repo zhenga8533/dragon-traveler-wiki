@@ -22,8 +22,9 @@ import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import TierListBuilder from '../components/TierListBuilder';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
-import { CHARACTER_GRID_SPACING } from '../constants/ui';
+import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
+import { useFilters } from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
 import { sortCharactersByQualityName } from '../utils/filter-characters';
@@ -36,8 +37,9 @@ export default function TierList() {
     'data/characters.json',
     []
   );
-  const [viewFilters, setViewFilters] = useState<Record<string, string[]>>({
-    contentTypes: [],
+  const { filters: viewFilters, setFilters: setViewFilters } = useFilters<Record<string, string[]>>({
+    emptyFilters: { contentTypes: [] },
+    storageKey: STORAGE_KEY.TIER_LIST_FILTERS,
   });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [mode, setMode] = useState<'view' | 'builder'>('view');

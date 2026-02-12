@@ -25,8 +25,9 @@ import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import TeamBuilder from '../components/TeamBuilder';
 import { FACTION_COLOR } from '../constants/colors';
-import { CHARACTER_GRID_SPACING } from '../constants/ui';
+import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
+import { useFilters } from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
@@ -55,15 +56,22 @@ export default function Teams() {
   const { data: wyrmspells, loading: loadingSpells } = useDataFetch<
     Wyrmspell[]
   >('data/wyrmspells.json', []);
-  const [viewFilters, setViewFilters] = useState<Record<string, string[]>>({
-    factions: [],
-    contentTypes: [],
+  const { filters: viewFilters, setFilters: setViewFilters } = useFilters<Record<string, string[]>>({
+    emptyFilters: { factions: [], contentTypes: [] },
+    storageKey: STORAGE_KEY.TEAMS_FILTERS,
   });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    return window.localStorage.getItem(STORAGE_KEY.TEAMS_SEARCH) || '';
+  });
   const [mode, setMode] = useState<'view' | 'builder'>('view');
   const [editData, setEditData] = useState<Team | null>(null);
   const loading = loadingTeams || loadingChars || loadingSpells;
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY.TEAMS_SEARCH, search);
+  }, [search]);
 
   // Handle edit state from navigation
   useEffect(() => {

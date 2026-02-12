@@ -24,7 +24,9 @@ import { useEffect, useMemo, useState } from 'react';
 import { IoFilter, IoGrid, IoList, IoSearch } from 'react-icons/io5';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
+import { useFilters } from '../hooks/use-filters';
 import type { Wyrmspell } from '../types/wyrmspell';
 
 const WYRMSPELL_FIELDS: FieldDef[] = [
@@ -44,25 +46,27 @@ const EMPTY_FILTERS: WyrmspellFilters = {
 };
 
 type ViewMode = 'list' | 'grid';
-const VIEW_MODE_STORAGE_KEY = 'wyrmspells:viewMode';
 
 export default function DragonSpells() {
   const { data: wyrmspells, loading } = useDataFetch<Wyrmspell[]>(
     'data/wyrmspells.json',
     []
   );
-  const [filters, setFilters] = useState<WyrmspellFilters>(EMPTY_FILTERS);
+  const { filters, setFilters } = useFilters<WyrmspellFilters>({
+    emptyFilters: EMPTY_FILTERS,
+    storageKey: STORAGE_KEY.WYRMSPELL_FILTERS,
+  });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [viewMode, setViewMode] = useState<ViewMode>(() => {
     if (typeof window === 'undefined') {
       return 'list';
     }
-    const stored = window.localStorage.getItem(VIEW_MODE_STORAGE_KEY);
+    const stored = window.localStorage.getItem(STORAGE_KEY.WYRMSPELL_VIEW_MODE);
     return stored === 'grid' || stored === 'list' ? stored : 'list';
   });
 
   useEffect(() => {
-    window.localStorage.setItem(VIEW_MODE_STORAGE_KEY, viewMode);
+    window.localStorage.setItem(STORAGE_KEY.WYRMSPELL_VIEW_MODE, viewMode);
   }, [viewMode]);
 
   const typeOptions = useMemo(() => {

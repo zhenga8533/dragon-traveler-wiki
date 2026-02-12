@@ -50,13 +50,32 @@ export function useFilterPanel({
 
 interface UseFiltersOptions<T> {
   emptyFilters: T;
+  storageKey?: string;
 }
 
 /**
- * Generic hook for managing filter state
+ * Generic hook for managing filter state with optional localStorage persistence
  */
-export function useFilters<T>({ emptyFilters }: UseFiltersOptions<T>) {
-  const [filters, setFilters] = useState<T>(emptyFilters);
+export function useFilters<T>({ emptyFilters, storageKey }: UseFiltersOptions<T>) {
+  const [filters, setFilters] = useState<T>(() => {
+    if (storageKey && typeof window !== 'undefined') {
+      try {
+        const stored = window.localStorage.getItem(storageKey);
+        if (stored) {
+          return { ...emptyFilters, ...JSON.parse(stored) };
+        }
+      } catch {
+        // ignore invalid JSON
+      }
+    }
+    return emptyFilters;
+  });
+
+  useEffect(() => {
+    if (storageKey) {
+      window.localStorage.setItem(storageKey, JSON.stringify(filters));
+    }
+  }, [storageKey, filters]);
 
   const resetFilters = useCallback(() => {
     setFilters(emptyFilters);

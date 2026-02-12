@@ -10,6 +10,7 @@ class StatusEffectType(str, Enum):
     CONTROL = "Control"
     ELEMENTAL = "Elemental"
     BLESSING = "Blessing"
+    EXCLUSIVE = "Exclusive"
 
 
 class StatusEffect(BaseModel):
