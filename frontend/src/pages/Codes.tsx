@@ -40,7 +40,8 @@ import { buildExpiredCodeUrl } from '../utils/github-issues';
 function aggregateRewards(codes: Code[]): Map<string, number> {
   const totals = new Map<string, number>();
   for (const code of codes) {
-    for (const r of code.reward) {
+    const rewards = code.rewards ?? code.reward ?? [];
+    for (const r of rewards) {
       totals.set(r.name, (totals.get(r.name) || 0) + r.quantity);
     }
   }
@@ -327,9 +328,9 @@ export default function Codes() {
                   />
                 </Group>
               </Group>
-              {entry.reward.length > 0 && (
+              {(entry.rewards ?? entry.reward ?? []).length > 0 && (
                 <Group gap="xs" mt="xs" wrap="wrap">
-                  {entry.reward.map((r) => (
+                  {(entry.rewards ?? entry.reward ?? []).map((r) => (
                     <ResourceBadge
                       key={r.name}
                       name={r.name}

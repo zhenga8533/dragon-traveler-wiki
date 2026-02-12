@@ -8,6 +8,8 @@ Usage:
 """
 
 import argparse
+import csv
+import io
 import json
 import subprocess
 import sys
@@ -29,7 +31,12 @@ def escape_sql(value):
     if isinstance(value, (int, float)):
         return str(value)
     s = str(value)
-    s = s.replace("\\", "\\\\").replace("'", "\\'").replace("\n", "\\n").replace("\r", "\\r")
+    s = (
+        s.replace("\\", "\\\\")
+        .replace("'", "\\'")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+    )
     return f"'{s}'"
 
 
@@ -52,6 +59,36 @@ def dolt_sql(query, dry_run=False):
         print(result.stderr, file=sys.stderr)
         sys.exit(1)
     return result.stdout
+
+
+def dolt_sql_csv(query):
+    """Run a SQL query via dolt sql (CSV result) and return rows as dicts."""
+    result = subprocess.run(
+        ["dolt", "sql", "-r", "csv", "-q", query],
+        cwd=DOLT_DIR,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
+    if result.returncode != 0:
+        print(f"ERROR running SQL: {query}", file=sys.stderr)
+        print(result.stderr, file=sys.stderr)
+        sys.exit(1)
+
+    output = result.stdout.strip()
+    if not output:
+        return []
+
+    reader = csv.DictReader(io.StringIO(output))
+    return list(reader)
+
+
+def get_existing_tables():
+    rows = dolt_sql_csv("SHOW TABLES;")
+    if not rows:
+        return set()
+    table_col = next(iter(rows[0].keys()))
+    return {row[table_col] for row in rows if row.get(table_col)}
 
 
 class SqlBatch:
@@ -84,7 +121,10 @@ def dolt_cmd(*args):
         print(f"ERROR running dolt {' '.join(args)}", file=sys.stderr)
         print(result.stderr, file=sys.stderr)
         # Don't exit on commit with nothing to commit
-        if "nothing to commit" in result.stderr.lower() or "nothing to commit" in result.stdout.lower():
+        if (
+            "nothing to commit" in result.stderr.lower()
+            or "nothing to commit" in result.stdout.lower()
+        ):
             return result.stdout
         sys.exit(1)
     return result.stdout
@@ -104,6 +144,7 @@ def load_json(filename):
 # Sync functions
 # ---------------------------------------------------------------------------
 
+
 def sync_factions(data, batch):
     """Sync factions.json -> factions table."""
     batch.add("DELETE FROM character_factions;")
@@ -121,7 +162,13 @@ def sync_factions(data, batch):
 
 def sync_characters(data, factions, batch):
     """Sync characters.json -> characters + related tables."""
-    for table in ["skills", "talent_levels", "character_subclasses", "character_factions", "characters"]:
+    for table in [
+        "skills",
+        "talent_levels",
+        "character_subclasses",
+        "character_factions",
+        "characters",
+    ]:
         batch.add(f"DELETE FROM {table};")
     for table in ["skills", "talent_levels", "character_subclasses", "characters"]:
         batch.add(f"ALTER TABLE {table} AUTO_INCREMENT = 1;")
@@ -160,12 +207,12 @@ def sync_characters(data, factions, batch):
                     f"({subclass_id}, {char_id}, {escape_sql(sc)});"
                 )
 
-        for fname in c.get("factions", []):
+        for order, fname in enumerate(c.get("factions", []), start=1):
             fid = faction_ids.get(fname)
             if fid:
                 batch.add(
-                    f"INSERT INTO character_factions (character_id, faction_id) VALUES "
-                    f"({char_id}, {fid});"
+                    f"INSERT INTO character_factions (character_id, faction_id, sort_order) VALUES "
+                    f"({char_id}, {fid}, {order});"
                 )
 
         talent = c.get("talent") or {}
@@ -205,8 +252,12 @@ def sync_wyrmspells(data, batch):
     print(f"  Synced {w_id} wyrmspells")
 
 
-def sync_resources(data, batch):
+def sync_resources(data, batch, existing_tables):
     """Sync resources.json -> resources table."""
+    if "resources" not in existing_tables:
+        print("  Skipping resources (table not found in Dolt schema)")
+        return
+
     batch.add("DELETE FROM resources;")
     batch.add("ALTER TABLE resources AUTO_INCREMENT = 1;")
     r_id = 0
@@ -221,23 +272,42 @@ def sync_resources(data, batch):
     print(f"  Synced {r_id} resources")
 
 
-def sync_codes(data, batch):
-    """Sync codes.json -> codes + code_rewards tables."""
-    batch.add("DELETE FROM code_rewards;")
+def sync_codes(data, batch, existing_tables):
+    """Sync codes.json -> codes (+ code_rewards when table exists)."""
+    if "codes" not in existing_tables:
+        print("  Skipping codes (table not found in Dolt schema)")
+        return
+
+    has_code_rewards = "code_rewards" in existing_tables
+
+    if has_code_rewards:
+        batch.add("DELETE FROM code_rewards;")
+        batch.add("ALTER TABLE code_rewards AUTO_INCREMENT = 1;")
+
     batch.add("DELETE FROM codes;")
-    batch.add("ALTER TABLE code_rewards AUTO_INCREMENT = 1;")
     batch.add("ALTER TABLE codes AUTO_INCREMENT = 1;")
+
     c_id = 0
     reward_id = 0
     for c in data:
         if not c.get("code"):
             continue
         c_id += 1
+
+        rewards = c.get("rewards")
+        if rewards is None:
+            rewards = c.get("reward", [])
+        if not isinstance(rewards, list):
+            rewards = []
+
         batch.add(
             f"INSERT INTO codes (id, code, active) VALUES "
             f"({c_id}, {escape_sql(c['code'])}, {escape_sql(c.get('active', True))});"
         )
-        for reward in c.get("reward", []):
+
+        for reward in rewards:
+            if not has_code_rewards:
+                break
             if not reward.get("name"):
                 continue
             reward_id += 1
@@ -245,7 +315,10 @@ def sync_codes(data, batch):
                 f"INSERT INTO code_rewards (id, code_id, resource_name, quantity) VALUES "
                 f"({reward_id}, {c_id}, {escape_sql(reward['name'])}, {escape_sql(reward.get('quantity', 0))});"
             )
-    print(f"  Synced {c_id} codes ({reward_id} rewards)")
+    if has_code_rewards:
+        print(f"  Synced {c_id} codes ({reward_id} rewards)")
+    else:
+        print(f"  Synced {c_id} codes (no code_rewards table; rewards ignored)")
 
 
 def sync_status_effects(data, batch):
@@ -382,16 +455,29 @@ def sync_changelog(data, batch):
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main():
     parser = argparse.ArgumentParser(description="Sync JSON data into Dolt database")
-    parser.add_argument("--push", action="store_true", help="Push to DoltHub after commit")
-    parser.add_argument("--dry-run", action="store_true", help="Show SQL without executing")
+    parser.add_argument(
+        "--push", action="store_true", help="Push to DoltHub after commit"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Show SQL without executing"
+    )
     parser.add_argument(
         "--target",
         choices=[
-            "factions", "characters", "wyrmspells", "resources",
-            "codes", "status-effects", "tier-lists", "teams",
-            "useful-links", "changelog", "all",
+            "factions",
+            "characters",
+            "wyrmspells",
+            "resources",
+            "codes",
+            "status-effects",
+            "tier-lists",
+            "teams",
+            "useful-links",
+            "changelog",
+            "all",
         ],
         default="all",
         help="Which table(s) to sync (default: all)",
@@ -415,6 +501,7 @@ def main():
     changelog_data = load_json("changelog.json")
 
     print("Syncing to Dolt..." + (" (dry run)" if args.dry_run else ""))
+    existing_tables = get_existing_tables()
 
     batch = SqlBatch(dry_run=args.dry_run)
     target = args.target
@@ -423,8 +510,8 @@ def main():
         "factions": lambda: sync_factions(factions_data, batch),
         "characters": lambda: sync_characters(characters_data, factions_data, batch),
         "wyrmspells": lambda: sync_wyrmspells(wyrmspells_data, batch),
-        "resources": lambda: sync_resources(resources_data, batch),
-        "codes": lambda: sync_codes(codes_data, batch),
+        "resources": lambda: sync_resources(resources_data, batch, existing_tables),
+        "codes": lambda: sync_codes(codes_data, batch, existing_tables),
         "status-effects": lambda: sync_status_effects(status_effects_data, batch),
         "tier-lists": lambda: sync_tier_lists(tier_lists_data, batch),
         "teams": lambda: sync_teams(teams_data, batch),

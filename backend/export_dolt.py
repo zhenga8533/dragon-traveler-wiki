@@ -11,6 +11,8 @@ Usage:
 """
 
 import argparse
+import csv
+import io
 import json
 import subprocess
 import sys
@@ -29,7 +31,7 @@ QUERIES = {
     "character_factions": (
         "SELECT cf.character_id, f.name AS faction_name "
         "FROM character_factions cf JOIN factions f ON cf.faction_id = f.id "
-        "ORDER BY cf.character_id;"
+        "ORDER BY cf.character_id, cf.sort_order, cf.faction_id;"
     ),
     "character_subclasses": (
         "SELECT character_id, subclass_name FROM character_subclasses ORDER BY id;"
@@ -46,9 +48,7 @@ QUERIES = {
     "code_rewards": "SELECT * FROM code_rewards ORDER BY code_id, id;",
     "status_effects": "SELECT * FROM status_effects ORDER BY id;",
     "tier_lists": "SELECT * FROM tier_lists ORDER BY id;",
-    "tier_list_entries": (
-        "SELECT * FROM tier_list_entries ORDER BY tier_list_id, id;"
-    ),
+    "tier_list_entries": ("SELECT * FROM tier_list_entries ORDER BY tier_list_id, id;"),
     "teams": "SELECT * FROM teams ORDER BY id;",
     "team_members": "SELECT * FROM team_members ORDER BY team_id, id;",
     "team_member_substitutes": (
@@ -56,14 +56,14 @@ QUERIES = {
     ),
     "useful_links": "SELECT * FROM useful_links ORDER BY id;",
     "changelog": "SELECT * FROM changelog ORDER BY id;",
-    "changelog_changes": (
-        "SELECT * FROM changelog_changes ORDER BY changelog_id, id;"
-    ),
+    "changelog_changes": ("SELECT * FROM changelog_changes ORDER BY changelog_id, id;"),
 }
 
 
 def fetch_all(needed_keys):
     """Run all needed queries in a single dolt sql call and return results keyed by name."""
+    if not needed_keys:
+        return {}
     queries_to_run = {k: v for k, v in QUERIES.items() if k in needed_keys}
     combined_sql = "\n".join(queries_to_run.values())
 
@@ -96,6 +96,35 @@ def fetch_all(needed_keys):
     return data
 
 
+def dolt_sql_csv(query):
+    result = subprocess.run(
+        ["dolt", "sql", "-r", "csv", "-q", query],
+        cwd=DOLT_DIR,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
+    if result.returncode != 0:
+        print(f"ERROR running SQL: {query}", file=sys.stderr)
+        print(result.stderr, file=sys.stderr)
+        sys.exit(1)
+
+    output = result.stdout.strip()
+    if not output:
+        return []
+
+    reader = csv.DictReader(io.StringIO(output))
+    return list(reader)
+
+
+def get_existing_tables():
+    rows = dolt_sql_csv("SHOW TABLES;")
+    if not rows:
+        return set()
+    table_col = next(iter(rows[0].keys()))
+    return {row[table_col] for row in rows if row.get(table_col)}
+
+
 def group_by(rows, key):
     """Group rows by a key into a dict of lists."""
     groups = defaultdict(list)
@@ -121,7 +150,10 @@ def _flat_json(value):
     if isinstance(value, dict):
         if not value:
             return "{}"
-        items = [f"{json.dumps(k, ensure_ascii=False)}: {_flat_json(v)}" for k, v in value.items()]
+        items = [
+            f"{json.dumps(k, ensure_ascii=False)}: {_flat_json(v)}"
+            for k, v in value.items()
+        ]
         return "{ " + ", ".join(items) + " }"
     return json.dumps(value, ensure_ascii=False)
 
@@ -174,11 +206,13 @@ def write_export(filename, data, output_dir=None):
 def export_factions(data, output_dir=None):
     result = []
     for r in data["factions"]:
-        result.append({
-            "name": r.get("name") or "",
-            "wyrm": r.get("wyrm") or "",
-            "description": r.get("description") or "",
-        })
+        result.append(
+            {
+                "name": r.get("name") or "",
+                "wyrm": r.get("wyrm") or "",
+                "description": r.get("description") or "",
+            }
+        )
     write_export("factions.json", result, output_dir)
 
 
@@ -200,44 +234,57 @@ def export_characters(data, output_dir=None):
         if talent_name or talent_levels:
             talent = {"name": talent_name, "talent_levels": talent_levels}
 
-        result.append({
-            "name": c.get("name") or "",
-            "title": c.get("title") or "",
-            "quality": c.get("quality") or "",
-            "character_class": c.get("character_class") or "",
-            "factions": [f["faction_name"] for f in factions_by_char.get(char_id, [])],
-            "is_global": bool(c.get("is_global", True)),
-            "subclasses": [s["subclass_name"] for s in subclasses_by_char.get(char_id, [])],
-            "height": c.get("height") or "",
-            "weight": c.get("weight") or "",
-            "origin": c.get("origin") or "",
-            "lore": c.get("lore") or "",
-            "quote": c.get("quote") or "",
-            "talent": talent,
-            "skills": [
-                {
-                    "name": sk.get("name") or "",
-                    "type": sk.get("type") or "",
-                    "description": sk.get("description") or "",
-                    "cooldown": sk.get("cooldown", 0),
-                }
-                for sk in skills_by_char.get(char_id, [])
-            ],
-            "noble_phantasm": c.get("noble_phantasm") or "",
-        })
+        result.append(
+            {
+                "name": c.get("name") or "",
+                "title": c.get("title") or "",
+                "quality": c.get("quality") or "",
+                "character_class": c.get("character_class") or "",
+                "factions": [
+                    f["faction_name"] for f in factions_by_char.get(char_id, [])
+                ],
+                "is_global": bool(c.get("is_global", True)),
+                "subclasses": [
+                    s["subclass_name"] for s in subclasses_by_char.get(char_id, [])
+                ],
+                "height": c.get("height") or "",
+                "weight": c.get("weight") or "",
+                "origin": c.get("origin") or "",
+                "lore": c.get("lore") or "",
+                "quote": c.get("quote") or "",
+                "talent": talent,
+                "skills": [
+                    {
+                        "name": sk.get("name") or "",
+                        "type": sk.get("type") or "",
+                        "description": sk.get("description") or "",
+                        "cooldown": sk.get("cooldown", 0),
+                    }
+                    for sk in skills_by_char.get(char_id, [])
+                ],
+                "noble_phantasm": c.get("noble_phantasm") or "",
+            }
+        )
 
     write_export("characters.json", result, output_dir)
 
 
 def export_wyrmspells(data, output_dir=None):
     result = [
-        {"name": w.get("name") or "", "effect": w.get("effect") or "", "type": w.get("type") or ""}
+        {
+            "name": w.get("name") or "",
+            "effect": w.get("effect") or "",
+            "type": w.get("type") or "",
+        }
         for w in data["wyrmspells"]
     ]
     write_export("wyrmspells.json", result, output_dir)
 
 
 def export_resources(data, output_dir=None):
+    if "resources" not in data:
+        print("Skipped resources.json (resources table not found in Dolt schema)")
+        return
     result = [
         {"name": r.get("name") or "", "description": r.get("description") or ""}
         for r in data["resources"]
@@ -246,18 +293,34 @@ def export_resources(data, output_dir=None):
 
 
 def export_codes(data, output_dir=None):
-    rewards_by_code = group_by(data["code_rewards"], "code_id")
+    codes_rows = data.get("codes", [])
+    rewards_by_code = group_by(data.get("code_rewards", []), "code_id")
     result = []
-    for c in data["codes"]:
-        rewards = [
-            {"name": r.get("resource_name") or "", "quantity": r.get("quantity", 0)}
-            for r in rewards_by_code.get(c["id"], [])
-        ]
-        result.append({
-            "code": c.get("code") or "",
-            "reward": rewards,
-            "active": bool(c.get("active", True)),
-        })
+    for c in codes_rows:
+        if rewards_by_code:
+            rewards = [
+                {"name": r.get("resource_name") or "", "quantity": r.get("quantity", 0)}
+                for r in rewards_by_code.get(c["id"], [])
+            ]
+        else:
+            raw_rewards = c.get("rewards")
+            if isinstance(raw_rewards, str) and raw_rewards.strip():
+                try:
+                    parsed = json.loads(raw_rewards)
+                    rewards = parsed if isinstance(parsed, list) else []
+                except json.JSONDecodeError:
+                    rewards = []
+            elif isinstance(raw_rewards, list):
+                rewards = raw_rewards
+            else:
+                rewards = []
+        result.append(
+            {
+                "code": c.get("code") or "",
+                "rewards": rewards,
+                "active": bool(c.get("active", True)),
+            }
+        )
     write_export("codes.json", result, output_dir)
 
 
@@ -286,13 +349,15 @@ def export_tier_lists(data, output_dir=None):
             }
             for e in entries_by_tl.get(tl["id"], [])
         ]
-        result.append({
-            "name": tl.get("name") or "",
-            "author": tl.get("author") or "",
-            "content_type": tl.get("content_type") or "",
-            "description": tl.get("description") or "",
-            "entries": entries,
-        })
+        result.append(
+            {
+                "name": tl.get("name") or "",
+                "author": tl.get("author") or "",
+                "content_type": tl.get("content_type") or "",
+                "description": tl.get("description") or "",
+                "entries": entries,
+            }
+        )
     write_export("tier-lists.json", result, output_dir)
 
 
@@ -305,26 +370,30 @@ def export_teams(data, output_dir=None):
         members = []
         for m in members_by_team.get(t["id"], []):
             subs = [s["character_name"] for s in subs_by_member.get(m["id"], [])]
-            members.append({
-                "character_name": m.get("character_name") or "",
-                "overdrive_order": m.get("overdrive_order"),
-                "substitutes": subs,
-                "note": m.get("note") or "",
-            })
-        result.append({
-            "name": t.get("name") or "",
-            "author": t.get("author") or "",
-            "content_type": t.get("content_type") or "",
-            "description": t.get("description") or "",
-            "faction": t.get("faction") or "",
-            "members": members,
-            "wyrmspells": {
-                "breach": t.get("breach_wyrmspell") or "",
-                "refuge": t.get("refuge_wyrmspell") or "",
-                "wildcry": t.get("wildcry_wyrmspell") or "",
-                "dragons_call": t.get("dragons_call_wyrmspell") or "",
-            },
-        })
+            members.append(
+                {
+                    "character_name": m.get("character_name") or "",
+                    "overdrive_order": m.get("overdrive_order"),
+                    "substitutes": subs,
+                    "note": m.get("note") or "",
+                }
+            )
+        result.append(
+            {
+                "name": t.get("name") or "",
+                "author": t.get("author") or "",
+                "content_type": t.get("content_type") or "",
+                "description": t.get("description") or "",
+                "faction": t.get("faction") or "",
+                "members": members,
+                "wyrmspells": {
+                    "breach": t.get("breach_wyrmspell") or "",
+                    "refuge": t.get("refuge_wyrmspell") or "",
+                    "wildcry": t.get("wildcry_wyrmspell") or "",
+                    "dragons_call": t.get("dragons_call_wyrmspell") or "",
+                },
+            }
+        )
     write_export("teams.json", result, output_dir)
 
 
@@ -354,21 +423,29 @@ def export_changelog(data, output_dir=None):
             }
             for ch in changes_by_cl.get(cl["id"], [])
         ]
-        result.append({
-            "date": str(cl.get("date") or ""),
-            "version": cl.get("version") or "",
-            "changes": changes,
-        })
+        result.append(
+            {
+                "date": str(cl.get("date") or ""),
+                "version": cl.get("version") or "",
+                "changes": changes,
+            }
+        )
     write_export("changelog.json", result, output_dir)
 
 
 # Map target names to (export_function, required_query_keys)
 EXPORTERS = {
     "factions": (export_factions, {"factions"}),
-    "characters": (export_characters, {
-        "characters", "character_factions", "character_subclasses",
-        "talent_levels", "skills",
-    }),
+    "characters": (
+        export_characters,
+        {
+            "characters",
+            "character_factions",
+            "character_subclasses",
+            "talent_levels",
+            "skills",
+        },
+    ),
     "wyrmspells": (export_wyrmspells, {"wyrmspells"}),
     "resources": (export_resources, {"resources"}),
     "codes": (export_codes, {"codes", "code_rewards"}),
@@ -411,10 +488,12 @@ def main():
     else:
         targets = [args.target]
 
+    existing_tables = get_existing_tables()
+
     # Collect all needed query keys
     needed_keys = set()
     for t in targets:
-        needed_keys |= EXPORTERS[t][1]
+        needed_keys |= {k for k in EXPORTERS[t][1] if k in existing_tables}
 
     # Single batch fetch
     data = fetch_all(needed_keys)

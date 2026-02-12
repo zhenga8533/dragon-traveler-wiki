@@ -15,6 +15,6 @@ class StatusEffectType(str, Enum):
 
 class StatusEffect(BaseModel):
     name: str
-    type: StatusEffectType
+    type: StatusEffectType | str = ""
     effect: str
     remark: str

@@ -8,31 +8,47 @@
     "members": [
       {
         "character_name": "Oberonnie",
-        "overdrive_order": 1
+        "overdrive_order": 1,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Siren",
         "overdrive_order": 2,
-        "substitutes": ["Vivienne"]
+        "substitutes": ["Vivienne"],
+        "note": ""
       },
       {
         "character_name": "Fenrir",
-        "overdrive_order": 3
+        "overdrive_order": 3,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Siegfried",
-        "overdrive_order": 4
+        "overdrive_order": 4,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Ifrit",
-        "overdrive_order": 5
+        "overdrive_order": 5,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Melina",
         "overdrive_order": 6,
-        "substitutes": ["Poseidon"]
+        "substitutes": ["Poseidon"],
+        "note": ""
       }
-    ]
+    ],
+    "wyrmspells": {
+      "breach": "",
+      "refuge": "",
+      "wildcry": "",
+      "dragons_call": ""
+    }
   },
   {
     "name": "Wild Spirit Novice Lineup",
@@ -44,31 +60,46 @@
       {
         "character_name": "Oberonnie",
         "overdrive_order": 1,
-        "substitutes": ["Athena"]
+        "substitutes": ["Athena"],
+        "note": ""
       },
       {
         "character_name": "Flora",
-        "overdrive_order": 2
+        "overdrive_order": 2,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "White Tiger",
-        "overdrive_order": 3
+        "overdrive_order": 3,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Marylis",
         "overdrive_order": 6,
-        "substitutes": ["Tyrfing"]
+        "substitutes": ["Tyrfing"],
+        "note": ""
       },
       {
         "character_name": "Siegfried",
-        "overdrive_order": 5
+        "overdrive_order": 5,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Nanalie",
         "overdrive_order": 4,
-        "substitutes": ["Huginn & Muninn"]
+        "substitutes": ["Huginn & Muninn"],
+        "note": ""
       }
-    ]
+    ],
+    "wyrmspells": {
+      "breach": "",
+      "refuge": "",
+      "wildcry": "",
+      "dragons_call": ""
+    }
   },
   {
     "name": "Arcane Wisdom Novice Lineup",
@@ -79,32 +110,47 @@
     "members": [
       {
         "character_name": "Oberonnie",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Siren",
         "overdrive_order": null,
-        "substitutes": ["Scheherazade"]
+        "substitutes": ["Scheherazade"],
+        "note": ""
       },
       {
         "character_name": "Fenrir",
         "overdrive_order": null,
-        "substitutes": ["Hades"]
+        "substitutes": ["Hades"],
+        "note": ""
       },
       {
         "character_name": "Marylis",
         "overdrive_order": null,
-        "substitutes": ["Ares"]
+        "substitutes": ["Ares"],
+        "note": ""
       },
       {
         "character_name": "Ifrit",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Melina",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "substitutes": [],
+        "note": ""
       }
-    ]
+    ],
+    "wyrmspells": {
+      "breach": "",
+      "refuge": "",
+      "wildcry": "",
+      "dragons_call": ""
+    }
   },
   {
     "name": "Sanctum Glory Novice Lineup",
@@ -116,33 +162,46 @@
       {
         "character_name": "Oberonnie",
         "overdrive_order": 1,
-        "substitutes": ["Athena"]
+        "substitutes": ["Athena"],
+        "note": ""
       },
       {
         "character_name": "Flora",
         "overdrive_order": 2,
-        "substitutes": ["Scheherazade"]
+        "substitutes": ["Scheherazade"],
+        "note": ""
       },
       {
         "character_name": "Chiron",
-        "overdrive_order": 3
+        "overdrive_order": 3,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Fenrir",
         "overdrive_order": null,
-        "substitutes": ["Helveil"]
+        "substitutes": ["Helveil"],
+        "note": ""
       },
       {
         "character_name": "Lorillin",
         "overdrive_order": null,
-        "substitutes": ["Vivienne"]
+        "substitutes": ["Vivienne"],
+        "note": ""
       },
       {
         "character_name": "Melina",
         "overdrive_order": null,
-        "substitutes": ["Gabriele"]
+        "substitutes": ["Gabriele"],
+        "note": ""
       }
-    ]
+    ],
+    "wyrmspells": {
+      "breach": "",
+      "refuge": "",
+      "wildcry": "",
+      "dragons_call": ""
+    }
   },
   {
     "name": "Otherworld Return Novice Lineup",
@@ -154,33 +213,46 @@
       {
         "character_name": "Oberonnie",
         "overdrive_order": null,
-        "substitutes": ["Helveil"]
+        "substitutes": ["Helveil"],
+        "note": ""
       },
       {
         "character_name": "Siren",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Fenrir",
         "overdrive_order": null,
-        "substitutes": ["Hades"]
+        "substitutes": ["Hades"],
+        "note": ""
       },
       {
         "character_name": "White Tiger",
         "overdrive_order": 3,
-        "substitutes": ["Gabriele"]
+        "substitutes": ["Gabriele"],
+        "note": ""
       },
       {
         "character_name": "Siegfried",
         "overdrive_order": 2,
-        "substitutes": ["Apollo"]
+        "substitutes": ["Apollo"],
+        "note": ""
       },
       {
         "character_name": "Cleopatra",
         "overdrive_order": 1,
-        "substitutes": ["Faust"]
+        "substitutes": ["Faust"],
+        "note": ""
       }
-    ]
+    ],
+    "wyrmspells": {
+      "breach": "",
+      "refuge": "",
+      "wildcry": "",
+      "dragons_call": ""
+    }
   },
   {
     "name": "Illusion Veil Novice Lineup",
@@ -192,31 +264,45 @@
       {
         "character_name": "Oberonnie",
         "overdrive_order": 1,
-        "substitutes": ["Ares"]
+        "substitutes": ["Ares"],
+        "note": ""
       },
       {
         "character_name": "Atanith",
-        "overdrive_order": 6
+        "overdrive_order": 6,
+        "substitutes": [],
+        "note": ""
       },
       {
         "character_name": "Fenrir",
         "overdrive_order": 2,
-        "substitutes": ["Ophelia"]
+        "substitutes": ["Ophelia"],
+        "note": ""
       },
       {
         "character_name": "Siegfried",
         "overdrive_order": 5,
-        "substitutes": ["Tyrfing"]
+        "substitutes": ["Tyrfing"],
+        "note": ""
       },
       {
         "character_name": "Kleina",
         "overdrive_order": 3,
-        "substitutes": ["Poseidon"]
+        "substitutes": ["Poseidon"],
+        "note": ""
       },
       {
         "character_name": "Telperion",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "substitutes": [],
+        "note": ""
       }
-    ]
+    ],
+    "wyrmspells": {
+      "breach": "",
+      "refuge": "",
+      "wildcry": "",
+      "dragons_call": ""
+    }
   }
 ]

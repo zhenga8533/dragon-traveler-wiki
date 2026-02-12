@@ -43,6 +43,7 @@ REQUIRED_FIELDS = {
 # Helpers
 # ---------------------------------------------------------------------------
 
+
 def set_output(name, value):
     """Write a value to $GITHUB_OUTPUT."""
     output_file = os.environ.get("GITHUB_OUTPUT")
@@ -54,6 +55,7 @@ def set_output(name, value):
 # ---------------------------------------------------------------------------
 # JSON extraction & validation
 # ---------------------------------------------------------------------------
+
 
 def extract_json_from_body(body):
     """Extract JSON from a ```json code block in the issue body."""
@@ -97,15 +99,24 @@ def validate_data(label, data):
 # JSON data file updates
 # ---------------------------------------------------------------------------
 
+
 def normalize_for_json(label, data):
     """Normalize issue data into the shape expected by the JSON data files."""
     if label == "codes":
-        reward = [
+        rewards_input = data.get("rewards")
+        if rewards_input is None:
+            rewards_input = data.get("reward", [])
+
+        rewards = [
             {"name": r.get("name", ""), "quantity": r.get("quantity", 0)}
-            for r in data.get("reward", [])
+            for r in rewards_input
             if r.get("name")
         ]
-        return {"code": data["code"], "reward": reward, "active": data.get("active", True)}
+        return {
+            "code": data["code"],
+            "rewards": rewards,
+            "active": data.get("active", True),
+        }
 
     if label == "wyrmspell":
         return {
@@ -218,10 +229,14 @@ def update_json_file(label, data):
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main():
     event_path = os.environ.get("GITHUB_EVENT_PATH")
     if not event_path:
-        print("Error: GITHUB_EVENT_PATH not set. Run inside GitHub Actions.", file=sys.stderr)
+        print(
+            "Error: GITHUB_EVENT_PATH not set. Run inside GitHub Actions.",
+            file=sys.stderr,
+        )
         sys.exit(1)
 
     with open(event_path, "r", encoding="utf-8") as f:

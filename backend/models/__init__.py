@@ -4,6 +4,7 @@ from backend.models.character import (
     Quality,
     Skill,
 )
+from backend.models.code import Code, CodeReward
 from backend.models.faction import Faction, FactionName, Wyrm
 from backend.models.status_effect import StatusEffect, StatusEffectType
 from backend.models.team import Team
@@ -14,6 +15,8 @@ from backend.models.wyrmspell import Wyrmspell
 __all__ = [
     "Character",
     "CharacterClass",
+    "Code",
+    "CodeReward",
     "Faction",
     "FactionName",
     "Quality",

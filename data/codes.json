@@ -1,251 +1,57 @@
 [
   {
     "code": "DTFDC321",
-    "reward": [
-      {
-        "name": "Diamond",
-        "quantity": 100
-      },
-      {
-        "name": "Gold",
-        "quantity": 3000
-      }
+    "rewards": [
+      { "name": "Diamond", "quantity": 100 },
+      { "name": "Gold", "quantity": 3000 }
     ],
     "active": true
   },
-  {
-    "code": "DTOBT666",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "DTOB321",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "DTGCKL888",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "DTGIFT",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "VIP6666",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "VIP9999",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "VIP5555",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "GIFT6666",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "GIFT9999",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "GIFT5555",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "BSVIPDT",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "NOXVIPDT777",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Gabriele111",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Mage666",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "888GIFT",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "666GIFT",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Glory321",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "SPECIAL",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "mareflos",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "youtube10k",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Uniquegift",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "SURYUNSURYU1",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "GONYO111",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "DELLORYAKGUK",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "BAEDON",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "angrihyung",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "haukau",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "dongsukantv",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "MONSTERRAT",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "ΚΑΤO111",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "MOVINGTV",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "SJGIFT66",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "code888",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Vivienne",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Priest",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Athena",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Oberonnie",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Guild321",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Apollo",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "SWEETGIRL",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Inkbound",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Foursaints",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Valentine",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "pompey",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "GCSJLBM765",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "Magiclamp",
-    "reward": [],
-    "active": true
-  },
-  {
-    "code": "NEWGIRL",
-    "reward": [],
-    "active": true
-  }
+  { "code": "DTOBT666", "rewards": [], "active": true },
+  { "code": "DTOB321", "rewards": [], "active": true },
+  { "code": "DTGCKL888", "rewards": [], "active": true },
+  { "code": "DTGIFT", "rewards": [], "active": true },
+  { "code": "VIP6666", "rewards": [], "active": true },
+  { "code": "VIP9999", "rewards": [], "active": true },
+  { "code": "VIP5555", "rewards": [], "active": true },
+  { "code": "GIFT6666", "rewards": [], "active": true },
+  { "code": "GIFT9999", "rewards": [], "active": true },
+  { "code": "GIFT5555", "rewards": [], "active": true },
+  { "code": "BSVIPDT", "rewards": [], "active": true },
+  { "code": "NOXVIPDT777", "rewards": [], "active": true },
+  { "code": "Gabriele111", "rewards": [], "active": true },
+  { "code": "Mage666", "rewards": [], "active": true },
+  { "code": "888GIFT", "rewards": [], "active": true },
+  { "code": "666GIFT", "rewards": [], "active": true },
+  { "code": "Glory321", "rewards": [], "active": true },
+  { "code": "SPECIAL", "rewards": [], "active": true },
+  { "code": "mareflos", "rewards": [], "active": true },
+  { "code": "youtube10k", "rewards": [], "active": true },
+  { "code": "Uniquegift", "rewards": [], "active": true },
+  { "code": "SURYUNSURYU1", "rewards": [], "active": true },
+  { "code": "GONYO111", "rewards": [], "active": true },
+  { "code": "DELLORYAKGUK", "rewards": [], "active": true },
+  { "code": "BAEDON", "rewards": [], "active": true },
+  { "code": "angrihyung", "rewards": [], "active": true },
+  { "code": "haukau", "rewards": [], "active": true },
+  { "code": "dongsukantv", "rewards": [], "active": true },
+  { "code": "MONSTERRAT", "rewards": [], "active": true },
+  { "code": "ΚΑΤO111", "rewards": [], "active": true },
+  { "code": "MOVINGTV", "rewards": [], "active": true },
+  { "code": "SJGIFT66", "rewards": [], "active": true },
+  { "code": "code888", "rewards": [], "active": true },
+  { "code": "Vivienne", "rewards": [], "active": true },
+  { "code": "Priest", "rewards": [], "active": true },
+  { "code": "Athena", "rewards": [], "active": true },
+  { "code": "Oberonnie", "rewards": [], "active": true },
+  { "code": "Guild321", "rewards": [], "active": true },
+  { "code": "Apollo", "rewards": [], "active": true },
+  { "code": "SWEETGIRL", "rewards": [], "active": true },
+  { "code": "Inkbound", "rewards": [], "active": true },
+  { "code": "Foursaints", "rewards": [], "active": true },
+  { "code": "Valentine", "rewards": [], "active": true },
+  { "code": "pompey", "rewards": [], "active": true },
+  { "code": "GCSJLBM765", "rewards": [], "active": true },
+  { "code": "Magiclamp", "rewards": [], "active": true },
+  { "code": "NEWGIRL", "rewards": [], "active": true }
 ]

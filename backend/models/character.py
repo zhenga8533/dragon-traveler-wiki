@@ -2,8 +2,6 @@ from enum import Enum
 
 from pydantic import BaseModel
 
-from backend.models.faction import FactionName
-
 
 class Quality(str, Enum):
     SSR_EX = "SSR EX"
@@ -43,9 +41,9 @@ class SkillType(str, Enum):
 
 class Skill(BaseModel):
     name: str
-    type: SkillType
+    type: SkillType | str | None = None
     description: str
-    cooldown: int
+    cooldown: int = 0
 
 
 class Character(BaseModel):
@@ -53,7 +51,7 @@ class Character(BaseModel):
     title: str
     quality: Quality
     character_class: CharacterClass
-    factions: list[FactionName]
+    factions: list[str]
     is_global: bool
     subclasses: list[str]
     height: str
@@ -61,6 +59,6 @@ class Character(BaseModel):
     lore: str
     quote: str
     origin: str
-    talent: Talent
+    talent: Talent | None = None
     skills: list[Skill]
     noble_phantasm: str

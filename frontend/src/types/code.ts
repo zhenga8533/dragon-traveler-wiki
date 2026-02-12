@@ -5,6 +5,8 @@ export interface CodeReward {
 
 export interface Code {
   code: string;
-  reward: CodeReward[];
+  rewards?: CodeReward[];
+  /** Legacy field kept for backward compatibility */
+  reward?: CodeReward[];
   active: boolean;
 }
