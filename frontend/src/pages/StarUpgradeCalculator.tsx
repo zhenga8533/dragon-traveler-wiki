@@ -427,7 +427,7 @@ function StarRangeSelector({
           <Box
             style={{
               display: 'grid',
-              gridTemplateColumns: `repeat(auto-fill, minmax(80px, 1fr))`,
+              gridTemplateColumns: `repeat(auto-fit, minmax(100px, 1fr))`,
               gap: 4,
             }}
           >
