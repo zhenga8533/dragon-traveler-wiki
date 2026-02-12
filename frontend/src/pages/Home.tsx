@@ -1,4 +1,3 @@
-import { useEffect, useRef, useState } from 'react';
 import {
   ActionIcon,
   Badge,
@@ -18,6 +17,7 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
+import { useEffect, useRef, useState } from 'react';
 import {
   IoBook,
   IoCheckmark,
@@ -40,7 +40,11 @@ import banner from '../assets/banner.png';
 import CharacterCard from '../components/CharacterCard';
 import SearchModal from '../components/SearchModal';
 import { TIER_COLOR } from '../constants/colors';
-import { BRAND_TITLE_STYLE, CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
+import {
+  BRAND_TITLE_STYLE,
+  CARD_HOVER_STYLES,
+  cardHoverHandlers,
+} from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import type { Character } from '../types/character';
@@ -63,8 +67,18 @@ interface ChangelogEntry {
 const QUICK_LINKS = [
   { label: 'Teams', path: '/teams', icon: IoShield, color: 'pink' },
   { label: 'Guides', path: '/guides/beginner-qa', icon: IoBook, color: 'teal' },
-  { label: 'Status Effects', path: '/status-effects', icon: IoFlash, color: 'cyan' },
-  { label: 'Wyrmspells', path: '/wyrmspells', icon: IoSparkles, color: 'indigo' },
+  {
+    label: 'Status Effects',
+    path: '/status-effects',
+    icon: IoFlash,
+    color: 'cyan',
+  },
+  {
+    label: 'Wyrmspells',
+    path: '/wyrmspells',
+    icon: IoSparkles,
+    color: 'indigo',
+  },
   { label: 'Useful Links', path: '/useful-links', icon: IoLink, color: 'gray' },
   { label: 'Changelog', path: '/changelog', icon: IoList, color: 'grape' },
 ];
@@ -107,7 +121,7 @@ function useScrollReveal(staggerIndex = 0) {
           observer.unobserve(el);
         }
       },
-      { threshold: 0.1 },
+      { threshold: 0.1 }
     );
 
     observer.observe(el);
@@ -128,15 +142,27 @@ function useScrollReveal(staggerIndex = 0) {
 // ---------------------------------------------------------------------------
 
 function DataStatsBar() {
-  const { data: characters, loading: l1 } = useDataFetch<Character[]>('data/characters.json', []);
-  const { data: wyrmspells, loading: l2 } = useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
-  const { data: statusEffects, loading: l3 } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
-  const { data: teams, loading: l4 } = useDataFetch<Team[]>('data/teams.json', []);
+  const { data: characters, loading: l1 } = useDataFetch<Character[]>(
+    'data/characters.json',
+    []
+  );
+  const { data: wyrmspells, loading: l2 } = useDataFetch<Wyrmspell[]>(
+    'data/wyrmspells.json',
+    []
+  );
+  const { data: statusEffects, loading: l3 } = useDataFetch<StatusEffect[]>(
+    'data/status-effects.json',
+    []
+  );
+  const { data: teams, loading: l4 } = useDataFetch<Team[]>(
+    'data/teams.json',
+    []
+  );
 
   if (l1 || l2 || l3 || l4) {
     return (
       <Group justify="center" py="md">
-        <Skeleton height={20} width={400} radius="md" />
+        <Skeleton height={20} width="100%" maw={400} radius="md" />
       </Group>
     );
   }
@@ -156,15 +182,21 @@ function DataStatsBar() {
 }
 
 function FeaturedCharactersMarquee() {
-  const { data: tierLists, loading: loadingTiers } = useDataFetch<TierList[]>('data/tier-lists.json', []);
-  const { data: characters, loading: loadingChars } = useDataFetch<Character[]>('data/characters.json', []);
+  const { data: tierLists, loading: loadingTiers } = useDataFetch<TierList[]>(
+    'data/tier-lists.json',
+    []
+  );
+  const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
+    'data/characters.json',
+    []
+  );
 
   const loading = loadingTiers || loadingChars;
 
   if (loading) {
     return (
-      <Group gap="md" justify="center">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
+      <Group gap="md" justify="center" wrap="wrap">
+        {[1, 2, 3, 4].map((i) => (
           <Skeleton key={i} height={100} width={80} radius="md" />
         ))}
       </Group>
@@ -175,7 +207,9 @@ function FeaturedCharactersMarquee() {
   if (!tierList) return null;
 
   const charMap = new Map(characters.map((c) => [c.name, c]));
-  const topEntries = tierList.entries.filter((e) => e.tier === 'S+' || e.tier === 'S');
+  const topEntries = tierList.entries.filter(
+    (e) => e.tier === 'S+' || e.tier === 'S'
+  );
 
   if (topEntries.length === 0) return null;
 
@@ -189,7 +223,11 @@ function FeaturedCharactersMarquee() {
           align="center"
           style={{ flexShrink: 0, width: 90 }}
         >
-          <CharacterCard name={entry.character_name} quality={char?.quality} size={64} />
+          <CharacterCard
+            name={entry.character_name}
+            quality={char?.quality}
+            size={64}
+          />
           <Badge size="xs" variant="light" color={TIER_COLOR[entry.tier]}>
             {entry.tier}
           </Badge>
@@ -221,8 +259,12 @@ function FeaturedCharactersMarquee() {
       <Box
         style={{
           overflow: 'hidden',
-          maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
-          WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+          width: '100%',
+          contain: 'inline-size',
+          maskImage:
+            'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+          WebkitMaskImage:
+            'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
         }}
       >
         <Group
@@ -232,18 +274,34 @@ function FeaturedCharactersMarquee() {
             animation: `marquee-scroll ${duration}s linear infinite`,
             width: 'max-content',
           }}
-          onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = 'paused'; }}
-          onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = 'running'; }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.animationPlayState = 'paused';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.animationPlayState = 'running';
+          }}
         >
           {renderCharacters('a')}
           {renderCharacters('b')}
         </Group>
       </Box>
       <Group gap="md" justify="center">
-        <Text component={Link} to="/tier-list" size="xs" c="dimmed" td="underline">
+        <Text
+          component={Link}
+          to="/tier-list"
+          size="xs"
+          c="dimmed"
+          td="underline"
+        >
           View full tier list
         </Text>
-        <Text component={Link} to="/characters" size="xs" c="dimmed" td="underline">
+        <Text
+          component={Link}
+          to="/characters"
+          size="xs"
+          c="dimmed"
+          td="underline"
+        >
           Browse all characters
         </Text>
       </Group>
@@ -279,13 +337,14 @@ function ActiveCodesSection() {
         <Group
           key={entry.code}
           justify="space-between"
+          wrap="nowrap"
           p="xs"
           style={{
             borderRadius: 'var(--mantine-radius-md)',
             backgroundColor: 'var(--mantine-color-default-hover)',
           }}
         >
-          <Text ff="monospace" fw={500} size="sm">
+          <Text ff="monospace" fw={500} size="sm" truncate>
             {entry.code}
           </Text>
           <CopyButton value={entry.code} timeout={1500}>
@@ -325,7 +384,7 @@ function ActiveCodesSection() {
 function RecentUpdatesSection() {
   const { data: changelog, loading } = useDataFetch<ChangelogEntry[]>(
     'data/changelog.json',
-    [],
+    []
   );
 
   if (loading) {
@@ -366,11 +425,11 @@ function RecentUpdatesSection() {
             backgroundColor: 'var(--mantine-color-default-hover)',
           }}
         >
-          <Group justify="space-between" mb={4}>
+          <Group justify="space-between" mb={4} wrap="wrap" gap={4}>
             <Text size="xs" fw={600}>
               {entry.version || entry.date}
             </Text>
-            <Group gap="xs">
+            <Group gap="xs" wrap="nowrap">
               <Badge size="xs" variant="light" color="gray">
                 {entry.changes.length} changes
               </Badge>
@@ -445,11 +504,11 @@ export default function Home() {
       <Box
         style={{
           position: 'relative',
-          width: 'calc(100% + var(--mantine-spacing-md) * 2)',
           minHeight: 350,
           marginLeft: 'calc(var(--mantine-spacing-md) * -1)',
           marginRight: 'calc(var(--mantine-spacing-md) * -1)',
           marginTop: 'calc(var(--mantine-spacing-md) * -1)',
+          overflow: 'hidden',
         }}
       >
         {/* Banner image container */}
@@ -537,7 +596,8 @@ export default function Home() {
                   fontWeight: 700,
                   fontSize: 'clamp(2rem, 6vw, 3.5rem)',
                   color: '#fff',
-                  textShadow: '0 2px 16px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 58, 237, 0.35)',
+                  textShadow:
+                    '0 2px 16px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 58, 237, 0.35)',
                 }}
               >
                 Dragon Traveler Wiki
@@ -589,6 +649,7 @@ export default function Home() {
                       color: 'rgba(255, 255, 255, 0.95)',
                       backdropFilter: 'blur(4px)',
                       backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                      whiteSpace: 'nowrap',
                     }}
                   >
                     Play Now
@@ -609,7 +670,7 @@ export default function Home() {
                       </Button>
                     )}
                   />
-                  <Group gap={4}>
+                  <Group gap={4} visibleFrom="sm">
                     <Text
                       size="xs"
                       style={{ color: 'rgba(255, 255, 255, 0.9)' }}
@@ -675,11 +736,21 @@ export default function Home() {
                     Free to Play
                   </Badge>
                 </Group>
-                <Group gap="sm">
-                  <ThemeIcon variant="light" color="blue" size="md" radius="md">
+                <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
+                  <ThemeIcon
+                    variant="light"
+                    color="blue"
+                    size="md"
+                    radius="md"
+                    style={{ flexShrink: 0 }}
+                  >
                     <IoGlobe size={16} />
                   </ThemeIcon>
-                  <Text size="sm" c="dimmed">
+                  <Text
+                    size="sm"
+                    c="dimmed"
+                    style={{ wordBreak: 'break-word' }}
+                  >
                     {LANGUAGES.join(' \u00b7 ')}
                   </Text>
                 </Group>

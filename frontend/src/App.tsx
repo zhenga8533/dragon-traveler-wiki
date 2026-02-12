@@ -387,8 +387,8 @@ function AppContent() {
       transitionTimingFunction={TRANSITION.EASE}
     >
       <AppShell.Header style={glassStyles}>
-        <Group h="100%" px="md" justify="space-between">
-          <Group gap="sm">
+        <Group h="100%" px="md" justify="space-between" wrap="nowrap">
+          <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
             <Burger
               opened={mobileOpened}
               onClick={toggleMobile}
@@ -434,7 +434,7 @@ function AppContent() {
               </Title>
             </Link>
           </Group>
-          <Group gap="xs">
+          <Group gap="xs" wrap="nowrap">
             <Select
               placeholder="Tier list reference"
               data={tierListOptions}
@@ -445,6 +445,7 @@ function AppContent() {
               size="xs"
               disabled={loading || tierListOptions.length === 0}
               w={220}
+              visibleFrom="sm"
             />
             <SearchModal />
             <ThemeToggle />
@@ -454,11 +455,25 @@ function AppContent() {
 
       <AppShell.Navbar
         p="xs"
-        style={glassStyles}
+        style={{ ...glassStyles, display: 'flex', flexDirection: 'column' }}
         onMouseEnter={() => sidebar.setHovered(true)}
         onMouseLeave={() => sidebar.setHovered(false)}
       >
-        <Navigation onNavigate={closeMobile} showLabels={showLabels} />
+        <Box style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+          <Navigation onNavigate={closeMobile} showLabels={showLabels} />
+        </Box>
+        <Box hiddenFrom="sm" px="xs" pb="xs" pt="xs" style={{ flexShrink: 0 }}>
+          <Select
+            placeholder="Tier list reference"
+            data={tierListOptions}
+            value={selectedTierListName || null}
+            onChange={(value) => setSelectedTierListName(value ?? '')}
+            clearable
+            searchable
+            size="xs"
+            disabled={loading || tierListOptions.length === 0}
+          />
+        </Box>
       </AppShell.Navbar>
 
       <AppShell.Main
