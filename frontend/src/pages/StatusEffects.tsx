@@ -19,16 +19,16 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { IoFilter, IoGrid, IoList, IoSearch } from 'react-icons/io5';
 import { getStatusEffectIcon } from '../assets/status_effect';
+import DataFetchError from '../components/DataFetchError';
 import RichText from '../components/RichText';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
-import { STORAGE_KEY } from '../constants/ui';
+import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { useFilters } from '../hooks/use-filters';
+import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
 
 const STATUS_EFFECT_FIELDS: FieldDef[] = [
@@ -79,31 +79,21 @@ const EMPTY_FILTERS: StatusEffectFilters = {
   types: [],
 };
 
-type ViewMode = 'list' | 'grid';
-
 export default function StatusEffects() {
-  const { data: effects, loading } = useDataFetch<StatusEffect[]>(
-    'data/status-effects.json',
-    []
-  );
+  const {
+    data: effects,
+    loading,
+    error,
+  } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
   const { filters, setFilters } = useFilters<StatusEffectFilters>({
     emptyFilters: EMPTY_FILTERS,
     storageKey: STORAGE_KEY.STATUS_EFFECT_FILTERS,
   });
-  const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
-  const [viewMode, setViewMode] = useState<ViewMode>(() => {
-    if (typeof window === 'undefined') {
-      return 'list';
-    }
-    const stored = window.localStorage.getItem(
-      STORAGE_KEY.STATUS_EFFECT_VIEW_MODE
-    );
-    return stored === 'grid' || stored === 'list' ? stored : 'list';
+  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
+  const [viewMode, setViewMode] = useViewMode({
+    storageKey: STORAGE_KEY.STATUS_EFFECT_VIEW_MODE,
+    defaultMode: 'list',
   });
-
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY.STATUS_EFFECT_VIEW_MODE, viewMode);
-  }, [viewMode]);
 
   const filtered = useMemo(() => {
     return effects
@@ -151,11 +141,19 @@ export default function StatusEffects() {
           </Center>
         )}
 
-        {!loading && effects.length === 0 && (
+        {!loading && error && (
+          <DataFetchError
+            title="Could not load status effects"
+            message={error.message}
+            onRetry={() => window.location.reload()}
+          />
+        )}
+
+        {!loading && !error && effects.length === 0 && (
           <Text c="dimmed">No status effect data available yet.</Text>
         )}
 
-        {!loading && effects.length > 0 && (
+        {!loading && !error && effects.length > 0 && (
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
               <Group justify="space-between" align="center" wrap="wrap">
@@ -170,7 +168,7 @@ export default function StatusEffects() {
                         size="sm"
                         onClick={() => setViewMode('grid')}
                       >
-                        <IoGrid size={16} />
+                        <IoGrid size={IMAGE_SIZE.ICON_MD} />
                       </ActionIcon>
                     </Tooltip>
                     <Tooltip label="List view">
@@ -179,14 +177,14 @@ export default function StatusEffects() {
                         size="sm"
                         onClick={() => setViewMode('list')}
                       >
-                        <IoList size={16} />
+                        <IoList size={IMAGE_SIZE.ICON_MD} />
                       </ActionIcon>
                     </Tooltip>
                   </Group>
                   <Button
                     variant="default"
                     size="xs"
-                    leftSection={<IoFilter size={16} />}
+                    leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
                     rightSection={
                       activeFilterCount > 0 ? (
                         <Badge size="xs" circle variant="filled">
@@ -207,7 +205,7 @@ export default function StatusEffects() {
                     <Group justify="space-between" align="center" wrap="wrap">
                       <TextInput
                         placeholder="Search by name..."
-                        leftSection={<IoSearch size={16} />}
+                        leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
                         value={filters.search}
                         onChange={(e) =>
                           setFilters({

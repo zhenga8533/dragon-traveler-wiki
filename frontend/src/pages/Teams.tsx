@@ -20,11 +20,13 @@ import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import CharacterCard from '../components/CharacterCard';
+import DataFetchError from '../components/DataFetchError';
 import EmptyState from '../components/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import TeamBuilder from '../components/TeamBuilder';
 import { FACTION_COLOR } from '../constants/colors';
+import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilters } from '../hooks/use-filters';
@@ -45,18 +47,24 @@ const FACTIONS: FactionName[] = [
 export default function Teams() {
   const navigate = useNavigate();
   const location = useLocation();
-  const { data: teams, loading: loadingTeams } = useDataFetch<Team[]>(
-    'data/teams.json',
-    []
-  );
-  const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
-  const { data: wyrmspells, loading: loadingSpells } = useDataFetch<
-    Wyrmspell[]
-  >('data/wyrmspells.json', []);
-  const { filters: viewFilters, setFilters: setViewFilters } = useFilters<Record<string, string[]>>({
+  const {
+    data: teams,
+    loading: loadingTeams,
+    error: teamsError,
+  } = useDataFetch<Team[]>('data/teams.json', []);
+  const {
+    data: characters,
+    loading: loadingChars,
+    error: charactersError,
+  } = useDataFetch<Character[]>('data/characters.json', []);
+  const {
+    data: wyrmspells,
+    loading: loadingSpells,
+    error: wyrmspellsError,
+  } = useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
+  const { filters: viewFilters, setFilters: setViewFilters } = useFilters<
+    Record<string, string[]>
+  >({
     emptyFilters: { factions: [], contentTypes: [] },
     storageKey: STORAGE_KEY.TEAMS_FILTERS,
   });
@@ -68,6 +76,7 @@ export default function Teams() {
   const [mode, setMode] = useState<'view' | 'builder'>('view');
   const [editData, setEditData] = useState<Team | null>(null);
   const loading = loadingTeams || loadingChars || loadingSpells;
+  const error = teamsError || charactersError || wyrmspellsError;
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY.TEAMS_SEARCH, search);
@@ -174,7 +183,15 @@ export default function Teams() {
           </SimpleGrid>
         )}
 
-        {!loading && (
+        {!loading && error && (
+          <DataFetchError
+            title="Could not load teams data"
+            message={error.message}
+            onRetry={() => window.location.reload()}
+          />
+        )}
+
+        {!loading && !error && (
           <>
             <SegmentedControl
               value={mode}
@@ -231,19 +248,8 @@ export default function Teams() {
                     p="md"
                     radius="md"
                     withBorder
-                    style={{
-                      transition: 'transform 150ms ease, box-shadow 150ms ease',
-                      cursor: 'pointer',
-                    }}
-                    onMouseEnter={(e) => {
-                      e.currentTarget.style.transform = 'translateY(-2px)';
-                      e.currentTarget.style.boxShadow =
-                        'var(--mantine-shadow-md)';
-                    }}
-                    onMouseLeave={(e) => {
-                      e.currentTarget.style.transform = 'translateY(0)';
-                      e.currentTarget.style.boxShadow = '';
-                    }}
+                    style={CARD_HOVER_STYLES}
+                    {...cardHoverHandlers}
                     onClick={() =>
                       navigate(`/teams/${encodeURIComponent(team.name)}`)
                     }

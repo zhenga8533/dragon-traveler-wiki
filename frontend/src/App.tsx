@@ -5,12 +5,8 @@ import {
   Burger,
   Group,
   Image,
-  Kbd,
-  Modal,
   NavLink,
   Select,
-  Stack,
-  Text,
   Title,
   Tooltip,
   useComputedColorScheme,
@@ -23,7 +19,6 @@ import {
   IoChevronBack,
   IoChevronForward,
   IoGift,
-  IoHelpCircleOutline,
   IoHome,
   IoLink,
   IoList,
@@ -43,6 +38,7 @@ import {
 } from 'react-router-dom';
 import logo from './assets/logo.png';
 import Footer from './components/Footer';
+import KeyboardShortcuts from './components/KeyboardShortcuts';
 import PageTransition from './components/PageTransition';
 import ScrollToTop from './components/ScrollToTop';
 import SearchModal from './components/SearchModal';
@@ -293,52 +289,6 @@ function Navigation({
   );
 }
 
-const KEYBOARD_SHORTCUTS = [
-  { keys: ['/', 'Ctrl', 'K'], description: 'Open search' },
-  { keys: ['?'], description: 'Show keyboard shortcuts' },
-  { keys: ['g', 'h'], description: 'Go to home' },
-  { keys: ['g', 'c'], description: 'Go to characters' },
-  { keys: ['g', 't'], description: 'Go to tier list' },
-];
-
-function KeyboardShortcutsModal({
-  opened,
-  onClose,
-}: {
-  opened: boolean;
-  onClose: () => void;
-}) {
-  return (
-    <Modal
-      opened={opened}
-      onClose={onClose}
-      title={
-        <Group gap="xs">
-          <IoHelpCircleOutline size={20} />
-          <Text fw={600}>Keyboard Shortcuts</Text>
-        </Group>
-      }
-      centered
-      size="sm"
-    >
-      <Stack gap="sm">
-        {KEYBOARD_SHORTCUTS.map((shortcut, index) => (
-          <Group key={index} justify="space-between">
-            <Text size="sm">{shortcut.description}</Text>
-            <Group gap={4}>
-              {shortcut.keys.map((key, keyIndex) => (
-                <Kbd key={keyIndex} size="sm">
-                  {key}
-                </Kbd>
-              ))}
-            </Group>
-          </Group>
-        ))}
-      </Stack>
-    </Modal>
-  );
-}
-
 function AppContent() {
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
     useDisclosure();
@@ -518,10 +468,7 @@ function AppContent() {
       </AppShell.Main>
 
       <ScrollToTop />
-      <KeyboardShortcutsModal
-        opened={shortcutsOpened}
-        onClose={closeShortcuts}
-      />
+      <KeyboardShortcuts opened={shortcutsOpened} onClose={closeShortcuts} />
     </AppShell>
   );
 }

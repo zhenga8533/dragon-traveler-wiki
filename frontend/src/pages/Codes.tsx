@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Alert,
+  Badge,
   Button,
   Center,
   Checkbox,
@@ -47,8 +48,19 @@ function aggregateRewards(codes: Code[]): Map<string, number> {
 }
 
 const CODE_FIELDS: FieldDef[] = [
-  { name: 'code', label: 'Code', type: 'text', required: true, placeholder: 'e.g. DRAGONCODE123' },
-  { name: 'source', label: 'Source (optional)', type: 'text', placeholder: 'Where did you find this code?' },
+  {
+    name: 'code',
+    label: 'Code',
+    type: 'text',
+    required: true,
+    placeholder: 'e.g. DRAGONCODE123',
+  },
+  {
+    name: 'source',
+    label: 'Source (optional)',
+    type: 'text',
+    placeholder: 'Where did you find this code?',
+  },
 ];
 
 function loadRedeemed(): Set<string> {
@@ -126,7 +138,8 @@ export default function Codes() {
   );
 
   const unclaimedRewards = useMemo(
-    () => aggregateRewards(codes.filter((c) => c.active && !redeemed.has(c.code))),
+    () =>
+      aggregateRewards(codes.filter((c) => c.active && !redeemed.has(c.code))),
     [codes, redeemed]
   );
 
@@ -317,7 +330,11 @@ export default function Codes() {
               {entry.reward.length > 0 && (
                 <Group gap="xs" mt="xs" wrap="wrap">
                   {entry.reward.map((r) => (
-                    <ResourceBadge key={r.name} name={r.name} quantity={r.quantity} />
+                    <ResourceBadge
+                      key={r.name}
+                      name={r.name}
+                      quantity={r.quantity}
+                    />
                   ))}
                 </Group>
               )}

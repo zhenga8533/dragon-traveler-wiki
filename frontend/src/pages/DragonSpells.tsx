@@ -19,20 +19,38 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useEffect, useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import { IoFilter, IoGrid, IoList, IoSearch } from 'react-icons/io5';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
+import DataFetchError from '../components/DataFetchError';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
-import { STORAGE_KEY } from '../constants/ui';
+import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { useFilters } from '../hooks/use-filters';
+import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import type { Wyrmspell } from '../types/wyrmspell';
 
 const WYRMSPELL_FIELDS: FieldDef[] = [
-  { name: 'name', label: 'Name', type: 'text', required: true, placeholder: 'Wyrmspell name' },
-  { name: 'type', label: 'Type', type: 'select', required: true, options: ['Breach', 'Refuge', 'Wildcry', "Dragon's Call"] },
-  { name: 'effect', label: 'Effect', type: 'textarea', required: true, placeholder: 'Describe the effect' },
+  {
+    name: 'name',
+    label: 'Name',
+    type: 'text',
+    required: true,
+    placeholder: 'Wyrmspell name',
+  },
+  {
+    name: 'type',
+    label: 'Type',
+    type: 'select',
+    required: true,
+    options: ['Breach', 'Refuge', 'Wildcry', "Dragon's Call"],
+  },
+  {
+    name: 'effect',
+    label: 'Effect',
+    type: 'textarea',
+    required: true,
+    placeholder: 'Describe the effect',
+  },
 ];
 
 interface WyrmspellFilters {
@@ -45,29 +63,21 @@ const EMPTY_FILTERS: WyrmspellFilters = {
   types: [],
 };
 
-type ViewMode = 'list' | 'grid';
-
 export default function DragonSpells() {
-  const { data: wyrmspells, loading } = useDataFetch<Wyrmspell[]>(
-    'data/wyrmspells.json',
-    []
-  );
+  const {
+    data: wyrmspells,
+    loading,
+    error,
+  } = useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
   const { filters, setFilters } = useFilters<WyrmspellFilters>({
     emptyFilters: EMPTY_FILTERS,
     storageKey: STORAGE_KEY.WYRMSPELL_FILTERS,
   });
-  const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
-  const [viewMode, setViewMode] = useState<ViewMode>(() => {
-    if (typeof window === 'undefined') {
-      return 'list';
-    }
-    const stored = window.localStorage.getItem(STORAGE_KEY.WYRMSPELL_VIEW_MODE);
-    return stored === 'grid' || stored === 'list' ? stored : 'list';
+  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
+  const [viewMode, setViewMode] = useViewMode({
+    storageKey: STORAGE_KEY.WYRMSPELL_VIEW_MODE,
+    defaultMode: 'list',
   });
-
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY.WYRMSPELL_VIEW_MODE, viewMode);
-  }, [viewMode]);
 
   const typeOptions = useMemo(() => {
     const types = new Set<string>();
@@ -117,11 +127,19 @@ export default function DragonSpells() {
           </Center>
         )}
 
-        {!loading && wyrmspells.length === 0 && (
+        {!loading && error && (
+          <DataFetchError
+            title="Could not load wyrmspells"
+            message={error.message}
+            onRetry={() => window.location.reload()}
+          />
+        )}
+
+        {!loading && !error && wyrmspells.length === 0 && (
           <Text c="dimmed">No wyrmspell data available yet.</Text>
         )}
 
-        {!loading && wyrmspells.length > 0 && (
+        {!loading && !error && wyrmspells.length > 0 && (
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
               <Group justify="space-between" align="center" wrap="wrap">
@@ -136,7 +154,7 @@ export default function DragonSpells() {
                         size="sm"
                         onClick={() => setViewMode('grid')}
                       >
-                        <IoGrid size={16} />
+                        <IoGrid size={IMAGE_SIZE.ICON_MD} />
                       </ActionIcon>
                     </Tooltip>
                     <Tooltip label="List view">
@@ -145,14 +163,14 @@ export default function DragonSpells() {
                         size="sm"
                         onClick={() => setViewMode('list')}
                       >
-                        <IoList size={16} />
+                        <IoList size={IMAGE_SIZE.ICON_MD} />
                       </ActionIcon>
                     </Tooltip>
                   </Group>
                   <Button
                     variant="default"
                     size="xs"
-                    leftSection={<IoFilter size={16} />}
+                    leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
                     rightSection={
                       activeFilterCount > 0 ? (
                         <Badge size="xs" circle variant="filled">
@@ -173,7 +191,7 @@ export default function DragonSpells() {
                     <Group justify="space-between" align="center" wrap="wrap">
                       <TextInput
                         placeholder="Search by name..."
-                        leftSection={<IoSearch size={16} />}
+                        leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
                         value={filters.search}
                         onChange={(e) =>
                           setFilters({

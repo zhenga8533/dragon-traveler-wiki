@@ -1,13 +1,5 @@
-import {
-  Box,
-  Group,
-  Kbd,
-  Modal,
-  Stack,
-  Text,
-  Title,
-} from '@mantine/core';
-import { useDisclosure, useHotkeys } from '@mantine/hooks';
+import { Group, Kbd, Modal, Stack, Text } from '@mantine/core';
+import { IoHelpCircleOutline } from 'react-icons/io5';
 
 interface ShortcutItem {
   keys: string[];
@@ -15,7 +7,7 @@ interface ShortcutItem {
 }
 
 const SHORTCUTS: ShortcutItem[] = [
-  { keys: ['/'], description: 'Open search' },
+  { keys: ['/', 'Ctrl', 'K'], description: 'Open search' },
   { keys: ['?'], description: 'Show keyboard shortcuts' },
   { keys: ['g', 'h'], description: 'Go to home' },
   { keys: ['g', 'c'], description: 'Go to characters' },
@@ -23,29 +15,24 @@ const SHORTCUTS: ShortcutItem[] = [
 ];
 
 interface KeyboardShortcutsProps {
-  onOpenSearch: () => void;
-  onNavigate: (path: string) => void;
+  opened: boolean;
+  onClose: () => void;
 }
 
 export default function KeyboardShortcuts({
-  onOpenSearch,
-  onNavigate,
+  opened,
+  onClose,
 }: KeyboardShortcutsProps) {
-  const [opened, { open, close }] = useDisclosure(false);
-
-  useHotkeys([
-    ['/', (e) => { e.preventDefault(); onOpenSearch(); }],
-    ['shift+/', open], // ? key
-    ['g+h', () => onNavigate('/')],
-    ['g+c', () => onNavigate('/characters')],
-    ['g+t', () => onNavigate('/tier-list')],
-  ]);
-
   return (
     <Modal
       opened={opened}
-      onClose={close}
-      title={<Title order={4}>Keyboard Shortcuts</Title>}
+      onClose={onClose}
+      title={
+        <Group gap="xs">
+          <IoHelpCircleOutline size={20} />
+          <Text fw={600}>Keyboard Shortcuts</Text>
+        </Group>
+      }
       centered
       size="sm"
     >
@@ -55,14 +42,9 @@ export default function KeyboardShortcuts({
             <Text size="sm">{shortcut.description}</Text>
             <Group gap={4}>
               {shortcut.keys.map((key, keyIndex) => (
-                <Box key={keyIndex}>
-                  <Kbd size="sm">{key}</Kbd>
-                  {keyIndex < shortcut.keys.length - 1 && (
-                    <Text component="span" size="xs" c="dimmed" mx={4}>
-                      then
-                    </Text>
-                  )}
-                </Box>
+                <Kbd key={keyIndex} size="sm">
+                  {key}
+                </Kbd>
               ))}
             </Group>
           </Group>

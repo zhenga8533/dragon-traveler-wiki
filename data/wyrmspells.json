@@ -1,1 +1,17 @@
-[]
+[
+  {
+    "name": "Attack Aura",
+    "effect": "While present, all allied units gain a 20% attack bonus.",
+    "type": "Breach"
+  },
+  {
+    "name": "Speed Aura",
+    "effect": "While present, all allied units gain 200 critical strike chance and 20% attack speed.",
+    "type": "Breach"
+  },
+  {
+    "name": "Evasion Aura",
+    "effect": "While present, all allied units gain 400 evasion.",
+    "type": "Refuge"
+  }
+]
