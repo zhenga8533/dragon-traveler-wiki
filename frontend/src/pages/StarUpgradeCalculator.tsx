@@ -20,15 +20,22 @@ import {
   UnstyledButton,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import {
   IoArrowForward,
+  IoCalculator,
+  IoCalendar,
   IoChevronDown,
   IoChevronUp,
   IoCopy,
   IoDiamond,
+  IoHeart,
+  IoInformationCircle,
   IoPeople,
+  IoStar,
+  IoStatsChart,
+  IoTime,
 } from 'react-icons/io5';
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { TRANSITION } from '../constants/ui';
@@ -514,7 +521,6 @@ export default function StarUpgradeCalculator() {
   const [currentCopies, setCurrentCopies] = useState<number>(0);
   const [currentShards, setCurrentShards] = useState<number>(0);
   const [refTableOpened, refTableHandlers] = useDisclosure(false);
-  const isMobile = useMediaQuery('(max-width: 768px)');
   const colorScheme = useComputedColorScheme('light');
   const isDark = colorScheme === 'dark';
 
@@ -569,17 +575,27 @@ export default function StarUpgradeCalculator() {
   return (
     <Container size="xl">
       <Stack gap="xl">
-        <div>
-          <Title order={1}>Star Upgrade Calculator</Title>
-          <Text c="dimmed">
-            Calculate resources needed for character star upgrades.
-          </Text>
-        </div>
+        <Group gap="md" align="center">
+          <ThemeIcon variant="light" color="violet" size="xl" radius="md">
+            <IoCalculator size={24} />
+          </ThemeIcon>
+          <div>
+            <Title order={1}>Star Upgrade Calculator</Title>
+            <Text c="dimmed">
+              Calculate resources needed for character star upgrades.
+            </Text>
+          </div>
+        </Group>
 
         {/* Calculator Card */}
         <Card shadow="sm" padding="lg" radius="md" withBorder>
           <Stack gap="lg">
-            <Title order={3}>Resource Calculator</Title>
+            <Group gap="sm" align="center">
+              <ThemeIcon variant="light" color="blue" size="lg" radius="md">
+                <IoStar size={18} />
+              </ThemeIcon>
+              <Title order={3}>Resource Calculator</Title>
+            </Group>
 
             <StarRangeSelector
               currentIndex={currentIndex}
@@ -677,8 +693,13 @@ export default function StarUpgradeCalculator() {
           <Card shadow="sm" padding="lg" radius="md" withBorder>
             <Stack gap="lg">
               <div>
-                <Title order={3}>Heart Trial Time Calculator</Title>
-                <Text size="sm" c="dimmed">
+                <Group gap="sm" align="center">
+                  <ThemeIcon variant="light" color="pink" size="lg" radius="md">
+                    <IoHeart size={18} />
+                  </ThemeIcon>
+                  <Title order={3}>Heart Trial Time Calculator</Title>
+                </Group>
+                <Text size="sm" c="dimmed" mt={4}>
                   Calculate time needed to farm dupes via heart trial sweeps.
                   Each dupe requires {SHARDS_PER_DUPE} shards.
                 </Text>
@@ -799,131 +820,89 @@ export default function StarUpgradeCalculator() {
 
               <Paper p="md" withBorder bg="var(--mantine-color-teal-light)">
                 <Stack gap="md">
-                  <Title order={4}>Time Required</Title>
+                  <Group gap="sm" align="center">
+                    <ThemeIcon variant="light" color="teal" size="md" radius="md">
+                      <IoTime size={16} />
+                    </ThemeIcon>
+                    <Title order={4}>Time Required</Title>
+                  </Group>
 
-                  <Box>
-                    <Text size="sm" c="dimmed">
-                      Daily shards from sweeps
-                    </Text>
-                    <Text size="lg" fw={700}>
-                      {shardsPerDay} shards/day
-                    </Text>
-                  </Box>
-
-                  <Box>
-                    <Text size="sm" c="dimmed">
-                      Total shards needed
-                    </Text>
-                    <Text size="lg" fw={700}>
-                      {totalShardsNeeded} shards
-                      <Text span size="sm" fw={400} c="dimmed" ml={4}>
-                        ({copiesNeeded} dupes × {SHARDS_PER_DUPE} shards)
-                      </Text>
-                    </Text>
-                  </Box>
-
-                  <Box>
-                    <Text size="sm" c="dimmed">
-                      Shards remaining
-                    </Text>
-                    <Text size="lg" fw={700}>
-                      {shardsRemaining} shards
-                    </Text>
-                  </Box>
-
-                  <Box
-                    p="md"
-                    style={{
-                      borderRadius: '8px',
-                      background: 'var(--mantine-color-body)',
-                    }}
-                  >
-                    {isMobile ? (
-                      <Stack gap="sm">
-                        <Group gap="lg" grow>
-                          <div>
-                            <Text size="sm" c="dimmed" ta="center">
-                              Days
-                            </Text>
-                            <Text size="xl" fw={700} ta="center">
-                              {daysNeeded}
-                            </Text>
-                          </div>
-                          <div>
-                            <Text size="sm" c="dimmed" ta="center">
-                              Weeks
-                            </Text>
-                            <Text size="xl" fw={700} ta="center">
-                              {weeksNeeded}
-                            </Text>
-                          </div>
-                        </Group>
-                        <Group gap="lg" grow>
-                          <div>
-                            <Text size="sm" c="dimmed" ta="center">
-                              Months
-                            </Text>
-                            <Text size="xl" fw={700} ta="center">
-                              {monthsNeeded}
-                            </Text>
-                          </div>
-                          <div>
-                            <Text size="sm" c="dimmed" ta="center">
-                              Years
-                            </Text>
-                            <Text size="xl" fw={700} ta="center">
-                              {yearsNeeded}
-                            </Text>
-                          </div>
-                        </Group>
+                  <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="sm">
+                    <Paper p="sm" withBorder radius="md">
+                      <Stack gap={4} align="center">
+                        <Text size="xs" c="dimmed" ta="center">
+                          Daily Shards
+                        </Text>
+                        <Text size="lg" fw={700} ta="center">
+                          {shardsPerDay}/day
+                        </Text>
                       </Stack>
-                    ) : (
-                      <Group gap="xl" grow>
-                        <div>
+                    </Paper>
+                    <Paper p="sm" withBorder radius="md">
+                      <Stack gap={4} align="center">
+                        <Text size="xs" c="dimmed" ta="center">
+                          Total Needed
+                        </Text>
+                        <Text size="lg" fw={700} ta="center">
+                          {totalShardsNeeded}
+                        </Text>
+                        <Text size="xs" c="dimmed" ta="center">
+                          ({copiesNeeded} dupes × {SHARDS_PER_DUPE})
+                        </Text>
+                      </Stack>
+                    </Paper>
+                    <Paper p="sm" withBorder radius="md">
+                      <Stack gap={4} align="center">
+                        <Text size="xs" c="dimmed" ta="center">
+                          Remaining
+                        </Text>
+                        <Text size="lg" fw={700} ta="center">
+                          {shardsRemaining}
+                        </Text>
+                      </Stack>
+                    </Paper>
+                  </SimpleGrid>
+
+                  <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="sm">
+                    {[
+                      { label: 'Days', value: daysNeeded },
+                      { label: 'Weeks', value: weeksNeeded },
+                      { label: 'Months', value: monthsNeeded },
+                      { label: 'Years', value: yearsNeeded },
+                    ].map((stat) => (
+                      <Paper
+                        key={stat.label}
+                        p="md"
+                        withBorder
+                        radius="md"
+                        style={{ background: 'var(--mantine-color-body)' }}
+                      >
+                        <Stack gap={4} align="center">
                           <Text size="sm" c="dimmed" ta="center">
-                            Days
+                            {stat.label}
                           </Text>
-                          <Text size="2rem" fw={700} ta="center">
-                            {daysNeeded}
+                          <Text size="xl" fw={700} ta="center">
+                            {stat.value}
                           </Text>
-                        </div>
-                        <div>
-                          <Text size="sm" c="dimmed" ta="center">
-                            Weeks
-                          </Text>
-                          <Text size="2rem" fw={700} ta="center">
-                            {weeksNeeded}
-                          </Text>
-                        </div>
-                        <div>
-                          <Text size="sm" c="dimmed" ta="center">
-                            Months
-                          </Text>
-                          <Text size="2rem" fw={700} ta="center">
-                            {monthsNeeded}
-                          </Text>
-                        </div>
-                        <div>
-                          <Text size="sm" c="dimmed" ta="center">
-                            Years
-                          </Text>
-                          <Text size="2rem" fw={700} ta="center">
-                            {yearsNeeded}
-                          </Text>
-                        </div>
-                      </Group>
-                    )}
-                  </Box>
+                        </Stack>
+                      </Paper>
+                    ))}
+                  </SimpleGrid>
 
                   {daysNeeded > 0 && (
                     <Paper
                       p="md"
                       withBorder
+                      radius="md"
                       style={{
                         background: 'var(--mantine-color-violet-light)',
+                        borderColor: `var(--mantine-color-violet-${isDark ? '8' : '4'})`,
                       }}
                     >
-                      <Stack gap="xs">
+                      <Stack gap="xs" align="center">
+                        <ThemeIcon variant="light" color="violet" size="lg" radius="md">
+                          <IoCalendar size={18} />
+                        </ThemeIcon>
                         <Text size="sm" c="dimmed" ta="center">
                           Goal Completion Date
                         </Text>
@@ -937,6 +916,17 @@ export default function StarUpgradeCalculator() {
                     </Paper>
                   )}
 
+                </Stack>
+              </Paper>
+
+              <Paper p="md" withBorder radius="md">
+                <Stack gap="sm">
+                  <Group gap="sm" align="center">
+                    <ThemeIcon variant="light" color="cyan" size="md" radius="md">
+                      <IoInformationCircle size={16} />
+                    </ThemeIcon>
+                    <Text fw={600} size="sm">Sweep Rates Reference</Text>
+                  </Group>
                   <Table.ScrollContainer minWidth={300}>
                     <Table withTableBorder withColumnBorders>
                       <Table.Thead>
@@ -1008,12 +998,17 @@ export default function StarUpgradeCalculator() {
               style={{ width: '100%' }}
             >
               <Group justify="space-between">
-                <div>
-                  <Title order={3}>Star Upgrade Reference Table</Title>
-                  <Text size="sm" c="dimmed">
-                    All values are cumulative from 5 Star base
-                  </Text>
-                </div>
+                <Group gap="sm" align="flex-start">
+                  <ThemeIcon variant="light" color="cyan" size="lg" radius="md" mt={2}>
+                    <IoStatsChart size={18} />
+                  </ThemeIcon>
+                  <div>
+                    <Title order={3}>Star Upgrade Reference Table</Title>
+                    <Text size="sm" c="dimmed">
+                      All values are cumulative from 5 Star base
+                    </Text>
+                  </div>
+                </Group>
                 <ThemeIcon variant="subtle" color="gray" size="lg">
                   {refTableOpened ? (
                     <IoChevronUp size={20} />
