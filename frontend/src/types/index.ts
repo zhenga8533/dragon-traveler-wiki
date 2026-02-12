@@ -6,7 +6,8 @@ export type {
   Skill,
   Talent,
 } from './character';
-export type { Code } from './code';
+export type { Code, CodeReward } from './code';
+export type { Resource } from './resource';
 export type { FactionName } from './faction';
 export type { StatusEffect, StatusEffectType } from './status-effect';
 export type { Team, TeamMember } from './team';

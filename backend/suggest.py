@@ -100,7 +100,12 @@ def validate_data(label, data):
 def normalize_for_json(label, data):
     """Normalize issue data into the shape expected by the JSON data files."""
     if label == "codes":
-        return {"code": data["code"], "active": data.get("active", True)}
+        reward = [
+            {"name": r.get("name", ""), "quantity": r.get("quantity", 0)}
+            for r in data.get("reward", [])
+            if r.get("name")
+        ]
+        return {"code": data["code"], "reward": reward, "active": data.get("active", True)}
 
     if label == "wyrmspell":
         return {

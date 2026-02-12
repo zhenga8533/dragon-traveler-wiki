@@ -1,7 +1,6 @@
 import {
   ActionIcon,
   Alert,
-  Badge,
   Button,
   Center,
   Checkbox,
@@ -25,14 +24,27 @@ import {
   IoCheckmark,
   IoCloseCircleOutline,
   IoCopyOutline,
+  IoGift,
   IoInformationCircleOutline,
   IoSearch,
+  IoTrophy,
 } from 'react-icons/io5';
+import ResourceBadge from '../components/ResourceBadge';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Code } from '../types/code';
 import { buildExpiredCodeUrl } from '../utils/github-issues';
+
+function aggregateRewards(codes: Code[]): Map<string, number> {
+  const totals = new Map<string, number>();
+  for (const code of codes) {
+    for (const r of code.reward) {
+      totals.set(r.name, (totals.get(r.name) || 0) + r.quantity);
+    }
+  }
+  return totals;
+}
 
 const CODE_FIELDS: FieldDef[] = [
   { name: 'code', label: 'Code', type: 'text', required: true, placeholder: 'e.g. DRAGONCODE123' },
@@ -113,6 +125,16 @@ export default function Codes() {
     [codes, view, redeemed, search]
   );
 
+  const unclaimedRewards = useMemo(
+    () => aggregateRewards(codes.filter((c) => c.active && !redeemed.has(c.code))),
+    [codes, redeemed]
+  );
+
+  const claimedRewards = useMemo(
+    () => aggregateRewards(codes.filter((c) => redeemed.has(c.code))),
+    [codes, redeemed]
+  );
+
   return (
     <Container size="md" py="xl">
       <Stack gap="md">
@@ -171,6 +193,41 @@ export default function Codes() {
             </Button>
           </Group>
         </Group>
+
+        {!loading && (unclaimedRewards.size > 0 || claimedRewards.size > 0) && (
+          <Stack gap="xs">
+            {unclaimedRewards.size > 0 && (
+              <Alert
+                icon={<IoGift size={20} />}
+                title="Total Unclaimed Rewards"
+                color="yellow"
+                variant="light"
+                radius="md"
+              >
+                <Group gap="xs" wrap="wrap" mt={4}>
+                  {[...unclaimedRewards.entries()].map(([name, qty]) => (
+                    <ResourceBadge key={name} name={name} quantity={qty} />
+                  ))}
+                </Group>
+              </Alert>
+            )}
+            {claimedRewards.size > 0 && (
+              <Alert
+                icon={<IoTrophy size={20} />}
+                title="Total Claimed Rewards"
+                color="teal"
+                variant="light"
+                radius="md"
+              >
+                <Group gap="xs" wrap="wrap" mt={4}>
+                  {[...claimedRewards.entries()].map(([name, qty]) => (
+                    <ResourceBadge key={name} name={name} quantity={qty} />
+                  ))}
+                </Group>
+              </Alert>
+            )}
+          </Stack>
+        )}
 
         {loading && (
           <Center py="xl">
@@ -257,6 +314,13 @@ export default function Codes() {
                   />
                 </Group>
               </Group>
+              {entry.reward.length > 0 && (
+                <Group gap="xs" mt="xs" wrap="wrap">
+                  {entry.reward.map((r) => (
+                    <ResourceBadge key={r.name} name={r.name} quantity={r.quantity} />
+                  ))}
+                </Group>
+              )}
             </Paper>
           ))}
 

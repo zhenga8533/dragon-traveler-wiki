@@ -51,6 +51,7 @@ import { getGlassStyles } from './constants/glass';
 import { BRAND_TITLE_STYLE } from './constants/styles';
 import { SIDEBAR, TRANSITION } from './constants/ui';
 import {
+  ResourcesProvider,
   SectionAccentProvider,
   TierListReferenceContext,
   TierListReferenceProvider,
@@ -529,9 +530,11 @@ export default function App() {
   return (
     <HashRouter>
       <SectionAccentProvider>
-        <TierListReferenceProvider>
-          <AppContent />
-        </TierListReferenceProvider>
+        <ResourcesProvider>
+          <TierListReferenceProvider>
+            <AppContent />
+          </TierListReferenceProvider>
+        </ResourcesProvider>
       </SectionAccentProvider>
     </HashRouter>
   );

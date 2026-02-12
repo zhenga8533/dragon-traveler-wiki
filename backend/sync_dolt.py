@@ -205,11 +205,30 @@ def sync_wyrmspells(data, batch):
     print(f"  Synced {w_id} wyrmspells")
 
 
+def sync_resources(data, batch):
+    """Sync resources.json -> resources table."""
+    batch.add("DELETE FROM resources;")
+    batch.add("ALTER TABLE resources AUTO_INCREMENT = 1;")
+    r_id = 0
+    for r in data:
+        if not r.get("name"):
+            continue
+        r_id += 1
+        batch.add(
+            f"INSERT INTO resources (id, name, description) VALUES "
+            f"({r_id}, {escape_sql(r['name'])}, {escape_sql(r.get('description', ''))});"
+        )
+    print(f"  Synced {r_id} resources")
+
+
 def sync_codes(data, batch):
-    """Sync codes.json -> codes table."""
+    """Sync codes.json -> codes + code_rewards tables."""
+    batch.add("DELETE FROM code_rewards;")
     batch.add("DELETE FROM codes;")
+    batch.add("ALTER TABLE code_rewards AUTO_INCREMENT = 1;")
     batch.add("ALTER TABLE codes AUTO_INCREMENT = 1;")
     c_id = 0
+    reward_id = 0
     for c in data:
         if not c.get("code"):
             continue
@@ -218,7 +237,15 @@ def sync_codes(data, batch):
             f"INSERT INTO codes (id, code, active) VALUES "
             f"({c_id}, {escape_sql(c['code'])}, {escape_sql(c.get('active', True))});"
         )
-    print(f"  Synced {c_id} codes")
+        for reward in c.get("reward", []):
+            if not reward.get("name"):
+                continue
+            reward_id += 1
+            batch.add(
+                f"INSERT INTO code_rewards (id, code_id, resource_name, quantity) VALUES "
+                f"({reward_id}, {c_id}, {escape_sql(reward['name'])}, {escape_sql(reward.get('quantity', 0))});"
+            )
+    print(f"  Synced {c_id} codes ({reward_id} rewards)")
 
 
 def sync_status_effects(data, batch):
@@ -362,8 +389,8 @@ def main():
     parser.add_argument(
         "--target",
         choices=[
-            "factions", "characters", "wyrmspells", "codes",
-            "status-effects", "tier-lists", "teams",
+            "factions", "characters", "wyrmspells", "resources",
+            "codes", "status-effects", "tier-lists", "teams",
             "useful-links", "changelog", "all",
         ],
         default="all",
@@ -379,6 +406,7 @@ def main():
     factions_data = load_json("factions.json")
     characters_data = load_json("characters.json")
     wyrmspells_data = load_json("wyrmspells.json")
+    resources_data = load_json("resources.json")
     codes_data = load_json("codes.json")
     status_effects_data = load_json("status-effects.json")
     tier_lists_data = load_json("tier-lists.json")
@@ -395,6 +423,7 @@ def main():
         "factions": lambda: sync_factions(factions_data, batch),
         "characters": lambda: sync_characters(characters_data, factions_data, batch),
         "wyrmspells": lambda: sync_wyrmspells(wyrmspells_data, batch),
+        "resources": lambda: sync_resources(resources_data, batch),
         "codes": lambda: sync_codes(codes_data, batch),
         "status-effects": lambda: sync_status_effects(status_effects_data, batch),
         "tier-lists": lambda: sync_tier_lists(tier_lists_data, batch),

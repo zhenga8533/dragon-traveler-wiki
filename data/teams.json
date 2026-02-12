@@ -1,29 +1,222 @@
 [
   {
-    "name": "Sample Elemental Echo Team",
-    "author": "Dragon Traveler Wiki",
-    "content_type": "PvE",
-    "description": "A sample team composition for Elemental Echo faction with wyrmspells and substitutes.",
+    "name": "Element Echo Novice Lineup",
+    "author": "GameTree",
+    "content_type": "All",
+    "description": "Recommended Elemental Echo Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
     "faction": "Elemental Echo",
     "members": [
       {
+        "character_name": "Oberonnie",
+        "overdrive_order": 1
+      },
+      {
+        "character_name": "Siren",
+        "overdrive_order": 2,
+        "substitutes": ["Vivienne"]
+      },
+      {
         "character_name": "Fenrir",
-        "overdrive_order": 1,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": 4
+      },
+      {
+        "character_name": "Siegfried",
+        "overdrive_order": 3
       },
       {
         "character_name": "Ifrit",
-        "overdrive_order": 2,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
+      },
+      {
+        "character_name": "Melina",
+        "overdrive_order": null,
+        "substitutes": ["Poseidon"]
       }
-    ],
-    "wyrmspells": {
-      "breach": "Attack Aura",
-      "refuge": "Evasion Aura",
-      "wildcry": "",
-      "dragons_call": ""
-    }
+    ]
+  },
+  {
+    "name": "Wild Spirit Novice Lineup",
+    "author": "GameTree",
+    "content_type": "All",
+    "description": "Recommended Wild Spirit Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
+    "faction": "Wild Spirit",
+    "members": [
+      {
+        "character_name": "Oberonnie",
+        "overdrive_order": 1,
+        "substitutes": ["Athena"]
+      },
+      {
+        "character_name": "2",
+        "overdrive_order": null
+      },
+      {
+        "character_name": "White Tiger",
+        "overdrive_order": 4
+      },
+      {
+        "character_name": "Marylis",
+        "overdrive_order": 3,
+        "substitutes": ["Tyrfing"]
+      },
+      {
+        "character_name": "Siegfried",
+        "overdrive_order": null
+      },
+      {
+        "character_name": "Nanalie",
+        "overdrive_order": null,
+        "substitutes": ["Huginn & Muninn"]
+      }
+    ]
+  },
+  {
+    "name": "Arcane Wisdom Novice Lineup",
+    "author": "GameTree",
+    "content_type": "All",
+    "description": "Recommended Arcane Wisdom Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
+    "faction": "Arcane Wisdom",
+    "members": [
+      {
+        "character_name": "Oberonnie",
+        "overdrive_order": 1
+      },
+      {
+        "character_name": "Siren",
+        "overdrive_order": 2,
+        "substitutes": ["Scheherazade"]
+      },
+      {
+        "character_name": "Fenrir",
+        "overdrive_order": 4,
+        "substitutes": ["Hades"]
+      },
+      {
+        "character_name": "3",
+        "overdrive_order": null,
+        "substitutes": ["Ares"]
+      },
+      {
+        "character_name": "Ifrit",
+        "overdrive_order": null
+      },
+      {
+        "character_name": "Melina",
+        "overdrive_order": null
+      }
+    ]
+  },
+  {
+    "name": "Sanctum Glory Novice Lineup",
+    "author": "GameTree",
+    "content_type": "All",
+    "description": "Recommended Sanctum Glory Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
+    "faction": "Sanctum Glory",
+    "members": [
+      {
+        "character_name": "Oberonnie",
+        "overdrive_order": 1,
+        "substitutes": ["Athena"]
+      },
+      {
+        "character_name": "2",
+        "overdrive_order": null,
+        "substitutes": ["Scheherazade"]
+      },
+      {
+        "character_name": "4",
+        "overdrive_order": null
+      },
+      {
+        "character_name": "3",
+        "overdrive_order": null,
+        "substitutes": ["Helveil"]
+      },
+      {
+        "character_name": "Lorillin",
+        "overdrive_order": null,
+        "substitutes": ["Vivienne"]
+      },
+      {
+        "character_name": "Melina",
+        "overdrive_order": null,
+        "substitutes": ["Gabriele"]
+      }
+    ]
+  },
+  {
+    "name": "Otherworld Return Novice Lineup",
+    "author": "GameTree",
+    "content_type": "All",
+    "description": "Recommended Otherworld Return Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
+    "faction": "Otherworld Return",
+    "members": [
+      {
+        "character_name": "Oberonnie",
+        "overdrive_order": 1,
+        "substitutes": ["Helveil"]
+      },
+      {
+        "character_name": "2",
+        "overdrive_order": null
+      },
+      {
+        "character_name": "Fenrir",
+        "overdrive_order": 4,
+        "substitutes": ["Hades"]
+      },
+      {
+        "character_name": "3 Tiger",
+        "overdrive_order": null,
+        "substitutes": ["Gabriele"]
+      },
+      {
+        "character_name": "Siegfried",
+        "overdrive_order": null,
+        "substitutes": ["Apollo"]
+      },
+      {
+        "character_name": "Cleopatra",
+        "overdrive_order": null,
+        "substitutes": ["Faust"]
+      }
+    ]
+  },
+  {
+    "name": "Illusion Veil Novice Lineup",
+    "author": "GameTree",
+    "content_type": "All",
+    "description": "Recommended Illusion Veil Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
+    "faction": "Illusion Veil",
+    "members": [
+      {
+        "character_name": "Oberonnie",
+        "overdrive_order": 1,
+        "substitutes": ["Ares"]
+      },
+      {
+        "character_name": "2",
+        "overdrive_order": null
+      },
+      {
+        "character_name": "Fenrir",
+        "overdrive_order": 4,
+        "substitutes": ["Ophelia"]
+      },
+      {
+        "character_name": "3",
+        "overdrive_order": null,
+        "substitutes": ["Tyrfing"]
+      },
+      {
+        "character_name": "Kleina",
+        "overdrive_order": null,
+        "substitutes": ["Poseidon"]
+      },
+      {
+        "character_name": "Telperion",
+        "overdrive_order": null
+      }
+    ]
   }
 ]

@@ -19,32 +19,24 @@ import {
 } from '@mantine/core';
 import { useEffect, useRef, useState } from 'react';
 import {
-  IoBook,
   IoCheckmark,
   IoCopyOutline,
-  IoFlash,
   IoGameController,
   IoGlobe,
-  IoLink,
   IoList,
   IoOpenOutline,
   IoPeople,
   IoPricetag,
   IoSearch,
-  IoShield,
-  IoSparkles,
   IoTrophy,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import banner from '../assets/banner.png';
 import CharacterCard from '../components/CharacterCard';
+import ResourceBadge from '../components/ResourceBadge';
 import SearchModal from '../components/SearchModal';
 import { TIER_COLOR } from '../constants/colors';
-import {
-  BRAND_TITLE_STYLE,
-  CARD_HOVER_STYLES,
-  cardHoverHandlers,
-} from '../constants/styles';
+import { BRAND_TITLE_STYLE } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import type { Character } from '../types/character';
@@ -63,25 +55,6 @@ interface ChangelogEntry {
     description: string;
   }[];
 }
-
-const QUICK_LINKS = [
-  { label: 'Teams', path: '/teams', icon: IoShield, color: 'pink' },
-  { label: 'Guides', path: '/guides/beginner-qa', icon: IoBook, color: 'teal' },
-  {
-    label: 'Status Effects',
-    path: '/status-effects',
-    icon: IoFlash,
-    color: 'cyan',
-  },
-  {
-    label: 'Wyrmspells',
-    path: '/wyrmspells',
-    icon: IoSparkles,
-    color: 'indigo',
-  },
-  { label: 'Useful Links', path: '/useful-links', icon: IoLink, color: 'gray' },
-  { label: 'Changelog', path: '/changelog', icon: IoList, color: 'grape' },
-];
 
 const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];
 
@@ -334,38 +307,50 @@ function ActiveCodesSection() {
   return (
     <Stack gap="xs">
       {activeCodes.map((entry) => (
-        <Group
+        <Box
           key={entry.code}
-          justify="space-between"
-          wrap="nowrap"
           p="xs"
           style={{
             borderRadius: 'var(--mantine-radius-md)',
             backgroundColor: 'var(--mantine-color-default-hover)',
           }}
         >
-          <Text ff="monospace" fw={500} size="sm" truncate>
-            {entry.code}
-          </Text>
-          <CopyButton value={entry.code} timeout={1500}>
-            {({ copied, copy }) => (
-              <Tooltip label={copied ? 'Copied!' : 'Copy'} withArrow>
-                <ActionIcon
-                  variant="subtle"
-                  color={copied ? 'teal' : 'gray'}
-                  size="sm"
-                  onClick={copy}
-                >
-                  {copied ? (
-                    <IoCheckmark size={14} />
-                  ) : (
-                    <IoCopyOutline size={14} />
-                  )}
-                </ActionIcon>
-              </Tooltip>
-            )}
-          </CopyButton>
-        </Group>
+          <Group justify="space-between" wrap="nowrap">
+            <Text ff="monospace" fw={500} size="sm" truncate>
+              {entry.code}
+            </Text>
+            <CopyButton value={entry.code} timeout={1500}>
+              {({ copied, copy }) => (
+                <Tooltip label={copied ? 'Copied!' : 'Copy'} withArrow>
+                  <ActionIcon
+                    variant="subtle"
+                    color={copied ? 'teal' : 'gray'}
+                    size="sm"
+                    onClick={copy}
+                  >
+                    {copied ? (
+                      <IoCheckmark size={14} />
+                    ) : (
+                      <IoCopyOutline size={14} />
+                    )}
+                  </ActionIcon>
+                </Tooltip>
+              )}
+            </CopyButton>
+          </Group>
+          {entry.reward.length > 0 && (
+            <Group gap={4} mt={4} wrap="wrap">
+              {entry.reward.map((r) => (
+                <ResourceBadge
+                  key={r.name}
+                  name={r.name}
+                  quantity={r.quantity}
+                  size="xs"
+                />
+              ))}
+            </Group>
+          )}
+        </Box>
       ))}
       <Text
         component={Link}
@@ -489,7 +474,6 @@ export default function Home() {
   const marqueeReveal = useScrollReveal(0);
   const codesReveal = useScrollReveal(0);
   const updatesReveal = useScrollReveal(1);
-  const quickLinksReveal = useScrollReveal(0);
 
   return (
     <Stack gap={0}>
@@ -813,49 +797,6 @@ export default function Home() {
               </Card>
             </Box>
           </SimpleGrid>
-
-          {/* Quick Links — full-width row */}
-          <Box ref={quickLinksReveal.ref} style={quickLinksReveal.style}>
-            <Stack gap="md">
-              <Group gap="sm" justify="center">
-                <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-                  <IoGlobe size={20} />
-                </ThemeIcon>
-                <Title order={4}>Quick Links</Title>
-              </Group>
-              <SimpleGrid cols={{ base: 2, xs: 3, md: 6 }} spacing="sm">
-                {QUICK_LINKS.map((item) => (
-                  <Card
-                    key={item.path}
-                    component={Link}
-                    to={item.path}
-                    padding="sm"
-                    radius="md"
-                    withBorder
-                    style={{
-                      textDecoration: 'none',
-                      ...CARD_HOVER_STYLES,
-                    }}
-                    {...cardHoverHandlers}
-                  >
-                    <Group gap="xs" justify="center">
-                      <ThemeIcon
-                        variant="light"
-                        color={item.color}
-                        size="md"
-                        radius="md"
-                      >
-                        <item.icon size={16} />
-                      </ThemeIcon>
-                      <Text fw={500} size="sm">
-                        {item.label}
-                      </Text>
-                    </Group>
-                  </Card>
-                ))}
-              </SimpleGrid>
-            </Stack>
-          </Box>
         </Stack>
       </Container>
     </Stack>

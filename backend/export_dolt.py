@@ -41,7 +41,9 @@ QUERIES = {
         "SELECT character_id, name, type, description, cooldown FROM skills ORDER BY id;"
     ),
     "wyrmspells": "SELECT * FROM wyrmspells ORDER BY id;",
+    "resources": "SELECT * FROM resources ORDER BY id;",
     "codes": "SELECT * FROM codes ORDER BY id;",
+    "code_rewards": "SELECT * FROM code_rewards ORDER BY code_id, id;",
     "status_effects": "SELECT * FROM status_effects ORDER BY id;",
     "tier_lists": "SELECT * FROM tier_lists ORDER BY id;",
     "tier_list_entries": (
@@ -235,11 +237,27 @@ def export_wyrmspells(data, output_dir=None):
     write_export("wyrmspells.json", result, output_dir)
 
 
-def export_codes(data, output_dir=None):
+def export_resources(data, output_dir=None):
     result = [
-        {"code": c.get("code") or "", "active": bool(c.get("active", True))}
-        for c in data["codes"]
+        {"name": r.get("name") or "", "description": r.get("description") or ""}
+        for r in data["resources"]
     ]
+    write_export("resources.json", result, output_dir)
+
+
+def export_codes(data, output_dir=None):
+    rewards_by_code = group_by(data["code_rewards"], "code_id")
+    result = []
+    for c in data["codes"]:
+        rewards = [
+            {"name": r.get("resource_name") or "", "quantity": r.get("quantity", 0)}
+            for r in rewards_by_code.get(c["id"], [])
+        ]
+        result.append({
+            "code": c.get("code") or "",
+            "reward": rewards,
+            "active": bool(c.get("active", True)),
+        })
     write_export("codes.json", result, output_dir)
 
 
@@ -352,7 +370,8 @@ EXPORTERS = {
         "talent_levels", "skills",
     }),
     "wyrmspells": (export_wyrmspells, {"wyrmspells"}),
-    "codes": (export_codes, {"codes"}),
+    "resources": (export_resources, {"resources"}),
+    "codes": (export_codes, {"codes", "code_rewards"}),
     "status-effects": (export_status_effects, {"status_effects"}),
     "tier-lists": (export_tier_lists, {"tier_lists", "tier_list_entries"}),
     "teams": (export_teams, {"teams", "team_members", "team_member_substitutes"}),
