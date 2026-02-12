@@ -43,7 +43,7 @@
   },
   {
     "name": "Balance",
-    "type": "Buff",
+    "type": "Exclusive",
     "effect": "Increases Damage Reduction.",
     "remark": "Can stack up to 3 times.\nDecreases by 1 stack every 6 seconds."
   },
@@ -133,13 +133,13 @@
   },
   {
     "name": "Adrenaline",
-    "type": "Buff",
+    "type": "Special",
     "effect": "Increases Attack by 20%. Additional Lasts 8 seconds.",
     "remark": "Increases Attack by an additional 20% while in the [Wild] status."
   },
   {
     "name": "Sanctuary",
-    "type": "Buff",
+    "type": "Exclusive",
     "effect": "Grants immunity to stat debuffs and elemental debuffs while active. Duration increases with [Radiant Sanctuary] level.",
     "remark": ""
   },
