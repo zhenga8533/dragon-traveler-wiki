@@ -7,51 +7,333 @@
     ],
     "active": true
   },
-  { "code": "DTOBT666", "rewards": [], "active": true },
-  { "code": "DTOB321", "rewards": [], "active": true },
-  { "code": "DTGCKL888", "rewards": [], "active": true },
-  { "code": "DTGIFT", "rewards": [], "active": true },
-  { "code": "VIP6666", "rewards": [], "active": true },
-  { "code": "VIP9999", "rewards": [], "active": true },
-  { "code": "VIP5555", "rewards": [], "active": true },
-  { "code": "GIFT6666", "rewards": [], "active": true },
-  { "code": "GIFT9999", "rewards": [], "active": true },
-  { "code": "GIFT5555", "rewards": [], "active": true },
-  { "code": "BSVIPDT", "rewards": [], "active": true },
-  { "code": "NOXVIPDT777", "rewards": [], "active": true },
-  { "code": "Gabriele111", "rewards": [], "active": true },
-  { "code": "Mage666", "rewards": [], "active": true },
-  { "code": "888GIFT", "rewards": [], "active": true },
-  { "code": "666GIFT", "rewards": [], "active": true },
-  { "code": "Glory321", "rewards": [], "active": true },
-  { "code": "SPECIAL", "rewards": [], "active": true },
-  { "code": "mareflos", "rewards": [], "active": true },
-  { "code": "youtube10k", "rewards": [], "active": true },
-  { "code": "Uniquegift", "rewards": [], "active": true },
-  { "code": "SURYUNSURYU1", "rewards": [], "active": true },
-  { "code": "GONYO111", "rewards": [], "active": true },
-  { "code": "DELLORYAKGUK", "rewards": [], "active": true },
-  { "code": "BAEDON", "rewards": [], "active": true },
-  { "code": "angrihyung", "rewards": [], "active": true },
-  { "code": "haukau", "rewards": [], "active": true },
-  { "code": "dongsukantv", "rewards": [], "active": true },
-  { "code": "MONSTERRAT", "rewards": [], "active": true },
-  { "code": "ΚΑΤO111", "rewards": [], "active": true },
-  { "code": "MOVINGTV", "rewards": [], "active": true },
-  { "code": "SJGIFT66", "rewards": [], "active": true },
-  { "code": "code888", "rewards": [], "active": true },
-  { "code": "Vivienne", "rewards": [], "active": true },
-  { "code": "Priest", "rewards": [], "active": true },
-  { "code": "Athena", "rewards": [], "active": true },
-  { "code": "Oberonnie", "rewards": [], "active": true },
-  { "code": "Guild321", "rewards": [], "active": true },
-  { "code": "Apollo", "rewards": [], "active": true },
-  { "code": "SWEETGIRL", "rewards": [], "active": true },
-  { "code": "Inkbound", "rewards": [], "active": true },
-  { "code": "Foursaints", "rewards": [], "active": true },
-  { "code": "Valentine", "rewards": [], "active": true },
-  { "code": "pompey", "rewards": [], "active": true },
-  { "code": "GCSJLBM765", "rewards": [], "active": true },
-  { "code": "Magiclamp", "rewards": [], "active": true },
-  { "code": "NEWGIRL", "rewards": [], "active": true }
+  {
+    "code": "DTOBT666",
+    "rewards": [
+      { "name": "Diamond", "quantity": 100 },
+      { "name": "Luminary EXP", "quantity": 3000 }
+    ],
+    "active": true
+  },
+  {
+    "code": "DTOB321",
+    "rewards": [
+      { "name": "Diamond", "quantity": 100 },
+      { "name": "Leaf of the World Tree", "quantity": 10 }
+    ],
+    "active": true
+  },
+  {
+    "code": "DTGCKL888",
+    "rewards": [
+      { "name": "Diamond", "quantity": 100 },
+      { "name": "Apple", "quantity": 1 }
+    ],
+    "active": true
+  },
+  {
+    "code": "DTGIFT",
+    "rewards": [
+      { "name": "Diamond", "quantity": 100 },
+      { "name": "R Luminary Shards", "quantity": 30 }
+    ],
+    "active": true
+  },
+  {
+    "code": "VIP6666",
+    "rewards": [
+      { "name": "Diamond", "quantity": 100 },
+      { "name": "Gold", "quantity": 2000 },
+      { "name": "R Luminary Shards", "quantity": 10 }
+    ],
+    "active": true
+  },
+  {
+    "code": "VIP9999",
+    "rewards": [
+      { "name": "Gold", "quantity": 3000 },
+      { "name": "Luminary EXP", "quantity": 1000 },
+      { "name": "Summoning Ticket", "quantity": 1 }
+    ],
+    "active": true
+  },
+  {
+    "code": "VIP5555",
+    "rewards": [
+      { "name": "Diamond", "quantity": 100 },
+      { "name": "Luminary EXP", "quantity": 8000 },
+      { "name": "Leaf of the World Tree", "quantity": 10 }
+    ],
+    "active": true
+  },
+  {
+    "code": "GIFT6666",
+    "rewards": [
+      { "name": "Diamond", "quantity": 100 },
+      { "name": "Summoning Ticket", "quantity": 1 },
+      { "name": "Grilled Steak", "quantity": 1 }
+    ],
+    "active": true
+  },
+  {
+    "code": "GIFT9999",
+    "rewards": [
+      { "name": "Luminary EXP", "quantity": 3000 },
+      { "name": "Golden Horn", "quantity": 1 },
+      { "name": "Banquet Cake", "quantity": 1 }
+    ],
+    "active": true
+  },
+  {
+    "code": "GIFT5555",
+    "rewards": [
+      { "name": "Diamond", "quantity": 100 },
+      { "name": "Legacy Dragon Crystal", "quantity": 1 },
+      { "name": "Dragonblood", "quantity": 1 }
+    ],
+    "active": true
+  },
+  {
+    "code": "BSVIPDT",
+    "rewards": [
+      { "name": "Summoning Ticket", "quantity": 1 },
+      { "name": "Legacy Dragon Crystal", "quantity": 1 },
+      { "name": "Leaf of the World Tree", "quantity": 5 }
+    ],
+    "active": true
+  },
+  {
+    "code": "NOXVIPDT777",
+    "rewards": [
+      { "name": "Legacy Dragon Crystal", "quantity": 5 },
+      { "name": "Golden Horn", "quantity": 1 },
+      { "name": "R Luminary Shards", "quantity": 10 }
+    ],
+    "active": true
+  },
+  {
+    "code": "Gabriele111",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Mage666",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "888GIFT",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "666GIFT",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Glory321",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "SPECIAL",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "mareflos",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "youtube10k",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Uniquegift",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "SURYUNSURYU1",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "GONYO111",
+    "rewards": [],
+    "active": false
+  },
+  {
+    "code": "DELLORYAKGUK",
+    "rewards": [],
+    "active": false
+  },
+  {
+    "code": "BAEDON",
+    "rewards": [],
+    "active": false
+  },
+  {
+    "code": "angrihyung",
+    "rewards": [],
+    "active": false
+  },
+  {
+    "code": "haukau",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "dongsukantv",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "MONSTERRAT",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "ΚΑΤO111",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "MOVINGTV",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "SJGIFT66",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "code888",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Vivienne",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Priest",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Athena",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Oberonnie",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Guild321",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Apollo",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "SWEETGIRL",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Inkbound",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Foursaints",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Valentine",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "pompey",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "GCSJLBM765",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "Magiclamp",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "NEWGIRL",
+    "rewards": [],
+    "active": true
+  },
+  {
+    "code": "QingLong",
+    "rewards": [
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "SR Luminary Shards",
+        "quantity": 10
+      }
+    ],
+    "active": true
+  },
+  {
+    "code": "HeavySnow",
+    "rewards": [
+      {
+        "name": "Gold",
+        "quantity": 10000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 3
+      }
+    ],
+    "active": true
+  },
+  {
+    "code": "QLDJGL66",
+    "rewards": [
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Dragonblood",
+        "quantity": 1
+      }
+    ],
+    "active": true
+  }
 ]

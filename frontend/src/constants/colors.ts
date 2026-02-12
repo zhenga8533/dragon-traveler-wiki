@@ -1,5 +1,6 @@
 import type { Quality } from '../types/character';
 import type { FactionName } from '../types/faction';
+import type { ResourceCategory } from '../types/resource';
 import type { StatusEffectType } from '../types/status-effect';
 import type { Tier } from '../types/tier-list';
 
@@ -48,6 +49,24 @@ export const FACTION_COLOR: Record<FactionName, string> = {
   'Sanctum Glory': 'yellow',
   'Otherworld Return': 'purple',
   'Illusion Veil': 'black',
+};
+
+export const RESOURCE_CATEGORY_ORDER: ResourceCategory[] = [
+  'Currency',
+  'Gift',
+  'Item',
+  'Material',
+  'Summoning',
+  'Shard',
+];
+
+export const RESOURCE_CATEGORY_COLOR: Record<ResourceCategory, string> = {
+  Currency: 'yellow',
+  Gift: 'pink',
+  Item: 'teal',
+  Material: 'orange',
+  Summoning: 'violet',
+  Shard: 'cyan',
 };
 
 export const TIER_ORDER: Tier[] = ['S+', 'S', 'A', 'B', 'C', 'D'];

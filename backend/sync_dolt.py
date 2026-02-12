@@ -119,6 +119,7 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
               id int NOT NULL AUTO_INCREMENT,
               name varchar(100) NOT NULL,
               description text,
+              category varchar(50) NOT NULL DEFAULT '',
               PRIMARY KEY (id),
               UNIQUE KEY name (name)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
@@ -126,6 +127,16 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
             dry_run=dry_run,
         )
         existing_tables.add("resources")
+
+    # Ensure category column exists on resources table.
+    if "resources" in existing_tables:
+        resource_columns = get_table_columns("resources")
+        if "category" not in resource_columns:
+            print("  Adding resources.category column")
+            dolt_sql(
+                "ALTER TABLE resources ADD COLUMN category varchar(50) NOT NULL DEFAULT '';",
+                dry_run=dry_run,
+            )
 
     if "code_rewards" not in existing_tables:
         return
@@ -373,8 +384,8 @@ def sync_resources(data, batch, existing_tables):
             continue
         r_id += 1
         batch.add(
-            f"INSERT INTO resources (id, name, description) VALUES "
-            f"({r_id}, {escape_sql(r['name'])}, {escape_sql(r.get('description', ''))});"
+            f"INSERT INTO resources (id, name, description, category) VALUES "
+            f"({r_id}, {escape_sql(r['name'])}, {escape_sql(r.get('description', ''))}, {escape_sql(r.get('category', ''))});"
         )
     print(f"  Synced {r_id} resources")
 

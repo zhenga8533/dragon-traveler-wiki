@@ -14,6 +14,7 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   '/characters': 'blue',
   '/status-effects': 'cyan',
   '/wyrmspells': 'indigo',
+  '/resources': 'teal',
 
   // Guides
   '/guides/beginner-qa': 'teal',

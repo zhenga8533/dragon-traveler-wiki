@@ -60,8 +60,8 @@ import Characters from './pages/Characters';
 import Codes from './pages/Codes';
 import DragonSpells from './pages/DragonSpells';
 import EfficientSpending from './pages/EfficientSpending';
-import GoldenCloverPriority from './pages/GoldenCloverPriority';
 import Home from './pages/Home';
+import Resources from './pages/Resources';
 import StarUpgradeCalculator from './pages/StarUpgradeCalculator';
 import StatusEffects from './pages/StatusEffects';
 import TeamPage from './pages/TeamPage';
@@ -85,6 +85,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Characters', path: '/characters' },
       { label: 'Status Effects', path: '/status-effects' },
       { label: 'Wyrmspells', path: '/wyrmspells' },
+      { label: 'Resources', path: '/resources' },
     ],
   },
   {
@@ -445,6 +446,7 @@ function AppContent() {
               <Route path="/teams/:teamName" element={<TeamPage />} />
               <Route path="/status-effects" element={<StatusEffects />} />
               <Route path="/wyrmspells" element={<DragonSpells />} />
+              <Route path="/resources" element={<Resources />} />
               <Route path="/codes" element={<Codes />} />
               <Route path="/useful-links" element={<UsefulLinks />} />
               <Route path="/changelog" element={<Changelog />} />
@@ -456,10 +458,6 @@ function AppContent() {
               <Route
                 path="/guides/efficient-spending"
                 element={<EfficientSpending />}
-              />
-              <Route
-                path="/guides/golden-clover-priority"
-                element={<GoldenCloverPriority />}
               />
             </Routes>
           </PageTransition>

@@ -183,7 +183,6 @@ Hash-based routing for GitHub Pages compatibility:
 | `/changelog`                      | Changelog             | Site changelog              |
 | `/guides/beginner-qa`             | BeginnerQA            | Beginner guide              |
 | `/guides/efficient-spending`      | EfficientSpending     | Spending guide              |
-| `/guides/golden-clover-priority`  | GoldenCloverPriority  | Golden clover guide         |
 | `/guides/star-upgrade-calculator` | StarUpgradeCalculator | Star upgrade calculator     |
 
 ## 🚀 Deployment

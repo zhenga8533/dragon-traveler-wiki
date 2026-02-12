@@ -317,7 +317,11 @@ def export_resources(data, output_dir=None):
         print("Skipped resources.json (resources table not found in Dolt schema)")
         return
     result = [
-        {"name": r.get("name") or "", "description": r.get("description") or ""}
+        {
+            "name": r.get("name") or "",
+            "description": r.get("description") or "",
+            "category": r.get("category") or "",
+        }
         for r in data["resources"]
     ]
     write_export("resources.json", result, output_dir)
