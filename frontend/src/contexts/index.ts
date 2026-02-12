@@ -1,6 +1,12 @@
-export { SectionAccentContext } from './section-accent-context';
+export { ResourcesContext, ResourcesProvider } from './resources-context';
+export type { ResourcesContextValue } from './resources-context';
+export {
+  SectionAccentContext,
+  SectionAccentProvider,
+} from './section-accent-context';
 export type { SectionAccentContextValue } from './section-accent-context';
-export { SectionAccentProvider } from './SectionAccentContext';
-export { TierListReferenceContext } from './tier-list-reference-context';
+export {
+  TierListReferenceContext,
+  TierListReferenceProvider,
+} from './tier-list-reference-context';
 export type { TierListReferenceContextValue } from './tier-list-reference-context';
-export { TierListReferenceProvider } from './TierListReferenceContext';

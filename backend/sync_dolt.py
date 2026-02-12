@@ -8,6 +8,8 @@ Usage:
 """
 
 import argparse
+import csv
+import io
 import json
 import subprocess
 import sys
@@ -29,7 +31,12 @@ def escape_sql(value):
     if isinstance(value, (int, float)):
         return str(value)
     s = str(value)
-    s = s.replace("\\", "\\\\").replace("'", "\\'").replace("\n", "\\n").replace("\r", "\\r")
+    s = (
+        s.replace("\\", "\\\\")
+        .replace("'", "\\'")
+        .replace("\n", "\\n")
+        .replace("\r", "\\r")
+    )
     return f"'{s}'"
 
 
@@ -52,6 +59,147 @@ def dolt_sql(query, dry_run=False):
         print(result.stderr, file=sys.stderr)
         sys.exit(1)
     return result.stdout
+
+
+def dolt_sql_csv(query):
+    """Run a SQL query via dolt sql (CSV result) and return rows as dicts."""
+    result = subprocess.run(
+        ["dolt", "sql", "-r", "csv", "-q", query],
+        cwd=DOLT_DIR,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
+    if result.returncode != 0:
+        print(f"ERROR running SQL: {query}", file=sys.stderr)
+        print(result.stderr, file=sys.stderr)
+        sys.exit(1)
+
+    output = result.stdout.strip()
+    if not output:
+        return []
+
+    reader = csv.DictReader(io.StringIO(output))
+    return list(reader)
+
+
+def get_existing_tables():
+    rows = dolt_sql_csv("SHOW TABLES;")
+    if not rows:
+        return set()
+    table_col = next(iter(rows[0].keys()))
+    return {row[table_col] for row in rows if row.get(table_col)}
+
+
+def get_table_columns(table_name):
+    rows = dolt_sql_csv(f"DESCRIBE {table_name};")
+    return {row.get("Field") for row in rows if row.get("Field")}
+
+
+def build_resource_id_map(resources):
+    """Build deterministic resource name -> id mapping matching sync_resources insert order."""
+    mapping = {}
+    rid = 0
+    for resource in resources:
+        name = resource.get("name")
+        if not name or name in mapping:
+            continue
+        rid += 1
+        mapping[name] = rid
+    return mapping
+
+
+def ensure_schema_extensions(existing_tables, dry_run=False):
+    """Ensure optional schema pieces exist for resources + normalized code rewards."""
+    if "resources" not in existing_tables:
+        print("  Creating missing resources table")
+        dolt_sql(
+            """
+            CREATE TABLE resources (
+              id int NOT NULL AUTO_INCREMENT,
+              name varchar(100) NOT NULL,
+              description text,
+              category varchar(50) NOT NULL DEFAULT '',
+              PRIMARY KEY (id),
+              UNIQUE KEY name (name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("resources")
+
+    # Ensure category column exists on resources table.
+    if "resources" in existing_tables:
+        resource_columns = get_table_columns("resources")
+        if "category" not in resource_columns:
+            print("  Adding resources.category column")
+            dolt_sql(
+                "ALTER TABLE resources ADD COLUMN category varchar(50) NOT NULL DEFAULT '';",
+                dry_run=dry_run,
+            )
+
+    if "code_rewards" not in existing_tables:
+        return
+
+    code_reward_columns = get_table_columns("code_rewards")
+    if "resource_id" not in code_reward_columns:
+        print("  Adding code_rewards.resource_id column")
+        dolt_sql(
+            "ALTER TABLE code_rewards ADD COLUMN resource_id int NULL AFTER code_id;",
+            dry_run=dry_run,
+        )
+        dolt_sql(
+            "ALTER TABLE code_rewards ADD KEY resource_id (resource_id);",
+            dry_run=dry_run,
+        )
+
+    # Backfill legacy rows that still use resource_name.
+    if "resource_name" in code_reward_columns:
+        print("  Backfilling code_rewards.resource_id from resource_name")
+        dolt_sql(
+            """
+            UPDATE code_rewards cr
+            JOIN resources r ON r.name = cr.resource_name
+            SET cr.resource_id = r.id
+            WHERE cr.resource_id IS NULL;
+            """,
+            dry_run=dry_run,
+        )
+
+        unresolved_rows = dolt_sql_csv(
+            """
+            SELECT COUNT(*) AS cnt
+            FROM code_rewards
+            WHERE resource_id IS NULL
+              AND resource_name IS NOT NULL
+              AND resource_name <> '';
+            """
+        )
+        unresolved_count = (
+            int((unresolved_rows[0] or {}).get("cnt", 0)) if unresolved_rows else 0
+        )
+
+        if unresolved_count == 0:
+            print("  Dropping legacy code_rewards.resource_name column")
+            dolt_sql(
+                "ALTER TABLE code_rewards DROP COLUMN resource_name;",
+                dry_run=dry_run,
+            )
+        else:
+            print(
+                f"  Keeping code_rewards.resource_name (could not map {unresolved_count} row(s) to resources.id)"
+            )
+
+    create_rows = dolt_sql_csv("SHOW CREATE TABLE code_rewards;")
+    if create_rows:
+        create_sql = create_rows[0].get("Create Table") or ""
+        if "REFERENCES `resources` (`id`)" not in create_sql:
+            print("  Adding code_rewards.resource_id foreign key")
+            dolt_sql(
+                "ALTER TABLE code_rewards ADD CONSTRAINT code_rewards_ibfk_2 "
+                "FOREIGN KEY (resource_id) REFERENCES resources(id);",
+                dry_run=dry_run,
+            )
 
 
 class SqlBatch:
@@ -84,7 +232,10 @@ def dolt_cmd(*args):
         print(f"ERROR running dolt {' '.join(args)}", file=sys.stderr)
         print(result.stderr, file=sys.stderr)
         # Don't exit on commit with nothing to commit
-        if "nothing to commit" in result.stderr.lower() or "nothing to commit" in result.stdout.lower():
+        if (
+            "nothing to commit" in result.stderr.lower()
+            or "nothing to commit" in result.stdout.lower()
+        ):
             return result.stdout
         sys.exit(1)
     return result.stdout
@@ -104,6 +255,7 @@ def load_json(filename):
 # Sync functions
 # ---------------------------------------------------------------------------
 
+
 def sync_factions(data, batch):
     """Sync factions.json -> factions table."""
     batch.add("DELETE FROM character_factions;")
@@ -121,7 +273,13 @@ def sync_factions(data, batch):
 
 def sync_characters(data, factions, batch):
     """Sync characters.json -> characters + related tables."""
-    for table in ["skills", "talent_levels", "character_subclasses", "character_factions", "characters"]:
+    for table in [
+        "skills",
+        "talent_levels",
+        "character_subclasses",
+        "character_factions",
+        "characters",
+    ]:
         batch.add(f"DELETE FROM {table};")
     for table in ["skills", "talent_levels", "character_subclasses", "characters"]:
         batch.add(f"ALTER TABLE {table} AUTO_INCREMENT = 1;")
@@ -160,12 +318,12 @@ def sync_characters(data, factions, batch):
                     f"({subclass_id}, {char_id}, {escape_sql(sc)});"
                 )
 
-        for fname in c.get("factions", []):
+        for order, fname in enumerate(c.get("factions", []), start=1):
             fid = faction_ids.get(fname)
             if fid:
                 batch.add(
-                    f"INSERT INTO character_factions (character_id, faction_id) VALUES "
-                    f"({char_id}, {fid});"
+                    f"INSERT INTO character_factions (character_id, faction_id, sort_order) VALUES "
+                    f"({char_id}, {fid}, {order});"
                 )
 
         talent = c.get("talent") or {}
@@ -205,20 +363,102 @@ def sync_wyrmspells(data, batch):
     print(f"  Synced {w_id} wyrmspells")
 
 
-def sync_codes(data, batch):
-    """Sync codes.json -> codes table."""
+def sync_resources(data, batch, existing_tables):
+    """Sync resources.json -> resources table."""
+    if "resources" not in existing_tables:
+        print("  Skipping resources (table not found in Dolt schema)")
+        return
+
+    # code_rewards.resource_id -> resources.id FK requires child rows to be removed first.
+    if "code_rewards" in existing_tables:
+        code_reward_columns = get_table_columns("code_rewards")
+        if "resource_id" in code_reward_columns:
+            batch.add("DELETE FROM code_rewards;")
+            batch.add("ALTER TABLE code_rewards AUTO_INCREMENT = 1;")
+
+    batch.add("DELETE FROM resources;")
+    batch.add("ALTER TABLE resources AUTO_INCREMENT = 1;")
+    r_id = 0
+    for r in data:
+        if not r.get("name"):
+            continue
+        r_id += 1
+        batch.add(
+            f"INSERT INTO resources (id, name, description, category) VALUES "
+            f"({r_id}, {escape_sql(r['name'])}, {escape_sql(r.get('description', ''))}, {escape_sql(r.get('category', ''))});"
+        )
+    print(f"  Synced {r_id} resources")
+
+
+def sync_codes(data, batch, existing_tables, resource_ids):
+    """Sync codes.json -> codes (+ code_rewards when table exists)."""
+    if "codes" not in existing_tables:
+        print("  Skipping codes (table not found in Dolt schema)")
+        return
+
+    has_code_rewards = "code_rewards" in existing_tables
+    code_reward_columns = (
+        get_table_columns("code_rewards") if has_code_rewards else set()
+    )
+    has_resource_id = "resource_id" in code_reward_columns
+
+    if has_code_rewards:
+        batch.add("DELETE FROM code_rewards;")
+        batch.add("ALTER TABLE code_rewards AUTO_INCREMENT = 1;")
+
     batch.add("DELETE FROM codes;")
     batch.add("ALTER TABLE codes AUTO_INCREMENT = 1;")
+
     c_id = 0
+    reward_id = 0
     for c in data:
         if not c.get("code"):
             continue
         c_id += 1
+
+        rewards = c.get("rewards")
+        if rewards is None:
+            rewards = c.get("reward", [])
+        if not isinstance(rewards, list):
+            rewards = []
+
         batch.add(
             f"INSERT INTO codes (id, code, active) VALUES "
             f"({c_id}, {escape_sql(c['code'])}, {escape_sql(c.get('active', True))});"
         )
-    print(f"  Synced {c_id} codes")
+
+        for reward in rewards:
+            if not has_code_rewards:
+                break
+            if not reward.get("name"):
+                continue
+            reward_id += 1
+
+            resource_name = reward["name"]
+            resource_id = resource_ids.get(resource_name)
+            if resource_id is None:
+                print(
+                    f"ERROR: code '{c['code']}' reward resource '{resource_name}' not found in resources.json",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+            quantity = escape_sql(reward.get("quantity", 0))
+
+            if has_resource_id:
+                batch.add(
+                    f"INSERT INTO code_rewards (id, code_id, resource_id, quantity) VALUES "
+                    f"({reward_id}, {c_id}, {escape_sql(resource_id)}, {quantity});"
+                )
+            else:
+                print(
+                    "ERROR: code_rewards table must include resource_id column",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+    if has_code_rewards:
+        print(f"  Synced {c_id} codes ({reward_id} rewards)")
+    else:
+        print(f"  Synced {c_id} codes (no code_rewards table; rewards ignored)")
 
 
 def sync_status_effects(data, batch):
@@ -355,16 +595,29 @@ def sync_changelog(data, batch):
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main():
     parser = argparse.ArgumentParser(description="Sync JSON data into Dolt database")
-    parser.add_argument("--push", action="store_true", help="Push to DoltHub after commit")
-    parser.add_argument("--dry-run", action="store_true", help="Show SQL without executing")
+    parser.add_argument(
+        "--push", action="store_true", help="Push to DoltHub after commit"
+    )
+    parser.add_argument(
+        "--dry-run", action="store_true", help="Show SQL without executing"
+    )
     parser.add_argument(
         "--target",
         choices=[
-            "factions", "characters", "wyrmspells", "codes",
-            "status-effects", "tier-lists", "teams",
-            "useful-links", "changelog", "all",
+            "factions",
+            "characters",
+            "wyrmspells",
+            "resources",
+            "codes",
+            "status-effects",
+            "tier-lists",
+            "teams",
+            "useful-links",
+            "changelog",
+            "all",
         ],
         default="all",
         help="Which table(s) to sync (default: all)",
@@ -379,6 +632,7 @@ def main():
     factions_data = load_json("factions.json")
     characters_data = load_json("characters.json")
     wyrmspells_data = load_json("wyrmspells.json")
+    resources_data = load_json("resources.json")
     codes_data = load_json("codes.json")
     status_effects_data = load_json("status-effects.json")
     tier_lists_data = load_json("tier-lists.json")
@@ -387,6 +641,10 @@ def main():
     changelog_data = load_json("changelog.json")
 
     print("Syncing to Dolt..." + (" (dry run)" if args.dry_run else ""))
+    existing_tables = get_existing_tables()
+    ensure_schema_extensions(existing_tables, dry_run=args.dry_run)
+    existing_tables = get_existing_tables()
+    resource_ids = build_resource_id_map(resources_data)
 
     batch = SqlBatch(dry_run=args.dry_run)
     target = args.target
@@ -395,7 +653,8 @@ def main():
         "factions": lambda: sync_factions(factions_data, batch),
         "characters": lambda: sync_characters(characters_data, factions_data, batch),
         "wyrmspells": lambda: sync_wyrmspells(wyrmspells_data, batch),
-        "codes": lambda: sync_codes(codes_data, batch),
+        "resources": lambda: sync_resources(resources_data, batch, existing_tables),
+        "codes": lambda: sync_codes(codes_data, batch, existing_tables, resource_ids),
         "status-effects": lambda: sync_status_effects(status_effects_data, batch),
         "tier-lists": lambda: sync_tier_lists(tier_lists_data, batch),
         "teams": lambda: sync_teams(teams_data, batch),

@@ -208,41 +208,5 @@
     "type": "Buff",
     "effect": "Increases Attack by 45%. Lasts 8 seconds.",
     "remark": "Does not stack with [Attack Boost]."
-  },
-  {
-    "name": "",
-    "type": "",
-    "effect": "",
-    "remark": ""
-  },
-  {
-    "name": "",
-    "type": "",
-    "effect": "",
-    "remark": ""
-  },
-  {
-    "name": "",
-    "type": "",
-    "effect": "",
-    "remark": ""
-  },
-  {
-    "name": "",
-    "type": "",
-    "effect": "",
-    "remark": ""
-  },
-  {
-    "name": "",
-    "type": "",
-    "effect": "",
-    "remark": ""
-  },
-  {
-    "name": "",
-    "type": "",
-    "effect": "",
-    "remark": ""
   }
 ]

@@ -1,4 +1,13 @@
+export interface CodeReward {
+  name: string;
+  resource_id?: number;
+  quantity: number;
+}
+
 export interface Code {
   code: string;
+  rewards?: CodeReward[];
+  /** Legacy field kept for backward compatibility */
+  reward?: CodeReward[];
   active: boolean;
 }

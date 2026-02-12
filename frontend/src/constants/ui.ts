@@ -74,6 +74,8 @@ export const STORAGE_KEY = {
   STATUS_EFFECT_FILTERS: 'status-effects:filters',
   WYRMSPELL_VIEW_MODE: 'wyrmspells:viewMode',
   WYRMSPELL_FILTERS: 'wyrmspells:filters',
+  RESOURCE_VIEW_MODE: 'resources:viewMode',
+  RESOURCE_FILTERS: 'resources:filters',
   TEAMS_FILTERS: 'teams:filters',
   TEAMS_SEARCH: 'teams:search',
   TIER_LIST_FILTERS: 'tier-list:filters',

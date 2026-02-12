@@ -5,12 +5,8 @@ import {
   Burger,
   Group,
   Image,
-  Kbd,
-  Modal,
   NavLink,
   Select,
-  Stack,
-  Text,
   Title,
   Tooltip,
   useComputedColorScheme,
@@ -23,7 +19,6 @@ import {
   IoChevronBack,
   IoChevronForward,
   IoGift,
-  IoHelpCircleOutline,
   IoHome,
   IoLink,
   IoList,
@@ -43,6 +38,7 @@ import {
 } from 'react-router-dom';
 import logo from './assets/logo.png';
 import Footer from './components/Footer';
+import KeyboardShortcuts from './components/KeyboardShortcuts';
 import PageTransition from './components/PageTransition';
 import ScrollToTop from './components/ScrollToTop';
 import SearchModal from './components/SearchModal';
@@ -51,6 +47,7 @@ import { getGlassStyles } from './constants/glass';
 import { BRAND_TITLE_STYLE } from './constants/styles';
 import { SIDEBAR, TRANSITION } from './constants/ui';
 import {
+  ResourcesProvider,
   SectionAccentProvider,
   TierListReferenceContext,
   TierListReferenceProvider,
@@ -63,8 +60,8 @@ import Characters from './pages/Characters';
 import Codes from './pages/Codes';
 import DragonSpells from './pages/DragonSpells';
 import EfficientSpending from './pages/EfficientSpending';
-import GoldenCloverPriority from './pages/GoldenCloverPriority';
 import Home from './pages/Home';
+import Resources from './pages/Resources';
 import StarUpgradeCalculator from './pages/StarUpgradeCalculator';
 import StatusEffects from './pages/StatusEffects';
 import TeamPage from './pages/TeamPage';
@@ -88,6 +85,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Characters', path: '/characters' },
       { label: 'Status Effects', path: '/status-effects' },
       { label: 'Wyrmspells', path: '/wyrmspells' },
+      { label: 'Resources', path: '/resources' },
     ],
   },
   {
@@ -292,52 +290,6 @@ function Navigation({
   );
 }
 
-const KEYBOARD_SHORTCUTS = [
-  { keys: ['/', 'Ctrl', 'K'], description: 'Open search' },
-  { keys: ['?'], description: 'Show keyboard shortcuts' },
-  { keys: ['g', 'h'], description: 'Go to home' },
-  { keys: ['g', 'c'], description: 'Go to characters' },
-  { keys: ['g', 't'], description: 'Go to tier list' },
-];
-
-function KeyboardShortcutsModal({
-  opened,
-  onClose,
-}: {
-  opened: boolean;
-  onClose: () => void;
-}) {
-  return (
-    <Modal
-      opened={opened}
-      onClose={onClose}
-      title={
-        <Group gap="xs">
-          <IoHelpCircleOutline size={20} />
-          <Text fw={600}>Keyboard Shortcuts</Text>
-        </Group>
-      }
-      centered
-      size="sm"
-    >
-      <Stack gap="sm">
-        {KEYBOARD_SHORTCUTS.map((shortcut, index) => (
-          <Group key={index} justify="space-between">
-            <Text size="sm">{shortcut.description}</Text>
-            <Group gap={4}>
-              {shortcut.keys.map((key, keyIndex) => (
-                <Kbd key={keyIndex} size="sm">
-                  {key}
-                </Kbd>
-              ))}
-            </Group>
-          </Group>
-        ))}
-      </Stack>
-    </Modal>
-  );
-}
-
 function AppContent() {
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
     useDisclosure();
@@ -387,8 +339,8 @@ function AppContent() {
       transitionTimingFunction={TRANSITION.EASE}
     >
       <AppShell.Header style={glassStyles}>
-        <Group h="100%" px="md" justify="space-between">
-          <Group gap="sm">
+        <Group h="100%" px="md" justify="space-between" wrap="nowrap">
+          <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
             <Burger
               opened={mobileOpened}
               onClick={toggleMobile}
@@ -434,7 +386,7 @@ function AppContent() {
               </Title>
             </Link>
           </Group>
-          <Group gap="xs">
+          <Group gap="xs" wrap="nowrap">
             <Select
               placeholder="Tier list reference"
               data={tierListOptions}
@@ -445,6 +397,7 @@ function AppContent() {
               size="xs"
               disabled={loading || tierListOptions.length === 0}
               w={220}
+              visibleFrom="sm"
             />
             <SearchModal />
             <ThemeToggle />
@@ -454,11 +407,25 @@ function AppContent() {
 
       <AppShell.Navbar
         p="xs"
-        style={glassStyles}
+        style={{ ...glassStyles, display: 'flex', flexDirection: 'column' }}
         onMouseEnter={() => sidebar.setHovered(true)}
         onMouseLeave={() => sidebar.setHovered(false)}
       >
-        <Navigation onNavigate={closeMobile} showLabels={showLabels} />
+        <Box style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+          <Navigation onNavigate={closeMobile} showLabels={showLabels} />
+        </Box>
+        <Box hiddenFrom="sm" px="xs" pb="xs" pt="xs" style={{ flexShrink: 0 }}>
+          <Select
+            placeholder="Tier list reference"
+            data={tierListOptions}
+            value={selectedTierListName || null}
+            onChange={(value) => setSelectedTierListName(value ?? '')}
+            clearable
+            searchable
+            size="xs"
+            disabled={loading || tierListOptions.length === 0}
+          />
+        </Box>
       </AppShell.Navbar>
 
       <AppShell.Main
@@ -479,6 +446,7 @@ function AppContent() {
               <Route path="/teams/:teamName" element={<TeamPage />} />
               <Route path="/status-effects" element={<StatusEffects />} />
               <Route path="/wyrmspells" element={<DragonSpells />} />
+              <Route path="/resources" element={<Resources />} />
               <Route path="/codes" element={<Codes />} />
               <Route path="/useful-links" element={<UsefulLinks />} />
               <Route path="/changelog" element={<Changelog />} />
@@ -491,10 +459,6 @@ function AppContent() {
                 path="/guides/efficient-spending"
                 element={<EfficientSpending />}
               />
-              <Route
-                path="/guides/golden-clover-priority"
-                element={<GoldenCloverPriority />}
-              />
             </Routes>
           </PageTransition>
         </Box>
@@ -502,10 +466,7 @@ function AppContent() {
       </AppShell.Main>
 
       <ScrollToTop />
-      <KeyboardShortcutsModal
-        opened={shortcutsOpened}
-        onClose={closeShortcuts}
-      />
+      <KeyboardShortcuts opened={shortcutsOpened} onClose={closeShortcuts} />
     </AppShell>
   );
 }
@@ -514,9 +475,11 @@ export default function App() {
   return (
     <HashRouter>
       <SectionAccentProvider>
-        <TierListReferenceProvider>
-          <AppContent />
-        </TierListReferenceProvider>
+        <ResourcesProvider>
+          <TierListReferenceProvider>
+            <AppContent />
+          </TierListReferenceProvider>
+        </ResourcesProvider>
       </SectionAccentProvider>
     </HashRouter>
   );
