@@ -190,5 +190,9 @@
   {
     "code": "NEWGIRL",
     "active": true
+  },
+  {
+    "code": "QingLong",
+    "active": true
   }
 ]
