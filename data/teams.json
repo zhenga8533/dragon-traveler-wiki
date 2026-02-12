@@ -17,19 +17,19 @@
       },
       {
         "character_name": "Fenrir",
-        "overdrive_order": 4
-      },
-      {
-        "character_name": "Siegfried",
         "overdrive_order": 3
       },
       {
+        "character_name": "Siegfried",
+        "overdrive_order": 4
+      },
+      {
         "character_name": "Ifrit",
-        "overdrive_order": null
+        "overdrive_order": 5
       },
       {
         "character_name": "Melina",
-        "overdrive_order": null,
+        "overdrive_order": 6,
         "substitutes": ["Poseidon"]
       }
     ]
@@ -47,25 +47,25 @@
         "substitutes": ["Athena"]
       },
       {
-        "character_name": "2",
-        "overdrive_order": null
+        "character_name": "Flora",
+        "overdrive_order": 2
       },
       {
         "character_name": "White Tiger",
-        "overdrive_order": 4
+        "overdrive_order": 3
       },
       {
         "character_name": "Marylis",
-        "overdrive_order": 3,
+        "overdrive_order": 6,
         "substitutes": ["Tyrfing"]
       },
       {
         "character_name": "Siegfried",
-        "overdrive_order": null
+        "overdrive_order": 5
       },
       {
         "character_name": "Nanalie",
-        "overdrive_order": null,
+        "overdrive_order": 4,
         "substitutes": ["Huginn & Muninn"]
       }
     ]
@@ -79,20 +79,20 @@
     "members": [
       {
         "character_name": "Oberonnie",
-        "overdrive_order": 1
+        "overdrive_order": null
       },
       {
         "character_name": "Siren",
-        "overdrive_order": 2,
+        "overdrive_order": null,
         "substitutes": ["Scheherazade"]
       },
       {
         "character_name": "Fenrir",
-        "overdrive_order": 4,
+        "overdrive_order": null,
         "substitutes": ["Hades"]
       },
       {
-        "character_name": "3",
+        "character_name": "Marylis",
         "overdrive_order": null,
         "substitutes": ["Ares"]
       },
@@ -119,16 +119,16 @@
         "substitutes": ["Athena"]
       },
       {
-        "character_name": "2",
-        "overdrive_order": null,
+        "character_name": "Flora",
+        "overdrive_order": 2,
         "substitutes": ["Scheherazade"]
       },
       {
-        "character_name": "4",
-        "overdrive_order": null
+        "character_name": "Chiron",
+        "overdrive_order": 3
       },
       {
-        "character_name": "3",
+        "character_name": "Fenrir",
         "overdrive_order": null,
         "substitutes": ["Helveil"]
       },
@@ -153,31 +153,31 @@
     "members": [
       {
         "character_name": "Oberonnie",
-        "overdrive_order": 1,
+        "overdrive_order": null,
         "substitutes": ["Helveil"]
       },
       {
-        "character_name": "2",
+        "character_name": "Siren",
         "overdrive_order": null
       },
       {
         "character_name": "Fenrir",
-        "overdrive_order": 4,
+        "overdrive_order": null,
         "substitutes": ["Hades"]
       },
       {
-        "character_name": "3 Tiger",
-        "overdrive_order": null,
+        "character_name": "White Tiger",
+        "overdrive_order": 3,
         "substitutes": ["Gabriele"]
       },
       {
         "character_name": "Siegfried",
-        "overdrive_order": null,
+        "overdrive_order": 2,
         "substitutes": ["Apollo"]
       },
       {
         "character_name": "Cleopatra",
-        "overdrive_order": null,
+        "overdrive_order": 1,
         "substitutes": ["Faust"]
       }
     ]
@@ -195,22 +195,22 @@
         "substitutes": ["Ares"]
       },
       {
-        "character_name": "2",
-        "overdrive_order": null
+        "character_name": "Atanith",
+        "overdrive_order": 6
       },
       {
         "character_name": "Fenrir",
-        "overdrive_order": 4,
+        "overdrive_order": 2,
         "substitutes": ["Ophelia"]
       },
       {
-        "character_name": "3",
-        "overdrive_order": null,
+        "character_name": "Siegfried",
+        "overdrive_order": 5,
         "substitutes": ["Tyrfing"]
       },
       {
         "character_name": "Kleina",
-        "overdrive_order": null,
+        "overdrive_order": 3,
         "substitutes": ["Poseidon"]
       },
       {
