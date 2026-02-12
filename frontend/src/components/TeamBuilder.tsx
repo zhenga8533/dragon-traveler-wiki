@@ -740,27 +740,6 @@ export default function TeamBuilder({
               ) : undefined;
             })()}
             style={{ minWidth: 160 }}
-            renderOption={({ option }) => (
-              <Group gap="sm">
-                <Image
-                  src={FACTION_ICON_MAP[option.value as FactionName]}
-                  h={20}
-                  w={20}
-                  fit="contain"
-                />
-                <Text>{option.label}</Text>
-              </Group>
-            )}
-            leftSection={
-              faction ? (
-                <Image
-                  src={FACTION_ICON_MAP[faction as FactionName]}
-                  h={16}
-                  w={16}
-                  fit="contain"
-                />
-              ) : undefined
-            }
           />
         </Group>
 
@@ -845,25 +824,6 @@ export default function TeamBuilder({
                     breach: value || undefined,
                   }))
                 }
-                renderOption={({ option }) => {
-                  const icon = getWyrmspellIcon(option.value);
-                  return (
-                    <Group gap="sm">
-                      {icon && <Image src={icon} h={20} w={20} fit="contain" />}
-                      <Text>{option.label}</Text>
-                    </Group>
-                  );
-                }}
-                leftSection={
-                  teamWyrmspells.breach ? (
-                    <Image
-                      src={getWyrmspellIcon(teamWyrmspells.breach)}
-                      h={16}
-                      w={16}
-                      fit="contain"
-                    />
-                  ) : undefined
-                }
                 clearable
               />
               <Select
@@ -887,25 +847,6 @@ export default function TeamBuilder({
                     ...prev,
                     refuge: value || undefined,
                   }))
-                }
-                renderOption={({ option }) => {
-                  const icon = getWyrmspellIcon(option.value);
-                  return (
-                    <Group gap="sm">
-                      {icon && <Image src={icon} h={20} w={20} fit="contain" />}
-                      <Text>{option.label}</Text>
-                    </Group>
-                  );
-                }}
-                leftSection={
-                  teamWyrmspells.refuge ? (
-                    <Image
-                      src={getWyrmspellIcon(teamWyrmspells.refuge)}
-                      h={16}
-                      w={16}
-                      fit="contain"
-                    />
-                  ) : undefined
                 }
                 clearable
               />
@@ -931,25 +872,6 @@ export default function TeamBuilder({
                     wildcry: value || undefined,
                   }))
                 }
-                renderOption={({ option }) => {
-                  const icon = getWyrmspellIcon(option.value);
-                  return (
-                    <Group gap="sm">
-                      {icon && <Image src={icon} h={20} w={20} fit="contain" />}
-                      <Text>{option.label}</Text>
-                    </Group>
-                  );
-                }}
-                leftSection={
-                  teamWyrmspells.wildcry ? (
-                    <Image
-                      src={getWyrmspellIcon(teamWyrmspells.wildcry)}
-                      h={16}
-                      w={16}
-                      fit="contain"
-                    />
-                  ) : undefined
-                }
                 clearable
               />
               <Select
@@ -973,25 +895,6 @@ export default function TeamBuilder({
                     ...prev,
                     dragons_call: value || undefined,
                   }))
-                }
-                renderOption={({ option }) => {
-                  const icon = getWyrmspellIcon(option.value);
-                  return (
-                    <Group gap="sm">
-                      {icon && <Image src={icon} h={20} w={20} fit="contain" />}
-                      <Text>{option.label}</Text>
-                    </Group>
-                  );
-                }}
-                leftSection={
-                  teamWyrmspells.dragons_call ? (
-                    <Image
-                      src={getWyrmspellIcon(teamWyrmspells.dragons_call)}
-                      h={16}
-                      w={16}
-                      fit="contain"
-                    />
-                  ) : undefined
                 }
                 clearable
               />
@@ -1078,26 +981,6 @@ export default function TeamBuilder({
               if (configSlotIndex !== null) {
                 handleUpdateSubstitutes(value);
               }
-            }}
-            renderOption={({ option }) => {
-              const char = charMap.get(option.value);
-              return (
-                <Group gap="sm">
-                  <Image
-                    src={getPortrait(option.value)}
-                    h={32}
-                    w={32}
-                    fit="cover"
-                    radius="50%"
-                    style={{
-                      border: char
-                        ? `2px solid ${QUALITY_BORDER_COLOR[char.quality]}`
-                        : undefined,
-                    }}
-                  />
-                  <Text>{option.label}</Text>
-                </Group>
-              );
             }}
             searchable
             clearable
