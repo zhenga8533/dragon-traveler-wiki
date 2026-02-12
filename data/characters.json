@@ -1551,7 +1551,7 @@
         },
         {
           "level": 2,
-          "effect": "If the target of [Drum Beat] is in the [Wild] status or the [Grace] status, additionally grants them [Attack Increase]."
+          "effect": "If the target of [Drum Beat] is in the [Wild] status or the [Grace] status, additionally grants them [Attack Boost]."
         },
         {
           "level": 3,
@@ -1680,6 +1680,12 @@
         "type": "Special Skill",
         "description": "Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Attack increases by 1%. Consumes 0/7 stacks of [Deathrattle] to gain immunity to the first/second instance of fatal damage received, and dispels all debuffs and control effects. Flies toward and absorbs each Clone on the battlefield in sequence, recovering 25% of Max HP for each Clone absorbed, and deals physical damage equal to 230% of Attack to enemies encountered along the way (Cannot be triggered if there are not enough [Deathrattle] stacks or no Clones on the field).",
         "cooldown": 0
+      },
+      {
+        "name": "The Remnant Soul of Hades",
+        "type": "Divine Skill",
+        "description": "[Final Verdict] All clones inherit an additional 30% attack.",
+        "cooldown": 0
       }
     ],
     "noble_phantasm": ""
@@ -1794,7 +1800,7 @@
         },
         {
           "level": 4,
-          "effect": "When casting [Soaring Tempest], dispels all debuffs from self and gains [Attack Increase]."
+          "effect": "When casting [Soaring Tempest], dispels all debuffs from self and gains [Attack Boost]."
         },
         {
           "level": 7,
@@ -1825,6 +1831,12 @@
         "name": "Soulshaker",
         "type": "Special Skill",
         "description": "All attacks ignore 15% of the target's Physical Defense. When not afflicted with a debuff, this effect is doubled. (This defense-ignoring effect can stack up to 40%.)",
+        "cooldown": 0
+      },
+      {
+        "name": "A Normal Punch",
+        "type": "Divine Skill",
+        "description": "[Cyclone Kick] Consumes an additional 10% of current health to gain [Damage Boost].",
         "cooldown": 0
       }
     ],
@@ -1899,6 +1911,12 @@
         "type": "Special Skill",
         "description": "Pummels a single target, dealing physical damage equal to 320% of Attack and inflicting [Physical Defense Down].",
         "cooldown": 16
+      },
+      {
+        "name": "Ten Thousand Snakes Eat Bones",
+        "type": "Divine Skill",
+        "description": "[Ravaging Maw] After defeating the target, immediately use [Ravaging Maw] again on the enemy phantom with the lowest health.",
+        "cooldown": 0
       }
     ],
     "noble_phantasm": ""
@@ -1972,6 +1990,12 @@
         "type": "Special Skill",
         "description": "Spins the scythe to deal magic damage equal to 280% of Attack to enemies in a large circular area. Against targets afflicted with an [Elemental Debuff], Life Steal is increased by 75%.",
         "cooldown": 10
+      },
+      {
+        "name": "Elegy for the Underworld",
+        "type": "Divine Skill",
+        "description": "[Soul Sacrifice Annihilation] The damage increase after sacrificing each non-elite summon has been increased from 25% to 35%.",
+        "cooldown": 0
       }
     ],
     "noble_phantasm": ""
@@ -2045,6 +2069,12 @@
         "type": "Special Skill",
         "description": "Quickly passes through a single target, dealing physical damage equal to 275% of Attack.",
         "cooldown": 12
+      },
+      {
+        "name": "Gale Dance",
+        "type": "Divine Skill",
+        "description": "[Furious Flurry] grants [Attack Speed Boost] immediately upon activation.",
+        "cooldown": 0
       }
     ],
     "noble_phantasm": ""
@@ -2383,19 +2413,26 @@
   },
   {
     "name": "Ares",
-    "title": "",
+    "title": "Goddess of War",
     "quality": "SSR EX",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Illusion Veil", "Arcane Wisdom"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Swordsman",
+      "Knight",
+      "Champion",
+      "Vanguard",
+      "Berserker",
+      "Lord"
+    ],
+    "height": "179cm",
+    "weight": "58kg",
+    "origin": "Greek Mythology",
+    "lore": "Ares, son of Zeus and Hera, is the god of war, the embodiment of war.",
+    "quote": "War never favors the weak.",
     "talent": {
-      "name": "",
+      "name": "Battlehowl",
       "talent_levels": [
         {
           "level": 1,
@@ -2428,18 +2465,18 @@
         "name": "Godfist",
         "type": "Overdrive",
         "description": "Flexes both arms into a frenzied fit, pummeling forward and dealing physical damage equal to 600% of Attack to enemy units in a medium rectangular area while knocking them back. When at full Energy, deals additional physical damage equal to 44% of Max HP. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, this additional damage is doubled and inflicts a 4s [Stun] on targets affected by [Punishment].",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Focused Fist",
         "type": "Ultimate Skill",
         "description": "Unleashes a forceful fist forward to tear through enemies within a cone-shaped area, dealing physical damage equal to 190% of Attack. Deals additional physical damage equal to 19% of Max HP to enemies in the center of this area. This skill deals more damage when possessing more Energy, up to a maximum of 100% increased damage. When at full Energy, additionally grants a shield equal to 30% of Max HP, lasting 6 seconds.",
-        "cooldown": 0
+        "cooldown": 12
       },
       {
         "name": "Seismic Soul",
         "type": "Secret Skill",
-        "description": "When attacking enemies under control effects, increases damage dealt by 40%. Each time an ally casts an Overdrive, the caster gains 1 stack of [Awakening Call]. When the caster has at least 3 stacks of [Awakening Call], all 3 stacks are consumed to empower the next normal attack: slamming a single target to deal 240% of the caster's Attack as Physical Damage and inflicting [Stun] for 4s.",
+        "description": "When attacking enemies under control effects, increases damage dealt by 40%. Each time an ally casts an Overdrive, the caster gains 1 stack of [Awakening]. When the caster has at least 3 stacks of [Awakening], all 3 stacks are consumed to empower the next normal attack: slamming a single target to deal 240% of the caster's Attack as Physical Damage and inflicting [Stun] for 4s.",
         "cooldown": 0
       },
       {
@@ -2447,25 +2484,38 @@
         "type": "Special Skill",
         "description": "Upon taking fatal damage for the first time, becomes briefly Invincible and inflicts [Time Stasis] on enemies within a large circular area for 5s. Then begins consuming Energy, restoring 10% of Max HP for every 10% Energy consumed, up to full HP. Energy will no longer be consumed once HP is fully restored.",
         "cooldown": 0
+      },
+      {
+        "name": "High Spirits",
+        "type": "Divine Skill",
+        "description": "[Focused Fist] Grants a shield without needing full energy.",
+        "cooldown": 0
       }
     ],
     "noble_phantasm": ""
   },
   {
     "name": "Brynhild",
-    "title": "",
+    "title": "Warborn Goddess",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Sanctum Glory", "Otherworld Return"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Swordsman",
+      "Magic Swordsman",
+      "Champion",
+      "Vanguard",
+      "Crusader",
+      "Sword Master"
+    ],
+    "height": "174cm",
+    "weight": "47kg",
+    "origin": "Norse Mythology",
+    "lore": "Odin's attendant, a sacred and noble Valkyrie, belonging to Valhalla, the Temple of Heroes. Even among the Valkyries, she is the most powerful and compassionate, often riding a white horse across the skies, overlooking the earth, her gleaming shield reflecting the aurora borealis, giving warriors courage and faith.",
+    "quote": "Prove your courage!",
     "talent": {
-      "name": "",
+      "name": "Tactical Shift",
       "talent_levels": [
         {
           "level": 1,
@@ -2493,14 +2543,14 @@
       {
         "name": "Radiant Ash Ring",
         "type": "Overdrive",
-        "description": "For 5s, beams of light rain down, randomly striking enemies in a massive circular area, dealing physical damage equal to 140% of Attack up to 5 times per second. Each target can only be hit once every 0.5s. If cast while under [Grace], removes the status and gains additional effects based on the number of [Radiant Ember] stacks: [1]: Upon casting, grants a Shield equal to 150% of Attack for 6s, and allies in the area gain [Attack Boost]; [2]: Increases damage by 40%, and grants 4 stacks of [Deathrattle] when the skill ends; [3]: Upon casting, all allies except self gain [Attack Boost], while self gains [Significant Attack Boost].",
-        "cooldown": 0
+        "description": "For 5s, beams of light rain down, randomly striking enemies in a massive circular area, dealing physical damage equal to 140% of Attack up to 5 times per second. Each target can only be hit once every 0.5s. If cast while under [Grace], removes the status and gains additional effects based on the number of [Radiant Ember] stacks:\n\n1. Upon casting, grants a Shield equal to 150% of Attack for 6s, and allies in the area gain [Attack Boost].\n2. Increases damage by 40%, and grants 4 stacks of [Deathrattle] when the skill ends.\n3. Upon casting, all allies except self gain [Attack Boost], while self gains [Significant Attack Boost].",
+        "cooldown": 18
       },
       {
         "name": "Radiance Battlefield",
         "type": "Ultimate Skill",
         "description": "Deals physical damage equal to 160% of Attack to enemy units in a large circular area, and grants [Morale].",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Warborn Goddess' Helm",
@@ -2511,7 +2561,13 @@
       {
         "name": "Whirling Slash",
         "type": "Special Skill",
-        "description": "Spins forward, dealing physical damage equal to 120% of Attack to enemies in a straight line and gaining [Favor].",
+        "description": "Spins forward, dealing physical damage equal to 120% of Attack to enemies in a straight line and gaining [Fervor].",
+        "cooldown": 12
+      },
+      {
+        "name": "Enhanced Offense",
+        "type": "Divine Skill",
+        "description": "[Radiant Ash Ring] Increases own ultimate skill damage by 8% per second during its duration, stacking up to 10 times, and clears when the skill ends.",
         "cooldown": 0
       }
     ],
@@ -2519,19 +2575,26 @@
   },
   {
     "name": "Marylis",
-    "title": "",
+    "title": "Six-Armed Serpent",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Arcane Wisdom", "Wild Spirit"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Swordsman",
+      "Knight",
+      "Champion",
+      "Crusader",
+      "Berserker",
+      "Sword Master"
+    ],
+    "height": "210cm",
+    "weight": "78kg",
+    "origin": "Indian Mythology",
+    "lore": "A demigod basilisk with six arms, born in the distant past, is arrogant and dangerous. She revels in bloodshed and slaughter, devoid of any human morality. She once reaped great victories in battles between evil creatures and gods, but was ultimately banished to the underground kingdom as punishment, condemned only to bite the wicked and the dying. Over countless ages, she has built a magnificent palace underground, amassing countless bizarre and wondrous treasures...",
+    "quote": "Which hand will you hold!",
     "talent": {
-      "name": "",
+      "name": "Damage Infliction",
       "talent_levels": [
         {
           "level": 1,
@@ -2560,13 +2623,13 @@
         "name": "Limit Breaker",
         "type": "Overdrive",
         "description": "Sacrifices 40% of current HP to deal physical damage equal to 180% of Attack to enemies within a medium circular area and restores HP 6 times. Each amount restored is equal to 20% of lost HP.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Blade Dance",
         "type": "Ultimate Skill",
         "description": "Sacrifices 10% of current HP to deal physical damage equal to 440% of Attack to enemies within a medium circular area.",
-        "cooldown": 0
+        "cooldown": 12
       },
       {
         "name": "Absolute Focus",
@@ -2579,25 +2642,38 @@
         "type": "Special Skill",
         "description": "Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, Life Steal increases by 36% and [Blade Dance] damage increases by 50%.",
         "cooldown": 0
+      },
+      {
+        "name": "Abyss Fantasy",
+        "type": "Divine Skill",
+        "description": "[Absolute Focus] Has a 30% chance of not consuming [Awakening].",
+        "cooldown": 0
       }
     ],
     "noble_phantasm": ""
   },
   {
     "name": "Arthur",
-    "title": "",
+    "title": "Eternal King",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Sanctum Glory", "Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Swordsman",
+      "Magic Swordsman",
+      "Champion",
+      "Crusader",
+      "Berserker",
+      "Lord"
+    ],
+    "height": "185cm",
+    "weight": "76kg",
+    "origin": "European Folklore",
+    "lore": "Daughter of King Uther, the great and immortal Queen of Camelot, she was dashing and spirited, charming and debonair, upright and honorable, and possessed a strong sense of chivalry, earning her countless admirers and respect. The sorcerer Merlin was her companion and mentor, and many upright knights gathered around the queen, forming the Knights of the Round Table, a order without hierarchical distinctions of rank or subject, working together to contribute to the prosperity of Camelot.",
+    "quote": "Glory belongs to Camelot!",
     "talent": {
-      "name": "",
+      "name": "Breath of the King",
       "talent_levels": [
         {
           "level": 1,
@@ -2626,13 +2702,13 @@
         "name": "Sword of the Covenant",
         "type": "Overdrive",
         "description": "Unleashes a heaving greatsword strike, dealing physical damage equal to 440% of Attack to enemies within a rectangular area. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, damage increases by 35%, and if the target's Overdrive Energy cost is greater than 4, damage is increased by a further 35% for each additional point of Energy cost (up to a maximum increase of 140%). When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, the attack range of this skill increases, and base damage increases to 560% of Attack.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Bladestorm",
         "type": "Ultimate Skill",
         "description": "Launches a flurry of attacks, dealing physical damage equal to 140% of Attack to enemies within a rectangular area. Each attack has a 9% chance to grant [Fervor]. When in the [Grace] status, this skill's attack range and number of attack instances increase.",
-        "cooldown": 0
+        "cooldown": 10
       },
       {
         "name": "Excalibur's Awakening",
@@ -2645,25 +2721,38 @@
         "type": "Special Skill",
         "description": "Increases Damage Reduction by 18%. When in the [Grace] status, instead increases Damage Amplification by 18% and Life Steal by 18%.",
         "cooldown": 0
+      },
+      {
+        "name": "The Oath of the Warrior",
+        "type": "Divine Skill",
+        "description": "[Sword of the Covenant] Ignores 20% of the target's current defense (this defense-ignoring effect can stack up to 40%).",
+        "cooldown": 0
       }
     ],
     "noble_phantasm": ""
   },
   {
     "name": "Siegfried",
-    "title": "",
+    "title": "Dragonslayer",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Elemental Echo", "Wild Spirit"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Fighter",
+      "Gladiator",
+      "Champion",
+      "Vanguard",
+      "Berserker",
+      "Sword Master"
+    ],
+    "height": "165cm",
+    "weight": "48kg",
+    "origin": "Norse Mythology",
+    "lore": "The only princess of Midham, the \"Kingdom Below the Mountain\", inherits the bloodline of the first hero, Sigurd. She has a straightforward and carefree personality. Having grown up listening to the legends of Sigurd, she also dreams of becoming a hero and protecting the people of Midham.",
+    "quote": "Between you and me, it's irreconcilable!",
     "talent": {
-      "name": "",
+      "name": "Blazing Heart",
       "talent_levels": [
         {
           "level": 1,
@@ -2692,13 +2781,13 @@
         "name": "Infernal Wyrm",
         "type": "Overdrive",
         "description": "Slashes out multiple rings of fire, dealing physical damage equal to 240% of Attack to enemies along 3 paths and dealing physical damage equal to 270% of Attack to enemies within a medium circular area at the ring's destination. The ring of fire inflicts [Ignite] on enemies it collides with.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Flamecleave",
         "type": "Ultimate Skill",
         "description": "Sacrifices 15% of current HP to unleash 3 pillars of fire, dealing physical damage equal to 140% of Attack to enemies within a rectangular area and inflicting [Physical Defense Down].",
-        "cooldown": 0
+        "cooldown": 16
       },
       {
         "name": "Fearless Hero",
@@ -2710,6 +2799,12 @@
         "name": "Flamecoil",
         "type": "Special Skill",
         "description": "Flings a ring of fire forward, dealing physical damage equal to a maximum of 240% of Attack to enemies within a large rectangular area. While in the [Wild] status, additionally grants a shield equal to 180% of Attack. Lasts 8 seconds.",
+        "cooldown": 14
+      },
+      {
+        "name": "King's Sensation",
+        "type": "Divine Skill",
+        "description": "[Flamecleave] Can be automatically cast on enemies, and it comes with [Physical Defense Down], which triggers once every 15 seconds.",
         "cooldown": 0
       }
     ],
@@ -2717,19 +2812,26 @@
   },
   {
     "name": "Tyrfing",
-    "title": "",
+    "title": "Bloodthirster Sword",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Illusion Veil", "Wild Spirit"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Swordsman",
+      "Magic Swordsman",
+      "Champion",
+      "Vanguard",
+      "Crusader",
+      "Sword Master"
+    ],
+    "height": "178cm",
+    "weight": "57kg",
+    "origin": "Norse Mythology",
+    "lore": "Tyrfong, the sword of cleavage, once drawn, will surely strike its target, draw blood, and kill its master.",
+    "quote": "So much death, so much power.",
     "talent": {
-      "name": "",
+      "name": "Crimson Plunder",
       "talent_levels": [
         {
           "level": 1,
@@ -2758,13 +2860,13 @@
         "name": "Rage Reborn",
         "type": "Overdrive",
         "description": "Transforms into [Bloodferno Form], dealing physical damage equal to 300% of Attack to enemies within a large circular area around self upon transforming, and recovering 20% of Max HP. Gains immunity to control effects while this skill is active. When in [Bloodferno Form], Attack and Life Steal increase by 20%, basic attacks deal AoE damage, and Overdrive is replaced with [Crimson Execution]: Costs 3 Overdrive Energy. Unleashes a series of deadly hacks and slashes on enemies in the area ahead, dealing physical damage equal to 760% of Attack.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Soulburning Blade",
         "type": "Ultimate Skill",
         "description": "Sacrifices 20% of current HP to deal physical damage equal to 240% of Attack to enemies within a large circular area, and grants [Attack Speed Boost]. This skill can trigger the [Punishment] effect, increasing damage by 20% when triggered. While in [Bloodferno Form], base damage is increased to 360% of Attack and also grants [Attack Boost].",
-        "cooldown": 0
+        "cooldown": 16
       },
       {
         "name": "Taste of Blood",
@@ -2776,6 +2878,12 @@
         "name": "Wildshade Phantom",
         "type": "Special Skill",
         "description": "Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, each basic attack and [Crimson Execution] hit has a 70% chance to deal additional physical damage equal to 100% of Attack.",
+        "cooldown": 0
+      },
+      {
+        "name": "Phantom Strike",
+        "type": "Divine Skill",
+        "description": "The trigger probability of [Wildshade Phantom] has been increased from 70% to 100%.",
         "cooldown": 0
       }
     ],

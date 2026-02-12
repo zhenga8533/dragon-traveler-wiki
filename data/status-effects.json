@@ -174,40 +174,40 @@
     "remark": ""
   },
   {
-    "name": "",
-    "type": "",
-    "effect": "",
+    "name": "Damage Boost",
+    "type": "Buff",
+    "effect": "Increases damage dealt by 30%. Lasts 8 seconds.",
     "remark": ""
   },
   {
-    "name": "",
-    "type": "",
-    "effect": "",
+    "name": "Crit Damage Up",
+    "type": "Buff",
+    "effect": "Increases critical damage by 45%. Lasts 8 seconds.",
     "remark": ""
   },
   {
-    "name": "",
-    "type": "",
-    "effect": "",
+    "name": "Attack Speed Boost",
+    "type": "Buff",
+    "effect": "Increases attack speed by 45%. Lasts 8 seconds.",
+    "remark": "Does not stack with [Significant Attack Speed Boost]."
+  },
+  {
+    "name": "Time Stasis",
+    "type": "Control",
+    "effect": "Cannot take action. Unable to move, attack, or cast skills.",
     "remark": ""
   },
   {
-    "name": "",
-    "type": "",
-    "effect": "",
+    "name": "Radiant Ember",
+    "type": "Exclusive",
+    "effect": "Lasts until the end of battle. Stacks up to 3 times.",
     "remark": ""
   },
   {
-    "name": "",
-    "type": "",
-    "effect": "",
-    "remark": ""
-  },
-  {
-    "name": "",
-    "type": "",
-    "effect": "",
-    "remark": ""
+    "name": "Significant Attack Boost",
+    "type": "Buff",
+    "effect": "Increases Attack by 45%. Lasts 8 seconds.",
+    "remark": "Does not stack with [Attack Boost]."
   },
   {
     "name": "",
