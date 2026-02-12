@@ -1,3 +1,4 @@
+import { useEffect, useRef, useState } from 'react';
 import {
   ActionIcon,
   Badge,
@@ -18,6 +19,7 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import {
+  IoBook,
   IoCheckmark,
   IoCopyOutline,
   IoFlash,
@@ -25,9 +27,11 @@ import {
   IoGlobe,
   IoLink,
   IoList,
+  IoOpenOutline,
   IoPeople,
   IoPricetag,
   IoSearch,
+  IoShield,
   IoSparkles,
   IoTrophy,
 } from 'react-icons/io5';
@@ -36,11 +40,15 @@ import banner from '../assets/banner.png';
 import CharacterCard from '../components/CharacterCard';
 import SearchModal from '../components/SearchModal';
 import { TIER_COLOR } from '../constants/colors';
-import { BRAND_TITLE_STYLE } from '../constants/styles';
+import { BRAND_TITLE_STYLE, CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
+import { TRANSITION } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import type { Character } from '../types/character';
 import type { Code } from '../types/code';
+import type { StatusEffect } from '../types/status-effect';
+import type { Team } from '../types/team';
 import type { TierList } from '../types/tier-list';
+import type { Wyrmspell } from '../types/wyrmspell';
 
 interface ChangelogEntry {
   date: string;
@@ -53,18 +61,10 @@ interface ChangelogEntry {
 }
 
 const QUICK_LINKS = [
-  {
-    label: 'Status Effects',
-    path: '/status-effects',
-    icon: IoFlash,
-    color: 'cyan',
-  },
-  {
-    label: 'Wyrmspells',
-    path: '/wyrmspells',
-    icon: IoSparkles,
-    color: 'indigo',
-  },
+  { label: 'Teams', path: '/teams', icon: IoShield, color: 'pink' },
+  { label: 'Guides', path: '/guides/beginner-qa', icon: IoBook, color: 'teal' },
+  { label: 'Status Effects', path: '/status-effects', icon: IoFlash, color: 'cyan' },
+  { label: 'Wyrmspells', path: '/wyrmspells', icon: IoSparkles, color: 'indigo' },
   { label: 'Useful Links', path: '/useful-links', icon: IoLink, color: 'gray' },
   { label: 'Changelog', path: '/changelog', icon: IoList, color: 'grape' },
 ];
@@ -87,6 +87,169 @@ const TYPE_COLORS: Record<string, string> = {
   fixed: 'orange',
   removed: 'red',
 };
+
+// ---------------------------------------------------------------------------
+// Scroll reveal hook
+// ---------------------------------------------------------------------------
+
+function useScrollReveal(staggerIndex = 0) {
+  const ref = useRef<HTMLDivElement>(null);
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    const el = ref.current;
+    if (!el) return;
+
+    const observer = new IntersectionObserver(
+      ([entry]) => {
+        if (entry.isIntersecting) {
+          setIsVisible(true);
+          observer.unobserve(el);
+        }
+      },
+      { threshold: 0.1 },
+    );
+
+    observer.observe(el);
+    return () => observer.disconnect();
+  }, []);
+
+  const style: React.CSSProperties = {
+    opacity: isVisible ? 1 : 0,
+    transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
+    transition: `opacity 400ms ${TRANSITION.EASE} ${staggerIndex * 100}ms, transform 400ms ${TRANSITION.EASE} ${staggerIndex * 100}ms`,
+  };
+
+  return { ref, style };
+}
+
+// ---------------------------------------------------------------------------
+// Section components
+// ---------------------------------------------------------------------------
+
+function DataStatsBar() {
+  const { data: characters, loading: l1 } = useDataFetch<Character[]>('data/characters.json', []);
+  const { data: wyrmspells, loading: l2 } = useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
+  const { data: statusEffects, loading: l3 } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
+  const { data: teams, loading: l4 } = useDataFetch<Team[]>('data/teams.json', []);
+
+  if (l1 || l2 || l3 || l4) {
+    return (
+      <Group justify="center" py="md">
+        <Skeleton height={20} width={400} radius="md" />
+      </Group>
+    );
+  }
+
+  const stats = [
+    `${characters.length} Characters`,
+    `${wyrmspells.length} Wyrmspells`,
+    `${statusEffects.length} Status Effects`,
+    `${teams.length} Teams`,
+  ];
+
+  return (
+    <Text ta="center" size="sm" c="dimmed" py="md">
+      {stats.join(' \u00b7 ')}
+    </Text>
+  );
+}
+
+function FeaturedCharactersMarquee() {
+  const { data: tierLists, loading: loadingTiers } = useDataFetch<TierList[]>('data/tier-lists.json', []);
+  const { data: characters, loading: loadingChars } = useDataFetch<Character[]>('data/characters.json', []);
+
+  const loading = loadingTiers || loadingChars;
+
+  if (loading) {
+    return (
+      <Group gap="md" justify="center">
+        {[1, 2, 3, 4, 5, 6].map((i) => (
+          <Skeleton key={i} height={100} width={80} radius="md" />
+        ))}
+      </Group>
+    );
+  }
+
+  const tierList = tierLists[0];
+  if (!tierList) return null;
+
+  const charMap = new Map(characters.map((c) => [c.name, c]));
+  const topEntries = tierList.entries.filter((e) => e.tier === 'S+' || e.tier === 'S');
+
+  if (topEntries.length === 0) return null;
+
+  const renderCharacters = (keyPrefix: string) =>
+    topEntries.map((entry) => {
+      const char = charMap.get(entry.character_name);
+      return (
+        <Stack
+          key={`${keyPrefix}-${entry.character_name}`}
+          gap={2}
+          align="center"
+          style={{ flexShrink: 0, width: 90 }}
+        >
+          <CharacterCard name={entry.character_name} quality={char?.quality} size={64} />
+          <Badge size="xs" variant="light" color={TIER_COLOR[entry.tier]}>
+            {entry.tier}
+          </Badge>
+        </Stack>
+      );
+    });
+
+  const duration = topEntries.length * 3;
+
+  const tierListMeta = [
+    tierList.name,
+    tierList.content_type,
+    tierList.author ? `by ${tierList.author}` : null,
+  ].filter(Boolean);
+
+  return (
+    <Stack gap="md">
+      <Group gap="sm" justify="center">
+        <ThemeIcon variant="light" color="orange" size="lg" radius="md">
+          <IoTrophy size={20} />
+        </ThemeIcon>
+        <Title order={4}>Featured Characters</Title>
+      </Group>
+      {tierListMeta.length > 0 && (
+        <Text size="xs" c="dimmed" ta="center">
+          {tierListMeta.join(' \u00b7 ')}
+        </Text>
+      )}
+      <Box
+        style={{
+          overflow: 'hidden',
+          maskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+          WebkitMaskImage: 'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+        }}
+      >
+        <Group
+          gap="md"
+          wrap="nowrap"
+          style={{
+            animation: `marquee-scroll ${duration}s linear infinite`,
+            width: 'max-content',
+          }}
+          onMouseEnter={(e) => { e.currentTarget.style.animationPlayState = 'paused'; }}
+          onMouseLeave={(e) => { e.currentTarget.style.animationPlayState = 'running'; }}
+        >
+          {renderCharacters('a')}
+          {renderCharacters('b')}
+        </Group>
+      </Box>
+      <Group gap="md" justify="center">
+        <Text component={Link} to="/tier-list" size="xs" c="dimmed" td="underline">
+          View full tier list
+        </Text>
+        <Text component={Link} to="/characters" size="xs" c="dimmed" td="underline">
+          Browse all characters
+        </Text>
+      </Group>
+    </Stack>
+  );
+}
 
 function ActiveCodesSection() {
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
@@ -159,109 +322,10 @@ function ActiveCodesSection() {
   );
 }
 
-function TopCharactersSection() {
-  const { data: tierLists, loading: loadingTiers } = useDataFetch<TierList[]>(
-    'data/tier-lists.json',
-    []
-  );
-  const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
-
-  const loading = loadingTiers || loadingChars;
-
-  if (loading) {
-    return (
-      <Group gap="md">
-        {[1, 2, 3, 4, 5, 6].map((i) => (
-          <Skeleton key={i} height={100} width={80} radius="md" />
-        ))}
-      </Group>
-    );
-  }
-
-  // Get S+ and S tier characters from the first tier list
-  const tierList = tierLists[0];
-  if (!tierList) {
-    return (
-      <Text size="sm" c="dimmed" fs="italic">
-        No tier list data available.
-      </Text>
-    );
-  }
-
-  const charMap = new Map(characters.map((c) => [c.name, c]));
-  const topEntries = tierList.entries
-    .filter((e) => e.tier === 'S+' || e.tier === 'S')
-    .slice(0, 8);
-
-  const tierListMeta = [
-    tierList.name,
-    tierList.content_type,
-    tierList.author ? `by ${tierList.author}` : null,
-  ].filter(Boolean);
-
-  if (topEntries.length === 0) {
-    return (
-      <Text size="sm" c="dimmed" fs="italic">
-        No top tier characters found.
-      </Text>
-    );
-  }
-
-  return (
-    <Stack gap="sm">
-      {tierListMeta.length > 0 && (
-        <Text size="xs" c="dimmed">
-          {tierListMeta.join(' · ')}
-        </Text>
-      )}
-      <Group gap="md" wrap="wrap">
-        {topEntries.map((entry) => {
-          const char = charMap.get(entry.character_name);
-          return (
-            <Stack key={entry.character_name} gap={2} align="center">
-              <CharacterCard
-                name={entry.character_name}
-                quality={char?.quality}
-                size={64}
-              />
-              <Badge size="xs" variant="light" color={TIER_COLOR[entry.tier]}>
-                {entry.tier}
-              </Badge>
-            </Stack>
-          );
-        })}
-      </Group>
-      <Group gap="md">
-        <Text
-          component={Link}
-          to="/tier-list"
-          size="xs"
-          c="dimmed"
-          td="underline"
-        >
-          View full tier list
-        </Text>
-        <Text
-          component={Link}
-          to="/characters"
-          size="xs"
-          c="dimmed"
-          td="underline"
-        >
-          Browse all characters
-        </Text>
-      </Group>
-    </Stack>
-  );
-}
-
 function RecentUpdatesSection() {
   const { data: changelog, loading } = useDataFetch<ChangelogEntry[]>(
     'data/changelog.json',
-    []
+    [],
   );
 
   if (loading) {
@@ -353,12 +417,30 @@ function RecentUpdatesSection() {
   );
 }
 
+// ---------------------------------------------------------------------------
+// Home page
+// ---------------------------------------------------------------------------
+
 export default function Home() {
   const colorScheme = useComputedColorScheme('light');
   const isDark = colorScheme === 'dark';
 
+  const [bannerLoaded, setBannerLoaded] = useState(false);
+
+  const marqueeReveal = useScrollReveal(0);
+  const codesReveal = useScrollReveal(0);
+  const updatesReveal = useScrollReveal(1);
+  const quickLinksReveal = useScrollReveal(0);
+
   return (
     <Stack gap={0}>
+      <style>{`
+        @keyframes marquee-scroll {
+          0% { transform: translateX(0); }
+          100% { transform: translateX(-50%); }
+        }
+      `}</style>
+
       {/* Hero banner with overlapping content */}
       <Box
         style={{
@@ -381,13 +463,30 @@ export default function Home() {
             overflow: 'hidden',
           }}
         >
+          {/* Gradient placeholder (visible while banner loads) */}
           <Box
             style={{
               position: 'absolute',
               inset: 0,
-              backgroundImage: `url(${banner})`,
-              backgroundSize: 'cover',
-              backgroundPosition: 'center top',
+              background: isDark
+                ? 'linear-gradient(135deg, #1a0a2e 0%, #2d1450 30%, #4a1942 60%, #1a0a2e 100%)'
+                : 'linear-gradient(135deg, #e8d5f5 0%, #c9a0dc 30%, #b57ecd 60%, #e8d5f5 100%)',
+            }}
+          />
+          {/* Actual banner image (fades in when loaded) */}
+          <img
+            src={banner}
+            alt=""
+            onLoad={() => setBannerLoaded(true)}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center top',
+              opacity: bannerLoaded ? 1 : 0,
+              transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
             }}
           />
           {/* Dark overlay for text readability */}
@@ -433,14 +532,12 @@ export default function Home() {
               <Title
                 order={1}
                 style={{
-                  ...BRAND_TITLE_STYLE,
+                  fontFamily: BRAND_TITLE_STYLE.fontFamily,
+                  letterSpacing: BRAND_TITLE_STYLE.letterSpacing,
+                  fontWeight: 700,
                   fontSize: 'clamp(2rem, 6vw, 3.5rem)',
-                  backgroundImage: isDark
-                    ? 'linear-gradient(120deg, var(--mantine-color-violet-2) 0%, var(--mantine-color-violet-4) 45%, var(--mantine-color-grape-4) 100%)'
-                    : 'linear-gradient(120deg, var(--mantine-color-violet-6) 0%, var(--mantine-color-violet-5) 45%, var(--mantine-color-grape-6) 100%)',
-                  textShadow: isDark
-                    ? '0 2px 12px rgba(0, 0, 0, 0.8), 0 0 30px rgba(0, 0, 0, 0.5)'
-                    : '0 2px 10px rgba(0, 0, 0, 0.55), 0 0 22px rgba(0, 0, 0, 0.35)',
+                  color: '#fff',
+                  textShadow: '0 2px 16px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 58, 237, 0.35)',
                 }}
               >
                 Dragon Traveler Wiki
@@ -456,7 +553,7 @@ export default function Home() {
                 A community-driven wiki for Dragon Traveler
               </Text>
               <Stack gap="sm" mt="md" align="center">
-                <Group gap="sm" justify="center">
+                <Group gap="sm" justify="center" wrap="wrap">
                   <Button
                     component={Link}
                     to="/characters"
@@ -475,6 +572,26 @@ export default function Home() {
                     leftSection={<IoTrophy size={18} />}
                   >
                     View Tier List
+                  </Button>
+                  <Button
+                    component="a"
+                    href="https://dt.game-tree.com/"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    size="md"
+                    radius="md"
+                    variant="outline"
+                    color="gray"
+                    leftSection={<IoGameController size={18} />}
+                    rightSection={<IoOpenOutline size={14} />}
+                    style={{
+                      borderColor: 'rgba(255, 255, 255, 0.4)',
+                      color: 'rgba(255, 255, 255, 0.95)',
+                      backdropFilter: 'blur(4px)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
+                    }}
+                  >
+                    Play Now
                   </Button>
                 </Group>
                 <Group gap="xs" justify="center">
@@ -563,7 +680,7 @@ export default function Home() {
                     <IoGlobe size={16} />
                   </ThemeIcon>
                   <Text size="sm" c="dimmed">
-                    {LANGUAGES.join(' · ')}
+                    {LANGUAGES.join(' \u00b7 ')}
                   </Text>
                 </Group>
               </Stack>
@@ -572,120 +689,102 @@ export default function Home() {
         </Container>
       </Box>
 
+      {/* Data stats bar */}
+      <Container size="lg">
+        <DataStatsBar />
+      </Container>
+
       {/* Content sections */}
       <Container size="lg" py="xl">
         <Stack gap="xl">
-          {/* Top Characters & Active Codes row */}
+          {/* Featured Characters Marquee */}
+          <Box ref={marqueeReveal.ref} style={marqueeReveal.style}>
+            <FeaturedCharactersMarquee />
+          </Box>
+
+          {/* Active Codes & Recent Updates row */}
           <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-            {/* Top Characters */}
-            <Card padding="lg" radius="md" withBorder>
-              <Stack gap="md">
-                <Group gap="sm">
-                  <ThemeIcon
-                    variant="light"
-                    color="orange"
-                    size="lg"
-                    radius="md"
-                  >
-                    <IoTrophy size={20} />
-                  </ThemeIcon>
-                  <Title order={4}>Top Characters</Title>
-                </Group>
-                <TopCharactersSection />
-              </Stack>
-            </Card>
-
-            {/* Active Codes */}
-            <Card padding="lg" radius="md" withBorder>
-              <Stack gap="md">
-                <Group gap="sm">
-                  <ThemeIcon
-                    variant="light"
-                    color="yellow"
-                    size="lg"
-                    radius="md"
-                  >
-                    <IoPricetag size={20} />
-                  </ThemeIcon>
-                  <Title order={4}>Active Codes</Title>
-                </Group>
-                <ActiveCodesSection />
-              </Stack>
-            </Card>
-          </SimpleGrid>
-
-          {/* Recent Updates & Quick Links row */}
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-            {/* Recent Updates */}
-            <Card padding="lg" radius="md" withBorder>
-              <Stack gap="md">
-                <Group gap="sm">
-                  <ThemeIcon
-                    variant="light"
-                    color="grape"
-                    size="lg"
-                    radius="md"
-                  >
-                    <IoList size={20} />
-                  </ThemeIcon>
-                  <Title order={4}>Recent Updates</Title>
-                </Group>
-                <RecentUpdatesSection />
-              </Stack>
-            </Card>
-
-            {/* Quick Links */}
-            <Card padding="lg" radius="md" withBorder>
-              <Stack gap="md">
-                <Group gap="sm">
-                  <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-                    <IoPeople size={20} />
-                  </ThemeIcon>
-                  <Title order={4}>Quick Links</Title>
-                </Group>
-                <SimpleGrid cols={2} spacing="sm">
-                  {QUICK_LINKS.map((item) => (
-                    <Card
-                      key={item.path}
-                      component={Link}
-                      to={item.path}
-                      padding="sm"
+            <Box ref={codesReveal.ref} style={codesReveal.style}>
+              <Card padding="lg" radius="md" withBorder h="100%">
+                <Stack gap="md">
+                  <Group gap="sm">
+                    <ThemeIcon
+                      variant="light"
+                      color="yellow"
+                      size="lg"
                       radius="md"
-                      withBorder
-                      style={{
-                        textDecoration: 'none',
-                        cursor: 'pointer',
-                        transition: 'transform 0.15s, box-shadow 0.15s',
-                      }}
-                      onMouseEnter={(e) => {
-                        e.currentTarget.style.transform = 'translateY(-2px)';
-                        e.currentTarget.style.boxShadow =
-                          'var(--mantine-shadow-sm)';
-                      }}
-                      onMouseLeave={(e) => {
-                        e.currentTarget.style.transform = 'translateY(0)';
-                        e.currentTarget.style.boxShadow = '';
-                      }}
                     >
-                      <Group gap="xs">
-                        <ThemeIcon
-                          variant="light"
-                          color={item.color}
-                          size="md"
-                          radius="md"
-                        >
-                          <item.icon size={16} />
-                        </ThemeIcon>
-                        <Text fw={500} size="sm">
-                          {item.label}
-                        </Text>
-                      </Group>
-                    </Card>
-                  ))}
-                </SimpleGrid>
-              </Stack>
-            </Card>
+                      <IoPricetag size={20} />
+                    </ThemeIcon>
+                    <Title order={4}>Active Codes</Title>
+                  </Group>
+                  <ActiveCodesSection />
+                </Stack>
+              </Card>
+            </Box>
+
+            <Box ref={updatesReveal.ref} style={updatesReveal.style}>
+              <Card padding="lg" radius="md" withBorder h="100%">
+                <Stack gap="md">
+                  <Group gap="sm">
+                    <ThemeIcon
+                      variant="light"
+                      color="grape"
+                      size="lg"
+                      radius="md"
+                    >
+                      <IoList size={20} />
+                    </ThemeIcon>
+                    <Title order={4}>Recent Updates</Title>
+                  </Group>
+                  <RecentUpdatesSection />
+                </Stack>
+              </Card>
+            </Box>
           </SimpleGrid>
+
+          {/* Quick Links — full-width row */}
+          <Box ref={quickLinksReveal.ref} style={quickLinksReveal.style}>
+            <Stack gap="md">
+              <Group gap="sm" justify="center">
+                <ThemeIcon variant="light" color="blue" size="lg" radius="md">
+                  <IoGlobe size={20} />
+                </ThemeIcon>
+                <Title order={4}>Quick Links</Title>
+              </Group>
+              <SimpleGrid cols={{ base: 2, xs: 3, md: 6 }} spacing="sm">
+                {QUICK_LINKS.map((item) => (
+                  <Card
+                    key={item.path}
+                    component={Link}
+                    to={item.path}
+                    padding="sm"
+                    radius="md"
+                    withBorder
+                    style={{
+                      textDecoration: 'none',
+                      ...CARD_HOVER_STYLES,
+                    }}
+                    {...cardHoverHandlers}
+                  >
+                    <Group gap="xs" justify="center">
+                      <ThemeIcon
+                        variant="light"
+                        color={item.color}
+                        size="md"
+                        radius="md"
+                      >
+                        <item.icon size={16} />
+                      </ThemeIcon>
+                      <Text fw={500} size="sm">
+                        {item.label}
+                      </Text>
+                    </Group>
+                  </Card>
+                ))}
+              </SimpleGrid>
+            </Stack>
+          </Box>
         </Stack>
       </Container>
     </Stack>
