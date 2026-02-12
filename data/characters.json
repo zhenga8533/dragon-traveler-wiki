@@ -2503,7 +2503,7 @@
     "is_global": true,
     "subclasses": [
       "Swordsman",
-      "Magic Swordsman",
+      "Arcane Duelist",
       "Champion",
       "Vanguard",
       "Crusader",
@@ -2661,7 +2661,7 @@
     "is_global": true,
     "subclasses": [
       "Swordsman",
-      "Magic Swordsman",
+      "Arcane Duelist",
       "Champion",
       "Crusader",
       "Berserker",
@@ -2819,7 +2819,7 @@
     "is_global": true,
     "subclasses": [
       "Swordsman",
-      "Magic Swordsman",
+      "Arcane Duelist",
       "Champion",
       "Vanguard",
       "Crusader",
@@ -2894,16 +2894,23 @@
     "title": "",
     "quality": "SSR",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Wild Spirit", "Otherworld Return"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Fighter",
+      "Arcane Duelist",
+      "Knight",
+      "Vanguard",
+      "Crusader",
+      "Sword Master"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Greek Mythology",
     "lore": "",
-    "quote": "",
+    "quote": "I'm stubborn as a bull.",
     "talent": {
-      "name": "",
+      "name": "Savage Cyclone",
       "talent_levels": [
         {
           "level": 1,
@@ -2932,7 +2939,7 @@
         "name": "Heaven's Mandate",
         "type": "Overdrive",
         "description": "Sacrifices 20% of current HP to materialize a spirit avatar that deals physical damage equal to 420% of Attack to enemies within a medium circular area and launches them into the air. The avatar also deals physical damage equal to 140% of Attack to enemies along its path.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Savage Charge",
@@ -2944,7 +2951,7 @@
         "name": "Ancestral Will",
         "type": "Secret Skill",
         "description": "Whenever entering the [Wild] status, instantly recovers 22% of lost HP.",
-        "cooldown": 0
+        "cooldown": 5
       },
       {
         "name": "Battleborn",
@@ -2957,17 +2964,24 @@
   },
   {
     "name": "Beowulf",
-    "title": "",
+    "title": "King of the Wild Hunt",
     "quality": "SSR",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Otherworld Return", "Arcane Wisdom"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Swordsman",
+      "Gladiator",
+      "Champion",
+      "Crusader",
+      "Berserker",
+      "Sword Master"
+    ],
+    "height": "195cm",
+    "weight": "93kg",
+    "origin": "Norse Mythology",
+    "lore": "A powerful warrior clad in jet-black armor, his body shimmering with ghostly flames. His physical form had long since decayed, but his warlike spirit refused to rest.",
+    "quote": "I have shed my mortal form.",
     "talent": {
       "name": "",
       "talent_levels": [
@@ -2998,13 +3012,13 @@
         "name": "Dark Rising",
         "type": "Overdrive",
         "description": "Deals magic damage equal to 330% of Attack to enemies within a large circular area. For the next 8 seconds, deals magic damage equal to 110% of Attack to enemies within a large circular area every 2 seconds.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Hammer Time",
         "type": "Ultimate Skill",
         "description": "Delivers a hammer blow to a single enemy, dealing magic damage equal to 320% of Attack. After dealing damage, steals 7% of the target's magic defense (does not affect bosses) for 8 seconds. This steal effect can stack up to 5 times.",
-        "cooldown": 0
+        "cooldown": 16
       },
       {
         "name": "Unbreakable Form",
@@ -3023,19 +3037,26 @@
   },
   {
     "name": "Guna",
-    "title": "",
+    "title": "Heroic Warrior",
     "quality": "SSR",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Sanctum Glory", "Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Fighter",
+      "Arcane Duelist",
+      "Knight",
+      "Vanguard",
+      "Crusader",
+      "Lord"
+    ],
+    "height": "175cm",
+    "weight": "55kg",
+    "origin": "Norse Mythology",
+    "lore": "Guna was the kingdom's most loyal and courageous warrior, sacrificing herself to cover the retreat of her people during an enemy invasion. Selfless and fearless, that's how those around her always described her. After her sacrifice, Guna was guided to the heavens and reborn as a candidate Valkyrie.",
+    "quote": "I was chosen by Odin himself!",
     "talent": {
-      "name": "",
+      "name": "Aegis of Radiant Pact",
       "talent_levels": [
         {
           "level": 1,
@@ -3064,13 +3085,13 @@
         "name": "Radiant Sword Formation",
         "type": "Overdrive",
         "description": "Select a single target and cast a beam of light, dealing physical damage equal to 320% of Attack to enemies within a large circular area around the target, and deals double damage to the selected target. When both [Morale] and [Fervor] are active, enters the [Grace] status. While in the [Grace] status, additionally inflicts [Stun] for 4s on the selected target.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Iron Bulwark Shock",
         "type": "Ultimate Skill",
         "description": "Raises shield and enters a charging stance, granting [Morale]. After 3s, deals physical damage equal to 180% of own Attack to enemy units in a large circular area. When charging, each time damage is taken, this skill's damage is increased by 15% (up to a maximum of 150%).",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Shield-Shattering Blade",
@@ -3082,26 +3103,32 @@
         "name": "Blade Shadow Blitz",
         "type": "Special Skill",
         "description": "Moves behind a target and deals physical damage equal to 340% of Attack. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, Crit increases by 1500 for this skill.",
-        "cooldown": 0
+        "cooldown": 14
       }
     ],
     "noble_phantasm": ""
   },
   {
     "name": "Grimnir",
-    "title": "",
+    "title": "Death Seeker",
     "quality": "SR+",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Wild Spirit", "Arcane Wisdom"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Fighter",
+      "Knight",
+      "Champion",
+      "Berserker",
+      "Sword Master"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Norse Mythology",
     "lore": "",
-    "quote": "",
+    "quote": "I will fight to the death!",
     "talent": {
-      "name": "",
+      "name": "Fearless",
       "talent_levels": [
         {
           "level": 1,
@@ -3126,13 +3153,13 @@
         "name": "Glory Days",
         "type": "Overdrive",
         "description": "Leaps into the air and launches a colossal strike, dealing physical damage equal to 270% of Attack to enemies within a medium circular area around the target. For the next 8 seconds, basic attacks deal additional physical damage equal to 80% of Attack.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Valor's Cry",
         "type": "Ultimate Skill",
         "description": "With a primal roar, ignites the martial spirit, sacrificing 40% of current HP to gain [Attack Up] and a shield equal to 42% of lost HP for 6 seconds.",
-        "cooldown": 0
+        "cooldown": 16
       },
       {
         "name": "No Guts, No Glory",
@@ -3145,19 +3172,25 @@
   },
   {
     "name": "Murphy",
-    "title": "",
+    "title": "Pact Demon",
     "quality": "SR+",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Illusion Veil", "Arcane Wisdom"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Swordsman",
+      "Gladiator",
+      "Knight",
+      "Crusader",
+      "Sword Master"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Modern Fantasy",
     "lore": "",
-    "quote": "",
+    "quote": "Show some manners... mortal!",
     "talent": {
-      "name": "",
+      "name": "Mischief Maker",
       "talent_levels": [
         {
           "level": 1,
@@ -3182,13 +3215,13 @@
         "name": "Duskfall",
         "type": "Overdrive",
         "description": "Unleashes the Firelord, dealing magic damage equal to 290% of Attack to enemies within a large circular area, while increasing the Energy cost of their next Overdrive by 1.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Furious Thrust",
         "type": "Ultimate Skill",
         "description": "Pierces through a single target, dealing magic damage equal to 280% of Attack.",
-        "cooldown": 0
+        "cooldown": 14
       },
       {
         "name": "Demon Spike",
@@ -3204,63 +3237,49 @@
     "title": "",
     "quality": "R",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Otherworld Return", "Wild Spirit"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Swordsman",
+      "Gladiator",
+      "Knight",
+      "Crusader",
+      "Sword Master"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Modern Fantasy",
     "lore": "",
-    "quote": "",
+    "quote": "Heave ho... ouch!",
     "talent": {
-      "name": "",
+      "name": "Indomitable Warrior",
       "talent_levels": [
         {
           "level": 1,
-          "effect": ""
+          "effect": "Upon death, summons 2 Goblin Clubbers that inherit 30% of Attack, 40% of HP, and 100% of all other stats."
         },
         {
           "level": 2,
-          "effect": ""
+          "effect": "Summoned Goblin Clubber gains [Adrenaline]."
         },
         {
           "level": 3,
-          "effect": ""
-        },
-        {
-          "level": 4,
-          "effect": ""
-        },
-        {
-          "level": 7,
-          "effect": ""
+          "effect": "Increases Attack by 10%."
         }
       ]
     },
     "skills": [
       {
-        "name": "",
+        "name": "Siegebreaker",
         "type": "Overdrive",
-        "description": "",
-        "cooldown": 0
+        "description": "Deals physical damage to a single target equal to 520% of Attack and launches them into the air. Deals additional damage based on current HP percentage, with higher HP resulting in higher damage. Dies after attacking.",
+        "cooldown": 18
       },
       {
-        "name": "",
+        "name": "Colossal Whirlstrike",
         "type": "Ultimate Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Secret Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Special Skill",
-        "description": "",
-        "cooldown": 0
+        "description": "The Goblin in front raises its battering ram and swings it in two circles, dealing physical damage equal to 250% of Attack to enemies within a large circular area.",
+        "cooldown": 10
       }
     ],
     "noble_phantasm": ""
@@ -3270,63 +3289,29 @@
     "title": "",
     "quality": "N",
     "character_class": "Warrior",
-    "factions": ["", ""],
+    "factions": ["Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Modern Fantasy",
     "lore": "",
-    "quote": "",
+    "quote": "Bubble!",
     "talent": {
-      "name": "",
+      "name": "Elemental Power",
       "talent_levels": [
         {
           "level": 1,
-          "effect": ""
-        },
-        {
-          "level": 2,
-          "effect": ""
-        },
-        {
-          "level": 3,
-          "effect": ""
-        },
-        {
-          "level": 4,
-          "effect": ""
-        },
-        {
-          "level": 7,
-          "effect": ""
+          "effect": "In battle, increases Attack by 15%."
         }
       ]
     },
     "skills": [
       {
-        "name": "",
+        "name": "Martyr's Might",
         "type": "Overdrive",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Ultimate Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Secret Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Special Skill",
-        "description": "",
-        "cooldown": 0
+        "description": "Deals magic damage equal to 620% of Attack to enemies within a medium circular area, then dies.",
+        "cooldown": 18
       }
     ],
     "noble_phantasm": ""
