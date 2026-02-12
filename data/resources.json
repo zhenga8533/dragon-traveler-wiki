@@ -1,0 +1,102 @@
+[
+  {
+    "name": "Gold",
+    "description": "The most common form of currency on Phantasia Mountain."
+  },
+  {
+    "name": "Arena Coins",
+    "description": "Arena Currency is awarded to honor participants and is exchangeable for rare resources in the Arena Store."
+  },
+  {
+    "name": "Divine Coin",
+    "description": "A peculiar Currency scattered throughout the Rift of the Divine Realm that's exchangeable for rare resources at the Divine Realm Store"
+  },
+  {
+    "name": "Guild Coin",
+    "description": "Guild Currency that's exchangeable for rare resources at the Guild Store."
+  },
+  {
+    "name": "Treasure Essence",
+    "description": "Obtained through Treasure Dismantling. Exchange for treasures at the Treasure Store."
+  },
+  {
+    "name": "Forging Commermorative Coin",
+    "description": "Obtained from Champion Expedition or by dismantling UR equipment. Use at the Gear Store to exchange for rare items."
+  },
+  {
+    "name": "Slime Goo",
+    "description": "Slime goo clinging to Luminaries Obtained by dismantling N Luminaries, and can be exchanged for various rare resources."
+  },
+  {
+    "name": "Dragonbreath Seed",
+    "description": "A dragon seed containing dormant power - while its radiance may be dim now, it shall regain its brilliance one day. Exchange it at the Magic Store for rare resources."
+  },
+  {
+    "name": "Friendship Points",
+    "description": "A testament to the friendship between adventure partners. Can be used to exchange for rare items in the Friendship Store."
+  },
+  {
+    "name": "Wyrm Essence",
+    "description": "The Essence crystallized from an Ancient Wyrm's condensed power serves as an advanced material for Luminary breakthroughs."
+  },
+  {
+    "name": "Luminary EXP",
+    "description": "Essence crystallized from traces of Luminaries, used to increase a Luminary's Level."
+  },
+  {
+    "name": "Diamond",
+    "description": "A valuable currency that circulates throughout Phantasia Mountain, offering many unique items."
+  },
+  {
+    "name": "Summoning Ticket",
+    "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Luminary Summons."
+  },
+  {
+    "name": "Fated Summoning Ticket",
+    "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Limited Summons."
+  },
+  {
+    "name": "Mythic Summoning Ticket",
+    "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Mythical Summons."
+  },
+  {
+    "name": "Golden Horn",
+    "description": "A golden horn that can awaken the World Serpent. Can be used in Treasure Hunts."
+  },
+  {
+    "name": "Fate Horn",
+    "description": "A fated horn that can awaken the World Serpent. Can be used in Limited Time Offer Treasure Hunts."
+  },
+  {
+    "name": "Legacy Dragon Crystal",
+    "description": "An azure crystal containing the Memory of an ancient Wyrm. Upon activation, it unlocks powerful Wyrmspells. Can be used in Magic Summoning."
+  },
+  {
+    "name": "Fated Dragon Crystal",
+    "description": "An azure crystal containing the Memory of an ancient Wyrm. Upon activation, it grants powerful Wyrmspells. Can be used in Magic Limited Summoning."
+  },
+  {
+    "name": "Mercury Potion",
+    "description": "A mercury potion extracted through alchemy that emits a faint azure glow. Can be used for Howlkin Refinement."
+  },
+  {
+    "name": "Soul Elixir",
+    "description": "Soul essence extracted from pure souls. Regarded across the land as a forbidden alchemical potion. Can be used for Howlkin Refinement."
+  },
+  {
+    "name": "Fate Elixir",
+    "description": "A legendary alchemical potion said to reshape the very essence of matter. Those who find it can change the world. Can be used for Howlkin Refinement."
+  },
+  {
+    "name": "Leaf of the World Tree",
+    "description": "The sacred leaf veins contain ancient magical imprints. Used for Wyrm Ascend Tier advancement."
+  },
+  {
+    "name": "Aurora Dust",
+    "description": "Crystal dust, the product of years of alchemical refinement. A Common Material use for Treasure Advancement."
+  },
+  {
+    "name": "Rune Shards",
+    "description": "Can be exchanged for any Class or Faction Oath Rune at a ratio of 5 to 1."
+  }
+]
