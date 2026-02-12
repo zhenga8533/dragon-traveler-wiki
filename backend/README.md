@@ -52,7 +52,9 @@ backend/
 ├── exports/             # Export output (git-ignored)
 └── models/              # Pydantic data models
     ├── character.py     # Character, Skill, Talent, Quality, CharacterClass
+    ├── code.py          # Code, CodeReward
     ├── faction.py       # Faction, FactionName, Wyrm
+    ├── resource.py      # Resource
     ├── status_effect.py # StatusEffect, StatusEffectType
     ├── team.py          # Team, TeamMember, TeamWyrmspells
     ├── tier_list.py     # TierList, TierEntry, Tier
@@ -64,17 +66,18 @@ backend/
 
 The backend reads from and writes to `data/`:
 
-| File                  | Description                |
-| --------------------- | -------------------------- |
-| `characters.json`     | Character database         |
-| `factions.json`       | Faction definitions        |
-| `wyrmspells.json`     | Wyrmspell database         |
-| `codes.json`          | Redemption codes           |
-| `status-effects.json` | Status effects             |
-| `tier-lists.json`     | Community tier lists       |
-| `teams.json`          | Team compositions          |
-| `useful-links.json`   | Community links            |
-| `changelog.json`      | Site version history       |
+| File                  | Description          |
+| --------------------- | -------------------- |
+| `characters.json`     | Character database   |
+| `factions.json`       | Faction definitions  |
+| `wyrmspells.json`     | Wyrmspell database   |
+| `resources.json`      | Resource definitions |
+| `codes.json`          | Redemption codes     |
+| `status-effects.json` | Status effects       |
+| `tier-lists.json`     | Community tier lists |
+| `teams.json`          | Team compositions    |
+| `useful-links.json`   | Community links      |
+| `changelog.json`      | Site version history |
 
 ## Dolt Database
 

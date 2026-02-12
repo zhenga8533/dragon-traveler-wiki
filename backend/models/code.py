@@ -1,8 +1,9 @@
-from pydantic import BaseModel, Field, model_validator
+from pydantic import BaseModel, Field
 
 
 class CodeReward(BaseModel):
     name: str
+    resource_id: int | None = None
     quantity: int = 0
 
 

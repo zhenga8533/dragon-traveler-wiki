@@ -60,11 +60,11 @@ QUERIES = {
 }
 
 
-def fetch_all(needed_keys):
+def fetch_all(needed_keys, queries):
     """Run all needed queries in a single dolt sql call and return results keyed by name."""
     if not needed_keys:
         return {}
-    queries_to_run = {k: v for k, v in QUERIES.items() if k in needed_keys}
+    queries_to_run = {k: v for k, v in queries.items() if k in needed_keys}
     combined_sql = "\n".join(queries_to_run.values())
 
     result = subprocess.run(
@@ -123,6 +123,37 @@ def get_existing_tables():
         return set()
     table_col = next(iter(rows[0].keys()))
     return {row[table_col] for row in rows if row.get(table_col)}
+
+
+def get_table_columns(table_name):
+    rows = dolt_sql_csv(f"DESCRIBE {table_name};")
+    return {row.get("Field") for row in rows if row.get("Field")}
+
+
+def build_queries(existing_tables):
+    queries = dict(QUERIES)
+
+    if "code_rewards" in existing_tables and "resources" in existing_tables:
+        code_reward_columns = get_table_columns("code_rewards")
+        if "resource_id" in code_reward_columns:
+            if "resource_name" in code_reward_columns:
+                queries["code_rewards"] = (
+                    "SELECT cr.id, cr.code_id, cr.resource_id, cr.quantity, "
+                    "COALESCE(r.name, cr.resource_name) AS resolved_resource_name "
+                    "FROM code_rewards cr "
+                    "LEFT JOIN resources r ON cr.resource_id = r.id "
+                    "ORDER BY cr.code_id, cr.id;"
+                )
+            else:
+                queries["code_rewards"] = (
+                    "SELECT cr.id, cr.code_id, cr.resource_id, cr.quantity, "
+                    "r.name AS resolved_resource_name "
+                    "FROM code_rewards cr "
+                    "LEFT JOIN resources r ON cr.resource_id = r.id "
+                    "ORDER BY cr.code_id, cr.id;"
+                )
+
+    return queries
 
 
 def group_by(rows, key):
@@ -299,7 +330,13 @@ def export_codes(data, output_dir=None):
     for c in codes_rows:
         if rewards_by_code:
             rewards = [
-                {"name": r.get("resource_name") or "", "quantity": r.get("quantity", 0)}
+                {
+                    "name": r.get("resolved_resource_name")
+                    or r.get("resource_name")
+                    or "",
+                    "resource_id": r.get("resource_id"),
+                    "quantity": r.get("quantity", 0),
+                }
                 for r in rewards_by_code.get(c["id"], [])
             ]
         else:
@@ -489,14 +526,17 @@ def main():
         targets = [args.target]
 
     existing_tables = get_existing_tables()
+    queries = build_queries(existing_tables)
 
     # Collect all needed query keys
     needed_keys = set()
     for t in targets:
-        needed_keys |= {k for k in EXPORTERS[t][1] if k in existing_tables}
+        needed_keys |= {
+            k for k in EXPORTERS[t][1] if k in existing_tables and k in queries
+        }
 
     # Single batch fetch
-    data = fetch_all(needed_keys)
+    data = fetch_all(needed_keys, queries)
 
     # Run exporters
     for t in targets:

@@ -108,7 +108,11 @@ def normalize_for_json(label, data):
             rewards_input = data.get("reward", [])
 
         rewards = [
-            {"name": r.get("name", ""), "quantity": r.get("quantity", 0)}
+            {
+                "name": r.get("name", ""),
+                "resource_id": r.get("resource_id"),
+                "quantity": r.get("quantity", 0),
+            }
             for r in rewards_input
             if r.get("name")
         ]

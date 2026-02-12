@@ -6,6 +6,7 @@ from backend.models.character import (
 )
 from backend.models.code import Code, CodeReward
 from backend.models.faction import Faction, FactionName, Wyrm
+from backend.models.resource import Resource
 from backend.models.status_effect import StatusEffect, StatusEffectType
 from backend.models.team import Team
 from backend.models.tier_list import Tier, TierEntry, TierList
@@ -20,6 +21,7 @@ __all__ = [
     "Faction",
     "FactionName",
     "Quality",
+    "Resource",
     "Skill",
     "StatusEffect",
     "StatusEffectType",

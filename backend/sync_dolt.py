@@ -91,6 +91,106 @@ def get_existing_tables():
     return {row[table_col] for row in rows if row.get(table_col)}
 
 
+def get_table_columns(table_name):
+    rows = dolt_sql_csv(f"DESCRIBE {table_name};")
+    return {row.get("Field") for row in rows if row.get("Field")}
+
+
+def build_resource_id_map(resources):
+    """Build deterministic resource name -> id mapping matching sync_resources insert order."""
+    mapping = {}
+    rid = 0
+    for resource in resources:
+        name = resource.get("name")
+        if not name or name in mapping:
+            continue
+        rid += 1
+        mapping[name] = rid
+    return mapping
+
+
+def ensure_schema_extensions(existing_tables, dry_run=False):
+    """Ensure optional schema pieces exist for resources + normalized code rewards."""
+    if "resources" not in existing_tables:
+        print("  Creating missing resources table")
+        dolt_sql(
+            """
+            CREATE TABLE resources (
+              id int NOT NULL AUTO_INCREMENT,
+              name varchar(100) NOT NULL,
+              description text,
+              PRIMARY KEY (id),
+              UNIQUE KEY name (name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("resources")
+
+    if "code_rewards" not in existing_tables:
+        return
+
+    code_reward_columns = get_table_columns("code_rewards")
+    if "resource_id" not in code_reward_columns:
+        print("  Adding code_rewards.resource_id column")
+        dolt_sql(
+            "ALTER TABLE code_rewards ADD COLUMN resource_id int NULL AFTER code_id;",
+            dry_run=dry_run,
+        )
+        dolt_sql(
+            "ALTER TABLE code_rewards ADD KEY resource_id (resource_id);",
+            dry_run=dry_run,
+        )
+
+    # Backfill legacy rows that still use resource_name.
+    if "resource_name" in code_reward_columns:
+        print("  Backfilling code_rewards.resource_id from resource_name")
+        dolt_sql(
+            """
+            UPDATE code_rewards cr
+            JOIN resources r ON r.name = cr.resource_name
+            SET cr.resource_id = r.id
+            WHERE cr.resource_id IS NULL;
+            """,
+            dry_run=dry_run,
+        )
+
+        unresolved_rows = dolt_sql_csv(
+            """
+            SELECT COUNT(*) AS cnt
+            FROM code_rewards
+            WHERE resource_id IS NULL
+              AND resource_name IS NOT NULL
+              AND resource_name <> '';
+            """
+        )
+        unresolved_count = (
+            int((unresolved_rows[0] or {}).get("cnt", 0)) if unresolved_rows else 0
+        )
+
+        if unresolved_count == 0:
+            print("  Dropping legacy code_rewards.resource_name column")
+            dolt_sql(
+                "ALTER TABLE code_rewards DROP COLUMN resource_name;",
+                dry_run=dry_run,
+            )
+        else:
+            print(
+                f"  Keeping code_rewards.resource_name (could not map {unresolved_count} row(s) to resources.id)"
+            )
+
+    create_rows = dolt_sql_csv("SHOW CREATE TABLE code_rewards;")
+    if create_rows:
+        create_sql = create_rows[0].get("Create Table") or ""
+        if "REFERENCES `resources` (`id`)" not in create_sql:
+            print("  Adding code_rewards.resource_id foreign key")
+            dolt_sql(
+                "ALTER TABLE code_rewards ADD CONSTRAINT code_rewards_ibfk_2 "
+                "FOREIGN KEY (resource_id) REFERENCES resources(id);",
+                dry_run=dry_run,
+            )
+
+
 class SqlBatch:
     """Collects SQL statements and executes them in a single dolt sql call."""
 
@@ -258,6 +358,13 @@ def sync_resources(data, batch, existing_tables):
         print("  Skipping resources (table not found in Dolt schema)")
         return
 
+    # code_rewards.resource_id -> resources.id FK requires child rows to be removed first.
+    if "code_rewards" in existing_tables:
+        code_reward_columns = get_table_columns("code_rewards")
+        if "resource_id" in code_reward_columns:
+            batch.add("DELETE FROM code_rewards;")
+            batch.add("ALTER TABLE code_rewards AUTO_INCREMENT = 1;")
+
     batch.add("DELETE FROM resources;")
     batch.add("ALTER TABLE resources AUTO_INCREMENT = 1;")
     r_id = 0
@@ -272,13 +379,17 @@ def sync_resources(data, batch, existing_tables):
     print(f"  Synced {r_id} resources")
 
 
-def sync_codes(data, batch, existing_tables):
+def sync_codes(data, batch, existing_tables, resource_ids):
     """Sync codes.json -> codes (+ code_rewards when table exists)."""
     if "codes" not in existing_tables:
         print("  Skipping codes (table not found in Dolt schema)")
         return
 
     has_code_rewards = "code_rewards" in existing_tables
+    code_reward_columns = (
+        get_table_columns("code_rewards") if has_code_rewards else set()
+    )
+    has_resource_id = "resource_id" in code_reward_columns
 
     if has_code_rewards:
         batch.add("DELETE FROM code_rewards;")
@@ -311,10 +422,28 @@ def sync_codes(data, batch, existing_tables):
             if not reward.get("name"):
                 continue
             reward_id += 1
-            batch.add(
-                f"INSERT INTO code_rewards (id, code_id, resource_name, quantity) VALUES "
-                f"({reward_id}, {c_id}, {escape_sql(reward['name'])}, {escape_sql(reward.get('quantity', 0))});"
-            )
+
+            resource_name = reward["name"]
+            resource_id = resource_ids.get(resource_name)
+            if resource_id is None:
+                print(
+                    f"ERROR: code '{c['code']}' reward resource '{resource_name}' not found in resources.json",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+            quantity = escape_sql(reward.get("quantity", 0))
+
+            if has_resource_id:
+                batch.add(
+                    f"INSERT INTO code_rewards (id, code_id, resource_id, quantity) VALUES "
+                    f"({reward_id}, {c_id}, {escape_sql(resource_id)}, {quantity});"
+                )
+            else:
+                print(
+                    "ERROR: code_rewards table must include resource_id column",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
     if has_code_rewards:
         print(f"  Synced {c_id} codes ({reward_id} rewards)")
     else:
@@ -502,6 +631,9 @@ def main():
 
     print("Syncing to Dolt..." + (" (dry run)" if args.dry_run else ""))
     existing_tables = get_existing_tables()
+    ensure_schema_extensions(existing_tables, dry_run=args.dry_run)
+    existing_tables = get_existing_tables()
+    resource_ids = build_resource_id_map(resources_data)
 
     batch = SqlBatch(dry_run=args.dry_run)
     target = args.target
@@ -511,7 +643,7 @@ def main():
         "characters": lambda: sync_characters(characters_data, factions_data, batch),
         "wyrmspells": lambda: sync_wyrmspells(wyrmspells_data, batch),
         "resources": lambda: sync_resources(resources_data, batch, existing_tables),
-        "codes": lambda: sync_codes(codes_data, batch, existing_tables),
+        "codes": lambda: sync_codes(codes_data, batch, existing_tables, resource_ids),
         "status-effects": lambda: sync_status_effects(status_effects_data, batch),
         "tier-lists": lambda: sync_tier_lists(tier_lists_data, batch),
         "teams": lambda: sync_teams(teams_data, batch),

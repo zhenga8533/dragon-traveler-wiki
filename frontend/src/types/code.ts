@@ -1,5 +1,6 @@
 export interface CodeReward {
   name: string;
+  resource_id?: number;
   quantity: number;
 }
 
