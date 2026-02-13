@@ -269,12 +269,6 @@ export default function Teams() {
                             h={40}
                             fit="contain"
                           />
-                          <Image
-                            src={FACTION_ICON_MAP[team.faction as FactionName]}
-                            alt={team.faction}
-                            w={24}
-                            h={24}
-                          />
                           <Text
                             fw={600}
                             size="lg"
@@ -305,6 +299,12 @@ export default function Teams() {
                           >
                             {team.faction}
                           </Badge>
+                          <Image
+                            src={FACTION_ICON_MAP[team.faction as FactionName]}
+                            alt={team.faction}
+                            w={24}
+                            h={24}
+                          />
                           <Button
                             variant="light"
                             size="sm"
