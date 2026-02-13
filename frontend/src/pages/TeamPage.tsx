@@ -20,6 +20,7 @@ import { Link, useNavigate, useParams } from 'react-router-dom';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import { QUALITY_BORDER_COLOR } from '../components/CharacterCard';
 import WyrmspellCard from '../components/WyrmspellCard';
 import { FACTION_COLOR } from '../constants/colors';
@@ -108,12 +109,21 @@ export default function TeamPage() {
         <Paper p="xl" radius="md" withBorder>
           <Stack gap="lg">
             <Group justify="space-between" align="flex-start">
-              <div>
-                <Title order={1}>{team.name}</Title>
-                <Text c="dimmed" size="sm">
-                  by {team.author}
-                </Text>
-              </div>
+              <Group gap="md" align="flex-start">
+                <Image
+                  src={FACTION_WYRM_MAP[team.faction]}
+                  alt={`${team.faction} Whelp`}
+                  w={64}
+                  h={64}
+                  fit="contain"
+                />
+                <div>
+                  <Title order={1}>{team.name}</Title>
+                  <Text c="dimmed" size="sm">
+                    by {team.author}
+                  </Text>
+                </div>
+              </Group>
               <Group gap="sm">
                 <Badge
                   size="lg"

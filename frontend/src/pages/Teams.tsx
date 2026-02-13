@@ -19,6 +19,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
 import { useLocation, useNavigate } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterCard from '../components/CharacterCard';
 import DataFetchError from '../components/DataFetchError';
 import EmptyState from '../components/EmptyState';
@@ -261,6 +262,13 @@ export default function Teams() {
                         wrap="wrap"
                       >
                         <Group gap="sm">
+                          <Image
+                            src={FACTION_WYRM_MAP[team.faction as FactionName]}
+                            alt={`${team.faction} Whelp`}
+                            w={40}
+                            h={40}
+                            fit="contain"
+                          />
                           <Image
                             src={FACTION_ICON_MAP[team.faction as FactionName]}
                             alt={team.faction}
