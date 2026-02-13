@@ -5,13 +5,16 @@ import {
   Button,
   Center,
   Checkbox,
+  Collapse,
   Container,
   CopyButton,
   Group,
   Loader,
   Modal,
+  Pagination,
   Paper,
   SegmentedControl,
+  SimpleGrid,
   Stack,
   Text,
   TextInput,
@@ -20,9 +23,11 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { useCallback, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   IoCheckmark,
+  IoChevronDown,
+  IoChevronUp,
   IoCloseCircleOutline,
   IoCopyOutline,
   IoGift,
@@ -79,12 +84,15 @@ function saveRedeemed(set: Set<string>) {
 }
 
 type ViewFilter = 'unredeemed' | 'redeemed' | 'all';
+const CODES_PER_PAGE = 20;
 
 export default function Codes() {
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
   const [redeemed, setRedeemed] = useState<Set<string>>(() => loadRedeemed());
   const [view, setView] = useState<ViewFilter>('unredeemed');
   const [search, setSearch] = useState('');
+  const [currentPage, setCurrentPage] = useState(1);
+  const [rewardsOpen, { toggle: toggleRewards }] = useDisclosure(true);
   const [markAllOpened, { open: openMarkAll, close: closeMarkAll }] =
     useDisclosure(false);
   const [clearAllOpened, { open: openClearAll, close: closeClearAll }] =
@@ -136,6 +144,16 @@ export default function Codes() {
         return true;
       }),
     [codes, view, redeemed, search]
+  );
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, view, redeemed]);
+
+  const totalPages = Math.ceil(filtered.length / CODES_PER_PAGE);
+  const paginatedCodes = filtered.slice(
+    (currentPage - 1) * CODES_PER_PAGE,
+    currentPage * CODES_PER_PAGE
   );
 
   const unclaimedRewards = useMemo(
@@ -208,39 +226,66 @@ export default function Codes() {
           </Group>
         </Group>
 
-        {!loading && (unclaimedRewards.size > 0 || claimedRewards.size > 0) && (
-          <Stack gap="xs">
-            {unclaimedRewards.size > 0 && (
-              <Alert
-                icon={<IoGift size={20} />}
-                title="Total Unclaimed Rewards"
-                color="yellow"
-                variant="light"
-                radius="md"
-              >
-                <Group gap="xs" wrap="wrap" mt={4}>
-                  {[...unclaimedRewards.entries()].map(([name, qty]) => (
-                    <ResourceBadge key={name} name={name} quantity={qty} />
-                  ))}
-                </Group>
-              </Alert>
-            )}
-            {claimedRewards.size > 0 && (
-              <Alert
-                icon={<IoTrophy size={20} />}
-                title="Total Claimed Rewards"
-                color="teal"
-                variant="light"
-                radius="md"
-              >
-                <Group gap="xs" wrap="wrap" mt={4}>
-                  {[...claimedRewards.entries()].map(([name, qty]) => (
-                    <ResourceBadge key={name} name={name} quantity={qty} />
-                  ))}
-                </Group>
-              </Alert>
-            )}
-          </Stack>
+        {!loading && (
+          <Paper p="sm" radius="md" withBorder>
+            <Group
+              justify="space-between"
+              align="center"
+              onClick={toggleRewards}
+              style={{ cursor: 'pointer' }}
+            >
+              <Text fw={500} size="sm">
+                Reward Summary
+              </Text>
+              {rewardsOpen ? (
+                <IoChevronUp size={16} />
+              ) : (
+                <IoChevronDown size={16} />
+              )}
+            </Group>
+            <Collapse in={rewardsOpen}>
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs" mt="sm">
+                <Alert
+                  icon={<IoGift size={20} />}
+                  title="Total Unclaimed Rewards"
+                  color="yellow"
+                  variant="light"
+                  radius="md"
+                >
+                  {unclaimedRewards.size > 0 ? (
+                    <Group gap="xs" wrap="wrap" mt={4}>
+                      {[...unclaimedRewards.entries()].map(([name, qty]) => (
+                        <ResourceBadge key={name} name={name} quantity={qty} />
+                      ))}
+                    </Group>
+                  ) : (
+                    <Text size="sm" c="dimmed" mt={4}>
+                      No unclaimed rewards — you've redeemed everything!
+                    </Text>
+                  )}
+                </Alert>
+                <Alert
+                  icon={<IoTrophy size={20} />}
+                  title="Total Claimed Rewards"
+                  color="teal"
+                  variant="light"
+                  radius="md"
+                >
+                  {claimedRewards.size > 0 ? (
+                    <Group gap="xs" wrap="wrap" mt={4}>
+                      {[...claimedRewards.entries()].map(([name, qty]) => (
+                        <ResourceBadge key={name} name={name} quantity={qty} />
+                      ))}
+                    </Group>
+                  ) : (
+                    <Text size="sm" c="dimmed" mt={4}>
+                      No claimed rewards yet — start redeeming codes!
+                    </Text>
+                  )}
+                </Alert>
+              </SimpleGrid>
+            </Collapse>
+          </Paper>
         )}
 
         {loading && (
@@ -262,7 +307,7 @@ export default function Codes() {
         )}
 
         {!loading &&
-          filtered.map((entry) => (
+          paginatedCodes.map((entry) => (
             <Paper
               key={entry.code}
               p="sm"
@@ -341,6 +386,16 @@ export default function Codes() {
               )}
             </Paper>
           ))}
+
+        {!loading && totalPages > 1 && (
+          <Center>
+            <Pagination
+              value={currentPage}
+              onChange={setCurrentPage}
+              total={totalPages}
+            />
+          </Center>
+        )}
 
         <Modal
           opened={markAllOpened}
