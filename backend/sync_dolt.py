@@ -232,8 +232,12 @@ def dolt_cmd(*args):
     )
     if result.returncode != 0:
         combined = result.stderr + result.stdout
-        if "nothing to commit" in combined.lower():
-            return result.stdout
+        normalized = combined.lower()
+        if (
+            "nothing to commit" in normalized
+            or "no changes added to commit" in normalized
+        ):
+            return combined
         raise SyncError(f"dolt {' '.join(args)} failed:\n{result.stderr}")
     return result.stdout
 
@@ -446,9 +450,7 @@ def sync_codes(data, batch, existing_tables, resource_ids):
                     f"({reward_id}, {c_id}, {escape_sql(resource_id)}, {quantity});"
                 )
             else:
-                raise SyncError(
-                    "code_rewards table must include resource_id column"
-                )
+                raise SyncError("code_rewards table must include resource_id column")
     if has_code_rewards:
         print(f"  Synced {c_id} codes ({reward_id} rewards)")
     else:
@@ -673,9 +675,7 @@ def main():
             "status-effects": lambda: sync_status_effects(
                 json_cache["status-effects.json"], batch
             ),
-            "tier-lists": lambda: sync_tier_lists(
-                json_cache["tier-lists.json"], batch
-            ),
+            "tier-lists": lambda: sync_tier_lists(json_cache["tier-lists.json"], batch),
             "teams": lambda: sync_teams(json_cache["teams.json"], batch),
             "useful-links": lambda: sync_useful_links(
                 json_cache["useful-links.json"], batch
@@ -715,7 +715,16 @@ def main():
 
     if args.push:
         print("Pushing to DoltHub...")
-        dolt_cmd("push")
+        try:
+            dolt_cmd("push")
+        except SyncError as exc:
+            err = str(exc).lower()
+            if "non-fast-forward" in err or "failed to push some refs" in err:
+                print("  Remote is ahead; pulling latest changes and retrying push...")
+                dolt_cmd("pull")
+                dolt_cmd("push")
+            else:
+                raise
         print("Pushed successfully.")
 
     print("Done!")
