@@ -11,7 +11,6 @@ import {
   Group,
   Loader,
   Modal,
-  Pagination,
   Paper,
   SegmentedControl,
   SimpleGrid,
@@ -35,6 +34,7 @@ import {
   IoSearch,
   IoTrophy,
 } from 'react-icons/io5';
+import PaginationControl from '../components/PaginationControl';
 import ResourceBadge from '../components/ResourceBadge';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
@@ -387,14 +387,12 @@ export default function Codes() {
             </Paper>
           ))}
 
-        {!loading && totalPages > 1 && (
-          <Center>
-            <Pagination
-              value={currentPage}
-              onChange={setCurrentPage}
-              total={totalPages}
-            />
-          </Center>
+        {!loading && (
+          <PaginationControl
+            currentPage={currentPage}
+            totalPages={totalPages}
+            onChange={setCurrentPage}
+          />
         )}
 
         <Modal

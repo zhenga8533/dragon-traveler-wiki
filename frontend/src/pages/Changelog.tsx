@@ -4,7 +4,6 @@ import {
   Container,
   Group,
   Loader,
-  Pagination,
   Paper,
   Stack,
   Text,
@@ -19,6 +18,7 @@ import {
   IoPricetag,
   IoSparkles,
 } from 'react-icons/io5';
+import PaginationControl from '../components/PaginationControl';
 import { useDataFetch } from '../hooks';
 
 interface ChangelogEntry {
@@ -155,16 +155,11 @@ export default function Changelog() {
               })}
             </Timeline>
 
-            {totalPages > 1 && (
-              <Center mt="xl">
-                <Pagination
-                  total={totalPages}
-                  value={currentPage}
-                  onChange={setCurrentPage}
-                  size="md"
-                />
-              </Center>
-            )}
+            <PaginationControl
+              currentPage={currentPage}
+              totalPages={totalPages}
+              onChange={setCurrentPage}
+            />
           </>
         )}
 

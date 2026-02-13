@@ -1,12 +1,10 @@
 import {
   Badge,
   Button,
-  Center,
   Collapse,
   Container,
   Group,
   Image,
-  Pagination,
   Paper,
   SegmentedControl,
   SimpleGrid,
@@ -23,6 +21,7 @@ import { useLocation, useNavigate } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterCard from '../components/CharacterCard';
+import PaginationControl from '../components/PaginationControl';
 import DataFetchError from '../components/DataFetchError';
 import EmptyState from '../components/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
@@ -396,15 +395,11 @@ export default function Teams() {
                   </Paper>
                 ))}
 
-                {totalPages > 1 && (
-                  <Center>
-                    <Pagination
-                      value={currentPage}
-                      onChange={setCurrentPage}
-                      total={totalPages}
-                    />
-                  </Center>
-                )}
+                <PaginationControl
+                  currentPage={currentPage}
+                  totalPages={totalPages}
+                  onChange={setCurrentPage}
+                />
               </>
             )}
 
