@@ -81,6 +81,7 @@ export const STORAGE_KEY = {
   TEAMS_SEARCH: 'teams:search',
   CODES_VIEW_MODE: 'codes:viewMode',
   TIER_LIST_FILTERS: 'tier-list:filters',
+  CODES_REWARDS_OPEN: 'codes:rewardsOpen',
   REDEEMED_CODES: 'redeemedCodes',
   SIDEBAR_COLLAPSED: 'sidebar:collapsed',
 } as const;

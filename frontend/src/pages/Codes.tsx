@@ -98,11 +98,29 @@ export default function Codes() {
     storageKey: STORAGE_KEY.CODES_VIEW_MODE,
     defaultMode: 'list',
   });
-  const [rewardsOpen, { toggle: toggleRewards }] = useDisclosure(true);
+  const [rewardsOpen, { toggle: toggleRewards }] = useDisclosure(() => {
+    try {
+      const stored = localStorage.getItem(STORAGE_KEY.CODES_REWARDS_OPEN);
+      return stored !== null ? stored === 'true' : true;
+    } catch {
+      return true;
+    }
+  });
   const [markAllOpened, { open: openMarkAll, close: closeMarkAll }] =
     useDisclosure(false);
   const [clearAllOpened, { open: openClearAll, close: closeClearAll }] =
     useDisclosure(false);
+
+  useEffect(() => {
+    try {
+      localStorage.setItem(
+        STORAGE_KEY.CODES_REWARDS_OPEN,
+        String(rewardsOpen)
+      );
+    } catch {
+      /* ignore */
+    }
+  }, [rewardsOpen]);
 
   const toggleRedeemed = useCallback((code: string) => {
     setRedeemed((prev) => {
