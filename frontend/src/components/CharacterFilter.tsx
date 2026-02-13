@@ -13,6 +13,7 @@ import { IoClose, IoSearch } from 'react-icons/io5';
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { getStatusEffectIcon } from '../assets/status_effect';
 import { IMAGE_SIZE } from '../constants/ui';
 import type { CharacterClass, Quality } from '../types/character';
 import type { FactionName } from '../types/faction';
@@ -220,6 +221,23 @@ export default function CharacterFilter({
               value={filters.statusEffects}
               onChange={(val) => onChange({ ...filters, statusEffects: val })}
               placeholder="Filter by status effect..."
+              renderOption={({ option }) => {
+                const iconSrc = getStatusEffectIcon(option.label);
+                return (
+                  <Group gap="xs" align="center">
+                    {iconSrc ? (
+                      <Image
+                        src={iconSrc}
+                        alt=""
+                        w={18}
+                        h={18}
+                        fit="contain"
+                      />
+                    ) : null}
+                    <Text size="sm">{option.label}</Text>
+                  </Group>
+                );
+              }}
               searchable
               clearable
               size="xs"
