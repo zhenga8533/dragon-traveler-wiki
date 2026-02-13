@@ -1,11 +1,9 @@
 import {
   Badge,
   Button,
-  Center,
   Collapse,
   Container,
   Group,
-  Loader,
   Paper,
   SegmentedControl,
   SimpleGrid,
@@ -20,6 +18,7 @@ import { IoCreate, IoFilter } from 'react-icons/io5';
 import CharacterCard from '../components/CharacterCard';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
+import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import TierListBuilder from '../components/TierListBuilder';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
@@ -37,7 +36,9 @@ export default function TierList() {
     'data/characters.json',
     []
   );
-  const { filters: viewFilters, setFilters: setViewFilters } = useFilters<Record<string, string[]>>({
+  const { filters: viewFilters, setFilters: setViewFilters } = useFilters<
+    Record<string, string[]>
+  >({
     emptyFilters: { contentTypes: [] },
     storageKey: STORAGE_KEY.TIER_LIST_FILTERS,
   });
@@ -102,11 +103,7 @@ export default function TierList() {
           </Group>
         </Group>
 
-        {loading && (
-          <Center py="xl">
-            <Loader />
-          </Center>
-        )}
+        {loading && <ListPageLoading cards={3} />}
 
         {!loading && (
           <>
@@ -124,7 +121,12 @@ export default function TierList() {
 
             {mode === 'view' && (
               <Collapse in={filterOpen}>
-                <Paper p="sm" radius="md" withBorder bg="var(--mantine-color-body)">
+                <Paper
+                  p="sm"
+                  radius="md"
+                  withBorder
+                  bg="var(--mantine-color-body)"
+                >
                   <EntityFilter
                     groups={entityFilterGroups}
                     selected={viewFilters}

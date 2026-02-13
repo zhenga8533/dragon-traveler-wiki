@@ -1,9 +1,7 @@
 import {
   Badge,
-  Center,
   Container,
   Group,
-  Loader,
   Paper,
   Stack,
   Text,
@@ -18,6 +16,7 @@ import {
   IoPricetag,
   IoSparkles,
 } from 'react-icons/io5';
+import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import PaginationControl from '../components/PaginationControl';
 import { useDataFetch } from '../hooks';
 
@@ -79,11 +78,7 @@ export default function Changelog() {
           </Text>
         </div>
 
-        {loading && (
-          <Center py="xl">
-            <Loader />
-          </Center>
-        )}
+        {loading && <ListPageLoading cards={4} />}
 
         {!loading && changelog.length === 0 && (
           <Text c="dimmed" ta="center" py="lg">

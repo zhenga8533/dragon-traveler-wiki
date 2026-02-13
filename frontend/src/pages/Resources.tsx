@@ -1,10 +1,8 @@
 import {
   Badge,
-  Center,
   Container,
   Group,
   Image,
-  Loader,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -15,9 +13,10 @@ import {
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
 import { getResourceIcon } from '../assets/resource';
-import EntityFilter from '../components/EntityFilter';
 import type { ChipFilterGroup } from '../components/EntityFilter';
+import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
+import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import {
   RESOURCE_CATEGORY_COLOR,
@@ -123,11 +122,7 @@ export default function Resources() {
           />
         </Group>
 
-        {loading && (
-          <Center py="xl">
-            <Loader />
-          </Center>
-        )}
+        {loading && <ListPageLoading cards={4} />}
 
         {!loading && resources.length === 0 && (
           <Text c="dimmed">No resource data available yet.</Text>
@@ -172,12 +167,7 @@ export default function Resources() {
                   {filtered.map((resource) => {
                     const iconSrc = getResourceIcon(resource.name);
                     return (
-                      <Paper
-                        key={resource.name}
-                        p="sm"
-                        radius="md"
-                        withBorder
-                      >
+                      <Paper key={resource.name} p="sm" radius="md" withBorder>
                         <Stack gap="xs">
                           <Group gap="sm" wrap="nowrap">
                             {iconSrc && (

@@ -3,13 +3,11 @@ import {
   Alert,
   Badge,
   Button,
-  Center,
   Checkbox,
   Collapse,
   Container,
   CopyButton,
   Group,
-  Loader,
   Modal,
   Paper,
   SegmentedControl,
@@ -34,6 +32,7 @@ import {
   IoSearch,
   IoTrophy,
 } from 'react-icons/io5';
+import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import PaginationControl from '../components/PaginationControl';
 import ResourceBadge from '../components/ResourceBadge';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
@@ -98,14 +97,16 @@ export default function Codes() {
     storageKey: STORAGE_KEY.CODES_VIEW_MODE,
     defaultMode: 'list',
   });
-  const [rewardsOpen, { toggle: toggleRewards }] = useDisclosure((() => {
-    try {
-      const stored = localStorage.getItem(STORAGE_KEY.CODES_REWARDS_OPEN);
-      return stored !== null ? stored === 'true' : true;
-    } catch {
-      return true;
-    }
-  })());
+  const [rewardsOpen, { toggle: toggleRewards }] = useDisclosure(
+    (() => {
+      try {
+        const stored = localStorage.getItem(STORAGE_KEY.CODES_REWARDS_OPEN);
+        return stored !== null ? stored === 'true' : true;
+      } catch {
+        return true;
+      }
+    })()
+  );
   const [markAllOpened, { open: openMarkAll, close: closeMarkAll }] =
     useDisclosure(false);
   const [clearAllOpened, { open: openClearAll, close: closeClearAll }] =
@@ -113,10 +114,7 @@ export default function Codes() {
 
   useEffect(() => {
     try {
-      localStorage.setItem(
-        STORAGE_KEY.CODES_REWARDS_OPEN,
-        String(rewardsOpen)
-      );
+      localStorage.setItem(STORAGE_KEY.CODES_REWARDS_OPEN, String(rewardsOpen));
     } catch {
       /* ignore */
     }
@@ -315,11 +313,7 @@ export default function Codes() {
           </Paper>
         )}
 
-        {loading && (
-          <Center py="xl">
-            <Loader />
-          </Center>
-        )}
+        {loading && <ListPageLoading cards={5} />}
 
         {!loading && filtered.length === 0 && (
           <Text c="dimmed" ta="center" py="lg">
@@ -333,7 +327,8 @@ export default function Codes() {
           </Text>
         )}
 
-        {!loading && viewMode === 'list' &&
+        {!loading &&
+          viewMode === 'list' &&
           paginatedCodes.map((entry) => (
             <Paper
               key={entry.code}

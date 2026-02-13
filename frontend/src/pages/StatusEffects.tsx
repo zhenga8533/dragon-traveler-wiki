@@ -1,10 +1,8 @@
 import {
   Badge,
-  Center,
   Container,
   Group,
   Image,
-  Loader,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -16,9 +14,10 @@ import {
 import { useMemo } from 'react';
 import { getStatusEffectIcon } from '../assets/status_effect';
 import DataFetchError from '../components/DataFetchError';
-import EntityFilter from '../components/EntityFilter';
 import type { ChipFilterGroup } from '../components/EntityFilter';
+import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
+import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import RichText from '../components/RichText';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
@@ -138,11 +137,7 @@ export default function StatusEffects() {
           />
         </Group>
 
-        {loading && (
-          <Center py="xl">
-            <Loader />
-          </Center>
-        )}
+        {loading && <ListPageLoading cards={4} />}
 
         {!loading && error && (
           <DataFetchError

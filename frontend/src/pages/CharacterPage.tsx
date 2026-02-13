@@ -9,7 +9,6 @@ import {
   Grid,
   Group,
   Image,
-  Loader,
   Modal,
   Paper,
   SimpleGrid,
@@ -42,6 +41,7 @@ import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getSkillIcon } from '../assets/skill';
 import { getSubclassIcon } from '../assets/subclass';
+import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import RichText from '../components/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
 import { TierListReferenceContext } from '../contexts';
@@ -158,9 +158,9 @@ export default function CharacterPage() {
 
   if (loading) {
     return (
-      <Center py="xl">
-        <Loader size="lg" />
-      </Center>
+      <Container size="lg" py="xl">
+        <DetailPageLoading />
+      </Container>
     );
   }
 

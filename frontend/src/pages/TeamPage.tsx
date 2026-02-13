@@ -2,12 +2,10 @@ import {
   Badge,
   Box,
   Button,
-  Center,
   Container,
   Divider,
   Group,
   Image,
-  Loader,
   Paper,
   SimpleGrid,
   Stack,
@@ -17,11 +15,12 @@ import {
 import { useMemo } from 'react';
 import { IoArrowBack, IoCreate, IoInformationCircle } from 'react-icons/io5';
 import { Link, useNavigate, useParams } from 'react-router-dom';
-import Breadcrumbs from '../components/Breadcrumbs';
 import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { QUALITY_BORDER_COLOR } from '../components/CharacterCard';
+import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import WyrmspellCard from '../components/WyrmspellCard';
 import { FACTION_COLOR } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
@@ -60,9 +59,9 @@ export default function TeamPage() {
 
   if (loading) {
     return (
-      <Center h={400}>
-        <Loader size="lg" />
-      </Center>
+      <Container size="lg" py="xl">
+        <DetailPageLoading />
+      </Container>
     );
   }
 
@@ -89,10 +88,7 @@ export default function TeamPage() {
       <Stack gap="xl">
         <Group justify="space-between">
           <Breadcrumbs
-            items={[
-              { label: 'Teams', path: '/teams' },
-              { label: team.name },
-            ]}
+            items={[{ label: 'Teams', path: '/teams' }, { label: team.name }]}
           />
           <Button
             variant="light"
