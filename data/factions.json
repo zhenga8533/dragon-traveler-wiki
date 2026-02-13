@@ -6,12 +6,12 @@
   },
   {
     "name": "Wild Spirit",
-    "wyrm": "Butterfly Whelp",
+    "wyrm": "Emerald Whelp",
     "description": "Accumulate Rage when losing HP. Upon reaching full Rage, enter the [Wild] state, to enhance combat abilities."
   },
   {
     "name": "Arcane Wisdom",
-    "wyrm": "Emerald Whelp",
+    "wyrm": "Butterfly Whelp",
     "description": "Gain [Awakening] when an ally uses Overdrive. Consume or build up [Awakening] stacks to enhance skills."
   },
   {

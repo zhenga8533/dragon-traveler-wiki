@@ -11,9 +11,17 @@ import {
   Stack,
   Text,
   Title,
+  Tooltip,
+  useMantineColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { IoArrowBack, IoCreate, IoInformationCircle } from 'react-icons/io5';
+import {
+  IoArrowBack,
+  IoCreate,
+  IoFlash,
+  IoInformationCircle,
+  IoSwapHorizontal,
+} from 'react-icons/io5';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
@@ -23,6 +31,8 @@ import { QUALITY_BORDER_COLOR } from '../components/CharacterCard';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import WyrmspellCard from '../components/WyrmspellCard';
 import { FACTION_COLOR } from '../constants/colors';
+import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
+import { TRANSITION } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { Team, TeamMember } from '../types/team';
@@ -30,6 +40,8 @@ import type { Wyrmspell } from '../types/wyrmspell';
 
 export default function TeamPage() {
   const { teamName } = useParams<{ teamName: string }>();
+  const { colorScheme } = useMantineColorScheme();
+  const isDark = colorScheme === 'dark';
   const navigate = useNavigate();
 
   const { data: teams, loading: loadingTeams } = useDataFetch<Team[]>(
@@ -57,6 +69,15 @@ export default function TeamPage() {
     return map;
   }, [characters]);
 
+  // FACTION_COLOR values like 'purple' and 'black' aren't valid Mantine color
+  // scale names, so map them to the closest Mantine equivalents for CSS vars.
+  const MANTINE_COLOR_MAP: Record<string, string> = {
+    purple: 'grape',
+    black: 'gray',
+  };
+  const rawFactionColor = team ? FACTION_COLOR[team.faction] : 'violet';
+  const factionColor = MANTINE_COLOR_MAP[rawFactionColor] ?? rawFactionColor;
+
   if (loading) {
     return (
       <Container size="lg" py="xl">
@@ -83,29 +104,84 @@ export default function TeamPage() {
     );
   }
 
-  return (
-    <Container size="lg" py="xl">
-      <Stack gap="xl">
-        <Group justify="space-between">
-          <Breadcrumbs
-            items={[{ label: 'Teams', path: '/teams' }, { label: team.name }]}
-          />
-          <Button
-            variant="light"
-            leftSection={<IoCreate size={14} />}
-            onClick={() => {
-              navigate('/teams', { state: { editTeam: team } });
-            }}
-          >
-            Edit Team
-          </Button>
-        </Group>
+  const hasWyrmspells =
+    team.wyrmspells &&
+    (team.wyrmspells.breach ||
+      team.wyrmspells.refuge ||
+      team.wyrmspells.wildcry ||
+      team.wyrmspells.dragons_call);
 
-        {/* Team Header */}
-        <Paper p="xl" radius="md" withBorder>
+  return (
+    <Box>
+      {/* Hero Section */}
+      <Box
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          background: 'var(--mantine-color-body)',
+          margin:
+            'calc(-1 * var(--mantine-spacing-md)) calc(-1 * var(--mantine-spacing-md)) 0',
+          padding: 'var(--mantine-spacing-md) var(--mantine-spacing-md) 0',
+        }}
+      >
+        {/* Faction-colored gradient background */}
+        <Box
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: isDark
+              ? `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${factionColor}-9) 0%, transparent 50%),
+                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-violet-9) 0%, transparent 50%),
+                 var(--mantine-color-dark-8)`
+              : `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${factionColor}-1) 0%, transparent 50%),
+                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-violet-1) 0%, transparent 50%),
+                 var(--mantine-color-gray-0)`,
+            opacity: isDark ? 0.7 : 0.9,
+          }}
+        />
+
+        <Container
+          size="lg"
+          style={{ position: 'relative', zIndex: 1 }}
+          py="xl"
+        >
           <Stack gap="lg">
-            <Group justify="space-between" align="flex-start">
-              <Group gap="md" align="flex-start">
+            <Group justify="space-between">
+              <Breadcrumbs
+                items={[
+                  { label: 'Teams', path: '/teams' },
+                  { label: team.name },
+                ]}
+              />
+              <Button
+                variant="light"
+                leftSection={<IoCreate size={14} />}
+                onClick={() => {
+                  navigate('/teams', { state: { editTeam: team } });
+                }}
+              >
+                Edit Team
+              </Button>
+            </Group>
+
+            <Group gap="lg" align="flex-start" wrap="nowrap">
+              {/* Faction whelp image */}
+              <Box
+                style={{
+                  width: 96,
+                  height: 96,
+                  flexShrink: 0,
+                  borderRadius: '50%',
+                  background: isDark
+                    ? `rgba(0,0,0,0.3)`
+                    : `rgba(255,255,255,0.5)`,
+                  border: `3px solid var(--mantine-color-${factionColor}-${isDark ? 7 : 4})`,
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  boxShadow: `0 4px 24px var(--mantine-color-${factionColor}-${isDark ? 9 : 2})`,
+                }}
+              >
                 <Image
                   src={FACTION_WYRM_MAP[team.faction]}
                   alt={`${team.faction} Whelp`}
@@ -113,103 +189,141 @@ export default function TeamPage() {
                   h={64}
                   fit="contain"
                 />
-                <div>
-                  <Title order={1}>{team.name}</Title>
-                  <Text c="dimmed" size="sm">
-                    by {team.author}
-                  </Text>
-                </div>
-              </Group>
-              <Group gap="sm">
-                <Badge
-                  size="lg"
-                  variant="light"
-                  color={FACTION_COLOR[team.faction]}
-                  leftSection={
-                    <Image
-                      src={FACTION_ICON_MAP[team.faction]}
-                      alt={team.faction}
-                      w={16}
-                      h={16}
-                      fit="contain"
-                    />
-                  }
+              </Box>
+
+              <Stack gap={6} style={{ flex: 1 }}>
+                <Title
+                  order={1}
+                  c={isDark ? 'white' : 'dark'}
+                  style={{ lineHeight: 1.2 }}
                 >
-                  {team.faction}
-                </Badge>
-                <Badge size="lg" variant="outline">
-                  {team.content_type}
-                </Badge>
-              </Group>
+                  {team.name}
+                </Title>
+                <Text size="sm" c="dimmed">
+                  by {team.author}
+                </Text>
+                <Group gap="sm" mt={4}>
+                  <Badge
+                    size="lg"
+                    variant="light"
+                    color={factionColor}
+                    leftSection={
+                      <Image
+                        src={FACTION_ICON_MAP[team.faction]}
+                        alt={team.faction}
+                        w={16}
+                        h={16}
+                        fit="contain"
+                      />
+                    }
+                  >
+                    {team.faction}
+                  </Badge>
+                  <Badge size="lg" variant="outline" color="gray">
+                    {team.content_type}
+                  </Badge>
+                </Group>
+              </Stack>
             </Group>
 
-            <Divider />
-
-            <Text>{team.description}</Text>
+            {team.description && (
+              <Paper
+                p="md"
+                radius="md"
+                style={{
+                  background: isDark
+                    ? 'rgba(0,0,0,0.25)'
+                    : 'rgba(255,255,255,0.6)',
+                  backdropFilter: 'blur(8px)',
+                  border: isDark
+                    ? '1px solid rgba(255,255,255,0.06)'
+                    : '1px solid rgba(0,0,0,0.06)',
+                }}
+              >
+                <Text size="sm" lh={1.6}>
+                  {team.description}
+                </Text>
+              </Paper>
+            )}
           </Stack>
-        </Paper>
+        </Container>
+      </Box>
 
-        {/* Wyrmspells Section */}
-        {team.wyrmspells && (
-          <Paper p="lg" radius="md" withBorder>
+      <Container size="lg" py="xl">
+        <Stack gap="xl">
+          {/* Team Members */}
+          <Stack gap="md">
+            <Group gap="sm">
+              <Title order={3}>Team Composition</Title>
+              <Badge variant="light" color={factionColor} size="sm">
+                {team.members.length} members
+              </Badge>
+            </Group>
+            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
+              {team.members.map((member, index) => (
+                <TeamMemberCard
+                  key={index}
+                  member={member}
+                  charMap={charMap}
+                  factionColor={factionColor}
+                  isDark={isDark}
+                />
+              ))}
+            </SimpleGrid>
+          </Stack>
+
+          {/* Wyrmspells Section */}
+          {hasWyrmspells && (
             <Stack gap="md">
               <Title order={3}>Wyrmspells</Title>
-              <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }}>
-                {team.wyrmspells.breach && (
+              <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
+                {team.wyrmspells!.breach && (
                   <WyrmspellCard
-                    name={team.wyrmspells.breach}
+                    name={team.wyrmspells!.breach}
                     type="Breach"
                     wyrmspells={wyrmspells}
                   />
                 )}
-                {team.wyrmspells.refuge && (
+                {team.wyrmspells!.refuge && (
                   <WyrmspellCard
-                    name={team.wyrmspells.refuge}
+                    name={team.wyrmspells!.refuge}
                     type="Refuge"
                     wyrmspells={wyrmspells}
                   />
                 )}
-                {team.wyrmspells.wildcry && (
+                {team.wyrmspells!.wildcry && (
                   <WyrmspellCard
-                    name={team.wyrmspells.wildcry}
+                    name={team.wyrmspells!.wildcry}
                     type="Wildcry"
                     wyrmspells={wyrmspells}
                   />
                 )}
-                {team.wyrmspells.dragons_call && (
+                {team.wyrmspells!.dragons_call && (
                   <WyrmspellCard
-                    name={team.wyrmspells.dragons_call}
+                    name={team.wyrmspells!.dragons_call}
                     type="Dragon's Call"
                     wyrmspells={wyrmspells}
                   />
                 )}
               </SimpleGrid>
             </Stack>
-          </Paper>
-        )}
-
-        {/* Team Members */}
-        <Paper p="lg" radius="md" withBorder>
-          <Stack gap="md">
-            <Title order={3}>Team Composition</Title>
-            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
-              {team.members.map((member, index) => (
-                <TeamMemberCard key={index} member={member} charMap={charMap} />
-              ))}
-            </SimpleGrid>
-          </Stack>
-        </Paper>
-      </Stack>
-    </Container>
+          )}
+        </Stack>
+      </Container>
+    </Box>
   );
 }
 
 function TeamMemberCard({
   member,
   charMap,
+  factionColor,
+  isDark,
 }: {
   member: TeamMember;
   charMap: Map<string, Character>;
+  factionColor: string;
+  isDark: boolean;
 }) {
   const character = charMap.get(member.character_name);
   const borderColor = character
@@ -217,29 +331,48 @@ function TeamMemberCard({
     : 'var(--mantine-color-gray-5)';
 
   return (
-    <Paper p="md" withBorder>
-      <Stack gap="md" align="center">
-        <Box pos="relative">
-          <Image
-            src={getPortrait(member.character_name)}
-            alt={member.character_name}
-            h={120}
-            w={120}
-            fit="cover"
-            radius="50%"
-            style={{
-              border: `4px solid ${borderColor}`,
-            }}
-          />
+    <Paper
+      p="lg"
+      radius="md"
+      withBorder
+      style={{
+        ...CARD_HOVER_STYLES,
+        borderTop: `3px solid var(--mantine-color-${factionColor}-${isDark ? 7 : 5})`,
+      }}
+      {...cardHoverHandlers}
+    >
+      <Group gap="md" wrap="nowrap" align="flex-start">
+        {/* Portrait */}
+        <Box pos="relative" style={{ flexShrink: 0 }}>
+          <Tooltip label={`View ${member.character_name}`} position="top">
+            <Link
+              to={`/characters/${encodeURIComponent(member.character_name)}`}
+            >
+              <Image
+                src={getPortrait(member.character_name)}
+                alt={member.character_name}
+                h={100}
+                w={100}
+                fit="cover"
+                radius="md"
+                style={{
+                  border: `3px solid ${borderColor}`,
+                  transition: `filter ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+                }}
+              />
+            </Link>
+          </Tooltip>
           {member.overdrive_order && (
             <Badge
               size="lg"
               circle
               variant="filled"
+              color={factionColor}
               style={{
                 position: 'absolute',
-                bottom: 0,
-                right: 0,
+                bottom: -4,
+                right: -4,
+                boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
               }}
             >
               {member.overdrive_order}
@@ -247,10 +380,11 @@ function TeamMemberCard({
           )}
         </Box>
 
-        <Stack gap={4} align="center" w="100%">
+        {/* Info */}
+        <Stack gap={6} style={{ flex: 1, minWidth: 0 }}>
           <Text
-            fw={600}
-            ta="center"
+            fw={700}
+            size="md"
             component={Link}
             to={`/characters/${encodeURIComponent(member.character_name)}`}
             c="violet"
@@ -258,66 +392,79 @@ function TeamMemberCard({
           >
             {member.character_name}
           </Text>
+
           {character && (
-            <Group gap={4}>
-              <Badge size="sm" variant="light">
+            <Group gap={6}>
+              <Badge size="sm" variant="light" color={borderColor}>
                 {character.quality}
               </Badge>
-              <Badge size="sm" variant="outline">
+              <Badge size="sm" variant="outline" color="gray">
                 {character.character_class}
               </Badge>
             </Group>
           )}
 
           {member.overdrive_order && (
-            <Text size="xs" c="dimmed">
-              Overdrive #{member.overdrive_order}
-            </Text>
+            <Group gap={4}>
+              <IoFlash size={12} color={`var(--mantine-color-${factionColor}-5)`} />
+              <Text size="xs" c="dimmed">
+                Overdrive #{member.overdrive_order}
+              </Text>
+            </Group>
           )}
 
           {member.substitutes && member.substitutes.length > 0 && (
-            <>
-              <Divider w="100%" mt="xs" />
-              <Text size="xs" c="dimmed" fw={500}>
-                Substitutes:
-              </Text>
-              <Stack gap={4} w="100%">
+            <Box mt={4}>
+              <Group gap={4} mb={4}>
+                <IoSwapHorizontal
+                  size={12}
+                  color="var(--mantine-color-dimmed)"
+                />
+                <Text size="xs" c="dimmed" fw={500}>
+                  Substitutes
+                </Text>
+              </Group>
+              <Group gap="xs">
                 {member.substitutes.map((sub, idx) => (
-                  <Group key={idx} gap="xs" justify="center">
-                    <Image
-                      src={getPortrait(sub)}
-                      alt={sub}
-                      h={32}
-                      w={32}
-                      fit="cover"
-                      radius="50%"
-                      style={{
-                        border: `2px solid ${charMap.get(sub) ? QUALITY_BORDER_COLOR[charMap.get(sub)!.quality] : 'var(--mantine-color-gray-5)'}`,
-                      }}
-                    />
-                    <Text
-                      size="xs"
-                      component={Link}
+                  <Tooltip key={idx} label={sub} position="top">
+                    <Link
                       to={`/characters/${encodeURIComponent(sub)}`}
-                      c="violet"
                       style={{ textDecoration: 'none' }}
                     >
-                      {sub}
-                    </Text>
-                  </Group>
+                      <Image
+                        src={getPortrait(sub)}
+                        alt={sub}
+                        h={36}
+                        w={36}
+                        fit="cover"
+                        radius="sm"
+                        style={{
+                          border: `2px solid ${charMap.get(sub) ? QUALITY_BORDER_COLOR[charMap.get(sub)!.quality] : 'var(--mantine-color-gray-5)'}`,
+                          transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+                          cursor: 'pointer',
+                        }}
+                        onMouseEnter={(e) => {
+                          e.currentTarget.style.transform = 'scale(1.1)';
+                        }}
+                        onMouseLeave={(e) => {
+                          e.currentTarget.style.transform = 'scale(1)';
+                        }}
+                      />
+                    </Link>
+                  </Tooltip>
                 ))}
-              </Stack>
-            </>
+              </Group>
+            </Box>
           )}
 
           {member.note && (
             <>
-              <Divider w="100%" mt="xs" />
+              <Divider mt={4} />
               <Group gap={6} wrap="nowrap" align="flex-start">
                 <IoInformationCircle
                   size={14}
                   color="var(--mantine-color-dimmed)"
-                  style={{ flexShrink: 0, marginTop: 1 }}
+                  style={{ flexShrink: 0, marginTop: 2 }}
                 />
                 <Text size="xs" c="dimmed" fs="italic" lh={1.4}>
                   {member.note}
@@ -326,7 +473,7 @@ function TeamMemberCard({
             </>
           )}
         </Stack>
-      </Stack>
+      </Group>
     </Paper>
   );
 }

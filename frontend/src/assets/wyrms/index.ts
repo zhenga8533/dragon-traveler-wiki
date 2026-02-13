@@ -8,8 +8,8 @@ import shadowWhelp from './shadow_whelp.png';
 
 export const FACTION_WYRM_MAP: Record<FactionName, string> = {
   'Elemental Echo': fireWhelp,
-  'Wild Spirit': butterflyWhelp,
-  'Arcane Wisdom': emeraldWhelp,
+  'Wild Spirit': emeraldWhelp,
+  'Arcane Wisdom': butterflyWhelp,
   'Sanctum Glory': lightWhelp,
   'Otherworld Return': shadowWhelp,
   'Illusion Veil': darkWhelp,

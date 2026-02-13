@@ -250,7 +250,7 @@ function FeaturedCharactersMarquee() {
 
 function ActiveCodesSection() {
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
-  const activeCodes = codes.filter((c) => c.active).slice(0, 5);
+  const activeCodes = codes.filter((c) => c.active).reverse().slice(0, 5);
 
   if (loading) {
     return (
@@ -348,7 +348,7 @@ function RecentUpdatesSection() {
     );
   }
 
-  const recentEntries = changelog.slice(0, 3);
+  const recentEntries = [...changelog].reverse().slice(0, 3);
   const latestEntry = recentEntries[0];
 
   if (recentEntries.length === 0) {
