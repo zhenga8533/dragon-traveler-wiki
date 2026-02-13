@@ -1,9 +1,6 @@
 import {
   Badge,
-  Button,
   Center,
-  Chip,
-  Collapse,
   Container,
   Group,
   Image,
@@ -14,18 +11,18 @@ import {
   Stack,
   Table,
   Text,
-  TextInput,
   Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { IoFilter, IoSearch } from 'react-icons/io5';
 import { getStatusEffectIcon } from '../assets/status_effect';
 import DataFetchError from '../components/DataFetchError';
+import EntityFilter from '../components/EntityFilter';
+import type { ChipFilterGroup } from '../components/EntityFilter';
+import FilterToolbar from '../components/FilterToolbar';
 import RichText from '../components/RichText';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
-import ViewToggle from '../components/ViewToggle';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
-import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
+import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
@@ -78,6 +75,14 @@ const EMPTY_FILTERS: StatusEffectFilters = {
   types: [],
 };
 
+const FILTER_GROUPS: ChipFilterGroup[] = [
+  {
+    key: 'types',
+    label: 'Type',
+    options: [...STATE_ORDER],
+  },
+];
+
 export default function StatusEffects() {
   const {
     data: effects,
@@ -119,7 +124,6 @@ export default function StatusEffects() {
   }, [effects, filters]);
 
   const activeFilterCount = (filters.search ? 1 : 0) + filters.types.length;
-  const totalFiltered = filtered.length;
 
   return (
     <Container size="md" py="xl">
@@ -155,84 +159,32 @@ export default function StatusEffects() {
         {!loading && !error && effects.length > 0 && (
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
-              <Group justify="space-between" align="center" wrap="wrap">
-                <Text size="sm" c="dimmed">
-                  {totalFiltered} status effect{totalFiltered !== 1 ? 's' : ''}
-                </Text>
-                <Group gap="xs">
-                  <ViewToggle viewMode={viewMode} onChange={setViewMode} />
-                  <Button
-                    variant="default"
-                    size="xs"
-                    leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
-                    rightSection={
-                      activeFilterCount > 0 ? (
-                        <Badge size="xs" circle variant="filled">
-                          {activeFilterCount}
-                        </Badge>
-                      ) : null
-                    }
-                    onClick={toggleFilter}
-                  >
-                    Filters
-                  </Button>
-                </Group>
-              </Group>
-
-              <Collapse in={filterOpen}>
-                <Paper p="md" radius="md" withBorder>
-                  <Stack gap="sm">
-                    <Group justify="space-between" align="center" wrap="wrap">
-                      <TextInput
-                        placeholder="Search by name..."
-                        leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
-                        value={filters.search}
-                        onChange={(e) =>
-                          setFilters({
-                            ...filters,
-                            search: e.currentTarget.value,
-                          })
-                        }
-                        style={{ flex: 1, minWidth: 200 }}
-                      />
-                      {activeFilterCount > 0 && (
-                        <Button
-                          variant="subtle"
-                          color="gray"
-                          size="xs"
-                          onClick={() => setFilters(EMPTY_FILTERS)}
-                        >
-                          Clear all
-                        </Button>
-                      )}
-                    </Group>
-
-                    <Stack gap="xs">
-                      <Text size="xs" fw={500} c="dimmed">
-                        Type
-                      </Text>
-                      <Chip.Group
-                        multiple
-                        value={filters.types}
-                        onChange={(val) =>
-                          setFilters({
-                            ...filters,
-                            types: val as StatusEffectType[],
-                          })
-                        }
-                      >
-                        <Group gap="xs" wrap="wrap">
-                          {STATE_ORDER.map((type) => (
-                            <Chip key={type} value={type} size="xs">
-                              {type}
-                            </Chip>
-                          ))}
-                        </Group>
-                      </Chip.Group>
-                    </Stack>
-                  </Stack>
-                </Paper>
-              </Collapse>
+              <FilterToolbar
+                count={filtered.length}
+                noun="status effect"
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                filterCount={activeFilterCount}
+                filterOpen={filterOpen}
+                onFilterToggle={toggleFilter}
+              >
+                <EntityFilter
+                  groups={FILTER_GROUPS}
+                  selected={{ types: filters.types }}
+                  onChange={(key, values) =>
+                    setFilters({
+                      ...filters,
+                      [key]: values as StatusEffectType[],
+                    })
+                  }
+                  onClear={() => setFilters(EMPTY_FILTERS)}
+                  search={filters.search}
+                  onSearchChange={(value) =>
+                    setFilters({ ...filters, search: value })
+                  }
+                  searchPlaceholder="Search by name..."
+                />
+              </FilterToolbar>
 
               {filtered.length === 0 ? (
                 <Text c="dimmed" size="sm" ta="center" py="md">

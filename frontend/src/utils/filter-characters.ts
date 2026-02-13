@@ -9,6 +9,7 @@ export interface CharacterFilters {
   classes: CharacterClass[];
   factions: FactionName[];
   statusEffects: string[];
+  globalOnly: boolean | null;
 }
 
 export const EMPTY_FILTERS: CharacterFilters = {
@@ -17,6 +18,7 @@ export const EMPTY_FILTERS: CharacterFilters = {
   classes: [],
   factions: [],
   statusEffects: [],
+  globalOnly: null,
 };
 
 /** Apply all active filters to a list of characters. Empty arrays mean no filter. */
@@ -54,6 +56,9 @@ export function filterCharacters(
       if (!filters.statusEffects.some((e) => charEffects.includes(e))) {
         return false;
       }
+    }
+    if (filters.globalOnly !== null && c.is_global !== filters.globalOnly) {
+      return false;
     }
     return true;
   });

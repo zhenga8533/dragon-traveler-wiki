@@ -1,9 +1,6 @@
 import {
   Badge,
-  Button,
   Center,
-  Chip,
-  Collapse,
   Container,
   Group,
   Image,
@@ -14,16 +11,16 @@ import {
   Stack,
   Table,
   Text,
-  TextInput,
   Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { IoFilter, IoSearch } from 'react-icons/io5';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
 import DataFetchError from '../components/DataFetchError';
+import EntityFilter from '../components/EntityFilter';
+import type { ChipFilterGroup } from '../components/EntityFilter';
+import FilterToolbar from '../components/FilterToolbar';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
-import ViewToggle from '../components/ViewToggle';
-import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
+import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import type { Wyrmspell } from '../types/wyrmspell';
@@ -88,6 +85,14 @@ export default function DragonSpells() {
     return [...types].sort();
   }, [wyrmspells]);
 
+  const filterGroups: ChipFilterGroup[] = useMemo(
+    () =>
+      typeOptions.length > 0
+        ? [{ key: 'types', label: 'Type', options: typeOptions }]
+        : [],
+    [typeOptions]
+  );
+
   const filtered = useMemo(() => {
     return wyrmspells
       .filter((spell) => {
@@ -141,83 +146,29 @@ export default function DragonSpells() {
         {!loading && !error && wyrmspells.length > 0 && (
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
-              <Group justify="space-between" align="center" wrap="wrap">
-                <Text size="sm" c="dimmed">
-                  {filtered.length} wyrmspell{filtered.length !== 1 ? 's' : ''}
-                </Text>
-                <Group gap="xs">
-                  <ViewToggle viewMode={viewMode} onChange={setViewMode} />
-                  <Button
-                    variant="default"
-                    size="xs"
-                    leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
-                    rightSection={
-                      activeFilterCount > 0 ? (
-                        <Badge size="xs" circle variant="filled">
-                          {activeFilterCount}
-                        </Badge>
-                      ) : null
-                    }
-                    onClick={toggleFilter}
-                  >
-                    Filters
-                  </Button>
-                </Group>
-              </Group>
-
-              <Collapse in={filterOpen}>
-                <Paper p="md" radius="md" withBorder>
-                  <Stack gap="sm">
-                    <Group justify="space-between" align="center" wrap="wrap">
-                      <TextInput
-                        placeholder="Search by name..."
-                        leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
-                        value={filters.search}
-                        onChange={(e) =>
-                          setFilters({
-                            ...filters,
-                            search: e.currentTarget.value,
-                          })
-                        }
-                        style={{ flex: 1, minWidth: 200 }}
-                      />
-                      {activeFilterCount > 0 && (
-                        <Button
-                          variant="subtle"
-                          color="gray"
-                          size="xs"
-                          onClick={() => setFilters(EMPTY_FILTERS)}
-                        >
-                          Clear all
-                        </Button>
-                      )}
-                    </Group>
-
-                    {typeOptions.length > 0 && (
-                      <Stack gap="xs">
-                        <Text size="xs" fw={500} c="dimmed">
-                          Type
-                        </Text>
-                        <Chip.Group
-                          multiple
-                          value={filters.types}
-                          onChange={(val) =>
-                            setFilters({ ...filters, types: val })
-                          }
-                        >
-                          <Group gap="xs" wrap="wrap">
-                            {typeOptions.map((type) => (
-                              <Chip key={type} value={type} size="xs">
-                                {type}
-                              </Chip>
-                            ))}
-                          </Group>
-                        </Chip.Group>
-                      </Stack>
-                    )}
-                  </Stack>
-                </Paper>
-              </Collapse>
+              <FilterToolbar
+                count={filtered.length}
+                noun="wyrmspell"
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                filterCount={activeFilterCount}
+                filterOpen={filterOpen}
+                onFilterToggle={toggleFilter}
+              >
+                <EntityFilter
+                  groups={filterGroups}
+                  selected={{ types: filters.types }}
+                  onChange={(key, values) =>
+                    setFilters({ ...filters, [key]: values })
+                  }
+                  onClear={() => setFilters(EMPTY_FILTERS)}
+                  search={filters.search}
+                  onSearchChange={(value) =>
+                    setFilters({ ...filters, search: value })
+                  }
+                  searchPlaceholder="Search by name..."
+                />
+              </FilterToolbar>
 
               {filtered.length === 0 ? (
                 <Text c="dimmed" size="sm" ta="center" py="md">

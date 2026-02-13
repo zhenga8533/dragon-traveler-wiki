@@ -1,6 +1,7 @@
 import {
   Button,
   Chip,
+  Divider,
   Group,
   Image,
   MultiSelect,
@@ -52,7 +53,8 @@ export default function CharacterFilter({
     filters.qualities.length > 0 ||
     filters.classes.length > 0 ||
     filters.factions.length > 0 ||
-    filters.statusEffects.length > 0;
+    filters.statusEffects.length > 0 ||
+    filters.globalOnly !== null;
 
   return (
     <Stack gap="sm">
@@ -80,7 +82,40 @@ export default function CharacterFilter({
       </Group>
 
       <Stack gap="xs">
-        <Text size="xs" fw={500} c="dimmed">
+        <Text size="xs" fw={600} tt="uppercase" c="dimmed">
+          Server
+        </Text>
+        <Chip.Group
+          value={
+            filters.globalOnly === null
+              ? ''
+              : filters.globalOnly
+                ? 'global'
+                : 'cn'
+          }
+          onChange={(val) =>
+            onChange({
+              ...filters,
+              globalOnly:
+                val === 'global' ? true : val === 'cn' ? false : null,
+            })
+          }
+        >
+          <Group gap="xs">
+            <Chip value="global" size="xs">
+              Global
+            </Chip>
+            <Chip value="cn" size="xs">
+              CN Only
+            </Chip>
+          </Group>
+        </Chip.Group>
+      </Stack>
+
+      <Divider />
+
+      <Stack gap="xs">
+        <Text size="xs" fw={600} tt="uppercase" c="dimmed">
           Quality
         </Text>
         <Chip.Group
@@ -109,8 +144,10 @@ export default function CharacterFilter({
         </Chip.Group>
       </Stack>
 
+      <Divider />
+
       <Stack gap="xs">
-        <Text size="xs" fw={500} c="dimmed">
+        <Text size="xs" fw={600} tt="uppercase" c="dimmed">
           Class
         </Text>
         <Chip.Group
@@ -139,8 +176,10 @@ export default function CharacterFilter({
         </Chip.Group>
       </Stack>
 
+      <Divider />
+
       <Stack gap="xs">
-        <Text size="xs" fw={500} c="dimmed">
+        <Text size="xs" fw={600} tt="uppercase" c="dimmed">
           Faction
         </Text>
         <Chip.Group
@@ -170,20 +209,23 @@ export default function CharacterFilter({
       </Stack>
 
       {effectOptions.length > 0 && (
-        <Stack gap="xs">
-          <Text size="xs" fw={500} c="dimmed">
-            Status Effects
-          </Text>
-          <MultiSelect
-            data={effectOptions}
-            value={filters.statusEffects}
-            onChange={(val) => onChange({ ...filters, statusEffects: val })}
-            placeholder="Filter by status effect..."
-            searchable
-            clearable
-            size="xs"
-          />
-        </Stack>
+        <>
+          <Divider />
+          <Stack gap="xs">
+            <Text size="xs" fw={600} tt="uppercase" c="dimmed">
+              Status Effects
+            </Text>
+            <MultiSelect
+              data={effectOptions}
+              value={filters.statusEffects}
+              onChange={(val) => onChange({ ...filters, statusEffects: val })}
+              placeholder="Filter by status effect..."
+              searchable
+              clearable
+              size="xs"
+            />
+          </Stack>
+        </>
       )}
     </Stack>
   );

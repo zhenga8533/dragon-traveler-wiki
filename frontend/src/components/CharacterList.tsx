@@ -1,7 +1,4 @@
 import {
-  Badge,
-  Button,
-  Collapse,
   Group,
   Image,
   Paper,
@@ -14,7 +11,6 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
-import { IoFilter } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
@@ -23,7 +19,6 @@ import { FACTION_ICON_MAP } from '../assets/faction';
 import {
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
-  IMAGE_SIZE,
   STORAGE_KEY,
 } from '../constants/ui';
 import { TierListReferenceContext } from '../contexts';
@@ -43,7 +38,7 @@ import {
 } from '../utils/filter-characters';
 import CharacterCard, { QUALITY_BORDER_COLOR } from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
-import ViewToggle from './ViewToggle';
+import FilterToolbar from './FilterToolbar';
 
 interface CharacterListProps {
   characters: Character[];
@@ -104,48 +99,35 @@ export default function CharacterList({
     filters.qualities.length +
     filters.classes.length +
     filters.factions.length +
-    filters.statusEffects.length;
+    filters.statusEffects.length +
+    (filters.globalOnly !== null ? 1 : 0);
 
   return (
     <Paper p="md" radius="md" withBorder>
       <Stack gap="md">
-        <Group justify="space-between" align="center" wrap="wrap">
-          <Text size="sm" c="dimmed">
-            {filteredAndSorted.length} character
-            {filteredAndSorted.length !== 1 ? 's' : ''}
-          </Text>
-          <Group gap="xs">
-            <ViewToggle viewMode={viewMode} onChange={setViewMode} />
-            {showFilter && (
-              <Button
-                variant="default"
-                size="xs"
-                leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
-                rightSection={
-                  activeFilterCount > 0 ? (
-                    <Badge size="xs" circle variant="filled">
-                      {activeFilterCount}
-                    </Badge>
-                  ) : null
-                }
-                onClick={toggleFilter}
-              >
-                Filters
-              </Button>
-            )}
+        {showFilter ? (
+          <FilterToolbar
+            count={filteredAndSorted.length}
+            noun="character"
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            filterCount={activeFilterCount}
+            filterOpen={filterOpen}
+            onFilterToggle={toggleFilter}
+          >
+            <CharacterFilter
+              filters={filters}
+              onChange={setFilters}
+              effectOptions={effectOptions}
+            />
+          </FilterToolbar>
+        ) : (
+          <Group justify="space-between" align="center" wrap="wrap">
+            <Text size="sm" c="dimmed">
+              {filteredAndSorted.length} character
+              {filteredAndSorted.length !== 1 ? 's' : ''}
+            </Text>
           </Group>
-        </Group>
-
-        {showFilter && (
-          <Collapse in={filterOpen}>
-            <Paper p="md" radius="md" withBorder>
-              <CharacterFilter
-                filters={filters}
-                onChange={setFilters}
-                effectOptions={effectOptions}
-              />
-            </Paper>
-          </Collapse>
         )}
 
         {filteredAndSorted.length === 0 ? (

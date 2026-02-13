@@ -1,9 +1,6 @@
 import {
   Badge,
-  Button,
   Center,
-  Chip,
-  Collapse,
   Container,
   Group,
   Image,
@@ -14,20 +11,20 @@ import {
   Stack,
   Table,
   Text,
-  TextInput,
   Title,
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
-import { IoFilter, IoSearch } from 'react-icons/io5';
 import { getResourceIcon } from '../assets/resource';
 import DataFetchError from '../components/DataFetchError';
+import EntityFilter from '../components/EntityFilter';
+import type { ChipFilterGroup } from '../components/EntityFilter';
+import FilterToolbar from '../components/FilterToolbar';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
-import ViewToggle from '../components/ViewToggle';
 import {
   RESOURCE_CATEGORY_COLOR,
   RESOURCE_CATEGORY_ORDER,
 } from '../constants/colors';
-import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
+import { STORAGE_KEY } from '../constants/ui';
 import { ResourcesContext } from '../contexts';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import type { ResourceCategory } from '../types/resource';
@@ -65,6 +62,14 @@ const EMPTY_FILTERS: ResourceFilters = {
   search: '',
   categories: [],
 };
+
+const FILTER_GROUPS: ChipFilterGroup[] = [
+  {
+    key: 'categories',
+    label: 'Category',
+    options: [...RESOURCE_CATEGORY_ORDER],
+  },
+];
 
 export default function Resources() {
   const { resources, loading } = useContext(ResourcesContext);
@@ -105,7 +110,6 @@ export default function Resources() {
 
   const activeFilterCount =
     (filters.search ? 1 : 0) + filters.categories.length;
-  const totalFiltered = filtered.length;
 
   return (
     <Container size="md" py="xl">
@@ -133,84 +137,32 @@ export default function Resources() {
         {!loading && resources.length > 0 && (
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
-              <Group justify="space-between" align="center" wrap="wrap">
-                <Text size="sm" c="dimmed">
-                  {totalFiltered} resource{totalFiltered !== 1 ? 's' : ''}
-                </Text>
-                <Group gap="xs">
-                  <ViewToggle viewMode={viewMode} onChange={setViewMode} />
-                  <Button
-                    variant="default"
-                    size="xs"
-                    leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
-                    rightSection={
-                      activeFilterCount > 0 ? (
-                        <Badge size="xs" circle variant="filled">
-                          {activeFilterCount}
-                        </Badge>
-                      ) : null
-                    }
-                    onClick={toggleFilter}
-                  >
-                    Filters
-                  </Button>
-                </Group>
-              </Group>
-
-              <Collapse in={filterOpen}>
-                <Paper p="md" radius="md" withBorder>
-                  <Stack gap="sm">
-                    <Group justify="space-between" align="center" wrap="wrap">
-                      <TextInput
-                        placeholder="Search by name..."
-                        leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
-                        value={filters.search}
-                        onChange={(e) =>
-                          setFilters({
-                            ...filters,
-                            search: e.currentTarget.value,
-                          })
-                        }
-                        style={{ flex: 1, minWidth: 200 }}
-                      />
-                      {activeFilterCount > 0 && (
-                        <Button
-                          variant="subtle"
-                          color="gray"
-                          size="xs"
-                          onClick={() => setFilters(EMPTY_FILTERS)}
-                        >
-                          Clear all
-                        </Button>
-                      )}
-                    </Group>
-
-                    <Stack gap="xs">
-                      <Text size="xs" fw={500} c="dimmed">
-                        Category
-                      </Text>
-                      <Chip.Group
-                        multiple
-                        value={filters.categories}
-                        onChange={(val) =>
-                          setFilters({
-                            ...filters,
-                            categories: val as ResourceCategory[],
-                          })
-                        }
-                      >
-                        <Group gap="xs" wrap="wrap">
-                          {RESOURCE_CATEGORY_ORDER.map((cat) => (
-                            <Chip key={cat} value={cat} size="xs">
-                              {cat}
-                            </Chip>
-                          ))}
-                        </Group>
-                      </Chip.Group>
-                    </Stack>
-                  </Stack>
-                </Paper>
-              </Collapse>
+              <FilterToolbar
+                count={filtered.length}
+                noun="resource"
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                filterCount={activeFilterCount}
+                filterOpen={filterOpen}
+                onFilterToggle={toggleFilter}
+              >
+                <EntityFilter
+                  groups={FILTER_GROUPS}
+                  selected={{ categories: filters.categories }}
+                  onChange={(key, values) =>
+                    setFilters({
+                      ...filters,
+                      [key]: values as ResourceCategory[],
+                    })
+                  }
+                  onClear={() => setFilters(EMPTY_FILTERS)}
+                  search={filters.search}
+                  onSearchChange={(value) =>
+                    setFilters({ ...filters, search: value })
+                  }
+                  searchPlaceholder="Search by name..."
+                />
+              </FilterToolbar>
 
               {filtered.length === 0 ? (
                 <Text c="dimmed" size="sm" ta="center" py="md">
