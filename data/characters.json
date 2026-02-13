@@ -3318,19 +3318,26 @@
   },
   {
     "name": "Apollo",
-    "title": "",
+    "title": "Sun Goddess",
     "quality": "SSR EX",
     "character_class": "Archer",
-    "factions": ["", ""],
+    "factions": ["Otherworld Return", "Sanctum Glory"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Tracker",
+      "Scout",
+      "Hunter",
+      "Bloodhunter",
+      "Light Ranger",
+      "Sharpshooter"
+    ],
+    "height": "176cm",
+    "weight": "54kg",
+    "origin": "Greek Mythology",
+    "lore": "Apollo, the son of light, is the embodiment of music and prophecy. He is also the god of medicine and animal husbandry. Upholding justice and virtue, he guides humanity forward.",
+    "quote": "My radiance isn't something you can handle.",
     "talent": {
-      "name": "",
+      "name": "Sigil of Radiance",
       "talent_levels": [
         {
           "level": 1,
@@ -3363,13 +3370,13 @@
         "name": "Solar Arrow Stream",
         "type": "Overdrive",
         "description": "Transforms into the sun, firing 30 arrows to sweep through enemies ahead, each arrow dealing physical damage equal to 74% of Attack. During the skill's duration, Damage Reduction increases by 30%. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For every 5 stacks of [Deathrattle], fires an additional 10 arrows.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Lightfall Arrow Rain",
         "type": "Ultimate Skill",
         "description": "Calls down a rain of blades, striking enemies in an extra-large circular area around the target 5 times, each hit dealing 34% of Attack as physical damage. At the end, gains 1 stack of [Deathrattle] and [Attack Speed Boost].",
-        "cooldown": 0
+        "cooldown": 12
       },
       {
         "name": "Will of the Sun",
@@ -3382,13 +3389,19 @@
         "type": "Special Skill",
         "description": "When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, Basic Attack additionally deals splash damage equal to 95% of Attack (splash damage is also considered Basic Attack damage but cannot Crit).",
         "cooldown": 0
+      },
+      {
+        "name": "Blazing Arrow River",
+        "type": "Divine Skill",
+        "description": "[Solar Arrow Stream] Increases damage by 40% against targets with less than 50% health.",
+        "cooldown": 0
       }
     ],
     "noble_phantasm": ""
   },
   {
     "name": "Ifrit",
-    "title": "",
+    "title": "Flamefiend",
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": ["Elemental Echo", "Arcane Wisdom"],
@@ -3403,7 +3416,7 @@
     ],
     "height": "159cm",
     "weight": "42kg",
-    "origin": "",
+    "origin": "Arabian Mythology",
     "lore": "Born from the element of fire, this demon possesses the power to manipulate all flames. By nature cruel, cunning, arrogant, and eager to create chaos, she is the vanguard of the Wild Hunt, following the orders of the Black Knight. Currently, she is sowing discord and causing disasters across various regions, finding not only pleasure in the chaos and turmoil she creates, but also thoroughly enjoying it.",
     "quote": "",
     "talent": {
@@ -3454,7 +3467,7 @@
       },
       {
         "name": "Domain of Fire",
-        "description": "[Flame Brand] At the start of battle, apply 1 stack of [Flame Brand] to all enemy units.",
+        "description": "[Flamebrand] At the start of battle, apply 1 stack of [Flamebrand] to all enemy units.",
         "cooldown": 0
       }
     ],
@@ -3462,19 +3475,26 @@
   },
   {
     "name": "Huginn & Muninn",
-    "title": "",
+    "title": "Twin Ravens",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": ["", ""],
+    "factions": ["Wild Spirit", "Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Arrowslinger",
+      "Scout",
+      "Hunter",
+      "Bounty Hunter",
+      "Light Ranger",
+      "Sharpshooter"
+    ],
+    "height": "166cm",
+    "weight": "41kg",
+    "origin": "Norse Mythology",
+    "lore": "A strange girl is always accompanied by a talking crow. She rarely speaks, but the crow that follows her chatteres incessantly, expressing her opinions and needs. She possesses extraordinary wisdom and enjoys observing changes in things from the shadows.",
+    "quote": "No one can escape my eyes.",
     "talent": {
-      "name": "",
+      "name": "Scar Sigil",
       "talent_levels": [
         {
           "level": 1,
@@ -3503,24 +3523,30 @@
         "name": "Featherstorm",
         "type": "Overdrive",
         "description": "Shoots feathers forward, which briefly stay and then return. Deals physical Damage equal to 185% of own Attack to enemy units in a large fan-shaped area upon shooting and returning.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Bedlam Beacon",
         "type": "Ultimate Skill",
         "description": "Calls upon Muninn to deal 210% of Attack as Physical Damage to a Single Target. If the target has [Scar Sigil], additionally applies [Physical Defense Down].",
-        "cooldown": 0
+        "cooldown": 8
       },
       {
         "name": "Ricochet",
         "type": "Secret Skill",
-        "description": "Each Basic Attack consumes 5% of current HP and ricochets between enemy units, dealing 50% Damage per bounce for up to 2 bounces. Rage accumulates as HP decreases. At max rage, enters [Frenzy] Status. During [Frenzy] Status, gains 25% Life Steal and Attack Speed, plus 2 additional ricochets.",
+        "description": "Each Basic Attack consumes 5% of current HP and ricochets between enemy units, dealing 50% Damage per bounce for up to 2 bounces. Rage accumulates as HP decreases. At max rage, enters [Wild] Status. During [Wild] Status, gains 25% Life Steal and Attack Speed, plus 2 additional ricochets.",
         "cooldown": 0
       },
       {
         "name": "Raven Raid",
         "type": "Special Skill",
         "description": "Summons a flock of crows to Attack enemies in a straight line. The crows deal 90% of their Attack as Physical Damage to surrounding enemies every 0.2 seconds.",
+        "cooldown": 14
+      },
+      {
+        "name": "Preemptive Strike",
+        "type": "Divine Skill",
+        "description": "[Ricochet] Increases damage by 25% against targets with more than 60% health.",
         "cooldown": 0
       }
     ],
@@ -3528,23 +3554,30 @@
   },
   {
     "name": "Lorillin",
-    "title": "",
+    "title": "Radiant Elemental",
     "quality": "SSR",
     "character_class": "Archer",
-    "factions": ["", ""],
+    "factions": ["Sanctum Glory", "Elemental Echo"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Tracker",
+      "Hunter",
+      "Ranger",
+      "Bloodhunter",
+      "Light Ranger",
+      "Sniper"
+    ],
+    "height": "154cm",
+    "weight": "0kg",
+    "origin": "Norse Mythology",
+    "lore": "Born from the light, this elemental being spends most of her time concealing her form and rarely appears before humans. She has a carefree personality, and the golden light emanating from her gives off a gentle feeling. However, due to certain reasons, she is forced to work tirelessly for her superiors, and it seems she has accumulated quite a few unspoken complaints and grievances…",
+    "quote": "May this light illuminate your path.",
     "talent": {
-      "name": "",
+      "name": "Divine Punishment",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "When an enemy unit is inflicted with [Shock Sweep], a pillar of light is cast on the target, dealing physical Damage equal to 135% of own Attack. When both [Morale] and [Fervor] are present, enters the [Grace] Status. While in the [Grace] Status, there is an 8% chance to inflict [Shock Sweep] on the target after dealing Damage."
+          "effect": "When an enemy unit is inflicted with [Shock], a pillar of light is cast on the target, dealing physical Damage equal to 135% of own Attack. When both [Morale] and [Fervor] are present, enters the [Grace] Status. While in the [Grace] Status, there is an 8% chance to inflict [Shock] on the target after dealing Damage."
         },
         {
           "level": 2,
@@ -3569,13 +3602,13 @@
         "name": "Flashkick",
         "type": "Overdrive",
         "description": "Kicks a single target and applies [Shock], then continuously attacks the target, dealing physical damage equal to 690% of own attack.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Photon Bolt",
         "type": "Ultimate Skill",
         "description": "Fires multiple light bullets to deal 324% of Attack as Physical Damage to a Single Target.",
-        "cooldown": 0
+        "cooldown": 9
       },
       {
         "name": "Warp Light",
@@ -3587,6 +3620,12 @@
         "name": "Blessing of Brilliance",
         "type": "Special Skill",
         "description": "Grants [High Morale] to self and one random ally Luminary (prioritizing Sanctum Glory faction).",
+        "cooldown": 18
+      },
+      {
+        "name": "Radiant Rebirth",
+        "type": "Divine Skill",
+        "description": "[Blessing of Brilliance] Additionally grants [Attack Speed Boost].",
         "cooldown": 0
       }
     ],
@@ -3594,19 +3633,26 @@
   },
   {
     "name": "Van Helring",
-    "title": "",
+    "title": "Demon Hunter",
     "quality": "SSR",
     "character_class": "Archer",
-    "factions": ["", ""],
+    "factions": ["Arcane Wisdom", "Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Arrowslinger",
+      "Scout",
+      "Hunter",
+      "Bounty Hunter",
+      "Sharpshooter",
+      "Sniper"
+    ],
+    "height": "185cm",
+    "weight": "74kg",
+    "origin": "European Folklore",
+    "lore": "It is said that the Witcher Van Helsing came to the Mirage Mountain in pursuit of a bloodthirsty werewolf. However, even with her superb witch-hunting skills, she needed to explore the geography of the unknown environment before she could accurately track the werewolf's tracks.",
+    "quote": "Hmph, struggle all you want!",
     "talent": {
-      "name": "",
+      "name": "Swift Shot",
       "talent_levels": [
         {
           "level": 1,
@@ -3635,19 +3681,19 @@
         "name": "Waltz of the Wicked",
         "type": "Overdrive",
         "description": "Fires a continuous barrage of projectiles, each wave dealing 45% of the user's Attack as Physical Damage to enemies within a large circular area. This skill is not affected by Attack Speed buffs, but the number of projectile waves is influenced by Attack Speed bonuses. At 0%/40%/100%/180% Attack Speed bonus, it fires 8/10/12/15 waves of projectiles.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Grenade",
         "type": "Ultimate Skill",
         "description": "Toss a Grenade to deal physical Damage equal to 228% of Attack to enemy units in a small circular area. Triggers [Punishment] effect. When [Punishment] activates, inflicts additional [Physical Defense Down].",
-        "cooldown": 0
+        "cooldown": 12
       },
       {
         "name": "Demonbane Crossbow",
         "type": "Secret Skill",
         "description": "Shoot with flair, dealing physical damage equal to 290% of Attack to a single target. When the [Punishment] effect triggers, damage is boosted by 50%.",
-        "cooldown": 0
+        "cooldown": 12
       },
       {
         "name": "Adrenaline Rush",
@@ -3660,19 +3706,26 @@
   },
   {
     "name": "Medusa",
-    "title": "",
+    "title": "Gorgon",
     "quality": "SSR",
     "character_class": "Archer",
-    "factions": ["", ""],
+    "factions": ["Illusion Veil", "Otherworld Return"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Arrowslinger",
+      "Guerrilla",
+      "Hunter",
+      "Bounty Hunter",
+      "Sharpshooter",
+      "Sniper"
+    ],
+    "height": "190cm",
+    "weight": "70kg",
+    "origin": "Greek Mythology",
+    "lore": "A terrifying banshee with long hair covered in pythons, sometimes speaking to the pythons on her head. She possesses the ability to petrify, treating petrified human figures as precious toys and collectibles. She spends most of her time lurking in a dark, damp palace, waiting for prey to walk into her trap. For some reason, she harbors a stronger hostility towards men.",
+    "quote": "Come here, cutie~",
     "talent": {
-      "name": "",
+      "name": "Venom Mark",
       "talent_levels": [
         {
           "level": 1,
@@ -3701,7 +3754,7 @@
         "name": "Stonegaze",
         "type": "Overdrive",
         "description": "Deals physical damage equal to 260% of Attack to enemy units in a straight line. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, it additionally applies the [Petrify] status for 4 seconds.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Broken Arrow",
@@ -3719,6 +3772,12 @@
         "name": "Mystic Serpent",
         "type": "Special Skill",
         "description": "Releases a Mystic Serpent, which jumps between up to 3 enemy units, dealing 210% Physical Damage based on its own Attack to each target and delaying their Overdrive Cooldown by 3 seconds.",
+        "cooldown": 11
+      },
+      {
+        "name": "Mystic Evil Jade",
+        "type": "Divine Skill",
+        "description": "[Mystic Serpent] Can steal an additional 10% attack speed from enemy units for 6 seconds.",
         "cooldown": 0
       }
     ],
@@ -3726,19 +3785,25 @@
   },
   {
     "name": "Nessus",
-    "title": "",
+    "title": "Savage Hunter",
     "quality": "SR+",
     "character_class": "Archer",
-    "factions": ["", ""],
+    "factions": ["Wild Spirit", "Sanctum Glory"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Arrowslinger",
+      "Guerrilla",
+      "Hunter",
+      "Bloodhunter",
+      "Sharpshooter"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Greek Mythology",
     "lore": "",
-    "quote": "",
+    "quote": "Spears, pierce through the armor!",
     "talent": {
-      "name": "",
+      "name": "Will of the Centaur",
       "talent_levels": [
         {
           "level": 1,
@@ -3762,8 +3827,8 @@
       {
         "name": "Boiling Blood",
         "type": "Overdrive",
-        "description": "Consumes 45% of current HP to gain [Attack Boost] and [Life Conversion].",
-        "cooldown": 0
+        "description": "Consumes 45% of current HP to gain [Attack Boost] and [Lifesteal].",
+        "cooldown": 18
       },
       {
         "name": "Pyreforged Lance",
@@ -3782,19 +3847,25 @@
   },
   {
     "name": "Polyphemus",
-    "title": "",
+    "title": "Cyclops",
     "quality": "SR+",
     "character_class": "Archer",
-    "factions": ["", ""],
+    "factions": ["Otherworld Return", "Sanctum Glory"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Tracker",
+      "Hunter",
+      "Ranger",
+      "Bloodhunter",
+      "Light Ranger"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Greek Mythology",
     "lore": "",
-    "quote": "",
+    "quote": "Hehe, play with me.",
     "talent": {
-      "name": "",
+      "name": "Dud",
       "talent_levels": [
         {
           "level": 1,
@@ -3819,13 +3890,13 @@
         "name": "Meteor Shower",
         "type": "Overdrive",
         "description": "Throws a huge rock, dealing 410% of Attack as Physical Damage to enemies in a large circular area around the target.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Elegance in Motion",
         "type": "Ultimate Skill",
         "description": "Deals physical Damage equal to 240% of own Attack to enemy units in a medium circular area around the target.",
-        "cooldown": 0
+        "cooldown": 9
       },
       {
         "name": "Cannibalize",
@@ -3841,63 +3912,49 @@
     "title": "",
     "quality": "R",
     "character_class": "Archer",
-    "factions": ["", ""],
+    "factions": ["Arcane Wisdom", "Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Arrowslinger",
+      "Guerrilla",
+      "Hunter",
+      "Bounty Hunter",
+      "Sniper"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Modern Fantasy",
     "lore": "",
-    "quote": "",
+    "quote": "Arrows never miss!",
     "talent": {
-      "name": "",
+      "name": "Blessing of the Elves",
       "talent_levels": [
         {
           "level": 1,
-          "effect": ""
+          "effect": "Each time an ally uses Overdrive, gains 1 stack of [Awakening]. At 3 stacks of [Awakening], the stacks are consumed to increase self Attack Speed by 60% for 8 seconds."
         },
         {
           "level": 2,
-          "effect": ""
+          "effect": "Attack increases by 20% when attacking targets with an Overdrive Energy cost of 4 or more."
         },
         {
           "level": 3,
-          "effect": ""
-        },
-        {
-          "level": 4,
-          "effect": ""
-        },
-        {
-          "level": 7,
-          "effect": ""
+          "effect": "Increases Attack by 10%."
         }
       ]
     },
     "skills": [
       {
-        "name": "",
+        "name": "Cloudpiercer",
         "type": "Overdrive",
-        "description": "",
-        "cooldown": 0
+        "description": "Charges forth, shooting an arrow that deals physical damage equal to 415% of Attack to enemy units within a medium circle around the target.",
+        "cooldown": 18
       },
       {
-        "name": "",
+        "name": "Burst Fire",
         "type": "Ultimate Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Secret Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Special Skill",
-        "description": "",
-        "cooldown": 0
+        "description": "Lets fly a torrent of shots at a single target, dealing physical damage equal to 291% of Attack.",
+        "cooldown": 7
       }
     ],
     "noble_phantasm": ""
@@ -3907,63 +3964,43 @@
     "title": "",
     "quality": "R",
     "character_class": "Archer",
-    "factions": ["", ""],
+    "factions": ["Sanctum Glory", "Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": ["Tracker", "Scout", "Hunter", "Bloodhunter", "Sniper"],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Norse Mythology",
     "lore": "",
-    "quote": "",
+    "quote": "Let's make some noise!",
     "talent": {
-      "name": "",
+      "name": "Barrel Up",
       "talent_levels": [
         {
           "level": 1,
-          "effect": ""
+          "effect": "At the start of the battle, gains 4 bullets. Each Basic Attack consumes 1 bullet and deals additional physical Damage equal to 52% of own Attack to enemy units in a medium circular area around the target. When out of bullets, will reload and cannot perform Basic Attacks during this time."
         },
         {
           "level": 2,
-          "effect": ""
+          "effect": "Attack increases by 20% when attacking targets with an Overdrive Energy cost of 4 or more."
         },
         {
           "level": 3,
-          "effect": ""
-        },
-        {
-          "level": 4,
-          "effect": ""
-        },
-        {
-          "level": 7,
-          "effect": ""
+          "effect": "Increases Attack by 10%."
         }
       ]
     },
     "skills": [
       {
-        "name": "",
+        "name": "Blazing Barrel",
         "type": "Overdrive",
-        "description": "",
-        "cooldown": 0
+        "description": "Fires 4 shells, each dealing physical Damage equal to 160% of own Attack to enemy units in a small circular area. Upon firing, grants self [Fervor].",
+        "cooldown": 18
       },
       {
-        "name": "",
+        "name": "Heavy Cannon",
         "type": "Ultimate Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Secret Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Special Skill",
-        "description": "",
-        "cooldown": 0
+        "description": "Deals physical Damage equal to 270% of own Attack to enemy units in a medium circular area around the target.",
+        "cooldown": 16
       }
     ],
     "noble_phantasm": ""
@@ -3973,82 +4010,55 @@
     "title": "",
     "quality": "N",
     "character_class": "Archer",
-    "factions": ["", ""],
+    "factions": ["Arcane Wisdom"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Modern Fantasy",
     "lore": "",
-    "quote": "",
+    "quote": "Bubble!",
     "talent": {
-      "name": "",
+      "name": "Elemental Power",
       "talent_levels": [
         {
           "level": 1,
-          "effect": ""
-        },
-        {
-          "level": 2,
-          "effect": ""
-        },
-        {
-          "level": 3,
-          "effect": ""
-        },
-        {
-          "level": 4,
-          "effect": ""
-        },
-        {
-          "level": 7,
-          "effect": ""
+          "effect": "Increases Attack Speed by 15%."
         }
       ]
     },
     "skills": [
       {
-        "name": "",
+        "name": "Lightning Rod",
         "type": "Overdrive",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Ultimate Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Secret Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Special Skill",
-        "description": "",
-        "cooldown": 0
+        "description": "Releases an electric shock to a random enemy Luminary every 0.5 seconds for 6 seconds. Each shock deals physical damage equal to 55% of Attack.",
+        "cooldown": 20
       }
     ],
     "noble_phantasm": ""
   },
   {
     "name": "Poseidon",
-    "title": "",
+    "title": "Sea Goddess",
     "quality": "SSR EX",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Elemental Echo", "Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Wizard",
+      "Elemental Mage",
+      "Sorcerer",
+      "Elementalist",
+      "Grand Archmage",
+      "Potion Master"
+    ],
+    "height": "191cm",
+    "weight": "85kg",
+    "origin": "Greek Mythology",
+    "lore": "Poseidon, the goddess of the sea, is the ruler of the ocean, earthquakes, and horses. Legend has it that Poseidon gave humankind its first horse, and she often drove a golden chariot drawn by white horses across the sea.",
+    "quote": "A new storm has emerged!",
     "talent": {
-      "name": "",
+      "name": "Elemental Sovereign",
       "talent_levels": [
         {
           "level": 1,
@@ -4081,7 +4091,7 @@
         "name": "Wail of the Deep",
         "type": "Overdrive",
         "description": "Unleash a tidal wave on enemies across a massive area, dealing magic damage equal to 400% of Attack.",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Ice Age",
@@ -4093,12 +4103,18 @@
         "name": "Tide of the Abyss",
         "type": "Secret Skill",
         "description": "Max Energy +5. Gains 1 Energy whenever an [Elemental Reaction] is triggered by an ally. At full Energy, automatically unleashes a torrent on enemies with the lowest Overdrive Energy Consumption, dealing 135% of Attack as Magic Damage. If the target's Overdrive Energy Consumption is less than 4, its next Overdrive costs +1 Energy.",
-        "cooldown": 0
+        "cooldown": 6
       },
       {
         "name": "Frost Barrier",
         "type": "Special Skill",
         "description": "When your Luminary receives lethal Damage, they are frozen for 3 seconds, becoming Immune to lethal Damage while recovering HP equal to 400% of their Attack (up to 100% of target's max HP). Can only trigger once per battle.",
+        "cooldown": 0
+      },
+      {
+        "name": "Elemental Response",
+        "type": "Divine Skill",
+        "description": "[Wail of the Deep] Each time an allied Phantom triggers an [Elemental Reaction], its own Ultimate Skill damage is increased by 5%, up to a maximum of 50%.",
         "cooldown": 0
       }
     ],
@@ -4106,19 +4122,26 @@
   },
   {
     "name": "Gabriele",
-    "title": "",
+    "title": "Archangel",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Sanctum Glory", "Otherworld Return"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Wizard",
+      "Sorcerer",
+      "Magister",
+      "Grand Archmage",
+      "Rune Mage",
+      "Potion Master"
+    ],
+    "height": "177cm",
+    "weight": "55kg",
+    "origin": "Hebrew Legends",
+    "lore": "One of the archangels of Heaven, she is proud and steadfast in her duty as the guardian of the realm. Protected by the gods, she is invincible and frequently bestows celestial power upon righteous warriors, earning her the adoration of the brave. She is fiercely opposed to evil and bears the mission of eradicating all darkness and wickedness from the world, leading the celestial army in an eternal battle against Hell.",
+    "quote": "The righteous need no prayers.",
     "talent": {
-      "name": "",
+      "name": "Judgment of Mercy",
       "talent_levels": [
         {
           "level": 1,
@@ -4147,24 +4170,30 @@
         "name": "Invictus",
         "type": "Overdrive",
         "description": "Assumes the form of a six-winged angel and unleashes a series of slashes, dealing magic damage equal to 425% of Attack to enemy units in a large circle. Becomes untargetable during this skill.",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Hour of Reckoning",
         "type": "Ultimate Skill",
         "description": "Releases four arcs of sword energy, dealing magic damage equal to 330% of Attack to enemy units in a line.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Benediction",
         "type": "Secret Skill",
         "description": "Grants [Morale] to self and 2 random allied Luminaries (prioritizing Sanctum Glory faction) at the start of the battle.",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Celestial Awakening",
         "type": "Special Skill",
         "description": "Gains a 30% Overdrive Damage Boost. Each time an ally unit is defeated, gains 1 stack of [Deathrattle]. When casting [Invictus], consumes up to 5 stacks of [Deathrattle]. For each stack consumed, [Invictus] gains a 15% Overdrive Damage Boost.",
+        "cooldown": 0
+      },
+      {
+        "name": "Supreme Judgement",
+        "type": "Divine Skill",
+        "description": "[Benediction] Additionally grants [Attack Boost].",
         "cooldown": 0
       }
     ],
@@ -4172,19 +4201,26 @@
   },
   {
     "name": "Gullveig",
-    "title": "",
+    "title": "Demilich",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Otherworld Return", "Elemental Echo"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Scholar",
+      "Elemental Mage",
+      "Sorcerer",
+      "Elementalist",
+      "Astrologer",
+      "Potion Master"
+    ],
+    "height": "171cm",
+    "weight": "50kg",
+    "origin": "Norse Mythology",
+    "lore": "A priestess with extensive knowledge of potions and torture, she can observe the movements of other planes. However, legend says that only she possesses the secret art of resurrection, which is the reason her status is comparable to that of a god. Beneath her alluring exterior lies a twisted personality and eccentricities, finding pleasure in toying with humans.",
+    "quote": "The age of the gods is long gone!",
     "talent": {
-      "name": "",
+      "name": "Dominion of Pain",
       "talent_levels": [
         {
           "level": 1,
@@ -4213,13 +4249,13 @@
         "name": "Abyssal Grasp",
         "type": "Overdrive",
         "description": "Applies [Healing Down] to enemy units within a large circle and deals magic damage equal to 330% of Attack.",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Soul Siphon",
         "type": "Ultimate Skill",
         "description": "Drains HP from a target over 6s, dealing magic damage equal to 470% of Attack and restoring HP equal to 282% of Attack to the ally with the lowest health percentage.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Eternal Youth",
@@ -4231,6 +4267,12 @@
         "name": "Netherblast",
         "type": "Special Skill",
         "description": "Deals magic Damage equal to 230% of own Attack to enemies within a medium circular area around the target and applies [Chill].",
+        "cooldown": 16
+      },
+      {
+        "name": "Death Scythe",
+        "type": "Divine Skill",
+        "description": "[Abyssal Grasp] Deals additional magic damage equal to 30% of the target's missing health (up to a maximum of 300% of the user's attack).",
         "cooldown": 0
       }
     ],
@@ -4238,19 +4280,26 @@
   },
   {
     "name": "Faust",
-    "title": "",
+    "title": "Demon Overlord",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Otherworld Return", "Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Wizard",
+      "Sorcerer",
+      "Arcane Master",
+      "Elementalist",
+      "Astrologer",
+      "Potion Master"
+    ],
+    "height": "146cm",
+    "weight": "31kg",
+    "origin": "European Folklore",
+    "lore": "Driven by a thirst for knowledge, she performed a secret art of immortality, remaining in the world as a young girl for hundreds of years, becoming a scholar who had read all the books in the world and possessed all the knowledge in the world. Because there was no new knowledge left for her to learn, she felt an unbearable boredom. So she embarked on a journey to find that knowledge, which may or may not exist, that would \"satisfy her\".",
+    "quote": "Kururu will always protect me.",
     "talent": {
-      "name": "",
+      "name": "Soulbound",
       "talent_levels": [
         {
           "level": 1,
@@ -4258,7 +4307,7 @@
         },
         {
           "level": 2,
-          "effect": "[Krul Charge] Can trigger [Punishment]. When triggering [Punishment], also applies [Damage Reduction Decrease]."
+          "effect": "[Krul Charge] Can trigger [Punishment]. When triggering [Punishment], also applies [Damage Reduction Down]."
         },
         {
           "level": 3,
@@ -4279,13 +4328,13 @@
         "name": "Krul Charge",
         "type": "Overdrive",
         "description": "Summons Krul, dealing 390% Magic Damage based on Faust's Attack to enemies in a medium circle and inflicting [Stun] for 0.1s. Krul inherits 100% of Faust's Attributes and automatically attacks enemies, each hit dealing 125% Magic Damage based on its Attack to a single target. If carrying [Bunny Bomb], Krul deals 245% Magic Damage based on its Attack to enemies in a medium circle instead.",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Bunny Bomb",
         "type": "Ultimate Skill",
         "description": "Launches a Bunny Bomb at a single target that sticks to them. After 5s, it explodes to deal 275% of Attack as magic Damage to enemies in a medium circular area. When Krul is present, the Bunny Bomb attaches to Krul instead.",
-        "cooldown": 0
+        "cooldown": 10
       },
       {
         "name": "Overload",
@@ -4297,6 +4346,12 @@
         "name": "Hairpin Dart",
         "type": "Special Skill",
         "description": "Releases a crescent shockwave, blasting enemies in a line for 248% of the Luminary's Attack as magic damage.",
+        "cooldown": 14
+      },
+      {
+        "name": "Guardian Material",
+        "type": "Divine Skill",
+        "description": "[Hairpin Dart] When released, it provides an additional shield to both the caster and Kururu, equal to 120% of the caster's attack, lasting for 10 seconds.",
         "cooldown": 0
       }
     ],
@@ -4304,19 +4359,26 @@
   },
   {
     "name": "Cerberus",
-    "title": "",
+    "title": "Hell Hound",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Illusion Veil", "Elemental Echo"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Wizard",
+      "Elemental Mage",
+      "Sorcerer",
+      "Elementalist",
+      "Astrologer",
+      "Potion Master"
+    ],
+    "height": "117cm",
+    "weight": "96kg",
+    "origin": "Greek Mythology",
+    "lore": "The beast of the underworld, the hellhound, guards the gate, and no one is allowed to leave from here.",
+    "quote": "I'll split you into three pieces.",
     "talent": {
-      "name": "",
+      "name": "Primal Urgency",
       "talent_levels": [
         {
           "level": 1,
@@ -4345,13 +4407,13 @@
         "name": "Doomflare",
         "type": "Overdrive",
         "description": "Spits out 3 fireballs, each dealing magic damage equal to 165% of its own attack to enemy units in its path. The final fireball deals additional magic damage equal to 165% of its own attack to enemy units within a medium circular area around the target. If the target is hit by all 3 fireballs, their Overdrive Energy Consumption is increased by 1. In a dormant state, only 1 fireball is spit out.",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Cataclysm",
         "type": "Ultimate Skill",
         "description": "Sprays flames forward 3 times, each dealing magic damage equal to 118% of its own attack to enemy units in a straight line. In dormant state, only 1 flame is sprayed.",
-        "cooldown": 0
+        "cooldown": 16
       },
       {
         "name": "Blazemark",
@@ -4363,26 +4425,33 @@
         "name": "Candle of Oblivion",
         "type": "Special Skill",
         "description": "Slams the ground, releasing 3 pillars of fire that deal magic damage equal to 222% of its own Attack to 3 random enemy units. In Dormant state, only 1 pillar of fire is released.",
-        "cooldown": 0
+        "cooldown": 12
       }
     ],
     "noble_phantasm": ""
   },
   {
     "name": "Melina",
-    "title": "",
+    "title": "Flame Witch",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Elemental Echo", "Sanctum Glory"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Wizard",
+      "Elemental Mage",
+      "Sorcerer",
+      "Elementalist",
+      "Astrologer",
+      "Rune Mage"
+    ],
+    "height": "166cm",
+    "weight": "46kg",
+    "origin": "European Folklore",
+    "lore": "Melina, Child of Flame. When the Archmage found the child, he named her after himself. The baby was abandoned at Merlin's doorstep, engulfed in flames, without even a letter explaining her situation. The Archmage had no choice but to take the infant girl home, but after searching for a long time, he still didn't know who her parents were…",
+    "quote": "This is... the Grand Flame Burst!",
     "talent": {
-      "name": "",
+      "name": "Blazing Soul",
       "talent_levels": [
         {
           "level": 1,
@@ -4411,24 +4480,30 @@
         "name": "Phoenix Talon",
         "type": "Overdrive",
         "description": "Deals magic damage equal to 320% of own Attack to enemy units in a straight line and applies [Ignite].",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Sanctum of Light",
         "type": "Ultimate Skill",
         "description": "Deals 140% of Attack as Magic Damage to enemies in a medium circular area around the target and inflicts [Magic Defense Down].",
-        "cooldown": 0
+        "cooldown": 16
       },
       {
         "name": "Arcane Blessing",
         "type": "Secret Skill",
         "description": "Grants [Morale] to self and one random allied Luminary (prioritizing the Sanctum Glory faction).",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Flame Mastery",
         "type": "Special Skill",
         "description": "In battle, increases Attack by 15%.",
+        "cooldown": 0
+      },
+      {
+        "name": "Divine Protection",
+        "type": "Divine Skill",
+        "description": "[Arcane Blessing] Additionally grants [Damage Boost].",
         "cooldown": 0
       }
     ],
@@ -4436,19 +4511,26 @@
   },
   {
     "name": "Cleopatra",
-    "title": "",
+    "title": "Queen of Egypt",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Otherworld Return", "Arcane Wisdom"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Scholar",
+      "Sorcerer",
+      "Arcane Master",
+      "Astrologer",
+      "Rune Mage",
+      "Potion Master"
+    ],
+    "height": "168cm",
+    "weight": "41kg",
+    "origin": "Egyptian Mythology",
+    "lore": "Cleopatra VII, a ruthless pharaoh who ruled Egypt for many years, was a woman of immense power. Her stunning beauty captivated countless men and became a powerful tool for her strategic maneuvering. Naturally intelligent, she not only possessed keen insight into human nature but also had a deep understanding of various esoteric arts. Rumor has it that the forbidden power of resurrection was what she truly sought…",
+    "quote": "Do you seek the quicksand secrets?",
     "talent": {
-      "name": "",
+      "name": "Mummy Army",
       "talent_levels": [
         {
           "level": 1,
@@ -4456,7 +4538,7 @@
         },
         {
           "level": 2,
-          "effect": "Each time an ally uses Overdrive, gains 1 stack of [Awakening]. When possessing at least 2 stacks of [Awakening], consumes 2 stacks to unleash an additional [Cascading Sands]."
+          "effect": "Each time an ally uses Overdrive, gains 1 stack of [Awakening]. When possessing at least 2 stacks of [Awakening], consumes 2 stacks to unleash an additional [Cascade of Shifting Sands]."
         },
         {
           "level": 3,
@@ -4477,13 +4559,13 @@
         "name": "Arc Burst",
         "type": "Overdrive",
         "description": "Deals 130% of Attack as Magic Damage to enemies in a large circular area around the target. Summons 2 additional Mummies, ignoring the usual limit. Then, all Mummies on the field charge at the designated target and self-destruct, each dealing Magic Damage equal to 350% of their Attack.",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Arc Shield",
         "type": "Ultimate Skill",
         "description": "Provides a magic Shield equal to 27% of own max HP to self and all Mummies for 10s.",
-        "cooldown": 0
+        "cooldown": 18
       },
       {
         "name": "Reincarnation",
@@ -4495,6 +4577,12 @@
         "name": "Cascade of Shifting Sands",
         "type": "Special Skill",
         "description": "Releases quicksand, dealing magic Damage equal to 260% of own Attack to enemy units in a straight line.",
+        "cooldown": 20
+      },
+      {
+        "name": "Quicksand Dispel",
+        "type": "Divine Skill",
+        "description": "When [Cascade of Shifting Sands] deals damage, it randomly dispels one buff.",
         "cooldown": 0
       }
     ],
@@ -4502,19 +4590,26 @@
   },
   {
     "name": "Telperion",
-    "title": "",
+    "title": "Shadow Elemental",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Elemental Echo", "Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Wizard",
+      "Elemental Mage",
+      "Magister",
+      "Elementalist",
+      "Grand Archmage",
+      "Potion Master"
+    ],
+    "height": "154cm",
+    "weight": "0kg",
+    "origin": "Norse Mythology",
+    "lore": "These elemental creatures, born from the darkness, spend most of their time concealed and rarely appear before humans. They possess a somber nature, and the eerie glow emanating from them is often unsettling…",
+    "quote": "Embrace the darkness.",
     "talent": {
-      "name": "",
+      "name": "Void Disintegration",
       "talent_levels": [
         {
           "level": 1,
@@ -4543,13 +4638,13 @@
         "name": "Ray of Ruination",
         "type": "Overdrive",
         "description": "Channels a beam of energy, dealing magic damage equal to 432% of Attack to enemy units in a straight line. This skill can trigger the [Punishment] effect. When the [Punishment] effect is triggered, damage is increased by 40%.",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Umbral Edge",
         "type": "Ultimate Skill",
         "description": "Deals magic damage equal to 160% of Attack to a row of enemies, with an extra hit on the center target.",
-        "cooldown": 0
+        "cooldown": 14
       },
       {
         "name": "Warp Shadow",
@@ -4561,6 +4656,12 @@
         "name": "Voidsplitter",
         "type": "Special Skill",
         "description": "Deals magic damage equal to 130% of Attack to enemies in a straight line, twice.",
+        "cooldown": 16
+      },
+      {
+        "name": "Prevents Healing",
+        "type": "Divine Skill",
+        "description": "[Umbral Edge] Applies an additional [Heal Block] to a single target in the center.",
         "cooldown": 0
       }
     ],
@@ -4568,19 +4669,26 @@
   },
   {
     "name": "Nanalie",
-    "title": "",
+    "title": "Four Seasons Deer Spirit",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Wild Spirit", "Arcane Wisdom"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
-    "lore": "",
-    "quote": "",
+    "subclasses": [
+      "Fortune Teller",
+      "Sorcerer",
+      "Arcane Master",
+      "Astrologer",
+      "Grand Archmage",
+      "Potion Master"
+    ],
+    "height": "165cm",
+    "weight": "72kg",
+    "origin": "Norse Mythology",
+    "lore": "The fawn, newly transformed into human form, resembles a young girl, innocent and carefree. Unaware of the ways of the world, yet possessing a clear mind. She can communicate with plants and trees, and harbors curiosity and goodwill towards everything.",
+    "quote": "I-I will protect the forest!",
     "talent": {
-      "name": "",
+      "name": "Wild Echo",
       "talent_levels": [
         {
           "level": 1,
@@ -4609,13 +4717,13 @@
         "name": "Heavenly Light Lotus",
         "type": "Overdrive",
         "description": "Deals 440% of Attack as Magic Damage to enemies in a large circular area around the target. While in [Wild] status, damage dealt by this skill is increased by 30%.",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "HP Power Strike",
         "type": "Ultimate Skill",
         "description": "Deals 260% of Attack as Magic Damage to a Single Target. If HP is above 50%, sacrifices an additional 30% of current HP upon casting to increase this skill's damage by 50%.",
-        "cooldown": 0
+        "cooldown": 8
       },
       {
         "name": "Verdant Awakening",
@@ -4627,6 +4735,12 @@
         "name": "Forest Sentinel",
         "type": "Special Skill",
         "description": "Selects the allied Luminary with the highest Rage, excluding itself (prioritizing melee), and grants it [Adrenaline]. Deal magic damage in a large circle around the selected Luminary, every 2s, for 6s. Damage is equal to 60% of Nanalie's Attack.",
+        "cooldown": 18
+      },
+      {
+        "name": "Blessing of Nature",
+        "type": "Divine Skill",
+        "description": "[Forest Sentinel] Automatically triggers once on the nearest allied spirit at the start of battle.",
         "cooldown": 0
       }
     ],
@@ -4634,19 +4748,25 @@
   },
   {
     "name": "Buck",
-    "title": "",
+    "title": "Mischievous Imp",
     "quality": "SR+",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Elemental Echo", "Illusion Veil"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Wizard",
+      "Elemental Mage",
+      "Arcane Master",
+      "Elementalist",
+      "Potion Master"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Modern Fantasy",
     "lore": "",
-    "quote": "",
+    "quote": "Did I cause trouble again?",
     "talent": {
-      "name": "",
+      "name": "Flameborn Armor",
       "talent_levels": [
         {
           "level": 1,
@@ -4662,7 +4782,7 @@
         },
         {
           "level": 4,
-          "effect": "When self-triggered [Elemental Reactions] occur, additionally applies [Magic Defense Down] to the target."
+          "effect": "When self-triggered [Elemental Reaction] occur, additionally applies [Magic Defense Down] to the target."
         }
       ]
     },
@@ -4671,13 +4791,13 @@
         "name": "Magma Pulse",
         "type": "Overdrive",
         "description": "Thrusts his tail into the ground and releases pulsing shockwaves, dealing 270% of Attack as magic damage to enemies within a large circle and applying [Ignite].",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Flamethrower",
         "type": "Ultimate Skill",
         "description": "Call forth a scorching wall of fire in the target area for 5 seconds, dealing magic damage equal to 140% of Attack to enemies passing through. Enemies caught in the flames take additional magic damage per second equal to 50% of Attack.",
-        "cooldown": 0
+        "cooldown": 15
       },
       {
         "name": "Arsonist",
@@ -4690,19 +4810,25 @@
   },
   {
     "name": "Kleina",
-    "title": "",
+    "title": "Wandering Ghost",
     "quality": "SR+",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Illusion Veil", "Otherworld Return"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Fortune Teller",
+      "Sorcerer",
+      "Arcane Master",
+      "Grand Archmage",
+      "Potion Master"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "European Folklore",
     "lore": "",
-    "quote": "",
+    "quote": "Where... are we going...",
     "talent": {
-      "name": "",
+      "name": "Soul Reaper",
       "talent_levels": [
         {
           "level": 1,
@@ -4727,7 +4853,7 @@
         "name": "Death's Embrace",
         "type": "Overdrive",
         "description": "Deals magic Damage equal to 400% of the caster's Attack to all units (both allies and enemies) within a large circular area.",
-        "cooldown": 0
+        "cooldown": 20
       },
       {
         "name": "Terror Shriek",
@@ -4749,63 +4875,49 @@
     "title": "",
     "quality": "R",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Elemental Echo", "Sanctum Glory"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Fortune Teller",
+      "Elemental Mage",
+      "Arcane Master",
+      "Elementalist",
+      "Potion Master"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Norse Mythology",
     "lore": "",
-    "quote": "",
+    "quote": "Runes, forge my will!",
     "talent": {
-      "name": "",
+      "name": "Touch of Cold",
       "talent_levels": [
         {
           "level": 1,
-          "effect": ""
+          "effect": "Basic Attacks against enemies with [Chill] Status deal bonus magic Damage equal to 50% of your Attack power."
         },
         {
           "level": 2,
-          "effect": ""
+          "effect": "After triggering [Elemental Reaction], grants [Morale] to self and one random ally Luminary."
         },
         {
           "level": 3,
-          "effect": ""
-        },
-        {
-          "level": 4,
-          "effect": ""
-        },
-        {
-          "level": 7,
-          "effect": ""
+          "effect": "Increases Attack by 10%."
         }
       ]
     },
     "skills": [
       {
-        "name": "",
+        "name": "Iceplosion",
         "type": "Overdrive",
-        "description": "",
-        "cooldown": 0
+        "description": "Unleash an icy storm dealing Magic Damage equal to 300% of Attack in a medium circular area and inflict [Chill] on enemy units.",
+        "cooldown": 20
       },
       {
-        "name": "",
+        "name": "Orb of Ice",
         "type": "Ultimate Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Secret Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Special Skill",
-        "description": "",
-        "cooldown": 0
+        "description": "Deals 290% of Attack as Magic Damage to a Single Target.",
+        "cooldown": 16
       }
     ],
     "noble_phantasm": ""
@@ -4815,63 +4927,49 @@
     "title": "",
     "quality": "R",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Otherworld Return", "Arcane Wisdom"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [
+      "Scholar",
+      "Magister",
+      "Arcane Master",
+      "Astrologer",
+      "Potion Master"
+    ],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Egyptian Mythology",
     "lore": "",
-    "quote": "",
+    "quote": "Who disturbs my peace...",
     "talent": {
-      "name": "",
+      "name": "Shroud",
       "talent_levels": [
         {
           "level": 1,
-          "effect": ""
+          "effect": "In battle, increases Attack by 16%. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Attack increases by an additional 1%."
         },
         {
           "level": 2,
-          "effect": ""
+          "effect": "Each time an ally uses an Overdrive, gains 1 stack of [Awakening]. Each stack of [Awakening] increases Physical Defense by 4%."
         },
         {
           "level": 3,
-          "effect": ""
-        },
-        {
-          "level": 4,
-          "effect": ""
-        },
-        {
-          "level": 7,
-          "effect": ""
+          "effect": "Increases Attack by 10%."
         }
       ]
     },
     "skills": [
       {
-        "name": "",
+        "name": "Bloodsuck",
         "type": "Overdrive",
-        "description": "",
-        "cooldown": 0
+        "description": "Drains the life of a single target over 4 seconds, dealing magic damage equal to 425% of Attack and restoring health equal to 255% of Attack.",
+        "cooldown": 20
       },
       {
-        "name": "",
+        "name": "Toxic Touch",
         "type": "Ultimate Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Secret Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Special Skill",
-        "description": "",
-        "cooldown": 0
+        "description": "Deals 270% of Attack as Magic Damage to enemies within a medium circular area around the target.",
+        "cooldown": 18
       }
     ],
     "noble_phantasm": ""
@@ -4881,63 +4979,29 @@
     "title": "",
     "quality": "N",
     "character_class": "Mage",
-    "factions": ["", ""],
+    "factions": ["Elemental Echo"],
     "is_global": true,
-    "subclasses": ["", "", "", "", "", ""],
-    "height": "cm",
-    "weight": "kg",
-    "origin": "",
+    "subclasses": [],
+    "height": "?cm",
+    "weight": "?kg",
+    "origin": "Modern Fantasy",
     "lore": "",
-    "quote": "",
+    "quote": "Bubble!",
     "talent": {
-      "name": "",
+      "name": "Elemental Power",
       "talent_levels": [
         {
           "level": 1,
-          "effect": ""
-        },
-        {
-          "level": 2,
-          "effect": ""
-        },
-        {
-          "level": 3,
-          "effect": ""
-        },
-        {
-          "level": 4,
-          "effect": ""
-        },
-        {
-          "level": 7,
-          "effect": ""
+          "effect": "Boost your own damage output by 15%."
         }
       ]
     },
     "skills": [
       {
-        "name": "",
+        "name": "Breath of Ice",
         "type": "Overdrive",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Ultimate Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Secret Skill",
-        "description": "",
-        "cooldown": 0
-      },
-      {
-        "name": "",
-        "type": "Special Skill",
-        "description": "",
-        "cooldown": 0
+        "description": "Continuously spits snowballs to deal magic damage equal to 330% of Attack to a single target.",
+        "cooldown": 18
       }
     ],
     "noble_phantasm": ""

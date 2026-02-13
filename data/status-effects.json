@@ -208,5 +208,53 @@
     "type": "Buff",
     "effect": "Increases Attack by 45%. Lasts 8 seconds.",
     "remark": "Does not stack with [Attack Boost]."
+  },
+  {
+    "name": "Ignite",
+    "type": "Elemental",
+    "effect": "Deals magic damage equal to 3% of the target's Max HP every 2 seconds. Lasts 10 seconds.",
+    "remark": "Each instance of damage cannot exceed 100% of Attack.\nTriggers [Detonation] when the target is afflicted with [Shock].\nTriggers [Evaporation] when the target is afflicted with [Chill]."
+  },
+  {
+    "name": "Shock",
+    "type": "Elemental",
+    "effect": "Reduces Crit Resist by 200. Lasts 10 seconds.",
+    "remark": "Triggers [Detonation] when the target is afflicted with [Ignite].\nTriggers [Flash Freeze] when the target is afflicted with [Chill]."
+  },
+  {
+    "name": "Crit Up",
+    "type": "Buff",
+    "effect": "Increases Crit by 600. Lasts 8 seconds.",
+    "remark": ""
+  },
+  {
+    "name": "Petrify",
+    "type": "Control",
+    "effect": "Cannot take action. Unable to move, attack, or cast skills.",
+    "remark": ""
+  },
+  {
+    "name": "Lifesteal",
+    "type": "Buff",
+    "effect": "Increases Lifesteal by 30%. Lasts 8 seconds.",
+    "remark": ""
+  },
+  {
+    "name": "Heal Block",
+    "type": "Debuff",
+    "effect": "Reduces healing received by 100%. Lasts 8 seconds.",
+    "remark": "Doesn't stack with [Healing Down]."
+  },
+  {
+    "name": "Stat Debuff",
+    "type": "Debuff",
+    "effect": "Includes Attack Down, Bonus Damage Down, Damage Reduction Down, Physical Defense Down, Magic Defense Down, Attack Speed Down, Crit Down, and Crit Damage Down.",
+    "remark": ""
+  },
+  {
+    "name": "Flame Armor",
+    "type": "Buff",
+    "effect": "Increases Physical Defense by 30%. Lasts until the end of the battle.",
+    "remark": ""
   }
 ]

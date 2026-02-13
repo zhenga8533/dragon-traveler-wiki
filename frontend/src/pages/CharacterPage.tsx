@@ -40,6 +40,7 @@ import {
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { getSkillIcon } from '../assets/skill';
 import { getSubclassIcon } from '../assets/subclass';
 import RichText from '../components/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
@@ -131,9 +132,16 @@ export default function CharacterPage() {
     const loadSkillIcons = async () => {
       const icons = new Map<string, string>();
       for (const skill of character.skills) {
-        const icon = await getCharacterSkillIcon(character.name, skill.name);
-        if (icon) {
-          icons.set(skill.name, icon);
+        if (skill.type === 'Divine Skill') {
+          const divIcon = getSkillIcon('divinity');
+          if (divIcon) {
+            icons.set(skill.name, divIcon);
+          }
+        } else {
+          const icon = await getCharacterSkillIcon(character.name, skill.name);
+          if (icon) {
+            icons.set(skill.name, icon);
+          }
         }
       }
       setSkillIcons(icons);
