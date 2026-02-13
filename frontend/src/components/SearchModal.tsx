@@ -85,6 +85,11 @@ const PAGES = [
     path: '/guides/efficient-spending',
     keywords: 'spending guide efficiency resources',
   },
+  {
+    title: 'Rotational Event Hoarding',
+    path: '/guides/rotational-event-hoarding',
+    keywords: 'rotational event hoarding tips howlkin horn invoc',
+  },
 ];
 
 type SearchModalProps = {

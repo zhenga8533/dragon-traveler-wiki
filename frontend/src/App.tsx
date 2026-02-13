@@ -62,6 +62,7 @@ import DragonSpells from './pages/DragonSpells';
 import EfficientSpending from './pages/EfficientSpending';
 import Home from './pages/Home';
 import Resources from './pages/Resources';
+import RotationalEventHoarding from './pages/RotationalEventHoarding';
 import StarUpgradeCalculator from './pages/StarUpgradeCalculator';
 import StatusEffects from './pages/StatusEffects';
 import TeamPage from './pages/TeamPage';
@@ -103,6 +104,10 @@ const NAV_ITEMS: NavItem[] = [
       {
         label: 'Efficient Spending',
         path: '/guides/efficient-spending',
+      },
+      {
+        label: 'Rotational Event Hoarding',
+        path: '/guides/rotational-event-hoarding',
       },
     ],
   },
@@ -454,6 +459,10 @@ function AppContent() {
               <Route
                 path="/guides/efficient-spending"
                 element={<EfficientSpending />}
+              />
+              <Route
+                path="/guides/rotational-event-hoarding"
+                element={<RotationalEventHoarding />}
               />
             </Routes>
           </PageTransition>
