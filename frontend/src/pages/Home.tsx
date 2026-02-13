@@ -520,6 +520,7 @@ export default function Home() {
           <img
             src={banner}
             alt=""
+            fetchPriority="high"
             onLoad={() => setBannerLoaded(true)}
             style={{
               position: 'absolute',

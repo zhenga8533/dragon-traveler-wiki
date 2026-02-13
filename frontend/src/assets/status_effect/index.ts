@@ -1,12 +1,10 @@
+import { normalizeKey } from '../utils';
+
 // Dynamic imports for status effect icons
 const iconModules = import.meta.glob<{ default: string }>(
   './*.png',
   { eager: true }
 );
-
-function normalizeKey(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, '_');
-}
 
 // Build lookup map
 const icons = new Map<string, string>();

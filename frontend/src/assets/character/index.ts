@@ -1,3 +1,5 @@
+import { normalizeKey } from '../utils';
+
 // Dynamic imports for character assets
 // Portraits load immediately (needed for character lists)
 const portraitModules = import.meta.glob<{ default: string }>(
@@ -14,8 +16,13 @@ const talentModules = import.meta.glob<{ default: string }>('./**/talent.png');
 
 const skillModules = import.meta.glob<{ default: string }>('./**/skills/*.png');
 
-function normalizeKey(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, '_');
+const CACHE_MAX_SIZE = 20;
+
+function evictOldest(cache: Map<string, unknown>): void {
+  if (cache.size > CACHE_MAX_SIZE) {
+    const firstKey = cache.keys().next().value;
+    if (firstKey !== undefined) cache.delete(firstKey);
+  }
 }
 
 function formatIllustrationName(fileName: string): string {
@@ -140,6 +147,7 @@ export async function getIllustrations(
 
   // Cache the results
   illustrationsCache.set(key, illustrations);
+  evictOldest(illustrationsCache);
   return illustrations;
 }
 
@@ -169,6 +177,7 @@ export async function getTalentIcon(
 
   const talent = (await loader()).default;
   talentsCache.set(key, talent);
+  evictOldest(talentsCache);
   return talent;
 }
 
@@ -197,5 +206,6 @@ export async function getCharacterSkillIcon(
 
   const skill = (await loader()).default;
   charSkills.set(skillKey, skill);
+  evictOldest(skillsCache);
   return skill;
 }

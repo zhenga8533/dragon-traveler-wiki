@@ -1,12 +1,10 @@
+import { normalizeKey } from '../utils';
+
 // Dynamic imports for subclass icons
 // Images are organized in subdirectories by character class (e.g., archer/, assassin/)
 const modules = import.meta.glob<{ default: string }>('./**/*.png', {
   eager: true,
 });
-
-function normalizeKey(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, '_');
-}
 
 // Build lookup map: class/subclass -> image path
 const icons = new Map<string, string>();

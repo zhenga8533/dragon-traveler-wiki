@@ -1,11 +1,9 @@
+import { normalizeKey } from '../utils';
+
 // Dynamic imports for wyrmspell icons
 const iconModules = import.meta.glob<{ default: string }>('./*.png', {
   eager: true,
 });
-
-function normalizeKey(name: string): string {
-  return name.toLowerCase().replace(/\s+/g, '_');
-}
 
 const icons = new Map<string, string>();
 

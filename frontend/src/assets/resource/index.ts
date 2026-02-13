@@ -1,3 +1,5 @@
+import { normalizeKey } from '../utils';
+
 // Dynamic imports for resource icons organised by category sub-folders
 const iconModules = import.meta.glob<{ default: string }>('./**/*.png', {
   eager: true,
@@ -14,6 +16,6 @@ for (const [path, module] of Object.entries(iconModules)) {
 }
 
 export function getResourceIcon(name: string): string | undefined {
-  const key = name.toLowerCase().replace(/\s+/g, '_');
+  const key = normalizeKey(name);
   return icons.get(key);
 }

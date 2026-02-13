@@ -102,14 +102,19 @@ export default function CharacterPage() {
       return;
     }
 
-    getIllustrations(character.name).then((imgs) => {
-      setIllustrations(imgs);
-      const defaultImg =
-        imgs.find((i) => i.name.toLowerCase() === 'default') || imgs[0];
-      if (defaultImg) {
-        setSelectedIllustration(defaultImg);
-      }
-    });
+    getIllustrations(character.name)
+      .then((imgs) => {
+        setIllustrations(imgs);
+        const defaultImg =
+          imgs.find((i) => i.name.toLowerCase() === 'default') || imgs[0];
+        if (defaultImg) {
+          setSelectedIllustration(defaultImg);
+        }
+      })
+      .catch(() => {
+        setIllustrations([]);
+        setSelectedIllustration(null);
+      });
   }, [character]);
 
   // Load talent icon when character changes
@@ -119,7 +124,9 @@ export default function CharacterPage() {
       return;
     }
 
-    getTalentIcon(character.name).then(setTalentIcon);
+    getTalentIcon(character.name)
+      .then(setTalentIcon)
+      .catch(() => setTalentIcon(undefined));
   }, [character]);
 
   // Load skill icons when character changes
@@ -129,25 +136,24 @@ export default function CharacterPage() {
       return;
     }
 
-    const loadSkillIcons = async () => {
-      const icons = new Map<string, string>();
-      for (const skill of character.skills) {
+    Promise.all(
+      character.skills.map(async (skill): Promise<[string, string] | null> => {
         if (skill.type === 'Divine Skill') {
           const divIcon = getSkillIcon('divinity');
-          if (divIcon) {
-            icons.set(skill.name, divIcon);
-          }
-        } else {
-          const icon = await getCharacterSkillIcon(character.name, skill.name);
-          if (icon) {
-            icons.set(skill.name, icon);
-          }
+          return divIcon ? [skill.name, divIcon] : null;
         }
-      }
-      setSkillIcons(icons);
-    };
-
-    loadSkillIcons();
+        const icon = await getCharacterSkillIcon(character.name, skill.name);
+        return icon ? [skill.name, icon] : null;
+      })
+    )
+      .then((results) => {
+        const icons = new Map<string, string>();
+        for (const entry of results) {
+          if (entry) icons.set(entry[0], entry[1]);
+        }
+        setSkillIcons(icons);
+      })
+      .catch(() => setSkillIcons(new Map()));
   }, [character]);
 
   if (loading) {
