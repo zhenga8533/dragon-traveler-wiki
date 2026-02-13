@@ -13,6 +13,7 @@ import os
 import re
 import sys
 from pathlib import Path
+from urllib.parse import urlparse
 
 SCRIPT_DIR = Path(__file__).resolve().parent
 ROOT_DIR = SCRIPT_DIR.parent
@@ -23,6 +24,7 @@ LABEL_JSON_FILE = {
     "wyrmspell": "wyrmspells.json",
     "status-effect": "status-effects.json",
     "links": "useful-links.json",
+    "resource": "resources.json",
     "character": "characters.json",
     "tier-list": "tier-lists.json",
     "team": "teams.json",
@@ -33,10 +35,42 @@ REQUIRED_FIELDS = {
     "wyrmspell": ["name"],
     "status-effect": ["name"],
     "links": ["name", "link"],
+    "resource": ["name", "category", "description"],
     "character": ["name"],
     "tier-list": ["name", "entries"],
     "team": ["name", "members"],
 }
+
+VALID_RESOURCE_CATEGORIES = {
+    "Currency",
+    "Gift",
+    "Item",
+    "Material",
+    "Summoning",
+    "Shard",
+}
+
+VALID_STATUS_EFFECT_TYPES = {
+    "Buff",
+    "Debuff",
+    "Special",
+    "Control",
+    "Elemental",
+    "Blessing",
+    "Exclusive",
+}
+
+VALID_WYRMSPELL_TYPES = {"Breach", "Refuge", "Wildcry", "Dragon's Call"}
+VALID_CHARACTER_QUALITIES = {"SSR EX", "SSR+", "SSR", "SR+", "R", "N"}
+VALID_CHARACTER_CLASSES = {
+    "Guardian",
+    "Priest",
+    "Assassin",
+    "Warrior",
+    "Archer",
+    "Mage",
+}
+VALID_TIERS = {"S+", "S", "A", "B", "C", "D"}
 
 
 # ---------------------------------------------------------------------------
@@ -71,10 +105,55 @@ def extract_json_from_body(body):
 
 def validate_data(label, data):
     """Light validation: check required fields exist and have non-empty values."""
+    if not isinstance(data, dict):
+        raise ValueError("Suggestion JSON must be an object.")
+
     required = REQUIRED_FIELDS.get(label, [])
     missing = [f for f in required if not data.get(f)]
     if missing:
         raise ValueError(f"Missing required fields for '{label}': {', '.join(missing)}")
+
+    if label == "links":
+        link = str(data.get("link", "")).strip()
+        parsed = urlparse(link)
+        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+            raise ValueError("Link must be a valid http/https URL.")
+
+    if label == "resource":
+        category = str(data.get("category", "")).strip()
+        if category not in VALID_RESOURCE_CATEGORIES:
+            raise ValueError(
+                "Invalid resource category. "
+                f"Expected one of: {', '.join(sorted(VALID_RESOURCE_CATEGORIES))}"
+            )
+
+    if label == "wyrmspell" and data.get("type"):
+        if data["type"] not in VALID_WYRMSPELL_TYPES:
+            raise ValueError(
+                f"Invalid wyrmspell type. Expected one of: {', '.join(sorted(VALID_WYRMSPELL_TYPES))}"
+            )
+
+    if label == "status-effect" and data.get("type"):
+        if data["type"] not in VALID_STATUS_EFFECT_TYPES:
+            raise ValueError(
+                "Invalid status effect type. "
+                f"Expected one of: {', '.join(sorted(VALID_STATUS_EFFECT_TYPES))}"
+            )
+
+    if label == "character":
+        if data.get("quality") and data["quality"] not in VALID_CHARACTER_QUALITIES:
+            raise ValueError(
+                "Invalid character quality. "
+                f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
+            )
+        if (
+            data.get("character_class")
+            and data["character_class"] not in VALID_CHARACTER_CLASSES
+        ):
+            raise ValueError(
+                "Invalid character class. "
+                f"Expected one of: {', '.join(sorted(VALID_CHARACTER_CLASSES))}"
+            )
 
     if label == "tier-list":
         entries = data.get("entries", [])
@@ -85,6 +164,11 @@ def validate_data(label, data):
                 raise ValueError(f"Entry {i} is missing 'character_name'.")
             if not entry.get("tier"):
                 raise ValueError(f"Entry {i} is missing 'tier'.")
+            if entry["tier"] not in VALID_TIERS:
+                raise ValueError(
+                    f"Entry {i} has invalid tier '{entry['tier']}'. "
+                    f"Expected one of: {', '.join(sorted(VALID_TIERS))}"
+                )
 
     if label == "team":
         members = data.get("members", [])
@@ -93,6 +177,23 @@ def validate_data(label, data):
         for i, m in enumerate(members):
             if not m.get("character_name"):
                 raise ValueError(f"Member {i} is missing 'character_name'.")
+
+
+def _split_csv_list(value):
+    if isinstance(value, list):
+        return [str(v).strip() for v in value if str(v).strip()]
+    if isinstance(value, str):
+        return [v.strip() for v in value.split(",") if v.strip()]
+    return []
+
+
+def _coerce_optional_int(value):
+    if value in (None, ""):
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
 
 
 # ---------------------------------------------------------------------------
@@ -136,6 +237,13 @@ def normalize_for_json(label, data):
             "remark": data.get("remark", ""),
         }
 
+    if label == "resource":
+        return {
+            "name": data["name"],
+            "description": data.get("description", ""),
+            "category": data.get("category", ""),
+        }
+
     if label == "links":
         return {
             "icon": data.get("icon", ""),
@@ -151,9 +259,9 @@ def normalize_for_json(label, data):
             "title": data.get("title", ""),
             "quality": data.get("quality", ""),
             "character_class": data.get("character_class", ""),
-            "factions": data.get("factions", []),
+            "factions": _split_csv_list(data.get("factions", [])),
             "is_global": data.get("is_global", True),
-            "subclasses": data.get("subclasses", []),
+            "subclasses": _split_csv_list(data.get("subclasses", [])),
             "height": data.get("height", ""),
             "weight": data.get("weight", ""),
             "origin": data.get("origin", ""),
@@ -190,8 +298,8 @@ def normalize_for_json(label, data):
             "members": [
                 {
                     "character_name": m.get("character_name", ""),
-                    "overdrive_order": m.get("overdrive_order"),
-                    "substitutes": m.get("substitutes", []),
+                    "overdrive_order": _coerce_optional_int(m.get("overdrive_order")),
+                    "substitutes": _split_csv_list(m.get("substitutes", [])),
                     "note": m.get("note", ""),
                 }
                 for m in data.get("members", [])
@@ -276,6 +384,7 @@ def main():
         "[Wyrmspell]": "wyrmspell",
         "[Status Effect]": "status-effect",
         "[Link]": "links",
+        "[Resource]": "resource",
         "[Tier List]": "tier-list",
         "[Team]": "team",
     }
@@ -287,6 +396,8 @@ def main():
             break
 
     if not label:
+        set_output("label", "")
+        set_output("processed", "false")
         print(f"No suggestion prefix found in title. Skipping.")
         sys.exit(0)
 
@@ -302,6 +413,7 @@ def main():
     json_file = update_json_file(label, data)
     set_output("json_file", json_file)
     set_output("label", label)
+    set_output("processed", "true")
 
     print("Done!")
 

@@ -1,18 +1,23 @@
-import { useState, useCallback } from 'react';
 import {
-  Modal,
+  ActionIcon,
   Button,
   Group,
+  Modal,
+  Select,
   Stack,
+  Switch,
   Text,
   TextInput,
   Textarea,
-  Select,
-  Switch,
-  ActionIcon,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { IoAddCircleOutline, IoOpenOutline, IoAdd, IoClose } from 'react-icons/io5';
+import { useCallback, useState } from 'react';
+import {
+  IoAdd,
+  IoAddCircleOutline,
+  IoClose,
+  IoOpenOutline,
+} from 'react-icons/io5';
 import { GITHUB_REPO_URL } from '../constants';
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'boolean';
@@ -30,6 +35,7 @@ export interface ArrayFieldDef {
   name: string;
   label: string;
   fields: FieldDef[];
+  minItems?: number;
 }
 
 export interface SuggestModalProps {
@@ -46,7 +52,9 @@ function buildIssueUrl(params: { title: string; body: string }): string {
   return `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams(params).toString()}`;
 }
 
-function buildInitialValues(fields: FieldDef[]): Record<string, string | boolean> {
+function buildInitialValues(
+  fields: FieldDef[]
+): Record<string, string | boolean> {
   const values: Record<string, string | boolean> = {};
   for (const f of fields) {
     values[f.name] = f.type === 'boolean' ? true : '';
@@ -54,8 +62,26 @@ function buildInitialValues(fields: FieldDef[]): Record<string, string | boolean
   return values;
 }
 
-function buildInitialArrayRow(fields: FieldDef[]): Record<string, string | boolean> {
+function buildInitialArrayRow(
+  fields: FieldDef[]
+): Record<string, string | boolean> {
   return buildInitialValues(fields);
+}
+
+function isBlank(value: string | boolean | undefined): boolean {
+  if (typeof value === 'string') {
+    return value.trim() === '';
+  }
+  return value === false || value == null;
+}
+
+function isValidUrl(value: string): boolean {
+  try {
+    const url = new URL(value);
+    return url.protocol === 'http:' || url.protocol === 'https:';
+  } catch {
+    return false;
+  }
 }
 
 export default function SuggestModal({
@@ -141,7 +167,9 @@ export default function SuggestModal({
     }
     for (const af of arrayFields ?? []) {
       data[af.name] = arrayValues[af.name]
-        .filter((row) => af.fields.some((f) => row[f.name] !== '' && row[f.name] !== false))
+        .filter((row) =>
+          af.fields.some((f) => row[f.name] !== '' && row[f.name] !== false)
+        )
         .map((row) => {
           const entry: Record<string, unknown> = {};
           for (const f of af.fields) {
@@ -159,6 +187,7 @@ export default function SuggestModal({
   };
 
   const handleSubmit = () => {
+    if (!isValid()) return;
     const data = buildJsonData();
     const jsonStr = JSON.stringify(data, null, 2);
     const body = `**Paste your JSON below:**\n\n\`\`\`json\n${jsonStr}\n\`\`\`\n`;
@@ -169,7 +198,51 @@ export default function SuggestModal({
 
   const isValid = () => {
     for (const f of fields) {
-      if (f.required && !values[f.name]) return false;
+      const value = values[f.name];
+      if (f.required && isBlank(value)) return false;
+
+      if (f.type === 'select' && typeof value === 'string' && value !== '') {
+        if (f.options && f.options.length > 0 && !f.options.includes(value)) {
+          return false;
+        }
+      }
+
+      if (
+        (f.name === 'link' || f.name.toLowerCase().includes('url')) &&
+        typeof value === 'string' &&
+        value.trim() !== '' &&
+        !isValidUrl(value)
+      ) {
+        return false;
+      }
+    }
+
+    for (const af of arrayFields ?? []) {
+      const rows = arrayValues[af.name] ?? [];
+      const filledRows = rows.filter((row) =>
+        af.fields.some((f) => !isBlank(row[f.name]))
+      );
+
+      if ((af.minItems ?? 0) > 0 && filledRows.length < (af.minItems ?? 0)) {
+        return false;
+      }
+
+      for (const row of filledRows) {
+        for (const f of af.fields) {
+          const value = row[f.name];
+          if (f.required && isBlank(value)) return false;
+          if (
+            f.type === 'select' &&
+            typeof value === 'string' &&
+            value !== '' &&
+            f.options &&
+            f.options.length > 0 &&
+            !f.options.includes(value)
+          ) {
+            return false;
+          }
+        }
+      }
     }
     return true;
   };
@@ -241,10 +314,17 @@ export default function SuggestModal({
         {buttonLabel}
       </Button>
 
-      <Modal opened={opened} onClose={close} title={modalTitle} size="lg" centered>
+      <Modal
+        opened={opened}
+        onClose={close}
+        title={modalTitle}
+        size="lg"
+        centered
+      >
         <Stack gap="sm">
           <Text size="sm" c="dimmed">
-            Fill out the form below. This will open a GitHub issue with your suggestion.
+            Fill out the form below. This will open a GitHub issue with your
+            suggestion.
           </Text>
 
           {fields.map((f) =>

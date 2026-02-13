@@ -21,26 +21,48 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
       - name: Process suggestion
         id: suggest
         run: python -m backend.suggest
 
       - name: Apply labels to issue
-        if: steps.suggest.outputs.label != ''
+        if: steps.suggest.outputs.processed == 'true' && steps.suggest.outputs.label != ''
         uses: actions/github-script@v7
         with:
           script: |
+            const labels = ['suggestion', '${{ steps.suggest.outputs.label }}'];
+            for (const labelName of labels) {
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: labelName,
+                });
+              } catch (error) {
+                if (error.status === 404) {
+                  await github.rest.issues.createLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name: labelName,
+                    color: labelName === 'suggestion' ? '0e8a16' : '5319e7',
+                  });
+                } else {
+                  throw error;
+                }
+              }
+            }
+
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
               issue_number: context.issue.number,
-              labels: ['suggestion', '${{ steps.suggest.outputs.label }}'],
+              labels,
             });
 
       - name: Push suggestion branch
-        if: steps.suggest.outputs.label != ''
+        if: steps.suggest.outputs.processed == 'true' && steps.suggest.outputs.label != ''
         run: |
           BRANCH="suggestion/issue-${{ github.event.issue.number }}"
           git config user.name "github-actions[bot]"
@@ -48,15 +70,32 @@ jobs:
           git push origin --delete "$BRANCH" 2>/dev/null || true
           git checkout -b "$BRANCH"
           git add data/
+          if git diff --cached --quiet; then
+            echo "No data changes detected."
+            exit 0
+          fi
           git commit -m "Add suggestion from issue #${{ github.event.issue.number }}"
           git push -u origin "$BRANCH"
 
       - name: Create GitHub PR
-        if: steps.suggest.outputs.label != ''
+        if: steps.suggest.outputs.processed == 'true' && steps.suggest.outputs.label != ''
         id: github_pr
         uses: actions/github-script@v7
         with:
           script: |
+            const branch = `suggestion/issue-${context.payload.issue.number}`;
+            const { data: existingPrs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              head: `${context.repo.owner}:${branch}`,
+              state: 'open',
+            });
+
+            if (existingPrs.length > 0) {
+              core.setOutput('pr_url', existingPrs[0].html_url);
+              return;
+            }
+
             const { data: pr } = await github.rest.pulls.create({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -68,13 +107,13 @@ jobs:
                 ``,
                 `Merging this PR will update the site data, trigger a redeploy, and sync to DoltHub.`,
               ].join('\n'),
-              head: `suggestion/issue-${context.payload.issue.number}`,
+              head: branch,
               base: 'main',
             });
             core.setOutput('pr_url', pr.html_url);
 
       - name: Comment on issue with PR link
-        if: success() && steps.suggest.outputs.label != ''
+        if: success() && steps.suggest.outputs.processed == 'true' && steps.suggest.outputs.label != ''
         uses: actions/github-script@v7
         with:
           script: |
@@ -113,35 +152,42 @@ jobs:
 
   cleanup:
     if: >-
-      (github.event_name == 'pull_request' && !github.event.pull_request.merged && startsWith(github.event.pull_request.head.ref, 'suggestion/'))
+      (github.event_name == 'pull_request' && github.event.action == 'closed' && startsWith(github.event.pull_request.head.ref, 'suggestion/'))
       || (github.event_name == 'issues' && github.event.action == 'closed' && contains(github.event.issue.labels.*.name, 'suggestion'))
     runs-on: ubuntu-latest
     steps:
-      - name: PR rejected — close issue and delete branch
+      - name: PR closed — reconcile issue and delete branch
         if: github.event_name == 'pull_request'
         uses: actions/github-script@v7
         with:
           script: |
             const branch = context.payload.pull_request.head.ref;
+            const merged = Boolean(context.payload.pull_request.merged);
             // Extract issue number from branch name (suggestion/issue-N)
             const match = branch.match(/^suggestion\/issue-(\d+)$/);
             if (match) {
               const issueNumber = parseInt(match[1]);
-              console.log(`Closing issue #${issueNumber}`);
-              await github.rest.issues.update({
+              if (!merged) {
+                console.log(`Closing issue #${issueNumber} as not planned`);
+                await github.rest.issues.update({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: issueNumber,
+                  state: 'closed',
+                  state_reason: 'not_planned',
+                });
+              }
+            }
+            try {
+              console.log(`Deleting branch: ${branch}`);
+              await github.rest.git.deleteRef({
                 owner: context.repo.owner,
                 repo: context.repo.repo,
-                issue_number: issueNumber,
-                state: 'closed',
-                state_reason: 'not_planned',
+                ref: `heads/${branch}`,
               });
+            } catch (e) {
+              console.log(`Branch ${branch} not found, skipping.`);
             }
-            console.log(`Deleting branch: ${branch}`);
-            await github.rest.git.deleteRef({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              ref: `heads/${branch}`,
-            });
 
       - name: Issue closed — close PR and delete branch
         if: github.event_name == 'issues' && github.event.action == 'closed'

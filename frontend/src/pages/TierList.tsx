@@ -19,6 +19,10 @@ import CharacterCard from '../components/CharacterCard';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
+import SuggestModal, {
+  type ArrayFieldDef,
+  type FieldDef,
+} from '../components/SuggestModal';
 import TierListBuilder from '../components/TierListBuilder';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
@@ -27,6 +31,64 @@ import { useFilters } from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
 import { sortCharactersByQualityName } from '../utils/filter-characters';
+
+const TIER_LIST_FIELDS: FieldDef[] = [
+  {
+    name: 'name',
+    label: 'Tier List Name',
+    type: 'text',
+    required: true,
+    placeholder: 'e.g. Global PvE Tier List',
+  },
+  {
+    name: 'author',
+    label: 'Author',
+    type: 'text',
+    placeholder: 'Your name / handle',
+  },
+  {
+    name: 'content_type',
+    label: 'Content Type',
+    type: 'text',
+    placeholder: 'e.g. All, PvE, PvP',
+  },
+  {
+    name: 'description',
+    label: 'Description',
+    type: 'textarea',
+    placeholder: 'Optional context for your rankings',
+  },
+];
+
+const TIER_LIST_ENTRY_ARRAY_FIELDS: ArrayFieldDef[] = [
+  {
+    name: 'entries',
+    label: 'Ranked Characters',
+    minItems: 1,
+    fields: [
+      {
+        name: 'character_name',
+        label: 'Character Name',
+        type: 'text',
+        required: true,
+        placeholder: 'Character name',
+      },
+      {
+        name: 'tier',
+        label: 'Tier',
+        type: 'select',
+        required: true,
+        options: ['S+', 'S', 'A', 'B', 'C', 'D'],
+      },
+      {
+        name: 'note',
+        label: 'Note',
+        type: 'text',
+        placeholder: 'Optional note',
+      },
+    ],
+  },
+];
 
 export default function TierList() {
   const { data: tierLists, loading: loadingTiers } = useDataFetch<
@@ -85,6 +147,13 @@ export default function TierList() {
         <Group justify="space-between" align="center">
           <Title order={1}>Tier List</Title>
           <Group gap="xs">
+            <SuggestModal
+              buttonLabel="Suggest a Tier List"
+              modalTitle="Suggest a New Tier List"
+              issueTitle="[Tier List] New tier list suggestion"
+              fields={TIER_LIST_FIELDS}
+              arrayFields={TIER_LIST_ENTRY_ARRAY_FIELDS}
+            />
             <Button
               variant="default"
               size="xs"
