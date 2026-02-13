@@ -17,7 +17,7 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useEffect, useRef, useState } from 'react';
+import { useState } from 'react';
 import {
   IoCheckmark,
   IoCopyOutline,
@@ -38,7 +38,7 @@ import SearchModal from '../components/SearchModal';
 import { TIER_COLOR } from '../constants/colors';
 import { BRAND_TITLE_STYLE } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
-import { useDataFetch } from '../hooks';
+import { useDataFetch, useScrollReveal } from '../hooks';
 import type { Character } from '../types/character';
 import type { Code } from '../types/code';
 import type { StatusEffect } from '../types/status-effect';
@@ -74,41 +74,6 @@ const TYPE_COLORS: Record<string, string> = {
   fixed: 'orange',
   removed: 'red',
 };
-
-// ---------------------------------------------------------------------------
-// Scroll reveal hook
-// ---------------------------------------------------------------------------
-
-function useScrollReveal(staggerIndex = 0) {
-  const ref = useRef<HTMLDivElement>(null);
-  const [isVisible, setIsVisible] = useState(false);
-
-  useEffect(() => {
-    const el = ref.current;
-    if (!el) return;
-
-    const observer = new IntersectionObserver(
-      ([entry]) => {
-        if (entry.isIntersecting) {
-          setIsVisible(true);
-          observer.unobserve(el);
-        }
-      },
-      { threshold: 0.1 }
-    );
-
-    observer.observe(el);
-    return () => observer.disconnect();
-  }, []);
-
-  const style: React.CSSProperties = {
-    opacity: isVisible ? 1 : 0,
-    transform: isVisible ? 'translateY(0)' : 'translateY(20px)',
-    transition: `opacity 400ms ${TRANSITION.EASE} ${staggerIndex * 100}ms, transform 400ms ${TRANSITION.EASE} ${staggerIndex * 100}ms`,
-  };
-
-  return { ref, style };
-}
 
 // ---------------------------------------------------------------------------
 // Section components
@@ -192,6 +157,7 @@ function FeaturedCharactersMarquee() {
       return (
         <Stack
           key={`${keyPrefix}-${entry.character_name}`}
+          className="featured-item"
           gap={2}
           align="center"
           style={{ flexShrink: 0, width: 90 }}
@@ -219,7 +185,7 @@ function FeaturedCharactersMarquee() {
   return (
     <Stack gap="md">
       <Group gap="sm" justify="center">
-        <ThemeIcon variant="light" color="orange" size="lg" radius="md">
+        <ThemeIcon variant="light" color="grape" size="lg" radius="md">
           <IoTrophy size={20} />
         </ThemeIcon>
         <Title order={4}>Featured Characters</Title>
@@ -471,9 +437,9 @@ export default function Home() {
 
   const [bannerLoaded, setBannerLoaded] = useState(false);
 
-  const marqueeReveal = useScrollReveal(0);
-  const codesReveal = useScrollReveal(0);
-  const updatesReveal = useScrollReveal(1);
+  const marqueeReveal = useScrollReveal({ staggerIndex: 0 });
+  const codesReveal = useScrollReveal({ staggerIndex: 0 });
+  const updatesReveal = useScrollReveal({ staggerIndex: 1 });
 
   return (
     <Stack gap={0}>
@@ -481,6 +447,40 @@ export default function Home() {
         @keyframes marquee-scroll {
           0% { transform: translateX(0); }
           100% { transform: translateX(-50%); }
+        }
+
+        .home-cta {
+          transition: transform 180ms ${TRANSITION.EASE}, box-shadow 220ms ${TRANSITION.EASE}, filter 180ms ${TRANSITION.EASE};
+        }
+
+        .home-cta:hover {
+          transform: translateY(-2px);
+          box-shadow: 0 10px 26px rgba(0, 0, 0, 0.26);
+          filter: saturate(1.04);
+        }
+
+        .home-hover-card {
+          transition: transform 220ms ${TRANSITION.EASE}, box-shadow 240ms ${TRANSITION.EASE}, border-color 220ms ${TRANSITION.EASE};
+        }
+
+        .home-hover-card:hover {
+          transform: translateY(-4px);
+          box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
+        }
+
+        .home-content-card {
+          border: 1px solid transparent;
+          background:
+            linear-gradient(var(--mantine-color-body), var(--mantine-color-body)) padding-box,
+            linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(236, 72, 153, 0.18)) border-box;
+        }
+
+        .featured-item {
+          transition: transform 200ms ${TRANSITION.EASE}, opacity 200ms ${TRANSITION.EASE};
+        }
+
+        .featured-item:hover {
+          transform: translateY(-3px);
         }
       `}</style>
 
@@ -591,7 +591,8 @@ export default function Home() {
                 size="lg"
                 mt="xs"
                 style={{
-                  color: 'rgba(255, 255, 255, 0.9)',
+                  color: 'rgba(255, 255, 255, 0.95)',
+                  fontWeight: 500,
                   textShadow: '0 1px 6px rgba(0, 0, 0, 0.9)',
                 }}
               >
@@ -604,6 +605,7 @@ export default function Home() {
                     to="/characters"
                     size="md"
                     radius="md"
+                    className="home-cta"
                     leftSection={<IoPeople size={18} />}
                   >
                     Browse Characters
@@ -614,6 +616,8 @@ export default function Home() {
                     size="md"
                     radius="md"
                     variant="light"
+                    color="grape"
+                    className="home-cta"
                     leftSection={<IoTrophy size={18} />}
                   >
                     View Tier List
@@ -623,10 +627,12 @@ export default function Home() {
                     href="https://dt.game-tree.com/"
                     target="_blank"
                     rel="noopener noreferrer"
-                    size="md"
+                    visibleFrom="sm"
+                    size="sm"
                     radius="md"
                     variant="outline"
                     color="gray"
+                    className="home-cta"
                     leftSection={<IoGameController size={18} />}
                     rightSection={<IoOpenOutline size={14} />}
                     style={{
@@ -649,6 +655,7 @@ export default function Home() {
                         radius="md"
                         variant="white"
                         color="dark"
+                        className="home-cta"
                         leftSection={<IoSearch size={16} />}
                       >
                         Search the Wiki
@@ -673,6 +680,47 @@ export default function Home() {
                     <Kbd size="xs">K</Kbd>
                   </Group>
                 </Group>
+
+                <Group
+                  gap="xs"
+                  justify="center"
+                  wrap="wrap"
+                  style={{ rowGap: 6 }}
+                >
+                  <Badge
+                    variant="outline"
+                    color="grape"
+                    style={{
+                      borderColor: 'rgba(255, 255, 255, 0.5)',
+                      color: 'rgba(255, 255, 255, 0.95)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    }}
+                  >
+                    Updated daily
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    color="grape"
+                    style={{
+                      borderColor: 'rgba(255, 255, 255, 0.5)',
+                      color: 'rgba(255, 255, 255, 0.95)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    }}
+                  >
+                    Community curated
+                  </Badge>
+                  <Badge
+                    variant="outline"
+                    color="grape"
+                    style={{
+                      borderColor: 'rgba(255, 255, 255, 0.5)',
+                      color: 'rgba(255, 255, 255, 0.95)',
+                      backgroundColor: 'rgba(255, 255, 255, 0.08)',
+                    }}
+                  >
+                    Fast search
+                  </Badge>
+                </Group>
               </Stack>
             </Box>
 
@@ -682,6 +730,7 @@ export default function Home() {
               radius="md"
               withBorder
               shadow="lg"
+              className="home-hover-card home-content-card"
               style={{
                 backdropFilter: 'blur(8px)',
                 backgroundColor: isDark
@@ -751,53 +800,75 @@ export default function Home() {
       </Container>
 
       {/* Content sections */}
-      <Container size="lg" py="xl">
+      <Container size="lg" py="xl" mt="md">
         <Stack gap="xl">
           {/* Featured Characters Marquee */}
-          <Box ref={marqueeReveal.ref} style={marqueeReveal.style}>
-            <FeaturedCharactersMarquee />
-          </Box>
+          <Stack gap="xs">
+            <Text size="xs" tt="uppercase" fw={700} c="dimmed" ta="center">
+              Top picks this cycle
+            </Text>
+            <Box ref={marqueeReveal.ref} style={marqueeReveal.style}>
+              <FeaturedCharactersMarquee />
+            </Box>
+          </Stack>
 
           {/* Active Codes & Recent Updates row */}
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-            <Box ref={codesReveal.ref} style={codesReveal.style}>
-              <Card padding="lg" radius="md" withBorder h="100%">
-                <Stack gap="md">
-                  <Group gap="sm">
-                    <ThemeIcon
-                      variant="light"
-                      color="yellow"
-                      size="lg"
-                      radius="md"
-                    >
-                      <IoPricetag size={20} />
-                    </ThemeIcon>
-                    <Title order={4}>Active Codes</Title>
-                  </Group>
-                  <ActiveCodesSection />
-                </Stack>
-              </Card>
-            </Box>
+          <Stack gap="xs">
+            <Text size="xs" tt="uppercase" fw={700} c="dimmed" ta="center">
+              Quick intel
+            </Text>
+            <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
+              <Box ref={codesReveal.ref} style={codesReveal.style}>
+                <Card
+                  padding="lg"
+                  radius="md"
+                  withBorder
+                  h="100%"
+                  className="home-hover-card home-content-card"
+                >
+                  <Stack gap="md">
+                    <Group gap="sm">
+                      <ThemeIcon
+                        variant="light"
+                        color="grape"
+                        size="lg"
+                        radius="md"
+                      >
+                        <IoPricetag size={20} />
+                      </ThemeIcon>
+                      <Title order={4}>Active Codes</Title>
+                    </Group>
+                    <ActiveCodesSection />
+                  </Stack>
+                </Card>
+              </Box>
 
-            <Box ref={updatesReveal.ref} style={updatesReveal.style}>
-              <Card padding="lg" radius="md" withBorder h="100%">
-                <Stack gap="md">
-                  <Group gap="sm">
-                    <ThemeIcon
-                      variant="light"
-                      color="grape"
-                      size="lg"
-                      radius="md"
-                    >
-                      <IoList size={20} />
-                    </ThemeIcon>
-                    <Title order={4}>Recent Updates</Title>
-                  </Group>
-                  <RecentUpdatesSection />
-                </Stack>
-              </Card>
-            </Box>
-          </SimpleGrid>
+              <Box ref={updatesReveal.ref} style={updatesReveal.style}>
+                <Card
+                  padding="lg"
+                  radius="md"
+                  withBorder
+                  h="100%"
+                  className="home-hover-card home-content-card"
+                >
+                  <Stack gap="md">
+                    <Group gap="sm">
+                      <ThemeIcon
+                        variant="light"
+                        color="grape"
+                        size="lg"
+                        radius="md"
+                      >
+                        <IoList size={20} />
+                      </ThemeIcon>
+                      <Title order={4}>Recent Updates</Title>
+                    </Group>
+                    <RecentUpdatesSection />
+                  </Stack>
+                </Card>
+              </Box>
+            </SimpleGrid>
+          </Stack>
         </Stack>
       </Container>
     </Stack>
