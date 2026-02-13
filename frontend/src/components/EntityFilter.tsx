@@ -1,4 +1,4 @@
-import { Button, Chip, Divider, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Button, Chip, Group, Stack, Text, TextInput } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 import { IMAGE_SIZE } from '../constants/ui';
@@ -34,25 +34,26 @@ export default function EntityFilter({
   const hasFilters = hasChipFilters || hasSearch;
 
   return (
-    <Stack gap="sm">
+    <Stack gap={8}>
       {onSearchChange !== undefined && (
-        <Group justify="space-between" align="center" wrap="wrap">
+        <Group gap="xs" align="center" wrap="wrap">
           <TextInput
             placeholder={searchPlaceholder}
             leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
             value={search ?? ''}
             onChange={(e) => onSearchChange(e.currentTarget.value)}
-            style={{ flex: 1, minWidth: 200 }}
+            size="xs"
+            style={{ flex: 1, minWidth: 180 }}
           />
           {hasFilters && (
             <Button
               variant="subtle"
               color="gray"
-              size="xs"
+              size="compact-xs"
               leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
               onClick={onClear}
             >
-              Clear all
+              Clear
             </Button>
           )}
         </Group>
@@ -63,19 +64,18 @@ export default function EntityFilter({
           <Button
             variant="subtle"
             color="gray"
-            size="xs"
+            size="compact-xs"
             leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
             onClick={onClear}
           >
-            Clear all
+            Clear
           </Button>
         </Group>
       )}
 
-      {groups.map((group, index) => (
-        <Stack key={group.key} gap="xs">
-          {index > 0 && <Divider />}
-          <Text size="xs" fw={600} tt="uppercase" c="dimmed">
+      {groups.map((group) => (
+        <Group key={group.key} gap="xs" align="center" wrap="wrap">
+          <Text size="xs" fw={600} tt="uppercase" c="dimmed" style={{ minWidth: 60 }}>
             {group.label}
           </Text>
           <Chip.Group
@@ -83,7 +83,7 @@ export default function EntityFilter({
             value={selected[group.key] ?? []}
             onChange={(val) => onChange(group.key, val)}
           >
-            <Group gap="xs" wrap="wrap">
+            <Group gap={4} wrap="wrap">
               {group.options.map((option) => (
                 <Chip key={option} value={option} size="xs">
                   <Group gap={4} wrap="nowrap" align="center">
@@ -94,7 +94,7 @@ export default function EntityFilter({
               ))}
             </Group>
           </Chip.Group>
-        </Stack>
+        </Group>
       ))}
     </Stack>
   );

@@ -54,7 +54,7 @@ export default function FilterToolbar({
       </Group>
 
       <Collapse in={filterOpen}>
-        <Paper p="md" radius="md" withBorder bg="var(--mantine-color-body)">
+        <Paper p="sm" radius="md" withBorder bg="var(--mantine-color-body)">
           {children}
         </Paper>
       </Collapse>

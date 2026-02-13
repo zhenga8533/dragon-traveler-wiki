@@ -1,7 +1,6 @@
 import {
   Button,
   Chip,
-  Divider,
   Group,
   Image,
   MultiSelect,
@@ -38,6 +37,8 @@ const FACTIONS: FactionName[] = [
   'Illusion Veil',
 ];
 
+const LABEL_STYLE = { minWidth: 60 } as const;
+
 export interface CharacterFilterProps {
   filters: CharacterFilters;
   onChange: (filters: CharacterFilters) => void;
@@ -58,8 +59,8 @@ export default function CharacterFilter({
     filters.globalOnly !== null;
 
   return (
-    <Stack gap="sm">
-      <Group justify="space-between" align="center" wrap="wrap">
+    <Stack gap={8}>
+      <Group gap="xs" align="center" wrap="wrap">
         <TextInput
           placeholder="Search by name..."
           leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
@@ -67,56 +68,57 @@ export default function CharacterFilter({
           onChange={(e) =>
             onChange({ ...filters, search: e.currentTarget.value })
           }
-          style={{ flex: 1, minWidth: 200 }}
+          size="xs"
+          style={{ flex: 1, minWidth: 180 }}
         />
         {hasFilters && (
           <Button
             variant="subtle"
             color="gray"
-            size="xs"
+            size="compact-xs"
             leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
             onClick={() => onChange(EMPTY_FILTERS)}
           >
-            Clear all
+            Clear
           </Button>
         )}
       </Group>
 
-      <Stack gap="xs">
-        <Text size="xs" fw={600} tt="uppercase" c="dimmed">
+      <Group gap="xs" align="center" wrap="wrap">
+        <Text size="xs" fw={600} tt="uppercase" c="dimmed" style={LABEL_STYLE}>
           Server
         </Text>
         <Chip.Group
+          multiple
           value={
             filters.globalOnly === null
-              ? ''
+              ? []
               : filters.globalOnly
-                ? 'global'
-                : 'cn'
+                ? ['global']
+                : ['cn']
           }
-          onChange={(val) =>
+          onChange={(val) => {
+            const next = val.length === 0 ? null : val[val.length - 1];
             onChange({
               ...filters,
               globalOnly:
-                val === 'global' ? true : val === 'cn' ? false : null,
-            })
-          }
+                next === 'global' ? true : next === 'cn' ? false : null,
+            });
+          }}
         >
-          <Group gap="xs">
+          <Group gap={4}>
             <Chip value="global" size="xs">
               Global
             </Chip>
             <Chip value="cn" size="xs">
-              CN Only
+              TW / CN
             </Chip>
           </Group>
         </Chip.Group>
-      </Stack>
+      </Group>
 
-      <Divider />
-
-      <Stack gap="xs">
-        <Text size="xs" fw={600} tt="uppercase" c="dimmed">
+      <Group gap="xs" align="center" wrap="wrap">
+        <Text size="xs" fw={600} tt="uppercase" c="dimmed" style={LABEL_STYLE}>
           Quality
         </Text>
         <Chip.Group
@@ -126,7 +128,7 @@ export default function CharacterFilter({
             onChange({ ...filters, qualities: val as Quality[] })
           }
         >
-          <Group gap="xs">
+          <Group gap={4}>
             {QUALITIES.map((q) => (
               <Chip key={q} value={q} size="xs">
                 <Group gap={4} wrap="nowrap" align="center">
@@ -143,12 +145,10 @@ export default function CharacterFilter({
             ))}
           </Group>
         </Chip.Group>
-      </Stack>
+      </Group>
 
-      <Divider />
-
-      <Stack gap="xs">
-        <Text size="xs" fw={600} tt="uppercase" c="dimmed">
+      <Group gap="xs" align="center" wrap="wrap">
+        <Text size="xs" fw={600} tt="uppercase" c="dimmed" style={LABEL_STYLE}>
           Class
         </Text>
         <Chip.Group
@@ -158,7 +158,7 @@ export default function CharacterFilter({
             onChange({ ...filters, classes: val as CharacterClass[] })
           }
         >
-          <Group gap="xs">
+          <Group gap={4}>
             {CLASSES.map((c) => (
               <Chip key={c} value={c} size="xs">
                 <Group gap={4} wrap="nowrap" align="center">
@@ -175,12 +175,10 @@ export default function CharacterFilter({
             ))}
           </Group>
         </Chip.Group>
-      </Stack>
+      </Group>
 
-      <Divider />
-
-      <Stack gap="xs">
-        <Text size="xs" fw={600} tt="uppercase" c="dimmed">
+      <Group gap="xs" align="center" wrap="wrap">
+        <Text size="xs" fw={600} tt="uppercase" c="dimmed" style={LABEL_STYLE}>
           Faction
         </Text>
         <Chip.Group
@@ -190,7 +188,7 @@ export default function CharacterFilter({
             onChange({ ...filters, factions: val as FactionName[] })
           }
         >
-          <Group gap="xs" wrap="wrap">
+          <Group gap={4} wrap="wrap">
             {FACTIONS.map((f) => (
               <Chip key={f} value={f} size="xs">
                 <Group gap={4} wrap="nowrap" align="center">
@@ -207,43 +205,41 @@ export default function CharacterFilter({
             ))}
           </Group>
         </Chip.Group>
-      </Stack>
+      </Group>
 
       {effectOptions.length > 0 && (
-        <>
-          <Divider />
-          <Stack gap="xs">
-            <Text size="xs" fw={600} tt="uppercase" c="dimmed">
-              Status Effects
-            </Text>
-            <MultiSelect
-              data={effectOptions}
-              value={filters.statusEffects}
-              onChange={(val) => onChange({ ...filters, statusEffects: val })}
-              placeholder="Filter by status effect..."
-              renderOption={({ option }) => {
-                const iconSrc = getStatusEffectIcon(option.label);
-                return (
-                  <Group gap="xs" align="center">
-                    {iconSrc ? (
-                      <Image
-                        src={iconSrc}
-                        alt=""
-                        w={18}
-                        h={18}
-                        fit="contain"
-                      />
-                    ) : null}
-                    <Text size="sm">{option.label}</Text>
-                  </Group>
-                );
-              }}
-              searchable
-              clearable
-              size="xs"
-            />
-          </Stack>
-        </>
+        <Group gap="xs" align="center" wrap="wrap">
+          <Text
+            size="xs"
+            fw={600}
+            tt="uppercase"
+            c="dimmed"
+            style={LABEL_STYLE}
+          >
+            Effects
+          </Text>
+          <MultiSelect
+            data={effectOptions}
+            value={filters.statusEffects}
+            onChange={(val) => onChange({ ...filters, statusEffects: val })}
+            placeholder="Filter by status effect..."
+            renderOption={({ option }) => {
+              const iconSrc = getStatusEffectIcon(option.label);
+              return (
+                <Group gap="xs" align="center">
+                  {iconSrc ? (
+                    <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
+                  ) : null}
+                  <Text size="sm">{option.label}</Text>
+                </Group>
+              );
+            }}
+            searchable
+            clearable
+            size="xs"
+            style={{ flex: 1, minWidth: 180 }}
+          />
+        </Group>
       )}
     </Stack>
   );

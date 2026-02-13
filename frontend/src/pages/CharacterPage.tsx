@@ -296,7 +296,7 @@ export default function CharacterPage() {
                   </Title>
                   {!character.is_global && (
                     <Badge variant="light" color="orange" size="lg">
-                      CN Only
+                      TW / CN
                     </Badge>
                   )}
                 </Group>

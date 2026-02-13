@@ -124,7 +124,7 @@ export default function TierList() {
 
             {mode === 'view' && (
               <Collapse in={filterOpen}>
-                <Paper p="md" radius="md" withBorder>
+                <Paper p="sm" radius="md" withBorder bg="var(--mantine-color-body)">
                   <EntityFilter
                     groups={entityFilterGroups}
                     selected={viewFilters}
