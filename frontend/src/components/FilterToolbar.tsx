@@ -1,4 +1,4 @@
-import { Badge, Button, Collapse, Group, Paper, Stack, Text } from '@mantine/core';
+import { Badge, Button, Collapse, Group, Paper, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { IMAGE_SIZE } from '../constants/ui';

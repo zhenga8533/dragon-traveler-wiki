@@ -15,7 +15,6 @@ import {
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
 import { getResourceIcon } from '../assets/resource';
-import DataFetchError from '../components/DataFetchError';
 import EntityFilter from '../components/EntityFilter';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';

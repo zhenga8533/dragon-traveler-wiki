@@ -98,14 +98,14 @@ export default function Codes() {
     storageKey: STORAGE_KEY.CODES_VIEW_MODE,
     defaultMode: 'list',
   });
-  const [rewardsOpen, { toggle: toggleRewards }] = useDisclosure(() => {
+  const [rewardsOpen, { toggle: toggleRewards }] = useDisclosure((() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY.CODES_REWARDS_OPEN);
       return stored !== null ? stored === 'true' : true;
     } catch {
       return true;
     }
-  });
+  })());
   const [markAllOpened, { open: openMarkAll, close: closeMarkAll }] =
     useDisclosure(false);
   const [clearAllOpened, { open: openClearAll, close: closeClearAll }] =
