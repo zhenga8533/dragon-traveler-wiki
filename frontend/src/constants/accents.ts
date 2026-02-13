@@ -21,6 +21,7 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   '/guides/star-upgrade-calculator': 'teal',
   '/guides/efficient-spending': 'green',
   '/guides/rotational-event-hoarding': 'green',
+  '/guides/shovel-event': 'green',
   '/guides/golden-clover-priority': 'green',
 
   // Other sections

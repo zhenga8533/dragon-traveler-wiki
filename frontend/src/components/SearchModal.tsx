@@ -90,6 +90,11 @@ const PAGES = [
     path: '/guides/rotational-event-hoarding',
     keywords: 'rotational event hoarding tips howlkin horn invoc',
   },
+  {
+    title: 'Shovel Event Guide',
+    path: '/guides/shovel-event',
+    keywords: 'shovel event digging layers efficiency bombs rockets',
+  },
 ];
 
 type SearchModalProps = {

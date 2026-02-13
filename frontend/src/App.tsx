@@ -63,6 +63,7 @@ import EfficientSpending from './pages/EfficientSpending';
 import Home from './pages/Home';
 import Resources from './pages/Resources';
 import RotationalEventHoarding from './pages/RotationalEventHoarding';
+import ShovelEventGuide from './pages/ShovelEventGuide';
 import StarUpgradeCalculator from './pages/StarUpgradeCalculator';
 import StatusEffects from './pages/StatusEffects';
 import TeamPage from './pages/TeamPage';
@@ -108,6 +109,10 @@ const NAV_ITEMS: NavItem[] = [
       {
         label: 'Rotational Event Hoarding',
         path: '/guides/rotational-event-hoarding',
+      },
+      {
+        label: 'Shovel Event Guide',
+        path: '/guides/shovel-event',
       },
     ],
   },
@@ -463,6 +468,10 @@ function AppContent() {
               <Route
                 path="/guides/rotational-event-hoarding"
                 element={<RotationalEventHoarding />}
+              />
+              <Route
+                path="/guides/shovel-event"
+                element={<ShovelEventGuide />}
               />
             </Routes>
           </PageTransition>
