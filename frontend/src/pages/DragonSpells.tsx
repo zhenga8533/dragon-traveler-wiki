@@ -1,5 +1,4 @@
 import {
-  ActionIcon,
   Badge,
   Button,
   Center,
@@ -17,13 +16,13 @@ import {
   Text,
   TextInput,
   Title,
-  Tooltip,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { IoFilter, IoGrid, IoList, IoSearch } from 'react-icons/io5';
+import { IoFilter, IoSearch } from 'react-icons/io5';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
 import DataFetchError from '../components/DataFetchError';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import ViewToggle from '../components/ViewToggle';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
@@ -147,26 +146,7 @@ export default function DragonSpells() {
                   {filtered.length} wyrmspell{filtered.length !== 1 ? 's' : ''}
                 </Text>
                 <Group gap="xs">
-                  <Group gap={4}>
-                    <Tooltip label="Grid view">
-                      <ActionIcon
-                        variant={viewMode === 'grid' ? 'filled' : 'default'}
-                        size="sm"
-                        onClick={() => setViewMode('grid')}
-                      >
-                        <IoGrid size={IMAGE_SIZE.ICON_MD} />
-                      </ActionIcon>
-                    </Tooltip>
-                    <Tooltip label="List view">
-                      <ActionIcon
-                        variant={viewMode === 'list' ? 'filled' : 'default'}
-                        size="sm"
-                        onClick={() => setViewMode('list')}
-                      >
-                        <IoList size={IMAGE_SIZE.ICON_MD} />
-                      </ActionIcon>
-                    </Tooltip>
-                  </Group>
+                  <ViewToggle viewMode={viewMode} onChange={setViewMode} />
                   <Button
                     variant="default"
                     size="xs"

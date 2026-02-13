@@ -1,5 +1,4 @@
 import {
-  ActionIcon,
   Badge,
   Button,
   Collapse,
@@ -15,7 +14,7 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
-import { IoFilter, IoGrid, IoList } from 'react-icons/io5';
+import { IoFilter } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { QUALITY_ICON_MAP } from '../assets/character_quality';
@@ -44,6 +43,7 @@ import {
 } from '../utils/filter-characters';
 import CharacterCard, { QUALITY_BORDER_COLOR } from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
+import ViewToggle from './ViewToggle';
 
 interface CharacterListProps {
   characters: Character[];
@@ -115,28 +115,7 @@ export default function CharacterList({
             {filteredAndSorted.length !== 1 ? 's' : ''}
           </Text>
           <Group gap="xs">
-            <Group gap={4}>
-              <Tooltip label="Grid view">
-                <ActionIcon
-                  variant={viewMode === 'grid' ? 'filled' : 'default'}
-                  size="sm"
-                  onClick={() => setViewMode('grid')}
-                  aria-label="Switch to grid view"
-                >
-                  <IoGrid size={IMAGE_SIZE.ICON_MD} />
-                </ActionIcon>
-              </Tooltip>
-              <Tooltip label="List view">
-                <ActionIcon
-                  variant={viewMode === 'list' ? 'filled' : 'default'}
-                  size="sm"
-                  onClick={() => setViewMode('list')}
-                  aria-label="Switch to list view"
-                >
-                  <IoList size={IMAGE_SIZE.ICON_MD} />
-                </ActionIcon>
-              </Tooltip>
-            </Group>
+            <ViewToggle viewMode={viewMode} onChange={setViewMode} />
             {showFilter && (
               <Button
                 variant="default"

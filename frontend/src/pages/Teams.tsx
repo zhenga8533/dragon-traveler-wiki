@@ -6,13 +6,16 @@ import {
   Group,
   Image,
   Paper,
+  ScrollArea,
   SegmentedControl,
   SimpleGrid,
   Skeleton,
   Stack,
+  Table,
   Text,
   TextInput,
   Title,
+  UnstyledButton,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
@@ -27,11 +30,12 @@ import EmptyState from '../components/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import TeamBuilder from '../components/TeamBuilder';
+import ViewToggle from '../components/ViewToggle';
 import { FACTION_COLOR } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { useFilters } from '../hooks/use-filters';
+import { useFilters, useViewMode } from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
@@ -80,6 +84,10 @@ export default function Teams() {
   });
   const [mode, setMode] = useState<'view' | 'builder'>('view');
   const [editData, setEditData] = useState<Team | null>(null);
+  const [viewMode, setViewMode] = useViewMode({
+    storageKey: STORAGE_KEY.TEAMS_VIEW_MODE,
+    defaultMode: 'grid',
+  });
   const loading = loadingTeams || loadingChars || loadingSpells;
   const error = teamsError || charactersError || wyrmspellsError;
 
@@ -172,6 +180,9 @@ export default function Teams() {
         <Group justify="space-between" align="center">
           <Title order={1}>Teams</Title>
           <Group gap="xs">
+            {mode === 'view' && (
+              <ViewToggle viewMode={viewMode} onChange={setViewMode} />
+            )}
             <Button
               variant="default"
               size="xs"
@@ -257,143 +268,223 @@ export default function Teams() {
                   />
                 )}
 
-                {paginatedTeams.map((team) => (
-                  <Paper
-                    key={team.name}
-                    p="md"
-                    radius="md"
-                    withBorder
-                    style={CARD_HOVER_STYLES}
-                    {...cardHoverHandlers}
-                    onClick={() =>
-                      navigate(`/teams/${encodeURIComponent(team.name)}`)
-                    }
-                  >
-                    <Stack gap="sm">
-                      <Group
-                        justify="space-between"
-                        align="flex-start"
-                        wrap="wrap"
+                {viewMode === 'grid' ? (
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                    {paginatedTeams.map((team) => (
+                      <Paper
+                        key={team.name}
+                        p="md"
+                        radius="md"
+                        withBorder
+                        style={CARD_HOVER_STYLES}
+                        {...cardHoverHandlers}
+                        onClick={() =>
+                          navigate(`/teams/${encodeURIComponent(team.name)}`)
+                        }
                       >
-                        <Group gap="sm">
-                          <Image
-                            src={FACTION_WYRM_MAP[team.faction as FactionName]}
-                            alt={`${team.faction} Whelp`}
-                            w={40}
-                            h={40}
-                            fit="contain"
-                          />
-                          <Text
-                            fw={600}
-                            size="lg"
-                            component="a"
-                            href={`#/teams/${encodeURIComponent(team.name)}`}
-                            style={{
-                              cursor: 'pointer',
-                            }}
-                            onClick={(e) => {
-                              e.preventDefault();
-                              navigate(
-                                `/teams/${encodeURIComponent(team.name)}`
-                              );
-                            }}
-                            c="violet"
+                        <Stack gap="sm">
+                          <Group
+                            justify="space-between"
+                            align="flex-start"
+                            wrap="wrap"
                           >
-                            {team.name}
-                          </Text>
-                        </Group>
-                        <Group gap="xs">
-                          <Badge variant="light" size="sm">
-                            {team.content_type}
-                          </Badge>
-                          <Badge
-                            variant="light"
-                            size="sm"
-                            color={FACTION_COLOR[team.faction as FactionName]}
-                          >
-                            {team.faction}
-                          </Badge>
-                          <Image
-                            src={FACTION_ICON_MAP[team.faction as FactionName]}
-                            alt={team.faction}
-                            w={24}
-                            h={24}
-                          />
-                          <Button
-                            variant="light"
-                            size="sm"
-                            leftSection={<IoCreate size={14} />}
-                            onClick={() => {
-                              setEditData(team);
-                              setMode('builder');
-                            }}
-                          >
-                            Edit
-                          </Button>
-                        </Group>
-                      </Group>
-
-                      <Group gap="xs">
-                        <Text size="sm" c="dimmed">
-                          By {team.author}
-                        </Text>
-                        {team.description && (
-                          <>
-                            <Text size="sm" c="dimmed">
-                              •
-                            </Text>
-                            <Text size="sm" c="dimmed" lineClamp={1}>
-                              {team.description}
-                            </Text>
-                          </>
-                        )}
-                      </Group>
-
-                      <SimpleGrid
-                        cols={{ base: 3, xs: 4, sm: 6 }}
-                        spacing={CHARACTER_GRID_SPACING}
-                      >
-                        {team.members.slice(0, 6).map((m) => {
-                          const char = charMap.get(m.character_name);
-                          return (
-                            <div
-                              key={m.character_name}
-                              style={{
-                                position: 'relative',
-                                display: 'flex',
-                                flexDirection: 'column',
-                                alignItems: 'center',
-                              }}
-                            >
-                              <CharacterCard
-                                name={m.character_name}
-                                quality={char?.quality}
-                                disableLink
-                                note={m.note}
+                            <Group gap="sm">
+                              <Image
+                                src={
+                                  FACTION_WYRM_MAP[team.faction as FactionName]
+                                }
+                                alt={`${team.faction} Whelp`}
+                                w={40}
+                                h={40}
+                                fit="contain"
                               />
-                              {m.overdrive_order != null && (
-                                <Badge
-                                  size="sm"
-                                  circle
-                                  variant="filled"
-                                  color="orange"
+                              <Text
+                                fw={600}
+                                size="lg"
+                                component="a"
+                                href={`#/teams/${encodeURIComponent(team.name)}`}
+                                style={{ cursor: 'pointer' }}
+                                onClick={(e) => {
+                                  e.preventDefault();
+                                  navigate(
+                                    `/teams/${encodeURIComponent(team.name)}`
+                                  );
+                                }}
+                                c="violet"
+                              >
+                                {team.name}
+                              </Text>
+                            </Group>
+                            <Group gap="xs">
+                              <Badge variant="light" size="sm">
+                                {team.content_type}
+                              </Badge>
+                              <Badge
+                                variant="light"
+                                size="sm"
+                                color={
+                                  FACTION_COLOR[team.faction as FactionName]
+                                }
+                              >
+                                {team.faction}
+                              </Badge>
+                              <Image
+                                src={
+                                  FACTION_ICON_MAP[team.faction as FactionName]
+                                }
+                                alt={team.faction}
+                                w={24}
+                                h={24}
+                              />
+                              <Button
+                                variant="light"
+                                size="sm"
+                                leftSection={<IoCreate size={14} />}
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                  setEditData(team);
+                                  setMode('builder');
+                                }}
+                              >
+                                Edit
+                              </Button>
+                            </Group>
+                          </Group>
+
+                          <Group gap="xs">
+                            <Text size="sm" c="dimmed">
+                              By {team.author}
+                            </Text>
+                            {team.description && (
+                              <>
+                                <Text size="sm" c="dimmed">
+                                  •
+                                </Text>
+                                <Text size="sm" c="dimmed" lineClamp={1}>
+                                  {team.description}
+                                </Text>
+                              </>
+                            )}
+                          </Group>
+
+                          <SimpleGrid
+                            cols={{ base: 3, xs: 4, sm: 3 }}
+                            spacing={CHARACTER_GRID_SPACING}
+                          >
+                            {team.members.slice(0, 6).map((m) => {
+                              const char = charMap.get(m.character_name);
+                              return (
+                                <div
+                                  key={m.character_name}
                                   style={{
-                                    position: 'absolute',
-                                    top: 0,
-                                    right: 'calc(50% - 40px)',
-                                    pointerEvents: 'none',
+                                    position: 'relative',
+                                    display: 'flex',
+                                    flexDirection: 'column',
+                                    alignItems: 'center',
                                   }}
                                 >
-                                  {m.overdrive_order}
-                                </Badge>
-                              )}
-                            </div>
-                          );
-                        })}
-                      </SimpleGrid>
-                    </Stack>
-                  </Paper>
-                ))}
+                                  <CharacterCard
+                                    name={m.character_name}
+                                    quality={char?.quality}
+                                    disableLink
+                                    note={m.note}
+                                  />
+                                  {m.overdrive_order != null && (
+                                    <Badge
+                                      size="sm"
+                                      circle
+                                      variant="filled"
+                                      color="orange"
+                                      style={{
+                                        position: 'absolute',
+                                        top: 0,
+                                        right: 'calc(50% - 40px)',
+                                        pointerEvents: 'none',
+                                      }}
+                                    >
+                                      {m.overdrive_order}
+                                    </Badge>
+                                  )}
+                                </div>
+                              );
+                            })}
+                          </SimpleGrid>
+                        </Stack>
+                      </Paper>
+                    ))}
+                  </SimpleGrid>
+                ) : (
+                  <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                    <Table striped highlightOnHover style={{ minWidth: 500 }}>
+                      <Table.Thead>
+                        <Table.Tr>
+                          <Table.Th>Name</Table.Th>
+                          <Table.Th>Faction</Table.Th>
+                          <Table.Th>Content Type</Table.Th>
+                          <Table.Th>Author</Table.Th>
+                        </Table.Tr>
+                      </Table.Thead>
+                      <Table.Tbody>
+                        {paginatedTeams.map((team) => (
+                          <Table.Tr
+                            key={team.name}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() =>
+                              navigate(
+                                `/teams/${encodeURIComponent(team.name)}`
+                              )
+                            }
+                          >
+                            <Table.Td>
+                              <UnstyledButton>
+                                <Group gap="sm" wrap="nowrap">
+                                  <Image
+                                    src={
+                                      FACTION_WYRM_MAP[
+                                        team.faction as FactionName
+                                      ]
+                                    }
+                                    alt={`${team.faction} Whelp`}
+                                    w={28}
+                                    h={28}
+                                    fit="contain"
+                                  />
+                                  <Text size="sm" fw={500} c="violet">
+                                    {team.name}
+                                  </Text>
+                                </Group>
+                              </UnstyledButton>
+                            </Table.Td>
+                            <Table.Td>
+                              <Group gap="xs" wrap="nowrap">
+                                <Image
+                                  src={
+                                    FACTION_ICON_MAP[
+                                      team.faction as FactionName
+                                    ]
+                                  }
+                                  alt={team.faction}
+                                  w={20}
+                                  h={20}
+                                  fit="contain"
+                                />
+                                <Text size="sm">{team.faction}</Text>
+                              </Group>
+                            </Table.Td>
+                            <Table.Td>
+                              <Badge variant="light" size="sm">
+                                {team.content_type}
+                              </Badge>
+                            </Table.Td>
+                            <Table.Td>
+                              <Text size="sm">{team.author}</Text>
+                            </Table.Td>
+                          </Table.Tr>
+                        ))}
+                      </Table.Tbody>
+                    </Table>
+                  </ScrollArea>
+                )}
 
                 <PaginationControl
                   currentPage={currentPage}

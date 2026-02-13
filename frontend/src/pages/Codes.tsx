@@ -37,8 +37,10 @@ import {
 import PaginationControl from '../components/PaginationControl';
 import ResourceBadge from '../components/ResourceBadge';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import ViewToggle from '../components/ViewToggle';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
+import { useViewMode } from '../hooks/use-filters';
 import type { Code } from '../types/code';
 import { buildExpiredCodeUrl } from '../utils/github-issues';
 
@@ -92,6 +94,10 @@ export default function Codes() {
   const [view, setView] = useState<ViewFilter>('unredeemed');
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
+  const [viewMode, setViewMode] = useViewMode({
+    storageKey: STORAGE_KEY.CODES_VIEW_MODE,
+    defaultMode: 'list',
+  });
   const [rewardsOpen, { toggle: toggleRewards }] = useDisclosure(true);
   const [markAllOpened, { open: openMarkAll, close: closeMarkAll }] =
     useDisclosure(false);
@@ -202,15 +208,18 @@ export default function Codes() {
         />
 
         <Group justify="space-between" align="center" wrap="wrap">
-          <SegmentedControl
-            value={view}
-            onChange={(v) => setView(v as ViewFilter)}
-            data={[
-              { label: 'Unredeemed', value: 'unredeemed' },
-              { label: 'Redeemed', value: 'redeemed' },
-              { label: 'All', value: 'all' },
-            ]}
-          />
+          <Group gap="xs">
+            <SegmentedControl
+              value={view}
+              onChange={(v) => setView(v as ViewFilter)}
+              data={[
+                { label: 'Unredeemed', value: 'unredeemed' },
+                { label: 'Redeemed', value: 'redeemed' },
+                { label: 'All', value: 'all' },
+              ]}
+            />
+            <ViewToggle viewMode={viewMode} onChange={setViewMode} />
+          </Group>
           <Group gap="xs">
             <Button size="xs" variant="light" onClick={openMarkAll}>
               Mark All Redeemed
@@ -306,7 +315,7 @@ export default function Codes() {
           </Text>
         )}
 
-        {!loading &&
+        {!loading && viewMode === 'list' &&
           paginatedCodes.map((entry) => (
             <Paper
               key={entry.code}
@@ -386,6 +395,96 @@ export default function Codes() {
               )}
             </Paper>
           ))}
+
+        {!loading && viewMode === 'grid' && paginatedCodes.length > 0 && (
+          <SimpleGrid cols={{ base: 1, xs: 2, sm: 3 }} spacing="md">
+            {paginatedCodes.map((entry) => (
+              <Paper
+                key={entry.code}
+                p="md"
+                radius="md"
+                withBorder
+                opacity={entry.active ? 1 : 0.5}
+              >
+                <Stack gap="sm">
+                  <Group justify="space-between" align="center">
+                    <Group gap="xs">
+                      <Text
+                        ff="monospace"
+                        fw={500}
+                        size="md"
+                        td={entry.active ? undefined : 'line-through'}
+                      >
+                        {entry.code}
+                      </Text>
+                      {!entry.active && (
+                        <Badge color="red" variant="light" size="xs">
+                          Expired
+                        </Badge>
+                      )}
+                    </Group>
+                    <Group gap={4}>
+                      {entry.active && (
+                        <Tooltip label="Report expired" withArrow>
+                          <ActionIcon
+                            component="a"
+                            href={buildExpiredCodeUrl(entry.code)}
+                            target="_blank"
+                            variant="subtle"
+                            color="red"
+                            size="sm"
+                          >
+                            <IoCloseCircleOutline size={16} />
+                          </ActionIcon>
+                        </Tooltip>
+                      )}
+                      <CopyButton value={entry.code} timeout={1500}>
+                        {({ copied, copy }) => (
+                          <Tooltip
+                            label={copied ? 'Copied!' : 'Copy code'}
+                            withArrow
+                          >
+                            <ActionIcon
+                              variant="subtle"
+                              color={copied ? 'teal' : 'gray'}
+                              onClick={copy}
+                              size="sm"
+                            >
+                              {copied ? (
+                                <IoCheckmark size={16} />
+                              ) : (
+                                <IoCopyOutline size={16} />
+                              )}
+                            </ActionIcon>
+                          </Tooltip>
+                        )}
+                      </CopyButton>
+                    </Group>
+                  </Group>
+
+                  {(entry.rewards ?? entry.reward ?? []).length > 0 && (
+                    <Group gap="xs" wrap="wrap">
+                      {(entry.rewards ?? entry.reward ?? []).map((r) => (
+                        <ResourceBadge
+                          key={r.name}
+                          name={r.name}
+                          quantity={r.quantity}
+                        />
+                      ))}
+                    </Group>
+                  )}
+
+                  <Checkbox
+                    checked={redeemed.has(entry.code)}
+                    onChange={() => toggleRedeemed(entry.code)}
+                    label="Redeemed"
+                    styles={{ label: { paddingLeft: 8 } }}
+                  />
+                </Stack>
+              </Paper>
+            ))}
+          </SimpleGrid>
+        )}
 
         {!loading && (
           <PaginationControl
