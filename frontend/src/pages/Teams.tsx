@@ -1,10 +1,12 @@
 import {
   Badge,
   Button,
+  Center,
   Collapse,
   Container,
   Group,
   Image,
+  Pagination,
   Paper,
   SegmentedControl,
   SimpleGrid,
@@ -35,6 +37,8 @@ import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
+
+const TEAMS_PER_PAGE = 12;
 
 const FACTIONS: FactionName[] = [
   'Elemental Echo',
@@ -69,6 +73,7 @@ export default function Teams() {
     emptyFilters: { factions: [], contentTypes: [] },
     storageKey: STORAGE_KEY.TEAMS_FILTERS,
   });
+  const [currentPage, setCurrentPage] = useState(1);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [search, setSearch] = useState(() => {
     if (typeof window === 'undefined') return '';
@@ -151,6 +156,16 @@ export default function Teams() {
       return true;
     });
   }, [teams, search, viewFilters]);
+
+  useEffect(() => {
+    setCurrentPage(1);
+  }, [search, viewFilters]);
+
+  const totalPages = Math.ceil(filteredTeams.length / TEAMS_PER_PAGE);
+  const paginatedTeams = filteredTeams.slice(
+    (currentPage - 1) * TEAMS_PER_PAGE,
+    currentPage * TEAMS_PER_PAGE
+  );
 
   return (
     <Container size="lg" py="xl">
@@ -243,7 +258,7 @@ export default function Teams() {
                   />
                 )}
 
-                {filteredTeams.map((team) => (
+                {paginatedTeams.map((team) => (
                   <Paper
                     key={team.name}
                     p="md"
@@ -380,6 +395,16 @@ export default function Teams() {
                     </Stack>
                   </Paper>
                 ))}
+
+                {totalPages > 1 && (
+                  <Center>
+                    <Pagination
+                      value={currentPage}
+                      onChange={setCurrentPage}
+                      total={totalPages}
+                    />
+                  </Center>
+                )}
               </>
             )}
 
