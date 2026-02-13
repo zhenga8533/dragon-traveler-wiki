@@ -40,9 +40,29 @@ type SearchResult = {
 
 const PAGES = [
   {
+    title: 'Artifacts',
+    path: '/artifacts',
+    keywords: 'artifacts database relic equipment',
+  },
+  {
     title: 'Characters',
     path: '/characters',
     keywords: 'characters database hero heroes',
+  },
+  {
+    title: 'Howlkins',
+    path: '/howlkins',
+    keywords: 'howlkin howlkins database pets monsters',
+  },
+  {
+    title: 'Noble Phantasms',
+    path: '/noble-phantasms',
+    keywords: 'noble phantasm noble phantasms database',
+  },
+  {
+    title: 'Resources',
+    path: '/resources',
+    keywords: 'resources materials currency items',
   },
   {
     title: 'Status Effects',
@@ -53,6 +73,26 @@ const PAGES = [
     title: 'Wyrmspells',
     path: '/wyrmspells',
     keywords: 'wyrmspells dragon spells magic',
+  },
+  {
+    title: 'Rotational Event Hoarding',
+    path: '/guides/rotational-event-hoarding',
+    keywords: 'rotational event hoarding tips howlkin horn invoc',
+  },
+  {
+    title: 'Beginner Q&A',
+    path: '/guides/beginner-qa',
+    keywords: 'beginner guide faq help tutorial',
+  },
+  {
+    title: 'Shovel Event Guide',
+    path: '/guides/shovel-event',
+    keywords: 'shovel event digging layers efficiency bombs rockets',
+  },
+  {
+    title: 'Star Upgrade Calculator',
+    path: '/guides/star-upgrade-calculator',
+    keywords: 'calculator star upgrade cost',
   },
   {
     title: 'Tier List',
@@ -69,31 +109,6 @@ const PAGES = [
     title: 'Useful Links',
     path: '/useful-links',
     keywords: 'links resources tools external',
-  },
-  {
-    title: 'Beginner Q&A',
-    path: '/guides/beginner-qa',
-    keywords: 'beginner guide faq help tutorial',
-  },
-  {
-    title: 'Star Upgrade Calculator',
-    path: '/guides/star-upgrade-calculator',
-    keywords: 'calculator star upgrade cost',
-  },
-  {
-    title: 'Efficient Spending',
-    path: '/guides/efficient-spending',
-    keywords: 'spending guide efficiency resources',
-  },
-  {
-    title: 'Rotational Event Hoarding',
-    path: '/guides/rotational-event-hoarding',
-    keywords: 'rotational event hoarding tips howlkin horn invoc',
-  },
-  {
-    title: 'Shovel Event Guide',
-    path: '/guides/shovel-event',
-    keywords: 'shovel event digging layers efficiency bombs rockets',
   },
 ];
 

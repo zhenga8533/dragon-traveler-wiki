@@ -11,7 +11,10 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   '/': 'violet',
 
   // Database
+  '/artifacts': 'teal',
   '/characters': 'blue',
+  '/howlkins': 'teal',
+  '/noble-phantasms': 'teal',
   '/status-effects': 'cyan',
   '/wyrmspells': 'indigo',
   '/resources': 'teal',
@@ -19,7 +22,6 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   // Guides
   '/guides/beginner-qa': 'teal',
   '/guides/star-upgrade-calculator': 'teal',
-  '/guides/efficient-spending': 'green',
   '/guides/rotational-event-hoarding': 'green',
   '/guides/shovel-event': 'green',
   '/guides/golden-clover-priority': 'green',

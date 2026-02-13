@@ -17,30 +17,31 @@ export default function CharacterTag({
 }: CharacterTagProps) {
   const portrait = getPortrait(name);
 
-  return (
+  const badge = (
     <Badge
       variant="light"
       color={color}
       size={size}
-      component={link ? Link : 'span'}
-      to={link ? `/characters/${encodeURIComponent(name)}` : undefined}
       leftSection={
         portrait ? (
           <Image src={portrait} alt={name} w={14} h={14} radius="xl" />
         ) : undefined
       }
-      styles={
-        link
-          ? {
-              root: {
-                textDecoration: 'none',
-                cursor: 'pointer',
-              },
-            }
-          : undefined
-      }
     >
       {name}
     </Badge>
+  );
+
+  if (!link) {
+    return badge;
+  }
+
+  return (
+    <Link
+      to={`/characters/${encodeURIComponent(name)}`}
+      style={{ textDecoration: 'none', display: 'inline-flex' }}
+    >
+      {badge}
+    </Link>
   );
 }

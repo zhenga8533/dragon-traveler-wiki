@@ -53,14 +53,16 @@ import {
   TierListReferenceProvider,
 } from './contexts';
 import { useSidebar } from './hooks';
+import Artifacts from './pages/Artifacts';
 import BeginnerQA from './pages/BeginnerQA';
 import Changelog from './pages/Changelog';
 import CharacterPage from './pages/CharacterPage';
 import Characters from './pages/Characters';
 import Codes from './pages/Codes';
 import DragonSpells from './pages/DragonSpells';
-import EfficientSpending from './pages/EfficientSpending';
 import Home from './pages/Home';
+import Howlkins from './pages/Howlkins';
+import NoblePhantasms from './pages/NoblePhantasms';
 import Resources from './pages/Resources';
 import RotationalEventHoarding from './pages/RotationalEventHoarding';
 import ShovelEventGuide from './pages/ShovelEventGuide';
@@ -84,10 +86,13 @@ const NAV_ITEMS: NavItem[] = [
     label: 'Database',
     icon: IoServer,
     children: [
+      { label: 'Artifacts', path: '/artifacts' },
       { label: 'Characters', path: '/characters' },
+      { label: 'Howlkins', path: '/howlkins' },
+      { label: 'Noble Phantasms', path: '/noble-phantasms' },
+      { label: 'Resources', path: '/resources' },
       { label: 'Status Effects', path: '/status-effects' },
       { label: 'Wyrmspells', path: '/wyrmspells' },
-      { label: 'Resources', path: '/resources' },
     ],
   },
   {
@@ -101,10 +106,6 @@ const NAV_ITEMS: NavItem[] = [
       {
         label: 'Star Upgrade Calculator',
         path: '/guides/star-upgrade-calculator',
-      },
-      {
-        label: 'Efficient Spending',
-        path: '/guides/efficient-spending',
       },
       {
         label: 'Rotational Event Hoarding',
@@ -445,14 +446,17 @@ function AppContent() {
           <PageTransition>
             <Routes>
               <Route path="/" element={<Home />} />
+              <Route path="/artifacts" element={<Artifacts />} />
               <Route path="/characters" element={<Characters />} />
               <Route path="/characters/:name" element={<CharacterPage />} />
+              <Route path="/howlkins" element={<Howlkins />} />
+              <Route path="/noble-phantasms" element={<NoblePhantasms />} />
+              <Route path="/resources" element={<Resources />} />
+              <Route path="/status-effects" element={<StatusEffects />} />
+              <Route path="/wyrmspells" element={<DragonSpells />} />
               <Route path="/tier-list" element={<TierList />} />
               <Route path="/teams" element={<Teams />} />
               <Route path="/teams/:teamName" element={<TeamPage />} />
-              <Route path="/status-effects" element={<StatusEffects />} />
-              <Route path="/wyrmspells" element={<DragonSpells />} />
-              <Route path="/resources" element={<Resources />} />
               <Route path="/codes" element={<Codes />} />
               <Route path="/useful-links" element={<UsefulLinks />} />
               <Route path="/changelog" element={<Changelog />} />
@@ -460,10 +464,6 @@ function AppContent() {
               <Route
                 path="/guides/star-upgrade-calculator"
                 element={<StarUpgradeCalculator />}
-              />
-              <Route
-                path="/guides/efficient-spending"
-                element={<EfficientSpending />}
               />
               <Route
                 path="/guides/rotational-event-hoarding"
