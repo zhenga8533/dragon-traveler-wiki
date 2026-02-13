@@ -104,10 +104,6 @@ const NAV_ITEMS: NavItem[] = [
         label: 'Efficient Spending',
         path: '/guides/efficient-spending',
       },
-      {
-        label: 'Golden Clover Priority',
-        path: '/guides/golden-clover-priority',
-      },
     ],
   },
   { label: 'Tier List', path: '/tier-list', icon: IoTrophy },

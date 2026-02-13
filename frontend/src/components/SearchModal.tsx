@@ -85,11 +85,6 @@ const PAGES = [
     path: '/guides/efficient-spending',
     keywords: 'spending guide efficiency resources',
   },
-  {
-    title: 'Golden Clover Priority',
-    path: '/guides/golden-clover-priority',
-    keywords: 'golden clover priority shop',
-  },
 ];
 
 type SearchModalProps = {
