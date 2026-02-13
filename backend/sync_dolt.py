@@ -22,6 +22,10 @@ DOLT_DIR = ROOT_DIR / "dolt-db"
 DATA_DIR = ROOT_DIR / "data"
 
 
+class SyncError(Exception):
+    """Raised when a dolt SQL or CLI command fails."""
+
+
 def escape_sql(value):
     """Escape a value for safe SQL insertion."""
     if value is None:
@@ -33,6 +37,7 @@ def escape_sql(value):
     s = str(value)
     s = (
         s.replace("\\", "\\\\")
+        .replace("\0", "")
         .replace("'", "\\'")
         .replace("\n", "\\n")
         .replace("\r", "\\r")
@@ -55,9 +60,8 @@ def dolt_sql(query, dry_run=False):
         encoding="utf-8",
     )
     if result.returncode != 0:
-        print(f"ERROR running SQL: {query[:200]}", file=sys.stderr)
-        print(result.stderr, file=sys.stderr)
-        sys.exit(1)
+        msg = f"SQL failed: {query[:200]}\n{result.stderr}"
+        raise SyncError(msg)
     return result.stdout
 
 
@@ -71,9 +75,7 @@ def dolt_sql_csv(query):
         encoding="utf-8",
     )
     if result.returncode != 0:
-        print(f"ERROR running SQL: {query}", file=sys.stderr)
-        print(result.stderr, file=sys.stderr)
-        sys.exit(1)
+        raise SyncError(f"SQL failed: {query}\n{result.stderr}")
 
     output = result.stdout.strip()
     if not output:
@@ -203,7 +205,7 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
 
 
 class SqlBatch:
-    """Collects SQL statements and executes them in a single dolt sql call."""
+    """Collects SQL statements and executes them in a single transactional dolt sql call."""
 
     def __init__(self, dry_run=False):
         self.statements = []
@@ -215,7 +217,7 @@ class SqlBatch:
     def flush(self):
         if not self.statements:
             return
-        combined = "\n".join(self.statements)
+        combined = "BEGIN;\n" + "\n".join(self.statements) + "\nCOMMIT;"
         dolt_sql(combined, self.dry_run)
         self.statements.clear()
 
@@ -229,15 +231,10 @@ def dolt_cmd(*args):
         text=True,
     )
     if result.returncode != 0:
-        print(f"ERROR running dolt {' '.join(args)}", file=sys.stderr)
-        print(result.stderr, file=sys.stderr)
-        # Don't exit on commit with nothing to commit
-        if (
-            "nothing to commit" in result.stderr.lower()
-            or "nothing to commit" in result.stdout.lower()
-        ):
+        combined = result.stderr + result.stdout
+        if "nothing to commit" in combined.lower():
             return result.stdout
-        sys.exit(1)
+        raise SyncError(f"dolt {' '.join(args)} failed:\n{result.stderr}")
     return result.stdout
 
 
@@ -370,6 +367,7 @@ def sync_resources(data, batch, existing_tables):
         return
 
     # code_rewards.resource_id -> resources.id FK requires child rows to be removed first.
+    # NOTE: sync_codes also deletes code_rewards; the duplicate DELETE is harmless.
     if "code_rewards" in existing_tables:
         code_reward_columns = get_table_columns("code_rewards")
         if "resource_id" in code_reward_columns:
@@ -437,11 +435,9 @@ def sync_codes(data, batch, existing_tables, resource_ids):
             resource_name = reward["name"]
             resource_id = resource_ids.get(resource_name)
             if resource_id is None:
-                print(
-                    f"ERROR: code '{c['code']}' reward resource '{resource_name}' not found in resources.json",
-                    file=sys.stderr,
+                raise SyncError(
+                    f"code '{c['code']}' reward resource '{resource_name}' not found in resources.json"
                 )
-                sys.exit(1)
             quantity = escape_sql(reward.get("quantity", 0))
 
             if has_resource_id:
@@ -450,11 +446,9 @@ def sync_codes(data, batch, existing_tables, resource_ids):
                     f"({reward_id}, {c_id}, {escape_sql(resource_id)}, {quantity});"
                 )
             else:
-                print(
-                    "ERROR: code_rewards table must include resource_id column",
-                    file=sys.stderr,
+                raise SyncError(
+                    "code_rewards table must include resource_id column"
                 )
-                sys.exit(1)
     if has_code_rewards:
         print(f"  Synced {c_id} codes ({reward_id} rewards)")
     else:
@@ -628,48 +622,78 @@ def main():
         print(f"Error: Dolt database not found at {DOLT_DIR}", file=sys.stderr)
         sys.exit(1)
 
-    print("Loading JSON data...")
-    factions_data = load_json("factions.json")
-    characters_data = load_json("characters.json")
-    wyrmspells_data = load_json("wyrmspells.json")
-    resources_data = load_json("resources.json")
-    codes_data = load_json("codes.json")
-    status_effects_data = load_json("status-effects.json")
-    tier_lists_data = load_json("tier-lists.json")
-    teams_data = load_json("teams.json")
-    useful_links_data = load_json("useful-links.json")
-    changelog_data = load_json("changelog.json")
-
-    print("Syncing to Dolt..." + (" (dry run)" if args.dry_run else ""))
-    existing_tables = get_existing_tables()
-    ensure_schema_extensions(existing_tables, dry_run=args.dry_run)
-    existing_tables = get_existing_tables()
-    resource_ids = build_resource_id_map(resources_data)
-
-    batch = SqlBatch(dry_run=args.dry_run)
     target = args.target
 
-    syncers = {
-        "factions": lambda: sync_factions(factions_data, batch),
-        "characters": lambda: sync_characters(characters_data, factions_data, batch),
-        "wyrmspells": lambda: sync_wyrmspells(wyrmspells_data, batch),
-        "resources": lambda: sync_resources(resources_data, batch, existing_tables),
-        "codes": lambda: sync_codes(codes_data, batch, existing_tables, resource_ids),
-        "status-effects": lambda: sync_status_effects(status_effects_data, batch),
-        "tier-lists": lambda: sync_tier_lists(tier_lists_data, batch),
-        "teams": lambda: sync_teams(teams_data, batch),
-        "useful-links": lambda: sync_useful_links(useful_links_data, batch),
-        "changelog": lambda: sync_changelog(changelog_data, batch),
+    # Only load JSON files needed for the target.
+    json_deps = {
+        "factions": ["factions.json"],
+        "characters": ["characters.json", "factions.json"],
+        "wyrmspells": ["wyrmspells.json"],
+        "resources": ["resources.json"],
+        "codes": ["codes.json", "resources.json"],
+        "status-effects": ["status-effects.json"],
+        "tier-lists": ["tier-lists.json"],
+        "teams": ["teams.json"],
+        "useful-links": ["useful-links.json"],
+        "changelog": ["changelog.json"],
     }
 
+    needed_files = set()
     if target == "all":
-        for syncer in syncers.values():
-            syncer()
+        for deps in json_deps.values():
+            needed_files.update(deps)
     else:
-        syncers[target]()
+        needed_files.update(json_deps[target])
 
-    # Execute all SQL in a single dolt process
-    batch.flush()
+    print("Loading JSON data...")
+    json_cache = {f: load_json(f) for f in needed_files}
+
+    print("Syncing to Dolt..." + (" (dry run)" if args.dry_run else ""))
+
+    try:
+        existing_tables = get_existing_tables()
+        ensure_schema_extensions(existing_tables, dry_run=args.dry_run)
+        existing_tables = get_existing_tables()
+        resource_ids = build_resource_id_map(json_cache.get("resources.json", []))
+
+        batch = SqlBatch(dry_run=args.dry_run)
+
+        syncers = {
+            "factions": lambda: sync_factions(json_cache["factions.json"], batch),
+            "characters": lambda: sync_characters(
+                json_cache["characters.json"], json_cache["factions.json"], batch
+            ),
+            "wyrmspells": lambda: sync_wyrmspells(json_cache["wyrmspells.json"], batch),
+            "resources": lambda: sync_resources(
+                json_cache["resources.json"], batch, existing_tables
+            ),
+            "codes": lambda: sync_codes(
+                json_cache["codes.json"], batch, existing_tables, resource_ids
+            ),
+            "status-effects": lambda: sync_status_effects(
+                json_cache["status-effects.json"], batch
+            ),
+            "tier-lists": lambda: sync_tier_lists(
+                json_cache["tier-lists.json"], batch
+            ),
+            "teams": lambda: sync_teams(json_cache["teams.json"], batch),
+            "useful-links": lambda: sync_useful_links(
+                json_cache["useful-links.json"], batch
+            ),
+            "changelog": lambda: sync_changelog(json_cache["changelog.json"], batch),
+        }
+
+        if target == "all":
+            for syncer in syncers.values():
+                syncer()
+        else:
+            syncers[target]()
+
+        # Execute all SQL in a single transactional dolt process.
+        batch.flush()
+    except SyncError as exc:
+        print(f"\nSync failed, no commit created:\n{exc}", file=sys.stderr)
+        sys.exit(1)
 
     if args.dry_run:
         print("\nDry run complete — no changes made.")
@@ -683,7 +707,7 @@ def main():
         msg = f"Sync all data from JSON ({timestamp})"
     else:
         msg = f"Sync {target} from JSON ({timestamp})"
-    result = dolt_cmd("commit", "-m", msg, "--allow-empty")
+    result = dolt_cmd("commit", "-m", msg)
     if "nothing to commit" in result.lower():
         print("No changes to commit.")
     else:

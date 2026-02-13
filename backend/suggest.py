@@ -110,7 +110,6 @@ def normalize_for_json(label, data):
         rewards = [
             {
                 "name": r.get("name", ""),
-                "resource_id": r.get("resource_id"),
                 "quantity": r.get("quantity", 0),
             }
             for r in rewards_input
@@ -208,6 +207,13 @@ def normalize_for_json(label, data):
     raise ValueError(f"Unknown label: {label}")
 
 
+def _get_identity_key(label):
+    """Return the field used to detect duplicates for a given label."""
+    if label == "codes":
+        return "code"
+    return "name"
+
+
 def update_json_file(label, data):
     """Append normalized data to the corresponding JSON data file."""
     filename = LABEL_JSON_FILE[label]
@@ -219,6 +225,16 @@ def update_json_file(label, data):
         existing = json.load(f)
 
     entry = normalize_for_json(label, data)
+
+    identity_key = _get_identity_key(label)
+    new_value = entry.get(identity_key, "")
+    if new_value:
+        for item in existing:
+            if item.get(identity_key) == new_value:
+                raise ValueError(
+                    f"Duplicate {identity_key} '{new_value}' already exists in {filename}"
+                )
+
     existing.append(entry)
 
     with open(path, "w", encoding="utf-8") as f:

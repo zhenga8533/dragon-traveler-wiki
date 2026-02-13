@@ -83,15 +83,34 @@ def fetch_all(needed_keys, queries):
     if not result.stdout.strip():
         return {k: [] for k in queries_to_run}
 
-    # Dolt outputs one JSON object per line for each query result
+    # Dolt outputs one JSON object per line for each query result.
+    # Use a streaming decoder to handle format variations robustly.
     keys = list(queries_to_run.keys())
     data = {k: [] for k in keys}
-    lines = [line for line in result.stdout.strip().split("\n") if line.strip()]
 
-    for i, line in enumerate(lines):
-        if i < len(keys):
-            parsed = json.loads(line)
-            data[keys[i]] = parsed.get("rows", [])
+    decoder = json.JSONDecoder()
+    raw = result.stdout.strip()
+    idx = 0
+    results = []
+    while idx < len(raw):
+        # Skip whitespace between JSON objects
+        while idx < len(raw) and raw[idx] in " \t\r\n":
+            idx += 1
+        if idx >= len(raw):
+            break
+        obj, end = decoder.raw_decode(raw, idx)
+        results.append(obj)
+        idx = end
+
+    if len(results) != len(keys):
+        print(
+            f"WARNING: expected {len(keys)} result sets but got {len(results)}",
+            file=sys.stderr,
+        )
+
+    for i, key in enumerate(keys):
+        if i < len(results):
+            data[key] = results[i].get("rows", [])
 
     return data
 
@@ -164,73 +183,14 @@ def group_by(rows, key):
     return groups
 
 
-def _flat_json(value):
-    """Single-line JSON representation using Prettier's style (bracketSpacing for objects)."""
-    if value is None:
-        return "null"
-    if isinstance(value, bool):
-        return "true" if value else "false"
-    if isinstance(value, (int, float)):
-        return json.dumps(value)
-    if isinstance(value, str):
-        return json.dumps(value, ensure_ascii=False)
-    if isinstance(value, list):
-        if not value:
-            return "[]"
-        return "[" + ", ".join(_flat_json(v) for v in value) + "]"
-    if isinstance(value, dict):
-        if not value:
-            return "{}"
-        items = [
-            f"{json.dumps(k, ensure_ascii=False)}: {_flat_json(v)}"
-            for k, v in value.items()
-        ]
-        return "{ " + ", ".join(items) + " }"
-    return json.dumps(value, ensure_ascii=False)
-
-
-def _format_json(value, print_width=80, indent_size=2, depth=0, start_col=None):
-    """Format a JSON value like Prettier (collapse to one line when it fits)."""
-    if start_col is None:
-        start_col = indent_size * depth
-    flat = _flat_json(value)
-    if start_col + len(flat) <= print_width:
-        return flat
-
-    indent = " " * (indent_size * (depth + 1))
-    outer = " " * (indent_size * depth)
-
-    if isinstance(value, list):
-        if not value:
-            return "[]"
-        items = []
-        for item in value:
-            formatted = _format_json(item, print_width, indent_size, depth + 1)
-            items.append(f"{indent}{formatted}")
-        return "[\n" + ",\n".join(items) + f"\n{outer}]"
-
-    if isinstance(value, dict):
-        if not value:
-            return "{}"
-        items = []
-        for key, val in value.items():
-            key_str = json.dumps(key, ensure_ascii=False)
-            prefix = f"{key_str}: "
-            val_col = indent_size * (depth + 1) + len(prefix)
-            formatted = _format_json(val, print_width, indent_size, depth + 1, val_col)
-            items.append(f"{indent}{prefix}{formatted}")
-        return "{\n" + ",\n".join(items) + f"\n{outer}}}"
-
-    return flat
-
-
 def write_export(filename, data, output_dir=None):
     """Write data to a JSON file in the given output directory."""
     dest = output_dir or EXPORT_DIR
     dest.mkdir(parents=True, exist_ok=True)
     path = dest / filename
     with open(path, "w", encoding="utf-8") as f:
-        f.write(_format_json(data) + "\n")
+        json.dump(data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
     print(f"  Exported {len(data)} entries to {path}")
 
 
@@ -338,7 +298,6 @@ def export_codes(data, output_dir=None):
                     "name": r.get("resolved_resource_name")
                     or r.get("resource_name")
                     or "",
-                    "resource_id": r.get("resource_id"),
                     "quantity": r.get("quantity", 0),
                 }
                 for r in rewards_by_code.get(c["id"], [])

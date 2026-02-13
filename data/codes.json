@@ -2,265 +2,520 @@
   {
     "code": "DTFDC321",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Gold", "quantity": 3000 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Gold",
+        "quantity": 3000
+      }
     ],
     "active": true
   },
   {
     "code": "DTOBT666",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Luminary EXP", "quantity": 3000 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Luminary EXP",
+        "quantity": 3000
+      }
     ],
     "active": true
   },
   {
     "code": "DTOB321",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Leaf of the World Tree", "quantity": 10 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Leaf of the World Tree",
+        "quantity": 10
+      }
     ],
     "active": true
   },
   {
     "code": "DTGCKL888",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Apple", "quantity": 1 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Apple",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "DTGIFT",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "R Luminary Shards", "quantity": 30 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "R Luminary Shards",
+        "quantity": 30
+      }
     ],
     "active": true
   },
   {
     "code": "VIP6666",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Gold", "quantity": 2000 },
-      { "name": "R Luminary Shards", "quantity": 10 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Gold",
+        "quantity": 2000
+      },
+      {
+        "name": "R Luminary Shards",
+        "quantity": 10
+      }
     ],
     "active": true
   },
   {
     "code": "VIP9999",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Luminary EXP", "quantity": 1000 },
-      { "name": "Summoning Ticket", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Luminary EXP",
+        "quantity": 1000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "VIP5555",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Luminary EXP", "quantity": 8000 },
-      { "name": "Leaf of the World Tree", "quantity": 10 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Luminary EXP",
+        "quantity": 8000
+      },
+      {
+        "name": "Leaf of the World Tree",
+        "quantity": 10
+      }
     ],
     "active": true
   },
   {
     "code": "GIFT6666",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Grilled Steak", "quantity": 1 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Grilled Steak",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "GIFT9999",
     "rewards": [
-      { "name": "Luminary EXP", "quantity": 3000 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "Banquet Cake", "quantity": 1 }
+      {
+        "name": "Luminary EXP",
+        "quantity": 3000
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "Banquet Cake",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "GIFT5555",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Legacy Dragon Crystal", "quantity": 1 },
-      { "name": "Dragonblood", "quantity": 1 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 1
+      },
+      {
+        "name": "Dragonblood",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "BSVIPDT",
     "rewards": [
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Legacy Dragon Crystal", "quantity": 1 },
-      { "name": "Leaf of the World Tree", "quantity": 5 }
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 1
+      },
+      {
+        "name": "Leaf of the World Tree",
+        "quantity": 5
+      }
     ],
     "active": true
   },
   {
     "code": "NOXVIPDT777",
     "rewards": [
-      { "name": "Legacy Dragon Crystal", "quantity": 5 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "R Luminary Shards", "quantity": 10 }
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 5
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "R Luminary Shards",
+        "quantity": 10
+      }
     ],
     "active": true
   },
   {
     "code": "Gabriele111",
     "rewards": [
-      { "name": "Gold", "quantity": 5000 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Legacy Dragon Crystal", "quantity": 3 }
+      {
+        "name": "Gold",
+        "quantity": 5000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      }
     ],
     "active": true
   },
   {
     "code": "Mage666",
     "rewards": [
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "SR Luminary Shards", "quantity": 10 }
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "SR Luminary Shards",
+        "quantity": 10
+      }
     ],
     "active": true
   },
   {
     "code": "888GIFT",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Apple", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Apple",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "666GIFT",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "Leaf of the World Tree", "quantity": 5 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "Leaf of the World Tree",
+        "quantity": 5
+      }
     ],
     "active": true
   },
   {
     "code": "Glory321",
     "rewards": [
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Leaf of the World Tree", "quantity": 5 },
-      { "name": "R Luminary Shards", "quantity": 30 }
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Leaf of the World Tree",
+        "quantity": 5
+      },
+      {
+        "name": "R Luminary Shards",
+        "quantity": 30
+      }
     ],
     "active": true
   },
   {
     "code": "SPECIAL",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Dragonblood", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Dragonblood",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "mareflos",
     "rewards": [
-      { "name": "Gold", "quantity": 10000 },
-      { "name": "Summoning Ticket", "quantity": 2 },
-      { "name": "Legacy Dragon Crystal", "quantity": 4 }
+      {
+        "name": "Gold",
+        "quantity": 10000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 2
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 4
+      }
     ],
     "active": true
   },
   {
     "code": "youtube10k",
     "rewards": [
-      { "name": "Diamond", "quantity": 500 },
-      { "name": "Gold", "quantity": 10000 },
-      { "name": "Summoning Ticket", "quantity": 5 }
+      {
+        "name": "Diamond",
+        "quantity": 500
+      },
+      {
+        "name": "Gold",
+        "quantity": 10000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 5
+      }
     ],
     "active": true
   },
   {
     "code": "Uniquegift",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Apple", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Apple",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "SURYUNSURYU1",
     "rewards": [
-      { "name": "Summoning Ticket", "quantity": 2 },
-      { "name": "Legacy Dragon Crystal", "quantity": 1 },
-      { "name": "Golden Horn", "quantity": 2 }
+      {
+        "name": "Summoning Ticket",
+        "quantity": 2
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 1
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 2
+      }
     ],
     "active": false
   },
   {
     "code": "GONYO111",
     "rewards": [
-      { "name": "Summoning Ticket", "quantity": 2 },
-      { "name": "Legacy Dragon Crystal", "quantity": 5 },
-      { "name": "SR Luminary Shards", "quantity": 5 }
+      {
+        "name": "Summoning Ticket",
+        "quantity": 2
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 5
+      },
+      {
+        "name": "SR Luminary Shards",
+        "quantity": 5
+      }
     ],
     "active": false
   },
   {
     "code": "DELLORYAKGUK",
     "rewards": [
-      { "name": "Gold", "quantity": 30000 },
-      { "name": "Legacy Dragon Crystal", "quantity": 6 },
-      { "name": "SR Luminary Shards", "quantity": 20 }
+      {
+        "name": "Gold",
+        "quantity": 30000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 6
+      },
+      {
+        "name": "SR Luminary Shards",
+        "quantity": 20
+      }
     ],
     "active": false
   },
   {
     "code": "BAEDON",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Legacy Dragon Crystal", "quantity": 1 },
-      { "name": "Golden Horn", "quantity": 1 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 1
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      }
     ],
     "active": false
   },
   {
     "code": "angrihyung",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "SR Luminary Shards", "quantity": 10 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "SR Luminary Shards",
+        "quantity": 10
+      }
     ],
     "active": false
   },
   {
     "code": "haukau",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Legacy Dragon Crystal", "quantity": 2 },
-      { "name": "SR Luminary Shards", "quantity": 5 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 2
+      },
+      {
+        "name": "SR Luminary Shards",
+        "quantity": 5
+      }
     ],
     "active": true
   },
   {
     "code": "dongsukantv",
     "rewards": [
-      { "name": "Diamond", "quantity": 100 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "SR Luminary Shards", "quantity": 10 }
+      {
+        "name": "Diamond",
+        "quantity": 100
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "SR Luminary Shards",
+        "quantity": 10
+      }
     ],
     "active": true
   },
   {
     "code": "MONSTERRAT",
     "rewards": [
-      { "name": "Gold", "quantity": 15000 },
-      { "name": "Legacy Dragon Crystal", "quantity": 5 },
-      { "name": "Golden Horn", "quantity": 2 }
+      {
+        "name": "Gold",
+        "quantity": 15000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 5
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 2
+      }
     ],
     "active": true
   },
@@ -272,194 +527,385 @@
   {
     "code": "MOVINGTV",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Legacy Dragon Crystal", "quantity": 4 },
-      { "name": "Golden Horn", "quantity": 2 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 4
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 2
+      }
     ],
     "active": true
   },
   {
     "code": "SJGIFT66",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Dragonblood", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Dragonblood",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "code888",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Dragonblood", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Dragonblood",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "Vivienne",
     "rewards": [
-      { "name": "Gold", "quantity": 5000 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Legacy Dragon Crystal", "quantity": 3 }
+      {
+        "name": "Gold",
+        "quantity": 5000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      }
     ],
     "active": true
   },
   {
     "code": "Priest",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "Leaf of the World Tree", "quantity": 5 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "Leaf of the World Tree",
+        "quantity": 5
+      }
     ],
     "active": true
   },
   {
     "code": "Athena",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Dragonblood", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Dragonblood",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "Oberonnie",
     "rewards": [
-      { "name": "Gold", "quantity": 5000 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Legacy Dragon Crystal", "quantity": 3 }
+      {
+        "name": "Gold",
+        "quantity": 5000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      }
     ],
     "active": true
   },
   {
     "code": "Guild321",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Apple", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Apple",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "Apollo",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Apple", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Apple",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "SWEETGIRL",
     "rewards": [
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "SR Luminary Shards", "quantity": 10 }
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "SR Luminary Shards",
+        "quantity": 10
+      }
     ],
     "active": true
   },
   {
     "code": "Inkbound",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Dragonblood", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Dragonblood",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "Foursaints",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "Leaf of the World Tree", "quantity": 5 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "Leaf of the World Tree",
+        "quantity": 5
+      }
     ],
     "active": true
   },
   {
     "code": "Valentine",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "Leaf of the World Tree", "quantity": 5 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "Leaf of the World Tree",
+        "quantity": 5
+      }
     ],
     "active": true
   },
   {
     "code": "pompey",
     "rewards": [
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "SR Luminary Shards", "quantity": 10 }
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "SR Luminary Shards",
+        "quantity": 10
+      }
     ],
     "active": true
   },
   {
     "code": "GCSJLBM765",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "Leaf of the World Tree", "quantity": 5 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "Leaf of the World Tree",
+        "quantity": 5
+      }
     ],
     "active": true
   },
   {
     "code": "Magiclamp",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Apple", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Apple",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "NEWGIRL",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Banquet Cake", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Banquet Cake",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "QingLong",
     "rewards": [
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Golden Horn", "quantity": 1 },
-      { "name": "SR Luminary Shards", "quantity": 10 }
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "SR Luminary Shards",
+        "quantity": 10
+      }
     ],
     "active": true
   },
   {
     "code": "HeavySnow",
     "rewards": [
-      { "name": "Gold", "quantity": 10000 },
-      { "name": "Summoning Ticket", "quantity": 3 }
+      {
+        "name": "Gold",
+        "quantity": 10000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 3
+      }
     ],
     "active": true
   },
   {
     "code": "QLDJGL66",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Summoning Ticket", "quantity": 1 },
-      { "name": "Dragonblood", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Dragonblood",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "DTCOSER",
     "rewards": [
-      { "name": "Gold", "quantity": 3000 },
-      { "name": "Legacy Dragon Crystal", "quantity": 3 },
-      { "name": "Apple", "quantity": 1 }
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Apple",
+        "quantity": 1
+      }
     ],
     "active": true
   },
   {
     "code": "1MONTHGIFT",
-    "rewards": [{ "name": "Summoning Ticket", "quantity": 5 }],
+    "rewards": [
+      {
+        "name": "Summoning Ticket",
+        "quantity": 5
+      }
+    ],
     "active": true
   }
 ]
