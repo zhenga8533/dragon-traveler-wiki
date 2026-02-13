@@ -2,6 +2,7 @@
 export { default as CharacterCard } from './CharacterCard';
 export { default as CharacterFilter } from './CharacterFilter';
 export { default as CharacterList } from './CharacterList';
+export { default as CharacterTag } from './CharacterTag';
 export { default as EntityFilter } from './EntityFilter';
 export { default as FilterableCharacterPool } from './FilterableCharacterPool';
 export { default as Footer } from './Footer';
