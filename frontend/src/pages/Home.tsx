@@ -580,23 +580,75 @@ export default function Home() {
                   letterSpacing: BRAND_TITLE_STYLE.letterSpacing,
                   fontWeight: 700,
                   fontSize: 'clamp(2rem, 6vw, 3.5rem)',
-                  color: '#fff',
                   textShadow:
                     '0 2px 16px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 58, 237, 0.35)',
                 }}
               >
-                Dragon Traveler Wiki
+                <Text
+                  component="span"
+                  inherit
+                  style={{
+                    background:
+                      'linear-gradient(135deg, #f5d0fe 0%, #c4b5fd 45%, #93c5fd 100%)',
+                    WebkitBackgroundClip: 'text',
+                    backgroundClip: 'text',
+                    WebkitTextFillColor: 'transparent',
+                    color: '#fff',
+                  }}
+                >
+                  Dragon Traveler
+                </Text>{' '}
+                <Text component="span" inherit style={{ color: '#ffffff' }}>
+                  Wiki
+                </Text>
               </Title>
               <Text
                 size="lg"
                 mt="xs"
                 style={{
-                  color: 'rgba(255, 255, 255, 0.95)',
+                  color: 'rgba(255, 255, 255, 0.92)',
                   fontWeight: 500,
                   textShadow: '0 1px 6px rgba(0, 0, 0, 0.9)',
                 }}
               >
-                A community-driven wiki for Dragon Traveler
+                A{' '}
+                <Text
+                  component="span"
+                  inherit
+                  fw={700}
+                  style={{
+                    color: '#e9d5ff',
+                  }}
+                >
+                  community-driven
+                </Text>{' '}
+                wiki for{' '}
+                <Text
+                  component="span"
+                  inherit
+                  fw={700}
+                  style={{
+                    color: '#bfdbfe',
+                  }}
+                >
+                  Dragon Traveler
+                </Text>
+              </Text>
+              <Text
+                size="sm"
+                mt={6}
+                style={{
+                  color: 'rgba(255, 255, 255, 0.9)',
+                  textShadow: '0 1px 4px rgba(0, 0, 0, 0.85)',
+                }}
+              >
+                Authored by{' '}
+                <Text component="span" inherit fw={700} c="grape.2">
+                  Litee
+                </Text>{' '}
+                <Text component="span" inherit c="blue.1">
+                  (Server: Freya 2)
+                </Text>
               </Text>
               <Stack gap="sm" mt="md" align="center">
                 <Group gap="sm" justify="center" wrap="wrap">
