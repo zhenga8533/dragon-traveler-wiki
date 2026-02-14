@@ -9,7 +9,7 @@ import {
   TextInput,
 } from '@mantine/core';
 import { IoClose, IoSearch } from 'react-icons/io5';
-import { QUALITY_ICON_MAP } from '../assets/character_quality';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getStatusEffectIcon } from '../assets/status_effect';

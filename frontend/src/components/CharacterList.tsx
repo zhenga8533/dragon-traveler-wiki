@@ -13,7 +13,7 @@ import {
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
-import { QUALITY_ICON_MAP } from '../assets/character_quality';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import {

@@ -37,7 +37,7 @@ import {
   IoStatsChart,
   IoTime,
 } from 'react-icons/io5';
-import { QUALITY_ICON_MAP } from '../assets/character_quality';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { TRANSITION } from '../constants/ui';
 
 type StarLevel = {

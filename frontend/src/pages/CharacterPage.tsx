@@ -36,7 +36,7 @@ import {
   getTalentIcon,
   type CharacterIllustration,
 } from '../assets/character';
-import { QUALITY_ICON_MAP } from '../assets/character_quality';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getSkillIcon } from '../assets/skill';
