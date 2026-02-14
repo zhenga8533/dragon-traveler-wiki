@@ -140,6 +140,22 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
                 dry_run=dry_run,
             )
 
+    # Ensure quality and exclusive_faction columns exist on wyrmspells table.
+    if "wyrmspells" in existing_tables:
+        wyrmspell_columns = get_table_columns("wyrmspells")
+        if "quality" not in wyrmspell_columns:
+            print("  Adding wyrmspells.quality column")
+            dolt_sql(
+                "ALTER TABLE wyrmspells ADD COLUMN quality varchar(20) NULL AFTER type;",
+                dry_run=dry_run,
+            )
+        if "exclusive_faction" not in wyrmspell_columns:
+            print("  Adding wyrmspells.exclusive_faction column")
+            dolt_sql(
+                "ALTER TABLE wyrmspells ADD COLUMN exclusive_faction varchar(100) NULL AFTER quality;",
+                dry_run=dry_run,
+            )
+
     if "code_rewards" not in existing_tables:
         return
 
@@ -358,8 +374,9 @@ def sync_wyrmspells(data, batch):
             continue
         w_id += 1
         batch.add(
-            f"INSERT INTO wyrmspells (id, name, effect, type) VALUES "
-            f"({w_id}, {escape_sql(w['name'])}, {escape_sql(w.get('effect'))}, {escape_sql(w.get('type'))});"
+            f"INSERT INTO wyrmspells (id, name, effect, type, quality, exclusive_faction) VALUES "
+            f"({w_id}, {escape_sql(w['name'])}, {escape_sql(w.get('effect'))}, {escape_sql(w.get('type'))}, "
+            f"{escape_sql(w.get('quality'))}, {escape_sql(w.get('exclusive_faction'))});"
         )
     print(f"  Synced {w_id} wyrmspells")
 

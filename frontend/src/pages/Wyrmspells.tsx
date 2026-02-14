@@ -70,7 +70,7 @@ const EMPTY_FILTERS: WyrmspellFilters = {
   qualities: [],
 };
 
-export default function DragonSpells() {
+export default function Wyrmspells() {
   const {
     data: wyrmspells,
     loading,
@@ -140,15 +140,12 @@ export default function DragonSpells() {
         return true;
       })
       .sort(
-        (a, b) =>
-          a.type.localeCompare(b.type) || a.name.localeCompare(b.name)
+        (a, b) => a.type.localeCompare(b.type) || a.name.localeCompare(b.name)
       );
   }, [wyrmspells, filters]);
 
   const activeFilterCount =
-    (filters.search ? 1 : 0) +
-    filters.types.length +
-    filters.qualities.length;
+    (filters.search ? 1 : 0) + filters.types.length + filters.qualities.length;
 
   return (
     <Container size="md" py="xl">
@@ -191,7 +188,10 @@ export default function DragonSpells() {
               >
                 <EntityFilter
                   groups={filterGroups}
-                  selected={{ types: filters.types, qualities: filters.qualities }}
+                  selected={{
+                    types: filters.types,
+                    qualities: filters.qualities,
+                  }}
                   onChange={(key, values) =>
                     setFilters({ ...filters, [key]: values })
                   }

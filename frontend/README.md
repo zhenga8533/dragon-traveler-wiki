@@ -174,7 +174,7 @@ Hash-based routing for GitHub Pages compatibility:
 | `/characters`                     | Characters            | Character list with filters |
 | `/characters/:name`               | CharacterPage         | Character detail view       |
 | `/status-effects`                 | StatusEffects         | Status effects reference    |
-| `/wyrmspells`                     | DragonSpells          | Wyrmspell database          |
+| `/wyrmspells`                     | Wyrmspells            | Wyrmspell database          |
 | `/tier-list`                      | TierList              | Tier list viewer/builder    |
 | `/teams`                          | Teams                 | Team list                   |
 | `/teams/:name`                    | TeamPage              | Team detail view            |

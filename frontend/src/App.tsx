@@ -59,7 +59,6 @@ import Changelog from './pages/Changelog';
 import CharacterPage from './pages/CharacterPage';
 import Characters from './pages/Characters';
 import Codes from './pages/Codes';
-import DragonSpells from './pages/DragonSpells';
 import Home from './pages/Home';
 import Howlkins from './pages/Howlkins';
 import NoblePhantasms from './pages/NoblePhantasms';
@@ -72,6 +71,7 @@ import TeamPage from './pages/TeamPage';
 import Teams from './pages/Teams';
 import TierList from './pages/TierList';
 import UsefulLinks from './pages/UsefulLinks';
+import DragonSpells from './pages/Wyrmspells';
 
 type NavItem = {
   label: string;
