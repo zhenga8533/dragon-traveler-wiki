@@ -13,7 +13,6 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   // Database
   '/artifacts': 'teal',
   '/characters': 'blue',
-  '/howlkins': 'teal',
   '/noble-phantasms': 'teal',
   '/status-effects': 'cyan',
   '/wyrmspells': 'indigo',

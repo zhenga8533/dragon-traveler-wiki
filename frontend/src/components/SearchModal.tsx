@@ -50,11 +50,6 @@ const PAGES = [
     keywords: 'characters database hero heroes',
   },
   {
-    title: 'Howlkins',
-    path: '/howlkins',
-    keywords: 'howlkin howlkins database pets monsters',
-  },
-  {
     title: 'Noble Phantasms',
     path: '/noble-phantasms',
     keywords: 'noble phantasm noble phantasms database',

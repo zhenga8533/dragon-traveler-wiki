@@ -6,6 +6,7 @@ import { CHARACTER_CARD, TRANSITION } from '../constants/ui';
 import type { Quality } from '../types/character';
 
 const QUALITY_BORDER_COLOR: Record<Quality, string> = {
+  UR: 'var(--mantine-color-pink-6)',
   'SSR EX': 'var(--mantine-color-red-6)',
   'SSR+': 'var(--mantine-color-orange-5)',
   SSR: 'var(--mantine-color-yellow-5)',
