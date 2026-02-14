@@ -4,433 +4,495 @@
     "effect": "While deployed, all allied units gain a 20% Attack.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Physical Damage Aura",
     "effect": "While deployed, all allied units gain 30% Physical Damage.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Magic Damage Aura",
     "effect": "While deployed, all allied units gain 30% Magic Damage.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Attack Speed Aura",
     "effect": "While deployed, all allied units gain 40% Attack Speed.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Crit Aura",
     "effect": "While deployed, all allied units gain 400 Critical Hit.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Arcane Aura",
     "effect": "While deployed, all allied units gain 40% Overdrive Damage Boost and 200 Hit.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Brutality Aura",
     "effect": "While deployed, all allied units gain 320 Critical Hit and 32% Critical Damage.",
     "type": "Breach",
     "quality": "UR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Hit Aura",
     "effect": "While deployed, all allied units gain 400 Accuracy.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Agility Aura",
     "effect": "While deployed, all allied units gain 32 Skill Haste and 32% Attack Speed.",
     "type": "Breach",
     "quality": "UR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Break Aura",
     "effect": "While deployed, all allied units gain 400 Break.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Swiftstorm Aura",
     "effect": "While deployed, all allied units gain 19 Skill Haste and 19% Critical Damage.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Leech Aura",
     "effect": "While deployed, all allied units gain 13% Attack and 9.5% Lifesteal.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Haste Aura",
     "effect": "While deployed, all allied units gain 190 Crit and 19% Attack Speed.",
     "type": "Breach",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Block Aura",
     "effect": "While deployed, all allied units gain 400 Block.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Physical Defense Aura",
     "effect": "While deployed, all allied units gain 30% Physical Defense.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Magic Defense Aura",
     "effect": "While deployed, all allied units gain 30% Magic Defense.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Reflect Aura",
     "effect": "While deployed, all allied units gain 32% Healing effect and 21% Damage Reflection.",
     "type": "Refuge",
     "quality": "UR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Crit Resist Aura",
     "effect": "While deployed, all allied units gain 400 Critical Resistance.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Healing Aura",
     "effect": "While deployed, all allied units gain 40% Healing effect.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Shield Resistance Aura",
     "effect": "While deployed, all allied units gain 30% Shield Efficiency and 200 Crit Resist.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Dodge Aura",
     "effect": "While deployed, all allied units gain 380 Evasion.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Physical Resistance Aura",
     "effect": "While deployed, all allied units gain 190 Critical Resistance and 19% Physical Defense.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Flash Aura",
     "effect": "While deployed, all allied units gain 190 Evasion and 190 Block.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Shield Aura",
     "effect": "While deployed, all allied units gain 40% Shield efficiency.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Magic Block Aura",
     "effect": "While deployed, all allied units gain 200 Block and 20% Magic Defense.",
     "type": "Refuge",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Drain Aura",
     "effect": "While deployed, all allied units gain 310 Evasion and 20.5% Lifesteal.",
     "type": "Refuge",
     "quality": "UR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Mana Roar",
     "effect": "Upon unleashing Dragonmight, boost all allies' Magic Damage by 46% for 6 seconds.",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Mighty Roar",
     "effect": "Upon unleashing Dragonmight, boost all allies' Physical Damage by 46% for 6 seconds.",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Arcanist Roar",
     "effect": "After Dragonmight deals damage, inflict additional Magic Damage equal to 460% of Attack and apply a random [Stat Debuff] Status (once per target).",
     "type": "Wildcry",
     "quality": "UR",
-    "exclusive_faction": "Arcane Wisdom"
+    "exclusive_faction": "Arcane Wisdom",
+    "is_global": true
   },
   {
     "name": "Healing Roar",
     "effect": "Dragonmight puts the target into the [Grace] status, restoring 46% of its max Health and granting 2 random [Stat Buffs].",
     "type": "Wildcry",
     "quality": "UR",
-    "exclusive_faction": "Sanctum Glory"
+    "exclusive_faction": "Sanctum Glory",
+    "is_global": true
   },
   {
     "name": "Boneclad Roar",
     "effect": "Upon unleashing Dragonmight, deal additional Magic Damage equal to 500% of Attack to all enemies. For each allied summon that dies during this battle, this damage is increased by 8% (up to a maximum of 80%).",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": "Otherworld Return"
+    "exclusive_faction": "Otherworld Return",
+    "is_global": true
   },
   {
     "name": "Surging Roar",
     "effect": "When Dragonmight triggers an [Elemental Reaction], inflict [Stun] for 5.5 seconds.",
     "type": "Wildcry",
     "quality": "UR",
-    "exclusive_faction": "Elemental Echo"
+    "exclusive_faction": "Elemental Echo",
+    "is_global": true
   },
   {
     "name": "Punishing Roar",
     "effect": "Dragonmight can trigger [Punishment]. When [Punishment] is triggered, it deals additional magic damage equal to 440% of Attack and inflicts [Silence] for 4 seconds. (Dragonmight can only trigger [Punishment] once per target)",
     "type": "Wildcry",
     "quality": "UR",
-    "exclusive_faction": "Illusion Veil"
+    "exclusive_faction": "Illusion Veil",
+    "is_global": true
   },
   {
     "name": "Arcane Roar",
     "effect": "Upon unleashing Dragonmight, increases the allied team's Physical Defense by 33%. If a Luminary's Overdrive Energy Cost is 2 or less, also increases their Attack by 33% for 6s.",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": "Arcane Wisdom"
+    "exclusive_faction": "Arcane Wisdom",
+    "is_global": true
   },
   {
     "name": "Pactbound Roar",
     "effect": "After unleashing Dragonmight, grant yourself and the Luminary with highest Attack a Shield equal to 25.5% of max HP plus [Attack Boost] for 8 seconds.",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Pulsing Roar",
     "effect": "Upon unleashing Dragonmight, deal additional Magic Damage equal to 315% of Attack to all enemies.",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Charging Roar",
     "effect": "Upon unleashing Dragonmight, the next 2 Basic Attacks deal additional Magic Damage equal to 630% of Attack and inflict [Ignite].",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": "Elemental Echo"
+    "exclusive_faction": "Elemental Echo",
+    "is_global": true
   },
   {
     "name": "Reincarnation Roar",
     "effect": "After the dragon summoned by Dragonmight dies, it deals Magic Damage equal to 155% of its own Attack to enemy units in a large circular area and restores HP equal to 10.25% of its own max HP to allied units in a large circular area.",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": "Otherworld Return"
+    "exclusive_faction": "Otherworld Return",
+    "is_global": true
   },
   {
     "name": "Dominating Roar",
     "effect": "After Dragonmight deals Damage, reduces the target's Critical Hit by 475. If the target's Overdrive Energy Consumption is not less than 4, additionally reduces the target's Critical Resistance by 475. The effect lasts for 6s.",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": "Illusion Veil"
+    "exclusive_faction": "Illusion Veil",
+    "is_global": true
   },
   {
     "name": "Desperate Roar",
     "effect": "Upon unleashing Dragonmight, restore HP equal to 26% of max HP to the Luminary of Wyrm with lowest HP percentage, granting them [Physical Defense Up] and [Magic Defense Up].",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Soulguard Roar",
     "effect": "Upon unleashing Dragonmight, grants 2 stacks of [Deathrattle] to the 2 allied Luminaries with the highest Attack and increases their Damage Reduction by 69% for 6s.",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": "Otherworld Return"
+    "exclusive_faction": "Otherworld Return",
+    "is_global": true
   },
   {
     "name": "Vital Roar",
     "effect": "Upon unleashing Dragonmight, restore all allies' HP by an additional 25% of max HP.",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": null
+    "exclusive_faction": null,
+    "is_global": true
   },
   {
     "name": "Furious Roar",
     "effect": "When Dragonmight heals allies, restores 31% Rage.",
     "type": "Wildcry",
     "quality": "UR",
-    "exclusive_faction": "Wild Spirit"
+    "exclusive_faction": "Wild Spirit",
+    "is_global": true
   },
   {
     "name": "Rallying Roar",
     "effect": "When Dragonmight targets units with [Morale], boost their Attack by an additional 63% for 6s.",
     "type": "Wildcry",
     "quality": "SSR",
-    "exclusive_faction": "Sanctum Glory"
+    "exclusive_faction": "Sanctum Glory",
+    "is_global": true
   },
   {
     "name": "Arcane Blessing",
     "effect": "When deployed, whenever an allied Luminary uses a skill, they gain a shield equal to 100% of their Attack. This effect can stack up to 3 times and lasts 6s.",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Arcane Wisdom"
+    "exclusive_faction": "Arcane Wisdom",
+    "is_global": true
   },
   {
     "name": "Wild Medics",
     "effect": "While present, when our Luminary enters [Wild] status, it restores 40% of its maximum Health.",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Wild Spirit"
+    "exclusive_faction": "Wild Spirit",
+    "is_global": true
   },
   {
     "name": "Envigored Healing",
     "effect": "When present, if an ally Luminary gains [Morale], restores Health equal to 14% of their max Health and dispels 1 debuff.",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Sanctum Glory"
+    "exclusive_faction": "Sanctum Glory",
+    "is_global": true
   },
   {
     "name": "Ultimate Punishment",
     "effect": "While present, when our side triggers the [Punishment] effect on the enemy, it additionally deals Magic Damage equal to 740% of its Attack to the target.",
     "type": "Dragon's Call",
     "quality": "UR",
-    "exclusive_faction": "Illusion Veil"
+    "exclusive_faction": "Illusion Veil",
+    "is_global": true
   },
   {
     "name": "Prey on the Weak",
     "effect": "When present, after an ally triggers the [Punishment] effect, there is a 92% chance to apply [Physical Defense Down] or [Magic Defense Down] to the punished target (based on the attacker's attack type).",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Illusion Veil"
+    "exclusive_faction": "Illusion Veil",
+    "is_global": true
   },
   {
     "name": "Shieldborn Rebirth",
     "effect": "While present, when our summoned unit dies, provides a shield equal to 18% of its maximum HP to one random allied Luminary for 6s and grants them [Attack Boost].",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Otherworld Return"
+    "exclusive_faction": "Otherworld Return",
+    "is_global": true
   },
   {
     "name": "Radiant Smite",
     "effect": "When present, if an ally Luminary enters the [Grace] Status, increases the Overdrive Damage Boost of their next Overdrive by 93%.",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Sanctum Glory"
+    "exclusive_faction": "Sanctum Glory",
+    "is_global": true
   },
   {
     "name": "Surging Impact",
     "effect": "When present, deals additional Magic Damage equal to 76% of the target's max HP to enemies affected by [Detonation] (up to 1520% of its own Attack).",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Elemental Echo"
+    "exclusive_faction": "Elemental Echo",
+    "is_global": true
   },
   {
     "name": "Whisper of the Deathless",
     "effect": "When present, there is a 62.5% chance to summon a Whelpling at the location where an allied summon dies (up to 3 may exist at once). These Whelplings do not retrigger the effect upon death. Each inherits 40% of Attack and HP, and 100% of other stats, lasting for 12s.",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Otherworld Return"
+    "exclusive_faction": "Otherworld Return",
+    "is_global": true
   },
   {
     "name": "Arcane Frenzy",
     "effect": "While present, when our Luminary consumes [Awakening], damage dealt is increased by 47% for 3 seconds.",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Arcane Wisdom"
+    "exclusive_faction": "Arcane Wisdom",
+    "is_global": true
   },
   {
     "name": "Winter's Wrath",
     "effect": "While on the field, enemy units afflicted with [Chill] or [Flash Freeze] suffer an additional 38% reduction in Attack.",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Elemental Echo"
+    "exclusive_faction": "Elemental Echo",
+    "is_global": true
   },
   {
     "name": "Wild Advance",
     "effect": "While present, when our Luminary is in [Wild] status, additional 155% Attack Speed is increased.",
     "type": "Dragon's Call",
     "quality": "UR",
-    "exclusive_faction": "Wild Spirit"
+    "exclusive_faction": "Wild Spirit",
+    "is_global": true
   },
   {
     "name": "Graveyard Guardian",
     "effect": "While present, when our Luminary acquires [Deathrattle], it additionally provides a Shield equal to 16% of its maximum HP for 8 seconds.",
     "type": "Dragon's Call",
     "quality": "UR",
-    "exclusive_faction": "Otherworld Return"
+    "exclusive_faction": "Otherworld Return",
+    "is_global": true
   },
   {
     "name": "Summoning March",
     "effect": "While deployed, all allied summons gain 76% bonus Damage and Damage Reduction. Allied elite summons gain an additional 38% of bonus Damage and Damage Reduction.",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Otherworld Return"
+    "exclusive_faction": "Otherworld Return",
+    "is_global": true
   },
   {
     "name": "Blessing of Grace",
     "effect": "When present, increases 41.5% Attack and dual defenses for our Luminaries in [Grace] Status.",
     "type": "Dragon's Call",
     "quality": "UR",
-    "exclusive_faction": "Sanctum Glory"
+    "exclusive_faction": "Sanctum Glory",
+    "is_global": true
   },
   {
     "name": "Efficiency Mastery",
     "effect": "When present, if an ally Luminary uses an Overdrive with Energy Consumption lower than the original, increases the Overdrive damage of this skill by 127.5%.",
     "type": "Dragon's Call",
     "quality": "UR",
-    "exclusive_faction": "Arcane Wisdom"
+    "exclusive_faction": "Arcane Wisdom",
+    "is_global": true
   },
   {
     "name": "Costly Bane",
     "effect": "When present, if an enemy Luminary uses an Overdrive with Energy Consumption higher than the original, reduces Overdrive Damage Boost by 62.5%.",
     "type": "Dragon's Call",
     "quality": "SSR",
-    "exclusive_faction": "Illusion Veil"
+    "exclusive_faction": "Illusion Veil",
+    "is_global": true
   },
   {
     "name": "Scorching Devastation",
     "effect": "When present, reduces enemy units' 62% Damage Reduction when they are in [Ignite] or [Evaporation] Status.",
     "type": "Dragon's Call",
     "quality": "UR",
-    "exclusive_faction": "Elemental Echo"
+    "exclusive_faction": "Elemental Echo",
+    "is_global": true
   }
 ]

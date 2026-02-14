@@ -7,4 +7,5 @@ export interface Wyrmspell {
   type: string;
   quality: Quality;
   exclusive_faction: FactionName | null;
+  is_global: boolean;
 }

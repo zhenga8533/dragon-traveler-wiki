@@ -268,6 +268,7 @@ def export_wyrmspells(data, output_dir=None):
             "type": w.get("type") or "",
             "quality": w.get("quality") or "",
             "exclusive_faction": w.get("exclusive_faction") or None,
+            "is_global": bool(int(w.get("is_global", 0))),
         }
         for w in data["wyrmspells"]
     ]

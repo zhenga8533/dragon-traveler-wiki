@@ -155,6 +155,12 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
                 "ALTER TABLE wyrmspells ADD COLUMN exclusive_faction varchar(100) NULL AFTER quality;",
                 dry_run=dry_run,
             )
+        if "is_global" not in wyrmspell_columns:
+            print("  Adding wyrmspells.is_global column")
+            dolt_sql(
+                "ALTER TABLE wyrmspells ADD COLUMN is_global tinyint(1) NOT NULL DEFAULT 0 AFTER exclusive_faction;",
+                dry_run=dry_run,
+            )
 
     if "code_rewards" not in existing_tables:
         return
@@ -374,9 +380,10 @@ def sync_wyrmspells(data, batch):
             continue
         w_id += 1
         batch.add(
-            f"INSERT INTO wyrmspells (id, name, effect, type, quality, exclusive_faction) VALUES "
+            f"INSERT INTO wyrmspells (id, name, effect, type, quality, exclusive_faction, is_global) VALUES "
             f"({w_id}, {escape_sql(w['name'])}, {escape_sql(w.get('effect'))}, {escape_sql(w.get('type'))}, "
-            f"{escape_sql(w.get('quality'))}, {escape_sql(w.get('exclusive_faction'))});"
+            f"{escape_sql(w.get('quality'))}, {escape_sql(w.get('exclusive_faction'))}, "
+            f"{'TRUE' if w.get('is_global') else 'FALSE'});"
         )
     print(f"  Synced {w_id} wyrmspells")
 
