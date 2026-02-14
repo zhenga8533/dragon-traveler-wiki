@@ -37,9 +37,6 @@ RESOURCE_CATEGORY_RANK = {c: i for i, c in enumerate(RESOURCE_CATEGORY_ORDER)}
 TIER_ORDER = ["S+", "S", "A", "B", "C", "D"]
 TIER_RANK = {t: i for i, t in enumerate(TIER_ORDER)}
 
-CLASS_ORDER = ["Guardian", "Priest", "Assassin", "Warrior", "Archer", "Mage"]
-CLASS_RANK = {c: i for i, c in enumerate(CLASS_ORDER)}
-
 _FALLBACK = 999  # for unknown values
 
 # All queries needed, keyed by name. Executed in a single dolt process.
@@ -278,7 +275,6 @@ def export_characters(data, output_dir=None):
         )
 
     result.sort(key=lambda c: (
-        CLASS_RANK.get(c["character_class"], _FALLBACK),
         QUALITY_RANK.get(c["quality"], _FALLBACK),
         c["name"].lower(),
     ))

@@ -4,300 +4,300 @@
     "type": "Buff",
     "effect": "Increases Attack by 30%. Lasts 8 seconds.",
     "remark": "Does not stack with [Significant Attack Boost].",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Attack Speed Boost",
     "type": "Buff",
     "effect": "Increases attack speed by 45%. Lasts 8 seconds.",
     "remark": "Does not stack with [Significant Attack Speed Boost].",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Crit Damage Up",
     "type": "Buff",
     "effect": "Increases critical damage by 45%. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Crit Up",
     "type": "Buff",
     "effect": "Increases Crit by 600. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Damage Boost",
     "type": "Buff",
     "effect": "Increases damage dealt by 30%. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Flame Armor",
     "type": "Buff",
     "effect": "Increases Physical Defense by 30%. Lasts until the end of the battle.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Lifesteal",
     "type": "Buff",
     "effect": "Increases Lifesteal by 30%. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Magic Defense Up",
     "type": "Buff",
     "effect": "Increases Magic Defense by 35%. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Physical Defense Up",
     "type": "Buff",
     "effect": "Increases Physical Defense by 35%. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Significant Attack Boost",
     "type": "Buff",
     "effect": "Increases Attack by 45%. Lasts 8 seconds.",
     "remark": "Does not stack with [Attack Boost].",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Attack Down",
     "type": "Debuff",
     "effect": "Reduces Attack by 30%. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Attack Speed Down",
     "type": "Debuff",
     "effect": "Reduces Attack Speed by 45%. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Crit Down",
     "type": "Debuff",
     "effect": "Reduces Crit by 600. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Damage Reduction Down",
     "type": "Debuff",
     "effect": "Reduces Damage Reduction by 30%. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Heal Block",
     "type": "Debuff",
     "effect": "Reduces healing received by 100%. Lasts 8 seconds.",
     "remark": "Doesn't stack with [Healing Down].",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Healing Down",
     "type": "Debuff",
     "effect": "Reduces healing received by 50%. Lasts 8 seconds.",
     "remark": "Doesn't stack with [Heal Block].",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Magic Defense Down",
     "type": "Debuff",
     "effect": "Reduces Magic Defense by 35%. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Physical Defense Down",
     "type": "Debuff",
     "effect": "Reduces Physical Defense by 35%. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Stat Debuff",
     "type": "Debuff",
     "effect": "Includes Attack Down, Bonus Damage Down, Damage Reduction Down, Physical Defense Down, Magic Defense Down, Attack Speed Down, Crit Down, and Crit Damage Down.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Adrenaline",
     "type": "Special",
     "effect": "Increases Attack by 20%. Additional Lasts 8 seconds.",
     "remark": "Increases Attack by an additional 20% while in the [Wild] status.",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Awakening",
     "type": "Special",
     "effect": "Special Arcane Wisdom faction status. Lasts until the end of the battle.",
     "remark": "Gained when any ally Luminary unleashes an Overdrive.\nCan stack up to 9 times.",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Deathrattle",
     "type": "Special",
     "effect": "Special Otherworld Return faction status. Lasts until the end of the battle.",
     "remark": "Each time this status is gained, it restores 2% of Max HP. Can stack up to 30 times.",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Elemental Reaction",
     "type": "Special",
     "effect": "Elemental Echo faction special effect.",
     "remark": "Includes [Detonation], [Evaporation], and [Flash Freeze].\n[Ignite] and [Shock] can trigger [Detonation].\n[Chill] and [Ignite] can trigger [Evaporation].\n[Shock] and [Chill] can trigger [Flash Freeze].",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Punishment",
     "type": "Special",
     "effect": "Illusion Veil faction special effect.",
     "remark": "Automatically triggers when a skill that can activate Punishment targets a Luminary with an Overdrive Energy cost of at least 4.",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Wild",
     "type": "Special",
     "effect": "Special Wild Spirit faction status.",
     "remark": "This status continuously consumes Rage.\nThis status ends when Rage is depleted.",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Petrify",
     "type": "Control",
     "effect": "Cannot take action. Unable to move, attack, or cast skills.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Silence",
     "type": "Control",
     "effect": "Cannot cast active skills.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Stun",
     "type": "Control",
     "effect": "Unable to move, attack, or cast skills.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Taunt",
     "type": "Control",
     "effect": "Forces the target to attack themselves and prevents them from using active skills.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Time Stasis",
     "type": "Control",
     "effect": "Cannot take action. Unable to move, attack, or cast skills.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Basic Elemental Debuff",
     "type": "Elemental",
     "effect": "Includes [Ignite], [Chill], and [Shock].",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Chill",
     "type": "Elemental",
     "effect": "Reduces healing effects by 15%. Lasts 10 seconds.",
     "remark": "Triggers [Evaporation] when the target is afflicted with [Ignite].\nTriggers [Flash Freeze] when the target is afflicted with [Shock].",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Elemental Debuff",
     "type": "Elemental",
     "effect": "Advanced Elemental Debuffs: [Evaporation] and [Flash Freeze].\nBasic Elemental Debuffs: [Ignite], [Chill], and [Shock].",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Ignite",
     "type": "Elemental",
     "effect": "Deals magic damage equal to 3% of the target's Max HP every 2 seconds. Lasts 10 seconds.",
     "remark": "Each instance of damage cannot exceed 100% of Attack.\nTriggers [Detonation] when the target is afflicted with [Shock].\nTriggers [Evaporation] when the target is afflicted with [Chill].",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Shock",
     "type": "Elemental",
     "effect": "Elemental debuff. Reduces Crit Resist by 200. Lasts 10 seconds.",
     "remark": "Triggers [Detonation] when the target is afflicted with [Ignite].\nTriggers [Flash Freeze] when the target is afflicted with [Chill].",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Shock",
     "type": "Elemental",
     "effect": "Reduces Crit Resist by 200. Lasts 10 seconds.",
     "remark": "Triggers [Detonation] when the target is afflicted with [Ignite].\nTriggers [Flash Freeze] when the target is afflicted with [Chill].",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Blessing Buff",
     "type": "Blessing",
     "effect": "Includes [Morale] and [Fervor].",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Fervor",
     "type": "Blessing",
     "effect": "Increases Physical Defense, Magic Defense, and Bonys Damage by 15%. Lasts 8 seconds.",
     "remark": "This effect is doubled while in the [Grace] status.",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Grace",
     "type": "Blessing",
     "effect": "Special Sanctum Glory faction status. Lasts until the end of the battle.",
     "remark": "While in this status, [Morale] and [Fervor] effects are doubled.",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Morale",
     "type": "Blessing",
     "effect": "Increases Attack and Damage Reduction by 15%. Lasts 8 seconds.",
     "remark": "This effect is doubled while in the [Grace] status.",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Balance",
     "type": "Exclusive",
     "effect": "Increases Damage Reduction.",
     "remark": "Can stack up to 3 times.\nDecreases by 1 stack every 6 seconds.",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Radiant Ember",
     "type": "Exclusive",
     "effect": "Lasts until the end of battle. Stacks up to 3 times.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   },
   {
     "name": "Sanctuary",
     "type": "Exclusive",
     "effect": "Grants immunity to stat debuffs and elemental debuffs while active. Duration increases with [Radiant Sanctuary] level.",
     "remark": "",
-    "last_updated": 1771086838
+    "last_updated": 1771086904
   }
 ]

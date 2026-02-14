@@ -22,6 +22,7 @@ import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import { QUALITY_ORDER } from '../constants/colors';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
@@ -140,9 +141,14 @@ export default function Wyrmspells() {
         }
         return true;
       })
-      .sort(
-        (a, b) => a.type.localeCompare(b.type) || a.name.localeCompare(b.name)
-      );
+      .sort((a, b) => {
+        const typeCmp = a.type.localeCompare(b.type);
+        if (typeCmp !== 0) return typeCmp;
+        const qA = QUALITY_ORDER.indexOf(a.quality);
+        const qB = QUALITY_ORDER.indexOf(b.quality);
+        if (qA !== qB) return (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
+        return a.name.localeCompare(b.name);
+      });
   }, [wyrmspells, filters]);
 
   const mostRecentUpdate = useMemo(() => {
