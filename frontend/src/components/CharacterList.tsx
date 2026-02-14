@@ -190,8 +190,8 @@ export default function CharacterList({
                         <Image
                           src={QUALITY_ICON_MAP[char.quality]}
                           alt={char.quality}
-                          w={24}
-                          h={24}
+                          h={20}
+                          w="auto"
                           fit="contain"
                         />
                       </Tooltip>
