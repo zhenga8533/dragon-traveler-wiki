@@ -1,5 +1,6 @@
 // Constants exports for cleaner imports
 export {
+  CLASS_ORDER,
   FACTION_COLOR,
   QUALITY_COLOR,
   QUALITY_ORDER,

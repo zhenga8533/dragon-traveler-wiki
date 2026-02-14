@@ -1,8 +1,17 @@
-import type { Quality } from '../types/character';
+import type { CharacterClass, Quality } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { ResourceCategory } from '../types/resource';
 import type { StatusEffectType } from '../types/status-effect';
 import type { Tier } from '../types/tier-list';
+
+export const CLASS_ORDER: CharacterClass[] = [
+  'Guardian',
+  'Priest',
+  'Assassin',
+  'Warrior',
+  'Archer',
+  'Mage',
+];
 
 export const QUALITY_ORDER: Quality[] = [
   'UR',
