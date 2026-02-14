@@ -26,6 +26,7 @@ import { STORAGE_KEY } from '../constants/ui';
 import { ResourcesContext } from '../contexts';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import type { ResourceCategory } from '../types/resource';
+import LastUpdated from '../components/LastUpdated';
 
 const RESOURCE_FIELDS: FieldDef[] = [
   {
@@ -106,6 +107,14 @@ export default function Resources() {
       });
   }, [resources, filters]);
 
+  const mostRecentUpdate = useMemo(() => {
+    let latest = 0;
+    for (const r of resources) {
+      if (r.last_updated > latest) latest = r.last_updated;
+    }
+    return latest;
+  }, [resources]);
+
   const activeFilterCount =
     (filters.search ? 1 : 0) + filters.categories.length;
 
@@ -113,7 +122,10 @@ export default function Resources() {
     <Container size="md" py="xl">
       <Stack gap="md">
         <Group justify="space-between" align="center">
-          <Title order={1}>Resources</Title>
+          <Group gap="sm" align="baseline">
+            <Title order={1}>Resources</Title>
+            <LastUpdated timestamp={mostRecentUpdate} />
+          </Group>
           <SuggestModal
             buttonLabel="Suggest a Resource"
             modalTitle="Suggest a New Resource"

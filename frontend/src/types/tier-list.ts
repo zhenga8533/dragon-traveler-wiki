@@ -12,4 +12,5 @@ export interface TierList {
   content_type: string;
   description: string;
   entries: TierEntry[];
+  last_updated: number;
 }

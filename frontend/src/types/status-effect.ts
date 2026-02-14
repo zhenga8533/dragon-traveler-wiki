@@ -12,4 +12,5 @@ export interface StatusEffect {
   type: StatusEffectType;
   effect: string;
   remark: string;
+  last_updated: number;
 }

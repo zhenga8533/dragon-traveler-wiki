@@ -31,6 +31,7 @@ import { useFilters } from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
 import { sortCharactersByQualityName } from '../utils/filter-characters';
+import LastUpdated from '../components/LastUpdated';
 
 const TIER_LIST_FIELDS: FieldDef[] = [
   {
@@ -134,6 +135,14 @@ export default function TierList() {
   const activeFilterCount =
     mode === 'view' ? viewFilters.contentTypes.length : 0;
 
+  const mostRecentUpdate = useMemo(() => {
+    let latest = 0;
+    for (const tl of tierLists) {
+      if (tl.last_updated > latest) latest = tl.last_updated;
+    }
+    return latest;
+  }, [tierLists]);
+
   const visibleTierLists = useMemo(() => {
     if (viewFilters.contentTypes.length === 0) return tierLists;
     return tierLists.filter((tl) =>
@@ -145,7 +154,10 @@ export default function TierList() {
     <Container size="lg" py="xl">
       <Stack gap="md">
         <Group justify="space-between" align="center">
-          <Title order={1}>Tier List</Title>
+          <Group gap="sm" align="baseline">
+            <Title order={1}>Tier List</Title>
+            <LastUpdated timestamp={mostRecentUpdate} />
+          </Group>
           <Group gap="xs">
             <SuggestModal
               buttonLabel="Suggest a Tier List"

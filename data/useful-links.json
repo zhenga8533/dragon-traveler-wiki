@@ -4,27 +4,31 @@
     "application": "Discord",
     "name": "Dragon Traveler Official Discord",
     "description": "Official Discord — announcements, codes, and community.",
-    "link": "https://discord.gg/m4EUe9kUqH"
+    "link": "https://discord.gg/m4EUe9kUqH",
+    "last_updated": 1771086838
   },
   {
     "icon": "wiki",
     "application": "GameKee",
     "name": "Dragon Traveler GameKee Wiki",
     "description": "Taiwanese reference (龙魂旅人) used for character data on this site.",
-    "link": "https://www.gamekee.com/lhlr/"
+    "link": "https://www.gamekee.com/lhlr/",
+    "last_updated": 1771086838
   },
   {
     "icon": "spreadsheet",
     "application": "Spreadsheet",
     "name": "Dragon Traveler Guide",
     "description": "Comprehensive guides, tier lists, and data by @Dag007.",
-    "link": "https://docs.google.com/spreadsheets/d/1zVfA12xnQ3BN_cEQO3qKlbwQd2gEMo8Xtx00Y_KX2ys/edit?gid=142218966#gid=142218966"
+    "link": "https://docs.google.com/spreadsheets/d/1zVfA12xnQ3BN_cEQO3qKlbwQd2gEMo8Xtx00Y_KX2ys/edit?gid=142218966#gid=142218966",
+    "last_updated": 1771086838
   },
   {
     "icon": "spreadsheet",
     "application": "Spreadsheet",
     "name": "Stexy's Database",
     "description": "Early game reference sheet and F2P tier list by _stexy_.",
-    "link": "https://docs.google.com/spreadsheets/d/1nOy3Bsg8xlcE001vepKjhFIJ3yGupqX1L9gNF3Q15Ew/edit?gid=1888656368#gid=1888656368"
+    "link": "https://docs.google.com/spreadsheets/d/1nOy3Bsg8xlcE001vepKjhFIJ3yGupqX1L9gNF3Q15Ew/edit?gid=1888656368#gid=1888656368",
+    "last_updated": 1771086838
   }
 ]

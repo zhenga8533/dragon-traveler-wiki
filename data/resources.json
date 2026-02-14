@@ -2,181 +2,217 @@
   {
     "name": "Arena Coins",
     "description": "Arena Currency is awarded to honor participants and is exchangeable for rare resources in the Arena Store.",
-    "category": "Currency"
+    "category": "Currency",
+    "last_updated": 1771086838
   },
   {
     "name": "Diamond",
     "description": "A valuable currency that circulates throughout Phantasia Mountain, offering many unique items.",
-    "category": "Currency"
+    "category": "Currency",
+    "last_updated": 1771086838
   },
   {
     "name": "Divine Coin",
     "description": "A peculiar Currency scattered throughout the Rift of the Divine Realm that's exchangeable for rare resources at the Divine Realm Store",
-    "category": "Currency"
+    "category": "Currency",
+    "last_updated": 1771086838
   },
   {
     "name": "Dragonbreath Seed",
     "description": "A dragon seed containing dormant power - while its radiance may be dim now, it shall regain its brilliance one day. Exchange it at the Magic Store for rare resources.",
-    "category": "Currency"
+    "category": "Currency",
+    "last_updated": 1771086838
   },
   {
     "name": "Forging Commermorative Coin",
     "description": "Obtained from Champion Expedition or by dismantling UR equipment. Use at the Gear Store to exchange for rare items.",
-    "category": "Currency"
+    "category": "Currency",
+    "last_updated": 1771086838
   },
   {
     "name": "Friendship Points",
     "description": "A testament to the friendship between adventure partners. Can be used to exchange for rare items in the Friendship Store.",
-    "category": "Currency"
+    "category": "Currency",
+    "last_updated": 1771086838
   },
   {
     "name": "Gold",
     "description": "The most common form of currency on Phantasia Mountain.",
-    "category": "Currency"
+    "category": "Currency",
+    "last_updated": 1771086838
   },
   {
     "name": "Guild Coin",
     "description": "Guild Currency that's exchangeable for rare resources at the Guild Store.",
-    "category": "Currency"
+    "category": "Currency",
+    "last_updated": 1771086838
   },
   {
     "name": "Slime Goo",
     "description": "Slime goo clinging to Luminaries Obtained by dismantling N Luminaries, and can be exchanged for various rare resources.",
-    "category": "Currency"
+    "category": "Currency",
+    "last_updated": 1771086838
   },
   {
     "name": "Treasure Essence",
     "description": "Obtained through Treasure Dismantling. Exchange for treasures at the Treasure Store.",
-    "category": "Currency"
+    "category": "Currency",
+    "last_updated": 1771086838
   },
   {
     "name": "Apple",
     "description": "",
-    "category": "Gift"
+    "category": "Gift",
+    "last_updated": 1771086838
   },
   {
     "name": "Banquet Cake",
     "description": "",
-    "category": "Gift"
+    "category": "Gift",
+    "last_updated": 1771086838
   },
   {
     "name": "Grilled Steak",
     "description": "",
-    "category": "Gift"
+    "category": "Gift",
+    "last_updated": 1771086838
   },
   {
     "name": "Exploration Guide",
     "description": "Using this in Champion Expedition grants 3 Veteran Emblems.",
-    "category": "Item"
+    "category": "Item",
+    "last_updated": 1771086838
   },
   {
     "name": "Aurora Crystal",
     "description": "Contains immense Energy from the origin of life. An Advanced Material for Artifact Advancement.",
-    "category": "Material"
+    "category": "Material",
+    "last_updated": 1771086838
   },
   {
     "name": "Aurora Dust",
     "description": "Crystal dust, the product of years of alchemical refinement. A Common Material use for Treasure Advancement.",
-    "category": "Material"
+    "category": "Material",
+    "last_updated": 1771086838
   },
   {
     "name": "Dragonblood",
     "description": "The rare blood of ancient dragons. Can be used in Wyrm Star Upgrade.",
-    "category": "Material"
+    "category": "Material",
+    "last_updated": 1771086838
   },
   {
     "name": "Leaf of the World Tree",
     "description": "The sacred leaf veins contain ancient magical imprints. Used for Wyrm Ascend Tier advancement.",
-    "category": "Material"
+    "category": "Material",
+    "last_updated": 1771086838
   },
   {
     "name": "Luminary EXP",
     "description": "Essence crystallized from traces of Luminaries, used to increase a Luminary's Level.",
-    "category": "Material"
+    "category": "Material",
+    "last_updated": 1771086838
   },
   {
     "name": "Primal Amber",
     "description": "An amber crystal containing ancient Luminary memories. Unlocks advanced classes.",
-    "category": "Material"
+    "category": "Material",
+    "last_updated": 1771086838
   },
   {
     "name": "Wyrm Essence",
     "description": "The Essence crystallized from an Ancient Wyrm's condensed power serves as an advanced material for Luminary breakthroughs.",
-    "category": "Material"
+    "category": "Material",
+    "last_updated": 1771086838
   },
   {
     "name": "Fate Elixir",
     "description": "A legendary alchemical potion said to reshape the very essence of matter. Those who find it can change the world. Can be used for Howlkin Refinement.",
-    "category": "Summoning"
+    "category": "Summoning",
+    "last_updated": 1771086838
   },
   {
     "name": "Fate Horn",
     "description": "A fated horn that can awaken the World Serpent. Can be used in Limited Time Offer Treasure Hunts.",
-    "category": "Summoning"
+    "category": "Summoning",
+    "last_updated": 1771086838
   },
   {
     "name": "Fated Dragon Crystal",
     "description": "An azure crystal containing the Memory of an ancient Wyrm. Upon activation, it grants powerful Wyrmspells. Can be used in Magic Limited Summoning.",
-    "category": "Summoning"
+    "category": "Summoning",
+    "last_updated": 1771086838
   },
   {
     "name": "Fated Summoning Ticket",
     "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Limited Summons.",
-    "category": "Summoning"
+    "category": "Summoning",
+    "last_updated": 1771086838
   },
   {
     "name": "Golden Horn",
     "description": "A golden horn that can awaken the World Serpent. Can be used in Treasure Hunts.",
-    "category": "Summoning"
+    "category": "Summoning",
+    "last_updated": 1771086838
   },
   {
     "name": "Legacy Dragon Crystal",
     "description": "An azure crystal containing the Memory of an ancient Wyrm. Upon activation, it unlocks powerful Wyrmspells. Can be used in Magic Summoning.",
-    "category": "Summoning"
+    "category": "Summoning",
+    "last_updated": 1771086838
   },
   {
     "name": "Mercury Potion",
     "description": "A mercury potion extracted through alchemy that emits a faint azure glow. Can be used for Howlkin Refinement.",
-    "category": "Summoning"
+    "category": "Summoning",
+    "last_updated": 1771086838
   },
   {
     "name": "Mythic Summoning Ticket",
     "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Mythical Summons.",
-    "category": "Summoning"
+    "category": "Summoning",
+    "last_updated": 1771086838
   },
   {
     "name": "Soul Elixir",
     "description": "Soul essence extracted from pure souls. Regarded across the land as a forbidden alchemical potion. Can be used for Howlkin Refinement.",
-    "category": "Summoning"
+    "category": "Summoning",
+    "last_updated": 1771086838
   },
   {
     "name": "Summoning Ticket",
     "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Luminary Summons.",
-    "category": "Summoning"
+    "category": "Summoning",
+    "last_updated": 1771086838
   },
   {
     "name": "5-Star Luminary Shards",
     "description": "Collect 60 Shards to summon an SSR or SSR+ Luminary.",
-    "category": "Shard"
+    "category": "Shard",
+    "last_updated": 1771086838
   },
   {
     "name": "R Luminary Shards",
     "description": "Collect 60 Shards to summon an R Luminary.",
-    "category": "Shard"
+    "category": "Shard",
+    "last_updated": 1771086838
   },
   {
     "name": "Rune Shards",
     "description": "Can be exchanged for any Class or Faction Oath Rune at a ratio of 5 to 1.",
-    "category": "Shard"
+    "category": "Shard",
+    "last_updated": 1771086838
   },
   {
     "name": "SR Luminary Shards",
     "description": "Collect 60 Shards to summon an SR Luminary.",
-    "category": "Shard"
+    "category": "Shard",
+    "last_updated": 1771086838
   },
   {
     "name": "SSR Luminary Shards",
     "description": "Collect 60 Shards to summon an SSR Luminary.",
-    "category": "Shard"
+    "category": "Shard",
+    "last_updated": 1771086838
   }
 ]

@@ -9,10 +9,12 @@ Usage:
 
 import argparse
 import csv
+import hashlib
 import io
 import json
 import subprocess
 import sys
+import time
 from datetime import datetime
 from pathlib import Path
 
@@ -98,6 +100,15 @@ def get_table_columns(table_name):
     return {row.get("Field") for row in rows if row.get("Field")}
 
 
+def get_column_type(table_name, column_name):
+    """Return the type string for a column, or None if it doesn't exist."""
+    rows = dolt_sql_csv(f"DESCRIBE `{table_name}`;")
+    for row in rows:
+        if row.get("Field") == column_name:
+            return row.get("Type", "")
+    return None
+
+
 def build_resource_id_map(resources):
     """Build deterministic resource name -> id mapping matching sync_resources insert order."""
     mapping = {}
@@ -111,8 +122,71 @@ def build_resource_id_map(resources):
     return mapping
 
 
+def compute_hash(entity):
+    """Compute SHA-256 hash of a JSON entity for change detection."""
+    serialized = json.dumps(entity, sort_keys=True, ensure_ascii=False)
+    return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
+
+
+def get_old_timestamps(table, key_column):
+    """Query existing last_updated and data_hash from a table, keyed by natural key."""
+    try:
+        rows = dolt_sql_csv(
+            f"SELECT `{key_column}`, last_updated, data_hash FROM `{table}`;"
+        )
+    except SyncError:
+        return {}
+    result = {}
+    for row in rows:
+        key = row.get(key_column)
+        if key:
+            result[key] = (row.get("last_updated", ""), row.get("data_hash", ""))
+    return result
+
+
+# Tables that need last_updated and data_hash columns.
+TIMESTAMP_TABLES = [
+    "factions",
+    "characters",
+    "wyrmspells",
+    "resources",
+    "codes",
+    "status_effects",
+    "tier_lists",
+    "teams",
+    "useful_links",
+    "changelog",
+]
+
+
 def ensure_schema_extensions(existing_tables, dry_run=False):
     """Ensure optional schema pieces exist for resources + normalized code rewards."""
+    # Add last_updated and data_hash columns to main entity tables.
+    for table in TIMESTAMP_TABLES:
+        if table not in existing_tables:
+            continue
+        columns = get_table_columns(table)
+        if "last_updated" not in columns:
+            print(f"  Adding {table}.last_updated column")
+            dolt_sql(
+                f"ALTER TABLE `{table}` ADD COLUMN last_updated BIGINT NULL;",
+                dry_run=dry_run,
+            )
+        else:
+            col_type = get_column_type(table, "last_updated")
+            if col_type and "bigint" not in col_type.lower():
+                print(f"  Migrating {table}.last_updated from {col_type} to BIGINT")
+                dolt_sql(
+                    f"ALTER TABLE `{table}` MODIFY COLUMN last_updated BIGINT NULL;",
+                    dry_run=dry_run,
+                )
+        if "data_hash" not in columns:
+            print(f"  Adding {table}.data_hash column")
+            dolt_sql(
+                f"ALTER TABLE `{table}` ADD COLUMN data_hash VARCHAR(64) NULL;",
+                dry_run=dry_run,
+            )
+
     if "resources" not in existing_tables:
         print("  Creating missing resources table")
         dolt_sql(
@@ -122,6 +196,8 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
               name varchar(100) NOT NULL,
               description text,
               category varchar(50) NOT NULL DEFAULT '',
+              last_updated BIGINT NULL,
+              data_hash VARCHAR(64) NULL,
               PRIMARY KEY (id),
               UNIQUE KEY name (name)
             ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
@@ -274,28 +350,41 @@ def load_json(filename):
         return json.load(f)
 
 
+def resolve_timestamp(key, new_hash, old_timestamps, now):
+    """Return the appropriate last_updated value for a row based on hash comparison."""
+    old = old_timestamps.get(key)
+    if old and old[1] == new_hash and old[0]:
+        return old[0]
+    return now
+
+
 # ---------------------------------------------------------------------------
 # Sync functions
 # ---------------------------------------------------------------------------
 
 
-def sync_factions(data, batch):
+def sync_factions(data, batch, now):
     """Sync factions.json -> factions table."""
+    old_ts = get_old_timestamps("factions", "name")
     batch.add("DELETE FROM character_factions;")
     batch.add("DELETE FROM factions;")
     for i, f in enumerate(data, 1):
         if not f.get("name"):
             continue
+        h = compute_hash(f)
+        ts = resolve_timestamp(f["name"], h, old_ts, now)
         batch.add(
-            f"INSERT INTO factions (id, name, wyrm, description) VALUES "
-            f"({i}, {escape_sql(f['name'])}, {escape_sql(f.get('wyrm'))}, {escape_sql(f.get('description'))});"
+            f"INSERT INTO factions (id, name, wyrm, description, last_updated, data_hash) VALUES "
+            f"({i}, {escape_sql(f['name'])}, {escape_sql(f.get('wyrm'))}, {escape_sql(f.get('description'))}, "
+            f"{escape_sql(ts)}, {escape_sql(h)});"
         )
     count = len([f for f in data if f.get("name")])
     print(f"  Synced {count} factions")
 
 
-def sync_characters(data, factions, batch):
+def sync_characters(data, factions, batch, now):
     """Sync characters.json -> characters + related tables."""
+    old_ts = get_old_timestamps("characters", "name")
     for table in [
         "skills",
         "talent_levels",
@@ -321,16 +410,20 @@ def sync_characters(data, factions, batch):
             continue
         char_id += 1
 
+        h = compute_hash(c)
+        ts = resolve_timestamp(c["name"], h, old_ts, now)
+
         talent_name = c.get("talent", {}).get("name", "") if c.get("talent") else ""
         batch.add(
             f"INSERT INTO characters (id, name, title, quality, character_class, is_global, "
-            f"height, weight, origin, lore, quote, talent_name, noble_phantasm) VALUES "
+            f"height, weight, origin, lore, quote, talent_name, noble_phantasm, last_updated, data_hash) VALUES "
             f"({char_id}, {escape_sql(c['name'])}, {escape_sql(c.get('title'))}, "
             f"{escape_sql(c.get('quality'))}, {escape_sql(c.get('character_class'))}, "
             f"{escape_sql(c.get('is_global', True))}, {escape_sql(c.get('height'))}, "
             f"{escape_sql(c.get('weight'))}, {escape_sql(c.get('origin'))}, "
             f"{escape_sql(c.get('lore'))}, {escape_sql(c.get('quote'))}, "
-            f"{escape_sql(talent_name)}, {escape_sql(c.get('noble_phantasm'))});"
+            f"{escape_sql(talent_name)}, {escape_sql(c.get('noble_phantasm'))}, "
+            f"{escape_sql(ts)}, {escape_sql(h)});"
         )
 
         for sc in c.get("subclasses", []):
@@ -370,8 +463,9 @@ def sync_characters(data, factions, batch):
     print(f"  Synced {char_id} characters")
 
 
-def sync_wyrmspells(data, batch):
+def sync_wyrmspells(data, batch, now):
     """Sync wyrmspells.json -> wyrmspells table."""
+    old_ts = get_old_timestamps("wyrmspells", "name")
     batch.add("DELETE FROM wyrmspells;")
     batch.add("ALTER TABLE wyrmspells AUTO_INCREMENT = 1;")
     w_id = 0
@@ -379,20 +473,24 @@ def sync_wyrmspells(data, batch):
         if not w.get("name"):
             continue
         w_id += 1
+        h = compute_hash(w)
+        ts = resolve_timestamp(w["name"], h, old_ts, now)
         batch.add(
-            f"INSERT INTO wyrmspells (id, name, effect, type, quality, exclusive_faction, is_global) VALUES "
+            f"INSERT INTO wyrmspells (id, name, effect, type, quality, exclusive_faction, is_global, last_updated, data_hash) VALUES "
             f"({w_id}, {escape_sql(w['name'])}, {escape_sql(w.get('effect'))}, {escape_sql(w.get('type'))}, "
             f"{escape_sql(w.get('quality'))}, {escape_sql(w.get('exclusive_faction'))}, "
-            f"{'TRUE' if w.get('is_global') else 'FALSE'});"
+            f"{'TRUE' if w.get('is_global') else 'FALSE'}, {escape_sql(ts)}, {escape_sql(h)});"
         )
     print(f"  Synced {w_id} wyrmspells")
 
 
-def sync_resources(data, batch, existing_tables):
+def sync_resources(data, batch, existing_tables, now):
     """Sync resources.json -> resources table."""
     if "resources" not in existing_tables:
         print("  Skipping resources (table not found in Dolt schema)")
         return
+
+    old_ts = get_old_timestamps("resources", "name")
 
     # code_rewards.resource_id -> resources.id FK requires child rows to be removed first.
     # NOTE: sync_codes also deletes code_rewards; the duplicate DELETE is harmless.
@@ -409,18 +507,23 @@ def sync_resources(data, batch, existing_tables):
         if not r.get("name"):
             continue
         r_id += 1
+        h = compute_hash(r)
+        ts = resolve_timestamp(r["name"], h, old_ts, now)
         batch.add(
-            f"INSERT INTO resources (id, name, description, category) VALUES "
-            f"({r_id}, {escape_sql(r['name'])}, {escape_sql(r.get('description', ''))}, {escape_sql(r.get('category', ''))});"
+            f"INSERT INTO resources (id, name, description, category, last_updated, data_hash) VALUES "
+            f"({r_id}, {escape_sql(r['name'])}, {escape_sql(r.get('description', ''))}, "
+            f"{escape_sql(r.get('category', ''))}, {escape_sql(ts)}, {escape_sql(h)});"
         )
     print(f"  Synced {r_id} resources")
 
 
-def sync_codes(data, batch, existing_tables, resource_ids):
+def sync_codes(data, batch, existing_tables, resource_ids, now):
     """Sync codes.json -> codes (+ code_rewards when table exists)."""
     if "codes" not in existing_tables:
         print("  Skipping codes (table not found in Dolt schema)")
         return
+
+    old_ts = get_old_timestamps("codes", "code")
 
     has_code_rewards = "code_rewards" in existing_tables
     code_reward_columns = (
@@ -448,9 +551,13 @@ def sync_codes(data, batch, existing_tables, resource_ids):
         if not isinstance(rewards, list):
             rewards = []
 
+        h = compute_hash(c)
+        ts = resolve_timestamp(c["code"], h, old_ts, now)
+
         batch.add(
-            f"INSERT INTO codes (id, code, active) VALUES "
-            f"({c_id}, {escape_sql(c['code'])}, {escape_sql(c.get('active', True))});"
+            f"INSERT INTO codes (id, code, active, last_updated, data_hash) VALUES "
+            f"({c_id}, {escape_sql(c['code'])}, {escape_sql(c.get('active', True))}, "
+            f"{escape_sql(ts)}, {escape_sql(h)});"
         )
 
         for reward in rewards:
@@ -481,8 +588,9 @@ def sync_codes(data, batch, existing_tables, resource_ids):
         print(f"  Synced {c_id} codes (no code_rewards table; rewards ignored)")
 
 
-def sync_status_effects(data, batch):
+def sync_status_effects(data, batch, now):
     """Sync status-effects.json -> status_effects table."""
+    old_ts = get_old_timestamps("status_effects", "name")
     batch.add("DELETE FROM status_effects;")
     batch.add("ALTER TABLE status_effects AUTO_INCREMENT = 1;")
     se_id = 0
@@ -490,16 +598,20 @@ def sync_status_effects(data, batch):
         if not se.get("name"):
             continue
         se_id += 1
+        h = compute_hash(se)
+        ts = resolve_timestamp(se["name"], h, old_ts, now)
         batch.add(
-            f"INSERT INTO status_effects (id, name, type, effect, remark) VALUES "
+            f"INSERT INTO status_effects (id, name, type, effect, remark, last_updated, data_hash) VALUES "
             f"({se_id}, {escape_sql(se['name'])}, {escape_sql(se.get('type'))}, "
-            f"{escape_sql(se.get('effect'))}, {escape_sql(se.get('remark'))});"
+            f"{escape_sql(se.get('effect'))}, {escape_sql(se.get('remark'))}, "
+            f"{escape_sql(ts)}, {escape_sql(h)});"
         )
     print(f"  Synced {se_id} status effects")
 
 
-def sync_tier_lists(data, batch):
+def sync_tier_lists(data, batch, now):
     """Sync tier-lists.json -> tier_lists + tier_list_entries tables."""
+    old_ts = get_old_timestamps("tier_lists", "name")
     batch.add("DELETE FROM tier_list_entries;")
     batch.add("DELETE FROM tier_lists;")
     batch.add("ALTER TABLE tier_list_entries AUTO_INCREMENT = 1;")
@@ -510,10 +622,13 @@ def sync_tier_lists(data, batch):
         if not tl.get("name"):
             continue
         tl_id += 1
+        h = compute_hash(tl)
+        ts = resolve_timestamp(tl["name"], h, old_ts, now)
         batch.add(
-            f"INSERT INTO tier_lists (id, name, author, content_type, description) VALUES "
+            f"INSERT INTO tier_lists (id, name, author, content_type, description, last_updated, data_hash) VALUES "
             f"({tl_id}, {escape_sql(tl['name'])}, {escape_sql(tl.get('author'))}, "
-            f"{escape_sql(tl.get('content_type'))}, {escape_sql(tl.get('description'))});"
+            f"{escape_sql(tl.get('content_type'))}, {escape_sql(tl.get('description'))}, "
+            f"{escape_sql(ts)}, {escape_sql(h)});"
         )
         for entry in tl.get("entries", []):
             entry_id += 1
@@ -525,8 +640,9 @@ def sync_tier_lists(data, batch):
     print(f"  Synced {tl_id} tier lists")
 
 
-def sync_teams(data, batch):
+def sync_teams(data, batch, now):
     """Sync teams.json -> teams + team_members + team_member_substitutes tables."""
+    old_ts = get_old_timestamps("teams", "name")
     batch.add("DELETE FROM team_member_substitutes;")
     batch.add("DELETE FROM team_members;")
     batch.add("DELETE FROM teams;")
@@ -540,15 +656,18 @@ def sync_teams(data, batch):
         if not t.get("name"):
             continue
         team_id += 1
+        h = compute_hash(t)
+        ts = resolve_timestamp(t["name"], h, old_ts, now)
         ws = t.get("wyrmspells") or {}
         batch.add(
             f"INSERT INTO teams (id, name, author, content_type, description, faction, "
-            f"breach_wyrmspell, refuge_wyrmspell, wildcry_wyrmspell, dragons_call_wyrmspell) VALUES "
+            f"breach_wyrmspell, refuge_wyrmspell, wildcry_wyrmspell, dragons_call_wyrmspell, "
+            f"last_updated, data_hash) VALUES "
             f"({team_id}, {escape_sql(t['name'])}, {escape_sql(t.get('author'))}, "
             f"{escape_sql(t.get('content_type'))}, {escape_sql(t.get('description'))}, "
             f"{escape_sql(t.get('faction'))}, {escape_sql(ws.get('breach'))}, "
             f"{escape_sql(ws.get('refuge'))}, {escape_sql(ws.get('wildcry'))}, "
-            f"{escape_sql(ws.get('dragons_call'))});"
+            f"{escape_sql(ws.get('dragons_call'))}, {escape_sql(ts)}, {escape_sql(h)});"
         )
         for m in t.get("members", []):
             member_id += 1
@@ -567,8 +686,9 @@ def sync_teams(data, batch):
     print(f"  Synced {team_id} teams")
 
 
-def sync_useful_links(data, batch):
+def sync_useful_links(data, batch, now):
     """Sync useful-links.json -> useful_links table."""
+    old_ts = get_old_timestamps("useful_links", "name")
     batch.add("DELETE FROM useful_links;")
     batch.add("ALTER TABLE useful_links AUTO_INCREMENT = 1;")
     link_id = 0
@@ -576,17 +696,20 @@ def sync_useful_links(data, batch):
         if not link.get("name"):
             continue
         link_id += 1
+        h = compute_hash(link)
+        ts = resolve_timestamp(link["name"], h, old_ts, now)
         batch.add(
-            f"INSERT INTO useful_links (id, icon, application, name, description, link) VALUES "
+            f"INSERT INTO useful_links (id, icon, application, name, description, link, last_updated, data_hash) VALUES "
             f"({link_id}, {escape_sql(link.get('icon'))}, {escape_sql(link.get('application'))}, "
             f"{escape_sql(link['name'])}, {escape_sql(link.get('description'))}, "
-            f"{escape_sql(link.get('link'))});"
+            f"{escape_sql(link.get('link'))}, {escape_sql(ts)}, {escape_sql(h)});"
         )
     print(f"  Synced {link_id} useful links")
 
 
-def sync_changelog(data, batch):
+def sync_changelog(data, batch, now):
     """Sync changelog.json -> changelog + changelog_changes tables."""
+    old_ts = get_old_timestamps("changelog", "version")
     batch.add("DELETE FROM changelog_changes;")
     batch.add("DELETE FROM changelog;")
     batch.add("ALTER TABLE changelog_changes AUTO_INCREMENT = 1;")
@@ -597,9 +720,12 @@ def sync_changelog(data, batch):
         if not entry.get("version"):
             continue
         cl_id += 1
+        h = compute_hash(entry)
+        ts = resolve_timestamp(entry["version"], h, old_ts, now)
         batch.add(
-            f"INSERT INTO changelog (id, date, version) VALUES "
-            f"({cl_id}, {escape_sql(entry.get('date'))}, {escape_sql(entry['version'])});"
+            f"INSERT INTO changelog (id, date, version, last_updated, data_hash) VALUES "
+            f"({cl_id}, {escape_sql(entry.get('date'))}, {escape_sql(entry['version'])}, "
+            f"{escape_sql(ts)}, {escape_sql(h)});"
         )
         for change in entry.get("changes", []):
             change_id += 1
@@ -683,28 +809,37 @@ def main():
         resource_ids = build_resource_id_map(json_cache.get("resources.json", []))
 
         batch = SqlBatch(dry_run=args.dry_run)
+        now = int(time.time())
 
         syncers = {
-            "factions": lambda: sync_factions(json_cache["factions.json"], batch),
-            "characters": lambda: sync_characters(
-                json_cache["characters.json"], json_cache["factions.json"], batch
+            "factions": lambda: sync_factions(
+                json_cache["factions.json"], batch, now
             ),
-            "wyrmspells": lambda: sync_wyrmspells(json_cache["wyrmspells.json"], batch),
+            "characters": lambda: sync_characters(
+                json_cache["characters.json"], json_cache["factions.json"], batch, now
+            ),
+            "wyrmspells": lambda: sync_wyrmspells(
+                json_cache["wyrmspells.json"], batch, now
+            ),
             "resources": lambda: sync_resources(
-                json_cache["resources.json"], batch, existing_tables
+                json_cache["resources.json"], batch, existing_tables, now
             ),
             "codes": lambda: sync_codes(
-                json_cache["codes.json"], batch, existing_tables, resource_ids
+                json_cache["codes.json"], batch, existing_tables, resource_ids, now
             ),
             "status-effects": lambda: sync_status_effects(
-                json_cache["status-effects.json"], batch
+                json_cache["status-effects.json"], batch, now
             ),
-            "tier-lists": lambda: sync_tier_lists(json_cache["tier-lists.json"], batch),
-            "teams": lambda: sync_teams(json_cache["teams.json"], batch),
+            "tier-lists": lambda: sync_tier_lists(
+                json_cache["tier-lists.json"], batch, now
+            ),
+            "teams": lambda: sync_teams(json_cache["teams.json"], batch, now),
             "useful-links": lambda: sync_useful_links(
-                json_cache["useful-links.json"], batch
+                json_cache["useful-links.json"], batch, now
             ),
-            "changelog": lambda: sync_changelog(json_cache["changelog.json"], batch),
+            "changelog": lambda: sync_changelog(
+                json_cache["changelog.json"], batch, now
+            ),
         }
 
         if target == "all":
@@ -715,6 +850,7 @@ def main():
 
         # Execute all SQL in a single transactional dolt process.
         batch.flush()
+
     except SyncError as exc:
         print(f"\nSync failed, no commit created:\n{exc}", file=sys.stderr)
         sys.exit(1)

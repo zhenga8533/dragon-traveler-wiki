@@ -10,4 +10,5 @@ export interface Code {
   /** Legacy field kept for backward compatibility */
   reward?: CodeReward[];
   active: boolean;
+  last_updated: number;
 }

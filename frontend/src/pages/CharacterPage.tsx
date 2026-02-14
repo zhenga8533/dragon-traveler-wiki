@@ -48,6 +48,7 @@ import { TierListReferenceContext } from '../contexts';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
+import LastUpdated from '../components/LastUpdated';
 
 export default function CharacterPage() {
   const { colorScheme } = useMantineColorScheme();
@@ -312,6 +313,8 @@ export default function CharacterPage() {
                     {character.title}
                   </Text>
                 )}
+
+                <LastUpdated timestamp={character.last_updated} />
 
                 <Group gap="lg">
                   <Tooltip label={character.quality}>

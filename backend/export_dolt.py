@@ -220,6 +220,7 @@ def export_factions(data, output_dir=None):
                 "name": r.get("name") or "",
                 "wyrm": r.get("wyrm") or "",
                 "description": r.get("description") or "",
+                "last_updated": int(r.get("last_updated") or 0),
             }
         )
     write_export("factions.json", result, output_dir)
@@ -272,6 +273,7 @@ def export_characters(data, output_dir=None):
                     for sk in skills_by_char.get(char_id, [])
                 ],
                 "noble_phantasm": c.get("noble_phantasm") or "",
+                "last_updated": int(c.get("last_updated") or 0),
             }
         )
 
@@ -292,6 +294,7 @@ def export_wyrmspells(data, output_dir=None):
             "quality": w.get("quality") or "",
             "exclusive_faction": w.get("exclusive_faction") or None,
             "is_global": bool(int(w.get("is_global", 0))),
+            "last_updated": int(w.get("last_updated") or 0),
         }
         for w in data["wyrmspells"]
     ]
@@ -312,6 +315,7 @@ def export_resources(data, output_dir=None):
             "name": r.get("name") or "",
             "description": r.get("description") or "",
             "category": r.get("category") or "",
+            "last_updated": int(r.get("last_updated") or 0),
         }
         for r in data["resources"]
     ]
@@ -354,6 +358,7 @@ def export_codes(data, output_dir=None):
                 "code": c.get("code") or "",
                 "rewards": rewards,
                 "active": bool(c.get("active", True)),
+                "last_updated": int(c.get("last_updated") or 0),
             }
         )
     write_export("codes.json", result, output_dir)
@@ -366,6 +371,7 @@ def export_status_effects(data, output_dir=None):
             "type": se.get("type") or "",
             "effect": se.get("effect") or "",
             "remark": se.get("remark") or "",
+            "last_updated": int(se.get("last_updated") or 0),
         }
         for se in data["status_effects"]
     ]
@@ -395,6 +401,7 @@ def export_tier_lists(data, output_dir=None):
                 "content_type": tl.get("content_type") or "",
                 "description": tl.get("description") or "",
                 "entries": entries,
+                "last_updated": int(tl.get("last_updated") or 0),
             }
         )
     write_export("tier-lists.json", result, output_dir)
@@ -431,6 +438,7 @@ def export_teams(data, output_dir=None):
                     "wildcry": t.get("wildcry_wyrmspell") or "",
                     "dragons_call": t.get("dragons_call_wyrmspell") or "",
                 },
+                "last_updated": int(t.get("last_updated") or 0),
             }
         )
     write_export("teams.json", result, output_dir)
@@ -444,6 +452,7 @@ def export_useful_links(data, output_dir=None):
             "name": l.get("name") or "",
             "description": l.get("description") or "",
             "link": l.get("link") or "",
+            "last_updated": int(l.get("last_updated") or 0),
         }
         for l in data["useful_links"]
     ]
@@ -468,6 +477,7 @@ def export_changelog(data, output_dir=None):
                 "date": str(cl.get("date") or ""),
                 "version": cl.get("version") or "",
                 "changes": changes,
+                "last_updated": int(cl.get("last_updated") or 0),
             }
         )
     write_export("changelog.json", result, output_dir)

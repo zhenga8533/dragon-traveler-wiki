@@ -18,4 +18,5 @@ export interface Faction {
   name: FactionName;
   wyrm: Wyrm;
   description: string;
+  last_updated: number;
 }

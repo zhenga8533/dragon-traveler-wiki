@@ -4,4 +4,5 @@ export interface UsefulLink {
   name: string;
   description: string;
   link: string;
+  last_updated: number;
 }

@@ -26,6 +26,7 @@ import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import type { Wyrmspell } from '../types/wyrmspell';
+import LastUpdated from '../components/LastUpdated';
 
 const WYRMSPELL_FIELDS: FieldDef[] = [
   {
@@ -144,6 +145,14 @@ export default function Wyrmspells() {
       );
   }, [wyrmspells, filters]);
 
+  const mostRecentUpdate = useMemo(() => {
+    let latest = 0;
+    for (const w of wyrmspells) {
+      if (w.last_updated > latest) latest = w.last_updated;
+    }
+    return latest;
+  }, [wyrmspells]);
+
   const activeFilterCount =
     (filters.search ? 1 : 0) + filters.types.length + filters.qualities.length;
 
@@ -151,7 +160,10 @@ export default function Wyrmspells() {
     <Container size="md" py="xl">
       <Stack gap="md">
         <Group justify="space-between" align="center">
-          <Title order={1}>Wyrmspells</Title>
+          <Group gap="sm" align="baseline">
+            <Title order={1}>Wyrmspells</Title>
+            <LastUpdated timestamp={mostRecentUpdate} />
+          </Group>
           <SuggestModal
             buttonLabel="Suggest a Wyrmspell"
             modalTitle="Suggest a New Wyrmspell"

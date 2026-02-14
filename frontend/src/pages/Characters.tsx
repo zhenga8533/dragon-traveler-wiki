@@ -1,4 +1,5 @@
 import { Container, Group, SimpleGrid, Stack, Title } from '@mantine/core';
+import { useMemo } from 'react';
 import { IoPeople } from 'react-icons/io5';
 import CharacterList from '../components/CharacterList';
 import DataFetchError from '../components/DataFetchError';
@@ -8,6 +9,7 @@ import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
+import LastUpdated from '../components/LastUpdated';
 
 const CHARACTER_FIELDS: FieldDef[] = [
   {
@@ -59,11 +61,22 @@ export default function Characters() {
     error,
   } = useDataFetch<Character[]>('data/characters.json', []);
 
+  const mostRecentUpdate = useMemo(() => {
+    let latest = 0;
+    for (const c of characters) {
+      if (c.last_updated > latest) latest = c.last_updated;
+    }
+    return latest;
+  }, [characters]);
+
   return (
     <Container size="lg" py="xl">
       <Stack gap="md">
         <Group justify="space-between" align="center" wrap="wrap">
-          <Title order={1}>Characters</Title>
+          <Group gap="sm" align="baseline">
+            <Title order={1}>Characters</Title>
+            <LastUpdated timestamp={mostRecentUpdate} />
+          </Group>
           <SuggestModal
             buttonLabel="Suggest a Character"
             modalTitle="Suggest a New Character"

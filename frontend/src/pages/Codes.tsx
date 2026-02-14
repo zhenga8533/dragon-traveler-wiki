@@ -42,6 +42,7 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import { useViewMode } from '../hooks/use-filters';
 import type { Code } from '../types/code';
 import { buildExpiredCodeUrl } from '../utils/github-issues';
+import LastUpdated from '../components/LastUpdated';
 
 function aggregateRewards(codes: Code[]): Map<string, number> {
   const totals = new Map<string, number>();
@@ -189,11 +190,22 @@ export default function Codes() {
     [codes, redeemed]
   );
 
+  const mostRecentUpdate = useMemo(() => {
+    let latest = 0;
+    for (const c of codes) {
+      if (c.last_updated > latest) latest = c.last_updated;
+    }
+    return latest;
+  }, [codes]);
+
   return (
     <Container size="md" py="xl">
       <Stack gap="md">
         <Group justify="space-between" align="center">
-          <Title order={1}>Codes</Title>
+          <Group gap="sm" align="baseline">
+            <Title order={1}>Codes</Title>
+            <LastUpdated timestamp={mostRecentUpdate} />
+          </Group>
           <SuggestModal
             buttonLabel="Suggest a Code"
             modalTitle="Suggest a New Code"

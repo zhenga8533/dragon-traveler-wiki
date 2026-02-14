@@ -8,4 +8,5 @@ export interface Wyrmspell {
   quality: Quality;
   exclusive_faction: FactionName | null;
   is_global: boolean;
+  last_updated: number;
 }

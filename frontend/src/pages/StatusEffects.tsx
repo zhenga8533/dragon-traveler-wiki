@@ -25,6 +25,7 @@ import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
+import LastUpdated from '../components/LastUpdated';
 
 const STATUS_EFFECT_FIELDS: FieldDef[] = [
   {
@@ -122,13 +123,24 @@ export default function StatusEffects() {
       });
   }, [effects, filters]);
 
+  const mostRecentUpdate = useMemo(() => {
+    let latest = 0;
+    for (const se of effects) {
+      if (se.last_updated > latest) latest = se.last_updated;
+    }
+    return latest;
+  }, [effects]);
+
   const activeFilterCount = (filters.search ? 1 : 0) + filters.types.length;
 
   return (
     <Container size="md" py="xl">
       <Stack gap="md">
         <Group justify="space-between" align="center">
-          <Title order={1}>Status Effects</Title>
+          <Group gap="sm" align="baseline">
+            <Title order={1}>Status Effects</Title>
+            <LastUpdated timestamp={mostRecentUpdate} />
+          </Group>
           <SuggestModal
             buttonLabel="Suggest a Status Effect"
             modalTitle="Suggest a New Status Effect"

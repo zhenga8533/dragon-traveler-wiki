@@ -50,4 +50,5 @@ export interface Character {
   talent?: Talent | null;
   skills: Skill[];
   noble_phantasm: string;
+  last_updated: number;
 }

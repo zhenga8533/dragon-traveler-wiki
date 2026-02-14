@@ -5,7 +5,8 @@
     "type": "Breach",
     "quality": "UR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Brutality Aura",
@@ -13,7 +14,8 @@
     "type": "Breach",
     "quality": "UR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Arcane Aura",
@@ -21,7 +23,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Attack Aura",
@@ -29,7 +32,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Attack Speed Aura",
@@ -37,7 +41,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Break Aura",
@@ -45,7 +50,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Crit Aura",
@@ -53,7 +59,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Haste Aura",
@@ -61,7 +68,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Hit Aura",
@@ -69,7 +77,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Leech Aura",
@@ -77,7 +86,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Magic Damage Aura",
@@ -85,7 +95,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Physical Damage Aura",
@@ -93,7 +104,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Swiftstorm Aura",
@@ -101,7 +113,8 @@
     "type": "Breach",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Blessing of Grace",
@@ -109,7 +122,8 @@
     "type": "Dragon's Call",
     "quality": "UR",
     "exclusive_faction": "Sanctum Glory",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Efficiency Mastery",
@@ -117,7 +131,8 @@
     "type": "Dragon's Call",
     "quality": "UR",
     "exclusive_faction": "Arcane Wisdom",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Graveyard Guardian",
@@ -125,7 +140,8 @@
     "type": "Dragon's Call",
     "quality": "UR",
     "exclusive_faction": "Otherworld Return",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Scorching Devastation",
@@ -133,7 +149,8 @@
     "type": "Dragon's Call",
     "quality": "UR",
     "exclusive_faction": "Elemental Echo",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Ultimate Punishment",
@@ -141,7 +158,8 @@
     "type": "Dragon's Call",
     "quality": "UR",
     "exclusive_faction": "Illusion Veil",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Wild Advance",
@@ -149,7 +167,8 @@
     "type": "Dragon's Call",
     "quality": "UR",
     "exclusive_faction": "Wild Spirit",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Arcane Blessing",
@@ -157,7 +176,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Arcane Wisdom",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Arcane Frenzy",
@@ -165,7 +185,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Arcane Wisdom",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Costly Bane",
@@ -173,7 +194,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Illusion Veil",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Envigored Healing",
@@ -181,7 +203,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Sanctum Glory",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Prey on the Weak",
@@ -189,7 +212,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Illusion Veil",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Radiant Smite",
@@ -197,7 +221,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Sanctum Glory",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Shieldborn Rebirth",
@@ -205,7 +230,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Otherworld Return",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Summoning March",
@@ -213,7 +239,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Otherworld Return",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Surging Impact",
@@ -221,7 +248,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Elemental Echo",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Whisper of the Deathless",
@@ -229,7 +257,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Otherworld Return",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Wild Medics",
@@ -237,7 +266,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Wild Spirit",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Winter's Wrath",
@@ -245,7 +275,8 @@
     "type": "Dragon's Call",
     "quality": "SSR",
     "exclusive_faction": "Elemental Echo",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Drain Aura",
@@ -253,7 +284,8 @@
     "type": "Refuge",
     "quality": "UR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Reflect Aura",
@@ -261,7 +293,8 @@
     "type": "Refuge",
     "quality": "UR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Block Aura",
@@ -269,7 +302,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Crit Resist Aura",
@@ -277,7 +311,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Dodge Aura",
@@ -285,7 +320,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Flash Aura",
@@ -293,7 +329,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Healing Aura",
@@ -301,7 +338,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Magic Block Aura",
@@ -309,7 +347,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Magic Defense Aura",
@@ -317,7 +356,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Physical Defense Aura",
@@ -325,7 +365,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Physical Resistance Aura",
@@ -333,7 +374,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Shield Aura",
@@ -341,7 +383,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Shield Resistance Aura",
@@ -349,7 +392,8 @@
     "type": "Refuge",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Arcanist Roar",
@@ -357,7 +401,8 @@
     "type": "Wildcry",
     "quality": "UR",
     "exclusive_faction": "Arcane Wisdom",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Furious Roar",
@@ -365,7 +410,8 @@
     "type": "Wildcry",
     "quality": "UR",
     "exclusive_faction": "Wild Spirit",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Healing Roar",
@@ -373,7 +419,8 @@
     "type": "Wildcry",
     "quality": "UR",
     "exclusive_faction": "Sanctum Glory",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Punishing Roar",
@@ -381,7 +428,8 @@
     "type": "Wildcry",
     "quality": "UR",
     "exclusive_faction": "Illusion Veil",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Surging Roar",
@@ -389,7 +437,8 @@
     "type": "Wildcry",
     "quality": "UR",
     "exclusive_faction": "Elemental Echo",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Arcane Roar",
@@ -397,7 +446,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": "Arcane Wisdom",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Boneclad Roar",
@@ -405,7 +455,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": "Otherworld Return",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Charging Roar",
@@ -413,7 +464,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": "Elemental Echo",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Desperate Roar",
@@ -421,7 +473,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Dominating Roar",
@@ -429,7 +482,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": "Illusion Veil",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Mana Roar",
@@ -437,7 +491,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Mighty Roar",
@@ -445,7 +500,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Pactbound Roar",
@@ -453,7 +509,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Pulsing Roar",
@@ -461,7 +518,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Rallying Roar",
@@ -469,7 +527,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": "Sanctum Glory",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Reincarnation Roar",
@@ -477,7 +536,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": "Otherworld Return",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Soulguard Roar",
@@ -485,7 +545,8 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": "Otherworld Return",
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   },
   {
     "name": "Vital Roar",
@@ -493,6 +554,7 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": null,
-    "is_global": true
+    "is_global": true,
+    "last_updated": 1771086838
   }
 ]

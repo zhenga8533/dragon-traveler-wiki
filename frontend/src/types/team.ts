@@ -22,4 +22,5 @@ export interface Team {
   faction: FactionName;
   members: TeamMember[];
   wyrmspells?: TeamWyrmspells;
+  last_updated: number;
 }

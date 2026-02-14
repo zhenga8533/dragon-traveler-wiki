@@ -44,6 +44,7 @@ import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
+import LastUpdated from '../components/LastUpdated';
 
 const TEAMS_PER_PAGE = 12;
 
@@ -248,11 +249,22 @@ export default function Teams() {
     currentPage * TEAMS_PER_PAGE
   );
 
+  const mostRecentUpdate = useMemo(() => {
+    let latest = 0;
+    for (const t of teams) {
+      if (t.last_updated > latest) latest = t.last_updated;
+    }
+    return latest;
+  }, [teams]);
+
   return (
     <Container size="lg" py="xl">
       <Stack gap="md">
         <Group justify="space-between" align="center">
-          <Title order={1}>Teams</Title>
+          <Group gap="sm" align="baseline">
+            <Title order={1}>Teams</Title>
+            <LastUpdated timestamp={mostRecentUpdate} />
+          </Group>
           <Group gap="xs">
             <SuggestModal
               buttonLabel="Suggest a Team"

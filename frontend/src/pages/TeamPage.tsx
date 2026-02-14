@@ -37,6 +37,7 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { Team, TeamMember } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
+import LastUpdated from '../components/LastUpdated';
 
 export default function TeamPage() {
   const { teamName } = useParams<{ teamName: string }>();
@@ -199,9 +200,12 @@ export default function TeamPage() {
                 >
                   {team.name}
                 </Title>
-                <Text size="sm" c="dimmed">
-                  by {team.author}
-                </Text>
+                <Group gap="sm" align="center">
+                  <Text size="sm" c="dimmed">
+                    by {team.author}
+                  </Text>
+                  <LastUpdated timestamp={team.last_updated} />
+                </Group>
                 <Group gap="sm" mt={4}>
                   <Badge
                     size="lg"

@@ -11,4 +11,5 @@ export interface Resource {
   name: string;
   description: string;
   category: ResourceCategory;
+  last_updated: number;
 }
