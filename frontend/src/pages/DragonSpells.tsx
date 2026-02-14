@@ -10,8 +10,11 @@ import {
   Table,
   Text,
   Title,
+  Tooltip,
 } from '@mantine/core';
 import { useMemo } from 'react';
+import { FACTION_ICON_MAP } from '../assets/faction';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
 import DataFetchError from '../components/DataFetchError';
 import type { ChipFilterGroup } from '../components/EntityFilter';
@@ -40,22 +43,31 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
     options: ['Breach', 'Refuge', 'Wildcry', "Dragon's Call"],
   },
   {
+    name: 'quality',
+    label: 'Max Quality',
+    type: 'select',
+    required: true,
+    options: ['SSR', 'UR'],
+  },
+  {
     name: 'effect',
-    label: 'Effect',
+    label: 'Effect (Max Quality)',
     type: 'textarea',
     required: true,
-    placeholder: 'Describe the effect',
+    placeholder: 'Describe the effect at max quality',
   },
 ];
 
 interface WyrmspellFilters {
   search: string;
   types: string[];
+  qualities: string[];
 }
 
 const EMPTY_FILTERS: WyrmspellFilters = {
   search: '',
   types: [],
+  qualities: [],
 };
 
 export default function DragonSpells() {
@@ -84,13 +96,28 @@ export default function DragonSpells() {
     return [...types].sort();
   }, [wyrmspells]);
 
-  const filterGroups: ChipFilterGroup[] = useMemo(
-    () =>
-      typeOptions.length > 0
-        ? [{ key: 'types', label: 'Type', options: typeOptions }]
-        : [],
-    [typeOptions]
-  );
+  const qualityOptions = useMemo(() => {
+    const qualities = new Set<string>();
+    for (const spell of wyrmspells) {
+      if (spell.quality) {
+        qualities.add(spell.quality);
+      }
+    }
+    return [...qualities].sort();
+  }, [wyrmspells]);
+
+  const filterGroups: ChipFilterGroup[] = useMemo(() => {
+    const groups: ChipFilterGroup[] = [];
+    if (typeOptions.length > 0)
+      groups.push({ key: 'types', label: 'Type', options: typeOptions });
+    if (qualityOptions.length > 0)
+      groups.push({
+        key: 'qualities',
+        label: 'Max Quality',
+        options: qualityOptions,
+      });
+    return groups;
+  }, [typeOptions, qualityOptions]);
 
   const filtered = useMemo(() => {
     return wyrmspells
@@ -104,12 +131,24 @@ export default function DragonSpells() {
         if (filters.types.length > 0 && !filters.types.includes(spell.type)) {
           return false;
         }
+        if (
+          filters.qualities.length > 0 &&
+          !filters.qualities.includes(spell.quality)
+        ) {
+          return false;
+        }
         return true;
       })
-      .sort((a, b) => a.name.localeCompare(b.name));
+      .sort(
+        (a, b) =>
+          a.type.localeCompare(b.type) || a.name.localeCompare(b.name)
+      );
   }, [wyrmspells, filters]);
 
-  const activeFilterCount = (filters.search ? 1 : 0) + filters.types.length;
+  const activeFilterCount =
+    (filters.search ? 1 : 0) +
+    filters.types.length +
+    filters.qualities.length;
 
   return (
     <Container size="md" py="xl">
@@ -152,7 +191,7 @@ export default function DragonSpells() {
               >
                 <EntityFilter
                   groups={filterGroups}
-                  selected={{ types: filters.types }}
+                  selected={{ types: filters.types, qualities: filters.qualities }}
                   onChange={(key, values) =>
                     setFilters({ ...filters, [key]: values })
                   }
@@ -173,6 +212,9 @@ export default function DragonSpells() {
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                   {filtered.map((spell) => {
                     const iconSrc = getWyrmspellIcon(spell.name);
+                    const factionIcon = spell.exclusive_faction
+                      ? FACTION_ICON_MAP[spell.exclusive_faction]
+                      : undefined;
                     return (
                       <Paper key={spell.name} p="sm" radius="md" withBorder>
                         <Group gap="md" align="flex-start" wrap="nowrap">
@@ -187,10 +229,29 @@ export default function DragonSpells() {
                           )}
                           <Stack gap={4} style={{ flex: 1 }}>
                             <Group gap="sm" wrap="wrap">
+                              <Tooltip label={spell.quality}>
+                                <Image
+                                  src={QUALITY_ICON_MAP[spell.quality]}
+                                  alt={spell.quality}
+                                  h={20}
+                                  w="auto"
+                                  fit="contain"
+                                />
+                              </Tooltip>
                               <Text fw={600}>{spell.name}</Text>
                               <Badge variant="light" size="sm">
                                 {spell.type}
                               </Badge>
+                              {spell.exclusive_faction && (
+                                <Tooltip label={spell.exclusive_faction}>
+                                  <Image
+                                    src={factionIcon}
+                                    alt={spell.exclusive_faction}
+                                    w={20}
+                                    h={20}
+                                  />
+                                </Tooltip>
+                              )}
                             </Group>
                             <Text size="sm">{spell.effect}</Text>
                           </Stack>
@@ -201,18 +262,23 @@ export default function DragonSpells() {
                 </SimpleGrid>
               ) : (
                 <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                  <Table striped highlightOnHover style={{ minWidth: 640 }}>
+                  <Table striped highlightOnHover style={{ minWidth: 800 }}>
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th>Icon</Table.Th>
                         <Table.Th>Name</Table.Th>
                         <Table.Th>Type</Table.Th>
-                        <Table.Th>Effect</Table.Th>
+                        <Table.Th>Max Quality</Table.Th>
+                        <Table.Th>Faction</Table.Th>
+                        <Table.Th>Effect (Max Quality)</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
                       {filtered.map((spell) => {
                         const iconSrc = getWyrmspellIcon(spell.name);
+                        const factionIcon = spell.exclusive_faction
+                          ? FACTION_ICON_MAP[spell.exclusive_faction]
+                          : undefined;
                         return (
                           <Table.Tr key={spell.name}>
                             <Table.Td>
@@ -235,6 +301,33 @@ export default function DragonSpells() {
                               <Badge variant="light" size="sm">
                                 {spell.type}
                               </Badge>
+                            </Table.Td>
+                            <Table.Td>
+                              <Tooltip label={spell.quality}>
+                                <Image
+                                  src={QUALITY_ICON_MAP[spell.quality]}
+                                  alt={spell.quality}
+                                  h={20}
+                                  w="auto"
+                                  fit="contain"
+                                />
+                              </Tooltip>
+                            </Table.Td>
+                            <Table.Td>
+                              {spell.exclusive_faction ? (
+                                <Tooltip label={spell.exclusive_faction}>
+                                  <Image
+                                    src={factionIcon}
+                                    alt={spell.exclusive_faction}
+                                    w={24}
+                                    h={24}
+                                  />
+                                </Tooltip>
+                              ) : (
+                                <Text size="sm" c="dimmed">
+                                  —
+                                </Text>
+                              )}
                             </Table.Td>
                             <Table.Td>
                               <Text size="sm">{spell.effect}</Text>

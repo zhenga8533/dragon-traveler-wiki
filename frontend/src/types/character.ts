@@ -1,6 +1,6 @@
 import type { FactionName } from './faction';
 
-export type Quality = 'SSR EX' | 'SSR+' | 'SSR' | 'SR+' | 'R' | 'N';
+export type Quality = 'UR' | 'SSR EX' | 'SSR+' | 'SSR' | 'SR+' | 'R' | 'N';
 
 export type CharacterClass =
   | 'Guardian'

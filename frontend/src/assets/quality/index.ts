@@ -6,8 +6,10 @@ import srPlus from './sr_plus.png';
 import ssr from './ssr.png';
 import ssrEx from './ssr_ex.png';
 import ssrPlus from './ssr_plus.png';
+import ur from './ur.png';
 
 export const QUALITY_ICON_MAP: Record<Quality, string> = {
+  UR: ur,
   'SSR EX': ssrEx,
   'SSR+': ssrPlus,
   SSR: ssr,

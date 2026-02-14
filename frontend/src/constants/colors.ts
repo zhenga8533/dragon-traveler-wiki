@@ -5,6 +5,7 @@ import type { StatusEffectType } from '../types/status-effect';
 import type { Tier } from '../types/tier-list';
 
 export const QUALITY_ORDER: Quality[] = [
+  'UR',
   'SSR EX',
   'SSR+',
   'SSR',
@@ -14,6 +15,7 @@ export const QUALITY_ORDER: Quality[] = [
 ];
 
 export const QUALITY_COLOR: Record<Quality, string> = {
+  UR: 'pink',
   'SSR EX': 'red',
   'SSR+': 'orange',
   SSR: 'yellow',

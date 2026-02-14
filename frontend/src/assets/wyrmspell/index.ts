@@ -1,14 +1,15 @@
 import { normalizeKey } from '../utils';
 
-// Dynamic imports for wyrmspell icons
-const iconModules = import.meta.glob<{ default: string }>('./*.png', {
+// Dynamic imports for wyrmspell icons in type subdirectories
+const iconModules = import.meta.glob<{ default: string }>('./**/*.png', {
   eager: true,
 });
 
 const icons = new Map<string, string>();
 
 for (const [path, module] of Object.entries(iconModules)) {
-  const match = path.match(/\.\/(.+)\.png$/);
+  // Match e.g. ./breach/attack_aura.png → attack_aura
+  const match = path.match(/\.\/[^/]+\/(.+)\.png$/);
   if (match) {
     icons.set(match[1], module.default);
   }
