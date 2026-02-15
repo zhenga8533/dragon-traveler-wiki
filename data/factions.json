@@ -3,36 +3,36 @@
     "name": "Elemental Echo",
     "wyrm": "Fire Whelp",
     "description": "Inflict [Ignite], [Shock], or [Chill] to trigger [Elemental Reactions] against enemies, dealing damage while weaknening their combat abilities.",
-    "last_updated": 1771086904
+    "last_updated": 1771129475
   },
   {
     "name": "Wild Spirit",
     "wyrm": "Emerald Whelp",
     "description": "Accumulate Rage when losing HP. Upon reaching full Rage, enter the [Wild] state, to enhance combat abilities.",
-    "last_updated": 1771086904
+    "last_updated": 1771129475
   },
   {
     "name": "Arcane Wisdom",
     "wyrm": "Butterfly Whelp",
     "description": "Gain [Awakening] when an ally uses Overdrive. Consume or build up [Awakening] stacks to enhance skills.",
-    "last_updated": 1771086904
+    "last_updated": 1771129475
   },
   {
     "name": "Sanctum Glory",
     "wyrm": "Light Whelp",
     "description": "By gaining [Morale] and [Fervo], enter the [Grace] state to apply a Self Buff and enhance combat abilities.",
-    "last_updated": 1771086904
+    "last_updated": 1771129475
   },
   {
     "name": "Otherworld Return",
     "wyrm": "Shadow Whelp",
     "description": "Gain [Deathrattle] when an ally falls. The more [Deathrattle] stacks you have, the stronger your combat abilities become.",
-    "last_updated": 1771086904
+    "last_updated": 1771129475
   },
   {
     "name": "Illusion Veil",
     "wyrm": "Dark Whelp",
     "description": "Some of your skills with trigger the [Punishment] effect on enemies whose Overdrive Energy Consumption is 4 or higher, applying a Buff to enhance the current skill's effect.",
-    "last_updated": 1771086904
+    "last_updated": 1771129475
   }
 ]
