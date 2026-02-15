@@ -17,7 +17,7 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import {
   IoCheckmark,
   IoCopyOutline,
@@ -37,6 +37,7 @@ import LastUpdated from '../components/LastUpdated';
 import ResourceBadge from '../components/ResourceBadge';
 import SearchModal from '../components/SearchModal';
 import { TIER_COLOR } from '../constants/colors';
+import { TierListReferenceContext } from '../contexts/tier-list-reference-context';
 import { BRAND_TITLE_STYLE } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 import { useDataFetch, useScrollReveal } from '../hooks';
@@ -142,10 +143,8 @@ function DataStatsBar() {
 }
 
 function FeaturedCharactersMarquee() {
-  const { data: tierLists, loading: loadingTiers } = useDataFetch<TierList[]>(
-    'data/tier-lists.json',
-    []
-  );
+  const { tierLists, loading: loadingTiers, selectedTierListName } =
+    useContext(TierListReferenceContext);
   const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
     'data/characters.json',
     []
@@ -163,7 +162,8 @@ function FeaturedCharactersMarquee() {
     );
   }
 
-  const tierList = tierLists[0];
+  const tierList =
+    tierLists.find((t) => t.name === selectedTierListName) ?? tierLists[0];
   if (!tierList) return null;
 
   const charMap = new Map(characters.map((c) => [c.name, c]));
