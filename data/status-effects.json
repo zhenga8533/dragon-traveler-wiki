@@ -1,5 +1,12 @@
 [
   {
+    "name": "Accuracy Up",
+    "type": "Buff",
+    "effect": "Increases Accuracy by 600. Lasts 8 seconds.",
+    "remark": "",
+    "last_updated": 1771185685
+  },
+  {
     "name": "Attack Boost",
     "type": "Buff",
     "effect": "Increases Attack by 30%. Lasts 8 seconds.",
@@ -42,11 +49,18 @@
     "last_updated": 1771129358
   },
   {
-    "name": "Flame Armor",
+    "name": "Dodge Up",
     "type": "Buff",
-    "effect": "Increases Physical Defense by 30%. Lasts until the end of the battle.",
+    "effect": "Increases Dodge by 600. Lasts 8 seconds.",
     "remark": "",
-    "last_updated": 1771129475
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Dragon Roar",
+    "type": "Buff",
+    "effect": "Increases Attack and all defense by 5% to Luminaries of the corresponding faction.",
+    "remark": "This effect is enhanced by the Dragon Roar Level.",
+    "last_updated": 1771185685
   },
   {
     "name": "Lifesteal",
@@ -77,6 +91,20 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Significant Attack Speed Boost",
+    "type": "Buff",
+    "effect": "Increases attack speed by 70%. Lasts 8 seconds.",
+    "remark": "Does not stack with [Attack Speed Boost].",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Accuracy Down",
+    "type": "Debuff",
+    "effect": "Reduces Accuracy by 600. Lasts 8 seconds.",
+    "remark": "",
+    "last_updated": 1771185685
+  },
+  {
     "name": "Attack Down",
     "type": "Debuff",
     "effect": "Reduces Attack by 30%. Lasts 8 seconds.",
@@ -105,6 +133,13 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Dodge Down",
+    "type": "Debuff",
+    "effect": "Reduces Dodge by 600. Lasts 8 seconds.",
+    "remark": "",
+    "last_updated": 1771185685
+  },
+  {
     "name": "Heal Block",
     "type": "Debuff",
     "effect": "Reduces healing received by 100%. Lasts 8 seconds.",
@@ -117,6 +152,13 @@
     "effect": "Reduces healing received by 50%. Lasts 8 seconds.",
     "remark": "Doesn't stack with [Heal Block].",
     "last_updated": 1771129475
+  },
+  {
+    "name": "Lifesteal Down",
+    "type": "Debuff",
+    "effect": "Reduces Lifesteal by 30%. Lasts 8 seconds.",
+    "remark": "",
+    "last_updated": 1771185685
   },
   {
     "name": "Magic Defense Down",
@@ -182,6 +224,20 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Charm",
+    "type": "Control",
+    "effect": "Prevents using skills and forces attacks towards the charmer's target.",
+    "remark": "",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Freeze",
+    "type": "Control",
+    "effect": "Cannot take action. Unable to move, attack, or cast skills.",
+    "remark": "",
+    "last_updated": 1771185685
+  },
+  {
     "name": "Petrify",
     "type": "Control",
     "effect": "Cannot take action. Unable to move, attack, or cast skills.",
@@ -231,6 +287,13 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Detonation",
+    "type": "Elemental",
+    "effect": "When triggered, immediately deals magic damage equal to 30% of the target's Max HP.",
+    "remark": "Triggers when a target afflicted with [Ignite] is also afflicted with [Shock].",
+    "last_updated": 1771185685
+  },
+  {
     "name": "Elemental Debuff",
     "type": "Elemental",
     "effect": "Advanced Elemental Debuffs: [Evaporation] and [Flash Freeze].\nBasic Elemental Debuffs: [Ignite], [Chill], and [Shock].",
@@ -238,18 +301,25 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Evaporation",
+    "type": "Elemental",
+    "effect": "When triggered, immediately deals magic damage equal to 10% of the target's Max HP. Reduces Accuracy by 1500. Lasts 8 seconds.",
+    "remark": "Triggers when a target afflicted with [Ignite] is also afflicted with [Chill].",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Flash Freeze",
+    "type": "Elemental",
+    "effect": "When triggered, immediately deals magic damage equal to 10% of the target's Max HP. Reduces Attack Speed by 150%. Lasts 8 seconds.",
+    "remark": "Triggers when a target afflicted with [Shock] is also afflicted with [Chill].",
+    "last_updated": 1771185685
+  },
+  {
     "name": "Ignite",
     "type": "Elemental",
     "effect": "Deals magic damage equal to 3% of the target's Max HP every 2 seconds. Lasts 10 seconds.",
     "remark": "Each instance of damage cannot exceed 100% of Attack.\nTriggers [Detonation] when the target is afflicted with [Shock].\nTriggers [Evaporation] when the target is afflicted with [Chill].",
     "last_updated": 1771129475
-  },
-  {
-    "name": "Shock",
-    "type": "Elemental",
-    "effect": "Elemental debuff. Reduces Crit Resist by 200. Lasts 10 seconds.",
-    "remark": "Triggers [Detonation] when the target is afflicted with [Ignite].\nTriggers [Flash Freeze] when the target is afflicted with [Chill].",
-    "last_updated": 1771129617
   },
   {
     "name": "Shock",
@@ -287,11 +357,32 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Aura Burst",
+    "type": "Exclusive",
+    "effect": "",
+    "remark": "Cannot be dispelled.",
+    "last_updated": 1771185685
+  },
+  {
     "name": "Balance",
     "type": "Exclusive",
     "effect": "Increases Damage Reduction.",
     "remark": "Can stack up to 3 times.\nDecreases by 1 stack every 6 seconds.",
     "last_updated": 1771129475
+  },
+  {
+    "name": "Black Dragon Claw",
+    "type": "Exclusive",
+    "effect": "",
+    "remark": "Lasts for 6 seconds, can be stacked up to 5 times.",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Blade Shadow",
+    "type": "Exclusive",
+    "effect": "Can be stacked up to 20 times. Lasts for 6 seconds.",
+    "remark": "",
+    "last_updated": 1771185685
   },
   {
     "name": "Commander's Intimidation",
@@ -301,11 +392,32 @@
     "last_updated": 1771129358
   },
   {
+    "name": "Copy",
+    "type": "Exclusive",
+    "effect": "The copied summon will have the same attributes, duration, and buffs/debuffs as the original summon, and its health will be at full. If a summon other than itself is copied, the maximum number of copies will be calculated separately from the original summon.",
+    "remark": "",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Cursed Domain",
+    "type": "Exclusive",
+    "effect": "Increases Overdrive Energy cost by 1 and reduces Magic Defense by 20%.",
+    "remark": "Lasts 30 seconds, can be stacked up to 6 times.",
+    "last_updated": 1771185685
+  },
+  {
     "name": "Dark Moon",
     "type": "Exclusive",
     "effect": "",
     "remark": "",
     "last_updated": 1771129358
+  },
+  {
+    "name": "Drunken Fragrance",
+    "type": "Exclusive",
+    "effect": "Reduces the skill haste by 10 per stack, up to a maximum of 8 stacks, lasting 8 seconds.",
+    "remark": "",
+    "last_updated": 1771185685
   },
   {
     "name": "Exile",
@@ -315,11 +427,46 @@
     "last_updated": 1771129358
   },
   {
+    "name": "Flame Armor",
+    "type": "Exclusive",
+    "effect": "Increases Physical Defense by 30%. Lasts until the end of the battle.",
+    "remark": "",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Frost Barrier",
+    "type": "Exclusive",
+    "effect": "When receiving lethal Damage, become frozen for 3 seconds, becoming Immune to lethal Damage while recovering HP equal to 400% of Attack (up to 100% of max HP).",
+    "remark": "Can only trigger once per battle.",
+    "last_updated": 1771185685
+  },
+  {
     "name": "Full Moon",
     "type": "Exclusive",
-    "effect": "Cannot be selected during the duration.",
+    "effect": "",
     "remark": "Cannot be stacked, cannot be dispelled.",
-    "last_updated": 1771129358
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Governor's Intimidation",
+    "type": "Exclusive",
+    "effect": "",
+    "remark": "Lasts 30 seconds, can be stacked up to 6 times.",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Lakeside Protection",
+    "type": "Exclusive",
+    "effect": "Possessed allied Luminary gains a shield equal to 400% of Attack and increasing its Attack by an amount equal to 41% of the Lady of the Lake's Attack (up to 100% of Attack).",
+    "remark": "",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Life Link",
+    "type": "Exclusive",
+    "effect": "Increases Damage Reduction by 20% and redirects 60% of damage taken to Athena. Lasts for 8 seconds.",
+    "remark": "Can only trigger once per ally Luminary.",
+    "last_updated": 1771185685
   },
   {
     "name": "Moon Soul",
@@ -357,10 +504,45 @@
     "last_updated": 1771129358
   },
   {
+    "name": "Sunfire",
+    "type": "Exclusive",
+    "effect": "Each stack reduces magic defense by 9%, stacking up to 6 times, lasting 10 seconds.",
+    "remark": "Cannot be dispelled.",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Sword Clone",
+    "type": "Exclusive",
+    "effect": "A special elite summon that cannot be copied.",
+    "remark": "",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Tentacle",
+    "type": "Exclusive",
+    "effect": "Non-Elite Summoning Item.",
+    "remark": "",
+    "last_updated": 1771185685
+  },
+  {
     "name": "Thor's Mark",
     "type": "Exclusive",
     "effect": "",
     "remark": "",
     "last_updated": 1771129358
+  },
+  {
+    "name": "Two Heavens Imprint",
+    "type": "Exclusive",
+    "effect": "When Rin is present, when an allied unit carrying [Deathrattle] deals damage to a target carrying [Two Heavens Imprint], each hit of damage will additionally deal damage equal to the number of [Deathrattle] stacks multiplied by 9% of the damage source's attack. If the damage is dealt by Rin or a [Sword Clone], the additional damage will be increased to the number of [Deathrattle] stacks multiplied by 36% of the attack.",
+    "remark": "Lasts 8 seconds, cannot be stacked.",
+    "last_updated": 1771185685
+  },
+  {
+    "name": "Withering Thorns",
+    "type": "Exclusive",
+    "effect": "The target takes 800% of the target's attack as physical damage every 2 seconds (up to a maximum of 1600% of the attacker's own attack), for 8 seconds.",
+    "remark": "There can be at most one status target on the field.",
+    "last_updated": 1771185685
   }
 ]

@@ -753,6 +753,9 @@ def main():
         "--push", action="store_true", help="Push to DoltHub after commit"
     )
     parser.add_argument(
+        "--force", action="store_true", help="Force push to DoltHub (overwrite remote)"
+    )
+    parser.add_argument(
         "--dry-run", action="store_true", help="Show SQL without executing"
     )
     parser.add_argument(
@@ -879,15 +882,16 @@ def main():
         print("Committed successfully.")
 
     if args.push:
-        print("Pushing to DoltHub...")
+        push_args = ["push", "--force"] if args.force else ["push"]
+        print("Pushing to DoltHub..." + (" (force)" if args.force else ""))
         try:
-            dolt_cmd("push")
+            dolt_cmd(*push_args)
         except SyncError as exc:
             err = str(exc).lower()
             if "non-fast-forward" in err or "failed to push some refs" in err:
                 print("  Remote is ahead; pulling latest changes and retrying push...")
                 dolt_cmd("pull")
-                dolt_cmd("push")
+                dolt_cmd(*push_args)
             else:
                 raise
         print("Pushed successfully.")
