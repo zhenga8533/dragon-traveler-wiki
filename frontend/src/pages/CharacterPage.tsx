@@ -239,6 +239,26 @@ export default function CharacterPage() {
             }}
           />
         )}
+        {activeIllustration?.type === 'video' && (
+          <Box
+            component="video"
+            src={activeIllustration.src}
+            autoPlay
+            loop
+            muted
+            playsInline
+            style={{
+              position: 'absolute',
+              inset: -20,
+              width: 'calc(100% + 40px)',
+              height: 'calc(100% + 40px)',
+              objectFit: 'cover',
+              objectPosition: 'top',
+              filter: heroBlurFilter,
+              transform: 'scale(1.1)',
+            }}
+          />
+        )}
         {!isDark && (
           <Box
             style={{
