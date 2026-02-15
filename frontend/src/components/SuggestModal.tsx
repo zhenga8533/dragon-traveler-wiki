@@ -348,7 +348,7 @@ export default function SuggestModal({
               </Group>
               {arrayValues[af.name]?.map((row, idx) => (
                 <Group key={idx} gap="xs" align="flex-end" wrap="nowrap">
-                  <Group gap="xs" style={{ flex: 1 }} wrap="wrap">
+                  <Group gap="xs" style={{ flex: 1 }} grow wrap="wrap">
                     {af.fields.map((f) =>
                       renderField(f, row[f.name], (val) =>
                         setArrayField(af.name, idx, f.name, val)

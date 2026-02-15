@@ -90,6 +90,30 @@ const TEAM_SUGGEST_FIELDS: FieldDef[] = [
     required: true,
     options: FACTIONS,
   },
+  {
+    name: 'breach_wyrmspell',
+    label: 'Breach Wyrmspell (optional)',
+    type: 'text',
+    placeholder: 'Wyrmspell name',
+  },
+  {
+    name: 'refuge_wyrmspell',
+    label: 'Refuge Wyrmspell (optional)',
+    type: 'text',
+    placeholder: 'Wyrmspell name',
+  },
+  {
+    name: 'wildcry_wyrmspell',
+    label: 'Wildcry Wyrmspell (optional)',
+    type: 'text',
+    placeholder: 'Wyrmspell name',
+  },
+  {
+    name: 'dragons_call_wyrmspell',
+    label: "Dragon's Call Wyrmspell (optional)",
+    type: 'text',
+    placeholder: 'Wyrmspell name',
+  },
 ];
 
 const TEAM_MEMBER_ARRAY_FIELDS: ArrayFieldDef[] = [

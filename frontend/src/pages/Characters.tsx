@@ -30,7 +30,7 @@ const CHARACTER_FIELDS: FieldDef[] = [
     label: 'Quality',
     type: 'select',
     required: true,
-    options: ['SSR EX', 'SSR+', 'SSR', 'SR+', 'R', 'N'],
+    options: ['UR', 'SSR EX', 'SSR+', 'SSR', 'SR+', 'R', 'N'],
   },
   {
     name: 'character_class',

@@ -49,7 +49,7 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
     label: 'Max Quality',
     type: 'select',
     required: true,
-    options: ['SSR', 'UR'],
+    options: ['UR', 'SSR'],
   },
   {
     name: 'effect',
@@ -58,6 +58,13 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
     required: true,
     placeholder: 'Describe the effect at max quality',
   },
+  {
+    name: 'exclusive_faction',
+    label: 'Exclusive Faction (optional)',
+    type: 'text',
+    placeholder: 'e.g. Elemental Echo (leave blank if none)',
+  },
+  { name: 'is_global', label: 'Available on Global server', type: 'boolean' },
 ];
 
 interface WyrmspellFilters {

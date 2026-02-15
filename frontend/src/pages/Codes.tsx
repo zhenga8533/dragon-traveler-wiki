@@ -35,7 +35,10 @@ import {
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import PaginationControl from '../components/PaginationControl';
 import ResourceBadge from '../components/ResourceBadge';
-import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import SuggestModal, {
+  type ArrayFieldDef,
+  type FieldDef,
+} from '../components/SuggestModal';
 import ViewToggle from '../components/ViewToggle';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
@@ -68,6 +71,29 @@ const CODE_FIELDS: FieldDef[] = [
     label: 'Source (optional)',
     type: 'text',
     placeholder: 'Where did you find this code?',
+  },
+];
+
+const CODE_REWARD_ARRAY_FIELDS: ArrayFieldDef[] = [
+  {
+    name: 'rewards',
+    label: 'Rewards',
+    fields: [
+      {
+        name: 'name',
+        label: 'Reward Name',
+        type: 'text',
+        required: true,
+        placeholder: 'e.g. Diamond',
+      },
+      {
+        name: 'quantity',
+        label: 'Quantity',
+        type: 'text',
+        required: true,
+        placeholder: 'e.g. 500',
+      },
+    ],
   },
 ];
 
@@ -211,6 +237,7 @@ export default function Codes() {
             modalTitle="Suggest a New Code"
             issueTitle="[Code] New code suggestion"
             fields={CODE_FIELDS}
+            arrayFields={CODE_REWARD_ARRAY_FIELDS}
             excludeFromJson={['source']}
           />
         </Group>

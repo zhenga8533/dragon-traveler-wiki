@@ -17,7 +17,7 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   IoCheckmark,
   IoCopyOutline,
@@ -33,6 +33,7 @@ import {
 import { Link } from 'react-router-dom';
 import banner from '../assets/banner.png';
 import CharacterCard from '../components/CharacterCard';
+import LastUpdated from '../components/LastUpdated';
 import ResourceBadge from '../components/ResourceBadge';
 import SearchModal from '../components/SearchModal';
 import { TIER_COLOR } from '../constants/colors';
@@ -96,8 +97,26 @@ function DataStatsBar() {
     'data/teams.json',
     []
   );
+  const { data: codes, loading: l5 } = useDataFetch<Code[]>(
+    'data/codes.json',
+    []
+  );
+  const { data: tierLists, loading: l6 } = useDataFetch<TierList[]>(
+    'data/tier-lists.json',
+    []
+  );
 
-  if (l1 || l2 || l3 || l4) {
+  const mostRecentUpdate = useMemo(() => {
+    let latest = 0;
+    for (const list of [characters, wyrmspells, statusEffects, teams, codes, tierLists]) {
+      for (const item of list) {
+        if (item.last_updated > latest) latest = item.last_updated;
+      }
+    }
+    return latest;
+  }, [characters, wyrmspells, statusEffects, teams, codes, tierLists]);
+
+  if (l1 || l2 || l3 || l4 || l5 || l6) {
     return (
       <Group justify="center" py="md">
         <Skeleton height={20} width="100%" maw={400} radius="md" />
@@ -113,9 +132,12 @@ function DataStatsBar() {
   ];
 
   return (
-    <Text ta="center" size="sm" c="dimmed" py="md">
-      {stats.join(' \u00b7 ')}
-    </Text>
+    <Stack gap={4} align="center" py="md">
+      <Text ta="center" size="sm" c="dimmed">
+        {stats.join(' \u00b7 ')}
+      </Text>
+      <LastUpdated timestamp={mostRecentUpdate} />
+    </Stack>
   );
 }
 
