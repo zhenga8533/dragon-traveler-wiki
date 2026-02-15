@@ -123,8 +123,13 @@ def build_resource_id_map(resources):
 
 
 def compute_hash(entity):
-    """Compute SHA-256 hash of a JSON entity for change detection."""
-    serialized = json.dumps(entity, sort_keys=True, ensure_ascii=False)
+    """Compute SHA-256 hash of a JSON entity for change detection.
+
+    Strips last_updated and data_hash before hashing so that metadata
+    fields don't cause spurious change detection on every sync.
+    """
+    clean = {k: v for k, v in entity.items() if k not in ("last_updated", "data_hash")}
+    serialized = json.dumps(clean, sort_keys=True, ensure_ascii=False)
     return hashlib.sha256(serialized.encode("utf-8")).hexdigest()
 
 
