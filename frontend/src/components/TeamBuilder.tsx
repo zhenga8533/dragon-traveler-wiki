@@ -22,7 +22,6 @@ import {
   Text,
   Textarea,
   TextInput,
-  Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
@@ -73,10 +72,12 @@ function DraggableCharCard({
   name,
   char,
   overlay,
+  onClick,
 }: {
   name: string;
   char: Character | undefined;
   overlay?: boolean;
+  onClick?: () => void;
 }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: name,
@@ -86,14 +87,35 @@ function DraggableCharCard({
     ? { cursor: 'grabbing' }
     : {
         opacity: isDragging ? 0.3 : 1,
-        cursor: isDragging ? 'grabbing' : 'grab',
+        cursor: isDragging ? 'grabbing' : 'pointer',
       };
+
+  // Wrap drag listeners to detect click vs drag
+  const wrappedListeners = onClick
+    ? Object.fromEntries(
+        Object.entries(listeners ?? {}).map(([key, handler]) => [
+          key,
+          (e: React.PointerEvent) => {
+            const startX = e.clientX;
+            const startY = e.clientY;
+            const onUp = (upEvent: PointerEvent) => {
+              const dx = Math.abs(upEvent.clientX - startX);
+              const dy = Math.abs(upEvent.clientY - startY);
+              if (dx < 5 && dy < 5) onClick();
+              window.removeEventListener('pointerup', onUp);
+            };
+            window.addEventListener('pointerup', onUp, { once: true });
+            (handler as (e: React.PointerEvent) => void)(e);
+          },
+        ])
+      )
+    : listeners;
 
   return (
     <div
       ref={overlay ? undefined : setNodeRef}
       style={style}
-      {...(overlay ? {} : { ...listeners, ...attributes })}
+      {...(overlay ? {} : { ...wrappedListeners, ...attributes })}
     >
       <CharacterCard name={name} quality={char?.quality} disableLink />
     </div>
@@ -138,6 +160,79 @@ function renderFactionOption({ option }: { option: { label: string } }) {
       ) : null}
       <Text size="sm">{option.label}</Text>
     </Group>
+  );
+}
+
+/* ── Configure-member modal (isolated state to avoid keystroke re-renders) ── */
+
+interface ConfigModalProps {
+  opened: boolean;
+  onClose: () => void;
+  characterName: string | null;
+  note: string;
+  onNoteChange: (note: string) => void;
+  substitutes: string[];
+  onSubstitutesChange: (subs: string[]) => void;
+  substituteOptions: { value: string; label: string }[];
+}
+
+function ConfigModal({
+  opened,
+  onClose,
+  characterName,
+  note: externalNote,
+  onNoteChange,
+  substitutes: externalSubs,
+  onSubstitutesChange,
+  substituteOptions,
+}: ConfigModalProps) {
+  const [note, setNote] = useState(externalNote);
+  const [subs, setSubs] = useState(externalSubs);
+
+  // Sync from parent when modal opens
+  useEffect(() => {
+    if (opened) {
+      setNote(externalNote);
+      setSubs(externalSubs);
+    }
+  }, [opened, externalNote, externalSubs]);
+
+  // Flush local state back to parent on close
+  const handleClose = () => {
+    onNoteChange(note);
+    onSubstitutesChange(subs);
+    onClose();
+  };
+
+  return (
+    <Modal
+      opened={opened}
+      onClose={handleClose}
+      title={characterName ? `Configure ${characterName}` : 'Configure Member'}
+      size="md"
+    >
+      <Stack gap="md">
+        <TextInput
+          label="Note"
+          placeholder="Add a note (e.g., build full HP, swap for boss 2)..."
+          value={note}
+          onChange={(e) => setNote(e.currentTarget.value)}
+        />
+        <Text size="sm" c="dimmed">
+          Select characters that can substitute for this team member.
+        </Text>
+        <MultiSelect
+          label="Substitutes"
+          placeholder="Select substitute characters"
+          data={substituteOptions}
+          renderOption={renderCharacterOption}
+          value={subs}
+          onChange={setSubs}
+          searchable
+          clearable
+        />
+      </Stack>
+    </Modal>
   );
 }
 
@@ -651,6 +746,22 @@ export default function TeamBuilder({
     }
   }
 
+  function handleAddToNextSlot(charName: string) {
+    if (teamSize >= MAX_ROSTER_SIZE) return;
+    const emptyIdx = slots.findIndex((s) => s === null);
+    if (emptyIdx === -1) return;
+    setSlots((prev) => {
+      const next = [...prev];
+      next[emptyIdx] = charName;
+      return next;
+    });
+    setOverdriveEnabled((prev) => {
+      const next = [...prev];
+      next[emptyIdx] = false;
+      return next;
+    });
+  }
+
   function handleToggleOverdrive(slotIndex: number) {
     if (!slots[slotIndex]) return; // No character in slot
     setOverdriveEnabled((prev) => {
@@ -916,7 +1027,12 @@ export default function TeamBuilder({
           {(filtered, filterHeader) => (
             <AvailablePool filterHeader={filterHeader}>
               {filtered.map((c) => (
-                <DraggableCharCard key={c.name} name={c.name} char={c} />
+                <DraggableCharCard
+                  key={c.name}
+                  name={c.name}
+                  char={c}
+                  onClick={() => handleAddToNextSlot(c.name)}
+                />
               ))}
             </AvailablePool>
           )}
@@ -938,56 +1054,30 @@ export default function TeamBuilder({
           )
         : null}
 
-      <Modal
+      <ConfigModal
         opened={configModalOpened}
         onClose={closeConfigModal}
-        title={
-          configSlotIndex !== null && slots[configSlotIndex] ? (
-            <Title order={4}>
-              Configure {slots[configSlotIndex]}
-            </Title>
-          ) : (
-            'Configure Member'
-          )
-        }
-        size="md"
-      >
-        <Stack gap="md">
-          <TextInput
-            label="Note"
-            placeholder="Add a note (e.g., build full HP, swap for boss 2)..."
-            value={configSlotIndex !== null ? slotNotes[configSlotIndex] : ''}
-            onChange={(e) => {
-              if (configSlotIndex !== null) {
-                setSlotNotes((prev) => {
-                  const next = [...prev];
-                  next[configSlotIndex] = e.currentTarget.value;
-                  return next;
-                });
-              }
-            }}
-          />
-          <Text size="sm" c="dimmed">
-            Select characters that can substitute for this team member.
-          </Text>
-          <MultiSelect
-            label="Substitutes"
-            placeholder="Select substitute characters"
-            data={availableCharacters
-              .filter((c) => !teamNames.has(c.name))
-              .map((c) => ({ value: c.name, label: c.name }))}
-            renderOption={renderCharacterOption}
-            value={configSlotIndex !== null ? substitutes[configSlotIndex] : []}
-            onChange={(value) => {
-              if (configSlotIndex !== null) {
-                handleUpdateSubstitutes(value);
-              }
-            }}
-            searchable
-            clearable
-          />
-        </Stack>
-      </Modal>
+        characterName={configSlotIndex !== null ? slots[configSlotIndex] : null}
+        note={configSlotIndex !== null ? slotNotes[configSlotIndex] : ''}
+        onNoteChange={(note) => {
+          if (configSlotIndex !== null) {
+            setSlotNotes((prev) => {
+              const next = [...prev];
+              next[configSlotIndex] = note;
+              return next;
+            });
+          }
+        }}
+        substitutes={configSlotIndex !== null ? substitutes[configSlotIndex] : []}
+        onSubstitutesChange={(subs) => {
+          if (configSlotIndex !== null) {
+            handleUpdateSubstitutes(subs);
+          }
+        }}
+        substituteOptions={availableCharacters
+          .filter((c) => !teamNames.has(c.name))
+          .map((c) => ({ value: c.name, label: c.name }))}
+      />
     </DndContext>
   );
 }
