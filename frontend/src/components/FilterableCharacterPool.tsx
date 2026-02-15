@@ -8,7 +8,7 @@ import {
   EMPTY_FILTERS,
   extractAllEffectRefs,
   filterCharacters,
-  sortCharactersByQualityName,
+  sortCharactersByQuality,
 } from '../utils/filter-characters';
 import CharacterFilter from './CharacterFilter';
 
@@ -34,7 +34,7 @@ export default function FilterableCharacterPool({
 
   const filtered = useMemo(() => {
     const filteredChars = filterCharacters(characters, filters);
-    return sortCharactersByQualityName(filteredChars);
+    return sortCharactersByQuality(filteredChars);
   }, [characters, filters]);
 
   const activeFilterCount =

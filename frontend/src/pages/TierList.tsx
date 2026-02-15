@@ -30,7 +30,7 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilters } from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
-import { sortCharactersByQualityName } from '../utils/filter-characters';
+import { sortCharactersByQuality } from '../utils/filter-characters';
 import LastUpdated from '../components/LastUpdated';
 
 const TIER_LIST_FIELDS: FieldDef[] = [
@@ -251,7 +251,7 @@ export default function TierList() {
                       const rankedNames = new Set(
                         tierList.entries.map((e) => e.character_name)
                       );
-                      const unranked = sortCharactersByQualityName(
+                      const unranked = sortCharactersByQuality(
                         characters.filter((c) => !rankedNames.has(c.name))
                       );
 

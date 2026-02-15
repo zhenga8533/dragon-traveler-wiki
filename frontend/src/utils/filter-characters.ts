@@ -85,10 +85,8 @@ export function extractAllEffectRefs(characters: Character[]): string[] {
   return [...names].sort();
 }
 
-/** Sort characters by quality (using QUALITY_ORDER), then alphabetically by name. */
-export function sortCharactersByQualityName(
-  characters: Character[]
-): Character[] {
+/** Sort characters by quality, then alphabetically by name. */
+export function sortCharactersByQuality(characters: Character[]): Character[] {
   return characters.sort((a, b) => {
     const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
     const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);

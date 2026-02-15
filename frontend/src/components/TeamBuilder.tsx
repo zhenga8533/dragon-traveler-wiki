@@ -505,6 +505,7 @@ export default function TeamBuilder({
       description,
       faction: (faction || 'Elemental Echo') as FactionName,
       members,
+      last_updated: 0,
     };
 
     // Add wyrmspells if any are selected

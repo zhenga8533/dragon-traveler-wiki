@@ -28,6 +28,9 @@ EXPORT_DIR = SCRIPT_DIR / "exports"
 QUALITY_ORDER = ["UR", "SSR EX", "SSR+", "SSR", "SR+", "R", "N"]
 QUALITY_RANK = {q: i for i, q in enumerate(QUALITY_ORDER)}
 
+CLASS_ORDER = ["Guardian", "Priest", "Assassin", "Warrior", "Archer", "Mage"]
+CLASS_RANK = {c: i for i, c in enumerate(CLASS_ORDER)}
+
 STATE_ORDER = ["Buff", "Debuff", "Special", "Control", "Elemental", "Blessing", "Exclusive"]
 STATE_RANK = {s: i for i, s in enumerate(STATE_ORDER)}
 
@@ -275,6 +278,7 @@ def export_characters(data, output_dir=None):
         )
 
     result.sort(key=lambda c: (
+        CLASS_RANK.get(c["character_class"], _FALLBACK),
         QUALITY_RANK.get(c["quality"], _FALLBACK),
         c["name"].lower(),
     ))

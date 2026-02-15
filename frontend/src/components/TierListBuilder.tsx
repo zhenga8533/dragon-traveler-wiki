@@ -191,6 +191,7 @@ export default function TierListBuilder({
             ...(notes[character_name] ? { note: notes[character_name] } : {}),
           }))
       ),
+      last_updated: 0,
     };
     return JSON.stringify(result, null, 2);
   }, [placements, notes, name, author, categoryName, description]);

@@ -34,7 +34,7 @@ import {
   EMPTY_FILTERS,
   extractAllEffectRefs,
   filterCharacters,
-  sortCharactersByQualityName,
+  sortCharactersByQuality,
 } from '../utils/filter-characters';
 import CharacterCard, { QUALITY_BORDER_COLOR } from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
@@ -91,7 +91,7 @@ export default function CharacterList({
     data: characters,
     filters,
     filterFn: filterCharacters,
-    sortFn: (filtered) => sortCharactersByQualityName(filtered),
+    sortFn: (filtered) => sortCharactersByQuality(filtered),
   });
 
   const activeFilterCount =
