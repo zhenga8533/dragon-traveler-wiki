@@ -27,8 +27,16 @@
     "icon": "spreadsheet",
     "application": "Spreadsheet",
     "name": "Stexy's Database",
-    "description": "Early game reference sheet and F2P tier list by _stexy_.",
+    "description": "Early game reference sheet and F2P tier list by @_stexy_.",
     "link": "https://docs.google.com/spreadsheets/d/1nOy3Bsg8xlcE001vepKjhFIJ3yGupqX1L9gNF3Q15Ew/edit?gid=1888656368#gid=1888656368",
-    "last_updated": 1771129475
+    "last_updated": 1771190254
+  },
+  {
+    "icon": "spreadsheet",
+    "application": "Spreadsheet",
+    "name": "龍魂旅人全角色養成指南",
+    "description": "Reference sheet for the Taiwanese version by @ligong0214.",
+    "link": "https://docs.google.com/spreadsheets/d/1BtV2fdlYPytwNG4lz_8WbJCPmAqa3Mxw5zw1ts2SyGI/edit?gid=1197579038#gid=1197579038",
+    "last_updated": 1771190254
   }
 ]
