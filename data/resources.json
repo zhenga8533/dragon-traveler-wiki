@@ -6,9 +6,10 @@
     "last_updated": 1771129475
   },
   {
-    "name": "Triumphant Medal",
-    "description": "Medals obtained in the Points League gameplay can be exchanged for rare resources in the League Store.",
-    "category": "Currency"
+    "name": "Cloud Blossom",
+    "description": "The dreamy little flower grows exclusively on mysterious floating islands, exchangeable for rare items at the Cloudborne Store.",
+    "category": "Currency",
+    "last_updated": 1771197404
   },
   {
     "name": "Diamond",
@@ -23,11 +24,6 @@
     "last_updated": 1771129475
   },
   {
-    "name": "Advanced Entry Ticket",
-    "description": "Tickets for challenging opponents in the Advanced Points Match. In the Points League, the higher your rank, the more purcahses can be made daily.",
-    "category": "Item"
-  },
-  {
     "name": "Dragonbreath Seed",
     "description": "A dragon seed containing dormant power - while its radiance may be dim now, it shall regain its brilliance one day. Exchange it at the Magic Store for rare resources.",
     "category": "Currency",
@@ -37,13 +33,31 @@
     "name": "Forging Commemorative Coin",
     "description": "Obtained from Champion Expedition or by dismantling UR equipment. Use at the Gear Store to exchange for rare items.",
     "category": "Currency",
-    "last_updated": 1771129475
+    "last_updated": 1771197404
   },
   {
     "name": "Friendship Points",
     "description": "A testament to the friendship between adventure partners. Can be used to exchange for rare items in the Friendship Store.",
     "category": "Currency",
     "last_updated": 1771129475
+  },
+  {
+    "name": "Glory Coins",
+    "description": "A top-tier currency earned in the Realm Clash. Can be exchanged for rare resources.",
+    "category": "Currency",
+    "last_updated": 1771197404
+  },
+  {
+    "name": "Godking Apex Coin",
+    "description": "A top-tier Currency earned in Godking Clash that's exchangeable for rare resources.",
+    "category": "Currency",
+    "last_updated": 1771197404
+  },
+  {
+    "name": "Godking Coin",
+    "description": "Currency earned in Godking Clash that's exchangeable for rare resources.",
+    "category": "Currency",
+    "last_updated": 1771197404
   },
   {
     "name": "Gold",
@@ -58,6 +72,18 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Honor Insignia",
+    "description": "Advanced Arena Currency is awarded to participants based on seasonal rank performance. It can be exchanged for rare resources in the Advanced Store.",
+    "category": "Currency",
+    "last_updated": 1771197404
+  },
+  {
+    "name": "Ring of Inspiration",
+    "description": "An ancient inscription imbued with a god's forging inspiration. Use it to unlock Runes for use in Rune Summon.",
+    "category": "Currency",
+    "last_updated": 1771197404
+  },
+  {
     "name": "Slime Goo",
     "description": "Slime goo clinging to Luminaries Obtained by dismantling N Luminaries, and can be exchanged for various rare resources.",
     "category": "Currency",
@@ -70,14 +96,16 @@
     "last_updated": 1771129475
   },
   {
-    "name": "Highwyrm EXP",
-    "description": "Used to increase Dragon level.",
-    "category": "Material"
+    "name": "Triumphant Medal",
+    "description": "Medals obtained in the Points League gameplay can be exchanged for rare resources in the League Store.",
+    "category": "Currency",
+    "last_updated": 1771197404
   },
   {
-    "name": "Feather of Revelation",
-    "description": "A sacred feather imbued with Blessing exchangeable for 1 Trial Emblem during the Trial of Warborn Goddess.",
-    "category": "Item"
+    "name": "Voucher",
+    "description": "A mysterious voucher from another world that can replace real currency for purchases.",
+    "category": "Currency",
+    "last_updated": 1771197404
   },
   {
     "name": "Apple",
@@ -98,10 +126,22 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Advanced Entry Ticket",
+    "description": "Tickets for challenging opponents in the Advanced Points Match. In the Points League, the higher your rank, the more purcahses can be made daily.",
+    "category": "Item",
+    "last_updated": 1771197404
+  },
+  {
     "name": "Exploration Guide",
     "description": "Using this in Champion Expedition grants 3 Veteran Emblems.",
     "category": "Item",
     "last_updated": 1771129475
+  },
+  {
+    "name": "Feather of Revelation",
+    "description": "A sacred feather imbued with Blessing exchangeable for 1 Trial Emblem during the Trial of Warborn Goddess.",
+    "category": "Item",
+    "last_updated": 1771197404
   },
   {
     "name": "Aurora Crystal",
@@ -110,71 +150,34 @@
     "last_updated": 1771129475
   },
   {
-    "name": "Dragonfire",
-    "description": "An eternal flame that enhances the Dragon Roar effect.",
-    "category": "Material"
-  },
-  {
-    "name": "Divine Crystal",
-    "description": "A gem radiant as a rainbow, flowing with divine light. Used to enhance a Luminary's Divinity.",
-    "category": "Material"
-  },
-  {
-    "name": "Honor Insignia",
-    "description": "Advanced Arena Currency is awarded to participants based on seasonal rank performance. It can be exchanged for rare resources in the Advanced Store.",
-    "category": "Currency"
-  },
-  {
-    "name": "Ring of Inspiration",
-    "description": "An ancient inscription imbued with a god's forging inspiration. Use it to unlock Runes for use in Rune Summon.",
-    "category": "Currency"
-  },
-  {
-    "name": "Cloud Blossom",
-    "description": "The dreamy little flower grows exclusively on mysterious floating islands, exchangeable for rare items at the Cloudborne Store.",
-    "category": "Currency"
-  },
-  {
-    "name": "Wishing Lily",
-    "description": "A lily of the valley blooming where the Warborn Goddess descended, infused with a Sacred Blessing, usable in Wish Summon.",
-    "category": "Summoning"
-  },
-  {
-    "name": "Glory Coins",
-    "description": "A top-tier currency earned in the Realm Clash. Can be exchanged for rare resources.",
-    "category": "Currency"
-  },
-  {
-    "name": "Voucher",
-    "description": "A mysterious voucher from another world that can replace real currency for purchases.",
-    "category": "Currency"
-  },
-  {
-    "name": "Godking Apex Coin",
-    "description": "A top-tier Currency earned in Godking Clash that's exchangeable for rare resources.",
-    "category": "Currency"
-  },
-  {
-    "name": "Godking Coin",
-    "description": "Currency earned in Godking Clash that's exchangeable for rare resources.",
-    "category": "Currency"
-  },
-  {
-    "name": "Starlight Sigil",
-    "description": "A Starshine Mark with flowing light, used to upgrade the Stellar Power level of dragons.",
-    "category": "Material"
-  },
-  {
     "name": "Aurora Dust",
     "description": "Crystal dust, the product of years of alchemical refinement. A Common Material use for Treasure Advancement.",
     "category": "Material",
     "last_updated": 1771129475
   },
   {
+    "name": "Divine Crystal",
+    "description": "A gem radiant as a rainbow, flowing with divine light. Used to enhance a Luminary's Divinity.",
+    "category": "Material",
+    "last_updated": 1771197404
+  },
+  {
     "name": "Dragonblood",
     "description": "The rare blood of ancient dragons. Can be used in Wyrm Star Upgrade.",
     "category": "Material",
     "last_updated": 1771129475
+  },
+  {
+    "name": "Dragonfire",
+    "description": "An eternal flame that enhances the Dragon Roar effect.",
+    "category": "Material",
+    "last_updated": 1771197404
+  },
+  {
+    "name": "Highwyrm EXP",
+    "description": "Used to increase Dragon level.",
+    "category": "Material",
+    "last_updated": 1771197404
   },
   {
     "name": "Leaf of the World Tree",
@@ -193,6 +196,12 @@
     "description": "An amber crystal containing ancient Luminary memories. Unlocks advanced classes.",
     "category": "Material",
     "last_updated": 1771129475
+  },
+  {
+    "name": "Starlight Sigil",
+    "description": "A Starshine Mark with flowing light, used to upgrade the Stellar Power level of dragons.",
+    "category": "Material",
+    "last_updated": 1771197404
   },
   {
     "name": "Wyrm Essence",
@@ -259,6 +268,12 @@
     "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Luminary Summons.",
     "category": "Summoning",
     "last_updated": 1771129475
+  },
+  {
+    "name": "Wishing Lily",
+    "description": "A lily of the valley blooming where the Warborn Goddess descended, infused with a Sacred Blessing, usable in Wish Summon.",
+    "category": "Summoning",
+    "last_updated": 1771197404
   },
   {
     "name": "5-Star Luminary Shards",
