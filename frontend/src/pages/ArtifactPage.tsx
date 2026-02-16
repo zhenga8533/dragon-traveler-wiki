@@ -18,6 +18,7 @@ import { useMemo } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
+import { CLASS_ICON_MAP } from '../assets/class';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import Breadcrumbs from '../components/Breadcrumbs';
 import LastUpdated from '../components/LastUpdated';
@@ -92,7 +93,20 @@ function TreasureCard({
             <Text fw={700} size="lg">
               {treasure.name}
             </Text>
-            <Badge variant="light" size="sm" w="fit-content">
+            <Badge
+              variant="light"
+              size="sm"
+              w="fit-content"
+              leftSection={
+                <Image
+                  src={CLASS_ICON_MAP[treasure.character_class]}
+                  alt={treasure.character_class}
+                  w={14}
+                  h={14}
+                  fit="contain"
+                />
+              }
+            >
               {treasure.character_class}
             </Badge>
           </Stack>

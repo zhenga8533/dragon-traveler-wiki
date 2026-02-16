@@ -159,5 +159,166 @@
         ]
       }
     ]
+  },
+  {
+    "name": "Wings of Icarus",
+    "is_global": true,
+    "lore": "\"Icarus, I warn you, do not fly too low, for the wings will become heavy with water; nor fly too high, for the sun's heat will burn them.\" — Ovid",
+    "quality": "N",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Increases Attack for all allied Luminaries by 3%."
+      },
+      {
+        "level": 2,
+        "description": "Increases Attack by 1%"
+      },
+      {
+        "level": 5,
+        "description": "Increases Attack by 1%"
+      },
+      {
+        "level": 8,
+        "description": "Increases Attack by 1.5%"
+      },
+      {
+        "level": 11,
+        "description": "Increases Attack by 1%"
+      },
+      {
+        "level": 14,
+        "description": "Increases Attack by 1.5%"
+      },
+      {
+        "level": 17,
+        "description": "Increases Attack by 2%"
+      },
+      {
+        "level": 20,
+        "description": "Increases Attack by 3%"
+      }
+    ],
+    "width": 2,
+    "height": 2,
+    "treasures": [
+      {
+        "name": "Ariadne's Thread",
+        "lore": "\"Take this ball of thread and give it to Theseus. Tell him to tie one end to the door lintel... If he succeeds in killing the monster, he can follow it out.\" — Apollodorus' 'Library'",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 151"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 972"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 236"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 151"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 972"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 211"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1%"
+          }
+        ]
+      },
+      {
+        "name": "Daedalus's Hammer",
+        "lore": "\"Although he blocked the roads by land and sea, the sky still offers a path. Why not ascend to the heavens? Daedalus pondered how to create an unprecedented mechanism to alter the laws of nature.\" — Ovid's 'Metamorphoses'",
+        "character_class": "Archer",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 146"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1000"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 211"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 146"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1000"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 236"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1%"
+          }
+        ]
+      },
+      {
+        "name": "Ship of Theseus",
+        "lore": "\"Theseus safely returned on a large ship with thirty oars, which the Athenians preserved. They repeatedly dismantled the decayed old planks and replaced them with solid new ones.\" — 'Lives of the Noble Grecians and Romans'",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 126"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1130"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 251"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 126"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1130"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 276"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1%"
+          }
+        ]
+      }
+    ]
   }
 ]
