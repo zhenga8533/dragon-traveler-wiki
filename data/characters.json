@@ -397,7 +397,7 @@
       {
         "name": "Flaming Blade Returns to Heaven",
         "type": "Ultimate Skill",
-        "description": "Throws a blade at the furthest enemy phantom, dealing physical damage equal to 210%/230%/250%/270%/310% of the user's attack and bouncing back to grant the user a shield equal to 21%/23%/25%/27%/31% of their maximum health for 6 seconds. If the blade hits a target with an elemental debuff, it instead grants a shield to allied units within a larger circular area.",
+        "description": "Throws a blade at the furthest enemy Luminary, dealing physical damage equal to 210%/230%/250%/270%/310% of the user's attack and bouncing back to grant the user a shield equal to 21%/23%/25%/27%/31% of their maximum health for 6 seconds. If the blade hits a target with an elemental debuff, it instead grants a shield to allied units within a larger circular area.",
         "cooldown": 12
       },
       {
@@ -415,12 +415,12 @@
       {
         "name": "Red Scale Crazy Armor",
         "type": "Divine Skill",
-        "description": "When the [Crimson Scale Gauntlets] Phantom Spirit is affected by the [Increased Energy Cost for Next Ultimate Skill] effect, it recovers 5% of its maximum HP.",
+        "description": "When the [Crimson Scale Gauntlets] Luminary is affected by the [Increased Energy Cost for Next Ultimate Skill] effect, it recovers 5% of its maximum HP.",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Helveil",
@@ -628,7 +628,7 @@
         },
         {
           "level": 4,
-          "effect": "When our Phantom Spirit triggers [Detonation] or [Flash Freeze], it will additionally inflict [Accuracy Down] and 1 stack of [Drunken Fragrance]."
+          "effect": "When our Luminary triggers [Detonation] or [Flash Freeze], it will additionally inflict [Accuracy Down] and 1 stack of [Drunken Fragrance]."
         },
         {
           "level": 7,
@@ -669,7 +669,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Drasil",
@@ -1301,11 +1301,11 @@
         },
         {
           "level": 2,
-          "effect": "When [Soul-Hooking Scythe] hits, it applies [Damage Reduction Down] and additionally causes the nearest friendly ranged phantom to also target the target, excluding itself."
+          "effect": "When [Soul-Hooking Scythe] hits, it applies [Damage Reduction Down] and additionally causes the nearest friendly ranged Luminary to also target the target, excluding itself."
         },
         {
           "level": 3,
-          "effect": "If the enemy has at least 2 more surviving Phantoms than our side, then [Void Prison] will select an additional banished target."
+          "effect": "If the enemy has at least 2 more surviving Luminaries than our side, then [Void Prison] will select an additional banished target."
         },
         {
           "level": 4,
@@ -1325,13 +1325,13 @@
       {
         "name": "Void Prison",
         "type": "Overdrive",
-        "description": "Banish yourself and the target for 5 seconds. After the banishment ends, deal true damage equal to 30% of the target's current health (up to a maximum of 300% of your maximum health). If the target cannot be banished, apply Damage Reduction to them and deal true damage equal to 40% of the target's current health (up to a maximum of 400% of your maximum health). When the number of surviving phantoms on your side is less than or equal to the number of surviving phantoms on the enemy side, you will not be [Exile].",
+        "description": "Banish yourself and the target for 5 seconds. After the banishment ends, deal true damage equal to 30% of the target's current health (up to a maximum of 300% of your maximum health). If the target cannot be banished, apply Damage Reduction to them and deal true damage equal to 40% of the target's current health (up to a maximum of 400% of your maximum health). When the number of surviving Luminaries on your side is less than or equal to the number of surviving Luminaries on the enemy side, you will not be [Exile].",
         "cooldown": 20
       },
       {
         "name": "Soul-Hooking Scythe",
         "type": "Ultimate Skill",
-        "description": "Throws a scythe at the furthest enemy phantom within a straight line, dealing magic damage equal to 600% of the caster's attack and inflicting a 2- second stun. Then, pulls the target to the caster twice, dealing magic damage equal to 600% of the caster's attack each time. The caster and the nearest allied melee phantom then target the target. This skill's cooldown is reset upon the target's death. This skill is used once immediately at the start of the battle.",
+        "description": "Throws a scythe at the furthest enemy Luminary within a straight line, dealing magic damage equal to 600% of the caster's attack and inflicting a 2- second stun. Then, pulls the target to the caster twice, dealing magic damage equal to 600% of the caster's attack each time. The caster and the nearest allied melee Luminary then target the target. This skill's cooldown is reset upon the target's death. This skill is used once immediately at the start of the battle.",
         "cooldown": 90
       },
       {
@@ -1354,7 +1354,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Venus",
@@ -1388,7 +1388,7 @@
         },
         {
           "level": 2,
-          "effect": "When an allied Phantom enters the [Wild] state or triggers an [Elemental Reaction], it heals the target for 18% of their maximum HP. (Can only trigger once every 5 seconds on the same target)"
+          "effect": "When an allied Luminary enters the [Wild] state or triggers an [Elemental Reaction], it heals the target for 18% of their maximum HP. (Can only trigger once every 5 seconds on the same target)"
         },
         {
           "level": 3,
@@ -1424,7 +1424,7 @@
       {
         "name": "Bewitched",
         "type": "Secret Skill",
-        "description": "When first hit by a melee phantom, apply Charm to the source of the damage for 9/9.1/9.2/9.3/9.4/9.5 seconds.",
+        "description": "When first hit by a melee Luminary, apply Charm to the source of the damage for 9/9.1/9.2/9.3/9.4/9.5 seconds.",
         "cooldown": 0
       },
       {
@@ -1441,7 +1441,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129358
+    "last_updated": 1771214653
   },
   {
     "name": "Morgana",
@@ -1471,7 +1471,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "During combat, Morgana gains 25% increased health. When an enemy unit is affected by a basic [Elemental Debuff], Morgana gains 1 stack of [Elemental Alchemy] of the corresponding color. When she has 6 stacks of [Elemental Alchemy] of the same color, she consumes them to apply the corresponding buff to all allied Phantoms. Red Elemental Alchemy: [Crit Up]; Yellow Elemental Alchemy: [Crit Damage Up]; Blue Elemental Alchemy: [Attack Boost]."
+          "effect": "During combat, Morgana gains 25% increased health. When an enemy unit is affected by a basic [Elemental Debuff], Morgana gains 1 stack of [Elemental Alchemy] of the corresponding color. When she has 6 stacks of [Elemental Alchemy] of the same color, she consumes them to apply the corresponding buff to all allied Luminaries. Red Elemental Alchemy: [Crit Up]; Yellow Elemental Alchemy: [Crit Damage Up]; Blue Elemental Alchemy: [Attack Boost]."
         },
         {
           "level": 2,
@@ -1495,7 +1495,7 @@
       {
         "name": "Elemental Symphony",
         "type": "Overdrive",
-        "description": "Entering a 6-second channeled cast, during which time if an ally applies Burn or Shock, Morgana immediately applies Chill to the target (can trigger a maximum of once per target within 0.5 seconds). During the spellcasting period, every 1 second, the caster gains 4 random-colored [Elemental Alchemy] spells; when [Elemental Alchemy] is consumed, the caster recovers 5% of their health and launches a missile at the ally with the lowest health other than themselves, either a phantom or a dragon, restoring it to 10% of the caster's maximum health.",
+        "description": "Entering a 6-second channeled cast, during which time if an ally applies Burn or Shock, Morgana immediately applies Chill to the target (can trigger a maximum of once per target within 0.5 seconds). During the spellcasting period, every 1 second, the caster gains 4 random-colored [Elemental Alchemy] spells; when [Elemental Alchemy] is consumed, the caster recovers 5% of their health and launches a missile at the ally with the lowest health other than themselves, either a Luminary or a Wyrm, restoring it to 10% of the caster's maximum health.",
         "cooldown": 20
       },
       {
@@ -1507,7 +1507,7 @@
       {
         "name": "Elemental Crucible",
         "type": "Secret Skill",
-        "description": "It starts with a maximum of 10 energy points, gains full energy at the start of battle, and recovers 1 energy point when it consumes [Elemental Alchemy]. When an enemy phantom is affected by Chill, it consumes some energy to additionally apply Healing Prohibition. If the target is already under Healing Prohibition, it will instead apply a random Attribute Debuff. When an enemy phantom is affected by [Evaporation], it consumes 3 energy points to additionally add [Next Ultimate Skill Energy Cost +1].",
+        "description": "It starts with a maximum of 10 energy points, gains full energy at the start of battle, and recovers 1 energy point when it consumes [Elemental Alchemy]. When an enemy Luminary is affected by Chill, it consumes some energy to additionally apply Healing Prohibition. If the target is already under Healing Prohibition, it will instead apply a random Attribute Debuff. When an enemy Luminary is affected by [Evaporation], it consumes 3 energy points to additionally add [Next Ultimate Skill Energy Cost +1].",
         "cooldown": 0
       },
       {
@@ -1524,7 +1524,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Ophelia",
@@ -1724,7 +1724,7 @@
         },
         {
           "level": 2,
-          "effect": "[Tentacle] attack, it additionally restores the same amount of HP to one allied Phantom Spirit in the [Wild] state."
+          "effect": "[Tentacle] attack, it additionally restores the same amount of HP to one allied Luminary in the [Wild] state."
         },
         {
           "level": 3,
@@ -1773,7 +1773,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Titania",
@@ -2642,12 +2642,12 @@
       {
         "name": "Ten Thousand Snakes Eat Bones",
         "type": "Divine Skill",
-        "description": "[Ravaging Maw] After defeating the target, immediately use [Ravaging Maw] again on the enemy phantom with the lowest health.",
+        "description": "[Ravaging Maw] After defeating the target, immediately use [Ravaging Maw] again on the enemy Luminary with the lowest health.",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771214653
   },
   {
     "name": "Mordred",
@@ -2837,7 +2837,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Whenever an allied unit is defeated, gain 1 stack of [Deathrattle]. When a skill deals a critical hit, it grants [Morale] to the user and one allied phantom of the Holy Glory faction with the highest attack. When the [Sword Clone] basic attack deals a critical hit, it grants one stack of [Deathrattle] to the user and one allied phantom of the Otherworldly Descent faction with the highest attack. During battle, increases own evasion by 300/350/400/450/500/550/600 . For each stack of [Deathrattle], increases own evasion by an additional 30/35/40/45/50/55/60 ."
+          "effect": "Whenever an allied unit is defeated, gain 1 stack of [Deathrattle]. When a skill deals a critical hit, it grants [Morale] to the user and one allied Luminary of the Holy Glory faction with the highest attack. When the [Sword Clone] basic attack deals a critical hit, it grants one stack of [Deathrattle] to the user and one allied Luminary of the Otherworldly Descent faction with the highest attack. During battle, increases own evasion by 300/350/400/450/500/550/600 . For each stack of [Deathrattle], increases own evasion by an additional 30/35/40/45/50/55/60 ."
         },
         {
           "level": 2,
@@ -2890,7 +2890,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "White Tiger",
@@ -3663,7 +3663,7 @@
       {
         "name": "Elemental Grace",
         "type": "Secret Skill",
-        "description": "While present, whenever an allied Phantom triggers an Elemental Reaction, apply one random Blessing buff to it (prioritizing the one it doesn't currently have). When you gain both [Morale] and [Fervor], you enter the Grace state. While in the Grace state, you gain the skill Lightning Strike: Hammers enemy units in a large circular area in front of you, dealing 360% of your attack as magic damage in two hits and applying 2 stacks of Electrocution. The base cooldown is 6 seconds. This skill also has a 100% health conversion effect when it deals damage.",
+        "description": "While present, whenever an allied Luminary triggers an Elemental Reaction, apply one random Blessing buff to it (prioritizing the one it doesn't currently have). When you gain both [Morale] and [Fervor], you enter the Grace state. While in the Grace state, you gain the skill Lightning Strike: Hammers enemy units in a large circular area in front of you, dealing 360% of your attack as magic damage in two hits and applying 2 stacks of Electrocution. The base cooldown is 6 seconds. This skill also has a 100% health conversion effect when it deals damage.",
         "cooldown": 6
       },
       {
@@ -3680,7 +3680,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Andevaly",
@@ -3752,7 +3752,7 @@
       {
         "name": "Dragon Fang Pierce",
         "type": "Special Skill",
-        "description": "Throw a spear at the enemy phantom with the lowest current ultimate skill energy consumption, dealing physical damage equal to 380% of your attack power to enemy units within a large circular area around the target, and increasing the ultimate skill energy consumption of the damaged enemy phantom by 1 for the next ultimate skill.",
+        "description": "Throw a spear at the enemy Luminary with the lowest current ultimate skill energy consumption, dealing physical damage equal to 380% of your attack power to enemy units within a large circular area around the target, and increasing the ultimate skill energy consumption of the damaged enemy Luminary by 1 for the next ultimate skill.",
         "cooldown": 15
       },
       {
@@ -3763,7 +3763,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Arthur",
@@ -3906,13 +3906,13 @@
       {
         "name": "Hell Dance",
         "type": "Ultimate Skill",
-        "description": "She leaps and spins, dealing 6 hits to a single target, totaling 590% of her attack as magic damage. Each hit has a 30% chance to inflict a 0.2-second stun and restore 10% of her maximum health. If she is already at full health, she will instead heal the ally with the lowest current health, either a phantom or a dragon. The chance increases by 2% for each stack of [Deathrattle].",
+        "description": "She leaps and spins, dealing 6 hits to a single target, totaling 590% of her attack as magic damage. Each hit has a 30% chance to inflict a 0.2-second stun and restore 10% of her maximum health. If she is already at full health, she will instead heal the ally with the lowest current health, either a Luminary or a Wyrm. The chance increases by 2% for each stack of [Deathrattle].",
         "cooldown": 9
       },
       {
         "name": "Blood Thirst",
         "type": "Secret Skill",
-        "description": "When Hellfire or a summoned creature deals damage to an enemy unit with a basic attack, the Demon Lord recovers health equal to 33% of the damage dealt.When its own health decreases, it will accumulate rage. When the rage is full, it enters the [Wild] state. While in the [Wild] state, it will additionally restore health to all allied phantoms equal to 22% of the damage dealt.",
+        "description": "When Hellfire or a summoned creature deals damage to an enemy unit with a basic attack, the Demon Lord recovers health equal to 33% of the damage dealt.When its own health decreases, it will accumulate rage. When the rage is full, it enters the [Wild] state. While in the [Wild] state, it will additionally restore health to all allied Luminaries equal to 22% of the damage dealt.",
         "cooldown": 0
       },
       {
@@ -3929,7 +3929,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Azure Dragon",
@@ -4961,7 +4961,7 @@
       {
         "name": "Shadowy Hunt",
         "type": "Secret Skill",
-        "description": "Each time the user enters or exits the [Dark Moon] state, they immediately fire one arrow at each of the enemy phantoms, dealing physical damage equal to 210% of their attack. There is a 50% chance to inflict [Physical Defense Down] and [Next Ultimate Skill Energy Cost +1] on each target. Targets with an ultimate skill energy cost below 4 will always be inflicted with the [Next Ultimate Skill Energy Cost +1] effect. Each time our side triggers the [Punishment] effect, the damage of this skill increases by 8% (up to a maximum of 240%).",
+        "description": "Each time the user enters or exits the [Dark Moon] state, they immediately fire one arrow at each of the enemy Luminaries, dealing physical damage equal to 210% of their attack. There is a 50% chance to inflict [Physical Defense Down] and [Next Ultimate Skill Energy Cost +1] on each target. Targets with an ultimate skill energy cost below 4 will always be inflicted with the [Next Ultimate Skill Energy Cost +1] effect. Each time our side triggers the [Punishment] effect, the damage of this skill increases by 8% (up to a maximum of 240%).",
         "cooldown": 0
       },
       {
@@ -4973,12 +4973,12 @@
       {
         "name": "Dark Moon Rage",
         "type": "Divine Skill",
-        "description": "Whenever the user enters the [Dark Moon] state, all allied ranged phantoms gain [Crit Up], and the user also gains [Crit Damage Up].",
+        "description": "Whenever the user enters the [Dark Moon] state, all allied ranged Luminaries gain [Crit Up], and the user also gains [Crit Damage Up].",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129358
+    "last_updated": 1771214653
   },
   {
     "name": "Huginn & Muninn",
@@ -5287,7 +5287,7 @@
       {
         "name": "Time Flying Wheel",
         "type": "Ultimate Skill",
-        "description": "Launches a wheel at the furthest enemy phantom, which travels in a straight line and returns. On both the forward and return journeys, the wheel deals physical damage equal to 162% of the caster's attack to any enemy units it collides with. When you possess both Morale and Fighting Spirit, you enter the Grace state. While in the Grace state, this skill fires an enhanced version of a roulette wheel, with each hit dealing additional physical damage equal to 108% of your current shield value. The Grace state ends when the skill ends.",
+        "description": "Launches a wheel at the furthest enemy Luminary, which travels in a straight line and returns. On both the forward and return journeys, the wheel deals physical damage equal to 162% of the caster's attack to any enemy units it collides with. When you possess both Morale and Fighting Spirit, you enter the Grace state. While in the Grace state, this skill fires an enhanced version of a roulette wheel, with each hit dealing additional physical damage equal to 108% of your current shield value. The Grace state ends when the skill ends.",
         "cooldown": 16
       },
       {
@@ -5310,7 +5310,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Ningluosi",
@@ -6062,13 +6062,13 @@
       {
         "name": "Evil Mark Demon Bullet",
         "type": "Ultimate Skill",
-        "description": "Consumes 20% of current HP to unleash a magic missile at the furthest enemy phantom, dealing magic damage equal to 825% of the user's attack and marking the target for 8 seconds. This skill also grants 60% HP conversion. Skills cast by the user or their mirror image that deal damage to a marked target ignore 40% of the target's magic defense. (This defense-ignoring effect can stack up to 40%).",
+        "description": "Consumes 20% of current HP to unleash a magic missile at the furthest enemy Luminary, dealing magic damage equal to 825% of the user's attack and marking the target for 8 seconds. This skill also grants 60% HP conversion. Skills cast by the user or their mirror image that deal damage to a marked target ignore 40% of the target's magic defense. (This defense-ignoring effect can stack up to 40%).",
         "cooldown": 11
       },
       {
         "name": "Twin Souls",
         "type": "Secret Skill",
-        "description": "Consumes 30% of its current health to collide with the furthest enemy phantom and create a mirror image, dealing magic damage equal to 655% of its attack to enemy units within a medium-sized circular area around the target and inflicting [Magic Defense Down].",
+        "description": "Consumes 30% of its current health to collide with the furthest enemy Luminary and create a mirror image, dealing magic damage equal to 655% of its attack to enemy units within a medium-sized circular area around the target and inflicting [Magic Defense Down].",
         "cooldown": 16
       },
       {
@@ -6085,7 +6085,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129358
+    "last_updated": 1771214653
   },
   {
     "name": "Poseidon",
@@ -6167,12 +6167,12 @@
       {
         "name": "Elemental Response",
         "type": "Divine Skill",
-        "description": "[Wail of the Deep] Each time an allied Phantom triggers an [Elemental Reaction], its own Ultimate Skill damage is increased by 5%, up to a maximum of 50%.",
+        "description": "[Wail of the Deep] Each time an allied Luminary triggers an [Elemental Reaction], its own Ultimate Skill damage is increased by 5%, up to a maximum of 50%.",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771214653
   },
   {
     "name": "Crassus",
@@ -6244,7 +6244,7 @@
       {
         "name": "Collapse Point",
         "type": "Special Skill",
-        "description": "Summons a magic orb at the enemy phantom with the highest skill speed, dealing magic damage equal to 390% of the caster's attack to enemy units within a medium circular area, and inflicting the effect of [Next Ultimate Skill Energy Cost +1]. This skill can trigger the [Punishment] effect, which inflicts 6 seconds of [Silence] upon triggering the [Punishment] effect.",
+        "description": "Summons a magic orb at the enemy Luminary with the highest skill speed, dealing magic damage equal to 390% of the caster's attack to enemy units within a medium circular area, and inflicting the effect of [Next Ultimate Skill Energy Cost +1]. This skill can trigger the [Punishment] effect, which inflicts 6 seconds of [Silence] upon triggering the [Punishment] effect.",
         "cooldown": 13
       },
       {
@@ -6255,7 +6255,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Faust",
@@ -6534,7 +6534,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "After the battle begins, place 3 mechanical orbs to be activated next to the enemy phantom with the highest attack. During the battle, each time you release a skill, you will place 1 mechanical orb to be activated. When its own health decreases, it will accumulate rage. When the rage is full, it enters the [Wild] state. While in the [Wild] state, all mechanical orbs that are waiting to be activated will be activated. The activated state lasts for 5 seconds. The activated mechanical orbs attack the nearest enemy unit every 0.5 seconds. Each attack deals magic damage equal to 90%/96%/102%/108%/114%/120%/126% of its own attack."
+          "effect": "After the battle begins, place 3 mechanical orbs to be activated next to the enemy Luminary with the highest attack. During the battle, each time you release a skill, you will place 1 mechanical orb to be activated. When its own health decreases, it will accumulate rage. When the rage is full, it enters the [Wild] state. While in the [Wild] state, all mechanical orbs that are waiting to be activated will be activated. The activated state lasts for 5 seconds. The activated mechanical orbs attack the nearest enemy unit every 0.5 seconds. Each attack deals magic damage equal to 90%/96%/102%/108%/114%/120%/126% of its own attack."
         },
         {
           "level": 2,
@@ -6587,7 +6587,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Vermilion Bird",
@@ -6659,7 +6659,7 @@
       {
         "name": "Rebirth",
         "type": "Special Skill",
-        "description": "When the user receives fatal damage and has full energy, they consume all energy to become immune to damage for 2 seconds and transform into an egg form. For 5 seconds, the user continuously regenerates 100% of their maximum health. The egg form then dissolves, dealing magic damage equal to 1200% of the user's attack to all enemy units (Can trigger at most once every 15 seconds). While in egg form, when damaged by ranged phantoms, gain 1000% damage reduction and become immune to control effects.",
+        "description": "When the user receives fatal damage and has full energy, they consume all energy to become immune to damage for 2 seconds and transform into an egg form. For 5 seconds, the user continuously regenerates 100% of their maximum health. The egg form then dissolves, dealing magic damage equal to 1200% of the user's attack to all enemy units (Can trigger at most once every 15 seconds). While in egg form, when damaged by ranged Luminaries, gain 1000% damage reduction and become immune to control effects.",
         "cooldown": 0
       },
       {
@@ -6670,7 +6670,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771214653
   },
   {
     "name": "Cerberus",
