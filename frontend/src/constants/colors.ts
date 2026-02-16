@@ -30,7 +30,7 @@ export const QUALITY_COLOR: Record<Quality, string> = {
   SSR: 'yellow',
   'SR+': 'violet',
   R: 'blue',
-  N: 'gray',
+  N: 'lime',
 };
 
 export const STATE_COLOR: Record<StatusEffectType, string> = {

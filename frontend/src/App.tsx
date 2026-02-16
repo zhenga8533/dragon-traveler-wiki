@@ -53,6 +53,7 @@ import {
   TierListReferenceProvider,
 } from './contexts';
 import { useSidebar } from './hooks';
+import ArtifactPage from './pages/ArtifactPage';
 import Artifacts from './pages/Artifacts';
 import BeginnerQA from './pages/BeginnerQA';
 import Changelog from './pages/Changelog';
@@ -445,6 +446,7 @@ function AppContent() {
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/artifacts" element={<Artifacts />} />
+              <Route path="/artifacts/:name" element={<ArtifactPage />} />
               <Route path="/characters" element={<Characters />} />
               <Route path="/characters/:name" element={<CharacterPage />} />
               <Route path="/noble-phantasms" element={<NoblePhantasms />} />

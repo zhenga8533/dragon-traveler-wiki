@@ -73,6 +73,12 @@ QUERIES = {
         "SELECT * FROM team_member_substitutes ORDER BY team_member_id, id;"
     ),
     "useful_links": "SELECT * FROM useful_links ORDER BY id;",
+    "artifacts": "SELECT * FROM artifacts ORDER BY id;",
+    "artifact_effects": "SELECT * FROM artifact_effects ORDER BY artifact_id, level;",
+    "artifact_treasures": "SELECT * FROM artifact_treasures ORDER BY artifact_id, id;",
+    "artifact_treasure_effects": (
+        "SELECT * FROM artifact_treasure_effects ORDER BY treasure_id, level;"
+    ),
     "changelog": "SELECT * FROM changelog ORDER BY id;",
     "changelog_changes": ("SELECT * FROM changelog_changes ORDER BY changelog_id, id;"),
 }
@@ -460,6 +466,57 @@ def export_useful_links(data, output_dir=None):
     write_export("useful-links.json", result, output_dir)
 
 
+def export_artifacts(data, output_dir=None):
+    effects_by_artifact = group_by(data["artifact_effects"], "artifact_id")
+    treasures_by_artifact = group_by(data["artifact_treasures"], "artifact_id")
+    treasure_effects_by_treasure = group_by(
+        data["artifact_treasure_effects"], "treasure_id"
+    )
+
+    result = []
+    for a in data["artifacts"]:
+        artifact_id = a["id"]
+        effects = [
+            {
+                "level": int(e.get("level", 0)),
+                "description": e.get("description") or "",
+            }
+            for e in effects_by_artifact.get(artifact_id, [])
+        ]
+        treasures = []
+        for t in treasures_by_artifact.get(artifact_id, []):
+            t_effects = [
+                {
+                    "level": int(te.get("level", 0)),
+                    "description": te.get("description") or "",
+                }
+                for te in treasure_effects_by_treasure.get(t["id"], [])
+            ]
+            treasures.append(
+                {
+                    "name": t.get("name") or "",
+                    "lore": t.get("lore") or "",
+                    "character_class": t.get("character_class") or "",
+                    "effect": t_effects,
+                }
+            )
+        result.append(
+            {
+                "name": a.get("name") or "",
+                "is_global": bool(int(a.get("is_global", 0))),
+                "lore": a.get("lore") or "",
+                "quality": a.get("quality") or "",
+                "effect": effects,
+                "width": int(a.get("width", 0)),
+                "height": int(a.get("height", 0)),
+                "treasures": treasures,
+                "last_updated": int(a.get("last_updated") or 0),
+            }
+        )
+    result.sort(key=lambda a: a["name"].lower())
+    write_export("artifacts.json", result, output_dir)
+
+
 def export_changelog(data, output_dir=None):
     changes_by_cl = group_by(data["changelog_changes"], "changelog_id")
     result = []
@@ -503,6 +560,15 @@ EXPORTERS = {
     "tier-lists": (export_tier_lists, {"tier_lists", "tier_list_entries"}),
     "teams": (export_teams, {"teams", "team_members", "team_member_substitutes"}),
     "useful-links": (export_useful_links, {"useful_links"}),
+    "artifacts": (
+        export_artifacts,
+        {
+            "artifacts",
+            "artifact_effects",
+            "artifact_treasures",
+            "artifact_treasure_effects",
+        },
+    ),
     "changelog": (export_changelog, {"changelog", "changelog_changes"}),
 }
 

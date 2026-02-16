@@ -1,0 +1,163 @@
+[
+  {
+    "name": "Sisyphus Monolith",
+    "is_global": true,
+    "lore": "\"I saw Sisyphus enduring torture here. Every time the boulder was about to be pushed over the mountain peak, it rolled back down to the flat ground due to its weight. He had to exert himself to push the stone again, drenched in sweat, with dust on his head.\" — Homer, The Odyssey",
+    "quality": "N",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Increases HP for all allied Luminaries by 3%"
+      },
+      {
+        "level": 2,
+        "description": "Increases HP by 1%"
+      },
+      {
+        "level": 5,
+        "description": "Increases HP by 1%"
+      },
+      {
+        "level": 8,
+        "description": "Increases HP by 1.5%"
+      },
+      {
+        "level": 11,
+        "description": "Increases HP by 1%"
+      },
+      {
+        "level": 14,
+        "description": "Increases HP by 1.5%"
+      },
+      {
+        "level": 17,
+        "description": "Increases HP by 2%"
+      },
+      {
+        "level": 20,
+        "description": "Increases HP by 3%"
+      }
+    ],
+    "width": 2,
+    "height": 2,
+    "treasures": [
+      {
+        "name": "Underworld Offering",
+        "lore": "\"Persephone can return to the heavens, but there is one condition: she must not have tasted any food from the underworld. This is decreed by the Fates, and even the gods cannot defy it.\" — Ovid, Metamorphoses",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 128"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1055"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 226"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 128"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1055"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 226"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1%"
+          }
+        ]
+      },
+      {
+        "name": "Charon's Coin",
+        "lore": "\"At the ferry of the Styx River, the ferryman Charon is waiting. The spirits crowd towards the riverbank, and Charon ferries those who have been buried across, while the rest must wait a hundred years.\" — Virgil, The Aeneid",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 113"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1105"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 301"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 113"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1105"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 201"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1%"
+          }
+        ]
+      },
+      {
+        "name": "Shackles of Death",
+        "lore": "\"He suffered this punishment for the sake of the river god's daughter, Aegina, because Zeus secretly took her away, and it is said that he informed the searching river god.\" — Apollodorus, Library",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 90"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1319"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 301"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 90"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1319"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 276"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1%"
+          }
+        ]
+      }
+    ]
+  }
+]

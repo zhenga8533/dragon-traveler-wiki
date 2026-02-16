@@ -12,7 +12,7 @@ const QUALITY_BORDER_COLOR: Record<Quality, string> = {
   SSR: 'var(--mantine-color-yellow-5)',
   'SR+': 'var(--mantine-color-violet-5)',
   R: 'var(--mantine-color-blue-5)',
-  N: 'var(--mantine-color-gray-5)',
+  N: 'var(--mantine-color-lime-5)',
 };
 
 interface CharacterCardProps {

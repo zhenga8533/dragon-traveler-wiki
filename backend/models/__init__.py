@@ -1,3 +1,4 @@
+from backend.models.artifact import Artifact, ArtifactEffect, ArtifactTreasure
 from backend.models.character import (
     Character,
     CharacterClass,
@@ -14,6 +15,9 @@ from backend.models.useful_link import UsefulLink
 from backend.models.wyrmspell import Wyrmspell
 
 __all__ = [
+    "Artifact",
+    "ArtifactEffect",
+    "ArtifactTreasure",
     "Character",
     "CharacterClass",
     "Code",

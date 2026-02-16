@@ -1,4 +1,5 @@
 // Type exports for cleaner imports
+export type { Artifact, ArtifactEffect, ArtifactTreasure } from './artifact';
 export type {
   Character,
   CharacterClass,

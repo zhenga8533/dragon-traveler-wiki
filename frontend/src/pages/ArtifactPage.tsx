@@ -1,0 +1,320 @@
+import {
+  Badge,
+  Box,
+  Button,
+  Container,
+  Group,
+  Image,
+  Paper,
+  SimpleGrid,
+  Stack,
+  Table,
+  Text,
+  Title,
+  Tooltip,
+  useMantineColorScheme,
+} from '@mantine/core';
+import { useMemo } from 'react';
+import { IoArrowBack } from 'react-icons/io5';
+import { useNavigate, useParams } from 'react-router-dom';
+import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
+import { QUALITY_ICON_MAP } from '../assets/quality';
+import Breadcrumbs from '../components/Breadcrumbs';
+import LastUpdated from '../components/LastUpdated';
+import { DetailPageLoading } from '../components/PageLoadingSkeleton';
+import { QUALITY_COLOR } from '../constants/colors';
+import { useDataFetch } from '../hooks/use-data-fetch';
+import type { Artifact, ArtifactEffect, ArtifactTreasure } from '../types/artifact';
+
+function EffectTable({ effects }: { effects: ArtifactEffect[] }) {
+  if (effects.length === 0) return null;
+  return (
+    <Table striped withTableBorder withColumnBorders>
+      <Table.Thead>
+        <Table.Tr>
+          <Table.Th w={70}>Level</Table.Th>
+          <Table.Th>Effect</Table.Th>
+        </Table.Tr>
+      </Table.Thead>
+      <Table.Tbody>
+        {effects.map((eff) => (
+          <Table.Tr key={eff.level}>
+            <Table.Td>
+              <Text size="sm" fw={600}>
+                {eff.level}
+              </Text>
+            </Table.Td>
+            <Table.Td>
+              <Text size="sm">{eff.description}</Text>
+            </Table.Td>
+          </Table.Tr>
+        ))}
+      </Table.Tbody>
+    </Table>
+  );
+}
+
+function TreasureCard({
+  treasure,
+  artifactName,
+  isDark,
+  qualityColor,
+}: {
+  treasure: ArtifactTreasure;
+  artifactName: string;
+  isDark: boolean;
+  qualityColor: string;
+}) {
+  const iconSrc = getTreasureIcon(artifactName, treasure.name);
+  return (
+    <Paper
+      p="lg"
+      radius="md"
+      withBorder
+      style={{
+        borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
+      }}
+    >
+      <Stack gap="md">
+        <Group gap="md" wrap="nowrap" align="flex-start">
+          {iconSrc && (
+            <Image
+              src={iconSrc}
+              alt={treasure.name}
+              w={64}
+              h={64}
+              fit="contain"
+              radius="sm"
+              style={{ flexShrink: 0 }}
+            />
+          )}
+          <Stack gap={4} style={{ flex: 1 }}>
+            <Text fw={700} size="lg">
+              {treasure.name}
+            </Text>
+            <Badge variant="light" size="sm" w="fit-content">
+              {treasure.character_class}
+            </Badge>
+          </Stack>
+        </Group>
+        <Text size="sm" c="dimmed" fs="italic" lh={1.6}>
+          {treasure.lore}
+        </Text>
+        <EffectTable effects={treasure.effect} />
+      </Stack>
+    </Paper>
+  );
+}
+
+export default function ArtifactPage() {
+  const { name } = useParams<{ name: string }>();
+  const { colorScheme } = useMantineColorScheme();
+  const isDark = colorScheme === 'dark';
+  const navigate = useNavigate();
+
+  const { data: artifacts, loading } = useDataFetch<Artifact[]>(
+    'data/artifacts.json',
+    []
+  );
+
+  const artifact = useMemo(() => {
+    if (!name) return null;
+    const decodedName = decodeURIComponent(name);
+    return artifacts.find(
+      (a) => a.name.toLowerCase() === decodedName.toLowerCase()
+    );
+  }, [artifacts, name]);
+
+  if (loading) {
+    return (
+      <Container size="lg" py="xl">
+        <DetailPageLoading />
+      </Container>
+    );
+  }
+
+  if (!artifact) {
+    return (
+      <Container size="md" py="xl">
+        <Stack align="center" gap="md">
+          <Text size="xl" fw={500}>
+            Artifact not found
+          </Text>
+          <Button
+            onClick={() => navigate('/artifacts')}
+            leftSection={<IoArrowBack />}
+          >
+            Back to Artifacts
+          </Button>
+        </Stack>
+      </Container>
+    );
+  }
+
+  const iconSrc = getArtifactIcon(artifact.name);
+  const qualityColor = QUALITY_COLOR[artifact.quality] ?? 'gray';
+
+  return (
+    <Box>
+      {/* Hero Section */}
+      <Box
+        style={{
+          position: 'relative',
+          overflow: 'hidden',
+          background: 'var(--mantine-color-body)',
+          margin:
+            'calc(-1 * var(--mantine-spacing-md)) calc(-1 * var(--mantine-spacing-md)) 0',
+          padding: 'var(--mantine-spacing-md) var(--mantine-spacing-md) 0',
+        }}
+      >
+        <Box
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: isDark
+              ? `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${qualityColor}-9) 0%, transparent 50%),
+                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-violet-9) 0%, transparent 50%),
+                 var(--mantine-color-dark-8)`
+              : `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${qualityColor}-1) 0%, transparent 50%),
+                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-violet-1) 0%, transparent 50%),
+                 var(--mantine-color-gray-0)`,
+            opacity: isDark ? 0.7 : 0.9,
+          }}
+        />
+
+        <Container
+          size="lg"
+          style={{ position: 'relative', zIndex: 1 }}
+          py="xl"
+        >
+          <Stack gap="lg">
+            <Breadcrumbs
+              items={[
+                { label: 'Artifacts', path: '/artifacts' },
+                { label: artifact.name },
+              ]}
+            />
+
+            <Group gap="lg" align="flex-start" wrap="nowrap">
+              {iconSrc && (
+                <Box
+                  style={{
+                    width: 96,
+                    height: 96,
+                    flexShrink: 0,
+                    borderRadius: 12,
+                    background: isDark
+                      ? 'rgba(0,0,0,0.3)'
+                      : 'rgba(255,255,255,0.5)',
+                    border: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 4})`,
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    boxShadow: `0 4px 24px var(--mantine-color-${qualityColor}-${isDark ? 9 : 2})`,
+                  }}
+                >
+                  <Image
+                    src={iconSrc}
+                    alt={artifact.name}
+                    w={72}
+                    h={72}
+                    fit="contain"
+                    radius="sm"
+                  />
+                </Box>
+              )}
+
+              <Stack gap={6} style={{ flex: 1 }}>
+                <Group gap="sm" align="center">
+                  <Tooltip label={artifact.quality}>
+                    <Image
+                      src={QUALITY_ICON_MAP[artifact.quality]}
+                      alt={artifact.quality}
+                      h={28}
+                      w="auto"
+                      fit="contain"
+                    />
+                  </Tooltip>
+                  <Title
+                    order={1}
+                    c={isDark ? 'white' : 'dark'}
+                    style={{ lineHeight: 1.2 }}
+                  >
+                    {artifact.name}
+                  </Title>
+                </Group>
+                <LastUpdated timestamp={artifact.last_updated} />
+                <Group gap="sm" mt={4}>
+                  <Badge size="lg" variant="light" color="blue">
+                    {artifact.width}x{artifact.height}
+                  </Badge>
+                  {artifact.is_global && (
+                    <Badge size="lg" variant="light" color="green">
+                      Global
+                    </Badge>
+                  )}
+                  <Badge size="lg" variant="outline" color="gray">
+                    {artifact.treasures.length} treasure
+                    {artifact.treasures.length !== 1 ? 's' : ''}
+                  </Badge>
+                </Group>
+              </Stack>
+            </Group>
+
+            <Paper
+              p="md"
+              radius="md"
+              style={{
+                background: isDark
+                  ? 'rgba(0,0,0,0.25)'
+                  : 'rgba(255,255,255,0.6)',
+                backdropFilter: 'blur(8px)',
+                border: isDark
+                  ? '1px solid rgba(255,255,255,0.06)'
+                  : '1px solid rgba(0,0,0,0.06)',
+              }}
+            >
+              <Text size="sm" lh={1.6} fs="italic">
+                {artifact.lore}
+              </Text>
+            </Paper>
+          </Stack>
+        </Container>
+      </Box>
+
+      <Container size="lg" py="xl">
+        <Stack gap="xl">
+          {/* Artifact Effects */}
+          <Stack gap="md">
+            <Title order={3}>Artifact Effects</Title>
+            <EffectTable effects={artifact.effect} />
+          </Stack>
+
+          {/* Treasures */}
+          {artifact.treasures.length > 0 && (
+            <Stack gap="md">
+              <Group gap="sm">
+                <Title order={3}>Treasures</Title>
+                <Badge variant="light" color="violet" size="sm">
+                  {artifact.treasures.length} treasure
+                  {artifact.treasures.length !== 1 ? 's' : ''}
+                </Badge>
+              </Group>
+              <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
+                {artifact.treasures.map((treasure) => (
+                  <TreasureCard
+                    key={treasure.name}
+                    treasure={treasure}
+                    artifactName={artifact.name}
+                    isDark={isDark}
+                    qualityColor={qualityColor}
+                  />
+                ))}
+              </SimpleGrid>
+            </Stack>
+          )}
+        </Stack>
+      </Container>
+    </Box>
+  );
+}

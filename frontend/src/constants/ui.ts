@@ -83,5 +83,7 @@ export const STORAGE_KEY = {
   TIER_LIST_FILTERS: 'tier-list:filters',
   CODES_REWARDS_OPEN: 'codes:rewardsOpen',
   REDEEMED_CODES: 'redeemedCodes',
+  ARTIFACT_VIEW_MODE: 'artifacts:viewMode',
+  ARTIFACT_FILTERS: 'artifacts:filters',
   SIDEBAR_COLLAPSED: 'sidebar:collapsed',
 } as const;

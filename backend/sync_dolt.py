@@ -161,6 +161,7 @@ TIMESTAMP_TABLES = [
     "teams",
     "useful_links",
     "changelog",
+    "artifacts",
 ]
 
 
@@ -242,6 +243,84 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
                 "ALTER TABLE wyrmspells ADD COLUMN is_global tinyint(1) NOT NULL DEFAULT 0 AFTER exclusive_faction;",
                 dry_run=dry_run,
             )
+
+    # Ensure artifacts and related tables exist.
+    if "artifacts" not in existing_tables:
+        print("  Creating missing artifacts table")
+        dolt_sql(
+            """
+            CREATE TABLE artifacts (
+              id int NOT NULL AUTO_INCREMENT,
+              name varchar(200) NOT NULL,
+              is_global tinyint(1) NOT NULL DEFAULT 0,
+              lore text,
+              quality varchar(20) NOT NULL DEFAULT '',
+              width int NOT NULL DEFAULT 0,
+              height int NOT NULL DEFAULT 0,
+              last_updated BIGINT NULL,
+              data_hash VARCHAR(64) NULL,
+              PRIMARY KEY (id),
+              UNIQUE KEY name (name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("artifacts")
+
+    if "artifact_effects" not in existing_tables:
+        print("  Creating missing artifact_effects table")
+        dolt_sql(
+            """
+            CREATE TABLE artifact_effects (
+              id int NOT NULL AUTO_INCREMENT,
+              artifact_id int NOT NULL,
+              level int NOT NULL,
+              description text,
+              PRIMARY KEY (id),
+              KEY artifact_id (artifact_id),
+              CONSTRAINT artifact_effects_ibfk_1 FOREIGN KEY (artifact_id) REFERENCES artifacts(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("artifact_effects")
+
+    if "artifact_treasures" not in existing_tables:
+        print("  Creating missing artifact_treasures table")
+        dolt_sql(
+            """
+            CREATE TABLE artifact_treasures (
+              id int NOT NULL AUTO_INCREMENT,
+              artifact_id int NOT NULL,
+              name varchar(200) NOT NULL,
+              lore text,
+              character_class varchar(50),
+              PRIMARY KEY (id),
+              KEY artifact_id (artifact_id),
+              CONSTRAINT artifact_treasures_ibfk_1 FOREIGN KEY (artifact_id) REFERENCES artifacts(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("artifact_treasures")
+
+    if "artifact_treasure_effects" not in existing_tables:
+        print("  Creating missing artifact_treasure_effects table")
+        dolt_sql(
+            """
+            CREATE TABLE artifact_treasure_effects (
+              id int NOT NULL AUTO_INCREMENT,
+              treasure_id int NOT NULL,
+              level int NOT NULL,
+              description text,
+              PRIMARY KEY (id),
+              KEY treasure_id (treasure_id),
+              CONSTRAINT artifact_treasure_effects_ibfk_1 FOREIGN KEY (treasure_id) REFERENCES artifact_treasures(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("artifact_treasure_effects")
 
     if "code_rewards" not in existing_tables:
         return
@@ -712,6 +791,58 @@ def sync_useful_links(data, batch, now):
     print(f"  Synced {link_id} useful links")
 
 
+def sync_artifacts(data, batch, now):
+    """Sync artifacts.json -> artifacts + artifact_effects + artifact_treasures + artifact_treasure_effects tables."""
+    old_ts = get_old_timestamps("artifacts", "name")
+    batch.add("DELETE FROM artifact_treasure_effects;")
+    batch.add("DELETE FROM artifact_effects;")
+    batch.add("DELETE FROM artifact_treasures;")
+    batch.add("DELETE FROM artifacts;")
+    batch.add("ALTER TABLE artifact_treasure_effects AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE artifact_effects AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE artifact_treasures AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE artifacts AUTO_INCREMENT = 1;")
+    a_id = 0
+    effect_id = 0
+    treasure_id = 0
+    treasure_effect_id = 0
+    for a in data:
+        if not a.get("name"):
+            continue
+        a_id += 1
+        h = compute_hash(a)
+        ts = resolve_timestamp(a["name"], h, old_ts, now)
+        batch.add(
+            f"INSERT INTO artifacts (id, name, is_global, lore, quality, width, height, last_updated, data_hash) VALUES "
+            f"({a_id}, {escape_sql(a['name'])}, {'TRUE' if a.get('is_global') else 'FALSE'}, "
+            f"{escape_sql(a.get('lore'))}, {escape_sql(a.get('quality', ''))}, "
+            f"{escape_sql(a.get('width', 0))}, {escape_sql(a.get('height', 0))}, "
+            f"{escape_sql(ts)}, {escape_sql(h)});"
+        )
+        for eff in a.get("effect", []):
+            effect_id += 1
+            batch.add(
+                f"INSERT INTO artifact_effects (id, artifact_id, level, description) VALUES "
+                f"({effect_id}, {a_id}, {escape_sql(eff['level'])}, {escape_sql(eff.get('description'))});"
+            )
+        for t in a.get("treasures", []):
+            if not t.get("name"):
+                continue
+            treasure_id += 1
+            batch.add(
+                f"INSERT INTO artifact_treasures (id, artifact_id, name, lore, character_class) VALUES "
+                f"({treasure_id}, {a_id}, {escape_sql(t['name'])}, {escape_sql(t.get('lore'))}, "
+                f"{escape_sql(t.get('character_class'))});"
+            )
+            for teff in t.get("effect", []):
+                treasure_effect_id += 1
+                batch.add(
+                    f"INSERT INTO artifact_treasure_effects (id, treasure_id, level, description) VALUES "
+                    f"({treasure_effect_id}, {treasure_id}, {escape_sql(teff['level'])}, {escape_sql(teff.get('description'))});"
+                )
+    print(f"  Synced {a_id} artifacts ({treasure_id} treasures)")
+
+
 def sync_changelog(data, batch, now):
     """Sync changelog.json -> changelog + changelog_changes tables."""
     old_ts = get_old_timestamps("changelog", "version")
@@ -770,6 +901,7 @@ def main():
             "tier-lists",
             "teams",
             "useful-links",
+            "artifacts",
             "changelog",
             "all",
         ],
@@ -795,6 +927,7 @@ def main():
         "tier-lists": ["tier-lists.json"],
         "teams": ["teams.json"],
         "useful-links": ["useful-links.json"],
+        "artifacts": ["artifacts.json"],
         "changelog": ["changelog.json"],
     }
 
@@ -844,6 +977,9 @@ def main():
             "teams": lambda: sync_teams(json_cache["teams.json"], batch, now),
             "useful-links": lambda: sync_useful_links(
                 json_cache["useful-links.json"], batch, now
+            ),
+            "artifacts": lambda: sync_artifacts(
+                json_cache["artifacts.json"], batch, now
             ),
             "changelog": lambda: sync_changelog(
                 json_cache["changelog.json"], batch, now
