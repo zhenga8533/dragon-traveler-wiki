@@ -979,5 +979,24 @@
     ],
     "active": true,
     "last_updated": 1771129617
+  },
+  {
+    "code": "SJLBGIFT",
+    "rewards": [
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": 1
+      },
+      {
+        "name": "Leaf of the World Tree",
+        "quantity": 5
+      }
+    ],
+    "active": true,
+    "last_updated": 1771214653
   }
 ]
