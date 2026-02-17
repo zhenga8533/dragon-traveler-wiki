@@ -23,11 +23,13 @@ import { QUALITY_ICON_MAP } from '../assets/quality';
 import Breadcrumbs from '../components/Breadcrumbs';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
+import RichText from '../components/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Artifact, ArtifactEffect, ArtifactTreasure } from '../types/artifact';
+import type { StatusEffect } from '../types/status-effect';
 
-function EffectTable({ effects }: { effects: ArtifactEffect[] }) {
+function EffectTable({ effects, statusEffects }: { effects: ArtifactEffect[]; statusEffects: StatusEffect[] }) {
   if (effects.length === 0) return null;
   return (
     <Table striped withTableBorder withColumnBorders>
@@ -46,7 +48,7 @@ function EffectTable({ effects }: { effects: ArtifactEffect[] }) {
               </Text>
             </Table.Td>
             <Table.Td>
-              <Text size="sm">{eff.description}</Text>
+              <RichText text={eff.description} statusEffects={statusEffects} />
             </Table.Td>
           </Table.Tr>
         ))}
@@ -60,11 +62,13 @@ function TreasureCard({
   artifactName,
   isDark,
   qualityColor,
+  statusEffects,
 }: {
   treasure: ArtifactTreasure;
   artifactName: string;
   isDark: boolean;
   qualityColor: string;
+  statusEffects: StatusEffect[];
 }) {
   const iconSrc = getTreasureIcon(artifactName, treasure.name);
   return (
@@ -114,7 +118,7 @@ function TreasureCard({
         <Text size="sm" c="dimmed" fs="italic" lh={1.6}>
           {treasure.lore}
         </Text>
-        <EffectTable effects={treasure.effect} />
+        <EffectTable effects={treasure.effect} statusEffects={statusEffects} />
       </Stack>
     </Paper>
   );
@@ -128,6 +132,10 @@ export default function ArtifactPage() {
 
   const { data: artifacts, loading } = useDataFetch<Artifact[]>(
     'data/artifacts.json',
+    []
+  );
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>(
+    'data/status-effects.json',
     []
   );
 
@@ -301,7 +309,7 @@ export default function ArtifactPage() {
           {/* Artifact Effects */}
           <Stack gap="md">
             <Title order={3}>Artifact Effects</Title>
-            <EffectTable effects={artifact.effect} />
+            <EffectTable effects={artifact.effect} statusEffects={statusEffects} />
           </Stack>
 
           {/* Treasures */}
@@ -322,6 +330,7 @@ export default function ArtifactPage() {
                     artifactName={artifact.name}
                     isDark={isDark}
                     qualityColor={qualityColor}
+                    statusEffects={statusEffects}
                   />
                 ))}
               </SimpleGrid>

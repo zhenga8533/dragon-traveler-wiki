@@ -1,4 +1,5 @@
 import {
+  Badge,
   Group,
   Image,
   Paper,
@@ -154,6 +155,7 @@ export default function CharacterList({
                   <Table.Th>Quality</Table.Th>
                   <Table.Th>Class</Table.Th>
                   <Table.Th>Factions</Table.Th>
+                  <Table.Th>Global</Table.Th>
                   {selectedTierListName && <Table.Th>Tier</Table.Th>}
                 </Table.Tr>
               </Table.Thead>
@@ -222,6 +224,17 @@ export default function CharacterList({
                           </Tooltip>
                         ))}
                       </Group>
+                    </Table.Td>
+                    <Table.Td>
+                      {char.is_global && (
+                        <Badge
+                          variant="light"
+                          size="sm"
+                          color="green"
+                        >
+                          Global
+                        </Badge>
+                      )}
                     </Table.Td>
                     {selectedTierListName && (
                       <Table.Td>

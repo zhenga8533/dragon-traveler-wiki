@@ -1,4 +1,4 @@
-import { Text } from '@mantine/core';
+import { Text, Tooltip } from '@mantine/core';
 
 function formatRelativeTime(unixSeconds: number): string {
   if (!unixSeconds) return '';
@@ -15,13 +15,20 @@ function formatRelativeTime(unixSeconds: number): string {
   return new Date(unixSeconds * 1000).toLocaleDateString();
 }
 
+function formatExactDate(unixSeconds: number): string {
+  if (!unixSeconds) return '';
+  return new Date(unixSeconds * 1000).toLocaleString();
+}
+
 export default function LastUpdated({ timestamp }: { timestamp: number }) {
   const formatted = formatRelativeTime(timestamp);
   if (!formatted) return null;
 
   return (
-    <Text size="xs" c="dimmed">
-      Updated {formatted}
-    </Text>
+    <Tooltip label={formatExactDate(timestamp)} position="top" withArrow>
+      <Text size="xs" c="dimmed" w="fit-content">
+        Updated {formatted}
+      </Text>
+    </Tooltip>
   );
 }
