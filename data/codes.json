@@ -998,5 +998,24 @@
     ],
     "active": true,
     "last_updated": 1771214653
+  },
+  {
+    "code": "NEWNOTICE",
+    "rewards": [
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Legacy Dragon Crystal",
+        "quantity": 3
+      },
+      {
+        "name": "Apple",
+        "quantity": 1
+      }
+    ],
+    "active": true,
+    "last_updated": 1771341767
   }
 ]

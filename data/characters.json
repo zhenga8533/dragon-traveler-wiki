@@ -5,8 +5,8 @@
     "quality": "SSR EX",
     "character_class": "Guardian",
     "factions": [
-      "Sanctum Glory",
-      "Wild Spirit"
+      "Otherworld Return",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -84,7 +84,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Prometheus",
@@ -92,8 +92,8 @@
     "quality": "SSR EX",
     "character_class": "Guardian",
     "factions": [
-      "Wild Spirit",
-      "Arcane Wisdom"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -171,7 +171,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771302667
+    "last_updated": 1771358547
   },
   {
     "name": "Anubis",
@@ -179,8 +179,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Otherworld Return",
-      "Elemental Echo"
+      "Sanctum Glory",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -254,7 +254,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Caesar",
@@ -262,8 +262,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -337,7 +337,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771358547
   },
   {
     "name": "Duvalin",
@@ -345,8 +345,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Elemental Echo",
-      "Wild Spirit"
+      "Arcane Wisdom",
+      "Elemental Echo"
     ],
     "is_global": false,
     "subclasses": [
@@ -420,7 +420,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Helveil",
@@ -428,8 +428,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
+      "Sanctum Glory",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -503,7 +503,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Pompey",
@@ -511,8 +511,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -586,7 +586,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771302667
+    "last_updated": 1771358547
   },
   {
     "name": "Salome",
@@ -594,8 +594,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
+      "Arcane Wisdom",
+      "Sanctum Glory"
     ],
     "is_global": false,
     "subclasses": [
@@ -669,7 +669,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Drasil",
@@ -677,8 +677,8 @@
     "quality": "SSR",
     "character_class": "Guardian",
     "factions": [
-      "Wild Spirit",
-      "Arcane Wisdom"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -746,7 +746,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Goren",
@@ -754,8 +754,8 @@
     "quality": "SSR",
     "character_class": "Guardian",
     "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
+      "Otherworld Return",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -823,7 +823,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Gudong",
@@ -831,8 +831,8 @@
     "quality": "SSR",
     "character_class": "Guardian",
     "factions": [
-      "Otherworld Return",
-      "Illusion Veil"
+      "Sanctum Glory",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -900,7 +900,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Herman",
@@ -908,8 +908,8 @@
     "quality": "SSR",
     "character_class": "Guardian",
     "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -977,7 +977,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Oberonnie",
@@ -985,8 +985,8 @@
     "quality": "SSR",
     "character_class": "Guardian",
     "factions": [
-      "Elemental Echo",
-      "Wild Spirit"
+      "Arcane Wisdom",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -1054,7 +1054,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Eurytion",
@@ -1062,8 +1062,8 @@
     "quality": "SR",
     "character_class": "Guardian",
     "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
+      "Elemental Echo",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -1120,7 +1120,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Dwarf Warrior",
@@ -1128,8 +1128,8 @@
     "quality": "R",
     "character_class": "Guardian",
     "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
+      "Elemental Echo",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -1176,7 +1176,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Mummy",
@@ -1184,8 +1184,8 @@
     "quality": "R",
     "character_class": "Guardian",
     "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -1232,7 +1232,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Rock Slime",
@@ -1240,7 +1240,7 @@
     "quality": "N",
     "character_class": "Guardian",
     "factions": [
-      "Wild Spirit"
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [],
@@ -1267,7 +1267,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Hela",
@@ -1275,8 +1275,8 @@
     "quality": "SSR EX",
     "character_class": "Priest",
     "factions": [
-      "Sanctum Glory",
-      "Otherworld Return"
+      "Otherworld Return",
+      "Sanctum Glory"
     ],
     "is_global": false,
     "subclasses": [
@@ -1354,7 +1354,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Venus",
@@ -1362,8 +1362,8 @@
     "quality": "SSR EX",
     "character_class": "Priest",
     "factions": [
-      "Wild Spirit",
-      "Elemental Echo"
+      "Elemental Echo",
+      "Arcane Wisdom"
     ],
     "is_global": false,
     "subclasses": [
@@ -1412,7 +1412,7 @@
       {
         "name": "Heavensong",
         "type": "Overdrive",
-        "description": "[Balanced] Increases the HP of all allied units, then restores all allied units to 25% of their maximum HP. Whenever another allied spirit is affected by [Stun] or [Silence], reduces the energy cost of the user's next ultimate skill by 1.",
+        "description": "[Equilibirum] Increases the HP of all allied units, then restores all allied units to 25% of their maximum HP. Whenever another allied spirit is affected by [Stun] or [Silence], reduces the energy cost of the user's next ultimate skill by 1.",
         "cooldown": 20
       },
       {
@@ -1441,7 +1441,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771302667
+    "last_updated": 1771358547
   },
   {
     "name": "Morgana",
@@ -1449,8 +1449,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Arcane Wisdom",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -1524,7 +1524,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Ophelia",
@@ -1532,8 +1532,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -1607,7 +1607,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Scheherazade",
@@ -1615,8 +1615,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Arcane Wisdom",
-      "Sanctum Glory"
+      "Illusion Veil",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -1690,7 +1690,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Silbismo",
@@ -1698,8 +1698,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
+      "Sanctum Glory",
+      "Elemental Echo"
     ],
     "is_global": false,
     "subclasses": [
@@ -1773,7 +1773,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Titania",
@@ -1781,8 +1781,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Wild Spirit",
-      "Elemental Echo"
+      "Elemental Echo",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -1856,7 +1856,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Vivienne",
@@ -1864,8 +1864,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
+      "Arcane Wisdom",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -1916,7 +1916,7 @@
       {
         "name": "Cold Surge Water Bomb",
         "type": "Ultimate Skill",
-        "description": "Launches a water bomb at the farthest enemy Luminary, dealing magic Damage equal to 420% of own Attack to enemies within a medium circular area around the target and applies [Chill]. During possession, additionally heals the possessed target for 40% of the actual Damage dealt by this skill.",
+        "description": "Launches a water bomb at the farthest enemy Luminary, dealing Magic Damage equal to 420% of own Attack to enemies within a medium circular area around the target and applies [Chill]. During possession, additionally heals the possessed target for 40% of the actual Damage dealt by this skill.",
         "cooldown": 14
       },
       {
@@ -1939,7 +1939,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Atanith",
@@ -1947,8 +1947,8 @@
     "quality": "SSR",
     "character_class": "Priest",
     "factions": [
-      "Illusion Veil",
-      "Arcane Wisdom"
+      "Wild Spirit",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -2022,7 +2022,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Caligula",
@@ -2030,8 +2030,8 @@
     "quality": "SSR",
     "character_class": "Priest",
     "factions": [
-      "Wild Spirit",
-      "Otherworld Return"
+      "Elemental Echo",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -2105,7 +2105,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Chiron",
@@ -2113,8 +2113,8 @@
     "quality": "SSR",
     "character_class": "Priest",
     "factions": [
-      "Sanctum Glory",
-      "Wild Spirit"
+      "Otherworld Return",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -2188,7 +2188,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Flora",
@@ -2196,8 +2196,8 @@
     "quality": "SR",
     "character_class": "Priest",
     "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
+      "Elemental Echo",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -2254,7 +2254,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Siren",
@@ -2262,8 +2262,8 @@
     "quality": "SR",
     "character_class": "Priest",
     "factions": [
-      "Arcane Wisdom",
-      "Elemental Echo"
+      "Illusion Veil",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -2320,7 +2320,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Goblin War Drummer",
@@ -2328,8 +2328,8 @@
     "quality": "R",
     "character_class": "Priest",
     "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
+      "Elemental Echo",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -2376,7 +2376,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Viel",
@@ -2384,8 +2384,8 @@
     "quality": "R",
     "character_class": "Priest",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Arcane Wisdom",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -2442,7 +2442,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Breeze Slime",
@@ -2450,7 +2450,7 @@
     "quality": "N",
     "character_class": "Priest",
     "factions": [
-      "Sanctum Glory"
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [],
@@ -2477,7 +2477,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Hades",
@@ -2485,8 +2485,8 @@
     "quality": "SSR EX",
     "character_class": "Assassin",
     "factions": [
-      "Arcane Wisdom",
-      "Otherworld Return"
+      "Illusion Veil",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -2564,7 +2564,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Jormungandr",
@@ -2572,8 +2572,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -2647,7 +2647,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Mordred",
@@ -2655,8 +2655,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Otherworld Return",
-      "Elemental Echo"
+      "Sanctum Glory",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -2677,7 +2677,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Launches a water bomb at the farthest enemy Luminary, dealing magic Damage equal to 10% of own Attack to enemies within a medium circular area around the target and applies [Chill]. During possession, additionally heals the possessed target for 40% of the actual Damage dealt by this skill."
+          "effect": "Launches a water bomb at the farthest enemy Luminary, dealing Magic Damage equal to 10% of own Attack to enemies within a medium circular area around the target and applies [Chill]. During possession, additionally heals the possessed target for 40% of the actual Damage dealt by this skill."
         },
         {
           "level": 2,
@@ -2730,7 +2730,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Pan Junbao",
@@ -2738,8 +2738,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Wild Spirit",
-      "Illusion Veil"
+      "Elemental Echo",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -2807,7 +2807,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Rin",
@@ -2815,8 +2815,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Sanctum Glory",
-      "Otherworld Return"
+      "Otherworld Return",
+      "Sanctum Glory"
     ],
     "is_global": false,
     "subclasses": [
@@ -2890,7 +2890,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771302667
+    "last_updated": 1771358547
   },
   {
     "name": "White Tiger",
@@ -2898,8 +2898,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Wild Spirit",
-      "Otherworld Return"
+      "Elemental Echo",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -2973,7 +2973,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Zagrus",
@@ -2981,8 +2981,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Elemental Echo",
-      "Arcane Wisdom"
+      "Arcane Wisdom",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -3056,7 +3056,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771358547
   },
   {
     "name": "Fenrir",
@@ -3064,8 +3064,8 @@
     "quality": "SSR",
     "character_class": "Assassin",
     "factions": [
-      "Elemental Echo",
-      "Arcane Wisdom"
+      "Arcane Wisdom",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -3139,7 +3139,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Lancelot",
@@ -3147,8 +3147,8 @@
     "quality": "SSR",
     "character_class": "Assassin",
     "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
+      "Otherworld Return",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -3216,7 +3216,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Nemesis",
@@ -3224,8 +3224,8 @@
     "quality": "SSR",
     "character_class": "Assassin",
     "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -3293,7 +3293,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Bladeheart",
@@ -3301,8 +3301,8 @@
     "quality": "SR",
     "character_class": "Assassin",
     "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
+      "Arcane Wisdom",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -3359,7 +3359,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Boar Knight",
@@ -3367,8 +3367,8 @@
     "quality": "R",
     "character_class": "Assassin",
     "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
+      "Illusion Veil",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -3415,7 +3415,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Sword Dancer",
@@ -3423,8 +3423,8 @@
     "quality": "R",
     "character_class": "Assassin",
     "factions": [
-      "Illusion Veil",
-      "Otherworld Return"
+      "Wild Spirit",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -3471,7 +3471,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771358547
   },
   {
     "name": "Shadow Slime",
@@ -3479,7 +3479,7 @@
     "quality": "N",
     "character_class": "Assassin",
     "factions": [
-      "Otherworld Return"
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [],
@@ -3506,7 +3506,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Ares",
@@ -3514,8 +3514,8 @@
     "quality": "SSR EX",
     "character_class": "Warrior",
     "factions": [
-      "Illusion Veil",
-      "Arcane Wisdom"
+      "Wild Spirit",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -3593,7 +3593,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Thor",
@@ -3601,8 +3601,8 @@
     "quality": "SSR EX",
     "character_class": "Warrior",
     "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
+      "Arcane Wisdom",
+      "Otherworld Return"
     ],
     "is_global": false,
     "subclasses": [
@@ -3680,7 +3680,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Andevaly",
@@ -3688,8 +3688,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -3763,7 +3763,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771302667
+    "last_updated": 1771358547
   },
   {
     "name": "Arthur",
@@ -3771,8 +3771,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -3846,7 +3846,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Asmodeus",
@@ -3854,8 +3854,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
+      "Sanctum Glory",
+      "Elemental Echo"
     ],
     "is_global": false,
     "subclasses": [
@@ -3929,7 +3929,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Azure Dragon",
@@ -3937,8 +3937,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -4012,7 +4012,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771358547
   },
   {
     "name": "Brynhild",
@@ -4020,8 +4020,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Sanctum Glory",
-      "Otherworld Return"
+      "Otherworld Return",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -4095,7 +4095,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Marylis",
@@ -4103,8 +4103,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
+      "Illusion Veil",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -4178,7 +4178,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Siegfried",
@@ -4186,8 +4186,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Elemental Echo",
-      "Wild Spirit"
+      "Arcane Wisdom",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -4261,7 +4261,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Tyrfing",
@@ -4269,8 +4269,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
+      "Wild Spirit",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -4344,7 +4344,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Asteros",
@@ -4352,8 +4352,8 @@
     "quality": "SSR",
     "character_class": "Warrior",
     "factions": [
-      "Wild Spirit",
-      "Otherworld Return"
+      "Elemental Echo",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -4427,7 +4427,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Beowulf",
@@ -4435,8 +4435,8 @@
     "quality": "SSR",
     "character_class": "Warrior",
     "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -4504,7 +4504,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Guna",
@@ -4512,8 +4512,8 @@
     "quality": "SSR",
     "character_class": "Warrior",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -4581,7 +4581,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Grimnir",
@@ -4589,8 +4589,8 @@
     "quality": "SR",
     "character_class": "Warrior",
     "factions": [
-      "Wild Spirit",
-      "Arcane Wisdom"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -4647,7 +4647,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Murphy",
@@ -4655,8 +4655,8 @@
     "quality": "SR",
     "character_class": "Warrior",
     "factions": [
-      "Illusion Veil",
-      "Arcane Wisdom"
+      "Wild Spirit",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -4713,7 +4713,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Goblin Battering Ram",
@@ -4721,8 +4721,8 @@
     "quality": "R",
     "character_class": "Warrior",
     "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
+      "Sanctum Glory",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -4769,7 +4769,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Flame Slime",
@@ -4777,7 +4777,7 @@
     "quality": "N",
     "character_class": "Warrior",
     "factions": [
-      "Illusion Veil"
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [],
@@ -4804,7 +4804,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Apollo",
@@ -4812,8 +4812,8 @@
     "quality": "SSR EX",
     "character_class": "Archer",
     "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
+      "Sanctum Glory",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -4834,7 +4834,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "After dealing damage with Basic Attack, applies [Sigil of Radiance]. When dealing damage with skills, for each stack of [Sigil of Radiance] on the target, deals additional physical Damage equal to 2% of the target's Max HP per instance of damage (up to 30% of your Attack)."
+          "effect": "After dealing damage with Basic Attack, applies [Sigil of Radiance]. When dealing damage with skills, for each stack of [Sigil of Radiance] on the target, deals additional Physical Damage equal to 2% of the target's Max HP per instance of damage (up to 30% of your Attack)."
         },
         {
           "level": 2,
@@ -4891,7 +4891,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Artemis",
@@ -4899,8 +4899,8 @@
     "quality": "SSR EX",
     "character_class": "Archer",
     "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -4978,7 +4978,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Huginn & Muninn",
@@ -4986,8 +4986,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Wild Spirit",
-      "Illusion Veil"
+      "Elemental Echo",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -5032,7 +5032,7 @@
       {
         "name": "Featherstorm",
         "type": "Overdrive",
-        "description": "Shoots feathers forward, which briefly stay and then return. Deals physical Damage equal to 185% of own Attack to enemy units in a large fan-shaped area upon shooting and returning.",
+        "description": "Shoots feathers forward, which briefly stay and then return. Deals Physical Damage equal to 185% of own Attack to enemy units in a large fan-shaped area upon shooting and returning.",
         "cooldown": 18
       },
       {
@@ -5061,7 +5061,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Ifrit",
@@ -5069,8 +5069,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Elemental Echo",
-      "Arcane Wisdom"
+      "Arcane Wisdom",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -5121,7 +5121,7 @@
       {
         "name": "Firestorm",
         "type": "Ultimate Skill",
-        "description": "Unleash a fiery vortex dealing 4 hits of physical Damage to enemies in a medium circular area. Each hit deals 38% of Attack as physical Damage and inflicts [Ignite]. Each Overdrive cast grants 1 stack of [Awakening]. At 3/6 stacks of [Awakening], hits increase to 6/8.",
+        "description": "Unleash a fiery vortex dealing 4 hits of Physical Damage to enemies in a medium circular area. Each hit deals 38% of Attack as Physical Damage and inflicts [Ignite]. Each Overdrive cast grants 1 stack of [Awakening]. At 3/6 stacks of [Awakening], hits increase to 6/8.",
         "cooldown": 15
       },
       {
@@ -5133,7 +5133,7 @@
       {
         "name": "Endless Flames",
         "type": "Special Skill",
-        "description": "Launch a fire shell dealing physical Damage equal to 180% of Attack in a small circular area. Each stack of [Awakening] launches an additional fire shell (up to 4), with extra shells dealing 25% Damage.",
+        "description": "Launch a fire shell dealing Physical Damage equal to 180% of Attack in a small circular area. Each stack of [Awakening] launches an additional fire shell (up to 4), with extra shells dealing 25% Damage.",
         "cooldown": 10
       },
       {
@@ -5144,7 +5144,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Jing",
@@ -5152,8 +5152,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Wild Spirit",
-      "Otherworld Return"
+      "Elemental Echo",
+      "Sanctum Glory"
     ],
     "is_global": false,
     "subclasses": [
@@ -5227,7 +5227,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771358547
   },
   {
     "name": "Mimir",
@@ -5235,8 +5235,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Sanctum Glory",
-      "Arcane Wisdom"
+      "Otherworld Return",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -5310,7 +5310,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Ningluosi",
@@ -5318,8 +5318,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Illusion Veil",
-      "Otherworld Return"
+      "Wild Spirit",
+      "Sanctum Glory"
     ],
     "is_global": false,
     "subclasses": [
@@ -5393,7 +5393,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771358547
   },
   {
     "name": "Orion",
@@ -5401,8 +5401,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Arcane Wisdom",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -5476,7 +5476,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129358
+    "last_updated": 1771358547
   },
   {
     "name": "Lorillin",
@@ -5484,8 +5484,8 @@
     "quality": "SSR",
     "character_class": "Archer",
     "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
+      "Otherworld Return",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -5506,7 +5506,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "When an enemy unit is inflicted with [Shock], a pillar of light is cast on the target, dealing physical Damage equal to 135% of own Attack. When both [Morale] and [Fervor] are present, enters the [Grace] Status. While in the [Grace] Status, there is an 8% chance to inflict [Shock] on the target after dealing Damage."
+          "effect": "When an enemy unit is inflicted with [Shock], a pillar of light is cast on the target, dealing Physical Damage equal to 135% of own Attack. When both [Morale] and [Fervor] are present, enters the [Grace] Status. While in the [Grace] Status, there is an 8% chance to inflict [Shock] on the target after dealing Damage."
         },
         {
           "level": 2,
@@ -5559,7 +5559,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Medusa",
@@ -5567,8 +5567,8 @@
     "quality": "SSR",
     "character_class": "Archer",
     "factions": [
-      "Illusion Veil",
-      "Otherworld Return"
+      "Wild Spirit",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -5642,7 +5642,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Van Helring",
@@ -5650,8 +5650,8 @@
     "quality": "SSR",
     "character_class": "Archer",
     "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -5702,7 +5702,7 @@
       {
         "name": "Grenade",
         "type": "Ultimate Skill",
-        "description": "Toss a Grenade to deal physical Damage equal to 228% of Attack to enemy units in a small circular area. Triggers [Punishment] effect. When [Punishment] activates, inflicts additional [Physical Defense Down].",
+        "description": "Toss a Grenade to deal Physical Damage equal to 228% of Attack to enemy units in a small circular area. Triggers [Punishment] effect. When [Punishment] activates, inflicts additional [Physical Defense Down].",
         "cooldown": 12
       },
       {
@@ -5719,7 +5719,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Nessus",
@@ -5727,8 +5727,8 @@
     "quality": "SR",
     "character_class": "Archer",
     "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
+      "Elemental Echo",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -5774,7 +5774,7 @@
       {
         "name": "Pyreforged Lance",
         "type": "Ultimate Skill",
-        "description": "Each Basic Attack consumes 5% of current Health and deals additional physical Damage equal to 11% of lost Health.",
+        "description": "Each Basic Attack consumes 5% of current Health and deals additional Physical Damage equal to 11% of lost Health.",
         "cooldown": 0
       },
       {
@@ -5785,7 +5785,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Polyphemus",
@@ -5793,8 +5793,8 @@
     "quality": "SR",
     "character_class": "Archer",
     "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
+      "Sanctum Glory",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -5814,7 +5814,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Basic Attack has a 33% chance to deal additional physical Damage equal to 180% of Attack and summon a Boar (only one boar can exist at a time). The Boar inherits 50% of Attack, 30% of Health, and 100% of all other stats."
+          "effect": "Basic Attack has a 33% chance to deal additional Physical Damage equal to 180% of Attack and summon a Boar (only one boar can exist at a time). The Boar inherits 50% of Attack, 30% of Health, and 100% of all other stats."
         },
         {
           "level": 2,
@@ -5840,7 +5840,7 @@
       {
         "name": "Elegance in Motion",
         "type": "Ultimate Skill",
-        "description": "Deals physical Damage equal to 240% of own Attack to enemy units in a medium circular area around the target.",
+        "description": "Deals Physical Damage equal to 240% of own Attack to enemy units in a medium circular area around the target.",
         "cooldown": 9
       },
       {
@@ -5851,7 +5851,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Dwarven Cannoneer",
@@ -5859,8 +5859,8 @@
     "quality": "R",
     "character_class": "Archer",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -5880,7 +5880,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "At the start of the battle, gains 4 bullets. Each Basic Attack consumes 1 bullet and deals additional physical Damage equal to 52% of own Attack to enemy units in a medium circular area around the target. When out of bullets, will reload and cannot perform Basic Attacks during this time."
+          "effect": "At the start of the battle, gains 4 bullets. Each Basic Attack consumes 1 bullet and deals additional Physical Damage equal to 52% of own Attack to enemy units in a medium circular area around the target. When out of bullets, will reload and cannot perform Basic Attacks during this time."
         },
         {
           "level": 2,
@@ -5896,18 +5896,18 @@
       {
         "name": "Blazing Barrel",
         "type": "Overdrive",
-        "description": "Fires 4 shells, each dealing physical Damage equal to 160% of own Attack to enemy units in a small circular area. Upon firing, grants self [Fervor].",
+        "description": "Fires 4 shells, each dealing Physical Damage equal to 160% of own Attack to enemy units in a small circular area. Upon firing, grants self [Fervor].",
         "cooldown": 18
       },
       {
         "name": "Heavy Cannon",
         "type": "Ultimate Skill",
-        "description": "Deals physical Damage equal to 270% of own Attack to enemy units in a medium circular area around the target.",
+        "description": "Deals Physical Damage equal to 270% of own Attack to enemy units in a medium circular area around the target.",
         "cooldown": 16
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Wood Elf Archer",
@@ -5915,8 +5915,8 @@
     "quality": "R",
     "character_class": "Archer",
     "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -5963,7 +5963,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Lightning Slime",
@@ -5971,7 +5971,7 @@
     "quality": "N",
     "character_class": "Archer",
     "factions": [
-      "Arcane Wisdom"
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [],
@@ -5998,7 +5998,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Loki",
@@ -6006,8 +6006,8 @@
     "quality": "SSR EX",
     "character_class": "Mage",
     "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
+      "Sanctum Glory",
+      "Elemental Echo"
     ],
     "is_global": false,
     "subclasses": [
@@ -6085,7 +6085,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Poseidon",
@@ -6093,8 +6093,8 @@
     "quality": "SSR EX",
     "character_class": "Mage",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Arcane Wisdom",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -6172,7 +6172,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Crassus",
@@ -6180,8 +6180,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Illusion Veil",
-      "Arcane Wisdom"
+      "Wild Spirit",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -6255,7 +6255,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Faust",
@@ -6263,8 +6263,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Otherworld Return",
-      "Illusion Veil"
+      "Sanctum Glory",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -6315,13 +6315,13 @@
       {
         "name": "Bunny Bomb",
         "type": "Ultimate Skill",
-        "description": "Launches a Bunny Bomb at a single target that sticks to them. After 5s, it explodes to deal 275% of Attack as magic Damage to enemies in a medium circular area. When Krul is present, the Bunny Bomb attaches to Krul instead.",
+        "description": "Launches a Bunny Bomb at a single target that sticks to them. After 5s, it explodes to deal 275% of Attack as Magic Damage to enemies in a medium circular area. When Krul is present, the Bunny Bomb attaches to Krul instead.",
         "cooldown": 10
       },
       {
         "name": "Overload",
         "type": "Secret Skill",
-        "description": "After using a skill, your next Basic Attack gains a Buff: Deal magic Damage equal to 165% of your Attack to all enemies within a large circular area.",
+        "description": "After using a skill, your next Basic Attack gains a Buff: Deal Magic Damage equal to 165% of your Attack to all enemies within a large circular area.",
         "cooldown": 0
       },
       {
@@ -6338,7 +6338,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Gabriele",
@@ -6346,8 +6346,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Sanctum Glory",
-      "Otherworld Return"
+      "Otherworld Return",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -6421,7 +6421,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Gullveig",
@@ -6429,8 +6429,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Otherworld Return",
-      "Elemental Echo"
+      "Sanctum Glory",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -6493,7 +6493,7 @@
       {
         "name": "Netherblast",
         "type": "Special Skill",
-        "description": "Deals magic Damage equal to 230% of own Attack to enemies within a medium circular area around the target and applies [Chill].",
+        "description": "Deals Magic Damage equal to 230% of own Attack to enemies within a medium circular area around the target and applies [Chill].",
         "cooldown": 16
       },
       {
@@ -6504,7 +6504,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Talos",
@@ -6512,8 +6512,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
+      "Illusion Veil",
+      "Elemental Echo"
     ],
     "is_global": false,
     "subclasses": [
@@ -6587,7 +6587,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771302667
+    "last_updated": 1771358547
   },
   {
     "name": "Vermilion Bird",
@@ -6595,8 +6595,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Arcane Wisdom",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -6670,7 +6670,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771358547
   },
   {
     "name": "Cerberus",
@@ -6678,8 +6678,8 @@
     "quality": "SSR",
     "character_class": "Mage",
     "factions": [
-      "Illusion Veil",
-      "Elemental Echo"
+      "Wild Spirit",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -6747,7 +6747,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Cleopatra",
@@ -6755,8 +6755,8 @@
     "quality": "SSR",
     "character_class": "Mage",
     "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -6819,7 +6819,7 @@
       {
         "name": "Cascade of Shifting Sands",
         "type": "Special Skill",
-        "description": "Releases quicksand, dealing magic Damage equal to 260% of own Attack to enemy units in a straight line.",
+        "description": "Releases quicksand, dealing Magic Damage equal to 260% of own Attack to enemy units in a straight line.",
         "cooldown": 20
       },
       {
@@ -6830,7 +6830,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Melina",
@@ -6838,8 +6838,8 @@
     "quality": "SSR",
     "character_class": "Mage",
     "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
+      "Arcane Wisdom",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -6913,7 +6913,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Nanalie",
@@ -6921,8 +6921,8 @@
     "quality": "SSR",
     "character_class": "Mage",
     "factions": [
-      "Wild Spirit",
-      "Arcane Wisdom"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -6996,7 +6996,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Telperion",
@@ -7004,8 +7004,8 @@
     "quality": "SSR",
     "character_class": "Mage",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Arcane Wisdom",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -7079,7 +7079,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Buck",
@@ -7087,8 +7087,8 @@
     "quality": "SR",
     "character_class": "Mage",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Arcane Wisdom",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -7145,7 +7145,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Kleina",
@@ -7153,8 +7153,8 @@
     "quality": "SR",
     "character_class": "Mage",
     "factions": [
-      "Illusion Veil",
-      "Otherworld Return"
+      "Wild Spirit",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -7194,7 +7194,7 @@
       {
         "name": "Death's Embrace",
         "type": "Overdrive",
-        "description": "Deals magic Damage equal to 400% of the caster's Attack to all units (both allies and enemies) within a large circular area.",
+        "description": "Deals Magic Damage equal to 400% of the caster's Attack to all units (both allies and enemies) within a large circular area.",
         "cooldown": 20
       },
       {
@@ -7211,7 +7211,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Dwarven Sage",
@@ -7219,8 +7219,8 @@
     "quality": "R",
     "character_class": "Mage",
     "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
+      "Arcane Wisdom",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -7240,7 +7240,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Basic Attacks against enemies with [Chill] Status deal bonus magic Damage equal to 50% of your Attack power."
+          "effect": "Basic Attacks against enemies with [Chill] Status deal bonus Magic Damage equal to 50% of your Attack power."
         },
         {
           "level": 2,
@@ -7267,7 +7267,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Pharaoh",
@@ -7275,8 +7275,8 @@
     "quality": "R",
     "character_class": "Mage",
     "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -7323,7 +7323,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   },
   {
     "name": "Ice Slime",
@@ -7331,7 +7331,7 @@
     "quality": "N",
     "character_class": "Mage",
     "factions": [
-      "Elemental Echo"
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [],
@@ -7358,6 +7358,6 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771129475
+    "last_updated": 1771358547
   }
 ]

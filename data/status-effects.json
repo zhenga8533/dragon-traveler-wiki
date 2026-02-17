@@ -364,13 +364,6 @@
     "last_updated": 1771129475
   },
   {
-    "name": "Balanced",
-    "type": "Exclusive",
-    "effect": "Resets the target's health percentage to the current team's average health percentage, unaffected by healing effects.",
-    "remark": "",
-    "last_updated": 1771302667
-  },
-  {
     "name": "Black Dragon Claw",
     "type": "Exclusive",
     "effect": "",
@@ -425,6 +418,13 @@
     "effect": "Reduces the skill haste by 10 per stack, up to a maximum of 8 stacks, lasting 8 seconds.",
     "remark": "",
     "last_updated": 1771185685
+  },
+  {
+    "name": "Equilibirum",
+    "type": "Exclusive",
+    "effect": "Resets the target's health percentage to the current team's average health percentage, unaffected by healing effects.",
+    "remark": "",
+    "last_updated": 1771358547
   },
   {
     "name": "Exile",

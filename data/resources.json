@@ -53,7 +53,7 @@
     "quality": "SR",
     "description": "An ancient inscription imbued with a god's forging inspiration. Use it to unlock Runes for use in Rune Summon.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771305256
   },
   {
     "name": "Arena Coins",
@@ -179,49 +179,49 @@
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Illusion Veil faction. *\"If you gaze into the abyss, the abyss gazes into you.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "Graveyard Lily",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Otherworld Return faction. *\"Lily of the valley, blooming shy and sweet.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "Griffin Doll",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Sanctum Glory faction. *\"Limited quantity — act fast!\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "Grilled Steak",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 75 points. *\"The Moo Rights Association strongly objects to this gift!\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "Obsidian Arrowhead",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Elemental Echo faction. *\"One Cloudpiercer through the clouds, thousands of troops heed the call.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "Potion Class Notes",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Arcane Wisdom faction. *\"So many weird squiggles... Can't read a thing.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "Ring Casting Mold",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Wild Spirit faction. *\"With this, you can craft the Ring of Dominion!\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "A Knight's Tale",
@@ -298,7 +298,7 @@
     "quality": "SR",
     "description": "Tickets for challenging opponents in the Advanced Points Match. In the Points League, the higher your rank, the more purcahses can be made daily.",
     "category": "Item",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "Aurora Crystal",
@@ -347,14 +347,14 @@
     "quality": "SR",
     "description": "A Starshine Mark with flowing light, used to upgrade the Stellar Power level of dragons.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "Wyrm Essence",
     "quality": "SR",
     "description": "The Essence crystallized from an Ancient Wyrm's condensed power serves as an advanced material for Luminary breakthroughs.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "Dragonfire",
@@ -473,14 +473,14 @@
     "quality": "SR",
     "description": "Can be exchanged for any Class or Faction Oath Rune at a ratio of 5 to 1.",
     "category": "Shard",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "SR Luminary Shards",
     "quality": "SR",
     "description": "Collect 60 Shards to summon an SR Luminary.",
     "category": "Shard",
-    "last_updated": 1771302667
+    "last_updated": 1771305256
   },
   {
     "name": "R Luminary Shards",

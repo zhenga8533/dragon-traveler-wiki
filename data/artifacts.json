@@ -1,5 +1,1328 @@
 [
   {
+    "name": "Aladdin's Lamp",
+    "is_global": true,
+    "lore": "\"I have come in response, what do you want me to do? Just say it. I am your servant, and the servant of the lamp's master, acting according to your command.\" — One Thousand and One Nights",
+    "quality": "SR",
+    "effect": [
+      {
+        "level": 0,
+        "description": "At the start of battle, there is 50% chance for a back row Luminary to randomly gain one of the following: [Attack Boost], [Crit Up], or [Attack Speed Boost]"
+      },
+      {
+        "level": 2,
+        "description": "Probability increased by 10%"
+      },
+      {
+        "level": 5,
+        "description": "Probability increased by 10%"
+      },
+      {
+        "level": 8,
+        "description": "Effect triggers twice"
+      },
+      {
+        "level": 11,
+        "description": "Probability increased by 10%"
+      },
+      {
+        "level": 14,
+        "description": "Probability increased by 10%"
+      },
+      {
+        "level": 17,
+        "description": "Guarenteed to gain 2 different Buffs"
+      },
+      {
+        "level": 20,
+        "description": "Can receive all 3 Buffs simultaneously"
+      }
+    ],
+    "width": 0,
+    "height": 0,
+    "treasures": [
+      {
+        "name": "Sultan's Turban",
+        "lore": "\"The Sultan immediately noticed that Aladdin's attire and accessories far surpassed his own, and was deeply astronished. Aladdin exuded an air of elegance and refinement, with a dignified aura surrounding him.\" — One Thousand and One Nights",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 176"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1582"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 352"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.4%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 176"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1582"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 387"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.4%"
+          }
+        ]
+      },
+      {
+        "name": "Flying Magic Carpet",
+        "lore": "\"Speaking of this silk carpet, it is indeed extraordinary. It is actually a flying carpet, and whoever sits on it can fly wherever they wish.\" — One Thousand and One Nights",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 158"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1547"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 422"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.4%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 158"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1547"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 281"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.4%"
+          }
+        ]
+      },
+      {
+        "name": "Wishing Ring",
+        "lore": "\"As he rubbed his hands, he inadvertently brushed against the ring on his index finger, and a straight-standing Genie appeared before him, speaking in a loud voice.\" — One Thousand and One Nights",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 127"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1846"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 422"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.4%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 127"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1846"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 387"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.4%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771358547
+  },
+  {
+    "name": "Eye of Horus",
+    "is_global": true,
+    "lore": "\"I am Horus... My actions are as swift as an eagle. I am Horus, I can spread my wings and fly into the sky, then take a seat on the sacred boat that sails on the primordial chaotic waters under the command of Ra.\" — Ancient Egyptian Book of the Dead",
+    "quality": "SSR",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Increases Critical Rate of allied mid-row Luminaries by 150."
+      },
+      {
+        "level": 2,
+        "description": "Increases Crit by 30"
+      },
+      {
+        "level": 5,
+        "description": "Increases Crit Resist by 30"
+      },
+      {
+        "level": 8,
+        "description": "Increases Crit by 30"
+      },
+      {
+        "level": 11,
+        "description": "Increases Crit Resist by 30"
+      },
+      {
+        "level": 14,
+        "description": "Increases Crit by 45"
+      },
+      {
+        "level": 17,
+        "description": "Increases Crit Resist by 45"
+      },
+      {
+        "level": 20,
+        "description": "Increases both Crit and Crit Resist by 45"
+      }
+    ],
+    "width": 0,
+    "height": 0,
+    "treasures": [
+      {
+        "name": "Pharaoh's Scepter",
+        "lore": "\"I come to you in the form of the sacred falcon, I board your ship. I hold the scepter and issue commands... I board your ship unimpeded, and I sail safely with you to the beautiful west.\" — Ancient Egyptian Book of the Dead",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 201"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1808"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 402"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 201"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1808"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 442"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.6%"
+          }
+        ]
+      },
+      {
+        "name": "Eagle God Mask",
+        "lore": "\"Now he has left Horus among the living. He has wings like those of a vulture, and his two wings are like the wings of Horus. He has already armed himself with various Magic Powers.\" — Ancient Egyptian Book of the Dead",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 205"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1688"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 362"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 205"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1688"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 362"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.6%"
+          }
+        ]
+      },
+      {
+        "name": "Guardian Statue",
+        "lore": "\"Ah you, eternal god, the one and only god! Great eagle flying with the rising sun!... Your eternally youthful image flashes across the heart of heaven's river.\" — Ancient Egyptian Book of the Dead",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 181"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1768"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 482"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 181"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1768"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 322"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.6%"
+          }
+        ]
+      },
+      {
+        "name": "Mark of Law",
+        "lore": "\"Hear me, you remarkable gods, I am nurtured by the Nine Gods... With the help of the falcon, I have arrived at the place where I have a seat, I have reached the gates of heaven.\" — Ancient Egyptian Book of the Dead",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 145"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 2110"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 482"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 145"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 2110"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 442"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.6%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771358547
+  },
+  {
+    "name": "Golden Fleece",
+    "is_global": true,
+    "lore": "\"Under the branches lush with leaves hangs Aeetes' Golden Fleece, fiercely guarded day and night by the Highwyrm.\" — Argonautica",
+    "quality": "SR",
+    "effect": [
+      {
+        "level": 0,
+        "description": "At the start of battle, front row Luminaries gain a Shield equal to 15% of their max HP, lasting for 15 seconds."
+      },
+      {
+        "level": 2,
+        "description": "Shield strength coefficient is increased by 3%"
+      },
+      {
+        "level": 5,
+        "description": "Shield strength coefficient is increased by 3%"
+      },
+      {
+        "level": 8,
+        "description": "Shield strength coefficient is increased by 3%"
+      },
+      {
+        "level": 11,
+        "description": "Shield strength coefficient is increased by 3%"
+      },
+      {
+        "level": 14,
+        "description": "Shield strength coefficient is increased by 3%"
+      },
+      {
+        "level": 17,
+        "description": "Shield strength coefficient is increased by 3%  "
+      },
+      {
+        "level": 20,
+        "description": "Effect range is expanded to all allied Luminaries"
+      }
+    ],
+    "width": 0,
+    "height": 0,
+    "treasures": [
+      {
+        "name": "Giant's Core",
+        "lore": "\"When the Heroes arrived to dock at Crete, the bronze Talos shattered the stones on the Hardness cliffs to prevent the Heroes from trying their ship to this land.\" — Argonautica",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1846"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 127"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 387"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.4%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1846"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 127"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 422"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.4%"
+          }
+        ]
+      },
+      {
+        "name": "Sleeping Potion",
+        "lore": "\"The scent emitted by the potion enveloped the Wyrm in sleep. It closed its jaws and stretched its round body far into the Dense Forest behind.\" — Argonautica",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 211"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1361"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 330"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.4%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 211"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1361"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 295"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.4%"
+          }
+        ]
+      },
+      {
+        "name": "Argo's Figurehead",
+        "lore": "\"A beam imbued with divine power was installed on the ships. This beam was originally cut from a great oak by Athena and placed at the center of the ship's glow.\" — Argonautica",
+        "character_class": "Archer",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 204"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1399"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 295"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.4%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 204"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1399"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 330"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.4%"
+          }
+        ]
+      },
+      {
+        "name": "Nurtured Dragon Tooth",
+        "lore": "\"The stars in the sky shone brightly through the night, and the warriors emitted the same brilliance as they emerged from the earth.\" — Argonautica",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 179"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1477"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 316"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.4%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 179"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1477"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 316"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.4%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771358547
+  },
+  {
+    "name": "Heimdall's Horn",
+    "is_global": true,
+    "lore": "\"He raised the horn high, blowing loudly for Heimdall. The ash tree standing tall, that is the world tree, trembles.\" — Poetic Edda",
+    "quality": "SSR",
+    "effect": [
+      {
+        "level": 0,
+        "description": "When our frontline Luminaries cast their Overdrives, they gain a Shield equal to 18% of their max HP for 6s and gain [Attack Boost]. This can be triggered up to 3 times per battle."
+      },
+      {
+        "level": 2,
+        "description": "Shield strength coefficient is increased by 3%"
+      },
+      {
+        "level": 5,
+        "description": "Shield strength coefficient is increased by 3%"
+      },
+      {
+        "level": 8,
+        "description": "Additionally grants [Damage Reduction Up]"
+      },
+      {
+        "level": 11,
+        "description": "Shield strength coefficient is increased by 3%"
+      },
+      {
+        "level": 14,
+        "description": "Trigger attempt limit increased to 5 times"
+      },
+      {
+        "level": 17,
+        "description": "Shield strength coefficient is increased by 3%"
+      },
+      {
+        "level": 20,
+        "description": "When triggered, grants allies within a large circular area [Attack Boost] and [Damage Reduction Up]"
+      }
+    ],
+    "width": 0,
+    "height": 0,
+    "treasures": [
+      {
+        "name": "Golden Rooster Status",
+        "lore": "\"The 'Golden Crown' Gullinkambi raises its head and sings, warning the gods of the Aesir. The spirits in the Hall of Valhalla are awakened by its song.\" — Prose Edda",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1555"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 241"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 338"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1555"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 241"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 378"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.6%"
+          }
+        ]
+      },
+      {
+        "name": "Divine Steed's Mane",
+        "lore": "\"There were many people attending the funeral at that time... Heimdall came driving the Giltop horse... and many frost giants and mountain giants also came\" — Prose Edda",
+        "character_class": "Archer",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1599"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 233"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 378"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1599"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 233"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 338"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.6%"
+          }
+        ]
+      },
+      {
+        "name": "Horned Giant Helmet",
+        "lore": "\"He resides near the Rainbow Bridge in Himinbjorg. He is the guardian of the gods, sitting at the end of the sky, guarding the bridge against the ambush of giants.\" — Prose Edda",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1808"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 201"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 442"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1808"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 201"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 402"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.6%"
+          }
+        ]
+      },
+      {
+        "name": "Hofund",
+        "lore": "\"There is also an Aesir god named Heimdall. He is also known as the god of light... His sword is named Hofund.\" — Prose Edda",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1688"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 205"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 362"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1688"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 205"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 362"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.6%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771358547
+  },
+  {
+    "name": "Holy Grail",
+    "is_global": true,
+    "lore": "\"The Holy Grail, covered with white silk, floated into the hall... Instantly, before each Knight, appeared a feast of wines and delicacies never seen by mankind. After making a round before Galahad's Round Table, the Holy Grail vanished.\" — Arthurian Legend",
+    "quality": "SSR+",
+    "effect": [
+      {
+        "level": 0,
+        "description": "At the start of battle, if a back-row Luminary has Overdrive Energy Consumption great than or equal to 4, reduces their Overdrive Energy Consumption by 1"
+      },
+      {
+        "level": 2,
+        "description": "Boost Overdrive Damage by 5%"
+      },
+      {
+        "level": 5,
+        "description": "Boost Overdrive Damage by 5%"
+      },
+      {
+        "level": 8,
+        "description": "When a friendly Luminary activates their Overdrive, reduces your Overdrive Cooldown by 1 second"
+      },
+      {
+        "level": 11,
+        "description": "Boost Overdrive Damage by 5%"
+      },
+      {
+        "level": 14,
+        "description": "When an allied Luminary activates their Overdrive, reduces this Sacred Treasure's Overdrive Cooldown by an extra 0.5 seconds"
+      },
+      {
+        "level": 17,
+        "description": "Boost Overdrive Damage by 5%"
+      },
+      {
+        "level": 20,
+        "description": "When an allied Luminary activates their Overdrive, reduces this Sacred Treasure's Overdrive Cooldown by an extra 0.5 seconds"
+      }
+    ],
+    "width": 0,
+    "height": 0,
+    "treasures": [
+      {
+        "name": "Galahad's Round Table",
+        "lore": "\"The maiden holding the Holy Grail slowly approached and said to everyone: Galahad will take a seat at Galahad's Round Table and obtain the Holy Grail. He will become a Knight more excellent than his father.\" — The Death of King Arthur",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1750"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 271"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 380"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1750"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 271"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 425"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Round Table Roster",
+        "lore": "\"King Arthur commended all the Knights and instructed them: Never be arrogant, never kill the innocent, never betray... Those who violate will be sentenced to death.\" — The Death of King Arthur",
+        "character_class": "",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1799"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 262"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 425"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1799"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 262"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 380"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "King Arthur's Golden Crown",
+        "lore": "\"Regardless of wealth or poverty, everyone kneels as Arthur presents the sword to the altar. The Bishop personally ordains Arthur as the noblest Knight of the time, followed by the coronation ceremony.\" — The Death of King Arthur",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 2035"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 226"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 497"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 2035"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 226"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 452"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Holy Bomb",
+        "lore": "\"First, pull out the holy safety pin. Then count to three... Throw your Saint Antica grenade a high towards the enemy, and make those who wreak havoc before my eyes pay the price.\" — Titancoil and Holy Grail",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1899"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 231"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 407"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1899"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 231"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 407"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Axe of the Green Knight",
+        "lore": "\"The valiant knight is clad in green from head to toe, even his hair matches the color of his steed... In the other hand, he wields a fearsome axe... The broad blade is polished to a shine, as sharp as a razor.\" — Sir Gawain and the Green Knight",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1989"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 203"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 362"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1989"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 203"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 543"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Excalibur's Scabbard",
+        "lore": "\"The fairy happily said, 'Alright, please take that small boat and row to the center of the lake to retrieve the sword and Excalibur's Scabbard. As for the gift I desire, I will naturally ask for it when the time comes.\" — Le Morte d'Arthur",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 2373"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 163"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 497"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 2373"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 163"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 543"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.8%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771358547
+  },
+  {
+    "name": "Mjolnir",
+    "is_global": true,
+    "lore": "\"When the Mjolnir was raised, the frost giants and mountain giants suddenly understood — it all made sense, for with that very hammer, he had slain so many of their kin and friends.\" — Prose Edda",
+    "quality": "UR",
+    "effect": [
+      {
+        "level": 0,
+        "description": "When an enemy Luminary releases an Overdrive, Thor the Thunder God immediately descends onto the battlefield and throws Mjolnir at them, dealing 600% of Wyrm Attack as Magic Damage and applying 2s of [Stun]. This effect triggers every 30s and can occur up to 2 times per battle. Skills interrupted by Mjolnir will refund half of the Overdrive Energy Consumption and 8s of skill cooldown."
+      },
+      {
+        "level": 2,
+        "description": "Reduces trigger interval by 5s"
+      },
+      {
+        "level": 5,
+        "description": "Trigger attempt limit increased to 3 times"
+      },
+      {
+        "level": 8,
+        "description": "[Stun] duration increased by 2s"
+      },
+      {
+        "level": 11,
+        "description": "Reduces trigger interval by 5s"
+      },
+      {
+        "level": 14,
+        "description": "Trigger attempt limit increased to 4 times"
+      },
+      {
+        "level": 17,
+        "description": "Reduces trigger interval by 5s"
+      },
+      {
+        "level": 20,
+        "description": "Maximum trigger count increased to 5 times. Skills interrupted by Mjolnir will no longer refund Overdrive Energy Consumption and Cooldown"
+      }
+    ],
+    "width": 0,
+    "height": 0,
+    "treasures": [
+      {
+        "name": "Branch of the World Tree",
+        "lore": "\"There is also an ancient ash tree named Yggdrasil. Enormous and towering, it divides the heavens, earth, and the underworld, with its gnarled roots reaching deep into the earth's layers.\" — Poetic Edda",
+        "character_class": "",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 271"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1750"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 425"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 271"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1750"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 380"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Serpent Hook",
+        "lore": "\"He pulled the titancoil onto the ship's side, and Thor stared straight into the titancoil's eyes, while the titancoil also fixed its gaze on him, continuously spewing venom from its mouth.\" — Prose Edda",
+        "character_class": "Archer",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 262"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1799"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 380"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 262"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1799"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 425"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Endless Cup",
+        "lore": "\"And when you drink from the horn, it only diminishes a little. It's bottom is connected to the ocean, but you cannot see it. When you reach the shore, you will find that the sea level has dropped significantly.\" — Prose Edda",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 226"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 2035"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 452"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 226"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 2035"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 497"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Thunder Helm",
+        "lore": "\"At this point, the Aesir were certain that the builder among them was indeed a giant. They did not keep their oath and instead called upon Thor. Thor came immediately and 'paid' the builder his due.\" — Prose Edda",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 231"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1899"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 407"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 231"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1899"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 407"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Iron Grip",
+        "lore": "\"His third Treasure of such value is the iron gloves, without which he cannot grasp the handle of Mjolnir.\" — Prose Edda",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 203"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1989"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 543"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 203"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1989"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 543"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Belt of Strength",
+        "lore": "\"The second Treasure he possesses is Megingjord, and when he fastens this belt, his strength is increased by double.\" — Prose Edda",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 163"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 2373"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 543"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 163"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 2373"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 497"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771358547
+  },
+  {
     "name": "Orpheus Lyre",
     "is_global": true,
     "lore": "\"The Thracian poet sang such songs. His singing attracted many trees, enchanted the beasts, and even the stones followed home\" — Ovid, Metamorphoses",
@@ -38,8 +1361,8 @@
         "description": "[Physical Defense Up] and [Magic Defense Up] effects apply to all targets"
       }
     ],
-    "width": 2,
-    "height": 2,
+    "width": 0,
+    "height": 0,
     "treasures": [
       {
         "name": "Siren's Horn",
@@ -159,7 +1482,208 @@
         ]
       }
     ],
-    "last_updated": 1771302667
+    "last_updated": 1771358547
+  },
+  {
+    "name": "Sage's Stone",
+    "is_global": true,
+    "lore": "\"The sun causes the transformation and conversion of all things, turning one thing into another, one species into another.\" — The Hermetic Corpus",
+    "quality": "R",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Your team's Overdrive Points regenerate 5% faster"
+      },
+      {
+        "level": 2,
+        "description": "Overdrive Points regeneration speed is increased by an additional 1%"
+      },
+      {
+        "level": 5,
+        "description": "Overdrive Points regeneration speed is increased by an additional 1%"
+      },
+      {
+        "level": 8,
+        "description": "Overdrive Points regeneration speed is increased by an additional 1%"
+      },
+      {
+        "level": 11,
+        "description": "Increase initial Overdrive Points by 0.5"
+      },
+      {
+        "level": 14,
+        "description": "Overdrive Points regeneration speed is increased by an additional 1%"
+      },
+      {
+        "level": 17,
+        "description": "Overdrive Points regeneration speed is increased by an additional 1%"
+      },
+      {
+        "level": 20,
+        "description": "Increase initial Overdrive Points by 0.5"
+      }
+    ],
+    "width": 0,
+    "height": 0,
+    "treasures": [
+      {
+        "name": "The Voynich Manyscript",
+        "lore": "Bookseller Voynich purchased this item in Italy. The letters and language used in the book are unrecognizable, seemingly a reference book for medieval alchemists.",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 181"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1166"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 283"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 181"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1166"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 253"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.2%"
+          }
+        ]
+      },
+      {
+        "name": "Golden Dawn Emblem",
+        "lore": "A symbol of the Hermetic Order of the Golden Dawn, holding significant status in the history of occultism. Prospective members undergo a rigorous qualification review before proceeding to basic esoteric knowledge training.",
+        "character_class": "Archer",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 175"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1200"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 253"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 175"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1200"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 283"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.2%"
+          }
+        ]
+      },
+      {
+        "name": "Peaceful Mandrake",
+        "lore": "\"If curses could kill as surely as the mandrake's groan, then I would device some wicked, hair-raising words to burst forth from between my clenched teeth.\" — Shakespeare, Henry VI",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 151"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1356"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 301"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 151"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1356"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 331"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.2%"
+          }
+        ]
+      },
+      {
+        "name": "Emerald Tablet",
+        "lore": "\"As above, so below; by this, the miracle of the One is accomplished. All things are the One, created from the One through differentation.\" — Emerald Tablet",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 154"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1266"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 271"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 154"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1266"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 271"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.2%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771358547
   },
   {
     "name": "Sealed Magic Bottle",
@@ -200,8 +1724,8 @@
         "description": "The effective targets are changed to 2"
       }
     ],
-    "width": 2,
-    "height": 2,
+    "width": 0,
+    "height": 0,
     "treasures": [
       {
         "name": "Censer of Sleep",
@@ -321,7 +1845,7 @@
         ]
       }
     ],
-    "last_updated": 1771302667
+    "last_updated": 1771358547
   },
   {
     "name": "Sisyphus Monolith",
@@ -362,8 +1886,8 @@
         "description": "Increases HP by 3%"
       }
     ],
-    "width": 2,
-    "height": 2,
+    "width": 0,
+    "height": 0,
     "treasures": [
       {
         "name": "Underworld Offering",
@@ -483,7 +2007,7 @@
         ]
       }
     ],
-    "last_updated": 1771302667
+    "last_updated": 1771358547
   },
   {
     "name": "Solomon's Ring",
@@ -524,8 +2048,8 @@
         "description": "Reduces initial Overdrive Points by 0.5"
       }
     ],
-    "width": 3,
-    "height": 2,
+    "width": 0,
+    "height": 0,
     "treasures": [
       {
         "name": "Demon Pillar",
@@ -645,7 +2169,448 @@
         ]
       }
     ],
-    "last_updated": 1771302667
+    "last_updated": 1771358547
+  },
+  {
+    "name": "Spear of Longinus",
+    "is_global": true,
+    "lore": "The crimson spear is stained with holy blood. It is said that whoever holds this spear will have everyone submit and dominate the fate of the world.",
+    "quality": "SSR+",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Increase Physical Damage of middle-row Luminary by 15%\n[Opening Skill] At the start of the battle, deals 500% Physical Damage of Wyrm Attack to enemy units in a straight line. This skill can trigger the [Punishment] effect. When the [Punishment] effect is triggered, additionally applies [Physical Defense Down]."
+      },
+      {
+        "level": 2,
+        "description": "[Opening Skill] Damage increased by 20%"
+      },
+      {
+        "level": 5,
+        "description": "Middle-row Luminaries Physical Damage increased by an additional 5%"
+      },
+      {
+        "level": 8,
+        "description": "[Opening Skill] Additionally dispels 1 Buff Status from the target"
+      },
+      {
+        "level": 11,
+        "description": "[Opening Skill] Damage increased by 20%"
+      },
+      {
+        "level": 14,
+        "description": "When a middle-row Luminary deals Damage, it ignores 5% of the target's Physical Defense (Stacks up to a maximum of 40%)"
+      },
+      {
+        "level": 17,
+        "description": "Middle-row Luminaries' Physical Damage increased by an additional 5%"
+      },
+      {
+        "level": 20,
+        "description": "The effect range of [Opening Skill] expands to all enemy units"
+      }
+    ],
+    "width": 0,
+    "height": 0,
+    "treasures": [
+      {
+        "name": "Thirty Pieces of Silver",
+        "lore": "The informant chose to betray for thirty pieces of silver. In the end, he committed suicide out of remorse, and the silver pieces were scattered in the temple.",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 271"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1750"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 425"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 271"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1750"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 380"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Holy Anointing Oil",
+        "lore": "Kings, Priests, and Prophets are anointed with holy oil, the mark of the Holy Spirit's grace poured upon their heads, signifying the divine offices given to them by God.",
+        "character_class": "Archer",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 262"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1799"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 380"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 262"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1799"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 425"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Tree of Life Stone Slab Shards",
+        "lore": "The Tree of Life stands at the center of Paradise. When humanity awakens their desire for perfection, they must follow the path set forth by the Tree of Life.",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 226"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 2035"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 452"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 226"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 2035"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 497"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Thorn Crown",
+        "lore": "The Thorn is a symbol of the curse. No one in the world wears a crown of thorns. Only the sufferer bears the torment and pain since the creation.",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 231"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1899"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 407"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 231"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1899"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 407"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Centurion's Helmet",
+        "lore": "These Centurions are often the backbone of a legion. They charge into battle with red crests on their helmets to demonstrate their bravery.",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 203"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1989"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 543"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 203"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1989"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 362"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Dead Sea Scrolls",
+        "lore": "Before the temple was destroyed, devout scribes hid the scroll deep within a cave. It was not until a thousand years later that the secrets on the scroll were slowly revealed.",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 163"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 2373"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 543"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 163"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 2373"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 497"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771358547
+  },
+  {
+    "name": "Sun God's Cloak",
+    "is_global": true,
+    "lore": "\"You ascend to the sky! You shine forth! You make the stars retreat! You are the king of gods, encompassing all, we are born from you, and through you, we become sacred.\" — Ancient Egyptian Book of the Dead",
+    "quality": "SR",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Grants the front row Luminary with the highest HP the [Scorching Sun] effect, dealing magic damage equal to 6% of max HP to nearby enemies every 2s. Triggers once every 30s and lasts for 15s"
+      },
+      {
+        "level": 2,
+        "description": "Increases Magic Damage by an additional 2% of max HP"
+      },
+      {
+        "level": 5,
+        "description": "Increases Magic Damage by an additional 2% of max HP"
+      },
+      {
+        "level": 8,
+        "description": "Deal 50% more Damage to enemies affected by [Ignite] Status"
+      },
+      {
+        "level": 11,
+        "description": "Boost max HP by 4% and convert it into Magic Damage"
+      },
+      {
+        "level": 14,
+        "description": "The effective range extends to all our front-row Luminaries"
+      },
+      {
+        "level": 17,
+        "description": "Boost max HP by 4% and convert it into Magic Damage"
+      },
+      {
+        "level": 20,
+        "description": "Healing effects received by enemy units affected by [Scorching Sun] are reduced to 15%"
+      }
+    ],
+    "width": 0,
+    "height": 0,
+    "treasures": [
+      {
+        "name": "Sun Disk",
+        "lore": "\"O you god who shines with the light of the sun, you traverse the sky, your miracles surpass any other god. Your breath gives life to mankind, your light illuminates Upper and Lower Egypt.\" — Ancient Egyptian Book of the Dead",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 158"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1547"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 422"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.4%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 158"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1547"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 281"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.4%"
+          }
+        ]
+      },
+      {
+        "name": "Scarab Amulet",
+        "lore": "\"Ah, you insect that can fly to the sky, you are the god who protects the white crown and the red crown. I am you, and you are me. Please clear the way for me so that I may reach the highest god.\" — Ancient Egyptian Book of the Dead",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 176"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1582"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 352"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.4%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 176"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1582"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 387"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.4%"
+          }
+        ]
+      },
+      {
+        "name": "Ra's Stone Slab",
+        "lore": "\"I am an untiring oarsman on the sacred boat of Ra. Two sycamore trees form a gateway to thhe eastern sky, and it is through these trees that Ra passes before ascending to the heavens.\" — Ancient Egyptian Book of the Dead",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1361"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 211"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 295"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.4%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1361"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 211"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 422"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.4%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771358547
   },
   {
     "name": "Wings of Icarus",
@@ -686,8 +2651,8 @@
         "description": "Increases Attack by 3%"
       }
     ],
-    "width": 2,
-    "height": 2,
+    "width": 0,
+    "height": 0,
     "treasures": [
       {
         "name": "Ariadne's Thread",
@@ -807,6 +2772,207 @@
         ]
       }
     ],
-    "last_updated": 1771302667
+    "last_updated": 1771358547
+  },
+  {
+    "name": "Zeus's Thunder",
+    "is_global": true,
+    "lore": "\"After Zeus overthrew his father Cronus with force, he was then ruling the heavens. He possessed lightning and thunder, fairly distributed wealth among the gods, and declared Honor.\" — Hesiod, Theogony",
+    "quality": "SSR",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Continuously attacks the enemy Luminary with the lowest HP percentage, dealing 500% of Wyrm's Attack power as Magic Damage. Triggers once every 30s"
+      },
+      {
+        "level": 2,
+        "description": "Base Damage increased by 10%"
+      },
+      {
+        "level": 5,
+        "description": "Reduces trigger interval by 3 seconds"
+      },
+      {
+        "level": 8,
+        "description": "Deals additional Magic Damage equal to 10% of the target's Max HP"
+      },
+      {
+        "level": 11,
+        "description": "Base Damage increased by 10%"
+      },
+      {
+        "level": 14,
+        "description": "Reduces trigger interval by 3 seconds"
+      },
+      {
+        "level": 17,
+        "description": "Base Damage increased by 10%"
+      },
+      {
+        "level": 20,
+        "description": "Number of targets hit +1"
+      }
+    ],
+    "width": 0,
+    "height": 0,
+    "treasures": [
+      {
+        "name": "Olive Wreath",
+        "lore": "\"The statue of Zeus is made of wood, with exposed parts covered in ivory, and the clothing overlaid with gold. On his head is a crown woven from olive branches.\" — Pausanias, Description of Greece",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1768"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 181"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 322"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1768"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 181"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 482"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.6%"
+          }
+        ]
+      },
+      {
+        "name": "Status of Nike",
+        "lore": "\"The main body of the statue of Zeus is made of wood, with exposed parts covered in ivory, and the clothes overlaid with gold... In his right hand, he holds a Statue of Nike made of ivory and gold.\" — Pausanias, Description of Greece",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 2110"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 145"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 442"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 2110"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 145"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 482"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.6%"
+          }
+        ]
+      },
+      {
+        "name": "Eagle Scepter",
+        "lore": "\"It was laboriously forged by Hephaestus. The god of the forge handed the scepter to the king Zeus, son of Cronus... and then passed it to Agamemnon, who, with the authority of the royal scepter, ruled over many islands.\" — Homer, The Iliad",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 241"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1555"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 378"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 241"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1555"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 338"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.6%"
+          }
+        ]
+      },
+      {
+        "name": "Omphalos Stone",
+        "lore": "\"Goddess Rhea wrapped a large stone in swaddling clothes and gave it to the mighty Ruler, son of the god of heaven, the former kind of gods, Cronus. He took the swaddling clothes and swallowed them.\" — Hesiod's Theogony",
+        "character_class": "Archer",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 233"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1599"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 338"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.6%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 233"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1599"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 378"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.6%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771358547
   }
 ]
