@@ -1,8 +1,11 @@
 import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { useContext } from 'react';
 import type { Skill, Talent } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
 import { splitEffectRefs } from '../utils/parse-effect-refs';
+import { ResourcesContext } from '../contexts';
+import ResourceBadge from './ResourceBadge';
 import StatusEffectBadge from './StatusEffectBadge';
 
 export interface RichTextProps {
@@ -98,70 +101,81 @@ export default function RichText({
   talent,
 }: RichTextProps) {
   const segments = splitEffectRefs(text);
+  const { resources } = useContext(ResourcesContext);
   const talentLines = talent?.talent_levels.map(
     (level) => `Level ${level.level}: ${level.effect}`
   );
 
   return (
     <Text size="sm" component="span" style={{ whiteSpace: 'pre-line' }}>
-      {segments.map((seg, i) =>
-        seg.type === 'text' ? (
-          <span key={i}>{seg.content}</span>
-        ) : (
-          (() => {
-            const statusEffect = findByName(statusEffects, seg.name);
-            if (statusEffect) {
-              return (
-                <StatusEffectBadge
-                  key={i}
-                  name={statusEffect.name}
-                  statusEffects={statusEffects}
-                />
-              );
-            }
+      {segments.map((seg, i) => {
+        if (seg.type === 'text') {
+          return <span key={i}>{seg.content}</span>;
+        }
 
-            const skill = findByName(skills, seg.name);
-            if (skill) {
-              return (
-                <ReferenceBadge
-                  key={i}
-                  name={skill.name}
-                  label="Skill"
-                  color="grape"
-                  description={skill.description}
-                />
-              );
-            }
+        if (seg.type === 'italic') {
+          return <em key={i}>{seg.content}</em>;
+        }
 
-            if (
-              talent &&
-              normalizeName(talent.name) === normalizeName(seg.name)
-            ) {
-              return (
-                <ReferenceBadge
-                  key={i}
-                  name={talent.name}
-                  label="Talent"
-                  color="indigo"
-                  lines={talentLines}
-                />
-              );
-            }
+        // effectRef
+        const statusEffect = findByName(statusEffects, seg.name);
+        if (statusEffect) {
+          return (
+            <StatusEffectBadge
+              key={i}
+              name={statusEffect.name}
+              statusEffects={statusEffects}
+            />
+          );
+        }
 
-            return (
-              <Badge
-                key={i}
-                variant="light"
-                color="gray"
-                size="sm"
-                component="span"
-              >
-                {seg.name}
-              </Badge>
-            );
-          })()
-        )
-      )}
+        const skill = findByName(skills, seg.name);
+        if (skill) {
+          return (
+            <ReferenceBadge
+              key={i}
+              name={skill.name}
+              label="Skill"
+              color="grape"
+              description={skill.description}
+            />
+          );
+        }
+
+        if (
+          talent &&
+          normalizeName(talent.name) === normalizeName(seg.name)
+        ) {
+          return (
+            <ReferenceBadge
+              key={i}
+              name={talent.name}
+              label="Talent"
+              color="indigo"
+              lines={talentLines}
+            />
+          );
+        }
+
+        const resource = resources.find(
+          (r) => normalizeName(r.name) === normalizeName(seg.name)
+        );
+        if (resource) {
+          return <ResourceBadge key={i} name={resource.name} />;
+        }
+
+        return (
+          <Badge
+            key={i}
+            variant="light"
+            color="gray"
+            size="sm"
+            component="span"
+          >
+            {seg.name}
+          </Badge>
+        );
+      })}
     </Text>
   );
 }
