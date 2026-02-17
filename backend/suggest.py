@@ -61,7 +61,7 @@ VALID_STATUS_EFFECT_TYPES = {
 }
 
 VALID_WYRMSPELL_TYPES = {"Breach", "Refuge", "Wildcry", "Dragon's Call"}
-VALID_CHARACTER_QUALITIES = {"SSR EX", "SSR+", "SSR", "SR+", "R", "N"}
+VALID_CHARACTER_QUALITIES = {"SSR EX", "SSR+", "SSR", "SR", "R", "N"}
 VALID_CHARACTER_CLASSES = {
     "Guardian",
     "Priest",

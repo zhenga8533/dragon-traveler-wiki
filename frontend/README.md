@@ -72,7 +72,7 @@ Quality-based color system:
 - **SSR EX**: Red
 - **SSR+**: Orange
 - **SSR**: Yellow
-- **SR+**: Violet
+- **SR**: Violet
 - **R**: Blue
 - **N**: Gray
 

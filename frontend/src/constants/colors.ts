@@ -18,7 +18,7 @@ export const QUALITY_ORDER: Quality[] = [
   'SSR EX',
   'SSR+',
   'SSR',
-  'SR+',
+  'SR',
   'R',
   'N',
 ];
@@ -28,7 +28,7 @@ export const QUALITY_COLOR: Record<Quality, string> = {
   'SSR EX': 'red',
   'SSR+': 'orange',
   SSR: 'yellow',
-  'SR+': 'violet',
+  SR: 'violet',
   R: 'blue',
   N: 'lime',
 };

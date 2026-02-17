@@ -1059,7 +1059,7 @@
   {
     "name": "Eurytion",
     "title": "Wild Outlaw",
-    "quality": "SR+",
+    "quality": "SR",
     "character_class": "Guardian",
     "factions": [
       "Wild Spirit",
@@ -2193,7 +2193,7 @@
   {
     "name": "Flora",
     "title": "Spring Flower Spirit",
-    "quality": "SR+",
+    "quality": "SR",
     "character_class": "Priest",
     "factions": [
       "Wild Spirit",
@@ -2259,7 +2259,7 @@
   {
     "name": "Siren",
     "title": "Wandering Songstress",
-    "quality": "SR+",
+    "quality": "SR",
     "character_class": "Priest",
     "factions": [
       "Arcane Wisdom",
@@ -3298,7 +3298,7 @@
   {
     "name": "Bladeheart",
     "title": "Shadow Ronin",
-    "quality": "SR+",
+    "quality": "SR",
     "character_class": "Assassin",
     "factions": [
       "Elemental Echo",
@@ -4586,7 +4586,7 @@
   {
     "name": "Grimnir",
     "title": "Death Seeker",
-    "quality": "SR+",
+    "quality": "SR",
     "character_class": "Warrior",
     "factions": [
       "Wild Spirit",
@@ -4652,7 +4652,7 @@
   {
     "name": "Murphy",
     "title": "Pact Demon",
-    "quality": "SR+",
+    "quality": "SR",
     "character_class": "Warrior",
     "factions": [
       "Illusion Veil",
@@ -5724,7 +5724,7 @@
   {
     "name": "Nessus",
     "title": "Savage Hunter",
-    "quality": "SR+",
+    "quality": "SR",
     "character_class": "Archer",
     "factions": [
       "Wild Spirit",
@@ -5790,7 +5790,7 @@
   {
     "name": "Polyphemus",
     "title": "Cyclops",
-    "quality": "SR+",
+    "quality": "SR",
     "character_class": "Archer",
     "factions": [
       "Otherworld Return",
@@ -7084,7 +7084,7 @@
   {
     "name": "Buck",
     "title": "Mischievous Imp",
-    "quality": "SR+",
+    "quality": "SR",
     "character_class": "Mage",
     "factions": [
       "Elemental Echo",
@@ -7150,7 +7150,7 @@
   {
     "name": "Kleina",
     "title": "Wandering Ghost",
-    "quality": "SR+",
+    "quality": "SR",
     "character_class": "Mage",
     "factions": [
       "Illusion Veil",

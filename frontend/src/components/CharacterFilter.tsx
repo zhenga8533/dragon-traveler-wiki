@@ -19,7 +19,7 @@ import type { FactionName } from '../types/faction';
 import type { CharacterFilters } from '../utils/filter-characters';
 import { EMPTY_FILTERS } from '../utils/filter-characters';
 
-const QUALITIES: Quality[] = ['SSR EX', 'SSR+', 'SSR', 'SR+', 'R', 'N'];
+const QUALITIES: Quality[] = ['SSR EX', 'SSR+', 'SSR', 'SR', 'R', 'N'];
 const CLASSES: CharacterClass[] = [
   'Guardian',
   'Priest',

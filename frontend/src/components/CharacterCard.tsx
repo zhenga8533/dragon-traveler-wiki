@@ -10,7 +10,7 @@ const QUALITY_BORDER_COLOR: Record<Quality, string> = {
   'SSR EX': 'var(--mantine-color-red-6)',
   'SSR+': 'var(--mantine-color-orange-5)',
   SSR: 'var(--mantine-color-yellow-5)',
-  'SR+': 'var(--mantine-color-violet-5)',
+  SR: 'var(--mantine-color-violet-5)',
   R: 'var(--mantine-color-blue-5)',
   N: 'var(--mantine-color-lime-5)',
 };

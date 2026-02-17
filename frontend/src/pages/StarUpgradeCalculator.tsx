@@ -254,14 +254,14 @@ const HEART_TRIAL_RATES = {
   'SSR EX': 1, // 2 sweeps for 1 shard (2 if affection 20)
   'SSR+': 3, // 3 sweeps for 3 shards
   SSR: 6, // 3 sweeps for 6 shards
-  'SR+': 15, // 3 sweeps for 15 shards
+  SR: 15, // 3 sweeps for 15 shards
   R: 0, // Not farmable
   N: 0, // Not farmable
 } as const;
 
 const SHARDS_PER_DUPE = 60;
 
-type QualityOption = 'SSR EX' | 'SSR+' | 'SSR' | 'SR+';
+type QualityOption = 'SSR EX' | 'SSR+' | 'SSR' | 'SR';
 
 // ---------------------------------------------------------------------------
 // Star icon helper
@@ -544,9 +544,9 @@ export default function StarUpgradeCalculator() {
     shardsPerDay = 2;
   }
 
-  // SR+ only gives 4-star copies, need 2x 4-star to make 1x 5-star
+  // SR only gives 4-star copies, need 2x 4-star to make 1x 5-star
   const effectiveCopiesNeeded =
-    quality === 'SR+' ? copiesNeeded * 2 : copiesNeeded;
+    quality === 'SR' ? copiesNeeded * 2 : copiesNeeded;
   const totalShardsNeeded = effectiveCopiesNeeded * SHARDS_PER_DUPE;
   const ownedShards = currentCopies * SHARDS_PER_DUPE + currentShards;
   const shardsRemaining = Math.max(0, totalShardsNeeded - ownedShards);
@@ -744,10 +744,10 @@ export default function StarUpgradeCalculator() {
                       ),
                     },
                     {
-                      value: 'SR+',
+                      value: 'SR',
                       label: (
                         <Image
-                          src={QUALITY_ICON_MAP['SR+']}
+                          src={QUALITY_ICON_MAP['SR']}
                           h={20}
                           fit="contain"
                         />
@@ -768,10 +768,10 @@ export default function StarUpgradeCalculator() {
                 />
               )}
 
-              {quality === 'SR+' && (
+              {quality === 'SR' && (
                 <Paper p="sm" withBorder bg="var(--mantine-color-yellow-light)">
                   <Text size="sm" c="orange">
-                    Note: SR+ heart trial gives 4-star copies. You need 2×
+                    Note: SR heart trial gives 4-star copies. You need 2×
                     4-star to make 1× 5-star (calculation accounts for this)
                   </Text>
                 </Paper>
@@ -973,7 +973,7 @@ export default function StarUpgradeCalculator() {
                         <Table.Tr>
                           <Table.Td>
                             <Image
-                              src={QUALITY_ICON_MAP['SR+']}
+                              src={QUALITY_ICON_MAP['SR']}
                               h={20}
                               fit="contain"
                             />

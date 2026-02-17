@@ -7,7 +7,7 @@ class Quality(str, Enum):
     SSR_EX = "SSR EX"
     SSR_PLUS = "SSR+"
     SSR = "SSR"
-    SR_PLUS = "SR+"
+    SR = "SR"
     R = "R"
     N = "N"
 

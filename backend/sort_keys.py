@@ -2,7 +2,7 @@
 Shared sort-order constants and sort-key functions used by both sync_dolt and export_dolt.
 """
 
-QUALITY_ORDER = ["UR", "SSR EX", "SSR+", "SSR", "SR+", "R", "N"]
+QUALITY_ORDER = ["UR", "SSR EX", "SSR+", "SSR", "SR", "R", "N"]
 QUALITY_RANK = {q: i for i, q in enumerate(QUALITY_ORDER)}
 
 CLASS_ORDER = ["Guardian", "Priest", "Assassin", "Warrior", "Archer", "Mage"]
