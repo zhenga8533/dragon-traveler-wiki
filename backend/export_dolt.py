@@ -19,28 +19,19 @@ import sys
 from collections import defaultdict
 from pathlib import Path
 
+from .sort_keys import (
+    artifact_sort_key,
+    character_sort_key,
+    resource_sort_key,
+    status_effect_sort_key,
+    useful_link_sort_key,
+    wyrmspell_sort_key,
+)
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 ROOT_DIR = SCRIPT_DIR.parent
 DOLT_DIR = ROOT_DIR / "dolt-db"
 EXPORT_DIR = SCRIPT_DIR / "exports"
-
-# Sort-order lookups (lower index = higher priority)
-QUALITY_ORDER = ["UR", "SSR EX", "SSR+", "SSR", "SR+", "R", "N"]
-QUALITY_RANK = {q: i for i, q in enumerate(QUALITY_ORDER)}
-
-CLASS_ORDER = ["Guardian", "Priest", "Assassin", "Warrior", "Archer", "Mage"]
-CLASS_RANK = {c: i for i, c in enumerate(CLASS_ORDER)}
-
-STATE_ORDER = ["Buff", "Debuff", "Special", "Control", "Elemental", "Blessing", "Exclusive"]
-STATE_RANK = {s: i for i, s in enumerate(STATE_ORDER)}
-
-RESOURCE_CATEGORY_ORDER = ["Currency", "Gift", "Item", "Material", "Summoning", "Shard"]
-RESOURCE_CATEGORY_RANK = {c: i for i, c in enumerate(RESOURCE_CATEGORY_ORDER)}
-
-TIER_ORDER = ["S+", "S", "A", "B", "C", "D"]
-TIER_RANK = {t: i for i, t in enumerate(TIER_ORDER)}
-
-_FALLBACK = 999  # for unknown values
 
 # All queries needed, keyed by name. Executed in a single dolt process.
 QUERIES = {
@@ -283,11 +274,7 @@ def export_characters(data, output_dir=None):
             }
         )
 
-    result.sort(key=lambda c: (
-        CLASS_RANK.get(c["character_class"], _FALLBACK),
-        QUALITY_RANK.get(c["quality"], _FALLBACK),
-        c["name"].lower(),
-    ))
+    result.sort(key=character_sort_key)
     write_export("characters.json", result, output_dir)
 
 
@@ -304,11 +291,7 @@ def export_wyrmspells(data, output_dir=None):
         }
         for w in data["wyrmspells"]
     ]
-    result.sort(key=lambda w: (
-        w["type"].lower(),
-        QUALITY_RANK.get(w["quality"], _FALLBACK),
-        w["name"].lower(),
-    ))
+    result.sort(key=wyrmspell_sort_key)
     write_export("wyrmspells.json", result, output_dir)
 
 
@@ -326,10 +309,7 @@ def export_resources(data, output_dir=None):
         }
         for r in data["resources"]
     ]
-    result.sort(key=lambda r: (
-        RESOURCE_CATEGORY_RANK.get(r["category"], _FALLBACK),
-        r["name"].lower(),
-    ))
+    result.sort(key=resource_sort_key)
     write_export("resources.json", result, output_dir)
 
 
@@ -382,10 +362,7 @@ def export_status_effects(data, output_dir=None):
         }
         for se in data["status_effects"]
     ]
-    result.sort(key=lambda se: (
-        STATE_RANK.get(se["type"], _FALLBACK),
-        se["name"].lower(),
-    ))
+    result.sort(key=status_effect_sort_key)
     write_export("status-effects.json", result, output_dir)
 
 
@@ -463,7 +440,7 @@ def export_useful_links(data, output_dir=None):
         }
         for l in data["useful_links"]
     ]
-    result.sort(key=lambda l: (l["application"].lower(), l["name"].lower()))
+    result.sort(key=useful_link_sort_key)
     write_export("useful-links.json", result, output_dir)
 
 
@@ -514,7 +491,7 @@ def export_artifacts(data, output_dir=None):
                 "last_updated": int(a.get("last_updated") or 0),
             }
         )
-    result.sort(key=lambda a: a["name"].lower())
+    result.sort(key=artifact_sort_key)
     write_export("artifacts.json", result, output_dir)
 
 

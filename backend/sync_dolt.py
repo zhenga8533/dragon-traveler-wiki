@@ -18,6 +18,15 @@ import time
 from datetime import datetime
 from pathlib import Path
 
+from .sort_keys import (
+    artifact_sort_key,
+    character_sort_key,
+    resource_sort_key,
+    status_effect_sort_key,
+    useful_link_sort_key,
+    wyrmspell_sort_key,
+)
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 ROOT_DIR = SCRIPT_DIR.parent
 DOLT_DIR = ROOT_DIR / "dolt-db"
@@ -113,7 +122,7 @@ def build_resource_id_map(resources):
     """Build deterministic resource name -> id mapping matching sync_resources insert order."""
     mapping = {}
     rid = 0
-    for resource in resources:
+    for resource in sorted(resources, key=resource_sort_key):
         name = resource.get("name")
         if not name or name in mapping:
             continue
@@ -200,6 +209,7 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
             CREATE TABLE resources (
               id int NOT NULL AUTO_INCREMENT,
               name varchar(100) NOT NULL,
+              quality varchar(20) NULL,
               description text,
               category varchar(50) NOT NULL DEFAULT '',
               last_updated BIGINT NULL,
@@ -212,13 +222,19 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
         )
         existing_tables.add("resources")
 
-    # Ensure category column exists on resources table.
+    # Ensure category and quality columns exist on resources table.
     if "resources" in existing_tables:
         resource_columns = get_table_columns("resources")
         if "category" not in resource_columns:
             print("  Adding resources.category column")
             dolt_sql(
                 "ALTER TABLE resources ADD COLUMN category varchar(50) NOT NULL DEFAULT '';",
+                dry_run=dry_run,
+            )
+        if "quality" not in resource_columns:
+            print("  Adding resources.quality column")
+            dolt_sql(
+                "ALTER TABLE resources ADD COLUMN quality varchar(20) NULL AFTER `name`;",
                 dry_run=dry_run,
             )
 
@@ -452,6 +468,7 @@ def sync_factions(data, batch, now):
     old_ts = get_old_timestamps("factions", "name")
     batch.add("DELETE FROM character_factions;")
     batch.add("DELETE FROM factions;")
+    data = sorted(data, key=lambda f: (f.get("name") or "").lower())
     for i, f in enumerate(data, 1):
         if not f.get("name"):
             continue
@@ -485,6 +502,7 @@ def sync_characters(data, factions, batch, now):
         if f.get("name"):
             faction_ids[f["name"]] = i
 
+    data = sorted(data, key=character_sort_key)
     char_id = 0
     subclass_id = 0
     talent_id = 0
@@ -552,6 +570,7 @@ def sync_wyrmspells(data, batch, now):
     old_ts = get_old_timestamps("wyrmspells", "name")
     batch.add("DELETE FROM wyrmspells;")
     batch.add("ALTER TABLE wyrmspells AUTO_INCREMENT = 1;")
+    data = sorted(data, key=wyrmspell_sort_key)
     w_id = 0
     for w in data:
         if not w.get("name"):
@@ -586,6 +605,7 @@ def sync_resources(data, batch, existing_tables, now):
 
     batch.add("DELETE FROM resources;")
     batch.add("ALTER TABLE resources AUTO_INCREMENT = 1;")
+    data = sorted(data, key=resource_sort_key)
     r_id = 0
     for r in data:
         if not r.get("name"):
@@ -594,8 +614,8 @@ def sync_resources(data, batch, existing_tables, now):
         h = compute_hash(r)
         ts = resolve_timestamp(r["name"], h, old_ts, now)
         batch.add(
-            f"INSERT INTO resources (id, name, description, category, last_updated, data_hash) VALUES "
-            f"({r_id}, {escape_sql(r['name'])}, {escape_sql(r.get('description', ''))}, "
+            f"INSERT INTO resources (id, name, quality, description, category, last_updated, data_hash) VALUES "
+            f"({r_id}, {escape_sql(r['name'])}, {escape_sql(r.get('quality'))}, {escape_sql(r.get('description', ''))}, "
             f"{escape_sql(r.get('category', ''))}, {escape_sql(ts)}, {escape_sql(h)});"
         )
     print(f"  Synced {r_id} resources")
@@ -677,6 +697,7 @@ def sync_status_effects(data, batch, now):
     old_ts = get_old_timestamps("status_effects", "name")
     batch.add("DELETE FROM status_effects;")
     batch.add("ALTER TABLE status_effects AUTO_INCREMENT = 1;")
+    data = sorted(data, key=status_effect_sort_key)
     se_id = 0
     for se in data:
         if not se.get("name"):
@@ -775,6 +796,7 @@ def sync_useful_links(data, batch, now):
     old_ts = get_old_timestamps("useful_links", "name")
     batch.add("DELETE FROM useful_links;")
     batch.add("ALTER TABLE useful_links AUTO_INCREMENT = 1;")
+    data = sorted(data, key=useful_link_sort_key)
     link_id = 0
     for link in data:
         if not link.get("name"):
@@ -802,6 +824,7 @@ def sync_artifacts(data, batch, now):
     batch.add("ALTER TABLE artifact_effects AUTO_INCREMENT = 1;")
     batch.add("ALTER TABLE artifact_treasures AUTO_INCREMENT = 1;")
     batch.add("ALTER TABLE artifacts AUTO_INCREMENT = 1;")
+    data = sorted(data, key=artifact_sort_key)
     a_id = 0
     effect_id = 0
     treasure_id = 0
