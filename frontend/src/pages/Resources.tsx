@@ -10,8 +10,10 @@ import {
   Table,
   Text,
   Title,
+  Tooltip,
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getResourceIcon } from '../assets/resource';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
@@ -19,6 +21,7 @@ import FilterToolbar from '../components/FilterToolbar';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import {
+  QUALITY_ORDER,
   RESOURCE_CATEGORY_COLOR,
   RESOURCE_CATEGORY_ORDER,
 } from '../constants/colors';
@@ -26,6 +29,7 @@ import { STORAGE_KEY } from '../constants/ui';
 import { ResourcesContext } from '../contexts';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import type { ResourceCategory } from '../types/resource';
+import InlineMarkup from '../components/InlineMarkup';
 import LastUpdated from '../components/LastUpdated';
 
 const RESOURCE_FIELDS: FieldDef[] = [
@@ -103,6 +107,9 @@ export default function Resources() {
         const catA = RESOURCE_CATEGORY_ORDER.indexOf(a.category);
         const catB = RESOURCE_CATEGORY_ORDER.indexOf(b.category);
         if (catA !== catB) return catA - catB;
+        const qA = a.quality ? QUALITY_ORDER.indexOf(a.quality) : 999;
+        const qB = b.quality ? QUALITY_ORDER.indexOf(b.quality) : 999;
+        if (qA !== qB) return qA - qB;
         return a.name.localeCompare(b.name);
       });
   }, [resources, filters]);
@@ -192,6 +199,17 @@ export default function Resources() {
                               />
                             )}
                             <Text fw={600}>{resource.name}</Text>
+                            {resource.quality && (
+                              <Tooltip label={resource.quality}>
+                                <Image
+                                  src={QUALITY_ICON_MAP[resource.quality]}
+                                  alt={resource.quality}
+                                  h={20}
+                                  w="auto"
+                                  fit="contain"
+                                />
+                              </Tooltip>
+                            )}
                             <Badge
                               variant="light"
                               color={
@@ -204,7 +222,7 @@ export default function Resources() {
                             </Badge>
                           </Group>
                           <Text size="sm" c="dimmed">
-                            {resource.description}
+                            <InlineMarkup text={resource.description} />
                           </Text>
                         </Stack>
                       </Paper>
@@ -218,6 +236,7 @@ export default function Resources() {
                       <Table.Tr>
                         <Table.Th>Icon</Table.Th>
                         <Table.Th>Name</Table.Th>
+                        <Table.Th>Quality</Table.Th>
                         <Table.Th>Category</Table.Th>
                         <Table.Th>Description</Table.Th>
                       </Table.Tr>
@@ -244,6 +263,19 @@ export default function Resources() {
                               </Text>
                             </Table.Td>
                             <Table.Td>
+                              {resource.quality && (
+                                <Tooltip label={resource.quality}>
+                                  <Image
+                                    src={QUALITY_ICON_MAP[resource.quality]}
+                                    alt={resource.quality}
+                                    h={20}
+                                    w="auto"
+                                    fit="contain"
+                                  />
+                                </Tooltip>
+                              )}
+                            </Table.Td>
+                            <Table.Td>
                               <Badge
                                 variant="light"
                                 color={
@@ -257,7 +289,7 @@ export default function Resources() {
                             </Table.Td>
                             <Table.Td>
                               <Text size="sm" c="dimmed">
-                                {resource.description}
+                                <InlineMarkup text={resource.description} />
                               </Text>
                             </Table.Td>
                           </Table.Tr>

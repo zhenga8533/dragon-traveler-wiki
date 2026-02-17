@@ -1,6 +1,7 @@
 export type TextSegment =
   | { type: 'text'; content: string }
-  | { type: 'effectRef'; name: string };
+  | { type: 'effectRef'; name: string }
+  | { type: 'italic'; content: string };
 
 const EFFECT_REF_RE = /\[([^\]]+)\]/g;
 
@@ -14,18 +15,23 @@ export function parseEffectRefs(text: string): string[] {
   return [...names];
 }
 
-/** Split text into plain text and effect reference segments. */
+/** Split text into plain text, effect reference, and italic segments. */
 export function splitEffectRefs(text: string): TextSegment[] {
   const segments: TextSegment[] = [];
   let lastIndex = 0;
-  let match: RegExpExecArray | null;
 
-  const re = /\[([^\]]+)\]/g;
+  // Match [refs] and *italic*
+  const re = /\[([^\]]+)\]|\*([^*]+)\*/g;
+  let match: RegExpExecArray | null;
   while ((match = re.exec(text)) !== null) {
     if (match.index > lastIndex) {
       segments.push({ type: 'text', content: text.slice(lastIndex, match.index) });
     }
-    segments.push({ type: 'effectRef', name: match[1] });
+    if (match[1] != null) {
+      segments.push({ type: 'effectRef', name: match[1] });
+    } else {
+      segments.push({ type: 'italic', content: match[2] });
+    }
     lastIndex = match.index + match[0].length;
   }
 

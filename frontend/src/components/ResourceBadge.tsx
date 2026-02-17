@@ -3,6 +3,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
 import { getResourceIcon } from '../assets/resource';
 import { ResourcesContext } from '../contexts';
+import InlineMarkup from './InlineMarkup';
 
 export interface ResourceBadgeProps {
   /** Resource name (must match a name in resources.json). */
@@ -66,8 +67,8 @@ export default function ResourceBadge({
               {resource.name}
             </Text>
           </Group>
-          <Text size="xs" style={{ whiteSpace: 'pre-line' }}>
-            {resource.description}
+          <Text size="xs" style={{ whiteSpace: 'pre-line' }} component="span">
+            <InlineMarkup text={resource.description} />
           </Text>
         </Stack>
       </Popover.Dropdown>

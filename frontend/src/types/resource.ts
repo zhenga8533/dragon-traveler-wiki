@@ -1,3 +1,5 @@
+import type { Quality } from './character';
+
 export type ResourceCategory =
   | 'Currency'
   | 'Gift'
@@ -11,5 +13,6 @@ export interface Resource {
   name: string;
   description: string;
   category: ResourceCategory;
+  quality: Quality | null;
   last_updated: number;
 }
