@@ -268,7 +268,7 @@ export default function ArtifactPage() {
                 <LastUpdated timestamp={artifact.last_updated} />
                 <Group gap="sm" mt={4}>
                   <Badge size="lg" variant="light" color="blue">
-                    {artifact.width}x{artifact.height}
+                    {artifact.rows}x{artifact.columns}
                   </Badge>
                   {artifact.is_global && (
                     <Badge size="lg" variant="light" color="green">

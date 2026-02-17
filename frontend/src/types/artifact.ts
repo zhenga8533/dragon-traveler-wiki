@@ -18,8 +18,8 @@ export interface Artifact {
   lore: string;
   quality: Quality;
   effect: ArtifactEffect[];
-  width: number;
-  height: number;
+  columns: number;
+  rows: number;
   treasures: ArtifactTreasure[];
   last_updated: number;
 }

@@ -13,6 +13,8 @@ export interface RichTextProps {
   statusEffects: StatusEffect[];
   skills?: Skill[];
   talent?: Talent | null;
+  onSkillClick?: (skillName: string) => void;
+  onTalentClick?: () => void;
 }
 
 interface ReferenceBadgeProps {
@@ -99,6 +101,8 @@ export default function RichText({
   statusEffects,
   skills,
   talent,
+  onSkillClick,
+  onTalentClick,
 }: RichTextProps) {
   const segments = splitEffectRefs(text);
   const { resources } = useContext(ResourcesContext);
@@ -131,6 +135,21 @@ export default function RichText({
 
         const skill = findByName(skills, seg.name);
         if (skill) {
+          if (onSkillClick) {
+            return (
+              <Badge
+                key={i}
+                variant="light"
+                color="grape"
+                size="sm"
+                component="span"
+                style={{ cursor: 'pointer' }}
+                onClick={() => onSkillClick(skill.name)}
+              >
+                {skill.name}
+              </Badge>
+            );
+          }
           return (
             <ReferenceBadge
               key={i}
@@ -146,6 +165,21 @@ export default function RichText({
           talent &&
           normalizeName(talent.name) === normalizeName(seg.name)
         ) {
+          if (onTalentClick) {
+            return (
+              <Badge
+                key={i}
+                variant="light"
+                color="indigo"
+                size="sm"
+                component="span"
+                style={{ cursor: 'pointer' }}
+                onClick={onTalentClick}
+              >
+                {talent.name}
+              </Badge>
+            );
+          }
           return (
             <ReferenceBadge
               key={i}

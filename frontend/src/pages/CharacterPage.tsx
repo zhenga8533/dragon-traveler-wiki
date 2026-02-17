@@ -19,7 +19,7 @@ import {
   UnstyledButton,
   useMantineColorScheme,
 } from '@mantine/core';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import {
   RiArrowLeftSLine,
@@ -156,6 +156,20 @@ export default function CharacterPage() {
       })
       .catch(() => setSkillIcons(new Map()));
   }, [character]);
+
+  const scrollToSkill = useCallback((skillName: string) => {
+    const el = document.getElementById(`skill-${skillName}`);
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, []);
+
+  const scrollToTalent = useCallback(() => {
+    const el = document.getElementById('talent-section');
+    if (el) {
+      el.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+  }, []);
 
   if (loading) {
     return (
@@ -647,7 +661,7 @@ export default function CharacterPage() {
                 if (talentLevels.length === 0) return null;
 
                 return (
-                  <Paper p="lg" radius="md" withBorder>
+                  <Paper id="talent-section" p="lg" radius="md" withBorder>
                     <Stack gap="md">
                       <Group gap="md">
                         {talentIcon && (
@@ -675,6 +689,8 @@ export default function CharacterPage() {
                               statusEffects={statusEffects}
                               skills={character.skills}
                               talent={character.talent ?? null}
+                              onSkillClick={scrollToSkill}
+                              onTalentClick={scrollToTalent}
                             />
                             {idx < talentLevels.length - 1 && (
                               <Divider mt="sm" />
@@ -697,7 +713,7 @@ export default function CharacterPage() {
                       {character.skills.map((skill, idx) => {
                         const skillIcon = skillIcons.get(skill.name);
                         return (
-                          <Paper key={idx} p="md" radius="md" withBorder>
+                          <Paper key={idx} id={`skill-${skill.name}`} p="md" radius="md" withBorder>
                             <Stack gap="sm">
                               <Group
                                 gap="md"
@@ -750,6 +766,8 @@ export default function CharacterPage() {
                                 statusEffects={statusEffects}
                                 skills={character.skills}
                                 talent={character.talent ?? null}
+                                onSkillClick={scrollToSkill}
+                                onTalentClick={scrollToTalent}
                               />
                             </Stack>
                           </Paper>

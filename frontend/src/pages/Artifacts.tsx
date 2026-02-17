@@ -23,6 +23,7 @@ import FilterToolbar from '../components/FilterToolbar';
 import LastUpdated from '../components/LastUpdated';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import { QUALITY_ORDER } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
@@ -45,15 +46,15 @@ const ARTIFACT_FIELDS: FieldDef[] = [
     placeholder: 'Artifact lore text',
   },
   {
-    name: 'width',
-    label: 'Width',
+    name: 'columns',
+    label: 'Columns',
     type: 'text',
     required: true,
     placeholder: 'e.g. 2',
   },
   {
-    name: 'height',
-    label: 'Height',
+    name: 'rows',
+    label: 'Rows',
     type: 'text',
     required: true,
     placeholder: 'e.g. 2',
@@ -86,15 +87,22 @@ export default function Artifacts() {
   });
 
   const filtered = useMemo(() => {
-    return artifacts.filter((a) => {
-      if (
-        filters.search &&
-        !a.name.toLowerCase().includes(filters.search.toLowerCase())
-      ) {
-        return false;
-      }
-      return true;
-    });
+    return artifacts
+      .filter((a) => {
+        if (
+          filters.search &&
+          !a.name.toLowerCase().includes(filters.search.toLowerCase())
+        ) {
+          return false;
+        }
+        return true;
+      })
+      .sort((a, b) => {
+        const qA = QUALITY_ORDER.indexOf(a.quality);
+        const qB = QUALITY_ORDER.indexOf(b.quality);
+        if (qA !== qB) return qA - qB;
+        return a.name.localeCompare(b.name);
+      });
   }, [artifacts, filters]);
 
   const mostRecentUpdate = useMemo(() => {
@@ -225,7 +233,7 @@ export default function Artifacts() {
                             </Group>
                             <Group gap="xs">
                               <Badge variant="light" size="sm" color="blue">
-                                {artifact.width}x{artifact.height}
+                                {artifact.rows}x{artifact.columns}
                               </Badge>
                               {artifact.is_global && (
                                 <Badge
@@ -308,7 +316,7 @@ export default function Artifacts() {
                             </Table.Td>
                             <Table.Td>
                               <Badge variant="light" size="sm" color="blue">
-                                {artifact.width}x{artifact.height}
+                                {artifact.rows}x{artifact.columns}
                               </Badge>
                             </Table.Td>
                             <Table.Td>
