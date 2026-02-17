@@ -114,7 +114,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "While present, reduces the critical strike damage of all enemy units by 32%. If the critical strike damage from the source of the critical strike is greater than 150% , it will be calculated as 150% ."
+          "effect": "While present, reduces the critical strike damage of all enemy units by 32%. If the critical strike damage from the source of the critical strike is greater than 150% , it will be calculated as 150%."
         },
         {
           "level": 2,
@@ -142,7 +142,7 @@
       {
         "name": "Nebula Chains",
         "type": "Overdrive",
-        "description": "Steal 20% of attack, 20% of both defenses, 300% Crit Rate, 300% Dodge, 300% Block, and 30% Crit Damage from a single target (cannot be applied to bosses), lasting 8 seconds. This effect cannot be stacked and can only be applied to one target at a time. Afterwards, restore 50% of your maximum health and 100% rage, and deal magic damage equal to 880% of your attack to enemy units within a large circular area .",
+        "description": "Steal 20% of attack, 20% of both defenses, 300% Crit Rate, 300% Dodge, 300% Block, and 30% Crit Damage from a single target (cannot be applied to bosses), lasting 8 seconds. This effect cannot be stacked and can only be applied to one target at a time. Afterwards, restore 50% of your maximum health and 100% rage, and deal magic damage equal to 880% of your attack to enemy units within a large circular area.",
         "cooldown": 20
       },
       {
@@ -171,7 +171,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771302667
   },
   {
     "name": "Anubis",
@@ -507,7 +507,7 @@
   },
   {
     "name": "Pompey",
-    "title": "Iron-Blooded General",
+    "title": "Ironclad Commander",
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
@@ -529,64 +529,64 @@
     "lore": "A general of the Nibelgard Empire, commanding a large army, decisive in battle, and single-handedly guarding both the inside and outside.",
     "quote": "",
     "talent": {
-      "name": "Deterrence and Military Might",
+      "name": "Intimidation - Commanding Presence",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "After the skill deals damage, it applies 1 stack of [Commander's Intimidation]: reduces the damage dealt to the user by 8%, stacking up to 5 times, lasting 8 seconds. Whenever an enemy unit reaches 5 stacks of [Commander's Intimidation], the user enters the [Aura Burst] state: adding 7% of the user's maximum health to their attack for 8 seconds."
+          "effect": "After dealing damage, applies 1 stack of [Commander's Intimidation], reducing the target's damage dealt to the caster by 8% for 8s. Stacks up to 5 times. When any enemy reaches 5 stacks of [Commander's Intimidation], enters [Momentum Burst], gaining bonus Attack equal to 8.5% of Max HP for 8s."
         },
         {
           "level": 2,
-          "effect": "[Dominion Slash - Intimidate the Enemy] increases the target's next ultimate skill energy cost by 1 before dealing damage."
+          "effect": "[Dominion Slash - Intimidate] Additionally increases the target's next Overdrive Energy Consumption by 1 before dealing damage."
         },
         {
           "level": 3,
-          "effect": "Increases own health by 10% and attack by 5%."
+          "effect": "Increases HP by 10% and Attack by 5%."
         },
         {
           "level": 4,
-          "effect": "[Dominion Slash - Intimidate the Enemy] instantly restores 180% + 24% of the user's lost health when dealing damage to a target with 5 stacks of [Commander's Intimidation]."
+          "effect": "[Dominion Slash - Intimidate] When dealing damage to a target with 5 stacks of [Commander's Intimidation], immediately restores HP equal to 180% of Attack plus 24% of lost HP."
         },
         {
           "level": 7,
-          "effect": "At [Aura Burst], when [Dominion Slash - Intimidate the Enemy] triggers the [Punishment] effect, it instead applies 5 stacks of [Commander's Intimidation] to the target."
+          "effect": "While under [Momentum Burst], when [Dominion Slash - Intimidate] triggers [Punishment], it instead applies 5 stacks of [Commander's Intimidation] to the target."
         }
       ]
     },
     "skills": [
       {
-        "name": "Dominion Slash - Intimidate the Enemy",
+        "name": "Dominion Slash - Intimidate",
         "type": "Overdrive",
-        "description": "Pull an enemy unit in front of you and slash them down, dealing physical damage equal to 680% of your attack. The damage is increased by 20% for each stack of [Commander's Intimidation] on the target. This skill can trigger the [Punishment] effect. When the [Punishment] effect is triggered, an additional 2 stacks of [Commander's Intimidation] are applied to the target before dealing damage.",
+        "description": "Pulls a single enemy into the line of fire and delivers a brutal slash, dealing physical damage equal to 800% of Attack. Damage is increased by 20% for each stack of [Commander's Intimidation] on the traget. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, applies 2 additional stacks of [Commander's Intimidation] to the target before dealing damage.",
         "cooldown": 20
       },
       {
-        "name": "Iron-Blooded Frenzy",
+        "name": "Ironclad Surge",
         "type": "Ultimate Skill",
-        "description": "Deals physical damage equal to 240% of the user's attack to enemy units within a large circular area. For each target hit, restores the user's health equal to 60% of their attack plus 8% of their lost health.",
+        "description": "Deals physical damage equal to 300% of Attack to enemies within a large circular area. Recovers HP equal to 90% of Attack + 8% of lost HP for each target hit.",
         "cooldown": 12
       },
       {
-        "name": "Killing Intent",
+        "name": "Battleborn of Slaughter",
         "type": "Secret Skill",
-        "description": "During battle, increases own HP by 10%. When an ally unleashes their ultimate skill, gains [Awakening]. When you have the [Awakening] ability, consume [Awakening] to release [Iron-Blooded Frenzy] once more.",
+        "description": "In battle, increases HP by 13%. Gains [Awakening] when an ally unleashes an Overdrive. While possessing [Awakening], consumes it to cast [Ironclad Surge] an additional time.",
         "cooldown": 0
       },
       {
-        "name": "Bloodbath and Conquest",
+        "name": "Crimson Onslaught",
         "type": "Special Skill",
-        "description": "Whenever an enemy unit with 5 stacks of [Commander's Intimidation] dies, you immediately gain a shield equal to 22% of your maximum health for 6 seconds and reset the cooldown of [Dominion Slash - Intimidate the Enemy].",
+        "description": "Whenever an enemy with 5 stacks of [Commander's Intimidation] dies, immediately gains a shield equal to 28% of Max HP for 6s and resets the cooldown of [Dominion Slash - Intimidate].",
         "cooldown": 0
       },
       {
         "name": "Raging Battle Spirit",
         "type": "Divine Skill",
-        "description": "[Iron-Blooded Frenzy] has a 50% chance to apply an additional stack of [Commander's Intimidation] when dealing damage.",
+        "description": "[Ironclad Surge] has a 50% chance to apply an additional stack of [Commander's Intimidation] when dealing damage.",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771185685
+    "last_updated": 1771302667
   },
   {
     "name": "Salome",
@@ -1358,7 +1358,7 @@
   },
   {
     "name": "Venus",
-    "title": "Goddess of Love",
+    "title": "Deity of Love",
     "quality": "SSR EX",
     "character_class": "Priest",
     "factions": [
@@ -1380,68 +1380,68 @@
     "lore": "Venus, the goddess of love and beauty, is \"the grace of the gods\".",
     "quote": "",
     "talent": {
-      "name": "Philharmonic Notes",
+      "name": "Divine Melody",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "After applying healing with their own skill, the user applies the [Musical Note] to the target, increasing damage reduction by 26%/28.5%/31%/33.5%/36%/38.5%/41%. When the target's health is less than or equal to 50%, the damage reduction is further increased by 26%/28.5%/31%/33.5%/36%/38.5%/41% ."
+          "effect": "After casting a healing effect, grants the target [Divine Melody]: Increases Damage Reduction by 20.5%, plus an additional 20.5% when HP is less than or equal to 50%."
         },
         {
           "level": 2,
-          "effect": "When an allied Luminary enters the [Wild] state or triggers an [Elemental Reaction], it heals the target for 18% of their maximum HP. (Can only trigger once every 5 seconds on the same target)"
+          "effect": "When our Luminary enters [Wild] status or triggers [Elemental Reaction], it receives healing, restoring 12% of its maximum Health. (Can trigger on the same target once every 5s)"
         },
         {
           "level": 3,
-          "effect": "[Heavenly Voice] additionally removes all control and debuff statuses from all friendly units and grants them immunity to control statuses for 5 seconds."
+          "effect": "[Heavensong] additionally removes all control effects and debuffs from all allied units, and grants them immunity to control effects for 3s."
         },
         {
           "level": 4,
-          "effect": "[Bewitched] skill is extended by 6 seconds, and the [Bewitched] skill grants the user immunity to control effects and increases the energy cost of the next ultimate skill before triggering."
+          "effect": "The [Charm] duration of [Bewitchment] is increased by 6s. Before [Bewitchment] is triggered, the caster is immune to control effects and the [Next Overdrive Energy Consumption Increase] effect."
         },
         {
           "level": 5,
-          "effect": "Increases own damage reduction by 10% and health by 10%."
+          "effect": "Increases Damage Reduction by 10% and HP by 10%."
         },
         {
           "level": 7,
-          "effect": "Increases own damage reduction by 20%."
+          "effect": "Increases Damage Reduction by 20%."
         }
       ]
     },
     "skills": [
       {
-        "name": "Celestial Melody",
+        "name": "Heavensong",
         "type": "Overdrive",
-        "description": "[Balance] Increases the HP of all allied units, then restores all allied units to 25% of their maximum HP. Whenever another allied spirit is affected by [Stun] or [Silence], reduces the energy cost of the user's next ultimate skill by 1.",
+        "description": "[Balanced] Increases the HP of all allied units, then restores all allied units to 25% of their maximum HP. Whenever another allied spirit is affected by [Stun] or [Silence], reduces the energy cost of the user's next ultimate skill by 1.",
         "cooldown": 20
       },
       {
         "name": "Heart Seed",
         "type": "Ultimate Skill",
-        "description": "Target the friendly spirit with the lowest percentage of health, and restore the health of friendly units within a large circular area of it by 21%/23.8%/26.6%/29.4%/32.2%/35% of its maximum health.",
+        "description": "Targets the allied Luminary with the lowest HP percentage, then heals allies within a large circular area around them for 21.5% of the caster's Max HP.",
         "cooldown": 12
       },
       {
-        "name": "Bewitched",
+        "name": "Bewitchment",
         "type": "Secret Skill",
-        "description": "When first hit by a melee Luminary, apply Charm to the source of the damage for 9/9.1/9.2/9.3/9.4/9.5 seconds.",
+        "description": "When first hit by a melee Luminary, inflicts [Charm] on the attacker for 9.3s.",
         "cooldown": 0
       },
       {
-        "name": "Enchanting Chord",
+        "name": "Siren Strings",
         "type": "Special Skill",
-        "description": "Deals magic damage equal to 140%/160%/180%/200%/220% of the user's attack to enemy units in a straight line and applies an [Attack Speed Down] debuff. Targets with [Elemental Reaction] also apply an [Attack Down] debuff.",
+        "description": "Deals magic damage equal to 200% of Attack to enemies in a straight line and applies [Attack Speed Down], and additionally inflicts [Attack Down] on targets afflicted with an [Elemental Debuff].",
         "cooldown": 14
       },
       {
         "name": "Love Heals Forever",
         "type": "Divine Skill",
-        "description": "[Celestial Melody] Provides all allied Luminaries and Wyrms with a shield equal to 30% of their maximum health for 6 seconds.",
+        "description": "[Heavensong] Provides all allied Luminaries and Wyrms with a shield equal to 30% of their maximum health for 6 seconds.",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771302667
   },
   {
     "name": "Morgana",
@@ -2837,7 +2837,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Whenever an allied unit is defeated, gain 1 stack of [Deathrattle]. When a skill deals a critical hit, it grants [Morale] to the user and one allied Luminary of the Holy Glory faction with the highest attack. When the [Sword Clone] basic attack deals a critical hit, it grants one stack of [Deathrattle] to the user and one allied Luminary of the Otherworldly Descent faction with the highest attack. During battle, increases own evasion by 300/350/400/450/500/550/600 . For each stack of [Deathrattle], increases own evasion by an additional 30/35/40/45/50/55/60 ."
+          "effect": "Whenever an allied unit is defeated, gain 1 stack of [Deathrattle]. When a skill deals a critical hit, it grants [Morale] to the user and one allied Luminary of the Holy Glory faction with the highest attack. When the [Sword Clone] basic attack deals a critical hit, it grants one stack of [Deathrattle] to the user and one allied Luminary of the Otherworldly Descent faction with the highest attack. During battle, increases own evasion by 300/350/400/450/500/550/600. For each stack of [Deathrattle], increases own evasion by an additional 30/35/40/45/50/55/60."
         },
         {
           "level": 2,
@@ -2873,7 +2873,7 @@
       {
         "name": "Swift Blade Shadow",
         "type": "Secret Skill",
-        "description": "When there is no [Sword Clone] on the field, each time you gain a [Blessing Buff] status, reduce the cooldown of [Phantom Martial Soul] by 5 seconds. When a [Sword Clone] exists on the field, each time you gain [Deathrattle], the [Sword Clone] also gains 1 stack of [Deathrattle] and you and the [Sword Clone] gain 1 stack of [Blade Shadow], each stack increasing attack speed by 10%/11%/12%/13%/14%/15% .",
+        "description": "When there is no [Sword Clone] on the field, each time you gain a [Blessing Buff] status, reduce the cooldown of [Phantom Martial Soul] by 5 seconds. When a [Sword Clone] exists on the field, each time you gain [Deathrattle], the [Sword Clone] also gains 1 stack of [Deathrattle] and you and the [Sword Clone] gain 1 stack of [Blade Shadow], each stack increasing attack speed by 10%/11%/12%/13%/14%/15%.",
         "cooldown": 0
       },
       {
@@ -2890,7 +2890,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771302667
   },
   {
     "name": "White Tiger",
@@ -3746,7 +3746,7 @@
       {
         "name": "Activating Scales",
         "type": "Secret Skill",
-        "description": "Each time you gain a shield, you gain an additional stack of [Black Dragon Claw]. Each stack of [Black Dragon Claw] increases your attack by 10% and ultimate skill damage by 10% .",
+        "description": "Each time you gain a shield, you gain an additional stack of [Black Dragon Claw]. Each stack of [Black Dragon Claw] increases your attack by 10% and ultimate skill damage by 10%.",
         "cooldown": 0
       },
       {
@@ -3763,7 +3763,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771302667
   },
   {
     "name": "Arthur",
@@ -6570,7 +6570,7 @@
       {
         "name": "Charge Command",
         "type": "Secret Skill",
-        "description": "Reduces the cooldown of your ultimate skill by 4.5/4.7/4.9/5.1/5.3/5.5 seconds for one random allied spirit other than yourself .",
+        "description": "Reduces the cooldown of your ultimate skill by 4.5/4.7/4.9/5.1/5.3/5.5 seconds for one random allied spirit other than yourself.",
         "cooldown": 15
       },
       {
@@ -6587,7 +6587,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771214653
+    "last_updated": 1771302667
   },
   {
     "name": "Vermilion Bird",

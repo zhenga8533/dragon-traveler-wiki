@@ -1,5 +1,329 @@
 [
   {
+    "name": "Orpheus Lyre",
+    "is_global": true,
+    "lore": "\"The Thracian poet sang such songs. His singing attracted many trees, enchanted the beasts, and even the stones followed home\" — Ovid, Metamorphoses",
+    "quality": "R",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Instantly restores 12% of their max HP to the 3 Luminary allies with the lowest HP percentage, triggering once every 30s"
+      },
+      {
+        "level": 2,
+        "description": "Increases Healing by 25%"
+      },
+      {
+        "level": 5,
+        "description": "Reduces trigger interval by 3 seconds"
+      },
+      {
+        "level": 8,
+        "description": "Apply a [Physical Defense Up] to your first target"
+      },
+      {
+        "level": 11,
+        "description": "Increases Healing by 25%"
+      },
+      {
+        "level": 14,
+        "description": "Reduces trigger interval by 3 seconds"
+      },
+      {
+        "level": 17,
+        "description": "Apply [Magic Defense Up] to the primary target"
+      },
+      {
+        "level": 20,
+        "description": "[Physical Defense Up] and [Magic Defense Up] effects apply to all targets"
+      }
+    ],
+    "width": 2,
+    "height": 2,
+    "treasures": [
+      {
+        "name": "Siren's Horn",
+        "lore": "\"The Sirens are always exploring the distance from a vantage point in a fine harbor, and have already deprived many of their sweet homecoming, leaving them to gradually weaken. At this moment, they also unabashedly sing their delicate songs to the Heroes.\" — The Argonautica",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1266"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 154"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 271"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1266"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 154"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 271"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.2%"
+          }
+        ]
+      },
+      {
+        "name": "Ode to Love",
+        "lore": "\"Orpheus, the birds and beasts, the trees and stones that often come to hear you sing, none of them are without tears for you. The leaves on the trees fall, as if expressing grief.\" — Ovid, Metamorphoses",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1326"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 136"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 241"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1326"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 136"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 362"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.2%"
+          }
+        ]
+      },
+      {
+        "name": "Tears of Parting",
+        "lore": "\"He met the Ruler of this eerie land, the King of he Underworld. He played the harp: The reason I am here is to find my wife. She accidentally stepped on a snake, which bit her and took away her youthful beauty.\" — Ovid, Metamorphoses",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1582"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 108"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 331"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1582"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 108"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 362"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.2%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771302667
+  },
+  {
+    "name": "Sealed Magic Bottle",
+    "is_global": true,
+    "lore": "\"The fisherman took off his clothes, dove into the water, and struggled to retrieve the net from the sea bottom. Among the catch was a brass jar shaped like a gall bladder, sealed with lead, bearing the seal of Solomon, son of David.\" — One Thousand and One Nights",
+    "quality": "R",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Reduce incoming damage from the enemy's strongest Luminary by 15% for 15 seconds"
+      },
+      {
+        "level": 2,
+        "description": "Take 5% less Damage"
+      },
+      {
+        "level": 5,
+        "description": "Duration extended by 5 seconds"
+      },
+      {
+        "level": 8,
+        "description": "Additionally applies [Attack Speed Down]"
+      },
+      {
+        "level": 11,
+        "description": "Take 5% less Damage"
+      },
+      {
+        "level": 14,
+        "description": "Additionally applies [Attack Down]"
+      },
+      {
+        "level": 17,
+        "description": "Duration extended by 5 seconds"
+      },
+      {
+        "level": 20,
+        "description": "The effective targets are changed to 2"
+      }
+    ],
+    "width": 2,
+    "height": 2,
+    "treasures": [
+      {
+        "name": "Censer of Sleep",
+        "lore": "\"Walk up to that Vault... Inside are two large censers, burning musk and ambergris... Wisps of smoke, fragrance fills the air, intoxicatingly rich.\" — One Thousand and One Nights",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 154"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1266"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 271"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 154"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1266"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 271"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.2%"
+          }
+        ]
+      },
+      {
+        "name": "Arabian Scimitar",
+        "lore": "\"Thinking of this, he found a knife and managed to pry open the lead seal on the bottle's mouth... A puff of smoke emerged from the bottle growing thicker and thicker, until it formed into a shape, which turned out to be a demon.\" — One Thousand and One Nights",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 136"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1326"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 362"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 136"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1326"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 241"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.2%"
+          }
+        ]
+      },
+      {
+        "name": "Seal of Solomon",
+        "lore": "\"Fisherman, you must know, I am a god of evil heresy, committing all sorts of wicked deeds, and once opposed the great Solomon... So he sent the vizier to conquer me, captured me, and handed me over to him for punishment.\" — One Thousand and One Nights",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 108"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1582"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 362"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 108"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1582"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 331"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.2%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771302667
+  },
+  {
     "name": "Sisyphus Monolith",
     "is_global": true,
     "lore": "\"I saw Sisyphus enduring torture here. Every time the boulder was about to be pushed over the mountain peak, it rolled back down to the flat ground due to its weight. He had to exert himself to push the stone again, drenched in sweat, with dust on his head.\" — Homer, The Odyssey",
@@ -158,7 +482,170 @@
           }
         ]
       }
-    ]
+    ],
+    "last_updated": 1771302667
+  },
+  {
+    "name": "Solomon's Ring",
+    "is_global": true,
+    "lore": "\"This book includes an accurate and clear translation of the secret rituals performed by King Solomon. It describes the demons and their sigils. A scholar translated this ancient manuscript.\" — Solomon's Key",
+    "quality": "R",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Enemy team's Overdrive Points regen slows by 5%"
+      },
+      {
+        "level": 2,
+        "description": "Overdrive Point regeneration speed is reduced by an additional 1%"
+      },
+      {
+        "level": 5,
+        "description": "Overdrive Point regeneration speed is reduced by an additional 1%"
+      },
+      {
+        "level": 8,
+        "description": "Overdrive Point regeneration speed is reduced by an additional 1%"
+      },
+      {
+        "level": 11,
+        "description": "Reduces initial Overdrive Points by 0.5"
+      },
+      {
+        "level": 14,
+        "description": "Overdrive Point regeneration speed is reduced by an additional 1%"
+      },
+      {
+        "level": 17,
+        "description": "Overdrive Point regeneration speed is reduced by an additional 1%"
+      },
+      {
+        "level": 20,
+        "description": "Reduces initial Overdrive Points by 0.5"
+      }
+    ],
+    "width": 3,
+    "height": 2,
+    "treasures": [
+      {
+        "name": "Demon Pillar",
+        "lore": "\"It is said that Solomon summoned some demons while building the temple bearing his name. But after his death, the devils incited the courtiers to seek the seal. Once the seal is shown to the world, it will cause all sorts of chaos.\" — Solomon's Key",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1166"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 181"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 253"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1166"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 181"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 283"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.2%"
+          }
+        ]
+      },
+      {
+        "name": "David's Sling",
+        "lore": "\"David took a stone from his bag, slung it with his sling, and struck the Philistine on the forehead... he fell face down on the ground. Thus, David triumphed over the Philistine with a sling and a stone.\" — 1 Samuel 17:49",
+        "character_class": "Archer",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1200"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 175"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 283"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1200"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 175"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 253"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.2%"
+          }
+        ]
+      },
+      {
+        "name": "Solomon's Key",
+        "lore": "\"What kind of fiend have I brought into the house! Fiery eyes, sharp teeth. I know you well! You fledgling devil, I will use the Seal of Solomon to deal with you.\" — Goethe's Faust",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "HP increased by 1356"
+          },
+          {
+            "level": 2,
+            "description": "ATK increased by 151"
+          },
+          {
+            "level": 5,
+            "description": "PDEF increased by 331"
+          },
+          {
+            "level": 8,
+            "description": "HP increased by 1.2%"
+          },
+          {
+            "level": 11,
+            "description": "HP increased by 1356"
+          },
+          {
+            "level": 14,
+            "description": "ATK increased by 151"
+          },
+          {
+            "level": 17,
+            "description": "MDEF increased by 301"
+          },
+          {
+            "level": 20,
+            "description": "ATK increased by 1.2%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1771302667
   },
   {
     "name": "Wings of Icarus",
@@ -168,7 +655,7 @@
     "effect": [
       {
         "level": 0,
-        "description": "Increases Attack for all allied Luminaries by 3%."
+        "description": "Increases Attack for all allied Luminaries by 3%"
       },
       {
         "level": 2,
@@ -204,7 +691,7 @@
     "treasures": [
       {
         "name": "Ariadne's Thread",
-        "lore": "\"Take this ball of thread and give it to Theseus. Tell him to tie one end to the door lintel... If he succeeds in killing the monster, he can follow it out.\" — Apollodorus' 'Library'",
+        "lore": "\"Take this ball of thread and give it to Theseus. Tell him to tie one end to the door lintel... If he succeeds in killing the monster, he can follow it out.\" — Apollodorus' Library",
         "character_class": "Mage",
         "effect": [
           {
@@ -243,7 +730,7 @@
       },
       {
         "name": "Daedalus's Hammer",
-        "lore": "\"Although he blocked the roads by land and sea, the sky still offers a path. Why not ascend to the heavens? Daedalus pondered how to create an unprecedented mechanism to alter the laws of nature.\" — Ovid's 'Metamorphoses'",
+        "lore": "\"Although he blocked the roads by land and sea, the sky still offers a path. Why not ascend to the heavens? Daedalus pondered how to create an unprecedented mechanism to alter the laws of nature.\" — Ovid's Metamorphoses",
         "character_class": "Archer",
         "effect": [
           {
@@ -282,7 +769,7 @@
       },
       {
         "name": "Ship of Theseus",
-        "lore": "\"Theseus safely returned on a large ship with thirty oars, which the Athenians preserved. They repeatedly dismantled the decayed old planks and replaced them with solid new ones.\" — 'Lives of the Noble Grecians and Romans'",
+        "lore": "\"Theseus safely returned on a large ship with thirty oars, which the Athenians preserved. They repeatedly dismantled the decayed old planks and replaced them with solid new ones.\" — Lives of the Noble Grecians and Romans",
         "character_class": "Warrior",
         "effect": [
           {
@@ -319,6 +806,7 @@
           }
         ]
       }
-    ]
+    ],
+    "last_updated": 1771302667
   }
 ]

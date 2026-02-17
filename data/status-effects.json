@@ -357,18 +357,18 @@
     "last_updated": 1771129475
   },
   {
-    "name": "Aura Burst",
-    "type": "Exclusive",
-    "effect": "",
-    "remark": "Cannot be dispelled.",
-    "last_updated": 1771185685
-  },
-  {
     "name": "Balance",
     "type": "Exclusive",
     "effect": "Increases Damage Reduction.",
     "remark": "Can stack up to 3 times.\nDecreases by 1 stack every 6 seconds.",
     "last_updated": 1771129475
+  },
+  {
+    "name": "Balanced",
+    "type": "Exclusive",
+    "effect": "Resets the target's health percentage to the current team's average health percentage, unaffected by healing effects.",
+    "remark": "",
+    "last_updated": 1771302667
   },
   {
     "name": "Black Dragon Claw",
@@ -387,9 +387,9 @@
   {
     "name": "Commander's Intimidation",
     "type": "Exclusive",
-    "effect": "Reduces the damage dealt to the user by 8%, stacking up to 5 times, lasting 8 seconds.",
-    "remark": "Cannot be dispelled.",
-    "last_updated": 1771129358
+    "effect": "Cannot be dispelled. Reduces damage dealt by the target to self by 8%. Stacks up to 5 times. Lasts for 8 seconds.",
+    "remark": "",
+    "last_updated": 1771302667
   },
   {
     "name": "Copy",
@@ -411,6 +411,13 @@
     "effect": "",
     "remark": "",
     "last_updated": 1771129358
+  },
+  {
+    "name": "Divine Melody",
+    "type": "Exclusive",
+    "effect": "Grants immunity to [Healing Down] and [Heal Block], and increases Damage Reduction based on current HP percentage. Lasts for 6 seconds.",
+    "remark": "",
+    "last_updated": 1771302667
   },
   {
     "name": "Drunken Fragrance",
@@ -469,17 +476,17 @@
     "last_updated": 1771185685
   },
   {
+    "name": "Momentum Burst",
+    "type": "Exclusive",
+    "effect": "",
+    "remark": "Cannot be dispelled.",
+    "last_updated": 1771302667
+  },
+  {
     "name": "Moon Soul",
     "type": "Exclusive",
     "effect": "",
     "remark": "Lasts for 6 seconds, can be stacked up to 5 times.",
-    "last_updated": 1771129358
-  },
-  {
-    "name": "Musical Note",
-    "type": "Exclusive",
-    "effect": "During the duration, it grants immunity to [Healing Down] and [Heal Block], and increases damage reduction based on the percentage of health remaining, lasting 6 seconds.",
-    "remark": "",
     "last_updated": 1771129358
   },
   {
