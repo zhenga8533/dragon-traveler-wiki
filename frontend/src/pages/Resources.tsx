@@ -28,9 +28,11 @@ import {
 import { STORAGE_KEY } from '../constants/ui';
 import { ResourcesContext } from '../contexts';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { applyDir, useSortState } from '../hooks/use-sort';
 import type { ResourceCategory } from '../types/resource';
 import InlineMarkup from '../components/InlineMarkup';
 import LastUpdated from '../components/LastUpdated';
+import SortableTh from '../components/SortableTh';
 
 const RESOURCE_FIELDS: FieldDef[] = [
   {
@@ -85,6 +87,8 @@ export default function Resources() {
     storageKey: STORAGE_KEY.RESOURCE_VIEW_MODE,
     defaultMode: 'list',
   });
+  const { sortState, handleSort } = useSortState(STORAGE_KEY.RESOURCE_SORT);
+  const { col: sortCol, dir: sortDir } = sortState;
 
   const filtered = useMemo(() => {
     return resources
@@ -104,6 +108,20 @@ export default function Resources() {
         return true;
       })
       .sort((a, b) => {
+        if (sortCol) {
+          let cmp = 0;
+          if (sortCol === 'name') {
+            cmp = a.name.localeCompare(b.name);
+          } else if (sortCol === 'quality') {
+            const qA = a.quality ? QUALITY_ORDER.indexOf(a.quality) : 999;
+            const qB = b.quality ? QUALITY_ORDER.indexOf(b.quality) : 999;
+            cmp = qA - qB;
+          } else if (sortCol === 'category') {
+            cmp = RESOURCE_CATEGORY_ORDER.indexOf(a.category) - RESOURCE_CATEGORY_ORDER.indexOf(b.category);
+          }
+          if (cmp !== 0) return applyDir(cmp, sortDir);
+        }
+        // Default: category > quality > name
         const catA = RESOURCE_CATEGORY_ORDER.indexOf(a.category);
         const catB = RESOURCE_CATEGORY_ORDER.indexOf(b.category);
         if (catA !== catB) return catA - catB;
@@ -112,7 +130,7 @@ export default function Resources() {
         if (qA !== qB) return qA - qB;
         return a.name.localeCompare(b.name);
       });
-  }, [resources, filters]);
+  }, [resources, filters, sortCol, sortDir]);
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
@@ -235,9 +253,9 @@ export default function Resources() {
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th>Icon</Table.Th>
-                        <Table.Th>Name</Table.Th>
-                        <Table.Th>Quality</Table.Th>
-                        <Table.Th>Category</Table.Th>
+                        <SortableTh sortKey="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Name</SortableTh>
+                        <SortableTh sortKey="quality" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Quality</SortableTh>
+                        <SortableTh sortKey="category" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Category</SortableTh>
                         <Table.Th>Description</Table.Th>
                       </Table.Tr>
                     </Table.Thead>

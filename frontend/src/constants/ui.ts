@@ -85,5 +85,10 @@ export const STORAGE_KEY = {
   REDEEMED_CODES: 'redeemedCodes',
   ARTIFACT_VIEW_MODE: 'artifacts:viewMode',
   ARTIFACT_FILTERS: 'artifacts:filters',
+  CHARACTER_SORT: 'characters:sort',
+  RESOURCE_SORT: 'resources:sort',
+  ARTIFACT_SORT: 'artifacts:sort',
+  WYRMSPELL_SORT: 'wyrmspells:sort',
+  STATUS_EFFECT_SORT: 'status-effects:sort',
   SIDEBAR_COLLAPSED: 'sidebar:collapsed',
 } as const;

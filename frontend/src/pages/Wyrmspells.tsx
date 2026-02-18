@@ -26,8 +26,10 @@ import { QUALITY_ORDER } from '../constants/colors';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Wyrmspell } from '../types/wyrmspell';
 import LastUpdated from '../components/LastUpdated';
+import SortableTh from '../components/SortableTh';
 
 const WYRMSPELL_FIELDS: FieldDef[] = [
   {
@@ -94,6 +96,8 @@ export default function Wyrmspells() {
     storageKey: STORAGE_KEY.WYRMSPELL_VIEW_MODE,
     defaultMode: 'list',
   });
+  const { sortState, handleSort } = useSortState(STORAGE_KEY.WYRMSPELL_SORT);
+  const { col: sortCol, dir: sortDir } = sortState;
 
   const typeOptions = useMemo(() => {
     const types = new Set<string>();
@@ -149,6 +153,27 @@ export default function Wyrmspells() {
         return true;
       })
       .sort((a, b) => {
+        if (sortCol) {
+          let cmp = 0;
+          if (sortCol === 'name') {
+            cmp = a.name.localeCompare(b.name);
+          } else if (sortCol === 'type') {
+            cmp = a.type.localeCompare(b.type);
+          } else if (sortCol === 'quality') {
+            const qA = QUALITY_ORDER.indexOf(a.quality);
+            const qB = QUALITY_ORDER.indexOf(b.quality);
+            cmp = (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
+          } else if (sortCol === 'faction') {
+            const fA = a.exclusive_faction ?? '';
+            const fB = b.exclusive_faction ?? '';
+            // entries with no faction sort last
+            if (!fA && fB) return 1;
+            if (fA && !fB) return -1;
+            cmp = fA.localeCompare(fB);
+          }
+          if (cmp !== 0) return applyDir(cmp, sortDir);
+        }
+        // Default: type > quality > name
         const typeCmp = a.type.localeCompare(b.type);
         if (typeCmp !== 0) return typeCmp;
         const qA = QUALITY_ORDER.indexOf(a.quality);
@@ -156,7 +181,7 @@ export default function Wyrmspells() {
         if (qA !== qB) return (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
         return a.name.localeCompare(b.name);
       });
-  }, [wyrmspells, filters]);
+  }, [wyrmspells, filters, sortCol, sortDir]);
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
@@ -291,10 +316,10 @@ export default function Wyrmspells() {
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th>Icon</Table.Th>
-                        <Table.Th>Name</Table.Th>
-                        <Table.Th>Type</Table.Th>
-                        <Table.Th>Max Quality</Table.Th>
-                        <Table.Th>Faction</Table.Th>
+                        <SortableTh sortKey="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Name</SortableTh>
+                        <SortableTh sortKey="type" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Type</SortableTh>
+                        <SortableTh sortKey="quality" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Max Quality</SortableTh>
+                        <SortableTh sortKey="faction" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Faction</SortableTh>
                         <Table.Th>Effect (Max Quality)</Table.Th>
                       </Table.Tr>
                     </Table.Thead>

@@ -22,12 +22,14 @@ import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
 import LastUpdated from '../components/LastUpdated';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
+import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Artifact } from '../types/artifact';
 
 const ARTIFACT_FIELDS: FieldDef[] = [
@@ -85,6 +87,8 @@ export default function Artifacts() {
     storageKey: STORAGE_KEY.ARTIFACT_VIEW_MODE,
     defaultMode: 'grid',
   });
+  const { sortState, handleSort } = useSortState(STORAGE_KEY.ARTIFACT_SORT);
+  const { col: sortCol, dir: sortDir } = sortState;
 
   const filtered = useMemo(() => {
     return artifacts
@@ -98,12 +102,28 @@ export default function Artifacts() {
         return true;
       })
       .sort((a, b) => {
+        if (sortCol) {
+          let cmp = 0;
+          if (sortCol === 'name') {
+            cmp = a.name.localeCompare(b.name);
+          } else if (sortCol === 'quality') {
+            cmp = QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+          } else if (sortCol === 'size') {
+            cmp = a.rows * a.columns - b.rows * b.columns;
+          } else if (sortCol === 'treasures') {
+            cmp = b.treasures.length - a.treasures.length;
+          } else if (sortCol === 'global') {
+            cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
+          }
+          if (cmp !== 0) return applyDir(cmp, sortDir);
+        }
+        // Default: quality > name
         const qA = QUALITY_ORDER.indexOf(a.quality);
         const qB = QUALITY_ORDER.indexOf(b.quality);
         if (qA !== qB) return qA - qB;
         return a.name.localeCompare(b.name);
       });
-  }, [artifacts, filters]);
+  }, [artifacts, filters, sortCol, sortDir]);
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
@@ -262,11 +282,11 @@ export default function Artifacts() {
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th>Icon</Table.Th>
-                        <Table.Th>Name</Table.Th>
-                        <Table.Th>Quality</Table.Th>
-                        <Table.Th>Size</Table.Th>
-                        <Table.Th>Treasures</Table.Th>
-                        <Table.Th>Global</Table.Th>
+                        <SortableTh sortKey="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Name</SortableTh>
+                        <SortableTh sortKey="quality" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Quality</SortableTh>
+                        <SortableTh sortKey="size" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Size</SortableTh>
+                        <SortableTh sortKey="treasures" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Treasures</SortableTh>
+                        <SortableTh sortKey="global" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Global</SortableTh>
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>

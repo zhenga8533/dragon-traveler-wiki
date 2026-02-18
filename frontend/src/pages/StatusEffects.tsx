@@ -24,8 +24,10 @@ import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { applyDir, useSortState } from '../hooks/use-sort';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
 import LastUpdated from '../components/LastUpdated';
+import SortableTh from '../components/SortableTh';
 
 const STATUS_EFFECT_FIELDS: FieldDef[] = [
   {
@@ -98,6 +100,8 @@ export default function StatusEffects() {
     storageKey: STORAGE_KEY.STATUS_EFFECT_VIEW_MODE,
     defaultMode: 'list',
   });
+  const { sortState, handleSort } = useSortState(STORAGE_KEY.STATUS_EFFECT_SORT);
+  const { col: sortCol, dir: sortDir } = sortState;
 
   const filtered = useMemo(() => {
     return effects
@@ -114,14 +118,22 @@ export default function StatusEffects() {
         return true;
       })
       .sort((a, b) => {
+        if (sortCol) {
+          let cmp = 0;
+          if (sortCol === 'name') {
+            cmp = a.name.localeCompare(b.name);
+          } else if (sortCol === 'type') {
+            cmp = STATE_ORDER.indexOf(a.type) - STATE_ORDER.indexOf(b.type);
+          }
+          if (cmp !== 0) return applyDir(cmp, sortDir);
+        }
+        // Default: type > name
         const typeIndexA = STATE_ORDER.indexOf(a.type);
         const typeIndexB = STATE_ORDER.indexOf(b.type);
-        if (typeIndexA !== typeIndexB) {
-          return typeIndexA - typeIndexB;
-        }
+        if (typeIndexA !== typeIndexB) return typeIndexA - typeIndexB;
         return a.name.localeCompare(b.name);
       });
-  }, [effects, filters]);
+  }, [effects, filters, sortCol, sortDir]);
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
@@ -243,8 +255,8 @@ export default function StatusEffects() {
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th>Icon</Table.Th>
-                        <Table.Th>Name</Table.Th>
-                        <Table.Th>Type</Table.Th>
+                        <SortableTh sortKey="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Name</SortableTh>
+                        <SortableTh sortKey="type" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Type</SortableTh>
                         <Table.Th>Effect</Table.Th>
                         <Table.Th>Remark</Table.Th>
                       </Table.Tr>
