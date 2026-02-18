@@ -530,5 +530,10 @@
     "description": "Collect 60 Shards to summon an R Luminary.",
     "category": "Shard",
     "last_updated": 1771374946
+  },
+  {
+    "name": "Random Refinement Stone",
+    "description": "An Energy Crystal that grants a Reforge Stone for a Random Gear Slot.",
+    "category": "Item"
   }
 ]
