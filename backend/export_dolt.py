@@ -485,8 +485,8 @@ def export_artifacts(data, output_dir=None):
                 "lore": a.get("lore") or "",
                 "quality": a.get("quality") or "",
                 "effect": effects,
-                "width": int(a.get("width", 0)),
-                "height": int(a.get("height", 0)),
+                "columns": int(a.get("columns", 0)),
+                "rows": int(a.get("rows", 0)),
                 "treasures": treasures,
                 "last_updated": int(a.get("last_updated") or 0),
             }

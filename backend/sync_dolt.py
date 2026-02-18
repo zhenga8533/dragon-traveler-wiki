@@ -271,8 +271,8 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
               is_global tinyint(1) NOT NULL DEFAULT 0,
               lore text,
               quality varchar(20) NOT NULL DEFAULT '',
-              width int NOT NULL DEFAULT 0,
-              height int NOT NULL DEFAULT 0,
+              columns int NOT NULL DEFAULT 0,
+              rows int NOT NULL DEFAULT 0,
               last_updated BIGINT NULL,
               data_hash VARCHAR(64) NULL,
               PRIMARY KEY (id),
@@ -836,10 +836,10 @@ def sync_artifacts(data, batch, now):
         h = compute_hash(a)
         ts = resolve_timestamp(a["name"], h, old_ts, now)
         batch.add(
-            f"INSERT INTO artifacts (id, name, is_global, lore, quality, width, height, last_updated, data_hash) VALUES "
+            f"INSERT INTO artifacts (id, name, is_global, lore, quality, columns, rows, last_updated, data_hash) VALUES "
             f"({a_id}, {escape_sql(a['name'])}, {'TRUE' if a.get('is_global') else 'FALSE'}, "
             f"{escape_sql(a.get('lore'))}, {escape_sql(a.get('quality', ''))}, "
-            f"{escape_sql(a.get('width', 0))}, {escape_sql(a.get('height', 0))}, "
+            f"{escape_sql(a.get('columns', 0))}, {escape_sql(a.get('rows', 0))}, "
             f"{escape_sql(ts)}, {escape_sql(h)});"
         )
         for eff in a.get("effect", []):

@@ -21,6 +21,6 @@ class Artifact(BaseModel):
     lore: str
     quality: Quality
     effect: list[ArtifactEffect]
-    width: int
-    height: int
+    columns: int
+    rows: int
     treasures: list[ArtifactTreasure]

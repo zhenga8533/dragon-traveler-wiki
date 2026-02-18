@@ -38,8 +38,8 @@
         "description": "Maximum trigger count increased to 5 times. Skills interrupted by Mjolnir will no longer refund Overdrive Energy Consumption and Cooldown"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 4,
+    "rows": 4,
     "treasures": [
       {
         "name": "Branch of the World Tree",
@@ -276,7 +276,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Holy Grail",
@@ -317,8 +317,8 @@
         "description": "When an allied Luminary activates their Overdrive, reduces this Sacred Treasure's Overdrive Cooldown by an extra 0.5 seconds"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 3,
+    "rows": 2,
     "treasures": [
       {
         "name": "Galahad's Round Table",
@@ -555,7 +555,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Spear of Longinus",
@@ -596,8 +596,8 @@
         "description": "The effect range of [Opening Skill] expands to all enemy units"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 3,
+    "rows": 4,
     "treasures": [
       {
         "name": "Thirty Pieces of Silver",
@@ -834,7 +834,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Eye of Horus",
@@ -875,8 +875,8 @@
         "description": "Increases both Crit and Crit Resist by 45"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 2,
+    "rows": 2,
     "treasures": [
       {
         "name": "Pharaoh's Scepter",
@@ -1035,7 +1035,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Heimdall's Horn",
@@ -1076,8 +1076,8 @@
         "description": "When triggered, grants allies within a large circular area [Attack Boost] and [Damage Reduction Up]"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 3,
+    "rows": 2,
     "treasures": [
       {
         "name": "Golden Rooster Status",
@@ -1236,7 +1236,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Zeus's Thunder",
@@ -1277,8 +1277,8 @@
         "description": "Number of targets hit +1"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 3,
+    "rows": 2,
     "treasures": [
       {
         "name": "Olive Wreath",
@@ -1437,7 +1437,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Aladdin's Lamp",
@@ -1478,8 +1478,8 @@
         "description": "Can receive all 3 Buffs simultaneously"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 3,
+    "rows": 2,
     "treasures": [
       {
         "name": "Sultan's Turban",
@@ -1599,7 +1599,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Golden Fleece",
@@ -1640,8 +1640,8 @@
         "description": "Effect range is expanded to all allied Luminaries"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 3,
+    "rows": 2,
     "treasures": [
       {
         "name": "Giant's Core",
@@ -1800,7 +1800,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Sun God's Cloak",
@@ -1841,8 +1841,8 @@
         "description": "Healing effects received by enemy units affected by [Scorching Sun] are reduced to 15%"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 2,
+    "rows": 2,
     "treasures": [
       {
         "name": "Sun Disk",
@@ -1962,7 +1962,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Orpheus Lyre",
@@ -2003,8 +2003,8 @@
         "description": "[Physical Defense Up] and [Magic Defense Up] effects apply to all targets"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 2,
+    "rows": 2,
     "treasures": [
       {
         "name": "Siren's Horn",
@@ -2124,7 +2124,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Sage's Stone",
@@ -2165,8 +2165,8 @@
         "description": "Increase initial Overdrive Points by 0.5"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 3,
+    "rows": 2,
     "treasures": [
       {
         "name": "The Voynich Manyscript",
@@ -2325,7 +2325,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Sealed Magic Bottle",
@@ -2366,8 +2366,8 @@
         "description": "The effective targets are changed to 2"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 2,
+    "rows": 2,
     "treasures": [
       {
         "name": "Censer of Sleep",
@@ -2487,7 +2487,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Solomon's Ring",
@@ -2528,8 +2528,8 @@
         "description": "Reduces initial Overdrive Points by 0.5"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 3,
+    "rows": 2,
     "treasures": [
       {
         "name": "Demon Pillar",
@@ -2649,7 +2649,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Sisyphus Monolith",
@@ -2690,8 +2690,8 @@
         "description": "Increases HP by 3%"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 2,
+    "rows": 2,
     "treasures": [
       {
         "name": "Underworld Offering",
@@ -2811,7 +2811,7 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   },
   {
     "name": "Wings of Icarus",
@@ -2852,8 +2852,8 @@
         "description": "Increases Attack by 3%"
       }
     ],
-    "width": 0,
-    "height": 0,
+    "columns": 2,
+    "rows": 2,
     "treasures": [
       {
         "name": "Ariadne's Thread",
@@ -2973,6 +2973,6 @@
         ]
       }
     ],
-    "last_updated": 1771374946
+    "last_updated": 1771379989
   }
 ]
