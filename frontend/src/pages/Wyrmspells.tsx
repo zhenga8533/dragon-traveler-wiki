@@ -20,7 +20,9 @@ import DataFetchError from '../components/DataFetchError';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
+import LastUpdated from '../components/LastUpdated';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
+import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { STORAGE_KEY } from '../constants/ui';
@@ -28,8 +30,6 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Wyrmspell } from '../types/wyrmspell';
-import LastUpdated from '../components/LastUpdated';
-import SortableTh from '../components/SortableTh';
 
 const WYRMSPELL_FIELDS: FieldDef[] = [
   {
@@ -170,6 +170,8 @@ export default function Wyrmspells() {
             if (!fA && fB) return 1;
             if (fA && !fB) return -1;
             cmp = fA.localeCompare(fB);
+          } else if (sortCol === 'global') {
+            cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
           }
           if (cmp !== 0) return applyDir(cmp, sortDir);
         }
@@ -289,8 +291,17 @@ export default function Wyrmspells() {
                                 />
                               </Tooltip>
                               <Text fw={600}>{spell.name}</Text>
+                            </Group>
+                            <Group gap="sm" wrap="wrap">
                               <Badge variant="light" size="sm">
                                 {spell.type}
+                              </Badge>
+                              <Badge
+                                variant="light"
+                                size="sm"
+                                color={spell.is_global ? 'green' : 'orange'}
+                              >
+                                {spell.is_global ? 'Global' : 'TW / CN'}
                               </Badge>
                               {spell.exclusive_faction && (
                                 <Tooltip label={spell.exclusive_faction}>
@@ -316,10 +327,46 @@ export default function Wyrmspells() {
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th>Icon</Table.Th>
-                        <SortableTh sortKey="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Name</SortableTh>
-                        <SortableTh sortKey="type" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Type</SortableTh>
-                        <SortableTh sortKey="quality" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Max Quality</SortableTh>
-                        <SortableTh sortKey="faction" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Faction</SortableTh>
+                        <SortableTh
+                          sortKey="name"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Name
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="type"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Type
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="quality"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Max Quality
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="faction"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Faction
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="global"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Global
+                        </SortableTh>
                         <Table.Th>Effect (Max Quality)</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
@@ -378,6 +425,15 @@ export default function Wyrmspells() {
                                   —
                                 </Text>
                               )}
+                            </Table.Td>
+                            <Table.Td>
+                              <Badge
+                                variant="light"
+                                size="sm"
+                                color={spell.is_global ? 'green' : 'orange'}
+                              >
+                                {spell.is_global ? 'Global' : 'TW / CN'}
+                              </Badge>
                             </Table.Td>
                             <Table.Td>
                               <Text size="sm">{spell.effect}</Text>
