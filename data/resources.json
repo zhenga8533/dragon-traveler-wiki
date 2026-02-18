@@ -4,489 +4,489 @@
     "quality": "SSR",
     "description": "A valuable currency that circulates throughout Phantasia Mountain, offering many unique items.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Forging Commemorative Coin",
     "quality": "SSR",
     "description": "Obtained from Champion Expedition or by dismantling UR equipment. Use at the Gear Store to exchange for rare items.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Glory Coins",
     "quality": "SSR",
     "description": "A top-tier currency earned in the Realm Clash. Can be exchanged for rare resources.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Godking Apex Coin",
     "quality": "SSR",
     "description": "A top-tier Currency earned in Godking Clash that's exchangeable for rare resources.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Godking Coin",
     "quality": "SSR",
     "description": "Currency earned in Godking Clash that's exchangeable for rare resources.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Treasure Essence",
     "quality": "SSR",
     "description": "Obtained through Treasure Dismantling. Exchange for treasures at the Treasure Store.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Voucher",
     "quality": "SSR",
     "description": "A mysterious voucher from another world that can replace real currency for purchases.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Ring of Inspiration",
     "quality": "SR",
     "description": "An ancient inscription imbued with a god's forging inspiration. Use it to unlock Runes for use in Rune Summon.",
     "category": "Currency",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "Arena Coins",
     "quality": "R",
     "description": "Arena Currency is awarded to honor participants and is exchangeable for rare resources in the Arena Store.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Cloud Blossom",
     "quality": "R",
     "description": "The dreamy little flower grows exclusively on mysterious floating islands, exchangeable for rare items at the Cloudborne Store.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Divine Coin",
     "quality": "R",
     "description": "A peculiar Currency scattered throughout the Rift of the Divine Realm that's exchangeable for rare resources at the Divine Realm Store",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Dragonbreath Seed",
     "quality": "R",
     "description": "A dragon seed containing dormant power - while its radiance may be dim now, it shall regain its brilliance one day. Exchange it at the Magic Store for rare resources.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Guild Coin",
     "quality": "R",
     "description": "Guild Currency that's exchangeable for rare resources at the Guild Store.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Honor Insignia",
     "quality": "R",
     "description": "Advanced Arena Currency is awarded to participants based on seasonal rank performance. It can be exchanged for rare resources in the Advanced Store.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Triumphant Medal",
     "quality": "R",
     "description": "Medals obtained in the Points League gameplay can be exchanged for rare resources in the League Store.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Friendship Points",
     "quality": "N",
     "description": "A testament to the friendship between adventure partners. Can be used to exchange for rare items in the Friendship Store.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Gold",
     "quality": "N",
     "description": "The most common form of currency on Phantasia Mountain.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Slime Goo",
     "quality": "N",
     "description": "Slime goo clinging to Luminaries Obtained by dismantling N Luminaries, and can be exchanged for various rare resources.",
     "category": "Currency",
-    "last_updated": 1771303748
+    "last_updated": 1771374946
   },
   {
     "name": "Amber Necklace",
     "quality": "SSR",
     "description": "Gifting to a Luminary increases Affection by 100 points. Especially favored by Luminaries of the Elemental Echo faction. *\"L-Let me out! I've been trapped in here for a hundred thousand years!\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Black Lotus",
     "quality": "SSR",
     "description": "Gifting to a Luminary increases Affection by 100 points. Especially favored by Luminaries of the Illusion Veil faction. *\"Extinct. Priceless.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Lilac and Gooseberry",
     "quality": "SSR",
     "description": "Gifting to a Luminary increases Affection by 100 points. Especially favored by Luminaries of the Arcane Wisdom faction. *\"A fragrance flavored by a certain female warlock.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Luxury Tea Set",
     "quality": "SSR",
     "description": "Gifting to a Luminary increases Affection by 150 points. *\"Elegant, truly elegant!\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Soul Bell",
     "quality": "SSR",
     "description": "Gifting to a Luminary increases Affection by 100 points. Especially favored by Luminaries of the Otherworld Return faction. *\"Shake it every day, and the room comes to life.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Stained Glass Window Decoration",
     "quality": "SSR",
     "description": "Gifting to a Luminary increases Affection by 100 points. Especially favored by Luminaries of the Sanctum Glory faction. *\"The Angel is watching over you.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Treant Sapling",
     "quality": "SSR",
     "description": "Gifting to a Luminary increases Affection by 100 points. Especially favored by Luminaries of the Wild Spirit faction. *\"Water daily, grow quickly!\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Forbidden Scroll",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Illusion Veil faction. *\"If you gaze into the abyss, the abyss gazes into you.\"*",
     "category": "Gift",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "Graveyard Lily",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Otherworld Return faction. *\"Lily of the valley, blooming shy and sweet.\"*",
     "category": "Gift",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "Griffin Doll",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Sanctum Glory faction. *\"Limited quantity — act fast!\"*",
     "category": "Gift",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "Grilled Steak",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 75 points. *\"The Moo Rights Association strongly objects to this gift!\"*",
     "category": "Gift",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "Obsidian Arrowhead",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Elemental Echo faction. *\"One Cloudpiercer through the clouds, thousands of troops heed the call.\"*",
     "category": "Gift",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "Potion Class Notes",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Arcane Wisdom faction. *\"So many weird squiggles... Can't read a thing.\"*",
     "category": "Gift",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "Ring Casting Mold",
     "quality": "SR",
     "description": "Gifting to a Luminary increases Affection by 50 points. Especially favored by Luminaries of the Wild Spirit faction. *\"With this, you can craft the Ring of Dominion!\"*",
     "category": "Gift",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "A Knight's Tale",
     "quality": "R",
     "description": "Gifting to a Luminary increases Affection by 20 points. Especially favored by Luminaries whose main faction is Sanctum Glory. *\"Read it and become a Dragonslayer!\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Banquet Cake",
     "quality": "R",
     "description": "Gifting to a Luminary increases Affection by 30 points. *\"You gotta eat well to have the energy to lose weight!\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Coral Ornament",
     "quality": "R",
     "description": "Gifting to a Luminary increases Affection by 20 points. Especially favored by Luminaries whose main faction is Elemental Echo. *\"It would look better underwater.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Fairy Dust",
     "quality": "R",
     "description": "Gifting to a Luminary increases Affection by 20 points. Especially favored by Luminaries whose main faction is Wild Spirit. *\"Ah, ah... Achoo!\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Ink and Quill",
     "quality": "R",
     "description": "Gifting to a Luminary increases Affection by 20 points. Especially favored by Luminaries whose main faction is Arcane Wisdom. *\"Works best when used with Potion Class Notes.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Preservative",
     "quality": "R",
     "description": "Gifting to a Luminary increases Affection by 20 points. Especially favored by Luminaries whose main faction is Otherworld Return. *\"Don't ask why I look so young, it's the preservatives.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Rotten Branch",
     "quality": "R",
     "description": "Gifting to a Luminary increases Affection by 20 points. Especially favored by Luminaries whose main faction is Illusion Veil. *\"Within corruption lies the power of the World Tree.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Apple",
     "quality": "N",
     "description": "Gifting to a Luminary increases Affection by 15 points. *\"It won't make you lose consciousness.\"*",
     "category": "Gift",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Exploration Guide",
     "quality": "SSR",
     "description": "Using this in Champion Expedition grants 3 Veteran Emblems.",
     "category": "Item",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Feather of Revelation",
     "quality": "SSR",
     "description": "A sacred feather imbued with Blessing exchangeable for 1 Trial Emblem during the Trial of Warborn Goddess.",
     "category": "Item",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Advanced Entry Ticket",
     "quality": "SR",
     "description": "Tickets for challenging opponents in the Advanced Points Match. In the Points League, the higher your rank, the more purcahses can be made daily.",
     "category": "Item",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "Aurora Crystal",
     "quality": "SSR",
     "description": "Contains immense Energy from the origin of life. An Advanced Material for Artifact Advancement.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Aurora Dust",
     "quality": "SSR",
     "description": "Crystal dust, the product of years of alchemical refinement. A Common Material use for Treasure Advancement.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Divine Crystal",
     "quality": "SSR",
     "description": "A gem radiant as a rainbow, flowing with divine light. Used to enhance a Luminary's Divinity.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Dragonblood",
     "quality": "SSR",
     "description": "The rare blood of ancient dragons. Can be used in Wyrm Star Upgrade.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Highwyrm EXP",
     "quality": "SSR",
     "description": "Used to increase Dragon level.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Primal Amber",
     "quality": "SSR",
     "description": "An amber crystal containing ancient Luminary memories. Unlocks advanced classes.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Starlight Sigil",
     "quality": "SR",
     "description": "A Starshine Mark with flowing light, used to upgrade the Stellar Power level of dragons.",
     "category": "Material",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "Wyrm Essence",
     "quality": "SR",
     "description": "The Essence crystallized from an Ancient Wyrm's condensed power serves as an advanced material for Luminary breakthroughs.",
     "category": "Material",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "Dragonfire",
     "quality": "R",
     "description": "An eternal flame that enhances the Dragon Roar effect.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Leaf of the World Tree",
     "quality": "R",
     "description": "The sacred leaf veins contain ancient magical imprints. Used for Wyrm Ascend Tier advancement.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Luminary EXP",
     "quality": "R",
     "description": "Essence crystallized from traces of Luminaries, used to increase a Luminary's Level.",
     "category": "Material",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Mythic Summoning Ticket",
     "quality": "UR",
     "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Mythical Summons.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Fate Elixir",
     "quality": "SSR",
     "description": "A legendary alchemical potion said to reshape the very essence of matter. Those who find it can change the world. Can be used for Howlkin Refinement.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Fate Horn",
     "quality": "SSR",
     "description": "A fated horn that can awaken the World Serpent. Can be used in Limited Time Offer Treasure Hunts.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Fated Dragon Crystal",
     "quality": "SSR",
     "description": "An azure crystal containing the Memory of an ancient Wyrm. Upon activation, it grants powerful Wyrmspells. Can be used in Magic Limited Summoning.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Fated Summoning Ticket",
     "quality": "SSR",
     "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Limited Summons.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Golden Horn",
     "quality": "SSR",
     "description": "A golden horn that can awaken the World Serpent. Can be used in Treasure Hunts.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Legacy Dragon Crystal",
     "quality": "SSR",
     "description": "An azure crystal containing the Memory of an ancient Wyrm. Upon activation, it unlocks powerful Wyrmspells. Can be used in Magic Summoning.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Soul Elixir",
     "quality": "SSR",
     "description": "Soul essence extracted from pure souls. Regarded across the land as a forbidden alchemical potion. Can be used for Howlkin Refinement.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Summoning Ticket",
     "quality": "SSR",
     "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Luminary Summons.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Wishing Lily",
     "quality": "SSR",
     "description": "A lily of the valley blooming where the Warborn Goddess descended, infused with a Sacred Blessing, usable in Wish Summon.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Mercury Potion",
     "quality": "R",
     "description": "A mercury potion extracted through alchemy that emits a faint azure glow. Can be used for Howlkin Refinement.",
     "category": "Summoning",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "5-Star Luminary Shards",
     "quality": "SSR",
     "description": "Collect 60 Shards to summon an SSR or SSR+ Luminary.",
     "category": "Shard",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "SSR Luminary Shards",
     "quality": "SSR",
     "description": "Collect 60 Shards to summon an SSR Luminary.",
     "category": "Shard",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Rune Shards",
     "quality": "SR",
     "description": "Can be exchanged for any Class or Faction Oath Rune at a ratio of 5 to 1.",
     "category": "Shard",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "SR Luminary Shards",
     "quality": "SR",
     "description": "Collect 60 Shards to summon an SR Luminary.",
     "category": "Shard",
-    "last_updated": 1771305256
+    "last_updated": 1771374946
   },
   {
     "name": "R Luminary Shards",
     "quality": "R",
     "description": "Collect 60 Shards to summon an R Luminary.",
     "category": "Shard",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   }
 ]

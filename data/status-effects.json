@@ -382,7 +382,7 @@
     "type": "Exclusive",
     "effect": "Cannot be dispelled. Reduces damage dealt by the target to self by 8%. Stacks up to 5 times. Lasts for 8 seconds.",
     "remark": "",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Copy",
@@ -410,7 +410,7 @@
     "type": "Exclusive",
     "effect": "Grants immunity to [Healing Down] and [Heal Block], and increases Damage Reduction based on current HP percentage. Lasts for 6 seconds.",
     "remark": "",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Drunken Fragrance",
@@ -424,7 +424,7 @@
     "type": "Exclusive",
     "effect": "Resets the target's health percentage to the current team's average health percentage, unaffected by healing effects.",
     "remark": "",
-    "last_updated": 1771358547
+    "last_updated": 1771374946
   },
   {
     "name": "Exile",
@@ -480,7 +480,7 @@
     "type": "Exclusive",
     "effect": "",
     "remark": "Cannot be dispelled.",
-    "last_updated": 1771302667
+    "last_updated": 1771374946
   },
   {
     "name": "Moon Soul",

@@ -37,10 +37,9 @@ def wyrmspell_sort_key(w):
 
 
 def resource_sort_key(r):
-    quality = r.get("quality")
     return (
         RESOURCE_CATEGORY_RANK.get(r.get("category", ""), _FALLBACK),
-        QUALITY_RANK.get(quality, _FALLBACK) if quality else _FALLBACK,
+        QUALITY_RANK.get(r.get("quality", ""), _FALLBACK),
         (r.get("name") or "").lower(),
     )
 
@@ -60,4 +59,7 @@ def useful_link_sort_key(l):
 
 
 def artifact_sort_key(a):
-    return (a.get("name") or "").lower()
+    return (
+        QUALITY_RANK.get(a.get("quality", ""), _FALLBACK),
+        (a.get("name") or "").lower(),
+    )
