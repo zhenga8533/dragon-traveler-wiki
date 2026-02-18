@@ -605,7 +605,16 @@ export default function CharacterPage() {
                 <Paper p="lg" radius="md" withBorder>
                   <Stack gap="md">
                     <Title order={3}>About</Title>
-                    <Text style={{ lineHeight: 1.8 }}>{character.lore}</Text>
+                    <RichText
+                      text={character.lore}
+                      statusEffects={statusEffects}
+                      skills={character.skills}
+                      talent={character.talent ?? null}
+                      onSkillClick={scrollToSkill}
+                      onTalentClick={scrollToTalent}
+                      italic
+                      lineHeight={1.8}
+                    />
 
                     {character.quote && (
                       <Paper p="md" radius="md" withBorder>
@@ -702,14 +711,17 @@ export default function CharacterPage() {
                                     </Group>
                                   </Link>
                                   {linkedNoblePhantasm.lore && (
-                                    <Text
-                                      size="sm"
-                                      c="dimmed"
-                                      fs="italic"
-                                      style={{ lineHeight: 1.6 }}
-                                    >
-                                      {linkedNoblePhantasm.lore}
-                                    </Text>
+                                    <RichText
+                                      text={linkedNoblePhantasm.lore}
+                                      statusEffects={statusEffects}
+                                      skills={character.skills}
+                                      talent={character.talent ?? null}
+                                      onSkillClick={scrollToSkill}
+                                      onTalentClick={scrollToTalent}
+                                      color="dimmed"
+                                      italic
+                                      lineHeight={1.6}
+                                    />
                                   )}
                                 </Stack>
                               );

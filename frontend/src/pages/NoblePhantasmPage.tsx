@@ -336,9 +336,14 @@ export default function NoblePhantasmPage() {
                   : '1px solid rgba(0,0,0,0.06)',
               }}
             >
-              <Text size="sm" lh={1.6} fs="italic">
-                {noblePhantasm.lore}
-              </Text>
+              <RichText
+                text={noblePhantasm.lore}
+                statusEffects={statusEffects}
+                skills={linkedCharacter?.skills}
+                talent={linkedCharacter?.talent}
+                italic
+                lineHeight={1.6}
+              />
             </Paper>
           </Stack>
         </Container>

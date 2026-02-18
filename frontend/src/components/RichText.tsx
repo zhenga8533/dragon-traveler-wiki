@@ -1,10 +1,10 @@
 import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
+import { ResourcesContext } from '../contexts';
 import type { Skill, Talent } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
 import { splitEffectRefs } from '../utils/parse-effect-refs';
-import { ResourcesContext } from '../contexts';
 import ResourceBadge from './ResourceBadge';
 import StatusEffectBadge from './StatusEffectBadge';
 
@@ -15,6 +15,9 @@ export interface RichTextProps {
   talent?: Talent | null;
   onSkillClick?: (skillName: string) => void;
   onTalentClick?: () => void;
+  italic?: boolean;
+  lineHeight?: number;
+  color?: string;
 }
 
 interface ReferenceBadgeProps {
@@ -103,6 +106,9 @@ export default function RichText({
   talent,
   onSkillClick,
   onTalentClick,
+  italic = false,
+  lineHeight,
+  color,
 }: RichTextProps) {
   const segments = splitEffectRefs(text);
   const { resources } = useContext(ResourcesContext);
@@ -111,7 +117,13 @@ export default function RichText({
   );
 
   return (
-    <Text size="sm" component="span" style={{ whiteSpace: 'pre-line' }}>
+    <Text
+      size="sm"
+      c={color}
+      fs={italic ? 'italic' : undefined}
+      component="span"
+      style={{ whiteSpace: 'pre-line', lineHeight }}
+    >
       {segments.map((seg, i) => {
         if (seg.type === 'text') {
           return <span key={i}>{seg.content}</span>;
@@ -161,10 +173,7 @@ export default function RichText({
           );
         }
 
-        if (
-          talent &&
-          normalizeName(talent.name) === normalizeName(seg.name)
-        ) {
+        if (talent && normalizeName(talent.name) === normalizeName(seg.name)) {
           if (onTalentClick) {
             return (
               <Badge
