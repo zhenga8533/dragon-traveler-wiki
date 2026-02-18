@@ -280,6 +280,48 @@
     "last_updated": 1771374946
   },
   {
+    "name": "Cave Mushroom",
+    "quality": "N",
+    "description": "Gifting to a Luminary increases Affection by 10 points. Especially favored by Luminaries of the Illusion Veil faction. *\"Causes hallucinations when consumed.\"*",
+    "category": "Gift",
+    "last_updated": 1771423624
+  },
+  {
+    "name": "Dandelion",
+    "quality": "N",
+    "description": "Gifting to a Luminary increases Affection by 10 points. Especially favored by Luminaries of the Elemental Echo faction. *\"Just missing the promise to group up together with her.\"*",
+    "category": "Gift",
+    "last_updated": 1771423624
+  },
+  {
+    "name": "Elven Biscuit",
+    "quality": "N",
+    "description": "Gifting to a Luminary increases Affection by 10 points. Especially favored by Luminaries of the Wild Spirit faction. *\"This item must not be shared with other short-lived species.\"*",
+    "category": "Gift",
+    "last_updated": 1771423624
+  },
+  {
+    "name": "Manna",
+    "quality": "N",
+    "description": "Gifting to a Luminary increases Affection by 10 points. Especially favored by Luminaries of the Arcane Wisdom faction. *\"Hungry? Have some Manna!\"*",
+    "category": "Gift",
+    "last_updated": 1771423624
+  },
+  {
+    "name": "Ritual Candle",
+    "quality": "N",
+    "description": "Gifting to a Luminary increases Affection by 10 points. Especially favored by Luminaries of the Otherworld Return faction. *\"Don't light it by mistake, this candle is more than just a source of light.\"*",
+    "category": "Gift",
+    "last_updated": 1771423624
+  },
+  {
+    "name": "Wooden Training Sword",
+    "quality": "N",
+    "description": "Gifting to a Luminary increases Affection by 10 points. Especially favored by Luminaries of the Sanctum Glory faction. *\"Every knight starts with a wooden training sword.\"*",
+    "category": "Gift",
+    "last_updated": 1771423624
+  },
+  {
     "name": "Exploration Guide",
     "quality": "SSR",
     "description": "Using this in Champion Expedition grants 3 Veteran Emblems.",
