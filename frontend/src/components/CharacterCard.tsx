@@ -1,4 +1,4 @@
-import { Badge, Image, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
+import { Image, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
 import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
@@ -22,7 +22,6 @@ interface CharacterCardProps {
   disableLink?: boolean;
   tierLabel?: string;
   note?: string;
-  is_global?: boolean;
 }
 
 export default function CharacterCard({
@@ -32,7 +31,6 @@ export default function CharacterCard({
   disableLink = false,
   tierLabel,
   note,
-  is_global,
 }: CharacterCardProps) {
   const borderColor = quality
     ? QUALITY_BORDER_COLOR[quality]
@@ -83,11 +81,6 @@ export default function CharacterCard({
       <Text size="xs" fw={500} ta="center" lineClamp={1} c={nameColor}>
         {name}
       </Text>
-      {is_global !== undefined && (
-        <Badge variant="light" size="sm" color={is_global ? 'green' : 'orange'}>
-          {is_global ? 'Global' : 'TW / CN'}
-        </Badge>
-      )}
       {tierLabel && (
         <Text size="xs" ta="center" c="dimmed">
           {tierLabel}

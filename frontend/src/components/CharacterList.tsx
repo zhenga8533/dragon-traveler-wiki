@@ -14,9 +14,9 @@ import {
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
-import { QUALITY_ICON_MAP } from '../assets/quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { CLASS_ORDER, QUALITY_ORDER, TIER_ORDER } from '../constants/colors';
 import {
   CHARACTER_GRID_COLS,
@@ -24,11 +24,7 @@ import {
   STORAGE_KEY,
 } from '../constants/ui';
 import { TierListReferenceContext } from '../contexts';
-import {
-  useFilterPanel,
-  useFilters,
-  useViewMode,
-} from '../hooks/use-filters';
+import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Character } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
@@ -99,9 +95,12 @@ export default function CharacterList({
         if (sortCol === 'name') {
           cmp = a.name.localeCompare(b.name);
         } else if (sortCol === 'quality') {
-          cmp = QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+          cmp =
+            QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
         } else if (sortCol === 'class') {
-          cmp = CLASS_ORDER.indexOf(a.character_class) - CLASS_ORDER.indexOf(b.character_class);
+          cmp =
+            CLASS_ORDER.indexOf(a.character_class) -
+            CLASS_ORDER.indexOf(b.character_class);
         } else if (sortCol === 'factions') {
           cmp = (a.factions[0] ?? '').localeCompare(b.factions[0] ?? '');
         } else if (sortCol === 'global') {
@@ -171,7 +170,6 @@ export default function CharacterList({
                 name={char.name}
                 quality={char.quality}
                 tierLabel={getTierLabel(char.name)}
-                is_global={char.is_global}
               />
             ))}
           </SimpleGrid>
@@ -180,13 +178,55 @@ export default function CharacterList({
             <Table striped highlightOnHover style={{ minWidth: 560 }}>
               <Table.Thead>
                 <Table.Tr>
-                  <SortableTh sortKey="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Name</SortableTh>
-                  <SortableTh sortKey="quality" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Quality</SortableTh>
-                  <SortableTh sortKey="class" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Class</SortableTh>
-                  <SortableTh sortKey="factions" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Factions</SortableTh>
-                  <SortableTh sortKey="global" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Global</SortableTh>
+                  <SortableTh
+                    sortKey="name"
+                    sortCol={sortCol}
+                    sortDir={sortDir}
+                    onSort={handleSort}
+                  >
+                    Name
+                  </SortableTh>
+                  <SortableTh
+                    sortKey="quality"
+                    sortCol={sortCol}
+                    sortDir={sortDir}
+                    onSort={handleSort}
+                  >
+                    Quality
+                  </SortableTh>
+                  <SortableTh
+                    sortKey="class"
+                    sortCol={sortCol}
+                    sortDir={sortDir}
+                    onSort={handleSort}
+                  >
+                    Class
+                  </SortableTh>
+                  <SortableTh
+                    sortKey="factions"
+                    sortCol={sortCol}
+                    sortDir={sortDir}
+                    onSort={handleSort}
+                  >
+                    Factions
+                  </SortableTh>
+                  <SortableTh
+                    sortKey="global"
+                    sortCol={sortCol}
+                    sortDir={sortDir}
+                    onSort={handleSort}
+                  >
+                    Global
+                  </SortableTh>
                   {selectedTierListName && (
-                    <SortableTh sortKey="tier" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Tier</SortableTh>
+                    <SortableTh
+                      sortKey="tier"
+                      sortCol={sortCol}
+                      sortDir={sortDir}
+                      onSort={handleSort}
+                    >
+                      Tier
+                    </SortableTh>
                   )}
                 </Table.Tr>
               </Table.Thead>
