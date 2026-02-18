@@ -1,9 +1,16 @@
 import { ActionIcon, Affix, Transition } from '@mantine/core';
 import { useWindowScroll } from '@mantine/hooks';
+import { useEffect } from 'react';
 import { IoArrowUp } from 'react-icons/io5';
+import { useLocation } from 'react-router-dom';
 
 export default function ScrollToTop() {
   const [scroll, scrollTo] = useWindowScroll();
+  const location = useLocation();
+
+  useEffect(() => {
+    scrollTo({ y: 0 });
+  }, [location.pathname, location.search, scrollTo]);
 
   return (
     <Affix position={{ bottom: 20, right: 20 }}>
