@@ -3,7 +3,7 @@
     "name": "Elf King Sword",
     "character": null,
     "is_global": false,
-    "lore": "Forged by the royal craftsmen of Alfheim before the first twilight. The last Elven king, fully armed, wielded this sword, vowing to defend his kingdom. \"...the king who possessed this sword, the enemy of the Twilight King, the slayer of demons.\"",
+    "lore": "Forged by the royal craftsmen of Alfheim before the first twilight. The last Elven king, fully armed, wielded this sword, vowing to defend his kingdom.\n\"...the king who possessed this sword, the enemy of the Twilight King, the slayer of demons.\"",
     "effects": [],
     "skills": [
       {
@@ -43,7 +43,443 @@
         "description": "Additional 100% critical strike chance is gained during combat."
       }
     ],
-    "last_updated": 1771435274
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Death Headband",
+    "character": "Anubis",
+    "is_global": false,
+    "lore": "Countless cries of the dead and prayers of the living whistled past my ears; death showed no mercy.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "The [Balance] effect has been enhanced, increasing damage reduction by an additional 10% per stack."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "[Sand Shield] Applies an additional 2 stacks of [Balance] to both yourself and the target."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Each time [Heart's Balance] is triggered, [Sands of Solace] is released again."
+      }
+    ],
+    "skills": [
+      {
+        "level": 2,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Grants an additional 2.5% damage reduction per stack of [Balance]."
+      },
+      {
+        "level": 3,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Grants an additional 2.5% damage reduction per stack of [Balance]."
+      },
+      {
+        "level": 4,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Grants an additional 2.5% damage reduction per stack of [Balance]."
+      },
+      {
+        "level": 5,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Grants an additional 5% damage reduction per stack of [Balance]."
+      },
+      {
+        "level": 6,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Grants an additional 5% damage reduction per stack of [Balance]."
+      }
+    ],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Radiant Sun Bow",
+    "character": "Apollo",
+    "is_global": false,
+    "lore": "The golden bow that slew the giant serpent's hide shimmered with flowing golden light. The golden arrow, carrying the wrath of the gods, pierced the serpent's body, and the mortals of Delphi offered their faith and hymns to Him, singing of the coming of light.\n\"The bowstring twanged, the arrows whistled, and the leather-clad figure rolled a few times before meeting its end...\"",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "[Solar Arrow Stream] For every 10 arrows fired, an additional piercing arrow is fired that cannot be blocked by enemy units, dealing physical damage equal to 450% of the user's attack to enemy units in a straight line (considered as ultimate skill damage)."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "Once in the [Grace] state, the next [Solar Arrow Stream] will definitely fire 90 arrows regardless of the [Deathrattle] stack."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "The first basic attack dealt to each enemy unit applies an additional 4 stacks of [Sigil of Radiance]."
+      }
+    ],
+    "skills": [
+      {
+        "level": 2,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Increases damage coefficient by 90%."
+      },
+      {
+        "level": 3,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Increases damage coefficient by 90%."
+      },
+      {
+        "level": 4,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Increases damage coefficient by 90%."
+      },
+      {
+        "level": 5,
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Skill has been changed to include an additional 6 layers of [Sigil of Radiance]."
+      },
+      {
+        "level": 6,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Increases damage coefficient by 180%."
+      }
+    ],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Lake Maiden's Holy Sword",
+    "character": "Arthur",
+    "is_global": false,
+    "lore": "The sword was a gift from the Lady of the Lake. Its blade can cut through the hardest steel, and its scabbard can heal all the wounds of its wielder, but it cannot mend the rifts among the Knights of the Round Table.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "The damage of [Bladestorm] and [Sword of the Covenant] is increased by 75%/90%/105%/135% . If [Bladestorm] successfully grants the user [Fervor], the cooldown of [Bladestorm] is reset."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "Whenever you apply [Fervor], there is a 60%/75%/100% chance to additionally grant the target who received [Fervor] a random attribute-type buff."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "At the start of battle, grant all allied phantoms the [Eternal King] skill."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Dragon's Breath Greatsword",
+    "character": "Duvalin",
+    "is_global": false,
+    "lore": "This greatsword, capable of unleashing the power of the Muspelheim volcano, is forged from the scorching breath of dragons. On the battlefield, the dragon flames clinging to its blade will incinerate any enemy within its reach.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Increases damage reduction efficiency by 60% when a block is triggered, and restores an additional 10% rage after a block is triggered."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "Records the total amount of healing received throughout the entire battle. When in the [Wild] state, [Dragon Shadow Slash] deals an additional 180% physical damage based on the amount of healing received (up to a maximum of 600% of the user's maximum health), and [Blazing Domain] deals an additional 30% physical damage based on the amount of healing received (up to a maximum of 100% of the user's maximum health)."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "When in the [Wild] state, all [Physical Defense Up] applied by one's own skills becomes [Significant Physical Defense Up]."
+      }
+    ],
+    "skills": [
+      {
+        "level": 2,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Parry damage reduction efficiency is increased by an additional 10%."
+      },
+      {
+        "level": 3,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "Grants a 36%/6% increase in damage coefficient."
+      },
+      {
+        "level": 4,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Parry damage reduction efficiency is increased by an additional 10%."
+      },
+      {
+        "level": 5,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "Grants a 72%/12% increase in damage coefficient."
+      },
+      {
+        "level": 6,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Parry damage reduction efficiency is increased by an additional 20%."
+      }
+    ],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Little Man in a Bottle",
+    "character": "Faust",
+    "is_global": false,
+    "lore": "Artificial life cultivated in a flask through alchemy. Is it the devil trapped in this flask, or Faust's insatiable desire for truth?\n\"If you want something, you must pay an equal price.\"",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Krul inherits an additional 30% of his own attack and 30% of both defenses."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "When Krul dies, he will not disappear and will gain the [Rabbit Bomb]. When Krul is carrying the [Rabbit Bomb], he will have an additional 100% increase in life conversion and 100% damage reduction."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "At the start of battle, Krul will be automatically summoned at the furthest enemy Luminary in the same row. When summoned, it will deal magic damage equal to 1250% of the caster's attack to the enemy Luminary and inflict [Stun] and [Damage Reduction Down] for 3 seconds."
+      }
+    ],
+    "skills": [
+      {
+        "level": 2,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Krul inherits an additional 5% of its own power."
+      },
+      {
+        "level": 3,
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Increases damage coefficient by 250%."
+      },
+      {
+        "level": 4,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Krul inherits an additional 5% of its own attack and both defenses."
+      },
+      {
+        "level": 5,
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Increases damage coefficient by 500%."
+      },
+      {
+        "level": 6,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Krul inherits an additional 10% of its own attributes."
+      }
+    ],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Judgment Horn",
+    "character": "Gabriele",
+    "is_global": false,
+    "lore": "One of the seven trumpets that herald the Last Judgment. When sounded, hail and fire will fall from the sky, and the earth will be burned. All things in the heavens, all things on the earth, and everything in the sea will be judged according to their deeds.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "[Benediction] In addition, it grants immunity to damage for 3/3.6/4.2 seconds."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "[Celestial Awakening] Increases the maximum number of [Deathrattle] consumed each time it is triggered to 10, and increases ultimate skill damage by an additional 7.5%/9%/12% for each stack consumed."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "When [Invictus] is released, an additional slash is released at the enemy phantom with the highest attack, but enemy units within both the original range and the additional range only take 20%/30% of the additional slash damage."
+      }
+    ],
+    "skills": [
+      {
+        "level": 2,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Increases the duration of damage immunity by 0.6 seconds."
+      },
+      {
+        "level": 3,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "The additional ultimate skill damage increase per stack of [Last Words] consumed is increased to 9%."
+      },
+      {
+        "level": 4,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Increases the duration of damage immunity by 0.6 seconds."
+      },
+      {
+        "level": 5,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "The additional ultimate skill damage increase per stack of [Last Words] consumed is increased to 12%."
+      },
+      {
+        "level": 6,
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Enemy units simultaneously within the original range and the additional range receive 30% more bonus slash damage."
+      }
+    ],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Lich Soul Box",
+    "character": "Gullveig",
+    "is_global": false,
+    "lore": "Fragments of the soul, endless life — even enduring the pain of soul fragmentation, one must seek the secret of immortality.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "When an enemy unit's health drops below 50% for the first time, apply a healing ban to it."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "When present, enemy units under the [Heal Block] or [Healing Down] status will have their attack reduced by an additional 20%."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "The duration of the [Healing Down] and [Heal Block] effects applied by our side has been extended to 12 seconds."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "The Sighing Spear",
+    "character": "Hades",
+    "is_global": false,
+    "lore": "Gather all the sighs in one corner — let all the unforgivable souls be forever nailed to that wall, becoming part of the underworld.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "The clone inherits an additional 40% of its own attack."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "When other friendly spirits gain [Awakening] or [Deathrattle], there is a 30% chance that they will gain an additional stack."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "If the target's health drops below 10% after the user inflicts damage, the user will immediately deal additional true damage equal to 100% of the target's current health. Furthermore, the health requirement to trigger this effect will increase by 1% for each instance of damage dealt by the clone (up to a maximum of 20%)."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Dark Raven's Feather",
+    "character": "Huginn & Muninn",
+    "is_global": false,
+    "lore": "This weapon, forged alongside Thor's hammer, like the divine hammer itself, automatically returns to its owner's hand after being thrown. Normally concealed within its wings, it leaves enemies with nowhere to escape when its cold light flashes.\n\"Shh...their gaze is everywhere.\"",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "When attacking a target whose current health is higher than your own, increase your damage by 75%/90%/105%/120%/150%."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "When in the [Wild] state, the number of basic attack bounces increases by 4."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "The damage dealt by basic attack bounces is increased to 75%/100%."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Flame Magic Jar",
+    "character": "Ifrit",
+    "is_global": false,
+    "lore": "The ancient flamingo pot that once imprisoned the Balrog has now been transformed in her hands into a weapon of resistance. What flows from it is no longer mere flames, but a re-enactment of Ragnarok.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Each time a skill is used, it consumes a stack of Awakening to increase the user's damage by 27% during the duration of the skill.\nThe enhancement conditions for [Firestorm], [Frenzy], and [Endless Flames] have been changed from having the corresponding number of [Awakening] stacks to accumulating the corresponding number of [Awakening] stacks. Among them, the extra attack bonus of [Frenzy] can stack up to 9 times."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "When your basic attack crits, there is a 60% chance to apply an additional stack of [Flamebrand] to the target."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "[Hexagram] When the same unit is attacked by a second or subsequent fireball, the damage taken is increased to 28%."
+      }
+    ],
+    "skills": [
+      {
+        "level": 2,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "When skill is triggered, it increases damage by an additional 6%."
+      },
+      {
+        "level": 3,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "Increases the chance of applying [Flamebrand] when the user's normal attack crits by 10%."
+      },
+      {
+        "level": 4,
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "When the same unit is attacked by a second or more fireballs, the damage it receives is increased by an additional 8%."
+      },
+      {
+        "level": 5,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "When skill is triggered, it increases damage by an additional 12%."
+      },
+      {
+        "level": 6,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "Increases the chance of applying [Flamebrand] when a basic attack crits by 20%."
+      }
+    ],
+    "last_updated": 1771451667
   },
   {
     "name": "Piercing Sun Sword Box",
@@ -100,5 +536,248 @@
       }
     ],
     "last_updated": 1771435274
+  },
+  {
+    "name": "Ring of Demon Blade",
+    "character": "Jormungandr",
+    "is_global": false,
+    "lore": "Forged from the remains of ancient sea monsters that encircle the Earthly Sea, its blade is tempered with primal poison. The clang of its striking against Thor's hammer heralds the return of Ragnarok.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "[Ravaging Maw] can trigger the [Punishment] effect after dealing damage. When the [Punishment] effect is triggered, the target of Punishment will have their maximum health reduced by 6%/7.5%/9%/12% for the duration of the battle, up to 3 stacks (cannot be applied to Bosses)."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "One second after the start of the battle, grant yourself an untargetable state and increase your attack by 80%/100%/140% for 10 seconds. Each time you trigger the [Punishment] effect or gain a [Blessing Buff] status, extend the above effect by 0.5 seconds (only the attack increase applies in 1V1 mode)."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "When present, whenever our Phantom gains a [Blessing Buff] status, its next basic attack will trigger [Ravaging Maw] on the target an additional time (the source of damage is considered to be Jormungandr)."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Serpent God's Blade",
+    "character": "Marylis",
+    "is_global": false,
+    "lore": "The otherworldly weapon wielded by the multi-armed serpent god who controls the rivers, the goddess has used it to achieve countless epic victories. Whether each swing brings tidings of abundance or calamities of drought and flood, no one can predict.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Each time physical damage is dealt, it inflicts additional physical damage equal to 14% of the user's missing health (up to a maximum of 280% of the user's attack)."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "The skill type of [Blade Dance] has been changed to a normal attack. Each time [Blade Dance] is used in this battle, it increases the user's attack and defense by 3%, stacking up to 20 times."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "When your HP is above 50%, [Blade Dance] grants a 32% damage increase; when your HP is below 50%, [Blade Dance] grants a 32% HP conversion."
+      }
+    ],
+    "skills": [
+      {
+        "level": 2,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Grants a 3% increase in damage coefficient."
+      },
+      {
+        "level": 3,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "Increases the bonus by 0.6% per level."
+      },
+      {
+        "level": 4,
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Increases damage bonus and Life Steal bonus by 12%."
+      },
+      {
+        "level": 5,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Grants a 6% increase in damage coefficient."
+      },
+      {
+        "level": 6,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "Increases the bonus by 1.2% per level."
+      }
+    ],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Judgment Axe",
+    "character": "Pompey",
+    "is_global": false,
+    "lore": "A great axe with its blade embedded in a crimson magic stone, a weapon wielded only by the commanders of the imperial army. It is said that in his youth, Pompey modeled himself after the Hegemon Nibelung, conquering the surrounding barbarian tribes and kingdoms that refused to submit to imperial rule.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "When attacked by an enemy unit carrying the [Commander's Intimidation] buff, reduce damage taken by 50% of your attack power multiplied by the number of [Commander's Intimidation] stacks on the target."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "At the start of battle, apply 2 stacks of [Commander's Intimidation] to all enemy phantoms. This effect can trigger the [Punishment] effect. When [Punishment] is triggered, an additional 3 stacks of [Commander's Intimidation] are applied. This effect will be triggered again whenever an enemy unit with 5 stacks of [Commander's Intimidation] dies."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Whenever an enemy unit reaches 5 stacks of [Commander's Intimidation], apply [Taunt] to it for 5 seconds. (Can trigger a maximum of 1 time per target within 10 seconds)"
+      }
+    ],
+    "skills": [
+      {
+        "level": 2,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Damage reduction increased to 60% of own attack * number of [Commander's Intimidation] stacks on the target."
+      },
+      {
+        "level": 3,
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "[Taunt] duration delayed by 1 second."
+      },
+      {
+        "level": 4,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Damage reduction increased to 70% of own attack * number of [Commander's Intimidation] stacks on the target."
+      },
+      {
+        "level": 5,
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "[Taunt] duration delayed by 2 seconds."
+      },
+      {
+        "level": 6,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Damage reduction increased to 90% of own attack * number of [Commander's Intimidation] stacks on the target."
+      }
+    ],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Love Elixir",
+    "character": "Titania",
+    "is_global": false,
+    "lore": "Made from pansy juice and a touch of heart-fluttering emotion, this drinker will forever be captivated by the first person they see when they open their eyes.\n\"Even the creators themselves have fallen victim to this.\"",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Each time the [Redemption] dispel effect is triggered, the target additionally gains [Magic Defense Boost] and increases their healing received by 10% for 6 seconds. This effect cannot be stacked."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "[Meteorfall] Upon hitting a target, it additionally reduces the target's magic damage by 48% for 6 seconds."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "[Redemption] has been changed to dispel all debuffs on the target."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Severing Demon Blade",
+    "character": "Tyrfing",
+    "is_global": false,
+    "lore": "The cursed sword. Every one of its former owners achieved great things, but ultimately perished by their own blade. The demonic eye on the hilt is forever fixed on the wielder, waiting for the day of triumph to demand its price.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "When your accumulated HP recovery reaches 100% of your maximum HP, immediately reduce the energy cost of your next ultimate skill by 10 and steal 20% of the healing received by all enemy phantoms and dragons, lasting until the end of the battle. (This will only trigger once per battle.)"
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "When dealing damage, for every 10% higher healing received than the target, the user gains 10% increased damage and 15% increased critical hit damage."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "When your own health is below 50%, increase both physical and magical defense by 80% and the healing received by 80%."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1771451667
+  },
+  {
+    "name": "Tiger Tally",
+    "character": "White Tiger",
+    "is_global": false,
+    "lore": "The bronze military talisman, imbued with the power of the Four Sacred Beasts, faintly emits the sound of clashing metal. The holder of this talisman can borrow the killing power of the White Tiger constellation.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "When [Kickstorm], [Infinity Combo], and [Soaring Tempest] deal damage, there is a 30% chance to additionally deal physical damage equal to 390% of the user's attack to the target and inflict a 0.5-second [Stun]."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "[Soaring Tempest] Increases ultimate skill damage by 90% and grants immunity to damage during the duration."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Whenever the user receives healing from another allied unit, they gain a significant attack speed boost."
+      }
+    ],
+    "skills": [
+      {
+        "level": 2,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "The trigger probability effect is increased by 6%."
+      },
+      {
+        "level": 3,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "[Soaring Tempest] damage is increased by an additional 30%."
+      },
+      {
+        "level": 4,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "The trigger probability effect is increased by 6%."
+      },
+      {
+        "level": 5,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "[Soaring Tempest] damage is increased by an additional 60%."
+      },
+      {
+        "level": 6,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "The trigger probability effect is increased by 12%."
+      }
+    ],
+    "last_updated": 1771451667
   }
 ]
