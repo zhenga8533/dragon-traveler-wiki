@@ -1017,5 +1017,24 @@
     ],
     "active": true,
     "last_updated": 1771374946
+  },
+  {
+    "code": "GIFT321",
+    "rewards": [
+      {
+        "name": "Gold",
+        "quantity": 3000
+      },
+      {
+        "name": "Summoning Ticket",
+        "quantity": 1
+      },
+      {
+        "name": "Dragonblood",
+        "quantity": 1
+      }
+    ],
+    "active": true,
+    "last_updated": 1771374946
   }
 ]
