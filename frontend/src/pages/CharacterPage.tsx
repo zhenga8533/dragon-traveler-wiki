@@ -2,7 +2,6 @@ import {
   ActionIcon,
   Badge,
   Box,
-  Breadcrumbs,
   Center,
   Container,
   Divider,
@@ -41,6 +40,7 @@ import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getSkillIcon } from '../assets/skill';
 import { getSubclassIcon } from '../assets/subclass';
+import Breadcrumbs from '../components/Breadcrumbs';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import RichText from '../components/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
@@ -320,16 +320,12 @@ export default function CharacterPage() {
             {/* Character Info */}
             <Grid.Col span={{ base: 12, sm: 'auto' }}>
               <Stack gap="sm">
-                <Breadcrumbs>
-                  <Link to="/characters" style={{ textDecoration: 'none' }}>
-                    <Text size="sm" td="hover:underline" c="dimmed">
-                      Characters
-                    </Text>
-                  </Link>
-                  <Text size="sm" c={isDark ? 'white' : 'dark'}>
-                    {character.name}
-                  </Text>
-                </Breadcrumbs>
+                <Breadcrumbs
+                  items={[
+                    { label: 'Characters', path: '/characters' },
+                    { label: character.name },
+                  ]}
+                />
 
                 <Group gap="md" align="center">
                   <Title order={1} c={isDark ? 'white' : 'dark'}>
