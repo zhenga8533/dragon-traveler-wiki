@@ -1036,5 +1036,23 @@
     ],
     "active": true,
     "last_updated": 1771387565
+  },
+  {
+    "code": "D212CCPGIFT",
+    "rewards": [
+      {
+        "name": "Gold",
+        "quantity": "30000"
+      },
+      {
+        "name": "Golden Horn",
+        "quantity": "3"
+      },
+      {
+        "name": "Random Refinement Stone",
+        "quantity": "10"
+      }
+    ],
+    "active": true
   }
 ]
