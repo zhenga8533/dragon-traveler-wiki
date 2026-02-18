@@ -15,6 +15,8 @@ import sys
 from pathlib import Path
 from urllib.parse import urlparse
 
+from .sort_keys import FILE_SORT_KEY
+
 SCRIPT_DIR = Path(__file__).resolve().parent
 ROOT_DIR = SCRIPT_DIR.parent
 DATA_DIR = ROOT_DIR / "data"
@@ -227,6 +229,9 @@ def normalize_for_json(label, data):
             "name": data["name"],
             "effect": data.get("effect", ""),
             "type": data.get("type", ""),
+            "quality": data.get("quality", "") or "",
+            "exclusive_faction": data.get("exclusive_faction") or None,
+            "is_global": data.get("is_global", True),
         }
 
     if label == "status-effect":
@@ -240,6 +245,7 @@ def normalize_for_json(label, data):
     if label == "resource":
         return {
             "name": data["name"],
+            "quality": data.get("quality") or None,
             "description": data.get("description", ""),
             "category": data.get("category", ""),
         }
@@ -269,7 +275,7 @@ def normalize_for_json(label, data):
             "quote": data.get("quote", ""),
             "talent": data.get("talent"),
             "skills": data.get("skills", []),
-            "noble_phantasm": data.get("noble_phantasm"),
+            "noble_phantasm": data.get("noble_phantasm") or "",
         }
 
     if label == "tier-list":
@@ -344,6 +350,10 @@ def update_json_file(label, data):
                 )
 
     existing.append(entry)
+
+    sort_key = FILE_SORT_KEY.get(filename)
+    if sort_key:
+        existing.sort(key=sort_key)
 
     with open(path, "w", encoding="utf-8") as f:
         json.dump(existing, f, indent=2, ensure_ascii=False)

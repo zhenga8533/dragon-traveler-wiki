@@ -63,3 +63,20 @@ def artifact_sort_key(a):
         QUALITY_RANK.get(a.get("quality", ""), _FALLBACK),
         (a.get("name") or "").lower(),
     )
+
+
+def faction_sort_key(f):
+    return (f.get("name") or "").lower()
+
+
+# Canonical mapping: data file name → sort key function.
+# Files absent from this mapping maintain stable insertion order.
+FILE_SORT_KEY = {
+    "factions.json": faction_sort_key,
+    "characters.json": character_sort_key,
+    "wyrmspells.json": wyrmspell_sort_key,
+    "resources.json": resource_sort_key,
+    "status-effects.json": status_effect_sort_key,
+    "useful-links.json": useful_link_sort_key,
+    "artifacts.json": artifact_sort_key,
+}

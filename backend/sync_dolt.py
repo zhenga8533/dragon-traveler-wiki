@@ -21,6 +21,7 @@ from pathlib import Path
 from .sort_keys import (
     artifact_sort_key,
     character_sort_key,
+    faction_sort_key,
     resource_sort_key,
     status_effect_sort_key,
     useful_link_sort_key,
@@ -468,7 +469,7 @@ def sync_factions(data, batch, now):
     old_ts = get_old_timestamps("factions", "name")
     batch.add("DELETE FROM character_factions;")
     batch.add("DELETE FROM factions;")
-    data = sorted(data, key=lambda f: (f.get("name") or "").lower())
+    data = sorted(data, key=faction_sort_key)
     for i, f in enumerate(data, 1):
         if not f.get("name"):
             continue

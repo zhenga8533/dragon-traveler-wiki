@@ -22,6 +22,7 @@ from pathlib import Path
 from .sort_keys import (
     artifact_sort_key,
     character_sort_key,
+    faction_sort_key,
     resource_sort_key,
     status_effect_sort_key,
     useful_link_sort_key,
@@ -220,6 +221,7 @@ def export_factions(data, output_dir=None):
                 "last_updated": int(r.get("last_updated") or 0),
             }
         )
+    result.sort(key=faction_sort_key)
     write_export("factions.json", result, output_dir)
 
 

@@ -343,6 +343,13 @@
     "last_updated": 1771374946
   },
   {
+    "name": "Random Refinement Stone",
+    "quality": "SR",
+    "description": "An Energy Crystal that grants a Reforge Stone for a Random Gear Slot.",
+    "category": "Item",
+    "last_updated": 1771431833
+  },
+  {
     "name": "Aurora Crystal",
     "quality": "SSR",
     "description": "Contains immense Energy from the origin of life. An Advanced Material for Artifact Advancement.",
@@ -530,10 +537,5 @@
     "description": "Collect 60 Shards to summon an R Luminary.",
     "category": "Shard",
     "last_updated": 1771374946
-  },
-  {
-    "name": "Random Refinement Stone",
-    "description": "An Energy Crystal that grants a Reforge Stone for a Random Gear Slot.",
-    "category": "Item"
   }
 ]
