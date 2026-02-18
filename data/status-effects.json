@@ -28,12 +28,6 @@
     "last_updated": 1771129475
   },
   {
-    "name": "Inheritance",
-    "type": "Exclusive",
-    "effect": "Whenever the user applies a buff to another friendly unit, the target gains an additional attack bonus.",
-    "remark": ""
-  },
-  {
     "name": "Crit Up",
     "type": "Buff",
     "effect": "Increases Crit by 600. Lasts 8 seconds.",
@@ -214,12 +208,6 @@
     "effect": "Elemental Echo faction special effect.",
     "remark": "Includes [Detonation], [Evaporation], and [Flash Freeze].\n[Ignite] and [Shock] can trigger [Detonation].\n[Chill] and [Ignite] can trigger [Evaporation].\n[Shock] and [Chill] can trigger [Flash Freeze].",
     "last_updated": 1771129475
-  },
-  {
-    "name": "Curse",
-    "type": "Exclusive",
-    "effect": "A debuff that cannot be stacked and cannot be dispelled.",
-    "remark": ""
   },
   {
     "name": "Punishment",
@@ -404,6 +392,13 @@
     "last_updated": 1771185685
   },
   {
+    "name": "Curse",
+    "type": "Exclusive",
+    "effect": "A debuff that cannot be stacked and cannot be dispelled.",
+    "remark": "",
+    "last_updated": 1771387565
+  },
+  {
     "name": "Cursed Domain",
     "type": "Exclusive",
     "effect": "Increases Overdrive Energy cost by 1 and reduces Magic Defense by 20%.",
@@ -472,6 +467,13 @@
     "effect": "",
     "remark": "Lasts 30 seconds, can be stacked up to 6 times.",
     "last_updated": 1771185685
+  },
+  {
+    "name": "Inheritance",
+    "type": "Exclusive",
+    "effect": "Whenever the user applies a buff to another friendly unit, the target gains an additional attack bonus.",
+    "remark": "",
+    "last_updated": 1771387565
   },
   {
     "name": "Lakeside Protection",
