@@ -35,20 +35,22 @@ import {
   getTalentIcon,
   type CharacterIllustration,
 } from '../assets/character';
-import { QUALITY_ICON_MAP } from '../assets/quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getSkillIcon } from '../assets/skill';
 import { getSubclassIcon } from '../assets/subclass';
 import Breadcrumbs from '../components/Breadcrumbs';
+import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import RichText from '../components/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
 import { TierListReferenceContext } from '../contexts';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
+import type { NoblePhantasm } from '../types/noble-phantasm';
 import type { StatusEffect } from '../types/status-effect';
-import LastUpdated from '../components/LastUpdated';
 
 export default function CharacterPage() {
   const { colorScheme } = useMantineColorScheme();
@@ -60,6 +62,10 @@ export default function CharacterPage() {
   );
   const { data: statusEffects } = useDataFetch<StatusEffect[]>(
     'data/status-effects.json',
+    []
+  );
+  const { data: noblePhantasms } = useDataFetch<NoblePhantasm[]>(
+    'data/noble_phantasm.json',
     []
   );
   const { tierLists, selectedTierListName } = useContext(
@@ -81,6 +87,15 @@ export default function CharacterPage() {
     const entry = list.entries.find((e) => e.character_name === character.name);
     return entry?.tier ?? 'Unranked';
   }, [tierLists, selectedTierListName, character]);
+
+  const linkedNoblePhantasm = useMemo(() => {
+    if (!character?.noble_phantasm) return null;
+    return (
+      noblePhantasms.find(
+        (np) => np.name.toLowerCase() === character.noble_phantasm.toLowerCase()
+      ) ?? null
+    );
+  }, [character, noblePhantasms]);
 
   // Lazy-loaded assets
   const [illustrations, setIllustrations] = useState<CharacterIllustration[]>(
@@ -331,7 +346,11 @@ export default function CharacterPage() {
                   <Title order={1} c={isDark ? 'white' : 'dark'}>
                     {character.name}
                   </Title>
-                  <Badge variant="light" color={character.is_global ? 'green' : 'orange'} size="lg">
+                  <Badge
+                    variant="light"
+                    color={character.is_global ? 'green' : 'orange'}
+                    size="lg"
+                  >
                     {character.is_global ? 'Global' : 'TW / CN'}
                   </Badge>
                 </Group>
@@ -639,7 +658,65 @@ export default function CharacterPage() {
                           <Text fw={600} size="sm" mb="xs">
                             Noble Phantasm
                           </Text>
-                          <Text size="sm">{character.noble_phantasm}</Text>
+                          {linkedNoblePhantasm ? (
+                            (() => {
+                              const noblePhantasmIcon = getNoblePhantasmIcon(
+                                linkedNoblePhantasm.name
+                              );
+                              return (
+                                <Stack gap="xs">
+                                  <Link
+                                    to={`/noble-phantasms/${encodeURIComponent(linkedNoblePhantasm.name)}`}
+                                    style={{
+                                      textDecoration: 'none',
+                                      width: 'fit-content',
+                                    }}
+                                  >
+                                    <Group gap="sm" wrap="nowrap">
+                                      {noblePhantasmIcon && (
+                                        <Box
+                                          style={{
+                                            width: 40,
+                                            height: 40,
+                                            borderRadius: 8,
+                                            overflow: 'hidden',
+                                            flexShrink: 0,
+                                          }}
+                                        >
+                                          <Image
+                                            src={noblePhantasmIcon}
+                                            alt={linkedNoblePhantasm.name}
+                                            w={40}
+                                            h={40}
+                                            fit="cover"
+                                          />
+                                        </Box>
+                                      )}
+                                      <Badge
+                                        variant="light"
+                                        color="grape"
+                                        size="lg"
+                                      >
+                                        {linkedNoblePhantasm.name}
+                                      </Badge>
+                                    </Group>
+                                  </Link>
+                                  {linkedNoblePhantasm.lore && (
+                                    <Text
+                                      size="sm"
+                                      c="dimmed"
+                                      fs="italic"
+                                      style={{ lineHeight: 1.6 }}
+                                    >
+                                      {linkedNoblePhantasm.lore}
+                                    </Text>
+                                  )}
+                                </Stack>
+                              );
+                            })()
+                          ) : (
+                            <Text size="sm">{character.noble_phantasm}</Text>
+                          )}
                         </div>
                       </>
                     )}
@@ -707,7 +784,13 @@ export default function CharacterPage() {
                       {character.skills.map((skill, idx) => {
                         const skillIcon = skillIcons.get(skill.name);
                         return (
-                          <Paper key={idx} id={`skill-${skill.name}`} p="md" radius="md" withBorder>
+                          <Paper
+                            key={idx}
+                            id={`skill-${skill.name}`}
+                            p="md"
+                            radius="md"
+                            withBorder
+                          >
                             <Stack gap="sm">
                               <Group
                                 gap="md"
