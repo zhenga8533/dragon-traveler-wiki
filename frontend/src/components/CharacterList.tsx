@@ -143,6 +143,7 @@ export default function CharacterList({
                 name={char.name}
                 quality={char.quality}
                 tierLabel={getTierLabel(char.name)}
+                is_global={char.is_global}
               />
             ))}
           </SimpleGrid>
@@ -226,15 +227,13 @@ export default function CharacterList({
                       </Group>
                     </Table.Td>
                     <Table.Td>
-                      {char.is_global && (
-                        <Badge
-                          variant="light"
-                          size="sm"
-                          color="green"
-                        >
-                          Global
-                        </Badge>
-                      )}
+                      <Badge
+                        variant="light"
+                        size="sm"
+                        color={char.is_global ? 'green' : 'orange'}
+                      >
+                        {char.is_global ? 'Global' : 'TW / CN'}
+                      </Badge>
                     </Table.Td>
                     {selectedTierListName && (
                       <Table.Td>

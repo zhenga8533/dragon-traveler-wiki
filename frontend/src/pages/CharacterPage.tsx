@@ -335,11 +335,9 @@ export default function CharacterPage() {
                   <Title order={1} c={isDark ? 'white' : 'dark'}>
                     {character.name}
                   </Title>
-                  {!character.is_global && (
-                    <Badge variant="light" color="orange" size="lg">
-                      TW / CN
-                    </Badge>
-                  )}
+                  <Badge variant="light" color={character.is_global ? 'green' : 'orange'} size="lg">
+                    {character.is_global ? 'Global' : 'TW / CN'}
+                  </Badge>
                 </Group>
 
                 {character.title && (

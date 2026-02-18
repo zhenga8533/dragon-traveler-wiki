@@ -235,15 +235,13 @@ export default function Artifacts() {
                               <Badge variant="light" size="sm" color="blue">
                                 {artifact.rows}x{artifact.columns}
                               </Badge>
-                              {artifact.is_global && (
-                                <Badge
-                                  variant="light"
-                                  size="sm"
-                                  color="green"
-                                >
-                                  Global
-                                </Badge>
-                              )}
+                              <Badge
+                                variant="light"
+                                size="sm"
+                                color={artifact.is_global ? 'green' : 'orange'}
+                              >
+                                {artifact.is_global ? 'Global' : 'TW / CN'}
+                              </Badge>
                               <Badge variant="light" size="sm" color="gray">
                                 {artifact.treasures.length} treasure
                                 {artifact.treasures.length !== 1 ? 's' : ''}
@@ -325,15 +323,13 @@ export default function Artifacts() {
                               </Text>
                             </Table.Td>
                             <Table.Td>
-                              {artifact.is_global && (
-                                <Badge
-                                  variant="light"
-                                  size="sm"
-                                  color="green"
-                                >
-                                  Global
-                                </Badge>
-                              )}
+                              <Badge
+                                variant="light"
+                                size="sm"
+                                color={artifact.is_global ? 'green' : 'orange'}
+                              >
+                                {artifact.is_global ? 'Global' : 'TW / CN'}
+                              </Badge>
                             </Table.Td>
                           </Table.Tr>
                         );

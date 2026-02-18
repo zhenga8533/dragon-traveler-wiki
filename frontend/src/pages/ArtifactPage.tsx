@@ -270,11 +270,9 @@ export default function ArtifactPage() {
                   <Badge size="lg" variant="light" color="blue">
                     {artifact.rows}x{artifact.columns}
                   </Badge>
-                  {artifact.is_global && (
-                    <Badge size="lg" variant="light" color="green">
-                      Global
-                    </Badge>
-                  )}
+                  <Badge size="lg" variant="light" color={artifact.is_global ? 'green' : 'orange'}>
+                    {artifact.is_global ? 'Global' : 'TW / CN'}
+                  </Badge>
                   <Badge size="lg" variant="outline" color="gray">
                     {artifact.treasures.length} treasure
                     {artifact.treasures.length !== 1 ? 's' : ''}
