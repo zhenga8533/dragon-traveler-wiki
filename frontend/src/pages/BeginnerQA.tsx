@@ -5,12 +5,71 @@ import {
   Group,
   Paper,
   Stack,
+  Table,
   Text,
   Title,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import CharacterTag from '../components/CharacterTag';
 import ResourceBadge from '../components/ResourceBadge';
+
+const FACTION_GIFTS: {
+  faction: string;
+  ssr: { name: string; pts: number };
+  sr: { name: string; pts: number };
+  r: { name: string; pts: number };
+  n: { name: string; pts: number };
+}[] = [
+  {
+    faction: 'Any',
+    ssr: { name: 'Luxury Tea Set', pts: 150 },
+    sr: { name: 'Grilled Steak', pts: 75 },
+    r: { name: 'Banquet Cake', pts: 30 },
+    n: { name: 'Apple', pts: 15 },
+  },
+  {
+    faction: 'Elemental Echo',
+    ssr: { name: 'Amber Necklace', pts: 100 },
+    sr: { name: 'Obsidian Arrowhead', pts: 50 },
+    r: { name: 'Coral Ornament', pts: 20 },
+    n: { name: 'Dandelion', pts: 10 },
+  },
+  {
+    faction: 'Illusion Veil',
+    ssr: { name: 'Black Lotus', pts: 100 },
+    sr: { name: 'Forbidden Scroll', pts: 50 },
+    r: { name: 'Rotten Branch', pts: 20 },
+    n: { name: 'Cave Mushroom', pts: 10 },
+  },
+  {
+    faction: 'Arcane Wisdom',
+    ssr: { name: 'Lilac and Gooseberry', pts: 100 },
+    sr: { name: 'Potion Class Notes', pts: 50 },
+    r: { name: 'Ink and Quill', pts: 20 },
+    n: { name: 'Manna', pts: 10 },
+  },
+  {
+    faction: 'Otherworld Return',
+    ssr: { name: 'Soul Bell', pts: 100 },
+    sr: { name: 'Graveyard Lily', pts: 50 },
+    r: { name: 'Preservative', pts: 20 },
+    n: { name: 'Ritual Candle', pts: 10 },
+  },
+  {
+    faction: 'Sanctum Glory',
+    ssr: { name: 'Stained Glass Window Decoration', pts: 100 },
+    sr: { name: 'Griffin Doll', pts: 50 },
+    r: { name: "A Knight's Tale", pts: 20 },
+    n: { name: 'Wooden Training Sword', pts: 10 },
+  },
+  {
+    faction: 'Wild Spirit',
+    ssr: { name: 'Treant Sapling', pts: 100 },
+    sr: { name: 'Ring Casting Mold', pts: 50 },
+    r: { name: 'Fairy Dust', pts: 20 },
+    n: { name: 'Elven Biscuit', pts: 10 },
+  },
+];
 
 function QA({ q, children }: { q: string; children: React.ReactNode }) {
   return (
@@ -169,6 +228,48 @@ export default function BeginnerQA() {
             source). In Exploration, prioritize Limited Resources &gt; Rune
             Crystals &gt; Dragon Soul Statues.
           </QA>
+        </Stack>
+
+        <Stack gap="sm">
+          <Title order={2}>Affection Gifts</Title>
+          <Text size="sm" c="dimmed">
+            Each faction has one preferred gift per quality tier. Faction gifts
+            give the listed affection points to Luminaries of that faction.
+            Universal gifts (Any) work on all Luminaries but yield fewer points
+            than a matched faction gift.
+          </Text>
+          <Table striped withTableBorder withColumnBorders>
+            <Table.Thead>
+              <Table.Tr>
+                <Table.Th>Faction</Table.Th>
+                <Table.Th>SSR</Table.Th>
+                <Table.Th>SR</Table.Th>
+                <Table.Th>R</Table.Th>
+                <Table.Th>N</Table.Th>
+              </Table.Tr>
+            </Table.Thead>
+            <Table.Tbody>
+              {FACTION_GIFTS.map(({ faction, ssr, sr, r, n }) => (
+                <Table.Tr key={faction}>
+                  <Table.Td>
+                    <Text size="sm" fw={faction === 'Any' ? 600 : undefined}>
+                      {faction}
+                    </Text>
+                  </Table.Td>
+                  {[ssr, sr, r, n].map((gift) => (
+                    <Table.Td key={gift.name}>
+                      <Group gap={4} wrap="nowrap">
+                        <ResourceBadge name={gift.name} />
+                        <Text size="xs" c="dimmed" style={{ whiteSpace: 'nowrap' }}>
+                          +{gift.pts}
+                        </Text>
+                      </Group>
+                    </Table.Td>
+                  ))}
+                </Table.Tr>
+              ))}
+            </Table.Tbody>
+          </Table>
         </Stack>
 
         <Stack gap="sm">
