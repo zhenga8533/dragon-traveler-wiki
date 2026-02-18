@@ -13,6 +13,6 @@ export interface Resource {
   name: string;
   description: string;
   category: ResourceCategory;
-  quality: Quality | null;
+  quality: Quality;
   last_updated: number;
 }

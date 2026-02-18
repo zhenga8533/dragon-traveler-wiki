@@ -210,7 +210,7 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
             CREATE TABLE resources (
               id int NOT NULL AUTO_INCREMENT,
               name varchar(100) NOT NULL,
-              quality varchar(20) NULL,
+              quality varchar(20) NOT NULL DEFAULT '',
               description text,
               category varchar(50) NOT NULL DEFAULT '',
               last_updated BIGINT NULL,
@@ -235,9 +235,22 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
         if "quality" not in resource_columns:
             print("  Adding resources.quality column")
             dolt_sql(
-                "ALTER TABLE resources ADD COLUMN quality varchar(20) NULL AFTER `name`;",
+                "ALTER TABLE resources ADD COLUMN quality varchar(20) NOT NULL DEFAULT '' AFTER `name`;",
                 dry_run=dry_run,
             )
+        else:
+            # Migrate quality column to NOT NULL if it is currently nullable.
+            col_type_info = dolt_sql_csv("SHOW COLUMNS FROM resources LIKE 'quality';")
+            if col_type_info and col_type_info[0].get("Null", "").upper() == "YES":
+                print("  Migrating resources.quality to NOT NULL")
+                dolt_sql(
+                    "UPDATE resources SET quality = '' WHERE quality IS NULL;",
+                    dry_run=dry_run,
+                )
+                dolt_sql(
+                    "ALTER TABLE resources MODIFY COLUMN quality varchar(20) NOT NULL DEFAULT '';",
+                    dry_run=dry_run,
+                )
 
     # Ensure quality and exclusive_faction columns exist on wyrmspells table.
     if "wyrmspells" in existing_tables:

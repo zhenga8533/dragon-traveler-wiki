@@ -37,7 +37,7 @@ REQUIRED_FIELDS = {
     "wyrmspell": ["name"],
     "status-effect": ["name"],
     "links": ["name", "link"],
-    "resource": ["name", "category", "description"],
+    "resource": ["name", "category", "description", "quality"],
     "character": ["name"],
     "tier-list": ["name", "entries"],
     "team": ["name", "members"],
@@ -63,7 +63,7 @@ VALID_STATUS_EFFECT_TYPES = {
 }
 
 VALID_WYRMSPELL_TYPES = {"Breach", "Refuge", "Wildcry", "Dragon's Call"}
-VALID_CHARACTER_QUALITIES = {"SSR EX", "SSR+", "SSR", "SR", "R", "N"}
+VALID_CHARACTER_QUALITIES = {"UR", "SSR EX", "SSR+", "SSR", "SR", "R", "N"}
 VALID_CHARACTER_CLASSES = {
     "Guardian",
     "Priest",
@@ -127,6 +127,11 @@ def validate_data(label, data):
             raise ValueError(
                 "Invalid resource category. "
                 f"Expected one of: {', '.join(sorted(VALID_RESOURCE_CATEGORIES))}"
+            )
+        if data.get("quality") and data["quality"] not in VALID_CHARACTER_QUALITIES:
+            raise ValueError(
+                "Invalid resource quality. "
+                f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
             )
 
     if label == "wyrmspell" and data.get("type"):
@@ -245,7 +250,7 @@ def normalize_for_json(label, data):
     if label == "resource":
         return {
             "name": data["name"],
-            "quality": data.get("quality") or None,
+            "quality": data.get("quality") or "",
             "description": data.get("description", ""),
             "category": data.get("category", ""),
         }
@@ -311,10 +316,10 @@ def normalize_for_json(label, data):
                 for m in data.get("members", [])
             ],
             "wyrmspells": {
-                "breach": (data.get("wyrmspells") or {}).get("breach", ""),
-                "refuge": (data.get("wyrmspells") or {}).get("refuge", ""),
-                "wildcry": (data.get("wyrmspells") or {}).get("wildcry", ""),
-                "dragons_call": (data.get("wyrmspells") or {}).get("dragons_call", ""),
+                "breach": (data.get("wyrmspells") or {}).get("breach", "") or str(data.get("breach_wyrmspell", "") or ""),
+                "refuge": (data.get("wyrmspells") or {}).get("refuge", "") or str(data.get("refuge_wyrmspell", "") or ""),
+                "wildcry": (data.get("wyrmspells") or {}).get("wildcry", "") or str(data.get("wildcry_wyrmspell", "") or ""),
+                "dragons_call": (data.get("wyrmspells") or {}).get("dragons_call", "") or str(data.get("dragons_call_wyrmspell", "") or ""),
             },
         }
 

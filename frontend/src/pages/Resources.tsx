@@ -50,6 +50,13 @@ const RESOURCE_FIELDS: FieldDef[] = [
     options: ['Currency', 'Gift', 'Item', 'Material', 'Summoning', 'Shard'],
   },
   {
+    name: 'quality',
+    label: 'Quality',
+    type: 'select',
+    required: true,
+    options: ['UR', 'SSR EX', 'SSR+', 'SSR', 'SR', 'R', 'N'],
+  },
+  {
     name: 'description',
     label: 'Description',
     type: 'textarea',
@@ -113,8 +120,8 @@ export default function Resources() {
           if (sortCol === 'name') {
             cmp = a.name.localeCompare(b.name);
           } else if (sortCol === 'quality') {
-            const qA = a.quality ? QUALITY_ORDER.indexOf(a.quality) : 999;
-            const qB = b.quality ? QUALITY_ORDER.indexOf(b.quality) : 999;
+            const qA = QUALITY_ORDER.indexOf(a.quality);
+            const qB = QUALITY_ORDER.indexOf(b.quality);
             cmp = qA - qB;
           } else if (sortCol === 'category') {
             cmp = RESOURCE_CATEGORY_ORDER.indexOf(a.category) - RESOURCE_CATEGORY_ORDER.indexOf(b.category);
@@ -125,8 +132,8 @@ export default function Resources() {
         const catA = RESOURCE_CATEGORY_ORDER.indexOf(a.category);
         const catB = RESOURCE_CATEGORY_ORDER.indexOf(b.category);
         if (catA !== catB) return catA - catB;
-        const qA = a.quality ? QUALITY_ORDER.indexOf(a.quality) : 999;
-        const qB = b.quality ? QUALITY_ORDER.indexOf(b.quality) : 999;
+        const qA = QUALITY_ORDER.indexOf(a.quality);
+        const qB = QUALITY_ORDER.indexOf(b.quality);
         if (qA !== qB) return qA - qB;
         return a.name.localeCompare(b.name);
       });

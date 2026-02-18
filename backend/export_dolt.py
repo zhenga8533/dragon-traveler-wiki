@@ -304,7 +304,7 @@ def export_resources(data, output_dir=None):
     result = [
         {
             "name": r.get("name") or "",
-            "quality": r.get("quality") or None,
+            "quality": r.get("quality") or "",
             "description": r.get("description") or "",
             "category": r.get("category") or "",
             "last_updated": int(r.get("last_updated") or 0),
