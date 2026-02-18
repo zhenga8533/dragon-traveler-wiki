@@ -74,6 +74,8 @@ export const STORAGE_KEY = {
   STATUS_EFFECT_FILTERS: 'status-effects:filters',
   WYRMSPELL_VIEW_MODE: 'wyrmspells:viewMode',
   WYRMSPELL_FILTERS: 'wyrmspells:filters',
+  NOBLE_PHANTASM_VIEW_MODE: 'noble-phantasms:viewMode',
+  NOBLE_PHANTASM_FILTERS: 'noble-phantasms:filters',
   RESOURCE_VIEW_MODE: 'resources:viewMode',
   RESOURCE_FILTERS: 'resources:filters',
   TEAMS_VIEW_MODE: 'teams:viewMode',
@@ -89,6 +91,7 @@ export const STORAGE_KEY = {
   RESOURCE_SORT: 'resources:sort',
   ARTIFACT_SORT: 'artifacts:sort',
   WYRMSPELL_SORT: 'wyrmspells:sort',
+  NOBLE_PHANTASM_SORT: 'noble-phantasms:sort',
   STATUS_EFFECT_SORT: 'status-effects:sort',
   SIDEBAR_COLLAPSED: 'sidebar:collapsed',
 } as const;

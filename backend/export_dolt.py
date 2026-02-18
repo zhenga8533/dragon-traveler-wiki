@@ -23,6 +23,7 @@ from .sort_keys import (
     artifact_sort_key,
     character_sort_key,
     faction_sort_key,
+    noble_phantasm_sort_key,
     resource_sort_key,
     status_effect_sort_key,
     useful_link_sort_key,
@@ -70,6 +71,13 @@ QUERIES = {
     "artifact_treasures": "SELECT * FROM artifact_treasures ORDER BY artifact_id, id;",
     "artifact_treasure_effects": (
         "SELECT * FROM artifact_treasure_effects ORDER BY treasure_id, level;"
+    ),
+    "noble_phantasms": "SELECT * FROM noble_phantasms ORDER BY id;",
+    "noble_phantasm_effects": (
+        "SELECT * FROM noble_phantasm_effects ORDER BY noble_phantasm_id, sort_order, id;"
+    ),
+    "noble_phantasm_skills": (
+        "SELECT * FROM noble_phantasm_skills ORDER BY noble_phantasm_id, level, id;"
     ),
     "changelog": "SELECT * FROM changelog ORDER BY id;",
     "changelog_changes": ("SELECT * FROM changelog_changes ORDER BY changelog_id, id;"),
@@ -497,6 +505,55 @@ def export_artifacts(data, output_dir=None):
     write_export("artifacts.json", result, output_dir)
 
 
+def export_noble_phantasms(data, output_dir=None):
+    effects_by_np = group_by(data["noble_phantasm_effects"], "noble_phantasm_id")
+    skills_by_np = group_by(data["noble_phantasm_skills"], "noble_phantasm_id")
+
+    result = []
+    for np in data["noble_phantasms"]:
+        np_id = np["id"]
+        effects = [
+            {
+                "tier": e.get("tier") or None,
+                "tier_level": (
+                    int(e.get("tier_level"))
+                    if e.get("tier_level") not in (None, "")
+                    else None
+                ),
+                "description": e.get("description") or "",
+            }
+            for e in effects_by_np.get(np_id, [])
+        ]
+        skills = [
+            {
+                "level": int(s.get("level") or 0),
+                "tier": s.get("tier") or None,
+                "tier_level": (
+                    int(s.get("tier_level"))
+                    if s.get("tier_level") not in (None, "")
+                    else None
+                ),
+                "description": s.get("description") or "",
+            }
+            for s in skills_by_np.get(np_id, [])
+        ]
+
+        result.append(
+            {
+                "name": np.get("name") or "",
+                "character": np.get("character_name") or None,
+                "is_global": bool(int(np.get("is_global", 0))),
+                "lore": np.get("lore") or "",
+                "effects": effects,
+                "skills": skills,
+                "last_updated": int(np.get("last_updated") or 0),
+            }
+        )
+
+    result.sort(key=noble_phantasm_sort_key)
+    write_export("noble_phantasm.json", result, output_dir)
+
+
 def export_changelog(data, output_dir=None):
     changes_by_cl = group_by(data["changelog_changes"], "changelog_id")
     result = []
@@ -547,6 +604,14 @@ EXPORTERS = {
             "artifact_effects",
             "artifact_treasures",
             "artifact_treasure_effects",
+        },
+    ),
+    "noble-phantasms": (
+        export_noble_phantasms,
+        {
+            "noble_phantasms",
+            "noble_phantasm_effects",
+            "noble_phantasm_skills",
         },
     ),
     "changelog": (export_changelog, {"changelog", "changelog_changes"}),

@@ -61,6 +61,7 @@ import CharacterPage from './pages/CharacterPage';
 import Characters from './pages/Characters';
 import Codes from './pages/Codes';
 import Home from './pages/Home';
+import NoblePhantasmPage from './pages/NoblePhantasmPage';
 import NoblePhantasms from './pages/NoblePhantasms';
 import Resources from './pages/Resources';
 import RotationalEventHoarding from './pages/RotationalEventHoarding';
@@ -450,6 +451,10 @@ function AppContent() {
               <Route path="/characters" element={<Characters />} />
               <Route path="/characters/:name" element={<CharacterPage />} />
               <Route path="/noble-phantasms" element={<NoblePhantasms />} />
+              <Route
+                path="/noble-phantasms/:name"
+                element={<NoblePhantasmPage />}
+              />
               <Route path="/resources" element={<Resources />} />
               <Route path="/status-effects" element={<StatusEffects />} />
               <Route path="/wyrmspells" element={<DragonSpells />} />

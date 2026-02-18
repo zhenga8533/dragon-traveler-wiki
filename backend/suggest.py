@@ -24,6 +24,7 @@ DATA_DIR = ROOT_DIR / "data"
 LABEL_JSON_FILE = {
     "codes": "codes.json",
     "wyrmspell": "wyrmspells.json",
+    "noble-phantasm": "noble_phantasm.json",
     "status-effect": "status-effects.json",
     "links": "useful-links.json",
     "resource": "resources.json",
@@ -35,6 +36,7 @@ LABEL_JSON_FILE = {
 REQUIRED_FIELDS = {
     "codes": ["code"],
     "wyrmspell": ["name"],
+    "noble-phantasm": ["name"],
     "status-effect": ["name"],
     "links": ["name", "link"],
     "resource": ["name", "category", "description", "quality"],
@@ -247,6 +249,16 @@ def normalize_for_json(label, data):
             "remark": data.get("remark", ""),
         }
 
+    if label == "noble-phantasm":
+        return {
+            "name": data["name"],
+            "character": data.get("character") or None,
+            "is_global": data.get("is_global", True),
+            "lore": data.get("lore", ""),
+            "effects": data.get("effects", []),
+            "skills": data.get("skills", []),
+        }
+
     if label == "resource":
         return {
             "name": data["name"],
@@ -316,10 +328,14 @@ def normalize_for_json(label, data):
                 for m in data.get("members", [])
             ],
             "wyrmspells": {
-                "breach": (data.get("wyrmspells") or {}).get("breach", "") or str(data.get("breach_wyrmspell", "") or ""),
-                "refuge": (data.get("wyrmspells") or {}).get("refuge", "") or str(data.get("refuge_wyrmspell", "") or ""),
-                "wildcry": (data.get("wyrmspells") or {}).get("wildcry", "") or str(data.get("wildcry_wyrmspell", "") or ""),
-                "dragons_call": (data.get("wyrmspells") or {}).get("dragons_call", "") or str(data.get("dragons_call_wyrmspell", "") or ""),
+                "breach": (data.get("wyrmspells") or {}).get("breach", "")
+                or str(data.get("breach_wyrmspell", "") or ""),
+                "refuge": (data.get("wyrmspells") or {}).get("refuge", "")
+                or str(data.get("refuge_wyrmspell", "") or ""),
+                "wildcry": (data.get("wyrmspells") or {}).get("wildcry", "")
+                or str(data.get("wildcry_wyrmspell", "") or ""),
+                "dragons_call": (data.get("wyrmspells") or {}).get("dragons_call", "")
+                or str(data.get("dragons_call_wyrmspell", "") or ""),
             },
         }
 
@@ -397,6 +413,7 @@ def main():
         "[Code]": "codes",
         "[Character]": "character",
         "[Wyrmspell]": "wyrmspell",
+        "[Noble Phantasm]": "noble-phantasm",
         "[Status Effect]": "status-effect",
         "[Link]": "links",
         "[Resource]": "resource",

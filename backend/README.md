@@ -54,6 +54,7 @@ backend/
     ├── character.py     # Character, Skill, Talent, Quality, CharacterClass
     ├── code.py          # Code, CodeReward
     ├── faction.py       # Faction, FactionName, Wyrm
+    ├── noble_phantasm.py# NoblePhantasm, NoblePhantasmEffect, NoblePhantasmSkill
     ├── resource.py      # Resource
     ├── status_effect.py # StatusEffect, StatusEffectType
     ├── team.py          # Team, TeamMember, TeamWyrmspells
@@ -69,6 +70,7 @@ The backend reads from and writes to `data/`:
 | File                  | Description          |
 | --------------------- | -------------------- |
 | `characters.json`     | Character database   |
+| `noble_phantasm.json` | Noble Phantasm data  |
 | `factions.json`       | Faction definitions  |
 | `wyrmspells.json`     | Wyrmspell database   |
 | `resources.json`      | Resource definitions |

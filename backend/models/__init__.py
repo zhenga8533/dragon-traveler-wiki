@@ -7,6 +7,11 @@ from backend.models.character import (
 )
 from backend.models.code import Code, CodeReward
 from backend.models.faction import Faction, FactionName, Wyrm
+from backend.models.noble_phantasm import (
+    NoblePhantasm,
+    NoblePhantasmEffect,
+    NoblePhantasmSkill,
+)
 from backend.models.resource import Resource
 from backend.models.status_effect import StatusEffect, StatusEffectType
 from backend.models.team import Team
@@ -24,6 +29,9 @@ __all__ = [
     "CodeReward",
     "Faction",
     "FactionName",
+    "NoblePhantasm",
+    "NoblePhantasmEffect",
+    "NoblePhantasmSkill",
     "Quality",
     "Resource",
     "Skill",

@@ -25,12 +25,19 @@ import {
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import type { Character } from '../types/character';
+import type { NoblePhantasm } from '../types/noble-phantasm';
 import type { StatusEffect } from '../types/status-effect';
 import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
 
 type SearchResult = {
-  type: 'character' | 'status-effect' | 'wyrmspell' | 'team' | 'page';
+  type:
+    | 'character'
+    | 'status-effect'
+    | 'wyrmspell'
+    | 'noble-phantasm'
+    | 'team'
+    | 'page';
   title: string;
   subtitle?: string;
   path: string;
@@ -117,6 +124,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
   const [characters, setCharacters] = useState<Character[]>([]);
   const [statusEffects, setStatusEffects] = useState<StatusEffect[]>([]);
   const [wyrmspells, setWyrmspells] = useState<Wyrmspell[]>([]);
+  const [noblePhantasms, setNoblePhantasms] = useState<NoblePhantasm[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
@@ -140,12 +148,14 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         fetch(`${baseUrl}data/characters.json`).then((r) => r.json()),
         fetch(`${baseUrl}data/status-effects.json`).then((r) => r.json()),
         fetch(`${baseUrl}data/wyrmspells.json`).then((r) => r.json()),
+        fetch(`${baseUrl}data/noble_phantasm.json`).then((r) => r.json()),
         fetch(`${baseUrl}data/teams.json`).then((r) => r.json()),
       ])
-        .then(([chars, effects, spells, teamData]) => {
+        .then(([chars, effects, spells, phantasms, teamData]) => {
           setCharacters(chars);
           setStatusEffects(effects);
           setWyrmspells(spells);
+          setNoblePhantasms(phantasms);
           setTeams(teamData);
         })
         .catch((err) => {
@@ -257,8 +267,27 @@ export default function SearchModal({ trigger }: SearchModalProps) {
       );
     }
 
+    // Search noble phantasms
+    if (noblePhantasms.length > 0) {
+      const npFuse = new Fuse(noblePhantasms, {
+        keys: ['name', 'character', 'lore'],
+        threshold: 0.3,
+      });
+      const npResults = npFuse.search(query).slice(0, 5);
+      results.push(
+        ...npResults.map((r) => ({
+          type: 'noble-phantasm' as const,
+          title: r.item.name,
+          subtitle: r.item.character || 'Noble Phantasm',
+          path: `/noble-phantasms/${encodeURIComponent(r.item.name)}`,
+          icon: IoSparklesOutline,
+          color: 'grape',
+        }))
+      );
+    }
+
     return results.slice(0, 12);
-  }, [query, characters, statusEffects, wyrmspells, teams]);
+  }, [query, characters, statusEffects, wyrmspells, noblePhantasms, teams]);
 
   useEffect(() => {
     setSelectedIndex(0);
@@ -439,7 +468,8 @@ export default function SearchModal({ trigger }: SearchModalProps) {
           {!query && (
             <Box p="xl" ta="center">
               <Text c="dimmed" size="sm">
-                Search characters, status effects, wyrmspells, teams, and pages
+                Search characters, noble phantasms, status effects, wyrmspells,
+                teams, and pages
               </Text>
               <Group justify="center" gap="xs" mt="md">
                 <Text size="xs" c="dimmed">

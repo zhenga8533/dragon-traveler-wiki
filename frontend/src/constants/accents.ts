@@ -53,6 +53,11 @@ export function getAccentForPath(path: string): SectionAccent {
     return 'blue';
   }
 
+  // Check for noble phantasm page (dynamic route)
+  if (path.startsWith('/noble-phantasms/')) {
+    return 'teal';
+  }
+
   // Check for team page (dynamic route)
   if (path.startsWith('/teams/')) {
     return 'pink';

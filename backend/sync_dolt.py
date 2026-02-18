@@ -22,6 +22,7 @@ from .sort_keys import (
     artifact_sort_key,
     character_sort_key,
     faction_sort_key,
+    noble_phantasm_sort_key,
     resource_sort_key,
     status_effect_sort_key,
     useful_link_sort_key,
@@ -164,6 +165,7 @@ TIMESTAMP_TABLES = [
     "factions",
     "characters",
     "wyrmspells",
+    "noble_phantasms",
     "resources",
     "codes",
     "status_effects",
@@ -351,6 +353,67 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
             dry_run=dry_run,
         )
         existing_tables.add("artifact_treasure_effects")
+
+    # Ensure noble phantasms and related tables exist.
+    if "noble_phantasms" not in existing_tables:
+        print("  Creating missing noble_phantasms table")
+        dolt_sql(
+            """
+            CREATE TABLE noble_phantasms (
+              id int NOT NULL AUTO_INCREMENT,
+              name varchar(200) NOT NULL,
+              character_name varchar(200) DEFAULT NULL,
+              is_global tinyint(1) NOT NULL DEFAULT 0,
+              lore text,
+              last_updated BIGINT NULL,
+              data_hash VARCHAR(64) NULL,
+              PRIMARY KEY (id),
+              UNIQUE KEY name (name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("noble_phantasms")
+
+    if "noble_phantasm_effects" not in existing_tables:
+        print("  Creating missing noble_phantasm_effects table")
+        dolt_sql(
+            """
+            CREATE TABLE noble_phantasm_effects (
+              id int NOT NULL AUTO_INCREMENT,
+              noble_phantasm_id int NOT NULL,
+              sort_order int NOT NULL DEFAULT 0,
+              tier varchar(20) DEFAULT NULL,
+              tier_level int DEFAULT NULL,
+              description text,
+              PRIMARY KEY (id),
+              KEY noble_phantasm_id (noble_phantasm_id),
+              CONSTRAINT noble_phantasm_effects_ibfk_1 FOREIGN KEY (noble_phantasm_id) REFERENCES noble_phantasms(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("noble_phantasm_effects")
+
+    if "noble_phantasm_skills" not in existing_tables:
+        print("  Creating missing noble_phantasm_skills table")
+        dolt_sql(
+            """
+            CREATE TABLE noble_phantasm_skills (
+              id int NOT NULL AUTO_INCREMENT,
+              noble_phantasm_id int NOT NULL,
+              level int NOT NULL,
+              tier varchar(20) DEFAULT NULL,
+              tier_level int DEFAULT NULL,
+              description text,
+              PRIMARY KEY (id),
+              KEY noble_phantasm_id (noble_phantasm_id),
+              CONSTRAINT noble_phantasm_skills_ibfk_1 FOREIGN KEY (noble_phantasm_id) REFERENCES noble_phantasms(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("noble_phantasm_skills")
 
     if "code_rewards" not in existing_tables:
         return
@@ -880,6 +943,57 @@ def sync_artifacts(data, batch, now):
     print(f"  Synced {a_id} artifacts ({treasure_id} treasures)")
 
 
+def sync_noble_phantasms(data, batch, now):
+    """Sync noble_phantasm.json -> noble_phantasms + effects + skills tables."""
+    old_ts = get_old_timestamps("noble_phantasms", "name")
+    batch.add("DELETE FROM noble_phantasm_effects;")
+    batch.add("DELETE FROM noble_phantasm_skills;")
+    batch.add("DELETE FROM noble_phantasms;")
+    batch.add("ALTER TABLE noble_phantasm_effects AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE noble_phantasm_skills AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE noble_phantasms AUTO_INCREMENT = 1;")
+
+    data = sorted(data, key=noble_phantasm_sort_key)
+    np_id = 0
+    effect_id = 0
+    skill_id = 0
+
+    for np in data:
+        if not np.get("name"):
+            continue
+
+        np_id += 1
+        h = compute_hash(np)
+        ts = resolve_timestamp(np["name"], h, old_ts, now)
+
+        batch.add(
+            f"INSERT INTO noble_phantasms (id, name, character_name, is_global, lore, last_updated, data_hash) VALUES "
+            f"({np_id}, {escape_sql(np['name'])}, {escape_sql(np.get('character'))}, "
+            f"{'TRUE' if np.get('is_global') else 'FALSE'}, {escape_sql(np.get('lore'))}, "
+            f"{escape_sql(ts)}, {escape_sql(h)});"
+        )
+
+        for idx, effect in enumerate(np.get("effects", []), start=1):
+            effect_id += 1
+            batch.add(
+                f"INSERT INTO noble_phantasm_effects (id, noble_phantasm_id, sort_order, tier, tier_level, description) VALUES "
+                f"({effect_id}, {np_id}, {idx}, {escape_sql(effect.get('tier'))}, "
+                f"{escape_sql(effect.get('tier_level'))}, {escape_sql(effect.get('description'))});"
+            )
+
+        for skill in np.get("skills", []):
+            if skill.get("level") in (None, ""):
+                continue
+            skill_id += 1
+            batch.add(
+                f"INSERT INTO noble_phantasm_skills (id, noble_phantasm_id, level, tier, tier_level, description) VALUES "
+                f"({skill_id}, {np_id}, {escape_sql(skill.get('level'))}, {escape_sql(skill.get('tier'))}, "
+                f"{escape_sql(skill.get('tier_level'))}, {escape_sql(skill.get('description'))});"
+            )
+
+    print(f"  Synced {np_id} noble phantasms")
+
+
 def sync_changelog(data, batch, now):
     """Sync changelog.json -> changelog + changelog_changes tables."""
     old_ts = get_old_timestamps("changelog", "version")
@@ -932,6 +1046,7 @@ def main():
             "factions",
             "characters",
             "wyrmspells",
+            "noble-phantasms",
             "resources",
             "codes",
             "status-effects",
@@ -958,6 +1073,7 @@ def main():
         "factions": ["factions.json"],
         "characters": ["characters.json", "factions.json"],
         "wyrmspells": ["wyrmspells.json"],
+        "noble-phantasms": ["noble_phantasm.json"],
         "resources": ["resources.json"],
         "codes": ["codes.json", "resources.json"],
         "status-effects": ["status-effects.json"],
@@ -990,14 +1106,15 @@ def main():
         now = int(time.time())
 
         syncers = {
-            "factions": lambda: sync_factions(
-                json_cache["factions.json"], batch, now
-            ),
+            "factions": lambda: sync_factions(json_cache["factions.json"], batch, now),
             "characters": lambda: sync_characters(
                 json_cache["characters.json"], json_cache["factions.json"], batch, now
             ),
             "wyrmspells": lambda: sync_wyrmspells(
                 json_cache["wyrmspells.json"], batch, now
+            ),
+            "noble-phantasms": lambda: sync_noble_phantasms(
+                json_cache["noble_phantasm.json"], batch, now
             ),
             "resources": lambda: sync_resources(
                 json_cache["resources.json"], batch, existing_tables, now

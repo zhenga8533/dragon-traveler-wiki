@@ -1,0 +1,104 @@
+[
+  {
+    "name": "Elf King Sword",
+    "character": null,
+    "is_global": false,
+    "lore": "Forged by the royal craftsmen of Alfheim before the first twilight. The last Elven king, fully armed, wielded this sword, vowing to defend his kingdom. \"...the king who possessed this sword, the enemy of the Twilight King, the slayer of demons.\"",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "During battle, increases own critical strike chance by 400."
+      },
+      {
+        "level": 2,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical strike chance by an additional 50 during combat."
+      },
+      {
+        "level": 3,
+        "tier": null,
+        "tier_level": null,
+        "description": "Additional 50% attack damage is gained during combat."
+      },
+      {
+        "level": 4,
+        "tier": null,
+        "tier_level": null,
+        "description": "Additional 50% attack damage is gained during combat."
+      },
+      {
+        "level": 5,
+        "tier": null,
+        "tier_level": null,
+        "description": "Additional 100% critical strike chance is gained during combat."
+      },
+      {
+        "level": 6,
+        "tier": null,
+        "tier_level": null,
+        "description": "Additional 100% critical strike chance is gained during combat."
+      }
+    ],
+    "last_updated": 1771435274
+  },
+  {
+    "name": "Piercing Sun Sword Box",
+    "character": "Jing",
+    "is_global": false,
+    "lore": "This box was created during a time of great conflict in ancient times. At that time, the way of the king was weak, and the feudal lords made alliances in the morning and fought battles in the evening. The box had no fixed owner, and it was only held by the person known as \"Jing\". The art of sword control was passed down from generation to generation. When the art was perfected, it was possible to take the enemy's head from a thousand miles away as easily as picking a leaf.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "[Sword Shadow Chasing Soul] When triggering additional damage, it dispels one buff from the target. If the target has no buff, it applies an additional 1.5 seconds of [Stun] ([Stun] effect can trigger at most once within 6 seconds on the same target)."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "[Unlimited Blade Works] will remove the primary target's shield and prevent them from gaining a shield for 9 seconds (regardless of whether they are in the Blade Works area)."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "During combat, increases own critical strike chance by 400. The additional damage from [Sword Shadow Chasing Soul] ignores an additional 15% physical defense against targets without buffs (this damage can exceed the stacking limit of the defense-ignoring effect)."
+      }
+    ],
+    "skills": [
+      {
+        "level": 2,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "[Stun] duration extended by 0.5 seconds."
+      },
+      {
+        "level": 3,
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "The inability to gain a shield effect is extended by 2 seconds."
+      },
+      {
+        "level": 4,
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Grants an additional 80% critical strike chance and ignores an additional 3% physical defense."
+      },
+      {
+        "level": 5,
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "[Stun] extended by 1 second."
+      },
+      {
+        "level": 6,
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Grants an additional 160% critical strike chance and ignores an additional 6% physical defense."
+      }
+    ],
+    "last_updated": 1771435274
+  }
+]

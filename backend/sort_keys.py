@@ -8,7 +8,15 @@ QUALITY_RANK = {q: i for i, q in enumerate(QUALITY_ORDER)}
 CLASS_ORDER = ["Guardian", "Priest", "Assassin", "Warrior", "Archer", "Mage"]
 CLASS_RANK = {c: i for i, c in enumerate(CLASS_ORDER)}
 
-STATE_ORDER = ["Buff", "Debuff", "Special", "Control", "Elemental", "Blessing", "Exclusive"]
+STATE_ORDER = [
+    "Buff",
+    "Debuff",
+    "Special",
+    "Control",
+    "Elemental",
+    "Blessing",
+    "Exclusive",
+]
 STATE_RANK = {s: i for i, s in enumerate(STATE_ORDER)}
 
 RESOURCE_CATEGORY_ORDER = ["Currency", "Gift", "Item", "Material", "Summoning", "Shard"]
@@ -65,6 +73,13 @@ def artifact_sort_key(a):
     )
 
 
+def noble_phantasm_sort_key(np):
+    return (
+        (np.get("character") or "").lower(),
+        (np.get("name") or "").lower(),
+    )
+
+
 def faction_sort_key(f):
     return (f.get("name") or "").lower()
 
@@ -79,4 +94,5 @@ FILE_SORT_KEY = {
     "status-effects.json": status_effect_sort_key,
     "useful-links.json": useful_link_sort_key,
     "artifacts.json": artifact_sort_key,
+    "noble_phantasm.json": noble_phantasm_sort_key,
 }
