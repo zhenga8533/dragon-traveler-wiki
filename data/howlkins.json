@@ -1,5 +1,150 @@
 [
   {
+    "name": "Black Dragon",
+    "quality": "UR",
+    "basic_stats": {
+      "Belligerence": 1080,
+      "PvP DMG Reduction": 216
+    },
+    "passive_effects": [
+      "Crit +200.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Celestial Spirit Deer",
+    "quality": "UR",
+    "basic_stats": {
+      "Belligerence": 288,
+      "PvP DMG Reduction": 576
+    },
+    "passive_effects": [
+      "Green Dragon and Blue Dragon unlock extra areas in the Dragon Nest",
+      "HP +43200.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Hydra",
+    "quality": "UR",
+    "basic_stats": {
+      "Belligerence": 144,
+      "PvP DMG Reduction": 720
+    },
+    "passive_effects": [
+      "Dodge +200.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Pumpkin Knight",
+    "quality": "UR",
+    "basic_stats": {
+      "Belligerence": 576,
+      "PvP DMG Reduction": 288
+    },
+    "passive_effects": [
+      "ATK +20.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Titan",
+    "quality": "UR",
+    "basic_stats": {
+      "Belligerence": 288,
+      "PvP DMG Reduction": 576
+    },
+    "passive_effects": [
+      "HP +20.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Alpheus the River God",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 144,
+      "PvP DMG Reduction": 72
+    },
+    "passive_effects": [
+      "Accuracy +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Amazon Warrior",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 72,
+      "PvP DMG Reduction": 144
+    },
+    "passive_effects": [
+      "Crit Resist +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Aries",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 180,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "Archer Crit +100.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Bamboo Maiden",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 72,
+      "PvP DMG Reduction": 144
+    },
+    "passive_effects": [
+      "HP +5.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Bladefinger",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 180
+    },
+    "passive_effects": [
+      "For Every 6 Chapters of Adventure Main Story Cleared: ATK +1.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Cancer",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 72,
+      "PvP DMG Reduction": 144
+    },
+    "passive_effects": [
+      "Guardian Block Rate +100.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Cloaked Trickster",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 180,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "Log in daily for 10 days: Bonus Damage +1.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
     "name": "Cretan Bull",
     "quality": "SSR+",
     "basic_stats": {
@@ -7,9 +152,81 @@
       "PvP DMG Reduction": 180
     },
     "passive_effects": [
-      "For Every 60 Wyrmbone Ruins Floors Cleared: ATK +1.0%."
+      "For Every 60 Wyrmbone Ruins Floors Cleared: ATK +1.0%"
     ],
-    "last_updated": 1771512827
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Gemini",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 144,
+      "PvP DMG Reduction": 72
+    },
+    "passive_effects": [
+      "Mage Accuracy +100.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Libra",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 180,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "Priest Crit Resist +100.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Mad Stitcher",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 180
+    },
+    "passive_effects": [
+      "Dodge +200.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Nemean Lion",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 108,
+      "PvP DMG Reduction": 108
+    },
+    "passive_effects": [
+      "MDEF +10.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Scorpio",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 144,
+      "PvP DMG Reduction": 72
+    },
+    "passive_effects": [
+      "Assassin Crit +100.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Taurus",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 180
+    },
+    "passive_effects": [
+      "Warrior Dodge +100.0"
+    ],
+    "last_updated": 1771529295
   },
   {
     "name": "The Hunchback of Notre Dame",
@@ -31,8 +248,776 @@
       "PvP DMG Reduction": 36
     },
     "passive_effects": [
-      "For Every 6 Chapters of Adventure Main Story Cleared: HP +1.0%."
+      "For Every 6 Chapters of Adventure Main Story Cleared: HP +1.0%"
     ],
-    "last_updated": 1771512827
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Twin Phantoms",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 180
+    },
+    "passive_effects": [
+      "For Every 50 Dragon Ranks, Increase Rank by: ATK +1.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Wanderblade",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 144,
+      "PvP DMG Reduction": 72
+    },
+    "passive_effects": [
+      "ATK +5.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Wraith Juggler",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 108,
+      "PvP DMG Reduction": 108
+    },
+    "passive_effects": [
+      "PDEF +10.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Zombie Bride",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 180,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "For Every 60 Wyrmbone Ruins Floors Cleared: HP +1.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Arcane Queen",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 48,
+      "PvP DMG Reduction": 96
+    },
+    "passive_effects": [
+      "In non-competitive mode, HP +6.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Bone Wyrmling",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 48,
+      "PvP DMG Reduction": 96
+    },
+    "passive_effects": [
+      "For Every 50 Dragon Ranks, Increases Rank by: Penetration +140.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Bull of Minos",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 108,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "For Every 60 Wyrmbone Ruins Floors Cleared: ATK +140.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Captain Hook",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 108
+    },
+    "passive_effects": [
+      "In Arena Mode, HP +14400.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Captain Nemo",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 48,
+      "PvP DMG Reduction": 96
+    },
+    "passive_effects": [
+      "HP +7200.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Cursed Puppet",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 108,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "In non-competitive mode, Magic Damage Immunity +10.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Dr. Shademorph",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 96,
+      "PvP DMG Reduction": 48
+    },
+    "passive_effects": [
+      "In non-competitive mode, HP +14400.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Dream Mentor",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 108
+    },
+    "passive_effects": [
+      "In Arena Mode, HP +6.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Felinblade",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 108,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "In non-competitive mode, ATK +1440.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Figure in the Painting",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 108,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "For Every 50 Dragon Ranks, Increases Rank by: MDEF +280.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Ghostface Butcher",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 96,
+      "PvP DMG Reduction": 48
+    },
+    "passive_effects": [
+      "For Every 250 Class Levels Gained: ATK +140.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Green Wyrmling",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 72,
+      "PvP DMG Reduction": 72
+    },
+    "passive_effects": [
+      "For Every 6 Chapters of Adventure Main Story Cleared: HP +1400.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Horned Fiend",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 108,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "In non-competitive mode, ATK +6.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Living Armor",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 72,
+      "PvP DMG Reduction": 72
+    },
+    "passive_effects": [
+      "Log in daily for 10 days: ATK +140.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Mares of Diomedes",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 96,
+      "PvP DMG Reduction": 48
+    },
+    "passive_effects": [
+      "ATK +720.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Proud Unicorn",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 96,
+      "PvP DMG Reduction": 48
+    },
+    "passive_effects": [
+      "Penetration +720.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Punishing Succubus",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 96,
+      "PvP DMG Reduction": 48
+    },
+    "passive_effects": [
+      "In Arena Mode, ATK +6.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Red Wyrmling",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 108
+    },
+    "passive_effects": [
+      "For Every 250 Class Levels Gained: ATK +140.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Red-Faced Tengu",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 72,
+      "PvP DMG Reduction": 72
+    },
+    "passive_effects": [
+      "In Arena Mode, Physical Damage Immunity +10.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Savage Lionlord",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 72,
+      "PvP DMG Reduction": 72
+    },
+    "passive_effects": [
+      "Log in daily for 10 days: Penetration +140.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Stymphalian Terrorbird",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 48,
+      "PvP DMG Reduction": 96
+    },
+    "passive_effects": [
+      "In Arena Mode, Physical Damage +10.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Three-Headed Geryon",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 108
+    },
+    "passive_effects": [
+      "For Every 60 Wyrmbone Ruins Floors Cleared: PDEF +280.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Apprentice Reaper",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 24,
+      "PvP DMG Reduction": 48
+    },
+    "passive_effects": [
+      "Mage Accuracy +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Bardic Werewolf",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "Assassin Crit +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Eryth Mountain Boar",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 48,
+      "PvP DMG Reduction": 24
+    },
+    "passive_effects": [
+      "ATK +360.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Gentle Arcanist",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 54,
+      "PvP DMG Reduction": 18
+    },
+    "passive_effects": [
+      "In Arena Mode, Magic Damage +5.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Gorgon Maiden",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 18,
+      "PvP DMG Reduction": 54
+    },
+    "passive_effects": [
+      "Archer Crit +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Hawk-Eyed Captain",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 48,
+      "PvP DMG Reduction": 24
+    },
+    "passive_effects": [
+      "Warrior Break +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Hellhound",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 18,
+      "PvP DMG Reduction": 54
+    },
+    "passive_effects": [
+      "In Arena Mode, Physical Damage +5.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Howling Gargoyle",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 48,
+      "PvP DMG Reduction": 24
+    },
+    "passive_effects": [
+      "In Arena Mode, Magic Damage Immunity +5.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Jarbound Fiend",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 54,
+      "PvP DMG Reduction": 18
+    },
+    "passive_effects": [
+      "Priest Crit Resist +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Kappa Underleaf",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 54,
+      "PvP DMG Reduction": 18
+    },
+    "passive_effects": [
+      "HP +3600.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Lightblade Samurai",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "For Every 200 Class Levels Gained: ATK +70.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Lost Giant",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 54,
+      "PvP DMG Reduction": 18
+    },
+    "passive_effects": [
+      "Guardian Block Rate +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Nightmare Beast",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 24,
+      "PvP DMG Reduction": 48
+    },
+    "passive_effects": [
+      "In Arena Mode, Physical Damage Immunity +5.0%"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Orc Giant",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 48,
+      "PvP DMG Reduction": 24
+    },
+    "passive_effects": [
+      "For Every 50 Wyrmbone Ruins Floors Cleared: HP +700.0"
+    ],
+    "last_updated": 1771529668
+  },
+  {
+    "name": "Rabbit Herald",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "Warrior Block Rate +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Reclusive Bloodlords",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 18,
+      "PvP DMG Reduction": 54
+    },
+    "passive_effects": [
+      "Log in daily for 8 days: MDEF +140.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Reynard the Fox",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 18,
+      "PvP DMG Reduction": 54
+    },
+    "passive_effects": [
+      "Archer Accuracy +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Royal Houndguard",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 24,
+      "PvP DMG Reduction": 48
+    },
+    "passive_effects": [
+      "Guardian Crit Resist +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Specter Executioner",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 54,
+      "PvP DMG Reduction": 18
+    },
+    "passive_effects": [
+      "Assassin Accuracy +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Squirrel Rogue",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "ATK +360.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Tri-Star Rat King",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 48,
+      "PvP DMG Reduction": 24
+    },
+    "passive_effects": [
+      "Priest Block Rate +50.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Wreckclaw Manticore",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 24,
+      "PvP DMG Reduction": 48
+    },
+    "passive_effects": [
+      "For Every 5 Chapters of Adventure Main Story Cleared: PDEF +140.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Big-Hat Mushroom",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 12,
+      "PvP DMG Reduction": 24
+    },
+    "passive_effects": [
+      "In non-competitive mode, MDEF +720.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Bomb Skeleton",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 9,
+      "PvP DMG Reduction": 27
+    },
+    "passive_effects": [
+      "Penetration +180.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Cactus Gunslinger",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 9,
+      "PvP DMG Reduction": 27
+    },
+    "passive_effects": [
+      "ATK +180.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Flower Fairy",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 12,
+      "PvP DMG Reduction": 24
+    },
+    "passive_effects": [
+      "In non-competitive mode, HP +3600.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Harpy",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 24,
+      "PvP DMG Reduction": 12
+    },
+    "passive_effects": [
+      "Penetration +180.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Man-Eating Plant",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 18,
+      "PvP DMG Reduction": 18
+    },
+    "passive_effects": [
+      "HP +1800.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Maniac Bat",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 27,
+      "PvP DMG Reduction": 9
+    },
+    "passive_effects": [
+      "ATK +180.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Mimic",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 27,
+      "PvP DMG Reduction": 9
+    },
+    "passive_effects": [
+      "HP +1800.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Playful Yeti",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 18,
+      "PvP DMG Reduction": 18
+    },
+    "passive_effects": [
+      "In Arena Mode, PDEF +720.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Poker Guard",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 24,
+      "PvP DMG Reduction": 12
+    },
+    "passive_effects": [
+      "In Arena Mode, MDEF +720.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Revived Kitty",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 12,
+      "PvP DMG Reduction": 24
+    },
+    "passive_effects": [
+      "MDEF +360.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Sapling Sprite",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 18,
+      "PvP DMG Reduction": 18
+    },
+    "passive_effects": [
+      "PDEF +360.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Skeleton Soldier",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 9,
+      "PvP DMG Reduction": 27
+    },
+    "passive_effects": [
+      "In Arena Mode, ATK +360.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Slime Champion",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 18,
+      "PvP DMG Reduction": 18
+    },
+    "passive_effects": [
+      "In Arena Mode, HP +3600.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Son of Dunes",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 27,
+      "PvP DMG Reduction": 9
+    },
+    "passive_effects": [
+      "In non-competitive mode, PDEF +720.0"
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Webspinner Spider",
+    "quality": "R",
+    "basic_stats": {
+      "Belligerence": 24,
+      "PvP DMG Reduction": 12
+    },
+    "passive_effects": [
+      "In non-competitive mode, ATK +360.0"
+    ],
+    "last_updated": 1771529295
   }
 ]

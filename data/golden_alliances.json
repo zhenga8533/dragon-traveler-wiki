@@ -1,0 +1,663 @@
+[
+  {
+    "name": "Disgaea",
+    "howlkins": [
+      "Horned Fiend",
+      "Punishing Succubus",
+      "Hellhound",
+      "Nightmare Beast"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max Attack +320",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "ATK +4%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max Attack +320",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "ATK +4%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "ATK +3.2%",
+          "MDEF +3.2%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Encanto",
+    "howlkins": [
+      "Arcane Queen",
+      "Dream Mentor",
+      "Gentle Arcanist",
+      "Howling Gargoyle"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max Attack +320",
+          "Max Physical Defense +320"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "ATK +4%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max Attack +320",
+          "Max Physical Defense +320"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "ATK +4%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "ATK +3.2%",
+          "PDEF +3.2%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Forest Encounter",
+    "howlkins": [
+      "Proud Unicorn",
+      "Lightblade Samurai",
+      "Lost Giant",
+      "Orc Giant",
+      "Flower Fairy"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max HP +3200",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "HP +4%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max HP +3200",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "HP +4%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "HP +3.2%",
+          "MDEF +3.2%"
+        ]
+      }
+    ],
+    "last_updated": 1771529699
+  },
+  {
+    "name": "Gothic Tales",
+    "howlkins": [
+      "Bladefinger",
+      "Zombie Bride",
+      "Dr. Shademorph"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max Attack +240",
+          "Max HP +2400"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "Crit Resist +30",
+          "Accuracy +30"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max Attack +240",
+          "Max HP +2400"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "Haste +3",
+          "Break +20"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "ATK +1.2%",
+          "HP +1.2%",
+          "PDEF +1.2%",
+          "MDEF +1.2%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Journey to the Center of the Earth",
+    "howlkins": [
+      "Bull of Minos",
+      "Gorgon Maiden",
+      "Hawk-Eyed Captain",
+      "Jarbound Fiend",
+      "Wreckclaw Manticore",
+      "Slime Champion"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max Attack +400",
+          "Max HP +4000"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "PDEF +3%",
+          "MDEF +3%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max Attack +400",
+          "Max HP +4000"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "ATK +3%",
+          "HP +3%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "ATK +2.4%",
+          "HP +2.4%",
+          "PDEF +2.4%",
+          "MDEF +2.4%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Kingdom of Fables",
+    "howlkins": [
+      "Felinblade",
+      "Savage Lionlord",
+      "Reynard the Fox",
+      "Royal Houndguard"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max Attack +320",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "ATK +3%",
+          "MDEF +2%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max Attack +320",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "ATK +3%",
+          "MDEF +2%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "ATK +4.8%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Legends of Fusang",
+    "howlkins": [
+      "Bamboo Maiden",
+      "Wanderblade",
+      "Red-Faced Tengu",
+      "Kappa Underleaf"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max Attack +320",
+          "Max Physical Defense +320"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "ATK +3%",
+          "PDEF +2%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max Attack +320",
+          "Max Physical Defense +320"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "ATK +3%",
+          "PDEF +2%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "ATK +4.8%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "One of the Golden Zodiac",
+    "howlkins": [
+      "Aries",
+      "Cancer",
+      "Gemini",
+      "Libra",
+      "Scorpio",
+      "Taurus"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max Attack +400",
+          "Max HP +4000"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "ATK +3%",
+          "HP +3%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max Attack +400",
+          "Max HP +4000"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "PDEF +3%",
+          "MDEF +3%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "ATK +7.2%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "One of the Twelve Labors",
+    "howlkins": [
+      "Celestial Spirit Deer",
+      "Hydra",
+      "Alpheus the River God",
+      "Nemean Lion",
+      "Stymphalian Terrorbird",
+      "Eryth Mountain Boar"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max Attack +400",
+          "Max HP +4000"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "ATK +3%",
+          "HP +3%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max Attack +400",
+          "Max HP +4000"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "PDEF +3%",
+          "MDEF +3%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "ATK +2.4%",
+          "HP +2.4%",
+          "PDEF +2.4%",
+          "MDEF +2.4%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Silver Screen Nightmare",
+    "howlkins": [
+      "Twin Phantoms",
+      "Wraith Juggler",
+      "Cursed Puppet",
+      "Dr. Shademorph",
+      "Ghostface Butcher",
+      "Specter Executioner"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max HP +3200",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "HP +3%",
+          "MDEF +2%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max HP +3200",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "HP +3%",
+          "MDEF +2%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "HP +4.8%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "The Baby Plan",
+    "howlkins": [
+      "Bone Wyrmling",
+      "Green Wyrmling",
+      "Red Wyrmling"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max Attack +240",
+          "Max HP +2400"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "Crit +30",
+          "Dodge +30"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max Attack +240",
+          "Max HP +2400"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "Haste +3",
+          "Block Rate +30"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "ATK +1.2%",
+          "HP +1.2%",
+          "PDEF +1.2%",
+          "MDEF +1.2%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "The League of Gentlemen",
+    "howlkins": [
+      "Cloaked Trickster",
+      "The Hunchback of Notre Dame",
+      "The Phantom of the Opera",
+      "Captain Hook",
+      "Captain Nemo",
+      "Figure in the Painting"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max HP +3200",
+          "Max Physical Defense +320"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "HP +4%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max HP +3200",
+          "Max Physical Defense +320"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "HP +4%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "HP +3.2%",
+          "PDEF +3.2%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Underworld",
+    "howlkins": [
+      "Living Armor",
+      "Apprentice Reaper",
+      "Bardic Werewolf",
+      "Reclusive Bloodlords",
+      "Skeleton Soldier"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max HP +3200",
+          "Max Physical Defense +320"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "HP +4%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max HP +3200",
+          "Max Physical Defense +320"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "HP +4%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "HP +3.2%",
+          "PDEF +3.2%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  },
+  {
+    "name": "Wondrous Tales",
+    "howlkins": [
+      "Cloaked Trickster",
+      "Dr. Shademorph",
+      "Poker Guard",
+      "Revived Kitty"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max HP +3200",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "HP +3%",
+          "PDEF +2%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max HP +3200",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "HP +3%",
+          "PDEF +2%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "HP +4.8%"
+        ]
+      }
+    ],
+    "last_updated": 1771529295
+  }
+]

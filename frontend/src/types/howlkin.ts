@@ -7,3 +7,15 @@ export interface Howlkin {
   passive_effects: string[];
   last_updated: number;
 }
+
+export interface GoldenAllianceEffect {
+  level: number;
+  stats: string[];
+}
+
+export interface GoldenAlliance {
+  name: string;
+  howlkins: string[];
+  effects: GoldenAllianceEffect[];
+  last_updated?: number;
+}

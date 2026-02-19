@@ -20,9 +20,11 @@ from collections import defaultdict
 from pathlib import Path
 
 from .sort_keys import (
+    QUALITY_RANK,
     artifact_sort_key,
     character_sort_key,
     faction_sort_key,
+    golden_alliance_sort_key,
     howlkin_sort_key,
     noble_phantasm_sort_key,
     resource_sort_key,
@@ -77,6 +79,13 @@ QUERIES = {
     "howlkin_stats": "SELECT * FROM howlkin_stats ORDER BY howlkin_id, id;",
     "howlkin_passive_effects": (
         "SELECT * FROM howlkin_passive_effects ORDER BY howlkin_id, sort_order, id;"
+    ),
+    "golden_alliances": "SELECT * FROM golden_alliances ORDER BY id;",
+    "golden_alliance_howlkins": (
+        "SELECT * FROM golden_alliance_howlkins ORDER BY alliance_id, sort_order, id;"
+    ),
+    "golden_alliance_effects": (
+        "SELECT * FROM golden_alliance_effects ORDER BY alliance_id, level, sort_order, id;"
     ),
     "noble_phantasms": "SELECT * FROM noble_phantasms ORDER BY id;",
     "noble_phantasm_effects": (
@@ -565,6 +574,58 @@ def export_howlkins(data, output_dir=None):
     write_export("howlkins.json", result, output_dir)
 
 
+def export_golden_alliances(data, output_dir=None):
+    if "golden_alliances" not in data:
+        print("Skipped golden_alliances.json (golden_alliances table not found in Dolt schema)")
+        return
+
+    quality_map = {
+        h["name"]: h.get("quality", "")
+        for h in data.get("howlkins", [])
+        if h.get("name")
+    }
+    howlkins_by_alliance = group_by(data.get("golden_alliance_howlkins", []), "alliance_id")
+    effects_by_alliance = group_by(data.get("golden_alliance_effects", []), "alliance_id")
+
+    result = []
+    for ga in data["golden_alliances"]:
+        alliance_id = ga["id"]
+
+        howlkins = sorted(
+            [h["howlkin_name"] for h in howlkins_by_alliance.get(alliance_id, []) if h.get("howlkin_name")],
+            key=lambda n: (QUALITY_RANK.get(quality_map.get(n, ""), 999), n.lower()),
+        )
+
+        effects_raw = sorted(
+            effects_by_alliance.get(alliance_id, []),
+            key=lambda x: (int(x.get("level", 0)), int(x.get("sort_order", 0))),
+        )
+        effects_by_level: dict = {}
+        for e in effects_raw:
+            level = int(e.get("level", 0))
+            if level not in effects_by_level:
+                effects_by_level[level] = []
+            if e.get("stat"):
+                effects_by_level[level].append(e["stat"])
+
+        effects = [
+            {"level": level, "stats": stats}
+            for level, stats in sorted(effects_by_level.items())
+        ]
+
+        result.append(
+            {
+                "name": ga.get("name") or "",
+                "howlkins": howlkins,
+                "effects": effects,
+                "last_updated": int(ga.get("last_updated") or 0),
+            }
+        )
+
+    result.sort(key=golden_alliance_sort_key)
+    write_export("golden_alliances.json", result, output_dir)
+
+
 def export_noble_phantasms(data, output_dir=None):
     effects_by_np = group_by(data["noble_phantasm_effects"], "noble_phantasm_id")
     skills_by_np = group_by(data["noble_phantasm_skills"], "noble_phantasm_id")
@@ -650,6 +711,7 @@ HASH_SOURCES = {
     "useful_links": ("name", "useful_links"),
     "artifacts": ("name", "artifacts"),
     "howlkins": ("name", "howlkins"),
+    "golden_alliances": ("name", "golden_alliances"),
     "noble_phantasms": ("name", "noble_phantasms"),
     "changelog": ("version", "changelog"),
 }
@@ -713,6 +775,10 @@ EXPORTERS = {
         },
     ),
     "howlkins": (export_howlkins, {"howlkins", "howlkin_stats", "howlkin_passive_effects"}),
+    "golden-alliances": (
+        export_golden_alliances,
+        {"golden_alliances", "golden_alliance_howlkins", "golden_alliance_effects", "howlkins"},
+    ),
     "noble-phantasms": (
         export_noble_phantasms,
         {

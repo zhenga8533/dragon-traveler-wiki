@@ -19,9 +19,11 @@ from datetime import datetime
 from pathlib import Path
 
 from .sort_keys import (
+    QUALITY_RANK,
     artifact_sort_key,
     character_sort_key,
     faction_sort_key,
+    golden_alliance_sort_key,
     howlkin_sort_key,
     noble_phantasm_sort_key,
     resource_sort_key,
@@ -420,6 +422,61 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
             dry_run=dry_run,
         )
         existing_tables.add("howlkin_stats")
+
+    # Ensure golden alliances and related tables exist.
+    if "golden_alliances" not in existing_tables:
+        print("  Creating missing golden_alliances table")
+        dolt_sql(
+            """
+            CREATE TABLE golden_alliances (
+                id int NOT NULL AUTO_INCREMENT,
+                name varchar(200) NOT NULL,
+                last_updated BIGINT NULL,
+                data_hash VARCHAR(64) NULL,
+                PRIMARY KEY (id),
+                UNIQUE KEY name (name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("golden_alliances")
+
+    if "golden_alliance_howlkins" not in existing_tables:
+        print("  Creating missing golden_alliance_howlkins table")
+        dolt_sql(
+            """
+            CREATE TABLE golden_alliance_howlkins (
+                id int NOT NULL AUTO_INCREMENT,
+                alliance_id int NOT NULL,
+                sort_order int NOT NULL DEFAULT 0,
+                howlkin_name varchar(200) NOT NULL,
+                PRIMARY KEY (id),
+                KEY alliance_id (alliance_id),
+                CONSTRAINT golden_alliance_howlkins_ibfk_1 FOREIGN KEY (alliance_id) REFERENCES golden_alliances(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("golden_alliance_howlkins")
+
+    if "golden_alliance_effects" not in existing_tables:
+        print("  Creating missing golden_alliance_effects table")
+        dolt_sql(
+            """
+            CREATE TABLE golden_alliance_effects (
+                id int NOT NULL AUTO_INCREMENT,
+                alliance_id int NOT NULL,
+                level int NOT NULL DEFAULT 0,
+                sort_order int NOT NULL DEFAULT 0,
+                stat text NOT NULL,
+                PRIMARY KEY (id),
+                KEY alliance_id (alliance_id),
+                CONSTRAINT golden_alliance_effects_ibfk_1 FOREIGN KEY (alliance_id) REFERENCES golden_alliances(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("golden_alliance_effects")
 
     # Ensure noble phantasms and related tables exist.
     if "noble_phantasms" not in existing_tables:
@@ -1116,6 +1173,55 @@ def sync_howlkins(data, batch, now, stored_hashes, new_hashes):
     print(f"  Synced {h_id} howlkins")
 
 
+def sync_golden_alliances(data, howlkins_data, batch, now, stored_hashes, new_hashes):
+    """Sync golden_alliances.json -> golden_alliances + golden_alliance_howlkins + golden_alliance_effects tables."""
+    quality_map = {h["name"]: h.get("quality", "") for h in howlkins_data if h.get("name")}
+    old_ts = get_old_timestamps("golden_alliances", "name")
+    table_hashes = stored_hashes.get("golden_alliances", {})
+    batch.add("DELETE FROM golden_alliance_effects;")
+    batch.add("DELETE FROM golden_alliance_howlkins;")
+    batch.add("DELETE FROM golden_alliances;")
+    batch.add("ALTER TABLE golden_alliance_effects AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE golden_alliance_howlkins AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE golden_alliances AUTO_INCREMENT = 1;")
+    data = sorted(data, key=golden_alliance_sort_key)
+    ga_id = 0
+    howlkin_row_id = 0
+    effect_id = 0
+    for ga in data:
+        if not ga.get("name"):
+            continue
+        ga_id += 1
+        ga_hash = compute_hash(ga)
+        ts = resolve_timestamp(ga["name"], ga_hash, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("golden_alliances", {})[ga["name"]] = {"hash": ga_hash, "ts": int(ts)}
+        batch.add(
+            f"INSERT INTO golden_alliances (id, name, last_updated, data_hash) VALUES "
+            f"({ga_id}, {escape_sql(ga['name'])}, {escape_sql(ts)}, {escape_sql(ga_hash)});"
+        )
+        sorted_members = sorted(
+            (n for n in ga.get("howlkins", []) if n),
+            key=lambda n: (QUALITY_RANK.get(quality_map.get(n, ""), 999), n.lower()),
+        )
+        for sort_order, howlkin_name in enumerate(sorted_members):
+            howlkin_row_id += 1
+            batch.add(
+                f"INSERT INTO golden_alliance_howlkins (id, alliance_id, sort_order, howlkin_name) VALUES "
+                f"({howlkin_row_id}, {ga_id}, {sort_order}, {escape_sql(howlkin_name)});"
+            )
+        for effect in ga.get("effects", []):
+            level = effect.get("level", 0)
+            for sort_order, stat in enumerate(effect.get("stats", [])):
+                if not stat:
+                    continue
+                effect_id += 1
+                batch.add(
+                    f"INSERT INTO golden_alliance_effects (id, alliance_id, level, sort_order, stat) VALUES "
+                    f"({effect_id}, {ga_id}, {escape_sql(level)}, {sort_order}, {escape_sql(stat)});"
+                )
+    print(f"  Synced {ga_id} golden alliances")
+
+
 def sync_noble_phantasms(data, batch, now, stored_hashes, new_hashes):
     """Sync noble_phantasm.json -> noble_phantasms + effects + skills tables."""
     old_ts = get_old_timestamps("noble_phantasms", "name")
@@ -1232,6 +1338,7 @@ def main():
             "useful-links",
             "artifacts",
             "howlkins",
+            "golden-alliances",
             "changelog",
             "all",
         ],
@@ -1260,6 +1367,7 @@ def main():
         "useful-links": ["useful-links.json"],
         "artifacts": ["artifacts.json"],
         "howlkins": ["howlkins.json"],
+        "golden-alliances": ["golden_alliances.json", "howlkins.json"],
         "changelog": ["changelog.json"],
     }
 
@@ -1323,6 +1431,11 @@ def main():
             ),
             "howlkins": lambda: sync_howlkins(
                 json_cache["howlkins.json"], batch, now, stored_hashes, new_hashes
+            ),
+            "golden-alliances": lambda: sync_golden_alliances(
+                json_cache["golden_alliances.json"],
+                json_cache.get("howlkins.json", []),
+                batch, now, stored_hashes, new_hashes
             ),
             "changelog": lambda: sync_changelog(
                 json_cache["changelog.json"], batch, now, stored_hashes, new_hashes

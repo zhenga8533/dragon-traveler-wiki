@@ -131,8 +131,8 @@
       "Summoning Ticket": 1,
       "Legacy Dragon Crystal": 3
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "Mage666",
@@ -141,8 +141,8 @@
       "Golden Horn": 1,
       "SR Luminary Shards": 10
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "888GIFT",
@@ -151,8 +151,8 @@
       "Legacy Dragon Crystal": 3,
       "Apple": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "666GIFT",
@@ -161,8 +161,8 @@
       "Golden Horn": 1,
       "Leaf of the World Tree": 5
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "Glory321",
@@ -171,8 +171,8 @@
       "Leaf of the World Tree": 5,
       "R Luminary Shards": 30
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "SPECIAL",
@@ -181,8 +181,8 @@
       "Summoning Ticket": 1,
       "Dragonblood": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "mareflos",
@@ -191,8 +191,8 @@
       "Summoning Ticket": 2,
       "Legacy Dragon Crystal": 4
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "youtube10k",
@@ -201,8 +201,8 @@
       "Gold": 10000,
       "Summoning Ticket": 5
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "Uniquegift",
@@ -211,8 +211,8 @@
       "Legacy Dragon Crystal": 3,
       "Apple": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "SURYUNSURYU1",
@@ -271,8 +271,8 @@
       "Legacy Dragon Crystal": 2,
       "SR Luminary Shards": 5
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "dongsukantv",
@@ -281,8 +281,8 @@
       "Golden Horn": 1,
       "SR Luminary Shards": 10
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "MONSTERRAT",
@@ -307,8 +307,8 @@
       "Legacy Dragon Crystal": 4,
       "Golden Horn": 2
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771529295
   },
   {
     "code": "SJGIFT66",
@@ -566,5 +566,15 @@
     },
     "active": true,
     "last_updated": 1771512550
+  },
+  {
+    "code": "SJGGZYLBM",
+    "rewards": {
+      "Gold": 3000,
+      "Summoning Ticket": 1,
+      "Dragonblood": 1
+    },
+    "active": true,
+    "last_updated": 1771529295
   }
 ]

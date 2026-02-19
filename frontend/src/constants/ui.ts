@@ -78,6 +78,7 @@ export const STORAGE_KEY = {
   NOBLE_PHANTASM_FILTERS: 'noble-phantasms:filters',
   RESOURCE_VIEW_MODE: 'resources:viewMode',
   RESOURCE_FILTERS: 'resources:filters',
+  HOWLKIN_TAB: 'howlkins:tab',
   HOWLKIN_VIEW_MODE: 'howlkins:viewMode',
   HOWLKIN_FILTERS: 'howlkins:filters',
   TEAMS_VIEW_MODE: 'teams:viewMode',

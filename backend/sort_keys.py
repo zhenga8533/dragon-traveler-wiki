@@ -91,6 +91,10 @@ def faction_sort_key(f):
     return (f.get("name") or "").lower()
 
 
+def golden_alliance_sort_key(ga):
+    return (ga.get("name") or "").lower()
+
+
 # Canonical mapping: data file name → sort key function.
 # Files absent from this mapping maintain stable insertion order.
 FILE_SORT_KEY = {
@@ -103,4 +107,5 @@ FILE_SORT_KEY = {
     "artifacts.json": artifact_sort_key,
     "howlkins.json": howlkin_sort_key,
     "noble_phantasm.json": noble_phantasm_sort_key,
+    "golden_alliances.json": golden_alliance_sort_key,
 }
