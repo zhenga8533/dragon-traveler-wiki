@@ -7,7 +7,7 @@ export type {
   Skill,
   Talent,
 } from './character';
-export type { Code, CodeReward } from './code';
+export type { Code } from './code';
 export type { FactionName } from './faction';
 export type { Howlkin } from './howlkin';
 export type { Resource, ResourceCategory } from './resource';

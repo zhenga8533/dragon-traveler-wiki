@@ -50,9 +50,8 @@ import LastUpdated from '../components/LastUpdated';
 function aggregateRewards(codes: Code[]): Map<string, number> {
   const totals = new Map<string, number>();
   for (const code of codes) {
-    const rewards = code.rewards ?? code.reward ?? [];
-    for (const r of rewards) {
-      totals.set(r.name, (totals.get(r.name) || 0) + r.quantity);
+    for (const [name, qty] of Object.entries(code.rewards ?? {})) {
+      totals.set(name, (totals.get(name) || 0) + qty);
     }
   }
   return totals;
@@ -434,14 +433,10 @@ export default function Codes() {
                   />
                 </Group>
               </Group>
-              {(entry.rewards ?? entry.reward ?? []).length > 0 && (
+              {Object.keys(entry.rewards ?? {}).length > 0 && (
                 <Group gap="xs" mt="xs" wrap="wrap">
-                  {(entry.rewards ?? entry.reward ?? []).map((r) => (
-                    <ResourceBadge
-                      key={r.name}
-                      name={r.name}
-                      quantity={r.quantity}
-                    />
+                  {Object.entries(entry.rewards ?? {}).map(([name, qty]) => (
+                    <ResourceBadge key={name} name={name} quantity={qty} />
                   ))}
                 </Group>
               )}

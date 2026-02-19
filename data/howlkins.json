@@ -6,7 +6,9 @@
       "Belligerence": 108,
       "PvP DMG Reduction": 108
     },
-    "passive_effect": "PDEF +10.0%"
+    "passive_effects": [
+      "PDEF +10.0%"
+    ]
   },
   {
     "name": "The Phantom of the Opera",
@@ -15,7 +17,9 @@
       "Belligerence": 180,
       "PvP DMG Reduction": 36
     },
-    "passive_effect": "For Every 6 Chapters of Adventure Main Story Cleared: HP +1.0%."
+    "passive_effects": [
+      "For Every 6 Chapters of Adventure Main Story Cleared: HP +1.0%."
+    ]
   },
   {
     "name": "Cretan Bull",
@@ -24,6 +28,323 @@
       "Belligerence": 36,
       "PvP DMG Reduction": 180
     },
-    "passive_effect": "For Every 60 Wyrmbone Ruins Floors Cleared: ATK +1.0%."
+    "passive_effects": [
+      "For Every 60 Wyrmbone Ruins Floors Cleared: ATK +1.0%."
+    ]
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
+  },
+  {
+    "name": "",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 0,
+      "PvP DMG Reduction": 0
+    },
+    "passive_effects": []
   }
 ]

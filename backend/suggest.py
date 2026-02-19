@@ -42,7 +42,7 @@ REQUIRED_FIELDS = {
     "links": ["name", "link"],
     "resource": ["name", "category", "description", "quality"],
     "character": ["name"],
-    "howlkin": ["name", "quality", "basic_stats", "passive_effect"],
+    "howlkin": ["name", "quality", "basic_stats", "passive_effects"],
     "tier-list": ["name", "entries"],
     "team": ["name", "members"],
 }
@@ -222,18 +222,17 @@ def _coerce_optional_int(value):
 def normalize_for_json(label, data):
     """Normalize issue data into the shape expected by the JSON data files."""
     if label == "codes":
-        rewards_input = data.get("rewards")
-        if rewards_input is None:
-            rewards_input = data.get("reward", [])
-
-        rewards = [
-            {
-                "name": r.get("name", ""),
-                "quantity": r.get("quantity", 0),
+        rewards_input = data.get("rewards") or data.get("reward")
+        if isinstance(rewards_input, list):
+            rewards = {
+                r["name"]: int(r.get("quantity", 0))
+                for r in rewards_input
+                if r.get("name")
             }
-            for r in rewards_input
-            if r.get("name")
-        ]
+        elif isinstance(rewards_input, dict):
+            rewards = {k: int(v) for k, v in rewards_input.items() if k}
+        else:
+            rewards = {}
         return {
             "code": data["code"],
             "rewards": rewards,
@@ -288,11 +287,19 @@ def normalize_for_json(label, data):
                     pass
                 stats[name] = value
 
+        raw_effects = data.get("passive_effects") or data.get("passive_effect")
+        if isinstance(raw_effects, list):
+            passive_effects = [str(e) for e in raw_effects if e]
+        elif isinstance(raw_effects, str) and raw_effects:
+            passive_effects = [raw_effects]
+        else:
+            passive_effects = []
+
         return {
             "name": data["name"],
             "quality": data.get("quality", ""),
             "basic_stats": stats,
-            "passive_effect": data.get("passive_effect", ""),
+            "passive_effects": passive_effects,
         }
 
     if label == "resource":

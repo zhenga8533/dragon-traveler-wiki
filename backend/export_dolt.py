@@ -75,6 +75,9 @@ QUERIES = {
     ),
     "howlkins": "SELECT * FROM howlkins ORDER BY id;",
     "howlkin_stats": "SELECT * FROM howlkin_stats ORDER BY howlkin_id, id;",
+    "howlkin_passive_effects": (
+        "SELECT * FROM howlkin_passive_effects ORDER BY howlkin_id, sort_order, id;"
+    ),
     "noble_phantasms": "SELECT * FROM noble_phantasms ORDER BY id;",
     "noble_phantasm_effects": (
         "SELECT * FROM noble_phantasm_effects ORDER BY noble_phantasm_id, sort_order, id;"
@@ -332,27 +335,34 @@ def export_codes(data, output_dir=None):
     result = []
     for c in codes_rows:
         if rewards_by_code:
-            rewards = [
-                {
-                    "name": r.get("resolved_resource_name")
-                    or r.get("resource_name")
-                    or "",
-                    "quantity": r.get("quantity", 0),
-                }
+            rewards = {
+                (r.get("resolved_resource_name") or r.get("resource_name") or ""): int(
+                    r.get("quantity", 0)
+                )
                 for r in rewards_by_code.get(c["id"], [])
-            ]
+                if r.get("resolved_resource_name") or r.get("resource_name")
+            }
         else:
             raw_rewards = c.get("rewards")
             if isinstance(raw_rewards, str) and raw_rewards.strip():
                 try:
                     parsed = json.loads(raw_rewards)
-                    rewards = parsed if isinstance(parsed, list) else []
+                    if isinstance(parsed, dict):
+                        rewards = parsed
+                    elif isinstance(parsed, list):
+                        rewards = {
+                            r["name"]: int(r.get("quantity", 0))
+                            for r in parsed
+                            if r.get("name")
+                        }
+                    else:
+                        rewards = {}
                 except json.JSONDecodeError:
-                    rewards = []
-            elif isinstance(raw_rewards, list):
+                    rewards = {}
+            elif isinstance(raw_rewards, dict):
                 rewards = raw_rewards
             else:
-                rewards = []
+                rewards = {}
         result.append(
             {
                 "code": c.get("code") or "",
@@ -514,6 +524,7 @@ def export_howlkins(data, output_dir=None):
         return
 
     stats_by_howlkin = group_by(data.get("howlkin_stats", []), "howlkin_id")
+    effects_by_howlkin = group_by(data.get("howlkin_passive_effects", []), "howlkin_id")
 
     def parse_stat_value(value):
         if value in (None, ""):
@@ -534,12 +545,18 @@ def export_howlkins(data, output_dir=None):
                 continue
             stats[name] = parse_stat_value(stat.get("stat_value"))
 
+        passive_effects = [
+            e.get("effect") or ""
+            for e in effects_by_howlkin.get(howlkin_id, [])
+            if e.get("effect")
+        ]
+
         result.append(
             {
                 "name": h.get("name") or "",
                 "quality": h.get("quality") or "",
                 "basic_stats": stats,
-                "passive_effect": h.get("passive_effect") or "",
+                "passive_effects": passive_effects,
                 "last_updated": int(h.get("last_updated") or 0),
             }
         )
@@ -649,7 +666,7 @@ EXPORTERS = {
             "artifact_treasure_effects",
         },
     ),
-    "howlkins": (export_howlkins, {"howlkins", "howlkin_stats"}),
+    "howlkins": (export_howlkins, {"howlkins", "howlkin_stats", "howlkin_passive_effects"}),
     "noble-phantasms": (
         export_noble_phantasms,
         {

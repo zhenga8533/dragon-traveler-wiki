@@ -372,15 +372,10 @@ function ActiveCodesSection() {
               )}
             </CopyButton>
           </Group>
-          {(entry.rewards ?? entry.reward ?? []).length > 0 && (
+          {Object.keys(entry.rewards ?? {}).length > 0 && (
             <Group gap={4} mt={4} wrap="wrap">
-              {(entry.rewards ?? entry.reward ?? []).map((r) => (
-                <ResourceBadge
-                  key={r.name}
-                  name={r.name}
-                  quantity={r.quantity}
-                  size="xs"
-                />
+              {Object.entries(entry.rewards ?? {}).map(([name, qty]) => (
+                <ResourceBadge key={name} name={name} quantity={qty} size="xs" />
               ))}
             </Group>
           )}

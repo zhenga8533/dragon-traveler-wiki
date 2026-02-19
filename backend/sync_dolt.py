@@ -356,43 +356,69 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
         )
         existing_tables.add("artifact_treasure_effects")
 
-        # Ensure howlkins and related tables exist.
-        if "howlkins" not in existing_tables:
-            print("  Creating missing howlkins table")
-            dolt_sql(
-                """
-                        CREATE TABLE howlkins (
-                            id int NOT NULL AUTO_INCREMENT,
-                            name varchar(200) NOT NULL,
-                            quality varchar(20) NOT NULL DEFAULT '',
-                            passive_effect text,
-                            last_updated BIGINT NULL,
-                            data_hash VARCHAR(64) NULL,
-                            PRIMARY KEY (id),
-                            UNIQUE KEY name (name)
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
-                        """,
-                dry_run=dry_run,
-            )
-            existing_tables.add("howlkins")
+    # Ensure howlkins and related tables exist.
+    if "howlkins" not in existing_tables:
+        print("  Creating missing howlkins table")
+        dolt_sql(
+            """
+            CREATE TABLE howlkins (
+                id int NOT NULL AUTO_INCREMENT,
+                name varchar(200) NOT NULL,
+                quality varchar(20) NOT NULL DEFAULT '',
+                last_updated BIGINT NULL,
+                data_hash VARCHAR(64) NULL,
+                PRIMARY KEY (id),
+                UNIQUE KEY name (name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("howlkins")
+    else:
+        howlkin_columns = get_table_columns("howlkins")
+        for legacy_col in ("passive_effect", "passive_effects"):
+            if legacy_col in howlkin_columns:
+                print(f"  Dropping legacy howlkins.{legacy_col} column")
+                dolt_sql(
+                    f"ALTER TABLE howlkins DROP COLUMN {legacy_col};",
+                    dry_run=dry_run,
+                )
 
-        if "howlkin_stats" not in existing_tables:
-            print("  Creating missing howlkin_stats table")
-            dolt_sql(
-                """
-                        CREATE TABLE howlkin_stats (
-                            id int NOT NULL AUTO_INCREMENT,
-                            howlkin_id int NOT NULL,
-                            stat_name varchar(100) NOT NULL,
-                            stat_value double NOT NULL,
-                            PRIMARY KEY (id),
-                            KEY howlkin_id (howlkin_id),
-                            CONSTRAINT howlkin_stats_ibfk_1 FOREIGN KEY (howlkin_id) REFERENCES howlkins(id)
-                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
-                        """,
-                dry_run=dry_run,
-            )
-            existing_tables.add("howlkin_stats")
+    if "howlkin_passive_effects" not in existing_tables:
+        print("  Creating missing howlkin_passive_effects table")
+        dolt_sql(
+            """
+            CREATE TABLE howlkin_passive_effects (
+                id int NOT NULL AUTO_INCREMENT,
+                howlkin_id int NOT NULL,
+                sort_order int NOT NULL DEFAULT 0,
+                effect text NOT NULL,
+                PRIMARY KEY (id),
+                KEY howlkin_id (howlkin_id),
+                CONSTRAINT howlkin_passive_effects_ibfk_1 FOREIGN KEY (howlkin_id) REFERENCES howlkins(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("howlkin_passive_effects")
+
+    if "howlkin_stats" not in existing_tables:
+        print("  Creating missing howlkin_stats table")
+        dolt_sql(
+            """
+            CREATE TABLE howlkin_stats (
+                id int NOT NULL AUTO_INCREMENT,
+                howlkin_id int NOT NULL,
+                stat_name varchar(100) NOT NULL,
+                stat_value double NOT NULL,
+                PRIMARY KEY (id),
+                KEY howlkin_id (howlkin_id),
+                CONSTRAINT howlkin_stats_ibfk_1 FOREIGN KEY (howlkin_id) REFERENCES howlkins(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("howlkin_stats")
 
     # Ensure noble phantasms and related tables exist.
     if "noble_phantasms" not in existing_tables:
@@ -766,11 +792,13 @@ def sync_codes(data, batch, existing_tables, resource_ids, now):
             continue
         c_id += 1
 
-        rewards = c.get("rewards")
-        if rewards is None:
-            rewards = c.get("reward", [])
-        if not isinstance(rewards, list):
-            rewards = []
+        rewards_raw = c.get("rewards") or c.get("reward")
+        if isinstance(rewards_raw, list):
+            rewards = {r["name"]: r.get("quantity", 0) for r in rewards_raw if r.get("name")}
+        elif isinstance(rewards_raw, dict):
+            rewards = rewards_raw
+        else:
+            rewards = {}
 
         h = compute_hash(c)
         ts = resolve_timestamp(c["code"], h, old_ts, now)
@@ -781,20 +809,19 @@ def sync_codes(data, batch, existing_tables, resource_ids, now):
             f"{escape_sql(ts)}, {escape_sql(h)});"
         )
 
-        for reward in rewards:
+        for resource_name, quantity_val in rewards.items():
             if not has_code_rewards:
                 break
-            if not reward.get("name"):
+            if not resource_name:
                 continue
             reward_id += 1
 
-            resource_name = reward["name"]
             resource_id = resource_ids.get(resource_name)
             if resource_id is None:
                 raise SyncError(
                     f"code '{c['code']}' reward resource '{resource_name}' not found in resources.json"
                 )
-            quantity = escape_sql(reward.get("quantity", 0))
+            quantity = escape_sql(quantity_val)
 
             if has_resource_id:
                 batch.add(
@@ -984,15 +1011,18 @@ def sync_artifacts(data, batch, now):
 
 
 def sync_howlkins(data, batch, now):
-    """Sync howlkins.json -> howlkins + howlkin_stats tables."""
+    """Sync howlkins.json -> howlkins + howlkin_stats + howlkin_passive_effects tables."""
     old_ts = get_old_timestamps("howlkins", "name")
+    batch.add("DELETE FROM howlkin_passive_effects;")
     batch.add("DELETE FROM howlkin_stats;")
     batch.add("DELETE FROM howlkins;")
+    batch.add("ALTER TABLE howlkin_passive_effects AUTO_INCREMENT = 1;")
     batch.add("ALTER TABLE howlkin_stats AUTO_INCREMENT = 1;")
     batch.add("ALTER TABLE howlkins AUTO_INCREMENT = 1;")
     data = sorted(data, key=howlkin_sort_key)
     h_id = 0
     stat_id = 0
+    effect_id = 0
     for h in data:
         if not h.get("name"):
             continue
@@ -1000,10 +1030,26 @@ def sync_howlkins(data, batch, now):
         h_hash = compute_hash(h)
         ts = resolve_timestamp(h["name"], h_hash, old_ts, now)
         batch.add(
-            f"INSERT INTO howlkins (id, name, quality, passive_effect, last_updated, data_hash) VALUES "
+            f"INSERT INTO howlkins (id, name, quality, last_updated, data_hash) VALUES "
             f"({h_id}, {escape_sql(h['name'])}, {escape_sql(h.get('quality'))}, "
-            f"{escape_sql(h.get('passive_effect'))}, {escape_sql(ts)}, {escape_sql(h_hash)});"
+            f"{escape_sql(ts)}, {escape_sql(h_hash)});"
         )
+
+        raw_effects = h.get("passive_effects") or h.get("passive_effect")
+        if isinstance(raw_effects, str):
+            passive_effects = [raw_effects] if raw_effects else []
+        elif isinstance(raw_effects, list):
+            passive_effects = raw_effects
+        else:
+            passive_effects = []
+        for sort_order, effect in enumerate(passive_effects):
+            if not effect:
+                continue
+            effect_id += 1
+            batch.add(
+                f"INSERT INTO howlkin_passive_effects (id, howlkin_id, sort_order, effect) VALUES "
+                f"({effect_id}, {h_id}, {sort_order}, {escape_sql(effect)});"
+            )
 
         basic_stats = h.get("basic_stats") or {}
         if isinstance(basic_stats, dict):

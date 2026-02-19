@@ -50,11 +50,11 @@ const HOWLKIN_FIELDS: FieldDef[] = [
     options: ['UR', 'SSR EX', 'SSR+', 'SSR', 'SR', 'R', 'N'],
   },
   {
-    name: 'passive_effect',
-    label: 'Passive Effect',
+    name: 'passive_effects',
+    label: 'Passive Effects',
     type: 'textarea',
     required: true,
-    placeholder: 'Describe the passive effect',
+    placeholder: 'Describe the passive effect(s), one per line',
   },
 ];
 
@@ -297,9 +297,13 @@ export default function Howlkins() {
                                 </Tooltip>
                                 <Text fw={600}>{howlkin.name}</Text>
                               </Group>
-                              <Text size="sm" c="dimmed">
-                                {howlkin.passive_effect}
-                              </Text>
+                              <Stack gap={2}>
+                                {(howlkin.passive_effects ?? []).map((e, i) => (
+                                  <Text key={i} size="sm" c="dimmed">
+                                    {e}
+                                  </Text>
+                                ))}
+                              </Stack>
                             </Stack>
                           </Group>
                           {renderStats(howlkin.basic_stats)}
@@ -331,7 +335,7 @@ export default function Howlkins() {
                           Quality
                         </SortableTh>
                         <Table.Th>Basic Stats</Table.Th>
-                        <Table.Th>Passive Effect</Table.Th>
+                        <Table.Th>Passive Effects</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -371,9 +375,13 @@ export default function Howlkins() {
                               {renderStats(howlkin.basic_stats)}
                             </Table.Td>
                             <Table.Td>
-                              <Text size="sm" c="dimmed">
-                                {howlkin.passive_effect}
-                              </Text>
+                              <Stack gap={2}>
+                                {(howlkin.passive_effects ?? []).map((e, i) => (
+                                  <Text key={i} size="sm" c="dimmed">
+                                    {e}
+                                  </Text>
+                                ))}
+                              </Stack>
                             </Table.Td>
                           </Table.Tr>
                         );
