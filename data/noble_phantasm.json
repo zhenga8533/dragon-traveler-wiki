@@ -1,5 +1,205 @@
 [
   {
+    "name": "Book of Dwarves",
+    "character": null,
+    "is_global": false,
+    "lore": "Before the first twilight, it circulated among the High Kings of the dwarves. It is a book that records the runic magic passed down through the various dwarven races.\n\"Every word and phrase is a principle governing all things, and every stroke must not be altered.\"",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases the damage of your own area-of-effect skills by 28%."
+      },
+      {
+        "level": 2,
+        "tier": null,
+        "tier_level": null,
+        "description": "Area-of-effect skills deal an additional 3% increased damage."
+      },
+      {
+        "level": 3,
+        "tier": null,
+        "tier_level": null,
+        "description": "Area-of-effect skills deal an additional 3% increased damage."
+      },
+      {
+        "level": 4,
+        "tier": null,
+        "tier_level": null,
+        "description": "Area-of-effect skills deal an additional 3% increased damage."
+      },
+      {
+        "level": 5,
+        "tier": null,
+        "tier_level": null,
+        "description": "Area-of-effect skills deal an additional 6% increased damage."
+      },
+      {
+        "level": 6,
+        "tier": null,
+        "tier_level": null,
+        "description": "Area-of-effect skills deal an additional 6% increased damage."
+      }
+    ],
+    "last_updated": 1771464391
+  },
+  {
+    "name": "Dwarf Axe",
+    "character": null,
+    "is_global": false,
+    "lore": "Forged in the mountains of Svartalfaheim before the first twilight.\nThose dwarves who value honor above all else particularly favor this weapon.",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "During combat, increases own critical strike resistance by 400."
+      },
+      {
+        "level": 2,
+        "tier": null,
+        "tier_level": null,
+        "description": "During combat, gain an additional 50 Critical Resistance."
+      },
+      {
+        "level": 3,
+        "tier": null,
+        "tier_level": null,
+        "description": "During combat, gain an additional 50 Critical Resistance."
+      },
+      {
+        "level": 4,
+        "tier": null,
+        "tier_level": null,
+        "description": "In combat, gain an additional 50 Critical Resistance."
+      },
+      {
+        "level": 5,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical strike resistance by an additional 100 during combat."
+      },
+      {
+        "level": 6,
+        "tier": null,
+        "tier_level": null,
+        "description": "Gain an additional 100 critical strike resistance in combat."
+      }
+    ],
+    "last_updated": 1771464391
+  },
+  {
+    "name": "Dwarf Musket",
+    "character": null,
+    "is_global": false,
+    "lore": "Manufactured in the armory of Svartalfaheim before the first twilight.\nThe dwarves are highly skilled in firearms manufacturing, and can easily take down even heavily armored enemies.",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "During combat, increases own critical hit damage by 20%. After each normal attack critical hit, there is a 15% chance to apply an additional random attribute-type debuff status (can trigger at most once within 8 seconds)."
+      },
+      {
+        "level": 2,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical hit damage by an additional 2.5% during combat."
+      },
+      {
+        "level": 3,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical hit damage by an additional 2.5% during combat."
+      },
+      {
+        "level": 4,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical hit damage by an additional 2.5% during combat."
+      },
+      {
+        "level": 5,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical hit damage by an additional 5% during combat."
+      },
+      {
+        "level": 6,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical hit damage by an additional 5% during combat."
+      }
+    ],
+    "last_updated": 1771464391
+  },
+  {
+    "name": "Dwarf Warhammer",
+    "character": null,
+    "is_global": false,
+    "lore": "Forged in the furnace of Svartalfaheim before the first twilight.\nInscribed with runes of vengeance, it is as eager as its wielder to fulfill its vow.",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "During combat, increases own block chance by 400."
+      },
+      {
+        "level": 2,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases block chance by an additional 50 during combat."
+      },
+      {
+        "level": 3,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases block chance by an additional 50 during combat."
+      },
+      {
+        "level": 4,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases block chance by an additional 50 during combat."
+      },
+      {
+        "level": 5,
+        "tier": null,
+        "tier_level": null,
+        "description": "An additional 100 block chance is granted during combat."
+      },
+      {
+        "level": 6,
+        "tier": null,
+        "tier_level": null,
+        "description": "An additional 100 block chance is granted during combat."
+      }
+    ],
+    "last_updated": 1771464391
+  },
+  {
+    "name": "Elf Great Shield",
+    "character": null,
+    "is_global": false,
+    "lore": "It was made by the blacksmith master of Alfheim before the first twilight.\nThe shield bears the elves' determination to protect the World Tree, a determination that even twilight cannot erase.",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases own damage reduction by 40% at the start of the battle, and reduces damage reduction by 2% each time it takes damage from an active skill, up to a maximum of 8%."
+      }
+    ],
+    "last_updated": 1771464391
+  },
+  {
     "name": "Elf King Sword",
     "character": null,
     "is_global": false,
@@ -43,7 +243,253 @@
         "description": "Additional 100% critical strike chance is gained during combat."
       }
     ],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
+  },
+  {
+    "name": "Elf Quiver",
+    "character": null,
+    "is_global": false,
+    "lore": "Made in the vast, dense forests of Alfheim before the first dusk.\nThe arrows drawn from the quiver are imbued with the power of nature, allowing them to pierce those cruel hearts with greater precision.",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "During battle, increases own evasion by 400."
+      },
+      {
+        "level": 2,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases evasion by an additional 50 during combat."
+      },
+      {
+        "level": 3,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases evasion by an additional 50 during combat."
+      },
+      {
+        "level": 4,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases evasion by an additional 50 during combat."
+      },
+      {
+        "level": 5,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases evasion by an additional 100 during combat."
+      },
+      {
+        "level": 6,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases evasion by an additional 100 during combat."
+      }
+    ],
+    "last_updated": 1771464391
+  },
+  {
+    "name": "Elf Short Sword",
+    "character": null,
+    "is_global": false,
+    "lore": "Forged by the royal craftsmen of Alfheim before the first twilight. When monsters approach, the blade emits a chilling blue light to warn its wielder.\n\"Remember, use the pointed end to stab people.\"",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "During combat, increases own accuracy by 400."
+      },
+      {
+        "level": 2,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases accuracy by an additional 50 during combat."
+      },
+      {
+        "level": 3,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases accuracy by an additional 50 during combat."
+      },
+      {
+        "level": 4,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases accuracy by an additional 50 during combat."
+      },
+      {
+        "level": 5,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases accuracy by an additional 100 during combat."
+      },
+      {
+        "level": 6,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases accuracy by an additional 100 during combat."
+      }
+    ],
+    "last_updated": 1771464391
+  },
+  {
+    "name": "Star Crystal Bow",
+    "character": null,
+    "is_global": false,
+    "lore": "The legendary bow, shining as brightly as the stars, is the crystallization of the power of ancient dragon language magic.\nIn those ancient times when gods and dragons coexisted, a weapon used to fight against the calamity known as Twilight.",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "During battle, increases own critical hit rate by 400."
+      },
+      {
+        "level": 2,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical hit rate by an additional 50 during combat."
+      },
+      {
+        "level": 3,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical hit rate by an additional 50 during combat."
+      },
+      {
+        "level": 4,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical hit rate by an additional 50 during combat."
+      },
+      {
+        "level": 5,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical hit rate by an additional 100 during combat."
+      },
+      {
+        "level": 6,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases critical hit rate by an additional 100 during combat."
+      }
+    ],
+    "last_updated": 1771464391
+  },
+  {
+    "name": "Star Crystal Greatsword",
+    "character": null,
+    "is_global": false,
+    "lore": "A legendary greatsword that shines with the starlight. A crystallization of the power of ancient dragon magic.\nIn those ancient times when gods and dragons coexisted, a weapon used to fight against the calamity known as Twilight.",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "During battle, increases own attack and defense by 8.8%. For every 10 seconds of survival in this battle, increases attack and defense by an additional 4.4%, up to a maximum of 26.4%."
+      },
+      {
+        "level": 2,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases attack and both defenses by an additional 0.8%, and increases attack and both defenses by an additional 0.4% for every 10 seconds of survival."
+      },
+      {
+        "level": 3,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases attack and both defenses by an additional 0.8%, and increases attack and both defenses by an additional 0.4% for every 10 seconds of survival."
+      },
+      {
+        "level": 4,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases attack and both defenses by an additional 0.8%, and increases attack and both defenses by an additional 0.4% for every 10 seconds of survival."
+      },
+      {
+        "level": 5,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases attack and both defenses by an additional 1.6%, and increases attack and both defenses by an additional 0.8% for every 10 seconds of survival."
+      },
+      {
+        "level": 6,
+        "tier": null,
+        "tier_level": null,
+        "description": "Increases attack and both defenses by an additional 1.6%, and increases attack and both defenses by an additional 0.8% for every 10 seconds of survival."
+      }
+    ],
+    "last_updated": 1771464391
+  },
+  {
+    "name": "Star Crystal Hammer",
+    "character": null,
+    "is_global": false,
+    "lore": "The legendary hammer, shining as brightly as the stars, is the crystallization of the power of ancient dragon language magic.\nIn those ancient times when gods and dragons coexisted, a weapon used to fight against the calamity known as Twilight.",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "Each time the enemy uses their ultimate skill, the ally with the lowest health, either a phantom or a dragon, recovers 11% of their maximum health."
+      }
+    ],
+    "last_updated": 1771464391
+  },
+  {
+    "name": "Star Crystal Spear",
+    "character": null,
+    "is_global": false,
+    "lore": "The legendary spear, shining as brightly as the stars, is the crystallization of the power of ancient dragon language magic.\nIn those ancient times when gods and dragons coexisted, a weapon used to fight against the calamity known as Twilight.",
+    "effects": [],
+    "skills": [
+      {
+        "level": 1,
+        "tier": null,
+        "tier_level": null,
+        "description": "Each time a skill is used, if the user is under a debuff, there is a 65% chance to dispel one of the debuffs."
+      },
+      {
+        "level": 2,
+        "tier": null,
+        "tier_level": null,
+        "description": "Probability increased by 5%."
+      },
+      {
+        "level": 3,
+        "tier": null,
+        "tier_level": null,
+        "description": "Probability increased by 5%."
+      },
+      {
+        "level": 4,
+        "tier": null,
+        "tier_level": null,
+        "description": "Probability increased by 5%."
+      },
+      {
+        "level": 5,
+        "tier": null,
+        "tier_level": null,
+        "description": "Probability increased by 10%."
+      },
+      {
+        "level": 6,
+        "tier": null,
+        "tier_level": null,
+        "description": "Probability increased by 10%."
+      }
+    ],
+    "last_updated": 1771464391
   },
   {
     "name": "Death Headband",
@@ -99,7 +545,7 @@
         "description": "Grants an additional 5% damage reduction per stack of [Balance]."
       }
     ],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Radiant Sun Bow",
@@ -155,7 +601,7 @@
         "description": "Increases damage coefficient by 180%."
       }
     ],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Lake Maiden's Holy Sword",
@@ -180,7 +626,7 @@
       }
     ],
     "skills": [],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Dragon's Breath Greatsword",
@@ -236,7 +682,7 @@
         "description": "Parry damage reduction efficiency is increased by an additional 20%."
       }
     ],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Little Man in a Bottle",
@@ -292,7 +738,7 @@
         "description": "Krul inherits an additional 10% of its own attributes."
       }
     ],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Judgment Horn",
@@ -348,7 +794,7 @@
         "description": "Enemy units simultaneously within the original range and the additional range receive 30% more bonus slash damage."
       }
     ],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Lich Soul Box",
@@ -373,7 +819,7 @@
       }
     ],
     "skills": [],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "The Sighing Spear",
@@ -398,7 +844,7 @@
       }
     ],
     "skills": [],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Dark Raven's Feather",
@@ -423,7 +869,7 @@
       }
     ],
     "skills": [],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Flame Magic Jar",
@@ -479,7 +925,7 @@
         "description": "Increases the chance of applying [Flamebrand] when a basic attack crits by 20%."
       }
     ],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Piercing Sun Sword Box",
@@ -535,7 +981,7 @@
         "description": "Grants an additional 160% critical strike chance and ignores an additional 6% physical defense."
       }
     ],
-    "last_updated": 1771435274
+    "last_updated": 1771464391
   },
   {
     "name": "Ring of Demon Blade",
@@ -560,7 +1006,7 @@
       }
     ],
     "skills": [],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Serpent God's Blade",
@@ -616,7 +1062,7 @@
         "description": "Increases the bonus by 1.2% per level."
       }
     ],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Judgment Axe",
@@ -672,7 +1118,7 @@
         "description": "Damage reduction increased to 90% of own attack * number of [Commander's Intimidation] stacks on the target."
       }
     ],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Love Elixir",
@@ -697,7 +1143,7 @@
       }
     ],
     "skills": [],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Severing Demon Blade",
@@ -722,7 +1168,7 @@
       }
     ],
     "skills": [],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   },
   {
     "name": "Tiger Tally",
@@ -778,6 +1224,6 @@
         "description": "The trigger probability effect is increased by 12%."
       }
     ],
-    "last_updated": 1771451667
+    "last_updated": 1771464391
   }
 ]
