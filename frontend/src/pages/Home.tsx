@@ -37,15 +37,17 @@ import LastUpdated from '../components/LastUpdated';
 import ResourceBadge from '../components/ResourceBadge';
 import SearchModal from '../components/SearchModal';
 import { TIER_COLOR } from '../constants/colors';
-import { TierListReferenceContext } from '../contexts/tier-list-reference-context';
 import { BRAND_TITLE_STYLE } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
+import { TierListReferenceContext } from '../contexts/tier-list-reference-context';
 import { useDataFetch, useScrollReveal } from '../hooks';
+import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
 import type { Code } from '../types/code';
+import type { Howlkin } from '../types/howlkin';
+import type { NoblePhantasm } from '../types/noble-phantasm';
+import type { Resource } from '../types/resource';
 import type { StatusEffect } from '../types/status-effect';
-import type { Team } from '../types/team';
-import type { TierList } from '../types/tier-list';
 import type { Wyrmspell } from '../types/wyrmspell';
 
 interface ChangelogEntry {
@@ -94,30 +96,52 @@ function DataStatsBar() {
     'data/status-effects.json',
     []
   );
-  const { data: teams, loading: l4 } = useDataFetch<Team[]>(
-    'data/teams.json',
+  const { data: artifacts, loading: l4 } = useDataFetch<Artifact[]>(
+    'data/artifacts.json',
     []
   );
-  const { data: codes, loading: l5 } = useDataFetch<Code[]>(
-    'data/codes.json',
+  const { data: resources, loading: l5 } = useDataFetch<Resource[]>(
+    'data/resources.json',
     []
   );
-  const { data: tierLists, loading: l6 } = useDataFetch<TierList[]>(
-    'data/tier-lists.json',
+  const { data: noblePhantasms, loading: l6 } = useDataFetch<NoblePhantasm[]>(
+    'data/noble_phantasm.json',
+    []
+  );
+  const { data: howlkins, loading: l7 } = useDataFetch<Howlkin[]>(
+    'data/howlkins.json',
     []
   );
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
-    for (const list of [characters, wyrmspells, statusEffects, teams, codes, tierLists]) {
+    const updateLists: Array<Array<{ last_updated?: number }>> = [
+      characters,
+      wyrmspells,
+      statusEffects,
+      artifacts,
+      resources,
+      noblePhantasms,
+      howlkins,
+    ];
+    for (const list of updateLists) {
       for (const item of list) {
-        if (item.last_updated > latest) latest = item.last_updated;
+        const updatedAt = item.last_updated ?? 0;
+        if (updatedAt > latest) latest = updatedAt;
       }
     }
     return latest;
-  }, [characters, wyrmspells, statusEffects, teams, codes, tierLists]);
+  }, [
+    artifacts,
+    characters,
+    howlkins,
+    noblePhantasms,
+    resources,
+    statusEffects,
+    wyrmspells,
+  ]);
 
-  if (l1 || l2 || l3 || l4 || l5 || l6) {
+  if (l1 || l2 || l3 || l4 || l5 || l6 || l7) {
     return (
       <Group justify="center" py="md">
         <Skeleton height={20} width="100%" maw={400} radius="md" />
@@ -126,16 +150,32 @@ function DataStatsBar() {
   }
 
   const stats = [
-    `${characters.length} Characters`,
-    `${wyrmspells.length} Wyrmspells`,
-    `${statusEffects.length} Status Effects`,
-    `${teams.length} Teams`,
+    { label: `${characters.length} Characters`, to: '/characters' },
+    { label: `${wyrmspells.length} Wyrmspells`, to: '/wyrmspells' },
+    { label: `${statusEffects.length} Status Effects`, to: '/status-effects' },
+    { label: `${artifacts.length} Artifacts`, to: '/artifacts' },
+    {
+      label: `${noblePhantasms.length} Noble Phantasms`,
+      to: '/noble-phantasms',
+    },
+    { label: `${howlkins.length} Howlkins`, to: '/howlkins' },
+    { label: `${resources.length} Resources`, to: '/resources' },
   ];
 
   return (
     <Stack gap={4} align="center" py="md">
       <Text ta="center" size="sm" c="dimmed">
-        {stats.join(' \u00b7 ')}
+        {stats.map((stat, index) => (
+          <span key={stat.to}>
+            <Link
+              to={stat.to}
+              style={{ color: 'inherit', textDecoration: 'underline' }}
+            >
+              {stat.label}
+            </Link>
+            {index < stats.length - 1 ? ' \u00b7 ' : null}
+          </span>
+        ))}
       </Text>
       <LastUpdated timestamp={mostRecentUpdate} />
     </Stack>
@@ -143,8 +183,11 @@ function DataStatsBar() {
 }
 
 function FeaturedCharactersMarquee() {
-  const { tierLists, loading: loadingTiers, selectedTierListName } =
-    useContext(TierListReferenceContext);
+  const {
+    tierLists,
+    loading: loadingTiers,
+    selectedTierListName,
+  } = useContext(TierListReferenceContext);
   const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
     'data/characters.json',
     []
@@ -272,7 +315,10 @@ function FeaturedCharactersMarquee() {
 
 function ActiveCodesSection() {
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
-  const activeCodes = codes.filter((c) => c.active).reverse().slice(0, 5);
+  const activeCodes = codes
+    .filter((c) => c.active)
+    .reverse()
+    .slice(0, 5);
 
   if (loading) {
     return (
