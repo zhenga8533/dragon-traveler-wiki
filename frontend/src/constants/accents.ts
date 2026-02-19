@@ -22,9 +22,7 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   // Guides
   '/guides/beginner-qa': 'teal',
   '/guides/star-upgrade-calculator': 'teal',
-  '/guides/rotational-event-hoarding': 'green',
   '/guides/shovel-event': 'green',
-  '/guides/golden-clover-priority': 'green',
 
   // Other sections
   '/tier-list': 'orange',

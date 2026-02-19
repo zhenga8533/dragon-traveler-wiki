@@ -65,7 +65,6 @@ import Howlkins from './pages/Howlkins';
 import NoblePhantasmPage from './pages/NoblePhantasmPage';
 import NoblePhantasms from './pages/NoblePhantasms';
 import Resources from './pages/Resources';
-import RotationalEventHoarding from './pages/RotationalEventHoarding';
 import ShovelEventGuide from './pages/ShovelEventGuide';
 import StarUpgradeCalculator from './pages/StarUpgradeCalculator';
 import StatusEffects from './pages/StatusEffects';
@@ -108,10 +107,6 @@ const NAV_ITEMS: NavItem[] = [
       {
         label: 'Star Upgrade Calculator',
         path: '/guides/star-upgrade-calculator',
-      },
-      {
-        label: 'Rotational Event Hoarding',
-        path: '/guides/rotational-event-hoarding',
       },
       {
         label: 'Shovel Event Guide',
@@ -471,10 +466,6 @@ function AppContent() {
               <Route
                 path="/guides/star-upgrade-calculator"
                 element={<StarUpgradeCalculator />}
-              />
-              <Route
-                path="/guides/rotational-event-hoarding"
-                element={<RotationalEventHoarding />}
               />
               <Route
                 path="/guides/shovel-event"

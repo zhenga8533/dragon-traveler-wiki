@@ -95,11 +95,6 @@ const PAGES = [
     keywords: 'wyrmspells dragon spells magic',
   },
   {
-    title: 'Rotational Event Hoarding',
-    path: '/guides/rotational-event-hoarding',
-    keywords: 'rotational event hoarding tips howlkin horn invoc',
-  },
-  {
     title: 'Beginner Q&A',
     path: '/guides/beginner-qa',
     keywords: 'beginner guide faq help tutorial',
