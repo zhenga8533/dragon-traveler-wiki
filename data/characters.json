@@ -27,7 +27,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Each attack deals additional physical damage equal to 12% of own lost HP. For each enemy hit, recovers 6% of lost HP. When possessing both [Morale] and [Fervor] enters the [Grace] status. While in the [Grace] status, the effect of [Battle Resolve] is increased by 30%."
+          "effect": "Each attack deals additional physical damage equal to 12% of own lost HP. For each enemy hit, recovers 6% of lost HP.\nWhen possessing both [Morale] and [Fervor] enters the [Grace] status. While in the [Grace] status, the effect of [Battle Resolve] is increased by 30%."
         },
         {
           "level": 2,
@@ -73,7 +73,7 @@
       {
         "name": "Counter Helix",
         "type": "Special Skill",
-        "description": "When taking damage, has a 25% chance to deal physical damage equal to 140% of Attack to enemies within a large circular area (can trigger once every 2 seconds at most). Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, the trigger chance increases to 35%, and this skill has no cooldown for the duration.",
+        "description": "When taking damage, has a 25% chance to deal physical damage equal to 140% of Attack to enemies within a large circular area (can trigger once every 2 seconds at most).\nGains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, the trigger chance increases to 35%, and this skill has no cooldown for the duration.",
         "cooldown": 0
       },
       {
@@ -84,7 +84,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Prometheus",
@@ -201,7 +201,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Whenever an ally is defeated, gains 1 stack of [Deathrattle]. Consumes 3/7 stacks of [Deathrattle] to gain immunity to the first/second instance of fatal damage received, recovering 50% of Max HP (cannot trigger if there are insufficient [Deathrattle] stacks)."
+          "effect": "Whenever an ally is defeated, gains 1 stack of [Deathrattle].\nConsumes 3/7 stacks of [Deathrattle] to gain immunity to the first/second instance of fatal damage received, recovering 50% of Max HP (cannot trigger if there are insufficient [Deathrattle] stacks)."
         },
         {
           "level": 2,
@@ -225,7 +225,7 @@
       {
         "name": "Descending Judgement",
         "type": "Overdrive",
-        "description": "Whenever gaining [Deathrattle], deals magic damage equal to 7% of Max HP to enemies within a large circular area. After casting, increases Physical Defense and Magic Defense by 25% for 10 seconds. During this time, whenever gaining [Deathrattle], has a 50% chance to gain an additional stack of [Deathrattle].",
+        "description": "Whenever gaining [Deathrattle], deals magic damage equal to 7% of Max HP to enemies within a large circular area.\nAfter casting, increases Physical Defense and Magic Defense by 25% for 10 seconds. During this time, whenever gaining [Deathrattle], has a 50% chance to gain an additional stack of [Deathrattle].",
         "cooldown": 20
       },
       {
@@ -254,7 +254,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Caesar",
@@ -450,7 +450,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "When on the battlefield, increases Crit Resist of all allied Luminaries and Wyrms by 180. After taking non-critical damage, has a 15% chance to restore 2% of Max HP. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Crit Resist increases by an additional 20."
+          "effect": "When on the battlefield, increases Crit Resist of all allied Luminaries and Wyrms by 180. After taking non-critical damage, has a 15% chance to restore 2% of Max HP.\nWhenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Crit Resist increases by an additional 20."
         },
         {
           "level": 2,
@@ -486,7 +486,7 @@
       {
         "name": "Dark Shield",
         "type": "Secret Skill",
-        "description": "In battle, increases HP by 10%. If self-generated shield is not broken within its duration, deals physical damage equal to 15% of Max HP to enemies in a large circular area and inflicts [Crit Down].",
+        "description": "In battle, increases HP by 10%.\nIf self-generated shield is not broken within its duration, deals physical damage equal to 15% of Max HP to enemies in a large circular area and inflicts [Crit Down].",
         "cooldown": 0
       },
       {
@@ -503,7 +503,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Pompey",
@@ -672,7 +672,7 @@
     "last_updated": 1771374946
   },
   {
-    "name": "Drasil",
+    "name": "Drasill",
     "title": "Ancient Tree Guardian",
     "quality": "SSR",
     "character_class": "Guardian",
@@ -692,14 +692,14 @@
     "height": "426cm",
     "weight": "873kg",
     "origin": "Norse Mythology",
-    "lore": "For a long time, Drasil the tree-man was asleep, and as a result, his body was covered with vines and mushrooms, but Drasil never thought of cleaning them up.",
+    "lore": "For a long time, Drasill the tree-man was asleep, and as a result, his body was covered with vines and mushrooms, but Drasill never thought of cleaning them up.",
     "quote": "Who awakens me...",
     "talent": {
       "name": "Ancient Roots",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status, instantly recovering 26% of lost HP, and then recovering 3% of lost HP per second. While in the [Wild] status, cannot move, gains immunity to control effect, and all basic attacks becomes ranged."
+          "effect": "Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status, instantly recovering 26% of lost HP, and then recovering 3% of lost HP per second.\nWhile in the [Wild] status, cannot move, gains immunity to control effect, and all basic attacks becomes ranged."
         },
         {
           "level": 2,
@@ -746,7 +746,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Goren",
@@ -806,7 +806,7 @@
       {
         "name": "Rocket Skull",
         "type": "Ultimate Skill",
-        "description": "Hurls a stone at a random allied Luminary, granting [Fervor] to allied units within a medium circular area around the target. The range of this skill increases with the caster's size.",
+        "description": "Hurls a stone at a random allied Luminary, granting [Fervor] to allied units within a medium circular area around the target.\nThe range of this skill increases with the caster's size.",
         "cooldown": 20
       },
       {
@@ -823,7 +823,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Gudong",
@@ -1007,7 +1007,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Increases Dodge by 350. When attacked by an enemy afflicted with an [Elemental Debuff], gains an additional 350 Dodge."
+          "effect": "Increases Dodge by 350.\nWhen attacked by an enemy afflicted with an [Elemental Debuff], gains an additional 350 Dodge."
         },
         {
           "level": 2,
@@ -1043,18 +1043,18 @@
       {
         "name": "Warden",
         "type": "Secret Skill",
-        "description": "Increases the effect of self-generated shields by 30%. Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, shield effects increase by an additional 30%.",
+        "description": "Increases the effect of self-generated shields by 30%.\nGains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, shield effects increase by an additional 30%.",
         "cooldown": 0
       },
       {
         "name": "Sylvan Solace",
         "type": "Special Skill",
-        "description": "Grants allies within a large circular area [Magic Defense Up]. While in the [Wild] status, additionally grants a shield equal to 18% of Max HP. Lasts 8s.",
+        "description": "Grants allies within a large circular area [Magic Defense Up].\nWhile in the [Wild] status, additionally grants a shield equal to 18% of Max HP. Lasts 8s.",
         "cooldown": 16
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Eurytion",
@@ -1171,12 +1171,12 @@
       {
         "name": "Wildcry",
         "type": "Ultimate Skill",
-        "description": "Sacrifices 10% of current HP to grant allied units within a large circular area a shield equal to 27% of Max HP. Lasts 6 seconds. This skill only activates once at the start of battle.",
+        "description": "Sacrifices 10% of current HP to grant allied units within a large circular area a shield equal to 27% of Max HP. Lasts 6 seconds.\nThis skill only activates once at the start of battle.",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Mummy",
@@ -1886,7 +1886,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "After the battle starts, possesses the allied Luminary with the highest Attack in the same column, granting a shield equal to 400% of the target's Attack and increasing its Attack by an amount equal to 41% of the Lady of the Lake's Attack (up to 100% of the target's Attack). During possession, the Lady is untargetable; when the shield is broken, the possession is lifted."
+          "effect": "After the battle starts, possesses the allied Luminary with the highest Attack in the same column, granting a shield equal to 340% of the target's Attack and increasing its Attack by an amount equal to 35% of the Lady of the Lake's Attack (up to 100% of the target's Attack). During possession, the Lady is untargetable; when the shield is broken, the possession is lifted."
         },
         {
           "level": 2,
@@ -1910,25 +1910,25 @@
       {
         "name": "Sacred Spring's Blessing",
         "type": "Overdrive",
-        "description": "Select an allied Luminary to possess, triggering the shield and Attack bonus effects of [Gleam of Refuge]. Additionally, restores HP equal to 320% of the caster's Attack plus 20% of the target's lost HP, and grants [Crit Damage Up]. If already possessing a target, changes the possession target or resets the shield for the current one.",
+        "description": "Select an allied Luminary to possess, triggering the shield and Attack bonus effects of [Gleam of Refuge]. Additionally, restores HP equal to 260% of the caster's Attack plus 20% of the target's lost HP, and grants [Crit Damage Up]. If already possessing a target, changes the possession target or resets the shield for the current one.",
         "cooldown": 20
       },
       {
         "name": "Cold Surge Water Bomb",
         "type": "Ultimate Skill",
-        "description": "Launches a water bomb at the farthest enemy Luminary, dealing Magic Damage equal to 420% of own Attack to enemies within a medium circular area around the target and applies [Chill]. During possession, additionally heals the possessed target for 40% of the actual Damage dealt by this skill.",
+        "description": "Launches a water bomb at the farthest enemy Luminary, dealing Magic Damage equal to 380% of own Attack to enemies within a medium circular area around the target and applies [Chill]. During possession, additionally heals the possessed target for 40% of the actual Damage dealt by this skill.",
         "cooldown": 14
       },
       {
         "name": "Wellspring of Life",
         "type": "Secret Skill",
-        "description": "During possession, every 10 s, restores HP equal to 130% of Attack to allies within a large circular area. Each time the possessed target triggers an [Elemental Reaction], the healing effect is triggered once more.",
+        "description": "During possession, every 10s, restores HP equal to 120% of Attack to allies within a large circular area. Each time the possessed target triggers an [Elemental Reaction], the healing effect is triggered once more.",
         "cooldown": 0
       },
       {
         "name": "Luminous Flow Scatter",
         "type": "Special Skill",
-        "description": "Releases multiple water projectiles that strike random enemy units, each dealing magic damage equal to 130% of the caster's Attack. While possessing, also heals the possessed target for 40% of the actual damage dealt by this skill.",
+        "description": "Releases multiple water projectiles that strike random enemy units, each dealing magic damage equal to 125% of the caster's Attack. While possessing, also heals the possessed target for 40% of the actual damage dealt by this skill.",
         "cooldown": 10
       },
       {
@@ -1939,7 +1939,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Atanith",
@@ -1993,7 +1993,7 @@
       {
         "name": "Silent Judgement",
         "type": "Overdrive",
-        "description": "Increases the Energy cost of the next Overdrive unleashed by any enemy Luminary by 1 and deals magic damage equal to 120% of Attack to all enemies. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, additionally inflicts [Silence] for 4 seconds.",
+        "description": "Increases the Energy cost of the next Overdrive unleashed by any enemy Luminary by 1 and deals magic damage equal to 120% of Attack to all enemies.\nThis skill can trigger the [Punishment] effect. When [Punishment] is triggered, additionally inflicts [Silence] for 4 seconds.",
         "cooldown": 20
       },
       {
@@ -2022,7 +2022,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Caligula",
@@ -2082,7 +2082,7 @@
       {
         "name": "Sacred Blessing",
         "type": "Ultimate Skill",
-        "description": "Grants a shield equal to 21% of Max HP to the allied Luminary with the lowest HP. Lasts 6 seconds. When each allied Luminary first enters the [Wild] status, this skill is immediately cast on them.",
+        "description": "Grants a shield equal to 21% of Max HP to the allied Luminary with the lowest HP. Lasts 6 seconds.\nWhen each allied Luminary first enters the [Wild] status, this skill is immediately cast on them.",
         "cooldown": 12
       },
       {
@@ -2105,7 +2105,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Chiron",
@@ -2171,7 +2171,7 @@
       {
         "name": "Hero Mentor",
         "type": "Secret Skill",
-        "description": "In battle, increases HP by 10%. When on the battlefield, increases the Attack Speed of allied Luminaries in the [Wild] status by 25%.",
+        "description": "In battle, increases HP by 10%.\nWhen on the battlefield, increases the Attack Speed of allied Luminaries in the [Wild] status by 25%.",
         "cooldown": 0
       },
       {
@@ -2188,7 +2188,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Flora",
@@ -2309,18 +2309,18 @@
       {
         "name": "Healing Hands",
         "type": "Ultimate Skill",
-        "description": "Plays a secret chord, dealing magic damage to a single target equal to 150% of Attack, and healing the allied Luminary with the lowest HP for 8% of the caster's Max HP. Each time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. When using this skill, 2 stacks of [Awakening] supercharge this skill, playing an additional chord.",
+        "description": "Plays a secret chord, dealing magic damage to a single target equal to 150% of Attack, and healing the allied Luminary with the lowest HP for 8% of the caster's Max HP.\nEach time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. When using this skill, 2 stacks of [Awakening] supercharge this skill, playing an additional chord.",
         "cooldown": 6
       },
       {
         "name": "Serene Flow",
         "type": "Secret Skill",
-        "description": "Increases Dodge by 300. Each time a dodge occurs, reduces the cooldown of [Resolute Aria] by 1s.",
+        "description": "Increases Dodge by 300.\nEach time a dodge occurs, reduces the cooldown of [Resolute Aria] by 1s.",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Goblin War Drummer",
@@ -2349,7 +2349,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "In battle, increases HP by 17%. Basic attack changes to Drum Beat. Each round, Drum Beat grants the ally with the highest Attack, excluding self, [Attack Speed Up]."
+          "effect": "In battle, increases HP by 13%.\nBasic attack changes to Drum Beat. Each round, Drum Beat grants the ally with the highest Attack, excluding self, [Attack Speed Up]."
         },
         {
           "level": 2,
@@ -2371,12 +2371,12 @@
       {
         "name": "Drums of Sanctuary",
         "type": "Ultimate Skill",
-        "description": "Bangs the drum with gusto, healing the allied Luminary with the lowest HP for 20% of the caster's Max HP. Targets in the [Wild] status are healed for an additional 50% HP.",
+        "description": "Bangs the drum with gusto, healing the allied Luminary with the lowest HP for 18% of the caster's Max HP. Targets in the [Wild] status are healed for an additional 50% HP.",
         "cooldown": 9
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Viel",
@@ -2594,7 +2594,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Every 9 seconds, deals physical damage to the current target equal to 50% of Attack + 35% of the target's lost HP (damage from lost HP cannot exceed 350% of Attack). When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, this skill's damage increases to 50% of Attack + 70% of the target's lost HP (damage from lost HP cannot exceed 700% of Attack)."
+          "effect": "Every 9 seconds, deals physical damage to the current target equal to 50% of Attack + 35% of the target's lost HP (damage from lost HP cannot exceed 350% of Attack).\nWhen possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, this skill's damage increases to 50% of Attack + 70% of the target's lost HP (damage from lost HP cannot exceed 700% of Attack)."
         },
         {
           "level": 2,
@@ -2647,7 +2647,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Mordred",
@@ -3122,7 +3122,7 @@
       {
         "name": "Predatory Pulse",
         "type": "Secret Skill",
-        "description": "At the start of battle and every 12 seconds thereafter, the next instance of damage inflicted deals additional physical damage equal to 80% of Attack and inflicts [Shock]. Upon using [Hunting Time], immediately gains this effect.",
+        "description": "At the start of battle and every 12 seconds thereafter, the next instance of damage inflicted deals additional physical damage equal to 80% of Attack and inflicts [Shock].\nUpon using [Hunting Time], immediately gains this effect.",
         "cooldown": 0
       },
       {
@@ -3139,7 +3139,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Lancelot",
@@ -3205,7 +3205,7 @@
       {
         "name": "Chivalry",
         "type": "Secret Skill",
-        "description": "Increases Crit by 350. When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, each critical hit reduces the cooldown of [Solar Steed] by 1 second.",
+        "description": "Increases Crit by 350.\nWhen possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, each critical hit reduces the cooldown of [Solar Steed] by 1 second.",
         "cooldown": 0
       },
       {
@@ -3216,7 +3216,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Nemesis",
@@ -3354,12 +3354,12 @@
       {
         "name": "Shadow Arts",
         "type": "Secret Skill",
-        "description": "Increases Attack Speed by 10%. In battle, increases Attack by 10%.",
+        "description": "Increases Attack Speed by 10%.\nIn battle, increases Attack by 10%.",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Boar Knight",
@@ -3536,7 +3536,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Basic attacks deal additional physical AoE damage equal to 16% of Max HP. Each time a basic attack deals damage or when taking basic attack damage, gains 5% Energy. When at full Energy, [Godfist] and [Focused Fist] become supercharged."
+          "effect": "Basic attacks deal additional physical AoE damage equal to 16% of Max HP.\nEach time a basic attack deals damage or when taking basic attack damage, gains 5% Energy. When at full Energy, [Godfist] and [Focused Fist] become supercharged."
         },
         {
           "level": 2,
@@ -3570,19 +3570,19 @@
       {
         "name": "Focused Fist",
         "type": "Ultimate Skill",
-        "description": "Unleashes a forceful fist forward to tear through enemies within a cone-shaped area, dealing physical damage equal to 190% of Attack. Deals additional physical damage equal to 19% of Max HP to enemies in the center of this area. This skill deals more damage when possessing more Energy, up to a maximum of 100% increased damage. When at full Energy, additionally grants a shield equal to 30% of Max HP, lasting 6 seconds.",
+        "description": "Unleashes a forceful fist forward to tear through enemies within a cone-shaped area, dealing physical damage equal to 190% of Attack. Deals additional physical damage equal to 19% of Max HP to enemies in the center of this area.\nThis skill deals more damage when possessing more Energy, up to a maximum of 100% increased damage. When at full Energy, additionally grants a shield equal to 30% of Max HP, lasting 6 seconds.",
         "cooldown": 12
       },
       {
         "name": "Seismic Soul",
         "type": "Secret Skill",
-        "description": "When attacking enemies under control effects, increases damage dealt by 40%. Each time an ally casts an Overdrive, the caster gains 1 stack of [Awakening]. When the caster has at least 3 stacks of [Awakening], all 3 stacks are consumed to empower the next normal attack: slamming a single target to deal 240% of the caster's Attack as Physical Damage and inflicting [Stun] for 4s.",
+        "description": "When attacking enemies under control effects, increases damage dealt by 40%.\nEach time an ally casts an Overdrive, the caster gains 1 stack of [Awakening]. When the caster has at least 3 stacks of [Awakening], all 3 stacks are consumed to empower the next normal attack: slamming a single target to deal 240% of the caster's Attack as Physical Damage and inflicting [Stun] for 4s.",
         "cooldown": 0
       },
       {
         "name": "Deathless Domination",
         "type": "Special Skill",
-        "description": "Upon taking fatal damage for the first time, becomes briefly Invincible and inflicts [Time Stasis] on enemies within a large circular area for 5s. Then begins consuming Energy, restoring 10% of Max HP for every 10% Energy consumed, up to full HP. Energy will no longer be consumed once HP is fully restored.",
+        "description": "Upon taking fatal damage for the first time, becomes briefly Invincible and inflicts [Time Stasis] on enemies within a large circular area for 5s.\nThen begins consuming Energy, restoring 10% of Max HP for every 10% Energy consumed, up to full HP. Energy will no longer be consumed once HP is fully restored.",
         "cooldown": 0
       },
       {
@@ -3593,7 +3593,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Thor",
@@ -3817,13 +3817,13 @@
       {
         "name": "Sword of the Covenant",
         "type": "Overdrive",
-        "description": "Unleashes a heaving greatsword strike, dealing physical damage equal to 440% of Attack to enemies within a rectangular area. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, damage increases by 35%, and if the target's Overdrive Energy cost is greater than 4, damage is increased by a further 35% for each additional point of Energy cost (up to a maximum increase of 140%). When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, the attack range of this skill increases, and base damage increases to 560% of Attack.",
+        "description": "Unleashes a heaving greatsword strike, dealing physical damage equal to 440% of Attack to enemies within a rectangular area.\nThis skill can trigger the [Punishment] effect. When [Punishment] is triggered, damage increases by 35%, and if the target's Overdrive Energy cost is greater than 4, damage is increased by a further 35% for each additional point of Energy cost (up to a maximum increase of 140%).\nWhen possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, the attack range of this skill increases, and base damage increases to 560% of Attack.",
         "cooldown": 18
       },
       {
         "name": "Bladestorm",
         "type": "Ultimate Skill",
-        "description": "Launches a flurry of attacks, dealing physical damage equal to 140% of Attack to enemies within a rectangular area. Each attack has a 9% chance to grant [Fervor]. When in the [Grace] status, this skill's attack range and number of attack instances increase.",
+        "description": "Launches a flurry of attacks, dealing physical damage equal to 140% of Attack to enemies within a rectangular area. Each attack has a 9% chance to grant [Fervor].\nWhen in the [Grace] status, this skill's attack range and number of attack instances increase.",
         "cooldown": 10
       },
       {
@@ -3835,7 +3835,7 @@
       {
         "name": "Eternal King",
         "type": "Special Skill",
-        "description": "Increases Damage Reduction by 18%. When in the [Grace] status, instead increases Damage Amplification by 18% and Life Steal by 18%.",
+        "description": "Increases Damage Reduction by 18%.\nWhen in the [Grace] status, instead increases Damage Amplification by 18% and Life Steal by 18%.",
         "cooldown": 0
       },
       {
@@ -3846,7 +3846,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Asmodeus",
@@ -4066,8 +4066,8 @@
       {
         "name": "Radiant Ash Ring",
         "type": "Overdrive",
-        "description": "For 5s, beams of light rain down, randomly striking enemies in a massive circular area, dealing physical damage equal to 140% of Attack up to 5 times per second. Each target can only be hit once every 0.5s. If cast while under [Grace], removes the status and gains additional effects based on the number of [Radiant Ember] stacks:\n\n1. Upon casting, grants a Shield equal to 150% of Attack for 6s, and allies in the area gain [Attack Boost].\n2. Increases damage by 40%, and grants 4 stacks of [Deathrattle] when the skill ends.\n3. Upon casting, all allies except self gain [Attack Boost], while self gains [Significant Attack Boost].",
-        "cooldown": 18
+        "description": "For 5s, beams of light rain down, randomly striking enemies in a massive circular area, dealing physical damage equal to 140% of Attack up to 5 times per second. Each target can only be hit once every 0.5s. If cast while under [Grace], removes the status and gains additional effects based on the number of [Radiant Ember] stacks:\n1: Upon casting, grants a Shield equal to 150% of Attack for 6s, and allies in the area gain [Attack Boost];\n2: Increases damage by 40%, and grants 4 stacks of [Deathrattle] when the skill ends;\n3: Upon casting, all allies except self gain [Attack Boost], while self gains [Significant Attack Boost];",
+        "cooldown": 1
       },
       {
         "name": "Radiance Battlefield",
@@ -4078,7 +4078,7 @@
       {
         "name": "Warborn Goddess' Helm",
         "type": "Secret Skill",
-        "description": "During battle, increases Physical and Magic Defense by 10%. Gains 1 stack of [Deathrattle] whenever an ally is defeated. Each stack further increases defenses by 1%.",
+        "description": "During battle, increases Physical and Magic Defense by 10%.\nGains 1 stack of [Deathrattle] whenever an ally is defeated.\nEach stack further increases defenses by 1%.",
         "cooldown": 0
       },
       {
@@ -4095,7 +4095,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Marylis",
@@ -4161,7 +4161,7 @@
       {
         "name": "Absolute Focus",
         "type": "Secret Skill",
-        "description": "In battle, increases Attack by 10%. Each time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. When possessing [Awakening], immediately consumes 1 stack of [Awakening] to launch 1 additional [Blade Dance].",
+        "description": "In battle, increases Attack by 10%.\nEach time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. When possessing [Awakening], immediately consumes 1 stack of [Awakening] to launch 1 additional [Blade Dance].",
         "cooldown": 0
       },
       {
@@ -4178,7 +4178,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Siegfried",
@@ -4208,7 +4208,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "In battle, increases HP by 14%. Attack increases by 29% when attacking enemies afflicted with an [Elemental Debuff]."
+          "effect": "In battle, increases HP by 14%.\nAttack increases by 29% when attacking enemies afflicted with an [Elemental Debuff]."
         },
         {
           "level": 2,
@@ -4250,7 +4250,7 @@
       {
         "name": "Flamecoil",
         "type": "Special Skill",
-        "description": "Flings a ring of fire forward, dealing physical damage equal to a maximum of 240% of Attack to enemies within a large rectangular area. While in the [Wild] status, additionally grants a shield equal to 180% of Attack. Lasts 8 seconds.",
+        "description": "Flings a ring of fire forward, dealing physical damage equal to a maximum of 240% of Attack to enemies within a large rectangular area.\nWhile in the [Wild] status, additionally grants a shield equal to 180% of Attack. Lasts 8 seconds.",
         "cooldown": 14
       },
       {
@@ -4261,7 +4261,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Tyrfing",
@@ -4291,7 +4291,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "In battle, increases Attack by 15%. When basic attacks deal damage, steals 7% of the current target's Healing Received effects. Lasts 10 seconds. Stacks up to 10 times."
+          "effect": "In battle, increases Attack by 15%.\nWhen basic attacks deal damage, steals 7% of the current target's Healing Received effects. Lasts 10 seconds. Stacks up to 10 times."
         },
         {
           "level": 2,
@@ -4315,13 +4315,13 @@
       {
         "name": "Rage Reborn",
         "type": "Overdrive",
-        "description": "Transforms into [Bloodferno Form], dealing physical damage equal to 300% of Attack to enemies within a large circular area around self upon transforming, and recovering 20% of Max HP. Gains immunity to control effects while this skill is active. When in [Bloodferno Form], Attack and Life Steal increase by 20%, basic attacks deal AoE damage, and Overdrive is replaced with [Crimson Execution]: Costs 3 Overdrive Energy. Unleashes a series of deadly hacks and slashes on enemies in the area ahead, dealing physical damage equal to 760% of Attack.",
+        "description": "Transforms into [Bloodferno Form], dealing physical damage equal to 300% of Attack to enemies within a large circular area around self upon transforming, and recovering 20% of Max HP. Gains immunity to control effects while this skill is active.\nWhen in [Bloodferno Form], Attack and Life Steal increase by 20%, basic attacks deal AoE damage, and Overdrive is replaced with [Crimson Execution]: Costs 3 Overdrive Energy. Unleashes a series of deadly hacks and slashes on enemies in the area ahead, dealing physical damage equal to 760% of Attack.",
         "cooldown": 18
       },
       {
         "name": "Soulburning Blade",
         "type": "Ultimate Skill",
-        "description": "Sacrifices 20% of current HP to deal physical damage equal to 240% of Attack to enemies within a large circular area, and grants [Attack Speed Boost]. This skill can trigger the [Punishment] effect, increasing damage by 20% when triggered. While in [Bloodferno Form], base damage is increased to 360% of Attack and also grants [Attack Boost].",
+        "description": "Sacrifices 20% of current HP to deal physical damage equal to 240% of Attack to enemies within a large circular area, and grants [Attack Speed Boost].\nThis skill can trigger the [Punishment] effect, increasing damage by 20% when triggered. While in [Bloodferno Form], base damage is increased to 360% of Attack and also grants [Attack Boost].",
         "cooldown": 16
       },
       {
@@ -4344,7 +4344,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Asteros",
@@ -4457,7 +4457,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "When taking fatal damage for the first time, defies death, instantly recovering 60% of Max HP. In the following battle, Attack Speed increases by 60%, and loses 10% of Max HP per second. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], the speed at which HP is lost decreases by 3%."
+          "effect": "When taking fatal damage for the first time, defies death, instantly recovering 60% of Max HP. In the following battle, Attack Speed increases by 60%, and loses 10% of Max HP per second.\nWhenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], the speed at which HP is lost decreases by 3%."
         },
         {
           "level": 2,
@@ -4493,18 +4493,18 @@
       {
         "name": "Unbreakable Form",
         "type": "Secret Skill",
-        "description": "When dealing damage with skills, grants a shield equal to 5% of Max HP for each enemy hit. Lasts 6 seconds. For each stack of [Deathrattle], the shield effect increases by 2%.",
+        "description": "When dealing damage with skills, grants a shield equal to 5% of Max HP for each enemy hit. Lasts 6 seconds.\nFor each stack of [Deathrattle], the shield effect increases by 2%.",
         "cooldown": 0
       },
       {
         "name": "Infinite Strength",
         "type": "Special Skill",
-        "description": "In battle, increases Attack by 10%. Each time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. When possessing [Awakening], immediately consumes 1 stack of [Awakening] to launch 1 additional [Hammer Time].",
+        "description": "In battle, increases Attack by 10%.\nEach time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. When possessing [Awakening], immediately consumes 1 stack of [Awakening] to launch 1 additional [Hammer Time].",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Guna",
@@ -4564,24 +4564,24 @@
       {
         "name": "Iron Bulwark Shock",
         "type": "Ultimate Skill",
-        "description": "Raises shield and enters a charging stance, granting [Morale]. After 3s, deals physical damage equal to 180% of own Attack to enemy units in a large circular area. When charging, each time damage is taken, this skill's damage is increased by 15% (up to a maximum of 150%).",
+        "description": "Raises shield and enters a charging stance, granting [Morale].\nAfter 3s, deals physical damage equal to 180% of own Attack to enemy units in a large circular area.\nWhen charging, each time damage is taken, this skill's damage is increased by 15% (up to a maximum of 150%).",
         "cooldown": 20
       },
       {
         "name": "Shield-Shattering Blade",
         "type": "Secret Skill",
-        "description": "Increases damage dealt by 45% when attacking enemies with a shield. After damaging a shielded enemy, restores HP equal to 40% of Attack.",
+        "description": "Increases damage dealt by 45% when attacking enemies with a shield.\nAfter damaging a shielded enemy, restores HP equal to 40% of Attack.",
         "cooldown": 0
       },
       {
         "name": "Blade Shadow Blitz",
         "type": "Special Skill",
-        "description": "Moves behind a target and deals physical damage equal to 340% of Attack. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, Crit increases by 1500 for this skill.",
+        "description": "Moves behind a target and deals physical damage equal to 340% of Attack.\nThis skill can trigger the [Punishment] effect. When [Punishment] is triggered, Crit increases by 1500 for this skill.",
         "cooldown": 14
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Grimnir",
@@ -4868,13 +4868,13 @@
       {
         "name": "Lightfall Arrow Rain",
         "type": "Ultimate Skill",
-        "description": "Calls down a rain of blades, striking enemies in an extra-large circular area around the target 5 times, each hit dealing 34% of Attack as physical damage. At the end, gains 1 stack of [Deathrattle] and [Attack Speed Boost].",
+        "description": "Calls down a rain of blades, striking enemies in an extra-large circular area around the target 5 times, each hit dealing 34% of Attack as physical damage.\nAt the end, gains 1 stack of [Deathrattle] and [Attack Speed Boost].",
         "cooldown": 12
       },
       {
         "name": "Will of the Sun",
         "type": "Secret Skill",
-        "description": "When a Basic Attack crits a target marked with [Sigil of Radiance], there's a 17% chance to gain [Fervor]. If the target has max stacks of [Sigil of Radiance], also grants [Fervor] to the 2 nearest ally Luminaries.",
+        "description": "When a Basic Attack crits a target marked with [Sigil of Radiance], there's a 17% chance to gain [Fervor].\nIf the target has max stacks of [Sigil of Radiance], also grants [Fervor] to the 2 nearest ally Luminaries.",
         "cooldown": 0
       },
       {
@@ -4891,7 +4891,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Artemis",
@@ -5044,7 +5044,7 @@
       {
         "name": "Ricochet",
         "type": "Secret Skill",
-        "description": "Each Basic Attack consumes 5% of current HP and ricochets between enemy units, dealing 50% Damage per bounce for up to 2 bounces. Rage accumulates as HP decreases. At max rage, enters [Wild] Status. During [Wild] Status, gains 25% Life Steal and Attack Speed, plus 2 additional ricochets.",
+        "description": "Each Basic Attack consumes 5% of current HP and ricochets between enemy units, dealing 50% Damage per bounce for up to 2 bounces.\nRage accumulates as HP decreases. At max rage, enters [Wild] Status. During [Wild] Status, gains 25% Life Steal and Attack Speed, plus 2 additional ricochets.",
         "cooldown": 0
       },
       {
@@ -5061,7 +5061,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Ifrit",
@@ -5121,7 +5121,7 @@
       {
         "name": "Firestorm",
         "type": "Ultimate Skill",
-        "description": "Unleash a fiery vortex dealing 4 hits of Physical Damage to enemies in a medium circular area. Each hit deals 38% of Attack as Physical Damage and inflicts [Ignite]. Each Overdrive cast grants 1 stack of [Awakening]. At 3/6 stacks of [Awakening], hits increase to 6/8.",
+        "description": "Unleash a fiery vortex dealing 4 hits of Physical Damage to enemies in a medium circular area.\nEach hit deals 38% of Attack as Physical Damage and inflicts [Ignite]. Each Overdrive cast grants 1 stack of [Awakening]. At 3/6 stacks of [Awakening], hits increase to 6/8.",
         "cooldown": 15
       },
       {
@@ -5144,7 +5144,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Jing",
@@ -5393,7 +5393,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471896
   },
   {
     "name": "Orion",
@@ -5619,7 +5619,7 @@
       {
         "name": "Broken Arrow",
         "type": "Ultimate Skill",
-        "description": "Basic Attacks have a 40% chance to unleash Broken Arrows for 2 additional strikes on random enemies. Broken Arrows deal 65% of base Basic Attack damage. Each time an ally falls, gain 1 stack of [Deathrattle]. Each stack of [Deathrattle] increases this chance by 2%.",
+        "description": "Basic Attacks have a 40% chance to unleash Broken Arrows for 2 additional strikes on random enemies. Broken Arrows deal 65% of base Basic Attack damage.\nEach time an ally falls, gain 1 stack of [Deathrattle]. Each stack of [Deathrattle] increases this chance by 2%.",
         "cooldown": 0
       },
       {
@@ -5642,7 +5642,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Van Helring",
@@ -5702,24 +5702,24 @@
       {
         "name": "Grenade",
         "type": "Ultimate Skill",
-        "description": "Toss a Grenade to deal Physical Damage equal to 228% of Attack to enemy units in a small circular area. Triggers [Punishment] effect. When [Punishment] activates, inflicts additional [Physical Defense Down].",
+        "description": "Toss a Grenade to deal Physical Damage equal to 228% of Attack to enemy units in a small circular area.\nTriggers [Punishment] effect. When [Punishment] activates, inflicts additional [Physical Defense Down].",
         "cooldown": 12
       },
       {
         "name": "Demonbane Crossbow",
         "type": "Secret Skill",
-        "description": "Shoot with flair, dealing physical damage equal to 290% of Attack to a single target. When the [Punishment] effect triggers, damage is boosted by 50%.",
+        "description": "Shoot with flair, dealing physical damage equal to 290% of Attack to a single target.\nWhen the [Punishment] effect triggers, damage is boosted by 50%.",
         "cooldown": 12
       },
       {
         "name": "Adrenaline Rush",
         "type": "Special Skill",
-        "description": "Boosts Attack Speed by 16%. Each Overdrive use grants 1 stack of [Awakening]. When an [Awakening] stack is available, instantly consume it to trigger an extra cast of [Grenade] or [Demonbane Crossbow].",
+        "description": "Boosts Attack Speed by 16%.\nEach Overdrive use grants 1 stack of [Awakening]. When an [Awakening] stack is available, instantly consume it to trigger an extra cast of [Grenade] or [Demonbane Crossbow].",
         "cooldown": 0
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Nessus",
@@ -6115,7 +6115,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "All Poseidon's skills inflict [Chill]. When triggering [Elemental Reaction], instantly deals additional Magic Damage equal to 80% of Poseidon's Attack."
+          "effect": "All Poseidon's skills inflict [Chill].\nWhen triggering [Elemental Reaction], instantly deals additional Magic Damage equal to 80% of Poseidon's Attack."
         },
         {
           "level": 2,
@@ -6155,13 +6155,13 @@
       {
         "name": "Tide of the Abyss",
         "type": "Secret Skill",
-        "description": "Max Energy +5. Gains 1 Energy whenever an [Elemental Reaction] is triggered by an ally. At full Energy, automatically unleashes a torrent on enemies with the lowest Overdrive Energy Consumption, dealing 135% of Attack as Magic Damage. If the target's Overdrive Energy Consumption is less than 4, its next Overdrive costs +1 Energy.",
+        "description": "Max Energy +5.\nGains 1 Energy whenever an [Elemental Reaction] is triggered by an ally.\nAt full Energy, automatically unleashes a torrent on enemies with the lowest Overdrive Energy Consumption, dealing 135% of Attack as Magic Damage.\nIf the target's Overdrive Energy Consumption is less than 4, its next Overdrive costs +1 Energy.",
         "cooldown": 6
       },
       {
         "name": "Frost Barrier",
         "type": "Special Skill",
-        "description": "When your Luminary receives lethal Damage, they are frozen for 3 seconds, becoming Immune to lethal Damage while recovering HP equal to 400% of their Attack (up to 100% of target's max HP). Can only trigger once per battle.",
+        "description": "When your Luminary receives lethal Damage, they are frozen for 3 seconds, becoming Immune to lethal Damage while recovering HP equal to 400% of their Attack (up to 100% of target's max HP).\nCan only trigger once per battle.",
         "cooldown": 0
       },
       {
@@ -6172,7 +6172,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Crassus",
@@ -6368,7 +6368,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Gains 510 Crit Up. Each critical hit restores 4% of max HP. When both [Morale] and [Fervor] are present, enters [Grace] status. While in [Grace] status, gains a further 510 Crit Up."
+          "effect": "Gains 510 Crit Up. Each critical hit restores 4% of max HP.\nWhen both [Morale] and [Fervor] are present, enters [Grace] status.\nWhile in [Grace] status, gains a further 510 Crit Up."
         },
         {
           "level": 2,
@@ -6392,7 +6392,7 @@
       {
         "name": "Invictus",
         "type": "Overdrive",
-        "description": "Assumes the form of a six-winged angel and unleashes a series of slashes, dealing magic damage equal to 425% of Attack to enemy units in a large circle. Becomes untargetable during this skill.",
+        "description": "Assumes the form of a six-winged angel and unleashes a series of slashes, dealing magic damage equal to 425% of Attack to enemy units in a large circle.\nBecomes untargetable during this skill.",
         "cooldown": 20
       },
       {
@@ -6410,7 +6410,7 @@
       {
         "name": "Celestial Awakening",
         "type": "Special Skill",
-        "description": "Gains a 30% Overdrive Damage Boost. Each time an ally unit is defeated, gains 1 stack of [Deathrattle]. When casting [Invictus], consumes up to 5 stacks of [Deathrattle]. For each stack consumed, [Invictus] gains a 15% Overdrive Damage Boost.",
+        "description": "Gains a 30% Overdrive Damage Boost. Each time an ally unit is defeated, gains 1 stack of [Deathrattle].\nWhen casting [Invictus], consumes up to 5 stacks of [Deathrattle].\nFor each stack consumed, [Invictus] gains a 15% Overdrive Damage Boost.",
         "cooldown": 0
       },
       {
@@ -6421,7 +6421,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Gullveig",
@@ -6487,7 +6487,7 @@
       {
         "name": "Eternal Youth",
         "type": "Secret Skill",
-        "description": "In battle, increases Attack by 11%. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Attack increases by an additional 1%.",
+        "description": "In battle, increases Attack by 11%.\nWhenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Attack increases by an additional 1%.",
         "cooldown": 0
       },
       {
@@ -6504,7 +6504,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Talos",
@@ -6813,7 +6813,7 @@
       {
         "name": "Reincarnation",
         "type": "Secret Skill",
-        "description": "When an ally is defeated, gain 1 stack of [Deathrattle]. Each stack increases the Attack inherited by summoned Mummies by an additional 1%.",
+        "description": "When an ally is defeated, gain 1 stack of [Deathrattle].\nEach stack increases the Attack inherited by summoned Mummies by an additional 1%.",
         "cooldown": 0
       },
       {
@@ -6830,7 +6830,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Melina",
@@ -6943,7 +6943,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Gains Rage when losing HP. At max Rage, enters the [Wild] status. While in [Wild] status, heals allied Luminaries in a large area every 3 seconds for 33% of Attack and reduces their Overdrive cooldown by 1s."
+          "effect": "Gains Rage when losing HP. At max Rage, enters the [Wild] status.\nWhile in [Wild] status, heals allied Luminaries in a large area every 3 seconds for 33% of Attack and reduces their Overdrive cooldown by 1s."
         },
         {
           "level": 2,
@@ -6967,7 +6967,7 @@
       {
         "name": "Heavenly Light Lotus",
         "type": "Overdrive",
-        "description": "Deals 440% of Attack as Magic Damage to enemies in a large circular area around the target. While in [Wild] status, damage dealt by this skill is increased by 30%.",
+        "description": "Deals 440% of Attack as Magic Damage to enemies in a large circular area around the target.\nWhile in [Wild] status, damage dealt by this skill is increased by 30%.",
         "cooldown": 20
       },
       {
@@ -6979,13 +6979,13 @@
       {
         "name": "Verdant Awakening",
         "type": "Secret Skill",
-        "description": "Increases Overdrive Damage by 25%. Gains 1 stack of [Awakening] each time an ally unleashes an Overdrive. When using an active skill with at least 4 stacks of [Awakening], consumes 4 stacks to gain [Adrenaline].",
+        "description": "Increases Overdrive Damage by 25%.\nGains 1 stack of [Awakening] each time an ally unleashes an Overdrive.\nWhen using an active skill with at least 4 stacks of [Awakening], consumes 4 stacks to gain [Adrenaline].",
         "cooldown": 0
       },
       {
         "name": "Forest Sentinel",
         "type": "Special Skill",
-        "description": "Selects the allied Luminary with the highest Rage, excluding itself (prioritizing melee), and grants it [Adrenaline]. Deal magic damage in a large circle around the selected Luminary, every 2s, for 6s. Damage is equal to 60% of Nanalie's Attack.",
+        "description": "Selects the allied Luminary with the highest Rage, excluding itself (prioritizing melee), and grants it [Adrenaline].\nDeal magic damage in a large circle around the selected Luminary, every 2s, for 6s. Damage is equal to 60% of Nanalie's Attack.",
         "cooldown": 18
       },
       {
@@ -6996,7 +6996,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Telperion",
@@ -7050,7 +7050,7 @@
       {
         "name": "Ray of Ruination",
         "type": "Overdrive",
-        "description": "Channels a beam of energy, dealing magic damage equal to 432% of Attack to enemy units in a straight line. This skill can trigger the [Punishment] effect. When the [Punishment] effect is triggered, damage is increased by 40%.",
+        "description": "Channels a beam of energy, dealing magic damage equal to 432% of Attack to enemy units in a straight line.\nThis skill can trigger the [Punishment] effect. When the [Punishment] effect is triggered, damage is increased by 40%.",
         "cooldown": 20
       },
       {
@@ -7079,7 +7079,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Buck",
@@ -7296,7 +7296,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "In battle, increases Attack by 16%. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Attack increases by an additional 1%."
+          "effect": "In battle, increases Attack by 16%.\nWhenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Attack increases by an additional 1%."
         },
         {
           "level": 2,
@@ -7323,7 +7323,7 @@
       }
     ],
     "noble_phantasm": "",
-    "last_updated": 1771374946
+    "last_updated": 1771471837
   },
   {
     "name": "Ice Slime",
