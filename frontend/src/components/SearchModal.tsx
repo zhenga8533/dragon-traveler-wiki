@@ -25,16 +25,28 @@ import {
   IoSparklesOutline,
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
+import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
+import type { Code } from '../types/code';
+import type { Howlkin } from '../types/howlkin';
 import type { NoblePhantasm } from '../types/noble-phantasm';
+import type { Resource } from '../types/resource';
 import type { StatusEffect } from '../types/status-effect';
 import type { Team } from '../types/team';
+import type { TierList } from '../types/tier-list';
+import type { UsefulLink } from '../types/useful-link';
 import type { Wyrmspell } from '../types/wyrmspell';
 
 type SearchResult = {
   type:
+    | 'artifact'
     | 'character'
+    | 'code'
+    | 'howlkin'
+    | 'resource'
     | 'status-effect'
+    | 'tier-list'
+    | 'useful-link'
     | 'wyrmspell'
     | 'noble-phantasm'
     | 'team'
@@ -118,6 +130,11 @@ const PAGES = [
     path: '/useful-links',
     keywords: 'links resources tools external',
   },
+  {
+    title: 'Changelog',
+    path: '/changelog',
+    keywords: 'changelog updates patch notes changes',
+  },
 ];
 
 type SearchModalProps = {
@@ -128,10 +145,16 @@ export default function SearchModal({ trigger }: SearchModalProps) {
   const [opened, { open, close }] = useDisclosure(false);
   const [query, setQuery] = useState('');
   const [characters, setCharacters] = useState<Character[]>([]);
+  const [artifacts, setArtifacts] = useState<Artifact[]>([]);
+  const [howlkins, setHowlkins] = useState<Howlkin[]>([]);
+  const [resources, setResources] = useState<Resource[]>([]);
   const [statusEffects, setStatusEffects] = useState<StatusEffect[]>([]);
   const [wyrmspells, setWyrmspells] = useState<Wyrmspell[]>([]);
   const [noblePhantasms, setNoblePhantasms] = useState<NoblePhantasm[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
+  const [codes, setCodes] = useState<Code[]>([]);
+  const [usefulLinks, setUsefulLinks] = useState<UsefulLink[]>([]);
+  const [tierLists, setTierLists] = useState<TierList[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
   const { colorScheme } = useMantineColorScheme();
@@ -150,20 +173,58 @@ export default function SearchModal({ trigger }: SearchModalProps) {
   useEffect(() => {
     if (opened) {
       const baseUrl = import.meta.env.BASE_URL || '/';
+
+      const fetchJson = async <T,>(path: string): Promise<T[]> => {
+        try {
+          const response = await fetch(`${baseUrl}data/${path}`);
+          if (!response.ok) return [];
+          const data = (await response.json()) as T[];
+          return Array.isArray(data) ? data : [];
+        } catch {
+          return [];
+        }
+      };
+
       Promise.all([
-        fetch(`${baseUrl}data/characters.json`).then((r) => r.json()),
-        fetch(`${baseUrl}data/status-effects.json`).then((r) => r.json()),
-        fetch(`${baseUrl}data/wyrmspells.json`).then((r) => r.json()),
-        fetch(`${baseUrl}data/noble_phantasm.json`).then((r) => r.json()),
-        fetch(`${baseUrl}data/teams.json`).then((r) => r.json()),
+        fetchJson<Character>('characters.json'),
+        fetchJson<Artifact>('artifacts.json'),
+        fetchJson<Howlkin>('howlkins.json'),
+        fetchJson<Resource>('resources.json'),
+        fetchJson<StatusEffect>('status-effects.json'),
+        fetchJson<Wyrmspell>('wyrmspells.json'),
+        fetchJson<NoblePhantasm>('noble_phantasm.json'),
+        fetchJson<Team>('teams.json'),
+        fetchJson<Code>('codes.json'),
+        fetchJson<UsefulLink>('useful-links.json'),
+        fetchJson<TierList>('tier-lists.json'),
       ])
-        .then(([chars, effects, spells, phantasms, teamData]) => {
-          setCharacters(chars);
-          setStatusEffects(effects);
-          setWyrmspells(spells);
-          setNoblePhantasms(phantasms);
-          setTeams(teamData);
-        })
+        .then(
+          ([
+            chars,
+            artifactsData,
+            howlkinsData,
+            resourcesData,
+            effects,
+            spells,
+            phantasms,
+            teamData,
+            codesData,
+            usefulLinksData,
+            tierListsData,
+          ]) => {
+            setCharacters(chars);
+            setArtifacts(artifactsData);
+            setHowlkins(howlkinsData);
+            setResources(resourcesData);
+            setStatusEffects(effects);
+            setWyrmspells(spells);
+            setNoblePhantasms(phantasms);
+            setTeams(teamData);
+            setCodes(codesData);
+            setUsefulLinks(usefulLinksData);
+            setTierLists(tierListsData);
+          }
+        )
         .catch((err) => {
           console.error('Failed to fetch search data:', err);
         });
@@ -196,6 +257,31 @@ export default function SearchModal({ trigger }: SearchModalProps) {
           path: `/characters/${encodeURIComponent(r.item.name)}`,
           icon: IoPersonOutline,
           color: 'blue',
+        }))
+      );
+    }
+
+    // Search artifacts
+    if (artifacts.length > 0) {
+      const artifactFuse = new Fuse(artifacts, {
+        keys: [
+          'name',
+          'quality',
+          'lore',
+          'effect.description',
+          'treasures.name',
+        ],
+        threshold: 0.3,
+      });
+      const artifactResults = artifactFuse.search(query).slice(0, 5);
+      results.push(
+        ...artifactResults.map((r) => ({
+          type: 'artifact' as const,
+          title: r.item.name,
+          subtitle: `${r.item.quality} Artifact`,
+          path: `/artifacts/${encodeURIComponent(r.item.name)}`,
+          icon: IoSparklesOutline,
+          color: 'yellow',
         }))
       );
     }
@@ -273,6 +359,25 @@ export default function SearchModal({ trigger }: SearchModalProps) {
       );
     }
 
+    // Search howlkins
+    if (howlkins.length > 0) {
+      const howlkinFuse = new Fuse(howlkins, {
+        keys: ['name', 'quality', 'passive_effects'],
+        threshold: 0.3,
+      });
+      const howlkinResults = howlkinFuse.search(query).slice(0, 4);
+      results.push(
+        ...howlkinResults.map((r) => ({
+          type: 'howlkin' as const,
+          title: r.item.name,
+          subtitle: `${r.item.quality} Howlkin`,
+          path: '/howlkins',
+          icon: IoPeopleOutline,
+          color: 'teal',
+        }))
+      );
+    }
+
     // Search noble phantasms
     if (noblePhantasms.length > 0) {
       const npFuse = new Fuse(noblePhantasms, {
@@ -292,8 +397,103 @@ export default function SearchModal({ trigger }: SearchModalProps) {
       );
     }
 
+    // Search resources
+    if (resources.length > 0) {
+      const resourceFuse = new Fuse(resources, {
+        keys: ['name', 'description', 'category', 'quality'],
+        threshold: 0.3,
+      });
+      const resourceResults = resourceFuse.search(query).slice(0, 5);
+      results.push(
+        ...resourceResults.map((r) => ({
+          type: 'resource' as const,
+          title: r.item.name,
+          subtitle: `${r.item.category} • ${r.item.quality}`,
+          path: '/resources',
+          icon: IoSparklesOutline,
+          color: 'lime',
+        }))
+      );
+    }
+
+    // Search codes
+    if (codes.length > 0) {
+      const codeFuse = new Fuse(codes, {
+        keys: ['code'],
+        threshold: 0.25,
+      });
+      const codeResults = codeFuse.search(query).slice(0, 4);
+      results.push(
+        ...codeResults.map((r) => ({
+          type: 'code' as const,
+          title: r.item.code,
+          subtitle: r.item.active ? 'Active code' : 'Inactive code',
+          path: '/codes',
+          icon: IoFlashOutline,
+          color: 'cyan',
+        }))
+      );
+    }
+
+    // Search useful links
+    if (usefulLinks.length > 0) {
+      const linksFuse = new Fuse(usefulLinks, {
+        keys: ['application', 'name', 'description', 'link'],
+        threshold: 0.3,
+      });
+      const linkResults = linksFuse.search(query).slice(0, 4);
+      results.push(
+        ...linkResults.map((r) => ({
+          type: 'useful-link' as const,
+          title: r.item.name,
+          subtitle: r.item.application,
+          path: '/useful-links',
+          icon: IoDocumentTextOutline,
+          color: 'indigo',
+        }))
+      );
+    }
+
+    // Search tier lists
+    if (tierLists.length > 0) {
+      const tierListFuse = new Fuse(tierLists, {
+        keys: [
+          'name',
+          'author',
+          'content_type',
+          'description',
+          'entries.character_name',
+        ],
+        threshold: 0.3,
+      });
+      const tierListResults = tierListFuse.search(query).slice(0, 3);
+      results.push(
+        ...tierListResults.map((r) => ({
+          type: 'tier-list' as const,
+          title: r.item.name,
+          subtitle: `${r.item.content_type} • ${r.item.author}`,
+          path: '/tier-list',
+          icon: IoDocumentTextOutline,
+          color: 'pink',
+        }))
+      );
+    }
+
     return results.slice(0, 12);
-  }, [query, characters, statusEffects, wyrmspells, noblePhantasms, teams]);
+  }, [
+    query,
+    characters,
+    artifacts,
+    howlkins,
+    resources,
+    statusEffects,
+    wyrmspells,
+    noblePhantasms,
+    teams,
+    codes,
+    usefulLinks,
+    tierLists,
+  ]);
 
   useEffect(() => {
     queueMicrotask(() => {
@@ -308,6 +508,8 @@ export default function SearchModal({ trigger }: SearchModalProps) {
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
+    if (searchResults.length === 0) return;
+
     if (e.key === 'ArrowDown') {
       e.preventDefault();
       setSelectedIndex((i) => (i + 1) % searchResults.length);
@@ -374,7 +576,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
             }}
           >
             <TextInput
-              placeholder="Search characters, effects, pages..."
+              placeholder="Search all wiki content..."
               value={query}
               onChange={(e) => setQuery(e.currentTarget.value)}
               onKeyDown={handleKeyDown}
@@ -476,8 +678,8 @@ export default function SearchModal({ trigger }: SearchModalProps) {
           {!query && (
             <Box p="xl" ta="center">
               <Text c="dimmed" size="sm">
-                Search characters, noble phantasms, status effects, wyrmspells,
-                teams, and pages
+                Search artifacts, characters, howlkins, resources, status
+                effects, wyrmspells, teams, codes, tier lists, links, and pages
               </Text>
               <Group justify="center" gap="xs" mt="md">
                 <Text size="xs" c="dimmed">

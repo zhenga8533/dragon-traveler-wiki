@@ -1,17 +1,47 @@
 [
   {
-    "date": "2026-02-06",
+    "date": "2026-02-20",
     "version": "1.0.0",
     "changes": [
       {
         "type": "added",
         "category": "site",
-        "description": "Initial release of Dragon Traveler Wiki"
+        "description": "Initial public release of Dragon Traveler Wiki"
+      },
+      {
+        "type": "added",
+        "category": "navigation",
+        "description": "Added responsive sidebar navigation and section-based route organization"
+      },
+      {
+        "type": "added",
+        "category": "search",
+        "description": "Added global search modal with fuzzy search and keyboard shortcuts"
+      },
+      {
+        "type": "added",
+        "category": "artifacts",
+        "description": "Added artifacts database with detail pages"
       },
       {
         "type": "added",
         "category": "characters",
         "description": "Added character database with portraits and skill information"
+      },
+      {
+        "type": "added",
+        "category": "howlkins",
+        "description": "Added howlkins database, filters, and golden alliance reference"
+      },
+      {
+        "type": "added",
+        "category": "noble-phantasms",
+        "description": "Added noble phantasms database with detail pages"
+      },
+      {
+        "type": "added",
+        "category": "resources",
+        "description": "Added resources database with category and quality filtering"
       },
       {
         "type": "added",
@@ -25,10 +55,45 @@
       },
       {
         "type": "added",
+        "category": "tier-list",
+        "description": "Added tier list page with reference selection and builder tooling"
+      },
+      {
+        "type": "added",
+        "category": "teams",
+        "description": "Added teams list and team detail pages"
+      },
+      {
+        "type": "added",
         "category": "codes",
         "description": "Added redemption codes tracker with active/inactive status"
+      },
+      {
+        "type": "added",
+        "category": "useful-links",
+        "description": "Added useful links page for community tools and resources"
+      },
+      {
+        "type": "added",
+        "category": "guides",
+        "description": "Added guide pages: Beginner Q&A, Star Upgrade Calculator, Rotational Event Hoarding, and Shovel Event Guide"
+      },
+      {
+        "type": "added",
+        "category": "changelog",
+        "description": "Added changelog page and structured release history data"
+      },
+      {
+        "type": "added",
+        "category": "ui",
+        "description": "Added dark/light theme toggle, shared page transitions, and loading/empty/error states"
+      },
+      {
+        "type": "added",
+        "category": "contributions",
+        "description": "Added suggestion modals across core pages for community-driven data updates"
       }
     ],
-    "last_updated": 1771129475
+    "last_updated": 1771545600
   }
 ]
