@@ -1395,14 +1395,14 @@
     "last_updated": 1771387565
   },
   {
-    "name": "Olympus Flame",
-    "is_global": false,
-    "lore": "",
+    "name": "Flame of Olympus",
+    "is_global": true,
+    "lore": "\"Prometheus stole the undying fire of the gods with an empty fennel stalk and bestowed it upon humanity. Zeus, who thunders from above, saw the fire among humans and felt anger in his heart. He intended to create calamity as the price for obtaining the fire.\" — Hesiod, Theogony",
     "quality": "SSR+",
     "effect": [
       {
         "level": 0,
-        "description": "Grants the [Inheritance] to our mid-row Luminary with the highest attack.\nEffect: Whenever the user applies a buff to another ally, the target gains an additional attack bonus equal to 24% of the user's current attack (not exceeding 100% of the target's attack), lasting for 4 seconds. This bonus is not stackable. Furthermore, each time a target with the bonus deals damage during the duration of the effect, the user will recover 4% of the damage dealt as health."
+        "description": "Grants the middle row Luminary with the highest attack the [Legacy] effect: Whenever it applies a Buff Status to other allied units, the target additionally receives an attack bonus equal to 24% of the caster's current attack (up to 100% of the target's attack), lasting for 4s, non-stackable. Additionally, during the effect duration, the target heals for 4% of the damage dealt after each attack."
       },
       {
         "level": 2,
@@ -1410,35 +1410,35 @@
       },
       {
         "level": 5,
-        "description": "Duration extended by 2 seconds"
+        "description": "Duration extended by 2s"
       },
       {
         "level": 8,
-        "description": "Attack bonus increased by 6%, and if the applied buff is a [Blessing Buff], the attack bonus is increased by an additional 6%"
+        "description": "Attack Bonus is increased by 6%. If the applied buff is a [Blessing Buff], Attack Bonus is further increased by 6%"
       },
       {
         "level": 11,
-        "description": "Duration extended by 2 seconds"
+        "description": "Duration extended by 2s"
       },
       {
         "level": 14,
-        "description": "The response rate increased by 2%"
+        "description": "Healing effectiveness increased by 2%"
       },
       {
         "level": 17,
-        "description": "Attack bonus increased by 6%"
+        "description": "Attack Bonus increased by 6%"
       },
       {
         "level": 20,
-        "description": "After the battle begins, this applies [Morale] to all allied Luminaries"
+        "description": "After the start of battle, this Luminary applies [Morale] to all our Luminaries"
       }
     ],
     "columns": 3,
     "rows": 2,
     "treasures": [
       {
-        "name": "1",
-        "lore": "",
+        "name": "Arena Pottery",
+        "lore": "\"During sacrifices, offerings were placed on Zeus's altar but not ignited. Competitors stood near the altar, while a Friar holding a torch stood before the altar as a judge. The winner of the race ignited the offerings and then departed as the Olympic victor.\" — On Competition",
         "character_class": "Mage",
         "effect": [
           {
@@ -1476,8 +1476,8 @@
         ]
       },
       {
-        "name": "2",
-        "lore": "",
+        "name": "Maxim Plaque",
+        "lore": "\"Heracles carefully selected spells as offerings, presented sacrifices to the gods, and established the fifth year's festival as the first Olympiad, stipulating the prize for the victor.\" — Pindar, Olympian Ode",
         "character_class": "Archer",
         "effect": [
           {
@@ -1515,8 +1515,8 @@
         ]
       },
       {
-        "name": "3",
-        "lore": "",
+        "name": "Hera's Ritual Robe",
+        "lore": "\"The ritual was presided over by a certain friar, who enjoyed the glory of performing the rites. The participants included a prophet and a wine bearer, a sacred guide, and a flute player.\" — Pausanias, Description of Greece",
         "character_class": "Warrior",
         "effect": [
           {
@@ -1554,8 +1554,8 @@
         ]
       },
       {
-        "name": "4",
-        "lore": "",
+        "name": "Marathon Messenger Tube",
+        "lore": "\"Most historians believe that the person who brought the news of the Marathon victory back to the city was Eucles, who had just escaped from the fierce battle, fully armed and running with all his might. He was the first to break into the city-state gates, and only said one sentence. 'Ha ha! We won!' before immediately collapsing on the ground.\" — On the Glory of Athens",
         "character_class": "Assassin",
         "effect": [
           {
@@ -1593,8 +1593,8 @@
         ]
       },
       {
-        "name": "5",
-        "lore": "",
+        "name": "Sacred Flame Basin",
+        "lore": "\"They sacrificed in the ancient manner; burning incense and honey mixed cakes on the altar, placing olive branches and pouring wine. Sacrifice was made only on the altar shared with the gods.\" — Pausanias, Description of Greece",
         "character_class": "Priest",
         "effect": [
           {
@@ -1632,8 +1632,8 @@
         ]
       },
       {
-        "name": "6",
-        "lore": "",
+        "name": "Truce Discus",
+        "lore": "\"At that time, Greece was suffering from civil war and plaque. The king of Elis prayed to the god Apollo for an oracle. The Pythia priestess instructed him to restore the Olympic Games.\" — Pausanias, Description of Greece",
         "character_class": "Guardian",
         "effect": [
           {

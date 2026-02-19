@@ -469,9 +469,9 @@
     "last_updated": 1771185685
   },
   {
-    "name": "Inheritance",
+    "name": "Legacy",
     "type": "Exclusive",
-    "effect": "Whenever the user applies a buff to another friendly unit, the target gains an additional attack bonus.",
+    "effect": "Whenever it applies a Buff Status to other allied units, the target additionally receives an attack bonus equal to 24% of the caster's current attack (up to 100% of the target's attack), lasting for 4s, non-stackable. Additionally, during the effect duration, the target heals for 4% of the damage dealt after each attack.",
     "remark": "",
     "last_updated": 1771387565
   },
