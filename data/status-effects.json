@@ -469,18 +469,18 @@
     "last_updated": 1771185685
   },
   {
-    "name": "Legacy",
-    "type": "Exclusive",
-    "effect": "Whenever it applies a Buff Status to other allied units, the target additionally receives an attack bonus equal to 24% of the caster's current attack (up to 100% of the target's attack), lasting for 4s, non-stackable. Additionally, during the effect duration, the target heals for 4% of the damage dealt after each attack.",
-    "remark": "",
-    "last_updated": 1771387565
-  },
-  {
     "name": "Lakeside Protection",
     "type": "Exclusive",
     "effect": "Possessed allied Luminary gains a shield equal to 400% of Attack and increasing its Attack by an amount equal to 41% of the Lady of the Lake's Attack (up to 100% of Attack).",
     "remark": "",
     "last_updated": 1771185685
+  },
+  {
+    "name": "Legacy",
+    "type": "Exclusive",
+    "effect": "Whenever it applies a Buff Status to other allied units, the target additionally receives an attack bonus equal to 24% of the caster's current attack (up to 100% of the target's attack), lasting for 4s, non-stackable. Additionally, during the effect duration, the target heals for 4% of the damage dealt after each attack.",
+    "remark": "",
+    "last_updated": 1771512550
   },
   {
     "name": "Life Link",
