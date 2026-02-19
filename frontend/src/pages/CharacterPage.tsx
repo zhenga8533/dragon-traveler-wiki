@@ -42,6 +42,7 @@ import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getSkillIcon } from '../assets/skill';
 import { getSubclassIcon } from '../assets/subclass';
 import Breadcrumbs from '../components/Breadcrumbs';
+import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import RichText from '../components/RichText';
@@ -113,8 +114,10 @@ export default function CharacterPage() {
   // Load illustrations when character changes
   useEffect(() => {
     if (!character) {
-      setIllustrations([]);
-      setSelectedIllustration(null);
+      queueMicrotask(() => {
+        setIllustrations([]);
+        setSelectedIllustration(null);
+      });
       return;
     }
 
@@ -136,7 +139,9 @@ export default function CharacterPage() {
   // Load talent icon when character changes
   useEffect(() => {
     if (!character) {
-      setTalentIcon(undefined);
+      queueMicrotask(() => {
+        setTalentIcon(undefined);
+      });
       return;
     }
 
@@ -148,7 +153,9 @@ export default function CharacterPage() {
   // Load skill icons when character changes
   useEffect(() => {
     if (!character || !character.skills) {
-      setSkillIcons(new Map());
+      queueMicrotask(() => {
+        setSkillIcons(new Map());
+      });
       return;
     }
 
@@ -346,13 +353,7 @@ export default function CharacterPage() {
                   <Title order={1} c={isDark ? 'white' : 'dark'}>
                     {character.name}
                   </Title>
-                  <Badge
-                    variant="light"
-                    color={character.is_global ? 'green' : 'orange'}
-                    size="lg"
-                  >
-                    {character.is_global ? 'Global' : 'TW / CN'}
-                  </Badge>
+                  <GlobalBadge isGlobal={character.is_global} size="md" />
                 </Group>
 
                 {character.title && (

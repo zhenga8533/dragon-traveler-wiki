@@ -1,5 +1,4 @@
 import {
-  Badge,
   Group,
   Image,
   Paper,
@@ -36,6 +35,7 @@ import {
 import CharacterCard, { QUALITY_BORDER_COLOR } from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
 import FilterToolbar from './FilterToolbar';
+import GlobalBadge from './GlobalBadge';
 import SortableTh from './SortableTh';
 
 interface CharacterListProps {
@@ -297,13 +297,7 @@ export default function CharacterList({
                       </Group>
                     </Table.Td>
                     <Table.Td>
-                      <Badge
-                        variant="light"
-                        size="sm"
-                        color={char.is_global ? 'green' : 'orange'}
-                      >
-                        {char.is_global ? 'Global' : 'TW / CN'}
-                      </Badge>
+                      <GlobalBadge isGlobal={char.is_global} size="sm" />
                     </Table.Td>
                     {selectedTierListName && (
                       <Table.Td>

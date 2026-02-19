@@ -17,11 +17,11 @@ import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
-import DataFetchError from '../components/DataFetchError';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
+import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
-import { ListPageLoading } from '../components/PageLoadingSkeleton';
+import ListPageShell from '../components/ListPageShell';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
@@ -30,6 +30,7 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { NoblePhantasm } from '../types/noble-phantasm';
+import { getLatestTimestamp } from '../utils';
 
 const NOBLE_PHANTASM_FIELDS: FieldDef[] = [
   {
@@ -125,14 +126,10 @@ export default function NoblePhantasms() {
       });
   }, [noblePhantasms, filters.search, sortCol, sortDir]);
 
-  const mostRecentUpdate = useMemo(() => {
-    let latest = 0;
-    for (const np of noblePhantasms) {
-      const ts = np.last_updated ?? 0;
-      if (ts > latest) latest = ts;
-    }
-    return latest;
-  }, [noblePhantasms]);
+  const mostRecentUpdate = useMemo(
+    () => getLatestTimestamp(noblePhantasms),
+    [noblePhantasms]
+  );
 
   const activeFilterCount = filters.search ? 1 : 0;
 
@@ -152,21 +149,14 @@ export default function NoblePhantasms() {
           />
         </Group>
 
-        {loading && <ListPageLoading cards={4} />}
-
-        {!loading && error && (
-          <DataFetchError
-            title="Could not load noble phantasms"
-            message={error.message}
-            onRetry={() => window.location.reload()}
-          />
-        )}
-
-        {!loading && !error && noblePhantasms.length === 0 && (
-          <Text c="dimmed">No noble phantasm data available yet.</Text>
-        )}
-
-        {!loading && !error && noblePhantasms.length > 0 && (
+        <ListPageShell
+          loading={loading}
+          error={error}
+          errorTitle="Could not load noble phantasms"
+          hasData={noblePhantasms.length > 0}
+          emptyMessage="No noble phantasm data available yet."
+          skeletonCards={4}
+        >
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
               <FilterToolbar
@@ -249,13 +239,7 @@ export default function NoblePhantasms() {
                                   {np.character}
                                 </Badge>
                               )}
-                              <Badge
-                                variant="light"
-                                size="sm"
-                                color={np.is_global ? 'green' : 'orange'}
-                              >
-                                {np.is_global ? 'Global' : 'TW / CN'}
-                              </Badge>
+                              <GlobalBadge isGlobal={np.is_global} size="sm" />
                               <Badge variant="light" size="sm" color="grape">
                                 {np.effects.length} effect
                                 {np.effects.length !== 1 ? 's' : ''}
@@ -391,13 +375,7 @@ export default function NoblePhantasms() {
                               <Text size="sm">{np.skills.length}</Text>
                             </Table.Td>
                             <Table.Td>
-                              <Badge
-                                variant="light"
-                                size="sm"
-                                color={np.is_global ? 'green' : 'orange'}
-                              >
-                                {np.is_global ? 'Global' : 'TW / CN'}
-                              </Badge>
+                              <GlobalBadge isGlobal={np.is_global} size="sm" />
                             </Table.Td>
                           </Table.Tr>
                         );
@@ -408,7 +386,7 @@ export default function NoblePhantasms() {
               )}
             </Stack>
           </Paper>
-        )}
+        </ListPageShell>
       </Stack>
     </Container>
   );

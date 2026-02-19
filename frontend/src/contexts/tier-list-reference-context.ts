@@ -58,7 +58,9 @@ export function TierListReferenceProvider({
     if (loading || !selectedTierListName) return;
     const exists = tierLists.some((list) => list.name === selectedTierListName);
     if (!exists) {
-      setSelectedTierListName('');
+      queueMicrotask(() => {
+        setSelectedTierListName('');
+      });
     }
   }, [selectedTierListName, tierLists, loading]);
 

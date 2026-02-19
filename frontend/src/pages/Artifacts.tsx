@@ -10,18 +10,18 @@ import {
   Table,
   Text,
   Title,
-  UnstyledButton,
   Tooltip,
+  UnstyledButton,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import { QUALITY_ICON_MAP } from '../assets/quality';
-import DataFetchError from '../components/DataFetchError';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
+import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
-import { ListPageLoading } from '../components/PageLoadingSkeleton';
+import ListPageShell from '../components/ListPageShell';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
@@ -31,6 +31,7 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Artifact } from '../types/artifact';
+import { getLatestTimestamp } from '../utils';
 
 const ARTIFACT_FIELDS: FieldDef[] = [
   {
@@ -107,7 +108,9 @@ export default function Artifacts() {
           if (sortCol === 'name') {
             cmp = a.name.localeCompare(b.name);
           } else if (sortCol === 'quality') {
-            cmp = QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+            cmp =
+              QUALITY_ORDER.indexOf(a.quality) -
+              QUALITY_ORDER.indexOf(b.quality);
           } else if (sortCol === 'size') {
             cmp = a.rows * a.columns - b.rows * b.columns;
           } else if (sortCol === 'treasures') {
@@ -125,13 +128,10 @@ export default function Artifacts() {
       });
   }, [artifacts, filters, sortCol, sortDir]);
 
-  const mostRecentUpdate = useMemo(() => {
-    let latest = 0;
-    for (const a of artifacts) {
-      if (a.last_updated > latest) latest = a.last_updated;
-    }
-    return latest;
-  }, [artifacts]);
+  const mostRecentUpdate = useMemo(
+    () => getLatestTimestamp(artifacts),
+    [artifacts]
+  );
 
   const activeFilterCount = filters.search ? 1 : 0;
 
@@ -151,21 +151,14 @@ export default function Artifacts() {
           />
         </Group>
 
-        {loading && <ListPageLoading cards={4} />}
-
-        {!loading && error && (
-          <DataFetchError
-            title="Could not load artifacts"
-            message={error.message}
-            onRetry={() => window.location.reload()}
-          />
-        )}
-
-        {!loading && !error && artifacts.length === 0 && (
-          <Text c="dimmed">No artifact data available yet.</Text>
-        )}
-
-        {!loading && !error && artifacts.length > 0 && (
+        <ListPageShell
+          loading={loading}
+          error={error}
+          errorTitle="Could not load artifacts"
+          hasData={artifacts.length > 0}
+          emptyMessage="No artifact data available yet."
+          skeletonCards={4}
+        >
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
               <FilterToolbar
@@ -255,13 +248,10 @@ export default function Artifacts() {
                               <Badge variant="light" size="sm" color="blue">
                                 {artifact.rows}x{artifact.columns}
                               </Badge>
-                              <Badge
-                                variant="light"
+                              <GlobalBadge
+                                isGlobal={artifact.is_global}
                                 size="sm"
-                                color={artifact.is_global ? 'green' : 'orange'}
-                              >
-                                {artifact.is_global ? 'Global' : 'TW / CN'}
-                              </Badge>
+                              />
                               <Badge variant="light" size="sm" color="gray">
                                 {artifact.treasures.length} treasure
                                 {artifact.treasures.length !== 1 ? 's' : ''}
@@ -282,11 +272,46 @@ export default function Artifacts() {
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th>Icon</Table.Th>
-                        <SortableTh sortKey="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Name</SortableTh>
-                        <SortableTh sortKey="quality" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Quality</SortableTh>
-                        <SortableTh sortKey="size" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Size</SortableTh>
-                        <SortableTh sortKey="treasures" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Treasures</SortableTh>
-                        <SortableTh sortKey="global" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Global</SortableTh>
+                        <SortableTh
+                          sortKey="name"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Name
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="quality"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Quality
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="size"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Size
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="treasures"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Treasures
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="global"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Global
+                        </SortableTh>
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
@@ -338,18 +363,13 @@ export default function Artifacts() {
                               </Badge>
                             </Table.Td>
                             <Table.Td>
-                              <Text size="sm">
-                                {artifact.treasures.length}
-                              </Text>
+                              <Text size="sm">{artifact.treasures.length}</Text>
                             </Table.Td>
                             <Table.Td>
-                              <Badge
-                                variant="light"
+                              <GlobalBadge
+                                isGlobal={artifact.is_global}
                                 size="sm"
-                                color={artifact.is_global ? 'green' : 'orange'}
-                              >
-                                {artifact.is_global ? 'Global' : 'TW / CN'}
-                              </Badge>
+                              />
                             </Table.Td>
                           </Table.Tr>
                         );
@@ -360,7 +380,7 @@ export default function Artifacts() {
               )}
             </Stack>
           </Paper>
-        )}
+        </ListPageShell>
       </Stack>
     </Container>
   );

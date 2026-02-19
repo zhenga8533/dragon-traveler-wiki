@@ -168,23 +168,29 @@ Lazy-loaded assets with fallbacks:
 
 Hash-based routing for GitHub Pages compatibility:
 
-| Route                             | Page                  | Description                 |
-| --------------------------------- | --------------------- | --------------------------- |
-| `/`                               | Home                  | Landing page                |
-| `/characters`                     | Characters            | Character list with filters |
-| `/characters/:name`               | CharacterPage         | Character detail view       |
-| `/status-effects`                 | StatusEffects         | Status effects reference    |
-| `/wyrmspells`                     | Wyrmspells            | Wyrmspell database          |
-| `/howlkins`                       | Howlkins              | Howlkin database            |
-| `/tier-list`                      | TierList              | Tier list viewer/builder    |
-| `/teams`                          | Teams                 | Team list                   |
-| `/teams/:name`                    | TeamPage              | Team detail view            |
-| `/codes`                          | Codes                 | Redemption codes tracker    |
-| `/useful-links`                   | UsefulLinks           | Community links             |
-| `/changelog`                      | Changelog             | Site changelog              |
-| `/guides/beginner-qa`             | BeginnerQA            | Beginner guide              |
-| `/guides/efficient-spending`      | EfficientSpending     | Spending guide              |
-| `/guides/star-upgrade-calculator` | StarUpgradeCalculator | Star upgrade calculator     |
+| Route                               | Page                    | Description                 |
+| ----------------------------------- | ----------------------- | --------------------------- |
+| `/`                                 | Home                    | Landing page                |
+| `/artifacts`                        | Artifacts               | Artifact database           |
+| `/artifacts/:name`                  | ArtifactPage            | Artifact detail view        |
+| `/characters`                       | Characters              | Character list with filters |
+| `/characters/:name`                 | CharacterPage           | Character detail view       |
+| `/noble-phantasms`                  | NoblePhantasms          | Noble Phantasm database     |
+| `/noble-phantasms/:name`            | NoblePhantasmPage       | Noble Phantasm detail view  |
+| `/resources`                        | Resources               | Resource database           |
+| `/status-effects`                   | StatusEffects           | Status effects reference    |
+| `/wyrmspells`                       | Wyrmspells              | Wyrmspell database          |
+| `/howlkins`                         | Howlkins                | Howlkin database            |
+| `/tier-list`                        | TierList                | Tier list viewer/builder    |
+| `/teams`                            | Teams                   | Team list                   |
+| `/teams/:teamName`                  | TeamPage                | Team detail view            |
+| `/codes`                            | Codes                   | Redemption codes tracker    |
+| `/useful-links`                     | UsefulLinks             | Community links             |
+| `/changelog`                        | Changelog               | Site changelog              |
+| `/guides/beginner-qa`               | BeginnerQA              | Beginner guide              |
+| `/guides/star-upgrade-calculator`   | StarUpgradeCalculator   | Star upgrade calculator     |
+| `/guides/rotational-event-hoarding` | RotationalEventHoarding | Event hoarding guide        |
+| `/guides/shovel-event`              | ShovelEventGuide        | Shovel event guide          |
 
 ## 🚀 Deployment
 

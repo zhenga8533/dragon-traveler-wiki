@@ -19,10 +19,11 @@ import { IoSearch } from 'react-icons/io5';
 import { getHowlkinIcon } from '../assets/howlkin';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import DataFetchError from '../components/DataFetchError';
-import HowlkinBadge from '../components/HowlkinBadge';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
+import HowlkinBadge from '../components/HowlkinBadge';
+import HowlkinStats from '../components/HowlkinStats';
 import LastUpdated from '../components/LastUpdated';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import SortableTh from '../components/SortableTh';
@@ -37,6 +38,7 @@ import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Quality } from '../types/character';
 import type { GoldenAlliance, Howlkin } from '../types/howlkin';
+import { getLatestTimestamp } from '../utils';
 
 const HOWLKIN_FIELDS: FieldDef[] = [
   {
@@ -188,21 +190,15 @@ export default function Howlkins() {
       });
   }, [howlkins, filters, sortCol, sortDir]);
 
-  const mostRecentUpdate = useMemo(() => {
-    let latest = 0;
-    for (const h of howlkins) {
-      if (h.last_updated > latest) latest = h.last_updated;
-    }
-    return latest;
-  }, [howlkins]);
+  const mostRecentUpdate = useMemo(
+    () => getLatestTimestamp(howlkins),
+    [howlkins]
+  );
 
-  const mostRecentAllianceUpdate = useMemo(() => {
-    let latest = 0;
-    for (const a of goldenAlliances) {
-      if ((a.last_updated ?? 0) > latest) latest = a.last_updated ?? 0;
-    }
-    return latest;
-  }, [goldenAlliances]);
+  const mostRecentAllianceUpdate = useMemo(
+    () => getLatestTimestamp(goldenAlliances),
+    [goldenAlliances]
+  );
 
   const howlkinMap = useMemo(() => {
     const map = new Map<string, Howlkin>();
@@ -223,33 +219,6 @@ export default function Howlkins() {
   }, [goldenAlliances, allianceSearch]);
 
   const activeFilterCount = (filters.search ? 1 : 0) + filters.qualities.length;
-
-  const renderStats = (stats: Howlkin['basic_stats']) => {
-    const entries = Object.entries(stats ?? {}).sort(([a], [b]) =>
-      a.localeCompare(b)
-    );
-    if (entries.length === 0) {
-      return (
-        <Text size="xs" c="dimmed">
-          No stats listed.
-        </Text>
-      );
-    }
-    return (
-      <Group gap={6} wrap="wrap">
-        {entries.map(([stat, value]) => (
-          <Badge key={stat} variant="light" size="sm" color="blue">
-            {stat}:{' '}
-            {typeof value === 'number'
-              ? value.toLocaleString(undefined, {
-                  maximumFractionDigits: Number.isInteger(value) ? 0 : 2,
-                })
-              : String(value)}
-          </Badge>
-        ))}
-      </Group>
-    );
-  };
 
   return (
     <Container size="md" py="xl">
@@ -334,7 +303,12 @@ export default function Howlkins() {
                       {filtered.map((howlkin) => {
                         const iconSrc = getHowlkinIcon(howlkin.name);
                         return (
-                          <Paper key={howlkin.name} p="sm" radius="md" withBorder>
+                          <Paper
+                            key={howlkin.name}
+                            p="sm"
+                            radius="md"
+                            withBorder
+                          >
                             <Stack gap="xs">
                               <Group gap="sm" wrap="nowrap">
                                 {iconSrc && (
@@ -361,15 +335,17 @@ export default function Howlkins() {
                                     <Text fw={600}>{howlkin.name}</Text>
                                   </Group>
                                   <Stack gap={2}>
-                                    {(howlkin.passive_effects ?? []).map((e, i) => (
-                                      <Text key={i} size="sm" c="dimmed">
-                                        {e}
-                                      </Text>
-                                    ))}
+                                    {(howlkin.passive_effects ?? []).map(
+                                      (e, i) => (
+                                        <Text key={i} size="sm" c="dimmed">
+                                          {e}
+                                        </Text>
+                                      )
+                                    )}
                                   </Stack>
                                 </Stack>
                               </Group>
-                              {renderStats(howlkin.basic_stats)}
+                              <HowlkinStats stats={howlkin.basic_stats} />
                             </Stack>
                           </Paper>
                         );
@@ -435,15 +411,17 @@ export default function Howlkins() {
                                   </Tooltip>
                                 </Table.Td>
                                 <Table.Td>
-                                  {renderStats(howlkin.basic_stats)}
+                                  <HowlkinStats stats={howlkin.basic_stats} />
                                 </Table.Td>
                                 <Table.Td>
                                   <Stack gap={2}>
-                                    {(howlkin.passive_effects ?? []).map((e, i) => (
-                                      <Text key={i} size="sm" c="dimmed">
-                                        {e}
-                                      </Text>
-                                    ))}
+                                    {(howlkin.passive_effects ?? []).map(
+                                      (e, i) => (
+                                        <Text key={i} size="sm" c="dimmed">
+                                          {e}
+                                        </Text>
+                                      )
+                                    )}
                                   </Stack>
                                 </Table.Td>
                               </Table.Tr>
@@ -469,102 +447,115 @@ export default function Howlkins() {
               />
             )}
 
-            {!alliancesLoading && !alliancesError && goldenAlliances.length === 0 && (
-              <Text c="dimmed">No golden alliance data available yet.</Text>
-            )}
+            {!alliancesLoading &&
+              !alliancesError &&
+              goldenAlliances.length === 0 && (
+                <Text c="dimmed">No golden alliance data available yet.</Text>
+              )}
 
-            {!alliancesLoading && !alliancesError && goldenAlliances.length > 0 && (
-              <Stack gap="md">
-                <TextInput
-                  placeholder="Search by name or member..."
-                  leftSection={<IoSearch size={14} />}
-                  value={allianceSearch}
-                  onChange={(e) => setAllianceSearch(e.currentTarget.value)}
-                />
-                {filteredAlliances.length === 0 ? (
-                  <Text c="dimmed" size="sm" ta="center" py="md">
-                    No alliances match the search.
-                  </Text>
-                ) : (
-                  <SimpleGrid cols={{ base: 1, md: 2 }} spacing="sm">
-                    {filteredAlliances.map((alliance) => (
-                      <Paper key={alliance.name} p="md" radius="md" withBorder>
-                        <Stack gap="sm">
-                          <Text fw={700} size="lg">
-                            {alliance.name}
-                          </Text>
-
-                          <div>
-                            <Text size="xs" c="dimmed" fw={600} mb={4}>
-                              MEMBERS ({alliance.howlkins.length})
+            {!alliancesLoading &&
+              !alliancesError &&
+              goldenAlliances.length > 0 && (
+                <Stack gap="md">
+                  <TextInput
+                    placeholder="Search by name or member..."
+                    leftSection={<IoSearch size={14} />}
+                    value={allianceSearch}
+                    onChange={(e) => setAllianceSearch(e.currentTarget.value)}
+                  />
+                  {filteredAlliances.length === 0 ? (
+                    <Text c="dimmed" size="sm" ta="center" py="md">
+                      No alliances match the search.
+                    </Text>
+                  ) : (
+                    <SimpleGrid cols={{ base: 1, md: 2 }} spacing="sm">
+                      {filteredAlliances.map((alliance) => (
+                        <Paper
+                          key={alliance.name}
+                          p="md"
+                          radius="md"
+                          withBorder
+                        >
+                          <Stack gap="sm">
+                            <Text fw={700} size="lg">
+                              {alliance.name}
                             </Text>
-                            <Group gap="xs" wrap="wrap">
-                              {[...alliance.howlkins]
-                                .sort((a, b) => {
-                                  const qA = QUALITY_ORDER.indexOf(
-                                    howlkinMap.get(a)?.quality ?? ('' as Quality)
-                                  );
-                                  const qB = QUALITY_ORDER.indexOf(
-                                    howlkinMap.get(b)?.quality ?? ('' as Quality)
-                                  );
-                                  if (qA !== qB) return qA - qB;
-                                  return a.localeCompare(b);
-                                })
-                                .map((name) => (
-                                  <HowlkinBadge
-                                    key={name}
-                                    name={name}
-                                    howlkin={howlkinMap.get(name)}
-                                  />
-                                ))}
-                            </Group>
-                          </div>
 
-                          <div>
-                            <Text size="xs" c="dimmed" fw={600} mb={4}>
-                              ALLIANCE EFFECTS
-                            </Text>
-                            <Table withTableBorder withColumnBorders>
-                              <Table.Thead>
-                                <Table.Tr>
-                                  <Table.Th style={{ width: 70 }}>Level</Table.Th>
-                                  <Table.Th>Stats</Table.Th>
-                                </Table.Tr>
-                              </Table.Thead>
-                              <Table.Tbody>
-                                {alliance.effects.map((effect) => (
-                                  <Table.Tr key={effect.level}>
-                                    <Table.Td>
-                                      <Badge variant="light" size="sm">
-                                        {effect.level}
-                                      </Badge>
-                                    </Table.Td>
-                                    <Table.Td>
-                                      <Group gap={4} wrap="wrap">
-                                        {effect.stats.map((stat, i) => (
-                                          <Badge
-                                            key={i}
-                                            variant="outline"
-                                            size="sm"
-                                            color="teal"
-                                          >
-                                            {stat}
-                                          </Badge>
-                                        ))}
-                                      </Group>
-                                    </Table.Td>
+                            <div>
+                              <Text size="xs" c="dimmed" fw={600} mb={4}>
+                                MEMBERS ({alliance.howlkins.length})
+                              </Text>
+                              <Group gap="xs" wrap="wrap">
+                                {[...alliance.howlkins]
+                                  .sort((a, b) => {
+                                    const qA = QUALITY_ORDER.indexOf(
+                                      howlkinMap.get(a)?.quality ??
+                                        ('' as Quality)
+                                    );
+                                    const qB = QUALITY_ORDER.indexOf(
+                                      howlkinMap.get(b)?.quality ??
+                                        ('' as Quality)
+                                    );
+                                    if (qA !== qB) return qA - qB;
+                                    return a.localeCompare(b);
+                                  })
+                                  .map((name) => (
+                                    <HowlkinBadge
+                                      key={name}
+                                      name={name}
+                                      howlkin={howlkinMap.get(name)}
+                                    />
+                                  ))}
+                              </Group>
+                            </div>
+
+                            <div>
+                              <Text size="xs" c="dimmed" fw={600} mb={4}>
+                                ALLIANCE EFFECTS
+                              </Text>
+                              <Table withTableBorder withColumnBorders>
+                                <Table.Thead>
+                                  <Table.Tr>
+                                    <Table.Th style={{ width: 70 }}>
+                                      Level
+                                    </Table.Th>
+                                    <Table.Th>Stats</Table.Th>
                                   </Table.Tr>
-                                ))}
-                              </Table.Tbody>
-                            </Table>
-                          </div>
-                        </Stack>
-                      </Paper>
-                    ))}
-                  </SimpleGrid>
-                )}
-              </Stack>
-            )}
+                                </Table.Thead>
+                                <Table.Tbody>
+                                  {alliance.effects.map((effect) => (
+                                    <Table.Tr key={effect.level}>
+                                      <Table.Td>
+                                        <Badge variant="light" size="sm">
+                                          {effect.level}
+                                        </Badge>
+                                      </Table.Td>
+                                      <Table.Td>
+                                        <Group gap={4} wrap="wrap">
+                                          {effect.stats.map((stat, i) => (
+                                            <Badge
+                                              key={i}
+                                              variant="outline"
+                                              size="sm"
+                                              color="teal"
+                                            >
+                                              {stat}
+                                            </Badge>
+                                          ))}
+                                        </Group>
+                                      </Table.Td>
+                                    </Table.Tr>
+                                  ))}
+                                </Table.Tbody>
+                              </Table>
+                            </div>
+                          </Stack>
+                        </Paper>
+                      ))}
+                    </SimpleGrid>
+                  )}
+                </Stack>
+              )}
           </Tabs.Panel>
         </Tabs>
       </Stack>

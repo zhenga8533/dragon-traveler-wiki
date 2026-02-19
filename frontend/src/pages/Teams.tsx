@@ -28,6 +28,7 @@ import DataFetchError from '../components/DataFetchError';
 import EmptyState from '../components/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
+import LastUpdated from '../components/LastUpdated';
 import PaginationControl from '../components/PaginationControl';
 import SuggestModal, {
   type ArrayFieldDef,
@@ -44,7 +45,6 @@ import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
-import LastUpdated from '../components/LastUpdated';
 
 const TEAMS_PER_PAGE = 12;
 
@@ -197,8 +197,10 @@ export default function Teams() {
   // Handle edit state from navigation
   useEffect(() => {
     if (location.state?.editTeam) {
-      setEditData(location.state.editTeam);
-      setMode('builder');
+      queueMicrotask(() => {
+        setEditData(location.state.editTeam);
+        setMode('builder');
+      });
       // Clear the state
       navigate(location.pathname, { replace: true, state: {} });
     }
@@ -264,7 +266,9 @@ export default function Teams() {
   }, [teams, search, viewFilters]);
 
   useEffect(() => {
-    setCurrentPage(1);
+    queueMicrotask(() => {
+      setCurrentPage(1);
+    });
   }, [search, viewFilters]);
 
   const totalPages = Math.ceil(filteredTeams.length / TEAMS_PER_PAGE);

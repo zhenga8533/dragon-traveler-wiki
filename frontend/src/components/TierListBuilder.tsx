@@ -22,7 +22,13 @@ import {
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { IoCheckmark, IoCopy, IoOpenOutline, IoPencil, IoTrash } from 'react-icons/io5';
+import {
+  IoCheckmark,
+  IoCopy,
+  IoOpenOutline,
+  IoPencil,
+  IoTrash,
+} from 'react-icons/io5';
 import { GITHUB_REPO_URL } from '../constants';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
@@ -162,18 +168,20 @@ export default function TierListBuilder({
 
   useEffect(() => {
     if (!initialData) return;
-    setName(initialData.name);
-    setAuthor(initialData.author);
-    setCategoryName(initialData.content_type);
-    setDescription(initialData.description || '');
-    const p: Record<string, Tier> = {};
-    const n: Record<string, string> = {};
-    for (const entry of initialData.entries) {
-      p[entry.character_name] = entry.tier;
-      if (entry.note) n[entry.character_name] = entry.note;
-    }
-    setPlacements(p);
-    setNotes(n);
+    queueMicrotask(() => {
+      setName(initialData.name);
+      setAuthor(initialData.author);
+      setCategoryName(initialData.content_type);
+      setDescription(initialData.description || '');
+      const p: Record<string, Tier> = {};
+      const n: Record<string, string> = {};
+      for (const entry of initialData.entries) {
+        p[entry.character_name] = entry.tier;
+        if (entry.note) n[entry.character_name] = entry.note;
+      }
+      setPlacements(p);
+      setNotes(n);
+    });
   }, [initialData]);
 
   const json = useMemo(() => {
@@ -314,12 +322,7 @@ export default function TierListBuilder({
               {names.map((n) => (
                 <div key={n} style={{ position: 'relative' }}>
                   <DraggableCharCard name={n} char={charMap.get(n)} />
-                  <Popover
-                    position="top"
-                    withArrow
-                    trapFocus
-                    shadow="md"
-                  >
+                  <Popover position="top" withArrow trapFocus shadow="md">
                     <Popover.Target>
                       <ActionIcon
                         size="xs"

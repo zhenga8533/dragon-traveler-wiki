@@ -18,7 +18,10 @@ import { getResourceIcon } from '../assets/resource';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
-import { ListPageLoading } from '../components/PageLoadingSkeleton';
+import InlineMarkup from '../components/InlineMarkup';
+import LastUpdated from '../components/LastUpdated';
+import ListPageShell from '../components/ListPageShell';
+import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import {
   QUALITY_ORDER,
@@ -30,9 +33,7 @@ import { ResourcesContext } from '../contexts';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { ResourceCategory } from '../types/resource';
-import InlineMarkup from '../components/InlineMarkup';
-import LastUpdated from '../components/LastUpdated';
-import SortableTh from '../components/SortableTh';
+import { getLatestTimestamp } from '../utils';
 
 const RESOURCE_FIELDS: FieldDef[] = [
   {
@@ -124,7 +125,9 @@ export default function Resources() {
             const qB = QUALITY_ORDER.indexOf(b.quality);
             cmp = qA - qB;
           } else if (sortCol === 'category') {
-            cmp = RESOURCE_CATEGORY_ORDER.indexOf(a.category) - RESOURCE_CATEGORY_ORDER.indexOf(b.category);
+            cmp =
+              RESOURCE_CATEGORY_ORDER.indexOf(a.category) -
+              RESOURCE_CATEGORY_ORDER.indexOf(b.category);
           }
           if (cmp !== 0) return applyDir(cmp, sortDir);
         }
@@ -139,13 +142,10 @@ export default function Resources() {
       });
   }, [resources, filters, sortCol, sortDir]);
 
-  const mostRecentUpdate = useMemo(() => {
-    let latest = 0;
-    for (const r of resources) {
-      if (r.last_updated > latest) latest = r.last_updated;
-    }
-    return latest;
-  }, [resources]);
+  const mostRecentUpdate = useMemo(
+    () => getLatestTimestamp(resources),
+    [resources]
+  );
 
   const activeFilterCount =
     (filters.search ? 1 : 0) + filters.categories.length;
@@ -166,13 +166,12 @@ export default function Resources() {
           />
         </Group>
 
-        {loading && <ListPageLoading cards={4} />}
-
-        {!loading && resources.length === 0 && (
-          <Text c="dimmed">No resource data available yet.</Text>
-        )}
-
-        {!loading && resources.length > 0 && (
+        <ListPageShell
+          loading={loading}
+          hasData={resources.length > 0}
+          emptyMessage="No resource data available yet."
+          skeletonCards={4}
+        >
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
               <FilterToolbar
@@ -260,9 +259,30 @@ export default function Resources() {
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th>Icon</Table.Th>
-                        <SortableTh sortKey="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Name</SortableTh>
-                        <SortableTh sortKey="quality" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Quality</SortableTh>
-                        <SortableTh sortKey="category" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Category</SortableTh>
+                        <SortableTh
+                          sortKey="name"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Name
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="quality"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Quality
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="category"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Category
+                        </SortableTh>
                         <Table.Th>Description</Table.Th>
                       </Table.Tr>
                     </Table.Thead>
@@ -326,7 +346,7 @@ export default function Resources() {
               )}
             </Stack>
           </Paper>
-        )}
+        </ListPageShell>
       </Stack>
     </Container>
   );

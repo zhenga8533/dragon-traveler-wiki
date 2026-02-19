@@ -21,7 +21,9 @@ export function useScrollReveal({
 
   useEffect(() => {
     if (reduceMotion) {
-      setIsVisible(true);
+      queueMicrotask(() => {
+        setIsVisible(true);
+      });
       return;
     }
 

@@ -14,6 +14,7 @@ import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import Fuse from 'fuse.js';
 import type { ReactNode } from 'react';
 import { useEffect, useMemo, useState } from 'react';
+import type { IconType } from 'react-icons';
 import {
   IoClose,
   IoDocumentTextOutline,
@@ -41,7 +42,7 @@ type SearchResult = {
   title: string;
   subtitle?: string;
   path: string;
-  icon: any;
+  icon: IconType;
   color: string;
 };
 
@@ -295,7 +296,9 @@ export default function SearchModal({ trigger }: SearchModalProps) {
   }, [query, characters, statusEffects, wyrmspells, noblePhantasms, teams]);
 
   useEffect(() => {
-    setSelectedIndex(0);
+    queueMicrotask(() => {
+      setSelectedIndex(0);
+    });
   }, [searchResults]);
 
   const handleSelect = (result: SearchResult) => {

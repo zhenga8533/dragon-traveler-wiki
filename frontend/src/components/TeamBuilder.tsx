@@ -34,10 +34,10 @@ import {
   IoSettings,
   IoTrash,
 } from 'react-icons/io5';
-import { GITHUB_REPO_URL } from '../constants';
 import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
+import { GITHUB_REPO_URL } from '../constants';
 import { FACTION_COLOR } from '../constants/colors';
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
@@ -192,8 +192,10 @@ function ConfigModal({
   // Sync from parent when modal opens
   useEffect(() => {
     if (opened) {
-      setNote(externalNote);
-      setSubs(externalSubs);
+      queueMicrotask(() => {
+        setNote(externalNote);
+        setSubs(externalSubs);
+      });
     }
   }, [opened, externalNote, externalSubs]);
 
@@ -462,92 +464,94 @@ export default function TeamBuilder({
 
   useEffect(() => {
     if (!initialData) return;
-    setName(initialData.name);
-    setAuthor(initialData.author);
-    setContentType(initialData.content_type);
-    setDescription(initialData.description || '');
-    setFaction(initialData.faction);
-    const newSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
-    const newOverdriveEnabled = Array(SLOT_COUNT).fill(false);
-    const newSubstitutes: string[][] = Array(SLOT_COUNT)
-      .fill(null)
-      .map(() => []);
-    const newNotes: string[] = Array(SLOT_COUNT).fill('');
+    queueMicrotask(() => {
+      setName(initialData.name);
+      setAuthor(initialData.author);
+      setContentType(initialData.content_type);
+      setDescription(initialData.description || '');
+      setFaction(initialData.faction);
+      const newSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
+      const newOverdriveEnabled = Array(SLOT_COUNT).fill(false);
+      const newSubstitutes: string[][] = Array(SLOT_COUNT)
+        .fill(null)
+        .map(() => []);
+      const newNotes: string[] = Array(SLOT_COUNT).fill('');
 
-    // Map members to slots and track overdrive status and substitutes
-    for (const m of initialData.members) {
-      // Find first empty slot for this member
-      const emptyIdx = newSlots.findIndex((s) => s === null);
-      if (emptyIdx !== -1) {
-        newSlots[emptyIdx] = m.character_name;
-        newOverdriveEnabled[emptyIdx] = m.overdrive_order != null;
-        newSubstitutes[emptyIdx] = m.substitutes || [];
-        newNotes[emptyIdx] = m.note || '';
+      // Map members to slots and track overdrive status and substitutes
+      for (const m of initialData.members) {
+        // Find first empty slot for this member
+        const emptyIdx = newSlots.findIndex((s) => s === null);
+        if (emptyIdx !== -1) {
+          newSlots[emptyIdx] = m.character_name;
+          newOverdriveEnabled[emptyIdx] = m.overdrive_order != null;
+          newSubstitutes[emptyIdx] = m.substitutes || [];
+          newNotes[emptyIdx] = m.note || '';
+        }
       }
-    }
 
-    // Set wyrmspells
-    if (initialData.wyrmspells) {
-      setTeamWyrmspells(initialData.wyrmspells);
-    }
+      // Set wyrmspells
+      if (initialData.wyrmspells) {
+        setTeamWyrmspells(initialData.wyrmspells);
+      }
 
-    // Reorder slots so overdrive-enabled members come first
-    const withOverdrive = newSlots
-      .map((name, idx) => ({
-        name,
-        idx,
-        hasOD: newOverdriveEnabled[idx],
-        subs: newSubstitutes[idx],
-        note: newNotes[idx],
-      }))
-      .filter((item) => item.name !== null && item.hasOD)
-      .sort((a, b) => {
-        const aOrder =
-          initialData.members.find((m) => m.character_name === a.name)
-            ?.overdrive_order || 0;
-        const bOrder =
-          initialData.members.find((m) => m.character_name === b.name)
-            ?.overdrive_order || 0;
-        return aOrder - bOrder;
-      });
+      // Reorder slots so overdrive-enabled members come first
+      const withOverdrive = newSlots
+        .map((name, idx) => ({
+          name,
+          idx,
+          hasOD: newOverdriveEnabled[idx],
+          subs: newSubstitutes[idx],
+          note: newNotes[idx],
+        }))
+        .filter((item) => item.name !== null && item.hasOD)
+        .sort((a, b) => {
+          const aOrder =
+            initialData.members.find((m) => m.character_name === a.name)
+              ?.overdrive_order || 0;
+          const bOrder =
+            initialData.members.find((m) => m.character_name === b.name)
+              ?.overdrive_order || 0;
+          return aOrder - bOrder;
+        });
 
-    const withoutOverdrive = newSlots
-      .map((name, idx) => ({
-        name,
-        idx,
-        hasOD: newOverdriveEnabled[idx],
-        subs: newSubstitutes[idx],
-        note: newNotes[idx],
-      }))
-      .filter((item) => item.name !== null && !item.hasOD);
+      const withoutOverdrive = newSlots
+        .map((name, idx) => ({
+          name,
+          idx,
+          hasOD: newOverdriveEnabled[idx],
+          subs: newSubstitutes[idx],
+          note: newNotes[idx],
+        }))
+        .filter((item) => item.name !== null && !item.hasOD);
 
-    const reorderedSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
-    const reorderedOverdrive = Array(SLOT_COUNT).fill(false);
-    const reorderedSubstitutes: string[][] = Array(SLOT_COUNT)
-      .fill(null)
-      .map(() => []);
-    const reorderedNotes: string[] = Array(SLOT_COUNT).fill('');
+      const reorderedSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
+      const reorderedOverdrive = Array(SLOT_COUNT).fill(false);
+      const reorderedSubstitutes: string[][] = Array(SLOT_COUNT)
+        .fill(null)
+        .map(() => []);
+      const reorderedNotes: string[] = Array(SLOT_COUNT).fill('');
 
-    let i = 0;
-    for (const item of withOverdrive) {
-      reorderedSlots[i] = item.name;
-      reorderedOverdrive[i] = true;
-      reorderedSubstitutes[i] = item.subs;
-      reorderedNotes[i] = item.note;
-      i++;
-    }
-    for (const item of withoutOverdrive) {
-      reorderedSlots[i] = item.name;
-      reorderedOverdrive[i] = false;
-      reorderedSubstitutes[i] = item.subs;
-      reorderedNotes[i] = item.note;
-      i++;
-    }
+      let i = 0;
+      for (const item of withOverdrive) {
+        reorderedSlots[i] = item.name;
+        reorderedOverdrive[i] = true;
+        reorderedSubstitutes[i] = item.subs;
+        reorderedNotes[i] = item.note;
+        i++;
+      }
+      for (const item of withoutOverdrive) {
+        reorderedSlots[i] = item.name;
+        reorderedOverdrive[i] = false;
+        reorderedSubstitutes[i] = item.subs;
+        reorderedNotes[i] = item.note;
+        i++;
+      }
 
-    setSlots(reorderedSlots);
-    setOverdriveEnabled(reorderedOverdrive);
-    setSubstitutes(reorderedSubstitutes);
-    setSlotNotes(reorderedNotes);
+      setSlots(reorderedSlots);
+      setOverdriveEnabled(reorderedOverdrive);
+      setSubstitutes(reorderedSubstitutes);
+      setSlotNotes(reorderedNotes);
+    });
   }, [initialData]);
 
   const factionColor = faction ? FACTION_COLOR[faction as FactionName] : 'blue';
@@ -1068,7 +1072,9 @@ export default function TeamBuilder({
             });
           }
         }}
-        substitutes={configSlotIndex !== null ? substitutes[configSlotIndex] : []}
+        substitutes={
+          configSlotIndex !== null ? substitutes[configSlotIndex] : []
+        }
         onSubstitutesChange={(subs) => {
           if (configSlotIndex !== null) {
             handleUpdateSubstitutes(subs);

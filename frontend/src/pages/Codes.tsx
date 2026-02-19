@@ -32,6 +32,7 @@ import {
   IoSearch,
   IoTrophy,
 } from 'react-icons/io5';
+import LastUpdated from '../components/LastUpdated';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import PaginationControl from '../components/PaginationControl';
 import ResourceBadge from '../components/ResourceBadge';
@@ -44,8 +45,7 @@ import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useViewMode } from '../hooks/use-filters';
 import type { Code } from '../types/code';
-import { buildExpiredCodeUrl } from '../utils/github-issues';
-import LastUpdated from '../components/LastUpdated';
+import { buildExpiredCodeUrl, getLatestTimestamp } from '../utils';
 
 function aggregateRewards(codes: Code[]): Map<string, number> {
   const totals = new Map<string, number>();
@@ -195,7 +195,9 @@ export default function Codes() {
   );
 
   useEffect(() => {
-    setCurrentPage(1);
+    queueMicrotask(() => {
+      setCurrentPage(1);
+    });
   }, [search, view, redeemed]);
 
   const totalPages = Math.ceil(filtered.length / CODES_PER_PAGE);
@@ -215,13 +217,7 @@ export default function Codes() {
     [codes, redeemed]
   );
 
-  const mostRecentUpdate = useMemo(() => {
-    let latest = 0;
-    for (const c of codes) {
-      if (c.last_updated > latest) latest = c.last_updated;
-    }
-    return latest;
-  }, [codes]);
+  const mostRecentUpdate = useMemo(() => getLatestTimestamp(codes), [codes]);
 
   return (
     <Container size="md" py="xl">
@@ -509,15 +505,17 @@ export default function Codes() {
                     </Group>
                   </Group>
 
-                  {(entry.rewards ?? entry.reward ?? []).length > 0 && (
+                  {Object.keys(entry.rewards ?? {}).length > 0 && (
                     <Group gap="xs" wrap="wrap">
-                      {(entry.rewards ?? entry.reward ?? []).map((r) => (
-                        <ResourceBadge
-                          key={r.name}
-                          name={r.name}
-                          quantity={r.quantity}
-                        />
-                      ))}
+                      {Object.entries(entry.rewards ?? {}).map(
+                        ([name, quantity]) => (
+                          <ResourceBadge
+                            key={name}
+                            name={name}
+                            quantity={quantity}
+                          />
+                        )
+                      )}
                     </Group>
                   )}
 

@@ -14,8 +14,10 @@ export function useDataFetch<T>(path: string, initial: T): DataFetchResult<T> {
   useEffect(() => {
     const controller = new AbortController();
 
-    setLoading(true);
-    setError(null);
+    queueMicrotask(() => {
+      setLoading(true);
+      setError(null);
+    });
 
     fetch(import.meta.env.BASE_URL + path, { signal: controller.signal })
       .then((res) => {

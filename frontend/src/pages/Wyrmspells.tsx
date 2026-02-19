@@ -16,12 +16,12 @@ import { useMemo } from 'react';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
-import DataFetchError from '../components/DataFetchError';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
+import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
-import { ListPageLoading } from '../components/PageLoadingSkeleton';
+import ListPageShell from '../components/ListPageShell';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
@@ -30,6 +30,7 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Wyrmspell } from '../types/wyrmspell';
+import { getLatestTimestamp } from '../utils';
 
 const WYRMSPELL_FIELDS: FieldDef[] = [
   {
@@ -185,13 +186,10 @@ export default function Wyrmspells() {
       });
   }, [wyrmspells, filters, sortCol, sortDir]);
 
-  const mostRecentUpdate = useMemo(() => {
-    let latest = 0;
-    for (const w of wyrmspells) {
-      if (w.last_updated > latest) latest = w.last_updated;
-    }
-    return latest;
-  }, [wyrmspells]);
+  const mostRecentUpdate = useMemo(
+    () => getLatestTimestamp(wyrmspells),
+    [wyrmspells]
+  );
 
   const activeFilterCount =
     (filters.search ? 1 : 0) + filters.types.length + filters.qualities.length;
@@ -212,21 +210,14 @@ export default function Wyrmspells() {
           />
         </Group>
 
-        {loading && <ListPageLoading cards={4} />}
-
-        {!loading && error && (
-          <DataFetchError
-            title="Could not load wyrmspells"
-            message={error.message}
-            onRetry={() => window.location.reload()}
-          />
-        )}
-
-        {!loading && !error && wyrmspells.length === 0 && (
-          <Text c="dimmed">No wyrmspell data available yet.</Text>
-        )}
-
-        {!loading && !error && wyrmspells.length > 0 && (
+        <ListPageShell
+          loading={loading}
+          error={error}
+          errorTitle="Could not load wyrmspells"
+          hasData={wyrmspells.length > 0}
+          emptyMessage="No wyrmspell data available yet."
+          skeletonCards={4}
+        >
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
               <FilterToolbar
@@ -296,13 +287,10 @@ export default function Wyrmspells() {
                               <Badge variant="light" size="sm">
                                 {spell.type}
                               </Badge>
-                              <Badge
-                                variant="light"
+                              <GlobalBadge
+                                isGlobal={spell.is_global}
                                 size="sm"
-                                color={spell.is_global ? 'green' : 'orange'}
-                              >
-                                {spell.is_global ? 'Global' : 'TW / CN'}
-                              </Badge>
+                              />
                               {spell.exclusive_faction && (
                                 <Tooltip label={spell.exclusive_faction}>
                                   <Image
@@ -427,13 +415,10 @@ export default function Wyrmspells() {
                               )}
                             </Table.Td>
                             <Table.Td>
-                              <Badge
-                                variant="light"
+                              <GlobalBadge
+                                isGlobal={spell.is_global}
                                 size="sm"
-                                color={spell.is_global ? 'green' : 'orange'}
-                              >
-                                {spell.is_global ? 'Global' : 'TW / CN'}
-                              </Badge>
+                              />
                             </Table.Td>
                             <Table.Td>
                               <Text size="sm">{spell.effect}</Text>
@@ -447,7 +432,7 @@ export default function Wyrmspells() {
               )}
             </Stack>
           </Paper>
-        )}
+        </ListPageShell>
       </Stack>
     </Container>
   );

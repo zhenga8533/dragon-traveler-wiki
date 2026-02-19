@@ -21,15 +21,26 @@ import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import Breadcrumbs from '../components/Breadcrumbs';
+import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import RichText from '../components/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import type { Artifact, ArtifactEffect, ArtifactTreasure } from '../types/artifact';
+import type {
+  Artifact,
+  ArtifactEffect,
+  ArtifactTreasure,
+} from '../types/artifact';
 import type { StatusEffect } from '../types/status-effect';
 
-function EffectTable({ effects, statusEffects }: { effects: ArtifactEffect[]; statusEffects: StatusEffect[] }) {
+function EffectTable({
+  effects,
+  statusEffects,
+}: {
+  effects: ArtifactEffect[];
+  statusEffects: StatusEffect[];
+}) {
   if (effects.length === 0) return null;
   return (
     <Table striped withTableBorder withColumnBorders>
@@ -270,9 +281,7 @@ export default function ArtifactPage() {
                   <Badge size="lg" variant="light" color="blue">
                     {artifact.rows}x{artifact.columns}
                   </Badge>
-                  <Badge size="lg" variant="light" color={artifact.is_global ? 'green' : 'orange'}>
-                    {artifact.is_global ? 'Global' : 'TW / CN'}
-                  </Badge>
+                  <GlobalBadge isGlobal={artifact.is_global} size="md" />
                   <Badge size="lg" variant="outline" color="gray">
                     {artifact.treasures.length} treasure
                     {artifact.treasures.length !== 1 ? 's' : ''}
@@ -307,7 +316,10 @@ export default function ArtifactPage() {
           {/* Artifact Effects */}
           <Stack gap="md">
             <Title order={3}>Artifact Effects</Title>
-            <EffectTable effects={artifact.effect} statusEffects={statusEffects} />
+            <EffectTable
+              effects={artifact.effect}
+              statusEffects={statusEffects}
+            />
           </Stack>
 
           {/* Treasures */}

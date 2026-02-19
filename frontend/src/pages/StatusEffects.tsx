@@ -13,12 +13,13 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { getStatusEffectIcon } from '../assets/status_effect';
-import DataFetchError from '../components/DataFetchError';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
-import { ListPageLoading } from '../components/PageLoadingSkeleton';
+import LastUpdated from '../components/LastUpdated';
+import ListPageShell from '../components/ListPageShell';
 import RichText from '../components/RichText';
+import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
 import { STORAGE_KEY } from '../constants/ui';
@@ -26,8 +27,7 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
-import LastUpdated from '../components/LastUpdated';
-import SortableTh from '../components/SortableTh';
+import { getLatestTimestamp } from '../utils';
 
 const STATUS_EFFECT_FIELDS: FieldDef[] = [
   {
@@ -100,7 +100,9 @@ export default function StatusEffects() {
     storageKey: STORAGE_KEY.STATUS_EFFECT_VIEW_MODE,
     defaultMode: 'list',
   });
-  const { sortState, handleSort } = useSortState(STORAGE_KEY.STATUS_EFFECT_SORT);
+  const { sortState, handleSort } = useSortState(
+    STORAGE_KEY.STATUS_EFFECT_SORT
+  );
   const { col: sortCol, dir: sortDir } = sortState;
 
   const filtered = useMemo(() => {
@@ -135,13 +137,10 @@ export default function StatusEffects() {
       });
   }, [effects, filters, sortCol, sortDir]);
 
-  const mostRecentUpdate = useMemo(() => {
-    let latest = 0;
-    for (const se of effects) {
-      if (se.last_updated > latest) latest = se.last_updated;
-    }
-    return latest;
-  }, [effects]);
+  const mostRecentUpdate = useMemo(
+    () => getLatestTimestamp(effects),
+    [effects]
+  );
 
   const activeFilterCount = (filters.search ? 1 : 0) + filters.types.length;
 
@@ -161,21 +160,14 @@ export default function StatusEffects() {
           />
         </Group>
 
-        {loading && <ListPageLoading cards={4} />}
-
-        {!loading && error && (
-          <DataFetchError
-            title="Could not load status effects"
-            message={error.message}
-            onRetry={() => window.location.reload()}
-          />
-        )}
-
-        {!loading && !error && effects.length === 0 && (
-          <Text c="dimmed">No status effect data available yet.</Text>
-        )}
-
-        {!loading && !error && effects.length > 0 && (
+        <ListPageShell
+          loading={loading}
+          error={error}
+          errorTitle="Could not load status effects"
+          hasData={effects.length > 0}
+          emptyMessage="No status effect data available yet."
+          skeletonCards={4}
+        >
           <Paper p="md" radius="md" withBorder>
             <Stack gap="md">
               <FilterToolbar
@@ -255,8 +247,22 @@ export default function StatusEffects() {
                     <Table.Thead>
                       <Table.Tr>
                         <Table.Th>Icon</Table.Th>
-                        <SortableTh sortKey="name" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Name</SortableTh>
-                        <SortableTh sortKey="type" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>Type</SortableTh>
+                        <SortableTh
+                          sortKey="name"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Name
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="type"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Type
+                        </SortableTh>
                         <Table.Th>Effect</Table.Th>
                         <Table.Th>Remark</Table.Th>
                       </Table.Tr>
@@ -317,7 +323,7 @@ export default function StatusEffects() {
               )}
             </Stack>
           </Paper>
-        )}
+        </ListPageShell>
       </Stack>
     </Container>
   );

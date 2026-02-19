@@ -40,7 +40,7 @@ import { TIER_COLOR } from '../constants/colors';
 import { BRAND_TITLE_STYLE } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 import { TierListReferenceContext } from '../contexts/tier-list-reference-context';
-import { useDataFetch, useScrollReveal } from '../hooks';
+import { useDataFetch } from '../hooks';
 import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
 import type { Code } from '../types/code';
@@ -375,7 +375,12 @@ function ActiveCodesSection() {
           {Object.keys(entry.rewards ?? {}).length > 0 && (
             <Group gap={4} mt={4} wrap="wrap">
               {Object.entries(entry.rewards ?? {}).map(([name, qty]) => (
-                <ResourceBadge key={name} name={name} quantity={qty} size="xs" />
+                <ResourceBadge
+                  key={name}
+                  name={name}
+                  quantity={qty}
+                  size="xs"
+                />
               ))}
             </Group>
           )}
@@ -499,10 +504,6 @@ export default function Home() {
   const isDark = colorScheme === 'dark';
 
   const [bannerLoaded, setBannerLoaded] = useState(false);
-
-  const marqueeReveal = useScrollReveal({ staggerIndex: 0 });
-  const codesReveal = useScrollReveal({ staggerIndex: 0 });
-  const updatesReveal = useScrollReveal({ staggerIndex: 1 });
 
   return (
     <Stack gap={0}>
@@ -922,7 +923,7 @@ export default function Home() {
             <Text size="xs" tt="uppercase" fw={700} c="dimmed" ta="center">
               Top picks this cycle
             </Text>
-            <Box ref={marqueeReveal.ref} style={marqueeReveal.style}>
+            <Box>
               <FeaturedCharactersMarquee />
             </Box>
           </Stack>
@@ -933,7 +934,7 @@ export default function Home() {
               Quick intel
             </Text>
             <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-              <Box ref={codesReveal.ref} style={codesReveal.style}>
+              <Box>
                 <Card
                   padding="lg"
                   radius="md"
@@ -958,7 +959,7 @@ export default function Home() {
                 </Card>
               </Box>
 
-              <Box ref={updatesReveal.ref} style={updatesReveal.style}>
+              <Box>
                 <Card
                   padding="lg"
                   radius="md"

@@ -89,7 +89,7 @@ export default function Changelog() {
         {!loading && changelog.length > 0 && (
           <>
             <Timeline active={-1} bulletSize={32} lineWidth={2}>
-              {paginatedChangelog.map((entry, _index) => {
+              {paginatedChangelog.map((entry) => {
                 const entryDate = new Date(entry.date);
                 const formattedDate = entryDate.toLocaleDateString('en-US', {
                   year: 'numeric',

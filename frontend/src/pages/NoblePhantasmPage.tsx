@@ -18,6 +18,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import Breadcrumbs from '../components/Breadcrumbs';
 import CharacterTag from '../components/CharacterTag';
+import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import RichText from '../components/RichText';
@@ -304,13 +305,7 @@ export default function NoblePhantasmPage() {
                       size="lg"
                     />
                   )}
-                  <Badge
-                    size="lg"
-                    variant="light"
-                    color={noblePhantasm.is_global ? 'green' : 'orange'}
-                  >
-                    {noblePhantasm.is_global ? 'Global' : 'TW / CN'}
-                  </Badge>
+                  <GlobalBadge isGlobal={noblePhantasm.is_global} size="md" />
                   <Badge size="lg" variant="outline" color="grape">
                     {noblePhantasm.effects.length} effect
                     {noblePhantasm.effects.length !== 1 ? 's' : ''}
