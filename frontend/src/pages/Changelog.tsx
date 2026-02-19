@@ -9,13 +9,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useState } from 'react';
-import {
-  IoCheckmarkCircle,
-  IoFlash,
-  IoPeople,
-  IoPricetag,
-  IoSparkles,
-} from 'react-icons/io5';
+import { IoCheckmarkCircle } from 'react-icons/io5';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import PaginationControl from '../components/PaginationControl';
 import { useDataFetch } from '../hooks';
@@ -25,27 +19,10 @@ interface ChangelogEntry {
   version?: string;
   changes: {
     type: 'added' | 'updated' | 'fixed' | 'removed';
-    category:
-      | 'characters'
-      | 'status-effects'
-      | 'wyrmspells'
-      | 'codes'
-      | 'teams'
-      | 'tier-list'
-      | 'site';
+    category: string;
     description: string;
   }[];
 }
-
-const CATEGORY_ICONS: Record<string, React.ComponentType<{ size?: number }>> = {
-  characters: IoPeople,
-  'status-effects': IoFlash,
-  wyrmspells: IoSparkles,
-  codes: IoPricetag,
-  teams: IoCheckmarkCircle,
-  'tier-list': IoCheckmarkCircle,
-  site: IoCheckmarkCircle,
-};
 
 const TYPE_COLORS: Record<string, string> = {
   added: 'green',
@@ -114,7 +91,6 @@ export default function Changelog() {
                   >
                     <Stack gap="sm" mt="sm">
                       {entry.changes.map((change, changeIndex) => {
-                        const Icon = CATEGORY_ICONS[change.category];
                         return (
                           <Paper
                             key={changeIndex}
@@ -123,7 +99,6 @@ export default function Changelog() {
                             withBorder
                           >
                             <Group gap="sm" wrap="nowrap">
-                              {Icon && <Icon size={20} />}
                               <Stack gap={4} style={{ flex: 1 }}>
                                 <Group gap="xs">
                                   <Badge
