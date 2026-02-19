@@ -23,6 +23,7 @@ from .sort_keys import (
     artifact_sort_key,
     character_sort_key,
     faction_sort_key,
+    howlkin_sort_key,
     noble_phantasm_sort_key,
     resource_sort_key,
     status_effect_sort_key,
@@ -72,6 +73,8 @@ QUERIES = {
     "artifact_treasure_effects": (
         "SELECT * FROM artifact_treasure_effects ORDER BY treasure_id, level;"
     ),
+    "howlkins": "SELECT * FROM howlkins ORDER BY id;",
+    "howlkin_stats": "SELECT * FROM howlkin_stats ORDER BY howlkin_id, id;",
     "noble_phantasms": "SELECT * FROM noble_phantasms ORDER BY id;",
     "noble_phantasm_effects": (
         "SELECT * FROM noble_phantasm_effects ORDER BY noble_phantasm_id, sort_order, id;"
@@ -505,6 +508,46 @@ def export_artifacts(data, output_dir=None):
     write_export("artifacts.json", result, output_dir)
 
 
+def export_howlkins(data, output_dir=None):
+    if "howlkins" not in data:
+        print("Skipped howlkins.json (howlkins table not found in Dolt schema)")
+        return
+
+    stats_by_howlkin = group_by(data.get("howlkin_stats", []), "howlkin_id")
+
+    def parse_stat_value(value):
+        if value in (None, ""):
+            return 0
+        try:
+            num = float(value)
+            return int(num) if num.is_integer() else num
+        except (TypeError, ValueError):
+            return value
+
+    result = []
+    for h in data["howlkins"]:
+        howlkin_id = h["id"]
+        stats = {}
+        for stat in stats_by_howlkin.get(howlkin_id, []):
+            name = stat.get("stat_name") or ""
+            if not name:
+                continue
+            stats[name] = parse_stat_value(stat.get("stat_value"))
+
+        result.append(
+            {
+                "name": h.get("name") or "",
+                "quality": h.get("quality") or "",
+                "basic_stats": stats,
+                "passive_effect": h.get("passive_effect") or "",
+                "last_updated": int(h.get("last_updated") or 0),
+            }
+        )
+
+    result.sort(key=howlkin_sort_key)
+    write_export("howlkins.json", result, output_dir)
+
+
 def export_noble_phantasms(data, output_dir=None):
     effects_by_np = group_by(data["noble_phantasm_effects"], "noble_phantasm_id")
     skills_by_np = group_by(data["noble_phantasm_skills"], "noble_phantasm_id")
@@ -606,6 +649,7 @@ EXPORTERS = {
             "artifact_treasure_effects",
         },
     ),
+    "howlkins": (export_howlkins, {"howlkins", "howlkin_stats"}),
     "noble-phantasms": (
         export_noble_phantasms,
         {

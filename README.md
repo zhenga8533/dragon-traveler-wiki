@@ -7,6 +7,7 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 - Character database with stats, abilities, and subclasses
 - Status effects reference
 - Wyrmspell database
+- Howlkin database
 - Tier list and team builder tools
 - Redemption codes tracker
 - Fuzzy search and keyboard shortcuts

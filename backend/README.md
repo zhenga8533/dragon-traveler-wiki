@@ -54,6 +54,7 @@ backend/
     ├── character.py     # Character, Skill, Talent, Quality, CharacterClass
     ├── code.py          # Code, CodeReward
     ├── faction.py       # Faction, FactionName, Wyrm
+    ├── howlkin.py       # Howlkin
     ├── noble_phantasm.py# NoblePhantasm, NoblePhantasmEffect, NoblePhantasmSkill
     ├── resource.py      # Resource
     ├── status_effect.py # StatusEffect, StatusEffectType
@@ -76,6 +77,7 @@ The backend reads from and writes to `data/`:
 | `resources.json`      | Resource definitions |
 | `codes.json`          | Redemption codes     |
 | `status-effects.json` | Status effects       |
+| `howlkins.json`       | Howlkin database     |
 | `tier-lists.json`     | Community tier lists |
 | `teams.json`          | Team compositions    |
 | `useful-links.json`   | Community links      |
@@ -83,7 +85,7 @@ The backend reads from and writes to `data/`:
 
 ## Dolt Database
 
-The Dolt database (`dolt-db/`) mirrors the JSON data in a normalized relational schema with 16 tables. Key relationships:
+The Dolt database (`dolt-db/`) mirrors the JSON data in a normalized relational schema with 18 tables. Key relationships:
 
 - `characters` has child tables: `character_factions`, `character_subclasses`, `talent_levels`, `skills`
 - `tier_lists` has child table `tier_list_entries`

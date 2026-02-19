@@ -7,6 +7,7 @@ from backend.models.character import (
 )
 from backend.models.code import Code, CodeReward
 from backend.models.faction import Faction, FactionName, Wyrm
+from backend.models.howlkin import Howlkin
 from backend.models.noble_phantasm import (
     NoblePhantasm,
     NoblePhantasmEffect,
@@ -29,6 +30,7 @@ __all__ = [
     "CodeReward",
     "Faction",
     "FactionName",
+    "Howlkin",
     "NoblePhantasm",
     "NoblePhantasmEffect",
     "NoblePhantasmSkill",

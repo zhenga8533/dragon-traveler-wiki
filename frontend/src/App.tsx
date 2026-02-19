@@ -61,6 +61,7 @@ import CharacterPage from './pages/CharacterPage';
 import Characters from './pages/Characters';
 import Codes from './pages/Codes';
 import Home from './pages/Home';
+import Howlkins from './pages/Howlkins';
 import NoblePhantasmPage from './pages/NoblePhantasmPage';
 import NoblePhantasms from './pages/NoblePhantasms';
 import Resources from './pages/Resources';
@@ -89,6 +90,7 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { label: 'Artifacts', path: '/artifacts' },
       { label: 'Characters', path: '/characters' },
+      { label: 'Howlkins', path: '/howlkins' },
       { label: 'Noble Phantasms', path: '/noble-phantasms' },
       { label: 'Resources', path: '/resources' },
       { label: 'Status Effects', path: '/status-effects' },
@@ -450,6 +452,7 @@ function AppContent() {
               <Route path="/artifacts/:name" element={<ArtifactPage />} />
               <Route path="/characters" element={<Characters />} />
               <Route path="/characters/:name" element={<CharacterPage />} />
+              <Route path="/howlkins" element={<Howlkins />} />
               <Route path="/noble-phantasms" element={<NoblePhantasms />} />
               <Route
                 path="/noble-phantasms/:name"

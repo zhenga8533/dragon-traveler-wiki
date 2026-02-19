@@ -1,0 +1,29 @@
+[
+  {
+    "name": "The Hunchback of Notre Dame",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 108,
+      "PvP DMG Reduction": 108
+    },
+    "passive_effect": "PDEF +10.0%"
+  },
+  {
+    "name": "The Phantom of the Opera",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 180,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effect": "For Every 6 Chapters of Adventure Main Story Cleared: HP +1.0%."
+  },
+  {
+    "name": "Cretan Bull",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 180
+    },
+    "passive_effect": "For Every 60 Wyrmbone Ruins Floors Cleared: ATK +1.0%."
+  }
+]

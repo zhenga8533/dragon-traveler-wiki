@@ -67,6 +67,11 @@ const PAGES = [
     keywords: 'resources materials currency items',
   },
   {
+    title: 'Howlkins',
+    path: '/howlkins',
+    keywords: 'howlkins database pot howlkin refinement',
+  },
+  {
     title: 'Status Effects',
     path: '/status-effects',
     keywords: 'status effects buffs debuffs',

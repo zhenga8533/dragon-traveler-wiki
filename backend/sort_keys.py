@@ -73,6 +73,13 @@ def artifact_sort_key(a):
     )
 
 
+def howlkin_sort_key(h):
+    return (
+        QUALITY_RANK.get(h.get("quality", ""), _FALLBACK),
+        (h.get("name") or "").lower(),
+    )
+
+
 def noble_phantasm_sort_key(np):
     return (
         (np.get("character") or "").lower(),
@@ -94,5 +101,6 @@ FILE_SORT_KEY = {
     "status-effects.json": status_effect_sort_key,
     "useful-links.json": useful_link_sort_key,
     "artifacts.json": artifact_sort_key,
+    "howlkins.json": howlkin_sort_key,
     "noble_phantasm.json": noble_phantasm_sort_key,
 }

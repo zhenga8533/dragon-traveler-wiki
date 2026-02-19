@@ -29,6 +29,7 @@ LABEL_JSON_FILE = {
     "links": "useful-links.json",
     "resource": "resources.json",
     "character": "characters.json",
+    "howlkin": "howlkins.json",
     "tier-list": "tier-lists.json",
     "team": "teams.json",
 }
@@ -41,6 +42,7 @@ REQUIRED_FIELDS = {
     "links": ["name", "link"],
     "resource": ["name", "category", "description", "quality"],
     "character": ["name"],
+    "howlkin": ["name", "quality", "basic_stats", "passive_effect"],
     "tier-list": ["name", "entries"],
     "team": ["name", "members"],
 }
@@ -164,6 +166,13 @@ def validate_data(label, data):
                 f"Expected one of: {', '.join(sorted(VALID_CHARACTER_CLASSES))}"
             )
 
+    if label == "howlkin" and data.get("quality"):
+        if data["quality"] not in VALID_CHARACTER_QUALITIES:
+            raise ValueError(
+                "Invalid howlkin quality. "
+                f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
+            )
+
     if label == "tier-list":
         entries = data.get("entries", [])
         if not isinstance(entries, list) or len(entries) == 0:
@@ -257,6 +266,33 @@ def normalize_for_json(label, data):
             "lore": data.get("lore", ""),
             "effects": data.get("effects", []),
             "skills": data.get("skills", []),
+        }
+
+    if label == "howlkin":
+        raw_stats = data.get("basic_stats") or {}
+        stats = {}
+        if isinstance(raw_stats, dict):
+            stats = raw_stats
+        elif isinstance(raw_stats, list):
+            for entry in raw_stats:
+                if not isinstance(entry, dict):
+                    continue
+                name = entry.get("stat") or entry.get("name") or ""
+                value = entry.get("value")
+                if not name:
+                    continue
+                try:
+                    parsed = float(value)
+                    value = int(parsed) if parsed.is_integer() else parsed
+                except (TypeError, ValueError):
+                    pass
+                stats[name] = value
+
+        return {
+            "name": data["name"],
+            "quality": data.get("quality", ""),
+            "basic_stats": stats,
+            "passive_effect": data.get("passive_effect", ""),
         }
 
     if label == "resource":

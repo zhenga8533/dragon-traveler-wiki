@@ -22,6 +22,7 @@ from .sort_keys import (
     artifact_sort_key,
     character_sort_key,
     faction_sort_key,
+    howlkin_sort_key,
     noble_phantasm_sort_key,
     resource_sort_key,
     status_effect_sort_key,
@@ -174,6 +175,7 @@ TIMESTAMP_TABLES = [
     "useful_links",
     "changelog",
     "artifacts",
+    "howlkins",
 ]
 
 
@@ -353,6 +355,44 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
             dry_run=dry_run,
         )
         existing_tables.add("artifact_treasure_effects")
+
+        # Ensure howlkins and related tables exist.
+        if "howlkins" not in existing_tables:
+            print("  Creating missing howlkins table")
+            dolt_sql(
+                """
+                        CREATE TABLE howlkins (
+                            id int NOT NULL AUTO_INCREMENT,
+                            name varchar(200) NOT NULL,
+                            quality varchar(20) NOT NULL DEFAULT '',
+                            passive_effect text,
+                            last_updated BIGINT NULL,
+                            data_hash VARCHAR(64) NULL,
+                            PRIMARY KEY (id),
+                            UNIQUE KEY name (name)
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+                        """,
+                dry_run=dry_run,
+            )
+            existing_tables.add("howlkins")
+
+        if "howlkin_stats" not in existing_tables:
+            print("  Creating missing howlkin_stats table")
+            dolt_sql(
+                """
+                        CREATE TABLE howlkin_stats (
+                            id int NOT NULL AUTO_INCREMENT,
+                            howlkin_id int NOT NULL,
+                            stat_name varchar(100) NOT NULL,
+                            stat_value double NOT NULL,
+                            PRIMARY KEY (id),
+                            KEY howlkin_id (howlkin_id),
+                            CONSTRAINT howlkin_stats_ibfk_1 FOREIGN KEY (howlkin_id) REFERENCES howlkins(id)
+                        ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+                        """,
+                dry_run=dry_run,
+            )
+            existing_tables.add("howlkin_stats")
 
     # Ensure noble phantasms and related tables exist.
     if "noble_phantasms" not in existing_tables:
@@ -943,6 +983,44 @@ def sync_artifacts(data, batch, now):
     print(f"  Synced {a_id} artifacts ({treasure_id} treasures)")
 
 
+def sync_howlkins(data, batch, now):
+    """Sync howlkins.json -> howlkins + howlkin_stats tables."""
+    old_ts = get_old_timestamps("howlkins", "name")
+    batch.add("DELETE FROM howlkin_stats;")
+    batch.add("DELETE FROM howlkins;")
+    batch.add("ALTER TABLE howlkin_stats AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE howlkins AUTO_INCREMENT = 1;")
+    data = sorted(data, key=howlkin_sort_key)
+    h_id = 0
+    stat_id = 0
+    for h in data:
+        if not h.get("name"):
+            continue
+        h_id += 1
+        h_hash = compute_hash(h)
+        ts = resolve_timestamp(h["name"], h_hash, old_ts, now)
+        batch.add(
+            f"INSERT INTO howlkins (id, name, quality, passive_effect, last_updated, data_hash) VALUES "
+            f"({h_id}, {escape_sql(h['name'])}, {escape_sql(h.get('quality'))}, "
+            f"{escape_sql(h.get('passive_effect'))}, {escape_sql(ts)}, {escape_sql(h_hash)});"
+        )
+
+        basic_stats = h.get("basic_stats") or {}
+        if isinstance(basic_stats, dict):
+            for stat_name, stat_value in sorted(
+                basic_stats.items(), key=lambda item: str(item[0]).lower()
+            ):
+                if not stat_name:
+                    continue
+                stat_id += 1
+                batch.add(
+                    f"INSERT INTO howlkin_stats (id, howlkin_id, stat_name, stat_value) VALUES "
+                    f"({stat_id}, {h_id}, {escape_sql(stat_name)}, {escape_sql(stat_value)});"
+                )
+
+    print(f"  Synced {h_id} howlkins")
+
+
 def sync_noble_phantasms(data, batch, now):
     """Sync noble_phantasm.json -> noble_phantasms + effects + skills tables."""
     old_ts = get_old_timestamps("noble_phantasms", "name")
@@ -1054,6 +1132,7 @@ def main():
             "teams",
             "useful-links",
             "artifacts",
+            "howlkins",
             "changelog",
             "all",
         ],
@@ -1081,6 +1160,7 @@ def main():
         "teams": ["teams.json"],
         "useful-links": ["useful-links.json"],
         "artifacts": ["artifacts.json"],
+        "howlkins": ["howlkins.json"],
         "changelog": ["changelog.json"],
     }
 
@@ -1135,6 +1215,7 @@ def main():
             "artifacts": lambda: sync_artifacts(
                 json_cache["artifacts.json"], batch, now
             ),
+            "howlkins": lambda: sync_howlkins(json_cache["howlkins.json"], batch, now),
             "changelog": lambda: sync_changelog(
                 json_cache["changelog.json"], batch, now
             ),
