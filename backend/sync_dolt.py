@@ -34,6 +34,7 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 ROOT_DIR = SCRIPT_DIR.parent
 DOLT_DIR = ROOT_DIR / "dolt-db"
 DATA_DIR = ROOT_DIR / "data"
+HASHES_FILE = DATA_DIR / "hashes.json"
 
 
 class SyncError(Exception):
@@ -593,8 +594,34 @@ def load_json(filename):
         return json.load(f)
 
 
-def resolve_timestamp(key, new_hash, old_timestamps, now):
-    """Return the appropriate last_updated value for a row based on hash comparison."""
+def load_hashes():
+    """Load entity hashes from hashes.json (device-independent change detection)."""
+    if HASHES_FILE.exists():
+        with open(HASHES_FILE, "r", encoding="utf-8") as f:
+            return json.load(f)
+    return {}
+
+
+def save_hashes(hashes):
+    """Write entity hashes to hashes.json."""
+    with open(HASHES_FILE, "w", encoding="utf-8") as f:
+        json.dump(hashes, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+
+
+def resolve_timestamp(key, new_hash, old_timestamps, now, table_hashes=None):
+    """Return the appropriate last_updated value for a row based on hash comparison.
+
+    Checks hashes.json first (device-independent — committed to git alongside data),
+    then falls back to the local Dolt DB. This prevents spurious timestamp updates
+    when syncing on a machine whose local Dolt DB doesn't have the latest hashes yet.
+    """
+    # Primary: hashes.json entry for this table (device-independent)
+    if table_hashes is not None:
+        entry = table_hashes.get(key, {})
+        if isinstance(entry, dict) and entry.get("hash") == new_hash and entry.get("ts"):
+            return entry["ts"]
+    # Fallback: local Dolt DB
     old = old_timestamps.get(key)
     if old and old[1] == new_hash and old[0]:
         return old[0]
@@ -606,9 +633,10 @@ def resolve_timestamp(key, new_hash, old_timestamps, now):
 # ---------------------------------------------------------------------------
 
 
-def sync_factions(data, batch, now):
+def sync_factions(data, batch, now, stored_hashes, new_hashes):
     """Sync factions.json -> factions table."""
     old_ts = get_old_timestamps("factions", "name")
+    table_hashes = stored_hashes.get("factions", {})
     batch.add("DELETE FROM character_factions;")
     batch.add("DELETE FROM factions;")
     data = sorted(data, key=faction_sort_key)
@@ -616,7 +644,8 @@ def sync_factions(data, batch, now):
         if not f.get("name"):
             continue
         h = compute_hash(f)
-        ts = resolve_timestamp(f["name"], h, old_ts, now)
+        ts = resolve_timestamp(f["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("factions", {})[f["name"]] = {"hash": h, "ts": int(ts)}
         batch.add(
             f"INSERT INTO factions (id, name, wyrm, description, last_updated, data_hash) VALUES "
             f"({i}, {escape_sql(f['name'])}, {escape_sql(f.get('wyrm'))}, {escape_sql(f.get('description'))}, "
@@ -626,9 +655,10 @@ def sync_factions(data, batch, now):
     print(f"  Synced {count} factions")
 
 
-def sync_characters(data, factions, batch, now):
+def sync_characters(data, factions, batch, now, stored_hashes, new_hashes):
     """Sync characters.json -> characters + related tables."""
     old_ts = get_old_timestamps("characters", "name")
+    table_hashes = stored_hashes.get("characters", {})
     for table in [
         "skills",
         "talent_levels",
@@ -656,7 +686,8 @@ def sync_characters(data, factions, batch, now):
         char_id += 1
 
         h = compute_hash(c)
-        ts = resolve_timestamp(c["name"], h, old_ts, now)
+        ts = resolve_timestamp(c["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("characters", {})[c["name"]] = {"hash": h, "ts": int(ts)}
 
         talent_name = c.get("talent", {}).get("name", "") if c.get("talent") else ""
         batch.add(
@@ -708,9 +739,10 @@ def sync_characters(data, factions, batch, now):
     print(f"  Synced {char_id} characters")
 
 
-def sync_wyrmspells(data, batch, now):
+def sync_wyrmspells(data, batch, now, stored_hashes, new_hashes):
     """Sync wyrmspells.json -> wyrmspells table."""
     old_ts = get_old_timestamps("wyrmspells", "name")
+    table_hashes = stored_hashes.get("wyrmspells", {})
     batch.add("DELETE FROM wyrmspells;")
     batch.add("ALTER TABLE wyrmspells AUTO_INCREMENT = 1;")
     data = sorted(data, key=wyrmspell_sort_key)
@@ -720,7 +752,8 @@ def sync_wyrmspells(data, batch, now):
             continue
         w_id += 1
         h = compute_hash(w)
-        ts = resolve_timestamp(w["name"], h, old_ts, now)
+        ts = resolve_timestamp(w["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("wyrmspells", {})[w["name"]] = {"hash": h, "ts": int(ts)}
         batch.add(
             f"INSERT INTO wyrmspells (id, name, effect, type, quality, exclusive_faction, is_global, last_updated, data_hash) VALUES "
             f"({w_id}, {escape_sql(w['name'])}, {escape_sql(w.get('effect'))}, {escape_sql(w.get('type'))}, "
@@ -730,13 +763,14 @@ def sync_wyrmspells(data, batch, now):
     print(f"  Synced {w_id} wyrmspells")
 
 
-def sync_resources(data, batch, existing_tables, now):
+def sync_resources(data, batch, existing_tables, now, stored_hashes, new_hashes):
     """Sync resources.json -> resources table."""
     if "resources" not in existing_tables:
         print("  Skipping resources (table not found in Dolt schema)")
         return
 
     old_ts = get_old_timestamps("resources", "name")
+    table_hashes = stored_hashes.get("resources", {})
 
     # code_rewards.resource_id -> resources.id FK requires child rows to be removed first.
     # NOTE: sync_codes also deletes code_rewards; the duplicate DELETE is harmless.
@@ -755,7 +789,8 @@ def sync_resources(data, batch, existing_tables, now):
             continue
         r_id += 1
         h = compute_hash(r)
-        ts = resolve_timestamp(r["name"], h, old_ts, now)
+        ts = resolve_timestamp(r["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("resources", {})[r["name"]] = {"hash": h, "ts": int(ts)}
         batch.add(
             f"INSERT INTO resources (id, name, quality, description, category, last_updated, data_hash) VALUES "
             f"({r_id}, {escape_sql(r['name'])}, {escape_sql(r.get('quality'))}, {escape_sql(r.get('description', ''))}, "
@@ -764,13 +799,14 @@ def sync_resources(data, batch, existing_tables, now):
     print(f"  Synced {r_id} resources")
 
 
-def sync_codes(data, batch, existing_tables, resource_ids, now):
+def sync_codes(data, batch, existing_tables, resource_ids, now, stored_hashes, new_hashes):
     """Sync codes.json -> codes (+ code_rewards when table exists)."""
     if "codes" not in existing_tables:
         print("  Skipping codes (table not found in Dolt schema)")
         return
 
     old_ts = get_old_timestamps("codes", "code")
+    table_hashes = stored_hashes.get("codes", {})
 
     has_code_rewards = "code_rewards" in existing_tables
     code_reward_columns = (
@@ -801,7 +837,8 @@ def sync_codes(data, batch, existing_tables, resource_ids, now):
             rewards = {}
 
         h = compute_hash(c)
-        ts = resolve_timestamp(c["code"], h, old_ts, now)
+        ts = resolve_timestamp(c["code"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("codes", {})[c["code"]] = {"hash": h, "ts": int(ts)}
 
         batch.add(
             f"INSERT INTO codes (id, code, active, last_updated, data_hash) VALUES "
@@ -836,9 +873,10 @@ def sync_codes(data, batch, existing_tables, resource_ids, now):
         print(f"  Synced {c_id} codes (no code_rewards table; rewards ignored)")
 
 
-def sync_status_effects(data, batch, now):
+def sync_status_effects(data, batch, now, stored_hashes, new_hashes):
     """Sync status-effects.json -> status_effects table."""
     old_ts = get_old_timestamps("status_effects", "name")
+    table_hashes = stored_hashes.get("status_effects", {})
     batch.add("DELETE FROM status_effects;")
     batch.add("ALTER TABLE status_effects AUTO_INCREMENT = 1;")
     data = sorted(data, key=status_effect_sort_key)
@@ -848,7 +886,8 @@ def sync_status_effects(data, batch, now):
             continue
         se_id += 1
         h = compute_hash(se)
-        ts = resolve_timestamp(se["name"], h, old_ts, now)
+        ts = resolve_timestamp(se["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("status_effects", {})[se["name"]] = {"hash": h, "ts": int(ts)}
         batch.add(
             f"INSERT INTO status_effects (id, name, type, effect, remark, last_updated, data_hash) VALUES "
             f"({se_id}, {escape_sql(se['name'])}, {escape_sql(se.get('type'))}, "
@@ -858,9 +897,10 @@ def sync_status_effects(data, batch, now):
     print(f"  Synced {se_id} status effects")
 
 
-def sync_tier_lists(data, batch, now):
+def sync_tier_lists(data, batch, now, stored_hashes, new_hashes):
     """Sync tier-lists.json -> tier_lists + tier_list_entries tables."""
     old_ts = get_old_timestamps("tier_lists", "name")
+    table_hashes = stored_hashes.get("tier_lists", {})
     batch.add("DELETE FROM tier_list_entries;")
     batch.add("DELETE FROM tier_lists;")
     batch.add("ALTER TABLE tier_list_entries AUTO_INCREMENT = 1;")
@@ -872,7 +912,8 @@ def sync_tier_lists(data, batch, now):
             continue
         tl_id += 1
         h = compute_hash(tl)
-        ts = resolve_timestamp(tl["name"], h, old_ts, now)
+        ts = resolve_timestamp(tl["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("tier_lists", {})[tl["name"]] = {"hash": h, "ts": int(ts)}
         batch.add(
             f"INSERT INTO tier_lists (id, name, author, content_type, description, last_updated, data_hash) VALUES "
             f"({tl_id}, {escape_sql(tl['name'])}, {escape_sql(tl.get('author'))}, "
@@ -889,9 +930,10 @@ def sync_tier_lists(data, batch, now):
     print(f"  Synced {tl_id} tier lists")
 
 
-def sync_teams(data, batch, now):
+def sync_teams(data, batch, now, stored_hashes, new_hashes):
     """Sync teams.json -> teams + team_members + team_member_substitutes tables."""
     old_ts = get_old_timestamps("teams", "name")
+    table_hashes = stored_hashes.get("teams", {})
     batch.add("DELETE FROM team_member_substitutes;")
     batch.add("DELETE FROM team_members;")
     batch.add("DELETE FROM teams;")
@@ -906,7 +948,8 @@ def sync_teams(data, batch, now):
             continue
         team_id += 1
         h = compute_hash(t)
-        ts = resolve_timestamp(t["name"], h, old_ts, now)
+        ts = resolve_timestamp(t["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("teams", {})[t["name"]] = {"hash": h, "ts": int(ts)}
         ws = t.get("wyrmspells") or {}
         batch.add(
             f"INSERT INTO teams (id, name, author, content_type, description, faction, "
@@ -935,9 +978,10 @@ def sync_teams(data, batch, now):
     print(f"  Synced {team_id} teams")
 
 
-def sync_useful_links(data, batch, now):
+def sync_useful_links(data, batch, now, stored_hashes, new_hashes):
     """Sync useful-links.json -> useful_links table."""
     old_ts = get_old_timestamps("useful_links", "name")
+    table_hashes = stored_hashes.get("useful_links", {})
     batch.add("DELETE FROM useful_links;")
     batch.add("ALTER TABLE useful_links AUTO_INCREMENT = 1;")
     data = sorted(data, key=useful_link_sort_key)
@@ -947,7 +991,8 @@ def sync_useful_links(data, batch, now):
             continue
         link_id += 1
         h = compute_hash(link)
-        ts = resolve_timestamp(link["name"], h, old_ts, now)
+        ts = resolve_timestamp(link["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("useful_links", {})[link["name"]] = {"hash": h, "ts": int(ts)}
         batch.add(
             f"INSERT INTO useful_links (id, icon, application, name, description, link, last_updated, data_hash) VALUES "
             f"({link_id}, {escape_sql(link.get('icon'))}, {escape_sql(link.get('application'))}, "
@@ -957,9 +1002,10 @@ def sync_useful_links(data, batch, now):
     print(f"  Synced {link_id} useful links")
 
 
-def sync_artifacts(data, batch, now):
+def sync_artifacts(data, batch, now, stored_hashes, new_hashes):
     """Sync artifacts.json -> artifacts + artifact_effects + artifact_treasures + artifact_treasure_effects tables."""
     old_ts = get_old_timestamps("artifacts", "name")
+    table_hashes = stored_hashes.get("artifacts", {})
     batch.add("DELETE FROM artifact_treasure_effects;")
     batch.add("DELETE FROM artifact_effects;")
     batch.add("DELETE FROM artifact_treasures;")
@@ -978,7 +1024,8 @@ def sync_artifacts(data, batch, now):
             continue
         a_id += 1
         h = compute_hash(a)
-        ts = resolve_timestamp(a["name"], h, old_ts, now)
+        ts = resolve_timestamp(a["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("artifacts", {})[a["name"]] = {"hash": h, "ts": int(ts)}
         batch.add(
             f"INSERT INTO artifacts (id, name, is_global, lore, quality, columns, rows, last_updated, data_hash) VALUES "
             f"({a_id}, {escape_sql(a['name'])}, {'TRUE' if a.get('is_global') else 'FALSE'}, "
@@ -1010,9 +1057,10 @@ def sync_artifacts(data, batch, now):
     print(f"  Synced {a_id} artifacts ({treasure_id} treasures)")
 
 
-def sync_howlkins(data, batch, now):
+def sync_howlkins(data, batch, now, stored_hashes, new_hashes):
     """Sync howlkins.json -> howlkins + howlkin_stats + howlkin_passive_effects tables."""
     old_ts = get_old_timestamps("howlkins", "name")
+    table_hashes = stored_hashes.get("howlkins", {})
     batch.add("DELETE FROM howlkin_passive_effects;")
     batch.add("DELETE FROM howlkin_stats;")
     batch.add("DELETE FROM howlkins;")
@@ -1028,7 +1076,8 @@ def sync_howlkins(data, batch, now):
             continue
         h_id += 1
         h_hash = compute_hash(h)
-        ts = resolve_timestamp(h["name"], h_hash, old_ts, now)
+        ts = resolve_timestamp(h["name"], h_hash, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("howlkins", {})[h["name"]] = {"hash": h_hash, "ts": int(ts)}
         batch.add(
             f"INSERT INTO howlkins (id, name, quality, last_updated, data_hash) VALUES "
             f"({h_id}, {escape_sql(h['name'])}, {escape_sql(h.get('quality'))}, "
@@ -1067,9 +1116,10 @@ def sync_howlkins(data, batch, now):
     print(f"  Synced {h_id} howlkins")
 
 
-def sync_noble_phantasms(data, batch, now):
+def sync_noble_phantasms(data, batch, now, stored_hashes, new_hashes):
     """Sync noble_phantasm.json -> noble_phantasms + effects + skills tables."""
     old_ts = get_old_timestamps("noble_phantasms", "name")
+    table_hashes = stored_hashes.get("noble_phantasms", {})
     batch.add("DELETE FROM noble_phantasm_effects;")
     batch.add("DELETE FROM noble_phantasm_skills;")
     batch.add("DELETE FROM noble_phantasms;")
@@ -1088,7 +1138,8 @@ def sync_noble_phantasms(data, batch, now):
 
         np_id += 1
         h = compute_hash(np)
-        ts = resolve_timestamp(np["name"], h, old_ts, now)
+        ts = resolve_timestamp(np["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("noble_phantasms", {})[np["name"]] = {"hash": h, "ts": int(ts)}
 
         batch.add(
             f"INSERT INTO noble_phantasms (id, name, character_name, is_global, lore, last_updated, data_hash) VALUES "
@@ -1118,9 +1169,10 @@ def sync_noble_phantasms(data, batch, now):
     print(f"  Synced {np_id} noble phantasms")
 
 
-def sync_changelog(data, batch, now):
+def sync_changelog(data, batch, now, stored_hashes, new_hashes):
     """Sync changelog.json -> changelog + changelog_changes tables."""
     old_ts = get_old_timestamps("changelog", "version")
+    table_hashes = stored_hashes.get("changelog", {})
     batch.add("DELETE FROM changelog_changes;")
     batch.add("DELETE FROM changelog;")
     batch.add("ALTER TABLE changelog_changes AUTO_INCREMENT = 1;")
@@ -1132,7 +1184,8 @@ def sync_changelog(data, batch, now):
             continue
         cl_id += 1
         h = compute_hash(entry)
-        ts = resolve_timestamp(entry["version"], h, old_ts, now)
+        ts = resolve_timestamp(entry["version"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("changelog", {})[entry["version"]] = {"hash": h, "ts": int(ts)}
         batch.add(
             f"INSERT INTO changelog (id, date, version, last_updated, data_hash) VALUES "
             f"({cl_id}, {escape_sql(entry.get('date'))}, {escape_sql(entry['version'])}, "
@@ -1220,6 +1273,9 @@ def main():
     print("Loading JSON data...")
     json_cache = {f: load_json(f) for f in needed_files}
 
+    stored_hashes = load_hashes()
+    new_hashes = {}
+
     print("Syncing to Dolt..." + (" (dry run)" if args.dry_run else ""))
 
     try:
@@ -1232,38 +1288,44 @@ def main():
         now = int(time.time())
 
         syncers = {
-            "factions": lambda: sync_factions(json_cache["factions.json"], batch, now),
+            "factions": lambda: sync_factions(
+                json_cache["factions.json"], batch, now, stored_hashes, new_hashes
+            ),
             "characters": lambda: sync_characters(
-                json_cache["characters.json"], json_cache["factions.json"], batch, now
+                json_cache["characters.json"], json_cache["factions.json"], batch, now, stored_hashes, new_hashes
             ),
             "wyrmspells": lambda: sync_wyrmspells(
-                json_cache["wyrmspells.json"], batch, now
+                json_cache["wyrmspells.json"], batch, now, stored_hashes, new_hashes
             ),
             "noble-phantasms": lambda: sync_noble_phantasms(
-                json_cache["noble_phantasm.json"], batch, now
+                json_cache["noble_phantasm.json"], batch, now, stored_hashes, new_hashes
             ),
             "resources": lambda: sync_resources(
-                json_cache["resources.json"], batch, existing_tables, now
+                json_cache["resources.json"], batch, existing_tables, now, stored_hashes, new_hashes
             ),
             "codes": lambda: sync_codes(
-                json_cache["codes.json"], batch, existing_tables, resource_ids, now
+                json_cache["codes.json"], batch, existing_tables, resource_ids, now, stored_hashes, new_hashes
             ),
             "status-effects": lambda: sync_status_effects(
-                json_cache["status-effects.json"], batch, now
+                json_cache["status-effects.json"], batch, now, stored_hashes, new_hashes
             ),
             "tier-lists": lambda: sync_tier_lists(
-                json_cache["tier-lists.json"], batch, now
+                json_cache["tier-lists.json"], batch, now, stored_hashes, new_hashes
             ),
-            "teams": lambda: sync_teams(json_cache["teams.json"], batch, now),
+            "teams": lambda: sync_teams(
+                json_cache["teams.json"], batch, now, stored_hashes, new_hashes
+            ),
             "useful-links": lambda: sync_useful_links(
-                json_cache["useful-links.json"], batch, now
+                json_cache["useful-links.json"], batch, now, stored_hashes, new_hashes
             ),
             "artifacts": lambda: sync_artifacts(
-                json_cache["artifacts.json"], batch, now
+                json_cache["artifacts.json"], batch, now, stored_hashes, new_hashes
             ),
-            "howlkins": lambda: sync_howlkins(json_cache["howlkins.json"], batch, now),
+            "howlkins": lambda: sync_howlkins(
+                json_cache["howlkins.json"], batch, now, stored_hashes, new_hashes
+            ),
             "changelog": lambda: sync_changelog(
-                json_cache["changelog.json"], batch, now
+                json_cache["changelog.json"], batch, now, stored_hashes, new_hashes
             ),
         }
 
@@ -1283,6 +1345,12 @@ def main():
     if args.dry_run:
         print("\nDry run complete — no changes made.")
         return
+
+    # Persist updated hashes so future syncs on any device can detect unchanged data.
+    # Merge into existing hashes so partial syncs (--target) don't discard other tables.
+    merged = {**stored_hashes, **new_hashes}
+    save_hashes(merged)
+    print("Updated hashes.json")
 
     # Commit changes in Dolt
     print("\nCommitting to Dolt...")

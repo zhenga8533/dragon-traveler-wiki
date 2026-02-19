@@ -1,0 +1,1852 @@
+{
+  "factions": {
+    "Arcane Wisdom": {
+      "hash": "2bfe1d8010f20426a788d1a58fedf545a75c191d8c9127e9d481bb2ee3298f77",
+      "ts": 1771129475
+    },
+    "Elemental Echo": {
+      "hash": "ceaab7fad692230c04b51293f95d54eccd60c643ce1f167e0970c15ace889784",
+      "ts": 1771129475
+    },
+    "Illusion Veil": {
+      "hash": "fdc1948a56619e2a2de47acedacb158468fb988b4ff95cf53ef366beb371d938",
+      "ts": 1771129475
+    },
+    "Otherworld Return": {
+      "hash": "eed274ccb00c780258be939a18b81a7dba951b0d465352908e739dc9b14b13c3",
+      "ts": 1771129475
+    },
+    "Sanctum Glory": {
+      "hash": "22d8634a5fa7cb7b9f3f23a2767dea1fc2dad26baaf780792039213e77483816",
+      "ts": 1771129475
+    },
+    "Wild Spirit": {
+      "hash": "5b3846fce03751d1ea7f4a18cf691ff0617efdb3a7d6a87cbba9b240ef78c5a0",
+      "ts": 1771129475
+    }
+  },
+  "characters": {
+    "Athena": {
+      "hash": "c35e188503ac507006f83a8dd273f7f74096a6743233ef73662ca7c3e43ddd8b",
+      "ts": 1771471837
+    },
+    "Prometheus": {
+      "hash": "51fabc9ca23d292b697902f85560e1b96777fa80084ff3e157cf0d65eae1cd73",
+      "ts": 1771374946
+    },
+    "Anubis": {
+      "hash": "43a4d8ab88fd2e8bc8f2ba4e38e20cb1183113c62e9bcf70c1831fce177f141b",
+      "ts": 1771471837
+    },
+    "Caesar": {
+      "hash": "d957745205969c21264dcf7019edf442e402b9bc2ef682d2c6ab04ed8ae82ea3",
+      "ts": 1771374946
+    },
+    "Duvalin": {
+      "hash": "dae166f2020c0ef1c05e5280484eedf68b29376ea0f78850e7f239e4171f9043",
+      "ts": 1771374946
+    },
+    "Helveil": {
+      "hash": "ff2b77f7c655d8bc1d11f557e0a9bb9698b194358b86791c11b62bd713e6d8a3",
+      "ts": 1771471837
+    },
+    "Pompey": {
+      "hash": "f4deff1ba9d4389a5cd35429b1e3d562d4bad2185668797c1cab3732729c6625",
+      "ts": 1771374946
+    },
+    "Salome": {
+      "hash": "4ecd32bc1d466eb19df23118c8c69b1cc11bab3aba69c04524f7d68e93076ff3",
+      "ts": 1771374946
+    },
+    "Drasill": {
+      "hash": "c4360a49b746dd32e4b56bd4ceab43f8805f90dc181ded30a91dd0bddf9ba22b",
+      "ts": 1771471837
+    },
+    "Goren": {
+      "hash": "812c0ba4612d1106b5676799d3573ed9559b7325f1b7777c7d8f534d8d08b056",
+      "ts": 1771471837
+    },
+    "Gudong": {
+      "hash": "8c316210227c2bf00ec1b7af969b4b1d16286cdd12e47d24d094157b4b8499dd",
+      "ts": 1771374946
+    },
+    "Herman": {
+      "hash": "8318120e8436f442008ae41e64403a985d77165d4d19d49e5bb9b5b292662db1",
+      "ts": 1771374946
+    },
+    "Oberonnie": {
+      "hash": "3eb2f4d8d50bc8030511d33246dea78ddc4248321782f3e42ac6c9d6f38395ee",
+      "ts": 1771471837
+    },
+    "Eurytion": {
+      "hash": "158154da2c860cb6bcd435607e9d2bbeb7accf615ac26861e4b4b7d5330b2f22",
+      "ts": 1771374946
+    },
+    "Dwarf Warrior": {
+      "hash": "d1e063acbdf6eb1e8a3000e2f8da18d4bceccd8e1081f711aae91fe14f177b19",
+      "ts": 1771471837
+    },
+    "Mummy": {
+      "hash": "d5b9ef30f41a7452f4955ff60770a32bfeab41978ec47feacfa000fa9a1dca6f",
+      "ts": 1771374946
+    },
+    "Rock Slime": {
+      "hash": "36f0ac80aaf3e4237ed767f17f47cfb66871f66f5a44e012bd8679cf3865faa2",
+      "ts": 1771374946
+    },
+    "Hela": {
+      "hash": "54a49407816e68e3b0df8d981a577503d9648d08a09d0221e0c7da29c3bda9c1",
+      "ts": 1771374946
+    },
+    "Venus": {
+      "hash": "9da1330c38e370979c6aeb89c756bcb3fc0782bd46f60bc2551cf1f99f3645c2",
+      "ts": 1771374946
+    },
+    "Morgana": {
+      "hash": "8775d68897aa9d1efd8e51e4aa027530a6276bffe3ab398bbd4a54c71cffc8d2",
+      "ts": 1771374946
+    },
+    "Ophelia": {
+      "hash": "1e78f8f694a8626b609c592b5e2edc84f34ab9d417bbb8706a08c1e99dce777b",
+      "ts": 1771374946
+    },
+    "Scheherazade": {
+      "hash": "5696a2dd6f9ed15a41d4b87e8f6e298ebf2dc9ab012eabc585da16769661e382",
+      "ts": 1771374946
+    },
+    "Silbismo": {
+      "hash": "8d6c113495c2d20b0b6cf6607dbb23b018d9ed5c5877ccaac856b6dcb4a2d9cb",
+      "ts": 1771374946
+    },
+    "Titania": {
+      "hash": "8d8c0ede3958310a001385560c8e8a176b6d98a3f45770688be8f1ce787cffdf",
+      "ts": 1771374946
+    },
+    "Vivienne": {
+      "hash": "5210f1624dd0266887beba27d287545802ff8ab56468203621aecfe749c87ac5",
+      "ts": 1771471837
+    },
+    "Atanith": {
+      "hash": "aa58cbe838bc2e0e79906aafb95c8cd8a2e2d4e3ad1d01e2d0b64696272a95b5",
+      "ts": 1771471837
+    },
+    "Caligula": {
+      "hash": "e875808bb135e662679db6826ee55ec38af83d1e661082e0c8b1940f0059495a",
+      "ts": 1771471837
+    },
+    "Chiron": {
+      "hash": "5f0f3f4f7f199097e398280a145315f80352ff25db4b86bc724fe7b9d6ee89fc",
+      "ts": 1771471837
+    },
+    "Flora": {
+      "hash": "85a78ed83d8864d8aa37259680a564c24654cfc7fbefc3c61d2bbfc735aa6198",
+      "ts": 1771374946
+    },
+    "Siren": {
+      "hash": "8b70b0e4e38c59797704ddfab0be7a73d18550d718f448b1c8e1e05d31ca9edc",
+      "ts": 1771471837
+    },
+    "Goblin War Drummer": {
+      "hash": "eb46da4c50e9c19dfce56985c3bf63cb073083916bbe3d2b42ea3422012c0dfc",
+      "ts": 1771471837
+    },
+    "Viel": {
+      "hash": "4950faaa7b916f403884b7695eddfeac612a7093d3ec0deb9e94e11dbca3a82f",
+      "ts": 1771374946
+    },
+    "Breeze Slime": {
+      "hash": "ca34c9426bb2b8acacce6534599539e2c8abcdb2c3891ff14bc7725dc818afd4",
+      "ts": 1771374946
+    },
+    "Hades": {
+      "hash": "7adc7ddc4242dfa9aaa12eb8fb6ab7d214f5dab84ed133799c933492b34c1d86",
+      "ts": 1771374946
+    },
+    "Jormungandr": {
+      "hash": "d0b4e095cf9db93659437e9bcd0c0b7a139bbe03f469d1ae45d4293f23aedc50",
+      "ts": 1771471837
+    },
+    "Mordred": {
+      "hash": "94c1c18f594fbe5e4e578caaac6ca680007484f1f51fa734ce7f4c9c34ca2e00",
+      "ts": 1771374946
+    },
+    "Pan Junbao": {
+      "hash": "4fa7dfad4d0d16e50aa3eb1963cf66e574e7cc11651257d1bf50336ec5f09131",
+      "ts": 1771374946
+    },
+    "Rin": {
+      "hash": "ba68c506c773510e17ca1af6ee3a17e4459233ecceb480bb5035b589f97d3eef",
+      "ts": 1771374946
+    },
+    "White Tiger": {
+      "hash": "2e966e2b62d7ff4a22498f1595278260bda9855fbe7733b0af8f788f4fa82a92",
+      "ts": 1771374946
+    },
+    "Zagrus": {
+      "hash": "b365b837c5b4b7462af209b974ff79a00a675e818a5bc26662f9b567069040c4",
+      "ts": 1771374946
+    },
+    "Fenrir": {
+      "hash": "2ef61b8d96395dc36b0029fc3b7624cb9962b9d262a6739374b41946bb430e3d",
+      "ts": 1771471837
+    },
+    "Lancelot": {
+      "hash": "3ed905e11d18e103fb79810bb3530b97a866333daa7abefe9a29a68ecd080966",
+      "ts": 1771471837
+    },
+    "Nemesis": {
+      "hash": "7495829a25793d58eec70dda14f111e3e91e8d5a1a3a3bfc04c0e6459aa6e6b4",
+      "ts": 1771374946
+    },
+    "Bladeheart": {
+      "hash": "b8605d32bce7fea39b6110552203a362c1db491bc26e3f7e7a5742582f66dc11",
+      "ts": 1771471837
+    },
+    "Boar Knight": {
+      "hash": "89560b195c029bb80eaa156d7b65ea3ded735e12cf8fd5798d5284edbbc1a076",
+      "ts": 1771374946
+    },
+    "Sword Dancer": {
+      "hash": "356bc01843176a1d4fa916158e3b734b981cfa5e4c2634a125157e1948703afe",
+      "ts": 1771374946
+    },
+    "Shadow Slime": {
+      "hash": "6a58294ea82b05ce1d9743bd43d8066d15747e94985204302c09c851724e8eef",
+      "ts": 1771374946
+    },
+    "Ares": {
+      "hash": "70a4d7e4748a614f5e926d617931c6a19c36c7350d49356450859c63a5714f12",
+      "ts": 1771471837
+    },
+    "Thor": {
+      "hash": "50bedbbaa24c232ef8bd65200b08f53f1f41f79755aa3a63db5d58d83d7daa9b",
+      "ts": 1771374946
+    },
+    "Andevaly": {
+      "hash": "7deec23886f573ec18722236e4305edce6cb4174c8173c684df8750ef3ad7f14",
+      "ts": 1771374946
+    },
+    "Arthur": {
+      "hash": "0cfb526c015900209e2b843a4ea4e23e7a7a45c6cd02127f01addb48beccfe77",
+      "ts": 1771471837
+    },
+    "Asmodeus": {
+      "hash": "1f2175f1cbd97119dc85f951e864cbd77164ba4bd7999b67f3ddb2ebc650e77d",
+      "ts": 1771374946
+    },
+    "Azure Dragon": {
+      "hash": "d57d3751977123697afc4d3306351d5f1792b30ac9c69ae7e8e0f62b7d5f34d4",
+      "ts": 1771374946
+    },
+    "Brynhild": {
+      "hash": "073877787bb09f33dd89b735e7416e3999f2e2d067b4467d65b18a0cd6341b27",
+      "ts": 1771471837
+    },
+    "Marylis": {
+      "hash": "8f91dad28ca6078864e76a9853a75c096be64f5a5f2473be020618ab83ae6fee",
+      "ts": 1771471837
+    },
+    "Siegfried": {
+      "hash": "db37a11a2d690014725dc2da7e366d60d19ba5b72be1775e3f93bcae64781a5e",
+      "ts": 1771471837
+    },
+    "Tyrfing": {
+      "hash": "96b6e47fd13df83b11367c76bc6095eb34b820ac3abe63a8f94997a5eca7c265",
+      "ts": 1771471837
+    },
+    "Asteros": {
+      "hash": "1d4567b6d28a984479279caf62d7436e1657f6b36353761a6ab002e471a4b50a",
+      "ts": 1771374946
+    },
+    "Beowulf": {
+      "hash": "d501eda1f9b9fd11ae8b1644cd03aea51d28e3cfe9492849022f48a22fa47b4e",
+      "ts": 1771471837
+    },
+    "Guna": {
+      "hash": "9a7e29068392c61d6a88c539ec4d0ed0832355ea1a335635a72107acbb63dfc6",
+      "ts": 1771471837
+    },
+    "Grimnir": {
+      "hash": "3c81cb8ba1ee297192fb10d817c40715bc948720249c8ebc7006379937a695d6",
+      "ts": 1771374946
+    },
+    "Murphy": {
+      "hash": "89bda223f176ead236168b060bc423258ed0594d17ad0326cfbd302255ce9a48",
+      "ts": 1771374946
+    },
+    "Goblin Battering Ram": {
+      "hash": "5c441d32737dc38c0379c8c079503fc094966cf0b413ad25c9f65e3adb14e03f",
+      "ts": 1771374946
+    },
+    "Flame Slime": {
+      "hash": "a8078232d4ab09cea344ac4433de250a527b75a46ba05539d1e598e9f3a20d40",
+      "ts": 1771374946
+    },
+    "Apollo": {
+      "hash": "18fe64e8cd5be8d14ebc7c581b554611f0145128559c94d7569be96aa9476966",
+      "ts": 1771471837
+    },
+    "Artemis": {
+      "hash": "8917f20086ea48529f51aa7e29c614c382fa5fe864c1abd28f47e59065333798",
+      "ts": 1771374946
+    },
+    "Huginn & Muninn": {
+      "hash": "2cf64da1765967934bab6bb69c117537387c0806bd3b22a3cc7ced745ffdc40f",
+      "ts": 1771471837
+    },
+    "Ifrit": {
+      "hash": "763b22de20da981f1658436e475c588f5f56da020c93ff22305005333800b127",
+      "ts": 1771471837
+    },
+    "Jing": {
+      "hash": "0866c2176656da34a24e2dd23c84140bb06159f142348eb515b379ef6ee7764a",
+      "ts": 1771464391
+    },
+    "Mimir": {
+      "hash": "47f96c1482543d6f0ce582e34ddea8ed1818f27b5e347d73b2ace8ed429cdda8",
+      "ts": 1771374946
+    },
+    "Ningluosi": {
+      "hash": "768827b39b3726ba1a01d3cd276658b6d6c39abf5bfa07d0fb16f843a48dc8e6",
+      "ts": 1771471896
+    },
+    "Orion": {
+      "hash": "83fe3c0d872f95c53e89a5e2bece36d62302b1d5e00f68fdb07a0d8940a0089c",
+      "ts": 1771374946
+    },
+    "Lorillin": {
+      "hash": "0538ad550de8636acdc579e7b45de7484023f6dae70fe581fc52391468dff50f",
+      "ts": 1771374946
+    },
+    "Medusa": {
+      "hash": "4aa16785046f967b0a102f5a356ca75dbcadc0cffed13ef594f21dc26dfbb86b",
+      "ts": 1771471837
+    },
+    "Van Helring": {
+      "hash": "d622371b1b4d1d6bab55708cb00d0f3900e8633f593b9d0fcd7f5ef8d4dd79ce",
+      "ts": 1771471837
+    },
+    "Nessus": {
+      "hash": "7dce919bab375fa70fc169b11507931e1da2f239bdcf663ec98ee10c0ed1859a",
+      "ts": 1771374946
+    },
+    "Polyphemus": {
+      "hash": "240bbeda066a7b8513b7a14dc7361176b1324a1da40884109a25aebdd7e55080",
+      "ts": 1771374946
+    },
+    "Dwarven Cannoneer": {
+      "hash": "0af571f8b1f1d15257bd271018d71ac820813b583f371deb95d3bc8d5c05fabc",
+      "ts": 1771374946
+    },
+    "Wood Elf Archer": {
+      "hash": "67030beda455cc888de13d8543f87c148f5d16d292706e1ff2d155504b191d03",
+      "ts": 1771374946
+    },
+    "Lightning Slime": {
+      "hash": "32fc94cbc4d31070f0071a7528129900826c25fb46b1f6797cd9148ea41b612d",
+      "ts": 1771374946
+    },
+    "Loki": {
+      "hash": "f264314472ff50af0d72fc9af36b59c10272d71d51e823105b2f5f0dacbf292e",
+      "ts": 1771374946
+    },
+    "Poseidon": {
+      "hash": "1cd296130e5bf933a845a931b9d7049ed37a5a8fc1b4522ce963c9196a99323a",
+      "ts": 1771471837
+    },
+    "Crassus": {
+      "hash": "16e11f509dd29e4b3360376552fa3de8d8d007e2aab43351955c5ca8bde098e9",
+      "ts": 1771374946
+    },
+    "Faust": {
+      "hash": "00a3728f93b9aa42a645e23688ef9d5a81b53b2d296736823676d2226da317f7",
+      "ts": 1771374946
+    },
+    "Gabriele": {
+      "hash": "4a7e2318d99ac6e4f167b3787c8b018d2e011e40e9a7c1e50b431cbebbc3fa93",
+      "ts": 1771471837
+    },
+    "Gullveig": {
+      "hash": "475273b5096325f1cf0abc4bdbc8182bdbbefeb5b6a6e620b5c833c78dfce9df",
+      "ts": 1771471837
+    },
+    "Talos": {
+      "hash": "1d21f087b36fe14271cbd951280fec21fb911157f863c8eb711010b41cbcccf1",
+      "ts": 1771374946
+    },
+    "Vermilion Bird": {
+      "hash": "e25eeaee32e55425154f16265e3aca49581f9c09e02eb3e7111e929194f51a06",
+      "ts": 1771374946
+    },
+    "Cerberus": {
+      "hash": "2f754c0ad678d7b3b5e56d8a42adde6ccdb8f13010470feaac719ff2a0e033d2",
+      "ts": 1771374946
+    },
+    "Cleopatra": {
+      "hash": "f343f08a1ba3fe2c2d27f13966b616fb6067cfedd9b61b32851fb57bc7d6233d",
+      "ts": 1771471837
+    },
+    "Melina": {
+      "hash": "67e4ae079dc3b1c61d6b3d31660a09784e1b3468bac7184856d3ad25f6d8ee8c",
+      "ts": 1771374946
+    },
+    "Nanalie": {
+      "hash": "c389a297951ef2d422bdac84196ac3a2ab292210b014d0706f549deb8a3ca48b",
+      "ts": 1771471837
+    },
+    "Telperion": {
+      "hash": "8f7b4fee4adfa795dbe367765c63014e30d8beddd7567ed8c1b2b8792aaeb6dd",
+      "ts": 1771471837
+    },
+    "Buck": {
+      "hash": "654ad5998637a107057d105210dab3f29033f0ef7c93c6a503d8b40716fd21ff",
+      "ts": 1771374946
+    },
+    "Kleina": {
+      "hash": "a7052d3c71d13bdcb682fbfac69101a45f759419bf9a6e06087c3314af22d5e3",
+      "ts": 1771374946
+    },
+    "Dwarven Sage": {
+      "hash": "365393832e45925ed107ec1d30930bc479badeef0a1a37f377eba84894bf5832",
+      "ts": 1771374946
+    },
+    "Pharaoh": {
+      "hash": "580d11f2d985b6c244031d5f9f2146bcb426ab7cffeb01f44ed0c2bb4875f66d",
+      "ts": 1771471837
+    },
+    "Ice Slime": {
+      "hash": "9be6f19a7db90bcfd5721f958019112749a393673629e59ec15c9a0ea319546a",
+      "ts": 1771374946
+    }
+  },
+  "wyrmspells": {
+    "Agility Aura": {
+      "hash": "35717fa99a8b52a7367388e8ff5b41a3d75fa0429fbbd743b8cead9a52ee715f",
+      "ts": 1771129475
+    },
+    "Brutality Aura": {
+      "hash": "8044de981a373581fa7e35402f10d2f827629ba75db91ca39a10bec02b57b37b",
+      "ts": 1771129475
+    },
+    "Arcane Aura": {
+      "hash": "c826525e5e7cd19ea13d7ca864822a672ded4d4acd117af77551109cda494c0e",
+      "ts": 1771129475
+    },
+    "Attack Aura": {
+      "hash": "4ddc1fc92de5962963bbb1ee7266aaa6ad6b7cf1e0689dc96094d58a137f0bc6",
+      "ts": 1771129475
+    },
+    "Attack Speed Aura": {
+      "hash": "7ea45876098544c3be9ce08a1e3a08eeb04630cfd838c9c75bb9036ff629603f",
+      "ts": 1771129475
+    },
+    "Break Aura": {
+      "hash": "3ddac219e7abb20b2632b1615ddf9c6cd8a613b92fc5d47e447d8a43fda591dc",
+      "ts": 1771129475
+    },
+    "Crit Aura": {
+      "hash": "2189e9b75e62beb5569322e180081152d3f334ddbb14c1f339c894c27fb7a36c",
+      "ts": 1771129475
+    },
+    "Haste Aura": {
+      "hash": "fd609427dd50a7a8f43db5efedba05fbdd13577d660e1b4d975b9de3cdc9418a",
+      "ts": 1771129475
+    },
+    "Hit Aura": {
+      "hash": "1df36abf6f73bb395842eebec664d41a32b8ef3ab5fff1e5212a565bfcd236a1",
+      "ts": 1771129475
+    },
+    "Leech Aura": {
+      "hash": "ee090eda4d99e854abeef73494666504162f59245a31898590533a567bc14539",
+      "ts": 1771129475
+    },
+    "Magic Damage Aura": {
+      "hash": "43f2d6bcb34da4ca9927e8e442d8a718d5aed6070044cf42c3b30acf1efb713d",
+      "ts": 1771129475
+    },
+    "Physical Damage Aura": {
+      "hash": "9a1abbd3bacfb5d17502e14684a11088cc1643ab4251d51a7ccd03234340160e",
+      "ts": 1771129475
+    },
+    "Swiftstorm Aura": {
+      "hash": "b059f9b34654311821958fde0691c2d78075aa77c856378513c5c28b2d4d2cdd",
+      "ts": 1771129475
+    },
+    "Blessing of Grace": {
+      "hash": "ab95a5118dd7ec6a10a6accd6d9aa8edd4061390473b77edd5fdef73d1e63236",
+      "ts": 1771129475
+    },
+    "Efficiency Mastery": {
+      "hash": "bcf5aed7880bf6aa4149ea27078e0b569e9b52de86cee9cf16b3107d4532f62f",
+      "ts": 1771129475
+    },
+    "Graveyard Guardian": {
+      "hash": "ac4c922e9d3415900c51549c2b1250c501d2d50b39556453341fba30e4f79963",
+      "ts": 1771129475
+    },
+    "Scorching Devastation": {
+      "hash": "1bfff8799c1e30ddfaab4e26d6a2b787a3fad2ac0231bb76eee8b331f83fce53",
+      "ts": 1771129475
+    },
+    "Ultimate Punishment": {
+      "hash": "cfb34f26d62066193d03e6c01ac3dd39fd58fed8517b653b0d2d34afe4993974",
+      "ts": 1771129475
+    },
+    "Wild Advance": {
+      "hash": "f3872922b35420fd114250fe896b31e696a8c29d9ed7668969bad21c040f8774",
+      "ts": 1771129475
+    },
+    "Arcane Blessing": {
+      "hash": "8bd1dfd334a4671c7ef88c6b617487542accf164a7b1a2dbe9b0c75393df412b",
+      "ts": 1771129475
+    },
+    "Arcane Frenzy": {
+      "hash": "da6813947908b4d7374d073429b80cc84b4bcb537338d06ae60706813738dbcd",
+      "ts": 1771129475
+    },
+    "Costly Bane": {
+      "hash": "b405d61c15dab2274543a25a6a5f9c4821fc2da9d3811136e4a667b13570502f",
+      "ts": 1771129475
+    },
+    "Envigored Healing": {
+      "hash": "e7441bee64ef0dfb6ecbe3d873fc317473b2fa70e012216f2730224edc5ed486",
+      "ts": 1771129475
+    },
+    "Prey on the Weak": {
+      "hash": "b9b44a877bb61ffdcf98bb1c3e26e88c72f328c6daff21e7e338b210d7c15a53",
+      "ts": 1771129475
+    },
+    "Radiant Smite": {
+      "hash": "dcd822f97273f1cb5752f77e8336c810de88724d5e5a3cb3892d7fb9a87bdce3",
+      "ts": 1771129475
+    },
+    "Shieldborn Rebirth": {
+      "hash": "49bae811effb64caf4d619e5b7c94f1b29fcc45b3c0d98c283cf4107bb53d628",
+      "ts": 1771129475
+    },
+    "Summoning March": {
+      "hash": "5fe14f11cf629436271c31f2c2e6fa2faecf08879baef5a85134fb6f5a465576",
+      "ts": 1771129475
+    },
+    "Surging Impact": {
+      "hash": "9f77a27fbf1cf583725f32825a98dc1b231f8fed72637207cd0953c65c5d2334",
+      "ts": 1771129475
+    },
+    "Whisper of the Deathless": {
+      "hash": "48d31080ff1dc2ad54cdc49ce7f4bf0ec3f4baa4b83acce190a897b05c2c784a",
+      "ts": 1771129475
+    },
+    "Wild Medics": {
+      "hash": "3bdfe0d617fd92b1340b9226febaabceeafbd871d67537812243ec797c15b74f",
+      "ts": 1771129475
+    },
+    "Winter's Wrath": {
+      "hash": "4b7e97c3e7b202a3947d6cf4cf7b9ede5b49baebf8cc597fdf1cfa873d48ed41",
+      "ts": 1771129475
+    },
+    "Drain Aura": {
+      "hash": "a93f94770abae9a34f228a5bedc839d7d62e833b7555d2ddbb9cad2265ce6331",
+      "ts": 1771129475
+    },
+    "Reflect Aura": {
+      "hash": "081ac31ea2de6ad43159a624d7ab70c8c9b4ab720b0c663d445d60c4942bc340",
+      "ts": 1771129475
+    },
+    "Block Aura": {
+      "hash": "a99a6a2b27d5e57441bb92f12866bf3d1fe0ea23e127384be4330b30ee0fc28b",
+      "ts": 1771129475
+    },
+    "Crit Resist Aura": {
+      "hash": "ad93b7df2db7ed93f6f25705e1f7621689a2e3869c67d53b8e977fed497bb068",
+      "ts": 1771129475
+    },
+    "Dodge Aura": {
+      "hash": "71cf97712ee8aa7ba73a9c3feaabb595f858a4df3e9a82def353612c32403b9a",
+      "ts": 1771129475
+    },
+    "Flash Aura": {
+      "hash": "191346f370e15e28a28008684f15b2dc5c4cbefec10fdc4e3dce79a3b132b699",
+      "ts": 1771129475
+    },
+    "Healing Aura": {
+      "hash": "c418172cc03f1fe2fd520bd56aec7e5519efe3b020b0b73b049292de8176dd5d",
+      "ts": 1771129475
+    },
+    "Magic Block Aura": {
+      "hash": "e5d415682ea57988450b25e1f5243eaa2ba313bce2fe0478c5f22cc79dd670cb",
+      "ts": 1771129475
+    },
+    "Magic Defense Aura": {
+      "hash": "d38376059090077247c8125bcc9804c429bc535318385a7bd6fa73d8d65b8311",
+      "ts": 1771129475
+    },
+    "Physical Defense Aura": {
+      "hash": "32bfe4f4195251fc2fe295346cae464e0d9c1b50c873e7de456f48679f977f5f",
+      "ts": 1771129475
+    },
+    "Physical Resistance Aura": {
+      "hash": "c953ff7ee1c7ec29d77e73fa00d6c48893f3c27163bda313107d1d7e1d1cead1",
+      "ts": 1771129475
+    },
+    "Shield Aura": {
+      "hash": "65c1ce8e845955ea79c700b2d6b2a276ab00675fa67d42a8191ff3c041414627",
+      "ts": 1771129475
+    },
+    "Shield Resistance Aura": {
+      "hash": "3669fe9bfc3152111684540377d61bcdeb6502de4d0e9b46c4d6a821c8107bf4",
+      "ts": 1771129475
+    },
+    "Arcanist Roar": {
+      "hash": "bd4f6f0c00d2e23254a827802d0eb3fa45eba7c87b48e787ac4b140ce017de59",
+      "ts": 1771129475
+    },
+    "Furious Roar": {
+      "hash": "a7242f9209900d61443d8747780141fff8bd67a79193097cd90bb61546b49929",
+      "ts": 1771129475
+    },
+    "Healing Roar": {
+      "hash": "d3d62b7371c6d3b9482751245e08a98d246533b3739f6097f7df9c5044ab9d33",
+      "ts": 1771129475
+    },
+    "Punishing Roar": {
+      "hash": "bf61e8b0ed94f030b06d07be2bd8800de874be1acc7cd3c7f6ac3debb49e22d2",
+      "ts": 1771129475
+    },
+    "Surging Roar": {
+      "hash": "dc49049c57e720a3ba42790d17f4f274f91ab5ae09f21389725b685f06f2d8ec",
+      "ts": 1771129475
+    },
+    "Arcane Roar": {
+      "hash": "28d4d6bf4b06e6d5324616edc0befa0d97e16eaa5ef55c9e85f83142c9b47a20",
+      "ts": 1771129475
+    },
+    "Boneclad Roar": {
+      "hash": "a6f3ad9a5e49e8848ad83aa052a4ebec92ee6cbf6d06e0df761d055e84850df5",
+      "ts": 1771129475
+    },
+    "Charging Roar": {
+      "hash": "4a3073bcf72a8da17b90e688429e0ff288f30e76f9e3360d28ada7c9cac46db4",
+      "ts": 1771129475
+    },
+    "Desperate Roar": {
+      "hash": "614de1628d2428823ed6c348fd7ea3733d56bd77d2186a22ccdfc17e0f82dddf",
+      "ts": 1771129475
+    },
+    "Dominating Roar": {
+      "hash": "0f3f982f1e02c630b8459efa39125d3141d2563127138e3652f74fdbffca2145",
+      "ts": 1771129475
+    },
+    "Mana Roar": {
+      "hash": "0d69192fb81cc8f49584110222a477a8181aa3eb3f88c2cd25e6a05cc1332efb",
+      "ts": 1771129475
+    },
+    "Mighty Roar": {
+      "hash": "9a7425c63c081ec033eb251bf7b2915d9641360e6e5e6406bd00ae75f88e620c",
+      "ts": 1771129475
+    },
+    "Pactbound Roar": {
+      "hash": "935d8274ca3de876eff60957656528c9aa612f7b6519f8b543c96efb686029cb",
+      "ts": 1771129475
+    },
+    "Pulsing Roar": {
+      "hash": "7456cb833e09116f550f4483ebb16377c69065ec614f75041932d5c4e5507b97",
+      "ts": 1771129475
+    },
+    "Rallying Roar": {
+      "hash": "c1bc45226870e13042dd9f8e9ceb64fbc18a141cd17dac06237a0886f430050d",
+      "ts": 1771129475
+    },
+    "Reincarnation Roar": {
+      "hash": "a18b58513e8c6d83fcbbf3ccdc21d070763265c23f7bf5141d4afd2a60164a98",
+      "ts": 1771129475
+    },
+    "Soulguard Roar": {
+      "hash": "a8bb390e0c2248f5064fd4bb083a7ef7418271462bf492bd4dbef1c9eb5bc3b0",
+      "ts": 1771129475
+    },
+    "Vital Roar": {
+      "hash": "a6430fb0ed2021814887d17a938aab3a30b2d890476f41545013dfa3dc6d8dd3",
+      "ts": 1771129475
+    }
+  },
+  "resources": {
+    "Diamond": {
+      "hash": "bc7c8d76b3967bb0f53f2625474c49954e609cc86939dd3ec52835c95538eaa3",
+      "ts": 1771374946
+    },
+    "Forging Commemorative Coin": {
+      "hash": "b750d7d46649b97c0884da5b1acc11d533529b60d23649eea67d89c50eae72f3",
+      "ts": 1771374946
+    },
+    "Glory Coins": {
+      "hash": "074e334fdeddc4e59df7874a4af217d6c2252413bd92ad39aaf20ba88e843844",
+      "ts": 1771374946
+    },
+    "Godking Apex Coin": {
+      "hash": "4d94d602d78aaff9237894b24a52118a0bc7c426b3184a0f44958ed997875daa",
+      "ts": 1771374946
+    },
+    "Godking Coin": {
+      "hash": "fec05596dbd6978a5df2b91e201d623ab879ce5ad30b7d88065a37bcc1758d42",
+      "ts": 1771374946
+    },
+    "Treasure Essence": {
+      "hash": "e9d004693c3aae8a0ad1deb738bc077d4df8b192d6d0c780277edb92b4a57c7e",
+      "ts": 1771374946
+    },
+    "Voucher": {
+      "hash": "fab2a5ab67661559f49a78e2ab017febe0ab62b5baf1d31c928c9cd7b0805851",
+      "ts": 1771374946
+    },
+    "Ring of Inspiration": {
+      "hash": "881ca9db1879b5e695fb0e433b83bb2737211c9ec6c03e3a48e0ff45355bc0fa",
+      "ts": 1771374946
+    },
+    "Arena Coins": {
+      "hash": "3fcf185e82ee88c78a583eed921a5898af9142f69a1c075f4de8677368c3b18d",
+      "ts": 1771374946
+    },
+    "Cloud Blossom": {
+      "hash": "5eb53f76506917d561bee2fa4e6c5848dc243e7d4155bc594ba754567bb6d5a3",
+      "ts": 1771374946
+    },
+    "Divine Coin": {
+      "hash": "1c13f52a817ecd2ab2fe9d8f021f422141f28122069e33e065170376a0c35ee6",
+      "ts": 1771374946
+    },
+    "Dragonbreath Seed": {
+      "hash": "5da49908e8b13809596fd9a637279cfe2ab635797abf62bd3674d01523c73f09",
+      "ts": 1771374946
+    },
+    "Guild Coin": {
+      "hash": "86248f419534eeacfca7cdb3b920d3c837f5d79d4514772f0f096b9e262a462c",
+      "ts": 1771374946
+    },
+    "Honor Insignia": {
+      "hash": "b0558da210dcf397e04795461d9bb642380df4c4819b6cdccb5bd6938f7c1efe",
+      "ts": 1771374946
+    },
+    "Triumphant Medal": {
+      "hash": "76d3f62d1b9489dc1fca772def50c5a2abc914312a2df7b59c7c10b1916deedf",
+      "ts": 1771374946
+    },
+    "Friendship Points": {
+      "hash": "d9ea1bc6bb66619b7360d726ff75255b63578db2e9586fbfa426f62c146f329d",
+      "ts": 1771374946
+    },
+    "Gold": {
+      "hash": "52ec1af90db972c4812c771200858ce7090d8f2bf9425b4a88a8f3e9be507cba",
+      "ts": 1771374946
+    },
+    "Slime Goo": {
+      "hash": "39e6ec8059ad6356e2de5dc513e596efaa97a3a96358e2b7ec211343ef4cb313",
+      "ts": 1771374946
+    },
+    "Amber Necklace": {
+      "hash": "bf4f5d02f82a6484d4c2b34bf9bf02e24ec03341fcbf11004aa5f62e59d1e4c0",
+      "ts": 1771374946
+    },
+    "Black Lotus": {
+      "hash": "77df7f3932a4740d50a9e2e0ad31b3ae294bd8045248ee5920070ab65c6f5e5d",
+      "ts": 1771374946
+    },
+    "Lilac and Gooseberry": {
+      "hash": "33a8057ca62c08d179ed6498bcc3ba8af86643b855f098b47a6609730c39b68a",
+      "ts": 1771374946
+    },
+    "Luxury Tea Set": {
+      "hash": "c839879a1ee913226ee8805ff7325036cef773b00ea81703759ec98d4826da94",
+      "ts": 1771374946
+    },
+    "Soul Bell": {
+      "hash": "75839d1a70ccdbc4b6457ba8f6a6763bbb462200256a18656cef1a15769afd1a",
+      "ts": 1771374946
+    },
+    "Stained Glass Window Decoration": {
+      "hash": "04645bca1ed03cf1445ad6e8a874706a89f4d630b41d50643d23c4e4f56d03b1",
+      "ts": 1771374946
+    },
+    "Treant Sapling": {
+      "hash": "495598c2f801c3eed44cea9f061b0aa5a7886b16ca4012189a313a63f57adabf",
+      "ts": 1771374946
+    },
+    "Forbidden Scroll": {
+      "hash": "e9f796decfea7159228317b2c39d3cd5fa1fa056d3645413400a25e2b01e8901",
+      "ts": 1771374946
+    },
+    "Graveyard Lily": {
+      "hash": "972ec74fbe33d42e58a67591bcdffdc65d59b725c7d5d7161adaf47e2ee27da5",
+      "ts": 1771374946
+    },
+    "Griffin Doll": {
+      "hash": "85c62e0f23b7e3faee24587a3126d03390f8cb701871a578efaa712f3d033c35",
+      "ts": 1771374946
+    },
+    "Grilled Steak": {
+      "hash": "ce3f0bff34855c7dde4a6618a58a5ffacc019e066c46b9c476b9869143e98636",
+      "ts": 1771374946
+    },
+    "Obsidian Arrowhead": {
+      "hash": "916d6b6948f3e835c60d81b09c817fb12ccd8352859e287a116fc84155d7f683",
+      "ts": 1771374946
+    },
+    "Potion Class Notes": {
+      "hash": "c546832a5540174e51bcfd2f76c9a48813a99737b49016c9bbd3c037fd2ce2a6",
+      "ts": 1771374946
+    },
+    "Ring Casting Mold": {
+      "hash": "a80f6c312f46ad9a9c7ce4eb96092497156869f2c2dd2cff61a6eca64eb5831a",
+      "ts": 1771374946
+    },
+    "A Knight's Tale": {
+      "hash": "0d86272d6297e96c68e9e35b2a99a327a2b514836fccf048a2b224da1c181d2d",
+      "ts": 1771374946
+    },
+    "Banquet Cake": {
+      "hash": "bd7dd44e7290428f77a689b4d7c62b46ad7bfdaaa4cc44f855bf612ea9d3122c",
+      "ts": 1771374946
+    },
+    "Coral Ornament": {
+      "hash": "c657ac111d2a5b7663066bb324076682fb37f8fa4b402a3e18940a247cd8c5b7",
+      "ts": 1771374946
+    },
+    "Fairy Dust": {
+      "hash": "8e9a6fcf2e308e9fb26bc589b79fe3200a8c331d92a05f565ba97f6d32754271",
+      "ts": 1771374946
+    },
+    "Ink and Quill": {
+      "hash": "152f3f962cdd3ebd9bd918e95aa897b430ab7398faa470f50bcbf32604ae1739",
+      "ts": 1771374946
+    },
+    "Preservative": {
+      "hash": "2d481cb5f0241fc874b57bfc4e101f166ad38d23f018ee7df652d8d282135ac7",
+      "ts": 1771374946
+    },
+    "Rotten Branch": {
+      "hash": "855c5596e2e98d7a6a32fdfd3feaf29179ac06cb4201dd5078ea8aab8405201d",
+      "ts": 1771374946
+    },
+    "Apple": {
+      "hash": "30399626f3f3073c6baefedb1011846c97f2ed316ab71a87c0109670b5fb9664",
+      "ts": 1771374946
+    },
+    "Cave Mushroom": {
+      "hash": "a72a914b4b75d89f3b0d7c4b19d4c7586516aa763f78be61847d8ca74e578feb",
+      "ts": 1771423624
+    },
+    "Dandelion": {
+      "hash": "1c0d6921573b850e16d100a4555e844ee965b89dee4dc89a7e666cf66ff96cfd",
+      "ts": 1771423624
+    },
+    "Elven Biscuit": {
+      "hash": "c08b000c4fdf35a2dca654ab8ea7db75389a3afdc29b6823e787fd5414f08d04",
+      "ts": 1771423624
+    },
+    "Manna": {
+      "hash": "45cccfe87fd33c3e8a502a93bce5ed6e0ec1541e6da71128e59522a40022282b",
+      "ts": 1771423624
+    },
+    "Ritual Candle": {
+      "hash": "14172cad506ffbaff1e04e3e01ae91be9b31a705cd9692567a26b21e2cf77c22",
+      "ts": 1771423624
+    },
+    "Wooden Training Sword": {
+      "hash": "9661215d031c59abd56cd9c044d1c42ac7a44c7ba5d770a412031fac51b99abd",
+      "ts": 1771423624
+    },
+    "Exploration Guide": {
+      "hash": "1e35e748e6a6b901efa1702b8e885eb15048b0c95a8f251bcd518aae547b10ea",
+      "ts": 1771374946
+    },
+    "Feather of Revelation": {
+      "hash": "85654535b997535172fd17cabc32a703006f0e8a58a7c5a23d68a5e5be164e6f",
+      "ts": 1771374946
+    },
+    "Advanced Entry Ticket": {
+      "hash": "d45a2e6a19c24e8c5ba39d6955c833ac5527e90307e66462dbfd6c9281d2afd8",
+      "ts": 1771374946
+    },
+    "Random Refinement Stone": {
+      "hash": "08534b1d617d9250ebe5aec865768cb201dc32472b22a9e1a6e4dac5b84176a2",
+      "ts": 1771464391
+    },
+    "Aurora Crystal": {
+      "hash": "813ad13831f35322bd29c9b65bffa793e4c407af782b871118a7456f8ae94143",
+      "ts": 1771374946
+    },
+    "Aurora Dust": {
+      "hash": "3d7ebdbb54ab749993989b28b1e916ebaa9197b705145d6bd3d66db22ff23bc1",
+      "ts": 1771374946
+    },
+    "Divine Crystal": {
+      "hash": "c52626442ddb0f872bf50a6f94e4dce49afff28404abe16edfe67fa7d69b0307",
+      "ts": 1771374946
+    },
+    "Dragonblood": {
+      "hash": "f3483cd948fbcb1ecfec39fbfda074f815d392627eeb7f2ecd551e79a8a56095",
+      "ts": 1771374946
+    },
+    "Highwyrm EXP": {
+      "hash": "0019c8f8c7e330da2f8a19cb7c6e84f6ae1fade386bab4bc349c4de9ce7ae5b4",
+      "ts": 1771374946
+    },
+    "Primal Amber": {
+      "hash": "60c775fc553816922406b9491b61235a493c3e4744a6fac92350099dc819262b",
+      "ts": 1771374946
+    },
+    "Starlight Sigil": {
+      "hash": "319806162addc6eaa7b40409fd63a88a44662f3833441c7399eb1731c4cad108",
+      "ts": 1771374946
+    },
+    "Wyrm Essence": {
+      "hash": "ac8671a8ed0380ddcc937ac262def1a3c477269f56c70ead2273b51b6acd5fa8",
+      "ts": 1771374946
+    },
+    "Dragonfire": {
+      "hash": "9136da8808e056c23bc8f9fb4fb409df87a89d9fc9918f2f038e9345c8835a08",
+      "ts": 1771374946
+    },
+    "Leaf of the World Tree": {
+      "hash": "a47796c8b378bedcc4a196d77d238a21420ab9b2ec4463528114e1b504c656ba",
+      "ts": 1771374946
+    },
+    "Luminary EXP": {
+      "hash": "fc9cf8c2b12f5d9dbe673025ccf3c17d019214fddc032a99201f474a32dcaad5",
+      "ts": 1771374946
+    },
+    "Mythic Summoning Ticket": {
+      "hash": "8998fe8c2092b0ef3e46ffd8a36b5ccffa8b73106069069f331c59b666e2a976",
+      "ts": 1771374946
+    },
+    "Fate Elixir": {
+      "hash": "d4ea2ca561df46a117e7f462d16b4367cc1d27596f82db491755a6cc3925b6c7",
+      "ts": 1771374946
+    },
+    "Fate Horn": {
+      "hash": "7a14b6ce9dedd9863275255976aebe251141db01518243bdbcfb92049e5695db",
+      "ts": 1771374946
+    },
+    "Fated Dragon Crystal": {
+      "hash": "a85de3bf00820b546eaaefa2b941bb3e17270bf9fd7ff40f66fe7fd3eb037d54",
+      "ts": 1771374946
+    },
+    "Fated Summoning Ticket": {
+      "hash": "111721254c3f94444cbb1a4895a17580fa86b03c39cc7d8776eceee239717f01",
+      "ts": 1771374946
+    },
+    "Golden Horn": {
+      "hash": "39954c0962bea4f215f7a87abd2abddbe3cf5883dd60f9e85f5d93d53c8f488f",
+      "ts": 1771374946
+    },
+    "Legacy Dragon Crystal": {
+      "hash": "5cb68955285623295106d55e5d740305e11b4758238c6d62d08a555a5e33e707",
+      "ts": 1771374946
+    },
+    "Soul Elixir": {
+      "hash": "f313f3d3381f26e95760bc25b702ebcceac07bf66108a275b8590184aee8a7f1",
+      "ts": 1771374946
+    },
+    "Summoning Ticket": {
+      "hash": "0a312b2a0c64b22aceb8c0d4b3ad8b1c4278d960585469b480601d15d03c6b95",
+      "ts": 1771374946
+    },
+    "Wishing Lily": {
+      "hash": "1ecb2f175a621682457ca06c2e31b78a0248c7efbf5145b5e2eba91e3897f549",
+      "ts": 1771374946
+    },
+    "Mercury Potion": {
+      "hash": "45df5e13a84a55f5a1ee1c2dbaac8383eec6876ef664ed928386d8e9a6b7fc33",
+      "ts": 1771374946
+    },
+    "5-Star Luminary Shards": {
+      "hash": "4559ac3b053f826d7602ffe9c1069ee026e81bac7bac721a49a0bff4af52e6af",
+      "ts": 1771374946
+    },
+    "SSR Luminary Shards": {
+      "hash": "0997c5b904e0ed1e2d5a6e4c9a9534edd5fd2d0c23371f11e4ae5c6c712fb46a",
+      "ts": 1771374946
+    },
+    "Rune Shards": {
+      "hash": "d99be5ff6cd189d8f8f2751b479a802af02ade3f5c2d529ab736f10bfe6f4aa1",
+      "ts": 1771374946
+    },
+    "SR Luminary Shards": {
+      "hash": "1e8f725da5d58defa3a644cecbadd50045faf4767fa0be38d488aae08f87996b",
+      "ts": 1771374946
+    },
+    "R Luminary Shards": {
+      "hash": "fc13643bbf17dba8b313d6ee0ccaeb7558cd24a36874097dd84ffb0d9dcb54f5",
+      "ts": 1771374946
+    }
+  },
+  "codes": {
+    "DTFDC321": {
+      "hash": "642a46a8dd4fc0e990fe277964c9aad724ffe2fd90f41eae4a09019cd1ad6054",
+      "ts": 1771512550
+    },
+    "DTOBT666": {
+      "hash": "1950378095bd1c8e529e702b7792005ac493aa8b9d65146a96aca37a6f460584",
+      "ts": 1771512550
+    },
+    "DTOB321": {
+      "hash": "df6833021726910fdc9db22d1b006ffaeed59c5e034a2db616bb20d3fe3b53bb",
+      "ts": 1771512550
+    },
+    "DTGCKL888": {
+      "hash": "1dd8527af4b7d25adc788bd485389c174924c140207ecb5910f6545d9041c8c4",
+      "ts": 1771512550
+    },
+    "DTGIFT": {
+      "hash": "b26917b62df03811078d6e55dd0dc34212bf09b5803f1f2b138b9ebcc15dd850",
+      "ts": 1771512550
+    },
+    "VIP6666": {
+      "hash": "e9950486d8d9c54007ca0acd7d5bcfd8a52ca81755576176601921d8c1ef9eb8",
+      "ts": 1771512550
+    },
+    "VIP9999": {
+      "hash": "07ee350827b759b5feebf13066d6fe34637075c94be5c1415ef31ea379a61f7a",
+      "ts": 1771512550
+    },
+    "VIP5555": {
+      "hash": "ca87b0c155f12ccdda228734a32993ddd724fedd92655ed25d45b681ca9dc468",
+      "ts": 1771512550
+    },
+    "GIFT6666": {
+      "hash": "31d1ba37db220ae0a4bfa6461f65bbd41fbe8a1c4f2347f617075a86578bbac0",
+      "ts": 1771512550
+    },
+    "GIFT9999": {
+      "hash": "b51b02a9f620ce2dc3eb28dd8399b18089f8797a517b96f080ec9615fdbb37d3",
+      "ts": 1771512550
+    },
+    "GIFT5555": {
+      "hash": "854bfc360f40fd4761e7d37efc8498312baae369b0be91d517f529da1a5de49b",
+      "ts": 1771512550
+    },
+    "BSVIPDT": {
+      "hash": "fd1f79231d988a4168b391ba15822ce1a24043ddb825955fc07708fe6a18b37c",
+      "ts": 1771512550
+    },
+    "NOXVIPDT777": {
+      "hash": "88873d43f9effa33d99dc8479f3a3037d154c2ef36b57d9ea52ade4629e85042",
+      "ts": 1771512550
+    },
+    "Gabriele111": {
+      "hash": "b33039f9f1c5c053bdbf48125aeada8f9501f3a394e6cee4600081c99fe02c06",
+      "ts": 1771512550
+    },
+    "Mage666": {
+      "hash": "846d41a05cca5282f36b6367e2b28622413f3787c17c5418a881e1b6621b3a62",
+      "ts": 1771512550
+    },
+    "888GIFT": {
+      "hash": "a34bd838a1aa73b977117914f91102e037dc6f821b14baaf281c4135ca6168bf",
+      "ts": 1771512550
+    },
+    "666GIFT": {
+      "hash": "1d82dec5e32353e127d221434fdd59803c9941c2fa064d70d7e3478ca40f3de1",
+      "ts": 1771512550
+    },
+    "Glory321": {
+      "hash": "3bd46217c07f79cdc03f7640189c70a3a9d847fd0ff1a0e8ae5e8181d0cc7565",
+      "ts": 1771512550
+    },
+    "SPECIAL": {
+      "hash": "ec223612cbd8d9e1dc34f16e5830979c682860c320bbd892947d9351f16b5805",
+      "ts": 1771512550
+    },
+    "mareflos": {
+      "hash": "792634ad407f235445cd622c682a74c14722dcc3979531d60be08bb7affb8a23",
+      "ts": 1771512550
+    },
+    "youtube10k": {
+      "hash": "533a7bd1ab9b80f2105759713e0fec6523c684b80e72f1b85b4f59f84b91d68f",
+      "ts": 1771512550
+    },
+    "Uniquegift": {
+      "hash": "4e04575624c63b5c8a964b8dc3efbf5e7f158075baebf47872dad7585f4c47ae",
+      "ts": 1771512550
+    },
+    "SURYUNSURYU1": {
+      "hash": "4a9689d170ec0c278e19c7ac63e8a6ae53d06286d4d228e7be4dca7111617dab",
+      "ts": 1771512550
+    },
+    "GONYO111": {
+      "hash": "9608428607aa8751c35f50d8254a59fdc72c8b952de67d6100c8894d5593fedb",
+      "ts": 1771512550
+    },
+    "DELLORYAKGUK": {
+      "hash": "8a0ada5fc7042752c280d6996747805f1f860978d3e9c0a83128f7fc24885703",
+      "ts": 1771512550
+    },
+    "BAEDON": {
+      "hash": "f6b67e37fe42926f573f4bba4f69266afb938cf3405e557d693db2654627820c",
+      "ts": 1771512550
+    },
+    "angrihyung": {
+      "hash": "0ae07375bc84e04d8f02e0b2be395ed028f339ade5edd6da351716728da67af0",
+      "ts": 1771512550
+    },
+    "haukau": {
+      "hash": "8377d0ba5e80ee9bfad17f7c902edecbeeb8ae78bca8a791bdab08df95b4cc1c",
+      "ts": 1771512550
+    },
+    "dongsukantv": {
+      "hash": "0a0170ad8e2085f2edd3fcbc8fb2524a97f32adf9ce10707a78bad00e1736e90",
+      "ts": 1771512550
+    },
+    "MONSTERRAT": {
+      "hash": "9746434a005043b5502b17feaee5f30f9a1975c2268a9ae38dee5c779ce14787",
+      "ts": 1771512550
+    },
+    "ΚΑΤO111": {
+      "hash": "99b86f05cbddd0ed9ecd94777650c4ba5bba4a1861d861308e5fa25c38f43314",
+      "ts": 1771512550
+    },
+    "MOVINGTV": {
+      "hash": "2115bfa99a460439b0199ff275e46e493796c8c689d6b305d1d17da65ebaeb98",
+      "ts": 1771512550
+    },
+    "SJGIFT66": {
+      "hash": "192143ae655a26e5c0f843e75816dad91d2a92895451bb33fc060212b1728c4e",
+      "ts": 1771512550
+    },
+    "code888": {
+      "hash": "3eec59968c59bd510d8ef43eb005902072435901552cc8f772cb0241f08a246d",
+      "ts": 1771512550
+    },
+    "Vivienne": {
+      "hash": "5cf300763319484556fd5cdaea20a76d2c83f391ce72ebc7754d71b603dbc108",
+      "ts": 1771512550
+    },
+    "Priest": {
+      "hash": "007a5df18771b7d36366c47e77833a74596cbebd73e7f380f2b1dc25d1ab2195",
+      "ts": 1771512550
+    },
+    "Athena": {
+      "hash": "9f49a429256f627b3d89c1457b6a42a50b8d26463f9e95a4dd823b85b19214ca",
+      "ts": 1771512550
+    },
+    "Oberonnie": {
+      "hash": "3d1485420a12fa73c20d124b946eaf6600c736d893f2e571774fed226c23878b",
+      "ts": 1771512550
+    },
+    "Guild321": {
+      "hash": "95fa826f144249a9108acea2968eea5541d012e9d0871c9376ae9f1e6efb1ad6",
+      "ts": 1771512550
+    },
+    "Apollo": {
+      "hash": "509997743549cdc36cfe0a2100f98196856f3562ee3c6727eb781623f05f4611",
+      "ts": 1771512550
+    },
+    "SWEETGIRL": {
+      "hash": "f2af9d6911ec8f9978e10f7c8730029a0c2137ffba2de15ed74518e58b3d9054",
+      "ts": 1771512550
+    },
+    "Inkbound": {
+      "hash": "32316245822144f89f0697fa2bfe67bc3142e2361b5ae58eac93f6c4235eb163",
+      "ts": 1771512550
+    },
+    "Foursaints": {
+      "hash": "93e6508e6c58c69c43dd55175826e3fb868119199e18c7b5c8fe0fa8d08599ea",
+      "ts": 1771512550
+    },
+    "Valentine": {
+      "hash": "fd85a0b373f6ae2e9feeef67374c74bb565c3f635daec0bfc7f36179716485f2",
+      "ts": 1771512550
+    },
+    "pompey": {
+      "hash": "78f1a11930bb3add9ccd6263a8dc3b3829dbb50199b41ec2e1c6e5a2d3bf568d",
+      "ts": 1771512550
+    },
+    "GCSJLBM765": {
+      "hash": "6b410080e96297555c3766fb788f59c0fd821cea770b8df8acf0fac360c28c7c",
+      "ts": 1771512550
+    },
+    "Magiclamp": {
+      "hash": "7b35d3f54942de60a5fd4d90cf0a54165065bcde2547745a13c10bbdbd36db31",
+      "ts": 1771512550
+    },
+    "NEWGIRL": {
+      "hash": "a1abaf6281f0e31169785b4b714daad69869b9592d83c91016b05e418fc46d9a",
+      "ts": 1771512550
+    },
+    "QingLong": {
+      "hash": "dee99b016d02131c8164f5ddff56b45c69fe1bdb4d59772398451131f3edec1f",
+      "ts": 1771512550
+    },
+    "HeavySnow": {
+      "hash": "9537cfd6be972b3375a78ef71cd75a014376429096869c46e8b9596cbc46d3ec",
+      "ts": 1771512550
+    },
+    "QLDJGL66": {
+      "hash": "19711fc093a61f08a560172847fad26b21bd86c0eb5efaf41a7376a1a661a2dc",
+      "ts": 1771512550
+    },
+    "DTCOSER": {
+      "hash": "77b936de301a92f5876d26604d3f2b28d20013aaf3311a05c14526a86abdc881",
+      "ts": 1771512550
+    },
+    "1MONTHGIFT": {
+      "hash": "c4c8bd785990b1ffcf63c536adf7c6c51d8c73c8feb34af83a5c20bfed4921ed",
+      "ts": 1771512550
+    },
+    "XJLYQL8": {
+      "hash": "6367dafc22a6903fe359ba8ceb6160d413e25c4bd79275884cef2ac4ad98b96e",
+      "ts": 1771512550
+    },
+    "SJLBGIFT": {
+      "hash": "a50c6548048cbc65e02ed69f38ecb923cf112ba8dd205d88d323f7cbb2c4f175",
+      "ts": 1771512550
+    },
+    "NEWNOTICE": {
+      "hash": "741b3be027c25048be3d86a0f1c8743e21febb128cd9d8547ed3fb4b93313eec",
+      "ts": 1771512550
+    },
+    "GIFT321": {
+      "hash": "8375dea50f6101bfd39361abd3c45af5d2c96d6de1df13adda6ff769bdf67101",
+      "ts": 1771512550
+    },
+    "D212CCPGIFT": {
+      "hash": "e287cd0c10ae6142d8a8dbfd072fd6cb8b1e49d5b102106a1f6bb8d313b9c0a0",
+      "ts": 1771512550
+    }
+  },
+  "status_effects": {
+    "Accuracy Up": {
+      "hash": "11f1130194d087adc54de2eceec47751a52c38f250b92284a5b0fa7baa995e69",
+      "ts": 1771185685
+    },
+    "Attack Boost": {
+      "hash": "9f62d6abbb6bd0365420ef197c0c7931185f5e84c769969e29c39413ea83eb90",
+      "ts": 1771129475
+    },
+    "Attack Speed Boost": {
+      "hash": "70593806279d2f0237423b641df1a406eda6308f16315ee1c83066f0b1adc4ff",
+      "ts": 1771129475
+    },
+    "Crit Damage Up": {
+      "hash": "d6740523df53382bce5566ed56650da2168d1ec3c7d13ba4b86a347eb0e6bea8",
+      "ts": 1771129475
+    },
+    "Crit Up": {
+      "hash": "50d2ce0c86a3ebb81d27fd37e82505257e7401a659a9b9c4a166acce9d11ee74",
+      "ts": 1771129475
+    },
+    "Damage Boost": {
+      "hash": "9db6fde8b80acad92372cae26f8dc67c70677288a2e950f6005281d24bff7631",
+      "ts": 1771129475
+    },
+    "Damage Reduction Up": {
+      "hash": "824d6ba630d567a557f56acee3d5fd442385be3d1f19eb4ffede69f43e21f2d5",
+      "ts": 1771129358
+    },
+    "Dodge Up": {
+      "hash": "2e32d3884ea1453eba1d0564a7bbcae8989d1284b18b0f2241a62d0f72ff984b",
+      "ts": 1771185685
+    },
+    "Dragon Roar": {
+      "hash": "eca3b52c9f9049167181f159125ddd37bb5b6512a673c65c7c40a9ce90dcae71",
+      "ts": 1771185685
+    },
+    "Lifesteal": {
+      "hash": "f3c7d3158af9cf67122beb53297009e9108a071fa7f302df524d541679fe5c7b",
+      "ts": 1771129475
+    },
+    "Magic Defense Up": {
+      "hash": "f3a2d147d20fded10f364de0eb2b19cfbf4f8d6b8994cd09e696ef4420e52c94",
+      "ts": 1771129475
+    },
+    "Physical Defense Up": {
+      "hash": "966f40f7392d47b0a1111f913223e03048cacbce965ae7e3f99cb795115e5751",
+      "ts": 1771129475
+    },
+    "Significant Attack Boost": {
+      "hash": "2ea62367de9aae3d9e19b64ae54bdc43678bc22f97456f65bd48ad20db82e1f1",
+      "ts": 1771129475
+    },
+    "Significant Attack Speed Boost": {
+      "hash": "7d6d89d327a669eb5716bad58fe4434ce997bc17c1d07dd6705e30135ab3a14f",
+      "ts": 1771185685
+    },
+    "Accuracy Down": {
+      "hash": "07b584fc18d48b17e010e71991ea9646a5ab49483a7b298746dcf65347f81a0f",
+      "ts": 1771185685
+    },
+    "Attack Down": {
+      "hash": "7275f22a83ac7095c54be5671667e4c52d35265ed83618c86d994b955c18c48b",
+      "ts": 1771129475
+    },
+    "Attack Speed Down": {
+      "hash": "c7a21fc3d36c34f6fc709358cc00ed16286540682a10dc990af89c8b4716dd32",
+      "ts": 1771129475
+    },
+    "Crit Down": {
+      "hash": "c8a3d7d473e21590bb7200bee7dd65f659992cbd4f1b5639bbda981af36fea7c",
+      "ts": 1771129475
+    },
+    "Damage Reduction Down": {
+      "hash": "572e1a31e9981ae85c3d2ba53acdda2afd4b719324a11a83ff7604e67b68c2ae",
+      "ts": 1771129475
+    },
+    "Dodge Down": {
+      "hash": "f5948fbe84f84304a1e39bd24a32c7a537515484a1ccf17e18f5bcba9818c7eb",
+      "ts": 1771185685
+    },
+    "Heal Block": {
+      "hash": "1e719ef367a9fc2c80efaf83fd00566941bd6ab7f14a1341edc575f526c454f9",
+      "ts": 1771129475
+    },
+    "Healing Down": {
+      "hash": "c5994fba3c82dd2d6ed8ff0c189bcc57a3f70281976b97577223072c745e890f",
+      "ts": 1771129475
+    },
+    "Lifesteal Down": {
+      "hash": "9369ac528906d59f01dc3da9decc6d0572f3d96f4b54dde624df52c8293a345d",
+      "ts": 1771185685
+    },
+    "Magic Defense Down": {
+      "hash": "fde015fec9d707fc443732bd49df69579743613ff7e20e16b8fdd439e147d63c",
+      "ts": 1771129475
+    },
+    "Physical Defense Down": {
+      "hash": "d05a0ea10bb2f843962cf5799e9062a9b71f28e295dadd6f991d306167fcbcc4",
+      "ts": 1771129475
+    },
+    "Stat Debuff": {
+      "hash": "ceea20a2d8fb195d05196af4d8b1f184e2a4c136658d4d0098941034cfd266ee",
+      "ts": 1771129475
+    },
+    "Adrenaline": {
+      "hash": "ec15dd8289284de444b197944e3384dc8c74fe3d0c22a8b29c4eb1ac1c65c50e",
+      "ts": 1771129475
+    },
+    "Awakening": {
+      "hash": "fc32cf15584c8dd3bb9fcfdbad45d211bb3488ebbb24e141d42e98c9f910d41f",
+      "ts": 1771129475
+    },
+    "Deathrattle": {
+      "hash": "ecb848ff0eb866a1c7f4ea5a0a4b3e2b7a3984e57152236daaceae4283286cc9",
+      "ts": 1771129475
+    },
+    "Elemental Reaction": {
+      "hash": "e291e330a73faa3071218316b58a39645343d980dd6f69265beeed1ec47fd99f",
+      "ts": 1771129475
+    },
+    "Punishment": {
+      "hash": "6f8f0f3157040cdbfea31d9b6a9ab364e10fac36b6475e35599c5525b87bd837",
+      "ts": 1771129475
+    },
+    "Wild": {
+      "hash": "813291ed73ae9760cf6c39627a1fc6a9e52254597adbdec5e391fa11d938b391",
+      "ts": 1771129475
+    },
+    "Charm": {
+      "hash": "1b9dabd0c83fe6ee1a23e6be87a0c5c4250c827a8ad0dc566fda7ff8daf40bc3",
+      "ts": 1771185685
+    },
+    "Freeze": {
+      "hash": "61389fda1d92b34d278715cc543411fde70fb82dbfb0d43fac60699cb8fa5f26",
+      "ts": 1771185685
+    },
+    "Petrify": {
+      "hash": "7dd17a772457a227bd6ff5293eeff6528d8f0f1d61108dd4e0f0f170cb4e9403",
+      "ts": 1771129475
+    },
+    "Silence": {
+      "hash": "0e7cdd5cc38ce6fa25a1b7b77c1197bc79b735403e93cc9d326708b993d1c7be",
+      "ts": 1771129475
+    },
+    "Stun": {
+      "hash": "ddf379ed0bb3dfc8ec9a1ced2810ce87beaf3b0136f7bb540c9326566dd6cc09",
+      "ts": 1771129475
+    },
+    "Taunt": {
+      "hash": "0ecbe417e23bfc1d1fa672c5d194d7a5366d5e2dda7f6076aad0bf3785d968e6",
+      "ts": 1771129475
+    },
+    "Time Stasis": {
+      "hash": "d4d875f0422d47369dc0e7ec24a2c2e6d02e691e57b1da73cfe7149573a6e1b4",
+      "ts": 1771129475
+    },
+    "Basic Elemental Debuff": {
+      "hash": "8c9fb8d155a64fffbdc3a35d70900d76f0b3039ba675e8f18bce94b0d88f4a76",
+      "ts": 1771129475
+    },
+    "Chill": {
+      "hash": "b599cacabafde4de24e5e0ddb0c9d7fcc7256c99b74ad794a1d8c0b6e8edc4f7",
+      "ts": 1771129475
+    },
+    "Detonation": {
+      "hash": "356fe6baaf871d2133fc8e18e6fb2b7d2175c2522e08ac15c99ba36518252383",
+      "ts": 1771185685
+    },
+    "Elemental Debuff": {
+      "hash": "0b1d6df71c7b9dec0e9569cd54fd10271a7cb54189a3214e40bd6e8ca05ced03",
+      "ts": 1771129475
+    },
+    "Evaporation": {
+      "hash": "3e2d9ea8a8f82f83495e45fb8ab592ca0fe0235719b2b64ed6b8f190cfb617f1",
+      "ts": 1771185685
+    },
+    "Flash Freeze": {
+      "hash": "09801d463982ad4757eafb63307afdb28f0254db0a31597913341e83fe698da0",
+      "ts": 1771185685
+    },
+    "Ignite": {
+      "hash": "d23c5ce396d940ddac1499c81212f94106a84f4eb6bb3a1146d35186e333168b",
+      "ts": 1771129475
+    },
+    "Shock": {
+      "hash": "90a80748ad93c2c08f7713dff45c8183da5ebfdf17521a1bb3705e050699e436",
+      "ts": 1771129475
+    },
+    "Blessing Buff": {
+      "hash": "959ee0d7f0d173d1ec3492ea8e7d822ca7ea9e302c06da7098490e1652202e6c",
+      "ts": 1771129475
+    },
+    "Fervor": {
+      "hash": "5bcf1f691e65662fcee55542282d70b275219a711a74c0cf865f1becc6c97367",
+      "ts": 1771129475
+    },
+    "Grace": {
+      "hash": "6ed32f002b770592a0f9fc658fafa5e1291e4550405b36b1f4020923ea225f62",
+      "ts": 1771129475
+    },
+    "Morale": {
+      "hash": "09bc75f93bb2d35a46ab8207eb2fed0f74058ccc769b6cc34fa84dab22799500",
+      "ts": 1771129475
+    },
+    "Balance": {
+      "hash": "c049b000259f1829ecddf2b3eccff237a220cd5040a06c832325193222f02e41",
+      "ts": 1771129475
+    },
+    "Black Dragon Claw": {
+      "hash": "fda1a29bf07c051a1803cf0a292ad1ee1e5c21a59ffe65cddb7f689e101bb579",
+      "ts": 1771185685
+    },
+    "Blade Shadow": {
+      "hash": "56352ebd5cfde0205f8eb6529cd4d84fd8c130b171a1974f4d2d8ca21d5ec06f",
+      "ts": 1771185685
+    },
+    "Commander's Intimidation": {
+      "hash": "17504a902a1ee2c2db17bd1fb32c8c52293c475fac79e6a12d13fb8700161682",
+      "ts": 1771374946
+    },
+    "Copy": {
+      "hash": "74c3cb464f913b6bf53d767e081e4ea3eecd7d289a38f634d42f09737010fdce",
+      "ts": 1771185685
+    },
+    "Curse": {
+      "hash": "aef5f12e1aa750033b6336b7bebe92c3a9f0a6431231113c71781ba43fa185ea",
+      "ts": 1771387565
+    },
+    "Cursed Domain": {
+      "hash": "e903c40d803eea1b2c20af1c45fcc785a83f0cfbfa5ce5bbc7400eca0b2077db",
+      "ts": 1771185685
+    },
+    "Dark Moon": {
+      "hash": "74df9b20833ef10da8dbefce82cbd26ab7b1fcd801f8a28b362c8ebe8b9e365d",
+      "ts": 1771129358
+    },
+    "Divine Melody": {
+      "hash": "805f59db1095e393374779a9a5fc30aae80678468ec50f8a04d3185c4df67d35",
+      "ts": 1771374946
+    },
+    "Drunken Fragrance": {
+      "hash": "0ac3a5acca1798158653c795f8d4717878145fec63563aad82b5fe22af77fb37",
+      "ts": 1771185685
+    },
+    "Equilibirum": {
+      "hash": "9f8155f68c1067d988eca6efb3fbd7aad7a686d8632c87d82a4535bb9eb951df",
+      "ts": 1771374946
+    },
+    "Exile": {
+      "hash": "8efdf26d976d84d27bb74e9cace7feb76bf066aeb6b38e27d7505b5882152572",
+      "ts": 1771129358
+    },
+    "Flame Armor": {
+      "hash": "3824d5ae00f5b7da18646f24a2d317841f73002087217875866fbadd36d937b6",
+      "ts": 1771185685
+    },
+    "Frost Barrier": {
+      "hash": "19029fc37aa44179052e0e4a9701b29bbca2c4eee64a8afb56b8bf111833ccda",
+      "ts": 1771185685
+    },
+    "Full Moon": {
+      "hash": "34c5f59eed37d5055b2b68b9f7029f39cf45d2288fbd59786f2e7dcbefb3d6a6",
+      "ts": 1771185685
+    },
+    "Governor's Intimidation": {
+      "hash": "9331694c2f66c4129fc7f926de0ee889f075a1faa192c1be650509e1057d9b68",
+      "ts": 1771185685
+    },
+    "Lakeside Protection": {
+      "hash": "9f020c3774d10b3824d0fc076620e38816925e7f951f6075d5a70808288da4df",
+      "ts": 1771185685
+    },
+    "Legacy": {
+      "hash": "3e4fba83e860ef286208153f604267d98fe3d83977b8220a9dd083b37df373b7",
+      "ts": 1771512550
+    },
+    "Life Link": {
+      "hash": "b5215aa0524bf0967452b79fd8f9522f8dccc4a0fb96f95b65f82106fdd51d28",
+      "ts": 1771185685
+    },
+    "Momentum Burst": {
+      "hash": "7c8a27e16a04e5b1745908832a74c77e0a6a72a30378dbdfe7a34d42e8173414",
+      "ts": 1771374946
+    },
+    "Moon Soul": {
+      "hash": "2219bbe8941a265dc0e7d5a36b964719731ab45283bd126b76cddf8cfbb1a1aa",
+      "ts": 1771129358
+    },
+    "Radiant Ember": {
+      "hash": "58dc3e2af45edc97bdffb809b731977379952fc986dfa143a1dbe761219d1661",
+      "ts": 1771129475
+    },
+    "Sanctuary": {
+      "hash": "c97160ab35e182bd99e95419d9056c6e0860e963e1f17bfed8627ff80fab4352",
+      "ts": 1771129475
+    },
+    "Seal": {
+      "hash": "9e79471a1e2963246d581bff3580db834debcda29fd79218fbe488118c4491d0",
+      "ts": 1771129358
+    },
+    "Sunfire": {
+      "hash": "2b184736d1bbf7dd64ea76735f87f245daa1763e288f2f3d64c51af2ac6fc91b",
+      "ts": 1771185685
+    },
+    "Sword Clone": {
+      "hash": "eb0ec6ed3a79a464b5fb71a2656ec04b10e266cc0ca8615354e560dd06549e77",
+      "ts": 1771185685
+    },
+    "Tentacle": {
+      "hash": "e568ad70a15b34e524e13974d154b34b6f5cb7cdc258c7af34f5b2878e48703b",
+      "ts": 1771185685
+    },
+    "Thor's Mark": {
+      "hash": "6360a4e11d43d3cfcefdf16217495d1a5557092639e71bb5469ed5416042b6da",
+      "ts": 1771129358
+    },
+    "Two Heavens Imprint": {
+      "hash": "213e46e7596e1c8a5a1426f114a8d61e3107b11925fd7d300aa22fb7b1d7dcb0",
+      "ts": 1771185685
+    },
+    "Withering Thorns": {
+      "hash": "809c3ccdca37395e657b7f1394394cb3b95f36ed30cd7538bffa191f12becb73",
+      "ts": 1771185685
+    }
+  },
+  "tier_lists": {
+    "Global Tier List": {
+      "hash": "d4da9f534c674a0663719ffed055480e1ab222b9ec1b04ee80aeb0356c257b86",
+      "ts": 1771471837
+    },
+    "Taiwan Tier List": {
+      "hash": "8fcb3ce4ec6b191e96bf80afd5e0a0bf26c0103afe59d81b45a711d9fa585590",
+      "ts": 1771471837
+    }
+  },
+  "teams": {
+    "End Game Arcane Wisdom": {
+      "hash": "3315e49cafe30de2d0ec7c244f07f5ab6a971a1762d6a9ef3d0d8ddc4fcad004",
+      "ts": 1771197404
+    },
+    "End Game Sanctum Glory": {
+      "hash": "47bc18002dc88e8e7d685bd8e8c46f52df5e66fdc3c00eb99af3d84bdcc65612",
+      "ts": 1771197404
+    },
+    "End Game Wild Spirit": {
+      "hash": "2231147f556ee276d09ae094c6df88c0bff46b3814bc074ee0bf9b8d2d42f3d2",
+      "ts": 1771197404
+    },
+    "End Game Illusion Veil": {
+      "hash": "455c5452c244376193bb566d2dcb0bb666a4c9566bb4eeef993016fc1f340b19",
+      "ts": 1771197404
+    },
+    "End Game Otherworld Return": {
+      "hash": "dc32b81c81da5c01d9b8f16c08bf24d3119aa30cdfbb9027a0d0cada68b53704",
+      "ts": 1771197404
+    },
+    "End Game Elemental Echo": {
+      "hash": "7a7f71827ba42c77cfc6f1c6545c49b0c56c40dc83d85fa376e3e74b9b407b50",
+      "ts": 1771197404
+    },
+    "Element Echo Novice Lineup": {
+      "hash": "f279a3259cb10aba544a9a2fc890e674ce4dbac02b89f620482c7bb06fd603f9",
+      "ts": 1771129475
+    },
+    "Wild Spirit Novice Lineup": {
+      "hash": "42ea6c5778354c8d4c60ffc97aeaa19e8da67676a45989310eabd75c25d7ec8c",
+      "ts": 1771129475
+    },
+    "Arcane Wisdom Novice Lineup": {
+      "hash": "c37e57d53b2a5c63078b90bf2250194c1401a0a5c6cdcb20cd72f039466e366b",
+      "ts": 1771129475
+    },
+    "Sanctum Glory Novice Lineup": {
+      "hash": "adf5d6ac9dfc210c94853c39ca8f1107562a709e59c968710427685b7ccbdda1",
+      "ts": 1771129475
+    },
+    "Otherworld Return Novice Lineup": {
+      "hash": "6c2a1b46afe22df038b718b4df83dcf7ebab304917eb54edb73fdf1b6fb6e5f7",
+      "ts": 1771129475
+    },
+    "Illusion Veil Novice Lineup": {
+      "hash": "75102d9e62ed310b416012c5937ad62f3fb46d22c85bba4df521c7784835adcc",
+      "ts": 1771129475
+    }
+  },
+  "useful_links": {
+    "Dragon Traveler Official Discord": {
+      "hash": "c5d6f2cb9b60e7399c6c8e38508aceca1cf50d7ce559fb1ecbdcdf3c5ed0b5f0",
+      "ts": 1771129475
+    },
+    "Dragon Traveler GameKee Wiki": {
+      "hash": "08bc8c4874f995949d13fa621bf3152e79d8957e1138ad35e6b42e0be1c65330",
+      "ts": 1771129475
+    },
+    "Dragon Traveler Guide": {
+      "hash": "3ec3cb2fdcb2364096d0254bbb7b84f11eac5ddc2a624a416069192b640669cc",
+      "ts": 1771129475
+    },
+    "Stexy's Database": {
+      "hash": "3a2a9b690950940858a4cad0ec97cc89b0366ea16829fe23518d909576a79cf0",
+      "ts": 1771190254
+    },
+    "龍魂旅人全角色養成指南": {
+      "hash": "9308067f1660bca3fc750bfb193b1f8cb2b0545ffd9611340728e29f4ac8f1df",
+      "ts": 1771190254
+    }
+  },
+  "artifacts": {
+    "Mjolnir": {
+      "hash": "eb4f15f6d645a6d09690b2b0afdd70285d312d58f675a806f60b28e0f9713eac",
+      "ts": 1771512626
+    },
+    "Anubis Scales": {
+      "hash": "40c1085a0411e747d075fcf06a4d9dcf5f51626827c49ec1f8032d6d3c4a3636",
+      "ts": 1771512626
+    },
+    "Dreamcatcher": {
+      "hash": "850de55579983135375411b80b5fda3e26bafcd1f0afbd069593ad37f70e7d73",
+      "ts": 1771512626
+    },
+    "Flame of Olympus": {
+      "hash": "cf9df38dd34553c1bbccf2fe3ccfb9bb4971007ad42226a52de3bb24ae741167",
+      "ts": 1771512626
+    },
+    "Holy Grail": {
+      "hash": "d60e93e2aef4597466009a30366a803e2c6794fc87bf3a96aead7ada329ce878",
+      "ts": 1771512626
+    },
+    "Necronomicon": {
+      "hash": "a29a8453f84f2d427f5147453ec53051245267be1949ca37af1c0084322039e9",
+      "ts": 1771512626
+    },
+    "Spear of Longinus": {
+      "hash": "00bdbbb9d7afa46dd5f71a4cc10127c2d8164b1b030659d29d493c70573982b3",
+      "ts": 1771512626
+    },
+    "Trident of Poseidon": {
+      "hash": "89982e23aa169ca4d58ea8777f5a0c31f77924df6369f8f989b7381dd67401ee",
+      "ts": 1771512626
+    },
+    "Cupid's Arrow": {
+      "hash": "fdeb6ae48423528c285dc0e4f95cbcbb7c4a0ad3cc7188c185b413d1256fd8d6",
+      "ts": 1771512626
+    },
+    "Eye of Horus": {
+      "hash": "61597d73db271d2bc6e7a97a8278ddd00ae9d475bc926014f77fa9d6b8657f3d",
+      "ts": 1771512626
+    },
+    "Heimdall's Horn": {
+      "hash": "8aba57ce8af5e938d50ac0c1b2c321d7af438a767948f1a3def02a55c7d2cbcb",
+      "ts": 1771512626
+    },
+    "Vajra": {
+      "hash": "258ac5fb9e5c82ee2d9b3af1a78c04e622a09f7c97edae0383c79f5f4b344234",
+      "ts": 1771512626
+    },
+    "Zeus's Thunder": {
+      "hash": "a68f7153c7467a74d3b9f95bcee420b1b47c510a87625414cc16d6c49fb362c3",
+      "ts": 1771512626
+    },
+    "Aladdin's Lamp": {
+      "hash": "c626683d2c32fb59439d30f122f88e39c770a3a1e2f8fb2f5ddc99464267b1ef",
+      "ts": 1771512626
+    },
+    "Golden Fleece": {
+      "hash": "1907a81dc405b2beb06e92057867c163ecd3b9d1b4d641350c5871efd20ec0d5",
+      "ts": 1771512626
+    },
+    "Sun God's Cloak": {
+      "hash": "e37dfef460f93fe6ebc71992057b3924adf17055974dd556d8a4c5b131c14ad0",
+      "ts": 1771512626
+    },
+    "Orpheus Lyre": {
+      "hash": "e7c8701db4fc76371c3d9642d7311cd82186ad65726815e90246e0920fbefdda",
+      "ts": 1771512626
+    },
+    "Sage's Stone": {
+      "hash": "115e08c6cee11f3aef6b5e3d176da6961ca2f96cff1cda756c15a58fa1ef0de3",
+      "ts": 1771512626
+    },
+    "Sealed Magic Bottle": {
+      "hash": "c461f94ab3582722f7a49c03fca24658ef57164c4d782a518d0aee7c973d4533",
+      "ts": 1771512626
+    },
+    "Solomon's Ring": {
+      "hash": "ea0f6dd88d25347bf7a292029be226e37bd536e677f7d920c7cbc7be79d0ef2e",
+      "ts": 1771512626
+    },
+    "Sisyphus Monolith": {
+      "hash": "0ec3eadaecb4b2e4f9c52ffff7e61c488eb738a5369adf676b861a9af11c2d05",
+      "ts": 1771512626
+    },
+    "Wings of Icarus": {
+      "hash": "3ce00e4412681e5a0bb2fc7b82931d0d18a887537f73a6fd4d068283ed7c50c8",
+      "ts": 1771512626
+    }
+  },
+  "howlkins": {
+    "Cretan Bull": {
+      "hash": "47d41d1037bd3fcad29f942b2f3ae18b62abd15695bc70fe05f8276599749daa",
+      "ts": 1771512827
+    },
+    "The Hunchback of Notre Dame": {
+      "hash": "027a1138cb34b7511ebe2a9383a5d1cce95b55dd6caa2de2af6db04655ad0f54",
+      "ts": 1771512827
+    },
+    "The Phantom of the Opera": {
+      "hash": "b171ce495ecfb47c78f8200189e76339c689e114751c951dc79421c2824ba08a",
+      "ts": 1771512827
+    }
+  },
+  "noble_phantasms": {
+    "Book of Dwarves": {
+      "hash": "668a9685093ac81aaafdaca1a2a28314751b660d2a7d544be08f23c00584d84d",
+      "ts": 1771464391
+    },
+    "Dwarf Axe": {
+      "hash": "f4e6f24af1371ea76eb07d725bc942534a13eda7d188a9d0345861628b5418df",
+      "ts": 1771464391
+    },
+    "Dwarf Musket": {
+      "hash": "d4a824e2111f208dfa2ac7976614fae6a6e1cd700a6a431489ed4e1db1c126c0",
+      "ts": 1771464391
+    },
+    "Dwarf Warhammer": {
+      "hash": "fb1804fee0fd8d024f3e3b5049c408f25dd4f4f4c0fc42df0674fc8f7040b899",
+      "ts": 1771464391
+    },
+    "Elf Great Shield": {
+      "hash": "75c175a1ded7e12bb95890314b5919b4876a39f98bbaff7a812977040633754f",
+      "ts": 1771464391
+    },
+    "Elf King Sword": {
+      "hash": "0c5575f60dfa1f5bf9ec9a863552856f48e7261f4dea9bc60b71555f287a7d5b",
+      "ts": 1771464391
+    },
+    "Elf Quiver": {
+      "hash": "bb474638400d1a9161f44c0f89fb194d67869eedcb78b9ac111de8999f32e602",
+      "ts": 1771464391
+    },
+    "Elf Short Sword": {
+      "hash": "e1894859aa94ed1d01bca25a6af5f0f6f0b15c62b16ad223da65cfb6b34b6a2b",
+      "ts": 1771464391
+    },
+    "Star Crystal Bow": {
+      "hash": "0dce90c731d0bc336fafb4d7afc6897b8c6987e02d69b1d36913da1c406baf8d",
+      "ts": 1771464391
+    },
+    "Star Crystal Greatsword": {
+      "hash": "2f6e122222e3271451a173b7365164fef1324b736d350754c5f198a79aa00c65",
+      "ts": 1771464391
+    },
+    "Star Crystal Hammer": {
+      "hash": "049b9c26d1985406a048fda9a0a842d4ac182aef7b5df59cc474932cb25388e9",
+      "ts": 1771464391
+    },
+    "Star Crystal Spear": {
+      "hash": "ba0ae7f667614631babee08250c06566357599ad0110495b7f60e854be652638",
+      "ts": 1771464391
+    },
+    "Death Headband": {
+      "hash": "2818564b9eeebb75046f9bddcc2e656d403c287a81cf1c9a691a4b41db1a2423",
+      "ts": 1771464391
+    },
+    "Radiant Sun Bow": {
+      "hash": "9d0fc0c18981b6f386eb68a7388726fdc0a2530af5bb389b05409de6b6daaf63",
+      "ts": 1771464391
+    },
+    "Lake Maiden's Holy Sword": {
+      "hash": "4b7d069b8e2b661973bb5565b51479f08ac9ceac5fe9d76a85e1d0f4772de04c",
+      "ts": 1771464391
+    },
+    "Dragon's Breath Greatsword": {
+      "hash": "57b5e2e09a89021d623c68636649708f7316505b9acbe71ae1899076b44c360b",
+      "ts": 1771464391
+    },
+    "Little Man in a Bottle": {
+      "hash": "930fb01dad671f9626e0523b2fd7f637a17d9692d673b688a42d5465b1352950",
+      "ts": 1771464391
+    },
+    "Judgment Horn": {
+      "hash": "d99f2e930432125d3d5c9bf63567a73962a89ce218e5546396241c2f9b29a543",
+      "ts": 1771464391
+    },
+    "Lich Soul Box": {
+      "hash": "e6966f2ff209d37c742f7baa5e71c90dfc48a76505fe2d33d298d619cbed7848",
+      "ts": 1771464391
+    },
+    "The Sighing Spear": {
+      "hash": "715f7c8993c55df44656540e464dac1a7997b0e5f8150031ca2f65d9eaaab190",
+      "ts": 1771464391
+    },
+    "Dark Raven's Feather": {
+      "hash": "57435ff05a45fb947b03dd07cd890d51e5b2de402c06c8b4a8a381fe48ebf7de",
+      "ts": 1771464391
+    },
+    "Flame Magic Jar": {
+      "hash": "c5437ed43a5ac68dd04f4aeb3d7a6f5cb22feaec4e517bf03fe11ea37f379eb4",
+      "ts": 1771464391
+    },
+    "Piercing Sun Sword Box": {
+      "hash": "194a204a674becbc8d4ca8f023f5bc1294b92a1b7092f421e5a9a44df039f778",
+      "ts": 1771464391
+    },
+    "Ring of Demon Blade": {
+      "hash": "089f38888172c1bd3caaa30d30f54a5bd6858680a8ac887cfc6bfc20915ad4b7",
+      "ts": 1771464391
+    },
+    "Serpent God's Blade": {
+      "hash": "07e0c1d7f7133c5423f112c7b6151b91696f452e57b7265170a27752f39fe079",
+      "ts": 1771464391
+    },
+    "Judgment Axe": {
+      "hash": "8b37a80f1a6884103724e4a3c7a5e425a6ebb59ee4068398fa4be8b46a4c682f",
+      "ts": 1771464391
+    },
+    "Love Elixir": {
+      "hash": "2a9ea457fd78d094a9165c4f971b206d614776bee02f48bd35a3b4270272b67e",
+      "ts": 1771464391
+    },
+    "Severing Demon Blade": {
+      "hash": "bf7593196e69c41319fd7686270ee1d714b4af8311095afd974f69d7662740f2",
+      "ts": 1771464391
+    },
+    "Tiger Tally": {
+      "hash": "f48a37ffad41a7629cca09cd52a4884c09a35cad53c8ee88c5df5bc52ce0fd76",
+      "ts": 1771464391
+    }
+  },
+  "changelog": {
+    "1.0.0": {
+      "hash": "8cc687df8f6c6f44fc7452961e86561a3349f611cc818c3f61403276e89a4637",
+      "ts": 1771129475
+    }
+  }
+}

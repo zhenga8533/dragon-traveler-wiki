@@ -637,6 +637,52 @@ def export_changelog(data, output_dir=None):
     write_export("changelog.json", result, output_dir)
 
 
+# Table name -> (key column, query key) for hash export
+HASH_SOURCES = {
+    "factions": ("name", "factions"),
+    "characters": ("name", "characters"),
+    "wyrmspells": ("name", "wyrmspells"),
+    "resources": ("name", "resources"),
+    "codes": ("code", "codes"),
+    "status_effects": ("name", "status_effects"),
+    "tier_lists": ("name", "tier_lists"),
+    "teams": ("name", "teams"),
+    "useful_links": ("name", "useful_links"),
+    "artifacts": ("name", "artifacts"),
+    "howlkins": ("name", "howlkins"),
+    "noble_phantasms": ("name", "noble_phantasms"),
+    "changelog": ("version", "changelog"),
+}
+
+
+def export_hashes(data, output_dir=None):
+    """Export data_hash and last_updated from Dolt into a standalone hashes.json file."""
+    hashes = {}
+    for table, (key_col, query_key) in HASH_SOURCES.items():
+        rows = data.get(query_key, [])
+        if not rows:
+            continue
+        table_hashes = {}
+        for row in rows:
+            key = row.get(key_col)
+            h = row.get("data_hash") or ""
+            ts_raw = row.get("last_updated")
+            ts = int(ts_raw) if ts_raw not in (None, "") else 0
+            if key and h:
+                table_hashes[key] = {"hash": h, "ts": ts}
+        if table_hashes:
+            hashes[table] = table_hashes
+
+    dest = output_dir or EXPORT_DIR
+    dest.mkdir(parents=True, exist_ok=True)
+    path = dest / "hashes.json"
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(hashes, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    total = sum(len(v) for v in hashes.values())
+    print(f"  Exported {total} hashes across {len(hashes)} tables to {path}")
+
+
 # Map target names to (export_function, required_query_keys)
 EXPORTERS = {
     "factions": (export_factions, {"factions"}),
@@ -720,12 +766,23 @@ def main():
             k for k in EXPORTERS[t][1] if k in existing_tables and k in queries
         }
 
+    # Also fetch keys needed for hashes.json (data_hash + last_updated live in parent tables)
+    hash_keys = {
+        query_key
+        for _, (_, query_key) in HASH_SOURCES.items()
+        if query_key in existing_tables and query_key in queries
+    }
+    needed_keys |= hash_keys
+
     # Single batch fetch
     data = fetch_all(needed_keys, queries)
 
     # Run exporters
     for t in targets:
         EXPORTERS[t][0](data, output_dir=output_dir)
+
+    # Always write hashes.json alongside the data files
+    export_hashes(data, output_dir=output_dir)
 
     print("Done!")
 
