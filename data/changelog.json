@@ -76,7 +76,7 @@
       {
         "type": "added",
         "category": "guides",
-        "description": "Added guide pages: Beginner Q&A, Star Upgrade Calculator, Rotational Event Hoarding, and Shovel Event Guide"
+        "description": "Added guide pages: Beginner Q&A, Star Upgrade Calculator, and Shovel Event Guide"
       },
       {
         "type": "added",
@@ -94,6 +94,6 @@
         "description": "Added suggestion modals across core pages for community-driven data updates"
       }
     ],
-    "last_updated": 1771545600
+    "last_updated": 1771538664
   }
 ]
