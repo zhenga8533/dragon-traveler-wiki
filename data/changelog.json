@@ -30,6 +30,11 @@
       },
       {
         "type": "added",
+        "category": "gear",
+        "description": "Added gear database with detail pages"
+      },
+      {
+        "type": "added",
         "category": "howlkins",
         "description": "Added howlkins database, filters, and golden alliance reference"
       },
@@ -94,6 +99,6 @@
         "description": "Added suggestion modals across core pages for community-driven data updates"
       }
     ],
-    "last_updated": 1771538664
+    "last_updated": 1771564616
   }
 ]
