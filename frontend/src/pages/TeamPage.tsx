@@ -23,21 +23,28 @@ import {
   IoSwapHorizontal,
 } from 'react-icons/io5';
 import { Link, useNavigate, useParams } from 'react-router-dom';
+import { getArtifactIcon } from '../assets/artifacts';
 import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { QUALITY_BORDER_COLOR } from '../components/CharacterCard';
+import GlobalBadge from '../components/GlobalBadge';
+import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
+import RichText from '../components/RichText';
 import WyrmspellCard from '../components/WyrmspellCard';
 import { FACTION_COLOR } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
+import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
+import type { Faction } from '../types/faction';
+import type { StatusEffect } from '../types/status-effect';
 import type { Team, TeamMember } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
-import LastUpdated from '../components/LastUpdated';
 
 export default function TeamPage() {
   const { teamName } = useParams<{ teamName: string }>();
@@ -56,8 +63,24 @@ export default function TeamPage() {
   const { data: wyrmspells, loading: loadingSpells } = useDataFetch<
     Wyrmspell[]
   >('data/wyrmspells.json', []);
+  const { data: factions, loading: loadingFactions } = useDataFetch<Faction[]>(
+    'data/factions.json',
+    []
+  );
+  const { data: artifacts, loading: loadingArtifacts } = useDataFetch<
+    Artifact[]
+  >('data/artifacts.json', []);
+  const { data: statusEffects, loading: loadingStatusEffects } = useDataFetch<
+    StatusEffect[]
+  >('data/status-effects.json', []);
 
-  const loading = loadingTeams || loadingChars || loadingSpells;
+  const loading =
+    loadingTeams ||
+    loadingChars ||
+    loadingSpells ||
+    loadingFactions ||
+    loadingArtifacts ||
+    loadingStatusEffects;
 
   const team = useMemo(() => {
     if (!teamName) return null;
@@ -69,6 +92,17 @@ export default function TeamPage() {
     for (const c of characters) map.set(c.name, c);
     return map;
   }, [characters]);
+
+  const factionInfo = useMemo(() => {
+    if (!team) return null;
+    return factions.find((f) => f.name === team.faction) ?? null;
+  }, [factions, team]);
+
+  const artifactMap = useMemo(() => {
+    const map = new Map<string, Artifact>();
+    for (const artifact of artifacts) map.set(artifact.name, artifact);
+    return map;
+  }, [artifacts]);
 
   // FACTION_COLOR values like 'purple' and 'black' aren't valid Mantine color
   // scale names, so map them to the closest Mantine equivalents for CSS vars.
@@ -249,6 +283,145 @@ export default function TeamPage() {
                 </Text>
               </Paper>
             )}
+
+            {factionInfo && (
+              <Paper
+                p="md"
+                radius="md"
+                style={{
+                  background: isDark
+                    ? 'rgba(0,0,0,0.25)'
+                    : 'rgba(255,255,255,0.6)',
+                  backdropFilter: 'blur(8px)',
+                  border: isDark
+                    ? '1px solid rgba(255,255,255,0.06)'
+                    : '1px solid rgba(0,0,0,0.06)',
+                }}
+              >
+                <Stack gap="sm">
+                  <Title order={4}>Faction Overview</Title>
+                  <RichText
+                    text={factionInfo.description}
+                    statusEffects={statusEffects}
+                    lineHeight={1.6}
+                  />
+                  {factionInfo.recommended_artifacts.length > 0 && (
+                    <Stack gap="xs" mt={4}>
+                      <Text size="sm" fw={600}>
+                        Recommended Artifacts
+                      </Text>
+                      <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="sm">
+                        {factionInfo.recommended_artifacts.map(
+                          (artifactName) => {
+                            const iconSrc = getArtifactIcon(artifactName);
+                            const artifact = artifactMap.get(artifactName);
+                            return (
+                              <Tooltip key={artifactName} label={artifactName}>
+                                <Link
+                                  to={`/artifacts/${encodeURIComponent(artifactName)}`}
+                                  style={{ textDecoration: 'none' }}
+                                >
+                                  <Paper
+                                    p="sm"
+                                    radius="md"
+                                    withBorder
+                                    style={{
+                                      cursor: 'pointer',
+                                    }}
+                                  >
+                                    <Group
+                                      gap="sm"
+                                      wrap="nowrap"
+                                      align="flex-start"
+                                    >
+                                      <Box
+                                        style={{
+                                          width: 64,
+                                          height: 64,
+                                          borderRadius: 10,
+                                          background: isDark
+                                            ? 'rgba(0,0,0,0.3)'
+                                            : 'rgba(255,255,255,0.6)',
+                                          border: isDark
+                                            ? '1px solid rgba(255,255,255,0.08)'
+                                            : '1px solid rgba(0,0,0,0.08)',
+                                          display: 'flex',
+                                          alignItems: 'center',
+                                          justifyContent: 'center',
+                                          flexShrink: 0,
+                                        }}
+                                      >
+                                        {iconSrc && (
+                                          <Image
+                                            src={iconSrc}
+                                            alt={artifactName}
+                                            w={52}
+                                            h={52}
+                                            fit="contain"
+                                            radius="sm"
+                                          />
+                                        )}
+                                      </Box>
+                                      <Stack gap={4} style={{ minWidth: 0 }}>
+                                        <Text size="sm" fw={600} lineClamp={1}>
+                                          {artifactName}
+                                        </Text>
+                                        <Group gap={6} align="center">
+                                          {artifact?.quality && (
+                                            <Image
+                                              src={
+                                                QUALITY_ICON_MAP[
+                                                  artifact.quality
+                                                ]
+                                              }
+                                              alt={artifact.quality}
+                                              h={18}
+                                              w="auto"
+                                              fit="contain"
+                                              style={{ display: 'block' }}
+                                            />
+                                          )}
+                                          {artifact && (
+                                            <GlobalBadge
+                                              isGlobal={artifact.is_global}
+                                              size="xs"
+                                            />
+                                          )}
+                                          {artifact && (
+                                            <Text size="xs" c="dimmed">
+                                              {artifact.rows}x{artifact.columns}
+                                            </Text>
+                                          )}
+                                        </Group>
+                                        {artifact && (
+                                          <Text
+                                            size="xs"
+                                            c="dimmed"
+                                            lineClamp={1}
+                                          >
+                                            {artifact.lore ||
+                                              'No lore available.'}
+                                          </Text>
+                                        )}
+                                      </Stack>
+                                    </Group>
+                                    {!artifact && (
+                                      <Text size="xs" c="dimmed" mt={4}>
+                                        Artifact info unavailable
+                                      </Text>
+                                    )}
+                                  </Paper>
+                                </Link>
+                              </Tooltip>
+                            );
+                          }
+                        )}
+                      </SimpleGrid>
+                    </Stack>
+                  )}
+                </Stack>
+              </Paper>
+            )}
           </Stack>
         </Container>
       </Box>
@@ -410,7 +583,10 @@ function TeamMemberCard({
 
           {member.overdrive_order && (
             <Group gap={4}>
-              <IoFlash size={12} color={`var(--mantine-color-${factionColor}-5)`} />
+              <IoFlash
+                size={12}
+                color={`var(--mantine-color-${factionColor}-5)`}
+              />
               <Text size="xs" c="dimmed">
                 Overdrive #{member.overdrive_order}
               </Text>

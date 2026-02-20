@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class FactionName(str, Enum):
@@ -25,3 +25,4 @@ class Faction(BaseModel):
     name: FactionName
     wyrm: Wyrm
     description: str
+    recommended_artifacts: list[str] = Field(default_factory=list)

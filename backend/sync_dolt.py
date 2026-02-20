@@ -285,6 +285,27 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
                 dry_run=dry_run,
             )
 
+    if (
+        "factions" in existing_tables
+        and "faction_recommended_artifacts" not in existing_tables
+    ):
+        print("  Creating missing faction_recommended_artifacts table")
+        dolt_sql(
+            """
+            CREATE TABLE faction_recommended_artifacts (
+              id int NOT NULL AUTO_INCREMENT,
+              faction_id int NOT NULL,
+              sort_order int NOT NULL DEFAULT 0,
+              artifact_name varchar(200) NOT NULL,
+              PRIMARY KEY (id),
+              KEY faction_id (faction_id),
+              CONSTRAINT faction_recommended_artifacts_ibfk_1 FOREIGN KEY (faction_id) REFERENCES factions(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("faction_recommended_artifacts")
+
     # Ensure artifacts and related tables exist.
     if "artifacts" not in existing_tables:
         print("  Creating missing artifacts table")
@@ -769,10 +790,16 @@ def resolve_timestamp(key, new_hash, old_timestamps, now, table_hashes=None):
 # ---------------------------------------------------------------------------
 
 
-def sync_factions(data, batch, now, stored_hashes, new_hashes):
+def sync_factions(data, artifacts, batch, now, stored_hashes, new_hashes):
     """Sync factions.json -> factions table."""
     old_ts = get_old_timestamps("factions", "name")
     table_hashes = stored_hashes.get("factions", {})
+    known_artifacts = {
+        str(a.get("name", "")).strip() for a in artifacts if a.get("name")
+    }
+    recommended_count = 0
+    batch.add("DELETE FROM faction_recommended_artifacts;")
+    batch.add("ALTER TABLE faction_recommended_artifacts AUTO_INCREMENT = 1;")
     batch.add("DELETE FROM character_factions;")
     batch.add("DELETE FROM factions;")
     data = sorted(data, key=faction_sort_key)
@@ -787,8 +814,28 @@ def sync_factions(data, batch, now, stored_hashes, new_hashes):
             f"({i}, {escape_sql(f['name'])}, {escape_sql(f.get('wyrm'))}, {escape_sql(f.get('description'))}, "
             f"{escape_sql(ts)}, {escape_sql(h)});"
         )
+
+        recommended_artifacts = []
+        for artifact_name in f.get("recommended_artifacts", []):
+            normalized_name = str(artifact_name or "").strip()
+            if not normalized_name:
+                continue
+            if known_artifacts and normalized_name not in known_artifacts:
+                print(
+                    f"  Warning: faction '{f['name']}' references unknown artifact '{normalized_name}'"
+                )
+            recommended_artifacts.append(normalized_name)
+
+        for sort_order, artifact_name in enumerate(recommended_artifacts, start=1):
+            recommended_count += 1
+            batch.add(
+                f"INSERT INTO faction_recommended_artifacts (faction_id, sort_order, artifact_name) VALUES "
+                f"({i}, {sort_order}, {escape_sql(artifact_name)});"
+            )
     count = len([f for f in data if f.get("name")])
-    print(f"  Synced {count} factions")
+    print(
+        f"  Synced {count} factions and {recommended_count} recommended artifact links"
+    )
 
 
 def sync_characters(data, factions, batch, now, stored_hashes, new_hashes):
@@ -1559,7 +1606,7 @@ def main():
 
     # Only load JSON files needed for the target.
     json_deps = {
-        "factions": ["factions.json"],
+        "factions": ["factions.json", "artifacts.json"],
         "characters": ["characters.json", "factions.json"],
         "wyrmspells": ["wyrmspells.json"],
         "noble-phantasms": ["noble_phantasm.json"],
@@ -1602,7 +1649,12 @@ def main():
 
         syncers = {
             "factions": lambda: sync_factions(
-                json_cache["factions.json"], batch, now, stored_hashes, new_hashes
+                json_cache["factions.json"],
+                json_cache.get("artifacts.json", []),
+                batch,
+                now,
+                stored_hashes,
+                new_hashes,
             ),
             "characters": lambda: sync_characters(
                 json_cache["characters.json"],

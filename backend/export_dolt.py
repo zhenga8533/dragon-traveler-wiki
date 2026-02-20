@@ -43,6 +43,11 @@ EXPORT_DIR = SCRIPT_DIR / "exports"
 # All queries needed, keyed by name. Executed in a single dolt process.
 QUERIES = {
     "factions": "SELECT * FROM factions ORDER BY id;",
+    "faction_recommended_artifacts": (
+        "SELECT faction_id, sort_order, artifact_name "
+        "FROM faction_recommended_artifacts "
+        "ORDER BY faction_id, sort_order, id;"
+    ),
     "characters": "SELECT * FROM characters ORDER BY id;",
     "character_factions": (
         "SELECT cf.character_id, f.name AS faction_name "
@@ -238,13 +243,22 @@ def write_export(filename, data, output_dir=None):
 
 
 def export_factions(data, output_dir=None):
+    recommended_by_faction = group_by(
+        data.get("faction_recommended_artifacts", []), "faction_id"
+    )
     result = []
     for r in data["factions"]:
+        faction_id = r.get("id")
         result.append(
             {
                 "name": r.get("name") or "",
                 "wyrm": r.get("wyrm") or "",
                 "description": r.get("description") or "",
+                "recommended_artifacts": [
+                    item.get("artifact_name") or ""
+                    for item in recommended_by_faction.get(faction_id, [])
+                    if item.get("artifact_name")
+                ],
                 "last_updated": int(r.get("last_updated") or 0),
             }
         )
@@ -820,7 +834,13 @@ def export_hashes(data, output_dir=None):
 
 # Map target names to (export_function, required_query_keys)
 EXPORTERS = {
-    "factions": (export_factions, {"factions"}),
+    "factions": (
+        export_factions,
+        {
+            "factions",
+            "faction_recommended_artifacts",
+        },
+    ),
     "characters": (
         export_characters,
         {

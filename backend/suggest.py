@@ -23,6 +23,7 @@ DATA_DIR = ROOT_DIR / "data"
 
 LABEL_JSON_FILE = {
     "codes": "codes.json",
+    "faction": "factions.json",
     "wyrmspell": "wyrmspells.json",
     "noble-phantasm": "noble_phantasm.json",
     "status-effect": "status-effects.json",
@@ -36,6 +37,7 @@ LABEL_JSON_FILE = {
 
 REQUIRED_FIELDS = {
     "codes": ["code"],
+    "faction": ["name", "wyrm", "description", "recommended_artifacts"],
     "wyrmspell": ["name"],
     "noble-phantasm": ["name"],
     "status-effect": ["name"],
@@ -203,12 +205,33 @@ def validate_data(label, data, is_update=False):
                 if not m.get("character_name"):
                     raise ValueError(f"Member {i} is missing 'character_name'.")
 
+    if label == "faction" and "recommended_artifacts" in data:
+        artifacts = _normalize_string_list(data.get("recommended_artifacts"))
+        if len(artifacts) == 0:
+            raise ValueError("Faction must include at least one recommended artifact.")
+
 
 def _split_csv_list(value):
     if isinstance(value, list):
         return [str(v).strip() for v in value if str(v).strip()]
     if isinstance(value, str):
         return [v.strip() for v in value.split(",") if v.strip()]
+    return []
+
+
+def _normalize_string_list(value, item_key="name"):
+    if isinstance(value, str):
+        return _split_csv_list(value)
+    if isinstance(value, list):
+        normalized = []
+        for item in value:
+            if isinstance(item, dict):
+                text = str(item.get(item_key, "") or "").strip()
+            else:
+                text = str(item or "").strip()
+            if text:
+                normalized.append(text)
+        return normalized
     return []
 
 
@@ -386,6 +409,28 @@ def normalize_for_json(label, data, is_update=False):
             result["description"] = data.get("description", "")
         if "category" in data:
             result["category"] = data.get("category", "")
+        return result
+
+    if label == "faction":
+        if not is_update:
+            return {
+                "name": data["name"],
+                "wyrm": data.get("wyrm", ""),
+                "description": data.get("description", ""),
+                "recommended_artifacts": _normalize_string_list(
+                    data.get("recommended_artifacts", [])
+                ),
+            }
+
+        result = {"name": data["name"]}
+        if "wyrm" in data:
+            result["wyrm"] = data.get("wyrm", "")
+        if "description" in data:
+            result["description"] = data.get("description", "")
+        if "recommended_artifacts" in data:
+            result["recommended_artifacts"] = _normalize_string_list(
+                data.get("recommended_artifacts", [])
+            )
         return result
 
     if label == "links":
@@ -662,6 +707,7 @@ def main():
     # Detect label from title prefix
     prefix_to_label = {
         "[Code]": "codes",
+        "[Faction]": "faction",
         "[Character]": "character",
         "[Wyrmspell]": "wyrmspell",
         "[Noble Phantasm]": "noble-phantasm",
