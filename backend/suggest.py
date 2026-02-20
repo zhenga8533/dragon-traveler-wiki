@@ -109,29 +109,34 @@ def extract_json_from_body(body):
         raise ValueError(f"Invalid JSON in issue body: {e}") from e
 
 
-def validate_data(label, data):
-    """Light validation: check required fields exist and have non-empty values."""
+def validate_data(label, data, is_update=False):
+    """Validate suggestion data for create or update operations."""
     if not isinstance(data, dict):
         raise ValueError("Suggestion JSON must be an object.")
 
-    required = REQUIRED_FIELDS.get(label, [])
+    if is_update:
+        required = [_get_identity_key(label)]
+    else:
+        required = REQUIRED_FIELDS.get(label, [])
     missing = [f for f in required if not data.get(f)]
     if missing:
         raise ValueError(f"Missing required fields for '{label}': {', '.join(missing)}")
 
     if label == "links":
-        link = str(data.get("link", "")).strip()
-        parsed = urlparse(link)
-        if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-            raise ValueError("Link must be a valid http/https URL.")
+        if "link" in data:
+            link = str(data.get("link", "")).strip()
+            parsed = urlparse(link)
+            if parsed.scheme not in {"http", "https"} or not parsed.netloc:
+                raise ValueError("Link must be a valid http/https URL.")
 
     if label == "resource":
-        category = str(data.get("category", "")).strip()
-        if category not in VALID_RESOURCE_CATEGORIES:
-            raise ValueError(
-                "Invalid resource category. "
-                f"Expected one of: {', '.join(sorted(VALID_RESOURCE_CATEGORIES))}"
-            )
+        if "category" in data:
+            category = str(data.get("category", "")).strip()
+            if category not in VALID_RESOURCE_CATEGORIES:
+                raise ValueError(
+                    "Invalid resource category. "
+                    f"Expected one of: {', '.join(sorted(VALID_RESOURCE_CATEGORIES))}"
+                )
         if data.get("quality") and data["quality"] not in VALID_CHARACTER_QUALITIES:
             raise ValueError(
                 "Invalid resource quality. "
@@ -174,27 +179,29 @@ def validate_data(label, data):
             )
 
     if label == "tier-list":
-        entries = data.get("entries", [])
-        if not isinstance(entries, list) or len(entries) == 0:
-            raise ValueError("Tier list must have at least one entry.")
-        for i, entry in enumerate(entries):
-            if not entry.get("character_name"):
-                raise ValueError(f"Entry {i} is missing 'character_name'.")
-            if not entry.get("tier"):
-                raise ValueError(f"Entry {i} is missing 'tier'.")
-            if entry["tier"] not in VALID_TIERS:
-                raise ValueError(
-                    f"Entry {i} has invalid tier '{entry['tier']}'. "
-                    f"Expected one of: {', '.join(sorted(VALID_TIERS))}"
-                )
+        if "entries" in data:
+            entries = data.get("entries", [])
+            if not isinstance(entries, list) or len(entries) == 0:
+                raise ValueError("Tier list must have at least one entry.")
+            for i, entry in enumerate(entries):
+                if not entry.get("character_name"):
+                    raise ValueError(f"Entry {i} is missing 'character_name'.")
+                if not entry.get("tier"):
+                    raise ValueError(f"Entry {i} is missing 'tier'.")
+                if entry["tier"] not in VALID_TIERS:
+                    raise ValueError(
+                        f"Entry {i} has invalid tier '{entry['tier']}'. "
+                        f"Expected one of: {', '.join(sorted(VALID_TIERS))}"
+                    )
 
     if label == "team":
-        members = data.get("members", [])
-        if not isinstance(members, list) or len(members) == 0:
-            raise ValueError("Team must have at least one member.")
-        for i, m in enumerate(members):
-            if not m.get("character_name"):
-                raise ValueError(f"Member {i} is missing 'character_name'.")
+        if "members" in data:
+            members = data.get("members", [])
+            if not isinstance(members, list) or len(members) == 0:
+                raise ValueError("Team must have at least one member.")
+            for i, m in enumerate(members):
+                if not m.get("character_name"):
+                    raise ValueError(f"Member {i} is missing 'character_name'.")
 
 
 def _split_csv_list(value):
@@ -219,10 +226,10 @@ def _coerce_optional_int(value):
 # ---------------------------------------------------------------------------
 
 
-def normalize_for_json(label, data):
+def normalize_for_json(label, data, is_update=False):
     """Normalize issue data into the shape expected by the JSON data files."""
     if label == "codes":
-        rewards_input = data.get("rewards") or data.get("reward")
+        rewards_input = data.get("rewards") if "rewards" in data else data.get("reward")
         if isinstance(rewards_input, list):
             rewards = {
                 r["name"]: int(r.get("quantity", 0))
@@ -233,6 +240,15 @@ def normalize_for_json(label, data):
             rewards = {k: int(v) for k, v in rewards_input.items() if k}
         else:
             rewards = {}
+
+        if is_update:
+            result = {"code": data["code"]}
+            if "rewards" in data or "reward" in data:
+                result["rewards"] = rewards
+            if "active" in data:
+                result["active"] = data.get("active")
+            return result
+
         return {
             "code": data["code"],
             "rewards": rewards,
@@ -240,35 +256,73 @@ def normalize_for_json(label, data):
         }
 
     if label == "wyrmspell":
-        return {
-            "name": data["name"],
-            "effect": data.get("effect", ""),
-            "type": data.get("type", ""),
-            "quality": data.get("quality", "") or "",
-            "exclusive_faction": data.get("exclusive_faction") or None,
-            "is_global": data.get("is_global", True),
-        }
+        if not is_update:
+            return {
+                "name": data["name"],
+                "effect": data.get("effect", ""),
+                "type": data.get("type", ""),
+                "quality": data.get("quality", "") or "",
+                "exclusive_faction": data.get("exclusive_faction") or None,
+                "is_global": data.get("is_global", True),
+            }
+
+        result = {"name": data["name"]}
+        if "effect" in data:
+            result["effect"] = data.get("effect", "")
+        if "type" in data:
+            result["type"] = data.get("type", "")
+        if "quality" in data:
+            result["quality"] = data.get("quality", "") or ""
+        if "exclusive_faction" in data:
+            result["exclusive_faction"] = data.get("exclusive_faction") or None
+        if "is_global" in data:
+            result["is_global"] = data.get("is_global")
+        return result
 
     if label == "status-effect":
-        return {
-            "name": data["name"],
-            "type": data.get("type", ""),
-            "effect": data.get("effect", ""),
-            "remark": data.get("remark", ""),
-        }
+        if not is_update:
+            return {
+                "name": data["name"],
+                "type": data.get("type", ""),
+                "effect": data.get("effect", ""),
+                "remark": data.get("remark", ""),
+            }
+
+        result = {"name": data["name"]}
+        if "type" in data:
+            result["type"] = data.get("type", "")
+        if "effect" in data:
+            result["effect"] = data.get("effect", "")
+        if "remark" in data:
+            result["remark"] = data.get("remark", "")
+        return result
 
     if label == "noble-phantasm":
-        return {
-            "name": data["name"],
-            "character": data.get("character") or None,
-            "is_global": data.get("is_global", True),
-            "lore": data.get("lore", ""),
-            "effects": data.get("effects", []),
-            "skills": data.get("skills", []),
-        }
+        if not is_update:
+            return {
+                "name": data["name"],
+                "character": data.get("character") or None,
+                "is_global": data.get("is_global", True),
+                "lore": data.get("lore", ""),
+                "effects": data.get("effects", []),
+                "skills": data.get("skills", []),
+            }
+
+        result = {"name": data["name"]}
+        if "character" in data:
+            result["character"] = data.get("character") or None
+        if "is_global" in data:
+            result["is_global"] = data.get("is_global")
+        if "lore" in data:
+            result["lore"] = data.get("lore", "")
+        if "effects" in data:
+            result["effects"] = data.get("effects", [])
+        if "skills" in data:
+            result["skills"] = data.get("skills", [])
+        return result
 
     if label == "howlkin":
-        raw_stats = data.get("basic_stats") or {}
+        raw_stats = data.get("basic_stats") if "basic_stats" in data else {}
         stats = {}
         if isinstance(raw_stats, dict):
             stats = raw_stats
@@ -287,7 +341,11 @@ def normalize_for_json(label, data):
                     pass
                 stats[name] = value
 
-        raw_effects = data.get("passive_effects") or data.get("passive_effect")
+        raw_effects = (
+            data.get("passive_effects")
+            if "passive_effects" in data
+            else data.get("passive_effect")
+        )
         if isinstance(raw_effects, list):
             passive_effects = [str(e) for e in raw_effects if e]
         elif isinstance(raw_effects, str) and raw_effects:
@@ -295,73 +353,192 @@ def normalize_for_json(label, data):
         else:
             passive_effects = []
 
-        return {
-            "name": data["name"],
-            "quality": data.get("quality", ""),
-            "basic_stats": stats,
-            "passive_effects": passive_effects,
-        }
+        if not is_update:
+            return {
+                "name": data["name"],
+                "quality": data.get("quality", ""),
+                "basic_stats": stats,
+                "passive_effects": passive_effects,
+            }
+
+        result = {"name": data["name"]}
+        if "quality" in data:
+            result["quality"] = data.get("quality", "")
+        if "basic_stats" in data:
+            result["basic_stats"] = stats
+        if "passive_effects" in data or "passive_effect" in data:
+            result["passive_effects"] = passive_effects
+        return result
 
     if label == "resource":
-        return {
-            "name": data["name"],
-            "quality": data.get("quality") or "",
-            "description": data.get("description", ""),
-            "category": data.get("category", ""),
-        }
+        if not is_update:
+            return {
+                "name": data["name"],
+                "quality": data.get("quality") or "",
+                "description": data.get("description", ""),
+                "category": data.get("category", ""),
+            }
+
+        result = {"name": data["name"]}
+        if "quality" in data:
+            result["quality"] = data.get("quality") or ""
+        if "description" in data:
+            result["description"] = data.get("description", "")
+        if "category" in data:
+            result["category"] = data.get("category", "")
+        return result
 
     if label == "links":
-        return {
-            "icon": data.get("icon", ""),
-            "application": data.get("application", ""),
-            "name": data["name"],
-            "description": data.get("description", ""),
-            "link": data["link"],
-        }
+        if not is_update:
+            return {
+                "icon": data.get("icon", ""),
+                "application": data.get("application", ""),
+                "name": data["name"],
+                "description": data.get("description", ""),
+                "link": data["link"],
+            }
+
+        result = {"name": data["name"]}
+        if "icon" in data:
+            result["icon"] = data.get("icon", "")
+        if "application" in data:
+            result["application"] = data.get("application", "")
+        if "description" in data:
+            result["description"] = data.get("description", "")
+        if "link" in data:
+            result["link"] = data.get("link")
+        return result
 
     if label == "character":
-        return {
-            "name": data["name"],
-            "title": data.get("title", ""),
-            "quality": data.get("quality", ""),
-            "character_class": data.get("character_class", ""),
-            "factions": _split_csv_list(data.get("factions", [])),
-            "is_global": data.get("is_global", True),
-            "subclasses": _split_csv_list(data.get("subclasses", [])),
-            "height": data.get("height", ""),
-            "weight": data.get("weight", ""),
-            "origin": data.get("origin", ""),
-            "lore": data.get("lore", ""),
-            "quote": data.get("quote", ""),
-            "talent": data.get("talent"),
-            "skills": data.get("skills", []),
-            "noble_phantasm": data.get("noble_phantasm") or "",
-        }
+        if not is_update:
+            return {
+                "name": data["name"],
+                "title": data.get("title", ""),
+                "quality": data.get("quality", ""),
+                "character_class": data.get("character_class", ""),
+                "factions": _split_csv_list(data.get("factions", [])),
+                "is_global": data.get("is_global", True),
+                "subclasses": _split_csv_list(data.get("subclasses", [])),
+                "height": data.get("height", ""),
+                "weight": data.get("weight", ""),
+                "origin": data.get("origin", ""),
+                "lore": data.get("lore", ""),
+                "quote": data.get("quote", ""),
+                "talent": data.get("talent"),
+                "skills": data.get("skills", []),
+                "noble_phantasm": data.get("noble_phantasm") or "",
+            }
+
+        result = {"name": data["name"]}
+        if "title" in data:
+            result["title"] = data.get("title", "")
+        if "quality" in data:
+            result["quality"] = data.get("quality", "")
+        if "character_class" in data:
+            result["character_class"] = data.get("character_class", "")
+        if "factions" in data:
+            result["factions"] = _split_csv_list(data.get("factions", []))
+        if "is_global" in data:
+            result["is_global"] = data.get("is_global")
+        if "subclasses" in data:
+            result["subclasses"] = _split_csv_list(data.get("subclasses", []))
+        if "height" in data:
+            result["height"] = data.get("height", "")
+        if "weight" in data:
+            result["weight"] = data.get("weight", "")
+        if "origin" in data:
+            result["origin"] = data.get("origin", "")
+        if "lore" in data:
+            result["lore"] = data.get("lore", "")
+        if "quote" in data:
+            result["quote"] = data.get("quote", "")
+        if "talent" in data:
+            result["talent"] = data.get("talent")
+        if "skills" in data:
+            result["skills"] = data.get("skills", [])
+        if "noble_phantasm" in data:
+            result["noble_phantasm"] = data.get("noble_phantasm") or ""
+        return result
 
     if label == "tier-list":
-        return {
-            "name": data["name"],
-            "author": data.get("author", ""),
-            "content_type": data.get("content_type", ""),
-            "description": data.get("description", ""),
-            "entries": [
+        if not is_update:
+            return {
+                "name": data["name"],
+                "author": data.get("author", ""),
+                "content_type": data.get("content_type", ""),
+                "description": data.get("description", ""),
+                "entries": [
+                    {
+                        "character_name": e.get("character_name", ""),
+                        "tier": e.get("tier", ""),
+                        "note": e.get("note", ""),
+                    }
+                    for e in data.get("entries", [])
+                ],
+            }
+
+        result = {"name": data["name"]}
+        if "author" in data:
+            result["author"] = data.get("author", "")
+        if "content_type" in data:
+            result["content_type"] = data.get("content_type", "")
+        if "description" in data:
+            result["description"] = data.get("description", "")
+        if "entries" in data:
+            result["entries"] = [
                 {
                     "character_name": e.get("character_name", ""),
                     "tier": e.get("tier", ""),
                     "note": e.get("note", ""),
                 }
                 for e in data.get("entries", [])
-            ],
-        }
+            ]
+        return result
 
     if label == "team":
-        return {
-            "name": data["name"],
-            "author": data.get("author", ""),
-            "content_type": data.get("content_type", ""),
-            "description": data.get("description", ""),
-            "faction": data.get("faction", ""),
-            "members": [
+        if not is_update:
+            return {
+                "name": data["name"],
+                "author": data.get("author", ""),
+                "content_type": data.get("content_type", ""),
+                "description": data.get("description", ""),
+                "faction": data.get("faction", ""),
+                "members": [
+                    {
+                        "character_name": m.get("character_name", ""),
+                        "overdrive_order": _coerce_optional_int(
+                            m.get("overdrive_order")
+                        ),
+                        "substitutes": _split_csv_list(m.get("substitutes", [])),
+                        "note": m.get("note", ""),
+                    }
+                    for m in data.get("members", [])
+                ],
+                "wyrmspells": {
+                    "breach": (data.get("wyrmspells") or {}).get("breach", "")
+                    or str(data.get("breach_wyrmspell", "") or ""),
+                    "refuge": (data.get("wyrmspells") or {}).get("refuge", "")
+                    or str(data.get("refuge_wyrmspell", "") or ""),
+                    "wildcry": (data.get("wyrmspells") or {}).get("wildcry", "")
+                    or str(data.get("wildcry_wyrmspell", "") or ""),
+                    "dragons_call": (data.get("wyrmspells") or {}).get(
+                        "dragons_call", ""
+                    )
+                    or str(data.get("dragons_call_wyrmspell", "") or ""),
+                },
+            }
+
+        result = {"name": data["name"]}
+        if "author" in data:
+            result["author"] = data.get("author", "")
+        if "content_type" in data:
+            result["content_type"] = data.get("content_type", "")
+        if "description" in data:
+            result["description"] = data.get("description", "")
+        if "faction" in data:
+            result["faction"] = data.get("faction", "")
+        if "members" in data:
+            result["members"] = [
                 {
                     "character_name": m.get("character_name", ""),
                     "overdrive_order": _coerce_optional_int(m.get("overdrive_order")),
@@ -369,20 +546,42 @@ def normalize_for_json(label, data):
                     "note": m.get("note", ""),
                 }
                 for m in data.get("members", [])
-            ],
-            "wyrmspells": {
-                "breach": (data.get("wyrmspells") or {}).get("breach", "")
-                or str(data.get("breach_wyrmspell", "") or ""),
-                "refuge": (data.get("wyrmspells") or {}).get("refuge", "")
-                or str(data.get("refuge_wyrmspell", "") or ""),
-                "wildcry": (data.get("wyrmspells") or {}).get("wildcry", "")
-                or str(data.get("wildcry_wyrmspell", "") or ""),
-                "dragons_call": (data.get("wyrmspells") or {}).get("dragons_call", "")
-                or str(data.get("dragons_call_wyrmspell", "") or ""),
-            },
-        }
+            ]
+
+        wyrmspell_updates = {}
+        if "wyrmspells" in data and isinstance(data.get("wyrmspells"), dict):
+            for key in ["breach", "refuge", "wildcry", "dragons_call"]:
+                if key in data["wyrmspells"]:
+                    wyrmspell_updates[key] = str(data["wyrmspells"].get(key, "") or "")
+        if "breach_wyrmspell" in data:
+            wyrmspell_updates["breach"] = str(data.get("breach_wyrmspell", "") or "")
+        if "refuge_wyrmspell" in data:
+            wyrmspell_updates["refuge"] = str(data.get("refuge_wyrmspell", "") or "")
+        if "wildcry_wyrmspell" in data:
+            wyrmspell_updates["wildcry"] = str(data.get("wildcry_wyrmspell", "") or "")
+        if "dragons_call_wyrmspell" in data:
+            wyrmspell_updates["dragons_call"] = str(
+                data.get("dragons_call_wyrmspell", "") or ""
+            )
+        if wyrmspell_updates:
+            result["wyrmspells"] = wyrmspell_updates
+        return result
 
     raise ValueError(f"Unknown label: {label}")
+
+
+def _deep_merge(existing, updates):
+    """Recursively merge dict updates into existing dict."""
+    if not isinstance(existing, dict) or not isinstance(updates, dict):
+        return updates
+
+    merged = dict(existing)
+    for key, value in updates.items():
+        if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
+            merged[key] = _deep_merge(merged[key], value)
+        else:
+            merged[key] = value
+    return merged
 
 
 def _get_identity_key(label):
@@ -393,7 +592,7 @@ def _get_identity_key(label):
 
 
 def update_json_file(label, data):
-    """Append normalized data to the corresponding JSON data file."""
+    """Upsert normalized data into the corresponding JSON data file."""
     filename = LABEL_JSON_FILE[label]
     path = DATA_DIR / filename
     if not path.exists():
@@ -402,18 +601,25 @@ def update_json_file(label, data):
     with open(path, "r", encoding="utf-8") as f:
         existing = json.load(f)
 
-    entry = normalize_for_json(label, data)
-
     identity_key = _get_identity_key(label)
-    new_value = entry.get(identity_key, "")
+    new_value = data.get(identity_key, "")
+    matched_index = None
     if new_value:
-        for item in existing:
+        for index, item in enumerate(existing):
             if item.get(identity_key) == new_value:
-                raise ValueError(
-                    f"Duplicate {identity_key} '{new_value}' already exists in {filename}"
-                )
+                matched_index = index
+                break
 
-    existing.append(entry)
+    is_update = matched_index is not None
+    validate_data(label, data, is_update=is_update)
+    entry = normalize_for_json(label, data, is_update=is_update)
+
+    if is_update:
+        existing[matched_index] = _deep_merge(existing[matched_index], entry)
+        action = "updated"
+    else:
+        existing.append(entry)
+        action = "added"
 
     sort_key = FILE_SORT_KEY.get(filename)
     if sort_key:
@@ -423,7 +629,9 @@ def update_json_file(label, data):
         json.dump(existing, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
-    print(f"Updated {filename} (+1 entry, total {len(existing)})")
+    print(
+        f"Updated {filename} ({action} {identity_key} '{new_value}', total {len(existing)})"
+    )
     return filename
 
 
@@ -481,8 +689,9 @@ def main():
     # Extract and validate JSON from issue body
     data = extract_json_from_body(issue_body)
     print(f"Extracted JSON: {json.dumps(data, indent=2)[:500]}")
-    validate_data(label, data)
-    print("Validation passed.")
+    print(
+        "JSON extracted. Validation and update mode will be resolved in file update step."
+    )
 
     # Update the JSON data file
     json_file = update_json_file(label, data)
