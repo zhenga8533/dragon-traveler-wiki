@@ -576,5 +576,15 @@
     },
     "active": true,
     "last_updated": 1771529295
+  },
+  {
+    "code": "KWYCOSER",
+    "rewards": {
+      "Gold": 3000,
+      "Golden Horn": 1,
+      "Leaf of the World Tree": 5
+    },
+    "active": true,
+    "last_updated": 1771563818
   }
 ]
