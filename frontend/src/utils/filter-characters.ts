@@ -85,12 +85,18 @@ export function extractAllEffectRefs(characters: Character[]): string[] {
   return [...names].sort();
 }
 
+/** Compare two characters by quality, then alphabetically by name. */
+export function compareCharactersByQualityThenName(
+  a: Character,
+  b: Character
+): number {
+  const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
+  const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
+  if (qualityIndexA !== qualityIndexB) return qualityIndexA - qualityIndexB;
+  return a.name.localeCompare(b.name);
+}
+
 /** Sort characters by quality, then alphabetically by name. */
 export function sortCharactersByQuality(characters: Character[]): Character[] {
-  return characters.sort((a, b) => {
-    const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
-    const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
-    if (qualityIndexA !== qualityIndexB) return qualityIndexA - qualityIndexB;
-    return a.name.localeCompare(b.name);
-  });
+  return characters.sort(compareCharactersByQualityThenName);
 }
