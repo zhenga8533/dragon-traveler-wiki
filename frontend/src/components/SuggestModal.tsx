@@ -2,6 +2,7 @@ import {
   ActionIcon,
   Button,
   Group,
+  Image,
   Modal,
   Select,
   Stack,
@@ -18,9 +19,18 @@ import {
   IoClose,
   IoOpenOutline,
 } from 'react-icons/io5';
+import { CLASS_ICON_MAP } from '../assets/class';
+import { FACTION_ICON_MAP } from '../assets/faction';
+import accessoryIcon from '../assets/gear/icons/accessory.png';
+import bootsIcon from '../assets/gear/icons/boots.png';
+import bracersIcon from '../assets/gear/icons/bracers.png';
+import chestplateIcon from '../assets/gear/icons/chestplate.png';
+import headgearIcon from '../assets/gear/icons/headgear.png';
+import weaponIcon from '../assets/gear/icons/weapon.png';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { GITHUB_REPO_URL } from '../constants';
 
-export type FieldType = 'text' | 'textarea' | 'select' | 'boolean';
+export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number';
 
 export interface FieldDef {
   name: string;
@@ -29,6 +39,7 @@ export interface FieldDef {
   required?: boolean;
   placeholder?: string;
   options?: string[];
+  optionIcons?: Record<string, string>;
 }
 
 export interface ArrayFieldDef {
@@ -82,6 +93,22 @@ function isValidUrl(value: string): boolean {
   } catch {
     return false;
   }
+}
+
+const AUTO_OPTION_ICON_MAP: Record<string, string> = {
+  ...QUALITY_ICON_MAP,
+  ...CLASS_ICON_MAP,
+  ...FACTION_ICON_MAP,
+  Headgear: headgearIcon,
+  Chestplate: chestplateIcon,
+  Bracers: bracersIcon,
+  Boots: bootsIcon,
+  Weapon: weaponIcon,
+  Accessory: accessoryIcon,
+};
+
+function getOptionIcon(field: FieldDef, option: string): string | undefined {
+  return field.optionIcons?.[option] ?? AUTO_OPTION_ICON_MAP[option];
 }
 
 export default function SuggestModal({
@@ -208,6 +235,15 @@ export default function SuggestModal({
       }
 
       if (
+        f.type === 'number' &&
+        typeof value === 'string' &&
+        value.trim() !== '' &&
+        Number.isNaN(Number(value))
+      ) {
+        return false;
+      }
+
+      if (
         (f.name === 'link' || f.name.toLowerCase().includes('url')) &&
         typeof value === 'string' &&
         value.trim() !== '' &&
@@ -241,6 +277,14 @@ export default function SuggestModal({
           ) {
             return false;
           }
+          if (
+            f.type === 'number' &&
+            typeof value === 'string' &&
+            value.trim() !== '' &&
+            Number.isNaN(Number(value))
+          ) {
+            return false;
+          }
         }
       }
     }
@@ -253,19 +297,54 @@ export default function SuggestModal({
     onChange: (val: string | boolean) => void
   ) => {
     switch (f.type) {
-      case 'select':
+      case 'select': {
+        const selectedValue = (value as string) || '';
+        const selectedIcon = selectedValue
+          ? getOptionIcon(f, selectedValue)
+          : undefined;
         return (
           <Select
             key={f.name}
             label={f.label}
             placeholder={f.placeholder}
-            data={f.options ?? []}
+            data={(f.options ?? []).map((option) => ({
+              value: option,
+              label: option,
+            }))}
             value={(value as string) || null}
             onChange={(v) => onChange(v ?? '')}
             clearable
             withAsterisk={f.required}
+            leftSection={
+              selectedIcon ? (
+                <Image
+                  src={selectedIcon}
+                  alt={selectedValue}
+                  w={16}
+                  h={16}
+                  fit="contain"
+                />
+              ) : undefined
+            }
+            renderOption={({ option }) => {
+              const optionIcon = getOptionIcon(f, option.value);
+              if (!optionIcon) return option.label;
+              return (
+                <Group gap="xs" wrap="nowrap">
+                  <Image
+                    src={optionIcon}
+                    alt={option.label}
+                    w={16}
+                    h={16}
+                    fit="contain"
+                  />
+                  <span>{option.label}</span>
+                </Group>
+              );
+            }}
           />
         );
+      }
       case 'boolean':
         return (
           <Switch
@@ -286,6 +365,18 @@ export default function SuggestModal({
             autosize
             minRows={2}
             maxRows={6}
+            withAsterisk={f.required}
+          />
+        );
+      case 'number':
+        return (
+          <TextInput
+            key={f.name}
+            type="number"
+            label={f.label}
+            placeholder={f.placeholder}
+            value={value as string}
+            onChange={(e) => onChange(e.currentTarget.value)}
             withAsterisk={f.required}
           />
         );

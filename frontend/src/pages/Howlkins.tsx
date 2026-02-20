@@ -88,6 +88,47 @@ const HOWLKIN_STATS_FIELDS: ArrayFieldDef[] = [
   },
 ];
 
+const GOLDEN_ALLIANCE_FIELDS: FieldDef[] = [
+  {
+    name: 'name',
+    label: 'Alliance Name',
+    type: 'text',
+    required: true,
+    placeholder: 'Golden alliance name',
+  },
+  {
+    name: 'howlkins',
+    label: 'Members',
+    type: 'textarea',
+    required: true,
+    placeholder: 'One Howlkin name per line',
+  },
+];
+
+const GOLDEN_ALLIANCE_EFFECTS_FIELDS: ArrayFieldDef[] = [
+  {
+    name: 'effects',
+    label: 'Alliance Effects',
+    minItems: 1,
+    fields: [
+      {
+        name: 'level',
+        label: 'Level',
+        type: 'number',
+        required: true,
+        placeholder: 'e.g. 1',
+      },
+      {
+        name: 'stats',
+        label: 'Stats',
+        type: 'textarea',
+        required: true,
+        placeholder: 'List stats for this level (comma or newline separated)',
+      },
+    ],
+  },
+];
+
 interface HowlkinFilters {
   search: string;
   qualities: Quality[];
@@ -234,13 +275,23 @@ export default function Howlkins() {
               }
             />
           </Group>
-          <SuggestModal
-            buttonLabel="Suggest a Howlkin"
-            modalTitle="Suggest a New Howlkin"
-            issueTitle="[Howlkin] New howlkin suggestion"
-            fields={HOWLKIN_FIELDS}
-            arrayFields={HOWLKIN_STATS_FIELDS}
-          />
+          {activeTab === 'golden-alliances' ? (
+            <SuggestModal
+              buttonLabel="Suggest a Golden Alliance"
+              modalTitle="Suggest a New Golden Alliance"
+              issueTitle="[Golden Alliance] New golden alliance suggestion"
+              fields={GOLDEN_ALLIANCE_FIELDS}
+              arrayFields={GOLDEN_ALLIANCE_EFFECTS_FIELDS}
+            />
+          ) : (
+            <SuggestModal
+              buttonLabel="Suggest a Howlkin"
+              modalTitle="Suggest a New Howlkin"
+              issueTitle="[Howlkin] New howlkin suggestion"
+              fields={HOWLKIN_FIELDS}
+              arrayFields={HOWLKIN_STATS_FIELDS}
+            />
+          )}
         </Group>
 
         <Tabs value={activeTab} onChange={handleTabChange}>
@@ -456,105 +507,107 @@ export default function Howlkins() {
             {!alliancesLoading &&
               !alliancesError &&
               goldenAlliances.length > 0 && (
-                <Stack gap="md">
-                  <TextInput
-                    placeholder="Search by name or member..."
-                    leftSection={<IoSearch size={14} />}
-                    value={allianceSearch}
-                    onChange={(e) => setAllianceSearch(e.currentTarget.value)}
-                  />
-                  {filteredAlliances.length === 0 ? (
-                    <Text c="dimmed" size="sm" ta="center" py="md">
-                      No alliances match the search.
-                    </Text>
-                  ) : (
-                    <SimpleGrid cols={{ base: 1, md: 2 }} spacing="sm">
-                      {filteredAlliances.map((alliance) => (
-                        <Paper
-                          key={alliance.name}
-                          p="md"
-                          radius="md"
-                          withBorder
-                        >
-                          <Stack gap="sm">
-                            <Text fw={700} size="lg">
-                              {alliance.name}
-                            </Text>
-
-                            <div>
-                              <Text size="xs" c="dimmed" fw={600} mb={4}>
-                                MEMBERS ({alliance.howlkins.length})
+                <Paper p="md" radius="md" withBorder>
+                  <Stack gap="md">
+                    <TextInput
+                      placeholder="Search by name or member..."
+                      leftSection={<IoSearch size={14} />}
+                      value={allianceSearch}
+                      onChange={(e) => setAllianceSearch(e.currentTarget.value)}
+                    />
+                    {filteredAlliances.length === 0 ? (
+                      <Text c="dimmed" size="sm" ta="center" py="md">
+                        No alliances match the search.
+                      </Text>
+                    ) : (
+                      <SimpleGrid cols={{ base: 1, md: 2 }} spacing="sm">
+                        {filteredAlliances.map((alliance) => (
+                          <Paper
+                            key={alliance.name}
+                            p="md"
+                            radius="md"
+                            withBorder
+                          >
+                            <Stack gap="sm">
+                              <Text fw={700} size="lg">
+                                {alliance.name}
                               </Text>
-                              <Group gap="xs" wrap="wrap">
-                                {[...alliance.howlkins]
-                                  .sort((a, b) => {
-                                    const qA = QUALITY_ORDER.indexOf(
-                                      howlkinMap.get(a)?.quality ??
-                                        ('' as Quality)
-                                    );
-                                    const qB = QUALITY_ORDER.indexOf(
-                                      howlkinMap.get(b)?.quality ??
-                                        ('' as Quality)
-                                    );
-                                    if (qA !== qB) return qA - qB;
-                                    return a.localeCompare(b);
-                                  })
-                                  .map((name) => (
-                                    <HowlkinBadge
-                                      key={name}
-                                      name={name}
-                                      howlkin={howlkinMap.get(name)}
-                                    />
-                                  ))}
-                              </Group>
-                            </div>
 
-                            <div>
-                              <Text size="xs" c="dimmed" fw={600} mb={4}>
-                                ALLIANCE EFFECTS
-                              </Text>
-                              <Table withTableBorder withColumnBorders>
-                                <Table.Thead>
-                                  <Table.Tr>
-                                    <Table.Th style={{ width: 70 }}>
-                                      Level
-                                    </Table.Th>
-                                    <Table.Th>Stats</Table.Th>
-                                  </Table.Tr>
-                                </Table.Thead>
-                                <Table.Tbody>
-                                  {alliance.effects.map((effect) => (
-                                    <Table.Tr key={effect.level}>
-                                      <Table.Td>
-                                        <Badge variant="light" size="sm">
-                                          {effect.level}
-                                        </Badge>
-                                      </Table.Td>
-                                      <Table.Td>
-                                        <Group gap={4} wrap="wrap">
-                                          {effect.stats.map((stat, i) => (
-                                            <Badge
-                                              key={i}
-                                              variant="outline"
-                                              size="sm"
-                                              color="teal"
-                                            >
-                                              {stat}
-                                            </Badge>
-                                          ))}
-                                        </Group>
-                                      </Table.Td>
+                              <div>
+                                <Text size="xs" c="dimmed" fw={600} mb={4}>
+                                  MEMBERS ({alliance.howlkins.length})
+                                </Text>
+                                <Group gap="xs" wrap="wrap">
+                                  {[...alliance.howlkins]
+                                    .sort((a, b) => {
+                                      const qA = QUALITY_ORDER.indexOf(
+                                        howlkinMap.get(a)?.quality ??
+                                          ('' as Quality)
+                                      );
+                                      const qB = QUALITY_ORDER.indexOf(
+                                        howlkinMap.get(b)?.quality ??
+                                          ('' as Quality)
+                                      );
+                                      if (qA !== qB) return qA - qB;
+                                      return a.localeCompare(b);
+                                    })
+                                    .map((name) => (
+                                      <HowlkinBadge
+                                        key={name}
+                                        name={name}
+                                        howlkin={howlkinMap.get(name)}
+                                      />
+                                    ))}
+                                </Group>
+                              </div>
+
+                              <div>
+                                <Text size="xs" c="dimmed" fw={600} mb={4}>
+                                  ALLIANCE EFFECTS
+                                </Text>
+                                <Table withTableBorder withColumnBorders>
+                                  <Table.Thead>
+                                    <Table.Tr>
+                                      <Table.Th style={{ width: 70 }}>
+                                        Level
+                                      </Table.Th>
+                                      <Table.Th>Stats</Table.Th>
                                     </Table.Tr>
-                                  ))}
-                                </Table.Tbody>
-                              </Table>
-                            </div>
-                          </Stack>
-                        </Paper>
-                      ))}
-                    </SimpleGrid>
-                  )}
-                </Stack>
+                                  </Table.Thead>
+                                  <Table.Tbody>
+                                    {alliance.effects.map((effect) => (
+                                      <Table.Tr key={effect.level}>
+                                        <Table.Td>
+                                          <Badge variant="light" size="sm">
+                                            {effect.level}
+                                          </Badge>
+                                        </Table.Td>
+                                        <Table.Td>
+                                          <Group gap={4} wrap="wrap">
+                                            {effect.stats.map((stat, i) => (
+                                              <Badge
+                                                key={i}
+                                                variant="outline"
+                                                size="sm"
+                                                color="teal"
+                                              >
+                                                {stat}
+                                              </Badge>
+                                            ))}
+                                          </Group>
+                                        </Table.Td>
+                                      </Table.Tr>
+                                    ))}
+                                  </Table.Tbody>
+                                </Table>
+                              </div>
+                            </Stack>
+                          </Paper>
+                        ))}
+                      </SimpleGrid>
+                    )}
+                  </Stack>
+                </Paper>
               )}
           </Tabs.Panel>
         </Tabs>

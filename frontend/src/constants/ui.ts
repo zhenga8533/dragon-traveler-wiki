@@ -91,6 +91,7 @@ export const STORAGE_KEY = {
   ARTIFACT_VIEW_MODE: 'artifacts:viewMode',
   ARTIFACT_FILTERS: 'artifacts:filters',
   GEAR_VIEW_MODE: 'gear:viewMode',
+  GEAR_TAB: 'gear:tab',
   GEAR_FILTERS: 'gear:filters',
   CHARACTER_SORT: 'characters:sort',
   RESOURCE_SORT: 'resources:sort',
