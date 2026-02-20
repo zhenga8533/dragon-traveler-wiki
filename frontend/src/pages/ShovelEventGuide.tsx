@@ -16,33 +16,39 @@ import ResourceBadge from '../components/ResourceBadge';
 const TARGET_ROWS = [
   {
     target: '1,050 layers',
-    recommendation: 'Recommended for almost all players',
+    recommendation: 'F2P safe zone; recommended for almost all players',
     cost: '~5,600 Diamonds total',
     rewards: '2 Golden Slimes',
   },
   {
     target: '2,160 layers',
-    recommendation: 'Push if you want Monster eggs / Weapon Chests',
+    recommendation: 'Whale/hoarder push if you have 20k–30k Diamonds saved',
     cost: 'Depends on efficiency + late top-ups',
-    rewards: 'Select eggs + 1,740–2,160 weapon chest milestones',
+    rewards: 'Selectable Monsters + Refinement Crystals + 2x Weapon Chests',
   },
 ];
 
 const EFFICIENCY_ROWS = [
   {
-    metric: 'Progress Efficiency',
-    value: 'Layers Reached ÷ Outside Shovels (Task + Bought)',
-    note: '3.0+ is good; with guides/videos 4.0–5.0 is possible',
+    metric: 'Efficiency Score',
+    value: 'Floors Advanced ÷ Base Shovels Used',
+    note: 'Base shovels only; do not count extra shovels found on the map',
   },
   {
-    metric: 'Guaranteed Outside Shovels',
+    metric: 'Guaranteed Base Shovels (7 days)',
     value: '210 (tasks) + 154 (daily pack + free) = 364',
-    note: 'Use this baseline before deciding final-day top-ups',
+    note: 'Use this fixed baseline after your Day 5 bulk dig to judge whether to push',
   },
   {
-    metric: 'If efficiency is around 3.0',
-    value: '2,160 often needs 99-shovel packs on the final 3 days',
-    note: 'Plus small top-ups if needed',
+    metric: 'Score around 3.0',
+    value:
+      'Usually on track but 2,160 often needs expensive 120-Diamond shovel buys for final 3 days',
+    note: 'Plan late top-ups and re-check score daily',
+  },
+  {
+    metric: 'Score 4.0+',
+    value: 'Very efficient routeing (often with maps/guides)',
+    note: 'You can reach end milestones with far fewer expensive shovel buys',
   },
 ];
 
@@ -78,6 +84,11 @@ export default function ShovelEventGuide() {
           <Title order={2}>Main Conclusion &amp; Schedule</Title>
           <Paper p="md" radius="md" withBorder>
             <Stack gap="xs">
+              <Text fw={700} c="red">
+                Do not make this mistake: buy the daily 800-
+                <ResourceBadge name="Diamond" /> pack, but do not dig during
+                days 1–4.
+              </Text>
               <Text>
                 • Daily buy: 800-
                 <ResourceBadge name="Diamond" /> pack (20 shovels).
@@ -86,6 +97,10 @@ export default function ShovelEventGuide() {
               <Text>
                 • Reason: bulk digging improves bomb/rocket efficiency and makes
                 your progress-efficiency calculation much more accurate.
+              </Text>
+              <Text>
+                • Floor objective: expose any tile in the far-right column as
+                fast as possible to advance layers.
               </Text>
             </Stack>
           </Paper>
@@ -134,11 +149,12 @@ export default function ShovelEventGuide() {
               <Text>
                 Formula:{' '}
                 <Badge variant="light" color="blue" size="lg">
-                  Progress Efficiency = Layers Reached ÷ Outside Shovels
+                  Efficiency Score = Floors Advanced ÷ Base Shovels Used
                 </Badge>
               </Text>
               <Text size="sm" c="dimmed">
-                Outside shovels = task rewards + purchased packs.
+                Base shovels = guaranteed task rewards + daily pack/free income
+                only (364 total over 7 days).
               </Text>
             </Stack>
           </Paper>
@@ -173,22 +189,21 @@ export default function ShovelEventGuide() {
           <Paper p="md" radius="md" withBorder>
             <Stack gap="xs">
               <Text>
-                1) Trade less for more: bombs/rockets/chests are worth ~2
-                shovels. Use them only when they clear at least 2-shovel value
-                (for example yellow dirt) or chain into another item.
+                1) Trade up, never waste explosives: bombs/rockets are worth
+                about 2 shovels. Use them to clear yellow dirt (2-for-2) or to
+                reveal multiple items at once.
               </Text>
               <Text>
-                2) Ignore stars while digging. Do not spend bombs/rockets only
-                to collect star clusters.
+                2) Stars are a distraction during push. Your only objective is
+                far-right exposure for floor advancement.
               </Text>
               <Text>
-                3) Save utility items for expensive blocks. Avoid paying 2
-                shovels for yellow dirt when an item can clear it.
+                3) After Day 5 bulk digging, calculate your Efficiency Score
+                before spending extra diamonds.
               </Text>
               <Text>
-                4) Mist trick: in the rightmost column, if a tile is covered by
-                fog, digging the tile immediately to its left can still advance
-                layer count.
+                4) If your score is near 3.0, prepare late expensive shovel
+                buys. If 4.0+, you can often save thousands of diamonds.
               </Text>
             </Stack>
           </Paper>

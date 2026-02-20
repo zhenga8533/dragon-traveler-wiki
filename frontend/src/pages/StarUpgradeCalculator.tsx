@@ -10,6 +10,7 @@ import {
   Paper,
   Progress,
   SegmentedControl,
+  Select,
   SimpleGrid,
   Stack,
   Switch,
@@ -23,7 +24,6 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useState } from 'react';
 import {
-  IoArrowForward,
   IoCalculator,
   IoCalendar,
   IoChevronDown,
@@ -268,115 +268,66 @@ type QualityOption = 'SSR EX' | 'SSR+' | 'SSR' | 'SR';
 // ---------------------------------------------------------------------------
 
 function StarIcon({ level, size = 20 }: { level: StarLevel; size?: number }) {
+  const badgeSize = Math.max(12, Math.round(size * 0.46));
+
   return (
     <Box
       style={{
         position: 'relative',
         display: 'inline-flex',
         alignItems: 'center',
+        justifyContent: 'center',
+        width: size,
+        height: size,
       }}
     >
-      <svg
-        width={size}
-        height={size}
-        viewBox="0 0 24 24"
-        fill={TIER_COLORS[level.tier]}
-        style={{ display: 'block' }}
-      >
-        <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z" />
-      </svg>
-      {level.stars > 0 && (
-        <Text
-          size="xs"
-          fw={700}
+      <IoStar
+        size={size}
+        style={{
+          color: TIER_COLORS[level.tier],
+          display: 'block',
+          filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.35))',
+        }}
+      />
+
+      {(level.stars > 0 || level.tier === 'legendary') && (
+        <Box
           style={{
             position: 'absolute',
-            top: '50%',
-            left: '50%',
-            transform: 'translate(-50%, -50%)',
-            color: 'white',
-            textShadow: '0 0 3px rgba(0,0,0,0.8)',
-            lineHeight: 1,
-            fontSize: size > 20 ? '0.65rem' : '0.6rem',
+            right: -Math.max(2, Math.round(size * 0.08)),
+            bottom: -Math.max(2, Math.round(size * 0.08)),
+            minWidth: badgeSize,
+            height: badgeSize,
+            paddingInline: Math.max(3, Math.round(size * 0.12)),
+            borderRadius: 999,
+            background: 'rgba(15, 23, 42, 0.92)',
+            border: '1px solid rgba(255,255,255,0.22)',
+            display: 'inline-flex',
+            alignItems: 'center',
+            justifyContent: 'center',
+            boxShadow: '0 2px 8px rgba(0,0,0,0.28)',
           }}
         >
-          {level.stars}
-        </Text>
+          <Text
+            fw={800}
+            style={{
+              color: 'white',
+              lineHeight: 1,
+              fontSize: `${Math.max(8, Math.round(size * 0.33))}px`,
+              letterSpacing: 0.1,
+            }}
+          >
+            {level.stars > 0 ? level.stars : 'L'}
+          </Text>
+        </Box>
       )}
     </Box>
   );
 }
 
 // ---------------------------------------------------------------------------
-// Progress indicator between current and target
-// ---------------------------------------------------------------------------
-
-function ProgressIndicator({
-  currentIndex,
-  targetIndex,
-}: {
-  currentIndex: number;
-  targetIndex: number;
-}) {
-  const currentLevel = STAR_LEVELS[currentIndex];
-  const targetLevel = STAR_LEVELS[targetIndex];
-  const isValid = currentIndex < targetIndex;
-
-  return (
-    <Group justify="center" gap="lg" py="xs">
-      <Stack gap={2} align="center">
-        <StarIcon level={currentLevel} size={36} />
-        <Badge
-          color={TIER_BADGE_COLORS[currentLevel.tier]}
-          variant="light"
-          size="sm"
-        >
-          {currentLevel.label}
-        </Badge>
-      </Stack>
-      <IoArrowForward
-        size={24}
-        style={{
-          color: isValid
-            ? TIER_COLORS[targetLevel.tier]
-            : 'var(--mantine-color-red-6)',
-          flexShrink: 0,
-        }}
-      />
-      <Stack gap={2} align="center">
-        <StarIcon level={targetLevel} size={36} />
-        <Badge
-          color={TIER_BADGE_COLORS[targetLevel.tier]}
-          variant="light"
-          size="sm"
-        >
-          {targetLevel.label}
-        </Badge>
-      </Stack>
-    </Group>
-  );
-}
-
-// ---------------------------------------------------------------------------
 // Star range selector
 // ---------------------------------------------------------------------------
-
-const TIER_GROUPS = (() => {
-  const tiers: { tier: StarLevel['tier']; label: string; levels: { level: StarLevel; index: number }[] }[] = [];
-  let current: (typeof tiers)[number] | null = null;
-  STAR_LEVELS.forEach((level, index) => {
-    if (!current || current.tier !== level.tier) {
-      const tierLabel =
-        level.tier === 'base'
-          ? 'Base'
-          : level.tier.charAt(0).toUpperCase() + level.tier.slice(1);
-      current = { tier: level.tier, label: tierLabel, levels: [] };
-      tiers.push(current);
-    }
-    current.levels.push({ level, index });
-  });
-  return tiers;
-})();
 
 type StarRangeSelectorProps = {
   currentIndex: number;
@@ -393,116 +344,330 @@ function StarRangeSelector({
 }: StarRangeSelectorProps) {
   const colorScheme = useComputedColorScheme('light');
   const isDark = colorScheme === 'dark';
-  const [mode, setMode] = useState<'from' | 'to'>('from');
 
-  const handleClick = (index: number) => {
-    if (mode === 'from') {
-      if (index >= targetIndex) return;
-      onCurrentChange(index);
-      setMode('to');
-    } else {
-      if (index <= currentIndex) return;
-      onTargetChange(index);
-      setMode('from');
-    }
+  const renderStarOption = ({
+    option,
+  }: {
+    option: { value: string; label: string };
+  }) => {
+    const level = STAR_LEVELS[Number(option.value)];
+    return (
+      <Group justify="space-between" wrap="nowrap" w="100%" gap="xs">
+        <Group wrap="nowrap" gap={8}>
+          <StarIcon level={level} size={16} />
+          <Text size="sm">{option.label}</Text>
+        </Group>
+        <Badge size="xs" color={TIER_BADGE_COLORS[level.tier]} variant="light">
+          {level.tier}
+        </Badge>
+      </Group>
+    );
   };
 
+  const rangeSpan = targetIndex - currentIndex;
+  const rangePercent =
+    STAR_LEVELS.length > 1 ? (rangeSpan / (STAR_LEVELS.length - 1)) * 100 : 0;
+
+  const fromOptions = STAR_LEVELS.map((level, index) => ({
+    value: String(index),
+    label: level.label,
+  })).filter((option) => Number(option.value) < targetIndex);
+
+  const toOptions = STAR_LEVELS.map((level, index) => ({
+    value: String(index),
+    label: level.label,
+  })).filter((option) => Number(option.value) > currentIndex);
+
+  const quickPresetIndexes = [0, 1, 7, 13, 14, STAR_LEVELS.length - 1].filter(
+    (value, idx, arr) => arr.indexOf(value) === idx
+  );
+
+  const coreQuickPresetIndexes = quickPresetIndexes.filter((index) => {
+    const tier = STAR_LEVELS[index].tier;
+    return tier !== 'legendary' && tier !== 'divine';
+  });
+
+  const endgameQuickPresetIndexes = quickPresetIndexes.filter((index) => {
+    const tier = STAR_LEVELS[index].tier;
+    return tier === 'legendary' || tier === 'divine';
+  });
+
   return (
-    <Stack gap="sm">
-      <SegmentedControl
-        value={mode}
-        onChange={(val) => setMode(val as 'from' | 'to')}
-        data={[
-          { value: 'from', label: 'Setting: From' },
-          { value: 'to', label: 'Setting: To' },
-        ]}
-        size="xs"
-        color={mode === 'from' ? 'blue' : TIER_BADGE_COLORS[STAR_LEVELS[targetIndex].tier]}
-      />
-      {TIER_GROUPS.map((group) => (
-        <Box
-          key={group.tier}
-          style={{
-            borderLeft: `3px solid ${TIER_COLORS[group.tier]}`,
-            borderRadius: '4px',
-            paddingLeft: 8,
+    <Stack gap="md">
+      <Paper
+        withBorder
+        p="sm"
+        radius="md"
+        style={{
+          background: isDark
+            ? 'linear-gradient(135deg, rgba(99,102,241,0.12), rgba(168,85,247,0.08))'
+            : 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(168,85,247,0.04))',
+        }}
+      >
+        <Group justify="space-between" align="flex-start" wrap="wrap" gap="sm">
+          <div>
+            <Text fw={600} size="sm">
+              Select star range
+            </Text>
+            <Text size="xs" c="dimmed">
+              Use From and To dropdowns for a cleaner, faster selection flow.
+            </Text>
+          </div>
+          <Group gap={6}>
+            <Badge size="sm" color="blue" variant="light">
+              From: {STAR_LEVELS[currentIndex].label}
+            </Badge>
+            <Badge
+              size="sm"
+              color={TIER_BADGE_COLORS[STAR_LEVELS[targetIndex].tier]}
+              variant="light"
+            >
+              To: {STAR_LEVELS[targetIndex].label}
+            </Badge>
+          </Group>
+        </Group>
+      </Paper>
+
+      <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+        <Select
+          label="From"
+          description="Current star level"
+          value={String(currentIndex)}
+          data={fromOptions}
+          renderOption={renderStarOption}
+          searchable
+          allowDeselect={false}
+          nothingFoundMessage="No levels available"
+          leftSection={<StarIcon level={STAR_LEVELS[currentIndex]} size={16} />}
+          onChange={(value) => {
+            if (!value) return;
+            const nextFrom = Number(value);
+            onCurrentChange(nextFrom);
+            if (nextFrom >= targetIndex) {
+              onTargetChange(Math.min(STAR_LEVELS.length - 1, nextFrom + 1));
+            }
           }}
-        >
-          <Text size="xs" fw={700} c="dimmed" mb={4}>
-            {group.label}
+        />
+
+        <Select
+          label="To"
+          description="Target star level"
+          value={String(targetIndex)}
+          data={toOptions}
+          renderOption={renderStarOption}
+          searchable
+          allowDeselect={false}
+          nothingFoundMessage="No levels available"
+          leftSection={<StarIcon level={STAR_LEVELS[targetIndex]} size={16} />}
+          onChange={(value) => {
+            if (!value) return;
+            const nextTo = Number(value);
+            onTargetChange(nextTo);
+            if (nextTo <= currentIndex) {
+              onCurrentChange(Math.max(0, nextTo - 1));
+            }
+          }}
+        />
+      </SimpleGrid>
+
+      <Paper withBorder p="sm" radius="md">
+        <Stack gap="xs">
+          <Group justify="space-between">
+            <Text size="xs" c="dimmed">
+              Range span
+            </Text>
+            <Text size="xs" fw={600}>
+              {rangeSpan} step{rangeSpan === 1 ? '' : 's'}
+            </Text>
+          </Group>
+          <Progress
+            value={Math.max(0, Math.min(100, rangePercent))}
+            size="md"
+            radius="xl"
+            color={TIER_BADGE_COLORS[STAR_LEVELS[targetIndex].tier]}
+          />
+        </Stack>
+      </Paper>
+
+      <Paper
+        withBorder
+        p="xs"
+        radius="md"
+        style={{
+          background: isDark
+            ? 'rgba(99,102,241,0.08)'
+            : 'rgba(99,102,241,0.06)',
+        }}
+      >
+        <Stack gap={6}>
+          <Text size="xs" c="dimmed" ta="center">
+            Quick presets
           </Text>
-          <Box
-            style={{
-              display: 'grid',
-              gridTemplateColumns: `repeat(auto-fit, minmax(100px, 1fr))`,
-              gap: 4,
-            }}
-          >
-            {group.levels.map(({ level, index }) => {
-              const isCurrent = index === currentIndex;
-              const isTarget = index === targetIndex;
-              const inRange =
-                currentIndex < targetIndex &&
-                index > currentIndex &&
-                index < targetIndex;
+
+          <Group gap="xs" justify="center" wrap="wrap">
+            {coreQuickPresetIndexes.map((index) => {
+              const level = STAR_LEVELS[index];
+              const canSetFrom = index < targetIndex;
+              const canSetTo = index > currentIndex;
+              const isFromActive = index === currentIndex;
+              const isToActive = index === targetIndex;
 
               return (
-                <UnstyledButton
-                  key={level.value}
-                  onClick={() => handleClick(index)}
-                  style={{
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    gap: 4,
-                    padding: '6px 8px',
-                    borderRadius: '6px',
-                    border: isCurrent
-                      ? '2px solid var(--mantine-color-blue-6)'
-                      : isTarget
-                        ? `2px solid ${TIER_COLORS[level.tier]}`
-                        : '2px solid transparent',
-                    background: isTarget
-                      ? `var(--mantine-color-${TIER_BADGE_COLORS[level.tier]}-light)`
-                      : isCurrent
-                        ? 'var(--mantine-color-blue-light)'
-                        : inRange
-                          ? isDark
-                            ? 'rgba(255,255,255,0.04)'
-                            : 'rgba(0,0,0,0.03)'
+                <Paper key={level.value} withBorder p={4} radius="xl">
+                  <Group gap={4} wrap="nowrap">
+                    <Group gap={6} wrap="nowrap" px={4}>
+                      <StarIcon level={level} size={14} />
+                      <Text size="xs" fw={600} c="dimmed">
+                        {level.label}
+                      </Text>
+                    </Group>
+
+                    <UnstyledButton
+                      onClick={() => canSetFrom && onCurrentChange(index)}
+                      disabled={!canSetFrom}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 4,
+                        padding: '5px 8px',
+                        borderRadius: 999,
+                        border: isFromActive
+                          ? '1px solid var(--mantine-color-blue-5)'
+                          : '1px solid var(--mantine-color-default-border)',
+                        background: isFromActive
+                          ? 'var(--mantine-color-blue-light)'
                           : 'transparent',
-                    transition: 'all 150ms ease',
-                    cursor: 'pointer',
-                  }}
-                >
-                  <StarIcon level={level} size={18} />
-                  <Text
-                    size="xs"
-                    fw={isCurrent || isTarget ? 700 : 500}
-                    c={isCurrent || isTarget ? undefined : 'dimmed'}
-                  >
-                    {level.stars > 0 ? level.stars : level.label}
-                  </Text>
-                  {isCurrent && (
-                    <Badge size="xs" color="blue" variant="light">
-                      From
-                    </Badge>
-                  )}
-                  {isTarget && (
-                    <Badge
-                      size="xs"
-                      color={TIER_BADGE_COLORS[level.tier]}
-                      variant="filled"
+                        opacity: canSetFrom ? 1 : 0.45,
+                        cursor: canSetFrom ? 'pointer' : 'not-allowed',
+                      }}
                     >
-                      To
-                    </Badge>
-                  )}
-                </UnstyledButton>
+                      <Badge
+                        size="xs"
+                        color="blue"
+                        variant={isFromActive ? 'filled' : 'light'}
+                      >
+                        From
+                      </Badge>
+                    </UnstyledButton>
+                    <UnstyledButton
+                      onClick={() => canSetTo && onTargetChange(index)}
+                      disabled={!canSetTo}
+                      style={{
+                        display: 'inline-flex',
+                        alignItems: 'center',
+                        gap: 4,
+                        padding: '5px 8px',
+                        borderRadius: 999,
+                        border: isToActive
+                          ? `1px solid var(--mantine-color-${TIER_BADGE_COLORS[level.tier]}-5)`
+                          : '1px solid var(--mantine-color-default-border)',
+                        background: isToActive
+                          ? `var(--mantine-color-${TIER_BADGE_COLORS[level.tier]}-light)`
+                          : 'transparent',
+                        opacity: canSetTo ? 1 : 0.45,
+                        cursor: canSetTo ? 'pointer' : 'not-allowed',
+                      }}
+                    >
+                      <Badge
+                        size="xs"
+                        color={TIER_BADGE_COLORS[level.tier]}
+                        variant={isToActive ? 'filled' : 'light'}
+                      >
+                        To
+                      </Badge>
+                    </UnstyledButton>
+                  </Group>
+                </Paper>
               );
             })}
-          </Box>
-        </Box>
-      ))}
+          </Group>
+
+          {endgameQuickPresetIndexes.length > 0 && (
+            <>
+              <Text size="xs" c="dimmed" ta="center" mt={2}>
+                Legendary & Divinity
+              </Text>
+              <Group gap="xs" justify="center" wrap="wrap">
+                {endgameQuickPresetIndexes.map((index) => {
+                  const level = STAR_LEVELS[index];
+                  const canSetFrom = index < targetIndex;
+                  const canSetTo = index > currentIndex;
+                  const isFromActive = index === currentIndex;
+                  const isToActive = index === targetIndex;
+
+                  return (
+                    <Paper key={level.value} withBorder p={4} radius="xl">
+                      <Group gap={4} wrap="nowrap">
+                        <Group gap={6} wrap="nowrap" px={4}>
+                          <StarIcon level={level} size={14} />
+                          <Text size="xs" fw={600} c="dimmed">
+                            {level.label}
+                          </Text>
+                        </Group>
+
+                        <UnstyledButton
+                          onClick={() => canSetFrom && onCurrentChange(index)}
+                          disabled={!canSetFrom}
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4,
+                            padding: '5px 8px',
+                            borderRadius: 999,
+                            border: isFromActive
+                              ? '1px solid var(--mantine-color-blue-5)'
+                              : '1px solid var(--mantine-color-default-border)',
+                            background: isFromActive
+                              ? 'var(--mantine-color-blue-light)'
+                              : 'transparent',
+                            opacity: canSetFrom ? 1 : 0.45,
+                            cursor: canSetFrom ? 'pointer' : 'not-allowed',
+                          }}
+                        >
+                          <Badge
+                            size="xs"
+                            color="blue"
+                            variant={isFromActive ? 'filled' : 'light'}
+                          >
+                            From
+                          </Badge>
+                        </UnstyledButton>
+                        <UnstyledButton
+                          onClick={() => canSetTo && onTargetChange(index)}
+                          disabled={!canSetTo}
+                          style={{
+                            display: 'inline-flex',
+                            alignItems: 'center',
+                            gap: 4,
+                            padding: '5px 8px',
+                            borderRadius: 999,
+                            border: isToActive
+                              ? `1px solid var(--mantine-color-${TIER_BADGE_COLORS[level.tier]}-5)`
+                              : '1px solid var(--mantine-color-default-border)',
+                            background: isToActive
+                              ? `var(--mantine-color-${TIER_BADGE_COLORS[level.tier]}-light)`
+                              : 'transparent',
+                            opacity: canSetTo ? 1 : 0.45,
+                            cursor: canSetTo ? 'pointer' : 'not-allowed',
+                          }}
+                        >
+                          <Badge
+                            size="xs"
+                            color={TIER_BADGE_COLORS[level.tier]}
+                            variant={isToActive ? 'filled' : 'light'}
+                          >
+                            To
+                          </Badge>
+                        </UnstyledButton>
+                      </Group>
+                    </Paper>
+                  );
+                })}
+              </Group>
+            </>
+          )}
+        </Stack>
+      </Paper>
     </Stack>
   );
 }
@@ -514,7 +679,7 @@ function StarRangeSelector({
 export default function StarUpgradeCalculator() {
   const [currentIndex, setCurrentIndex] = useState<number>(0);
   const [targetIndex, setTargetIndex] = useState<number>(
-    STAR_LEVELS.length - 1,
+    STAR_LEVELS.length - 1
   );
   const [quality, setQuality] = useState<QualityOption>('SSR');
   const [affectionLevel20, setAffectionLevel20] = useState<boolean>(false);
@@ -604,14 +769,11 @@ export default function StarUpgradeCalculator() {
               onTargetChange={setTargetIndex}
             />
 
-            {/* Progress indicator */}
-            <ProgressIndicator
-              currentIndex={currentIndex}
-              targetIndex={targetIndex}
-            />
-
             {isValidSelection ? (
-              <SimpleGrid cols={{ base: 2, sm: divineCrystalsNeeded > 0 ? 3 : 2 }} spacing="md">
+              <SimpleGrid
+                cols={{ base: 2, sm: divineCrystalsNeeded > 0 ? 3 : 2 }}
+                spacing="md"
+              >
                 <Paper
                   p="md"
                   withBorder
@@ -622,7 +784,12 @@ export default function StarUpgradeCalculator() {
                   }}
                 >
                   <Stack gap="xs" align="center">
-                    <ThemeIcon variant="light" color="blue" size="lg" radius="md">
+                    <ThemeIcon
+                      variant="light"
+                      color="blue"
+                      size="lg"
+                      radius="md"
+                    >
                       <IoCopy size={18} />
                     </ThemeIcon>
                     <Text size="xs" c="dimmed" ta="center">
@@ -643,7 +810,12 @@ export default function StarUpgradeCalculator() {
                   }}
                 >
                   <Stack gap="xs" align="center">
-                    <ThemeIcon variant="light" color="grape" size="lg" radius="md">
+                    <ThemeIcon
+                      variant="light"
+                      color="grape"
+                      size="lg"
+                      radius="md"
+                    >
                       <IoPeople size={18} />
                     </ThemeIcon>
                     <Text size="xs" c="dimmed" ta="center">
@@ -665,7 +837,12 @@ export default function StarUpgradeCalculator() {
                     }}
                   >
                     <Stack gap="xs" align="center">
-                      <ThemeIcon variant="light" color="orange" size="lg" radius="md">
+                      <ThemeIcon
+                        variant="light"
+                        color="orange"
+                        size="lg"
+                        radius="md"
+                      >
                         <IoDiamond size={18} />
                       </ThemeIcon>
                       <Text size="xs" c="dimmed" ta="center">
@@ -771,8 +948,8 @@ export default function StarUpgradeCalculator() {
               {quality === 'SR' && (
                 <Paper p="sm" withBorder bg="var(--mantine-color-yellow-light)">
                   <Text size="sm" c="orange">
-                    Note: SR heart trial gives 4-star copies. You need 2×
-                    4-star to make 1× 5-star (calculation accounts for this)
+                    Note: SR heart trial gives 4-star copies. You need 2× 4-star
+                    to make 1× 5-star (calculation accounts for this)
                   </Text>
                 </Paper>
               )}
@@ -806,7 +983,8 @@ export default function StarUpgradeCalculator() {
                     Shard Progress
                   </Text>
                   <Text size="xs" c="dimmed">
-                    {Math.min(ownedShards, totalShardsNeeded)} / {totalShardsNeeded} ({shardProgress.toFixed(1)}%)
+                    {Math.min(ownedShards, totalShardsNeeded)} /{' '}
+                    {totalShardsNeeded} ({shardProgress.toFixed(1)}%)
                   </Text>
                 </Group>
                 <Progress
@@ -821,7 +999,12 @@ export default function StarUpgradeCalculator() {
               <Paper p="md" withBorder bg="var(--mantine-color-teal-light)">
                 <Stack gap="md">
                   <Group gap="sm" align="center">
-                    <ThemeIcon variant="light" color="teal" size="md" radius="md">
+                    <ThemeIcon
+                      variant="light"
+                      color="teal"
+                      size="md"
+                      radius="md"
+                    >
                       <IoTime size={16} />
                     </ThemeIcon>
                     <Title order={4}>Time Required</Title>
@@ -900,7 +1083,12 @@ export default function StarUpgradeCalculator() {
                       }}
                     >
                       <Stack gap="xs" align="center">
-                        <ThemeIcon variant="light" color="violet" size="lg" radius="md">
+                        <ThemeIcon
+                          variant="light"
+                          color="violet"
+                          size="lg"
+                          radius="md"
+                        >
                           <IoCalendar size={18} />
                         </ThemeIcon>
                         <Text size="sm" c="dimmed" ta="center">
@@ -915,17 +1103,23 @@ export default function StarUpgradeCalculator() {
                       </Stack>
                     </Paper>
                   )}
-
                 </Stack>
               </Paper>
 
               <Paper p="md" withBorder radius="md">
                 <Stack gap="sm">
                   <Group gap="sm" align="center">
-                    <ThemeIcon variant="light" color="cyan" size="md" radius="md">
+                    <ThemeIcon
+                      variant="light"
+                      color="cyan"
+                      size="md"
+                      radius="md"
+                    >
                       <IoInformationCircle size={16} />
                     </ThemeIcon>
-                    <Text fw={600} size="sm">Sweep Rates Reference</Text>
+                    <Text fw={600} size="sm">
+                      Sweep Rates Reference
+                    </Text>
                   </Group>
                   <Table.ScrollContainer minWidth={300}>
                     <Table withTableBorder withColumnBorders>
@@ -999,7 +1193,13 @@ export default function StarUpgradeCalculator() {
             >
               <Group justify="space-between">
                 <Group gap="sm" align="flex-start">
-                  <ThemeIcon variant="light" color="cyan" size="lg" radius="md" mt={2}>
+                  <ThemeIcon
+                    variant="light"
+                    color="cyan"
+                    size="lg"
+                    radius="md"
+                    mt={2}
+                  >
                     <IoStatsChart size={18} />
                   </ThemeIcon>
                   <div>
@@ -1054,11 +1254,12 @@ export default function StarUpgradeCalculator() {
                                     ? 'rgba(255,255,255,0.03)'
                                     : 'rgba(0,0,0,0.02)'
                                   : undefined,
-                            borderLeft: isInRange || isTarget
-                              ? `3px solid var(--mantine-color-${TIER_BADGE_COLORS[star.tier]}-6)`
-                              : isCurrent
-                                ? '3px solid var(--mantine-color-gray-6)'
-                                : '3px solid transparent',
+                            borderLeft:
+                              isInRange || isTarget
+                                ? `3px solid var(--mantine-color-${TIER_BADGE_COLORS[star.tier]}-6)`
+                                : isCurrent
+                                  ? '3px solid var(--mantine-color-gray-6)'
+                                  : '3px solid transparent',
                           }}
                         >
                           <Table.Td>
