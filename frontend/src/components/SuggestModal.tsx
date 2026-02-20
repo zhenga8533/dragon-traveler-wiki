@@ -314,6 +314,7 @@ export default function SuggestModal({
             value={(value as string) || null}
             onChange={(v) => onChange(v ?? '')}
             clearable
+            searchable
             withAsterisk={f.required}
             leftSection={
               selectedIcon ? (

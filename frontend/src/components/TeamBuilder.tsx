@@ -848,6 +848,7 @@ export default function TeamBuilder({
             value={faction}
             onChange={setFaction}
             renderOption={renderFactionOption}
+            searchable
             leftSection={(() => {
               if (!faction) return undefined;
               const iconSrc = FACTION_ICON_MAP[faction as FactionName];
@@ -940,6 +941,7 @@ export default function TeamBuilder({
                     breach: value || undefined,
                   }))
                 }
+                searchable
                 clearable
               />
               <Select
@@ -964,6 +966,7 @@ export default function TeamBuilder({
                     refuge: value || undefined,
                   }))
                 }
+                searchable
                 clearable
               />
               <Select
@@ -988,6 +991,7 @@ export default function TeamBuilder({
                     wildcry: value || undefined,
                   }))
                 }
+                searchable
                 clearable
               />
               <Select
@@ -1012,6 +1016,7 @@ export default function TeamBuilder({
                     dragons_call: value || undefined,
                   }))
                 }
+                searchable
                 clearable
               />
             </SimpleGrid>

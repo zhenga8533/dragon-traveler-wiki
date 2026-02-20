@@ -30,10 +30,6 @@ import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import LastUpdated from '../components/LastUpdated';
 import PaginationControl from '../components/PaginationControl';
-import SuggestModal, {
-  type ArrayFieldDef,
-  type FieldDef,
-} from '../components/SuggestModal';
 import TeamBuilder from '../components/TeamBuilder';
 import ViewToggle from '../components/ViewToggle';
 import { FACTION_COLOR } from '../constants/colors';
@@ -55,100 +51,6 @@ const FACTIONS: FactionName[] = [
   'Sanctum Glory',
   'Otherworld Return',
   'Illusion Veil',
-];
-
-const TEAM_SUGGEST_FIELDS: FieldDef[] = [
-  {
-    name: 'name',
-    label: 'Team Name',
-    type: 'text',
-    required: true,
-    placeholder: 'e.g. Wild Spirit PvE Team',
-  },
-  {
-    name: 'author',
-    label: 'Author',
-    type: 'text',
-    placeholder: 'Your name / handle',
-  },
-  {
-    name: 'content_type',
-    label: 'Content Type',
-    type: 'text',
-    placeholder: 'e.g. All, PvE, PvP',
-  },
-  {
-    name: 'description',
-    label: 'Description',
-    type: 'textarea',
-    placeholder: 'What this team is for and why it works',
-  },
-  {
-    name: 'faction',
-    label: 'Faction',
-    type: 'select',
-    required: true,
-    options: FACTIONS,
-  },
-  {
-    name: 'breach_wyrmspell',
-    label: 'Breach Wyrmspell (optional)',
-    type: 'text',
-    placeholder: 'Wyrmspell name',
-  },
-  {
-    name: 'refuge_wyrmspell',
-    label: 'Refuge Wyrmspell (optional)',
-    type: 'text',
-    placeholder: 'Wyrmspell name',
-  },
-  {
-    name: 'wildcry_wyrmspell',
-    label: 'Wildcry Wyrmspell (optional)',
-    type: 'text',
-    placeholder: 'Wyrmspell name',
-  },
-  {
-    name: 'dragons_call_wyrmspell',
-    label: "Dragon's Call Wyrmspell (optional)",
-    type: 'text',
-    placeholder: 'Wyrmspell name',
-  },
-];
-
-const TEAM_MEMBER_ARRAY_FIELDS: ArrayFieldDef[] = [
-  {
-    name: 'members',
-    label: 'Team Members',
-    minItems: 1,
-    fields: [
-      {
-        name: 'character_name',
-        label: 'Character Name',
-        type: 'text',
-        required: true,
-        placeholder: 'Character name',
-      },
-      {
-        name: 'overdrive_order',
-        label: 'Overdrive Order',
-        type: 'text',
-        placeholder: '1-6 (optional)',
-      },
-      {
-        name: 'substitutes',
-        label: 'Substitutes',
-        type: 'text',
-        placeholder: 'Comma-separated names (optional)',
-      },
-      {
-        name: 'note',
-        label: 'Note',
-        type: 'text',
-        placeholder: 'Optional note',
-      },
-    ],
-  },
 ];
 
 export default function Teams() {
@@ -294,13 +196,6 @@ export default function Teams() {
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
           <Group gap="xs">
-            <SuggestModal
-              buttonLabel="Suggest a Team"
-              modalTitle="Suggest a New Team"
-              issueTitle="[Team] New team suggestion"
-              fields={TEAM_SUGGEST_FIELDS}
-              arrayFields={TEAM_MEMBER_ARRAY_FIELDS}
-            />
             {mode === 'view' && (
               <ViewToggle viewMode={viewMode} onChange={setViewMode} />
             )}
