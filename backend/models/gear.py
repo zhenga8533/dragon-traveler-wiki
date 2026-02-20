@@ -10,6 +10,7 @@ class Gear(BaseModel):
     name: str
     set: str
     type: str
+    quality: str
     lore: str
     stats: dict[str, int | float | str]
     set_bonus: GearSetBonus

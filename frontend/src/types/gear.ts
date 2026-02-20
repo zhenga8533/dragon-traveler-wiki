@@ -1,3 +1,5 @@
+import type { Quality } from './character';
+
 export type GearType =
   | 'Headgear'
   | 'Chestplate'
@@ -21,6 +23,7 @@ export interface Gear {
   name: string;
   set: string;
   type: GearType;
+  quality: Quality;
   lore: string;
   stats: Record<string, string | number>;
   set_bonus?: GearSetBonus;

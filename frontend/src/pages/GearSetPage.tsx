@@ -81,6 +81,7 @@ export default function GearSetPage() {
     (entry) => entry.name.toLowerCase() === decodedSetName.toLowerCase()
   );
   const setBonus = setData?.set_bonus ?? setItems[0]?.set_bonus;
+  const setQuality = setItems[0]?.quality;
 
   return (
     <Box>
@@ -99,15 +100,17 @@ export default function GearSetPage() {
               <Badge variant="light" color="grape" size="lg">
                 {setItems.length} item{setItems.length !== 1 ? 's' : ''}
               </Badge>
-              <Tooltip label="SSR">
-                <Image
-                  src={QUALITY_ICON_MAP.SSR}
-                  alt="SSR"
-                  h={24}
-                  w="auto"
-                  fit="contain"
-                />
-              </Tooltip>
+              {setQuality && QUALITY_ICON_MAP[setQuality] && (
+                <Tooltip label={setQuality}>
+                  <Image
+                    src={QUALITY_ICON_MAP[setQuality]}
+                    alt={setQuality}
+                    h={24}
+                    w="auto"
+                    fit="contain"
+                  />
+                </Tooltip>
+              )}
             </Group>
             {setBonus && (
               <Text c="dimmed" size="sm">

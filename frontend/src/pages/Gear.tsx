@@ -15,6 +15,12 @@ import {
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getGearIcon } from '../assets/gear';
+import accessoryIcon from '../assets/gear/icons/accessory.png';
+import bootsIcon from '../assets/gear/icons/boots.png';
+import bracersIcon from '../assets/gear/icons/bracers.png';
+import chestplateIcon from '../assets/gear/icons/chestplate.png';
+import headgearIcon from '../assets/gear/icons/headgear.png';
+import weaponIcon from '../assets/gear/icons/weapon.png';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
@@ -23,11 +29,13 @@ import LastUpdated from '../components/LastUpdated';
 import ListPageShell from '../components/ListPageShell';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import { QUALITY_ORDER } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
+import type { Quality } from '../types/character';
 import type { Gear, GearSet, GearType } from '../types/gear';
 import { getLatestTimestamp } from '../utils';
 
@@ -39,6 +47,17 @@ const GEAR_TYPE_ORDER: GearType[] = [
   'Weapon',
   'Accessory',
 ];
+
+const GEAR_TYPE_ICON_MAP: Record<GearType, string> = {
+  Headgear: headgearIcon,
+  Chestplate: chestplateIcon,
+  Bracers: bracersIcon,
+  Boots: bootsIcon,
+  Weapon: weaponIcon,
+  Accessory: accessoryIcon,
+};
+
+const QUALITY_OPTIONS = ['UR', 'SSR EX', 'SSR+', 'SSR', 'SR', 'R', 'N'];
 
 const GEAR_FIELDS: FieldDef[] = [
   {
@@ -63,6 +82,13 @@ const GEAR_FIELDS: FieldDef[] = [
     options: GEAR_TYPE_ORDER,
   },
   {
+    name: 'quality',
+    label: 'Quality',
+    type: 'select',
+    required: true,
+    options: QUALITY_OPTIONS,
+  },
+  {
     name: 'lore',
     label: 'Lore',
     type: 'textarea',
@@ -74,11 +100,13 @@ const GEAR_FIELDS: FieldDef[] = [
 interface GearFilters {
   search: string;
   types: GearType[];
+  qualities: Quality[];
 }
 
 const EMPTY_FILTERS: GearFilters = {
   search: '',
   types: [],
+  qualities: [],
 };
 
 const FILTER_GROUPS: ChipFilterGroup[] = [
@@ -86,6 +114,21 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
     key: 'types',
     label: 'Type',
     options: [...GEAR_TYPE_ORDER],
+    icon: (value: string) => {
+      const iconSrc = GEAR_TYPE_ICON_MAP[value as GearType];
+      if (!iconSrc) return null;
+      return <Image src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
+    },
+  },
+  {
+    key: 'qualities',
+    label: 'Quality',
+    options: [...QUALITY_ORDER],
+    icon: (value: string) => {
+      const iconSrc = QUALITY_ICON_MAP[value as Quality];
+      if (!iconSrc) return null;
+      return <Image src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
+    },
   },
 ];
 
@@ -113,7 +156,11 @@ export default function GearPage() {
   const filtered = useMemo(() => {
     return gear
       .filter((item) => {
-        if (!filters.search && filters.types.length === 0) {
+        if (
+          !filters.search &&
+          filters.types.length === 0 &&
+          filters.qualities.length === 0
+        ) {
           return true;
         }
         const query = filters.search.toLowerCase();
@@ -123,26 +170,33 @@ export default function GearPage() {
           item.set.toLowerCase().includes(query);
         const matchesType =
           filters.types.length === 0 || filters.types.includes(item.type);
-        return matchesSearch && matchesType;
+        const matchesQuality =
+          filters.qualities.length === 0 ||
+          filters.qualities.includes(item.quality);
+        return matchesSearch && matchesType && matchesQuality;
       })
       .sort((a, b) => {
+        const typeCmp =
+          GEAR_TYPE_ORDER.indexOf(a.type) - GEAR_TYPE_ORDER.indexOf(b.type);
+        const qualityCmp =
+          QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+        const nameCmp = a.name.localeCompare(b.name);
+
         if (sortCol) {
           let cmp = 0;
           if (sortCol === 'name') {
-            cmp = a.name.localeCompare(b.name);
+            cmp = nameCmp;
           } else if (sortCol === 'set') {
             cmp = a.set.localeCompare(b.set);
           } else if (sortCol === 'type') {
-            cmp =
-              GEAR_TYPE_ORDER.indexOf(a.type) - GEAR_TYPE_ORDER.indexOf(b.type);
+            cmp = typeCmp || qualityCmp || nameCmp;
           }
           if (cmp !== 0) return applyDir(cmp, sortDir);
         }
 
-        const typeCmp =
-          GEAR_TYPE_ORDER.indexOf(a.type) - GEAR_TYPE_ORDER.indexOf(b.type);
         if (typeCmp !== 0) return typeCmp;
-        return a.name.localeCompare(b.name);
+        if (qualityCmp !== 0) return qualityCmp;
+        return nameCmp;
       });
   }, [gear, filters, sortCol, sortDir]);
 
@@ -152,7 +206,8 @@ export default function GearPage() {
   );
 
   const mostRecentUpdate = useMemo(() => getLatestTimestamp(gear), [gear]);
-  const activeFilterCount = (filters.search ? 1 : 0) + filters.types.length;
+  const activeFilterCount =
+    (filters.search ? 1 : 0) + filters.types.length + filters.qualities.length;
 
   return (
     <Container size="md" py="xl">
@@ -191,10 +246,22 @@ export default function GearPage() {
               >
                 <EntityFilter
                   groups={FILTER_GROUPS}
-                  selected={{ types: filters.types }}
-                  onChange={(key, values) =>
-                    setFilters({ ...filters, [key]: values as GearType[] })
-                  }
+                  selected={{
+                    types: filters.types,
+                    qualities: filters.qualities,
+                  }}
+                  onChange={(key, values) => {
+                    if (key === 'types') {
+                      setFilters({ ...filters, types: values as GearType[] });
+                      return;
+                    }
+                    if (key === 'qualities') {
+                      setFilters({
+                        ...filters,
+                        qualities: values as Quality[],
+                      });
+                    }
+                  }}
                   onClear={() => setFilters(EMPTY_FILTERS)}
                   search={filters.search}
                   onSearchChange={(value) =>
@@ -242,15 +309,18 @@ export default function GearPage() {
                               <Text fw={700} c="violet" lineClamp={1}>
                                 {item.name}
                               </Text>
-                              <Tooltip label="SSR">
-                                <Image
-                                  src={QUALITY_ICON_MAP.SSR}
-                                  alt="SSR"
-                                  h={20}
-                                  w="auto"
-                                  fit="contain"
-                                />
-                              </Tooltip>
+                              {item.quality &&
+                                QUALITY_ICON_MAP[item.quality] && (
+                                  <Tooltip label={item.quality}>
+                                    <Image
+                                      src={QUALITY_ICON_MAP[item.quality]}
+                                      alt={item.quality}
+                                      h={20}
+                                      w="auto"
+                                      fit="contain"
+                                    />
+                                  </Tooltip>
+                                )}
                             </Group>
                             <Group gap="xs" wrap="wrap">
                               <Badge variant="light" size="sm" color="blue">
@@ -350,15 +420,18 @@ export default function GearPage() {
                               </Badge>
                             </Table.Td>
                             <Table.Td>
-                              <Tooltip label="SSR">
-                                <Image
-                                  src={QUALITY_ICON_MAP.SSR}
-                                  alt="SSR"
-                                  h={20}
-                                  w="auto"
-                                  fit="contain"
-                                />
-                              </Tooltip>
+                              {item.quality &&
+                                QUALITY_ICON_MAP[item.quality] && (
+                                  <Tooltip label={item.quality}>
+                                    <Image
+                                      src={QUALITY_ICON_MAP[item.quality]}
+                                      alt={item.quality}
+                                      h={20}
+                                      w="auto"
+                                      fit="contain"
+                                    />
+                                  </Tooltip>
+                                )}
                             </Table.Td>
                             <Table.Td>
                               <Text size="sm" c="dimmed">

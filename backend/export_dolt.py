@@ -686,6 +686,7 @@ def export_gear(data, output_dir=None):
                 "name": row.get("name") or "",
                 "set": set_name_by_id.get(int(row.get("set_id") or 0), ""),
                 "type": row.get("type") or "",
+                "quality": row.get("quality") or "",
                 "lore": row.get("lore") or "",
                 "stats": stats,
                 "last_updated": int(row.get("last_updated") or 0),

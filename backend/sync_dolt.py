@@ -393,6 +393,7 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
               name varchar(200) NOT NULL,
               set_id int NULL,
               type varchar(50) NOT NULL,
+                            quality varchar(20) NOT NULL DEFAULT '',
               lore text,
               stats_json text,
               last_updated BIGINT NULL,
@@ -414,6 +415,24 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
                 "ALTER TABLE gear ADD COLUMN set_id int NULL AFTER name;",
                 dry_run=dry_run,
             )
+        if "quality" not in gear_columns:
+            print("  Adding gear.quality column")
+            dolt_sql(
+                "ALTER TABLE gear ADD COLUMN quality varchar(20) NOT NULL DEFAULT '' AFTER type;",
+                dry_run=dry_run,
+            )
+        else:
+            col_type_info = dolt_sql_csv("SHOW COLUMNS FROM gear LIKE 'quality';")
+            if col_type_info and col_type_info[0].get("Null", "").upper() == "YES":
+                print("  Migrating gear.quality to NOT NULL")
+                dolt_sql(
+                    "UPDATE gear SET quality = '' WHERE quality IS NULL;",
+                    dry_run=dry_run,
+                )
+                dolt_sql(
+                    "ALTER TABLE gear MODIFY COLUMN quality varchar(20) NOT NULL DEFAULT '';",
+                    dry_run=dry_run,
+                )
 
     # Ensure howlkins and related tables exist.
     if "howlkins" not in existing_tables:
@@ -1334,9 +1353,9 @@ def sync_gear(data, gear_sets_data, batch, now, stored_hashes, new_hashes):
         current_set_id = set_id_by_name.get(set_name)
 
         batch.add(
-            f"INSERT INTO gear (id, name, set_id, type, lore, stats_json, last_updated, data_hash) VALUES "
+            f"INSERT INTO gear (id, name, set_id, type, quality, lore, stats_json, last_updated, data_hash) VALUES "
             f"({gear_id}, {escape_sql(item['name'])}, {escape_sql(current_set_id)}, {escape_sql(item.get('type'))}, "
-            f"{escape_sql(item.get('lore'))}, {escape_sql(stats_json)}, {escape_sql(ts)}, {escape_sql(h)});"
+            f"{escape_sql(item.get('quality', ''))}, {escape_sql(item.get('lore'))}, {escape_sql(stats_json)}, {escape_sql(ts)}, {escape_sql(h)});"
         )
 
     print(f"  Synced {set_id} gear sets and {gear_id} gear items")

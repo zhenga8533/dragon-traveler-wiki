@@ -108,6 +108,7 @@ def golden_alliance_sort_key(ga):
 def gear_sort_key(g):
     return (
         GEAR_TYPE_RANK.get(g.get("type", ""), _FALLBACK),
+        QUALITY_RANK.get(g.get("quality", ""), _FALLBACK),
         (g.get("name") or "").lower(),
     )
 
