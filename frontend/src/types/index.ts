@@ -9,6 +9,7 @@ export type {
 } from './character';
 export type { Code } from './code';
 export type { FactionName } from './faction';
+export type { Gear, GearSet, GearSetBonus, GearType } from './gear';
 export type { Howlkin } from './howlkin';
 export type { Resource, ResourceCategory } from './resource';
 export type { StatusEffect, StatusEffectType } from './status-effect';

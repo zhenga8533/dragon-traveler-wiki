@@ -22,6 +22,16 @@ STATE_RANK = {s: i for i, s in enumerate(STATE_ORDER)}
 RESOURCE_CATEGORY_ORDER = ["Currency", "Gift", "Item", "Material", "Summoning", "Shard"]
 RESOURCE_CATEGORY_RANK = {c: i for i, c in enumerate(RESOURCE_CATEGORY_ORDER)}
 
+GEAR_TYPE_ORDER = [
+    "Headgear",
+    "Chestplate",
+    "Bracers",
+    "Boots",
+    "Weapon",
+    "Accessory",
+]
+GEAR_TYPE_RANK = {t: i for i, t in enumerate(GEAR_TYPE_ORDER)}
+
 TIER_ORDER = ["S+", "S", "A", "B", "C", "D"]
 TIER_RANK = {t: i for i, t in enumerate(TIER_ORDER)}
 
@@ -95,6 +105,17 @@ def golden_alliance_sort_key(ga):
     return (ga.get("name") or "").lower()
 
 
+def gear_sort_key(g):
+    return (
+        GEAR_TYPE_RANK.get(g.get("type", ""), _FALLBACK),
+        (g.get("name") or "").lower(),
+    )
+
+
+def gear_set_sort_key(gs):
+    return (gs.get("name") or "").lower()
+
+
 # Canonical mapping: data file name → sort key function.
 # Files absent from this mapping maintain stable insertion order.
 FILE_SORT_KEY = {
@@ -106,6 +127,8 @@ FILE_SORT_KEY = {
     "useful-links.json": useful_link_sort_key,
     "artifacts.json": artifact_sort_key,
     "howlkins.json": howlkin_sort_key,
+    "gear.json": gear_sort_key,
+    "gear_sets.json": gear_set_sort_key,
     "noble_phantasm.json": noble_phantasm_sort_key,
     "golden_alliances.json": golden_alliance_sort_key,
 }

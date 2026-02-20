@@ -24,6 +24,8 @@ from .sort_keys import (
     artifact_sort_key,
     character_sort_key,
     faction_sort_key,
+    gear_set_sort_key,
+    gear_sort_key,
     golden_alliance_sort_key,
     howlkin_sort_key,
     noble_phantasm_sort_key,
@@ -87,6 +89,8 @@ QUERIES = {
     "golden_alliance_effects": (
         "SELECT * FROM golden_alliance_effects ORDER BY alliance_id, level, sort_order, id;"
     ),
+    "gear_sets": "SELECT * FROM gear_sets ORDER BY id;",
+    "gear": "SELECT * FROM gear ORDER BY id;",
     "noble_phantasms": "SELECT * FROM noble_phantasms ORDER BY id;",
     "noble_phantasm_effects": (
         "SELECT * FROM noble_phantasm_effects ORDER BY noble_phantasm_id, sort_order, id;"
@@ -576,7 +580,9 @@ def export_howlkins(data, output_dir=None):
 
 def export_golden_alliances(data, output_dir=None):
     if "golden_alliances" not in data:
-        print("Skipped golden_alliances.json (golden_alliances table not found in Dolt schema)")
+        print(
+            "Skipped golden_alliances.json (golden_alliances table not found in Dolt schema)"
+        )
         return
 
     quality_map = {
@@ -584,15 +590,23 @@ def export_golden_alliances(data, output_dir=None):
         for h in data.get("howlkins", [])
         if h.get("name")
     }
-    howlkins_by_alliance = group_by(data.get("golden_alliance_howlkins", []), "alliance_id")
-    effects_by_alliance = group_by(data.get("golden_alliance_effects", []), "alliance_id")
+    howlkins_by_alliance = group_by(
+        data.get("golden_alliance_howlkins", []), "alliance_id"
+    )
+    effects_by_alliance = group_by(
+        data.get("golden_alliance_effects", []), "alliance_id"
+    )
 
     result = []
     for ga in data["golden_alliances"]:
         alliance_id = ga["id"]
 
         howlkins = sorted(
-            [h["howlkin_name"] for h in howlkins_by_alliance.get(alliance_id, []) if h.get("howlkin_name")],
+            [
+                h["howlkin_name"]
+                for h in howlkins_by_alliance.get(alliance_id, [])
+                if h.get("howlkin_name")
+            ],
             key=lambda n: (QUALITY_RANK.get(quality_map.get(n, ""), 999), n.lower()),
         )
 
@@ -624,6 +638,62 @@ def export_golden_alliances(data, output_dir=None):
 
     result.sort(key=golden_alliance_sort_key)
     write_export("golden_alliances.json", result, output_dir)
+
+
+def export_gear(data, output_dir=None):
+    if "gear" not in data or "gear_sets" not in data:
+        print("Skipped gear.json (gear table not found in Dolt schema)")
+        return
+
+    sets_result = [
+        {
+            "name": row.get("name") or "",
+            "set_bonus": {
+                "quantity": int(row.get("bonus_quantity") or 0),
+                "description": row.get("bonus_description") or "",
+            },
+            "last_updated": int(row.get("last_updated") or 0),
+        }
+        for row in data["gear_sets"]
+        if row.get("name")
+    ]
+    sets_result.sort(key=gear_set_sort_key)
+    write_export("gear_sets.json", sets_result, output_dir)
+
+    set_name_by_id = {
+        int(row.get("id") or 0): row.get("name") or ""
+        for row in data["gear_sets"]
+        if row.get("id") is not None
+    }
+
+    result = []
+    for row in data["gear"]:
+        stats_raw = row.get("stats_json")
+        if isinstance(stats_raw, str) and stats_raw.strip():
+            try:
+                stats = json.loads(stats_raw)
+                if not isinstance(stats, dict):
+                    stats = {}
+            except json.JSONDecodeError:
+                stats = {}
+        elif isinstance(stats_raw, dict):
+            stats = stats_raw
+        else:
+            stats = {}
+
+        result.append(
+            {
+                "name": row.get("name") or "",
+                "set": set_name_by_id.get(int(row.get("set_id") or 0), ""),
+                "type": row.get("type") or "",
+                "lore": row.get("lore") or "",
+                "stats": stats,
+                "last_updated": int(row.get("last_updated") or 0),
+            }
+        )
+
+    result.sort(key=gear_sort_key)
+    write_export("gear.json", result, output_dir)
 
 
 def export_noble_phantasms(data, output_dir=None):
@@ -711,6 +781,8 @@ HASH_SOURCES = {
     "useful_links": ("name", "useful_links"),
     "artifacts": ("name", "artifacts"),
     "howlkins": ("name", "howlkins"),
+    "gear_sets": ("name", "gear_sets"),
+    "gear": ("name", "gear"),
     "golden_alliances": ("name", "golden_alliances"),
     "noble_phantasms": ("name", "noble_phantasms"),
     "changelog": ("version", "changelog"),
@@ -774,10 +846,19 @@ EXPORTERS = {
             "artifact_treasure_effects",
         },
     ),
-    "howlkins": (export_howlkins, {"howlkins", "howlkin_stats", "howlkin_passive_effects"}),
+    "howlkins": (
+        export_howlkins,
+        {"howlkins", "howlkin_stats", "howlkin_passive_effects"},
+    ),
+    "gear": (export_gear, {"gear", "gear_sets"}),
     "golden-alliances": (
         export_golden_alliances,
-        {"golden_alliances", "golden_alliance_howlkins", "golden_alliance_effects", "howlkins"},
+        {
+            "golden_alliances",
+            "golden_alliance_howlkins",
+            "golden_alliance_effects",
+            "howlkins",
+        },
     ),
     "noble-phantasms": (
         export_noble_phantasms,

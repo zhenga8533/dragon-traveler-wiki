@@ -1,0 +1,13 @@
+[
+  {
+    "name": "Flamelord's Sword",
+    "set": "Flamelord's",
+    "type": "Weapon",
+    "lore": "Strength is the mark of a king.",
+    "stats": {
+      "ATK": 1090,
+      "PDEF": 545
+    },
+    "last_updated": 1771547246
+  }
+]

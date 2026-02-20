@@ -5,6 +5,7 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 ## Features
 
 - Character database with stats, abilities, and subclasses
+- Gear database with set-based equipment pages
 - Status effects reference
 - Wyrmspell database
 - Howlkin database

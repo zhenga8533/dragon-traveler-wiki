@@ -175,6 +175,8 @@ Hash-based routing for GitHub Pages compatibility:
 | `/artifacts/:name`                | ArtifactPage          | Artifact detail view        |
 | `/characters`                     | Characters            | Character list with filters |
 | `/characters/:name`               | CharacterPage         | Character detail view       |
+| `/gear`                           | Gear                  | Gear database               |
+| `/gear-sets/:setName`             | GearSetPage           | Gear set detail view        |
 | `/noble-phantasms`                | NoblePhantasms        | Noble Phantasm database     |
 | `/noble-phantasms/:name`          | NoblePhantasmPage     | Noble Phantasm detail view  |
 | `/resources`                      | Resources             | Resource database           |

@@ -1,0 +1,383 @@
+import {
+  Badge,
+  Container,
+  Group,
+  Image,
+  Paper,
+  ScrollArea,
+  SimpleGrid,
+  Stack,
+  Table,
+  Text,
+  Title,
+  Tooltip,
+} from '@mantine/core';
+import { useMemo } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { getGearIcon } from '../assets/gear';
+import { QUALITY_ICON_MAP } from '../assets/quality';
+import type { ChipFilterGroup } from '../components/EntityFilter';
+import EntityFilter from '../components/EntityFilter';
+import FilterToolbar from '../components/FilterToolbar';
+import LastUpdated from '../components/LastUpdated';
+import ListPageShell from '../components/ListPageShell';
+import SortableTh from '../components/SortableTh';
+import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
+import { STORAGE_KEY } from '../constants/ui';
+import { useDataFetch } from '../hooks/use-data-fetch';
+import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { applyDir, useSortState } from '../hooks/use-sort';
+import type { Gear, GearSet, GearType } from '../types/gear';
+import { getLatestTimestamp } from '../utils';
+
+const GEAR_TYPE_ORDER: GearType[] = [
+  'Headgear',
+  'Chestplate',
+  'Bracers',
+  'Boots',
+  'Weapon',
+  'Accessory',
+];
+
+const GEAR_FIELDS: FieldDef[] = [
+  {
+    name: 'name',
+    label: 'Name',
+    type: 'text',
+    required: true,
+    placeholder: 'Gear name',
+  },
+  {
+    name: 'set',
+    label: 'Set',
+    type: 'text',
+    required: true,
+    placeholder: "e.g. Flamelord's",
+  },
+  {
+    name: 'type',
+    label: 'Type',
+    type: 'select',
+    required: true,
+    options: GEAR_TYPE_ORDER,
+  },
+  {
+    name: 'lore',
+    label: 'Lore',
+    type: 'textarea',
+    required: true,
+    placeholder: 'Gear lore text',
+  },
+];
+
+interface GearFilters {
+  search: string;
+  types: GearType[];
+}
+
+const EMPTY_FILTERS: GearFilters = {
+  search: '',
+  types: [],
+};
+
+const FILTER_GROUPS: ChipFilterGroup[] = [
+  {
+    key: 'types',
+    label: 'Type',
+    options: [...GEAR_TYPE_ORDER],
+  },
+];
+
+export default function GearPage() {
+  const navigate = useNavigate();
+  const {
+    data: gear,
+    loading,
+    error,
+  } = useDataFetch<Gear[]>('data/gear.json', []);
+  const { data: gearSets } = useDataFetch<GearSet[]>('data/gear_sets.json', []);
+
+  const { filters, setFilters } = useFilters<GearFilters>({
+    emptyFilters: EMPTY_FILTERS,
+    storageKey: STORAGE_KEY.GEAR_FILTERS,
+  });
+  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
+  const [viewMode, setViewMode] = useViewMode({
+    storageKey: STORAGE_KEY.GEAR_VIEW_MODE,
+    defaultMode: 'grid',
+  });
+  const { sortState, handleSort } = useSortState(STORAGE_KEY.GEAR_SORT);
+  const { col: sortCol, dir: sortDir } = sortState;
+
+  const filtered = useMemo(() => {
+    return gear
+      .filter((item) => {
+        if (!filters.search && filters.types.length === 0) {
+          return true;
+        }
+        const query = filters.search.toLowerCase();
+        const matchesSearch =
+          !filters.search ||
+          item.name.toLowerCase().includes(query) ||
+          item.set.toLowerCase().includes(query);
+        const matchesType =
+          filters.types.length === 0 || filters.types.includes(item.type);
+        return matchesSearch && matchesType;
+      })
+      .sort((a, b) => {
+        if (sortCol) {
+          let cmp = 0;
+          if (sortCol === 'name') {
+            cmp = a.name.localeCompare(b.name);
+          } else if (sortCol === 'set') {
+            cmp = a.set.localeCompare(b.set);
+          } else if (sortCol === 'type') {
+            cmp =
+              GEAR_TYPE_ORDER.indexOf(a.type) - GEAR_TYPE_ORDER.indexOf(b.type);
+          }
+          if (cmp !== 0) return applyDir(cmp, sortDir);
+        }
+
+        const typeCmp =
+          GEAR_TYPE_ORDER.indexOf(a.type) - GEAR_TYPE_ORDER.indexOf(b.type);
+        if (typeCmp !== 0) return typeCmp;
+        return a.name.localeCompare(b.name);
+      });
+  }, [gear, filters, sortCol, sortDir]);
+
+  const gearSetByName = useMemo(
+    () => new Map(gearSets.map((entry) => [entry.name, entry])),
+    [gearSets]
+  );
+
+  const mostRecentUpdate = useMemo(() => getLatestTimestamp(gear), [gear]);
+  const activeFilterCount = (filters.search ? 1 : 0) + filters.types.length;
+
+  return (
+    <Container size="md" py="xl">
+      <Stack gap="md">
+        <Group justify="space-between" align="center">
+          <Group gap="sm" align="baseline">
+            <Title order={1}>Gear</Title>
+            <LastUpdated timestamp={mostRecentUpdate} />
+          </Group>
+          <SuggestModal
+            buttonLabel="Suggest Gear"
+            modalTitle="Suggest New Gear"
+            issueTitle="[Gear] New gear suggestion"
+            fields={GEAR_FIELDS}
+          />
+        </Group>
+
+        <ListPageShell
+          loading={loading}
+          error={error}
+          errorTitle="Could not load gear"
+          hasData={gear.length > 0}
+          emptyMessage="No gear data available yet."
+          skeletonCards={4}
+        >
+          <Paper p="md" radius="md" withBorder>
+            <Stack gap="md">
+              <FilterToolbar
+                count={filtered.length}
+                noun="gear item"
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                filterCount={activeFilterCount}
+                filterOpen={filterOpen}
+                onFilterToggle={toggleFilter}
+              >
+                <EntityFilter
+                  groups={FILTER_GROUPS}
+                  selected={{ types: filters.types }}
+                  onChange={(key, values) =>
+                    setFilters({ ...filters, [key]: values as GearType[] })
+                  }
+                  onClear={() => setFilters(EMPTY_FILTERS)}
+                  search={filters.search}
+                  onSearchChange={(value) =>
+                    setFilters({ ...filters, search: value })
+                  }
+                  searchPlaceholder="Search by gear or set..."
+                />
+              </FilterToolbar>
+
+              {filtered.length === 0 ? (
+                <Text c="dimmed" size="sm" ta="center" py="md">
+                  No gear matches the current filters.
+                </Text>
+              ) : viewMode === 'grid' ? (
+                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                  {filtered.map((item) => {
+                    const setData = gearSetByName.get(item.set);
+                    const setBonus = setData?.set_bonus ?? item.set_bonus;
+                    const iconSrc = getGearIcon(item.type, item.name);
+                    return (
+                      <Paper
+                        key={item.name}
+                        p="md"
+                        radius="md"
+                        withBorder
+                        style={CARD_HOVER_STYLES}
+                        {...cardHoverHandlers}
+                        onClick={() =>
+                          navigate(`/gear-sets/${encodeURIComponent(item.set)}`)
+                        }
+                      >
+                        <Group gap="md" align="flex-start" wrap="nowrap">
+                          {iconSrc && (
+                            <Image
+                              src={iconSrc}
+                              alt={item.name}
+                              w={64}
+                              h={64}
+                              fit="contain"
+                              radius="sm"
+                            />
+                          )}
+                          <Stack gap={4} style={{ flex: 1 }}>
+                            <Group gap="xs" wrap="wrap">
+                              <Text fw={700} c="violet" lineClamp={1}>
+                                {item.name}
+                              </Text>
+                              <Tooltip label="SSR">
+                                <Image
+                                  src={QUALITY_ICON_MAP.SSR}
+                                  alt="SSR"
+                                  h={20}
+                                  w="auto"
+                                  fit="contain"
+                                />
+                              </Tooltip>
+                            </Group>
+                            <Group gap="xs" wrap="wrap">
+                              <Badge variant="light" size="sm" color="blue">
+                                {item.type}
+                              </Badge>
+                              <Badge variant="light" size="sm" color="grape">
+                                {item.set}
+                              </Badge>
+                              {setBonus && (
+                                <Badge variant="outline" size="sm" color="gray">
+                                  {setBonus.quantity}-piece set
+                                </Badge>
+                              )}
+                            </Group>
+                            <Text size="xs" c="dimmed" lineClamp={2}>
+                              {item.lore}
+                            </Text>
+                          </Stack>
+                        </Group>
+                      </Paper>
+                    );
+                  })}
+                </SimpleGrid>
+              ) : (
+                <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                  <Table striped highlightOnHover style={{ minWidth: 760 }}>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>Icon</Table.Th>
+                        <SortableTh
+                          sortKey="name"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Name
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="type"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Type
+                        </SortableTh>
+                        <SortableTh
+                          sortKey="set"
+                          sortCol={sortCol}
+                          sortDir={sortDir}
+                          onSort={handleSort}
+                        >
+                          Set
+                        </SortableTh>
+                        <Table.Th>Rarity</Table.Th>
+                        <Table.Th>Set Bonus</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {filtered.map((item) => {
+                        const setData = gearSetByName.get(item.set);
+                        const setBonus = setData?.set_bonus ?? item.set_bonus;
+                        const iconSrc = getGearIcon(item.type, item.name);
+                        return (
+                          <Table.Tr
+                            key={item.name}
+                            style={{ cursor: 'pointer' }}
+                            onClick={() =>
+                              navigate(
+                                `/gear-sets/${encodeURIComponent(item.set)}`
+                              )
+                            }
+                          >
+                            <Table.Td>
+                              {iconSrc && (
+                                <Image
+                                  src={iconSrc}
+                                  alt={item.name}
+                                  w={32}
+                                  h={32}
+                                  fit="contain"
+                                />
+                              )}
+                            </Table.Td>
+                            <Table.Td>
+                              <Text fw={600} size="sm">
+                                {item.name}
+                              </Text>
+                            </Table.Td>
+                            <Table.Td>
+                              <Badge variant="light" size="sm" color="blue">
+                                {item.type}
+                              </Badge>
+                            </Table.Td>
+                            <Table.Td>
+                              <Badge variant="light" size="sm" color="grape">
+                                {item.set}
+                              </Badge>
+                            </Table.Td>
+                            <Table.Td>
+                              <Tooltip label="SSR">
+                                <Image
+                                  src={QUALITY_ICON_MAP.SSR}
+                                  alt="SSR"
+                                  h={20}
+                                  w="auto"
+                                  fit="contain"
+                                />
+                              </Tooltip>
+                            </Table.Td>
+                            <Table.Td>
+                              <Text size="sm" c="dimmed">
+                                {setBonus
+                                  ? `${setBonus.quantity}-piece: ${setBonus.description}`
+                                  : '—'}
+                              </Text>
+                            </Table.Td>
+                          </Table.Tr>
+                        );
+                      })}
+                    </Table.Tbody>
+                  </Table>
+                </ScrollArea>
+              )}
+            </Stack>
+          </Paper>
+        </ListPageShell>
+      </Stack>
+    </Container>
+  );
+}

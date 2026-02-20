@@ -28,6 +28,7 @@ import { useNavigate } from 'react-router-dom';
 import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
 import type { Code } from '../types/code';
+import type { Gear } from '../types/gear';
 import type { Howlkin } from '../types/howlkin';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import type { Resource } from '../types/resource';
@@ -42,6 +43,7 @@ type SearchResult = {
     | 'artifact'
     | 'character'
     | 'code'
+    | 'gear'
     | 'howlkin'
     | 'resource'
     | 'status-effect'
@@ -68,6 +70,12 @@ const PAGES = [
     title: 'Characters',
     path: '/characters',
     keywords: 'characters database hero heroes',
+  },
+  {
+    title: 'Gear',
+    path: '/gear',
+    keywords:
+      'gear equipment set headgear chestplate bracers boots weapon accessory',
   },
   {
     title: 'Noble Phantasms',
@@ -141,6 +149,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
   const [query, setQuery] = useState('');
   const [characters, setCharacters] = useState<Character[]>([]);
   const [artifacts, setArtifacts] = useState<Artifact[]>([]);
+  const [gear, setGear] = useState<Gear[]>([]);
   const [howlkins, setHowlkins] = useState<Howlkin[]>([]);
   const [resources, setResources] = useState<Resource[]>([]);
   const [statusEffects, setStatusEffects] = useState<StatusEffect[]>([]);
@@ -183,6 +192,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
       Promise.all([
         fetchJson<Character>('characters.json'),
         fetchJson<Artifact>('artifacts.json'),
+        fetchJson<Gear>('gear.json'),
         fetchJson<Howlkin>('howlkins.json'),
         fetchJson<Resource>('resources.json'),
         fetchJson<StatusEffect>('status-effects.json'),
@@ -197,6 +207,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
           ([
             chars,
             artifactsData,
+            gearData,
             howlkinsData,
             resourcesData,
             effects,
@@ -209,6 +220,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
           ]) => {
             setCharacters(chars);
             setArtifacts(artifactsData);
+            setGear(gearData);
             setHowlkins(howlkinsData);
             setResources(resourcesData);
             setStatusEffects(effects);
@@ -277,6 +289,25 @@ export default function SearchModal({ trigger }: SearchModalProps) {
           path: `/artifacts/${encodeURIComponent(r.item.name)}`,
           icon: IoSparklesOutline,
           color: 'yellow',
+        }))
+      );
+    }
+
+    // Search gear
+    if (gear.length > 0) {
+      const gearFuse = new Fuse(gear, {
+        keys: ['name', 'set', 'type', 'lore'],
+        threshold: 0.3,
+      });
+      const gearResults = gearFuse.search(query).slice(0, 5);
+      results.push(
+        ...gearResults.map((r) => ({
+          type: 'gear' as const,
+          title: r.item.name,
+          subtitle: `${r.item.type} • ${r.item.set}`,
+          path: `/gear-sets/${encodeURIComponent(r.item.set)}`,
+          icon: IoSparklesOutline,
+          color: 'teal',
         }))
       );
     }
@@ -479,6 +510,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
     query,
     characters,
     artifacts,
+    gear,
     howlkins,
     resources,
     statusEffects,

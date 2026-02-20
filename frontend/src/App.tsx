@@ -60,6 +60,8 @@ import Changelog from './pages/Changelog';
 import CharacterPage from './pages/CharacterPage';
 import Characters from './pages/Characters';
 import Codes from './pages/Codes';
+import GearPage from './pages/Gear';
+import GearSetPage from './pages/GearSetPage';
 import Home from './pages/Home';
 import Howlkins from './pages/Howlkins';
 import NoblePhantasmPage from './pages/NoblePhantasmPage';
@@ -89,6 +91,7 @@ const NAV_ITEMS: NavItem[] = [
     children: [
       { label: 'Artifacts', path: '/artifacts' },
       { label: 'Characters', path: '/characters' },
+      { label: 'Gear', path: '/gear' },
       { label: 'Howlkins', path: '/howlkins' },
       { label: 'Noble Phantasms', path: '/noble-phantasms' },
       { label: 'Resources', path: '/resources' },
@@ -447,6 +450,8 @@ function AppContent() {
               <Route path="/artifacts/:name" element={<ArtifactPage />} />
               <Route path="/characters" element={<Characters />} />
               <Route path="/characters/:name" element={<CharacterPage />} />
+              <Route path="/gear" element={<GearPage />} />
+              <Route path="/gear-sets/:setName" element={<GearSetPage />} />
               <Route path="/howlkins" element={<Howlkins />} />
               <Route path="/noble-phantasms" element={<NoblePhantasms />} />
               <Route

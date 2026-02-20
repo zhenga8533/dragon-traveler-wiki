@@ -13,6 +13,8 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   // Database
   '/artifacts': 'teal',
   '/characters': 'blue',
+  '/gear': 'teal',
+  '/gear-sets': 'teal',
   '/howlkins': 'orange',
   '/noble-phantasms': 'teal',
   '/status-effects': 'cyan',
@@ -54,6 +56,10 @@ export function getAccentForPath(path: string): SectionAccent {
 
   // Check for noble phantasm page (dynamic route)
   if (path.startsWith('/noble-phantasms/')) {
+    return 'teal';
+  }
+
+  if (path.startsWith('/gear-sets/')) {
     return 'teal';
   }
 

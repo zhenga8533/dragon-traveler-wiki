@@ -23,6 +23,8 @@ from .sort_keys import (
     artifact_sort_key,
     character_sort_key,
     faction_sort_key,
+    gear_set_sort_key,
+    gear_sort_key,
     golden_alliance_sort_key,
     howlkin_sort_key,
     noble_phantasm_sort_key,
@@ -179,6 +181,8 @@ TIMESTAMP_TABLES = [
     "changelog",
     "artifacts",
     "howlkins",
+    "gear_sets",
+    "gear",
 ]
 
 
@@ -358,6 +362,58 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
             dry_run=dry_run,
         )
         existing_tables.add("artifact_treasure_effects")
+
+    # Ensure gear_sets table exists.
+    if "gear_sets" not in existing_tables:
+        print("  Creating missing gear_sets table")
+        dolt_sql(
+            """
+            CREATE TABLE gear_sets (
+              id int NOT NULL AUTO_INCREMENT,
+              name varchar(200) NOT NULL,
+              bonus_quantity int NOT NULL DEFAULT 0,
+              bonus_description text,
+              last_updated BIGINT NULL,
+              data_hash VARCHAR(64) NULL,
+              PRIMARY KEY (id),
+              UNIQUE KEY name (name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("gear_sets")
+
+    # Ensure gear table exists.
+    if "gear" not in existing_tables:
+        print("  Creating missing gear table")
+        dolt_sql(
+            """
+            CREATE TABLE gear (
+              id int NOT NULL AUTO_INCREMENT,
+              name varchar(200) NOT NULL,
+              set_id int NULL,
+              type varchar(50) NOT NULL,
+              lore text,
+              stats_json text,
+              last_updated BIGINT NULL,
+              data_hash VARCHAR(64) NULL,
+              PRIMARY KEY (id),
+              UNIQUE KEY name (name),
+              KEY set_id (set_id),
+              CONSTRAINT gear_ibfk_1 FOREIGN KEY (set_id) REFERENCES gear_sets(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("gear")
+    else:
+        gear_columns = get_table_columns("gear")
+        if "set_id" not in gear_columns:
+            print("  Adding gear.set_id column")
+            dolt_sql(
+                "ALTER TABLE gear ADD COLUMN set_id int NULL AFTER name;",
+                dry_run=dry_run,
+            )
 
     # Ensure howlkins and related tables exist.
     if "howlkins" not in existing_tables:
@@ -676,7 +732,11 @@ def resolve_timestamp(key, new_hash, old_timestamps, now, table_hashes=None):
     # Primary: hashes.json entry for this table (device-independent)
     if table_hashes is not None:
         entry = table_hashes.get(key, {})
-        if isinstance(entry, dict) and entry.get("hash") == new_hash and entry.get("ts"):
+        if (
+            isinstance(entry, dict)
+            and entry.get("hash") == new_hash
+            and entry.get("ts")
+        ):
             return entry["ts"]
     # Fallback: local Dolt DB
     old = old_timestamps.get(key)
@@ -856,7 +916,9 @@ def sync_resources(data, batch, existing_tables, now, stored_hashes, new_hashes)
     print(f"  Synced {r_id} resources")
 
 
-def sync_codes(data, batch, existing_tables, resource_ids, now, stored_hashes, new_hashes):
+def sync_codes(
+    data, batch, existing_tables, resource_ids, now, stored_hashes, new_hashes
+):
     """Sync codes.json -> codes (+ code_rewards when table exists)."""
     if "codes" not in existing_tables:
         print("  Skipping codes (table not found in Dolt schema)")
@@ -887,7 +949,9 @@ def sync_codes(data, batch, existing_tables, resource_ids, now, stored_hashes, n
 
         rewards_raw = c.get("rewards") or c.get("reward")
         if isinstance(rewards_raw, list):
-            rewards = {r["name"]: r.get("quantity", 0) for r in rewards_raw if r.get("name")}
+            rewards = {
+                r["name"]: r.get("quantity", 0) for r in rewards_raw if r.get("name")
+            }
         elif isinstance(rewards_raw, dict):
             rewards = rewards_raw
         else:
@@ -944,7 +1008,10 @@ def sync_status_effects(data, batch, now, stored_hashes, new_hashes):
         se_id += 1
         h = compute_hash(se)
         ts = resolve_timestamp(se["name"], h, old_ts, now, table_hashes=table_hashes)
-        new_hashes.setdefault("status_effects", {})[se["name"]] = {"hash": h, "ts": int(ts)}
+        new_hashes.setdefault("status_effects", {})[se["name"]] = {
+            "hash": h,
+            "ts": int(ts),
+        }
         batch.add(
             f"INSERT INTO status_effects (id, name, type, effect, remark, last_updated, data_hash) VALUES "
             f"({se_id}, {escape_sql(se['name'])}, {escape_sql(se.get('type'))}, "
@@ -1049,7 +1116,10 @@ def sync_useful_links(data, batch, now, stored_hashes, new_hashes):
         link_id += 1
         h = compute_hash(link)
         ts = resolve_timestamp(link["name"], h, old_ts, now, table_hashes=table_hashes)
-        new_hashes.setdefault("useful_links", {})[link["name"]] = {"hash": h, "ts": int(ts)}
+        new_hashes.setdefault("useful_links", {})[link["name"]] = {
+            "hash": h,
+            "ts": int(ts),
+        }
         batch.add(
             f"INSERT INTO useful_links (id, icon, application, name, description, link, last_updated, data_hash) VALUES "
             f"({link_id}, {escape_sql(link.get('icon'))}, {escape_sql(link.get('application'))}, "
@@ -1133,8 +1203,13 @@ def sync_howlkins(data, batch, now, stored_hashes, new_hashes):
             continue
         h_id += 1
         h_hash = compute_hash(h)
-        ts = resolve_timestamp(h["name"], h_hash, old_ts, now, table_hashes=table_hashes)
-        new_hashes.setdefault("howlkins", {})[h["name"]] = {"hash": h_hash, "ts": int(ts)}
+        ts = resolve_timestamp(
+            h["name"], h_hash, old_ts, now, table_hashes=table_hashes
+        )
+        new_hashes.setdefault("howlkins", {})[h["name"]] = {
+            "hash": h_hash,
+            "ts": int(ts),
+        }
         batch.add(
             f"INSERT INTO howlkins (id, name, quality, last_updated, data_hash) VALUES "
             f"({h_id}, {escape_sql(h['name'])}, {escape_sql(h.get('quality'))}, "
@@ -1173,9 +1248,105 @@ def sync_howlkins(data, batch, now, stored_hashes, new_hashes):
     print(f"  Synced {h_id} howlkins")
 
 
+def sync_gear(data, gear_sets_data, batch, now, stored_hashes, new_hashes):
+    """Sync gear.json + gear_sets.json -> gear + gear_sets tables."""
+    old_ts = get_old_timestamps("gear", "name")
+    old_set_ts = get_old_timestamps("gear_sets", "name")
+    table_hashes = stored_hashes.get("gear", {})
+    set_hashes = stored_hashes.get("gear_sets", {})
+
+    batch.add("DELETE FROM gear;")
+    batch.add("DELETE FROM gear_sets;")
+    batch.add("ALTER TABLE gear AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE gear_sets AUTO_INCREMENT = 1;")
+
+    merged_sets = {}
+    for gear_set in gear_sets_data:
+        name = (gear_set.get("name") or "").strip()
+        if not name:
+            continue
+        merged_sets[name] = {
+            "name": name,
+            "set_bonus": {
+                "quantity": int((gear_set.get("set_bonus") or {}).get("quantity", 0)),
+                "description": (gear_set.get("set_bonus") or {}).get("description")
+                or "",
+            },
+        }
+
+    # Backward compatibility: derive missing set entries from gear.json set_bonus data.
+    for item in data:
+        set_name = (item.get("set") or "").strip()
+        if not set_name or set_name in merged_sets:
+            continue
+        set_bonus = item.get("set_bonus") or {}
+        merged_sets[set_name] = {
+            "name": set_name,
+            "set_bonus": {
+                "quantity": int(set_bonus.get("quantity", 0)),
+                "description": set_bonus.get("description") or "",
+            },
+        }
+
+    set_id = 0
+    set_id_by_name = {}
+    for gear_set in sorted(merged_sets.values(), key=gear_set_sort_key):
+        set_name = gear_set["name"]
+        set_id += 1
+        set_id_by_name[set_name] = set_id
+
+        set_hash = compute_hash(gear_set)
+        set_ts = resolve_timestamp(
+            set_name,
+            set_hash,
+            old_set_ts,
+            now,
+            table_hashes=set_hashes,
+        )
+        new_hashes.setdefault("gear_sets", {})[set_name] = {
+            "hash": set_hash,
+            "ts": int(set_ts),
+        }
+
+        set_bonus = gear_set.get("set_bonus") or {}
+        batch.add(
+            f"INSERT INTO gear_sets (id, name, bonus_quantity, bonus_description, last_updated, data_hash) VALUES "
+            f"({set_id}, {escape_sql(set_name)}, {escape_sql(set_bonus.get('quantity', 0))}, "
+            f"{escape_sql(set_bonus.get('description', ''))}, {escape_sql(set_ts)}, {escape_sql(set_hash)});"
+        )
+
+    data = sorted(data, key=gear_sort_key)
+    gear_id = 0
+    for item in data:
+        if not item.get("name"):
+            continue
+
+        gear_id += 1
+        gear_hash_input = dict(item)
+        gear_hash_input.pop("set_bonus", None)
+        h = compute_hash(gear_hash_input)
+        ts = resolve_timestamp(item["name"], h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("gear", {})[item["name"]] = {"hash": h, "ts": int(ts)}
+
+        stats_raw = item.get("stats") or {}
+        stats_json = json.dumps(stats_raw, ensure_ascii=False, sort_keys=True)
+        set_name = (item.get("set") or "").strip()
+        current_set_id = set_id_by_name.get(set_name)
+
+        batch.add(
+            f"INSERT INTO gear (id, name, set_id, type, lore, stats_json, last_updated, data_hash) VALUES "
+            f"({gear_id}, {escape_sql(item['name'])}, {escape_sql(current_set_id)}, {escape_sql(item.get('type'))}, "
+            f"{escape_sql(item.get('lore'))}, {escape_sql(stats_json)}, {escape_sql(ts)}, {escape_sql(h)});"
+        )
+
+    print(f"  Synced {set_id} gear sets and {gear_id} gear items")
+
+
 def sync_golden_alliances(data, howlkins_data, batch, now, stored_hashes, new_hashes):
     """Sync golden_alliances.json -> golden_alliances + golden_alliance_howlkins + golden_alliance_effects tables."""
-    quality_map = {h["name"]: h.get("quality", "") for h in howlkins_data if h.get("name")}
+    quality_map = {
+        h["name"]: h.get("quality", "") for h in howlkins_data if h.get("name")
+    }
     old_ts = get_old_timestamps("golden_alliances", "name")
     table_hashes = stored_hashes.get("golden_alliances", {})
     batch.add("DELETE FROM golden_alliance_effects;")
@@ -1193,8 +1364,13 @@ def sync_golden_alliances(data, howlkins_data, batch, now, stored_hashes, new_ha
             continue
         ga_id += 1
         ga_hash = compute_hash(ga)
-        ts = resolve_timestamp(ga["name"], ga_hash, old_ts, now, table_hashes=table_hashes)
-        new_hashes.setdefault("golden_alliances", {})[ga["name"]] = {"hash": ga_hash, "ts": int(ts)}
+        ts = resolve_timestamp(
+            ga["name"], ga_hash, old_ts, now, table_hashes=table_hashes
+        )
+        new_hashes.setdefault("golden_alliances", {})[ga["name"]] = {
+            "hash": ga_hash,
+            "ts": int(ts),
+        }
         batch.add(
             f"INSERT INTO golden_alliances (id, name, last_updated, data_hash) VALUES "
             f"({ga_id}, {escape_sql(ga['name'])}, {escape_sql(ts)}, {escape_sql(ga_hash)});"
@@ -1245,7 +1421,10 @@ def sync_noble_phantasms(data, batch, now, stored_hashes, new_hashes):
         np_id += 1
         h = compute_hash(np)
         ts = resolve_timestamp(np["name"], h, old_ts, now, table_hashes=table_hashes)
-        new_hashes.setdefault("noble_phantasms", {})[np["name"]] = {"hash": h, "ts": int(ts)}
+        new_hashes.setdefault("noble_phantasms", {})[np["name"]] = {
+            "hash": h,
+            "ts": int(ts),
+        }
 
         batch.add(
             f"INSERT INTO noble_phantasms (id, name, character_name, is_global, lore, last_updated, data_hash) VALUES "
@@ -1290,8 +1469,13 @@ def sync_changelog(data, batch, now, stored_hashes, new_hashes):
             continue
         cl_id += 1
         h = compute_hash(entry)
-        ts = resolve_timestamp(entry["version"], h, old_ts, now, table_hashes=table_hashes)
-        new_hashes.setdefault("changelog", {})[entry["version"]] = {"hash": h, "ts": int(ts)}
+        ts = resolve_timestamp(
+            entry["version"], h, old_ts, now, table_hashes=table_hashes
+        )
+        new_hashes.setdefault("changelog", {})[entry["version"]] = {
+            "hash": h,
+            "ts": int(ts),
+        }
         batch.add(
             f"INSERT INTO changelog (id, date, version, last_updated, data_hash) VALUES "
             f"({cl_id}, {escape_sql(entry.get('date'))}, {escape_sql(entry['version'])}, "
@@ -1338,6 +1522,7 @@ def main():
             "useful-links",
             "artifacts",
             "howlkins",
+            "gear",
             "golden-alliances",
             "changelog",
             "all",
@@ -1367,6 +1552,7 @@ def main():
         "useful-links": ["useful-links.json"],
         "artifacts": ["artifacts.json"],
         "howlkins": ["howlkins.json"],
+        "gear": ["gear.json", "gear_sets.json"],
         "golden-alliances": ["golden_alliances.json", "howlkins.json"],
         "changelog": ["changelog.json"],
     }
@@ -1400,7 +1586,12 @@ def main():
                 json_cache["factions.json"], batch, now, stored_hashes, new_hashes
             ),
             "characters": lambda: sync_characters(
-                json_cache["characters.json"], json_cache["factions.json"], batch, now, stored_hashes, new_hashes
+                json_cache["characters.json"],
+                json_cache["factions.json"],
+                batch,
+                now,
+                stored_hashes,
+                new_hashes,
             ),
             "wyrmspells": lambda: sync_wyrmspells(
                 json_cache["wyrmspells.json"], batch, now, stored_hashes, new_hashes
@@ -1409,10 +1600,21 @@ def main():
                 json_cache["noble_phantasm.json"], batch, now, stored_hashes, new_hashes
             ),
             "resources": lambda: sync_resources(
-                json_cache["resources.json"], batch, existing_tables, now, stored_hashes, new_hashes
+                json_cache["resources.json"],
+                batch,
+                existing_tables,
+                now,
+                stored_hashes,
+                new_hashes,
             ),
             "codes": lambda: sync_codes(
-                json_cache["codes.json"], batch, existing_tables, resource_ids, now, stored_hashes, new_hashes
+                json_cache["codes.json"],
+                batch,
+                existing_tables,
+                resource_ids,
+                now,
+                stored_hashes,
+                new_hashes,
             ),
             "status-effects": lambda: sync_status_effects(
                 json_cache["status-effects.json"], batch, now, stored_hashes, new_hashes
@@ -1432,10 +1634,21 @@ def main():
             "howlkins": lambda: sync_howlkins(
                 json_cache["howlkins.json"], batch, now, stored_hashes, new_hashes
             ),
+            "gear": lambda: sync_gear(
+                json_cache["gear.json"],
+                json_cache.get("gear_sets.json", []),
+                batch,
+                now,
+                stored_hashes,
+                new_hashes,
+            ),
             "golden-alliances": lambda: sync_golden_alliances(
                 json_cache["golden_alliances.json"],
                 json_cache.get("howlkins.json", []),
-                batch, now, stored_hashes, new_hashes
+                batch,
+                now,
+                stored_hashes,
+                new_hashes,
             ),
             "changelog": lambda: sync_changelog(
                 json_cache["changelog.json"], batch, now, stored_hashes, new_hashes

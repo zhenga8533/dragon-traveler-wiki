@@ -2057,6 +2057,18 @@
       "ts": 1771529295
     }
   },
+  "gear_sets": {
+    "Flamelord's": {
+      "hash": "2898f701f69268f16a99561ba49cf1354f641efe19e9466209f576da3d387a16",
+      "ts": 1771547246
+    }
+  },
+  "gear": {
+    "Flamelord's Sword": {
+      "hash": "a43102a15fca6db67b5d4205a0f03348a1120ecb5d9869186e57cd7bd2d620e7",
+      "ts": 1771547246
+    }
+  },
   "golden_alliances": {
     "Disgaea": {
       "hash": "1bf127f80d0ed3276d75ef2a0d1cac5c649f74495fa35948cf0e93de03b4839f",

@@ -44,6 +44,7 @@ import { useDataFetch } from '../hooks';
 import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
 import type { Code } from '../types/code';
+import type { Gear } from '../types/gear';
 import type { Howlkin } from '../types/howlkin';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import type { Resource } from '../types/resource';
@@ -112,6 +113,10 @@ function DataStatsBar() {
     'data/howlkins.json',
     []
   );
+  const { data: gear, loading: l8 } = useDataFetch<Gear[]>(
+    'data/gear.json',
+    []
+  );
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
@@ -123,6 +128,7 @@ function DataStatsBar() {
       resources,
       noblePhantasms,
       howlkins,
+      gear,
     ];
     for (const list of updateLists) {
       for (const item of list) {
@@ -139,9 +145,10 @@ function DataStatsBar() {
     resources,
     statusEffects,
     wyrmspells,
+    gear,
   ]);
 
-  if (l1 || l2 || l3 || l4 || l5 || l6 || l7) {
+  if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8) {
     return (
       <Group justify="center" py="md">
         <Skeleton height={20} width="100%" maw={400} radius="md" />
@@ -154,6 +161,7 @@ function DataStatsBar() {
     { label: `${wyrmspells.length} Wyrmspells`, to: '/wyrmspells' },
     { label: `${statusEffects.length} Status Effects`, to: '/status-effects' },
     { label: `${artifacts.length} Artifacts`, to: '/artifacts' },
+    { label: `${gear.length} Gear`, to: '/gear' },
     {
       label: `${noblePhantasms.length} Noble Phantasms`,
       to: '/noble-phantasms',
