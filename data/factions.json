@@ -51,7 +51,7 @@
   {
     "name": "Sanctum Glory",
     "wyrm": "Light Whelp",
-    "description": "By gaining [Morale] and [Fervo], enter the [Grace] state to apply a Self Buff and enhance combat abilities.",
+    "description": "By gaining [Morale] and [Fervor], enter the [Grace] state to apply a Self Buff and enhance combat abilities.",
     "recommended_artifacts": [
       "Wings of Icarus",
       "Aladdin's Lamp",
@@ -59,7 +59,7 @@
       "Zeus's Thunder",
       "Flame of Olympus"
     ],
-    "last_updated": 1771608578
+    "last_updated": 1771608820
   },
   {
     "name": "Wild Spirit",

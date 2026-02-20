@@ -790,7 +790,15 @@ def resolve_timestamp(key, new_hash, old_timestamps, now, table_hashes=None):
 # ---------------------------------------------------------------------------
 
 
-def sync_factions(data, artifacts, batch, now, stored_hashes, new_hashes):
+def sync_factions(
+    data,
+    artifacts,
+    batch,
+    now,
+    stored_hashes,
+    new_hashes,
+    characters_data=None,
+):
     """Sync factions.json -> factions table."""
     old_ts = get_old_timestamps("factions", "name")
     table_hashes = stored_hashes.get("factions", {})
@@ -800,6 +808,8 @@ def sync_factions(data, artifacts, batch, now, stored_hashes, new_hashes):
     recommended_count = 0
     batch.add("DELETE FROM faction_recommended_artifacts;")
     batch.add("ALTER TABLE faction_recommended_artifacts AUTO_INCREMENT = 1;")
+    # character_factions references factions.id; rows must be removed before replacing factions.
+    # For faction-only syncs, we repopulate links from characters.json below.
     batch.add("DELETE FROM character_factions;")
     batch.add("DELETE FROM factions;")
     data = sorted(data, key=faction_sort_key)
@@ -833,8 +843,49 @@ def sync_factions(data, artifacts, batch, now, stored_hashes, new_hashes):
                 f"({i}, {sort_order}, {escape_sql(artifact_name)});"
             )
     count = len([f for f in data if f.get("name")])
+
+    # Rebuild character_factions for --target factions so faction-only sync does not
+    # leave character relationships empty.
+    relinked_count = 0
+    if characters_data is not None:
+        faction_ids = {
+            f.get("name"): i
+            for i, f in enumerate(data, 1)
+            if isinstance(f, dict) and f.get("name")
+        }
+        character_rows = dolt_sql_csv("SELECT id, name FROM characters;")
+        character_ids = {
+            row.get("name"): int(row.get("id"))
+            for row in character_rows
+            if row.get("name") and row.get("id")
+        }
+
+        for character in sorted(characters_data, key=character_sort_key):
+            character_name = character.get("name")
+            if not character_name:
+                continue
+            character_id = character_ids.get(character_name)
+            if not character_id:
+                continue
+            for order, faction_name in enumerate(
+                character.get("factions", []), start=1
+            ):
+                faction_id = faction_ids.get(faction_name)
+                if not faction_id:
+                    continue
+                relinked_count += 1
+                batch.add(
+                    f"INSERT INTO character_factions (character_id, faction_id, sort_order) VALUES "
+                    f"({character_id}, {faction_id}, {order});"
+                )
+
     print(
         f"  Synced {count} factions and {recommended_count} recommended artifact links"
+        + (
+            f"; rebuilt {relinked_count} character_factions links"
+            if characters_data is not None
+            else ""
+        )
     )
 
 
@@ -946,7 +997,16 @@ def sync_wyrmspells(data, batch, now, stored_hashes, new_hashes):
     print(f"  Synced {w_id} wyrmspells")
 
 
-def sync_resources(data, batch, existing_tables, now, stored_hashes, new_hashes):
+def sync_resources(
+    data,
+    batch,
+    existing_tables,
+    resource_ids,
+    now,
+    stored_hashes,
+    new_hashes,
+    codes_data=None,
+):
     """Sync resources.json -> resources table."""
     if "resources" not in existing_tables:
         print("  Skipping resources (table not found in Dolt schema)")
@@ -979,7 +1039,66 @@ def sync_resources(data, batch, existing_tables, now, stored_hashes, new_hashes)
             f"({r_id}, {escape_sql(r['name'])}, {escape_sql(r.get('quality'))}, {escape_sql(r.get('description', ''))}, "
             f"{escape_sql(r.get('category', ''))}, {escape_sql(ts)}, {escape_sql(h)});"
         )
-    print(f"  Synced {r_id} resources")
+    rebuilt_rewards = 0
+    if (
+        codes_data is not None
+        and "codes" in existing_tables
+        and "code_rewards" in existing_tables
+    ):
+        code_reward_columns = get_table_columns("code_rewards")
+        if "resource_id" in code_reward_columns:
+            code_rows = dolt_sql_csv("SELECT id, code FROM codes;")
+            code_ids = {
+                row.get("code"): int(row.get("id"))
+                for row in code_rows
+                if row.get("code") and row.get("id")
+            }
+
+            reward_id = 0
+            for c in sorted(codes_data, key=code_sort_key):
+                code_value = c.get("code")
+                if not code_value:
+                    continue
+                code_id = code_ids.get(code_value)
+                if not code_id:
+                    continue
+
+                rewards_raw = c.get("rewards") or c.get("reward")
+                if isinstance(rewards_raw, list):
+                    rewards = {
+                        r["name"]: r.get("quantity", 0)
+                        for r in rewards_raw
+                        if r.get("name")
+                    }
+                elif isinstance(rewards_raw, dict):
+                    rewards = rewards_raw
+                else:
+                    rewards = {}
+
+                for resource_name, quantity_val in rewards.items():
+                    if not resource_name:
+                        continue
+                    resource_id = resource_ids.get(resource_name)
+                    if resource_id is None:
+                        raise SyncError(
+                            f"code '{code_value}' reward resource '{resource_name}' not found in resources.json"
+                        )
+
+                    reward_id += 1
+                    rebuilt_rewards += 1
+                    batch.add(
+                        f"INSERT INTO code_rewards (id, code_id, resource_id, quantity) VALUES "
+                        f"({reward_id}, {code_id}, {escape_sql(resource_id)}, {escape_sql(quantity_val)});"
+                    )
+
+    print(
+        f"  Synced {r_id} resources"
+        + (
+            f"; rebuilt {rebuilt_rewards} code_rewards links"
+            if codes_data is not None
+            else ""
+        )
+    )
 
 
 def sync_codes(
@@ -1606,11 +1725,11 @@ def main():
 
     # Only load JSON files needed for the target.
     json_deps = {
-        "factions": ["factions.json", "artifacts.json"],
+        "factions": ["factions.json", "artifacts.json", "characters.json"],
         "characters": ["characters.json", "factions.json"],
         "wyrmspells": ["wyrmspells.json"],
         "noble-phantasms": ["noble_phantasm.json"],
-        "resources": ["resources.json"],
+        "resources": ["resources.json", "codes.json"],
         "codes": ["codes.json", "resources.json"],
         "status-effects": ["status-effects.json"],
         "tier-lists": ["tier-lists.json"],
@@ -1655,6 +1774,9 @@ def main():
                 now,
                 stored_hashes,
                 new_hashes,
+                characters_data=(
+                    json_cache.get("characters.json") if target == "factions" else None
+                ),
             ),
             "characters": lambda: sync_characters(
                 json_cache["characters.json"],
@@ -1674,9 +1796,13 @@ def main():
                 json_cache["resources.json"],
                 batch,
                 existing_tables,
+                resource_ids,
                 now,
                 stored_hashes,
                 new_hashes,
+                codes_data=(
+                    json_cache.get("codes.json") if target == "resources" else None
+                ),
             ),
             "codes": lambda: sync_codes(
                 json_cache["codes.json"],
