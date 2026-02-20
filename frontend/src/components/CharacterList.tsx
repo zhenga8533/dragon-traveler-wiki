@@ -16,7 +16,7 @@ import { getPortrait } from '../assets/character';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
-import { CLASS_ORDER, QUALITY_ORDER, TIER_ORDER } from '../constants/colors';
+import { QUALITY_ORDER, TIER_ORDER } from '../constants/colors';
 import {
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
@@ -97,10 +97,6 @@ export default function CharacterList({
         } else if (sortCol === 'quality') {
           cmp =
             QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
-        } else if (sortCol === 'class') {
-          cmp =
-            CLASS_ORDER.indexOf(a.character_class) -
-            CLASS_ORDER.indexOf(b.character_class);
         } else if (sortCol === 'factions') {
           cmp = (a.factions[0] ?? '').localeCompare(b.factions[0] ?? '');
         } else if (sortCol === 'global') {
@@ -194,14 +190,7 @@ export default function CharacterList({
                   >
                     Quality
                   </SortableTh>
-                  <SortableTh
-                    sortKey="class"
-                    sortCol={sortCol}
-                    sortDir={sortDir}
-                    onSort={handleSort}
-                  >
-                    Class
-                  </SortableTh>
+                  <Table.Th>Class</Table.Th>
                   <SortableTh
                     sortKey="factions"
                     sortCol={sortCol}

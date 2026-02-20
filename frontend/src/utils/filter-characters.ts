@@ -1,4 +1,4 @@
-import { CLASS_ORDER, QUALITY_ORDER } from '../constants/colors';
+import { QUALITY_ORDER } from '../constants/colors';
 import type { Character, CharacterClass, Quality } from '../types/character';
 import type { FactionName } from '../types/faction';
 import { parseEffectRefs } from './parse-effect-refs';
@@ -85,12 +85,9 @@ export function extractAllEffectRefs(characters: Character[]): string[] {
   return [...names].sort();
 }
 
-/** Sort characters by class, then quality, then alphabetically by name. */
+/** Sort characters by quality, then alphabetically by name. */
 export function sortCharactersByQuality(characters: Character[]): Character[] {
   return characters.sort((a, b) => {
-    const classIndexA = CLASS_ORDER.indexOf(a.character_class);
-    const classIndexB = CLASS_ORDER.indexOf(b.character_class);
-    if (classIndexA !== classIndexB) return classIndexA - classIndexB;
     const qualityIndexA = QUALITY_ORDER.indexOf(a.quality);
     const qualityIndexB = QUALITY_ORDER.indexOf(b.quality);
     if (qualityIndexA !== qualityIndexB) return qualityIndexA - qualityIndexB;
