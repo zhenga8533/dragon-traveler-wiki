@@ -3,36 +3,74 @@
     "name": "Arcane Wisdom",
     "wyrm": "Butterfly Whelp",
     "description": "Gain [Awakening] when an ally uses Overdrive. Consume or build up [Awakening] stacks to enhance skills.",
-    "last_updated": 1771129475
+    "recommended_artifacts": [
+      "Wings of Icarus",
+      "Sage's Stone",
+      "Heimdall's Horn",
+      "Holy Grail"
+    ],
+    "last_updated": 1771608578
   },
   {
     "name": "Elemental Echo",
     "wyrm": "Fire Whelp",
     "description": "Inflict [Ignite], [Shock], or [Chill] to trigger [Elemental Reactions] against enemies, dealing damage while weaknening their combat abilities.",
-    "last_updated": 1771129475
+    "recommended_artifacts": [
+      "Sisyphus Monolith",
+      "Aladdin's Lamp",
+      "Sun God's Cloak",
+      "Trident of Poseidon"
+    ],
+    "last_updated": 1771608578
   },
   {
     "name": "Illusion Veil",
     "wyrm": "Dark Whelp",
     "description": "Some of your skills with trigger the [Punishment] effect on enemies whose Overdrive Energy Consumption is 4 or higher, applying a Buff to enhance the current skill's effect.",
-    "last_updated": 1771129475
+    "recommended_artifacts": [
+      "Wings of Icarus",
+      "Solomon's Ring",
+      "Aladdin's Lamp",
+      "Spear of Longinus"
+    ],
+    "last_updated": 1771608578
   },
   {
     "name": "Otherworld Return",
     "wyrm": "Shadow Whelp",
     "description": "Gain [Deathrattle] when an ally falls. The more [Deathrattle] stacks you have, the stronger your combat abilities become.",
-    "last_updated": 1771129475
+    "recommended_artifacts": [
+      "Sealed Magic Bottle",
+      "Golden Fleece",
+      "Zeus's Thunder",
+      "Cupid's Arrow",
+      "Anubis Scales"
+    ],
+    "last_updated": 1771608578
   },
   {
     "name": "Sanctum Glory",
     "wyrm": "Light Whelp",
     "description": "By gaining [Morale] and [Fervo], enter the [Grace] state to apply a Self Buff and enhance combat abilities.",
-    "last_updated": 1771129475
+    "recommended_artifacts": [
+      "Wings of Icarus",
+      "Aladdin's Lamp",
+      "Eye of Horus",
+      "Zeus's Thunder",
+      "Flame of Olympus"
+    ],
+    "last_updated": 1771608578
   },
   {
     "name": "Wild Spirit",
     "wyrm": "Emerald Whelp",
     "description": "Accumulate Rage when losing HP. Upon reaching full Rage, enter the [Wild] state, to enhance combat abilities.",
-    "last_updated": 1771129475
+    "recommended_artifacts": [
+      "Sisyphus Monolith",
+      "Aladdin's Lamp",
+      "Golden Fleece",
+      "Spear of Longinus"
+    ],
+    "last_updated": 1771608578
   }
 ]

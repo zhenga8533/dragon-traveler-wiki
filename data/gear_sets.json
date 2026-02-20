@@ -8,6 +8,14 @@
     "last_updated": 1771563818
   },
   {
+    "name": "Arcane",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Haste ability by 10."
+    },
+    "last_updated": 1771608669
+  },
+  {
     "name": "Bloodseeker",
     "set_bonus": {
       "quantity": 1,
@@ -38,6 +46,14 @@
       "description": "Boosts Magic Defense by 24% and Attack Speed by 8%."
     },
     "last_updated": 1771563818
+  },
+  {
+    "name": "Cursed",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Critical Resistance by 200."
+    },
+    "last_updated": 1771608669
   },
   {
     "name": "Dragon Hunter",
@@ -128,6 +144,14 @@
     "last_updated": 1771563818
   },
   {
+    "name": "Night Owl",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Attack Speed by 13%."
+    },
+    "last_updated": 1771608669
+  },
+  {
     "name": "Overlord",
     "set_bonus": {
       "quantity": 2,
@@ -144,6 +168,14 @@
     "last_updated": 1771563818
   },
   {
+    "name": "Paladin",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Crit Damage by 18%."
+    },
+    "last_updated": 1771608669
+  },
+  {
     "name": "Phantom",
     "set_bonus": {
       "quantity": 1,
@@ -152,12 +184,28 @@
     "last_updated": 1771563818
   },
   {
+    "name": "Pious",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Healing effect by 16%."
+    },
+    "last_updated": 1771608669
+  },
+  {
     "name": "Quenched",
     "set_bonus": {
       "quantity": 1,
       "description": "Boosts Physical Defense by 10%."
     },
     "last_updated": 1771563818
+  },
+  {
+    "name": "Ranger",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Crit by 200."
+    },
+    "last_updated": 1771608669
   },
   {
     "name": "Rejection",
@@ -254,6 +302,14 @@
       "description": "Boosts Magic damage dealt by 32%."
     },
     "last_updated": 1771563818
+  },
+  {
+    "name": "Valiant",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Block by 200."
+    },
+    "last_updated": 1771608669
   },
   {
     "name": "Watcher",

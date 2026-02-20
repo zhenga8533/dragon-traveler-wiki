@@ -1,5 +1,401 @@
 [
   {
+    "name": "Arcane Hood",
+    "set": "Arcane",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "A pointed hat worn daily by Mages, wide and comfortable but sometimes obstructs vision.",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Cursed Helmet",
+    "set": "Cursed",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "A helmet worn by evil Warlocks, their faces obscured in shadow and darkness.",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Flamelord's Helmet",
+    "set": "Flamelord",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "The king's gaze from the helmet sends shivers down the enemy's spine.",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Paladin's Helmet",
+    "set": "Paladin",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "A helmet worn by noble White Knights, its exquisite design is like a work of art.",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Ranger's Feathered Hat",
+    "set": "Ranger",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "It is both a tool to block the wind and his secret weapon to maintain his elegance!",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Sage's Crown",
+    "set": "Sage",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "A crown made of branches, worn by the sages of the forest to signify their friendship with the woods.",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Valiant Helmet",
+    "set": "Valiant",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "A helmet worn by the brave Gladiator, covering the entire face.",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Arcane Robe",
+    "set": "Arcane",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "A robe often worn by Mages, said to be imbued with many spells.",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Cursed Robe",
+    "set": "Cursed",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "A robe worn by evil Warlocks are shrouded in ominous shadows.",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Dragon Hunter Armor",
+    "set": "Dragon Hunter",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "Crafted from the remains of a dead Wyrm, worn by dragonslayers who traverse the Phantasia Mountain to hunt mighty beasts.",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Flamelord's Armor",
+    "set": "Flamelord",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "The wrath of a king burns like fire, destined to consume all.",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Paladin's Armor",
+    "set": "Paladin",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "Armor worn by noble White Knights, its pure color signifies a pure soul.",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Quenched Armor",
+    "set": "Quenched",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "A sturdy set of armor forged by dwarfs under divine command, tailored for Paladins.",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Ranger's Leather Armor",
+    "set": "Ranger",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "A leather coat once worn by a forest ranger, believed to be hand-stitched by the wearer himself.",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Valiant Armor",
+    "set": "Valiant",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "Armor worn by valiant Gladiators, overprotective designs may sacrifice visual speed.",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Arcane Gauntlets",
+    "set": "Arcane",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "Mages sometimes wield their staffs in close combat, and thus wear gauntlets for protection.",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Cursed Gauntlets",
+    "set": "Cursed",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "Gauntlets worn by evil Warlocks, used to cast many vicious dark spells.",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Dragon Hunter Gauntlets",
+    "set": "Dragon Hunter",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "Gauntlets forged in the likeness of dragon claws, the claws of Wyrms outmatch all divine weapons.",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Flamelord's Gauntlets",
+    "set": "Flamelord",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "For a king, gauntlets are not for protection, but for drawing the sword.",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Night Owl Gauntlets",
+    "set": "Night Owl",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "A blackened gauntlet emerging from the shadows — a nightmare for many.",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Paladin's Gauntlets",
+    "set": "Paladin",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "White Knights once swore an oath: the sword gripped by these gauntlets shall never strike the weak.",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Quenched Gauntlets",
+    "set": "Quenched",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "It's said that if stained with the blood of the innocent, their shine will fade.",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Ranger's Gloves",
+    "set": "Ranger",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "Worn by forest rangers, these gloves protect the hands that draw the bowstring.",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Sage's Gloves",
+    "set": "Sage",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "Even with gloves on, forest sages will gently caress the flowers.",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Valiant Vambraces",
+    "set": "Valiant",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "Gauntlets worn by brave Gladiators, only removed upon victory.",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Arcane Boots",
+    "set": "Arcane",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "Mages often enchant their boots with acceleration spells, enjoying wind-like speed.",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Dragon Hunter Boots",
+    "set": "Dragon Hunter",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "Before the Wyrm falls a dragonslayer's footsteps never cease.",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Night Owl Boots",
+    "set": "Night Owl",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "These boots move through the darkness without a sound.",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Pious Boots",
+    "set": "Pious",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "Priests wear boots to tread through thorns and swamps to reach the sick.",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Quenched Boots",
+    "set": "Quenched",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "Paladins stand tall upon the earth, vowing to tread out every injustice beneath their feet.",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Ranger's Boots",
+    "set": "Ranger",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "Boots worn by forest rangers, ornate in appearance but remarkably light.",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Sage's Boots",
+    "set": "Sage",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "When the Forest Sages walk through the woods, birds follow them in song.",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
+    "name": "Valiant Boots",
+    "set": "Valiant",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "Boots worn by valiant Gladiators, gilded as a symbol of their victories.",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    },
+    "last_updated": 1771608669
+  },
+  {
     "name": "Bloodseeker Sword",
     "set": "Bloodseeker",
     "type": "Weapon",
