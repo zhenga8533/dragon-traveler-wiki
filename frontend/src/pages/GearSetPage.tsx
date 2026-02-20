@@ -81,7 +81,6 @@ export default function GearSetPage() {
     (entry) => entry.name.toLowerCase() === decodedSetName.toLowerCase()
   );
   const setBonus = setData?.set_bonus ?? setItems[0]?.set_bonus;
-  const setQuality = setItems[0]?.quality;
 
   return (
     <Box>
@@ -100,17 +99,6 @@ export default function GearSetPage() {
               <Badge variant="light" color="grape" size="lg">
                 {setItems.length} item{setItems.length !== 1 ? 's' : ''}
               </Badge>
-              {setQuality && QUALITY_ICON_MAP[setQuality] && (
-                <Tooltip label={setQuality}>
-                  <Image
-                    src={QUALITY_ICON_MAP[setQuality]}
-                    alt={setQuality}
-                    h={24}
-                    w="auto"
-                    fit="contain"
-                  />
-                </Tooltip>
-              )}
             </Group>
             {setBonus && (
               <Text c="dimmed" size="sm">
@@ -140,40 +128,61 @@ export default function GearSetPage() {
                         <Text fw={700} size="lg" c="violet" lineClamp={1}>
                           {item.name}
                         </Text>
-                        <Badge
-                          variant="light"
-                          color="blue"
-                          size="sm"
-                          w="fit-content"
-                        >
-                          {item.type}
-                        </Badge>
+                        <Group gap="xs" wrap="wrap">
+                          <Badge
+                            variant="light"
+                            color="blue"
+                            size="sm"
+                            w="fit-content"
+                          >
+                            {item.type}
+                          </Badge>
+                          {QUALITY_ICON_MAP[item.quality] && (
+                            <Tooltip label={item.quality}>
+                              <Image
+                                src={QUALITY_ICON_MAP[item.quality]}
+                                alt={item.quality}
+                                h={18}
+                                w="auto"
+                                fit="contain"
+                              />
+                            </Tooltip>
+                          )}
+                          <Badge
+                            variant="light"
+                            color="grape"
+                            size="sm"
+                            w="fit-content"
+                          >
+                            {item.quality}
+                          </Badge>
+                        </Group>
                         <Text size="sm" c="dimmed" fs="italic" lineClamp={2}>
                           {item.lore}
                         </Text>
                       </Stack>
                     </Group>
 
-                    <Stack gap={4}>
+                    <Stack gap="xs">
                       <Text fw={600} size="sm">
                         Stats
                       </Text>
-                      {Object.entries(item.stats).map(
-                        ([statName, statValue]) => (
-                          <Group
-                            key={statName}
-                            justify="space-between"
-                            gap="md"
-                          >
-                            <Text size="sm" c="dimmed">
-                              {statName}
-                            </Text>
-                            <Text size="sm" fw={600}>
-                              {String(statValue)}
-                            </Text>
-                          </Group>
-                        )
-                      )}
+                      <SimpleGrid cols={{ base: 2, sm: 2 }} spacing="xs">
+                        {Object.entries(item.stats).map(
+                          ([statName, statValue]) => (
+                            <Paper key={statName} withBorder radius="sm" p="xs">
+                              <Stack gap={2}>
+                                <Text size="xs" c="dimmed" lineClamp={1}>
+                                  {statName}
+                                </Text>
+                                <Text size="sm" fw={700} lineClamp={1}>
+                                  {String(statValue)}
+                                </Text>
+                              </Stack>
+                            </Paper>
+                          )
+                        )}
+                      </SimpleGrid>
                     </Stack>
                   </Stack>
                 </Paper>
