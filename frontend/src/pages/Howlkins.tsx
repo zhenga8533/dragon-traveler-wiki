@@ -139,6 +139,13 @@ const EMPTY_FILTERS: HowlkinFilters = {
   qualities: [],
 };
 
+const renderQualityFilterIcon = (value: string) => {
+  const iconSrc = QUALITY_ICON_MAP[value as Quality];
+  if (!iconSrc) return null;
+
+  return <Image src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
+};
+
 export default function Howlkins() {
   const [activeTab, setActiveTab] = useState<string>(() => {
     if (typeof window === 'undefined') return 'howlkins';
@@ -191,7 +198,14 @@ export default function Howlkins() {
 
   const filterGroups: ChipFilterGroup[] = useMemo(() => {
     if (qualityOptions.length === 0) return [];
-    return [{ key: 'qualities', label: 'Quality', options: qualityOptions }];
+    return [
+      {
+        key: 'qualities',
+        label: 'Quality',
+        options: qualityOptions,
+        icon: renderQualityFilterIcon,
+      },
+    ];
   }, [qualityOptions]);
 
   const filtered = useMemo(() => {
