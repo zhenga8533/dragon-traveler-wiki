@@ -82,6 +82,13 @@ const EMPTY_FILTERS: WyrmspellFilters = {
   qualities: [],
 };
 
+const renderQualityFilterIcon = (value: string) => {
+  const iconSrc = QUALITY_ICON_MAP[value as keyof typeof QUALITY_ICON_MAP];
+  if (!iconSrc) return null;
+
+  return <Image src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
+};
+
 export default function Wyrmspells() {
   const {
     data: wyrmspells,
@@ -129,6 +136,7 @@ export default function Wyrmspells() {
         key: 'qualities',
         label: 'Max Quality',
         options: qualityOptions,
+        icon: renderQualityFilterIcon,
       });
     return groups;
   }, [typeOptions, qualityOptions]);
