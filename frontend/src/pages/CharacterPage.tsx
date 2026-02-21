@@ -38,6 +38,13 @@ import {
 } from '../assets/character';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { getGearIcon } from '../assets/gear';
+import accessoryIcon from '../assets/gear/icons/accessory.png';
+import bootsIcon from '../assets/gear/icons/boots.png';
+import bracersIcon from '../assets/gear/icons/bracers.png';
+import chestplateIcon from '../assets/gear/icons/chestplate.png';
+import headgearIcon from '../assets/gear/icons/headgear.png';
+import weaponIcon from '../assets/gear/icons/weapon.png';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getSkillIcon } from '../assets/skill';
@@ -50,10 +57,49 @@ import RichText from '../components/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
 import { TierListReferenceContext } from '../contexts';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import type { Character } from '../types/character';
+import type { Character, RecommendedGearEntry } from '../types/character';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import type { StatusEffect } from '../types/status-effect';
 import type { Subclass } from '../types/subclass';
+
+const GEAR_SLOT_CONFIG: Array<{
+  slot: keyof NonNullable<Character['recommended_gear']>;
+  label: string;
+  type: RecommendedGearEntry['type'];
+  fallbackIcon: string;
+}> = [
+  {
+    slot: 'headgear',
+    label: 'Headgear',
+    type: 'Headgear',
+    fallbackIcon: headgearIcon,
+  },
+  {
+    slot: 'chestplate',
+    label: 'Chestplate',
+    type: 'Chestplate',
+    fallbackIcon: chestplateIcon,
+  },
+  {
+    slot: 'bracers',
+    label: 'Bracers',
+    type: 'Bracers',
+    fallbackIcon: bracersIcon,
+  },
+  { slot: 'boots', label: 'Boots', type: 'Boots', fallbackIcon: bootsIcon },
+  {
+    slot: 'weapon',
+    label: 'Weapon',
+    type: 'Weapon',
+    fallbackIcon: weaponIcon,
+  },
+  {
+    slot: 'accessory',
+    label: 'Accessory',
+    type: 'Accessory',
+    fallbackIcon: accessoryIcon,
+  },
+];
 
 export default function CharacterPage() {
   const { colorScheme } = useMantineColorScheme();
@@ -112,6 +158,43 @@ export default function CharacterPage() {
     }
     return map;
   }, [subclasses]);
+
+  const recommendedSubclassSet = useMemo(
+    () => new Set(character?.recommended_subclasses ?? []),
+    [character]
+  );
+
+  const recommendedGearEntries = useMemo(() => {
+    if (!character?.recommended_gear) return [];
+    const entries: Array<
+      RecommendedGearEntry & { label: string; icon: string }
+    > = [];
+    for (const cfg of GEAR_SLOT_CONFIG) {
+      const gearName = (character.recommended_gear[cfg.slot] ?? '').trim();
+      if (!gearName) continue;
+      entries.push({
+        slot: cfg.slot,
+        type: cfg.type,
+        name: gearName,
+        label: cfg.label,
+        icon: getGearIcon(cfg.type, gearName) ?? cfg.fallbackIcon,
+      });
+    }
+    return entries;
+  }, [character]);
+
+  const recommendedSubclassEntries = useMemo(() => {
+    return (character?.recommended_subclasses ?? []).map((subclassName) => {
+      const details = subclassByName.get(subclassName);
+      return {
+        name: subclassName,
+        icon: getSubclassIcon(subclassName),
+        tier: details?.tier,
+        className: details?.class,
+        bonuses: details?.bonuses ?? [],
+      };
+    });
+  }, [character, subclassByName]);
 
   // Lazy-loaded assets
   const [illustrations, setIllustrations] = useState<CharacterIllustration[]>(
@@ -683,6 +766,15 @@ export default function CharacterPage() {
                                   <Text size="xs" fw={600} ta="center">
                                     {subclass}
                                   </Text>
+                                  {recommendedSubclassSet.has(subclass) && (
+                                    <Badge
+                                      variant="filled"
+                                      color="teal"
+                                      size="xs"
+                                    >
+                                      Recommended
+                                    </Badge>
+                                  )}
                                   {subclassDetails?.tier && (
                                     <Badge
                                       variant="light"
@@ -839,6 +931,127 @@ export default function CharacterPage() {
                           )}
                         </div>
                       </>
+                    )}
+                  </Stack>
+                </Paper>
+              )}
+
+              {(recommendedGearEntries.length > 0 ||
+                recommendedSubclassEntries.length > 0) && (
+                <Paper p="lg" radius="md" withBorder>
+                  <Stack gap="md">
+                    <Group justify="space-between" align="flex-start" gap="sm">
+                      <Stack gap={2}>
+                        <Title order={3}>Recommended Build</Title>
+                        <Text size="sm" c="dimmed">
+                          Suggested setup based on current character data.
+                        </Text>
+                      </Stack>
+                      {recommendedGearEntries.length > 0 && (
+                        <Badge variant="light" color="blue" size="lg">
+                          {recommendedGearEntries.length}/6 Gear Slots
+                        </Badge>
+                      )}
+                    </Group>
+
+                    {recommendedSubclassEntries.length > 0 && (
+                      <Stack gap="sm">
+                        <Text fw={600} size="sm">
+                          Recommended Subclasses
+                        </Text>
+                        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                          {recommendedSubclassEntries.map((entry) => (
+                            <Paper key={entry.name} p="sm" radius="md" withBorder>
+                              <Group gap="sm" align="flex-start" wrap="nowrap">
+                                {entry.icon && (
+                                  <Center
+                                    style={{
+                                      width: 56,
+                                      minWidth: 56,
+                                      height: 52,
+                                      borderRadius: 8,
+                                      border:
+                                        '1px solid var(--mantine-color-default-border)',
+                                    }}
+                                  >
+                                    <Image
+                                      src={entry.icon}
+                                      alt={entry.name}
+                                      w={50}
+                                      h={46}
+                                      fit="contain"
+                                    />
+                                  </Center>
+                                )}
+
+                                <Stack gap={4} style={{ minWidth: 0 }}>
+                                  <Group gap={6} wrap="wrap">
+                                    <Text fw={600} size="sm" truncate>
+                                      {entry.name}
+                                    </Text>
+                                    {typeof entry.tier === 'number' && (
+                                      <Badge variant="light" color="grape" size="xs">
+                                        Tier {entry.tier}
+                                      </Badge>
+                                    )}
+                                    {entry.className && (
+                                      <Badge variant="light" color="blue" size="xs">
+                                        {entry.className}
+                                      </Badge>
+                                    )}
+                                  </Group>
+                                  {entry.bonuses.length > 0 && (
+                                    <Text size="xs" c="dimmed" lineClamp={2}>
+                                      Bonuses: {entry.bonuses.join(', ')}
+                                    </Text>
+                                  )}
+                                </Stack>
+                              </Group>
+                            </Paper>
+                          ))}
+                        </SimpleGrid>
+                      </Stack>
+                    )}
+
+                    {recommendedGearEntries.length > 0 && (
+                      <Stack gap="xs">
+                        <Text fw={600} size="sm">
+                          Recommended Gear
+                        </Text>
+                        <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="sm">
+                          {recommendedGearEntries.map((entry) => (
+                            <Paper
+                              key={entry.slot}
+                              p="sm"
+                              radius="md"
+                              withBorder
+                            >
+                              <Group gap="sm" wrap="nowrap">
+                                <Image
+                                  src={entry.icon}
+                                  alt={`${entry.label}: ${entry.name}`}
+                                  w={32}
+                                  h={32}
+                                  fit="contain"
+                                />
+                                <Stack gap={2} style={{ minWidth: 0 }}>
+                                  <Badge
+                                    variant="light"
+                                    color="gray"
+                                    size="xs"
+                                    w="fit-content"
+                                  >
+                                    {entry.label}
+                                  </Badge>
+                                  <Text size="sm" fw={600} truncate>
+                                    {entry.name}
+                                  </Text>
+                                </Stack>
+                              </Group>
+                            </Paper>
+                          ))}
+                        </SimpleGrid>
+                      </Stack>
                     )}
                   </Stack>
                 </Paper>

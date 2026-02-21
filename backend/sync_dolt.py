@@ -411,6 +411,103 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
                     dry_run=dry_run,
                 )
 
+    if "character_recommended_subclasses" not in existing_tables:
+        print("  Creating missing character_recommended_subclasses table")
+        dolt_sql(
+            """
+            CREATE TABLE character_recommended_subclasses (
+              id int NOT NULL AUTO_INCREMENT,
+              character_id int NOT NULL,
+              subclass_id int NULL,
+              subclass_name varchar(100) NOT NULL,
+              sort_order int NOT NULL DEFAULT 0,
+              PRIMARY KEY (id),
+              KEY character_id (character_id),
+              KEY subclass_id (subclass_id),
+              CONSTRAINT character_recommended_subclasses_ibfk_1 FOREIGN KEY (character_id) REFERENCES characters(id),
+              CONSTRAINT character_recommended_subclasses_ibfk_2 FOREIGN KEY (subclass_id) REFERENCES subclasses(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("character_recommended_subclasses")
+    else:
+        rec_subclass_columns = get_table_columns("character_recommended_subclasses")
+        if "subclass_id" not in rec_subclass_columns:
+            print("  Adding character_recommended_subclasses.subclass_id column")
+            dolt_sql(
+                "ALTER TABLE character_recommended_subclasses ADD COLUMN subclass_id int NULL AFTER character_id;",
+                dry_run=dry_run,
+            )
+            dolt_sql(
+                "ALTER TABLE character_recommended_subclasses ADD KEY subclass_id (subclass_id);",
+                dry_run=dry_run,
+            )
+        if "subclass_name" not in rec_subclass_columns:
+            print("  Adding character_recommended_subclasses.subclass_name column")
+            dolt_sql(
+                "ALTER TABLE character_recommended_subclasses ADD COLUMN subclass_name varchar(100) NOT NULL;",
+                dry_run=dry_run,
+            )
+        if "sort_order" not in rec_subclass_columns:
+            print("  Adding character_recommended_subclasses.sort_order column")
+            dolt_sql(
+                "ALTER TABLE character_recommended_subclasses ADD COLUMN sort_order int NOT NULL DEFAULT 0;",
+                dry_run=dry_run,
+            )
+
+    if "character_recommended_gear" not in existing_tables:
+        print("  Creating missing character_recommended_gear table")
+        dolt_sql(
+            """
+            CREATE TABLE character_recommended_gear (
+              id int NOT NULL AUTO_INCREMENT,
+              character_id int NOT NULL,
+              slot varchar(30) NOT NULL,
+              sort_order int NOT NULL DEFAULT 0,
+              gear_id int NULL,
+              gear_name varchar(200) NOT NULL,
+              PRIMARY KEY (id),
+              KEY character_id (character_id),
+              KEY gear_id (gear_id),
+              CONSTRAINT character_recommended_gear_ibfk_1 FOREIGN KEY (character_id) REFERENCES characters(id),
+              CONSTRAINT character_recommended_gear_ibfk_2 FOREIGN KEY (gear_id) REFERENCES gear(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("character_recommended_gear")
+    else:
+        rec_gear_columns = get_table_columns("character_recommended_gear")
+        if "slot" not in rec_gear_columns:
+            print("  Adding character_recommended_gear.slot column")
+            dolt_sql(
+                "ALTER TABLE character_recommended_gear ADD COLUMN slot varchar(30) NOT NULL;",
+                dry_run=dry_run,
+            )
+        if "sort_order" not in rec_gear_columns:
+            print("  Adding character_recommended_gear.sort_order column")
+            dolt_sql(
+                "ALTER TABLE character_recommended_gear ADD COLUMN sort_order int NOT NULL DEFAULT 0;",
+                dry_run=dry_run,
+            )
+        if "gear_id" not in rec_gear_columns:
+            print("  Adding character_recommended_gear.gear_id column")
+            dolt_sql(
+                "ALTER TABLE character_recommended_gear ADD COLUMN gear_id int NULL;",
+                dry_run=dry_run,
+            )
+            dolt_sql(
+                "ALTER TABLE character_recommended_gear ADD KEY gear_id (gear_id);",
+                dry_run=dry_run,
+            )
+        if "gear_name" not in rec_gear_columns:
+            print("  Adding character_recommended_gear.gear_name column")
+            dolt_sql(
+                "ALTER TABLE character_recommended_gear ADD COLUMN gear_name varchar(200) NOT NULL;",
+                dry_run=dry_run,
+            )
+
     # Ensure artifacts and related tables exist.
     if "artifacts" not in existing_tables:
         print("  Creating missing artifacts table")
@@ -1000,6 +1097,7 @@ def sync_subclasses(data, batch, now, stored_hashes, new_hashes):
     table_hashes = stored_hashes.get("subclasses", {})
 
     batch.add("UPDATE character_subclasses SET subclass_id = NULL;")
+    batch.add("UPDATE character_recommended_subclasses SET subclass_id = NULL;")
     batch.add("DELETE FROM subclass_character_classes;")
     batch.add("DELETE FROM subclass_bonuses;")
     batch.add("DELETE FROM subclasses;")
@@ -1057,6 +1155,18 @@ def sync_subclasses(data, batch, now, stored_hashes, new_hashes):
         """
     )
 
+    batch.add(
+        """
+        UPDATE character_recommended_subclasses crs
+        JOIN characters c ON crs.character_id = c.id
+        JOIN subclasses s ON crs.subclass_name = s.name
+        JOIN subclass_character_classes scc
+          ON scc.subclass_id = s.id
+         AND scc.character_class = c.character_class
+        SET crs.subclass_id = s.id;
+        """
+    )
+
     print(f"  Synced {subclass_id} subclasses")
 
 
@@ -1074,6 +1184,8 @@ def sync_characters(
     old_ts = get_old_timestamps("characters", "name")
     table_hashes = stored_hashes.get("characters", {})
     for table in [
+        "character_recommended_gear",
+        "character_recommended_subclasses",
         "skills",
         "talent_levels",
         "character_subclasses",
@@ -1081,7 +1193,14 @@ def sync_characters(
         "characters",
     ]:
         batch.add(f"DELETE FROM {table};")
-    for table in ["skills", "talent_levels", "character_subclasses", "characters"]:
+    for table in [
+        "character_recommended_gear",
+        "character_recommended_subclasses",
+        "skills",
+        "talent_levels",
+        "character_subclasses",
+        "characters",
+    ]:
         batch.add(f"ALTER TABLE {table} AUTO_INCREMENT = 1;")
 
     faction_ids = {}
@@ -1090,12 +1209,48 @@ def sync_characters(
             faction_ids[f["name"]] = i
 
     has_subclass_id_column = "subclass_id" in get_table_columns("character_subclasses")
+    existing_tables = get_existing_tables()
+    has_recommended_subclasses_table = (
+        "character_recommended_subclasses" in existing_tables
+    )
+    has_recommended_gear_table = "character_recommended_gear" in existing_tables
+
+    has_recommended_subclass_id_column = False
+    if has_recommended_subclasses_table:
+        has_recommended_subclass_id_column = "subclass_id" in get_table_columns(
+            "character_recommended_subclasses"
+        )
+
+    has_recommended_gear_id_column = False
+    if has_recommended_gear_table:
+        has_recommended_gear_id_column = "gear_id" in get_table_columns(
+            "character_recommended_gear"
+        )
+
+    gear_ids = {}
+    if has_recommended_gear_table and "gear" in existing_tables:
+        gear_rows = dolt_sql_csv("SELECT id, name FROM gear;")
+        gear_ids = {
+            row.get("name"): int(row.get("id"))
+            for row in gear_rows
+            if row.get("name") and row.get("id")
+        }
 
     data = sorted(data, key=character_sort_key)
     char_id = 0
     subclass_id = 0
     talent_id = 0
     skill_id = 0
+    recommended_subclass_id = 0
+    recommended_gear_id = 0
+    gear_slot_order = [
+        "headgear",
+        "chestplate",
+        "bracers",
+        "boots",
+        "weapon",
+        "accessory",
+    ]
     for c in data:
         if not c.get("name"):
             continue
@@ -1173,6 +1328,67 @@ def sync_characters(
                 f"({skill_id}, {char_id}, {escape_sql(sk['name'])}, {escape_sql(sk.get('type'))}, "
                 f"{escape_sql(sk.get('description'))}, {escape_sql(sk.get('cooldown', 0))});"
             )
+
+        if has_recommended_subclasses_table:
+            for order, subclass_name in enumerate(
+                c.get("recommended_subclasses", []), start=1
+            ):
+                subclass_name = str(subclass_name or "").strip()
+                if not subclass_name:
+                    continue
+
+                expected_class = None
+                if subclass_class_by_name is not None:
+                    expected_class = subclass_class_by_name.get(subclass_name)
+                if expected_class and expected_class != c.get("character_class"):
+                    print(
+                        f"  Warning: character '{c['name']}' class '{c.get('character_class')}' has recommended subclass '{subclass_name}' assigned to class '{expected_class}'"
+                    )
+
+                linked_subclass_id = None
+                if subclass_ids is not None:
+                    linked_subclass_id = subclass_ids.get(subclass_name)
+                    if linked_subclass_id is None:
+                        print(
+                            f"  Warning: character '{c['name']}' references unknown recommended subclass '{subclass_name}'"
+                        )
+
+                recommended_subclass_id += 1
+                if has_recommended_subclass_id_column:
+                    batch.add(
+                        f"INSERT INTO character_recommended_subclasses (id, character_id, subclass_id, subclass_name, sort_order) VALUES "
+                        f"({recommended_subclass_id}, {char_id}, {escape_sql(linked_subclass_id)}, {escape_sql(subclass_name)}, {order});"
+                    )
+                else:
+                    batch.add(
+                        f"INSERT INTO character_recommended_subclasses (id, character_id, subclass_name, sort_order) VALUES "
+                        f"({recommended_subclass_id}, {char_id}, {escape_sql(subclass_name)}, {order});"
+                    )
+
+        if has_recommended_gear_table:
+            recommended_gear = c.get("recommended_gear")
+            if isinstance(recommended_gear, dict):
+                for order, slot in enumerate(gear_slot_order, start=1):
+                    gear_name = str(recommended_gear.get(slot) or "").strip()
+                    if not gear_name:
+                        continue
+                    linked_gear_id = gear_ids.get(gear_name)
+                    if gear_ids and linked_gear_id is None:
+                        print(
+                            f"  Warning: character '{c['name']}' references unknown recommended gear '{gear_name}'"
+                        )
+
+                    recommended_gear_id += 1
+                    if has_recommended_gear_id_column:
+                        batch.add(
+                            f"INSERT INTO character_recommended_gear (id, character_id, slot, sort_order, gear_id, gear_name) VALUES "
+                            f"({recommended_gear_id}, {char_id}, {escape_sql(slot)}, {order}, {escape_sql(linked_gear_id)}, {escape_sql(gear_name)});"
+                        )
+                    else:
+                        batch.add(
+                            f"INSERT INTO character_recommended_gear (id, character_id, slot, sort_order, gear_name) VALUES "
+                            f"({recommended_gear_id}, {char_id}, {escape_sql(slot)}, {order}, {escape_sql(gear_name)});"
+                        )
 
     print(f"  Synced {char_id} characters")
 
@@ -1644,6 +1860,8 @@ def sync_gear(data, gear_sets_data, batch, now, stored_hashes, new_hashes):
     table_hashes = stored_hashes.get("gear", {})
     set_hashes = stored_hashes.get("gear_sets", {})
 
+    # Nullify FK references before deleting gear
+    batch.add("UPDATE character_recommended_gear SET gear_id = NULL;")
     batch.add("DELETE FROM gear;")
     batch.add("DELETE FROM gear_sets;")
     batch.add("ALTER TABLE gear AUTO_INCREMENT = 1;")
@@ -1727,6 +1945,13 @@ def sync_gear(data, gear_sets_data, batch, now, stored_hashes, new_hashes):
             f"({gear_id}, {escape_sql(item['name'])}, {escape_sql(current_set_id)}, {escape_sql(item.get('type'))}, "
             f"{escape_sql(item.get('quality', ''))}, {escape_sql(item.get('lore'))}, {escape_sql(stats_json)}, {escape_sql(ts)}, {escape_sql(h)});"
         )
+
+    # Re-link character_recommended_gear to gear after gear is re-inserted
+    batch.add(
+        "UPDATE character_recommended_gear crg "
+        "JOIN gear g ON g.name = crg.gear_name "
+        "SET crg.gear_id = g.id;"
+    )
 
     print(f"  Synced {set_id} gear sets and {gear_id} gear items")
 

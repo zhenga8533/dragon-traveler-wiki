@@ -455,6 +455,26 @@ def normalize_for_json(label, data, is_update=False):
         return result
 
     if label == "character":
+        recommended_gear_input = data.get("recommended_gear")
+        recommended_gear = None
+        if isinstance(recommended_gear_input, dict):
+            normalized_gear = {
+                "headgear": str(
+                    recommended_gear_input.get("headgear", "") or ""
+                ).strip(),
+                "chestplate": str(
+                    recommended_gear_input.get("chestplate", "") or ""
+                ).strip(),
+                "bracers": str(recommended_gear_input.get("bracers", "") or "").strip(),
+                "boots": str(recommended_gear_input.get("boots", "") or "").strip(),
+                "weapon": str(recommended_gear_input.get("weapon", "") or "").strip(),
+                "accessory": str(
+                    recommended_gear_input.get("accessory", "") or ""
+                ).strip(),
+            }
+            if any(normalized_gear.values()):
+                recommended_gear = normalized_gear
+
         if not is_update:
             return {
                 "name": data["name"],
@@ -472,6 +492,10 @@ def normalize_for_json(label, data, is_update=False):
                 "talent": data.get("talent"),
                 "skills": data.get("skills", []),
                 "noble_phantasm": data.get("noble_phantasm") or "",
+                "recommended_gear": recommended_gear,
+                "recommended_subclasses": _split_csv_list(
+                    data.get("recommended_subclasses", [])
+                ),
             }
 
         result = {"name": data["name"]}
@@ -503,6 +527,12 @@ def normalize_for_json(label, data, is_update=False):
             result["skills"] = data.get("skills", [])
         if "noble_phantasm" in data:
             result["noble_phantasm"] = data.get("noble_phantasm") or ""
+        if "recommended_gear" in data:
+            result["recommended_gear"] = recommended_gear
+        if "recommended_subclasses" in data:
+            result["recommended_subclasses"] = _split_csv_list(
+                data.get("recommended_subclasses", [])
+            )
         return result
 
     if label == "tier-list":

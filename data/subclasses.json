@@ -1,117 +1,253 @@
 [
   {
-    "name": "Arrowslinger",
-    "class": "Archer",
+    "name": "Royal Guard",
+    "class": "Guardian",
     "tier": 1,
     "bonuses": [
-      "ATK +6%"
+      "PDEF +6%",
+      "MDEF +6%"
     ],
-    "effect": "After every 5 Basic Attacks or skills, deal additional Damage equal to 75% of own Attack to the current target.",
+    "effect": "When HP first falls below 30%, restores HP equal to 15% of own dual defenses per second. (This effect lasts for 8 seconds)",
     "last_updated": 1771647811
   },
   {
-    "name": "Tracker",
-    "class": "Archer",
+    "name": "Shield Guard",
+    "class": "Guardian",
     "tier": 1,
     "bonuses": [
       "HP +6%"
     ],
-    "effect": "Each time you land a Critical Hit, your Attack increases by 1.4%. (Stacks 15 times) (Loses 1 stack if no Critical Hit within 3 seconds)",
+    "effect": "In battle, increases Physical Defense and Magic Defense by 7%.",
     "last_updated": 1771647811
   },
   {
-    "name": "Guerrilla",
-    "class": "Archer",
+    "name": "Centurion",
+    "class": "Guardian",
+    "tier": 2,
+    "bonuses": [
+      "MDEF +16.5%"
+    ],
+    "effect": "For each Buff Status on self, increases own dual defense by 8%. (Up to 32% dual defense increase)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Martyr",
+    "class": "Guardian",
     "tier": 2,
     "bonuses": [
       "HP +11%"
     ],
-    "effect": "Upon landing a Basic Attack, deal additional Physical Damage equal to 10.4% of the target's current HP.",
+    "effect": "When receiving fatal damage, reduces the Attack of all enemies by 10%, and applies an additional [Attack Stat Debuff] to the damage source. (The Full Attack Reduction effect lasts for 8 seconds)",
     "last_updated": 1771647811
   },
   {
-    "name": "Hunter",
-    "class": "Archer",
-    "tier": 2,
-    "bonuses": [
-      "ATK +11%"
-    ],
-    "effect": "Each time you deal damage, your Attack increases by 0.8%. (Stacks up to 20 times)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Ranger",
-    "class": "Archer",
+    "name": "Standard Bearer",
+    "class": "Guardian",
     "tier": 2,
     "bonuses": [
       "HP +11%"
     ],
-    "effect": "For every 15 Critical Hits landed, boost your Attack by 20% and inflict random [Defense State Debuff] on your current target. (Attack boost lasts 3 seconds)",
+    "effect": "In battle, increases own and nearby allies' dual defenses by 8.4%. (This effect cannot stack if carried by multiple Luminaries)",
     "last_updated": 1771647811
   },
   {
-    "name": "Scout",
-    "class": "Archer",
+    "name": "Veteran",
+    "class": "Guardian",
     "tier": 2,
     "bonuses": [
-      "ATK +11%"
+      "PDEF +16.5%"
     ],
-    "effect": "During combat, increases your Attack Speed by 65%. (ST takes 30% less Basic Attack Damage)",
+    "effect": "When applying any control Status, there is a 32% chance to increase self 300 Critical Resistance and gain 1 random [Defense Stat Buff]. (The Critical Resistance increase effect lasts for 3 seconds)",
     "last_updated": 1771647811
   },
   {
-    "name": "Bloodhunter",
-    "class": "Archer",
+    "name": "Avenger",
+    "class": "Guardian",
+    "tier": 3,
+    "bonuses": [
+      "ATK +8%",
+      "HP +8%"
+    ],
+    "effect": "When dealing Damage, additionally inflicts [Adaptive Damage] equal to 4.5% of the bearer's Max HP. (The bearer's Physical and Magical Defense, as well as Damage Reduction, are reduced by 10% in battle) (DoT damage cannot trigger this effect)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Guardian",
+    "class": "Guardian",
+    "tier": 3,
+    "bonuses": [
+      "HP +8%",
+      "Damage Reduction +8%"
+    ],
+    "effect": "When the HP of an Other Luminary first falls below 20%, immediately consumes 20% of current HP to grant it a Shield equal to 28% of self's max HP for 8 seconds. (This effect can trigger up to 3 times per battle)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Lionheart Knight",
+    "class": "Guardian",
     "tier": 3,
     "bonuses": [
       "ATK +8%",
       "PDEF +16%"
     ],
-    "effect": "Each Buff Status gained, Attack is increases by 3%. (Max 10 stacks)",
+    "effect": "When applying any control status, additionally reduces the controlled target's 21% Attack. (This effect lasts for 10 seconds)",
     "last_updated": 1771647811
   },
   {
-    "name": "Bounty Hunter",
-    "class": "Archer",
+    "name": "Templar",
+    "class": "Guardian",
+    "tier": 3,
+    "bonuses": [
+      "PDEF +16%",
+      "MDEF +16%"
+    ],
+    "effect": "After accumulating damage equal to 70% of max HP, immediately gains 2 [Defense Stat Buff].",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Vanguard Warrior",
+    "class": "Guardian",
     "tier": 3,
     "bonuses": [
       "HP +8%",
       "MDEF +16%"
     ],
-    "effect": "Gains [Frenzy], increasing Attack Speed by 160% but consumes 2% of max HP per second and inflicts [Silence] on self. (This effect triggers once every 30 seconds, lasting for 10 seconds each time)",
+    "effect": "When there are no allied melee Luminaries nearby, Physical and Magic Defense increases by 20%.",
     "last_updated": 1771647811
   },
   {
-    "name": "Light Ranger",
-    "class": "Archer",
+    "name": "Acolyte",
+    "class": "Priest",
+    "tier": 1,
+    "bonuses": [
+      "HP +6%"
+    ],
+    "effect": "At the start of battle, gain 1 Overdrive Point and increase Max HP by 2%. ([Energy Recovery Subclass] effects do not stack if carried by multiple Luminaries)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Believer",
+    "class": "Priest",
+    "tier": 1,
+    "bonuses": [
+      "MDEF +9%"
+    ],
+    "effect": "Reduces enemy Overdrive Point Recovery Speed by 0.12 point(s)/s. ([Energy Reduction Subclass] effects do not stack if carried by multiple Luminaries)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Medic",
+    "class": "Priest",
+    "tier": 1,
+    "bonuses": [
+      "PDEF +9%"
+    ],
+    "effect": "Increases Healing effects by 15.5%.",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Cleric",
+    "class": "Priest",
+    "tier": 2,
+    "bonuses": [
+      "PDEF +16.5%"
+    ],
+    "effect": "When healing a target below 50% HP, generate an shield equal to 11% of your max HP for 4 seconds. (6-second cooldown per target)",
+    "last_updated": 1771708314
+  },
+  {
+    "name": "Fanatic",
+    "class": "Priest",
+    "tier": 2,
+    "bonuses": [
+      "ATK +11%"
+    ],
+    "effect": "At the start of battle, reduces enemy Overdrive Point Recovery Speed by 0.16 point(s)/s. ([Energy Reduction Subclass] effects do not stack if carried by multiple Luminaries)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Friar",
+    "class": "Priest",
+    "tier": 2,
+    "bonuses": [
+      "HP +11%"
+    ],
+    "effect": "Increases allied Overdrive Point Recovery Speed by 0.14 point(s)/s. ([Energy Recovery Subclass] effects do not stack if carried by multiple Luminaries)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Hermit",
+    "class": "Priest",
+    "tier": 2,
+    "bonuses": [
+      "MDEF +16.5%"
+    ],
+    "effect": "Heals the Luminary ally with lowest HP, restoring 3% of their max HP per second. (Triggers every 10s and lasts 3s)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Preacher",
+    "class": "Priest",
+    "tier": 2,
+    "bonuses": [
+      "HP +11%"
+    ],
+    "effect": "When Overdrive is activated, boost Critical Hit by 300 for all frontline Luminary allies. (6 second duration)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Bishop",
+    "class": "Priest",
     "tier": 3,
     "bonuses": [
       "ATK +8%",
+      "Healing +8%"
+    ],
+    "effect": "Heals all allied Luminaries with Buffs every second, restoring 1% of their Max HP. For each Buff the target has, this healing is increased by 25%. (Up to 100%)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Divine Officer",
+    "class": "Priest",
+    "tier": 3,
+    "bonuses": [
+      "HP +8%",
+      "MDEF +16%"
+    ],
+    "effect": "When Healing an allied unit, randomly grant an additional [Stat Buff]. (Max 1 trigger per target every 12s)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Executor",
+    "class": "Priest",
+    "tier": 3,
+    "bonuses": [
+      "ATK +8%",
+      "HP +8%"
+    ],
+    "effect": "At the start of battle, reduces enemy Overdrive Point Recovery Speed by 0.35 point(s)/s. ([Energy Reduction Subclass] effects do not stack if carried by multiple Luminaries)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "High Priest",
+    "class": "Priest",
+    "tier": 3,
+    "bonuses": [
+      "HP +8%",
       "PDEF +16%"
     ],
-    "effect": "When landing a Critical Hit, fire a light arrow at the target dealing 80% of ST's Attack as Damage. (Effect triggers once per 0.3s)",
+    "effect": "Gain 1 Overdrive Point every 9.5s. (At the start of battle, gain 1 Overdrive Point) ([Energy Recovery Subclass] effects do not stack if carried by multiple Luminaries)",
     "last_updated": 1771647811
   },
   {
-    "name": "Sharpshooter",
-    "class": "Archer",
+    "name": "Inquisitor",
+    "class": "Priest",
     "tier": 3,
     "bonuses": [
       "ATK +8%",
-      "Attack Speed +16%"
+      "HP +8%"
     ],
-    "effect": "After performing 5 Basic Attacks, its next Basic Attack increases Critical Hit by 1500 and Critical Damage by 90%.",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Sniper",
-    "class": "Archer",
-    "tier": 3,
-    "bonuses": [
-      "HP +8%",
-      "MDEF +16%"
-    ],
-    "effect": "When there are no enemy units nearby, gains a random [Attack Stat Buff] every 10 seconds.",
+    "effect": "Inflict random [Stat Debuff] with each Damage dealt to enemy units. (Effect can trigger on each target once every 12 seconds)",
     "last_updated": 1771647811
   },
   {
@@ -230,119 +366,232 @@
     "last_updated": 1771647811
   },
   {
-    "name": "Royal Guard",
-    "class": "Guardian",
-    "tier": 1,
-    "bonuses": [
-      "PDEF +6%",
-      "MDEF +6%"
-    ],
-    "effect": "When HP first falls below 30%, restores HP equal to 15% of own dual defenses per second. (This effect lasts for 8 seconds)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Shield Guard",
-    "class": "Guardian",
+    "name": "Fighter",
+    "class": "Warrior",
     "tier": 1,
     "bonuses": [
       "HP +6%"
     ],
-    "effect": "In battle, increases Physical Defense and Magic Defense by 7%.",
+    "effect": "When HP drops below 60%, gains 9% Lifesteal.",
     "last_updated": 1771647811
   },
   {
-    "name": "Centurion",
-    "class": "Guardian",
+    "name": "Swordsman",
+    "class": "Warrior",
+    "tier": 1,
+    "bonuses": [
+      "ATK +6%"
+    ],
+    "effect": "When dealing damage, ignores 10% of target's defenses. (Can stack up to 40%)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Arcane Duelist",
+    "class": "Warrior",
     "tier": 2,
     "bonuses": [
-      "MDEF +16.5%"
+      "ATK +11%"
     ],
-    "effect": "For each Buff Status on self, increases own dual defense by 8%. (Up to 32% dual defense increase)",
+    "effect": "Increases Attack by 8% per buff. (Up to 32%)",
     "last_updated": 1771647811
   },
   {
-    "name": "Martyr",
-    "class": "Guardian",
+    "name": "Champion",
+    "class": "Warrior",
+    "tier": 2,
+    "bonuses": [
+      "ATK +11%"
+    ],
+    "effect": "When dealing Damage, inflicts an Additional Attack equal to 26% of Attack as [Adaptive Damage].",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Gladiator",
+    "class": "Warrior",
     "tier": 2,
     "bonuses": [
       "HP +11%"
     ],
-    "effect": "When receiving fatal damage, reduces the Attack of all enemies by 10%, and applies an additional [Attack Stat Debuff] to the damage source. (The Full Attack Reduction effect lasts for 8 seconds)",
+    "effect": "When attacking, reduce target's Defense and Special Defense by 9%. (If other Luminaries have this equipped, it does not stack) (Doesn't stack with Sword Master)",
     "last_updated": 1771647811
   },
   {
-    "name": "Standard Bearer",
-    "class": "Guardian",
+    "name": "Knight",
+    "class": "Warrior",
     "tier": 2,
     "bonuses": [
       "HP +11%"
     ],
-    "effect": "In battle, increases own and nearby allies' dual defenses by 8.4%. (This effect cannot stack if carried by multiple Luminaries)",
+    "effect": "After taking cumulative damage equal to 50% of max HP, immediately gains a random [Attack Stat Buff].",
     "last_updated": 1771647811
   },
   {
-    "name": "Veteran",
-    "class": "Guardian",
-    "tier": 2,
-    "bonuses": [
-      "PDEF +16.5%"
-    ],
-    "effect": "When applying any control Status, there is a 32% chance to increase self 300 Critical Resistance and gain 1 random [Defense Stat Buff]. (The Critical Resistance increase effect lasts for 3 seconds)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Avenger",
-    "class": "Guardian",
-    "tier": 3,
-    "bonuses": [
-      "ATK +8%",
-      "HP +8%"
-    ],
-    "effect": "When dealing Damage, additionally inflicts [Adaptive Damage] equal to 4.5% of the bearer's Max HP. (The bearer's Physical and Magical Defense, as well as Damage Reduction, are reduced by 10% in battle) (DoT damage cannot trigger this effect)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Guardian",
-    "class": "Guardian",
+    "name": "Berserker",
+    "class": "Warrior",
     "tier": 3,
     "bonuses": [
       "HP +8%",
-      "Damage Reduction +8%"
+      "PDEF +16%"
     ],
-    "effect": "When the HP of an Other Luminary first falls below 20%, immediately consumes 20% of current HP to grant it a Shield equal to 28% of self's max HP for 8 seconds. (This effect can trigger up to 3 times per battle)",
+    "effect": "When dealing damage, additionally inflicts [Adaptive Damage] equal to 3.6% of self maximum HP. (DoT effects cannot trigger this effect)",
     "last_updated": 1771647811
   },
   {
-    "name": "Lionheart Knight",
-    "class": "Guardian",
+    "name": "Crusader",
+    "class": "Warrior",
+    "tier": 3,
+    "bonuses": [
+      "ATK +10%"
+    ],
+    "effect": "When dealing damage, ignores 10% of target's defenses. (Can stack up to 40%)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Lord",
+    "class": "Warrior",
     "tier": 3,
     "bonuses": [
       "ATK +8%",
-      "PDEF +16%"
+      "MDEF +16%"
     ],
-    "effect": "When applying any control status, additionally reduces the controlled target's 21% Attack. (This effect lasts for 10 seconds)",
+    "effect": "Gain 30% Overdrive Damage for each buff when using Overdrive. All buffs consumed after using Overdrive. (Max boost: 120% Overdrive Damage)",
     "last_updated": 1771647811
   },
   {
-    "name": "Templar",
-    "class": "Guardian",
+    "name": "Sword Master",
+    "class": "Warrior",
     "tier": 3,
     "bonuses": [
       "PDEF +16%",
       "MDEF +16%"
     ],
-    "effect": "After accumulating damage equal to 70% of max HP, immediately gains 2 [Defense Stat Buff].",
+    "effect": "Each Basic Attack or skill reduces target's Defense and Resistance by 1.8% (Max reduction: 18%). (Effect clears when switching targets) (Cannot stack with Gladiator)",
     "last_updated": 1771647811
   },
   {
-    "name": "Vanguard Warrior",
-    "class": "Guardian",
+    "name": "Vanguard",
+    "class": "Warrior",
+    "tier": 3,
+    "bonuses": [
+      "PDEF +16%",
+      "MDEF +16%"
+    ],
+    "effect": "For each enemy Luminary damaged, increases Physical and Magic Defense by 6% (up to 30%).",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Arrowslinger",
+    "class": "Archer",
+    "tier": 1,
+    "bonuses": [
+      "ATK +6%"
+    ],
+    "effect": "After every 5 Basic Attacks or skills, deal additional Damage equal to 75% of own Attack to the current target.",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Tracker",
+    "class": "Archer",
+    "tier": 1,
+    "bonuses": [
+      "HP +6%"
+    ],
+    "effect": "Each time you land a Critical Hit, your Attack increases by 1.4%. (Stacks 15 times) (Loses 1 stack if no Critical Hit within 3 seconds)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Guerrilla",
+    "class": "Archer",
+    "tier": 2,
+    "bonuses": [
+      "HP +11%"
+    ],
+    "effect": "Upon landing a Basic Attack, deal additional Physical Damage equal to 10.4% of the target's current HP.",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Hunter",
+    "class": "Archer",
+    "tier": 2,
+    "bonuses": [
+      "ATK +11%"
+    ],
+    "effect": "Each time you deal damage, your Attack increases by 0.8%. (Stacks up to 20 times)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Ranger",
+    "class": "Archer",
+    "tier": 2,
+    "bonuses": [
+      "HP +11%"
+    ],
+    "effect": "For every 15 Critical Hits landed, boost your Attack by 20% and inflict random [Defense State Debuff] on your current target. (Attack boost lasts 3 seconds)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Scout",
+    "class": "Archer",
+    "tier": 2,
+    "bonuses": [
+      "ATK +11%"
+    ],
+    "effect": "During combat, increases your Attack Speed by 65%. (ST takes 30% less Basic Attack Damage)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Bloodhunter",
+    "class": "Archer",
+    "tier": 3,
+    "bonuses": [
+      "ATK +8%",
+      "PDEF +16%"
+    ],
+    "effect": "Each Buff Status gained, Attack is increases by 3%. (Max 10 stacks)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Bounty Hunter",
+    "class": "Archer",
     "tier": 3,
     "bonuses": [
       "HP +8%",
       "MDEF +16%"
     ],
-    "effect": "When there are no allied melee Luminaries nearby, Physical and Magic Defense increases by 20%.",
+    "effect": "Gains [Frenzy], increasing Attack Speed by 160% but consumes 2% of max HP per second and inflicts [Silence] on self. (This effect triggers once every 30 seconds, lasting for 10 seconds each time)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Light Ranger",
+    "class": "Archer",
+    "tier": 3,
+    "bonuses": [
+      "ATK +8%",
+      "PDEF +16%"
+    ],
+    "effect": "When landing a Critical Hit, fire a light arrow at the target dealing 80% of ST's Attack as Damage. (Effect triggers once per 0.3s)",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Sharpshooter",
+    "class": "Archer",
+    "tier": 3,
+    "bonuses": [
+      "ATK +8%",
+      "Attack Speed +16%"
+    ],
+    "effect": "After performing 5 Basic Attacks, its next Basic Attack increases Critical Hit by 1500 and Critical Damage by 90%.",
+    "last_updated": 1771647811
+  },
+  {
+    "name": "Sniper",
+    "class": "Archer",
+    "tier": 3,
+    "bonuses": [
+      "HP +8%",
+      "MDEF +16%"
+    ],
+    "effect": "When there are no enemy units nearby, gains a random [Attack Stat Buff] every 10 seconds.",
     "last_updated": 1771647811
   },
   {
@@ -468,245 +717,6 @@
       "PDEF +16%"
     ],
     "effect": "For each buff on self, damage increases by 8%. (Up to a 32% damage increase)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Acolyte",
-    "class": "Priest",
-    "tier": 1,
-    "bonuses": [
-      "HP +6%"
-    ],
-    "effect": "At the start of battle, gain 1 Overdrive Point and increase Max HP by 2%. ([Energy Recovery Subclass] effects do not stack if carried by multiple Luminaries)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Believer",
-    "class": "Priest",
-    "tier": 1,
-    "bonuses": [
-      "MDEF +9%"
-    ],
-    "effect": "Reduces enemy Overdrive Point Recovery Speed by 0.12 point(s)/s. ([Energy Reduction Subclass] effects do not stack if carried by multiple Luminaries)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Medic",
-    "class": "Priest",
-    "tier": 1,
-    "bonuses": [
-      "PDEF +9%"
-    ],
-    "effect": "Increases Healing effects by 15.5%.",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Fanatic",
-    "class": "Priest",
-    "tier": 2,
-    "bonuses": [
-      "ATK +11%"
-    ],
-    "effect": "At the start of battle, reduces enemy Overdrive Point Recovery Speed by 0.16 point(s)/s. ([Energy Reduction Subclass] effects do not stack if carried by multiple Luminaries)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Friar",
-    "class": "Priest",
-    "tier": 2,
-    "bonuses": [
-      "HP +11%"
-    ],
-    "effect": "Increases allied Overdrive Point Recovery Speed by 0.14 point(s)/s. ([Energy Recovery Subclass] effects do not stack if carried by multiple Luminaries)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Hermit",
-    "class": "Priest",
-    "tier": 2,
-    "bonuses": [
-      "MDEF +16.5%"
-    ],
-    "effect": "Heals the Luminary ally with lowest HP, restoring 3% of their max HP per second. (Triggers every 10s and lasts 3s)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Preacher",
-    "class": "Priest",
-    "tier": 2,
-    "bonuses": [
-      "HP +11%"
-    ],
-    "effect": "When Overdrive is activated, boost Critical Hit by 300 for all frontline Luminary allies. (6 second duration)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Bishop",
-    "class": "Priest",
-    "tier": 3,
-    "bonuses": [
-      "ATK +8%",
-      "Healing +8%"
-    ],
-    "effect": "Heals all allied Luminaries with Buffs every second, restoring 1% of their Max HP. For each Buff the target has, this healing is increased by 25%. (Up to 100%)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Divine Officer",
-    "class": "Priest",
-    "tier": 3,
-    "bonuses": [
-      "HP +8%",
-      "MDEF +16%"
-    ],
-    "effect": "When Healing an allied unit, randomly grant an additional [Stat Buff]. (Max 1 trigger per target every 12s)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Executor",
-    "class": "Priest",
-    "tier": 3,
-    "bonuses": [
-      "ATK +8%",
-      "HP +8%"
-    ],
-    "effect": "At the start of battle, reduces enemy Overdrive Point Recovery Speed by 0.35 point(s)/s. ([Energy Reduction Subclass] effects do not stack if carried by multiple Luminaries)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "High Priest",
-    "class": "Priest",
-    "tier": 3,
-    "bonuses": [
-      "HP +8%",
-      "PDEF +16%"
-    ],
-    "effect": "Gain 1 Overdrive Point every 9.5s. (At the start of battle, gain 1 Overdrive Point) ([Energy Recovery Subclass] effects do not stack if carried by multiple Luminaries)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Inquisitor",
-    "class": "Priest",
-    "tier": 3,
-    "bonuses": [
-      "ATK +8%",
-      "HP +8%"
-    ],
-    "effect": "Inflict random [Stat Debuff] with each Damage dealt to enemy units. (Effect can trigger on each target once every 12 seconds)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Fighter",
-    "class": "Warrior",
-    "tier": 1,
-    "bonuses": [
-      "HP +6%"
-    ],
-    "effect": "When HP drops below 60%, gains 9% Lifesteal.",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Swordsman",
-    "class": "Warrior",
-    "tier": 1,
-    "bonuses": [
-      "ATK +6%"
-    ],
-    "effect": "When dealing damage, ignores 10% of target's defenses. (Can stack up to 40%)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Arcane Duelist",
-    "class": "Warrior",
-    "tier": 2,
-    "bonuses": [
-      "ATK +11%"
-    ],
-    "effect": "Increases Attack by 8% per buff. (Up to 32%)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Champion",
-    "class": "Warrior",
-    "tier": 2,
-    "bonuses": [
-      "ATK +11%"
-    ],
-    "effect": "When dealing Damage, inflicts an Additional Attack equal to 26% of Attack as [Adaptive Damage].",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Gladiator",
-    "class": "Warrior",
-    "tier": 2,
-    "bonuses": [
-      "HP +11%"
-    ],
-    "effect": "When attacking, reduce target's Defense and Special Defense by 9%. (If other Luminaries have this equipped, it does not stack) (Doesn't stack with Sword Master)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Knight",
-    "class": "Warrior",
-    "tier": 2,
-    "bonuses": [
-      "HP +11%"
-    ],
-    "effect": "After taking cumulative damage equal to 50% of max HP, immediately gains a random [Attack Stat Buff].",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Berserker",
-    "class": "Warrior",
-    "tier": 3,
-    "bonuses": [
-      "HP +8%",
-      "PDEF +16%"
-    ],
-    "effect": "When dealing damage, additionally inflicts [Adaptive Damage] equal to 3.6% of self maximum HP. (DoT effects cannot trigger this effect)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Crusader",
-    "class": "Warrior",
-    "tier": 3,
-    "bonuses": [
-      "ATK +10%"
-    ],
-    "effect": "When dealing damage, ignores 10% of target's defenses. (Can stack up to 40%)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Lord",
-    "class": "Warrior",
-    "tier": 3,
-    "bonuses": [
-      "ATK +8%",
-      "MDEF +16%"
-    ],
-    "effect": "Gain 30% Overdrive Damage for each buff when using Overdrive. All buffs consumed after using Overdrive. (Max boost: 120% Overdrive Damage)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Sword Master",
-    "class": "Warrior",
-    "tier": 3,
-    "bonuses": [
-      "PDEF +16%",
-      "MDEF +16%"
-    ],
-    "effect": "Each Basic Attack or skill reduces target's Defense and Resistance by 1.8% (Max reduction: 18%). (Effect clears when switching targets) (Cannot stack with Gladiator)",
-    "last_updated": 1771647811
-  },
-  {
-    "name": "Vanguard",
-    "class": "Warrior",
-    "tier": 3,
-    "bonuses": [
-      "PDEF +16%",
-      "MDEF +16%"
-    ],
-    "effect": "For each enemy Luminary damaged, increases Physical and Magic Defense by 6% (up to 30%).",
     "last_updated": 1771647811
   }
 ]

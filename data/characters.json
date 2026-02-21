@@ -4,7 +4,10 @@
     "title": "Goddess of Wisdom",
     "quality": "SSR EX",
     "character_class": "Guardian",
-    "factions": ["Otherworld Return", "Elemental Echo"],
+    "factions": [
+      "Otherworld Return",
+      "Elemental Echo"
+    ],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -81,16 +84,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Valiant Helmet",
+      "chestplate": "Valiant Armor",
+      "bracers": "Valiant Vambraces",
+      "boots": "Valiant Boots",
+      "weapon": "Typhon's Wrath",
+      "accessory": "Spirit Turtle Talisman"
+    },
+    "recommended_subclasses": [
+      "Vanguard Warrior",
+      "Lionheart Knight"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Prometheus",
     "title": "The Goddess Who Stole Fire",
     "quality": "SSR EX",
     "character_class": "Guardian",
-    "factions": ["Elemental Echo", "Illusion Veil"],
+    "factions": [
+      "Elemental Echo",
+      "Illusion Veil"
+    ],
     "is_global": false,
     "subclasses": [
       "Royal Guard",
@@ -167,16 +183,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Templar",
+      "Lionheart Knight"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Anubis",
     "title": "Judge of the Underworld",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": ["Sanctum Glory", "Arcane Wisdom"],
+    "factions": [
+      "Sanctum Glory",
+      "Arcane Wisdom"
+    ],
     "is_global": true,
     "subclasses": [
       "Royal Guard",
@@ -248,17 +277,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "noble_phantasm": "Death Headband",
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
+    "recommended_subclasses": [
+      "Guardian"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Caesar",
     "title": "The Triumphant Princess",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": ["Otherworld Return", "Wild Spirit"],
+    "factions": [
+      "Otherworld Return",
+      "Wild Spirit"
+    ],
     "is_global": false,
     "subclasses": [
       "Shield Guard",
@@ -331,16 +372,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Quenched Helmet",
+      "chestplate": "Quenched Armor",
+      "bracers": "Quenched Gauntlets",
+      "boots": "Quenched Boots",
+      "weapon": "Curseblade",
+      "accessory": "Thorns of Rejection"
+    },
+    "recommended_subclasses": [
+      "Templar"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Duvalin",
     "title": "Forged Dragon Princess",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": ["Arcane Wisdom", "Elemental Echo"],
+    "factions": [
+      "Arcane Wisdom",
+      "Elemental Echo"
+    ],
     "is_global": false,
     "subclasses": [
       "Royal Guard",
@@ -412,17 +465,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "noble_phantasm": "Dragon's Breath Greatsword",
+    "recommended_gear": {
+      "headgear": "Valiant Helmet",
+      "chestplate": "Valiant Armor",
+      "bracers": "Valiant Vambraces",
+      "boots": "Valiant Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Templar"
+    ],
+    "last_updated": 1771708348
   },
   {
     "name": "Helveil",
     "title": "Fallen Warborn Goddess",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": ["Sanctum Glory", "Otherworld Return"],
+    "factions": [
+      "Sanctum Glory",
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -495,16 +560,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
+    "recommended_subclasses": [
+      "Templar"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Pompey",
     "title": "Ironclad Commander",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": ["Illusion Veil", "Wild Spirit"],
+    "factions": [
+      "Illusion Veil",
+      "Wild Spirit"
+    ],
     "is_global": false,
     "subclasses": [
       "Shield Guard",
@@ -576,17 +653,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "noble_phantasm": "Judgment Axe",
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Templar"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Salome",
     "title": "Seven-Veil Dancer",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": ["Arcane Wisdom", "Sanctum Glory"],
+    "factions": [
+      "Arcane Wisdom",
+      "Sanctum Glory"
+    ],
     "is_global": false,
     "subclasses": [
       "Shield Guard",
@@ -659,16 +748,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
+    "recommended_subclasses": [
+      "Templar",
+      "Guardian"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Drasill",
     "title": "Ancient Tree Guardian",
     "quality": "SSR",
     "character_class": "Guardian",
-    "factions": ["Elemental Echo", "Illusion Veil"],
+    "factions": [
+      "Elemental Echo",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -735,16 +837,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
+    "recommended_subclasses": [
+      "Guardian"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Goren",
     "title": "Ancient Golem",
     "quality": "SSR",
     "character_class": "Guardian",
-    "factions": ["Otherworld Return", "Arcane Wisdom"],
+    "factions": [
+      "Otherworld Return",
+      "Arcane Wisdom"
+    ],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -811,16 +925,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
+    "recommended_subclasses": [
+      "Lionheart Knight"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Gudong",
     "title": "Slime King",
     "quality": "SSR",
     "character_class": "Guardian",
-    "factions": ["Sanctum Glory", "Wild Spirit"],
+    "factions": [
+      "Sanctum Glory",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Royal Guard",
@@ -887,16 +1013,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
+    "recommended_subclasses": [
+      "Martyr"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Herman",
     "title": "King of Beasts",
     "quality": "SSR",
     "character_class": "Guardian",
-    "factions": ["Illusion Veil", "Wild Spirit"],
+    "factions": [
+      "Illusion Veil",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Royal Guard",
@@ -963,16 +1101,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Bloodseeker Sword",
+      "accessory": "Blessing of the Sacred Tree"
+    },
+    "recommended_subclasses": [
+      "Templar"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Oberonnie",
     "title": "Midsummer Night's Dreamer",
     "quality": "SSR",
     "character_class": "Guardian",
-    "factions": ["Arcane Wisdom", "Elemental Echo"],
+    "factions": [
+      "Arcane Wisdom",
+      "Elemental Echo"
+    ],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -1039,16 +1189,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
+    "recommended_subclasses": [
+      "Guardian"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Eurytion",
     "title": "Wild Outlaw",
     "quality": "SR",
     "character_class": "Guardian",
-    "factions": ["Elemental Echo", "Otherworld Return"],
+    "factions": [
+      "Elemental Echo",
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -1104,16 +1266,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Dwarf Warrior",
     "title": "",
     "quality": "R",
     "character_class": "Guardian",
-    "factions": ["Elemental Echo", "Otherworld Return"],
+    "factions": [
+      "Elemental Echo",
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -1159,16 +1331,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "last_updated": 1771706373
   },
   {
     "name": "Mummy",
     "title": "",
     "quality": "R",
     "character_class": "Guardian",
-    "factions": ["Sanctum Glory", "Illusion Veil"],
+    "factions": [
+      "Sanctum Glory",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Royal Guard",
@@ -1214,16 +1396,25 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Rock Slime",
     "title": "",
     "quality": "N",
     "character_class": "Guardian",
-    "factions": ["Elemental Echo"],
+    "factions": [
+      "Elemental Echo"
+    ],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -1249,16 +1440,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Hela",
     "title": "Goddess of Death",
     "quality": "SSR EX",
     "character_class": "Priest",
-    "factions": ["Otherworld Return", "Sanctum Glory"],
+    "factions": [
+      "Otherworld Return",
+      "Sanctum Glory"
+    ],
     "is_global": false,
     "subclasses": [
       "Medic",
@@ -1335,16 +1536,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "High Priest"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Venus",
     "title": "Deity of Love",
     "quality": "SSR EX",
     "character_class": "Priest",
-    "factions": ["Elemental Echo", "Arcane Wisdom"],
+    "factions": [
+      "Elemental Echo",
+      "Arcane Wisdom"
+    ],
     "is_global": false,
     "subclasses": [
       "Acolyte",
@@ -1421,16 +1634,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "High Priest"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Morgana",
     "title": "The Star Witch",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": ["Arcane Wisdom", "Wild Spirit"],
+    "factions": [
+      "Arcane Wisdom",
+      "Wild Spirit"
+    ],
     "is_global": false,
     "subclasses": [
       "Acolyte",
@@ -1502,17 +1727,30 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "noble_phantasm": "Lake Maiden's Holy Sword",
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Executor",
+      "Inquisitor"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Ophelia",
     "title": "Holyblade Bishop",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": ["Otherworld Return", "Wild Spirit"],
+    "factions": [
+      "Otherworld Return",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Believer",
@@ -1585,16 +1823,30 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Pious Biretta",
+      "chestplate": "Pious Robe",
+      "bracers": "Pious Gloves",
+      "boots": "Pious Boots",
+      "weapon": "Mana's Tide",
+      "accessory": "Mana's Tear"
+    },
+    "recommended_subclasses": [
+      "Executor",
+      "Inquisitor",
+      "Divine Officer"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Scheherazade",
     "title": "Wishing Genie",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": ["Illusion Veil", "Otherworld Return"],
+    "factions": [
+      "Illusion Veil",
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [
       "Acolyte",
@@ -1667,16 +1919,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "High Priest",
+      "Executor"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Silbismo",
     "title": "The Fellowship of the Ring",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": ["Sanctum Glory", "Elemental Echo"],
+    "factions": [
+      "Sanctum Glory",
+      "Elemental Echo"
+    ],
     "is_global": false,
     "subclasses": [
       "Medic",
@@ -1749,16 +2014,30 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Executor",
+      "Inquisitor",
+      "Divine Officer"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Titania",
     "title": "Fairy Queen",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": ["Elemental Echo", "Arcane Wisdom"],
+    "factions": [
+      "Elemental Echo",
+      "Arcane Wisdom"
+    ],
     "is_global": true,
     "subclasses": [
       "Medic",
@@ -1830,17 +2109,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "noble_phantasm": "Love Elixir",
+    "recommended_gear": {
+      "headgear": "Pious Biretta",
+      "chestplate": "Pious Robe",
+      "bracers": "Pious Gloves",
+      "boots": "Pious Boots",
+      "weapon": "Mana's Tide",
+      "accessory": "Mana's Tear"
+    },
+    "recommended_subclasses": [
+      "Divine Officer"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Vivienne",
     "title": "Lady of the Lake",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": ["Arcane Wisdom", "Otherworld Return"],
+    "factions": [
+      "Arcane Wisdom",
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [
       "Medic",
@@ -1913,16 +2204,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Ship Slayer",
+      "accessory": "Dragonblood Seal"
+    },
+    "recommended_subclasses": [
+      "High Priest",
+      "Divine Officer"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Atanith",
     "title": "Arcane Lord",
     "quality": "SSR",
     "character_class": "Priest",
-    "factions": ["Wild Spirit", "Illusion Veil"],
+    "factions": [
+      "Wild Spirit",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Believer",
@@ -1995,16 +2299,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "High Priest",
+      "Executor"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Caligula",
     "title": "Irongut Tyrant",
     "quality": "SSR",
     "character_class": "Priest",
-    "factions": ["Elemental Echo", "Sanctum Glory"],
+    "factions": [
+      "Elemental Echo",
+      "Sanctum Glory"
+    ],
     "is_global": true,
     "subclasses": [
       "Medic",
@@ -2077,16 +2394,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "High Priest",
+      "Inquisitor"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Chiron",
     "title": "Hero Mentor",
     "quality": "SSR",
     "character_class": "Priest",
-    "factions": ["Otherworld Return", "Elemental Echo"],
+    "factions": [
+      "Otherworld Return",
+      "Elemental Echo"
+    ],
     "is_global": true,
     "subclasses": [
       "Acolyte",
@@ -2159,18 +2489,37 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Pious Biretta",
+      "chestplate": "Pious Robe",
+      "bracers": "Pious Gloves",
+      "boots": "Pious Boots",
+      "weapon": "Mana's Tide",
+      "accessory": "Mana's Tear"
+    },
+    "recommended_subclasses": [
+      "Executor",
+      "Inquisitor"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Flora",
     "title": "Spring Flower Spirit",
     "quality": "SR",
     "character_class": "Priest",
-    "factions": ["Elemental Echo", "Otherworld Return"],
+    "factions": [
+      "Elemental Echo",
+      "Otherworld Return"
+    ],
     "is_global": true,
-    "subclasses": ["Medic", "Cleric", "Preacher", "Bishop", "Divine Officer"],
+    "subclasses": [
+      "Medic",
+      "Cleric",
+      "Preacher",
+      "Bishop",
+      "Divine Officer"
+    ],
     "height": "?cm",
     "weight": "?kg",
     "origin": "European Folklore",
@@ -2218,16 +2567,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Pious Biretta",
+      "chestplate": "Pious Robe",
+      "bracers": "Pious Gloves",
+      "boots": "Pious Boots",
+      "weapon": "Mana's Tide",
+      "accessory": "Mana's Tear"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Siren",
     "title": "Wandering Songstress",
     "quality": "SR",
     "character_class": "Priest",
-    "factions": ["Illusion Veil", "Arcane Wisdom"],
+    "factions": [
+      "Illusion Veil",
+      "Arcane Wisdom"
+    ],
     "is_global": true,
     "subclasses": [
       "Acolyte",
@@ -2283,18 +2642,37 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Pious Biretta",
+      "chestplate": "Pious Robe",
+      "bracers": "Pious Gloves",
+      "boots": "Pious Boots",
+      "weapon": "Mana's Tide",
+      "accessory": "Mana's Tear"
+    },
+    "recommended_subclasses": [
+      "High Priest",
+      "Divine Officer"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Goblin War Drummer",
     "title": "",
     "quality": "R",
     "character_class": "Priest",
-    "factions": ["Elemental Echo", "Otherworld Return"],
+    "factions": [
+      "Elemental Echo",
+      "Otherworld Return"
+    ],
     "is_global": true,
-    "subclasses": ["Acolyte", "Friar", "Fanatic", "Bishop", "Divine Officer"],
+    "subclasses": [
+      "Acolyte",
+      "Friar",
+      "Fanatic",
+      "Bishop",
+      "Divine Officer"
+    ],
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy",
@@ -2332,18 +2710,36 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Divine Officer"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Viel",
     "title": "Guide Fairy",
     "quality": "R",
     "character_class": "Priest",
-    "factions": ["Arcane Wisdom", "Wild Spirit"],
+    "factions": [
+      "Arcane Wisdom",
+      "Wild Spirit"
+    ],
     "is_global": true,
-    "subclasses": ["Medic", "Friar", "Cleric", "High Priest", "Executor"],
+    "subclasses": [
+      "Medic",
+      "Friar",
+      "Cleric",
+      "High Priest",
+      "Executor"
+    ],
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy",
@@ -2391,16 +2787,25 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Pious Biretta",
+      "chestplate": "Pious Robe",
+      "bracers": "Pious Gloves",
+      "boots": "Pious Boots",
+      "weapon": "Mana's Tide",
+      "accessory": "Mana's Tear"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Breeze Slime",
     "title": "",
     "quality": "N",
     "character_class": "Priest",
-    "factions": ["Otherworld Return"],
+    "factions": [
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -2426,16 +2831,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Pious Biretta",
+      "chestplate": "Pious Robe",
+      "bracers": "Pious Gloves",
+      "boots": "Pious Boots",
+      "weapon": "Mana's Tide",
+      "accessory": "Mana's Tear"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Hades",
     "title": "Queen of the Underworld",
     "quality": "SSR EX",
     "character_class": "Assassin",
-    "factions": ["Illusion Veil", "Sanctum Glory"],
+    "factions": [
+      "Illusion Veil",
+      "Sanctum Glory"
+    ],
     "is_global": true,
     "subclasses": [
       "Thief",
@@ -2511,17 +2926,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "noble_phantasm": "The Sighing Spear",
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Ship Slayer",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Executioner"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Jormungandr",
     "title": "World Serpent",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": ["Otherworld Return", "Wild Spirit"],
+    "factions": [
+      "Otherworld Return",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Thief",
@@ -2593,17 +3020,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "noble_phantasm": "Ring of Demon Blade",
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Executioner"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Mordred",
     "title": "Death Knight",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": ["Sanctum Glory", "Arcane Wisdom"],
+    "factions": [
+      "Sanctum Glory",
+      "Arcane Wisdom"
+    ],
     "is_global": true,
     "subclasses": [
       "Rogue",
@@ -2676,16 +3115,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Executioner"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Pan Junbao",
     "title": "Taichi Master",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": ["Elemental Echo", "Wild Spirit"],
+    "factions": [
+      "Elemental Echo",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Thief",
@@ -2752,16 +3203,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Forest Bandit"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Rin",
     "title": "The Peerless Swordsman",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": ["Otherworld Return", "Sanctum Glory"],
+    "factions": [
+      "Otherworld Return",
+      "Sanctum Glory"
+    ],
     "is_global": false,
     "subclasses": [
       "Thief",
@@ -2834,16 +3297,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Invincible Meow-Meow Fist",
+      "accessory": "Blessing of the Sacred Tree"
+    },
+    "recommended_subclasses": [
+      "Outlaw"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "White Tiger",
     "title": "Four Saints",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": ["Elemental Echo", "Sanctum Glory"],
+    "factions": [
+      "Elemental Echo",
+      "Sanctum Glory"
+    ],
     "is_global": true,
     "subclasses": [
       "Rogue",
@@ -2915,17 +3390,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "noble_phantasm": "Tiger Tally",
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Bloodseeker Sword",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Forest Bandit"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Zagrus",
     "title": "Princess of the Underworld",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": ["Arcane Wisdom", "Illusion Veil"],
+    "factions": [
+      "Arcane Wisdom",
+      "Illusion Veil"
+    ],
     "is_global": false,
     "subclasses": [
       "Rogue",
@@ -2998,16 +3485,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Silver Sword of Demon Hunting",
+      "accessory": "Wolf's Will"
+    },
+    "recommended_subclasses": [
+      "Outlaw",
+      "Forest Bandit"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Fenrir",
     "title": "Night Huntress",
     "quality": "SSR",
     "character_class": "Assassin",
-    "factions": ["Arcane Wisdom", "Illusion Veil"],
+    "factions": [
+      "Arcane Wisdom",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Thief",
@@ -3080,16 +3580,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Executioner"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Lancelot",
     "title": "Knight of the Lake",
     "quality": "SSR",
     "character_class": "Assassin",
-    "factions": ["Otherworld Return", "Arcane Wisdom"],
+    "factions": [
+      "Otherworld Return",
+      "Arcane Wisdom"
+    ],
     "is_global": true,
     "subclasses": [
       "Thief",
@@ -3156,16 +3668,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Forest Bandit"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Nemesis",
     "title": "Goddess of Vengeance",
     "quality": "SSR",
     "character_class": "Assassin",
-    "factions": ["Illusion Veil", "Wild Spirit"],
+    "factions": [
+      "Illusion Veil",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Rogue",
@@ -3232,16 +3756,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Shadow Dancer"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Bladeheart",
     "title": "Shadow Ronin",
     "quality": "SR",
     "character_class": "Assassin",
-    "factions": ["Arcane Wisdom", "Sanctum Glory"],
+    "factions": [
+      "Arcane Wisdom",
+      "Sanctum Glory"
+    ],
     "is_global": true,
     "subclasses": [
       "Rogue",
@@ -3297,18 +3833,34 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "last_updated": 1771706373
   },
   {
     "name": "Boar Knight",
     "title": "",
     "quality": "R",
     "character_class": "Assassin",
-    "factions": ["Illusion Veil", "Elemental Echo"],
+    "factions": [
+      "Illusion Veil",
+      "Elemental Echo"
+    ],
     "is_global": true,
-    "subclasses": ["Rogue", "Marauder", "Spy", "Masked Thief", "Forest Bandit"],
+    "subclasses": [
+      "Rogue",
+      "Marauder",
+      "Spy",
+      "Masked Thief",
+      "Forest Bandit"
+    ],
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy",
@@ -3346,18 +3898,34 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Sword Dancer",
     "title": "",
     "quality": "R",
     "character_class": "Assassin",
-    "factions": ["Wild Spirit", "Sanctum Glory"],
+    "factions": [
+      "Wild Spirit",
+      "Sanctum Glory"
+    ],
     "is_global": true,
-    "subclasses": ["Thief", "Spy", "Scoundrel", "Forest Bandit", "Executioner"],
+    "subclasses": [
+      "Thief",
+      "Spy",
+      "Scoundrel",
+      "Forest Bandit",
+      "Executioner"
+    ],
     "height": "?cm",
     "weight": "?kg",
     "origin": "Eastern Mythology",
@@ -3395,16 +3963,25 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Shadow Slime",
     "title": "",
     "quality": "N",
     "character_class": "Assassin",
-    "factions": ["Sanctum Glory"],
+    "factions": [
+      "Sanctum Glory"
+    ],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -3430,16 +4007,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Ares",
     "title": "Goddess of War",
     "quality": "SSR EX",
     "character_class": "Warrior",
-    "factions": ["Wild Spirit", "Illusion Veil"],
+    "factions": [
+      "Wild Spirit",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -3516,16 +4103,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Mana's Tide",
+      "accessory": "Mana's Tear"
+    },
+    "recommended_subclasses": [
+      "Berserker",
+      "Vanguard"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Thor",
     "title": "Goddess of Thunder",
     "quality": "SSR EX",
     "character_class": "Warrior",
-    "factions": ["Arcane Wisdom", "Otherworld Return"],
+    "factions": [
+      "Arcane Wisdom",
+      "Otherworld Return"
+    ],
     "is_global": false,
     "subclasses": [
       "Swordsman",
@@ -3602,16 +4202,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Bloodseeker Sword",
+      "accessory": "Blessing of the Sacred Tree"
+    },
+    "recommended_subclasses": [
+      "Lord"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Andevaly",
     "title": "Wings of Judgment",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["Illusion Veil", "Wild Spirit"],
+    "factions": [
+      "Illusion Veil",
+      "Wild Spirit"
+    ],
     "is_global": false,
     "subclasses": [
       "Swordsman",
@@ -3684,16 +4296,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Sword Master"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Arthur",
     "title": "Eternal King",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["Otherworld Return", "Wild Spirit"],
+    "factions": [
+      "Otherworld Return",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -3766,16 +4390,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Sword Master"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Asmodeus",
     "title": "The Demon Lord of Lust",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["Sanctum Glory", "Elemental Echo"],
+    "factions": [
+      "Sanctum Glory",
+      "Elemental Echo"
+    ],
     "is_global": false,
     "subclasses": [
       "Fighter",
@@ -3848,16 +4484,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Bloodseeker Sword",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Sword Master",
+      "Vanguard"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Azure Dragon",
     "title": "Four Saints",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["Sanctum Glory", "Illusion Veil"],
+    "factions": [
+      "Sanctum Glory",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Fighter",
@@ -3930,16 +4579,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Mana's Tide",
+      "accessory": "Mana's Tear"
+    },
+    "recommended_subclasses": [
+      "Vanguard"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Brynhild",
     "title": "Warborn Goddess",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["Otherworld Return", "Sanctum Glory"],
+    "factions": [
+      "Otherworld Return",
+      "Sanctum Glory"
+    ],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4012,16 +4673,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Berserker"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Marylis",
     "title": "Six-Armed Serpent",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["Illusion Veil", "Elemental Echo"],
+    "factions": [
+      "Illusion Veil",
+      "Elemental Echo"
+    ],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4093,17 +4766,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "noble_phantasm": "Serpent God's Blade",
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Blessing of the Sacred Tree"
+    },
+    "recommended_subclasses": [
+      "Sword Master"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Siegfried",
     "title": "Dragonslayer",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["Arcane Wisdom", "Elemental Echo"],
+    "factions": [
+      "Arcane Wisdom",
+      "Elemental Echo"
+    ],
     "is_global": true,
     "subclasses": [
       "Fighter",
@@ -4176,16 +4861,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Sword Master"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Tyrfing",
     "title": "Bloodthirster Sword",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": ["Wild Spirit", "Elemental Echo"],
+    "factions": [
+      "Wild Spirit",
+      "Elemental Echo"
+    ],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4257,17 +4954,30 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "noble_phantasm": "Severing Demon Blade",
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Sword Master",
+      "Vanguard"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Asteros",
     "title": "Labyrinth Overlord",
     "quality": "SSR",
     "character_class": "Warrior",
-    "factions": ["Elemental Echo", "Sanctum Glory"],
+    "factions": [
+      "Elemental Echo",
+      "Sanctum Glory"
+    ],
     "is_global": true,
     "subclasses": [
       "Fighter",
@@ -4340,16 +5050,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Sword Master",
+      "Vanguard"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Beowulf",
     "title": "King of the Wild Hunt",
     "quality": "SSR",
     "character_class": "Warrior",
-    "factions": ["Sanctum Glory", "Illusion Veil"],
+    "factions": [
+      "Sanctum Glory",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4416,16 +5139,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Bloodseeker Sword",
+      "accessory": "Blessing of the Sacred Tree"
+    },
+    "recommended_subclasses": [
+      "Sword Master"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Guna",
     "title": "Heroic Warrior",
     "quality": "SSR",
     "character_class": "Warrior",
-    "factions": ["Otherworld Return", "Wild Spirit"],
+    "factions": [
+      "Otherworld Return",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Fighter",
@@ -4492,16 +5227,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Sword Master"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Grimnir",
     "title": "Death Seeker",
     "quality": "SR",
     "character_class": "Warrior",
-    "factions": ["Elemental Echo", "Illusion Veil"],
+    "factions": [
+      "Elemental Echo",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Fighter",
@@ -4557,16 +5304,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Murphy",
     "title": "Pact Demon",
     "quality": "SR",
     "character_class": "Warrior",
-    "factions": ["Wild Spirit", "Illusion Veil"],
+    "factions": [
+      "Wild Spirit",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4622,16 +5379,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Goblin Battering Ram",
     "title": "",
     "quality": "R",
     "character_class": "Warrior",
-    "factions": ["Sanctum Glory", "Elemental Echo"],
+    "factions": [
+      "Sanctum Glory",
+      "Elemental Echo"
+    ],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4677,16 +5444,25 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Flame Slime",
     "title": "",
     "quality": "N",
     "character_class": "Warrior",
-    "factions": ["Wild Spirit"],
+    "factions": [
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -4712,16 +5488,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Apollo",
     "title": "Sun Goddess",
     "quality": "SSR EX",
     "character_class": "Archer",
-    "factions": ["Sanctum Glory", "Otherworld Return"],
+    "factions": [
+      "Sanctum Glory",
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [
       "Tracker",
@@ -4797,17 +5583,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "noble_phantasm": "Radiant Sun Bow",
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Bloodhunter"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Artemis",
     "title": "The Moon Goddess",
     "quality": "SSR EX",
     "character_class": "Archer",
-    "factions": ["Illusion Veil", "Wild Spirit"],
+    "factions": [
+      "Illusion Veil",
+      "Wild Spirit"
+    ],
     "is_global": false,
     "subclasses": [
       "Tracker",
@@ -4884,16 +5682,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Sharpshooter",
+      "Bloodhunter"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Huginn & Muninn",
     "title": "Twin Ravens",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": ["Elemental Echo", "Wild Spirit"],
+    "factions": [
+      "Elemental Echo",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Arrowslinger",
@@ -4965,17 +5776,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "noble_phantasm": "Dark Raven's Feather",
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Typhon's Wrath",
+      "accessory": "Dragonblood Seal"
+    },
+    "recommended_subclasses": [
+      "Sharpshooter"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Ifrit",
     "title": "Flamefiend",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": ["Arcane Wisdom", "Illusion Veil"],
+    "factions": [
+      "Arcane Wisdom",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Tracker",
@@ -5047,17 +5870,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "noble_phantasm": "Flame Magic Jar",
+    "recommended_gear": {
+      "headgear": "Ranger's Feathered Hat",
+      "chestplate": "Ranger's Leather Armor",
+      "bracers": "Ranger's Gloves",
+      "boots": "Ranger's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Light Ranger"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Jing",
     "title": "Crimson Blade Soul",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": ["Elemental Echo", "Sanctum Glory"],
+    "factions": [
+      "Elemental Echo",
+      "Sanctum Glory"
+    ],
     "is_global": false,
     "subclasses": [
       "Tracker",
@@ -5130,16 +5965,28 @@
       }
     ],
     "noble_phantasm": "Piercing Sun Sword Box",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771464391
+    "recommended_gear": {
+      "headgear": "Ranger's Feathered Hat",
+      "chestplate": "Ranger's Leather Armor",
+      "bracers": "Ranger's Gloves",
+      "boots": "Ranger's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Bounty Hunter"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Mimir",
     "title": "The Wise Giant",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": ["Otherworld Return", "Illusion Veil"],
+    "factions": [
+      "Otherworld Return",
+      "Illusion Veil"
+    ],
     "is_global": false,
     "subclasses": [
       "Arrowslinger",
@@ -5212,16 +6059,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Sharpshooter"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Ningluosi",
     "title": "Rotten Flower Bud",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": ["Wild Spirit", "Sanctum Glory"],
+    "factions": [
+      "Wild Spirit",
+      "Sanctum Glory"
+    ],
     "is_global": false,
     "subclasses": [
       "Arrowslinger",
@@ -5294,16 +6153,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471896
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Sharpshooter"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Orion",
     "title": "Frostar Hunter",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": ["Arcane Wisdom", "Wild Spirit"],
+    "factions": [
+      "Arcane Wisdom",
+      "Wild Spirit"
+    ],
     "is_global": false,
     "subclasses": [
       "Arrowslinger",
@@ -5376,16 +6247,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Sharpshooter"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Lorillin",
     "title": "Radiant Elemental",
     "quality": "SSR",
     "character_class": "Archer",
-    "factions": ["Otherworld Return", "Arcane Wisdom"],
+    "factions": [
+      "Otherworld Return",
+      "Arcane Wisdom"
+    ],
     "is_global": true,
     "subclasses": [
       "Tracker",
@@ -5458,16 +6341,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Bloodhunter",
+      "Light Ranger"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Medusa",
     "title": "Gorgon",
     "quality": "SSR",
     "character_class": "Archer",
-    "factions": ["Wild Spirit", "Sanctum Glory"],
+    "factions": [
+      "Wild Spirit",
+      "Sanctum Glory"
+    ],
     "is_global": true,
     "subclasses": [
       "Arrowslinger",
@@ -5540,16 +6436,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Sharpshooter"
+    ],
+    "last_updated": 1771706373
   },
   {
-    "name": "Van Helring",
+    "name": "Van Helsing",
     "title": "Demon Hunter",
     "quality": "SSR",
     "character_class": "Archer",
-    "factions": ["Illusion Veil", "Wild Spirit"],
+    "factions": [
+      "Illusion Veil",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Arrowslinger",
@@ -5616,16 +6524,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Ranger's Feathered Hat",
+      "chestplate": "Ranger's Leather Armor",
+      "bracers": "Ranger's Gloves",
+      "boots": "Ranger's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Dragonblood Seal"
+    },
+    "recommended_subclasses": [
+      "Sharpshooter"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Nessus",
     "title": "Savage Hunter",
     "quality": "SR",
     "character_class": "Archer",
-    "factions": ["Elemental Echo", "Otherworld Return"],
+    "factions": [
+      "Elemental Echo",
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [
       "Arrowslinger",
@@ -5681,16 +6601,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Polyphemus",
     "title": "Cyclops",
     "quality": "SR",
     "character_class": "Archer",
-    "factions": ["Sanctum Glory", "Otherworld Return"],
+    "factions": [
+      "Sanctum Glory",
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [
       "Tracker",
@@ -5746,18 +6676,34 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Dwarven Cannoneer",
     "title": "",
     "quality": "R",
     "character_class": "Archer",
-    "factions": ["Otherworld Return", "Wild Spirit"],
+    "factions": [
+      "Otherworld Return",
+      "Wild Spirit"
+    ],
     "is_global": true,
-    "subclasses": ["Tracker", "Scout", "Hunter", "Bloodhunter", "Sniper"],
+    "subclasses": [
+      "Tracker",
+      "Scout",
+      "Hunter",
+      "Bloodhunter",
+      "Sniper"
+    ],
     "height": "?cm",
     "weight": "?kg",
     "origin": "Norse Mythology",
@@ -5795,16 +6741,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Wood Elf Archer",
     "title": "",
     "quality": "R",
     "character_class": "Archer",
-    "factions": ["Illusion Veil", "Wild Spirit"],
+    "factions": [
+      "Illusion Veil",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Arrowslinger",
@@ -5850,16 +6806,25 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Lightning Slime",
     "title": "",
     "quality": "N",
     "character_class": "Archer",
-    "factions": ["Illusion Veil"],
+    "factions": [
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -5885,16 +6850,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Loki",
     "title": "Goddess of Mischief",
     "quality": "SSR EX",
     "character_class": "Mage",
-    "factions": ["Sanctum Glory", "Elemental Echo"],
+    "factions": [
+      "Sanctum Glory",
+      "Elemental Echo"
+    ],
     "is_global": false,
     "subclasses": [
       "Fortune Teller",
@@ -5971,16 +6946,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Astrologer",
+      "Grand Archmage"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Poseidon",
     "title": "Sea Goddess",
     "quality": "SSR EX",
     "character_class": "Mage",
-    "factions": ["Arcane Wisdom", "Wild Spirit"],
+    "factions": [
+      "Arcane Wisdom",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6057,16 +7045,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Touch of the Undying Flame",
+      "accessory": "Dragonblood Seal"
+    },
+    "recommended_subclasses": [
+      "Elementalist",
+      "Potion Master"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Crassus",
     "title": "Iron-Fisted Ruler",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": ["Wild Spirit", "Illusion Veil"],
+    "factions": [
+      "Wild Spirit",
+      "Illusion Veil"
+    ],
     "is_global": false,
     "subclasses": [
       "Wizard",
@@ -6139,16 +7140,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Potion Master"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Faust",
     "title": "Demon Overlord",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": ["Sanctum Glory", "Wild Spirit"],
+    "factions": [
+      "Sanctum Glory",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6220,17 +7233,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "noble_phantasm": "Little Man in a Bottle",
+    "recommended_gear": {
+      "headgear": "Ranger's Feathered Hat",
+      "chestplate": "Ranger's Leather Armor",
+      "bracers": "Ranger's Gloves",
+      "boots": "Ranger's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Dragonblood Seal"
+    },
+    "recommended_subclasses": [
+      "Astrologer"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Gabriele",
     "title": "Archangel",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": ["Otherworld Return", "Sanctum Glory"],
+    "factions": [
+      "Otherworld Return",
+      "Sanctum Glory"
+    ],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6302,17 +7327,29 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "noble_phantasm": "Judgment Horn",
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Touch of the Undying Flame",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Rune Mage"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Gullveig",
     "title": "Demilich",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": ["Sanctum Glory", "Arcane Wisdom"],
+    "factions": [
+      "Sanctum Glory",
+      "Arcane Wisdom"
+    ],
     "is_global": true,
     "subclasses": [
       "Scholar",
@@ -6384,17 +7421,30 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "noble_phantasm": "Lich Soul Box",
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Elemental Mage",
+      "Astrologer"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Talos",
     "title": "Bronze Goddess",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": ["Illusion Veil", "Elemental Echo"],
+    "factions": [
+      "Illusion Veil",
+      "Elemental Echo"
+    ],
     "is_global": false,
     "subclasses": [
       "Fortune Teller",
@@ -6467,16 +7517,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Ranger's Feathered Hat",
+      "chestplate": "Ranger's Leather Armor",
+      "bracers": "Ranger's Gloves",
+      "boots": "Ranger's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Astrologer",
+      "Grand Archmage"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Vermilion Bird",
     "title": "Four Saints",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": ["Arcane Wisdom", "Wild Spirit"],
+    "factions": [
+      "Arcane Wisdom",
+      "Wild Spirit"
+    ],
     "is_global": false,
     "subclasses": [
       "Wizard",
@@ -6549,16 +7612,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Touch of the Undying Flame",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Elemental Mage"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Cerberus",
     "title": "Hell Hound",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": ["Wild Spirit", "Arcane Wisdom"],
+    "factions": [
+      "Wild Spirit",
+      "Arcane Wisdom"
+    ],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6625,16 +7700,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Elemental Mage"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Cleopatra",
     "title": "Queen of Egypt",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": ["Sanctum Glory", "Illusion Veil"],
+    "factions": [
+      "Sanctum Glory",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Scholar",
@@ -6707,16 +7794,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Astrologer",
+      "Potion Master"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Melina",
     "title": "Flame Witch",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": ["Arcane Wisdom", "Otherworld Return"],
+    "factions": [
+      "Arcane Wisdom",
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6789,16 +7889,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Touch of the Undying Flame",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Elemental Mage"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Nanalie",
     "title": "Four Seasons Deer Spirit",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": ["Elemental Echo", "Illusion Veil"],
+    "factions": [
+      "Elemental Echo",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Fortune Teller",
@@ -6871,16 +7983,29 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Dragonslayer Greatsword",
+      "accessory": "Dragonslayer's Guide"
+    },
+    "recommended_subclasses": [
+      "Astrologer",
+      "Grand Archmage"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Telperion",
     "title": "Shadow Elemental",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": ["Arcane Wisdom", "Wild Spirit"],
+    "factions": [
+      "Arcane Wisdom",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6953,16 +8078,28 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
-    "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Elemental Mage"
+    ],
+    "last_updated": 1771706373
   },
   {
     "name": "Buck",
     "title": "Mischievous Imp",
     "quality": "SR",
     "character_class": "Mage",
-    "factions": ["Arcane Wisdom", "Wild Spirit"],
+    "factions": [
+      "Arcane Wisdom",
+      "Wild Spirit"
+    ],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -7018,16 +8155,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Kleina",
     "title": "Wandering Ghost",
     "quality": "SR",
     "character_class": "Mage",
-    "factions": ["Wild Spirit", "Sanctum Glory"],
+    "factions": [
+      "Wild Spirit",
+      "Sanctum Glory"
+    ],
     "is_global": true,
     "subclasses": [
       "Fortune Teller",
@@ -7083,16 +8230,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Dwarven Sage",
     "title": "",
     "quality": "R",
     "character_class": "Mage",
-    "factions": ["Arcane Wisdom", "Otherworld Return"],
+    "factions": [
+      "Arcane Wisdom",
+      "Otherworld Return"
+    ],
     "is_global": true,
     "subclasses": [
       "Fortune Teller",
@@ -7138,16 +8295,26 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   },
   {
     "name": "Pharaoh",
     "title": "",
     "quality": "R",
     "character_class": "Mage",
-    "factions": ["Sanctum Glory", "Illusion Veil"],
+    "factions": [
+      "Sanctum Glory",
+      "Illusion Veil"
+    ],
     "is_global": true,
     "subclasses": [
       "Scholar",
@@ -7193,16 +8360,25 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771471837
+    "last_updated": 1771706373
   },
   {
     "name": "Ice Slime",
     "title": "",
     "quality": "N",
     "character_class": "Mage",
-    "factions": ["Arcane Wisdom"],
+    "factions": [
+      "Arcane Wisdom"
+    ],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -7228,8 +8404,15 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": [],
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
     "recommended_subclasses": [],
-    "last_updated": 1771374946
+    "last_updated": 1771706373
   }
 ]

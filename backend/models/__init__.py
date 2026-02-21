@@ -3,6 +3,7 @@ from backend.models.character import (
     Character,
     CharacterClass,
     Quality,
+    RecommendedGear,
     Skill,
 )
 from backend.models.code import Code, CodeReward
@@ -39,6 +40,7 @@ __all__ = [
     "NoblePhantasmEffect",
     "NoblePhantasmSkill",
     "Quality",
+    "RecommendedGear",
     "Resource",
     "Skill",
     "Subclass",

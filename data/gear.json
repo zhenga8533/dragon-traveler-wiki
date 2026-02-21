@@ -232,12 +232,12 @@
     "set": "Night Owl",
     "type": "Chestplate",
     "quality": "SSR",
-    "lore": "",
+    "lore": "Armor worn by thieves who dwell in darkness, blending perfectly into the night.",
     "stats": {
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771654321
+    "last_updated": 1771708464
   },
   {
     "name": "Paladin's Armor",
@@ -1081,7 +1081,7 @@
   },
   {
     "name": "Dragonblood Seal",
-    "set": "Dragonblood",
+    "set": "Dragon Hunter",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "A maple leaf picked by the Dragonslayer before departure, stained with dragon blood over the years. Its crimson hue has turned nearly black.",
@@ -1089,7 +1089,7 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771708464
   },
   {
     "name": "Dragonslayer's Guide",

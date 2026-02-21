@@ -119,6 +119,20 @@
     "last_updated": 1771185685
   },
   {
+    "name": "Significant Magic Defense Up",
+    "type": "Buff",
+    "effect": "Increases Magic Defense by 50%. Lasts 8 seconds.",
+    "remark": "",
+    "last_updated": 1771706373
+  },
+  {
+    "name": "Significant Physical Defense Up",
+    "type": "Buff",
+    "effect": "Increases Physical Defense by 50%. Lasts 8 seconds.",
+    "remark": "",
+    "last_updated": 1771706373
+  },
+  {
     "name": "Stat Buff",
     "type": "Buff",
     "effect": "Includes [Attack Up], [Bonus Damage Up], [Damage Reduction Up], [Physical Defense Up], [Magic Defense Up], [Attack Speed Up], [Crit Up], and [Crit Damage Up].",

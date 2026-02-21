@@ -92,7 +92,7 @@ The backend reads from and writes to `data/`:
 
 The Dolt database (`dolt-db/`) mirrors the JSON data in a normalized relational schema. Key relationships:
 
-- `characters` has child tables: `character_factions`, `character_subclasses`, `talent_levels`, `skills`
+- `characters` has child tables: `character_factions`, `character_subclasses`, `character_recommended_subclasses`, `character_recommended_gear`, `talent_levels`, `skills`
 - `subclasses` has child/link tables: `subclass_bonuses`, `subclass_character_classes`
 - `character_subclasses.subclass_id` links character subclass assignments to `subclasses.id`
 - `tier_lists` has child table `tier_list_entries`

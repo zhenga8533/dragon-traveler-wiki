@@ -1,6 +1,6 @@
 from enum import Enum
 
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
 
 class Quality(str, Enum):
@@ -46,6 +46,15 @@ class Skill(BaseModel):
     cooldown: int = 0
 
 
+class RecommendedGear(BaseModel):
+    headgear: str | None = None
+    chestplate: str | None = None
+    bracers: str | None = None
+    boots: str | None = None
+    weapon: str | None = None
+    accessory: str | None = None
+
+
 class Character(BaseModel):
     name: str
     title: str
@@ -62,3 +71,5 @@ class Character(BaseModel):
     talent: Talent | None = None
     skills: list[Skill]
     noble_phantasm: str
+    recommended_gear: RecommendedGear | None = None
+    recommended_subclasses: list[str] = Field(default_factory=list)

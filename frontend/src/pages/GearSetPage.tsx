@@ -148,14 +148,6 @@ export default function GearSetPage() {
                               />
                             </Tooltip>
                           )}
-                          <Badge
-                            variant="light"
-                            color="grape"
-                            size="sm"
-                            w="fit-content"
-                          >
-                            {item.quality}
-                          </Badge>
                         </Group>
                         <Text size="sm" c="dimmed" fs="italic" lineClamp={2}>
                           {item.lore}

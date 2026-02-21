@@ -58,6 +58,16 @@ QUERIES = {
     "character_subclasses": (
         "SELECT character_id, subclass_name FROM character_subclasses ORDER BY id;"
     ),
+    "character_recommended_subclasses": (
+        "SELECT character_id, subclass_name, sort_order "
+        "FROM character_recommended_subclasses "
+        "ORDER BY character_id, sort_order, id;"
+    ),
+    "character_recommended_gear": (
+        "SELECT character_id, slot, gear_name, sort_order "
+        "FROM character_recommended_gear "
+        "ORDER BY character_id, sort_order, id;"
+    ),
     "subclasses": "SELECT * FROM subclasses ORDER BY id;",
     "subclass_bonuses": (
         "SELECT subclass_id, sort_order, bonus_text FROM subclass_bonuses "
@@ -223,6 +233,30 @@ def build_queries(existing_tables):
                 "ORDER BY cs.id;"
             )
 
+    if "character_recommended_subclasses" in existing_tables:
+        rec_subclass_columns = get_table_columns("character_recommended_subclasses")
+        if "subclass_id" in rec_subclass_columns and "subclasses" in existing_tables:
+            queries["character_recommended_subclasses"] = (
+                "SELECT crs.character_id, "
+                "COALESCE(s.name, crs.subclass_name) AS subclass_name, "
+                "crs.sort_order "
+                "FROM character_recommended_subclasses crs "
+                "LEFT JOIN subclasses s ON crs.subclass_id = s.id "
+                "ORDER BY crs.character_id, crs.sort_order, crs.id;"
+            )
+
+    if "character_recommended_gear" in existing_tables:
+        rec_gear_columns = get_table_columns("character_recommended_gear")
+        if "gear_id" in rec_gear_columns and "gear" in existing_tables:
+            queries["character_recommended_gear"] = (
+                "SELECT crg.character_id, crg.slot, "
+                "COALESCE(g.name, crg.gear_name) AS gear_name, "
+                "crg.sort_order "
+                "FROM character_recommended_gear crg "
+                "LEFT JOIN gear g ON crg.gear_id = g.id "
+                "ORDER BY crg.character_id, crg.sort_order, crg.id;"
+            )
+
     if "code_rewards" in existing_tables and "resources" in existing_tables:
         code_reward_columns = get_table_columns("code_rewards")
         if "resource_id" in code_reward_columns:
@@ -292,6 +326,12 @@ def export_factions(data, output_dir=None):
 def export_characters(data, output_dir=None):
     factions_by_char = group_by(data["character_factions"], "character_id")
     subclasses_by_char = group_by(data["character_subclasses"], "character_id")
+    recommended_subclasses_by_char = group_by(
+        data.get("character_recommended_subclasses", []), "character_id"
+    )
+    recommended_gear_by_char = group_by(
+        data.get("character_recommended_gear", []), "character_id"
+    )
     talents_by_char = group_by(data["talent_levels"], "character_id")
     skills_by_char = group_by(data["skills"], "character_id")
 
@@ -306,6 +346,16 @@ def export_characters(data, output_dir=None):
         talent = None
         if talent_name or talent_levels:
             talent = {"name": talent_name, "talent_levels": talent_levels}
+
+        recommended_gear_rows = recommended_gear_by_char.get(char_id, [])
+        recommended_gear = None
+        if recommended_gear_rows:
+            recommended_gear = {}
+            for row in recommended_gear_rows:
+                slot = (row.get("slot") or "").strip().lower()
+                gear_name = (row.get("gear_name") or "").strip()
+                if slot and gear_name:
+                    recommended_gear[slot] = gear_name
 
         result.append(
             {
@@ -336,6 +386,12 @@ def export_characters(data, output_dir=None):
                     for sk in skills_by_char.get(char_id, [])
                 ],
                 "noble_phantasm": c.get("noble_phantasm") or "",
+                "recommended_gear": recommended_gear,
+                "recommended_subclasses": [
+                    s.get("subclass_name") or ""
+                    for s in recommended_subclasses_by_char.get(char_id, [])
+                    if s.get("subclass_name")
+                ],
                 "last_updated": int(c.get("last_updated") or 0),
             }
         )
@@ -913,6 +969,8 @@ EXPORTERS = {
             "characters",
             "character_factions",
             "character_subclasses",
+            "character_recommended_subclasses",
+            "character_recommended_gear",
             "talent_levels",
             "skills",
         },
