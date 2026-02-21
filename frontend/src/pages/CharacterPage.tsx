@@ -602,42 +602,100 @@ export default function CharacterPage() {
                           subclass,
                           subclassClass
                         );
-                        return (
-                          <Paper key={subclass} p="xs" radius="sm" withBorder>
-                            <Stack gap={6} align="center">
-                              {subclassIcon && (
-                                <Center>
-                                  <Image
-                                    src={subclassIcon}
-                                    alt={subclass}
-                                    w={100}
-                                    h={93}
-                                    fit="contain"
-                                  />
-                                </Center>
+                        const subclassBonuses = subclassDetails?.bonuses ?? [];
+                        const tooltipLabel = (
+                          <Stack gap={6}>
+                            <Text size="xs" fw={700}>
+                              {subclass}
+                            </Text>
+                            <Group gap={6} wrap="wrap">
+                              {subclassDetails?.tier && (
+                                <Badge variant="light" color="grape" size="xs">
+                                  Tier {subclassDetails.tier}
+                                </Badge>
                               )}
-
-                              <Group
-                                justify="center"
-                                align="center"
-                                wrap="wrap"
-                                gap={6}
+                              {subclassDetails?.class && (
+                                <Badge variant="light" color="blue" size="xs">
+                                  {subclassDetails.class}
+                                </Badge>
+                              )}
+                            </Group>
+                            {subclassDetails?.effect && (
+                              <Text size="xs" style={{ lineHeight: 1.4 }}>
+                                {subclassDetails.effect}
+                              </Text>
+                            )}
+                            {subclassBonuses.length > 0 && (
+                              <Text
+                                size="xs"
+                                c="dimmed"
+                                style={{ lineHeight: 1.4 }}
                               >
-                                <Text size="xs" fw={600} ta="center">
-                                  {subclass}
-                                </Text>
-                                {subclassDetails?.tier && (
-                                  <Badge
-                                    variant="light"
-                                    color="grape"
-                                    size="xs"
-                                  >
-                                    Tier {subclassDetails.tier}
-                                  </Badge>
+                                Bonuses: {subclassBonuses.join(', ')}
+                              </Text>
+                            )}
+                          </Stack>
+                        );
+                        return (
+                          <Tooltip
+                            key={subclass}
+                            label={tooltipLabel}
+                            multiline
+                            withArrow
+                            openDelay={120}
+                            maw={300}
+                            styles={{
+                              tooltip: {
+                                backgroundColor: 'var(--mantine-color-body)',
+                                color: 'var(--mantine-color-text)',
+                                border:
+                                  '1px solid var(--mantine-color-default-border)',
+                                boxShadow: 'var(--mantine-shadow-sm)',
+                                padding: '8px 10px',
+                              },
+                              arrow: {
+                                backgroundColor: 'var(--mantine-color-body)',
+                                border:
+                                  '1px solid var(--mantine-color-default-border)',
+                              },
+                            }}
+                          >
+                            <Paper p="xs" radius="sm" withBorder>
+                              <Stack gap={6} align="center">
+                                {subclassIcon && (
+                                  <Center>
+                                    <Image
+                                      src={subclassIcon}
+                                      alt={subclass}
+                                      w={100}
+                                      h={93}
+                                      fit="contain"
+                                    />
+                                  </Center>
                                 )}
-                              </Group>
-                            </Stack>
-                          </Paper>
+
+                                <Group
+                                  justify="center"
+                                  align="center"
+                                  wrap="wrap"
+                                  gap={6}
+                                >
+                                  <Text size="xs" fw={600} ta="center">
+                                    {subclass}
+                                  </Text>
+                                  {subclassDetails?.tier && (
+                                    <Badge
+                                      variant="light"
+                                      color="grape"
+                                      size="xs"
+                                    >
+                                      Tier {subclassDetails.tier}
+                                    </Badge>
+                                  )}
+                                </Group>
+                              </Stack>
+                            </Paper>
+                          </Tooltip>
                         );
                       })}
                     </SimpleGrid>
