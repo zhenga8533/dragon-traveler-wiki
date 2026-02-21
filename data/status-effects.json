@@ -21,6 +21,13 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Attack Stat Buff",
+    "type": "Buff",
+    "effect": "Includes [Attack Boost], [Damage Boost], [Attack Speed Boost], [Crit Up], [Crit Damage Up], and [Accuracy Up].",
+    "remark": "",
+    "last_updated": 1771644501
+  },
+  {
     "name": "Crit Damage Up",
     "type": "Buff",
     "effect": "Increases critical damage by 45%. Lasts 8 seconds.",
@@ -49,6 +56,13 @@
     "last_updated": 1771129358
   },
   {
+    "name": "Defense Stat Buff",
+    "type": "Buff",
+    "effect": "Includes [Damage Reduction Up], [Physical Defense Up], [Magic Defense Up], and [Dodge Up].",
+    "remark": "",
+    "last_updated": 1771644501
+  },
+  {
     "name": "Dodge Up",
     "type": "Buff",
     "effect": "Increases Dodge by 600. Lasts 8 seconds.",
@@ -61,6 +75,13 @@
     "effect": "Increases Attack and all defense by 5% to Luminaries of the corresponding faction.",
     "remark": "This effect is enhanced by the Dragon Roar Level.",
     "last_updated": 1771185685
+  },
+  {
+    "name": "Frenzy",
+    "type": "Buff",
+    "effect": "Increases Attack Speed by 160% but consumes 2% of max HP per second and inflicts [Silence] on self. Lasts 10 seconds.",
+    "remark": "This effect triggers once every 30 seconds.",
+    "last_updated": 1771644501
   },
   {
     "name": "Lifesteal",
@@ -98,6 +119,13 @@
     "last_updated": 1771185685
   },
   {
+    "name": "Stat Buff",
+    "type": "Buff",
+    "effect": "Includes [Attack Up], [Bonus Damage Up], [Damage Reduction Up], [Physical Defense Up], [Magic Defense Up], [Attack Speed Up], [Crit Up], and [Crit Damage Up].",
+    "remark": "",
+    "last_updated": 1771644501
+  },
+  {
     "name": "Accuracy Down",
     "type": "Debuff",
     "effect": "Reduces Accuracy by 600. Lasts 8 seconds.",
@@ -119,6 +147,13 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Attack Stat Debuff",
+    "type": "Debuff",
+    "effect": "Includes [Attack Down], [Damage Down], [Attack Speed Down], [Crit Down], [Crit Damage Down], and [Accuracy Down].",
+    "remark": "",
+    "last_updated": 1771644501
+  },
+  {
     "name": "Crit Down",
     "type": "Debuff",
     "effect": "Reduces Crit by 600. Lasts 8 seconds.",
@@ -126,11 +161,25 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Damage Down",
+    "type": "Debuff",
+    "effect": "Reduces damage dealt by 30%. Lasts 8 seconds.",
+    "remark": "",
+    "last_updated": 1771644501
+  },
+  {
     "name": "Damage Reduction Down",
     "type": "Debuff",
     "effect": "Reduces Damage Reduction by 30%. Lasts 8 seconds.",
     "remark": "",
     "last_updated": 1771129475
+  },
+  {
+    "name": "Defense Stat Debuff",
+    "type": "Debuff",
+    "effect": "Includes [Damage Reduction Down], [Physical Defense Down], [Magic Defense Down], and [Dodge Down].",
+    "remark": "",
+    "last_updated": 1771644501
   },
   {
     "name": "Dodge Down",
@@ -177,9 +226,16 @@
   {
     "name": "Stat Debuff",
     "type": "Debuff",
-    "effect": "Includes Attack Down, Bonus Damage Down, Damage Reduction Down, Physical Defense Down, Magic Defense Down, Attack Speed Down, Crit Down, and Crit Damage Down.",
+    "effect": "Includes [Attack Down], [Bonus Damage Down], [Damage Reduction Down], [Physical Defense Down], [Magic Defense Down], [Attack Speed Down], [Crit Down], and [Crit Damage Down].",
     "remark": "",
-    "last_updated": 1771129475
+    "last_updated": 1771644501
+  },
+  {
+    "name": "Adaptive Damage",
+    "type": "Special",
+    "effect": "Deals physical or magic damage according to the caster's attack type.",
+    "remark": "",
+    "last_updated": 1771644501
   },
   {
     "name": "Adrenaline",
@@ -208,6 +264,20 @@
     "effect": "Elemental Echo faction special effect.",
     "remark": "Includes [Detonation], [Evaporation], and [Flash Freeze].\n[Ignite] and [Shock] can trigger [Detonation].\n[Chill] and [Ignite] can trigger [Evaporation].\n[Shock] and [Chill] can trigger [Flash Freeze].",
     "last_updated": 1771129475
+  },
+  {
+    "name": "Energy Recovery Subclass",
+    "type": "Special",
+    "effect": "Energy Recovery Subclasses include: Servant, Friary, High Priest.",
+    "remark": "",
+    "last_updated": 1771644501
+  },
+  {
+    "name": "Energy Reduction Subclass",
+    "type": "Special",
+    "effect": "Energy Reduction Subclasses include: Believer, Fanatic, Executor.",
+    "remark": "",
+    "last_updated": 1771644501
   },
   {
     "name": "Punishment",

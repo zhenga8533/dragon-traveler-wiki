@@ -16,6 +16,7 @@ from backend.models.noble_phantasm import (
 )
 from backend.models.resource import Resource
 from backend.models.status_effect import StatusEffect, StatusEffectType
+from backend.models.subclass import Subclass
 from backend.models.team import Team
 from backend.models.tier_list import Tier, TierEntry, TierList
 from backend.models.useful_link import UsefulLink
@@ -40,6 +41,7 @@ __all__ = [
     "Quality",
     "Resource",
     "Skill",
+    "Subclass",
     "StatusEffect",
     "StatusEffectType",
     "Team",

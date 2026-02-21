@@ -31,6 +31,7 @@ from .sort_keys import (
     noble_phantasm_sort_key,
     resource_sort_key,
     status_effect_sort_key,
+    subclass_sort_key,
     useful_link_sort_key,
     wyrmspell_sort_key,
 )
@@ -56,6 +57,15 @@ QUERIES = {
     ),
     "character_subclasses": (
         "SELECT character_id, subclass_name FROM character_subclasses ORDER BY id;"
+    ),
+    "subclasses": "SELECT * FROM subclasses ORDER BY id;",
+    "subclass_bonuses": (
+        "SELECT subclass_id, sort_order, bonus_text FROM subclass_bonuses "
+        "ORDER BY subclass_id, sort_order, id;"
+    ),
+    "subclass_character_classes": (
+        "SELECT subclass_id, character_class, sort_order FROM subclass_character_classes "
+        "ORDER BY subclass_id, sort_order, id;"
     ),
     "talent_levels": (
         "SELECT character_id, level, effect FROM talent_levels ORDER BY character_id, level;"
@@ -200,6 +210,19 @@ def get_table_columns(table_name):
 def build_queries(existing_tables):
     queries = dict(QUERIES)
 
+    if "character_subclasses" in existing_tables:
+        character_subclass_columns = get_table_columns("character_subclasses")
+        if (
+            "subclass_id" in character_subclass_columns
+            and "subclasses" in existing_tables
+        ):
+            queries["character_subclasses"] = (
+                "SELECT cs.character_id, COALESCE(s.name, cs.subclass_name) AS subclass_name "
+                "FROM character_subclasses cs "
+                "LEFT JOIN subclasses s ON cs.subclass_id = s.id "
+                "ORDER BY cs.id;"
+            )
+
     if "code_rewards" in existing_tables and "resources" in existing_tables:
         code_reward_columns = get_table_columns("code_rewards")
         if "resource_id" in code_reward_columns:
@@ -319,6 +342,48 @@ def export_characters(data, output_dir=None):
 
     result.sort(key=character_sort_key)
     write_export("characters.json", result, output_dir)
+
+
+def export_subclasses(data, output_dir=None):
+    bonus_rows_by_subclass = group_by(data.get("subclass_bonuses", []), "subclass_id")
+    class_rows_by_subclass = group_by(
+        data.get("subclass_character_classes", []), "subclass_id"
+    )
+
+    result = []
+    for row in data.get("subclasses", []):
+        subclass_id = row.get("id")
+        class_rows = class_rows_by_subclass.get(subclass_id, [])
+        sorted_classes = sorted(
+            class_rows,
+            key=lambda item: (
+                int(item.get("sort_order") or 0),
+                (item.get("character_class") or "").lower(),
+            ),
+        )
+        character_class = (
+            sorted_classes[0].get("character_class") if sorted_classes else ""
+        )
+
+        bonus_rows = bonus_rows_by_subclass.get(subclass_id, [])
+        sorted_bonuses = sorted(
+            bonus_rows,
+            key=lambda item: int(item.get("sort_order") or 0),
+        )
+
+        result.append(
+            {
+                "name": row.get("name") or "",
+                "class": character_class or "",
+                "tier": int(row.get("tier") or 0),
+                "bonuses": [b.get("bonus_text") or "" for b in sorted_bonuses],
+                "effect": row.get("effect") or "",
+                "last_updated": int(row.get("last_updated") or 0),
+            }
+        )
+
+    result.sort(key=subclass_sort_key)
+    write_export("subclasses.json", result, output_dir)
 
 
 def export_wyrmspells(data, output_dir=None):
@@ -787,6 +852,7 @@ def export_changelog(data, output_dir=None):
 HASH_SOURCES = {
     "factions": ("name", "factions"),
     "characters": ("name", "characters"),
+    "subclasses": ("name", "subclasses"),
     "wyrmspells": ("name", "wyrmspells"),
     "resources": ("name", "resources"),
     "codes": ("code", "codes"),
@@ -849,6 +915,14 @@ EXPORTERS = {
             "character_subclasses",
             "talent_levels",
             "skills",
+        },
+    ),
+    "subclasses": (
+        export_subclasses,
+        {
+            "subclasses",
+            "subclass_bonuses",
+            "subclass_character_classes",
         },
     ),
     "wyrmspells": (export_wyrmspells, {"wyrmspells"}),

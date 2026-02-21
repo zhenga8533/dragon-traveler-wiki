@@ -5,6 +5,7 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 ## Features
 
 - Character database with stats, abilities, and subclasses
+- Subclass database with class-linked tiers, bonuses, and effects
 - Gear database with set-based equipment pages
 - Status effects reference
 - Wyrmspell database
@@ -70,7 +71,7 @@ dragon-traveler-wiki/
 ## Data Flow
 
 1. Curated JSON data files are maintained in `data/`
-2. `sync_dolt.py` syncs JSON into the Dolt database for querying
+2. `sync_dolt.py` syncs JSON into the Dolt database for querying (including subclass normalization and class-link synchronization)
 3. `export_dolt.py` can export Dolt tables back to JSON when needed
 4. GitHub Actions builds the frontend and deploys to GitHub Pages
 5. The frontend fetches JSON data at runtime

@@ -7,11 +7,13 @@ import {
   Text,
   useComputedColorScheme,
 } from '@mantine/core';
+import { useState } from 'react';
 import { IoLogoGithub, IoWarning } from 'react-icons/io5';
 import { GITHUB_REPO_URL } from '../constants';
 import { getGlassStyles } from '../constants/glass';
 
 export default function Footer() {
+  const [showLegal, setShowLegal] = useState(false);
   const isDark = useComputedColorScheme('light') === 'dark';
   const glassStyles = getGlassStyles(isDark, true);
 
@@ -29,12 +31,8 @@ export default function Footer() {
       }}
     >
       <Center>
-        <Stack gap="md" align="center">
-          <Text size="xs" c="dimmed" fs="italic" ta="center">
-            This is a fan-made project and is not affiliated with or endorsed by
-            GameTree.
-          </Text>
-          <Group gap="xl" wrap="wrap" justify="center">
+        <Stack gap={6} align="center" style={{ width: '100%' }}>
+          <Group gap="lg" wrap="wrap" justify="center">
             <Anchor
               href={GITHUB_REPO_URL}
               target="_blank"
@@ -61,6 +59,43 @@ export default function Footer() {
               © {new Date().getFullYear()} Dragon Traveler Wiki
             </Text>
           </Group>
+
+          <Group gap={8} justify="center" align="center" wrap="wrap">
+            <Text size="xs" c="dimmed" ta="center">
+              Unofficial fan wiki.
+            </Text>
+            <Anchor
+              component="button"
+              type="button"
+              onClick={() => setShowLegal((v) => !v)}
+              c="dimmed"
+              size="xs"
+              td="underline"
+            >
+              {showLegal ? 'Hide legal & sources' : 'Legal & sources'}
+            </Anchor>
+          </Group>
+
+          {showLegal && (
+            <Text
+              size="xs"
+              c="dimmed"
+              ta="center"
+              style={{ maxWidth: 840, lineHeight: 1.45 }}
+            >
+              Not affiliated with GameTree. Dragon Traveler assets and IP belong
+              to GameTree and their respective owners. CN/TW data source:{' '}
+              <Anchor
+                href="https://www.gamekee.com/lhlr/"
+                target="_blank"
+                rel="noopener noreferrer"
+                c="dimmed"
+              >
+                Dragon Traveler GameKee Wiki
+              </Anchor>
+              .
+            </Text>
+          )}
         </Stack>
       </Center>
     </Box>

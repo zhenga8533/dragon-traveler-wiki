@@ -30,6 +30,7 @@ from .sort_keys import (
     noble_phantasm_sort_key,
     resource_sort_key,
     status_effect_sort_key,
+    subclass_sort_key,
     useful_link_sort_key,
     wyrmspell_sort_key,
 )
@@ -139,6 +140,21 @@ def build_resource_id_map(resources):
     return mapping
 
 
+def build_subclass_maps(subclasses):
+    """Build deterministic subclass mappings matching sync_subclasses insert order."""
+    subclass_id_map = {}
+    subclass_class_map = {}
+    sid = 0
+    for subclass in sorted(subclasses, key=subclass_sort_key):
+        name = (subclass.get("name") or "").strip()
+        if not name or name in subclass_id_map:
+            continue
+        sid += 1
+        subclass_id_map[name] = sid
+        subclass_class_map[name] = (subclass.get("class") or "").strip()
+    return subclass_id_map, subclass_class_map
+
+
 def compute_hash(entity):
     """Compute SHA-256 hash of a JSON entity for change detection.
 
@@ -181,6 +197,7 @@ TIMESTAMP_TABLES = [
     "changelog",
     "artifacts",
     "howlkins",
+    "subclasses",
     "gear_sets",
     "gear",
 ]
@@ -305,6 +322,94 @@ def ensure_schema_extensions(existing_tables, dry_run=False):
             dry_run=dry_run,
         )
         existing_tables.add("faction_recommended_artifacts")
+
+    # Ensure subclasses and related tables exist.
+    if "subclasses" not in existing_tables:
+        print("  Creating missing subclasses table")
+        dolt_sql(
+            """
+            CREATE TABLE subclasses (
+              id int NOT NULL AUTO_INCREMENT,
+              name varchar(100) NOT NULL,
+              tier int NOT NULL DEFAULT 0,
+              effect text,
+              last_updated BIGINT NULL,
+              data_hash VARCHAR(64) NULL,
+              PRIMARY KEY (id),
+              UNIQUE KEY name (name)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("subclasses")
+
+    if "subclass_bonuses" not in existing_tables:
+        print("  Creating missing subclass_bonuses table")
+        dolt_sql(
+            """
+            CREATE TABLE subclass_bonuses (
+              id int NOT NULL AUTO_INCREMENT,
+              subclass_id int NOT NULL,
+              sort_order int NOT NULL DEFAULT 0,
+              bonus_text varchar(200) NOT NULL,
+              PRIMARY KEY (id),
+              KEY subclass_id (subclass_id),
+              CONSTRAINT subclass_bonuses_ibfk_1 FOREIGN KEY (subclass_id) REFERENCES subclasses(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("subclass_bonuses")
+
+    if "subclass_character_classes" not in existing_tables:
+        print("  Creating missing subclass_character_classes table")
+        dolt_sql(
+            """
+            CREATE TABLE subclass_character_classes (
+              id int NOT NULL AUTO_INCREMENT,
+              subclass_id int NOT NULL,
+              character_class varchar(50) NOT NULL,
+              sort_order int NOT NULL DEFAULT 0,
+              PRIMARY KEY (id),
+              UNIQUE KEY uniq_subclass_character_class (subclass_id, character_class),
+              KEY subclass_id (subclass_id),
+              CONSTRAINT subclass_character_classes_ibfk_1 FOREIGN KEY (subclass_id) REFERENCES subclasses(id)
+            ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_0900_bin;
+            """,
+            dry_run=dry_run,
+        )
+        existing_tables.add("subclass_character_classes")
+
+    if "character_subclasses" in existing_tables:
+        character_subclass_columns = get_table_columns("character_subclasses")
+        if "subclass_id" not in character_subclass_columns:
+            print("  Adding character_subclasses.subclass_id column")
+            dolt_sql(
+                "ALTER TABLE character_subclasses ADD COLUMN subclass_id int NULL AFTER character_id;",
+                dry_run=dry_run,
+            )
+            dolt_sql(
+                "ALTER TABLE character_subclasses ADD KEY subclass_id (subclass_id);",
+                dry_run=dry_run,
+            )
+
+        if "subclass_name" not in character_subclass_columns:
+            print("  Adding character_subclasses.subclass_name column")
+            dolt_sql(
+                "ALTER TABLE character_subclasses ADD COLUMN subclass_name varchar(100) NOT NULL;",
+                dry_run=dry_run,
+            )
+
+        create_rows = dolt_sql_csv("SHOW CREATE TABLE character_subclasses;")
+        if create_rows:
+            create_sql = create_rows[0].get("Create Table") or ""
+            if "REFERENCES `subclasses` (`id`)" not in create_sql:
+                print("  Adding character_subclasses.subclass_id foreign key")
+                dolt_sql(
+                    "ALTER TABLE character_subclasses ADD CONSTRAINT character_subclasses_ibfk_2 "
+                    "FOREIGN KEY (subclass_id) REFERENCES subclasses(id);",
+                    dry_run=dry_run,
+                )
 
     # Ensure artifacts and related tables exist.
     if "artifacts" not in existing_tables:
@@ -889,7 +994,82 @@ def sync_factions(
     )
 
 
-def sync_characters(data, factions, batch, now, stored_hashes, new_hashes):
+def sync_subclasses(data, batch, now, stored_hashes, new_hashes):
+    """Sync subclasses.json -> subclasses + subclass_bonuses + subclass_character_classes tables."""
+    old_ts = get_old_timestamps("subclasses", "name")
+    table_hashes = stored_hashes.get("subclasses", {})
+
+    batch.add("UPDATE character_subclasses SET subclass_id = NULL;")
+    batch.add("DELETE FROM subclass_character_classes;")
+    batch.add("DELETE FROM subclass_bonuses;")
+    batch.add("DELETE FROM subclasses;")
+    batch.add("ALTER TABLE subclass_character_classes AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE subclass_bonuses AUTO_INCREMENT = 1;")
+    batch.add("ALTER TABLE subclasses AUTO_INCREMENT = 1;")
+
+    data = sorted(data, key=subclass_sort_key)
+    subclass_id = 0
+    bonus_id = 0
+    link_id = 0
+
+    for subclass in data:
+        name = (subclass.get("name") or "").strip()
+        if not name:
+            continue
+
+        subclass_id += 1
+        h = compute_hash(subclass)
+        ts = resolve_timestamp(name, h, old_ts, now, table_hashes=table_hashes)
+        new_hashes.setdefault("subclasses", {})[name] = {"hash": h, "ts": int(ts)}
+
+        batch.add(
+            f"INSERT INTO subclasses (id, name, tier, effect, last_updated, data_hash) VALUES "
+            f"({subclass_id}, {escape_sql(name)}, {escape_sql(subclass.get('tier', 0))}, "
+            f"{escape_sql(subclass.get('effect'))}, {escape_sql(ts)}, {escape_sql(h)});"
+        )
+
+        character_class = (subclass.get("class") or "").strip()
+        if character_class:
+            link_id += 1
+            batch.add(
+                f"INSERT INTO subclass_character_classes (id, subclass_id, character_class, sort_order) VALUES "
+                f"({link_id}, {subclass_id}, {escape_sql(character_class)}, 1);"
+            )
+
+        for sort_order, bonus in enumerate(subclass.get("bonuses", []), start=1):
+            if not bonus:
+                continue
+            bonus_id += 1
+            batch.add(
+                f"INSERT INTO subclass_bonuses (id, subclass_id, sort_order, bonus_text) VALUES "
+                f"({bonus_id}, {subclass_id}, {sort_order}, {escape_sql(bonus)});"
+            )
+
+    batch.add(
+        """
+        UPDATE character_subclasses cs
+        JOIN characters c ON cs.character_id = c.id
+        JOIN subclasses s ON cs.subclass_name = s.name
+        JOIN subclass_character_classes scc
+          ON scc.subclass_id = s.id
+         AND scc.character_class = c.character_class
+        SET cs.subclass_id = s.id;
+        """
+    )
+
+    print(f"  Synced {subclass_id} subclasses")
+
+
+def sync_characters(
+    data,
+    factions,
+    batch,
+    now,
+    stored_hashes,
+    new_hashes,
+    subclass_ids=None,
+    subclass_class_by_name=None,
+):
     """Sync characters.json -> characters + related tables."""
     old_ts = get_old_timestamps("characters", "name")
     table_hashes = stored_hashes.get("characters", {})
@@ -908,6 +1088,8 @@ def sync_characters(data, factions, batch, now, stored_hashes, new_hashes):
     for i, f in enumerate(factions, 1):
         if f.get("name"):
             faction_ids[f["name"]] = i
+
+    has_subclass_id_column = "subclass_id" in get_table_columns("character_subclasses")
 
     data = sorted(data, key=character_sort_key)
     char_id = 0
@@ -938,11 +1120,33 @@ def sync_characters(data, factions, batch, now, stored_hashes, new_hashes):
 
         for sc in c.get("subclasses", []):
             if sc:
+                expected_class = None
+                if subclass_class_by_name is not None:
+                    expected_class = subclass_class_by_name.get(sc)
+                if expected_class and expected_class != c.get("character_class"):
+                    print(
+                        f"  Warning: character '{c['name']}' class '{c.get('character_class')}' has subclass '{sc}' assigned to class '{expected_class}'"
+                    )
+
+                linked_subclass_id = None
+                if subclass_ids is not None:
+                    linked_subclass_id = subclass_ids.get(sc)
+                    if linked_subclass_id is None:
+                        print(
+                            f"  Warning: character '{c['name']}' references unknown subclass '{sc}'"
+                        )
+
                 subclass_id += 1
-                batch.add(
-                    f"INSERT INTO character_subclasses (id, character_id, subclass_name) VALUES "
-                    f"({subclass_id}, {char_id}, {escape_sql(sc)});"
-                )
+                if has_subclass_id_column:
+                    batch.add(
+                        f"INSERT INTO character_subclasses (id, character_id, subclass_id, subclass_name) VALUES "
+                        f"({subclass_id}, {char_id}, {escape_sql(linked_subclass_id)}, {escape_sql(sc)});"
+                    )
+                else:
+                    batch.add(
+                        f"INSERT INTO character_subclasses (id, character_id, subclass_name) VALUES "
+                        f"({subclass_id}, {char_id}, {escape_sql(sc)});"
+                    )
 
         for order, fname in enumerate(c.get("factions", []), start=1):
             fid = faction_ids.get(fname)
@@ -1696,6 +1900,7 @@ def main():
         "--target",
         choices=[
             "factions",
+            "subclasses",
             "characters",
             "wyrmspells",
             "noble-phantasms",
@@ -1726,7 +1931,8 @@ def main():
     # Only load JSON files needed for the target.
     json_deps = {
         "factions": ["factions.json", "artifacts.json", "characters.json"],
-        "characters": ["characters.json", "factions.json"],
+        "subclasses": ["subclasses.json"],
+        "characters": ["characters.json", "factions.json", "subclasses.json"],
         "wyrmspells": ["wyrmspells.json"],
         "noble-phantasms": ["noble_phantasm.json"],
         "resources": ["resources.json", "codes.json"],
@@ -1762,6 +1968,9 @@ def main():
         ensure_schema_extensions(existing_tables, dry_run=args.dry_run)
         existing_tables = get_existing_tables()
         resource_ids = build_resource_id_map(json_cache.get("resources.json", []))
+        subclass_ids, subclass_class_by_name = build_subclass_maps(
+            json_cache.get("subclasses.json", [])
+        )
 
         batch = SqlBatch(dry_run=args.dry_run)
         now = int(time.time())
@@ -1778,6 +1987,13 @@ def main():
                     json_cache.get("characters.json") if target == "factions" else None
                 ),
             ),
+            "subclasses": lambda: sync_subclasses(
+                json_cache["subclasses.json"],
+                batch,
+                now,
+                stored_hashes,
+                new_hashes,
+            ),
             "characters": lambda: sync_characters(
                 json_cache["characters.json"],
                 json_cache["factions.json"],
@@ -1785,6 +2001,8 @@ def main():
                 now,
                 stored_hashes,
                 new_hashes,
+                subclass_ids=subclass_ids,
+                subclass_class_by_name=subclass_class_by_name,
             ),
             "wyrmspells": lambda: sync_wyrmspells(
                 json_cache["wyrmspells.json"], batch, now, stored_hashes, new_hashes

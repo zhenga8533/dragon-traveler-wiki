@@ -586,5 +586,15 @@
     },
     "active": true,
     "last_updated": 1771563818
+  },
+  {
+    "code": "MysteriousDate",
+    "rewards": {
+      "Gold": 3000,
+      "Legacy Dragon Crystal": 3,
+      "Apple": 1
+    },
+    "active": true,
+    "last_updated": 1771644484
   }
 ]

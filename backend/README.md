@@ -58,6 +58,7 @@ backend/
     ├── howlkin.py       # Howlkin
     ├── noble_phantasm.py# NoblePhantasm, NoblePhantasmEffect, NoblePhantasmSkill
     ├── resource.py      # Resource
+    ├── subclass.py      # Subclass
     ├── status_effect.py # StatusEffect, StatusEffectType
     ├── team.py          # Team, TeamMember, TeamWyrmspells
     ├── tier_list.py     # TierList, TierEntry, Tier
@@ -72,6 +73,7 @@ The backend reads from and writes to `data/`:
 | File                  | Description          |
 | --------------------- | -------------------- |
 | `characters.json`     | Character database   |
+| `subclasses.json`     | Subclass definitions |
 | `noble_phantasm.json` | Noble Phantasm data  |
 | `factions.json`       | Faction definitions  |
 | `wyrmspells.json`     | Wyrmspell database   |
@@ -88,9 +90,11 @@ The backend reads from and writes to `data/`:
 
 ## Dolt Database
 
-The Dolt database (`dolt-db/`) mirrors the JSON data in a normalized relational schema with 20 tables. Key relationships:
+The Dolt database (`dolt-db/`) mirrors the JSON data in a normalized relational schema. Key relationships:
 
 - `characters` has child tables: `character_factions`, `character_subclasses`, `talent_levels`, `skills`
+- `subclasses` has child/link tables: `subclass_bonuses`, `subclass_character_classes`
+- `character_subclasses.subclass_id` links character subclass assignments to `subclasses.id`
 - `tier_lists` has child table `tier_list_entries`
 - `teams` has child table `team_members`
 - `changelog` has child table `changelog_changes`

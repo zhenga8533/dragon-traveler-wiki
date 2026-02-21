@@ -33,6 +33,7 @@ import type { Howlkin } from '../types/howlkin';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import type { Resource } from '../types/resource';
 import type { StatusEffect } from '../types/status-effect';
+import type { Subclass } from '../types/subclass';
 import type { Team } from '../types/team';
 import type { TierList } from '../types/tier-list';
 import type { UsefulLink } from '../types/useful-link';
@@ -47,6 +48,7 @@ type SearchResult = {
     | 'howlkin'
     | 'resource'
     | 'status-effect'
+    | 'subclass'
     | 'tier-list'
     | 'useful-link'
     | 'wyrmspell'
@@ -86,6 +88,11 @@ const PAGES = [
     title: 'Resources',
     path: '/resources',
     keywords: 'resources materials currency items',
+  },
+  {
+    title: 'Subclasses',
+    path: '/subclasses',
+    keywords: 'subclasses class talents tier bonuses effects',
   },
   {
     title: 'Howlkins',
@@ -153,6 +160,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
   const [howlkins, setHowlkins] = useState<Howlkin[]>([]);
   const [resources, setResources] = useState<Resource[]>([]);
   const [statusEffects, setStatusEffects] = useState<StatusEffect[]>([]);
+  const [subclasses, setSubclasses] = useState<Subclass[]>([]);
   const [wyrmspells, setWyrmspells] = useState<Wyrmspell[]>([]);
   const [noblePhantasms, setNoblePhantasms] = useState<NoblePhantasm[]>([]);
   const [teams, setTeams] = useState<Team[]>([]);
@@ -196,6 +204,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         fetchJson<Howlkin>('howlkins.json'),
         fetchJson<Resource>('resources.json'),
         fetchJson<StatusEffect>('status-effects.json'),
+        fetchJson<Subclass>('subclasses.json'),
         fetchJson<Wyrmspell>('wyrmspells.json'),
         fetchJson<NoblePhantasm>('noble_phantasm.json'),
         fetchJson<Team>('teams.json'),
@@ -211,6 +220,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
             howlkinsData,
             resourcesData,
             effects,
+            subclassesData,
             spells,
             phantasms,
             teamData,
@@ -224,6 +234,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
             setHowlkins(howlkinsData);
             setResources(resourcesData);
             setStatusEffects(effects);
+            setSubclasses(subclassesData);
             setWyrmspells(spells);
             setNoblePhantasms(phantasms);
             setTeams(teamData);
@@ -343,6 +354,25 @@ export default function SearchModal({ trigger }: SearchModalProps) {
           path: '/status-effects',
           icon: IoFlashOutline,
           color: 'orange',
+        }))
+      );
+    }
+
+    // Search subclasses
+    if (subclasses.length > 0) {
+      const subclassFuse = new Fuse(subclasses, {
+        keys: ['name', 'class', 'effect', 'bonuses'],
+        threshold: 0.3,
+      });
+      const subclassResults = subclassFuse.search(query).slice(0, 5);
+      results.push(
+        ...subclassResults.map((r) => ({
+          type: 'subclass' as const,
+          title: r.item.name,
+          subtitle: `${r.item.class} • Tier ${r.item.tier}`,
+          path: '/subclasses',
+          icon: IoSparklesOutline,
+          color: 'grape',
         }))
       );
     }
@@ -514,6 +544,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
     howlkins,
     resources,
     statusEffects,
+    subclasses,
     wyrmspells,
     noblePhantasms,
     teams,

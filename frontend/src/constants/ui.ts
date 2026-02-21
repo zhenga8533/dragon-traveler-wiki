@@ -78,6 +78,8 @@ export const STORAGE_KEY = {
   NOBLE_PHANTASM_FILTERS: 'noble-phantasms:filters',
   RESOURCE_VIEW_MODE: 'resources:viewMode',
   RESOURCE_FILTERS: 'resources:filters',
+  SUBCLASS_VIEW_MODE: 'subclasses:viewMode',
+  SUBCLASS_FILTERS: 'subclasses:filters',
   HOWLKIN_TAB: 'howlkins:tab',
   HOWLKIN_VIEW_MODE: 'howlkins:viewMode',
   HOWLKIN_FILTERS: 'howlkins:filters',
@@ -101,5 +103,6 @@ export const STORAGE_KEY = {
   WYRMSPELL_SORT: 'wyrmspells:sort',
   NOBLE_PHANTASM_SORT: 'noble-phantasms:sort',
   STATUS_EFFECT_SORT: 'status-effects:sort',
+  SUBCLASS_SORT: 'subclasses:sort',
   SIDEBAR_COLLAPSED: 'sidebar:collapsed',
 } as const;

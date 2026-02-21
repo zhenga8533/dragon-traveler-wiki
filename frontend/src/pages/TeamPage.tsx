@@ -428,27 +428,6 @@ export default function TeamPage() {
 
       <Container size="lg" py="xl">
         <Stack gap="xl">
-          {/* Team Members */}
-          <Stack gap="md">
-            <Group gap="sm">
-              <Title order={3}>Team Composition</Title>
-              <Badge variant="light" color={factionColor} size="sm">
-                {team.members.length} members
-              </Badge>
-            </Group>
-            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
-              {team.members.map((member, index) => (
-                <TeamMemberCard
-                  key={index}
-                  member={member}
-                  charMap={charMap}
-                  factionColor={factionColor}
-                  isDark={isDark}
-                />
-              ))}
-            </SimpleGrid>
-          </Stack>
-
           {/* Wyrmspells Section */}
           {hasWyrmspells && (
             <Stack gap="md">
@@ -485,6 +464,27 @@ export default function TeamPage() {
               </SimpleGrid>
             </Stack>
           )}
+
+          {/* Team Members */}
+          <Stack gap="md">
+            <Group gap="sm">
+              <Title order={3}>Team Composition</Title>
+              <Badge variant="light" color={factionColor} size="sm">
+                {team.members.length} members
+              </Badge>
+            </Group>
+            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
+              {team.members.map((member, index) => (
+                <TeamMemberCard
+                  key={index}
+                  member={member}
+                  charMap={charMap}
+                  factionColor={factionColor}
+                  isDark={isDark}
+                />
+              ))}
+            </SimpleGrid>
+          </Stack>
         </Stack>
       </Container>
     </Box>
@@ -506,6 +506,8 @@ function TeamMemberCard({
   const borderColor = character
     ? QUALITY_BORDER_COLOR[character.quality]
     : 'var(--mantine-color-gray-5)';
+  const hasSubstitutes =
+    Array.isArray(member.substitutes) && member.substitutes.length > 0;
 
   return (
     <Paper
@@ -593,19 +595,17 @@ function TeamMemberCard({
             </Group>
           )}
 
-          {member.substitutes && member.substitutes.length > 0 && (
-            <Box mt={4}>
-              <Group gap={4} mb={4}>
-                <IoSwapHorizontal
-                  size={12}
-                  color="var(--mantine-color-dimmed)"
-                />
-                <Text size="xs" c="dimmed" fw={500}>
-                  Substitutes
-                </Text>
-              </Group>
+          <Box mt={4}>
+            <Group gap={4} mb={4}>
+              <IoSwapHorizontal size={12} color="var(--mantine-color-dimmed)" />
+              <Text size="xs" c="dimmed" fw={500}>
+                Substitutes
+              </Text>
+            </Group>
+
+            {hasSubstitutes ? (
               <Group gap="xs">
-                {member.substitutes.map((sub, idx) => (
+                {member.substitutes!.map((sub, idx) => (
                   <Tooltip key={idx} label={sub} position="top">
                     <Link
                       to={`/characters/${encodeURIComponent(sub)}`}
@@ -634,8 +634,12 @@ function TeamMemberCard({
                   </Tooltip>
                 ))}
               </Group>
-            </Box>
-          )}
+            ) : (
+              <Text size="xs" c="dimmed">
+                No substitutes
+              </Text>
+            )}
+          </Box>
 
           {member.note && (
             <>

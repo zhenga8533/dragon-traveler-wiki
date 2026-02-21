@@ -13,6 +13,7 @@ export type { Gear, GearSet, GearSetBonus, GearType } from './gear';
 export type { Howlkin } from './howlkin';
 export type { Resource, ResourceCategory } from './resource';
 export type { StatusEffect, StatusEffectType } from './status-effect';
+export type { Subclass } from './subclass';
 export type { Team, TeamMember } from './team';
 export type { Tier, TierList } from './tier-list';
 export type { UsefulLink } from './useful-link';

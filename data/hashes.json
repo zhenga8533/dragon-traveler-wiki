@@ -419,6 +419,280 @@
       "ts": 1771374946
     }
   },
+  "subclasses": {
+    "Arrowslinger": {
+      "hash": "ea9ab85922dc58d8b964ac70de8fe234b11a06716fa4ce50ed79ca23080c4726",
+      "ts": 1771647811
+    },
+    "Tracker": {
+      "hash": "ac26c07f63e9bae7ac6109d93d6ab2fabb73c01a354eedf9e1fbf3fb01a12a55",
+      "ts": 1771647811
+    },
+    "Guerrilla": {
+      "hash": "e2a5c11072a443d4646217081c0f7f168f50f568496574c56be1bb829344d6d5",
+      "ts": 1771647811
+    },
+    "Hunter": {
+      "hash": "b2e3fb9e91531ce12c19bae6469c571159ad86d545fa26952893bbf37d453a71",
+      "ts": 1771647811
+    },
+    "Ranger": {
+      "hash": "0512297068d9a2c96ac5260cb4bf97129e29ab078a8935cedd9b123581af33bd",
+      "ts": 1771647811
+    },
+    "Scout": {
+      "hash": "ebfdf532e12e944d47ccb74ffeb17957e5432592b7b3093a1f4328f035730962",
+      "ts": 1771647811
+    },
+    "Bloodhunter": {
+      "hash": "824876bd474adaaf180fa71dba26e8677348cc136ea4909b1ca82fe8f7c5b8b6",
+      "ts": 1771647811
+    },
+    "Bounty Hunter": {
+      "hash": "ba958657c5ab9654609166300dcc61976bd92f0261143edfccea06de2398aab8",
+      "ts": 1771647811
+    },
+    "Light Ranger": {
+      "hash": "40fcd1dd9f177b2c2500293857dc86ca4f09bf5d0c97dc673de2b702cc36463b",
+      "ts": 1771647811
+    },
+    "Sharpshooter": {
+      "hash": "b1a2ec2df9b1da72cff1f190d19fbf62f817b8f5ed667efe93140daabd02ab2e",
+      "ts": 1771647811
+    },
+    "Sniper": {
+      "hash": "093da219bb4a20de210e6cca390807c43bd1dfccdb3597b3a716fd3794d0e3d7",
+      "ts": 1771647811
+    },
+    "Rogue": {
+      "hash": "d2df2357d005cb2510913a72db411598b20c21d394100084504e660a9a351208",
+      "ts": 1771647811
+    },
+    "Thief": {
+      "hash": "aa4181b6eea65bc472b9e0909215f168d41581d7de7b20c13a1b7558b1c1fed2",
+      "ts": 1771647811
+    },
+    "Marauder": {
+      "hash": "62a0ab11c09281dc6dcaaea3d3d17cc10e95cd86ef2a0362fc99d30049d7f897",
+      "ts": 1771647811
+    },
+    "Nightblade": {
+      "hash": "3155e881ac3e7d8849dc20801b4e9f1862e3acb70ba9995e195ec59fab04fa77",
+      "ts": 1771647811
+    },
+    "Scoundrel": {
+      "hash": "723f1746a10d42d778fe0d28f32eb086e4a591f0bab83316db6c4a9546a98557",
+      "ts": 1771647811
+    },
+    "Spy": {
+      "hash": "6a0bf6f1f85b97423d546736f40abb59450774af68ccccd61c876f0e88d2210f",
+      "ts": 1771647811
+    },
+    "Executioner": {
+      "hash": "f1e2621d46ac29a5fe4f1f347b41acb450ca4134ee95dce3273a53140915daf8",
+      "ts": 1771647811
+    },
+    "Forest Bandit": {
+      "hash": "ee76b938b7324d8aa3cf97dcd414ee7e9b8f546bf8d5e228d61b59c41e8f691e",
+      "ts": 1771647811
+    },
+    "Masked Thief": {
+      "hash": "78d1249d4177818caf1bd980f7e15e1caf73c2f45c9048f965f1e0d64dd78b26",
+      "ts": 1771647811
+    },
+    "Outlaw": {
+      "hash": "12e7c6275cbd59164d9e8206310923ff5ce53577a3480d09a91da65c946f7a1a",
+      "ts": 1771647811
+    },
+    "Shadow Dancer": {
+      "hash": "7cccc5a7b7527218654fe2a587e147fe7f0f343b4de10d45ab9a859a0a0faa95",
+      "ts": 1771647811
+    },
+    "Royal Guard": {
+      "hash": "ceb1a717580095c993ff3ba84c3f7f5993c394aa6c229640e1f45477fbf860d0",
+      "ts": 1771647811
+    },
+    "Shield Guard": {
+      "hash": "7e03c5cfd628c4c7340c9aa046d4ad1dd80922bd446aa9ca4a786fa8cfee5d0b",
+      "ts": 1771647811
+    },
+    "Centurion": {
+      "hash": "7e38c5873f691ad6cc08078df4ad0ecf786bed45b833ed05ef0910377dd63b4f",
+      "ts": 1771647811
+    },
+    "Martyr": {
+      "hash": "ae4ec8da4629bcd75a10d87c2f65686de6782dfbcb0941def2648276f2be90d6",
+      "ts": 1771647811
+    },
+    "Standard Bearer": {
+      "hash": "ace52e899c70200c65c3d2ab882c8f2b803bf564ed4136f3bf09e89eeef77eb7",
+      "ts": 1771647811
+    },
+    "Veteran": {
+      "hash": "4810ebb546c930807894dfcfdff73fc6391d7ef88c9f06208e337eb127f26775",
+      "ts": 1771647811
+    },
+    "Avenger": {
+      "hash": "c45534d6e298ee116b761ca6155c8c98fb11134b1be5f4a57f6a922159347e40",
+      "ts": 1771647811
+    },
+    "Guardian": {
+      "hash": "9ac65d33afcd539a604d568c3bbf5dd7ca9c064ad5abcaa68e4aa9a201626dd8",
+      "ts": 1771647811
+    },
+    "Lionheart Knight": {
+      "hash": "8fdc0c9b7aa0bda58b29403b1223760129f18451d33d376d0826650ca803fe6a",
+      "ts": 1771647811
+    },
+    "Templar": {
+      "hash": "8c688c12a4705c9ba463f4a0abbefed6c004a75719241d7e6518fac9ab33b788",
+      "ts": 1771647811
+    },
+    "Vanguard Warrior": {
+      "hash": "afb44cbdb1c416b4c8f48c931bf4c5da21264007ea666ea47ed49769af234202",
+      "ts": 1771647811
+    },
+    "Fortune Teller": {
+      "hash": "ac7c4ca43ac497c34ad7dd9709bf872694e4618dbf5e29ccef0bb24a9dc04708",
+      "ts": 1771647811
+    },
+    "Scholar": {
+      "hash": "955852ce40089b52d3d3aedac784224c7cdc956253b4e1865a43852d9e43c38d",
+      "ts": 1771647811
+    },
+    "Wizard": {
+      "hash": "36c609bfcc327a6d041ecd1485f1b45555f901acdd8c1e2a86c26f6ab9352134",
+      "ts": 1771647811
+    },
+    "Arcane Master": {
+      "hash": "047398b4eb063cdf9c9c5e1ffa387d277f8d5425d44ac660127191677f1aa0b9",
+      "ts": 1771647811
+    },
+    "Elemental Mage": {
+      "hash": "dd5c767fb906b2b786651651c7585fa889e75217732007179a571e9b502e9b19",
+      "ts": 1771647811
+    },
+    "Magister": {
+      "hash": "57b6256ce9eada366b856c70b923f2727e43e9253718a58b322e1706abe9b2ae",
+      "ts": 1771647811
+    },
+    "Sorcerer": {
+      "hash": "93e2acd3849e52e23002b6f80e6439fba790f8e42072812de93311795ca18bde",
+      "ts": 1771647811
+    },
+    "Astrologer": {
+      "hash": "39a622cef60ae602227924a72981c2ff6429201b5ec85a49b9d0c0f666077058",
+      "ts": 1771647811
+    },
+    "Elementalist": {
+      "hash": "709a2b7ee774af3bf1632c1d3a2684d4eaa1355474835acd4f5c8d5aae281ac0",
+      "ts": 1771647811
+    },
+    "Grand Archmage": {
+      "hash": "426380babfbacac713ca95b81b18b74c01dac0f05173e0d12a64dde6056695d3",
+      "ts": 1771647811
+    },
+    "Potion Master": {
+      "hash": "074fc7cb4fa737c295ce739db3b45ccc8d4023d304365b06973663e8421ab01c",
+      "ts": 1771647811
+    },
+    "Rune Mage": {
+      "hash": "db07e52a1f5d65166950d27a1c49cfdfdc56e65ca288b27ceac8e918d852e4bf",
+      "ts": 1771647811
+    },
+    "Acolyte": {
+      "hash": "f6faba88c0d6d3c31dddee570d4b2333a69608486be5a79e19558e28cc6996ec",
+      "ts": 1771647811
+    },
+    "Believer": {
+      "hash": "f6d0b5bcbc20891b7d3fffac3df345df89759d40035b1ec4beaff4ec72da3a22",
+      "ts": 1771647811
+    },
+    "Medic": {
+      "hash": "96d72799088298f02ef792c626582f6d28136fb7d05a2b6b510485848cb83084",
+      "ts": 1771647811
+    },
+    "Fanatic": {
+      "hash": "0dc935e0c74e6a250cee0ff414cd61ed7be544d96addd6afd69e790e9f342e1d",
+      "ts": 1771647811
+    },
+    "Friar": {
+      "hash": "e264baee6d8f8879b4d97262fa6b492c79fa3e2a0ec99efc6ac337ba098c4425",
+      "ts": 1771647811
+    },
+    "Hermit": {
+      "hash": "cd82a12fa4e33e93d3b754a71ca63de2a534f92e485fcf50ff8e191a049ded85",
+      "ts": 1771647811
+    },
+    "Preacher": {
+      "hash": "3a4e880026749a7a8959fefc503a13082ccff7aaf204d31876cf3d80d4f8f135",
+      "ts": 1771647811
+    },
+    "Bishop": {
+      "hash": "84028469200a509c9e183df978be192afd690935364a6f5559ce983fed719138",
+      "ts": 1771647811
+    },
+    "Divine Officer": {
+      "hash": "9cbda889124060d6c152161291f540597f4861d64120bc946bfa133a2c232283",
+      "ts": 1771647811
+    },
+    "Executor": {
+      "hash": "9c5c66ad07b271d86f11f6f69f984816f4d183bceea3a12990858ce0efabb9a2",
+      "ts": 1771647811
+    },
+    "High Priest": {
+      "hash": "fa68d5db8a7abc1747cdd88f8cb7b33dd223592fa5bd58b33a8dd9e944772e7e",
+      "ts": 1771647811
+    },
+    "Inquisitor": {
+      "hash": "38fd3e27aa6792678d0733e5df6babb320bc59d5244bb5b468f942d198f2bc8e",
+      "ts": 1771647811
+    },
+    "Fighter": {
+      "hash": "8eec4c98f42b166833c3926194c7a991d668cbefeb9d4781bbc7a45504858662",
+      "ts": 1771647811
+    },
+    "Swordsman": {
+      "hash": "b2e18e0c0101cfa8237a3abe26653087f7e1c91d4746508fadb5c866b3757751",
+      "ts": 1771647811
+    },
+    "Arcane Duelist": {
+      "hash": "f8d8b7949659278cb7f1ad764714f03c55607d8d5213136a7f1dbc9e0c76200e",
+      "ts": 1771647811
+    },
+    "Champion": {
+      "hash": "a894350001e537f7551eaeb9b3420d46784c92b99bb76e847de798e99733ef92",
+      "ts": 1771647811
+    },
+    "Gladiator": {
+      "hash": "76d637b478704713c5a960908c848532b6ea46fd706bdf55fcf6cf1eb6aabfd4",
+      "ts": 1771647811
+    },
+    "Knight": {
+      "hash": "3eff08208fc69a8842dc5bdfbcc5ac90ed9c046153eb940d3086003bf81ba1f1",
+      "ts": 1771647811
+    },
+    "Berserker": {
+      "hash": "9b5e14117823b1967e67ffa8f0a798f56d18fbeae2998c269a58c4374ff659fa",
+      "ts": 1771647811
+    },
+    "Crusader": {
+      "hash": "d7a0e8283cfb340fd3099a3677bc6798fb4514d42ae92b46a51e022b46bac53c",
+      "ts": 1771647811
+    },
+    "Lord": {
+      "hash": "3d68b54afec0ecbd628dda65a4ace3001b633d8ab79e59eeb774163c6f4bddf0",
+      "ts": 1771647811
+    },
+    "Sword Master": {
+      "hash": "9748751753f052dfcc72bacbd62c150874dfebe018d85122c012a6ef8de48c98",
+      "ts": 1771647811
+    },
+    "Vanguard": {
+      "hash": "7cbaad17f9758ec393fda9949e5f631597c10254bc9877811beb103e234c3755",
+      "ts": 1771647811
+    }
+  },
   "wyrmspells": {
     "Agility Aura": {
       "hash": "35717fa99a8b52a7367388e8ff5b41a3d75fa0429fbbd743b8cead9a52ee715f",
@@ -1219,6 +1493,10 @@
     "KWYCOSER": {
       "hash": "5b0ee68dcbd28147b6eb78beb2ed18a399b4c218951fa8feb253491b779dbbab",
       "ts": 1771563818
+    },
+    "MysteriousDate": {
+      "hash": "9dba1a070bd5aa5a98ed4073370a614defcc2fffddbf6db2aea66063585ab851",
+      "ts": 1771644484
     }
   },
   "status_effects": {
@@ -1233,6 +1511,10 @@
     "Attack Speed Boost": {
       "hash": "70593806279d2f0237423b641df1a406eda6308f16315ee1c83066f0b1adc4ff",
       "ts": 1771129475
+    },
+    "Attack Stat Buff": {
+      "hash": "9363403742d4ef7178091d4856b8861b4a30abc5ea918aeb3f173ceee0017600",
+      "ts": 1771644501
     },
     "Crit Damage Up": {
       "hash": "d6740523df53382bce5566ed56650da2168d1ec3c7d13ba4b86a347eb0e6bea8",
@@ -1250,6 +1532,10 @@
       "hash": "824d6ba630d567a557f56acee3d5fd442385be3d1f19eb4ffede69f43e21f2d5",
       "ts": 1771129358
     },
+    "Defense Stat Buff": {
+      "hash": "0938e967a3989c7515501f073ceb972c5c7dc3d492d1e41ad402272a5a58832a",
+      "ts": 1771644501
+    },
     "Dodge Up": {
       "hash": "2e32d3884ea1453eba1d0564a7bbcae8989d1284b18b0f2241a62d0f72ff984b",
       "ts": 1771185685
@@ -1257,6 +1543,10 @@
     "Dragon Roar": {
       "hash": "eca3b52c9f9049167181f159125ddd37bb5b6512a673c65c7c40a9ce90dcae71",
       "ts": 1771185685
+    },
+    "Frenzy": {
+      "hash": "b5238986b5285d18c7d6d2650998ef8cd97fc3d4037eec7e71397f90a822221d",
+      "ts": 1771644501
     },
     "Lifesteal": {
       "hash": "f3c7d3158af9cf67122beb53297009e9108a071fa7f302df524d541679fe5c7b",
@@ -1278,6 +1568,10 @@
       "hash": "7d6d89d327a669eb5716bad58fe4434ce997bc17c1d07dd6705e30135ab3a14f",
       "ts": 1771185685
     },
+    "Stat Buff": {
+      "hash": "d669c318fdd6aa0df9f71ccb85e420c10608a5d2709a10db26281a6a340100c1",
+      "ts": 1771644501
+    },
     "Accuracy Down": {
       "hash": "07b584fc18d48b17e010e71991ea9646a5ab49483a7b298746dcf65347f81a0f",
       "ts": 1771185685
@@ -1290,13 +1584,25 @@
       "hash": "c7a21fc3d36c34f6fc709358cc00ed16286540682a10dc990af89c8b4716dd32",
       "ts": 1771129475
     },
+    "Attack Stat Debuff": {
+      "hash": "3228a646728c95dd03ac18f8eb4a4f9cbcb218fec9b5e534c2f992d5757c483a",
+      "ts": 1771644501
+    },
     "Crit Down": {
       "hash": "c8a3d7d473e21590bb7200bee7dd65f659992cbd4f1b5639bbda981af36fea7c",
       "ts": 1771129475
     },
+    "Damage Down": {
+      "hash": "082430238ca330455ed57ba0b64295fe51728afd7750f02f61196fc2a3fb33c8",
+      "ts": 1771644501
+    },
     "Damage Reduction Down": {
       "hash": "572e1a31e9981ae85c3d2ba53acdda2afd4b719324a11a83ff7604e67b68c2ae",
       "ts": 1771129475
+    },
+    "Defense Stat Debuff": {
+      "hash": "941f7f9e7f121ecd769ec699bb68b30f672600e93149996b2838c74d17732d56",
+      "ts": 1771644501
     },
     "Dodge Down": {
       "hash": "f5948fbe84f84304a1e39bd24a32c7a537515484a1ccf17e18f5bcba9818c7eb",
@@ -1323,8 +1629,12 @@
       "ts": 1771129475
     },
     "Stat Debuff": {
-      "hash": "ceea20a2d8fb195d05196af4d8b1f184e2a4c136658d4d0098941034cfd266ee",
-      "ts": 1771129475
+      "hash": "caaca4530aa11fe1286dfd08bc623f9a802dfc2103cbb9b6a94b58d31c25e51d",
+      "ts": 1771644501
+    },
+    "Adaptive Damage": {
+      "hash": "f335eed4b9c6f7654c6875331f425b7d12a0212718332ccdc0dc7b37f6f3f198",
+      "ts": 1771644501
     },
     "Adrenaline": {
       "hash": "ec15dd8289284de444b197944e3384dc8c74fe3d0c22a8b29c4eb1ac1c65c50e",
@@ -1341,6 +1651,14 @@
     "Elemental Reaction": {
       "hash": "e291e330a73faa3071218316b58a39645343d980dd6f69265beeed1ec47fd99f",
       "ts": 1771129475
+    },
+    "Energy Recovery Subclass": {
+      "hash": "7cabeafa3f16665bb92dde3a5f2861567a7a8bc74d7ae9430675120694d12a96",
+      "ts": 1771644501
+    },
+    "Energy Reduction Subclass": {
+      "hash": "9661907192d0f93aa5d6cdebbd3d6c2108da5b2f635e765118b205874fb10707",
+      "ts": 1771644501
     },
     "Punishment": {
       "hash": "6f8f0f3157040cdbfea31d9b6a9ab364e10fac36b6475e35599c5525b87bd837",

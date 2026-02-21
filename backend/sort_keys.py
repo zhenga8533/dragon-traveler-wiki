@@ -97,6 +97,14 @@ def noble_phantasm_sort_key(np):
     )
 
 
+def subclass_sort_key(sc):
+    return (
+        (sc.get("class") or "").lower(),
+        int(sc.get("tier", 0) or 0),
+        (sc.get("name") or "").lower(),
+    )
+
+
 def faction_sort_key(f):
     return (f.get("name") or "").lower()
 
@@ -131,5 +139,6 @@ FILE_SORT_KEY = {
     "gear.json": gear_sort_key,
     "gear_sets.json": gear_set_sort_key,
     "noble_phantasm.json": noble_phantasm_sort_key,
+    "subclasses.json": subclass_sort_key,
     "golden_alliances.json": golden_alliance_sort_key,
 }

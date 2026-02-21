@@ -18,6 +18,7 @@ import {
   UnstyledButton,
   useMantineColorScheme,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import {
@@ -52,10 +53,12 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import type { StatusEffect } from '../types/status-effect';
+import type { Subclass } from '../types/subclass';
 
 export default function CharacterPage() {
   const { colorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';
+  const isDesktop = useMediaQuery('(min-width: 62em)');
   const { name } = useParams<{ name: string }>();
   const { data: characters, loading } = useDataFetch<Character[]>(
     'data/characters.json',
@@ -67,6 +70,10 @@ export default function CharacterPage() {
   );
   const { data: noblePhantasms } = useDataFetch<NoblePhantasm[]>(
     'data/noble_phantasm.json',
+    []
+  );
+  const { data: subclasses } = useDataFetch<Subclass[]>(
+    'data/subclasses.json',
     []
   );
   const { tierLists, selectedTierListName } = useContext(
@@ -97,6 +104,14 @@ export default function CharacterPage() {
       ) ?? null
     );
   }, [character, noblePhantasms]);
+
+  const subclassByName = useMemo(() => {
+    const map = new Map<string, Subclass>();
+    for (const subclass of subclasses) {
+      map.set(subclass.name, subclass);
+    }
+    return map;
+  }, [subclasses]);
 
   // Lazy-loaded assets
   const [illustrations, setIllustrations] = useState<CharacterIllustration[]>(
@@ -246,6 +261,8 @@ export default function CharacterPage() {
   const heroBlurFilter = isDark
     ? 'blur(20px) brightness(0.4)'
     : 'blur(20px) brightness(1.2) saturate(1.05)';
+  const stickyTopOffset =
+    'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))';
 
   return (
     <Box>
@@ -457,107 +474,117 @@ export default function CharacterPage() {
         <Grid gutter="xl">
           {/* Left Column - Illustration */}
           <Grid.Col span={{ base: 12, md: 4 }}>
-            <Stack gap="md" style={{ position: 'sticky', top: 20 }}>
-              {illustrations.length > 0 ? (
-                <Stack gap="sm">
-                  <Paper
-                    p="md"
-                    radius="lg"
-                    withBorder
-                    style={{ overflow: 'hidden' }}
-                  >
-                    <Stack gap="xs">
-                      <Group justify="space-between" align="center">
-                        <Text fw={600} size="sm">
-                          Illustrations
-                        </Text>
-                        {activeIllustrationIndex >= 0 && (
-                          <Text size="xs" c="dimmed">
-                            {activeIllustrationIndex + 1}/{illustrations.length}
+            <Stack
+              gap="md"
+              style={{
+                position: isDesktop ? 'sticky' : 'static',
+                top: isDesktop ? stickyTopOffset : undefined,
+                alignSelf: 'flex-start',
+              }}
+            >
+              <Box>
+                {illustrations.length > 0 ? (
+                  <Stack gap="sm">
+                    <Paper
+                      p="md"
+                      radius="lg"
+                      withBorder
+                      style={{ overflow: 'hidden' }}
+                    >
+                      <Stack gap="xs">
+                        <Group justify="space-between" align="center">
+                          <Text fw={600} size="sm">
+                            Illustrations
                           </Text>
-                        )}
-                      </Group>
-                      <UnstyledButton
-                        onClick={() => setPreviewOpen(true)}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          borderRadius: 'var(--mantine-radius-md)',
-                          overflow: 'hidden',
-                          position: 'relative',
-                        }}
-                      >
-                        {activeIllustration?.type === 'video' ? (
-                          <Box
-                            component="video"
-                            src={activeIllustration.src}
-                            controls
-                            style={{
-                              width: '100%',
-                              maxHeight: 600,
-                              display: 'block',
-                            }}
-                          />
-                        ) : (
-                          <Image
-                            src={activeIllustration?.src}
-                            alt={
-                              activeIllustration
-                                ? `${character.name} - ${activeIllustration.name}`
-                                : character.name
-                            }
-                            fit="contain"
-                            mah={600}
-                          />
-                        )}
-                        <Box
+                          {activeIllustrationIndex >= 0 && (
+                            <Text size="xs" c="dimmed">
+                              {activeIllustrationIndex + 1}/
+                              {illustrations.length}
+                            </Text>
+                          )}
+                        </Group>
+                        <UnstyledButton
+                          onClick={() => setPreviewOpen(true)}
                           style={{
-                            position: 'absolute',
-                            inset: 0,
-                            background:
-                              'linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55) 100%)',
-                            pointerEvents: 'none',
-                          }}
-                        />
-                        <Group
-                          justify="space-between"
-                          align="center"
-                          style={{
-                            position: 'absolute',
-                            bottom: 12,
-                            left: 12,
-                            right: 12,
+                            display: 'block',
+                            width: '100%',
+                            borderRadius: 'var(--mantine-radius-md)',
+                            overflow: 'hidden',
+                            position: 'relative',
                           }}
                         >
-                          <Stack gap={2}>
-                            <Text size="sm" fw={600} c="white">
-                              {activeIllustrationName ?? character.name}
-                            </Text>
-                            <Text size="xs" c="gray.2">
-                              {activeIllustration?.type === 'video'
-                                ? 'Animation'
-                                : 'Artwork'}
-                            </Text>
-                          </Stack>
-                          <Badge
-                            leftSection={<RiZoomInLine />}
-                            variant="light"
-                            color="gray"
+                          {activeIllustration?.type === 'video' ? (
+                            <Box
+                              component="video"
+                              src={activeIllustration.src}
+                              controls
+                              style={{
+                                width: '100%',
+                                maxHeight: 420,
+                                display: 'block',
+                              }}
+                            />
+                          ) : (
+                            <Image
+                              src={activeIllustration?.src}
+                              alt={
+                                activeIllustration
+                                  ? `${character.name} - ${activeIllustration.name}`
+                                  : character.name
+                              }
+                              fit="contain"
+                              mah={420}
+                            />
+                          )}
+                          <Box
+                            style={{
+                              position: 'absolute',
+                              inset: 0,
+                              background:
+                                'linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55) 100%)',
+                              pointerEvents: 'none',
+                            }}
+                          />
+                          <Group
+                            justify="space-between"
+                            align="center"
+                            style={{
+                              position: 'absolute',
+                              bottom: 12,
+                              left: 12,
+                              right: 12,
+                            }}
                           >
-                            View
-                          </Badge>
-                        </Group>
-                      </UnstyledButton>
-                    </Stack>
+                            <Stack gap={2}>
+                              <Text size="sm" fw={600} c="white">
+                                {activeIllustrationName ?? character.name}
+                              </Text>
+                              <Text size="xs" c="gray.2">
+                                {activeIllustration?.type === 'video'
+                                  ? 'Animation'
+                                  : 'Artwork'}
+                              </Text>
+                            </Stack>
+                            <Badge
+                              leftSection={<RiZoomInLine />}
+                              variant="light"
+                              color="gray"
+                            >
+                              View
+                            </Badge>
+                          </Group>
+                        </UnstyledButton>
+                      </Stack>
+                    </Paper>
+                  </Stack>
+                ) : (
+                  <Paper p="xl" radius="lg" withBorder>
+                    <Center h={300}>
+                      <Text c="dimmed">No illustrations available</Text>
+                    </Center>
                   </Paper>
-                </Stack>
-              ) : (
-                <Paper p="xl" radius="lg" withBorder>
-                  <Center h={300}>
-                    <Text c="dimmed">No illustrations available</Text>
-                  </Center>
-                </Paper>
-              )}
+                )}
+              </Box>
 
               {/* Subclasses */}
               {character.subclasses.length > 0 && (
@@ -567,26 +594,48 @@ export default function CharacterPage() {
                       Subclasses
                     </Text>
                     <SimpleGrid cols={2} spacing="xs">
-                      {character.subclasses.map((subclass, idx) => {
+                      {character.subclasses.map((subclass) => {
+                        const subclassDetails = subclassByName.get(subclass);
+                        const subclassClass =
+                          subclassDetails?.class ?? character.character_class;
                         const subclassIcon = getSubclassIcon(
                           subclass,
-                          character.character_class
+                          subclassClass
                         );
                         return (
-                          <Paper key={idx} p="xs" radius="sm" withBorder>
-                            <Stack gap={4} align="center">
+                          <Paper key={subclass} p="xs" radius="sm" withBorder>
+                            <Stack gap={6} align="center">
                               {subclassIcon && (
-                                <Image
-                                  src={subclassIcon}
-                                  alt={subclass}
-                                  w={100}
-                                  h={93}
-                                  fit="contain"
-                                />
+                                <Center>
+                                  <Image
+                                    src={subclassIcon}
+                                    alt={subclass}
+                                    w={100}
+                                    h={93}
+                                    fit="contain"
+                                  />
+                                </Center>
                               )}
-                              <Text size="xs" fw={500} ta="center">
-                                {subclass}
-                              </Text>
+
+                              <Group
+                                justify="center"
+                                align="center"
+                                wrap="wrap"
+                                gap={6}
+                              >
+                                <Text size="xs" fw={600} ta="center">
+                                  {subclass}
+                                </Text>
+                                {subclassDetails?.tier && (
+                                  <Badge
+                                    variant="light"
+                                    color="grape"
+                                    size="xs"
+                                  >
+                                    Tier {subclassDetails.tier}
+                                  </Badge>
+                                )}
+                              </Group>
                             </Stack>
                           </Paper>
                         );

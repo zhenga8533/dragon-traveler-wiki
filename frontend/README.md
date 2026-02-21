@@ -180,6 +180,7 @@ Hash-based routing for GitHub Pages compatibility:
 | `/noble-phantasms`                | NoblePhantasms        | Noble Phantasm database     |
 | `/noble-phantasms/:name`          | NoblePhantasmPage     | Noble Phantasm detail view  |
 | `/resources`                      | Resources             | Resource database           |
+| `/subclasses`                     | Subclasses            | Subclass database           |
 | `/status-effects`                 | StatusEffects         | Status effects reference    |
 | `/wyrmspells`                     | Wyrmspells            | Wyrmspell database          |
 | `/howlkins`                       | Howlkins              | Howlkin database            |

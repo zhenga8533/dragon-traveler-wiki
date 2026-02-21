@@ -70,6 +70,7 @@ import Resources from './pages/Resources';
 import ShovelEventGuide from './pages/ShovelEventGuide';
 import StarUpgradeCalculator from './pages/StarUpgradeCalculator';
 import StatusEffects from './pages/StatusEffects';
+import Subclasses from './pages/Subclasses';
 import TeamPage from './pages/TeamPage';
 import Teams from './pages/Teams';
 import TierList from './pages/TierList';
@@ -95,6 +96,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Howlkins', path: '/howlkins' },
       { label: 'Noble Phantasms', path: '/noble-phantasms' },
       { label: 'Resources', path: '/resources' },
+      { label: 'Subclasses', path: '/subclasses' },
       { label: 'Status Effects', path: '/status-effects' },
       { label: 'Wyrmspells', path: '/wyrmspells' },
     ],
@@ -459,6 +461,7 @@ function AppContent() {
                 element={<NoblePhantasmPage />}
               />
               <Route path="/resources" element={<Resources />} />
+              <Route path="/subclasses" element={<Subclasses />} />
               <Route path="/status-effects" element={<StatusEffects />} />
               <Route path="/wyrmspells" element={<DragonSpells />} />
               <Route path="/tier-list" element={<TierList />} />
