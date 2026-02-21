@@ -2436,6 +2436,10 @@
       "hash": "bf6e83f76b4d0566a97889b49aabd2bc9778b0e09a1f79ab66bc17173d9ac96e",
       "ts": 1771563818
     },
+    "Knight": {
+      "hash": "662a335c59fc1bdf5817919e1db07038865e4bd4e2776849e6a5840c77fc1ffe",
+      "ts": 1771654321
+    },
     "Last Whisper": {
       "hash": "2900e2b111a905e8ab13a15099296f6395dec26e6269319a5ef54c1d70319684",
       "ts": 1771563818
@@ -2447,6 +2451,10 @@
     "Meow-Meow": {
       "hash": "5c83e3298017ebb974c80371c0557194dac03a01eddbd697cb48bd40733b0834",
       "ts": 1771563818
+    },
+    "Mercenary": {
+      "hash": "a78b62ae3c7f94d72d23206b540eee2b08495760d0f2927dfb7ac0fbcb7ab15a",
+      "ts": 1771654321
     },
     "Moonlight": {
       "hash": "71bf01fd51d28d2c13541982fe14136258a20be5c13ae2717fd9fb1036101ec4",
@@ -2520,6 +2528,10 @@
       "hash": "05dde4fe89b6cc02411c6f00897707ab2f4b04c5b746477963dc7c515fc3df6c",
       "ts": 1771563818
     },
+    "Traveler": {
+      "hash": "faa5476b17f59a302183e2a1618f21e273fde8d502ec5014dba504308c3bdb38",
+      "ts": 1771654321
+    },
     "Truth Seeker": {
       "hash": "50ae883d8eee086153aadf3df45d3b44401655610ef485957db999cae1a15c3a",
       "ts": 1771563818
@@ -2550,13 +2562,29 @@
       "hash": "258f5af968443a40c9f317442efcb4d40279a586d1e5cc0ae2541095f43baa74",
       "ts": 1771608669
     },
+    "Dragon Hunter Helmet": {
+      "hash": "0574a621cbee22c0120cacc2f7da632e1e6310b9d64f647378b1b1d1ac18718f",
+      "ts": 1771654321
+    },
     "Flamelord's Helmet": {
       "hash": "7b6cfdc0807847141bb8c39855b2d24ebf25d170053e792fe4d9e15e62ff916d",
       "ts": 1771608669
     },
+    "Night Owl Helmet": {
+      "hash": "b6558db2cc47c8aba8ab0750818daea4dfc4951ba044a22e1ae2f31712e817a7",
+      "ts": 1771654321
+    },
     "Paladin's Helmet": {
       "hash": "1890420959196a6053654dd0b613a50930589184dca951af8fbdffb13338d189",
       "ts": 1771608669
+    },
+    "Pious Biretta": {
+      "hash": "88bf2e239f5ea409854093cdaf999bc5547c267ba3eb00fdf63b4b9880c5b3e8",
+      "ts": 1771654321
+    },
+    "Quenched Helmet": {
+      "hash": "1b975c37294a1ea0501871da9203c1e02b979f2b4338eaab1fec9fea9268d30f",
+      "ts": 1771654321
     },
     "Ranger's Feathered Hat": {
       "hash": "fcde1f9d23aada081631258e460ab95514c31b194f1a38980dcffb59fe269857",
@@ -2569,6 +2597,22 @@
     "Valiant Helmet": {
       "hash": "977f298bf2c48e865e14e8bd24ec847a3a8d343e18347ff2e000ddc950c757e9",
       "ts": 1771608669
+    },
+    "Hero's Helmet": {
+      "hash": "9dd11c402bb7bba9643cb43fd4af31cd1535f35788b23cd5836611853b670ae8",
+      "ts": 1771654321
+    },
+    "Knight's Helmet": {
+      "hash": "4cf1bfff094ea02439c92d3c26c7e7322246c000fb61d8caa40dee66f5e72c71",
+      "ts": 1771654321
+    },
+    "Mercenary's Hood": {
+      "hash": "15816153c2613de75e05a00c2fa7827dc039e879720c1f4302bb84cb0b85c589",
+      "ts": 1771654321
+    },
+    "Traveler's Hat": {
+      "hash": "845adcedb6369d0e1d33ad65ac082e6b1c432a0382696c2124e6f3e920f525a5",
+      "ts": 1771654321
     },
     "Arcane Robe": {
       "hash": "e8ed2fc4c73447bbbb5a825005d3c795d7767ba5913f1ff0a94e14f94050937e",
@@ -2586,9 +2630,17 @@
       "hash": "cd0782fde7d214c15b4ad15647e041a50c6d6ef41a153c05055b1eef3c421e32",
       "ts": 1771608669
     },
+    "Night Owl Armor": {
+      "hash": "a475fac9583139585329391952c509fbd5dd053bce17c990aadca0aca80b9ae5",
+      "ts": 1771654321
+    },
     "Paladin's Armor": {
       "hash": "381a6250a428eece184a37d55b43c459531f00083d850dd31cdeb1a2c683d915",
       "ts": 1771608669
+    },
+    "Pious Robe": {
+      "hash": "e25df1b76bafb52c4fc3a2d18806f0512f535c046a9449db1919e55f6b6bf4ca",
+      "ts": 1771654321
     },
     "Quenched Armor": {
       "hash": "5a4f196df39c9a4153199ab190baab47702a70b9016a8f7c6701d1fa6cf39dd2",
@@ -2598,9 +2650,29 @@
       "hash": "639faa1d6f73ecfce96d2c3019bef54880e6bd5bc74a2a072ac51bba03173e0f",
       "ts": 1771608669
     },
+    "Sage's Armor": {
+      "hash": "5635a3147242c5f7cb712d8b9981872e2db7f201d7bb8540558676adf7cc101b",
+      "ts": 1771654321
+    },
     "Valiant Armor": {
       "hash": "635089e19bdba04eb318c3148079ec3352fd42662658fc08f19861e4d042650e",
       "ts": 1771608669
+    },
+    "Hero's Armor": {
+      "hash": "d66014b090702d6d0951c8c8364fe2b3b1385250802aa9d7999dcd447693fa4e",
+      "ts": 1771654321
+    },
+    "Knight's Armor": {
+      "hash": "6fc9e31563b528b25d7da72b086d085005988bb1dd61b39a136cfc76bd1fc71a",
+      "ts": 1771654321
+    },
+    "Mercenary's Leather Armor": {
+      "hash": "c9995bb19020a522ca542c98a1c48df9359e2e6e97fbaf55e35fe3988a85802a",
+      "ts": 1771654321
+    },
+    "Traveler's Leather Armor": {
+      "hash": "65be49ce7091a2da59bf587af5ce59b094e1158302f5fdafa4d2784fe7d8fd22",
+      "ts": 1771654321
     },
     "Arcane Gauntlets": {
       "hash": "3bfad820c898e22ba6dbe05216d7f1bb3dce31323182cc36656c3ae9b704e761",
@@ -2626,6 +2698,10 @@
       "hash": "014f5cff571f181e24a969fa7c9ad42b7fb73146cac638a2d718c1d68725a274",
       "ts": 1771608669
     },
+    "Pious Gloves": {
+      "hash": "d143d7c6be64b3fb7477891ac21f1117466f3ea827bf34c7772a4497e8b7b4b6",
+      "ts": 1771654321
+    },
     "Quenched Gauntlets": {
       "hash": "36ffb1a6744ea4f445796812469ab6fea78bc13e3ab47c12bf9b965dfe4df572",
       "ts": 1771608669
@@ -2642,17 +2718,45 @@
       "hash": "95ae399d6d4974742c27bcea018444c79b246d850a09ca5a618c4b0912f98e44",
       "ts": 1771608669
     },
+    "Hero's Gauntlets": {
+      "hash": "f095fadc019fc8f9506144821f4688b964e11da89211b41ea8eb3979dd9e5864",
+      "ts": 1771654321
+    },
+    "Knight's Gauntlets": {
+      "hash": "fd990ffeae08d68de73fff6862892cb7fb19f3e0dfe54e02ba6c335172e4199e",
+      "ts": 1771654321
+    },
+    "Mercenary's Gauntlets": {
+      "hash": "2ee901c2a890d959de03438fd558d35bd23864fb84718d84a6d4e95a0e876b72",
+      "ts": 1771654321
+    },
+    "Traveler's Bracers": {
+      "hash": "a04448680b69f423754e20e4cacd00c54e78aad79360c98d5c5f14e2cf1de13e",
+      "ts": 1771654321
+    },
     "Arcane Boots": {
       "hash": "6a29c1534870b33c1c68e11d16965b5bd18a579e6a8730d6a11dc12d0f1f13f4",
       "ts": 1771608669
+    },
+    "Cursed Boots": {
+      "hash": "8e94157da12ddfaf6acba760185c868ec667b09417e556fde6499660f854dafc",
+      "ts": 1771654321
     },
     "Dragon Hunter Boots": {
       "hash": "8c7d27a1c34226e1b807c02cd5f87a2dced38b3809efc97609e92bd46d37ff12",
       "ts": 1771608669
     },
+    "Flamelord's Boots": {
+      "hash": "88b69b9c49aa7bf763be40ac22e6145f7105e68740ebbc6fd308d44ba8a537d4",
+      "ts": 1771654321
+    },
     "Night Owl Boots": {
       "hash": "b7f5dc863b0735258525fb25936af99d8af44705b56f35437a8db5df13be32ee",
       "ts": 1771608669
+    },
+    "Paladin's Boots": {
+      "hash": "f8df8085f8caaa6293b653b03d3c289d62e81dc0ac72dd0041fa2b0d5a99e6e4",
+      "ts": 1771654321
     },
     "Pious Boots": {
       "hash": "ed24db25e5659a430675bf5daedc903b3a56de7313ecd77a937a33a1087f345d",
@@ -2673,6 +2777,22 @@
     "Valiant Boots": {
       "hash": "b568a362484a0077c1542a091706ce774d2fbfdf749e7c62cf884381ffaca764",
       "ts": 1771608669
+    },
+    "Hero's Boots": {
+      "hash": "b8bec81eda3444f92c35ede5d4f204c3709d450fbc66fadce01d305721a9a3ec",
+      "ts": 1771654321
+    },
+    "Knight's Boots": {
+      "hash": "c54b6ae1a570ebf7918c61bdc4c88ce515c4da7f659036a7a99028a66ed373d4",
+      "ts": 1771654321
+    },
+    "Mercenary's Boots": {
+      "hash": "cae690d6f4149f72fcaea2b9b1bc80b263e240ebf5c56da9ebc97df86fc77d38",
+      "ts": 1771654321
+    },
+    "Traveler's Boots": {
+      "hash": "ff7352fb5e10a4fe1015a292c24548384f71fbecaa2b79914607f0ed854dcc3b",
+      "ts": 1771654321
     },
     "Bloodseeker Sword": {
       "hash": "64ca474252f2db4584507db23aedee932fb02945f3de331e9ac2523007d6ff63",
@@ -2762,6 +2882,18 @@
       "hash": "681e605baa871d3bc3403ac3729567b03492656725870717b1399328d60855f9",
       "ts": 1771563818
     },
+    "Knight's Greatsword": {
+      "hash": "51f63bae1d8c1b8f377a132b759634960f37c0af0e075933e2954aa734175f7a",
+      "ts": 1771654321
+    },
+    "Mercenary's Shortsword": {
+      "hash": "5618c2a2f1c4020280f0143aa7a78eddfaf05a1364c4e8f74de276cbe1faca53",
+      "ts": 1771654321
+    },
+    "Traveler's Longsword": {
+      "hash": "0f13ac0f1e2d6efcc4b95d7681c3e5a60f489053e123a8524812d3191ee1f2cb",
+      "ts": 1771654321
+    },
     "Ancient Dragon Scale": {
       "hash": "ddbb8155fbeb63873e70e879927b5455403242164273b4ad2a6085d767f45c78",
       "ts": 1771563818
@@ -2849,6 +2981,18 @@
     "Hero's Medal": {
       "hash": "caa47d57bdfa1238ca62c700c7b4249c839dbcde4b9fb8f524a2122dcdd612c9",
       "ts": 1771563818
+    },
+    "Knight's Bracelet": {
+      "hash": "22c0e90fec899857dbfdf194cd27b7b0cf6dee3497305842829cd008075d43ef",
+      "ts": 1771654321
+    },
+    "Mercenary's Pocket Watch": {
+      "hash": "b5c2f7e862013663f5a6ce03a866c96c7be12462b141d974bd27e70cdab5c819",
+      "ts": 1771654321
+    },
+    "Traveler's Canteen": {
+      "hash": "5de34aa762529ba4ab384d0371e394f63b64dd37db4e4d386ff7102f3a31f82a",
+      "ts": 1771654321
     }
   },
   "golden_alliances": {
