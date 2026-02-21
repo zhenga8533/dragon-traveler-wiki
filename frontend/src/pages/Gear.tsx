@@ -38,8 +38,8 @@ import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
-import type { Quality } from '../types/character';
 import type { Gear, GearSet, GearType } from '../types/gear';
+import type { Quality } from '../types/quality';
 import { getLatestTimestamp } from '../utils';
 
 const GEAR_TYPE_ORDER: GearType[] = [
@@ -59,8 +59,6 @@ const GEAR_TYPE_ICON_MAP: Record<GearType, string> = {
   Weapon: weaponIcon,
   Accessory: accessoryIcon,
 };
-
-const QUALITY_OPTIONS = ['UR', 'SSR EX', 'SSR+', 'SSR', 'SR', 'R', 'N'];
 
 const GEAR_SET_FIELDS: FieldDef[] = [
   {
@@ -182,7 +180,7 @@ export default function GearPage() {
         label: 'Quality',
         type: 'select',
         required: true,
-        options: QUALITY_OPTIONS,
+        options: QUALITY_ORDER,
       },
       {
         name: 'lore',

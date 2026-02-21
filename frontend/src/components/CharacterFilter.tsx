@@ -9,17 +9,19 @@ import {
   TextInput,
 } from '@mantine/core';
 import { IoClose, IoSearch } from 'react-icons/io5';
-import { QUALITY_ICON_MAP } from '../assets/quality';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
+import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getStatusEffectIcon } from '../assets/status_effect';
+import { QUALITY_ORDER } from '../constants/colors';
 import { IMAGE_SIZE } from '../constants/ui';
-import type { CharacterClass, Quality } from '../types/character';
+import type { CharacterClass } from '../types/character';
 import type { FactionName } from '../types/faction';
+import type { Quality } from '../types/quality';
 import type { CharacterFilters } from '../utils/filter-characters';
 import { EMPTY_FILTERS } from '../utils/filter-characters';
 
-const QUALITIES: Quality[] = ['SSR EX', 'SSR+', 'SSR', 'SR', 'R', 'N'];
+const QUALITIES: Quality[] = [...QUALITY_ORDER];
 const CLASSES: CharacterClass[] = [
   'Guardian',
   'Priest',

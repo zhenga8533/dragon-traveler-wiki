@@ -10,6 +10,7 @@ import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
 } from '../components/SuggestModal';
+import { QUALITY_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Artifact } from '../types/artifact';
@@ -34,7 +35,7 @@ const CHARACTER_FIELDS: FieldDef[] = [
     label: 'Quality',
     type: 'select',
     required: true,
-    options: ['UR', 'SSR EX', 'SSR+', 'SSR', 'SR', 'R', 'N'],
+    options: QUALITY_ORDER,
   },
   {
     name: 'character_class',

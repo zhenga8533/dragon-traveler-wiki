@@ -55,7 +55,7 @@ const RESOURCE_FIELDS: FieldDef[] = [
     label: 'Quality',
     type: 'select',
     required: true,
-    options: ['UR', 'SSR EX', 'SSR+', 'SSR', 'SR', 'R', 'N'],
+    options: QUALITY_ORDER,
   },
   {
     name: 'description',

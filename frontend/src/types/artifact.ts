@@ -1,4 +1,5 @@
-import type { CharacterClass, Quality } from './character';
+import type { CharacterClass } from './character';
+import type { Quality } from './quality';
 
 export interface ArtifactEffect {
   level: number;

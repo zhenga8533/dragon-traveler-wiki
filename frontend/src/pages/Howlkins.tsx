@@ -36,8 +36,8 @@ import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
-import type { Quality } from '../types/character';
 import type { GoldenAlliance, Howlkin } from '../types/howlkin';
+import type { Quality } from '../types/quality';
 import { getLatestTimestamp } from '../utils';
 
 const HOWLKIN_FIELDS: FieldDef[] = [
@@ -53,7 +53,7 @@ const HOWLKIN_FIELDS: FieldDef[] = [
     label: 'Quality',
     type: 'select',
     required: true,
-    options: ['UR', 'SSR EX', 'SSR+', 'SSR', 'SR', 'R', 'N'],
+    options: QUALITY_ORDER,
   },
   {
     name: 'passive_effects',

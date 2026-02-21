@@ -1,4 +1,4 @@
-import type { Quality } from './character';
+import type { Quality } from './quality';
 
 export type ResourceCategory =
   | 'Currency'

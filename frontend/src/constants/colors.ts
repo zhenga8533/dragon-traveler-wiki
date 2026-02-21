@@ -1,8 +1,9 @@
-import type { CharacterClass, Quality } from '../types/character';
+import type { CharacterClass } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { ResourceCategory } from '../types/resource';
 import type { StatusEffectType } from '../types/status-effect';
 import type { Tier } from '../types/tier-list';
+import { QUALITY_COLOR, QUALITY_ORDER } from './quality';
 
 export const CLASS_ORDER: CharacterClass[] = [
   'Guardian',
@@ -13,25 +14,7 @@ export const CLASS_ORDER: CharacterClass[] = [
   'Mage',
 ];
 
-export const QUALITY_ORDER: Quality[] = [
-  'UR',
-  'SSR EX',
-  'SSR+',
-  'SSR',
-  'SR',
-  'R',
-  'N',
-];
-
-export const QUALITY_COLOR: Record<Quality, string> = {
-  UR: 'pink',
-  'SSR EX': 'red',
-  'SSR+': 'orange',
-  SSR: 'yellow',
-  SR: 'violet',
-  R: 'blue',
-  N: 'lime',
-};
+export { QUALITY_COLOR, QUALITY_ORDER };
 
 export const STATE_COLOR: Record<StatusEffectType, string> = {
   Buff: 'green',

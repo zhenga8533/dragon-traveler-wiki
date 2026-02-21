@@ -3,7 +3,7 @@ import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { CHARACTER_CARD, TRANSITION } from '../constants/ui';
-import type { Quality } from '../types/character';
+import type { Quality } from '../types/quality';
 
 const QUALITY_BORDER_COLOR: Record<Quality, string> = {
   UR: 'var(--mantine-color-pink-6)',
@@ -13,6 +13,7 @@ const QUALITY_BORDER_COLOR: Record<Quality, string> = {
   SR: 'var(--mantine-color-violet-5)',
   R: 'var(--mantine-color-blue-5)',
   N: 'var(--mantine-color-lime-5)',
+  C: 'var(--mantine-color-gray-5)',
 };
 
 interface CharacterCardProps {

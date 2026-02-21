@@ -1,5 +1,5 @@
-import type { Quality } from './character';
 import type { FactionName } from './faction';
+import type { Quality } from './quality';
 
 export interface Wyrmspell {
   name: string;

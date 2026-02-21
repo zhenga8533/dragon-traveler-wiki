@@ -1,6 +1,7 @@
 import { QUALITY_ORDER } from '../constants/colors';
-import type { Character, CharacterClass, Quality } from '../types/character';
+import type { Character, CharacterClass } from '../types/character';
 import type { FactionName } from '../types/faction';
+import type { Quality } from '../types/quality';
 import { parseEffectRefs } from './parse-effect-refs';
 
 export interface CharacterFilters {

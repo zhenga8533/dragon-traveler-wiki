@@ -1,5 +1,6 @@
-import type { Quality } from '../../types/character';
+import type { Quality } from '../../types/quality';
 
+import c from './c.png';
 import n from './n.png';
 import r from './r.png';
 import sr from './sr.png';
@@ -16,4 +17,5 @@ export const QUALITY_ICON_MAP: Record<Quality, string> = {
   SR: sr,
   R: r,
   N: n,
+  C: c,
 };
