@@ -99,7 +99,7 @@ def noble_phantasm_sort_key(np):
 
 def subclass_sort_key(sc):
     return (
-        (sc.get("class") or "").lower(),
+        CLASS_RANK.get(sc.get("class", ""), _FALLBACK),
         int(sc.get("tier", 0) or 0),
         (sc.get("name") or "").lower(),
     )

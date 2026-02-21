@@ -31,6 +31,7 @@ import type { CharacterClass } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
 import type { Subclass } from '../types/subclass';
 import { getLatestTimestamp } from '../utils';
+import { getClassRank } from '../utils/class-order';
 
 const SUBCLASS_FIELDS: FieldDef[] = [
   {
@@ -82,11 +83,19 @@ const EMPTY_FILTERS: SubclassFilters = {
   tiers: [],
 };
 
+const renderClassFilterIcon = (value: string) => {
+  const iconSrc = CLASS_ICON_MAP[value as CharacterClass];
+  if (!iconSrc) return null;
+
+  return <Image src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
+};
+
 const FILTER_GROUPS: ChipFilterGroup[] = [
   {
     key: 'classes',
     label: 'Class',
     options: [...CLASS_ORDER],
+    icon: renderClassFilterIcon,
   },
   {
     key: 'tiers',
@@ -150,9 +159,7 @@ export default function Subclasses() {
           if (sortCol === 'name') {
             cmp = a.name.localeCompare(b.name);
           } else if (sortCol === 'class') {
-            cmp = a.class.localeCompare(b.class, undefined, {
-              sensitivity: 'base',
-            });
+            cmp = getClassRank(a.class) - getClassRank(b.class);
           } else if (sortCol === 'tier') {
             cmp = a.tier - b.tier;
           }
@@ -160,9 +167,7 @@ export default function Subclasses() {
           if (cmp !== 0) return applyDir(cmp, sortDir);
         }
 
-        const classCmp = a.class.localeCompare(b.class, undefined, {
-          sensitivity: 'base',
-        });
+        const classCmp = getClassRank(a.class) - getClassRank(b.class);
         if (classCmp !== 0) return classCmp;
         if (a.tier !== b.tier) return a.tier - b.tier;
         return a.name.localeCompare(b.name);

@@ -4,10 +4,7 @@
     "title": "Goddess of Wisdom",
     "quality": "SSR EX",
     "character_class": "Guardian",
-    "factions": [
-      "Otherworld Return",
-      "Elemental Echo"
-    ],
+    "factions": ["Otherworld Return", "Elemental Echo"],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -84,6 +81,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -91,10 +90,7 @@
     "title": "The Goddess Who Stole Fire",
     "quality": "SSR EX",
     "character_class": "Guardian",
-    "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
-    ],
+    "factions": ["Elemental Echo", "Illusion Veil"],
     "is_global": false,
     "subclasses": [
       "Royal Guard",
@@ -171,6 +167,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -178,10 +176,7 @@
     "title": "Judge of the Underworld",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": [
-      "Sanctum Glory",
-      "Arcane Wisdom"
-    ],
+    "factions": ["Sanctum Glory", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": [
       "Royal Guard",
@@ -254,6 +249,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -261,10 +258,7 @@
     "title": "The Triumphant Princess",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
-    ],
+    "factions": ["Otherworld Return", "Wild Spirit"],
     "is_global": false,
     "subclasses": [
       "Shield Guard",
@@ -337,6 +331,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -344,10 +340,7 @@
     "title": "Forged Dragon Princess",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": [
-      "Arcane Wisdom",
-      "Elemental Echo"
-    ],
+    "factions": ["Arcane Wisdom", "Elemental Echo"],
     "is_global": false,
     "subclasses": [
       "Royal Guard",
@@ -420,6 +413,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -427,10 +422,7 @@
     "title": "Fallen Warborn Goddess",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": [
-      "Sanctum Glory",
-      "Otherworld Return"
-    ],
+    "factions": ["Sanctum Glory", "Otherworld Return"],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -503,6 +495,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -510,10 +504,7 @@
     "title": "Ironclad Commander",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
-    ],
+    "factions": ["Illusion Veil", "Wild Spirit"],
     "is_global": false,
     "subclasses": [
       "Shield Guard",
@@ -586,6 +577,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -593,10 +586,7 @@
     "title": "Seven-Veil Dancer",
     "quality": "SSR+",
     "character_class": "Guardian",
-    "factions": [
-      "Arcane Wisdom",
-      "Sanctum Glory"
-    ],
+    "factions": ["Arcane Wisdom", "Sanctum Glory"],
     "is_global": false,
     "subclasses": [
       "Shield Guard",
@@ -669,6 +659,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -676,10 +668,7 @@
     "title": "Ancient Tree Guardian",
     "quality": "SSR",
     "character_class": "Guardian",
-    "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
-    ],
+    "factions": ["Elemental Echo", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -746,6 +735,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -753,10 +744,7 @@
     "title": "Ancient Golem",
     "quality": "SSR",
     "character_class": "Guardian",
-    "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
-    ],
+    "factions": ["Otherworld Return", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -823,6 +811,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -830,10 +820,7 @@
     "title": "Slime King",
     "quality": "SSR",
     "character_class": "Guardian",
-    "factions": [
-      "Sanctum Glory",
-      "Wild Spirit"
-    ],
+    "factions": ["Sanctum Glory", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Royal Guard",
@@ -900,6 +887,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -907,10 +896,7 @@
     "title": "King of Beasts",
     "quality": "SSR",
     "character_class": "Guardian",
-    "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
-    ],
+    "factions": ["Illusion Veil", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Royal Guard",
@@ -977,6 +963,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -984,10 +972,7 @@
     "title": "Midsummer Night's Dreamer",
     "quality": "SSR",
     "character_class": "Guardian",
-    "factions": [
-      "Arcane Wisdom",
-      "Elemental Echo"
-    ],
+    "factions": ["Arcane Wisdom", "Elemental Echo"],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -1054,6 +1039,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -1061,10 +1048,7 @@
     "title": "Wild Outlaw",
     "quality": "SR",
     "character_class": "Guardian",
-    "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
-    ],
+    "factions": ["Elemental Echo", "Otherworld Return"],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -1120,6 +1104,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -1127,10 +1113,7 @@
     "title": "",
     "quality": "R",
     "character_class": "Guardian",
-    "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
-    ],
+    "factions": ["Elemental Echo", "Otherworld Return"],
     "is_global": true,
     "subclasses": [
       "Shield Guard",
@@ -1176,6 +1159,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -1183,10 +1168,7 @@
     "title": "",
     "quality": "R",
     "character_class": "Guardian",
-    "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
-    ],
+    "factions": ["Sanctum Glory", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Royal Guard",
@@ -1232,6 +1214,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -1239,9 +1223,7 @@
     "title": "",
     "quality": "N",
     "character_class": "Guardian",
-    "factions": [
-      "Elemental Echo"
-    ],
+    "factions": ["Elemental Echo"],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -1267,6 +1249,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -1274,10 +1258,7 @@
     "title": "Goddess of Death",
     "quality": "SSR EX",
     "character_class": "Priest",
-    "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
-    ],
+    "factions": ["Otherworld Return", "Sanctum Glory"],
     "is_global": false,
     "subclasses": [
       "Medic",
@@ -1354,6 +1335,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -1361,10 +1344,7 @@
     "title": "Deity of Love",
     "quality": "SSR EX",
     "character_class": "Priest",
-    "factions": [
-      "Elemental Echo",
-      "Arcane Wisdom"
-    ],
+    "factions": ["Elemental Echo", "Arcane Wisdom"],
     "is_global": false,
     "subclasses": [
       "Acolyte",
@@ -1441,6 +1421,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -1448,10 +1430,7 @@
     "title": "The Star Witch",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
-    ],
+    "factions": ["Arcane Wisdom", "Wild Spirit"],
     "is_global": false,
     "subclasses": [
       "Acolyte",
@@ -1524,6 +1503,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -1531,10 +1512,7 @@
     "title": "Holyblade Bishop",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
-    ],
+    "factions": ["Otherworld Return", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Believer",
@@ -1607,6 +1585,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -1614,10 +1594,7 @@
     "title": "Wishing Genie",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": [
-      "Illusion Veil",
-      "Otherworld Return"
-    ],
+    "factions": ["Illusion Veil", "Otherworld Return"],
     "is_global": true,
     "subclasses": [
       "Acolyte",
@@ -1690,6 +1667,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -1697,10 +1676,7 @@
     "title": "The Fellowship of the Ring",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
-    ],
+    "factions": ["Sanctum Glory", "Elemental Echo"],
     "is_global": false,
     "subclasses": [
       "Medic",
@@ -1773,6 +1749,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -1780,10 +1758,7 @@
     "title": "Fairy Queen",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": [
-      "Elemental Echo",
-      "Arcane Wisdom"
-    ],
+    "factions": ["Elemental Echo", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": [
       "Medic",
@@ -1856,6 +1831,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -1863,10 +1840,7 @@
     "title": "Lady of the Lake",
     "quality": "SSR+",
     "character_class": "Priest",
-    "factions": [
-      "Arcane Wisdom",
-      "Otherworld Return"
-    ],
+    "factions": ["Arcane Wisdom", "Otherworld Return"],
     "is_global": true,
     "subclasses": [
       "Medic",
@@ -1939,6 +1913,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -1946,10 +1922,7 @@
     "title": "Arcane Lord",
     "quality": "SSR",
     "character_class": "Priest",
-    "factions": [
-      "Wild Spirit",
-      "Illusion Veil"
-    ],
+    "factions": ["Wild Spirit", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Believer",
@@ -2022,6 +1995,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -2029,10 +2004,7 @@
     "title": "Irongut Tyrant",
     "quality": "SSR",
     "character_class": "Priest",
-    "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
-    ],
+    "factions": ["Elemental Echo", "Sanctum Glory"],
     "is_global": true,
     "subclasses": [
       "Medic",
@@ -2105,6 +2077,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -2112,10 +2086,7 @@
     "title": "Hero Mentor",
     "quality": "SSR",
     "character_class": "Priest",
-    "factions": [
-      "Otherworld Return",
-      "Elemental Echo"
-    ],
+    "factions": ["Otherworld Return", "Elemental Echo"],
     "is_global": true,
     "subclasses": [
       "Acolyte",
@@ -2188,6 +2159,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -2195,18 +2168,9 @@
     "title": "Spring Flower Spirit",
     "quality": "SR",
     "character_class": "Priest",
-    "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
-    ],
+    "factions": ["Elemental Echo", "Otherworld Return"],
     "is_global": true,
-    "subclasses": [
-      "Medic",
-      "Cleric",
-      "Preacher",
-      "Bishop",
-      "Divine Officer"
-    ],
+    "subclasses": ["Medic", "Cleric", "Preacher", "Bishop", "Divine Officer"],
     "height": "?cm",
     "weight": "?kg",
     "origin": "European Folklore",
@@ -2254,6 +2218,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -2261,10 +2227,7 @@
     "title": "Wandering Songstress",
     "quality": "SR",
     "character_class": "Priest",
-    "factions": [
-      "Illusion Veil",
-      "Arcane Wisdom"
-    ],
+    "factions": ["Illusion Veil", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": [
       "Acolyte",
@@ -2320,6 +2283,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -2327,18 +2292,9 @@
     "title": "",
     "quality": "R",
     "character_class": "Priest",
-    "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
-    ],
+    "factions": ["Elemental Echo", "Otherworld Return"],
     "is_global": true,
-    "subclasses": [
-      "Acolyte",
-      "Friar",
-      "Fanatic",
-      "Bishop",
-      "Divine Officer"
-    ],
+    "subclasses": ["Acolyte", "Friar", "Fanatic", "Bishop", "Divine Officer"],
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy",
@@ -2376,6 +2332,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -2383,18 +2341,9 @@
     "title": "Guide Fairy",
     "quality": "R",
     "character_class": "Priest",
-    "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
-    ],
+    "factions": ["Arcane Wisdom", "Wild Spirit"],
     "is_global": true,
-    "subclasses": [
-      "Medic",
-      "Friar",
-      "Cleric",
-      "High Priest",
-      "Executor"
-    ],
+    "subclasses": ["Medic", "Friar", "Cleric", "High Priest", "Executor"],
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy",
@@ -2442,6 +2391,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -2449,9 +2400,7 @@
     "title": "",
     "quality": "N",
     "character_class": "Priest",
-    "factions": [
-      "Otherworld Return"
-    ],
+    "factions": ["Otherworld Return"],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -2477,6 +2426,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -2484,10 +2435,7 @@
     "title": "Queen of the Underworld",
     "quality": "SSR EX",
     "character_class": "Assassin",
-    "factions": [
-      "Illusion Veil",
-      "Sanctum Glory"
-    ],
+    "factions": ["Illusion Veil", "Sanctum Glory"],
     "is_global": true,
     "subclasses": [
       "Thief",
@@ -2564,6 +2512,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -2571,10 +2521,7 @@
     "title": "World Serpent",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
-    ],
+    "factions": ["Otherworld Return", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Thief",
@@ -2647,6 +2594,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -2654,10 +2603,7 @@
     "title": "Death Knight",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": [
-      "Sanctum Glory",
-      "Arcane Wisdom"
-    ],
+    "factions": ["Sanctum Glory", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": [
       "Rogue",
@@ -2730,6 +2676,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -2737,10 +2685,7 @@
     "title": "Taichi Master",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": [
-      "Elemental Echo",
-      "Wild Spirit"
-    ],
+    "factions": ["Elemental Echo", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Thief",
@@ -2807,6 +2752,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -2814,10 +2761,7 @@
     "title": "The Peerless Swordsman",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
-    ],
+    "factions": ["Otherworld Return", "Sanctum Glory"],
     "is_global": false,
     "subclasses": [
       "Thief",
@@ -2890,6 +2834,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -2897,10 +2843,7 @@
     "title": "Four Saints",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
-    ],
+    "factions": ["Elemental Echo", "Sanctum Glory"],
     "is_global": true,
     "subclasses": [
       "Rogue",
@@ -2973,6 +2916,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -2980,10 +2925,7 @@
     "title": "Princess of the Underworld",
     "quality": "SSR+",
     "character_class": "Assassin",
-    "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
-    ],
+    "factions": ["Arcane Wisdom", "Illusion Veil"],
     "is_global": false,
     "subclasses": [
       "Rogue",
@@ -3056,6 +2998,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -3063,10 +3007,7 @@
     "title": "Night Huntress",
     "quality": "SSR",
     "character_class": "Assassin",
-    "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
-    ],
+    "factions": ["Arcane Wisdom", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Thief",
@@ -3139,6 +3080,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -3146,10 +3089,7 @@
     "title": "Knight of the Lake",
     "quality": "SSR",
     "character_class": "Assassin",
-    "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
-    ],
+    "factions": ["Otherworld Return", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": [
       "Thief",
@@ -3216,6 +3156,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -3223,10 +3165,7 @@
     "title": "Goddess of Vengeance",
     "quality": "SSR",
     "character_class": "Assassin",
-    "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
-    ],
+    "factions": ["Illusion Veil", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Rogue",
@@ -3293,6 +3232,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -3300,10 +3241,7 @@
     "title": "Shadow Ronin",
     "quality": "SR",
     "character_class": "Assassin",
-    "factions": [
-      "Arcane Wisdom",
-      "Sanctum Glory"
-    ],
+    "factions": ["Arcane Wisdom", "Sanctum Glory"],
     "is_global": true,
     "subclasses": [
       "Rogue",
@@ -3359,6 +3297,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -3366,18 +3306,9 @@
     "title": "",
     "quality": "R",
     "character_class": "Assassin",
-    "factions": [
-      "Illusion Veil",
-      "Elemental Echo"
-    ],
+    "factions": ["Illusion Veil", "Elemental Echo"],
     "is_global": true,
-    "subclasses": [
-      "Rogue",
-      "Marauder",
-      "Spy",
-      "Masked Thief",
-      "Forest Bandit"
-    ],
+    "subclasses": ["Rogue", "Marauder", "Spy", "Masked Thief", "Forest Bandit"],
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy",
@@ -3415,6 +3346,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -3422,18 +3355,9 @@
     "title": "",
     "quality": "R",
     "character_class": "Assassin",
-    "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
-    ],
+    "factions": ["Wild Spirit", "Sanctum Glory"],
     "is_global": true,
-    "subclasses": [
-      "Thief",
-      "Spy",
-      "Scoundrel",
-      "Forest Bandit",
-      "Executioner"
-    ],
+    "subclasses": ["Thief", "Spy", "Scoundrel", "Forest Bandit", "Executioner"],
     "height": "?cm",
     "weight": "?kg",
     "origin": "Eastern Mythology",
@@ -3471,6 +3395,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -3478,9 +3404,7 @@
     "title": "",
     "quality": "N",
     "character_class": "Assassin",
-    "factions": [
-      "Sanctum Glory"
-    ],
+    "factions": ["Sanctum Glory"],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -3506,6 +3430,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -3513,10 +3439,7 @@
     "title": "Goddess of War",
     "quality": "SSR EX",
     "character_class": "Warrior",
-    "factions": [
-      "Wild Spirit",
-      "Illusion Veil"
-    ],
+    "factions": ["Wild Spirit", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -3593,6 +3516,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -3600,10 +3525,7 @@
     "title": "Goddess of Thunder",
     "quality": "SSR EX",
     "character_class": "Warrior",
-    "factions": [
-      "Arcane Wisdom",
-      "Otherworld Return"
-    ],
+    "factions": ["Arcane Wisdom", "Otherworld Return"],
     "is_global": false,
     "subclasses": [
       "Swordsman",
@@ -3680,6 +3602,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -3687,10 +3611,7 @@
     "title": "Wings of Judgment",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
-    ],
+    "factions": ["Illusion Veil", "Wild Spirit"],
     "is_global": false,
     "subclasses": [
       "Swordsman",
@@ -3763,6 +3684,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -3770,10 +3693,7 @@
     "title": "Eternal King",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
-    ],
+    "factions": ["Otherworld Return", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -3846,6 +3766,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -3853,10 +3775,7 @@
     "title": "The Demon Lord of Lust",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
-    ],
+    "factions": ["Sanctum Glory", "Elemental Echo"],
     "is_global": false,
     "subclasses": [
       "Fighter",
@@ -3929,6 +3848,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -3936,10 +3857,7 @@
     "title": "Four Saints",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
-    ],
+    "factions": ["Sanctum Glory", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Fighter",
@@ -4012,6 +3930,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -4019,10 +3939,7 @@
     "title": "Warborn Goddess",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
-    ],
+    "factions": ["Otherworld Return", "Sanctum Glory"],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4095,6 +4012,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -4102,10 +4021,7 @@
     "title": "Six-Armed Serpent",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": [
-      "Illusion Veil",
-      "Elemental Echo"
-    ],
+    "factions": ["Illusion Veil", "Elemental Echo"],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4178,6 +4094,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -4185,10 +4103,7 @@
     "title": "Dragonslayer",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": [
-      "Arcane Wisdom",
-      "Elemental Echo"
-    ],
+    "factions": ["Arcane Wisdom", "Elemental Echo"],
     "is_global": true,
     "subclasses": [
       "Fighter",
@@ -4261,6 +4176,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -4268,10 +4185,7 @@
     "title": "Bloodthirster Sword",
     "quality": "SSR+",
     "character_class": "Warrior",
-    "factions": [
-      "Wild Spirit",
-      "Elemental Echo"
-    ],
+    "factions": ["Wild Spirit", "Elemental Echo"],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4344,6 +4258,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -4351,10 +4267,7 @@
     "title": "Labyrinth Overlord",
     "quality": "SSR",
     "character_class": "Warrior",
-    "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
-    ],
+    "factions": ["Elemental Echo", "Sanctum Glory"],
     "is_global": true,
     "subclasses": [
       "Fighter",
@@ -4427,6 +4340,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -4434,10 +4349,7 @@
     "title": "King of the Wild Hunt",
     "quality": "SSR",
     "character_class": "Warrior",
-    "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
-    ],
+    "factions": ["Sanctum Glory", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4504,6 +4416,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -4511,10 +4425,7 @@
     "title": "Heroic Warrior",
     "quality": "SSR",
     "character_class": "Warrior",
-    "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
-    ],
+    "factions": ["Otherworld Return", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Fighter",
@@ -4581,6 +4492,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -4588,10 +4501,7 @@
     "title": "Death Seeker",
     "quality": "SR",
     "character_class": "Warrior",
-    "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
-    ],
+    "factions": ["Elemental Echo", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Fighter",
@@ -4647,6 +4557,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -4654,10 +4566,7 @@
     "title": "Pact Demon",
     "quality": "SR",
     "character_class": "Warrior",
-    "factions": [
-      "Wild Spirit",
-      "Illusion Veil"
-    ],
+    "factions": ["Wild Spirit", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4713,6 +4622,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -4720,10 +4631,7 @@
     "title": "",
     "quality": "R",
     "character_class": "Warrior",
-    "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
-    ],
+    "factions": ["Sanctum Glory", "Elemental Echo"],
     "is_global": true,
     "subclasses": [
       "Swordsman",
@@ -4769,6 +4677,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -4776,9 +4686,7 @@
     "title": "",
     "quality": "N",
     "character_class": "Warrior",
-    "factions": [
-      "Wild Spirit"
-    ],
+    "factions": ["Wild Spirit"],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -4804,6 +4712,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -4811,10 +4721,7 @@
     "title": "Sun Goddess",
     "quality": "SSR EX",
     "character_class": "Archer",
-    "factions": [
-      "Sanctum Glory",
-      "Otherworld Return"
-    ],
+    "factions": ["Sanctum Glory", "Otherworld Return"],
     "is_global": true,
     "subclasses": [
       "Tracker",
@@ -4891,6 +4798,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -4898,10 +4807,7 @@
     "title": "The Moon Goddess",
     "quality": "SSR EX",
     "character_class": "Archer",
-    "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
-    ],
+    "factions": ["Illusion Veil", "Wild Spirit"],
     "is_global": false,
     "subclasses": [
       "Tracker",
@@ -4978,6 +4884,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -4985,10 +4893,7 @@
     "title": "Twin Ravens",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": [
-      "Elemental Echo",
-      "Wild Spirit"
-    ],
+    "factions": ["Elemental Echo", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Arrowslinger",
@@ -5061,6 +4966,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -5068,10 +4975,7 @@
     "title": "Flamefiend",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
-    ],
+    "factions": ["Arcane Wisdom", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Tracker",
@@ -5144,6 +5048,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -5151,10 +5057,7 @@
     "title": "Crimson Blade Soul",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
-    ],
+    "factions": ["Elemental Echo", "Sanctum Glory"],
     "is_global": false,
     "subclasses": [
       "Tracker",
@@ -5227,6 +5130,8 @@
       }
     ],
     "noble_phantasm": "Piercing Sun Sword Box",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771464391
   },
   {
@@ -5234,10 +5139,7 @@
     "title": "The Wise Giant",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": [
-      "Otherworld Return",
-      "Illusion Veil"
-    ],
+    "factions": ["Otherworld Return", "Illusion Veil"],
     "is_global": false,
     "subclasses": [
       "Arrowslinger",
@@ -5310,6 +5212,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -5317,10 +5221,7 @@
     "title": "Rotten Flower Bud",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
-    ],
+    "factions": ["Wild Spirit", "Sanctum Glory"],
     "is_global": false,
     "subclasses": [
       "Arrowslinger",
@@ -5393,6 +5294,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471896
   },
   {
@@ -5400,10 +5303,7 @@
     "title": "Frostar Hunter",
     "quality": "SSR+",
     "character_class": "Archer",
-    "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
-    ],
+    "factions": ["Arcane Wisdom", "Wild Spirit"],
     "is_global": false,
     "subclasses": [
       "Arrowslinger",
@@ -5476,6 +5376,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -5483,10 +5385,7 @@
     "title": "Radiant Elemental",
     "quality": "SSR",
     "character_class": "Archer",
-    "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
-    ],
+    "factions": ["Otherworld Return", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": [
       "Tracker",
@@ -5559,6 +5458,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -5566,10 +5467,7 @@
     "title": "Gorgon",
     "quality": "SSR",
     "character_class": "Archer",
-    "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
-    ],
+    "factions": ["Wild Spirit", "Sanctum Glory"],
     "is_global": true,
     "subclasses": [
       "Arrowslinger",
@@ -5642,6 +5540,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -5649,10 +5549,7 @@
     "title": "Demon Hunter",
     "quality": "SSR",
     "character_class": "Archer",
-    "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
-    ],
+    "factions": ["Illusion Veil", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Arrowslinger",
@@ -5719,6 +5616,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -5726,10 +5625,7 @@
     "title": "Savage Hunter",
     "quality": "SR",
     "character_class": "Archer",
-    "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
-    ],
+    "factions": ["Elemental Echo", "Otherworld Return"],
     "is_global": true,
     "subclasses": [
       "Arrowslinger",
@@ -5785,6 +5681,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -5792,10 +5690,7 @@
     "title": "Cyclops",
     "quality": "SR",
     "character_class": "Archer",
-    "factions": [
-      "Sanctum Glory",
-      "Otherworld Return"
-    ],
+    "factions": ["Sanctum Glory", "Otherworld Return"],
     "is_global": true,
     "subclasses": [
       "Tracker",
@@ -5851,6 +5746,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -5858,18 +5755,9 @@
     "title": "",
     "quality": "R",
     "character_class": "Archer",
-    "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
-    ],
+    "factions": ["Otherworld Return", "Wild Spirit"],
     "is_global": true,
-    "subclasses": [
-      "Tracker",
-      "Scout",
-      "Hunter",
-      "Bloodhunter",
-      "Sniper"
-    ],
+    "subclasses": ["Tracker", "Scout", "Hunter", "Bloodhunter", "Sniper"],
     "height": "?cm",
     "weight": "?kg",
     "origin": "Norse Mythology",
@@ -5907,6 +5795,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -5914,10 +5804,7 @@
     "title": "",
     "quality": "R",
     "character_class": "Archer",
-    "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
-    ],
+    "factions": ["Illusion Veil", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Arrowslinger",
@@ -5963,6 +5850,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -5970,9 +5859,7 @@
     "title": "",
     "quality": "N",
     "character_class": "Archer",
-    "factions": [
-      "Illusion Veil"
-    ],
+    "factions": ["Illusion Veil"],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -5998,6 +5885,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -6005,10 +5894,7 @@
     "title": "Goddess of Mischief",
     "quality": "SSR EX",
     "character_class": "Mage",
-    "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
-    ],
+    "factions": ["Sanctum Glory", "Elemental Echo"],
     "is_global": false,
     "subclasses": [
       "Fortune Teller",
@@ -6085,6 +5971,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -6092,10 +5980,7 @@
     "title": "Sea Goddess",
     "quality": "SSR EX",
     "character_class": "Mage",
-    "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
-    ],
+    "factions": ["Arcane Wisdom", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6172,6 +6057,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -6179,10 +6066,7 @@
     "title": "Iron-Fisted Ruler",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": [
-      "Wild Spirit",
-      "Illusion Veil"
-    ],
+    "factions": ["Wild Spirit", "Illusion Veil"],
     "is_global": false,
     "subclasses": [
       "Wizard",
@@ -6255,6 +6139,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -6262,10 +6148,7 @@
     "title": "Demon Overlord",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": [
-      "Sanctum Glory",
-      "Wild Spirit"
-    ],
+    "factions": ["Sanctum Glory", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6338,6 +6221,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -6345,10 +6230,7 @@
     "title": "Archangel",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
-    ],
+    "factions": ["Otherworld Return", "Sanctum Glory"],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6421,6 +6303,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -6428,10 +6312,7 @@
     "title": "Demilich",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": [
-      "Sanctum Glory",
-      "Arcane Wisdom"
-    ],
+    "factions": ["Sanctum Glory", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": [
       "Scholar",
@@ -6504,6 +6385,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -6511,10 +6394,7 @@
     "title": "Bronze Goddess",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": [
-      "Illusion Veil",
-      "Elemental Echo"
-    ],
+    "factions": ["Illusion Veil", "Elemental Echo"],
     "is_global": false,
     "subclasses": [
       "Fortune Teller",
@@ -6587,6 +6467,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -6594,10 +6476,7 @@
     "title": "Four Saints",
     "quality": "SSR+",
     "character_class": "Mage",
-    "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
-    ],
+    "factions": ["Arcane Wisdom", "Wild Spirit"],
     "is_global": false,
     "subclasses": [
       "Wizard",
@@ -6670,6 +6549,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -6677,10 +6558,7 @@
     "title": "Hell Hound",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": [
-      "Wild Spirit",
-      "Arcane Wisdom"
-    ],
+    "factions": ["Wild Spirit", "Arcane Wisdom"],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6747,6 +6625,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -6754,10 +6634,7 @@
     "title": "Queen of Egypt",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
-    ],
+    "factions": ["Sanctum Glory", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Scholar",
@@ -6830,6 +6707,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -6837,10 +6716,7 @@
     "title": "Flame Witch",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": [
-      "Arcane Wisdom",
-      "Otherworld Return"
-    ],
+    "factions": ["Arcane Wisdom", "Otherworld Return"],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -6913,6 +6789,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -6920,10 +6798,7 @@
     "title": "Four Seasons Deer Spirit",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
-    ],
+    "factions": ["Elemental Echo", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Fortune Teller",
@@ -6996,6 +6871,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -7003,10 +6880,7 @@
     "title": "Shadow Elemental",
     "quality": "SSR",
     "character_class": "Mage",
-    "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
-    ],
+    "factions": ["Arcane Wisdom", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -7079,6 +6953,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -7086,10 +6962,7 @@
     "title": "Mischievous Imp",
     "quality": "SR",
     "character_class": "Mage",
-    "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
-    ],
+    "factions": ["Arcane Wisdom", "Wild Spirit"],
     "is_global": true,
     "subclasses": [
       "Wizard",
@@ -7145,6 +7018,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -7152,10 +7027,7 @@
     "title": "Wandering Ghost",
     "quality": "SR",
     "character_class": "Mage",
-    "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
-    ],
+    "factions": ["Wild Spirit", "Sanctum Glory"],
     "is_global": true,
     "subclasses": [
       "Fortune Teller",
@@ -7211,6 +7083,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -7218,10 +7092,7 @@
     "title": "",
     "quality": "R",
     "character_class": "Mage",
-    "factions": [
-      "Arcane Wisdom",
-      "Otherworld Return"
-    ],
+    "factions": ["Arcane Wisdom", "Otherworld Return"],
     "is_global": true,
     "subclasses": [
       "Fortune Teller",
@@ -7267,6 +7138,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   },
   {
@@ -7274,10 +7147,7 @@
     "title": "",
     "quality": "R",
     "character_class": "Mage",
-    "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
-    ],
+    "factions": ["Sanctum Glory", "Illusion Veil"],
     "is_global": true,
     "subclasses": [
       "Scholar",
@@ -7323,6 +7193,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771471837
   },
   {
@@ -7330,9 +7202,7 @@
     "title": "",
     "quality": "N",
     "character_class": "Mage",
-    "factions": [
-      "Arcane Wisdom"
-    ],
+    "factions": ["Arcane Wisdom"],
     "is_global": true,
     "subclasses": [],
     "height": "?cm",
@@ -7358,6 +7228,8 @@
       }
     ],
     "noble_phantasm": "",
+    "recommended_gear": [],
+    "recommended_subclasses": [],
     "last_updated": 1771374946
   }
 ]
