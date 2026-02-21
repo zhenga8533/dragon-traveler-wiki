@@ -318,5 +318,26 @@
       "description": "Boosts Break by 240 and Hit by 120."
     },
     "last_updated": 1771564974
+  },
+  {
+    "name": "Knight",
+    "set_bonus": {
+      "quantity": 0,
+      "description": ""
+    }
+  },
+  {
+    "name": "Mercenary",
+    "set_bonus": {
+      "quantity": 0,
+      "description": ""
+    }
+  },
+  {
+    "name": "Traveler",
+    "set_bonus": {
+      "quantity": 0,
+      "description": ""
+    }
   }
 ]

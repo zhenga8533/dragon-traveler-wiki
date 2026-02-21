@@ -24,6 +24,94 @@
     "last_updated": 1771608669
   },
   {
+    "name": "Pious Biretta",
+    "set": "Pious",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    }
+  },
+  {
+    "name": "Night Owl Helmet",
+    "set": "Night Owl",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    }
+  },
+  {
+    "name": "Dragon Hunter Helmet",
+    "set": "Dragon Hunter",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    }
+  },
+  {
+    "name": "Quenched Helmet",
+    "set": "Quenched",
+    "type": "Headgear",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "HP": 11810,
+      "MDEF": 363
+    }
+  },
+  {
+    "name": "Knight's Helmet",
+    "set": "Knight",
+    "type": "Headgear",
+    "quality": "R",
+    "lore": "Well-crafted helmet, protects the head without obstructing vision.",
+    "stats": {
+      "HP": 2203,
+      "MDEF": 67
+    }
+  },
+  {
+    "name": "Hero's Helmet",
+    "set": "Hero",
+    "type": "Headgear",
+    "quality": "SR",
+    "lore": "A helmet of elegant craftsmanship. It is meticulously cleaned by heroes after each and every hour.",
+    "stats": {
+      "HP": 5710,
+      "MDEF": 175
+    }
+  },
+  {
+    "name": "Mercenary's Hood",
+    "set": "Mercenary",
+    "type": "Headgear",
+    "quality": "N",
+    "lore": "Unremarkable Hat, muffles noise but offers no protection from damage.",
+    "stats": {
+      "HP": 887,
+      "MDEF": 27
+    }
+  },
+  {
+    "name": "Traveler's Hat",
+    "set": "Traveler",
+    "type": "Headgear",
+    "quality": "C",
+    "lore": "Traveler's Hat, shields from sunlight and blocks sandstorms.",
+    "stats": {
+      "HP": 327,
+      "MDEF": 10
+    }
+  },
+  {
     "name": "Flamelord's Helmet",
     "set": "Flamelord",
     "type": "Headgear",
@@ -94,6 +182,83 @@
       "PDEF": 726
     },
     "last_updated": 1771608669
+  },
+  {
+    "name": "Pious Robe",
+    "set": "Pious",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    }
+  },
+  {
+    "name": "Sage's Armor",
+    "set": "Sage",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    }
+  },
+  {
+    "name": "Hero's Armor",
+    "set": "Hero",
+    "type": "Chestplate",
+    "quality": "SR",
+    "lore": "A beautifully decorated armor that balances function and aesthetics.",
+    "stats": {
+      "HP": 4831,
+      "PDEF": 351
+    }
+  },
+  {
+    "name": "Knight's Armor",
+    "set": "Knight",
+    "type": "Chestplate",
+    "quality": "R",
+    "lore": "A cherished suit of armor, often worn by knights throughout their lives.",
+    "stats": {
+      "HP": 1864,
+      "PDEF": 135
+    }
+  },
+  {
+    "name": "Mercenary's Leather Armor",
+    "set": "Mercenary",
+    "type": "Chestplate",
+    "quality": "N",
+    "lore": "A plain leather coat that keeps you unnoticed, even by thieves and bandits.",
+    "stats": {
+      "HP": 722,
+      "PDEF": 52
+    }
+  },
+  {
+    "name": "Traveler's Leather Armor",
+    "set": "Traveler",
+    "type": "Chestplate",
+    "quality": "C",
+    "lore": "A soft leather coat, travelers value lightness over protection.",
+    "stats": {
+      "HP": 275,
+      "PDEF": 20
+    }
+  },
+  {
+    "name": "Night Owl Armor",
+    "set": "Night Owl",
+    "type": "Chestplate",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "HP": 9993,
+      "PDEF": 726
+    }
   },
   {
     "name": "Cursed Robe",
@@ -216,6 +381,50 @@
     "last_updated": 1771608669
   },
   {
+    "name": "Hero's Gauntlets",
+    "set": "Hero",
+    "type": "Bracers",
+    "quality": "SR",
+    "lore": "Exquisitely crafted gauntlets that need to be handled with care, repairs don't come cheap.",
+    "stats": {
+      "ATK": 562,
+      "PDEF": 175
+    }
+  },
+  {
+    "name": "Knight's Gauntlets",
+    "set": "Knight",
+    "type": "Bracers",
+    "quality": "R",
+    "lore": "Tightly fitted gauntlets that offer solid protection for the hands.",
+    "stats": {
+      "ATK": 216,
+      "PDEF": 67
+    }
+  },
+  {
+    "name": "Mercenary's Gauntlets",
+    "set": "Mercenary",
+    "type": "Bracers",
+    "quality": "N",
+    "lore": "Non-slip gauntlets that provide a better grip on sword hilts.",
+    "stats": {
+      "ATK": 83,
+      "PDEF": 29
+    }
+  },
+  {
+    "name": "Traveler's Bracers",
+    "set": "Traveler",
+    "type": "Bracers",
+    "quality": "C",
+    "lore": "Simply decorated bracers. Try blocking a blade with them, though they won't be much use.",
+    "stats": {
+      "ATK": 32,
+      "PDEF": 10
+    }
+  },
+  {
     "name": "Flamelord's Gauntlets",
     "set": "Flamelord",
     "type": "Bracers",
@@ -276,6 +485,17 @@
     "last_updated": 1771608669
   },
   {
+    "name": "Pious Gloves",
+    "set": "Pious",
+    "type": "Bracers",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "ATK": 1162,
+      "PDEF": 363
+    }
+  },
+  {
     "name": "Sage's Gloves",
     "set": "Sage",
     "type": "Bracers",
@@ -310,6 +530,83 @@
       "MDEF": 726
     },
     "last_updated": 1771608669
+  },
+  {
+    "name": "Paladin's Boots",
+    "set": "Paladin",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    }
+  },
+  {
+    "name": "Flamelord's Boots",
+    "set": "Flamelord",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    }
+  },
+  {
+    "name": "Hero's Boots",
+    "set": "Hero",
+    "type": "Boots",
+    "quality": "SR",
+    "lore": "Heavy-soled boots, each step of the heroes echoes like thunder to their enemies.",
+    "stats": {
+      "ATK": 474,
+      "MDEF": 351
+    }
+  },
+  {
+    "name": "Knight's Boots",
+    "set": "Knight",
+    "type": "Boots",
+    "quality": "R",
+    "lore": "Boots crafted for knights, greatly reducing the chance of falling from horseback.",
+    "stats": {
+      "ATK": 183,
+      "MDEF": 135
+    }
+  },
+  {
+    "name": "Mercenary's Boots",
+    "set": "Mercenary",
+    "type": "Boots",
+    "quality": "N",
+    "lore": "Lightweight boots, making long-distance running no longer a dream.",
+    "stats": {
+      "ATK": 77,
+      "MDEF": 57
+    }
+  },
+  {
+    "name": "Traveler's Boots",
+    "set": "Traveler",
+    "type": "Boots",
+    "quality": "C",
+    "lore": "Simple cloth boots that won't let you walk on water, but will get you through the desert.",
+    "stats": {
+      "ATK": 27,
+      "MDEF": 20
+    }
+  },
+  {
+    "name": "Cursed Boots",
+    "set": "Cursed",
+    "type": "Boots",
+    "quality": "SSR",
+    "lore": "",
+    "stats": {
+      "ATK": 981,
+      "MDEF": 726
+    }
   },
   {
     "name": "Dragon Hunter Boots",
@@ -478,6 +775,39 @@
       "PDEF": 545
     },
     "last_updated": 1771563818
+  },
+  {
+    "name": "Knight's Greatsword",
+    "set": "Knight",
+    "type": "Weapon",
+    "quality": "R",
+    "lore": "A huge, clumsy iron sword. Wielding one in each hand looks cool, but know your limits.",
+    "stats": {
+      "ATK": 203,
+      "PDEF": 101
+    }
+  },
+  {
+    "name": "Mercenary's Shortsword",
+    "set": "Mercenary",
+    "type": "Weapon",
+    "quality": "N",
+    "lore": "A small-sized sword, not suitable for large prey.",
+    "stats": {
+      "ATK": 81,
+      "PDEF": 40
+    }
+  },
+  {
+    "name": "Traveler's Longsword",
+    "set": "Traveler",
+    "type": "Weapon",
+    "quality": "C",
+    "lore": "A plain wooden sword, useful against Slimes, but difficult against Goblins.",
+    "stats": {
+      "ATK": 30,
+      "PDEF": 15
+    }
   },
   {
     "name": "Invincible Meow-Meow Fist",
@@ -862,6 +1192,39 @@
       "MDEF": 545
     },
     "last_updated": 1771563818
+  },
+  {
+    "name": "Knight's Bracelet",
+    "set": "Knight",
+    "type": "Accessory",
+    "quality": "R",
+    "lore": "When you need to prove your identity, present this bracelet.",
+    "stats": {
+      "HP": 2034,
+      "MDEF": 101
+    }
+  },
+  {
+    "name": "Mercenary's Pocket Watch",
+    "set": "Mercenary",
+    "type": "Accessory",
+    "quality": "N",
+    "lore": "If you're running late, just check this to see the time.",
+    "stats": {
+      "HP": 819,
+      "MDEF": 40
+    }
+  },
+  {
+    "name": "Traveler's Canteen",
+    "set": "Traveler",
+    "type": "Accessory",
+    "quality": "C",
+    "lore": "When you're lost in the desert, you'll be grateful you had this.",
+    "stats": {
+      "HP": 300,
+      "MDEF": 15
+    }
   },
   {
     "name": "Thorns of Rejection",
