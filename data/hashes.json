@@ -2392,615 +2392,603 @@
     }
   },
   "gear_sets": {
-    "Ancient Dragon": {
-      "hash": "5cdc71a24e1461712c08cf02520e653688f9ac3ab6d489f49e2f9895ff625770",
-      "ts": 1771563818
-    },
     "Arcane": {
-      "hash": "8ec6151153635dd64f74a58d68de6cfe911209f4a8c51eb846c3942dfb7966fc",
-      "ts": 1771608669
+      "hash": "cece3490a3ac7876ad3baaaf49528926bf7b1de16d1e8f3a694808ff8343d7c6",
+      "ts": 1771712675
     },
-    "Bloodseeker": {
-      "hash": "93c5f69045e3fe7085f6128af9a12d2f343acc07f3aeca522f745ae0730ab711",
-      "ts": 1771563818
+    "Attack": {
+      "hash": "b05c644867ab52b891c0487db757966255a5fd4baa2c2464bc2654bbcb753b50",
+      "ts": 1771712675
     },
-    "Bountiful": {
-      "hash": "e8e8e52c3e9200a34a49caa8a6aa119437a33becb4e1b875a5e15c8f5ea2a5fe",
-      "ts": 1771563818
+    "Attack Speed": {
+      "hash": "7000519d4cb11eda204af81af7df096bc2ea1d7f2fab6f3eb0a27828f0dd1daa",
+      "ts": 1771712675
     },
-    "Brave": {
-      "hash": "783d1d19db62492b75b7ef54aae7839006fdfe86a365c4e1ee4de9d5b49dcba0",
-      "ts": 1771563818
+    "Block": {
+      "hash": "f5820a66b942698f6acfcf62f7e54ff87d19a44f88eec51e38cd786388d2de68",
+      "ts": 1771712675
     },
-    "Curse": {
-      "hash": "13e530d7d98356c61e65fbab2317c5cd5ec90d753a3233c4a0c711e83120d913",
-      "ts": 1771563818
+    "Bloodthirst": {
+      "hash": "d022140b5bb5cc8697b8863054aa19045dbc92c12398291df5531775b0e3e436",
+      "ts": 1771712675
     },
-    "Cursed": {
-      "hash": "4a03bd16e120fc04385d7c75bfc7dd6a50240b276397a201141b34109591ea59",
-      "ts": 1771608669
+    "Break": {
+      "hash": "9ec6192f36b1e6c91c7f88bd9487e08b2958bbab5d92d4fe9f3008b99d976ad8",
+      "ts": 1771712675
     },
-    "Dragon Hunter": {
-      "hash": "ea6b323c6e677bff3135cb1467616ba81ad969ff9d7d1aa6af4ca543d9ea44ed",
-      "ts": 1771563818
+    "Chaos": {
+      "hash": "ecc8f3144bbcb878c0d9c9f6fdf855e263aac083b42273cd63adf0c98dc8dd2b",
+      "ts": 1771712675
     },
-    "Dragonslayer": {
-      "hash": "db8a066f15408aacea7e32f646bf9014826a043f18dad14122c949c5174b28ba",
-      "ts": 1771563818
+    "Cleave": {
+      "hash": "1af91dce54bf0f9d6800e0fddd7b85e760eadc3bea9d7901f306ceeb3fb51528",
+      "ts": 1771712675
     },
-    "Eagle Warrior": {
-      "hash": "4410617ee378fc5b658e4f7345a35abe3e4a1af923d9b8701ea1ce56f6ba14c6",
-      "ts": 1771563818
+    "Corruption": {
+      "hash": "440effacd3662c7e7cee89e549f09228b3d345ecc5ccfea4b7d67788e6f82a9f",
+      "ts": 1771712675
     },
-    "Flamelord": {
-      "hash": "6c6c8f27e6a91ce667663b34679529b2b2d1c2359bb53090a787dc3d91e26976",
-      "ts": 1771563818
+    "Crit": {
+      "hash": "76fdf81ef8c6083c18487764b3c91776236a7d8f2e410a5ff8c2990d0c10a02c",
+      "ts": 1771712675
     },
-    "Hero": {
-      "hash": "43c87d2e57e2d9f94d3900ded3491264a722abd8459c75db340365ee71015705",
-      "ts": 1771563818
+    "Crit Damage": {
+      "hash": "498d09f70949e4d6f43016c36244d88c921cb870d1f49e171d924667702a1433",
+      "ts": 1771712675
     },
-    "Infinite": {
-      "hash": "bf6e83f76b4d0566a97889b49aabd2bc9778b0e09a1f79ab66bc17173d9ac96e",
-      "ts": 1771563818
+    "Crit Resist": {
+      "hash": "de6e1d5a50a918838256008b7cb944d72164d3769b6453fb5960a218f8e2e6cf",
+      "ts": 1771712675
     },
-    "Knight": {
-      "hash": "662a335c59fc1bdf5817919e1db07038865e4bd4e2776849e6a5840c77fc1ffe",
-      "ts": 1771654321
+    "Demon Slayer": {
+      "hash": "95006f68edc820d18754cbd2018c5ad8ebb22830a5c3bae5f0f6672f8299387f",
+      "ts": 1771712675
     },
-    "Last Whisper": {
-      "hash": "2900e2b111a905e8ab13a15099296f6395dec26e6269319a5ef54c1d70319684",
-      "ts": 1771563818
+    "Endless": {
+      "hash": "8669fd1933c5eb11ba71db7b8d77e86e09be960bb1100c22bee4af9bbc203a81",
+      "ts": 1771712675
     },
-    "Mana": {
-      "hash": "885b81f72f90578047e17c3b7ef556708148631fb30ff3a52cde0c08eb37aa97",
-      "ts": 1771563818
+    "Energy": {
+      "hash": "2ad273f4465d44ca51b40260d609e132f7c933f10ac1842376bb273ca5aa8d59",
+      "ts": 1771712675
     },
-    "Meow-Meow": {
-      "hash": "5c83e3298017ebb974c80371c0557194dac03a01eddbd697cb48bd40733b0834",
-      "ts": 1771563818
+    "Evade": {
+      "hash": "b08bd621f42feb3debf9e778649578af53d7e55b0db5212344551999e9f7a28a",
+      "ts": 1771712675
     },
-    "Mercenary": {
-      "hash": "a78b62ae3c7f94d72d23206b540eee2b08495760d0f2927dfb7ac0fbcb7ab15a",
-      "ts": 1771654321
+    "Focus": {
+      "hash": "65eb210d2dcecc5a367c5309aa2b012025ca0aae50c035f0361f3d7d0aa45d30",
+      "ts": 1771712675
     },
-    "Moonlight": {
-      "hash": "71bf01fd51d28d2c13541982fe14136258a20be5c13ae2717fd9fb1036101ec4",
-      "ts": 1771563818
+    "Frenzy": {
+      "hash": "59f02a02ffa47758d7874a543da0903fcbffafb3b232dbb83d264086080a5e3c",
+      "ts": 1771712675
     },
-    "Night Owl": {
-      "hash": "79cd920b2a413ce24236c15c7007155b1c9292b499352d790eada965576cd29a",
-      "ts": 1771608669
+    "Gear": {
+      "hash": "cda037eefac34c5d420b1386a2bad4b34d5c663a34a240a819874e5a5c934eac",
+      "ts": 1771712675
     },
-    "Overlord": {
-      "hash": "c25d537102a3530935480c1f884acc3cef2420cd7949221cb313ee80dcccfcab",
-      "ts": 1771563818
+    "Grievous Wound": {
+      "hash": "4fb4c0d9caef26aff43f8ed46356efc1455210e8a4803246600b772a4c30a308",
+      "ts": 1771712675
+    },
+    "Haste": {
+      "hash": "8e673941fcf34691c7fb613c5ae613173679809022e43cfd2b88d3dc41b57cb7",
+      "ts": 1771712675
+    },
+    "Healing": {
+      "hash": "f0faf7a9a50127624378e2162bfa8e9c1eef62cb2ded8e20d53540a36b62177d",
+      "ts": 1771712675
+    },
+    "HP": {
+      "hash": "ac8f76e5e0e005f58f092f30027eb41fcdd154d2cf9925611b2e58243e147146",
+      "ts": 1771712675
+    },
+    "Impact": {
+      "hash": "a1caf9d20d74b08f3a1c1825f193db1e7d69a4e43dcd76d912c7cce764204e3f",
+      "ts": 1771712675
+    },
+    "Judgment": {
+      "hash": "871e426b097ca6f4e68d89fdd48374db5b39e5bc58fe3b5a5ab1479f1d9a170a",
+      "ts": 1771712675
+    },
+    "Longevity": {
+      "hash": "011e47d9c6dd427c78e68b473a4878c4328d7457dacc0bf05c82dbaadcdce4e9",
+      "ts": 1771712675
+    },
+    "Magic": {
+      "hash": "d1adda3ec9329c340a6b4f732eb8ad89ead9942b1ee438241de2d695d82ee471",
+      "ts": 1771712675
+    },
+    "Magic Defense": {
+      "hash": "4508adc5859a7aa4e9a08bfab53a39e4895c80c1e07ad648ff2281587746ac66",
+      "ts": 1771712675
+    },
+    "Order": {
+      "hash": "f51ce707e6019c3b5be2c29676f95877fa430e97e58fc1d75a5e5cb0bf275b1f",
+      "ts": 1771712675
     },
     "Pain": {
       "hash": "c36dda2a5968fee3323e003d1cbabb198934019d1908c949b4fec6cfd35b162e",
       "ts": 1771563818
     },
-    "Paladin": {
-      "hash": "e3e9848d1366bb35e635e4c89ece8ea2e049e9d3100ba2c7c38147357dbce2a5",
-      "ts": 1771608669
+    "Penetration": {
+      "hash": "7940e06a95403fd7dc1dd419ebcc92b010d2c90aeb239f98090738743c01fe58",
+      "ts": 1771712675
     },
-    "Phantom": {
-      "hash": "d519f5c85f1bc1767dbce3b575bad6e4b6b1bf5f24e37a66f3ca10619ffb2e18",
-      "ts": 1771563818
+    "Physical Defense": {
+      "hash": "70a1f804cc05e881eba1a75ce5acdd547fe65acb6149644285ef9557a1179c9b",
+      "ts": 1771712675
     },
-    "Pious": {
-      "hash": "f6927c53a17b2774fc2bfd2a797c2c457e815aaaa7c8766f9d2c31bb6aca8d72",
-      "ts": 1771608669
+    "Purge": {
+      "hash": "dae77ea173addb2e0a5a7405ba52a3dfcbd8a7567fb6b5889746f1b0c7b6228a",
+      "ts": 1771712675
     },
-    "Quenched": {
-      "hash": "d6335bcfe4a4d2152e62999f8e2f842a191497a5ea5ab457c3a75e5282188082",
-      "ts": 1771563818
+    "Rage": {
+      "hash": "8bc5d05d49ebad3dc332bcbbcc0cf198c6d5f557643c5a634bc34f4c1b1b8572",
+      "ts": 1771712675
     },
-    "Ranger": {
-      "hash": "2a24a02b802ab54c114a471f593961aec429a719cd239a889a6496eb3116308c",
-      "ts": 1771608669
+    "Redemption": {
+      "hash": "7ec873367d0e3fc62e79da12d635396f668895c9c1c8a693884c19454343f102",
+      "ts": 1771712675
     },
-    "Rejection": {
-      "hash": "e68e0913eed9ed1151984c4478ced598ec57a91ba1068559398969e1c72f4892",
-      "ts": 1771563818
+    "Resilience": {
+      "hash": "8dc4330c1f0d31e76d948c00b98758e413c9b391e33fb151cd991601d924a457",
+      "ts": 1771712675
     },
-    "Requiem": {
-      "hash": "530c7e6270f4a38a15b44b5b097d0f792e48850a25457f0003b5e7db468fb405",
-      "ts": 1771563818
+    "Swift Strike": {
+      "hash": "51edc4e6805f577a44e9f57385cc2d193bb1a126b51ae92cf8035a572815db62",
+      "ts": 1771712675
     },
-    "Sacred Tree": {
-      "hash": "7b495a957eddeec8c4834ad0560ca96070566e170f2a00cb9fbe86a53496e923",
-      "ts": 1771563818
+    "Thorns": {
+      "hash": "5b9271f70bc153e2f73b611a075dedd7c1843982be7f6deb689c827431e5f40c",
+      "ts": 1771712675
     },
-    "Sage": {
-      "hash": "09346639565490a6796df7d761dc9186f98feae63144ffa7fd22fc00c20ae099",
-      "ts": 1771563818
-    },
-    "Ship Slayer": {
-      "hash": "7bd239963c712259104040b3995f2619a89ac069dcc76708744f1d68947df4fb",
-      "ts": 1771563818
-    },
-    "Silver": {
-      "hash": "cb05f9d9815bb17bad714bf61af9d07c915b33371a0702e4152c9fa1f5e1d2eb",
-      "ts": 1771563818
-    },
-    "Soul": {
-      "hash": "37a25cb485a9f97d0b2e414afd27c185f4645f4774337372233b93145af0c90c",
-      "ts": 1771563818
-    },
-    "Spirit Turtle": {
-      "hash": "4439b4ca9e332f921f087ac0dfe23f8df5e4ce878ff98231af31cb266bda8de4",
-      "ts": 1771563818
-    },
-    "Starlight": {
-      "hash": "05dde4fe89b6cc02411c6f00897707ab2f4b04c5b746477963dc7c515fc3df6c",
-      "ts": 1771563818
-    },
-    "Traveler": {
-      "hash": "faa5476b17f59a302183e2a1618f21e273fde8d502ec5014dba504308c3bdb38",
-      "ts": 1771654321
-    },
-    "Truth Seeker": {
-      "hash": "50ae883d8eee086153aadf3df45d3b44401655610ef485957db999cae1a15c3a",
-      "ts": 1771563818
-    },
-    "Typhon": {
-      "hash": "77f80065031d0989cfe3c98c22d2bf2f09075e674a94c39fc001fa00c2cc0efe",
-      "ts": 1771563818
-    },
-    "Undying Flame": {
-      "hash": "2c53b20c1dddfd6c989a20daee9ed8bbf7bbbab27cad27f78c0794038de93852",
-      "ts": 1771563818
-    },
-    "Valiant": {
-      "hash": "afbf5312dab942afb0f075453374d3553ccc3586e3bbc5198dff8a37a649c69b",
-      "ts": 1771608669
-    },
-    "Watcher": {
-      "hash": "014da5d62f4c66bb443cbab2ea42674817dfe5e97fba31b17d0e203c4d0e3447",
-      "ts": 1771564974
+    "Wild": {
+      "hash": "3d46aabd1f423e553487898f52eefb4fbc784d975c85d9c560e608c5713d047f",
+      "ts": 1771712675
     }
   },
   "gear": {
     "Arcane Hood": {
-      "hash": "9dc29ecdd6cd4394ab9ffb80f02e4a969096bcaa7d7e3dfe4f239c347ce9a4a9",
-      "ts": 1771608669
+      "hash": "82f052924cf882235d87e75d7e82e58c5a15f19f0d8b7b47628605a02c66d067",
+      "ts": 1771712675
     },
     "Cursed Helmet": {
-      "hash": "258f5af968443a40c9f317442efcb4d40279a586d1e5cc0ae2541095f43baa74",
-      "ts": 1771608669
+      "hash": "dff8ccb7682911424d381b90fc635a347412c482ad72c72495a87b8683d310e1",
+      "ts": 1771712675
     },
     "Dragon Hunter Helmet": {
-      "hash": "0574a621cbee22c0120cacc2f7da632e1e6310b9d64f647378b1b1d1ac18718f",
-      "ts": 1771654321
+      "hash": "ddab186c651c1402c5b74521625b83317a570b67fcdab359f47a3d6def0c38bf",
+      "ts": 1771712675
     },
     "Flamelord's Helmet": {
-      "hash": "7b6cfdc0807847141bb8c39855b2d24ebf25d170053e792fe4d9e15e62ff916d",
-      "ts": 1771608669
+      "hash": "90ff53b09c7142182d7845f85856fd031facc2cfabefa8b4a21dc1ce705bbb24",
+      "ts": 1771712675
     },
     "Night Owl Helmet": {
-      "hash": "b6558db2cc47c8aba8ab0750818daea4dfc4951ba044a22e1ae2f31712e817a7",
-      "ts": 1771654321
+      "hash": "0255c1211cb14773d9be01b30f5c635b4918cee4e98aba39a34dd7c98610b3f9",
+      "ts": 1771712675
     },
     "Paladin's Helmet": {
-      "hash": "1890420959196a6053654dd0b613a50930589184dca951af8fbdffb13338d189",
-      "ts": 1771608669
+      "hash": "7772adbf3359adb8049b1189bd0853879e1b1a4c0d5aef30fb503c637d81e936",
+      "ts": 1771712675
     },
     "Pious Biretta": {
-      "hash": "88bf2e239f5ea409854093cdaf999bc5547c267ba3eb00fdf63b4b9880c5b3e8",
-      "ts": 1771654321
+      "hash": "201d4f4b603019d0a99b301a97a4c65ad595c3802d4d162be3c81307bab5c420",
+      "ts": 1771712675
     },
     "Quenched Helmet": {
-      "hash": "1b975c37294a1ea0501871da9203c1e02b979f2b4338eaab1fec9fea9268d30f",
-      "ts": 1771654321
+      "hash": "29e75835c9a8fe7c50a27b6246584e742f5132e25f02d0fc551d4da14c626533",
+      "ts": 1771712675
     },
     "Ranger's Feathered Hat": {
-      "hash": "fcde1f9d23aada081631258e460ab95514c31b194f1a38980dcffb59fe269857",
-      "ts": 1771608669
+      "hash": "dc3746bd048b8e6c0283776cd69cff2771622faa3a17ce8bb0a98329bbed3b88",
+      "ts": 1771712675
     },
     "Sage's Crown": {
-      "hash": "f965f8b15ba107933328e098f2665bba0fd5518f1cc798e238c5ab5ef6fc37c1",
-      "ts": 1771608669
+      "hash": "fe0093aee01882aa957c034896c25e220c34b86739d0ce7a7d69241850ab509a",
+      "ts": 1771712675
     },
     "Valiant Helmet": {
-      "hash": "977f298bf2c48e865e14e8bd24ec847a3a8d343e18347ff2e000ddc950c757e9",
-      "ts": 1771608669
+      "hash": "fedf0a41c58039b7c3abe19639e9f45065a5c694024cd06c98f94f81153a05d4",
+      "ts": 1771712675
     },
     "Hero's Helmet": {
-      "hash": "9dd11c402bb7bba9643cb43fd4af31cd1535f35788b23cd5836611853b670ae8",
-      "ts": 1771654321
+      "hash": "2aa9f2542b38153517c725e5c555d81b9325bd9f8650eb507098d0583d793015",
+      "ts": 1771712675
     },
     "Knight's Helmet": {
-      "hash": "4cf1bfff094ea02439c92d3c26c7e7322246c000fb61d8caa40dee66f5e72c71",
-      "ts": 1771654321
+      "hash": "7511a0bb1a275386319833cf07919359d686fd81a7e0fd78fdd801c09e48f307",
+      "ts": 1771712675
     },
     "Mercenary's Hood": {
-      "hash": "15816153c2613de75e05a00c2fa7827dc039e879720c1f4302bb84cb0b85c589",
-      "ts": 1771654321
+      "hash": "f14d0e058234548a4f97962f9b79552ec6d1c041d53717e78909ed5f6aee6e7e",
+      "ts": 1771712675
     },
     "Traveler's Hat": {
-      "hash": "845adcedb6369d0e1d33ad65ac082e6b1c432a0382696c2124e6f3e920f525a5",
-      "ts": 1771654321
+      "hash": "274f434581cfec9b4d7cbbba7df0d137f85bbd3678d74c1276e6467b2d50cd0d",
+      "ts": 1771712675
     },
     "Arcane Robe": {
-      "hash": "e8ed2fc4c73447bbbb5a825005d3c795d7767ba5913f1ff0a94e14f94050937e",
-      "ts": 1771608669
+      "hash": "a8339c04ad08f86b7fa73dc53686c8f2a1b695cd34235b89459b7a0094a4bec0",
+      "ts": 1771712675
     },
     "Cursed Robe": {
-      "hash": "a3fa8e73df1db4923d6cd420e1c46d992fbe718eef3892bc77464e94b33e7973",
-      "ts": 1771608669
+      "hash": "39a24b7c16c67d9d8e9c36feffd80c66975f53da138b13b44e9651e02dd6ead2",
+      "ts": 1771712675
     },
     "Dragon Hunter Armor": {
-      "hash": "f8879cf5b8da710859979101ca7c45ef23e0cc2873416faba983132000b5c94e",
-      "ts": 1771608669
+      "hash": "0c7bb5dee9d81adb97a213b72d35b0fabf3eeef6759c58fed7724ccdd1835067",
+      "ts": 1771712675
     },
     "Flamelord's Armor": {
-      "hash": "cd0782fde7d214c15b4ad15647e041a50c6d6ef41a153c05055b1eef3c421e32",
-      "ts": 1771608669
+      "hash": "dfeb3d7bad88bf859d3939e39a2cc9297d48eaf28ab678e3c4698887c49ccdfe",
+      "ts": 1771712675
     },
     "Night Owl Armor": {
-      "hash": "1f5bd02c36f3b34ff74de649f739f5123efe0240067279fbdc0190dd494c5c12",
-      "ts": 1771708464
+      "hash": "20f00a59d3200d372236492a3452e15629598300e22f3a7feffd85f4ba30eaba",
+      "ts": 1771712675
     },
     "Paladin's Armor": {
-      "hash": "381a6250a428eece184a37d55b43c459531f00083d850dd31cdeb1a2c683d915",
-      "ts": 1771608669
+      "hash": "74c47c16d4edaf27304cb86144689afc98867f3c9125bb59527b71a81b5aa743",
+      "ts": 1771712675
     },
     "Pious Robe": {
-      "hash": "e25df1b76bafb52c4fc3a2d18806f0512f535c046a9449db1919e55f6b6bf4ca",
-      "ts": 1771654321
+      "hash": "baa8ca41f498988f662a03a7481d6b9fb4005413c418ec3b4b51bb9544002470",
+      "ts": 1771712675
     },
     "Quenched Armor": {
-      "hash": "5a4f196df39c9a4153199ab190baab47702a70b9016a8f7c6701d1fa6cf39dd2",
-      "ts": 1771608669
+      "hash": "8e4b0eba07b1037ebb549e3b67af8fd4ba32c10370947d182d2e9deb0825a054",
+      "ts": 1771712675
     },
     "Ranger's Leather Armor": {
-      "hash": "639faa1d6f73ecfce96d2c3019bef54880e6bd5bc74a2a072ac51bba03173e0f",
-      "ts": 1771608669
+      "hash": "68e69d24a6531f79930bfedb0e3a948fb5f06c955a863dadb14dca344a382bec",
+      "ts": 1771712675
     },
     "Sage's Armor": {
-      "hash": "5635a3147242c5f7cb712d8b9981872e2db7f201d7bb8540558676adf7cc101b",
-      "ts": 1771654321
+      "hash": "708b92ffa612b9f74f78deabbac45ee14f470360a1edc85d33739acd9d70c393",
+      "ts": 1771712675
     },
     "Valiant Armor": {
-      "hash": "635089e19bdba04eb318c3148079ec3352fd42662658fc08f19861e4d042650e",
-      "ts": 1771608669
+      "hash": "475b718f89a956ee1eac917702afa1a43656e1b8a106c505a1609c7b999fc32d",
+      "ts": 1771712675
     },
     "Hero's Armor": {
-      "hash": "d66014b090702d6d0951c8c8364fe2b3b1385250802aa9d7999dcd447693fa4e",
-      "ts": 1771654321
+      "hash": "9207ee14e997775cb9415d3bdcbce4b752cf37951125407157a87dade32a6089",
+      "ts": 1771712675
     },
     "Knight's Armor": {
-      "hash": "6fc9e31563b528b25d7da72b086d085005988bb1dd61b39a136cfc76bd1fc71a",
-      "ts": 1771654321
+      "hash": "3d724fd45dba52a37d9dfeb2f89282196f72b968cd2990bc910d1bcc110a2581",
+      "ts": 1771712675
     },
     "Mercenary's Leather Armor": {
-      "hash": "c9995bb19020a522ca542c98a1c48df9359e2e6e97fbaf55e35fe3988a85802a",
-      "ts": 1771654321
+      "hash": "ed00658ede8f57a64327afb4c4f358dd05ee4900564d5b52c37ec9c16275f6e8",
+      "ts": 1771712675
     },
     "Traveler's Leather Armor": {
-      "hash": "65be49ce7091a2da59bf587af5ce59b094e1158302f5fdafa4d2784fe7d8fd22",
-      "ts": 1771654321
+      "hash": "78aef376d6d13b61287c6b7de98235bc95e68240150dbbdf65771f87439e7d5e",
+      "ts": 1771712675
     },
     "Arcane Gauntlets": {
-      "hash": "3bfad820c898e22ba6dbe05216d7f1bb3dce31323182cc36656c3ae9b704e761",
-      "ts": 1771608669
+      "hash": "322f35a7d1e632488b04c6b9a390e59d9e23d32443729fcccbdfef429fb26a24",
+      "ts": 1771712675
     },
     "Cursed Gauntlets": {
-      "hash": "c040a4fa5b26fe8308a897085af754e874703f59b8dbb32350a8b2b3707191b2",
-      "ts": 1771608669
+      "hash": "5a9fcec081420990b972579eb89cadfa8cff8b95f00ba5cc0d2d271ee6cf05b7",
+      "ts": 1771712675
     },
     "Dragon Hunter Gauntlets": {
-      "hash": "45c45cd365513cd3ef493820bf7f0362c7473a925b9f442e562e25de01357bf9",
-      "ts": 1771608669
+      "hash": "1ebebe0d5ac4e5b83f32b368b050338f8e1e5057df6f746330c28fe506ea1d17",
+      "ts": 1771712675
     },
     "Flamelord's Gauntlets": {
-      "hash": "f5d48ccbef26e2526e286ba7030c0e33543af8f05882e20193b743a0aa6eaed6",
-      "ts": 1771608669
+      "hash": "979789ab5a049666a65f5b4591e3cdd20b4bd9003f5d734fb8ebbece8361ebdb",
+      "ts": 1771712675
     },
     "Night Owl Gauntlets": {
-      "hash": "35c3009614f7b087db382467a8ae6896badcc82e5ee48a7501a8ee6137576af5",
-      "ts": 1771608669
+      "hash": "fa7b05b8c895ae71275eba9f35dc7679f6344a7310c694baffe7f1f138d6f3dc",
+      "ts": 1771712675
     },
     "Paladin's Gauntlets": {
-      "hash": "014f5cff571f181e24a969fa7c9ad42b7fb73146cac638a2d718c1d68725a274",
-      "ts": 1771608669
+      "hash": "80cadc3b783fb49e655d5c1727948f397828a81ad5b5faff08937c4202842bb5",
+      "ts": 1771712675
     },
     "Pious Gloves": {
-      "hash": "d143d7c6be64b3fb7477891ac21f1117466f3ea827bf34c7772a4497e8b7b4b6",
-      "ts": 1771654321
+      "hash": "3025fa33bd69319cc76f117b453efbadf3769987ab93e877324eacd0471c9076",
+      "ts": 1771712675
     },
     "Quenched Gauntlets": {
-      "hash": "36ffb1a6744ea4f445796812469ab6fea78bc13e3ab47c12bf9b965dfe4df572",
-      "ts": 1771608669
+      "hash": "1e09c01f859986c83f3e4434255dce9bd6cbaada80d7c8bae62fb08efea49606",
+      "ts": 1771712675
     },
     "Ranger's Gloves": {
-      "hash": "aa89a1a9ff1ab10fdf2e9fe39d132ebd7cfc0f5ff50d96f1645fad99be18e384",
-      "ts": 1771608669
+      "hash": "a94ab35efb025be5a2a80a9f7166d9e8ab4b883d774a147d870e4c64560df07f",
+      "ts": 1771712675
     },
     "Sage's Gloves": {
-      "hash": "72aa01cee1830fa65d5a69f3362b34200d065dcfa8c01a56ab562dc67bc7ca9a",
-      "ts": 1771608669
+      "hash": "647dab2c1c41afc11d2e5f7299bb8b015cdb8f4a001fd9c5a09c806a574234e9",
+      "ts": 1771712675
     },
     "Valiant Vambraces": {
-      "hash": "95ae399d6d4974742c27bcea018444c79b246d850a09ca5a618c4b0912f98e44",
-      "ts": 1771608669
+      "hash": "536bebfabeac9dcbbf08c98a7fcaeb014ccffff707a25c42c3588e57acab31fa",
+      "ts": 1771712675
     },
     "Hero's Gauntlets": {
-      "hash": "f095fadc019fc8f9506144821f4688b964e11da89211b41ea8eb3979dd9e5864",
-      "ts": 1771654321
+      "hash": "fcf0246ac479b4013d3d559c25f2dbd86acd5f66f457f2de3203c127a07f3fb2",
+      "ts": 1771712675
     },
     "Knight's Gauntlets": {
-      "hash": "fd990ffeae08d68de73fff6862892cb7fb19f3e0dfe54e02ba6c335172e4199e",
-      "ts": 1771654321
+      "hash": "f43a2b92136d453d6270f0e92f19e04f29030bfcc0d09c3404dacdadd2d84e44",
+      "ts": 1771712675
     },
     "Mercenary's Gauntlets": {
-      "hash": "2ee901c2a890d959de03438fd558d35bd23864fb84718d84a6d4e95a0e876b72",
-      "ts": 1771654321
+      "hash": "53dfa75f0af20f25083df33d552006a0a14beff06876ab09e4894ffcf448dec3",
+      "ts": 1771712675
     },
     "Traveler's Bracers": {
-      "hash": "a04448680b69f423754e20e4cacd00c54e78aad79360c98d5c5f14e2cf1de13e",
-      "ts": 1771654321
+      "hash": "0e65743d20a33a1a53244b2f4c26fd2ee8fae4fc711d316ab632c9ed2d28e685",
+      "ts": 1771712675
     },
     "Arcane Boots": {
-      "hash": "6a29c1534870b33c1c68e11d16965b5bd18a579e6a8730d6a11dc12d0f1f13f4",
-      "ts": 1771608669
+      "hash": "9b240e0c5dfdcafbfc511f8cfa3fcc98efedb33ff55718c3918ea676bfd927bd",
+      "ts": 1771712675
     },
     "Cursed Boots": {
-      "hash": "8e94157da12ddfaf6acba760185c868ec667b09417e556fde6499660f854dafc",
-      "ts": 1771654321
+      "hash": "48711c9638715e5c1536df38ce976a91caa91bdde22091da03a30310311c0296",
+      "ts": 1771712675
     },
     "Dragon Hunter Boots": {
-      "hash": "8c7d27a1c34226e1b807c02cd5f87a2dced38b3809efc97609e92bd46d37ff12",
-      "ts": 1771608669
+      "hash": "2fda02e798dc6188a6ee8dd7405fc7346d4b2ed143f2663cdfe3783a216ea0ad",
+      "ts": 1771712675
     },
     "Flamelord's Boots": {
-      "hash": "88b69b9c49aa7bf763be40ac22e6145f7105e68740ebbc6fd308d44ba8a537d4",
-      "ts": 1771654321
+      "hash": "4c5656e34c8a8697a3b40eb2d39add9d6c08f7c127932beef2a43547a1b7a32f",
+      "ts": 1771712675
     },
     "Night Owl Boots": {
-      "hash": "b7f5dc863b0735258525fb25936af99d8af44705b56f35437a8db5df13be32ee",
-      "ts": 1771608669
+      "hash": "571f3c321a4335e30a27bd8af240fa998c652479f9b76c4f15d0192a407434d2",
+      "ts": 1771712675
     },
     "Paladin's Boots": {
-      "hash": "f8df8085f8caaa6293b653b03d3c289d62e81dc0ac72dd0041fa2b0d5a99e6e4",
-      "ts": 1771654321
+      "hash": "dba9f1426b8ec7c4defb53dccacab2d05fbfb422da2cb691ea1c14990abb2e28",
+      "ts": 1771712675
     },
     "Pious Boots": {
-      "hash": "ed24db25e5659a430675bf5daedc903b3a56de7313ecd77a937a33a1087f345d",
-      "ts": 1771608669
+      "hash": "a6ffdc8c115d658ae6774ef5fee694054da913253ea874d21eac4a3dba8ea1c1",
+      "ts": 1771712675
     },
     "Quenched Boots": {
-      "hash": "9ef180153b0748ad7bd641515f734223ea9214bd6c804ce4beb7cbaff466445c",
-      "ts": 1771608669
+      "hash": "f644b0ea8096237a97fc298b8d077e4993deff98f55ef85d082fa6d719ca419e",
+      "ts": 1771712675
     },
     "Ranger's Boots": {
-      "hash": "8003eae1c85b59298697600441d5d35d4d1e867717b492f46f9d93af072f35a2",
-      "ts": 1771608669
+      "hash": "49250c57096cde9aa8acec84e43b884d2515b94fdb82fe926e63b50f11342975",
+      "ts": 1771712675
     },
     "Sage's Boots": {
-      "hash": "8df8a1415ae51bd1500271af17c5a243a7d893b3028bef44f2c5f7533a2d21b8",
-      "ts": 1771608669
+      "hash": "865f53b3c1b66fea4187be9eb62a2c93c6478dff768baf86f78b6e5692784f88",
+      "ts": 1771712675
     },
     "Valiant Boots": {
-      "hash": "b568a362484a0077c1542a091706ce774d2fbfdf749e7c62cf884381ffaca764",
-      "ts": 1771608669
+      "hash": "33c95f1194a45f44ca7a12ae1f2534fcbd5d7ff8206bdd942dd69bdd6dd6e861",
+      "ts": 1771712675
     },
     "Hero's Boots": {
-      "hash": "b8bec81eda3444f92c35ede5d4f204c3709d450fbc66fadce01d305721a9a3ec",
-      "ts": 1771654321
+      "hash": "8db833a3833461622ff839e59f4f2a9b3e0d438c1bd259ba4b68c4532d1f037f",
+      "ts": 1771712675
     },
     "Knight's Boots": {
-      "hash": "c54b6ae1a570ebf7918c61bdc4c88ce515c4da7f659036a7a99028a66ed373d4",
-      "ts": 1771654321
+      "hash": "6a17588e96068f122c6508c7f78246dd92b886f3dbd24f73221dfb3a6cacbd36",
+      "ts": 1771712675
     },
     "Mercenary's Boots": {
-      "hash": "cae690d6f4149f72fcaea2b9b1bc80b263e240ebf5c56da9ebc97df86fc77d38",
-      "ts": 1771654321
+      "hash": "24170df15c23a63ad49740ed7ad78e6916e1c2463caa15187fa7f9e59d3e93b2",
+      "ts": 1771712675
     },
     "Traveler's Boots": {
-      "hash": "ff7352fb5e10a4fe1015a292c24548384f71fbecaa2b79914607f0ed854dcc3b",
-      "ts": 1771654321
+      "hash": "5be9768d6f8ba69da2071668576ab715663970f28dfda240cf62adc8221f3389",
+      "ts": 1771712675
     },
     "Bloodseeker Sword": {
-      "hash": "64ca474252f2db4584507db23aedee932fb02945f3de331e9ac2523007d6ff63",
-      "ts": 1771563818
+      "hash": "1a5d32a3f91fcc78744b4a8b7517f833ad3cb4750dd5942aa4993c8e238de66e",
+      "ts": 1771712675
     },
     "Curseblade": {
-      "hash": "17327da232631e671bd423acd9b775d2dd7bddefee5e617572e09a014eae7bc8",
-      "ts": 1771563818
+      "hash": "8f428788fe11f53200a3ed336b63d72623c17223af767ac5ed64a936dcef9762",
+      "ts": 1771712675
     },
     "Dragon Hunter's Greatbow": {
-      "hash": "4a28df4e30d5a7d675f38956c9f50e22c349cab86694aaa1e77a3415e67f9671",
-      "ts": 1771563818
+      "hash": "cbc445042c8fc5f439a500979c3eb498fad2f30f4f16029d07ae3727ca5ad744",
+      "ts": 1771712675
     },
     "Dragonslayer Greatsword": {
-      "hash": "e8b10c643627bf926855230bd36209273869f941e6e6ed93a420523d5219e51b",
-      "ts": 1771563818
+      "hash": "900b858d7d05ffccacb9c135b39d8c3b869c104196a1b6bae5b14843ddea9708",
+      "ts": 1771712675
     },
     "Flamelord's Sword": {
-      "hash": "fc6c12071723ba6a851c5e59628b7c4ef533654f6fa970b4157c50fc0d270fab",
-      "ts": 1771563818
+      "hash": "33237dc56a6fa1300d9568568fc83c39ea928b26ff405331b4ad9a5c68ad5401",
+      "ts": 1771712675
     },
     "Gate of Truth": {
-      "hash": "24567e80a6cbb57ce2808cdb8d48786ddef215ff897aa50b53adecd5db4f7c09",
-      "ts": 1771563818
+      "hash": "95f8da029f589a81772d32bb760aab682610f245cd5f2a89dabfcc08306e71cd",
+      "ts": 1771712675
     },
     "Infinite Holy Sword": {
-      "hash": "c305ca10c108a427a51679f86e9a8f8c27e8e03b3e016cbcf048772767620614",
-      "ts": 1771563818
+      "hash": "a96cafbf0189f160af3b326e46390f1d66b5defa302ad1f6d3c8a2ab8d56f9c6",
+      "ts": 1771712675
     },
     "Invincible Meow-Meow Fist": {
-      "hash": "dc70edd084ff3696f328fd78fa0ac1a5c8bf0b5973e8f0ed733758f4fed4c130",
-      "ts": 1771563818
+      "hash": "59c821f0f7bb71798452230dc46ceb95b4cd4ec116f612febcec575aeaaffce9",
+      "ts": 1771712675
     },
     "Last Whisper": {
-      "hash": "7b0267d3f205c5129d68e839ef863f792f562105ed5550c87e0fc8f98cfa63d6",
-      "ts": 1771563818
+      "hash": "52e1e301bdd4acfc5b186ddf91295d703fa26b9f80de0da0041e52ab03bb94ca",
+      "ts": 1771712675
     },
     "Mana's Tide": {
-      "hash": "99dd3d8711b26926880059f6ff03b3ed7dfffa74d42f6a99d45c53ed2cdfad41",
-      "ts": 1771563818
+      "hash": "f601d6ec2099289bc07bc973eb94470c8039fdd56a34571ce2b3d7d2448d84c4",
+      "ts": 1771712675
     },
     "Phantom Blade": {
-      "hash": "0d01894bd03b72f24e91694a90f5802d7c1b4d3f8c96a1963b0e12cc53e6d422",
-      "ts": 1771563818
+      "hash": "9f8b7d1ce70f82a4da38f5bcfac38cccb75725eb404295cdfbb57a9b6aa9a0e1",
+      "ts": 1771712675
     },
     "Quenched Warblade": {
-      "hash": "ac9d5dfa731d8f00ea311a5a830fefc6086566c6bf7a3365da4013d33b118bfc",
-      "ts": 1771563818
+      "hash": "b52c10c93442d823a8351827f5f89b4913847e434b59ab7f472c11739400dd08",
+      "ts": 1771712675
     },
     "Requiem": {
-      "hash": "5a2aceec7de297d746df1202878fc51c6f7578c6e55fa5d971124fd389661911",
-      "ts": 1771563818
+      "hash": "43ddad08739e275b28b64b15a5980d0fa1e82093390e79772cd9023068ec9d87",
+      "ts": 1771712675
     },
     "Sage's Staff": {
-      "hash": "edf920ff600f25356b6aee24b39bb412fff43d73e754dc063d5fdf659bae6f7f",
-      "ts": 1771563818
+      "hash": "3da28a4d61da1ce3bb79ad17cfd5a03650fec69dafa2a392367d69ea58904c6c",
+      "ts": 1771712675
     },
     "Ship Slayer": {
-      "hash": "88396d66cadcf0858d40d19a0a5014180e5e9063e36ee2471a3867e869f02e30",
-      "ts": 1771563818
+      "hash": "587153265f41a57960958bf04a730f96f9dc6b7ec9246e1a0b0055d3e2433683",
+      "ts": 1771712675
     },
     "Silver Sword of Demon Hunting": {
-      "hash": "0769f33a54c93227651ac098c404583f97ba69c656a1f927faf15c62e499e051",
-      "ts": 1771563818
+      "hash": "f780b01623a83bce4cf18851d49fc603196f53308f925348a91131db717d9883",
+      "ts": 1771712675
     },
     "Song of Plenty": {
-      "hash": "8ab71a4aca81947b1b53c14e1e8720200ea525955514975a0232d3fd8861a24c",
-      "ts": 1771563818
+      "hash": "1a8180171591392006bd99dd3206098646e0a5a468b22577b6619903dfafc3fb",
+      "ts": 1771712675
     },
     "Sword of the Overlord": {
-      "hash": "dd4ae3d6917c0e88f70707fe530aa787d57dfa56bbfe8e71c35689c643823ae1",
-      "ts": 1771563818
+      "hash": "c726db0c92c43f9cdf2a1361efa61087a58f979d74a0e4c437c107fb6dd48c99",
+      "ts": 1771712675
     },
     "Tome of Stars": {
-      "hash": "8cce3384b7f8e3123745d43959749ef58051d6d5c59be904a2d7763e73a70604",
-      "ts": 1771563818
+      "hash": "a7d4e6754f1edc562a2ed900da2d7e14070bb5743190c61370653778784f7de4",
+      "ts": 1771712675
     },
     "Touch of the Undying Flame": {
-      "hash": "85a3f3bdb0c84b3d602c4c2d9fa6686635e9734e47a57f1047b67dd852cd0ce6",
-      "ts": 1771563818
+      "hash": "d98008a6fbca353dc4a7d80de112f3aebf3609215824a5b628ecb082fc81542e",
+      "ts": 1771712675
     },
     "Typhon's Wrath": {
-      "hash": "a27cdba42c478cc3f3ef08978391ebc0867ceb9a06cdb6554378734d5af5262e",
-      "ts": 1771563818
+      "hash": "f4fa74f7065cde8415122a89e4a2170f1ccf47d9786793e4c51f54713a4c2899",
+      "ts": 1771712675
     },
     "Hero's Blade": {
-      "hash": "681e605baa871d3bc3403ac3729567b03492656725870717b1399328d60855f9",
-      "ts": 1771563818
+      "hash": "fe29a0dba5a46b9dae87d5c01e8b2fa8b45ad641ab142868a8e8f67660f69f1e",
+      "ts": 1771712675
     },
     "Knight's Greatsword": {
-      "hash": "51f63bae1d8c1b8f377a132b759634960f37c0af0e075933e2954aa734175f7a",
-      "ts": 1771654321
+      "hash": "74bb28cd436fd428f9c515a2e286e4f29df3bf5a7548865bc37d93f6c5a62ae2",
+      "ts": 1771712675
     },
     "Mercenary's Shortsword": {
-      "hash": "5618c2a2f1c4020280f0143aa7a78eddfaf05a1364c4e8f74de276cbe1faca53",
-      "ts": 1771654321
+      "hash": "60e7d587e0bec83dca4c63811a7e140837cfbe287175c903cdf695215be96e15",
+      "ts": 1771712675
     },
     "Traveler's Longsword": {
-      "hash": "0f13ac0f1e2d6efcc4b95d7681c3e5a60f489053e123a8524812d3191ee1f2cb",
-      "ts": 1771654321
+      "hash": "23011bb3ab1e9e068d3d1e1e1004381902197ad096a8eff71cdd2a8421e021cd",
+      "ts": 1771712675
     },
     "Ancient Dragon Scale": {
-      "hash": "ddbb8155fbeb63873e70e879927b5455403242164273b4ad2a6085d767f45c78",
-      "ts": 1771563818
+      "hash": "b918cc97da31b0b0699274fa31163ea9b5676c584e20f08ed55184ab94969a8a",
+      "ts": 1771712675
     },
     "Blessing of the Sacred Tree": {
-      "hash": "22e334db9458c3d3482f4d033d8be943ac419968b0d406439d33084d05d235d1",
-      "ts": 1771563818
+      "hash": "ad5421471477e93cb8315310174e24b0e5ede068b9da137389d3586135266995",
+      "ts": 1771712675
     },
     "Bountiful Bouquet": {
-      "hash": "2706118e13ba147c972b1855eb1b9508eca291e2c00e58f8574528f0c8066fed",
-      "ts": 1771563818
+      "hash": "5b071891b1ba59fda0607bfc4c55fd3ebb2b909312e312521b96cb098471d8fc",
+      "ts": 1771712675
     },
     "Box of Pain": {
       "hash": "5d19e54882eda95224c478182113842d7a85e4a57486685cfcf491570fc12094",
       "ts": 1771563818
     },
     "Brave's Medal": {
-      "hash": "06f1fa49d0a4617135628f58bc66a9f4bc36f3593461dfa7935bc8ae87e17959",
-      "ts": 1771563818
+      "hash": "ec90f16df769659c31d23de78da8a0f24c910aedfc299c8cf7a5c06c7c6cdb49",
+      "ts": 1771712675
     },
     "Dragonblood Seal": {
-      "hash": "83adfc45d1c79004c400f607e871c030afc18320b1e0365eb391ba2920e30cba",
-      "ts": 1771708464
+      "hash": "03ccaac2c95e7745c2fa84c8db96b6c3a1512384ccc5b17ac83cc4b375fd8ec4",
+      "ts": 1771712675
     },
     "Dragonslayer's Guide": {
-      "hash": "3811c349746c0bf011d3fdf73967da1c079951e93bf143c92891b502693cc702",
-      "ts": 1771563818
+      "hash": "71c4ba5c0e5c5305c20738b04581a2191f7705d245c503bf4d2b13312e3522cc",
+      "ts": 1771712675
     },
     "Eagle Warrior Portrait": {
-      "hash": "3e5f3a78908a4c57846d803af0a68b6c24c3c6aa76673f2081ff5e4f70ea7359",
-      "ts": 1771563818
+      "hash": "9521dcc43faed2d9b78d69d7cc66ed8588122784f1817b3cdd1526fbf7528e9f",
+      "ts": 1771712675
     },
     "Flamelord's Proof": {
-      "hash": "7fef7a1ca7d3ac0b6fb3d1578b72a49438906fa8752db93c7ba48f9981a74611",
-      "ts": 1771563818
+      "hash": "f1dedc6d6163c7e1e664a7813b572d9c8c7cbabe1eb707edc27a28781e10112b",
+      "ts": 1771712675
     },
     "Magic Mirror of the Soul": {
-      "hash": "4774c41948e19dd35e3168bcf4b6683aad7e17f9375bff3e18c858d19662c386",
-      "ts": 1771563818
+      "hash": "374cc5f8c2296df37a440976a154b88826f7127ff72c3878a2d9ba1683d9fcfd",
+      "ts": 1771712675
     },
     "Mana's Tear": {
-      "hash": "2af9eabd704bcb72ea66ee2da2006a46becba2b8e91eb26b3e2c1d1341d7fc6a",
-      "ts": 1771563818
+      "hash": "5c10c3225c6bd7ae3ddb42f83d56f4ff78302927ebfc99c7a1c5398d3ad2f29e",
+      "ts": 1771712675
     },
     "Moonlight Flask": {
-      "hash": "9850248773a586ac7fa8ee04ecf384d5ae28332ac5f53e3d102f6a87635d700f",
-      "ts": 1771563818
+      "hash": "cb2dc7873115356c7aa4e4a5eeea1c5e8e1b9e703426e51bb593c89bdf0763ed",
+      "ts": 1771712675
     },
     "Overlord's Proof": {
-      "hash": "fbeedbc1c9ea42cd63d399269e51c8f1d29e2532ed5603d051449ca82f752334",
-      "ts": 1771563818
+      "hash": "e81062ebb1217ab637bc66107fd6137f591c37e4e6c2c712135c1fe8b87f1f39",
+      "ts": 1771712675
     },
     "Quenched Medal": {
-      "hash": "a19c9f2e2a4b7a368498f22ff417452991b1223f0b049169e9f16392f2c32b07",
-      "ts": 1771563818
+      "hash": "47986cc786c48631742a8bccdf39179b6bc6f9df3074c8a4405deec9f92b764b",
+      "ts": 1771712675
     },
     "Sage's Bracelet": {
-      "hash": "7c7faf5d025af5d767a589ae94935d4212bad26e88b59be286b2ae98fc3ad675",
-      "ts": 1771563818
+      "hash": "9c513b7381ab194ce1ec249fadd4e861088cc70f30e07b5599787344aa71dbdd",
+      "ts": 1771712675
     },
     "Spirit Turtle Talisman": {
-      "hash": "b6d45b7c6794f2f37f2e8d7df62dee47dbf143d94fccd6bed37f8433904a8e09",
-      "ts": 1771563818
+      "hash": "9c79fa85a875e979c6675b6504196c5ec47dfb11231ba9849ddb387e8eb9f51e",
+      "ts": 1771712675
     },
     "Starlight Magisterium": {
-      "hash": "82d588d0dcab6b73eb0d991ac7713fbe07d7e976c111f9304e764c70f9e2a409",
-      "ts": 1771563818
+      "hash": "ebe47b62c068a1a859805aec8c5ef4abff81b0e69884d7067037b2c092666347",
+      "ts": 1771712675
     },
     "Thorns of Rejection": {
-      "hash": "69a60ef897da4acd92db232e2f4ee03ba81cd86dceff7528cbf6560c8d52cb5c",
-      "ts": 1771563818
+      "hash": "c68ad07369ca6c65791ac82fa7f98b813a898eb7aa04bc3c0b9a7a53c87b875a",
+      "ts": 1771712675
     },
     "Truth Seeker's Emblem": {
-      "hash": "c2750f35ac31022b3016ea75974dad88729950d85a0ad6cbb99642824b8cff7a",
-      "ts": 1771563818
+      "hash": "677919344b7bf62f78dadc834f1969da9d09a77310b5a23c409c0105df6a258f",
+      "ts": 1771712675
     },
     "Watcher's Magic Eye": {
-      "hash": "f69f0642d63733523e1ed0a280e4c423d63d617337cd5e82279d6656181d65f1",
-      "ts": 1771563818
+      "hash": "b624b78e780497e70d10e3b74d9dd4d89acf00831a32dcaf2f88963591c972ff",
+      "ts": 1771712675
     },
     "Wolf's Will": {
-      "hash": "69d687e75d907f3cdcaf42db7aa325379e98067c5f8ded4b347f41c31deb2ab9",
-      "ts": 1771563818
+      "hash": "712230627d266a253514111cd8178fed5da6660245abd89a7011cd1623079be2",
+      "ts": 1771712675
     },
     "Hero's Medal": {
-      "hash": "caa47d57bdfa1238ca62c700c7b4249c839dbcde4b9fb8f524a2122dcdd612c9",
-      "ts": 1771563818
+      "hash": "80b1eeb2c9f91b9f97a7b56ada4f0977713a32ea5ac258942f54f50bff0b5ac7",
+      "ts": 1771712675
     },
     "Knight's Bracelet": {
-      "hash": "22c0e90fec899857dbfdf194cd27b7b0cf6dee3497305842829cd008075d43ef",
-      "ts": 1771654321
+      "hash": "63d7133d81fd062579f9240a65d06cb81b5ecdd2148f9f548b345b2cd666bc6e",
+      "ts": 1771712675
     },
     "Mercenary's Pocket Watch": {
-      "hash": "b5c2f7e862013663f5a6ce03a866c96c7be12462b141d974bd27e70cdab5c819",
-      "ts": 1771654321
+      "hash": "15a000360eb52da6908564e0a70bb113156056513b7b0571fa60b94a1f450485",
+      "ts": 1771712675
     },
     "Traveler's Canteen": {
-      "hash": "5de34aa762529ba4ab384d0371e394f63b64dd37db4e4d386ff7102f3a31f82a",
-      "ts": 1771654321
+      "hash": "d9960ad1b39fe1b47daea4dc92f7096f04bc17a5744b000befbee461a88f5c6c",
+      "ts": 1771712675
     }
   },
   "golden_alliances": {

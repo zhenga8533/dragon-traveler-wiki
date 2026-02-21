@@ -1,171 +1,235 @@
 [
   {
-    "name": "Ancient Dragon",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Block by 240 and Shield Efficiency by 12%."
-    },
-    "last_updated": 1771563818
-  },
-  {
     "name": "Arcane",
     "set_bonus": {
       "quantity": 2,
-      "description": "Boosts Haste ability by 10."
+      "description": "Increases HP by 15%, Overdrive Energy Consumption reduced by 1 point."
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
-    "name": "Bloodseeker",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Attack by 20% and Lifesteal by 8%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Bountiful",
-    "set_bonus": {
-      "quantity": 2,
-      "description": "Increases HP by 10%, recovers 1.5% of max HP per second."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Brave",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Healing effect by 16% and Shield efficiency by 16%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Curse",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Magic Defense by 24% and Attack Speed by 8%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Cursed",
-    "set_bonus": {
-      "quantity": 2,
-      "description": "Boosts Critical Resistance by 200."
-    },
-    "last_updated": 1771608669
-  },
-  {
-    "name": "Dragon Hunter",
+    "name": "Attack",
     "set_bonus": {
       "quantity": 1,
       "description": "Boosts ATK by 10%."
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
-    "name": "Dragonslayer",
-    "set_bonus": {
-      "quantity": 2,
-      "description": "Boosts Attack Speed by 20% and Rage Regen Efficiency by 25%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Eagle Warrior",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts 12 Haste, and Overdrive damage by 20%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Flamelord",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts HP by 10%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Hero",
-    "set_bonus": {
-      "quantity": 0,
-      "description": ""
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Infinite",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Crit by 100 and Critical Damage by 25%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Knight",
-    "set_bonus": {
-      "quantity": 0,
-      "description": ""
-    },
-    "last_updated": 1771654321
-  },
-  {
-    "name": "Last Whisper",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Attack by 20% and ignores 12% of the target's Physical Defense and Magic Defense when attacking. (Defense Ignore effect can stack up to 40%)"
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Mana",
-    "set_bonus": {
-      "quantity": 2,
-      "description": "Increases HP by 20%, initial Overdrive Points +1."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Meow-Meow",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Attack Speed by 32% and reduces Attack by 20%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Mercenary",
-    "set_bonus": {
-      "quantity": 0,
-      "description": ""
-    },
-    "last_updated": 1771654321
-  },
-  {
-    "name": "Moonlight",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Magic Defense by 24% and Healing received by 12%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Night Owl",
+    "name": "Attack Speed",
     "set_bonus": {
       "quantity": 2,
       "description": "Boosts Attack Speed by 13%."
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
-    "name": "Overlord",
+    "name": "Block",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Block by 200."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Bloodthirst",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Attack by 20% and Lifesteal by 8%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Break",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Break by 240 and Hit by 120."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Chaos",
     "set_bonus": {
       "quantity": 2,
       "description": "Boosts Attack by 24%, and extends buff duration by 24%."
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Cleave",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "When Basic Attack hits, deals additional Physical Damage equal to 64% Attack to enemies in a medium circular area. This Damage cannot Crit."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Corruption",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Magic Defense by 48% and reduces Physical Defense by 16%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Crit",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Crit by 200."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Crit Damage",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Crit Damage by 18%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Crit Resist",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Critical Resistance by 200."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Demon Slayer",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Magic Defense by 24% and Attack Speed by 8%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Endless",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Crit by 100 and Critical Damage by 25%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Energy",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Increases HP by 20%, initial Overdrive Points +1."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Evade",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts HP by 20% and Dodge by 120."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Focus",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Attack Speed by 24% and Hit by 240."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Frenzy",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Attack Speed by 16% and Crit by 120."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Gear",
+    "set_bonus": {
+      "quantity": 0,
+      "description": ""
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Grievous Wound",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "When Basic Attack deals Damage, reduces its Healing received by 24% for 3 seconds."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Haste",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Haste ability by 10."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Healing",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts Healing effect by 16%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "HP",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts HP by 10%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Impact",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Attack by 40% and reduces Attack Speed by 16%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Judgment",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts 12 Haste, and Overdrive damage by 20%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Longevity",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts HP by 40%, reduces Attack by 16%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Magic",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Magic damage dealt by 32%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Magic Defense",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Magic Defense by 10%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Order",
+    "set_bonus": {
+      "quantity": 2,
+      "description": "Boosts dual defense by 24% and shortens debuff duration by 24%."
+    },
+    "last_updated": 1771712675
   },
   {
     "name": "Pain",
@@ -176,163 +240,75 @@
     "last_updated": 1771563818
   },
   {
-    "name": "Paladin",
-    "set_bonus": {
-      "quantity": 2,
-      "description": "Boosts Crit Damage by 18%."
-    },
-    "last_updated": 1771608669
-  },
-  {
-    "name": "Phantom",
+    "name": "Penetration",
     "set_bonus": {
       "quantity": 1,
-      "description": "Boosts Attack Speed by 16% and Crit by 120."
+      "description": "Boosts Attack by 20% and ignores 12% of the target's Physical Defense and Magic Defense when attacking. (Defense Ignore effect can stack up to 40%)"
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
-    "name": "Pious",
-    "set_bonus": {
-      "quantity": 2,
-      "description": "Boosts Healing effect by 16%."
-    },
-    "last_updated": 1771608669
-  },
-  {
-    "name": "Quenched",
+    "name": "Physical Defense",
     "set_bonus": {
       "quantity": 1,
       "description": "Boosts Physical Defense by 10%."
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
-    "name": "Ranger",
+    "name": "Purge",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Magic Defense by 24% and Healing received by 12%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Rage",
     "set_bonus": {
       "quantity": 2,
-      "description": "Boosts Crit by 200."
+      "description": "Boosts Attack Speed by 20% and Rage Regen Efficiency by 25%."
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
-    "name": "Rejection",
+    "name": "Redemption",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Healing effect by 16% and Shield efficiency by 16%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Resilience",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Block by 240 and Shield Efficiency by 12%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Swift Strike",
+    "set_bonus": {
+      "quantity": 1,
+      "description": "Boosts Attack Speed by 32% and reduces Attack by 20%."
+    },
+    "last_updated": 1771712675
+  },
+  {
+    "name": "Thorns",
     "set_bonus": {
       "quantity": 1,
       "description": "Boosts Physical Defense by 24% and Counter Damage by 8%."
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
-    "name": "Requiem",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "When Basic Attack deals Damage, reduces its Healing received by 24% for 3 seconds."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Sacred Tree",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts HP by 20% and Dodge by 120."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Sage",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Magic Defense by 10%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Ship Slayer",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Attack by 40% and reduces Attack Speed by 16%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Silver",
+    "name": "Wild",
     "set_bonus": {
       "quantity": 2,
-      "description": "Boosts Attack Speed by 24% and Hit by 240."
+      "description": "Increases HP by 10%, recovers 1.5% of max HP per second."
     },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Soul",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Magic Defense by 48% and reduces Physical Defense by 16%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Spirit Turtle",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts HP by 40%, reduces Attack by 16%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Starlight",
-    "set_bonus": {
-      "quantity": 2,
-      "description": "Increases HP by 15%, Overdrive Energy Consumption reduced by 1 point."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Traveler",
-    "set_bonus": {
-      "quantity": 0,
-      "description": ""
-    },
-    "last_updated": 1771654321
-  },
-  {
-    "name": "Truth Seeker",
-    "set_bonus": {
-      "quantity": 2,
-      "description": "Boosts dual defense by 24% and shortens debuff duration by 24%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Typhon",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "When Basic Attack hits, deals additional Physical Damage equal to 64% Attack to enemies in a medium circular area. This Damage cannot Crit."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Undying Flame",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Magic damage dealt by 32%."
-    },
-    "last_updated": 1771563818
-  },
-  {
-    "name": "Valiant",
-    "set_bonus": {
-      "quantity": 2,
-      "description": "Boosts Block by 200."
-    },
-    "last_updated": 1771608669
-  },
-  {
-    "name": "Watcher",
-    "set_bonus": {
-      "quantity": 1,
-      "description": "Boosts Break by 240 and Hit by 120."
-    },
-    "last_updated": 1771564974
+    "last_updated": 1771712675
   }
 ]

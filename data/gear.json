@@ -1,7 +1,7 @@
 [
   {
     "name": "Arcane Hood",
-    "set": "Arcane",
+    "set": "Haste",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "A pointed hat worn daily by Mages, wide and comfortable but sometimes obstructs vision.",
@@ -9,11 +9,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Cursed Helmet",
-    "set": "Cursed",
+    "set": "Crit Resist",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "A helmet worn by evil Warlocks, their faces obscured in shadow and darkness.",
@@ -21,11 +21,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Dragon Hunter Helmet",
-    "set": "Dragon Hunter",
+    "set": "Attack",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "",
@@ -33,11 +33,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Flamelord's Helmet",
-    "set": "Flamelord",
+    "set": "HP",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "The king's gaze from the helmet sends shivers down the enemy's spine.",
@@ -45,11 +45,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Night Owl Helmet",
-    "set": "Night Owl",
+    "set": "Attack Speed",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "",
@@ -57,11 +57,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Paladin's Helmet",
-    "set": "Paladin",
+    "set": "Crit Damage",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "A helmet worn by noble White Knights, its exquisite design is like a work of art.",
@@ -69,11 +69,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Pious Biretta",
-    "set": "Pious",
+    "set": "Healing",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "",
@@ -81,11 +81,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Quenched Helmet",
-    "set": "Quenched",
+    "set": "Physical Defense",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "",
@@ -93,11 +93,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Ranger's Feathered Hat",
-    "set": "Ranger",
+    "set": "Crit",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "It is both a tool to block the wind and his secret weapon to maintain his elegance!",
@@ -105,11 +105,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Sage's Crown",
-    "set": "Sage",
+    "set": "Magic Defense",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "A crown made of branches, worn by the sages of the forest to signify their friendship with the woods.",
@@ -117,11 +117,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Valiant Helmet",
-    "set": "Valiant",
+    "set": "Block",
     "type": "Headgear",
     "quality": "SSR",
     "lore": "A helmet worn by the brave Gladiator, covering the entire face.",
@@ -129,11 +129,11 @@
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Hero's Helmet",
-    "set": "Hero",
+    "set": "Gear",
     "type": "Headgear",
     "quality": "SR",
     "lore": "A helmet of elegant craftsmanship. It is meticulously cleaned by heroes after each and every hour.",
@@ -141,11 +141,11 @@
       "HP": 5710,
       "MDEF": 175
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Knight's Helmet",
-    "set": "Knight",
+    "set": "Gear",
     "type": "Headgear",
     "quality": "R",
     "lore": "Well-crafted helmet, protects the head without obstructing vision.",
@@ -153,11 +153,11 @@
       "HP": 2203,
       "MDEF": 67
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Mercenary's Hood",
-    "set": "Mercenary",
+    "set": "Gear",
     "type": "Headgear",
     "quality": "N",
     "lore": "Unremarkable Hat, muffles noise but offers no protection from damage.",
@@ -165,11 +165,11 @@
       "HP": 887,
       "MDEF": 27
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Traveler's Hat",
-    "set": "Traveler",
+    "set": "Gear",
     "type": "Headgear",
     "quality": "C",
     "lore": "Traveler's Hat, shields from sunlight and blocks sandstorms.",
@@ -177,11 +177,11 @@
       "HP": 327,
       "MDEF": 10
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Arcane Robe",
-    "set": "Arcane",
+    "set": "Haste",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "A robe often worn by Mages, said to be imbued with many spells.",
@@ -189,11 +189,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Cursed Robe",
-    "set": "Cursed",
+    "set": "Crit Resist",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "A robe worn by evil Warlocks are shrouded in ominous shadows.",
@@ -201,11 +201,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Dragon Hunter Armor",
-    "set": "Dragon Hunter",
+    "set": "Attack",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "Crafted from the remains of a dead Wyrm, worn by dragonslayers who traverse the Phantasia Mountain to hunt mighty beasts.",
@@ -213,11 +213,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Flamelord's Armor",
-    "set": "Flamelord",
+    "set": "HP",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "The wrath of a king burns like fire, destined to consume all.",
@@ -225,11 +225,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Night Owl Armor",
-    "set": "Night Owl",
+    "set": "Attack Speed",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "Armor worn by thieves who dwell in darkness, blending perfectly into the night.",
@@ -237,11 +237,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771708464
+    "last_updated": 1771712675
   },
   {
     "name": "Paladin's Armor",
-    "set": "Paladin",
+    "set": "Crit Damage",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "Armor worn by noble White Knights, its pure color signifies a pure soul.",
@@ -249,11 +249,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Pious Robe",
-    "set": "Pious",
+    "set": "Healing",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "",
@@ -261,11 +261,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Quenched Armor",
-    "set": "Quenched",
+    "set": "Physical Defense",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "A sturdy set of armor forged by dwarfs under divine command, tailored for Paladins.",
@@ -273,11 +273,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Ranger's Leather Armor",
-    "set": "Ranger",
+    "set": "Crit",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "A leather coat once worn by a forest ranger, believed to be hand-stitched by the wearer himself.",
@@ -285,11 +285,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Sage's Armor",
-    "set": "Sage",
+    "set": "Magic Defense",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "",
@@ -297,11 +297,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Valiant Armor",
-    "set": "Valiant",
+    "set": "Block",
     "type": "Chestplate",
     "quality": "SSR",
     "lore": "Armor worn by valiant Gladiators, overprotective designs may sacrifice visual speed.",
@@ -309,11 +309,11 @@
       "HP": 9993,
       "PDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Hero's Armor",
-    "set": "Hero",
+    "set": "Gear",
     "type": "Chestplate",
     "quality": "SR",
     "lore": "A beautifully decorated armor that balances function and aesthetics.",
@@ -321,11 +321,11 @@
       "HP": 4831,
       "PDEF": 351
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Knight's Armor",
-    "set": "Knight",
+    "set": "Gear",
     "type": "Chestplate",
     "quality": "R",
     "lore": "A cherished suit of armor, often worn by knights throughout their lives.",
@@ -333,11 +333,11 @@
       "HP": 1864,
       "PDEF": 135
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Mercenary's Leather Armor",
-    "set": "Mercenary",
+    "set": "Gear",
     "type": "Chestplate",
     "quality": "N",
     "lore": "A plain leather coat that keeps you unnoticed, even by thieves and bandits.",
@@ -345,11 +345,11 @@
       "HP": 722,
       "PDEF": 52
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Traveler's Leather Armor",
-    "set": "Traveler",
+    "set": "Gear",
     "type": "Chestplate",
     "quality": "C",
     "lore": "A soft leather coat, travelers value lightness over protection.",
@@ -357,11 +357,11 @@
       "HP": 275,
       "PDEF": 20
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Arcane Gauntlets",
-    "set": "Arcane",
+    "set": "Haste",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "Mages sometimes wield their staffs in close combat, and thus wear gauntlets for protection.",
@@ -369,11 +369,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Cursed Gauntlets",
-    "set": "Cursed",
+    "set": "Crit Resist",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "Gauntlets worn by evil Warlocks, used to cast many vicious dark spells.",
@@ -381,11 +381,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Dragon Hunter Gauntlets",
-    "set": "Dragon Hunter",
+    "set": "Attack",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "Gauntlets forged in the likeness of dragon claws, the claws of Wyrms outmatch all divine weapons.",
@@ -393,11 +393,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Flamelord's Gauntlets",
-    "set": "Flamelord",
+    "set": "HP",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "For a king, gauntlets are not for protection, but for drawing the sword.",
@@ -405,11 +405,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Night Owl Gauntlets",
-    "set": "Night Owl",
+    "set": "Attack Speed",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "A blackened gauntlet emerging from the shadows — a nightmare for many.",
@@ -417,11 +417,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Paladin's Gauntlets",
-    "set": "Paladin",
+    "set": "Crit Damage",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "White Knights once swore an oath: the sword gripped by these gauntlets shall never strike the weak.",
@@ -429,11 +429,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Pious Gloves",
-    "set": "Pious",
+    "set": "Healing",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "",
@@ -441,11 +441,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Quenched Gauntlets",
-    "set": "Quenched",
+    "set": "Physical Defense",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "It's said that if stained with the blood of the innocent, their shine will fade.",
@@ -453,11 +453,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Ranger's Gloves",
-    "set": "Ranger",
+    "set": "Crit",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "Worn by forest rangers, these gloves protect the hands that draw the bowstring.",
@@ -465,11 +465,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Sage's Gloves",
-    "set": "Sage",
+    "set": "Magic Defense",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "Even with gloves on, forest sages will gently caress the flowers.",
@@ -477,11 +477,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Valiant Vambraces",
-    "set": "Valiant",
+    "set": "Block",
     "type": "Bracers",
     "quality": "SSR",
     "lore": "Gauntlets worn by brave Gladiators, only removed upon victory.",
@@ -489,11 +489,11 @@
       "ATK": 1162,
       "PDEF": 363
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Hero's Gauntlets",
-    "set": "Hero",
+    "set": "Gear",
     "type": "Bracers",
     "quality": "SR",
     "lore": "Exquisitely crafted gauntlets that need to be handled with care, repairs don't come cheap.",
@@ -501,11 +501,11 @@
       "ATK": 562,
       "PDEF": 175
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Knight's Gauntlets",
-    "set": "Knight",
+    "set": "Gear",
     "type": "Bracers",
     "quality": "R",
     "lore": "Tightly fitted gauntlets that offer solid protection for the hands.",
@@ -513,11 +513,11 @@
       "ATK": 216,
       "PDEF": 67
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Mercenary's Gauntlets",
-    "set": "Mercenary",
+    "set": "Gear",
     "type": "Bracers",
     "quality": "N",
     "lore": "Non-slip gauntlets that provide a better grip on sword hilts.",
@@ -525,11 +525,11 @@
       "ATK": 83,
       "PDEF": 29
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Traveler's Bracers",
-    "set": "Traveler",
+    "set": "Gear",
     "type": "Bracers",
     "quality": "C",
     "lore": "Simply decorated bracers. Try blocking a blade with them, though they won't be much use.",
@@ -537,11 +537,11 @@
       "ATK": 32,
       "PDEF": 10
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Arcane Boots",
-    "set": "Arcane",
+    "set": "Haste",
     "type": "Boots",
     "quality": "SSR",
     "lore": "Mages often enchant their boots with acceleration spells, enjoying wind-like speed.",
@@ -549,11 +549,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Cursed Boots",
-    "set": "Cursed",
+    "set": "Crit Resist",
     "type": "Boots",
     "quality": "SSR",
     "lore": "",
@@ -561,11 +561,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Dragon Hunter Boots",
-    "set": "Dragon Hunter",
+    "set": "Attack",
     "type": "Boots",
     "quality": "SSR",
     "lore": "Before the Wyrm falls a dragonslayer's footsteps never cease.",
@@ -573,11 +573,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Flamelord's Boots",
-    "set": "Flamelord",
+    "set": "HP",
     "type": "Boots",
     "quality": "SSR",
     "lore": "",
@@ -585,11 +585,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Night Owl Boots",
-    "set": "Night Owl",
+    "set": "Attack Speed",
     "type": "Boots",
     "quality": "SSR",
     "lore": "These boots move through the darkness without a sound.",
@@ -597,11 +597,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Paladin's Boots",
-    "set": "Paladin",
+    "set": "Crit Damage",
     "type": "Boots",
     "quality": "SSR",
     "lore": "",
@@ -609,11 +609,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Pious Boots",
-    "set": "Pious",
+    "set": "Healing",
     "type": "Boots",
     "quality": "SSR",
     "lore": "Priests wear boots to tread through thorns and swamps to reach the sick.",
@@ -621,11 +621,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Quenched Boots",
-    "set": "Quenched",
+    "set": "Physical Defense",
     "type": "Boots",
     "quality": "SSR",
     "lore": "Paladins stand tall upon the earth, vowing to tread out every injustice beneath their feet.",
@@ -633,11 +633,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Ranger's Boots",
-    "set": "Ranger",
+    "set": "Crit",
     "type": "Boots",
     "quality": "SSR",
     "lore": "Boots worn by forest rangers, ornate in appearance but remarkably light.",
@@ -645,11 +645,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Sage's Boots",
-    "set": "Sage",
+    "set": "Magic Defense",
     "type": "Boots",
     "quality": "SSR",
     "lore": "When the Forest Sages walk through the woods, birds follow them in song.",
@@ -657,11 +657,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Valiant Boots",
-    "set": "Valiant",
+    "set": "Block",
     "type": "Boots",
     "quality": "SSR",
     "lore": "Boots worn by valiant Gladiators, gilded as a symbol of their victories.",
@@ -669,11 +669,11 @@
       "ATK": 981,
       "MDEF": 726
     },
-    "last_updated": 1771608669
+    "last_updated": 1771712675
   },
   {
     "name": "Hero's Boots",
-    "set": "Hero",
+    "set": "Gear",
     "type": "Boots",
     "quality": "SR",
     "lore": "Heavy-soled boots, each step of the heroes echoes like thunder to their enemies.",
@@ -681,11 +681,11 @@
       "ATK": 474,
       "MDEF": 351
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Knight's Boots",
-    "set": "Knight",
+    "set": "Gear",
     "type": "Boots",
     "quality": "R",
     "lore": "Boots crafted for knights, greatly reducing the chance of falling from horseback.",
@@ -693,11 +693,11 @@
       "ATK": 183,
       "MDEF": 135
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Mercenary's Boots",
-    "set": "Mercenary",
+    "set": "Gear",
     "type": "Boots",
     "quality": "N",
     "lore": "Lightweight boots, making long-distance running no longer a dream.",
@@ -705,11 +705,11 @@
       "ATK": 77,
       "MDEF": 57
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Traveler's Boots",
-    "set": "Traveler",
+    "set": "Gear",
     "type": "Boots",
     "quality": "C",
     "lore": "Simple cloth boots that won't let you walk on water, but will get you through the desert.",
@@ -717,11 +717,11 @@
       "ATK": 27,
       "MDEF": 20
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Bloodseeker Sword",
-    "set": "Bloodseeker",
+    "set": "Bloodthirst",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "Within its bloodlit blade dwell the souls of the dead, touch it and you'll hear their wails.",
@@ -729,11 +729,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Curseblade",
-    "set": "Curse",
+    "set": "Demon Slayer",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "When this curbed blade is drawn, curses follow like shadows.",
@@ -741,11 +741,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Dragon Hunter's Greatbow",
-    "set": "Dragon Hunter",
+    "set": "Attack",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "It's said the mightiest dragonslayers can shoot an arrow through a dragon's skull. Stories like this may be legends, but legends often stem from truth.",
@@ -753,11 +753,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Dragonslayer Greatsword",
-    "set": "Dragonslayer",
+    "set": "Rage",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "This colossal object is less of a sword and more like a weapon carved from a massive chunk of iron, resembling a sword in shape!",
@@ -765,11 +765,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Flamelord's Sword",
-    "set": "Flamelord",
+    "set": "HP",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "Strength is the mark of a king.",
@@ -777,11 +777,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Gate of Truth",
-    "set": "Truth Seeker",
+    "set": "Order",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "What did he see behind that shattered stone gate? — Emptiness, wisdom, the ultimate truth of the universe.",
@@ -789,11 +789,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Infinite Holy Sword",
-    "set": "Infinite",
+    "set": "Endless",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "The gods bless every warrior who wields this sword for justice, granting them infinite courage.",
@@ -801,11 +801,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Invincible Meow-Meow Fist",
-    "set": "Meow-Meow",
+    "set": "Swift Strike",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "This is the Invincible Meow, soft and harmlesss on the outside, cunning and vicious within! When a Meow goes full firepower, can humans still resist?",
@@ -813,11 +813,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Last Whisper",
-    "set": "Last Whisper",
+    "set": "Penetration",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "A weapon favored by angels, said its arrows fly as fast as light.",
@@ -825,11 +825,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Mana's Tide",
-    "set": "Mana",
+    "set": "Energy",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "Sometimes as calm as calm as a deep spring, other times raging like a flood. Whoever can master the tides can wield magic power deeper than the ocean.",
@@ -837,11 +837,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Phantom Blade",
-    "set": "Phantom",
+    "set": "Frenzy",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "Assassins believe that once these twin daggers are raised, the target is already as good as dead.",
@@ -849,11 +849,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Quenched Warblade",
-    "set": "Quenched",
+    "set": "Physical Defense",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "Once raised, it cannot be put down, except in death.",
@@ -861,11 +861,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Requiem",
-    "set": "Requiem",
+    "set": "Grievous Wound",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "The golden arrow engraved with a scarab is symbol of life in the otherworldly realm.",
@@ -873,11 +873,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Sage's Staff",
-    "set": "Sage",
+    "set": "Magic Defense",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "A staff made from the oldest branches in the forest, cherished by forest sages.",
@@ -885,11 +885,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Ship Slayer",
-    "set": "Ship Slayer",
+    "set": "Impact",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "It's said that when this hammer first emerged, the sky shifted and stars dimmed. Its power could split galaxies and shatter the stars.",
@@ -897,11 +897,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Silver Sword of Demon Hunting",
-    "set": "Silver",
+    "set": "Focus",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "Whoever holds this sword must have the courage to cleave through the darkness.",
@@ -909,11 +909,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Song of Plenty",
-    "set": "Bountiful",
+    "set": "Wild",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "No one has ever seen the strings of that harp, yet the artist claims he plays the melody of the four seasons. Before his death, he was taken to the radiant Valhalla to compose for the gods.",
@@ -921,11 +921,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Sword of the Overlord",
-    "set": "Overlord",
+    "set": "Chaos",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "Long ago, a king wielded this sword and conquered the world.",
@@ -933,11 +933,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Tome of Stars",
-    "set": "Starlight",
+    "set": "Arcane",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "The moment the page turns, an unrecognizable flood of color surges toward the sky, leaving only unreadable blankness behind.",
@@ -945,11 +945,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Touch of the Undying Flame",
-    "set": "Undying Flame",
+    "set": "Magic",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "A staff burning with nether-blue flame, used by liches to curse their enemies.",
@@ -957,11 +957,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Typhon's Wrath",
-    "set": "Typhon",
+    "set": "Cleave",
     "type": "Weapon",
     "quality": "SSR",
     "lore": "As the giant axe swings, thunder roars and flames surge. Like the claw of Typhon, it rends the earth and opens the abyss.",
@@ -969,11 +969,11 @@
       "ATK": 1090,
       "PDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Hero's Blade",
-    "set": "Hero",
+    "set": "Gear",
     "type": "Weapon",
     "quality": "SR",
     "lore": "Taste the wrath of my Holy Slash!.",
@@ -981,11 +981,11 @@
       "ATK": 527,
       "PDEF": 263
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Knight's Greatsword",
-    "set": "Knight",
+    "set": "Gear",
     "type": "Weapon",
     "quality": "R",
     "lore": "A huge, clumsy iron sword. Wielding one in each hand looks cool, but know your limits.",
@@ -993,11 +993,11 @@
       "ATK": 203,
       "PDEF": 101
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Mercenary's Shortsword",
-    "set": "Mercenary",
+    "set": "Gear",
     "type": "Weapon",
     "quality": "N",
     "lore": "A small-sized sword, not suitable for large prey.",
@@ -1005,11 +1005,11 @@
       "ATK": 81,
       "PDEF": 40
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Traveler's Longsword",
-    "set": "Traveler",
+    "set": "Gear",
     "type": "Weapon",
     "quality": "C",
     "lore": "A plain wooden sword, useful against Slimes, but difficult against Goblins.",
@@ -1017,11 +1017,11 @@
       "ATK": 30,
       "PDEF": 15
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Ancient Dragon Scale",
-    "set": "Ancient Dragon",
+    "set": "Resilience",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "Its teeth are Sharp Blades, its wings are hurricanes. In the near-eternal life of the Wyrm, only this reverse scale remains an untouchable sanctuary.",
@@ -1029,11 +1029,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Blessing of the Sacred Tree",
-    "set": "Sacred Tree",
+    "set": "Evade",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "Connecting past, present, and future — the root of Yggdrasil binds the Nine Realms. Even a single strand, given freely, is enough to upload a new world.",
@@ -1041,11 +1041,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Bountiful Bouquet",
-    "set": "Bountiful",
+    "set": "Wild",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "With the rhythm of the wind, blossoms stop the sacred tree release their fragrance, carrying harvest blessings across the Nine Realms.",
@@ -1053,7 +1053,7 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Box of Pain",
@@ -1069,7 +1069,7 @@
   },
   {
     "name": "Brave's Medal",
-    "set": "Brave",
+    "set": "Redemption",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "Through the gem at the pendant's center, one sees their younger self, brimming with hope and courage.",
@@ -1077,11 +1077,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Dragonblood Seal",
-    "set": "Dragon Hunter",
+    "set": "Attack",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "A maple leaf picked by the Dragonslayer before departure, stained with dragon blood over the years. Its crimson hue has turned nearly black.",
@@ -1089,11 +1089,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771708464
+    "last_updated": 1771712675
   },
   {
     "name": "Dragonslayer's Guide",
-    "set": "Dragonslayer",
+    "set": "Rage",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "In the ink-stained Dragonslayer's Journal, a bold line stands out: \"To save the world, first slay your inner dragon.\"",
@@ -1101,11 +1101,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Eagle Warrior Portrait",
-    "set": "Eagle Warrior",
+    "set": "Judgment",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "Through the weathered statue of the Eagle Warrior Portrait, the soaring eagle of light and the warrior battling an evil dragon slowly align. Gaze upon it to gain boundless courage.",
@@ -1113,11 +1113,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Flamelord's Proof",
-    "set": "Flamelord",
+    "set": "HP",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "A symbol of royal status, none may wear it but the king.",
@@ -1125,11 +1125,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Magic Mirror of the Soul",
-    "set": "Soul",
+    "set": "Corruption",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "Legend says this magic mirror reveals the true form of all evil. A Dragonslayer once looked into it, only to see his own reflection.",
@@ -1137,11 +1137,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Mana's Tear",
-    "set": "Mana",
+    "set": "Energy",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "Tears engraved the ocean's memory. This long-lost treasure, sunken deep beneath the waves, will one day shine with undying brilliance.",
@@ -1149,11 +1149,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Moonlight Flask",
-    "set": "Moonlight",
+    "set": "Purge",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "When the sun sets, the moonlight will guide your way around.",
@@ -1161,11 +1161,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Overlord's Proof",
-    "set": "Overlord",
+    "set": "Chaos",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "Devour flesh and blood to pave the king's path, sacrifice souls to forge the pinnacle of glory.",
@@ -1173,11 +1173,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Quenched Medal",
-    "set": "Quenched",
+    "set": "Physical Defense",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "A Paladin once sacrificed his life to protect this medal.",
@@ -1185,11 +1185,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Sage's Bracelet",
-    "set": "Sage",
+    "set": "Magic Defense",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "It is rumored that this bracelet can command Ancient Tree Guardians, though its truth remains unknown.",
@@ -1197,11 +1197,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Spirit Turtle Talisman",
-    "set": "Spirit Turtle",
+    "set": "Longevity",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "The impenetrable shell of the Dragon Turtle. No one had ever seen the creature itself. They say it's... extremely shy.",
@@ -1209,11 +1209,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Starlight Magisterium",
-    "set": "Starlight",
+    "set": "Arcane",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "An indescribable color that transcends all, twisting, flickering, shifting. Its endless magic has dyed the stardust iridescent.",
@@ -1221,11 +1221,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Thorns of Rejection",
-    "set": "Rejection",
+    "set": "Thorns",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "Souls abandoned and hurt, burning with vengeance, yet all they weave is a lonely thorn-wrought defense.",
@@ -1233,11 +1233,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Truth Seeker's Emblem",
-    "set": "Truth Seeker",
+    "set": "Order",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "Silence signifies the wisdom of the sage: In the half-closed compass, the needle of truth always points to the unresolved.",
@@ -1245,11 +1245,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Watcher's Magic Eye",
-    "set": "Watcher",
+    "set": "Break",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "Don't move. It's watching you.",
@@ -1257,11 +1257,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Wolf's Will",
-    "set": "Silver",
+    "set": "Focus",
     "type": "Accessory",
     "quality": "SSR",
     "lore": "No matter how cunning, no creature escapes the gaze of the wolf. Note that the badge's detection is not always reliable.",
@@ -1269,11 +1269,11 @@
       "HP": 10900,
       "MDEF": 545
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Hero's Medal",
-    "set": "Hero",
+    "set": "Gear",
     "type": "Accessory",
     "quality": "SR",
     "lore": "This is the glory of immortality!",
@@ -1281,11 +1281,11 @@
       "HP": 5271,
       "MDEF": 263
     },
-    "last_updated": 1771563818
+    "last_updated": 1771712675
   },
   {
     "name": "Knight's Bracelet",
-    "set": "Knight",
+    "set": "Gear",
     "type": "Accessory",
     "quality": "R",
     "lore": "When you need to prove your identity, present this bracelet.",
@@ -1293,11 +1293,11 @@
       "HP": 2034,
       "MDEF": 101
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Mercenary's Pocket Watch",
-    "set": "Mercenary",
+    "set": "Gear",
     "type": "Accessory",
     "quality": "N",
     "lore": "If you're running late, just check this to see the time.",
@@ -1305,11 +1305,11 @@
       "HP": 819,
       "MDEF": 40
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   },
   {
     "name": "Traveler's Canteen",
-    "set": "Traveler",
+    "set": "Gear",
     "type": "Accessory",
     "quality": "C",
     "lore": "When you're lost in the desert, you'll be grateful you had this.",
@@ -1317,6 +1317,6 @@
       "HP": 300,
       "MDEF": 15
     },
-    "last_updated": 1771654321
+    "last_updated": 1771712675
   }
 ]
