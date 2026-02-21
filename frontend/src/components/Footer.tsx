@@ -1,26 +1,53 @@
 import {
   Anchor,
   Box,
-  Center,
+  Collapse,
+  Container,
   Group,
   Stack,
   Text,
   useComputedColorScheme,
 } from '@mantine/core';
 import { useState } from 'react';
-import { IoLogoGithub, IoWarning } from 'react-icons/io5';
+import {
+  IoChevronDown,
+  IoChevronUp,
+  IoLogoGithub,
+  IoWarning,
+} from 'react-icons/io5';
 import { GITHUB_REPO_URL } from '../constants';
 import { getGlassStyles } from '../constants/glass';
+
+const DATA_SOURCE_URL = 'https://www.gamekee.com/lhlr/';
+
+const LEGAL_DISCLAIMER =
+  'This is an unofficial, fan-run wiki and is not affiliated with or endorsed by GameTree. Dragon Traveler names, assets, and related intellectual property belong to GameTree.';
 
 export default function Footer() {
   const [showLegal, setShowLegal] = useState(false);
   const isDark = useComputedColorScheme('light') === 'dark';
   const glassStyles = getGlassStyles(isDark, true);
+  const currentYear = new Date().getFullYear();
+
+  const footerLinks = [
+    {
+      label: 'GitHub',
+      href: GITHUB_REPO_URL,
+      icon: <IoLogoGithub size={18} aria-hidden="true" />,
+    },
+    {
+      label: 'Report Issue',
+      href: `${GITHUB_REPO_URL}/issues/new`,
+      icon: <IoWarning size={18} aria-hidden="true" />,
+    },
+  ] as const;
+
+  const footerLinkStyle = { display: 'flex', alignItems: 'center', gap: '6px' };
 
   return (
     <Box
       component="footer"
-      mt="xl"
+      mt="lg"
       py="lg"
       style={{
         ...glassStyles,
@@ -30,74 +57,79 @@ export default function Footer() {
         borderBottom: 'none',
       }}
     >
-      <Center>
-        <Stack gap={6} align="center" style={{ width: '100%' }}>
-          <Group gap="lg" wrap="wrap" justify="center">
-            <Anchor
-              href={GITHUB_REPO_URL}
-              target="_blank"
-              rel="noopener noreferrer"
-              c="dimmed"
-              size="sm"
-              style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
-            >
-              <IoLogoGithub size={16} />
-              <span>GitHub</span>
-            </Anchor>
-            <Anchor
-              href={`${GITHUB_REPO_URL}/issues/new`}
-              target="_blank"
-              rel="noopener noreferrer"
-              c="dimmed"
-              size="sm"
-              style={{ display: 'flex', alignItems: 'center', gap: '4px' }}
-            >
-              <IoWarning size={16} />
-              <span>Report Issue</span>
-            </Anchor>
-            <Text size="xs" c="dimmed">
-              © {new Date().getFullYear()} Dragon Traveler Wiki
+      <Container size="lg">
+        <Stack gap="sm" align="center">
+          <Group justify="center" gap="md" wrap="wrap">
+            {footerLinks.map((link) => (
+              <Anchor
+                key={link.label}
+                href={link.href}
+                aria-label={link.label}
+                c={isDark ? 'gray.4' : 'gray.7'}
+                underline="hover"
+                size="sm"
+                target="_blank"
+                rel="noopener noreferrer"
+                style={footerLinkStyle}
+              >
+                {link.icon}
+                <Text span fw={500}>
+                  {link.label}
+                </Text>
+              </Anchor>
+            ))}
+
+            <Text size="sm" c="dimmed" ta="center">
+              © {currentYear} Dragon Traveler Wiki
             </Text>
           </Group>
 
-          <Group gap={8} justify="center" align="center" wrap="wrap">
-            <Text size="xs" c="dimmed" ta="center">
-              Unofficial fan wiki.
+          <Group gap={6} justify="center" wrap="wrap">
+            <Text size="xs" c="dimmed" fs="italic">
+              Unofficial fan project
             </Text>
+
+            <Text size="xs" c="dimmed" aria-hidden="true">
+              •
+            </Text>
+
             <Anchor
               component="button"
               type="button"
-              onClick={() => setShowLegal((v) => !v)}
-              c="dimmed"
+              onClick={() => setShowLegal((value) => !value)}
+              aria-expanded={showLegal}
+              aria-controls="footer-legal"
+              c="blue.5"
               size="xs"
-              td="underline"
+              fw={600}
+              style={{ display: 'flex', alignItems: 'center', gap: 4 }}
             >
-              {showLegal ? 'Hide legal & sources' : 'Legal & sources'}
+              {showLegal ? <IoChevronUp /> : <IoChevronDown />}
+              Legal & Sources
             </Anchor>
           </Group>
 
-          {showLegal && (
-            <Text
-              size="xs"
-              c="dimmed"
-              ta="center"
-              style={{ maxWidth: 840, lineHeight: 1.45 }}
-            >
-              Not affiliated with GameTree. Dragon Traveler assets and IP belong
-              to GameTree and their respective owners. CN/TW data source:{' '}
-              <Anchor
-                href="https://www.gamekee.com/lhlr/"
-                target="_blank"
-                rel="noopener noreferrer"
-                c="dimmed"
-              >
-                Dragon Traveler GameKee Wiki
-              </Anchor>
-              .
-            </Text>
-          )}
+          <Collapse in={showLegal} id="footer-legal">
+            <Stack gap={2} align="center" pt={6}>
+              <Text size="xs" c="dimmed" ta="center" maw={600}>
+                {LEGAL_DISCLAIMER}
+              </Text>
+              <Text size="xs" c="dimmed">
+                Data source:{' '}
+                <Anchor
+                  href={DATA_SOURCE_URL}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  size="xs"
+                  c="blue.4"
+                >
+                  GameKee Wiki
+                </Anchor>
+              </Text>
+            </Stack>
+          </Collapse>
         </Stack>
-      </Center>
+      </Container>
     </Box>
   );
 }
