@@ -421,16 +421,16 @@
   },
   "subclasses": {
     "Royal Guard": {
-      "hash": "ceb1a717580095c993ff3ba84c3f7f5993c394aa6c229640e1f45477fbf860d0",
-      "ts": 1771647811
+      "hash": "212460a02807bcb2430670cfa6f2da2d0481825acb75a8dd0a4c1d68bb568b74",
+      "ts": 1771713485
     },
     "Shield Guard": {
-      "hash": "7e03c5cfd628c4c7340c9aa046d4ad1dd80922bd446aa9ca4a786fa8cfee5d0b",
-      "ts": 1771647811
+      "hash": "730e54bf656f07390edbdbb5af100c136c4b8b2bcd24996a7eb84e303b0ef4be",
+      "ts": 1771713485
     },
     "Centurion": {
-      "hash": "7e38c5873f691ad6cc08078df4ad0ecf786bed45b833ed05ef0910377dd63b4f",
-      "ts": 1771647811
+      "hash": "f52963e73011fa96e751ea7fdec46f8a0a80bd69087cb2684bbcd475cecef06c",
+      "ts": 1771713485
     },
     "Martyr": {
       "hash": "ae4ec8da4629bcd75a10d87c2f65686de6782dfbcb0941def2648276f2be90d6",
@@ -465,16 +465,16 @@
       "ts": 1771647811
     },
     "Acolyte": {
-      "hash": "f6faba88c0d6d3c31dddee570d4b2333a69608486be5a79e19558e28cc6996ec",
-      "ts": 1771647811
+      "hash": "9074fe02771279384d6e37001899479a35b9a1d2c2dc022f6b0f13b0af80c146",
+      "ts": 1771713485
     },
     "Believer": {
-      "hash": "f6d0b5bcbc20891b7d3fffac3df345df89759d40035b1ec4beaff4ec72da3a22",
-      "ts": 1771647811
+      "hash": "3ef5022fce9dd3106702ec0786aef3b9aea2586369e4a8beb7e19324beaa904d",
+      "ts": 1771713485
     },
     "Medic": {
-      "hash": "96d72799088298f02ef792c626582f6d28136fb7d05a2b6b510485848cb83084",
-      "ts": 1771647811
+      "hash": "3d3ccabb824e0c90422d90ca03d480d905050e4f2c6d1fdbb513d3510c5ec839",
+      "ts": 1771713485
     },
     "Cleric": {
       "hash": "b647b5f252ab1db72d9116af782ee79d42a98bd8151bee089731a565f2046d76",
@@ -485,8 +485,8 @@
       "ts": 1771647811
     },
     "Friar": {
-      "hash": "e264baee6d8f8879b4d97262fa6b492c79fa3e2a0ec99efc6ac337ba098c4425",
-      "ts": 1771647811
+      "hash": "9b8bb795c74677bc8447ddd98d970f832970710a8dae706a6e4d092e41070679",
+      "ts": 1771713485
     },
     "Hermit": {
       "hash": "cd82a12fa4e33e93d3b754a71ca63de2a534f92e485fcf50ff8e191a049ded85",
@@ -517,8 +517,8 @@
       "ts": 1771647811
     },
     "Rogue": {
-      "hash": "d2df2357d005cb2510913a72db411598b20c21d394100084504e660a9a351208",
-      "ts": 1771647811
+      "hash": "3ce25c73347fd52974c550cea8dd02ff2e2f113ba93c3d165c191c23ca6ec910",
+      "ts": 1771713485
     },
     "Thief": {
       "hash": "aa4181b6eea65bc472b9e0909215f168d41581d7de7b20c13a1b7558b1c1fed2",
@@ -529,8 +529,8 @@
       "ts": 1771647811
     },
     "Nightblade": {
-      "hash": "3155e881ac3e7d8849dc20801b4e9f1862e3acb70ba9995e195ec59fab04fa77",
-      "ts": 1771647811
+      "hash": "790f0d3f2f2ed8fce4018045ed02cd76ede7964bc9898b24c9f6f13f1a7a90e0",
+      "ts": 1771713485
     },
     "Scoundrel": {
       "hash": "723f1746a10d42d778fe0d28f32eb086e4a591f0bab83316db6c4a9546a98557",
@@ -565,12 +565,12 @@
       "ts": 1771647811
     },
     "Swordsman": {
-      "hash": "b2e18e0c0101cfa8237a3abe26653087f7e1c91d4746508fadb5c866b3757751",
-      "ts": 1771647811
+      "hash": "192dcc4ed0bd2c4df7894dd16892bf8a63685cfaf259b6944196001c5ef6f808",
+      "ts": 1771713485
     },
     "Arcane Duelist": {
-      "hash": "f8d8b7949659278cb7f1ad764714f03c55607d8d5213136a7f1dbc9e0c76200e",
-      "ts": 1771647811
+      "hash": "01abb5a1423e2e24db7d99086a8e872f87f08328a67c6ec87a1a1d04278e34b0",
+      "ts": 1771713485
     },
     "Champion": {
       "hash": "a894350001e537f7551eaeb9b3420d46784c92b99bb76e847de798e99733ef92",
@@ -605,16 +605,16 @@
       "ts": 1771647811
     },
     "Arrowslinger": {
-      "hash": "ea9ab85922dc58d8b964ac70de8fe234b11a06716fa4ce50ed79ca23080c4726",
-      "ts": 1771647811
+      "hash": "252c2b675b594ae482b57b1b0d20df2bb2579f409702bdcda7b923a0b2d0b81c",
+      "ts": 1771713485
     },
     "Tracker": {
-      "hash": "ac26c07f63e9bae7ac6109d93d6ab2fabb73c01a354eedf9e1fbf3fb01a12a55",
-      "ts": 1771647811
+      "hash": "2631a79badccce9f3db3b91201fd2dddffdf0312456e1927d2da05946560b4e7",
+      "ts": 1771713485
     },
     "Guerrilla": {
-      "hash": "e2a5c11072a443d4646217081c0f7f168f50f568496574c56be1bb829344d6d5",
-      "ts": 1771647811
+      "hash": "7b42698be4820e85f55ecf52c7ad954125cf93de5c863edf133e4faa1fb43870",
+      "ts": 1771713485
     },
     "Hunter": {
       "hash": "b2e3fb9e91531ce12c19bae6469c571159ad86d545fa26952893bbf37d453a71",
@@ -649,24 +649,24 @@
       "ts": 1771647811
     },
     "Fortune Teller": {
-      "hash": "ac7c4ca43ac497c34ad7dd9709bf872694e4618dbf5e29ccef0bb24a9dc04708",
-      "ts": 1771647811
+      "hash": "86097330fa8c56fd09949da73f70e7babf5a6c45f6dc4a19b0aae4e819af51f7",
+      "ts": 1771713485
     },
     "Scholar": {
       "hash": "955852ce40089b52d3d3aedac784224c7cdc956253b4e1865a43852d9e43c38d",
       "ts": 1771647811
     },
     "Wizard": {
-      "hash": "36c609bfcc327a6d041ecd1485f1b45555f901acdd8c1e2a86c26f6ab9352134",
-      "ts": 1771647811
+      "hash": "30af701c3e646a6d1145ee82606c7e74b41eadea21a1ff37b2f26b0b4701a849",
+      "ts": 1771713485
     },
     "Arcane Master": {
       "hash": "047398b4eb063cdf9c9c5e1ffa387d277f8d5425d44ac660127191677f1aa0b9",
       "ts": 1771647811
     },
     "Elemental Mage": {
-      "hash": "dd5c767fb906b2b786651651c7585fa889e75217732007179a571e9b502e9b19",
-      "ts": 1771647811
+      "hash": "9cfc654660860cd37c996cd0a38f773c386c0c17118544bd1867b5c20d7a469b",
+      "ts": 1771713485
     },
     "Magister": {
       "hash": "57b6256ce9eada366b856c70b923f2727e43e9253718a58b322e1706abe9b2ae",

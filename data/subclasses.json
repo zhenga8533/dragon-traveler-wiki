@@ -7,8 +7,8 @@
       "PDEF +6%",
       "MDEF +6%"
     ],
-    "effect": "When HP first falls below 30%, restores HP equal to 15% of own dual defenses per second. (This effect lasts for 8 seconds)",
-    "last_updated": 1771647811
+    "effect": "When HP first falls below 30%, restores HP equal to 11% of own dual defenses per second. (This effect lasts for 8 seconds)",
+    "last_updated": 1771713485
   },
   {
     "name": "Shield Guard",
@@ -17,8 +17,8 @@
     "bonuses": [
       "HP +6%"
     ],
-    "effect": "In battle, increases Physical Defense and Magic Defense by 7%.",
-    "last_updated": 1771647811
+    "effect": "In battle, increases Physical Defense and Magic Defense by 6%.",
+    "last_updated": 1771713485
   },
   {
     "name": "Centurion",
@@ -27,8 +27,8 @@
     "bonuses": [
       "MDEF +16.5%"
     ],
-    "effect": "For each Buff Status on self, increases own dual defense by 8%. (Up to 32% dual defense increase)",
-    "last_updated": 1771647811
+    "effect": "For each Buff Status on self, increases own dual defense by 6%. (Up to 24% dual defense increase)",
+    "last_updated": 1771713485
   },
   {
     "name": "Martyr",
@@ -122,8 +122,8 @@
     "bonuses": [
       "HP +6%"
     ],
-    "effect": "At the start of battle, gain 1 Overdrive Point and increase Max HP by 2%. ([Energy Recovery Subclass] effects do not stack if carried by multiple Luminaries)",
-    "last_updated": 1771647811
+    "effect": "At the start of battle, gain 1 Overdrive Point and increase Max HP by 1.6%. ([Energy Recovery Subclass] effects do not stack if carried by multiple Luminaries)",
+    "last_updated": 1771713485
   },
   {
     "name": "Believer",
@@ -132,8 +132,8 @@
     "bonuses": [
       "MDEF +9%"
     ],
-    "effect": "Reduces enemy Overdrive Point Recovery Speed by 0.12 point(s)/s. ([Energy Reduction Subclass] effects do not stack if carried by multiple Luminaries)",
-    "last_updated": 1771647811
+    "effect": "Reduces enemy Overdrive Point Recovery Speed by 0.1 point(s)/s. ([Energy Reduction Subclass] effects do not stack if carried by multiple Luminaries)",
+    "last_updated": 1771713485
   },
   {
     "name": "Medic",
@@ -142,8 +142,8 @@
     "bonuses": [
       "PDEF +9%"
     ],
-    "effect": "Increases Healing effects by 15.5%.",
-    "last_updated": 1771647811
+    "effect": "Increases Healing effects by 15%.",
+    "last_updated": 1771713485
   },
   {
     "name": "Cleric",
@@ -172,8 +172,8 @@
     "bonuses": [
       "HP +11%"
     ],
-    "effect": "Increases allied Overdrive Point Recovery Speed by 0.14 point(s)/s. ([Energy Recovery Subclass] effects do not stack if carried by multiple Luminaries)",
-    "last_updated": 1771647811
+    "effect": "Increases allied Overdrive Point Recovery Speed by 0.1 point(s)/s. ([Energy Recovery Subclass] effects do not stack if carried by multiple Luminaries)",
+    "last_updated": 1771713485
   },
   {
     "name": "Hermit",
@@ -257,8 +257,8 @@
     "bonuses": [
       "HP +6%"
     ],
-    "effect": "For every 7 Basic Attacks or skills used, the next Attack deals Additional Damage equal to 148% of own Attack.",
-    "last_updated": 1771647811
+    "effect": "For every 7 Basic Attacks or skills used, the next Attack deals Additional Damage equal to 140% of own Attack.",
+    "last_updated": 1771713485
   },
   {
     "name": "Thief",
@@ -287,8 +287,8 @@
     "bonuses": [
       "ATK +11%"
     ],
-    "effect": "For each enemy unit defeated, Attack increases by 16.2%. (Stacks up to 3 times)",
-    "last_updated": 1771647811
+    "effect": "For each enemy unit defeated, Attack increases by 15%. (Stacks up to 3 times)",
+    "last_updated": 1771713485
   },
   {
     "name": "Scoundrel",
@@ -382,8 +382,8 @@
     "bonuses": [
       "ATK +6%"
     ],
-    "effect": "When dealing damage, ignores 10% of target's defenses. (Can stack up to 40%)",
-    "last_updated": 1771647811
+    "effect": "When dealing damage, ignores 6% of target's defenses. (Can stack up to 24%)",
+    "last_updated": 1771713485
   },
   {
     "name": "Arcane Duelist",
@@ -392,8 +392,8 @@
     "bonuses": [
       "ATK +11%"
     ],
-    "effect": "Increases Attack by 8% per buff. (Up to 32%)",
-    "last_updated": 1771647811
+    "effect": "Increases Attack by 6% per buff. (Up to 24%)",
+    "last_updated": 1771713485
   },
   {
     "name": "Champion",
@@ -486,8 +486,8 @@
     "bonuses": [
       "ATK +6%"
     ],
-    "effect": "After every 5 Basic Attacks or skills, deal additional Damage equal to 75% of own Attack to the current target.",
-    "last_updated": 1771647811
+    "effect": "After every 5 Basic Attacks or skills, deal additional Damage equal to 65% of own Attack to the current target.",
+    "last_updated": 1771713485
   },
   {
     "name": "Tracker",
@@ -496,8 +496,8 @@
     "bonuses": [
       "HP +6%"
     ],
-    "effect": "Each time you land a Critical Hit, your Attack increases by 1.4%. (Stacks 15 times) (Loses 1 stack if no Critical Hit within 3 seconds)",
-    "last_updated": 1771647811
+    "effect": "Each time you land a Critical Hit, your Attack increases by 1%. (Stacks 15 times) (Loses 1 stack if no Critical Hit within 3 seconds)",
+    "last_updated": 1771713485
   },
   {
     "name": "Guerrilla",
@@ -506,8 +506,8 @@
     "bonuses": [
       "HP +11%"
     ],
-    "effect": "Upon landing a Basic Attack, deal additional Physical Damage equal to 10.4% of the target's current HP.",
-    "last_updated": 1771647811
+    "effect": "Upon landing a Basic Attack, deal additional Physical Damage equal to 10% of the target's current HP.",
+    "last_updated": 1771713485
   },
   {
     "name": "Hunter",
@@ -601,8 +601,8 @@
     "bonuses": [
       "ATK +10%"
     ],
-    "effect": "Each Overdrive boosts its damage by 15%. (Stacks up to 3 times)",
-    "last_updated": 1771647811
+    "effect": "Each Overdrive boosts its damage by 11%. (Stacks up to 3 times)",
+    "last_updated": 1771713485
   },
   {
     "name": "Scholar",
@@ -621,8 +621,8 @@
     "bonuses": [
       "ATK +6%"
     ],
-    "effect": "First Overdrive costs 1 less Energy and deals 14% more damage.",
-    "last_updated": 1771647811
+    "effect": "First Overdrive costs 1 less Energy and deals 1% more damage.",
+    "last_updated": 1771713485
   },
   {
     "name": "Arcane Master",
@@ -641,8 +641,8 @@
     "bonuses": [
       "HP +11%"
     ],
-    "effect": "For each debuff inflicted, the Luminary's attack increases by 2.4%. (Max 10 stacks)",
-    "last_updated": 1771647811
+    "effect": "For each debuff inflicted, the Luminary's attack increases by 2%. (Max 10 stacks)",
+    "last_updated": 1771713485
   },
   {
     "name": "Magister",
