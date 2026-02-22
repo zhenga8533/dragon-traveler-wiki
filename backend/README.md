@@ -34,6 +34,7 @@ python -m backend.export_dolt --output-dir data --merge  # merge: add Dolt-only 
 ```
 
 `--merge` behaviour (used by the build):
+
 - Records present only in Dolt → added to `data/`
 - Records present only in `data/` → kept as-is
 - Records present in both → `data/` version wins (local is source of truth)
@@ -57,10 +58,12 @@ backend/
 ├── requirements.txt     # Python dependencies
 ├── exports/             # Export output (git-ignored)
 └── models/              # Pydantic data models
+    ├── artifact.py      # Artifact, ArtifactEffect, ArtifactTreasure
     ├── character.py     # Character, Skill, Talent, Quality, CharacterClass
     ├── code.py          # Code, CodeReward
     ├── faction.py       # Faction, FactionName, Wyrm
     ├── gear.py          # Gear, GearSetBonus
+    ├── golden_alliance.py # GoldenAlliance, GoldenAllianceEffect
     ├── howlkin.py       # Howlkin
     ├── noble_phantasm.py# NoblePhantasm, NoblePhantasmEffect, NoblePhantasmSkill
     ├── resource.py      # Resource
@@ -76,23 +79,46 @@ backend/
 
 The backend reads from and writes to `data/`:
 
-| File                  | Description          |
-| --------------------- | -------------------- |
-| `characters.json`     | Character database   |
-| `subclasses.json`     | Subclass definitions |
-| `noble_phantasm.json` | Noble Phantasm data  |
-| `factions.json`       | Faction definitions  |
-| `wyrmspells.json`     | Wyrmspell database   |
-| `resources.json`      | Resource definitions |
-| `codes.json`          | Redemption codes     |
-| `status-effects.json` | Status effects       |
-| `gear.json`           | Gear database        |
-| `gear_sets.json`      | Gear set bonuses     |
-| `howlkins.json`       | Howlkin database     |
-| `tier-lists.json`     | Community tier lists |
-| `teams.json`          | Team compositions    |
-| `useful-links.json`   | Community links      |
-| `changelog.json`      | Site version history |
+| File                    | Description          |
+| ----------------------- | -------------------- |
+| `characters.json`       | Character database   |
+| `subclasses.json`       | Subclass definitions |
+| `noble_phantasm.json`   | Noble Phantasm data  |
+| `factions.json`         | Faction definitions  |
+| `artifacts.json`        | Artifact database    |
+| `wyrmspells.json`       | Wyrmspell database   |
+| `resources.json`        | Resource definitions |
+| `codes.json`            | Redemption codes     |
+| `status-effects.json`   | Status effects       |
+| `gear.json`             | Gear database        |
+| `gear_sets.json`        | Gear set bonuses     |
+| `howlkins.json`         | Howlkin database     |
+| `golden_alliances.json` | Golden alliance sets |
+| `tier-lists.json`       | Community tier lists |
+| `teams.json`            | Team compositions    |
+| `useful-links.json`     | Community links      |
+| `changelog.json`        | Site version history |
+
+## Issue Suggestion Automation
+
+`python -m backend.suggest` supports these issue title prefixes:
+
+- `[Code]`
+- `[Faction]`
+- `[Artifact]`
+- `[Character]`
+- `[Subclass]`
+- `[Wyrmspell]`
+- `[Noble Phantasm]`
+- `[Status Effect]`
+- `[Link]`
+- `[Resource]`
+- `[Howlkin]`
+- `[Golden Alliance]`
+- `[Gear]`
+- `[Gear Set]`
+- `[Tier List]`
+- `[Team]`
 
 ## Dolt Database
 
