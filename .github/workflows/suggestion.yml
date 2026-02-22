@@ -169,6 +169,46 @@ jobs:
               ].join('\n')
             });
 
+      - name: Comment on issue for manual review
+        if: success() && steps.suggest.outputs.manual_review == 'true'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            try {
+              await github.rest.issues.getLabel({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                name: 'manual-review',
+              });
+            } catch (error) {
+              if (error.status === 404) {
+                await github.rest.issues.createLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: 'manual-review',
+                  color: 'e4e669',
+                });
+              } else {
+                throw error;
+              }
+            }
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              labels: ['manual-review'],
+            });
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body: [
+                `**Thanks for your suggestion!**`,
+                ``,
+                `This type of suggestion requires manual review by a maintainer. We'll take a look and add it if appropriate.`
+              ].join('\n')
+            });
+
   cleanup:
     if: >-
       (github.event_name == 'pull_request' && github.event.action == 'closed' && startsWith(github.event.pull_request.head.ref, 'suggestion/'))

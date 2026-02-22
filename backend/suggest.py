@@ -736,6 +736,25 @@ def main():
 
     print(f"Processing issue #{issue_number}: {issue_title}")
 
+    # Special case: expired code reports — no JSON block, just mark code inactive
+    EXPIRED_PREFIX = "[Code] Report expired:"
+    if issue_title.startswith(EXPIRED_PREFIX):
+        code = issue_title[len(EXPIRED_PREFIX):].strip()
+        if not code:
+            set_output("label", "")
+            set_output("processed", "false")
+            set_output("manual_review", "false")
+            print("Expired code report missing code name. Skipping.")
+            sys.exit(0)
+        data = {"code": code, "active": False}
+        json_file = update_json_file("codes", data)
+        set_output("json_file", json_file)
+        set_output("label", "codes")
+        set_output("processed", "true")
+        set_output("manual_review", "false")
+        print(f"Marked code '{code}' as inactive.")
+        sys.exit(0)
+
     # Detect label from title prefix
     prefix_to_label = {
         "[Code]": "codes",
@@ -758,10 +777,16 @@ def main():
             break
 
     if not label:
+        # If the title looks like a structured suggestion (starts with [Type]) but
+        # isn't one we auto-process, flag it for manual review.
+        manual_review = bool(re.match(r"^\[.+\]", issue_title))
+        set_output("manual_review", "true" if manual_review else "false")
         set_output("label", "")
         set_output("processed", "false")
-        print("No suggestion prefix found in title. Skipping.")
+        print("No known suggestion prefix found in title. Skipping.")
         sys.exit(0)
+
+    set_output("manual_review", "false")
 
     print(f"Matched label: {label}")
 

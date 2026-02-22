@@ -29,10 +29,16 @@ Exports Dolt tables back to JSON files. By default writes to `backend/exports/`;
 ```bash
 python -m backend.export_dolt --target all          # export everything to backend/exports/
 python -m backend.export_dolt --target characters   # export characters only
-python -m backend.export_dolt --output-dir data     # export everything to data/
+python -m backend.export_dolt --output-dir data     # overwrite data/ from Dolt
+python -m backend.export_dolt --output-dir data --merge  # merge: add Dolt-only records, keep local changes
 ```
 
-The frontend build runs the export automatically before `dev` and `build` via npm pre-scripts (`npm run export`).
+`--merge` behaviour (used by the build):
+- Records present only in Dolt → added to `data/`
+- Records present only in `data/` → kept as-is
+- Records present in both → `data/` version wins (local is source of truth)
+
+The frontend `prebuild` step runs `export_dolt --output-dir data --merge` automatically before every `npm run build`, so local edits are never overwritten while new records from Dolt are still pulled in. The plain `npm run export` does a full overwrite (useful when you explicitly want to reset `data/` from Dolt).
 
 ### Verification
 

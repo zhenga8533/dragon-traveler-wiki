@@ -6,7 +6,7 @@
   "scripts": {
     "export": "cd .. && python -m backend.export_dolt --output-dir data",
     "dev": "vite",
-    "prebuild": "npm run export",
+    "prebuild": "cd .. && python -m backend.export_dolt --output-dir data --merge",
     "build": "tsc -b && vite build",
     "lint": "eslint .",
     "preview": "vite preview"

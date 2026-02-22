@@ -299,7 +299,31 @@ def write_export(filename, data, output_dir=None):
     print(f"  Exported {len(data)} entries to {path}")
 
 
-def export_factions(data, output_dir=None):
+def merge_with_existing(dolt_records, existing_path, key_field):
+    """Merge Dolt records with an existing data/ JSON file.
+
+    - Records only in Dolt     → added to data/
+    - Records only in data/    → kept as-is
+    - Records in both          → data/ version kept (local is source of truth)
+    """
+    if not existing_path.exists():
+        return dolt_records
+    try:
+        with open(existing_path, encoding="utf-8") as f:
+            existing = json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return dolt_records
+    if not isinstance(existing, list):
+        return dolt_records
+
+    existing_keys = {r[key_field] for r in existing if key_field in r}
+    new_from_dolt = [r for r in dolt_records if r.get(key_field) not in existing_keys]
+    if new_from_dolt:
+        print(f"    Merging {len(new_from_dolt)} new record(s) from Dolt into {existing_path.name}")
+    return existing + new_from_dolt
+
+
+def export_factions(data, output_dir=None, merge=False):
     recommended_by_faction = group_by(
         data.get("faction_recommended_artifacts", []), "faction_id"
     )
@@ -319,11 +343,13 @@ def export_factions(data, output_dir=None):
                 "last_updated": int(r.get("last_updated") or 0),
             }
         )
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "factions.json", "name")
     result.sort(key=faction_sort_key)
     write_export("factions.json", result, output_dir)
 
 
-def export_characters(data, output_dir=None):
+def export_characters(data, output_dir=None, merge=False):
     factions_by_char = group_by(data["character_factions"], "character_id")
     subclasses_by_char = group_by(data["character_subclasses"], "character_id")
     recommended_subclasses_by_char = group_by(
@@ -396,11 +422,13 @@ def export_characters(data, output_dir=None):
             }
         )
 
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "characters.json", "name")
     result.sort(key=character_sort_key)
     write_export("characters.json", result, output_dir)
 
 
-def export_subclasses(data, output_dir=None):
+def export_subclasses(data, output_dir=None, merge=False):
     bonus_rows_by_subclass = group_by(data.get("subclass_bonuses", []), "subclass_id")
     class_rows_by_subclass = group_by(
         data.get("subclass_character_classes", []), "subclass_id"
@@ -438,11 +466,13 @@ def export_subclasses(data, output_dir=None):
             }
         )
 
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "subclasses.json", "name")
     result.sort(key=subclass_sort_key)
     write_export("subclasses.json", result, output_dir)
 
 
-def export_wyrmspells(data, output_dir=None):
+def export_wyrmspells(data, output_dir=None, merge=False):
     result = [
         {
             "name": w.get("name") or "",
@@ -455,11 +485,13 @@ def export_wyrmspells(data, output_dir=None):
         }
         for w in data["wyrmspells"]
     ]
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "wyrmspells.json", "name")
     result.sort(key=wyrmspell_sort_key)
     write_export("wyrmspells.json", result, output_dir)
 
 
-def export_resources(data, output_dir=None):
+def export_resources(data, output_dir=None, merge=False):
     if "resources" not in data:
         print("Skipped resources.json (resources table not found in Dolt schema)")
         return
@@ -473,11 +505,13 @@ def export_resources(data, output_dir=None):
         }
         for r in data["resources"]
     ]
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "resources.json", "name")
     result.sort(key=resource_sort_key)
     write_export("resources.json", result, output_dir)
 
 
-def export_codes(data, output_dir=None):
+def export_codes(data, output_dir=None, merge=False):
     codes_rows = data.get("codes", [])
     rewards_by_code = group_by(data.get("code_rewards", []), "code_id")
     result = []
@@ -519,10 +553,12 @@ def export_codes(data, output_dir=None):
                 "last_updated": int(c.get("last_updated") or 0),
             }
         )
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "codes.json", "code")
     write_export("codes.json", result, output_dir)
 
 
-def export_status_effects(data, output_dir=None):
+def export_status_effects(data, output_dir=None, merge=False):
     result = [
         {
             "name": se.get("name") or "",
@@ -533,11 +569,13 @@ def export_status_effects(data, output_dir=None):
         }
         for se in data["status_effects"]
     ]
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "status-effects.json", "name")
     result.sort(key=status_effect_sort_key)
     write_export("status-effects.json", result, output_dir)
 
 
-def export_tier_lists(data, output_dir=None):
+def export_tier_lists(data, output_dir=None, merge=False):
     entries_by_tl = group_by(data["tier_list_entries"], "tier_list_id")
     result = []
     for tl in data["tier_lists"]:
@@ -559,10 +597,12 @@ def export_tier_lists(data, output_dir=None):
                 "last_updated": int(tl.get("last_updated") or 0),
             }
         )
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "tier-lists.json", "name")
     write_export("tier-lists.json", result, output_dir)
 
 
-def export_teams(data, output_dir=None):
+def export_teams(data, output_dir=None, merge=False):
     members_by_team = group_by(data["team_members"], "team_id")
     subs_by_member = group_by(data["team_member_substitutes"], "team_member_id")
 
@@ -596,10 +636,12 @@ def export_teams(data, output_dir=None):
                 "last_updated": int(t.get("last_updated") or 0),
             }
         )
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "teams.json", "name")
     write_export("teams.json", result, output_dir)
 
 
-def export_useful_links(data, output_dir=None):
+def export_useful_links(data, output_dir=None, merge=False):
     result = [
         {
             "icon": l.get("icon") or "",
@@ -611,11 +653,13 @@ def export_useful_links(data, output_dir=None):
         }
         for l in data["useful_links"]
     ]
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "useful-links.json", "name")
     result.sort(key=useful_link_sort_key)
     write_export("useful-links.json", result, output_dir)
 
 
-def export_artifacts(data, output_dir=None):
+def export_artifacts(data, output_dir=None, merge=False):
     effects_by_artifact = group_by(data["artifact_effects"], "artifact_id")
     treasures_by_artifact = group_by(data["artifact_treasures"], "artifact_id")
     treasure_effects_by_treasure = group_by(
@@ -662,11 +706,13 @@ def export_artifacts(data, output_dir=None):
                 "last_updated": int(a.get("last_updated") or 0),
             }
         )
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "artifacts.json", "name")
     result.sort(key=artifact_sort_key)
     write_export("artifacts.json", result, output_dir)
 
 
-def export_howlkins(data, output_dir=None):
+def export_howlkins(data, output_dir=None, merge=False):
     if "howlkins" not in data:
         print("Skipped howlkins.json (howlkins table not found in Dolt schema)")
         return
@@ -709,11 +755,13 @@ def export_howlkins(data, output_dir=None):
             }
         )
 
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "howlkins.json", "name")
     result.sort(key=howlkin_sort_key)
     write_export("howlkins.json", result, output_dir)
 
 
-def export_golden_alliances(data, output_dir=None):
+def export_golden_alliances(data, output_dir=None, merge=False):
     if "golden_alliances" not in data:
         print(
             "Skipped golden_alliances.json (golden_alliances table not found in Dolt schema)"
@@ -771,11 +819,13 @@ def export_golden_alliances(data, output_dir=None):
             }
         )
 
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "golden_alliances.json", "name")
     result.sort(key=golden_alliance_sort_key)
     write_export("golden_alliances.json", result, output_dir)
 
 
-def export_gear(data, output_dir=None):
+def export_gear(data, output_dir=None, merge=False):
     if "gear" not in data or "gear_sets" not in data:
         print("Skipped gear.json (gear table not found in Dolt schema)")
         return
@@ -792,6 +842,8 @@ def export_gear(data, output_dir=None):
         for row in data["gear_sets"]
         if row.get("name")
     ]
+    if merge and output_dir:
+        sets_result = merge_with_existing(sets_result, output_dir / "gear_sets.json", "name")
     sets_result.sort(key=gear_set_sort_key)
     write_export("gear_sets.json", sets_result, output_dir)
 
@@ -828,11 +880,13 @@ def export_gear(data, output_dir=None):
             }
         )
 
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "gear.json", "name")
     result.sort(key=gear_sort_key)
     write_export("gear.json", result, output_dir)
 
 
-def export_noble_phantasms(data, output_dir=None):
+def export_noble_phantasms(data, output_dir=None, merge=False):
     effects_by_np = group_by(data["noble_phantasm_effects"], "noble_phantasm_id")
     skills_by_np = group_by(data["noble_phantasm_skills"], "noble_phantasm_id")
 
@@ -877,11 +931,13 @@ def export_noble_phantasms(data, output_dir=None):
             }
         )
 
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "noble_phantasm.json", "name")
     result.sort(key=noble_phantasm_sort_key)
     write_export("noble_phantasm.json", result, output_dir)
 
 
-def export_changelog(data, output_dir=None):
+def export_changelog(data, output_dir=None, merge=False):
     changes_by_cl = group_by(data["changelog_changes"], "changelog_id")
     result = []
     for cl in data["changelog"]:
@@ -901,6 +957,8 @@ def export_changelog(data, output_dir=None):
                 "last_updated": int(cl.get("last_updated") or 0),
             }
         )
+    if merge and output_dir:
+        result = merge_with_existing(result, output_dir / "changelog.json", "version")
     write_export("changelog.json", result, output_dir)
 
 
@@ -1038,6 +1096,15 @@ def main():
         default=None,
         help="Output directory relative to project root (default: backend/exports/)",
     )
+    parser.add_argument(
+        "--merge",
+        action="store_true",
+        help=(
+            "Merge with existing data/ files instead of overwriting. "
+            "Records present only in Dolt are added; records present only in data/ are kept; "
+            "records present in both use the data/ version (local wins)."
+        ),
+    )
     args = parser.parse_args()
 
     if not DOLT_DIR.exists():
@@ -1047,7 +1114,8 @@ def main():
     output_dir = None
     if args.output_dir:
         output_dir = ROOT_DIR / args.output_dir
-        print(f"Exporting Dolt database to JSON in {output_dir}...")
+        mode = "merge" if args.merge else "export"
+        print(f"Exporting Dolt database to JSON in {output_dir}... (mode: {mode})")
     else:
         print("Exporting Dolt database to JSON...")
 
@@ -1079,7 +1147,7 @@ def main():
 
     # Run exporters
     for t in targets:
-        EXPORTERS[t][0](data, output_dir=output_dir)
+        EXPORTERS[t][0](data, output_dir=output_dir, merge=args.merge)
 
     # Always write hashes.json alongside the data files
     export_hashes(data, output_dir=output_dir)

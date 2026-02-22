@@ -70,11 +70,12 @@ dragon-traveler-wiki/
 
 ## Data Flow
 
-1. Curated JSON data files are maintained in `data/`
+1. Curated JSON data files are maintained in `data/` (source of truth)
 2. `sync_dolt.py` syncs JSON into the Dolt database for querying (including subclass normalization and class-link synchronization)
-3. `export_dolt.py` can export Dolt tables back to JSON when needed
-4. GitHub Actions builds the frontend and deploys to GitHub Pages
-5. The frontend fetches JSON data at runtime
+3. `export_dolt.py --merge` pulls new records from Dolt into `data/` without overwriting local changes; `export_dolt` without `--merge` does a full overwrite
+4. `npm run build` automatically merges from Dolt before building (`prebuild`); CI skips this and uses committed `data/` files directly
+5. On push to `main`, GitHub Actions builds the frontend, deploys to GitHub Pages, and syncs `data/` to DoltHub
+6. The frontend fetches JSON data at runtime
 
 ## Contributing
 
