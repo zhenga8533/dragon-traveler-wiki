@@ -64,8 +64,15 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
   {
     name: 'exclusive_faction',
     label: 'Exclusive Faction (optional)',
-    type: 'text',
-    placeholder: 'e.g. Elemental Echo (leave blank if none)',
+    type: 'select',
+    options: [
+      'Elemental Echo',
+      'Wild Spirit',
+      'Arcane Wisdom',
+      'Sanctum Glory',
+      'Otherworld Return',
+      'Illusion Veil',
+    ],
   },
   { name: 'is_global', label: 'Available on Global server', type: 'boolean' },
 ];

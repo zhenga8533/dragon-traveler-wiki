@@ -2,7 +2,7 @@
 Shared sort-order constants and sort-key functions used by both sync_dolt and export_dolt.
 """
 
-QUALITY_ORDER = ["UR", "SSR EX", "SSR+", "SSR", "SR", "R", "N"]
+QUALITY_ORDER = ["UR", "SSR EX", "SSR+", "SSR", "SR", "R", "N", "C"]
 QUALITY_RANK = {q: i for i, q in enumerate(QUALITY_ORDER)}
 
 CLASS_ORDER = ["Guardian", "Priest", "Assassin", "Warrior", "Archer", "Mage"]
@@ -123,6 +123,10 @@ def gear_sort_key(g):
 
 def gear_set_sort_key(gs):
     return (gs.get("name") or "").lower()
+
+
+def code_sort_key(c):
+    return (c.get("code") or "").lower()
 
 
 # Canonical mapping: data file name → sort key function.

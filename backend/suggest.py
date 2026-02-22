@@ -69,7 +69,7 @@ VALID_STATUS_EFFECT_TYPES = {
 }
 
 VALID_WYRMSPELL_TYPES = {"Breach", "Refuge", "Wildcry", "Dragon's Call"}
-VALID_CHARACTER_QUALITIES = {"UR", "SSR EX", "SSR+", "SSR", "SR", "R", "N"}
+VALID_CHARACTER_QUALITIES = {"UR", "SSR EX", "SSR+", "SSR", "SR", "R", "N", "C"}
 VALID_CHARACTER_CLASSES = {
     "Guardian",
     "Priest",
@@ -372,7 +372,9 @@ def normalize_for_json(label, data, is_update=False):
         if isinstance(raw_effects, list):
             passive_effects = [str(e) for e in raw_effects if e]
         elif isinstance(raw_effects, str) and raw_effects:
-            passive_effects = [raw_effects]
+            passive_effects = [
+                line for line in (l.strip() for l in raw_effects.splitlines()) if line
+            ]
         else:
             passive_effects = []
 
@@ -744,6 +746,7 @@ def main():
         "[Status Effect]": "status-effect",
         "[Link]": "links",
         "[Resource]": "resource",
+        "[Howlkin]": "howlkin",
         "[Tier List]": "tier-list",
         "[Team]": "team",
     }

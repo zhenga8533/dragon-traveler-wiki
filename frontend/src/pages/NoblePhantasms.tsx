@@ -29,36 +29,9 @@ import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
+import type { Character } from '../types/character';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import { getLatestTimestamp } from '../utils';
-
-const NOBLE_PHANTASM_FIELDS: FieldDef[] = [
-  {
-    name: 'name',
-    label: 'Name',
-    type: 'text',
-    required: true,
-    placeholder: 'Noble Phantasm name',
-  },
-  {
-    name: 'character',
-    label: 'Character (optional)',
-    type: 'text',
-    placeholder: 'e.g. Jing',
-  },
-  {
-    name: 'is_global',
-    label: 'Available on Global server',
-    type: 'boolean',
-  },
-  {
-    name: 'lore',
-    label: 'Lore',
-    type: 'textarea',
-    required: true,
-    placeholder: 'Noble Phantasm lore',
-  },
-];
 
 interface NoblePhantasmFilters {
   search: string;
@@ -75,6 +48,49 @@ export default function NoblePhantasms() {
     loading,
     error,
   } = useDataFetch<NoblePhantasm[]>('data/noble_phantasm.json', []);
+  const { data: characters } = useDataFetch<Character[]>(
+    'data/characters.json',
+    []
+  );
+
+  const noblePhantasmFields = useMemo<FieldDef[]>(() => {
+    const characterOptions = characters
+      .map((c) => c.name)
+      .sort((a, b) => a.localeCompare(b));
+    const characterIcons: Record<string, string> = {};
+    for (const name of characterOptions) {
+      const portrait = getPortrait(name);
+      if (portrait) characterIcons[name] = portrait;
+    }
+    return [
+      {
+        name: 'name',
+        label: 'Name',
+        type: 'text',
+        required: true,
+        placeholder: 'Noble Phantasm name',
+      },
+      {
+        name: 'character',
+        label: 'Character',
+        type: 'select',
+        required: true,
+        options: characterOptions,
+        optionIcons: characterIcons,
+      },
+      {
+        name: 'is_global',
+        label: 'Available on Global server',
+        type: 'boolean',
+      },
+      {
+        name: 'lore',
+        label: 'Lore',
+        type: 'textarea',
+        placeholder: 'Noble Phantasm lore',
+      },
+    ];
+  }, [characters]);
 
   const { filters, setFilters } = useFilters<NoblePhantasmFilters>({
     emptyFilters: EMPTY_FILTERS,
@@ -145,7 +161,7 @@ export default function NoblePhantasms() {
             buttonLabel="Suggest a Noble Phantasm"
             modalTitle="Suggest a New Noble Phantasm"
             issueTitle="[Noble Phantasm] New noble phantasm suggestion"
-            fields={NOBLE_PHANTASM_FIELDS}
+            fields={noblePhantasmFields}
           />
         </Group>
 

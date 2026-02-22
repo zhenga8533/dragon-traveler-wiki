@@ -6,14 +6,10 @@ import DataFetchError from '../components/DataFetchError';
 import EmptyState from '../components/EmptyState';
 import LastUpdated from '../components/LastUpdated';
 import { CharacterCardSkeleton } from '../components/SkeletonCard';
-import SuggestModal, {
-  type ArrayFieldDef,
-  type FieldDef,
-} from '../components/SuggestModal';
+import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
 
 const CHARACTER_FIELDS: FieldDef[] = [
@@ -59,82 +55,12 @@ const CHARACTER_FIELDS: FieldDef[] = [
   },
 ];
 
-const FACTION_FIELDS: FieldDef[] = [
-  {
-    name: 'name',
-    label: 'Faction Name',
-    type: 'select',
-    required: true,
-    options: [
-      'Elemental Echo',
-      'Wild Spirit',
-      'Arcane Wisdom',
-      'Sanctum Glory',
-      'Otherworld Return',
-      'Illusion Veil',
-    ],
-  },
-  {
-    name: 'wyrm',
-    label: 'Wyrm',
-    type: 'select',
-    required: true,
-    options: [
-      'Fire Whelp',
-      'Butterfly Whelp',
-      'Emerald Whelp',
-      'Shadow Whelp',
-      'Light Whelp',
-      'Dark Whelp',
-    ],
-  },
-  {
-    name: 'description',
-    label: 'Description',
-    type: 'textarea',
-    required: true,
-    placeholder: 'Faction mechanics and identity',
-  },
-];
-
 export default function Characters() {
   const {
     data: characters,
     loading,
     error,
   } = useDataFetch<Character[]>('data/characters.json', []);
-  const { data: artifacts } = useDataFetch<Artifact[]>(
-    'data/artifacts.json',
-    []
-  );
-
-  const artifactOptions = useMemo(
-    () =>
-      artifacts
-        .map((artifact) => artifact.name)
-        .sort((a, b) => a.localeCompare(b)),
-    [artifacts]
-  );
-
-  const factionArrayFields = useMemo<ArrayFieldDef[]>(
-    () => [
-      {
-        name: 'recommended_artifacts',
-        label: 'Recommended Artifacts',
-        minItems: 1,
-        fields: [
-          {
-            name: 'name',
-            label: 'Artifact',
-            type: 'select',
-            required: true,
-            options: artifactOptions,
-          },
-        ],
-      },
-    ],
-    [artifactOptions]
-  );
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
@@ -152,22 +78,13 @@ export default function Characters() {
             <Title order={1}>Characters</Title>
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
-          <Group gap="xs">
-            <SuggestModal
-              buttonLabel="Suggest a Character"
-              modalTitle="Suggest a New Character"
-              issueTitle="[Character] New character suggestion"
-              fields={CHARACTER_FIELDS}
-              excludeFromJson={['additional_info']}
-            />
-            <SuggestModal
-              buttonLabel="Suggest Faction Artifacts"
-              modalTitle="Suggest Faction Recommended Artifacts"
-              issueTitle="[Faction] Faction recommendation update"
-              fields={FACTION_FIELDS}
-              arrayFields={factionArrayFields}
-            />
-          </Group>
+          <SuggestModal
+            buttonLabel="Suggest a Character"
+            modalTitle="Suggest a New Character"
+            issueTitle="[Character] New character suggestion"
+            fields={CHARACTER_FIELDS}
+            excludeFromJson={['additional_info']}
+          />
         </Group>
 
         {loading && (

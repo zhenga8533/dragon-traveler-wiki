@@ -22,6 +22,7 @@ from .sort_keys import (
     QUALITY_RANK,
     artifact_sort_key,
     character_sort_key,
+    code_sort_key,
     faction_sort_key,
     gear_set_sort_key,
     gear_sort_key,
