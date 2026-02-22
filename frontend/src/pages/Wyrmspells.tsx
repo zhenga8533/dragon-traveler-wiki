@@ -14,7 +14,6 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { FACTION_ICON_MAP } from '../assets/faction';
-import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
@@ -22,12 +21,13 @@ import FilterToolbar from '../components/FilterToolbar';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import ListPageShell from '../components/ListPageShell';
+import QualityIcon, { renderQualityFilterIcon } from '../components/QualityIcon';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Wyrmspell } from '../types/wyrmspell';
 import { getLatestTimestamp } from '../utils';
@@ -89,12 +89,6 @@ const EMPTY_FILTERS: WyrmspellFilters = {
   qualities: [],
 };
 
-const renderQualityFilterIcon = (value: string) => {
-  const iconSrc = QUALITY_ICON_MAP[value as keyof typeof QUALITY_ICON_MAP];
-  if (!iconSrc) return null;
-
-  return <Image src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
-};
 
 export default function Wyrmspells() {
   const {
@@ -206,8 +200,7 @@ export default function Wyrmspells() {
     [wyrmspells]
   );
 
-  const activeFilterCount =
-    (filters.search ? 1 : 0) + filters.types.length + filters.qualities.length;
+  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">
@@ -287,15 +280,7 @@ export default function Wyrmspells() {
                           )}
                           <Stack gap={4} style={{ flex: 1 }}>
                             <Group gap="sm" wrap="wrap">
-                              <Tooltip label={spell.quality}>
-                                <Image
-                                  src={QUALITY_ICON_MAP[spell.quality]}
-                                  alt={spell.quality}
-                                  h={20}
-                                  w="auto"
-                                  fit="contain"
-                                />
-                              </Tooltip>
+                              <QualityIcon quality={spell.quality} />
                               <Text fw={600}>{spell.name}</Text>
                             </Group>
                             <Group gap="sm" wrap="wrap">
@@ -403,15 +388,7 @@ export default function Wyrmspells() {
                               </Badge>
                             </Table.Td>
                             <Table.Td>
-                              <Tooltip label={spell.quality}>
-                                <Image
-                                  src={QUALITY_ICON_MAP[spell.quality]}
-                                  alt={spell.quality}
-                                  h={20}
-                                  w="auto"
-                                  fit="contain"
-                                />
-                              </Tooltip>
+                              <QualityIcon quality={spell.quality} />
                             </Table.Td>
                             <Table.Td>
                               {spell.exclusive_faction ? (

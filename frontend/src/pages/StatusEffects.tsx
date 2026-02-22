@@ -24,7 +24,7 @@ import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
 import { getLatestTimestamp } from '../utils';
@@ -142,7 +142,7 @@ export default function StatusEffects() {
     [effects]
   );
 
-  const activeFilterCount = (filters.search ? 1 : 0) + filters.types.length;
+  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">

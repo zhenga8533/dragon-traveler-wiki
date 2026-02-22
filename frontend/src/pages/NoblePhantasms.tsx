@@ -27,7 +27,7 @@ import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Character } from '../types/character';
 import type { NoblePhantasm } from '../types/noble-phantasm';
@@ -147,7 +147,7 @@ export default function NoblePhantasms() {
     [noblePhantasms]
   );
 
-  const activeFilterCount = filters.search ? 1 : 0;
+  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">

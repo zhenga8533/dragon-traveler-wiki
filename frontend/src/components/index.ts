@@ -18,7 +18,7 @@ export { default as LastUpdated } from './LastUpdated';
 export { default as ListPageShell } from './ListPageShell';
 export { DetailPageLoading, ListPageLoading } from './PageLoadingSkeleton';
 export { default as PaginationControl } from './PaginationControl';
-export { default as QualityIcon } from './QualityIcon';
+export { default as QualityIcon, renderQualityFilterIcon } from './QualityIcon';
 export { default as ResourceBadge } from './ResourceBadge';
 export { default as RichText } from './RichText';
 export { default as SearchModal } from './SearchModal';

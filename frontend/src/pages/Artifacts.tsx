@@ -10,25 +10,24 @@ import {
   Table,
   Text,
   Title,
-  Tooltip,
   UnstyledButton,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
-import { QUALITY_ICON_MAP } from '../assets/quality';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import ListPageShell from '../components/ListPageShell';
+import QualityIcon from '../components/QualityIcon';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Artifact } from '../types/artifact';
 import { getLatestTimestamp } from '../utils';
@@ -132,7 +131,7 @@ export default function Artifacts() {
     [artifacts]
   );
 
-  const activeFilterCount = filters.search ? 1 : 0;
+  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">
@@ -217,15 +216,7 @@ export default function Artifacts() {
                           )}
                           <Stack gap={4} style={{ flex: 1 }}>
                             <Group gap="sm">
-                              <Tooltip label={artifact.quality}>
-                                <Image
-                                  src={QUALITY_ICON_MAP[artifact.quality]}
-                                  alt={artifact.quality}
-                                  h={20}
-                                  w="auto"
-                                  fit="contain"
-                                />
-                              </Tooltip>
+                              <QualityIcon quality={artifact.quality} />
                               <Text
                                 fw={600}
                                 size="lg"
@@ -346,15 +337,7 @@ export default function Artifacts() {
                               </UnstyledButton>
                             </Table.Td>
                             <Table.Td>
-                              <Tooltip label={artifact.quality}>
-                                <Image
-                                  src={QUALITY_ICON_MAP[artifact.quality]}
-                                  alt={artifact.quality}
-                                  h={20}
-                                  w="auto"
-                                  fit="contain"
-                                />
-                              </Tooltip>
+                              <QualityIcon quality={artifact.quality} />
                             </Table.Td>
                             <Table.Td>
                               <Badge variant="light" size="sm" color="blue">

@@ -12,12 +12,10 @@ import {
   Text,
   TextInput,
   Title,
-  Tooltip,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { getHowlkinIcon } from '../assets/howlkin';
-import { QUALITY_ICON_MAP } from '../assets/quality';
 import DataFetchError from '../components/DataFetchError';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
@@ -25,6 +23,7 @@ import FilterToolbar from '../components/FilterToolbar';
 import HowlkinBadge from '../components/HowlkinBadge';
 import HowlkinStats from '../components/HowlkinStats';
 import LastUpdated from '../components/LastUpdated';
+import QualityIcon, { renderQualityFilterIcon } from '../components/QualityIcon';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, {
@@ -34,7 +33,7 @@ import SuggestModal, {
 import { QUALITY_ORDER } from '../constants/colors';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { GoldenAlliance, Howlkin } from '../types/howlkin';
 import type { Quality } from '../types/quality';
@@ -139,12 +138,6 @@ const EMPTY_FILTERS: HowlkinFilters = {
   qualities: [],
 };
 
-const renderQualityFilterIcon = (value: string) => {
-  const iconSrc = QUALITY_ICON_MAP[value as Quality];
-  if (!iconSrc) return null;
-
-  return <Image src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
-};
 
 export default function Howlkins() {
   const [activeTab, setActiveTab] = useState<string>(() => {
@@ -273,7 +266,7 @@ export default function Howlkins() {
     );
   }, [goldenAlliances, allianceSearch]);
 
-  const activeFilterCount = (filters.search ? 1 : 0) + filters.qualities.length;
+  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">
@@ -388,15 +381,7 @@ export default function Howlkins() {
                                 )}
                                 <Stack gap={2} style={{ flex: 1 }}>
                                   <Group gap="sm" wrap="wrap">
-                                    <Tooltip label={howlkin.quality}>
-                                      <Image
-                                        src={QUALITY_ICON_MAP[howlkin.quality]}
-                                        alt={howlkin.quality}
-                                        h={20}
-                                        w="auto"
-                                        fit="contain"
-                                      />
-                                    </Tooltip>
+                                    <QualityIcon quality={howlkin.quality} />
                                     <Text fw={600}>{howlkin.name}</Text>
                                   </Group>
                                   <Stack gap={2}>
@@ -465,15 +450,7 @@ export default function Howlkins() {
                                   </Text>
                                 </Table.Td>
                                 <Table.Td>
-                                  <Tooltip label={howlkin.quality}>
-                                    <Image
-                                      src={QUALITY_ICON_MAP[howlkin.quality]}
-                                      alt={howlkin.quality}
-                                      h={20}
-                                      w="auto"
-                                      fit="contain"
-                                    />
-                                  </Tooltip>
+                                  <QualityIcon quality={howlkin.quality} />
                                 </Table.Td>
                                 <Table.Td>
                                   <HowlkinStats stats={howlkin.basic_stats} />

@@ -116,6 +116,21 @@ const DETAIL_TOOLTIP_STYLES = {
   },
 };
 
+const RECOMMENDED_BUILD_TOOLTIP_STYLES = {
+  tooltip: {
+    backgroundColor: 'var(--mantine-color-default)',
+    color: 'var(--mantine-color-text)',
+    border: '1px solid var(--mantine-color-default-border)',
+    boxShadow: 'var(--mantine-shadow-md)',
+    borderRadius: '10px',
+    padding: '10px 12px',
+  },
+  arrow: {
+    backgroundColor: 'var(--mantine-color-default)',
+    border: '1px solid var(--mantine-color-default-border)',
+  },
+};
+
 export default function CharacterPage() {
   const { colorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';
@@ -1042,32 +1057,42 @@ export default function CharacterPage() {
                         <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                           {recommendedSubclassEntries.map((entry) => {
                             const tooltipLabel = (
-                              <Stack gap={4}>
-                                <Text fw={700} size="sm">
+                              <Stack gap={6}>
+                                <Text size="xs" fw={700}>
                                   {entry.name}
                                 </Text>
-                                {typeof entry.tier === 'number' && (
-                                  <Text size="xs" c="dimmed">
-                                    Tier: {entry.tier}
-                                  </Text>
-                                )}
-                                {entry.className && (
-                                  <Text size="xs" c="dimmed">
-                                    Class: {entry.className}
+                                <Group gap={6} wrap="wrap">
+                                  {typeof entry.tier === 'number' && (
+                                    <Badge
+                                      variant="light"
+                                      color="grape"
+                                      size="xs"
+                                    >
+                                      Tier {entry.tier}
+                                    </Badge>
+                                  )}
+                                  {entry.className && (
+                                    <Badge
+                                      variant="light"
+                                      color="blue"
+                                      size="xs"
+                                    >
+                                      {entry.className}
+                                    </Badge>
+                                  )}
+                                </Group>
+                                {entry.effect && (
+                                  <Text size="xs" style={{ lineHeight: 1.4 }}>
+                                    {entry.effect}
                                   </Text>
                                 )}
                                 {entry.bonuses.length > 0 && (
-                                  <Text size="xs" c="dimmed">
-                                    Bonuses: {entry.bonuses.join(', ')}
-                                  </Text>
-                                )}
-                                {entry.effect && (
                                   <Text
                                     size="xs"
                                     c="dimmed"
                                     style={{ lineHeight: 1.4 }}
                                   >
-                                    Effect: {entry.effect}
+                                    Bonuses: {entry.bonuses.join(', ')}
                                   </Text>
                                 )}
                               </Stack>
@@ -1080,7 +1105,7 @@ export default function CharacterPage() {
                                 multiline
                                 withArrow
                                 openDelay={120}
-                                maw={320}
+                                maw={300}
                                 styles={DETAIL_TOOLTIP_STYLES}
                               >
                                 <Paper p="sm" radius="md" withBorder>
@@ -1163,62 +1188,103 @@ export default function CharacterPage() {
                           spacing="sm"
                         >
                           {recommendedGearDetails.map((entry) => {
-                            const statsText = entry.stats
-                              ? Object.entries(entry.stats)
-                                  .map(
-                                    ([statName, statValue]) =>
-                                      `${statName}: ${String(statValue)}`
-                                  )
-                                  .join(' • ')
-                              : '';
+                            const statsEntries = entry.stats
+                              ? Object.entries(entry.stats).filter(
+                                  ([statName, statValue]) =>
+                                    Boolean(statName) &&
+                                    statValue !== null &&
+                                    statValue !== undefined
+                                )
+                              : [];
 
                             const tooltipLabel = (
-                              <Stack gap={4}>
-                                <Text fw={700} size="sm">
+                              <Stack gap="xs">
+                                <Text
+                                  fw={700}
+                                  size="sm"
+                                  style={{ lineHeight: 1.25 }}
+                                >
                                   {entry.name}
                                 </Text>
-                                <Text size="xs" c="dimmed">
-                                  Slot: {entry.label}
-                                </Text>
-                                {entry.setName && (
-                                  <Text size="xs" c="dimmed">
-                                    Set: {entry.setName}
-                                  </Text>
-                                )}
-                                {entry.quality && (
-                                  <Text size="xs" c="dimmed">
-                                    Quality: {entry.quality}
-                                  </Text>
-                                )}
+                                <Divider />
+                                <Group gap={6} wrap="wrap">
+                                  <Badge variant="light" color="gray" size="xs">
+                                    Slot: {entry.label}
+                                  </Badge>
+                                  {entry.setName && (
+                                    <Badge
+                                      variant="light"
+                                      color="blue"
+                                      size="xs"
+                                    >
+                                      Set: {entry.setName}
+                                    </Badge>
+                                  )}
+                                  {entry.quality && (
+                                    <Badge
+                                      variant="light"
+                                      color="grape"
+                                      size="xs"
+                                    >
+                                      Quality: {entry.quality}
+                                    </Badge>
+                                  )}
+                                </Group>
                                 {entry.setBonus &&
                                   entry.setBonus.quantity > 0 &&
                                   entry.setBonus.description && (
-                                    <Text
-                                      size="xs"
-                                      c="dimmed"
-                                      style={{ lineHeight: 1.4 }}
-                                    >
-                                      Set Bonus ({entry.setBonus.quantity}):{' '}
-                                      {entry.setBonus.description}
-                                    </Text>
+                                    <Stack gap={2}>
+                                      <Badge
+                                        variant="light"
+                                        color="teal"
+                                        size="xs"
+                                        w="fit-content"
+                                      >
+                                        Set Bonus: {entry.setBonus.quantity}{' '}
+                                        Piece
+                                        {entry.setBonus.quantity > 1 ? 's' : ''}
+                                      </Badge>
+                                      <Text
+                                        size="xs"
+                                        style={{ lineHeight: 1.35 }}
+                                      >
+                                        {entry.setBonus.description}
+                                      </Text>
+                                    </Stack>
                                   )}
-                                {statsText && (
-                                  <Text
-                                    size="xs"
-                                    c="dimmed"
-                                    style={{ lineHeight: 1.4 }}
-                                  >
-                                    Stats: {statsText}
-                                  </Text>
+                                {statsEntries.length > 0 && (
+                                  <Stack gap={2}>
+                                    <Text size="xs" c="dimmed" fw={600}>
+                                      Stats
+                                    </Text>
+                                    <Group gap={6} wrap="wrap">
+                                      {statsEntries.map(
+                                        ([statName, statValue]) => (
+                                          <Badge
+                                            key={`${entry.slot}-${statName}`}
+                                            variant="light"
+                                            color="indigo"
+                                            size="xs"
+                                          >
+                                            {statName}: {String(statValue)}
+                                          </Badge>
+                                        )
+                                      )}
+                                    </Group>
+                                  </Stack>
                                 )}
                                 {entry.lore && (
-                                  <Text
-                                    size="xs"
-                                    c="dimmed"
-                                    style={{ lineHeight: 1.4 }}
-                                  >
-                                    {entry.lore}
-                                  </Text>
+                                  <Stack gap={2}>
+                                    <Text size="xs" c="dimmed" fw={600}>
+                                      Lore
+                                    </Text>
+                                    <Text
+                                      size="xs"
+                                      style={{ lineHeight: 1.35 }}
+                                    >
+                                      {entry.lore}
+                                    </Text>
+                                  </Stack>
                                 )}
                               </Stack>
                             );
@@ -1231,15 +1297,15 @@ export default function CharacterPage() {
                                 withArrow
                                 openDelay={120}
                                 maw={340}
-                                styles={DETAIL_TOOLTIP_STYLES}
+                                styles={RECOMMENDED_BUILD_TOOLTIP_STYLES}
                               >
                                 <Paper p="sm" radius="md" withBorder>
                                   <Group gap="sm" wrap="nowrap">
                                     <Image
                                       src={entry.icon}
                                       alt={`${entry.label}: ${entry.name}`}
-                                      w={32}
-                                      h={32}
+                                      w={48}
+                                      h={48}
                                       fit="contain"
                                     />
                                     <Stack gap={2} style={{ minWidth: 0 }}>
@@ -1277,24 +1343,32 @@ export default function CharacterPage() {
                         <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                           {activatedSetBonuses.map((setBonus) => {
                             const tooltipLabel = (
-                              <Stack gap={4}>
-                                <Text fw={700} size="sm">
+                              <Stack gap="xs">
+                                <Text
+                                  fw={700}
+                                  size="sm"
+                                  style={{ lineHeight: 1.25 }}
+                                >
                                   {setBonus.setName} Set
                                 </Text>
-                                <Text size="xs" c="dimmed">
-                                  Pieces: {setBonus.pieces} /{' '}
-                                  {setBonus.requiredPieces}
-                                </Text>
-                                <Text size="xs" c="dimmed">
-                                  Activations: ×{setBonus.activations}
-                                </Text>
-                                <Text
-                                  size="xs"
-                                  c="dimmed"
-                                  style={{ lineHeight: 1.4 }}
-                                >
-                                  {setBonus.description}
-                                </Text>
+                                <Divider />
+                                <Group gap={6} wrap="wrap">
+                                  <Badge variant="light" color="gray" size="xs">
+                                    Pieces: {setBonus.pieces}/
+                                    {setBonus.requiredPieces}
+                                  </Badge>
+                                  <Badge variant="light" color="teal" size="xs">
+                                    Activations: ×{setBonus.activations}
+                                  </Badge>
+                                </Group>
+                                <Stack gap={2}>
+                                  <Text size="xs" c="dimmed" fw={600}>
+                                    Effect
+                                  </Text>
+                                  <Text size="xs" style={{ lineHeight: 1.35 }}>
+                                    {setBonus.description}
+                                  </Text>
+                                </Stack>
                               </Stack>
                             );
 
@@ -1306,7 +1380,7 @@ export default function CharacterPage() {
                                 withArrow
                                 openDelay={120}
                                 maw={320}
-                                styles={DETAIL_TOOLTIP_STYLES}
+                                styles={RECOMMENDED_BUILD_TOOLTIP_STYLES}
                               >
                                 <Paper p="sm" radius="md" withBorder>
                                   <Stack gap={4}>
