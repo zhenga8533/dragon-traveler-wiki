@@ -49,6 +49,7 @@ import type { Howlkin } from '../types/howlkin';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import type { Resource } from '../types/resource';
 import type { StatusEffect } from '../types/status-effect';
+import type { Subclass } from '../types/subclass';
 import type { Wyrmspell } from '../types/wyrmspell';
 
 interface ChangelogEntry {
@@ -117,6 +118,10 @@ function DataStatsBar() {
     'data/gear.json',
     []
   );
+  const { data: subclasses, loading: l9 } = useDataFetch<Subclass[]>(
+    'data/subclasses.json',
+    []
+  );
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
@@ -129,6 +134,7 @@ function DataStatsBar() {
       noblePhantasms,
       howlkins,
       gear,
+      subclasses,
     ];
     for (const list of updateLists) {
       for (const item of list) {
@@ -146,9 +152,10 @@ function DataStatsBar() {
     statusEffects,
     wyrmspells,
     gear,
+    subclasses,
   ]);
 
-  if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8) {
+  if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9) {
     return (
       <Group justify="center" py="md">
         <Skeleton height={20} width="100%" maw={400} radius="md" />
@@ -157,17 +164,18 @@ function DataStatsBar() {
   }
 
   const stats = [
-    { label: `${characters.length} Characters`, to: '/characters' },
-    { label: `${wyrmspells.length} Wyrmspells`, to: '/wyrmspells' },
-    { label: `${statusEffects.length} Status Effects`, to: '/status-effects' },
     { label: `${artifacts.length} Artifacts`, to: '/artifacts' },
+    { label: `${characters.length} Characters`, to: '/characters' },
     { label: `${gear.length} Gear`, to: '/gear' },
+    { label: `${howlkins.length} Howlkins`, to: '/howlkins' },
     {
       label: `${noblePhantasms.length} Noble Phantasms`,
       to: '/noble-phantasms',
     },
-    { label: `${howlkins.length} Howlkins`, to: '/howlkins' },
     { label: `${resources.length} Resources`, to: '/resources' },
+    { label: `${statusEffects.length} Status Effects`, to: '/status-effects' },
+    { label: `${subclasses.length} Subclasses`, to: '/subclasses' },
+    { label: `${wyrmspells.length} Wyrmspells`, to: '/wyrmspells' },
   ];
 
   return (
