@@ -7,18 +7,21 @@ import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
 function serveDataDir(): Plugin {
   const dataDir = path.resolve(__dirname, '../data');
+  const prefixes = ['/data/', '/dragon-traveler-wiki/data/'];
   return {
     name: 'serve-data-dir',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        const prefix = '/dragon-traveler-wiki/data/';
-        if (req.url?.startsWith(prefix)) {
-          const filename = req.url.slice(prefix.length);
-          const filepath = path.join(dataDir, filename);
-          if (existsSync(filepath)) {
-            res.setHeader('Content-Type', 'application/json');
-            res.end(readFileSync(filepath, 'utf-8'));
-            return;
+        const requestUrl = req.url ?? '';
+        for (const prefix of prefixes) {
+          if (requestUrl.startsWith(prefix)) {
+            const filename = requestUrl.slice(prefix.length);
+            const filepath = path.join(dataDir, filename);
+            if (existsSync(filepath)) {
+              res.setHeader('Content-Type', 'application/json');
+              res.end(readFileSync(filepath, 'utf-8'));
+              return;
+            }
           }
         }
         next();
@@ -46,5 +49,5 @@ export default defineConfig({
       },
     }),
   ],
-  base: '/dragon-traveler-wiki/',
+  base: '/',
 });

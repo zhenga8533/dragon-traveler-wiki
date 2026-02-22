@@ -2,6 +2,8 @@
 
 A community-driven English wiki for the Chinese mobile game **Dragon Traveler** (龙族旅人). The project is powered by curated JSON data, a React frontend, and automated deployment to GitHub Pages.
 
+**Official site:** https://dtwiki.org
+
 ## Features
 
 - Character database with stats, abilities, and subclasses
@@ -25,7 +27,7 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 - **Backend:** Python 3.12 data tooling, Pydantic models, Dolt sync — [backend/README.md](backend/README.md)
 - **Data:** JSON files in `data/` (source of truth)
 - **Database:** [Dolt](https://www.dolthub.com/) version-controlled SQL database in `dolt-db/`
-- **Hosting:** GitHub Pages with automated deployment
+- **Hosting:** GitHub Pages with automated deployment and custom domain (`dtwiki.org`)
 
 ## Getting Started
 

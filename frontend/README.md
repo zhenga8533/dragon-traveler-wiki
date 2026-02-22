@@ -2,6 +2,8 @@
 
 A modern React + TypeScript frontend for the Dragon Traveler community wiki, built with Vite and Mantine UI.
 
+**Official site:** https://dtwiki.org
+
 ## 🏗️ Architecture
 
 ### Tech Stack
@@ -137,7 +139,7 @@ npm run lint
 
 ### Data
 
-The frontend fetches JSON files from `data/` at runtime. In development, a Vite plugin (in `vite.config.ts`) proxies requests to the repo root's `data/` directory. In production, the files are served from the deployed site under `/dragon-traveler-wiki/data/`.
+The frontend fetches JSON files from `data/` at runtime. In development, a Vite plugin (in `vite.config.ts`) proxies requests to the repo root's `data/` directory. In production, the files are served from the deployed site under `/data/`.
 
 ### Data Fetching
 
@@ -202,6 +204,11 @@ The app is configured for static hosting:
 - **Hash Router**: For GitHub Pages compatibility
 - **Asset Optimization**: Vite image optimizer plugin
 - **Code Splitting**: Automatic route-based splitting
+
+### Custom Domain (dtwiki.org)
+
+- `frontend/public/CNAME` is committed with `dtwiki.org` so GitHub Pages keeps the custom domain on deploy.
+- DNS should point apex (`dtwiki.org`) to GitHub Pages A records and `www` to `zhenga8533.github.io`.
 
 ## 📝 Contributing
 
