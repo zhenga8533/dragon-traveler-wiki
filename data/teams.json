@@ -9,9 +9,7 @@
       {
         "character_name": "Pompey",
         "overdrive_order": null,
-        "substitutes": [
-          "Herman"
-        ],
+        "substitutes": ["Herman"],
         "note": ""
       },
       {
@@ -23,9 +21,7 @@
       {
         "character_name": "Ifrit",
         "overdrive_order": null,
-        "substitutes": [
-          "Talos"
-        ],
+        "substitutes": ["Talos"],
         "note": ""
       },
       {
@@ -37,18 +33,13 @@
       {
         "character_name": "Orion",
         "overdrive_order": null,
-        "substitutes": [
-          "Scheherazade",
-          "Poseidon"
-        ],
+        "substitutes": ["Scheherazade", "Poseidon"],
         "note": ""
       },
       {
         "character_name": "Atanith",
         "overdrive_order": null,
-        "substitutes": [
-          "Scheherazade"
-        ],
+        "substitutes": ["Scheherazade"],
         "note": ""
       }
     ],
@@ -76,9 +67,7 @@
       {
         "character_name": "Apollo",
         "overdrive_order": null,
-        "substitutes": [
-          "Jing"
-        ],
+        "substitutes": ["Jing"],
         "note": ""
       },
       {
@@ -90,26 +79,19 @@
       {
         "character_name": "Chiron",
         "overdrive_order": null,
-        "substitutes": [
-          "Scheherazade",
-          "Orion"
-        ],
+        "substitutes": ["Scheherazade", "Orion"],
         "note": ""
       },
       {
         "character_name": "Gabriele",
         "overdrive_order": null,
-        "substitutes": [
-          "Gullveig"
-        ],
+        "substitutes": ["Gullveig"],
         "note": ""
       },
       {
         "character_name": "Helveil",
         "overdrive_order": null,
-        "substitutes": [
-          "Lorillin"
-        ],
+        "substitutes": ["Lorillin"],
         "note": ""
       }
     ],
@@ -143,19 +125,13 @@
       {
         "character_name": "Loki",
         "overdrive_order": null,
-        "substitutes": [
-          "Azure Dragon",
-          "Oberonnie",
-          "Gullveig"
-        ],
+        "substitutes": ["Azure Dragon", "Oberonnie", "Gullveig"],
         "note": ""
       },
       {
         "character_name": "Venus",
         "overdrive_order": null,
-        "substitutes": [
-          "Chiron"
-        ],
+        "substitutes": ["Chiron"],
         "note": ""
       },
       {
@@ -189,9 +165,7 @@
       {
         "character_name": "Caesar",
         "overdrive_order": null,
-        "substitutes": [
-          "Pompey"
-        ],
+        "substitutes": ["Pompey"],
         "note": ""
       },
       {
@@ -209,9 +183,7 @@
       {
         "character_name": "Ares",
         "overdrive_order": null,
-        "substitutes": [
-          "Medusa"
-        ],
+        "substitutes": ["Medusa"],
         "note": ""
       },
       {
@@ -223,10 +195,7 @@
       {
         "character_name": "Tyrfing",
         "overdrive_order": null,
-        "substitutes": [
-          "Herman",
-          "Orion"
-        ],
+        "substitutes": ["Herman", "Orion"],
         "note": ""
       }
     ],
@@ -248,9 +217,7 @@
       {
         "character_name": "Anubis",
         "overdrive_order": null,
-        "substitutes": [
-          "Helveil"
-        ],
+        "substitutes": ["Helveil"],
         "note": ""
       },
       {
@@ -262,10 +229,7 @@
       {
         "character_name": "Hades",
         "overdrive_order": null,
-        "substitutes": [
-          "Gabriele",
-          "Ningluosi"
-        ],
+        "substitutes": ["Gabriele", "Ningluosi"],
         "note": ""
       },
       {
@@ -283,9 +247,7 @@
       {
         "character_name": "Silbismo",
         "overdrive_order": null,
-        "substitutes": [
-          "Gullveig"
-        ],
+        "substitutes": ["Gullveig"],
         "note": ""
       }
     ],
@@ -307,9 +269,7 @@
       {
         "character_name": "Duvalin",
         "overdrive_order": null,
-        "substitutes": [
-          "Anubis"
-        ],
+        "substitutes": ["Anubis"],
         "note": ""
       },
       {
@@ -327,9 +287,7 @@
       {
         "character_name": "Venus",
         "overdrive_order": null,
-        "substitutes": [
-          "Orion"
-        ],
+        "substitutes": ["Orion"],
         "note": ""
       },
       {
@@ -341,10 +299,7 @@
       {
         "character_name": "Zagrus",
         "overdrive_order": null,
-        "substitutes": [
-          "Lorillin",
-          "Gullveig"
-        ],
+        "substitutes": ["Lorillin", "Gullveig"],
         "note": ""
       }
     ],
@@ -355,361 +310,5 @@
       "dragons_call": "Surging Impact"
     },
     "last_updated": 1771197404
-  },
-  {
-    "name": "Element Echo Novice Lineup",
-    "author": "GameTree",
-    "content_type": "All",
-    "description": "Recommended Elemental Echo Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
-    "faction": "Elemental Echo",
-    "members": [
-      {
-        "character_name": "Oberonnie",
-        "overdrive_order": 1,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Siren",
-        "overdrive_order": 2,
-        "substitutes": [
-          "Vivienne"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Fenrir",
-        "overdrive_order": 3,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Siegfried",
-        "overdrive_order": 4,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Ifrit",
-        "overdrive_order": 5,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Melina",
-        "overdrive_order": 6,
-        "substitutes": [
-          "Poseidon"
-        ],
-        "note": ""
-      }
-    ],
-    "wyrmspells": {
-      "breach": "",
-      "refuge": "",
-      "wildcry": "",
-      "dragons_call": ""
-    },
-    "last_updated": 1771129475
-  },
-  {
-    "name": "Wild Spirit Novice Lineup",
-    "author": "GameTree",
-    "content_type": "All",
-    "description": "Recommended Wild Spirit Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
-    "faction": "Wild Spirit",
-    "members": [
-      {
-        "character_name": "Oberonnie",
-        "overdrive_order": 1,
-        "substitutes": [
-          "Athena"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Flora",
-        "overdrive_order": 2,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "White Tiger",
-        "overdrive_order": 3,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Marylis",
-        "overdrive_order": 6,
-        "substitutes": [
-          "Tyrfing"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Siegfried",
-        "overdrive_order": 5,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Nanalie",
-        "overdrive_order": 4,
-        "substitutes": [
-          "Huginn & Muninn"
-        ],
-        "note": ""
-      }
-    ],
-    "wyrmspells": {
-      "breach": "",
-      "refuge": "",
-      "wildcry": "",
-      "dragons_call": ""
-    },
-    "last_updated": 1771129475
-  },
-  {
-    "name": "Arcane Wisdom Novice Lineup",
-    "author": "GameTree",
-    "content_type": "All",
-    "description": "Recommended Arcane Wisdom Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
-    "faction": "Arcane Wisdom",
-    "members": [
-      {
-        "character_name": "Oberonnie",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Siren",
-        "overdrive_order": null,
-        "substitutes": [
-          "Scheherazade"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Fenrir",
-        "overdrive_order": null,
-        "substitutes": [
-          "Hades"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Marylis",
-        "overdrive_order": null,
-        "substitutes": [
-          "Ares"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Ifrit",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Melina",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
-      }
-    ],
-    "wyrmspells": {
-      "breach": "",
-      "refuge": "",
-      "wildcry": "",
-      "dragons_call": ""
-    },
-    "last_updated": 1771129475
-  },
-  {
-    "name": "Sanctum Glory Novice Lineup",
-    "author": "GameTree",
-    "content_type": "All",
-    "description": "Recommended Sanctum Glory Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
-    "faction": "Sanctum Glory",
-    "members": [
-      {
-        "character_name": "Oberonnie",
-        "overdrive_order": 1,
-        "substitutes": [
-          "Athena"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Flora",
-        "overdrive_order": 2,
-        "substitutes": [
-          "Scheherazade"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Chiron",
-        "overdrive_order": 3,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Fenrir",
-        "overdrive_order": null,
-        "substitutes": [
-          "Helveil"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Lorillin",
-        "overdrive_order": null,
-        "substitutes": [
-          "Vivienne"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Melina",
-        "overdrive_order": null,
-        "substitutes": [
-          "Gabriele"
-        ],
-        "note": ""
-      }
-    ],
-    "wyrmspells": {
-      "breach": "",
-      "refuge": "",
-      "wildcry": "",
-      "dragons_call": ""
-    },
-    "last_updated": 1771129475
-  },
-  {
-    "name": "Otherworld Return Novice Lineup",
-    "author": "GameTree",
-    "content_type": "All",
-    "description": "Recommended Otherworld Return Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
-    "faction": "Otherworld Return",
-    "members": [
-      {
-        "character_name": "Oberonnie",
-        "overdrive_order": null,
-        "substitutes": [
-          "Helveil"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Siren",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Fenrir",
-        "overdrive_order": null,
-        "substitutes": [
-          "Hades"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "White Tiger",
-        "overdrive_order": 3,
-        "substitutes": [
-          "Gabriele"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Siegfried",
-        "overdrive_order": 2,
-        "substitutes": [
-          "Apollo"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Cleopatra",
-        "overdrive_order": 1,
-        "substitutes": [
-          "Faust"
-        ],
-        "note": ""
-      }
-    ],
-    "wyrmspells": {
-      "breach": "",
-      "refuge": "",
-      "wildcry": "",
-      "dragons_call": ""
-    },
-    "last_updated": 1771129475
-  },
-  {
-    "name": "Illusion Veil Novice Lineup",
-    "author": "GameTree",
-    "content_type": "All",
-    "description": "Recommended Illusion Veil Novice Lineup found on the Official Dragon Traveler app. This team is used to test the backend database, and it is not an actual recommendation.",
-    "faction": "Illusion Veil",
-    "members": [
-      {
-        "character_name": "Oberonnie",
-        "overdrive_order": 1,
-        "substitutes": [
-          "Ares"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Atanith",
-        "overdrive_order": 6,
-        "substitutes": [],
-        "note": ""
-      },
-      {
-        "character_name": "Fenrir",
-        "overdrive_order": 2,
-        "substitutes": [
-          "Ophelia"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Siegfried",
-        "overdrive_order": 5,
-        "substitutes": [
-          "Tyrfing"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Kleina",
-        "overdrive_order": 3,
-        "substitutes": [
-          "Poseidon"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Telperion",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
-      }
-    ],
-    "wyrmspells": {
-      "breach": "",
-      "refuge": "",
-      "wildcry": "",
-      "dragons_call": ""
-    },
-    "last_updated": 1771129475
   }
 ]
