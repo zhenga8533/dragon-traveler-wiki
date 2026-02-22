@@ -17,6 +17,7 @@ import { useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { getHowlkinIcon } from '../assets/howlkin';
 import DataFetchError from '../components/DataFetchError';
+import EmptyState from '../components/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
@@ -324,7 +325,10 @@ export default function Howlkins() {
             )}
 
             {!howlkinsLoading && !howlkinsError && howlkins.length === 0 && (
-              <Text c="dimmed">No howlkin data available yet.</Text>
+              <EmptyState
+                title="No howlkins yet"
+                description="Howlkin data hasn't been added yet."
+              />
             )}
 
             {!howlkinsLoading && !howlkinsError && howlkins.length > 0 && (
@@ -497,7 +501,10 @@ export default function Howlkins() {
             {!alliancesLoading &&
               !alliancesError &&
               goldenAlliances.length === 0 && (
-                <Text c="dimmed">No golden alliance data available yet.</Text>
+                <EmptyState
+                  title="No golden alliances yet"
+                  description="Golden alliance data hasn't been added yet."
+                />
               )}
 
             {!alliancesLoading &&

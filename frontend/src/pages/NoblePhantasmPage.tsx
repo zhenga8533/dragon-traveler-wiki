@@ -12,7 +12,8 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { IoArrowBack } from 'react-icons/io5';
+import { Link, useParams } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import Breadcrumbs from '../components/Breadcrumbs';
 import EntityNotFound from '../components/EntityNotFound';
@@ -357,6 +358,15 @@ export default function NoblePhantasmPage() {
             />
           </Stack>
         </Stack>
+
+        <Box mt="xl">
+          <Link to="/noble-phantasms" style={{ textDecoration: 'none' }}>
+            <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
+              <IoArrowBack />
+              <Text>Back to Noble Phantasms</Text>
+            </Group>
+          </Link>
+        </Box>
       </Container>
     </Box>
   );

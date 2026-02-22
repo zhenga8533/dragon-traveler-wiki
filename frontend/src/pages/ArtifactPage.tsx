@@ -14,7 +14,8 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { IoArrowBack } from 'react-icons/io5';
+import { Link, useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { QUALITY_ICON_MAP } from '../assets/quality';
@@ -338,6 +339,15 @@ export default function ArtifactPage() {
             </Stack>
           )}
         </Stack>
+
+        <Box mt="xl">
+          <Link to="/artifacts" style={{ textDecoration: 'none' }}>
+            <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
+              <IoArrowBack />
+              <Text>Back to Artifacts</Text>
+            </Group>
+          </Link>
+        </Box>
       </Container>
     </Box>
   );

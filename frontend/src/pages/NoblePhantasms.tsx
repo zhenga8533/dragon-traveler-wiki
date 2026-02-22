@@ -11,10 +11,9 @@ import {
   Text,
   Title,
   Tooltip,
-  UnstyledButton,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import EntityFilter from '../components/EntityFilter';
@@ -211,16 +210,13 @@ export default function NoblePhantasms() {
                     return (
                       <Paper
                         key={np.name}
+                        component={Link}
+                        to={`/noble-phantasms/${encodeURIComponent(np.name)}`}
                         p="md"
                         radius="md"
                         withBorder
-                        style={CARD_HOVER_STYLES}
+                        style={{ ...CARD_HOVER_STYLES, textDecoration: 'none', color: 'inherit', display: 'block' }}
                         {...cardHoverHandlers}
-                        onClick={() =>
-                          navigate(
-                            `/noble-phantasms/${encodeURIComponent(np.name)}`
-                          )
-                        }
                       >
                         <Group gap="md" align="flex-start" wrap="nowrap">
                           {iconSrc && (
@@ -357,11 +353,17 @@ export default function NoblePhantasms() {
                               )}
                             </Table.Td>
                             <Table.Td>
-                              <UnstyledButton>
-                                <Text size="sm" fw={600} c="violet">
-                                  {np.name}
-                                </Text>
-                              </UnstyledButton>
+                              <Text
+                                component={Link}
+                                to={`/noble-phantasms/${encodeURIComponent(np.name)}`}
+                                size="sm"
+                                fw={600}
+                                c="violet"
+                                style={{ textDecoration: 'none' }}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                {np.name}
+                              </Text>
                             </Table.Td>
                             <Table.Td>
                               <Group gap="xs" wrap="nowrap">

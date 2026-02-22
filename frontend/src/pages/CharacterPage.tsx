@@ -1706,7 +1706,7 @@ export default function CharacterPage() {
           <Link to="/characters" style={{ textDecoration: 'none' }}>
             <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
               <IoArrowBack />
-              <Text td="hover:underline">Back to Characters</Text>
+              <Text>Back to Characters</Text>
             </Group>
           </Link>
         </Box>

@@ -10,10 +10,9 @@ import {
   Table,
   Text,
   Title,
-  UnstyledButton,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
@@ -192,16 +191,13 @@ export default function Artifacts() {
                     return (
                       <Paper
                         key={artifact.name}
+                        component={Link}
+                        to={`/artifacts/${encodeURIComponent(artifact.name)}`}
                         p="md"
                         radius="md"
                         withBorder
-                        style={CARD_HOVER_STYLES}
+                        style={{ ...CARD_HOVER_STYLES, textDecoration: 'none', color: 'inherit', display: 'block' }}
                         {...cardHoverHandlers}
-                        onClick={() =>
-                          navigate(
-                            `/artifacts/${encodeURIComponent(artifact.name)}`
-                          )
-                        }
                       >
                         <Group gap="md" align="flex-start" wrap="nowrap">
                           {iconSrc && (
@@ -217,20 +213,7 @@ export default function Artifacts() {
                           <Stack gap={4} style={{ flex: 1 }}>
                             <Group gap="sm">
                               <QualityIcon quality={artifact.quality} />
-                              <Text
-                                fw={600}
-                                size="lg"
-                                c="violet"
-                                component="a"
-                                href={`#/artifacts/${encodeURIComponent(artifact.name)}`}
-                                style={{ cursor: 'pointer' }}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  navigate(
-                                    `/artifacts/${encodeURIComponent(artifact.name)}`
-                                  );
-                                }}
-                              >
+                              <Text fw={600} size="lg" c="violet">
                                 {artifact.name}
                               </Text>
                             </Group>
@@ -330,11 +313,17 @@ export default function Artifacts() {
                               )}
                             </Table.Td>
                             <Table.Td>
-                              <UnstyledButton>
-                                <Text size="sm" fw={500} c="violet">
-                                  {artifact.name}
-                                </Text>
-                              </UnstyledButton>
+                              <Text
+                                component={Link}
+                                to={`/artifacts/${encodeURIComponent(artifact.name)}`}
+                                size="sm"
+                                fw={500}
+                                c="violet"
+                                style={{ textDecoration: 'none' }}
+                                onClick={(e) => e.stopPropagation()}
+                              >
+                                {artifact.name}
+                              </Text>
                             </Table.Td>
                             <Table.Td>
                               <QualityIcon quality={artifact.quality} />

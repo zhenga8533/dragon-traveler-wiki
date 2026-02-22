@@ -15,7 +15,6 @@ import {
   Text,
   TextInput,
   Title,
-  UnstyledButton,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
@@ -294,14 +293,13 @@ export default function Teams() {
                     {paginatedTeams.map((team) => (
                       <Paper
                         key={team.name}
+                        component={Link}
+                        to={`/teams/${encodeURIComponent(team.name)}`}
                         p="md"
                         radius="md"
                         withBorder
-                        style={CARD_HOVER_STYLES}
+                        style={{ ...CARD_HOVER_STYLES, textDecoration: 'none', color: 'inherit', display: 'block' }}
                         {...cardHoverHandlers}
-                        onClick={() =>
-                          navigate(`/teams/${encodeURIComponent(team.name)}`)
-                        }
                       >
                         <Stack gap="sm">
                           <Group
@@ -319,20 +317,7 @@ export default function Teams() {
                                 h={40}
                                 fit="contain"
                               />
-                              <Text
-                                fw={600}
-                                size="lg"
-                                component="a"
-                                href={`#/teams/${encodeURIComponent(team.name)}`}
-                                style={{ cursor: 'pointer' }}
-                                onClick={(e) => {
-                                  e.preventDefault();
-                                  navigate(
-                                    `/teams/${encodeURIComponent(team.name)}`
-                                  );
-                                }}
-                                c="violet"
-                              >
+                              <Text fw={600} size="lg" c="violet">
                                 {team.name}
                               </Text>
                             </Group>
@@ -457,24 +442,30 @@ export default function Teams() {
                             }
                           >
                             <Table.Td>
-                              <UnstyledButton>
-                                <Group gap="sm" wrap="nowrap">
-                                  <Image
-                                    src={
-                                      FACTION_WYRM_MAP[
-                                        team.faction as FactionName
-                                      ]
-                                    }
-                                    alt={`${team.faction} Whelp`}
-                                    w={28}
-                                    h={28}
-                                    fit="contain"
-                                  />
-                                  <Text size="sm" fw={500} c="violet">
-                                    {team.name}
-                                  </Text>
-                                </Group>
-                              </UnstyledButton>
+                              <Group gap="sm" wrap="nowrap">
+                                <Image
+                                  src={
+                                    FACTION_WYRM_MAP[
+                                      team.faction as FactionName
+                                    ]
+                                  }
+                                  alt={`${team.faction} Whelp`}
+                                  w={28}
+                                  h={28}
+                                  fit="contain"
+                                />
+                                <Text
+                                  component={Link}
+                                  to={`/teams/${encodeURIComponent(team.name)}`}
+                                  size="sm"
+                                  fw={500}
+                                  c="violet"
+                                  style={{ textDecoration: 'none' }}
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  {team.name}
+                                </Text>
+                              </Group>
                             </Table.Td>
                             <Table.Td>
                               <Group gap="xs" wrap="nowrap">

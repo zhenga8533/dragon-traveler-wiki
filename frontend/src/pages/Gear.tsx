@@ -16,7 +16,7 @@ import {
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
-import { useNavigate } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { getGearIcon } from '../assets/gear';
 import accessoryIcon from '../assets/gear/icons/accessory.png';
 import bootsIcon from '../assets/gear/icons/boots.png';
@@ -399,16 +399,13 @@ export default function GearPage() {
                         return (
                           <Paper
                             key={item.name}
+                            component={Link}
+                            to={`/gear-sets/${encodeURIComponent(item.set)}`}
                             p="md"
                             radius="md"
                             withBorder
-                            style={CARD_HOVER_STYLES}
+                            style={{ ...CARD_HOVER_STYLES, textDecoration: 'none', color: 'inherit', display: 'block' }}
                             {...cardHoverHandlers}
-                            onClick={() =>
-                              navigate(
-                                `/gear-sets/${encodeURIComponent(item.set)}`
-                              )
-                            }
                           >
                             <Group gap="md" align="flex-start" wrap="nowrap">
                               {iconSrc && (
@@ -531,7 +528,15 @@ export default function GearPage() {
                                   )}
                                 </Table.Td>
                                 <Table.Td>
-                                  <Text fw={600} size="sm">
+                                  <Text
+                                    component={Link}
+                                    to={`/gear-sets/${encodeURIComponent(item.set)}`}
+                                    fw={600}
+                                    size="sm"
+                                    c="violet"
+                                    style={{ textDecoration: 'none' }}
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
                                     {item.name}
                                   </Text>
                                 </Table.Td>
@@ -611,16 +616,13 @@ export default function GearPage() {
                         return (
                           <Paper
                             key={set.name}
+                            component={Link}
+                            to={`/gear-sets/${encodeURIComponent(set.name)}`}
                             p="md"
                             radius="md"
                             withBorder
-                            style={CARD_HOVER_STYLES}
+                            style={{ ...CARD_HOVER_STYLES, textDecoration: 'none', color: 'inherit', display: 'block' }}
                             {...cardHoverHandlers}
-                            onClick={() =>
-                              navigate(
-                                `/gear-sets/${encodeURIComponent(set.name)}`
-                              )
-                            }
                           >
                             <Stack gap="xs">
                               <Group justify="space-between" align="center">
