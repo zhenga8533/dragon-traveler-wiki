@@ -9,7 +9,9 @@
       {
         "character_name": "Pompey",
         "overdrive_order": null,
-        "substitutes": ["Herman"],
+        "substitutes": [
+          "Herman"
+        ],
         "note": ""
       },
       {
@@ -21,7 +23,9 @@
       {
         "character_name": "Ifrit",
         "overdrive_order": null,
-        "substitutes": ["Talos"],
+        "substitutes": [
+          "Talos"
+        ],
         "note": ""
       },
       {
@@ -33,13 +37,18 @@
       {
         "character_name": "Orion",
         "overdrive_order": null,
-        "substitutes": ["Scheherazade", "Poseidon"],
+        "substitutes": [
+          "Scheherazade",
+          "Poseidon"
+        ],
         "note": ""
       },
       {
         "character_name": "Atanith",
         "overdrive_order": null,
-        "substitutes": ["Scheherazade"],
+        "substitutes": [
+          "Scheherazade"
+        ],
         "note": ""
       }
     ],
@@ -67,7 +76,9 @@
       {
         "character_name": "Apollo",
         "overdrive_order": null,
-        "substitutes": ["Jing"],
+        "substitutes": [
+          "Jing"
+        ],
         "note": ""
       },
       {
@@ -79,19 +90,26 @@
       {
         "character_name": "Chiron",
         "overdrive_order": null,
-        "substitutes": ["Scheherazade", "Orion"],
+        "substitutes": [
+          "Scheherazade",
+          "Orion"
+        ],
         "note": ""
       },
       {
         "character_name": "Gabriele",
         "overdrive_order": null,
-        "substitutes": ["Gullveig"],
+        "substitutes": [
+          "Gullveig"
+        ],
         "note": ""
       },
       {
         "character_name": "Helveil",
         "overdrive_order": null,
-        "substitutes": ["Lorillin"],
+        "substitutes": [
+          "Lorillin"
+        ],
         "note": ""
       }
     ],
@@ -125,13 +143,19 @@
       {
         "character_name": "Loki",
         "overdrive_order": null,
-        "substitutes": ["Azure Dragon", "Oberonnie", "Gullveig"],
+        "substitutes": [
+          "Azure Dragon",
+          "Oberonnie",
+          "Gullveig"
+        ],
         "note": ""
       },
       {
         "character_name": "Venus",
         "overdrive_order": null,
-        "substitutes": ["Chiron"],
+        "substitutes": [
+          "Chiron"
+        ],
         "note": ""
       },
       {
@@ -165,7 +189,9 @@
       {
         "character_name": "Caesar",
         "overdrive_order": null,
-        "substitutes": ["Pompey"],
+        "substitutes": [
+          "Pompey"
+        ],
         "note": ""
       },
       {
@@ -183,7 +209,9 @@
       {
         "character_name": "Ares",
         "overdrive_order": null,
-        "substitutes": ["Medusa"],
+        "substitutes": [
+          "Medusa"
+        ],
         "note": ""
       },
       {
@@ -195,7 +223,10 @@
       {
         "character_name": "Tyrfing",
         "overdrive_order": null,
-        "substitutes": ["Herman", "Orion"],
+        "substitutes": [
+          "Herman",
+          "Orion"
+        ],
         "note": ""
       }
     ],
@@ -217,7 +248,9 @@
       {
         "character_name": "Anubis",
         "overdrive_order": null,
-        "substitutes": ["Helveil"],
+        "substitutes": [
+          "Helveil"
+        ],
         "note": ""
       },
       {
@@ -229,7 +262,10 @@
       {
         "character_name": "Hades",
         "overdrive_order": null,
-        "substitutes": ["Gabriele", "Ningluosi"],
+        "substitutes": [
+          "Gabriele",
+          "Ningluosi"
+        ],
         "note": ""
       },
       {
@@ -247,7 +283,9 @@
       {
         "character_name": "Silbismo",
         "overdrive_order": null,
-        "substitutes": ["Gullveig"],
+        "substitutes": [
+          "Gullveig"
+        ],
         "note": ""
       }
     ],
@@ -269,7 +307,9 @@
       {
         "character_name": "Duvalin",
         "overdrive_order": null,
-        "substitutes": ["Anubis"],
+        "substitutes": [
+          "Anubis"
+        ],
         "note": ""
       },
       {
@@ -287,7 +327,9 @@
       {
         "character_name": "Venus",
         "overdrive_order": null,
-        "substitutes": ["Orion"],
+        "substitutes": [
+          "Orion"
+        ],
         "note": ""
       },
       {
@@ -299,7 +341,10 @@
       {
         "character_name": "Zagrus",
         "overdrive_order": null,
-        "substitutes": ["Lorillin", "Gullveig"],
+        "substitutes": [
+          "Lorillin",
+          "Gullveig"
+        ],
         "note": ""
       }
     ],

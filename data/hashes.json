@@ -1877,16 +1877,6 @@
       "ts": 1771185685
     }
   },
-  "tier_lists": {
-    "Global Tier List": {
-      "hash": "ea8dcec2d45c46af67e4d094b5a608c754b86efdbd199a114a555b2baa2e2292",
-      "ts": 1771706373
-    },
-    "Taiwan Tier List": {
-      "hash": "6fc84fb7b67425fa68a47cf9583d7b6ce8ee1efc40ca4ab75599414c0fa7d6a0",
-      "ts": 1771706373
-    }
-  },
   "teams": {
     "End Game Arcane Wisdom": {
       "hash": "3315e49cafe30de2d0ec7c244f07f5ab6a971a1762d6a9ef3d0d8ddc4fcad004",
@@ -1911,30 +1901,6 @@
     "End Game Elemental Echo": {
       "hash": "7a7f71827ba42c77cfc6f1c6545c49b0c56c40dc83d85fa376e3e74b9b407b50",
       "ts": 1771197404
-    },
-    "Element Echo Novice Lineup": {
-      "hash": "f279a3259cb10aba544a9a2fc890e674ce4dbac02b89f620482c7bb06fd603f9",
-      "ts": 1771129475
-    },
-    "Wild Spirit Novice Lineup": {
-      "hash": "42ea6c5778354c8d4c60ffc97aeaa19e8da67676a45989310eabd75c25d7ec8c",
-      "ts": 1771129475
-    },
-    "Arcane Wisdom Novice Lineup": {
-      "hash": "c37e57d53b2a5c63078b90bf2250194c1401a0a5c6cdcb20cd72f039466e366b",
-      "ts": 1771129475
-    },
-    "Sanctum Glory Novice Lineup": {
-      "hash": "adf5d6ac9dfc210c94853c39ca8f1107562a709e59c968710427685b7ccbdda1",
-      "ts": 1771129475
-    },
-    "Otherworld Return Novice Lineup": {
-      "hash": "6c2a1b46afe22df038b718b4df83dcf7ebab304917eb54edb73fdf1b6fb6e5f7",
-      "ts": 1771129475
-    },
-    "Illusion Veil Novice Lineup": {
-      "hash": "75102d9e62ed310b416012c5937ad62f3fb46d22c85bba4df521c7784835adcc",
-      "ts": 1771129475
     }
   },
   "useful_links": {
