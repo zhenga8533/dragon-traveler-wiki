@@ -195,7 +195,7 @@ export default function CharacterPage() {
   const recommendedGearEntries = useMemo(() => {
     if (!character?.recommended_gear) return [];
     const entries: Array<
-      RecommendedGearEntry & { label: string; icon: string }
+      RecommendedGearEntry & { label: string; icon: string; slotIcon: string }
     > = [];
     for (const cfg of GEAR_SLOT_CONFIG) {
       const gearName = (character.recommended_gear[cfg.slot] ?? '').trim();
@@ -206,6 +206,7 @@ export default function CharacterPage() {
         name: gearName,
         label: cfg.label,
         icon: getGearIcon(cfg.type, gearName) ?? cfg.fallbackIcon,
+        slotIcon: cfg.fallbackIcon,
       });
     }
     return entries;
@@ -1194,37 +1195,48 @@ export default function CharacterPage() {
 
                             const tooltipLabel = (
                               <Stack gap="xs">
-                                <Text
-                                  fw={700}
-                                  size="sm"
-                                  style={{ lineHeight: 1.25 }}
-                                >
-                                  {entry.name}
-                                </Text>
-                                <Divider />
-                                <Group gap={6} wrap="wrap">
-                                  <Badge variant="light" color="gray" size="xs">
-                                    Slot: {entry.label}
-                                  </Badge>
-                                  {entry.setName && (
-                                    <Badge
-                                      variant="light"
-                                      color="blue"
-                                      size="xs"
+                                <Group gap="sm" align="center" wrap="nowrap">
+                                  <Image
+                                    src={entry.slotIcon}
+                                    alt={entry.label}
+                                    w={24}
+                                    h={24}
+                                    fit="contain"
+                                    style={{ flexShrink: 0, opacity: 0.85 }}
+                                  />
+                                  <Stack gap={2} style={{ minWidth: 0 }}>
+                                    <Text
+                                      fw={700}
+                                      size="sm"
+                                      style={{ lineHeight: 1.25 }}
                                     >
-                                      Set: {entry.setName}
-                                    </Badge>
-                                  )}
-                                  {entry.quality && (
-                                    <Badge
-                                      variant="light"
-                                      color="grape"
-                                      size="xs"
-                                    >
-                                      Quality: {entry.quality}
-                                    </Badge>
-                                  )}
+                                      {entry.name}
+                                    </Text>
+                                    {(entry.setName || entry.quality) && (
+                                      <Group gap={4} wrap="wrap">
+                                        {entry.setName && (
+                                          <Badge
+                                            variant="light"
+                                            color="blue"
+                                            size="xs"
+                                          >
+                                            {entry.setName} Set
+                                          </Badge>
+                                        )}
+                                        {entry.quality && (
+                                          <Badge
+                                            variant="light"
+                                            color="grape"
+                                            size="xs"
+                                          >
+                                            {entry.quality}
+                                          </Badge>
+                                        )}
+                                      </Group>
+                                    )}
+                                  </Stack>
                                 </Group>
+                                <Divider />
                                 {entry.setBonus &&
                                   entry.setBonus.quantity > 0 &&
                                   entry.setBonus.description && (
