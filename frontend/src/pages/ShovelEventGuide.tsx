@@ -148,7 +148,7 @@ export default function ShovelEventGuide() {
             <Stack gap="xs">
               <Text>
                 Formula:{' '}
-                <Badge variant="light" color="blue" size="lg">
+                <Badge variant="light" color="blue" size="lg" component="span">
                   Efficiency Score = Floors Advanced ÷ Base Shovels Used
                 </Badge>
               </Text>

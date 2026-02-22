@@ -76,7 +76,7 @@ function QA({ q, children }: { q: string; children: React.ReactNode }) {
     <Paper p="md" radius="md" withBorder>
       <Stack gap="xs">
         <Text fw={700}>Q: {q}</Text>
-        <Text size="sm" c="dimmed">
+        <Text size="sm" c="dimmed" component="div">
           A: {children}
         </Text>
       </Stack>
