@@ -432,11 +432,11 @@
     "last_updated": 1771712675
   },
   {
-    "name": "Pious Gloves",
+    "name": "Pious Gauntlets",
     "set": "Healing",
     "type": "Bracers",
     "quality": "SSR",
-    "lore": "",
+    "lore": "Priests wear them to touch the sick, preventing the spread of disease.",
     "stats": {
       "ATK": 1162,
       "PDEF": 363
