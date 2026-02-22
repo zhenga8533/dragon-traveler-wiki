@@ -130,7 +130,7 @@ export default function CharacterFilter({
             onChange({ ...filters, qualities: val as Quality[] })
           }
         >
-          <Group gap={4}>
+          <Group gap={4} wrap="wrap">
             {QUALITIES.map((q) => (
               <Chip key={q} value={q} size="xs">
                 <Group gap={4} wrap="nowrap" align="center">
@@ -160,7 +160,7 @@ export default function CharacterFilter({
             onChange({ ...filters, classes: val as CharacterClass[] })
           }
         >
-          <Group gap={4}>
+          <Group gap={4} wrap="wrap">
             {CLASSES.map((c) => (
               <Chip key={c} value={c} size="xs">
                 <Group gap={4} wrap="nowrap" align="center">
