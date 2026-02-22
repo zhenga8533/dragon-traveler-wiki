@@ -1,4 +1,5 @@
 import {
+  Badge,
   Group,
   Image,
   Paper,
@@ -33,7 +34,7 @@ import {
   extractAllEffectRefs,
   filterCharacters,
 } from '../utils/filter-characters';
-import CharacterCard, { QUALITY_BORDER_COLOR } from './CharacterCard';
+import CharacterCard, { QUALITY_BORDER_COLOR, TIER_BADGE_COLOR } from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
 import FilterToolbar from './FilterToolbar';
 import GlobalBadge from './GlobalBadge';
@@ -287,7 +288,18 @@ export default function CharacterList({
                     </Table.Td>
                     {selectedTierListName && (
                       <Table.Td>
-                        <Text size="sm">{getTierLabel(char.name)}</Text>
+                        {(() => {
+                          const tier = getTierLabel(char.name);
+                          return tier ? (
+                            <Badge
+                              variant={tier === 'Unranked' ? 'default' : 'light'}
+                              color={TIER_BADGE_COLOR[tier] ?? 'gray'}
+                              size="sm"
+                            >
+                              {tier}
+                            </Badge>
+                          ) : null;
+                        })()}
                       </Table.Td>
                     )}
                   </Table.Tr>

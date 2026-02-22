@@ -1,9 +1,27 @@
-import { Image, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
+import {
+  Badge,
+  Group,
+  Image,
+  Stack,
+  Text,
+  Tooltip,
+  UnstyledButton,
+} from '@mantine/core';
 import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { CHARACTER_CARD, TRANSITION } from '../constants/ui';
 import type { Quality } from '../types/quality';
+
+const TIER_BADGE_COLOR: Record<string, string> = {
+  'S+': 'yellow',
+  S: 'yellow',
+  A: 'orange',
+  B: 'teal',
+  C: 'green',
+  D: 'gray',
+  Unranked: 'gray',
+};
 
 const QUALITY_BORDER_COLOR: Record<Quality, string> = {
   UR: 'var(--mantine-color-pink-6)',
@@ -79,14 +97,33 @@ export default function CharacterCard({
       ) : (
         portrait
       )}
-      <Text size="xs" fw={500} ta="center" lineClamp={1} c={nameColor}>
-        {name}
-      </Text>
-      {tierLabel && (
-        <Text size="xs" ta="center" c="dimmed">
-          {tierLabel}
+      <Group
+        gap={4}
+        justify="center"
+        wrap="nowrap"
+        style={{ maxWidth: '100%' }}
+      >
+        <Text
+          size="xs"
+          fw={500}
+          ta="center"
+          lineClamp={1}
+          c={nameColor}
+          style={{ minWidth: 0 }}
+        >
+          {name}
         </Text>
-      )}
+        {tierLabel && (
+          <Badge
+            variant={tierLabel === 'Unranked' ? 'default' : 'light'}
+            color={TIER_BADGE_COLOR[tierLabel] ?? 'gray'}
+            size="xs"
+            style={{ flexShrink: 0 }}
+          >
+            {tierLabel}
+          </Badge>
+        )}
+      </Group>
     </Stack>
   );
 
@@ -118,4 +155,4 @@ export default function CharacterCard({
   );
 }
 
-export { QUALITY_BORDER_COLOR };
+export { QUALITY_BORDER_COLOR, TIER_BADGE_COLOR };
