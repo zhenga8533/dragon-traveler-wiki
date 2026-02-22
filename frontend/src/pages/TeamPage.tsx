@@ -16,7 +16,6 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import {
-  IoArrowBack,
   IoCreate,
   IoFlash,
   IoInformationCircle,
@@ -29,6 +28,7 @@ import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import Breadcrumbs from '../components/Breadcrumbs';
+import EntityNotFound from '../components/EntityNotFound';
 import { QUALITY_BORDER_COLOR } from '../components/CharacterCard';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
@@ -123,19 +123,12 @@ export default function TeamPage() {
 
   if (!team) {
     return (
-      <Container size="md" py="xl">
-        <Stack align="center" gap="md">
-          <Text size="xl" fw={500}>
-            Team not found
-          </Text>
-          <Button
-            onClick={() => navigate('/teams')}
-            leftSection={<IoArrowBack />}
-          >
-            Back to Teams
-          </Button>
-        </Stack>
-      </Container>
+      <EntityNotFound
+        entityType="Team"
+        name={teamName}
+        backLabel="Back to Teams"
+        backPath="/teams"
+      />
     );
   }
 

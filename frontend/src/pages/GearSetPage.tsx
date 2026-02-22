@@ -1,7 +1,6 @@
 import {
   Badge,
   Box,
-  Button,
   Container,
   Group,
   Image,
@@ -13,11 +12,11 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { IoArrowBack } from 'react-icons/io5';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getGearIcon } from '../assets/gear';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import Breadcrumbs from '../components/Breadcrumbs';
+import EntityNotFound from '../components/EntityNotFound';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Gear, GearSet, GearType } from '../types/gear';
@@ -33,7 +32,6 @@ const GEAR_TYPE_ORDER: GearType[] = [
 
 export default function GearSetPage() {
   const { setName } = useParams<{ setName: string }>();
-  const navigate = useNavigate();
   const { data: gear, loading } = useDataFetch<Gear[]>('data/gear.json', []);
   const { data: gearSets } = useDataFetch<GearSet[]>('data/gear_sets.json', []);
 
@@ -61,19 +59,12 @@ export default function GearSetPage() {
 
   if (!decodedSetName || setItems.length === 0) {
     return (
-      <Container size="md" py="xl">
-        <Stack align="center" gap="md">
-          <Text size="xl" fw={500}>
-            Gear set not found
-          </Text>
-          <Button
-            onClick={() => navigate('/gear')}
-            leftSection={<IoArrowBack />}
-          >
-            Back to Gear
-          </Button>
-        </Stack>
-      </Container>
+      <EntityNotFound
+        entityType="Gear Set"
+        name={setName}
+        backLabel="Back to Gear"
+        backPath="/gear"
+      />
     );
   }
 

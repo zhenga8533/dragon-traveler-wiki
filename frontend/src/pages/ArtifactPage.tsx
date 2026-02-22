@@ -1,7 +1,6 @@
 import {
   Badge,
   Box,
-  Button,
   Container,
   Group,
   Image,
@@ -15,12 +14,12 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { IoArrowBack } from 'react-icons/io5';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import Breadcrumbs from '../components/Breadcrumbs';
+import EntityNotFound from '../components/EntityNotFound';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
@@ -139,7 +138,6 @@ export default function ArtifactPage() {
   const { name } = useParams<{ name: string }>();
   const { colorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';
-  const navigate = useNavigate();
 
   const { data: artifacts, loading } = useDataFetch<Artifact[]>(
     'data/artifacts.json',
@@ -168,19 +166,12 @@ export default function ArtifactPage() {
 
   if (!artifact) {
     return (
-      <Container size="md" py="xl">
-        <Stack align="center" gap="md">
-          <Text size="xl" fw={500}>
-            Artifact not found
-          </Text>
-          <Button
-            onClick={() => navigate('/artifacts')}
-            leftSection={<IoArrowBack />}
-          >
-            Back to Artifacts
-          </Button>
-        </Stack>
-      </Container>
+      <EntityNotFound
+        entityType="Artifact"
+        name={name}
+        backLabel="Back to Artifacts"
+        backPath="/artifacts"
+      />
     );
   }
 

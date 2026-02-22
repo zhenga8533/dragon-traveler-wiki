@@ -1,7 +1,6 @@
 import {
   Badge,
   Box,
-  Button,
   Container,
   Group,
   Image,
@@ -13,10 +12,10 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { IoArrowBack } from 'react-icons/io5';
-import { useNavigate, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import Breadcrumbs from '../components/Breadcrumbs';
+import EntityNotFound from '../components/EntityNotFound';
 import CharacterTag from '../components/CharacterTag';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
@@ -159,7 +158,6 @@ function SkillTable({
 
 export default function NoblePhantasmPage() {
   const { name } = useParams<{ name: string }>();
-  const navigate = useNavigate();
   const { colorScheme } = useMantineColorScheme();
   const isDark = colorScheme === 'dark';
 
@@ -201,19 +199,12 @@ export default function NoblePhantasmPage() {
 
   if (!noblePhantasm) {
     return (
-      <Container size="md" py="xl">
-        <Stack align="center" gap="md">
-          <Text size="xl" fw={500}>
-            Noble Phantasm not found
-          </Text>
-          <Button
-            onClick={() => navigate('/noble-phantasms')}
-            leftSection={<IoArrowBack />}
-          >
-            Back to Noble Phantasms
-          </Button>
-        </Stack>
-      </Container>
+      <EntityNotFound
+        entityType="Noble Phantasm"
+        name={name}
+        backLabel="Back to Noble Phantasms"
+        backPath="/noble-phantasms"
+      />
     );
   }
 

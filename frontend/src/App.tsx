@@ -63,6 +63,7 @@ import Codes from './pages/Codes';
 import GearPage from './pages/Gear';
 import GearSetPage from './pages/GearSetPage';
 import Home from './pages/Home';
+import NotFound from './pages/NotFound';
 import Howlkins from './pages/Howlkins';
 import NoblePhantasmPage from './pages/NoblePhantasmPage';
 import NoblePhantasms from './pages/NoblePhantasms';
@@ -479,6 +480,7 @@ function AppContent() {
                 path="/guides/shovel-event"
                 element={<ShovelEventGuide />}
               />
+              <Route path="*" element={<NotFound />} />
             </Routes>
           </PageTransition>
         </Box>

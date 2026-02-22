@@ -50,6 +50,7 @@ import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getSkillIcon } from '../assets/skill';
 import { getSubclassIcon } from '../assets/subclass';
 import Breadcrumbs from '../components/Breadcrumbs';
+import EntityNotFound from '../components/EntityNotFound';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
@@ -419,18 +420,12 @@ export default function CharacterPage() {
 
   if (!character) {
     return (
-      <Container size="md" py="xl">
-        <Stack align="center" gap="md">
-          <Title order={2}>Character Not Found</Title>
-          <Text c="dimmed">The character "{name}" could not be found.</Text>
-          <Link to="/characters">
-            <Group gap="xs">
-              <IoArrowBack />
-              <Text>Back to Characters</Text>
-            </Group>
-          </Link>
-        </Stack>
-      </Container>
+      <EntityNotFound
+        entityType="Character"
+        name={name}
+        backLabel="Back to Characters"
+        backPath="/characters"
+      />
     );
   }
 
