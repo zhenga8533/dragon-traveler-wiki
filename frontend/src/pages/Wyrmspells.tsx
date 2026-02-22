@@ -21,13 +21,19 @@ import FilterToolbar from '../components/FilterToolbar';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import ListPageShell from '../components/ListPageShell';
-import QualityIcon, { renderQualityFilterIcon } from '../components/QualityIcon';
+import QualityIcon from '../components/QualityIcon';
+import { renderQualityFilterIcon } from '../components/renderQualityFilterIcon';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import {
+  countActiveFilters,
+  useFilterPanel,
+  useFilters,
+  useViewMode,
+} from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Wyrmspell } from '../types/wyrmspell';
 import { getLatestTimestamp } from '../utils';
@@ -88,7 +94,6 @@ const EMPTY_FILTERS: WyrmspellFilters = {
   types: [],
   qualities: [],
 };
-
 
 export default function Wyrmspells() {
   const {

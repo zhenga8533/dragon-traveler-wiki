@@ -23,8 +23,9 @@ import FilterToolbar from '../components/FilterToolbar';
 import HowlkinBadge from '../components/HowlkinBadge';
 import HowlkinStats from '../components/HowlkinStats';
 import LastUpdated from '../components/LastUpdated';
-import QualityIcon, { renderQualityFilterIcon } from '../components/QualityIcon';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
+import QualityIcon from '../components/QualityIcon';
+import { renderQualityFilterIcon } from '../components/renderQualityFilterIcon';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, {
   type ArrayFieldDef,
@@ -33,7 +34,12 @@ import SuggestModal, {
 import { QUALITY_ORDER } from '../constants/colors';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import {
+  countActiveFilters,
+  useFilterPanel,
+  useFilters,
+  useViewMode,
+} from '../hooks/use-filters';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { GoldenAlliance, Howlkin } from '../types/howlkin';
 import type { Quality } from '../types/quality';
@@ -137,7 +143,6 @@ const EMPTY_FILTERS: HowlkinFilters = {
   search: '',
   qualities: [],
 };
-
 
 export default function Howlkins() {
   const [activeTab, setActiveTab] = useState<string>(() => {

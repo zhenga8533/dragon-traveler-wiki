@@ -56,7 +56,10 @@ interface UseFiltersOptions<T> {
 /**
  * Generic hook for managing filter state with optional localStorage persistence
  */
-export function useFilters<T>({ emptyFilters, storageKey }: UseFiltersOptions<T>) {
+export function useFilters<T>({
+  emptyFilters,
+  storageKey,
+}: UseFiltersOptions<T>) {
   const [filters, setFilters] = useState<T>(() => {
     if (storageKey && typeof window !== 'undefined') {
       try {
@@ -115,10 +118,13 @@ export function useFilteredData<T, F>({
  * - String fields contribute 0 (empty) or 1 (non-empty).
  * - Array fields contribute their length (one count per selected item).
  */
-export function countActiveFilters(filters: Record<string, unknown>): number {
-  return Object.values(filters).reduce<number>((acc, v) => {
-    if (Array.isArray(v)) return acc + v.length;
-    if (typeof v === 'string') return acc + (v ? 1 : 0);
-    return acc;
-  }, 0);
+export function countActiveFilters<T extends object>(filters: T): number {
+  return Object.values(filters as Record<string, unknown>).reduce<number>(
+    (acc, v) => {
+      if (Array.isArray(v)) return acc + v.length;
+      if (typeof v === 'string') return acc + (v ? 1 : 0);
+      return acc;
+    },
+    0
+  );
 }

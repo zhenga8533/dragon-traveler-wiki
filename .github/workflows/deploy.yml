@@ -34,7 +34,7 @@ jobs:
         working-directory: frontend
 
       - name: Build
-        run: npx tsc -b && npx vite build
+        run: npm run build --ignore-scripts
         working-directory: frontend
 
       - name: Copy data into dist
@@ -60,7 +60,7 @@ jobs:
 
       - uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
+          python-version: '3.12'
 
       - name: Install Python dependencies
         run: pip install -r backend/requirements.txt
