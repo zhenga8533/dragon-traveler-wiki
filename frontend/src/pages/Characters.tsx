@@ -11,6 +11,7 @@ import { QUALITY_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
+import { getLatestTimestamp } from '../utils';
 
 const CHARACTER_FIELDS: FieldDef[] = [
   {
@@ -62,13 +63,10 @@ export default function Characters() {
     error,
   } = useDataFetch<Character[]>('data/characters.json', []);
 
-  const mostRecentUpdate = useMemo(() => {
-    let latest = 0;
-    for (const c of characters) {
-      if (c.last_updated > latest) latest = c.last_updated;
-    }
-    return latest;
-  }, [characters]);
+  const mostRecentUpdate = useMemo(
+    () => getLatestTimestamp(characters),
+    [characters]
+  );
 
   return (
     <Container size="lg" py="xl">

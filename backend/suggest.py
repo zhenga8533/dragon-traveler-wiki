@@ -760,7 +760,7 @@ def main():
     if not label:
         set_output("label", "")
         set_output("processed", "false")
-        print(f"No suggestion prefix found in title. Skipping.")
+        print("No suggestion prefix found in title. Skipping.")
         sys.exit(0)
 
     print(f"Matched label: {label}")

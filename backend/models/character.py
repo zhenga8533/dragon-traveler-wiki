@@ -4,12 +4,14 @@ from pydantic import BaseModel, Field
 
 
 class Quality(str, Enum):
+    UR = "UR"
     SSR_EX = "SSR EX"
     SSR_PLUS = "SSR+"
     SSR = "SSR"
     SR = "SR"
     R = "R"
     N = "N"
+    C = "C"
 
 
 class CharacterClass(str, Enum):

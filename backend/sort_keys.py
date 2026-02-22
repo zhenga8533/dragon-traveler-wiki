@@ -69,10 +69,10 @@ def status_effect_sort_key(se):
     )
 
 
-def useful_link_sort_key(l):
+def useful_link_sort_key(link):
     return (
-        (l.get("application") or "").lower(),
-        (l.get("name") or "").lower(),
+        (link.get("application") or "").lower(),
+        (link.get("name") or "").lower(),
     )
 
 

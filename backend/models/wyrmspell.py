@@ -14,3 +14,6 @@ class Wyrmspell(BaseModel):
     name: str
     effect: str
     type: WyrmspellType
+    quality: str = ""
+    exclusive_faction: str | None = None
+    is_global: bool = True

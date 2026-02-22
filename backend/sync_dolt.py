@@ -115,7 +115,7 @@ def get_existing_tables():
 
 
 def get_table_columns(table_name):
-    rows = dolt_sql_csv(f"DESCRIBE {table_name};")
+    rows = dolt_sql_csv(f"DESCRIBE `{table_name}`;")
     return {row.get("Field") for row in rows if row.get("Field")}
 
 
