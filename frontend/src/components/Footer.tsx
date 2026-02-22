@@ -10,6 +10,7 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 import {
+  IoBulb,
   IoChevronDown,
   IoChevronUp,
   IoLogoGithub,
@@ -37,10 +38,15 @@ export default function Footer() {
     },
     {
       label: 'Report Issue',
-      href: `${GITHUB_REPO_URL}/issues/new`,
+      href: `${GITHUB_REPO_URL}/issues/new?labels=bug`,
       icon: <IoWarning size={18} aria-hidden="true" />,
     },
-  ] as const;
+    {
+      label: 'Suggest',
+      href: `${GITHUB_REPO_URL}/issues/new?labels=enhancement`,
+      icon: <IoBulb size={18} aria-hidden="true" />,
+    },
+  ];
 
   const footerLinkStyle = { display: 'flex', alignItems: 'center', gap: '6px' };
 
