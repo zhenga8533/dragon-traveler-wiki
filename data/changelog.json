@@ -1,6 +1,6 @@
 [
   {
-    "date": "2026-02-20",
+    "date": "2026-02-22",
     "version": "1.0.0",
     "changes": [
       {
@@ -47,6 +47,11 @@
         "type": "added",
         "category": "resources",
         "description": "Added resources database with category and quality filtering"
+      },
+      {
+        "type": "added",
+        "category": "subclasses",
+        "description": "Added subclasses database with class-linked tiers, bonuses, and effects"
       },
       {
         "type": "added",
@@ -99,6 +104,6 @@
         "description": "Added suggestion modals across core pages for community-driven data updates"
       }
     ],
-    "last_updated": 1771564616
+    "last_updated": 1771790755
   }
 ]
