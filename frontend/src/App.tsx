@@ -403,7 +403,6 @@ function AppContent() {
               value={selectedTierListName || null}
               onChange={(value) => setSelectedTierListName(value ?? '')}
               clearable
-              searchable
               size="xs"
               disabled={loading || tierListOptions.length === 0}
               w={220}
@@ -431,7 +430,6 @@ function AppContent() {
             value={selectedTierListName || null}
             onChange={(value) => setSelectedTierListName(value ?? '')}
             clearable
-            searchable
             size="xs"
             disabled={loading || tierListOptions.length === 0}
           />
