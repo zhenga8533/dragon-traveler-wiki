@@ -19,7 +19,11 @@ import Breadcrumbs from '../components/Breadcrumbs';
 import EntityNotFound from '../components/EntityNotFound';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import { useDataFetch } from '../hooks/use-data-fetch';
+import type { Character } from '../types/character';
+import type { Quality } from '../types/quality';
 import type { Gear, GearSet, GearType } from '../types/gear';
+
+const SSR_AND_ABOVE: Quality[] = ['UR', 'SSR EX', 'SSR+', 'SSR'];
 
 const GEAR_TYPE_ORDER: GearType[] = [
   'Headgear',
@@ -34,6 +38,7 @@ export default function GearSetPage() {
   const { setName } = useParams<{ setName: string }>();
   const { data: gear, loading } = useDataFetch<Gear[]>('data/gear.json', []);
   const { data: gearSets } = useDataFetch<GearSet[]>('data/gear_sets.json', []);
+  const { data: characters } = useDataFetch<Character[]>('data/characters.json', []);
 
   const decodedSetName = setName ? decodeURIComponent(setName) : '';
 
@@ -48,6 +53,28 @@ export default function GearSetPage() {
         return a.name.localeCompare(b.name);
       });
   }, [decodedSetName, gear]);
+
+  const setItemNames = useMemo(
+    () => new Set(setItems.map((i) => i.name)),
+    [setItems]
+  );
+
+  const recommendedStats = useMemo(() => {
+    const ssrChars = characters.filter((c) => SSR_AND_ABOVE.includes(c.quality));
+    if (!ssrChars.length) return null;
+    const matching = ssrChars.filter(
+      (c) =>
+        c.recommended_gear &&
+        Object.values(c.recommended_gear).some(
+          (itemName) => itemName && setItemNames.has(itemName)
+        )
+    );
+    return {
+      count: matching.length,
+      total: ssrChars.length,
+      percentage: Math.round((matching.length / ssrChars.length) * 100),
+    };
+  }, [characters, setItemNames]);
 
   if (loading) {
     return (
@@ -94,6 +121,16 @@ export default function GearSetPage() {
             {setBonus && (
               <Text c="dimmed" size="sm">
                 {setBonus.quantity}-piece set bonus: {setBonus.description}
+              </Text>
+            )}
+            {recommendedStats !== null && (
+              <Text size="sm" c="dimmed">
+                Recommended for{' '}
+                <Text span fw={600} c="violet">
+                  {recommendedStats.count}
+                </Text>{' '}
+                of {recommendedStats.total} SSR and above characters (
+                {recommendedStats.percentage}%)
               </Text>
             )}
           </Stack>
