@@ -24,13 +24,18 @@ DATA_DIR = ROOT_DIR / "data"
 LABEL_JSON_FILE = {
     "codes": "codes.json",
     "faction": "factions.json",
+    "artifact": "artifacts.json",
     "wyrmspell": "wyrmspells.json",
     "noble-phantasm": "noble_phantasm.json",
     "status-effect": "status-effects.json",
     "links": "useful-links.json",
     "resource": "resources.json",
     "character": "characters.json",
+    "subclass": "subclasses.json",
     "howlkin": "howlkins.json",
+    "golden-alliance": "golden_alliances.json",
+    "gear": "gear.json",
+    "gear-set": "gear_sets.json",
     "tier-list": "tier-lists.json",
     "team": "teams.json",
 }
@@ -38,13 +43,18 @@ LABEL_JSON_FILE = {
 REQUIRED_FIELDS = {
     "codes": ["code"],
     "faction": ["name", "wyrm", "description", "recommended_artifacts"],
+    "artifact": ["name"],
     "wyrmspell": ["name"],
     "noble-phantasm": ["name"],
     "status-effect": ["name"],
     "links": ["name", "link"],
     "resource": ["name", "category", "description", "quality"],
     "character": ["name"],
+    "subclass": ["name", "tier", "bonuses", "effect"],
     "howlkin": ["name", "quality", "basic_stats", "passive_effects"],
+    "golden-alliance": ["name"],
+    "gear": ["name"],
+    "gear-set": ["name"],
     "tier-list": ["name", "entries"],
     "team": ["name", "members"],
 }
@@ -210,6 +220,10 @@ def validate_data(label, data, is_update=False):
         if len(artifacts) == 0:
             raise ValueError("Faction must include at least one recommended artifact.")
 
+    if label == "subclass" and not is_update:
+        if not (data.get("class") or data.get("character_class")):
+            raise ValueError("Missing required fields for 'subclass': class")
+
 
 def _split_csv_list(value):
     if isinstance(value, list):
@@ -242,6 +256,82 @@ def _coerce_optional_int(value):
         return int(value)
     except (TypeError, ValueError):
         return None
+
+
+def _coerce_int(value, default=0):
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return default
+
+
+def _normalize_stat_dict(value):
+    if isinstance(value, dict):
+        return value
+    if isinstance(value, list):
+        result = {}
+        for item in value:
+            if not isinstance(item, dict):
+                continue
+            stat_name = str(item.get("stat") or item.get("name") or "").strip()
+            if not stat_name:
+                continue
+            result[stat_name] = item.get("value")
+        return result
+    return {}
+
+
+def _normalize_effect_list(value):
+    if not isinstance(value, list):
+        return []
+    effects = []
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        effects.append(
+            {
+                "level": _coerce_int(item.get("level"), 0),
+                "description": str(item.get("description") or ""),
+            }
+        )
+    return effects
+
+
+def _normalize_artifact_treasures(value):
+    if not isinstance(value, list):
+        return []
+    treasures = []
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        name = str(item.get("name") or "").strip()
+        if not name:
+            continue
+        treasures.append(
+            {
+                "name": name,
+                "lore": str(item.get("lore") or ""),
+                "character_class": str(item.get("character_class") or ""),
+                "effect": _normalize_effect_list(item.get("effect", [])),
+            }
+        )
+    return treasures
+
+
+def _normalize_golden_alliance_effects(value):
+    if not isinstance(value, list):
+        return []
+    effects = []
+    for item in value:
+        if not isinstance(item, dict):
+            continue
+        effects.append(
+            {
+                "level": _coerce_int(item.get("level"), 0),
+                "stats": _normalize_string_list(item.get("stats", [])),
+            }
+        )
+    return effects
 
 
 # ---------------------------------------------------------------------------
@@ -433,6 +523,147 @@ def normalize_for_json(label, data, is_update=False):
             result["recommended_artifacts"] = _normalize_string_list(
                 data.get("recommended_artifacts", [])
             )
+        return result
+
+    if label == "artifact":
+        if not is_update:
+            return {
+                "name": data["name"],
+                "is_global": data.get("is_global", True),
+                "lore": data.get("lore", ""),
+                "quality": data.get("quality", ""),
+                "effect": _normalize_effect_list(data.get("effect", [])),
+                "columns": _coerce_int(data.get("columns"), 0),
+                "rows": _coerce_int(data.get("rows"), 0),
+                "treasures": _normalize_artifact_treasures(data.get("treasures", [])),
+            }
+
+        result = {"name": data["name"]}
+        if "is_global" in data:
+            result["is_global"] = data.get("is_global")
+        if "lore" in data:
+            result["lore"] = data.get("lore", "")
+        if "quality" in data:
+            result["quality"] = data.get("quality", "")
+        if "effect" in data:
+            result["effect"] = _normalize_effect_list(data.get("effect", []))
+        if "columns" in data:
+            result["columns"] = _coerce_int(data.get("columns"), 0)
+        if "rows" in data:
+            result["rows"] = _coerce_int(data.get("rows"), 0)
+        if "treasures" in data:
+            result["treasures"] = _normalize_artifact_treasures(
+                data.get("treasures", [])
+            )
+        return result
+
+    if label == "subclass":
+        resolved_class = str(data.get("class") or data.get("character_class") or "")
+
+        if not is_update:
+            return {
+                "name": data["name"],
+                "class": resolved_class,
+                "tier": _coerce_int(data.get("tier"), 0),
+                "bonuses": _normalize_string_list(data.get("bonuses", [])),
+                "effect": data.get("effect", ""),
+            }
+
+        result = {"name": data["name"]}
+        if "class" in data or "character_class" in data:
+            result["class"] = resolved_class
+        if "tier" in data:
+            result["tier"] = _coerce_int(data.get("tier"), 0)
+        if "bonuses" in data:
+            result["bonuses"] = _normalize_string_list(data.get("bonuses", []))
+        if "effect" in data:
+            result["effect"] = data.get("effect", "")
+        return result
+
+    if label == "golden-alliance":
+        if not is_update:
+            return {
+                "name": data["name"],
+                "howlkins": _normalize_string_list(data.get("howlkins", [])),
+                "effects": _normalize_golden_alliance_effects(data.get("effects", [])),
+            }
+
+        result = {"name": data["name"]}
+        if "howlkins" in data:
+            result["howlkins"] = _normalize_string_list(data.get("howlkins", []))
+        if "effects" in data:
+            result["effects"] = _normalize_golden_alliance_effects(
+                data.get("effects", [])
+            )
+        return result
+
+    if label == "gear":
+        if not is_update:
+            return {
+                "name": data["name"],
+                "set": data.get("set", ""),
+                "type": data.get("type", ""),
+                "quality": data.get("quality", ""),
+                "lore": data.get("lore", ""),
+                "stats": _normalize_stat_dict(data.get("stats", {})),
+            }
+
+        result = {"name": data["name"]}
+        if "set" in data:
+            result["set"] = data.get("set", "")
+        if "type" in data:
+            result["type"] = data.get("type", "")
+        if "quality" in data:
+            result["quality"] = data.get("quality", "")
+        if "lore" in data:
+            result["lore"] = data.get("lore", "")
+        if "stats" in data:
+            result["stats"] = _normalize_stat_dict(data.get("stats", {}))
+        return result
+
+    if label == "gear-set":
+        set_bonus_payload = data.get("set_bonus")
+        quantity_from_flat = data.get("quantity")
+        if quantity_from_flat is None:
+            quantity_from_flat = data.get("bonus_quantity")
+        description_from_flat = data.get("description")
+        if description_from_flat is None:
+            description_from_flat = data.get("bonus_description")
+
+        if not is_update:
+            return {
+                "name": data["name"],
+                "set_bonus": {
+                    "quantity": _coerce_int(
+                        (set_bonus_payload or {}).get("quantity", quantity_from_flat),
+                        0,
+                    ),
+                    "description": str(
+                        (set_bonus_payload or {}).get(
+                            "description", description_from_flat
+                        )
+                        or ""
+                    ),
+                },
+            }
+
+        result = {"name": data["name"]}
+        set_bonus_update = {}
+        if "set_bonus" in data and isinstance(set_bonus_payload, dict):
+            if "quantity" in set_bonus_payload:
+                set_bonus_update["quantity"] = _coerce_int(
+                    set_bonus_payload.get("quantity"), 0
+                )
+            if "description" in set_bonus_payload:
+                set_bonus_update["description"] = str(
+                    set_bonus_payload.get("description") or ""
+                )
+        if "quantity" in data or "bonus_quantity" in data:
+            set_bonus_update["quantity"] = _coerce_int(quantity_from_flat, 0)
+        if "description" in data or "bonus_description" in data:
+            set_bonus_update["description"] = str(description_from_flat or "")
+        if set_bonus_update:
+            result["set_bonus"] = set_bonus_update
         return result
 
     if label == "links":
@@ -739,7 +970,7 @@ def main():
     # Special case: expired code reports — no JSON block, just mark code inactive
     EXPIRED_PREFIX = "[Code] Report expired:"
     if issue_title.startswith(EXPIRED_PREFIX):
-        code = issue_title[len(EXPIRED_PREFIX):].strip()
+        code = issue_title[len(EXPIRED_PREFIX) :].strip()
         if not code:
             set_output("label", "")
             set_output("processed", "false")
@@ -759,13 +990,18 @@ def main():
     prefix_to_label = {
         "[Code]": "codes",
         "[Faction]": "faction",
+        "[Artifact]": "artifact",
         "[Character]": "character",
+        "[Subclass]": "subclass",
         "[Wyrmspell]": "wyrmspell",
         "[Noble Phantasm]": "noble-phantasm",
         "[Status Effect]": "status-effect",
         "[Link]": "links",
         "[Resource]": "resource",
         "[Howlkin]": "howlkin",
+        "[Golden Alliance]": "golden-alliance",
+        "[Gear]": "gear",
+        "[Gear Set]": "gear-set",
         "[Tier List]": "tier-list",
         "[Team]": "team",
     }
