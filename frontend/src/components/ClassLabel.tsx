@@ -1,3 +1,4 @@
+import type { TextProps } from '@mantine/core';
 import { Group, Image, Text } from '@mantine/core';
 import { CLASS_ICON_MAP } from '../assets/class';
 import type { CharacterClass } from '../types/character';
@@ -6,7 +7,7 @@ interface ClassLabelProps {
   characterClass: CharacterClass | string;
   count?: number;
   iconSize?: number;
-  textSize?: number | string;
+  textSize?: TextProps['size'];
   gap?: number;
   showText?: boolean;
 }
