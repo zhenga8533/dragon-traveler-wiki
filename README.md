@@ -19,7 +19,8 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 
 ## Release
 
-- **v1.0.0** scheduled for **2026-02-20**
+- **v1.0.1** released on **2026-02-23**
+- **v1.0.0** released on **2026-02-22**
 
 ## Tech Stack
 
