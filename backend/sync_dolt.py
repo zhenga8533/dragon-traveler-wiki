@@ -1090,6 +1090,7 @@ def sync_factions(
     # Preserve character_factions links by keeping faction IDs stable and upserting rows.
     # Do not clear character_factions during faction-only updates.
     incoming_faction_ids = set()
+    recommended_artifact_id = 0
     for f in sorted_data:
         if not f.get("name"):
             continue
@@ -1120,9 +1121,10 @@ def sync_factions(
 
         for sort_order, artifact_name in enumerate(recommended_artifacts, start=1):
             recommended_count += 1
+            recommended_artifact_id += 1
             batch.add(
-                f"INSERT INTO faction_recommended_artifacts (faction_id, sort_order, artifact_name) VALUES "
-                f"({faction_id}, {sort_order}, {escape_sql(artifact_name)});"
+                f"INSERT INTO faction_recommended_artifacts (id, faction_id, sort_order, artifact_name) VALUES "
+                f"({recommended_artifact_id}, {faction_id}, {sort_order}, {escape_sql(artifact_name)});"
             )
 
     # Remove factions that are no longer present in input only when not referenced.
