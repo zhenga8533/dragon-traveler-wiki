@@ -11,11 +11,13 @@ import {
   Badge,
   Button,
   CopyButton,
+  Divider,
   Group,
   Image,
   Modal,
   MultiSelect,
   Paper,
+  Progress,
   Select,
   SimpleGrid,
   Stack,
@@ -44,6 +46,12 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../constants';
 import { FACTION_COLOR } from '../constants/colors';
+import {
+  CONTENT_TYPE_OPTIONS,
+  DEFAULT_CONTENT_TYPE,
+  normalizeContentType,
+  type ContentType,
+} from '../constants/content-types';
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
@@ -63,6 +71,44 @@ const FACTIONS: FactionName[] = [
   'Otherworld Return',
   'Illusion Veil',
 ];
+
+type SynergySignal = {
+  label: string;
+  score: number;
+  weight: number;
+  detail: string;
+};
+
+function clamp01(value: number): number {
+  if (value < 0) return 0;
+  if (value > 1) return 1;
+  return value;
+}
+
+function toRatio(current: number, target: number): number {
+  if (target <= 0) return 0;
+  return clamp01(current / target);
+}
+
+function hasSkillKeyword(character: Character, regex: RegExp): boolean {
+  return character.skills.some(
+    (skill) =>
+      regex.test(skill.name.toLowerCase()) ||
+      regex.test(skill.description.toLowerCase())
+  );
+}
+
+function getSynergyGrade(score: number): string {
+  if (score >= 90) return 'S';
+  if (score >= 80) return 'A';
+  if (score >= 70) return 'B';
+  if (score >= 60) return 'C';
+  return 'D';
+}
+
+function normalizeFactionValue(value: string): string {
+  return value.trim().toLowerCase();
+}
 
 interface TeamBuilderProps {
   characters: Character[];
@@ -462,9 +508,10 @@ export default function TeamBuilder({
 
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
-  const [contentType, setContentType] = useState('');
+  const [contentType, setContentType] =
+    useState<ContentType>(DEFAULT_CONTENT_TYPE);
   const [description, setDescription] = useState('');
-  const [faction, setFaction] = useState<string | null>(null);
+  const [faction, setFaction] = useState<FactionName | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
 
   useEffect(() => {
@@ -472,7 +519,7 @@ export default function TeamBuilder({
     queueMicrotask(() => {
       setName(initialData.name);
       setAuthor(initialData.author);
-      setContentType(initialData.content_type);
+      setContentType(normalizeContentType(initialData.content_type));
       setDescription(initialData.description || '');
       setFaction(initialData.faction);
       const newSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
@@ -559,7 +606,7 @@ export default function TeamBuilder({
     });
   }, [initialData]);
 
-  const factionColor = faction ? FACTION_COLOR[faction as FactionName] : 'blue';
+  const factionColor = faction ? FACTION_COLOR[faction] : 'blue';
 
   // Set of all names currently on the team
   const teamNames = useMemo(() => {
@@ -605,9 +652,9 @@ export default function TeamBuilder({
     const result: Team = {
       name: name || 'My Team',
       author: author || 'Anonymous',
-      content_type: contentType || 'PvE',
+      content_type: contentType,
       description,
-      faction: (faction || 'Elemental Echo') as FactionName,
+      faction: faction || 'Elemental Echo',
       members,
       last_updated: 0,
     };
@@ -639,6 +686,205 @@ export default function TeamBuilder({
   const availableCharacters = useMemo(() => {
     return characters.filter((c) => !teamNames.has(c.name));
   }, [characters, teamNames]);
+
+  const synergy = useMemo(() => {
+    const roster = slots
+      .filter((slotName): slotName is string => Boolean(slotName))
+      .map((slotName) => charMap.get(slotName))
+      .filter((c): c is Character => Boolean(c));
+
+    const rosterSize = roster.length;
+    const classCounts = new Map<string, number>();
+    for (const c of roster) {
+      classCounts.set(
+        c.character_class,
+        (classCounts.get(c.character_class) || 0) + 1
+      );
+    }
+
+    const normalizedSelectedFaction = faction
+      ? normalizeFactionValue(faction)
+      : null;
+
+    const matchingFactionCount = normalizedSelectedFaction
+      ? roster.filter((c) =>
+          c.factions.some(
+            (memberFaction) =>
+              normalizeFactionValue(memberFaction) === normalizedSelectedFaction
+          )
+        ).length
+      : 0;
+
+    const frontlineCount = roster.filter(
+      (c) => c.character_class === 'Guardian' || c.character_class === 'Warrior'
+    ).length;
+    const sustainCount = roster.filter(
+      (c) => c.character_class === 'Priest'
+    ).length;
+    const damageCount = roster.filter(
+      (c) =>
+        c.character_class === 'Assassin' ||
+        c.character_class === 'Archer' ||
+        c.character_class === 'Mage' ||
+        c.character_class === 'Warrior'
+    ).length;
+
+    const controlRegex =
+      /stun|silence|sleep|freeze|taunt|bind|control|interrupt|knock/i;
+    const debuffRegex =
+      /debuff|reduce|weaken|vulnerab|armor break|breach|resistance down|def down|atk down/i;
+    const supportRegex =
+      /heal|shield|barrier|buff|cleanse|regen|recovery|restore/i;
+
+    const hasControl = roster.some((c) => hasSkillKeyword(c, controlRegex));
+    const hasDebuff = roster.some((c) => hasSkillKeyword(c, debuffRegex));
+    const hasSupport = roster.some((c) => hasSkillKeyword(c, supportRegex));
+
+    const isPvP = contentType === 'PvP';
+    const isPvE = contentType === 'PvE';
+    const isBoss = contentType === 'Boss';
+
+    const rosterSignal: SynergySignal = {
+      label: 'Roster size',
+      weight: 20,
+      score: 20 * toRatio(rosterSize, SLOT_COUNT),
+      detail: `${rosterSize}/${SLOT_COUNT} members slotted`,
+    };
+
+    const factionSignal: SynergySignal = {
+      label: 'Faction cohesion',
+      weight: 20,
+      score:
+        rosterSize > 0 && faction
+          ? 20 * toRatio(matchingFactionCount, rosterSize)
+          : rosterSize > 0
+            ? 10
+            : 0,
+      detail: faction
+        ? `${matchingFactionCount}/${rosterSize || 0} members match ${faction}`
+        : 'Set a faction for tighter guidance',
+    };
+
+    const classSignal: SynergySignal = {
+      label: 'Class coverage',
+      weight: 15,
+      score: 15 * toRatio(classCounts.size, 4),
+      detail: `${classCounts.size} unique classes represented`,
+    };
+
+    const frontlineSignal: SynergySignal = {
+      label: 'Frontline & sustain',
+      weight: 15,
+      score: (() => {
+        if (frontlineCount > 0 && sustainCount > 0) return 15;
+        if (frontlineCount > 0 || sustainCount > 0) return 8;
+        return 0;
+      })(),
+      detail: `Frontline ${frontlineCount} • Sustain ${sustainCount}`,
+    };
+
+    const damageSignal: SynergySignal = {
+      label: 'Damage pressure',
+      weight: 15,
+      score: 15 * toRatio(damageCount, 3),
+      detail: `${damageCount} burst/DPS-oriented members`,
+    };
+
+    const utilitySignal: SynergySignal = {
+      label: 'Buff/debuff/control mix',
+      weight: 10,
+      score:
+        ((hasSupport ? 1 : 0) + (hasDebuff ? 1 : 0) + (hasControl ? 1 : 0)) *
+        (10 / 3),
+      detail: `${hasSupport ? 'Support' : 'No support'} • ${hasDebuff ? 'Debuff' : 'No debuff'} • ${hasControl ? 'Control' : 'No control'}`,
+    };
+
+    const contentFitBase = (() => {
+      if (rosterSize === 0) return 0;
+      if (isPvP) {
+        return (
+          (hasControl ? 2 : 0) +
+          (damageCount >= 2 ? 2 : damageCount >= 1 ? 1 : 0) +
+          (frontlineCount >= 1 ? 1 : 0)
+        );
+      }
+      if (isPvE || isBoss) {
+        return (
+          (sustainCount >= 1 ? 2 : 0) +
+          (damageCount >= 2 ? 2 : damageCount >= 1 ? 1 : 0) +
+          (frontlineCount >= 1 ? 1 : 0)
+        );
+      }
+      return 3;
+    })();
+
+    const contentSignal: SynergySignal = {
+      label: 'Content type fit',
+      weight: 5,
+      score: 5 * toRatio(contentFitBase, 5),
+      detail: contentType
+        ? `Evaluated for ${contentType}`
+        : 'Set content type for stronger recommendations',
+    };
+
+    const signals: SynergySignal[] = [
+      rosterSignal,
+      factionSignal,
+      classSignal,
+      frontlineSignal,
+      damageSignal,
+      utilitySignal,
+      contentSignal,
+    ];
+
+    const totalScore = Math.round(
+      signals.reduce((sum, signal) => sum + signal.score, 0)
+    );
+
+    const recommendations: string[] = [];
+    if (rosterSize < SLOT_COUNT) {
+      recommendations.push('Fill all 6 slots to maximize consistency.');
+    }
+    if (!faction) {
+      recommendations.push(
+        'Pick a faction to evaluate faction synergy and buffs.'
+      );
+    } else if (
+      rosterSize > 0 &&
+      matchingFactionCount < Math.ceil(rosterSize / 2)
+    ) {
+      recommendations.push(
+        'Consider more members from your selected faction for stronger cohesion.'
+      );
+    }
+    if (sustainCount === 0) {
+      recommendations.push('Add a Priest or a stronger sustain option.');
+    }
+    if (frontlineCount === 0) {
+      recommendations.push(
+        'Add a frontline (Guardian/Warrior) to stabilize damage intake.'
+      );
+    }
+    if (!hasDebuff) {
+      recommendations.push(
+        'Add at least one debuff source to improve team damage efficiency.'
+      );
+    }
+    if (!hasControl && isPvP) {
+      recommendations.push(
+        'For PvP, include crowd control to improve tempo and pick potential.'
+      );
+    }
+
+    return {
+      score: totalScore,
+      grade: getSynergyGrade(totalScore),
+      signals,
+      recommendations,
+      classCounts,
+      overdriveCount: overdriveEnabled.filter(Boolean).length,
+    };
+  }, [slots, charMap, faction, contentType, overdriveEnabled]);
 
   const teamIssueQuery = useMemo(() => {
     const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
@@ -852,10 +1098,17 @@ export default function TeamBuilder({
             onChange={(e) => setAuthor(e.currentTarget.value)}
             style={{ flex: 1, minWidth: 120 }}
           />
-          <TextInput
-            placeholder="Content type (e.g. PvE, PvP)..."
+          <Select
+            placeholder="Content type..."
+            data={CONTENT_TYPE_OPTIONS.map((contentTypeOption) => ({
+              value: contentTypeOption,
+              label: contentTypeOption,
+            }))}
             value={contentType}
-            onChange={(e) => setContentType(e.currentTarget.value)}
+            onChange={(value) =>
+              setContentType(normalizeContentType(value, DEFAULT_CONTENT_TYPE))
+            }
+            allowDeselect={false}
             style={{ flex: 1, minWidth: 120 }}
           />
           <Select
@@ -865,12 +1118,12 @@ export default function TeamBuilder({
               label: f,
             }))}
             value={faction}
-            onChange={setFaction}
+            onChange={(value) => setFaction(value as FactionName | null)}
             renderOption={renderFactionOption}
             searchable
             leftSection={(() => {
               if (!faction) return undefined;
-              const iconSrc = FACTION_ICON_MAP[faction as FactionName];
+              const iconSrc = FACTION_ICON_MAP[faction];
               return iconSrc ? (
                 <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
               ) : undefined;
@@ -943,6 +1196,95 @@ export default function TeamBuilder({
             {teamSize} / {MAX_ROSTER_SIZE}
           </Badge>
         </Group>
+
+        <Paper p="md" radius="md" withBorder>
+          <Stack gap="sm">
+            <Group justify="space-between" align="center" wrap="wrap">
+              <Text size="sm" fw={600}>
+                Synergy Assistant
+              </Text>
+              <Group gap="xs">
+                <Badge variant="light" color="orange" size="sm">
+                  Overdrive: {synergy.overdriveCount}
+                </Badge>
+                <Badge
+                  variant="filled"
+                  color={
+                    synergy.score >= 80
+                      ? 'teal'
+                      : synergy.score >= 60
+                        ? 'yellow'
+                        : 'red'
+                  }
+                  size="sm"
+                >
+                  {synergy.score}/100 • {synergy.grade}
+                </Badge>
+              </Group>
+            </Group>
+
+            <Progress
+              value={synergy.score}
+              color={
+                synergy.score >= 80
+                  ? 'teal'
+                  : synergy.score >= 60
+                    ? 'yellow'
+                    : 'red'
+              }
+              size="lg"
+              radius="xl"
+            />
+
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs">
+              {synergy.signals.map((signal) => (
+                <Paper key={signal.label} p="xs" radius="sm" withBorder>
+                  <Group justify="space-between" align="flex-start" gap="xs">
+                    <Stack gap={2} style={{ minWidth: 0 }}>
+                      <Text size="xs" fw={600}>
+                        {signal.label}
+                      </Text>
+                      <Text size="xs" c="dimmed" lineClamp={2}>
+                        {signal.detail}
+                      </Text>
+                    </Stack>
+                    <Badge variant="light" size="xs" color="gray">
+                      {Math.round(signal.score)}/{signal.weight}
+                    </Badge>
+                  </Group>
+                </Paper>
+              ))}
+            </SimpleGrid>
+
+            {synergy.classCounts.size > 0 && (
+              <Group gap="xs" wrap="wrap">
+                {Array.from(synergy.classCounts.entries()).map(
+                  ([cls, count]) => (
+                    <Badge key={cls} variant="outline" size="sm" color="blue">
+                      {cls}: {count}
+                    </Badge>
+                  )
+                )}
+              </Group>
+            )}
+
+            {synergy.recommendations.length > 0 && (
+              <>
+                <Divider />
+                <Stack gap={4}>
+                  <Text size="xs" fw={600}>
+                    Suggestions
+                  </Text>
+                  {synergy.recommendations.slice(0, 4).map((item) => (
+                    <Text key={item} size="xs" c="dimmed">
+                      • {item}
+                    </Text>
+                  ))}
+                </Stack>
+              </>
+            )}
+          </Stack>
+        </Paper>
 
         <Paper p="md" radius="md" withBorder>
           <Stack gap="sm">

@@ -1,8 +1,10 @@
 import {
   Badge,
   Button,
+  Checkbox,
   Collapse,
   Container,
+  Divider,
   Group,
   Image,
   Paper,
@@ -32,6 +34,10 @@ import PaginationControl from '../components/PaginationControl';
 import TeamBuilder from '../components/TeamBuilder';
 import ViewToggle from '../components/ViewToggle';
 import { FACTION_COLOR } from '../constants/colors';
+import {
+  CONTENT_TYPE_OPTIONS,
+  normalizeContentType,
+} from '../constants/content-types';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
@@ -84,6 +90,7 @@ export default function Teams() {
   });
   const [mode, setMode] = useState<'view' | 'builder'>('view');
   const [editData, setEditData] = useState<Team | null>(null);
+  const [compareSelection, setCompareSelection] = useState<string[]>([]);
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TEAMS_VIEW_MODE,
     defaultMode: 'grid',
@@ -113,10 +120,27 @@ export default function Teams() {
     return map;
   }, [characters]);
 
-  const contentTypeOptions = useMemo(
-    () => [...new Set(teams.map((t) => t.content_type))].sort(),
-    [teams]
-  );
+  const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
+
+  useEffect(() => {
+    const normalized = viewFilters.contentTypes.map((value) =>
+      normalizeContentType(value, 'All')
+    );
+    const deduped = [...new Set(normalized)];
+    const unchanged =
+      deduped.length === viewFilters.contentTypes.length &&
+      deduped.every(
+        (value, index) => value === viewFilters.contentTypes[index]
+      );
+    if (unchanged) return;
+    setViewFilters((prev) => ({ ...prev, contentTypes: deduped }));
+  }, [viewFilters.contentTypes, setViewFilters]);
+
+  useEffect(() => {
+    setCompareSelection((prev) =>
+      prev.filter((teamName) => teams.some((team) => team.name === teamName))
+    );
+  }, [teams]);
 
   const entityFilterGroups: ChipFilterGroup[] = useMemo(
     () => [
@@ -159,12 +183,105 @@ export default function Teams() {
         return false;
       if (
         viewFilters.contentTypes.length > 0 &&
-        !viewFilters.contentTypes.includes(team.content_type)
+        !viewFilters.contentTypes.includes(
+          normalizeContentType(team.content_type, 'All')
+        )
       )
         return false;
       return true;
     });
   }, [teams, search, viewFilters]);
+
+  const comparedTeams = useMemo(
+    () =>
+      compareSelection
+        .map((teamName) => teams.find((team) => team.name === teamName))
+        .filter((team): team is Team => Boolean(team)),
+    [compareSelection, teams]
+  );
+
+  const compareSummary = useMemo(() => {
+    if (comparedTeams.length !== 2) return null;
+    const [firstTeam, secondTeam] = comparedTeams;
+    const firstMembers = new Set(
+      firstTeam.members.map((m) => m.character_name)
+    );
+    const secondMembers = new Set(
+      secondTeam.members.map((m) => m.character_name)
+    );
+
+    const sharedMembers = [...firstMembers].filter((name) =>
+      secondMembers.has(name)
+    );
+    const onlyFirst = [...firstMembers].filter(
+      (name) => !secondMembers.has(name)
+    );
+    const onlySecond = [...secondMembers].filter(
+      (name) => !firstMembers.has(name)
+    );
+
+    const getClassCounts = (team: Team) => {
+      const counts = new Map<string, number>();
+      for (const member of team.members) {
+        const charClass = charMap.get(member.character_name)?.character_class;
+        if (!charClass) continue;
+        counts.set(charClass, (counts.get(charClass) || 0) + 1);
+      }
+      return counts;
+    };
+
+    const getTeamFactionSet = (team: Team) => {
+      const factions = new Set<FactionName>();
+      for (const member of team.members) {
+        const character = charMap.get(member.character_name);
+        if (!character) continue;
+        for (const memberFaction of character.factions) {
+          factions.add(memberFaction);
+        }
+      }
+      // Keep the declared team faction as fallback if member lookup is incomplete.
+      if (factions.size === 0) {
+        factions.add(team.faction);
+      }
+      return factions;
+    };
+
+    const firstFactionSet = getTeamFactionSet(firstTeam);
+    const secondFactionSet = getTeamFactionSet(secondTeam);
+    const sharedFactions = [...firstFactionSet].filter((factionName) =>
+      secondFactionSet.has(factionName)
+    );
+
+    return {
+      sharedMembers,
+      onlyFirst,
+      onlySecond,
+      firstOverdrive: firstTeam.members.filter((m) => m.overdrive_order != null)
+        .length,
+      secondOverdrive: secondTeam.members.filter(
+        (m) => m.overdrive_order != null
+      ).length,
+      firstClasses: getClassCounts(firstTeam),
+      secondClasses: getClassCounts(secondTeam),
+      samePrimaryFaction: firstTeam.faction === secondTeam.faction,
+      sharedFactions,
+      sameContentType:
+        normalizeContentType(firstTeam.content_type, 'All') ===
+        normalizeContentType(secondTeam.content_type, 'All'),
+    };
+  }, [comparedTeams, charMap]);
+
+  function toggleCompare(teamName: string) {
+    setCompareSelection((prev) => {
+      if (prev.includes(teamName)) {
+        return prev.filter((name) => name !== teamName);
+      }
+      if (prev.length >= 2) {
+        return [prev[1], teamName];
+      }
+      return [...prev, teamName];
+    });
+  }
 
   const { page, setPage, totalPages, offset } = usePagination(
     filteredTeams.length,
@@ -272,6 +389,242 @@ export default function Teams() {
                   onChange={(e) => setSearch(e.currentTarget.value)}
                 />
 
+                <Paper p="sm" radius="md" withBorder>
+                  <Stack gap="xs">
+                    <Group justify="space-between" align="center" wrap="wrap">
+                      <Text size="sm" fw={600}>
+                        Compare Teams
+                      </Text>
+                      <Group gap="xs">
+                        <Badge variant="light" size="sm" color="blue">
+                          {compareSelection.length} / 2 selected
+                        </Badge>
+                        <Button
+                          variant="subtle"
+                          size="compact-xs"
+                          disabled={compareSelection.length === 0}
+                          onClick={() => setCompareSelection([])}
+                        >
+                          Clear
+                        </Button>
+                      </Group>
+                    </Group>
+
+                    <Text size="xs" c="dimmed">
+                      Select up to 2 teams to compare roster overlap, class
+                      coverage, overdrive setup, and metadata.
+                    </Text>
+
+                    {compareSummary && (
+                      <>
+                        <Divider />
+                        <SimpleGrid cols={{ base: 1, md: 2 }} spacing="sm">
+                          {comparedTeams.map((team, idx) => {
+                            const classCounts =
+                              idx === 0
+                                ? compareSummary.firstClasses
+                                : compareSummary.secondClasses;
+                            const overdriveCount =
+                              idx === 0
+                                ? compareSummary.firstOverdrive
+                                : compareSummary.secondOverdrive;
+                            return (
+                              <Paper
+                                key={team.name}
+                                p="sm"
+                                radius="sm"
+                                withBorder
+                              >
+                                <Stack gap={6}>
+                                  <Group justify="space-between" wrap="nowrap">
+                                    <Text fw={600} size="sm" lineClamp={1}>
+                                      {team.name}
+                                    </Text>
+                                    <Button
+                                      component={Link}
+                                      to={`/teams/${encodeURIComponent(team.name)}`}
+                                      variant="subtle"
+                                      size="compact-xs"
+                                    >
+                                      Open
+                                    </Button>
+                                  </Group>
+                                  <Group gap="xs">
+                                    <Badge variant="light" size="xs">
+                                      {normalizeContentType(
+                                        team.content_type,
+                                        'All'
+                                      )}
+                                    </Badge>
+                                    <Badge
+                                      variant="light"
+                                      size="xs"
+                                      color={
+                                        FACTION_COLOR[
+                                          team.faction as FactionName
+                                        ]
+                                      }
+                                    >
+                                      {team.faction}
+                                    </Badge>
+                                    <Badge
+                                      variant="outline"
+                                      size="xs"
+                                      color="orange"
+                                    >
+                                      OD {overdriveCount}
+                                    </Badge>
+                                  </Group>
+                                  <Group gap="xs" wrap="wrap">
+                                    {Array.from(classCounts.entries()).map(
+                                      ([charClass, count]) => (
+                                        <Badge
+                                          key={`${team.name}-${charClass}`}
+                                          variant="outline"
+                                          size="xs"
+                                          color="blue"
+                                        >
+                                          {charClass}: {count}
+                                        </Badge>
+                                      )
+                                    )}
+                                  </Group>
+                                </Stack>
+                              </Paper>
+                            );
+                          })}
+                        </SimpleGrid>
+
+                        <Group gap="xs" wrap="wrap">
+                          <Badge
+                            variant={
+                              compareSummary.samePrimaryFaction
+                                ? 'filled'
+                                : 'light'
+                            }
+                            color={
+                              compareSummary.samePrimaryFaction
+                                ? 'teal'
+                                : 'gray'
+                            }
+                          >
+                            {compareSummary.samePrimaryFaction
+                              ? 'Same primary faction'
+                              : 'Different primary factions'}
+                          </Badge>
+                          <Badge
+                            variant={
+                              compareSummary.sharedFactions.length > 0
+                                ? 'filled'
+                                : 'light'
+                            }
+                            color={
+                              compareSummary.sharedFactions.length > 0
+                                ? 'teal'
+                                : 'gray'
+                            }
+                          >
+                            Shared member factions:{' '}
+                            {compareSummary.sharedFactions.length}
+                          </Badge>
+                          <Badge
+                            variant={
+                              compareSummary.sameContentType
+                                ? 'filled'
+                                : 'light'
+                            }
+                            color={
+                              compareSummary.sameContentType ? 'teal' : 'gray'
+                            }
+                          >
+                            {compareSummary.sameContentType
+                              ? 'Same content type'
+                              : 'Different content types'}
+                          </Badge>
+                          <Badge variant="light" color="violet">
+                            Shared members:{' '}
+                            {compareSummary.sharedMembers.length}
+                          </Badge>
+                        </Group>
+
+                        {compareSummary.sharedFactions.length > 0 && (
+                          <Group gap="xs" wrap="wrap">
+                            {compareSummary.sharedFactions.map(
+                              (factionName) => (
+                                <Badge
+                                  key={`shared-faction-${factionName}`}
+                                  variant="light"
+                                  size="xs"
+                                  color={FACTION_COLOR[factionName]}
+                                >
+                                  {factionName}
+                                </Badge>
+                              )
+                            )}
+                          </Group>
+                        )}
+
+                        <SimpleGrid cols={{ base: 1, md: 3 }} spacing="sm">
+                          <Paper p="xs" radius="sm" withBorder>
+                            <Stack gap={4}>
+                              <Text size="xs" fw={600}>
+                                Shared
+                              </Text>
+                              {compareSummary.sharedMembers.length > 0 ? (
+                                compareSummary.sharedMembers.map((name) => (
+                                  <Text key={name} size="xs" c="dimmed">
+                                    • {name}
+                                  </Text>
+                                ))
+                              ) : (
+                                <Text size="xs" c="dimmed">
+                                  No shared members
+                                </Text>
+                              )}
+                            </Stack>
+                          </Paper>
+                          <Paper p="xs" radius="sm" withBorder>
+                            <Stack gap={4}>
+                              <Text size="xs" fw={600}>
+                                Only in {comparedTeams[0].name}
+                              </Text>
+                              {compareSummary.onlyFirst.length > 0 ? (
+                                compareSummary.onlyFirst.map((name) => (
+                                  <Text key={name} size="xs" c="dimmed">
+                                    • {name}
+                                  </Text>
+                                ))
+                              ) : (
+                                <Text size="xs" c="dimmed">
+                                  None
+                                </Text>
+                              )}
+                            </Stack>
+                          </Paper>
+                          <Paper p="xs" radius="sm" withBorder>
+                            <Stack gap={4}>
+                              <Text size="xs" fw={600}>
+                                Only in {comparedTeams[1].name}
+                              </Text>
+                              {compareSummary.onlySecond.length > 0 ? (
+                                compareSummary.onlySecond.map((name) => (
+                                  <Text key={name} size="xs" c="dimmed">
+                                    • {name}
+                                  </Text>
+                                ))
+                              ) : (
+                                <Text size="xs" c="dimmed">
+                                  None
+                                </Text>
+                              )}
+                            </Stack>
+                          </Paper>
+                        </SimpleGrid>
+                      </>
+                    )}
+                  </Stack>
+                </Paper>
+
                 {filteredTeams.length === 0 && (
                   <EmptyState
                     title={search ? 'No teams found' : 'No matching teams'}
@@ -285,145 +638,192 @@ export default function Teams() {
 
                 {viewMode === 'grid' ? (
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                    {paginatedTeams.map((team) => (
-                      <Paper
-                        key={team.name}
-                        component={Link}
-                        to={`/teams/${encodeURIComponent(team.name)}`}
-                        p="md"
-                        radius="md"
-                        withBorder
-                        style={{
-                          ...CARD_HOVER_STYLES,
-                          textDecoration: 'none',
-                          color: 'inherit',
-                          display: 'block',
-                        }}
-                        {...cardHoverHandlers}
-                      >
-                        <Stack gap="sm">
-                          <Group
-                            justify="space-between"
-                            align="flex-start"
-                            wrap="wrap"
-                          >
-                            <Group gap="sm">
-                              <Image
-                                src={
-                                  FACTION_WYRM_MAP[team.faction as FactionName]
-                                }
-                                alt={`${team.faction} Whelp`}
-                                w={40}
-                                h={40}
-                                fit="contain"
-                              />
-                              <Text fw={600} size="lg" c="violet">
-                                {team.name}
-                              </Text>
-                            </Group>
-
-                            <Button
-                              variant="light"
-                              size="sm"
-                              leftSection={<IoCreate size={14} />}
-                              onClick={(e) => {
-                                e.stopPropagation();
-                                setEditData(team);
-                                setMode('builder');
-                              }}
-                            >
-                              Edit
-                            </Button>
-                          </Group>
-
-                          <Group gap="xs">
-                            <Badge variant="light" size="sm">
-                              {team.content_type}
-                            </Badge>
-                            <Badge
-                              variant="light"
-                              size="sm"
-                              color={FACTION_COLOR[team.faction as FactionName]}
-                            >
-                              {team.faction}
-                            </Badge>
-                            <Image
-                              src={
-                                FACTION_ICON_MAP[team.faction as FactionName]
+                    {paginatedTeams.map((team) =>
+                      (() => {
+                        const isSelectedForCompare = compareSelection.includes(
+                          team.name
+                        );
+                        const compareDisabled =
+                          !isSelectedForCompare && compareSelection.length >= 2;
+                        return (
+                          <Paper
+                            key={team.name}
+                            p="md"
+                            radius="md"
+                            withBorder
+                            style={{
+                              ...CARD_HOVER_STYLES,
+                              textDecoration: 'none',
+                              color: 'inherit',
+                              display: 'block',
+                            }}
+                            onClick={() =>
+                              navigate(
+                                `/teams/${encodeURIComponent(team.name)}`
+                              )
+                            }
+                            role="link"
+                            tabIndex={0}
+                            onKeyDown={(e) => {
+                              if (e.key === 'Enter' || e.key === ' ') {
+                                e.preventDefault();
+                                navigate(
+                                  `/teams/${encodeURIComponent(team.name)}`
+                                );
                               }
-                              alt={team.faction}
-                              w={24}
-                              h={24}
-                            />
-                          </Group>
-
-                          <Group gap="xs">
-                            <Text size="sm" c="dimmed">
-                              By {team.author}
-                            </Text>
-                            {team.description && (
-                              <>
-                                <Text size="sm" c="dimmed">
-                                  •
-                                </Text>
-                                <Text size="sm" c="dimmed" lineClamp={1}>
-                                  {team.description}
-                                </Text>
-                              </>
-                            )}
-                          </Group>
-
-                          <SimpleGrid
-                            cols={{ base: 3, xs: 4, sm: 3 }}
-                            spacing={CHARACTER_GRID_SPACING}
+                            }}
+                            {...cardHoverHandlers}
                           >
-                            {team.members.slice(0, 6).map((m) => {
-                              const char = charMap.get(m.character_name);
-                              return (
-                                <div
-                                  key={m.character_name}
-                                  style={{
-                                    position: 'relative',
-                                    display: 'flex',
-                                    flexDirection: 'column',
-                                    alignItems: 'center',
-                                  }}
-                                >
-                                  <CharacterCard
-                                    name={m.character_name}
-                                    quality={char?.quality}
-                                    disableLink
-                                    note={m.note}
+                            <Stack gap="sm">
+                              <Group
+                                justify="space-between"
+                                align="flex-start"
+                                wrap="wrap"
+                              >
+                                <Group gap="sm">
+                                  <Image
+                                    src={
+                                      FACTION_WYRM_MAP[
+                                        team.faction as FactionName
+                                      ]
+                                    }
+                                    alt={`${team.faction} Whelp`}
+                                    w={40}
+                                    h={40}
+                                    fit="contain"
                                   />
-                                  {m.overdrive_order != null && (
-                                    <Badge
-                                      size="sm"
-                                      circle
-                                      variant="filled"
-                                      color="orange"
+                                  <Text fw={600} size="lg" c="violet">
+                                    {team.name}
+                                  </Text>
+                                </Group>
+
+                                <Group gap="xs">
+                                  <Checkbox
+                                    label="Compare"
+                                    size="xs"
+                                    checked={isSelectedForCompare}
+                                    disabled={compareDisabled}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                    }}
+                                    onChange={(e) => {
+                                      e.stopPropagation();
+                                      toggleCompare(team.name);
+                                    }}
+                                  />
+                                  <Button
+                                    variant="light"
+                                    size="sm"
+                                    leftSection={<IoCreate size={14} />}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditData(team);
+                                      setMode('builder');
+                                    }}
+                                  >
+                                    Edit
+                                  </Button>
+                                </Group>
+                              </Group>
+
+                              <Group gap="xs">
+                                <Badge variant="light" size="sm">
+                                  {normalizeContentType(
+                                    team.content_type,
+                                    'All'
+                                  )}
+                                </Badge>
+                                <Badge
+                                  variant="light"
+                                  size="sm"
+                                  color={
+                                    FACTION_COLOR[team.faction as FactionName]
+                                  }
+                                >
+                                  {team.faction}
+                                </Badge>
+                                <Image
+                                  src={
+                                    FACTION_ICON_MAP[
+                                      team.faction as FactionName
+                                    ]
+                                  }
+                                  alt={team.faction}
+                                  w={24}
+                                  h={24}
+                                />
+                              </Group>
+
+                              <Group gap="xs">
+                                <Text size="sm" c="dimmed">
+                                  By {team.author}
+                                </Text>
+                                {team.description && (
+                                  <>
+                                    <Text size="sm" c="dimmed">
+                                      •
+                                    </Text>
+                                    <Text size="sm" c="dimmed" lineClamp={1}>
+                                      {team.description}
+                                    </Text>
+                                  </>
+                                )}
+                              </Group>
+
+                              <SimpleGrid
+                                cols={{ base: 3, xs: 4, sm: 3 }}
+                                spacing={CHARACTER_GRID_SPACING}
+                              >
+                                {team.members.slice(0, 6).map((m) => {
+                                  const char = charMap.get(m.character_name);
+                                  return (
+                                    <div
+                                      key={m.character_name}
                                       style={{
-                                        position: 'absolute',
-                                        top: 0,
-                                        right: 'calc(50% - 40px)',
-                                        pointerEvents: 'none',
+                                        position: 'relative',
+                                        display: 'flex',
+                                        flexDirection: 'column',
+                                        alignItems: 'center',
                                       }}
                                     >
-                                      {m.overdrive_order}
-                                    </Badge>
-                                  )}
-                                </div>
-                              );
-                            })}
-                          </SimpleGrid>
-                        </Stack>
-                      </Paper>
-                    ))}
+                                      <CharacterCard
+                                        name={m.character_name}
+                                        quality={char?.quality}
+                                        disableLink
+                                        note={m.note}
+                                      />
+                                      {m.overdrive_order != null && (
+                                        <Badge
+                                          size="sm"
+                                          circle
+                                          variant="filled"
+                                          color="orange"
+                                          style={{
+                                            position: 'absolute',
+                                            top: 0,
+                                            right: 'calc(50% - 40px)',
+                                            pointerEvents: 'none',
+                                          }}
+                                        >
+                                          {m.overdrive_order}
+                                        </Badge>
+                                      )}
+                                    </div>
+                                  );
+                                })}
+                              </SimpleGrid>
+                            </Stack>
+                          </Paper>
+                        );
+                      })()
+                    )}
                   </SimpleGrid>
                 ) : (
                   <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
                     <Table striped highlightOnHover style={{ minWidth: 500 }}>
                       <Table.Thead>
                         <Table.Tr>
+                          <Table.Th>Compare</Table.Th>
                           <Table.Th>Name</Table.Th>
                           <Table.Th>Faction</Table.Th>
                           <Table.Th>Content Type</Table.Th>
@@ -441,6 +841,23 @@ export default function Teams() {
                               )
                             }
                           >
+                            <Table.Td>
+                              <Checkbox
+                                size="xs"
+                                checked={compareSelection.includes(team.name)}
+                                disabled={
+                                  !compareSelection.includes(team.name) &&
+                                  compareSelection.length >= 2
+                                }
+                                onClick={(e) => {
+                                  e.stopPropagation();
+                                }}
+                                onChange={(e) => {
+                                  e.stopPropagation();
+                                  toggleCompare(team.name);
+                                }}
+                              />
+                            </Table.Td>
                             <Table.Td>
                               <Group gap="sm" wrap="nowrap">
                                 <Image
@@ -485,7 +902,7 @@ export default function Teams() {
                             </Table.Td>
                             <Table.Td>
                               <Badge variant="light" size="sm">
-                                {team.content_type}
+                                {normalizeContentType(team.content_type, 'All')}
                               </Badge>
                             </Table.Td>
                             <Table.Td>
