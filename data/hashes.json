@@ -1501,6 +1501,10 @@
     "MysteriousDate": {
       "hash": "9dba1a070bd5aa5a98ed4073370a614defcc2fffddbf6db2aea66063585ab851",
       "ts": 1771644484
+    },
+    "SlamDunk": {
+      "hash": "289d203ebd54c8934675ac476318ecc17beaa0f8a0ed3f23d0fde7f52ee32b4e",
+      "ts": 1771820426
     }
   },
   "status_effects": {
@@ -1875,6 +1879,20 @@
     "Withering Thorns": {
       "hash": "809c3ccdca37395e657b7f1394394cb3b95f36ed30cd7538bffa191f12becb73",
       "ts": 1771185685
+    }
+  },
+  "tier_lists": {
+    "Taiwan Tier List": {
+      "hash": "88849ba56beb8b96c3ac5068b4c617e6a5f1b3c4cac2de6abc7c832dc2954090",
+      "ts": 1771812465
+    },
+    "Taiwan PvP Tier List": {
+      "hash": "7a1557ecb1c1da78596b4891b117199314cc8e225261738a2bdada031b38d0de",
+      "ts": 1771820426
+    },
+    "Taiwan PvE Tier List": {
+      "hash": "76eb42b17eb2aacb04fd574cd4dd7424b052bb9b6408720dbd063f2dafcd8052",
+      "ts": 1771821899
     }
   },
   "teams": {
@@ -2660,9 +2678,9 @@
       "hash": "80cadc3b783fb49e655d5c1727948f397828a81ad5b5faff08937c4202842bb5",
       "ts": 1771712675
     },
-    "Pious Gloves": {
-      "hash": "3025fa33bd69319cc76f117b453efbadf3769987ab93e877324eacd0471c9076",
-      "ts": 1771712675
+    "Pious Gauntlets": {
+      "hash": "9db434b637c666cfe8cdb78d3c6da372009308bfa692724462d817895f1a11b6",
+      "ts": 1771790201
     },
     "Quenched Gauntlets": {
       "hash": "1e09c01f859986c83f3e4434255dce9bd6cbaada80d7c8bae62fb08efea49606",
@@ -3135,8 +3153,8 @@
   },
   "changelog": {
     "1.0.0": {
-      "hash": "87c96f7f40f89b364a479b79ca0375e0fc1be4f38e046d7a47f6f93495cd4c37",
-      "ts": 1771564616
+      "hash": "38ae8ddf9f078985bfcd6d45d00579a7d49d7b9e7f0ea2ab17ec6aa6610f7a70",
+      "ts": 1771793488
     }
   }
 }
