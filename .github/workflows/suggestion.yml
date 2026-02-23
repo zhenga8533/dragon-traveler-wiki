@@ -15,9 +15,14 @@ jobs:
   process-suggestion:
     if: github.event_name == 'issues' && github.event.action == 'opened'
     runs-on: ubuntu-latest
+    concurrency:
+      group: suggestion-process
+      cancel-in-progress: false
 
     steps:
       - uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -32,8 +37,7 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            const labels = ['suggestion', '${{ steps.suggest.outputs.label }}'];
-            for (const labelName of labels) {
+            async function ensureLabel(labelName, color) {
               try {
                 await github.rest.issues.getLabel({
                   owner: context.repo.owner,
@@ -41,17 +45,31 @@ jobs:
                   name: labelName,
                 });
               } catch (error) {
-                if (error.status === 404) {
+                if (error.status !== 404) {
+                  throw error;
+                }
+
+                try {
                   await github.rest.issues.createLabel({
                     owner: context.repo.owner,
                     repo: context.repo.repo,
                     name: labelName,
-                    color: labelName === 'suggestion' ? '0e8a16' : '5319e7',
+                    color,
                   });
-                } else {
-                  throw error;
+                } catch (createError) {
+                  if (createError.status !== 422) {
+                    throw createError;
+                  }
                 }
               }
+            }
+
+            const labels = ['suggestion', '${{ steps.suggest.outputs.label }}'];
+            for (const labelName of labels) {
+              await ensureLabel(
+                labelName,
+                labelName === 'suggestion' ? '0e8a16' : '5319e7'
+              );
             }
 
             await github.rest.issues.addLabels({
@@ -68,6 +86,8 @@ jobs:
           BRANCH="suggestion/issue-${{ github.event.issue.number }}"
           git config user.name "github-actions[bot]"
           git config user.email "github-actions[bot]@users.noreply.github.com"
+          git fetch origin main
+          git checkout -B main origin/main
           git push origin --delete "$BRANCH" 2>/dev/null || true
           git checkout -b "$BRANCH"
           git add data/
@@ -77,6 +97,8 @@ jobs:
             exit 0
           fi
           git commit -m "Add suggestion from issue #${{ github.event.issue.number }}"
+          git fetch origin main
+          git rebase origin/main
           git push -u origin "$BRANCH"
           echo "branch_pushed=true" >> "$GITHUB_OUTPUT"
 
@@ -86,6 +108,35 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
+            async function ensureLabel(labelName, color) {
+              try {
+                await github.rest.issues.getLabel({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  name: labelName,
+                });
+              } catch (error) {
+                if (error.status !== 404) {
+                  throw error;
+                }
+
+                try {
+                  await github.rest.issues.createLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name: labelName,
+                    color,
+                  });
+                } catch (createError) {
+                  if (createError.status !== 422) {
+                    throw createError;
+                  }
+                }
+              }
+            }
+
+            await ensureLabel('suggestion-pr', '5319e7');
+
             const branch = `suggestion/issue-${context.payload.issue.number}`;
             const { data: existingPrs } = await github.rest.pulls.list({
               owner: context.repo.owner,
@@ -95,6 +146,12 @@ jobs:
             });
 
             if (existingPrs.length > 0) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: existingPrs[0].number,
+                labels: ['suggestion-pr'],
+              });
               core.setOutput('pr_url', existingPrs[0].html_url);
               return;
             }
@@ -113,6 +170,14 @@ jobs:
               head: branch,
               base: 'main',
             });
+
+            await github.rest.issues.addLabels({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: pr.number,
+              labels: ['suggestion-pr'],
+            });
+
             core.setOutput('pr_url', pr.html_url);
 
       - name: Comment on issue when no changes are detected
@@ -174,24 +239,35 @@ jobs:
         uses: actions/github-script@v7
         with:
           script: |
-            try {
-              await github.rest.issues.getLabel({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                name: 'manual-review',
-              });
-            } catch (error) {
-              if (error.status === 404) {
-                await github.rest.issues.createLabel({
+            async function ensureLabel(labelName, color) {
+              try {
+                await github.rest.issues.getLabel({
                   owner: context.repo.owner,
                   repo: context.repo.repo,
-                  name: 'manual-review',
-                  color: 'e4e669',
+                  name: labelName,
                 });
-              } else {
-                throw error;
+              } catch (error) {
+                if (error.status !== 404) {
+                  throw error;
+                }
+
+                try {
+                  await github.rest.issues.createLabel({
+                    owner: context.repo.owner,
+                    repo: context.repo.repo,
+                    name: labelName,
+                    color,
+                  });
+                } catch (createError) {
+                  if (createError.status !== 422) {
+                    throw createError;
+                  }
+                }
               }
             }
+
+            await ensureLabel('manual-review', 'e4e669');
+
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -209,11 +285,71 @@ jobs:
               ].join('\n')
             });
 
+  refresh-suggestion-prs:
+    if: >-
+      github.event_name == 'pull_request' && github.event.action == 'closed'
+      && (
+        startsWith(github.event.pull_request.head.ref, 'suggestion/')
+        || (github.event.pull_request.merged == true && github.event.pull_request.base.ref == 'main')
+      )
+    runs-on: ubuntu-latest
+    concurrency:
+      group: suggestion-refresh
+      cancel-in-progress: false
+    steps:
+      - name: Refresh open suggestion PR branches
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const closedPrNumber = context.payload.pull_request.number;
+            const closedHeadRef = context.payload.pull_request.head.ref;
+
+            const { data: openPrs } = await github.rest.pulls.list({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              state: 'open',
+              base: 'main',
+              per_page: 100,
+            });
+
+            for (const pr of openPrs) {
+              if (!pr.head?.ref?.startsWith('suggestion/')) continue;
+              if (pr.number === closedPrNumber) continue;
+              if (pr.head.ref === closedHeadRef) continue;
+
+              try {
+                await github.rest.pulls.updateBranch({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  pull_number: pr.number,
+                  expected_head_sha: pr.head.sha,
+                });
+                console.log(`Queued branch update for PR #${pr.number}`);
+              } catch (error) {
+                const details = error?.response?.data?.message || error.message;
+                console.log(`Could not update PR #${pr.number}: ${details}`);
+
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: pr.number,
+                  body: [
+                    `Heads up: this suggestion branch could not be auto-updated after another PR was closed/merged.`,
+                    ``,
+                    `Please update this branch from main before merging to reduce conflicts.`,
+                  ].join('\n'),
+                });
+              }
+            }
+
   cleanup:
     if: >-
       (github.event_name == 'pull_request' && github.event.action == 'closed' && startsWith(github.event.pull_request.head.ref, 'suggestion/'))
       || (github.event_name == 'issues' && github.event.action == 'closed' && contains(github.event.issue.labels.*.name, 'suggestion'))
     runs-on: ubuntu-latest
+    concurrency:
+      group: suggestion-cleanup
+      cancel-in-progress: false
     steps:
       - name: PR closed — reconcile issue and delete branch
         if: github.event_name == 'pull_request'
