@@ -13,7 +13,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter } from 'react-icons/io5';
 import CharacterCard from '../components/CharacterCard';
 import type { ChipFilterGroup } from '../components/EntityFilter';
@@ -22,6 +22,10 @@ import LastUpdated from '../components/LastUpdated';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import TierListBuilder from '../components/TierListBuilder';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
+import {
+  CONTENT_TYPE_OPTIONS,
+  normalizeContentType,
+} from '../constants/content-types';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilters } from '../hooks/use-filters';
@@ -54,10 +58,21 @@ export default function TierList() {
     return map;
   }, [characters]);
 
-  const contentTypeOptions = useMemo(
-    () => [...new Set(tierLists.map((t) => t.content_type))].sort(),
-    [tierLists]
-  );
+  const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
+
+  useEffect(() => {
+    const normalized = viewFilters.contentTypes.map((value) =>
+      normalizeContentType(value, 'All')
+    );
+    const deduped = [...new Set(normalized)];
+    const unchanged =
+      deduped.length === viewFilters.contentTypes.length &&
+      deduped.every(
+        (value, index) => value === viewFilters.contentTypes[index]
+      );
+    if (unchanged) return;
+    setViewFilters((prev) => ({ ...prev, contentTypes: deduped }));
+  }, [viewFilters.contentTypes, setViewFilters]);
 
   const entityFilterGroups: ChipFilterGroup[] = useMemo(
     () => [
@@ -84,7 +99,9 @@ export default function TierList() {
   const visibleTierLists = useMemo(() => {
     if (viewFilters.contentTypes.length === 0) return tierLists;
     return tierLists.filter((tl) =>
-      viewFilters.contentTypes.includes(tl.content_type)
+      viewFilters.contentTypes.includes(
+        normalizeContentType(tl.content_type, 'All')
+      )
     );
   }, [tierLists, viewFilters]);
 
@@ -196,7 +213,10 @@ export default function TierList() {
                             <Group justify="space-between" align="flex-start">
                               <Group gap="xs" wrap="wrap">
                                 <Badge variant="light" size="sm">
-                                  {tierList.content_type}
+                                  {normalizeContentType(
+                                    tierList.content_type,
+                                    'All'
+                                  )}
                                 </Badge>
                                 <Text size="sm" c="dimmed">
                                   By {tierList.author}

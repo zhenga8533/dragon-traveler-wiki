@@ -14,6 +14,7 @@ import {
   Group,
   Paper,
   Popover,
+  Select,
   SimpleGrid,
   Stack,
   Text,
@@ -36,6 +37,12 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../constants';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
+import {
+  CONTENT_TYPE_OPTIONS,
+  DEFAULT_CONTENT_TYPE,
+  normalizeContentType,
+  type ContentType,
+} from '../constants/content-types';
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
 import type { Tier, TierList } from '../types/tier-list';
@@ -197,7 +204,8 @@ export default function TierListBuilder({
   const [notes, setNotes] = useState<Record<string, string>>({});
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
-  const [categoryName, setCategoryName] = useState('');
+  const [categoryName, setCategoryName] =
+    useState<ContentType>(DEFAULT_CONTENT_TYPE);
   const [description, setDescription] = useState('');
   const [activeId, setActiveId] = useState<string | null>(null);
 
@@ -206,7 +214,7 @@ export default function TierListBuilder({
     queueMicrotask(() => {
       setName(initialData.name);
       setAuthor(initialData.author);
-      setCategoryName(initialData.content_type);
+      setCategoryName(normalizeContentType(initialData.content_type));
       setDescription(initialData.description || '');
       const p: TierPlacements = {};
       TIER_ORDER.forEach((tier) => {
@@ -226,7 +234,7 @@ export default function TierListBuilder({
     const result: TierList = {
       name: name || 'My Tier List',
       author: author || 'Anonymous',
-      content_type: categoryName || 'PvE',
+      content_type: categoryName,
       description,
       entries: TIER_ORDER.flatMap((tier) =>
         placements[tier].map((character_name) => ({
@@ -395,10 +403,17 @@ export default function TierListBuilder({
             onChange={(e) => setAuthor(e.currentTarget.value)}
             style={{ flex: 1, minWidth: 120 }}
           />
-          <TextInput
-            placeholder="Content type (e.g. PvE, PvP)..."
+          <Select
+            placeholder="Content type..."
+            data={CONTENT_TYPE_OPTIONS.map((contentTypeOption) => ({
+              value: contentTypeOption,
+              label: contentTypeOption,
+            }))}
             value={categoryName}
-            onChange={(e) => setCategoryName(e.currentTarget.value)}
+            onChange={(value) =>
+              setCategoryName(normalizeContentType(value, DEFAULT_CONTENT_TYPE))
+            }
+            allowDeselect={false}
             style={{ flex: 1, minWidth: 120 }}
           />
           <Textarea

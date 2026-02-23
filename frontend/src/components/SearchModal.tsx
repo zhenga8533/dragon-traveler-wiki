@@ -25,6 +25,7 @@ import {
   IoSparklesOutline,
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
+import { normalizeContentType } from '../constants/content-types';
 import { SearchDataContext } from '../contexts';
 
 type SearchResult = {
@@ -451,7 +452,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         ...tierListResults.map((r) => ({
           type: 'tier-list' as const,
           title: r.item.name,
-          subtitle: `${r.item.content_type} • ${r.item.author}`,
+          subtitle: `${normalizeContentType(r.item.content_type, 'All')} • ${r.item.author}`,
           path: '/tier-list',
           icon: IoDocumentTextOutline,
           color: 'pink',

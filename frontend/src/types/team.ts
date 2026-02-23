@@ -1,3 +1,4 @@
+import type { ContentType } from '../constants/content-types';
 import type { FactionName } from './faction';
 
 export interface TeamMember {
@@ -17,7 +18,7 @@ export interface TeamWyrmspells {
 export interface Team {
   name: string;
   author: string;
-  content_type: string;
+  content_type: ContentType;
   description: string;
   faction: FactionName;
   members: TeamMember[];

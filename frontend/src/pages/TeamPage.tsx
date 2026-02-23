@@ -36,6 +36,7 @@ import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import RichText from '../components/RichText';
 import WyrmspellCard from '../components/WyrmspellCard';
 import { FACTION_COLOR } from '../constants/colors';
+import { normalizeContentType } from '../constants/content-types';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
@@ -250,7 +251,7 @@ export default function TeamPage() {
                     {team.faction}
                   </Badge>
                   <Badge size="lg" variant="outline" color="gray">
-                    {team.content_type}
+                    {normalizeContentType(team.content_type, 'All')}
                   </Badge>
                 </Group>
               </Stack>
