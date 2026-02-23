@@ -4,6 +4,7 @@ Sync JSON data files into the Dolt database.
 Usage:
     python -m backend.sync_dolt              # sync and commit
     python -m backend.sync_dolt --push       # sync, commit, and push to DoltHub
+    python -m backend.sync_dolt --pull       # pull latest data from DoltHub
     python -m backend.sync_dolt --dry-run    # show SQL without executing
 """
 
@@ -2117,6 +2118,9 @@ def main():
         "--push", action="store_true", help="Push to DoltHub after commit"
     )
     parser.add_argument(
+        "--pull", action="store_true", help="Pull latest data from DoltHub"
+    )
+    parser.add_argument(
         "--force", action="store_true", help="Force push to DoltHub (overwrite remote)"
     )
     parser.add_argument(
@@ -2151,6 +2155,16 @@ def main():
     if not DOLT_DIR.exists():
         print(f"Error: Dolt database not found at {DOLT_DIR}", file=sys.stderr)
         sys.exit(1)
+
+    if args.pull:
+        print("Pulling from DoltHub...")
+        try:
+            dolt_cmd("pull")
+        except SyncError as exc:
+            print(f"Pull failed:\n{exc}", file=sys.stderr)
+            sys.exit(1)
+        print("Pulled successfully.")
+        return
 
     target = args.target
 
