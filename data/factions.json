@@ -4,12 +4,12 @@
     "wyrm": "Fire Whelp",
     "description": "Inflict [Ignite], [Shock], or [Chill] to trigger [Elemental Reactions] against enemies, dealing damage while weaknening their combat abilities.",
     "recommended_artifacts": [
-      "Wings of Icarus",
-      "Sage's Stone",
-      "Heimdall's Horn",
-      "Holy Grail"
+      "Sisyphus Monolith",
+      "Aladdin's Lamp",
+      "Sun God's Cloak",
+      "Trident of Poseidon"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771881641
   },
   {
     "name": "Wild Spirit",
@@ -18,10 +18,10 @@
     "recommended_artifacts": [
       "Sisyphus Monolith",
       "Aladdin's Lamp",
-      "Sun God's Cloak",
-      "Trident of Poseidon"
+      "Golden Fleece",
+      "Spear of Longinus"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771881641
   },
   {
     "name": "Arcane Wisdom",
@@ -29,29 +29,16 @@
     "description": "Gain [Awakening] when an ally uses Overdrive. Consume or build up [Awakening] stacks to enhance skills.",
     "recommended_artifacts": [
       "Wings of Icarus",
-      "Solomon's Ring",
-      "Aladdin's Lamp",
-      "Spear of Longinus"
+      "Sage's Stone",
+      "Heimdall's Horn",
+      "Holy Grail"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771881641
   },
   {
     "name": "Sanctum Glory",
     "wyrm": "Light Whelp",
     "description": "By gaining [Morale] and [Fervor], enter the [Grace] state to apply a Self Buff and enhance combat abilities.",
-    "recommended_artifacts": [
-      "Sealed Magic Bottle",
-      "Golden Fleece",
-      "Zeus's Thunder",
-      "Cupid's Arrow",
-      "Anubis Scales"
-    ],
-    "last_updated": 1771870646
-  },
-  {
-    "name": "Otherworld Return",
-    "wyrm": "Shadow Whelp",
-    "description": "Gain [Deathrattle] when an ally falls. The more [Deathrattle] stacks you have, the stronger your combat abilities become.",
     "recommended_artifacts": [
       "Wings of Icarus",
       "Aladdin's Lamp",
@@ -59,18 +46,31 @@
       "Zeus's Thunder",
       "Flame of Olympus"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771881641
+  },
+  {
+    "name": "Otherworld Return",
+    "wyrm": "Shadow Whelp",
+    "description": "Gain [Deathrattle] when an ally falls. The more [Deathrattle] stacks you have, the stronger your combat abilities become.",
+    "recommended_artifacts": [
+      "Sealed Magic Bottle",
+      "Golden Fleece",
+      "Zeus's Thunder",
+      "Cupid's Arrow",
+      "Anubis Scales"
+    ],
+    "last_updated": 1771881641
   },
   {
     "name": "Illusion Veil",
     "wyrm": "Dark Whelp",
     "description": "Some of your skills with trigger the [Punishment] effect on enemies whose Overdrive Energy Consumption is 4 or higher, applying a Buff to enhance the current skill's effect.",
     "recommended_artifacts": [
-      "Sisyphus Monolith",
+      "Wings of Icarus",
+      "Solomon's Ring",
       "Aladdin's Lamp",
-      "Golden Fleece",
       "Spear of Longinus"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771881641
   }
 ]
