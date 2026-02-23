@@ -730,6 +730,7 @@ export default function CharacterPage() {
                               }
                               fit="contain"
                               mah={420}
+                              loading="lazy"
                             />
                           )}
                           <Box
@@ -852,6 +853,7 @@ export default function CharacterPage() {
                                       w={100}
                                       h={93}
                                       fit="contain"
+                                      loading="lazy"
                                     />
                                   </Center>
                                 )}
@@ -988,6 +990,7 @@ export default function CharacterPage() {
                                             w={40}
                                             h={40}
                                             fit="cover"
+                                            loading="lazy"
                                           />
                                         </Box>
                                       )}
@@ -1126,6 +1129,7 @@ export default function CharacterPage() {
                                           w={50}
                                           h={46}
                                           fit="contain"
+                                          loading="lazy"
                                         />
                                       </Center>
                                     )}
@@ -1313,6 +1317,7 @@ export default function CharacterPage() {
                                       w={48}
                                       h={48}
                                       fit="contain"
+                                      loading="lazy"
                                     />
                                     <Stack gap={2} style={{ minWidth: 0 }}>
                                       <Badge
@@ -1439,6 +1444,7 @@ export default function CharacterPage() {
                             w={54}
                             h={74}
                             fit="contain"
+                            loading="lazy"
                           />
                         )}
                         <Title order={3}>{talent?.name ?? 'Talent'}</Title>
@@ -1502,6 +1508,7 @@ export default function CharacterPage() {
                                       w={60}
                                       h={60}
                                       fit="contain"
+                                      loading="lazy"
                                     />
                                   )}
                                   <Group gap="xs" align="center">
@@ -1615,6 +1622,7 @@ export default function CharacterPage() {
                     fit="contain"
                     mah="78vh"
                     radius="lg"
+                    loading="lazy"
                   />
                 )}
 

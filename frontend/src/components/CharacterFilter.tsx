@@ -236,7 +236,7 @@ export default function CharacterFilter({
                 </Group>
               );
             }}
-            searchable
+            searchable={effectOptions.length >= 10}
             clearable
             size="xs"
             style={{ flex: 1, minWidth: 180 }}

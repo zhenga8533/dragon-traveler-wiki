@@ -338,7 +338,7 @@ export default function SuggestModal({
             value={(value as string) || null}
             onChange={(v) => onChange(v ?? '')}
             clearable
-            searchable
+            searchable={(f.options?.length ?? 0) >= 10}
             withAsterisk={f.required}
             leftSection={
               selectedIcon ? (
@@ -477,6 +477,7 @@ export default function SuggestModal({
                       color="red"
                       size="sm"
                       onClick={() => removeArrayRow(af.name, idx)}
+                      aria-label="Remove row"
                     >
                       <IoClose size={14} />
                     </ActionIcon>

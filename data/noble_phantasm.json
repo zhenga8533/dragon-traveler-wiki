@@ -440,10 +440,10 @@
         "level": 1,
         "tier": null,
         "tier_level": null,
-        "description": "Each time the enemy uses their ultimate skill, the ally with the lowest health, either a phantom or a dragon, recovers 11% of their maximum health."
+        "description": "Each time the enemy uses their ultimate skill, the ally with the lowest health, either a Luminary or a Wyrm, recovers 11% of their maximum health."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1771867941
   },
   {
     "name": "Star Crystal Spear",
@@ -622,11 +622,11 @@
       {
         "tier": "Diamond",
         "tier_level": 1,
-        "description": "At the start of battle, grant all allied phantoms the [Eternal King] skill."
+        "description": "At the start of battle, grant all allied Luminaries the [Eternal King] skill."
       }
     ],
     "skills": [],
-    "last_updated": 1771464391
+    "last_updated": 1771867941
   },
   {
     "name": "Dragon's Breath Greatsword",
@@ -759,7 +759,7 @@
       {
         "tier": "Diamond",
         "tier_level": 1,
-        "description": "When [Invictus] is released, an additional slash is released at the enemy phantom with the highest attack, but enemy units within both the original range and the additional range only take 20%/30% of the additional slash damage."
+        "description": "When [Invictus] is released, an additional slash is released at the enemy Luminary with the highest attack, but enemy units within both the original range and the additional range only take 20%/30% of the additional slash damage."
       }
     ],
     "skills": [
@@ -794,7 +794,7 @@
         "description": "Enemy units simultaneously within the original range and the additional range receive 30% more bonus slash damage."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1771867941
   },
   {
     "name": "Lich Soul Box",
@@ -1002,11 +1002,11 @@
       {
         "tier": "Diamond",
         "tier_level": 1,
-        "description": "When present, whenever our Phantom gains a [Blessing Buff] status, its next basic attack will trigger [Ravaging Maw] on the target an additional time (the source of damage is considered to be Jormungandr)."
+        "description": "When present, whenever our Luminary gains a [Blessing Buff] status, its next basic attack will trigger [Ravaging Maw] on the target an additional time (the source of damage is considered to be Jormungandr)."
       }
     ],
     "skills": [],
-    "last_updated": 1771464391
+    "last_updated": 1771867941
   },
   {
     "name": "Serpent God's Blade",
@@ -1078,7 +1078,7 @@
       {
         "tier": "Red",
         "tier_level": 6,
-        "description": "At the start of battle, apply 2 stacks of [Commander's Intimidation] to all enemy phantoms. This effect can trigger the [Punishment] effect. When [Punishment] is triggered, an additional 3 stacks of [Commander's Intimidation] are applied. This effect will be triggered again whenever an enemy unit with 5 stacks of [Commander's Intimidation] dies."
+        "description": "At the start of battle, apply 2 stacks of [Commander's Intimidation] to all enemy Luminaries. This effect can trigger the [Punishment] effect. When [Punishment] is triggered, an additional 3 stacks of [Commander's Intimidation] are applied. This effect will be triggered again whenever an enemy unit with 5 stacks of [Commander's Intimidation] dies."
       },
       {
         "tier": "Diamond",
@@ -1118,7 +1118,7 @@
         "description": "Damage reduction increased to 90% of own attack * number of [Commander's Intimidation] stacks on the target."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1771867941
   },
   {
     "name": "Love Elixir",
@@ -1154,7 +1154,7 @@
       {
         "tier": "Purple",
         "tier_level": 6,
-        "description": "When your accumulated HP recovery reaches 100% of your maximum HP, immediately reduce the energy cost of your next ultimate skill by 10 and steal 20% of the healing received by all enemy phantoms and dragons, lasting until the end of the battle. (This will only trigger once per battle.)"
+        "description": "When your accumulated HP recovery reaches 100% of your maximum HP, immediately reduce the energy cost of your next ultimate skill by 10 and steal 20% of the healing received by all enemy Luminaries and Wyrms, lasting until the end of the battle. (This will only trigger once per battle.)"
       },
       {
         "tier": "Red",
@@ -1168,7 +1168,7 @@
       }
     ],
     "skills": [],
-    "last_updated": 1771464391
+    "last_updated": 1771867941
   },
   {
     "name": "Tiger Tally",

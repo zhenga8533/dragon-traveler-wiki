@@ -8,6 +8,16 @@ QUALITY_RANK = {q: i for i, q in enumerate(QUALITY_ORDER)}
 CLASS_ORDER = ["Guardian", "Priest", "Assassin", "Warrior", "Archer", "Mage"]
 CLASS_RANK = {c: i for i, c in enumerate(CLASS_ORDER)}
 
+FACTION_ORDER = [
+    "Elemental Echo",
+    "Wild Spirit",
+    "Arcane Wisdom",
+    "Sanctum Glory",
+    "Otherworld Return",
+    "Illusion Veil",
+]
+FACTION_RANK = {f: i for i, f in enumerate(FACTION_ORDER)}
+
 STATE_ORDER = [
     "Buff",
     "Debuff",
@@ -105,8 +115,13 @@ def subclass_sort_key(sc):
     )
 
 
+def faction_name_sort_key(name):
+    normalized_name = (name or "").strip()
+    return (FACTION_RANK.get(normalized_name, _FALLBACK), normalized_name.lower())
+
+
 def faction_sort_key(f):
-    return (f.get("name") or "").lower()
+    return faction_name_sort_key(f.get("name") or "")
 
 
 def golden_alliance_sort_key(ga):

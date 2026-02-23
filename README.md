@@ -72,8 +72,10 @@ dragon-traveler-wiki/
 2. `sync_dolt.py` syncs JSON into the Dolt database for querying (including subclass normalization and class-link synchronization)
 3. `export_dolt.py --merge` pulls new records from Dolt into `data/` without overwriting local changes; `export_dolt` without `--merge` does a full overwrite
 4. `npm run build` automatically merges from Dolt before building (`prebuild`); CI skips this and uses committed `data/` files directly
-5. On push to `main`, GitHub Actions builds the frontend, deploys to GitHub Pages, and syncs `data/` to DoltHub
-6. The frontend fetches JSON data at runtime
+5. On push to `main`, GitHub Actions builds the frontend, deploys to GitHub Pages, and syncs `data/` to DoltHub `main`
+6. On push to `dev`, GitHub Actions syncs `data/` to DoltHub `dev` (no production deploy)
+7. Local `main`/`dev` runs auto-select matching Dolt branches (`main` ↔ `main`, `dev` ↔ `dev`)
+8. The frontend fetches JSON data at runtime
 
 ## Contributing
 

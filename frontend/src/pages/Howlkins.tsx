@@ -25,6 +25,7 @@ import HowlkinBadge from '../components/HowlkinBadge';
 import HowlkinStats from '../components/HowlkinStats';
 import LastUpdated from '../components/LastUpdated';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
+import PaginationControl from '../components/PaginationControl';
 import QualityIcon from '../components/QualityIcon';
 import { renderQualityFilterIcon } from '../components/renderQualityFilterIcon';
 import SortableTh from '../components/SortableTh';
@@ -33,7 +34,7 @@ import SuggestModal, {
   type FieldDef,
 } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
-import { STORAGE_KEY } from '../constants/ui';
+import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import {
   countActiveFilters,
@@ -41,6 +42,7 @@ import {
   useFilters,
   useViewMode,
 } from '../hooks/use-filters';
+import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { GoldenAlliance, Howlkin } from '../types/howlkin';
 import type { Quality } from '../types/quality';
@@ -244,6 +246,17 @@ export default function Howlkins() {
       });
   }, [howlkins, filters, sortCol, sortDir]);
 
+  const {
+    page: howlkinPage,
+    setPage: setHowlkinPage,
+    totalPages: howlkinTotalPages,
+    offset: howlkinOffset,
+  } = usePagination(filtered.length, PAGE_SIZE, JSON.stringify(filters));
+  const howlkinPageItems = filtered.slice(
+    howlkinOffset,
+    howlkinOffset + PAGE_SIZE
+  );
+
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(howlkins),
     [howlkins]
@@ -271,6 +284,17 @@ export default function Howlkins() {
         a.howlkins.some((h) => h.toLowerCase().includes(q))
     );
   }, [goldenAlliances, allianceSearch]);
+
+  const {
+    page: alliancePage,
+    setPage: setAlliancePage,
+    totalPages: allianceTotalPages,
+    offset: allianceOffset,
+  } = usePagination(filteredAlliances.length, PAGE_SIZE, allianceSearch);
+  const alliancePageItems = filteredAlliances.slice(
+    allianceOffset,
+    allianceOffset + PAGE_SIZE
+  );
 
   const activeFilterCount = countActiveFilters(filters);
 
@@ -367,7 +391,7 @@ export default function Howlkins() {
                     </Text>
                   ) : viewMode === 'grid' ? (
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-                      {filtered.map((howlkin) => {
+                      {howlkinPageItems.map((howlkin) => {
                         const iconSrc = getHowlkinIcon(howlkin.name);
                         return (
                           <Paper
@@ -437,7 +461,7 @@ export default function Howlkins() {
                           </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>
-                          {filtered.map((howlkin) => {
+                          {howlkinPageItems.map((howlkin) => {
                             const iconSrc = getHowlkinIcon(howlkin.name);
                             return (
                               <Table.Tr key={howlkin.name}>
@@ -482,6 +506,12 @@ export default function Howlkins() {
                       </Table>
                     </ScrollArea>
                   )}
+
+                  <PaginationControl
+                    currentPage={howlkinPage}
+                    totalPages={howlkinTotalPages}
+                    onChange={setHowlkinPage}
+                  />
                 </Stack>
               </Paper>
             )}
@@ -524,7 +554,7 @@ export default function Howlkins() {
                       </Text>
                     ) : (
                       <SimpleGrid cols={{ base: 1, md: 2 }} spacing="sm">
-                        {filteredAlliances.map((alliance) => (
+                        {alliancePageItems.map((alliance) => (
                           <Paper
                             key={alliance.name}
                             p="md"
@@ -609,6 +639,12 @@ export default function Howlkins() {
                         ))}
                       </SimpleGrid>
                     )}
+
+                    <PaginationControl
+                      currentPage={alliancePage}
+                      totalPages={allianceTotalPages}
+                      onChange={setAlliancePage}
+                    />
                   </Stack>
                 </Paper>
               )}

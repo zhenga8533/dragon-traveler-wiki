@@ -5,8 +5,8 @@
     "quality": "SSR EX",
     "character_class": "Guardian",
     "factions": [
-      "Otherworld Return",
-      "Elemental Echo"
+      "Sanctum Glory",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -96,7 +96,7 @@
       "Vanguard Warrior",
       "Lionheart Knight"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Prometheus",
@@ -104,8 +104,8 @@
     "quality": "SSR EX",
     "character_class": "Guardian",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Wild Spirit",
+      "Arcane Wisdom"
     ],
     "is_global": false,
     "subclasses": [
@@ -195,7 +195,7 @@
       "Templar",
       "Lionheart Knight"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Anubis",
@@ -203,8 +203,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Sanctum Glory",
-      "Arcane Wisdom"
+      "Otherworld Return",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -289,7 +289,7 @@
     "recommended_subclasses": [
       "Guardian"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Caesar",
@@ -297,8 +297,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -383,7 +383,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Duvalin",
@@ -391,8 +391,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Arcane Wisdom",
-      "Elemental Echo"
+      "Elemental Echo",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -477,7 +477,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771708348
+    "last_updated": 1771870646
   },
   {
     "name": "Helveil",
@@ -485,8 +485,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Sanctum Glory",
-      "Otherworld Return"
+      "Otherworld Return",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -571,7 +571,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Pompey",
@@ -579,8 +579,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
+      "Arcane Wisdom",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -665,7 +665,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Salome",
@@ -673,8 +673,8 @@
     "quality": "SSR+",
     "character_class": "Guardian",
     "factions": [
-      "Arcane Wisdom",
-      "Sanctum Glory"
+      "Elemental Echo",
+      "Otherworld Return"
     ],
     "is_global": false,
     "subclasses": [
@@ -760,7 +760,7 @@
       "Templar",
       "Guardian"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Drasill",
@@ -768,8 +768,8 @@
     "quality": "SSR",
     "character_class": "Guardian",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Wild Spirit",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -848,7 +848,7 @@
     "recommended_subclasses": [
       "Guardian"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Goren",
@@ -856,8 +856,8 @@
     "quality": "SSR",
     "character_class": "Guardian",
     "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
+      "Sanctum Glory",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -936,7 +936,7 @@
     "recommended_subclasses": [
       "Lionheart Knight"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Gudong",
@@ -944,8 +944,8 @@
     "quality": "SSR",
     "character_class": "Guardian",
     "factions": [
-      "Sanctum Glory",
-      "Wild Spirit"
+      "Otherworld Return",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -1024,7 +1024,7 @@
     "recommended_subclasses": [
       "Martyr"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Herman",
@@ -1032,8 +1032,8 @@
     "quality": "SSR",
     "character_class": "Guardian",
     "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
+      "Arcane Wisdom",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -1112,7 +1112,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Oberonnie",
@@ -1120,8 +1120,8 @@
     "quality": "SSR",
     "character_class": "Guardian",
     "factions": [
-      "Arcane Wisdom",
-      "Elemental Echo"
+      "Elemental Echo",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -1200,7 +1200,7 @@
     "recommended_subclasses": [
       "Guardian"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Eurytion",
@@ -1208,8 +1208,8 @@
     "quality": "SR",
     "character_class": "Guardian",
     "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
+      "Wild Spirit",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -1275,7 +1275,7 @@
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Dwarf Warrior",
@@ -1283,8 +1283,8 @@
     "quality": "R",
     "character_class": "Guardian",
     "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
+      "Wild Spirit",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -1340,7 +1340,7 @@
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Mummy",
@@ -1348,8 +1348,8 @@
     "quality": "R",
     "character_class": "Guardian",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -1405,7 +1405,7 @@
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Rock Slime",
@@ -1413,7 +1413,7 @@
     "quality": "N",
     "character_class": "Guardian",
     "factions": [
-      "Elemental Echo"
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [],
@@ -1449,7 +1449,7 @@
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Hela",
@@ -1457,8 +1457,8 @@
     "quality": "SSR EX",
     "character_class": "Priest",
     "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
+      "Sanctum Glory",
+      "Otherworld Return"
     ],
     "is_global": false,
     "subclasses": [
@@ -1547,7 +1547,7 @@
     "recommended_subclasses": [
       "High Priest"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771868965
   },
   {
     "name": "Venus",
@@ -1555,8 +1555,8 @@
     "quality": "SSR EX",
     "character_class": "Priest",
     "factions": [
-      "Elemental Echo",
-      "Arcane Wisdom"
+      "Wild Spirit",
+      "Elemental Echo"
     ],
     "is_global": false,
     "subclasses": [
@@ -1645,7 +1645,7 @@
     "recommended_subclasses": [
       "High Priest"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Morgana",
@@ -1653,8 +1653,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -1740,7 +1740,7 @@
       "Executor",
       "Inquisitor"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Ophelia",
@@ -1748,8 +1748,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -1836,7 +1836,7 @@
       "Inquisitor",
       "Divine Officer"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Scheherazade",
@@ -1844,8 +1844,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Illusion Veil",
-      "Otherworld Return"
+      "Arcane Wisdom",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -1931,7 +1931,7 @@
       "High Priest",
       "Executor"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Silbismo",
@@ -1939,8 +1939,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
+      "Otherworld Return",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -2027,7 +2027,7 @@
       "Inquisitor",
       "Divine Officer"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Titania",
@@ -2035,8 +2035,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Elemental Echo",
-      "Arcane Wisdom"
+      "Wild Spirit",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -2121,7 +2121,7 @@
     "recommended_subclasses": [
       "Divine Officer"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Vivienne",
@@ -2129,8 +2129,8 @@
     "quality": "SSR+",
     "character_class": "Priest",
     "factions": [
-      "Arcane Wisdom",
-      "Otherworld Return"
+      "Elemental Echo",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -2216,7 +2216,7 @@
       "High Priest",
       "Divine Officer"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Atanith",
@@ -2224,8 +2224,8 @@
     "quality": "SSR",
     "character_class": "Priest",
     "factions": [
-      "Wild Spirit",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -2311,7 +2311,7 @@
       "High Priest",
       "Executor"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Caligula",
@@ -2319,8 +2319,8 @@
     "quality": "SSR",
     "character_class": "Priest",
     "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
+      "Wild Spirit",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -2406,7 +2406,7 @@
       "High Priest",
       "Inquisitor"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Chiron",
@@ -2414,8 +2414,8 @@
     "quality": "SSR",
     "character_class": "Priest",
     "factions": [
-      "Otherworld Return",
-      "Elemental Echo"
+      "Sanctum Glory",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -2501,7 +2501,7 @@
       "Executor",
       "Inquisitor"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Flora",
@@ -2509,8 +2509,8 @@
     "quality": "SR",
     "character_class": "Priest",
     "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
+      "Wild Spirit",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -2576,7 +2576,7 @@
       "accessory": "Mana's Tear"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Siren",
@@ -2584,8 +2584,8 @@
     "quality": "SR",
     "character_class": "Priest",
     "factions": [
-      "Illusion Veil",
-      "Arcane Wisdom"
+      "Arcane Wisdom",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -2654,7 +2654,7 @@
       "High Priest",
       "Divine Officer"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Goblin War Drummer",
@@ -2662,8 +2662,8 @@
     "quality": "R",
     "character_class": "Priest",
     "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
+      "Wild Spirit",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -2721,7 +2721,7 @@
     "recommended_subclasses": [
       "Divine Officer"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Viel",
@@ -2729,8 +2729,8 @@
     "quality": "R",
     "character_class": "Priest",
     "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -2796,7 +2796,7 @@
       "accessory": "Mana's Tear"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Breeze Slime",
@@ -2804,7 +2804,7 @@
     "quality": "N",
     "character_class": "Priest",
     "factions": [
-      "Otherworld Return"
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [],
@@ -2840,7 +2840,7 @@
       "accessory": "Mana's Tear"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Hades",
@@ -2848,8 +2848,8 @@
     "quality": "SSR EX",
     "character_class": "Assassin",
     "factions": [
-      "Illusion Veil",
-      "Sanctum Glory"
+      "Arcane Wisdom",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -2938,7 +2938,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Jormungandr",
@@ -2946,8 +2946,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -3032,7 +3032,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Mordred",
@@ -3040,8 +3040,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Sanctum Glory",
-      "Arcane Wisdom"
+      "Otherworld Return",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -3126,7 +3126,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Pan Junbao",
@@ -3134,8 +3134,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Elemental Echo",
-      "Wild Spirit"
+      "Wild Spirit",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -3214,7 +3214,7 @@
     "recommended_subclasses": [
       "Forest Bandit"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Rin",
@@ -3222,8 +3222,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
+      "Sanctum Glory",
+      "Otherworld Return"
     ],
     "is_global": false,
     "subclasses": [
@@ -3308,7 +3308,7 @@
     "recommended_subclasses": [
       "Outlaw"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771868965
   },
   {
     "name": "White Tiger",
@@ -3316,8 +3316,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
+      "Wild Spirit",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -3402,7 +3402,7 @@
     "recommended_subclasses": [
       "Forest Bandit"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Zagrus",
@@ -3410,8 +3410,8 @@
     "quality": "SSR+",
     "character_class": "Assassin",
     "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
+      "Elemental Echo",
+      "Arcane Wisdom"
     ],
     "is_global": false,
     "subclasses": [
@@ -3497,7 +3497,7 @@
       "Outlaw",
       "Forest Bandit"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Fenrir",
@@ -3505,8 +3505,8 @@
     "quality": "SSR",
     "character_class": "Assassin",
     "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
+      "Elemental Echo",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -3591,7 +3591,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Lancelot",
@@ -3599,8 +3599,8 @@
     "quality": "SSR",
     "character_class": "Assassin",
     "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
+      "Sanctum Glory",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -3679,7 +3679,7 @@
     "recommended_subclasses": [
       "Forest Bandit"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Nemesis",
@@ -3687,8 +3687,8 @@
     "quality": "SSR",
     "character_class": "Assassin",
     "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
+      "Arcane Wisdom",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -3767,7 +3767,7 @@
     "recommended_subclasses": [
       "Shadow Dancer"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Bladeheart",
@@ -3775,8 +3775,8 @@
     "quality": "SR",
     "character_class": "Assassin",
     "factions": [
-      "Arcane Wisdom",
-      "Sanctum Glory"
+      "Elemental Echo",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -3842,7 +3842,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Boar Knight",
@@ -3850,8 +3850,8 @@
     "quality": "R",
     "character_class": "Assassin",
     "factions": [
-      "Illusion Veil",
-      "Elemental Echo"
+      "Arcane Wisdom",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -3907,7 +3907,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Sword Dancer",
@@ -3915,8 +3915,8 @@
     "quality": "R",
     "character_class": "Assassin",
     "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
+      "Illusion Veil",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -3972,7 +3972,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Shadow Slime",
@@ -3980,7 +3980,7 @@
     "quality": "N",
     "character_class": "Assassin",
     "factions": [
-      "Sanctum Glory"
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [],
@@ -4016,7 +4016,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Ares",
@@ -4024,8 +4024,8 @@
     "quality": "SSR EX",
     "character_class": "Warrior",
     "factions": [
-      "Wild Spirit",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -4115,7 +4115,7 @@
       "Berserker",
       "Vanguard"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Thor",
@@ -4123,8 +4123,8 @@
     "quality": "SSR EX",
     "character_class": "Warrior",
     "factions": [
-      "Arcane Wisdom",
-      "Otherworld Return"
+      "Elemental Echo",
+      "Sanctum Glory"
     ],
     "is_global": false,
     "subclasses": [
@@ -4213,7 +4213,7 @@
     "recommended_subclasses": [
       "Lord"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Andevaly",
@@ -4221,8 +4221,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
+      "Arcane Wisdom",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -4307,7 +4307,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Arthur",
@@ -4315,8 +4315,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -4401,7 +4401,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771712925
+    "last_updated": 1771870646
   },
   {
     "name": "Asmodeus",
@@ -4409,8 +4409,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
+      "Otherworld Return",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -4496,7 +4496,7 @@
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Azure Dragon",
@@ -4504,8 +4504,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -4590,7 +4590,7 @@
     "recommended_subclasses": [
       "Vanguard"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Brynhild",
@@ -4598,8 +4598,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
+      "Sanctum Glory",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -4684,7 +4684,7 @@
     "recommended_subclasses": [
       "Berserker"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771868965
   },
   {
     "name": "Marylis",
@@ -4692,8 +4692,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Illusion Veil",
-      "Elemental Echo"
+      "Arcane Wisdom",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -4778,7 +4778,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Siegfried",
@@ -4786,8 +4786,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Arcane Wisdom",
-      "Elemental Echo"
+      "Elemental Echo",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -4872,7 +4872,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Tyrfing",
@@ -4880,8 +4880,8 @@
     "quality": "SSR+",
     "character_class": "Warrior",
     "factions": [
-      "Wild Spirit",
-      "Elemental Echo"
+      "Illusion Veil",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -4967,7 +4967,7 @@
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Asteros",
@@ -4975,8 +4975,8 @@
     "quality": "SSR",
     "character_class": "Warrior",
     "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
+      "Wild Spirit",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -5062,7 +5062,7 @@
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Beowulf",
@@ -5070,8 +5070,8 @@
     "quality": "SSR",
     "character_class": "Warrior",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -5150,7 +5150,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Guna",
@@ -5158,8 +5158,8 @@
     "quality": "SSR",
     "character_class": "Warrior",
     "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -5238,7 +5238,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Grimnir",
@@ -5246,8 +5246,8 @@
     "quality": "SR",
     "character_class": "Warrior",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Wild Spirit",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -5313,7 +5313,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Murphy",
@@ -5321,8 +5321,8 @@
     "quality": "SR",
     "character_class": "Warrior",
     "factions": [
-      "Wild Spirit",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -5388,7 +5388,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Goblin Battering Ram",
@@ -5396,8 +5396,8 @@
     "quality": "R",
     "character_class": "Warrior",
     "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
+      "Otherworld Return",
+      "Wild Spirit"
     ],
     "is_global": true,
     "subclasses": [
@@ -5453,7 +5453,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Flame Slime",
@@ -5461,7 +5461,7 @@
     "quality": "N",
     "character_class": "Warrior",
     "factions": [
-      "Wild Spirit"
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [],
@@ -5497,7 +5497,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Apollo",
@@ -5505,8 +5505,8 @@
     "quality": "SSR EX",
     "character_class": "Archer",
     "factions": [
-      "Sanctum Glory",
-      "Otherworld Return"
+      "Otherworld Return",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -5595,7 +5595,7 @@
     "recommended_subclasses": [
       "Bloodhunter"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Artemis",
@@ -5603,8 +5603,8 @@
     "quality": "SSR EX",
     "character_class": "Archer",
     "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
+      "Arcane Wisdom",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -5694,7 +5694,7 @@
       "Sharpshooter",
       "Bloodhunter"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Huginn & Muninn",
@@ -5702,8 +5702,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Elemental Echo",
-      "Wild Spirit"
+      "Wild Spirit",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -5788,7 +5788,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Ifrit",
@@ -5796,8 +5796,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Arcane Wisdom",
-      "Illusion Veil"
+      "Elemental Echo",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -5882,7 +5882,7 @@
     "recommended_subclasses": [
       "Light Ranger"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Jing",
@@ -5890,8 +5890,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Elemental Echo",
-      "Sanctum Glory"
+      "Wild Spirit",
+      "Otherworld Return"
     ],
     "is_global": false,
     "subclasses": [
@@ -5976,7 +5976,7 @@
     "recommended_subclasses": [
       "Bounty Hunter"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Mimir",
@@ -5984,8 +5984,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Otherworld Return",
-      "Illusion Veil"
+      "Sanctum Glory",
+      "Arcane Wisdom"
     ],
     "is_global": false,
     "subclasses": [
@@ -6070,7 +6070,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Ningluosi",
@@ -6078,8 +6078,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
+      "Illusion Veil",
+      "Otherworld Return"
     ],
     "is_global": false,
     "subclasses": [
@@ -6164,7 +6164,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Orion",
@@ -6172,8 +6172,8 @@
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -6258,7 +6258,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Lorillin",
@@ -6266,8 +6266,8 @@
     "quality": "SSR",
     "character_class": "Archer",
     "factions": [
-      "Otherworld Return",
-      "Arcane Wisdom"
+      "Sanctum Glory",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -6353,7 +6353,7 @@
       "Bloodhunter",
       "Light Ranger"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Medusa",
@@ -6361,8 +6361,8 @@
     "quality": "SSR",
     "character_class": "Archer",
     "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
+      "Illusion Veil",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -6447,7 +6447,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Van Helsing",
@@ -6455,8 +6455,8 @@
     "quality": "SSR",
     "character_class": "Archer",
     "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
+      "Arcane Wisdom",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -6535,7 +6535,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Nessus",
@@ -6543,8 +6543,8 @@
     "quality": "SR",
     "character_class": "Archer",
     "factions": [
-      "Elemental Echo",
-      "Otherworld Return"
+      "Wild Spirit",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -6610,7 +6610,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Polyphemus",
@@ -6618,8 +6618,8 @@
     "quality": "SR",
     "character_class": "Archer",
     "factions": [
-      "Sanctum Glory",
-      "Otherworld Return"
+      "Otherworld Return",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -6685,7 +6685,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Dwarven Cannoneer",
@@ -6693,8 +6693,8 @@
     "quality": "R",
     "character_class": "Archer",
     "factions": [
-      "Otherworld Return",
-      "Wild Spirit"
+      "Sanctum Glory",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -6750,7 +6750,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Wood Elf Archer",
@@ -6758,8 +6758,8 @@
     "quality": "R",
     "character_class": "Archer",
     "factions": [
-      "Illusion Veil",
-      "Wild Spirit"
+      "Arcane Wisdom",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -6815,7 +6815,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Lightning Slime",
@@ -6823,7 +6823,7 @@
     "quality": "N",
     "character_class": "Archer",
     "factions": [
-      "Illusion Veil"
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [],
@@ -6859,7 +6859,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Loki",
@@ -6867,8 +6867,8 @@
     "quality": "SSR EX",
     "character_class": "Mage",
     "factions": [
-      "Sanctum Glory",
-      "Elemental Echo"
+      "Otherworld Return",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -6958,7 +6958,7 @@
       "Astrologer",
       "Grand Archmage"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Poseidon",
@@ -6966,8 +6966,8 @@
     "quality": "SSR EX",
     "character_class": "Mage",
     "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -7057,7 +7057,7 @@
       "Elementalist",
       "Potion Master"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Crassus",
@@ -7065,8 +7065,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Wild Spirit",
-      "Illusion Veil"
+      "Illusion Veil",
+      "Arcane Wisdom"
     ],
     "is_global": false,
     "subclasses": [
@@ -7151,7 +7151,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Faust",
@@ -7159,8 +7159,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Sanctum Glory",
-      "Wild Spirit"
+      "Otherworld Return",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -7245,7 +7245,7 @@
     "recommended_subclasses": [
       "Astrologer"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Gabriele",
@@ -7253,8 +7253,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Otherworld Return",
-      "Sanctum Glory"
+      "Sanctum Glory",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -7339,7 +7339,7 @@
     "recommended_subclasses": [
       "Rune Mage"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771868965
   },
   {
     "name": "Gullveig",
@@ -7347,8 +7347,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Sanctum Glory",
-      "Arcane Wisdom"
+      "Otherworld Return",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -7434,7 +7434,7 @@
       "Elemental Mage",
       "Astrologer"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Talos",
@@ -7442,8 +7442,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Illusion Veil",
-      "Elemental Echo"
+      "Arcane Wisdom",
+      "Wild Spirit"
     ],
     "is_global": false,
     "subclasses": [
@@ -7529,7 +7529,7 @@
       "Astrologer",
       "Grand Archmage"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Vermilion Bird",
@@ -7537,8 +7537,8 @@
     "quality": "SSR+",
     "character_class": "Mage",
     "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": false,
     "subclasses": [
@@ -7623,7 +7623,7 @@
     "recommended_subclasses": [
       "Elemental Mage"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Cerberus",
@@ -7631,8 +7631,8 @@
     "quality": "SSR",
     "character_class": "Mage",
     "factions": [
-      "Wild Spirit",
-      "Arcane Wisdom"
+      "Illusion Veil",
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [
@@ -7711,7 +7711,7 @@
     "recommended_subclasses": [
       "Elemental Mage"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Cleopatra",
@@ -7719,8 +7719,8 @@
     "quality": "SSR",
     "character_class": "Mage",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -7806,7 +7806,7 @@
       "Astrologer",
       "Potion Master"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Melina",
@@ -7814,8 +7814,8 @@
     "quality": "SSR",
     "character_class": "Mage",
     "factions": [
-      "Arcane Wisdom",
-      "Otherworld Return"
+      "Elemental Echo",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -7900,7 +7900,7 @@
     "recommended_subclasses": [
       "Elemental Mage"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Nanalie",
@@ -7908,8 +7908,8 @@
     "quality": "SSR",
     "character_class": "Mage",
     "factions": [
-      "Elemental Echo",
-      "Illusion Veil"
+      "Wild Spirit",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -7995,7 +7995,7 @@
       "Astrologer",
       "Grand Archmage"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Telperion",
@@ -8003,8 +8003,8 @@
     "quality": "SSR",
     "character_class": "Mage",
     "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -8089,7 +8089,7 @@
     "recommended_subclasses": [
       "Elemental Mage"
     ],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Buck",
@@ -8097,8 +8097,8 @@
     "quality": "SR",
     "character_class": "Mage",
     "factions": [
-      "Arcane Wisdom",
-      "Wild Spirit"
+      "Elemental Echo",
+      "Illusion Veil"
     ],
     "is_global": true,
     "subclasses": [
@@ -8164,7 +8164,7 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Kleina",
@@ -8172,8 +8172,8 @@
     "quality": "SR",
     "character_class": "Mage",
     "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
+      "Illusion Veil",
+      "Otherworld Return"
     ],
     "is_global": true,
     "subclasses": [
@@ -8239,7 +8239,7 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Dwarven Sage",
@@ -8247,8 +8247,8 @@
     "quality": "R",
     "character_class": "Mage",
     "factions": [
-      "Arcane Wisdom",
-      "Otherworld Return"
+      "Elemental Echo",
+      "Sanctum Glory"
     ],
     "is_global": true,
     "subclasses": [
@@ -8304,7 +8304,7 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Pharaoh",
@@ -8312,8 +8312,8 @@
     "quality": "R",
     "character_class": "Mage",
     "factions": [
-      "Sanctum Glory",
-      "Illusion Veil"
+      "Otherworld Return",
+      "Arcane Wisdom"
     ],
     "is_global": true,
     "subclasses": [
@@ -8369,7 +8369,7 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   },
   {
     "name": "Ice Slime",
@@ -8377,7 +8377,7 @@
     "quality": "N",
     "character_class": "Mage",
     "factions": [
-      "Arcane Wisdom"
+      "Elemental Echo"
     ],
     "is_global": true,
     "subclasses": [],
@@ -8413,6 +8413,6 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771706373
+    "last_updated": 1771870646
   }
 ]

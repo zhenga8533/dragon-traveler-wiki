@@ -37,6 +37,7 @@ import LastUpdated from '../components/LastUpdated';
 import ResourceBadge from '../components/ResourceBadge';
 import SearchModal from '../components/SearchModal';
 import { TIER_COLOR } from '../constants/colors';
+import { normalizeContentType } from '../constants/content-types';
 import { BRAND_TITLE_STYLE } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 import { TierListReferenceContext } from '../contexts/tier-list-reference-context';
@@ -259,7 +260,7 @@ function FeaturedCharactersMarquee() {
 
   const tierListMeta = [
     tierList.name,
-    tierList.content_type,
+    normalizeContentType(tierList.content_type, 'All'),
     tierList.author ? `by ${tierList.author}` : null,
   ].filter(Boolean);
 
@@ -377,6 +378,7 @@ function ActiveCodesSection() {
                     color={copied ? 'teal' : 'gray'}
                     size="sm"
                     onClick={copy}
+                    aria-label={copied ? 'Copied!' : 'Copy code'}
                   >
                     {copied ? (
                       <IoCheckmark size={14} />

@@ -46,6 +46,7 @@ import ViewToggle from '../components/ViewToggle';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useViewMode } from '../hooks/use-filters';
+import { usePagination } from '../hooks/use-pagination';
 import type { Code } from '../types/code';
 import type { Resource } from '../types/resource';
 import { buildExpiredCodeUrl, getLatestTimestamp } from '../utils';
@@ -140,7 +141,6 @@ export default function Codes() {
   const [view, setView] = useState<ViewFilter>('unredeemed');
   const [tab, setTab] = useState<TabFilter>('active');
   const [search, setSearch] = useState('');
-  const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.CODES_VIEW_MODE,
     defaultMode: 'list',
@@ -231,17 +231,17 @@ export default function Codes() {
     [codes, tab, view, redeemed, search]
   );
 
-  useEffect(() => {
-    queueMicrotask(() => {
-      setCurrentPage(1);
-    });
-  }, [search, view, redeemed, tab]);
-
-  const totalPages = Math.ceil(filtered.length / CODES_PER_PAGE);
-  const paginatedCodes = filtered.slice(
-    (currentPage - 1) * CODES_PER_PAGE,
-    currentPage * CODES_PER_PAGE
+  const { page, setPage, totalPages, offset } = usePagination(
+    filtered.length,
+    CODES_PER_PAGE,
+    JSON.stringify({
+      search,
+      view,
+      tab,
+      redeemed: [...redeemed].sort(),
+    })
   );
+  const paginatedCodes = filtered.slice(offset, offset + CODES_PER_PAGE);
 
   const unclaimedRewards = useMemo(
     () =>
@@ -456,6 +456,7 @@ export default function Codes() {
                         target="_blank"
                         variant="subtle"
                         color="red"
+                        aria-label="Report expired"
                       >
                         <IoCloseCircleOutline size={18} />
                       </ActionIcon>
@@ -471,6 +472,7 @@ export default function Codes() {
                           variant="subtle"
                           color={copied ? 'teal' : 'gray'}
                           onClick={copy}
+                          aria-label={copied ? 'Copied!' : 'Copy code'}
                         >
                           {copied ? (
                             <IoCheckmark size={18} />
@@ -536,6 +538,7 @@ export default function Codes() {
                             variant="subtle"
                             color="red"
                             size="sm"
+                            aria-label="Report expired"
                           >
                             <IoCloseCircleOutline size={16} />
                           </ActionIcon>
@@ -552,6 +555,7 @@ export default function Codes() {
                               color={copied ? 'teal' : 'gray'}
                               onClick={copy}
                               size="sm"
+                              aria-label={copied ? 'Copied!' : 'Copy code'}
                             >
                               {copied ? (
                                 <IoCheckmark size={16} />
@@ -593,9 +597,9 @@ export default function Codes() {
 
         {!loading && (
           <PaginationControl
-            currentPage={currentPage}
+            currentPage={page}
             totalPages={totalPages}
-            onChange={setCurrentPage}
+            onChange={setPage}
           />
         )}
 

@@ -8,11 +8,11 @@ import {
   Timeline,
   Title,
 } from '@mantine/core';
-import { useState } from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import PaginationControl from '../components/PaginationControl';
 import { useDataFetch } from '../hooks';
+import { usePagination } from '../hooks/use-pagination';
 
 interface ChangelogEntry {
   date: string;
@@ -38,12 +38,12 @@ export default function Changelog() {
     'data/changelog.json',
     []
   );
-  const [currentPage, setCurrentPage] = useState(1);
-
-  const totalPages = Math.ceil(changelog.length / ENTRIES_PER_PAGE);
-  const startIndex = (currentPage - 1) * ENTRIES_PER_PAGE;
-  const endIndex = startIndex + ENTRIES_PER_PAGE;
-  const paginatedChangelog = changelog.slice(startIndex, endIndex);
+  const { page, setPage, totalPages, offset } = usePagination(
+    changelog.length,
+    ENTRIES_PER_PAGE,
+    String(changelog.length)
+  );
+  const paginatedChangelog = changelog.slice(offset, offset + ENTRIES_PER_PAGE);
 
   return (
     <Container size="md" py="xl">
@@ -126,9 +126,9 @@ export default function Changelog() {
             </Timeline>
 
             <PaginationControl
-              currentPage={currentPage}
+              currentPage={page}
               totalPages={totalPages}
-              onChange={setCurrentPage}
+              onChange={setPage}
             />
           </>
         )}

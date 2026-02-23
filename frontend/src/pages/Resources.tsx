@@ -21,6 +21,7 @@ import FilterToolbar from '../components/FilterToolbar';
 import InlineMarkup from '../components/InlineMarkup';
 import LastUpdated from '../components/LastUpdated';
 import ListPageShell from '../components/ListPageShell';
+import PaginationControl from '../components/PaginationControl';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import {
@@ -28,9 +29,10 @@ import {
   RESOURCE_CATEGORY_COLOR,
   RESOURCE_CATEGORY_ORDER,
 } from '../constants/colors';
-import { STORAGE_KEY } from '../constants/ui';
+import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { ResourcesContext } from '../contexts';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { ResourceCategory } from '../types/resource';
 import { getLatestTimestamp } from '../utils';
@@ -147,6 +149,11 @@ export default function Resources() {
     [resources]
   );
 
+  const { page, setPage, totalPages, offset } = usePagination(
+    filtered.length, PAGE_SIZE, JSON.stringify(filters)
+  );
+  const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
+
   const activeFilterCount =
     (filters.search ? 1 : 0) + filters.categories.length;
 
@@ -207,7 +214,7 @@ export default function Resources() {
                 </Text>
               ) : viewMode === 'grid' ? (
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-                  {filtered.map((resource) => {
+                  {pageItems.map((resource) => {
                     const iconSrc = getResourceIcon(resource.name);
                     return (
                       <Paper key={resource.name} p="sm" radius="md" withBorder>
@@ -287,7 +294,7 @@ export default function Resources() {
                       </Table.Tr>
                     </Table.Thead>
                     <Table.Tbody>
-                      {filtered.map((resource) => {
+                      {pageItems.map((resource) => {
                         const iconSrc = getResourceIcon(resource.name);
                         return (
                           <Table.Tr key={resource.name}>
@@ -344,6 +351,8 @@ export default function Resources() {
                   </Table>
                 </ScrollArea>
               )}
+
+              <PaginationControl currentPage={page} totalPages={totalPages} onChange={setPage} />
             </Stack>
           </Paper>
         </ListPageShell>

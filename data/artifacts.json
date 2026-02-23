@@ -2251,7 +2251,7 @@
       },
       {
         "level": 8,
-        "description": "At the start of the battle, back-row phantoms gain [Lifesteal] and 30% Rage"
+        "description": "At the start of the battle, back-row Luminaries gain [Lifesteal] and 30% Rage"
       },
       {
         "level": 11,
@@ -2430,7 +2430,7 @@
         ]
       }
     ],
-    "last_updated": 1771512626
+    "last_updated": 1771867941
   },
   {
     "name": "Eye of Horus",

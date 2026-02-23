@@ -30,13 +30,15 @@ import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/FilterToolbar';
 import LastUpdated from '../components/LastUpdated';
 import ListPageShell from '../components/ListPageShell';
+import PaginationControl from '../components/PaginationControl';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
-import { STORAGE_KEY } from '../constants/ui';
+import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Gear, GearSet, GearType } from '../types/gear';
 import type { Quality } from '../types/quality';
@@ -252,6 +254,14 @@ export default function GearPage() {
       });
   }, [gear, filters, sortCol, sortDir]);
 
+  const {
+    page: gearPage,
+    setPage: setGearPage,
+    totalPages: gearTotalPages,
+    offset: gearOffset,
+  } = usePagination(filtered.length, PAGE_SIZE, JSON.stringify(filters));
+  const gearPageItems = filtered.slice(gearOffset, gearOffset + PAGE_SIZE);
+
   const gearSetByName = useMemo(
     () => new Map(gearSets.map((entry) => [entry.name, entry])),
     [gearSets]
@@ -290,6 +300,17 @@ export default function GearPage() {
       })
       .sort((a, b) => a.name.localeCompare(b.name));
   }, [gearSets, gearSetSearch]);
+
+  const {
+    page: gearSetPage,
+    setPage: setGearSetPage,
+    totalPages: gearSetTotalPages,
+    offset: gearSetOffset,
+  } = usePagination(filteredGearSets.length, PAGE_SIZE, gearSetSearch);
+  const gearSetPageItems = filteredGearSets.slice(
+    gearSetOffset,
+    gearSetOffset + PAGE_SIZE
+  );
 
   const mostRecentUpdate = useMemo(() => getLatestTimestamp(gear), [gear]);
   const mostRecentSetUpdate = useMemo(
@@ -392,7 +413,7 @@ export default function GearPage() {
                     </Text>
                   ) : viewMode === 'grid' ? (
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                      {filtered.map((item) => {
+                      {gearPageItems.map((item) => {
                         const setData = gearSetByName.get(item.set);
                         const setBonus = setData?.set_bonus ?? item.set_bonus;
                         const iconSrc = getGearIcon(item.type, item.name);
@@ -404,7 +425,12 @@ export default function GearPage() {
                             p="md"
                             radius="md"
                             withBorder
-                            style={{ ...CARD_HOVER_STYLES, textDecoration: 'none', color: 'inherit', display: 'block' }}
+                            style={{
+                              ...CARD_HOVER_STYLES,
+                              textDecoration: 'none',
+                              color: 'inherit',
+                              display: 'block',
+                            }}
                             {...cardHoverHandlers}
                           >
                             <Group gap="md" align="flex-start" wrap="nowrap">
@@ -501,7 +527,7 @@ export default function GearPage() {
                           </Table.Tr>
                         </Table.Thead>
                         <Table.Tbody>
-                          {filtered.map((item) => {
+                          {gearPageItems.map((item) => {
                             const setData = gearSetByName.get(item.set);
                             const setBonus =
                               setData?.set_bonus ?? item.set_bonus;
@@ -582,6 +608,12 @@ export default function GearPage() {
                       </Table>
                     </ScrollArea>
                   )}
+
+                  <PaginationControl
+                    currentPage={gearPage}
+                    totalPages={gearTotalPages}
+                    onChange={setGearPage}
+                  />
                 </Stack>
               </Paper>
             </ListPageShell>
@@ -611,7 +643,7 @@ export default function GearPage() {
                     </Text>
                   ) : (
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                      {filteredGearSets.map((set) => {
+                      {gearSetPageItems.map((set) => {
                         const items = gearItemsBySet.get(set.name) ?? [];
                         return (
                           <Paper
@@ -621,7 +653,12 @@ export default function GearPage() {
                             p="md"
                             radius="md"
                             withBorder
-                            style={{ ...CARD_HOVER_STYLES, textDecoration: 'none', color: 'inherit', display: 'block' }}
+                            style={{
+                              ...CARD_HOVER_STYLES,
+                              textDecoration: 'none',
+                              color: 'inherit',
+                              display: 'block',
+                            }}
                             {...cardHoverHandlers}
                           >
                             <Stack gap="xs">
@@ -661,6 +698,12 @@ export default function GearPage() {
                       })}
                     </SimpleGrid>
                   )}
+
+                  <PaginationControl
+                    currentPage={gearSetPage}
+                    totalPages={gearSetTotalPages}
+                    onChange={setGearSetPage}
+                  />
                 </Stack>
               </Paper>
             </ListPageShell>

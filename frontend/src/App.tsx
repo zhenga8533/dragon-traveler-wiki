@@ -37,17 +37,20 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import logo from './assets/logo.png';
+import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
 import PageTransition from './components/PageTransition';
 import ScrollToTop from './components/ScrollToTop';
 import SearchModal from './components/SearchModal';
 import { getAccentForPath, PARENT_ACCENTS } from './constants/accents';
+import { normalizeContentType } from './constants/content-types';
 import { getGlassStyles } from './constants/glass';
 import { BRAND_TITLE_STYLE } from './constants/styles';
 import { SIDEBAR, TRANSITION } from './constants/ui';
 import {
   ResourcesProvider,
+  SearchDataProvider,
   SectionAccentProvider,
   TierListReferenceContext,
   TierListReferenceProvider,
@@ -63,10 +66,10 @@ import Codes from './pages/Codes';
 import GearPage from './pages/Gear';
 import GearSetPage from './pages/GearSetPage';
 import Home from './pages/Home';
-import NotFound from './pages/NotFound';
 import Howlkins from './pages/Howlkins';
 import NoblePhantasmPage from './pages/NoblePhantasmPage';
 import NoblePhantasms from './pages/NoblePhantasms';
+import NotFound from './pages/NotFound';
 import Resources from './pages/Resources';
 import ShovelEventGuide from './pages/ShovelEventGuide';
 import StarUpgradeCalculator from './pages/StarUpgradeCalculator';
@@ -325,7 +328,7 @@ function AppContent() {
     () =>
       tierLists.map((list) => ({
         value: list.name,
-        label: `${list.name} (${list.content_type})`,
+        label: `${list.name} (${normalizeContentType(list.content_type, 'All')})`,
       })),
     [tierLists]
   );
@@ -445,41 +448,43 @@ function AppContent() {
       >
         <Box style={{ flex: 1 }}>
           <PageTransition>
-            <Routes>
-              <Route path="/" element={<Home />} />
-              <Route path="/artifacts" element={<Artifacts />} />
-              <Route path="/artifacts/:name" element={<ArtifactPage />} />
-              <Route path="/characters" element={<Characters />} />
-              <Route path="/characters/:name" element={<CharacterPage />} />
-              <Route path="/gear" element={<GearPage />} />
-              <Route path="/gear-sets/:setName" element={<GearSetPage />} />
-              <Route path="/howlkins" element={<Howlkins />} />
-              <Route path="/noble-phantasms" element={<NoblePhantasms />} />
-              <Route
-                path="/noble-phantasms/:name"
-                element={<NoblePhantasmPage />}
-              />
-              <Route path="/resources" element={<Resources />} />
-              <Route path="/subclasses" element={<Subclasses />} />
-              <Route path="/status-effects" element={<StatusEffects />} />
-              <Route path="/wyrmspells" element={<DragonSpells />} />
-              <Route path="/tier-list" element={<TierList />} />
-              <Route path="/teams" element={<Teams />} />
-              <Route path="/teams/:teamName" element={<TeamPage />} />
-              <Route path="/codes" element={<Codes />} />
-              <Route path="/useful-links" element={<UsefulLinks />} />
-              <Route path="/changelog" element={<Changelog />} />
-              <Route path="/guides/beginner-qa" element={<BeginnerQA />} />
-              <Route
-                path="/guides/star-upgrade-calculator"
-                element={<StarUpgradeCalculator />}
-              />
-              <Route
-                path="/guides/shovel-event"
-                element={<ShovelEventGuide />}
-              />
-              <Route path="*" element={<NotFound />} />
-            </Routes>
+            <ErrorBoundary>
+              <Routes>
+                <Route path="/" element={<Home />} />
+                <Route path="/artifacts" element={<Artifacts />} />
+                <Route path="/artifacts/:name" element={<ArtifactPage />} />
+                <Route path="/characters" element={<Characters />} />
+                <Route path="/characters/:name" element={<CharacterPage />} />
+                <Route path="/gear" element={<GearPage />} />
+                <Route path="/gear-sets/:setName" element={<GearSetPage />} />
+                <Route path="/howlkins" element={<Howlkins />} />
+                <Route path="/noble-phantasms" element={<NoblePhantasms />} />
+                <Route
+                  path="/noble-phantasms/:name"
+                  element={<NoblePhantasmPage />}
+                />
+                <Route path="/resources" element={<Resources />} />
+                <Route path="/subclasses" element={<Subclasses />} />
+                <Route path="/status-effects" element={<StatusEffects />} />
+                <Route path="/wyrmspells" element={<DragonSpells />} />
+                <Route path="/tier-list" element={<TierList />} />
+                <Route path="/teams" element={<Teams />} />
+                <Route path="/teams/:teamName" element={<TeamPage />} />
+                <Route path="/codes" element={<Codes />} />
+                <Route path="/useful-links" element={<UsefulLinks />} />
+                <Route path="/changelog" element={<Changelog />} />
+                <Route path="/guides/beginner-qa" element={<BeginnerQA />} />
+                <Route
+                  path="/guides/star-upgrade-calculator"
+                  element={<StarUpgradeCalculator />}
+                />
+                <Route
+                  path="/guides/shovel-event"
+                  element={<ShovelEventGuide />}
+                />
+                <Route path="*" element={<NotFound />} />
+              </Routes>
+            </ErrorBoundary>
           </PageTransition>
         </Box>
         <Footer />
@@ -495,11 +500,13 @@ export default function App() {
   return (
     <HashRouter>
       <SectionAccentProvider>
-        <ResourcesProvider>
-          <TierListReferenceProvider>
-            <AppContent />
-          </TierListReferenceProvider>
-        </ResourcesProvider>
+        <SearchDataProvider>
+          <ResourcesProvider>
+            <TierListReferenceProvider>
+              <AppContent />
+            </TierListReferenceProvider>
+          </ResourcesProvider>
+        </SearchDataProvider>
       </SectionAccentProvider>
     </HashRouter>
   );

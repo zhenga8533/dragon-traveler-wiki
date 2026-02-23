@@ -102,6 +102,7 @@ function TreasureCard({
               fit="contain"
               radius="sm"
               style={{ flexShrink: 0 }}
+              loading="lazy"
             />
           )}
           <Stack gap={4} style={{ flex: 1 }}>
