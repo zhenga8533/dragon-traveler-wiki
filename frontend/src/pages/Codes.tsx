@@ -13,6 +13,7 @@ import {
   SegmentedControl,
   SimpleGrid,
   Stack,
+  Tabs,
   Text,
   TextInput,
   Title,
@@ -126,6 +127,7 @@ function saveRedeemed(set: Set<string>) {
 }
 
 type ViewFilter = 'unredeemed' | 'redeemed' | 'all';
+type TabFilter = 'active' | 'expired';
 const CODES_PER_PAGE = 20;
 
 export default function Codes() {
@@ -136,6 +138,7 @@ export default function Codes() {
   );
   const [redeemed, setRedeemed] = useState<Set<string>>(() => loadRedeemed());
   const [view, setView] = useState<ViewFilter>('unredeemed');
+  const [tab, setTab] = useState<TabFilter>('active');
   const [search, setSearch] = useState('');
   const [currentPage, setCurrentPage] = useState(1);
   const [viewMode, setViewMode] = useViewMode({
@@ -176,48 +179,63 @@ export default function Codes() {
   }, []);
 
   const markAllRedeemed = useCallback(() => {
-    setRedeemed(() => {
-      const next = new Set(codes.map((c) => c.code));
+    const codesToMark = codes.filter((c) =>
+      tab === 'active' ? c.active : !c.active
+    );
+    setRedeemed((prev) => {
+      const next = new Set(prev);
+      codesToMark.forEach((c) => next.add(c.code));
       saveRedeemed(next);
       return next;
     });
     notifications.show({
-      title: 'All codes redeemed',
-      message: `Marked ${codes.length} codes as redeemed.`,
+      title: 'Codes marked as redeemed',
+      message: `Marked ${codesToMark.length} ${tab} codes as redeemed.`,
       color: 'teal',
     });
-  }, [codes]);
+  }, [codes, tab]);
 
   const clearAllRedeemed = useCallback(() => {
-    setRedeemed(() => {
-      const next = new Set<string>();
+    const codesToClear = codes.filter((c) =>
+      tab === 'active' ? c.active : !c.active
+    );
+    setRedeemed((prev) => {
+      const next = new Set(prev);
+      codesToClear.forEach((c) => next.delete(c.code));
       saveRedeemed(next);
       return next;
     });
     notifications.show({
-      title: 'Redeemed codes cleared',
-      message: 'All codes marked as unredeemed.',
+      title: 'Redeemed status cleared',
+      message: `Marked ${codesToClear.length} ${tab} codes as unredeemed.`,
       color: 'gray',
     });
-  }, []);
+  }, [codes, tab]);
 
   const filtered = useMemo(
     () =>
       codes.filter((entry) => {
+        // Filter by active/expired tab
+        if (tab === 'active' && !entry.active) return false;
+        if (tab === 'expired' && entry.active) return false;
+
+        // Filter by redeemed status
         if (view === 'redeemed' && !redeemed.has(entry.code)) return false;
         if (view === 'unredeemed' && redeemed.has(entry.code)) return false;
+
+        // Filter by search
         if (search && !entry.code.toLowerCase().includes(search.toLowerCase()))
           return false;
         return true;
       }),
-    [codes, view, redeemed, search]
+    [codes, tab, view, redeemed, search]
   );
 
   useEffect(() => {
     queueMicrotask(() => {
       setCurrentPage(1);
     });
-  }, [search, view, redeemed]);
+  }, [search, view, redeemed, tab]);
 
   const totalPages = Math.ceil(filtered.length / CODES_PER_PAGE);
   const paginatedCodes = filtered.slice(
@@ -241,6 +259,11 @@ export default function Codes() {
   const codeRewardArrayFields = useMemo(
     () => buildCodeRewardArrayFields(resources),
     [resources]
+  );
+
+  const tabCodeCount = useMemo(
+    () => codes.filter((c) => (tab === 'active' ? c.active : !c.active)).length,
+    [codes, tab]
   );
 
   return (
@@ -280,6 +303,13 @@ export default function Codes() {
           value={search}
           onChange={(e) => setSearch(e.currentTarget.value)}
         />
+
+        <Tabs value={tab} onChange={(v) => setTab(v as TabFilter)}>
+          <Tabs.List>
+            <Tabs.Tab value="active">Active Codes</Tabs.Tab>
+            <Tabs.Tab value="expired">Expired Codes</Tabs.Tab>
+          </Tabs.List>
+        </Tabs>
 
         <Group justify="space-between" align="center" wrap="wrap">
           <Group gap="xs">
@@ -377,11 +407,17 @@ export default function Codes() {
           <Text c="dimmed" ta="center" py="lg">
             {search
               ? 'No codes match your search.'
-              : view === 'redeemed'
-                ? 'No codes marked as redeemed yet.'
-                : view === 'unredeemed'
-                  ? 'All codes have been redeemed!'
-                  : 'No codes available.'}
+              : tab === 'expired'
+                ? view === 'redeemed'
+                  ? 'No expired codes marked as redeemed.'
+                  : view === 'unredeemed'
+                    ? 'No unredeemed expired codes.'
+                    : 'No expired codes yet.'
+                : view === 'redeemed'
+                  ? 'No active codes marked as redeemed yet.'
+                  : view === 'unredeemed'
+                    ? 'All active codes have been redeemed!'
+                    : 'No active codes available.'}
           </Text>
         )}
 
@@ -570,7 +606,7 @@ export default function Codes() {
           centered
         >
           <Text size="sm" mb="lg">
-            This will mark all {codes.length} codes as redeemed.
+            This will mark all {tabCodeCount} {tab} codes as redeemed.
           </Text>
           <Group justify="flex-end">
             <Button variant="default" onClick={closeMarkAll}>
@@ -594,7 +630,7 @@ export default function Codes() {
           centered
         >
           <Text size="sm" mb="lg">
-            This will mark all codes as unredeemed.
+            This will mark all {tabCodeCount} {tab} codes as unredeemed.
           </Text>
           <Group justify="flex-end">
             <Button variant="default" onClick={closeClearAll}>
