@@ -321,40 +321,40 @@ export default function Teams() {
                                 {team.name}
                               </Text>
                             </Group>
-                            <Group gap="xs">
-                              <Badge variant="light" size="sm">
-                                {team.content_type}
-                              </Badge>
-                              <Badge
-                                variant="light"
-                                size="sm"
-                                color={
-                                  FACTION_COLOR[team.faction as FactionName]
-                                }
-                              >
-                                {team.faction}
-                              </Badge>
-                              <Image
-                                src={
-                                  FACTION_ICON_MAP[team.faction as FactionName]
-                                }
-                                alt={team.faction}
-                                w={24}
-                                h={24}
-                              />
-                              <Button
-                                variant="light"
-                                size="sm"
-                                leftSection={<IoCreate size={14} />}
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                  setEditData(team);
-                                  setMode('builder');
-                                }}
-                              >
-                                Edit
-                              </Button>
-                            </Group>
+
+                            <Button
+                              variant="light"
+                              size="sm"
+                              leftSection={<IoCreate size={14} />}
+                              onClick={(e) => {
+                                e.stopPropagation();
+                                setEditData(team);
+                                setMode('builder');
+                              }}
+                            >
+                              Edit
+                            </Button>
+                          </Group>
+
+                          <Group gap="xs">
+                            <Badge variant="light" size="sm">
+                              {team.content_type}
+                            </Badge>
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={FACTION_COLOR[team.faction as FactionName]}
+                            >
+                              {team.faction}
+                            </Badge>
+                            <Image
+                              src={
+                                FACTION_ICON_MAP[team.faction as FactionName]
+                              }
+                              alt={team.faction}
+                              w={24}
+                              h={24}
+                            />
                           </Group>
 
                           <Group gap="xs">
