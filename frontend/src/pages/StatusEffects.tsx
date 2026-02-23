@@ -15,16 +15,17 @@ import { useMemo } from 'react';
 import { getStatusEffectIcon } from '../assets/status_effect';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
-import FilterToolbar from '../components/FilterToolbar';
+import FilteredListShell from '../components/FilteredListShell';
 import LastUpdated from '../components/LastUpdated';
 import ListPageShell from '../components/ListPageShell';
 import RichText from '../components/RichText';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
-import { STORAGE_KEY } from '../constants/ui';
+import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
 import { getLatestTimestamp } from '../utils';
@@ -137,6 +138,11 @@ export default function StatusEffects() {
       });
   }, [effects, filters, sortCol, sortDir]);
 
+  const { page, setPage, totalPages, offset } = usePagination(
+    filtered.length, PAGE_SIZE, JSON.stringify(filters)
+  );
+  const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
+
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(effects),
     [effects]
@@ -168,57 +174,126 @@ export default function StatusEffects() {
           emptyMessage="No status effect data available yet."
           skeletonCards={4}
         >
-          <Paper p="md" radius="md" withBorder>
-            <Stack gap="md">
-              <FilterToolbar
-                count={filtered.length}
-                noun="status effect"
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-                filterCount={activeFilterCount}
-                filterOpen={filterOpen}
-                onFilterToggle={toggleFilter}
-              >
-                <EntityFilter
-                  groups={FILTER_GROUPS}
-                  selected={{ types: filters.types }}
-                  onChange={(key, values) =>
-                    setFilters({
-                      ...filters,
-                      [key]: values as StatusEffectType[],
-                    })
-                  }
-                  onClear={() => setFilters(EMPTY_FILTERS)}
-                  search={filters.search}
-                  onSearchChange={(value) =>
-                    setFilters({ ...filters, search: value })
-                  }
-                  searchPlaceholder="Search by name..."
-                />
-              </FilterToolbar>
-
-              {filtered.length === 0 ? (
-                <Text c="dimmed" size="sm" ta="center" py="md">
-                  No status effects match the current filters.
-                </Text>
-              ) : viewMode === 'grid' ? (
-                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-                  {filtered.map((effect) => {
-                    const iconSrc = getStatusEffectIcon(effect.name);
-                    return (
-                      <Paper key={effect.name} p="sm" radius="md" withBorder>
-                        <Stack gap="xs">
-                          <Group gap="sm" wrap="nowrap">
+          <FilteredListShell
+            count={filtered.length}
+            noun="status effect"
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            filterCount={activeFilterCount}
+            filterOpen={filterOpen}
+            onFilterToggle={toggleFilter}
+            filterContent={
+              <EntityFilter
+                groups={FILTER_GROUPS}
+                selected={{ types: filters.types }}
+                onChange={(key, values) =>
+                  setFilters({
+                    ...filters,
+                    [key]: values as StatusEffectType[],
+                  })
+                }
+                onClear={() => setFilters(EMPTY_FILTERS)}
+                search={filters.search}
+                onSearchChange={(value) =>
+                  setFilters({ ...filters, search: value })
+                }
+                searchPlaceholder="Search by name..."
+              />
+            }
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+            gridContent={
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                {pageItems.map((effect) => {
+                  const iconSrc = getStatusEffectIcon(effect.name);
+                  return (
+                    <Paper key={effect.name} p="sm" radius="md" withBorder>
+                      <Stack gap="xs">
+                        <Group gap="sm" wrap="nowrap">
+                          {iconSrc && (
+                            <Image
+                              src={iconSrc}
+                              alt={effect.name}
+                              w={28}
+                              h={28}
+                              fit="contain"
+                              loading="lazy"
+                            />
+                          )}
+                          <Text fw={600}>{effect.name}</Text>
+                          <Badge
+                            variant="light"
+                            color={STATE_COLOR[effect.type]}
+                            size="sm"
+                          >
+                            {effect.type}
+                          </Badge>
+                        </Group>
+                        <RichText
+                          text={effect.effect}
+                          statusEffects={effects}
+                        />
+                        {effect.remark && (
+                          <Text size="xs" c="dimmed" fs="italic">
+                            {effect.remark}
+                          </Text>
+                        )}
+                      </Stack>
+                    </Paper>
+                  );
+                })}
+              </SimpleGrid>
+            }
+            tableContent={
+              <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                <Table striped highlightOnHover style={{ minWidth: 720 }}>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Icon</Table.Th>
+                      <SortableTh
+                        sortKey="name"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Name
+                      </SortableTh>
+                      <SortableTh
+                        sortKey="type"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Type
+                      </SortableTh>
+                      <Table.Th>Effect</Table.Th>
+                      <Table.Th>Remark</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {pageItems.map((effect) => {
+                      const iconSrc = getStatusEffectIcon(effect.name);
+                      return (
+                        <Table.Tr key={effect.name}>
+                          <Table.Td>
                             {iconSrc && (
                               <Image
                                 src={iconSrc}
                                 alt={effect.name}
-                                w={28}
-                                h={28}
+                                w={32}
+                                h={32}
                                 fit="contain"
+                                loading="lazy"
                               />
                             )}
-                            <Text fw={600}>{effect.name}</Text>
+                          </Table.Td>
+                          <Table.Td>
+                            <Text fw={600} size="sm">
+                              {effect.name}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td>
                             <Badge
                               variant="light"
                               color={STATE_COLOR[effect.type]}
@@ -226,103 +301,32 @@ export default function StatusEffects() {
                             >
                               {effect.type}
                             </Badge>
-                          </Group>
-                          <RichText
-                            text={effect.effect}
-                            statusEffects={effects}
-                          />
-                          {effect.remark && (
-                            <Text size="xs" c="dimmed" fs="italic">
-                              {effect.remark}
-                            </Text>
-                          )}
-                        </Stack>
-                      </Paper>
-                    );
-                  })}
-                </SimpleGrid>
-              ) : (
-                <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                  <Table striped highlightOnHover style={{ minWidth: 720 }}>
-                    <Table.Thead>
-                      <Table.Tr>
-                        <Table.Th>Icon</Table.Th>
-                        <SortableTh
-                          sortKey="name"
-                          sortCol={sortCol}
-                          sortDir={sortDir}
-                          onSort={handleSort}
-                        >
-                          Name
-                        </SortableTh>
-                        <SortableTh
-                          sortKey="type"
-                          sortCol={sortCol}
-                          sortDir={sortDir}
-                          onSort={handleSort}
-                        >
-                          Type
-                        </SortableTh>
-                        <Table.Th>Effect</Table.Th>
-                        <Table.Th>Remark</Table.Th>
-                      </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>
-                      {filtered.map((effect) => {
-                        const iconSrc = getStatusEffectIcon(effect.name);
-                        return (
-                          <Table.Tr key={effect.name}>
-                            <Table.Td>
-                              {iconSrc && (
-                                <Image
-                                  src={iconSrc}
-                                  alt={effect.name}
-                                  w={32}
-                                  h={32}
-                                  fit="contain"
-                                />
-                              )}
-                            </Table.Td>
-                            <Table.Td>
-                              <Text fw={600} size="sm">
-                                {effect.name}
+                          </Table.Td>
+                          <Table.Td>
+                            <RichText
+                              text={effect.effect}
+                              statusEffects={effects}
+                            />
+                          </Table.Td>
+                          <Table.Td>
+                            {effect.remark ? (
+                              <Text size="xs" c="dimmed" fs="italic">
+                                {effect.remark}
                               </Text>
-                            </Table.Td>
-                            <Table.Td>
-                              <Badge
-                                variant="light"
-                                color={STATE_COLOR[effect.type]}
-                                size="sm"
-                              >
-                                {effect.type}
-                              </Badge>
-                            </Table.Td>
-                            <Table.Td>
-                              <RichText
-                                text={effect.effect}
-                                statusEffects={effects}
-                              />
-                            </Table.Td>
-                            <Table.Td>
-                              {effect.remark ? (
-                                <Text size="xs" c="dimmed" fs="italic">
-                                  {effect.remark}
-                                </Text>
-                              ) : (
-                                <Text size="xs" c="dimmed">
-                                  -
-                                </Text>
-                              )}
-                            </Table.Td>
-                          </Table.Tr>
-                        );
-                      })}
-                    </Table.Tbody>
-                  </Table>
-                </ScrollArea>
-              )}
-            </Stack>
-          </Paper>
+                            ) : (
+                              <Text size="xs" c="dimmed">
+                                -
+                              </Text>
+                            )}
+                          </Table.Td>
+                        </Table.Tr>
+                      );
+                    })}
+                  </Table.Tbody>
+                </Table>
+              </ScrollArea>
+            }
+          />
         </ListPageShell>
       </Stack>
     </Container>

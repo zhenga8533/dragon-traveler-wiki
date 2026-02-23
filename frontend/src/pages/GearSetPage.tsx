@@ -278,6 +278,7 @@ export default function GearSetPage() {
                               w={44}
                               h={44}
                               fit="cover"
+                              loading="lazy"
                             />
                           ) : (
                             <Text size="xs" fw={700}>
@@ -317,6 +318,7 @@ export default function GearSetPage() {
                           h={64}
                           fit="contain"
                           radius="sm"
+                          loading="lazy"
                         />
                       )}
                       <Stack gap={4} style={{ flex: 1 }}>

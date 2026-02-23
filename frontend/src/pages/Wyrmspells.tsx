@@ -17,7 +17,7 @@ import { FACTION_ICON_MAP } from '../assets/faction';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
-import FilterToolbar from '../components/FilterToolbar';
+import FilteredListShell from '../components/FilteredListShell';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import ListPageShell from '../components/ListPageShell';
@@ -26,7 +26,7 @@ import { renderQualityFilterIcon } from '../components/renderQualityFilterIcon';
 import SortableTh from '../components/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
-import { STORAGE_KEY } from '../constants/ui';
+import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import {
   countActiveFilters,
@@ -34,6 +34,7 @@ import {
   useFilters,
   useViewMode,
 } from '../hooks/use-filters';
+import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Wyrmspell } from '../types/wyrmspell';
 import { getLatestTimestamp } from '../utils';
@@ -200,6 +201,11 @@ export default function Wyrmspells() {
       });
   }, [wyrmspells, filters, sortCol, sortDir]);
 
+  const { page, setPage, totalPages, offset } = usePagination(
+    filtered.length, PAGE_SIZE, JSON.stringify(filters)
+  );
+  const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
+
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(wyrmspells),
     [wyrmspells]
@@ -231,204 +237,202 @@ export default function Wyrmspells() {
           emptyMessage="No wyrmspell data available yet."
           skeletonCards={4}
         >
-          <Paper p="md" radius="md" withBorder>
-            <Stack gap="md">
-              <FilterToolbar
-                count={filtered.length}
-                noun="wyrmspell"
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-                filterCount={activeFilterCount}
-                filterOpen={filterOpen}
-                onFilterToggle={toggleFilter}
-              >
-                <EntityFilter
-                  groups={filterGroups}
-                  selected={{
-                    types: filters.types,
-                    qualities: filters.qualities,
-                  }}
-                  onChange={(key, values) =>
-                    setFilters({ ...filters, [key]: values })
-                  }
-                  onClear={() => setFilters(EMPTY_FILTERS)}
-                  search={filters.search}
-                  onSearchChange={(value) =>
-                    setFilters({ ...filters, search: value })
-                  }
-                  searchPlaceholder="Search by name..."
-                />
-              </FilterToolbar>
-
-              {filtered.length === 0 ? (
-                <Text c="dimmed" size="sm" ta="center" py="md">
-                  No wyrmspells match the current filters.
-                </Text>
-              ) : viewMode === 'grid' ? (
-                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-                  {filtered.map((spell) => {
-                    const iconSrc = getWyrmspellIcon(spell.name);
-                    const factionIcon = spell.exclusive_faction
-                      ? FACTION_ICON_MAP[spell.exclusive_faction]
-                      : undefined;
-                    return (
-                      <Paper key={spell.name} p="sm" radius="md" withBorder>
-                        <Group gap="md" align="flex-start" wrap="nowrap">
-                          {iconSrc && (
-                            <Image
-                              src={iconSrc}
-                              alt={spell.name}
-                              w={56}
-                              h={56}
-                              fit="contain"
+          <FilteredListShell
+            count={filtered.length}
+            noun="wyrmspell"
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            filterCount={activeFilterCount}
+            filterOpen={filterOpen}
+            onFilterToggle={toggleFilter}
+            filterContent={
+              <EntityFilter
+                groups={filterGroups}
+                selected={{
+                  types: filters.types,
+                  qualities: filters.qualities,
+                }}
+                onChange={(key, values) =>
+                  setFilters({ ...filters, [key]: values })
+                }
+                onClear={() => setFilters(EMPTY_FILTERS)}
+                search={filters.search}
+                onSearchChange={(value) =>
+                  setFilters({ ...filters, search: value })
+                }
+                searchPlaceholder="Search by name..."
+              />
+            }
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+            gridContent={
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                {pageItems.map((spell) => {
+                  const iconSrc = getWyrmspellIcon(spell.name);
+                  const factionIcon = spell.exclusive_faction
+                    ? FACTION_ICON_MAP[spell.exclusive_faction]
+                    : undefined;
+                  return (
+                    <Paper key={spell.name} p="sm" radius="md" withBorder>
+                      <Group gap="md" align="flex-start" wrap="nowrap">
+                        {iconSrc && (
+                          <Image
+                            src={iconSrc}
+                            alt={spell.name}
+                            w={56}
+                            h={56}
+                            fit="contain"
+                            loading="lazy"
+                          />
+                        )}
+                        <Stack gap={4} style={{ flex: 1 }}>
+                          <Group gap="sm" wrap="wrap">
+                            <QualityIcon quality={spell.quality} />
+                            <Text fw={600}>{spell.name}</Text>
+                          </Group>
+                          <Group gap="sm" wrap="wrap">
+                            <Badge variant="light" size="sm">
+                              {spell.type}
+                            </Badge>
+                            <GlobalBadge
+                              isGlobal={spell.is_global}
+                              size="sm"
                             />
-                          )}
-                          <Stack gap={4} style={{ flex: 1 }}>
-                            <Group gap="sm" wrap="wrap">
-                              <QualityIcon quality={spell.quality} />
-                              <Text fw={600}>{spell.name}</Text>
-                            </Group>
-                            <Group gap="sm" wrap="wrap">
-                              <Badge variant="light" size="sm">
-                                {spell.type}
-                              </Badge>
-                              <GlobalBadge
-                                isGlobal={spell.is_global}
-                                size="sm"
-                              />
-                              {spell.exclusive_faction && (
-                                <Tooltip label={spell.exclusive_faction}>
-                                  <Image
-                                    src={factionIcon}
-                                    alt={spell.exclusive_faction}
-                                    w={20}
-                                    h={20}
-                                  />
-                                </Tooltip>
-                              )}
-                            </Group>
-                            <Text size="sm">{spell.effect}</Text>
-                          </Stack>
-                        </Group>
-                      </Paper>
-                    );
-                  })}
-                </SimpleGrid>
-              ) : (
-                <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                  <Table striped highlightOnHover style={{ minWidth: 800 }}>
-                    <Table.Thead>
-                      <Table.Tr>
-                        <Table.Th>Icon</Table.Th>
-                        <SortableTh
-                          sortKey="name"
-                          sortCol={sortCol}
-                          sortDir={sortDir}
-                          onSort={handleSort}
-                        >
-                          Name
-                        </SortableTh>
-                        <SortableTh
-                          sortKey="type"
-                          sortCol={sortCol}
-                          sortDir={sortDir}
-                          onSort={handleSort}
-                        >
-                          Type
-                        </SortableTh>
-                        <SortableTh
-                          sortKey="quality"
-                          sortCol={sortCol}
-                          sortDir={sortDir}
-                          onSort={handleSort}
-                        >
-                          Max Quality
-                        </SortableTh>
-                        <SortableTh
-                          sortKey="faction"
-                          sortCol={sortCol}
-                          sortDir={sortDir}
-                          onSort={handleSort}
-                        >
-                          Faction
-                        </SortableTh>
-                        <SortableTh
-                          sortKey="global"
-                          sortCol={sortCol}
-                          sortDir={sortDir}
-                          onSort={handleSort}
-                        >
-                          Global
-                        </SortableTh>
-                        <Table.Th>Effect (Max Quality)</Table.Th>
-                      </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>
-                      {filtered.map((spell) => {
-                        const iconSrc = getWyrmspellIcon(spell.name);
-                        const factionIcon = spell.exclusive_faction
-                          ? FACTION_ICON_MAP[spell.exclusive_faction]
-                          : undefined;
-                        return (
-                          <Table.Tr key={spell.name}>
-                            <Table.Td>
-                              {iconSrc && (
+                            {spell.exclusive_faction && (
+                              <Tooltip label={spell.exclusive_faction}>
                                 <Image
-                                  src={iconSrc}
-                                  alt={spell.name}
-                                  w={40}
-                                  h={40}
-                                  fit="contain"
+                                  src={factionIcon}
+                                  alt={spell.exclusive_faction}
+                                  w={20}
+                                  h={20}
                                 />
-                              )}
-                            </Table.Td>
-                            <Table.Td>
-                              <Text fw={600} size="sm">
-                                {spell.name}
-                              </Text>
-                            </Table.Td>
-                            <Table.Td>
-                              <Badge variant="light" size="sm">
-                                {spell.type}
-                              </Badge>
-                            </Table.Td>
-                            <Table.Td>
-                              <QualityIcon quality={spell.quality} />
-                            </Table.Td>
-                            <Table.Td>
-                              {spell.exclusive_faction ? (
-                                <Tooltip label={spell.exclusive_faction}>
-                                  <Image
-                                    src={factionIcon}
-                                    alt={spell.exclusive_faction}
-                                    w={24}
-                                    h={24}
-                                  />
-                                </Tooltip>
-                              ) : (
-                                <Text size="sm" c="dimmed">
-                                  —
-                                </Text>
-                              )}
-                            </Table.Td>
-                            <Table.Td>
-                              <GlobalBadge
-                                isGlobal={spell.is_global}
-                                size="sm"
+                              </Tooltip>
+                            )}
+                          </Group>
+                          <Text size="sm">{spell.effect}</Text>
+                        </Stack>
+                      </Group>
+                    </Paper>
+                  );
+                })}
+              </SimpleGrid>
+            }
+            tableContent={
+              <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                <Table striped highlightOnHover style={{ minWidth: 800 }}>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Icon</Table.Th>
+                      <SortableTh
+                        sortKey="name"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Name
+                      </SortableTh>
+                      <SortableTh
+                        sortKey="type"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Type
+                      </SortableTh>
+                      <SortableTh
+                        sortKey="quality"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Max Quality
+                      </SortableTh>
+                      <SortableTh
+                        sortKey="faction"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Faction
+                      </SortableTh>
+                      <SortableTh
+                        sortKey="global"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Global
+                      </SortableTh>
+                      <Table.Th>Effect (Max Quality)</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {pageItems.map((spell) => {
+                      const iconSrc = getWyrmspellIcon(spell.name);
+                      const factionIcon = spell.exclusive_faction
+                        ? FACTION_ICON_MAP[spell.exclusive_faction]
+                        : undefined;
+                      return (
+                        <Table.Tr key={spell.name}>
+                          <Table.Td>
+                            {iconSrc && (
+                              <Image
+                                src={iconSrc}
+                                alt={spell.name}
+                                w={40}
+                                h={40}
+                                fit="contain"
+                                loading="lazy"
                               />
-                            </Table.Td>
-                            <Table.Td>
-                              <Text size="sm">{spell.effect}</Text>
-                            </Table.Td>
-                          </Table.Tr>
-                        );
-                      })}
-                    </Table.Tbody>
-                  </Table>
-                </ScrollArea>
-              )}
-            </Stack>
-          </Paper>
+                            )}
+                          </Table.Td>
+                          <Table.Td>
+                            <Text fw={600} size="sm">
+                              {spell.name}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td>
+                            <Badge variant="light" size="sm">
+                              {spell.type}
+                            </Badge>
+                          </Table.Td>
+                          <Table.Td>
+                            <QualityIcon quality={spell.quality} />
+                          </Table.Td>
+                          <Table.Td>
+                            {spell.exclusive_faction ? (
+                              <Tooltip label={spell.exclusive_faction}>
+                                <Image
+                                  src={factionIcon}
+                                  alt={spell.exclusive_faction}
+                                  w={24}
+                                  h={24}
+                                />
+                              </Tooltip>
+                            ) : (
+                              <Text size="sm" c="dimmed">
+                                —
+                              </Text>
+                            )}
+                          </Table.Td>
+                          <Table.Td>
+                            <GlobalBadge
+                              isGlobal={spell.is_global}
+                              size="sm"
+                            />
+                          </Table.Td>
+                          <Table.Td>
+                            <Text size="sm">{spell.effect}</Text>
+                          </Table.Td>
+                        </Table.Tr>
+                      );
+                    })}
+                  </Table.Tbody>
+                </Table>
+              </ScrollArea>
+            }
+          />
         </ListPageShell>
       </Stack>
     </Container>

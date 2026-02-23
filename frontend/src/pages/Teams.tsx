@@ -36,6 +36,7 @@ import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilters, useViewMode } from '../hooks/use-filters';
+import { usePagination } from '../hooks/use-pagination';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
@@ -76,7 +77,6 @@ export default function Teams() {
     emptyFilters: { factions: [], contentTypes: [] },
     storageKey: STORAGE_KEY.TEAMS_FILTERS,
   });
-  const [currentPage, setCurrentPage] = useState(1);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [search, setSearch] = useState(() => {
     if (typeof window === 'undefined') return '';
@@ -166,17 +166,12 @@ export default function Teams() {
     });
   }, [teams, search, viewFilters]);
 
-  useEffect(() => {
-    queueMicrotask(() => {
-      setCurrentPage(1);
-    });
-  }, [search, viewFilters]);
-
-  const totalPages = Math.ceil(filteredTeams.length / TEAMS_PER_PAGE);
-  const paginatedTeams = filteredTeams.slice(
-    (currentPage - 1) * TEAMS_PER_PAGE,
-    currentPage * TEAMS_PER_PAGE
+  const { page, setPage, totalPages, offset } = usePagination(
+    filteredTeams.length,
+    TEAMS_PER_PAGE,
+    JSON.stringify({ search, viewFilters })
   );
+  const paginatedTeams = filteredTeams.slice(offset, offset + TEAMS_PER_PAGE);
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
@@ -298,7 +293,12 @@ export default function Teams() {
                         p="md"
                         radius="md"
                         withBorder
-                        style={{ ...CARD_HOVER_STYLES, textDecoration: 'none', color: 'inherit', display: 'block' }}
+                        style={{
+                          ...CARD_HOVER_STYLES,
+                          textDecoration: 'none',
+                          color: 'inherit',
+                          display: 'block',
+                        }}
                         {...cardHoverHandlers}
                       >
                         <Stack gap="sm">
@@ -499,9 +499,9 @@ export default function Teams() {
                 )}
 
                 <PaginationControl
-                  currentPage={currentPage}
+                  currentPage={page}
                   totalPages={totalPages}
-                  onChange={setCurrentPage}
+                  onChange={setPage}
                 />
               </>
             )}

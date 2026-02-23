@@ -21,10 +21,12 @@ import { TIER_ORDER } from '../constants/colors';
 import {
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
+  PAGE_SIZE,
   STORAGE_KEY,
 } from '../constants/ui';
 import { TierListReferenceContext } from '../contexts';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Character } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
@@ -38,6 +40,7 @@ import CharacterCard, { QUALITY_BORDER_COLOR, TIER_BADGE_COLOR } from './Charact
 import CharacterFilter from './CharacterFilter';
 import FilterToolbar from './FilterToolbar';
 import GlobalBadge from './GlobalBadge';
+import PaginationControl from './PaginationControl';
 import SortableTh from './SortableTh';
 
 interface CharacterListProps {
@@ -116,6 +119,11 @@ export default function CharacterList({
     });
   }, [characters, filters, sortCol, sortDir, tierLookup]);
 
+  const { page, setPage, totalPages, offset } = usePagination(
+    filteredAndSorted.length, PAGE_SIZE, JSON.stringify(filters)
+  );
+  const pageItems = filteredAndSorted.slice(offset, offset + PAGE_SIZE);
+
   const activeFilterCount =
     (filters.search ? 1 : 0) +
     filters.qualities.length +
@@ -158,7 +166,7 @@ export default function CharacterList({
           </Text>
         ) : viewMode === 'grid' ? (
           <SimpleGrid cols={cols} spacing={spacing}>
-            {filteredAndSorted.map((char) => (
+            {pageItems.map((char) => (
               <CharacterCard
                 key={char.name}
                 name={char.name}
@@ -218,7 +226,7 @@ export default function CharacterList({
                 </Table.Tr>
               </Table.Thead>
               <Table.Tbody>
-                {filteredAndSorted.map((char) => (
+                {pageItems.map((char) => (
                   <Table.Tr key={char.name} style={{ cursor: 'pointer' }}>
                     <Table.Td>
                       <UnstyledButton
@@ -308,6 +316,8 @@ export default function CharacterList({
             </Table>
           </ScrollArea>
         )}
+
+        <PaginationControl currentPage={page} totalPages={totalPages} onChange={setPage} />
       </Stack>
     </Paper>
   );

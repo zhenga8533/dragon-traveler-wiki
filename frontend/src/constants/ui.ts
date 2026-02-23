@@ -66,6 +66,8 @@ export const SIDEBAR = {
 } as const;
 
 // Storage keys
+export const PAGE_SIZE = 50;
+
 export const STORAGE_KEY = {
   CHARACTER_VIEW_MODE: 'characters:viewMode',
   CHARACTER_FILTERS: 'characters:filters',

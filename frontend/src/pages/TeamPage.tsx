@@ -351,6 +351,7 @@ export default function TeamPage() {
                                             h={52}
                                             fit="contain"
                                             radius="sm"
+                                            loading="lazy"
                                           />
                                         )}
                                       </Box>
@@ -526,6 +527,7 @@ function TeamMemberCard({
                 w={100}
                 fit="cover"
                 radius="md"
+                loading="lazy"
                 style={{
                   border: `3px solid ${borderColor}`,
                   transition: `filter ${TRANSITION.FAST} ${TRANSITION.EASE}`,
@@ -610,6 +612,7 @@ function TeamMemberCard({
                         w={36}
                         fit="cover"
                         radius="sm"
+                        loading="lazy"
                         style={{
                           border: `2px solid ${charMap.get(sub) ? QUALITY_BORDER_COLOR[charMap.get(sub)!.quality] : 'var(--mantine-color-gray-5)'}`,
                           transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,

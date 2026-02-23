@@ -4,6 +4,7 @@ import path from 'path';
 import type { Plugin } from 'vite';
 import { defineConfig } from 'vite';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+import { visualizer } from 'rollup-plugin-visualizer';
 
 function serveDataDir(): Plugin {
   const dataDir = path.resolve(__dirname, '../data');
@@ -48,6 +49,9 @@ export default defineConfig({
         quality: 85,
       },
     }),
+    ...(process.env.ANALYZE === 'true'
+      ? [visualizer({ filename: 'dist/stats.html', gzipSize: true, brotliSize: true })]
+      : []),
   ],
   base: '/',
 });
