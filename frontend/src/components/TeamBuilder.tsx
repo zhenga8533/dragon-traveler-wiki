@@ -38,7 +38,11 @@ import {
 import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
-import { GITHUB_REPO_URL } from '../constants';
+import {
+  buildEmptyIssueBody,
+  GITHUB_REPO_URL,
+  MAX_GITHUB_ISSUE_URL_LENGTH,
+} from '../constants';
 import { FACTION_COLOR } from '../constants/colors';
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
@@ -49,7 +53,6 @@ import CharacterCard from './CharacterCard';
 import FilterableCharacterPool from './FilterableCharacterPool';
 
 const MAX_ROSTER_SIZE = 6;
-const MAX_GITHUB_ISSUE_URL_LENGTH = 8000;
 const SLOT_COUNT = 6;
 
 const FACTIONS: FactionName[] = [
@@ -907,18 +910,22 @@ export default function TeamBuilder({
             leftSection={<IoOpenOutline size={16} />}
             onClick={() => {
               if (!teamIssueUrl) {
+                // URL too long, open issue with template but empty JSON
+                const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Team] New team suggestion', body: buildEmptyIssueBody('team') }).toString()}`;
+                window.open(emptyUrl, '_blank');
                 notifications.show({
                   color: 'yellow',
                   title: 'Team JSON is too large',
                   message:
-                    'This team is too large to submit via URL. Use Copy JSON and paste it into a manually created GitHub issue.',
+                    'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
+                  autoClose: 8000,
                 });
                 return;
               }
 
               window.open(teamIssueUrl, '_blank');
             }}
-            disabled={teamSize === 0 || !teamIssueUrl}
+            disabled={teamSize === 0}
           >
             Submit Suggestion
           </Button>

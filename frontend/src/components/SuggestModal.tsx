@@ -29,9 +29,11 @@ import chestplateIcon from '../assets/gear/icons/chestplate.png';
 import headgearIcon from '../assets/gear/icons/headgear.png';
 import weaponIcon from '../assets/gear/icons/weapon.png';
 import { QUALITY_ICON_MAP } from '../assets/quality';
-import { GITHUB_REPO_URL } from '../constants';
-
-const MAX_GITHUB_ISSUE_URL_LENGTH = 8000;
+import {
+  GITHUB_REPO_URL,
+  MAX_GITHUB_ISSUE_URL_LENGTH,
+  buildEmptyIssueBody,
+} from '../constants';
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number';
 
@@ -224,14 +226,17 @@ export default function SuggestModal({
     const fullUrl = buildIssueUrl({ title: issueTitle, body });
 
     if (fullUrl.length > MAX_GITHUB_ISSUE_URL_LENGTH) {
-      // URL too long, open issue without body and ask user to paste JSON
-      const emptyUrl = buildIssueUrl({ title: issueTitle, body: '' });
+      // URL too long, open issue with template but empty JSON
+      const emptyUrl = buildIssueUrl({
+        title: issueTitle,
+        body: buildEmptyIssueBody(''),
+      });
       window.open(emptyUrl, '_blank');
       notifications.show({
         color: 'yellow',
         title: 'JSON is too large for URL',
         message:
-          'Please copy the JSON from the modal and paste it into the GitHub issue body.',
+          'Please use the Copy JSON button and paste it into the GitHub issue body.',
         autoClose: 8000,
       });
       // Keep modal open so user can copy JSON
