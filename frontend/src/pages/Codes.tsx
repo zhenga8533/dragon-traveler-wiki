@@ -32,6 +32,7 @@ import {
   IoSearch,
   IoTrophy,
 } from 'react-icons/io5';
+import { getResourceIcon } from '../assets/resource';
 import LastUpdated from '../components/LastUpdated';
 import { ListPageLoading } from '../components/PageLoadingSkeleton';
 import PaginationControl from '../components/PaginationControl';
@@ -45,6 +46,7 @@ import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useViewMode } from '../hooks/use-filters';
 import type { Code } from '../types/code';
+import type { Resource } from '../types/resource';
 import { buildExpiredCodeUrl, getLatestTimestamp } from '../utils';
 
 function aggregateRewards(codes: Code[]): Map<string, number> {
@@ -73,28 +75,41 @@ const CODE_FIELDS: FieldDef[] = [
   },
 ];
 
-const CODE_REWARD_ARRAY_FIELDS: ArrayFieldDef[] = [
-  {
-    name: 'rewards',
-    label: 'Rewards',
-    fields: [
-      {
-        name: 'name',
-        label: 'Reward Name',
-        type: 'text',
-        required: true,
-        placeholder: 'e.g. Diamond',
-      },
-      {
-        name: 'quantity',
-        label: 'Quantity',
-        type: 'text',
-        required: true,
-        placeholder: 'e.g. 500',
-      },
-    ],
-  },
-];
+function buildCodeRewardArrayFields(resources: Resource[]): ArrayFieldDef[] {
+  const resourceNames = resources.map((r) => r.name).sort();
+  const resourceIcons: Record<string, string> = {};
+  for (const resource of resources) {
+    const icon = getResourceIcon(resource.name);
+    if (icon) {
+      resourceIcons[resource.name] = icon;
+    }
+  }
+
+  return [
+    {
+      name: 'rewards',
+      label: 'Rewards',
+      fields: [
+        {
+          name: 'name',
+          label: 'Reward Name',
+          type: 'select',
+          required: true,
+          placeholder: 'Select a resource',
+          options: resourceNames,
+          optionIcons: resourceIcons,
+        },
+        {
+          name: 'quantity',
+          label: 'Quantity',
+          type: 'text',
+          required: true,
+          placeholder: 'e.g. 500',
+        },
+      ],
+    },
+  ];
+}
 
 function loadRedeemed(): Set<string> {
   try {
@@ -115,6 +130,10 @@ const CODES_PER_PAGE = 20;
 
 export default function Codes() {
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
+  const { data: resources } = useDataFetch<Resource[]>(
+    'data/resources.json',
+    []
+  );
   const [redeemed, setRedeemed] = useState<Set<string>>(() => loadRedeemed());
   const [view, setView] = useState<ViewFilter>('unredeemed');
   const [search, setSearch] = useState('');
@@ -219,6 +238,11 @@ export default function Codes() {
 
   const mostRecentUpdate = useMemo(() => getLatestTimestamp(codes), [codes]);
 
+  const codeRewardArrayFields = useMemo(
+    () => buildCodeRewardArrayFields(resources),
+    [resources]
+  );
+
   return (
     <Container size="md" py="xl">
       <Stack gap="md">
@@ -232,7 +256,7 @@ export default function Codes() {
             modalTitle="Suggest a New Code"
             issueTitle="[Code] New code suggestion"
             fields={CODE_FIELDS}
-            arrayFields={CODE_REWARD_ARRAY_FIELDS}
+            arrayFields={codeRewardArrayFields}
             excludeFromJson={['source']}
           />
         </Group>
