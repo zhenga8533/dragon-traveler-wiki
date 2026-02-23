@@ -1,7 +1,6 @@
 import {
   Badge,
   Button,
-  Checkbox,
   Collapse,
   Container,
   Divider,
@@ -22,6 +21,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterCard from '../components/CharacterCard';
@@ -43,7 +43,7 @@ import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
-import type { Character } from '../types/character';
+import type { Character, CharacterClass } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
@@ -212,15 +212,53 @@ export default function Teams() {
       secondTeam.members.map((m) => m.character_name)
     );
 
-    const sharedMembers = [...firstMembers].filter((name) =>
-      secondMembers.has(name)
+    const firstSubstitutes = new Set(
+      firstTeam.members.flatMap((m) => m.substitutes ?? [])
     );
-    const onlyFirst = [...firstMembers].filter(
-      (name) => !secondMembers.has(name)
+    const secondSubstitutes = new Set(
+      secondTeam.members.flatMap((m) => m.substitutes ?? [])
     );
-    const onlySecond = [...secondMembers].filter(
-      (name) => !firstMembers.has(name)
+
+    const toSortedUniqueList = (values: Set<string>) =>
+      [...values].sort((a, b) => a.localeCompare(b));
+
+    const sortedIntersection = (left: Set<string>, right: Set<string>) =>
+      [...left]
+        .filter((name) => right.has(name))
+        .sort((a, b) => a.localeCompare(b));
+
+    const firstExpandedRoster = new Set([...firstMembers, ...firstSubstitutes]);
+    const secondExpandedRoster = new Set([
+      ...secondMembers,
+      ...secondSubstitutes,
+    ]);
+    const sharedCharacters = sortedIntersection(
+      firstExpandedRoster,
+      secondExpandedRoster
     );
+
+    const sharedCoreCount = sharedCharacters.filter(
+      (name) => firstMembers.has(name) && secondMembers.has(name)
+    ).length;
+    const sharedSubstituteCount = sharedCharacters.filter(
+      (name) =>
+        !firstMembers.has(name) &&
+        firstSubstitutes.has(name) &&
+        !secondMembers.has(name) &&
+        secondSubstitutes.has(name)
+    ).length;
+    const sharedMixedRoleCount =
+      sharedCharacters.length - sharedCoreCount - sharedSubstituteCount;
+
+    const calcOverlapScore = (left: Set<string>, right: Set<string>) => {
+      const union = new Set([...left, ...right]);
+      if (union.size === 0) return 0;
+      let shared = 0;
+      for (const name of left) {
+        if (right.has(name)) shared += 1;
+      }
+      return Math.round((shared / union.size) * 100);
+    };
 
     const getClassCounts = (team: Team) => {
       const counts = new Map<string, number>();
@@ -231,6 +269,10 @@ export default function Teams() {
       }
       return counts;
     };
+
+    const getMissingCharacterCount = (team: Team) =>
+      team.members.filter((member) => !charMap.has(member.character_name))
+        .length;
 
     const getTeamFactionSet = (team: Team) => {
       const factions = new Set<FactionName>();
@@ -245,26 +287,34 @@ export default function Teams() {
       if (factions.size === 0) {
         factions.add(team.faction);
       }
-      return factions;
+      return toSortedUniqueList(factions);
     };
 
     const firstFactionSet = getTeamFactionSet(firstTeam);
     const secondFactionSet = getTeamFactionSet(secondTeam);
-    const sharedFactions = [...firstFactionSet].filter((factionName) =>
-      secondFactionSet.has(factionName)
+    const sharedFactions = firstFactionSet.filter((factionName) =>
+      secondFactionSet.includes(factionName)
     );
 
     return {
-      sharedMembers,
-      onlyFirst,
-      onlySecond,
+      sharedCharacters,
+      sharedMemberCount: sharedCoreCount,
+      sharedSubstituteCount,
+      sharedMixedRoleCount,
       firstOverdrive: firstTeam.members.filter((m) => m.overdrive_order != null)
         .length,
       secondOverdrive: secondTeam.members.filter(
         (m) => m.overdrive_order != null
       ).length,
+      memberOverlapScore: calcOverlapScore(firstMembers, secondMembers),
+      expandedOverlapScore: calcOverlapScore(
+        firstExpandedRoster,
+        secondExpandedRoster
+      ),
       firstClasses: getClassCounts(firstTeam),
       secondClasses: getClassCounts(secondTeam),
+      firstMissingCharacters: getMissingCharacterCount(firstTeam),
+      secondMissingCharacters: getMissingCharacterCount(secondTeam),
       samePrimaryFaction: firstTeam.faction === secondTeam.faction,
       sharedFactions,
       sameContentType:
@@ -489,7 +539,22 @@ export default function Teams() {
                                           size="xs"
                                           color="blue"
                                         >
-                                          {charClass}: {count}
+                                          <Group gap={4} wrap="nowrap">
+                                            <Image
+                                              src={
+                                                CLASS_ICON_MAP[
+                                                  charClass as CharacterClass
+                                                ]
+                                              }
+                                              alt={charClass}
+                                              w={12}
+                                              h={12}
+                                              fit="contain"
+                                            />
+                                            <Text size="xs" span>
+                                              {charClass}: {count}
+                                            </Text>
+                                          </Group>
                                         </Badge>
                                       )
                                     )}
@@ -500,131 +565,177 @@ export default function Teams() {
                           })}
                         </SimpleGrid>
 
-                        <Group gap="xs" wrap="wrap">
-                          <Badge
-                            variant={
-                              compareSummary.samePrimaryFaction
-                                ? 'filled'
-                                : 'light'
-                            }
-                            color={
-                              compareSummary.samePrimaryFaction
-                                ? 'teal'
-                                : 'gray'
-                            }
-                          >
-                            {compareSummary.samePrimaryFaction
-                              ? 'Same primary faction'
-                              : 'Different primary factions'}
-                          </Badge>
-                          <Badge
-                            variant={
-                              compareSummary.sharedFactions.length > 0
-                                ? 'filled'
-                                : 'light'
-                            }
-                            color={
-                              compareSummary.sharedFactions.length > 0
-                                ? 'teal'
-                                : 'gray'
-                            }
-                          >
-                            Shared member factions:{' '}
-                            {compareSummary.sharedFactions.length}
-                          </Badge>
-                          <Badge
-                            variant={
-                              compareSummary.sameContentType
-                                ? 'filled'
-                                : 'light'
-                            }
-                            color={
-                              compareSummary.sameContentType ? 'teal' : 'gray'
-                            }
-                          >
-                            {compareSummary.sameContentType
-                              ? 'Same content type'
-                              : 'Different content types'}
-                          </Badge>
-                          <Badge variant="light" color="violet">
-                            Shared members:{' '}
-                            {compareSummary.sharedMembers.length}
-                          </Badge>
-                        </Group>
-
-                        {compareSummary.sharedFactions.length > 0 && (
-                          <Group gap="xs" wrap="wrap">
-                            {compareSummary.sharedFactions.map(
-                              (factionName) => (
-                                <Badge
-                                  key={`shared-faction-${factionName}`}
-                                  variant="light"
-                                  size="xs"
-                                  color={FACTION_COLOR[factionName]}
-                                >
-                                  {factionName}
-                                </Badge>
-                              )
-                            )}
-                          </Group>
-                        )}
-
-                        <SimpleGrid cols={{ base: 1, md: 3 }} spacing="sm">
+                        <SimpleGrid
+                          cols={{ base: 1, xs: 2, md: 4 }}
+                          spacing="xs"
+                        >
                           <Paper p="xs" radius="sm" withBorder>
-                            <Stack gap={4}>
-                              <Text size="xs" fw={600}>
-                                Shared
+                            <Stack gap={2}>
+                              <Text size="xs" c="dimmed">
+                                Primary faction
                               </Text>
-                              {compareSummary.sharedMembers.length > 0 ? (
-                                compareSummary.sharedMembers.map((name) => (
-                                  <Text key={name} size="xs" c="dimmed">
-                                    • {name}
-                                  </Text>
-                                ))
-                              ) : (
-                                <Text size="xs" c="dimmed">
-                                  No shared members
-                                </Text>
-                              )}
+                              <Badge
+                                variant={
+                                  compareSummary.samePrimaryFaction
+                                    ? 'filled'
+                                    : 'light'
+                                }
+                                color={
+                                  compareSummary.samePrimaryFaction
+                                    ? 'teal'
+                                    : 'gray'
+                                }
+                                size="sm"
+                              >
+                                {compareSummary.samePrimaryFaction
+                                  ? 'Match'
+                                  : 'Different'}
+                              </Badge>
                             </Stack>
                           </Paper>
+
                           <Paper p="xs" radius="sm" withBorder>
-                            <Stack gap={4}>
-                              <Text size="xs" fw={600}>
-                                Only in {comparedTeams[0].name}
+                            <Stack gap={2}>
+                              <Text size="xs" c="dimmed">
+                                Content type
                               </Text>
-                              {compareSummary.onlyFirst.length > 0 ? (
-                                compareSummary.onlyFirst.map((name) => (
-                                  <Text key={name} size="xs" c="dimmed">
-                                    • {name}
-                                  </Text>
-                                ))
-                              ) : (
-                                <Text size="xs" c="dimmed">
-                                  None
-                                </Text>
-                              )}
+                              <Badge
+                                variant={
+                                  compareSummary.sameContentType
+                                    ? 'filled'
+                                    : 'light'
+                                }
+                                color={
+                                  compareSummary.sameContentType
+                                    ? 'teal'
+                                    : 'gray'
+                                }
+                                size="sm"
+                              >
+                                {compareSummary.sameContentType
+                                  ? 'Match'
+                                  : 'Different'}
+                              </Badge>
                             </Stack>
                           </Paper>
+
                           <Paper p="xs" radius="sm" withBorder>
-                            <Stack gap={4}>
-                              <Text size="xs" fw={600}>
-                                Only in {comparedTeams[1].name}
+                            <Stack gap={2}>
+                              <Text size="xs" c="dimmed">
+                                Main overlap
                               </Text>
-                              {compareSummary.onlySecond.length > 0 ? (
-                                compareSummary.onlySecond.map((name) => (
-                                  <Text key={name} size="xs" c="dimmed">
-                                    • {name}
-                                  </Text>
-                                ))
-                              ) : (
-                                <Text size="xs" c="dimmed">
-                                  None
-                                </Text>
-                              )}
+                              <Text size="sm" fw={600} c="blue">
+                                {compareSummary.memberOverlapScore}%
+                              </Text>
+                            </Stack>
+                          </Paper>
+
+                          <Paper p="xs" radius="sm" withBorder>
+                            <Stack gap={2}>
+                              <Text size="xs" c="dimmed">
+                                Full overlap
+                              </Text>
+                              <Text size="sm" fw={600} c="indigo">
+                                {compareSummary.expandedOverlapScore}%
+                              </Text>
+                            </Stack>
+                          </Paper>
+
+                          <Paper p="xs" radius="sm" withBorder>
+                            <Stack gap={2}>
+                              <Text size="xs" c="dimmed">
+                                Shared core
+                              </Text>
+                              <Text size="sm" fw={600} c="violet">
+                                {compareSummary.sharedMemberCount}
+                              </Text>
+                            </Stack>
+                          </Paper>
+
+                          <Paper p="xs" radius="sm" withBorder>
+                            <Stack gap={2}>
+                              <Text size="xs" c="dimmed">
+                                Shared substitutes
+                              </Text>
+                              <Text size="sm" fw={600} c="violet">
+                                {compareSummary.sharedSubstituteCount}
+                              </Text>
+                            </Stack>
+                          </Paper>
+
+                          <Paper p="xs" radius="sm" withBorder>
+                            <Stack gap={2}>
+                              <Text size="xs" c="dimmed">
+                                Shared mixed role
+                              </Text>
+                              <Text size="sm" fw={600} c="grape">
+                                {compareSummary.sharedMixedRoleCount}
+                              </Text>
+                            </Stack>
+                          </Paper>
+
+                          <Paper p="xs" radius="sm" withBorder>
+                            <Stack gap={2}>
+                              <Text size="xs" c="dimmed">
+                                Shared factions
+                              </Text>
+                              <Text size="sm" fw={600} c="teal">
+                                {compareSummary.sharedFactions.length}
+                              </Text>
                             </Stack>
                           </Paper>
                         </SimpleGrid>
+
+                        <Paper p="sm" radius="sm" withBorder>
+                          <Stack gap="xs">
+                            <Group justify="space-between" wrap="wrap">
+                              <Text size="sm" fw={600}>
+                                Shared characters
+                              </Text>
+                              <Badge variant="light" color="violet" size="sm">
+                                {compareSummary.sharedCharacters.length}
+                              </Badge>
+                            </Group>
+
+                            {compareSummary.sharedCharacters.length > 0 ? (
+                              <SimpleGrid
+                                cols={{ base: 3, xs: 4, sm: 5, md: 6 }}
+                                spacing={CHARACTER_GRID_SPACING}
+                              >
+                                {compareSummary.sharedCharacters.map((name) => {
+                                  const char = charMap.get(name);
+                                  return (
+                                    <CharacterCard
+                                      key={`shared-char-${name}`}
+                                      name={name}
+                                      quality={char?.quality}
+                                    />
+                                  );
+                                })}
+                              </SimpleGrid>
+                            ) : (
+                              <Text size="xs" c="dimmed">
+                                No shared characters
+                              </Text>
+                            )}
+                          </Stack>
+                        </Paper>
+
+                        {(compareSummary.firstMissingCharacters > 0 ||
+                          compareSummary.secondMissingCharacters > 0) && (
+                          <Group gap="xs" wrap="wrap">
+                            <Badge variant="light" color="yellow">
+                              Missing character profiles in{' '}
+                              {comparedTeams[0].name}:{' '}
+                              {compareSummary.firstMissingCharacters}
+                            </Badge>
+                            <Badge variant="light" color="yellow">
+                              Missing character profiles in{' '}
+                              {comparedTeams[1].name}:{' '}
+                              {compareSummary.secondMissingCharacters}
+                            </Badge>
+                          </Group>
+                        )}
                       </>
                     )}
                   </Stack>
@@ -662,6 +773,9 @@ export default function Teams() {
                               textDecoration: 'none',
                               color: 'inherit',
                               display: 'block',
+                              borderColor: isSelectedForCompare
+                                ? 'var(--mantine-color-teal-6)'
+                                : undefined,
                             }}
                             onClick={() =>
                               navigate(
@@ -704,19 +818,25 @@ export default function Teams() {
                                 </Group>
 
                                 <Group gap="xs">
-                                  <Checkbox
-                                    label="Compare"
+                                  <Button
+                                    variant={
+                                      isSelectedForCompare ? 'filled' : 'light'
+                                    }
+                                    color={
+                                      isSelectedForCompare ? 'teal' : 'blue'
+                                    }
                                     size="xs"
-                                    checked={isSelectedForCompare}
+                                    radius="xl"
                                     disabled={compareDisabled}
                                     onClick={(e) => {
                                       e.stopPropagation();
-                                    }}
-                                    onChange={(e) => {
-                                      e.stopPropagation();
                                       toggleCompare(team.name);
                                     }}
-                                  />
+                                  >
+                                    {isSelectedForCompare
+                                      ? 'Selected'
+                                      : 'Compare'}
+                                  </Button>
                                   <Button
                                     variant="light"
                                     size="sm"
@@ -837,85 +957,97 @@ export default function Teams() {
                         </Table.Tr>
                       </Table.Thead>
                       <Table.Tbody>
-                        {paginatedTeams.map((team) => (
-                          <Table.Tr
-                            key={team.name}
-                            style={{ cursor: 'pointer' }}
-                            onClick={() =>
-                              navigate(
-                                `/teams/${encodeURIComponent(team.name)}`
-                              )
-                            }
-                          >
-                            <Table.Td>
-                              <Checkbox
-                                size="xs"
-                                checked={compareSelection.includes(team.name)}
-                                disabled={
-                                  !compareSelection.includes(team.name) &&
-                                  activeCompareSelection.length >= 2
-                                }
-                                onClick={(e) => {
-                                  e.stopPropagation();
-                                }}
-                                onChange={(e) => {
-                                  e.stopPropagation();
-                                  toggleCompare(team.name);
-                                }}
-                              />
-                            </Table.Td>
-                            <Table.Td>
-                              <Group gap="sm" wrap="nowrap">
-                                <Image
-                                  src={
-                                    FACTION_WYRM_MAP[
-                                      team.faction as FactionName
-                                    ]
+                        {paginatedTeams.map((team) => {
+                          const isSelectedForCompare =
+                            compareSelection.includes(team.name);
+                          const compareDisabled =
+                            !isSelectedForCompare &&
+                            activeCompareSelection.length >= 2;
+                          return (
+                            <Table.Tr
+                              key={team.name}
+                              style={{ cursor: 'pointer' }}
+                              onClick={() =>
+                                navigate(
+                                  `/teams/${encodeURIComponent(team.name)}`
+                                )
+                              }
+                            >
+                              <Table.Td>
+                                <Button
+                                  variant={
+                                    isSelectedForCompare ? 'filled' : 'light'
                                   }
-                                  alt={`${team.faction} Whelp`}
-                                  w={28}
-                                  h={28}
-                                  fit="contain"
-                                />
-                                <Text
-                                  component={Link}
-                                  to={`/teams/${encodeURIComponent(team.name)}`}
-                                  size="sm"
-                                  fw={500}
-                                  c="violet"
-                                  style={{ textDecoration: 'none' }}
-                                  onClick={(e) => e.stopPropagation()}
+                                  color={isSelectedForCompare ? 'teal' : 'blue'}
+                                  size="compact-xs"
+                                  radius="xl"
+                                  disabled={compareDisabled}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    toggleCompare(team.name);
+                                  }}
                                 >
-                                  {team.name}
-                                </Text>
-                              </Group>
-                            </Table.Td>
-                            <Table.Td>
-                              <Group gap="xs" wrap="nowrap">
-                                <Image
-                                  src={
-                                    FACTION_ICON_MAP[
-                                      team.faction as FactionName
-                                    ]
-                                  }
-                                  alt={team.faction}
-                                  w={20}
-                                  h={20}
-                                  fit="contain"
-                                />
-                                <Text size="sm">{team.faction}</Text>
-                              </Group>
-                            </Table.Td>
-                            <Table.Td>
-                              <Badge variant="light" size="sm">
-                                {normalizeContentType(team.content_type, 'All')}
-                              </Badge>
-                            </Table.Td>
-                            <Table.Td>
-                              <Text size="sm">{team.author}</Text>
-                            </Table.Td>
-                          </Table.Tr>
-                        ))}
+                                  {isSelectedForCompare
+                                    ? 'Selected'
+                                    : 'Compare'}
+                                </Button>
+                              </Table.Td>
+                              <Table.Td>
+                                <Group gap="sm" wrap="nowrap">
+                                  <Image
+                                    src={
+                                      FACTION_WYRM_MAP[
+                                        team.faction as FactionName
+                                      ]
+                                    }
+                                    alt={`${team.faction} Whelp`}
+                                    w={28}
+                                    h={28}
+                                    fit="contain"
+                                  />
+                                  <Text
+                                    component={Link}
+                                    to={`/teams/${encodeURIComponent(team.name)}`}
+                                    size="sm"
+                                    fw={500}
+                                    c="violet"
+                                    style={{ textDecoration: 'none' }}
+                                    onClick={(e) => e.stopPropagation()}
+                                  >
+                                    {team.name}
+                                  </Text>
+                                </Group>
+                              </Table.Td>
+                              <Table.Td>
+                                <Group gap="xs" wrap="nowrap">
+                                  <Image
+                                    src={
+                                      FACTION_ICON_MAP[
+                                        team.faction as FactionName
+                                      ]
+                                    }
+                                    alt={team.faction}
+                                    w={20}
+                                    h={20}
+                                    fit="contain"
+                                  />
+                                  <Text size="sm">{team.faction}</Text>
+                                </Group>
+                              </Table.Td>
+                              <Table.Td>
+                                <Badge variant="light" size="sm">
+                                  {normalizeContentType(
+                                    team.content_type,
+                                    'All'
+                                  )}
+                                </Badge>
+                              </Table.Td>
+                              <Table.Td>
+                                <Text size="sm">{team.author}</Text>
+                              </Table.Td>
+                            </Table.Tr>
+                          );
+                        })}
                       </Table.Tbody>
                     </Table>
                   </ScrollArea>
