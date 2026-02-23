@@ -596,5 +596,14 @@
     },
     "active": true,
     "last_updated": 1771644484
+  },
+  {
+    "code": "SlamDunk",
+    "rewards": {
+      "Legacy Dragon Crystal": 1,
+      "Golden Horn": 1,
+      "SR Luminary Shards": 10
+    },
+    "active": true
   }
 ]
