@@ -17,10 +17,6 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 - Fuzzy search and keyboard shortcuts
 - Dark/light theme toggle
 
-## Release
-
-- **v1.0.0** scheduled for **2026-02-20**
-
 ## Tech Stack
 
 - **Frontend:** React 19, TypeScript, Vite, Mantine v8 — [frontend/README.md](frontend/README.md)
