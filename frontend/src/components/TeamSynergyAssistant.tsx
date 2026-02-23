@@ -4,6 +4,7 @@ import {
   Collapse,
   Divider,
   Group,
+  Image,
   Paper,
   Progress,
   SimpleGrid,
@@ -12,6 +13,8 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
+import { CLASS_ICON_MAP } from '../assets/class';
+import type { CharacterClass } from '../types/character';
 import type { TeamSynergyResult } from '../utils/team-synergy';
 
 function getScoreColor(score: number): string {
@@ -100,7 +103,18 @@ export default function TeamSynergyAssistant({
                 {Array.from(synergy.classCounts.entries()).map(
                   ([cls, count]) => (
                     <Badge key={cls} variant="outline" size="sm" color="blue">
-                      {cls}: {count}
+                      <Group gap={4} wrap="nowrap">
+                        <Image
+                          src={CLASS_ICON_MAP[cls as CharacterClass]}
+                          alt={cls}
+                          w={12}
+                          h={12}
+                          fit="contain"
+                        />
+                        <Text size="xs" span>
+                          {cls}: {count}
+                        </Text>
+                      </Group>
                     </Badge>
                   )
                 )}
