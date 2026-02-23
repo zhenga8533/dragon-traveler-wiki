@@ -24,6 +24,7 @@ import {
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import { getPortrait } from '../assets/character';
+import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
@@ -559,10 +560,11 @@ function TeamMemberCard({
                 h={100}
                 w={100}
                 fit="cover"
-                radius="md"
+                radius="xl"
                 loading="lazy"
                 style={{
                   border: `3px solid ${borderColor}`,
+                  borderRadius: '50%',
                   transition: `filter ${TRANSITION.FAST} ${TRANSITION.EASE}`,
                 }}
               />
@@ -605,7 +607,18 @@ function TeamMemberCard({
                 {character.quality}
               </Badge>
               <Badge size="sm" variant="outline" color="gray">
-                {character.character_class}
+                <Group gap={4} wrap="nowrap">
+                  <Image
+                    src={CLASS_ICON_MAP[character.character_class]}
+                    alt={character.character_class}
+                    w={12}
+                    h={12}
+                    fit="contain"
+                  />
+                  <Text size="xs" span>
+                    {character.character_class}
+                  </Text>
+                </Group>
               </Badge>
             </Group>
           )}
@@ -644,10 +657,11 @@ function TeamMemberCard({
                         h={36}
                         w={36}
                         fit="cover"
-                        radius="sm"
+                        radius="xl"
                         loading="lazy"
                         style={{
                           border: `2px solid ${charMap.get(sub) ? QUALITY_BORDER_COLOR[charMap.get(sub)!.quality] : 'var(--mantine-color-gray-5)'}`,
+                          borderRadius: '50%',
                           transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
                           cursor: 'pointer',
                         }}
