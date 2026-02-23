@@ -9,15 +9,15 @@ import {
   Table,
   Text,
   Title,
-  useMantineColorScheme,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import { Link, useParams } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import Breadcrumbs from '../components/Breadcrumbs';
-import EntityNotFound from '../components/EntityNotFound';
 import CharacterTag from '../components/CharacterTag';
+import EntityNotFound from '../components/EntityNotFound';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
@@ -159,8 +159,7 @@ function SkillTable({
 
 export default function NoblePhantasmPage() {
   const { name } = useParams<{ name: string }>();
-  const { colorScheme } = useMantineColorScheme();
-  const isDark = colorScheme === 'dark';
+  const isDark = useComputedColorScheme('light') === 'dark';
 
   const { data: noblePhantasms, loading } = useDataFetch<NoblePhantasm[]>(
     'data/noble_phantasm.json',

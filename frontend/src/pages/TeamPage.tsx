@@ -12,7 +12,7 @@ import {
   Text,
   Title,
   Tooltip,
-  useMantineColorScheme,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import {
@@ -28,8 +28,8 @@ import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import Breadcrumbs from '../components/Breadcrumbs';
-import EntityNotFound from '../components/EntityNotFound';
 import { QUALITY_BORDER_COLOR } from '../components/CharacterCard';
+import EntityNotFound from '../components/EntityNotFound';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
@@ -48,8 +48,7 @@ import type { Wyrmspell } from '../types/wyrmspell';
 
 export default function TeamPage() {
   const { teamName } = useParams<{ teamName: string }>();
-  const { colorScheme } = useMantineColorScheme();
-  const isDark = colorScheme === 'dark';
+  const isDark = useComputedColorScheme('light') === 'dark';
   const navigate = useNavigate();
 
   const { data: teams, loading: loadingTeams } = useDataFetch<Team[]>(
