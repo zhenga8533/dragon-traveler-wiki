@@ -20,7 +20,10 @@ Syncs JSON data files into the Dolt database at `dolt-db/`. JSON is the source o
 python -m backend.sync_dolt              # sync and commit
 python -m backend.sync_dolt --push       # sync, commit, and push to DoltHub
 python -m backend.sync_dolt --dry-run    # show SQL without executing
+python -m backend.sync_dolt --push --dolt-branch dev
 ```
+
+`sync_dolt.py` automatically maps Git `main`/`dev` to Dolt `main`/`dev` (or use `DOLT_BRANCH` / `--dolt-branch` to override explicitly).
 
 ### Dolt Export
 
@@ -31,7 +34,10 @@ python -m backend.export_dolt --target all          # export everything to backe
 python -m backend.export_dolt --target characters   # export characters only
 python -m backend.export_dolt --output-dir data     # overwrite data/ from Dolt
 python -m backend.export_dolt --output-dir data --merge  # merge: add Dolt-only records, keep local changes
+python -m backend.export_dolt --output-dir data --dolt-branch dev
 ```
+
+`export_dolt.py` uses the same branch mapping (`main` ↔ `main`, `dev` ↔ `dev`) and pulls latest remote branch data before export by default.
 
 `--merge` behaviour (used by the build):
 

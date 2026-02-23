@@ -8,12 +8,14 @@ Usage:
     python -m backend.export_dolt                          # export all tables
     python -m backend.export_dolt --target codes           # export a specific table
     python -m backend.export_dolt --output-dir data        # export to data/
+    python -m backend.export_dolt --output-dir data --dolt-branch dev
 """
 
 import argparse
 import csv
 import io
 import json
+import os
 import subprocess
 import sys
 from collections import defaultdict
@@ -40,6 +42,88 @@ SCRIPT_DIR = Path(__file__).resolve().parent
 ROOT_DIR = SCRIPT_DIR.parent
 DOLT_DIR = ROOT_DIR / "dolt-db"
 EXPORT_DIR = SCRIPT_DIR / "exports"
+TRACKED_GIT_BRANCHES = {"main", "dev"}
+
+
+def run_cmd(cmd, cwd):
+    """Run a shell command and return stripped stdout, or empty string on failure."""
+    result = subprocess.run(
+        cmd,
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
+    if result.returncode != 0:
+        return ""
+    return (result.stdout or "").strip()
+
+
+def resolve_dolt_branch(cli_branch):
+    """Resolve which Dolt branch should be used for this run."""
+    if cli_branch:
+        return cli_branch
+
+    env_branch = (os.getenv("DOLT_BRANCH") or "").strip()
+    if env_branch:
+        return env_branch
+
+    github_ref_name = (os.getenv("GITHUB_REF_NAME") or "").strip()
+    if github_ref_name in TRACKED_GIT_BRANCHES:
+        return github_ref_name
+
+    git_branch = run_cmd(["git", "rev-parse", "--abbrev-ref", "HEAD"], ROOT_DIR)
+    if git_branch in TRACKED_GIT_BRANCHES:
+        return git_branch
+
+    return ""
+
+
+def ensure_dolt_branch(branch, pull=False):
+    """Checkout the requested Dolt branch and optionally pull latest remote changes."""
+    if not branch:
+        return
+
+    current_branch = run_cmd(["dolt", "branch", "--show-current"], DOLT_DIR)
+    if current_branch != branch:
+        checkout = subprocess.run(
+            ["dolt", "checkout", branch],
+            cwd=DOLT_DIR,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+        if checkout.returncode != 0:
+            create_checkout = subprocess.run(
+                ["dolt", "checkout", "-b", branch, f"origin/{branch}"],
+                cwd=DOLT_DIR,
+                capture_output=True,
+                text=True,
+                encoding="utf-8",
+            )
+            if create_checkout.returncode != 0:
+                print(
+                    "ERROR switching Dolt branch "
+                    f"'{branch}':\n{checkout.stderr}\n{create_checkout.stderr}",
+                    file=sys.stderr,
+                )
+                sys.exit(1)
+
+    if pull:
+        pull_result = subprocess.run(
+            ["dolt", "pull", "origin", branch],
+            cwd=DOLT_DIR,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+        if pull_result.returncode != 0:
+            print(
+                f"ERROR pulling Dolt branch '{branch}':\n{pull_result.stderr}",
+                file=sys.stderr,
+            )
+            sys.exit(1)
+
 
 # All queries needed, keyed by name. Executed in a single dolt process.
 QUERIES = {
@@ -1113,6 +1197,19 @@ def main():
             "records present in both use the data/ version (local wins)."
         ),
     )
+    parser.add_argument(
+        "--dolt-branch",
+        default=None,
+        help=(
+            "Dolt branch to read from. Defaults to DOLT_BRANCH env var, then the "
+            "current git branch when it is main/dev."
+        ),
+    )
+    parser.add_argument(
+        "--no-pull",
+        action="store_true",
+        help="Do not run `dolt pull` before exporting.",
+    )
     args = parser.parse_args()
 
     if not DOLT_DIR.exists():
@@ -1126,6 +1223,14 @@ def main():
         print(f"Exporting Dolt database to JSON in {output_dir}... (mode: {mode})")
     else:
         print("Exporting Dolt database to JSON...")
+
+    dolt_branch = resolve_dolt_branch(args.dolt_branch)
+    if dolt_branch:
+        print(
+            f"Using Dolt branch '{dolt_branch}'"
+            + (" (skip pull)" if args.no_pull else "")
+        )
+    ensure_dolt_branch(dolt_branch, pull=not args.no_pull)
 
     if args.target == "all":
         targets = list(EXPORTERS.keys())

@@ -6,6 +6,7 @@ Usage:
     python -m backend.sync_dolt --push       # sync, commit, and push to DoltHub
     python -m backend.sync_dolt --pull       # pull latest data from DoltHub
     python -m backend.sync_dolt --dry-run    # show SQL without executing
+    python -m backend.sync_dolt --dolt-branch dev --push
 """
 
 import argparse
@@ -13,6 +14,7 @@ import csv
 import hashlib
 import io
 import json
+import os
 import subprocess
 import sys
 import time
@@ -42,6 +44,7 @@ ROOT_DIR = SCRIPT_DIR.parent
 DOLT_DIR = ROOT_DIR / "dolt-db"
 DATA_DIR = ROOT_DIR / "data"
 HASHES_FILE = DATA_DIR / "hashes.json"
+TRACKED_GIT_BRANCHES = {"main", "dev"}
 
 
 class SyncError(Exception):
@@ -939,6 +942,59 @@ def dolt_cmd(*args):
             return combined
         raise SyncError(f"dolt {' '.join(args)} failed:\n{result.stderr}")
     return result.stdout
+
+
+def run_cmd(cmd, cwd):
+    """Run a shell command and return stripped stdout, or empty string on failure."""
+    result = subprocess.run(
+        cmd,
+        cwd=cwd,
+        capture_output=True,
+        text=True,
+        encoding="utf-8",
+    )
+    if result.returncode != 0:
+        return ""
+    return (result.stdout or "").strip()
+
+
+def resolve_dolt_branch(cli_branch):
+    """Resolve which Dolt branch should be used for this run."""
+    if cli_branch:
+        return cli_branch
+
+    env_branch = (os.getenv("DOLT_BRANCH") or "").strip()
+    if env_branch:
+        return env_branch
+
+    github_ref_name = (os.getenv("GITHUB_REF_NAME") or "").strip()
+    if github_ref_name in TRACKED_GIT_BRANCHES:
+        return github_ref_name
+
+    git_branch = run_cmd(["git", "rev-parse", "--abbrev-ref", "HEAD"], ROOT_DIR)
+    if git_branch in TRACKED_GIT_BRANCHES:
+        return git_branch
+
+    return ""
+
+
+def ensure_dolt_branch(branch, pull=False):
+    """Checkout the requested Dolt branch and optionally pull latest remote changes."""
+    if not branch:
+        return
+
+    current_branch = run_cmd(["dolt", "branch", "--show-current"], DOLT_DIR)
+    if current_branch != branch:
+        try:
+            dolt_cmd("checkout", branch)
+        except SyncError:
+            dolt_cmd("checkout", "-b", branch, f"origin/{branch}")
+
+    if pull:
+        try:
+            dolt_cmd("pull", "origin", branch)
+        except SyncError:
+            dolt_cmd("pull")
 
 
 def load_json(filename):
@@ -2138,6 +2194,14 @@ def main():
         "--dry-run", action="store_true", help="Show SQL without executing"
     )
     parser.add_argument(
+        "--dolt-branch",
+        default=None,
+        help=(
+            "Dolt branch to sync. Defaults to DOLT_BRANCH env var, then the "
+            "current git branch when it is main/dev."
+        ),
+    )
+    parser.add_argument(
         "--target",
         choices=[
             "factions",
@@ -2162,20 +2226,30 @@ def main():
         help="Which table(s) to sync (default: all)",
     )
     args = parser.parse_args()
+    dolt_branch = resolve_dolt_branch(args.dolt_branch)
 
     if not DOLT_DIR.exists():
         print(f"Error: Dolt database not found at {DOLT_DIR}", file=sys.stderr)
         sys.exit(1)
 
+    if dolt_branch:
+        print(f"Using Dolt branch '{dolt_branch}'")
+
     if args.pull:
         print("Pulling from DoltHub...")
         try:
-            dolt_cmd("pull")
+            ensure_dolt_branch(dolt_branch, pull=True)
         except SyncError as exc:
             print(f"Pull failed:\n{exc}", file=sys.stderr)
             sys.exit(1)
         print("Pulled successfully.")
         return
+
+    try:
+        ensure_dolt_branch(dolt_branch, pull=False)
+    except SyncError as exc:
+        print(f"Failed to switch Dolt branch:\n{exc}", file=sys.stderr)
+        sys.exit(1)
 
     target = args.target
 
@@ -2356,7 +2430,12 @@ def main():
         print("Committed successfully.")
 
     if args.push:
-        push_args = ["push", "--force"] if args.force else ["push"]
+        if dolt_branch:
+            push_args = ["push", "origin", dolt_branch]
+            if args.force:
+                push_args.append("--force")
+        else:
+            push_args = ["push", "--force"] if args.force else ["push"]
         print("Pushing to DoltHub..." + (" (force)" if args.force else ""))
         try:
             dolt_cmd(*push_args)
@@ -2364,7 +2443,10 @@ def main():
             err = str(exc).lower()
             if "non-fast-forward" in err or "failed to push some refs" in err:
                 print("  Remote is ahead; pulling latest changes and retrying push...")
-                dolt_cmd("pull")
+                if dolt_branch:
+                    ensure_dolt_branch(dolt_branch, pull=True)
+                else:
+                    dolt_cmd("pull")
                 dolt_cmd(*push_args)
             else:
                 raise
