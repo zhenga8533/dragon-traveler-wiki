@@ -281,7 +281,7 @@ function ConfigModal({
           renderOption={renderCharacterOption}
           value={subs}
           onChange={setSubs}
-          searchable
+          searchable={substituteOptions.length >= 10}
           clearable
         />
       </Stack>
@@ -686,6 +686,38 @@ export default function TeamBuilder({
   const availableCharacters = useMemo(() => {
     return characters.filter((c) => !teamNames.has(c.name));
   }, [characters, teamNames]);
+
+  const breachWyrmspellOptions = useMemo(
+    () =>
+      wyrmspells
+        .filter((w) => w.type === 'Breach')
+        .map((w) => ({ value: w.name, label: w.name })),
+    [wyrmspells]
+  );
+
+  const refugeWyrmspellOptions = useMemo(
+    () =>
+      wyrmspells
+        .filter((w) => w.type === 'Refuge')
+        .map((w) => ({ value: w.name, label: w.name })),
+    [wyrmspells]
+  );
+
+  const wildcryWyrmspellOptions = useMemo(
+    () =>
+      wyrmspells
+        .filter((w) => w.type === 'Wildcry')
+        .map((w) => ({ value: w.name, label: w.name })),
+    [wyrmspells]
+  );
+
+  const dragonsCallWyrmspellOptions = useMemo(
+    () =>
+      wyrmspells
+        .filter((w) => w.type === "Dragon's Call")
+        .map((w) => ({ value: w.name, label: w.name })),
+    [wyrmspells]
+  );
 
   const synergy = useMemo(() => {
     const roster = slots
@@ -1120,7 +1152,7 @@ export default function TeamBuilder({
             value={faction}
             onChange={(value) => setFaction(value as FactionName | null)}
             renderOption={renderFactionOption}
-            searchable
+            searchable={FACTIONS.length >= 10}
             leftSection={(() => {
               if (!faction) return undefined;
               const iconSrc = FACTION_ICON_MAP[faction];
@@ -1295,9 +1327,7 @@ export default function TeamBuilder({
               <Select
                 label="Breach"
                 placeholder="Select breach wyrmspell"
-                data={wyrmspells
-                  .filter((w) => w.type === 'Breach')
-                  .map((w) => ({ value: w.name, label: w.name }))}
+                data={breachWyrmspellOptions}
                 renderOption={renderWyrmspellOption}
                 leftSection={(() => {
                   const iconSrc = teamWyrmspells.breach
@@ -1314,15 +1344,13 @@ export default function TeamBuilder({
                     breach: value || undefined,
                   }))
                 }
-                searchable
+                searchable={breachWyrmspellOptions.length >= 10}
                 clearable
               />
               <Select
                 label="Refuge"
                 placeholder="Select refuge wyrmspell"
-                data={wyrmspells
-                  .filter((w) => w.type === 'Refuge')
-                  .map((w) => ({ value: w.name, label: w.name }))}
+                data={refugeWyrmspellOptions}
                 renderOption={renderWyrmspellOption}
                 leftSection={(() => {
                   const iconSrc = teamWyrmspells.refuge
@@ -1339,15 +1367,13 @@ export default function TeamBuilder({
                     refuge: value || undefined,
                   }))
                 }
-                searchable
+                searchable={refugeWyrmspellOptions.length >= 10}
                 clearable
               />
               <Select
                 label="Wildcry"
                 placeholder="Select wildcry wyrmspell"
-                data={wyrmspells
-                  .filter((w) => w.type === 'Wildcry')
-                  .map((w) => ({ value: w.name, label: w.name }))}
+                data={wildcryWyrmspellOptions}
                 renderOption={renderWyrmspellOption}
                 leftSection={(() => {
                   const iconSrc = teamWyrmspells.wildcry
@@ -1364,15 +1390,13 @@ export default function TeamBuilder({
                     wildcry: value || undefined,
                   }))
                 }
-                searchable
+                searchable={wildcryWyrmspellOptions.length >= 10}
                 clearable
               />
               <Select
                 label="Dragon's Call"
                 placeholder="Select dragon's call wyrmspell"
-                data={wyrmspells
-                  .filter((w) => w.type === "Dragon's Call")
-                  .map((w) => ({ value: w.name, label: w.name }))}
+                data={dragonsCallWyrmspellOptions}
                 renderOption={renderWyrmspellOption}
                 leftSection={(() => {
                   const iconSrc = teamWyrmspells.dragons_call
@@ -1389,7 +1413,7 @@ export default function TeamBuilder({
                     dragons_call: value || undefined,
                   }))
                 }
-                searchable
+                searchable={dragonsCallWyrmspellOptions.length >= 10}
                 clearable
               />
             </SimpleGrid>

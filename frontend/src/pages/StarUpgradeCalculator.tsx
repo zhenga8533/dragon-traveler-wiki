@@ -435,7 +435,7 @@ function StarRangeSelector({
           value={String(currentIndex)}
           data={fromOptions}
           renderOption={renderStarOption}
-          searchable
+          searchable={fromOptions.length >= 10}
           allowDeselect={false}
           nothingFoundMessage="No levels available"
           leftSection={<StarIcon level={STAR_LEVELS[currentIndex]} size={16} />}
@@ -455,7 +455,7 @@ function StarRangeSelector({
           value={String(targetIndex)}
           data={toOptions}
           renderOption={renderStarOption}
-          searchable
+          searchable={toOptions.length >= 10}
           allowDeselect={false}
           nothingFoundMessage="No levels available"
           leftSection={<StarIcon level={STAR_LEVELS[targetIndex]} size={16} />}
