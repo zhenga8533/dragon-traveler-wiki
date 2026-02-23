@@ -291,7 +291,19 @@ export default function TierListBuilder({
         | undefined;
       const targetTier = event.over?.data.current?.tier as string | undefined;
 
-      if (!targetCharName || !targetTier) return;
+      if (!targetCharName) return;
+
+      // Dropped onto an unranked character card: remove from ranked tier
+      if (!targetTier) {
+        if (activeTier) {
+          setPlacements((prev) => {
+            const next = { ...prev };
+            next[activeTier] = next[activeTier].filter((n) => n !== charName);
+            return next;
+          });
+        }
+        return;
+      }
 
       // If dropping on itself, do nothing
       if (charName === targetCharName) return;
