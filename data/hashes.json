@@ -1,422 +1,422 @@
 {
   "factions": {
-    "Arcane Wisdom": {
-      "hash": "ce4c185475967231af319830d2002de5fffcb8448b587e3cae02d3569c8b0fec",
-      "ts": 1771608578
-    },
     "Elemental Echo": {
-      "hash": "ae73ca15acc45356e2ca08e4fc7b7cc335971984945bba018e9463ade2ff944f",
-      "ts": 1771608578
-    },
-    "Illusion Veil": {
-      "hash": "df353d42f655de30517c7a6fef2c44662ab0404555c72a58a1bd1f296529e0bc",
-      "ts": 1771608578
-    },
-    "Otherworld Return": {
-      "hash": "67e6b674432778dd4279a484df51174f17974dabe164727b3ddc2ff8f816ea18",
-      "ts": 1771608578
-    },
-    "Sanctum Glory": {
-      "hash": "17924c216dd391b424457db59cfe71a778d50949a2f097741220cb959381717c",
-      "ts": 1771608820
+      "hash": "1c1f3d3244f5e61b4d5943d167b40ef87d11ad5465c00f81491b0b9ff8e6c01e",
+      "ts": 1771870646
     },
     "Wild Spirit": {
-      "hash": "bea2b2bceb71bf162c061e95f5e4c282c570dd1ad22acc61cc900db7105bebee",
-      "ts": 1771608578
+      "hash": "ef544fad6a881c7d871d85cb8666abf554b32078ec2a5c3560710006ea135d9e",
+      "ts": 1771870646
+    },
+    "Arcane Wisdom": {
+      "hash": "fa41223e64f7dd0d6ad783978854037e4ede76ceee047da5899da9c3c315eed0",
+      "ts": 1771870646
+    },
+    "Sanctum Glory": {
+      "hash": "9aa5ec5ae405805f0e06c8014f7b1aa98ff8faa88102e42af75bb65dc2f13a50",
+      "ts": 1771870646
+    },
+    "Otherworld Return": {
+      "hash": "e82db32bb951f6eef94f700da536aea462babdf94bb2012a6a1cef08bcb25632",
+      "ts": 1771870646
+    },
+    "Illusion Veil": {
+      "hash": "90040f2d7663955c7d23d35efe1e8db6e9ea594a9ea141ce08e49a826d883cca",
+      "ts": 1771870646
     }
   },
   "characters": {
     "Athena": {
-      "hash": "305ad27d01874f117704812f482d958f74284292609c20335be5d360b835da90",
-      "ts": 1771706373
+      "hash": "33c9753cd083989901b7516dbc2962fe0f0f76ab98f51480c4aed1c0337a2a05",
+      "ts": 1771870646
     },
     "Prometheus": {
-      "hash": "3619589207300d42fe644a3260ca49a15b3fd39c6313fb751bf2ea5c530b1e04",
-      "ts": 1771706373
+      "hash": "40cbbff9822ae120042ed9401458d9783cea7f8c6b8befa80d953e429c4ba642",
+      "ts": 1771870646
     },
     "Anubis": {
-      "hash": "2d065ec3fd75a76945d170ed0e4bcf6dcbb1439e5e77779a26ad3d59c6960cd4",
-      "ts": 1771706373
+      "hash": "970dd29bc630bac072724f862d9cab67442825d1a641dcaa491f8239689375ee",
+      "ts": 1771870646
     },
     "Caesar": {
-      "hash": "182720594804aaf2fc0625e19dbbf6488a14962bdc02eaf2581e35f5bcabbfd3",
-      "ts": 1771706373
+      "hash": "5dc59659fc6968226d61bb64475111054061fcf0852bcb5cea3f06ce29f1c72b",
+      "ts": 1771870646
     },
     "Duvalin": {
-      "hash": "8a1b011a4be54fce3853b980a70693d013aead139e5454d211473212adb0ca73",
-      "ts": 1771708348
+      "hash": "1808fac9fc8e85a29d7f2645f5c8a2782851b1a53b92c2e64027ce385d066634",
+      "ts": 1771870646
     },
     "Helveil": {
-      "hash": "3b20d6bc8ebf41ab1c0dcb6007c3e801aa1c2800736a3101ab42669ea6ce2245",
-      "ts": 1771706373
+      "hash": "6829411e4e5ac81836ecd6b6d0810b8674693b98de36846ec772ce209cce0d9a",
+      "ts": 1771870646
     },
     "Pompey": {
-      "hash": "ae4b35bc872258a8bac4321effef9bc12261e9a91a321c1a04df0106118cd14c",
-      "ts": 1771706373
+      "hash": "0cd62f39c3dea1e3461ae75d61dd1466ba66281ab3afdd8769db9a60956778fe",
+      "ts": 1771870646
     },
     "Salome": {
-      "hash": "430857d5dd8a61b6b906f85ea9acebf6352c121b7bf390cdb8d4e719b28a1dd5",
-      "ts": 1771706373
+      "hash": "650ddcece12bbbf991f9df53d006659191c9726438226b23d3ea9fec3056c539",
+      "ts": 1771870646
     },
     "Drasill": {
-      "hash": "b6e28d8eaf803d113028856d9251ea6b05a6adce5cc6e3297579894814e8ae88",
-      "ts": 1771706373
+      "hash": "f4bdc1c5218c694c81c362d80b16aa98925b48af17a900cc4e8f067e036d1180",
+      "ts": 1771870646
     },
     "Goren": {
-      "hash": "1129e1a60098324a98008addde2656e103bc1fd9b0a836111ed410a0eba5b6ce",
-      "ts": 1771706373
+      "hash": "fb86a8d265dd6a808e93d84bb141b871fe6fbcd76fc92eec4780b5a0b000f76d",
+      "ts": 1771870646
     },
     "Gudong": {
-      "hash": "d2e856d1a653c24e634a2649b8f90fac3a25a7024da997488576c652ca690c7f",
-      "ts": 1771706373
+      "hash": "548d4fe5a32687c38deebf4b264c25178a163c309d5f9488b48c0552f05df959",
+      "ts": 1771870646
     },
     "Herman": {
-      "hash": "6801d7faf392081971359de72df7ff92a1d9d879d02cf474776ea0453268c501",
-      "ts": 1771706373
+      "hash": "d2e508a7cc321435b4dac6afe529fdaeda604a55227607d1c83a7c946ce51728",
+      "ts": 1771870646
     },
     "Oberonnie": {
-      "hash": "79bcf20cc54e6a2afc24ee9e19a35f6913088ab49b5d0fc3c74df2876f879b89",
-      "ts": 1771706373
+      "hash": "5db7802fc0ffa91b6534b21a3cae0719f0091229bca220f53d55c50fc5b7d32e",
+      "ts": 1771870646
     },
     "Eurytion": {
-      "hash": "34ea04aea0086b976ff7567decb4bdd83761c395814f625205d4bd9b6349ce49",
-      "ts": 1771706373
+      "hash": "8d908d054a54399eee31ff440c8ca229309102376ed66b70e4516e41d5aa7385",
+      "ts": 1771870646
     },
     "Dwarf Warrior": {
-      "hash": "8a70f5729fc535fdb44f3988a2de38bb0562f65b79a9d9c4a8cb8af7f86022a4",
-      "ts": 1771706373
+      "hash": "b9997b8479f43a02ce24ef413828d52865c48b280154bc0046431a7f04fa7d41",
+      "ts": 1771870646
     },
     "Mummy": {
-      "hash": "9f4b2a4e75955267ebc63b3474d4567aa1ac5fe49d89f88018daf4ee04688495",
-      "ts": 1771706373
+      "hash": "abeb6420f6ea5dc6535639c3873152bbb17ac967ca6b04ed83beb1d2d58c62af",
+      "ts": 1771870646
     },
     "Rock Slime": {
-      "hash": "47236aaf5092a62accebdd4137b8438639e3ea8e5cde4b546475cd1c686096e4",
-      "ts": 1771706373
+      "hash": "aa480aa3cb52cd8b89e015ee85974d936f8249ee87ce9061873bdf85bb4006db",
+      "ts": 1771870646
     },
     "Hela": {
-      "hash": "cd8143a542c3b4078723b9bf1967c807c23c8d8f876dc312d0ccda7d243c3606",
-      "ts": 1771706373
+      "hash": "a9143df80385202f9993e501c052d6b8f3cc2fe3cf607788df5239e8b23830d3",
+      "ts": 1771868965
     },
     "Venus": {
-      "hash": "5fc276b0180e5e28cf87004da609a468642e03f3020d13e7aadf60523949c073",
-      "ts": 1771706373
+      "hash": "1d54f5ddf9c8e916c16db545813756fdf28b34743c5b7902e71be86433d6ba79",
+      "ts": 1771870646
     },
     "Morgana": {
-      "hash": "83d332c1ca2abeb2555a3b51e5e5ea035b5e37238dd9694e7e79e44137b85362",
-      "ts": 1771706373
+      "hash": "85a44ab4ee3b5275437d723cf9bb6a8642f58ac8c7686c50de7cb5bf971b955e",
+      "ts": 1771870646
     },
     "Ophelia": {
-      "hash": "cd14741c6681dd00406cff6a87398afa7d32bf7c8c82a5dcdc144823bf56b9b6",
-      "ts": 1771706373
+      "hash": "46804ecf02f6f78cff48b8b81da5b958f47527a4965b85014ddf047c8df76fda",
+      "ts": 1771870646
     },
     "Scheherazade": {
-      "hash": "d0f6c92cd167a3b3d353a26475add5fb2dcc5bcb47ebf1864815a9b63b1c3d49",
-      "ts": 1771706373
+      "hash": "d3d389d4f0189276d7f2cc7f6e0d23cfd3760ce211e27eca8f19bc056ba1e652",
+      "ts": 1771870646
     },
     "Silbismo": {
-      "hash": "e64790e7f48deef1547d63612161843ba871e295eb715a16797757772b7ed8c5",
-      "ts": 1771706373
+      "hash": "6c955f53d80e0ec3864b176dfcf809fd95819d85df2cac2239a39d41a556bd2a",
+      "ts": 1771870646
     },
     "Titania": {
-      "hash": "690a6f31175e9e78d519af025bcd11ee3f8cac5cc8e5d04a3498d6970a014d7b",
-      "ts": 1771706373
+      "hash": "918ce4908f1bcf24893499e0059557165a5808f3bdfc5975c727597cea17837c",
+      "ts": 1771870646
     },
     "Vivienne": {
-      "hash": "c0efaeb3863b3edaff4505117af3077fbd6235965849f7190afe369b5534232d",
-      "ts": 1771706373
+      "hash": "ebf200837a10146184af5ff4ad1168497c00de2ee848ead17ff3bb2b767f3b90",
+      "ts": 1771870646
     },
     "Atanith": {
-      "hash": "15f9643159134a47773d2c968fbee628bf86d991fd69df58d3bd556f36dddb27",
-      "ts": 1771706373
+      "hash": "2910ee69684b6a0f33e6ffe0985904af349a6a759db1375cdc576f6fec8365be",
+      "ts": 1771870646
     },
     "Caligula": {
-      "hash": "18d2090464c1ae6ecb6a4a5f7f9c401505ca03d45efdd512db3a1ecdb0b56494",
-      "ts": 1771706373
+      "hash": "594bc72fff5cd13c0a7081bb63008562d5feccbdd60dd6eb2f0c4fdcd9d7c937",
+      "ts": 1771870646
     },
     "Chiron": {
-      "hash": "f0daf286aeda74b859ec1d1a86ac21cfc2bba48b0b1ae4232c4c62e74f9aa07e",
-      "ts": 1771706373
+      "hash": "04b13d0567cc489a897e1a7567c4f2700313d42c6d1a99f0acb7e3adee030a02",
+      "ts": 1771870646
     },
     "Flora": {
-      "hash": "a54b738ffe5ccd358806fc686541455bc16c97bf64d98cb7fab655161ece4456",
-      "ts": 1771706373
+      "hash": "bf41f8533833f6d0f2ba153d9e26460ecf3498147a3d4ed4a8566406102a0a8f",
+      "ts": 1771870646
     },
     "Siren": {
-      "hash": "ec954f9fca5d952b348e1281e9e114ad97b62dde73b76d1f594a4c7ca813b0cd",
-      "ts": 1771706373
+      "hash": "f25e3c2a7db98ae377d09b73303c12637f137ccb9da24f5772d86e29802b0755",
+      "ts": 1771870646
     },
     "Goblin War Drummer": {
-      "hash": "5aa0ddc92e980935f2dd6da50a969a60f7d3c7e0dd8ae5036e960e8b04b1a34d",
-      "ts": 1771706373
+      "hash": "5fc3f9a28c3cc7459f21119edf6e647303b3c1a55fad3354b3e6ac4c48278197",
+      "ts": 1771870646
     },
     "Viel": {
-      "hash": "12798f93524af2f3fa647e4383c3ffc77ffb43981fbfbb9e052ca37bb3785036",
-      "ts": 1771706373
+      "hash": "8f684da7b0286a766c3087b6fd5e3f1d74fcda341c5831338b6d059bd529ca94",
+      "ts": 1771870646
     },
     "Breeze Slime": {
-      "hash": "32129c60d5392400558d60ebaa8845510e6890441c1362e8e97e4a8a3eb8b3a8",
-      "ts": 1771706373
+      "hash": "7e6c0e36c39e555b1c6cd0aabcb98eaccff62b4dd098246b81a0ff5ae935a8a7",
+      "ts": 1771870646
     },
     "Hades": {
-      "hash": "32300145e0e74de964aff95cd350424829bee59ffd51f24e3299a70a01f7afdb",
-      "ts": 1771706373
+      "hash": "47edc37e8dc195924c56a75c9f9592868f87efbd47c8f1746fd60ef9e5b86978",
+      "ts": 1771870646
     },
     "Jormungandr": {
-      "hash": "317681be1075a144bb93d44a777880ba73be16a381f70bcb05ed1342dae450d9",
-      "ts": 1771706373
+      "hash": "14a6fc5f4f1d7dbfc40966dd0aa0afe46d77c619cac165ed8880002c53c767df",
+      "ts": 1771870646
     },
     "Mordred": {
-      "hash": "bb567cc431eb9f662ab855e52eec661ad943740b79b0a7928199649219754f34",
-      "ts": 1771706373
+      "hash": "1a4d794e380fff305130c17ec03529179aa4a9e05cc3344a7cc66a3641edc375",
+      "ts": 1771870646
     },
     "Pan Junbao": {
-      "hash": "67434b3b2ed932a06778ec69f69335e8402fc13b9f016a0e10eeae9ddc0be36e",
-      "ts": 1771706373
+      "hash": "ec2095ec8505be2cb9efc0ccb2ad54706e7d5f82eeeeacdec21ff35b3344b63a",
+      "ts": 1771870646
     },
     "Rin": {
-      "hash": "b465c1b0ec7a43bbfce1b1b3382274cdf83be103c22846e0470bc80f43a23d60",
-      "ts": 1771706373
+      "hash": "af668017bb70141054242d982993b0a082667592548a72c2a4596b637d2d8fe7",
+      "ts": 1771868965
     },
     "White Tiger": {
-      "hash": "44ca24e92917ef0cf58195dfa5535ffd0c510bea21823e77051117223da0cc37",
-      "ts": 1771706373
+      "hash": "2f7c5b6d80b3e66a38d8c131ef4311e0e650e0e3280a36261cd65eaa10ee574b",
+      "ts": 1771870646
     },
     "Zagrus": {
-      "hash": "01223320f1d505972469a54d8b5606a78bd7a3bc922f64b89e4e180f9643f8c5",
-      "ts": 1771706373
+      "hash": "a5c3ea92f4d460c8f434b3efc5533cf7f56f8ade0dd3b5283493c1abc69e76f3",
+      "ts": 1771870646
     },
     "Fenrir": {
-      "hash": "99cb23e2dd89645cfc05cf604d6514097b39b78d79828df46ac3aa4608e79fa0",
-      "ts": 1771706373
+      "hash": "98160fe1cfd198b1ee1e73246e8f6c8ad7d22b9c09dbab9d5e10b4b12c27979b",
+      "ts": 1771870646
     },
     "Lancelot": {
-      "hash": "793b965547682500d6f744a995d54608959affdff06eedf20b0bc7ab2d0b8c4e",
-      "ts": 1771706373
+      "hash": "e2e8428e089e35e5039b3226e706f174952d2836ac6906e9c45bc56f2be34a49",
+      "ts": 1771870646
     },
     "Nemesis": {
-      "hash": "f1945f1df76fd10909b0cfd684241bd8bcc770c9863f4641fde8b6e9145e1302",
-      "ts": 1771706373
+      "hash": "d2380b0d627fa6dfa43387c2947a0563d28a70a72b81d75c3eb3716a9fc5aa5b",
+      "ts": 1771870646
     },
     "Bladeheart": {
-      "hash": "38644f4f5736dfaf33ecff9869e6518cd58c1ac9102ef4b9bd17d3da68c0298b",
-      "ts": 1771706373
+      "hash": "3390005a7a41313172cc47a90c879c66532883ab56a61ae890ee784bc37547d8",
+      "ts": 1771870646
     },
     "Boar Knight": {
-      "hash": "45c5de019c4bcd7132d91b8b88c3b5e81b7820c727aa41121f1d6cd4ba8386cc",
-      "ts": 1771706373
+      "hash": "9bfa7366f585599e21f847751ec92f1009e7a9c7aaee48588325886a5b91a340",
+      "ts": 1771870646
     },
     "Sword Dancer": {
-      "hash": "3b583b91f5ca969a6a945be395c183a285ec2b419a1d6a17a6734c50e81904c4",
-      "ts": 1771706373
+      "hash": "58de7c2bbc2d380d2feea6b0a246e71b514eaa0d57cb79ef2376733453ced553",
+      "ts": 1771870646
     },
     "Shadow Slime": {
-      "hash": "464de5ae5144923dd4f67560778f202510e6659376ec72282a37e67970f549a4",
-      "ts": 1771706373
+      "hash": "fc5291a32e046697587c73c0fffef68f123ee1f64a97fc098fbc33d5f75644fc",
+      "ts": 1771870646
     },
     "Ares": {
-      "hash": "9188c30e0a3b93bb213753f3ece6b7b74646ec5c1a6afd26598c06146ff56423",
-      "ts": 1771706373
+      "hash": "ea10857ea0009d26c2077e8208acec1f3033037147f5767e05817f492bd1d5fd",
+      "ts": 1771870646
     },
     "Thor": {
-      "hash": "ee140dcf96e3cd58230fe89132ee148aad2fc4169706bdb6622fff6d31186cd7",
-      "ts": 1771706373
+      "hash": "219a8243f61c524e90e0eba346e80901fd8c6ccd66a24576d597bf7950dd13a8",
+      "ts": 1771870646
     },
     "Andevaly": {
-      "hash": "569d01f6df1ab40cba041b9798febb8a20455ee58d7c4c6f8f584d745d6891fc",
-      "ts": 1771706373
+      "hash": "be3f99ef4f3e6ecfd5e977f8377e3511ad9c22279f309fc418e085bc2a4d5724",
+      "ts": 1771870646
     },
     "Arthur": {
-      "hash": "a2e54ab0ad1f220395032e0cab2ab432ed6c647d98fde013a41c9ac2c3e81779",
-      "ts": 1771712925
+      "hash": "2b99e19109ef456d2099f1ce09ea46b835ee596762d0e13838aaf258beac36e9",
+      "ts": 1771870646
     },
     "Asmodeus": {
-      "hash": "9489ff1eb70e05a3a320235c4d2f9d8276855bc5918e8683c8e7c2c439eab425",
-      "ts": 1771706373
+      "hash": "c483edf43b6d9ca01b9d64e7d657d6071d384313b35b18dfc3ee88da0d2c4839",
+      "ts": 1771870646
     },
     "Azure Dragon": {
-      "hash": "083d542d2340d22789088a8774fc3d59701a68e7a39b2b858eb2cc9c09f0cac3",
-      "ts": 1771706373
+      "hash": "0010ae5df50c9a70b101ad2c1e53fc731ff520e3c65b64ae071c8d672beba26b",
+      "ts": 1771870646
     },
     "Brynhild": {
-      "hash": "009aed457ac74261f8afa04202f5c126541397b864764d6c82ecefe60d3ada38",
-      "ts": 1771706373
+      "hash": "42b2bb7b3f7757aa5b45773e2ac46bf4fcc87e1462d2810d1af39e44673301ae",
+      "ts": 1771868965
     },
     "Marylis": {
-      "hash": "5aee0783b7042063b21c94d88f5674d983e62c3a5f164d4785449fbb3176ca47",
-      "ts": 1771706373
+      "hash": "aaea0cce312990ec162ad018b11d2413f86a874bb9522f956b6b8b62751b37e3",
+      "ts": 1771870646
     },
     "Siegfried": {
-      "hash": "009c1f9fd4c0d96e20e81d88ab5dcfc911cf87349391d4cc54e232805d785d8b",
-      "ts": 1771706373
+      "hash": "53a7a762b53919fa12c10a7586e841bd3cf31db6c3639b85ab69946b9ccc4ba1",
+      "ts": 1771870646
     },
     "Tyrfing": {
-      "hash": "1f16dfc2535e52bd6a07f30dae656d9abd37f6da2f2e932724ea56dd0d5458e9",
-      "ts": 1771706373
+      "hash": "d9adf835ec159daa767d1157ff6c9f4fdcd80764fe225ed10f5e9de574b5ce32",
+      "ts": 1771870646
     },
     "Asteros": {
-      "hash": "65465753beeb9e691ef423c64b0b1e4689f0a1290a6b4085d949e95f61405484",
-      "ts": 1771706373
+      "hash": "0f560095d7dc08cdbd7c93aedbc1d79affb107b1525d7f6867db8fc4e80034df",
+      "ts": 1771870646
     },
     "Beowulf": {
-      "hash": "668029e4e3887238eb5f7a5d08ce7cc4795778bfc4297964c3386fd175457b8f",
-      "ts": 1771706373
+      "hash": "40eb7203c9e364e5cdf7b1f761ac567237923729398ed4bf258b034b4a3dfee6",
+      "ts": 1771870646
     },
     "Guna": {
-      "hash": "51dabe69a856bf487a579d7d99fb9ae5f204b19b799e09aac1d87c2c7b7875b4",
-      "ts": 1771706373
+      "hash": "b9901a89f345ed9083c066bd2d0f5b864c8fb680766cfd9325b1b57b23999f8f",
+      "ts": 1771870646
     },
     "Grimnir": {
-      "hash": "132506cf8466c91bcf26498e70e3520587d5ec207c475a9826a372e326d8daff",
-      "ts": 1771706373
+      "hash": "b51f56aad91784d3ac1ae7904a13498e44209bba2237d7e12ce2097036c019b4",
+      "ts": 1771870646
     },
     "Murphy": {
-      "hash": "8467cef0867c5fed6796dd4980869ad1881ee26050c249d3854bc76af8e65b25",
-      "ts": 1771706373
+      "hash": "883d09a0bb00905f325b0d218b77f7c60a7e5b2ca78a0916807597f9209cac3c",
+      "ts": 1771870646
     },
     "Goblin Battering Ram": {
-      "hash": "eed19865c7d294159bb560208788f2c767756ca3907caa7e7a857b643227e69c",
-      "ts": 1771706373
+      "hash": "29703d7bd9759d308183d79ca1a9d1661047bece9a72ffe697012c883c5c0bbd",
+      "ts": 1771870646
     },
     "Flame Slime": {
-      "hash": "2fb43abd71ac9cbbd8a9a65a196d4d6e62e6fabcb2140cdac649ed0b35c8d480",
-      "ts": 1771706373
+      "hash": "5fd895b3f4e105b4f94436c57d39861f4993b2ad6dec65e2792a04170b0f7f7d",
+      "ts": 1771870646
     },
     "Apollo": {
-      "hash": "0da3da3cd73bfa3bb85c2b5483085802dfd273360bf0b132b048463a0277323a",
-      "ts": 1771706373
+      "hash": "d35667690b53d41c53e45ffa4e296537f92ba2279350a251be19dfe0ff9193fe",
+      "ts": 1771870646
     },
     "Artemis": {
-      "hash": "c9731aff6cfcbd384cc92e521309b4d338a02510e09f81bbc1572393edea770c",
-      "ts": 1771706373
+      "hash": "9e6cd409ef1fd220ef3a30910d0ed557826973a96622bd7e89591ce298454a74",
+      "ts": 1771870646
     },
     "Huginn & Muninn": {
-      "hash": "c98c7716cd1f1bbc04a676486ed2a5952be312b2e105e6e6c91fc3f2198b71b5",
-      "ts": 1771706373
+      "hash": "e277d44d4556f824641018b5c7f747f76aa1a4b6e438127f44866449efa4f8c0",
+      "ts": 1771870646
     },
     "Ifrit": {
-      "hash": "84df2299e667ace0419a570777ccf955b27eef94fd3b95865aa732cebfea83f5",
-      "ts": 1771706373
+      "hash": "76250de234f540ef713ddff1d506478ed4e6816a2e68e605854edb633bc20278",
+      "ts": 1771870646
     },
     "Jing": {
-      "hash": "13726a3b1eb35be404cfb2a58e698a17dd4c8252da355645a3cf80e098167d0a",
-      "ts": 1771706373
+      "hash": "44540416e18486121fb02e900394f93f9d69d371d5437c8c7c89a25661ea9562",
+      "ts": 1771870646
     },
     "Mimir": {
-      "hash": "0eae33bbdb59d8638675b3d87aed05fe9062414cb0cb25b9686b0a790c6495c2",
-      "ts": 1771706373
+      "hash": "8150609a9fc5011ef52d330b776aea7ee510cc3104fa7796d37376a278be7632",
+      "ts": 1771870646
     },
     "Ningluosi": {
-      "hash": "47fe17cbdca3e430052f9721353e01e69c3bd5db1faf3964436a1ed8bec8be8b",
-      "ts": 1771706373
+      "hash": "efa4a1c667a03899a198af5cc51b57c9f3343ab04de89d89f2e20717cd6be9f5",
+      "ts": 1771870646
     },
     "Orion": {
-      "hash": "19f708a0077788f65da91fb2c5cdddd91aa84252fd3a59c815867be8481392db",
-      "ts": 1771706373
+      "hash": "e752efeabf7e3d8cdea37b54bf7ad84c98bd465e450e09d085901841018a3fd9",
+      "ts": 1771870646
     },
     "Lorillin": {
-      "hash": "6d4eb6cc9190ab0e1eb9be2f067d8b5377d924136145b8bdce711e34b8bc24ef",
-      "ts": 1771706373
+      "hash": "478f2a8b5a9520ae5994971279990cc45a9a7f779abbe79c123202b76f40d146",
+      "ts": 1771870646
     },
     "Medusa": {
-      "hash": "b14bd5a574d199a0274c66b50d6e882716b4e191839746388224c5b297e13502",
-      "ts": 1771706373
+      "hash": "8c81283e407bd6570855452df85bc1924164f5bdeab56ae7b610202b64ecfd58",
+      "ts": 1771870646
     },
     "Van Helsing": {
-      "hash": "ebb7d0658124d6fabafac2b8176bb78f73625258f0a2cbadf8a504cbc036cc8e",
-      "ts": 1771706373
+      "hash": "d96e90c31bcd2b638b33ae6c2aa464a446d9a18185d1277ac840a7513f82e232",
+      "ts": 1771870646
     },
     "Nessus": {
-      "hash": "7dbefd34c435c4938aa32761dbc813fafa4077334d8412f4e836fcacf56ed8e9",
-      "ts": 1771706373
+      "hash": "5d9d7c3d0b2e93ce89d41fe0723485c4b50133f63eaba68141c2413fdf6c1416",
+      "ts": 1771870646
     },
     "Polyphemus": {
-      "hash": "9b34cfd0165e5100bb4cff2c78fb7302b9e77ca08c2a0389f54f72459da850e8",
-      "ts": 1771706373
+      "hash": "ccf48594787cc24e3dd46281188f7451d1efd5fb215b50e3cf4a2fe3ce8f98c4",
+      "ts": 1771870646
     },
     "Dwarven Cannoneer": {
-      "hash": "fa6819db2bb107330bb0a381d6edce3fdb20920752a3f1568436aea3332f2c8e",
-      "ts": 1771706373
+      "hash": "52d3e29bbd944625645eb90a09545204585610188e84141f63db278eb47dcfc8",
+      "ts": 1771870646
     },
     "Wood Elf Archer": {
-      "hash": "8e44e1788334ef070820b697414b3911c5dcc1d2b989060f09d552d63607d316",
-      "ts": 1771706373
+      "hash": "38de2d118e3facf3f5bf5d9bd7a62ca058e02dbb00a82d8a2e89e3909d0943a8",
+      "ts": 1771870646
     },
     "Lightning Slime": {
-      "hash": "5bdfadf56f42fcc75faab2267363e1da70bb77bce694ddf606b647846cd7e8de",
-      "ts": 1771706373
+      "hash": "210b9377b56acf93cd3e293379370b0875e098743b19093e8e3b4592a867ee2d",
+      "ts": 1771870646
     },
     "Loki": {
-      "hash": "1c57965325c51660b927a8b85717bb164f25abc970768242a0800a856cff8ffe",
-      "ts": 1771706373
+      "hash": "aec647c79421168aa0de55027df79e64b15507402b43332ef617b85cedea801c",
+      "ts": 1771870646
     },
     "Poseidon": {
-      "hash": "038ee559a89180d33840e45112eba76db76d763e23e69ab8a8b718c01b95ccb5",
-      "ts": 1771706373
+      "hash": "367663742622b924b001919d3f7418be80155b15290c3733e7c7b2496a668915",
+      "ts": 1771870646
     },
     "Crassus": {
-      "hash": "2bec65b6ddd10f488516f635be2d1975a96075eae5e36ede52bde896f7af138f",
-      "ts": 1771706373
+      "hash": "c428c8ff70c898cc99e2b2ab7243c1ac1153e1670c3b4b313de45fdd4e021d68",
+      "ts": 1771870646
     },
     "Faust": {
-      "hash": "68192d8a309034386a83db58355a620810b6d05f68fdecb2bc4582b556108c5c",
-      "ts": 1771706373
+      "hash": "e968749994e12a3ba0dc69025dd00c6536e12589e32b66662b97b7fc5e8b7052",
+      "ts": 1771870646
     },
     "Gabriele": {
-      "hash": "d7a894671537f9733a196b4c76594c7fe022ec90529300c074ae1555f981cc66",
-      "ts": 1771706373
+      "hash": "3ee3b9657c61434b53d4c3fa642db2834c96dd91bc29aa9c1ce2260e5120897e",
+      "ts": 1771868965
     },
     "Gullveig": {
-      "hash": "881c4e8fd4cdcbde3349849d33b44cdaaee49de045837559227a9cee89269500",
-      "ts": 1771706373
+      "hash": "b10c5b7dbf501350f54d20a85bf7f558dddba64a05df5d5d70ec40c4b6eb5dbe",
+      "ts": 1771870646
     },
     "Talos": {
-      "hash": "bf67f78e732b2eda4eb3c343b4f9743d429f78eb8f0516b89b20aab89a9536c9",
-      "ts": 1771706373
+      "hash": "016839b4019802e44b9be6ef91dd7f79a3c10dad6880935016172fdc4665565a",
+      "ts": 1771870646
     },
     "Vermilion Bird": {
-      "hash": "2884642cce180cf476b2b8fee9a5c2e71841019cf61939b4cac07b6d32f0f46b",
-      "ts": 1771706373
+      "hash": "17d4f8dc4df0332b3dffffd4bd72590139d99c61a0adc2cdd78b3b1ebb0e475f",
+      "ts": 1771870646
     },
     "Cerberus": {
-      "hash": "a097fd712a4b01e5c06aefe95f7099905dcf87135bb87eef326dcaca7f02c132",
-      "ts": 1771706373
+      "hash": "9ccb8d14043c4b95c80b87c701389dca9626e1f3e6edd7e255587ae78680bd9e",
+      "ts": 1771870646
     },
     "Cleopatra": {
-      "hash": "90db636206b99cfb2c76cee0ac41efc34d7452554b2d8162db1490781d619db9",
-      "ts": 1771706373
+      "hash": "3c3baf5232709799daf60d1f3157918b7dd8d1ca15c5a9bffe6e9e8186df2e8b",
+      "ts": 1771870646
     },
     "Melina": {
-      "hash": "e3e630b58e747ffb6ae8803992b26f6c7bb9a21fadf3b265370a3cdfd73f02c9",
-      "ts": 1771706373
+      "hash": "96ba56e04fd86672c2aa8ac80d76284637b8d671e30a4b0ccb6ed52458b16d82",
+      "ts": 1771870646
     },
     "Nanalie": {
-      "hash": "08155829e2f0313e95aad1e2a4f7bf119e8ac59b8e350cba4844b1802caeb816",
-      "ts": 1771706373
+      "hash": "080387c37e2960d7bb64a1350f3ed1dfadb33cdda4e25563853a897eced1891d",
+      "ts": 1771870646
     },
     "Telperion": {
-      "hash": "0c054b9eee698f58c1edb7feefc9182e8b218523ae2fee7a5aaf4aea12f633bf",
-      "ts": 1771706373
+      "hash": "65c71db595a52f70d95f35218293e0b901678ee4c320848b0674eeb807fe9987",
+      "ts": 1771870646
     },
     "Buck": {
-      "hash": "b5eaff9f85f3dc1beafa1197912976a721fc2c353bf0b8c7b22c28b8c42c0ce9",
-      "ts": 1771706373
+      "hash": "e110477f12a55155b923b921ba1039bf8e83fddef075c568f1ca08aee6965cbf",
+      "ts": 1771870646
     },
     "Kleina": {
-      "hash": "873f2f23a88a45eebe400aeaca463bccea11c41d99e0e26a5a6a8a5133d347ef",
-      "ts": 1771706373
+      "hash": "16bb7701aec7742406ec978187b4bdfab4a327b1e5e19936db9d76c6eb0e552b",
+      "ts": 1771870646
     },
     "Dwarven Sage": {
-      "hash": "a00bc1d5bea46e0112524f1767d21aae7e3eed951d31ddc1c3a5c34e0c0e925c",
-      "ts": 1771706373
+      "hash": "9c856e4e688705bb83385a2ca9d6842dab5f64b7b39a1e9ddd02f369e856a2ae",
+      "ts": 1771870646
     },
     "Pharaoh": {
-      "hash": "009046c594ba956b45b538ad686379240a8bca3a7ba9fe96bb10d52eff2a1b46",
-      "ts": 1771706373
+      "hash": "4e42d3d18a69fa985ab3cfb6e5c2cfe289a7f7ce3bdcd1d1c2db7a71b04ca720",
+      "ts": 1771870646
     },
     "Ice Slime": {
-      "hash": "be10cbcd146c490b71d66ab85567be2fc3a25011c3af608f97630ec47287a45c",
-      "ts": 1771706373
+      "hash": "62942992cdea9383d44c6fe63eb3d53b19c12cc28bcd60ec4f0ca99cac8bf7ee",
+      "ts": 1771870646
     }
   },
   "subclasses": {

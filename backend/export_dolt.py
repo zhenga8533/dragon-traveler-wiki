@@ -319,7 +319,9 @@ def merge_with_existing(dolt_records, existing_path, key_field):
     existing_keys = {r[key_field] for r in existing if key_field in r}
     new_from_dolt = [r for r in dolt_records if r.get(key_field) not in existing_keys]
     if new_from_dolt:
-        print(f"    Merging {len(new_from_dolt)} new record(s) from Dolt into {existing_path.name}")
+        print(
+            f"    Merging {len(new_from_dolt)} new record(s) from Dolt into {existing_path.name}"
+        )
     return existing + new_from_dolt
 
 
@@ -390,7 +392,9 @@ def export_characters(data, output_dir=None, merge=False):
                 "quality": c.get("quality") or "",
                 "character_class": c.get("character_class") or "",
                 "factions": [
-                    f["faction_name"] for f in factions_by_char.get(char_id, [])
+                    f["faction_name"]
+                    for f in factions_by_char.get(char_id, [])
+                    if f.get("faction_name")
                 ],
                 "is_global": bool(c.get("is_global", True)),
                 "subclasses": [
@@ -820,7 +824,9 @@ def export_golden_alliances(data, output_dir=None, merge=False):
         )
 
     if merge and output_dir:
-        result = merge_with_existing(result, output_dir / "golden_alliances.json", "name")
+        result = merge_with_existing(
+            result, output_dir / "golden_alliances.json", "name"
+        )
     result.sort(key=golden_alliance_sort_key)
     write_export("golden_alliances.json", result, output_dir)
 
@@ -843,7 +849,9 @@ def export_gear(data, output_dir=None, merge=False):
         if row.get("name")
     ]
     if merge and output_dir:
-        sets_result = merge_with_existing(sets_result, output_dir / "gear_sets.json", "name")
+        sets_result = merge_with_existing(
+            sets_result, output_dir / "gear_sets.json", "name"
+        )
     sets_result.sort(key=gear_set_sort_key)
     write_export("gear_sets.json", sets_result, output_dir)
 

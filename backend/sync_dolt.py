@@ -1001,32 +1001,54 @@ def sync_factions(
     now,
     stored_hashes,
     new_hashes,
-    characters_data=None,
 ):
     """Sync factions.json -> factions table."""
     old_ts = get_old_timestamps("factions", "name")
     table_hashes = stored_hashes.get("factions", {})
+    existing_faction_rows = dolt_sql_csv("SELECT id, name FROM factions;")
+    existing_faction_ids = {
+        row.get("name"): int(row.get("id"))
+        for row in existing_faction_rows
+        if row.get("name") and row.get("id")
+    }
+    next_faction_id = max(existing_faction_ids.values(), default=0) + 1
+
+    sorted_data = sorted(data, key=faction_sort_key)
+    inserted_faction_ids = {}
+    for faction in sorted_data:
+        name = faction.get("name")
+        if not name:
+            continue
+        if name in existing_faction_ids:
+            inserted_faction_ids[name] = existing_faction_ids[name]
+        else:
+            inserted_faction_ids[name] = next_faction_id
+            next_faction_id += 1
+
     known_artifacts = {
         str(a.get("name", "")).strip() for a in artifacts if a.get("name")
     }
     recommended_count = 0
     batch.add("DELETE FROM faction_recommended_artifacts;")
     batch.add("ALTER TABLE faction_recommended_artifacts AUTO_INCREMENT = 1;")
-    # character_factions references factions.id; rows must be removed before replacing factions.
-    # For faction-only syncs, we repopulate links from characters.json below.
-    batch.add("DELETE FROM character_factions;")
-    batch.add("DELETE FROM factions;")
-    data = sorted(data, key=faction_sort_key)
-    for i, f in enumerate(data, 1):
+    # Preserve character_factions links by keeping faction IDs stable and upserting rows.
+    # Do not clear character_factions during faction-only updates.
+    incoming_faction_ids = set()
+    for f in sorted_data:
         if not f.get("name"):
             continue
+        faction_id = inserted_faction_ids[f["name"]]
+        incoming_faction_ids.add(faction_id)
         h = compute_hash(f)
         ts = resolve_timestamp(f["name"], h, old_ts, now, table_hashes=table_hashes)
         new_hashes.setdefault("factions", {})[f["name"]] = {"hash": h, "ts": int(ts)}
         batch.add(
             f"INSERT INTO factions (id, name, wyrm, description, last_updated, data_hash) VALUES "
-            f"({i}, {escape_sql(f['name'])}, {escape_sql(f.get('wyrm'))}, {escape_sql(f.get('description'))}, "
-            f"{escape_sql(ts)}, {escape_sql(h)});"
+            f"({faction_id}, {escape_sql(f['name'])}, {escape_sql(f.get('wyrm'))}, {escape_sql(f.get('description'))}, "
+            f"{escape_sql(ts)}, {escape_sql(h)}) "
+            f"ON DUPLICATE KEY UPDATE "
+            f"name=VALUES(name), wyrm=VALUES(wyrm), description=VALUES(description), "
+            f"last_updated=VALUES(last_updated), data_hash=VALUES(data_hash);"
         )
 
         recommended_artifacts = []
@@ -1044,52 +1066,31 @@ def sync_factions(
             recommended_count += 1
             batch.add(
                 f"INSERT INTO faction_recommended_artifacts (faction_id, sort_order, artifact_name) VALUES "
-                f"({i}, {sort_order}, {escape_sql(artifact_name)});"
+                f"({faction_id}, {sort_order}, {escape_sql(artifact_name)});"
             )
-    count = len([f for f in data if f.get("name")])
 
-    # Rebuild character_factions for --target factions so faction-only sync does not
-    # leave character relationships empty.
-    relinked_count = 0
-    if characters_data is not None:
-        faction_ids = {
-            f.get("name"): i
-            for i, f in enumerate(data, 1)
-            if isinstance(f, dict) and f.get("name")
-        }
-        character_rows = dolt_sql_csv("SELECT id, name FROM characters;")
-        character_ids = {
-            row.get("name"): int(row.get("id"))
-            for row in character_rows
-            if row.get("name") and row.get("id")
-        }
+    # Remove factions that are no longer present in input only when not referenced.
+    for row in existing_faction_rows:
+        existing_id = row.get("id")
+        if not existing_id:
+            continue
+        existing_id = int(existing_id)
+        if existing_id in incoming_faction_ids:
+            continue
+        refs = dolt_sql_csv(
+            f"SELECT 1 FROM character_factions WHERE faction_id = {existing_id} LIMIT 1;"
+        )
+        if refs:
+            print(
+                f"  Warning: keeping faction id {existing_id} ('{row.get('name')}') because character_factions still references it"
+            )
+            continue
+        batch.add(f"DELETE FROM factions WHERE id = {existing_id};")
 
-        for character in sorted(characters_data, key=character_sort_key):
-            character_name = character.get("name")
-            if not character_name:
-                continue
-            character_id = character_ids.get(character_name)
-            if not character_id:
-                continue
-            for order, faction_name in enumerate(
-                character.get("factions", []), start=1
-            ):
-                faction_id = faction_ids.get(faction_name)
-                if not faction_id:
-                    continue
-                relinked_count += 1
-                batch.add(
-                    f"INSERT INTO character_factions (character_id, faction_id, sort_order) VALUES "
-                    f"({character_id}, {faction_id}, {order});"
-                )
+    count = len([f for f in sorted_data if f.get("name")])
 
     print(
         f"  Synced {count} factions and {recommended_count} recommended artifact links"
-        + (
-            f"; rebuilt {relinked_count} character_factions links"
-            if characters_data is not None
-            else ""
-        )
     )
 
 
@@ -1206,9 +1207,19 @@ def sync_characters(
         batch.add(f"ALTER TABLE {table} AUTO_INCREMENT = 1;")
 
     faction_ids = {}
-    for i, f in enumerate(factions, 1):
-        if f.get("name"):
-            faction_ids[f["name"]] = i
+    faction_rows = dolt_sql_csv("SELECT id, name FROM factions;")
+    for row in faction_rows:
+        name = row.get("name")
+        faction_id = row.get("id")
+        if not name or not faction_id:
+            continue
+        faction_ids[name] = int(faction_id)
+
+    # Fallback for safety in unusual partial-schema states.
+    if not faction_ids:
+        for i, f in enumerate(sorted(factions, key=faction_sort_key), 1):
+            if f.get("name"):
+                faction_ids[f["name"]] = i
 
     has_subclass_id_column = "subclass_id" in get_table_columns("character_subclasses")
     existing_tables = get_existing_tables()
@@ -2170,7 +2181,7 @@ def main():
 
     # Only load JSON files needed for the target.
     json_deps = {
-        "factions": ["factions.json", "artifacts.json", "characters.json"],
+        "factions": ["factions.json", "artifacts.json"],
         "subclasses": ["subclasses.json"],
         "characters": ["characters.json", "factions.json", "subclasses.json"],
         "wyrmspells": ["wyrmspells.json"],
@@ -2223,9 +2234,6 @@ def main():
                 now,
                 stored_hashes,
                 new_hashes,
-                characters_data=(
-                    json_cache.get("characters.json") if target == "factions" else None
-                ),
             ),
             "subclasses": lambda: sync_subclasses(
                 json_cache["subclasses.json"],
