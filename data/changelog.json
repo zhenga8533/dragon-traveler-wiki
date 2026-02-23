@@ -1,5 +1,62 @@
 [
   {
+    "date": "2026-02-23",
+    "version": "1.0.1",
+    "changes": [
+      {
+        "type": "added",
+        "category": "teams",
+        "description": "Added Team Synergy Assistant with synergy score computation and recommendations"
+      },
+      {
+        "type": "added",
+        "category": "teams",
+        "description": "Added team compare workflow in Team Builder for side-by-side composition review"
+      },
+      {
+        "type": "updated",
+        "category": "navigation",
+        "description": "Added reusable pagination controls across list and detail-heavy pages, including changelog"
+      },
+      {
+        "type": "updated",
+        "category": "search",
+        "description": "Added shared SearchData context and improved global search/error handling integration"
+      },
+      {
+        "type": "updated",
+        "category": "forms",
+        "description": "Improved select usability by enabling search only when option sets are large"
+      },
+      {
+        "type": "updated",
+        "category": "teams",
+        "description": "Refined teams page layout by moving the Edit action and reordering team badges"
+      },
+      {
+        "type": "fixed",
+        "category": "data",
+        "description": "Normalized content types for teams and tier lists across backend models and frontend UI"
+      },
+      {
+        "type": "fixed",
+        "category": "factions",
+        "description": "Preserved faction IDs during sync/export and added deterministic key sorting"
+      },
+      {
+        "type": "updated",
+        "category": "backend",
+        "description": "Added Dolt branch selection support for main/dev workflows and --pull option in sync tool"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live datasets (artifacts, noble phantasms, gear, codes, tier lists, factions, and characters)"
+      }
+    ],
+    "last_updated": 1771873333
+  },
+  {
     "date": "2026-02-22",
     "version": "1.0.0",
     "changes": [
