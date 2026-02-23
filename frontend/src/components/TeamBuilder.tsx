@@ -24,6 +24,7 @@ import {
   TextInput,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { notifications } from '@mantine/notifications';
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
@@ -48,6 +49,7 @@ import CharacterCard from './CharacterCard';
 import FilterableCharacterPool from './FilterableCharacterPool';
 
 const MAX_ROSTER_SIZE = 6;
+const MAX_GITHUB_ISSUE_URL_LENGTH = 8000;
 const SLOT_COUNT = 6;
 
 const FACTIONS: FactionName[] = [
@@ -635,6 +637,20 @@ export default function TeamBuilder({
     return characters.filter((c) => !teamNames.has(c.name));
   }, [characters, teamNames]);
 
+  const teamIssueQuery = useMemo(() => {
+    const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
+    return new URLSearchParams({
+      title: '[Team] New team suggestion',
+      body,
+    }).toString();
+  }, [json]);
+
+  const teamIssueUrl = useMemo(() => {
+    const url = `${GITHUB_REPO_URL}/issues/new?${teamIssueQuery}`;
+    if (url.length > MAX_GITHUB_ISSUE_URL_LENGTH) return null;
+    return url;
+  }, [teamIssueQuery]);
+
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);
   }
@@ -890,11 +906,19 @@ export default function TeamBuilder({
             size="sm"
             leftSection={<IoOpenOutline size={16} />}
             onClick={() => {
-              const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
-              const url = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Team] New team suggestion', body }).toString()}`;
-              window.open(url, '_blank');
+              if (!teamIssueUrl) {
+                notifications.show({
+                  color: 'yellow',
+                  title: 'Team JSON is too large',
+                  message:
+                    'This team is too large to submit via URL. Use Copy JSON and paste it into a manually created GitHub issue.',
+                });
+                return;
+              }
+
+              window.open(teamIssueUrl, '_blank');
             }}
-            disabled={teamSize === 0}
+            disabled={teamSize === 0 || !teamIssueUrl}
           >
             Submit Suggestion
           </Button>
