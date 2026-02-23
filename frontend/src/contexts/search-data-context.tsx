@@ -1,3 +1,4 @@
+/* eslint-disable react-refresh/only-export-components */
 import { createContext, createElement, useMemo, type ReactNode } from 'react';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Artifact } from '../types/artifact';
@@ -47,19 +48,46 @@ export const SearchDataContext = createContext<SearchDataContextValue>({
 });
 
 export function SearchDataProvider({ children }: { children: ReactNode }) {
-  const { data: characters } = useDataFetch<Character[]>('data/characters.json', []);
-  const { data: artifacts } = useDataFetch<Artifact[]>('data/artifacts.json', []);
+  const { data: characters } = useDataFetch<Character[]>(
+    'data/characters.json',
+    []
+  );
+  const { data: artifacts } = useDataFetch<Artifact[]>(
+    'data/artifacts.json',
+    []
+  );
   const { data: gear } = useDataFetch<Gear[]>('data/gear.json', []);
   const { data: howlkins } = useDataFetch<Howlkin[]>('data/howlkins.json', []);
-  const { data: resources } = useDataFetch<Resource[]>('data/resources.json', []);
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
-  const { data: subclasses } = useDataFetch<Subclass[]>('data/subclasses.json', []);
-  const { data: wyrmspells } = useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
-  const { data: noblePhantasms } = useDataFetch<NoblePhantasm[]>('data/noble_phantasm.json', []);
+  const { data: resources } = useDataFetch<Resource[]>(
+    'data/resources.json',
+    []
+  );
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>(
+    'data/status-effects.json',
+    []
+  );
+  const { data: subclasses } = useDataFetch<Subclass[]>(
+    'data/subclasses.json',
+    []
+  );
+  const { data: wyrmspells } = useDataFetch<Wyrmspell[]>(
+    'data/wyrmspells.json',
+    []
+  );
+  const { data: noblePhantasms } = useDataFetch<NoblePhantasm[]>(
+    'data/noble_phantasm.json',
+    []
+  );
   const { data: teams } = useDataFetch<Team[]>('data/teams.json', []);
   const { data: codes } = useDataFetch<Code[]>('data/codes.json', []);
-  const { data: usefulLinks } = useDataFetch<UsefulLink[]>('data/useful-links.json', []);
-  const { data: tierLists } = useDataFetch<TierList[]>('data/tier-lists.json', []);
+  const { data: usefulLinks } = useDataFetch<UsefulLink[]>(
+    'data/useful-links.json',
+    []
+  );
+  const { data: tierLists } = useDataFetch<TierList[]>(
+    'data/tier-lists.json',
+    []
+  );
 
   const value = useMemo(
     () => ({

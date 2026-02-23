@@ -82,36 +82,61 @@ def resolve_dolt_branch(cli_branch):
 def ensure_dolt_branch(branch, pull=False):
     """Checkout the requested Dolt branch and optionally pull latest remote changes."""
     if not branch:
-        return
+        return branch
 
-    current_branch = run_cmd(["dolt", "branch", "--show-current"], DOLT_DIR)
-    if current_branch != branch:
+    def _checkout_branch(target_branch):
         checkout = subprocess.run(
-            ["dolt", "checkout", branch],
+            ["dolt", "checkout", target_branch],
             cwd=DOLT_DIR,
             capture_output=True,
             text=True,
             encoding="utf-8",
         )
-        if checkout.returncode != 0:
-            create_checkout = subprocess.run(
-                ["dolt", "checkout", "-b", branch, f"origin/{branch}"],
-                cwd=DOLT_DIR,
-                capture_output=True,
-                text=True,
-                encoding="utf-8",
-            )
-            if create_checkout.returncode != 0:
+        if checkout.returncode == 0:
+            return True, ""
+
+        create_checkout = subprocess.run(
+            ["dolt", "checkout", "-b", target_branch, f"origin/{target_branch}"],
+            cwd=DOLT_DIR,
+            capture_output=True,
+            text=True,
+            encoding="utf-8",
+        )
+        if create_checkout.returncode == 0:
+            return True, ""
+
+        return False, f"{checkout.stderr}\n{create_checkout.stderr}"
+
+    current_branch = run_cmd(["dolt", "branch", "--show-current"], DOLT_DIR)
+    effective_branch = branch
+    if current_branch != branch:
+        ok, checkout_error = _checkout_branch(branch)
+        if not ok:
+            if branch != "main":
                 print(
-                    "ERROR switching Dolt branch "
-                    f"'{branch}':\n{checkout.stderr}\n{create_checkout.stderr}",
+                    f"WARNING Dolt branch '{branch}' unavailable; falling back to 'main'",
+                    file=sys.stderr,
+                )
+                ok, fallback_error = _checkout_branch("main")
+                if ok:
+                    effective_branch = "main"
+                else:
+                    print(
+                        "ERROR switching Dolt branch "
+                        f"'{branch}' (and fallback 'main'):\n{checkout_error}\n{fallback_error}",
+                        file=sys.stderr,
+                    )
+                    sys.exit(1)
+            else:
+                print(
+                    "ERROR switching Dolt branch " f"'{branch}':\n{checkout_error}",
                     file=sys.stderr,
                 )
                 sys.exit(1)
 
     if pull:
         pull_result = subprocess.run(
-            ["dolt", "pull", "origin", branch],
+            ["dolt", "pull", "origin", effective_branch],
             cwd=DOLT_DIR,
             capture_output=True,
             text=True,
@@ -119,10 +144,12 @@ def ensure_dolt_branch(branch, pull=False):
         )
         if pull_result.returncode != 0:
             print(
-                f"ERROR pulling Dolt branch '{branch}':\n{pull_result.stderr}",
+                f"ERROR pulling Dolt branch '{effective_branch}':\n{pull_result.stderr}",
                 file=sys.stderr,
             )
             sys.exit(1)
+
+    return effective_branch
 
 
 # All queries needed, keyed by name. Executed in a single dolt process.
@@ -1230,7 +1257,12 @@ def main():
             f"Using Dolt branch '{dolt_branch}'"
             + (" (skip pull)" if args.no_pull else "")
         )
-    ensure_dolt_branch(dolt_branch, pull=not args.no_pull)
+    effective_dolt_branch = ensure_dolt_branch(dolt_branch, pull=not args.no_pull)
+    if effective_dolt_branch and effective_dolt_branch != dolt_branch:
+        print(
+            f"Using fallback Dolt branch '{effective_dolt_branch}'"
+            + (" (skip pull)" if args.no_pull else "")
+        )
 
     if args.target == "all":
         targets = list(EXPORTERS.keys())

@@ -136,11 +136,13 @@ export default function Teams() {
     setViewFilters((prev) => ({ ...prev, contentTypes: deduped }));
   }, [viewFilters.contentTypes, setViewFilters]);
 
-  useEffect(() => {
-    setCompareSelection((prev) =>
-      prev.filter((teamName) => teams.some((team) => team.name === teamName))
-    );
-  }, [teams]);
+  const activeCompareSelection = useMemo(
+    () =>
+      compareSelection.filter((teamName) =>
+        teams.some((team) => team.name === teamName)
+      ),
+    [compareSelection, teams]
+  );
 
   const entityFilterGroups: ChipFilterGroup[] = useMemo(
     () => [
@@ -194,10 +196,10 @@ export default function Teams() {
 
   const comparedTeams = useMemo(
     () =>
-      compareSelection
+      activeCompareSelection
         .map((teamName) => teams.find((team) => team.name === teamName))
         .filter((team): team is Team => Boolean(team)),
-    [compareSelection, teams]
+    [activeCompareSelection, teams]
   );
 
   const compareSummary = useMemo(() => {
@@ -273,13 +275,16 @@ export default function Teams() {
 
   function toggleCompare(teamName: string) {
     setCompareSelection((prev) => {
-      if (prev.includes(teamName)) {
-        return prev.filter((name) => name !== teamName);
+      const validPrev = prev.filter((name) =>
+        teams.some((team) => team.name === name)
+      );
+      if (validPrev.includes(teamName)) {
+        return validPrev.filter((name) => name !== teamName);
       }
-      if (prev.length >= 2) {
-        return [prev[1], teamName];
+      if (validPrev.length >= 2) {
+        return [validPrev[1], teamName];
       }
-      return [...prev, teamName];
+      return [...validPrev, teamName];
     });
   }
 
@@ -397,12 +402,12 @@ export default function Teams() {
                       </Text>
                       <Group gap="xs">
                         <Badge variant="light" size="sm" color="blue">
-                          {compareSelection.length} / 2 selected
+                          {activeCompareSelection.length} / 2 selected
                         </Badge>
                         <Button
                           variant="subtle"
                           size="compact-xs"
-                          disabled={compareSelection.length === 0}
+                          disabled={activeCompareSelection.length === 0}
                           onClick={() => setCompareSelection([])}
                         >
                           Clear
@@ -644,7 +649,8 @@ export default function Teams() {
                           team.name
                         );
                         const compareDisabled =
-                          !isSelectedForCompare && compareSelection.length >= 2;
+                          !isSelectedForCompare &&
+                          activeCompareSelection.length >= 2;
                         return (
                           <Paper
                             key={team.name}
@@ -847,7 +853,7 @@ export default function Teams() {
                                 checked={compareSelection.includes(team.name)}
                                 disabled={
                                   !compareSelection.includes(team.name) &&
-                                  compareSelection.length >= 2
+                                  activeCompareSelection.length >= 2
                                 }
                                 onClick={(e) => {
                                   e.stopPropagation();

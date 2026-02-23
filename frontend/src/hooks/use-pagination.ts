@@ -1,14 +1,30 @@
-import { useRef, useState } from 'react';
+import { useState, type Dispatch, type SetStateAction } from 'react';
 
-export function usePagination(total: number, pageSize: number, filterKey: string) {
-  const [page, setPage] = useState(1);
-  const prevKey = useRef(filterKey);
+export function usePagination(
+  total: number,
+  pageSize: number,
+  filterKey: string
+) {
+  const [paginationState, setPaginationState] = useState({
+    key: filterKey,
+    page: 1,
+  });
 
-  // Synchronously reset page during render when filter state changes
-  if (prevKey.current !== filterKey) {
-    prevKey.current = filterKey;
-    setPage(1);
-  }
+  const page = paginationState.key === filterKey ? paginationState.page : 1;
+
+  const setPage: Dispatch<SetStateAction<number>> = (value) => {
+    setPaginationState((prev) => {
+      const currentPage = prev.key === filterKey ? prev.page : 1;
+      const nextPage =
+        typeof value === 'function'
+          ? (value as (prevState: number) => number)(currentPage)
+          : value;
+      return {
+        key: filterKey,
+        page: nextPage,
+      };
+    });
+  };
 
   const totalPages = Math.max(1, Math.ceil(total / pageSize));
   const effectivePage = Math.min(page, totalPages); // clamp if filters narrow results
