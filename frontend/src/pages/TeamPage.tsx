@@ -34,6 +34,7 @@ import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
 import RichText from '../components/RichText';
+import TeamSynergyAssistant from '../components/TeamSynergyAssistant';
 import WyrmspellCard from '../components/WyrmspellCard';
 import { FACTION_COLOR } from '../constants/colors';
 import { normalizeContentType } from '../constants/content-types';
@@ -46,6 +47,7 @@ import type { Faction } from '../types/faction';
 import type { StatusEffect } from '../types/status-effect';
 import type { Team, TeamMember } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
+import { computeTeamSynergy } from '../utils/team-synergy';
 
 export default function TeamPage() {
   const { teamName } = useParams<{ teamName: string }>();
@@ -112,6 +114,34 @@ export default function TeamPage() {
   };
   const rawFactionColor = team ? FACTION_COLOR[team.faction] : 'violet';
   const factionColor = MANTINE_COLOR_MAP[rawFactionColor] ?? rawFactionColor;
+
+  const teamSynergy = useMemo(() => {
+    if (!team) {
+      return computeTeamSynergy({
+        roster: [],
+        faction: null,
+        contentType: 'All',
+        overdriveCount: 0,
+        teamWyrmspells: {},
+        wyrmspells,
+      });
+    }
+
+    const roster = team.members
+      .map((member) => charMap.get(member.character_name))
+      .filter((character): character is Character => Boolean(character));
+
+    return computeTeamSynergy({
+      roster,
+      faction: team.faction,
+      contentType: normalizeContentType(team.content_type, 'All'),
+      overdriveCount: team.members.filter(
+        (member) => member.overdrive_order != null
+      ).length,
+      teamWyrmspells: team.wyrmspells || {},
+      wyrmspells,
+    });
+  }, [team, charMap, wyrmspells]);
 
   if (loading) {
     return (
@@ -422,6 +452,8 @@ export default function TeamPage() {
 
       <Container size="lg" py="xl">
         <Stack gap="xl">
+          <TeamSynergyAssistant synergy={teamSynergy} />
+
           {/* Wyrmspells Section */}
           {hasWyrmspells && (
             <Stack gap="md">
