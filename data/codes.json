@@ -605,5 +605,12 @@
       "SR Luminary Shards": 10
     },
     "active": true
+  },
+  {
+    "code": "test",
+    "rewards": {
+      "Apple": 1
+    },
+    "active": true
   }
 ]
