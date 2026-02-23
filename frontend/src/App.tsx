@@ -36,7 +36,6 @@ import {
   useLocation,
   useNavigate,
 } from 'react-router-dom';
-import logo from './assets/logo.png';
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
@@ -388,7 +387,7 @@ function AppContent() {
               }}
             >
               <Image
-                src={logo}
+                src="/logo.png"
                 h={{ base: 32, xs: 40, sm: 48 }}
                 w="auto"
                 fit="contain"

@@ -31,7 +31,6 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import banner from '../assets/banner.png';
 import CharacterCard from '../components/CharacterCard';
 import LastUpdated from '../components/LastUpdated';
 import ResourceBadge from '../components/ResourceBadge';
@@ -600,7 +599,7 @@ export default function Home() {
           />
           {/* Actual banner image (fades in when loaded) */}
           <img
-            src={banner}
+            src="/banner.png"
             alt=""
             fetchPriority="high"
             onLoad={() => setBannerLoaded(true)}
