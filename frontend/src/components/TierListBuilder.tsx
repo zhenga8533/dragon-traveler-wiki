@@ -491,7 +491,7 @@ export default function TierListBuilder({
                           top: 0,
                           right: 'calc(50% - 40px)',
                         }}
-                        title="Edit note"
+                        aria-label="Edit note"
                       >
                         <IoPencil size={10} />
                       </ActionIcon>

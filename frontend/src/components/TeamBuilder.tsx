@@ -291,7 +291,7 @@ function SlotCard({
             radius="xl"
             style={{ position: 'absolute', top: 4, right: 4 }}
             onClick={onRemove}
-            title="Remove from team"
+            aria-label="Remove from team"
           >
             <IoClose size={12} />
           </ActionIcon>
@@ -302,7 +302,7 @@ function SlotCard({
             radius="xl"
             style={{ position: 'absolute', top: 4, right: 28 }}
             onClick={onConfigure}
-            title="Configure substitutes"
+            aria-label="Configure substitutes"
           >
             <IoSettings size={12} />
           </ActionIcon>

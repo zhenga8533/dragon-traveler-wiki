@@ -37,6 +37,7 @@ import {
   useNavigate,
 } from 'react-router-dom';
 import logo from './assets/logo.png';
+import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
 import PageTransition from './components/PageTransition';
@@ -48,6 +49,7 @@ import { BRAND_TITLE_STYLE } from './constants/styles';
 import { SIDEBAR, TRANSITION } from './constants/ui';
 import {
   ResourcesProvider,
+  SearchDataProvider,
   SectionAccentProvider,
   TierListReferenceContext,
   TierListReferenceProvider,
@@ -445,6 +447,7 @@ function AppContent() {
       >
         <Box style={{ flex: 1 }}>
           <PageTransition>
+            <ErrorBoundary>
             <Routes>
               <Route path="/" element={<Home />} />
               <Route path="/artifacts" element={<Artifacts />} />
@@ -480,6 +483,7 @@ function AppContent() {
               />
               <Route path="*" element={<NotFound />} />
             </Routes>
+            </ErrorBoundary>
           </PageTransition>
         </Box>
         <Footer />
@@ -495,11 +499,13 @@ export default function App() {
   return (
     <HashRouter>
       <SectionAccentProvider>
-        <ResourcesProvider>
-          <TierListReferenceProvider>
-            <AppContent />
-          </TierListReferenceProvider>
-        </ResourcesProvider>
+        <SearchDataProvider>
+          <ResourcesProvider>
+            <TierListReferenceProvider>
+              <AppContent />
+            </TierListReferenceProvider>
+          </ResourcesProvider>
+        </SearchDataProvider>
       </SectionAccentProvider>
     </HashRouter>
   );

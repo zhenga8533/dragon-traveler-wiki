@@ -377,6 +377,7 @@ function ActiveCodesSection() {
                     color={copied ? 'teal' : 'gray'}
                     size="sm"
                     onClick={copy}
+                    aria-label={copied ? 'Copied!' : 'Copy code'}
                   >
                     {copied ? (
                       <IoCheckmark size={14} />

@@ -10,10 +10,10 @@ import {
   UnstyledButton,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useDisclosure, useHotkeys } from '@mantine/hooks';
+import { useDebouncedValue, useDisclosure, useHotkeys } from '@mantine/hooks';
 import Fuse from 'fuse.js';
 import type { ReactNode } from 'react';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import type { IconType } from 'react-icons';
 import {
   IoClose,
@@ -25,19 +25,7 @@ import {
   IoSparklesOutline,
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-import type { Artifact } from '../types/artifact';
-import type { Character } from '../types/character';
-import type { Code } from '../types/code';
-import type { Gear } from '../types/gear';
-import type { Howlkin } from '../types/howlkin';
-import type { NoblePhantasm } from '../types/noble-phantasm';
-import type { Resource } from '../types/resource';
-import type { StatusEffect } from '../types/status-effect';
-import type { Subclass } from '../types/subclass';
-import type { Team } from '../types/team';
-import type { TierList } from '../types/tier-list';
-import type { UsefulLink } from '../types/useful-link';
-import type { Wyrmspell } from '../types/wyrmspell';
+import { SearchDataContext } from '../contexts';
 
 type SearchResult = {
   type:
@@ -154,22 +142,25 @@ type SearchModalProps = {
 export default function SearchModal({ trigger }: SearchModalProps) {
   const [opened, { open, close }] = useDisclosure(false);
   const [query, setQuery] = useState('');
-  const [characters, setCharacters] = useState<Character[]>([]);
-  const [artifacts, setArtifacts] = useState<Artifact[]>([]);
-  const [gear, setGear] = useState<Gear[]>([]);
-  const [howlkins, setHowlkins] = useState<Howlkin[]>([]);
-  const [resources, setResources] = useState<Resource[]>([]);
-  const [statusEffects, setStatusEffects] = useState<StatusEffect[]>([]);
-  const [subclasses, setSubclasses] = useState<Subclass[]>([]);
-  const [wyrmspells, setWyrmspells] = useState<Wyrmspell[]>([]);
-  const [noblePhantasms, setNoblePhantasms] = useState<NoblePhantasm[]>([]);
-  const [teams, setTeams] = useState<Team[]>([]);
-  const [codes, setCodes] = useState<Code[]>([]);
-  const [usefulLinks, setUsefulLinks] = useState<UsefulLink[]>([]);
-  const [tierLists, setTierLists] = useState<TierList[]>([]);
+  const [debouncedQuery] = useDebouncedValue(query, 150);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
   const colorScheme = useComputedColorScheme('light');
+  const {
+    characters,
+    artifacts,
+    gear,
+    howlkins,
+    resources,
+    statusEffects,
+    subclasses,
+    wyrmspells,
+    noblePhantasms,
+    teams,
+    codes,
+    usefulLinks,
+    tierLists,
+  } = useContext(SearchDataContext);
 
   useHotkeys([
     ['mod+K', open],
@@ -182,75 +173,8 @@ export default function SearchModal({ trigger }: SearchModalProps) {
     ],
   ]);
 
-  useEffect(() => {
-    if (opened) {
-      const baseUrl = import.meta.env.BASE_URL || '/';
-
-      const fetchJson = async <T,>(path: string): Promise<T[]> => {
-        try {
-          const response = await fetch(`${baseUrl}data/${path}`);
-          if (!response.ok) return [];
-          const data = (await response.json()) as T[];
-          return Array.isArray(data) ? data : [];
-        } catch {
-          return [];
-        }
-      };
-
-      Promise.all([
-        fetchJson<Character>('characters.json'),
-        fetchJson<Artifact>('artifacts.json'),
-        fetchJson<Gear>('gear.json'),
-        fetchJson<Howlkin>('howlkins.json'),
-        fetchJson<Resource>('resources.json'),
-        fetchJson<StatusEffect>('status-effects.json'),
-        fetchJson<Subclass>('subclasses.json'),
-        fetchJson<Wyrmspell>('wyrmspells.json'),
-        fetchJson<NoblePhantasm>('noble_phantasm.json'),
-        fetchJson<Team>('teams.json'),
-        fetchJson<Code>('codes.json'),
-        fetchJson<UsefulLink>('useful-links.json'),
-        fetchJson<TierList>('tier-lists.json'),
-      ])
-        .then(
-          ([
-            chars,
-            artifactsData,
-            gearData,
-            howlkinsData,
-            resourcesData,
-            effects,
-            subclassesData,
-            spells,
-            phantasms,
-            teamData,
-            codesData,
-            usefulLinksData,
-            tierListsData,
-          ]) => {
-            setCharacters(chars);
-            setArtifacts(artifactsData);
-            setGear(gearData);
-            setHowlkins(howlkinsData);
-            setResources(resourcesData);
-            setStatusEffects(effects);
-            setSubclasses(subclassesData);
-            setWyrmspells(spells);
-            setNoblePhantasms(phantasms);
-            setTeams(teamData);
-            setCodes(codesData);
-            setUsefulLinks(usefulLinksData);
-            setTierLists(tierListsData);
-          }
-        )
-        .catch((err) => {
-          console.error('Failed to fetch search data:', err);
-        });
-    }
-  }, [opened]);
-
   const searchResults = useMemo(() => {
-    if (!query.trim()) return [];
+    if (!debouncedQuery.trim()) return [];
 
     const results: SearchResult[] = [];
 
@@ -266,7 +190,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         threshold: 0.3,
         includeScore: true,
       });
-      const charResults = charFuse.search(query).slice(0, 8);
+      const charResults = charFuse.search(debouncedQuery).slice(0, 8);
       results.push(
         ...charResults.map((r) => ({
           type: 'character' as const,
@@ -291,7 +215,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         ],
         threshold: 0.3,
       });
-      const artifactResults = artifactFuse.search(query).slice(0, 5);
+      const artifactResults = artifactFuse.search(debouncedQuery).slice(0, 5);
       results.push(
         ...artifactResults.map((r) => ({
           type: 'artifact' as const,
@@ -310,7 +234,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         keys: ['name', 'set', 'type', 'lore'],
         threshold: 0.3,
       });
-      const gearResults = gearFuse.search(query).slice(0, 5);
+      const gearResults = gearFuse.search(debouncedQuery).slice(0, 5);
       results.push(
         ...gearResults.map((r) => ({
           type: 'gear' as const,
@@ -328,7 +252,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
       keys: ['title', 'keywords'],
       threshold: 0.4,
     });
-    const pageResults = pageFuse.search(query).slice(0, 3);
+    const pageResults = pageFuse.search(debouncedQuery).slice(0, 3);
     results.push(
       ...pageResults.map((r) => ({
         type: 'page' as const,
@@ -345,7 +269,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         keys: ['name', 'type', 'effect'],
         threshold: 0.3,
       });
-      const effectResults = effectFuse.search(query).slice(0, 5);
+      const effectResults = effectFuse.search(debouncedQuery).slice(0, 5);
       results.push(
         ...effectResults.map((r) => ({
           type: 'status-effect' as const,
@@ -364,7 +288,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         keys: ['name', 'class', 'effect', 'bonuses'],
         threshold: 0.3,
       });
-      const subclassResults = subclassFuse.search(query).slice(0, 5);
+      const subclassResults = subclassFuse.search(debouncedQuery).slice(0, 5);
       results.push(
         ...subclassResults.map((r) => ({
           type: 'subclass' as const,
@@ -383,7 +307,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         keys: ['name', 'type', 'effect'],
         threshold: 0.3,
       });
-      const spellResults = spellFuse.search(query).slice(0, 5);
+      const spellResults = spellFuse.search(debouncedQuery).slice(0, 5);
       results.push(
         ...spellResults.map((r) => ({
           type: 'wyrmspell' as const,
@@ -402,7 +326,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         keys: ['name', 'description', 'members.character_name'],
         threshold: 0.3,
       });
-      const teamResults = teamFuse.search(query).slice(0, 3);
+      const teamResults = teamFuse.search(debouncedQuery).slice(0, 3);
       results.push(
         ...teamResults.map((r) => ({
           type: 'team' as const,
@@ -421,7 +345,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         keys: ['name', 'quality', 'passive_effects'],
         threshold: 0.3,
       });
-      const howlkinResults = howlkinFuse.search(query).slice(0, 4);
+      const howlkinResults = howlkinFuse.search(debouncedQuery).slice(0, 4);
       results.push(
         ...howlkinResults.map((r) => ({
           type: 'howlkin' as const,
@@ -440,7 +364,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         keys: ['name', 'character', 'lore'],
         threshold: 0.3,
       });
-      const npResults = npFuse.search(query).slice(0, 5);
+      const npResults = npFuse.search(debouncedQuery).slice(0, 5);
       results.push(
         ...npResults.map((r) => ({
           type: 'noble-phantasm' as const,
@@ -459,7 +383,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         keys: ['name', 'description', 'category', 'quality'],
         threshold: 0.3,
       });
-      const resourceResults = resourceFuse.search(query).slice(0, 5);
+      const resourceResults = resourceFuse.search(debouncedQuery).slice(0, 5);
       results.push(
         ...resourceResults.map((r) => ({
           type: 'resource' as const,
@@ -478,7 +402,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         keys: ['code'],
         threshold: 0.25,
       });
-      const codeResults = codeFuse.search(query).slice(0, 4);
+      const codeResults = codeFuse.search(debouncedQuery).slice(0, 4);
       results.push(
         ...codeResults.map((r) => ({
           type: 'code' as const,
@@ -497,7 +421,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         keys: ['application', 'name', 'description', 'link'],
         threshold: 0.3,
       });
-      const linkResults = linksFuse.search(query).slice(0, 4);
+      const linkResults = linksFuse.search(debouncedQuery).slice(0, 4);
       results.push(
         ...linkResults.map((r) => ({
           type: 'useful-link' as const,
@@ -522,7 +446,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         ],
         threshold: 0.3,
       });
-      const tierListResults = tierListFuse.search(query).slice(0, 3);
+      const tierListResults = tierListFuse.search(debouncedQuery).slice(0, 3);
       results.push(
         ...tierListResults.map((r) => ({
           type: 'tier-list' as const,
@@ -537,7 +461,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
 
     return results.slice(0, 12);
   }, [
-    query,
+    debouncedQuery,
     characters,
     artifacts,
     gear,
@@ -646,6 +570,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
                     onClick={() => setQuery('')}
                     size="sm"
                     color="gray"
+                    aria-label="Clear search"
                   >
                     <IoClose size={16} />
                   </ActionIcon>

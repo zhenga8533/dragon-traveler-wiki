@@ -456,6 +456,7 @@ export default function Codes() {
                         target="_blank"
                         variant="subtle"
                         color="red"
+                        aria-label="Report expired"
                       >
                         <IoCloseCircleOutline size={18} />
                       </ActionIcon>
@@ -471,6 +472,7 @@ export default function Codes() {
                           variant="subtle"
                           color={copied ? 'teal' : 'gray'}
                           onClick={copy}
+                          aria-label={copied ? 'Copied!' : 'Copy code'}
                         >
                           {copied ? (
                             <IoCheckmark size={18} />
@@ -536,6 +538,7 @@ export default function Codes() {
                             variant="subtle"
                             color="red"
                             size="sm"
+                            aria-label="Report expired"
                           >
                             <IoCloseCircleOutline size={16} />
                           </ActionIcon>
@@ -552,6 +555,7 @@ export default function Codes() {
                               color={copied ? 'teal' : 'gray'}
                               onClick={copy}
                               size="sm"
+                              aria-label={copied ? 'Copied!' : 'Copy code'}
                             >
                               {copied ? (
                                 <IoCheckmark size={16} />
