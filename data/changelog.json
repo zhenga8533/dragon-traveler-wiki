@@ -34,6 +34,16 @@
         "description": "Refined teams page layout by moving the Edit action and reordering team badges"
       },
       {
+        "type": "updated",
+        "category": "teams",
+        "description": "Added class icon labels to team synergy and comparison badges for faster role scanning"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Updated team comparison portraits to circular avatars for improved visual consistency"
+      },
+      {
         "type": "fixed",
         "category": "data",
         "description": "Normalized content types for teams and tier lists across backend models and frontend UI"
