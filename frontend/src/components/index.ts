@@ -3,6 +3,7 @@ export { default as CharacterCard } from './CharacterCard';
 export { default as CharacterFilter } from './CharacterFilter';
 export { default as CharacterList } from './CharacterList';
 export { default as CharacterTag } from './CharacterTag';
+export { default as ClassLabel } from './ClassLabel';
 export { default as DataFetchError } from './DataFetchError';
 export { default as EmptyState } from './EmptyState';
 export { default as EntityFilter } from './EntityFilter';

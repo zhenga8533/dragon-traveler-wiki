@@ -21,10 +21,10 @@ import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterCard from '../components/CharacterCard';
+import ClassLabel from '../components/ClassLabel';
 import DataFetchError from '../components/DataFetchError';
 import EmptyState from '../components/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
@@ -261,7 +261,7 @@ export default function Teams() {
     };
 
     const getClassCounts = (team: Team) => {
-      const counts = new Map<string, number>();
+      const counts = new Map<CharacterClass, number>();
       for (const member of team.members) {
         const charClass = charMap.get(member.character_name)?.character_class;
         if (!charClass) continue;
@@ -539,22 +539,10 @@ export default function Teams() {
                                           size="xs"
                                           color="blue"
                                         >
-                                          <Group gap={4} wrap="nowrap">
-                                            <Image
-                                              src={
-                                                CLASS_ICON_MAP[
-                                                  charClass as CharacterClass
-                                                ]
-                                              }
-                                              alt={charClass}
-                                              w={12}
-                                              h={12}
-                                              fit="contain"
-                                            />
-                                            <Text size="xs" span>
-                                              {charClass}: {count}
-                                            </Text>
-                                          </Group>
+                                          <ClassLabel
+                                            characterClass={charClass}
+                                            count={count}
+                                          />
                                         </Badge>
                                       )
                                     )}

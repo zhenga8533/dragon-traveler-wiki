@@ -24,12 +24,12 @@ import {
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import { getPortrait } from '../assets/character';
-import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import Breadcrumbs from '../components/Breadcrumbs';
 import { QUALITY_BORDER_COLOR } from '../components/CharacterCard';
+import ClassLabel from '../components/ClassLabel';
 import EntityNotFound from '../components/EntityNotFound';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
@@ -607,18 +607,7 @@ function TeamMemberCard({
                 {character.quality}
               </Badge>
               <Badge size="sm" variant="outline" color="gray">
-                <Group gap={4} wrap="nowrap">
-                  <Image
-                    src={CLASS_ICON_MAP[character.character_class]}
-                    alt={character.character_class}
-                    w={12}
-                    h={12}
-                    fit="contain"
-                  />
-                  <Text size="xs" span>
-                    {character.character_class}
-                  </Text>
-                </Group>
+                <ClassLabel characterClass={character.character_class} />
               </Badge>
             </Group>
           )}
