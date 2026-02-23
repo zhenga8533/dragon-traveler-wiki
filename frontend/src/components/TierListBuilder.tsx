@@ -30,7 +30,11 @@ import {
   IoPencil,
   IoTrash,
 } from 'react-icons/io5';
-import { GITHUB_REPO_URL } from '../constants';
+import {
+  buildEmptyIssueBody,
+  GITHUB_REPO_URL,
+  MAX_GITHUB_ISSUE_URL_LENGTH,
+} from '../constants';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
@@ -38,7 +42,9 @@ import type { Tier, TierList } from '../types/tier-list';
 import CharacterCard from './CharacterCard';
 import FilterableCharacterPool from './FilterableCharacterPool';
 
-const MAX_GITHUB_ISSUE_URL_LENGTH = 8000;
+interface TierPlacements {
+  [tier: string]: string[]; // tier -> ordered array of character names
+}
 interface TierListBuilderProps {
   characters: Character[];
   charMap: Map<string, Character>;
@@ -49,13 +55,20 @@ function DraggableCharCard({
   name,
   char,
   overlay,
+  tier,
 }: {
   name: string;
   char: Character | undefined;
   overlay?: boolean;
+  tier?: string;
 }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: name,
+    data: { tier },
+  });
+  const { setNodeRef: setDropRef, isOver } = useDroppable({
+    id: `char-${name}`,
+    data: { characterName: name, tier },
   });
 
   const style: React.CSSProperties = overlay
@@ -63,12 +76,25 @@ function DraggableCharCard({
     : {
         opacity: isDragging ? 0.3 : 1,
         cursor: isDragging ? 'grabbing' : 'grab',
+        transition: 'opacity 150ms ease',
       };
 
   return (
     <div
-      ref={overlay ? undefined : setNodeRef}
-      style={style}
+      ref={(node) => {
+        if (!overlay) {
+          setNodeRef(node);
+          setDropRef(node);
+        }
+      }}
+      style={{
+        ...style,
+        outline:
+          isOver && !overlay
+            ? '2px solid var(--mantine-color-blue-5)'
+            : undefined,
+        borderRadius: 4,
+      }}
       {...(overlay ? {} : { ...listeners, ...attributes })}
     >
       <CharacterCard name={name} quality={char?.quality} disableLink />
@@ -161,7 +187,13 @@ export default function TierListBuilder({
   charMap,
   initialData,
 }: TierListBuilderProps) {
-  const [placements, setPlacements] = useState<Record<string, Tier>>({});
+  const [placements, setPlacements] = useState<TierPlacements>(() => {
+    const init: TierPlacements = {};
+    TIER_ORDER.forEach((tier) => {
+      init[tier] = [];
+    });
+    return init;
+  });
   const [notes, setNotes] = useState<Record<string, string>>({});
   const [name, setName] = useState('');
   const [author, setAuthor] = useState('');
@@ -176,10 +208,13 @@ export default function TierListBuilder({
       setAuthor(initialData.author);
       setCategoryName(initialData.content_type);
       setDescription(initialData.description || '');
-      const p: Record<string, Tier> = {};
+      const p: TierPlacements = {};
+      TIER_ORDER.forEach((tier) => {
+        p[tier] = [];
+      });
       const n: Record<string, string> = {};
       for (const entry of initialData.entries) {
-        p[entry.character_name] = entry.tier;
+        p[entry.tier].push(entry.character_name);
         if (entry.note) n[entry.character_name] = entry.note;
       }
       setPlacements(p);
@@ -194,13 +229,11 @@ export default function TierListBuilder({
       content_type: categoryName || 'PvE',
       description,
       entries: TIER_ORDER.flatMap((tier) =>
-        Object.entries(placements)
-          .filter(([, t]) => t === tier)
-          .map(([character_name]) => ({
-            character_name,
-            tier,
-            ...(notes[character_name] ? { note: notes[character_name] } : {}),
-          }))
+        placements[tier].map((character_name) => ({
+          character_name,
+          tier,
+          ...(notes[character_name] ? { note: notes[character_name] } : {}),
+        }))
       ),
       last_updated: 0,
     };
@@ -208,7 +241,8 @@ export default function TierListBuilder({
   }, [placements, notes, name, author, categoryName, description]);
 
   const unrankedCharacters = useMemo(() => {
-    return characters.filter((c) => !(c.name in placements));
+    const placed = new Set(TIER_ORDER.flatMap((tier) => placements[tier]));
+    return characters.filter((c) => !placed.has(c.name));
   }, [characters, placements]);
 
   const tierListIssueQuery = useMemo(() => {
@@ -236,20 +270,100 @@ export default function TierListBuilder({
 
     if (!overId) return;
 
+    const activeTier = event.active.data.current?.tier as string | undefined;
+
+    // Drop on unranked pool
     if (overId === 'unranked') {
+      if (activeTier) {
+        setPlacements((prev) => {
+          const next = { ...prev };
+          next[activeTier] = next[activeTier].filter((n) => n !== charName);
+          return next;
+        });
+      }
+      return;
+    }
+
+    // Drop on a character (swap within tier or move to new tier)
+    if (overId.startsWith('char-')) {
+      const targetCharName = event.over?.data.current?.characterName as
+        | string
+        | undefined;
+      const targetTier = event.over?.data.current?.tier as string | undefined;
+
+      if (!targetCharName || !targetTier) return;
+
+      // If dropping on itself, do nothing
+      if (charName === targetCharName) return;
+
       setPlacements((prev) => {
         const next = { ...prev };
-        delete next[charName];
+
+        // If moving within the same tier, handle reordering
+        if (activeTier === targetTier) {
+          const currentIndex = next[targetTier].indexOf(charName);
+          const targetIndex = next[targetTier].indexOf(targetCharName);
+
+          if (currentIndex !== -1 && targetIndex !== -1) {
+            // Remove from current position
+            next[targetTier] = next[targetTier].filter((n) => n !== charName);
+            // Find new target index after removal
+            const newTargetIndex = next[targetTier].indexOf(targetCharName);
+            // Insert at the target position
+            next[targetTier].splice(newTargetIndex, 0, charName);
+          }
+        } else {
+          // Moving between different tiers
+          // Remove from current position
+          if (activeTier) {
+            next[activeTier] = next[activeTier].filter((n) => n !== charName);
+          }
+
+          // Add to new position
+          const targetIndex = next[targetTier].indexOf(targetCharName);
+          if (targetIndex !== -1) {
+            // Insert at the target position
+            next[targetTier].splice(targetIndex, 0, charName);
+          } else {
+            // Target not found, add at end
+            next[targetTier].push(charName);
+          }
+        }
+
         return next;
       });
-    } else if (overId.startsWith('tier-')) {
+      return;
+    }
+
+    // Drop on a tier zone
+    if (overId.startsWith('tier-')) {
       const tier = overId.replace('tier-', '') as Tier;
-      setPlacements((prev) => ({ ...prev, [charName]: tier }));
+      setPlacements((prev) => {
+        const next = { ...prev };
+
+        // Remove from current tier if exists
+        if (activeTier && activeTier !== tier) {
+          next[activeTier] = next[activeTier].filter((n) => n !== charName);
+        }
+
+        // Add to new tier if not already there
+        if (!next[tier].includes(charName)) {
+          next[tier].push(charName);
+        }
+
+        return next;
+      });
     }
   }
 
   function handleClear() {
-    setPlacements({});
+    setPlacements(() => {
+      const init: TierPlacements = {};
+      TIER_ORDER.forEach((tier) => {
+        init[tier] = [];
+      });
+      return init;
+    });
     setNotes({});
   }
 
@@ -305,18 +419,22 @@ export default function TierListBuilder({
             leftSection={<IoOpenOutline size={16} />}
             onClick={() => {
               if (!tierListIssueUrl) {
+                // URL too long, open issue with template but empty JSON
+                const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Tier List] New tier list suggestion', body: buildEmptyIssueBody('tier list') }).toString()}`;
+                window.open(emptyUrl, '_blank');
                 notifications.show({
                   color: 'yellow',
                   title: 'Tier list JSON is too large',
                   message:
-                    'This tier list is too large to submit via URL. Use Copy JSON and paste it into a manually created GitHub issue.',
+                    'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
+                  autoClose: 8000,
                 });
                 return;
               }
 
               window.open(tierListIssueUrl, '_blank');
             }}
-            disabled={Object.keys(placements).length === 0 || !tierListIssueUrl}
+            disabled={TIER_ORDER.every((tier) => placements[tier].length === 0)}
           >
             Submit Suggestion
           </Button>
@@ -326,16 +444,14 @@ export default function TierListBuilder({
             size="sm"
             leftSection={<IoTrash size={16} />}
             onClick={handleClear}
-            disabled={Object.keys(placements).length === 0}
+            disabled={TIER_ORDER.every((tier) => placements[tier].length === 0)}
           >
             Clear All
           </Button>
         </Group>
 
         {TIER_ORDER.map((tier) => {
-          const names = Object.entries(placements)
-            .filter(([, t]) => t === tier)
-            .map(([n]) => n);
+          const names = placements[tier] || [];
 
           return (
             <TierDropZone
@@ -346,7 +462,11 @@ export default function TierListBuilder({
             >
               {names.map((n) => (
                 <div key={n} style={{ position: 'relative' }}>
-                  <DraggableCharCard name={n} char={charMap.get(n)} />
+                  <DraggableCharCard
+                    name={n}
+                    char={charMap.get(n)}
+                    tier={tier}
+                  />
                   <Popover position="top" withArrow trapFocus shadow="md">
                     <Popover.Target>
                       <ActionIcon
