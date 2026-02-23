@@ -8,7 +8,7 @@ import {
   Text,
   TextInput,
   UnstyledButton,
-  useMantineColorScheme,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useHotkeys } from '@mantine/hooks';
 import Fuse from 'fuse.js';
@@ -169,7 +169,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
   const [tierLists, setTierLists] = useState<TierList[]>([]);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
-  const { colorScheme } = useMantineColorScheme();
+  const colorScheme = useComputedColorScheme('light');
 
   useHotkeys([
     ['mod+K', open],

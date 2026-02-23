@@ -16,7 +16,7 @@ import {
   Title,
   Tooltip,
   UnstyledButton,
-  useMantineColorScheme,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -133,8 +133,7 @@ const RECOMMENDED_BUILD_TOOLTIP_STYLES = {
 };
 
 export default function CharacterPage() {
-  const { colorScheme } = useMantineColorScheme();
-  const isDark = colorScheme === 'dark';
+  const isDark = useComputedColorScheme('light') === 'dark';
   const isDesktop = useMediaQuery('(min-width: 62em)');
   const { name } = useParams<{ name: string }>();
   const { data: characters, loading } = useDataFetch<Character[]>(

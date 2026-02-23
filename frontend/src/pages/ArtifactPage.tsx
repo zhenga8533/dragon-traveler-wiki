@@ -11,7 +11,7 @@ import {
   Text,
   Title,
   Tooltip,
-  useMantineColorScheme,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
@@ -137,8 +137,7 @@ function TreasureCard({
 
 export default function ArtifactPage() {
   const { name } = useParams<{ name: string }>();
-  const { colorScheme } = useMantineColorScheme();
-  const isDark = colorScheme === 'dark';
+  const isDark = useComputedColorScheme('light') === 'dark';
 
   const { data: artifacts, loading } = useDataFetch<Artifact[]>(
     'data/artifacts.json',
