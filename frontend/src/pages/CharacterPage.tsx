@@ -1451,8 +1451,8 @@ export default function CharacterPage() {
                       </Group>
 
                       <Stack gap="sm">
-                        {talentLevels.map((talent, idx) => (
-                          <Box key={idx}>
+                        {talentLevels.map((talent) => (
+                          <Box key={talent.level}>
                             <Group gap="xs" mb="xs">
                               <Badge variant="filled" color="blue">
                                 Level {talent.level}
@@ -1484,11 +1484,11 @@ export default function CharacterPage() {
                     <Title order={3}>Skills</Title>
 
                     <Stack gap="md">
-                      {character.skills.map((skill, idx) => {
+                      {character.skills.map((skill) => {
                         const skillIcon = skillIcons.get(skill.name);
                         return (
                           <Paper
-                            key={idx}
+                            key={skill.name}
                             id={`skill-${skill.name}`}
                             p="md"
                             radius="md"

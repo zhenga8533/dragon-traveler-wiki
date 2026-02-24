@@ -501,9 +501,9 @@ export default function TeamPage() {
               </Badge>
             </Group>
             <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
-              {team.members.map((member, index) => (
+              {team.members.map((member) => (
                 <TeamMemberCard
-                  key={index}
+                  key={member.character_name}
                   member={member}
                   charMap={charMap}
                   factionColor={factionColor}
@@ -634,8 +634,8 @@ function TeamMemberCard({
 
             {hasSubstitutes ? (
               <Group gap="xs">
-                {member.substitutes!.map((sub, idx) => (
-                  <Tooltip key={idx} label={sub} position="top">
+                {member.substitutes!.map((sub) => (
+                  <Tooltip key={sub} label={sub} position="top">
                     <Link
                       to={`/characters/${encodeURIComponent(sub)}`}
                       style={{ textDecoration: 'none' }}

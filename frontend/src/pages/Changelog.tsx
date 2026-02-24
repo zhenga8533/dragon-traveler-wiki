@@ -93,7 +93,7 @@ export default function Changelog() {
                       {entry.changes.map((change, changeIndex) => {
                         return (
                           <Paper
-                            key={changeIndex}
+                            key={`${change.type}-${change.category}-${changeIndex}`}
                             p="sm"
                             radius="md"
                             withBorder
