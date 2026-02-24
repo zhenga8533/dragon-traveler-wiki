@@ -38,19 +38,14 @@ import {
 } from '../assets/character';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
-import { getGearIcon } from '../assets/gear';
-import accessoryIcon from '../assets/gear/icons/accessory.png';
-import bootsIcon from '../assets/gear/icons/boots.png';
-import bracersIcon from '../assets/gear/icons/bracers.png';
-import chestplateIcon from '../assets/gear/icons/chestplate.png';
-import headgearIcon from '../assets/gear/icons/headgear.png';
-import weaponIcon from '../assets/gear/icons/weapon.png';
+import { getGearIcon, GEAR_TYPE_ICON_MAP } from '../assets/gear';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getSkillIcon } from '../assets/skill';
 import { getSubclassIcon } from '../assets/subclass';
 import Breadcrumbs from '../components/Breadcrumbs';
 import EntityNotFound from '../components/EntityNotFound';
+import GearTypeTag from '../components/GearTypeTag';
 import GlobalBadge from '../components/GlobalBadge';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
@@ -74,32 +69,32 @@ const GEAR_SLOT_CONFIG: Array<{
     slot: 'headgear',
     label: 'Headgear',
     type: 'Headgear',
-    fallbackIcon: headgearIcon,
+    fallbackIcon: GEAR_TYPE_ICON_MAP.Headgear,
   },
   {
     slot: 'chestplate',
     label: 'Chestplate',
     type: 'Chestplate',
-    fallbackIcon: chestplateIcon,
+    fallbackIcon: GEAR_TYPE_ICON_MAP.Chestplate,
   },
   {
     slot: 'bracers',
     label: 'Bracers',
     type: 'Bracers',
-    fallbackIcon: bracersIcon,
+    fallbackIcon: GEAR_TYPE_ICON_MAP.Bracers,
   },
-  { slot: 'boots', label: 'Boots', type: 'Boots', fallbackIcon: bootsIcon },
+  { slot: 'boots', label: 'Boots', type: 'Boots', fallbackIcon: GEAR_TYPE_ICON_MAP.Boots },
   {
     slot: 'weapon',
     label: 'Weapon',
     type: 'Weapon',
-    fallbackIcon: weaponIcon,
+    fallbackIcon: GEAR_TYPE_ICON_MAP.Weapon,
   },
   {
     slot: 'accessory',
     label: 'Accessory',
     type: 'Accessory',
-    fallbackIcon: accessoryIcon,
+    fallbackIcon: GEAR_TYPE_ICON_MAP.Accessory,
   },
 ];
 
@@ -1320,14 +1315,7 @@ export default function CharacterPage() {
                                       loading="lazy"
                                     />
                                     <Stack gap={2} style={{ minWidth: 0 }}>
-                                      <Badge
-                                        variant="light"
-                                        color="gray"
-                                        size="xs"
-                                        w="fit-content"
-                                      >
-                                        {entry.label}
-                                      </Badge>
+                                      <GearTypeTag type={entry.type} color="gray" size="xs" />
                                       <Text size="sm" fw={600} truncate>
                                         {entry.name}
                                       </Text>

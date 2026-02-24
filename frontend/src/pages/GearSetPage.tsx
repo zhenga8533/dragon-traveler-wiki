@@ -18,6 +18,7 @@ import { getPortrait } from '../assets/character';
 import { getGearIcon } from '../assets/gear';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import Breadcrumbs from '../components/Breadcrumbs';
+import GearTypeTag from '../components/GearTypeTag';
 import EntityNotFound from '../components/EntityNotFound';
 import LastUpdated from '../components/LastUpdated';
 import { DetailPageLoading } from '../components/PageLoadingSkeleton';
@@ -191,7 +192,7 @@ export default function GearSetPage() {
                 </Badge>
               </Group>
               <LastUpdated timestamp={lastUpdatedTimestamp} />
-              {setBonus && (
+              {setBonus && setBonus.quantity > 0 && (
                 <Text c="dimmed" size="sm">
                   {setBonus.quantity}-piece set bonus: {setBonus.description}
                 </Text>
@@ -212,14 +213,14 @@ export default function GearSetPage() {
               <Badge variant="light" color={qualityColor} size="md">
                 {setItems[0].quality} quality
               </Badge>
-              {setBonus && (
+              {setBonus && setBonus.quantity > 0 && (
                 <Badge variant="light" color="violet" size="md">
                   {setBonus.quantity}-piece bonus
                 </Badge>
               )}
             </Group>
 
-            {setBonus && (
+            {setBonus && setBonus.quantity > 0 && (
               <Paper
                 p="md"
                 radius="md"
@@ -347,14 +348,7 @@ export default function GearSetPage() {
                           {item.name}
                         </Text>
                         <Group gap="xs" wrap="wrap">
-                          <Badge
-                            variant="light"
-                            color="blue"
-                            size="sm"
-                            w="fit-content"
-                          >
-                            {item.type}
-                          </Badge>
+                          <GearTypeTag type={item.type} />
                           {QUALITY_ICON_MAP[item.quality] && (
                             <Tooltip label={item.quality}>
                               <Image

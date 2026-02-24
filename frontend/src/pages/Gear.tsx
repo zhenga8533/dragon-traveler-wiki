@@ -17,13 +17,7 @@ import {
 import { useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
-import { getGearIcon } from '../assets/gear';
-import accessoryIcon from '../assets/gear/icons/accessory.png';
-import bootsIcon from '../assets/gear/icons/boots.png';
-import bracersIcon from '../assets/gear/icons/bracers.png';
-import chestplateIcon from '../assets/gear/icons/chestplate.png';
-import headgearIcon from '../assets/gear/icons/headgear.png';
-import weaponIcon from '../assets/gear/icons/weapon.png';
+import { getGearIcon, GEAR_TYPE_ICON_MAP } from '../assets/gear';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
@@ -32,6 +26,7 @@ import LastUpdated from '../components/LastUpdated';
 import ListPageShell from '../components/ListPageShell';
 import PaginationControl from '../components/PaginationControl';
 import SortableTh from '../components/SortableTh';
+import GearTypeTag from '../components/GearTypeTag';
 import SuggestModal, { type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
@@ -53,14 +48,6 @@ const GEAR_TYPE_ORDER: GearType[] = [
   'Accessory',
 ];
 
-const GEAR_TYPE_ICON_MAP: Record<GearType, string> = {
-  Headgear: headgearIcon,
-  Chestplate: chestplateIcon,
-  Bracers: bracersIcon,
-  Boots: bootsIcon,
-  Weapon: weaponIcon,
-  Accessory: accessoryIcon,
-};
 
 const GEAR_SET_FIELDS: FieldDef[] = [
   {
@@ -463,9 +450,7 @@ export default function GearPage() {
                                     )}
                                 </Group>
                                 <Group gap="xs" wrap="wrap">
-                                  <Badge variant="light" size="sm" color="blue">
-                                    {item.type}
-                                  </Badge>
+                                  <GearTypeTag type={item.type} />
                                   <Badge
                                     variant="light"
                                     size="sm"
@@ -473,7 +458,7 @@ export default function GearPage() {
                                   >
                                     {item.set}
                                   </Badge>
-                                  {setBonus && (
+                                  {setBonus && setBonus.quantity > 0 && (
                                     <Badge
                                       variant="outline"
                                       size="sm"
@@ -567,9 +552,7 @@ export default function GearPage() {
                                   </Text>
                                 </Table.Td>
                                 <Table.Td>
-                                  <Badge variant="light" size="sm" color="blue">
-                                    {item.type}
-                                  </Badge>
+                                  <GearTypeTag type={item.type} />
                                 </Table.Td>
                                 <Table.Td>
                                   <Badge
@@ -596,7 +579,7 @@ export default function GearPage() {
                                 </Table.Td>
                                 <Table.Td>
                                   <Text size="sm" c="dimmed">
-                                    {setBonus
+                                    {setBonus && setBonus.quantity > 0
                                       ? `${setBonus.quantity}-piece: ${setBonus.description}`
                                       : '—'}
                                   </Text>
@@ -666,14 +649,17 @@ export default function GearPage() {
                                 <Text fw={700} c="violet" lineClamp={1}>
                                   {set.name}
                                 </Text>
-                                <Badge variant="outline" size="sm" color="gray">
-                                  {set.set_bonus.quantity}-piece
-                                </Badge>
+                                {set.set_bonus.quantity > 0 && (
+                                  <Badge variant="outline" size="sm" color="gray">
+                                    {set.set_bonus.quantity}-piece
+                                  </Badge>
+                                )}
                               </Group>
 
                               <Text size="sm" c="dimmed">
-                                {set.set_bonus.description ||
-                                  'No set bonus description.'}
+                                {set.set_bonus.quantity > 0
+                                  ? set.set_bonus.description || 'No set bonus description.'
+                                  : 'No set bonus.'}
                               </Text>
 
                               <Group gap="xs" wrap="wrap">
@@ -682,14 +668,7 @@ export default function GearPage() {
                                   {items.length === 1 ? '' : 's'}
                                 </Badge>
                                 {items.slice(0, 4).map((item) => (
-                                  <Badge
-                                    key={item.name}
-                                    variant="light"
-                                    size="sm"
-                                    color="blue"
-                                  >
-                                    {item.type}
-                                  </Badge>
+                                  <GearTypeTag key={item.name} type={item.type} />
                                 ))}
                               </Group>
                             </Stack>
