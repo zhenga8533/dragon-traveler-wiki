@@ -606,13 +606,5 @@
     },
     "active": true,
     "last_updated": 1771820426
-  },
-  {
-    "code": "test2",
-    "rewards": {
-      "Arena Coins": 1
-    },
-    "active": true,
-    "last_updated": 1771884012
   }
 ]
