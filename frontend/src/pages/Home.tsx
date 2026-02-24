@@ -433,7 +433,7 @@ function RecentUpdatesSection() {
     );
   }
 
-  const recentEntries = [...changelog].reverse().slice(0, 3);
+  const recentEntries = [...changelog].slice(0, 3);
   const latestEntry = recentEntries[0];
 
   if (recentEntries.length === 0) {
