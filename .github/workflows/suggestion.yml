@@ -5,11 +5,13 @@ on:
     types: [opened]
 
 permissions:
+  contents: write
   issues: write
 
 jobs:
   process-suggestion:
     runs-on: ubuntu-latest
+    if: startsWith(github.event.issue.title, '[')
     concurrency:
       group: suggestion-process
       cancel-in-progress: false
