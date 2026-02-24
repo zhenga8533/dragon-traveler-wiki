@@ -30,6 +30,7 @@ import { createPortal } from 'react-dom';
 import {
   IoCheckmark,
   IoClose,
+  IoClipboardOutline,
   IoCopy,
   IoOpenOutline,
   IoSettings,
@@ -512,6 +513,106 @@ export default function TeamBuilder({
   const [description, setDescription] = useState('');
   const [faction, setFaction] = useState<FactionName | null>(null);
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [pasteModalOpened, { open: openPasteModal, close: closePasteModal }] =
+    useDisclosure(false);
+  const [pasteText, setPasteText] = useState('');
+  const [pasteError, setPasteError] = useState('');
+
+  function handlePasteApply() {
+    try {
+      const data = JSON.parse(pasteText) as Team;
+      if (!Array.isArray(data.members)) {
+        setPasteError('Invalid team JSON: "members" must be an array.');
+        return;
+      }
+      setName(data.name || '');
+      setAuthor(data.author || '');
+      setContentType(normalizeContentType(data.content_type));
+      setDescription(data.description || '');
+      setFaction(data.faction || null);
+
+      const newSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
+      const newOverdriveEnabled = Array(SLOT_COUNT).fill(false);
+      const newSubstitutes: string[][] = Array(SLOT_COUNT)
+        .fill(null)
+        .map(() => []);
+      const newNotes: string[] = Array(SLOT_COUNT).fill('');
+
+      for (const m of data.members) {
+        const emptyIdx = newSlots.findIndex((s) => s === null);
+        if (emptyIdx !== -1) {
+          newSlots[emptyIdx] = m.character_name;
+          newOverdriveEnabled[emptyIdx] = m.overdrive_order != null;
+          newSubstitutes[emptyIdx] = m.substitutes || [];
+          newNotes[emptyIdx] = m.note || '';
+        }
+      }
+
+      setTeamWyrmspells(data.wyrmspells || {});
+
+      const withOverdrive = newSlots
+        .map((name, idx) => ({
+          name,
+          idx,
+          hasOD: newOverdriveEnabled[idx],
+          subs: newSubstitutes[idx],
+          note: newNotes[idx],
+        }))
+        .filter((item) => item.name !== null && item.hasOD)
+        .sort((a, b) => {
+          const aOrder =
+            data.members.find((m) => m.character_name === a.name)
+              ?.overdrive_order || 0;
+          const bOrder =
+            data.members.find((m) => m.character_name === b.name)
+              ?.overdrive_order || 0;
+          return aOrder - bOrder;
+        });
+
+      const withoutOverdrive = newSlots
+        .map((name, idx) => ({
+          name,
+          idx,
+          hasOD: newOverdriveEnabled[idx],
+          subs: newSubstitutes[idx],
+          note: newNotes[idx],
+        }))
+        .filter((item) => item.name !== null && !item.hasOD);
+
+      const reorderedSlots: (string | null)[] = Array(SLOT_COUNT).fill(null);
+      const reorderedOverdrive = Array(SLOT_COUNT).fill(false);
+      const reorderedSubstitutes: string[][] = Array(SLOT_COUNT)
+        .fill(null)
+        .map(() => []);
+      const reorderedNotes: string[] = Array(SLOT_COUNT).fill('');
+
+      let i = 0;
+      for (const item of withOverdrive) {
+        reorderedSlots[i] = item.name;
+        reorderedOverdrive[i] = true;
+        reorderedSubstitutes[i] = item.subs;
+        reorderedNotes[i] = item.note;
+        i++;
+      }
+      for (const item of withoutOverdrive) {
+        reorderedSlots[i] = item.name;
+        reorderedOverdrive[i] = false;
+        reorderedSubstitutes[i] = item.subs;
+        reorderedNotes[i] = item.note;
+        i++;
+      }
+
+      setSlots(reorderedSlots);
+      setOverdriveEnabled(reorderedOverdrive);
+      setSubstitutes(reorderedSubstitutes);
+      setSlotNotes(reorderedNotes);
+      closePasteModal();
+      setPasteText('');
+      setPasteError('');
+    } catch {
+      setPasteError('Could not parse JSON. Please check the format and try again.');
+    }
+  }
 
   useEffect(() => {
     if (!initialData) return;
@@ -1172,60 +1273,72 @@ export default function TeamBuilder({
           maxRows={4}
         />
 
-        <Group gap="sm">
-          <CopyButton value={json}>
-            {({ copied, copy }) => (
-              <Button
-                variant="light"
-                size="sm"
-                leftSection={
-                  copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
+        <Group justify="space-between" wrap="wrap" gap="sm">
+          <Group gap="sm" wrap="wrap">
+            <CopyButton value={json}>
+              {({ copied, copy }) => (
+                <Button
+                  variant="light"
+                  size="sm"
+                  leftSection={
+                    copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
+                  }
+                  onClick={copy}
+                  color={copied ? 'teal' : undefined}
+                >
+                  {copied ? 'Copied' : 'Copy JSON'}
+                </Button>
+              )}
+            </CopyButton>
+            <Button
+              variant="light"
+              size="sm"
+              leftSection={<IoClipboardOutline size={16} />}
+              onClick={openPasteModal}
+            >
+              Paste JSON
+            </Button>
+          </Group>
+          <Group gap="sm" wrap="wrap">
+            <Button
+              variant="light"
+              size="sm"
+              leftSection={<IoOpenOutline size={16} />}
+              onClick={() => {
+                if (!teamIssueUrl) {
+                  // URL too long, open issue with template but empty JSON
+                  const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Team] New team suggestion', body: buildEmptyIssueBody('team') }).toString()}`;
+                  window.open(emptyUrl, '_blank');
+                  notifications.show({
+                    color: 'yellow',
+                    title: 'Team JSON is too large',
+                    message:
+                      'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
+                    autoClose: 8000,
+                  });
+                  return;
                 }
-                onClick={copy}
-                color={copied ? 'teal' : undefined}
-              >
-                {copied ? 'Copied' : 'Copy JSON'}
-              </Button>
-            )}
-          </CopyButton>
-          <Button
-            variant="light"
-            size="sm"
-            leftSection={<IoOpenOutline size={16} />}
-            onClick={() => {
-              if (!teamIssueUrl) {
-                // URL too long, open issue with template but empty JSON
-                const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Team] New team suggestion', body: buildEmptyIssueBody('team') }).toString()}`;
-                window.open(emptyUrl, '_blank');
-                notifications.show({
-                  color: 'yellow',
-                  title: 'Team JSON is too large',
-                  message:
-                    'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
-                  autoClose: 8000,
-                });
-                return;
-              }
 
-              window.open(teamIssueUrl, '_blank');
-            }}
-            disabled={teamSize === 0}
-          >
-            Submit Suggestion
-          </Button>
-          <Button
-            variant="light"
-            color="red"
-            size="sm"
-            leftSection={<IoTrash size={16} />}
-            onClick={handleClear}
-            disabled={teamSize === 0}
-          >
-            Clear All
-          </Button>
-          <Badge variant="light" color={factionColor} size="lg" radius="sm">
-            {teamSize} / {MAX_ROSTER_SIZE}
-          </Badge>
+                window.open(teamIssueUrl, '_blank');
+              }}
+              disabled={teamSize === 0}
+            >
+              Submit Suggestion
+            </Button>
+            <Button
+              variant="light"
+              color="red"
+              size="sm"
+              leftSection={<IoTrash size={16} />}
+              onClick={handleClear}
+              disabled={teamSize === 0}
+            >
+              Clear All
+            </Button>
+            <Badge variant="light" color={factionColor} size="lg" radius="sm">
+              {teamSize} / {MAX_ROSTER_SIZE}
+            </Badge>
+          </Group>
         </Group>
 
         <TeamSynergyAssistant synergy={synergy} />
@@ -1398,6 +1511,51 @@ export default function TeamBuilder({
           .filter((c) => !teamNames.has(c.name))
           .map((c) => ({ value: c.name, label: c.name }))}
       />
+
+      <Modal
+        opened={pasteModalOpened}
+        onClose={() => {
+          closePasteModal();
+          setPasteText('');
+          setPasteError('');
+        }}
+        title="Paste Team JSON"
+        size="lg"
+      >
+        <Stack gap="md">
+          <Text size="sm" c="dimmed">
+            Paste a team JSON object below to load it into the builder.
+          </Text>
+          <Textarea
+            placeholder={'{\n  "name": "...",\n  "members": [...]\n}'}
+            value={pasteText}
+            onChange={(e) => {
+              setPasteText(e.currentTarget.value);
+              setPasteError('');
+            }}
+            minRows={8}
+            maxRows={20}
+            autosize
+            error={pasteError || undefined}
+            styles={{ input: { fontFamily: 'monospace', fontSize: 12 } }}
+          />
+          <Group justify="flex-end">
+            <Button
+              variant="default"
+              onClick={() => {
+                closePasteModal();
+                setPasteText('');
+                setPasteError('');
+              }}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handlePasteApply} disabled={!pasteText.trim()}>
+              Apply
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
     </DndContext>
   );
 }

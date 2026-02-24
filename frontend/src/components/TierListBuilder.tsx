@@ -12,6 +12,7 @@ import {
   Button,
   CopyButton,
   Group,
+  Modal,
   Paper,
   Popover,
   Select,
@@ -21,14 +22,17 @@ import {
   Textarea,
   TextInput,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
   IoCheckmark,
+  IoClipboardOutline,
   IoCopy,
   IoOpenOutline,
   IoPencil,
+  IoSwapVertical,
   IoTrash,
 } from 'react-icons/io5';
 import {
@@ -46,6 +50,7 @@ import {
 import { CHARACTER_GRID_SPACING } from '../constants/ui';
 import type { Character } from '../types/character';
 import type { Tier, TierList } from '../types/tier-list';
+import { compareCharactersByQualityThenName } from '../utils/filter-characters';
 import CharacterCard from './CharacterCard';
 import FilterableCharacterPool from './FilterableCharacterPool';
 
@@ -208,6 +213,42 @@ export default function TierListBuilder({
     useState<ContentType>(DEFAULT_CONTENT_TYPE);
   const [description, setDescription] = useState('');
   const [activeId, setActiveId] = useState<string | null>(null);
+  const [pasteModalOpened, { open: openPasteModal, close: closePasteModal }] =
+    useDisclosure(false);
+  const [pasteText, setPasteText] = useState('');
+  const [pasteError, setPasteError] = useState('');
+
+  function handlePasteApply() {
+    try {
+      const data = JSON.parse(pasteText) as TierList;
+      if (!Array.isArray(data.entries)) {
+        setPasteError('Invalid tier list JSON: "entries" must be an array.');
+        return;
+      }
+      setName(data.name || '');
+      setAuthor(data.author || '');
+      setCategoryName(normalizeContentType(data.content_type));
+      setDescription(data.description || '');
+      const p: TierPlacements = {};
+      TIER_ORDER.forEach((tier) => {
+        p[tier] = [];
+      });
+      const n: Record<string, string> = {};
+      for (const entry of data.entries) {
+        if (TIER_ORDER.includes(entry.tier as Tier)) {
+          p[entry.tier].push(entry.character_name);
+        }
+        if (entry.note) n[entry.character_name] = entry.note;
+      }
+      setPlacements(p);
+      setNotes(n);
+      closePasteModal();
+      setPasteText('');
+      setPasteError('');
+    } catch {
+      setPasteError('Could not parse JSON. Please check the format and try again.');
+    }
+  }
 
   useEffect(() => {
     if (!initialData) return;
@@ -376,6 +417,23 @@ export default function TierListBuilder({
     }
   }
 
+  function handleSort() {
+    setPlacements((prev) => {
+      const next: TierPlacements = {};
+      for (const tier of TIER_ORDER) {
+        next[tier] = [...prev[tier]].sort((a, b) => {
+          const charA = charMap.get(a);
+          const charB = charMap.get(b);
+          if (!charA && !charB) return a.localeCompare(b);
+          if (!charA) return 1;
+          if (!charB) return -1;
+          return compareCharactersByQualityThenName(charA, charB);
+        });
+      }
+      return next;
+    });
+  }
+
   function handleClear() {
     setPlacements(() => {
       const init: TierPlacements = {};
@@ -425,56 +483,80 @@ export default function TierListBuilder({
             maxRows={4}
             style={{ width: '100%' }}
           />
-          <CopyButton value={json}>
-            {({ copied, copy }) => (
-              <Button
-                variant="light"
-                size="sm"
-                leftSection={
-                  copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
-                }
-                onClick={copy}
-                color={copied ? 'teal' : undefined}
-              >
-                {copied ? 'Copied' : 'Copy JSON'}
-              </Button>
-            )}
-          </CopyButton>
-          <Button
-            variant="light"
-            size="sm"
-            leftSection={<IoOpenOutline size={16} />}
-            onClick={() => {
-              if (!tierListIssueUrl) {
-                // URL too long, open issue with template but empty JSON
-                const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Tier List] New tier list suggestion', body: buildEmptyIssueBody('tier list') }).toString()}`;
-                window.open(emptyUrl, '_blank');
-                notifications.show({
-                  color: 'yellow',
-                  title: 'Tier list JSON is too large',
-                  message:
-                    'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
-                  autoClose: 8000,
-                });
-                return;
-              }
+        </Group>
 
-              window.open(tierListIssueUrl, '_blank');
-            }}
-            disabled={TIER_ORDER.every((tier) => placements[tier].length === 0)}
-          >
-            Submit Suggestion
-          </Button>
-          <Button
-            variant="light"
-            color="red"
-            size="sm"
-            leftSection={<IoTrash size={16} />}
-            onClick={handleClear}
-            disabled={TIER_ORDER.every((tier) => placements[tier].length === 0)}
-          >
-            Clear All
-          </Button>
+        <Group justify="space-between" wrap="wrap" gap="sm">
+          <Group gap="sm" wrap="wrap">
+            <CopyButton value={json}>
+              {({ copied, copy }) => (
+                <Button
+                  variant="light"
+                  size="sm"
+                  leftSection={
+                    copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
+                  }
+                  onClick={copy}
+                  color={copied ? 'teal' : undefined}
+                >
+                  {copied ? 'Copied' : 'Copy JSON'}
+                </Button>
+              )}
+            </CopyButton>
+            <Button
+              variant="light"
+              size="sm"
+              leftSection={<IoClipboardOutline size={16} />}
+              onClick={openPasteModal}
+            >
+              Paste JSON
+            </Button>
+            <Button
+              variant="light"
+              size="sm"
+              leftSection={<IoSwapVertical size={16} />}
+              onClick={handleSort}
+              disabled={TIER_ORDER.every((tier) => placements[tier].length === 0)}
+            >
+              Sort Tiers
+            </Button>
+          </Group>
+          <Group gap="sm" wrap="wrap">
+            <Button
+              variant="light"
+              size="sm"
+              leftSection={<IoOpenOutline size={16} />}
+              onClick={() => {
+                if (!tierListIssueUrl) {
+                  // URL too long, open issue with template but empty JSON
+                  const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Tier List] New tier list suggestion', body: buildEmptyIssueBody('tier list') }).toString()}`;
+                  window.open(emptyUrl, '_blank');
+                  notifications.show({
+                    color: 'yellow',
+                    title: 'Tier list JSON is too large',
+                    message:
+                      'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
+                    autoClose: 8000,
+                  });
+                  return;
+                }
+
+                window.open(tierListIssueUrl, '_blank');
+              }}
+              disabled={TIER_ORDER.every((tier) => placements[tier].length === 0)}
+            >
+              Submit Suggestion
+            </Button>
+            <Button
+              variant="light"
+              color="red"
+              size="sm"
+              leftSection={<IoTrash size={16} />}
+              onClick={handleClear}
+              disabled={TIER_ORDER.every((tier) => placements[tier].length === 0)}
+            >
+              Clear All
+            </Button>
+          </Group>
         </Group>
 
         {TIER_ORDER.map((tier) => {
@@ -557,6 +639,51 @@ export default function TierListBuilder({
             document.body
           )
         : null}
+
+      <Modal
+        opened={pasteModalOpened}
+        onClose={() => {
+          closePasteModal();
+          setPasteText('');
+          setPasteError('');
+        }}
+        title="Paste Tier List JSON"
+        size="lg"
+      >
+        <Stack gap="md">
+          <Text size="sm" c="dimmed">
+            Paste a tier list JSON object below to load it into the builder.
+          </Text>
+          <Textarea
+            placeholder={'{\n  "name": "...",\n  "entries": [...]\n}'}
+            value={pasteText}
+            onChange={(e) => {
+              setPasteText(e.currentTarget.value);
+              setPasteError('');
+            }}
+            minRows={8}
+            maxRows={20}
+            autosize
+            error={pasteError || undefined}
+            styles={{ input: { fontFamily: 'monospace', fontSize: 12 } }}
+          />
+          <Group justify="flex-end">
+            <Button
+              variant="default"
+              onClick={() => {
+                closePasteModal();
+                setPasteText('');
+                setPasteError('');
+              }}
+            >
+              Cancel
+            </Button>
+            <Button onClick={handlePasteApply} disabled={!pasteText.trim()}>
+              Apply
+            </Button>
+          </Group>
+        </Stack>
+      </Modal>
     </DndContext>
   );
 }
