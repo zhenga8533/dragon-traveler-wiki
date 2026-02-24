@@ -12,7 +12,7 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getGearIcon } from '../assets/gear';
@@ -102,6 +102,8 @@ export default function GearSetPage() {
     };
   }, [characters, recommendedCharacters]);
 
+  const [showAllCharacters, setShowAllCharacters] = useState(false);
+
   if (loading) {
     return (
       <Container size="lg" py="xl">
@@ -131,7 +133,9 @@ export default function GearSetPage() {
     0
   );
   const lastUpdatedTimestamp = setData?.last_updated ?? latestItemTimestamp;
-  const featuredRecommendedCharacters = recommendedCharacters.slice(0, 4);
+  const displayedCharacters = showAllCharacters
+    ? recommendedCharacters
+    : recommendedCharacters.slice(0, 4);
   const remainingRecommendedCount = Math.max(
     recommendedCharacters.length - 4,
     0
@@ -242,13 +246,13 @@ export default function GearSetPage() {
               </Paper>
             )}
 
-            {featuredRecommendedCharacters.length > 0 && (
+            {recommendedCharacters.length > 0 && (
               <Stack gap={8}>
                 <Text size="sm" fw={600} c={isDark ? 'gray.1' : 'dark.7'}>
-                  Top Recommended Characters
+                  Recommended Characters
                 </Text>
                 <Group gap="xs" wrap="wrap">
-                  {featuredRecommendedCharacters.map((character) => {
+                  {displayedCharacters.map((character) => {
                     const portrait = getPortrait(character.name);
 
                     return (
@@ -289,9 +293,26 @@ export default function GearSetPage() {
                       </Tooltip>
                     );
                   })}
-                  {remainingRecommendedCount > 0 && (
-                    <Badge variant="light" color="gray" size="sm">
+                  {!showAllCharacters && remainingRecommendedCount > 0 && (
+                    <Badge
+                      variant="light"
+                      color="gray"
+                      size="sm"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => setShowAllCharacters(true)}
+                    >
                       +{remainingRecommendedCount} more
+                    </Badge>
+                  )}
+                  {showAllCharacters && recommendedCharacters.length > 4 && (
+                    <Badge
+                      variant="light"
+                      color="gray"
+                      size="sm"
+                      style={{ cursor: 'pointer' }}
+                      onClick={() => setShowAllCharacters(false)}
+                    >
+                      Show less
                     </Badge>
                   )}
                 </Group>
