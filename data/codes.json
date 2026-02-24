@@ -291,8 +291,8 @@
       "Legacy Dragon Crystal": 5,
       "Golden Horn": 2
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "ΚΑΤO111",
@@ -317,8 +317,8 @@
       "Summoning Ticket": 1,
       "Dragonblood": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "code888",
@@ -327,8 +327,8 @@
       "Summoning Ticket": 1,
       "Dragonblood": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "Vivienne",
@@ -337,8 +337,8 @@
       "Summoning Ticket": 1,
       "Legacy Dragon Crystal": 3
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "Priest",
@@ -347,8 +347,8 @@
       "Golden Horn": 1,
       "Leaf of the World Tree": 5
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "Athena",
@@ -357,8 +357,8 @@
       "Summoning Ticket": 1,
       "Dragonblood": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "Oberonnie",
@@ -367,8 +367,8 @@
       "Summoning Ticket": 1,
       "Legacy Dragon Crystal": 3
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "Guild321",
@@ -377,8 +377,8 @@
       "Legacy Dragon Crystal": 3,
       "Apple": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "Apollo",
@@ -387,8 +387,8 @@
       "Legacy Dragon Crystal": 3,
       "Apple": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "SWEETGIRL",
@@ -397,8 +397,8 @@
       "Golden Horn": 1,
       "SR Luminary Shards": 10
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "Inkbound",
@@ -407,8 +407,8 @@
       "Summoning Ticket": 1,
       "Dragonblood": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "Foursaints",
@@ -417,8 +417,8 @@
       "Golden Horn": 1,
       "Leaf of the World Tree": 5
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "Valentine",
@@ -447,8 +447,8 @@
       "Golden Horn": 1,
       "Leaf of the World Tree": 5
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "Magiclamp",
@@ -457,8 +457,8 @@
       "Legacy Dragon Crystal": 3,
       "Apple": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "NEWGIRL",
@@ -467,8 +467,8 @@
       "Legacy Dragon Crystal": 3,
       "Banquet Cake": 1
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "QingLong",
@@ -477,8 +477,8 @@
       "Golden Horn": 1,
       "SR Luminary Shards": 10
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1771976423
   },
   {
     "code": "HeavySnow",
@@ -606,5 +606,15 @@
     },
     "active": true,
     "last_updated": 1771820426
+  },
+  {
+    "code": "NEWNOTICE666",
+    "rewards": {
+      "Gold": 300,
+      "Legacy Dragon Crystal": 3,
+      "Apple": 1
+    },
+    "active": true,
+    "last_updated": 1771976423
   }
 ]
