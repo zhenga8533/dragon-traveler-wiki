@@ -39,6 +39,7 @@ import {
 import ErrorBoundary from './components/ErrorBoundary';
 import Footer from './components/Footer';
 import KeyboardShortcuts from './components/KeyboardShortcuts';
+import KonamiEasterEgg from './components/KonamiEasterEgg';
 import PageTransition from './components/PageTransition';
 import ScrollToTop from './components/ScrollToTop';
 import SearchModal from './components/SearchModal';
@@ -491,6 +492,7 @@ function AppContent() {
 
       <ScrollToTop />
       <KeyboardShortcuts opened={shortcutsOpened} onClose={closeShortcuts} />
+      <KonamiEasterEgg />
     </AppShell>
   );
 }
