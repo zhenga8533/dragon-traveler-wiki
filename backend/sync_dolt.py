@@ -988,7 +988,10 @@ def ensure_dolt_branch(branch, pull=False):
         try:
             dolt_cmd("checkout", branch)
         except SyncError:
-            dolt_cmd("checkout", "-b", branch, f"origin/{branch}")
+            try:
+                dolt_cmd("checkout", "-b", branch, f"origin/{branch}")
+            except SyncError:
+                dolt_cmd("checkout", "-b", branch)
 
     if pull:
         try:
