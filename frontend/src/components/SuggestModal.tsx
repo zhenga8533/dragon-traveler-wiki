@@ -22,12 +22,7 @@ import {
 } from 'react-icons/io5';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
-import accessoryIcon from '../assets/gear/icons/accessory.png';
-import bootsIcon from '../assets/gear/icons/boots.png';
-import bracersIcon from '../assets/gear/icons/bracers.png';
-import chestplateIcon from '../assets/gear/icons/chestplate.png';
-import headgearIcon from '../assets/gear/icons/headgear.png';
-import weaponIcon from '../assets/gear/icons/weapon.png';
+import { GEAR_TYPE_ICON_MAP } from '../assets/gear';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import {
   GITHUB_REPO_URL,
@@ -52,6 +47,8 @@ export interface ArrayFieldDef {
   label: string;
   fields: FieldDef[];
   minItems?: number;
+  /** When set, outputs a dict keyed by `key` field with `value` field as the value instead of an array */
+  toDict?: { key: string; value: string };
 }
 
 export interface SuggestModalProps {
@@ -104,12 +101,7 @@ const AUTO_OPTION_ICON_MAP: Record<string, string> = {
   ...QUALITY_ICON_MAP,
   ...CLASS_ICON_MAP,
   ...FACTION_ICON_MAP,
-  Headgear: headgearIcon,
-  Chestplate: chestplateIcon,
-  Bracers: bracersIcon,
-  Boots: bootsIcon,
-  Weapon: weaponIcon,
-  Accessory: accessoryIcon,
+  ...GEAR_TYPE_ICON_MAP,
 };
 
 function getOptionIcon(field: FieldDef, option: string): string | undefined {
@@ -198,11 +190,23 @@ export default function SuggestModal({
       }
     }
     for (const af of arrayFields ?? []) {
-      data[af.name] = arrayValues[af.name]
-        .filter((row) =>
-          af.fields.some((f) => row[f.name] !== '' && row[f.name] !== false)
-        )
-        .map((row) => {
+      const filteredRows = arrayValues[af.name].filter((row) =>
+        af.fields.some((f) => row[f.name] !== '' && row[f.name] !== false)
+      );
+
+      if (af.toDict) {
+        const dict: Record<string, unknown> = {};
+        for (const row of filteredRows) {
+          const k = row[af.toDict.key];
+          const v = row[af.toDict.value];
+          if (typeof k === 'string' && k) {
+            const num = typeof v === 'string' && v !== '' ? Number(v) : NaN;
+            dict[k] = Number.isNaN(num) ? v : num;
+          }
+        }
+        data[af.name] = dict;
+      } else {
+        data[af.name] = filteredRows.map((row) => {
           const entry: Record<string, unknown> = {};
           for (const f of af.fields) {
             const val = row[f.name];
@@ -214,6 +218,7 @@ export default function SuggestModal({
           }
           return entry;
         });
+      }
     }
     return data;
   };

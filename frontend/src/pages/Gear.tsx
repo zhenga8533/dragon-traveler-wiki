@@ -27,7 +27,7 @@ import ListPageShell from '../components/ListPageShell';
 import PaginationControl from '../components/PaginationControl';
 import SortableTh from '../components/SortableTh';
 import GearTypeTag from '../components/GearTypeTag';
-import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import SuggestModal, { type ArrayFieldDef, type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
@@ -58,18 +58,42 @@ const GEAR_SET_FIELDS: FieldDef[] = [
     placeholder: 'Gear set name',
   },
   {
-    name: 'set_bonus_quantity',
+    name: 'bonus_quantity',
     label: 'Set Bonus Quantity',
     type: 'number',
     required: true,
-    placeholder: 'e.g. 1',
+    placeholder: 'e.g. 2 (use 0 for no set bonus)',
   },
   {
-    name: 'set_bonus_description',
+    name: 'bonus_description',
     label: 'Set Bonus Description',
     type: 'textarea',
-    required: true,
     placeholder: 'Describe the set bonus effect',
+  },
+];
+
+const GEAR_STATS_ARRAY_FIELDS: ArrayFieldDef[] = [
+  {
+    name: 'stats',
+    label: 'Stats',
+    minItems: 1,
+    toDict: { key: 'stat', value: 'value' },
+    fields: [
+      {
+        name: 'stat',
+        label: 'Stat Name',
+        type: 'text',
+        required: true,
+        placeholder: 'e.g. HP',
+      },
+      {
+        name: 'value',
+        label: 'Value',
+        type: 'text',
+        required: true,
+        placeholder: 'e.g. 11810',
+      },
+    ],
   },
 ];
 
@@ -334,6 +358,7 @@ export default function GearPage() {
               modalTitle="Suggest New Gear"
               issueTitle="[Gear] New gear suggestion"
               fields={gearFields}
+              arrayFields={GEAR_STATS_ARRAY_FIELDS}
             />
           )}
         </Group>

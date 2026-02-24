@@ -91,6 +91,7 @@ function buildCodeRewardArrayFields(resources: Resource[]): ArrayFieldDef[] {
     {
       name: 'rewards',
       label: 'Rewards',
+      toDict: { key: 'name', value: 'quantity' },
       fields: [
         {
           name: 'name',

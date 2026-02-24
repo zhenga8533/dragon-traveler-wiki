@@ -21,7 +21,7 @@ import LastUpdated from '../components/LastUpdated';
 import ListPageShell from '../components/ListPageShell';
 import QualityIcon from '../components/QualityIcon';
 import SortableTh from '../components/SortableTh';
-import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import SuggestModal, { type ArrayFieldDef, type FieldDef } from '../components/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
@@ -39,6 +39,18 @@ const ARTIFACT_FIELDS: FieldDef[] = [
     type: 'text',
     required: true,
     placeholder: 'Artifact name',
+  },
+  {
+    name: 'quality',
+    label: 'Quality',
+    type: 'select',
+    required: true,
+    options: QUALITY_ORDER,
+  },
+  {
+    name: 'is_global',
+    label: 'Available on Global server',
+    type: 'boolean',
   },
   {
     name: 'lore',
@@ -59,6 +71,30 @@ const ARTIFACT_FIELDS: FieldDef[] = [
     type: 'number',
     required: true,
     placeholder: 'e.g. 2',
+  },
+];
+
+const ARTIFACT_EFFECT_ARRAY_FIELDS: ArrayFieldDef[] = [
+  {
+    name: 'effect',
+    label: 'Effects',
+    minItems: 1,
+    fields: [
+      {
+        name: 'level',
+        label: 'Level',
+        type: 'number',
+        required: true,
+        placeholder: 'e.g. 0',
+      },
+      {
+        name: 'description',
+        label: 'Description',
+        type: 'textarea',
+        required: true,
+        placeholder: 'Effect description at this level',
+      },
+    ],
   },
 ];
 
@@ -151,6 +187,7 @@ export default function Artifacts() {
             modalTitle="Suggest a New Artifact"
             issueTitle="[Artifact] New artifact suggestion"
             fields={ARTIFACT_FIELDS}
+            arrayFields={ARTIFACT_EFFECT_ARRAY_FIELDS}
           />
         </Group>
 
