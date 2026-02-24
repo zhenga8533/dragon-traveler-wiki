@@ -339,7 +339,7 @@ function ActiveCodesSection() {
   if (loading) {
     return (
       <Stack gap="xs">
-        {[1, 2, 3].map((i) => (
+        {[1, 2, 3, 4, 5].map((i) => (
           <Skeleton key={i} height={40} radius="md" />
         ))}
       </Stack>
@@ -434,7 +434,6 @@ function RecentUpdatesSection() {
   }
 
   const recentEntries = [...changelog].slice(0, 3);
-  const latestEntry = recentEntries[0];
 
   if (recentEntries.length === 0) {
     return (
@@ -446,15 +445,9 @@ function RecentUpdatesSection() {
 
   return (
     <Stack gap="xs">
-      {latestEntry && (
-        <Text size="xs" c="dimmed">
-          Latest update: {latestEntry.version || latestEntry.date} ·{' '}
-          {latestEntry.changes.length} changes
-        </Text>
-      )}
-      {recentEntries.map((entry, idx) => (
+      {recentEntries.map((entry) => (
         <Box
-          key={idx}
+          key={entry.version ?? entry.date}
           p="xs"
           style={{
             borderRadius: 'var(--mantine-radius-md)',
