@@ -1451,7 +1451,7 @@ export default function CharacterPage() {
                       </Group>
 
                       <Stack gap="sm">
-                        {talentLevels.map((talent) => (
+                        {talentLevels.map((talent, idx) => (
                           <Box key={talent.level}>
                             <Group gap="xs" mb="xs">
                               <Badge variant="filled" color="blue">
