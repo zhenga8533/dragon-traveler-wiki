@@ -93,7 +93,7 @@ def bump_file(filename: str, now: int) -> int:
 
     count = 0
     for entry in entries:
-        if not isinstance(entry, dict) or "last_updated" not in entry:
+        if not isinstance(entry, dict):
             continue
 
         identity = entry.get(id_key)
@@ -102,6 +102,9 @@ def bump_file(filename: str, now: int) -> int:
         if committed_entry is None:
             # New entry not yet in git — always bump.
             changed = True
+        elif "last_updated" not in entry:
+            # Entry exists in git but has no timestamp field — skip.
+            continue
         else:
             changed = _without_timestamp(entry) != _without_timestamp(committed_entry)
 
