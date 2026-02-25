@@ -19,8 +19,15 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { IoArrowBack } from 'react-icons/io5';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
+import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import {
   RiArrowLeftSLine,
   RiArrowRightSLine,
@@ -41,7 +48,7 @@ import {
 } from '../assets/character';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
-import { getGearIcon, GEAR_TYPE_ICON_MAP } from '../assets/gear';
+import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../assets/gear';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getSkillIcon } from '../assets/skill';
@@ -86,7 +93,12 @@ const GEAR_SLOT_CONFIG: Array<{
     type: 'Bracers',
     fallbackIcon: GEAR_TYPE_ICON_MAP.Bracers,
   },
-  { slot: 'boots', label: 'Boots', type: 'Boots', fallbackIcon: GEAR_TYPE_ICON_MAP.Boots },
+  {
+    slot: 'boots',
+    label: 'Boots',
+    type: 'Boots',
+    fallbackIcon: GEAR_TYPE_ICON_MAP.Boots,
+  },
   {
     slot: 'weapon',
     label: 'Weapon',
@@ -172,6 +184,25 @@ export default function CharacterPage() {
     return entry?.tier ?? 'Unranked';
   }, [tierLists, selectedTierListName, character]);
 
+  const orderedCharacters = useMemo(
+    () => [...characters].sort((a, b) => a.name.localeCompare(b.name)),
+    [characters]
+  );
+
+  const characterIndex = useMemo(() => {
+    if (!character) return -1;
+    return orderedCharacters.findIndex(
+      (entry) => entry.name.toLowerCase() === character.name.toLowerCase()
+    );
+  }, [orderedCharacters, character]);
+
+  const previousCharacter =
+    characterIndex > 0 ? orderedCharacters[characterIndex - 1] : null;
+  const nextCharacter =
+    characterIndex >= 0 && characterIndex < orderedCharacters.length - 1
+      ? orderedCharacters[characterIndex + 1]
+      : null;
+
   const linkedNoblePhantasm = useMemo(() => {
     if (!character?.noble_phantasm) return null;
     return (
@@ -210,17 +241,20 @@ export default function CharacterPage() {
   }, [character]);
 
   const recommendedSubclassEntries = useMemo(() => {
-    return (character?.recommended_subclasses ?? []).map((subclassName) => {
-      const details = subclassByName.get(subclassName);
-      return {
-        name: subclassName,
-        icon: getSubclassIcon(subclassName),
-        tier: details?.tier,
-        className: details?.class,
-        bonuses: details?.bonuses ?? [],
-        effect: details?.effect,
-      };
-    });
+    return (character?.recommended_subclasses ?? [])
+      .map((subclassName) => subclassName.trim())
+      .filter((subclassName) => subclassName.length > 0)
+      .map((subclassName) => {
+        const details = subclassByName.get(subclassName);
+        return {
+          name: subclassName,
+          icon: getSubclassIcon(subclassName),
+          tier: details?.tier,
+          className: details?.class,
+          bonuses: details?.bonuses ?? [],
+          effect: details?.effect,
+        };
+      });
   }, [character, subclassByName]);
 
   const gearByName = useMemo(() => {
@@ -459,8 +493,7 @@ export default function CharacterPage() {
   }, [activeIllustration]);
 
   useEffect(() => {
-    const handleFsChange = () =>
-      setIsFullscreen(!!document.fullscreenElement);
+    const handleFsChange = () => setIsFullscreen(!!document.fullscreenElement);
     document.addEventListener('fullscreenchange', handleFsChange);
     return () =>
       document.removeEventListener('fullscreenchange', handleFsChange);
@@ -1368,7 +1401,11 @@ export default function CharacterPage() {
                                       loading="lazy"
                                     />
                                     <Stack gap={2} style={{ minWidth: 0 }}>
-                                      <GearTypeTag type={entry.type} color="gray" size="xs" />
+                                      <GearTypeTag
+                                        type={entry.type}
+                                        color="gray"
+                                        size="xs"
+                                      />
                                       <Text size="sm" fw={600} truncate>
                                         {entry.name}
                                       </Text>
@@ -1671,9 +1708,7 @@ export default function CharacterPage() {
                   justifyContent: 'center',
                   alignItems: 'center',
                   background: isFullscreen ? 'black' : undefined,
-                  borderRadius: isFullscreen
-                    ? 0
-                    : 'var(--mantine-radius-lg)',
+                  borderRadius: isFullscreen ? 0 : 'var(--mantine-radius-lg)',
                 }}
               >
                 {activeIllustration.type === 'video' ? (
@@ -1809,8 +1844,7 @@ export default function CharacterPage() {
                                 : 'var(--mantine-color-default-border)'
                             }`,
                             opacity: isActive ? 1 : 0.6,
-                            transition:
-                              'opacity 150ms, border-color 150ms',
+                            transition: 'opacity 150ms, border-color 150ms',
                           }}
                         >
                           {illust.type === 'video' ? (
@@ -1818,8 +1852,7 @@ export default function CharacterPage() {
                               style={{
                                 width: '100%',
                                 height: '100%',
-                                background:
-                                  'var(--mantine-color-dark-6)',
+                                background: 'var(--mantine-color-dark-6)',
                               }}
                             >
                               <RiFilmLine size={22} color="white" />
@@ -1856,12 +1889,37 @@ export default function CharacterPage() {
 
         {/* Back Link */}
         <Box mt="xl">
-          <Link to="/characters" style={{ textDecoration: 'none' }}>
-            <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
-              <IoArrowBack />
-              <Text>Back to Characters</Text>
-            </Group>
-          </Link>
+          <Group justify="space-between" align="center" wrap="wrap" gap="sm">
+            {previousCharacter ? (
+              <Link
+                to={`/characters/${encodeURIComponent(previousCharacter.name)}`}
+                style={{ textDecoration: 'none' }}
+              >
+                <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
+                  <IoChevronBack />
+                  <Text size="sm">Previous: {previousCharacter.name}</Text>
+                </Group>
+              </Link>
+            ) : (
+              <Box />
+            )}
+
+            <Box />
+
+            {nextCharacter ? (
+              <Link
+                to={`/characters/${encodeURIComponent(nextCharacter.name)}`}
+                style={{ textDecoration: 'none' }}
+              >
+                <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
+                  <Text size="sm">Next: {nextCharacter.name}</Text>
+                  <IoChevronForward />
+                </Group>
+              </Link>
+            ) : (
+              <Box />
+            )}
+          </Group>
         </Box>
       </Container>
     </Box>
