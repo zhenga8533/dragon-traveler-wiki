@@ -104,7 +104,7 @@ VALID_CHARACTER_CLASSES = {
     "Archer",
     "Mage",
 }
-VALID_TIERS = {"S+", "S", "A", "B", "C", "D"}
+DEFAULT_VALID_TIERS = {"S+", "S", "A", "B", "C", "D"}
 
 
 # ---------------------------------------------------------------------------
@@ -225,19 +225,54 @@ def validate_data(label, data, is_update=False):
             )
 
     if label == "tier-list":
+        # Validate optional tiers definitions field
+        if "tiers" in data:
+            tiers_raw = data.get("tiers")
+            if tiers_raw is not None:
+                if not isinstance(tiers_raw, list):
+                    raise ValueError("'tiers' must be an array.")
+                for i, tier in enumerate(tiers_raw):
+                    if isinstance(tier, dict):
+                        if not str(tier.get("name", "")).strip():
+                            raise ValueError(f"Tier definition {i} is missing 'name'.")
+                    elif isinstance(tier, str):
+                        if not tier.strip():
+                            raise ValueError(f"Tier definition {i} has an empty name.")
+                    else:
+                        raise ValueError(
+                            f"Tier definition {i} must be a string or object with 'name'."
+                        )
+
         if "entries" in data:
             entries = data.get("entries", [])
             if not isinstance(entries, list) or len(entries) == 0:
                 raise ValueError("Tier list must have at least one entry.")
+
+            # Determine valid tiers: use custom tiers if provided, else default
+            custom_tiers_raw = data.get("tiers")
+            if custom_tiers_raw and isinstance(custom_tiers_raw, list):
+                valid_tiers = set()
+                for t in custom_tiers_raw:
+                    if isinstance(t, dict):
+                        name = str(t.get("name", "")).strip()
+                        if name:
+                            valid_tiers.add(name)
+                    elif isinstance(t, str) and t.strip():
+                        valid_tiers.add(t.strip())
+                if not valid_tiers:
+                    valid_tiers = DEFAULT_VALID_TIERS
+            else:
+                valid_tiers = DEFAULT_VALID_TIERS
+
             for i, entry in enumerate(entries):
                 if not entry.get("character_name"):
                     raise ValueError(f"Entry {i} is missing 'character_name'.")
                 if not entry.get("tier"):
                     raise ValueError(f"Entry {i} is missing 'tier'.")
-                if entry["tier"] not in VALID_TIERS:
+                if entry["tier"] not in valid_tiers:
                     raise ValueError(
                         f"Entry {i} has invalid tier '{entry['tier']}'. "
-                        f"Expected one of: {', '.join(sorted(VALID_TIERS))}"
+                        f"Expected one of: {', '.join(sorted(valid_tiers))}"
                     )
 
     if label == "team":
@@ -803,8 +838,22 @@ def normalize_for_json(label, data, is_update=False):
         return result
 
     if label == "tier-list":
+
+        def _normalize_tier_defs(raw):
+            if not raw or not isinstance(raw, list):
+                return None
+            result = []
+            for t in raw:
+                if isinstance(t, dict):
+                    name = str(t.get("name", "")).strip()
+                    if name:
+                        result.append({"name": name, "note": str(t.get("note", "") or "")})
+                elif isinstance(t, str) and t.strip():
+                    result.append({"name": t.strip(), "note": ""})
+            return result if result else None
+
         if not is_update:
-            return {
+            normalized = {
                 "name": data["name"],
                 "author": data.get("author", ""),
                 "content_type": data.get("content_type", ""),
@@ -818,6 +867,10 @@ def normalize_for_json(label, data, is_update=False):
                     for e in data.get("entries", [])
                 ],
             }
+            tiers = _normalize_tier_defs(data.get("tiers"))
+            if tiers is not None:
+                normalized["tiers"] = tiers
+            return normalized
 
         result = {"name": data["name"]}
         if "author" in data:
@@ -826,6 +879,10 @@ def normalize_for_json(label, data, is_update=False):
             result["content_type"] = data.get("content_type", "")
         if "description" in data:
             result["description"] = data.get("description", "")
+        if "tiers" in data:
+            tiers = _normalize_tier_defs(data.get("tiers"))
+            if tiers is not None:
+                result["tiers"] = tiers
         if "entries" in data:
             result["entries"] = [
                 {

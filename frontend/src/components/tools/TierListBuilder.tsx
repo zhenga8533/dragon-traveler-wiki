@@ -21,13 +21,17 @@ import {
   Text,
   Textarea,
   TextInput,
+  Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
 import {
+  IoAddOutline,
   IoCheckmark,
+  IoChevronDown,
+  IoChevronUp,
   IoClipboardOutline,
   IoCopy,
   IoOpenOutline,
@@ -40,7 +44,7 @@ import {
   GITHUB_REPO_URL,
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../constants/github';
-import { TIER_COLOR, TIER_ORDER } from '../../constants/colors';
+import { DEFAULT_TIER_DEFINITIONS, getTierColor } from '../../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   DEFAULT_CONTENT_TYPE,
@@ -49,7 +53,7 @@ import {
 } from '../../constants/content-types';
 import { CHARACTER_GRID_SPACING } from '../../constants/ui';
 import type { Character } from '../../types/character';
-import type { Tier, TierList } from '../../types/tier-list';
+import type { TierDefinition, TierList } from '../../types/tier-list';
 import { compareCharactersByQualityThenName } from '../../utils/filter-characters';
 import CharacterCard from '../character/CharacterCard';
 import FilterableCharacterPool from '../character/FilterableCharacterPool';
@@ -118,11 +122,25 @@ function TierDropZone({
   id,
   label,
   color,
+  note,
+  onNoteChange,
+  onDelete,
+  onMoveUp,
+  onMoveDown,
+  isFirst,
+  isLast,
   children,
 }: {
   id: string;
   label: string;
   color: string;
+  note?: string;
+  onNoteChange: (note: string) => void;
+  onDelete: () => void;
+  onMoveUp: () => void;
+  onMoveDown: () => void;
+  isFirst: boolean;
+  isLast: boolean;
   children: React.ReactNode;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id });
@@ -140,9 +158,78 @@ function TierDropZone({
       }}
     >
       <Stack gap="sm">
-        <Badge variant="filled" color={color} size="lg" radius="sm">
-          {label}
-        </Badge>
+        <Group justify="space-between" align="flex-start" wrap="nowrap">
+          <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+            <Badge variant="filled" color={color} size="lg" radius="sm">
+              {label}
+            </Badge>
+            {note && (
+              <Text size="xs" c="dimmed" style={{ wordBreak: 'break-word' }}>
+                {note}
+              </Text>
+            )}
+          </Stack>
+          <Group gap={2} wrap="nowrap" style={{ flexShrink: 0 }}>
+            <Popover position="top" withArrow trapFocus shadow="md">
+              <Popover.Target>
+                <Tooltip label={note ? 'Edit tier note' : 'Add tier note'} withArrow withinPortal>
+                  <ActionIcon
+                    size="xs"
+                    variant={note ? 'filled' : 'subtle'}
+                    color={note ? 'blue' : 'gray'}
+                    aria-label="Edit tier note"
+                  >
+                    <IoPencil size={10} />
+                  </ActionIcon>
+                </Tooltip>
+              </Popover.Target>
+              <Popover.Dropdown>
+                <TextInput
+                  size="xs"
+                  placeholder="Add a tier note..."
+                  value={note || ''}
+                  onChange={(e) => onNoteChange(e.currentTarget.value)}
+                  style={{ width: 220 }}
+                />
+              </Popover.Dropdown>
+            </Popover>
+            <Tooltip label="Move up" withArrow withinPortal>
+              <ActionIcon
+                size="xs"
+                variant="subtle"
+                color="gray"
+                onClick={onMoveUp}
+                disabled={isFirst}
+                aria-label="Move tier up"
+              >
+                <IoChevronUp size={10} />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label="Move down" withArrow withinPortal>
+              <ActionIcon
+                size="xs"
+                variant="subtle"
+                color="gray"
+                onClick={onMoveDown}
+                disabled={isLast}
+                aria-label="Move tier down"
+              >
+                <IoChevronDown size={10} />
+              </ActionIcon>
+            </Tooltip>
+            <Tooltip label="Delete tier" withArrow withinPortal>
+              <ActionIcon
+                size="xs"
+                variant="subtle"
+                color="red"
+                onClick={onDelete}
+                aria-label="Delete tier"
+              >
+                <IoTrash size={10} />
+              </ActionIcon>
+            </Tooltip>
+          </Group>
+        </Group>
         <SimpleGrid
           cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
           spacing={CHARACTER_GRID_SPACING}
@@ -199,10 +286,13 @@ export default function TierListBuilder({
   charMap,
   initialData,
 }: TierListBuilderProps) {
+  const [tierDefs, setTierDefs] = useState<TierDefinition[]>(() =>
+    DEFAULT_TIER_DEFINITIONS.map((t) => ({ ...t }))
+  );
   const [placements, setPlacements] = useState<TierPlacements>(() => {
     const init: TierPlacements = {};
-    TIER_ORDER.forEach((tier) => {
-      init[tier] = [];
+    DEFAULT_TIER_DEFINITIONS.forEach((t) => {
+      init[t.name] = [];
     });
     return init;
   });
@@ -213,11 +303,49 @@ export default function TierListBuilder({
     useState<ContentType>(DEFAULT_CONTENT_TYPE);
   const [description, setDescription] = useState('');
   const [activeId, setActiveId] = useState<string | null>(null);
-  const [isDirty, setIsDirty] = useState(false);
+  const [newTierName, setNewTierName] = useState('');
+  const [newTierNote, setNewTierNote] = useState('');
   const [pasteModalOpened, { open: openPasteModal, close: closePasteModal }] =
     useDisclosure(false);
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
+
+  function loadFromTierList(data: TierList) {
+    setName(data.name || '');
+    setAuthor(data.author || '');
+    setCategoryName(normalizeContentType(data.content_type));
+    setDescription(data.description || '');
+
+    const baseDefs: TierDefinition[] = data.tiers?.length
+      ? data.tiers.map((t) => ({ name: t.name, note: t.note || '' }))
+      : DEFAULT_TIER_DEFINITIONS.map((t) => ({ ...t }));
+
+    // Also add any tiers referenced by entries but not in baseDefs
+    const tierNameSet = new Set(baseDefs.map((t) => t.name));
+    const extraDefs: TierDefinition[] = [];
+    for (const entry of data.entries) {
+      if (!tierNameSet.has(entry.tier)) {
+        extraDefs.push({ name: entry.tier, note: '' });
+        tierNameSet.add(entry.tier);
+      }
+    }
+    const allDefs = [...baseDefs, ...extraDefs];
+    setTierDefs(allDefs);
+
+    const p: TierPlacements = {};
+    allDefs.forEach((t) => {
+      p[t.name] = [];
+    });
+    const n: Record<string, string> = {};
+    for (const entry of data.entries) {
+      if (p[entry.tier] !== undefined) {
+        p[entry.tier].push(entry.character_name);
+      }
+      if (entry.note) n[entry.character_name] = entry.note;
+    }
+    setPlacements(p);
+    setNotes(n);
+  }
 
   function handlePasteApply() {
     try {
@@ -226,23 +354,7 @@ export default function TierListBuilder({
         setPasteError('Invalid tier list JSON: "entries" must be an array.');
         return;
       }
-      setName(data.name || '');
-      setAuthor(data.author || '');
-      setCategoryName(normalizeContentType(data.content_type));
-      setDescription(data.description || '');
-      const p: TierPlacements = {};
-      TIER_ORDER.forEach((tier) => {
-        p[tier] = [];
-      });
-      const n: Record<string, string> = {};
-      for (const entry of data.entries) {
-        if (TIER_ORDER.includes(entry.tier as Tier)) {
-          p[entry.tier].push(entry.character_name);
-        }
-        if (entry.note) n[entry.character_name] = entry.note;
-      }
-      setPlacements(p);
-      setNotes(n);
+      loadFromTierList(data);
       closePasteModal();
       setPasteText('');
       setPasteError('');
@@ -256,23 +368,9 @@ export default function TierListBuilder({
   useEffect(() => {
     if (!initialData) return;
     queueMicrotask(() => {
-      setName(initialData.name);
-      setAuthor(initialData.author);
-      setCategoryName(normalizeContentType(initialData.content_type));
-      setDescription(initialData.description || '');
-      const p: TierPlacements = {};
-      TIER_ORDER.forEach((tier) => {
-        p[tier] = [];
-      });
-      const n: Record<string, string> = {};
-      for (const entry of initialData.entries) {
-        p[entry.tier].push(entry.character_name);
-        if (entry.note) n[entry.character_name] = entry.note;
-      }
-      setPlacements(p);
-      setNotes(n);
+      loadFromTierList(initialData);
     });
-  }, [initialData]);
+  }, [initialData]); // eslint-disable-line react-hooks/exhaustive-deps
 
   const json = useMemo(() => {
     const result: TierList = {
@@ -280,22 +378,31 @@ export default function TierListBuilder({
       author: author || 'Anonymous',
       content_type: categoryName,
       description,
-      entries: TIER_ORDER.flatMap((tier) =>
-        placements[tier].map((character_name) => ({
+      tiers: tierDefs.map(({ name: tierName, note }) => ({
+        name: tierName,
+        ...(note ? { note } : {}),
+      })),
+      entries: tierDefs.flatMap(({ name: tierName }) =>
+        (placements[tierName] || []).map((character_name) => ({
           character_name,
-          tier,
+          tier: tierName,
           ...(notes[character_name] ? { note: notes[character_name] } : {}),
         }))
       ),
       last_updated: 0,
     };
     return JSON.stringify(result, null, 2);
-  }, [placements, notes, name, author, categoryName, description]);
+  }, [placements, notes, name, author, categoryName, description, tierDefs]);
 
   const unrankedCharacters = useMemo(() => {
-    const placed = new Set(TIER_ORDER.flatMap((tier) => placements[tier]));
+    const placed = new Set(Object.values(placements).flat());
     return characters.filter((c) => !placed.has(c.name));
   }, [characters, placements]);
+
+  const hasAnyPlaced = useMemo(
+    () => Object.values(placements).some((chars) => chars.length > 0),
+    [placements]
+  );
 
   const tierListIssueQuery = useMemo(() => {
     const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
@@ -317,15 +424,15 @@ export default function TierListBuilder({
 
   function clonePlacements(source: TierPlacements): TierPlacements {
     const cloned: TierPlacements = {};
-    for (const tier of TIER_ORDER) {
-      cloned[tier] = [...(source[tier] || [])];
+    for (const [tier, chars] of Object.entries(source)) {
+      cloned[tier] = [...chars];
     }
     return cloned;
   }
 
   function removeFromAllTiers(target: TierPlacements, characterName: string) {
-    for (const tier of TIER_ORDER) {
-      target[tier] = target[tier].filter((name) => name !== characterName);
+    for (const tier of Object.keys(target)) {
+      target[tier] = target[tier].filter((n) => n !== characterName);
     }
   }
 
@@ -390,7 +497,7 @@ export default function TierListBuilder({
           }
 
           next[activeTier] = next[activeTier].filter(
-            (name) => name !== charName
+            (n) => n !== charName
           );
           next[targetTier][targetIndex] = charName;
           next[activeTier].push(targetCharName);
@@ -407,23 +514,22 @@ export default function TierListBuilder({
 
     // Drop on a tier zone
     if (overId.startsWith('tier-')) {
-      const tier = overId.replace('tier-', '') as Tier;
+      const tier = overId.replace('tier-', '');
       setPlacements((prev) => {
         const next = clonePlacements(prev);
         removeFromAllTiers(next, charName);
+        if (!next[tier]) next[tier] = [];
         next[tier].push(charName);
-
         return next;
       });
     }
-    setIsDirty(true);
   }
 
   function handleSort() {
     setPlacements((prev) => {
       const next: TierPlacements = {};
-      for (const tier of TIER_ORDER) {
-        next[tier] = [...prev[tier]].sort((a, b) => {
+      for (const { name: tier } of tierDefs) {
+        next[tier] = [...(prev[tier] || [])].sort((a, b) => {
           const charA = charMap.get(a);
           const charB = charMap.get(b);
           if (!charA && !charB) return a.localeCompare(b);
@@ -434,19 +540,65 @@ export default function TierListBuilder({
       }
       return next;
     });
-    setIsDirty(true);
   }
 
   function handleClear() {
+    const defaultDefs = DEFAULT_TIER_DEFINITIONS.map((t) => ({ ...t }));
+    setTierDefs(defaultDefs);
     setPlacements(() => {
       const init: TierPlacements = {};
-      TIER_ORDER.forEach((tier) => {
-        init[tier] = [];
+      defaultDefs.forEach((t) => {
+        init[t.name] = [];
       });
       return init;
     });
     setNotes({});
-    setIsDirty(true);
+  }
+
+  function handleTierNoteChange(tierName: string, note: string) {
+    setTierDefs((prev) =>
+      prev.map((t) => (t.name === tierName ? { ...t, note } : t))
+    );
+  }
+
+  function handleDeleteTier(tierName: string) {
+    setTierDefs((prev) => prev.filter((t) => t.name !== tierName));
+    setPlacements((prev) => {
+      const next = { ...prev };
+      delete next[tierName];
+      return next;
+    });
+  }
+
+  function handleMoveTierUp(index: number) {
+    if (index === 0) return;
+    setTierDefs((prev) => {
+      const next = [...prev];
+      [next[index - 1], next[index]] = [next[index], next[index - 1]];
+      return next;
+    });
+  }
+
+  function handleMoveTierDown(index: number) {
+    setTierDefs((prev) => {
+      if (index >= prev.length - 1) return prev;
+      const next = [...prev];
+      [next[index], next[index + 1]] = [next[index + 1], next[index]];
+      return next;
+    });
+  }
+
+  function handleAddTier() {
+    const trimmed = newTierName.trim();
+    if (!trimmed) return;
+    if (tierDefs.some((t) => t.name === trimmed)) return;
+    setTierDefs((prev) => [
+      ...prev,
+      { name: trimmed, note: newTierNote.trim() || undefined },
+    ]);
+    setPlacements((prev) => ({ ...prev, [trimmed]: [] }));
+    setNewTierName('');
+    setNewTierNote('');
   }
 
   return (
@@ -501,7 +653,6 @@ export default function TierListBuilder({
                   }
                   onClick={() => {
                     copy();
-                    setIsDirty(false);
                   }}
                   color={copied ? 'teal' : undefined}
                 >
@@ -509,11 +660,6 @@ export default function TierListBuilder({
                 </Button>
               )}
             </CopyButton>
-            {isDirty && (
-              <Badge color="yellow" variant="dot" size="sm">
-                Unsaved changes
-              </Badge>
-            )}
             <Button
               variant="light"
               size="sm"
@@ -527,9 +673,7 @@ export default function TierListBuilder({
               size="sm"
               leftSection={<IoSwapVertical size={16} />}
               onClick={handleSort}
-              disabled={TIER_ORDER.every(
-                (tier) => placements[tier].length === 0
-              )}
+              disabled={!hasAnyPlaced}
             >
               Sort Tiers
             </Button>
@@ -557,9 +701,7 @@ export default function TierListBuilder({
                 window.open(tierListIssueUrl, '_blank');
                 setIsDirty(false);
               }}
-              disabled={TIER_ORDER.every(
-                (tier) => placements[tier].length === 0
-              )}
+              disabled={!hasAnyPlaced}
             >
               Submit Suggestion
             </Button>
@@ -569,24 +711,31 @@ export default function TierListBuilder({
               size="sm"
               leftSection={<IoTrash size={16} />}
               onClick={handleClear}
-              disabled={TIER_ORDER.every(
-                (tier) => placements[tier].length === 0
-              )}
+              disabled={!hasAnyPlaced}
             >
               Clear All
             </Button>
           </Group>
         </Group>
 
-        {TIER_ORDER.map((tier) => {
+        {tierDefs.map((tierDef, index) => {
+          const tier = tierDef.name;
           const names = placements[tier] || [];
+          const color = getTierColor(tier, index);
 
           return (
             <TierDropZone
               key={tier}
               id={`tier-${tier}`}
               label={`${tier} Tier`}
-              color={TIER_COLOR[tier]}
+              color={color}
+              note={tierDef.note}
+              onNoteChange={(note) => handleTierNoteChange(tier, note)}
+              onDelete={() => handleDeleteTier(tier)}
+              onMoveUp={() => handleMoveTierUp(index)}
+              onMoveDown={() => handleMoveTierDown(index)}
+              isFirst={index === 0}
+              isLast={index === tierDefs.length - 1}
             >
               {names.map((n) => (
                 <div key={n} style={{ position: 'relative' }}>
@@ -622,8 +771,7 @@ export default function TierListBuilder({
                             ...prev,
                             [n]: e.currentTarget.value,
                           }));
-                          setIsDirty(true);
-                        }}
+                                              }}
                         style={{ width: 200 }}
                       />
                     </Popover.Dropdown>
@@ -633,6 +781,41 @@ export default function TierListBuilder({
             </TierDropZone>
           );
         })}
+
+        <Group gap="sm" wrap="wrap">
+          <TextInput
+            placeholder="New tier name (e.g. F)"
+            value={newTierName}
+            onChange={(e) => setNewTierName(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleAddTier();
+            }}
+            size="sm"
+            style={{ width: 150 }}
+          />
+          <TextInput
+            placeholder="Tier note (optional)"
+            value={newTierNote}
+            onChange={(e) => setNewTierNote(e.currentTarget.value)}
+            onKeyDown={(e) => {
+              if (e.key === 'Enter') handleAddTier();
+            }}
+            size="sm"
+            style={{ flex: 1, minWidth: 140 }}
+          />
+          <Button
+            size="sm"
+            variant="light"
+            leftSection={<IoAddOutline size={14} />}
+            onClick={handleAddTier}
+            disabled={
+              !newTierName.trim() ||
+              tierDefs.some((t) => t.name === newTierName.trim())
+            }
+          >
+            Add Tier
+          </Button>
+        </Group>
 
         <FilterableCharacterPool characters={unrankedCharacters}>
           {(filtered, filterHeader) => (

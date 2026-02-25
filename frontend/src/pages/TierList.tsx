@@ -21,7 +21,7 @@ import EntityFilter from '../components/EntityFilter';
 import LastUpdated from '../components/common/LastUpdated';
 import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import TierListBuilder from '../components/tools/TierListBuilder';
-import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
+import { getTierColor, TIER_ORDER } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentType,
@@ -189,12 +189,21 @@ export default function TierList() {
                     </Group>
 
                     {visibleTierLists.map((tierList) => {
-                      const byTier = TIER_ORDER.map((tier) => ({
-                        tier,
-                        entries: tierList.entries.filter(
-                          (e) => e.tier === tier
-                        ),
-                      })).filter((g) => g.entries.length > 0);
+                      const tierOrder = tierList.tiers?.map((t) => t.name) ?? TIER_ORDER;
+                      const definedTierSet = new Set(tierOrder);
+                      const extraTiers = [
+                        ...new Set(tierList.entries.map((e) => e.tier)),
+                      ].filter((t) => !definedTierSet.has(t));
+                      const allTierOrder = [...tierOrder, ...extraTiers];
+
+                      const byTier = allTierOrder
+                        .map((tier, tierIndex) => ({
+                          tier,
+                          tierIndex,
+                          note: tierList.tiers?.find((t) => t.name === tier)?.note,
+                          entries: tierList.entries.filter((e) => e.tier === tier),
+                        }))
+                        .filter((g) => g.entries.length > 0);
 
                       const rankedNames = new Set(
                         tierList.entries.map((e) => e.character_name)
@@ -245,17 +254,24 @@ export default function TierList() {
                               </Button>
                             </Group>
 
-                            {byTier.map(({ tier, entries }) => (
+                            {byTier.map(({ tier, tierIndex, note, entries }) => (
                               <Paper key={tier} p="md" radius="md" withBorder>
                                 <Stack gap="sm">
-                                  <Badge
-                                    variant="filled"
-                                    color={TIER_COLOR[tier]}
-                                    size="lg"
-                                    radius="sm"
-                                  >
-                                    {tier} Tier
-                                  </Badge>
+                                  <Stack gap={4}>
+                                    <Badge
+                                      variant="filled"
+                                      color={getTierColor(tier, tierIndex)}
+                                      size="lg"
+                                      radius="sm"
+                                    >
+                                      {tier} Tier
+                                    </Badge>
+                                    {note && (
+                                      <Text size="xs" c="dimmed">
+                                        {note}
+                                      </Text>
+                                    )}
+                                  </Stack>
                                   <SimpleGrid
                                     cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
                                     spacing={CHARACTER_GRID_SPACING}

@@ -87,7 +87,7 @@ The backend reads from and writes to `data/`:
 | `gear_sets.json`        | Gear set bonuses     |
 | `howlkins.json`         | Howlkin database     |
 | `golden_alliances.json` | Golden alliance sets |
-| `tier-lists.json`       | Community tier lists |
+| `tier-lists.json`       | Community tier lists (supports custom tiers and tier notes) |
 | `teams.json`            | Team compositions    |
 | `useful-links.json`     | Community links      |
 | `changelog.json`        | Site version history |
@@ -112,6 +112,36 @@ The backend reads from and writes to `data/`:
 - `[Gear Set]`
 - `[Tier List]`
 - `[Team]`
+
+## Tier List Schema
+
+Tier lists support an optional `tiers` field that defines a custom ordered set of tiers with optional notes. If `tiers` is omitted, the default `S+/S/A/B/C/D` order is assumed.
+
+```json
+{
+  "name": "My Tier List",
+  "author": "username",
+  "content_type": "All",
+  "description": "Optional description",
+  "tiers": [
+    { "name": "S+", "note": "Best of the best" },
+    { "name": "S",  "note": "Strong in most content" },
+    { "name": "A" },
+    { "name": "B" },
+    { "name": "C" },
+    { "name": "D" },
+    { "name": "F", "note": "Avoid" }
+  ],
+  "entries": [
+    { "character_name": "Athena", "tier": "S+", "note": "Optional per-character note" }
+  ]
+}
+```
+
+- **`tiers`** *(optional)*: Ordered array of tier definitions. Tiers may have a `note` to describe what the tier means. When absent, defaults to `S+/S/A/B/C/D`.
+- **`tiers[].name`** *(required)*: Tier label (any non-empty string).
+- **`tiers[].note`** *(optional)*: Human-readable description of the tier.
+- **`entries[].tier`**: Must match one of the names defined in `tiers` (or one of the defaults if `tiers` is absent).
 
 ## Dependencies
 

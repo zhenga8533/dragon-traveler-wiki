@@ -1,23 +1,20 @@
-from enum import Enum
 from typing import Literal
 
 from pydantic import BaseModel, field_validator
 
 ContentType = Literal["All", "PvP", "PvE", "Boss"]
 
+DEFAULT_TIERS = ["S+", "S", "A", "B", "C", "D"]
 
-class Tier(str, Enum):
-    S_PLUS = "S+"
-    S = "S"
-    A = "A"
-    B = "B"
-    C = "C"
-    D = "D"
+
+class TierDefinition(BaseModel):
+    name: str
+    note: str = ""
 
 
 class TierEntry(BaseModel):
     character_name: str
-    tier: Tier
+    tier: str  # Any string; validated against TierList.tiers or DEFAULT_TIERS
     note: str = ""
 
 
@@ -26,6 +23,7 @@ class TierList(BaseModel):
     author: str
     content_type: ContentType
     description: str
+    tiers: list[TierDefinition] | None = None  # optional; defaults to DEFAULT_TIERS if absent
     entries: list[TierEntry]
 
     @staticmethod
