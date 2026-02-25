@@ -13,14 +13,14 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { Link, useParams } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getGearIcon } from '../assets/gear';
 import { QUALITY_ICON_MAP } from '../assets/quality';
-import Breadcrumbs from '../components/layout/Breadcrumbs';
-import GearTypeTag from '../components/common/GearTypeTag';
 import EntityNotFound from '../components/common/EntityNotFound';
+import GearTypeTag from '../components/common/GearTypeTag';
 import LastUpdated from '../components/common/LastUpdated';
+import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
@@ -261,36 +261,52 @@ export default function GearSetPage() {
                         key={character.name}
                         label={`${character.name} (${character.quality})`}
                       >
-                        <Box
-                          style={{
-                            width: 44,
-                            height: 44,
-                            borderRadius: '50%',
-                            overflow: 'hidden',
-                            border: `2px solid var(--mantine-color-${qualityColor}-${isDark ? 6 : 4})`,
-                            background: isDark
-                              ? 'rgba(0,0,0,0.25)'
-                              : 'rgba(255,255,255,0.65)',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                          }}
+                        <Link
+                          to={`/characters/${encodeURIComponent(character.name)}`}
+                          style={{ textDecoration: 'none' }}
                         >
-                          {portrait ? (
-                            <Image
-                              src={portrait}
-                              alt={character.name}
-                              w={44}
-                              h={44}
-                              fit="cover"
-                              loading="lazy"
-                            />
-                          ) : (
-                            <Text size="xs" fw={700}>
-                              {character.name.slice(0, 2).toUpperCase()}
-                            </Text>
-                          )}
-                        </Box>
+                          <Box
+                            style={{
+                              width: 44,
+                              height: 44,
+                              borderRadius: '50%',
+                              overflow: 'hidden',
+                              border: `2px solid var(--mantine-color-${qualityColor}-${isDark ? 6 : 4})`,
+                              background: isDark
+                                ? 'rgba(0,0,0,0.25)'
+                                : 'rgba(255,255,255,0.65)',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              cursor: 'pointer',
+                              transition:
+                                'transform 0.2s ease, box-shadow 0.2s ease',
+                            }}
+                            onMouseEnter={(e) => {
+                              e.currentTarget.style.transform = 'scale(1.1)';
+                              e.currentTarget.style.boxShadow = `0 0 8px var(--mantine-color-${qualityColor}-${isDark ? 6 : 4})`;
+                            }}
+                            onMouseLeave={(e) => {
+                              e.currentTarget.style.transform = 'scale(1)';
+                              e.currentTarget.style.boxShadow = 'none';
+                            }}
+                          >
+                            {portrait ? (
+                              <Image
+                                src={portrait}
+                                alt={character.name}
+                                w={44}
+                                h={44}
+                                fit="cover"
+                                loading="lazy"
+                              />
+                            ) : (
+                              <Text size="xs" fw={700}>
+                                {character.name.slice(0, 2).toUpperCase()}
+                              </Text>
+                            )}
+                          </Box>
+                        </Link>
                       </Tooltip>
                     );
                   })}
