@@ -45,7 +45,9 @@ import {
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../../assets/gear';
 import { getSkillIcon } from '../../assets/skill';
 import { getSubclassIcon } from '../../assets/subclass';
+import ClassTag from '../../components/common/ClassTag';
 import EntityNotFound from '../../components/common/EntityNotFound';
+import TierBadge from '../../components/common/TierBadge';
 import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
 import { BREAKPOINTS } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
@@ -666,14 +668,17 @@ export default function CharacterPage() {
                             </Text>
                             <Group gap={6} wrap="wrap">
                               {subclassDetails?.tier && (
-                                <Badge variant="light" color="grape" size="xs">
-                                  Tier {subclassDetails.tier}
-                                </Badge>
+                                <TierBadge
+                                  tier={String(subclassDetails.tier)}
+                                  showPrefix
+                                  size="xs"
+                                />
                               )}
                               {subclassDetails?.class && (
-                                <Badge variant="light" color="blue" size="xs">
-                                  {subclassDetails.class}
-                                </Badge>
+                                <ClassTag
+                                  characterClass={subclassDetails.class}
+                                  size="xs"
+                                />
                               )}
                             </Group>
                             {subclassDetails?.effect && (
@@ -728,13 +733,11 @@ export default function CharacterPage() {
                                     {subclass}
                                   </Text>
                                   {subclassDetails?.tier && (
-                                    <Badge
-                                      variant="light"
-                                      color="grape"
+                                    <TierBadge
+                                      tier={String(subclassDetails.tier)}
+                                      showPrefix
                                       size="xs"
-                                    >
-                                      Tier {subclassDetails.tier}
-                                    </Badge>
+                                    />
                                   )}
                                 </Group>
                               </Stack>

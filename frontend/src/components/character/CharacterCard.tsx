@@ -1,5 +1,4 @@
 import {
-  Badge,
   Group,
   Image,
   Stack,
@@ -7,21 +6,13 @@ import {
   Tooltip,
   UnstyledButton,
 } from '@mantine/core';
+import TierBadge from '../common/TierBadge';
 import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
 import { CHARACTER_CARD, TRANSITION } from '../../constants/ui';
 import type { Quality } from '../../types/quality';
 
-const TIER_BADGE_COLOR: Record<string, string> = {
-  'S+': 'yellow',
-  S: 'yellow',
-  A: 'orange',
-  B: 'teal',
-  C: 'green',
-  D: 'gray',
-  Unranked: 'gray',
-};
 
 const QUALITY_BORDER_COLOR: Record<Quality, string> = {
   UR: 'var(--mantine-color-pink-6)',
@@ -114,14 +105,7 @@ export default function CharacterCard({
           {name}
         </Text>
         {tierLabel && (
-          <Badge
-            variant={tierLabel === 'Unranked' ? 'default' : 'light'}
-            color={TIER_BADGE_COLOR[tierLabel] ?? 'gray'}
-            size="xs"
-            style={{ flexShrink: 0 }}
-          >
-            {tierLabel}
-          </Badge>
+          <TierBadge tier={tierLabel} size="xs" style={{ flexShrink: 0 }} />
         )}
       </Group>
     </Stack>
@@ -155,4 +139,4 @@ export default function CharacterCard({
   );
 }
 
-export { QUALITY_BORDER_COLOR, TIER_BADGE_COLOR };
+export { QUALITY_BORDER_COLOR };

@@ -1,5 +1,4 @@
 import {
-  Badge,
   Box,
   Center,
   Container,
@@ -11,13 +10,14 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { CLASS_ICON_MAP } from '../../assets/class';
-import { FACTION_ICON_MAP } from '../../assets/faction';
 import { QUALITY_ICON_MAP } from '../../assets/quality';
 import type { CharacterIllustration } from '../../assets/character';
 import Breadcrumbs from '../../components/layout/Breadcrumbs';
+import ClassLabel from '../../components/common/ClassLabel';
+import FactionTag from '../../components/common/FactionTag';
 import GlobalBadge from '../../components/common/GlobalBadge';
 import LastUpdated from '../../components/common/LastUpdated';
+import TierBadge from '../../components/common/TierBadge';
 import { QUALITY_COLOR } from '../../constants/colors';
 import type { Character } from '../../types/character';
 
@@ -169,43 +169,15 @@ export default function CharacterPageHeroSection({
                 </Tooltip>
 
                 {tierLabel && (
-                  <Badge variant="light" color="gray" size="lg">
-                    Tier: {tierLabel}
-                  </Badge>
+                  <TierBadge tier={tierLabel} size="lg" />
                 )}
 
-                <Tooltip label={character.character_class}>
-                  <Group gap={6}>
-                    <Image
-                      src={CLASS_ICON_MAP[character.character_class]}
-                      alt={character.character_class}
-                      w={24}
-                      h={24}
-                    />
-                    <Text fw={500} c={isDark ? 'white' : 'dark'}>
-                      {character.character_class}
-                    </Text>
-                  </Group>
-                </Tooltip>
+                <ClassLabel characterClass={character.character_class} />
               </Group>
 
               <Group gap="sm">
-                {character.factions.map((faction) => (
-                  <Badge
-                    key={faction}
-                    variant="light"
-                    size="lg"
-                    leftSection={
-                      <Image
-                        src={FACTION_ICON_MAP[faction]}
-                        alt={faction}
-                        w={16}
-                        h={16}
-                      />
-                    }
-                  >
-                    {faction}
-                  </Badge>
+                {character.factions.map((f) => (
+                  <FactionTag key={f} faction={f} size="lg" />
                 ))}
               </Group>
 

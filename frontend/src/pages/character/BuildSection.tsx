@@ -14,6 +14,7 @@ import {
 } from '@mantine/core';
 import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
 import GearTypeTag from '../../components/common/GearTypeTag';
+import QualityBadge from '../../components/common/QualityBadge';
 import RichText from '../../components/common/RichText';
 import type { Character, RecommendedGearEntry } from '../../types/character';
 import type { GearSetBonus } from '../../types/gear';
@@ -440,13 +441,7 @@ export default function CharacterPageBuildSection({
                                   </Badge>
                                 )}
                                 {entry.quality && (
-                                  <Badge
-                                    variant="light"
-                                    color="grape"
-                                    size="xs"
-                                  >
-                                    {entry.quality}
-                                  </Badge>
+                                  <QualityBadge quality={entry.quality} size="xs" />
                                 )}
                               </Group>
                             )}

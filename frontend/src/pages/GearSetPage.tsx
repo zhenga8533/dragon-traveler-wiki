@@ -20,6 +20,7 @@ import { QUALITY_ICON_MAP } from '../assets/quality';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GearTypeTag from '../components/common/GearTypeTag';
 import LastUpdated from '../components/common/LastUpdated';
+import QualityBadge from '../components/common/QualityBadge';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
@@ -211,9 +212,7 @@ export default function GearSetPage() {
             </Stack>
 
             <Group gap="xs" wrap="wrap">
-              <Badge variant="light" color={qualityColor} size="md">
-                {setItems[0].quality} quality
-              </Badge>
+              <QualityBadge quality={setItems[0].quality} size="md" />
               {setBonus && setBonus.quantity > 0 && (
                 <Badge variant="light" color="violet" size="md">
                   {setBonus.quantity}-piece bonus

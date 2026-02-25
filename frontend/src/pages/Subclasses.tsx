@@ -17,7 +17,9 @@ import { getSubclassIcon } from '../assets/subclass';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import FilteredListShell from '../components/layout/FilteredListShell';
+import ClassLabel from '../components/common/ClassLabel';
 import LastUpdated from '../components/common/LastUpdated';
+import TierBadge from '../components/common/TierBadge';
 import ListPageShell from '../components/layout/ListPageShell';
 import RichText from '../components/common/RichText';
 import SortableTh from '../components/common/SortableTh';
@@ -248,7 +250,6 @@ export default function Subclasses() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((item) => {
-                  const classIcon = CLASS_ICON_MAP[item.class];
                   const subclassIcon = getSubclassIcon(item.name, item.class);
                   return (
                     <Paper key={item.name} p="sm" radius="md" withBorder>
@@ -267,18 +268,8 @@ export default function Subclasses() {
                           <Stack gap={2} style={{ flex: 1 }}>
                             <Text fw={600}>{item.name}</Text>
                             <Group gap="xs">
-                              <Image
-                                src={classIcon}
-                                alt={item.class}
-                                w={16}
-                                h={16}
-                              />
-                              <Text size="xs" c="dimmed">
-                                {item.class}
-                              </Text>
-                              <Badge variant="light" size="xs" color="grape">
-                                Tier {item.tier}
-                              </Badge>
+                              <ClassLabel characterClass={item.class} iconSize={16} textSize="xs" />
+                              <TierBadge tier={String(item.tier)} showPrefix size="xs" />
                             </Group>
                           </Stack>
                         </Group>
@@ -339,7 +330,6 @@ export default function Subclasses() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((item) => {
-                      const classIcon = CLASS_ICON_MAP[item.class];
                       const subclassIcon = getSubclassIcon(
                         item.name,
                         item.class
@@ -364,20 +354,10 @@ export default function Subclasses() {
                             </Text>
                           </Table.Td>
                           <Table.Td>
-                            <Group gap={6} wrap="nowrap">
-                              <Image
-                                src={classIcon}
-                                alt={item.class}
-                                w={16}
-                                h={16}
-                              />
-                              <Text size="sm">{item.class}</Text>
-                            </Group>
+                            <ClassLabel characterClass={item.class} iconSize={16} textSize="sm" />
                           </Table.Td>
                           <Table.Td>
-                            <Badge variant="light" color="grape" size="sm">
-                              Tier {item.tier}
-                            </Badge>
+                            <TierBadge tier={String(item.tier)} showPrefix size="sm" />
                           </Table.Td>
                           <Table.Td>
                             <Group gap="xs" wrap="wrap">
