@@ -30,6 +30,7 @@ import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import { QUALITY_BORDER_COLOR } from '../components/character/CharacterCard';
 import ClassLabel from '../components/common/ClassLabel';
 import EntityNotFound from '../components/common/EntityNotFound';
+import QualityIcon from '../components/common/QualityIcon';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
 import RichText from '../components/common/RichText';
@@ -610,14 +611,34 @@ function TeamMemberCard({
           </Text>
 
           {character && (
-            <Group gap={6}>
-              <Badge size="sm" variant="light" color={borderColor}>
-                {character.quality}
-              </Badge>
-              <Badge size="sm" variant="outline" color="gray">
-                <ClassLabel characterClass={character.character_class} />
-              </Badge>
-            </Group>
+            <>
+              <Group gap={6} align="center">
+                <QualityIcon quality={character.quality} size={18} />
+                <Badge size="sm" variant="outline" color="gray">
+                  <ClassLabel characterClass={character.character_class} />
+                </Badge>
+              </Group>
+              <Group gap={4} wrap="wrap">
+                {character.factions.map((faction) => (
+                  <Badge
+                    key={faction}
+                    size="sm"
+                    variant="light"
+                    leftSection={
+                      <Image
+                        src={FACTION_ICON_MAP[faction]}
+                        alt={faction}
+                        w={12}
+                        h={12}
+                        fit="contain"
+                      />
+                    }
+                  >
+                    {faction}
+                  </Badge>
+                ))}
+              </Group>
+            </>
           )}
 
           {member.overdrive_order && (

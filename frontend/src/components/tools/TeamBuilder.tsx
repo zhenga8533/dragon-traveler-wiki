@@ -296,6 +296,8 @@ function SlotCard({
   charName,
   char,
   hasOverdrive,
+  hasNote,
+  hasSubstitutes,
   onToggleOverdrive,
   onRemove,
   onConfigure,
@@ -304,6 +306,8 @@ function SlotCard({
   charName: string | null;
   char: Character | undefined;
   hasOverdrive: boolean;
+  hasNote: boolean;
+  hasSubstitutes: boolean;
   onToggleOverdrive: () => void;
   onRemove: () => void;
   onConfigure: () => void;
@@ -343,8 +347,8 @@ function SlotCard({
           </ActionIcon>
           <ActionIcon
             size="xs"
-            variant="light"
-            color="gray"
+            variant={hasNote || hasSubstitutes ? 'light' : 'subtle'}
+            color={hasNote || hasSubstitutes ? 'violet' : 'gray'}
             radius="xl"
             style={{ position: 'absolute', top: 4, right: 28 }}
             onClick={onConfigure}
@@ -390,6 +394,8 @@ function SlotCard({
 function SlotsGrid({
   slots,
   overdriveEnabled,
+  slotNotes,
+  substitutes,
   charMap,
   onToggleOverdrive,
   onRemove,
@@ -397,6 +403,8 @@ function SlotsGrid({
 }: {
   slots: (string | null)[];
   overdriveEnabled: boolean[];
+  slotNotes: string[];
+  substitutes: string[][];
   charMap: Map<string, Character>;
   onToggleOverdrive: (index: number) => void;
   onRemove: (index: number) => void;
@@ -420,6 +428,8 @@ function SlotsGrid({
             charName={charName}
             char={charName ? charMap.get(charName) : undefined}
             hasOverdrive={overdriveEnabled[i]}
+            hasNote={!!slotNotes[i]}
+            hasSubstitutes={substitutes[i]?.length > 0}
             onToggleOverdrive={() => onToggleOverdrive(i)}
             onRemove={() => onRemove(i)}
             onConfigure={() => onConfigure(i)}
@@ -1448,6 +1458,8 @@ export default function TeamBuilder({
         <SlotsGrid
           slots={slots}
           overdriveEnabled={overdriveEnabled}
+          slotNotes={slotNotes}
+          substitutes={substitutes}
           charMap={charMap}
           onToggleOverdrive={handleToggleOverdrive}
           onRemove={handleRemoveFromTeam}
