@@ -1,5 +1,87 @@
 [
   {
+    "date": "2026-02-24",
+    "version": "1.0.2",
+    "changes": [
+      {
+        "type": "added",
+        "category": "tier-list",
+        "description": "Added optional tier filtering with tier lookup and first-list default selection improvements"
+      },
+      {
+        "type": "added",
+        "category": "characters",
+        "description": "Added previous/next character navigation for faster roster browsing"
+      },
+      {
+        "type": "added",
+        "category": "tier-list",
+        "description": "Added paste-JSON import modal and improved tier sorting workflow"
+      },
+      {
+        "type": "added",
+        "category": "media",
+        "description": "Added fullscreen preview with navigation controls and thumbnail strip"
+      },
+      {
+        "type": "added",
+        "category": "ui",
+        "description": "Added Konami code easter egg modal"
+      },
+      {
+        "type": "updated",
+        "category": "navigation",
+        "description": "Improved sidebar behavior by keeping nav groups expanded and expanding on click"
+      },
+      {
+        "type": "updated",
+        "category": "teams",
+        "description": "Added expand/collapse support for recommended character sections"
+      },
+      {
+        "type": "updated",
+        "category": "gear",
+        "description": "Centralized gear icon mapping and added GearTypeTag support"
+      },
+      {
+        "type": "updated",
+        "category": "codes",
+        "description": "Improved bulk redeem actions to respect active filters and normalized active status handling"
+      },
+      {
+        "type": "updated",
+        "category": "site",
+        "description": "Added Open Graph metadata and switched to public banner/logo assets"
+      },
+      {
+        "type": "fixed",
+        "category": "ui",
+        "description": "Stabilized key usage and recent-updates ordering to reduce render churn"
+      },
+      {
+        "type": "fixed",
+        "category": "tier-list",
+        "description": "Refined drag-and-drop tier placement logic and related list interactions"
+      },
+      {
+        "type": "updated",
+        "category": "backend",
+        "description": "Improved sync robustness with local-branch fallback when origin checkout fails"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live datasets (factions, artifacts, hashes, timestamps, and additional content uploads)"
+      },
+      {
+        "type": "updated",
+        "category": "automation",
+        "description": "Refined suggestion workflow permissions, concurrency isolation, and queue handling"
+      }
+    ],
+    "last_updated": 1771993840
+  },
+  {
     "date": "2026-02-23",
     "version": "1.0.1",
     "changes": [
