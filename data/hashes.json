@@ -1,27 +1,27 @@
 {
   "factions": {
-    "Elemental Echo": {
-      "hash": "ae73ca15acc45356e2ca08e4fc7b7cc335971984945bba018e9463ade2ff944f",
-      "ts": 1771881641
-    },
-    "Wild Spirit": {
-      "hash": "bea2b2bceb71bf162c061e95f5e4c282c570dd1ad22acc61cc900db7105bebee",
-      "ts": 1771881641
-    },
     "Arcane Wisdom": {
       "hash": "ce4c185475967231af319830d2002de5fffcb8448b587e3cae02d3569c8b0fec",
       "ts": 1771881641
     },
-    "Sanctum Glory": {
-      "hash": "17924c216dd391b424457db59cfe71a778d50949a2f097741220cb959381717c",
+    "Elemental Echo": {
+      "hash": "ae73ca15acc45356e2ca08e4fc7b7cc335971984945bba018e9463ade2ff944f",
+      "ts": 1771881641
+    },
+    "Illusion Veil": {
+      "hash": "df353d42f655de30517c7a6fef2c44662ab0404555c72a58a1bd1f296529e0bc",
       "ts": 1771881641
     },
     "Otherworld Return": {
       "hash": "67e6b674432778dd4279a484df51174f17974dabe164727b3ddc2ff8f816ea18",
       "ts": 1771881641
     },
-    "Illusion Veil": {
-      "hash": "df353d42f655de30517c7a6fef2c44662ab0404555c72a58a1bd1f296529e0bc",
+    "Sanctum Glory": {
+      "hash": "17924c216dd391b424457db59cfe71a778d50949a2f097741220cb959381717c",
+      "ts": 1771881641
+    },
+    "Wild Spirit": {
+      "hash": "bea2b2bceb71bf162c061e95f5e4c282c570dd1ad22acc61cc900db7105bebee",
       "ts": 1771881641
     }
   },

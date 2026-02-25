@@ -940,7 +940,10 @@ def dolt_cmd(*args):
             or "no changes added to commit" in normalized
         ):
             return combined
-        raise SyncError(f"dolt {' '.join(args)} failed:\n{result.stderr}")
+        details = combined.strip()
+        raise SyncError(
+            f"dolt {' '.join(args)} failed:\n{details if details else '(no output)'}"
+        )
     return result.stdout
 
 
@@ -994,10 +997,50 @@ def ensure_dolt_branch(branch, pull=False):
                 dolt_cmd("checkout", "-b", branch)
 
     if pull:
+        status_output = dolt_cmd("status")
+        if "nothing to commit, working tree clean" not in status_output.lower():
+            raise SyncError(
+                "Refusing to pull with local Dolt changes present. "
+                "Commit, stash, or discard changes in dolt-db before retrying push.\n"
+                f"Current Dolt status:\n{status_output.strip()}"
+            )
         try:
             dolt_cmd("pull", "origin", branch)
-        except SyncError:
+        except SyncError as exc:
+            if "uncommitted changes" in str(exc).lower():
+                raise
             dolt_cmd("pull")
+
+
+def recover_conflicted_merge_state():
+    """Recover from unresolved Dolt merge conflicts before syncing JSON data."""
+    status_output = dolt_cmd("status")
+    normalized = status_output.lower()
+    conflict_markers = ("unmerged", "conflict", "both modified")
+    if not any(marker in normalized for marker in conflict_markers):
+        return
+
+    print("Detected unresolved Dolt merge conflicts; recovering workspace state...")
+    try:
+        dolt_cmd("merge", "--abort")
+    except SyncError:
+        pass
+
+    status_after_abort = dolt_cmd("status")
+    normalized_after_abort = status_after_abort.lower()
+    if any(marker in normalized_after_abort for marker in conflict_markers):
+        print(
+            "  Merge conflicts still present after abort; running dolt reset --hard..."
+        )
+        dolt_cmd("reset", "--hard")
+
+    final_status = dolt_cmd("status")
+    if any(marker in final_status.lower() for marker in conflict_markers):
+        raise SyncError(
+            "Unable to recover Dolt merge-conflict state automatically. "
+            "Resolve conflicts manually in dolt-db and retry.\n"
+            f"Current Dolt status:\n{final_status.strip()}"
+        )
 
 
 def load_json(filename):
@@ -2252,6 +2295,7 @@ def main():
 
     try:
         ensure_dolt_branch(dolt_branch, pull=False)
+        recover_conflicted_merge_state()
     except SyncError as exc:
         print(f"Failed to switch Dolt branch:\n{exc}", file=sys.stderr)
         sys.exit(1)
@@ -2447,12 +2491,13 @@ def main():
         except SyncError as exc:
             err = str(exc).lower()
             if "non-fast-forward" in err or "failed to push some refs" in err:
-                print("  Remote is ahead; pulling latest changes and retrying push...")
-                if dolt_branch:
-                    ensure_dolt_branch(dolt_branch, pull=True)
-                else:
-                    dolt_cmd("pull")
-                dolt_cmd(*push_args)
+                print(
+                    "  Remote is ahead; JSON data is source-of-truth, force pushing local changes..."
+                )
+                force_push_args = list(push_args)
+                if "--force" not in force_push_args:
+                    force_push_args.append("--force")
+                dolt_cmd(*force_push_args)
             else:
                 raise
         print("Pushed successfully.")
