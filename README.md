@@ -20,9 +20,8 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 ## Tech Stack
 
 - **Frontend:** React 19, TypeScript, Vite, Mantine v8 — [frontend/README.md](frontend/README.md)
-- **Backend:** Python 3.12 data tooling, Pydantic models, Dolt sync — [backend/README.md](backend/README.md)
+- **Backend:** Python 3.12 data tooling and suggestion automation — [backend/README.md](backend/README.md)
 - **Data:** JSON files in `data/` (source of truth)
-- **Database:** [Dolt](https://www.dolthub.com/) version-controlled SQL database in `dolt-db/`
 - **Hosting:** GitHub Pages with automated deployment and custom domain (`dtwiki.org`)
 
 ## Getting Started
@@ -44,7 +43,7 @@ cd backend
 pip install -r requirements.txt
 ```
 
-See [backend/README.md](backend/README.md) for data management and database sync commands.
+See [backend/README.md](backend/README.md) for data management tooling details.
 
 ### Build for Production
 
@@ -60,22 +59,18 @@ The production build is output to `frontend/dist/`.
 ```
 dragon-traveler-wiki/
 ├── frontend/        # React + Vite + Mantine app
-├── backend/         # Python data tooling, models, and Dolt sync
+├── backend/         # Python data tooling, models, and suggestion automation
 ├── data/            # JSON data files (source of truth)
-├── dolt-db/         # Dolt version-controlled database
 └── .github/         # CI/CD workflows
 ```
 
 ## Data Flow
 
 1. Curated JSON data files are maintained in `data/` (source of truth)
-2. `sync_dolt.py` syncs JSON into the Dolt database for querying (including subclass normalization and class-link synchronization)
-3. `export_dolt.py --merge` pulls new records from Dolt into `data/` without overwriting local changes; `export_dolt` without `--merge` does a full overwrite
-4. `npm run build` automatically merges from Dolt before building (`prebuild`); CI skips this and uses committed `data/` files directly
-5. On push to `main`, GitHub Actions builds the frontend, deploys to GitHub Pages, and syncs `data/` to DoltHub `main`
-6. On push to `dev`, GitHub Actions syncs `data/` to DoltHub `dev` (no production deploy)
-7. Local `main`/`dev` runs auto-select matching Dolt branches (`main` ↔ `main`, `dev` ↔ `dev`)
-8. The frontend fetches JSON data at runtime
+2. Suggestion automation updates JSON files directly through pull requests/issues workflows
+3. `npm run build` compiles the frontend from committed JSON data
+4. On push to `main`, GitHub Actions builds and deploys to GitHub Pages
+5. The frontend fetches JSON data at runtime
 
 ## Contributing
 

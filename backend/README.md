@@ -1,6 +1,8 @@
 # Backend
 
-Data management tools for the Dragon Traveler Wiki. Handles syncing JSON data into a Dolt database, exporting Dolt tables back to JSON, and validating data with Pydantic models.
+JSON data tooling for the Dragon Traveler Wiki.
+
+The backend is responsible for validating, sorting, and updating files in `data/`.
 
 ## Setup
 
@@ -8,77 +10,47 @@ Data management tools for the Dragon Traveler Wiki. Handles syncing JSON data in
 pip install -r requirements.txt
 ```
 
-**Requirements:** Python 3.10+, [Dolt CLI](https://docs.dolthub.com/introduction/installation)
+**Requirements:** Python 3.10+
 
 ## Scripts
 
-### Dolt Sync
+### Suggestion Automation
 
-Syncs JSON data files into the Dolt database at `dolt-db/`. JSON is the source of truth — tables are fully replaced on each run.
-
-```bash
-python -m backend.sync_dolt              # sync and commit
-python -m backend.sync_dolt --push       # sync, commit, and push to DoltHub
-python -m backend.sync_dolt --dry-run    # show SQL without executing
-python -m backend.sync_dolt --push --dolt-branch dev
-```
-
-`sync_dolt.py` automatically maps Git `main`/`dev` to Dolt `main`/`dev` (or use `DOLT_BRANCH` / `--dolt-branch` to override explicitly).
-
-### Dolt Export
-
-Exports Dolt tables back to JSON files. By default writes to `backend/exports/`; pass `--output-dir` to choose a different directory relative to the project root.
+Processes issue payloads and updates the appropriate JSON file.
 
 ```bash
-python -m backend.export_dolt --target all          # export everything to backend/exports/
-python -m backend.export_dolt --target characters   # export characters only
-python -m backend.export_dolt --output-dir data     # overwrite data/ from Dolt
-python -m backend.export_dolt --output-dir data --merge  # merge: add Dolt-only records, keep local changes
-python -m backend.export_dolt --output-dir data --dolt-branch dev
+python -m backend.suggest
 ```
 
-`export_dolt.py` uses the same branch mapping (`main` ↔ `main`, `dev` ↔ `dev`) and pulls latest remote branch data before export by default.
+### Key Utilities
 
-`--merge` behaviour (used by the build):
-
-- Records present only in Dolt → added to `data/`
-- Records present only in `data/` → kept as-is
-- Records present in both → `data/` version wins (local is source of truth)
-
-The frontend `prebuild` step runs `export_dolt --output-dir data --merge` automatically before every `npm run build`, so local edits are never overwritten while new records from Dolt are still pulled in. The plain `npm run export` does a full overwrite (useful when you explicitly want to reset `data/` from Dolt).
-
-### Verification
-
-```bash
-cd dolt-db
-dolt diff HEAD~1          # see what changed
-dolt sql -q "SELECT * FROM characters;"
-```
+- `sort_keys.py` — shared deterministic sorting helpers
+- `models/` — Pydantic models used for data validation
 
 ## Project Structure
 
 ```
 backend/
-├── sync_dolt.py         # JSON-to-Dolt sync script
-├── export_dolt.py       # Dolt-to-JSON export script
-├── requirements.txt     # Python dependencies
-├── exports/             # Export output (git-ignored)
-└── models/              # Pydantic data models
-    ├── artifact.py      # Artifact, ArtifactEffect, ArtifactTreasure
-    ├── character.py     # Character, Skill, Talent, Quality, CharacterClass
-    ├── code.py          # Code, CodeReward
-    ├── faction.py       # Faction, FactionName, Wyrm
-    ├── gear.py          # Gear, GearSetBonus
-    ├── golden_alliance.py # GoldenAlliance, GoldenAllianceEffect
-    ├── howlkin.py       # Howlkin
-    ├── noble_phantasm.py# NoblePhantasm, NoblePhantasmEffect, NoblePhantasmSkill
-    ├── resource.py      # Resource
-    ├── subclass.py      # Subclass
-    ├── status_effect.py # StatusEffect, StatusEffectType
-    ├── team.py          # Team, TeamMember, TeamWyrmspells
-    ├── tier_list.py     # TierList, TierEntry, Tier
-    ├── useful_link.py   # UsefulLink
-    └── wyrmspell.py     # Wyrmspell, WyrmspellType
+├── suggest.py          # Issue suggestion processor
+├── sort_keys.py        # Deterministic sort-key helpers
+├── requirements.txt    # Python dependencies
+├── exports/            # Generated exports (if used externally)
+└── models/             # Pydantic data models
+    ├── artifact.py
+    ├── character.py
+    ├── code.py
+    ├── faction.py
+    ├── gear.py
+    ├── golden_alliance.py
+    ├── howlkin.py
+    ├── noble_phantasm.py
+    ├── resource.py
+    ├── subclass.py
+    ├── status_effect.py
+    ├── team.py
+    ├── tier_list.py
+    ├── useful_link.py
+    └── wyrmspell.py
 ```
 
 ## Data Files
@@ -126,21 +98,9 @@ The backend reads from and writes to `data/`:
 - `[Tier List]`
 - `[Team]`
 
-## Dolt Database
-
-The Dolt database (`dolt-db/`) mirrors the JSON data in a normalized relational schema. Key relationships:
-
-- `characters` has child tables: `character_factions`, `character_subclasses`, `character_recommended_subclasses`, `character_recommended_gear`, `talent_levels`, `skills`
-- `subclasses` has child/link tables: `subclass_bonuses`, `subclass_character_classes`
-- `character_subclasses.subclass_id` links character subclass assignments to `subclasses.id`
-- `tier_lists` has child table `tier_list_entries`
-- `teams` has child table `team_members`
-- `changelog` has child table `changelog_changes`
-
 ## Dependencies
 
 - **pydantic** — Data validation and serialization
-- **dolt** (CLI, not pip) — Database operations
 
 ## Roadmap
 

@@ -1,6 +1,4 @@
-"""
-Shared sort-order constants and sort-key functions used by both sync_dolt and export_dolt.
-"""
+"""Shared sort-order constants and sort-key helpers for JSON data tooling."""
 
 QUALITY_ORDER = ["UR", "SSR EX", "SSR+", "SSR", "SR", "R", "N", "C"]
 QUALITY_RANK = {q: i for i, q in enumerate(QUALITY_ORDER)}

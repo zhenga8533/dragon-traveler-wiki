@@ -4,9 +4,7 @@
   "version": "0.0.0",
   "type": "module",
   "scripts": {
-    "export": "cd .. && python -m backend.export_dolt --output-dir data",
     "dev": "vite",
-    "prebuild": "cd .. && python -m backend.export_dolt --output-dir data --merge",
     "build": "tsc -b && vite build",
     "build:analyze": "ANALYZE=true npm run build",
     "lint": "eslint .",

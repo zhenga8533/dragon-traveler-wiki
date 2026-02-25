@@ -2,7 +2,7 @@ name: Deploy to GitHub Pages
 
 on:
   push:
-    branches: [main, dev]
+    branches: [main]
   workflow_dispatch:
 
 permissions:
@@ -52,33 +52,3 @@ jobs:
       - name: Deploy to GitHub Pages
         id: deployment
         uses: actions/deploy-pages@v4
-
-  sync-dolt:
-    runs-on: ubuntu-latest
-    env:
-      DOLT_BRANCH: ${{ github.ref_name }}
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install Python dependencies
-        run: pip install -r backend/requirements.txt
-
-      - name: Install Dolt
-        run: |
-          sudo bash -c 'curl -L https://github.com/dolthub/dolt/releases/latest/download/install.sh | bash'
-
-      - name: Configure Dolt credentials
-        run: |
-          dolt config --global --add user.email "actions@github.com"
-          dolt config --global --add user.name "GitHub Actions"
-          echo '${{ secrets.DOLTHUB_CREDENTIAL }}' | dolt creds import
-
-      - name: Clone DoltHub database
-        run: dolt clone zhenga8533/dragon-traveler-db dolt-db
-
-      - name: Sync data to Dolt
-        run: python -m backend.sync_dolt --push --dolt-branch "$DOLT_BRANCH"
