@@ -12,8 +12,8 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
-import { ListPageLoading } from '../components/PageLoadingSkeleton';
-import PaginationControl from '../components/PaginationControl';
+import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
+import PaginationControl from '../components/common/PaginationControl';
 import { useDataFetch } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 

@@ -23,16 +23,16 @@ import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
-import CharacterCard from '../components/CharacterCard';
-import ClassLabel from '../components/ClassLabel';
-import DataFetchError from '../components/DataFetchError';
-import EmptyState from '../components/EmptyState';
+import CharacterCard from '../components/character/CharacterCard';
+import ClassLabel from '../components/common/ClassLabel';
+import DataFetchError from '../components/common/DataFetchError';
+import EmptyState from '../components/common/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
-import LastUpdated from '../components/LastUpdated';
-import PaginationControl from '../components/PaginationControl';
-import TeamBuilder from '../components/TeamBuilder';
-import ViewToggle from '../components/ViewToggle';
+import LastUpdated from '../components/common/LastUpdated';
+import PaginationControl from '../components/common/PaginationControl';
+import TeamBuilder from '../components/tools/TeamBuilder';
+import ViewToggle from '../components/common/ViewToggle';
 import { FACTION_COLOR } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,

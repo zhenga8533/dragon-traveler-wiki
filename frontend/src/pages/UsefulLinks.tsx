@@ -12,8 +12,8 @@ import type { IconType } from 'react-icons';
 import { FaDiscord } from 'react-icons/fa';
 import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
 import { SiGooglesheets } from 'react-icons/si';
-import { ListPageLoading } from '../components/PageLoadingSkeleton';
-import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
+import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { UsefulLink } from '../types/useful-link';
 

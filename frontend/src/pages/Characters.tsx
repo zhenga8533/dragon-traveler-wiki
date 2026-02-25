@@ -1,12 +1,12 @@
 import { Container, Group, SimpleGrid, Stack, Title } from '@mantine/core';
 import { useMemo } from 'react';
 import { IoPeople } from 'react-icons/io5';
-import CharacterList from '../components/CharacterList';
-import DataFetchError from '../components/DataFetchError';
-import EmptyState from '../components/EmptyState';
-import LastUpdated from '../components/LastUpdated';
-import { CharacterCardSkeleton } from '../components/SkeletonCard';
-import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import CharacterList from '../components/character/CharacterList';
+import DataFetchError from '../components/common/DataFetchError';
+import EmptyState from '../components/common/EmptyState';
+import LastUpdated from '../components/common/LastUpdated';
+import { CharacterCardSkeleton } from '../components/common/SkeletonCard';
+import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';

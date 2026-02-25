@@ -11,7 +11,7 @@ import {
   Title,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import ResourceBadge from '../components/ResourceBadge';
+import ResourceBadge from '../components/common/ResourceBadge';
 
 const TARGET_ROWS = [
   {

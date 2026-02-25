@@ -15,12 +15,12 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter } from 'react-icons/io5';
-import CharacterCard from '../components/CharacterCard';
+import CharacterCard from '../components/character/CharacterCard';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
-import LastUpdated from '../components/LastUpdated';
-import { ListPageLoading } from '../components/PageLoadingSkeleton';
-import TierListBuilder from '../components/TierListBuilder';
+import LastUpdated from '../components/common/LastUpdated';
+import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
+import TierListBuilder from '../components/tools/TierListBuilder';
 import { TIER_COLOR, TIER_ORDER } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,

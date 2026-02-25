@@ -31,10 +31,10 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import CharacterCard from '../components/CharacterCard';
-import LastUpdated from '../components/LastUpdated';
-import ResourceBadge from '../components/ResourceBadge';
-import SearchModal from '../components/SearchModal';
+import CharacterCard from '../components/character/CharacterCard';
+import LastUpdated from '../components/common/LastUpdated';
+import ResourceBadge from '../components/common/ResourceBadge';
+import SearchModal from '../components/tools/SearchModal';
 import { TIER_COLOR } from '../constants/colors';
 import { normalizeContentType } from '../constants/content-types';
 import { BRAND_TITLE_STYLE } from '../constants/styles';

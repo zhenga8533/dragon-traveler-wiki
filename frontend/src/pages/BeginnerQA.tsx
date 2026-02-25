@@ -10,8 +10,8 @@ import {
   Title,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import CharacterTag from '../components/CharacterTag';
-import ResourceBadge from '../components/ResourceBadge';
+import CharacterTag from '../components/character/CharacterTag';
+import ResourceBadge from '../components/common/ResourceBadge';
 
 const FACTION_GIFTS: {
   faction: string;

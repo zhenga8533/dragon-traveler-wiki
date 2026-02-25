@@ -16,23 +16,23 @@ import {
 import { useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { getHowlkinIcon } from '../assets/howlkin';
-import DataFetchError from '../components/DataFetchError';
-import EmptyState from '../components/EmptyState';
+import DataFetchError from '../components/common/DataFetchError';
+import EmptyState from '../components/common/EmptyState';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
-import FilterToolbar from '../components/FilterToolbar';
-import HowlkinBadge from '../components/HowlkinBadge';
-import HowlkinStats from '../components/HowlkinStats';
-import LastUpdated from '../components/LastUpdated';
-import { ListPageLoading } from '../components/PageLoadingSkeleton';
-import PaginationControl from '../components/PaginationControl';
-import QualityIcon from '../components/QualityIcon';
-import { renderQualityFilterIcon } from '../components/renderQualityFilterIcon';
-import SortableTh from '../components/SortableTh';
+import FilterToolbar from '../components/layout/FilterToolbar';
+import HowlkinBadge from '../components/common/HowlkinBadge';
+import HowlkinStats from '../components/common/HowlkinStats';
+import LastUpdated from '../components/common/LastUpdated';
+import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
+import PaginationControl from '../components/common/PaginationControl';
+import QualityIcon from '../components/common/QualityIcon';
+import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
+import SortableTh from '../components/common/SortableTh';
 import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
-} from '../components/SuggestModal';
+} from '../components/tools/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';

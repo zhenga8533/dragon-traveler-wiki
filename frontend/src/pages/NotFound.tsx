@@ -22,7 +22,7 @@ export default function NotFound() {
       <Stack align="center" gap="xl">
         <Text
           style={{
-            fontSize: 'clamp(5rem, 18vw, 9rem)',
+            fontSize: 'clamp(4rem, 10vw, 8rem)',
             fontWeight: 900,
             lineHeight: 1,
             background:

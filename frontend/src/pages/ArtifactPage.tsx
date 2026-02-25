@@ -19,12 +19,12 @@ import { Link, useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { QUALITY_ICON_MAP } from '../assets/quality';
-import Breadcrumbs from '../components/Breadcrumbs';
-import EntityNotFound from '../components/EntityNotFound';
-import GlobalBadge from '../components/GlobalBadge';
-import LastUpdated from '../components/LastUpdated';
-import { DetailPageLoading } from '../components/PageLoadingSkeleton';
-import RichText from '../components/RichText';
+import Breadcrumbs from '../components/layout/Breadcrumbs';
+import EntityNotFound from '../components/common/EntityNotFound';
+import GlobalBadge from '../components/common/GlobalBadge';
+import LastUpdated from '../components/common/LastUpdated';
+import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
+import RichText from '../components/common/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type {

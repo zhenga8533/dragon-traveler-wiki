@@ -17,13 +17,13 @@ import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getResourceIcon } from '../assets/resource';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
-import FilterToolbar from '../components/FilterToolbar';
-import InlineMarkup from '../components/InlineMarkup';
-import LastUpdated from '../components/LastUpdated';
-import ListPageShell from '../components/ListPageShell';
-import PaginationControl from '../components/PaginationControl';
-import SortableTh from '../components/SortableTh';
-import SuggestModal, { type FieldDef } from '../components/SuggestModal';
+import FilterToolbar from '../components/layout/FilterToolbar';
+import InlineMarkup from '../components/common/InlineMarkup';
+import LastUpdated from '../components/common/LastUpdated';
+import ListPageShell from '../components/layout/ListPageShell';
+import PaginationControl from '../components/common/PaginationControl';
+import SortableTh from '../components/common/SortableTh';
+import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import {
   QUALITY_ORDER,
   RESOURCE_CATEGORY_COLOR,

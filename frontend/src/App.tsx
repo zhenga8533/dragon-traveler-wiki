@@ -37,18 +37,25 @@ import {
   useLocation,
   useNavigate,
 } from 'react-router-dom';
-import ErrorBoundary from './components/ErrorBoundary';
-import Footer from './components/Footer';
-import KeyboardShortcuts from './components/KeyboardShortcuts';
-import KonamiEasterEgg from './components/KonamiEasterEgg';
-import PageTransition from './components/PageTransition';
-import ScrollToTop from './components/ScrollToTop';
-import SearchModal from './components/SearchModal';
+import ErrorBoundary from './components/common/ErrorBoundary';
+import Footer from './components/layout/Footer';
+import KeyboardShortcuts from './components/tools/KeyboardShortcuts';
+import KonamiEasterEgg from './components/tools/KonamiEasterEgg';
+import PageTransition from './components/layout/PageTransition';
+import ScrollToTop from './components/layout/ScrollToTop';
+import SearchModal from './components/tools/SearchModal';
 import { getAccentForPath, PARENT_ACCENTS } from './constants/accents';
 import { normalizeContentType } from './constants/content-types';
 import { getGlassStyles } from './constants/glass';
 import { BRAND_TITLE_STYLE } from './constants/styles';
-import { SIDEBAR, STORAGE_KEY, TRANSITION } from './constants/ui';
+import {
+  BREAKPOINTS,
+  HEADER_SELECT_WIDTH,
+  NAV_ITEM_HEIGHT,
+  SIDEBAR,
+  STORAGE_KEY,
+  TRANSITION,
+} from './constants/ui';
 import {
   ResourcesProvider,
   SearchDataContext,
@@ -62,7 +69,7 @@ import ArtifactPage from './pages/ArtifactPage';
 import Artifacts from './pages/Artifacts';
 import BeginnerQA from './pages/BeginnerQA';
 import Changelog from './pages/Changelog';
-import CharacterPage from './pages/CharacterPage';
+import CharacterPage from './pages/character';
 import Characters from './pages/Characters';
 import Codes from './pages/Codes';
 import GearPage from './pages/Gear';
@@ -147,9 +154,6 @@ function ThemeToggle() {
     </ActionIcon>
   );
 }
-
-// Shared styles for nav items to prevent layout shifting
-const NAV_ITEM_HEIGHT = 42;
 
 const collapsedNavStyles = {
   root: {
@@ -369,7 +373,7 @@ function Navigation({
           item.label === 'Codes' && activeCodesCount > 0 ? (
             <Group gap={6} wrap="nowrap">
               <span>{item.label}</span>
-              <Badge size="xs" variant="light" color="grape" radius="sm">
+              <Badge size="xs" variant="light" color="violet" radius="sm">
                 {activeCodesCount}
               </Badge>
             </Group>
@@ -405,7 +409,7 @@ function AppContent() {
   const sidebar = useSidebar();
   const navigate = useNavigate();
   const isDark = useComputedColorScheme('light') === 'dark';
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);
 
@@ -483,6 +487,7 @@ function AppContent() {
             >
               <Image
                 src="/logo.png"
+                alt="Dragon Traveler Wiki"
                 h={{ base: 32, xs: 40, sm: 48 }}
                 w="auto"
                 fit="contain"
@@ -502,7 +507,7 @@ function AppContent() {
               clearable
               size="xs"
               disabled={loading || tierListOptions.length === 0}
-              w={220}
+              w={HEADER_SELECT_WIDTH}
               visibleFrom="sm"
             />
             <SearchModal />

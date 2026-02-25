@@ -34,15 +34,15 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { getResourceIcon } from '../assets/resource';
-import LastUpdated from '../components/LastUpdated';
-import { ListPageLoading } from '../components/PageLoadingSkeleton';
-import PaginationControl from '../components/PaginationControl';
-import ResourceBadge from '../components/ResourceBadge';
+import LastUpdated from '../components/common/LastUpdated';
+import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
+import PaginationControl from '../components/common/PaginationControl';
+import ResourceBadge from '../components/common/ResourceBadge';
 import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
-} from '../components/SuggestModal';
-import ViewToggle from '../components/ViewToggle';
+} from '../components/tools/SuggestModal';
+import ViewToggle from '../components/common/ViewToggle';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useViewMode } from '../hooks/use-filters';

@@ -68,6 +68,14 @@ export const SIDEBAR = {
 // Storage keys
 export const PAGE_SIZE = 50;
 
+export const BREAKPOINTS = {
+  MOBILE: '(max-width: 768px)',
+  DESKTOP: '(min-width: 62em)',
+} as const;
+
+export const NAV_ITEM_HEIGHT = 42;
+export const HEADER_SELECT_WIDTH = 220;
+
 export const STORAGE_KEY = {
   CHARACTER_VIEW_MODE: 'characters:viewMode',
   CHARACTER_FILTERS: 'characters:filters',

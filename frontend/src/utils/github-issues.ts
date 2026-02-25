@@ -1,4 +1,4 @@
-import { GITHUB_REPO_URL } from '../constants';
+import { GITHUB_REPO_URL } from '../constants/github';
 
 export function buildExpiredCodeUrl(code: string): string {
   const params = new URLSearchParams({
