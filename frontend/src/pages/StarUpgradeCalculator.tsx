@@ -1,9 +1,10 @@
 import {
+  Alert,
   Badge,
-  Box,
   Card,
   Collapse,
   Container,
+  Divider,
   Group,
   Image,
   NumberInput,
@@ -19,10 +20,9 @@ import {
   ThemeIcon,
   Title,
   UnstyledButton,
-  useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   IoCalculator,
   IoCalendar,
@@ -31,7 +31,7 @@ import {
   IoCopy,
   IoDiamond,
   IoHeart,
-  IoInformationCircle,
+  IoInformationCircleOutline,
   IoPeople,
   IoStar,
   IoStatsChart,
@@ -40,6 +40,8 @@ import {
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { TRANSITION } from '../constants/ui';
 
+type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
+
 type StarLevel = {
   label: string;
   stars: number;
@@ -47,7 +49,7 @@ type StarLevel = {
   copies: number;
   fodder: number;
   divineCrystals: number;
-  tier: 'base' | 'purple' | 'red' | 'legendary' | 'divine';
+  tier: StarTier;
 };
 
 const STAR_LEVELS: StarLevel[] = [
@@ -233,466 +235,82 @@ const STAR_LEVELS: StarLevel[] = [
   },
 ];
 
-const TIER_COLORS = {
-  base: '#718096',
-  purple: '#805AD5',
-  red: '#E53E3E',
-  legendary: '#06B6D4',
-  divine: '#F59E0B',
-} as const;
-
-const TIER_BADGE_COLORS = {
+const TIER_BADGE_COLORS: Record<StarTier, string> = {
   base: 'gray',
   purple: 'grape',
   red: 'red',
   legendary: 'cyan',
   divine: 'orange',
-} as const;
+};
 
-// Heart Trial sweep rates - shards per day
 const HEART_TRIAL_RATES = {
-  'SSR EX': 1, // 2 sweeps for 1 shard (2 if affection 20)
-  'SSR+': 3, // 3 sweeps for 3 shards
-  SSR: 6, // 3 sweeps for 6 shards
-  SR: 15, // 3 sweeps for 15 shards
-  R: 0, // Not farmable
-  N: 0, // Not farmable
+  'SSR EX': 1,
+  'SSR+': 3,
+  SSR: 6,
+  SR: 15,
 } as const;
 
 const SHARDS_PER_DUPE = 60;
 
-type QualityOption = 'SSR EX' | 'SSR+' | 'SSR' | 'SR';
+type QualityOption = keyof typeof HEART_TRIAL_RATES;
 
-// ---------------------------------------------------------------------------
-// Star icon helper
-// ---------------------------------------------------------------------------
-
-function StarIcon({ level, size = 20 }: { level: StarLevel; size?: number }) {
-  const badgeSize = Math.max(12, Math.round(size * 0.46));
-
-  return (
-    <Box
-      style={{
-        position: 'relative',
-        display: 'inline-flex',
-        alignItems: 'center',
-        justifyContent: 'center',
-        width: size,
-        height: size,
-      }}
-    >
-      <IoStar
-        size={size}
-        style={{
-          color: TIER_COLORS[level.tier],
-          display: 'block',
-          filter: 'drop-shadow(0 1px 3px rgba(0,0,0,0.35))',
-        }}
-      />
-
-      {(level.stars > 0 || level.tier === 'legendary') && (
-        <Box
-          style={{
-            position: 'absolute',
-            right: -Math.max(2, Math.round(size * 0.08)),
-            bottom: -Math.max(2, Math.round(size * 0.08)),
-            minWidth: badgeSize,
-            height: badgeSize,
-            paddingInline: Math.max(3, Math.round(size * 0.12)),
-            borderRadius: 999,
-            background: 'rgba(15, 23, 42, 0.92)',
-            border: '1px solid rgba(255,255,255,0.22)',
-            display: 'inline-flex',
-            alignItems: 'center',
-            justifyContent: 'center',
-            boxShadow: '0 2px 8px rgba(0,0,0,0.28)',
-          }}
-        >
-          <Text
-            fw={800}
-            style={{
-              color: 'white',
-              lineHeight: 1,
-              fontSize: `${Math.max(8, Math.round(size * 0.33))}px`,
-              letterSpacing: 0.1,
-            }}
-          >
-            {level.stars > 0 ? level.stars : 'L'}
-          </Text>
-        </Box>
-      )}
-    </Box>
-  );
-}
-
-// ---------------------------------------------------------------------------
-// Star range selector
-// ---------------------------------------------------------------------------
-
-type StarRangeSelectorProps = {
-  currentIndex: number;
-  targetIndex: number;
-  onCurrentChange: (value: number) => void;
-  onTargetChange: (value: number) => void;
+type StatCardProps = {
+  icon: React.ReactNode;
+  title: string;
+  value: number;
+  color: string;
+  subtitle?: string;
 };
 
-function StarRangeSelector({
-  currentIndex,
-  targetIndex,
-  onCurrentChange,
-  onTargetChange,
-}: StarRangeSelectorProps) {
-  const colorScheme = useComputedColorScheme('light');
-  const isDark = colorScheme === 'dark';
-
-  const renderStarOption = ({
-    option,
-  }: {
-    option: { value: string; label: string };
-  }) => {
-    const level = STAR_LEVELS[Number(option.value)];
-    return (
-      <Group justify="space-between" wrap="nowrap" w="100%" gap="xs">
-        <Group wrap="nowrap" gap={8}>
-          <StarIcon level={level} size={16} />
-          <Text size="sm">{option.label}</Text>
-        </Group>
-        <Badge size="xs" color={TIER_BADGE_COLORS[level.tier]} variant="light">
-          {level.tier}
-        </Badge>
-      </Group>
-    );
-  };
-
-  const rangeSpan = targetIndex - currentIndex;
-  const rangePercent =
-    STAR_LEVELS.length > 1 ? (rangeSpan / (STAR_LEVELS.length - 1)) * 100 : 0;
-
-  const fromOptions = STAR_LEVELS.map((level, index) => ({
-    value: String(index),
-    label: level.label,
-  })).filter((option) => Number(option.value) < targetIndex);
-
-  const toOptions = STAR_LEVELS.map((level, index) => ({
-    value: String(index),
-    label: level.label,
-  })).filter((option) => Number(option.value) > currentIndex);
-
-  const quickPresetIndexes = [0, 1, 7, 13, 14, STAR_LEVELS.length - 1].filter(
-    (value, idx, arr) => arr.indexOf(value) === idx
-  );
-
-  const coreQuickPresetIndexes = quickPresetIndexes.filter((index) => {
-    const tier = STAR_LEVELS[index].tier;
-    return tier !== 'legendary' && tier !== 'divine';
-  });
-
-  const endgameQuickPresetIndexes = quickPresetIndexes.filter((index) => {
-    const tier = STAR_LEVELS[index].tier;
-    return tier === 'legendary' || tier === 'divine';
-  });
-
+function StatCard({ icon, title, value, color, subtitle }: StatCardProps) {
   return (
-    <Stack gap="md">
-      <Paper
-        withBorder
-        p="sm"
-        radius="md"
-        style={{
-          background: isDark
-            ? 'linear-gradient(135deg, rgba(99,102,241,0.12), rgba(168,85,247,0.08))'
-            : 'linear-gradient(135deg, rgba(99,102,241,0.08), rgba(168,85,247,0.04))',
-        }}
-      >
-        <Group justify="space-between" align="flex-start" wrap="wrap" gap="sm">
-          <div>
-            <Text fw={600} size="sm">
-              Select star range
-            </Text>
-            <Text size="xs" c="dimmed">
-              Use From and To dropdowns for a cleaner, faster selection flow.
-            </Text>
-          </div>
-          <Group gap={6}>
-            <Badge size="sm" color="blue" variant="light">
-              From: {STAR_LEVELS[currentIndex].label}
-            </Badge>
-            <Badge
-              size="sm"
-              color={TIER_BADGE_COLORS[STAR_LEVELS[targetIndex].tier]}
-              variant="light"
-            >
-              To: {STAR_LEVELS[targetIndex].label}
-            </Badge>
-          </Group>
-        </Group>
-      </Paper>
-
-      <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-        <Select
-          label="From"
-          description="Current star level"
-          value={String(currentIndex)}
-          data={fromOptions}
-          renderOption={renderStarOption}
-          searchable={fromOptions.length >= 10}
-          allowDeselect={false}
-          nothingFoundMessage="No levels available"
-          leftSection={<StarIcon level={STAR_LEVELS[currentIndex]} size={16} />}
-          onChange={(value) => {
-            if (!value) return;
-            const nextFrom = Number(value);
-            onCurrentChange(nextFrom);
-            if (nextFrom >= targetIndex) {
-              onTargetChange(Math.min(STAR_LEVELS.length - 1, nextFrom + 1));
-            }
-          }}
-        />
-
-        <Select
-          label="To"
-          description="Target star level"
-          value={String(targetIndex)}
-          data={toOptions}
-          renderOption={renderStarOption}
-          searchable={toOptions.length >= 10}
-          allowDeselect={false}
-          nothingFoundMessage="No levels available"
-          leftSection={<StarIcon level={STAR_LEVELS[targetIndex]} size={16} />}
-          onChange={(value) => {
-            if (!value) return;
-            const nextTo = Number(value);
-            onTargetChange(nextTo);
-            if (nextTo <= currentIndex) {
-              onCurrentChange(Math.max(0, nextTo - 1));
-            }
-          }}
-        />
-      </SimpleGrid>
-
-      <Paper withBorder p="sm" radius="md">
-        <Stack gap="xs">
-          <Group justify="space-between">
-            <Text size="xs" c="dimmed">
-              Range span
-            </Text>
-            <Text size="xs" fw={600}>
-              {rangeSpan} step{rangeSpan === 1 ? '' : 's'}
-            </Text>
-          </Group>
-          <Progress
-            value={Math.max(0, Math.min(100, rangePercent))}
-            size="md"
-            radius="xl"
-            color={TIER_BADGE_COLORS[STAR_LEVELS[targetIndex].tier]}
-          />
-        </Stack>
-      </Paper>
-
-      <Paper
-        withBorder
-        p="xs"
-        radius="md"
-        style={{
-          background: isDark
-            ? 'rgba(99,102,241,0.08)'
-            : 'rgba(99,102,241,0.06)',
-        }}
-      >
-        <Stack gap={6}>
+    <Paper p="md" radius="md" withBorder>
+      <Stack gap={6} align="center">
+        <ThemeIcon variant="light" color={color} size="lg" radius="md">
+          {icon}
+        </ThemeIcon>
+        <Text size="xs" c="dimmed" ta="center">
+          {title}
+        </Text>
+        <Text size="xl" fw={700} ta="center">
+          {value}
+        </Text>
+        {subtitle && (
           <Text size="xs" c="dimmed" ta="center">
-            Quick presets
+            {subtitle}
           </Text>
-
-          <Group gap="xs" justify="center" wrap="wrap">
-            {coreQuickPresetIndexes.map((index) => {
-              const level = STAR_LEVELS[index];
-              const canSetFrom = index < targetIndex;
-              const canSetTo = index > currentIndex;
-              const isFromActive = index === currentIndex;
-              const isToActive = index === targetIndex;
-
-              return (
-                <Paper key={level.value} withBorder p={4} radius="xl">
-                  <Group gap={4} wrap="nowrap">
-                    <Group gap={6} wrap="nowrap" px={4}>
-                      <StarIcon level={level} size={14} />
-                      <Text size="xs" fw={600} c="dimmed">
-                        {level.label}
-                      </Text>
-                    </Group>
-
-                    <UnstyledButton
-                      onClick={() => canSetFrom && onCurrentChange(index)}
-                      disabled={!canSetFrom}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 4,
-                        padding: '5px 8px',
-                        borderRadius: 999,
-                        border: isFromActive
-                          ? '1px solid var(--mantine-color-blue-5)'
-                          : '1px solid var(--mantine-color-default-border)',
-                        background: isFromActive
-                          ? 'var(--mantine-color-blue-light)'
-                          : 'transparent',
-                        opacity: canSetFrom ? 1 : 0.45,
-                        cursor: canSetFrom ? 'pointer' : 'not-allowed',
-                      }}
-                    >
-                      <Badge
-                        size="xs"
-                        color="blue"
-                        variant={isFromActive ? 'filled' : 'light'}
-                      >
-                        From
-                      </Badge>
-                    </UnstyledButton>
-                    <UnstyledButton
-                      onClick={() => canSetTo && onTargetChange(index)}
-                      disabled={!canSetTo}
-                      style={{
-                        display: 'inline-flex',
-                        alignItems: 'center',
-                        gap: 4,
-                        padding: '5px 8px',
-                        borderRadius: 999,
-                        border: isToActive
-                          ? `1px solid var(--mantine-color-${TIER_BADGE_COLORS[level.tier]}-5)`
-                          : '1px solid var(--mantine-color-default-border)',
-                        background: isToActive
-                          ? `var(--mantine-color-${TIER_BADGE_COLORS[level.tier]}-light)`
-                          : 'transparent',
-                        opacity: canSetTo ? 1 : 0.45,
-                        cursor: canSetTo ? 'pointer' : 'not-allowed',
-                      }}
-                    >
-                      <Badge
-                        size="xs"
-                        color={TIER_BADGE_COLORS[level.tier]}
-                        variant={isToActive ? 'filled' : 'light'}
-                      >
-                        To
-                      </Badge>
-                    </UnstyledButton>
-                  </Group>
-                </Paper>
-              );
-            })}
-          </Group>
-
-          {endgameQuickPresetIndexes.length > 0 && (
-            <>
-              <Text size="xs" c="dimmed" ta="center" mt={2}>
-                Legendary & Divinity
-              </Text>
-              <Group gap="xs" justify="center" wrap="wrap">
-                {endgameQuickPresetIndexes.map((index) => {
-                  const level = STAR_LEVELS[index];
-                  const canSetFrom = index < targetIndex;
-                  const canSetTo = index > currentIndex;
-                  const isFromActive = index === currentIndex;
-                  const isToActive = index === targetIndex;
-
-                  return (
-                    <Paper key={level.value} withBorder p={4} radius="xl">
-                      <Group gap={4} wrap="nowrap">
-                        <Group gap={6} wrap="nowrap" px={4}>
-                          <StarIcon level={level} size={14} />
-                          <Text size="xs" fw={600} c="dimmed">
-                            {level.label}
-                          </Text>
-                        </Group>
-
-                        <UnstyledButton
-                          onClick={() => canSetFrom && onCurrentChange(index)}
-                          disabled={!canSetFrom}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: 4,
-                            padding: '5px 8px',
-                            borderRadius: 999,
-                            border: isFromActive
-                              ? '1px solid var(--mantine-color-blue-5)'
-                              : '1px solid var(--mantine-color-default-border)',
-                            background: isFromActive
-                              ? 'var(--mantine-color-blue-light)'
-                              : 'transparent',
-                            opacity: canSetFrom ? 1 : 0.45,
-                            cursor: canSetFrom ? 'pointer' : 'not-allowed',
-                          }}
-                        >
-                          <Badge
-                            size="xs"
-                            color="blue"
-                            variant={isFromActive ? 'filled' : 'light'}
-                          >
-                            From
-                          </Badge>
-                        </UnstyledButton>
-                        <UnstyledButton
-                          onClick={() => canSetTo && onTargetChange(index)}
-                          disabled={!canSetTo}
-                          style={{
-                            display: 'inline-flex',
-                            alignItems: 'center',
-                            gap: 4,
-                            padding: '5px 8px',
-                            borderRadius: 999,
-                            border: isToActive
-                              ? `1px solid var(--mantine-color-${TIER_BADGE_COLORS[level.tier]}-5)`
-                              : '1px solid var(--mantine-color-default-border)',
-                            background: isToActive
-                              ? `var(--mantine-color-${TIER_BADGE_COLORS[level.tier]}-light)`
-                              : 'transparent',
-                            opacity: canSetTo ? 1 : 0.45,
-                            cursor: canSetTo ? 'pointer' : 'not-allowed',
-                          }}
-                        >
-                          <Badge
-                            size="xs"
-                            color={TIER_BADGE_COLORS[level.tier]}
-                            variant={isToActive ? 'filled' : 'light'}
-                          >
-                            To
-                          </Badge>
-                        </UnstyledButton>
-                      </Group>
-                    </Paper>
-                  );
-                })}
-              </Group>
-            </>
-          )}
-        </Stack>
-      </Paper>
-    </Stack>
+        )}
+      </Stack>
+    </Paper>
   );
 }
 
-// ---------------------------------------------------------------------------
-// Main component
-// ---------------------------------------------------------------------------
-
 export default function StarUpgradeCalculator() {
-  const [currentIndex, setCurrentIndex] = useState<number>(0);
-  const [targetIndex, setTargetIndex] = useState<number>(
-    STAR_LEVELS.length - 1
+  const [currentValue, setCurrentValue] = useState<string>(
+    STAR_LEVELS[0].value
+  );
+  const [targetValue, setTargetValue] = useState<string>(
+    STAR_LEVELS[STAR_LEVELS.length - 1].value
   );
   const [quality, setQuality] = useState<QualityOption>('SSR');
   const [affectionLevel20, setAffectionLevel20] = useState<boolean>(false);
   const [currentCopies, setCurrentCopies] = useState<number>(0);
   const [currentShards, setCurrentShards] = useState<number>(0);
   const [refTableOpened, refTableHandlers] = useDisclosure(false);
-  const colorScheme = useComputedColorScheme('light');
-  const isDark = colorScheme === 'dark';
 
-  const currentLevel = STAR_LEVELS[currentIndex];
-  const targetLevel = STAR_LEVELS[targetIndex];
+  const currentIndex = STAR_LEVELS.findIndex(
+    (level) => level.value === currentValue
+  );
+  const targetIndex = STAR_LEVELS.findIndex(
+    (level) => level.value === targetValue
+  );
+
+  const currentLevel = STAR_LEVELS[currentIndex] ?? STAR_LEVELS[0];
+  const targetLevel =
+    STAR_LEVELS[targetIndex] ?? STAR_LEVELS[STAR_LEVELS.length - 1];
 
   const isValidSelection = currentIndex < targetIndex;
+
   const copiesNeeded = isValidSelection
     ? targetLevel.copies - currentLevel.copies
     : 0;
@@ -703,241 +321,223 @@ export default function StarUpgradeCalculator() {
     ? targetLevel.divineCrystals - currentLevel.divineCrystals
     : 0;
 
-  // Calculate heart trial time
-  let shardsPerDay: number = HEART_TRIAL_RATES[quality];
-  if (quality === 'SSR EX' && affectionLevel20) {
-    shardsPerDay = 2;
-  }
+  const shardsPerDay = useMemo(() => {
+    if (quality === 'SSR EX' && affectionLevel20) return 2;
+    return HEART_TRIAL_RATES[quality];
+  }, [quality, affectionLevel20]);
 
-  // SR only gives 4-star copies, need 2x 4-star to make 1x 5-star
   const effectiveCopiesNeeded =
     quality === 'SR' ? copiesNeeded * 2 : copiesNeeded;
   const totalShardsNeeded = effectiveCopiesNeeded * SHARDS_PER_DUPE;
-  const ownedShards = currentCopies * SHARDS_PER_DUPE + currentShards;
+  const ownedShards = Math.max(
+    0,
+    currentCopies * SHARDS_PER_DUPE + currentShards
+  );
   const shardsRemaining = Math.max(0, totalShardsNeeded - ownedShards);
+
   const shardProgress =
     totalShardsNeeded > 0
-      ? Math.min(100, (ownedShards / totalShardsNeeded) * 100)
+      ? Math.min(
+          100,
+          (Math.min(ownedShards, totalShardsNeeded) / totalShardsNeeded) * 100
+        )
       : 0;
+
   const daysNeeded =
     shardsPerDay > 0 ? Math.ceil(shardsRemaining / shardsPerDay) : 0;
-  const weeksNeeded = daysNeeded > 0 ? (daysNeeded / 7).toFixed(1) : 0;
-  const monthsNeeded = daysNeeded > 0 ? (daysNeeded / 30).toFixed(1) : 0;
-  const yearsNeeded = daysNeeded > 0 ? (daysNeeded / 365).toFixed(1) : 0;
+  const weeksNeeded = daysNeeded > 0 ? (daysNeeded / 7).toFixed(1) : '0';
+  const monthsNeeded = daysNeeded > 0 ? (daysNeeded / 30).toFixed(1) : '0';
+  const yearsNeeded = daysNeeded > 0 ? (daysNeeded / 365).toFixed(1) : '0';
 
-  // Calculate completion date (starting from tomorrow)
-  const completionDate = new Date();
-  completionDate.setDate(completionDate.getDate() + daysNeeded);
-  const formattedDate =
-    daysNeeded > 0
-      ? completionDate.toLocaleDateString('en-US', {
-          year: 'numeric',
-          month: 'long',
-          day: 'numeric',
-        })
-      : '';
+  const completionDate = useMemo(() => {
+    if (daysNeeded <= 0) return '';
+    const date = new Date();
+    date.setDate(date.getDate() + daysNeeded);
+    return date.toLocaleDateString('en-US', {
+      year: 'numeric',
+      month: 'long',
+      day: 'numeric',
+    });
+  }, [daysNeeded]);
+
+  const levelOptions = STAR_LEVELS.map((level) => ({
+    value: level.value,
+    label: `${level.label} • ${level.copies} copies / ${level.fodder} fodder`,
+  }));
 
   return (
-    <Container size="xl">
-      <Stack gap="xl">
-        <Group gap="md" align="center">
+    <Container size="xl" py="xl">
+      <Stack gap="lg">
+        <Group gap="sm" align="center">
           <ThemeIcon variant="light" color="violet" size="xl" radius="md">
-            <IoCalculator size={24} />
+            <IoCalculator size={22} />
           </ThemeIcon>
-          <div>
+          <Stack gap={2}>
             <Title order={1}>Star Upgrade Calculator</Title>
-            <Text c="dimmed">
-              Calculate resources needed for character star upgrades.
+            <Text c="dimmed" size="sm">
+              Plan exact upgrade resources and estimate heart-trial farming time
+              in one place.
             </Text>
-          </div>
+          </Stack>
         </Group>
 
-        {/* Calculator Card */}
-        <Card shadow="sm" padding="lg" radius="md" withBorder>
-          <Stack gap="lg">
-            <Group gap="sm" align="center">
-              <ThemeIcon variant="light" color="blue" size="lg" radius="md">
-                <IoStar size={18} />
+        <Alert
+          variant="light"
+          color="blue"
+          icon={<IoInformationCircleOutline />}
+          title="How to use"
+        >
+          Pick your current and target star levels first. The calculator shows
+          cumulative requirements, then estimates farming time based on your
+          selected quality and current shard stock.
+        </Alert>
+
+        <Card withBorder radius="md" p="lg">
+          <Stack gap="md">
+            <Group gap="xs" align="center">
+              <ThemeIcon variant="light" color="yellow" size="lg" radius="md">
+                <IoStar size={16} />
               </ThemeIcon>
-              <Title order={3}>Resource Calculator</Title>
+              <Title order={3}>Upgrade Requirements</Title>
             </Group>
 
-            <StarRangeSelector
-              currentIndex={currentIndex}
-              targetIndex={targetIndex}
-              onCurrentChange={setCurrentIndex}
-              onTargetChange={setTargetIndex}
-            />
+            <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
+              <Select
+                label="Current Star Level"
+                data={levelOptions}
+                value={currentValue}
+                onChange={(value) =>
+                  setCurrentValue(value ?? STAR_LEVELS[0].value)
+                }
+                searchable
+                nothingFoundMessage="No level found"
+              />
+              <Select
+                label="Target Star Level"
+                data={levelOptions}
+                value={targetValue}
+                onChange={(value) =>
+                  setTargetValue(
+                    value ?? STAR_LEVELS[STAR_LEVELS.length - 1].value
+                  )
+                }
+                searchable
+                nothingFoundMessage="No level found"
+              />
+            </SimpleGrid>
 
-            {isValidSelection ? (
-              <SimpleGrid
-                cols={{ base: 2, sm: divineCrystalsNeeded > 0 ? 3 : 2 }}
-                spacing="md"
-              >
-                <Paper
-                  p="md"
-                  withBorder
-                  radius="md"
-                  style={{
-                    borderColor: `var(--mantine-color-blue-${isDark ? '8' : '3'})`,
-                    background: `var(--mantine-color-blue-light)`,
-                  }}
-                >
-                  <Stack gap="xs" align="center">
-                    <ThemeIcon
-                      variant="light"
-                      color="blue"
-                      size="lg"
-                      radius="md"
-                    >
-                      <IoCopy size={18} />
-                    </ThemeIcon>
-                    <Text size="xs" c="dimmed" ta="center">
-                      5-Star Copies
-                    </Text>
-                    <Text size="xl" fw={700} ta="center">
-                      {copiesNeeded}
-                    </Text>
-                  </Stack>
-                </Paper>
-                <Paper
-                  p="md"
-                  withBorder
-                  radius="md"
-                  style={{
-                    borderColor: `var(--mantine-color-grape-${isDark ? '8' : '3'})`,
-                    background: `var(--mantine-color-grape-light)`,
-                  }}
-                >
-                  <Stack gap="xs" align="center">
-                    <ThemeIcon
-                      variant="light"
-                      color="grape"
-                      size="lg"
-                      radius="md"
-                    >
-                      <IoPeople size={18} />
-                    </ThemeIcon>
-                    <Text size="xs" c="dimmed" ta="center">
-                      6-Star Fodder
-                    </Text>
-                    <Text size="xl" fw={700} ta="center">
-                      {fodderNeeded}
-                    </Text>
-                  </Stack>
-                </Paper>
-                {divineCrystalsNeeded > 0 && (
-                  <Paper
-                    p="md"
-                    withBorder
-                    radius="md"
-                    style={{
-                      borderColor: `var(--mantine-color-orange-${isDark ? '8' : '3'})`,
-                      background: `var(--mantine-color-orange-light)`,
-                    }}
-                  >
-                    <Stack gap="xs" align="center">
-                      <ThemeIcon
-                        variant="light"
-                        color="orange"
-                        size="lg"
-                        radius="md"
-                      >
-                        <IoDiamond size={18} />
-                      </ThemeIcon>
-                      <Text size="xs" c="dimmed" ta="center">
-                        Divine Crystals
-                      </Text>
-                      <Text size="xl" fw={700} ta="center">
-                        {divineCrystalsNeeded}
-                      </Text>
-                    </Stack>
-                  </Paper>
-                )}
-              </SimpleGrid>
+            {!isValidSelection ? (
+              <Alert color="red" variant="light" title="Invalid selection">
+                Target star level must be higher than current star level.
+              </Alert>
             ) : (
-              <Paper p="md" withBorder bg="var(--mantine-color-red-light)">
-                <Text c="red" ta="center">
-                  Target star level must be higher than current star level
-                </Text>
-              </Paper>
+              <>
+                <Group gap="xs" wrap="wrap">
+                  <Badge
+                    color={TIER_BADGE_COLORS[currentLevel.tier]}
+                    variant="light"
+                    size="lg"
+                  >
+                    Current: {currentLevel.label}
+                  </Badge>
+                  <Badge
+                    color={TIER_BADGE_COLORS[targetLevel.tier]}
+                    variant="light"
+                    size="lg"
+                  >
+                    Target: {targetLevel.label}
+                  </Badge>
+                </Group>
+
+                <SimpleGrid
+                  cols={{ base: 1, sm: divineCrystalsNeeded > 0 ? 3 : 2 }}
+                  spacing="sm"
+                >
+                  <StatCard
+                    icon={<IoCopy size={16} />}
+                    title="5-Star Copies"
+                    value={copiesNeeded}
+                    color="blue"
+                  />
+                  <StatCard
+                    icon={<IoPeople size={16} />}
+                    title="6-Star Fodder"
+                    value={fodderNeeded}
+                    color="grape"
+                  />
+                  {divineCrystalsNeeded > 0 && (
+                    <StatCard
+                      icon={<IoDiamond size={16} />}
+                      title="Divine Crystals"
+                      value={divineCrystalsNeeded}
+                      color="orange"
+                    />
+                  )}
+                </SimpleGrid>
+              </>
             )}
           </Stack>
         </Card>
 
-        {/* Heart Trial Time Calculator */}
         {isValidSelection && copiesNeeded > 0 && (
-          <Card shadow="sm" padding="lg" radius="md" withBorder>
-            <Stack gap="lg">
-              <div>
-                <Group gap="sm" align="center">
-                  <ThemeIcon variant="light" color="pink" size="lg" radius="md">
-                    <IoHeart size={18} />
-                  </ThemeIcon>
-                  <Title order={3}>Heart Trial Time Calculator</Title>
-                </Group>
-                <Text size="sm" c="dimmed" mt={4}>
-                  Calculate time needed to farm dupes via heart trial sweeps.
-                  Each dupe requires {SHARDS_PER_DUPE} shards.
-                </Text>
-              </div>
+          <Card withBorder radius="md" p="lg">
+            <Stack gap="md">
+              <Group gap="xs" align="center">
+                <ThemeIcon variant="light" color="pink" size="lg" radius="md">
+                  <IoHeart size={16} />
+                </ThemeIcon>
+                <Title order={3}>Heart Trial Estimator</Title>
+              </Group>
 
-              <Box>
-                <Text size="sm" fw={500} mb="xs">
-                  Character Quality
-                </Text>
-                <SegmentedControl
-                  value={quality}
-                  onChange={(value) => setQuality(value as QualityOption)}
-                  data={[
-                    {
-                      value: 'SSR EX',
-                      label: (
-                        <Image
-                          src={QUALITY_ICON_MAP['SSR EX']}
-                          h={20}
-                          fit="contain"
-                        />
-                      ),
-                    },
-                    {
-                      value: 'SSR+',
-                      label: (
-                        <Image
-                          src={QUALITY_ICON_MAP['SSR+']}
-                          h={20}
-                          fit="contain"
-                        />
-                      ),
-                    },
-                    {
-                      value: 'SSR',
-                      label: (
-                        <Image
-                          src={QUALITY_ICON_MAP.SSR}
-                          h={20}
-                          fit="contain"
-                        />
-                      ),
-                    },
-                    {
-                      value: 'SR',
-                      label: (
-                        <Image
-                          src={QUALITY_ICON_MAP['SR']}
-                          h={20}
-                          fit="contain"
-                        />
-                      ),
-                    },
-                  ]}
-                  fullWidth
-                />
-              </Box>
+              <Text size="sm" c="dimmed">
+                Each dupe requires {SHARDS_PER_DUPE} shards. SR heart-trial
+                yields 4-star copies, so SR paths are automatically converted to
+                5-star equivalent costs.
+              </Text>
+
+              <SegmentedControl
+                value={quality}
+                onChange={(value) => setQuality(value as QualityOption)}
+                data={[
+                  {
+                    value: 'SSR EX',
+                    label: (
+                      <Image
+                        src={QUALITY_ICON_MAP['SSR EX']}
+                        h={18}
+                        fit="contain"
+                      />
+                    ),
+                  },
+                  {
+                    value: 'SSR+',
+                    label: (
+                      <Image
+                        src={QUALITY_ICON_MAP['SSR+']}
+                        h={18}
+                        fit="contain"
+                      />
+                    ),
+                  },
+                  {
+                    value: 'SSR',
+                    label: (
+                      <Image src={QUALITY_ICON_MAP.SSR} h={18} fit="contain" />
+                    ),
+                  },
+                  {
+                    value: 'SR',
+                    label: (
+                      <Image src={QUALITY_ICON_MAP.SR} h={18} fit="contain" />
+                    ),
+                  },
+                ]}
+                fullWidth
+              />
 
               {quality === 'SSR EX' && (
                 <Switch
-                  label="Affection Level 20 (2 shards/day instead of 1)"
+                  label="Affection Level 20 (2 shards/day)"
                   checked={affectionLevel20}
                   onChange={(event) =>
                     setAffectionLevel20(event.currentTarget.checked)
@@ -945,19 +545,10 @@ export default function StarUpgradeCalculator() {
                 />
               )}
 
-              {quality === 'SR' && (
-                <Paper p="sm" withBorder bg="var(--mantine-color-yellow-light)">
-                  <Text size="sm" c="orange">
-                    Note: SR heart trial gives 4-star copies. You need 2× 4-star
-                    to make 1× 5-star (calculation accounts for this)
-                  </Text>
-                </Paper>
-              )}
-
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 <NumberInput
                   label="Current Copies"
-                  description={`Copies you already own (${SHARDS_PER_DUPE} shards each)`}
+                  description={`Full copies already owned (${SHARDS_PER_DUPE} shards each)`}
                   value={currentCopies}
                   onChange={(value) => setCurrentCopies(Number(value) || 0)}
                   min={0}
@@ -968,7 +559,14 @@ export default function StarUpgradeCalculator() {
                   label="Current Shards"
                   description="Extra shards beyond full copies"
                   value={currentShards}
-                  onChange={(value) => setCurrentShards(Number(value) || 0)}
+                  onChange={(value) =>
+                    setCurrentShards(
+                      Math.max(
+                        0,
+                        Math.min(SHARDS_PER_DUPE - 1, Number(value) || 0)
+                      )
+                    )
+                  }
                   min={0}
                   max={SHARDS_PER_DUPE - 1}
                   step={1}
@@ -976,9 +574,8 @@ export default function StarUpgradeCalculator() {
                 />
               </SimpleGrid>
 
-              {/* Shard progress bar */}
-              <Box>
-                <Group justify="space-between" mb={4}>
+              <Stack gap={6}>
+                <Group justify="space-between">
                   <Text size="xs" c="dimmed">
                     Shard Progress
                   </Text>
@@ -992,207 +589,163 @@ export default function StarUpgradeCalculator() {
                   size="lg"
                   radius="md"
                   color={shardProgress >= 100 ? 'teal' : 'violet'}
-                  animated={shardProgress > 0 && shardProgress < 100}
                 />
-              </Box>
+              </Stack>
 
-              <Paper p="md" withBorder bg="var(--mantine-color-teal-light)">
-                <Stack gap="md">
-                  <Group gap="sm" align="center">
-                    <ThemeIcon
-                      variant="light"
-                      color="teal"
-                      size="md"
-                      radius="md"
-                    >
-                      <IoTime size={16} />
-                    </ThemeIcon>
-                    <Title order={4}>Time Required</Title>
-                  </Group>
+              <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="sm">
+                <StatCard
+                  icon={<IoTime size={16} />}
+                  title="Days"
+                  value={daysNeeded}
+                  color="teal"
+                />
+                <StatCard
+                  icon={<IoTime size={16} />}
+                  title="Weeks"
+                  value={Number(weeksNeeded)}
+                  color="teal"
+                />
+                <StatCard
+                  icon={<IoTime size={16} />}
+                  title="Months"
+                  value={Number(monthsNeeded)}
+                  color="teal"
+                />
+                <StatCard
+                  icon={<IoTime size={16} />}
+                  title="Years"
+                  value={Number(yearsNeeded)}
+                  color="teal"
+                />
+              </SimpleGrid>
 
-                  <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="sm">
-                    <Paper p="sm" withBorder radius="md">
-                      <Stack gap={4} align="center">
-                        <Text size="xs" c="dimmed" ta="center">
-                          Daily Shards
-                        </Text>
-                        <Text size="lg" fw={700} ta="center">
-                          {shardsPerDay}/day
-                        </Text>
-                      </Stack>
-                    </Paper>
-                    <Paper p="sm" withBorder radius="md">
-                      <Stack gap={4} align="center">
-                        <Text size="xs" c="dimmed" ta="center">
-                          Total Needed
-                        </Text>
-                        <Text size="lg" fw={700} ta="center">
-                          {totalShardsNeeded}
-                        </Text>
-                        <Text size="xs" c="dimmed" ta="center">
-                          ({copiesNeeded} dupes × {SHARDS_PER_DUPE})
-                        </Text>
-                      </Stack>
-                    </Paper>
-                    <Paper p="sm" withBorder radius="md">
-                      <Stack gap={4} align="center">
-                        <Text size="xs" c="dimmed" ta="center">
-                          Remaining
-                        </Text>
-                        <Text size="lg" fw={700} ta="center">
-                          {shardsRemaining}
-                        </Text>
-                      </Stack>
-                    </Paper>
-                  </SimpleGrid>
-
-                  <SimpleGrid cols={{ base: 2, sm: 4 }} spacing="sm">
-                    {[
-                      { label: 'Days', value: daysNeeded },
-                      { label: 'Weeks', value: weeksNeeded },
-                      { label: 'Months', value: monthsNeeded },
-                      { label: 'Years', value: yearsNeeded },
-                    ].map((stat) => (
-                      <Paper
-                        key={stat.label}
-                        p="md"
-                        withBorder
-                        radius="md"
-                        style={{ background: 'var(--mantine-color-body)' }}
-                      >
-                        <Stack gap={4} align="center">
-                          <Text size="sm" c="dimmed" ta="center">
-                            {stat.label}
-                          </Text>
-                          <Text size="xl" fw={700} ta="center">
-                            {stat.value}
-                          </Text>
-                        </Stack>
-                      </Paper>
-                    ))}
-                  </SimpleGrid>
-
-                  {daysNeeded > 0 && (
-                    <Paper
-                      p="md"
-                      withBorder
-                      radius="md"
-                      style={{
-                        background: 'var(--mantine-color-violet-light)',
-                        borderColor: `var(--mantine-color-violet-${isDark ? '8' : '4'})`,
-                      }}
-                    >
-                      <Stack gap="xs" align="center">
-                        <ThemeIcon
-                          variant="light"
-                          color="violet"
-                          size="lg"
-                          radius="md"
-                        >
-                          <IoCalendar size={18} />
-                        </ThemeIcon>
-                        <Text size="sm" c="dimmed" ta="center">
-                          Goal Completion Date
-                        </Text>
-                        <Text size="xl" fw={700} ta="center">
-                          {formattedDate}
-                        </Text>
-                        <Text size="xs" c="dimmed" ta="center">
-                          (Assuming you start collecting tomorrow)
-                        </Text>
-                      </Stack>
-                    </Paper>
-                  )}
-                </Stack>
-              </Paper>
-
-              <Paper p="md" withBorder radius="md">
-                <Stack gap="sm">
-                  <Group gap="sm" align="center">
-                    <ThemeIcon
-                      variant="light"
-                      color="cyan"
-                      size="md"
-                      radius="md"
-                    >
-                      <IoInformationCircle size={16} />
-                    </ThemeIcon>
-                    <Text fw={600} size="sm">
-                      Sweep Rates Reference
+              <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="sm">
+                <Paper p="md" radius="md" withBorder>
+                  <Stack gap={4} align="center">
+                    <Text size="xs" c="dimmed" ta="center">
+                      Daily Shards
                     </Text>
+                    <Text fw={700} size="lg">
+                      {shardsPerDay}/day
+                    </Text>
+                  </Stack>
+                </Paper>
+                <Paper p="md" radius="md" withBorder>
+                  <Stack gap={4} align="center">
+                    <Text size="xs" c="dimmed" ta="center">
+                      Total Needed
+                    </Text>
+                    <Text fw={700} size="lg">
+                      {totalShardsNeeded}
+                    </Text>
+                  </Stack>
+                </Paper>
+                <Paper p="md" radius="md" withBorder>
+                  <Stack gap={4} align="center">
+                    <Text size="xs" c="dimmed" ta="center">
+                      Remaining
+                    </Text>
+                    <Text fw={700} size="lg">
+                      {shardsRemaining}
+                    </Text>
+                  </Stack>
+                </Paper>
+              </SimpleGrid>
+
+              {daysNeeded > 0 && (
+                <Paper p="md" radius="md" withBorder>
+                  <Group gap="sm" wrap="nowrap">
+                    <ThemeIcon
+                      variant="light"
+                      color="violet"
+                      size="lg"
+                      radius="md"
+                    >
+                      <IoCalendar size={16} />
+                    </ThemeIcon>
+                    <Stack gap={2}>
+                      <Text size="sm" c="dimmed">
+                        Estimated completion date
+                      </Text>
+                      <Text fw={700}>{completionDate}</Text>
+                    </Stack>
                   </Group>
-                  <Table.ScrollContainer minWidth={300}>
-                    <Table withTableBorder withColumnBorders>
-                      <Table.Thead>
-                        <Table.Tr>
-                          <Table.Th ta="center">Quality</Table.Th>
-                          <Table.Th ta="center">Sweeps/Day</Table.Th>
-                          <Table.Th ta="center">Shards/Day</Table.Th>
-                        </Table.Tr>
-                      </Table.Thead>
-                      <Table.Tbody>
-                        <Table.Tr>
-                          <Table.Td>
-                            <Image
-                              src={QUALITY_ICON_MAP['SSR EX']}
-                              h={20}
-                              fit="contain"
-                            />
-                          </Table.Td>
-                          <Table.Td ta="center">2</Table.Td>
-                          <Table.Td ta="center">1 (2 at Aff. 20)</Table.Td>
-                        </Table.Tr>
-                        <Table.Tr>
-                          <Table.Td>
-                            <Image
-                              src={QUALITY_ICON_MAP['SSR+']}
-                              h={20}
-                              fit="contain"
-                            />
-                          </Table.Td>
-                          <Table.Td ta="center">3</Table.Td>
-                          <Table.Td ta="center">3</Table.Td>
-                        </Table.Tr>
-                        <Table.Tr>
-                          <Table.Td>
-                            <Image
-                              src={QUALITY_ICON_MAP.SSR}
-                              h={20}
-                              fit="contain"
-                            />
-                          </Table.Td>
-                          <Table.Td ta="center">3</Table.Td>
-                          <Table.Td ta="center">6</Table.Td>
-                        </Table.Tr>
-                        <Table.Tr>
-                          <Table.Td>
-                            <Image
-                              src={QUALITY_ICON_MAP['SR']}
-                              h={20}
-                              fit="contain"
-                            />
-                          </Table.Td>
-                          <Table.Td ta="center">3</Table.Td>
-                          <Table.Td ta="center">15</Table.Td>
-                        </Table.Tr>
-                      </Table.Tbody>
-                    </Table>
-                  </Table.ScrollContainer>
-                </Stack>
-              </Paper>
+                </Paper>
+              )}
+
+              <Divider />
+
+              <Stack gap="xs">
+                <Text fw={600} size="sm">
+                  Sweep Rate Reference
+                </Text>
+                <Table.ScrollContainer minWidth={320}>
+                  <Table withTableBorder withColumnBorders>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th ta="center">Quality</Table.Th>
+                        <Table.Th ta="center">Sweeps / Day</Table.Th>
+                        <Table.Th ta="center">Shards / Day</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      <Table.Tr>
+                        <Table.Td>
+                          <Image
+                            src={QUALITY_ICON_MAP['SSR EX']}
+                            h={20}
+                            fit="contain"
+                          />
+                        </Table.Td>
+                        <Table.Td ta="center">2</Table.Td>
+                        <Table.Td ta="center">1 (2 at Affection 20)</Table.Td>
+                      </Table.Tr>
+                      <Table.Tr>
+                        <Table.Td>
+                          <Image
+                            src={QUALITY_ICON_MAP['SSR+']}
+                            h={20}
+                            fit="contain"
+                          />
+                        </Table.Td>
+                        <Table.Td ta="center">3</Table.Td>
+                        <Table.Td ta="center">3</Table.Td>
+                      </Table.Tr>
+                      <Table.Tr>
+                        <Table.Td>
+                          <Image
+                            src={QUALITY_ICON_MAP.SSR}
+                            h={20}
+                            fit="contain"
+                          />
+                        </Table.Td>
+                        <Table.Td ta="center">3</Table.Td>
+                        <Table.Td ta="center">6</Table.Td>
+                      </Table.Tr>
+                      <Table.Tr>
+                        <Table.Td>
+                          <Image
+                            src={QUALITY_ICON_MAP.SR}
+                            h={20}
+                            fit="contain"
+                          />
+                        </Table.Td>
+                        <Table.Td ta="center">3</Table.Td>
+                        <Table.Td ta="center">15</Table.Td>
+                      </Table.Tr>
+                    </Table.Tbody>
+                  </Table>
+                </Table.ScrollContainer>
+              </Stack>
             </Stack>
           </Card>
         )}
 
-        {/* Reference Table (collapsible) */}
-        <Card shadow="sm" padding="lg" radius="md" withBorder>
-          <Stack gap="md">
-            <UnstyledButton
-              onClick={refTableHandlers.toggle}
-              style={{ width: '100%' }}
-            >
-              <Group justify="space-between">
-                <Group gap="sm" align="flex-start">
+        <Card withBorder radius="md" p="lg">
+          <Stack gap="sm">
+            <UnstyledButton onClick={refTableHandlers.toggle}>
+              <Group justify="space-between" align="flex-start">
+                <Group gap="xs" align="flex-start">
                   <ThemeIcon
                     variant="light"
                     color="cyan"
@@ -1200,20 +753,20 @@ export default function StarUpgradeCalculator() {
                     radius="md"
                     mt={2}
                   >
-                    <IoStatsChart size={18} />
+                    <IoStatsChart size={16} />
                   </ThemeIcon>
-                  <div>
+                  <Stack gap={2}>
                     <Title order={3}>Star Upgrade Reference Table</Title>
                     <Text size="sm" c="dimmed">
-                      All values are cumulative from 5 Star base
+                      Cumulative values from 5 Star base.
                     </Text>
-                  </div>
+                  </Stack>
                 </Group>
                 <ThemeIcon variant="subtle" color="gray" size="lg">
                   {refTableOpened ? (
-                    <IoChevronUp size={20} />
+                    <IoChevronUp size={18} />
                   ) : (
-                    <IoChevronDown size={20} />
+                    <IoChevronDown size={18} />
                   )}
                 </ThemeIcon>
               </Group>
@@ -1221,9 +774,9 @@ export default function StarUpgradeCalculator() {
 
             <Collapse
               in={refTableOpened}
-              transitionDuration={parseInt(TRANSITION.NORMAL)}
+              transitionDuration={parseInt(TRANSITION.NORMAL, 10)}
             >
-              <Table.ScrollContainer minWidth={400}>
+              <Table.ScrollContainer minWidth={480}>
                 <Table striped highlightOnHover withTableBorder>
                   <Table.Thead>
                     <Table.Tr>
@@ -1234,67 +787,62 @@ export default function StarUpgradeCalculator() {
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
-                    {STAR_LEVELS.map((star, idx) => {
-                      const isInRange =
+                    {STAR_LEVELS.map((level, index) => {
+                      const inRange =
                         isValidSelection &&
-                        idx > currentIndex &&
-                        idx <= targetIndex;
-                      const isCurrent = idx === currentIndex;
-                      const isTarget = idx === targetIndex;
+                        index > currentIndex &&
+                        index <= targetIndex;
+                      const isCurrent = index === currentIndex;
+                      const isTarget = index === targetIndex;
+
                       return (
-                        <Table.Tr
-                          key={star.value}
-                          style={{
-                            background: isTarget
-                              ? `var(--mantine-color-${TIER_BADGE_COLORS[star.tier]}-light)`
-                              : isCurrent
-                                ? `var(--mantine-color-gray-light)`
-                                : isInRange
-                                  ? isDark
-                                    ? 'rgba(255,255,255,0.03)'
-                                    : 'rgba(0,0,0,0.02)'
-                                  : undefined,
-                            borderLeft:
-                              isInRange || isTarget
-                                ? `3px solid var(--mantine-color-${TIER_BADGE_COLORS[star.tier]}-6)`
-                                : isCurrent
-                                  ? '3px solid var(--mantine-color-gray-6)'
-                                  : '3px solid transparent',
-                          }}
-                        >
+                        <Table.Tr key={level.value}>
                           <Table.Td>
-                            <Group gap="xs">
+                            <Group gap="xs" wrap="wrap">
                               <Badge
-                                color={TIER_BADGE_COLORS[star.tier]}
+                                color={TIER_BADGE_COLORS[level.tier]}
                                 variant={isTarget ? 'filled' : 'light'}
                               >
-                                {star.label}
+                                {level.label}
                               </Badge>
                               {isCurrent && (
-                                <Text size="xs" c="dimmed" fs="italic">
-                                  current
-                                </Text>
+                                <Badge color="gray" variant="outline">
+                                  Current
+                                </Badge>
                               )}
                               {isTarget && (
-                                <Text size="xs" c="dimmed" fs="italic">
-                                  target
-                                </Text>
+                                <Badge color="green" variant="outline">
+                                  Target
+                                </Badge>
+                              )}
+                              {inRange && !isTarget && (
+                                <Badge color="blue" variant="dot">
+                                  In path
+                                </Badge>
                               )}
                             </Group>
                           </Table.Td>
                           <Table.Td ta="right">
-                            <Text fw={isInRange || isTarget ? 700 : 500}>
-                              {star.copies}
+                            <Text
+                              fw={isCurrent || isTarget || inRange ? 700 : 500}
+                            >
+                              {level.copies}
                             </Text>
                           </Table.Td>
                           <Table.Td ta="right">
-                            <Text fw={isInRange || isTarget ? 700 : 500}>
-                              {star.fodder}
+                            <Text
+                              fw={isCurrent || isTarget || inRange ? 700 : 500}
+                            >
+                              {level.fodder}
                             </Text>
                           </Table.Td>
                           <Table.Td ta="right">
-                            <Text fw={isInRange || isTarget ? 700 : 500}>
-                              {star.divineCrystals || '-'}
+                            <Text
+                              fw={isCurrent || isTarget || inRange ? 700 : 500}
+                            >
+                              {level.divineCrystals > 0
+                                ? level.divineCrystals
+                                : '-'}
                             </Text>
                           </Table.Td>
                         </Table.Tr>
