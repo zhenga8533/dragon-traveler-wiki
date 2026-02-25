@@ -1,7 +1,8 @@
 import { Badge, Button, Collapse, Group, Paper, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
+import { TierListReferenceContext } from '../contexts';
 import type { Character } from '../types/character';
 import type { CharacterFilters } from '../utils/filter-characters';
 import {
@@ -24,6 +25,9 @@ export default function FilterableCharacterPool({
   characters,
   children,
 }: FilterableCharacterPoolProps) {
+  const { tierLists, selectedTierListName } = useContext(
+    TierListReferenceContext
+  );
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
 
@@ -32,17 +36,34 @@ export default function FilterableCharacterPool({
     [characters]
   );
 
+  const tierLookup = useMemo(() => {
+    const map = new Map<string, string>();
+    if (!selectedTierListName) return map;
+    const list = tierLists.find((l) => l.name === selectedTierListName);
+    if (!list) return map;
+    for (const entry of list.entries) {
+      map.set(entry.character_name, entry.tier);
+    }
+    return map;
+  }, [tierLists, selectedTierListName]);
+
   const filtered = useMemo(() => {
-    const filteredChars = filterCharacters(characters, filters);
+    const filteredChars = filterCharacters(
+      characters,
+      filters,
+      selectedTierListName ? tierLookup : undefined
+    );
     return sortCharactersByQuality(filteredChars);
-  }, [characters, filters]);
+  }, [characters, filters, tierLookup, selectedTierListName]);
 
   const activeFilterCount =
     (filters.search ? 1 : 0) +
     filters.qualities.length +
     filters.classes.length +
     filters.factions.length +
-    filters.statusEffects.length;
+    (selectedTierListName ? filters.tiers.length : 0) +
+    filters.statusEffects.length +
+    (filters.globalOnly !== null ? 1 : 0);
 
   const filterHeader = (
     <>
@@ -74,6 +95,7 @@ export default function FilterableCharacterPool({
             filters={filters}
             onChange={setFilters}
             effectOptions={effectOptions}
+            showTierFilter={Boolean(selectedTierListName)}
           />
         </Paper>
       </Collapse>

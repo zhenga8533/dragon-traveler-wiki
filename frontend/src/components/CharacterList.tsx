@@ -36,7 +36,10 @@ import {
   extractAllEffectRefs,
   filterCharacters,
 } from '../utils/filter-characters';
-import CharacterCard, { QUALITY_BORDER_COLOR, TIER_BADGE_COLOR } from './CharacterCard';
+import CharacterCard, {
+  QUALITY_BORDER_COLOR,
+  TIER_BADGE_COLOR,
+} from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
 import FilterToolbar from './FilterToolbar';
 import GlobalBadge from './GlobalBadge';
@@ -93,7 +96,11 @@ export default function CharacterList({
   };
 
   const filteredAndSorted = useMemo(() => {
-    const filtered = filterCharacters(characters, filters);
+    const filtered = filterCharacters(
+      characters,
+      filters,
+      selectedTierListName ? tierLookup : undefined
+    );
     return [...filtered].sort((a, b) => {
       if (sortCol) {
         let cmp = 0;
@@ -117,10 +124,12 @@ export default function CharacterList({
       // Default: quality > name
       return compareCharactersByQualityThenName(a, b);
     });
-  }, [characters, filters, sortCol, sortDir, tierLookup]);
+  }, [characters, filters, sortCol, sortDir, tierLookup, selectedTierListName]);
 
   const { page, setPage, totalPages, offset } = usePagination(
-    filteredAndSorted.length, PAGE_SIZE, JSON.stringify(filters)
+    filteredAndSorted.length,
+    PAGE_SIZE,
+    JSON.stringify(filters)
   );
   const pageItems = filteredAndSorted.slice(offset, offset + PAGE_SIZE);
 
@@ -129,6 +138,7 @@ export default function CharacterList({
     filters.qualities.length +
     filters.classes.length +
     filters.factions.length +
+    (selectedTierListName ? filters.tiers.length : 0) +
     filters.statusEffects.length +
     (filters.globalOnly !== null ? 1 : 0);
 
@@ -149,6 +159,7 @@ export default function CharacterList({
               filters={filters}
               onChange={setFilters}
               effectOptions={effectOptions}
+              showTierFilter={Boolean(selectedTierListName)}
             />
           </FilterToolbar>
         ) : (
@@ -300,7 +311,9 @@ export default function CharacterList({
                           const tier = getTierLabel(char.name);
                           return tier ? (
                             <Badge
-                              variant={tier === 'Unranked' ? 'default' : 'light'}
+                              variant={
+                                tier === 'Unranked' ? 'default' : 'light'
+                              }
                               color={TIER_BADGE_COLOR[tier] ?? 'gray'}
                               size="sm"
                             >
@@ -317,7 +330,11 @@ export default function CharacterList({
           </ScrollArea>
         )}
 
-        <PaginationControl currentPage={page} totalPages={totalPages} onChange={setPage} />
+        <PaginationControl
+          currentPage={page}
+          totalPages={totalPages}
+          onChange={setPage}
+        />
       </Stack>
     </Paper>
   );

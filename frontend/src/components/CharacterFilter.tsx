@@ -13,7 +13,7 @@ import { CLASS_ICON_MAP } from '../assets/class';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getStatusEffectIcon } from '../assets/status_effect';
-import { QUALITY_ORDER } from '../constants/colors';
+import { QUALITY_ORDER, TIER_ORDER } from '../constants/colors';
 import { IMAGE_SIZE } from '../constants/ui';
 import type { CharacterClass } from '../types/character';
 import type { FactionName } from '../types/faction';
@@ -38,6 +38,7 @@ const FACTIONS: FactionName[] = [
   'Otherworld Return',
   'Illusion Veil',
 ];
+const TIERS: string[] = [...TIER_ORDER, 'Unranked'];
 
 const LABEL_STYLE = { minWidth: 60 } as const;
 
@@ -45,18 +46,21 @@ export interface CharacterFilterProps {
   filters: CharacterFilters;
   onChange: (filters: CharacterFilters) => void;
   effectOptions: string[];
+  showTierFilter?: boolean;
 }
 
 export default function CharacterFilter({
   filters,
   onChange,
   effectOptions,
+  showTierFilter = false,
 }: CharacterFilterProps) {
   const hasFilters =
     filters.search !== '' ||
     filters.qualities.length > 0 ||
     filters.classes.length > 0 ||
     filters.factions.length > 0 ||
+    (showTierFilter && filters.tiers.length > 0) ||
     filters.statusEffects.length > 0 ||
     filters.globalOnly !== null;
 
@@ -208,6 +212,33 @@ export default function CharacterFilter({
           </Group>
         </Chip.Group>
       </Group>
+
+      {showTierFilter && (
+        <Group gap="xs" align="center" wrap="wrap">
+          <Text
+            size="xs"
+            fw={600}
+            tt="uppercase"
+            c="dimmed"
+            style={LABEL_STYLE}
+          >
+            Tier
+          </Text>
+          <Chip.Group
+            multiple
+            value={filters.tiers}
+            onChange={(val) => onChange({ ...filters, tiers: val as string[] })}
+          >
+            <Group gap={4} wrap="wrap">
+              {TIERS.map((tier) => (
+                <Chip key={tier} value={tier} size="xs">
+                  {tier}
+                </Chip>
+              ))}
+            </Group>
+          </Chip.Group>
+        </Group>
+      )}
 
       {effectOptions.length > 0 && (
         <Group gap="xs" align="center" wrap="wrap">

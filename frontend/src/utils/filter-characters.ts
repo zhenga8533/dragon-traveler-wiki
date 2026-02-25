@@ -9,6 +9,7 @@ export interface CharacterFilters {
   qualities: Quality[];
   classes: CharacterClass[];
   factions: FactionName[];
+  tiers: string[];
   statusEffects: string[];
   globalOnly: boolean | null;
 }
@@ -18,6 +19,7 @@ export const EMPTY_FILTERS: CharacterFilters = {
   qualities: [],
   classes: [],
   factions: [],
+  tiers: [],
   statusEffects: [],
   globalOnly: null,
 };
@@ -25,7 +27,8 @@ export const EMPTY_FILTERS: CharacterFilters = {
 /** Apply all active filters to a list of characters. Empty arrays mean no filter. */
 export function filterCharacters(
   characters: Character[],
-  filters: CharacterFilters
+  filters: CharacterFilters,
+  tierLookup?: Map<string, string>
 ): Character[] {
   return characters.filter((c) => {
     if (
@@ -51,6 +54,12 @@ export function filterCharacters(
       !c.factions.some((f) => filters.factions.includes(f))
     ) {
       return false;
+    }
+    if (filters.tiers.length > 0 && tierLookup) {
+      const tier = tierLookup.get(c.name) ?? 'Unranked';
+      if (!filters.tiers.includes(tier)) {
+        return false;
+      }
     }
     if (filters.statusEffects.length > 0) {
       const charEffects = extractCharacterEffectRefs(c);
