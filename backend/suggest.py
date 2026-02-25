@@ -104,6 +104,24 @@ def set_output(name, value):
             f.write(f"{name}={value}\n")
 
 
+def parse_boolish(value, default=True):
+    """Parse bool-like values from issue payloads with sane defaults."""
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return value != 0
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"1", "true", "t", "yes", "y", "on"}:
+            return True
+        if normalized in {"0", "false", "f", "no", "n", "off", ""}:
+            return False
+        return default
+    return bool(value)
+
+
 # ---------------------------------------------------------------------------
 # JSON extraction & validation
 # ---------------------------------------------------------------------------
@@ -359,13 +377,13 @@ def normalize_for_json(label, data, is_update=False):
             if "rewards" in data or "reward" in data:
                 result["rewards"] = rewards
             if "active" in data:
-                result["active"] = data.get("active")
+                result["active"] = parse_boolish(data.get("active"), default=True)
             return result
 
         return {
             "code": data["code"],
             "rewards": rewards,
-            "active": data.get("active", True),
+            "active": parse_boolish(data.get("active"), default=True),
         }
 
     if label == "wyrmspell":

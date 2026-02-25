@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   AppShell,
+  Badge,
   Box,
   Burger,
   Group,
@@ -47,9 +48,10 @@ import { getAccentForPath, PARENT_ACCENTS } from './constants/accents';
 import { normalizeContentType } from './constants/content-types';
 import { getGlassStyles } from './constants/glass';
 import { BRAND_TITLE_STYLE } from './constants/styles';
-import { SIDEBAR, TRANSITION } from './constants/ui';
+import { SIDEBAR, STORAGE_KEY, TRANSITION } from './constants/ui';
 import {
   ResourcesProvider,
+  SearchDataContext,
   SearchDataProvider,
   SectionAccentProvider,
   TierListReferenceContext,
@@ -80,6 +82,7 @@ import Teams from './pages/Teams';
 import TierList from './pages/TierList';
 import UsefulLinks from './pages/UsefulLinks';
 import DragonSpells from './pages/Wyrmspells';
+import { isCodeActive } from './utils';
 
 type NavItem = {
   label: string;
@@ -194,6 +197,48 @@ function Navigation({
   onExpand?: () => void;
 }) {
   const location = useLocation();
+  const { codes } = useContext(SearchDataContext);
+
+  const loadRedeemedCodes = () => {
+    try {
+      const raw = localStorage.getItem(STORAGE_KEY.REDEEMED_CODES);
+      if (raw) return new Set<string>(JSON.parse(raw));
+    } catch {
+      /* ignore */
+    }
+    return new Set<string>();
+  };
+
+  const [redeemedCodes, setRedeemedCodes] = useState<Set<string>>(() =>
+    loadRedeemedCodes()
+  );
+
+  useEffect(() => {
+    const syncRedeemedCodes = () => {
+      setRedeemedCodes(loadRedeemedCodes());
+    };
+
+    const handleStorage = (event: StorageEvent) => {
+      if (event.key === STORAGE_KEY.REDEEMED_CODES) {
+        syncRedeemedCodes();
+      }
+    };
+
+    window.addEventListener('storage', handleStorage);
+    window.addEventListener('redeemed-codes-updated', syncRedeemedCodes);
+    return () => {
+      window.removeEventListener('storage', handleStorage);
+      window.removeEventListener('redeemed-codes-updated', syncRedeemedCodes);
+    };
+  }, []);
+
+  const activeCodesCount = useMemo(
+    () =>
+      codes.filter(
+        (code) => isCodeActive(code) && !redeemedCodes.has(code.code)
+      ).length,
+    [codes, redeemedCodes]
+  );
 
   // Controlled open/close state for parent groups (Database, Guides, etc.)
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
@@ -293,10 +338,14 @@ function Navigation({
         const isActive = location.pathname === item.path;
 
         if (!showLabels) {
+          const tooltipLabel =
+            item.label === 'Codes' && activeCodesCount > 0
+              ? `${item.label} (${activeCodesCount})`
+              : item.label;
           return (
             <Tooltip
               key={item.path}
-              label={item.label}
+              label={tooltipLabel}
               position="right"
               withArrow
             >
@@ -316,12 +365,24 @@ function Navigation({
           );
         }
 
+        const label =
+          item.label === 'Codes' && activeCodesCount > 0 ? (
+            <Group gap={6} wrap="nowrap">
+              <span>{item.label}</span>
+              <Badge size="xs" variant="light" color="grape" radius="sm">
+                {activeCodesCount}
+              </Badge>
+            </Group>
+          ) : (
+            item.label
+          );
+
         return (
           <NavLink
             key={item.path}
             component={Link}
             to={item.path!}
-            label={item.label}
+            label={label}
             leftSection={
               item.icon && renderNavIcon(item.icon, itemAccent, isActive)
             }

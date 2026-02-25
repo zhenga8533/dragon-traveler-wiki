@@ -45,6 +45,24 @@ EXPORT_DIR = SCRIPT_DIR / "exports"
 TRACKED_GIT_BRANCHES = {"main", "dev"}
 
 
+def parse_boolish(value, default=True):
+    """Parse bool-like values from DB/export payloads with sane defaults."""
+    if value is None:
+        return default
+    if isinstance(value, bool):
+        return value
+    if isinstance(value, (int, float)):
+        return value != 0
+    if isinstance(value, str):
+        normalized = value.strip().lower()
+        if normalized in {"1", "true", "t", "yes", "y", "on"}:
+            return True
+        if normalized in {"0", "false", "f", "no", "n", "off", ""}:
+            return False
+        return default
+    return bool(value)
+
+
 def run_cmd(cmd, cwd):
     """Run a shell command and return stripped stdout, or empty string on failure."""
     result = subprocess.run(
@@ -664,7 +682,7 @@ def export_codes(data, output_dir=None, merge=False):
             {
                 "code": c.get("code") or "",
                 "rewards": rewards,
-                "active": bool(c.get("active", True)),
+                "active": parse_boolish(c.get("active"), default=True),
                 "last_updated": int(c.get("last_updated") or 0),
             }
         )

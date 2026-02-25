@@ -27,6 +27,7 @@ import {
 import { useNavigate } from 'react-router-dom';
 import { normalizeContentType } from '../constants/content-types';
 import { SearchDataContext } from '../contexts';
+import { isCodeActive } from '../utils';
 
 type SearchResult = {
   type:
@@ -408,7 +409,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
         ...codeResults.map((r) => ({
           type: 'code' as const,
           title: r.item.code,
-          subtitle: r.item.active ? 'Active code' : 'Inactive code',
+          subtitle: isCodeActive(r.item) ? 'Active code' : 'Expired code',
           path: '/codes',
           icon: IoFlashOutline,
           color: 'cyan',

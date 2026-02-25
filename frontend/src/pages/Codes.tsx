@@ -49,7 +49,12 @@ import { useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import type { Code } from '../types/code';
 import type { Resource } from '../types/resource';
-import { buildExpiredCodeUrl, getLatestTimestamp } from '../utils';
+import {
+  buildExpiredCodeUrl,
+  getLatestTimestamp,
+  isCodeActive,
+  isCodeExpired,
+} from '../utils';
 
 function aggregateRewards(codes: Code[]): Map<string, number> {
   const totals = new Map<string, number>();
@@ -126,6 +131,7 @@ function loadRedeemed(): Set<string> {
 
 function saveRedeemed(set: Set<string>) {
   localStorage.setItem(STORAGE_KEY.REDEEMED_CODES, JSON.stringify([...set]));
+  window.dispatchEvent(new Event('redeemed-codes-updated'));
 }
 
 type ViewFilter = 'unredeemed' | 'redeemed' | 'all';
@@ -183,8 +189,8 @@ export default function Codes() {
     () =>
       codes.filter((entry) => {
         // Filter by active/expired tab
-        if (tab === 'active' && !entry.active) return false;
-        if (tab === 'expired' && entry.active) return false;
+        if (tab === 'active' && isCodeExpired(entry)) return false;
+        if (tab === 'expired' && isCodeActive(entry)) return false;
 
         // Filter by redeemed status
         if (view === 'redeemed' && !redeemed.has(entry.code)) return false;
@@ -240,7 +246,9 @@ export default function Codes() {
 
   const unclaimedRewards = useMemo(
     () =>
-      aggregateRewards(codes.filter((c) => c.active && !redeemed.has(c.code))),
+      aggregateRewards(
+        codes.filter((c) => isCodeActive(c) && !redeemed.has(c.code))
+      ),
     [codes, redeemed]
   );
 
@@ -415,175 +423,185 @@ export default function Codes() {
 
         {!loading &&
           viewMode === 'list' &&
-          paginatedCodes.map((entry) => (
-            <Paper
-              key={entry.code}
-              p="sm"
-              radius="md"
-              withBorder
-              opacity={entry.active ? 1 : 0.5}
-            >
-              <Group justify="space-between" wrap="wrap" align="center">
-                <Group gap="sm" wrap="wrap" style={{ flex: 1, minWidth: 200 }}>
-                  <Text
-                    ff="monospace"
-                    fw={500}
-                    size="lg"
-                    td={entry.active ? undefined : 'line-through'}
+          paginatedCodes.map((entry) => {
+            const isActiveCode = isCodeActive(entry);
+            return (
+              <Paper
+                key={entry.code}
+                p="sm"
+                radius="md"
+                withBorder
+                opacity={isActiveCode ? 1 : 0.5}
+              >
+                <Group justify="space-between" wrap="wrap" align="center">
+                  <Group
+                    gap="sm"
+                    wrap="wrap"
+                    style={{ flex: 1, minWidth: 200 }}
                   >
-                    {entry.code}
-                  </Text>
-                  {!entry.active && (
-                    <Badge color="red" variant="light" size="sm">
-                      Expired
-                    </Badge>
-                  )}
-                </Group>
-                <Group gap="xs" wrap="wrap">
-                  {entry.active && (
-                    <Tooltip label="Report expired" withArrow>
-                      <ActionIcon
-                        component="a"
-                        href={buildExpiredCodeUrl(entry.code)}
-                        target="_blank"
-                        variant="subtle"
-                        color="red"
-                        aria-label="Report expired"
-                      >
-                        <IoCloseCircleOutline size={18} />
-                      </ActionIcon>
-                    </Tooltip>
-                  )}
-                  <CopyButton value={entry.code} timeout={1500}>
-                    {({ copied, copy }) => (
-                      <Tooltip
-                        label={copied ? 'Copied!' : 'Copy code'}
-                        withArrow
-                      >
+                    <Text
+                      ff="monospace"
+                      fw={500}
+                      size="lg"
+                      td={isActiveCode ? undefined : 'line-through'}
+                    >
+                      {entry.code}
+                    </Text>
+                    {!isActiveCode && (
+                      <Badge color="red" variant="light" size="sm">
+                        Expired
+                      </Badge>
+                    )}
+                  </Group>
+                  <Group gap="xs" wrap="wrap">
+                    {isActiveCode && (
+                      <Tooltip label="Report expired" withArrow>
                         <ActionIcon
+                          component="a"
+                          href={buildExpiredCodeUrl(entry.code)}
+                          target="_blank"
                           variant="subtle"
-                          color={copied ? 'teal' : 'gray'}
-                          onClick={copy}
-                          aria-label={copied ? 'Copied!' : 'Copy code'}
+                          color="red"
+                          aria-label="Report expired"
                         >
-                          {copied ? (
-                            <IoCheckmark size={18} />
-                          ) : (
-                            <IoCopyOutline size={18} />
-                          )}
+                          <IoCloseCircleOutline size={18} />
                         </ActionIcon>
                       </Tooltip>
                     )}
-                  </CopyButton>
-                  <Checkbox
-                    checked={redeemed.has(entry.code)}
-                    onChange={() => toggleRedeemed(entry.code)}
-                    label="Redeemed"
-                    styles={{ label: { paddingLeft: 8 } }}
-                  />
-                </Group>
-              </Group>
-              {Object.keys(entry.rewards ?? {}).length > 0 && (
-                <Group gap="xs" mt="xs" wrap="wrap">
-                  {Object.entries(entry.rewards ?? {}).map(([name, qty]) => (
-                    <ResourceBadge key={name} name={name} quantity={qty} />
-                  ))}
-                </Group>
-              )}
-            </Paper>
-          ))}
-
-        {!loading && viewMode === 'grid' && paginatedCodes.length > 0 && (
-          <SimpleGrid cols={{ base: 1, xs: 2, sm: 3 }} spacing="md">
-            {paginatedCodes.map((entry) => (
-              <Paper
-                key={entry.code}
-                p="md"
-                radius="md"
-                withBorder
-                opacity={entry.active ? 1 : 0.5}
-              >
-                <Stack gap="sm">
-                  <Group justify="space-between" align="center">
-                    <Group gap="xs">
-                      <Text
-                        ff="monospace"
-                        fw={500}
-                        size="md"
-                        td={entry.active ? undefined : 'line-through'}
-                      >
-                        {entry.code}
-                      </Text>
-                      {!entry.active && (
-                        <Badge color="red" variant="light" size="xs">
-                          Expired
-                        </Badge>
-                      )}
-                    </Group>
-                    <Group gap={4}>
-                      {entry.active && (
-                        <Tooltip label="Report expired" withArrow>
+                    <CopyButton value={entry.code} timeout={1500}>
+                      {({ copied, copy }) => (
+                        <Tooltip
+                          label={copied ? 'Copied!' : 'Copy code'}
+                          withArrow
+                        >
                           <ActionIcon
-                            component="a"
-                            href={buildExpiredCodeUrl(entry.code)}
-                            target="_blank"
                             variant="subtle"
-                            color="red"
-                            size="sm"
-                            aria-label="Report expired"
+                            color={copied ? 'teal' : 'gray'}
+                            onClick={copy}
+                            aria-label={copied ? 'Copied!' : 'Copy code'}
                           >
-                            <IoCloseCircleOutline size={16} />
+                            {copied ? (
+                              <IoCheckmark size={18} />
+                            ) : (
+                              <IoCopyOutline size={18} />
+                            )}
                           </ActionIcon>
                         </Tooltip>
                       )}
-                      <CopyButton value={entry.code} timeout={1500}>
-                        {({ copied, copy }) => (
-                          <Tooltip
-                            label={copied ? 'Copied!' : 'Copy code'}
-                            withArrow
-                          >
+                    </CopyButton>
+                    <Checkbox
+                      checked={redeemed.has(entry.code)}
+                      onChange={() => toggleRedeemed(entry.code)}
+                      label="Redeemed"
+                      styles={{ label: { paddingLeft: 8 } }}
+                    />
+                  </Group>
+                </Group>
+                {Object.keys(entry.rewards ?? {}).length > 0 && (
+                  <Group gap="xs" mt="xs" wrap="wrap">
+                    {Object.entries(entry.rewards ?? {}).map(([name, qty]) => (
+                      <ResourceBadge key={name} name={name} quantity={qty} />
+                    ))}
+                  </Group>
+                )}
+              </Paper>
+            );
+          })}
+
+        {!loading && viewMode === 'grid' && paginatedCodes.length > 0 && (
+          <SimpleGrid cols={{ base: 1, xs: 2, sm: 3 }} spacing="md">
+            {paginatedCodes.map((entry) => {
+              const isActiveCode = isCodeActive(entry);
+              return (
+                <Paper
+                  key={entry.code}
+                  p="md"
+                  radius="md"
+                  withBorder
+                  opacity={isActiveCode ? 1 : 0.5}
+                >
+                  <Stack gap="sm">
+                    <Group justify="space-between" align="center">
+                      <Group gap="xs">
+                        <Text
+                          ff="monospace"
+                          fw={500}
+                          size="md"
+                          td={isActiveCode ? undefined : 'line-through'}
+                        >
+                          {entry.code}
+                        </Text>
+                        {!isActiveCode && (
+                          <Badge color="red" variant="light" size="xs">
+                            Expired
+                          </Badge>
+                        )}
+                      </Group>
+                      <Group gap={4}>
+                        {isActiveCode && (
+                          <Tooltip label="Report expired" withArrow>
                             <ActionIcon
+                              component="a"
+                              href={buildExpiredCodeUrl(entry.code)}
+                              target="_blank"
                               variant="subtle"
-                              color={copied ? 'teal' : 'gray'}
-                              onClick={copy}
+                              color="red"
                               size="sm"
-                              aria-label={copied ? 'Copied!' : 'Copy code'}
+                              aria-label="Report expired"
                             >
-                              {copied ? (
-                                <IoCheckmark size={16} />
-                              ) : (
-                                <IoCopyOutline size={16} />
-                              )}
+                              <IoCloseCircleOutline size={16} />
                             </ActionIcon>
                           </Tooltip>
                         )}
-                      </CopyButton>
+                        <CopyButton value={entry.code} timeout={1500}>
+                          {({ copied, copy }) => (
+                            <Tooltip
+                              label={copied ? 'Copied!' : 'Copy code'}
+                              withArrow
+                            >
+                              <ActionIcon
+                                variant="subtle"
+                                color={copied ? 'teal' : 'gray'}
+                                onClick={copy}
+                                size="sm"
+                                aria-label={copied ? 'Copied!' : 'Copy code'}
+                              >
+                                {copied ? (
+                                  <IoCheckmark size={16} />
+                                ) : (
+                                  <IoCopyOutline size={16} />
+                                )}
+                              </ActionIcon>
+                            </Tooltip>
+                          )}
+                        </CopyButton>
+                      </Group>
                     </Group>
-                  </Group>
 
-                  {Object.keys(entry.rewards ?? {}).length > 0 && (
-                    <Group gap="xs" wrap="wrap">
-                      {Object.entries(entry.rewards ?? {}).map(
-                        ([name, quantity]) => (
-                          <ResourceBadge
-                            key={name}
-                            name={name}
-                            quantity={quantity}
-                          />
-                        )
-                      )}
-                    </Group>
-                  )}
+                    {Object.keys(entry.rewards ?? {}).length > 0 && (
+                      <Group gap="xs" wrap="wrap">
+                        {Object.entries(entry.rewards ?? {}).map(
+                          ([name, quantity]) => (
+                            <ResourceBadge
+                              key={name}
+                              name={name}
+                              quantity={quantity}
+                            />
+                          )
+                        )}
+                      </Group>
+                    )}
 
-                  <Checkbox
-                    checked={redeemed.has(entry.code)}
-                    onChange={() => toggleRedeemed(entry.code)}
-                    label="Redeemed"
-                    styles={{ label: { paddingLeft: 8 } }}
-                  />
-                </Stack>
-              </Paper>
-            ))}
+                    <Checkbox
+                      checked={redeemed.has(entry.code)}
+                      onChange={() => toggleRedeemed(entry.code)}
+                      label="Redeemed"
+                      styles={{ label: { paddingLeft: 8 } }}
+                    />
+                  </Stack>
+                </Paper>
+              );
+            })}
           </SimpleGrid>
         )}
 

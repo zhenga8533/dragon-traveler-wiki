@@ -51,6 +51,7 @@ import type { Resource } from '../types/resource';
 import type { StatusEffect } from '../types/status-effect';
 import type { Subclass } from '../types/subclass';
 import type { Wyrmspell } from '../types/wyrmspell';
+import { isCodeActive } from '../utils';
 
 interface ChangelogEntry {
   date: string;
@@ -331,10 +332,7 @@ function FeaturedCharactersMarquee() {
 
 function ActiveCodesSection() {
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
-  const activeCodes = codes
-    .filter((c) => c.active)
-    .reverse()
-    .slice(0, 5);
+  const activeCodes = codes.filter(isCodeActive).reverse().slice(0, 5);
 
   if (loading) {
     return (
