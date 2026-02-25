@@ -74,7 +74,7 @@ import Characters from './pages/Characters';
 import Codes from './pages/Codes';
 import GearPage from './pages/Gear';
 import GearSetPage from './pages/GearSetPage';
-import Home from './pages/Home';
+import Home from './pages/home/index';
 import Howlkins from './pages/Howlkins';
 import NoblePhantasmPage from './pages/NoblePhantasmPage';
 import NoblePhantasms from './pages/NoblePhantasms';
