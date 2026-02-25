@@ -12,6 +12,7 @@ import json
 import os
 import re
 import sys
+import time
 from pathlib import Path
 from urllib.parse import urlparse
 
@@ -57,6 +58,21 @@ REQUIRED_FIELDS = {
     "gear-set": ["name"],
     "tier-list": ["name", "entries"],
     "team": ["name", "members"],
+}
+
+# Labels whose JSON entries carry a last_updated Unix timestamp.
+TIMESTAMPED_LABELS = {
+    "artifact",
+    "wyrmspell",
+    "noble-phantasm",
+    "resource",
+    "character",
+    "subclass",
+    "howlkin",
+    "golden-alliance",
+    "gear",
+    "gear-set",
+    "team",
 }
 
 VALID_RESOURCE_CATEGORIES = {
@@ -942,8 +958,12 @@ def update_json_file(label, data):
 
     if is_update:
         existing[matched_index] = _deep_merge(existing[matched_index], entry)
+        if label in TIMESTAMPED_LABELS:
+            existing[matched_index]["last_updated"] = int(time.time())
         action = "updated"
     else:
+        if label in TIMESTAMPED_LABELS:
+            entry["last_updated"] = int(time.time())
         existing.append(entry)
         action = "added"
 

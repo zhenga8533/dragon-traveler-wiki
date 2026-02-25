@@ -16,10 +16,25 @@ pip install -r requirements.txt
 
 ### Suggestion Automation
 
-Processes issue payloads and updates the appropriate JSON file.
+Processes GitHub Issue payloads and upserts entries into the appropriate JSON file.
+Automatically sets `last_updated` to the current Unix timestamp on every create or update.
 
 ```bash
 python -m backend.suggest
+```
+
+### Bump Timestamps
+
+After manually editing data files (e.g. adding a new field during a model migration),
+run this to refresh `last_updated` only for entries that actually changed relative to
+the last git commit. Unchanged entries are skipped.
+
+```bash
+# All timestamped files:
+python -m backend.bump_timestamps
+
+# Specific files only:
+python -m backend.bump_timestamps characters.json artifacts.json
 ```
 
 ### Key Utilities
@@ -31,11 +46,11 @@ python -m backend.suggest
 
 ```
 backend/
-├── suggest.py          # Issue suggestion processor
-├── sort_keys.py        # Deterministic sort-key helpers
-├── requirements.txt    # Python dependencies
-├── exports/            # Generated exports (if used externally)
-└── models/             # Pydantic data models
+├── suggest.py             # Issue suggestion processor (auto-sets last_updated)
+├── bump_timestamps.py     # Refresh last_updated for manually edited entries
+├── sort_keys.py           # Deterministic sort-key helpers
+├── requirements.txt       # Python dependencies
+└── models/                # Pydantic data models
     ├── artifact.py
     ├── character.py
     ├── code.py
@@ -102,8 +117,3 @@ The backend reads from and writes to `data/`:
 
 - **pydantic** — Data validation and serialization
 
-## Roadmap
-
-- Data sorting and normalization
-- Data verification and integrity checks
-- Add/remove operations for managing entries
