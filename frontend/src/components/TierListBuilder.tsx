@@ -246,7 +246,9 @@ export default function TierListBuilder({
       setPasteText('');
       setPasteError('');
     } catch {
-      setPasteError('Could not parse JSON. Please check the format and try again.');
+      setPasteError(
+        'Could not parse JSON. Please check the format and try again.'
+      );
     }
   }
 
@@ -312,6 +314,20 @@ export default function TierListBuilder({
     setActiveId(event.active.id as string);
   }
 
+  function clonePlacements(source: TierPlacements): TierPlacements {
+    const cloned: TierPlacements = {};
+    for (const tier of TIER_ORDER) {
+      cloned[tier] = [...(source[tier] || [])];
+    }
+    return cloned;
+  }
+
+  function removeFromAllTiers(target: TierPlacements, characterName: string) {
+    for (const tier of TIER_ORDER) {
+      target[tier] = target[tier].filter((name) => name !== characterName);
+    }
+  }
+
   function handleDragEnd(event: DragEndEvent) {
     setActiveId(null);
     const charName = event.active.id as string;
@@ -346,7 +362,7 @@ export default function TierListBuilder({
       if (!targetTier) {
         if (activeTier) {
           setPlacements((prev) => {
-            const next = { ...prev };
+            const next = clonePlacements(prev);
             next[activeTier] = next[activeTier].filter((n) => n !== charName);
             return next;
           });
@@ -358,38 +374,30 @@ export default function TierListBuilder({
       if (charName === targetCharName) return;
 
       setPlacements((prev) => {
-        const next = { ...prev };
+        const next = clonePlacements(prev);
+        const targetIndex = next[targetTier].indexOf(targetCharName);
+        if (targetIndex === -1) return next;
 
-        // If moving within the same tier, handle reordering
-        if (activeTier === targetTier) {
-          const currentIndex = next[targetTier].indexOf(charName);
-          const targetIndex = next[targetTier].indexOf(targetCharName);
+        if (activeTier) {
+          const activeIndex = next[activeTier].indexOf(charName);
+          if (activeIndex === -1) return next;
 
-          if (currentIndex !== -1 && targetIndex !== -1) {
-            // Remove from current position
-            next[targetTier] = next[targetTier].filter((n) => n !== charName);
-            // Find new target index after removal
-            const newTargetIndex = next[targetTier].indexOf(targetCharName);
-            // Insert at the target position
-            next[targetTier].splice(newTargetIndex, 0, charName);
-          }
-        } else {
-          // Moving between different tiers
-          // Remove from current position
-          if (activeTier) {
-            next[activeTier] = next[activeTier].filter((n) => n !== charName);
+          if (activeTier === targetTier) {
+            next[targetTier][activeIndex] = targetCharName;
+            next[targetTier][targetIndex] = charName;
+            return next;
           }
 
-          // Add to new position
-          const targetIndex = next[targetTier].indexOf(targetCharName);
-          if (targetIndex !== -1) {
-            // Insert at the target position
-            next[targetTier].splice(targetIndex, 0, charName);
-          } else {
-            // Target not found, add at end
-            next[targetTier].push(charName);
-          }
+          next[activeTier] = next[activeTier].filter(
+            (name) => name !== charName
+          );
+          next[targetTier][targetIndex] = charName;
+          next[activeTier].push(targetCharName);
+          return next;
         }
+
+        removeFromAllTiers(next, charName);
+        next[targetTier][targetIndex] = charName;
 
         return next;
       });
@@ -400,17 +408,9 @@ export default function TierListBuilder({
     if (overId.startsWith('tier-')) {
       const tier = overId.replace('tier-', '') as Tier;
       setPlacements((prev) => {
-        const next = { ...prev };
-
-        // Remove from current tier if exists
-        if (activeTier && activeTier !== tier) {
-          next[activeTier] = next[activeTier].filter((n) => n !== charName);
-        }
-
-        // Add to new tier if not already there
-        if (!next[tier].includes(charName)) {
-          next[tier].push(charName);
-        }
+        const next = clonePlacements(prev);
+        removeFromAllTiers(next, charName);
+        next[tier].push(charName);
 
         return next;
       });
@@ -515,7 +515,9 @@ export default function TierListBuilder({
               size="sm"
               leftSection={<IoSwapVertical size={16} />}
               onClick={handleSort}
-              disabled={TIER_ORDER.every((tier) => placements[tier].length === 0)}
+              disabled={TIER_ORDER.every(
+                (tier) => placements[tier].length === 0
+              )}
             >
               Sort Tiers
             </Button>
@@ -542,7 +544,9 @@ export default function TierListBuilder({
 
                 window.open(tierListIssueUrl, '_blank');
               }}
-              disabled={TIER_ORDER.every((tier) => placements[tier].length === 0)}
+              disabled={TIER_ORDER.every(
+                (tier) => placements[tier].length === 0
+              )}
             >
               Submit Suggestion
             </Button>
@@ -552,7 +556,9 @@ export default function TierListBuilder({
               size="sm"
               leftSection={<IoTrash size={16} />}
               onClick={handleClear}
-              disabled={TIER_ORDER.every((tier) => placements[tier].length === 0)}
+              disabled={TIER_ORDER.every(
+                (tier) => placements[tier].length === 0
+              )}
             >
               Clear All
             </Button>
