@@ -7,6 +7,7 @@ import {
   Collapse,
   Container,
   CopyButton,
+  Divider,
   Group,
   Modal,
   Paper,
@@ -16,6 +17,7 @@ import {
   Tabs,
   Text,
   TextInput,
+  ThemeIcon,
   Title,
   Tooltip,
 } from '@mantine/core';
@@ -31,6 +33,7 @@ import {
   IoGift,
   IoInformationCircleOutline,
   IoSearch,
+  IoStatsChart,
   IoTrophy,
 } from 'react-icons/io5';
 import { getResourceIcon } from '../assets/resource';
@@ -156,9 +159,9 @@ export default function Codes() {
     (() => {
       try {
         const stored = localStorage.getItem(STORAGE_KEY.CODES_REWARDS_OPEN);
-        return stored !== null ? stored === 'true' : true;
+        return stored !== null ? stored === 'true' : false;
       } catch {
-        return true;
+        return false;
       }
     })()
   );
@@ -346,10 +349,22 @@ export default function Codes() {
               align="center"
               onClick={toggleRewards}
               style={{ cursor: 'pointer' }}
+              px="xs"
+              py={4}
             >
-              <Text fw={500} size="sm">
-                Reward Summary
-              </Text>
+              <Group gap="sm">
+                <ThemeIcon variant="light" color="violet" size="md" radius="md">
+                  <IoStatsChart size={14} />
+                </ThemeIcon>
+                <Text fw={600} size="sm">
+                  Reward Summary
+                </Text>
+                {!rewardsOpen && unclaimedRewards.size > 0 && (
+                  <Badge variant="light" color="yellow" size="sm">
+                    {unclaimedRewards.size} unclaimed
+                  </Badge>
+                )}
+              </Group>
               {rewardsOpen ? (
                 <IoChevronUp size={16} />
               ) : (
@@ -357,46 +372,80 @@ export default function Codes() {
               )}
             </Group>
             <Collapse in={rewardsOpen}>
-              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs" mt="sm">
-                <Alert
-                  icon={<IoGift size={20} />}
-                  title="Total Unclaimed Rewards"
-                  color="yellow"
-                  variant="light"
-                  radius="md"
-                >
+              <Divider mt="sm" mb="md" />
+              <Group align="flex-start" gap={0} wrap="wrap">
+                <Stack gap="xs" style={{ flex: '1 1 220px' }}>
+                  <Group gap="xs">
+                    <ThemeIcon
+                      variant="light"
+                      color="yellow"
+                      size="sm"
+                      radius="sm"
+                    >
+                      <IoGift size={12} />
+                    </ThemeIcon>
+                    <Text size="sm" fw={600}>
+                      Unclaimed
+                    </Text>
+                    {unclaimedRewards.size > 0 && (
+                      <Badge variant="light" color="yellow" size="xs">
+                        {unclaimedRewards.size} types
+                      </Badge>
+                    )}
+                  </Group>
                   {unclaimedRewards.size > 0 ? (
-                    <Group gap="xs" wrap="wrap" mt={4}>
+                    <Group gap="xs" wrap="wrap">
                       {[...unclaimedRewards.entries()].map(([name, qty]) => (
                         <ResourceBadge key={name} name={name} quantity={qty} />
                       ))}
                     </Group>
                   ) : (
-                    <Text size="sm" c="dimmed" mt={4}>
-                      No unclaimed rewards — you've redeemed everything!
+                    <Text size="sm" c="dimmed" fs="italic">
+                      Nothing left to claim!
                     </Text>
                   )}
-                </Alert>
-                <Alert
-                  icon={<IoTrophy size={20} />}
-                  title="Total Claimed Rewards"
-                  color="teal"
-                  variant="light"
-                  radius="md"
-                >
+                </Stack>
+
+                <Divider
+                  orientation="vertical"
+                  mx="lg"
+                  visibleFrom="sm"
+                  style={{ alignSelf: 'stretch' }}
+                />
+                <Divider hiddenFrom="sm" w="100%" my="sm" />
+
+                <Stack gap="xs" style={{ flex: '1 1 220px' }}>
+                  <Group gap="xs">
+                    <ThemeIcon
+                      variant="light"
+                      color="teal"
+                      size="sm"
+                      radius="sm"
+                    >
+                      <IoTrophy size={12} />
+                    </ThemeIcon>
+                    <Text size="sm" fw={600}>
+                      Claimed
+                    </Text>
+                    {claimedRewards.size > 0 && (
+                      <Badge variant="light" color="teal" size="xs">
+                        {claimedRewards.size} types
+                      </Badge>
+                    )}
+                  </Group>
                   {claimedRewards.size > 0 ? (
-                    <Group gap="xs" wrap="wrap" mt={4}>
+                    <Group gap="xs" wrap="wrap">
                       {[...claimedRewards.entries()].map(([name, qty]) => (
                         <ResourceBadge key={name} name={name} quantity={qty} />
                       ))}
                     </Group>
                   ) : (
-                    <Text size="sm" c="dimmed" mt={4}>
-                      No claimed rewards yet — start redeeming codes!
+                    <Text size="sm" c="dimmed" fs="italic">
+                      No codes redeemed yet.
                     </Text>
                   )}
-                </Alert>
-              </SimpleGrid>
+                </Stack>
+              </Group>
             </Collapse>
           </Paper>
         )}
