@@ -343,7 +343,7 @@
       {
         "name": "Radiant Barrier",
         "type": "Overdrive",
-        "description": "Deals physical damage equal to 620% of the caster's attack plus 1600% of the caster's combined defense and magic resistance to enemy units within a fan-shaped area. Then creates a barrier in front of the caster that lasts for 5 seconds, intercepting up to 20 bullets. The barrier is considered broken if it reaches its maximum interception limit. When the barrier is broken, all enemy spirits' next ultimate skill costs +1.",
+        "description": "Deals physical damage equal to 620% of the caster's attack plus 1600% of the caster's combined defense and magic resistance to enemy units within a fan-shaped area. Then creates a barrier in front of the caster that lasts for 5 seconds, intercepting up to 20 bullets. The barrier is considered broken if it reaches its maximum interception limit. When the barrier is broken, all enemy Luminaries' next ultimate skill costs +1.",
         "cooldown": 20
       },
       {
@@ -383,7 +383,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771993396
   },
   {
     "name": "Duvalin",
@@ -1479,7 +1479,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "After dealing damage with a basic attack, inflict the [Grim Reaper's Gaze] effect, lasting 6 seconds. When an allied spirit deals damage to a target afflicted with [Grim Reaper's Gaze], it heals that target for 24% of the damage dealt + 4% of its own maximum HP , and grants the target one random [Blessing Buff]. (A [Blessing Buff] can trigger a maximum of once per target within 4 seconds.)"
+          "effect": "After dealing damage with a basic attack, inflict the [Grim Reaper's Gaze] effect, lasting 6 seconds. When an allied Luminary deals damage to a target afflicted with [Grim Reaper's Gaze], it heals that target for 24% of the damage dealt + 4% of its own maximum HP , and grants the target one random [Blessing Buff]. (A [Blessing Buff] can trigger a maximum of once per target within 4 seconds.)"
         },
         {
           "level": 2,
@@ -1525,7 +1525,7 @@
       {
         "name": "Soul-Guiding Lamp",
         "type": "Special Skill",
-        "description": "Throw a lantern at the ally with the lowest health (excluding itself), restoring 6% of its maximum health to allies within the lantern's range every second and granting 1 stack of [Deathrattle]. If the health of an allied spirit is below 20% while the lantern is active, the lantern will be retrieved and the allied spirit will be pulled to the user's side, granting it a shield equal to 80% of the user's maximum health for 10 seconds (this effect can trigger at most once within 15 seconds). Whenever an allied unit is defeated, gain 1 stack of [Deathrattle].",
+        "description": "Throw a lantern at the ally with the lowest health (excluding itself), restoring 6% of its maximum health to allies within the lantern's range every second and granting 1 stack of [Deathrattle]. If the health of an allied Luminary is below 20% while the lantern is active, the lantern will be retrieved and the allied Luminary will be pulled to the user's side, granting it a shield equal to 80% of the user's maximum health for 10 seconds (this effect can trigger at most once within 15 seconds). Whenever an allied unit is defeated, gain 1 stack of [Deathrattle].",
         "cooldown": 6
       },
       {
@@ -1547,7 +1547,7 @@
     "recommended_subclasses": [
       "High Priest"
     ],
-    "last_updated": 1771868965
+    "last_updated": 1771993396
   },
   {
     "name": "Venus",
@@ -1605,7 +1605,7 @@
       {
         "name": "Heavensong",
         "type": "Overdrive",
-        "description": "[Equilibirum] Increases the HP of all allied units, then restores all allied units to 25% of their maximum HP. Whenever another allied spirit is affected by [Stun] or [Silence], reduces the energy cost of the user's next ultimate skill by 1.",
+        "description": "[Equilibirum] Increases the HP of all allied units, then restores all allied units to 25% of their maximum HP. Whenever another allied Luminary is affected by [Stun] or [Silence], reduces the energy cost of the user's next ultimate skill by 1.",
         "cooldown": 20
       },
       {
@@ -1645,7 +1645,7 @@
     "recommended_subclasses": [
       "High Priest"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771993396
   },
   {
     "name": "Morgana",
@@ -2003,7 +2003,7 @@
       {
         "name": "Nightfall Ring",
         "type": "Special Skill",
-        "description": "Grants [Crit Up] to all friendly units and all friendly summons within a large circular area around the user, and additionally applies [Adrenaline] to friendly spirits in the [Wild] state.",
+        "description": "Grants [Crit Up] to all friendly units and all friendly summons within a large circular area around the user, and additionally applies [Adrenaline] to friendly Luminaries in the [Wild] state.",
         "cooldown": 17
       },
       {
@@ -2027,7 +2027,7 @@
       "Inquisitor",
       "Divine Officer"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771993396
   },
   {
     "name": "Titania",
@@ -3033,6 +3033,91 @@
       "Executioner"
     ],
     "last_updated": 1771870646
+  },
+  {
+    "name": "Lilith",
+    "title": "Queen of Eternal Night",
+    "quality": "SSR+",
+    "character_class": "Assassin",
+    "factions": [
+      "Illusion Veil",
+      "Wild Spirit"
+    ],
+    "is_global": false,
+    "subclasses": [
+      "Rogue",
+      "Marauder",
+      "Spy",
+      "Forest Bandit",
+      "Shadow Dancer",
+      "Outlaw"
+    ],
+    "height": "166cm",
+    "weight": "42kg",
+    "origin": "",
+    "lore": "\"Lilith, originating from the spirit of the night in Mesopotamia, is the first woman created by the gods in Hebrew legend, and the queen who rules the night.\"\nFirst, she uttered the unspeakable true name of the god. Then, under the god's gaze, she leaped from Eden and plunged into the legendary, ever-churning Red Sea. From that moment on, she had her own name — Lilith.",
+    "quote": "",
+    "talent": {
+      "name": "Echoes of the Night",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Lilith possesses a longer attack range than typical melee Luminaries (but is still classified as a melee Luminary). When her skills deal damage, there is a 50% chance to inflict the [Echoes of Pain] debuff on the target, lasting 8 seconds and cannot stack. This chance increases by 3% for every 10% reduction in the target's healing received.\nAfter other allied Luminaries deal damage to enemy units with [Echoes of Pain] through their basic attacks or active skills, Lilith will deal additional magic damage equal to [actual damage value] * 310% to all enemy units with [Echoes of Pain] (this damage will not trigger critical hits, dodges, or blocks)."
+        },
+        {
+          "level": 2,
+          "effect": "[Song of Destruction] deals damage to each target with [Echoes of Pain], and restores health equal to 20% of attack and 5% rage to the caster."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own HP by 10% and HP conversion by 4%."
+        },
+        {
+          "level": 4,
+          "effect": "[Shadow Blade Dance] can trigger the [Punishment] effect. When the [Punishment] effect is triggered, the target's ultimate skill cooldown is increased by an additional 2 seconds."
+        },
+        {
+          "level": 7,
+          "effect": "When an allied Luminary in the [Wild] state deals damage to an enemy unit with [Echoes of Pain] using its basic attack or active skill, it gains 50% increased damage."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Song of Destruction",
+        "type": "Overdrive",
+        "description": "Deals 340% of the caster's attack as magic damage three times to enemy units in a fan-shaped area . Also inflicts an additional 4 seconds of silence on targets already afflicted with [Echoes of Pain].",
+        "cooldown": 18
+      },
+      {
+        "name": "Shadow Blade Dance",
+        "type": "Ultimate Skill",
+        "description": "Fires a magic missile at each enemy unit within a large circular area, dealing magic damage equal to 280% of the caster's attack and increasing the target's ultimate skill cooldown by 2 seconds. At the start of battle, immediately teleports to the center of the enemy team (the teleportation effect ignores enemy guards) and casts this skill once.\nWhen your own health decreases, you will accumulate rage. When your rage is full, you will enter the [Wild] state. While in the [Wild] state, [Shadow Blade Dance] will fire an additional magic missile at each target. The damage of the additional magic missile is increased to 420% of your own attack , but it will not increase the cooldown of the target's ultimate skill.",
+        "cooldown": 12
+      },
+      {
+        "name": "Energy-Absorbing Twin Blades",
+        "type": "Secret Skill",
+        "description": "When our Luminary steals attributes from an enemy unit, it increases its own HP conversion by 3% , lasting until the end of the battle, and can be triggered 20 times.\nWhen our Luminary triggers [Punishment], it inflicts [Healing Down] on the target.",
+        "cooldown": 0
+      },
+      {
+        "name": "Nightmare Plunder",
+        "type": "Special Skill",
+        "description": "When [Echoes of Pain] is applied, it steals an additional 2.4% of the target's attack (cannot be applied to bosses), lasting for 8 seconds and stacking up to 5 times.",
+        "cooldown": 0
+      },
+      {
+        "name": "Shadow Blade Dance",
+        "type": "Divine Skill",
+        "description": "When [Shadow Blade Dance] deals damage, it also inflicts [Attack Down] and [Crit Down].",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": null,
+    "recommended_subclasses": [],
+    "last_updated": 1771993396
   },
   {
     "name": "Mordred",
@@ -4243,7 +4328,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "When an enemy character is knocked back or launched into the air, Andvari grants herself a shield equal to 4.5% of her maximum health for 6 seconds, which can stack up to 20 times. Whenever another allied spirit triggers [Punishment], Andvari grants it a shield equal to 20% of its current shield amount for 6 seconds (this effect can be triggered at most once within 3 seconds for the same allied spirit)."
+          "effect": "When an enemy character is knocked back or launched into the air, Andvari grants herself a shield equal to 4.5% of her maximum health for 6 seconds, which can stack up to 20 times. Whenever another allied Luminary triggers [Punishment], Andvari grants it a shield equal to 20% of its current shield amount for 6 seconds (this effect can be triggered at most once within 3 seconds for the same allied Luminary)."
         },
         {
           "level": 2,
@@ -4307,7 +4392,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771993396
   },
   {
     "name": "Arthur",
@@ -5633,7 +5718,7 @@
         },
         {
           "level": 3,
-          "effect": "After the battle begins, all of our ranged spirits (up to 4, prioritizing spirits with higher attack) enter the [Dark Moon] state for 8 seconds (if there are no other selectable allied spirits or dragons on the field, the Dark Moon state provided by this skill is changed to 4 seconds)."
+          "effect": "After the battle begins, all of our ranged Luminaries (up to 4, prioritizing Luminaries with higher attack) enter the [Dark Moon] state for 8 seconds (if there are no other selectable allied Luminaries or dragons on the field, the Dark Moon state provided by this skill is changed to 4 seconds)."
         },
         {
           "level": 4,
@@ -5653,7 +5738,7 @@
       {
         "name": "Embrace of the Dark Moon",
         "type": "Overdrive",
-        "description": "Increases the skill haste of all allied ranged spirits by 25 and their damage by 25% for 6 seconds, and puts the caster and one allied spirit or dragon with the lowest health into the [Dark Moon] state for 4 seconds. Upon activation, the user gains 3 stacks of [Moon Soul]. (If there are no other selectable allied spirits or dragons on the field, the [Dark Moon] status granted by this skill is changed to 2 seconds).",
+        "description": "Increases the skill haste of all allied ranged Luminaries by 25 and their damage by 25% for 6 seconds, and puts the caster and one allied Luminary or dragon with the lowest health into the [Dark Moon] state for 4 seconds. Upon activation, the user gains 3 stacks of [Moon Soul]. (If there are no other selectable allied Luminaries or dragons on the field, the [Dark Moon] status granted by this skill is changed to 2 seconds).",
         "cooldown": 18
       },
       {
@@ -5694,7 +5779,7 @@
       "Sharpshooter",
       "Bloodhunter"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771993396
   },
   {
     "name": "Huginn & Muninn",
@@ -5916,7 +6001,7 @@
         },
         {
           "level": 2,
-          "effect": "Each time the user enters the [Wild] state, all allied spirits in the [Wild] state gain [Crit Up]."
+          "effect": "Each time the user enters the [Wild] state, all allied Luminaries in the [Wild] state gain [Crit Up]."
         },
         {
           "level": 3,
@@ -5976,7 +6061,7 @@
     "recommended_subclasses": [
       "Bounty Hunter"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771993396
   },
   {
     "name": "Mimir",
@@ -7103,7 +7188,7 @@
         },
         {
           "level": 7,
-          "effect": "When present, allied spirits and dragons deal 50% more damage to enemy units that are not currently buffed."
+          "effect": "When present, allied Luminaries and Wyrms deal 50% more damage to enemy units that are not currently buffed."
         }
       ]
     },
@@ -7151,7 +7236,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771993396
   },
   {
     "name": "Faust",
@@ -7500,13 +7585,13 @@
       {
         "name": "Charge Command",
         "type": "Secret Skill",
-        "description": "Reduces the cooldown of your ultimate skill by 4.5/4.7/4.9/5.1/5.3/5.5 seconds for one random allied spirit other than yourself.",
+        "description": "Reduces the cooldown of your ultimate skill by 4.5/4.7/4.9/5.1/5.3/5.5 seconds for one random allied Luminary other than yourself.",
         "cooldown": 15
       },
       {
         "name": "Shield Command",
         "type": "Special Skill",
-        "description": "Grants a shield to one allied spirit with the highest rage (excluding itself) equal to 330%/360%/390%/420%/450% of its own attack and grants it [Crit Up]. The shield lasts for 8 seconds, and during the shield's duration, it restores 14% of the spirit's rage per second.",
+        "description": "Grants a shield to one allied Luminary with the highest rage (excluding itself) equal to 330%/360%/390%/420%/450% of its own attack and grants it [Crit Up]. The shield lasts for 8 seconds, and during the shield's duration, it restores 14% of the Luminary's rage per second.",
         "cooldown": 17
       },
       {
@@ -7529,7 +7614,92 @@
       "Astrologer",
       "Grand Archmage"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771993396
+  },
+  {
+    "name": "Tong",
+    "title": "The Demon King of Chaos",
+    "quality": "SSR+",
+    "character_class": "Mage",
+    "factions": [
+      "Wild Spirit",
+      "Sanctum Glory"
+    ],
+    "is_global": false,
+    "subclasses": [
+      "Wizard",
+      "Sorcerer",
+      "Arcane Master",
+      "Astrologer",
+      "Grand Archmage",
+      "Potion Master"
+    ],
+    "height": "174cm",
+    "weight": "58kg",
+    "origin": "Modern Fantasy",
+    "lore": "",
+    "quote": "",
+    "talent": {
+      "name": "Blood Pact Link",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "At the start of the battle, Tong establishes a [Link] with the ally Luminary with the highest attack power in the same row. Tong and the [Link] ally Luminary gain a 15% increase in attack and defense for each other.\nWhen an allied Luminary with the [Link] buff deals active skill damage to the current target, it grants the pupil 1 stack of [Prison Vision].\nEach stack of [Prison Vision] increases attack and both defenses by 0.8%. When the stack reaches 20, the bonus provided by [Prison Vision] is doubled."
+        },
+        {
+          "level": 2,
+          "effect": "Whenever the user or an allied Luminary with the [Link] buff receives a [Blessing Buff], the user recovers HP equal to 30% of their attack and 30% of their defense."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own health by 10% and attack by 5%."
+        },
+        {
+          "level": 4,
+          "effect": "Each time an allied Luminary with the [Link] buff enters the [Wild] state, remove all [Increased Energy Cost of Next Ultimate] effects from it and make it immune to the [Increased Energy Cost of Next Ultimate] effect during the [Wild] state."
+        },
+        {
+          "level": 7,
+          "effect": "When the [Prison Vision] reaches 20 stacks, allied Luminaries carrying the [Link] buff will receive a 40% attack and defense bonus corresponding to the 20 stacks of [Prison Vision]. If the Luminary is in the [Wild] state, the bonus will be increased to 80%."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Demon-Subduing Consecutive Slashes",
+        "type": "Overdrive",
+        "description": "Performs 3 dash slashes, each dealing 690% of the user's attack as physical damage to enemy units in a semi-circle in front of the target, prioritizing enemy Luminaries that have not been slashed.\nWhen you lose health, you will recover rage. When your rage is full, you will enter the [Wild] state. If you are in the [Wild] state while casting a skill, you will perform an additional dash slash, up to 3 times.",
+        "cooldown": 18
+      },
+      {
+        "name": "Chaotic Storm",
+        "type": "Ultimate Skill",
+        "description": "Deals two instances of physical damage equal to 207% of the user's attack to the current target.\nWhen you have both Morale and Fighting Spirit, you enter the Grace state. While in the Grace state, your second attack will create a tornado that knocks back enemy units in its path and deals physical damage equal to 275% of your attack.",
+        "cooldown": 0
+      },
+      {
+        "name": "The First Signs of Chaos",
+        "type": "Secret Skill",
+        "description": "When dealing basic attack or active skill damage to a new target, it deals additional damage equal to 650% of its own attack + 650% of its dual defenses, and grants itself and the allied Luminary with the [Link] buff a random [Blessing Buff].",
+        "cooldown": 0
+      },
+      {
+        "name": "Four Tours in Chaotic Times",
+        "type": "Special Skill",
+        "description": "Consumes 10% of current health, knocks the current target back, and deals 4 slashes, resulting in a total of 700% of the user's attack as physical damage and inflicting [Damage Down].",
+        "cooldown": 0
+      },
+      {
+        "name": "Demon King of Chaos",
+        "type": "Divine Skill",
+        "description": "When the user is in the [Wild] state, the additional damage of [The First Signs of Chaos] is doubled.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": null,
+    "recommended_subclasses": [],
+    "last_updated": 1771993396
   },
   {
     "name": "Vermilion Bird",
@@ -7978,7 +8148,7 @@
       {
         "name": "Blessing of Nature",
         "type": "Divine Skill",
-        "description": "[Forest Sentinel] Automatically triggers once on the nearest allied spirit at the start of battle.",
+        "description": "[Forest Sentinel] Automatically triggers once on the nearest allied Luminary at the start of battle.",
         "cooldown": 0
       }
     ],
@@ -7995,7 +8165,7 @@
       "Astrologer",
       "Grand Archmage"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1771993396
   },
   {
     "name": "Telperion",

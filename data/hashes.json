@@ -39,8 +39,8 @@
       "ts": 1771870646
     },
     "Caesar": {
-      "hash": "5dc59659fc6968226d61bb64475111054061fcf0852bcb5cea3f06ce29f1c72b",
-      "ts": 1771870646
+      "hash": "0b79954146bbbf89de86426fab79a2eb0aa4390b8ddcd352937ee2defdcd2159",
+      "ts": 1771993396
     },
     "Duvalin": {
       "hash": "1808fac9fc8e85a29d7f2645f5c8a2782851b1a53b92c2e64027ce385d066634",
@@ -95,12 +95,12 @@
       "ts": 1771870646
     },
     "Hela": {
-      "hash": "a9143df80385202f9993e501c052d6b8f3cc2fe3cf607788df5239e8b23830d3",
-      "ts": 1771868965
+      "hash": "966ec0fac0b73f0b8c01e852d85164037787caf9caf009216763c3131f4629c2",
+      "ts": 1771993396
     },
     "Venus": {
-      "hash": "1d54f5ddf9c8e916c16db545813756fdf28b34743c5b7902e71be86433d6ba79",
-      "ts": 1771870646
+      "hash": "257e24bc7eb86e1052f973353f2eb78f9f19e0bd58840606429834d57e94bb30",
+      "ts": 1771993396
     },
     "Morgana": {
       "hash": "85a44ab4ee3b5275437d723cf9bb6a8642f58ac8c7686c50de7cb5bf971b955e",
@@ -115,8 +115,8 @@
       "ts": 1771870646
     },
     "Silbismo": {
-      "hash": "6c955f53d80e0ec3864b176dfcf809fd95819d85df2cac2239a39d41a556bd2a",
-      "ts": 1771870646
+      "hash": "722f535e9a381675b776554ad0db9e43a1e566cece22ee1de4ebdad95a722c97",
+      "ts": 1771993396
     },
     "Titania": {
       "hash": "bf4b8516b41da6a34ce0958554cfeeccb22b5429395468e764563f1a5562c0ad",
@@ -165,6 +165,10 @@
     "Jormungandr": {
       "hash": "14a6fc5f4f1d7dbfc40966dd0aa0afe46d77c619cac165ed8880002c53c767df",
       "ts": 1771870646
+    },
+    "Lilith": {
+      "hash": "21656f5879170d87e81d3009835a164a95c67c02786b97f56829c26f6e02308d",
+      "ts": 1771993396
     },
     "Mordred": {
       "hash": "1a4d794e380fff305130c17ec03529179aa4a9e05cc3344a7cc66a3641edc375",
@@ -223,8 +227,8 @@
       "ts": 1771870646
     },
     "Andevaly": {
-      "hash": "be3f99ef4f3e6ecfd5e977f8377e3511ad9c22279f309fc418e085bc2a4d5724",
-      "ts": 1771870646
+      "hash": "2864c6640c223afb6d65dd40828015cfbc4ef037c08c32bf7d4614ff30c5c9c6",
+      "ts": 1771993396
     },
     "Arthur": {
       "hash": "2b99e19109ef456d2099f1ce09ea46b835ee596762d0e13838aaf258beac36e9",
@@ -287,8 +291,8 @@
       "ts": 1771870646
     },
     "Artemis": {
-      "hash": "9e6cd409ef1fd220ef3a30910d0ed557826973a96622bd7e89591ce298454a74",
-      "ts": 1771870646
+      "hash": "cf2010d1dd68a21cc2a593aca0dfb91b53befadbf62d9f5c6ff615020249a5df",
+      "ts": 1771993396
     },
     "Huginn & Muninn": {
       "hash": "e277d44d4556f824641018b5c7f747f76aa1a4b6e438127f44866449efa4f8c0",
@@ -299,8 +303,8 @@
       "ts": 1771870646
     },
     "Jing": {
-      "hash": "44540416e18486121fb02e900394f93f9d69d371d5437c8c7c89a25661ea9562",
-      "ts": 1771870646
+      "hash": "6e113fdc5da92d5f1380589ad16204f6bc435a42d43d3e77f448e2e5223fa7ab",
+      "ts": 1771993396
     },
     "Mimir": {
       "hash": "8150609a9fc5011ef52d330b776aea7ee510cc3104fa7796d37376a278be7632",
@@ -355,8 +359,8 @@
       "ts": 1771870646
     },
     "Crassus": {
-      "hash": "c428c8ff70c898cc99e2b2ab7243c1ac1153e1670c3b4b313de45fdd4e021d68",
-      "ts": 1771870646
+      "hash": "456c5bfaa2980898ba6f128e1a0ea1b38e7dace97ac749220e2bc99078d31edb",
+      "ts": 1771993396
     },
     "Faust": {
       "hash": "e968749994e12a3ba0dc69025dd00c6536e12589e32b66662b97b7fc5e8b7052",
@@ -371,8 +375,12 @@
       "ts": 1771870646
     },
     "Talos": {
-      "hash": "016839b4019802e44b9be6ef91dd7f79a3c10dad6880935016172fdc4665565a",
-      "ts": 1771870646
+      "hash": "0d3bf8c9b3c4010edf8305e07c5a6ab9fe63cd20accd541946679457de3462af",
+      "ts": 1771993396
+    },
+    "Tong": {
+      "hash": "29b78892e7691df93ee05d2b581000f42dc4c0213da905ec0661d79f55c4fdf6",
+      "ts": 1771993396
     },
     "Vermilion Bird": {
       "hash": "17d4f8dc4df0332b3dffffd4bd72590139d99c61a0adc2cdd78b3b1ebb0e475f",
@@ -391,8 +399,8 @@
       "ts": 1771870646
     },
     "Nanalie": {
-      "hash": "080387c37e2960d7bb64a1350f3ed1dfadb33cdda4e25563853a897eced1891d",
-      "ts": 1771870646
+      "hash": "4f80be4f10ddfdf97431e5cf93279a10548c38a09884bfab2b003dafae58b9ec",
+      "ts": 1771993396
     },
     "Telperion": {
       "hash": "65c71db595a52f70d95f35218293e0b901678ee4c320848b0674eeb807fe9987",
@@ -1589,8 +1597,8 @@
       "ts": 1771706373
     },
     "Stat Buff": {
-      "hash": "d669c318fdd6aa0df9f71ccb85e420c10608a5d2709a10db26281a6a340100c1",
-      "ts": 1771644501
+      "hash": "321b16d0bc3ae866ed554b80c2a55e20b283e57001947335d727bf37fb40bc82",
+      "ts": 1771993396
     },
     "Accuracy Down": {
       "hash": "07b584fc18d48b17e010e71991ea9646a5ab49483a7b298746dcf65347f81a0f",
@@ -1607,6 +1615,10 @@
     "Attack Stat Debuff": {
       "hash": "3228a646728c95dd03ac18f8eb4a4f9cbcb218fec9b5e534c2f992d5757c483a",
       "ts": 1771644501
+    },
+    "Crit Damage Down": {
+      "hash": "fba740351566a8b7fd2bcd80b3126419361316df390d13454d5cf9e4f9ee2e9b",
+      "ts": 1771993396
     },
     "Crit Down": {
       "hash": "c8a3d7d473e21590bb7200bee7dd65f659992cbd4f1b5639bbda981af36fea7c",
@@ -1649,8 +1661,8 @@
       "ts": 1771129475
     },
     "Stat Debuff": {
-      "hash": "caaca4530aa11fe1286dfd08bc623f9a802dfc2103cbb9b6a94b58d31c25e51d",
-      "ts": 1771644501
+      "hash": "deb29e41774f55e102f2a09080345eaedcdbbec81e7f6198ed8ea3363f32abbd",
+      "ts": 1771993396
     },
     "Adaptive Damage": {
       "hash": "f335eed4b9c6f7654c6875331f425b7d12a0212718332ccdc0dc7b37f6f3f198",
@@ -1804,6 +1816,10 @@
       "hash": "0ac3a5acca1798158653c795f8d4717878145fec63563aad82b5fe22af77fb37",
       "ts": 1771185685
     },
+    "Echoes of Pain": {
+      "hash": "1dabd578b9428bfdcc997a4af95dacf1d94bc433ea1e0836fb48b2e342d56ba4",
+      "ts": 1771993396
+    },
     "Equilibirum": {
       "hash": "9f8155f68c1067d988eca6efb3fbd7aad7a686d8632c87d82a4535bb9eb951df",
       "ts": 1771374946
@@ -1840,6 +1856,10 @@
       "hash": "b5215aa0524bf0967452b79fd8f9522f8dccc4a0fb96f95b65f82106fdd51d28",
       "ts": 1771185685
     },
+    "Link": {
+      "hash": "373b5cc983e8f9cc9cb285cf0ccff9c6d6962ad10e0e0c1ea7a70242fc15badc",
+      "ts": 1771993396
+    },
     "Momentum Burst": {
       "hash": "7c8a27e16a04e5b1745908832a74c77e0a6a72a30378dbdfe7a34d42e8173414",
       "ts": 1771374946
@@ -1847,6 +1867,10 @@
     "Moon Soul": {
       "hash": "2219bbe8941a265dc0e7d5a36b964719731ab45283bd126b76cddf8cfbb1a1aa",
       "ts": 1771129358
+    },
+    "Prison Vision": {
+      "hash": "3468689eef8197b021a567f875e6094841dbae3a39ef19e42eb26d718f43244d",
+      "ts": 1771993396
     },
     "Radiant Ember": {
       "hash": "58dc3e2af45edc97bdffb809b731977379952fc986dfa143a1dbe761219d1661",

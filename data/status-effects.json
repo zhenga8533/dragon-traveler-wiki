@@ -135,9 +135,9 @@
   {
     "name": "Stat Buff",
     "type": "Buff",
-    "effect": "Includes [Attack Up], [Bonus Damage Up], [Damage Reduction Up], [Physical Defense Up], [Magic Defense Up], [Attack Speed Up], [Crit Up], and [Crit Damage Up].",
+    "effect": "Includes [Attack Up], [Bonus Damage Up], [Damage Reduction Up], [Physical Defense Up], [Magic Defense Up], [Attack Speed Boost], [Crit Up], and [Crit Damage Up].",
     "remark": "",
-    "last_updated": 1771644501
+    "last_updated": 1771993396
   },
   {
     "name": "Accuracy Down",
@@ -166,6 +166,13 @@
     "effect": "Includes [Attack Down], [Damage Down], [Attack Speed Down], [Crit Down], [Crit Damage Down], and [Accuracy Down].",
     "remark": "",
     "last_updated": 1771644501
+  },
+  {
+    "name": "Crit Damage Down",
+    "type": "Debuff",
+    "effect": "Decreases critical damage by 45%. Lasts 8 seconds.",
+    "remark": "",
+    "last_updated": 1771993396
   },
   {
     "name": "Crit Down",
@@ -240,9 +247,9 @@
   {
     "name": "Stat Debuff",
     "type": "Debuff",
-    "effect": "Includes [Attack Down], [Bonus Damage Down], [Damage Reduction Down], [Physical Defense Down], [Magic Defense Down], [Attack Speed Down], [Crit Down], and [Crit Damage Down].",
+    "effect": "Includes [Attack Down], [Damage Down], [Damage Reduction Down], [Physical Defense Down], [Magic Defense Down], [Attack Speed Down], [Crit Down], and [Crit Damage Down].",
     "remark": "",
-    "last_updated": 1771644501
+    "last_updated": 1771993396
   },
   {
     "name": "Adaptive Damage",
@@ -511,6 +518,13 @@
     "last_updated": 1771185685
   },
   {
+    "name": "Echoes of Pain",
+    "type": "Exclusive",
+    "effect": "Cannot be stacked. Lasts for 8 seconds.",
+    "remark": "",
+    "last_updated": 1771993396
+  },
+  {
     "name": "Equilibirum",
     "type": "Exclusive",
     "effect": "Resets the target's health percentage to the current team's average health percentage, unaffected by healing effects.",
@@ -574,6 +588,13 @@
     "last_updated": 1771185685
   },
   {
+    "name": "Link",
+    "type": "Exclusive",
+    "effect": "Tong and the [Link] ally Luminary gain a 15% increase in attack and defense for each other.",
+    "remark": "",
+    "last_updated": 1771993396
+  },
+  {
     "name": "Momentum Burst",
     "type": "Exclusive",
     "effect": "",
@@ -586,6 +607,13 @@
     "effect": "",
     "remark": "Lasts for 6 seconds, can be stacked up to 5 times.",
     "last_updated": 1771129358
+  },
+  {
+    "name": "Prison Vision",
+    "type": "Exclusive",
+    "effect": "Can be stacked up to 20 times. Each stack increases attack and both defenses by 0.8%. When the stack reaches 20, the bonus provided by [Prison Vision] is doubled.",
+    "remark": "",
+    "last_updated": 1771993396
   },
   {
     "name": "Radiant Ember",
