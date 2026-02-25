@@ -19,13 +19,16 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import {
   RiArrowLeftSLine,
   RiArrowRightSLine,
   RiCloseLine,
   RiDoubleQuotesL,
+  RiFilmLine,
+  RiFullscreenExitLine,
+  RiFullscreenLine,
   RiZoomInLine,
 } from 'react-icons/ri';
 import { Link, useParams } from 'react-router-dom';
@@ -405,6 +408,79 @@ export default function CharacterPage() {
     }
   }, []);
 
+  const mediaContainerRef = useRef<HTMLDivElement>(null);
+  const [isFullscreen, setIsFullscreen] = useState(false);
+
+  const activeIllustration = useMemo(
+    () => selectedIllustration ?? illustrations[0] ?? null,
+    [selectedIllustration, illustrations]
+  );
+  const activeIllustrationName = activeIllustration?.name;
+  const activeIllustrationIndex = useMemo(
+    () =>
+      activeIllustration
+        ? illustrations.findIndex(
+            (illust) => illust.name === activeIllustration.name
+          )
+        : -1,
+    [activeIllustration, illustrations]
+  );
+  const hasMultipleIllustrations = illustrations.length > 1;
+
+  const showPreviousIllustration = useCallback(() => {
+    if (illustrations.length === 0 || activeIllustrationIndex < 0) return;
+    const nextIndex =
+      (activeIllustrationIndex - 1 + illustrations.length) %
+      illustrations.length;
+    setSelectedIllustration(illustrations[nextIndex]);
+  }, [illustrations, activeIllustrationIndex]);
+
+  const showNextIllustration = useCallback(() => {
+    if (illustrations.length === 0 || activeIllustrationIndex < 0) return;
+    const nextIndex = (activeIllustrationIndex + 1) % illustrations.length;
+    setSelectedIllustration(illustrations[nextIndex]);
+  }, [illustrations, activeIllustrationIndex]);
+
+  const handleFullscreen = useCallback(async () => {
+    if (document.fullscreenElement) {
+      await document.exitFullscreen();
+      return;
+    }
+    const el = mediaContainerRef.current;
+    if (!el) return;
+    try {
+      await el.requestFullscreen();
+    } catch {
+      // Fullscreen not supported (e.g. iOS) — open image in new tab
+      if (activeIllustration?.type === 'image' && activeIllustration.src) {
+        window.open(activeIllustration.src, '_blank', 'noopener,noreferrer');
+      }
+    }
+  }, [activeIllustration]);
+
+  useEffect(() => {
+    const handleFsChange = () =>
+      setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', handleFsChange);
+    return () =>
+      document.removeEventListener('fullscreenchange', handleFsChange);
+  }, []);
+
+  useEffect(() => {
+    if (!previewOpen || !hasMultipleIllustrations) return;
+    const handleKey = (e: KeyboardEvent) => {
+      if (e.key === 'ArrowLeft') showPreviousIllustration();
+      else if (e.key === 'ArrowRight') showNextIllustration();
+    };
+    window.addEventListener('keydown', handleKey);
+    return () => window.removeEventListener('keydown', handleKey);
+  }, [
+    previewOpen,
+    hasMultipleIllustrations,
+    showPreviousIllustration,
+    showNextIllustration,
+  ]);
+
   if (loading) {
     return (
       <Container size="lg" py="xl">
@@ -425,29 +501,6 @@ export default function CharacterPage() {
   }
 
   const portrait = getPortrait(character.name);
-
-  const activeIllustration = selectedIllustration ?? illustrations[0] ?? null;
-  const activeIllustrationName = activeIllustration?.name;
-  const activeIllustrationIndex = activeIllustration
-    ? illustrations.findIndex(
-        (illust) => illust.name === activeIllustration.name
-      )
-    : -1;
-  const hasMultipleIllustrations = illustrations.length > 1;
-
-  const showPreviousIllustration = () => {
-    if (illustrations.length === 0 || activeIllustrationIndex < 0) return;
-    const nextIndex =
-      (activeIllustrationIndex - 1 + illustrations.length) %
-      illustrations.length;
-    setSelectedIllustration(illustrations[nextIndex]);
-  };
-
-  const showNextIllustration = () => {
-    if (illustrations.length === 0 || activeIllustrationIndex < 0) return;
-    const nextIndex = (activeIllustrationIndex + 1) % illustrations.length;
-    setSelectedIllustration(illustrations[nextIndex]);
-  };
 
   const heroBlurFilter = isDark
     ? 'blur(20px) brightness(0.4)'
@@ -1559,6 +1612,7 @@ export default function CharacterPage() {
         >
           {activeIllustration && (
             <Stack gap="md">
+              {/* Header */}
               <Group justify="space-between" align="center">
                 <Group gap="sm" align="center">
                   <Text fw={600} size="lg">
@@ -1570,26 +1624,56 @@ export default function CharacterPage() {
                     </Badge>
                   )}
                 </Group>
-                <ActionIcon
-                  onClick={() => setPreviewOpen(false)}
-                  aria-label="Close"
-                  variant="default"
-                  radius="xl"
-                >
-                  <RiCloseLine />
-                </ActionIcon>
+                <Group gap="xs">
+                  {activeIllustration.type === 'image' && (
+                    <Tooltip
+                      label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
+                      withArrow
+                    >
+                      <ActionIcon
+                        onClick={handleFullscreen}
+                        aria-label={
+                          isFullscreen ? 'Exit fullscreen' : 'Fullscreen'
+                        }
+                        variant="default"
+                        radius="xl"
+                      >
+                        {isFullscreen ? (
+                          <RiFullscreenExitLine />
+                        ) : (
+                          <RiFullscreenLine />
+                        )}
+                      </ActionIcon>
+                    </Tooltip>
+                  )}
+                  <ActionIcon
+                    onClick={() => setPreviewOpen(false)}
+                    aria-label="Close"
+                    variant="default"
+                    radius="xl"
+                  >
+                    <RiCloseLine />
+                  </ActionIcon>
+                </Group>
               </Group>
 
+              {/* Image / video */}
               <Paper
+                ref={mediaContainerRef}
                 withBorder
                 radius="lg"
                 p={0}
                 style={{
                   position: 'relative',
-                  maxHeight: '78vh',
-                  overflow: 'auto',
+                  maxHeight: isFullscreen ? '100dvh' : '70vh',
+                  overflow: isFullscreen ? 'hidden' : 'auto',
                   display: 'flex',
                   justifyContent: 'center',
+                  alignItems: 'center',
+                  background: isFullscreen ? 'black' : undefined,
+                  borderRadius: isFullscreen
+                    ? 0
+                    : 'var(--mantine-radius-lg)',
                 }}
               >
                 {activeIllustration.type === 'video' ? (
@@ -1599,8 +1683,10 @@ export default function CharacterPage() {
                     controls
                     style={{
                       width: '100%',
-                      maxHeight: '78vh',
-                      borderRadius: 'var(--mantine-radius-lg)',
+                      maxHeight: isFullscreen ? '100dvh' : '70vh',
+                      borderRadius: isFullscreen
+                        ? 0
+                        : 'var(--mantine-radius-lg)',
                     }}
                   />
                 ) : (
@@ -1608,8 +1694,8 @@ export default function CharacterPage() {
                     src={activeIllustration.src}
                     alt={`${character.name} - ${activeIllustration.name}`}
                     fit="contain"
-                    mah="78vh"
-                    radius="lg"
+                    mah={isFullscreen ? '100dvh' : '70vh'}
+                    radius={isFullscreen ? 0 : 'lg'}
                     loading="lazy"
                   />
                 )}
@@ -1633,12 +1719,18 @@ export default function CharacterPage() {
                       <ActionIcon
                         onClick={showPreviousIllustration}
                         aria-label="Previous illustration"
-                        variant="default"
+                        variant="filled"
+                        color="dark"
                         radius="xl"
+                        size="lg"
                         style={{
-                          opacity: modalHoverSide === 'left' ? 1 : 0.6,
+                          opacity: modalHoverSide === 'left' ? 1 : 0.55,
                           transition:
                             'opacity 150ms ease, transform 150ms ease',
+                          transform:
+                            modalHoverSide === 'left'
+                              ? 'scale(1.1)'
+                              : 'scale(1)',
                         }}
                       >
                         <RiArrowLeftSLine size={24} />
@@ -1661,12 +1753,18 @@ export default function CharacterPage() {
                       <ActionIcon
                         onClick={showNextIllustration}
                         aria-label="Next illustration"
-                        variant="default"
+                        variant="filled"
+                        color="dark"
                         radius="xl"
+                        size="lg"
                         style={{
-                          opacity: modalHoverSide === 'right' ? 1 : 0.6,
+                          opacity: modalHoverSide === 'right' ? 1 : 0.55,
                           transition:
                             'opacity 150ms ease, transform 150ms ease',
+                          transform:
+                            modalHoverSide === 'right'
+                              ? 'scale(1.1)'
+                              : 'scale(1)',
                         }}
                       >
                         <RiArrowRightSLine size={24} />
@@ -1676,30 +1774,78 @@ export default function CharacterPage() {
                 )}
               </Paper>
 
+              {/* Thumbnail strip */}
               {hasMultipleIllustrations && (
                 <Box
                   style={{
                     display: 'flex',
-                    justifyContent: 'center',
                     gap: 8,
+                    justifyContent: 'center',
+                    overflowX: 'auto',
+                    paddingBottom: 4,
+                    paddingTop: 4,
                   }}
                 >
                   {illustrations.map((illust) => {
                     const isActive = illust.name === activeIllustrationName;
                     return (
-                      <UnstyledButton
-                        key={`dot-${illust.name}`}
-                        onClick={() => setSelectedIllustration(illust)}
-                        aria-label={`Go to ${illust.name}`}
-                        style={{
-                          width: 8,
-                          height: 8,
-                          borderRadius: '999px',
-                          background: isActive
-                            ? 'var(--mantine-color-blue-5)'
-                            : 'var(--mantine-color-dark-4)',
-                        }}
-                      />
+                      <Stack
+                        key={`thumb-${illust.name}`}
+                        gap={4}
+                        align="center"
+                        style={{ flexShrink: 0 }}
+                      >
+                        <UnstyledButton
+                          onClick={() => setSelectedIllustration(illust)}
+                          aria-label={`Go to ${illust.name}`}
+                          style={{
+                            width: 96,
+                            height: 60,
+                            borderRadius: 8,
+                            overflow: 'hidden',
+                            border: `2px solid ${
+                              isActive
+                                ? 'var(--mantine-color-blue-5)'
+                                : 'var(--mantine-color-default-border)'
+                            }`,
+                            opacity: isActive ? 1 : 0.6,
+                            transition:
+                              'opacity 150ms, border-color 150ms',
+                          }}
+                        >
+                          {illust.type === 'video' ? (
+                            <Center
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                background:
+                                  'var(--mantine-color-dark-6)',
+                              }}
+                            >
+                              <RiFilmLine size={22} color="white" />
+                            </Center>
+                          ) : (
+                            <Image
+                              src={illust.src}
+                              alt={illust.name}
+                              w={96}
+                              h={60}
+                              fit="cover"
+                              loading="lazy"
+                            />
+                          )}
+                        </UnstyledButton>
+                        <Text
+                          size="xs"
+                          c={isActive ? 'blue' : 'dimmed'}
+                          fw={isActive ? 600 : 400}
+                          ta="center"
+                          lineClamp={1}
+                          style={{ maxWidth: 96 }}
+                        >
+                          {illust.name}
+                        </Text>
+                      </Stack>
                     );
                   })}
                 </Box>
