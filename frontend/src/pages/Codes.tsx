@@ -179,40 +179,6 @@ export default function Codes() {
     });
   }, []);
 
-  const markAllRedeemed = useCallback(() => {
-    const codesToMark = codes.filter((c) =>
-      tab === 'active' ? c.active : !c.active
-    );
-    setRedeemed((prev) => {
-      const next = new Set(prev);
-      codesToMark.forEach((c) => next.add(c.code));
-      saveRedeemed(next);
-      return next;
-    });
-    notifications.show({
-      title: 'Codes marked as redeemed',
-      message: `Marked ${codesToMark.length} ${tab} codes as redeemed.`,
-      color: 'teal',
-    });
-  }, [codes, tab]);
-
-  const clearAllRedeemed = useCallback(() => {
-    const codesToClear = codes.filter((c) =>
-      tab === 'active' ? c.active : !c.active
-    );
-    setRedeemed((prev) => {
-      const next = new Set(prev);
-      codesToClear.forEach((c) => next.delete(c.code));
-      saveRedeemed(next);
-      return next;
-    });
-    notifications.show({
-      title: 'Redeemed status cleared',
-      message: `Marked ${codesToClear.length} ${tab} codes as unredeemed.`,
-      color: 'gray',
-    });
-  }, [codes, tab]);
-
   const filtered = useMemo(
     () =>
       codes.filter((entry) => {
@@ -231,6 +197,34 @@ export default function Codes() {
       }),
     [codes, tab, view, redeemed, search]
   );
+
+  const markAllRedeemed = useCallback(() => {
+    setRedeemed((prev) => {
+      const next = new Set(prev);
+      filtered.forEach((c) => next.add(c.code));
+      saveRedeemed(next);
+      return next;
+    });
+    notifications.show({
+      title: 'Codes marked as redeemed',
+      message: `Marked ${filtered.length} codes as redeemed.`,
+      color: 'teal',
+    });
+  }, [filtered]);
+
+  const clearAllRedeemed = useCallback(() => {
+    setRedeemed((prev) => {
+      const next = new Set(prev);
+      filtered.forEach((c) => next.delete(c.code));
+      saveRedeemed(next);
+      return next;
+    });
+    notifications.show({
+      title: 'Redeemed status cleared',
+      message: `Marked ${filtered.length} codes as unredeemed.`,
+      color: 'gray',
+    });
+  }, [filtered]);
 
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
@@ -262,10 +256,7 @@ export default function Codes() {
     [resources]
   );
 
-  const tabCodeCount = useMemo(
-    () => codes.filter((c) => (tab === 'active' ? c.active : !c.active)).length,
-    [codes, tab]
-  );
+  const tabCodeCount = filtered.length;
 
   return (
     <Container size="md" py="xl">
@@ -611,7 +602,7 @@ export default function Codes() {
           centered
         >
           <Text size="sm" mb="lg">
-            This will mark all {tabCodeCount} {tab} codes as redeemed.
+            This will mark {tabCodeCount} matching codes as redeemed.
           </Text>
           <Group justify="flex-end">
             <Button variant="default" onClick={closeMarkAll}>
@@ -635,7 +626,7 @@ export default function Codes() {
           centered
         >
           <Text size="sm" mb="lg">
-            This will mark all {tabCodeCount} {tab} codes as unredeemed.
+            This will mark {tabCodeCount} matching codes as unredeemed.
           </Text>
           <Group justify="flex-end">
             <Button variant="default" onClick={closeClearAll}>
