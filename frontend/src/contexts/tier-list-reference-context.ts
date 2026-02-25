@@ -55,11 +55,15 @@ export function TierListReferenceProvider({
   }, [selectedTierListName]);
 
   useEffect(() => {
-    if (loading || !selectedTierListName) return;
+    if (loading || tierLists.length === 0) return;
+    if (!selectedTierListName) {
+      setSelectedTierListName(tierLists[0].name);
+      return;
+    }
     const exists = tierLists.some((list) => list.name === selectedTierListName);
     if (!exists) {
       queueMicrotask(() => {
-        setSelectedTierListName('');
+        setSelectedTierListName(tierLists[0].name);
       });
     }
   }, [selectedTierListName, tierLists, loading]);
