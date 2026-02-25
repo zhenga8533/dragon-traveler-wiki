@@ -195,7 +195,7 @@ export default function MythicSummonCalculator() {
     );
     const diamondsPerSummon = calculateExpectedValue(DIAMOND_RATES);
 
-    const wishingLiliesFromRates = wishingLiliesPerSummon * numSummons;
+    const wishingLiliesFromRates = wishingLiliesPerSummon * regularPulls;
     const wishingLiliesBonus =
       GUARANTEED_WISHING_LILIES_PER_SUMMON * numSummons;
     const totalWishingLilies = wishingLiliesFromRates + wishingLiliesBonus;
@@ -205,8 +205,8 @@ export default function MythicSummonCalculator() {
       wishingLilies: totalWishingLilies,
       wishingLiliesFromRates,
       wishingLiliesBonus,
-      substituteDollFragments: substituteDollFragmentsPerSummon * numSummons,
-      diamonds: diamondsPerSummon * numSummons,
+      substituteDollFragments: substituteDollFragmentsPerSummon * regularPulls,
+      diamonds: diamondsPerSummon * regularPulls,
       milestoneShards,
       totalMythicShards,
       totalPulls,
