@@ -15,8 +15,8 @@ import {
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import {
-  IoCalculator,
   IoDiamond,
+  IoFlag,
   IoInformationCircleOutline,
   IoSparkles,
   IoStar,
@@ -139,6 +139,14 @@ function calculateMilestoneRewards(summons: number): number {
 export default function MythicSummonCalculator() {
   const [numSummons, setNumSummons] = useState<number>(100);
   const [currentPulls, setCurrentPulls] = useState<number>(0);
+  const [targetShards, setTargetShards] = useState<number | null>(null);
+  const [targetWishingLilies, setTargetWishingLilies] = useState<number | null>(
+    null
+  );
+  const [targetSubstituteDolls, setTargetSubstituteDolls] = useState<
+    number | null
+  >(null);
+  const [targetDiamonds, setTargetDiamonds] = useState<number | null>(null);
 
   const results = useMemo(() => {
     if (!numSummons || numSummons < 1) {
@@ -218,6 +226,74 @@ export default function MythicSummonCalculator() {
     return MILESTONES.find((m) => m.summons > results.totalPulls);
   }, [results.totalPulls]);
 
+  // Reverse calculator
+  const reverseResults = useMemo(() => {
+    const requiredSummons: Record<string, number> = {};
+
+    if (targetShards && targetShards > 0) {
+      let accumulatedShards = 0;
+      let summonCount = 0;
+      while (accumulatedShards < targetShards) {
+        summonCount++;
+        const firstGuaranteedPull = 5 - (currentPulls % 5);
+        let guaranteedPulls = 0;
+        if (summonCount >= firstGuaranteedPull) {
+          guaranteedPulls =
+            1 + Math.floor((summonCount - firstGuaranteedPull) / 5);
+        }
+        const regularPulls = summonCount - guaranteedPulls;
+        const shardPerRegular = calculateExpectedValue(
+          MYTHIC_LUMINARY_SHARD_RATES
+        );
+        const shardPerGuaranteed = calculateGuaranteedDropValue(
+          MYTHIC_LUMINARY_SHARD_RATES
+        );
+        accumulatedShards =
+          shardPerRegular * regularPulls + shardPerGuaranteed * guaranteedPulls;
+        accumulatedShards +=
+          calculateMilestoneRewards(currentPulls + summonCount) -
+          calculateMilestoneRewards(currentPulls);
+      }
+      requiredSummons['Mythic Luminary Shard'] = summonCount;
+    }
+
+    if (targetWishingLilies && targetWishingLilies > 0) {
+      const ratePerSummon = calculateExpectedValue(WISHING_LILY_RATES);
+      const bonusPerSummon = GUARANTEED_WISHING_LILIES_PER_SUMMON;
+      const regularPullsRatio = 4 / 5;
+      const totalPerSummon = ratePerSummon * regularPullsRatio + bonusPerSummon;
+      requiredSummons['Wishing Lily'] = Math.ceil(
+        targetWishingLilies / totalPerSummon
+      );
+    }
+
+    if (targetSubstituteDolls && targetSubstituteDolls > 0) {
+      const ratePerSummon = calculateExpectedValue(
+        SUBSTITUTE_DOLL_FRAGMENT_RATES
+      );
+      const regularPullsRatio = 4 / 5;
+      const totalPerSummon = ratePerSummon * regularPullsRatio;
+      requiredSummons['6-Star Substitute Doll Fragment'] = Math.ceil(
+        targetSubstituteDolls / totalPerSummon
+      );
+    }
+
+    if (targetDiamonds && targetDiamonds > 0) {
+      const ratePerSummon = calculateExpectedValue(DIAMOND_RATES);
+      const regularPullsRatio = 4 / 5;
+      const totalPerSummon = ratePerSummon * regularPullsRatio;
+      requiredSummons['Diamond'] = Math.ceil(targetDiamonds / totalPerSummon);
+    }
+
+    return requiredSummons;
+  }, [
+    targetShards,
+    targetWishingLilies,
+    targetSubstituteDolls,
+    targetDiamonds,
+    currentPulls,
+  ]);
+
   return (
     <Container size="xl" py="xl">
       <Stack gap="lg">
@@ -238,8 +314,84 @@ export default function MythicSummonCalculator() {
           <Stack gap="md">
             <Title order={3}>
               <Group gap="xs">
-                <IoCalculator />
-                Calculator
+                <IoFlag />
+                Target Resources
+              </Group>
+            </Title>
+
+            <Text size="sm" c="dimmed">
+              Enter target amounts to see how many summons you need.
+            </Text>
+
+            <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }} spacing="md">
+              <NumberInput
+                label="Target Mythic Luminary Shards"
+                value={targetShards || ''}
+                onChange={(val) => setTargetShards(val ? Number(val) : null)}
+                min={0}
+                max={1000}
+                placeholder="Leave empty to skip"
+                size="sm"
+              />
+              <NumberInput
+                label="Target Wishing Lilies"
+                value={targetWishingLilies || ''}
+                onChange={(val) =>
+                  setTargetWishingLilies(val ? Number(val) : null)
+                }
+                min={0}
+                max={100000}
+                placeholder="Leave empty to skip"
+                size="sm"
+              />
+              <NumberInput
+                label="Target Substitute Doll Fragments"
+                value={targetSubstituteDolls || ''}
+                onChange={(val) =>
+                  setTargetSubstituteDolls(val ? Number(val) : null)
+                }
+                min={0}
+                max={10000}
+                placeholder="Leave empty to skip"
+                size="sm"
+              />
+              <NumberInput
+                label="Target Diamonds"
+                value={targetDiamonds || ''}
+                onChange={(val) => setTargetDiamonds(val ? Number(val) : null)}
+                min={0}
+                max={1000000}
+                placeholder="Leave empty to skip"
+                size="sm"
+              />
+            </SimpleGrid>
+
+            {Object.entries(reverseResults).length > 0 && (
+              <Stack gap="xs">
+                {Object.entries(reverseResults).map(([resource, summons]) => (
+                  <Alert key={resource} variant="light" color="blue" p="sm">
+                    <Group justify="space-between" wrap="nowrap">
+                      <Text size="sm">
+                        <ResourceBadge name={resource} size="xs" /> need{' '}
+                        <strong>{summons}</strong> summons
+                      </Text>
+                      <Text size="xs" c="dimmed">
+                        {currentPulls + summons} total
+                      </Text>
+                    </Group>
+                  </Alert>
+                ))}
+              </Stack>
+            )}
+          </Stack>
+        </Card>
+
+        <Card withBorder radius="md" p="lg">
+          <Stack gap="md">
+            <Title order={3}>
+              <Group gap="xs">
+                <IoSparkles />
+                Expected Projection
               </Group>
             </Title>
 
