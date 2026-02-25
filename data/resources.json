@@ -537,5 +537,19 @@
     "description": "Collect 60 Shards to summon an R Luminary.",
     "category": "Shard",
     "last_updated": 1771374946
+  },
+  {
+    "name": "6-Star Substitute Doll Fragment",
+    "quality": "SSR",
+    "description": "Collect 60 Shards to obtain a 6-star Substitute Doll.",
+    "category": "Shard",
+    "last_updated": 1772043851
+  },
+  {
+    "name": "Mythic Luminary Shard",
+    "quality": "SSR",
+    "description": "Mythic Luminary's Memory Shards. Collect 60 to awaken the Mythic Luminary's memory and summon it for assistance.",
+    "category": "Shard",
+    "last_updated": 1772043851
   }
 ]
