@@ -269,7 +269,7 @@ export default function Subclasses() {
                             <Text fw={600}>{item.name}</Text>
                             <Group gap="xs">
                               <ClassLabel characterClass={item.class} iconSize={16} textSize="xs" />
-                              <TierBadge tier={String(item.tier)} showPrefix size="xs" />
+                              <TierBadge tier={String(item.tier)} showPrefix size="xs" index={item.tier - 1} />
                             </Group>
                           </Stack>
                         </Group>
@@ -357,7 +357,7 @@ export default function Subclasses() {
                             <ClassLabel characterClass={item.class} iconSize={16} textSize="sm" />
                           </Table.Td>
                           <Table.Td>
-                            <TierBadge tier={String(item.tier)} showPrefix size="sm" />
+                            <TierBadge tier={String(item.tier)} showPrefix size="sm" index={item.tier - 1} />
                           </Table.Td>
                           <Table.Td>
                             <Group gap="xs" wrap="wrap">

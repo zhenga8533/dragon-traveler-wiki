@@ -672,6 +672,7 @@ export default function CharacterPage() {
                                   tier={String(subclassDetails.tier)}
                                   showPrefix
                                   size="xs"
+                                  index={subclassDetails.tier - 1}
                                 />
                               )}
                               {subclassDetails?.class && (
@@ -737,6 +738,7 @@ export default function CharacterPage() {
                                       tier={String(subclassDetails.tier)}
                                       showPrefix
                                       size="xs"
+                                      index={subclassDetails.tier - 1}
                                     />
                                   )}
                                 </Group>

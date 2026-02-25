@@ -82,6 +82,8 @@ const CUSTOM_TIER_COLOR_CYCLE = [
   'indigo',
   'cyan',
   'lime',
+  'orange',
+  'pink',
 ];
 
 /** Returns a Mantine color for a tier, cycling through a palette for custom tiers. */
