@@ -17,21 +17,24 @@ import {
 import { useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
-import { getGearIcon, GEAR_TYPE_ICON_MAP } from '../assets/gear';
+import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../assets/gear';
 import { QUALITY_ICON_MAP } from '../assets/quality';
+import GearTypeTag from '../components/common/GearTypeTag';
+import LastUpdated from '../components/common/LastUpdated';
+import PaginationControl from '../components/common/PaginationControl';
+import SortableTh from '../components/common/SortableTh';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import FilterToolbar from '../components/layout/FilterToolbar';
-import LastUpdated from '../components/common/LastUpdated';
 import ListPageShell from '../components/layout/ListPageShell';
-import PaginationControl from '../components/common/PaginationControl';
-import SortableTh from '../components/common/SortableTh';
-import GearTypeTag from '../components/common/GearTypeTag';
-import SuggestModal, { type ArrayFieldDef, type FieldDef } from '../components/tools/SuggestModal';
+import SuggestModal, {
+  type ArrayFieldDef,
+  type FieldDef,
+} from '../components/tools/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch, useMobileTooltip } from '../hooks';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
@@ -47,7 +50,6 @@ const GEAR_TYPE_ORDER: GearType[] = [
   'Weapon',
   'Accessory',
 ];
-
 
 const GEAR_SET_FIELDS: FieldDef[] = [
   {
@@ -133,6 +135,7 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 ];
 
 export default function GearPage() {
+  const tooltipProps = useMobileTooltip();
   const [activeTab, setActiveTab] = useState<string>(() => {
     if (typeof window === 'undefined') return 'gear';
     return window.localStorage.getItem(STORAGE_KEY.GEAR_TAB) || 'gear';
@@ -463,7 +466,10 @@ export default function GearPage() {
                                   </Text>
                                   {item.quality &&
                                     QUALITY_ICON_MAP[item.quality] && (
-                                      <Tooltip label={item.quality}>
+                                      <Tooltip
+                                        label={item.quality}
+                                        {...tooltipProps}
+                                      >
                                         <Image
                                           src={QUALITY_ICON_MAP[item.quality]}
                                           alt={item.quality}
@@ -591,7 +597,10 @@ export default function GearPage() {
                                 <Table.Td>
                                   {item.quality &&
                                     QUALITY_ICON_MAP[item.quality] && (
-                                      <Tooltip label={item.quality}>
+                                      <Tooltip
+                                        label={item.quality}
+                                        {...tooltipProps}
+                                      >
                                         <Image
                                           src={QUALITY_ICON_MAP[item.quality]}
                                           alt={item.quality}
@@ -675,7 +684,11 @@ export default function GearPage() {
                                   {set.name}
                                 </Text>
                                 {set.set_bonus.quantity > 0 && (
-                                  <Badge variant="outline" size="sm" color="gray">
+                                  <Badge
+                                    variant="outline"
+                                    size="sm"
+                                    color="gray"
+                                  >
                                     {set.set_bonus.quantity}-piece
                                   </Badge>
                                 )}
@@ -683,7 +696,8 @@ export default function GearPage() {
 
                               <Text size="sm" c="dimmed">
                                 {set.set_bonus.quantity > 0
-                                  ? set.set_bonus.description || 'No set bonus description.'
+                                  ? set.set_bonus.description ||
+                                    'No set bonus description.'
                                   : 'No set bonus.'}
                               </Text>
 
@@ -693,7 +707,10 @@ export default function GearPage() {
                                   {items.length === 1 ? '' : 's'}
                                 </Badge>
                                 {items.slice(0, 4).map((item) => (
-                                  <GearTypeTag key={item.name} type={item.type} />
+                                  <GearTypeTag
+                                    key={item.name}
+                                    type={item.type}
+                                  />
                                 ))}
                               </Group>
                             </Stack>

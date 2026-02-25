@@ -23,7 +23,7 @@ import LastUpdated from '../components/common/LastUpdated';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Character } from '../types/character';
 import type { Gear, GearSet, GearType } from '../types/gear';
 import type { Quality } from '../types/quality';
@@ -42,6 +42,7 @@ const GEAR_TYPE_ORDER: GearType[] = [
 export default function GearSetPage() {
   const { setName } = useParams<{ setName: string }>();
   const isDark = useComputedColorScheme('light') === 'dark';
+  const tooltipProps = useMobileTooltip();
   const { data: gear, loading } = useDataFetch<Gear[]>('data/gear.json', []);
   const { data: gearSets } = useDataFetch<GearSet[]>('data/gear_sets.json', []);
   const { data: characters } = useDataFetch<Character[]>(
@@ -260,6 +261,7 @@ export default function GearSetPage() {
                       <Tooltip
                         key={character.name}
                         label={`${character.name} (${character.quality})`}
+                        {...tooltipProps}
                       >
                         <Link
                           to={`/characters/${encodeURIComponent(character.name)}`}
@@ -366,7 +368,7 @@ export default function GearSetPage() {
                         <Group gap="xs" wrap="wrap">
                           <GearTypeTag type={item.type} />
                           {QUALITY_ICON_MAP[item.quality] && (
-                            <Tooltip label={item.quality}>
+                            <Tooltip label={item.quality} {...tooltipProps}>
                               <Image
                                 src={QUALITY_ICON_MAP[item.quality]}
                                 alt={item.quality}

@@ -6,6 +6,7 @@ export {
   useFilters,
   useViewMode,
 } from './use-filters';
+export { useMobileTooltip } from './use-mobile-tooltip';
 export { useScrollReveal } from './use-scroll-reveal';
 export { useSectionAccent } from './use-section-accent';
 export { useSidebar } from './use-sidebar';

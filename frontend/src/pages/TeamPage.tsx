@@ -27,21 +27,21 @@ import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
-import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { QUALITY_BORDER_COLOR } from '../components/character/CharacterCard';
 import ClassLabel from '../components/common/ClassLabel';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
-import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import RichText from '../components/common/RichText';
-import TeamSynergyAssistant from '../components/tools/TeamSynergyAssistant';
 import WyrmspellCard from '../components/common/WyrmspellCard';
+import Breadcrumbs from '../components/layout/Breadcrumbs';
+import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
+import TeamSynergyAssistant from '../components/tools/TeamSynergyAssistant';
 import { FACTION_COLOR } from '../constants/colors';
 import { normalizeContentType } from '../constants/content-types';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
 import type { Faction } from '../types/faction';
@@ -51,6 +51,7 @@ import type { Wyrmspell } from '../types/wyrmspell';
 import { computeTeamSynergy } from '../utils/team-synergy';
 
 export default function TeamPage() {
+  const tooltipProps = useMobileTooltip();
   const { teamName } = useParams<{ teamName: string }>();
   const isDark = useComputedColorScheme('light') === 'dark';
   const navigate = useNavigate();
@@ -340,7 +341,11 @@ export default function TeamPage() {
                             const iconSrc = getArtifactIcon(artifactName);
                             const artifact = artifactMap.get(artifactName);
                             return (
-                              <Tooltip key={artifactName} label={artifactName}>
+                              <Tooltip
+                                key={artifactName}
+                                label={artifactName}
+                                {...tooltipProps}
+                              >
                                 <Link
                                   to={`/artifacts/${encodeURIComponent(artifactName)}`}
                                   style={{ textDecoration: 'none' }}
@@ -508,6 +513,7 @@ export default function TeamPage() {
                   charMap={charMap}
                   factionColor={factionColor}
                   isDark={isDark}
+                  tooltipProps={tooltipProps}
                 />
               ))}
             </SimpleGrid>
@@ -523,11 +529,13 @@ function TeamMemberCard({
   charMap,
   factionColor,
   isDark,
+  tooltipProps,
 }: {
   member: TeamMember;
   charMap: Map<string, Character>;
   factionColor: string;
   isDark: boolean;
+  tooltipProps: ReturnType<typeof useMobileTooltip>;
 }) {
   const character = charMap.get(member.character_name);
   const borderColor = character
@@ -550,7 +558,7 @@ function TeamMemberCard({
       <Group gap="md" wrap="nowrap" align="flex-start">
         {/* Portrait */}
         <Box pos="relative" style={{ flexShrink: 0 }}>
-          <Tooltip label={`View ${member.character_name}`} position="top">
+          <Tooltip label={`View ${member.character_name}`} {...tooltipProps}>
             <Link
               to={`/characters/${encodeURIComponent(member.character_name)}`}
             >
@@ -635,7 +643,7 @@ function TeamMemberCard({
             {hasSubstitutes ? (
               <Group gap="xs">
                 {member.substitutes!.map((sub) => (
-                  <Tooltip key={sub} label={sub} position="top">
+                  <Tooltip key={sub} label={sub} {...tooltipProps}>
                     <Link
                       to={`/characters/${encodeURIComponent(sub)}`}
                       style={{ textDecoration: 'none' }}

@@ -15,19 +15,19 @@ import {
 import { useMemo } from 'react';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
-import type { ChipFilterGroup } from '../components/EntityFilter';
-import EntityFilter from '../components/EntityFilter';
-import FilteredListShell from '../components/layout/FilteredListShell';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
-import ListPageShell from '../components/layout/ListPageShell';
 import QualityIcon from '../components/common/QualityIcon';
 import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
 import SortableTh from '../components/common/SortableTh';
+import type { ChipFilterGroup } from '../components/EntityFilter';
+import EntityFilter from '../components/EntityFilter';
+import FilteredListShell from '../components/layout/FilteredListShell';
+import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch, useMobileTooltip } from '../hooks';
 import {
   countActiveFilters,
   useFilterPanel,
@@ -97,6 +97,7 @@ const EMPTY_FILTERS: WyrmspellFilters = {
 };
 
 export default function Wyrmspells() {
+  const tooltipProps = useMobileTooltip();
   const {
     data: wyrmspells,
     loading,
@@ -202,7 +203,9 @@ export default function Wyrmspells() {
   }, [wyrmspells, filters, sortCol, sortDir]);
 
   const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length, PAGE_SIZE, JSON.stringify(filters)
+    filtered.length,
+    PAGE_SIZE,
+    JSON.stringify(filters)
   );
   const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
 
@@ -295,12 +298,12 @@ export default function Wyrmspells() {
                             <Badge variant="light" size="sm">
                               {spell.type}
                             </Badge>
-                            <GlobalBadge
-                              isGlobal={spell.is_global}
-                              size="sm"
-                            />
+                            <GlobalBadge isGlobal={spell.is_global} size="sm" />
                             {spell.exclusive_faction && (
-                              <Tooltip label={spell.exclusive_faction}>
+                              <Tooltip
+                                label={spell.exclusive_faction}
+                                {...tooltipProps}
+                              >
                                 <Image
                                   src={factionIcon}
                                   alt={spell.exclusive_faction}
@@ -402,7 +405,10 @@ export default function Wyrmspells() {
                           </Table.Td>
                           <Table.Td>
                             {spell.exclusive_faction ? (
-                              <Tooltip label={spell.exclusive_faction}>
+                              <Tooltip
+                                label={spell.exclusive_faction}
+                                {...tooltipProps}
+                              >
                                 <Image
                                   src={factionIcon}
                                   alt={spell.exclusive_faction}
@@ -417,10 +423,7 @@ export default function Wyrmspells() {
                             )}
                           </Table.Td>
                           <Table.Td>
-                            <GlobalBadge
-                              isGlobal={spell.is_global}
-                              size="sm"
-                            />
+                            <GlobalBadge isGlobal={spell.is_global} size="sm" />
                           </Table.Td>
                           <Table.Td>
                             <Text size="sm">{spell.effect}</Text>

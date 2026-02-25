@@ -11,11 +11,12 @@ import {
 import { IoCheckmark, IoCopyOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import ResourceBadge from '../../components/common/ResourceBadge';
-import { useDataFetch } from '../../hooks';
+import { useDataFetch, useMobileTooltip } from '../../hooks';
 import type { Code } from '../../types/code';
 import { isCodeActive } from '../../utils';
 
 export default function ActiveCodesSection() {
+  const tooltipProps = useMobileTooltip();
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
   const activeCodes = codes.filter(isCodeActive).reverse().slice(0, 5);
 
@@ -54,7 +55,7 @@ export default function ActiveCodesSection() {
             </Text>
             <CopyButton value={entry.code} timeout={1500}>
               {({ copied, copy }) => (
-                <Tooltip label={copied ? 'Copied!' : 'Copy'} withArrow>
+                <Tooltip label={copied ? 'Copied!' : 'Copy'} {...tooltipProps}>
                   <ActionIcon
                     variant="subtle"
                     color={copied ? 'teal' : 'gray'}

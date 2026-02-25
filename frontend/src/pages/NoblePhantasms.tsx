@@ -16,17 +16,22 @@ import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
-import EntityFilter from '../components/EntityFilter';
-import FilteredListShell from '../components/layout/FilteredListShell';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
-import ListPageShell from '../components/layout/ListPageShell';
 import SortableTh from '../components/common/SortableTh';
+import EntityFilter from '../components/EntityFilter';
+import FilteredListShell from '../components/layout/FilteredListShell';
+import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
-import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { useDataFetch, useMobileTooltip } from '../hooks';
+import {
+  countActiveFilters,
+  useFilterPanel,
+  useFilters,
+  useViewMode,
+} from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Character } from '../types/character';
@@ -42,6 +47,7 @@ const EMPTY_FILTERS: NoblePhantasmFilters = {
 };
 
 export default function NoblePhantasms() {
+  const tooltipProps = useMobileTooltip();
   const navigate = useNavigate();
   const {
     data: noblePhantasms,
@@ -143,7 +149,9 @@ export default function NoblePhantasms() {
   }, [noblePhantasms, filters.search, sortCol, sortDir]);
 
   const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length, PAGE_SIZE, JSON.stringify(filters)
+    filtered.length,
+    PAGE_SIZE,
+    JSON.stringify(filters)
   );
   const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
 
@@ -217,7 +225,12 @@ export default function NoblePhantasms() {
                       p="md"
                       radius="md"
                       withBorder
-                      style={{ ...CARD_HOVER_STYLES, textDecoration: 'none', color: 'inherit', display: 'block' }}
+                      style={{
+                        ...CARD_HOVER_STYLES,
+                        textDecoration: 'none',
+                        color: 'inherit',
+                        display: 'block',
+                      }}
                       {...cardHoverHandlers}
                     >
                       <Group gap="md" align="flex-start" wrap="nowrap">
@@ -265,7 +278,12 @@ export default function NoblePhantasms() {
                               {np.skills.length !== 1 ? 's' : ''}
                             </Badge>
                           </Group>
-                          <Tooltip label={np.lore} multiline maw={360}>
+                          <Tooltip
+                            label={np.lore}
+                            multiline
+                            maw={360}
+                            {...tooltipProps}
+                          >
                             <Text size="xs" c="dimmed" lineClamp={2}>
                               {np.lore}
                             </Text>

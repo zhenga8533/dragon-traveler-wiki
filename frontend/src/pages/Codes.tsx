@@ -38,16 +38,16 @@ import {
 } from 'react-icons/io5';
 import { getResourceIcon } from '../assets/resource';
 import LastUpdated from '../components/common/LastUpdated';
-import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import PaginationControl from '../components/common/PaginationControl';
 import ResourceBadge from '../components/common/ResourceBadge';
+import ViewToggle from '../components/common/ViewToggle';
+import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
 } from '../components/tools/SuggestModal';
-import ViewToggle from '../components/common/ViewToggle';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch, useMobileTooltip } from '../hooks';
 import { useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import type { Code } from '../types/code';
@@ -142,6 +142,7 @@ type TabFilter = 'active' | 'expired';
 const CODES_PER_PAGE = 20;
 
 export default function Codes() {
+  const tooltipProps = useMobileTooltip();
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
   const { data: resources } = useDataFetch<Resource[]>(
     'data/resources.json',
@@ -359,11 +360,6 @@ export default function Codes() {
                 <Text fw={600} size="sm">
                   Reward Summary
                 </Text>
-                {!rewardsOpen && unclaimedRewards.size > 0 && (
-                  <Badge variant="light" color="yellow" size="sm">
-                    {unclaimedRewards.size} unclaimed
-                  </Badge>
-                )}
               </Group>
               {rewardsOpen ? (
                 <IoChevronUp size={16} />
@@ -504,7 +500,7 @@ export default function Codes() {
                   </Group>
                   <Group gap="xs" wrap="wrap">
                     {isActiveCode && (
-                      <Tooltip label="Report expired" withArrow>
+                      <Tooltip label="Report expired" {...tooltipProps}>
                         <ActionIcon
                           component="a"
                           href={buildExpiredCodeUrl(entry.code)}
@@ -521,7 +517,7 @@ export default function Codes() {
                       {({ copied, copy }) => (
                         <Tooltip
                           label={copied ? 'Copied!' : 'Copy code'}
-                          withArrow
+                          {...tooltipProps}
                         >
                           <ActionIcon
                             variant="subtle"
@@ -588,7 +584,7 @@ export default function Codes() {
                       </Group>
                       <Group gap={4}>
                         {isActiveCode && (
-                          <Tooltip label="Report expired" withArrow>
+                          <Tooltip label="Report expired" {...tooltipProps}>
                             <ActionIcon
                               component="a"
                               href={buildExpiredCodeUrl(entry.code)}
@@ -606,7 +602,7 @@ export default function Codes() {
                           {({ copied, copy }) => (
                             <Tooltip
                               label={copied ? 'Copied!' : 'Copy code'}
-                              withArrow
+                              {...tooltipProps}
                             >
                               <ActionIcon
                                 variant="subtle"

@@ -49,7 +49,7 @@ import EntityNotFound from '../../components/common/EntityNotFound';
 import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
 import { BREAKPOINTS } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
-import { useDataFetch } from '../../hooks/use-data-fetch';
+import { useDataFetch, useMobileTooltip } from '../../hooks';
 import type { Character, RecommendedGearEntry } from '../../types/character';
 import type { Gear, GearSet } from '../../types/gear';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
@@ -118,8 +118,8 @@ const DETAIL_TOOLTIP_STYLES = {
   },
 };
 
-
 export default function CharacterPage() {
+  const tooltipProps = useMobileTooltip();
   const isDark = useComputedColorScheme('light') === 'dark';
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
   const { name } = useParams<{ name: string }>();
@@ -699,6 +699,7 @@ export default function CharacterPage() {
                             multiline
                             withArrow
                             openDelay={120}
+                            closeDelay={400}
                             maw={300}
                             styles={DETAIL_TOOLTIP_STYLES}
                           >
@@ -798,7 +799,7 @@ export default function CharacterPage() {
                   {activeIllustration.type === 'image' && (
                     <Tooltip
                       label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
-                      withArrow
+                      {...tooltipProps}
                     >
                       <ActionIcon
                         onClick={handleFullscreen}
