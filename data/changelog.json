@@ -77,6 +77,31 @@
         "type": "updated",
         "category": "automation",
         "description": "Refined suggestion workflow permissions, concurrency isolation, and queue handling"
+      },
+      {
+        "type": "updated",
+        "category": "guides",
+        "description": "Refactored Star Upgrade Calculator UI and logic for improved layout and usability"
+      },
+      {
+        "type": "updated",
+        "category": "site",
+        "description": "Updated favicon image"
+      },
+      {
+        "type": "updated",
+        "category": "codebase",
+        "description": "Reorganized components into character/, common/, layout/, and tools/ subdirectories for cleaner project structure"
+      },
+      {
+        "type": "updated",
+        "category": "backend",
+        "description": "Improved Dolt sync error handling and recovery with better failure messaging"
+      },
+      {
+        "type": "updated",
+        "category": "backend",
+        "description": "Removed deprecated Dolt sync/export tooling and CI sync job"
       }
     ],
     "last_updated": 1771993840
