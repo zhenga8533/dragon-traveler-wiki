@@ -13,7 +13,7 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useHotkeys, useMediaQuery } from '@mantine/hooks';
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import {
   IoBook,
   IoChevronBack,
@@ -187,11 +187,37 @@ const renderNavIcon = (
 function Navigation({
   onNavigate,
   showLabels,
+  onExpand,
 }: {
   onNavigate: () => void;
   showLabels: boolean;
+  onExpand?: () => void;
 }) {
   const location = useLocation();
+
+  // Controlled open/close state for parent groups (Database, Guides, etc.)
+  const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
+    const initial: Record<string, boolean> = {};
+    for (const item of NAV_ITEMS) {
+      if (item.children) {
+        const active = item.children.some((c) => location.pathname === c.path);
+        if (active) initial[item.label] = true;
+      }
+    }
+    return initial;
+  });
+
+  // Keep the active parent group open when the route changes
+  useEffect(() => {
+    for (const item of NAV_ITEMS) {
+      if (item.children) {
+        const active = item.children.some((c) => location.pathname === c.path);
+        if (active) {
+          setOpenGroups((prev) => ({ ...prev, [item.label]: true }));
+        }
+      }
+    }
+  }, [location.pathname]);
 
   return (
     <>
@@ -202,7 +228,7 @@ function Navigation({
           );
           const parentAccent = PARENT_ACCENTS[item.label];
 
-          // When collapsed, show parent as a tooltip-wrapped icon
+          // When collapsed, clicking the icon expands the sidebar and opens the group
           if (!showLabels) {
             return (
               <Tooltip
@@ -220,6 +246,10 @@ function Navigation({
                   active={isChildActive}
                   color={parentAccent}
                   styles={collapsedNavStyles}
+                  onClick={() => {
+                    setOpenGroups((prev) => ({ ...prev, [item.label]: true }));
+                    onExpand?.();
+                  }}
                 />
               </Tooltip>
             );
@@ -229,7 +259,10 @@ function Navigation({
             <NavLink
               key={item.label}
               label={item.label}
-              defaultOpened={isChildActive}
+              opened={openGroups[item.label] ?? false}
+              onChange={(opened) =>
+                setOpenGroups((prev) => ({ ...prev, [item.label]: opened }))
+              }
               childrenOffset={28}
               leftSection={
                 item.icon &&
@@ -424,7 +457,11 @@ function AppContent() {
         onMouseLeave={() => sidebar.setHovered(false)}
       >
         <Box style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
-          <Navigation onNavigate={closeMobile} showLabels={showLabels} />
+          <Navigation
+            onNavigate={closeMobile}
+            showLabels={showLabels}
+            onExpand={() => sidebar.setCollapsed(false)}
+          />
         </Box>
         <Box hiddenFrom="sm" px="xs" pb="xs" pt="xs" style={{ flexShrink: 0 }}>
           <Select
