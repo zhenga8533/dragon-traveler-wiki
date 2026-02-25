@@ -35,7 +35,6 @@ import {
   IoClipboardOutline,
   IoCopy,
   IoOpenOutline,
-  IoPencil,
   IoSwapVertical,
   IoTrash,
 } from 'react-icons/io5';
@@ -144,6 +143,7 @@ function TierDropZone({
   children: React.ReactNode;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id });
+  const [isNoteEditing, setIsNoteEditing] = useState(false);
 
   return (
     <Paper
@@ -163,36 +163,36 @@ function TierDropZone({
             <Badge variant="filled" color={color} size="lg" radius="sm">
               {label}
             </Badge>
-            {note && (
-              <Text size="xs" c="dimmed" style={{ wordBreak: 'break-word' }}>
-                {note}
+            {isNoteEditing ? (
+              <TextInput
+                size="xs"
+                placeholder="Add a tier note..."
+                value={note || ''}
+                onChange={(e) => onNoteChange(e.currentTarget.value)}
+                onBlur={() => setIsNoteEditing(false)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === 'Escape')
+                    setIsNoteEditing(false);
+                }}
+                autoFocus
+                style={{ maxWidth: 320 }}
+              />
+            ) : (
+              <Text
+                size="xs"
+                c="dimmed"
+                style={{
+                  cursor: 'text',
+                  opacity: note ? 1 : 0.45,
+                  wordBreak: 'break-word',
+                }}
+                onClick={() => setIsNoteEditing(true)}
+              >
+                {note || 'Add a tier note...'}
               </Text>
             )}
           </Stack>
           <Group gap={2} wrap="nowrap" style={{ flexShrink: 0 }}>
-            <Popover position="top" withArrow trapFocus shadow="md">
-              <Popover.Target>
-                <Tooltip label={note ? 'Edit tier note' : 'Add tier note'} withArrow withinPortal>
-                  <ActionIcon
-                    size="xs"
-                    variant={note ? 'filled' : 'subtle'}
-                    color={note ? 'blue' : 'gray'}
-                    aria-label="Edit tier note"
-                  >
-                    <IoPencil size={10} />
-                  </ActionIcon>
-                </Tooltip>
-              </Popover.Target>
-              <Popover.Dropdown>
-                <TextInput
-                  size="xs"
-                  placeholder="Add a tier note..."
-                  value={note || ''}
-                  onChange={(e) => onNoteChange(e.currentTarget.value)}
-                  style={{ width: 220 }}
-                />
-              </Popover.Dropdown>
-            </Popover>
             <Tooltip label="Move up" withArrow withinPortal>
               <ActionIcon
                 size="xs"
@@ -738,28 +738,31 @@ export default function TierListBuilder({
               isLast={index === tierDefs.length - 1}
             >
               {names.map((n) => (
-                <div key={n} style={{ position: 'relative' }}>
+                <Stack key={n} gap={0}>
                   <DraggableCharCard
                     name={n}
                     char={charMap.get(n)}
                     tier={tier}
                   />
-                  <Popover position="top" withArrow trapFocus shadow="md">
+                  <Popover position="bottom" withArrow trapFocus shadow="md">
                     <Popover.Target>
-                      <ActionIcon
-                        size="xs"
-                        variant={notes[n] ? 'filled' : 'light'}
-                        color={notes[n] ? 'blue' : 'gray'}
-                        radius="xl"
-                        style={{
-                          position: 'absolute',
-                          top: 0,
-                          right: 'calc(50% - 40px)',
+                      <div
+                        role="button"
+                        tabIndex={0}
+                        style={{ cursor: 'pointer', padding: '2px 4px', textAlign: 'center' }}
+                        onKeyDown={(e) => {
+                          if (e.key === 'Enter' || e.key === ' ') e.currentTarget.click();
                         }}
-                        aria-label="Edit note"
                       >
-                        <IoPencil size={10} />
-                      </ActionIcon>
+                        <Text
+                          size="xs"
+                          c={notes[n] ? 'blue' : 'dimmed'}
+                          lineClamp={1}
+                          style={{ opacity: notes[n] ? 1 : 0.45 }}
+                        >
+                          {notes[n] || '+ note'}
+                        </Text>
+                      </div>
                     </Popover.Target>
                     <Popover.Dropdown>
                       <TextInput
@@ -767,16 +770,14 @@ export default function TierListBuilder({
                         placeholder="Add a note..."
                         value={notes[n] || ''}
                         onChange={(e) => {
-                          setNotes((prev) => ({
-                            ...prev,
-                            [n]: e.currentTarget.value,
-                          }));
-                                              }}
+                          const value = e.currentTarget.value;
+                          setNotes((prev) => ({ ...prev, [n]: value }));
+                        }}
                         style={{ width: 200 }}
                       />
                     </Popover.Dropdown>
                   </Popover>
-                </div>
+                </Stack>
               ))}
             </TierDropZone>
           );
