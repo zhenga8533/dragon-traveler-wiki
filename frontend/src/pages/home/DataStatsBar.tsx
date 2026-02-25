@@ -1,4 +1,14 @@
-import { Box, Group, Paper, SimpleGrid, Skeleton, Stack, Text, ThemeIcon } from '@mantine/core';
+import {
+  Box,
+  Card,
+  Group,
+  Paper,
+  SimpleGrid,
+  Skeleton,
+  Stack,
+  Text,
+  ThemeIcon,
+} from '@mantine/core';
 import { useMemo } from 'react';
 import {
   IoCube,
@@ -104,7 +114,7 @@ export default function DataStatsBar() {
 
   if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9) {
     return (
-      <Paper withBorder radius="lg" py="md" px="lg" my="md">
+      <Card padding="lg" radius="md" withBorder className="home-content-card">
         <SimpleGrid cols={{ base: 3, sm: 5, lg: 9 }} spacing={0}>
           {Array.from({ length: 9 }).map((_, i) => (
             <Stack key={i} gap={4} align="center" py="sm">
@@ -114,20 +124,74 @@ export default function DataStatsBar() {
             </Stack>
           ))}
         </SimpleGrid>
-      </Paper>
+      </Card>
     );
   }
 
   const stats: StatItem[] = [
-    { label: 'Artifacts', count: artifacts.length, to: '/artifacts', color: 'teal', icon: IoDiamond },
-    { label: 'Characters', count: characters.length, to: '/characters', color: 'blue', icon: IoPeople },
-    { label: 'Gear', count: gear.length, to: '/gear', color: 'teal', icon: IoShield },
-    { label: 'Howlkins', count: howlkins.length, to: '/howlkins', color: 'orange', icon: IoPaw },
-    { label: 'Noble Phantasms', count: noblePhantasms.length, to: '/noble-phantasms', color: 'teal', icon: IoFlash },
-    { label: 'Resources', count: resources.length, to: '/resources', color: 'teal', icon: IoCube },
-    { label: 'Status Effects', count: statusEffects.length, to: '/status-effects', color: 'cyan', icon: IoSparkles },
-    { label: 'Subclasses', count: subclasses.length, to: '/subclasses', color: 'grape', icon: IoGrid },
-    { label: 'Wyrmspells', count: wyrmspells.length, to: '/wyrmspells', color: 'indigo', icon: IoFlame },
+    {
+      label: 'Artifacts',
+      count: artifacts.length,
+      to: '/artifacts',
+      color: 'teal',
+      icon: IoDiamond,
+    },
+    {
+      label: 'Characters',
+      count: characters.length,
+      to: '/characters',
+      color: 'blue',
+      icon: IoPeople,
+    },
+    {
+      label: 'Gear',
+      count: gear.length,
+      to: '/gear',
+      color: 'teal',
+      icon: IoShield,
+    },
+    {
+      label: 'Howlkins',
+      count: howlkins.length,
+      to: '/howlkins',
+      color: 'orange',
+      icon: IoPaw,
+    },
+    {
+      label: 'Noble Phantasms',
+      count: noblePhantasms.length,
+      to: '/noble-phantasms',
+      color: 'teal',
+      icon: IoFlash,
+    },
+    {
+      label: 'Resources',
+      count: resources.length,
+      to: '/resources',
+      color: 'teal',
+      icon: IoCube,
+    },
+    {
+      label: 'Status Effects',
+      count: statusEffects.length,
+      to: '/status-effects',
+      color: 'cyan',
+      icon: IoSparkles,
+    },
+    {
+      label: 'Subclasses',
+      count: subclasses.length,
+      to: '/subclasses',
+      color: 'grape',
+      icon: IoGrid,
+    },
+    {
+      label: 'Wyrmspells',
+      count: wyrmspells.length,
+      to: '/wyrmspells',
+      color: 'indigo',
+      icon: IoFlame,
+    },
   ];
 
   return (
@@ -143,7 +207,12 @@ export default function DataStatsBar() {
             style={{ textDecoration: 'none' }}
           >
             <Stack gap={4} align="center">
-              <ThemeIcon variant="light" color={stat.color} size="lg" radius="md">
+              <ThemeIcon
+                variant="light"
+                color={stat.color}
+                size="lg"
+                radius="md"
+              >
                 <stat.icon size={16} />
               </ThemeIcon>
               <Text fw={700} size="sm" ta="center" lh={1}>
