@@ -39,10 +39,10 @@ import {
 } from 'react-router-dom';
 import ErrorBoundary from './components/common/ErrorBoundary';
 import Footer from './components/layout/Footer';
-import KeyboardShortcuts from './components/tools/KeyboardShortcuts';
-import KonamiEasterEgg from './components/tools/KonamiEasterEgg';
 import PageTransition from './components/layout/PageTransition';
 import ScrollToTop from './components/layout/ScrollToTop';
+import KeyboardShortcuts from './components/tools/KeyboardShortcuts';
+import KonamiEasterEgg from './components/tools/KonamiEasterEgg';
 import SearchModal from './components/tools/SearchModal';
 import { getAccentForPath, PARENT_ACCENTS } from './constants/accents';
 import { normalizeContentType } from './constants/content-types';
@@ -76,6 +76,7 @@ import GearPage from './pages/Gear';
 import GearSetPage from './pages/GearSetPage';
 import Home from './pages/home/index';
 import Howlkins from './pages/Howlkins';
+import MythicSummonCalculator from './pages/MythicSummonCalculator';
 import NoblePhantasmPage from './pages/NoblePhantasmPage';
 import NoblePhantasms from './pages/NoblePhantasms';
 import NotFound from './pages/NotFound';
@@ -126,6 +127,10 @@ const NAV_ITEMS: NavItem[] = [
       {
         label: 'Star Upgrade Calculator',
         path: '/guides/star-upgrade-calculator',
+      },
+      {
+        label: 'Mythic Summon Calculator',
+        path: '/guides/mythic-summon-calculator',
       },
       {
         label: 'Shovel Event Guide',
@@ -580,6 +585,10 @@ function AppContent() {
                 <Route
                   path="/guides/star-upgrade-calculator"
                   element={<StarUpgradeCalculator />}
+                />
+                <Route
+                  path="/guides/mythic-summon-calculator"
+                  element={<MythicSummonCalculator />}
                 />
                 <Route
                   path="/guides/shovel-event"
