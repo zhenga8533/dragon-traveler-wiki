@@ -9,8 +9,13 @@ export default function ScrollToTop() {
   const location = useLocation();
 
   useEffect(() => {
-    scrollTo({ y: 0 });
-  }, [location.pathname, location.search, scrollTo]);
+    // Scroll to top with a small delay to ensure the page layout has settled
+    const scrollTimeout = setTimeout(() => {
+      window.scrollTo({ top: 0, left: 0, behavior: 'smooth' });
+    }, 0);
+
+    return () => clearTimeout(scrollTimeout);
+  }, [location.pathname, location.search]);
 
   return (
     <Affix position={{ bottom: 20, right: 20 }}>
