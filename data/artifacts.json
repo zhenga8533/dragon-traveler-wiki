@@ -44,7 +44,7 @@
       {
         "name": "Branch of the World Tree",
         "lore": "\"There is also an ancient ash tree named Yggdrasil. Enormous and towering, it divides the heavens, earth, and the underworld, with its gnarled roots reaching deep into the earth's layers.\" — Poetic Edda",
-        "character_class": "",
+        "character_class": "Mage",
         "effect": [
           {
             "level": 0,
@@ -276,7 +276,7 @@
         ]
       }
     ],
-    "last_updated": 1771512626
+    "last_updated": 1772060728
   },
   {
     "name": "Anubis Scales",

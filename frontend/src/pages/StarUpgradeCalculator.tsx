@@ -24,7 +24,6 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
 import {
-  IoCalculator,
   IoCalendar,
   IoChevronDown,
   IoChevronUp,
@@ -368,18 +367,7 @@ export default function StarUpgradeCalculator() {
   return (
     <Container size="xl" py="xl">
       <Stack gap="lg">
-        <Group gap="sm" align="center">
-          <ThemeIcon variant="light" color="violet" size="xl" radius="md">
-            <IoCalculator size={22} />
-          </ThemeIcon>
-          <Stack gap={2}>
-            <Title order={1}>Star Upgrade Calculator</Title>
-            <Text c="dimmed" size="sm">
-              Plan exact upgrade resources and estimate heart-trial farming time
-              in one place.
-            </Text>
-          </Stack>
-        </Group>
+        <Title order={1}>Star Upgrade Calculator</Title>
 
         <Alert
           variant="light"
@@ -394,12 +382,12 @@ export default function StarUpgradeCalculator() {
 
         <Card withBorder radius="md" p="lg">
           <Stack gap="md">
-            <Group gap="xs" align="center">
-              <ThemeIcon variant="light" color="yellow" size="lg" radius="md">
-                <IoStar size={16} />
-              </ThemeIcon>
-              <Title order={3}>Upgrade Requirements</Title>
-            </Group>
+            <Title order={3}>
+              <Group gap="xs">
+                <IoStar />
+                Upgrade Requirements
+              </Group>
+            </Title>
 
             <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
               <Select
@@ -482,12 +470,12 @@ export default function StarUpgradeCalculator() {
         {isValidSelection && copiesNeeded > 0 && (
           <Card withBorder radius="md" p="lg">
             <Stack gap="md">
-              <Group gap="xs" align="center">
-                <ThemeIcon variant="light" color="pink" size="lg" radius="md">
-                  <IoHeart size={16} />
-                </ThemeIcon>
-                <Title order={3}>Heart Trial Estimator</Title>
-              </Group>
+              <Title order={3}>
+                <Group gap="xs">
+                  <IoHeart />
+                  Heart Trial Estimator
+                </Group>
+              </Title>
 
               <Text size="sm" c="dimmed">
                 Each dupe requires {SHARDS_PER_DUPE} shards. SR heart-trial
@@ -655,14 +643,7 @@ export default function StarUpgradeCalculator() {
               {daysNeeded > 0 && (
                 <Paper p="md" radius="md" withBorder>
                   <Group gap="sm" wrap="nowrap">
-                    <ThemeIcon
-                      variant="light"
-                      color="violet"
-                      size="lg"
-                      radius="md"
-                    >
-                      <IoCalendar size={16} />
-                    </ThemeIcon>
+                    <IoCalendar size={16} />
                     <Stack gap={2}>
                       <Text size="sm" c="dimmed">
                         Estimated completion date
@@ -744,31 +725,23 @@ export default function StarUpgradeCalculator() {
         <Card withBorder radius="md" p="lg">
           <Stack gap="sm">
             <UnstyledButton onClick={refTableHandlers.toggle}>
-              <Group justify="space-between" align="flex-start">
-                <Group gap="xs" align="flex-start">
-                  <ThemeIcon
-                    variant="light"
-                    color="cyan"
-                    size="lg"
-                    radius="md"
-                    mt={2}
-                  >
-                    <IoStatsChart size={16} />
-                  </ThemeIcon>
-                  <Stack gap={2}>
-                    <Title order={3}>Star Upgrade Reference Table</Title>
-                    <Text size="sm" c="dimmed">
-                      Cumulative values from 5 Star base.
-                    </Text>
-                  </Stack>
-                </Group>
-                <ThemeIcon variant="subtle" color="gray" size="lg">
-                  {refTableOpened ? (
-                    <IoChevronUp size={18} />
-                  ) : (
-                    <IoChevronDown size={18} />
-                  )}
-                </ThemeIcon>
+              <Group justify="space-between" align="center">
+                <Stack gap={2}>
+                  <Title order={3}>
+                    <Group gap="xs">
+                      <IoStatsChart />
+                      Star Upgrade Reference Table
+                    </Group>
+                  </Title>
+                  <Text size="sm" c="dimmed">
+                    Cumulative values from 5 Star base.
+                  </Text>
+                </Stack>
+                {refTableOpened ? (
+                  <IoChevronUp size={18} />
+                ) : (
+                  <IoChevronDown size={18} />
+                )}
               </Group>
             </UnstyledButton>
 
