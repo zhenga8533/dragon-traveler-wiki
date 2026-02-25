@@ -411,16 +411,16 @@ export default function Home() {
         </Container>
       </Box>
 
-      {/* Data stats bar */}
-      <Container size="lg">
-        <DataStatsBar />
-      </Container>
-
       {/* Content sections */}
       <Container size="lg" py="xl" mt="md">
         <Stack gap="xl">
           {/* Featured Characters Marquee */}
           <FeaturedCharactersMarquee />
+
+          {/* Data stats bar */}
+          <Container size="lg">
+            <DataStatsBar />
+          </Container>
 
           {/* Active Codes & Recent Updates row */}
           <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
