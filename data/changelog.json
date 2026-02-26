@@ -60,6 +60,16 @@
       },
       {
         "type": "updated",
+        "category": "ui",
+        "description": "Centralized default tooltip behavior and polished character UI consistency"
+      },
+      {
+        "type": "updated",
+        "category": "navigation",
+        "description": "Added shared detail-page navigation controls and integrated them across detail views"
+      },
+      {
+        "type": "updated",
         "category": "automation",
         "description": "Auto-set last_updated timestamps on data edits and improved bump tool to support new entries"
       },
@@ -92,9 +102,14 @@
         "type": "fixed",
         "category": "ui",
         "description": "Fixed link style reset ordering to keep header brand link styles consistent"
+      },
+      {
+        "type": "fixed",
+        "category": "guides",
+        "description": "Improved summon calculator null-handling and input safety for more reliable calculations"
       }
     ],
-    "last_updated": 1772084861
+    "last_updated": 1772088102
   },
   {
     "date": "2026-02-24",
