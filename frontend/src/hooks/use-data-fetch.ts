@@ -6,40 +6,75 @@ export interface DataFetchResult<T> {
   error: Error | null;
 }
 
+const dataCache = new Map<string, unknown>();
+const inFlightRequests = new Map<string, Promise<unknown>>();
+
+function getDataUrl(path: string): string {
+  return import.meta.env.BASE_URL + path;
+}
+
+async function fetchJsonCached(path: string): Promise<unknown> {
+  if (dataCache.has(path)) {
+    return dataCache.get(path);
+  }
+
+  const existingRequest = inFlightRequests.get(path);
+  if (existingRequest) {
+    return existingRequest;
+  }
+
+  const request = fetch(getDataUrl(path))
+    .then((res) => {
+      if (!res.ok) {
+        throw new Error(`HTTP ${res.status}: ${res.statusText}`);
+      }
+      return res.json();
+    })
+    .then((json) => {
+      dataCache.set(path, json);
+      return json;
+    })
+    .finally(() => {
+      inFlightRequests.delete(path);
+    });
+
+  inFlightRequests.set(path, request);
+  return request;
+}
+
 export function useDataFetch<T>(path: string, initial: T): DataFetchResult<T> {
-  const [data, setData] = useState<T>(initial);
-  const [loading, setLoading] = useState(true);
+  const hasCachedValue = dataCache.has(path);
+  const [data, setData] = useState<T>(() =>
+    hasCachedValue ? (dataCache.get(path) as T) : initial
+  );
+  const [loading, setLoading] = useState(() => !hasCachedValue);
   const [error, setError] = useState<Error | null>(null);
 
   useEffect(() => {
-    const controller = new AbortController();
+    let isCancelled = false;
 
-    queueMicrotask(() => {
-      setLoading(true);
-      setError(null);
-    });
+    const hasCached = dataCache.has(path);
+    setLoading(!hasCached);
+    setError(null);
 
-    fetch(import.meta.env.BASE_URL + path, { signal: controller.signal })
-      .then((res) => {
-        if (!res.ok) {
-          throw new Error(`HTTP ${res.status}: ${res.statusText}`);
-        }
-        return res.json();
+    fetchJsonCached(path)
+      .then((result) => {
+        if (isCancelled) return;
+        setData(result as T);
       })
-      .then(setData)
       .catch((err) => {
-        if (err.name !== 'AbortError') {
-          console.error(`Failed to fetch ${path}:`, err);
-          setError(err instanceof Error ? err : new Error(String(err)));
-        }
+        if (isCancelled) return;
+        console.error(`Failed to fetch ${path}:`, err);
+        setError(err instanceof Error ? err : new Error(String(err)));
       })
       .finally(() => {
-        if (!controller.signal.aborted) {
-          setLoading(false);
-        }
+        if (isCancelled) return;
+        setLoading(false);
       });
 
-    return () => controller.abort();
+    return () => {
+      isCancelled = true;
+    };
   }, [path]);
 
   return { data, loading, error };

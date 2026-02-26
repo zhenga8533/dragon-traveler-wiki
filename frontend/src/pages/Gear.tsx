@@ -20,8 +20,8 @@ import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../assets/gear';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import GearTypeTag from '../components/common/GearTypeTag';
 import LastUpdated from '../components/common/LastUpdated';
-import QualityIcon from '../components/common/QualityIcon';
 import PaginationControl from '../components/common/PaginationControl';
+import QualityIcon from '../components/common/QualityIcon';
 import SortableTh from '../components/common/SortableTh';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
@@ -41,7 +41,7 @@ import {
   cardHoverHandlers,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch, useMobileTooltip } from '../hooks';
+import { useDataFetch } from '../hooks';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
@@ -142,7 +142,6 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 ];
 
 export default function GearPage() {
-  const tooltipProps = useMobileTooltip();
   const [activeTab, setActiveTab] = useState<string>(() => {
     if (typeof window === 'undefined') return 'gear';
     return window.localStorage.getItem(STORAGE_KEY.GEAR_TAB) || 'gear';

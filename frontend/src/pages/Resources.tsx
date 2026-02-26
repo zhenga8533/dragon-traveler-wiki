@@ -15,8 +15,8 @@ import { useContext, useMemo } from 'react';
 import { getResourceIcon } from '../assets/resource';
 import InlineMarkup from '../components/common/InlineMarkup';
 import LastUpdated from '../components/common/LastUpdated';
-import QualityIcon from '../components/common/QualityIcon';
 import PaginationControl from '../components/common/PaginationControl';
+import QualityIcon from '../components/common/QualityIcon';
 import SortableTh from '../components/common/SortableTh';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
@@ -30,12 +30,7 @@ import {
 } from '../constants/colors';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { ResourcesContext } from '../contexts';
-import {
-  useFilterPanel,
-  useFilters,
-  useMobileTooltip,
-  useViewMode,
-} from '../hooks';
+import { useFilterPanel, useFilters, useViewMode } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { ResourceCategory } from '../types/resource';
@@ -91,7 +86,6 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 ];
 
 export default function Resources() {
-  const tooltipProps = useMobileTooltip();
   const { resources, loading } = useContext(ResourcesContext);
   const { filters, setFilters } = useFilters<ResourceFilters>({
     emptyFilters: EMPTY_FILTERS,
