@@ -13,13 +13,14 @@ import {
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
 import { getResourceIcon } from '../assets/resource';
+import type { ChipFilterGroup } from '../components/common/EntityFilter';
+import EntityFilter from '../components/common/EntityFilter';
 import InlineMarkup from '../components/common/InlineMarkup';
 import LastUpdated from '../components/common/LastUpdated';
+import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
 import PaginationControl from '../components/common/PaginationControl';
 import QualityIcon from '../components/common/QualityIcon';
 import SortableTh from '../components/common/SortableTh';
-import type { ChipFilterGroup } from '../components/common/EntityFilter';
-import EntityFilter from '../components/common/EntityFilter';
 import FilterToolbar from '../components/layout/FilterToolbar';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
@@ -210,9 +211,12 @@ export default function Resources() {
               </FilterToolbar>
 
               {filtered.length === 0 ? (
-                <Text c="dimmed" size="sm" ta="center" py="md">
-                  No resources match the current filters.
-                </Text>
+                <NoResultsSuggestions
+                  title="No resources found"
+                  message="No resources match the current filters."
+                  onReset={() => setFilters(EMPTY_FILTERS)}
+                  onOpenFilters={toggleFilter}
+                />
               ) : viewMode === 'grid' ? (
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                   {pageItems.map((resource) => {

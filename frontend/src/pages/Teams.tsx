@@ -22,11 +22,11 @@ import { FACTION_ICON_MAP } from '../assets/faction';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterCard from '../components/character/CharacterCard';
 import DataFetchError from '../components/common/DataFetchError';
-import EmptyState from '../components/common/EmptyState';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
 import FactionTag from '../components/common/FactionTag';
 import LastUpdated from '../components/common/LastUpdated';
+import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
 import PaginationControl from '../components/common/PaginationControl';
 import ViewToggle from '../components/common/ViewToggle';
 import {
@@ -290,13 +290,18 @@ export default function Teams() {
             {mode === 'view' && (
               <>
                 {filteredTeams.length === 0 && (
-                  <EmptyState
+                  <NoResultsSuggestions
                     title={search ? 'No teams found' : 'No matching teams'}
-                    description={
+                    message={
                       search
                         ? 'No teams match your search.'
                         : 'No teams match the current filters.'
                     }
+                    onReset={() => {
+                      setViewFilters({ factions: [], contentTypes: [] });
+                      setSearch('');
+                    }}
+                    onOpenFilters={toggleFilter}
                   />
                 )}
 

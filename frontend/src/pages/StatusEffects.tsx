@@ -15,16 +15,21 @@ import { useMemo } from 'react';
 import { getStatusEffectIcon } from '../assets/status_effect';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
-import FilteredListShell from '../components/layout/FilteredListShell';
 import LastUpdated from '../components/common/LastUpdated';
-import ListPageShell from '../components/layout/ListPageShell';
 import RichText from '../components/common/RichText';
 import SortableTh from '../components/common/SortableTh';
+import FilteredListShell from '../components/layout/FilteredListShell';
+import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import {
+  countActiveFilters,
+  useFilterPanel,
+  useFilters,
+  useViewMode,
+} from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
@@ -139,7 +144,9 @@ export default function StatusEffects() {
   }, [effects, filters, sortCol, sortDir]);
 
   const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length, PAGE_SIZE, JSON.stringify(filters)
+    filtered.length,
+    PAGE_SIZE,
+    JSON.stringify(filters)
   );
   const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
 
@@ -182,6 +189,7 @@ export default function StatusEffects() {
             filterCount={activeFilterCount}
             filterOpen={filterOpen}
             onFilterToggle={toggleFilter}
+            onResetFilters={() => setFilters(EMPTY_FILTERS)}
             filterContent={
               <EntityFilter
                 groups={FILTER_GROUPS}

@@ -27,6 +27,7 @@ import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
 import FactionTag from '../components/common/FactionTag';
 import LastUpdated from '../components/common/LastUpdated';
+import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
 import QualityIcon from '../components/common/QualityIcon';
 import ViewToggle from '../components/common/ViewToggle';
 import {
@@ -240,9 +241,15 @@ export default function TierList() {
             {mode === 'view' && (
               <>
                 {visibleTierLists.length === 0 && (
-                  <Text c="dimmed" ta="center" py="lg">
-                    No tier lists match the current filters.
-                  </Text>
+                  <NoResultsSuggestions
+                    title="No tier lists found"
+                    message="No tier lists match the current filters."
+                    onReset={() => {
+                      setViewFilters({ contentTypes: [] });
+                      setSearch('');
+                    }}
+                    onOpenFilters={toggleFilter}
+                  />
                 )}
 
                 {visibleTierLists.length > 0 && (

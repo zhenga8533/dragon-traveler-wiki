@@ -15,14 +15,14 @@ import {
 import { useMemo } from 'react';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
+import type { ChipFilterGroup } from '../components/common/EntityFilter';
+import EntityFilter from '../components/common/EntityFilter';
 import FactionTag from '../components/common/FactionTag';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
 import QualityIcon from '../components/common/QualityIcon';
 import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
 import SortableTh from '../components/common/SortableTh';
-import type { ChipFilterGroup } from '../components/common/EntityFilter';
-import EntityFilter from '../components/common/EntityFilter';
 import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
@@ -242,6 +242,7 @@ export default function Wyrmspells() {
             filterCount={activeFilterCount}
             filterOpen={filterOpen}
             onFilterToggle={toggleFilter}
+            onResetFilters={() => setFilters(EMPTY_FILTERS)}
             filterContent={
               <EntityFilter
                 groups={filterGroups}

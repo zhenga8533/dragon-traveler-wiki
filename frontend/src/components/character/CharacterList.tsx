@@ -42,6 +42,7 @@ import {
 import ClassTag from '../common/ClassTag';
 import FactionTag from '../common/FactionTag';
 import GlobalBadge from '../common/GlobalBadge';
+import NoResultsSuggestions from '../common/NoResultsSuggestions';
 import PaginationControl from '../common/PaginationControl';
 import QualityIcon from '../common/QualityIcon';
 import SortableTh from '../common/SortableTh';
@@ -208,9 +209,12 @@ export default function CharacterList({
         )}
 
         {filteredAndSorted.length === 0 ? (
-          <Text c="dimmed" size="sm" ta="center" py="md">
-            No characters match the current filters.
-          </Text>
+          <NoResultsSuggestions
+            title="No characters found"
+            message="No characters match the current filters."
+            onReset={() => setFilters(EMPTY_FILTERS)}
+            onOpenFilters={showFilter ? toggleFilter : undefined}
+          />
         ) : viewMode === 'grid' ? (
           <SimpleGrid cols={cols} spacing={spacing}>
             {pageItems.map((char) => (

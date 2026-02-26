@@ -23,6 +23,7 @@ import EntityFilter from '../components/common/EntityFilter';
 import HowlkinBadge from '../components/common/HowlkinBadge';
 import HowlkinStats from '../components/common/HowlkinStats';
 import LastUpdated from '../components/common/LastUpdated';
+import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
 import PaginationControl from '../components/common/PaginationControl';
 import QualityIcon from '../components/common/QualityIcon';
 import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
@@ -406,9 +407,12 @@ export default function Howlkins() {
                   </FilterToolbar>
 
                   {filtered.length === 0 ? (
-                    <Text c="dimmed" size="sm" ta="center" py="md">
-                      No howlkins match the current filters.
-                    </Text>
+                    <NoResultsSuggestions
+                      title="No howlkins found"
+                      message="No howlkins match the current filters."
+                      onReset={() => setFilters(EMPTY_FILTERS)}
+                      onOpenFilters={toggleFilter}
+                    />
                   ) : viewMode === 'grid' ? (
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                       {howlkinPageItems.map((howlkin) => {
@@ -569,9 +573,12 @@ export default function Howlkins() {
                       onChange={(e) => setAllianceSearch(e.currentTarget.value)}
                     />
                     {filteredAlliances.length === 0 ? (
-                      <Text c="dimmed" size="sm" ta="center" py="md">
-                        No alliances match the search.
-                      </Text>
+                      <NoResultsSuggestions
+                        title="No alliances found"
+                        message="No alliances match the search."
+                        onReset={() => setAllianceSearch('')}
+                        resetLabel="Clear search"
+                      />
                     ) : (
                       <SimpleGrid cols={{ base: 1, md: 2 }} spacing="sm">
                         {alliancePageItems.map((alliance) => (

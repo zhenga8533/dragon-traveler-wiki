@@ -14,12 +14,12 @@ import {
 import { useMemo } from 'react';
 import { getSubclassIcon } from '../assets/subclass';
 import ClassTag from '../components/common/ClassTag';
+import type { ChipFilterGroup } from '../components/common/EntityFilter';
+import EntityFilter from '../components/common/EntityFilter';
 import LastUpdated from '../components/common/LastUpdated';
 import RichText from '../components/common/RichText';
 import SortableTh from '../components/common/SortableTh';
 import TierBadge from '../components/common/TierBadge';
-import type { ChipFilterGroup } from '../components/common/EntityFilter';
-import EntityFilter from '../components/common/EntityFilter';
 import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
@@ -215,6 +215,7 @@ export default function Subclasses() {
             filterCount={activeFilterCount}
             filterOpen={filterOpen}
             onFilterToggle={toggleFilter}
+            onResetFilters={() => setFilters(EMPTY_FILTERS)}
             filterContent={
               <EntityFilter
                 groups={FILTER_GROUPS}

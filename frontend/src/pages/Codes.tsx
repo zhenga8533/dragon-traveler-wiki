@@ -39,6 +39,7 @@ import {
 import { getResourceIcon } from '../assets/resource';
 import DataFetchError from '../components/common/DataFetchError';
 import LastUpdated from '../components/common/LastUpdated';
+import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
 import PaginationControl from '../components/common/PaginationControl';
 import ResourceBadge from '../components/common/ResourceBadge';
 import ViewToggle from '../components/common/ViewToggle';
@@ -465,21 +466,29 @@ export default function Codes() {
         )}
 
         {!loading && !error && filtered.length === 0 && (
-          <Text c="dimmed" ta="center" py="lg">
-            {search
-              ? 'No codes match your search.'
-              : tab === 'expired'
-                ? view === 'redeemed'
-                  ? 'No expired codes marked as redeemed.'
-                  : view === 'unredeemed'
-                    ? 'No unredeemed expired codes.'
-                    : 'No expired codes yet.'
-                : view === 'redeemed'
-                  ? 'No active codes marked as redeemed yet.'
-                  : view === 'unredeemed'
-                    ? 'All active codes have been redeemed!'
-                    : 'No active codes available.'}
-          </Text>
+          <NoResultsSuggestions
+            title="No codes found"
+            message={
+              search
+                ? 'No codes match your search.'
+                : tab === 'expired'
+                  ? view === 'redeemed'
+                    ? 'No expired codes marked as redeemed.'
+                    : view === 'unredeemed'
+                      ? 'No unredeemed expired codes.'
+                      : 'No expired codes yet.'
+                  : view === 'redeemed'
+                    ? 'No active codes marked as redeemed yet.'
+                    : view === 'unredeemed'
+                      ? 'All active codes have been redeemed!'
+                      : 'No active codes available.'
+            }
+            onReset={() => {
+              setSearch('');
+              setView('all');
+            }}
+            resetLabel="Reset search & view"
+          />
         )}
 
         {!loading &&

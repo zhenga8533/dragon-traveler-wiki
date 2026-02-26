@@ -1,8 +1,9 @@
-import { Paper, Stack, Text } from '@mantine/core';
+import { Paper, Stack } from '@mantine/core';
 import type { ReactNode } from 'react';
 import type { ViewMode } from '../../hooks/use-filters';
-import FilterToolbar from './FilterToolbar';
+import NoResultsSuggestions from '../common/NoResultsSuggestions';
 import PaginationControl from '../common/PaginationControl';
+import FilterToolbar from './FilterToolbar';
 
 interface FilteredListShellProps {
   count: number;
@@ -12,6 +13,7 @@ interface FilteredListShellProps {
   filterCount: number;
   filterOpen: boolean;
   onFilterToggle: () => void;
+  onResetFilters?: () => void;
   filterContent: ReactNode;
   emptyMessage?: string;
   gridContent: ReactNode;
@@ -29,6 +31,7 @@ export default function FilteredListShell({
   filterCount,
   filterOpen,
   onFilterToggle,
+  onResetFilters,
   filterContent,
   emptyMessage,
   gridContent,
@@ -55,9 +58,12 @@ export default function FilteredListShell({
         </FilterToolbar>
 
         {count === 0 ? (
-          <Text c="dimmed" size="sm" ta="center" py="md">
-            {emptyMessage ?? defaultEmpty}
-          </Text>
+          <NoResultsSuggestions
+            title={`No ${noun}s found`}
+            message={emptyMessage ?? defaultEmpty}
+            onReset={onResetFilters}
+            onOpenFilters={onFilterToggle}
+          />
         ) : viewMode === 'grid' ? (
           gridContent
         ) : (
@@ -65,7 +71,11 @@ export default function FilteredListShell({
         )}
 
         {page !== undefined && totalPages !== undefined && onPageChange && (
-          <PaginationControl currentPage={page} totalPages={totalPages} onChange={onPageChange} />
+          <PaginationControl
+            currentPage={page}
+            totalPages={totalPages}
+            onChange={onPageChange}
+          />
         )}
       </Stack>
     </Paper>

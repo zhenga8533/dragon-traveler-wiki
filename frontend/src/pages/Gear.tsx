@@ -22,6 +22,7 @@ import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
 import GearTypeTag from '../components/common/GearTypeTag';
 import LastUpdated from '../components/common/LastUpdated';
+import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
 import PaginationControl from '../components/common/PaginationControl';
 import QualityIcon from '../components/common/QualityIcon';
 import SortableTh from '../components/common/SortableTh';
@@ -439,9 +440,12 @@ export default function GearPage() {
                   </FilterToolbar>
 
                   {filtered.length === 0 ? (
-                    <Text c="dimmed" size="sm" ta="center" py="md">
-                      No gear matches the current filters.
-                    </Text>
+                    <NoResultsSuggestions
+                      title="No gear found"
+                      message="No gear matches the current filters."
+                      onReset={() => setFilters(EMPTY_FILTERS)}
+                      onOpenFilters={toggleFilter}
+                    />
                   ) : viewMode === 'grid' ? (
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                       {gearPageItems.map((item) => {
@@ -645,9 +649,12 @@ export default function GearPage() {
                   />
 
                   {filteredGearSets.length === 0 ? (
-                    <Text c="dimmed" size="sm" ta="center" py="md">
-                      No gear sets match the search.
-                    </Text>
+                    <NoResultsSuggestions
+                      title="No gear sets found"
+                      message="No gear sets match the search."
+                      onReset={() => setGearSetSearch('')}
+                      resetLabel="Clear search"
+                    />
                   ) : (
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                       {gearSetPageItems.map((set) => {

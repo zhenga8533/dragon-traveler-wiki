@@ -14,11 +14,11 @@ import {
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
+import EntityFilter from '../components/common/EntityFilter';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
 import QualityIcon from '../components/common/QualityIcon';
 import SortableTh from '../components/common/SortableTh';
-import EntityFilter from '../components/common/EntityFilter';
 import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, {
@@ -224,6 +224,7 @@ export default function Artifacts() {
             filterCount={activeFilterCount}
             filterOpen={filterOpen}
             onFilterToggle={toggleFilter}
+            onResetFilters={() => setFilters(EMPTY_FILTERS)}
             filterContent={
               <EntityFilter
                 groups={[]}
