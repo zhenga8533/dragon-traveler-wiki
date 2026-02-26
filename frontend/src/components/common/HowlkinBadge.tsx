@@ -1,6 +1,6 @@
-import { Badge, Group, HoverCard, Image, Stack, Text, Tooltip } from '@mantine/core';
+import { Badge, Group, HoverCard, Image, Stack, Text } from '@mantine/core';
 import { getHowlkinIcon } from '../../assets/howlkin';
-import { QUALITY_ICON_MAP } from '../../assets/quality';
+import QualityIcon from './QualityIcon';
 import { QUALITY_COLOR } from '../../constants/colors';
 import type { Howlkin } from '../../types/howlkin';
 
@@ -48,16 +48,7 @@ export default function HowlkinBadge({ name, howlkin }: HowlkinBadgeProps) {
               <Text size="sm" fw={700} lh={1.2}>
                 {name}
               </Text>
-              <Tooltip label={howlkin.quality} withArrow position="right">
-                <Image
-                  src={QUALITY_ICON_MAP[howlkin.quality]}
-                  alt={howlkin.quality}
-                  h={16}
-                  w="auto"
-                  fit="contain"
-                  mt={2}
-                />
-              </Tooltip>
+              <QualityIcon quality={howlkin.quality} size={16} />
             </div>
           </Group>
 

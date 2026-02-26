@@ -15,6 +15,7 @@ import {
 import { useMemo } from 'react';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
+import FactionTag from '../components/common/FactionTag';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
 import QualityIcon from '../components/common/QualityIcon';
@@ -266,9 +267,6 @@ export default function Wyrmspells() {
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((spell) => {
                   const iconSrc = getWyrmspellIcon(spell.name);
-                  const factionIcon = spell.exclusive_faction
-                    ? FACTION_ICON_MAP[spell.exclusive_faction]
-                    : undefined;
                   return (
                     <Paper key={spell.name} p="sm" radius="md" withBorder>
                       <Group gap="md" align="flex-start" wrap="nowrap">
@@ -293,17 +291,10 @@ export default function Wyrmspells() {
                             </Badge>
                             <GlobalBadge isGlobal={spell.is_global} size="sm" />
                             {spell.exclusive_faction && (
-                              <Tooltip
-                                label={spell.exclusive_faction}
-                                {...tooltipProps}
-                              >
-                                <Image
-                                  src={factionIcon}
-                                  alt={spell.exclusive_faction}
-                                  w={20}
-                                  h={20}
-                                />
-                              </Tooltip>
+                              <FactionTag
+                                faction={spell.exclusive_faction}
+                                size="sm"
+                              />
                             )}
                           </Group>
                           <Text size="sm">{spell.effect}</Text>

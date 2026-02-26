@@ -10,13 +10,12 @@ import {
   Table,
   Text,
   Title,
-  Tooltip,
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
-import { QUALITY_ICON_MAP } from '../assets/quality';
 import { getResourceIcon } from '../assets/resource';
 import InlineMarkup from '../components/common/InlineMarkup';
 import LastUpdated from '../components/common/LastUpdated';
+import QualityIcon from '../components/common/QualityIcon';
 import PaginationControl from '../components/common/PaginationControl';
 import SortableTh from '../components/common/SortableTh';
 import type { ChipFilterGroup } from '../components/EntityFilter';
@@ -239,18 +238,7 @@ export default function Resources() {
                             )}
                             <Text fw={600}>{resource.name}</Text>
                             {resource.quality && (
-                              <Tooltip
-                                label={resource.quality}
-                                {...tooltipProps}
-                              >
-                                <Image
-                                  src={QUALITY_ICON_MAP[resource.quality]}
-                                  alt={resource.quality}
-                                  h={20}
-                                  w="auto"
-                                  fit="contain"
-                                />
-                              </Tooltip>
+                              <QualityIcon quality={resource.quality} />
                             )}
                             <Badge
                               variant="light"
@@ -327,18 +315,7 @@ export default function Resources() {
                             </Table.Td>
                             <Table.Td>
                               {resource.quality && (
-                                <Tooltip
-                                  label={resource.quality}
-                                  {...tooltipProps}
-                                >
-                                  <Image
-                                    src={QUALITY_ICON_MAP[resource.quality]}
-                                    alt={resource.quality}
-                                    h={20}
-                                    w="auto"
-                                    fit="contain"
-                                  />
-                                </Tooltip>
+                                <QualityIcon quality={resource.quality} />
                               )}
                             </Table.Td>
                             <Table.Td>

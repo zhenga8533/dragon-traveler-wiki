@@ -54,7 +54,7 @@ export const FACTION_COLOR: Record<FactionName, string> = {
   'Arcane Wisdom': 'blue',
   'Sanctum Glory': 'yellow',
   'Otherworld Return': 'violet',
-  'Illusion Veil': 'black',
+  'Illusion Veil': 'dark',
 };
 
 export const FACTION_NAMES: FactionName[] = [

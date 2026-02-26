@@ -24,12 +24,11 @@ import {
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import { getPortrait } from '../assets/character';
-import { FACTION_ICON_MAP } from '../assets/faction';
-import { QUALITY_ICON_MAP } from '../assets/quality';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
-import ClassLabel from '../components/common/ClassLabel';
+import ClassTag from '../components/common/ClassTag';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
+import FactionTag from '../components/common/FactionTag';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
 import QualityIcon from '../components/common/QualityIcon';
@@ -138,14 +137,7 @@ export default function TeamPage() {
     return map;
   }, [artifacts]);
 
-  // FACTION_COLOR values like 'purple' and 'black' aren't valid Mantine color
-  // scale names, so map them to the closest Mantine equivalents for CSS vars.
-  const MANTINE_COLOR_MAP: Record<string, string> = {
-    purple: 'grape',
-    black: 'gray',
-  };
-  const rawFactionColor = team ? FACTION_COLOR[team.faction] : 'violet';
-  const factionColor = MANTINE_COLOR_MAP[rawFactionColor] ?? rawFactionColor;
+  const factionColor = team ? FACTION_COLOR[team.faction] : 'violet';
 
   const teamSynergy = useMemo(() => {
     if (!team) {
@@ -254,22 +246,7 @@ export default function TeamPage() {
                   <LastUpdated timestamp={team.last_updated} />
                 </Group>
                 <Group gap="sm" mt={4}>
-                  <Badge
-                    size="lg"
-                    variant="light"
-                    color={factionColor}
-                    leftSection={
-                      <Image
-                        src={FACTION_ICON_MAP[team.faction]}
-                        alt={team.faction}
-                        w={16}
-                        h={16}
-                        fit="contain"
-                      />
-                    }
-                  >
-                    {team.faction}
-                  </Badge>
+                  <FactionTag faction={team.faction} size="lg" />
                   <Badge size="lg" variant="outline" color="gray">
                     {normalizeContentType(team.content_type, 'All')}
                   </Badge>
@@ -361,17 +338,9 @@ export default function TeamPage() {
                                         </Text>
                                         <Group gap={6} align="center">
                                           {artifact?.quality && (
-                                            <Image
-                                              src={
-                                                QUALITY_ICON_MAP[
-                                                  artifact.quality
-                                                ]
-                                              }
-                                              alt={artifact.quality}
-                                              h={18}
-                                              w="auto"
-                                              fit="contain"
-                                              style={{ display: 'block' }}
+                                            <QualityIcon
+                                              quality={artifact.quality}
+                                              size={18}
                                             />
                                           )}
                                           {artifact && (
@@ -595,28 +564,11 @@ function TeamMemberCard({
             <>
               <Group gap={6} align="center">
                 <QualityIcon quality={character.quality} size={18} />
-                <Badge size="sm" variant="outline" color="gray">
-                  <ClassLabel characterClass={character.character_class} />
-                </Badge>
+                <ClassTag characterClass={character.character_class} size="sm" />
               </Group>
               <Group gap={4} wrap="wrap">
                 {character.factions.map((faction) => (
-                  <Badge
-                    key={faction}
-                    size="sm"
-                    variant="light"
-                    leftSection={
-                      <Image
-                        src={FACTION_ICON_MAP[faction]}
-                        alt={faction}
-                        w={12}
-                        h={12}
-                        fit="contain"
-                      />
-                    }
-                  >
-                    {faction}
-                  </Badge>
+                  <FactionTag key={faction} faction={faction} size="sm" />
                 ))}
               </Group>
             </>

@@ -25,13 +25,14 @@ import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterCard from '../components/character/CharacterCard';
 import DataFetchError from '../components/common/DataFetchError';
 import EmptyState from '../components/common/EmptyState';
+import FactionTag from '../components/common/FactionTag';
 import LastUpdated from '../components/common/LastUpdated';
 import PaginationControl from '../components/common/PaginationControl';
 import ViewToggle from '../components/common/ViewToggle';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import TeamBuilder from '../components/tools/TeamBuilder';
-import { FACTION_COLOR, FACTION_NAMES } from '../constants/colors';
+import { FACTION_NAMES } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentType,
@@ -372,24 +373,9 @@ export default function Teams() {
                                     'All'
                                   )}
                                 </Badge>
-                                <Badge
-                                  variant="light"
+                                <FactionTag
+                                  faction={team.faction as FactionName}
                                   size="sm"
-                                  color={
-                                    FACTION_COLOR[team.faction as FactionName]
-                                  }
-                                >
-                                  {team.faction}
-                                </Badge>
-                                <Image
-                                  src={
-                                    FACTION_ICON_MAP[
-                                      team.faction as FactionName
-                                    ]
-                                  }
-                                  alt={team.faction}
-                                  w={24}
-                                  h={24}
                                 />
                               </Group>
 
@@ -507,20 +493,10 @@ export default function Teams() {
                                 </Group>
                               </Table.Td>
                               <Table.Td>
-                                <Group gap="xs" wrap="nowrap">
-                                  <Image
-                                    src={
-                                      FACTION_ICON_MAP[
-                                        team.faction as FactionName
-                                      ]
-                                    }
-                                    alt={team.faction}
-                                    w={20}
-                                    h={20}
-                                    fit="contain"
-                                  />
-                                  <Text size="sm">{team.faction}</Text>
-                                </Group>
+                                <FactionTag
+                                  faction={team.faction as FactionName}
+                                  size="sm"
+                                />
                               </Table.Td>
                               <Table.Td>
                                 <Badge variant="light" size="sm">

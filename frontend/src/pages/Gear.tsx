@@ -12,7 +12,6 @@ import {
   Text,
   TextInput,
   Title,
-  Tooltip,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
@@ -21,6 +20,7 @@ import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../assets/gear';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import GearTypeTag from '../components/common/GearTypeTag';
 import LastUpdated from '../components/common/LastUpdated';
+import QualityIcon from '../components/common/QualityIcon';
 import PaginationControl from '../components/common/PaginationControl';
 import SortableTh from '../components/common/SortableTh';
 import type { ChipFilterGroup } from '../components/EntityFilter';
@@ -469,21 +469,9 @@ export default function GearPage() {
                                   <Text fw={700} c="violet" lineClamp={1}>
                                     {item.name}
                                   </Text>
-                                  {item.quality &&
-                                    QUALITY_ICON_MAP[item.quality] && (
-                                      <Tooltip
-                                        label={item.quality}
-                                        {...tooltipProps}
-                                      >
-                                        <Image
-                                          src={QUALITY_ICON_MAP[item.quality]}
-                                          alt={item.quality}
-                                          h={20}
-                                          w="auto"
-                                          fit="contain"
-                                        />
-                                      </Tooltip>
-                                    )}
+                                  {item.quality && (
+                                    <QualityIcon quality={item.quality} />
+                                  )}
                                 </Group>
                                 <Group gap="xs" wrap="wrap">
                                   <GearTypeTag type={item.type} />
@@ -600,21 +588,9 @@ export default function GearPage() {
                                   </Badge>
                                 </Table.Td>
                                 <Table.Td>
-                                  {item.quality &&
-                                    QUALITY_ICON_MAP[item.quality] && (
-                                      <Tooltip
-                                        label={item.quality}
-                                        {...tooltipProps}
-                                      >
-                                        <Image
-                                          src={QUALITY_ICON_MAP[item.quality]}
-                                          alt={item.quality}
-                                          h={20}
-                                          w="auto"
-                                          fit="contain"
-                                        />
-                                      </Tooltip>
-                                    )}
+                                  {item.quality && (
+                                    <QualityIcon quality={item.quality} />
+                                  )}
                                 </Table.Td>
                                 <Table.Td>
                                   <Text size="sm" c="dimmed">

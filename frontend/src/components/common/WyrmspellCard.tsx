@@ -1,7 +1,7 @@
-import { Badge, Group, Image, Paper, Stack, Text, Tooltip } from '@mantine/core';
-import { FACTION_ICON_MAP } from '../../assets/faction';
-import { QUALITY_ICON_MAP } from '../../assets/quality';
+import { Badge, Group, Image, Paper, Stack, Text } from '@mantine/core';
 import { getWyrmspellIcon } from '../../assets/wyrmspell';
+import FactionTag from './FactionTag';
+import QualityIcon from './QualityIcon';
 import type { Wyrmspell } from '../../types/wyrmspell';
 
 interface WyrmspellCardProps {
@@ -19,9 +19,6 @@ export default function WyrmspellCard({
   const iconSrc = getWyrmspellIcon(name);
   const displayType = type || wyrmspell?.type || 'Unknown';
   const quality = wyrmspell?.quality;
-  const factionIcon = wyrmspell?.exclusive_faction
-    ? FACTION_ICON_MAP[wyrmspell.exclusive_faction]
-    : undefined;
 
   return (
     <Paper p="sm" radius="md" withBorder>
@@ -30,18 +27,7 @@ export default function WyrmspellCard({
           <Image src={iconSrc} alt={name} w={48} h={48} fit="contain" loading="lazy" />
         )}
         <Group gap={4} justify="center" align="center">
-          {quality && (
-            <Tooltip label={quality}>
-              <Image
-                src={QUALITY_ICON_MAP[quality]}
-                alt={quality}
-                h={20}
-                w="auto"
-                fit="contain"
-                loading="lazy"
-              />
-            </Tooltip>
-          )}
+          {quality && <QualityIcon quality={quality} />}
           <Text size="sm" fw={600} ta="center">
             {name}
           </Text>
@@ -50,16 +36,8 @@ export default function WyrmspellCard({
           <Badge variant="light" size="sm">
             {displayType}
           </Badge>
-          {wyrmspell?.exclusive_faction && factionIcon && (
-            <Tooltip label={wyrmspell.exclusive_faction}>
-              <Image
-                src={factionIcon}
-                alt={wyrmspell.exclusive_faction}
-                w={20}
-                h={20}
-                loading="lazy"
-              />
-            </Tooltip>
+          {wyrmspell?.exclusive_faction && (
+            <FactionTag faction={wyrmspell.exclusive_faction} size="xs" />
           )}
         </Group>
         {wyrmspell && (

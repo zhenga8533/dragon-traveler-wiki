@@ -10,14 +10,13 @@ import {
   Table,
   Text,
   Title,
-  Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
-import { QUALITY_ICON_MAP } from '../assets/quality';
 import ClassTag from '../components/common/ClassTag';
+import QualityIcon from '../components/common/QualityIcon';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GlobalBadge from '../components/common/GlobalBadge';
@@ -230,15 +229,7 @@ export default function ArtifactPage() {
 
               <Stack gap={6} style={FLEX_1_STYLE}>
                 <Group gap="sm" align="center">
-                  <Tooltip label={artifact.quality}>
-                    <Image
-                      src={QUALITY_ICON_MAP[artifact.quality]}
-                      alt={artifact.quality}
-                      h={28}
-                      w="auto"
-                      fit="contain"
-                    />
-                  </Tooltip>
+                  <QualityIcon quality={artifact.quality} size={28} />
                   <Title
                     order={1}
                     c={isDark ? 'white' : 'dark'}

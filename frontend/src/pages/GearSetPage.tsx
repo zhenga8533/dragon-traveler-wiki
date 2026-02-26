@@ -16,12 +16,12 @@ import { useMemo, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getGearIcon } from '../assets/gear';
-import { QUALITY_ICON_MAP } from '../assets/quality';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GearTypeTag from '../components/common/GearTypeTag';
 import LastUpdated from '../components/common/LastUpdated';
 import QualityBadge from '../components/common/QualityBadge';
+import QualityIcon from '../components/common/QualityIcon';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
@@ -363,17 +363,7 @@ export default function GearSetPage() {
                         </Text>
                         <Group gap="xs" wrap="wrap">
                           <GearTypeTag type={item.type} />
-                          {QUALITY_ICON_MAP[item.quality] && (
-                            <Tooltip label={item.quality} {...tooltipProps}>
-                              <Image
-                                src={QUALITY_ICON_MAP[item.quality]}
-                                alt={item.quality}
-                                h={18}
-                                w="auto"
-                                fit="contain"
-                              />
-                            </Tooltip>
-                          )}
+                          <QualityIcon quality={item.quality} size={18} />
                         </Group>
                         <Text size="sm" c="dimmed" fs="italic" lineClamp={2}>
                           {item.lore}

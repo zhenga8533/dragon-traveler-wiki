@@ -14,9 +14,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
-import { CLASS_ICON_MAP } from '../../assets/class';
 import { FACTION_ICON_MAP } from '../../assets/faction';
-import { QUALITY_ICON_MAP } from '../../assets/quality';
 import { QUALITY_BORDER_COLOR, TIER_ORDER } from '../../constants/colors';
 import {
   CURSOR_POINTER_STYLE,
@@ -43,8 +41,10 @@ import {
   extractAllEffectRefs,
   filterCharacters,
 } from '../../utils/filter-characters';
+import ClassLabel from '../common/ClassLabel';
 import GlobalBadge from '../common/GlobalBadge';
 import PaginationControl from '../common/PaginationControl';
+import QualityIcon from '../common/QualityIcon';
 import SortableTh from '../common/SortableTh';
 import TierBadge from '../common/TierBadge';
 import FilterToolbar from '../layout/FilterToolbar';
@@ -277,27 +277,10 @@ export default function CharacterList({
                       </UnstyledButton>
                     </Table.Td>
                     <Table.Td>
-                      <Tooltip label={char.quality}>
-                        <Image
-                          src={QUALITY_ICON_MAP[char.quality]}
-                          alt={char.quality}
-                          h={20}
-                          w="auto"
-                          fit="contain"
-                        />
-                      </Tooltip>
+                      <QualityIcon quality={char.quality} />
                     </Table.Td>
                     <Table.Td>
-                      <Group gap="xs">
-                        <Image
-                          src={CLASS_ICON_MAP[char.character_class]}
-                          alt={char.character_class}
-                          w={20}
-                          h={20}
-                          fit="contain"
-                        />
-                        <Text size="sm">{char.character_class}</Text>
-                      </Group>
+                      <ClassLabel characterClass={char.character_class} />
                     </Table.Td>
                     <Table.Td>
                       <Group gap="xs">

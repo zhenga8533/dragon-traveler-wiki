@@ -8,13 +8,12 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip,
 } from '@mantine/core';
-import { QUALITY_ICON_MAP } from '../../assets/quality';
 import type { CharacterIllustration } from '../../assets/character';
 import Breadcrumbs from '../../components/layout/Breadcrumbs';
 import ClassLabel from '../../components/common/ClassLabel';
 import FactionTag from '../../components/common/FactionTag';
+import QualityIcon from '../../components/common/QualityIcon';
 import GlobalBadge from '../../components/common/GlobalBadge';
 import LastUpdated from '../../components/common/LastUpdated';
 import TierBadge from '../../components/common/TierBadge';
@@ -157,17 +156,7 @@ export default function CharacterPageHeroSection({
               <LastUpdated timestamp={character.last_updated} />
 
               <Group gap="lg">
-                <Tooltip label={character.quality}>
-                  <Group gap={6}>
-                    <Image
-                      src={QUALITY_ICON_MAP[character.quality]}
-                      alt={character.quality}
-                      h={24}
-                      w="auto"
-                      fit="contain"
-                    />
-                  </Group>
-                </Tooltip>
+                <QualityIcon quality={character.quality} size={24} />
 
                 {tierLabel && (
                   <TierBadge tier={tierLabel} size="lg" />
