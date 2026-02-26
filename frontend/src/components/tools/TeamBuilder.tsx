@@ -438,9 +438,11 @@ function SlotsGrid({
 function AvailablePool({
   children,
   filterHeader,
+  paginationControl,
 }: {
   children: React.ReactNode;
   filterHeader?: React.ReactNode;
+  paginationControl?: React.ReactNode;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'available' });
 
@@ -469,6 +471,7 @@ function AvailablePool({
         >
           {children}
         </SimpleGrid>
+        {paginationControl}
       </Stack>
     </Paper>
   );
@@ -1068,7 +1071,7 @@ export default function TeamBuilder({
       if (from.zone === 'available') {
         // Available → slot
         if (occupant && teamSize >= MAX_ROSTER_SIZE) {
-          // Team full, swap occupant back to available
+          // Team full, swap occupant back to available — clear occupant's notes/subs
           setSlots((prev) => {
             const next = [...prev];
             next[targetSlotIndex] = charName;
@@ -1079,8 +1082,18 @@ export default function TeamBuilder({
             next[targetSlotIndex] = false; // New character starts with overdrive off
             return next;
           });
+          setSubstitutes((prev) => {
+            const next = [...prev];
+            next[targetSlotIndex] = [];
+            return next;
+          });
+          setSlotNotes((prev) => {
+            const next = [...prev];
+            next[targetSlotIndex] = '';
+            return next;
+          });
         } else if (occupant) {
-          // Slot occupied but team not full — find empty slot for occupant
+          // Slot occupied but team not full — move occupant (with its notes/subs) to empty slot
           const emptyIdx = slots.findIndex((s) => s === null);
           if (emptyIdx !== -1) {
             setSlots((prev) => {
@@ -1091,8 +1104,20 @@ export default function TeamBuilder({
             });
             setOverdriveEnabled((prev) => {
               const next = [...prev];
+              next[emptyIdx] = next[targetSlotIndex]; // Move occupant's overdrive state
               next[targetSlotIndex] = false; // New character starts with overdrive off
-              // Keep occupant's overdrive state
+              return next;
+            });
+            setSubstitutes((prev) => {
+              const next = [...prev];
+              next[emptyIdx] = next[targetSlotIndex]; // Move occupant's subs
+              next[targetSlotIndex] = [];
+              return next;
+            });
+            setSlotNotes((prev) => {
+              const next = [...prev];
+              next[emptyIdx] = next[targetSlotIndex]; // Move occupant's note
+              next[targetSlotIndex] = '';
               return next;
             });
           }
@@ -1128,6 +1153,20 @@ export default function TeamBuilder({
           next[targetSlotIndex] = temp;
           return next;
         });
+        setSubstitutes((prev) => {
+          const next = [...prev];
+          const temp = next[fromIndex];
+          next[fromIndex] = next[targetSlotIndex];
+          next[targetSlotIndex] = temp;
+          return next;
+        });
+        setSlotNotes((prev) => {
+          const next = [...prev];
+          const temp = next[fromIndex];
+          next[fromIndex] = next[targetSlotIndex];
+          next[targetSlotIndex] = temp;
+          return next;
+        });
       }
       return;
     }
@@ -1143,6 +1182,16 @@ export default function TeamBuilder({
         setOverdriveEnabled((prev) => {
           const next = [...prev];
           next[from.index] = false;
+          return next;
+        });
+        setSubstitutes((prev) => {
+          const next = [...prev];
+          next[from.index] = [];
+          return next;
+        });
+        setSlotNotes((prev) => {
+          const next = [...prev];
+          next[from.index] = '';
           return next;
         });
       }
@@ -1186,6 +1235,16 @@ export default function TeamBuilder({
     setOverdriveEnabled((prev) => {
       const next = [...prev];
       next[slotIndex] = false;
+      return next;
+    });
+    setSubstitutes((prev) => {
+      const next = [...prev];
+      next[slotIndex] = [];
+      return next;
+    });
+    setSlotNotes((prev) => {
+      const next = [...prev];
+      next[slotIndex] = '';
       return next;
     });
   }
@@ -1460,8 +1519,8 @@ export default function TeamBuilder({
         />
 
         <FilterableCharacterPool characters={availableCharacters}>
-          {(filtered, filterHeader) => (
-            <AvailablePool filterHeader={filterHeader}>
+          {(filtered, filterHeader, paginationControl) => (
+            <AvailablePool filterHeader={filterHeader} paginationControl={paginationControl}>
               {filtered.map((c) => (
                 <DraggableCharCard
                   key={c.name}

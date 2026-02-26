@@ -246,9 +246,11 @@ function TierDropZone({
 function UnrankedPool({
   children,
   filterHeader,
+  paginationControl,
 }: {
   children: React.ReactNode;
   filterHeader?: React.ReactNode;
+  paginationControl?: React.ReactNode;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'unranked' });
 
@@ -277,6 +279,7 @@ function UnrankedPool({
         >
           {children}
         </SimpleGrid>
+        {paginationControl}
       </Stack>
     </Paper>
   );
@@ -819,8 +822,8 @@ export default function TierListBuilder({
         </Group>
 
         <FilterableCharacterPool characters={unrankedCharacters}>
-          {(filtered, filterHeader) => (
-            <UnrankedPool filterHeader={filterHeader}>
+          {(filtered, filterHeader, paginationControl) => (
+            <UnrankedPool filterHeader={filterHeader} paginationControl={paginationControl}>
               {filtered.map((c) => (
                 <DraggableCharCard key={c.name} name={c.name} char={c} />
               ))}

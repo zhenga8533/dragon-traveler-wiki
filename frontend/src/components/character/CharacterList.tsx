@@ -10,6 +10,7 @@ import {
   Tooltip,
   UnstyledButton,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
@@ -24,7 +25,6 @@ import {
 import {
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
-  PAGE_SIZE,
   STORAGE_KEY,
 } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
@@ -78,6 +78,13 @@ export default function CharacterList({
   });
   const { sortState, handleSort } = useSortState(STORAGE_KEY.CHARACTER_SORT);
   const { col: sortCol, dir: sortDir } = sortState;
+
+  // Mirror CHARACTER_GRID_COLS breakpoints to keep page size = whole rows
+  const isMd = useMediaQuery('(min-width: 62em)');
+  const isSm = useMediaQuery('(min-width: 48em)');
+  const isXs = useMediaQuery('(min-width: 36em)');
+  const activeCols = isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
+  const pageSize = activeCols * 10;
 
   const effectOptions = useMemo(
     () => extractAllEffectRefs(characters),
@@ -133,10 +140,10 @@ export default function CharacterList({
 
   const { page, setPage, totalPages, offset } = usePagination(
     filteredAndSorted.length,
-    PAGE_SIZE,
+    pageSize,
     JSON.stringify(filters)
   );
-  const pageItems = filteredAndSorted.slice(offset, offset + PAGE_SIZE);
+  const pageItems = filteredAndSorted.slice(offset, offset + pageSize);
 
   const activeFilterCount =
     (filters.search ? 1 : 0) +

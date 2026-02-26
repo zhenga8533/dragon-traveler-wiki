@@ -1,6 +1,6 @@
 import { Badge, Button, Collapse, Group, Paper, Text } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useContext, useMemo, useState } from 'react';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { TierListReferenceContext } from '../../contexts';
 import type { Character } from '../../types/character';
@@ -11,13 +11,17 @@ import {
   filterCharacters,
   sortCharactersByQuality,
 } from '../../utils/filter-characters';
+import PaginationControl from '../common/PaginationControl';
 import CharacterFilter from './CharacterFilter';
+
+const ROWS_PER_PAGE = 6;
 
 interface FilterableCharacterPoolProps {
   characters: Character[];
   children: (
     filtered: Character[],
-    filterHeader: React.ReactNode
+    filterHeader: React.ReactNode,
+    paginationControl: React.ReactNode
   ) => React.ReactNode;
 }
 
@@ -30,6 +34,14 @@ export default function FilterableCharacterPool({
   );
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
+  const [page, setPage] = useState(1);
+
+  // Mirror the SimpleGrid breakpoints: base: 2, xs: 3, sm: 4, md: 6
+  const isMd = useMediaQuery('(min-width: 62em)');
+  const isSm = useMediaQuery('(min-width: 48em)');
+  const isXs = useMediaQuery('(min-width: 36em)');
+  const cols = isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
+  const pageSize = cols * ROWS_PER_PAGE;
 
   const effectOptions = useMemo(
     () => extractAllEffectRefs(characters),
@@ -55,6 +67,16 @@ export default function FilterableCharacterPool({
     );
     return sortCharactersByQuality(filteredChars);
   }, [characters, filters, tierLookup, selectedTierListName]);
+
+  // Reset to page 1 whenever filters or tier selection change
+  useEffect(() => {
+    setPage(1);
+  }, [filters, selectedTierListName]);
+
+  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
+  // Clamp in case pageSize grows (resize) or filtered shrinks
+  const safePage = Math.min(page, totalPages);
+  const paginated = filtered.slice((safePage - 1) * pageSize, safePage * pageSize);
 
   const activeFilterCount =
     (filters.search ? 1 : 0) +
@@ -102,5 +124,13 @@ export default function FilterableCharacterPool({
     </>
   );
 
-  return <>{children(filtered, filterHeader)}</>;
+  const paginationControl = (
+    <PaginationControl
+      currentPage={safePage}
+      totalPages={totalPages}
+      onChange={setPage}
+    />
+  );
+
+  return <>{children(paginated, filterHeader, paginationControl)}</>;
 }
