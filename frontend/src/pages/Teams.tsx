@@ -13,12 +13,11 @@ import {
   Stack,
   Table,
   Text,
-  TextInput,
   Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { IoCreate, IoFilter, IoSearch } from 'react-icons/io5';
+import { IoCreate, IoFilter } from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
@@ -158,7 +157,9 @@ export default function Teams() {
 
   const activeFilterCount =
     mode === 'view'
-      ? viewFilters.factions.length + viewFilters.contentTypes.length
+      ? viewFilters.factions.length +
+        viewFilters.contentTypes.length +
+        (search.trim() ? 1 : 0)
       : 0;
 
   const filteredTeams = useMemo(() => {
@@ -208,21 +209,23 @@ export default function Teams() {
             {mode === 'view' && (
               <ViewToggle viewMode={viewMode} onChange={setViewMode} />
             )}
-            <Button
-              variant="default"
-              size="xs"
-              leftSection={<IoFilter size={16} />}
-              rightSection={
-                activeFilterCount > 0 ? (
-                  <Badge size="xs" circle variant="filled">
-                    {activeFilterCount}
-                  </Badge>
-                ) : null
-              }
-              onClick={toggleFilter}
-            >
-              Filters
-            </Button>
+            {mode === 'view' && (
+              <Button
+                variant="default"
+                size="xs"
+                leftSection={<IoFilter size={16} />}
+                rightSection={
+                  activeFilterCount > 0 ? (
+                    <Badge size="xs" circle variant="filled">
+                      {activeFilterCount}
+                    </Badge>
+                  ) : null
+                }
+                onClick={toggleFilter}
+              >
+                Filters
+              </Button>
+            )}
           </Group>
         </Group>
 
@@ -270,9 +273,13 @@ export default function Teams() {
                     onChange={(key, values) =>
                       setViewFilters((prev) => ({ ...prev, [key]: values }))
                     }
-                    onClear={() =>
-                      setViewFilters({ factions: [], contentTypes: [] })
-                    }
+                    onClear={() => {
+                      setViewFilters({ factions: [], contentTypes: [] });
+                      setSearch('');
+                    }}
+                    search={search}
+                    onSearchChange={setSearch}
+                    searchPlaceholder="Search teams..."
                   />
                 </Paper>
               </Collapse>
@@ -280,13 +287,6 @@ export default function Teams() {
 
             {mode === 'view' && (
               <>
-                <TextInput
-                  placeholder="Search teams..."
-                  leftSection={<IoSearch size={16} />}
-                  value={search}
-                  onChange={(e) => setSearch(e.currentTarget.value)}
-                />
-
                 {filteredTeams.length === 0 && (
                   <EmptyState
                     title={search ? 'No teams found' : 'No matching teams'}

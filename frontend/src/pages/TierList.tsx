@@ -16,9 +16,9 @@ import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter } from 'react-icons/io5';
 import CharacterCard from '../components/character/CharacterCard';
+import LastUpdated from '../components/common/LastUpdated';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
-import LastUpdated from '../components/common/LastUpdated';
 import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import TierListBuilder from '../components/tools/TierListBuilder';
 import { getTierColor, TIER_ORDER } from '../constants/colors';
@@ -48,6 +48,10 @@ export default function TierList() {
     storageKey: STORAGE_KEY.TIER_LIST_FILTERS,
   });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
+  const [search, setSearch] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    return window.localStorage.getItem(STORAGE_KEY.TIER_LIST_SEARCH) || '';
+  });
   const [mode, setMode] = useState<'view' | 'builder'>('view');
   const [editData, setEditData] = useState<TierListType | null>(null);
   const loading = loadingTiers || loadingChars;
@@ -86,7 +90,13 @@ export default function TierList() {
   );
 
   const activeFilterCount =
-    mode === 'view' ? viewFilters.contentTypes.length : 0;
+    mode === 'view'
+      ? viewFilters.contentTypes.length + (search.trim() ? 1 : 0)
+      : 0;
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY.TIER_LIST_SEARCH, search);
+  }, [search]);
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
@@ -97,13 +107,27 @@ export default function TierList() {
   }, [tierLists]);
 
   const visibleTierLists = useMemo(() => {
-    if (viewFilters.contentTypes.length === 0) return tierLists;
-    return tierLists.filter((tl) =>
-      viewFilters.contentTypes.includes(
-        normalizeContentType(tl.content_type, 'All')
+    return tierLists.filter((tl) => {
+      if (
+        search &&
+        ![tl.name, tl.author, tl.description ?? '']
+          .join(' ')
+          .toLowerCase()
+          .includes(search.toLowerCase())
       )
-    );
-  }, [tierLists, viewFilters]);
+        return false;
+
+      if (
+        viewFilters.contentTypes.length > 0 &&
+        !viewFilters.contentTypes.includes(
+          normalizeContentType(tl.content_type, 'All')
+        )
+      )
+        return false;
+
+      return true;
+    });
+  }, [tierLists, search, viewFilters]);
 
   return (
     <Container size="lg" py="xl">
@@ -114,21 +138,23 @@ export default function TierList() {
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
           <Group gap="xs">
-            <Button
-              variant="default"
-              size="xs"
-              leftSection={<IoFilter size={16} />}
-              rightSection={
-                activeFilterCount > 0 ? (
-                  <Badge size="xs" circle variant="filled">
-                    {activeFilterCount}
-                  </Badge>
-                ) : null
-              }
-              onClick={toggleFilter}
-            >
-              Filters
-            </Button>
+            {mode === 'view' && (
+              <Button
+                variant="default"
+                size="xs"
+                leftSection={<IoFilter size={16} />}
+                rightSection={
+                  activeFilterCount > 0 ? (
+                    <Badge size="xs" circle variant="filled">
+                      {activeFilterCount}
+                    </Badge>
+                  ) : null
+                }
+                onClick={toggleFilter}
+              >
+                Filters
+              </Button>
+            )}
           </Group>
         </Group>
 
@@ -162,7 +188,13 @@ export default function TierList() {
                     onChange={(key, values) =>
                       setViewFilters((prev) => ({ ...prev, [key]: values }))
                     }
-                    onClear={() => setViewFilters({ contentTypes: [] })}
+                    onClear={() => {
+                      setViewFilters({ contentTypes: [] });
+                      setSearch('');
+                    }}
+                    search={search}
+                    onSearchChange={setSearch}
+                    searchPlaceholder="Search tier lists..."
                   />
                 </Paper>
               </Collapse>
@@ -189,7 +221,8 @@ export default function TierList() {
                     </Group>
 
                     {visibleTierLists.map((tierList) => {
-                      const tierOrder = tierList.tiers?.map((t) => t.name) ?? TIER_ORDER;
+                      const tierOrder =
+                        tierList.tiers?.map((t) => t.name) ?? TIER_ORDER;
                       const definedTierSet = new Set(tierOrder);
                       const extraTiers = [
                         ...new Set(tierList.entries.map((e) => e.tier)),
@@ -200,8 +233,11 @@ export default function TierList() {
                         .map((tier, tierIndex) => ({
                           tier,
                           tierIndex,
-                          note: tierList.tiers?.find((t) => t.name === tier)?.note,
-                          entries: tierList.entries.filter((e) => e.tier === tier),
+                          note: tierList.tiers?.find((t) => t.name === tier)
+                            ?.note,
+                          entries: tierList.entries.filter(
+                            (e) => e.tier === tier
+                          ),
                         }))
                         .filter((g) => g.entries.length > 0);
 
@@ -254,45 +290,47 @@ export default function TierList() {
                               </Button>
                             </Group>
 
-                            {byTier.map(({ tier, tierIndex, note, entries }) => (
-                              <Paper key={tier} p="md" radius="md" withBorder>
-                                <Stack gap="sm">
-                                  <Stack gap={4}>
-                                    <Badge
-                                      variant="filled"
-                                      color={getTierColor(tier, tierIndex)}
-                                      size="lg"
-                                      radius="sm"
+                            {byTier.map(
+                              ({ tier, tierIndex, note, entries }) => (
+                                <Paper key={tier} p="md" radius="md" withBorder>
+                                  <Stack gap="sm">
+                                    <Stack gap={4}>
+                                      <Badge
+                                        variant="filled"
+                                        color={getTierColor(tier, tierIndex)}
+                                        size="lg"
+                                        radius="sm"
+                                      >
+                                        {tier} Tier
+                                      </Badge>
+                                      {note && (
+                                        <Text size="xs" c="dimmed">
+                                          {note}
+                                        </Text>
+                                      )}
+                                    </Stack>
+                                    <SimpleGrid
+                                      cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
+                                      spacing={CHARACTER_GRID_SPACING}
                                     >
-                                      {tier} Tier
-                                    </Badge>
-                                    {note && (
-                                      <Text size="xs" c="dimmed">
-                                        {note}
-                                      </Text>
-                                    )}
+                                      {entries.map((entry) => {
+                                        const char = charMap.get(
+                                          entry.character_name
+                                        );
+                                        return (
+                                          <CharacterCard
+                                            key={entry.character_name}
+                                            name={entry.character_name}
+                                            quality={char?.quality}
+                                            note={entry.note}
+                                          />
+                                        );
+                                      })}
+                                    </SimpleGrid>
                                   </Stack>
-                                  <SimpleGrid
-                                    cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-                                    spacing={CHARACTER_GRID_SPACING}
-                                  >
-                                    {entries.map((entry) => {
-                                      const char = charMap.get(
-                                        entry.character_name
-                                      );
-                                      return (
-                                        <CharacterCard
-                                          key={entry.character_name}
-                                          name={entry.character_name}
-                                          quality={char?.quality}
-                                          note={entry.note}
-                                        />
-                                      );
-                                    })}
-                                  </SimpleGrid>
-                                </Stack>
-                              </Paper>
-                            ))}
+                                </Paper>
+                              )
+                            )}
 
                             {unranked.length > 0 && (
                               <Paper p="md" radius="md" withBorder>
