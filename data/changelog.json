@@ -35,8 +35,18 @@
       },
       {
         "type": "updated",
+        "category": "characters",
+        "description": "Made character list pagination responsive to viewport grid breakpoints"
+      },
+      {
+        "type": "updated",
         "category": "ui",
         "description": "Improved tooltip behavior on mobile devices across the site"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Refactored shared style constants and introduced reusable StatCard patterns across calculators and detail pages"
       },
       {
         "type": "updated",
@@ -56,7 +66,17 @@
       {
         "type": "updated",
         "category": "data",
-        "description": "Refreshed live datasets (resources, artifacts)"
+        "description": "Refreshed live datasets (resources, artifacts, teams)"
+      },
+      {
+        "type": "updated",
+        "category": "tier-list",
+        "description": "Improved tier controls with clearer move/delete states and safeguards against deleting the last tier"
+      },
+      {
+        "type": "updated",
+        "category": "teams",
+        "description": "Improved Team Builder state handling when swapping/removing characters to correctly preserve or reset notes, substitutes, and overdrive"
       },
       {
         "type": "removed",
@@ -67,9 +87,14 @@
         "type": "fixed",
         "category": "guides",
         "description": "Fixed rate-based reward calculation to use regular pull counts in summon calculator"
+      },
+      {
+        "type": "fixed",
+        "category": "ui",
+        "description": "Fixed link style reset ordering to keep header brand link styles consistent"
       }
     ],
-    "last_updated": 1772078181
+    "last_updated": 1772084861
   },
   {
     "date": "2026-02-24",

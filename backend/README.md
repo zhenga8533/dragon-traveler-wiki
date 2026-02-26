@@ -23,18 +23,24 @@ Automatically sets `last_updated` to the current Unix timestamp on every create 
 python -m backend.suggest
 ```
 
-### Bump Timestamps
+### Normalize Data (Sort + Timestamps)
 
-After manually editing data files (e.g. adding a new field during a model migration),
-run this to refresh `last_updated` only for entries that actually changed relative to
-the last git commit. Unchanged entries are skipped.
+After manually editing data files, run this to apply deterministic sorting (where
+configured) and refresh `last_updated` only for entries that actually changed
+relative to the last git commit.
 
 ```bash
-# All timestamped files:
-python -m backend.bump_timestamps
+# Sort + bump all JSON data files:
+python -m backend.normalize_data
 
-# Specific files only:
-python -m backend.bump_timestamps characters.json artifacts.json
+# Sort + bump specific files only:
+python -m backend.normalize_data characters.json artifacts.json
+
+# Only bump timestamps:
+python -m backend.normalize_data --timestamps-only
+
+# Only sort:
+python -m backend.normalize_data --sort-only
 ```
 
 ### Key Utilities
@@ -47,7 +53,7 @@ python -m backend.bump_timestamps characters.json artifacts.json
 ```
 backend/
 ├── suggest.py             # Issue suggestion processor (auto-sets last_updated)
-├── bump_timestamps.py     # Refresh last_updated for manually edited entries
+├── normalize_data.py      # Sort data and refresh last_updated in one pass
 ├── sort_keys.py           # Deterministic sort-key helpers
 ├── requirements.txt       # Python dependencies
 └── models/                # Pydantic data models
@@ -72,25 +78,25 @@ backend/
 
 The backend reads from and writes to `data/`:
 
-| File                    | Description          |
-| ----------------------- | -------------------- |
-| `characters.json`       | Character database   |
-| `subclasses.json`       | Subclass definitions |
-| `noble_phantasm.json`   | Noble Phantasm data  |
-| `factions.json`         | Faction definitions  |
-| `artifacts.json`        | Artifact database    |
-| `wyrmspells.json`       | Wyrmspell database   |
-| `resources.json`        | Resource definitions |
-| `codes.json`            | Redemption codes     |
-| `status-effects.json`   | Status effects       |
-| `gear.json`             | Gear database        |
-| `gear_sets.json`        | Gear set bonuses     |
-| `howlkins.json`         | Howlkin database     |
-| `golden_alliances.json` | Golden alliance sets |
+| File                    | Description                                                 |
+| ----------------------- | ----------------------------------------------------------- |
+| `characters.json`       | Character database                                          |
+| `subclasses.json`       | Subclass definitions                                        |
+| `noble_phantasm.json`   | Noble Phantasm data                                         |
+| `factions.json`         | Faction definitions                                         |
+| `artifacts.json`        | Artifact database                                           |
+| `wyrmspells.json`       | Wyrmspell database                                          |
+| `resources.json`        | Resource definitions                                        |
+| `codes.json`            | Redemption codes                                            |
+| `status-effects.json`   | Status effects                                              |
+| `gear.json`             | Gear database                                               |
+| `gear_sets.json`        | Gear set bonuses                                            |
+| `howlkins.json`         | Howlkin database                                            |
+| `golden_alliances.json` | Golden alliance sets                                        |
 | `tier-lists.json`       | Community tier lists (supports custom tiers and tier notes) |
-| `teams.json`            | Team compositions    |
-| `useful-links.json`     | Community links      |
-| `changelog.json`        | Site version history |
+| `teams.json`            | Team compositions                                           |
+| `useful-links.json`     | Community links                                             |
+| `changelog.json`        | Site version history                                        |
 
 ## Issue Suggestion Automation
 
@@ -125,7 +131,7 @@ Tier lists support an optional `tiers` field that defines a custom ordered set o
   "description": "Optional description",
   "tiers": [
     { "name": "S+", "note": "Best of the best" },
-    { "name": "S",  "note": "Strong in most content" },
+    { "name": "S", "note": "Strong in most content" },
     { "name": "A" },
     { "name": "B" },
     { "name": "C" },
@@ -133,17 +139,20 @@ Tier lists support an optional `tiers` field that defines a custom ordered set o
     { "name": "F", "note": "Avoid" }
   ],
   "entries": [
-    { "character_name": "Athena", "tier": "S+", "note": "Optional per-character note" }
+    {
+      "character_name": "Athena",
+      "tier": "S+",
+      "note": "Optional per-character note"
+    }
   ]
 }
 ```
 
-- **`tiers`** *(optional)*: Ordered array of tier definitions. Tiers may have a `note` to describe what the tier means. When absent, defaults to `S+/S/A/B/C/D`.
-- **`tiers[].name`** *(required)*: Tier label (any non-empty string).
-- **`tiers[].note`** *(optional)*: Human-readable description of the tier.
+- **`tiers`** _(optional)_: Ordered array of tier definitions. Tiers may have a `note` to describe what the tier means. When absent, defaults to `S+/S/A/B/C/D`.
+- **`tiers[].name`** _(required)_: Tier label (any non-empty string).
+- **`tiers[].note`** _(optional)_: Human-readable description of the tier.
 - **`entries[].tier`**: Must match one of the names defined in `tiers` (or one of the defaults if `tiers` is absent).
 
 ## Dependencies
 
 - **pydantic** — Data validation and serialization
-
