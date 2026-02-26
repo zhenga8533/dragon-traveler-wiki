@@ -1,7 +1,16 @@
-import { Badge, Button, Collapse, Group, Paper, Text } from '@mantine/core';
+import {
+  Badge,
+  Box,
+  Button,
+  Collapse,
+  Group,
+  Paper,
+  Text,
+} from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import type { ReactNode } from 'react';
 import { IoFilter } from 'react-icons/io5';
-import { IMAGE_SIZE } from '../../constants/ui';
+import { BREAKPOINTS, IMAGE_SIZE, Z_INDEX } from '../../constants/ui';
 import type { ViewMode } from '../../hooks/use-filters';
 import ViewToggle from '../common/ViewToggle';
 
@@ -26,32 +35,50 @@ export default function FilterToolbar({
   onFilterToggle,
   children,
 }: FilterToolbarProps) {
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+
   return (
     <>
-      <Group justify="space-between" align="center" wrap="wrap">
-        <Text size="sm" c="dimmed">
-          {count} {noun}
-          {count !== 1 ? 's' : ''}
-        </Text>
-        <Group gap="xs">
-          <ViewToggle viewMode={viewMode} onChange={onViewModeChange} />
-          <Button
-            variant="default"
-            size="xs"
-            leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
-            rightSection={
-              filterCount > 0 ? (
-                <Badge size="xs" circle variant="filled">
-                  {filterCount}
-                </Badge>
-              ) : null
-            }
-            onClick={onFilterToggle}
-          >
-            Filters
-          </Button>
+      <Box
+        style={
+          isMobile
+            ? {
+                position: 'sticky',
+                top: 'calc(60px + var(--mantine-spacing-xs))',
+                zIndex: Z_INDEX.STICKY,
+                padding: 'var(--mantine-spacing-xs)',
+                borderRadius: 'var(--mantine-radius-md)',
+                background: 'var(--mantine-color-body)',
+                border: '1px solid var(--mantine-color-default-border)',
+              }
+            : undefined
+        }
+      >
+        <Group justify="space-between" align="center" wrap="wrap" gap="xs">
+          <Text size="sm" c="dimmed">
+            {count} {noun}
+            {count !== 1 ? 's' : ''}
+          </Text>
+          <Group gap="xs">
+            <ViewToggle viewMode={viewMode} onChange={onViewModeChange} />
+            <Button
+              variant="default"
+              size={isMobile ? 'sm' : 'xs'}
+              leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
+              rightSection={
+                filterCount > 0 ? (
+                  <Badge size="xs" circle variant="filled">
+                    {filterCount}
+                  </Badge>
+                ) : null
+              }
+              onClick={onFilterToggle}
+            >
+              Filters
+            </Button>
+          </Group>
         </Group>
-      </Group>
+      </Box>
 
       <Collapse in={filterOpen}>
         <Paper p="sm" radius="md" withBorder bg="var(--mantine-color-body)">

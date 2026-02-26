@@ -1,7 +1,8 @@
 import { Button, Chip, Group, Stack, Text, TextInput } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import type { ReactNode } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
-import { IMAGE_SIZE } from '../../constants/ui';
+import { BREAKPOINTS, IMAGE_SIZE } from '../../constants/ui';
 
 export interface ChipFilterGroup {
   key: string;
@@ -29,6 +30,7 @@ export default function EntityFilter({
   onSearchChange,
   searchPlaceholder = 'Search by name...',
 }: EntityFilterProps) {
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const hasChipFilters = Object.values(selected).some((v) => v.length > 0);
   const hasSearch = search !== undefined && search !== '';
   const hasFilters = hasChipFilters || hasSearch;
@@ -42,14 +44,14 @@ export default function EntityFilter({
             leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
             value={search ?? ''}
             onChange={(e) => onSearchChange(e.currentTarget.value)}
-            size="xs"
+            size={isMobile ? 'sm' : 'xs'}
             style={{ flex: 1, minWidth: 180 }}
           />
           {hasFilters && (
             <Button
               variant="subtle"
               color="gray"
-              size="compact-xs"
+              size={isMobile ? 'sm' : 'compact-xs'}
               leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
               onClick={onClear}
             >
@@ -64,7 +66,7 @@ export default function EntityFilter({
           <Button
             variant="subtle"
             color="gray"
-            size="compact-xs"
+            size={isMobile ? 'sm' : 'compact-xs'}
             leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
             onClick={onClear}
           >
@@ -75,7 +77,13 @@ export default function EntityFilter({
 
       {groups.map((group) => (
         <Group key={group.key} gap="xs" align="center" wrap="wrap">
-          <Text size="xs" fw={600} tt="uppercase" c="dimmed" style={{ minWidth: 60 }}>
+          <Text
+            size="xs"
+            fw={600}
+            tt="uppercase"
+            c="dimmed"
+            style={{ minWidth: 60 }}
+          >
             {group.label}
           </Text>
           <Chip.Group
@@ -85,7 +93,7 @@ export default function EntityFilter({
           >
             <Group gap={4} wrap="wrap">
               {group.options.map((option) => (
-                <Chip key={option} value={option} size="xs">
+                <Chip key={option} value={option} size={isMobile ? 'sm' : 'xs'}>
                   <Group gap={4} wrap="nowrap" align="center">
                     {group.icon?.(option)}
                     <span>{option}</span>
