@@ -489,10 +489,10 @@ function AppContent() {
             <Link
               to="/"
               style={{
+                ...LINK_BLOCK_RESET_STYLE,
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                ...LINK_BLOCK_RESET_STYLE,
               }}
             >
               <Image
