@@ -28,8 +28,8 @@ import FactionTag from '../components/common/FactionTag';
 import LastUpdated from '../components/common/LastUpdated';
 import PaginationControl from '../components/common/PaginationControl';
 import ViewToggle from '../components/common/ViewToggle';
-import type { ChipFilterGroup } from '../components/EntityFilter';
-import EntityFilter from '../components/EntityFilter';
+import type { ChipFilterGroup } from '../components/common/EntityFilter';
+import EntityFilter from '../components/common/EntityFilter';
 import TeamBuilder from '../components/tools/TeamBuilder';
 import { FACTION_NAMES } from '../constants/colors';
 import {

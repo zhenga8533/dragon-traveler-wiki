@@ -21,7 +21,7 @@ export { default as SortableTh } from './common/SortableTh';
 export { default as StatusEffectBadge } from './common/StatusEffectBadge';
 export { default as ViewToggle } from './common/ViewToggle';
 export { default as WyrmspellCard } from './common/WyrmspellCard';
-export { default as EntityFilter } from './EntityFilter';
+export { default as EntityFilter } from './common/EntityFilter';
 export { default as FilterToolbar } from './layout/FilterToolbar';
 export { default as Footer } from './layout/Footer';
 export { default as ListPageShell } from './layout/ListPageShell';
@@ -38,4 +38,4 @@ export { default as TierListBuilder } from './tools/TierListBuilder';
 // Re-export component props
 export type { CharacterFilterProps } from './character/CharacterFilter';
 export type { RichTextProps } from './common/RichText';
-export type { ChipFilterGroup, EntityFilterProps } from './EntityFilter';
+export type { ChipFilterGroup, EntityFilterProps } from './common/EntityFilter';

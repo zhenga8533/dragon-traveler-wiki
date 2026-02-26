@@ -13,8 +13,8 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { getStatusEffectIcon } from '../assets/status_effect';
-import type { ChipFilterGroup } from '../components/EntityFilter';
-import EntityFilter from '../components/EntityFilter';
+import type { ChipFilterGroup } from '../components/common/EntityFilter';
+import EntityFilter from '../components/common/EntityFilter';
 import FilteredListShell from '../components/layout/FilteredListShell';
 import LastUpdated from '../components/common/LastUpdated';
 import ListPageShell from '../components/layout/ListPageShell';
