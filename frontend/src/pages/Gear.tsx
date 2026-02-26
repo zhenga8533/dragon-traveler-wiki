@@ -32,7 +32,14 @@ import SuggestModal, {
   type FieldDef,
 } from '../components/tools/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
-import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
+import {
+  CARD_HOVER_STYLES,
+  CURSOR_POINTER_STYLE,
+  FLEX_1_STYLE,
+  LINK_BLOCK_RESET_STYLE,
+  LINK_RESET_STYLE,
+  cardHoverHandlers,
+} from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
@@ -442,9 +449,7 @@ export default function GearPage() {
                             withBorder
                             style={{
                               ...CARD_HOVER_STYLES,
-                              textDecoration: 'none',
-                              color: 'inherit',
-                              display: 'block',
+                              ...LINK_BLOCK_RESET_STYLE,
                             }}
                             {...cardHoverHandlers}
                           >
@@ -459,7 +464,7 @@ export default function GearPage() {
                                   radius="sm"
                                 />
                               )}
-                              <Stack gap={4} style={{ flex: 1 }}>
+                              <Stack gap={4} style={FLEX_1_STYLE}>
                                 <Group gap="xs" wrap="wrap">
                                   <Text fw={700} c="violet" lineClamp={1}>
                                     {item.name}
@@ -551,7 +556,7 @@ export default function GearPage() {
                             return (
                               <Table.Tr
                                 key={item.name}
-                                style={{ cursor: 'pointer' }}
+                                style={CURSOR_POINTER_STYLE}
                                 onClick={() =>
                                   navigate(
                                     `/gear-sets/${encodeURIComponent(item.set)}`
@@ -576,7 +581,7 @@ export default function GearPage() {
                                     fw={600}
                                     size="sm"
                                     c="violet"
-                                    style={{ textDecoration: 'none' }}
+                                    style={LINK_RESET_STYLE}
                                     onClick={(e) => e.stopPropagation()}
                                   >
                                     {item.name}
@@ -672,9 +677,7 @@ export default function GearPage() {
                             withBorder
                             style={{
                               ...CARD_HOVER_STYLES,
-                              textDecoration: 'none',
-                              color: 'inherit',
-                              display: 'block',
+                              ...LINK_BLOCK_RESET_STYLE,
                             }}
                             {...cardHoverHandlers}
                           >

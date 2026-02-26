@@ -25,18 +25,24 @@ import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterCard from '../components/character/CharacterCard';
 import DataFetchError from '../components/common/DataFetchError';
 import EmptyState from '../components/common/EmptyState';
-import type { ChipFilterGroup } from '../components/EntityFilter';
-import EntityFilter from '../components/EntityFilter';
 import LastUpdated from '../components/common/LastUpdated';
 import PaginationControl from '../components/common/PaginationControl';
-import TeamBuilder from '../components/tools/TeamBuilder';
 import ViewToggle from '../components/common/ViewToggle';
+import type { ChipFilterGroup } from '../components/EntityFilter';
+import EntityFilter from '../components/EntityFilter';
+import TeamBuilder from '../components/tools/TeamBuilder';
 import { FACTION_COLOR, FACTION_NAMES } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentType,
 } from '../constants/content-types';
-import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
+import {
+  CARD_HOVER_STYLES,
+  CURSOR_POINTER_STYLE,
+  LINK_BLOCK_RESET_STYLE,
+  LINK_RESET_STYLE,
+  cardHoverHandlers,
+} from '../constants/styles';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilters, useViewMode } from '../hooks/use-filters';
@@ -47,7 +53,6 @@ import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
 
 const TEAMS_PER_PAGE = 12;
-
 
 export default function Teams() {
   const navigate = useNavigate();
@@ -304,9 +309,7 @@ export default function Teams() {
                             withBorder
                             style={{
                               ...CARD_HOVER_STYLES,
-                              textDecoration: 'none',
-                              color: 'inherit',
-                              display: 'block',
+                              ...LINK_BLOCK_RESET_STYLE,
                             }}
                             onClick={() =>
                               navigate(
@@ -470,7 +473,7 @@ export default function Teams() {
                           return (
                             <Table.Tr
                               key={team.name}
-                              style={{ cursor: 'pointer' }}
+                              style={CURSOR_POINTER_STYLE}
                               onClick={() =>
                                 navigate(
                                   `/teams/${encodeURIComponent(team.name)}`
@@ -496,7 +499,7 @@ export default function Teams() {
                                     size="sm"
                                     fw={500}
                                     c="violet"
-                                    style={{ textDecoration: 'none' }}
+                                    style={LINK_RESET_STYLE}
                                     onClick={(e) => e.stopPropagation()}
                                   >
                                     {team.name}

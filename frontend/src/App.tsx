@@ -47,7 +47,13 @@ import SearchModal from './components/tools/SearchModal';
 import { getAccentForPath, PARENT_ACCENTS } from './constants/accents';
 import { normalizeContentType } from './constants/content-types';
 import { getGlassStyles } from './constants/glass';
-import { BRAND_TITLE_STYLE } from './constants/styles';
+import {
+  BRAND_TITLE_STYLE,
+  FLEX_1_STYLE,
+  FLEX_SHRINK_0_STYLE,
+  LINK_BLOCK_RESET_STYLE,
+  OVERFLOW_HIDDEN_STYLE,
+} from './constants/styles';
 import {
   BREAKPOINTS,
   HEADER_SELECT_WIDTH,
@@ -456,7 +462,7 @@ function AppContent() {
     >
       <AppShell.Header style={glassStyles}>
         <Group h="100%" px="md" justify="space-between" wrap="nowrap">
-          <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
+          <Group gap="sm" wrap="nowrap" style={OVERFLOW_HIDDEN_STYLE}>
             <Burger
               opened={mobileOpened}
               onClick={toggleMobile}
@@ -483,11 +489,10 @@ function AppContent() {
             <Link
               to="/"
               style={{
-                textDecoration: 'none',
                 display: 'flex',
                 alignItems: 'center',
                 gap: '0.5rem',
-                color: 'inherit',
+                ...LINK_BLOCK_RESET_STYLE,
               }}
             >
               <Image
@@ -527,14 +532,20 @@ function AppContent() {
         onMouseEnter={() => sidebar.setHovered(true)}
         onMouseLeave={() => sidebar.setHovered(false)}
       >
-        <Box style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
+        <Box style={{ ...FLEX_1_STYLE, overflowY: 'auto', minHeight: 0 }}>
           <Navigation
             onNavigate={closeMobile}
             showLabels={showLabels}
             onExpand={() => sidebar.setCollapsed(false)}
           />
         </Box>
-        <Box hiddenFrom="sm" px="xs" pb="xs" pt="xs" style={{ flexShrink: 0 }}>
+        <Box
+          hiddenFrom="sm"
+          px="xs"
+          pb="xs"
+          pt="xs"
+          style={FLEX_SHRINK_0_STYLE}
+        >
           <Select
             placeholder="Tier list reference"
             data={tierListOptions}
@@ -554,7 +565,7 @@ function AppContent() {
           minHeight: '100vh',
         }}
       >
-        <Box style={{ flex: 1 }}>
+        <Box style={FLEX_1_STYLE}>
           <PageTransition>
             <ErrorBoundary>
               <Routes>

@@ -25,7 +25,14 @@ import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
 import { getLoreGlassStyles } from '../constants/glass';
-import { DETAIL_HERO_WRAPPER_STYLES, getDetailHeroGradient } from '../constants/styles';
+import {
+  CURSOR_POINTER_STYLE,
+  DETAIL_HERO_WRAPPER_STYLES,
+  FLEX_1_STYLE,
+  LINK_RESET_STYLE,
+  RELATIVE_Z1_STYLE,
+  getDetailHeroGradient,
+} from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Character } from '../types/character';
@@ -152,11 +159,7 @@ export default function GearSetPage() {
       <Box style={DETAIL_HERO_WRAPPER_STYLES}>
         <Box style={getDetailHeroGradient(isDark, qualityColor)} />
 
-        <Container
-          size="lg"
-          style={{ position: 'relative', zIndex: 1 }}
-          py="xl"
-        >
+        <Container size="lg" style={RELATIVE_Z1_STYLE} py="xl">
           <Stack gap="lg">
             <Breadcrumbs
               items={[
@@ -202,11 +205,7 @@ export default function GearSetPage() {
             </Group>
 
             {setBonus && setBonus.quantity > 0 && (
-              <Paper
-                p="md"
-                radius="md"
-                style={getLoreGlassStyles(isDark)}
-              >
+              <Paper p="md" radius="md" style={getLoreGlassStyles(isDark)}>
                 <Stack gap={4}>
                   <Text fw={600} size="sm">
                     Set Bonus
@@ -237,7 +236,7 @@ export default function GearSetPage() {
                       >
                         <Link
                           to={`/characters/${encodeURIComponent(character.name)}`}
-                          style={{ textDecoration: 'none' }}
+                          style={LINK_RESET_STYLE}
                         >
                           <Box
                             style={{
@@ -252,7 +251,7 @@ export default function GearSetPage() {
                               display: 'flex',
                               alignItems: 'center',
                               justifyContent: 'center',
-                              cursor: 'pointer',
+                              ...CURSOR_POINTER_STYLE,
                               transition: `transform ${TRANSITION.NORMAL} ${TRANSITION.EASE}, box-shadow ${TRANSITION.NORMAL} ${TRANSITION.EASE}`,
                             }}
                             onMouseEnter={(e) => {
@@ -288,7 +287,7 @@ export default function GearSetPage() {
                       variant="light"
                       color="gray"
                       size="sm"
-                      style={{ cursor: 'pointer' }}
+                      style={CURSOR_POINTER_STYLE}
                       onClick={() => setShowAllCharacters(true)}
                     >
                       +{remainingRecommendedCount} more
@@ -299,7 +298,7 @@ export default function GearSetPage() {
                       variant="light"
                       color="gray"
                       size="sm"
-                      style={{ cursor: 'pointer' }}
+                      style={CURSOR_POINTER_STYLE}
                       onClick={() => setShowAllCharacters(false)}
                     >
                       Show less
@@ -332,7 +331,7 @@ export default function GearSetPage() {
                           loading="lazy"
                         />
                       )}
-                      <Stack gap={4} style={{ flex: 1 }}>
+                      <Stack gap={4} style={FLEX_1_STYLE}>
                         <Text fw={700} size="lg" c="violet" lineClamp={1}>
                           {item.name}
                         </Text>

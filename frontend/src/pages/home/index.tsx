@@ -26,7 +26,17 @@ import {
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import SearchModal from '../../components/tools/SearchModal';
-import { BRAND_TITLE_STYLE } from '../../constants/styles';
+import {
+  FLEX_SHRINK_0_STYLE,
+  HOME_HERO_META_TEXT_STYLE,
+  HOME_HERO_PLAY_NOW_STYLE,
+  HOME_HERO_SUBTITLE_STYLE,
+  HOME_HERO_TITLE_STYLE,
+  HOME_HERO_WORDMARK_STYLE,
+  OVERFLOW_HIDDEN_STYLE,
+  WORD_BREAK_STYLE,
+  getHomeHeroPlaceholderGradient,
+} from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
 import ActiveCodesSection from './ActiveCodesSection';
 import DataStatsBar from './DataStatsBar';
@@ -120,9 +130,7 @@ export default function Home() {
             style={{
               position: 'absolute',
               inset: 0,
-              background: isDark
-                ? 'linear-gradient(135deg, #1a0a2e 0%, #2d1450 30%, #4a1942 60%, #1a0a2e 100%)'
-                : 'linear-gradient(135deg, #e8d5f5 0%, #c9a0dc 30%, #b57ecd 60%, #e8d5f5 100%)',
+              background: getHomeHeroPlaceholderGradient(isDark),
             }}
           />
           {/* Actual banner image (fades in when loaded) */}
@@ -182,44 +190,19 @@ export default function Home() {
           <Stack gap="lg">
             {/* Title */}
             <Box style={{ textAlign: 'center' }}>
-              <Title
-                order={1}
-                style={{
-                  fontFamily: BRAND_TITLE_STYLE.fontFamily,
-                  letterSpacing: BRAND_TITLE_STYLE.letterSpacing,
-                  fontWeight: 700,
-                  fontSize: 'clamp(2rem, 6vw, 3.5rem)',
-                  textShadow:
-                    '0 2px 16px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 58, 237, 0.35)',
-                }}
-              >
+              <Title order={1} style={HOME_HERO_TITLE_STYLE}>
+                <Text component="span" inherit style={HOME_HERO_WORDMARK_STYLE}>
+                  Dragon Traveler
+                </Text>{' '}
                 <Text
                   component="span"
                   inherit
-                  style={{
-                    background:
-                      'linear-gradient(135deg, #f5d0fe 0%, #c4b5fd 45%, #93c5fd 100%)',
-                    WebkitBackgroundClip: 'text',
-                    backgroundClip: 'text',
-                    WebkitTextFillColor: 'transparent',
-                    color: 'var(--mantine-color-white)',
-                  }}
+                  style={{ color: 'var(--mantine-color-white)' }}
                 >
-                  Dragon Traveler
-                </Text>{' '}
-                <Text component="span" inherit style={{ color: 'var(--mantine-color-white)' }}>
                   Wiki
                 </Text>
               </Title>
-              <Text
-                size="lg"
-                mt="xs"
-                style={{
-                  color: 'rgba(255, 255, 255, 0.92)',
-                  fontWeight: 500,
-                  textShadow: '0 1px 6px rgba(0, 0, 0, 0.9)',
-                }}
-              >
+              <Text size="lg" mt="xs" style={HOME_HERO_SUBTITLE_STYLE}>
                 A{' '}
                 <Text
                   component="span"
@@ -239,14 +222,7 @@ export default function Home() {
                   Dragon Traveler
                 </Text>
               </Text>
-              <Text
-                size="sm"
-                mt={6}
-                style={{
-                  color: 'rgba(255, 255, 255, 0.9)',
-                  textShadow: '0 1px 4px rgba(0, 0, 0, 0.85)',
-                }}
-              >
+              <Text size="sm" mt={6} style={HOME_HERO_META_TEXT_STYLE}>
                 Authored by{' '}
                 <Text component="span" inherit fw={700} c="grape.2">
                   Litee
@@ -292,13 +268,7 @@ export default function Home() {
                     className="home-cta"
                     leftSection={<IoGameController size={18} />}
                     rightSection={<IoOpenOutline size={14} />}
-                    style={{
-                      borderColor: 'rgba(255, 255, 255, 0.4)',
-                      color: 'rgba(255, 255, 255, 0.95)',
-                      backdropFilter: 'blur(4px)',
-                      backgroundColor: 'rgba(255, 255, 255, 0.1)',
-                      whiteSpace: 'nowrap',
-                    }}
+                    style={HOME_HERO_PLAY_NOW_STYLE}
                   >
                     Play Now
                   </Button>
@@ -320,17 +290,11 @@ export default function Home() {
                     )}
                   />
                   <Group gap={4} visibleFrom="sm">
-                    <Text
-                      size="xs"
-                      style={{ color: 'rgba(255, 255, 255, 0.9)' }}
-                    >
+                    <Text size="xs" style={HOME_HERO_META_TEXT_STYLE}>
                       or press
                     </Text>
                     <Kbd size="xs">/</Kbd>
-                    <Text
-                      size="xs"
-                      style={{ color: 'rgba(255, 255, 255, 0.9)' }}
-                    >
+                    <Text size="xs" style={HOME_HERO_META_TEXT_STYLE}>
                       or
                     </Text>
                     <Kbd size="xs">Ctrl</Kbd>
@@ -386,21 +350,17 @@ export default function Home() {
                     Free to Play
                   </Badge>
                 </Group>
-                <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
+                <Group gap="sm" wrap="nowrap" style={OVERFLOW_HIDDEN_STYLE}>
                   <ThemeIcon
                     variant="light"
                     color="blue"
                     size="md"
                     radius="md"
-                    style={{ flexShrink: 0 }}
+                    style={FLEX_SHRINK_0_STYLE}
                   >
                     <IoGlobe size={16} />
                   </ThemeIcon>
-                  <Text
-                    size="sm"
-                    c="dimmed"
-                    style={{ wordBreak: 'break-word' }}
-                  >
+                  <Text size="sm" c="dimmed" style={WORD_BREAK_STYLE}>
                     {LANGUAGES.join(' \u00b7 ')}
                   </Text>
                 </Group>

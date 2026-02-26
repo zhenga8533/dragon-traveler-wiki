@@ -10,6 +10,7 @@ import {
   Title,
 } from '@mantine/core';
 import RichText from '../../components/common/RichText';
+import { FLEX_1_STYLE, FLEX_SHRINK_0_STYLE } from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { StatusEffect } from '../../types/status-effect';
 
@@ -69,9 +70,7 @@ export default function CharacterPageSkillsSection({
                     onSkillClick={scrollToSkill}
                     onTalentClick={scrollToTalent}
                   />
-                  {idx < talentLevels.length - 1 && (
-                    <Divider mt="sm" />
-                  )}
+                  {idx < talentLevels.length - 1 && <Divider mt="sm" />}
                 </Box>
               ))}
             </Stack>
@@ -97,12 +96,8 @@ export default function CharacterPageSkillsSection({
                     withBorder
                   >
                     <Stack gap="sm">
-                      <Group
-                        gap="md"
-                        justify="space-between"
-                        wrap="nowrap"
-                      >
-                        <Group gap="md" style={{ flex: 1 }}>
+                      <Group gap="md" justify="space-between" wrap="nowrap">
+                        <Group gap="md" style={FLEX_1_STYLE}>
                           {skillIcon && (
                             <Image
                               src={skillIcon}
@@ -118,25 +113,17 @@ export default function CharacterPageSkillsSection({
                               {skill.name}
                             </Text>
                             {skill.type && (
-                              <Badge
-                                size="lg"
-                                variant="light"
-                                color="grape"
-                              >
+                              <Badge size="lg" variant="light" color="grape">
                                 {skill.type}
                               </Badge>
                             )}
                           </Group>
                         </Group>
-                        <Group gap="xs" style={{ flexShrink: 0 }}>
+                        <Group gap="xs" style={FLEX_SHRINK_0_STYLE}>
                           <Badge
                             size="lg"
-                            variant={
-                              skill.cooldown === 0 ? 'light' : 'filled'
-                            }
-                            color={
-                              skill.cooldown === 0 ? 'gray' : 'blue'
-                            }
+                            variant={skill.cooldown === 0 ? 'light' : 'filled'}
+                            color={skill.cooldown === 0 ? 'gray' : 'blue'}
                           >
                             {skill.cooldown === 0
                               ? 'Passive'

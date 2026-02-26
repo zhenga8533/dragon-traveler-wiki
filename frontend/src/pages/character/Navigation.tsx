@@ -1,6 +1,7 @@
 import { Box, Group, Text } from '@mantine/core';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { CURSOR_POINTER_STYLE, LINK_RESET_STYLE } from '../../constants/styles';
 import type { Character } from '../../types/character';
 
 interface CharacterPageNavigationProps {
@@ -18,9 +19,9 @@ export default function CharacterPageNavigation({
         {previousCharacter ? (
           <Link
             to={`/characters/${encodeURIComponent(previousCharacter.name)}`}
-            style={{ textDecoration: 'none' }}
+            style={LINK_RESET_STYLE}
           >
-            <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
+            <Group gap="xs" c="violet" style={CURSOR_POINTER_STYLE}>
               <IoChevronBack />
               <Text size="sm">Previous: {previousCharacter.name}</Text>
             </Group>
@@ -34,9 +35,9 @@ export default function CharacterPageNavigation({
         {nextCharacter ? (
           <Link
             to={`/characters/${encodeURIComponent(nextCharacter.name)}`}
-            style={{ textDecoration: 'none' }}
+            style={LINK_RESET_STYLE}
           >
-            <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
+            <Group gap="xs" c="violet" style={CURSOR_POINTER_STYLE}>
               <Text size="sm">Next: {nextCharacter.name}</Text>
               <IoChevronForward />
             </Group>

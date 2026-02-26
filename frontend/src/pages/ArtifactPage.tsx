@@ -17,18 +17,23 @@ import { useMemo } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import { Link, useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
-import ClassTag from '../components/common/ClassTag';
 import { QUALITY_ICON_MAP } from '../assets/quality';
-import Breadcrumbs from '../components/layout/Breadcrumbs';
+import ClassTag from '../components/common/ClassTag';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
-import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import RichText from '../components/common/RichText';
+import Breadcrumbs from '../components/layout/Breadcrumbs';
+import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { QUALITY_COLOR } from '../constants/colors';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
+  CURSOR_POINTER_STYLE,
   DETAIL_HERO_WRAPPER_STYLES,
+  FLEX_1_STYLE,
+  FLEX_SHRINK_0_STYLE,
+  LINK_RESET_STYLE,
+  RELATIVE_Z1_STYLE,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
@@ -107,11 +112,11 @@ function TreasureCard({
               h={64}
               fit="contain"
               radius="sm"
-              style={{ flexShrink: 0 }}
+              style={FLEX_SHRINK_0_STYLE}
               loading="lazy"
             />
           )}
-          <Stack gap={4} style={{ flex: 1 }}>
+          <Stack gap={4} style={FLEX_1_STYLE}>
             <Text fw={700} size="lg">
               {treasure.name}
             </Text>
@@ -176,11 +181,7 @@ export default function ArtifactPage() {
       <Box style={DETAIL_HERO_WRAPPER_STYLES}>
         <Box style={getDetailHeroGradient(isDark, qualityColor)} />
 
-        <Container
-          size="lg"
-          style={{ position: 'relative', zIndex: 1 }}
-          py="xl"
-        >
+        <Container size="lg" style={RELATIVE_Z1_STYLE} py="xl">
           <Stack gap="lg">
             <Breadcrumbs
               items={[
@@ -203,7 +204,7 @@ export default function ArtifactPage() {
                 </Box>
               )}
 
-              <Stack gap={6} style={{ flex: 1 }}>
+              <Stack gap={6} style={FLEX_1_STYLE}>
                 <Group gap="sm" align="center">
                   <Tooltip label={artifact.quality}>
                     <Image
@@ -236,11 +237,7 @@ export default function ArtifactPage() {
               </Stack>
             </Group>
 
-            <Paper
-              p="md"
-              radius="md"
-              style={getLoreGlassStyles(isDark)}
-            >
+            <Paper p="md" radius="md" style={getLoreGlassStyles(isDark)}>
               <Text size="sm" lh={1.6} fs="italic">
                 {artifact.lore}
               </Text>
@@ -287,8 +284,8 @@ export default function ArtifactPage() {
         </Stack>
 
         <Box mt="xl">
-          <Link to="/artifacts" style={{ textDecoration: 'none' }}>
-            <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
+          <Link to="/artifacts" style={LINK_RESET_STYLE}>
+            <Group gap="xs" c="violet" style={CURSOR_POINTER_STYLE}>
               <IoArrowBack />
               <Text>Back to Artifacts</Text>
             </Group>

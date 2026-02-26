@@ -127,6 +127,115 @@ export const MONOSPACE_INPUT_STYLES = {
   input: { fontFamily: 'monospace', fontSize: 'var(--mantine-font-size-xs)' },
 } as const;
 
+export const LINK_RESET_STYLE = {
+  textDecoration: 'none',
+} as const satisfies CSSProperties;
+
+export const FLEX_SHRINK_0_STYLE = {
+  flexShrink: 0,
+} as const satisfies CSSProperties;
+
+export const WORD_BREAK_STYLE = {
+  wordBreak: 'break-word',
+} as const satisfies CSSProperties;
+
+export const ALIGN_SELF_END_STYLE = {
+  alignSelf: 'flex-end',
+} as const satisfies CSSProperties;
+
+export const OVERFLOW_HIDDEN_STYLE = {
+  overflow: 'hidden',
+} as const satisfies CSSProperties;
+
+export const CURSOR_POINTER_STYLE = {
+  cursor: 'pointer',
+} as const satisfies CSSProperties;
+
+export const POINTER_EVENTS_NONE_STYLE = {
+  pointerEvents: 'none',
+} as const satisfies CSSProperties;
+
+export const WHITE_SPACE_PRE_LINE_STYLE = {
+  whiteSpace: 'pre-line',
+} as const satisfies CSSProperties;
+
+export const OBJECT_FIT_CONTAIN_STYLE = {
+  objectFit: 'contain',
+} as const satisfies CSSProperties;
+
+export const LINK_INLINE_FLEX_RESET_STYLE = {
+  textDecoration: 'none',
+  display: 'inline-flex',
+} as const satisfies CSSProperties;
+
+export const FLEX_1_MIN_WIDTH_180_STYLE = {
+  flex: 1,
+  minWidth: 180,
+} as const satisfies CSSProperties;
+
+export const RELATIVE_Z1_STYLE = {
+  position: 'relative',
+  zIndex: 1,
+} as const satisfies CSSProperties;
+
+export const FLEX_1_STYLE = {
+  flex: 1,
+} as const satisfies CSSProperties;
+
+export const FLEX_1_MIN_WIDTH_0_STYLE = {
+  flex: 1,
+  minWidth: 0,
+} as const satisfies CSSProperties;
+
+export const LINK_BLOCK_RESET_STYLE = {
+  textDecoration: 'none',
+  color: 'inherit',
+  display: 'block',
+} as const satisfies CSSProperties;
+
+export function getHomeHeroPlaceholderGradient(isDark: boolean): string {
+  return isDark
+    ? 'linear-gradient(135deg, var(--mantine-color-violet-9) 0%, var(--mantine-color-grape-9) 35%, var(--mantine-color-pink-9) 65%, var(--mantine-color-violet-9) 100%)'
+    : 'linear-gradient(135deg, var(--mantine-color-violet-1) 0%, var(--mantine-color-grape-2) 35%, var(--mantine-color-pink-3) 65%, var(--mantine-color-violet-1) 100%)';
+}
+
+export const HOME_HERO_TITLE_STYLE = {
+  fontFamily: BRAND_TITLE_STYLE.fontFamily,
+  letterSpacing: BRAND_TITLE_STYLE.letterSpacing,
+  fontWeight: 700,
+  fontSize: 'clamp(2rem, 6vw, 3.5rem)',
+  textShadow:
+    '0 2px 16px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 58, 237, 0.35)',
+} as const satisfies CSSProperties;
+
+export const HOME_HERO_WORDMARK_STYLE = {
+  background:
+    'linear-gradient(135deg, var(--mantine-color-pink-2) 0%, var(--mantine-color-violet-2) 45%, var(--mantine-color-blue-2) 100%)',
+  WebkitBackgroundClip: 'text',
+  backgroundClip: 'text',
+  WebkitTextFillColor: 'transparent',
+  color: 'var(--mantine-color-white)',
+} as const satisfies CSSProperties;
+
+export const HOME_HERO_SUBTITLE_STYLE = {
+  color: 'rgba(255, 255, 255, 0.92)',
+  fontWeight: 500,
+  textShadow: '0 1px 6px rgba(0, 0, 0, 0.9)',
+} as const satisfies CSSProperties;
+
+export const HOME_HERO_META_TEXT_STYLE = {
+  color: 'rgba(255, 255, 255, 0.9)',
+  textShadow: '0 1px 4px rgba(0, 0, 0, 0.85)',
+} as const satisfies CSSProperties;
+
+export const HOME_HERO_PLAY_NOW_STYLE = {
+  borderColor: 'rgba(255, 255, 255, 0.4)',
+  color: 'rgba(255, 255, 255, 0.95)',
+  backdropFilter: 'blur(4px)',
+  backgroundColor: 'rgba(255, 255, 255, 0.1)',
+  whiteSpace: 'nowrap',
+} as const satisfies CSSProperties;
+
 /**
  * 96×96 icon box for detail page hero sections.
  * @param isDark - current color scheme

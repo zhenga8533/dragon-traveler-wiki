@@ -23,7 +23,14 @@ import EntityFilter from '../components/EntityFilter';
 import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
-import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
+import {
+  CARD_HOVER_STYLES,
+  CURSOR_POINTER_STYLE,
+  FLEX_1_STYLE,
+  LINK_BLOCK_RESET_STYLE,
+  LINK_RESET_STYLE,
+  cardHoverHandlers,
+} from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import {
@@ -227,9 +234,7 @@ export default function NoblePhantasms() {
                       withBorder
                       style={{
                         ...CARD_HOVER_STYLES,
-                        textDecoration: 'none',
-                        color: 'inherit',
-                        display: 'block',
+                        ...LINK_BLOCK_RESET_STYLE,
                       }}
                       {...cardHoverHandlers}
                     >
@@ -245,7 +250,7 @@ export default function NoblePhantasms() {
                             loading="lazy"
                           />
                         )}
-                        <Stack gap={4} style={{ flex: 1 }}>
+                        <Stack gap={4} style={FLEX_1_STYLE}>
                           <Group gap="xs" align="center" wrap="nowrap">
                             {portrait && (
                               <Image
@@ -352,7 +357,7 @@ export default function NoblePhantasms() {
                       return (
                         <Table.Tr
                           key={np.name}
-                          style={{ cursor: 'pointer' }}
+                          style={CURSOR_POINTER_STYLE}
                           onClick={() =>
                             navigate(
                               `/noble-phantasms/${encodeURIComponent(np.name)}`
@@ -383,7 +388,7 @@ export default function NoblePhantasms() {
                               size="sm"
                               fw={600}
                               c="violet"
-                              style={{ textDecoration: 'none' }}
+                              style={LINK_RESET_STYLE}
                               onClick={(e) => e.stopPropagation()}
                             >
                               {np.name}

@@ -1,6 +1,7 @@
 import { Badge, Image } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
+import { LINK_INLINE_FLEX_RESET_STYLE } from '../../constants/styles';
 
 export interface CharacterTagProps {
   name: string;
@@ -39,7 +40,7 @@ export default function CharacterTag({
   return (
     <Link
       to={`/characters/${encodeURIComponent(name)}`}
-      style={{ textDecoration: 'none', display: 'inline-flex' }}
+      style={LINK_INLINE_FLEX_RESET_STYLE}
     >
       {badge}
     </Link>

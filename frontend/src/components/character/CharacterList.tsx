@@ -16,7 +16,11 @@ import { getPortrait } from '../../assets/character';
 import { CLASS_ICON_MAP } from '../../assets/class';
 import { FACTION_ICON_MAP } from '../../assets/faction';
 import { QUALITY_ICON_MAP } from '../../assets/quality';
-import { TIER_ORDER } from '../../constants/colors';
+import { QUALITY_BORDER_COLOR, TIER_ORDER } from '../../constants/colors';
+import {
+  CURSOR_POINTER_STYLE,
+  FLEX_SHRINK_0_STYLE,
+} from '../../constants/styles';
 import {
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
@@ -24,7 +28,11 @@ import {
   STORAGE_KEY,
 } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
-import { useFilterPanel, useFilters, useViewMode } from '../../hooks/use-filters';
+import {
+  useFilterPanel,
+  useFilters,
+  useViewMode,
+} from '../../hooks/use-filters';
 import { usePagination } from '../../hooks/use-pagination';
 import { applyDir, useSortState } from '../../hooks/use-sort';
 import type { Character } from '../../types/character';
@@ -35,14 +43,13 @@ import {
   extractAllEffectRefs,
   filterCharacters,
 } from '../../utils/filter-characters';
-import CharacterCard from './CharacterCard';
-import { QUALITY_BORDER_COLOR } from '../../constants/colors';
-import TierBadge from '../common/TierBadge';
-import CharacterFilter from './CharacterFilter';
-import FilterToolbar from '../layout/FilterToolbar';
 import GlobalBadge from '../common/GlobalBadge';
 import PaginationControl from '../common/PaginationControl';
 import SortableTh from '../common/SortableTh';
+import TierBadge from '../common/TierBadge';
+import FilterToolbar from '../layout/FilterToolbar';
+import CharacterCard from './CharacterCard';
+import CharacterFilter from './CharacterFilter';
 
 interface CharacterListProps {
   characters: Character[];
@@ -236,7 +243,7 @@ export default function CharacterList({
               </Table.Thead>
               <Table.Tbody>
                 {pageItems.map((char) => (
-                  <Table.Tr key={char.name} style={{ cursor: 'pointer' }}>
+                  <Table.Tr key={char.name} style={CURSOR_POINTER_STYLE}>
                     <Table.Td>
                       <UnstyledButton
                         component={Link}
@@ -253,7 +260,7 @@ export default function CharacterList({
                             fallbackSrc={`https://placehold.co/40x40?text=${encodeURIComponent(char.name.charAt(0))}`}
                             style={{
                               border: `3px solid ${char.quality ? QUALITY_BORDER_COLOR[char.quality] : 'var(--mantine-color-gray-5)'}`,
-                              flexShrink: 0,
+                              ...FLEX_SHRINK_0_STYLE,
                             }}
                           />
                           <Text size="sm" fw={500} c="violet">

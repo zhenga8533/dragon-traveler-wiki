@@ -14,19 +14,34 @@ import {
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
-import EntityFilter from '../components/EntityFilter';
-import FilteredListShell from '../components/layout/FilteredListShell';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
-import ListPageShell from '../components/layout/ListPageShell';
 import QualityIcon from '../components/common/QualityIcon';
 import SortableTh from '../components/common/SortableTh';
-import SuggestModal, { type ArrayFieldDef, type FieldDef } from '../components/tools/SuggestModal';
+import EntityFilter from '../components/EntityFilter';
+import FilteredListShell from '../components/layout/FilteredListShell';
+import ListPageShell from '../components/layout/ListPageShell';
+import SuggestModal, {
+  type ArrayFieldDef,
+  type FieldDef,
+} from '../components/tools/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
-import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
+import {
+  CARD_HOVER_STYLES,
+  CURSOR_POINTER_STYLE,
+  FLEX_1_STYLE,
+  LINK_BLOCK_RESET_STYLE,
+  LINK_RESET_STYLE,
+  cardHoverHandlers,
+} from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { countActiveFilters, useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import {
+  countActiveFilters,
+  useFilterPanel,
+  useFilters,
+  useViewMode,
+} from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Artifact } from '../types/artifact';
@@ -163,7 +178,9 @@ export default function Artifacts() {
   }, [artifacts, filters, sortCol, sortDir]);
 
   const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length, PAGE_SIZE, JSON.stringify(filters)
+    filtered.length,
+    PAGE_SIZE,
+    JSON.stringify(filters)
   );
   const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
 
@@ -235,7 +252,10 @@ export default function Artifacts() {
                       p="md"
                       radius="md"
                       withBorder
-                      style={{ ...CARD_HOVER_STYLES, textDecoration: 'none', color: 'inherit', display: 'block' }}
+                      style={{
+                        ...CARD_HOVER_STYLES,
+                        ...LINK_BLOCK_RESET_STYLE,
+                      }}
                       {...cardHoverHandlers}
                     >
                       <Group gap="md" align="flex-start" wrap="nowrap">
@@ -250,7 +270,7 @@ export default function Artifacts() {
                             loading="lazy"
                           />
                         )}
-                        <Stack gap={4} style={{ flex: 1 }}>
+                        <Stack gap={4} style={FLEX_1_STYLE}>
                           <Group gap="sm">
                             <QualityIcon quality={artifact.quality} />
                             <Text fw={600} size="lg" c="violet">
@@ -334,7 +354,7 @@ export default function Artifacts() {
                       return (
                         <Table.Tr
                           key={artifact.name}
-                          style={{ cursor: 'pointer' }}
+                          style={CURSOR_POINTER_STYLE}
                           onClick={() =>
                             navigate(
                               `/artifacts/${encodeURIComponent(artifact.name)}`
@@ -361,7 +381,7 @@ export default function Artifacts() {
                               size="sm"
                               fw={500}
                               c="violet"
-                              style={{ textDecoration: 'none' }}
+                              style={LINK_RESET_STYLE}
                               onClick={(e) => e.stopPropagation()}
                             >
                               {artifact.name}

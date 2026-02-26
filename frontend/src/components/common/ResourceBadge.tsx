@@ -2,6 +2,12 @@ import { Badge, Group, Image, Popover, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
 import { getResourceIcon } from '../../assets/resource';
+import {
+  CURSOR_POINTER_STYLE,
+  OBJECT_FIT_CONTAIN_STYLE,
+  POINTER_EVENTS_NONE_STYLE,
+  WHITE_SPACE_PRE_LINE_STYLE,
+} from '../../constants/styles';
 import { IMAGE_SIZE } from '../../constants/ui';
 import { ResourcesContext } from '../../contexts';
 import InlineMarkup from './InlineMarkup';
@@ -36,7 +42,7 @@ export default function ResourceBadge({
       color="yellow"
       size={size}
       component="span"
-      style={resource ? { cursor: 'pointer' } : undefined}
+      style={resource ? CURSOR_POINTER_STYLE : undefined}
       onMouseEnter={resource ? open : undefined}
       onMouseLeave={resource ? close : undefined}
       leftSection={
@@ -45,7 +51,7 @@ export default function ResourceBadge({
             src={iconSrc}
             w={iconSize}
             h={iconSize}
-            style={{ objectFit: 'contain' }}
+            style={OBJECT_FIT_CONTAIN_STYLE}
           />
         ) : undefined
       }
@@ -60,7 +66,7 @@ export default function ResourceBadge({
   return (
     <Popover opened={opened} position="top" withArrow shadow="md">
       <Popover.Target>{badge}</Popover.Target>
-      <Popover.Dropdown style={{ pointerEvents: 'none' }}>
+      <Popover.Dropdown style={POINTER_EVENTS_NONE_STYLE}>
         <Stack gap="xs" maw={280}>
           <Group gap="xs" wrap="nowrap">
             {iconSrc && <Image src={iconSrc} alt={name} w={18} h={18} />}
@@ -68,7 +74,7 @@ export default function ResourceBadge({
               {resource.name}
             </Text>
           </Group>
-          <Text size="xs" style={{ whiteSpace: 'pre-line' }} component="span">
+          <Text size="xs" style={WHITE_SPACE_PRE_LINE_STYLE} component="span">
             <InlineMarkup text={resource.description} />
           </Text>
         </Stack>

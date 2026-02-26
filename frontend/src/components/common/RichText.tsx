@@ -1,6 +1,11 @@
 import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
+import {
+  CURSOR_POINTER_STYLE,
+  POINTER_EVENTS_NONE_STYLE,
+  WHITE_SPACE_PRE_LINE_STYLE,
+} from '../../constants/styles';
 import { ResourcesContext } from '../../contexts';
 import type { Skill, Talent } from '../../types/character';
 import type { StatusEffect } from '../../types/status-effect';
@@ -54,14 +59,14 @@ function ReferenceBadge({
           color={color}
           size="sm"
           component="span"
-          style={{ cursor: 'pointer' }}
+          style={CURSOR_POINTER_STYLE}
           onMouseEnter={open}
           onMouseLeave={close}
         >
           {name}
         </Badge>
       </Popover.Target>
-      <Popover.Dropdown style={{ pointerEvents: 'none' }}>
+      <Popover.Dropdown style={POINTER_EVENTS_NONE_STYLE}>
         <Stack gap="xs" maw={320}>
           <Group gap="xs" wrap="nowrap">
             <Text fw={600} size="sm">
@@ -72,7 +77,7 @@ function ReferenceBadge({
             </Badge>
           </Group>
           {description && (
-            <Text size="xs" style={{ whiteSpace: 'pre-line' }}>
+            <Text size="xs" style={WHITE_SPACE_PRE_LINE_STYLE}>
               {description}
             </Text>
           )}
@@ -80,7 +85,7 @@ function ReferenceBadge({
             <Text
               key={`${name}-line-${idx}`}
               size="xs"
-              style={{ whiteSpace: 'pre-line' }}
+              style={WHITE_SPACE_PRE_LINE_STYLE}
             >
               {line}
             </Text>
@@ -155,7 +160,7 @@ export default function RichText({
                 color="grape"
                 size="sm"
                 component="span"
-                style={{ cursor: 'pointer' }}
+                style={CURSOR_POINTER_STYLE}
                 onClick={() => onSkillClick(skill.name)}
               >
                 {skill.name}
@@ -182,7 +187,7 @@ export default function RichText({
                 color="indigo"
                 size="sm"
                 component="span"
-                style={{ cursor: 'pointer' }}
+                style={CURSOR_POINTER_STYLE}
                 onClick={onTalentClick}
               >
                 {talent.name}

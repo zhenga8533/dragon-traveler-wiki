@@ -27,27 +27,32 @@ import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
-import { QUALITY_BORDER_COLOR } from '../constants/colors';
 import ClassLabel from '../components/common/ClassLabel';
 import EntityNotFound from '../components/common/EntityNotFound';
-import QualityIcon from '../components/common/QualityIcon';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
+import QualityIcon from '../components/common/QualityIcon';
 import RichText from '../components/common/RichText';
 import WyrmspellCard from '../components/common/WyrmspellCard';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import TeamSynergyAssistant from '../components/tools/TeamSynergyAssistant';
-import { FACTION_COLOR } from '../constants/colors';
+import { FACTION_COLOR, QUALITY_BORDER_COLOR } from '../constants/colors';
+import { normalizeContentType } from '../constants/content-types';
 import { GLASS_BORDER, getLoreGlassStyles } from '../constants/glass';
 import {
   CARD_HOVER_STYLES,
-  cardHoverHandlers,
+  CURSOR_POINTER_STYLE,
   DETAIL_HERO_WRAPPER_STYLES,
+  FLEX_1_MIN_WIDTH_0_STYLE,
+  FLEX_1_STYLE,
+  FLEX_SHRINK_0_STYLE,
+  LINK_RESET_STYLE,
+  RELATIVE_Z1_STYLE,
+  cardHoverHandlers,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
-import { normalizeContentType } from '../constants/content-types';
 import { TRANSITION } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Artifact } from '../types/artifact';
@@ -185,11 +190,7 @@ export default function TeamPage() {
       <Box style={DETAIL_HERO_WRAPPER_STYLES}>
         <Box style={getDetailHeroGradient(isDark, factionColor)} />
 
-        <Container
-          size="lg"
-          style={{ position: 'relative', zIndex: 1 }}
-          py="xl"
-        >
+        <Container size="lg" style={RELATIVE_Z1_STYLE} py="xl">
           <Stack gap="lg">
             <Group justify="space-between">
               <Breadcrumbs
@@ -221,7 +222,7 @@ export default function TeamPage() {
                 />
               </Box>
 
-              <Stack gap={6} style={{ flex: 1 }}>
+              <Stack gap={6} style={FLEX_1_STYLE}>
                 <Title
                   order={1}
                   c={isDark ? 'white' : 'dark'}
@@ -260,11 +261,7 @@ export default function TeamPage() {
             </Group>
 
             {team.description && (
-              <Paper
-                p="md"
-                radius="md"
-                style={getLoreGlassStyles(isDark)}
-              >
+              <Paper p="md" radius="md" style={getLoreGlassStyles(isDark)}>
                 <Text size="sm" lh={1.6}>
                   {team.description}
                 </Text>
@@ -272,11 +269,7 @@ export default function TeamPage() {
             )}
 
             {factionInfo && (
-              <Paper
-                p="md"
-                radius="md"
-                style={getLoreGlassStyles(isDark)}
-              >
+              <Paper p="md" radius="md" style={getLoreGlassStyles(isDark)}>
                 <Stack gap="sm">
                   <Title order={4}>Faction Overview</Title>
                   <RichText
@@ -302,15 +295,13 @@ export default function TeamPage() {
                               >
                                 <Link
                                   to={`/artifacts/${encodeURIComponent(artifactName)}`}
-                                  style={{ textDecoration: 'none' }}
+                                  style={LINK_RESET_STYLE}
                                 >
                                   <Paper
                                     p="sm"
                                     radius="md"
                                     withBorder
-                                    style={{
-                                      cursor: 'pointer',
-                                    }}
+                                    style={CURSOR_POINTER_STYLE}
                                   >
                                     <Group
                                       gap="sm"
@@ -321,7 +312,8 @@ export default function TeamPage() {
                                         style={{
                                           width: 64,
                                           height: 64,
-                                          borderRadius: 'var(--mantine-radius-md)',
+                                          borderRadius:
+                                            'var(--mantine-radius-md)',
                                           background: isDark
                                             ? 'rgba(0,0,0,0.3)'
                                             : 'rgba(255,255,255,0.6)',
@@ -331,7 +323,7 @@ export default function TeamPage() {
                                           display: 'flex',
                                           alignItems: 'center',
                                           justifyContent: 'center',
-                                          flexShrink: 0,
+                                          ...FLEX_SHRINK_0_STYLE,
                                         }}
                                       >
                                         {iconSrc && (
@@ -511,7 +503,7 @@ function TeamMemberCard({
     >
       <Group gap="md" wrap="nowrap" align="flex-start">
         {/* Portrait */}
-        <Box pos="relative" style={{ flexShrink: 0 }}>
+        <Box pos="relative" style={FLEX_SHRINK_0_STYLE}>
           <Tooltip label={`View ${member.character_name}`} {...tooltipProps}>
             <Link
               to={`/characters/${encodeURIComponent(member.character_name)}`}
@@ -551,14 +543,14 @@ function TeamMemberCard({
         </Box>
 
         {/* Info */}
-        <Stack gap={6} style={{ flex: 1, minWidth: 0 }}>
+        <Stack gap={6} style={FLEX_1_MIN_WIDTH_0_STYLE}>
           <Text
             fw={700}
             size="md"
             component={Link}
             to={`/characters/${encodeURIComponent(member.character_name)}`}
             c="violet"
-            style={{ textDecoration: 'none' }}
+            style={LINK_RESET_STYLE}
           >
             {member.character_name}
           </Text>
@@ -620,7 +612,7 @@ function TeamMemberCard({
                   <Tooltip key={sub} label={sub} {...tooltipProps}>
                     <Link
                       to={`/characters/${encodeURIComponent(sub)}`}
-                      style={{ textDecoration: 'none' }}
+                      style={LINK_RESET_STYLE}
                     >
                       <Image
                         src={getPortrait(sub)}
@@ -661,7 +653,7 @@ function TeamMemberCard({
                 <IoInformationCircle
                   size={14}
                   color="var(--mantine-color-dimmed)"
-                  style={{ flexShrink: 0, marginTop: 2 }}
+                  style={{ ...FLEX_SHRINK_0_STYLE, marginTop: 2 }}
                 />
                 <Text size="xs" c="dimmed" fs="italic" lh={1.4}>
                   {member.note}

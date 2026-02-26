@@ -15,16 +15,20 @@ import { useMemo } from 'react';
 import { IoArrowBack } from 'react-icons/io5';
 import { Link, useParams } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
-import Breadcrumbs from '../components/layout/Breadcrumbs';
 import CharacterTag from '../components/character/CharacterTag';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
-import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import RichText from '../components/common/RichText';
+import Breadcrumbs from '../components/layout/Breadcrumbs';
+import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
+  CURSOR_POINTER_STYLE,
   DETAIL_HERO_WRAPPER_STYLES,
+  FLEX_1_STYLE,
+  LINK_RESET_STYLE,
+  RELATIVE_Z1_STYLE,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
@@ -226,11 +230,7 @@ export default function NoblePhantasmPage() {
           })}
         />
 
-        <Container
-          size="lg"
-          style={{ position: 'relative', zIndex: 1 }}
-          py="xl"
-        >
+        <Container size="lg" style={RELATIVE_Z1_STYLE} py="xl">
           <Stack gap="lg">
             <Breadcrumbs
               items={[
@@ -253,7 +253,7 @@ export default function NoblePhantasmPage() {
                 </Box>
               )}
 
-              <Stack gap={6} style={{ flex: 1 }}>
+              <Stack gap={6} style={FLEX_1_STYLE}>
                 <Title
                   order={1}
                   c={isDark ? 'white' : 'dark'}
@@ -284,11 +284,7 @@ export default function NoblePhantasmPage() {
               </Stack>
             </Group>
 
-            <Paper
-              p="md"
-              radius="md"
-              style={getLoreGlassStyles(isDark)}
-            >
+            <Paper p="md" radius="md" style={getLoreGlassStyles(isDark)}>
               <RichText
                 text={noblePhantasm.lore}
                 statusEffects={statusEffects}
@@ -326,8 +322,8 @@ export default function NoblePhantasmPage() {
         </Stack>
 
         <Box mt="xl">
-          <Link to="/noble-phantasms" style={{ textDecoration: 'none' }}>
-            <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
+          <Link to="/noble-phantasms" style={LINK_RESET_STYLE}>
+            <Group gap="xs" c="violet" style={CURSOR_POINTER_STYLE}>
               <IoArrowBack />
               <Text>Back to Noble Phantasms</Text>
             </Group>
