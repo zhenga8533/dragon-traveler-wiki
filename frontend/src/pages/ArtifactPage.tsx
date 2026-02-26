@@ -34,12 +34,14 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
+import FactionTag from '../components/common/FactionTag';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type {
   Artifact,
   ArtifactEffect,
   ArtifactTreasure,
 } from '../types/artifact';
+import type { Faction } from '../types/faction';
 import type { StatusEffect } from '../types/status-effect';
 
 function EffectTable({
@@ -141,6 +143,7 @@ export default function ArtifactPage() {
     'data/status-effects.json',
     []
   );
+  const { data: factions } = useDataFetch<Faction[]>('data/factions.json', []);
 
   const artifact = useMemo(() => {
     if (!name) return null;
@@ -168,6 +171,15 @@ export default function ArtifactPage() {
       (entry) => entry.name.toLowerCase() === artifact.name.toLowerCase()
     );
   }, [artifact, orderedArtifacts]);
+
+  const recommendingFactions = useMemo(() => {
+    if (!artifact) return [];
+    return factions.filter((f) =>
+      f.recommended_artifacts.some(
+        (a) => a.toLowerCase() === artifact.name.toLowerCase()
+      )
+    );
+  }, [factions, artifact]);
 
   const previousArtifact =
     artifactIndex > 0 ? orderedArtifacts[artifactIndex - 1] : null;
@@ -249,6 +261,16 @@ export default function ArtifactPage() {
                     {artifact.treasures.length !== 1 ? 's' : ''}
                   </Badge>
                 </Group>
+                {recommendingFactions.length > 0 && (
+                  <Group gap="xs" mt={2}>
+                    <Text size="sm" c="dimmed">
+                      Recommended by:
+                    </Text>
+                    {recommendingFactions.map((f) => (
+                      <FactionTag key={f.name} faction={f.name} size="sm" />
+                    ))}
+                  </Group>
+                )}
               </Stack>
             </Group>
 
