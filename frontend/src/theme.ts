@@ -98,6 +98,7 @@ export const theme = createTheme({
         withArrow: true,
         openDelay: 120,
         closeDelay: 120,
+        events: { hover: true, focus: true, touch: true },
       },
     },
   },

@@ -15,12 +15,14 @@ export function useMobileTooltip() {
         navigator.maxTouchPoints > 0));
 
   // On mobile/touch devices, open quickly and stay visible a bit longer.
+  // Also enable the touch event so tapping triggers the tooltip.
   if (isMobile || isTouchDevice) {
     return {
       openDelay: 80,
       closeDelay: 260,
       withArrow: true,
       position: 'top' as const,
+      events: { hover: true, focus: true, touch: true },
     };
   }
 
