@@ -13,18 +13,18 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../assets/gear';
 import { QUALITY_ICON_MAP } from '../assets/quality';
+import type { ChipFilterGroup } from '../components/common/EntityFilter';
+import EntityFilter from '../components/common/EntityFilter';
 import GearTypeTag from '../components/common/GearTypeTag';
 import LastUpdated from '../components/common/LastUpdated';
 import PaginationControl from '../components/common/PaginationControl';
 import QualityIcon from '../components/common/QualityIcon';
 import SortableTh from '../components/common/SortableTh';
-import type { ChipFilterGroup } from '../components/common/EntityFilter';
-import EntityFilter from '../components/common/EntityFilter';
 import FilterToolbar from '../components/layout/FilterToolbar';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, {
@@ -305,7 +305,14 @@ export default function GearPage() {
     return map;
   }, [gear]);
 
-  const [gearSetSearch, setGearSetSearch] = useState('');
+  const [gearSetSearch, setGearSetSearch] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    return window.localStorage.getItem(STORAGE_KEY.GEAR_SET_SEARCH) || '';
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem(STORAGE_KEY.GEAR_SET_SEARCH, gearSetSearch);
+  }, [gearSetSearch]);
 
   const filteredGearSets = useMemo(() => {
     const query = gearSetSearch.trim().toLowerCase();
@@ -419,7 +426,10 @@ export default function GearPage() {
                           });
                         }
                       }}
-                      onClear={() => setFilters(EMPTY_FILTERS)}
+                      onClear={() => {
+                        setFilters(EMPTY_FILTERS);
+                        setGearSetSearch('');
+                      }}
                       search={filters.search}
                       onSearchChange={(value) =>
                         setFilters({ ...filters, search: value })

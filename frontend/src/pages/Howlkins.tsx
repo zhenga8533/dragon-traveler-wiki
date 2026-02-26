@@ -13,22 +13,22 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { getHowlkinIcon } from '../assets/howlkin';
 import DataFetchError from '../components/common/DataFetchError';
 import EmptyState from '../components/common/EmptyState';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
-import FilterToolbar from '../components/layout/FilterToolbar';
 import HowlkinBadge from '../components/common/HowlkinBadge';
 import HowlkinStats from '../components/common/HowlkinStats';
 import LastUpdated from '../components/common/LastUpdated';
-import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import PaginationControl from '../components/common/PaginationControl';
 import QualityIcon from '../components/common/QualityIcon';
 import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
 import SortableTh from '../components/common/SortableTh';
+import FilterToolbar from '../components/layout/FilterToolbar';
+import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
@@ -183,7 +183,19 @@ export default function Howlkins() {
   const { sortState, handleSort } = useSortState(STORAGE_KEY.HOWLKIN_SORT);
   const { col: sortCol, dir: sortDir } = sortState;
 
-  const [allianceSearch, setAllianceSearch] = useState('');
+  const [allianceSearch, setAllianceSearch] = useState(() => {
+    if (typeof window === 'undefined') return '';
+    return (
+      window.localStorage.getItem(STORAGE_KEY.GOLDEN_ALLIANCE_SEARCH) || ''
+    );
+  });
+
+  useEffect(() => {
+    window.localStorage.setItem(
+      STORAGE_KEY.GOLDEN_ALLIANCE_SEARCH,
+      allianceSearch
+    );
+  }, [allianceSearch]);
 
   const qualityOptions = useMemo(() => {
     const qualities = new Set<Quality>();
@@ -376,7 +388,10 @@ export default function Howlkins() {
                           [key]: values as Quality[],
                         })
                       }
-                      onClear={() => setFilters(EMPTY_FILTERS)}
+                      onClear={() => {
+                        setFilters(EMPTY_FILTERS);
+                        setAllianceSearch('');
+                      }}
                       search={filters.search}
                       onSearchChange={(value) =>
                         setFilters({ ...filters, search: value })
