@@ -17,7 +17,6 @@ import {
   Switch,
   Table,
   Text,
-  ThemeIcon,
   Title,
   UnstyledButton,
 } from '@mantine/core';
@@ -37,6 +36,7 @@ import {
   IoTime,
 } from 'react-icons/io5';
 import { QUALITY_ICON_MAP } from '../assets/quality';
+import StatCard from '../components/common/StatCard';
 import { TRANSITION } from '../constants/ui';
 
 type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
@@ -253,36 +253,6 @@ const SHARDS_PER_DUPE = 60;
 
 type QualityOption = keyof typeof HEART_TRIAL_RATES;
 
-type StatCardProps = {
-  icon: React.ReactNode;
-  title: string;
-  value: number;
-  color: string;
-  subtitle?: string;
-};
-
-function StatCard({ icon, title, value, color, subtitle }: StatCardProps) {
-  return (
-    <Paper p="md" radius="md" withBorder>
-      <Stack gap={6} align="center">
-        <ThemeIcon variant="light" color={color} size="lg" radius="md">
-          {icon}
-        </ThemeIcon>
-        <Text size="xs" c="dimmed" ta="center">
-          {title}
-        </Text>
-        <Text size="xl" fw={700} ta="center">
-          {value}
-        </Text>
-        {subtitle && (
-          <Text size="xs" c="dimmed" ta="center">
-            {subtitle}
-          </Text>
-        )}
-      </Stack>
-    </Paper>
-  );
-}
 
 export default function StarUpgradeCalculator() {
   const [currentValue, setCurrentValue] = useState<string>(

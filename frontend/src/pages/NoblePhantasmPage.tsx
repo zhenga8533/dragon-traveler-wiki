@@ -22,6 +22,12 @@ import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import RichText from '../components/common/RichText';
+import { getLoreGlassStyles } from '../constants/glass';
+import {
+  DETAIL_HERO_WRAPPER_STYLES,
+  getDetailHeroGradient,
+  getHeroIconBoxStyles,
+} from '../constants/styles';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character, Skill, Talent } from '../types/character';
 import type {
@@ -212,29 +218,12 @@ export default function NoblePhantasmPage() {
 
   return (
     <Box>
-      <Box
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          background: 'var(--mantine-color-body)',
-          margin:
-            'calc(-1 * var(--mantine-spacing-md)) calc(-1 * var(--mantine-spacing-md)) 0',
-          padding: 'var(--mantine-spacing-md) var(--mantine-spacing-md) 0',
-        }}
-      >
+      <Box style={DETAIL_HERO_WRAPPER_STYLES}>
         <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: isDark
-              ? `radial-gradient(ellipse at 30% 20%, var(--mantine-color-grape-9) 0%, transparent 50%),
-                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-indigo-9) 0%, transparent 50%),
-                 var(--mantine-color-dark-8)`
-              : `radial-gradient(ellipse at 30% 20%, var(--mantine-color-grape-1) 0%, transparent 50%),
-                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-indigo-1) 0%, transparent 50%),
-                 var(--mantine-color-gray-0)`,
-            opacity: isDark ? 0.75 : 0.95,
-          }}
+          style={getDetailHeroGradient(isDark, 'grape', 'indigo', {
+            dark: 0.75,
+            light: 0.95,
+          })}
         />
 
         <Container
@@ -252,21 +241,7 @@ export default function NoblePhantasmPage() {
 
             <Group gap="lg" align="flex-start" wrap="nowrap">
               {iconSrc && (
-                <Box
-                  style={{
-                    width: 96,
-                    height: 96,
-                    flexShrink: 0,
-                    borderRadius: 12,
-                    background: isDark
-                      ? 'rgba(0,0,0,0.3)'
-                      : 'rgba(255,255,255,0.5)',
-                    border: '3px solid var(--mantine-color-violet-4)',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                  }}
-                >
+                <Box style={getHeroIconBoxStyles(isDark, 'violet')}>
                   <Image
                     src={iconSrc}
                     alt={noblePhantasm.name}
@@ -312,15 +287,7 @@ export default function NoblePhantasmPage() {
             <Paper
               p="md"
               radius="md"
-              style={{
-                background: isDark
-                  ? 'rgba(0,0,0,0.25)'
-                  : 'rgba(255,255,255,0.6)',
-                backdropFilter: 'blur(8px)',
-                border: isDark
-                  ? '1px solid rgba(255,255,255,0.06)'
-                  : '1px solid rgba(0,0,0,0.06)',
-              }}
+              style={getLoreGlassStyles(isDark)}
             >
               <RichText
                 text={noblePhantasm.lore}

@@ -24,6 +24,9 @@ import QualityBadge from '../components/common/QualityBadge';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
+import { getLoreGlassStyles } from '../constants/glass';
+import { DETAIL_HERO_WRAPPER_STYLES, getDetailHeroGradient } from '../constants/styles';
+import { TRANSITION } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Character } from '../types/character';
 import type { Gear, GearSet, GearType } from '../types/gear';
@@ -146,30 +149,8 @@ export default function GearSetPage() {
 
   return (
     <Box>
-      <Box
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          background: 'var(--mantine-color-body)',
-          margin:
-            'calc(-1 * var(--mantine-spacing-md)) calc(-1 * var(--mantine-spacing-md)) 0',
-          padding: 'var(--mantine-spacing-md) var(--mantine-spacing-md) 0',
-        }}
-      >
-        <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: isDark
-              ? `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${qualityColor}-9) 0%, transparent 50%),
-                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-violet-9) 0%, transparent 50%),
-                 var(--mantine-color-dark-8)`
-              : `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${qualityColor}-1) 0%, transparent 50%),
-                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-violet-1) 0%, transparent 50%),
-                 var(--mantine-color-gray-0)`,
-            opacity: isDark ? 0.7 : 0.9,
-          }}
-        />
+      <Box style={DETAIL_HERO_WRAPPER_STYLES}>
+        <Box style={getDetailHeroGradient(isDark, qualityColor)} />
 
         <Container
           size="lg"
@@ -224,15 +205,7 @@ export default function GearSetPage() {
               <Paper
                 p="md"
                 radius="md"
-                style={{
-                  background: isDark
-                    ? 'rgba(0,0,0,0.25)'
-                    : 'rgba(255,255,255,0.6)',
-                  backdropFilter: 'blur(8px)',
-                  border: isDark
-                    ? '1px solid rgba(255,255,255,0.06)'
-                    : '1px solid rgba(0,0,0,0.06)',
-                }}
+                style={getLoreGlassStyles(isDark)}
               >
                 <Stack gap={4}>
                   <Text fw={600} size="sm">
@@ -280,8 +253,7 @@ export default function GearSetPage() {
                               alignItems: 'center',
                               justifyContent: 'center',
                               cursor: 'pointer',
-                              transition:
-                                'transform 0.2s ease, box-shadow 0.2s ease',
+                              transition: `transform ${TRANSITION.NORMAL} ${TRANSITION.EASE}, box-shadow ${TRANSITION.NORMAL} ${TRANSITION.EASE}`,
                             }}
                             onMouseEnter={(e) => {
                               e.currentTarget.style.transform = 'scale(1.1)';

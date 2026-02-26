@@ -25,7 +25,7 @@ import EntityFilter from '../components/EntityFilter';
 import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
-import { QUALITY_ORDER } from '../constants/colors';
+import { FACTION_NAMES, QUALITY_ORDER } from '../constants/colors';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import {
@@ -72,14 +72,7 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
     name: 'exclusive_faction',
     label: 'Exclusive Faction (optional)',
     type: 'select',
-    options: [
-      'Elemental Echo',
-      'Wild Spirit',
-      'Arcane Wisdom',
-      'Sanctum Glory',
-      'Otherworld Return',
-      'Illusion Veil',
-    ],
+    options: FACTION_NAMES,
   },
   { name: 'is_global', label: 'Available on Global server', type: 'boolean' },
 ];

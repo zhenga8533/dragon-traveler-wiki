@@ -26,6 +26,12 @@ import LastUpdated from '../components/common/LastUpdated';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import RichText from '../components/common/RichText';
 import { QUALITY_COLOR } from '../constants/colors';
+import { getLoreGlassStyles } from '../constants/glass';
+import {
+  DETAIL_HERO_WRAPPER_STYLES,
+  getDetailHeroGradient,
+  getHeroIconBoxStyles,
+} from '../constants/styles';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type {
   Artifact,
@@ -167,30 +173,8 @@ export default function ArtifactPage() {
   return (
     <Box>
       {/* Hero Section */}
-      <Box
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          background: 'var(--mantine-color-body)',
-          margin:
-            'calc(-1 * var(--mantine-spacing-md)) calc(-1 * var(--mantine-spacing-md)) 0',
-          padding: 'var(--mantine-spacing-md) var(--mantine-spacing-md) 0',
-        }}
-      >
-        <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: isDark
-              ? `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${qualityColor}-9) 0%, transparent 50%),
-                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-violet-9) 0%, transparent 50%),
-                 var(--mantine-color-dark-8)`
-              : `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${qualityColor}-1) 0%, transparent 50%),
-                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-violet-1) 0%, transparent 50%),
-                 var(--mantine-color-gray-0)`,
-            opacity: isDark ? 0.7 : 0.9,
-          }}
-        />
+      <Box style={DETAIL_HERO_WRAPPER_STYLES}>
+        <Box style={getDetailHeroGradient(isDark, qualityColor)} />
 
         <Container
           size="lg"
@@ -207,22 +191,7 @@ export default function ArtifactPage() {
 
             <Group gap="lg" align="flex-start" wrap="nowrap">
               {iconSrc && (
-                <Box
-                  style={{
-                    width: 96,
-                    height: 96,
-                    flexShrink: 0,
-                    borderRadius: 12,
-                    background: isDark
-                      ? 'rgba(0,0,0,0.3)'
-                      : 'rgba(255,255,255,0.5)',
-                    border: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 4})`,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    boxShadow: `0 4px 24px var(--mantine-color-${qualityColor}-${isDark ? 9 : 2})`,
-                  }}
-                >
+                <Box style={getHeroIconBoxStyles(isDark, qualityColor)}>
                   <Image
                     src={iconSrc}
                     alt={artifact.name}
@@ -270,15 +239,7 @@ export default function ArtifactPage() {
             <Paper
               p="md"
               radius="md"
-              style={{
-                background: isDark
-                  ? 'rgba(0,0,0,0.25)'
-                  : 'rgba(255,255,255,0.6)',
-                backdropFilter: 'blur(8px)',
-                border: isDark
-                  ? '1px solid rgba(255,255,255,0.06)'
-                  : '1px solid rgba(0,0,0,0.06)',
-              }}
+              style={getLoreGlassStyles(isDark)}
             >
               <Text size="sm" lh={1.6} fs="italic">
                 {artifact.lore}

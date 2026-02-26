@@ -5,12 +5,10 @@ import {
   Divider,
   Group,
   NumberInput,
-  Paper,
   SimpleGrid,
   Stack,
   Table,
   Text,
-  ThemeIcon,
   Title,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
@@ -22,6 +20,7 @@ import {
   IoStar,
 } from 'react-icons/io5';
 import ResourceBadge from '../components/common/ResourceBadge';
+import StatCard from '../components/common/StatCard';
 
 type DropRate = {
   chance: number;
@@ -72,49 +71,6 @@ const MILESTONES: Milestone[] = [
   { summons: 300, shards: 20 },
 ];
 
-type StatCardProps = {
-  icon: React.ReactNode;
-  title: string;
-  value: number | string;
-  color: string;
-  subtitle?: string;
-  resourceName?: string;
-};
-
-function StatCard({
-  icon,
-  title,
-  value,
-  color,
-  subtitle,
-  resourceName,
-}: StatCardProps) {
-  return (
-    <Paper p="md" radius="md" withBorder>
-      <Stack gap={6} align="center">
-        <ThemeIcon variant="light" color={color} size="lg" radius="md">
-          {icon}
-        </ThemeIcon>
-        <Text size="xs" c="dimmed" ta="center">
-          {title}
-        </Text>
-        {resourceName ? (
-          <Group gap="xs" justify="center">
-            <ResourceBadge name={resourceName} size="md" />
-          </Group>
-        ) : null}
-        <Text size="xl" fw={700} ta="center">
-          {typeof value === 'number' ? value.toLocaleString() : value}
-        </Text>
-        {subtitle && (
-          <Text size="xs" c="dimmed" ta="center">
-            {subtitle}
-          </Text>
-        )}
-      </Stack>
-    </Paper>
-  );
-}
 
 function calculateExpectedValue(rates: DropRate[]): number {
   return rates.reduce((sum, rate) => sum + rate.chance * rate.amount, 0);

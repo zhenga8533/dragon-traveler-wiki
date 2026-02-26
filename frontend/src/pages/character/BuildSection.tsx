@@ -14,6 +14,7 @@ import {
 } from '@mantine/core';
 import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
 import GearTypeTag from '../../components/common/GearTypeTag';
+import { DETAIL_TOOLTIP_STYLES, RICH_TOOLTIP_STYLES } from '../../constants/styles';
 import QualityBadge from '../../components/common/QualityBadge';
 import RichText from '../../components/common/RichText';
 import type { Character, RecommendedGearEntry } from '../../types/character';
@@ -23,34 +24,7 @@ import type { StatusEffect } from '../../types/status-effect';
 import { RiDoubleQuotesL } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 
-const DETAIL_TOOLTIP_STYLES = {
-  tooltip: {
-    backgroundColor: 'var(--mantine-color-body)',
-    color: 'var(--mantine-color-text)',
-    border: '1px solid var(--mantine-color-default-border)',
-    boxShadow: 'var(--mantine-shadow-sm)',
-    padding: 'var(--mantine-spacing-xs) var(--mantine-spacing-sm)',
-  },
-  arrow: {
-    backgroundColor: 'var(--mantine-color-body)',
-    border: '1px solid var(--mantine-color-default-border)',
-  },
-};
 
-const RECOMMENDED_BUILD_TOOLTIP_STYLES = {
-  tooltip: {
-    backgroundColor: 'var(--mantine-color-default)',
-    color: 'var(--mantine-color-text)',
-    border: '1px solid var(--mantine-color-default-border)',
-    boxShadow: 'var(--mantine-shadow-md)',
-    borderRadius: 'var(--mantine-radius-sm)',
-    padding: 'var(--mantine-spacing-sm) var(--mantine-spacing-md)',
-  },
-  arrow: {
-    backgroundColor: 'var(--mantine-color-default)',
-    border: '1px solid var(--mantine-color-default-border)',
-  },
-};
 
 type RecommendedSubclassEntry = {
   name: string;
@@ -101,8 +75,6 @@ export default function CharacterPageBuildSection({
   scrollToSkill,
   scrollToTalent,
 }: CharacterPageBuildSectionProps) {
-  const recommendedGearEntries = recommendedGearDetails;
-
   return (
     <>
       {/* Lore Section */}
@@ -192,7 +164,7 @@ export default function CharacterPageBuildSection({
                                   style={{
                                     width: 40,
                                     height: 40,
-                                    borderRadius: 8,
+                                    borderRadius: 'var(--mantine-radius-sm)',
                                     overflow: 'hidden',
                                     flexShrink: 0,
                                   }}
@@ -243,7 +215,7 @@ export default function CharacterPageBuildSection({
       )}
 
       {/* Recommended Build */}
-      {(recommendedGearEntries.length > 0 ||
+      {(recommendedGearDetails.length > 0 ||
         recommendedSubclassEntries.length > 0) && (
         <Paper p="lg" radius="md" withBorder>
           <Stack gap="md">
@@ -254,9 +226,9 @@ export default function CharacterPageBuildSection({
                   Suggested setup based on current character data.
                 </Text>
               </Stack>
-              {recommendedGearEntries.length > 0 && (
+              {recommendedGearDetails.length > 0 && (
                 <Badge variant="light" color="blue" size="lg">
-                  {recommendedGearEntries.length}/6 Gear Slots
+                  {recommendedGearDetails.length}/6 Gear Slots
                 </Badge>
               )}
             </Group>
@@ -391,7 +363,7 @@ export default function CharacterPageBuildSection({
               </Stack>
             )}
 
-            {recommendedGearEntries.length > 0 && (
+            {recommendedGearDetails.length > 0 && (
               <Stack gap="xs">
                 <Text fw={600} size="sm">
                   Recommended Gear
@@ -515,7 +487,7 @@ export default function CharacterPageBuildSection({
                         withArrow
                         openDelay={120}
                         maw={340}
-                        styles={RECOMMENDED_BUILD_TOOLTIP_STYLES}
+                        styles={RICH_TOOLTIP_STYLES}
                       >
                         <Paper p="sm" radius="md" withBorder>
                           <Group gap="sm" wrap="nowrap">
@@ -596,7 +568,7 @@ export default function CharacterPageBuildSection({
                         withArrow
                         openDelay={120}
                         maw={320}
-                        styles={RECOMMENDED_BUILD_TOOLTIP_STYLES}
+                        styles={RICH_TOOLTIP_STYLES}
                       >
                         <Paper p="sm" radius="md" withBorder>
                           <Stack gap={4}>

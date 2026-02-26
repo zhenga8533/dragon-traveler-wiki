@@ -53,9 +53,18 @@ export const FACTION_COLOR: Record<FactionName, string> = {
   'Wild Spirit': 'green',
   'Arcane Wisdom': 'blue',
   'Sanctum Glory': 'yellow',
-  'Otherworld Return': 'purple',
+  'Otherworld Return': 'violet',
   'Illusion Veil': 'black',
 };
+
+export const FACTION_NAMES: FactionName[] = [
+  'Elemental Echo',
+  'Wild Spirit',
+  'Arcane Wisdom',
+  'Sanctum Glory',
+  'Otherworld Return',
+  'Illusion Veil',
+];
 
 export const RESOURCE_CATEGORY_ORDER: ResourceCategory[] = [
   'Currency',

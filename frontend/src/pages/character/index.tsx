@@ -49,7 +49,8 @@ import ClassTag from '../../components/common/ClassTag';
 import EntityNotFound from '../../components/common/EntityNotFound';
 import TierBadge from '../../components/common/TierBadge';
 import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
-import { BREAKPOINTS } from '../../constants/ui';
+import { DETAIL_TOOLTIP_STYLES } from '../../constants/styles';
+import { BREAKPOINTS, TRANSITION } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
 import { useDataFetch, useMobileTooltip } from '../../hooks';
 import type { Character, RecommendedGearEntry } from '../../types/character';
@@ -106,19 +107,6 @@ const GEAR_SLOT_CONFIG: Array<{
   },
 ];
 
-const DETAIL_TOOLTIP_STYLES = {
-  tooltip: {
-    backgroundColor: 'var(--mantine-color-body)',
-    color: 'var(--mantine-color-text)',
-    border: '1px solid var(--mantine-color-default-border)',
-    boxShadow: 'var(--mantine-shadow-sm)',
-    padding: '8px 10px',
-  },
-  arrow: {
-    backgroundColor: 'var(--mantine-color-body)',
-    border: '1px solid var(--mantine-color-default-border)',
-  },
-};
 
 export default function CharacterPage() {
   const tooltipProps = useMobileTooltip();
@@ -900,7 +888,7 @@ export default function CharacterPage() {
                         style={{
                           opacity: modalHoverSide === 'left' ? 1 : 0.55,
                           transition:
-                            'opacity 150ms ease, transform 150ms ease',
+                            `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}, transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
                           transform:
                             modalHoverSide === 'left'
                               ? 'scale(1.1)'
@@ -934,7 +922,7 @@ export default function CharacterPage() {
                         style={{
                           opacity: modalHoverSide === 'right' ? 1 : 0.55,
                           transition:
-                            'opacity 150ms ease, transform 150ms ease',
+                            `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}, transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
                           transform:
                             modalHoverSide === 'right'
                               ? 'scale(1.1)'
@@ -975,7 +963,7 @@ export default function CharacterPage() {
                           style={{
                             width: 96,
                             height: 60,
-                            borderRadius: 8,
+                            borderRadius: 'var(--mantine-radius-sm)',
                             overflow: 'hidden',
                             border: `2px solid ${
                               isActive
@@ -983,7 +971,7 @@ export default function CharacterPage() {
                                 : 'var(--mantine-color-default-border)'
                             }`,
                             opacity: isActive ? 1 : 0.6,
-                            transition: 'opacity 150ms, border-color 150ms',
+                            transition: `opacity ${TRANSITION.FAST}, border-color ${TRANSITION.FAST}`,
                           }}
                         >
                           {illust.type === 'video' ? (

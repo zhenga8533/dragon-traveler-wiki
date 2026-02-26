@@ -12,19 +12,19 @@ import { Component, type ErrorInfo, type ReactNode } from 'react';
 import { IoAlertCircle, IoHome, IoRefresh } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
-interface Props {
+interface ErrorBoundaryProps {
   children: ReactNode;
 }
 
-interface State {
+interface ErrorBoundaryState {
   hasError: boolean;
   error?: Error;
 }
 
-export default class ErrorBoundary extends Component<Props, State> {
-  state: State = { hasError: false };
+export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+  state: ErrorBoundaryState = { hasError: false };
 
-  static getDerivedStateFromError(error: Error): State {
+  static getDerivedStateFromError(error: Error): ErrorBoundaryState {
     return { hasError: true, error };
   }
 
@@ -50,7 +50,7 @@ export default class ErrorBoundary extends Component<Props, State> {
             </Stack>
 
             {this.state.error?.message && (
-              <Code block maw={420} w="100%" style={{ fontSize: 12 }}>
+              <Code block maw={420} w="100%" style={{ fontSize: 'var(--mantine-font-size-xs)' }}>
                 {this.state.error.message}
               </Code>
             )}

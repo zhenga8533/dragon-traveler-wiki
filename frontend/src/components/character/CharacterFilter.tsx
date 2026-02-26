@@ -13,7 +13,7 @@ import { CLASS_ICON_MAP } from '../../assets/class';
 import { FACTION_ICON_MAP } from '../../assets/faction';
 import { QUALITY_ICON_MAP } from '../../assets/quality';
 import { getStatusEffectIcon } from '../../assets/status_effect';
-import { QUALITY_ORDER, TIER_ORDER } from '../../constants/colors';
+import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER, TIER_ORDER } from '../../constants/colors';
 import { IMAGE_SIZE } from '../../constants/ui';
 import type { CharacterClass } from '../../types/character';
 import type { FactionName } from '../../types/faction';
@@ -22,22 +22,6 @@ import type { CharacterFilters } from '../../utils/filter-characters';
 import { EMPTY_FILTERS } from '../../utils/filter-characters';
 
 const QUALITIES: Quality[] = [...QUALITY_ORDER];
-const CLASSES: CharacterClass[] = [
-  'Guardian',
-  'Priest',
-  'Assassin',
-  'Warrior',
-  'Archer',
-  'Mage',
-];
-const FACTIONS: FactionName[] = [
-  'Elemental Echo',
-  'Wild Spirit',
-  'Arcane Wisdom',
-  'Sanctum Glory',
-  'Otherworld Return',
-  'Illusion Veil',
-];
 const TIERS: string[] = [...TIER_ORDER, 'Unranked'];
 
 const LABEL_STYLE = { minWidth: 60 } as const;
@@ -165,7 +149,7 @@ export default function CharacterFilter({
           }
         >
           <Group gap={4} wrap="wrap">
-            {CLASSES.map((c) => (
+            {CLASS_ORDER.map((c) => (
               <Chip key={c} value={c} size="xs">
                 <Group gap={4} wrap="nowrap" align="center">
                   <Image
@@ -195,7 +179,7 @@ export default function CharacterFilter({
           }
         >
           <Group gap={4} wrap="wrap">
-            {FACTIONS.map((f) => (
+            {FACTION_NAMES.map((f) => (
               <Chip key={f} value={f} size="xs">
                 <Group gap={4} wrap="nowrap" align="center">
                   <Image

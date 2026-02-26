@@ -44,14 +44,15 @@ import {
   GITHUB_REPO_URL,
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../constants/github';
-import { FACTION_COLOR } from '../../constants/colors';
+import { FACTION_COLOR, FACTION_NAMES } from '../../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
   type ContentType,
 } from '../../constants/content-types';
-import { CHARACTER_GRID_SPACING } from '../../constants/ui';
+import { MONOSPACE_INPUT_STYLES } from '../../constants/styles';
+import { CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
 import type { Character } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Team, TeamMember, TeamWyrmspells } from '../../types/team';
@@ -63,14 +64,6 @@ import TeamSynergyAssistant from './TeamSynergyAssistant';
 const MAX_ROSTER_SIZE = 6;
 const SLOT_COUNT = 6;
 
-const FACTIONS: FactionName[] = [
-  'Elemental Echo',
-  'Wild Spirit',
-  'Arcane Wisdom',
-  'Sanctum Glory',
-  'Otherworld Return',
-  'Illusion Veil',
-];
 
 type SynergySignal = {
   label: string;
@@ -323,7 +316,7 @@ function SlotCard({
       style={{
         borderColor: isOver ? 'var(--mantine-color-orange-5)' : undefined,
         borderWidth: isOver ? 2 : undefined,
-        transition: 'border-color 150ms ease',
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
         minHeight: 130,
         display: 'flex',
         flexDirection: 'column',
@@ -460,7 +453,7 @@ function AvailablePool({
       style={{
         borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
         borderWidth: isOver ? 2 : undefined,
-        transition: 'border-color 150ms ease',
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
       }}
     >
       <Stack gap="sm">
@@ -1255,14 +1248,14 @@ export default function TeamBuilder({
           />
           <Select
             placeholder="Faction..."
-            data={FACTIONS.map((f) => ({
+            data={FACTION_NAMES.map((f) => ({
               value: f,
               label: f,
             }))}
             value={faction}
             onChange={(value) => setFaction(value as FactionName | null)}
             renderOption={renderFactionOption}
-            searchable={FACTIONS.length >= 10}
+            searchable={FACTION_NAMES.length >= 10}
             leftSection={(() => {
               if (!faction) return undefined;
               const iconSrc = FACTION_ICON_MAP[faction];
@@ -1549,7 +1542,7 @@ export default function TeamBuilder({
             maxRows={20}
             autosize
             error={pasteError || undefined}
-            styles={{ input: { fontFamily: 'monospace', fontSize: 12 } }}
+            styles={MONOSPACE_INPUT_STYLES}
           />
           <Group justify="flex-end">
             <Button

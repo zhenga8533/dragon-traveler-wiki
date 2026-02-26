@@ -21,6 +21,19 @@ export const GLASS_BORDER = {
 } as const;
 
 /**
+ * Subtle glass style for lore/description cards
+ */
+export function getLoreGlassStyles(isDark: boolean) {
+  return {
+    background: isDark ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.6)',
+    backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
+    border: isDark
+      ? '1px solid rgba(255,255,255,0.06)'
+      : '1px solid rgba(0,0,0,0.06)',
+  };
+}
+
+/**
  * Get glassmorphism styles based on color scheme
  */
 export function getGlassStyles(isDark: boolean, subtle = false) {

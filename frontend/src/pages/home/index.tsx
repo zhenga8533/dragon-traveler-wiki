@@ -46,8 +46,7 @@ const LANGUAGES = [
 ];
 
 export default function Home() {
-  const colorScheme = useComputedColorScheme('light');
-  const isDark = colorScheme === 'dark';
+  const isDark = useComputedColorScheme('light') === 'dark';
 
   const [bannerLoaded, setBannerLoaded] = useState(false);
 
@@ -203,12 +202,12 @@ export default function Home() {
                     WebkitBackgroundClip: 'text',
                     backgroundClip: 'text',
                     WebkitTextFillColor: 'transparent',
-                    color: '#fff',
+                    color: 'var(--mantine-color-white)',
                   }}
                 >
                   Dragon Traveler
                 </Text>{' '}
-                <Text component="span" inherit style={{ color: '#ffffff' }}>
+                <Text component="span" inherit style={{ color: 'var(--mantine-color-white)' }}>
                   Wiki
                 </Text>
               </Title>
@@ -226,7 +225,7 @@ export default function Home() {
                   component="span"
                   inherit
                   fw={700}
-                  style={{ color: '#e9d5ff' }}
+                  style={{ color: 'var(--mantine-color-violet-1)' }}
                 >
                   community-driven
                 </Text>{' '}
@@ -235,7 +234,7 @@ export default function Home() {
                   component="span"
                   inherit
                   fw={700}
-                  style={{ color: '#bfdbfe' }}
+                  style={{ color: 'var(--mantine-color-blue-1)' }}
                 >
                   Dragon Traveler
                 </Text>

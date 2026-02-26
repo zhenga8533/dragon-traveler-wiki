@@ -50,7 +50,8 @@ import {
   normalizeContentType,
   type ContentType,
 } from '../../constants/content-types';
-import { CHARACTER_GRID_SPACING } from '../../constants/ui';
+import { MONOSPACE_INPUT_STYLES } from '../../constants/styles';
+import { CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
 import type { Character } from '../../types/character';
 import type { TierDefinition, TierList } from '../../types/tier-list';
 import { compareCharactersByQualityThenName } from '../../utils/filter-characters';
@@ -91,7 +92,7 @@ function DraggableCharCard({
     : {
         opacity: isDragging ? 0.3 : 1,
         cursor: isDragging ? 'grabbing' : 'grab',
-        transition: 'opacity 150ms ease',
+        transition: `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
       };
 
   return (
@@ -108,7 +109,7 @@ function DraggableCharCard({
           isOver && !overlay
             ? '2px solid var(--mantine-color-blue-5)'
             : undefined,
-        borderRadius: 4,
+        borderRadius: 'var(--mantine-radius-xs)',
       }}
       {...(overlay ? {} : { ...listeners, ...attributes })}
     >
@@ -154,7 +155,7 @@ function TierDropZone({
       style={{
         borderColor: isOver ? `var(--mantine-color-${color}-5)` : undefined,
         borderWidth: isOver ? 2 : undefined,
-        transition: 'border-color 150ms ease',
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
       }}
     >
       <Stack gap="sm">
@@ -260,7 +261,7 @@ function UnrankedPool({
       style={{
         borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
         borderWidth: isOver ? 2 : undefined,
-        transition: 'border-color 150ms ease',
+        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
       }}
     >
       <Stack gap="sm">
@@ -868,7 +869,7 @@ export default function TierListBuilder({
             maxRows={20}
             autosize
             error={pasteError || undefined}
-            styles={{ input: { fontFamily: 'monospace', fontSize: 12 } }}
+            styles={MONOSPACE_INPUT_STYLES}
           />
           <Group justify="flex-end">
             <Button

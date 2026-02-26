@@ -8,7 +8,6 @@ import {
   Text,
   TextInput,
   UnstyledButton,
-  useComputedColorScheme,
 } from '@mantine/core';
 import { useDebouncedValue, useDisclosure, useHotkeys } from '@mantine/hooks';
 import Fuse from 'fuse.js';
@@ -26,6 +25,7 @@ import {
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { normalizeContentType } from '../../constants/content-types';
+import { TRANSITION } from '../../constants/ui';
 import { SearchDataContext } from '../../contexts';
 import { isCodeActive } from '../../utils';
 
@@ -137,9 +137,26 @@ const PAGES = [
   },
 ];
 
-type SearchModalProps = {
-  trigger?: (props: { open: () => void }) => ReactNode;
+const CATEGORY_LABELS: Record<SearchResult['type'], string> = {
+  artifact: 'Artifacts',
+  character: 'Characters',
+  code: 'Codes',
+  gear: 'Gear',
+  howlkin: 'Howlkins',
+  'noble-phantasm': 'Noble Phantasms',
+  resource: 'Resources',
+  'status-effect': 'Status Effects',
+  subclass: 'Subclasses',
+  'tier-list': 'Tier Lists',
+  'useful-link': 'Useful Links',
+  wyrmspell: 'Wyrmspells',
+  team: 'Teams',
+  page: 'Pages',
 };
+
+interface SearchModalProps {
+  trigger?: (props: { open: () => void }) => ReactNode;
+}
 
 export default function SearchModal({ trigger }: SearchModalProps) {
   const [opened, { open, close }] = useDisclosure(false);
@@ -147,7 +164,6 @@ export default function SearchModal({ trigger }: SearchModalProps) {
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
-  const colorScheme = useComputedColorScheme('light');
   const {
     characters,
     artifacts,
@@ -553,10 +569,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
           <Box
             p="md"
             style={{
-              borderBottom:
-                colorScheme === 'dark'
-                  ? '1px solid #373A40'
-                  : '1px solid #dee2e6',
+              borderBottom: '1px solid var(--mantine-color-default-border)',
             }}
           >
             <TextInput
@@ -583,7 +596,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
               styles={{
                 input: {
                   border: 'none',
-                  fontSize: '15px',
+                  fontSize: 'var(--mantine-font-size-md)',
                 },
               }}
               autoFocus
@@ -606,22 +619,6 @@ export default function SearchModal({ trigger }: SearchModalProps) {
                 const isSelected = index === selectedIndex;
                 const isNewCategory =
                   index === 0 || searchResults[index - 1].type !== result.type;
-                const CATEGORY_LABELS: Record<SearchResult['type'], string> = {
-                  artifact: 'Artifacts',
-                  character: 'Characters',
-                  code: 'Codes',
-                  gear: 'Gear',
-                  howlkin: 'Howlkins',
-                  'noble-phantasm': 'Noble Phantasms',
-                  resource: 'Resources',
-                  'status-effect': 'Status Effects',
-                  subclass: 'Subclasses',
-                  'tier-list': 'Tier Lists',
-                  'useful-link': 'Useful Links',
-                  wyrmspell: 'Wyrmspells',
-                  team: 'Teams',
-                  page: 'Pages',
-                };
                 return (
                   <Fragment key={`${result.type}-${result.title}-${index}`}>
                     {isNewCategory && (
@@ -644,11 +641,9 @@ export default function SearchModal({ trigger }: SearchModalProps) {
                       display: 'block',
                       width: '100%',
                       backgroundColor: isSelected
-                        ? colorScheme === 'dark'
-                          ? '#2C2E33'
-                          : '#f8f9fa'
+                        ? 'var(--mantine-color-default-hover)'
                         : 'transparent',
-                      transition: 'background-color 0.1s',
+                      transition: `background-color ${TRANSITION.FAST}`,
                     }}
                   >
                     <Group wrap="nowrap" gap="md">

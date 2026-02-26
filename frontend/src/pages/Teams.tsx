@@ -31,7 +31,7 @@ import LastUpdated from '../components/common/LastUpdated';
 import PaginationControl from '../components/common/PaginationControl';
 import TeamBuilder from '../components/tools/TeamBuilder';
 import ViewToggle from '../components/common/ViewToggle';
-import { FACTION_COLOR } from '../constants/colors';
+import { FACTION_COLOR, FACTION_NAMES } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentType,
@@ -48,14 +48,6 @@ import type { Wyrmspell } from '../types/wyrmspell';
 
 const TEAMS_PER_PAGE = 12;
 
-const FACTIONS: FactionName[] = [
-  'Elemental Echo',
-  'Wild Spirit',
-  'Arcane Wisdom',
-  'Sanctum Glory',
-  'Otherworld Return',
-  'Illusion Veil',
-];
 
 export default function Teams() {
   const navigate = useNavigate();
@@ -138,7 +130,7 @@ export default function Teams() {
       {
         key: 'factions',
         label: 'Faction',
-        options: FACTIONS,
+        options: FACTION_NAMES,
         icon: (value: string) => (
           <Image
             src={FACTION_ICON_MAP[value as FactionName]}

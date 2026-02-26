@@ -39,8 +39,15 @@ import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import TeamSynergyAssistant from '../components/tools/TeamSynergyAssistant';
 import { FACTION_COLOR } from '../constants/colors';
+import { GLASS_BORDER, getLoreGlassStyles } from '../constants/glass';
+import {
+  CARD_HOVER_STYLES,
+  cardHoverHandlers,
+  DETAIL_HERO_WRAPPER_STYLES,
+  getDetailHeroGradient,
+  getHeroIconBoxStyles,
+} from '../constants/styles';
 import { normalizeContentType } from '../constants/content-types';
-import { CARD_HOVER_STYLES, cardHoverHandlers } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Artifact } from '../types/artifact';
@@ -175,31 +182,8 @@ export default function TeamPage() {
   return (
     <Box>
       {/* Hero Section */}
-      <Box
-        style={{
-          position: 'relative',
-          overflow: 'hidden',
-          background: 'var(--mantine-color-body)',
-          margin:
-            'calc(-1 * var(--mantine-spacing-md)) calc(-1 * var(--mantine-spacing-md)) 0',
-          padding: 'var(--mantine-spacing-md) var(--mantine-spacing-md) 0',
-        }}
-      >
-        {/* Faction-colored gradient background */}
-        <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: isDark
-              ? `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${factionColor}-9) 0%, transparent 50%),
-                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-violet-9) 0%, transparent 50%),
-                 var(--mantine-color-dark-8)`
-              : `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${factionColor}-1) 0%, transparent 50%),
-                 radial-gradient(ellipse at 70% 80%, var(--mantine-color-violet-1) 0%, transparent 50%),
-                 var(--mantine-color-gray-0)`,
-            opacity: isDark ? 0.7 : 0.9,
-          }}
-        />
+      <Box style={DETAIL_HERO_WRAPPER_STYLES}>
+        <Box style={getDetailHeroGradient(isDark, factionColor)} />
 
         <Container
           size="lg"
@@ -227,22 +211,7 @@ export default function TeamPage() {
 
             <Group gap="lg" align="flex-start" wrap="nowrap">
               {/* Faction whelp image */}
-              <Box
-                style={{
-                  width: 96,
-                  height: 96,
-                  flexShrink: 0,
-                  borderRadius: '50%',
-                  background: isDark
-                    ? `rgba(0,0,0,0.3)`
-                    : `rgba(255,255,255,0.5)`,
-                  border: `3px solid var(--mantine-color-${factionColor}-${isDark ? 7 : 4})`,
-                  display: 'flex',
-                  alignItems: 'center',
-                  justifyContent: 'center',
-                  boxShadow: `0 4px 24px var(--mantine-color-${factionColor}-${isDark ? 9 : 2})`,
-                }}
-              >
+              <Box style={getHeroIconBoxStyles(isDark, factionColor, true)}>
                 <Image
                   src={FACTION_WYRM_MAP[team.faction]}
                   alt={`${team.faction} Whelp`}
@@ -294,15 +263,7 @@ export default function TeamPage() {
               <Paper
                 p="md"
                 radius="md"
-                style={{
-                  background: isDark
-                    ? 'rgba(0,0,0,0.25)'
-                    : 'rgba(255,255,255,0.6)',
-                  backdropFilter: 'blur(8px)',
-                  border: isDark
-                    ? '1px solid rgba(255,255,255,0.06)'
-                    : '1px solid rgba(0,0,0,0.06)',
-                }}
+                style={getLoreGlassStyles(isDark)}
               >
                 <Text size="sm" lh={1.6}>
                   {team.description}
@@ -314,15 +275,7 @@ export default function TeamPage() {
               <Paper
                 p="md"
                 radius="md"
-                style={{
-                  background: isDark
-                    ? 'rgba(0,0,0,0.25)'
-                    : 'rgba(255,255,255,0.6)',
-                  backdropFilter: 'blur(8px)',
-                  border: isDark
-                    ? '1px solid rgba(255,255,255,0.06)'
-                    : '1px solid rgba(0,0,0,0.06)',
-                }}
+                style={getLoreGlassStyles(isDark)}
               >
                 <Stack gap="sm">
                   <Title order={4}>Faction Overview</Title>
@@ -368,13 +321,13 @@ export default function TeamPage() {
                                         style={{
                                           width: 64,
                                           height: 64,
-                                          borderRadius: 10,
+                                          borderRadius: 'var(--mantine-radius-md)',
                                           background: isDark
                                             ? 'rgba(0,0,0,0.3)'
                                             : 'rgba(255,255,255,0.6)',
                                           border: isDark
-                                            ? '1px solid rgba(255,255,255,0.08)'
-                                            : '1px solid rgba(0,0,0,0.08)',
+                                            ? GLASS_BORDER.dark
+                                            : GLASS_BORDER.light,
                                           display: 'flex',
                                           alignItems: 'center',
                                           justifyContent: 'center',

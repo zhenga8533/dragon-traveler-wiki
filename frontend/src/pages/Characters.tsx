@@ -7,7 +7,7 @@ import EmptyState from '../components/common/EmptyState';
 import LastUpdated from '../components/common/LastUpdated';
 import { CharacterCardSkeleton } from '../components/common/SkeletonCard';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
-import { QUALITY_ORDER } from '../constants/colors';
+import { CLASS_ORDER, QUALITY_ORDER } from '../constants/colors';
 import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Character } from '../types/character';
@@ -39,7 +39,7 @@ const CHARACTER_FIELDS: FieldDef[] = [
     label: 'Class',
     type: 'select',
     required: true,
-    options: ['Guardian', 'Priest', 'Assassin', 'Warrior', 'Archer', 'Mage'],
+    options: CLASS_ORDER,
   },
   {
     name: 'factions',
