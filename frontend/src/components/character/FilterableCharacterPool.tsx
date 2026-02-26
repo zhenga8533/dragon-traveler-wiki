@@ -48,6 +48,40 @@ export default function FilterableCharacterPool({
     [characters]
   );
 
+  const tierOptions = useMemo(() => {
+    if (!selectedTierListName) return [];
+    const list = tierLists.find((l) => l.name === selectedTierListName);
+    if (!list) return [];
+    const seen = new Set<string>();
+    const tiers: string[] = [];
+    for (const t of list.tiers ?? []) {
+      if (!seen.has(t.name)) {
+        seen.add(t.name);
+        tiers.push(t.name);
+      }
+    }
+    if (tiers.length === 0) {
+      for (const e of list.entries) {
+        if (!seen.has(e.tier)) {
+          seen.add(e.tier);
+          tiers.push(e.tier);
+        }
+      }
+    }
+    tiers.push('Unranked');
+    return tiers;
+  }, [tierLists, selectedTierListName]);
+
+  // Clear tier filters that no longer exist in the newly selected tier list
+  useEffect(() => {
+    if (filters.tiers.length === 0) return;
+    const valid = new Set(tierOptions);
+    const next = filters.tiers.filter((t) => valid.has(t));
+    if (next.length !== filters.tiers.length) {
+      setFilters((f) => ({ ...f, tiers: next }));
+    }
+  }, [tierOptions]);
+
   const tierLookup = useMemo(() => {
     const map = new Map<string, string>();
     if (!selectedTierListName) return map;
@@ -118,6 +152,7 @@ export default function FilterableCharacterPool({
             onChange={setFilters}
             effectOptions={effectOptions}
             showTierFilter={Boolean(selectedTierListName)}
+            tierOptions={tierOptions}
           />
         </Paper>
       </Collapse>
