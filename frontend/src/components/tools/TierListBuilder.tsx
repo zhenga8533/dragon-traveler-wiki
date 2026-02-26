@@ -38,11 +38,6 @@ import {
   IoSwapVertical,
   IoTrash,
 } from 'react-icons/io5';
-import {
-  buildEmptyIssueBody,
-  GITHUB_REPO_URL,
-  MAX_GITHUB_ISSUE_URL_LENGTH,
-} from '../../constants/github';
 import { DEFAULT_TIER_DEFINITIONS, getTierColor } from '../../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
@@ -50,6 +45,11 @@ import {
   normalizeContentType,
   type ContentType,
 } from '../../constants/content-types';
+import {
+  buildEmptyIssueBody,
+  GITHUB_REPO_URL,
+  MAX_GITHUB_ISSUE_URL_LENGTH,
+} from '../../constants/github';
 import { MONOSPACE_INPUT_STYLES } from '../../constants/styles';
 import { CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
 import type { Character } from '../../types/character';
@@ -129,6 +129,7 @@ function TierDropZone({
   onMoveDown,
   isFirst,
   isLast,
+  canDelete,
   children,
 }: {
   id: string;
@@ -141,6 +142,7 @@ function TierDropZone({
   onMoveDown: () => void;
   isFirst: boolean;
   isLast: boolean;
+  canDelete: boolean;
   children: React.ReactNode;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id });
@@ -194,39 +196,57 @@ function TierDropZone({
             )}
           </Stack>
           <Group gap={2} wrap="nowrap" style={{ flexShrink: 0 }}>
-            <Tooltip label="Move up" withArrow withinPortal>
+            <Tooltip
+              label={isFirst ? 'Already at top tier' : 'Move tier up'}
+              withArrow
+              withinPortal
+            >
               <ActionIcon
-                size="xs"
-                variant="subtle"
-                color="gray"
+                size="sm"
+                radius="md"
+                variant="light"
+                color="blue"
                 onClick={onMoveUp}
                 disabled={isFirst}
                 aria-label="Move tier up"
               >
-                <IoChevronUp size={10} />
+                <IoChevronUp size={14} />
               </ActionIcon>
             </Tooltip>
-            <Tooltip label="Move down" withArrow withinPortal>
+            <Tooltip
+              label={isLast ? 'Already at bottom tier' : 'Move tier down'}
+              withArrow
+              withinPortal
+            >
               <ActionIcon
-                size="xs"
-                variant="subtle"
-                color="gray"
+                size="sm"
+                radius="md"
+                variant="light"
+                color="blue"
                 onClick={onMoveDown}
                 disabled={isLast}
                 aria-label="Move tier down"
               >
-                <IoChevronDown size={10} />
+                <IoChevronDown size={14} />
               </ActionIcon>
             </Tooltip>
-            <Tooltip label="Delete tier" withArrow withinPortal>
+            <Tooltip
+              label={
+                canDelete ? 'Delete tier' : 'At least one tier is required'
+              }
+              withArrow
+              withinPortal
+            >
               <ActionIcon
-                size="xs"
-                variant="subtle"
+                size="sm"
+                radius="md"
+                variant="light"
                 color="red"
                 onClick={onDelete}
+                disabled={!canDelete}
                 aria-label="Delete tier"
               >
-                <IoTrash size={10} />
+                <IoTrash size={14} />
               </ActionIcon>
             </Tooltip>
           </Group>
@@ -500,9 +520,7 @@ export default function TierListBuilder({
             return next;
           }
 
-          next[activeTier] = next[activeTier].filter(
-            (n) => n !== charName
-          );
+          next[activeTier] = next[activeTier].filter((n) => n !== charName);
           next[targetTier][targetIndex] = charName;
           next[activeTier].push(targetCharName);
           return next;
@@ -739,6 +757,7 @@ export default function TierListBuilder({
               onMoveDown={() => handleMoveTierDown(index)}
               isFirst={index === 0}
               isLast={index === tierDefs.length - 1}
+              canDelete={tierDefs.length > 1}
             >
               {names.map((n) => (
                 <Stack key={n} gap={0}>
@@ -752,9 +771,14 @@ export default function TierListBuilder({
                       <div
                         role="button"
                         tabIndex={0}
-                        style={{ cursor: 'pointer', padding: '2px 4px', textAlign: 'center' }}
+                        style={{
+                          cursor: 'pointer',
+                          padding: '2px 4px',
+                          textAlign: 'center',
+                        }}
                         onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ') e.currentTarget.click();
+                          if (e.key === 'Enter' || e.key === ' ')
+                            e.currentTarget.click();
                         }}
                       >
                         <Text
@@ -823,7 +847,10 @@ export default function TierListBuilder({
 
         <FilterableCharacterPool characters={unrankedCharacters}>
           {(filtered, filterHeader, paginationControl) => (
-            <UnrankedPool filterHeader={filterHeader} paginationControl={paginationControl}>
+            <UnrankedPool
+              filterHeader={filterHeader}
+              paginationControl={paginationControl}
+            >
               {filtered.map((c) => (
                 <DraggableCharCard key={c.name} name={c.name} char={c} />
               ))}
