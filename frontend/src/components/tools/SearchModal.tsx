@@ -116,6 +116,11 @@ const PAGES = [
     keywords: 'calculator star upgrade cost',
   },
   {
+    title: 'Mythic Summon Calculator',
+    path: '/guides/mythic-summon-calculator',
+    keywords: 'mythic summon calculator pull rates rewards pity simulation',
+  },
+  {
     title: 'Tier List',
     path: '/tier-list',
     keywords: 'tier list ranking meta best',
@@ -130,11 +135,6 @@ const PAGES = [
     title: 'Useful Links',
     path: '/useful-links',
     keywords: 'links resources tools external',
-  },
-  {
-    title: 'Changelog',
-    path: '/changelog',
-    keywords: 'changelog updates patch notes changes',
   },
 ];
 
