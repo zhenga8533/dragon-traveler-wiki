@@ -559,7 +559,7 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
+    "noble_phantasm": "Goddess Profile",
     "recommended_gear": {
       "headgear": "Flamelord's Helmet",
       "chestplate": "Flamelord's Armor",
@@ -571,7 +571,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772078181
   },
   {
     "name": "Pompey",
@@ -2203,7 +2203,7 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
+    "noble_phantasm": "Broken Steel Scabbard",
     "recommended_gear": {
       "headgear": "Dragon Hunter Helmet",
       "chestplate": "Dragon Hunter Armor",
@@ -2216,7 +2216,7 @@
       "High Priest",
       "Divine Officer"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772078181
   },
   {
     "name": "Atanith",
@@ -4663,7 +4663,7 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
+    "noble_phantasm": "Jade Dragon Seal",
     "recommended_gear": {
       "headgear": "Flamelord's Helmet",
       "chestplate": "Flamelord's Armor",
@@ -4675,7 +4675,7 @@
     "recommended_subclasses": [
       "Vanguard"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772078181
   },
   {
     "name": "Brynhild",

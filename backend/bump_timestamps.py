@@ -34,10 +34,12 @@ TIMESTAMPED_FILES = {
     "gear.json",
     "gear_sets.json",
     "teams.json",
+    "changelog.json",
 }
 
 # Identity key used to match entries across current vs. committed versions.
 IDENTITY_KEY: dict[str, str] = {
+    "changelog.json": "version",
     "codes.json": "code",
 }
 _DEFAULT_IDENTITY = "name"

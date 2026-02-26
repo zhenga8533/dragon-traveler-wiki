@@ -1225,5 +1225,80 @@
       }
     ],
     "last_updated": 1771464391
+  },
+  {
+    "name": "Jade Dragon Seal",
+    "character": "Azure Dragon",
+    "is_global": false,
+    "lore": "The jade seal contains the divine power of the Azure Dragon, the first of the Four Symbols.\nThe dragon is the symbol of emperors; whoever holds this seal will receive the mandate of heaven bestowed upon them by the Azure Dragon constellation. \"Congratulations, you are now ready to become emperor!\"",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "When an allied phantom spirit carrying the shield provided by Azure Dragon's own skill unleashes its ultimate skill, its ultimate skill damage is increased by 20/25/30/40% , and there is a 50% chance that the phantom spirit will gain an additional stack of [Awakening]."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "The shield provided by Qinglong's own skills reduces the ultimate skill cooldown by 1/1.2 seconds when applied and when broken."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "After releasing [Azure Dragon Formation], it additionally provides a shield equal to 15% of the user's maximum health to the user and the ally with the highest attack for 6 seconds. During the duration of this shield, the ally shares the 60/80% damage increase bonus of [Skysoar Dragon]."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1772078181
+  },
+  {
+    "name": "Broken Steel Scabbard",
+    "character": "Vivienne",
+    "is_global": false,
+    "lore": "This was a scabbard given to King Arthur by the Lady of the Lake, accompanying the \"Sword of the Lake\", possessing the power to protect its wielder and heal wounds. It was later stolen by Morgan le Fay and thrown into the lake. Without its scabbard, King Arthur's fate was irrevocably sealed.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "During the possession period, the possessed target gains 1 random [Blessing Buff] every 6/5/4/3 seconds."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "During the possession period, 25/30/40% of the damage taken by the possessed target is transferred to the possessed individual, and the possessed individual recovers 10% of their maximum health every 2 seconds (no more health recovery after reaching full health)."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "During possession, every 8 buffs the possessed target receives, reset their possession shield and grant them [Crit Damage Up]. (Trigger interval: 10 seconds)"
+      }
+    ],
+    "skills": [],
+    "last_updated": 1772078181
+  },
+  {
+    "name": "Goddess Profile",
+    "character": "Helveil",
+    "is_global": false,
+    "lore": "A statue made in the image of Helverine.\nAt that time, as a Valkyrie, she was deeply trusted by the gods and was responsible for guiding countless heroic spirits of the mortal world to the highest hall at the top of the nine realms.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "While on the field, each of our phantoms and dragons with a [Blessing Buff] grants an additional 450/540/720 Crit Resistance."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "[Spirit Shackles] Increases the shield provided to the user by 75/90/120% , and the duration of the shield array increases the damage reduction of other allied spirits within the shield array range by 100/120/160% ."
+      },
+      {
+        "tier": "Diamond",
+        "tier_level": 1,
+        "description": "Enemy units damaged by [Dark Shield] will lose 40/48% of their maximum health over the next 5 seconds (this effect does not apply to bosses and can not exceed 200/240% of their maximum health ). Consecutive hits with this effect will only reset the duration and cannot be stacked."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1772078181
   }
 ]

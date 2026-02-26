@@ -1,5 +1,77 @@
 [
   {
+    "date": "2026-02-25",
+    "version": "1.0.3",
+    "changes": [
+      {
+        "type": "added",
+        "category": "guides",
+        "description": "Added Mythic Summon Calculator with pull rate simulation, reward estimation, and reverse target calculator"
+      },
+      {
+        "type": "added",
+        "category": "tier-list",
+        "description": "Added support for custom tier definitions in the tier list builder"
+      },
+      {
+        "type": "added",
+        "category": "characters",
+        "description": "Added notes, substitutes, and faction badges to character build sections"
+      },
+      {
+        "type": "updated",
+        "category": "guides",
+        "description": "Overhauled Star Upgrade Calculator layout and artifact data for improved usability"
+      },
+      {
+        "type": "updated",
+        "category": "tier-list",
+        "description": "Moved tier note editing inline and refined tier color and badge display"
+      },
+      {
+        "type": "updated",
+        "category": "characters",
+        "description": "Made character portraits clickable with hover highlight for faster browsing"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Improved tooltip behavior on mobile devices across the site"
+      },
+      {
+        "type": "updated",
+        "category": "navigation",
+        "description": "Added smooth scroll-to-top behavior on route change"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Enhanced error boundary display with detailed error information"
+      },
+      {
+        "type": "updated",
+        "category": "automation",
+        "description": "Auto-set last_updated timestamps on data edits and improved bump tool to support new entries"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live datasets (resources, artifacts)"
+      },
+      {
+        "type": "removed",
+        "category": "teams",
+        "description": "Removed team comparison feature and UI"
+      },
+      {
+        "type": "fixed",
+        "category": "guides",
+        "description": "Fixed rate-based reward calculation to use regular pull counts in summon calculator"
+      }
+    ],
+    "last_updated": 1772078181
+  },
+  {
     "date": "2026-02-24",
     "version": "1.0.2",
     "changes": [
