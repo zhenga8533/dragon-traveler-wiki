@@ -35,9 +35,8 @@ import {
   extractAllEffectRefs,
   filterCharacters,
 } from '../../utils/filter-characters';
-import CharacterCard, {
-  QUALITY_BORDER_COLOR,
-} from './CharacterCard';
+import CharacterCard from './CharacterCard';
+import { QUALITY_BORDER_COLOR } from '../../constants/colors';
 import TierBadge from '../common/TierBadge';
 import CharacterFilter from './CharacterFilter';
 import FilterToolbar from '../layout/FilterToolbar';

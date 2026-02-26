@@ -3,6 +3,7 @@ import type { FactionName } from '../types/faction';
 import type { ResourceCategory } from '../types/resource';
 import type { StatusEffectType } from '../types/status-effect';
 import type { TierDefinition } from '../types/tier-list';
+import type { Quality } from '../types/quality';
 import { QUALITY_COLOR, QUALITY_ORDER } from './quality';
 
 export const CLASS_ORDER: CharacterClass[] = [
@@ -15,6 +16,17 @@ export const CLASS_ORDER: CharacterClass[] = [
 ];
 
 export { QUALITY_COLOR, QUALITY_ORDER };
+
+export const QUALITY_BORDER_COLOR: Record<Quality, string> = {
+  UR: 'var(--mantine-color-pink-6)',
+  'SSR EX': 'var(--mantine-color-red-6)',
+  'SSR+': 'var(--mantine-color-orange-5)',
+  SSR: 'var(--mantine-color-yellow-5)',
+  SR: 'var(--mantine-color-violet-5)',
+  R: 'var(--mantine-color-blue-5)',
+  N: 'var(--mantine-color-lime-5)',
+  C: 'var(--mantine-color-gray-5)',
+};
 
 export const STATE_COLOR: Record<StatusEffectType, string> = {
   Buff: 'green',

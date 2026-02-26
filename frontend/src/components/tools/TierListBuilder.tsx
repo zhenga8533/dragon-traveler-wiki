@@ -699,7 +699,6 @@ export default function TierListBuilder({
                 }
 
                 window.open(tierListIssueUrl, '_blank');
-                setIsDirty(false);
               }}
               disabled={!hasAnyPlaced}
             >

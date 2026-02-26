@@ -2,6 +2,7 @@ import { Badge, Group, Image, Popover, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
 import { getResourceIcon } from '../../assets/resource';
+import { IMAGE_SIZE } from '../../constants/ui';
 import { ResourcesContext } from '../../contexts';
 import InlineMarkup from './InlineMarkup';
 
@@ -27,7 +28,7 @@ export default function ResourceBadge({
     (r) => r.name.toLowerCase() === name.toLowerCase()
   );
 
-  const iconSize = size === 'xs' ? 12 : 14;
+  const iconSize = size === 'xs' ? IMAGE_SIZE.ICON_XS : IMAGE_SIZE.ICON_SM;
 
   const badge = (
     <Badge

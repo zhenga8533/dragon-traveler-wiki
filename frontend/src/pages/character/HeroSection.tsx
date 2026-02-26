@@ -19,6 +19,7 @@ import GlobalBadge from '../../components/common/GlobalBadge';
 import LastUpdated from '../../components/common/LastUpdated';
 import TierBadge from '../../components/common/TierBadge';
 import { QUALITY_COLOR } from '../../constants/colors';
+import { CHARACTER_HERO } from '../../constants/ui';
 import type { Character } from '../../types/character';
 
 interface CharacterPageHeroSectionProps {
@@ -37,14 +38,14 @@ export default function CharacterPageHeroSection({
   activeIllustration,
 }: CharacterPageHeroSectionProps) {
   const heroBlurFilter = isDark
-    ? 'blur(20px) brightness(0.4)'
-    : 'blur(20px) brightness(1.2) saturate(1.05)';
+    ? `blur(${CHARACTER_HERO.BLUR_AMOUNT}) brightness(${CHARACTER_HERO.BRIGHTNESS})`
+    : `blur(${CHARACTER_HERO.BLUR_AMOUNT}) brightness(1.2) saturate(1.05)`;
 
   return (
     <Box
       style={{
         position: 'relative',
-        minHeight: 350,
+        minHeight: CHARACTER_HERO.MIN_HEIGHT,
         overflow: 'hidden',
         background: 'var(--mantine-color-body)',
         margin:
@@ -110,21 +111,21 @@ export default function CharacterPageHeroSection({
             <Center>
               <Box
                 style={{
-                  width: 180,
-                  height: 180,
+                  width: CHARACTER_HERO.PORTRAIT_SIZE,
+                  height: CHARACTER_HERO.PORTRAIT_SIZE,
                   borderRadius: '50%',
-                  border: `4px solid var(--mantine-color-${QUALITY_COLOR[character.quality]}-5)`,
+                  border: `${CHARACTER_HERO.BORDER_WIDTH}px solid var(--mantine-color-${QUALITY_COLOR[character.quality]}-5)`,
                   overflow: 'hidden',
-                  boxShadow: '0 8px 32px rgba(0,0,0,0.5)',
+                  boxShadow: 'var(--mantine-shadow-lg)',
                 }}
               >
                 <Image
                   src={portrait}
                   alt={character.name}
-                  w={180}
-                  h={180}
+                  w={CHARACTER_HERO.PORTRAIT_SIZE}
+                  h={CHARACTER_HERO.PORTRAIT_SIZE}
                   fit="cover"
-                  fallbackSrc="https://placehold.co/180x180?text=?"
+                  fallbackSrc={`https://placehold.co/${CHARACTER_HERO.PORTRAIT_SIZE}x${CHARACTER_HERO.PORTRAIT_SIZE}?text=?`}
                 />
               </Box>
             </Center>

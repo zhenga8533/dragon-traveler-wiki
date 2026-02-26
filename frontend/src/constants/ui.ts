@@ -20,6 +20,7 @@ export const CHARACTER_HERO = {
 
 // Image sizes
 export const IMAGE_SIZE = {
+  ICON_XS: 12,
   ICON_SM: 14,
   ICON_MD: 16,
   ICON_LG: 20,

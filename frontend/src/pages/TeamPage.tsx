@@ -27,7 +27,7 @@ import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
-import { QUALITY_BORDER_COLOR } from '../components/character/CharacterCard';
+import { QUALITY_BORDER_COLOR } from '../constants/colors';
 import ClassLabel from '../components/common/ClassLabel';
 import EntityNotFound from '../components/common/EntityNotFound';
 import QualityIcon from '../components/common/QualityIcon';

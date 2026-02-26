@@ -2,12 +2,12 @@ import {
   Box,
   Card,
   Group,
-  Paper,
   SimpleGrid,
   Skeleton,
   Stack,
   Text,
   ThemeIcon,
+  Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import {
@@ -20,6 +20,7 @@ import {
   IoPeople,
   IoShield,
   IoSparkles,
+  IoStatsChart,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import LastUpdated from '../../components/common/LastUpdated';
@@ -114,7 +115,7 @@ export default function DataStatsBar() {
 
   if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9) {
     return (
-      <Card padding="lg" radius="md" withBorder className="home-content-card">
+      <Card padding="lg" radius="md" withBorder className="home-hover-card home-content-card">
         <SimpleGrid cols={{ base: 3, sm: 5, lg: 9 }} spacing={0}>
           {Array.from({ length: 9 }).map((_, i) => (
             <Stack key={i} gap={4} align="center" py="sm">
@@ -195,39 +196,47 @@ export default function DataStatsBar() {
   ];
 
   return (
-    <Paper withBorder radius="lg" py="md" px="lg" my="md">
-      <SimpleGrid cols={{ base: 3, sm: 5, lg: 9 }} spacing={0}>
-        {stats.map((stat) => (
-          <Box
-            key={stat.to}
-            component={Link}
-            to={stat.to}
-            py="sm"
-            px="xs"
-            style={{ textDecoration: 'none' }}
-          >
-            <Stack gap={4} align="center">
-              <ThemeIcon
-                variant="light"
-                color={stat.color}
-                size="lg"
-                radius="md"
-              >
-                <stat.icon size={16} />
-              </ThemeIcon>
-              <Text fw={700} size="sm" ta="center" lh={1}>
-                {stat.count}
-              </Text>
-              <Text size="xs" c="dimmed" ta="center" lh={1.3}>
-                {stat.label}
-              </Text>
-            </Stack>
-          </Box>
-        ))}
-      </SimpleGrid>
-      <Group justify="center" mt="sm">
-        <LastUpdated timestamp={mostRecentUpdate} />
-      </Group>
-    </Paper>
+    <Card padding="lg" radius="md" withBorder className="home-hover-card home-content-card">
+      <Stack gap="md">
+        <Group gap="sm">
+          <ThemeIcon variant="light" color="grape" size="lg" radius="md">
+            <IoStatsChart size={20} />
+          </ThemeIcon>
+          <Title order={4}>Wiki Database</Title>
+        </Group>
+        <SimpleGrid cols={{ base: 3, sm: 5, lg: 9 }} spacing={0}>
+          {stats.map((stat) => (
+            <Box
+              key={stat.to}
+              component={Link}
+              to={stat.to}
+              py="sm"
+              px="xs"
+              style={{ textDecoration: 'none' }}
+            >
+              <Stack gap={4} align="center">
+                <ThemeIcon
+                  variant="light"
+                  color={stat.color}
+                  size="lg"
+                  radius="md"
+                >
+                  <stat.icon size={16} />
+                </ThemeIcon>
+                <Text fw={700} size="sm" ta="center" lh={1}>
+                  {stat.count}
+                </Text>
+                <Text size="xs" c="dimmed" ta="center" lh={1.3}>
+                  {stat.label}
+                </Text>
+              </Stack>
+            </Box>
+          ))}
+        </SimpleGrid>
+        <Group justify="center">
+          <LastUpdated timestamp={mostRecentUpdate} />
+        </Group>
+      </Stack>
+    </Card>
   );
 }

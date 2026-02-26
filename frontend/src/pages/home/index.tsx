@@ -418,9 +418,7 @@ export default function Home() {
           <FeaturedCharactersMarquee />
 
           {/* Data stats bar */}
-          <Container size="lg">
-            <DataStatsBar />
-          </Container>
+          <DataStatsBar />
 
           {/* Active Codes & Recent Updates row */}
           <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">

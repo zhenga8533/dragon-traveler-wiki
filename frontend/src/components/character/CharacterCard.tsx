@@ -10,20 +10,9 @@ import TierBadge from '../common/TierBadge';
 import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
+import { QUALITY_BORDER_COLOR } from '../../constants/colors';
 import { CHARACTER_CARD, TRANSITION } from '../../constants/ui';
 import type { Quality } from '../../types/quality';
-
-
-const QUALITY_BORDER_COLOR: Record<Quality, string> = {
-  UR: 'var(--mantine-color-pink-6)',
-  'SSR EX': 'var(--mantine-color-red-6)',
-  'SSR+': 'var(--mantine-color-orange-5)',
-  SSR: 'var(--mantine-color-yellow-5)',
-  SR: 'var(--mantine-color-violet-5)',
-  R: 'var(--mantine-color-blue-5)',
-  N: 'var(--mantine-color-lime-5)',
-  C: 'var(--mantine-color-gray-5)',
-};
 
 interface CharacterCardProps {
   name: string;
@@ -129,7 +118,7 @@ export default function CharacterCard({
             transform: 'scale(1.05)',
           },
           '&:hover img': {
-            boxShadow: '0 4px 12px rgba(0,0,0,0.3)',
+            boxShadow: 'var(--mantine-shadow-md)',
           },
         },
       }}
@@ -138,5 +127,3 @@ export default function CharacterCard({
     </UnstyledButton>
   );
 }
-
-export { QUALITY_BORDER_COLOR };

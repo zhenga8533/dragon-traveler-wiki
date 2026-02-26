@@ -29,7 +29,7 @@ const DETAIL_TOOLTIP_STYLES = {
     color: 'var(--mantine-color-text)',
     border: '1px solid var(--mantine-color-default-border)',
     boxShadow: 'var(--mantine-shadow-sm)',
-    padding: '8px 10px',
+    padding: 'var(--mantine-spacing-xs) var(--mantine-spacing-sm)',
   },
   arrow: {
     backgroundColor: 'var(--mantine-color-body)',
@@ -43,8 +43,8 @@ const RECOMMENDED_BUILD_TOOLTIP_STYLES = {
     color: 'var(--mantine-color-text)',
     border: '1px solid var(--mantine-color-default-border)',
     boxShadow: 'var(--mantine-shadow-md)',
-    borderRadius: '10px',
-    padding: '10px 12px',
+    borderRadius: 'var(--mantine-radius-sm)',
+    padding: 'var(--mantine-spacing-sm) var(--mantine-spacing-md)',
   },
   arrow: {
     backgroundColor: 'var(--mantine-color-default)',
