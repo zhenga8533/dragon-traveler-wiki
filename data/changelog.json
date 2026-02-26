@@ -1,5 +1,67 @@
 [
   {
+    "date": "2026-02-26",
+    "version": "1.0.4",
+    "changes": [
+      {
+        "type": "added",
+        "category": "tier-list",
+        "description": "Added table view toggle and per-list tier option support in Tier List workflows"
+      },
+      {
+        "type": "added",
+        "category": "search",
+        "description": "Added NoResultsSuggestions and expanded search integration across list filters"
+      },
+      {
+        "type": "updated",
+        "category": "artifacts",
+        "description": "Added faction recommendation display on artifact pages and replaced raw icon usage with shared badge/icon components"
+      },
+      {
+        "type": "updated",
+        "category": "tier-list",
+        "description": "Refined tier header presentation with Last Updated details and improved tier filter synchronization"
+      },
+      {
+        "type": "updated",
+        "category": "search",
+        "description": "Restricted global keyboard shortcuts and simplified search UI behavior on search pages"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Applied glass-style section cards, refreshed header theming, and improved filter/control responsiveness on mobile"
+      },
+      {
+        "type": "updated",
+        "category": "navigation",
+        "description": "Extracted layout and route structure into shared modules for cleaner navigation architecture"
+      },
+      {
+        "type": "updated",
+        "category": "performance",
+        "description": "Added cached data fetching and improved loading/error handling for smoother page transitions"
+      },
+      {
+        "type": "updated",
+        "category": "filters",
+        "description": "Moved EntityFilter into shared common components and enhanced filter behavior across pages"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Enabled touch events for tooltips on mobile and persisted gear/golden alliance searches in local storage"
+      },
+      {
+        "type": "updated",
+        "category": "changelog",
+        "description": "Added changelog typing support and aligned search pages with the updated changelog data model"
+      }
+    ],
+    "last_updated": 1772136621
+  },
+  {
     "date": "2026-02-25",
     "version": "1.0.3",
     "changes": [
