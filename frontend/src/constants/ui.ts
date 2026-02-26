@@ -97,6 +97,7 @@ export const STORAGE_KEY = {
   TEAMS_VIEW_MODE: 'teams:viewMode',
   TEAMS_FILTERS: 'teams:filters',
   TEAMS_SEARCH: 'teams:search',
+  TIER_LIST_VIEW_MODE: 'tier-list:viewMode',
   TIER_LIST_SEARCH: 'tier-list:search',
   CODES_VIEW_MODE: 'codes:viewMode',
   TIER_LIST_FILTERS: 'tier-list:filters',

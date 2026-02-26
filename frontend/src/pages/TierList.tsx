@@ -4,10 +4,13 @@ import {
   Collapse,
   Container,
   Group,
+  Image,
   Paper,
+  ScrollArea,
   SegmentedControl,
   SimpleGrid,
   Stack,
+  Table,
   Tabs,
   Text,
   Title,
@@ -15,8 +18,14 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
+import { getPortrait } from '../assets/character';
 import CharacterCard from '../components/character/CharacterCard';
+import ClassLabel from '../components/common/ClassLabel';
+import FactionTag from '../components/common/FactionTag';
 import LastUpdated from '../components/common/LastUpdated';
+import QualityIcon from '../components/common/QualityIcon';
+import ViewToggle from '../components/common/ViewToggle';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
@@ -28,7 +37,7 @@ import {
 } from '../constants/content-types';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
-import { useFilters } from '../hooks/use-filters';
+import { useFilters, useViewMode } from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
 import { sortCharactersByQuality } from '../utils/filter-characters';
@@ -54,6 +63,10 @@ export default function TierList() {
   });
   const [mode, setMode] = useState<'view' | 'builder'>('view');
   const [editData, setEditData] = useState<TierListType | null>(null);
+  const [viewMode, setViewMode] = useViewMode({
+    storageKey: STORAGE_KEY.TIER_LIST_VIEW_MODE,
+    defaultMode: 'grid',
+  });
   const loading = loadingTiers || loadingChars;
 
   const charMap = useMemo(() => {
@@ -138,6 +151,9 @@ export default function TierList() {
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
           <Group gap="xs">
+            {mode === 'view' && (
+              <ViewToggle viewMode={viewMode} onChange={setViewMode} />
+            )}
             {mode === 'view' && (
               <Button
                 variant="default"
@@ -309,24 +325,154 @@ export default function TierList() {
                                         </Text>
                                       )}
                                     </Stack>
-                                    <SimpleGrid
-                                      cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-                                      spacing={CHARACTER_GRID_SPACING}
-                                    >
-                                      {entries.map((entry) => {
-                                        const char = charMap.get(
-                                          entry.character_name
-                                        );
-                                        return (
-                                          <CharacterCard
-                                            key={entry.character_name}
-                                            name={entry.character_name}
-                                            quality={char?.quality}
-                                            note={entry.note}
-                                          />
-                                        );
-                                      })}
-                                    </SimpleGrid>
+                                    {viewMode === 'grid' ? (
+                                      <SimpleGrid
+                                        cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
+                                        spacing={CHARACTER_GRID_SPACING}
+                                      >
+                                        {entries.map((entry) => {
+                                          const char = charMap.get(
+                                            entry.character_name
+                                          );
+                                          return (
+                                            <CharacterCard
+                                              key={entry.character_name}
+                                              name={entry.character_name}
+                                              quality={char?.quality}
+                                              note={entry.note}
+                                            />
+                                          );
+                                        })}
+                                      </SimpleGrid>
+                                    ) : (
+                                      <ScrollArea
+                                        type="auto"
+                                        scrollbarSize={6}
+                                        offsetScrollbars
+                                      >
+                                        <Table
+                                          striped
+                                          highlightOnHover
+                                          style={{ minWidth: 460 }}
+                                        >
+                                          <Table.Thead>
+                                            <Table.Tr>
+                                              <Table.Th>Character</Table.Th>
+                                              <Table.Th>Quality</Table.Th>
+                                              <Table.Th>Class</Table.Th>
+                                              <Table.Th>Factions</Table.Th>
+                                              <Table.Th>Note</Table.Th>
+                                            </Table.Tr>
+                                          </Table.Thead>
+                                          <Table.Tbody>
+                                            {entries.map((entry) => {
+                                              const char = charMap.get(
+                                                entry.character_name
+                                              );
+                                              return (
+                                                <Table.Tr
+                                                  key={entry.character_name}
+                                                >
+                                                  <Table.Td>
+                                                    <Group
+                                                      gap="sm"
+                                                      wrap="nowrap"
+                                                    >
+                                                      <Image
+                                                        src={getPortrait(
+                                                          entry.character_name
+                                                        )}
+                                                        alt={
+                                                          entry.character_name
+                                                        }
+                                                        h={32}
+                                                        w={32}
+                                                        fit="cover"
+                                                        radius="50%"
+                                                        fallbackSrc={`https://placehold.co/32x32?text=${encodeURIComponent(entry.character_name.charAt(0))}`}
+                                                      />
+                                                      <Text
+                                                        component={Link}
+                                                        to={`/characters/${encodeURIComponent(entry.character_name)}`}
+                                                        size="sm"
+                                                        fw={500}
+                                                        c="violet"
+                                                      >
+                                                        {entry.character_name}
+                                                      </Text>
+                                                    </Group>
+                                                  </Table.Td>
+                                                  <Table.Td>
+                                                    {char ? (
+                                                      <QualityIcon
+                                                        quality={char.quality}
+                                                        size={18}
+                                                      />
+                                                    ) : (
+                                                      <Text
+                                                        size="sm"
+                                                        c="dimmed"
+                                                      >
+                                                        —
+                                                      </Text>
+                                                    )}
+                                                  </Table.Td>
+                                                  <Table.Td>
+                                                    {char ? (
+                                                      <ClassLabel
+                                                        characterClass={
+                                                          char.character_class
+                                                        }
+                                                        iconSize={14}
+                                                        textSize="sm"
+                                                      />
+                                                    ) : (
+                                                      <Text
+                                                        size="sm"
+                                                        c="dimmed"
+                                                      >
+                                                        —
+                                                      </Text>
+                                                    )}
+                                                  </Table.Td>
+                                                  <Table.Td>
+                                                    {char &&
+                                                    char.factions.length > 0 ? (
+                                                      <Group
+                                                        gap={4}
+                                                        wrap="wrap"
+                                                      >
+                                                        {char.factions.map(
+                                                          (faction) => (
+                                                            <FactionTag
+                                                              key={faction}
+                                                              faction={faction}
+                                                              size="xs"
+                                                            />
+                                                          )
+                                                        )}
+                                                      </Group>
+                                                    ) : (
+                                                      <Text
+                                                        size="sm"
+                                                        c="dimmed"
+                                                      >
+                                                        —
+                                                      </Text>
+                                                    )}
+                                                  </Table.Td>
+                                                  <Table.Td>
+                                                    <Text size="sm" c="dimmed">
+                                                      {entry.note || '—'}
+                                                    </Text>
+                                                  </Table.Td>
+                                                </Table.Tr>
+                                              );
+                                            })}
+                                          </Table.Tbody>
+                                        </Table>
+                                      </ScrollArea>
+                                    )}
                                   </Stack>
                                 </Paper>
                               )
@@ -343,18 +489,95 @@ export default function TierList() {
                                   >
                                     Unranked
                                   </Badge>
-                                  <SimpleGrid
-                                    cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-                                    spacing={CHARACTER_GRID_SPACING}
-                                  >
-                                    {unranked.map((c) => (
-                                      <CharacterCard
-                                        key={c.name}
-                                        name={c.name}
-                                        quality={c.quality}
-                                      />
-                                    ))}
-                                  </SimpleGrid>
+                                  {viewMode === 'grid' ? (
+                                    <SimpleGrid
+                                      cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
+                                      spacing={CHARACTER_GRID_SPACING}
+                                    >
+                                      {unranked.map((c) => (
+                                        <CharacterCard
+                                          key={c.name}
+                                          name={c.name}
+                                          quality={c.quality}
+                                        />
+                                      ))}
+                                    </SimpleGrid>
+                                  ) : (
+                                    <ScrollArea
+                                      type="auto"
+                                      scrollbarSize={6}
+                                      offsetScrollbars
+                                    >
+                                      <Table
+                                        striped
+                                        highlightOnHover
+                                        style={{ minWidth: 460 }}
+                                      >
+                                        <Table.Thead>
+                                          <Table.Tr>
+                                            <Table.Th>Character</Table.Th>
+                                            <Table.Th>Quality</Table.Th>
+                                            <Table.Th>Class</Table.Th>
+                                            <Table.Th>Factions</Table.Th>
+                                          </Table.Tr>
+                                        </Table.Thead>
+                                        <Table.Tbody>
+                                          {unranked.map((c) => (
+                                            <Table.Tr key={c.name}>
+                                              <Table.Td>
+                                                <Group gap="sm" wrap="nowrap">
+                                                  <Image
+                                                    src={getPortrait(c.name)}
+                                                    alt={c.name}
+                                                    h={32}
+                                                    w={32}
+                                                    fit="cover"
+                                                    radius="50%"
+                                                    fallbackSrc={`https://placehold.co/32x32?text=${encodeURIComponent(c.name.charAt(0))}`}
+                                                  />
+                                                  <Text
+                                                    component={Link}
+                                                    to={`/characters/${encodeURIComponent(c.name)}`}
+                                                    size="sm"
+                                                    fw={500}
+                                                    c="violet"
+                                                  >
+                                                    {c.name}
+                                                  </Text>
+                                                </Group>
+                                              </Table.Td>
+                                              <Table.Td>
+                                                <QualityIcon
+                                                  quality={c.quality}
+                                                  size={18}
+                                                />
+                                              </Table.Td>
+                                              <Table.Td>
+                                                <ClassLabel
+                                                  characterClass={
+                                                    c.character_class
+                                                  }
+                                                  iconSize={14}
+                                                  textSize="sm"
+                                                />
+                                              </Table.Td>
+                                              <Table.Td>
+                                                <Group gap={4} wrap="wrap">
+                                                  {c.factions.map((faction) => (
+                                                    <FactionTag
+                                                      key={faction}
+                                                      faction={faction}
+                                                      size="xs"
+                                                    />
+                                                  ))}
+                                                </Group>
+                                              </Table.Td>
+                                            </Table.Tr>
+                                          ))}
+                                        </Table.Tbody>
+                                      </Table>
+                                    </ScrollArea>
+                                  )}
                                 </Stack>
                               </Paper>
                             )}
