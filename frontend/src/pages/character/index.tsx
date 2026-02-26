@@ -46,6 +46,7 @@ import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../../assets/gear';
 import { getSkillIcon } from '../../assets/skill';
 import { getSubclassIcon } from '../../assets/subclass';
 import ClassTag from '../../components/common/ClassTag';
+import DetailPageNavigation from '../../components/common/DetailPageNavigation';
 import EntityNotFound from '../../components/common/EntityNotFound';
 import TierBadge from '../../components/common/TierBadge';
 import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
@@ -58,9 +59,9 @@ import type { Gear, GearSet } from '../../types/gear';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
 import type { Subclass } from '../../types/subclass';
+import { compareCharactersByQualityThenName } from '../../utils/filter-characters';
 import BuildSection from './BuildSection';
 import HeroSection from './HeroSection';
-import Navigation from './Navigation';
 import SkillsSection from './SkillsSection';
 
 const GEAR_SLOT_CONFIG: Array<{
@@ -107,7 +108,6 @@ const GEAR_SLOT_CONFIG: Array<{
   },
 ];
 
-
 export default function CharacterPage() {
   const tooltipProps = useMobileTooltip();
   const isDark = useComputedColorScheme('light') === 'dark';
@@ -151,8 +151,9 @@ export default function CharacterPage() {
     return entry?.tier ?? 'Unranked';
   }, [tierLists, selectedTierListName, character]);
 
+  // Match list page: sort by quality, then name
   const orderedCharacters = useMemo(
-    () => [...characters].sort((a, b) => a.name.localeCompare(b.name)),
+    () => [...characters].sort(compareCharactersByQualityThenName),
     [characters]
   );
 
@@ -887,8 +888,7 @@ export default function CharacterPage() {
                         size="lg"
                         style={{
                           opacity: modalHoverSide === 'left' ? 1 : 0.55,
-                          transition:
-                            `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}, transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+                          transition: `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}, transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
                           transform:
                             modalHoverSide === 'left'
                               ? 'scale(1.1)'
@@ -921,8 +921,7 @@ export default function CharacterPage() {
                         size="lg"
                         style={{
                           opacity: modalHoverSide === 'right' ? 1 : 0.55,
-                          transition:
-                            `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}, transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+                          transition: `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}, transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
                           transform:
                             modalHoverSide === 'right'
                               ? 'scale(1.1)'
@@ -1014,9 +1013,23 @@ export default function CharacterPage() {
           )}
         </Modal>
 
-        <Navigation
-          previousCharacter={previousCharacter}
-          nextCharacter={nextCharacter}
+        <DetailPageNavigation
+          previousItem={
+            previousCharacter
+              ? {
+                  label: previousCharacter.name,
+                  path: `/characters/${encodeURIComponent(previousCharacter.name)}`,
+                }
+              : null
+          }
+          nextItem={
+            nextCharacter
+              ? {
+                  label: nextCharacter.name,
+                  path: `/characters/${encodeURIComponent(nextCharacter.name)}`,
+                }
+              : null
+          }
         />
       </Container>
     </Box>

@@ -28,6 +28,7 @@ import { FACTION_ICON_MAP } from '../assets/faction';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import ClassLabel from '../components/common/ClassLabel';
+import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
@@ -103,6 +104,22 @@ export default function TeamPage() {
     if (!teamName) return null;
     return teams.find((t) => t.name === decodeURIComponent(teamName));
   }, [teams, teamName]);
+
+  // Match list page: preserve data file order (no sort)
+  const orderedTeams = useMemo(() => [...teams], [teams]);
+
+  const teamIndex = useMemo(() => {
+    if (!team) return -1;
+    return orderedTeams.findIndex(
+      (entry) => entry.name.toLowerCase() === team.name.toLowerCase()
+    );
+  }, [orderedTeams, team]);
+
+  const previousTeam = teamIndex > 0 ? orderedTeams[teamIndex - 1] : null;
+  const nextTeam =
+    teamIndex >= 0 && teamIndex < orderedTeams.length - 1
+      ? orderedTeams[teamIndex + 1]
+      : null;
 
   const charMap = useMemo(() => {
     const map = new Map<string, Character>();
@@ -465,6 +482,25 @@ export default function TeamPage() {
             </SimpleGrid>
           </Stack>
         </Stack>
+
+        <DetailPageNavigation
+          previousItem={
+            previousTeam
+              ? {
+                  label: previousTeam.name,
+                  path: `/teams/${encodeURIComponent(previousTeam.name)}`,
+                }
+              : null
+          }
+          nextItem={
+            nextTeam
+              ? {
+                  label: nextTeam.name,
+                  path: `/teams/${encodeURIComponent(nextTeam.name)}`,
+                }
+              : null
+          }
+        />
       </Container>
     </Box>
   );

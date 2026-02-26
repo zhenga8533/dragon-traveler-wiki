@@ -12,10 +12,10 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { IoArrowBack } from 'react-icons/io5';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import CharacterTag from '../components/character/CharacterTag';
+import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
@@ -24,10 +24,8 @@ import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
-  CURSOR_POINTER_STYLE,
   DETAIL_HERO_WRAPPER_STYLES,
   FLEX_1_STYLE,
-  LINK_RESET_STYLE,
   RELATIVE_Z1_STYLE,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
@@ -192,6 +190,34 @@ export default function NoblePhantasmPage() {
     );
   }, [name, noblePhantasms]);
 
+  // Match list page: sort by character, then name
+  const orderedNoblePhantasms = useMemo(
+    () =>
+      [...noblePhantasms].sort((a, b) => {
+        const charCmp = (a.character ?? '').localeCompare(b.character ?? '');
+        if (charCmp !== 0) return charCmp;
+        return a.name.localeCompare(b.name);
+      }),
+    [noblePhantasms]
+  );
+
+  const noblePhantasmIndex = useMemo(() => {
+    if (!noblePhantasm) return -1;
+    return orderedNoblePhantasms.findIndex(
+      (entry) => entry.name.toLowerCase() === noblePhantasm.name.toLowerCase()
+    );
+  }, [noblePhantasm, orderedNoblePhantasms]);
+
+  const previousNoblePhantasm =
+    noblePhantasmIndex > 0
+      ? orderedNoblePhantasms[noblePhantasmIndex - 1]
+      : null;
+  const nextNoblePhantasm =
+    noblePhantasmIndex >= 0 &&
+    noblePhantasmIndex < orderedNoblePhantasms.length - 1
+      ? orderedNoblePhantasms[noblePhantasmIndex + 1]
+      : null;
+
   const linkedCharacter = useMemo(() => {
     if (!noblePhantasm?.character) return null;
     return characters.find(
@@ -321,14 +347,24 @@ export default function NoblePhantasmPage() {
           </Stack>
         </Stack>
 
-        <Box mt="xl">
-          <Link to="/noble-phantasms" style={LINK_RESET_STYLE}>
-            <Group gap="xs" c="violet" style={CURSOR_POINTER_STYLE}>
-              <IoArrowBack />
-              <Text>Back to Noble Phantasms</Text>
-            </Group>
-          </Link>
-        </Box>
+        <DetailPageNavigation
+          previousItem={
+            previousNoblePhantasm
+              ? {
+                  label: previousNoblePhantasm.name,
+                  path: `/noble-phantasms/${encodeURIComponent(previousNoblePhantasm.name)}`,
+                }
+              : null
+          }
+          nextItem={
+            nextNoblePhantasm
+              ? {
+                  label: nextNoblePhantasm.name,
+                  path: `/noble-phantasms/${encodeURIComponent(nextNoblePhantasm.name)}`,
+                }
+              : null
+          }
+        />
       </Container>
     </Box>
   );

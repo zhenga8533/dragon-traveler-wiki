@@ -14,25 +14,23 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { IoArrowBack } from 'react-icons/io5';
-import { Link, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import ClassTag from '../components/common/ClassTag';
+import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
 import RichText from '../components/common/RichText';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
-import { QUALITY_COLOR } from '../constants/colors';
+import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
-  CURSOR_POINTER_STYLE,
   DETAIL_HERO_WRAPPER_STYLES,
   FLEX_1_STYLE,
   FLEX_SHRINK_0_STYLE,
-  LINK_RESET_STYLE,
   RELATIVE_Z1_STYLE,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
@@ -152,6 +150,32 @@ export default function ArtifactPage() {
       (a) => a.name.toLowerCase() === decodedName.toLowerCase()
     );
   }, [artifacts, name]);
+
+  // Match list page: sort by quality, then name
+  const orderedArtifacts = useMemo(
+    () =>
+      [...artifacts].sort((a, b) => {
+        const qA = QUALITY_ORDER.indexOf(a.quality);
+        const qB = QUALITY_ORDER.indexOf(b.quality);
+        if (qA !== qB) return qA - qB;
+        return a.name.localeCompare(b.name);
+      }),
+    [artifacts]
+  );
+
+  const artifactIndex = useMemo(() => {
+    if (!artifact) return -1;
+    return orderedArtifacts.findIndex(
+      (entry) => entry.name.toLowerCase() === artifact.name.toLowerCase()
+    );
+  }, [artifact, orderedArtifacts]);
+
+  const previousArtifact =
+    artifactIndex > 0 ? orderedArtifacts[artifactIndex - 1] : null;
+  const nextArtifact =
+    artifactIndex >= 0 && artifactIndex < orderedArtifacts.length - 1
+      ? orderedArtifacts[artifactIndex + 1]
+      : null;
 
   if (loading) {
     return (
@@ -283,14 +307,24 @@ export default function ArtifactPage() {
           )}
         </Stack>
 
-        <Box mt="xl">
-          <Link to="/artifacts" style={LINK_RESET_STYLE}>
-            <Group gap="xs" c="violet" style={CURSOR_POINTER_STYLE}>
-              <IoArrowBack />
-              <Text>Back to Artifacts</Text>
-            </Group>
-          </Link>
-        </Box>
+        <DetailPageNavigation
+          previousItem={
+            previousArtifact
+              ? {
+                  label: previousArtifact.name,
+                  path: `/artifacts/${encodeURIComponent(previousArtifact.name)}`,
+                }
+              : null
+          }
+          nextItem={
+            nextArtifact
+              ? {
+                  label: nextArtifact.name,
+                  path: `/artifacts/${encodeURIComponent(nextArtifact.name)}`,
+                }
+              : null
+          }
+        />
       </Container>
     </Box>
   );

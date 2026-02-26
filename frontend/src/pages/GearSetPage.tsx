@@ -17,6 +17,7 @@ import { Link, useParams } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getGearIcon } from '../assets/gear';
 import { QUALITY_ICON_MAP } from '../assets/quality';
+import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GearTypeTag from '../components/common/GearTypeTag';
 import LastUpdated from '../components/common/LastUpdated';
@@ -116,6 +117,31 @@ export default function GearSetPage() {
   }, [characters, recommendedCharacters]);
 
   const [showAllCharacters, setShowAllCharacters] = useState(false);
+
+  // Match list page: sort by name
+  const orderedSetNames = useMemo(
+    () =>
+      Array.from(
+        new Set([
+          ...gearSets.map((entry) => entry.name),
+          ...gear.map((item) => item.set),
+        ])
+      ).sort((a, b) => a.localeCompare(b)),
+    [gearSets, gear]
+  );
+
+  const setIndex = useMemo(() => {
+    if (!decodedSetName) return -1;
+    return orderedSetNames.findIndex(
+      (entry) => entry.toLowerCase() === decodedSetName.toLowerCase()
+    );
+  }, [decodedSetName, orderedSetNames]);
+
+  const previousSetName = setIndex > 0 ? orderedSetNames[setIndex - 1] : null;
+  const nextSetName =
+    setIndex >= 0 && setIndex < orderedSetNames.length - 1
+      ? orderedSetNames[setIndex + 1]
+      : null;
 
   if (loading) {
     return (
@@ -382,6 +408,25 @@ export default function GearSetPage() {
             })}
           </SimpleGrid>
         </Stack>
+
+        <DetailPageNavigation
+          previousItem={
+            previousSetName
+              ? {
+                  label: `${previousSetName} Set`,
+                  path: `/gear-sets/${encodeURIComponent(previousSetName)}`,
+                }
+              : null
+          }
+          nextItem={
+            nextSetName
+              ? {
+                  label: `${nextSetName} Set`,
+                  path: `/gear-sets/${encodeURIComponent(nextSetName)}`,
+                }
+              : null
+          }
+        />
       </Container>
     </Box>
   );
