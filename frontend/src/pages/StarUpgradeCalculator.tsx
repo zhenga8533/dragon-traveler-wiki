@@ -253,6 +253,18 @@ const SHARDS_PER_DUPE = 60;
 
 type QualityOption = keyof typeof HEART_TRIAL_RATES;
 
+function parseNumberInput(value: string | number): number | null {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null;
+  }
+
+  if (value.trim() === '') {
+    return null;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
 
 export default function StarUpgradeCalculator() {
   const [currentValue, setCurrentValue] = useState<string>(
@@ -263,8 +275,8 @@ export default function StarUpgradeCalculator() {
   );
   const [quality, setQuality] = useState<QualityOption>('SSR');
   const [affectionLevel20, setAffectionLevel20] = useState<boolean>(false);
-  const [currentCopies, setCurrentCopies] = useState<number>(0);
-  const [currentShards, setCurrentShards] = useState<number>(0);
+  const [currentCopies, setCurrentCopies] = useState<number | null>(0);
+  const [currentShards, setCurrentShards] = useState<number | null>(0);
   const [refTableOpened, refTableHandlers] = useDisclosure(false);
 
   const currentIndex = STAR_LEVELS.findIndex(
@@ -298,9 +310,11 @@ export default function StarUpgradeCalculator() {
   const effectiveCopiesNeeded =
     quality === 'SR' ? copiesNeeded * 2 : copiesNeeded;
   const totalShardsNeeded = effectiveCopiesNeeded * SHARDS_PER_DUPE;
+  const safeCurrentCopies = currentCopies ?? 0;
+  const safeCurrentShards = currentShards ?? 0;
   const ownedShards = Math.max(
     0,
-    currentCopies * SHARDS_PER_DUPE + currentShards
+    safeCurrentCopies * SHARDS_PER_DUPE + safeCurrentShards
   );
   const shardsRemaining = Math.max(0, totalShardsNeeded - ownedShards);
 
@@ -507,8 +521,10 @@ export default function StarUpgradeCalculator() {
                 <NumberInput
                   label="Current Copies"
                   description={`Full copies already owned (${SHARDS_PER_DUPE} shards each)`}
-                  value={currentCopies}
-                  onChange={(value) => setCurrentCopies(Number(value) || 0)}
+                  value={currentCopies ?? ''}
+                  onChange={(value) =>
+                    setCurrentCopies(parseNumberInput(value))
+                  }
                   min={0}
                   step={1}
                   allowNegative={false}
@@ -516,13 +532,18 @@ export default function StarUpgradeCalculator() {
                 <NumberInput
                   label="Current Shards"
                   description="Extra shards beyond full copies"
-                  value={currentShards}
+                  value={currentShards ?? ''}
                   onChange={(value) =>
                     setCurrentShards(
-                      Math.max(
-                        0,
-                        Math.min(SHARDS_PER_DUPE - 1, Number(value) || 0)
-                      )
+                      parseNumberInput(value) == null
+                        ? null
+                        : Math.max(
+                            0,
+                            Math.min(
+                              SHARDS_PER_DUPE - 1,
+                              parseNumberInput(value) ?? 0
+                            )
+                          )
                     )
                   }
                   min={0}

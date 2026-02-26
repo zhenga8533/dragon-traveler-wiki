@@ -71,6 +71,40 @@ const MILESTONES: Milestone[] = [
   { summons: 300, shards: 20 },
 ];
 
+function parseNumberInput(value: string | number): number | null {
+  if (typeof value === 'number') {
+    return Number.isFinite(value) ? value : null;
+  }
+
+  if (value.trim() === '') {
+    return null;
+  }
+
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function calculateGuaranteedPulls(
+  currentPulls: number,
+  summons: number
+): number {
+  if (summons < 1) {
+    return 0;
+  }
+
+  const firstGuaranteedPull = 5 - (currentPulls % 5);
+
+  if (summons < firstGuaranteedPull) {
+    return 0;
+  }
+
+  return 1 + Math.floor((summons - firstGuaranteedPull) / 5);
+}
+
+function calculateRegularPulls(currentPulls: number, summons: number): number {
+  const guaranteedPulls = calculateGuaranteedPulls(currentPulls, summons);
+  return summons - guaranteedPulls;
+}
 
 function calculateExpectedValue(rates: DropRate[]): number {
   return rates.reduce((sum, rate) => sum + rate.chance * rate.amount, 0);
@@ -93,8 +127,8 @@ function calculateMilestoneRewards(summons: number): number {
 }
 
 export default function MythicSummonCalculator() {
-  const [numSummons, setNumSummons] = useState<number>(100);
-  const [currentPulls, setCurrentPulls] = useState<number>(0);
+  const [numSummons, setNumSummons] = useState<number | null>(100);
+  const [currentPulls, setCurrentPulls] = useState<number | null>(0);
   const [targetShards, setTargetShards] = useState<number | null>(null);
   const [targetWishingLilies, setTargetWishingLilies] = useState<number | null>(
     null
@@ -105,7 +139,10 @@ export default function MythicSummonCalculator() {
   const [targetDiamonds, setTargetDiamonds] = useState<number | null>(null);
 
   const results = useMemo(() => {
-    if (!numSummons || numSummons < 1) {
+    const safeCurrentPulls = currentPulls ?? 0;
+    const safeNumSummons = numSummons ?? 0;
+
+    if (safeNumSummons < 1) {
       return {
         mythicShards: 0,
         wishingLilies: 0,
@@ -115,12 +152,12 @@ export default function MythicSummonCalculator() {
         diamonds: 0,
         milestoneShards: 0,
         totalMythicShards: 0,
-        totalPulls: currentPulls,
+        totalPulls: safeCurrentPulls,
         nextGuaranteedPull: 0,
       };
     }
 
-    const totalPulls = currentPulls + numSummons;
+    const totalPulls = safeCurrentPulls + safeNumSummons;
     const nextGuaranteedPull = 5 - (totalPulls % 5 || 5);
 
     // Calculate mythic shards with guaranteed 5th pull mechanic
@@ -130,14 +167,14 @@ export default function MythicSummonCalculator() {
     );
 
     // Count how many guaranteed pulls we get
-    const firstGuaranteedPull = 5 - (currentPulls % 5);
-    let guaranteedPulls = 0;
-
-    if (numSummons >= firstGuaranteedPull) {
-      guaranteedPulls = 1 + Math.floor((numSummons - firstGuaranteedPull) / 5);
-    }
-
-    const regularPulls = numSummons - guaranteedPulls;
+    const guaranteedPulls = calculateGuaranteedPulls(
+      safeCurrentPulls,
+      safeNumSummons
+    );
+    const regularPulls = calculateRegularPulls(
+      safeCurrentPulls,
+      safeNumSummons
+    );
 
     // Regular pulls have the normal drop rate
     const mythicShardsPerRegularSummon = calculateExpectedValue(
@@ -161,7 +198,7 @@ export default function MythicSummonCalculator() {
 
     const wishingLiliesFromRates = wishingLiliesPerSummon * regularPulls;
     const wishingLiliesBonus =
-      GUARANTEED_WISHING_LILIES_PER_SUMMON * numSummons;
+      GUARANTEED_WISHING_LILIES_PER_SUMMON * safeNumSummons;
     const totalWishingLilies = wishingLiliesFromRates + wishingLiliesBonus;
 
     return {
@@ -185,60 +222,89 @@ export default function MythicSummonCalculator() {
   // Reverse calculator
   const reverseResults = useMemo(() => {
     const requiredSummons: Record<string, number> = {};
+    const safeCurrentPulls = currentPulls ?? 0;
+
+    const mythicShardPerRegular = calculateExpectedValue(
+      MYTHIC_LUMINARY_SHARD_RATES
+    );
+    const mythicShardPerGuaranteed = calculateGuaranteedDropValue(
+      MYTHIC_LUMINARY_SHARD_RATES
+    );
+    const wishingLilyPerRegular = calculateExpectedValue(WISHING_LILY_RATES);
+    const substituteDollsPerRegular = calculateExpectedValue(
+      SUBSTITUTE_DOLL_FRAGMENT_RATES
+    );
+    const diamondsPerRegular = calculateExpectedValue(DIAMOND_RATES);
+
+    const getExpectedBySummons = (summons: number) => {
+      const regularPulls = calculateRegularPulls(safeCurrentPulls, summons);
+      const guaranteedPulls = summons - regularPulls;
+      const milestoneBonus =
+        calculateMilestoneRewards(safeCurrentPulls + summons) -
+        calculateMilestoneRewards(safeCurrentPulls);
+
+      return {
+        mythicShards:
+          mythicShardPerRegular * regularPulls +
+          mythicShardPerGuaranteed * guaranteedPulls +
+          milestoneBonus,
+        wishingLilies:
+          wishingLilyPerRegular * regularPulls +
+          GUARANTEED_WISHING_LILIES_PER_SUMMON * summons,
+        substituteDolls: substituteDollsPerRegular * regularPulls,
+        diamonds: diamondsPerRegular * regularPulls,
+      };
+    };
+
+    const findSummonsForTarget = (
+      getValue: (summons: number) => number,
+      target: number
+    ) => {
+      let low = 1;
+      let high = 1;
+
+      while (getValue(high) < target && high < 1000000) {
+        high *= 2;
+      }
+
+      while (low < high) {
+        const mid = Math.floor((low + high) / 2);
+        if (getValue(mid) >= target) {
+          high = mid;
+        } else {
+          low = mid + 1;
+        }
+      }
+
+      return low;
+    };
 
     if (targetShards && targetShards > 0) {
-      let accumulatedShards = 0;
-      let summonCount = 0;
-      while (accumulatedShards < targetShards) {
-        summonCount++;
-        const firstGuaranteedPull = 5 - (currentPulls % 5);
-        let guaranteedPulls = 0;
-        if (summonCount >= firstGuaranteedPull) {
-          guaranteedPulls =
-            1 + Math.floor((summonCount - firstGuaranteedPull) / 5);
-        }
-        const regularPulls = summonCount - guaranteedPulls;
-        const shardPerRegular = calculateExpectedValue(
-          MYTHIC_LUMINARY_SHARD_RATES
-        );
-        const shardPerGuaranteed = calculateGuaranteedDropValue(
-          MYTHIC_LUMINARY_SHARD_RATES
-        );
-        accumulatedShards =
-          shardPerRegular * regularPulls + shardPerGuaranteed * guaranteedPulls;
-        accumulatedShards +=
-          calculateMilestoneRewards(currentPulls + summonCount) -
-          calculateMilestoneRewards(currentPulls);
-      }
-      requiredSummons['Mythic Luminary Shard'] = summonCount;
+      requiredSummons['Mythic Luminary Shard'] = findSummonsForTarget(
+        (summons) => getExpectedBySummons(summons).mythicShards,
+        targetShards
+      );
     }
 
     if (targetWishingLilies && targetWishingLilies > 0) {
-      const ratePerSummon = calculateExpectedValue(WISHING_LILY_RATES);
-      const bonusPerSummon = GUARANTEED_WISHING_LILIES_PER_SUMMON;
-      const regularPullsRatio = 4 / 5;
-      const totalPerSummon = ratePerSummon * regularPullsRatio + bonusPerSummon;
-      requiredSummons['Wishing Lily'] = Math.ceil(
-        targetWishingLilies / totalPerSummon
+      requiredSummons['Wishing Lily'] = findSummonsForTarget(
+        (summons) => getExpectedBySummons(summons).wishingLilies,
+        targetWishingLilies
       );
     }
 
     if (targetSubstituteDolls && targetSubstituteDolls > 0) {
-      const ratePerSummon = calculateExpectedValue(
-        SUBSTITUTE_DOLL_FRAGMENT_RATES
-      );
-      const regularPullsRatio = 4 / 5;
-      const totalPerSummon = ratePerSummon * regularPullsRatio;
-      requiredSummons['6-Star Substitute Doll Fragment'] = Math.ceil(
-        targetSubstituteDolls / totalPerSummon
+      requiredSummons['6-Star Substitute Doll Fragment'] = findSummonsForTarget(
+        (summons) => getExpectedBySummons(summons).substituteDolls,
+        targetSubstituteDolls
       );
     }
 
     if (targetDiamonds && targetDiamonds > 0) {
-      const ratePerSummon = calculateExpectedValue(DIAMOND_RATES);
-      const regularPullsRatio = 4 / 5;
-      const totalPerSummon = ratePerSummon * regularPullsRatio;
-      requiredSummons['Diamond'] = Math.ceil(targetDiamonds / totalPerSummon);
+      requiredSummons['Diamond'] = findSummonsForTarget(
+        (summons) => getExpectedBySummons(summons).diamonds,
+        targetDiamonds
+      );
     }
 
     return requiredSummons;
@@ -282,8 +348,8 @@ export default function MythicSummonCalculator() {
             <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }} spacing="md">
               <NumberInput
                 label="Target Mythic Luminary Shards"
-                value={targetShards || ''}
-                onChange={(val) => setTargetShards(val ? Number(val) : null)}
+                value={targetShards ?? ''}
+                onChange={(val) => setTargetShards(parseNumberInput(val))}
                 min={0}
                 max={1000}
                 placeholder="Leave empty to skip"
@@ -291,9 +357,9 @@ export default function MythicSummonCalculator() {
               />
               <NumberInput
                 label="Target Wishing Lilies"
-                value={targetWishingLilies || ''}
+                value={targetWishingLilies ?? ''}
                 onChange={(val) =>
-                  setTargetWishingLilies(val ? Number(val) : null)
+                  setTargetWishingLilies(parseNumberInput(val))
                 }
                 min={0}
                 max={100000}
@@ -302,9 +368,9 @@ export default function MythicSummonCalculator() {
               />
               <NumberInput
                 label="Target Substitute Doll Fragments"
-                value={targetSubstituteDolls || ''}
+                value={targetSubstituteDolls ?? ''}
                 onChange={(val) =>
-                  setTargetSubstituteDolls(val ? Number(val) : null)
+                  setTargetSubstituteDolls(parseNumberInput(val))
                 }
                 min={0}
                 max={10000}
@@ -313,8 +379,8 @@ export default function MythicSummonCalculator() {
               />
               <NumberInput
                 label="Target Diamonds"
-                value={targetDiamonds || ''}
-                onChange={(val) => setTargetDiamonds(val ? Number(val) : null)}
+                value={targetDiamonds ?? ''}
+                onChange={(val) => setTargetDiamonds(parseNumberInput(val))}
                 min={0}
                 max={1000000}
                 placeholder="Leave empty to skip"
@@ -332,7 +398,7 @@ export default function MythicSummonCalculator() {
                         <strong>{summons}</strong> summons
                       </Text>
                       <Text size="xs" c="dimmed">
-                        {currentPulls + summons} total
+                        {(currentPulls ?? 0) + summons} total
                       </Text>
                     </Group>
                   </Alert>
@@ -355,8 +421,8 @@ export default function MythicSummonCalculator() {
               <NumberInput
                 label="Current Pulls"
                 description="How many pulls you've already done"
-                value={currentPulls}
-                onChange={(val) => setCurrentPulls(Number(val) || 0)}
+                value={currentPulls ?? ''}
+                onChange={(val) => setCurrentPulls(parseNumberInput(val))}
                 min={0}
                 max={10000}
                 placeholder="0"
@@ -365,8 +431,8 @@ export default function MythicSummonCalculator() {
               <NumberInput
                 label="Number of Summons"
                 description="How many summons you plan to do"
-                value={numSummons}
-                onChange={(val) => setNumSummons(Number(val) || 0)}
+                value={numSummons ?? ''}
+                onChange={(val) => setNumSummons(parseNumberInput(val))}
                 min={1}
                 max={10000}
                 placeholder="100"
@@ -391,40 +457,61 @@ export default function MythicSummonCalculator() {
           </Stack>
         </Card>
 
-        <Title order={3}>Expected Rewards</Title>
+        <Card withBorder radius="md" p="lg">
+          <Stack gap="md">
+            <Title order={3}>Expected Rewards</Title>
+            <Text size="sm" c="dimmed">
+              Average rewards from your selected summons.
+            </Text>
 
-        <SimpleGrid cols={{ base: 1, xs: 2, md: 4 }} spacing="md">
-          <StatCard
-            icon={<IoStar />}
-            title="Mythic Luminary Shards"
-            value={results.totalMythicShards.toFixed(1)}
-            color="violet"
-            subtitle={`${results.mythicShards.toFixed(1)} drops + ${results.milestoneShards} milestone`}
-            resourceName="Mythic Luminary Shard"
-          />
-          <StatCard
-            icon={<IoSparkles />}
-            title="Wishing Lilies"
-            value={results.wishingLilies.toFixed(1)}
-            color="pink"
-            subtitle={`${results.wishingLiliesFromRates.toFixed(1)} drops + ${results.wishingLiliesBonus.toFixed(0)} bonus`}
-            resourceName="Wishing Lily"
-          />
-          <StatCard
-            icon={<IoSparkles />}
-            title="6-Star Substitute Doll Fragments"
-            value={results.substituteDollFragments.toFixed(1)}
-            color="cyan"
-            resourceName="6-Star Substitute Doll Fragment"
-          />
-          <StatCard
-            icon={<IoDiamond />}
-            title="Diamonds"
-            value={results.diamonds.toFixed(1)}
-            color="yellow"
-            resourceName="Diamond"
-          />
-        </SimpleGrid>
+            <SimpleGrid cols={{ base: 1, sm: 2, xl: 4 }} spacing="lg">
+              <StatCard
+                icon={<IoStar />}
+                title="Mythic Luminary Shards"
+                value={results.totalMythicShards.toFixed(1)}
+                color="violet"
+                subtitle={`${results.mythicShards.toFixed(1)} drops + ${results.milestoneShards} milestone`}
+                resourceName="Mythic Luminary Shard"
+                showIcon={false}
+                showTitle={false}
+                showResourceQuantity={false}
+              />
+              <StatCard
+                icon={<IoSparkles />}
+                title="Wishing Lilies"
+                value={results.wishingLilies.toFixed(1)}
+                color="pink"
+                subtitle={`${results.wishingLiliesFromRates.toFixed(1)} drops + ${results.wishingLiliesBonus.toFixed(0)} bonus`}
+                resourceName="Wishing Lily"
+                showIcon={false}
+                showTitle={false}
+                showResourceQuantity={false}
+              />
+              <StatCard
+                icon={<IoSparkles />}
+                title="6-Star Substitute Doll Fragments"
+                value={results.substituteDollFragments.toFixed(1)}
+                color="cyan"
+                subtitle="From regular-pull drop rates"
+                resourceName="6-Star Substitute Doll Fragment"
+                showIcon={false}
+                showTitle={false}
+                showResourceQuantity={false}
+              />
+              <StatCard
+                icon={<IoDiamond />}
+                title="Diamonds"
+                value={results.diamonds.toFixed(1)}
+                color="yellow"
+                subtitle="From regular-pull drop rates"
+                resourceName="Diamond"
+                showIcon={false}
+                showTitle={false}
+                showResourceQuantity={false}
+              />
+            </SimpleGrid>
+          </Stack>
+        </Card>
 
         {nextMilestone && (
           <Alert variant="light" color="violet" icon={<IoStar />}>
@@ -640,7 +727,7 @@ export default function MythicSummonCalculator() {
                     (sum, m) => sum + m.shards,
                     0
                   );
-                  const isReached = numSummons >= milestone.summons;
+                  const isReached = results.totalPulls >= milestone.summons;
                   return (
                     <Table.Tr
                       key={idx}
