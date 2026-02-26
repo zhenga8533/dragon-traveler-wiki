@@ -692,9 +692,7 @@ export default function CharacterPage() {
                             key={subclass}
                             label={tooltipLabel}
                             multiline
-                            withArrow
-                            openDelay={120}
-                            closeDelay={400}
+                            {...tooltipProps}
                             maw={300}
                             styles={DETAIL_TOOLTIP_STYLES}
                           >

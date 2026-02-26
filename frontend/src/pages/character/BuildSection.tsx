@@ -12,19 +12,20 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
+import { RiDoubleQuotesL } from 'react-icons/ri';
+import { Link } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
 import GearTypeTag from '../../components/common/GearTypeTag';
-import { DETAIL_TOOLTIP_STYLES, RICH_TOOLTIP_STYLES } from '../../constants/styles';
 import QualityBadge from '../../components/common/QualityBadge';
 import RichText from '../../components/common/RichText';
+import {
+  DETAIL_TOOLTIP_STYLES,
+  RICH_TOOLTIP_STYLES,
+} from '../../constants/styles';
 import type { Character, RecommendedGearEntry } from '../../types/character';
 import type { GearSetBonus } from '../../types/gear';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
-import { RiDoubleQuotesL } from 'react-icons/ri';
-import { Link } from 'react-router-dom';
-
-
 
 type RecommendedSubclassEntry = {
   name: string;
@@ -108,11 +109,7 @@ export default function CharacterPageBuildSection({
                     <RiDoubleQuotesL />
                   </Box>
                   <Stack gap={4}>
-                    <Text
-                      fs="italic"
-                      size="sm"
-                      style={{ lineHeight: 1.7 }}
-                    >
+                    <Text fs="italic" size="sm" style={{ lineHeight: 1.7 }}>
                       "{character.quote}"
                     </Text>
                     <Text size="xs" c="dimmed">
@@ -179,11 +176,7 @@ export default function CharacterPageBuildSection({
                                   />
                                 </Box>
                               )}
-                              <Badge
-                                variant="light"
-                                color="grape"
-                                size="lg"
-                              >
+                              <Badge variant="light" color="grape" size="lg">
                                 {linkedNoblePhantasm.name}
                               </Badge>
                             </Group>
@@ -247,20 +240,12 @@ export default function CharacterPageBuildSection({
                         </Text>
                         <Group gap={6} wrap="wrap">
                           {typeof entry.tier === 'number' && (
-                            <Badge
-                              variant="light"
-                              color="grape"
-                              size="xs"
-                            >
+                            <Badge variant="light" color="grape" size="xs">
                               Tier {entry.tier}
                             </Badge>
                           )}
                           {entry.className && (
-                            <Badge
-                              variant="light"
-                              color="blue"
-                              size="xs"
-                            >
+                            <Badge variant="light" color="blue" size="xs">
                               {entry.className}
                             </Badge>
                           )}
@@ -287,17 +272,11 @@ export default function CharacterPageBuildSection({
                         key={entry.name}
                         label={tooltipLabel}
                         multiline
-                        withArrow
-                        openDelay={120}
                         maw={300}
                         styles={DETAIL_TOOLTIP_STYLES}
                       >
                         <Paper p="sm" radius="md" withBorder>
-                          <Group
-                            gap="sm"
-                            align="flex-start"
-                            wrap="nowrap"
-                          >
+                          <Group gap="sm" align="flex-start" wrap="nowrap">
                             {entry.icon && (
                               <Center
                                 style={{
@@ -335,21 +314,13 @@ export default function CharacterPageBuildSection({
                                   </Badge>
                                 )}
                                 {entry.className && (
-                                  <Badge
-                                    variant="light"
-                                    color="blue"
-                                    size="xs"
-                                  >
+                                  <Badge variant="light" color="blue" size="xs">
                                     {entry.className}
                                   </Badge>
                                 )}
                               </Group>
                               {entry.bonuses.length > 0 && (
-                                <Text
-                                  size="xs"
-                                  c="dimmed"
-                                  lineClamp={2}
-                                >
+                                <Text size="xs" c="dimmed" lineClamp={2}>
                                   Bonuses: {entry.bonuses.join(', ')}
                                 </Text>
                               )}
@@ -368,10 +339,7 @@ export default function CharacterPageBuildSection({
                 <Text fw={600} size="sm">
                   Recommended Gear
                 </Text>
-                <SimpleGrid
-                  cols={{ base: 1, sm: 2, lg: 3 }}
-                  spacing="sm"
-                >
+                <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="sm">
                   {recommendedGearDetails.map((entry) => {
                     const statsEntries = entry.stats
                       ? Object.entries(entry.stats).filter(
@@ -404,16 +372,15 @@ export default function CharacterPageBuildSection({
                             {(entry.setName || entry.quality) && (
                               <Group gap={4} wrap="wrap">
                                 {entry.setName && (
-                                  <Badge
-                                    variant="light"
-                                    color="blue"
-                                    size="xs"
-                                  >
+                                  <Badge variant="light" color="blue" size="xs">
                                     {entry.setName} Set
                                   </Badge>
                                 )}
                                 {entry.quality && (
-                                  <QualityBadge quality={entry.quality} size="xs" />
+                                  <QualityBadge
+                                    quality={entry.quality}
+                                    size="xs"
+                                  />
                                 )}
                               </Group>
                             )}
@@ -430,14 +397,10 @@ export default function CharacterPageBuildSection({
                                 size="xs"
                                 w="fit-content"
                               >
-                                Set Bonus: {entry.setBonus.quantity}{' '}
-                                Piece
+                                Set Bonus: {entry.setBonus.quantity} Piece
                                 {entry.setBonus.quantity > 1 ? 's' : ''}
                               </Badge>
-                              <Text
-                                size="xs"
-                                style={{ lineHeight: 1.35 }}
-                              >
+                              <Text size="xs" style={{ lineHeight: 1.35 }}>
                                 {entry.setBonus.description}
                               </Text>
                             </Stack>
@@ -448,18 +411,16 @@ export default function CharacterPageBuildSection({
                               Stats
                             </Text>
                             <Group gap={6} wrap="wrap">
-                              {statsEntries.map(
-                                ([statName, statValue]) => (
-                                  <Badge
-                                    key={`${entry.slot}-${statName}`}
-                                    variant="light"
-                                    color="indigo"
-                                    size="xs"
-                                  >
-                                    {statName}: {String(statValue)}
-                                  </Badge>
-                                )
-                              )}
+                              {statsEntries.map(([statName, statValue]) => (
+                                <Badge
+                                  key={`${entry.slot}-${statName}`}
+                                  variant="light"
+                                  color="indigo"
+                                  size="xs"
+                                >
+                                  {statName}: {String(statValue)}
+                                </Badge>
+                              ))}
                             </Group>
                           </Stack>
                         )}
@@ -468,10 +429,7 @@ export default function CharacterPageBuildSection({
                             <Text size="xs" c="dimmed" fw={600}>
                               Lore
                             </Text>
-                            <Text
-                              size="xs"
-                              style={{ lineHeight: 1.35 }}
-                            >
+                            <Text size="xs" style={{ lineHeight: 1.35 }}>
                               {entry.lore}
                             </Text>
                           </Stack>
@@ -484,8 +442,6 @@ export default function CharacterPageBuildSection({
                         key={entry.slot}
                         label={tooltipLabel}
                         multiline
-                        withArrow
-                        openDelay={120}
                         maw={340}
                         styles={RICH_TOOLTIP_STYLES}
                       >
@@ -532,18 +488,13 @@ export default function CharacterPageBuildSection({
                   {activatedSetBonuses.map((setBonus) => {
                     const tooltipLabel = (
                       <Stack gap="xs">
-                        <Text
-                          fw={700}
-                          size="sm"
-                          style={{ lineHeight: 1.25 }}
-                        >
+                        <Text fw={700} size="sm" style={{ lineHeight: 1.25 }}>
                           {setBonus.setName} Set
                         </Text>
                         <Divider />
                         <Group gap={6} wrap="wrap">
                           <Badge variant="light" color="gray" size="xs">
-                            Pieces: {setBonus.pieces}/
-                            {setBonus.requiredPieces}
+                            Pieces: {setBonus.pieces}/{setBonus.requiredPieces}
                           </Badge>
                           <Badge variant="light" color="teal" size="xs">
                             Activations: ×{setBonus.activations}
@@ -565,8 +516,6 @@ export default function CharacterPageBuildSection({
                         key={setBonus.setName}
                         label={tooltipLabel}
                         multiline
-                        withArrow
-                        openDelay={120}
                         maw={320}
                         styles={RICH_TOOLTIP_STYLES}
                       >
@@ -576,17 +525,12 @@ export default function CharacterPageBuildSection({
                               <Text fw={600} size="sm" truncate>
                                 {setBonus.setName}
                               </Text>
-                              <Badge
-                                variant="filled"
-                                color="teal"
-                                size="xs"
-                              >
+                              <Badge variant="filled" color="teal" size="xs">
                                 ×{setBonus.activations}
                               </Badge>
                             </Group>
                             <Text size="xs" c="dimmed">
-                              {setBonus.pieces}/
-                              {setBonus.requiredPieces} pieces
+                              {setBonus.pieces}/{setBonus.requiredPieces} pieces
                             </Text>
                             <Text size="xs" c="dimmed" lineClamp={2}>
                               {setBonus.description}

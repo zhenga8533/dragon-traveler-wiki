@@ -92,5 +92,13 @@ export const theme = createTheme({
         radius: 'md',
       },
     },
+    Tooltip: {
+      defaultProps: {
+        position: 'top',
+        withArrow: true,
+        openDelay: 120,
+        closeDelay: 120,
+      },
+    },
   },
 });

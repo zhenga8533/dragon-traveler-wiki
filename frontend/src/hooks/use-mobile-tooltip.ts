@@ -14,21 +14,21 @@ export function useMobileTooltip() {
         'maxTouchPoints' in navigator &&
         navigator.maxTouchPoints > 0));
 
-  // On mobile/touch devices, keep tooltip open longer and add delay for user interaction
+  // On mobile/touch devices, open quickly and stay visible a bit longer.
   if (isMobile || isTouchDevice) {
     return {
-      openDelay: 100,
-      closeDelay: 400,
+      openDelay: 80,
+      closeDelay: 260,
       withArrow: true,
       position: 'top' as const,
     };
   }
 
-  // Desktop behavior - standard hover
+  // Desktop behavior - quick feedback without the old lag.
   return {
-    openDelay: 500,
-    closeDelay: 100,
-    withArrow: false,
+    openDelay: 120,
+    closeDelay: 120,
+    withArrow: true,
     position: 'top' as const,
   };
 }
