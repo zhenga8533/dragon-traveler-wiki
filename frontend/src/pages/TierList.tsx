@@ -272,27 +272,32 @@ export default function TierList() {
                         >
                           <Stack gap="md">
                             <Group justify="space-between" align="flex-start">
-                              <Group gap="xs" wrap="wrap">
-                                <Badge variant="light" size="sm">
-                                  {normalizeContentType(
-                                    tierList.content_type,
-                                    'All'
+                              <Stack gap={0}>
+                                <Group gap="xs" wrap="wrap">
+                                  <Badge variant="light" size="sm">
+                                    {normalizeContentType(
+                                      tierList.content_type,
+                                      'All'
+                                    )}
+                                  </Badge>
+                                  <Text size="sm" c="dimmed">
+                                    By {tierList.author}
+                                  </Text>
+                                  {tierList.description && (
+                                    <>
+                                      <Text size="sm" c="dimmed">
+                                        •
+                                      </Text>
+                                      <Text size="sm" c="dimmed">
+                                        {tierList.description}
+                                      </Text>
+                                    </>
                                   )}
-                                </Badge>
-                                <Text size="sm" c="dimmed">
-                                  By {tierList.author}
-                                </Text>
-                                {tierList.description && (
-                                  <>
-                                    <Text size="sm" c="dimmed">
-                                      •
-                                    </Text>
-                                    <Text size="sm" c="dimmed">
-                                      {tierList.description}
-                                    </Text>
-                                  </>
-                                )}
-                              </Group>
+                                </Group>
+                                <LastUpdated
+                                  timestamp={tierList.last_updated}
+                                />
+                              </Stack>
                               <Button
                                 variant="light"
                                 size="sm"
