@@ -28,22 +28,6 @@ from .sort_keys import FILE_SORT_KEY
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
 
-# Files that carry last_updated timestamps on their entries.
-TIMESTAMPED_FILES = {
-    "artifacts.json",
-    "wyrmspells.json",
-    "noble_phantasm.json",
-    "resources.json",
-    "characters.json",
-    "subclasses.json",
-    "howlkins.json",
-    "golden_alliances.json",
-    "gear.json",
-    "gear_sets.json",
-    "teams.json",
-    "changelog.json",
-}
-
 # Identity key used to match entries across current vs. committed versions.
 IDENTITY_KEY: dict[str, str] = {
     "changelog.json": "version",
@@ -58,6 +42,10 @@ def _identity_key(filename: str) -> str:
 
 def _without_timestamp(entry: dict) -> dict:
     return {k: v for k, v in entry.items() if k != "last_updated"}
+
+
+def _has_any_object_entries(entries: list) -> bool:
+    return any(isinstance(entry, dict) for entry in entries)
 
 
 def _load_committed(filename: str) -> dict[str, dict]:
@@ -81,7 +69,15 @@ def _load_committed(filename: str) -> dict[str, dict]:
         return {}
 
     key = _identity_key(filename)
-    return {entry.get(key): entry for entry in entries if isinstance(entry, dict)}
+    committed: dict[str, dict] = {}
+    for entry in entries:
+        if not isinstance(entry, dict):
+            continue
+        identity = entry.get(key)
+        if identity is None:
+            continue
+        committed[identity] = entry
+    return committed
 
 
 def _resolve_targets(files: list[str]) -> list[str]:
@@ -97,6 +93,7 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
         "filename": filename,
         "exists": False,
         "sorted": False,
+        "timestamped": False,
         "bumped": 0,
         "skipped_unchanged": 0,
     }
@@ -115,7 +112,10 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
             f.write("\n")
         return result
 
-    if do_timestamps and filename in TIMESTAMPED_FILES:
+    should_timestamp = do_timestamps and _has_any_object_entries(entries)
+
+    if should_timestamp:
+        result["timestamped"] = True
         committed = _load_committed(filename)
         id_key = _identity_key(filename)
 
@@ -124,7 +124,7 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
                 continue
 
             identity = entry.get(id_key)
-            committed_entry = committed.get(identity)
+            committed_entry = committed.get(identity) if identity is not None else None
 
             if committed_entry is None:
                 changed = True
@@ -208,7 +208,7 @@ def run(argv: list[str] | None = None) -> int:
         parts = []
         if result["sorted"]:
             parts.append("sorted")
-        if do_timestamps and filename in TIMESTAMPED_FILES:
+        if result["timestamped"]:
             parts.append(f"bumped {result['bumped']}")
             if result["skipped_unchanged"]:
                 parts.append(f"skipped {result['skipped_unchanged']} unchanged")
