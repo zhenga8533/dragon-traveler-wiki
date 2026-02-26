@@ -11,7 +11,7 @@ import {
   useComputedColorScheme,
   useMantineColorScheme,
 } from '@mantine/core';
-import { useDisclosure, useHotkeys, useMediaQuery } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useContext, useMemo } from 'react';
 import {
   IoChevronBack,
@@ -19,7 +19,7 @@ import {
   IoMoon,
   IoSunny,
 } from 'react-icons/io5';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { normalizeContentType } from '../../constants/content-types';
 import { getGlassStyles } from '../../constants/glass';
 import {
@@ -39,7 +39,6 @@ import { TierListReferenceContext } from '../../contexts';
 import { useSidebar } from '../../hooks';
 import AppRoutes from '../../routes/AppRoutes';
 import ErrorBoundary from '../common/ErrorBoundary';
-import KeyboardShortcuts from '../tools/KeyboardShortcuts';
 import KonamiEasterEgg from '../tools/KonamiEasterEgg';
 import SearchModal from '../tools/SearchModal';
 import Footer from './Footer';
@@ -65,21 +64,11 @@ function ThemeToggle() {
 export default function AppLayout() {
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
     useDisclosure();
-  const [shortcutsOpened, { open: openShortcuts, close: closeShortcuts }] =
-    useDisclosure();
   const sidebar = useSidebar();
-  const navigate = useNavigate();
   const isDark = useComputedColorScheme('light') === 'dark';
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);
-
-  useHotkeys([
-    ['shift+/', openShortcuts],
-    ['g+h', () => navigate('/')],
-    ['g+c', () => navigate('/characters')],
-    ['g+t', () => navigate('/tier-list')],
-  ]);
 
   const glassStyles = getGlassStyles(isDark);
   const tierListOptions = useMemo(
@@ -223,7 +212,6 @@ export default function AppLayout() {
       </AppShell.Main>
 
       <ScrollToTop />
-      <KeyboardShortcuts opened={shortcutsOpened} onClose={closeShortcuts} />
       <KonamiEasterEgg />
     </AppShell>
   );

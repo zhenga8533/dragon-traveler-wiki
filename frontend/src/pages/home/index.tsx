@@ -275,6 +275,7 @@ export default function Home() {
                 </Group>
                 <Group gap="xs" justify="center">
                   <SearchModal
+                    enableHotkeys={false}
                     trigger={({ open }) => (
                       <Button
                         onClick={open}
@@ -291,14 +292,9 @@ export default function Home() {
                   />
                   <Group gap={4} visibleFrom="sm">
                     <Text size="xs" style={HOME_HERO_META_TEXT_STYLE}>
-                      or press
+                      press
                     </Text>
                     <Kbd size="xs">/</Kbd>
-                    <Text size="xs" style={HOME_HERO_META_TEXT_STYLE}>
-                      or
-                    </Text>
-                    <Kbd size="xs">Ctrl</Kbd>
-                    <Kbd size="xs">K</Kbd>
                   </Group>
                 </Group>
               </Stack>

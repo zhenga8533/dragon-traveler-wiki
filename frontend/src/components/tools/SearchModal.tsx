@@ -7,6 +7,7 @@ import {
   Stack,
   Text,
   TextInput,
+  Tooltip,
   UnstyledButton,
 } from '@mantine/core';
 import { useDebouncedValue, useDisclosure, useHotkeys } from '@mantine/hooks';
@@ -156,9 +157,13 @@ const CATEGORY_LABELS: Record<SearchResult['type'], string> = {
 
 interface SearchModalProps {
   trigger?: (props: { open: () => void }) => ReactNode;
+  enableHotkeys?: boolean;
 }
 
-export default function SearchModal({ trigger }: SearchModalProps) {
+export default function SearchModal({
+  trigger,
+  enableHotkeys = true,
+}: SearchModalProps) {
   const [opened, { open, close }] = useDisclosure(false);
   const [query, setQuery] = useState('');
   const [debouncedQuery] = useDebouncedValue(query, 150);
@@ -180,16 +185,21 @@ export default function SearchModal({ trigger }: SearchModalProps) {
     tierLists,
   } = useContext(SearchDataContext);
 
-  useHotkeys([
-    ['mod+K', open],
-    [
-      '/',
-      (e) => {
-        e.preventDefault();
-        open();
-      },
-    ],
-  ]);
+  const searchShortcutHint = 'Search (/)';
+
+  useHotkeys(
+    enableHotkeys
+      ? [
+          [
+            '/',
+            (e) => {
+              e.preventDefault();
+              open();
+            },
+          ],
+        ]
+      : []
+  );
 
   const searchResults = useMemo(() => {
     if (!debouncedQuery.trim()) return [];
@@ -529,14 +539,16 @@ export default function SearchModal({ trigger }: SearchModalProps) {
       {trigger ? (
         trigger({ open })
       ) : (
-        <ActionIcon
-          variant="subtle"
-          size="lg"
-          onClick={open}
-          aria-label="Search"
-        >
-          <IoSearch size={18} />
-        </ActionIcon>
+        <Tooltip label={searchShortcutHint} position="bottom" withArrow>
+          <ActionIcon
+            variant="subtle"
+            size="lg"
+            onClick={open}
+            aria-label={searchShortcutHint}
+          >
+            <IoSearch size={18} />
+          </ActionIcon>
+        </Tooltip>
       )}
 
       <Modal
@@ -590,7 +602,7 @@ export default function SearchModal({ trigger }: SearchModalProps) {
                     <IoClose size={16} />
                   </ActionIcon>
                 ) : (
-                  <Kbd size="sm">⌘K</Kbd>
+                  <Kbd size="sm">/</Kbd>
                 )
               }
               styles={{
@@ -633,53 +645,53 @@ export default function SearchModal({ trigger }: SearchModalProps) {
                         {CATEGORY_LABELS[result.type]}
                       </Text>
                     )}
-                  <UnstyledButton
-                    onClick={() => handleSelect(result)}
-                    onMouseEnter={() => setSelectedIndex(index)}
-                    p="md"
-                    style={{
-                      display: 'block',
-                      width: '100%',
-                      backgroundColor: isSelected
-                        ? 'var(--mantine-color-default-hover)'
-                        : 'transparent',
-                      transition: `background-color ${TRANSITION.FAST}`,
-                    }}
-                  >
-                    <Group wrap="nowrap" gap="md">
-                      <Box
-                        style={{
-                          width: 36,
-                          height: 36,
-                          borderRadius: '8px',
-                          display: 'flex',
-                          alignItems: 'center',
-                          justifyContent: 'center',
-                          backgroundColor: `var(--mantine-color-${result.color}-1)`,
-                        }}
-                      >
-                        <Icon
-                          size={20}
-                          color={`var(--mantine-color-${result.color}-6)`}
-                        />
-                      </Box>
-                      <div style={{ flex: 1, minWidth: 0 }}>
-                        <Text size="sm" fw={500} truncate>
-                          {result.title}
-                        </Text>
-                        {result.subtitle && (
-                          <Text size="xs" c="dimmed" truncate>
-                            {result.subtitle}
+                    <UnstyledButton
+                      onClick={() => handleSelect(result)}
+                      onMouseEnter={() => setSelectedIndex(index)}
+                      p="md"
+                      style={{
+                        display: 'block',
+                        width: '100%',
+                        backgroundColor: isSelected
+                          ? 'var(--mantine-color-default-hover)'
+                          : 'transparent',
+                        transition: `background-color ${TRANSITION.FAST}`,
+                      }}
+                    >
+                      <Group wrap="nowrap" gap="md">
+                        <Box
+                          style={{
+                            width: 36,
+                            height: 36,
+                            borderRadius: '8px',
+                            display: 'flex',
+                            alignItems: 'center',
+                            justifyContent: 'center',
+                            backgroundColor: `var(--mantine-color-${result.color}-1)`,
+                          }}
+                        >
+                          <Icon
+                            size={20}
+                            color={`var(--mantine-color-${result.color}-6)`}
+                          />
+                        </Box>
+                        <div style={{ flex: 1, minWidth: 0 }}>
+                          <Text size="sm" fw={500} truncate>
+                            {result.title}
+                          </Text>
+                          {result.subtitle && (
+                            <Text size="xs" c="dimmed" truncate>
+                              {result.subtitle}
+                            </Text>
+                          )}
+                        </div>
+                        {isSelected && (
+                          <Text size="xs" c="dimmed">
+                            <Kbd size="xs">↵</Kbd>
                           </Text>
                         )}
-                      </div>
-                      {isSelected && (
-                        <Text size="xs" c="dimmed">
-                          <Kbd size="xs">↵</Kbd>
-                        </Text>
-                      )}
-                    </Group>
-                  </UnstyledButton>
+                      </Group>
+                    </UnstyledButton>
                   </Fragment>
                 );
               })}
