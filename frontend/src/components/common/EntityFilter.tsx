@@ -1,7 +1,7 @@
 import { Button, Chip, Group, Stack, Text, TextInput } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
-import { IMAGE_SIZE } from '../constants/ui';
+import { IMAGE_SIZE } from '../../constants/ui';
 
 export interface ChipFilterGroup {
   key: string;
