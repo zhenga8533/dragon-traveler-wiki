@@ -20,7 +20,6 @@ import {
   IoClose,
   IoOpenOutline,
 } from 'react-icons/io5';
-import { CLASS_ICON_MAP } from '../../assets/class';
 import { FACTION_ICON_MAP } from '../../assets/faction';
 import { GEAR_TYPE_ICON_MAP } from '../../assets/gear';
 import { QUALITY_ICON_MAP } from '../../assets/quality';
@@ -99,7 +98,6 @@ function isValidUrl(value: string): boolean {
 
 const AUTO_OPTION_ICON_MAP: Record<string, string> = {
   ...QUALITY_ICON_MAP,
-  ...CLASS_ICON_MAP,
   ...FACTION_ICON_MAP,
   ...GEAR_TYPE_ICON_MAP,
 };

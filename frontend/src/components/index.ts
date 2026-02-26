@@ -3,36 +3,39 @@ export { default as CharacterCard } from './character/CharacterCard';
 export { default as CharacterFilter } from './character/CharacterFilter';
 export { default as CharacterList } from './character/CharacterList';
 export { default as CharacterTag } from './character/CharacterTag';
-export { default as ClassLabel } from './common/ClassLabel';
+export { default as FilterableCharacterPool } from './character/FilterableCharacterPool';
+export { default as ClassTag } from './common/ClassTag';
 export { default as DataFetchError } from './common/DataFetchError';
 export { default as EmptyState } from './common/EmptyState';
-export { default as EntityFilter } from './EntityFilter';
-export { default as FilterableCharacterPool } from './character/FilterableCharacterPool';
-export { default as FilterToolbar } from './layout/FilterToolbar';
-export { default as Footer } from './layout/Footer';
 export { default as GlobalBadge } from './common/GlobalBadge';
 export { default as HowlkinBadge } from './common/HowlkinBadge';
 export { default as HowlkinStats } from './common/HowlkinStats';
 export { default as InlineMarkup } from './common/InlineMarkup';
-export { default as KeyboardShortcuts } from './tools/KeyboardShortcuts';
 export { default as LastUpdated } from './common/LastUpdated';
-export { default as ListPageShell } from './layout/ListPageShell';
-export { DetailPageLoading, ListPageLoading } from './layout/PageLoadingSkeleton';
 export { default as PaginationControl } from './common/PaginationControl';
 export { default as QualityIcon } from './common/QualityIcon';
 export { renderQualityFilterIcon } from './common/renderQualityFilterIcon';
 export { default as ResourceBadge } from './common/ResourceBadge';
 export { default as RichText } from './common/RichText';
-export { default as SearchModal } from './tools/SearchModal';
 export { default as SortableTh } from './common/SortableTh';
 export { default as StatusEffectBadge } from './common/StatusEffectBadge';
+export { default as ViewToggle } from './common/ViewToggle';
+export { default as WyrmspellCard } from './common/WyrmspellCard';
+export { default as EntityFilter } from './EntityFilter';
+export { default as FilterToolbar } from './layout/FilterToolbar';
+export { default as Footer } from './layout/Footer';
+export { default as ListPageShell } from './layout/ListPageShell';
+export {
+  DetailPageLoading,
+  ListPageLoading,
+} from './layout/PageLoadingSkeleton';
+export { default as KeyboardShortcuts } from './tools/KeyboardShortcuts';
+export { default as SearchModal } from './tools/SearchModal';
 export { default as SuggestModal } from './tools/SuggestModal';
 export { default as TeamBuilder } from './tools/TeamBuilder';
 export { default as TierListBuilder } from './tools/TierListBuilder';
-export { default as ViewToggle } from './common/ViewToggle';
-export { default as WyrmspellCard } from './common/WyrmspellCard';
 
 // Re-export component props
 export type { CharacterFilterProps } from './character/CharacterFilter';
-export type { ChipFilterGroup, EntityFilterProps } from './EntityFilter';
 export type { RichTextProps } from './common/RichText';
+export type { ChipFilterGroup, EntityFilterProps } from './EntityFilter';

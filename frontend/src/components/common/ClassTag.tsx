@@ -13,7 +13,9 @@ export default function ClassTag({
   size = 'sm',
   showIcon = true,
 }: ClassTagProps) {
-  const icon = (CLASS_ICON_MAP as Record<string, string | undefined>)[characterClass];
+  const icon = (CLASS_ICON_MAP as Record<string, string | undefined>)[
+    characterClass
+  ];
 
   return (
     <Badge
@@ -21,7 +23,14 @@ export default function ClassTag({
       size={size}
       leftSection={
         showIcon && icon ? (
-          <Image src={icon} alt={characterClass} w={12} h={12} fit="contain" loading="lazy" />
+          <Image
+            src={icon}
+            alt={characterClass}
+            w={12}
+            h={12}
+            fit="contain"
+            loading="lazy"
+          />
         ) : undefined
       }
     >

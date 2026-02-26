@@ -10,13 +10,13 @@ import {
   Title,
 } from '@mantine/core';
 import type { CharacterIllustration } from '../../assets/character';
-import Breadcrumbs from '../../components/layout/Breadcrumbs';
-import ClassLabel from '../../components/common/ClassLabel';
+import ClassTag from '../../components/common/ClassTag';
 import FactionTag from '../../components/common/FactionTag';
-import QualityIcon from '../../components/common/QualityIcon';
 import GlobalBadge from '../../components/common/GlobalBadge';
 import LastUpdated from '../../components/common/LastUpdated';
+import QualityIcon from '../../components/common/QualityIcon';
 import TierBadge from '../../components/common/TierBadge';
+import Breadcrumbs from '../../components/layout/Breadcrumbs';
 import { QUALITY_COLOR } from '../../constants/colors';
 import { CHARACTER_HERO } from '../../constants/ui';
 import type { Character } from '../../types/character';
@@ -99,11 +99,7 @@ export default function CharacterPageHeroSection({
       )}
 
       {/* Content overlay */}
-      <Container
-        size="lg"
-        style={{ position: 'relative', zIndex: 1 }}
-        py="xl"
-      >
+      <Container size="lg" style={{ position: 'relative', zIndex: 1 }} py="xl">
         <Grid gutter="xl" align="center">
           {/* Portrait */}
           <Grid.Col span={{ base: 12, sm: 'content' }}>
@@ -158,11 +154,9 @@ export default function CharacterPageHeroSection({
               <Group gap="lg">
                 <QualityIcon quality={character.quality} size={24} />
 
-                {tierLabel && (
-                  <TierBadge tier={tierLabel} size="lg" />
-                )}
+                {tierLabel && <TierBadge tier={tierLabel} size="lg" />}
 
-                <ClassLabel characterClass={character.character_class} />
+                <ClassTag characterClass={character.character_class} />
               </Group>
 
               <Group gap="sm">
@@ -197,8 +191,7 @@ export default function CharacterPageHeroSection({
           bottom: 0,
           left: 0,
           right: 0,
-          background:
-            'linear-gradient(transparent, var(--mantine-color-body))',
+          background: 'linear-gradient(transparent, var(--mantine-color-body))',
           height: 100,
           pointerEvents: 'none',
         }}

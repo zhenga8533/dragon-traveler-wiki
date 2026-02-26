@@ -7,14 +7,12 @@ import {
   Stack,
   Table,
   Text,
-  Tooltip,
   UnstyledButton,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
-import { FACTION_ICON_MAP } from '../../assets/faction';
 import { QUALITY_BORDER_COLOR, TIER_ORDER } from '../../constants/colors';
 import {
   CURSOR_POINTER_STYLE,
@@ -41,7 +39,8 @@ import {
   extractAllEffectRefs,
   filterCharacters,
 } from '../../utils/filter-characters';
-import ClassLabel from '../common/ClassLabel';
+import ClassTag from '../common/ClassTag';
+import FactionTag from '../common/FactionTag';
 import GlobalBadge from '../common/GlobalBadge';
 import PaginationControl from '../common/PaginationControl';
 import QualityIcon from '../common/QualityIcon';
@@ -305,20 +304,16 @@ export default function CharacterList({
                       <QualityIcon quality={char.quality} />
                     </Table.Td>
                     <Table.Td>
-                      <ClassLabel characterClass={char.character_class} />
+                      <ClassTag characterClass={char.character_class} />
                     </Table.Td>
                     <Table.Td>
-                      <Group gap="xs">
+                      <Group gap={4} wrap="wrap">
                         {char.factions.map((faction) => (
-                          <Tooltip key={faction} label={faction}>
-                            <Image
-                              src={FACTION_ICON_MAP[faction]}
-                              alt={faction}
-                              w={20}
-                              h={20}
-                              fit="contain"
-                            />
-                          </Tooltip>
+                          <FactionTag
+                            key={faction}
+                            faction={faction}
+                            size="xs"
+                          />
                         ))}
                       </Group>
                     </Table.Td>

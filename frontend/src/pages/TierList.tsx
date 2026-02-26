@@ -21,7 +21,7 @@ import { IoCreate, IoFilter } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import CharacterCard from '../components/character/CharacterCard';
-import ClassLabel from '../components/common/ClassLabel';
+import ClassTag from '../components/common/ClassTag';
 import FactionTag from '../components/common/FactionTag';
 import LastUpdated from '../components/common/LastUpdated';
 import QualityIcon from '../components/common/QualityIcon';
@@ -419,12 +419,11 @@ export default function TierList() {
                                                   </Table.Td>
                                                   <Table.Td>
                                                     {char ? (
-                                                      <ClassLabel
+                                                      <ClassTag
                                                         characterClass={
                                                           char.character_class
                                                         }
-                                                        iconSize={14}
-                                                        textSize="sm"
+                                                        size="sm"
                                                       />
                                                     ) : (
                                                       <Text
@@ -553,12 +552,11 @@ export default function TierList() {
                                                 />
                                               </Table.Td>
                                               <Table.Td>
-                                                <ClassLabel
+                                                <ClassTag
                                                   characterClass={
                                                     c.character_class
                                                   }
-                                                  iconSize={14}
-                                                  textSize="sm"
+                                                  size="sm"
                                                 />
                                               </Table.Td>
                                               <Table.Td>

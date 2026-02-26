@@ -9,11 +9,14 @@ import {
   TextInput,
 } from '@mantine/core';
 import { IoClose, IoSearch } from 'react-icons/io5';
-import { CLASS_ICON_MAP } from '../../assets/class';
 import { FACTION_ICON_MAP } from '../../assets/faction';
 import { QUALITY_ICON_MAP } from '../../assets/quality';
 import { getStatusEffectIcon } from '../../assets/status_effect';
-import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER } from '../../constants/colors';
+import {
+  CLASS_ORDER,
+  FACTION_NAMES,
+  QUALITY_ORDER,
+} from '../../constants/colors';
 import { IMAGE_SIZE } from '../../constants/ui';
 import type { CharacterClass } from '../../types/character';
 import type { FactionName } from '../../types/faction';
@@ -152,16 +155,7 @@ export default function CharacterFilter({
           <Group gap={4} wrap="wrap">
             {CLASS_ORDER.map((c) => (
               <Chip key={c} value={c} size="xs">
-                <Group gap={4} wrap="nowrap" align="center">
-                  <Image
-                    src={CLASS_ICON_MAP[c]}
-                    alt={c}
-                    w={IMAGE_SIZE.ICON_SM}
-                    h={IMAGE_SIZE.ICON_SM}
-                    fit="contain"
-                  />
-                  <span>{c}</span>
-                </Group>
+                {c}
               </Chip>
             ))}
           </Group>

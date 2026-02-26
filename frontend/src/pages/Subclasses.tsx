@@ -12,17 +12,16 @@ import {
   Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { CLASS_ICON_MAP } from '../assets/class';
 import { getSubclassIcon } from '../assets/subclass';
+import ClassTag from '../components/common/ClassTag';
+import LastUpdated from '../components/common/LastUpdated';
+import RichText from '../components/common/RichText';
+import SortableTh from '../components/common/SortableTh';
+import TierBadge from '../components/common/TierBadge';
 import type { ChipFilterGroup } from '../components/EntityFilter';
 import EntityFilter from '../components/EntityFilter';
 import FilteredListShell from '../components/layout/FilteredListShell';
-import ClassLabel from '../components/common/ClassLabel';
-import LastUpdated from '../components/common/LastUpdated';
-import TierBadge from '../components/common/TierBadge';
 import ListPageShell from '../components/layout/ListPageShell';
-import RichText from '../components/common/RichText';
-import SortableTh from '../components/common/SortableTh';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { CLASS_ORDER } from '../constants/colors';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
@@ -86,19 +85,11 @@ const EMPTY_FILTERS: SubclassFilters = {
   tiers: [],
 };
 
-const renderClassFilterIcon = (value: string) => {
-  const iconSrc = CLASS_ICON_MAP[value as CharacterClass];
-  if (!iconSrc) return null;
-
-  return <Image src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
-};
-
 const FILTER_GROUPS: ChipFilterGroup[] = [
   {
     key: 'classes',
     label: 'Class',
     options: [...CLASS_ORDER],
-    icon: renderClassFilterIcon,
   },
   {
     key: 'tiers',
@@ -178,7 +169,9 @@ export default function Subclasses() {
   }, [subclasses, filters, sortCol, sortDir]);
 
   const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length, PAGE_SIZE, JSON.stringify(filters)
+    filtered.length,
+    PAGE_SIZE,
+    JSON.stringify(filters)
   );
   const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
 
@@ -268,8 +261,13 @@ export default function Subclasses() {
                           <Stack gap={2} style={{ flex: 1 }}>
                             <Text fw={600}>{item.name}</Text>
                             <Group gap="xs">
-                              <ClassLabel characterClass={item.class} iconSize={16} textSize="xs" />
-                              <TierBadge tier={String(item.tier)} showPrefix size="xs" index={item.tier - 1} />
+                              <ClassTag characterClass={item.class} size="xs" />
+                              <TierBadge
+                                tier={String(item.tier)}
+                                showPrefix
+                                size="xs"
+                                index={item.tier - 1}
+                              />
                             </Group>
                           </Stack>
                         </Group>
@@ -354,19 +352,20 @@ export default function Subclasses() {
                             </Text>
                           </Table.Td>
                           <Table.Td>
-                            <ClassLabel characterClass={item.class} iconSize={16} textSize="sm" />
+                            <ClassTag characterClass={item.class} size="sm" />
                           </Table.Td>
                           <Table.Td>
-                            <TierBadge tier={String(item.tier)} showPrefix size="sm" index={item.tier - 1} />
+                            <TierBadge
+                              tier={String(item.tier)}
+                              showPrefix
+                              size="sm"
+                              index={item.tier - 1}
+                            />
                           </Table.Td>
                           <Table.Td>
                             <Group gap="xs" wrap="wrap">
                               {item.bonuses.map((bonus) => (
-                                <Badge
-                                  key={bonus}
-                                  variant="outline"
-                                  size="xs"
-                                >
+                                <Badge key={bonus} variant="outline" size="xs">
                                   {bonus}
                                 </Badge>
                               ))}

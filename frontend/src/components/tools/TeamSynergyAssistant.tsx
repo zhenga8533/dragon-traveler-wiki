@@ -13,7 +13,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import type { TeamSynergyResult } from '../../utils/team-synergy';
-import ClassLabel from '../common/ClassLabel';
+import ClassTag from '../common/ClassTag';
 
 function getScoreColor(score: number): string {
   if (score >= 80) return 'teal';
@@ -100,9 +100,12 @@ export default function TeamSynergyAssistant({
               <Group gap="xs" wrap="wrap">
                 {Array.from(synergy.classCounts.entries()).map(
                   ([cls, count]) => (
-                    <Badge key={cls} variant="outline" size="sm" color="blue">
-                      <ClassLabel characterClass={cls} count={count} />
-                    </Badge>
+                    <Group key={cls} gap={4} wrap="nowrap">
+                      <ClassTag characterClass={cls} size="sm" />
+                      <Badge variant="outline" size="sm" color="gray">
+                        {count}
+                      </Badge>
+                    </Group>
                   )
                 )}
               </Group>
