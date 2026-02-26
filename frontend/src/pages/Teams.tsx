@@ -9,7 +9,6 @@ import {
   ScrollArea,
   SegmentedControl,
   SimpleGrid,
-  Skeleton,
   Stack,
   Table,
   Text,
@@ -24,12 +23,16 @@ import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterCard from '../components/character/CharacterCard';
 import DataFetchError from '../components/common/DataFetchError';
 import EmptyState from '../components/common/EmptyState';
+import type { ChipFilterGroup } from '../components/common/EntityFilter';
+import EntityFilter from '../components/common/EntityFilter';
 import FactionTag from '../components/common/FactionTag';
 import LastUpdated from '../components/common/LastUpdated';
 import PaginationControl from '../components/common/PaginationControl';
 import ViewToggle from '../components/common/ViewToggle';
-import type { ChipFilterGroup } from '../components/common/EntityFilter';
-import EntityFilter from '../components/common/EntityFilter';
+import {
+  ListPageLoading,
+  ViewModeLoading,
+} from '../components/layout/PageLoadingSkeleton';
 import TeamBuilder from '../components/tools/TeamBuilder';
 import { FACTION_NAMES } from '../constants/colors';
 import {
@@ -229,13 +232,12 @@ export default function Teams() {
           </Group>
         </Group>
 
-        {loading && (
-          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-            {Array.from({ length: 4 }).map((_, i) => (
-              <Skeleton key={i} height={200} radius="md" />
-            ))}
-          </SimpleGrid>
-        )}
+        {loading &&
+          (mode === 'view' ? (
+            <ViewModeLoading viewMode={viewMode} cards={4} cardHeight={200} />
+          ) : (
+            <ListPageLoading cards={4} />
+          ))}
 
         {!loading && error && (
           <DataFetchError

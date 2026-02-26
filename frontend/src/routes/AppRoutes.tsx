@@ -1,6 +1,7 @@
-import { Center, Loader } from '@mantine/core';
+import { Container } from '@mantine/core';
 import { lazy, Suspense } from 'react';
 import { Route, Routes } from 'react-router-dom';
+import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 
 const Home = lazy(() => import('../pages/home'));
 const Artifacts = lazy(() => import('../pages/Artifacts'));
@@ -34,9 +35,9 @@ const NotFound = lazy(() => import('../pages/NotFound'));
 
 function RouteFallback() {
   return (
-    <Center mih="40vh">
-      <Loader size="md" />
-    </Center>
+    <Container size="md" py="xl">
+      <ListPageLoading cards={4} />
+    </Container>
   );
 }
 

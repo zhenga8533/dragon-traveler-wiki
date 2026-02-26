@@ -37,11 +37,12 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { getResourceIcon } from '../assets/resource';
+import DataFetchError from '../components/common/DataFetchError';
 import LastUpdated from '../components/common/LastUpdated';
 import PaginationControl from '../components/common/PaginationControl';
 import ResourceBadge from '../components/common/ResourceBadge';
 import ViewToggle from '../components/common/ViewToggle';
-import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
+import { ViewModeLoading } from '../components/layout/PageLoadingSkeleton';
 import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
@@ -144,7 +145,11 @@ const CODES_PER_PAGE = 20;
 
 export default function Codes() {
   const tooltipProps = useMobileTooltip();
-  const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
+  const {
+    data: codes,
+    loading,
+    error,
+  } = useDataFetch<Code[]>('data/codes.json', []);
   const { data: resources } = useDataFetch<Resource[]>(
     'data/resources.json',
     []
@@ -344,7 +349,15 @@ export default function Codes() {
           </Group>
         </Group>
 
-        {!loading && (
+        {!loading && error && (
+          <DataFetchError
+            title="Could not load codes"
+            message={error.message}
+            onRetry={() => window.location.reload()}
+          />
+        )}
+
+        {!loading && !error && (
           <Paper p="sm" radius="md" withBorder>
             <Group
               justify="space-between"
@@ -447,9 +460,11 @@ export default function Codes() {
           </Paper>
         )}
 
-        {loading && <ListPageLoading cards={5} />}
+        {loading && (
+          <ViewModeLoading viewMode={viewMode} cards={5} cardHeight={180} />
+        )}
 
-        {!loading && filtered.length === 0 && (
+        {!loading && !error && filtered.length === 0 && (
           <Text c="dimmed" ta="center" py="lg">
             {search
               ? 'No codes match your search.'
@@ -468,6 +483,7 @@ export default function Codes() {
         )}
 
         {!loading &&
+          !error &&
           viewMode === 'list' &&
           paginatedCodes.map((entry) => {
             const isActiveCode = isCodeActive(entry);
@@ -554,104 +570,107 @@ export default function Codes() {
             );
           })}
 
-        {!loading && viewMode === 'grid' && paginatedCodes.length > 0 && (
-          <SimpleGrid cols={{ base: 1, xs: 2, sm: 3 }} spacing="md">
-            {paginatedCodes.map((entry) => {
-              const isActiveCode = isCodeActive(entry);
-              return (
-                <Paper
-                  key={entry.code}
-                  p="md"
-                  radius="md"
-                  withBorder
-                  opacity={isActiveCode ? 1 : 0.5}
-                >
-                  <Stack gap="sm">
-                    <Group justify="space-between" align="center">
-                      <Group gap="xs">
-                        <Text
-                          ff="monospace"
-                          fw={500}
-                          size="md"
-                          td={isActiveCode ? undefined : 'line-through'}
-                        >
-                          {entry.code}
-                        </Text>
-                        {!isActiveCode && (
-                          <Badge color="red" variant="light" size="xs">
-                            Expired
-                          </Badge>
-                        )}
-                      </Group>
-                      <Group gap={4}>
-                        {isActiveCode && (
-                          <Tooltip label="Report expired" {...tooltipProps}>
-                            <ActionIcon
-                              component="a"
-                              href={buildExpiredCodeUrl(entry.code)}
-                              target="_blank"
-                              variant="subtle"
-                              color="red"
-                              size="sm"
-                              aria-label="Report expired"
-                            >
-                              <IoCloseCircleOutline size={16} />
-                            </ActionIcon>
-                          </Tooltip>
-                        )}
-                        <CopyButton value={entry.code} timeout={1500}>
-                          {({ copied, copy }) => (
-                            <Tooltip
-                              label={copied ? 'Copied!' : 'Copy code'}
-                              {...tooltipProps}
-                            >
+        {!loading &&
+          !error &&
+          viewMode === 'grid' &&
+          paginatedCodes.length > 0 && (
+            <SimpleGrid cols={{ base: 1, xs: 2, sm: 3 }} spacing="md">
+              {paginatedCodes.map((entry) => {
+                const isActiveCode = isCodeActive(entry);
+                return (
+                  <Paper
+                    key={entry.code}
+                    p="md"
+                    radius="md"
+                    withBorder
+                    opacity={isActiveCode ? 1 : 0.5}
+                  >
+                    <Stack gap="sm">
+                      <Group justify="space-between" align="center">
+                        <Group gap="xs">
+                          <Text
+                            ff="monospace"
+                            fw={500}
+                            size="md"
+                            td={isActiveCode ? undefined : 'line-through'}
+                          >
+                            {entry.code}
+                          </Text>
+                          {!isActiveCode && (
+                            <Badge color="red" variant="light" size="xs">
+                              Expired
+                            </Badge>
+                          )}
+                        </Group>
+                        <Group gap={4}>
+                          {isActiveCode && (
+                            <Tooltip label="Report expired" {...tooltipProps}>
                               <ActionIcon
+                                component="a"
+                                href={buildExpiredCodeUrl(entry.code)}
+                                target="_blank"
                                 variant="subtle"
-                                color={copied ? 'teal' : 'gray'}
-                                onClick={copy}
+                                color="red"
                                 size="sm"
-                                aria-label={copied ? 'Copied!' : 'Copy code'}
+                                aria-label="Report expired"
                               >
-                                {copied ? (
-                                  <IoCheckmark size={16} />
-                                ) : (
-                                  <IoCopyOutline size={16} />
-                                )}
+                                <IoCloseCircleOutline size={16} />
                               </ActionIcon>
                             </Tooltip>
                           )}
-                        </CopyButton>
+                          <CopyButton value={entry.code} timeout={1500}>
+                            {({ copied, copy }) => (
+                              <Tooltip
+                                label={copied ? 'Copied!' : 'Copy code'}
+                                {...tooltipProps}
+                              >
+                                <ActionIcon
+                                  variant="subtle"
+                                  color={copied ? 'teal' : 'gray'}
+                                  onClick={copy}
+                                  size="sm"
+                                  aria-label={copied ? 'Copied!' : 'Copy code'}
+                                >
+                                  {copied ? (
+                                    <IoCheckmark size={16} />
+                                  ) : (
+                                    <IoCopyOutline size={16} />
+                                  )}
+                                </ActionIcon>
+                              </Tooltip>
+                            )}
+                          </CopyButton>
+                        </Group>
                       </Group>
-                    </Group>
 
-                    {Object.keys(entry.rewards ?? {}).length > 0 && (
-                      <Group gap="xs" wrap="wrap">
-                        {Object.entries(entry.rewards ?? {}).map(
-                          ([name, quantity]) => (
-                            <ResourceBadge
-                              key={name}
-                              name={name}
-                              quantity={quantity}
-                            />
-                          )
-                        )}
-                      </Group>
-                    )}
+                      {Object.keys(entry.rewards ?? {}).length > 0 && (
+                        <Group gap="xs" wrap="wrap">
+                          {Object.entries(entry.rewards ?? {}).map(
+                            ([name, quantity]) => (
+                              <ResourceBadge
+                                key={name}
+                                name={name}
+                                quantity={quantity}
+                              />
+                            )
+                          )}
+                        </Group>
+                      )}
 
-                    <Checkbox
-                      checked={redeemed.has(entry.code)}
-                      onChange={() => toggleRedeemed(entry.code)}
-                      label="Redeemed"
-                      styles={{ label: { paddingLeft: 8 } }}
-                    />
-                  </Stack>
-                </Paper>
-              );
-            })}
-          </SimpleGrid>
-        )}
+                      <Checkbox
+                        checked={redeemed.has(entry.code)}
+                        onChange={() => toggleRedeemed(entry.code)}
+                        label="Redeemed"
+                        styles={{ label: { paddingLeft: 8 } }}
+                      />
+                    </Stack>
+                  </Paper>
+                );
+              })}
+            </SimpleGrid>
+          )}
 
-        {!loading && (
+        {!loading && !error && (
           <PaginationControl
             currentPage={page}
             totalPages={totalPages}

@@ -22,13 +22,17 @@ import { Link } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import CharacterCard from '../components/character/CharacterCard';
 import ClassTag from '../components/common/ClassTag';
+import DataFetchError from '../components/common/DataFetchError';
+import type { ChipFilterGroup } from '../components/common/EntityFilter';
+import EntityFilter from '../components/common/EntityFilter';
 import FactionTag from '../components/common/FactionTag';
 import LastUpdated from '../components/common/LastUpdated';
 import QualityIcon from '../components/common/QualityIcon';
 import ViewToggle from '../components/common/ViewToggle';
-import type { ChipFilterGroup } from '../components/common/EntityFilter';
-import EntityFilter from '../components/common/EntityFilter';
-import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
+import {
+  ListPageLoading,
+  ViewModeLoading,
+} from '../components/layout/PageLoadingSkeleton';
 import TierListBuilder from '../components/tools/TierListBuilder';
 import { getTierColor, TIER_ORDER } from '../constants/colors';
 import {
@@ -43,13 +47,16 @@ import type { TierList as TierListType } from '../types/tier-list';
 import { sortCharactersByQuality } from '../utils/filter-characters';
 
 export default function TierList() {
-  const { data: tierLists, loading: loadingTiers } = useDataFetch<
-    TierListType[]
-  >('data/tier-lists.json', []);
-  const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
+  const {
+    data: tierLists,
+    loading: loadingTiers,
+    error: tierListsError,
+  } = useDataFetch<TierListType[]>('data/tier-lists.json', []);
+  const {
+    data: characters,
+    loading: loadingChars,
+    error: charactersError,
+  } = useDataFetch<Character[]>('data/characters.json', []);
   const { filters: viewFilters, setFilters: setViewFilters } = useFilters<
     Record<string, string[]>
   >({
@@ -68,6 +75,7 @@ export default function TierList() {
     defaultMode: 'grid',
   });
   const loading = loadingTiers || loadingChars;
+  const error = tierListsError || charactersError;
 
   const charMap = useMemo(() => {
     const map = new Map<string, Character>();
@@ -174,9 +182,22 @@ export default function TierList() {
           </Group>
         </Group>
 
-        {loading && <ListPageLoading cards={3} />}
+        {loading &&
+          (mode === 'view' ? (
+            <ViewModeLoading viewMode={viewMode} cards={3} cardHeight={180} />
+          ) : (
+            <ListPageLoading cards={3} />
+          ))}
 
-        {!loading && (
+        {!loading && error && (
+          <DataFetchError
+            title="Could not load tier lists"
+            message={error.message}
+            onRetry={() => window.location.reload()}
+          />
+        )}
+
+        {!loading && !error && (
           <>
             <SegmentedControl
               value={mode}

@@ -28,7 +28,10 @@ import QualityIcon from '../components/common/QualityIcon';
 import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
 import SortableTh from '../components/common/SortableTh';
 import FilterToolbar from '../components/layout/FilterToolbar';
-import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
+import {
+  CardGridLoading,
+  ViewModeLoading,
+} from '../components/layout/PageLoadingSkeleton';
 import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
@@ -350,7 +353,9 @@ export default function Howlkins() {
           </Tabs.List>
 
           <Tabs.Panel value="howlkins" pt="md">
-            {howlkinsLoading && <ListPageLoading cards={4} />}
+            {howlkinsLoading && (
+              <ViewModeLoading viewMode={viewMode} cards={4} cardHeight={180} />
+            )}
 
             {!howlkinsLoading && howlkinsError && (
               <DataFetchError
@@ -533,7 +538,7 @@ export default function Howlkins() {
           </Tabs.Panel>
 
           <Tabs.Panel value="golden-alliances" pt="md">
-            {alliancesLoading && <ListPageLoading cards={4} />}
+            {alliancesLoading && <CardGridLoading cards={4} cardHeight={180} />}
 
             {!alliancesLoading && alliancesError && (
               <DataFetchError

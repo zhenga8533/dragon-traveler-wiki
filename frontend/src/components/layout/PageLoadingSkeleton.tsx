@@ -1,4 +1,4 @@
-import { Paper, Skeleton, Stack } from '@mantine/core';
+import { Paper, SimpleGrid, Skeleton, Stack } from '@mantine/core';
 
 export function ListPageLoading({ cards = 4 }: { cards?: number }) {
   return (
@@ -21,6 +21,38 @@ export function ListPageLoading({ cards = 4 }: { cards?: number }) {
       ))}
     </Stack>
   );
+}
+
+export function CardGridLoading({
+  cards = 4,
+  cardHeight = 200,
+}: {
+  cards?: number;
+  cardHeight?: number;
+}) {
+  return (
+    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+      {Array.from({ length: cards }).map((_, index) => (
+        <Skeleton key={index} height={cardHeight} radius="md" />
+      ))}
+    </SimpleGrid>
+  );
+}
+
+export function ViewModeLoading({
+  viewMode,
+  cards = 4,
+  cardHeight = 200,
+}: {
+  viewMode: 'grid' | 'list';
+  cards?: number;
+  cardHeight?: number;
+}) {
+  if (viewMode === 'grid') {
+    return <CardGridLoading cards={cards} cardHeight={cardHeight} />;
+  }
+
+  return <ListPageLoading cards={cards} />;
 }
 
 export function DetailPageLoading() {
