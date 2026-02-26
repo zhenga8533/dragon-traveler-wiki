@@ -381,7 +381,10 @@ export default function Teams() {
 
                               <Group gap="xs">
                                 <Text size="sm" c="dimmed">
-                                  By {team.author}
+                                  by{' '}
+                                  <Text span c="violet" inherit>
+                                    {team.author}
+                                  </Text>
                                 </Text>
                                 {team.description && (
                                   <>
@@ -507,7 +510,9 @@ export default function Teams() {
                                 </Badge>
                               </Table.Td>
                               <Table.Td>
-                                <Text size="sm">{team.author}</Text>
+                                <Text size="sm" c="violet">
+                                  {team.author}
+                                </Text>
                               </Table.Td>
                             </Table.Tr>
                           );

@@ -281,7 +281,10 @@ export default function TierList() {
                                     )}
                                   </Badge>
                                   <Text size="sm" c="dimmed">
-                                    By {tierList.author}
+                                    by{' '}
+                                    <Text span c="violet" inherit>
+                                      {tierList.author}
+                                    </Text>
                                   </Text>
                                   {tierList.description && (
                                     <>

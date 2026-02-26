@@ -241,7 +241,10 @@ export default function TeamPage() {
                 </Title>
                 <Group gap="sm" align="center">
                   <Text size="sm" c="dimmed">
-                    by {team.author}
+                    by{' '}
+                    <Text span c="violet" inherit>
+                      {team.author}
+                    </Text>
                   </Text>
                   <LastUpdated timestamp={team.last_updated} />
                 </Group>
@@ -564,7 +567,10 @@ function TeamMemberCard({
             <>
               <Group gap={6} align="center">
                 <QualityIcon quality={character.quality} size={18} />
-                <ClassTag characterClass={character.character_class} size="sm" />
+                <ClassTag
+                  characterClass={character.character_class}
+                  size="sm"
+                />
               </Group>
               <Group gap={4} wrap="wrap">
                 {character.factions.map((faction) => (
