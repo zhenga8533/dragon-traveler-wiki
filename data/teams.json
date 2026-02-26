@@ -11,54 +11,48 @@
         "overdrive_order": null,
         "substitutes": [
           "Herman"
-        ],
-        "note": ""
+        ]
       },
       {
         "character_name": "Artemis",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Ifrit",
         "overdrive_order": null,
         "substitutes": [
           "Talos"
-        ],
-        "note": ""
+        ]
       },
       {
         "character_name": "Vivienne",
         "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "substitutes": [
+          "Nemesis",
+          "Poseidon"
+        ]
       },
       {
         "character_name": "Orion",
         "overdrive_order": null,
         "substitutes": [
           "Scheherazade",
-          "Poseidon"
-        ],
-        "note": ""
+          "Medusa",
+          "Azure Dragon"
+        ]
       },
       {
         "character_name": "Atanith",
-        "overdrive_order": null,
-        "substitutes": [
-          "Scheherazade"
-        ],
-        "note": ""
+        "overdrive_order": null
       }
     ],
+    "last_updated": 1772081453,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
       "wildcry": "Vital Roar",
       "dragons_call": "Efficiency Mastery"
-    },
-    "last_updated": 1771197404
+    }
   },
   {
     "name": "End Game Sanctum Glory",
@@ -69,57 +63,51 @@
     "members": [
       {
         "character_name": "Athena",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Apollo",
         "overdrive_order": null,
         "substitutes": [
           "Jing"
-        ],
-        "note": ""
+        ]
+      },
+      {
+        "character_name": "Gabriele",
+        "overdrive_order": null
       },
       {
         "character_name": "Vivienne",
         "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "substitutes": [
+          "Scheherazade"
+        ]
       },
       {
         "character_name": "Chiron",
         "overdrive_order": null,
         "substitutes": [
+          "Orion",
           "Scheherazade",
-          "Orion"
-        ],
-        "note": ""
+          "Goblin War Drummer"
+        ]
       },
       {
-        "character_name": "Gabriele",
+        "character_name": "Lorillin",
         "overdrive_order": null,
         "substitutes": [
-          "Gullveig"
-        ],
-        "note": ""
-      },
-      {
-        "character_name": "Helveil",
-        "overdrive_order": null,
-        "substitutes": [
-          "Lorillin"
-        ],
-        "note": ""
+          "Gullveig",
+          "Helveil"
+        ]
       }
     ],
+    "last_updated": 1772081453,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
       "wildcry": "",
       "dragons_call": "Blessing of Grace"
-    },
-    "last_updated": 1771197404
+    }
   },
   {
     "name": "End Game Wild Spirit",
@@ -130,15 +118,11 @@
     "members": [
       {
         "character_name": "Athena",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Jing",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Loki",
@@ -146,38 +130,34 @@
         "substitutes": [
           "Azure Dragon",
           "Oberonnie",
-          "Gullveig"
-        ],
-        "note": ""
+          "Tyrfing"
+        ]
       },
       {
         "character_name": "Venus",
         "overdrive_order": null,
         "substitutes": [
-          "Chiron"
-        ],
-        "note": ""
+          "Chiron",
+          "Gullveig",
+          "Caligula"
+        ]
       },
       {
         "character_name": "Vivienne",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Talos",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       }
     ],
+    "last_updated": 1772081453,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
       "wildcry": "",
       "dragons_call": "Wild Advance"
-    },
-    "last_updated": 1771197404
+    }
   },
   {
     "name": "End Game Illusion Veil",
@@ -191,34 +171,30 @@
         "overdrive_order": null,
         "substitutes": [
           "Pompey"
-        ],
-        "note": ""
+        ]
       },
       {
         "character_name": "Ningluosi",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Atanith",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Ares",
         "overdrive_order": null,
         "substitutes": [
-          "Medusa"
-        ],
-        "note": ""
+          "Medusa",
+          "Nemesis"
+        ]
       },
       {
         "character_name": "Poseidon",
         "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "substitutes": [
+          "Huginn & Muninn"
+        ]
       },
       {
         "character_name": "Tyrfing",
@@ -226,17 +202,16 @@
         "substitutes": [
           "Herman",
           "Orion"
-        ],
-        "note": ""
+        ]
       }
     ],
+    "last_updated": 1772081453,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
       "wildcry": "Punishing Roar",
       "dragons_call": "Prey on the Weak"
-    },
-    "last_updated": 1771197404
+    }
   },
   {
     "name": "End Game Otherworld Return",
@@ -250,52 +225,48 @@
         "overdrive_order": null,
         "substitutes": [
           "Helveil"
-        ],
-        "note": ""
+        ]
       },
       {
         "character_name": "Loki",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Hades",
         "overdrive_order": null,
         "substitutes": [
           "Gabriele",
-          "Ningluosi"
-        ],
-        "note": ""
+          "Ningluosi",
+          "Jing"
+        ]
       },
       {
         "character_name": "Azure Dragon",
         "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "substitutes": [
+          "Caligula"
+        ]
       },
       {
         "character_name": "Asmodeus",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Silbismo",
         "overdrive_order": null,
         "substitutes": [
-          "Gullveig"
-        ],
-        "note": ""
+          "Gullveig",
+          "Cleopatra"
+        ]
       }
     ],
+    "last_updated": 1772081453,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Shield Aura",
       "wildcry": "",
       "dragons_call": "Summoning March"
-    },
-    "last_updated": 1771197404
+    }
   },
   {
     "name": "End Game Elemental Echo",
@@ -308,52 +279,49 @@
         "character_name": "Duvalin",
         "overdrive_order": null,
         "substitutes": [
-          "Anubis"
-        ],
-        "note": ""
+          "Anubis",
+          "Oberonnie"
+        ]
       },
       {
         "character_name": "Thor",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Poseidon",
-        "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "overdrive_order": null
       },
       {
         "character_name": "Venus",
         "overdrive_order": null,
         "substitutes": [
-          "Orion"
-        ],
-        "note": ""
+          "Orion",
+          "Gullveig"
+        ]
       },
       {
         "character_name": "Vivienne",
         "overdrive_order": null,
-        "substitutes": [],
-        "note": ""
+        "substitutes": [
+          "Fenrir",
+          "Siegfried"
+        ]
       },
       {
         "character_name": "Zagrus",
         "overdrive_order": null,
         "substitutes": [
           "Lorillin",
-          "Gullveig"
-        ],
-        "note": ""
+          "Ifrit"
+        ]
       }
     ],
+    "last_updated": 1772081453,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
       "wildcry": "Surging Roar",
       "dragons_call": "Surging Impact"
-    },
-    "last_updated": 1771197404
+    }
   }
 ]
