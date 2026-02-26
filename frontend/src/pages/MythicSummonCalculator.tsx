@@ -1,5 +1,6 @@
 import {
   Alert,
+  Box,
   Card,
   Container,
   Divider,
@@ -9,7 +10,9 @@ import {
   Stack,
   Table,
   Text,
+  ThemeIcon,
   Title,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import {
@@ -21,6 +24,8 @@ import {
 } from 'react-icons/io5';
 import ResourceBadge from '../components/common/ResourceBadge';
 import StatCard from '../components/common/StatCard';
+import { getGlassStyles } from '../constants/glass';
+import { BRAND_TITLE_STYLE } from '../constants/styles';
 
 type DropRate = {
   chance: number;
@@ -127,6 +132,7 @@ function calculateMilestoneRewards(summons: number): number {
 }
 
 export default function MythicSummonCalculator() {
+  const isDark = useComputedColorScheme('dark') === 'dark';
   const [numSummons, setNumSummons] = useState<number | null>(100);
   const [currentPulls, setCurrentPulls] = useState<number | null>(0);
   const [targetShards, setTargetShards] = useState<number | null>(null);
@@ -316,23 +322,67 @@ export default function MythicSummonCalculator() {
     currentPulls,
   ]);
 
+  const sectionCardStyle = {
+    ...getGlassStyles(isDark, true),
+    boxShadow: isDark
+      ? '0 10px 28px rgba(0, 0, 0, 0.28)'
+      : '0 8px 24px rgba(124, 58, 237, 0.08)',
+  };
+
   return (
     <Container size="xl" py="xl">
       <Stack gap="lg">
-        <Title order={1}>Mythic Summon Calculator</Title>
-
-        <Alert
-          variant="light"
-          color="blue"
-          title="About this calculator"
-          icon={<IoInformationCircleOutline />}
+        <Card
+          withBorder
+          radius="md"
+          p="xl"
+          style={{
+            ...sectionCardStyle,
+            position: 'relative',
+            overflow: 'hidden',
+          }}
         >
-          Calculate the average resource yield from Mythic Summons, including
-          both drop rates and milestone rewards. Enter the number of summons to
-          see expected returns.
-        </Alert>
+          <Box
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: isDark
+                ? 'radial-gradient(circle at top right, rgba(124, 58, 237, 0.24), transparent 55%), radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.2), transparent 50%)'
+                : 'radial-gradient(circle at top right, rgba(124, 58, 237, 0.16), transparent 55%), radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.14), transparent 50%)',
+              pointerEvents: 'none',
+            }}
+          />
 
-        <Card withBorder radius="md" p="lg">
+          <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
+            <Group gap="sm" wrap="nowrap">
+              <ThemeIcon size="xl" radius="md" variant="light" color="violet">
+                <IoSparkles size={20} />
+              </ThemeIcon>
+              <Stack gap={2}>
+                <Title order={1} style={BRAND_TITLE_STYLE}>
+                  Mythic Summon Calculator
+                </Title>
+                <Text size="sm" c="dimmed">
+                  Forecast summon outcomes and reverse-calculate required pulls
+                  for your goals.
+                </Text>
+              </Stack>
+            </Group>
+
+            <Alert
+              variant="light"
+              color="blue"
+              title="About this calculator"
+              icon={<IoInformationCircleOutline />}
+            >
+              Calculate the average resource yield from Mythic Summons,
+              including both drop rates and milestone rewards. Enter the number
+              of summons to see expected returns.
+            </Alert>
+          </Stack>
+        </Card>
+
+        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
           <Stack gap="md">
             <Title order={3}>
               <Group gap="xs">
@@ -408,7 +458,7 @@ export default function MythicSummonCalculator() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg">
+        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
           <Stack gap="md">
             <Title order={3}>
               <Group gap="xs">
@@ -457,7 +507,7 @@ export default function MythicSummonCalculator() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg">
+        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
           <Stack gap="md">
             <Title order={3}>Expected Rewards</Title>
             <Text size="sm" c="dimmed">
@@ -531,7 +581,7 @@ export default function MythicSummonCalculator() {
         <Title order={3}>Drop Rates Reference</Title>
 
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
-          <Card withBorder radius="md" p="md">
+          <Card withBorder radius="md" p="md" style={sectionCardStyle}>
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
@@ -580,7 +630,7 @@ export default function MythicSummonCalculator() {
             </Stack>
           </Card>
 
-          <Card withBorder radius="md" p="md">
+          <Card withBorder radius="md" p="md" style={sectionCardStyle}>
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
@@ -624,7 +674,7 @@ export default function MythicSummonCalculator() {
             </Stack>
           </Card>
 
-          <Card withBorder radius="md" p="md">
+          <Card withBorder radius="md" p="md" style={sectionCardStyle}>
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
@@ -666,7 +716,7 @@ export default function MythicSummonCalculator() {
             </Stack>
           </Card>
 
-          <Card withBorder radius="md" p="md">
+          <Card withBorder radius="md" p="md" style={sectionCardStyle}>
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
@@ -707,7 +757,7 @@ export default function MythicSummonCalculator() {
 
         <Title order={3}>Milestone Rewards</Title>
 
-        <Card withBorder radius="md" p="md">
+        <Card withBorder radius="md" p="md" style={sectionCardStyle}>
           <Stack gap="xs">
             <Text fw={600}>
               Milestone rewards (

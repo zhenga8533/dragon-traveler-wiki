@@ -1,6 +1,7 @@
 import {
   Alert,
   Badge,
+  Box,
   Card,
   Collapse,
   Container,
@@ -17,8 +18,10 @@ import {
   Switch,
   Table,
   Text,
+  ThemeIcon,
   Title,
   UnstyledButton,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
@@ -37,6 +40,8 @@ import {
 } from 'react-icons/io5';
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import StatCard from '../components/common/StatCard';
+import { getGlassStyles } from '../constants/glass';
+import { BRAND_TITLE_STYLE } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 
 type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
@@ -267,6 +272,7 @@ function parseNumberInput(value: string | number): number | null {
 }
 
 export default function StarUpgradeCalculator() {
+  const isDark = useComputedColorScheme('dark') === 'dark';
   const [currentValue, setCurrentValue] = useState<string>(
     STAR_LEVELS[0].value
   );
@@ -348,23 +354,67 @@ export default function StarUpgradeCalculator() {
     label: `${level.label} • ${level.copies} copies / ${level.fodder} fodder`,
   }));
 
+  const sectionCardStyle = {
+    ...getGlassStyles(isDark, true),
+    boxShadow: isDark
+      ? '0 10px 28px rgba(0, 0, 0, 0.28)'
+      : '0 8px 24px rgba(124, 58, 237, 0.08)',
+  };
+
   return (
     <Container size="xl" py="xl">
       <Stack gap="lg">
-        <Title order={1}>Star Upgrade Calculator</Title>
-
-        <Alert
-          variant="light"
-          color="blue"
-          icon={<IoInformationCircleOutline />}
-          title="How to use"
+        <Card
+          withBorder
+          radius="md"
+          p="xl"
+          style={{
+            ...sectionCardStyle,
+            position: 'relative',
+            overflow: 'hidden',
+          }}
         >
-          Pick your current and target star levels first. The calculator shows
-          cumulative requirements, then estimates farming time based on your
-          selected quality and current shard stock.
-        </Alert>
+          <Box
+            style={{
+              position: 'absolute',
+              inset: 0,
+              background: isDark
+                ? 'radial-gradient(circle at top right, rgba(168, 85, 247, 0.22), transparent 55%), radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.2), transparent 50%)'
+                : 'radial-gradient(circle at top right, rgba(168, 85, 247, 0.16), transparent 55%), radial-gradient(circle at bottom left, rgba(59, 130, 246, 0.14), transparent 50%)',
+              pointerEvents: 'none',
+            }}
+          />
 
-        <Card withBorder radius="md" p="lg">
+          <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
+            <Group gap="sm" wrap="nowrap">
+              <ThemeIcon size="xl" radius="md" variant="light" color="violet">
+                <IoStar size={20} />
+              </ThemeIcon>
+              <Stack gap={2}>
+                <Title order={1} style={BRAND_TITLE_STYLE}>
+                  Star Upgrade Calculator
+                </Title>
+                <Text size="sm" c="dimmed">
+                  Plan your upgrade path, shard farming timeline, and required
+                  resources.
+                </Text>
+              </Stack>
+            </Group>
+
+            <Alert
+              variant="light"
+              color="blue"
+              icon={<IoInformationCircleOutline />}
+              title="How to use"
+            >
+              Pick your current and target star levels first. The calculator
+              shows cumulative requirements, then estimates farming time based
+              on your selected quality and current shard stock.
+            </Alert>
+          </Stack>
+        </Card>
+
+        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
           <Stack gap="md">
             <Title order={3}>
               <Group gap="xs">
@@ -452,7 +502,7 @@ export default function StarUpgradeCalculator() {
         </Card>
 
         {isValidSelection && copiesNeeded > 0 && (
-          <Card withBorder radius="md" p="lg">
+          <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
             <Stack gap="md">
               <Title order={3}>
                 <Group gap="xs">
@@ -713,7 +763,7 @@ export default function StarUpgradeCalculator() {
           </Card>
         )}
 
-        <Card withBorder radius="md" p="lg">
+        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
           <Stack gap="sm">
             <UnstyledButton onClick={refTableHandlers.toggle}>
               <Group justify="space-between" align="center">
