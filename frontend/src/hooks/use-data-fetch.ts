@@ -54,8 +54,11 @@ export function useDataFetch<T>(path: string, initial: T): DataFetchResult<T> {
     let isCancelled = false;
 
     const hasCached = dataCache.has(path);
-    setLoading(!hasCached);
-    setError(null);
+    queueMicrotask(() => {
+      if (isCancelled) return;
+      setLoading(!hasCached);
+      setError(null);
+    });
 
     fetchJsonCached(path)
       .then((result) => {

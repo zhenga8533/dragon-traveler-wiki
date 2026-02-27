@@ -78,9 +78,11 @@ export default function FilterableCharacterPool({
     const valid = new Set(tierOptions);
     const next = filters.tiers.filter((t) => valid.has(t));
     if (next.length !== filters.tiers.length) {
-      setFilters((f) => ({ ...f, tiers: next }));
+      queueMicrotask(() => {
+        setFilters((f) => ({ ...f, tiers: next }));
+      });
     }
-  }, [tierOptions]);
+  }, [tierOptions, filters.tiers]);
 
   const tierLookup = useMemo(() => {
     const map = new Map<string, string>();
@@ -104,13 +106,18 @@ export default function FilterableCharacterPool({
 
   // Reset to page 1 whenever filters or tier selection change
   useEffect(() => {
-    setPage(1);
+    queueMicrotask(() => {
+      setPage(1);
+    });
   }, [filters, selectedTierListName]);
 
   const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
   // Clamp in case pageSize grows (resize) or filtered shrinks
   const safePage = Math.min(page, totalPages);
-  const paginated = filtered.slice((safePage - 1) * pageSize, safePage * pageSize);
+  const paginated = filtered.slice(
+    (safePage - 1) * pageSize,
+    safePage * pageSize
+  );
 
   const activeFilterCount =
     (filters.search ? 1 : 0) +

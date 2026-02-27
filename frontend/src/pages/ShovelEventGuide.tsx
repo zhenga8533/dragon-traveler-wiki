@@ -18,7 +18,7 @@ import {
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import ResourceBadge from '../components/common/ResourceBadge';
 import { getGlassStyles } from '../constants/glass';
-import { BRAND_TITLE_STYLE } from '../constants/styles';
+import { BRAND_TITLE_STYLE, RELATIVE_Z1_STYLE } from '../constants/styles';
 
 const TARGET_ROWS = [
   {
@@ -93,7 +93,7 @@ export default function ShovelEventGuide() {
             }}
           />
 
-          <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
+          <Stack gap="md" style={RELATIVE_Z1_STYLE}>
             <Group gap="sm" wrap="nowrap">
               <ThemeIcon size="xl" radius="md" variant="light" color="yellow">
                 <IoInformationCircleOutline size={20} />

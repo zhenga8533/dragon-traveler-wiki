@@ -18,6 +18,7 @@ import QualityIcon from '../../components/common/QualityIcon';
 import TierBadge from '../../components/common/TierBadge';
 import Breadcrumbs from '../../components/layout/Breadcrumbs';
 import { QUALITY_COLOR } from '../../constants/colors';
+import { RELATIVE_Z1_STYLE } from '../../constants/styles';
 import { CHARACTER_HERO } from '../../constants/ui';
 import type { Character } from '../../types/character';
 
@@ -99,7 +100,7 @@ export default function CharacterPageHeroSection({
       )}
 
       {/* Content overlay */}
-      <Container size="lg" style={{ position: 'relative', zIndex: 1 }} py="xl">
+      <Container size="lg" style={RELATIVE_Z1_STYLE} py="xl">
         <Grid gutter="xl" align="center">
           {/* Portrait */}
           <Grid.Col span={{ base: 12, sm: 'content' }}>

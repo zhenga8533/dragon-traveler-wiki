@@ -34,6 +34,7 @@ import {
   HOME_HERO_TITLE_STYLE,
   HOME_HERO_WORDMARK_STYLE,
   OVERFLOW_HIDDEN_STYLE,
+  RELATIVE_Z1_STYLE,
   WORD_BREAK_STYLE,
   getHomeHeroPlaceholderGradient,
 } from '../../constants/styles';
@@ -181,12 +182,7 @@ export default function Home() {
         </Box>
 
         {/* Content that overlaps the banner */}
-        <Container
-          size="md"
-          style={{ position: 'relative', zIndex: 1 }}
-          pt={60}
-          pb="xl"
-        >
+        <Container size="md" style={RELATIVE_Z1_STYLE} pt={60} pb="xl">
           <Stack gap="lg">
             {/* Title */}
             <Box style={{ textAlign: 'center' }}>

@@ -2,6 +2,7 @@ import { Button, Chip, Group, Stack, Text, TextInput } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import type { ReactNode } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
+import { FLEX_1_MIN_WIDTH_180_STYLE } from '../../constants/styles';
 import { BREAKPOINTS, IMAGE_SIZE } from '../../constants/ui';
 
 export interface ChipFilterGroup {
@@ -45,7 +46,7 @@ export default function EntityFilter({
             value={search ?? ''}
             onChange={(e) => onSearchChange(e.currentTarget.value)}
             size={isMobile ? 'sm' : 'xs'}
-            style={{ flex: 1, minWidth: 180 }}
+            style={FLEX_1_MIN_WIDTH_180_STYLE}
           />
           {hasFilters && (
             <Button

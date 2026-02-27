@@ -232,7 +232,9 @@ function SlotCard({
   const [draftNote, setDraftNote] = useState(note);
 
   useEffect(() => {
-    setDraftNote(note);
+    queueMicrotask(() => {
+      setDraftNote(note);
+    });
   }, [note, charName]);
 
   function commitDraftNote() {
@@ -534,7 +536,9 @@ function BenchDropItem({
   const [draftNote, setDraftNote] = useState(note);
 
   useEffect(() => {
-    setDraftNote(note);
+    queueMicrotask(() => {
+      setDraftNote(note);
+    });
   }, [note, name]);
 
   function commitDraftNote() {

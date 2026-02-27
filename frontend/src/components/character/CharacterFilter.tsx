@@ -17,6 +17,7 @@ import {
   FACTION_NAMES,
   QUALITY_ORDER,
 } from '../../constants/colors';
+import { FLEX_1_MIN_WIDTH_180_STYLE } from '../../constants/styles';
 import { IMAGE_SIZE } from '../../constants/ui';
 import type { CharacterClass } from '../../types/character';
 import type { FactionName } from '../../types/faction';
@@ -63,7 +64,7 @@ export default function CharacterFilter({
             onChange({ ...filters, search: e.currentTarget.value })
           }
           size="xs"
-          style={{ flex: 1, minWidth: 180 }}
+          style={FLEX_1_MIN_WIDTH_180_STYLE}
         />
         {hasFilters && (
           <Button
@@ -249,7 +250,7 @@ export default function CharacterFilter({
             searchable={effectOptions.length >= 10}
             clearable
             size="xs"
-            style={{ flex: 1, minWidth: 180 }}
+            style={FLEX_1_MIN_WIDTH_180_STYLE}
           />
         </Group>
       )}

@@ -57,7 +57,9 @@ export function TierListReferenceProvider({
   useEffect(() => {
     if (loading || tierLists.length === 0) return;
     if (!selectedTierListName) {
-      setSelectedTierListName(tierLists[0].name);
+      queueMicrotask(() => {
+        setSelectedTierListName(tierLists[0].name);
+      });
       return;
     }
     const exists = tierLists.some((list) => list.name === selectedTierListName);

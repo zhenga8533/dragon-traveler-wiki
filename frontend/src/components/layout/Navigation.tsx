@@ -177,13 +177,26 @@ export default function Navigation({
   });
 
   useEffect(() => {
+    const labelsToOpen: string[] = [];
     for (const item of NAV_ITEMS) {
       if (item.children) {
         const active = item.children.some((c) => location.pathname === c.path);
         if (active) {
-          setOpenGroups((prev) => ({ ...prev, [item.label]: true }));
+          labelsToOpen.push(item.label);
         }
       }
+    }
+
+    if (labelsToOpen.length > 0) {
+      queueMicrotask(() => {
+        setOpenGroups((prev) => {
+          const next = { ...prev };
+          for (const label of labelsToOpen) {
+            next[label] = true;
+          }
+          return next;
+        });
+      });
     }
   }, [location.pathname]);
 

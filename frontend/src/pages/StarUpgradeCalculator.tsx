@@ -41,7 +41,7 @@ import {
 import { QUALITY_ICON_MAP } from '../assets/quality';
 import StatCard from '../components/common/StatCard';
 import { getGlassStyles } from '../constants/glass';
-import { BRAND_TITLE_STYLE } from '../constants/styles';
+import { BRAND_TITLE_STYLE, RELATIVE_Z1_STYLE } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
 
 type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
@@ -385,7 +385,7 @@ export default function StarUpgradeCalculator() {
             }}
           />
 
-          <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
+          <Stack gap="md" style={RELATIVE_Z1_STYLE}>
             <Group gap="sm" wrap="nowrap">
               <ThemeIcon size="xl" radius="md" variant="light" color="violet">
                 <IoStar size={20} />

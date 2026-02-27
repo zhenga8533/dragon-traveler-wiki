@@ -25,7 +25,7 @@ import {
 import ResourceBadge from '../components/common/ResourceBadge';
 import StatCard from '../components/common/StatCard';
 import { getGlassStyles } from '../constants/glass';
-import { BRAND_TITLE_STYLE } from '../constants/styles';
+import { BRAND_TITLE_STYLE, RELATIVE_Z1_STYLE } from '../constants/styles';
 
 type DropRate = {
   chance: number;
@@ -353,7 +353,7 @@ export default function MythicSummonCalculator() {
             }}
           />
 
-          <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
+          <Stack gap="md" style={RELATIVE_Z1_STYLE}>
             <Group gap="sm" wrap="nowrap">
               <ThemeIcon size="xl" radius="md" variant="light" color="violet">
                 <IoSparkles size={20} />
