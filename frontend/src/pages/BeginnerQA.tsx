@@ -175,11 +175,10 @@ export default function BeginnerQA() {
               q="Which characters should I prioritize summoning?"
               style={sectionCardStyle}
             >
-              Go for <CharacterTag name="Ifrit" /> (AoE attack, physical defense
-              reduction) and <CharacterTag name="Vivienne" /> (possession CC
-              immunity, attack and crit damage boost). On day 4 of a new server,
-              <CharacterTag name="Jing" /> is recommended if you are not fully
-              F2P and need early crit support.
+              Go for at least 8 copies of <CharacterTag name="Ifrit" /> (AoE
+              attack, physical defense reduction) to reach Red 1★ for the
+              powerful Level 4 passive. Then always summon for at least 1 copy
+              of each limited character to unlock them in the Heart Trial.
             </QA>
 
             <QA
@@ -388,20 +387,6 @@ export default function BeginnerQA() {
             </QA>
           </Stack>
         </Card>
-
-        <Paper p="md" radius="md" withBorder style={sectionCardStyle}>
-          <Stack gap="xs">
-            <Text fw={600}>Referenced event resources</Text>
-            <Group gap="xs" wrap="wrap">
-              <ResourceBadge name="Mercury Potion" />
-              <ResourceBadge name="Soul Elixir" />
-              <ResourceBadge name="Fate Elixir" />
-              <ResourceBadge name="Fate Horn" />
-              <ResourceBadge name="Legacy Dragon Crystal" />
-              <ResourceBadge name="Fated Dragon Crystal" />
-            </Group>
-          </Stack>
-        </Paper>
       </Stack>
     </Container>
   );
