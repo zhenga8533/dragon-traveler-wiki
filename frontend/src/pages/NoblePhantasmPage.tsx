@@ -30,7 +30,7 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch } from '../hooks';
 import type { Character, Skill, Talent } from '../types/character';
 import type {
   NoblePhantasm,

@@ -12,9 +12,8 @@ import type { IconType } from 'react-icons';
 import { FaDiscord } from 'react-icons/fa';
 import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
 import { SiGooglesheets } from 'react-icons/si';
-import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
-import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { ListPageShell, SuggestModal, type FieldDef } from '../components';
+import { useDataFetch } from '../hooks';
 import type { UsefulLink } from '../types/useful-link';
 
 const LINK_FIELDS: FieldDef[] = [
@@ -61,10 +60,11 @@ const ICON_MAP: Record<string, IconType> = {
 };
 
 export default function UsefulLinks() {
-  const { data: links, loading } = useDataFetch<UsefulLink[]>(
-    'data/useful-links.json',
-    []
-  );
+  const {
+    data: links,
+    loading,
+    error,
+  } = useDataFetch<UsefulLink[]>('data/useful-links.json', []);
 
   return (
     <Container size="md" py="xl">
@@ -79,10 +79,15 @@ export default function UsefulLinks() {
           />
         </Group>
 
-        {loading && <ListPageLoading cards={4} />}
-
-        {!loading &&
-          links.map((link) => {
+        <ListPageShell
+          loading={loading}
+          error={error}
+          errorTitle="Could not load useful links"
+          hasData={links.length > 0}
+          emptyMessage="No useful links available yet."
+          skeletonCards={4}
+        >
+          {links.map((link) => {
             const Icon = ICON_MAP[link.icon] ?? IoLinkOutline;
             return (
               <Card key={link.link} padding="lg" radius="md" withBorder>
@@ -107,6 +112,7 @@ export default function UsefulLinks() {
               </Card>
             );
           })}
+        </ListPageShell>
       </Stack>
     </Container>
   );

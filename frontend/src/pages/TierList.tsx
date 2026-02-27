@@ -41,7 +41,7 @@ import {
   normalizeContentType,
 } from '../constants/content-types';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';

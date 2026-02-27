@@ -35,7 +35,7 @@ import {
   cardHoverHandlers,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch } from '../hooks';
 import {
   countActiveFilters,
   useFilterPanel,

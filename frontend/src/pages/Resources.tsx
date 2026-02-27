@@ -13,17 +13,18 @@ import {
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
 import { getResourceIcon } from '../assets/resource';
-import type { ChipFilterGroup } from '../components/common/EntityFilter';
-import EntityFilter from '../components/common/EntityFilter';
-import InlineMarkup from '../components/common/InlineMarkup';
-import LastUpdated from '../components/common/LastUpdated';
-import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
-import PaginationControl from '../components/common/PaginationControl';
-import QualityIcon from '../components/common/QualityIcon';
-import SortableTh from '../components/common/SortableTh';
-import FilterToolbar from '../components/layout/FilterToolbar';
-import ListPageShell from '../components/layout/ListPageShell';
-import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
+import {
+  EntityFilter,
+  FilteredListShell,
+  InlineMarkup,
+  LastUpdated,
+  ListPageShell,
+  QualityIcon,
+  SortableTh,
+  SuggestModal,
+  type ChipFilterGroup,
+  type FieldDef,
+} from '../components';
 import {
   QUALITY_ORDER,
   RESOURCE_CATEGORY_COLOR,
@@ -31,7 +32,12 @@ import {
 } from '../constants/colors';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { ResourcesContext } from '../contexts';
-import { useFilterPanel, useFilters, useViewMode } from '../hooks';
+import {
+  countActiveFilters,
+  useFilterPanel,
+  useFilters,
+  useViewMode,
+} from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import { applyDir, useSortState } from '../hooks/use-sort';
 import type { ResourceCategory } from '../types/resource';
@@ -156,8 +162,7 @@ export default function Resources() {
   );
   const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
 
-  const activeFilterCount =
-    (filters.search ? 1 : 0) + filters.categories.length;
+  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">
@@ -181,63 +186,135 @@ export default function Resources() {
           emptyMessage="No resource data available yet."
           skeletonCards={4}
         >
-          <Paper p="md" radius="md" withBorder>
-            <Stack gap="md">
-              <FilterToolbar
-                count={filtered.length}
-                noun="resource"
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-                filterCount={activeFilterCount}
-                filterOpen={filterOpen}
-                onFilterToggle={toggleFilter}
-              >
-                <EntityFilter
-                  groups={FILTER_GROUPS}
-                  selected={{ categories: filters.categories }}
-                  onChange={(key, values) =>
-                    setFilters({
-                      ...filters,
-                      [key]: values as ResourceCategory[],
-                    })
-                  }
-                  onClear={() => setFilters(EMPTY_FILTERS)}
-                  search={filters.search}
-                  onSearchChange={(value) =>
-                    setFilters({ ...filters, search: value })
-                  }
-                  searchPlaceholder="Search by name..."
-                />
-              </FilterToolbar>
-
-              {filtered.length === 0 ? (
-                <NoResultsSuggestions
-                  title="No resources found"
-                  message="No resources match the current filters."
-                  onReset={() => setFilters(EMPTY_FILTERS)}
-                  onOpenFilters={toggleFilter}
-                />
-              ) : viewMode === 'grid' ? (
-                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-                  {pageItems.map((resource) => {
-                    const iconSrc = getResourceIcon(resource.name);
-                    return (
-                      <Paper key={resource.name} p="sm" radius="md" withBorder>
-                        <Stack gap="xs">
-                          <Group gap="sm" wrap="nowrap">
+          <FilteredListShell
+            count={filtered.length}
+            noun="resource"
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            filterCount={activeFilterCount}
+            filterOpen={filterOpen}
+            onFilterToggle={toggleFilter}
+            onResetFilters={() => setFilters(EMPTY_FILTERS)}
+            filterContent={
+              <EntityFilter
+                groups={FILTER_GROUPS}
+                selected={{ categories: filters.categories }}
+                onChange={(key, values) =>
+                  setFilters({
+                    ...filters,
+                    [key]: values as ResourceCategory[],
+                  })
+                }
+                onClear={() => setFilters(EMPTY_FILTERS)}
+                search={filters.search}
+                onSearchChange={(value) =>
+                  setFilters({ ...filters, search: value })
+                }
+                searchPlaceholder="Search by name..."
+              />
+            }
+            emptyMessage="No resources match the current filters."
+            gridContent={
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                {pageItems.map((resource) => {
+                  const iconSrc = getResourceIcon(resource.name);
+                  return (
+                    <Paper key={resource.name} p="sm" radius="md" withBorder>
+                      <Stack gap="xs">
+                        <Group gap="sm" wrap="nowrap">
+                          {iconSrc && (
+                            <Image
+                              src={iconSrc}
+                              alt={resource.name}
+                              w={28}
+                              h={28}
+                              fit="contain"
+                            />
+                          )}
+                          <Text fw={600}>{resource.name}</Text>
+                          {resource.quality && (
+                            <QualityIcon quality={resource.quality} />
+                          )}
+                          <Badge
+                            variant="light"
+                            color={
+                              RESOURCE_CATEGORY_COLOR[resource.category] ??
+                              'gray'
+                            }
+                            size="sm"
+                          >
+                            {resource.category}
+                          </Badge>
+                        </Group>
+                        <Text size="sm" c="dimmed">
+                          <InlineMarkup text={resource.description} />
+                        </Text>
+                      </Stack>
+                    </Paper>
+                  );
+                })}
+              </SimpleGrid>
+            }
+            tableContent={
+              <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                <Table striped highlightOnHover style={{ minWidth: 600 }}>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Icon</Table.Th>
+                      <SortableTh
+                        sortKey="name"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Name
+                      </SortableTh>
+                      <SortableTh
+                        sortKey="quality"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Quality
+                      </SortableTh>
+                      <SortableTh
+                        sortKey="category"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Category
+                      </SortableTh>
+                      <Table.Th>Description</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {pageItems.map((resource) => {
+                      const iconSrc = getResourceIcon(resource.name);
+                      return (
+                        <Table.Tr key={resource.name}>
+                          <Table.Td>
                             {iconSrc && (
                               <Image
                                 src={iconSrc}
                                 alt={resource.name}
-                                w={28}
-                                h={28}
+                                w={32}
+                                h={32}
                                 fit="contain"
                               />
                             )}
-                            <Text fw={600}>{resource.name}</Text>
+                          </Table.Td>
+                          <Table.Td>
+                            <Text fw={600} size="sm">
+                              {resource.name}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td>
                             {resource.quality && (
                               <QualityIcon quality={resource.quality} />
                             )}
+                          </Table.Td>
+                          <Table.Td>
                             <Badge
                               variant="light"
                               color={
@@ -248,106 +325,23 @@ export default function Resources() {
                             >
                               {resource.category}
                             </Badge>
-                          </Group>
-                          <Text size="sm" c="dimmed">
-                            <InlineMarkup text={resource.description} />
-                          </Text>
-                        </Stack>
-                      </Paper>
-                    );
-                  })}
-                </SimpleGrid>
-              ) : (
-                <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                  <Table striped highlightOnHover style={{ minWidth: 600 }}>
-                    <Table.Thead>
-                      <Table.Tr>
-                        <Table.Th>Icon</Table.Th>
-                        <SortableTh
-                          sortKey="name"
-                          sortCol={sortCol}
-                          sortDir={sortDir}
-                          onSort={handleSort}
-                        >
-                          Name
-                        </SortableTh>
-                        <SortableTh
-                          sortKey="quality"
-                          sortCol={sortCol}
-                          sortDir={sortDir}
-                          onSort={handleSort}
-                        >
-                          Quality
-                        </SortableTh>
-                        <SortableTh
-                          sortKey="category"
-                          sortCol={sortCol}
-                          sortDir={sortDir}
-                          onSort={handleSort}
-                        >
-                          Category
-                        </SortableTh>
-                        <Table.Th>Description</Table.Th>
-                      </Table.Tr>
-                    </Table.Thead>
-                    <Table.Tbody>
-                      {pageItems.map((resource) => {
-                        const iconSrc = getResourceIcon(resource.name);
-                        return (
-                          <Table.Tr key={resource.name}>
-                            <Table.Td>
-                              {iconSrc && (
-                                <Image
-                                  src={iconSrc}
-                                  alt={resource.name}
-                                  w={32}
-                                  h={32}
-                                  fit="contain"
-                                />
-                              )}
-                            </Table.Td>
-                            <Table.Td>
-                              <Text fw={600} size="sm">
-                                {resource.name}
-                              </Text>
-                            </Table.Td>
-                            <Table.Td>
-                              {resource.quality && (
-                                <QualityIcon quality={resource.quality} />
-                              )}
-                            </Table.Td>
-                            <Table.Td>
-                              <Badge
-                                variant="light"
-                                color={
-                                  RESOURCE_CATEGORY_COLOR[resource.category] ??
-                                  'gray'
-                                }
-                                size="sm"
-                              >
-                                {resource.category}
-                              </Badge>
-                            </Table.Td>
-                            <Table.Td>
-                              <Text size="sm" c="dimmed">
-                                <InlineMarkup text={resource.description} />
-                              </Text>
-                            </Table.Td>
-                          </Table.Tr>
-                        );
-                      })}
-                    </Table.Tbody>
-                  </Table>
-                </ScrollArea>
-              )}
-
-              <PaginationControl
-                currentPage={page}
-                totalPages={totalPages}
-                onChange={setPage}
-              />
-            </Stack>
-          </Paper>
+                          </Table.Td>
+                          <Table.Td>
+                            <Text size="sm" c="dimmed">
+                              <InlineMarkup text={resource.description} />
+                            </Text>
+                          </Table.Td>
+                        </Table.Tr>
+                      );
+                    })}
+                  </Table.Tbody>
+                </Table>
+              </ScrollArea>
+            }
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+          />
         </ListPageShell>
       </Stack>
     </Container>

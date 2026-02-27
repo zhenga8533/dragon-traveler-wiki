@@ -1,15 +1,16 @@
-import { Container, Group, SimpleGrid, Stack, Title } from '@mantine/core';
+import { Container, Group, Stack, Title } from '@mantine/core';
 import { useMemo } from 'react';
 import { IoPeople } from 'react-icons/io5';
-import CharacterList from '../components/character/CharacterList';
-import DataFetchError from '../components/common/DataFetchError';
-import EmptyState from '../components/common/EmptyState';
-import LastUpdated from '../components/common/LastUpdated';
-import { CharacterCardSkeleton } from '../components/common/SkeletonCard';
-import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
+import {
+  CharacterList,
+  EmptyState,
+  LastUpdated,
+  ListPageShell,
+  SuggestModal,
+  type FieldDef,
+} from '../components';
 import { CLASS_ORDER, QUALITY_ORDER } from '../constants/colors';
-import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch } from '../hooks';
 import type { Character } from '../types/character';
 import { getLatestTimestamp } from '../utils';
 
@@ -85,36 +86,24 @@ export default function Characters() {
           />
         </Group>
 
-        {loading && (
-          <SimpleGrid
-            cols={CHARACTER_GRID_COLS}
-            spacing={CHARACTER_GRID_SPACING}
-          >
-            {Array.from({ length: 18 }).map((_, i) => (
-              <CharacterCardSkeleton key={i} />
-            ))}
-          </SimpleGrid>
-        )}
-
-        {!loading && error && (
-          <DataFetchError
-            title="Could not load characters"
-            message={error.message}
-            onRetry={() => window.location.reload()}
-          />
-        )}
-
-        {!loading && !error && characters.length === 0 && (
-          <EmptyState
-            icon={<IoPeople size={32} />}
-            title="No characters yet"
-            description="Character data will appear here once available."
-          />
-        )}
-
-        {!loading && !error && characters.length > 0 && (
-          <CharacterList characters={characters} />
-        )}
+        <ListPageShell
+          loading={loading}
+          error={error}
+          errorTitle="Could not load characters"
+          hasData={true}
+          emptyMessage="No character data available yet."
+          skeletonCards={18}
+        >
+          {characters.length === 0 ? (
+            <EmptyState
+              icon={<IoPeople size={32} />}
+              title="No characters yet"
+              description="Character data will appear here once available."
+            />
+          ) : (
+            <CharacterList characters={characters} />
+          )}
+        </ListPageShell>
       </Stack>
     </Container>
   );

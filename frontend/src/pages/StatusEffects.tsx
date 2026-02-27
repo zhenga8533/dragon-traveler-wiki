@@ -23,7 +23,7 @@ import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch } from '../hooks';
 import {
   countActiveFilters,
   useFilterPanel,

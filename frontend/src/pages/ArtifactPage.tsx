@@ -16,11 +16,12 @@ import { useMemo } from 'react';
 import { useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
 import ClassTag from '../components/common/ClassTag';
-import QualityIcon from '../components/common/QualityIcon';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
+import FactionTag from '../components/common/FactionTag';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
+import QualityIcon from '../components/common/QualityIcon';
 import RichText from '../components/common/RichText';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
@@ -34,8 +35,7 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
-import FactionTag from '../components/common/FactionTag';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch } from '../hooks';
 import type {
   Artifact,
   ArtifactEffect,

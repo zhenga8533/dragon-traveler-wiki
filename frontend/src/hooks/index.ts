@@ -1,6 +1,7 @@
 // Hook exports for cleaner imports
 export { useDataFetch } from './use-data-fetch';
 export {
+  countActiveFilters,
   useFilterPanel,
   useFilteredData,
   useFilters,

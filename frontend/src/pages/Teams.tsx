@@ -53,7 +53,7 @@ import {
   cardHoverHandlers,
 } from '../constants/styles';
 import { STORAGE_KEY, TRANSITION } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
+import { useDataFetch } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import type { Character } from '../types/character';
