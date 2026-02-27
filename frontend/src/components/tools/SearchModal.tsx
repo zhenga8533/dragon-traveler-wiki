@@ -17,14 +17,29 @@ import { Fragment, useContext, useEffect, useMemo, useState } from 'react';
 import type { IconType } from 'react-icons';
 import {
   IoClose,
+  IoCubeOutline,
+  IoDiamondOutline,
   IoDocumentTextOutline,
+  IoFlameOutline,
   IoFlashOutline,
+  IoGridOutline,
+  IoPawOutline,
   IoPeopleOutline,
   IoPersonOutline,
   IoSearch,
+  IoShieldOutline,
   IoSparklesOutline,
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
+import { getArtifactIcon } from '../../assets/artifacts';
+import { getPortrait } from '../../assets/character';
+import { getGearIcon } from '../../assets/gear';
+import { getHowlkinIcon } from '../../assets/howlkin';
+import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
+import { getResourceIcon } from '../../assets/resource';
+import { getStatusEffectIcon } from '../../assets/status_effect';
+import { getSubclassIcon } from '../../assets/subclass';
+import { getWyrmspellIcon } from '../../assets/wyrmspell';
 import { normalizeContentType } from '../../constants/content-types';
 import { TRANSITION } from '../../constants/ui';
 import { SearchDataContext } from '../../contexts';
@@ -49,7 +64,7 @@ type SearchResult = {
   title: string;
   subtitle?: string;
   path: string;
-  icon: IconType;
+  icon: IconType | string;
   color: string;
 };
 
@@ -225,7 +240,7 @@ export default function SearchModal({
           title: r.item.name,
           subtitle: `${r.item.quality} ${r.item.character_class}`,
           path: `/characters/${encodeURIComponent(r.item.name)}`,
-          icon: IoPersonOutline,
+          icon: getPortrait(r.item.name) ?? IoPersonOutline,
           color: 'blue',
         }))
       );
@@ -250,8 +265,8 @@ export default function SearchModal({
           title: r.item.name,
           subtitle: `${r.item.quality} Artifact`,
           path: `/artifacts/${encodeURIComponent(r.item.name)}`,
-          icon: IoSparklesOutline,
-          color: 'yellow',
+          icon: getArtifactIcon(r.item.name) ?? IoDiamondOutline,
+          color: 'teal',
         }))
       );
     }
@@ -269,7 +284,7 @@ export default function SearchModal({
           title: r.item.name,
           subtitle: `${r.item.type} • ${r.item.set}`,
           path: `/gear-sets/${encodeURIComponent(r.item.set)}`,
-          icon: IoSparklesOutline,
+          icon: getGearIcon(r.item.type, r.item.name) ?? IoShieldOutline,
           color: 'teal',
         }))
       );
@@ -304,8 +319,8 @@ export default function SearchModal({
           title: r.item.name,
           subtitle: r.item.type,
           path: '/status-effects',
-          icon: IoFlashOutline,
-          color: 'orange',
+          icon: getStatusEffectIcon(r.item.name) ?? IoSparklesOutline,
+          color: 'cyan',
         }))
       );
     }
@@ -323,7 +338,7 @@ export default function SearchModal({
           title: r.item.name,
           subtitle: `${r.item.class} • Tier ${r.item.tier}`,
           path: '/subclasses',
-          icon: IoSparklesOutline,
+          icon: getSubclassIcon(r.item.name, r.item.class) ?? IoGridOutline,
           color: 'grape',
         }))
       );
@@ -342,8 +357,8 @@ export default function SearchModal({
           title: r.item.name,
           subtitle: r.item.type,
           path: '/wyrmspells',
-          icon: IoSparklesOutline,
-          color: 'violet',
+          icon: getWyrmspellIcon(r.item.name) ?? IoFlameOutline,
+          color: 'indigo',
         }))
       );
     }
@@ -380,8 +395,8 @@ export default function SearchModal({
           title: r.item.name,
           subtitle: `${r.item.quality} Howlkin`,
           path: '/howlkins',
-          icon: IoPeopleOutline,
-          color: 'teal',
+          icon: getHowlkinIcon(r.item.name) ?? IoPawOutline,
+          color: 'orange',
         }))
       );
     }
@@ -399,8 +414,8 @@ export default function SearchModal({
           title: r.item.name,
           subtitle: r.item.character || 'Noble Phantasm',
           path: `/noble-phantasms/${encodeURIComponent(r.item.name)}`,
-          icon: IoSparklesOutline,
-          color: 'grape',
+          icon: getNoblePhantasmIcon(r.item.name) ?? IoFlashOutline,
+          color: 'teal',
         }))
       );
     }
@@ -418,8 +433,8 @@ export default function SearchModal({
           title: r.item.name,
           subtitle: `${r.item.category} • ${r.item.quality}`,
           path: '/resources',
-          icon: IoSparklesOutline,
-          color: 'lime',
+          icon: getResourceIcon(r.item.name) ?? IoCubeOutline,
+          color: 'teal',
         }))
       );
     }
@@ -627,7 +642,6 @@ export default function SearchModal({
           {searchResults.length > 0 && (
             <Stack gap={0} style={{ maxHeight: '500px', overflowY: 'auto' }}>
               {searchResults.map((result, index) => {
-                const Icon = result.icon;
                 const isSelected = index === selectedIndex;
                 const isNewCategory =
                   index === 0 || searchResults[index - 1].type !== result.type;
@@ -668,12 +682,32 @@ export default function SearchModal({
                             alignItems: 'center',
                             justifyContent: 'center',
                             backgroundColor: `var(--mantine-color-${result.color}-1)`,
+                            overflow: 'hidden',
+                            flexShrink: 0,
                           }}
                         >
-                          <Icon
-                            size={20}
-                            color={`var(--mantine-color-${result.color}-6)`}
-                          />
+                          {typeof result.icon === 'string' ? (
+                            <img
+                              src={result.icon}
+                              alt={result.title}
+                              style={{
+                                width: '100%',
+                                height: '100%',
+                                objectFit: 'cover',
+                                objectPosition: 'top center',
+                              }}
+                            />
+                          ) : (
+                            (() => {
+                              const Icon = result.icon;
+                              return (
+                                <Icon
+                                  size={20}
+                                  color={`var(--mantine-color-${result.color}-6)`}
+                                />
+                              );
+                            })()
+                          )}
                         </Box>
                         <div style={{ flex: 1, minWidth: 0 }}>
                           <Text size="sm" fw={500} truncate>
