@@ -702,11 +702,11 @@
     "class": "Mage",
     "tier": 3,
     "bonuses": [
-      "+8%",
-      "+16%"
+      "HP +8%",
+      "MDEF +16%"
     ],
     "effect": "When dealing damage, has a 15% chance to inflict a random [Stat Debuff] on the target. (Can only trigger once per target every 4s)",
-    "last_updated": 1771647811
+    "last_updated": 1772205549
   },
   {
     "name": "Rune Mage",
