@@ -39,7 +39,6 @@ import {
 import { getResourceIcon } from '../assets/resource';
 import DataFetchError from '../components/common/DataFetchError';
 import LastUpdated from '../components/common/LastUpdated';
-import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
 import PaginationControl from '../components/common/PaginationControl';
 import ResourceBadge from '../components/common/ResourceBadge';
 import ViewToggle from '../components/common/ViewToggle';
@@ -215,33 +214,42 @@ export default function Codes() {
     [codes, tab, view, redeemed, search]
   );
 
+  const tabScopedCodes = useMemo(
+    () =>
+      codes.filter((entry) => {
+        if (tab === 'active') return isCodeActive(entry);
+        return isCodeExpired(entry);
+      }),
+    [codes, tab]
+  );
+
   const markAllRedeemed = useCallback(() => {
     setRedeemed((prev) => {
       const next = new Set(prev);
-      filtered.forEach((c) => next.add(c.code));
+      tabScopedCodes.forEach((c) => next.add(c.code));
       saveRedeemed(next);
       return next;
     });
     notifications.show({
       title: 'Codes marked as redeemed',
-      message: `Marked ${filtered.length} codes as redeemed.`,
+      message: `Marked ${tabScopedCodes.length} ${tab} codes as redeemed.`,
       color: 'teal',
     });
-  }, [filtered]);
+  }, [tabScopedCodes, tab]);
 
   const clearAllRedeemed = useCallback(() => {
     setRedeemed((prev) => {
       const next = new Set(prev);
-      filtered.forEach((c) => next.delete(c.code));
+      tabScopedCodes.forEach((c) => next.delete(c.code));
       saveRedeemed(next);
       return next;
     });
     notifications.show({
       title: 'Redeemed status cleared',
-      message: `Marked ${filtered.length} codes as unredeemed.`,
+      message: `Marked ${tabScopedCodes.length} ${tab} codes as unredeemed.`,
       color: 'gray',
     });
-  }, [filtered]);
+  }, [tabScopedCodes, tab]);
 
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
@@ -255,17 +263,14 @@ export default function Codes() {
   );
   const paginatedCodes = filtered.slice(offset, offset + CODES_PER_PAGE);
 
-  const unclaimedRewards = useMemo(
-    () =>
-      aggregateRewards(
-        codes.filter((c) => isCodeActive(c) && !redeemed.has(c.code))
-      ),
-    [codes, redeemed]
+  const tabUnclaimedRewards = useMemo(
+    () => aggregateRewards(tabScopedCodes.filter((c) => !redeemed.has(c.code))),
+    [tabScopedCodes, redeemed]
   );
 
-  const claimedRewards = useMemo(
-    () => aggregateRewards(codes.filter((c) => redeemed.has(c.code))),
-    [codes, redeemed]
+  const tabClaimedRewards = useMemo(
+    () => aggregateRewards(tabScopedCodes.filter((c) => redeemed.has(c.code))),
+    [tabScopedCodes, redeemed]
   );
 
   const mostRecentUpdate = useMemo(() => getLatestTimestamp(codes), [codes]);
@@ -275,7 +280,27 @@ export default function Codes() {
     [resources]
   );
 
-  const tabCodeCount = filtered.length;
+  const tabCodeCount = tabScopedCodes.length;
+
+  const emptyStateTitle = search
+    ? 'No matching codes'
+    : tab === 'expired'
+      ? 'No expired codes'
+      : 'No active codes';
+
+  const emptyStateMessage = search
+    ? `No ${tab} codes match "${search}" for the current ${view} filter.`
+    : tab === 'expired'
+      ? view === 'redeemed'
+        ? 'There are no expired codes marked as redeemed yet.'
+        : view === 'unredeemed'
+          ? 'There are no expired codes left in unredeemed view.'
+          : 'No expired codes are available right now.'
+      : view === 'redeemed'
+        ? 'There are no active redeemed codes right now.'
+        : view === 'unredeemed'
+          ? 'All active codes are already redeemed.'
+          : 'No active codes are available right now.';
 
   return (
     <Container size="md" py="xl">
@@ -373,7 +398,7 @@ export default function Codes() {
                   <IoStatsChart size={14} />
                 </ThemeIcon>
                 <Text fw={600} size="sm">
-                  Reward Summary
+                  Reward Summary ({tab === 'active' ? 'Active' : 'Expired'})
                 </Text>
               </Group>
               {rewardsOpen ? (
@@ -396,23 +421,25 @@ export default function Codes() {
                       <IoGift size={12} />
                     </ThemeIcon>
                     <Text size="sm" fw={600}>
-                      Unclaimed
+                      {tab === 'active' ? 'Unclaimed' : 'Unredeemed'}
                     </Text>
-                    {unclaimedRewards.size > 0 && (
+                    {tabUnclaimedRewards.size > 0 && (
                       <Badge variant="light" color="yellow" size="xs">
-                        {unclaimedRewards.size} types
+                        {tabUnclaimedRewards.size} types
                       </Badge>
                     )}
                   </Group>
-                  {unclaimedRewards.size > 0 ? (
+                  {tabUnclaimedRewards.size > 0 ? (
                     <Group gap="xs" wrap="wrap">
-                      {[...unclaimedRewards.entries()].map(([name, qty]) => (
+                      {[...tabUnclaimedRewards.entries()].map(([name, qty]) => (
                         <ResourceBadge key={name} name={name} quantity={qty} />
                       ))}
                     </Group>
                   ) : (
                     <Text size="sm" c="dimmed" fs="italic">
-                      Nothing left to claim!
+                      {tab === 'active'
+                        ? 'Nothing left to claim!'
+                        : 'No unredeemed expired rewards.'}
                     </Text>
                   )}
                 </Stack>
@@ -438,21 +465,23 @@ export default function Codes() {
                     <Text size="sm" fw={600}>
                       Claimed
                     </Text>
-                    {claimedRewards.size > 0 && (
+                    {tabClaimedRewards.size > 0 && (
                       <Badge variant="light" color="teal" size="xs">
-                        {claimedRewards.size} types
+                        {tabClaimedRewards.size} types
                       </Badge>
                     )}
                   </Group>
-                  {claimedRewards.size > 0 ? (
+                  {tabClaimedRewards.size > 0 ? (
                     <Group gap="xs" wrap="wrap">
-                      {[...claimedRewards.entries()].map(([name, qty]) => (
+                      {[...tabClaimedRewards.entries()].map(([name, qty]) => (
                         <ResourceBadge key={name} name={name} quantity={qty} />
                       ))}
                     </Group>
                   ) : (
                     <Text size="sm" c="dimmed" fs="italic">
-                      No codes redeemed yet.
+                      {tab === 'active'
+                        ? 'No active codes redeemed yet.'
+                        : 'No expired codes redeemed yet.'}
                     </Text>
                   )}
                 </Stack>
@@ -466,29 +495,33 @@ export default function Codes() {
         )}
 
         {!loading && !error && filtered.length === 0 && (
-          <NoResultsSuggestions
-            title="No codes found"
-            message={
-              search
-                ? 'No codes match your search.'
-                : tab === 'expired'
-                  ? view === 'redeemed'
-                    ? 'No expired codes marked as redeemed.'
-                    : view === 'unredeemed'
-                      ? 'No unredeemed expired codes.'
-                      : 'No expired codes yet.'
-                  : view === 'redeemed'
-                    ? 'No active codes marked as redeemed yet.'
-                    : view === 'unredeemed'
-                      ? 'All active codes have been redeemed!'
-                      : 'No active codes available.'
-            }
-            onReset={() => {
-              setSearch('');
-              setView('all');
-            }}
-            resetLabel="Reset search & view"
-          />
+          <Paper p="lg" radius="md" withBorder>
+            <Stack gap="xs" align="center">
+              <ThemeIcon variant="light" color="violet" size="lg" radius="xl">
+                <IoSearch size={18} />
+              </ThemeIcon>
+              <Text fw={600}>{emptyStateTitle}</Text>
+              <Text size="sm" c="dimmed" ta="center">
+                {emptyStateMessage}
+              </Text>
+              <Group mt="xs">
+                <Button
+                  size="xs"
+                  variant="default"
+                  onClick={() => setSearch('')}
+                >
+                  Clear search
+                </Button>
+                <Button
+                  size="xs"
+                  variant="light"
+                  onClick={() => setView('all')}
+                >
+                  Show all
+                </Button>
+              </Group>
+            </Stack>
+          </Paper>
         )}
 
         {!loading &&
@@ -694,7 +727,7 @@ export default function Codes() {
           centered
         >
           <Text size="sm" mb="lg">
-            This will mark {tabCodeCount} matching codes as redeemed.
+            This will mark {tabCodeCount} {tab} codes as redeemed.
           </Text>
           <Group justify="flex-end">
             <Button variant="default" onClick={closeMarkAll}>
@@ -718,7 +751,7 @@ export default function Codes() {
           centered
         >
           <Text size="sm" mb="lg">
-            This will mark {tabCodeCount} matching codes as unredeemed.
+            This will mark {tabCodeCount} {tab} codes as unredeemed.
           </Text>
           <Group justify="flex-end">
             <Button variant="default" onClick={closeClearAll}>
