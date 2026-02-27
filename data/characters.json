@@ -163,7 +163,7 @@
       {
         "name": "Triple Spiral",
         "type": "Special Skill",
-        "description": "Throw out the spiral lock key, dealing magic damage equal to 550% of your attack to enemy units in a straight line , and granting yourself a shield equal to 10% of your maximum health * your current [Awakening] stacks, lasting for 10 seconds, then consuming all of your [Awakening] stacks. While in the [Wild] state, [Awakening] will not be consumed. Each time our side unleashes an ultimate skill, we gain 1 stack of [Awakening].",
+        "description": "Throw out the spiral lock key, dealing magic damage equal to 550% of your attack to enemy units in a straight line , and granting yourself a shield equal to 10% of your maximum health * your current [Awakening] stacks, lasting for 10 seconds, then consuming all of your [Awakening] stacks.\nWhile in the [Wild] state, [Awakening] will not be consumed.\nEach time our side unleashes an ultimate skill, we gain 1 stack of [Awakening].",
         "cooldown": 12
       },
       {
@@ -566,7 +566,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "After dealing damage, applies 1 stack of [Commander's Intimidation], reducing the target's damage dealt to the caster by 8% for 8s. Stacks up to 5 times. When any enemy reaches 5 stacks of [Commander's Intimidation], enters [Momentum Burst], gaining bonus Attack equal to 8.5% of Max HP for 8s."
+          "effect": "After dealing damage, applies 1 stack of [Commander's Intimidation], reducing the target's damage dealt to the caster by 8% for 8s. Stacks up to 5 times.\nWhen any enemy reaches 5 stacks of [Commander's Intimidation], enters [Momentum Burst], gaining bonus Attack equal to 8.5% of Max HP for 8s."
         },
         {
           "level": 2,
@@ -1425,13 +1425,13 @@
       {
         "name": "Void Prison",
         "type": "Overdrive",
-        "description": "Banish yourself and the target for 5 seconds. After the banishment ends, deal true damage equal to 30% of the target's current health (up to a maximum of 300% of your maximum health). If the target cannot be banished, apply Damage Reduction to them and deal true damage equal to 40% of the target's current health (up to a maximum of 400% of your maximum health). When the number of surviving Luminaries on your side is less than or equal to the number of surviving Luminaries on the enemy side, you will not be [Exile].",
+        "description": "Banish yourself and the target for 5 seconds. After the banishment ends, deal true damage equal to 30% of the target's current health (up to a maximum of 300% of your maximum health). If the target cannot be banished, apply Damage Reduction to them and deal true damage equal to 40% of the target's current health (up to a maximum of 400% of your maximum health).\nWhen the number of surviving Luminaries on your side is less than or equal to the number of surviving Luminaries on the enemy side, you will not be [Exile].",
         "cooldown": 20
       },
       {
         "name": "Soul-Hooking Scythe",
         "type": "Ultimate Skill",
-        "description": "Throws a scythe at the furthest enemy Luminary within a straight line, dealing magic damage equal to 600% of the caster's attack and inflicting a 2- second stun. Then, pulls the target to the caster twice, dealing magic damage equal to 600% of the caster's attack each time. The caster and the nearest allied melee Luminary then target the target. This skill's cooldown is reset upon the target's death. This skill is used once immediately at the start of the battle.",
+        "description": "Throws a scythe at the furthest enemy Luminary within a straight line, dealing magic damage equal to 600% of the caster's attack and inflicting a 2- second stun. Then, pulls the target to the caster twice, dealing magic damage equal to 600% of the caster's attack each time. The caster and the nearest allied melee Luminary then target the target. This skill's cooldown is reset upon the target's death.\nThis skill is used once immediately at the start of the battle.",
         "cooldown": 90
       },
       {
@@ -1443,7 +1443,7 @@
       {
         "name": "Soul-Guiding Lamp",
         "type": "Special Skill",
-        "description": "Throw a lantern at the ally with the lowest health (excluding itself), restoring 6% of its maximum health to allies within the lantern's range every second and granting 1 stack of [Deathrattle]. If the health of an allied Luminary is below 20% while the lantern is active, the lantern will be retrieved and the allied Luminary will be pulled to the user's side, granting it a shield equal to 80% of the user's maximum health for 10 seconds (this effect can trigger at most once within 15 seconds). Whenever an allied unit is defeated, gain 1 stack of [Deathrattle].",
+        "description": "Throw a lantern at the ally with the lowest health (excluding itself), restoring 6% of its maximum health to allies within the lantern's range every second and granting 1 stack of [Deathrattle].\nIf the health of an allied Luminary is below 20% while the lantern is active, the lantern will be retrieved and the allied Luminary will be pulled to the user's side, granting it a shield equal to 80% of the user's maximum health for 10 seconds (this effect can trigger at most once within 15 seconds).\nWhenever an allied unit is defeated, gain 1 stack of [Deathrattle].",
         "cooldown": 6
       },
       {
@@ -2892,7 +2892,7 @@
       {
         "name": "Song of Destruction",
         "type": "Overdrive",
-        "description": "Deals 340% of the caster's attack as magic damage three times to enemy units in a fan-shaped area . Also inflicts an additional 4 seconds of silence on targets already afflicted with [Echoes of Pain].",
+        "description": "Deals 340% of the caster's attack as magic damage three times to enemy units in a fan-shaped area. Also inflicts an additional 4 seconds of silence on targets already afflicted with [Echoes of Pain].",
         "cooldown": 18
       },
       {
@@ -3963,7 +3963,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Whenever you apply [Shock] to an enemy unit, there is a 50% chance to apply 1 stack of [Thor's Mark] to the target. The [Thor's Mark] can stack up to 5 times and can be detonated by the user's ultimate skill. Each time a [Thor's Mark] is detonated, it deals magic damage equal to 320% of the user's attack to enemy units within a large circular area around the target."
+          "effect": "Whenever you apply [Shock] to an enemy unit, there is a 50% chance to apply 1 stack of [Thor's Mark] to the target.\nThe [Thor's Mark] can stack up to 5 times and can be detonated by the user's ultimate skill. Each time a [Thor's Mark] is detonated, it deals magic damage equal to 320% of the user's attack to enemy units within a large circular area around the target."
         },
         {
           "level": 2,
@@ -3991,7 +3991,7 @@
       {
         "name": "Thunder Prison Judgment",
         "type": "Overdrive",
-        "description": "Raise the hammer into the air and unleash a series of lightning strikes on surrounding enemies. Each strike deals 49% of the caster's attack as magic damage and applies up to 3 instances of [Shock] to each target. Upon landing, the user deals 405% of their attack as magic damage to enemy units within a large circular area and detonates all [Thor's Mark] within the area. During the skill's duration, the user is immune to crowd control effects.",
+        "description": "Raise the hammer into the air and unleash a series of lightning strikes on surrounding enemies. Each strike deals 49% of the caster's attack as magic damage and applies up to 3 instances of [Shock] to each target.\nUpon landing, the user deals 405% of their attack as magic damage to enemy units within a large circular area and detonates all [Thor's Mark] within the area. During the skill's duration, the user is immune to crowd control effects.",
         "cooldown": 18
       },
       {
@@ -4003,7 +4003,7 @@
       {
         "name": "Elemental Grace",
         "type": "Secret Skill",
-        "description": "While present, whenever an allied Luminary triggers an Elemental Reaction, apply one random Blessing buff to it (prioritizing the one it doesn't currently have). When you gain both [Morale] and [Fervor], you enter the Grace state. While in the Grace state, you gain the skill Lightning Strike: Hammers enemy units in a large circular area in front of you, dealing 360% of your attack as magic damage in two hits and applying 2 stacks of Electrocution. The base cooldown is 6 seconds. This skill also has a 100% health conversion effect when it deals damage.",
+        "description": "While present, whenever an allied Luminary triggers an Elemental Reaction, apply one random Blessing buff to it (prioritizing the one it doesn't currently have).\nWhen you gain both [Morale] and [Fervor], you enter the Grace state. While in the Grace state, you gain the skill Lightning Strike: Hammers enemy units in a large circular area in front of you, dealing 360% of your attack as magic damage in two hits and applying 2 stacks of Electrocution. The base cooldown is 6 seconds. This skill also has a 100% health conversion effect when it deals damage.",
         "cooldown": 6
       },
       {
@@ -5357,14 +5357,14 @@
     "height": "176cm",
     "weight": "53kg",
     "origin": "Greek Mythology",
-    "lore": "She was the moon goddess and goddess of the hunt in Olympus, the daughter of Zeus and the Titan Leto, and the twin sister of Apollo. When Artemis was three years old, she asked her father for eternal purity, twenty nymphs as her handmaidens, and the power to rule over the mountains, forests, and cities. Zeus gladly granted her request and also bestowed upon her the position of guardian goddess of the continents and islands, allowing her silver light to shine upon the rivers, seas, and lands.",
+    "lore": "She was the moon goddess and goddess of the hunt in Olympus, the daughter of Zeus and the Titan Leto, and the twin sister of Apollo.\nWhen Artemis was three years old, she asked her father for eternal purity, twenty nymphs as her handmaidens, and the power to rule over the mountains, forests, and cities. Zeus gladly granted her request and also bestowed upon her the position of guardian goddess of the continents and islands, allowing her silver light to shine upon the rivers, seas, and lands.",
     "quote": "",
     "talent": {
       "name": "Lunar Phase",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "For each layer of [Moon Soul] a character possesses, their attack power increases by 6%. When your [Moon Soul] reaches 5 stacks, consume all [Moon Soul] to enter the [Full Moon] state. While in the [Full Moon] state, increase your attack by 60% and attack speed by 200%, reduce ultimate skill energy cost by 2, and reduce the cooldown of [Luna Arrow] by 1 second with each normal attack. Each time our side releases an ultimate skill, we gain 1 stack of [Awakening]."
+          "effect": "For each layer of [Moon Soul] a character possesses, their attack power increases by 6%. When your [Moon Soul] reaches 5 stacks, consume all [Moon Soul] to enter the [Full Moon] state. While in the [Full Moon] state, increase your attack by 60% and attack speed by 200%, reduce ultimate skill energy cost by 2, and reduce the cooldown of [Luna Arrow] by 1 second with each normal attack.\nEach time our side releases an ultimate skill, we gain 1 stack of [Awakening]."
         },
         {
           "level": 2,
@@ -5392,19 +5392,19 @@
       {
         "name": "Embrace of the Dark Moon",
         "type": "Overdrive",
-        "description": "Increases the skill haste of all allied ranged Luminaries by 25 and their damage by 25% for 6 seconds, and puts the caster and one allied Luminary or dragon with the lowest health into the [Dark Moon] state for 4 seconds. Upon activation, the user gains 3 stacks of [Moon Soul]. (If there are no other selectable allied Luminaries or dragons on the field, the [Dark Moon] status granted by this skill is changed to 2 seconds).",
+        "description": "Increases the skill haste of all allied ranged Luminaries by 25 and their damage by 25% for 6 seconds, and puts the caster and one allied Luminary or dragon with the lowest health into the [Dark Moon] state for 4 seconds.\nUpon activation, the user gains 3 stacks of [Moon Soul]. (If there are no other selectable allied Luminaries or dragons on the field, the [Dark Moon] status granted by this skill is changed to 2 seconds).",
         "cooldown": 18
       },
       {
         "name": "Luna Arrow",
         "type": "Ultimate Skill",
-        "description": "Fires an arrow that deals physical damage equal to 420% of the caster's attack to a single target. If [Awakening] is available, consume 1 stack of [Awakening] to enhance this skill: fire an additional arrow, and the damage of each arrow is increased to 630% of your own attack. When released, grant yourself 1 stack of [Moon Soul]",
+        "description": "Fires an arrow that deals physical damage equal to 420% of the caster's attack to a single target.\nIf [Awakening] is available, consume 1 stack of [Awakening] to enhance this skill: fire an additional arrow, and the damage of each arrow is increased to 630% of your own attack. When released, grant yourself 1 stack of [Moon Soul].",
         "cooldown": 5
       },
       {
         "name": "Shadowy Hunt",
         "type": "Secret Skill",
-        "description": "Each time the user enters or exits the [Dark Moon] state, they immediately fire one arrow at each of the enemy Luminaries, dealing physical damage equal to 210% of their attack. There is a 50% chance to inflict [Physical Defense Down] and [Next Ultimate Skill Energy Cost +1] on each target. Targets with an ultimate skill energy cost below 4 will always be inflicted with the [Next Ultimate Skill Energy Cost +1] effect. Each time our side triggers the [Punishment] effect, the damage of this skill increases by 8% (up to a maximum of 240%).",
+        "description": "Each time the user enters or exits the [Dark Moon] state, they immediately fire one arrow at each of the enemy Luminaries, dealing physical damage equal to 210% of their attack. There is a 50% chance to inflict [Physical Defense Down] and [Next Ultimate Skill Energy Cost +1] on each target. Targets with an ultimate skill energy cost below 4 will always be inflicted with the [Next Ultimate Skill Energy Cost +1] effect.\nEach time our side triggers the [Punishment] effect, the damage of this skill increases by 8% (up to a maximum of 240%).",
         "cooldown": 0
       },
       {
@@ -6556,7 +6556,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "When its own health drops below 50% for the first time, it enters an invincible and untargetable state for 5 seconds. During this time, it recovers 30% of its maximum health and creates a mirror image on the spot (a maximum of 2 mirror images can exist on the field). The mirror image inherits 70% of its own attack, 60% of its health, and 100% of its other attributes for 30 seconds. The mirror image will then perform a basic attack on the nearest enemy unit. When your own health decreases, you will accumulate rage. When your rage is full, you will enter the [Wild] state. When you are in the [Wild] state, your mirror image will cast the same skill after you cast it."
+          "effect": "When its own health drops below 50% for the first time, it enters an invincible and untargetable state for 5 seconds. During this time, it recovers 30% of its maximum health and creates a mirror image on the spot (a maximum of 2 mirror images can exist on the field). The mirror image inherits 70% of its own attack, 60% of its health, and 100% of its other attributes for 30 seconds. The mirror image will then perform a basic attack on the nearest enemy unit.\nWhen your own health decreases, you will accumulate rage. When your rage is full, you will enter the [Wild] state. When you are in the [Wild] state, your mirror image will cast the same skill after you cast it."
         },
         {
           "level": 2,
@@ -6584,13 +6584,13 @@
       {
         "name": "Repeat the Same Trick",
         "type": "Overdrive",
-        "description": "Copy and release an enhanced version of the last skill you released: Enhanced version of [Evil Mark Demon Bullet]: Damage coefficient increased to 1540% of own attack. If the target is marked, this skill will have an additional 1500 critical hit. Enhanced [Soul Chains]: Damage coefficient increased to 950% of own attack, seal effect extended to 10 seconds. Enhanced version of [Twin Souls]: Increases range and damage coefficient to 1100% of own attack; creates an additional mirror image at the starting position. Whenever an allied unit is defeated, the user gains 1 stack of [Deathrattle]. For each stack of [Deathrattle] the user has, the user's second skill haste is increased.",
+        "description": "Copy and release an enhanced version of the last skill you released: Enhanced version of [Evil Mark Demon Bullet]: Damage coefficient increased to 1540% of own attack. If the target is marked, this skill will have an additional 1500 critical hit. Enhanced [Soul Chains]: Damage coefficient increased to 950% of own attack, seal effect extended to 10 seconds.\nEnhanced version of [Twin Souls]: Increases range and damage coefficient to 1100% of own attack; creates an additional mirror image at the starting position.\nWhenever an allied unit is defeated, the user gains 1 stack of [Deathrattle]. For each stack of [Deathrattle] the user has, the user's second skill haste is increased.",
         "cooldown": 20
       },
       {
         "name": "Evil Mark Demon Bullet",
         "type": "Ultimate Skill",
-        "description": "Consumes 20% of current HP to unleash a magic missile at the furthest enemy Luminary, dealing magic damage equal to 825% of the user's attack and marking the target for 8 seconds. This skill also grants 60% HP conversion. Skills cast by the user or their mirror image that deal damage to a marked target ignore 40% of the target's magic defense. (This defense-ignoring effect can stack up to 40%).",
+        "description": "Consumes 20% of current HP to unleash a magic missile at the furthest enemy Luminary, dealing magic damage equal to 825% of the user's attack and marking the target for 8 seconds. This skill also grants 60% HP conversion.\nSkills cast by the user or their mirror image that deal damage to a marked target ignore 40% of the target's magic defense. (This defense-ignoring effect can stack up to 40%).",
         "cooldown": 11
       },
       {

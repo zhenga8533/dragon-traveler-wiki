@@ -612,7 +612,7 @@
       {
         "tier": "Purple",
         "tier_level": 6,
-        "description": "The damage of [Bladestorm] and [Sword of the Covenant] is increased by 75%/90%/105%/135% . If [Bladestorm] successfully grants the user [Fervor], the cooldown of [Bladestorm] is reset."
+        "description": "The damage of [Bladestorm] and [Sword of the Covenant] is increased by 75%/90%/105%/135%. If [Bladestorm] successfully grants the user [Fervor], the cooldown of [Bladestorm] is reset."
       },
       {
         "tier": "Red",
@@ -885,7 +885,7 @@
       {
         "tier": "Red",
         "tier_level": 6,
-        "description": "[Spirit Shackles] Increases the shield provided to the user by 75/90/120% , and the duration of the shield array increases the damage reduction of other allied spirits within the shield array range by 100/120/160% ."
+        "description": "[Spirit Shackles] Increases the shield provided to the user by 75/90/120% , and the duration of the shield array increases the damage reduction of other allied spirits within the shield array range by 100/120/160%."
       },
       {
         "tier": "Diamond",
