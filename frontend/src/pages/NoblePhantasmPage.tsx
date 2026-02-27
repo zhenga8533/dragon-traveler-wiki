@@ -25,8 +25,6 @@ import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
-  FLEX_1_STYLE,
-  RELATIVE_Z1_STYLE,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
@@ -256,7 +254,11 @@ export default function NoblePhantasmPage() {
           })}
         />
 
-        <Container size="lg" style={RELATIVE_Z1_STYLE} py="xl">
+        <Container
+          size="lg"
+          style={{ position: 'relative', zIndex: 1 }}
+          py="xl"
+        >
           <Stack gap="lg">
             <Breadcrumbs
               items={[
@@ -279,7 +281,7 @@ export default function NoblePhantasmPage() {
                 </Box>
               )}
 
-              <Stack gap={6} style={FLEX_1_STYLE}>
+              <Stack gap={6} style={{ flex: 1 }}>
                 <Title
                   order={1}
                   c={isDark ? 'white' : 'dark'}

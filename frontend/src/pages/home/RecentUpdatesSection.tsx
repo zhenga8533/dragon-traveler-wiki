@@ -1,9 +1,5 @@
 import { Badge, Box, Group, Skeleton, Stack, Text } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import {
-  ALIGN_SELF_END_STYLE,
-  FLEX_SHRINK_0_STYLE,
-} from '../../constants/styles';
 import { useDataFetch } from '../../hooks';
 
 interface ChangelogEntry {
@@ -80,7 +76,7 @@ export default function RecentUpdatesSection() {
                   size="xs"
                   variant="light"
                   color={TYPE_COLORS[change.type] || 'gray'}
-                  style={FLEX_SHRINK_0_STYLE}
+                  style={{ flexShrink: 0 }}
                 >
                   {change.type}
                 </Badge>
@@ -103,7 +99,7 @@ export default function RecentUpdatesSection() {
         size="xs"
         c="dimmed"
         td="underline"
-        style={ALIGN_SELF_END_STYLE}
+        style={{ alignSelf: 'flex-end' }}
       >
         View full changelog
       </Text>

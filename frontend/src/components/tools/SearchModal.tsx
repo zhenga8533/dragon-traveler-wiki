@@ -41,7 +41,6 @@ import { getStatusEffectIcon } from '../../assets/status_effect';
 import { getSubclassIcon } from '../../assets/subclass';
 import { getWyrmspellIcon } from '../../assets/wyrmspell';
 import { normalizeContentType } from '../../constants/content-types';
-import { FLEX_1_MIN_WIDTH_0_STYLE } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
 import { SearchDataContext } from '../../contexts';
 import { isCodeActive } from '../../utils';
@@ -710,7 +709,7 @@ export default function SearchModal({
                             })()
                           )}
                         </Box>
-                        <div style={FLEX_1_MIN_WIDTH_0_STYLE}>
+                        <div style={{ flex: 1, minWidth: 0 }}>
                           <Text size="sm" fw={500} truncate>
                             {result.title}
                           </Text>

@@ -10,7 +10,6 @@ import {
   Title,
 } from '@mantine/core';
 import RichText from '../../components/common/RichText';
-import { FLEX_1_STYLE, FLEX_SHRINK_0_STYLE } from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { StatusEffect } from '../../types/status-effect';
 
@@ -97,7 +96,7 @@ export default function CharacterPageSkillsSection({
                   >
                     <Stack gap="sm">
                       <Group gap="md" justify="space-between" wrap="nowrap">
-                        <Group gap="md" style={FLEX_1_STYLE}>
+                        <Group gap="md" style={{ flex: 1 }}>
                           {skillIcon && (
                             <Image
                               src={skillIcon}
@@ -119,7 +118,7 @@ export default function CharacterPageSkillsSection({
                             )}
                           </Group>
                         </Group>
-                        <Group gap="xs" style={FLEX_SHRINK_0_STYLE}>
+                        <Group gap="xs" style={{ flexShrink: 0 }}>
                           <Badge
                             size="lg"
                             variant={skill.cooldown === 0 ? 'light' : 'filled'}

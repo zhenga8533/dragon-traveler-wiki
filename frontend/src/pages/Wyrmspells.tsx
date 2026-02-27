@@ -27,6 +27,7 @@ import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { FACTION_NAMES, QUALITY_ORDER } from '../constants/colors';
+import { getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import {
@@ -308,7 +309,7 @@ export default function Wyrmspells() {
             }
             tableContent={
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                <Table striped highlightOnHover style={{ minWidth: 800 }}>
+                <Table striped highlightOnHover style={getMinWidthStyle(800)}>
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Icon</Table.Th>

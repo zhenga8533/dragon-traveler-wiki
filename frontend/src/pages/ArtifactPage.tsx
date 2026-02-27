@@ -29,9 +29,6 @@ import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
-  FLEX_1_STYLE,
-  FLEX_SHRINK_0_STYLE,
-  RELATIVE_Z1_STYLE,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
@@ -111,11 +108,11 @@ function TreasureCard({
               h={64}
               fit="contain"
               radius="sm"
-              style={FLEX_SHRINK_0_STYLE}
+              style={{ flexShrink: 0 }}
               loading="lazy"
             />
           )}
-          <Stack gap={4} style={FLEX_1_STYLE}>
+          <Stack gap={4} style={{ flex: 1 }}>
             <Text fw={700} size="lg">
               {treasure.name}
             </Text>
@@ -216,7 +213,11 @@ export default function ArtifactPage() {
       <Box style={DETAIL_HERO_WRAPPER_STYLES}>
         <Box style={getDetailHeroGradient(isDark, qualityColor)} />
 
-        <Container size="lg" style={RELATIVE_Z1_STYLE} py="xl">
+        <Container
+          size="lg"
+          style={{ position: 'relative', zIndex: 1 }}
+          py="xl"
+        >
           <Stack gap="lg">
             <Breadcrumbs
               items={[
@@ -239,7 +240,7 @@ export default function ArtifactPage() {
                 </Box>
               )}
 
-              <Stack gap={6} style={FLEX_1_STYLE}>
+              <Stack gap={6} style={{ flex: 1 }}>
                 <Group gap="sm" align="center">
                   <QualityIcon quality={artifact.quality} size={28} />
                   <Title

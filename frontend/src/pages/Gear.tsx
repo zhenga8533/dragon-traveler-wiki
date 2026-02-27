@@ -35,11 +35,9 @@ import SuggestModal, {
 import { QUALITY_ORDER } from '../constants/colors';
 import {
   CARD_HOVER_STYLES,
-  CURSOR_POINTER_STYLE,
-  FLEX_1_STYLE,
   LINK_BLOCK_RESET_STYLE,
-  LINK_RESET_STYLE,
   cardHoverHandlers,
+  getMinWidthStyle,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
@@ -477,7 +475,7 @@ export default function GearPage() {
                                   radius="sm"
                                 />
                               )}
-                              <Stack gap={4} style={FLEX_1_STYLE}>
+                              <Stack gap={4} style={{ flex: 1 }}>
                                 <Group gap="xs" wrap="wrap">
                                   <Text fw={700} c="violet" lineClamp={1}>
                                     {item.name}
@@ -516,7 +514,11 @@ export default function GearPage() {
                     </SimpleGrid>
                   ) : (
                     <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                      <Table striped highlightOnHover style={{ minWidth: 760 }}>
+                      <Table
+                        striped
+                        highlightOnHover
+                        style={getMinWidthStyle(760)}
+                      >
                         <Table.Thead>
                           <Table.Tr>
                             <Table.Th>Icon</Table.Th>
@@ -557,7 +559,7 @@ export default function GearPage() {
                             return (
                               <Table.Tr
                                 key={item.name}
-                                style={CURSOR_POINTER_STYLE}
+                                style={{ cursor: 'pointer' }}
                                 onClick={() =>
                                   navigate(
                                     `/gear-sets/${encodeURIComponent(item.set)}`
@@ -582,7 +584,7 @@ export default function GearPage() {
                                     fw={600}
                                     size="sm"
                                     c="violet"
-                                    style={LINK_RESET_STYLE}
+                                    style={{ textDecoration: 'none' }}
                                     onClick={(e) => e.stopPropagation()}
                                   >
                                     {item.name}

@@ -24,7 +24,6 @@ import {
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import LastUpdated from '../../components/common/LastUpdated';
-import { LINK_RESET_STYLE } from '../../constants/styles';
 import { useDataFetch } from '../../hooks';
 import type { Artifact } from '../../types/artifact';
 import type { Character } from '../../types/character';
@@ -223,7 +222,7 @@ export default function DataStatsBar() {
               to={stat.to}
               py="sm"
               px="xs"
-              style={LINK_RESET_STYLE}
+              style={{ textDecoration: 'none' }}
             >
               <Stack gap={4} align="center">
                 <ThemeIcon

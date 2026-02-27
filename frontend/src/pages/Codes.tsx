@@ -47,7 +47,6 @@ import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
 } from '../components/tools/SuggestModal';
-import { CURSOR_POINTER_STYLE } from '../constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import { useViewMode } from '../hooks/use-filters';
@@ -389,7 +388,7 @@ export default function Codes() {
               justify="space-between"
               align="center"
               onClick={toggleRewards}
-              style={CURSOR_POINTER_STYLE}
+              style={{ cursor: 'pointer' }}
               px="xs"
               py={4}
             >

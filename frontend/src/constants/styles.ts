@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { getGlassStyles } from './glass';
 import { TRANSITION } from './ui';
 
 export const BRAND_TITLE_STYLE = {
@@ -120,78 +121,27 @@ export function getDetailHeroGradient(
   };
 }
 
-/**
- * Monospace textarea input styles for JSON/code paste areas
- */
-export const MONOSPACE_INPUT_STYLES = {
-  input: { fontFamily: 'monospace', fontSize: 'var(--mantine-font-size-xs)' },
-} as const;
-
-export const LINK_RESET_STYLE = {
-  textDecoration: 'none',
-} as const satisfies CSSProperties;
-
-export const FLEX_SHRINK_0_STYLE = {
-  flexShrink: 0,
-} as const satisfies CSSProperties;
-
-export const WORD_BREAK_STYLE = {
-  wordBreak: 'break-word',
-} as const satisfies CSSProperties;
-
-export const ALIGN_SELF_END_STYLE = {
-  alignSelf: 'flex-end',
-} as const satisfies CSSProperties;
-
-export const OVERFLOW_HIDDEN_STYLE = {
-  overflow: 'hidden',
-} as const satisfies CSSProperties;
-
-export const CURSOR_POINTER_STYLE = {
-  cursor: 'pointer',
-} as const satisfies CSSProperties;
-
-export const POINTER_EVENTS_NONE_STYLE = {
-  pointerEvents: 'none',
-} as const satisfies CSSProperties;
-
-export const WHITE_SPACE_PRE_LINE_STYLE = {
-  whiteSpace: 'pre-line',
-} as const satisfies CSSProperties;
-
-export const OBJECT_FIT_CONTAIN_STYLE = {
-  objectFit: 'contain',
-} as const satisfies CSSProperties;
-
-export const LINK_INLINE_FLEX_RESET_STYLE = {
-  textDecoration: 'none',
-  display: 'inline-flex',
-} as const satisfies CSSProperties;
-
-export const FLEX_1_MIN_WIDTH_180_STYLE = {
-  flex: 1,
-  minWidth: 180,
-} as const satisfies CSSProperties;
-
-export const RELATIVE_Z1_STYLE = {
-  position: 'relative',
-  zIndex: 1,
-} as const satisfies CSSProperties;
-
-export const FLEX_1_STYLE = {
-  flex: 1,
-} as const satisfies CSSProperties;
-
-export const FLEX_1_MIN_WIDTH_0_STYLE = {
-  flex: 1,
-  minWidth: 0,
-} as const satisfies CSSProperties;
-
 export const LINK_BLOCK_RESET_STYLE = {
   textDecoration: 'none',
   color: 'inherit',
   display: 'block',
 } as const satisfies CSSProperties;
+
+/**
+ * Shared section card style used across guide pages.
+ */
+export function getGuideSectionCardStyles(isDark: boolean): CSSProperties {
+  return {
+    ...getGlassStyles(isDark, true),
+    boxShadow: isDark
+      ? '0 10px 28px rgba(0, 0, 0, 0.28)'
+      : '0 8px 24px rgba(124, 58, 237, 0.08)',
+  };
+}
+
+export function getMinWidthStyle(minWidth: number): CSSProperties {
+  return { minWidth };
+}
 
 export function getHomeHeroPlaceholderGradient(isDark: boolean): string {
   return isDark

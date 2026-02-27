@@ -30,6 +30,7 @@ import {
   RESOURCE_CATEGORY_COLOR,
   RESOURCE_CATEGORY_ORDER,
 } from '../constants/colors';
+import { getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { ResourcesContext } from '../contexts';
 import {
@@ -257,7 +258,7 @@ export default function Resources() {
             }
             tableContent={
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                <Table striped highlightOnHover style={{ minWidth: 600 }}>
+                <Table striped highlightOnHover style={getMinWidthStyle(600)}>
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Icon</Table.Th>

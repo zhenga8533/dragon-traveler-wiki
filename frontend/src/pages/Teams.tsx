@@ -47,10 +47,9 @@ import {
 } from '../constants/content-types';
 import {
   CARD_HOVER_STYLES,
-  CURSOR_POINTER_STYLE,
   LINK_BLOCK_RESET_STYLE,
-  LINK_RESET_STYLE,
   cardHoverHandlers,
+  getMinWidthStyle,
 } from '../constants/styles';
 import { STORAGE_KEY, TRANSITION } from '../constants/ui';
 import { useDataFetch } from '../hooks';
@@ -524,7 +523,11 @@ export default function Teams() {
                   </SimpleGrid>
                 ) : (
                   <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                    <Table striped highlightOnHover style={{ minWidth: 640 }}>
+                    <Table
+                      striped
+                      highlightOnHover
+                      style={getMinWidthStyle(640)}
+                    >
                       <Table.Thead>
                         <Table.Tr>
                           <Table.Th>Name</Table.Th>
@@ -539,7 +542,7 @@ export default function Teams() {
                           return (
                             <Table.Tr
                               key={team.name}
-                              style={CURSOR_POINTER_STYLE}
+                              style={{ cursor: 'pointer' }}
                               onClick={() =>
                                 navigate(
                                   `/teams/${encodeURIComponent(team.name)}`
@@ -565,7 +568,7 @@ export default function Teams() {
                                     size="sm"
                                     fw={500}
                                     c="violet"
-                                    style={LINK_RESET_STYLE}
+                                    style={{ textDecoration: 'none' }}
                                     onClick={(e) => e.stopPropagation()}
                                   >
                                     {team.name}

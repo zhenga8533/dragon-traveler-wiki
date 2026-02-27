@@ -11,7 +11,6 @@ import {
 import { IoCheckmark, IoCopyOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import ResourceBadge from '../../components/common/ResourceBadge';
-import { ALIGN_SELF_END_STYLE } from '../../constants/styles';
 import { useDataFetch, useMobileTooltip } from '../../hooks';
 import type { Code } from '../../types/code';
 import { isCodeActive } from '../../utils';
@@ -94,7 +93,7 @@ export default function ActiveCodesSection() {
         size="xs"
         c="dimmed"
         td="underline"
-        style={ALIGN_SELF_END_STYLE}
+        style={{ alignSelf: 'flex-end' }}
       >
         View all codes
       </Text>

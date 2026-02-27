@@ -36,12 +36,7 @@ import { FACTION_COLOR, QUALITY_BORDER_COLOR } from '../constants/colors';
 import { normalizeContentType } from '../constants/content-types';
 import { GLASS_BORDER, getLoreGlassStyles } from '../constants/glass';
 import {
-  CURSOR_POINTER_STYLE,
   DETAIL_HERO_WRAPPER_STYLES,
-  FLEX_1_STYLE,
-  FLEX_SHRINK_0_STYLE,
-  LINK_RESET_STYLE,
-  RELATIVE_Z1_STYLE,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
@@ -191,7 +186,11 @@ export default function TeamPage() {
       <Box style={DETAIL_HERO_WRAPPER_STYLES}>
         <Box style={getDetailHeroGradient(isDark, factionColor)} />
 
-        <Container size="lg" style={RELATIVE_Z1_STYLE} py="xl">
+        <Container
+          size="lg"
+          style={{ position: 'relative', zIndex: 1 }}
+          py="xl"
+        >
           <Stack gap="lg">
             <Group justify="space-between">
               <Breadcrumbs
@@ -223,7 +222,7 @@ export default function TeamPage() {
                 />
               </Box>
 
-              <Stack gap={6} style={FLEX_1_STYLE}>
+              <Stack gap={6} style={{ flex: 1 }}>
                 <Title
                   order={1}
                   c={isDark ? 'white' : 'dark'}
@@ -284,13 +283,13 @@ export default function TeamPage() {
                               >
                                 <Link
                                   to={`/artifacts/${encodeURIComponent(artifactName)}`}
-                                  style={LINK_RESET_STYLE}
+                                  style={{ textDecoration: 'none' }}
                                 >
                                   <Paper
                                     p="sm"
                                     radius="md"
                                     withBorder
-                                    style={CURSOR_POINTER_STYLE}
+                                    style={{ cursor: 'pointer' }}
                                   >
                                     <Group
                                       gap="sm"
@@ -312,7 +311,7 @@ export default function TeamPage() {
                                           display: 'flex',
                                           alignItems: 'center',
                                           justifyContent: 'center',
-                                          ...FLEX_SHRINK_0_STYLE,
+                                          flexShrink: 0,
                                         }}
                                       >
                                         {iconSrc && (
@@ -500,7 +499,7 @@ export default function TeamPage() {
                             component={Link}
                             to={`/characters/${encodeURIComponent(benchName)}`}
                             c="violet"
-                            style={LINK_RESET_STYLE}
+                            style={{ textDecoration: 'none' }}
                             lineClamp={1}
                           >
                             {benchName}
@@ -751,7 +750,7 @@ function BattlefieldGrid({
                       component={Link}
                       to={`/characters/${encodeURIComponent(member.character_name)}`}
                       c="violet"
-                      style={LINK_RESET_STYLE}
+                      style={{ textDecoration: 'none' }}
                       lineClamp={1}
                     >
                       {member.character_name}

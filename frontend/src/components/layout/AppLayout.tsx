@@ -24,10 +24,7 @@ import { normalizeContentType } from '../../constants/content-types';
 import { getGlassStyles } from '../../constants/glass';
 import {
   BRAND_TITLE_STYLE,
-  FLEX_1_STYLE,
-  FLEX_SHRINK_0_STYLE,
   LINK_BLOCK_RESET_STYLE,
-  OVERFLOW_HIDDEN_STYLE,
 } from '../../constants/styles';
 import {
   BREAKPOINTS,
@@ -99,7 +96,7 @@ export default function AppLayout() {
     >
       <AppShell.Header style={glassStyles}>
         <Group h="100%" px="md" justify="space-between" wrap="nowrap">
-          <Group gap="sm" wrap="nowrap" style={OVERFLOW_HIDDEN_STYLE}>
+          <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
             <Burger
               opened={mobileOpened}
               onClick={toggleMobile}
@@ -168,20 +165,14 @@ export default function AppLayout() {
         onMouseEnter={() => sidebar.setHovered(true)}
         onMouseLeave={() => sidebar.setHovered(false)}
       >
-        <Box style={{ ...FLEX_1_STYLE, overflowY: 'auto', minHeight: 0 }}>
+        <Box style={{ flex: 1, overflowY: 'auto', minHeight: 0 }}>
           <Navigation
             onNavigate={closeMobile}
             showLabels={showLabels}
             onExpand={() => sidebar.setCollapsed(false)}
           />
         </Box>
-        <Box
-          hiddenFrom="sm"
-          px="xs"
-          pb="xs"
-          pt="xs"
-          style={FLEX_SHRINK_0_STYLE}
-        >
+        <Box hiddenFrom="sm" px="xs" pb="xs" pt="xs" style={{ flexShrink: 0 }}>
           <Select
             placeholder="Tier list reference"
             data={tierListOptions}
@@ -201,7 +192,7 @@ export default function AppLayout() {
           minHeight: '100vh',
         }}
       >
-        <Box style={FLEX_1_STYLE}>
+        <Box style={{ flex: 1 }}>
           <PageTransition>
             <ErrorBoundary>
               <AppRoutes />

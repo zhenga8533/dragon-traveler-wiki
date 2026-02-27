@@ -14,10 +14,6 @@ import { Link } from 'react-router-dom';
 import CharacterCard from '../../components/character/CharacterCard';
 import { TIER_COLOR } from '../../constants/colors';
 import { normalizeContentType } from '../../constants/content-types';
-import {
-  FLEX_SHRINK_0_STYLE,
-  OVERFLOW_HIDDEN_STYLE,
-} from '../../constants/styles';
 import { TierListReferenceContext } from '../../contexts/tier-list-reference-context';
 import { useDataFetch } from '../../hooks';
 import type { Character } from '../../types/character';
@@ -65,7 +61,7 @@ export default function FeaturedCharactersMarquee() {
           className="featured-item"
           gap={2}
           align="center"
-          style={{ ...FLEX_SHRINK_0_STYLE, width: 90 }}
+          style={{ flexShrink: 0, width: 90 }}
         >
           <CharacterCard
             name={entry.character_name}
@@ -102,7 +98,7 @@ export default function FeaturedCharactersMarquee() {
       )}
       <Box
         style={{
-          ...OVERFLOW_HIDDEN_STYLE,
+          overflow: 'hidden',
           width: '100%',
           contain: 'inline-size',
           maskImage:

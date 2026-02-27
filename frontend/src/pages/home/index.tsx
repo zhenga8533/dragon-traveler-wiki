@@ -27,15 +27,11 @@ import {
 import { Link } from 'react-router-dom';
 import SearchModal from '../../components/tools/SearchModal';
 import {
-  FLEX_SHRINK_0_STYLE,
   HOME_HERO_META_TEXT_STYLE,
   HOME_HERO_PLAY_NOW_STYLE,
   HOME_HERO_SUBTITLE_STYLE,
   HOME_HERO_TITLE_STYLE,
   HOME_HERO_WORDMARK_STYLE,
-  OVERFLOW_HIDDEN_STYLE,
-  RELATIVE_Z1_STYLE,
-  WORD_BREAK_STYLE,
   getHomeHeroPlaceholderGradient,
 } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
@@ -182,7 +178,12 @@ export default function Home() {
         </Box>
 
         {/* Content that overlaps the banner */}
-        <Container size="md" style={RELATIVE_Z1_STYLE} pt={60} pb="xl">
+        <Container
+          size="md"
+          style={{ position: 'relative', zIndex: 1 }}
+          pt={60}
+          pb="xl"
+        >
           <Stack gap="lg">
             {/* Title */}
             <Box style={{ textAlign: 'center' }}>
@@ -342,17 +343,21 @@ export default function Home() {
                     Free to Play
                   </Badge>
                 </Group>
-                <Group gap="sm" wrap="nowrap" style={OVERFLOW_HIDDEN_STYLE}>
+                <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
                   <ThemeIcon
                     variant="light"
                     color="blue"
                     size="md"
                     radius="md"
-                    style={FLEX_SHRINK_0_STYLE}
+                    style={{ flexShrink: 0 }}
                   >
                     <IoGlobe size={16} />
                   </ThemeIcon>
-                  <Text size="sm" c="dimmed" style={WORD_BREAK_STYLE}>
+                  <Text
+                    size="sm"
+                    c="dimmed"
+                    style={{ wordBreak: 'break-word' }}
+                  >
                     {LANGUAGES.join(' \u00b7 ')}
                   </Text>
                 </Group>

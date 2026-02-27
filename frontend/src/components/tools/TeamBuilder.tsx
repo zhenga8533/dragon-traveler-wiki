@@ -56,7 +56,6 @@ import {
   GITHUB_REPO_URL,
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../constants/github';
-import { MONOSPACE_INPUT_STYLES } from '../../constants/styles';
 import { CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
 import type { Character, CharacterClass } from '../../types/character';
 import type { FactionName } from '../../types/faction';
@@ -1850,7 +1849,12 @@ export default function TeamBuilder({
             maxRows={20}
             autosize
             error={pasteError || undefined}
-            styles={MONOSPACE_INPUT_STYLES}
+            styles={{
+              input: {
+                fontFamily: 'monospace',
+                fontSize: 'var(--mantine-font-size-xs)',
+              },
+            }}
           />
           <Group justify="flex-end">
             <Button

@@ -28,11 +28,9 @@ import SuggestModal, {
 import { QUALITY_ORDER } from '../constants/colors';
 import {
   CARD_HOVER_STYLES,
-  CURSOR_POINTER_STYLE,
-  FLEX_1_STYLE,
   LINK_BLOCK_RESET_STYLE,
-  LINK_RESET_STYLE,
   cardHoverHandlers,
+  getMinWidthStyle,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
@@ -271,7 +269,7 @@ export default function Artifacts() {
                             loading="lazy"
                           />
                         )}
-                        <Stack gap={4} style={FLEX_1_STYLE}>
+                        <Stack gap={4} style={{ flex: 1 }}>
                           <Group gap="sm">
                             <QualityIcon quality={artifact.quality} />
                             <Text fw={600} size="lg" c="violet">
@@ -303,7 +301,7 @@ export default function Artifacts() {
             }
             tableContent={
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                <Table striped highlightOnHover style={{ minWidth: 600 }}>
+                <Table striped highlightOnHover style={getMinWidthStyle(600)}>
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Icon</Table.Th>
@@ -355,7 +353,7 @@ export default function Artifacts() {
                       return (
                         <Table.Tr
                           key={artifact.name}
-                          style={CURSOR_POINTER_STYLE}
+                          style={{ cursor: 'pointer' }}
                           onClick={() =>
                             navigate(
                               `/artifacts/${encodeURIComponent(artifact.name)}`
@@ -382,7 +380,7 @@ export default function Artifacts() {
                               size="sm"
                               fw={500}
                               c="violet"
-                              style={LINK_RESET_STYLE}
+                              style={{ textDecoration: 'none' }}
                               onClick={(e) => e.stopPropagation()}
                             >
                               {artifact.name}

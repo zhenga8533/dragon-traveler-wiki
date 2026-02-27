@@ -38,6 +38,7 @@ import SuggestModal, {
   type FieldDef,
 } from '../components/tools/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
+import { getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import {
@@ -460,7 +461,11 @@ export default function Howlkins() {
                     </SimpleGrid>
                   ) : (
                     <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                      <Table striped highlightOnHover style={{ minWidth: 720 }}>
+                      <Table
+                        striped
+                        highlightOnHover
+                        style={getMinWidthStyle(720)}
+                      >
                         <Table.Thead>
                           <Table.Tr>
                             <Table.Th>Icon</Table.Th>

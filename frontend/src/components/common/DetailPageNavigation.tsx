@@ -1,7 +1,6 @@
 import { Box, Group, Text } from '@mantine/core';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { CURSOR_POINTER_STYLE, LINK_RESET_STYLE } from '../../constants/styles';
 
 type DetailNavigationItem = {
   label: string;
@@ -23,8 +22,8 @@ export default function DetailPageNavigation({
     <Box mt="xl">
       <Group justify="space-between" align="center" wrap="wrap" gap="sm">
         {previousItem ? (
-          <Link to={previousItem.path} style={LINK_RESET_STYLE}>
-            <Group gap="xs" c="violet" style={CURSOR_POINTER_STYLE}>
+          <Link to={previousItem.path} style={{ textDecoration: 'none' }}>
+            <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
               <IoChevronBack />
               <Text size="sm">Previous: {previousItem.label}</Text>
             </Group>
@@ -36,8 +35,8 @@ export default function DetailPageNavigation({
         <Box />
 
         {nextItem ? (
-          <Link to={nextItem.path} style={LINK_RESET_STYLE}>
-            <Group gap="xs" c="violet" style={CURSOR_POINTER_STYLE}>
+          <Link to={nextItem.path} style={{ textDecoration: 'none' }}>
+            <Group gap="xs" c="violet" style={{ cursor: 'pointer' }}>
               <Text size="sm">Next: {nextItem.label}</Text>
               <IoChevronForward />
             </Group>

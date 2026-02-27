@@ -24,8 +24,10 @@ import {
 } from 'react-icons/io5';
 import ResourceBadge from '../components/common/ResourceBadge';
 import StatCard from '../components/common/StatCard';
-import { getGlassStyles } from '../constants/glass';
-import { BRAND_TITLE_STYLE, RELATIVE_Z1_STYLE } from '../constants/styles';
+import {
+  BRAND_TITLE_STYLE,
+  getGuideSectionCardStyles,
+} from '../constants/styles';
 
 type DropRate = {
   chance: number;
@@ -322,12 +324,7 @@ export default function MythicSummonCalculator() {
     currentPulls,
   ]);
 
-  const sectionCardStyle = {
-    ...getGlassStyles(isDark, true),
-    boxShadow: isDark
-      ? '0 10px 28px rgba(0, 0, 0, 0.28)'
-      : '0 8px 24px rgba(124, 58, 237, 0.08)',
-  };
+  const sectionCardStyle = getGuideSectionCardStyles(isDark);
 
   return (
     <Container size="xl" py="xl">
@@ -353,7 +350,7 @@ export default function MythicSummonCalculator() {
             }}
           />
 
-          <Stack gap="md" style={RELATIVE_Z1_STYLE}>
+          <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
             <Group gap="sm" wrap="nowrap">
               <ThemeIcon size="xl" radius="md" variant="light" color="violet">
                 <IoSparkles size={20} />

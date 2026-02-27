@@ -2,11 +2,6 @@ import { Badge, Group, Image, Popover, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { getStatusEffectIcon } from '../../assets/status_effect';
 import { STATE_COLOR } from '../../constants/colors';
-import {
-  CURSOR_POINTER_STYLE,
-  POINTER_EVENTS_NONE_STYLE,
-  WHITE_SPACE_PRE_LINE_STYLE,
-} from '../../constants/styles';
 import type { StatusEffect } from '../../types/status-effect';
 
 export interface StatusEffectBadgeProps {
@@ -43,7 +38,7 @@ export default function StatusEffectBadge({
           color={color}
           size="sm"
           component="span"
-          style={CURSOR_POINTER_STYLE}
+          style={{ cursor: 'pointer' }}
           onMouseEnter={open}
           onMouseLeave={close}
           leftSection={
@@ -55,7 +50,7 @@ export default function StatusEffectBadge({
           {name}
         </Badge>
       </Popover.Target>
-      <Popover.Dropdown style={POINTER_EVENTS_NONE_STYLE}>
+      <Popover.Dropdown style={{ pointerEvents: 'none' }}>
         <Stack gap="xs" maw={280}>
           <Group gap="xs" wrap="nowrap">
             {iconSrc && <Image src={iconSrc} alt={effect.name} w={18} h={18} />}
@@ -66,7 +61,7 @@ export default function StatusEffectBadge({
               {effect.type}
             </Badge>
           </Group>
-          <Text size="xs" style={WHITE_SPACE_PRE_LINE_STYLE}>
+          <Text size="xs" style={{ whiteSpace: 'pre-line' }}>
             {effect.effect}
           </Text>
           {effect.remark && (
@@ -74,7 +69,7 @@ export default function StatusEffectBadge({
               size="xs"
               c="dimmed"
               fs="italic"
-              style={WHITE_SPACE_PRE_LINE_STYLE}
+              style={{ whiteSpace: 'pre-line' }}
             >
               {effect.remark}
             </Text>

@@ -10,7 +10,6 @@ import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
 import { QUALITY_BORDER_COLOR } from '../../constants/colors';
-import { FLEX_SHRINK_0_STYLE } from '../../constants/styles';
 import { CHARACTER_CARD, TRANSITION } from '../../constants/ui';
 import type { Quality } from '../../types/quality';
 import TierBadge from '../common/TierBadge';
@@ -95,7 +94,7 @@ export default function CharacterCard({
           {name}
         </Text>
         {tierLabel && (
-          <TierBadge tier={tierLabel} size="xs" style={FLEX_SHRINK_0_STYLE} />
+          <TierBadge tier={tierLabel} size="xs" style={{ flexShrink: 0 }} />
         )}
       </Group>
     </Stack>

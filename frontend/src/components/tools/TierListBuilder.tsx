@@ -50,11 +50,6 @@ import {
   GITHUB_REPO_URL,
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../constants/github';
-import {
-  FLEX_1_MIN_WIDTH_0_STYLE,
-  FLEX_SHRINK_0_STYLE,
-  MONOSPACE_INPUT_STYLES,
-} from '../../constants/styles';
 import { CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
 import type { Character } from '../../types/character';
 import type { TierDefinition, TierList } from '../../types/tier-list';
@@ -170,7 +165,7 @@ function TierDropZone({
     >
       <Stack gap="sm">
         <Group justify="space-between" align="flex-start" wrap="nowrap">
-          <Stack gap={4} style={FLEX_1_MIN_WIDTH_0_STYLE}>
+          <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
             <Badge variant="filled" color={color} size="lg" radius="sm">
               {label}
             </Badge>
@@ -203,7 +198,7 @@ function TierDropZone({
               </Text>
             )}
           </Stack>
-          <Group gap={2} wrap="nowrap" style={FLEX_SHRINK_0_STYLE}>
+          <Group gap={2} wrap="nowrap" style={{ flexShrink: 0 }}>
             <Tooltip
               label={isFirst ? 'Already at top tier' : 'Move tier up'}
               withArrow
@@ -893,7 +888,12 @@ export default function TierListBuilder({
             maxRows={20}
             autosize
             error={pasteError || undefined}
-            styles={MONOSPACE_INPUT_STYLES}
+            styles={{
+              input: {
+                fontFamily: 'monospace',
+                fontSize: 'var(--mantine-font-size-xs)',
+              },
+            }}
           />
           <Group justify="flex-end">
             <Button

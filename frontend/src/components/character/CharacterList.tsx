@@ -14,10 +14,7 @@ import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
 import { QUALITY_BORDER_COLOR, TIER_ORDER } from '../../constants/colors';
-import {
-  CURSOR_POINTER_STYLE,
-  FLEX_SHRINK_0_STYLE,
-} from '../../constants/styles';
+import { getMinWidthStyle } from '../../constants/styles';
 import {
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
@@ -228,7 +225,7 @@ export default function CharacterList({
           </SimpleGrid>
         ) : (
           <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-            <Table striped highlightOnHover style={{ minWidth: 560 }}>
+            <Table striped highlightOnHover style={getMinWidthStyle(560)}>
               <Table.Thead>
                 <Table.Tr>
                   <SortableTh
@@ -278,7 +275,7 @@ export default function CharacterList({
               </Table.Thead>
               <Table.Tbody>
                 {pageItems.map((char) => (
-                  <Table.Tr key={char.name} style={CURSOR_POINTER_STYLE}>
+                  <Table.Tr key={char.name} style={{ cursor: 'pointer' }}>
                     <Table.Td>
                       <UnstyledButton
                         component={Link}
@@ -295,7 +292,7 @@ export default function CharacterList({
                             fallbackSrc={`https://placehold.co/40x40?text=${encodeURIComponent(char.name.charAt(0))}`}
                             style={{
                               border: `3px solid ${char.quality ? QUALITY_BORDER_COLOR[char.quality] : 'var(--mantine-color-gray-5)'}`,
-                              ...FLEX_SHRINK_0_STYLE,
+                              flexShrink: 0,
                             }}
                           />
                           <Text size="sm" fw={500} c="violet">

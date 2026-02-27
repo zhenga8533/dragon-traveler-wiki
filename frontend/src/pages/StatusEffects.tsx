@@ -22,6 +22,7 @@ import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
+import { getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import {
@@ -255,7 +256,7 @@ export default function StatusEffects() {
             }
             tableContent={
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                <Table striped highlightOnHover style={{ minWidth: 720 }}>
+                <Table striped highlightOnHover style={getMinWidthStyle(720)}>
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Icon</Table.Th>
