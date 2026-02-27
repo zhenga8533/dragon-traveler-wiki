@@ -7,11 +7,16 @@ from backend.models.faction import FactionName
 ContentType = Literal["All", "PvP", "PvE", "Boss"]
 
 
+class TeamMemberPosition(BaseModel):
+    row: int  # 0 = Front, 1 = Middle, 2 = Back
+    col: int  # 0 = Left, 1 = Center, 2 = Right
+
+
 class TeamMember(BaseModel):
     character_name: str
     overdrive_order: int | None = None
-    substitutes: list[str] | None = None
     note: str = ""
+    position: TeamMemberPosition | None = None
 
 
 class TeamWyrmspells(BaseModel):
@@ -28,6 +33,8 @@ class Team(BaseModel):
     description: str
     faction: FactionName
     members: list[TeamMember]
+    bench: list[str] | None = None
+    bench_notes: dict[str, str] | None = None
     wyrmspells: TeamWyrmspells | None = None
 
     @field_validator("content_type", mode="before")

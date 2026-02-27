@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Badge,
   Button,
   Collapse,
@@ -13,14 +14,15 @@ import {
   Table,
   Text,
   Title,
+  Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter } from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
-import CharacterCard from '../components/character/CharacterCard';
 import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
@@ -34,7 +36,11 @@ import {
   ViewModeLoading,
 } from '../components/layout/PageLoadingSkeleton';
 import TeamBuilder from '../components/tools/TeamBuilder';
-import { FACTION_NAMES } from '../constants/colors';
+import {
+  FACTION_COLOR,
+  FACTION_NAMES,
+  QUALITY_BORDER_COLOR,
+} from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentType,
@@ -46,7 +52,7 @@ import {
   LINK_RESET_STYLE,
   cardHoverHandlers,
 } from '../constants/styles';
-import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
+import { STORAGE_KEY, TRANSITION } from '../constants/ui';
 import { useDataFetch } from '../hooks/use-data-fetch';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
@@ -56,6 +62,67 @@ import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
 
 const TEAMS_PER_PAGE = 12;
+
+function TeamCharacterAvatars({
+  names,
+  charMap,
+  size,
+  isSubstitute = false,
+}: {
+  names: string[];
+  charMap: Map<string, Character>;
+  size: number;
+  isSubstitute?: boolean;
+}) {
+  return (
+    <Group gap={4} wrap="wrap">
+      {names.map((name) => {
+        const char = charMap.get(name);
+        const borderColor = char
+          ? QUALITY_BORDER_COLOR[char.quality]
+          : 'var(--mantine-color-gray-5)';
+        return (
+          <Tooltip
+            key={`${isSubstitute ? 'sub' : 'main'}-${name}`}
+            label={isSubstitute ? `${name} (Sub)` : name}
+            withArrow
+          >
+            <Image
+              src={getPortrait(name)}
+              alt={name}
+              w={size}
+              h={size}
+              fit="cover"
+              radius="xl"
+              loading="lazy"
+              style={{
+                border: `2px solid ${borderColor}`,
+                borderRadius: '50%',
+                boxShadow: isSubstitute
+                  ? '0 1px 4px rgba(0,0,0,0.16)'
+                  : '0 2px 6px rgba(0,0,0,0.2)',
+                opacity: isSubstitute ? 0.9 : 1,
+                transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, box-shadow ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+              }}
+              onMouseEnter={(e) => {
+                e.currentTarget.style.transform = 'scale(1.08)';
+                e.currentTarget.style.boxShadow = isSubstitute
+                  ? '0 3px 8px rgba(0,0,0,0.2)'
+                  : '0 4px 10px rgba(0,0,0,0.25)';
+              }}
+              onMouseLeave={(e) => {
+                e.currentTarget.style.transform = 'scale(1)';
+                e.currentTarget.style.boxShadow = isSubstitute
+                  ? '0 1px 4px rgba(0,0,0,0.16)'
+                  : '0 2px 6px rgba(0,0,0,0.2)';
+              }}
+            />
+          </Tooltip>
+        );
+      })}
+    </Group>
+  );
+}
 
 export default function Teams() {
   const navigate = useNavigate();
@@ -318,6 +385,7 @@ export default function Teams() {
                             style={{
                               ...CARD_HOVER_STYLES,
                               ...LINK_BLOCK_RESET_STYLE,
+                              borderTop: `3px solid var(--mantine-color-${FACTION_COLOR[team.faction as FactionName] ?? 'violet'}-5)`,
                             }}
                             onClick={() =>
                               navigate(
@@ -337,12 +405,18 @@ export default function Teams() {
                             {...cardHoverHandlers}
                           >
                             <Stack gap="sm">
+                              {/* Header: whelp + name + edit icon */}
                               <Group
                                 justify="space-between"
                                 align="flex-start"
-                                wrap="wrap"
+                                wrap="nowrap"
+                                gap="xs"
                               >
-                                <Group gap="sm">
+                                <Group
+                                  gap="xs"
+                                  wrap="nowrap"
+                                  style={{ minWidth: 0 }}
+                                >
                                   <Image
                                     src={
                                       FACTION_WYRM_MAP[
@@ -350,103 +424,98 @@ export default function Teams() {
                                       ]
                                     }
                                     alt={`${team.faction} Whelp`}
-                                    w={40}
-                                    h={40}
+                                    w={32}
+                                    h={32}
                                     fit="contain"
+                                    style={{ flexShrink: 0 }}
                                   />
-                                  <Text fw={600} size="lg" c="violet">
+                                  <Text
+                                    fw={700}
+                                    size="md"
+                                    c="violet"
+                                    lineClamp={1}
+                                  >
                                     {team.name}
                                   </Text>
                                 </Group>
-
-                                <Button
-                                  variant="light"
-                                  size="sm"
-                                  leftSection={<IoCreate size={14} />}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    setEditData(team);
-                                    setMode('builder');
-                                  }}
-                                >
-                                  Edit
-                                </Button>
+                                <Tooltip label="Edit in builder" withArrow>
+                                  <ActionIcon
+                                    variant="subtle"
+                                    size="md"
+                                    color="violet"
+                                    style={{ flexShrink: 0 }}
+                                    onClick={(e) => {
+                                      e.stopPropagation();
+                                      setEditData(team);
+                                      setMode('builder');
+                                    }}
+                                    aria-label="Edit team"
+                                  >
+                                    <IoCreate size={16} />
+                                  </ActionIcon>
+                                </Tooltip>
                               </Group>
 
+                              {/* Tags */}
                               <Group gap="xs">
-                                <Badge variant="light" size="sm">
+                                <FactionTag
+                                  faction={team.faction as FactionName}
+                                  size="sm"
+                                />
+                                <Badge variant="light" size="sm" color="gray">
                                   {normalizeContentType(
                                     team.content_type,
                                     'All'
                                   )}
                                 </Badge>
-                                <FactionTag
-                                  faction={team.faction as FactionName}
-                                  size="sm"
-                                />
                               </Group>
 
-                              <Group gap="xs">
-                                <Text size="sm" c="dimmed">
-                                  by{' '}
-                                  <Text span c="violet" inherit>
-                                    {team.author}
-                                  </Text>
+                              {/* Author + description */}
+                              <Text size="xs" c="dimmed" lineClamp={1}>
+                                by{' '}
+                                <Text span c="violet" fw={500} inherit>
+                                  {team.author}
                                 </Text>
                                 {team.description && (
-                                  <>
-                                    <Text size="sm" c="dimmed">
-                                      •
-                                    </Text>
-                                    <Text size="sm" c="dimmed" lineClamp={1}>
-                                      {team.description}
-                                    </Text>
-                                  </>
+                                  <Text span inherit>
+                                    {' '}
+                                    · {team.description}
+                                  </Text>
                                 )}
-                              </Group>
+                              </Text>
 
-                              <SimpleGrid
-                                cols={{ base: 3, xs: 4, sm: 3 }}
-                                spacing={CHARACTER_GRID_SPACING}
-                              >
-                                {team.members.slice(0, 6).map((m) => {
-                                  const char = charMap.get(m.character_name);
-                                  return (
-                                    <div
-                                      key={m.character_name}
-                                      style={{
-                                        position: 'relative',
-                                        display: 'flex',
-                                        flexDirection: 'column',
-                                        alignItems: 'center',
-                                      }}
+                              {/* Member portraits */}
+                              <Stack gap={4}>
+                                <Group gap={6} align="center">
+                                  <Badge size="xs" variant="light" color="blue">
+                                    Main {team.members.length}
+                                  </Badge>
+                                  <TeamCharacterAvatars
+                                    names={team.members.map(
+                                      (member) => member.character_name
+                                    )}
+                                    charMap={charMap}
+                                    size={40}
+                                  />
+                                </Group>
+                                {(team.bench?.length ?? 0) > 0 && (
+                                  <Group gap={6} align="center">
+                                    <Badge
+                                      size="xs"
+                                      variant="light"
+                                      color="gray"
                                     >
-                                      <CharacterCard
-                                        name={m.character_name}
-                                        quality={char?.quality}
-                                        disableLink
-                                        note={m.note}
-                                      />
-                                      {m.overdrive_order != null && (
-                                        <Badge
-                                          size="sm"
-                                          circle
-                                          variant="filled"
-                                          color="orange"
-                                          style={{
-                                            position: 'absolute',
-                                            top: 0,
-                                            right: 'calc(50% - 40px)',
-                                            pointerEvents: 'none',
-                                          }}
-                                        >
-                                          {m.overdrive_order}
-                                        </Badge>
-                                      )}
-                                    </div>
-                                  );
-                                })}
-                              </SimpleGrid>
+                                      Subs {team.bench!.length}
+                                    </Badge>
+                                    <TeamCharacterAvatars
+                                      names={team.bench!}
+                                      charMap={charMap}
+                                      size={40}
+                                      isSubstitute
+                                    />
+                                  </Group>
+                                )}
+                              </Stack>
                             </Stack>
                           </Paper>
                         );
@@ -455,10 +524,11 @@ export default function Teams() {
                   </SimpleGrid>
                 ) : (
                   <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                    <Table striped highlightOnHover style={{ minWidth: 500 }}>
+                    <Table striped highlightOnHover style={{ minWidth: 640 }}>
                       <Table.Thead>
                         <Table.Tr>
                           <Table.Th>Name</Table.Th>
+                          <Table.Th>Members</Table.Th>
                           <Table.Th>Faction</Table.Th>
                           <Table.Th>Content Type</Table.Th>
                           <Table.Th>Author</Table.Th>
@@ -501,6 +571,43 @@ export default function Teams() {
                                     {team.name}
                                   </Text>
                                 </Group>
+                              </Table.Td>
+                              <Table.Td>
+                                <Stack gap={4}>
+                                  <Group gap={6} align="center" wrap="nowrap">
+                                    <Badge
+                                      size="xs"
+                                      variant="light"
+                                      color="blue"
+                                    >
+                                      Main
+                                    </Badge>
+                                    <TeamCharacterAvatars
+                                      names={team.members.map(
+                                        (member) => member.character_name
+                                      )}
+                                      charMap={charMap}
+                                      size={32}
+                                    />
+                                  </Group>
+                                  {(team.bench?.length ?? 0) > 0 && (
+                                    <Group gap={6} align="center" wrap="nowrap">
+                                      <Badge
+                                        size="xs"
+                                        variant="light"
+                                        color="gray"
+                                      >
+                                        Subs
+                                      </Badge>
+                                      <TeamCharacterAvatars
+                                        names={team.bench!}
+                                        charMap={charMap}
+                                        size={32}
+                                        isSubstitute
+                                      />
+                                    </Group>
+                                  )}
+                                </Stack>
                               </Table.Td>
                               <Table.Td>
                                 <FactionTag

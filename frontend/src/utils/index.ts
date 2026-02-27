@@ -1,6 +1,13 @@
 // Utility exports for cleaner imports
 export { getActiveCodeCount, isCodeActive, isCodeExpired } from './code-status';
 export {
+  cloneRecordArrays,
+  insertUniqueBefore,
+  moveItemBefore,
+  removeItem,
+  removeItemFromRecordArrays,
+} from './dnd-list';
+export {
   EMPTY_FILTERS,
   extractAllEffectRefs,
   filterCharacters,

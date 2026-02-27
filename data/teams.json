@@ -9,44 +9,62 @@
       {
         "character_name": "Pompey",
         "overdrive_order": null,
-        "substitutes": [
-          "Herman"
-        ]
+        "position": {
+          "row": 0,
+          "col": 1
+        }
       },
       {
         "character_name": "Artemis",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 0
+        }
       },
       {
         "character_name": "Ifrit",
         "overdrive_order": null,
-        "substitutes": [
-          "Talos"
-        ]
+        "position": {
+          "row": 2,
+          "col": 2
+        }
       },
       {
         "character_name": "Vivienne",
         "overdrive_order": null,
-        "substitutes": [
-          "Nemesis",
-          "Poseidon"
-        ]
+        "position": {
+          "row": 1,
+          "col": 1
+        }
       },
       {
         "character_name": "Orion",
         "overdrive_order": null,
-        "substitutes": [
-          "Scheherazade",
-          "Medusa",
-          "Azure Dragon"
-        ]
+        "position": {
+          "row": 2,
+          "col": 1
+        }
       },
       {
         "character_name": "Atanith",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 0
+        }
       }
     ],
-    "last_updated": 1772081453,
+    "bench": [
+      "Herman",
+      "Talos",
+      "Nemesis",
+      "Poseidon",
+      "Scheherazade",
+      "Medusa",
+      "Azure Dragon"
+    ],
+    "last_updated": 1772215183,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
@@ -63,45 +81,62 @@
     "members": [
       {
         "character_name": "Athena",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 0,
+          "col": 1
+        }
       },
       {
         "character_name": "Apollo",
         "overdrive_order": null,
-        "substitutes": [
-          "Jing"
-        ]
+        "position": {
+          "row": 2,
+          "col": 0
+        }
       },
       {
         "character_name": "Gabriele",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 2
+        }
       },
       {
         "character_name": "Vivienne",
         "overdrive_order": null,
-        "substitutes": [
-          "Scheherazade"
-        ]
+        "position": {
+          "row": 1,
+          "col": 1
+        }
       },
       {
         "character_name": "Chiron",
         "overdrive_order": null,
-        "substitutes": [
-          "Orion",
-          "Scheherazade",
-          "Goblin War Drummer"
-        ]
+        "position": {
+          "row": 1,
+          "col": 0
+        }
       },
       {
         "character_name": "Lorillin",
         "overdrive_order": null,
-        "substitutes": [
-          "Gullveig",
-          "Helveil"
-        ]
+        "position": {
+          "row": 2,
+          "col": 1
+        }
       }
     ],
-    "last_updated": 1772081453,
+    "bench": [
+      "Jing",
+      "Scheherazade",
+      "Orion",
+      "Goblin War Drummer",
+      "Gullveig",
+      "Helveil"
+    ],
+    "last_updated": 1772215183,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
@@ -118,40 +153,62 @@
     "members": [
       {
         "character_name": "Athena",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 0,
+          "col": 1
+        }
       },
       {
         "character_name": "Jing",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 0
+        }
       },
       {
         "character_name": "Loki",
         "overdrive_order": null,
-        "substitutes": [
-          "Azure Dragon",
-          "Oberonnie",
-          "Tyrfing"
-        ]
+        "position": {
+          "row": 2,
+          "col": 2
+        }
       },
       {
         "character_name": "Venus",
         "overdrive_order": null,
-        "substitutes": [
-          "Chiron",
-          "Gullveig",
-          "Caligula"
-        ]
+        "position": {
+          "row": 1,
+          "col": 0
+        }
       },
       {
         "character_name": "Vivienne",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 2
+        }
       },
       {
         "character_name": "Talos",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 1
+        }
       }
     ],
-    "last_updated": 1772081453,
+    "bench": [
+      "Azure Dragon",
+      "Oberonnie",
+      "Tyrfing",
+      "Chiron",
+      "Gullveig",
+      "Caligula"
+    ],
+    "last_updated": 1772215183,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
@@ -169,43 +226,61 @@
       {
         "character_name": "Caesar",
         "overdrive_order": null,
-        "substitutes": [
-          "Pompey"
-        ]
+        "position": {
+          "row": 0,
+          "col": 0
+        }
       },
       {
         "character_name": "Ningluosi",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 0
+        }
       },
       {
         "character_name": "Atanith",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 1
+        }
       },
       {
         "character_name": "Ares",
         "overdrive_order": null,
-        "substitutes": [
-          "Medusa",
-          "Nemesis"
-        ]
+        "position": {
+          "row": 0,
+          "col": 1
+        }
       },
       {
         "character_name": "Poseidon",
         "overdrive_order": null,
-        "substitutes": [
-          "Huginn & Muninn"
-        ]
+        "position": {
+          "row": 2,
+          "col": 2
+        }
       },
       {
         "character_name": "Tyrfing",
         "overdrive_order": null,
-        "substitutes": [
-          "Herman",
-          "Orion"
-        ]
+        "position": {
+          "row": 0,
+          "col": 2
+        }
       }
     ],
-    "last_updated": 1772081453,
+    "bench": [
+      "Pompey",
+      "Medusa",
+      "Nemesis",
+      "Huginn & Muninn",
+      "Herman",
+      "Orion"
+    ],
+    "last_updated": 1772215183,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
@@ -223,44 +298,62 @@
       {
         "character_name": "Anubis",
         "overdrive_order": null,
-        "substitutes": [
-          "Helveil"
-        ]
+        "position": {
+          "row": 0,
+          "col": 0
+        }
       },
       {
         "character_name": "Loki",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 1
+        }
       },
       {
         "character_name": "Hades",
         "overdrive_order": null,
-        "substitutes": [
-          "Gabriele",
-          "Ningluosi",
-          "Jing"
-        ]
+        "position": {
+          "row": 0,
+          "col": 1
+        }
       },
       {
         "character_name": "Azure Dragon",
         "overdrive_order": null,
-        "substitutes": [
-          "Caligula"
-        ]
+        "position": {
+          "row": 0,
+          "col": 2
+        }
       },
       {
         "character_name": "Asmodeus",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 0
+        }
       },
       {
         "character_name": "Silbismo",
         "overdrive_order": null,
-        "substitutes": [
-          "Gullveig",
-          "Cleopatra"
-        ]
+        "position": {
+          "row": 1,
+          "col": 2
+        }
       }
     ],
-    "last_updated": 1772081453,
+    "bench": [
+      "Helveil",
+      "Gabriele",
+      "Ningluosi",
+      "Jing",
+      "Caligula",
+      "Gullveig",
+      "Cleopatra"
+    ],
+    "last_updated": 1772215183,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Shield Aura",
@@ -278,45 +371,63 @@
       {
         "character_name": "Duvalin",
         "overdrive_order": null,
-        "substitutes": [
-          "Anubis",
-          "Oberonnie"
-        ]
+        "position": {
+          "row": 0,
+          "col": 0
+        }
       },
       {
         "character_name": "Thor",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 0,
+          "col": 2
+        }
       },
       {
         "character_name": "Poseidon",
-        "overdrive_order": null
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 1
+        }
       },
       {
         "character_name": "Venus",
         "overdrive_order": null,
-        "substitutes": [
-          "Orion",
-          "Gullveig"
-        ]
+        "position": {
+          "row": 1,
+          "col": 0
+        }
       },
       {
         "character_name": "Vivienne",
         "overdrive_order": null,
-        "substitutes": [
-          "Fenrir",
-          "Siegfried"
-        ]
+        "position": {
+          "row": 1,
+          "col": 2
+        }
       },
       {
         "character_name": "Zagrus",
         "overdrive_order": null,
-        "substitutes": [
-          "Lorillin",
-          "Ifrit"
-        ]
+        "position": {
+          "row": 0,
+          "col": 1
+        }
       }
     ],
-    "last_updated": 1772081453,
+    "bench": [
+      "Anubis",
+      "Oberonnie",
+      "Orion",
+      "Gullveig",
+      "Fenrir",
+      "Siegfried",
+      "Lorillin",
+      "Ifrit"
+    ],
+    "last_updated": 1772215183,
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",

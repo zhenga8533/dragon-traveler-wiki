@@ -15,12 +15,7 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import {
-  IoCreate,
-  IoFlash,
-  IoInformationCircle,
-  IoSwapHorizontal,
-} from 'react-icons/io5';
+import { IoCreate, IoFlash, IoInformationCircle } from 'react-icons/io5';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import { getPortrait } from '../assets/character';
@@ -41,15 +36,12 @@ import { FACTION_COLOR, QUALITY_BORDER_COLOR } from '../constants/colors';
 import { normalizeContentType } from '../constants/content-types';
 import { GLASS_BORDER, getLoreGlassStyles } from '../constants/glass';
 import {
-  CARD_HOVER_STYLES,
   CURSOR_POINTER_STYLE,
   DETAIL_HERO_WRAPPER_STYLES,
-  FLEX_1_MIN_WIDTH_0_STYLE,
   FLEX_1_STYLE,
   FLEX_SHRINK_0_STYLE,
   LINK_RESET_STYLE,
   RELATIVE_Z1_STYLE,
-  cardHoverHandlers,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
@@ -440,18 +432,126 @@ export default function TeamPage() {
                 {team.members.length} members
               </Badge>
             </Group>
-            <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="lg">
-              {team.members.map((member) => (
-                <TeamMemberCard
-                  key={member.character_name}
-                  member={member}
-                  charMap={charMap}
-                  factionColor={factionColor}
-                  isDark={isDark}
-                  tooltipProps={tooltipProps}
-                />
-              ))}
-            </SimpleGrid>
+            <BattlefieldGrid
+              members={team.members}
+              charMap={charMap}
+              factionColor={factionColor}
+              isDark={isDark}
+              tooltipProps={tooltipProps}
+            />
+
+            {/* Bench */}
+            {team.bench && team.bench.length > 0 && (
+              <Stack gap="sm">
+                <Group gap="sm">
+                  <Title order={4}>Bench</Title>
+                  <Badge variant="light" color={factionColor} size="sm">
+                    {team.bench.length}
+                  </Badge>
+                </Group>
+                <SimpleGrid cols={{ base: 2, sm: 3, md: 4 }} spacing="sm">
+                  {team.bench.map((benchName) => {
+                    const char = charMap.get(benchName);
+                    const benchNote = team.bench_notes?.[benchName];
+                    const borderColor = char
+                      ? QUALITY_BORDER_COLOR[char.quality]
+                      : 'var(--mantine-color-gray-5)';
+                    return (
+                      <Paper
+                        key={benchName}
+                        p="sm"
+                        radius="md"
+                        withBorder
+                        style={{
+                          borderTop: `3px solid var(--mantine-color-${factionColor}-5)`,
+                        }}
+                      >
+                        <Stack gap={6} align="center">
+                          <Box pos="relative">
+                            <Tooltip
+                              label={`View ${benchName}`}
+                              {...tooltipProps}
+                            >
+                              <Link
+                                to={`/characters/${encodeURIComponent(benchName)}`}
+                              >
+                                <Image
+                                  src={getPortrait(benchName)}
+                                  alt={benchName}
+                                  w={72}
+                                  h={72}
+                                  fit="cover"
+                                  radius="xl"
+                                  loading="lazy"
+                                  style={{
+                                    border: `3px solid ${borderColor}`,
+                                    borderRadius: '50%',
+                                    transition: `filter ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+                                  }}
+                                />
+                              </Link>
+                            </Tooltip>
+                          </Box>
+
+                          <Text
+                            fw={700}
+                            size="sm"
+                            ta="center"
+                            component={Link}
+                            to={`/characters/${encodeURIComponent(benchName)}`}
+                            c="violet"
+                            style={LINK_RESET_STYLE}
+                            lineClamp={1}
+                          >
+                            {benchName}
+                          </Text>
+
+                          {char && (
+                            <Group gap={4} justify="center" wrap="nowrap">
+                              <QualityIcon quality={char.quality} size={16} />
+                              <ClassTag
+                                characterClass={char.character_class}
+                                size="xs"
+                              />
+                            </Group>
+                          )}
+
+                          {char && (
+                            <Group gap={4} justify="center" wrap="wrap">
+                              {char.factions.map((f) => (
+                                <FactionTag key={f} faction={f} size="xs" />
+                              ))}
+                            </Group>
+                          )}
+
+                          {benchNote && (
+                            <>
+                              <Divider style={{ width: '100%' }} />
+                              <Group gap={4} wrap="nowrap" align="flex-start">
+                                <IoInformationCircle
+                                  size={12}
+                                  color="var(--mantine-color-dimmed)"
+                                  style={{ flexShrink: 0, marginTop: 2 }}
+                                />
+                                <Text
+                                  size="xs"
+                                  c="dimmed"
+                                  fs="italic"
+                                  lh={1.4}
+                                  ta="center"
+                                >
+                                  {benchNote}
+                                </Text>
+                              </Group>
+                            </>
+                          )}
+                        </Stack>
+                      </Paper>
+                    );
+                  })}
+                </SimpleGrid>
+              </Stack>
+            )}
           </Stack>
         </Stack>
 
@@ -478,185 +578,247 @@ export default function TeamPage() {
   );
 }
 
-function TeamMemberCard({
-  member,
+const BG_ROW_LABELS = ['Front', 'Middle', 'Back'] as const;
+const BG_ROW_COLORS = ['red', 'orange', 'blue'] as const;
+const BG_ROW_HINTS = [
+  'Guardian · Warrior · Assassin',
+  'Warrior · Priest · Mage · Archer · Assassin',
+  'Priest · Mage · Archer · Assassin',
+] as const;
+
+function buildPositionGrid(members: TeamMember[]): (TeamMember | null)[][] {
+  const grid: (TeamMember | null)[][] = Array.from({ length: 3 }, () =>
+    Array(3).fill(null)
+  );
+  const unpositioned: TeamMember[] = [];
+  for (const member of members) {
+    if (member.position) {
+      const { row, col } = member.position;
+      if (row >= 0 && row < 3 && col >= 0 && col < 3) {
+        grid[row][col] = member;
+      } else {
+        unpositioned.push(member);
+      }
+    } else {
+      unpositioned.push(member);
+    }
+  }
+  for (const member of unpositioned) {
+    placed: for (let r = 0; r < 3; r++) {
+      for (let c = 0; c < 3; c++) {
+        if (!grid[r][c]) {
+          grid[r][c] = member;
+          break placed;
+        }
+      }
+    }
+  }
+  return grid;
+}
+
+function BattlefieldGrid({
+  members,
   charMap,
   factionColor,
   isDark,
   tooltipProps,
 }: {
-  member: TeamMember;
+  members: TeamMember[];
   charMap: Map<string, Character>;
   factionColor: string;
   isDark: boolean;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
 }) {
-  const character = charMap.get(member.character_name);
-  const borderColor = character
-    ? QUALITY_BORDER_COLOR[character.quality]
-    : 'var(--mantine-color-gray-5)';
-  const hasSubstitutes =
-    Array.isArray(member.substitutes) && member.substitutes.length > 0;
+  const grid = buildPositionGrid(members);
+  const accentColor = `var(--mantine-color-${factionColor}-${isDark ? 7 : 5})`;
 
   return (
-    <Paper
-      p="lg"
-      radius="md"
-      withBorder
-      style={{
-        ...CARD_HOVER_STYLES,
-        borderTop: `3px solid var(--mantine-color-${factionColor}-${isDark ? 7 : 5})`,
-      }}
-      {...cardHoverHandlers}
-    >
-      <Group gap="md" wrap="nowrap" align="flex-start">
-        {/* Portrait */}
-        <Box pos="relative" style={FLEX_SHRINK_0_STYLE}>
-          <Tooltip label={`View ${member.character_name}`} {...tooltipProps}>
-            <Link
-              to={`/characters/${encodeURIComponent(member.character_name)}`}
-            >
-              <Image
-                src={getPortrait(member.character_name)}
-                alt={member.character_name}
-                h={100}
-                w={100}
-                fit="cover"
-                radius="xl"
-                loading="lazy"
-                style={{
-                  border: `3px solid ${borderColor}`,
-                  borderRadius: '50%',
-                  transition: `filter ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-                }}
-              />
-            </Link>
-          </Tooltip>
-          {member.overdrive_order && (
-            <Badge
-              size="lg"
-              circle
-              variant="filled"
-              color={factionColor}
+    <Stack gap="sm">
+      {grid.map((row, rowIdx) => (
+        <Group key={rowIdx} gap="sm" align="stretch" wrap="nowrap">
+          {/* Row label */}
+          <Tooltip label={BG_ROW_HINTS[rowIdx]} withArrow position="right">
+            <Box
               style={{
-                position: 'absolute',
-                bottom: -4,
-                right: -4,
-                boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+                width: 52,
+                flexShrink: 0,
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'flex-end',
               }}
             >
-              {member.overdrive_order}
-            </Badge>
-          )}
-        </Box>
-
-        {/* Info */}
-        <Stack gap={6} style={FLEX_1_MIN_WIDTH_0_STYLE}>
-          <Text
-            fw={700}
-            size="md"
-            component={Link}
-            to={`/characters/${encodeURIComponent(member.character_name)}`}
-            c="violet"
-            style={LINK_RESET_STYLE}
-          >
-            {member.character_name}
-          </Text>
-
-          {character && (
-            <>
-              <Group gap={6} align="center">
-                <QualityIcon quality={character.quality} size={18} />
-                <ClassTag
-                  characterClass={character.character_class}
-                  size="sm"
-                />
-              </Group>
-              <Group gap={4} wrap="wrap">
-                {character.factions.map((faction) => (
-                  <FactionTag key={faction} faction={faction} size="sm" />
-                ))}
-              </Group>
-            </>
-          )}
-
-          {member.overdrive_order && (
-            <Group gap={4}>
-              <IoFlash
-                size={12}
-                color={`var(--mantine-color-${factionColor}-5)`}
-              />
-              <Text size="xs" c="dimmed">
-                Overdrive #{member.overdrive_order}
+              <Text
+                size="xs"
+                fw={700}
+                c={`${BG_ROW_COLORS[rowIdx]}.5`}
+                ta="right"
+                style={{ letterSpacing: '0.04em', textTransform: 'uppercase' }}
+              >
+                {BG_ROW_LABELS[rowIdx]}
               </Text>
-            </Group>
-          )}
+            </Box>
+          </Tooltip>
 
-          <Box mt={4}>
-            <Group gap={4} mb={4}>
-              <IoSwapHorizontal size={12} color="var(--mantine-color-dimmed)" />
-              <Text size="xs" c="dimmed" fw={500}>
-                Substitutes
-              </Text>
-            </Group>
+          {/* 3 cells */}
+          <SimpleGrid cols={3} spacing="sm" style={{ flex: 1 }}>
+            {row.map((member, colIdx) => {
+              if (!member) {
+                return (
+                  <Paper
+                    key={colIdx}
+                    radius="md"
+                    withBorder
+                    style={{
+                      minHeight: 80,
+                      display: 'flex',
+                      alignItems: 'center',
+                      justifyContent: 'center',
+                      opacity: 0.25,
+                      borderStyle: 'dashed',
+                    }}
+                  >
+                    <Text size="xs" c="dimmed">
+                      —
+                    </Text>
+                  </Paper>
+                );
+              }
 
-            {hasSubstitutes ? (
-              <Group gap="xs">
-                {member.substitutes!.map((sub) => (
-                  <Tooltip key={sub} label={sub} {...tooltipProps}>
-                    <Link
-                      to={`/characters/${encodeURIComponent(sub)}`}
+              const character = charMap.get(member.character_name);
+              const borderColor = character
+                ? QUALITY_BORDER_COLOR[character.quality]
+                : 'var(--mantine-color-gray-5)';
+
+              return (
+                <Paper
+                  key={colIdx}
+                  p="sm"
+                  radius="md"
+                  withBorder
+                  style={{
+                    borderTop: `3px solid ${accentColor}`,
+                  }}
+                >
+                  <Stack gap={6} align="center">
+                    {/* Portrait */}
+                    <Box pos="relative">
+                      <Tooltip
+                        label={`View ${member.character_name}`}
+                        {...tooltipProps}
+                      >
+                        <Link
+                          to={`/characters/${encodeURIComponent(member.character_name)}`}
+                        >
+                          <Image
+                            src={getPortrait(member.character_name)}
+                            alt={member.character_name}
+                            w={72}
+                            h={72}
+                            fit="cover"
+                            radius="xl"
+                            loading="lazy"
+                            style={{
+                              border: `3px solid ${borderColor}`,
+                              borderRadius: '50%',
+                              transition: `filter ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+                            }}
+                          />
+                        </Link>
+                      </Tooltip>
+                      {member.overdrive_order != null && (
+                        <Badge
+                          size="md"
+                          circle
+                          variant="filled"
+                          color={factionColor}
+                          style={{
+                            position: 'absolute',
+                            bottom: -2,
+                            right: -2,
+                            boxShadow: '0 2px 6px rgba(0,0,0,0.3)',
+                          }}
+                        >
+                          {member.overdrive_order}
+                        </Badge>
+                      )}
+                    </Box>
+
+                    {/* Name */}
+                    <Text
+                      fw={700}
+                      size="sm"
+                      ta="center"
+                      component={Link}
+                      to={`/characters/${encodeURIComponent(member.character_name)}`}
+                      c="violet"
                       style={LINK_RESET_STYLE}
+                      lineClamp={1}
                     >
-                      <Image
-                        src={getPortrait(sub)}
-                        alt={sub}
-                        h={36}
-                        w={36}
-                        fit="cover"
-                        radius="xl"
-                        loading="lazy"
-                        style={{
-                          border: `2px solid ${charMap.get(sub) ? QUALITY_BORDER_COLOR[charMap.get(sub)!.quality] : 'var(--mantine-color-gray-5)'}`,
-                          borderRadius: '50%',
-                          transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-                          cursor: 'pointer',
-                        }}
-                        onMouseEnter={(e) => {
-                          e.currentTarget.style.transform = 'scale(1.1)';
-                        }}
-                        onMouseLeave={(e) => {
-                          e.currentTarget.style.transform = 'scale(1)';
-                        }}
-                      />
-                    </Link>
-                  </Tooltip>
-                ))}
-              </Group>
-            ) : (
-              <Text size="xs" c="dimmed">
-                No substitutes
-              </Text>
-            )}
-          </Box>
+                      {member.character_name}
+                    </Text>
 
-          {member.note && (
-            <>
-              <Divider mt={4} />
-              <Group gap={6} wrap="nowrap" align="flex-start">
-                <IoInformationCircle
-                  size={14}
-                  color="var(--mantine-color-dimmed)"
-                  style={{ ...FLEX_SHRINK_0_STYLE, marginTop: 2 }}
-                />
-                <Text size="xs" c="dimmed" fs="italic" lh={1.4}>
-                  {member.note}
-                </Text>
-              </Group>
-            </>
-          )}
-        </Stack>
-      </Group>
-    </Paper>
+                    {/* Class + Quality */}
+                    {character && (
+                      <Group gap={4} justify="center" wrap="nowrap">
+                        <QualityIcon quality={character.quality} size={16} />
+                        <ClassTag
+                          characterClass={character.character_class}
+                          size="xs"
+                        />
+                      </Group>
+                    )}
+
+                    {/* Factions */}
+                    {character && (
+                      <Group gap={4} justify="center" wrap="wrap">
+                        {character.factions.map((f) => (
+                          <FactionTag key={f} faction={f} size="xs" />
+                        ))}
+                      </Group>
+                    )}
+
+                    {/* Overdrive */}
+                    {member.overdrive_order != null && (
+                      <Group gap={4} justify="center">
+                        <IoFlash
+                          size={11}
+                          color={`var(--mantine-color-${factionColor}-5)`}
+                        />
+                        <Text size="xs" c="dimmed">
+                          Overdrive #{member.overdrive_order}
+                        </Text>
+                      </Group>
+                    )}
+
+                    {/* Note */}
+                    {member.note && (
+                      <>
+                        <Divider style={{ width: '100%' }} />
+                        <Group gap={4} wrap="nowrap" align="flex-start">
+                          <IoInformationCircle
+                            size={12}
+                            color="var(--mantine-color-dimmed)"
+                            style={{ flexShrink: 0, marginTop: 2 }}
+                          />
+                          <Text
+                            size="xs"
+                            c="dimmed"
+                            fs="italic"
+                            lh={1.4}
+                            ta="center"
+                          >
+                            {member.note}
+                          </Text>
+                        </Group>
+                      </>
+                    )}
+                  </Stack>
+                </Paper>
+              );
+            })}
+          </SimpleGrid>
+        </Group>
+      ))}
+    </Stack>
   );
 }

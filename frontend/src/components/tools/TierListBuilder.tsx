@@ -54,6 +54,10 @@ import { MONOSPACE_INPUT_STYLES } from '../../constants/styles';
 import { CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
 import type { Character } from '../../types/character';
 import type { TierDefinition, TierList } from '../../types/tier-list';
+import {
+  cloneRecordArrays,
+  removeItemFromRecordArrays,
+} from '../../utils/dnd-list';
 import { compareCharactersByQualityThenName } from '../../utils/filter-characters';
 import CharacterCard from '../character/CharacterCard';
 import FilterableCharacterPool from '../character/FilterableCharacterPool';
@@ -446,20 +450,6 @@ export default function TierListBuilder({
     setActiveId(event.active.id as string);
   }
 
-  function clonePlacements(source: TierPlacements): TierPlacements {
-    const cloned: TierPlacements = {};
-    for (const [tier, chars] of Object.entries(source)) {
-      cloned[tier] = [...chars];
-    }
-    return cloned;
-  }
-
-  function removeFromAllTiers(target: TierPlacements, characterName: string) {
-    for (const tier of Object.keys(target)) {
-      target[tier] = target[tier].filter((n) => n !== characterName);
-    }
-  }
-
   function handleDragEnd(event: DragEndEvent) {
     setActiveId(null);
     const charName = event.active.id as string;
@@ -494,7 +484,7 @@ export default function TierListBuilder({
       if (!targetTier) {
         if (activeTier) {
           setPlacements((prev) => {
-            const next = clonePlacements(prev);
+            const next = cloneRecordArrays(prev) as TierPlacements;
             next[activeTier] = next[activeTier].filter((n) => n !== charName);
             return next;
           });
@@ -506,7 +496,7 @@ export default function TierListBuilder({
       if (charName === targetCharName) return;
 
       setPlacements((prev) => {
-        const next = clonePlacements(prev);
+        const next = cloneRecordArrays(prev) as TierPlacements;
         const targetIndex = next[targetTier].indexOf(targetCharName);
         if (targetIndex === -1) return next;
 
@@ -526,7 +516,7 @@ export default function TierListBuilder({
           return next;
         }
 
-        removeFromAllTiers(next, charName);
+        removeItemFromRecordArrays(next, charName);
         next[targetTier][targetIndex] = charName;
 
         return next;
@@ -538,8 +528,8 @@ export default function TierListBuilder({
     if (overId.startsWith('tier-')) {
       const tier = overId.replace('tier-', '');
       setPlacements((prev) => {
-        const next = clonePlacements(prev);
-        removeFromAllTiers(next, charName);
+        const next = cloneRecordArrays(prev) as TierPlacements;
+        removeItemFromRecordArrays(next, charName);
         if (!next[tier]) next[tier] = [];
         next[tier].push(charName);
         return next;
