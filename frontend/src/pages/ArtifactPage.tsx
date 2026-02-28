@@ -29,6 +29,7 @@ import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
+  getCardHoverProps,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
@@ -94,9 +95,11 @@ function TreasureCard({
       p="lg"
       radius="md"
       withBorder
-      style={{
-        borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
-      }}
+      {...getCardHoverProps({
+        style: {
+          borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
+        },
+      })}
     >
       <Stack gap="md">
         <Group gap="md" wrap="nowrap" align="flex-start">
@@ -275,7 +278,12 @@ export default function ArtifactPage() {
               </Stack>
             </Group>
 
-            <Paper p="md" radius="md" style={getLoreGlassStyles(isDark)}>
+            <Paper
+              p="md"
+              radius="md"
+              withBorder
+              {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+            >
               <Text size="sm" lh={1.6} fs="italic">
                 {artifact.lore}
               </Text>

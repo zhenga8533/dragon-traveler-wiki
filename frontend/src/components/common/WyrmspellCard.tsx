@@ -1,8 +1,9 @@
 import { Badge, Group, Image, Paper, Stack, Text } from '@mantine/core';
 import { getWyrmspellIcon } from '../../assets/wyrmspell';
+import { getCardHoverProps } from '../../constants/styles';
+import type { Wyrmspell } from '../../types/wyrmspell';
 import FactionTag from './FactionTag';
 import QualityIcon from './QualityIcon';
-import type { Wyrmspell } from '../../types/wyrmspell';
 
 interface WyrmspellCardProps {
   name: string;
@@ -21,10 +22,17 @@ export default function WyrmspellCard({
   const quality = wyrmspell?.quality;
 
   return (
-    <Paper p="sm" radius="md" withBorder>
+    <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
       <Stack gap="xs" align="center">
         {iconSrc && (
-          <Image src={iconSrc} alt={name} w={48} h={48} fit="contain" loading="lazy" />
+          <Image
+            src={iconSrc}
+            alt={name}
+            w={48}
+            h={48}
+            fit="contain"
+            loading="lazy"
+          />
         )}
         <Group gap={4} justify="center" align="center">
           {quality && <QualityIcon quality={quality} />}

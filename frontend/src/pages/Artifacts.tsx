@@ -27,9 +27,8 @@ import SuggestModal, {
 } from '../components/tools/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
 import {
-  CARD_HOVER_STYLES,
   LINK_BLOCK_RESET_STYLE,
-  cardHoverHandlers,
+  getCardHoverProps,
   getMinWidthStyle,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
@@ -251,11 +250,10 @@ export default function Artifacts() {
                       p="md"
                       radius="md"
                       withBorder
-                      style={{
-                        ...CARD_HOVER_STYLES,
-                        ...LINK_BLOCK_RESET_STYLE,
-                      }}
-                      {...cardHoverHandlers}
+                      {...getCardHoverProps({
+                        interactive: true,
+                        style: LINK_BLOCK_RESET_STYLE,
+                      })}
                     >
                       <Group gap="md" align="flex-start" wrap="nowrap">
                         {iconSrc && (

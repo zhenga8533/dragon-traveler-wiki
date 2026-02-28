@@ -12,8 +12,9 @@ import {
 } from '@mantine/core';
 import { useState } from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
-import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import PaginationControl from '../components/common/PaginationControl';
+import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
+import { getCardHoverProps } from '../constants/styles';
 import { useDataFetch } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 
@@ -135,6 +136,7 @@ export default function Changelog() {
                                 p="sm"
                                 radius="md"
                                 withBorder
+                                {...getCardHoverProps()}
                               >
                                 <Group gap="sm" wrap="nowrap">
                                   <Stack gap={4} style={{ flex: 1 }}>
@@ -177,7 +179,9 @@ export default function Changelog() {
           p="md"
           radius="md"
           withBorder
-          style={{ marginTop: 'var(--mantine-spacing-xl)' }}
+          {...getCardHoverProps({
+            style: { marginTop: 'var(--mantine-spacing-xl)' },
+          })}
         >
           <Text size="sm" c="dimmed" ta="center">
             This changelog tracks major updates to the wiki database. For site

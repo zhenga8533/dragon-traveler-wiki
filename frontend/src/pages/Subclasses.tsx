@@ -24,7 +24,7 @@ import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { CLASS_ORDER } from '../constants/colors';
-import { getMinWidthStyle } from '../constants/styles';
+import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
@@ -247,7 +247,13 @@ export default function Subclasses() {
                 {pageItems.map((item) => {
                   const subclassIcon = getSubclassIcon(item.name, item.class);
                   return (
-                    <Paper key={item.name} p="sm" radius="md" withBorder>
+                    <Paper
+                      key={item.name}
+                      p="sm"
+                      radius="md"
+                      withBorder
+                      {...getCardHoverProps()}
+                    >
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
                           {subclassIcon && (

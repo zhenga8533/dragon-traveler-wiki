@@ -10,6 +10,7 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import type { ReactNode } from 'react';
 import { IoFilter } from 'react-icons/io5';
+import { getCardHoverProps } from '../../constants/styles';
 import { BREAKPOINTS, IMAGE_SIZE, Z_INDEX } from '../../constants/ui';
 import type { ViewMode } from '../../hooks/use-filters';
 import ViewToggle from '../common/ViewToggle';
@@ -81,7 +82,7 @@ export default function FilterToolbar({
       </Box>
 
       <Collapse in={filterOpen}>
-        <Paper p="sm" radius="md" withBorder bg="var(--mantine-color-body)">
+        <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
           {children}
         </Paper>
       </Collapse>

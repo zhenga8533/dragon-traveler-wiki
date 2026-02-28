@@ -50,7 +50,10 @@ import DetailPageNavigation from '../../components/common/DetailPageNavigation';
 import EntityNotFound from '../../components/common/EntityNotFound';
 import TierBadge from '../../components/common/TierBadge';
 import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
-import { DETAIL_TOOLTIP_STYLES } from '../../constants/styles';
+import {
+  DETAIL_TOOLTIP_STYLES,
+  getCardHoverProps,
+} from '../../constants/styles';
 import { BREAKPOINTS, TRANSITION } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
 import { useDataFetch, useMobileTooltip } from '../../hooks';
@@ -535,7 +538,7 @@ export default function CharacterPage() {
                       p="md"
                       radius="lg"
                       withBorder
-                      style={{ overflow: 'hidden' }}
+                      {...getCardHoverProps({ style: { overflow: 'hidden' } })}
                     >
                       <Stack gap="xs">
                         <Group justify="space-between" align="center">
@@ -625,7 +628,7 @@ export default function CharacterPage() {
                     </Paper>
                   </Stack>
                 ) : (
-                  <Paper p="xl" radius="lg" withBorder>
+                  <Paper p="xl" radius="lg" withBorder {...getCardHoverProps()}>
                     <Center h={300}>
                       <Text c="dimmed">No illustrations available</Text>
                     </Center>
@@ -635,7 +638,7 @@ export default function CharacterPage() {
 
               {/* Subclasses */}
               {character.subclasses.length > 0 && (
-                <Paper p="md" radius="md" withBorder>
+                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
                   <Stack gap="sm">
                     <Text fw={600} size="sm">
                       Subclasses
@@ -696,7 +699,12 @@ export default function CharacterPage() {
                             maw={300}
                             styles={DETAIL_TOOLTIP_STYLES}
                           >
-                            <Paper p="xs" radius="sm" withBorder>
+                            <Paper
+                              p="xs"
+                              radius="sm"
+                              withBorder
+                              {...getCardHoverProps()}
+                            >
                               <Stack gap={6} align="center">
                                 {subclassIcon && (
                                   <Center>
@@ -826,16 +834,18 @@ export default function CharacterPage() {
                 withBorder
                 radius="lg"
                 p={0}
-                style={{
-                  position: 'relative',
-                  maxHeight: isFullscreen ? '100dvh' : '70vh',
-                  overflow: isFullscreen ? 'hidden' : 'auto',
-                  display: 'flex',
-                  justifyContent: 'center',
-                  alignItems: 'center',
-                  background: isFullscreen ? 'black' : undefined,
-                  borderRadius: isFullscreen ? 0 : 'var(--mantine-radius-lg)',
-                }}
+                {...getCardHoverProps({
+                  style: {
+                    position: 'relative',
+                    maxHeight: isFullscreen ? '100dvh' : '70vh',
+                    overflow: isFullscreen ? 'hidden' : 'auto',
+                    display: 'flex',
+                    justifyContent: 'center',
+                    alignItems: 'center',
+                    background: isFullscreen ? 'black' : undefined,
+                    borderRadius: isFullscreen ? 0 : 'var(--mantine-radius-lg)',
+                  },
+                })}
               >
                 {activeIllustration.type === 'video' ? (
                   <Box

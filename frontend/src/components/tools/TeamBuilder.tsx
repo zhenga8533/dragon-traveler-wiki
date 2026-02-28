@@ -56,6 +56,7 @@ import {
   GITHUB_REPO_URL,
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../constants/github';
+import { getCardHoverProps } from '../../constants/styles';
 import { CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
 import type { Character, CharacterClass } from '../../types/character';
 import type { FactionName } from '../../types/faction';
@@ -257,19 +258,21 @@ function SlotCard({
       p="xs"
       radius="md"
       withBorder
-      style={{
-        borderColor,
-        borderWidth:
-          isOver || (isDragging && !isValidDrop && !charName) ? 2 : undefined,
-        opacity: isDragging && !isValidDrop && !charName ? 0.45 : 1,
-        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}, opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-        minHeight: 120,
-        display: 'flex',
-        flexDirection: 'column',
-        alignItems: 'center',
-        justifyContent: 'center',
-        position: 'relative',
-      }}
+      {...getCardHoverProps({
+        style: {
+          borderColor,
+          borderWidth:
+            isOver || (isDragging && !isValidDrop && !charName) ? 2 : undefined,
+          opacity: isDragging && !isValidDrop && !charName ? 0.45 : 1,
+          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}, opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+          minHeight: 120,
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          justifyContent: 'center',
+          position: 'relative',
+        },
+      })}
     >
       {charName ? (
         <>
@@ -491,11 +494,13 @@ function AvailablePool({
       p="md"
       radius="md"
       withBorder
-      style={{
-        borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
-        borderWidth: isOver ? 2 : undefined,
-        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-      }}
+      {...getCardHoverProps({
+        style: {
+          borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
+          borderWidth: isOver ? 2 : undefined,
+          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+        },
+      })}
     >
       <Stack gap="sm">
         {filterHeader || (
@@ -593,11 +598,13 @@ function BenchPool({
       p="md"
       radius="md"
       withBorder
-      style={{
-        borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
-        borderWidth: isOver ? 2 : undefined,
-        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-      }}
+      {...getCardHoverProps({
+        style: {
+          borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
+          borderWidth: isOver ? 2 : undefined,
+          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+        },
+      })}
     >
       <Stack gap="sm">
         <SimpleGrid

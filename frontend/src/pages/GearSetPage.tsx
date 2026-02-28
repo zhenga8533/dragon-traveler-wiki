@@ -28,6 +28,7 @@ import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
+  getCardHoverProps,
   getDetailHeroGradient,
 } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
@@ -343,7 +344,13 @@ export default function GearSetPage() {
             {setItems.map((item) => {
               const iconSrc = getGearIcon(item.type, item.name);
               return (
-                <Paper key={item.name} p="md" radius="md" withBorder>
+                <Paper
+                  key={item.name}
+                  p="md"
+                  radius="md"
+                  withBorder
+                  {...getCardHoverProps()}
+                >
                   <Stack gap="sm">
                     <Group gap="md" wrap="nowrap" align="flex-start">
                       {iconSrc && (
@@ -378,7 +385,13 @@ export default function GearSetPage() {
                       <SimpleGrid cols={{ base: 2, sm: 2 }} spacing="xs">
                         {Object.entries(item.stats).map(
                           ([statName, statValue]) => (
-                            <Paper key={statName} withBorder radius="sm" p="xs">
+                            <Paper
+                              key={statName}
+                              withBorder
+                              radius="sm"
+                              p="xs"
+                              {...getCardHoverProps()}
+                            >
                               <Stack gap={2}>
                                 <Text size="xs" c="dimmed" lineClamp={1}>
                                   {statName}

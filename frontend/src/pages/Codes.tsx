@@ -47,6 +47,7 @@ import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
 } from '../components/tools/SuggestModal';
+import { getCardHoverProps } from '../constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import { useViewMode } from '../hooks/use-filters';
@@ -383,7 +384,7 @@ export default function Codes() {
         )}
 
         {!loading && !error && (
-          <Paper p="sm" radius="md" withBorder>
+          <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
             <Group
               justify="space-between"
               align="center"
@@ -494,7 +495,7 @@ export default function Codes() {
         )}
 
         {!loading && !error && filtered.length === 0 && (
-          <Paper p="lg" radius="md" withBorder>
+          <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
             <Stack gap="xs" align="center">
               <ThemeIcon variant="light" color="violet" size="lg" radius="xl">
                 <IoSearch size={18} />
@@ -534,6 +535,7 @@ export default function Codes() {
                 p="sm"
                 radius="md"
                 withBorder
+                {...getCardHoverProps()}
                 opacity={isActiveCode ? 1 : 0.5}
               >
                 <Group justify="space-between" wrap="wrap" align="center">
@@ -624,6 +626,7 @@ export default function Codes() {
                     p="md"
                     radius="md"
                     withBorder
+                    {...getCardHoverProps()}
                     opacity={isActiveCode ? 1 : 0.5}
                   >
                     <Stack gap="sm">

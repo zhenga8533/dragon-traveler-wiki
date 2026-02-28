@@ -38,7 +38,7 @@ import SuggestModal, {
   type FieldDef,
 } from '../components/tools/SuggestModal';
 import { QUALITY_ORDER } from '../constants/colors';
-import { getMinWidthStyle } from '../constants/styles';
+import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import {
@@ -424,6 +424,7 @@ export default function Howlkins() {
                             p="sm"
                             radius="md"
                             withBorder
+                            {...getCardHoverProps()}
                           >
                             <Stack gap="xs">
                               <Group gap="sm" wrap="nowrap">
@@ -592,6 +593,7 @@ export default function Howlkins() {
                             p="md"
                             radius="md"
                             withBorder
+                            {...getCardHoverProps()}
                           >
                             <Stack gap="sm">
                               <Text fw={700} size="lg">

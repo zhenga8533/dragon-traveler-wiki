@@ -30,7 +30,7 @@ import {
   RESOURCE_CATEGORY_COLOR,
   RESOURCE_CATEGORY_ORDER,
 } from '../constants/colors';
-import { getMinWidthStyle } from '../constants/styles';
+import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { ResourcesContext } from '../contexts';
 import {
@@ -220,7 +220,13 @@ export default function Resources() {
                 {pageItems.map((resource) => {
                   const iconSrc = getResourceIcon(resource.name);
                   return (
-                    <Paper key={resource.name} p="sm" radius="md" withBorder>
+                    <Paper
+                      key={resource.name}
+                      p="sm"
+                      radius="md"
+                      withBorder
+                      {...getCardHoverProps()}
+                    >
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
                           {iconSrc && (

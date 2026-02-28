@@ -1,5 +1,6 @@
-import { Badge, Box, Group, Skeleton, Stack, Text } from '@mantine/core';
+import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import { getCardHoverProps } from '../../constants/styles';
 import { useDataFetch } from '../../hooks';
 
 interface ChangelogEntry {
@@ -48,13 +49,12 @@ export default function RecentUpdatesSection() {
   return (
     <Stack gap="xs">
       {recentEntries.map((entry) => (
-        <Box
+        <Paper
           key={entry.version ?? entry.date}
           p="xs"
-          style={{
-            borderRadius: 'var(--mantine-radius-md)',
-            backgroundColor: 'var(--mantine-color-default-hover)',
-          }}
+          radius="md"
+          withBorder
+          {...getCardHoverProps()}
         >
           <Group justify="space-between" mb={4} wrap="wrap" gap={4}>
             <Text size="xs" fw={600}>
@@ -91,7 +91,7 @@ export default function RecentUpdatesSection() {
               </Text>
             )}
           </Stack>
-        </Box>
+        </Paper>
       ))}
       <Text
         component={Link}

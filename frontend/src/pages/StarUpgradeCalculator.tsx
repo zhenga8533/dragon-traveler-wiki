@@ -42,6 +42,7 @@ import { QUALITY_ICON_MAP } from '../assets/quality';
 import StatCard from '../components/common/StatCard';
 import {
   BRAND_TITLE_STYLE,
+  getCardHoverProps,
   getGuideSectionCardStyles,
 } from '../constants/styles';
 import { TRANSITION } from '../constants/ui';
@@ -365,11 +366,13 @@ export default function StarUpgradeCalculator() {
           withBorder
           radius="md"
           p="xl"
-          style={{
-            ...sectionCardStyle,
-            position: 'relative',
-            overflow: 'hidden',
-          }}
+          {...getCardHoverProps({
+            style: {
+              ...sectionCardStyle,
+              position: 'relative',
+              overflow: 'hidden',
+            },
+          })}
         >
           <Box
             style={{
@@ -411,7 +414,12 @@ export default function StarUpgradeCalculator() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="md">
             <Title order={3}>
               <Group gap="xs">
@@ -499,7 +507,12 @@ export default function StarUpgradeCalculator() {
         </Card>
 
         {isValidSelection && copiesNeeded > 0 && (
-          <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+          <Card
+            withBorder
+            radius="md"
+            p="lg"
+            {...getCardHoverProps({ style: sectionCardStyle })}
+          >
             <Stack gap="md">
               <Title order={3}>
                 <Group gap="xs">
@@ -646,7 +659,7 @@ export default function StarUpgradeCalculator() {
               </SimpleGrid>
 
               <SimpleGrid cols={{ base: 1, sm: 3 }} spacing="sm">
-                <Paper p="md" radius="md" withBorder>
+                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
                   <Stack gap={4} align="center">
                     <Text size="xs" c="dimmed" ta="center">
                       Daily Shards
@@ -656,7 +669,7 @@ export default function StarUpgradeCalculator() {
                     </Text>
                   </Stack>
                 </Paper>
-                <Paper p="md" radius="md" withBorder>
+                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
                   <Stack gap={4} align="center">
                     <Text size="xs" c="dimmed" ta="center">
                       Total Needed
@@ -666,7 +679,7 @@ export default function StarUpgradeCalculator() {
                     </Text>
                   </Stack>
                 </Paper>
-                <Paper p="md" radius="md" withBorder>
+                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
                   <Stack gap={4} align="center">
                     <Text size="xs" c="dimmed" ta="center">
                       Remaining
@@ -679,7 +692,7 @@ export default function StarUpgradeCalculator() {
               </SimpleGrid>
 
               {daysNeeded > 0 && (
-                <Paper p="md" radius="md" withBorder>
+                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
                   <Group gap="sm" wrap="nowrap">
                     <IoCalendar size={16} />
                     <Stack gap={2}>
@@ -760,7 +773,12 @@ export default function StarUpgradeCalculator() {
           </Card>
         )}
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <UnstyledButton onClick={refTableHandlers.toggle}>
               <Group justify="space-between" align="center">

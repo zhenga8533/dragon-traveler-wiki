@@ -33,6 +33,23 @@ export const cardHoverHandlers = {
   },
 };
 
+type CardHoverPropsOptions = {
+  interactive?: boolean;
+  style?: CSSProperties;
+};
+
+export function getCardHoverProps(options: CardHoverPropsOptions = {}) {
+  const { interactive = false, style } = options;
+  return {
+    style: {
+      ...CARD_HOVER_STYLES,
+      cursor: interactive ? 'pointer' : 'default',
+      ...style,
+    } as CSSProperties,
+    ...cardHoverHandlers,
+  };
+}
+
 /**
  * Subtle glow effect for cards (use with hover)
  */

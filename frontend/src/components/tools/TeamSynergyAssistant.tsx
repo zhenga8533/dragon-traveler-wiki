@@ -12,6 +12,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
+import { getCardHoverProps } from '../../constants/styles';
 import type { TeamSynergyResult } from '../../utils/team-synergy';
 import ClassTag from '../common/ClassTag';
 
@@ -33,7 +34,7 @@ export default function TeamSynergyAssistant({
   const [expanded, { toggle }] = useDisclosure(defaultExpanded);
 
   return (
-    <Paper p="md" radius="md" withBorder>
+    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
       <Stack gap="sm">
         <Group justify="space-between" align="center" wrap="wrap">
           <Text size="sm" fw={600}>
@@ -78,7 +79,13 @@ export default function TeamSynergyAssistant({
           <Stack gap="sm" mt="xs">
             <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs">
               {synergy.signals.map((signal) => (
-                <Paper key={signal.label} p="xs" radius="sm" withBorder>
+                <Paper
+                  key={signal.label}
+                  p="xs"
+                  radius="sm"
+                  withBorder
+                  {...getCardHoverProps()}
+                >
                   <Group justify="space-between" align="flex-start" gap="xs">
                     <Stack gap={2} style={{ minWidth: 0 }}>
                       <Text size="xs" fw={600}>

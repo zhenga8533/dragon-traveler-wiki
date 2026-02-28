@@ -1,9 +1,10 @@
 import { Paper, SimpleGrid, Skeleton, Stack } from '@mantine/core';
+import { getCardHoverProps } from '../../constants/styles';
 
 export function ListPageLoading({ cards = 4 }: { cards?: number }) {
   return (
     <Stack gap="sm" py="xs">
-      <Paper p="md" radius="md" withBorder>
+      <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
         <Stack gap="sm">
           <Skeleton height={36} radius="md" />
           <Skeleton height={36} radius="md" />
@@ -11,7 +12,13 @@ export function ListPageLoading({ cards = 4 }: { cards?: number }) {
       </Paper>
 
       {Array.from({ length: cards }).map((_, index) => (
-        <Paper key={index} p="md" radius="md" withBorder>
+        <Paper
+          key={index}
+          p="md"
+          radius="md"
+          withBorder
+          {...getCardHoverProps()}
+        >
           <Stack gap="xs">
             <Skeleton height={18} width="40%" radius="sm" />
             <Skeleton height={14} width="90%" radius="sm" />
@@ -58,14 +65,14 @@ export function ViewModeLoading({
 export function DetailPageLoading() {
   return (
     <Stack gap="md" py="xl">
-      <Paper p="lg" radius="md" withBorder>
+      <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
         <Stack gap="sm">
           <Skeleton height={28} width="35%" radius="sm" />
           <Skeleton height={16} width="25%" radius="sm" />
           <Skeleton height={14} width="90%" radius="sm" />
         </Stack>
       </Paper>
-      <Paper p="lg" radius="md" withBorder>
+      <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
         <Stack gap="sm">
           <Skeleton height={18} width="30%" radius="sm" />
           <Skeleton height={120} radius="md" />

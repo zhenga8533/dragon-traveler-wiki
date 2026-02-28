@@ -14,7 +14,7 @@ import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
 import { QUALITY_BORDER_COLOR, TIER_ORDER } from '../../constants/colors';
-import { getMinWidthStyle } from '../../constants/styles';
+import { getCardHoverProps, getMinWidthStyle } from '../../constants/styles';
 import {
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
@@ -176,7 +176,7 @@ export default function CharacterList({
     (filters.globalOnly !== null ? 1 : 0);
 
   return (
-    <Paper p="md" radius="md" withBorder>
+    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
       <Stack gap="md">
         {showFilter ? (
           <FilterToolbar

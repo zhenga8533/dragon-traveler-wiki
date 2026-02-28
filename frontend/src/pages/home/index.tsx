@@ -32,6 +32,7 @@ import {
   HOME_HERO_SUBTITLE_STYLE,
   HOME_HERO_TITLE_STYLE,
   HOME_HERO_WORDMARK_STYLE,
+  getCardHoverProps,
   getHomeHeroPlaceholderGradient,
 } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
@@ -82,13 +83,6 @@ export default function Home() {
         .home-hover-card:hover {
           transform: translateY(-4px);
           box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
-        }
-
-        .home-content-card {
-          border: 1px solid transparent;
-          background:
-            linear-gradient(var(--mantine-color-body), var(--mantine-color-body)) padding-box,
-            linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(236, 72, 153, 0.18)) border-box;
         }
 
         .featured-item {
@@ -303,13 +297,15 @@ export default function Home() {
               radius="md"
               withBorder
               shadow="lg"
-              className="home-hover-card home-content-card"
-              style={{
-                backdropFilter: 'blur(8px)',
-                backgroundColor: isDark
-                  ? 'rgba(20, 21, 23, 0.92)'
-                  : 'rgba(255, 255, 255, 0.9)',
-              }}
+              className="home-hover-card"
+              {...getCardHoverProps({
+                style: {
+                  backdropFilter: 'blur(8px)',
+                  backgroundColor: isDark
+                    ? 'rgba(20, 21, 23, 0.92)'
+                    : 'rgba(255, 255, 255, 0.9)',
+                },
+              })}
             >
               <Stack gap="md">
                 <Group gap="sm">
@@ -384,7 +380,8 @@ export default function Home() {
                 radius="md"
                 withBorder
                 h="100%"
-                className="home-hover-card home-content-card"
+                className="home-hover-card"
+                {...getCardHoverProps()}
               >
                 <Stack gap="md">
                   <Group gap="sm">
@@ -409,7 +406,8 @@ export default function Home() {
                 radius="md"
                 withBorder
                 h="100%"
-                className="home-hover-card home-content-card"
+                className="home-hover-card"
+                {...getCardHoverProps()}
               >
                 <Stack gap="md">
                   <Group gap="sm">

@@ -1,11 +1,12 @@
+import { MantineProvider } from '@mantine/core';
+import '@mantine/core/styles.css';
+import { Notifications } from '@mantine/notifications';
+import '@mantine/notifications/styles.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
-import { MantineProvider } from '@mantine/core';
-import { Notifications } from '@mantine/notifications';
-import '@mantine/core/styles.css';
-import '@mantine/notifications/styles.css';
-import { theme } from './theme';
 import App from './App';
+import './styles/themed-cards.css';
+import { theme } from './theme';
 
 createRoot(document.getElementById('root')!).render(
   <StrictMode>
@@ -13,5 +14,5 @@ createRoot(document.getElementById('root')!).render(
       <Notifications position="bottom-right" />
       <App />
     </MantineProvider>
-  </StrictMode>,
+  </StrictMode>
 );

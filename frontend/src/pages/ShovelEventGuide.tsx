@@ -19,6 +19,7 @@ import { IoInformationCircleOutline } from 'react-icons/io5';
 import ResourceBadge from '../components/common/ResourceBadge';
 import {
   BRAND_TITLE_STYLE,
+  getCardHoverProps,
   getGuideSectionCardStyles,
 } from '../constants/styles';
 
@@ -73,11 +74,13 @@ export default function ShovelEventGuide() {
           withBorder
           radius="md"
           p="xl"
-          style={{
-            ...sectionCardStyle,
-            position: 'relative',
-            overflow: 'hidden',
-          }}
+          {...getCardHoverProps({
+            style: {
+              ...sectionCardStyle,
+              position: 'relative',
+              overflow: 'hidden',
+            },
+          })}
         >
           <Box
             style={{
@@ -125,10 +128,20 @@ export default function ShovelEventGuide() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Main Conclusion &amp; Schedule</Title>
-            <Paper p="md" radius="md" withBorder style={sectionCardStyle}>
+            <Paper
+              p="md"
+              radius="md"
+              withBorder
+              {...getCardHoverProps({ style: sectionCardStyle })}
+            >
               <Stack gap="xs">
                 <Text>
                   • Daily buy: 800-
@@ -152,10 +165,20 @@ export default function ShovelEventGuide() {
 
         <Divider />
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Event Targets</Title>
-            <Paper p="md" radius="md" withBorder style={sectionCardStyle}>
+            <Paper
+              p="md"
+              radius="md"
+              withBorder
+              {...getCardHoverProps({ style: sectionCardStyle })}
+            >
               <Table striped highlightOnHover>
                 <Table.Thead>
                   <Table.Tr>
@@ -188,10 +211,20 @@ export default function ShovelEventGuide() {
 
         <Divider />
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Efficiency &amp; Investment Check</Title>
-            <Paper p="md" radius="md" withBorder style={sectionCardStyle}>
+            <Paper
+              p="md"
+              radius="md"
+              withBorder
+              {...getCardHoverProps({ style: sectionCardStyle })}
+            >
               <Stack gap="xs">
                 <Text>
                   Formula:{' '}
@@ -210,7 +243,12 @@ export default function ShovelEventGuide() {
                 </Text>
               </Stack>
             </Paper>
-            <Paper p="md" radius="md" withBorder style={sectionCardStyle}>
+            <Paper
+              p="md"
+              radius="md"
+              withBorder
+              {...getCardHoverProps({ style: sectionCardStyle })}
+            >
               <Table striped highlightOnHover>
                 <Table.Thead>
                   <Table.Tr>
@@ -237,10 +275,20 @@ export default function ShovelEventGuide() {
 
         <Divider />
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Pro Digging Tips</Title>
-            <Paper p="md" radius="md" withBorder style={sectionCardStyle}>
+            <Paper
+              p="md"
+              radius="md"
+              withBorder
+              {...getCardHoverProps({ style: sectionCardStyle })}
+            >
               <Stack gap="xs">
                 <Text>
                   1) Trade up, never waste explosives: bombs/rockets are worth
@@ -266,10 +314,20 @@ export default function ShovelEventGuide() {
 
         <Divider />
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Diamond Value Note</Title>
-            <Paper p="md" radius="md" withBorder style={sectionCardStyle}>
+            <Paper
+              p="md"
+              radius="md"
+              withBorder
+              {...getCardHoverProps({ style: sectionCardStyle })}
+            >
               <Stack gap="xs">
                 <Text>
                   If you have surplus diamonds (roughly 20,000–30,000), pushing

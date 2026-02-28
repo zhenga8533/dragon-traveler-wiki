@@ -46,9 +46,8 @@ import {
   normalizeContentType,
 } from '../constants/content-types';
 import {
-  CARD_HOVER_STYLES,
   LINK_BLOCK_RESET_STYLE,
-  cardHoverHandlers,
+  getCardHoverProps,
   getMinWidthStyle,
 } from '../constants/styles';
 import { STORAGE_KEY, TRANSITION } from '../constants/ui';
@@ -381,11 +380,13 @@ export default function Teams() {
                             p="md"
                             radius="md"
                             withBorder
-                            style={{
-                              ...CARD_HOVER_STYLES,
-                              ...LINK_BLOCK_RESET_STYLE,
-                              borderTop: `3px solid var(--mantine-color-${FACTION_COLOR[team.faction as FactionName] ?? 'violet'}-5)`,
-                            }}
+                            {...getCardHoverProps({
+                              interactive: true,
+                              style: {
+                                ...LINK_BLOCK_RESET_STYLE,
+                                borderTop: `3px solid var(--mantine-color-${FACTION_COLOR[team.faction as FactionName] ?? 'violet'}-5)`,
+                              },
+                            })}
                             onClick={() =>
                               navigate(
                                 `/teams/${encodeURIComponent(team.name)}`
@@ -401,7 +402,6 @@ export default function Teams() {
                                 );
                               }
                             }}
-                            {...cardHoverHandlers}
                           >
                             <Stack gap="sm">
                               {/* Header: whelp + name + edit icon */}

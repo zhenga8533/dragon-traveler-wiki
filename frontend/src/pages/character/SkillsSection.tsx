@@ -10,6 +10,7 @@ import {
   Title,
 } from '@mantine/core';
 import RichText from '../../components/common/RichText';
+import { getCardHoverProps } from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { StatusEffect } from '../../types/status-effect';
 
@@ -37,7 +38,13 @@ export default function CharacterPageSkillsSection({
     <>
       {/* Talent Section */}
       {talentLevels.length > 0 && (
-        <Paper id="talent-section" p="lg" radius="md" withBorder>
+        <Paper
+          id="talent-section"
+          p="lg"
+          radius="md"
+          withBorder
+          {...getCardHoverProps()}
+        >
           <Stack gap="md">
             <Group gap="md">
               {talentIcon && (
@@ -79,7 +86,7 @@ export default function CharacterPageSkillsSection({
 
       {/* Skills Section */}
       {character.skills.length > 0 && (
-        <Paper p="lg" radius="md" withBorder>
+        <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
           <Stack gap="md">
             <Title order={3}>Skills</Title>
 
@@ -93,6 +100,7 @@ export default function CharacterPageSkillsSection({
                     p="md"
                     radius="md"
                     withBorder
+                    {...getCardHoverProps()}
                   >
                     <Stack gap="sm">
                       <Group gap="md" justify="space-between" wrap="nowrap">

@@ -13,6 +13,7 @@ import { FaDiscord } from 'react-icons/fa';
 import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
 import { SiGooglesheets } from 'react-icons/si';
 import { ListPageShell, SuggestModal, type FieldDef } from '../components';
+import { getCardHoverProps } from '../constants/styles';
 import { useDataFetch } from '../hooks';
 import type { UsefulLink } from '../types/useful-link';
 
@@ -90,7 +91,13 @@ export default function UsefulLinks() {
           {links.map((link) => {
             const Icon = ICON_MAP[link.icon] ?? IoLinkOutline;
             return (
-              <Card key={link.link} padding="lg" radius="md" withBorder>
+              <Card
+                key={link.link}
+                padding="lg"
+                radius="md"
+                withBorder
+                {...getCardHoverProps()}
+              >
                 <Group>
                   <Text size="xl" lh={1}>
                     <Icon />

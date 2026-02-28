@@ -1,5 +1,6 @@
 import { Group, Paper, Stack, Text, ThemeIcon } from '@mantine/core';
 import type { ReactNode } from 'react';
+import { getCardHoverProps } from '../../constants/styles';
 import ResourceBadge from './ResourceBadge';
 
 interface StatCardProps {
@@ -32,7 +33,7 @@ export default function StatCard({
     typeof value === 'number' ? value.toLocaleString() : value;
 
   return (
-    <Paper p="md" radius="md" withBorder>
+    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
       <Stack gap="xs" align="center" justify="center" h="100%">
         {showIcon && icon ? (
           <ThemeIcon variant="light" color={color} size="lg" radius="md">

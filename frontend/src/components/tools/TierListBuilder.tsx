@@ -50,6 +50,7 @@ import {
   GITHUB_REPO_URL,
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../constants/github';
+import { getCardHoverProps } from '../../constants/styles';
 import { CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
 import type { Character } from '../../types/character';
 import type { TierDefinition, TierList } from '../../types/tier-list';
@@ -157,11 +158,13 @@ function TierDropZone({
       p="md"
       radius="md"
       withBorder
-      style={{
-        borderColor: isOver ? `var(--mantine-color-${color}-5)` : undefined,
-        borderWidth: isOver ? 2 : undefined,
-        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-      }}
+      {...getCardHoverProps({
+        style: {
+          borderColor: isOver ? `var(--mantine-color-${color}-5)` : undefined,
+          borderWidth: isOver ? 2 : undefined,
+          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+        },
+      })}
     >
       <Stack gap="sm">
         <Group justify="space-between" align="flex-start" wrap="nowrap">
@@ -283,11 +286,13 @@ function UnrankedPool({
       p="md"
       radius="md"
       withBorder
-      style={{
-        borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
-        borderWidth: isOver ? 2 : undefined,
-        transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-      }}
+      {...getCardHoverProps({
+        style: {
+          borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
+          borderWidth: isOver ? 2 : undefined,
+          transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+        },
+      })}
     >
       <Stack gap="sm">
         {filterHeader || (

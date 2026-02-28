@@ -18,6 +18,7 @@ import CharacterTag from '../components/character/CharacterTag';
 import ResourceBadge from '../components/common/ResourceBadge';
 import {
   BRAND_TITLE_STYLE,
+  getCardHoverProps,
   getGuideSectionCardStyles,
 } from '../constants/styles';
 
@@ -89,7 +90,7 @@ function QA({
   style?: React.CSSProperties;
 }) {
   return (
-    <Paper p="md" radius="md" withBorder style={style}>
+    <Paper p="md" radius="md" withBorder {...getCardHoverProps({ style })}>
       <Stack gap="xs">
         <Text fw={700}>Q: {q}</Text>
         <Text size="sm" c="dimmed" component="div">
@@ -112,11 +113,13 @@ export default function BeginnerQA() {
           withBorder
           radius="md"
           p="xl"
-          style={{
-            ...sectionCardStyle,
-            position: 'relative',
-            overflow: 'hidden',
-          }}
+          {...getCardHoverProps({
+            style: {
+              ...sectionCardStyle,
+              position: 'relative',
+              overflow: 'hidden',
+            },
+          })}
         >
           <Box
             style={{
@@ -164,7 +167,7 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
           <Stack gap="sm">
             <Title order={2}>Summoning &amp; Characters</Title>
 
@@ -203,7 +206,7 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
           <Stack gap="sm">
             <Title order={2}>Economy &amp; Shopping</Title>
 
@@ -248,7 +251,7 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
           <Stack gap="sm">
             <Title order={2}>Progression &amp; Mechanics</Title>
 
@@ -289,7 +292,7 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
           <Stack gap="sm">
             <Title order={2}>Events &amp; Guilds</Title>
 
@@ -319,7 +322,7 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
           <Stack gap="sm">
             <Title order={2}>Affection Gifts</Title>
             <Text size="sm" c="dimmed">
@@ -367,7 +370,7 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
           <Stack gap="sm">
             <Title order={2}>Combat Strategy</Title>
 
@@ -388,3 +391,4 @@ export default function BeginnerQA() {
     </Container>
   );
 }
+

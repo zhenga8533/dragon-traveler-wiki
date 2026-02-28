@@ -20,6 +20,7 @@ import QualityBadge from '../../components/common/QualityBadge';
 import RichText from '../../components/common/RichText';
 import {
   DETAIL_TOOLTIP_STYLES,
+  getCardHoverProps,
   RICH_TOOLTIP_STYLES,
 } from '../../constants/styles';
 import type { Character, RecommendedGearEntry } from '../../types/character';
@@ -80,7 +81,7 @@ export default function CharacterPageBuildSection({
     <>
       {/* Lore Section */}
       {character.lore && (
-        <Paper p="lg" radius="md" withBorder>
+        <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
           <Stack gap="md">
             <Title order={3}>About</Title>
             <RichText
@@ -95,7 +96,7 @@ export default function CharacterPageBuildSection({
             />
 
             {character.quote && (
-              <Paper p="md" radius="md" withBorder>
+              <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
                 <Group gap="sm" align="flex-start" wrap="nowrap">
                   <Box
                     style={{
@@ -210,7 +211,7 @@ export default function CharacterPageBuildSection({
       {/* Recommended Build */}
       {(recommendedGearDetails.length > 0 ||
         recommendedSubclassEntries.length > 0) && (
-        <Paper p="lg" radius="md" withBorder>
+        <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
           <Stack gap="md">
             <Group justify="space-between" align="flex-start" gap="sm">
               <Stack gap={2}>
@@ -275,7 +276,12 @@ export default function CharacterPageBuildSection({
                         maw={300}
                         styles={DETAIL_TOOLTIP_STYLES}
                       >
-                        <Paper p="sm" radius="md" withBorder>
+                        <Paper
+                          p="sm"
+                          radius="md"
+                          withBorder
+                          {...getCardHoverProps()}
+                        >
                           <Group gap="sm" align="flex-start" wrap="nowrap">
                             {entry.icon && (
                               <Center
@@ -445,7 +451,12 @@ export default function CharacterPageBuildSection({
                         maw={340}
                         styles={RICH_TOOLTIP_STYLES}
                       >
-                        <Paper p="sm" radius="md" withBorder>
+                        <Paper
+                          p="sm"
+                          radius="md"
+                          withBorder
+                          {...getCardHoverProps()}
+                        >
                           <Group gap="sm" wrap="nowrap">
                             <Image
                               src={entry.icon}
@@ -519,7 +530,12 @@ export default function CharacterPageBuildSection({
                         maw={320}
                         styles={RICH_TOOLTIP_STYLES}
                       >
-                        <Paper p="sm" radius="md" withBorder>
+                        <Paper
+                          p="sm"
+                          radius="md"
+                          withBorder
+                          {...getCardHoverProps()}
+                        >
                           <Stack gap={4}>
                             <Group justify="space-between" gap="xs">
                               <Text fw={600} size="sm" truncate>

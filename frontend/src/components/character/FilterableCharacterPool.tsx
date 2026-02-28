@@ -2,6 +2,7 @@ import { Badge, Button, Collapse, Group, Paper, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
+import { getCardHoverProps } from '../../constants/styles';
 import { TierListReferenceContext } from '../../contexts';
 import type { Character } from '../../types/character';
 import type { CharacterFilters } from '../../utils/filter-characters';
@@ -153,7 +154,7 @@ export default function FilterableCharacterPool({
       </Group>
 
       <Collapse in={filterOpen}>
-        <Paper p="md" radius="md" withBorder>
+        <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
           <CharacterFilter
             filters={filters}
             onChange={setFilters}

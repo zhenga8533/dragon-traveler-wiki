@@ -34,9 +34,10 @@ import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import TeamSynergyAssistant from '../components/tools/TeamSynergyAssistant';
 import { FACTION_COLOR, QUALITY_BORDER_COLOR } from '../constants/colors';
 import { normalizeContentType } from '../constants/content-types';
-import { GLASS_BORDER, getLoreGlassStyles } from '../constants/glass';
+import { getLoreGlassStyles, GLASS_BORDER } from '../constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
+  getCardHoverProps,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
@@ -249,7 +250,12 @@ export default function TeamPage() {
             </Group>
 
             {team.description && (
-              <Paper p="md" radius="md" style={getLoreGlassStyles(isDark)}>
+              <Paper
+                p="md"
+                radius="md"
+                withBorder
+                {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+              >
                 <Text size="sm" lh={1.6}>
                   {team.description}
                 </Text>
@@ -257,7 +263,12 @@ export default function TeamPage() {
             )}
 
             {factionInfo && (
-              <Paper p="md" radius="md" style={getLoreGlassStyles(isDark)}>
+              <Paper
+                p="md"
+                radius="md"
+                withBorder
+                {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+              >
                 <Stack gap="sm">
                   <Title order={4}>Faction Overview</Title>
                   <RichText
@@ -289,7 +300,9 @@ export default function TeamPage() {
                                     p="sm"
                                     radius="md"
                                     withBorder
-                                    style={{ cursor: 'pointer' }}
+                                    {...getCardHoverProps({
+                                      interactive: true,
+                                    })}
                                   >
                                     <Group
                                       gap="sm"
@@ -461,9 +474,11 @@ export default function TeamPage() {
                         p="sm"
                         radius="md"
                         withBorder
-                        style={{
-                          borderTop: `3px solid var(--mantine-color-${factionColor}-5)`,
-                        }}
+                        {...getCardHoverProps({
+                          style: {
+                            borderTop: `3px solid var(--mantine-color-${factionColor}-5)`,
+                          },
+                        })}
                       >
                         <Stack gap={6} align="center">
                           <Box pos="relative">
@@ -667,14 +682,16 @@ function BattlefieldGrid({
                     key={colIdx}
                     radius="md"
                     withBorder
-                    style={{
-                      minHeight: 80,
-                      display: 'flex',
-                      alignItems: 'center',
-                      justifyContent: 'center',
-                      opacity: 0.25,
-                      borderStyle: 'dashed',
-                    }}
+                    {...getCardHoverProps({
+                      style: {
+                        minHeight: 80,
+                        display: 'flex',
+                        alignItems: 'center',
+                        justifyContent: 'center',
+                        opacity: 0.25,
+                        borderStyle: 'dashed',
+                      },
+                    })}
                   >
                     <Text size="xs" c="dimmed">
                       —
@@ -694,9 +711,11 @@ function BattlefieldGrid({
                   p="sm"
                   radius="md"
                   withBorder
-                  style={{
-                    borderTop: `3px solid ${accentColor}`,
-                  }}
+                  {...getCardHoverProps({
+                    style: {
+                      borderTop: `3px solid ${accentColor}`,
+                    },
+                  })}
                 >
                   <Stack gap={6} align="center">
                     {/* Portrait */}

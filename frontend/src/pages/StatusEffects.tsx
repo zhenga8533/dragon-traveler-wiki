@@ -22,7 +22,7 @@ import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
-import { getMinWidthStyle } from '../constants/styles';
+import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import {
@@ -217,7 +217,13 @@ export default function StatusEffects() {
                 {pageItems.map((effect) => {
                   const iconSrc = getStatusEffectIcon(effect.name);
                   return (
-                    <Paper key={effect.name} p="sm" radius="md" withBorder>
+                    <Paper
+                      key={effect.name}
+                      p="sm"
+                      radius="md"
+                      withBorder
+                      {...getCardHoverProps()}
+                    >
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
                           {iconSrc && (

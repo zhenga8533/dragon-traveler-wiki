@@ -27,7 +27,7 @@ import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { FACTION_NAMES, QUALITY_ORDER } from '../constants/colors';
-import { getMinWidthStyle } from '../constants/styles';
+import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import {
@@ -270,7 +270,13 @@ export default function Wyrmspells() {
                 {pageItems.map((spell) => {
                   const iconSrc = getWyrmspellIcon(spell.name);
                   return (
-                    <Paper key={spell.name} p="sm" radius="md" withBorder>
+                    <Paper
+                      key={spell.name}
+                      p="sm"
+                      radius="md"
+                      withBorder
+                      {...getCardHoverProps()}
+                    >
                       <Group gap="md" align="flex-start" wrap="nowrap">
                         {iconSrc && (
                           <Image

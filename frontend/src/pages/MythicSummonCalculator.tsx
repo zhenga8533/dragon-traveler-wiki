@@ -26,6 +26,7 @@ import ResourceBadge from '../components/common/ResourceBadge';
 import StatCard from '../components/common/StatCard';
 import {
   BRAND_TITLE_STYLE,
+  getCardHoverProps,
   getGuideSectionCardStyles,
 } from '../constants/styles';
 
@@ -333,11 +334,13 @@ export default function MythicSummonCalculator() {
           withBorder
           radius="md"
           p="xl"
-          style={{
-            ...sectionCardStyle,
-            position: 'relative',
-            overflow: 'hidden',
-          }}
+          {...getCardHoverProps({
+            style: {
+              ...sectionCardStyle,
+              position: 'relative',
+              overflow: 'hidden',
+            },
+          })}
         >
           <Box
             style={{
@@ -379,7 +382,12 @@ export default function MythicSummonCalculator() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="md">
             <Title order={3}>
               <Group gap="xs">
@@ -455,7 +463,12 @@ export default function MythicSummonCalculator() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="md">
             <Title order={3}>
               <Group gap="xs">
@@ -504,7 +517,12 @@ export default function MythicSummonCalculator() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="md">
             <Title order={3}>Expected Rewards</Title>
             <Text size="sm" c="dimmed">
@@ -578,7 +596,12 @@ export default function MythicSummonCalculator() {
         <Title order={3}>Drop Rates Reference</Title>
 
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
-          <Card withBorder radius="md" p="md" style={sectionCardStyle}>
+          <Card
+            withBorder
+            radius="md"
+            p="md"
+            {...getCardHoverProps({ style: sectionCardStyle })}
+          >
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
@@ -627,7 +650,12 @@ export default function MythicSummonCalculator() {
             </Stack>
           </Card>
 
-          <Card withBorder radius="md" p="md" style={sectionCardStyle}>
+          <Card
+            withBorder
+            radius="md"
+            p="md"
+            {...getCardHoverProps({ style: sectionCardStyle })}
+          >
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
@@ -671,7 +699,12 @@ export default function MythicSummonCalculator() {
             </Stack>
           </Card>
 
-          <Card withBorder radius="md" p="md" style={sectionCardStyle}>
+          <Card
+            withBorder
+            radius="md"
+            p="md"
+            {...getCardHoverProps({ style: sectionCardStyle })}
+          >
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
@@ -713,7 +746,12 @@ export default function MythicSummonCalculator() {
             </Stack>
           </Card>
 
-          <Card withBorder radius="md" p="md" style={sectionCardStyle}>
+          <Card
+            withBorder
+            radius="md"
+            p="md"
+            {...getCardHoverProps({ style: sectionCardStyle })}
+          >
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
@@ -754,7 +792,12 @@ export default function MythicSummonCalculator() {
 
         <Title order={3}>Milestone Rewards</Title>
 
-        <Card withBorder radius="md" p="md" style={sectionCardStyle}>
+        <Card
+          withBorder
+          radius="md"
+          p="md"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="xs">
             <Text fw={600}>
               Milestone rewards (

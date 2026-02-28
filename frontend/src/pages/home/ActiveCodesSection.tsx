@@ -1,8 +1,8 @@
 import {
   ActionIcon,
-  Box,
   CopyButton,
   Group,
+  Paper,
   Skeleton,
   Stack,
   Text,
@@ -11,6 +11,7 @@ import {
 import { IoCheckmark, IoCopyOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import ResourceBadge from '../../components/common/ResourceBadge';
+import { getCardHoverProps } from '../../constants/styles';
 import { useDataFetch, useMobileTooltip } from '../../hooks';
 import type { Code } from '../../types/code';
 import { isCodeActive } from '../../utils';
@@ -41,13 +42,12 @@ export default function ActiveCodesSection() {
   return (
     <Stack gap="xs">
       {activeCodes.map((entry) => (
-        <Box
+        <Paper
           key={entry.code}
           p="xs"
-          style={{
-            borderRadius: 'var(--mantine-radius-md)',
-            backgroundColor: 'var(--mantine-color-default-hover)',
-          }}
+          radius="md"
+          withBorder
+          {...getCardHoverProps()}
         >
           <Group justify="space-between" wrap="nowrap">
             <Text ff="monospace" fw={500} size="sm" truncate>
@@ -85,7 +85,7 @@ export default function ActiveCodesSection() {
               ))}
             </Group>
           )}
-        </Box>
+        </Paper>
       ))}
       <Text
         component={Link}

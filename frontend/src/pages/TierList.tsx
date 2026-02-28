@@ -40,6 +40,7 @@ import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentType,
 } from '../constants/content-types';
+import { getCardHoverProps } from '../constants/styles';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
@@ -218,6 +219,7 @@ export default function TierList() {
                   p="sm"
                   radius="md"
                   withBorder
+                  {...getCardHoverProps()}
                   bg="var(--mantine-color-body)"
                 >
                   <EntityFilter
@@ -344,7 +346,13 @@ export default function TierList() {
 
                             {byTier.map(
                               ({ tier, tierIndex, note, entries }) => (
-                                <Paper key={tier} p="md" radius="md" withBorder>
+                                <Paper
+                                  key={tier}
+                                  p="md"
+                                  radius="md"
+                                  withBorder
+                                  {...getCardHoverProps()}
+                                >
                                   <Stack gap="sm">
                                     <Stack gap={4}>
                                       <Badge
@@ -514,7 +522,12 @@ export default function TierList() {
                             )}
 
                             {unranked.length > 0 && (
-                              <Paper p="md" radius="md" withBorder>
+                              <Paper
+                                p="md"
+                                radius="md"
+                                withBorder
+                                {...getCardHoverProps()}
+                              >
                                 <Stack gap="sm">
                                   <Badge
                                     variant="filled"

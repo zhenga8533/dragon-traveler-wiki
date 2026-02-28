@@ -24,6 +24,7 @@ import {
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import LastUpdated from '../../components/common/LastUpdated';
+import { getCardHoverProps } from '../../constants/styles';
 import { useDataFetch } from '../../hooks';
 import type { Artifact } from '../../types/artifact';
 import type { Character } from '../../types/character';
@@ -115,12 +116,7 @@ export default function DataStatsBar() {
 
   if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9) {
     return (
-      <Card
-        padding="lg"
-        radius="md"
-        withBorder
-        className="home-hover-card home-content-card"
-      >
+      <Card padding="lg" radius="md" withBorder {...getCardHoverProps()}>
         <SimpleGrid cols={{ base: 3, sm: 5, lg: 9 }} spacing={0}>
           {Array.from({ length: 9 }).map((_, i) => (
             <Stack key={i} gap={4} align="center" py="sm">
@@ -201,12 +197,7 @@ export default function DataStatsBar() {
   ];
 
   return (
-    <Card
-      padding="lg"
-      radius="md"
-      withBorder
-      className="home-hover-card home-content-card"
-    >
+    <Card padding="lg" radius="md" withBorder {...getCardHoverProps()}>
       <Stack gap="md">
         <Group gap="sm">
           <ThemeIcon variant="light" color="grape" size="lg" radius="md">
