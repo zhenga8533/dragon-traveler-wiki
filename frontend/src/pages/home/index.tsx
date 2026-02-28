@@ -53,6 +53,17 @@ const LANGUAGES = [
   'Vietnamese',
 ];
 
+const HOME_CTA_BUTTON_STYLES = {
+  root: {
+    transition: `transform 180ms ${TRANSITION.EASE}, box-shadow 220ms ${TRANSITION.EASE}, filter 180ms ${TRANSITION.EASE}`,
+    '&:hover': {
+      transform: 'translateY(-2px)',
+      boxShadow: '0 10px 26px rgba(0, 0, 0, 0.26)',
+      filter: 'saturate(1.04)',
+    },
+  },
+};
+
 export default function Home() {
   const isDark = useComputedColorScheme('light') === 'dark';
 
@@ -60,40 +71,6 @@ export default function Home() {
 
   return (
     <Stack gap={0}>
-      <style>{`
-        @keyframes marquee-scroll {
-          0% { transform: translateX(0); }
-          100% { transform: translateX(-50%); }
-        }
-
-        .home-cta {
-          transition: transform 180ms ${TRANSITION.EASE}, box-shadow 220ms ${TRANSITION.EASE}, filter 180ms ${TRANSITION.EASE};
-        }
-
-        .home-cta:hover {
-          transform: translateY(-2px);
-          box-shadow: 0 10px 26px rgba(0, 0, 0, 0.26);
-          filter: saturate(1.04);
-        }
-
-        .home-hover-card {
-          transition: transform 220ms ${TRANSITION.EASE}, box-shadow 240ms ${TRANSITION.EASE}, border-color 220ms ${TRANSITION.EASE};
-        }
-
-        .home-hover-card:hover {
-          transform: translateY(-4px);
-          box-shadow: 0 14px 34px rgba(0, 0, 0, 0.22);
-        }
-
-        .featured-item {
-          transition: transform 200ms ${TRANSITION.EASE}, opacity 200ms ${TRANSITION.EASE};
-        }
-
-        .featured-item:hover {
-          transform: translateY(-3px);
-        }
-      `}</style>
-
       {/* Hero banner with overlapping content */}
       <Box
         style={{
@@ -229,7 +206,7 @@ export default function Home() {
                     to="/characters"
                     size="md"
                     radius="md"
-                    className="home-cta"
+                    styles={HOME_CTA_BUTTON_STYLES}
                     leftSection={<IoPeople size={18} />}
                   >
                     Browse Characters
@@ -241,7 +218,7 @@ export default function Home() {
                     radius="md"
                     variant="light"
                     color="grape"
-                    className="home-cta"
+                    styles={HOME_CTA_BUTTON_STYLES}
                     leftSection={<IoTrophy size={18} />}
                   >
                     View Tier List
@@ -256,7 +233,7 @@ export default function Home() {
                     radius="md"
                     variant="outline"
                     color="gray"
-                    className="home-cta"
+                    styles={HOME_CTA_BUTTON_STYLES}
                     leftSection={<IoGameController size={18} />}
                     rightSection={<IoOpenOutline size={14} />}
                     style={HOME_HERO_PLAY_NOW_STYLE}
@@ -274,7 +251,7 @@ export default function Home() {
                         radius="md"
                         variant="white"
                         color="dark"
-                        className="home-cta"
+                        styles={HOME_CTA_BUTTON_STYLES}
                         leftSection={<IoSearch size={16} />}
                       >
                         Search the Wiki
@@ -297,7 +274,6 @@ export default function Home() {
               radius="md"
               withBorder
               shadow="lg"
-              className="home-hover-card"
               {...getCardHoverProps({
                 style: {
                   backdropFilter: 'blur(8px)',
@@ -380,7 +356,6 @@ export default function Home() {
                 radius="md"
                 withBorder
                 h="100%"
-                className="home-hover-card"
                 {...getCardHoverProps()}
               >
                 <Stack gap="md">
@@ -406,7 +381,6 @@ export default function Home() {
                 radius="md"
                 withBorder
                 h="100%"
-                className="home-hover-card"
                 {...getCardHoverProps()}
               >
                 <Stack gap="md">

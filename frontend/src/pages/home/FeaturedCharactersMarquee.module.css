@@ -1,0 +1,27 @@
+@keyframes marqueeScroll {
+  0% {
+    transform: translateX(0);
+  }
+
+  100% {
+    transform: translateX(-50%);
+  }
+}
+
+.featuredItem {
+  transition:
+    transform 200ms ease,
+    opacity 200ms ease;
+}
+
+.featuredItem:hover {
+  transform: translateY(-3px);
+}
+
+.marqueeTrack {
+  width: max-content;
+  animation-name: marqueeScroll;
+  animation-duration: var(--marquee-duration, 30s);
+  animation-timing-function: linear;
+  animation-iteration-count: infinite;
+}

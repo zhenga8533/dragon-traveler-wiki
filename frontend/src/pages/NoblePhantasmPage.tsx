@@ -25,6 +25,7 @@ import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
+  getCardHoverProps,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
@@ -312,7 +313,12 @@ export default function NoblePhantasmPage() {
               </Stack>
             </Group>
 
-            <Paper p="md" radius="md" style={getLoreGlassStyles(isDark)}>
+            <Paper
+              p="md"
+              radius="md"
+              withBorder
+              {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+            >
               <RichText
                 text={noblePhantasm.lore}
                 statusEffects={statusEffects}

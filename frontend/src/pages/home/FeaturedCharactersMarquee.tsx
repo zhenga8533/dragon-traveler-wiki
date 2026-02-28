@@ -17,6 +17,7 @@ import { normalizeContentType } from '../../constants/content-types';
 import { TierListReferenceContext } from '../../contexts/tier-list-reference-context';
 import { useDataFetch } from '../../hooks';
 import type { Character } from '../../types/character';
+import styles from './FeaturedCharactersMarquee.module.css';
 
 export default function FeaturedCharactersMarquee() {
   const {
@@ -58,7 +59,7 @@ export default function FeaturedCharactersMarquee() {
       return (
         <Stack
           key={`${keyPrefix}-${entry.character_name}`}
-          className="featured-item"
+          className={styles.featuredItem}
           gap={2}
           align="center"
           style={{ flexShrink: 0, width: 90 }}
@@ -108,11 +109,11 @@ export default function FeaturedCharactersMarquee() {
         }}
       >
         <Group
+          className={styles.marqueeTrack}
           gap="md"
           wrap="nowrap"
           style={{
-            animation: `marquee-scroll ${duration}s linear infinite`,
-            width: 'max-content',
+            '--marquee-duration': `${duration}s`,
           }}
           onMouseEnter={(e) => {
             e.currentTarget.style.animationPlayState = 'paused';

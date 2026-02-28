@@ -10,7 +10,6 @@ import {
   Table,
   Text,
   Title,
-  Tooltip,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -29,7 +28,7 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch, useMobileTooltip } from '../hooks';
+import { useDataFetch } from '../hooks';
 import {
   countActiveFilters,
   useFilterPanel,
@@ -51,7 +50,6 @@ const EMPTY_FILTERS: NoblePhantasmFilters = {
 };
 
 export default function NoblePhantasms() {
-  const tooltipProps = useMobileTooltip();
   const navigate = useNavigate();
   const {
     data: noblePhantasms,
@@ -280,16 +278,9 @@ export default function NoblePhantasms() {
                               {np.skills.length !== 1 ? 's' : ''}
                             </Badge>
                           </Group>
-                          <Tooltip
-                            label={np.lore}
-                            multiline
-                            maw={360}
-                            {...tooltipProps}
-                          >
-                            <Text size="xs" c="dimmed" lineClamp={2}>
-                              {np.lore}
-                            </Text>
-                          </Tooltip>
+                          <Text size="xs" c="dimmed" lineClamp={2}>
+                            {np.lore}
+                          </Text>
                         </Stack>
                       </Group>
                     </Paper>
