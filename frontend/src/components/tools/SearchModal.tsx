@@ -32,7 +32,6 @@ import {
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { getArtifactIcon } from '../../assets/artifacts';
-import { getPortrait } from '../../assets/character';
 import { getGearIcon } from '../../assets/gear';
 import { getHowlkinIcon } from '../../assets/howlkin';
 import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
@@ -44,6 +43,7 @@ import { normalizeContentType } from '../../constants/content-types';
 import { TRANSITION } from '../../constants/ui';
 import { SearchDataContext } from '../../contexts';
 import { isCodeActive } from '../../utils';
+import CharacterPortrait from '../character/CharacterPortrait';
 
 type SearchResult = {
   type:
@@ -240,7 +240,7 @@ export default function SearchModal({
           title: r.item.name,
           subtitle: `${r.item.quality} ${r.item.character_class}`,
           path: `/characters/${encodeURIComponent(r.item.name)}`,
-          icon: getPortrait(r.item.name) ?? IoPersonOutline,
+          icon: IoPersonOutline,
           color: 'blue',
         }))
       );
@@ -645,6 +645,7 @@ export default function SearchModal({
                 const isSelected = index === selectedIndex;
                 const isNewCategory =
                   index === 0 || searchResults[index - 1].type !== result.type;
+                const isCharacterResult = result.type === 'character';
                 return (
                   <Fragment key={`${result.type}-${result.title}-${index}`}>
                     {isNewCategory && (
@@ -677,16 +678,24 @@ export default function SearchModal({
                           style={{
                             width: 36,
                             height: 36,
-                            borderRadius: '8px',
+                            borderRadius: isCharacterResult ? '50%' : '8px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: `var(--mantine-color-${result.color}-1)`,
-                            overflow: 'hidden',
+                            backgroundColor: isCharacterResult
+                              ? 'transparent'
+                              : `var(--mantine-color-${result.color}-1)`,
+                            overflow: isCharacterResult ? 'visible' : 'hidden',
                             flexShrink: 0,
                           }}
                         >
-                          {typeof result.icon === 'string' ? (
+                          {isCharacterResult ? (
+                            <CharacterPortrait
+                              name={result.title}
+                              size={36}
+                              borderWidth={0}
+                            />
+                          ) : typeof result.icon === 'string' ? (
                             <img
                               src={result.icon}
                               alt={result.title}
