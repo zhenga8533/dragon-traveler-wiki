@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Badge,
+  Box,
   Button,
   Collapse,
   Container,
@@ -16,7 +17,7 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter } from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
@@ -62,27 +63,51 @@ function TeamCharacterAvatars({
   charMap,
   size,
   isSubstitute = false,
+  layout = 'wrap',
+  columns = 3,
+  gap = 4,
+  wrap = 'wrap',
 }: {
   names: string[];
   charMap: Map<string, Character>;
   size: number;
   isSubstitute?: boolean;
+  layout?: 'wrap' | 'grid';
+  columns?: number;
+  gap?: number;
+  wrap?: 'wrap' | 'nowrap';
 }) {
+  const portraits = names.map((name) => {
+    const char = charMap.get(name);
+    return (
+      <CharacterPortrait
+        key={`${isSubstitute ? 'sub' : 'main'}-${name}`}
+        name={name}
+        size={size}
+        quality={char?.quality}
+        isSubstitute={isSubstitute}
+        tooltip={isSubstitute ? `${name} (Sub)` : name}
+      />
+    );
+  });
+
+  if (layout === 'grid') {
+    return (
+      <Box
+        style={{
+          display: 'grid',
+          gridTemplateColumns: `repeat(${columns}, ${size}px)`,
+          gap: 6,
+        }}
+      >
+        {portraits}
+      </Box>
+    );
+  }
+
   return (
-    <Group gap={4} wrap="wrap">
-      {names.map((name) => {
-        const char = charMap.get(name);
-        return (
-          <CharacterPortrait
-            key={`${isSubstitute ? 'sub' : 'main'}-${name}`}
-            name={name}
-            size={size}
-            quality={char?.quality}
-            isSubstitute={isSubstitute}
-            tooltip={isSubstitute ? `${name} (Sub)` : name}
-          />
-        );
-      })}
+    <Group gap={gap} wrap={wrap}>
+      {portraits}
     </Group>
   );
 }
@@ -122,6 +147,7 @@ export default function Teams() {
     storageKey: STORAGE_KEY.TEAMS_VIEW_MODE,
     defaultMode: 'grid',
   });
+  const isLargeTeamCardLayout = useMediaQuery('(min-width: 75em)');
   const loading = loadingTeams || loadingChars || loadingSpells;
   const error = teamsError || charactersError || wyrmspellsError;
 
@@ -450,7 +476,7 @@ export default function Teams() {
 
                               {/* Member portraits */}
                               <Stack gap={4}>
-                                <Group gap={6} align="center">
+                                <Group gap={6} align="flex-start" wrap="nowrap">
                                   <Badge size="xs" variant="light" color="blue">
                                     Main {team.members.length}
                                   </Badge>
@@ -459,11 +485,20 @@ export default function Teams() {
                                       (member) => member.character_name
                                     )}
                                     charMap={charMap}
-                                    size={40}
+                                    size={isLargeTeamCardLayout ? 64 : 56}
+                                    layout="wrap"
+                                    gap={isLargeTeamCardLayout ? 6 : 4}
+                                    wrap={
+                                      isLargeTeamCardLayout ? 'nowrap' : 'wrap'
+                                    }
                                   />
                                 </Group>
                                 {(team.bench?.length ?? 0) > 0 && (
-                                  <Group gap={6} align="center">
+                                  <Group
+                                    gap={6}
+                                    align="flex-start"
+                                    wrap="nowrap"
+                                  >
                                     <Badge
                                       size="xs"
                                       variant="light"
@@ -474,8 +509,15 @@ export default function Teams() {
                                     <TeamCharacterAvatars
                                       names={team.bench!}
                                       charMap={charMap}
-                                      size={40}
+                                      size={isLargeTeamCardLayout ? 52 : 44}
                                       isSubstitute
+                                      layout="wrap"
+                                      gap={isLargeTeamCardLayout ? 6 : 4}
+                                      wrap={
+                                        isLargeTeamCardLayout
+                                          ? 'nowrap'
+                                          : 'wrap'
+                                      }
                                     />
                                   </Group>
                                 )}
