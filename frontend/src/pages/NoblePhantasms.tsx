@@ -15,6 +15,7 @@ import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
+import CharacterPortrait from '../components/character/CharacterPortrait';
 import EntityFilter from '../components/common/EntityFilter';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
@@ -217,9 +218,6 @@ export default function NoblePhantasms() {
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 {pageItems.map((np) => {
                   const iconSrc = getNoblePhantasmIcon(np.name);
-                  const portrait = np.character
-                    ? getPortrait(np.character)
-                    : undefined;
                   return (
                     <Paper
                       key={np.name}
@@ -247,15 +245,11 @@ export default function NoblePhantasms() {
                         )}
                         <Stack gap={4} style={{ flex: 1 }}>
                           <Group gap="xs" align="center" wrap="nowrap">
-                            {portrait && (
-                              <Image
-                                src={portrait}
-                                alt={np.character || ''}
-                                w={20}
-                                h={20}
-                                fit="cover"
-                                radius="xl"
-                                loading="lazy"
+                            {np.character && (
+                              <CharacterPortrait
+                                name={np.character}
+                                size={20}
+                                borderWidth={0}
                               />
                             )}
                             <Text fw={700} c="violet" lineClamp={1}>
@@ -339,9 +333,6 @@ export default function NoblePhantasms() {
                   <Table.Tbody>
                     {pageItems.map((np) => {
                       const iconSrc = getNoblePhantasmIcon(np.name);
-                      const portrait = np.character
-                        ? getPortrait(np.character)
-                        : undefined;
                       return (
                         <Table.Tr
                           key={np.name}
@@ -384,15 +375,11 @@ export default function NoblePhantasms() {
                           </Table.Td>
                           <Table.Td>
                             <Group gap="xs" wrap="nowrap">
-                              {portrait && (
-                                <Image
-                                  src={portrait}
-                                  alt={np.character || ''}
-                                  w={20}
-                                  h={20}
-                                  fit="cover"
-                                  radius="xl"
-                                  loading="lazy"
+                              {np.character && (
+                                <CharacterPortrait
+                                  name={np.character}
+                                  size={20}
+                                  borderWidth={0}
                                 />
                               )}
                               <Text

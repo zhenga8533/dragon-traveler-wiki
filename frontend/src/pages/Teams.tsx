@@ -20,9 +20,9 @@ import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter } from 'react-icons/io5';
 import { Link, useLocation, useNavigate } from 'react-router-dom';
-import { getPortrait } from '../assets/character';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
+import CharacterPortrait from '../components/character/CharacterPortrait';
 import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
@@ -36,21 +36,17 @@ import {
   ViewModeLoading,
 } from '../components/layout/PageLoadingSkeleton';
 import TeamBuilder from '../components/tools/TeamBuilder';
-import {
-  FACTION_COLOR,
-  FACTION_NAMES,
-  QUALITY_BORDER_COLOR,
-} from '../constants/colors';
+import { FACTION_COLOR, FACTION_NAMES } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentType,
 } from '../constants/content-types';
 import {
-  LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
   getMinWidthStyle,
+  LINK_BLOCK_RESET_STYLE,
 } from '../constants/styles';
-import { STORAGE_KEY, TRANSITION } from '../constants/ui';
+import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
@@ -76,46 +72,15 @@ function TeamCharacterAvatars({
     <Group gap={4} wrap="wrap">
       {names.map((name) => {
         const char = charMap.get(name);
-        const borderColor = char
-          ? QUALITY_BORDER_COLOR[char.quality]
-          : 'var(--mantine-color-gray-5)';
         return (
-          <Tooltip
+          <CharacterPortrait
             key={`${isSubstitute ? 'sub' : 'main'}-${name}`}
-            label={isSubstitute ? `${name} (Sub)` : name}
-            withArrow
-          >
-            <Image
-              src={getPortrait(name)}
-              alt={name}
-              w={size}
-              h={size}
-              fit="cover"
-              radius="xl"
-              loading="lazy"
-              style={{
-                border: `2px solid ${borderColor}`,
-                borderRadius: '50%',
-                boxShadow: isSubstitute
-                  ? '0 1px 4px rgba(0,0,0,0.16)'
-                  : '0 2px 6px rgba(0,0,0,0.2)',
-                opacity: isSubstitute ? 0.9 : 1,
-                transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, box-shadow ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-              }}
-              onMouseEnter={(e) => {
-                e.currentTarget.style.transform = 'scale(1.08)';
-                e.currentTarget.style.boxShadow = isSubstitute
-                  ? '0 3px 8px rgba(0,0,0,0.2)'
-                  : '0 4px 10px rgba(0,0,0,0.25)';
-              }}
-              onMouseLeave={(e) => {
-                e.currentTarget.style.transform = 'scale(1)';
-                e.currentTarget.style.boxShadow = isSubstitute
-                  ? '0 1px 4px rgba(0,0,0,0.16)'
-                  : '0 2px 6px rgba(0,0,0,0.2)';
-              }}
-            />
-          </Tooltip>
+            name={name}
+            size={size}
+            quality={char?.quality}
+            isSubstitute={isSubstitute}
+            tooltip={isSubstitute ? `${name} (Sub)` : name}
+          />
         );
       })}
     </Group>

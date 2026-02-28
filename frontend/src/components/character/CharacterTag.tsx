@@ -1,6 +1,6 @@
-import { Badge, Image } from '@mantine/core';
+import { Badge } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { getPortrait } from '../../assets/character';
+import CharacterPortrait from './CharacterPortrait';
 
 export interface CharacterTagProps {
   name: string;
@@ -15,18 +15,12 @@ export default function CharacterTag({
   size = 'md',
   link = true,
 }: CharacterTagProps) {
-  const portrait = getPortrait(name);
-
   const badge = (
     <Badge
       variant="light"
       color={color}
       size={size}
-      leftSection={
-        portrait ? (
-          <Image src={portrait} alt={name} w={14} h={14} radius="xl" />
-        ) : undefined
-      }
+      leftSection={<CharacterPortrait name={name} size={14} borderWidth={0} />}
     >
       {name}
     </Badge>

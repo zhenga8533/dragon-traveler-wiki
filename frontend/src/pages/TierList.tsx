@@ -4,7 +4,6 @@ import {
   Collapse,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SegmentedControl,
@@ -19,8 +18,8 @@ import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { getPortrait } from '../assets/character';
 import CharacterCard from '../components/character/CharacterCard';
+import CharacterPortrait from '../components/character/CharacterPortrait';
 import ClassTag from '../components/common/ClassTag';
 import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
@@ -422,18 +421,12 @@ export default function TierList() {
                                                       gap="sm"
                                                       wrap="nowrap"
                                                     >
-                                                      <Image
-                                                        src={getPortrait(
-                                                          entry.character_name
-                                                        )}
-                                                        alt={
+                                                      <CharacterPortrait
+                                                        name={
                                                           entry.character_name
                                                         }
-                                                        h={32}
-                                                        w={32}
-                                                        fit="cover"
-                                                        radius="50%"
-                                                        fallbackSrc={`https://placehold.co/32x32?text=${encodeURIComponent(entry.character_name.charAt(0))}`}
+                                                        size={32}
+                                                        quality={char?.quality}
                                                       />
                                                       <Text
                                                         component={Link}
@@ -574,14 +567,10 @@ export default function TierList() {
                                             <Table.Tr key={c.name}>
                                               <Table.Td>
                                                 <Group gap="sm" wrap="nowrap">
-                                                  <Image
-                                                    src={getPortrait(c.name)}
-                                                    alt={c.name}
-                                                    h={32}
-                                                    w={32}
-                                                    fit="cover"
-                                                    radius="50%"
-                                                    fallbackSrc={`https://placehold.co/32x32?text=${encodeURIComponent(c.name.charAt(0))}`}
+                                                  <CharacterPortrait
+                                                    name={c.name}
+                                                    size={32}
+                                                    quality={c.quality}
                                                   />
                                                   <Text
                                                     component={Link}

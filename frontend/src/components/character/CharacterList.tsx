@@ -1,6 +1,5 @@
 import {
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -12,8 +11,7 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { getPortrait } from '../../assets/character';
-import { QUALITY_BORDER_COLOR, TIER_ORDER } from '../../constants/colors';
+import { TIER_ORDER } from '../../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../../constants/styles';
 import {
   CHARACTER_GRID_COLS,
@@ -47,6 +45,7 @@ import TierBadge from '../common/TierBadge';
 import FilterToolbar from '../layout/FilterToolbar';
 import CharacterCard from './CharacterCard';
 import CharacterFilter from './CharacterFilter';
+import CharacterPortrait from './CharacterPortrait';
 
 interface CharacterListProps {
   characters: Character[];
@@ -282,18 +281,12 @@ export default function CharacterList({
                         to={`/characters/${encodeURIComponent(char.name)}`}
                       >
                         <Group gap="sm" wrap="nowrap">
-                          <Image
-                            src={getPortrait(char.name)}
-                            alt={char.name}
-                            h={40}
-                            w={40}
-                            fit="cover"
-                            radius="50%"
-                            fallbackSrc={`https://placehold.co/40x40?text=${encodeURIComponent(char.name.charAt(0))}`}
-                            style={{
-                              border: `3px solid ${char.quality ? QUALITY_BORDER_COLOR[char.quality] : 'var(--mantine-color-gray-5)'}`,
-                              flexShrink: 0,
-                            }}
+                          <CharacterPortrait
+                            name={char.name}
+                            size={40}
+                            quality={char.quality}
+                            borderWidth={3}
+                            style={{ flexShrink: 0 }}
                           />
                           <Text size="sm" fw={500} c="violet">
                             {char.name}

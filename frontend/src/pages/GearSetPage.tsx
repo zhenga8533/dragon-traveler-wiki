@@ -9,13 +9,12 @@ import {
   Stack,
   Text,
   Title,
-  Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
-import { Link, useParams } from 'react-router-dom';
-import { getPortrait } from '../assets/character';
+import { useParams } from 'react-router-dom';
 import { getGearIcon } from '../assets/gear';
+import CharacterPortrait from '../components/character/CharacterPortrait';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GearTypeTag from '../components/common/GearTypeTag';
@@ -31,7 +30,6 @@ import {
   getCardHoverProps,
   getDetailHeroGradient,
 } from '../constants/styles';
-import { TRANSITION } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Character } from '../types/character';
 import type { Gear, GearSet, GearType } from '../types/gear';
@@ -253,60 +251,17 @@ export default function GearSetPage() {
                 </Text>
                 <Group gap="xs" wrap="wrap">
                   {displayedCharacters.map((character) => {
-                    const portrait = getPortrait(character.name);
-
                     return (
-                      <Tooltip
+                      <CharacterPortrait
                         key={character.name}
-                        label={`${character.name} (${character.quality})`}
-                        {...tooltipProps}
-                      >
-                        <Link
-                          to={`/characters/${encodeURIComponent(character.name)}`}
-                          style={{ textDecoration: 'none' }}
-                        >
-                          <Box
-                            style={{
-                              width: 44,
-                              height: 44,
-                              borderRadius: '50%',
-                              overflow: 'hidden',
-                              border: `2px solid var(--mantine-color-${qualityColor}-${isDark ? 6 : 4})`,
-                              background: isDark
-                                ? 'rgba(0,0,0,0.25)'
-                                : 'rgba(255,255,255,0.65)',
-                              display: 'flex',
-                              alignItems: 'center',
-                              justifyContent: 'center',
-                              cursor: 'pointer',
-                              transition: `transform ${TRANSITION.NORMAL} ${TRANSITION.EASE}, box-shadow ${TRANSITION.NORMAL} ${TRANSITION.EASE}`,
-                            }}
-                            onMouseEnter={(e) => {
-                              e.currentTarget.style.transform = 'scale(1.1)';
-                              e.currentTarget.style.boxShadow = `0 0 8px var(--mantine-color-${qualityColor}-${isDark ? 6 : 4})`;
-                            }}
-                            onMouseLeave={(e) => {
-                              e.currentTarget.style.transform = 'scale(1)';
-                              e.currentTarget.style.boxShadow = 'none';
-                            }}
-                          >
-                            {portrait ? (
-                              <Image
-                                src={portrait}
-                                alt={character.name}
-                                w={44}
-                                h={44}
-                                fit="cover"
-                                loading="lazy"
-                              />
-                            ) : (
-                              <Text size="xs" fw={700}>
-                                {character.name.slice(0, 2).toUpperCase()}
-                              </Text>
-                            )}
-                          </Box>
-                        </Link>
-                      </Tooltip>
+                        name={character.name}
+                        size={44}
+                        quality={character.quality}
+                        link
+                        tooltip={`${character.name} (${character.quality})`}
+                        tooltipProps={tooltipProps}
+                        borderColor={`var(--mantine-color-${qualityColor}-${isDark ? 6 : 4})`}
+                      />
                     );
                   })}
                   {!showAllCharacters && remainingRecommendedCount > 0 && (

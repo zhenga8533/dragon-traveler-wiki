@@ -1,18 +1,10 @@
-import {
-  Group,
-  Image,
-  Stack,
-  Text,
-  Tooltip,
-  UnstyledButton,
-} from '@mantine/core';
+import { Group, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
 import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { getPortrait } from '../../assets/character';
-import { QUALITY_BORDER_COLOR } from '../../constants/colors';
 import { CHARACTER_CARD, TRANSITION } from '../../constants/ui';
 import type { Quality } from '../../types/quality';
 import TierBadge from '../common/TierBadge';
+import CharacterPortrait from './CharacterPortrait';
 
 interface CharacterCardProps {
   name: string;
@@ -31,26 +23,15 @@ export default function CharacterCard({
   tierLabel,
   note,
 }: CharacterCardProps) {
-  const borderColor = quality
-    ? QUALITY_BORDER_COLOR[quality]
-    : 'var(--mantine-color-gray-5)';
   const nameColor = disableLink ? 'dimmed' : 'violet';
 
   const portrait = (
     <div style={{ position: 'relative', display: 'inline-block' }}>
-      <Image
-        src={getPortrait(name)}
-        alt={name}
-        h={size}
-        w={size}
-        fit="cover"
-        radius="50%"
-        loading="lazy"
-        fallbackSrc={`https://placehold.co/${size}x${size}?text=${encodeURIComponent(name.charAt(0))}`}
-        style={{
-          border: `${CHARACTER_CARD.BORDER_WIDTH}px solid ${borderColor}`,
-          transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, box-shadow ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-        }}
+      <CharacterPortrait
+        name={name}
+        size={size}
+        quality={quality}
+        borderWidth={CHARACTER_CARD.BORDER_WIDTH}
       />
       {note && (
         <IoInformationCircle

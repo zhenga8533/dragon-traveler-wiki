@@ -18,8 +18,8 @@ import { useMemo } from 'react';
 import { IoCreate, IoFlash, IoInformationCircle } from 'react-icons/io5';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
-import { getPortrait } from '../assets/character';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
+import CharacterPortrait from '../components/character/CharacterPortrait';
 import ClassTag from '../components/common/ClassTag';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
@@ -32,7 +32,7 @@ import WyrmspellCard from '../components/common/WyrmspellCard';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
 import TeamSynergyAssistant from '../components/tools/TeamSynergyAssistant';
-import { FACTION_COLOR, QUALITY_BORDER_COLOR } from '../constants/colors';
+import { FACTION_COLOR } from '../constants/colors';
 import { normalizeContentType } from '../constants/content-types';
 import { getLoreGlassStyles, GLASS_BORDER } from '../constants/glass';
 import {
@@ -41,7 +41,6 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
-import { TRANSITION } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
@@ -465,9 +464,6 @@ export default function TeamPage() {
                   {team.bench.map((benchName) => {
                     const char = charMap.get(benchName);
                     const benchNote = team.bench_notes?.[benchName];
-                    const borderColor = char
-                      ? QUALITY_BORDER_COLOR[char.quality]
-                      : 'var(--mantine-color-gray-5)';
                     return (
                       <Paper
                         key={benchName}
@@ -486,24 +482,13 @@ export default function TeamPage() {
                               label={`View ${benchName}`}
                               {...tooltipProps}
                             >
-                              <Link
-                                to={`/characters/${encodeURIComponent(benchName)}`}
-                              >
-                                <Image
-                                  src={getPortrait(benchName)}
-                                  alt={benchName}
-                                  w={72}
-                                  h={72}
-                                  fit="cover"
-                                  radius="xl"
-                                  loading="lazy"
-                                  style={{
-                                    border: `3px solid ${borderColor}`,
-                                    borderRadius: '50%',
-                                    transition: `filter ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-                                  }}
-                                />
-                              </Link>
+                              <CharacterPortrait
+                                name={benchName}
+                                size={72}
+                                quality={char?.quality}
+                                borderWidth={3}
+                                link
+                              />
                             </Tooltip>
                           </Box>
 
@@ -701,10 +686,6 @@ function BattlefieldGrid({
               }
 
               const character = charMap.get(member.character_name);
-              const borderColor = character
-                ? QUALITY_BORDER_COLOR[character.quality]
-                : 'var(--mantine-color-gray-5)';
-
               return (
                 <Paper
                   key={colIdx}
@@ -724,24 +705,13 @@ function BattlefieldGrid({
                         label={`View ${member.character_name}`}
                         {...tooltipProps}
                       >
-                        <Link
-                          to={`/characters/${encodeURIComponent(member.character_name)}`}
-                        >
-                          <Image
-                            src={getPortrait(member.character_name)}
-                            alt={member.character_name}
-                            w={72}
-                            h={72}
-                            fit="cover"
-                            radius="xl"
-                            loading="lazy"
-                            style={{
-                              border: `3px solid ${borderColor}`,
-                              borderRadius: '50%',
-                              transition: `filter ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-                            }}
-                          />
-                        </Link>
+                        <CharacterPortrait
+                          name={member.character_name}
+                          size={72}
+                          quality={character?.quality}
+                          borderWidth={3}
+                          link
+                        />
                       </Tooltip>
                       {member.overdrive_order != null && (
                         <Badge

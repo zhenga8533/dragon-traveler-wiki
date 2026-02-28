@@ -38,6 +38,11 @@ type CardHoverPropsOptions = {
   style?: CSSProperties;
 };
 
+type CharacterPortraitHoverOptions = {
+  isSubstitute?: boolean;
+  style?: CSSProperties;
+};
+
 export function getCardHoverProps(options: CardHoverPropsOptions = {}) {
   const { interactive = false, style } = options;
   return {
@@ -47,6 +52,35 @@ export function getCardHoverProps(options: CardHoverPropsOptions = {}) {
       ...style,
     } as CSSProperties,
     ...cardHoverHandlers,
+  };
+}
+
+export function getCharacterPortraitHoverProps(
+  options: CharacterPortraitHoverOptions = {}
+) {
+  const { isSubstitute = false, style } = options;
+  const baseShadow = isSubstitute
+    ? '0 1px 4px rgba(0,0,0,0.16)'
+    : '0 2px 6px rgba(0,0,0,0.2)';
+  const hoverShadow = isSubstitute
+    ? '0 3px 8px rgba(0,0,0,0.2)'
+    : '0 4px 10px rgba(0,0,0,0.25)';
+
+  return {
+    style: {
+      boxShadow: baseShadow,
+      opacity: isSubstitute ? 0.9 : 1,
+      transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, box-shadow ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+      ...style,
+    } as CSSProperties,
+    onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
+      e.currentTarget.style.transform = 'scale(1.08)';
+      e.currentTarget.style.boxShadow = hoverShadow;
+    },
+    onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
+      e.currentTarget.style.transform = 'scale(1)';
+      e.currentTarget.style.boxShadow = baseShadow;
+    },
   };
 }
 
