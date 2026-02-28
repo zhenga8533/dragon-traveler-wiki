@@ -52,12 +52,12 @@
     "set": "Attack Speed",
     "type": "Headgear",
     "quality": "SSR",
-    "lore": "",
+    "lore": "The thief who dwells in the shadows abandons their true self and chooses to wear this mask.",
     "stats": {
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771712675
+    "last_updated": 1772261350
   },
   {
     "name": "Paladin's Helmet",

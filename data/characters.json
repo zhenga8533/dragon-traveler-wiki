@@ -312,14 +312,14 @@
     "height": "173cm",
     "weight": "59kg",
     "origin": "Modern Fantasy",
-    "lore": "Caesar Nibelungen was the eldest daughter of Constantine XI, crown princess, and heir to the Nibelgarde Empire. As a member of the royal family, she was accompanied by heavy courses and training from a young age. Even in her youth, Caesar had already noticed the doubts within the country about her as the female heir, but only her father was determined to make her the crown prince. To repay this trust, she worked far beyond what ordinary people could do to gain more recognition and support, and thus gradually became recognized by the people as a leader they would follow to the death.",
+    "lore": "Caesar Nibelungen was the eldest daughter of Constantine XI, crown princess, and heir to the Nibelgarde Empire.\nAs a member of the royal family, she was accompanied by heavy courses and training from a young age. Even in her youth, Caesar had already noticed the doubts within the country about her as the female heir, but only her father was determined to make her the crown prince.\nTo repay this trust, she worked far beyond what ordinary people could do to gain more recognition and support, and thus gradually became recognized by the people as a leader they would follow to the death.",
     "quote": "",
     "talent": {
       "name": "King's Shield",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "[Radiant Barrier] Gain one stack of [Guardian Shield] for each bullet blocked. Each stack of [Guardian Shield] increases your shield efficiency by 2.5% and both physical and magical defense by 2.5%, stacking up to 30 times, lasting until the end of the battle."
+          "effect": "[Radiant Barrier] Gain one stack of [Guardian Shield] for each bullet blocked.\nEach stack of [Guardian Shield] increases your shield efficiency by 2.5% and both physical and magical defense by 2.5%, stacking up to 30 times, lasting until the end of the battle."
         },
         {
           "level": 2,
@@ -383,7 +383,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771993396
+    "last_updated": 1772261350
   },
   {
     "name": "Duvalin",
@@ -437,7 +437,7 @@
       {
         "name": "Dragon Human Form",
         "type": "Overdrive",
-        "description": "Dispels all debuffs on itself, restores 33%/36%/39%/42%/45%/48% of its maximum health and 100% rage, and deals physical damage equal to 165%/180%/195%/210%/225%/240% of its attack to enemy units in a large circular area. If the user is already in the [Wild] state when released, the recovery amount is increased by 40%.",
+        "description": "Dispels all debuffs on itself, restores 33%/36%/39%/42%/45%/48% of its maximum health and 100% rage, and deals physical damage equal to 165%/180%/195%/210%/225%/240% of its attack to enemy units in a large circular area.\nIf the user is already in the [Wild] state when released, the recovery amount is increased by 40%.",
         "cooldown": 20
       },
       {
@@ -477,7 +477,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772261350
   },
   {
     "name": "Helveil",
@@ -695,7 +695,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "During battle, increases own evasion by 900/990/1080/1440. Each time you successfully dodge damage, you recover 6%/6.3%/6.6%/7.8% of your maximum health and apply 1 stack of [Drunken Dance of Shadows] to the source of the damage. While on the field, whenever an allied unit applies [Shock] to an enemy, that allied unit gains 3.4%/3.7%/4%/5.2% increased damage and reduced damage for 7 seconds, stacking up to 10 times."
+          "effect": "During battle, increases own evasion by 900/990/1080/1440.\nEach time you successfully dodge damage, you recover 6%/6.3%/6.6%/7.8% of your maximum health and apply 1 stack of [Drunken Dance of Shadows] to the source of the damage.\nWhile on the field, whenever an allied unit applies [Shock] to an enemy, that allied unit gains 3.4%/3.7%/4%/5.2% increased damage and reduced damage for 7 seconds, stacking up to 10 times."
         },
         {
           "level": 2,
@@ -719,19 +719,19 @@
       {
         "name": "Sand Dance",
         "type": "Overdrive",
-        "description": "Gains [Significant Attack Speed Boost]. Charges towards a single target, dealing 4 instances of magic damage equal to 35%/39%/55% of the user's current health. Damage is increased by 20% for each stack of [Drunken Fragrance] on the target. At the end of the dance, it deals magic damage equal to 650%/700%/900% of the user's attack to enemy units within a large circular area and grants 2 stacks of [Deathrattle].",
+        "description": "Gains [Significant Attack Speed Boost]. Charges towards a single target, dealing 4 instances of magic damage equal to 35%/39%/55% of the user's current health. Damage is increased by 20% for each stack of [Drunken Fragrance] on the target.\nAt the end of the dance, it deals magic damage equal to 650%/700%/900% of the user's attack to enemy units within a large circular area and grants 2 stacks of [Deathrattle].",
         "cooldown": 20
       },
       {
         "name": "Thunderous Quicksand Dance",
         "type": "Ultimate Skill",
-        "description": "Gain a shield equal to 28%/31%/43% of your maximum health for 12 seconds, and release a ring of electric orbs that deal magic damage equal to 55%/60%/80% of your current health to enemy units in a large circular area. Inflicts [Shock] on hit. When equipped with a shield, the healing effect of [Illusory Dance] is increased by 50%.",
+        "description": "Gain a shield equal to 28%/31%/43% of your maximum health for 12 seconds, and release a ring of electric orbs that deal magic damage equal to 55%/60%/80% of your current health to enemy units in a large circular area. Inflicts [Shock] on hit.\nWhen equipped with a shield, the healing effect of [Illusory Dance] is increased by 50%.",
         "cooldown": 16
       },
       {
         "name": "Elegy of the Ghostly Dance",
         "type": "Secret Skill",
-        "description": "Whenever an allied unit is defeated, gain 1 stack of [Deathrattle]. During battle, each stack of [Deathrattle] increases own magic defense by 1.5%/2.5%/6% and evasion by 30/32/40.",
+        "description": "Whenever an allied unit is defeated, gain 1 stack of [Deathrattle].\nDuring battle, each stack of [Deathrattle] increases own magic defense by 1.5%/2.5%/6% and evasion by 30/32/40.",
         "cooldown": 0
       },
       {
@@ -760,7 +760,7 @@
       "Templar",
       "Guardian"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772261350
   },
   {
     "name": "Drasill",
@@ -1675,7 +1675,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "During combat, Morgana gains 25% increased health. When an enemy unit is affected by a basic [Elemental Debuff], Morgana gains 1 stack of [Elemental Alchemy] of the corresponding color. When she has 6 stacks of [Elemental Alchemy] of the same color, she consumes them to apply the corresponding buff to all allied Luminaries. Red Elemental Alchemy: [Crit Up]; Yellow Elemental Alchemy: [Crit Damage Up]; Blue Elemental Alchemy: [Attack Boost]."
+          "effect": "During combat, Morgana gains 25% increased health. When an enemy unit is affected by a basic [Elemental Debuff], Morgana gains 1 stack of [Elemental Alchemy] of the corresponding color. When she has 6 stacks of [Elemental Alchemy] of the same color, she consumes them to apply the corresponding buff to all allied Luminaries.\nRed Elemental Alchemy: [Crit Up]\nYellow Elemental Alchemy: [Crit Damage Up]\nBlue Elemental Alchemy: [Attack Boost]"
         },
         {
           "level": 2,
@@ -1699,7 +1699,7 @@
       {
         "name": "Elemental Symphony",
         "type": "Overdrive",
-        "description": "Entering a 6-second channeled cast, during which time if an ally applies Burn or Shock, Morgana immediately applies Chill to the target (can trigger a maximum of once per target within 0.5 seconds). During the spellcasting period, every 1 second, the caster gains 4 random-colored [Elemental Alchemy] spells; when [Elemental Alchemy] is consumed, the caster recovers 5% of their health and launches a missile at the ally with the lowest health other than themselves, either a Luminary or a Wyrm, restoring it to 10% of the caster's maximum health.",
+        "description": "Entering a 6-second channeled cast, during which time if an ally applies Burn or Shock, Morgana immediately applies Chill to the target (can trigger a maximum of once per target within 0.5 seconds).\nDuring the spellcasting period, every 1 second, the caster gains 4 random-colored [Elemental Alchemy] spells; when [Elemental Alchemy] is consumed, the caster recovers 5% of their health and launches a missile at the ally with the lowest health other than themselves, either a Luminary or a Wyrm, restoring it to 10% of the caster's maximum health.",
         "cooldown": 20
       },
       {
@@ -1711,7 +1711,7 @@
       {
         "name": "Elemental Crucible",
         "type": "Secret Skill",
-        "description": "It starts with a maximum of 10 energy points, gains full energy at the start of battle, and recovers 1 energy point when it consumes [Elemental Alchemy]. When an enemy Luminary is affected by Chill, it consumes some energy to additionally apply Healing Prohibition. If the target is already under Healing Prohibition, it will instead apply a random Attribute Debuff. When an enemy Luminary is affected by [Evaporation], it consumes 3 energy points to additionally add [Next Ultimate Skill Energy Cost +1].",
+        "description": "It starts with a maximum of 10 energy points, gains full energy at the start of battle, and recovers 1 energy point when it consumes [Elemental Alchemy].\nWhen an enemy Luminary is affected by Chill, it consumes some energy to additionally apply Healing Prohibition. If the target is already under Healing Prohibition, it will instead apply a random Attribute Debuff.\nWhen an enemy Luminary is affected by [Evaporation], it consumes 3 energy points to additionally add [Next Ultimate Skill Energy Cost +1].",
         "cooldown": 0
       },
       {
@@ -1740,7 +1740,7 @@
       "Executor",
       "Inquisitor"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772261350
   },
   {
     "name": "Ophelia",
@@ -1954,7 +1954,7 @@
     "height": "166cm",
     "weight": "45kg",
     "origin": "Modern Fantasy",
-    "lore": "Silbimo has been wandering in the shattered land for a hundred years. She doesn't remember what happened in the past or where she is going. She is just a living shell. Until that day, the will of the Ring of Domination awakened in her consciousness like a spark, fully restoring her intellect and reminding her of her mission as the Ringbearer. She felt the Ring of Domination's call—to guide the destined one to Him. From that moment on, her path had direction.",
+    "lore": "Silbimo has been wandering in the shattered land for a hundred years. She doesn't remember what happened in the past or where she is going. She is just a living shell.\nUntil that day, the will of the Ring of Domination awakened in her consciousness like a spark, fully restoring her intellect and reminding her of her mission as the Ringbearer. She felt the Ring of Domination's call—to guide the destined one to Him. From that moment on, her path had direction.",
     "quote": "",
     "talent": {
       "name": "Fatal Contract",
@@ -1991,7 +1991,7 @@
       {
         "name": "Touch of the Other Shore",
         "type": "Ultimate Skill",
-        "description": "Summons one [Tentacle] to continuously attack enemy units (maximum of 4). Each basic attack deals 50% of the [Tentacle]'s attack as magic damage. Each time a [Tentacle] attacks, Specmo will additionally restore 4.1% of its maximum health to the ally with the lowest health. The [Tentacle] inherits 80% of Specmo's attack, 20% of its health, and 100% of its other attributes, as well as its current attack speed bonus, for 15 seconds. Whenever an allied unit is defeated, the user gains 1 stack of [Deathrattle]. When the user has [Deathrattle], each time the [Tentacle] attacks, it reduces its own stack of [Deathrattle] by 1 and provides 1 stack of [Deathrattle] to the target it is healing.",
+        "description": "Summons one [Tentacle] to continuously attack enemy units (maximum of 4). Each basic attack deals 50% of the [Tentacle]'s attack as magic damage. Each time a [Tentacle] attacks, Specmo will additionally restore 4.1% of its maximum health to the ally with the lowest health. The [Tentacle] inherits 80% of Specmo's attack, 20% of its health, and 100% of its other attributes, as well as its current attack speed bonus, for 15 seconds.\nWhenever an allied unit is defeated, the user gains 1 stack of [Deathrattle]. When the user has [Deathrattle], each time the [Tentacle] attacks, it reduces its own stack of [Deathrattle] by 1 and provides 1 stack of [Deathrattle] to the target it is healing.",
         "cooldown": 14
       },
       {
@@ -2027,7 +2027,7 @@
       "Inquisitor",
       "Divine Officer"
     ],
-    "last_updated": 1771993396
+    "last_updated": 1772261350
   },
   {
     "name": "Titania",
@@ -3329,7 +3329,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Whenever an allied unit is defeated, gain 1 stack of [Deathrattle]. When a skill deals a critical hit, it grants [Morale] to the user and one allied Luminary of the Holy Glory faction with the highest attack. When the [Sword Clone] basic attack deals a critical hit, it grants one stack of [Deathrattle] to the user and one allied Luminary of the Otherworldly Descent faction with the highest attack. During battle, increases own evasion by 300/350/400/450/500/550/600. For each stack of [Deathrattle], increases own evasion by an additional 30/35/40/45/50/55/60."
+          "effect": "Whenever an allied unit is defeated, gain 1 stack of [Deathrattle].\nWhen a skill deals a critical hit, it grants [Morale] to the user and one allied Luminary of the Holy Glory faction with the highest attack. When the [Sword Clone] basic attack deals a critical hit, it grants one stack of [Deathrattle] to the user and one allied Luminary of the Otherworldly Descent faction with the highest attack.\nDuring battle, increases own evasion by 300/350/400/450/500/550/600. For each stack of [Deathrattle], increases own evasion by an additional 30/35/40/45/50/55/60."
         },
         {
           "level": 2,
@@ -3353,25 +3353,25 @@
       {
         "name": "Swallow Return",
         "type": "Overdrive",
-        "description": "She instantly slashes twice at enemy units within a rectangular area, dealing physical damage equal to 650%/715%/780%/845%/910%/975% of her attack respectively, and applying a pulling effect twice to a single target at the end of each slash. The user is untargetable during the skill's activation.",
+        "description": "She instantly slashes twice at enemy units within a rectangular area, dealing physical damage equal to 650%/715%/780%/845%/910%/975% of her attack respectively, and applying a pulling effect twice to a single target at the end of each slash.\nThe user is untargetable during the skill's activation.",
         "cooldown": 18
       },
       {
         "name": "Phantom Martial Soul",
         "type": "Ultimate Skill",
-        "description": "The effect of releasing it varies depending on whether there is a [Sword Clone] on the field. When no [Sword Clone] exists, summon a [Sword Clone] (maximum 1 can exist on the field) and then retreat. When the [Sword Clone] is created, it applies a 3-second Taunt to enemy units within a large circular area, while the clone becomes untargetable for 3 seconds. The [Sword Clone] inherits 75%/80%/85%/90%/95%/100% of the clone's current evasion value and 100% of other attributes and possesses the skill Shadowfall. When the [Sword Clone] uses a basic attack, it applies the [Two Heavens Imprint] to the target. When a [Sword Clone] exists, rush towards it and absorb it, restoring 30%/35%/40%/45%/50%/55% of your maximum health and gaining [Dodge Up].",
+        "description": "The effect of releasing it varies depending on whether there is a [Sword Clone] on the field. When no [Sword Clone] exists, summon a [Sword Clone] (maximum 1 can exist on the field) and then retreat. When the [Sword Clone] is created, it applies a 3-second Taunt to enemy units within a large circular area, while the clone becomes untargetable for 3 seconds. The [Sword Clone] inherits 75%/80%/85%/90%/95%/100% of the clone's current evasion value and 100% of other attributes and possesses the skill Shadowfall.\nWhen the [Sword Clone] uses a basic attack, it applies the [Two Heavens Imprint] to the target. When a [Sword Clone] exists, rush towards it and absorb it, restoring 30%/35%/40%/45%/50%/55% of your maximum health and gaining [Dodge Up].",
         "cooldown": 20
       },
       {
         "name": "Swift Blade Shadow",
         "type": "Secret Skill",
-        "description": "When there is no [Sword Clone] on the field, each time you gain a [Blessing Buff] status, reduce the cooldown of [Phantom Martial Soul] by 5 seconds. When a [Sword Clone] exists on the field, each time you gain [Deathrattle], the [Sword Clone] also gains 1 stack of [Deathrattle] and you and the [Sword Clone] gain 1 stack of [Blade Shadow], each stack increasing attack speed by 10%/11%/12%/13%/14%/15%.",
+        "description": "When there is no [Sword Clone] on the field, each time you gain a [Blessing Buff] status, reduce the cooldown of [Phantom Martial Soul] by 5 seconds.\nWhen a [Sword Clone] exists on the field, each time you gain [Deathrattle], the [Sword Clone] also gains 1 stack of [Deathrattle] and you and the [Sword Clone] gain 1 stack of [Blade Shadow], each stack increasing attack speed by 10%/11%/12%/13%/14%/15%.",
         "cooldown": 0
       },
       {
         "name": "Shadowfall from the Sky",
         "type": "Special Skill",
-        "description": "After leaping up, unleash a slash that deals physical damage equal to 630%/690%/750%/810%/870% of the user's attack to enemy units within a large circular area , and grants the user a shield equal to 160%/175%/190%/205%/220% of their attack for 6 seconds. When a user possesses both Morale and Fighting Spirit, they enter the Grace state. While in the Grace state, the user inflicts Hit Rate Reduction and Physical Defense Reduction on the target.",
+        "description": "After leaping up, unleash a slash that deals physical damage equal to 630%/690%/750%/810%/870% of the user's attack to enemy units within a large circular area , and grants the user a shield equal to 160%/175%/190%/205%/220% of their attack for 6 seconds.\nWhen a user possesses both Morale and Fighting Spirit, they enter the [Grace] state. While in the [Grace] state, the user inflicts Hit Rate Reduction and Physical Defense Reduction on the target.",
         "cooldown": 7
       },
       {
@@ -3393,7 +3393,7 @@
     "recommended_subclasses": [
       "Outlaw"
     ],
-    "last_updated": 1771868965
+    "last_updated": 1772261350
   },
   {
     "name": "White Tiger",
@@ -3517,7 +3517,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "When you apply the [Chill] effect to yourself or deal damage to an enemy unit that is under the [Chill] or [Evaporation] status, you will deal additional magic damage equal to 430% of your attack to the target and inflict [Freeze] for 4 seconds (this effect can trigger at most once per target within 8 seconds). Enemies in the [Freeze] state will have their base rage regeneration efficiency reduced by 60%."
+          "effect": "When you apply the [Chill] effect to yourself or deal damage to an enemy unit that is under the [Chill] or [Evaporation] status, you will deal additional magic damage equal to 430% of your attack to the target and inflict [Freeze] for 4 seconds (this effect can trigger at most once per target within 8 seconds).\nEnemies in the [Freeze] state will have their base rage regeneration efficiency reduced by 60%."
         },
         {
           "level": 2,
@@ -3553,7 +3553,7 @@
       {
         "name": "Sharp Sword Edge",
         "type": "Secret Skill",
-        "description": "During battle, increases own attack by 10%. Attacks against enemy units that are in the [Freeze] state are increased by an additional 40%.",
+        "description": "During battle, increases own attack by 10%.\nAttacks against enemy units that are in the [Freeze] state are increased by an additional 40%.",
         "cooldown": 0
       },
       {
@@ -3582,7 +3582,7 @@
       "Outlaw",
       "Forest Bandit"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772261350
   },
   {
     "name": "Fenrir",
@@ -4270,7 +4270,7 @@
       {
         "name": "Elemental Grace",
         "type": "Secret Skill",
-        "description": "While present, whenever an allied Luminary triggers an Elemental Reaction, apply one random Blessing buff to it (prioritizing the one it doesn't currently have).\nWhen you gain both [Morale] and [Fervor], you enter the Grace state. While in the Grace state, you gain the skill Lightning Strike: Hammers enemy units in a large circular area in front of you, dealing 360% of your attack as magic damage in two hits and applying 2 stacks of Electrocution. The base cooldown is 6 seconds. This skill also has a 100% health conversion effect when it deals damage.",
+        "description": "While present, whenever an allied Luminary triggers an Elemental Reaction, apply one random Blessing buff to it (prioritizing the one it doesn't currently have).\nWhen you gain both [Morale] and [Fervor], you enter the [Grace] state. While in the [Grace] state, you gain the skill Lightning Strike: Hammers enemy units in a large circular area in front of you, dealing 360% of your attack as magic damage in two hits and applying 2 stacks of Electrocution. The base cooldown is 6 seconds. This skill also has a 100% health conversion effect when it deals damage.",
         "cooldown": 6
       },
       {
@@ -4298,7 +4298,7 @@
     "recommended_subclasses": [
       "Lord"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772261350
   },
   {
     "name": "Andevaly",
@@ -4321,7 +4321,7 @@
     "height": "170cm",
     "weight": "46kg",
     "origin": "Norse Mythology",
-    "lore": "The black dragon Andvari was born from the ashes of Ragnarok and is one of the very few dragons that were not corrupted by the source poison. In that cataclysmic destruction, the black dragons followed Nidhogg in their battle against the gods, ultimately nearly perishing. After the calamity, their mother found an ancient city as her nest, sheltering the last remaining bloodline of the black dragons. Those were Andvari's only peaceful times—her mother's wings protected her from the chaos of the outside world.",
+    "lore": "The black dragon Andvari was born from the ashes of Ragnarok and is one of the very few dragons that were not corrupted by the source poison.\nIn that cataclysmic destruction, the black dragons followed Nidhogg in their battle against the gods, ultimately nearly perishing. After the calamity, their mother found an ancient city as her nest, sheltering the last remaining bloodline of the black dragons. Those were Andvari's only peaceful times—her mother's wings protected her from the chaos of the outside world.",
     "quote": "",
     "talent": {
       "name": "Dragonwing Barrier",
@@ -4358,7 +4358,7 @@
       {
         "name": "Path-Sweeping Sweep",
         "type": "Ultimate Skill",
-        "description": "Deals physical damage equal to 430% of the user's attack to enemy units in a semi-circular area in front of the user. This skill can trigger [Punishment], which knocks the target back a short distance. Each time our side uses an ultimate skill, we gain 1 stack of [Awakening]. Each stack of [Awakening] increases the damage of this skill by 25%.",
+        "description": "Deals physical damage equal to 430% of the user's attack to enemy units in a semi-circular area in front of the user. This skill can trigger [Punishment], which knocks the target back a short distance.\nEach time our side uses an ultimate skill, we gain 1 stack of [Awakening]. Each stack of [Awakening] increases the damage of this skill by 25%.",
         "cooldown": 10
       },
       {
@@ -4392,7 +4392,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771993396
+    "last_updated": 1772261350
   },
   {
     "name": "Arthur",
@@ -4516,7 +4516,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "When present, allied elite summons gain 6 seconds of [Hellfire] upon entering the field. Units carrying [Hellfire] gain 50% increased attack. [Hellfire] deals magic damage equal to 210% of the Demon Lord's attack per second to enemy units in a medium circular area around it (the damage source is considered the Demon Lord). This damage increases by 10% for each stack of [Deathrattle] the summoner has. Whenever an allied unit is defeated, gain 1 stack of [Deathrattle]."
+          "effect": "When present, allied elite summons gain 6 seconds of [Hellfire] upon entering the field. Units carrying [Hellfire] gain 50% increased attack. [Hellfire] deals magic damage equal to 210% of the Demon Lord's attack per second to enemy units in a medium circular area around it (the damage source is considered the Demon Lord). This damage increases by 10% for each stack of [Deathrattle] the summoner has.\nWhenever an allied unit is defeated, gain 1 stack of [Deathrattle]."
         },
         {
           "level": 2,
@@ -4540,7 +4540,7 @@
       {
         "name": "Demon Reinforcements",
         "type": "Overdrive",
-        "description": "The user knocks away the imp doll they are carrying, dealing magic damage equal to 740% of their attack to enemy units within a medium-sized circular area at the target location and inflicting a [Attack Speed Down] debuff. They then summon 3 [Little Devil] units at the target location (maximum 3 per instance). Each [Little Devil] unit inherits 75% of the user's attack, 50% of their health, and 100% of their other attributes, lasting for 15 seconds. At the end of the skill, all allied elite summons gain 6 seconds of [Hellfire]. [Little Devil] will perform a basic attack on the nearest enemy unit, each basic attack dealing 60% of [Little Devil]'s attack as magic damage. He also has the skill [Angry Thrust]: Pierces through a single target, dealing 360% of [Little Devil]'s attack as magic damage (considered as basic attack damage), with a base cooldown of 6 seconds.",
+        "description": "The user knocks away the imp doll they are carrying, dealing magic damage equal to 740% of their attack to enemy units within a medium-sized circular area at the target location and inflicting a [Attack Speed Down] debuff. They then summon 3 [Little Devil] units at the target location (maximum 3 per instance). Each [Little Devil] unit inherits 75% of the user's attack, 50% of their health, and 100% of their other attributes, lasting for 15 seconds. At the end of the skill, all allied elite summons gain 6 seconds of [Hellfire].\n[Little Devil] will perform a basic attack on the nearest enemy unit, each basic attack dealing 60% of [Little Devil]'s attack as magic damage. He also has the skill [Angry Thrust]: Pierces through a single target, dealing 360% of [Little Devil]'s attack as magic damage (considered as basic attack damage), with a base cooldown of 6 seconds.",
         "cooldown": 18
       },
       {
@@ -4552,7 +4552,7 @@
       {
         "name": "Blood Thirst",
         "type": "Secret Skill",
-        "description": "When Hellfire or a summoned creature deals damage to an enemy unit with a basic attack, the Demon Lord recovers health equal to 33% of the damage dealt.When its own health decreases, it will accumulate rage. When the rage is full, it enters the [Wild] state. While in the [Wild] state, it will additionally restore health to all allied Luminaries equal to 22% of the damage dealt.",
+        "description": "When Hellfire or a summoned creature deals damage to an enemy unit with a basic attack, the Demon Lord recovers health equal to 33% of the damage dealt.\nWhen its own health decreases, it will accumulate rage. When the rage is full, it enters the [Wild] state. While in the [Wild] state, it will additionally restore health to all allied Luminaries equal to 22% of the damage dealt.",
         "cooldown": 0
       },
       {
@@ -4581,7 +4581,7 @@
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772261350
   },
   {
     "name": "Azure Dragon",
@@ -4770,6 +4770,91 @@
       "Berserker"
     ],
     "last_updated": 1771868965
+  },
+  {
+    "name": "Hitomi",
+    "title": "The Demon King of Chaos",
+    "quality": "SSR+",
+    "character_class": "Warrior",
+    "factions": [
+      "Wild Spirit",
+      "Sanctum Glory"
+    ],
+    "is_global": false,
+    "subclasses": [
+      "Swordsman",
+      "Arcane Duelist",
+      "Champion",
+      "Vanguard",
+      "Crusader",
+      "Lord"
+    ],
+    "height": "173cm",
+    "weight": "48kg",
+    "origin": "Eastern Mythology",
+    "lore": "Hitomi, a Sengoku daimyo who rose from humble beginnings in one province to rule the entire Kinai region, successfully stormed Kyoto after breaking through the encirclement of various powerful daimyo, took control of the shogunate, and ultimately became the ruler of the entire Ashihara region.\nAs a child, Hitomi was known as a \"big fool\" among the people. She despised the rigid etiquette of the Eastern Kingdom and disdained her studies, often causing her parents headaches with her unruly nature. It wasn't until Hitomi personally led her army to conquer several cities and achieved numerous victories that people realized that the young lord's military talent was not to be underestimated.",
+    "quote": "",
+    "talent": {
+      "name": "Blood Pact Link",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "At the start of the battle, Hitomi establishes a [Link] with the ally Luminary with the highest attack power in the same row. Hitomi and the [Link] ally Luminary gain a 15% increase in attack and defense for each other.\nWhen an allied Luminary with the [Link] buff deals active skill damage to the current target, it grants the pupil 1 stack of [Prison Vision].\nEach stack of [Prison Vision] increases attack and both defenses by 0.8%. When the stack reaches 20, the bonus provided by [Prison Vision] is doubled."
+        },
+        {
+          "level": 2,
+          "effect": "Whenever the user or an allied Luminary with the [Link] buff receives a [Blessing Buff], the user recovers HP equal to 30% of their attack and 30% of their defense."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own health by 10% and attack by 5%."
+        },
+        {
+          "level": 4,
+          "effect": "Each time an allied Luminary with the [Link] buff enters the [Wild] state, remove all [Increased Energy Cost of Next Ultimate] effects from it and make it immune to the [Increased Energy Cost of Next Ultimate] effect during the [Wild] state."
+        },
+        {
+          "level": 7,
+          "effect": "When the [Prison Vision] reaches 20 stacks, allied Luminaries carrying the [Link] buff will receive a 40% attack and defense bonus corresponding to the 20 stacks of [Prison Vision]. If the Luminary is in the [Wild] state, the bonus will be increased to 80%."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Demon-Subduing Consecutive Slashes",
+        "type": "Overdrive",
+        "description": "Performs 3 dash slashes, each dealing 690% of the user's attack as physical damage to enemy units in a semi-circle in front of the target, prioritizing enemy Luminaries that have not been slashed.\nWhen you lose health, you will recover rage. When your rage is full, you will enter the [Wild] state. If you are in the [Wild] state while casting a skill, you will perform an additional dash slash, up to 3 times.",
+        "cooldown": 18
+      },
+      {
+        "name": "Chaotic Storm",
+        "type": "Ultimate Skill",
+        "description": "Deals two instances of physical damage equal to 207% of the user's attack to the current target.\nWhen you have both Morale and Fighting Spirit, you enter the [Grace] state. While in the [Grace] state, your second attack will create a tornado that knocks back enemy units in its path and deals physical damage equal to 275% of your attack.",
+        "cooldown": 12
+      },
+      {
+        "name": "The First Signs of Chaos",
+        "type": "Secret Skill",
+        "description": "When dealing basic attack or active skill damage to a new target, it deals additional damage equal to 650% of its own attack + 650% of its dual defenses, and grants itself and the allied Luminary with the [Link] buff a random [Blessing Buff].",
+        "cooldown": 0
+      },
+      {
+        "name": "Four Tours in Chaotic Times",
+        "type": "Special Skill",
+        "description": "Consumes 10% of current health, knocks the current target back, and deals 4 slashes, resulting in a total of 700% of the user's attack as physical damage and inflicting [Damage Down].",
+        "cooldown": 15
+      },
+      {
+        "name": "Demon King of Chaos",
+        "type": "Divine Skill",
+        "description": "When the user is in the [Wild] state, the additional damage of [The First Signs of Chaos] is doubled.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": null,
+    "recommended_subclasses": [],
+    "last_updated": 1772261350
   },
   {
     "name": "Marylis",
@@ -5997,7 +6082,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "At the start of battle, reduce your critical hit rate by half. The reduced critical hit rate will be converted into critical hit damage proportionally, with every 10 points of critical hit rate converted into 1% critical hit damage. When a basic attack or the Phantom Sword from [Unlimited Blade Works] deals a critical hit, it will additionally deal physical damage equal to 330%/360%/390%/420%/450%/480%/510% of its own attack to the target, and this damage will also have an additional 1500 critical hit chance (this can only be triggered once per second on the same target)."
+          "effect": "At the start of battle, reduce your critical hit rate by half. The reduced critical hit rate will be converted into critical hit damage proportionally, with every 10 points of critical hit rate converted into 1% critical hit damage.\nWhen a basic attack or the Phantom Sword from [Unlimited Blade Works] deals a critical hit, it will additionally deal physical damage equal to 330%/360%/390%/420%/450%/480%/510% of its own attack to the target, and this damage will also have an additional 1500 critical hit chance (this can only be triggered once per second on the same target)."
         },
         {
           "level": 2,
@@ -6021,7 +6106,7 @@
       {
         "name": "Unlimited Blade Works",
         "type": "Overdrive",
-        "description": "Deals 450%/490%/530%/570%/610%/650% physical damage to a single target , then creates a sword array around the target for 7 seconds. Enemy units within the sword array have their movement speed reduced by 90%, while allied elite summons within the sword array have their critical strike damage increased by 90%. While the sword formation exists, after each basic attack or active skill cast by the user or an elite summoned unit within the sword formation, a phantom sword is cast on a random enemy unit within the sword formation, dealing physical damage equal to 164%/180%/196%/212%/228%/244% of the user's attack (prioritizing targets not attacked by the phantom sword).",
+        "description": "Deals 450%/490%/530%/570%/610%/650% physical damage to a single target , then creates a sword array around the target for 7 seconds. Enemy units within the sword array have their movement speed reduced by 90%, while allied elite summons within the sword array have their critical strike damage increased by 90%.\nWhile the sword formation exists, after each basic attack or active skill cast by the user or an elite summoned unit within the sword formation, a phantom sword is cast on a random enemy unit within the sword formation, dealing physical damage equal to 164%/180%/196%/212%/228%/244% of the user's attack (prioritizing targets not attacked by the phantom sword).",
         "cooldown": 18
       },
       {
@@ -6061,7 +6146,7 @@
     "recommended_subclasses": [
       "Bounty Hunter"
     ],
-    "last_updated": 1771993396
+    "last_updated": 1772261350
   },
   {
     "name": "Mimir",
@@ -6084,14 +6169,14 @@
     "height": "172cm",
     "weight": "53kg",
     "origin": "Norse Mythology",
-    "lore": "Mimir is a wise giant who understands the essence of all things, the master of the wellspring of wisdom. She is not a guardian of knowledge, but rather the very form in which knowledge flows. At first, she was captivated by exploring the metaphysical laws of the world. She rejoiced in new life and wept for destruction. However, as the boundaries of knowledge reached their limit, the warp and weft of destiny wove together in her eyes into an unalterable map. She foresaw the fall of every drop of dew, the trajectory of every life, and even the end of the gods—all things rise and fall on their predetermined paths, without exception.",
+    "lore": "Mimir is a wise giant who understands the essence of all things, the master of the wellspring of wisdom. She is not a guardian of knowledge, but rather the very form in which knowledge flows.\nAt first, she was captivated by exploring the metaphysical laws of the world. She rejoiced in new life and wept for destruction. However, as the boundaries of knowledge reached their limit, the warp and weft of destiny wove together in her eyes into an unalterable map. She foresaw the fall of every drop of dew, the trajectory of every life, and even the end of the gods—all things rise and fall on their predetermined paths, without exception.",
     "quote": "",
     "talent": {
       "name": "Unparalleled Intelligence",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "The user's basic attack will release a wheel to attack the target, with each basic attack dealing 4 hits of physical damage equal to 40% of the user's attack. Every 8 hits of basic attack grant the user 1 stack of [Shield of Wisdom], which can stack up to 20 times. Each stack of [Shield of Wisdom] provides the user with a shield equal to 9% of their attack and increases their critical hit damage by 6% for 8 seconds."
+          "effect": "The user's basic attack will release a wheel to attack the target, with each basic attack dealing 4 hits of physical damage equal to 40% of the user's attack.\nEvery 8 hits of basic attack grant the user 1 stack of [Shield of Wisdom], which can stack up to 20 times. Each stack of [Shield of Wisdom] provides the user with a shield equal to 9% of their attack and increases their critical hit damage by 6% for 8 seconds."
         },
         {
           "level": 2,
@@ -6115,19 +6200,19 @@
       {
         "name": "Cyclone Slash",
         "type": "Overdrive",
-        "description": "Grants the user 2 stacks of [Shield of Wisdom], dealing 20 instances of physical damage equal to 27.5% of the user's attack to a single target. At the end of the skill, deals physical damage equal to 220% of the user's attack to enemy units within a large circular area around the target. Each hit of this skill deals additional physical damage equal to 44% of the user's current shield value.",
+        "description": "Grants the user 2 stacks of [Shield of Wisdom], dealing 20 instances of physical damage equal to 27.5% of the user's attack to a single target. At the end of the skill, deals physical damage equal to 220% of the user's attack to enemy units within a large circular area around the target.\nEach hit of this skill deals additional physical damage equal to 44% of the user's current shield value.",
         "cooldown": 18
       },
       {
         "name": "Time Flying Wheel",
         "type": "Ultimate Skill",
-        "description": "Launches a wheel at the furthest enemy Luminary, which travels in a straight line and returns. On both the forward and return journeys, the wheel deals physical damage equal to 162% of the caster's attack to any enemy units it collides with. When you possess both Morale and Fighting Spirit, you enter the Grace state. While in the Grace state, this skill fires an enhanced version of a roulette wheel, with each hit dealing additional physical damage equal to 108% of your current shield value. The Grace state ends when the skill ends.",
+        "description": "Launches a wheel at the furthest enemy Luminary, which travels in a straight line and returns. On both the forward and return journeys, the wheel deals physical damage equal to 162% of the caster's attack to any enemy units it collides with. When you possess both Morale and Fighting Spirit, you enter the [Grace] state.\nWhile in the [Grace] state, this skill fires an enhanced version of a roulette wheel, with each hit dealing additional physical damage equal to 108% of your current shield value. The [Grace] state ends when the skill ends.",
         "cooldown": 16
       },
       {
         "name": "Arcane Torrent",
         "type": "Secret Skill",
-        "description": "Increases own attack speed by 25%. During battle, increases own critical hit rate by 250. Each time our side releases an ultimate skill, we gain 1 stack of [Awakening]. When we have [Awakening], we immediately consume 1 stack of [Awakening] to release [Time Flying Wheel] once more.",
+        "description": "Increases own attack speed by 25%.\nDuring battle, increases own critical hit rate by 250.\nEach time our side releases an ultimate skill, we gain 1 stack of [Awakening]. When we have [Awakening], we immediately consume 1 stack of [Awakening] to release [Time Flying Wheel] once more.",
         "cooldown": 0
       },
       {
@@ -6155,7 +6240,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772261350
   },
   {
     "name": "Ningluosi",
@@ -6178,14 +6263,14 @@
     "height": "166cm",
     "weight": "50kg",
     "origin": "Norse Mythology",
-    "lore": "She was a new shoot that grew from the World Tree Yggdrasil beside the spring of Hvaghmir, and was named Nimros by the gods, meaning \"white flower\". That day, the black dragon Nidhogg gnawed through the main root, and its poisonous saliva surged up her buds year after year. The source poison and tree sap coexisted in her blood vessels, and she heard countless parallel universes of herself begin to pulsate at the same moment.",
+    "lore": "She was a new shoot that grew from the World Tree Yggdrasil beside the spring of Hvaghmir, and was named Nimros by the gods, meaning \"white flower\".\nThat day, the black dragon Nidhogg gnawed through the main root, and its poisonous saliva surged up her buds year after year. The source poison and tree sap coexisted in her blood vessels, and she heard countless parallel universes of herself begin to pulsate at the same moment.",
     "quote": "",
     "talent": {
       "name": "Poisonous Rose",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "The damage dealt by the user's basic attacks and skills ignores enemy shields. While the user is present, all allied units gain increased damage of 32%/34.5%/37%/39.5%/42%/44.5%/47% when attacking enemy units with shields. The user's basic attack prioritizes targets in the [Withering Thorns] state, and the attack range is doubled when attacking targets in the [Withering Thorns] state."
+          "effect": "The damage dealt by the user's basic attacks and skills ignores enemy shields. While the user is present, all allied units gain increased damage of 32%/34.5%/37%/39.5%/42%/44.5%/47% when attacking enemy units with shields.\nThe user's basic attack prioritizes targets in the [Withering Thorns] state, and the attack range is doubled when attacking targets in the [Withering Thorns] state."
         },
         {
           "level": 2,
@@ -6209,13 +6294,13 @@
       {
         "name": "Corruption and Decay",
         "type": "Overdrive",
-        "description": "Deals physical damage equal to 720%/795%/870%/945%/1020%/1095% of the user's attack to a single target and applies the [Withering Thorns] debuff. Then, deals additional physical damage equal to 240% of the user's attack to enemy units within a large circular area around the target. Grants 1 stack of [Deathrattle] when the vines disappear. This skill can trigger the [Punishment] effect. When the [Punishment] effect is triggered, the first hit of damage will deal physical damage equal to 80%/85%/90%/95%/100%/105% of the target's current ultimate energy consumption.",
+        "description": "Deals physical damage equal to 720%/795%/870%/945%/1020%/1095% of the user's attack to a single target and applies the [Withering Thorns] debuff. Then, deals additional physical damage equal to 240% of the user's attack to enemy units within a large circular area around the target. Grants 1 stack of [Deathrattle] when the vines disappear.\nThis skill can trigger the [Punishment] effect. When the [Punishment] effect is triggered, the first hit of damage will deal physical damage equal to 80%/85%/90%/95%/100%/105% of the target's current ultimate energy consumption.",
         "cooldown": 18
       },
       {
         "name": "Death Whip",
         "type": "Ultimate Skill",
-        "description": "Deals 4 instances of physical damage equal to 195%/210%/225%/240%/255%/270% of the user's attack to a single target. Briefly immobilizes the target during the damage. If the target is in the [Withering Thorns] state, each instance of damage additionally applies a random [Stat Debuff]. Grants 1 stack of [Deathrattle] when the vines disappear. When there is a target on the field who is in the [Withering Thorns] state, this skill will be used on them first.",
+        "description": "Deals 4 instances of physical damage equal to 195%/210%/225%/240%/255%/270% of the user's attack to a single target. Briefly immobilizes the target during the damage. If the target is in the [Withering Thorns] state, each instance of damage additionally applies a random [Stat Debuff]. Grants 1 stack of [Deathrattle] when the vines disappear.\nWhen there is a target on the field who is in the [Withering Thorns] state, this skill will be used on them first.",
         "cooldown": 15
       },
       {
@@ -6227,7 +6312,7 @@
       {
         "name": "Corruption Throwing Spear",
         "type": "Special Skill",
-        "description": "Deals physical damage equal to 625%/680%/735%/790%/845% of the user's attack to enemy units in a straight line and increases the energy cost of the next ultimate skill by 1. Each time the [Punishment] effect is triggered by an ally, the cooldown of this skill is reduced by 1 second. When there is a target on the field that is in the [Withering Thorns] state, this skill will be cast towards that target first.",
+        "description": "Deals physical damage equal to 625%/680%/735%/790%/845% of the user's attack to enemy units in a straight line and increases the energy cost of the next ultimate skill by 1. Each time the [Punishment] effect is triggered by an ally, the cooldown of this skill is reduced by 1 second.\nWhen there is a target on the field that is in the [Withering Thorns] state, this skill will be cast towards that target first.",
         "cooldown": 13
       },
       {
@@ -6249,7 +6334,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772261350
   },
   {
     "name": "Orion",
@@ -6303,13 +6388,13 @@
       {
         "name": "Magic Crystal Arrow",
         "type": "Overdrive",
-        "description": "Deals physical damage equal to 560% of the user's attack to a single target, then grants the user an [Attack Speed Boost], and allows the user to continuously attack the target for the next 12 seconds, while also significantly increasing the user's attack range. This skill can trigger the [Punishment] effect, which inflicts an additional 6 seconds of [Stun] when [Punishment] is triggered.",
+        "description": "Deals physical damage equal to 560% of the user's attack to a single target, then grants the user an [Attack Speed Boost], and allows the user to continuously attack the target for the next 12 seconds, while also significantly increasing the user's attack range.\nThis skill can trigger the [Punishment] effect, which inflicts an additional 6 seconds of [Stun] when [Punishment] is triggered.",
         "cooldown": 18
       },
       {
         "name": "A Volley of Arrows",
         "type": "Ultimate Skill",
-        "description": "Fires two volleys of fan-shaped arrows (considered a basic attack), each arrow dealing 115% of the user's attack as physical damage. If the same target is attacked by multiple arrows in a single volley, the user will only receive 20% damage. While in the [Concentrated] state, fire an additional round of arrows.",
+        "description": "Fires two volleys of fan-shaped arrows (considered a basic attack), each arrow dealing 115% of the user's attack as physical damage. If the same target is attacked by multiple arrows in a single volley, the user will only receive 20% damage.\nWhile in the [Concentrated] state, fire an additional round of arrows.",
         "cooldown": 14
       },
       {
@@ -6343,7 +6428,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772261350
   },
   {
     "name": "Lorillin",
@@ -7196,25 +7281,25 @@
       {
         "name": "Gravitational Star Core",
         "type": "Overdrive",
-        "description": "Summons a meteorite that deals up to 14 instances of magic damage equal to 90% of the caster's attack to enemy units along a straight line. If the caster's [Governor's Intimidation] is at full stacks, the caster's ultimate energy cost is reduced by 3. When cast, the caster summons an enhanced meteorite that adds a knockback effect. Each instance of the enhanced meteorite deals up to 90% of the caster's attack and dispels one buff from the target each time it deals damage. For each stack of [Governor's Intimidation] you have, this skill's damage increases by 30%. The skill consumes all [Governor's Intimidation] upon completion.",
+        "description": "Summons a meteorite that deals up to 14 instances of magic damage equal to 90% of the caster's attack to enemy units along a straight line. If the caster's [Governor's Intimidation] is at full stacks, the caster's ultimate energy cost is reduced by 3. When cast, the caster summons an enhanced meteorite that adds a knockback effect. Each instance of the enhanced meteorite deals up to 90% of the caster's attack and dispels one buff from the target each time it deals damage.\nFor each stack of [Governor's Intimidation] you have, this skill's damage increases by 30%. The skill consumes all [Governor's Intimidation] upon completion.",
         "cooldown": 20
       },
       {
         "name": "Pulsed Electric Arc",
         "type": "Ultimate Skill",
-        "description": "Unleash lightning, dealing magic damage equal to 510% of your attack to enemy units in a small fan-shaped area. Each time our side releases an ultimate skill, we gain 1 stack of [Awakening]. When releasing this skill, if we have more than 2 stacks of [Awakening], we will consume 2 stacks of [Awakening] to enhance this skill, increasing its range, increasing its damage to 1020% of our attack, and dispelling 1 buff from the target.",
+        "description": "Unleash lightning, dealing magic damage equal to 510% of your attack to enemy units in a small fan-shaped area.\nEach time our side releases an ultimate skill, we gain 1 stack of [Awakening]. When releasing this skill, if we have more than 2 stacks of [Awakening], we will consume 2 stacks of [Awakening] to enhance this skill, increasing its range, increasing its damage to 1020% of our attack, and dispelling 1 buff from the target.",
         "cooldown": 16
       },
       {
         "name": "Expropriation Agreement",
         "type": "Secret Skill",
-        "description": "During battle, increases own attack and health by 10%. While present, there is a 50% chance to steal 1 Ultimate Point from the enemy team whenever an enemy unit dies (maximum of 1 time within 10 seconds).",
+        "description": "During battle, increases own attack and health by 10%.\nWhile present, there is a 50% chance to steal 1 Ultimate Point from the enemy team whenever an enemy unit dies (maximum of 1 time within 10 seconds).",
         "cooldown": 0
       },
       {
         "name": "Collapse Point",
         "type": "Special Skill",
-        "description": "Summons a magic orb at the enemy Luminary with the highest skill speed, dealing magic damage equal to 390% of the caster's attack to enemy units within a medium circular area, and inflicting the effect of [Next Ultimate Skill Energy Cost +1]. This skill can trigger the [Punishment] effect, which inflicts 6 seconds of [Silence] upon triggering the [Punishment] effect.",
+        "description": "Summons a magic orb at the enemy Luminary with the highest skill speed, dealing magic damage equal to 390% of the caster's attack to enemy units within a medium circular area, and inflicting the effect of [Next Ultimate Skill Energy Cost +1].\nThis skill can trigger the [Punishment] effect, which inflicts 6 seconds of [Silence] upon triggering the [Punishment] effect.",
         "cooldown": 13
       },
       {
@@ -7236,7 +7321,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1771993396
+    "last_updated": 1772261350
   },
   {
     "name": "Faust",
@@ -7522,91 +7607,6 @@
     "last_updated": 1771870646
   },
   {
-    "name": "Hitomi",
-    "title": "The Demon King of Chaos",
-    "quality": "SSR+",
-    "character_class": "Mage",
-    "factions": [
-      "Wild Spirit",
-      "Sanctum Glory"
-    ],
-    "is_global": false,
-    "subclasses": [
-      "Wizard",
-      "Sorcerer",
-      "Arcane Master",
-      "Astrologer",
-      "Grand Archmage",
-      "Potion Master"
-    ],
-    "height": "173cm",
-    "weight": "48kg",
-    "origin": "Eastern Mythology",
-    "lore": "Hitomi, a Sengoku daimyo who rose from humble beginnings in one province to rule the entire Kinai region, successfully stormed Kyoto after breaking through the encirclement of various powerful daimyo, took control of the shogunate, and ultimately became the ruler of the entire Ashihara region.\nAs a child, Hitomi was known as a \"big fool\" among the people. She despised the rigid etiquette of the Eastern Kingdom and disdained her studies, often causing her parents headaches with her unruly nature. It wasn't until Hitomi personally led her army to conquer several cities and achieved numerous victories that people realized that the young lord's military talent was not to be underestimated.",
-    "quote": "",
-    "talent": {
-      "name": "Blood Pact Link",
-      "talent_levels": [
-        {
-          "level": 1,
-          "effect": "At the start of the battle, Hitomi establishes a [Link] with the ally Luminary with the highest attack power in the same row. Hitomi and the [Link] ally Luminary gain a 15% increase in attack and defense for each other.\nWhen an allied Luminary with the [Link] buff deals active skill damage to the current target, it grants the pupil 1 stack of [Prison Vision].\nEach stack of [Prison Vision] increases attack and both defenses by 0.8%. When the stack reaches 20, the bonus provided by [Prison Vision] is doubled."
-        },
-        {
-          "level": 2,
-          "effect": "Whenever the user or an allied Luminary with the [Link] buff receives a [Blessing Buff], the user recovers HP equal to 30% of their attack and 30% of their defense."
-        },
-        {
-          "level": 3,
-          "effect": "Increases own health by 10% and attack by 5%."
-        },
-        {
-          "level": 4,
-          "effect": "Each time an allied Luminary with the [Link] buff enters the [Wild] state, remove all [Increased Energy Cost of Next Ultimate] effects from it and make it immune to the [Increased Energy Cost of Next Ultimate] effect during the [Wild] state."
-        },
-        {
-          "level": 7,
-          "effect": "When the [Prison Vision] reaches 20 stacks, allied Luminaries carrying the [Link] buff will receive a 40% attack and defense bonus corresponding to the 20 stacks of [Prison Vision]. If the Luminary is in the [Wild] state, the bonus will be increased to 80%."
-        }
-      ]
-    },
-    "skills": [
-      {
-        "name": "Demon-Subduing Consecutive Slashes",
-        "type": "Overdrive",
-        "description": "Performs 3 dash slashes, each dealing 690% of the user's attack as physical damage to enemy units in a semi-circle in front of the target, prioritizing enemy Luminaries that have not been slashed.\nWhen you lose health, you will recover rage. When your rage is full, you will enter the [Wild] state. If you are in the [Wild] state while casting a skill, you will perform an additional dash slash, up to 3 times.",
-        "cooldown": 18
-      },
-      {
-        "name": "Chaotic Storm",
-        "type": "Ultimate Skill",
-        "description": "Deals two instances of physical damage equal to 207% of the user's attack to the current target.\nWhen you have both Morale and Fighting Spirit, you enter the Grace state. While in the Grace state, your second attack will create a tornado that knocks back enemy units in its path and deals physical damage equal to 275% of your attack.",
-        "cooldown": 12
-      },
-      {
-        "name": "The First Signs of Chaos",
-        "type": "Secret Skill",
-        "description": "When dealing basic attack or active skill damage to a new target, it deals additional damage equal to 650% of its own attack + 650% of its dual defenses, and grants itself and the allied Luminary with the [Link] buff a random [Blessing Buff].",
-        "cooldown": 0
-      },
-      {
-        "name": "Four Tours in Chaotic Times",
-        "type": "Special Skill",
-        "description": "Consumes 10% of current health, knocks the current target back, and deals 4 slashes, resulting in a total of 700% of the user's attack as physical damage and inflicting [Damage Down].",
-        "cooldown": 15
-      },
-      {
-        "name": "Demon King of Chaos",
-        "type": "Divine Skill",
-        "description": "When the user is in the [Wild] state, the additional damage of [The First Signs of Chaos] is doubled.",
-        "cooldown": 0
-      }
-    ],
-    "noble_phantasm": "",
-    "recommended_gear": null,
-    "recommended_subclasses": [],
-    "last_updated": 1771993550
-  },
-  {
     "name": "Talos",
     "title": "Bronze Goddess",
     "quality": "SSR+",
@@ -7634,7 +7634,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "After the battle begins, place 3 mechanical orbs to be activated next to the enemy Luminary with the highest attack. During the battle, each time you release a skill, you will place 1 mechanical orb to be activated. When its own health decreases, it will accumulate rage. When the rage is full, it enters the [Wild] state. While in the [Wild] state, all mechanical orbs that are waiting to be activated will be activated. The activated state lasts for 5 seconds. The activated mechanical orbs attack the nearest enemy unit every 0.5 seconds. Each attack deals magic damage equal to 90%/96%/102%/108%/114%/120%/126% of its own attack."
+          "effect": "After the battle begins, place 3 mechanical orbs to be activated next to the enemy Luminary with the highest attack. During the battle, each time you release a skill, you will place 1 mechanical orb to be activated.\nWhen its own health decreases, it will accumulate rage. When the rage is full, it enters the [Wild] state. While in the [Wild] state, all mechanical orbs that are waiting to be activated will be activated. The activated state lasts for 5 seconds. The activated mechanical orbs attack the nearest enemy unit every 0.5 seconds. Each attack deals magic damage equal to 90%/96%/102%/108%/114%/120%/126% of its own attack."
         },
         {
           "level": 2,
@@ -7658,13 +7658,13 @@
       {
         "name": "Destroy Command",
         "type": "Overdrive",
-        "description": "Deals magic damage equal to 510%/535%/560%/585%/610%/635% of the user's attack to enemy units in a large circular area. Restores 20% of the user's rage for each mechanical orb on the field. Every 5 mechanical spheres activated permanently reduce the user's ultimate energy consumption by 1 (at most 2).",
+        "description": "Deals magic damage equal to 510%/535%/560%/585%/610%/635% of the user's attack to enemy units in a large circular area. Restores 20% of the user's rage for each mechanical orb on the field.\nEvery 5 mechanical spheres activated permanently reduce the user's ultimate energy consumption by 1 (at most 2).",
         "cooldown": 20
       },
       {
         "name": "Attack Command",
         "type": "Ultimate Skill",
-        "description": "Launches a mechanical ball at a random target, dealing magic damage equal to 115%/125%/135%/145%/155%/165% of the caster's attack to enemy units along its path. Upon reaching the target location, it deals magic damage equal to 230%/250%/270%/290%/310%/330% of the caster's attack to enemy units within a medium circular area. Each time our side releases an ultimate skill, we gain 1 stack of [Awakening]. Releasing this skill consumes 4 stacks of [Awakening] to gain enhancement and place 2 additional mechanical orbs waiting to be activated.",
+        "description": "Launches a mechanical ball at a random target, dealing magic damage equal to 115%/125%/135%/145%/155%/165% of the caster's attack to enemy units along its path. Upon reaching the target location, it deals magic damage equal to 230%/250%/270%/290%/310%/330% of the caster's attack to enemy units within a medium circular area.\nEach time our side releases an ultimate skill, we gain 1 stack of [Awakening]. Releasing this skill consumes 4 stacks of [Awakening] to gain enhancement and place 2 additional mechanical orbs waiting to be activated.",
         "cooldown": 9
       },
       {
@@ -7699,7 +7699,7 @@
       "Astrologer",
       "Grand Archmage"
     ],
-    "last_updated": 1771993396
+    "last_updated": 1772261350
   },
   {
     "name": "Vermilion Bird",
@@ -7729,7 +7729,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Each time an enemy unit is affected by [Detonation] or [Evaporation], it gains an additional stack of [Sunfire]. When attacking a target under the [Sunfire] status, increase your damage by 18% for each stack of [Sunfire] on the target."
+          "effect": "Each time an enemy unit is affected by [Detonation] or [Evaporation], it gains an additional stack of [Sunfire].\nWhen attacking a target under the [Sunfire] status, increase your damage by 18% for each stack of [Sunfire] on the target."
         },
         {
           "level": 2,
@@ -7753,7 +7753,7 @@
       {
         "name": "Brahma Fire Dance",
         "type": "Overdrive",
-        "description": "Unleashes a fire tornado, dealing 10 instances of magic damage equal to 53.6% of the caster's attack to enemy units within a large circular area, and inflicting 3 instances of [Ignite]. Before the fire tornado disappears, it deals an additional 268% of the caster's attack as magic damage and slightly knocks back enemy units within its area of effect. This skill can trigger the [Punishment] effect (up to 1 time per target), and when the [Punishment] effect is triggered, an additional 3 stacks of [Sunfire] are applied.",
+        "description": "Unleashes a fire tornado, dealing 10 instances of magic damage equal to 53.6% of the caster's attack to enemy units within a large circular area, and inflicting 3 instances of [Ignite]. Before the fire tornado disappears, it deals an additional 268% of the caster's attack as magic damage and slightly knocks back enemy units within its area of effect.\nThis skill can trigger the [Punishment] effect (up to 1 time per target), and when the [Punishment] effect is triggered, an additional 3 stacks of [Sunfire] are applied.",
         "cooldown": 20
       },
       {
@@ -7765,13 +7765,13 @@
       {
         "name": "Life-Renewing Feather Fan",
         "type": "Secret Skill",
-        "description": "[Flame Shadow Talisman] [Rebirth]: Before dealing damage, there is a 50% chance to inflict [Ignite] on the enemy. She has a maximum of 9 energy points. Each time an ally triggers an [Elemental Reaction], she gains 1 energy point. When at full energy, if she triggers [Detonation] or [Evaporation], she loses 50% of her current HP and deals magic damage equal to 1280% of her attack to the affected target.",
+        "description": "[Flame Shadow Talisman] [Rebirth]: Before dealing damage, there is a 50% chance to inflict [Ignite] on the enemy.\nShe has a maximum of 9 energy points. Each time an ally triggers an [Elemental Reaction], she gains 1 energy point. When at full energy, if she triggers [Detonation] or [Evaporation], she loses 50% of her current HP and deals magic damage equal to 1280% of her attack to the affected target.",
         "cooldown": 0
       },
       {
         "name": "Rebirth",
         "type": "Special Skill",
-        "description": "When the user receives fatal damage and has full energy, they consume all energy to become immune to damage for 2 seconds and transform into an egg form. For 5 seconds, the user continuously regenerates 100% of their maximum health. The egg form then dissolves, dealing magic damage equal to 1200% of the user's attack to all enemy units (Can trigger at most once every 15 seconds). While in egg form, when damaged by ranged Luminaries, gain 1000% damage reduction and become immune to control effects.",
+        "description": "When the user receives fatal damage and has full energy, they consume all energy to become immune to damage for 2 seconds and transform into an egg form. For 5 seconds, the user continuously regenerates 100% of their maximum health. The egg form then dissolves, dealing magic damage equal to 1200% of the user's attack to all enemy units (Can trigger at most once every 15 seconds).\nWhile in egg form, when damaged by ranged Luminaries, gain 1000% damage reduction and become immune to control effects.",
         "cooldown": 0
       },
       {
@@ -7793,7 +7793,7 @@
     "recommended_subclasses": [
       "Elemental Mage"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772261350
   },
   {
     "name": "Cerberus",
