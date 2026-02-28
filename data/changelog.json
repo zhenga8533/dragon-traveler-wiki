@@ -1,5 +1,57 @@
 [
   {
+    "date": "2026-02-28",
+    "version": "1.0.5",
+    "changes": [
+      {
+        "type": "added",
+        "category": "teams",
+        "description": "Added 3×3 grid positioning and bench slot support in Team Builder"
+      },
+      {
+        "type": "added",
+        "category": "characters",
+        "description": "Added CharacterPortrait and CharacterNoteButton components to standardize character visuals and notes"
+      },
+      {
+        "type": "updated",
+        "category": "search",
+        "description": "Updated SearchModal to use shared character portraits and asset-based icons"
+      },
+      {
+        "type": "updated",
+        "category": "filters",
+        "description": "Added class icons in class filter chips and improved tab-scoped filtering behavior"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Improved responsive layouts for team avatars and list shells, with better overflow handling and empty states"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Refactored card/list interactions using shared hover helpers and CSS module cleanup"
+      },
+      {
+        "type": "updated",
+        "category": "codebase",
+        "description": "Refactored list-page composition and style organization for cleaner, reusable component structure"
+      },
+      {
+        "type": "updated",
+        "category": "teams",
+        "description": "Refined Team Builder editing flow, including draft reset behavior when popovers reopen"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live datasets (characters, subclasses, and related content uploads)"
+      }
+    ],
+    "last_updated": 1772261459
+  },
+  {
     "date": "2026-02-26",
     "version": "1.0.4",
     "changes": [
