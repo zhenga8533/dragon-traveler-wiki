@@ -343,7 +343,7 @@ function SlotCard({
             </Group>
             <Textarea
               size="xs"
-              placeholder="Role / combo note..."
+              placeholder="Enter note..."
               value={draftNote}
               onChange={(e) => setDraftNote(e.currentTarget.value)}
               onBlur={commitDraftNote}
