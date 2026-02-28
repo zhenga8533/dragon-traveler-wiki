@@ -26,7 +26,7 @@ import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
 import PaginationControl from '../components/common/PaginationControl';
 import QualityIcon from '../components/common/QualityIcon';
 import SortableTh from '../components/common/SortableTh';
-import FilterToolbar from '../components/layout/FilterToolbar';
+import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, {
   type ArrayFieldDef,
@@ -392,241 +392,221 @@ export default function GearPage() {
               emptyMessage="No gear data available yet."
               skeletonCards={4}
             >
-              <Paper p="md" radius="md" withBorder>
-                <Stack gap="md">
-                  <FilterToolbar
-                    count={filtered.length}
-                    noun="gear item"
-                    viewMode={viewMode}
-                    onViewModeChange={setViewMode}
-                    filterCount={activeFilterCount}
-                    filterOpen={filterOpen}
-                    onFilterToggle={toggleFilter}
-                  >
-                    <EntityFilter
-                      groups={FILTER_GROUPS}
-                      selected={{
-                        types: filters.types,
-                        qualities: filters.qualities,
-                      }}
-                      onChange={(key, values) => {
-                        if (key === 'types') {
-                          setFilters({
-                            ...filters,
-                            types: values as GearType[],
-                          });
-                          return;
-                        }
-                        if (key === 'qualities') {
-                          setFilters({
-                            ...filters,
-                            qualities: values as Quality[],
-                          });
-                        }
-                      }}
-                      onClear={() => {
-                        setFilters(EMPTY_FILTERS);
-                        setGearSetSearch('');
-                      }}
-                      search={filters.search}
-                      onSearchChange={(value) =>
-                        setFilters({ ...filters, search: value })
+              <FilteredListShell
+                count={filtered.length}
+                noun="gear item"
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                filterCount={activeFilterCount}
+                filterOpen={filterOpen}
+                onFilterToggle={toggleFilter}
+                onResetFilters={() => setFilters(EMPTY_FILTERS)}
+                emptyMessage="No gear matches the current filters."
+                filterContent={
+                  <EntityFilter
+                    groups={FILTER_GROUPS}
+                    selected={{
+                      types: filters.types,
+                      qualities: filters.qualities,
+                    }}
+                    onChange={(key, values) => {
+                      if (key === 'types') {
+                        setFilters({
+                          ...filters,
+                          types: values as GearType[],
+                        });
+                        return;
                       }
-                      searchPlaceholder="Search by gear or set..."
-                    />
-                  </FilterToolbar>
-
-                  {filtered.length === 0 ? (
-                    <NoResultsSuggestions
-                      title="No gear found"
-                      message="No gear matches the current filters."
-                      onReset={() => setFilters(EMPTY_FILTERS)}
-                      onOpenFilters={toggleFilter}
-                    />
-                  ) : viewMode === 'grid' ? (
-                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                      {gearPageItems.map((item) => {
-                        const setData = gearSetByName.get(item.set);
-                        const setBonus = setData?.set_bonus ?? item.set_bonus;
-                        const iconSrc = getGearIcon(item.type, item.name);
-                        return (
-                          <Paper
-                            key={item.name}
-                            component={Link}
-                            to={`/gear-sets/${encodeURIComponent(item.set)}`}
-                            p="md"
-                            radius="md"
-                            withBorder
-                            {...getCardHoverProps({
-                              interactive: true,
-                              style: LINK_BLOCK_RESET_STYLE,
-                            })}
-                          >
-                            <Group gap="md" align="flex-start" wrap="nowrap">
-                              {iconSrc && (
-                                <Image
-                                  src={iconSrc}
-                                  alt={item.name}
-                                  w={64}
-                                  h={64}
-                                  fit="contain"
-                                  radius="sm"
-                                />
-                              )}
-                              <Stack gap={4} style={{ flex: 1 }}>
-                                <Group gap="xs" wrap="wrap">
-                                  <Text fw={700} c="violet" lineClamp={1}>
-                                    {item.name}
-                                  </Text>
-                                  {item.quality && (
-                                    <QualityIcon quality={item.quality} />
-                                  )}
-                                </Group>
-                                <Group gap="xs" wrap="wrap">
-                                  <GearTypeTag type={item.type} />
-                                  <Badge
-                                    variant="light"
-                                    size="sm"
-                                    color="grape"
-                                  >
-                                    {item.set}
-                                  </Badge>
-                                  {setBonus && setBonus.quantity > 0 && (
-                                    <Badge
-                                      variant="outline"
-                                      size="sm"
-                                      color="gray"
-                                    >
-                                      {setBonus.quantity}-piece set
-                                    </Badge>
-                                  )}
-                                </Group>
-                                <Text size="xs" c="dimmed" lineClamp={2}>
-                                  {item.lore}
-                                </Text>
-                              </Stack>
-                            </Group>
-                          </Paper>
-                        );
-                      })}
-                    </SimpleGrid>
-                  ) : (
-                    <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                      <Table
-                        striped
-                        highlightOnHover
-                        style={getMinWidthStyle(760)}
-                      >
-                        <Table.Thead>
-                          <Table.Tr>
-                            <Table.Th>Icon</Table.Th>
-                            <SortableTh
-                              sortKey="name"
-                              sortCol={sortCol}
-                              sortDir={sortDir}
-                              onSort={handleSort}
-                            >
-                              Name
-                            </SortableTh>
-                            <SortableTh
-                              sortKey="type"
-                              sortCol={sortCol}
-                              sortDir={sortDir}
-                              onSort={handleSort}
-                            >
-                              Type
-                            </SortableTh>
-                            <SortableTh
-                              sortKey="set"
-                              sortCol={sortCol}
-                              sortDir={sortDir}
-                              onSort={handleSort}
-                            >
-                              Set
-                            </SortableTh>
-                            <Table.Th>Rarity</Table.Th>
-                            <Table.Th>Set Bonus</Table.Th>
-                          </Table.Tr>
-                        </Table.Thead>
-                        <Table.Tbody>
-                          {gearPageItems.map((item) => {
-                            const setData = gearSetByName.get(item.set);
-                            const setBonus =
-                              setData?.set_bonus ?? item.set_bonus;
-                            const iconSrc = getGearIcon(item.type, item.name);
-                            return (
-                              <Table.Tr
-                                key={item.name}
-                                style={{ cursor: 'pointer' }}
-                                onClick={() =>
-                                  navigate(
-                                    `/gear-sets/${encodeURIComponent(item.set)}`
-                                  )
-                                }
-                              >
-                                <Table.Td>
-                                  {iconSrc && (
-                                    <Image
-                                      src={iconSrc}
-                                      alt={item.name}
-                                      w={32}
-                                      h={32}
-                                      fit="contain"
-                                    />
-                                  )}
-                                </Table.Td>
-                                <Table.Td>
-                                  <Text
-                                    component={Link}
-                                    to={`/gear-sets/${encodeURIComponent(item.set)}`}
-                                    fw={600}
-                                    size="sm"
-                                    c="violet"
-                                    style={{ textDecoration: 'none' }}
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    {item.name}
-                                  </Text>
-                                </Table.Td>
-                                <Table.Td>
-                                  <GearTypeTag type={item.type} />
-                                </Table.Td>
-                                <Table.Td>
-                                  <Badge
-                                    variant="light"
-                                    size="sm"
-                                    color="grape"
-                                  >
-                                    {item.set}
-                                  </Badge>
-                                </Table.Td>
-                                <Table.Td>
-                                  {item.quality && (
-                                    <QualityIcon quality={item.quality} />
-                                  )}
-                                </Table.Td>
-                                <Table.Td>
-                                  <Text size="sm" c="dimmed">
-                                    {setBonus && setBonus.quantity > 0
-                                      ? `${setBonus.quantity}-piece: ${setBonus.description}`
-                                      : '—'}
-                                  </Text>
-                                </Table.Td>
-                              </Table.Tr>
-                            );
-                          })}
-                        </Table.Tbody>
-                      </Table>
-                    </ScrollArea>
-                  )}
-
-                  <PaginationControl
-                    currentPage={gearPage}
-                    totalPages={gearTotalPages}
-                    onChange={setGearPage}
+                      if (key === 'qualities') {
+                        setFilters({
+                          ...filters,
+                          qualities: values as Quality[],
+                        });
+                      }
+                    }}
+                    onClear={() => {
+                      setFilters(EMPTY_FILTERS);
+                      setGearSetSearch('');
+                    }}
+                    search={filters.search}
+                    onSearchChange={(value) =>
+                      setFilters({ ...filters, search: value })
+                    }
+                    searchPlaceholder="Search by gear or set..."
                   />
-                </Stack>
-              </Paper>
+                }
+                gridContent={
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                    {gearPageItems.map((item) => {
+                      const setData = gearSetByName.get(item.set);
+                      const setBonus = setData?.set_bonus ?? item.set_bonus;
+                      const iconSrc = getGearIcon(item.type, item.name);
+                      return (
+                        <Paper
+                          key={item.name}
+                          component={Link}
+                          to={`/gear-sets/${encodeURIComponent(item.set)}`}
+                          p="md"
+                          radius="md"
+                          withBorder
+                          {...getCardHoverProps({
+                            interactive: true,
+                            style: LINK_BLOCK_RESET_STYLE,
+                          })}
+                        >
+                          <Group gap="md" align="flex-start" wrap="nowrap">
+                            {iconSrc && (
+                              <Image
+                                src={iconSrc}
+                                alt={item.name}
+                                w={64}
+                                h={64}
+                                fit="contain"
+                                radius="sm"
+                              />
+                            )}
+                            <Stack gap={4} style={{ flex: 1 }}>
+                              <Group gap="xs" wrap="wrap">
+                                <Text fw={700} c="violet" lineClamp={1}>
+                                  {item.name}
+                                </Text>
+                                {item.quality && (
+                                  <QualityIcon quality={item.quality} />
+                                )}
+                              </Group>
+                              <Group gap="xs" wrap="wrap">
+                                <GearTypeTag type={item.type} />
+                                <Badge variant="light" size="sm" color="grape">
+                                  {item.set}
+                                </Badge>
+                                {setBonus && setBonus.quantity > 0 && (
+                                  <Badge
+                                    variant="outline"
+                                    size="sm"
+                                    color="gray"
+                                  >
+                                    {setBonus.quantity}-piece set
+                                  </Badge>
+                                )}
+                              </Group>
+                              <Text size="xs" c="dimmed" lineClamp={2}>
+                                {item.lore}
+                              </Text>
+                            </Stack>
+                          </Group>
+                        </Paper>
+                      );
+                    })}
+                  </SimpleGrid>
+                }
+                tableContent={
+                  <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                    <Table
+                      striped
+                      highlightOnHover
+                      style={getMinWidthStyle(760)}
+                    >
+                      <Table.Thead>
+                        <Table.Tr>
+                          <Table.Th>Icon</Table.Th>
+                          <SortableTh
+                            sortKey="name"
+                            sortCol={sortCol}
+                            sortDir={sortDir}
+                            onSort={handleSort}
+                          >
+                            Name
+                          </SortableTh>
+                          <SortableTh
+                            sortKey="type"
+                            sortCol={sortCol}
+                            sortDir={sortDir}
+                            onSort={handleSort}
+                          >
+                            Type
+                          </SortableTh>
+                          <SortableTh
+                            sortKey="set"
+                            sortCol={sortCol}
+                            sortDir={sortDir}
+                            onSort={handleSort}
+                          >
+                            Set
+                          </SortableTh>
+                          <Table.Th>Rarity</Table.Th>
+                          <Table.Th>Set Bonus</Table.Th>
+                        </Table.Tr>
+                      </Table.Thead>
+                      <Table.Tbody>
+                        {gearPageItems.map((item) => {
+                          const setData = gearSetByName.get(item.set);
+                          const setBonus = setData?.set_bonus ?? item.set_bonus;
+                          const iconSrc = getGearIcon(item.type, item.name);
+                          return (
+                            <Table.Tr
+                              key={item.name}
+                              style={{ cursor: 'pointer' }}
+                              onClick={() =>
+                                navigate(
+                                  `/gear-sets/${encodeURIComponent(item.set)}`
+                                )
+                              }
+                            >
+                              <Table.Td>
+                                {iconSrc && (
+                                  <Image
+                                    src={iconSrc}
+                                    alt={item.name}
+                                    w={32}
+                                    h={32}
+                                    fit="contain"
+                                  />
+                                )}
+                              </Table.Td>
+                              <Table.Td>
+                                <Text
+                                  component={Link}
+                                  to={`/gear-sets/${encodeURIComponent(item.set)}`}
+                                  fw={600}
+                                  size="sm"
+                                  c="violet"
+                                  style={{ textDecoration: 'none' }}
+                                  onClick={(e) => e.stopPropagation()}
+                                >
+                                  {item.name}
+                                </Text>
+                              </Table.Td>
+                              <Table.Td>
+                                <GearTypeTag type={item.type} />
+                              </Table.Td>
+                              <Table.Td>
+                                <Badge variant="light" size="sm" color="grape">
+                                  {item.set}
+                                </Badge>
+                              </Table.Td>
+                              <Table.Td>
+                                {item.quality && (
+                                  <QualityIcon quality={item.quality} />
+                                )}
+                              </Table.Td>
+                              <Table.Td>
+                                <Text size="sm" c="dimmed">
+                                  {setBonus && setBonus.quantity > 0
+                                    ? `${setBonus.quantity}-piece: ${setBonus.description}`
+                                    : '—'}
+                                </Text>
+                              </Table.Td>
+                            </Table.Tr>
+                          );
+                        })}
+                      </Table.Tbody>
+                    </Table>
+                  </ScrollArea>
+                }
+                page={gearPage}
+                totalPages={gearTotalPages}
+                onPageChange={setGearPage}
+              />
             </ListPageShell>
           </Tabs.Panel>
 
@@ -639,7 +619,7 @@ export default function GearPage() {
               emptyMessage="No gear set data available yet."
               skeletonCards={4}
             >
-              <Paper p="md" radius="md" withBorder>
+              <Paper p="md" radius="md" withBorder data-no-hover>
                 <Stack gap="md">
                   <TextInput
                     placeholder="Search by set name or bonus..."

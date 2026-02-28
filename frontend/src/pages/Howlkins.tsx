@@ -28,7 +28,7 @@ import PaginationControl from '../components/common/PaginationControl';
 import QualityIcon from '../components/common/QualityIcon';
 import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
 import SortableTh from '../components/common/SortableTh';
-import FilterToolbar from '../components/layout/FilterToolbar';
+import FilteredListShell from '../components/layout/FilteredListShell';
 import {
   CardGridLoading,
   ViewModeLoading,
@@ -375,175 +375,164 @@ export default function Howlkins() {
             )}
 
             {!howlkinsLoading && !howlkinsError && howlkins.length > 0 && (
-              <Paper p="md" radius="md" withBorder>
-                <Stack gap="md">
-                  <FilterToolbar
-                    count={filtered.length}
-                    noun="howlkin"
-                    viewMode={viewMode}
-                    onViewModeChange={setViewMode}
-                    filterCount={activeFilterCount}
-                    filterOpen={filterOpen}
-                    onFilterToggle={toggleFilter}
-                  >
-                    <EntityFilter
-                      groups={filterGroups}
-                      selected={{ qualities: filters.qualities }}
-                      onChange={(key, values) =>
-                        setFilters({
-                          ...filters,
-                          [key]: values as Quality[],
-                        })
-                      }
-                      onClear={() => {
-                        setFilters(EMPTY_FILTERS);
-                        setAllianceSearch('');
-                      }}
-                      search={filters.search}
-                      onSearchChange={(value) =>
-                        setFilters({ ...filters, search: value })
-                      }
-                      searchPlaceholder="Search by name..."
-                    />
-                  </FilterToolbar>
-
-                  {filtered.length === 0 ? (
-                    <NoResultsSuggestions
-                      title="No howlkins found"
-                      message="No howlkins match the current filters."
-                      onReset={() => setFilters(EMPTY_FILTERS)}
-                      onOpenFilters={toggleFilter}
-                    />
-                  ) : viewMode === 'grid' ? (
-                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
-                      {howlkinPageItems.map((howlkin) => {
-                        const iconSrc = getHowlkinIcon(howlkin.name);
-                        return (
-                          <Paper
-                            key={howlkin.name}
-                            p="sm"
-                            radius="md"
-                            withBorder
-                            {...getCardHoverProps()}
+              <FilteredListShell
+                count={filtered.length}
+                noun="howlkin"
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                filterCount={activeFilterCount}
+                filterOpen={filterOpen}
+                onFilterToggle={toggleFilter}
+                onResetFilters={() => setFilters(EMPTY_FILTERS)}
+                emptyMessage="No howlkins match the current filters."
+                filterContent={
+                  <EntityFilter
+                    groups={filterGroups}
+                    selected={{ qualities: filters.qualities }}
+                    onChange={(key, values) =>
+                      setFilters({
+                        ...filters,
+                        [key]: values as Quality[],
+                      })
+                    }
+                    onClear={() => {
+                      setFilters(EMPTY_FILTERS);
+                      setAllianceSearch('');
+                    }}
+                    search={filters.search}
+                    onSearchChange={(value) =>
+                      setFilters({ ...filters, search: value })
+                    }
+                    searchPlaceholder="Search by name..."
+                  />
+                }
+                gridContent={
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                    {howlkinPageItems.map((howlkin) => {
+                      const iconSrc = getHowlkinIcon(howlkin.name);
+                      return (
+                        <Paper
+                          key={howlkin.name}
+                          p="sm"
+                          radius="md"
+                          withBorder
+                          {...getCardHoverProps()}
+                        >
+                          <Stack gap="xs">
+                            <Group gap="sm" wrap="nowrap">
+                              {iconSrc && (
+                                <Image
+                                  src={iconSrc}
+                                  alt={howlkin.name}
+                                  w={56}
+                                  h={56}
+                                  fit="contain"
+                                  radius="sm"
+                                />
+                              )}
+                              <Stack gap={2} style={{ flex: 1 }}>
+                                <Group gap="sm" wrap="wrap">
+                                  <QualityIcon quality={howlkin.quality} />
+                                  <Text fw={600}>{howlkin.name}</Text>
+                                </Group>
+                                <Stack gap={2}>
+                                  {(howlkin.passive_effects ?? []).map(
+                                    (e, i) => (
+                                      <Text key={i} size="sm" c="dimmed">
+                                        {e}
+                                      </Text>
+                                    )
+                                  )}
+                                </Stack>
+                              </Stack>
+                            </Group>
+                            <HowlkinStats stats={howlkin.basic_stats} />
+                          </Stack>
+                        </Paper>
+                      );
+                    })}
+                  </SimpleGrid>
+                }
+                tableContent={
+                  <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                    <Table
+                      striped
+                      highlightOnHover
+                      style={getMinWidthStyle(720)}
+                    >
+                      <Table.Thead>
+                        <Table.Tr>
+                          <Table.Th>Icon</Table.Th>
+                          <SortableTh
+                            sortKey="name"
+                            sortCol={sortCol}
+                            sortDir={sortDir}
+                            onSort={handleSort}
                           >
-                            <Stack gap="xs">
-                              <Group gap="sm" wrap="nowrap">
+                            Name
+                          </SortableTh>
+                          <SortableTh
+                            sortKey="quality"
+                            sortCol={sortCol}
+                            sortDir={sortDir}
+                            onSort={handleSort}
+                          >
+                            Quality
+                          </SortableTh>
+                          <Table.Th>Basic Stats</Table.Th>
+                          <Table.Th>Passive Effects</Table.Th>
+                        </Table.Tr>
+                      </Table.Thead>
+                      <Table.Tbody>
+                        {howlkinPageItems.map((howlkin) => {
+                          const iconSrc = getHowlkinIcon(howlkin.name);
+                          return (
+                            <Table.Tr key={howlkin.name}>
+                              <Table.Td>
                                 {iconSrc && (
                                   <Image
                                     src={iconSrc}
                                     alt={howlkin.name}
-                                    w={56}
-                                    h={56}
+                                    w={40}
+                                    h={40}
                                     fit="contain"
                                     radius="sm"
                                   />
                                 )}
-                                <Stack gap={2} style={{ flex: 1 }}>
-                                  <Group gap="sm" wrap="wrap">
-                                    <QualityIcon quality={howlkin.quality} />
-                                    <Text fw={600}>{howlkin.name}</Text>
-                                  </Group>
-                                  <Stack gap={2}>
-                                    {(howlkin.passive_effects ?? []).map(
-                                      (e, i) => (
-                                        <Text key={i} size="sm" c="dimmed">
-                                          {e}
-                                        </Text>
-                                      )
-                                    )}
-                                  </Stack>
-                                </Stack>
-                              </Group>
-                              <HowlkinStats stats={howlkin.basic_stats} />
-                            </Stack>
-                          </Paper>
-                        );
-                      })}
-                    </SimpleGrid>
-                  ) : (
-                    <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                      <Table
-                        striped
-                        highlightOnHover
-                        style={getMinWidthStyle(720)}
-                      >
-                        <Table.Thead>
-                          <Table.Tr>
-                            <Table.Th>Icon</Table.Th>
-                            <SortableTh
-                              sortKey="name"
-                              sortCol={sortCol}
-                              sortDir={sortDir}
-                              onSort={handleSort}
-                            >
-                              Name
-                            </SortableTh>
-                            <SortableTh
-                              sortKey="quality"
-                              sortCol={sortCol}
-                              sortDir={sortDir}
-                              onSort={handleSort}
-                            >
-                              Quality
-                            </SortableTh>
-                            <Table.Th>Basic Stats</Table.Th>
-                            <Table.Th>Passive Effects</Table.Th>
-                          </Table.Tr>
-                        </Table.Thead>
-                        <Table.Tbody>
-                          {howlkinPageItems.map((howlkin) => {
-                            const iconSrc = getHowlkinIcon(howlkin.name);
-                            return (
-                              <Table.Tr key={howlkin.name}>
-                                <Table.Td>
-                                  {iconSrc && (
-                                    <Image
-                                      src={iconSrc}
-                                      alt={howlkin.name}
-                                      w={40}
-                                      h={40}
-                                      fit="contain"
-                                      radius="sm"
-                                    />
+                              </Table.Td>
+                              <Table.Td>
+                                <Text fw={600} size="sm">
+                                  {howlkin.name}
+                                </Text>
+                              </Table.Td>
+                              <Table.Td>
+                                <QualityIcon quality={howlkin.quality} />
+                              </Table.Td>
+                              <Table.Td>
+                                <HowlkinStats stats={howlkin.basic_stats} />
+                              </Table.Td>
+                              <Table.Td>
+                                <Stack gap={2}>
+                                  {(howlkin.passive_effects ?? []).map(
+                                    (e, i) => (
+                                      <Text key={i} size="sm" c="dimmed">
+                                        {e}
+                                      </Text>
+                                    )
                                   )}
-                                </Table.Td>
-                                <Table.Td>
-                                  <Text fw={600} size="sm">
-                                    {howlkin.name}
-                                  </Text>
-                                </Table.Td>
-                                <Table.Td>
-                                  <QualityIcon quality={howlkin.quality} />
-                                </Table.Td>
-                                <Table.Td>
-                                  <HowlkinStats stats={howlkin.basic_stats} />
-                                </Table.Td>
-                                <Table.Td>
-                                  <Stack gap={2}>
-                                    {(howlkin.passive_effects ?? []).map(
-                                      (e, i) => (
-                                        <Text key={i} size="sm" c="dimmed">
-                                          {e}
-                                        </Text>
-                                      )
-                                    )}
-                                  </Stack>
-                                </Table.Td>
-                              </Table.Tr>
-                            );
-                          })}
-                        </Table.Tbody>
-                      </Table>
-                    </ScrollArea>
-                  )}
-
-                  <PaginationControl
-                    currentPage={howlkinPage}
-                    totalPages={howlkinTotalPages}
-                    onChange={setHowlkinPage}
-                  />
-                </Stack>
-              </Paper>
+                                </Stack>
+                              </Table.Td>
+                            </Table.Tr>
+                          );
+                        })}
+                      </Table.Tbody>
+                    </Table>
+                  </ScrollArea>
+                }
+                page={howlkinPage}
+                totalPages={howlkinTotalPages}
+                onPageChange={setHowlkinPage}
+              />
             )}
           </Tabs.Panel>
 
@@ -570,7 +559,7 @@ export default function Howlkins() {
             {!alliancesLoading &&
               !alliancesError &&
               goldenAlliances.length > 0 && (
-                <Paper p="md" radius="md" withBorder>
+                <Paper p="md" radius="md" withBorder data-no-hover>
                   <Stack gap="md">
                     <TextInput
                       placeholder="Search by name or member..."

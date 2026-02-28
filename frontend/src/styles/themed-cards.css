@@ -11,8 +11,8 @@
     box-shadow 180ms ease;
 }
 
-.mantine-Paper-root[data-with-border]:hover,
-.mantine-Card-root[data-with-border]:hover {
+.mantine-Paper-root[data-with-border]:hover:not([data-no-hover]),
+.mantine-Card-root[data-with-border]:hover:not([data-no-hover]) {
   transform: translateY(-2px);
   box-shadow: var(--mantine-shadow-md);
 }
@@ -23,8 +23,8 @@
     transition: none;
   }
 
-  .mantine-Paper-root[data-with-border]:hover,
-  .mantine-Card-root[data-with-border]:hover {
+  .mantine-Paper-root[data-with-border]:hover:not([data-no-hover]),
+  .mantine-Card-root[data-with-border]:hover:not([data-no-hover]) {
     transform: none;
   }
 }

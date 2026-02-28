@@ -1,6 +1,5 @@
 import { Paper, Stack } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { getCardHoverProps } from '../../constants/styles';
 import type { ViewMode } from '../../hooks/use-filters';
 import NoResultsSuggestions from '../common/NoResultsSuggestions';
 import PaginationControl from '../common/PaginationControl';
@@ -44,7 +43,7 @@ export default function FilteredListShell({
   const defaultEmpty = `No ${noun}s match the current filters.`;
 
   return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+    <Paper p="md" radius="md" withBorder data-no-hover>
       <Stack gap="md">
         <FilterToolbar
           count={count}

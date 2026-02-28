@@ -12,7 +12,7 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { TIER_ORDER } from '../../constants/colors';
-import { getCardHoverProps, getMinWidthStyle } from '../../constants/styles';
+import { getMinWidthStyle } from '../../constants/styles';
 import {
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
@@ -175,7 +175,7 @@ export default function CharacterList({
     (filters.globalOnly !== null ? 1 : 0);
 
   return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+    <Paper p="md" radius="md" withBorder data-no-hover>
       <Stack gap="md">
         {showFilter ? (
           <FilterToolbar
