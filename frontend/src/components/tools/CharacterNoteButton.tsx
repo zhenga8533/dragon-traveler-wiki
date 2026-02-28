@@ -5,7 +5,7 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { memo, useEffect, useState, type CSSProperties } from 'react';
+import { memo, useState, type CSSProperties } from 'react';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 
 interface CharacterNoteButtonProps {
@@ -28,12 +28,6 @@ function CharacterNoteButton({
   });
   const hasNote = value.trim().length > 0;
 
-  useEffect(() => {
-    if (!opened) {
-      setDraftValue(value);
-    }
-  }, [value, opened]);
-
   function commitAndClose() {
     if (draftValue !== value) {
       onCommit(draftValue);
@@ -44,7 +38,12 @@ function CharacterNoteButton({
   return (
     <Popover
       opened={opened}
-      onChange={(nextOpened) => setOpened(nextOpened)}
+      onChange={(nextOpened) => {
+        if (nextOpened) {
+          setDraftValue(value);
+        }
+        setOpened(nextOpened);
+      }}
       position="bottom-end"
       withArrow
       shadow="md"

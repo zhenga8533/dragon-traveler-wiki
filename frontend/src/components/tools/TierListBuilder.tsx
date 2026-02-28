@@ -271,12 +271,6 @@ function TierNotePopover({
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
 
-  useEffect(() => {
-    if (!opened) {
-      setDraftValue(value);
-    }
-  }, [value, opened]);
-
   function commitAndClose() {
     if (draftValue !== value) {
       onCommit(draftValue);
@@ -289,7 +283,12 @@ function TierNotePopover({
   return (
     <Popover
       opened={opened}
-      onChange={(nextOpened) => setOpened(nextOpened)}
+      onChange={(nextOpened) => {
+        if (nextOpened) {
+          setDraftValue(value);
+        }
+        setOpened(nextOpened);
+      }}
       position={isLeftAligned ? 'bottom-start' : 'bottom'}
       withArrow
       shadow="md"
