@@ -65,6 +65,7 @@ import type { Wyrmspell } from '../../types/wyrmspell';
 import { insertUniqueBefore, removeItem } from '../../utils/dnd-list';
 import CharacterCard from '../character/CharacterCard';
 import FilterableCharacterPool from '../character/FilterableCharacterPool';
+import CharacterNoteButton from './CharacterNoteButton';
 import TeamSynergyAssistant from './TeamSynergyAssistant';
 
 const MAX_ROSTER_SIZE = 6;
@@ -229,19 +230,6 @@ function SlotCard({
   isDragging: boolean;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: `slot-${index}` });
-  const [draftNote, setDraftNote] = useState(note);
-
-  useEffect(() => {
-    queueMicrotask(() => {
-      setDraftNote(note);
-    });
-  }, [note, charName]);
-
-  function commitDraftNote() {
-    if (draftNote !== note) {
-      onNoteChange(draftNote);
-    }
-  }
 
   let borderColor: string | undefined;
   if (isOver) {
@@ -299,7 +287,15 @@ function SlotCard({
             </Badge>
           )}
           <Stack gap={4} align="center">
-            <DraggableCharCard name={charName} char={char} />
+            <Box style={{ position: 'relative', display: 'inline-block' }}>
+              <DraggableCharCard name={charName} char={char} />
+              <CharacterNoteButton
+                value={note}
+                onCommit={onNoteChange}
+                placeholder="Add note..."
+                style={{ position: 'absolute', top: 2, right: 2 }}
+              />
+            </Box>
             <Group gap={6} align="center" wrap="nowrap">
               <ActionIcon
                 size="sm"
@@ -341,17 +337,6 @@ function SlotCard({
                 <IoAdd size={12} />
               </ActionIcon>
             </Group>
-            <Textarea
-              size="xs"
-              placeholder="Enter note..."
-              value={draftNote}
-              onChange={(e) => setDraftNote(e.currentTarget.value)}
-              onBlur={commitDraftNote}
-              autosize
-              minRows={1}
-              maxRows={3}
-              styles={{ input: { minWidth: 144 } }}
-            />
           </Stack>
         </>
       ) : (
@@ -537,19 +522,6 @@ function BenchDropItem({
   const { setNodeRef: setItemNodeRef, isOver: isOverItem } = useDroppable({
     id: `bench-item-${name}`,
   });
-  const [draftNote, setDraftNote] = useState(note);
-
-  useEffect(() => {
-    queueMicrotask(() => {
-      setDraftNote(note);
-    });
-  }, [note, name]);
-
-  function commitDraftNote() {
-    if (draftNote !== note) {
-      onNoteChange(name, draftNote);
-    }
-  }
 
   return (
     <Box
@@ -562,18 +534,15 @@ function BenchDropItem({
       }}
     >
       <Stack gap={4} align="center">
-        <DraggableCharCard name={name} char={charMap.get(name)} />
-        <Textarea
-          size="xs"
-          placeholder="Enter note..."
-          value={draftNote}
-          onChange={(e) => setDraftNote(e.currentTarget.value)}
-          onBlur={commitDraftNote}
-          autosize
-          minRows={1}
-          maxRows={3}
-          styles={{ input: { minWidth: 144 } }}
-        />
+        <Box style={{ position: 'relative', display: 'inline-block' }}>
+          <DraggableCharCard name={name} char={charMap.get(name)} />
+          <CharacterNoteButton
+            value={note}
+            onCommit={(nextNote) => onNoteChange(name, nextNote)}
+            placeholder="Add note..."
+            style={{ position: 'absolute', top: 2, right: 2 }}
+          />
+        </Box>
       </Stack>
     </Box>
   );

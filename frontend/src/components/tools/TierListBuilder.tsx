@@ -9,6 +9,7 @@ import {
 import {
   ActionIcon,
   Badge,
+  Box,
   Button,
   CopyButton,
   Group,
@@ -61,6 +62,7 @@ import {
 import { compareCharactersByQualityThenName } from '../../utils/filter-characters';
 import CharacterCard from '../character/CharacterCard';
 import FilterableCharacterPool from '../character/FilterableCharacterPool';
+import CharacterNoteButton from './CharacterNoteButton';
 
 interface TierPlacements {
   [tier: string]: string[]; // tier -> ordered array of character names
@@ -150,7 +152,6 @@ function TierDropZone({
   children: React.ReactNode;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id });
-  const [isNoteEditing, setIsNoteEditing] = useState(false);
 
   return (
     <Paper
@@ -172,34 +173,15 @@ function TierDropZone({
             <Badge variant="filled" color={color} size="lg" radius="sm">
               {label}
             </Badge>
-            {isNoteEditing ? (
-              <TextInput
-                size="xs"
-                placeholder="Add a tier note..."
-                value={note || ''}
-                onChange={(e) => onNoteChange(e.currentTarget.value)}
-                onBlur={() => setIsNoteEditing(false)}
-                onKeyDown={(e) => {
-                  if (e.key === 'Enter' || e.key === 'Escape')
-                    setIsNoteEditing(false);
-                }}
-                autoFocus
-                style={{ maxWidth: 320 }}
-              />
-            ) : (
-              <Text
-                size="xs"
-                c="dimmed"
-                style={{
-                  cursor: 'text',
-                  opacity: note ? 1 : 0.45,
-                  wordBreak: 'break-word',
-                }}
-                onClick={() => setIsNoteEditing(true)}
-              >
-                {note || 'Add a tier note...'}
-              </Text>
-            )}
+            <TierNotePopover
+              value={note || ''}
+              onCommit={onNoteChange}
+              placeholder="Add a tier note..."
+              emptyLabel="Add a tier note..."
+              editorMinWidth={200}
+              editorMaxWidth={320}
+              align="left"
+            />
           </Stack>
           <Group gap={2} wrap="nowrap" style={{ flexShrink: 0 }}>
             <Tooltip
@@ -266,6 +248,116 @@ function TierDropZone({
         </SimpleGrid>
       </Stack>
     </Paper>
+  );
+}
+
+function TierNotePopover({
+  value,
+  onCommit,
+  placeholder = 'Add a note...',
+  emptyLabel = '+ note',
+  editorMinWidth = 180,
+  editorMaxWidth = 220,
+  align = 'center',
+}: {
+  value: string;
+  onCommit: (value: string) => void;
+  placeholder?: string;
+  emptyLabel?: string;
+  editorMinWidth?: number;
+  editorMaxWidth?: number;
+  align?: 'left' | 'center';
+}) {
+  const [opened, setOpened] = useState(false);
+  const [draftValue, setDraftValue] = useState(value);
+
+  useEffect(() => {
+    if (!opened) {
+      setDraftValue(value);
+    }
+  }, [value, opened]);
+
+  function commitAndClose() {
+    if (draftValue !== value) {
+      onCommit(draftValue);
+    }
+    setOpened(false);
+  }
+
+  const isLeftAligned = align === 'left';
+
+  return (
+    <Popover
+      opened={opened}
+      onChange={(nextOpened) => setOpened(nextOpened)}
+      position={isLeftAligned ? 'bottom-start' : 'bottom'}
+      withArrow
+      shadow="md"
+      withinPortal
+      zIndex={400}
+      offset={6}
+    >
+      <Popover.Target>
+        <div
+          role="button"
+          tabIndex={0}
+          style={{
+            cursor: 'pointer',
+            padding: '2px 4px',
+            textAlign: align,
+            display: 'inline-block',
+            width: 'fit-content',
+            maxWidth: '100%',
+            alignSelf: isLeftAligned ? 'flex-start' : 'center',
+          }}
+          onMouseDown={(e) => {
+            e.preventDefault();
+          }}
+          onClick={() => setOpened((prev) => !prev)}
+          onKeyDown={(e) => {
+            if (e.key === 'Enter' || e.key === ' ') {
+              e.preventDefault();
+              setOpened((prev) => !prev);
+            }
+          }}
+        >
+          <Text
+            size="xs"
+            c={value ? 'blue' : 'dimmed'}
+            lineClamp={1}
+            style={{ opacity: value ? 1 : 0.45 }}
+          >
+            {value || emptyLabel}
+          </Text>
+        </div>
+      </Popover.Target>
+      <Popover.Dropdown p="xs">
+        <Textarea
+          size="xs"
+          placeholder={placeholder}
+          value={draftValue}
+          onChange={(e) => setDraftValue(e.currentTarget.value)}
+          onBlur={commitAndClose}
+          onKeyDown={(e) => {
+            if (e.key === 'Escape') {
+              setDraftValue(value);
+              setOpened(false);
+            }
+          }}
+          autosize
+          minRows={1}
+          maxRows={3}
+          styles={{
+            input: {
+              minWidth: editorMinWidth,
+              maxWidth: editorMaxWidth,
+              lineHeight: 1.35,
+              opacity: draftValue ? 1 : 0.9,
+            },
+          }}
+        />
+      </Popover.Dropdown>
+    </Popover>
   );
 }
 
@@ -754,51 +846,28 @@ export default function TierListBuilder({
               canDelete={tierDefs.length > 1}
             >
               {names.map((n) => (
-                <Stack key={n} gap={0}>
+                <Box
+                  key={n}
+                  style={{ position: 'relative', display: 'inline-block' }}
+                >
                   <DraggableCharCard
                     name={n}
                     char={charMap.get(n)}
                     tier={tier}
                   />
-                  <Popover position="bottom" withArrow trapFocus shadow="md">
-                    <Popover.Target>
-                      <div
-                        role="button"
-                        tabIndex={0}
-                        style={{
-                          cursor: 'pointer',
-                          padding: '2px 4px',
-                          textAlign: 'center',
-                        }}
-                        onKeyDown={(e) => {
-                          if (e.key === 'Enter' || e.key === ' ')
-                            e.currentTarget.click();
-                        }}
-                      >
-                        <Text
-                          size="xs"
-                          c={notes[n] ? 'blue' : 'dimmed'}
-                          lineClamp={1}
-                          style={{ opacity: notes[n] ? 1 : 0.45 }}
-                        >
-                          {notes[n] || '+ note'}
-                        </Text>
-                      </div>
-                    </Popover.Target>
-                    <Popover.Dropdown>
-                      <TextInput
-                        size="xs"
-                        placeholder="Add a note..."
-                        value={notes[n] || ''}
-                        onChange={(e) => {
-                          const value = e.currentTarget.value;
-                          setNotes((prev) => ({ ...prev, [n]: value }));
-                        }}
-                        style={{ width: 200 }}
-                      />
-                    </Popover.Dropdown>
-                  </Popover>
-                </Stack>
+                  <CharacterNoteButton
+                    value={notes[n] || ''}
+                    onCommit={(value) => {
+                      setNotes((prev) => ({ ...prev, [n]: value }));
+                    }}
+                    style={{
+                      position: 'absolute',
+                      top: 2,
+                      left: 'calc(50% + 24px)',
+                      transform: 'translateX(-50%)',
+                    }}
+                  />
+                </Box>
               ))}
             </TierDropZone>
           );
