@@ -81,8 +81,7 @@ export default function FeaturedCharactersMarquee() {
   const tierListMeta = [
     tierList.name,
     normalizeContentType(tierList.content_type, 'All'),
-    tierList.author ? `by ${tierList.author}` : null,
-  ].filter(Boolean);
+  ];
 
   return (
     <Stack gap="md">
@@ -90,11 +89,31 @@ export default function FeaturedCharactersMarquee() {
         <ThemeIcon variant="light" color="grape" size="lg" radius="md">
           <IoTrophy size={20} />
         </ThemeIcon>
-        <Title order={2} size="h3">Featured Characters</Title>
+        <Title order={2} size="h3">
+          Featured Characters
+        </Title>
       </Group>
-      {tierListMeta.length > 0 && (
+      {(tierListMeta.length > 0 || tierList.author) && (
         <Text size="xs" c="dimmed" ta="center">
-          {tierListMeta.join(' \u00b7 ')}
+          {tierListMeta.map((item, index) => (
+            <Text key={item} span inherit>
+              {index > 0 ? ' · ' : ''}
+              {item}
+            </Text>
+          ))}
+          {tierList.author && (
+            <>
+              {tierListMeta.length > 0 && (
+                <Text span inherit>
+                  {' '}
+                  · by{' '}
+                </Text>
+              )}
+              <Text span c="violet" fw={500} inherit>
+                {tierList.author}
+              </Text>
+            </>
+          )}
         </Text>
       )}
       <Box
