@@ -111,6 +111,125 @@ function getValidRows(charClass: CharacterClass): number[] {
   }
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isTeamMemberLike(value: unknown): value is TeamMember {
+  return isRecord(value) && typeof value.character_name === 'string';
+}
+
+function getPastedTeamPatch(value: unknown): Partial<Team> | null {
+  if (Array.isArray(value)) {
+    if (value.every(isTeamMemberLike)) {
+      return { members: value };
+    }
+
+    if (value.length === 1 && isRecord(value[0])) {
+      return value[0] as Partial<Team>;
+    }
+
+    return null;
+  }
+
+  if (isRecord(value)) {
+    return value as Partial<Team>;
+  }
+
+  return null;
+}
+
+function normalizeTeamFromPartial(
+  partial: Partial<Team>,
+  fallback: Team
+): Team {
+  const normalizedMembers = Array.isArray(partial.members)
+    ? partial.members.filter(isTeamMemberLike).map((member) => {
+        const hasValidPosition =
+          typeof member.position?.row === 'number' &&
+          typeof member.position?.col === 'number';
+        return {
+          character_name: member.character_name,
+          overdrive_order:
+            typeof member.overdrive_order === 'number'
+              ? member.overdrive_order
+              : null,
+          ...(typeof member.note === 'string' && member.note
+            ? { note: member.note }
+            : {}),
+          ...(hasValidPosition
+            ? {
+                position: {
+                  row: member.position!.row,
+                  col: member.position!.col,
+                },
+              }
+            : {}),
+        };
+      })
+    : fallback.members;
+
+  const normalizedBench = Array.isArray(partial.bench)
+    ? partial.bench.filter(
+        (benchName): benchName is string => typeof benchName === 'string'
+      )
+    : fallback.bench;
+
+  const normalizedBenchNotes = isRecord(partial.bench_notes)
+    ? Object.fromEntries(
+        Object.entries(partial.bench_notes)
+          .filter(([characterName, note]) => {
+            return (
+              typeof characterName === 'string' && typeof note === 'string'
+            );
+          })
+          .map(([characterName, note]) => [characterName, note])
+      )
+    : fallback.bench_notes;
+
+  const normalizedWyrmspells = isRecord(partial.wyrmspells)
+    ? {
+        ...(typeof partial.wyrmspells.breach === 'string'
+          ? { breach: partial.wyrmspells.breach }
+          : {}),
+        ...(typeof partial.wyrmspells.refuge === 'string'
+          ? { refuge: partial.wyrmspells.refuge }
+          : {}),
+        ...(typeof partial.wyrmspells.wildcry === 'string'
+          ? { wildcry: partial.wyrmspells.wildcry }
+          : {}),
+        ...(typeof partial.wyrmspells.dragons_call === 'string'
+          ? { dragons_call: partial.wyrmspells.dragons_call }
+          : {}),
+      }
+    : fallback.wyrmspells;
+
+  return {
+    ...fallback,
+    ...(typeof partial.name === 'string' ? { name: partial.name } : {}),
+    ...(typeof partial.author === 'string' ? { author: partial.author } : {}),
+    ...(typeof partial.description === 'string'
+      ? { description: partial.description }
+      : {}),
+    content_type: normalizeContentType(
+      partial.content_type,
+      fallback.content_type
+    ),
+    faction:
+      typeof partial.faction === 'string'
+        ? (partial.faction as FactionName)
+        : fallback.faction,
+    members: normalizedMembers,
+    ...(normalizedBench ? { bench: normalizedBench } : {}),
+    ...(normalizedBenchNotes ? { bench_notes: normalizedBenchNotes } : {}),
+    ...(normalizedWyrmspells ? { wyrmspells: normalizedWyrmspells } : {}),
+    last_updated:
+      typeof partial.last_updated === 'number'
+        ? partial.last_updated
+        : fallback.last_updated,
+  };
+}
+
 interface TeamBuilderProps {
   characters: Character[];
   charMap: Map<string, Character>;
@@ -885,18 +1004,24 @@ export default function TeamBuilder({
 
   function handlePasteApply() {
     try {
-      const data = JSON.parse(pasteText) as Team;
-      if (!Array.isArray(data.members)) {
-        setPasteError('Invalid team JSON: "members" must be an array.');
+      const parsed = JSON.parse(pasteText) as unknown;
+      const partialTeam = getPastedTeamPatch(parsed);
+      if (!partialTeam) {
+        setPasteError(
+          'Invalid team JSON: expected an object or a members array.'
+        );
         return;
       }
-      loadFromTeam(data);
+
+      const currentTeam = JSON.parse(json) as Team;
+      const mergedTeam = normalizeTeamFromPartial(partialTeam, currentTeam);
+      loadFromTeam(mergedTeam);
       closePasteModal();
       setPasteText('');
       setPasteError('');
     } catch {
       setPasteError(
-        'Could not parse JSON. Please check the format and try again.'
+        'Could not parse JSON. Paste a JSON object, a one-item team array, or a members array.'
       );
     }
   }

@@ -36,6 +36,7 @@ import {
   useDeferredValue,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
@@ -83,6 +84,84 @@ import CharacterNoteButton from './CharacterNoteButton';
 interface TierPlacements {
   [tier: string]: string[]; // tier -> ordered array of character names
 }
+
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function isTierEntryLike(
+  value: unknown
+): value is { character_name: string; tier: string; note?: string } {
+  return (
+    isRecord(value) &&
+    typeof value.character_name === 'string' &&
+    typeof value.tier === 'string'
+  );
+}
+
+function getPastedTierListPatch(value: unknown): Partial<TierList> | null {
+  if (Array.isArray(value)) {
+    if (value.every(isTierEntryLike)) {
+      return { entries: value };
+    }
+
+    if (value.length === 1 && isRecord(value[0])) {
+      return value[0] as Partial<TierList>;
+    }
+
+    return null;
+  }
+
+  if (isRecord(value)) {
+    return value as Partial<TierList>;
+  }
+
+  return null;
+}
+
+function normalizeTierListFromPartial(
+  partial: Partial<TierList>,
+  fallback: TierList
+): TierList {
+  const normalizedTiers = Array.isArray(partial.tiers)
+    ? partial.tiers
+        .filter(
+          (tierDef) => isRecord(tierDef) && typeof tierDef.name === 'string'
+        )
+        .map((tierDef) => ({
+          name: tierDef.name,
+          ...(typeof tierDef.note === 'string' ? { note: tierDef.note } : {}),
+        }))
+    : fallback.tiers;
+
+  const normalizedEntries = Array.isArray(partial.entries)
+    ? partial.entries.filter(isTierEntryLike).map((entry) => ({
+        character_name: entry.character_name,
+        tier: entry.tier,
+        ...(typeof entry.note === 'string' ? { note: entry.note } : {}),
+      }))
+    : fallback.entries;
+
+  return {
+    ...fallback,
+    ...(typeof partial.name === 'string' ? { name: partial.name } : {}),
+    ...(typeof partial.author === 'string' ? { author: partial.author } : {}),
+    ...(typeof partial.description === 'string'
+      ? { description: partial.description }
+      : {}),
+    content_type: normalizeContentType(
+      partial.content_type,
+      fallback.content_type
+    ),
+    ...(normalizedTiers ? { tiers: normalizedTiers } : {}),
+    entries: normalizedEntries,
+    last_updated:
+      typeof partial.last_updated === 'number'
+        ? partial.last_updated
+        : fallback.last_updated,
+  };
+}
+
 interface TierListBuilderProps {
   characters: Character[];
   charMap: Map<string, Character>;
@@ -624,18 +703,27 @@ export default function TierListBuilder({
 
   function handlePasteApply() {
     try {
-      const data = JSON.parse(pasteText) as TierList;
-      if (!Array.isArray(data.entries)) {
-        setPasteError('Invalid tier list JSON: "entries" must be an array.');
+      const parsed = JSON.parse(pasteText) as unknown;
+      const partialTierList = getPastedTierListPatch(parsed);
+      if (!partialTierList) {
+        setPasteError(
+          'Invalid tier list JSON: expected an object or an entries array.'
+        );
         return;
       }
-      loadFromTierList(data);
+
+      const currentTierList = JSON.parse(json) as TierList;
+      const mergedTierList = normalizeTierListFromPartial(
+        partialTierList,
+        currentTierList
+      );
+      loadFromTierList(mergedTierList);
       closePasteModal();
       setPasteText('');
       setPasteError('');
     } catch {
       setPasteError(
-        'Could not parse JSON. Please check the format and try again.'
+        'Could not parse JSON. Paste a JSON object, a one-item tier list array, or an entries array.'
       );
     }
   }
