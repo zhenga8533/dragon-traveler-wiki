@@ -501,7 +501,7 @@ export default function TeamPage() {
                 <SimpleGrid cols={{ base: 2, sm: 3, md: 4 }} spacing="sm">
                   {team.bench.map((benchName) => {
                     const char = charMap.get(benchName);
-                    const benchNote = team.bench_notes?.[benchName];
+                    const benchNote = team.bench_notes?.[benchName]?.trim();
                     return (
                       <Paper
                         key={benchName}
@@ -829,7 +829,7 @@ function BattlefieldGrid({
                     )}
 
                     {/* Note */}
-                    {member.note && (
+                    {(member.note?.trim() || '').length > 0 && (
                       <>
                         <Divider style={{ width: '100%' }} />
                         <Group gap={4} wrap="nowrap" align="flex-start">
@@ -845,7 +845,7 @@ function BattlefieldGrid({
                             lh={1.4}
                             ta="center"
                           >
-                            {member.note}
+                            {member.note?.trim()}
                           </Text>
                         </Group>
                       </>

@@ -120,6 +120,12 @@ function isTeamMemberLike(value: unknown): value is TeamMember {
   return isRecord(value) && typeof value.character_name === 'string';
 }
 
+function normalizeNote(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
 function getPastedTeamPatch(value: unknown): Partial<Team> | null {
   if (Array.isArray(value)) {
     if (value.every(isTeamMemberLike)) {
@@ -145,46 +151,78 @@ function normalizeTeamFromPartial(
   fallback: Team
 ): Team {
   const normalizedMembers = Array.isArray(partial.members)
-    ? partial.members.filter(isTeamMemberLike).map((member) => {
-        const hasValidPosition =
-          typeof member.position?.row === 'number' &&
-          typeof member.position?.col === 'number';
-        return {
-          character_name: member.character_name,
-          overdrive_order:
-            typeof member.overdrive_order === 'number'
-              ? member.overdrive_order
-              : null,
-          ...(typeof member.note === 'string' && member.note
-            ? { note: member.note }
-            : {}),
-          ...(hasValidPosition
-            ? {
-                position: {
-                  row: member.position!.row,
-                  col: member.position!.col,
-                },
-              }
-            : {}),
-        };
-      })
+    ? (() => {
+        const seen = new Set<string>();
+        const members: TeamMember[] = [];
+        for (const member of partial.members) {
+          if (!isTeamMemberLike(member)) continue;
+          if (seen.has(member.character_name)) continue;
+          seen.add(member.character_name);
+
+          const hasValidPosition =
+            typeof member.position?.row === 'number' &&
+            typeof member.position?.col === 'number';
+          const normalizedMemberNote = normalizeNote(member.note);
+
+          members.push({
+            character_name: member.character_name,
+            overdrive_order:
+              typeof member.overdrive_order === 'number'
+                ? member.overdrive_order
+                : null,
+            ...(normalizedMemberNote ? { note: normalizedMemberNote } : {}),
+            ...(hasValidPosition
+              ? {
+                  position: {
+                    row: member.position!.row,
+                    col: member.position!.col,
+                  },
+                }
+              : {}),
+          });
+        }
+        return members;
+      })()
     : fallback.members;
 
+  const normalizedMemberNameSet = new Set(
+    normalizedMembers.map((member) => member.character_name)
+  );
+
   const normalizedBench = Array.isArray(partial.bench)
-    ? partial.bench.filter(
-        (benchName): benchName is string => typeof benchName === 'string'
-      )
+    ? (() => {
+        const seen = new Set<string>();
+        const bench: string[] = [];
+        for (const benchName of partial.bench) {
+          if (typeof benchName !== 'string') continue;
+          if (normalizedMemberNameSet.has(benchName)) continue;
+          if (seen.has(benchName)) continue;
+          seen.add(benchName);
+          bench.push(benchName);
+        }
+        return bench;
+      })()
     : fallback.bench;
+
+  const normalizedBenchNameSet = new Set(normalizedBench);
 
   const normalizedBenchNotes = isRecord(partial.bench_notes)
     ? Object.fromEntries(
         Object.entries(partial.bench_notes)
-          .filter(([characterName, note]) => {
+          .filter((entry): entry is [string, string] => {
+            const [characterName, note] = entry;
             return (
               typeof characterName === 'string' && typeof note === 'string'
             );
           })
-          .map(([characterName, note]) => [characterName, note])
+          .map(
+            ([characterName, note]) =>
+              [characterName, normalizeNote(note)] as const
+          )
+          .filter((entry): entry is readonly [string, string] => {
+            const [characterName, note] = entry;
+            return normalizedBenchNameSet.has(characterName) && Boolean(note);
+          })
       )
     : fallback.bench_notes;
 
@@ -993,8 +1031,11 @@ export default function TeamBuilder({
       order: number;
     }> = [];
     const newNotes: string[] = Array(GRID_SIZE).fill('');
+    const usedNames = new Set<string>();
 
     for (const member of data.members) {
+      if (usedNames.has(member.character_name)) continue;
+
       let idx: number;
       if (member.position) {
         idx = member.position.row * 3 + member.position.col;
@@ -1003,13 +1044,14 @@ export default function TeamBuilder({
       }
       if (idx >= 0 && idx < GRID_SIZE && newSlots[idx] === null) {
         newSlots[idx] = member.character_name;
+        usedNames.add(member.character_name);
         if (member.overdrive_order != null) {
           parsedOverdriveEntries.push({
             slotIndex: idx,
             order: member.overdrive_order,
           });
         }
-        newNotes[idx] = member.note || '';
+        newNotes[idx] = normalizeNote(member.note) || '';
       }
     }
 
@@ -1018,9 +1060,27 @@ export default function TeamBuilder({
       .map((entry) => entry.slotIndex)
       .slice(0, MAX_ROSTER_SIZE);
 
+    const normalizedBench = (data.bench || []).filter(
+      (benchName, index, arr) => {
+        if (typeof benchName !== 'string') return false;
+        if (usedNames.has(benchName)) return false;
+        return arr.indexOf(benchName) === index;
+      }
+    );
+
+    const normalizedBenchSet = new Set(normalizedBench);
+    const normalizedBenchNotes: Record<string, string> = Object.fromEntries(
+      Object.entries(data.bench_notes || {})
+        .map(([benchName, note]) => [benchName, normalizeNote(note)] as const)
+        .filter((entry): entry is readonly [string, string] => {
+          const [benchName, note] = entry;
+          return normalizedBenchSet.has(benchName) && Boolean(note);
+        })
+    );
+
     setTeamWyrmspells(data.wyrmspells || {});
-    setBench(data.bench || []);
-    setBenchNotes(data.bench_notes || {});
+    setBench(normalizedBench);
+    setBenchNotes(normalizedBenchNotes);
     setSlots(newSlots);
     setOverdriveSequence(normalizedOverdriveSequence);
     setSlotNotes(newNotes);
@@ -1676,15 +1736,25 @@ export default function TeamBuilder({
   }
 
   function handleSlotNoteChange(slotIndex: number, note: string) {
+    const normalized = note.trim();
     setSlotNotes((prev) => {
       const next = [...prev];
-      next[slotIndex] = note;
+      next[slotIndex] = normalized;
       return next;
     });
   }
 
   function handleBenchNoteChange(charName: string, note: string) {
-    setBenchNotes((prev) => ({ ...prev, [charName]: note }));
+    const normalized = note.trim();
+    setBenchNotes((prev) => {
+      const next = { ...prev };
+      if (normalized.length > 0) {
+        next[charName] = normalized;
+      } else {
+        delete next[charName];
+      }
+      return next;
+    });
   }
 
   function handleSubmitSuggestion() {

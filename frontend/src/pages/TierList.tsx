@@ -368,175 +368,196 @@ export default function TierList() {
                             </Stack>
 
                             {byTier.map(
-                              ({ tier, tierIndex, note, entries }) => (
-                                <Paper
-                                  key={tier}
-                                  p="md"
-                                  radius="md"
-                                  withBorder
-                                  {...getCardHoverProps()}
-                                >
-                                  <Stack gap="sm">
-                                    <Stack gap={4}>
-                                      <Badge
-                                        variant="filled"
-                                        color={getTierColor(tier, tierIndex)}
-                                        size="lg"
-                                        radius="sm"
-                                      >
-                                        {tier} Tier
-                                      </Badge>
-                                      {note && (
-                                        <Text size="xs" c="dimmed">
-                                          {note}
-                                        </Text>
+                              ({ tier, tierIndex, note, entries }) => {
+                                const tierNote = note?.trim() || '';
+
+                                return (
+                                  <Paper
+                                    key={tier}
+                                    p="md"
+                                    radius="md"
+                                    withBorder
+                                    {...getCardHoverProps()}
+                                  >
+                                    <Stack gap="sm">
+                                      <Stack gap={4}>
+                                        <Badge
+                                          variant="filled"
+                                          color={getTierColor(tier, tierIndex)}
+                                          size="lg"
+                                          radius="sm"
+                                        >
+                                          {tier} Tier
+                                        </Badge>
+                                        {tierNote && (
+                                          <Text size="xs" c="dimmed">
+                                            {tierNote}
+                                          </Text>
+                                        )}
+                                      </Stack>
+                                      {viewMode === 'grid' ? (
+                                        <SimpleGrid
+                                          cols={{
+                                            base: 2,
+                                            xs: 3,
+                                            sm: 4,
+                                            md: 6,
+                                          }}
+                                          spacing={CHARACTER_GRID_SPACING}
+                                        >
+                                          {entries.map((entry) => {
+                                            const char = charMap.get(
+                                              entry.character_name
+                                            );
+                                            const entryNote =
+                                              entry.note?.trim() || undefined;
+                                            return (
+                                              <CharacterCard
+                                                key={entry.character_name}
+                                                name={entry.character_name}
+                                                quality={char?.quality}
+                                                note={entryNote}
+                                                noteIconVariant="builder"
+                                              />
+                                            );
+                                          })}
+                                        </SimpleGrid>
+                                      ) : (
+                                        <ScrollArea
+                                          type="auto"
+                                          scrollbarSize={6}
+                                          offsetScrollbars
+                                        >
+                                          <Table
+                                            striped
+                                            highlightOnHover
+                                            style={{ minWidth: 460 }}
+                                          >
+                                            <Table.Thead>
+                                              <Table.Tr>
+                                                <Table.Th>Character</Table.Th>
+                                                <Table.Th>Quality</Table.Th>
+                                                <Table.Th>Class</Table.Th>
+                                                <Table.Th>Factions</Table.Th>
+                                                <Table.Th>Note</Table.Th>
+                                              </Table.Tr>
+                                            </Table.Thead>
+                                            <Table.Tbody>
+                                              {entries.map((entry) => {
+                                                const char = charMap.get(
+                                                  entry.character_name
+                                                );
+                                                const entryNote =
+                                                  entry.note?.trim() || '';
+                                                return (
+                                                  <Table.Tr
+                                                    key={entry.character_name}
+                                                  >
+                                                    <Table.Td>
+                                                      <Group
+                                                        gap="sm"
+                                                        wrap="nowrap"
+                                                      >
+                                                        <CharacterPortrait
+                                                          name={
+                                                            entry.character_name
+                                                          }
+                                                          size={32}
+                                                          quality={
+                                                            char?.quality
+                                                          }
+                                                        />
+                                                        <Text
+                                                          component={Link}
+                                                          to={`/characters/${encodeURIComponent(entry.character_name)}`}
+                                                          size="sm"
+                                                          fw={500}
+                                                          c="violet"
+                                                        >
+                                                          {entry.character_name}
+                                                        </Text>
+                                                      </Group>
+                                                    </Table.Td>
+                                                    <Table.Td>
+                                                      {char ? (
+                                                        <QualityIcon
+                                                          quality={char.quality}
+                                                          size={18}
+                                                        />
+                                                      ) : (
+                                                        <Text
+                                                          size="sm"
+                                                          c="dimmed"
+                                                        >
+                                                          —
+                                                        </Text>
+                                                      )}
+                                                    </Table.Td>
+                                                    <Table.Td>
+                                                      {char ? (
+                                                        <ClassTag
+                                                          characterClass={
+                                                            char.character_class
+                                                          }
+                                                          size="sm"
+                                                        />
+                                                      ) : (
+                                                        <Text
+                                                          size="sm"
+                                                          c="dimmed"
+                                                        >
+                                                          —
+                                                        </Text>
+                                                      )}
+                                                    </Table.Td>
+                                                    <Table.Td>
+                                                      {char &&
+                                                      char.factions.length >
+                                                        0 ? (
+                                                        <Group
+                                                          gap={4}
+                                                          wrap="wrap"
+                                                        >
+                                                          {char.factions.map(
+                                                            (faction) => (
+                                                              <FactionTag
+                                                                key={faction}
+                                                                faction={
+                                                                  faction
+                                                                }
+                                                                size="xs"
+                                                              />
+                                                            )
+                                                          )}
+                                                        </Group>
+                                                      ) : (
+                                                        <Text
+                                                          size="sm"
+                                                          c="dimmed"
+                                                        >
+                                                          —
+                                                        </Text>
+                                                      )}
+                                                    </Table.Td>
+                                                    <Table.Td>
+                                                      <Text
+                                                        size="sm"
+                                                        c="dimmed"
+                                                      >
+                                                        {entryNote || '—'}
+                                                      </Text>
+                                                    </Table.Td>
+                                                  </Table.Tr>
+                                                );
+                                              })}
+                                            </Table.Tbody>
+                                          </Table>
+                                        </ScrollArea>
                                       )}
                                     </Stack>
-                                    {viewMode === 'grid' ? (
-                                      <SimpleGrid
-                                        cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-                                        spacing={CHARACTER_GRID_SPACING}
-                                      >
-                                        {entries.map((entry) => {
-                                          const char = charMap.get(
-                                            entry.character_name
-                                          );
-                                          return (
-                                            <CharacterCard
-                                              key={entry.character_name}
-                                              name={entry.character_name}
-                                              quality={char?.quality}
-                                              note={entry.note}
-                                              noteIconVariant="builder"
-                                            />
-                                          );
-                                        })}
-                                      </SimpleGrid>
-                                    ) : (
-                                      <ScrollArea
-                                        type="auto"
-                                        scrollbarSize={6}
-                                        offsetScrollbars
-                                      >
-                                        <Table
-                                          striped
-                                          highlightOnHover
-                                          style={{ minWidth: 460 }}
-                                        >
-                                          <Table.Thead>
-                                            <Table.Tr>
-                                              <Table.Th>Character</Table.Th>
-                                              <Table.Th>Quality</Table.Th>
-                                              <Table.Th>Class</Table.Th>
-                                              <Table.Th>Factions</Table.Th>
-                                              <Table.Th>Note</Table.Th>
-                                            </Table.Tr>
-                                          </Table.Thead>
-                                          <Table.Tbody>
-                                            {entries.map((entry) => {
-                                              const char = charMap.get(
-                                                entry.character_name
-                                              );
-                                              return (
-                                                <Table.Tr
-                                                  key={entry.character_name}
-                                                >
-                                                  <Table.Td>
-                                                    <Group
-                                                      gap="sm"
-                                                      wrap="nowrap"
-                                                    >
-                                                      <CharacterPortrait
-                                                        name={
-                                                          entry.character_name
-                                                        }
-                                                        size={32}
-                                                        quality={char?.quality}
-                                                      />
-                                                      <Text
-                                                        component={Link}
-                                                        to={`/characters/${encodeURIComponent(entry.character_name)}`}
-                                                        size="sm"
-                                                        fw={500}
-                                                        c="violet"
-                                                      >
-                                                        {entry.character_name}
-                                                      </Text>
-                                                    </Group>
-                                                  </Table.Td>
-                                                  <Table.Td>
-                                                    {char ? (
-                                                      <QualityIcon
-                                                        quality={char.quality}
-                                                        size={18}
-                                                      />
-                                                    ) : (
-                                                      <Text
-                                                        size="sm"
-                                                        c="dimmed"
-                                                      >
-                                                        —
-                                                      </Text>
-                                                    )}
-                                                  </Table.Td>
-                                                  <Table.Td>
-                                                    {char ? (
-                                                      <ClassTag
-                                                        characterClass={
-                                                          char.character_class
-                                                        }
-                                                        size="sm"
-                                                      />
-                                                    ) : (
-                                                      <Text
-                                                        size="sm"
-                                                        c="dimmed"
-                                                      >
-                                                        —
-                                                      </Text>
-                                                    )}
-                                                  </Table.Td>
-                                                  <Table.Td>
-                                                    {char &&
-                                                    char.factions.length > 0 ? (
-                                                      <Group
-                                                        gap={4}
-                                                        wrap="wrap"
-                                                      >
-                                                        {char.factions.map(
-                                                          (faction) => (
-                                                            <FactionTag
-                                                              key={faction}
-                                                              faction={faction}
-                                                              size="xs"
-                                                            />
-                                                          )
-                                                        )}
-                                                      </Group>
-                                                    ) : (
-                                                      <Text
-                                                        size="sm"
-                                                        c="dimmed"
-                                                      >
-                                                        —
-                                                      </Text>
-                                                    )}
-                                                  </Table.Td>
-                                                  <Table.Td>
-                                                    <Text size="sm" c="dimmed">
-                                                      {entry.note || '—'}
-                                                    </Text>
-                                                  </Table.Td>
-                                                </Table.Tr>
-                                              );
-                                            })}
-                                          </Table.Tbody>
-                                        </Table>
-                                      </ScrollArea>
-                                    )}
-                                  </Stack>
-                                </Paper>
-                              )
+                                  </Paper>
+                                );
+                              }
                             )}
 
                             {unranked.length > 0 && (

@@ -99,6 +99,12 @@ function isTierEntryLike(
   );
 }
 
+function normalizeNote(value: unknown): string | undefined {
+  if (typeof value !== 'string') return undefined;
+  const trimmed = value.trim();
+  return trimmed.length > 0 ? trimmed : undefined;
+}
+
 function getPastedTierListPatch(value: unknown): Partial<TierList> | null {
   if (Array.isArray(value)) {
     if (value.every(isTierEntryLike)) {
@@ -128,18 +134,32 @@ function normalizeTierListFromPartial(
         .filter(
           (tierDef) => isRecord(tierDef) && typeof tierDef.name === 'string'
         )
-        .map((tierDef) => ({
-          name: tierDef.name,
-          ...(typeof tierDef.note === 'string' ? { note: tierDef.note } : {}),
-        }))
+        .map((tierDef) => {
+          const normalizedTierNote = normalizeNote(tierDef.note);
+          return {
+            name: tierDef.name,
+            ...(normalizedTierNote ? { note: normalizedTierNote } : {}),
+          };
+        })
     : fallback.tiers;
 
   const normalizedEntries = Array.isArray(partial.entries)
-    ? partial.entries.filter(isTierEntryLike).map((entry) => ({
-        character_name: entry.character_name,
-        tier: entry.tier,
-        ...(typeof entry.note === 'string' ? { note: entry.note } : {}),
-      }))
+    ? (() => {
+        const seenCharacters = new Set<string>();
+        const entries: TierList['entries'] = [];
+        for (const entry of partial.entries) {
+          if (!isTierEntryLike(entry)) continue;
+          if (seenCharacters.has(entry.character_name)) continue;
+          seenCharacters.add(entry.character_name);
+          const normalizedEntryNote = normalizeNote(entry.note);
+          entries.push({
+            character_name: entry.character_name,
+            tier: entry.tier,
+            ...(normalizedEntryNote ? { note: normalizedEntryNote } : {}),
+          });
+        }
+        return entries;
+      })()
     : fallback.entries;
 
   return {
@@ -706,7 +726,10 @@ export default function TierListBuilder({
     setDescription(data.description || '');
 
     const baseDefs: TierDefinition[] = data.tiers?.length
-      ? data.tiers.map((t) => ({ name: t.name, note: t.note || '' }))
+      ? data.tiers.map((t) => ({
+          name: t.name,
+          note: normalizeNote(t.note) || '',
+        }))
       : DEFAULT_TIER_DEFINITIONS.map((t) => ({ ...t }));
 
     // Also add any tiers referenced by entries but not in baseDefs
@@ -726,11 +749,15 @@ export default function TierListBuilder({
       p[t.name] = [];
     });
     const n: Record<string, string> = {};
+    const seenCharacters = new Set<string>();
     for (const entry of data.entries) {
+      if (seenCharacters.has(entry.character_name)) continue;
+      seenCharacters.add(entry.character_name);
       if (p[entry.tier] !== undefined) {
         p[entry.tier].push(entry.character_name);
       }
-      if (entry.note) n[entry.character_name] = entry.note;
+      const normalizedEntryNote = normalizeNote(entry.note);
+      if (normalizedEntryNote) n[entry.character_name] = normalizedEntryNote;
     }
     setPlacements(p);
     setNotes(n);
@@ -881,6 +908,12 @@ export default function TierListBuilder({
           next[activeTier] = next[activeTier].filter((n) => n !== charName);
           return next;
         });
+        setNotes((prev) => {
+          if (!(charName in prev)) return prev;
+          const next = { ...prev };
+          delete next[charName];
+          return next;
+        });
       }
       return;
     }
@@ -902,6 +935,12 @@ export default function TierListBuilder({
             const activeIndex = next[activeTier].indexOf(charName);
             if (activeIndex === -1) return next;
             next[activeTier][activeIndex] = targetCharName;
+            return next;
+          });
+          setNotes((prev) => {
+            if (!(charName in prev)) return prev;
+            const next = { ...prev };
+            delete next[charName];
             return next;
           });
         }
@@ -984,18 +1023,37 @@ export default function TierListBuilder({
   }
 
   function handleTierNoteChange(tierName: string, note: string) {
+    const normalized = note.trim();
     setTierDefs((prev) =>
-      prev.map((t) => (t.name === tierName ? { ...t, note } : t))
+      prev.map((t) =>
+        t.name === tierName
+          ? { ...t, note: normalized.length > 0 ? normalized : '' }
+          : t
+      )
     );
   }
 
   function handleDeleteTier(tierName: string) {
+    const removedCharacters = placements[tierName] || [];
     setTierDefs((prev) => prev.filter((t) => t.name !== tierName));
     setPlacements((prev) => {
       const next = { ...prev };
       delete next[tierName];
       return next;
     });
+    if (removedCharacters.length > 0) {
+      setNotes((prev) => {
+        let changed = false;
+        const next = { ...prev };
+        for (const removedCharacter of removedCharacters) {
+          if (removedCharacter in next) {
+            delete next[removedCharacter];
+            changed = true;
+          }
+        }
+        return changed ? next : prev;
+      });
+    }
   }
 
   function handleMoveTierUp(index: number) {
@@ -1156,7 +1214,16 @@ export default function TierListBuilder({
                   <CharacterNoteButton
                     value={notes[n] || ''}
                     onCommit={(value) => {
-                      setNotes((prev) => ({ ...prev, [n]: value }));
+                      const normalized = value.trim();
+                      setNotes((prev) => {
+                        const next = { ...prev };
+                        if (normalized.length > 0) {
+                          next[n] = normalized;
+                        } else {
+                          delete next[n];
+                        }
+                        return next;
+                      });
                     }}
                     style={{
                       position: 'absolute',
