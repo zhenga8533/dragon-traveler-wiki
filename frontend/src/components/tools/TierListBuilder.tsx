@@ -56,7 +56,12 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../constants/github';
 import { getCardHoverProps } from '../../constants/styles';
-import { BREAKPOINTS, CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
+import {
+  BREAKPOINTS,
+  CHARACTER_GRID_SPACING,
+  STORAGE_KEY,
+  TRANSITION,
+} from '../../constants/ui';
 import type { Character } from '../../types/character';
 import type { TierDefinition, TierList } from '../../types/tier-list';
 import {
@@ -126,7 +131,12 @@ function DraggableCharCard({
       }}
       {...(overlay ? {} : { ...listeners, ...attributes })}
     >
-      <CharacterCard name={name} quality={char?.quality} disableLink size={size} />
+      <CharacterCard
+        name={name}
+        quality={char?.quality}
+        disableLink
+        size={size}
+      />
     </div>
   );
 }
@@ -439,10 +449,13 @@ export default function TierListBuilder({
     useDisclosure(false);
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
+  const [draftHydrated, setDraftHydrated] = useState(false);
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
-    useSensor(TouchSensor, { activationConstraint: { delay: 120, tolerance: 8 } })
+    useSensor(TouchSensor, {
+      activationConstraint: { delay: 120, tolerance: 8 },
+    })
   );
 
   function loadFromTierList(data: TierList) {
@@ -501,10 +514,36 @@ export default function TierListBuilder({
   }
 
   useEffect(() => {
-    if (!initialData) return;
-    queueMicrotask(() => {
-      loadFromTierList(initialData);
-    });
+    if (initialData) {
+      queueMicrotask(() => {
+        loadFromTierList(initialData);
+        setDraftHydrated(true);
+      });
+      return;
+    }
+
+    if (typeof window === 'undefined') {
+      setDraftHydrated(true);
+      return;
+    }
+
+    const storedDraft = window.localStorage.getItem(
+      STORAGE_KEY.TIER_LIST_BUILDER_DRAFT
+    );
+    if (storedDraft) {
+      try {
+        const parsedDraft = JSON.parse(storedDraft) as TierList;
+        if (Array.isArray(parsedDraft.entries)) {
+          loadFromTierList(parsedDraft);
+        } else {
+          window.localStorage.removeItem(STORAGE_KEY.TIER_LIST_BUILDER_DRAFT);
+        }
+      } catch {
+        window.localStorage.removeItem(STORAGE_KEY.TIER_LIST_BUILDER_DRAFT);
+      }
+    }
+
+    setDraftHydrated(true);
   }, [initialData]);
 
   const json = useMemo(() => {
@@ -552,6 +591,11 @@ export default function TierListBuilder({
     if (url.length > MAX_GITHUB_ISSUE_URL_LENGTH) return null;
     return url;
   }, [tierListIssueQuery]);
+
+  useEffect(() => {
+    if (!draftHydrated || typeof window === 'undefined') return;
+    window.localStorage.setItem(STORAGE_KEY.TIER_LIST_BUILDER_DRAFT, json);
+  }, [draftHydrated, json]);
 
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);
@@ -721,7 +765,11 @@ export default function TierListBuilder({
   }
 
   return (
-    <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext
+      sensors={sensors}
+      onDragStart={handleDragStart}
+      onDragEnd={handleDragEnd}
+    >
       <Stack gap="md">
         <Group gap="sm" wrap="wrap">
           <TextInput
@@ -927,7 +975,12 @@ export default function TierListBuilder({
               paginationControl={paginationControl}
             >
               {filtered.map((c) => (
-                <DraggableCharCard key={c.name} name={c.name} char={c} size={isMobile ? 56 : undefined} />
+                <DraggableCharCard
+                  key={c.name}
+                  name={c.name}
+                  char={c}
+                  size={isMobile ? 56 : undefined}
+                />
               ))}
             </UnrankedPool>
           )}

@@ -60,6 +60,7 @@ import { getCardHoverProps } from '../../constants/styles';
 import {
   BREAKPOINTS,
   CHARACTER_GRID_SPACING,
+  STORAGE_KEY,
   TRANSITION,
 } from '../../constants/ui';
 import type { Character, CharacterClass } from '../../types/character';
@@ -685,6 +686,7 @@ export default function TeamBuilder({
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
+  const [draftHydrated, setDraftHydrated] = useState(false);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -698,6 +700,52 @@ export default function TeamBuilder({
     })
   );
 
+  function loadFromTeam(data: Team) {
+    setName(data.name || '');
+    setAuthor(data.author || '');
+    setContentType(normalizeContentType(data.content_type));
+    setDescription(data.description || '');
+    setFaction(data.faction || null);
+
+    const newSlots: (string | null)[] = Array(GRID_SIZE).fill(null);
+    const parsedOverdriveEntries: Array<{
+      slotIndex: number;
+      order: number;
+    }> = [];
+    const newNotes: string[] = Array(GRID_SIZE).fill('');
+
+    for (const member of data.members) {
+      let idx: number;
+      if (member.position) {
+        idx = member.position.row * 3 + member.position.col;
+      } else {
+        idx = newSlots.findIndex((slotValue) => slotValue === null);
+      }
+      if (idx >= 0 && idx < GRID_SIZE && newSlots[idx] === null) {
+        newSlots[idx] = member.character_name;
+        if (member.overdrive_order != null) {
+          parsedOverdriveEntries.push({
+            slotIndex: idx,
+            order: member.overdrive_order,
+          });
+        }
+        newNotes[idx] = member.note || '';
+      }
+    }
+
+    parsedOverdriveEntries.sort((a, b) => a.order - b.order);
+    const normalizedOverdriveSequence = parsedOverdriveEntries
+      .map((entry) => entry.slotIndex)
+      .slice(0, MAX_ROSTER_SIZE);
+
+    setTeamWyrmspells(data.wyrmspells || {});
+    setBench(data.bench || []);
+    setBenchNotes(data.bench_notes || {});
+    setSlots(newSlots);
+    setOverdriveSequence(normalizedOverdriveSequence);
+    setSlotNotes(newNotes);
+  }
+
   function handlePasteApply() {
     try {
       const data = JSON.parse(pasteText) as Team;
@@ -705,50 +753,7 @@ export default function TeamBuilder({
         setPasteError('Invalid team JSON: "members" must be an array.');
         return;
       }
-      setName(data.name || '');
-      setAuthor(data.author || '');
-      setContentType(normalizeContentType(data.content_type));
-      setDescription(data.description || '');
-      setFaction(data.faction || null);
-
-      const newSlots: (string | null)[] = Array(GRID_SIZE).fill(null);
-      const parsedOverdriveEntries: Array<{
-        slotIndex: number;
-        order: number;
-      }> = [];
-      const newNotes: string[] = Array(GRID_SIZE).fill('');
-
-      for (const m of data.members) {
-        let idx: number;
-        if (m.position) {
-          idx = m.position.row * 3 + m.position.col;
-        } else {
-          idx = newSlots.findIndex((s) => s === null);
-        }
-        if (idx >= 0 && idx < GRID_SIZE && newSlots[idx] === null) {
-          newSlots[idx] = m.character_name;
-          if (m.overdrive_order != null) {
-            parsedOverdriveEntries.push({
-              slotIndex: idx,
-              order: m.overdrive_order,
-            });
-          }
-          newNotes[idx] = m.note || '';
-        }
-      }
-
-      parsedOverdriveEntries.sort((a, b) => a.order - b.order);
-      const normalizedOverdriveSequence = parsedOverdriveEntries
-        .map((entry) => entry.slotIndex)
-        .slice(0, MAX_ROSTER_SIZE);
-
-      setTeamWyrmspells(data.wyrmspells || {});
-      const parsedBench = data.bench || [];
-      setBench(parsedBench);
-      setBenchNotes(data.bench_notes || {});
-      setSlots(newSlots);
-      setOverdriveSequence(normalizedOverdriveSequence);
-      setSlotNotes(newNotes);
+      loadFromTeam(data);
       closePasteModal();
       setPasteText('');
       setPasteError('');
@@ -760,56 +765,36 @@ export default function TeamBuilder({
   }
 
   useEffect(() => {
-    if (!initialData) return;
-    queueMicrotask(() => {
-      setName(initialData.name);
-      setAuthor(initialData.author);
-      setContentType(normalizeContentType(initialData.content_type));
-      setDescription(initialData.description || '');
-      setFaction(initialData.faction);
+    if (initialData) {
+      queueMicrotask(() => {
+        loadFromTeam(initialData);
+        setDraftHydrated(true);
+      });
+      return;
+    }
 
-      const newSlots: (string | null)[] = Array(GRID_SIZE).fill(null);
-      const parsedOverdriveEntries: Array<{
-        slotIndex: number;
-        order: number;
-      }> = [];
-      const newNotes: string[] = Array(GRID_SIZE).fill('');
+    if (typeof window === 'undefined') {
+      setDraftHydrated(true);
+      return;
+    }
 
-      // Place members at their grid positions (or first available slot)
-      for (const m of initialData.members) {
-        let idx: number;
-        if (m.position) {
-          idx = m.position.row * 3 + m.position.col;
+    const storedDraft = window.localStorage.getItem(
+      STORAGE_KEY.TEAMS_BUILDER_DRAFT
+    );
+    if (storedDraft) {
+      try {
+        const parsedDraft = JSON.parse(storedDraft) as Team;
+        if (Array.isArray(parsedDraft.members)) {
+          loadFromTeam(parsedDraft);
         } else {
-          idx = newSlots.findIndex((s) => s === null);
+          window.localStorage.removeItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT);
         }
-        if (idx >= 0 && idx < GRID_SIZE && newSlots[idx] === null) {
-          newSlots[idx] = m.character_name;
-          if (m.overdrive_order != null) {
-            parsedOverdriveEntries.push({
-              slotIndex: idx,
-              order: m.overdrive_order,
-            });
-          }
-          newNotes[idx] = m.note || '';
-        }
+      } catch {
+        window.localStorage.removeItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT);
       }
+    }
 
-      parsedOverdriveEntries.sort((a, b) => a.order - b.order);
-      const normalizedOverdriveSequence = parsedOverdriveEntries
-        .map((entry) => entry.slotIndex)
-        .slice(0, MAX_ROSTER_SIZE);
-
-      if (initialData.wyrmspells) {
-        setTeamWyrmspells(initialData.wyrmspells);
-      }
-      setBench(initialData.bench || []);
-      setBenchNotes(initialData.bench_notes || {});
-
-      setSlots(newSlots);
-      setOverdriveSequence(normalizedOverdriveSequence);
-      setSlotNotes(newNotes);
-    });
+    setDraftHydrated(true);
   }, [initialData]);
 
   const overdriveOrderBySlot = useMemo(() => {
@@ -915,6 +900,11 @@ export default function TeamBuilder({
     description,
     faction,
   ]);
+
+  useEffect(() => {
+    if (!draftHydrated || typeof window === 'undefined') return;
+    window.localStorage.setItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT, json);
+  }, [draftHydrated, json]);
 
   const usedNames = useMemo(() => {
     const s = new Set<string>();
