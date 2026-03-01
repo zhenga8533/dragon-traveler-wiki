@@ -5,7 +5,7 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { memo, useState, type CSSProperties } from 'react';
+import { memo, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 
 interface CharacterNoteButtonProps {
@@ -23,10 +23,27 @@ function CharacterNoteButton({
 }: CharacterNoteButtonProps) {
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
   const colorScheme = useComputedColorScheme('light', {
     getInitialValueInEffect: true,
   });
   const hasNote = value.trim().length > 0;
+
+  useEffect(() => {
+    if (!opened) return;
+    const frameId = window.requestAnimationFrame(() => {
+      const textarea = textareaRef.current;
+      if (!textarea) return;
+      try {
+        textarea.focus({ preventScroll: true });
+      } catch {
+        textarea.focus();
+      }
+      const cursor = textarea.value.length;
+      textarea.setSelectionRange(cursor, cursor);
+    });
+    return () => window.cancelAnimationFrame(frameId);
+  }, [opened]);
 
   function commitAndClose() {
     if (draftValue !== value) {
@@ -143,6 +160,7 @@ function CharacterNoteButton({
         }}
       >
         <Textarea
+          ref={textareaRef}
           size="xs"
           placeholder={placeholder}
           value={draftValue}

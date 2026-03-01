@@ -302,7 +302,7 @@ export default function TierList() {
                           <Stack gap="md">
                             <Group justify="space-between" align="flex-start">
                               <Stack gap={0}>
-                                <Group gap="xs" wrap="wrap">
+                                <Group gap="xs" wrap="wrap" mb={8}>
                                   <Badge variant="light" size="sm">
                                     {normalizeContentType(
                                       tierList.content_type,

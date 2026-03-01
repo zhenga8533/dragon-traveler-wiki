@@ -13,7 +13,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { useCallback, useState } from 'react';
+import { useCallback, useDeferredValue, useMemo, useState } from 'react';
 import {
   IoAdd,
   IoAddCircleOutline,
@@ -175,12 +175,18 @@ export default function SuggestModal({
     }));
   };
 
-  const buildJsonData = () => {
+  const buildJsonData = (
+    formValues: Record<string, string | boolean> = values,
+    formArrayValues: Record<
+      string,
+      Record<string, string | boolean>[]
+    > = arrayValues
+  ) => {
     const excludeSet = new Set(excludeFromJson ?? []);
     const data: Record<string, unknown> = {};
     for (const f of fields) {
       if (excludeSet.has(f.name)) continue;
-      const val = values[f.name];
+      const val = formValues[f.name];
       if (f.type === 'boolean') {
         data[f.name] = val;
       } else if (val !== '') {
@@ -188,7 +194,7 @@ export default function SuggestModal({
       }
     }
     for (const af of arrayFields ?? []) {
-      const filteredRows = arrayValues[af.name].filter((row) =>
+      const filteredRows = formArrayValues[af.name].filter((row) =>
         af.fields.some((f) => row[f.name] !== '' && row[f.name] !== false)
       );
 
@@ -250,9 +256,15 @@ export default function SuggestModal({
     close();
   };
 
-  const isValid = () => {
+  const isValid = (
+    formValues: Record<string, string | boolean> = values,
+    formArrayValues: Record<
+      string,
+      Record<string, string | boolean>[]
+    > = arrayValues
+  ) => {
     for (const f of fields) {
-      const value = values[f.name];
+      const value = formValues[f.name];
       if (f.required && isBlank(value)) return false;
 
       if (f.type === 'select' && typeof value === 'string' && value !== '') {
@@ -281,7 +293,7 @@ export default function SuggestModal({
     }
 
     for (const af of arrayFields ?? []) {
-      const rows = arrayValues[af.name] ?? [];
+      const rows = formArrayValues[af.name] ?? [];
       const filledRows = rows.filter((row) =>
         af.fields.some((f) => !isBlank(row[f.name]))
       );
@@ -317,6 +329,13 @@ export default function SuggestModal({
     }
     return true;
   };
+
+  const deferredValues = useDeferredValue(values);
+  const deferredArrayValues = useDeferredValue(arrayValues);
+  const isFormValid = useMemo(
+    () => isValid(deferredValues, deferredArrayValues),
+    [deferredValues, deferredArrayValues, fields, arrayFields]
+  );
 
   const renderField = (
     f: FieldDef,
@@ -494,7 +513,7 @@ export default function SuggestModal({
             <Button
               leftSection={<IoOpenOutline size={16} />}
               onClick={handleSubmit}
-              disabled={!isValid()}
+              disabled={!isFormValid}
             >
               Submit Suggestion
             </Button>

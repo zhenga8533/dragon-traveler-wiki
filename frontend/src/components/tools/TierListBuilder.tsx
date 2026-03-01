@@ -30,7 +30,14 @@ import {
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { useEffect, useMemo, useState } from 'react';
+import {
+  memo,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import {
   IoAddOutline,
@@ -81,6 +88,105 @@ interface TierListBuilderProps {
   charMap: Map<string, Character>;
   initialData?: TierList | null;
 }
+
+const INPUT_COMMIT_DELAY_MS = 150;
+
+const TierListMetaFields = memo(function TierListMetaFields({
+  name,
+  author,
+  categoryName,
+  description,
+  onNameCommit,
+  onAuthorCommit,
+  onCategoryChange,
+  onDescriptionCommit,
+}: {
+  name: string;
+  author: string;
+  categoryName: ContentType;
+  description: string;
+  onNameCommit: (value: string) => void;
+  onAuthorCommit: (value: string) => void;
+  onCategoryChange: (value: string | null) => void;
+  onDescriptionCommit: (value: string) => void;
+}) {
+  const [nameInput, setNameInput] = useState(name);
+  const [authorInput, setAuthorInput] = useState(author);
+  const [descriptionInput, setDescriptionInput] = useState(description);
+
+  useEffect(() => {
+    setNameInput(name);
+  }, [name]);
+
+  useEffect(() => {
+    setAuthorInput(author);
+  }, [author]);
+
+  useEffect(() => {
+    setDescriptionInput(description);
+  }, [description]);
+
+  useEffect(() => {
+    if (nameInput === name) return;
+    const timer = setTimeout(() => {
+      onNameCommit(nameInput);
+    }, INPUT_COMMIT_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [nameInput, name, onNameCommit]);
+
+  useEffect(() => {
+    if (authorInput === author) return;
+    const timer = setTimeout(() => {
+      onAuthorCommit(authorInput);
+    }, INPUT_COMMIT_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [authorInput, author, onAuthorCommit]);
+
+  useEffect(() => {
+    if (descriptionInput === description) return;
+    const timer = setTimeout(() => {
+      onDescriptionCommit(descriptionInput);
+    }, INPUT_COMMIT_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [descriptionInput, description, onDescriptionCommit]);
+
+  return (
+    <Group gap="sm" wrap="wrap">
+      <TextInput
+        placeholder="Tier list name..."
+        value={nameInput}
+        onChange={(e) => setNameInput(e.currentTarget.value)}
+        style={{ flex: 1, minWidth: 150 }}
+      />
+      <TextInput
+        placeholder="Author..."
+        value={authorInput}
+        onChange={(e) => setAuthorInput(e.currentTarget.value)}
+        style={{ flex: 1, minWidth: 120 }}
+      />
+      <Select
+        placeholder="Content type..."
+        data={CONTENT_TYPE_OPTIONS.map((contentTypeOption) => ({
+          value: contentTypeOption,
+          label: contentTypeOption,
+        }))}
+        value={categoryName}
+        onChange={onCategoryChange}
+        allowDeselect={false}
+        style={{ flex: 1, minWidth: 120 }}
+      />
+      <Textarea
+        placeholder="Description (optional)..."
+        value={descriptionInput}
+        onChange={(e) => setDescriptionInput(e.currentTarget.value)}
+        autosize
+        minRows={1}
+        maxRows={4}
+        style={{ width: '100%' }}
+      />
+    </Group>
+  );
+});
 
 function DraggableCharCard({
   name,
@@ -287,6 +393,7 @@ function TierNotePopover({
 }) {
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
+  const textareaRef = useRef<HTMLTextAreaElement>(null);
 
   function commitAndClose() {
     if (draftValue !== value) {
@@ -296,6 +403,22 @@ function TierNotePopover({
   }
 
   const isLeftAligned = align === 'left';
+
+  useEffect(() => {
+    if (!opened) return;
+    const frameId = window.requestAnimationFrame(() => {
+      const textarea = textareaRef.current;
+      if (!textarea) return;
+      try {
+        textarea.focus({ preventScroll: true });
+      } catch {
+        textarea.focus();
+      }
+      const cursor = textarea.value.length;
+      textarea.setSelectionRange(cursor, cursor);
+    });
+    return () => window.cancelAnimationFrame(frameId);
+  }, [opened]);
 
   return (
     <Popover
@@ -339,7 +462,7 @@ function TierNotePopover({
         >
           <Text
             size="xs"
-            c={value ? 'blue' : 'dimmed'}
+            c={value ? 'violet' : 'dimmed'}
             lineClamp={1}
             style={{ opacity: value ? 1 : 0.45 }}
           >
@@ -349,6 +472,7 @@ function TierNotePopover({
       </Popover.Target>
       <Popover.Dropdown p="xs">
         <Textarea
+          ref={textareaRef}
           size="xs"
           placeholder={placeholder}
           value={draftValue}
@@ -450,6 +574,9 @@ export default function TierListBuilder({
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
   const [draftHydrated, setDraftHydrated] = useState(false);
+  const handleCategoryChange = useCallback((value: string | null) => {
+    setCategoryName(normalizeContentType(value, DEFAULT_CONTENT_TYPE));
+  }, []);
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
@@ -546,12 +673,17 @@ export default function TierListBuilder({
     setDraftHydrated(true);
   }, [initialData]);
 
+  const deferredName = useDeferredValue(name);
+  const deferredAuthor = useDeferredValue(author);
+  const deferredDescription = useDeferredValue(description);
+  const deferredCategoryName = useDeferredValue(categoryName);
+
   const json = useMemo(() => {
     const result: TierList = {
-      name: name || 'My Tier List',
-      author: author || 'Anonymous',
-      content_type: categoryName,
-      description,
+      name: deferredName || 'My Tier List',
+      author: deferredAuthor || 'Anonymous',
+      content_type: deferredCategoryName,
+      description: deferredDescription,
       tiers: tierDefs.map(({ name: tierName, note }) => ({
         name: tierName,
         ...(note ? { note } : {}),
@@ -566,7 +698,15 @@ export default function TierListBuilder({
       last_updated: 0,
     };
     return JSON.stringify(result, null, 2);
-  }, [placements, notes, name, author, categoryName, description, tierDefs]);
+  }, [
+    placements,
+    notes,
+    deferredName,
+    deferredAuthor,
+    deferredCategoryName,
+    deferredDescription,
+    tierDefs,
+  ]);
 
   const unrankedCharacters = useMemo(() => {
     const placed = new Set(Object.values(placements).flat());
@@ -771,42 +911,16 @@ export default function TierListBuilder({
       onDragEnd={handleDragEnd}
     >
       <Stack gap="md">
-        <Group gap="sm" wrap="wrap">
-          <TextInput
-            placeholder="Tier list name..."
-            value={name}
-            onChange={(e) => setName(e.currentTarget.value)}
-            style={{ flex: 1, minWidth: 150 }}
-          />
-          <TextInput
-            placeholder="Author..."
-            value={author}
-            onChange={(e) => setAuthor(e.currentTarget.value)}
-            style={{ flex: 1, minWidth: 120 }}
-          />
-          <Select
-            placeholder="Content type..."
-            data={CONTENT_TYPE_OPTIONS.map((contentTypeOption) => ({
-              value: contentTypeOption,
-              label: contentTypeOption,
-            }))}
-            value={categoryName}
-            onChange={(value) =>
-              setCategoryName(normalizeContentType(value, DEFAULT_CONTENT_TYPE))
-            }
-            allowDeselect={false}
-            style={{ flex: 1, minWidth: 120 }}
-          />
-          <Textarea
-            placeholder="Description (optional)..."
-            value={description}
-            onChange={(e) => setDescription(e.currentTarget.value)}
-            autosize
-            minRows={1}
-            maxRows={4}
-            style={{ width: '100%' }}
-          />
-        </Group>
+        <TierListMetaFields
+          name={name}
+          author={author}
+          categoryName={categoryName}
+          description={description}
+          onNameCommit={setName}
+          onAuthorCommit={setAuthor}
+          onCategoryChange={handleCategoryChange}
+          onDescriptionCommit={setDescription}
+        />
 
         <Group justify="space-between" wrap="wrap" gap="sm">
           <Group gap="sm" wrap="wrap" align="center">

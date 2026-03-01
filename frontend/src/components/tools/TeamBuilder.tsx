@@ -30,7 +30,14 @@ import {
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
-import { useEffect, useMemo, useState } from 'react';
+import {
+  memo,
+  useCallback,
+  useDeferredValue,
+  useEffect,
+  useMemo,
+  useState,
+} from 'react';
 import { createPortal } from 'react-dom';
 import {
   IoAdd,
@@ -110,6 +117,130 @@ interface TeamBuilderProps {
   initialData?: Team | null;
   wyrmspells?: Wyrmspell[];
 }
+
+const INPUT_COMMIT_DELAY_MS = 150;
+
+const TeamMetaFields = memo(function TeamMetaFields({
+  name,
+  author,
+  contentType,
+  faction,
+  description,
+  onNameCommit,
+  onAuthorCommit,
+  onContentTypeChange,
+  onFactionChange,
+  onDescriptionCommit,
+}: {
+  name: string;
+  author: string;
+  contentType: ContentType;
+  faction: FactionName | null;
+  description: string;
+  onNameCommit: (value: string) => void;
+  onAuthorCommit: (value: string) => void;
+  onContentTypeChange: (value: string | null) => void;
+  onFactionChange: (value: string | null) => void;
+  onDescriptionCommit: (value: string) => void;
+}) {
+  const [nameInput, setNameInput] = useState(name);
+  const [authorInput, setAuthorInput] = useState(author);
+  const [descriptionInput, setDescriptionInput] = useState(description);
+
+  useEffect(() => {
+    setNameInput(name);
+  }, [name]);
+
+  useEffect(() => {
+    setAuthorInput(author);
+  }, [author]);
+
+  useEffect(() => {
+    setDescriptionInput(description);
+  }, [description]);
+
+  useEffect(() => {
+    if (nameInput === name) return;
+    const timer = setTimeout(() => {
+      onNameCommit(nameInput);
+    }, INPUT_COMMIT_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [nameInput, name, onNameCommit]);
+
+  useEffect(() => {
+    if (authorInput === author) return;
+    const timer = setTimeout(() => {
+      onAuthorCommit(authorInput);
+    }, INPUT_COMMIT_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [authorInput, author, onAuthorCommit]);
+
+  useEffect(() => {
+    if (descriptionInput === description) return;
+    const timer = setTimeout(() => {
+      onDescriptionCommit(descriptionInput);
+    }, INPUT_COMMIT_DELAY_MS);
+    return () => clearTimeout(timer);
+  }, [descriptionInput, description, onDescriptionCommit]);
+
+  return (
+    <>
+      <Group gap="sm" wrap="wrap">
+        <TextInput
+          placeholder="Team name..."
+          value={nameInput}
+          onChange={(e) => setNameInput(e.currentTarget.value)}
+          style={{ flex: 1, minWidth: 150 }}
+        />
+        <TextInput
+          placeholder="Author..."
+          value={authorInput}
+          onChange={(e) => setAuthorInput(e.currentTarget.value)}
+          style={{ flex: 1, minWidth: 120 }}
+        />
+        <Select
+          placeholder="Content type..."
+          data={CONTENT_TYPE_OPTIONS.map((contentTypeOption) => ({
+            value: contentTypeOption,
+            label: contentTypeOption,
+          }))}
+          value={contentType}
+          onChange={onContentTypeChange}
+          allowDeselect={false}
+          style={{ flex: 1, minWidth: 120 }}
+        />
+        <Select
+          placeholder="Faction..."
+          data={FACTION_NAMES.map((f) => ({
+            value: f,
+            label: f,
+          }))}
+          value={faction}
+          onChange={onFactionChange}
+          renderOption={renderFactionOption}
+          searchable={FACTION_NAMES.length >= 10}
+          leftSection={(() => {
+            if (!faction) return undefined;
+            const iconSrc = FACTION_ICON_MAP[faction];
+            return iconSrc ? (
+              <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+            ) : undefined;
+          })()}
+          style={{ minWidth: 160 }}
+        />
+      </Group>
+
+      <Textarea
+        placeholder="Description (optional)..."
+        value={descriptionInput}
+        onChange={(e) => setDescriptionInput(e.currentTarget.value)}
+        autosize
+        minRows={1}
+        maxRows={4}
+      />
+    </>
+  );
+});
 
 /* ── Draggable portrait (used in available pool, bench, slots, and overlay) ── */
 
@@ -687,6 +818,12 @@ export default function TeamBuilder({
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
   const [draftHydrated, setDraftHydrated] = useState(false);
+  const handleContentTypeChange = useCallback((value: string | null) => {
+    setContentType(normalizeContentType(value, DEFAULT_CONTENT_TYPE));
+  }, []);
+  const handleFactionChange = useCallback((value: string | null) => {
+    setFaction(value as FactionName | null);
+  }, []);
 
   const sensors = useSensors(
     useSensor(PointerSensor, {
@@ -797,6 +934,12 @@ export default function TeamBuilder({
     setDraftHydrated(true);
   }, [initialData]);
 
+  const deferredName = useDeferredValue(name);
+  const deferredAuthor = useDeferredValue(author);
+  const deferredDescription = useDeferredValue(description);
+  const deferredContentType = useDeferredValue(contentType);
+  const deferredFaction = useDeferredValue(faction);
+
   const overdriveOrderBySlot = useMemo(() => {
     const map = new Map<number, number>();
     overdriveSequence.forEach((slotIndex, orderIdx) => {
@@ -853,11 +996,11 @@ export default function TeamBuilder({
     }
 
     const result: Team = {
-      name: name || 'My Team',
-      author: author || 'Anonymous',
-      content_type: contentType,
-      description,
-      faction: faction || 'Elemental Echo',
+      name: deferredName || 'My Team',
+      author: deferredAuthor || 'Anonymous',
+      content_type: deferredContentType,
+      description: deferredDescription,
+      faction: deferredFaction || 'Elemental Echo',
       members,
       last_updated: 0,
     };
@@ -894,11 +1037,11 @@ export default function TeamBuilder({
     benchNotes,
     slotNotes,
     teamWyrmspells,
-    name,
-    author,
-    contentType,
-    description,
-    faction,
+    deferredName,
+    deferredAuthor,
+    deferredContentType,
+    deferredDescription,
+    deferredFaction,
   ]);
 
   useEffect(() => {
@@ -1381,60 +1524,17 @@ export default function TeamBuilder({
       onDragEnd={handleDragEnd}
     >
       <Stack gap="md">
-        <Group gap="sm" wrap="wrap">
-          <TextInput
-            placeholder="Team name..."
-            value={name}
-            onChange={(e) => setName(e.currentTarget.value)}
-            style={{ flex: 1, minWidth: 150 }}
-          />
-          <TextInput
-            placeholder="Author..."
-            value={author}
-            onChange={(e) => setAuthor(e.currentTarget.value)}
-            style={{ flex: 1, minWidth: 120 }}
-          />
-          <Select
-            placeholder="Content type..."
-            data={CONTENT_TYPE_OPTIONS.map((contentTypeOption) => ({
-              value: contentTypeOption,
-              label: contentTypeOption,
-            }))}
-            value={contentType}
-            onChange={(value) =>
-              setContentType(normalizeContentType(value, DEFAULT_CONTENT_TYPE))
-            }
-            allowDeselect={false}
-            style={{ flex: 1, minWidth: 120 }}
-          />
-          <Select
-            placeholder="Faction..."
-            data={FACTION_NAMES.map((f) => ({
-              value: f,
-              label: f,
-            }))}
-            value={faction}
-            onChange={(value) => setFaction(value as FactionName | null)}
-            renderOption={renderFactionOption}
-            searchable={FACTION_NAMES.length >= 10}
-            leftSection={(() => {
-              if (!faction) return undefined;
-              const iconSrc = FACTION_ICON_MAP[faction];
-              return iconSrc ? (
-                <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
-              ) : undefined;
-            })()}
-            style={{ minWidth: 160 }}
-          />
-        </Group>
-
-        <Textarea
-          placeholder="Description (optional)..."
-          value={description}
-          onChange={(e) => setDescription(e.currentTarget.value)}
-          autosize
-          minRows={1}
-          maxRows={4}
+        <TeamMetaFields
+          name={name}
+          author={author}
+          contentType={contentType}
+          faction={faction}
+          description={description}
+          onNameCommit={setName}
+          onAuthorCommit={setAuthor}
+          onContentTypeChange={handleContentTypeChange}
+          onFactionChange={handleFactionChange}
+          onDescriptionCommit={setDescription}
         />
 
         <Group justify="space-between" wrap="nowrap" gap="sm">
