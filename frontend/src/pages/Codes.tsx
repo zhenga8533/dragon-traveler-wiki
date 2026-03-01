@@ -22,7 +22,6 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   IoCheckmark,
@@ -60,6 +59,7 @@ import {
   isCodeActive,
   isCodeExpired,
 } from '../utils';
+import { showInfoToast, showSuccessToast } from '../utils/toast';
 
 function aggregateRewards(codes: Code[]): Map<string, number> {
   const totals = new Map<string, number>();
@@ -230,10 +230,9 @@ export default function Codes() {
       saveRedeemed(next);
       return next;
     });
-    notifications.show({
+    showSuccessToast({
       title: 'Codes marked as redeemed',
       message: `Marked ${tabScopedCodes.length} ${tab} codes as redeemed.`,
-      color: 'teal',
     });
   }, [tabScopedCodes, tab]);
 
@@ -244,10 +243,9 @@ export default function Codes() {
       saveRedeemed(next);
       return next;
     });
-    notifications.show({
+    showInfoToast({
       title: 'Redeemed status cleared',
       message: `Marked ${tabScopedCodes.length} ${tab} codes as unredeemed.`,
-      color: 'gray',
     });
   }, [tabScopedCodes, tab]);
 

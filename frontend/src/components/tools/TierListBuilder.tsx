@@ -29,7 +29,6 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
 import {
   memo,
   useCallback,
@@ -77,6 +76,7 @@ import {
   removeItemFromRecordArrays,
 } from '../../utils/dnd-list';
 import { compareCharactersByQualityThenName } from '../../utils/filter-characters';
+import { showWarningToast } from '../../utils/toast';
 import CharacterCard from '../character/CharacterCard';
 import FilterableCharacterPool from '../character/FilterableCharacterPool';
 import CharacterNoteButton from './CharacterNoteButton';
@@ -1074,8 +1074,7 @@ export default function TierListBuilder({
                   // URL too long, open issue with template but empty JSON
                   const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Tier List] New tier list suggestion', body: buildEmptyIssueBody('tier list') }).toString()}`;
                   window.open(emptyUrl, '_blank');
-                  notifications.show({
-                    color: 'yellow',
+                  showWarningToast({
                     title: 'Tier list JSON is too large',
                     message:
                       'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',

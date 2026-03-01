@@ -4,7 +4,6 @@ import {
   Collapse,
   Container,
   Group,
-  Modal,
   Paper,
   ScrollArea,
   SegmentedControl,
@@ -22,6 +21,7 @@ import { Link } from 'react-router-dom';
 import CharacterCard from '../components/character/CharacterCard';
 import CharacterPortrait from '../components/character/CharacterPortrait';
 import ClassTag from '../components/common/ClassTag';
+import ConfirmActionModal from '../components/common/ConfirmActionModal';
 import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
@@ -661,44 +661,23 @@ export default function TierList() {
           </>
         )}
 
-        <Modal
+        <ConfirmActionModal
           opened={confirmEditOpen}
-          onClose={() => {
+          onCancel={() => {
             setConfirmEditOpen(false);
             setPendingEditTierList(null);
           }}
           title="Replace current builder data?"
-          centered
-        >
-          <Stack gap="md">
-            <Text size="sm" c="dimmed">
-              Opening this tier list will replace your current builder draft.
-            </Text>
-            <Group justify="flex-end">
-              <Button
-                variant="default"
-                onClick={() => {
-                  setConfirmEditOpen(false);
-                  setPendingEditTierList(null);
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                color="violet"
-                onClick={() => {
-                  if (pendingEditTierList) {
-                    openTierListInBuilder(pendingEditTierList);
-                  }
-                  setConfirmEditOpen(false);
-                  setPendingEditTierList(null);
-                }}
-              >
-                Replace
-              </Button>
-            </Group>
-          </Stack>
-        </Modal>
+          message="Opening this tier list will replace your current builder draft."
+          confirmLabel="Replace"
+          onConfirm={() => {
+            if (pendingEditTierList) {
+              openTierListInBuilder(pendingEditTierList);
+            }
+            setConfirmEditOpen(false);
+            setPendingEditTierList(null);
+          }}
+        />
       </Stack>
     </Container>
   );

@@ -12,7 +12,6 @@ import {
   Textarea,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
 import { useCallback, useDeferredValue, useMemo, useState } from 'react';
 import {
   IoAdd,
@@ -28,6 +27,7 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
   buildEmptyIssueBody,
 } from '../../constants/github';
+import { showWarningToast } from '../../utils/toast';
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number';
 
@@ -241,8 +241,7 @@ export default function SuggestModal({
         body: buildEmptyIssueBody(''),
       });
       window.open(emptyUrl, '_blank');
-      notifications.show({
-        color: 'yellow',
+      showWarningToast({
         title: 'JSON is too large for URL',
         message:
           'Please use the Copy JSON button and paste it into the GitHub issue body.',

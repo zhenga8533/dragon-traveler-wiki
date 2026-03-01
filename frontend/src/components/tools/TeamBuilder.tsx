@@ -29,7 +29,6 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { notifications } from '@mantine/notifications';
 import {
   memo,
   useCallback,
@@ -76,6 +75,7 @@ import type { Team, TeamMember, TeamWyrmspells } from '../../types/team';
 import type { Wyrmspell } from '../../types/wyrmspell';
 import { insertUniqueBefore, removeItem } from '../../utils/dnd-list';
 import { computeTeamSynergy } from '../../utils/team-synergy';
+import { showWarningToast } from '../../utils/toast';
 import CharacterCard from '../character/CharacterCard';
 import FilterableCharacterPool from '../character/FilterableCharacterPool';
 import CharacterNoteButton from './CharacterNoteButton';
@@ -1291,9 +1291,8 @@ export default function TeamBuilder({
     const targetRow = Math.floor(slotIndex / 3);
     const targetRowLabel = ROW_LABELS[targetRow] || 'that row';
 
-    notifications.show({
+    showWarningToast({
       id: 'teambuilder-invalid-placement',
-      color: 'yellow',
       title: 'Invalid slot placement',
       message: char
         ? `${charName} (${char.character_class}) cannot be placed in ${targetRowLabel}.`
@@ -1552,9 +1551,8 @@ export default function TeamBuilder({
     const targetIdx = findValidEmptySlotForCharacter(charName);
 
     if (targetIdx === -1) {
-      notifications.show({
+      showWarningToast({
         id: 'teambuilder-no-valid-slot',
-        color: 'yellow',
         title: 'No valid slot available',
         message: `${charName} has no empty valid row right now. Move someone first.`,
         autoClose: 2400,
@@ -1621,8 +1619,7 @@ export default function TeamBuilder({
     if (!teamIssueUrl) {
       const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Team] New team suggestion', body: buildEmptyIssueBody('team') }).toString()}`;
       window.open(emptyUrl, '_blank');
-      notifications.show({
-        color: 'yellow',
+      showWarningToast({
         title: 'Team JSON is too large',
         message:
           'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
