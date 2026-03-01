@@ -12,7 +12,26 @@
         "position": {
           "row": 0,
           "col": 1
-        }
+        },
+        "note": "Stable damage tanking; occasional finishing/harvesting."
+      },
+      {
+        "character_name": "Vivienne",
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 0
+        },
+        "note": "High-tier priest; Significantly increases damage."
+      },
+      {
+        "character_name": "Orion",
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 1
+        },
+        "note": "Heal block (Anti-heal); Interrupt control."
       },
       {
         "character_name": "Artemis",
@@ -20,41 +39,29 @@
         "position": {
           "row": 2,
           "col": 0
-        }
+        },
+        "note": "Sustained damage output; Significantly increases damage."
       },
       {
         "character_name": "Ifrit",
         "overdrive_order": null,
         "position": {
           "row": 2,
-          "col": 2
-        }
-      },
-      {
-        "character_name": "Vivienne",
-        "overdrive_order": null,
-        "position": {
-          "row": 1,
           "col": 1
-        }
-      },
-      {
-        "character_name": "Orion",
-        "overdrive_order": null,
-        "position": {
-          "row": 2,
-          "col": 1
-        }
+        },
+        "note": "Sustained damage output."
       },
       {
         "character_name": "Atanith",
         "overdrive_order": null,
         "position": {
-          "row": 1,
-          "col": 0
-        }
+          "row": 2,
+          "col": 2
+        },
+        "note": "Increased cost / Interrupt; Punishes high-cost units."
       }
     ],
+    "last_updated": 1772402716,
     "bench": [
       "Herman",
       "Talos",
@@ -64,7 +71,15 @@
       "Medusa",
       "Azure Dragon"
     ],
-    "last_updated": 1772215183,
+    "bench_notes": {
+      "Nemesis": "Energy recovery; High-frequency silence.",
+      "Poseidon": "Critical death immunity; Delays engagement/combat.",
+      "Medusa": "High-frequency petrification; Steals CD; Counters basic attacks.",
+      "Herman": "Counters dual assassins; Interrupt control.",
+      "Azure Dragon": "General formation protection; Provides \"Deathrattle\" (On-death) effects.",
+      "Talos": "Sustained damage output.",
+      "Scheherazade": "Cost reduction activation; High-tier priest utility."
+    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
@@ -85,7 +100,26 @@
         "position": {
           "row": 0,
           "col": 1
-        }
+        },
+        "note": "Area taunt; gathers enemies."
+      },
+      {
+        "character_name": "Vivienne",
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 0
+        },
+        "note": "Possession immunity; massive damage increase; opening gift."
+      },
+      {
+        "character_name": "Chiron",
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 1
+        },
+        "note": "Magic orb buffs; dispels debuffs."
       },
       {
         "character_name": "Apollo",
@@ -93,54 +127,47 @@
         "position": {
           "row": 2,
           "col": 0
-        }
+        },
+        "note": "Burst tank-shredding; continuous stacking damage."
       },
       {
         "character_name": "Gabriele",
         "overdrive_order": null,
         "position": {
           "row": 2,
-          "col": 2
-        }
-      },
-      {
-        "character_name": "Vivienne",
-        "overdrive_order": null,
-        "position": {
-          "row": 1,
           "col": 1
-        }
-      },
-      {
-        "character_name": "Chiron",
-        "overdrive_order": null,
-        "position": {
-          "row": 1,
-          "col": 0
-        }
+        },
+        "note": "Group burst damage."
       },
       {
         "character_name": "Lorillin",
         "overdrive_order": null,
         "position": {
           "row": 2,
-          "col": 1
-        }
+          "col": 2
+        },
+        "note": "Low-cost interrupt; provides Fervor."
       }
     ],
+    "last_updated": 1772402716,
     "bench": [
-      "Jing",
       "Scheherazade",
       "Orion",
       "Goblin War Drummer",
       "Gullveig",
       "Helveil"
     ],
-    "last_updated": 1772215183,
+    "bench_notes": {
+      "Helveil": "Counters dual assassins; group crit resistance.",
+      "Goblin War Drummer": "Early game buffs; fast activation.",
+      "Scheherazade": "Early game cost reduction; high-tier priest; group healing.",
+      "Orion": "Heal block; interrupt control.",
+      "Gullveig": "Group heal block; group healing."
+    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
-      "wildcry": "",
+      "wildcry": "Rallying Roar",
       "dragons_call": "Blessing of Grace"
     }
   },
@@ -157,7 +184,26 @@
         "position": {
           "row": 0,
           "col": 1
-        }
+        },
+        "note": "Area taunt; gathers enemies."
+      },
+      {
+        "character_name": "Vivienne",
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 0
+        },
+        "note": "High-tier priest; significantly increases damage."
+      },
+      {
+        "character_name": "Venus",
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 1
+        },
+        "note": "High-tier priest; group healing."
       },
       {
         "character_name": "Jing",
@@ -165,31 +211,8 @@
         "position": {
           "row": 2,
           "col": 0
-        }
-      },
-      {
-        "character_name": "Loki",
-        "overdrive_order": null,
-        "position": {
-          "row": 2,
-          "col": 2
-        }
-      },
-      {
-        "character_name": "Venus",
-        "overdrive_order": null,
-        "position": {
-          "row": 1,
-          "col": 0
-        }
-      },
-      {
-        "character_name": "Vivienne",
-        "overdrive_order": null,
-        "position": {
-          "row": 1,
-          "col": 2
-        }
+        },
+        "note": "Burst tank-shredding; continuous damage output."
       },
       {
         "character_name": "Talos",
@@ -197,22 +220,42 @@
         "position": {
           "row": 2,
           "col": 1
-        }
+        },
+        "note": "Sustained damage output."
+      },
+      {
+        "character_name": "Loki",
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 2
+        },
+        "note": "Eternal chain seal; counters resurrection."
       }
     ],
+    "last_updated": 1772402716,
     "bench": [
       "Azure Dragon",
       "Oberonnie",
       "Tyrfing",
       "Chiron",
       "Gullveig",
-      "Caligula"
+      "Caligula",
+      "Lorillin"
     ],
-    "last_updated": 1772215183,
+    "bench_notes": {
+      "Oberonnie": "Counters dual assassins.",
+      "Caligula": "High-tier priest; front-row damage reduction.",
+      "Lorillin": "Low-cost interrupt.",
+      "Chiron": "Magic orb buffs; dispels debuffs; punishes high-cost units.",
+      "Azure Dragon": "General formation protection; provides \"Deathrattle\" (On-death) effects.",
+      "Gullveig": "Group heal block (Anti-heal); group healing.",
+      "Tyrfing": "Heal block; cuts through tanks."
+    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
-      "wildcry": "",
+      "wildcry": "Rallying Roar",
       "dragons_call": "Wild Advance"
     }
   },
@@ -228,32 +271,45 @@
         "overdrive_order": null,
         "position": {
           "row": 0,
+          "col": 1
+        },
+        "note": "Stable tanking (damage absorption)."
+      },
+      {
+        "character_name": "Ares",
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
           "col": 0
-        }
+        },
+        "note": "Continuous control; sustained DPS."
+      },
+      {
+        "character_name": "Tyrfing",
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
+          "col": 2
+        },
+        "note": "Sustained DPS; lifesteal/steals healing."
+      },
+      {
+        "character_name": "Atanith",
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 0
+        },
+        "note": "Increases cost (energy management); interrupts."
       },
       {
         "character_name": "Ningluosi",
         "overdrive_order": null,
         "position": {
           "row": 2,
-          "col": 0
-        }
-      },
-      {
-        "character_name": "Atanith",
-        "overdrive_order": null,
-        "position": {
-          "row": 1,
           "col": 1
-        }
-      },
-      {
-        "character_name": "Ares",
-        "overdrive_order": null,
-        "position": {
-          "row": 0,
-          "col": 1
-        }
+        },
+        "note": "Sustained DPS."
       },
       {
         "character_name": "Poseidon",
@@ -261,26 +317,27 @@
         "position": {
           "row": 2,
           "col": 2
-        }
-      },
-      {
-        "character_name": "Tyrfing",
-        "overdrive_order": null,
-        "position": {
-          "row": 0,
-          "col": 2
-        }
+        },
+        "note": "Key death immunity; delays combat; increases room for error."
       }
     ],
+    "last_updated": 1772402716,
     "bench": [
-      "Pompey",
       "Medusa",
       "Nemesis",
       "Huginn & Muninn",
       "Herman",
-      "Orion"
+      "Orion",
+      "Pompey"
     ],
-    "last_updated": 1772215183,
+    "bench_notes": {
+      "Pompey": "Interrupts incoming damage; supplementary DPS.",
+      "Orion": "Heal block/Silence control; sustained DPS.",
+      "Nemesis": "High-frequency silence; energy recovery.",
+      "Medusa": "High-frequency petrification; steals CD; counters basic attacks.",
+      "Herman": "Counters dual assassins; interrupts and controls.",
+      "Huginn & Muninn": "Sustained DPS."
+    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
@@ -300,32 +357,9 @@
         "overdrive_order": null,
         "position": {
           "row": 0,
-          "col": 0
-        }
-      },
-      {
-        "character_name": "Loki",
-        "overdrive_order": null,
-        "position": {
-          "row": 2,
           "col": 1
-        }
-      },
-      {
-        "character_name": "Hades",
-        "overdrive_order": null,
-        "position": {
-          "row": 0,
-          "col": 1
-        }
-      },
-      {
-        "character_name": "Azure Dragon",
-        "overdrive_order": null,
-        "position": {
-          "row": 0,
-          "col": 2
-        }
+        },
+        "note": "Stable tanking (damage absorption)."
       },
       {
         "character_name": "Asmodeus",
@@ -333,17 +367,47 @@
         "position": {
           "row": 1,
           "col": 0
-        }
+        },
+        "note": "Counters dual assassins; backline damage reduction."
       },
       {
         "character_name": "Silbismo",
         "overdrive_order": null,
         "position": {
           "row": 1,
+          "col": 1
+        },
+        "note": "Duplicates summons; high-level priest."
+      },
+      {
+        "character_name": "Azure Dragon",
+        "overdrive_order": null,
+        "position": {
+          "row": 1,
           "col": 2
-        }
+        },
+        "note": "Universal front-line protection; provides \"last words\" (deathrattle) effects."
+      },
+      {
+        "character_name": "Hades",
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 0
+        },
+        "note": "Harvests energy recovery; interrupts."
+      },
+      {
+        "character_name": "Loki",
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 1
+        },
+        "note": "Permanent chain seal; counters resurrection."
       }
     ],
+    "last_updated": 1772402716,
     "bench": [
       "Helveil",
       "Gabriele",
@@ -353,11 +417,19 @@
       "Gullveig",
       "Cleopatra"
     ],
-    "last_updated": 1772215183,
+    "bench_notes": {
+      "Helveil": "Stable damage absorption; team anti-crit.",
+      "Jing": "Burst tank-shredding; sustained DPS.",
+      "Gabriele": "Group burst damage.",
+      "Gullveig": "Group heal block; group HP recovery.",
+      "Ningluosi": "Sustained DPS.",
+      "Caligula": "High-tier priest; front-row damage reduction.",
+      "Cleopatra": "Provides Deathrattle."
+    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Shield Aura",
-      "wildcry": "",
+      "wildcry": "Soulguard Roar",
       "dragons_call": "Summoning March"
     }
   },
@@ -373,32 +445,18 @@
         "overdrive_order": null,
         "position": {
           "row": 0,
-          "col": 0
-        }
+          "col": 1
+        },
+        "note": "Stable damage mitigation / Tanking"
       },
       {
         "character_name": "Thor",
         "overdrive_order": null,
         "position": {
-          "row": 0,
-          "col": 2
-        }
-      },
-      {
-        "character_name": "Poseidon",
-        "overdrive_order": null,
-        "position": {
-          "row": 2,
-          "col": 1
-        }
-      },
-      {
-        "character_name": "Venus",
-        "overdrive_order": null,
-        "position": {
           "row": 1,
           "col": 0
-        }
+        },
+        "note": "Elemental reaction; High burst damage"
       },
       {
         "character_name": "Vivienne",
@@ -406,17 +464,38 @@
         "position": {
           "row": 1,
           "col": 2
-        }
+        },
+        "note": "High-tier Priest; Massive damage buff"
       },
       {
-        "character_name": "Zagrus",
+        "character_name": "Venus",
         "overdrive_order": null,
         "position": {
-          "row": 0,
+          "row": 2,
+          "col": 0
+        },
+        "note": "High-tier Priest; Group healing"
+      },
+      {
+        "character_name": "Poseidon",
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
           "col": 1
-        }
+        },
+        "note": "Critical death immunity; Elemental reaction"
+      },
+      {
+        "character_name": "Ifrit",
+        "overdrive_order": null,
+        "position": {
+          "row": 2,
+          "col": 2
+        },
+        "note": "Sustained DPS (Damage per second)"
       }
     ],
+    "last_updated": 1772402716,
     "bench": [
       "Anubis",
       "Oberonnie",
@@ -425,9 +504,18 @@
       "Fenrir",
       "Siegfried",
       "Lorillin",
-      "Ifrit"
+      "Zagrus"
     ],
-    "last_updated": 1772215183,
+    "bench_notes": {
+      "Oberonnie": "Stable damage mitigation / Tanking",
+      "Zagrus": "Elemental reaction; Chain crowd control (CC)",
+      "Orion": "Healing reduction (Grievous Wounds); Sustained DPS",
+      "Lorillin": "Low-cost interrupt; Elemental reaction",
+      "Anubis": "Counters dual-assassins; Backline damage reduction",
+      "Siegfried": "Stable damage mitigation; Elemental reaction",
+      "Fenrir": "Finishing (Execute) and Interrupt",
+      "Gullveig": "Group healing reduction; Group healing"
+    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
