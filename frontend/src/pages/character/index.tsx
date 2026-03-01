@@ -35,15 +35,8 @@ import {
   RiZoomInLine,
 } from 'react-icons/ri';
 import { useParams } from 'react-router-dom';
-import {
-  getCharacterSkillIcon,
-  getIllustrations,
-  getPortrait,
-  getTalentIcon,
-  type CharacterIllustration,
-} from '../../assets/character';
+import { getPortrait } from '../../assets/character';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../../assets/gear';
-import { getSkillIcon } from '../../assets/skill';
 import { getSubclassIcon } from '../../assets/subclass';
 import ClassTag from '../../components/common/ClassTag';
 import DetailPageNavigation from '../../components/common/DetailPageNavigation';
@@ -56,7 +49,11 @@ import {
 } from '../../constants/styles';
 import { BREAKPOINTS, TRANSITION } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
-import { useDataFetch, useMobileTooltip } from '../../hooks';
+import {
+  useCharacterAssets,
+  useDataFetch,
+  useMobileTooltip,
+} from '../../hooks';
 import type { Character, RecommendedGearEntry } from '../../types/character';
 import type { Gear, GearSet } from '../../types/gear';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
@@ -318,86 +315,22 @@ export default function CharacterPage() {
       });
   }, [recommendedGearDetails]);
 
-  // Lazy-loaded assets
-  const [illustrations, setIllustrations] = useState<CharacterIllustration[]>(
-    []
-  );
-  const [talentIcon, setTalentIcon] = useState<string | undefined>();
-  const [skillIcons, setSkillIcons] = useState<Map<string, string>>(new Map());
-  const [selectedIllustration, setSelectedIllustration] =
-    useState<CharacterIllustration | null>(null);
+  const {
+    illustrations,
+    talentIcon,
+    skillIcons,
+    setSelectedIllustration,
+    activeIllustration,
+    activeIllustrationIndex,
+    hasMultipleIllustrations,
+    showPreviousIllustration,
+    showNextIllustration,
+  } = useCharacterAssets(character);
+
   const [previewOpen, setPreviewOpen] = useState(false);
   const [modalHoverSide, setModalHoverSide] = useState<'left' | 'right' | null>(
     null
   );
-
-  // Load illustrations when character changes
-  useEffect(() => {
-    if (!character) {
-      queueMicrotask(() => {
-        setIllustrations([]);
-        setSelectedIllustration(null);
-      });
-      return;
-    }
-
-    getIllustrations(character.name)
-      .then((imgs) => {
-        setIllustrations(imgs);
-        const defaultImg =
-          imgs.find((i) => i.name.toLowerCase() === 'default') || imgs[0];
-        if (defaultImg) {
-          setSelectedIllustration(defaultImg);
-        }
-      })
-      .catch(() => {
-        setIllustrations([]);
-        setSelectedIllustration(null);
-      });
-  }, [character]);
-
-  // Load talent icon when character changes
-  useEffect(() => {
-    if (!character) {
-      queueMicrotask(() => {
-        setTalentIcon(undefined);
-      });
-      return;
-    }
-
-    getTalentIcon(character.name)
-      .then(setTalentIcon)
-      .catch(() => setTalentIcon(undefined));
-  }, [character]);
-
-  // Load skill icons when character changes
-  useEffect(() => {
-    if (!character || !character.skills) {
-      queueMicrotask(() => {
-        setSkillIcons(new Map());
-      });
-      return;
-    }
-
-    Promise.all(
-      character.skills.map(async (skill): Promise<[string, string] | null> => {
-        if (skill.type === 'Divine Skill') {
-          const divIcon = getSkillIcon('divinity');
-          return divIcon ? [skill.name, divIcon] : null;
-        }
-        const icon = await getCharacterSkillIcon(character.name, skill.name);
-        return icon ? [skill.name, icon] : null;
-      })
-    )
-      .then((results) => {
-        const icons = new Map<string, string>();
-        for (const entry of results) {
-          if (entry) icons.set(entry[0], entry[1]);
-        }
-        setSkillIcons(icons);
-      })
-      .catch(() => setSkillIcons(new Map()));
-  }, [character]);
 
   const scrollToSkill = useCallback((skillName: string) => {
     const el = document.getElementById(`skill-${skillName}`);
@@ -415,36 +348,7 @@ export default function CharacterPage() {
 
   const mediaContainerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
-
-  const activeIllustration = useMemo(
-    () => selectedIllustration ?? illustrations[0] ?? null,
-    [selectedIllustration, illustrations]
-  );
   const activeIllustrationName = activeIllustration?.name;
-  const activeIllustrationIndex = useMemo(
-    () =>
-      activeIllustration
-        ? illustrations.findIndex(
-            (illust) => illust.name === activeIllustration.name
-          )
-        : -1,
-    [activeIllustration, illustrations]
-  );
-  const hasMultipleIllustrations = illustrations.length > 1;
-
-  const showPreviousIllustration = useCallback(() => {
-    if (illustrations.length === 0 || activeIllustrationIndex < 0) return;
-    const nextIndex =
-      (activeIllustrationIndex - 1 + illustrations.length) %
-      illustrations.length;
-    setSelectedIllustration(illustrations[nextIndex]);
-  }, [illustrations, activeIllustrationIndex]);
-
-  const showNextIllustration = useCallback(() => {
-    if (illustrations.length === 0 || activeIllustrationIndex < 0) return;
-    const nextIndex = (activeIllustrationIndex + 1) % illustrations.length;
-    setSelectedIllustration(illustrations[nextIndex]);
-  }, [illustrations, activeIllustrationIndex]);
 
   const handleFullscreen = useCallback(async () => {
     if (document.fullscreenElement) {

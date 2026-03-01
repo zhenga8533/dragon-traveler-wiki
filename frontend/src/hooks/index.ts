@@ -1,5 +1,7 @@
 // Hook exports for cleaner imports
+export { useCharacterAssets } from './use-character-assets';
 export { useDataFetch } from './use-data-fetch';
+export { useFilteredPageData } from './use-filtered-page-data';
 export {
   countActiveFilters,
   useFilterPanel,
@@ -7,7 +9,6 @@ export {
   useFilters,
   useViewMode,
 } from './use-filters';
-export { useFilteredPageData } from './use-filtered-page-data';
 export { useMobileTooltip } from './use-mobile-tooltip';
 export { usePagination } from './use-pagination';
 export { useScrollReveal } from './use-scroll-reveal';
