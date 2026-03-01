@@ -11,7 +11,6 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import { TIER_ORDER } from '../../constants/colors';
 import { getMinWidthStyle } from '../../constants/styles';
 import {
   CHARACTER_GRID_COLS,
@@ -99,17 +98,23 @@ export default function CharacterList({
         tiers.push(t.name);
       }
     }
-    if (tiers.length === 0) {
-      for (const e of list.entries) {
-        if (!seen.has(e.tier)) {
-          seen.add(e.tier);
-          tiers.push(e.tier);
-        }
+    for (const e of list.entries) {
+      if (!seen.has(e.tier)) {
+        seen.add(e.tier);
+        tiers.push(e.tier);
       }
     }
     tiers.push('Unranked');
     return tiers;
   }, [tierLists, selectedTierListName]);
+
+  const tierRank = useMemo(() => {
+    const rank = new Map<string, number>();
+    tierOptions.forEach((tier, index) => {
+      rank.set(tier, index);
+    });
+    return rank;
+  }, [tierOptions]);
 
   const tierLookup = useMemo(() => {
     const map = new Map<string, string>();
@@ -145,18 +150,26 @@ export default function CharacterList({
         } else if (sortCol === 'global') {
           cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
         } else if (sortCol === 'tier') {
-          const tA = tierLookup.get(a.name) ?? '';
-          const tB = tierLookup.get(b.name) ?? '';
-          const iA = (TIER_ORDER as readonly string[]).indexOf(tA);
-          const iB = (TIER_ORDER as readonly string[]).indexOf(tB);
-          cmp = (iA === -1 ? 999 : iA) - (iB === -1 ? 999 : iB);
+          const tA = tierLookup.get(a.name) ?? 'Unranked';
+          const tB = tierLookup.get(b.name) ?? 'Unranked';
+          const iA = tierRank.get(tA) ?? Number.MAX_SAFE_INTEGER;
+          const iB = tierRank.get(tB) ?? Number.MAX_SAFE_INTEGER;
+          cmp = iA - iB;
         }
         if (cmp !== 0) return applyDir(cmp, sortDir);
       }
       // Default: quality > name
       return compareCharactersByQualityThenName(a, b);
     });
-  }, [characters, filters, sortCol, sortDir, tierLookup, selectedTierListName]);
+  }, [
+    characters,
+    filters,
+    sortCol,
+    sortDir,
+    tierLookup,
+    tierRank,
+    selectedTierListName,
+  ]);
 
   const { page, setPage, totalPages, offset } = usePagination(
     filteredAndSorted.length,
