@@ -67,6 +67,7 @@ function TeamCharacterAvatars({
   columns = 3,
   gap = 4,
   wrap = 'wrap',
+  maxVisible,
 }: {
   names: string[];
   charMap: Map<string, Character>;
@@ -76,8 +77,15 @@ function TeamCharacterAvatars({
   columns?: number;
   gap?: number;
   wrap?: 'wrap' | 'nowrap';
+  maxVisible?: number;
 }) {
-  const portraits = names.map((name) => {
+  const visibleNames =
+    typeof maxVisible === 'number' && maxVisible >= 0
+      ? names.slice(0, maxVisible)
+      : names;
+  const hiddenCount = names.length - visibleNames.length;
+
+  const portraits = visibleNames.map((name) => {
     const char = charMap.get(name);
     return (
       <CharacterPortrait
@@ -91,6 +99,35 @@ function TeamCharacterAvatars({
     );
   });
 
+  const overflowIndicator =
+    hiddenCount > 0 ? (
+      <Badge
+        key={`${isSubstitute ? 'sub' : 'main'}-overflow`}
+        size="sm"
+        variant="light"
+        color="gray"
+        style={{
+          width: size,
+          height: size,
+          borderRadius: '50%',
+          display: 'inline-flex',
+          alignItems: 'center',
+          justifyContent: 'center',
+          padding: 0,
+          fontSize: 11,
+          fontWeight: 600,
+          lineHeight: 1,
+          flexShrink: 0,
+        }}
+      >
+        +{hiddenCount}
+      </Badge>
+    ) : null;
+
+  const portraitItems = overflowIndicator
+    ? [...portraits, overflowIndicator]
+    : portraits;
+
   if (layout === 'grid') {
     return (
       <Box
@@ -100,14 +137,14 @@ function TeamCharacterAvatars({
           gap: 6,
         }}
       >
-        {portraits}
+        {portraitItems}
       </Box>
     );
   }
 
   return (
     <Group gap={gap} wrap={wrap}>
-      {portraits}
+      {portraitItems}
     </Group>
   );
 }
@@ -475,42 +512,34 @@ export default function Teams() {
                               </Text>
 
                               {/* Member portraits */}
-                              <Stack gap={4}>
-                                <Group gap={6} align="flex-start" wrap="nowrap">
-                                  <Badge size="xs" variant="light" color="blue">
-                                    Main {team.members.length}
-                                  </Badge>
-                                  <TeamCharacterAvatars
-                                    names={team.members.map(
-                                      (member) => member.character_name
-                                    )}
-                                    charMap={charMap}
-                                    size={isLargeTeamCardLayout ? 64 : 56}
-                                    layout="wrap"
-                                    gap={isLargeTeamCardLayout ? 6 : 4}
-                                    wrap={
-                                      isLargeTeamCardLayout ? 'nowrap' : 'wrap'
-                                    }
-                                  />
-                                </Group>
-                                {(team.bench?.length ?? 0) > 0 && (
+                              <Paper
+                                p="xs"
+                                radius="sm"
+                                bg="var(--mantine-color-default-hover)"
+                              >
+                                <Stack gap="xs">
                                   <Group
-                                    gap={6}
+                                    gap="xs"
                                     align="flex-start"
                                     wrap="nowrap"
                                   >
                                     <Badge
                                       size="xs"
                                       variant="light"
-                                      color="gray"
+                                      color="blue"
+                                      style={{
+                                        minWidth: 66,
+                                        justifyContent: 'center',
+                                      }}
                                     >
-                                      Subs {team.bench!.length}
+                                      Main {team.members.length}
                                     </Badge>
                                     <TeamCharacterAvatars
-                                      names={team.bench!}
+                                      names={team.members.map(
+                                        (member) => member.character_name
+                                      )}
                                       charMap={charMap}
-                                      size={isLargeTeamCardLayout ? 52 : 44}
-                                      isSubstitute
+                                      size={isLargeTeamCardLayout ? 64 : 56}
                                       layout="wrap"
                                       gap={isLargeTeamCardLayout ? 6 : 4}
                                       wrap={
@@ -518,10 +547,46 @@ export default function Teams() {
                                           ? 'nowrap'
                                           : 'wrap'
                                       }
+                                      maxVisible={isLargeTeamCardLayout ? 6 : 5}
                                     />
                                   </Group>
-                                )}
-                              </Stack>
+                                  {(team.bench?.length ?? 0) > 0 && (
+                                    <Group
+                                      gap="xs"
+                                      align="flex-start"
+                                      wrap="nowrap"
+                                    >
+                                      <Badge
+                                        size="xs"
+                                        variant="light"
+                                        color="gray"
+                                        style={{
+                                          minWidth: 66,
+                                          justifyContent: 'center',
+                                        }}
+                                      >
+                                        Subs {team.bench!.length}
+                                      </Badge>
+                                      <TeamCharacterAvatars
+                                        names={team.bench!}
+                                        charMap={charMap}
+                                        size={isLargeTeamCardLayout ? 52 : 44}
+                                        isSubstitute
+                                        layout="wrap"
+                                        gap={isLargeTeamCardLayout ? 6 : 4}
+                                        wrap={
+                                          isLargeTeamCardLayout
+                                            ? 'nowrap'
+                                            : 'wrap'
+                                        }
+                                        maxVisible={
+                                          isLargeTeamCardLayout ? 6 : 5
+                                        }
+                                      />
+                                    </Group>
+                                  )}
+                                </Stack>
+                              </Paper>
                             </Stack>
                           </Paper>
                         );
@@ -583,41 +648,65 @@ export default function Teams() {
                                 </Group>
                               </Table.Td>
                               <Table.Td>
-                                <Stack gap={4}>
-                                  <Group gap={6} align="center" wrap="nowrap">
-                                    <Badge
-                                      size="xs"
-                                      variant="light"
-                                      color="blue"
+                                <Paper
+                                  p="xs"
+                                  radius="sm"
+                                  bg="var(--mantine-color-default-hover)"
+                                >
+                                  <Stack gap="xs">
+                                    <Group
+                                      gap="xs"
+                                      align="center"
+                                      wrap="nowrap"
                                     >
-                                      Main
-                                    </Badge>
-                                    <TeamCharacterAvatars
-                                      names={team.members.map(
-                                        (member) => member.character_name
-                                      )}
-                                      charMap={charMap}
-                                      size={32}
-                                    />
-                                  </Group>
-                                  {(team.bench?.length ?? 0) > 0 && (
-                                    <Group gap={6} align="center" wrap="nowrap">
                                       <Badge
                                         size="xs"
                                         variant="light"
-                                        color="gray"
+                                        color="blue"
+                                        style={{
+                                          minWidth: 56,
+                                          justifyContent: 'center',
+                                        }}
                                       >
-                                        Subs
+                                        Main
                                       </Badge>
                                       <TeamCharacterAvatars
-                                        names={team.bench!}
+                                        names={team.members.map(
+                                          (member) => member.character_name
+                                        )}
                                         charMap={charMap}
                                         size={32}
-                                        isSubstitute
+                                        maxVisible={5}
                                       />
                                     </Group>
-                                  )}
-                                </Stack>
+                                    {(team.bench?.length ?? 0) > 0 && (
+                                      <Group
+                                        gap="xs"
+                                        align="center"
+                                        wrap="nowrap"
+                                      >
+                                        <Badge
+                                          size="xs"
+                                          variant="light"
+                                          color="gray"
+                                          style={{
+                                            minWidth: 56,
+                                            justifyContent: 'center',
+                                          }}
+                                        >
+                                          Subs
+                                        </Badge>
+                                        <TeamCharacterAvatars
+                                          names={team.bench!}
+                                          charMap={charMap}
+                                          size={32}
+                                          isSubstitute
+                                          maxVisible={5}
+                                        />
+                                      </Group>
+                                    )}
+                                  </Stack>
+                                </Paper>
                               </Table.Td>
                               <Table.Td>
                                 <FactionTag
