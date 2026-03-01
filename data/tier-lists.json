@@ -1327,5 +1327,378 @@
       }
     ],
     "last_updated": 1772349780
+  },
+  {
+    "name": "Global Tier List",
+    "author": "Litee",
+    "content_type": "All",
+    "description": "Take it with a grain of salt.",
+    "tiers": [
+      {
+        "name": "SSR EX",
+        "note": "Money is calling."
+      },
+      {
+        "name": "S+",
+        "note": "High return on investment."
+      },
+      {
+        "name": "S",
+        "note": "Very strong given their use case."
+      },
+      {
+        "name": "A",
+        "note": "Generally useable and somewhat flexible."
+      },
+      {
+        "name": "B",
+        "note": "Niche usage."
+      },
+      {
+        "name": "C",
+        "note": "Just get 1 copy."
+      },
+      {
+        "name": "D",
+        "note": "Fodder."
+      }
+    ],
+    "entries": [
+      {
+        "character_name": "Apollo",
+        "tier": "SSR EX",
+        "note": "Yes."
+      },
+      {
+        "character_name": "Ares",
+        "tier": "SSR EX",
+        "note": "Yes."
+      },
+      {
+        "character_name": "Athena",
+        "tier": "SSR EX",
+        "note": "Yes."
+      },
+      {
+        "character_name": "Hades",
+        "tier": "SSR EX",
+        "note": "Yes."
+      },
+      {
+        "character_name": "Poseidon",
+        "tier": "SSR EX",
+        "note": "Yes."
+      },
+      {
+        "character_name": "Ifrit",
+        "tier": "S+",
+        "note": "Core DPS for blue/red for foreseeable future."
+      },
+      {
+        "character_name": "Siegfried",
+        "tier": "S+",
+        "note": "Easy investment. Falls off later on."
+      },
+      {
+        "character_name": "Vivienne",
+        "tier": "S+",
+        "note": "Slots in anywhere to give main DPS an ATK buff."
+      },
+      {
+        "character_name": "Atanith",
+        "tier": "S+",
+        "note": "Silence mortal."
+      },
+      {
+        "character_name": "Oberonnie",
+        "tier": "S+",
+        "note": "Easy investment. Falls off later on."
+      },
+      {
+        "character_name": "Azure Dragon",
+        "tier": "S",
+        "note": "Team-wide shield provider. Thanos for deathrattle."
+      },
+      {
+        "character_name": "Gabriele",
+        "tier": "S",
+        "note": "Burst DPS for light."
+      },
+      {
+        "character_name": "Pompey",
+        "tier": "S",
+        "note": "Main tank for blue."
+      },
+      {
+        "character_name": "Scheherazade",
+        "tier": "S",
+        "note": "Reduces overdrive cost. Also can heal I suppose."
+      },
+      {
+        "character_name": "Chiron",
+        "tier": "S",
+        "note": "Main DPS ATK buffer. Also can heal I suppose."
+      },
+      {
+        "character_name": "Cleopatra",
+        "tier": "S",
+        "note": "Shards are easy to get."
+      },
+      {
+        "character_name": "Fenrir",
+        "tier": "S",
+        "note": "Easy investment. Falls off later on."
+      },
+      {
+        "character_name": "Medusa",
+        "tier": "S",
+        "note": "Shards are easy to get."
+      },
+      {
+        "character_name": "Goblin War Drummer",
+        "tier": "S",
+        "note": "Early DPS buff. Falls off later on."
+      },
+      {
+        "character_name": "Anubis",
+        "tier": "A",
+        "note": "Main tank for deathrattle. Will rely on Noble Phantasm."
+      },
+      {
+        "character_name": "Gullveig",
+        "tier": "A",
+        "note": "Grievous wounds."
+      },
+      {
+        "character_name": "Helveil",
+        "tier": "A",
+        "note": "Usable tank/subtank for light and deathrattle."
+      },
+      {
+        "character_name": "Huginn & Muninn",
+        "tier": "A",
+        "note": "DPS for dark and green. Gets outclassed later."
+      },
+      {
+        "character_name": "Marylis",
+        "tier": "A",
+        "note": "Go for Ifrit."
+      },
+      {
+        "character_name": "Tyrfing",
+        "tier": "A",
+        "note": "Grievous wounds."
+      },
+      {
+        "character_name": "Herman",
+        "tier": "A",
+        "note": "Sub tank for blue."
+      },
+      {
+        "character_name": "Lorillin",
+        "tier": "A",
+        "note": "Interrupter."
+      },
+      {
+        "character_name": "Nanalie",
+        "tier": "A",
+        "note": "Eep."
+      },
+      {
+        "character_name": "Nemesis",
+        "tier": "A",
+        "note": "Requires max. Free energy generation and silence."
+      },
+      {
+        "character_name": "Siren",
+        "tier": "A",
+        "note": "Early healer. Falls off later."
+      },
+      {
+        "character_name": "Brynhild",
+        "tier": "B"
+      },
+      {
+        "character_name": "Faust",
+        "tier": "B"
+      },
+      {
+        "character_name": "Jormungandr",
+        "tier": "B"
+      },
+      {
+        "character_name": "Ophelia",
+        "tier": "B"
+      },
+      {
+        "character_name": "Titania",
+        "tier": "B"
+      },
+      {
+        "character_name": "White Tiger",
+        "tier": "B"
+      },
+      {
+        "character_name": "Asteros",
+        "tier": "B"
+      },
+      {
+        "character_name": "Beowulf",
+        "tier": "B"
+      },
+      {
+        "character_name": "Caligula",
+        "tier": "B"
+      },
+      {
+        "character_name": "Drasill",
+        "tier": "B"
+      },
+      {
+        "character_name": "Goren",
+        "tier": "B"
+      },
+      {
+        "character_name": "Melina",
+        "tier": "B"
+      },
+      {
+        "character_name": "Telperion",
+        "tier": "B"
+      },
+      {
+        "character_name": "Eurytion",
+        "tier": "B"
+      },
+      {
+        "character_name": "Flora",
+        "tier": "B"
+      },
+      {
+        "character_name": "Nessus",
+        "tier": "B"
+      },
+      {
+        "character_name": "Arthur",
+        "tier": "C"
+      },
+      {
+        "character_name": "Mordred",
+        "tier": "C"
+      },
+      {
+        "character_name": "Pan Junbao",
+        "tier": "C"
+      },
+      {
+        "character_name": "Cerberus",
+        "tier": "C"
+      },
+      {
+        "character_name": "Gudong",
+        "tier": "C"
+      },
+      {
+        "character_name": "Guna",
+        "tier": "C"
+      },
+      {
+        "character_name": "Lancelot",
+        "tier": "C"
+      },
+      {
+        "character_name": "Van Helsing",
+        "tier": "C"
+      },
+      {
+        "character_name": "Bladeheart",
+        "tier": "D"
+      },
+      {
+        "character_name": "Buck",
+        "tier": "D"
+      },
+      {
+        "character_name": "Grimnir",
+        "tier": "D"
+      },
+      {
+        "character_name": "Kleina",
+        "tier": "D"
+      },
+      {
+        "character_name": "Murphy",
+        "tier": "D"
+      },
+      {
+        "character_name": "Polyphemus",
+        "tier": "D"
+      },
+      {
+        "character_name": "Boar Knight",
+        "tier": "D"
+      },
+      {
+        "character_name": "Dwarf Warrior",
+        "tier": "D"
+      },
+      {
+        "character_name": "Dwarven Cannoneer",
+        "tier": "D"
+      },
+      {
+        "character_name": "Dwarven Sage",
+        "tier": "D"
+      },
+      {
+        "character_name": "Goblin Battering Ram",
+        "tier": "D"
+      },
+      {
+        "character_name": "Mummy",
+        "tier": "D"
+      },
+      {
+        "character_name": "Pharaoh",
+        "tier": "D"
+      },
+      {
+        "character_name": "Sword Dancer",
+        "tier": "D"
+      },
+      {
+        "character_name": "Viel",
+        "tier": "D"
+      },
+      {
+        "character_name": "Wood Elf Archer",
+        "tier": "D"
+      },
+      {
+        "character_name": "Breeze Slime",
+        "tier": "D"
+      },
+      {
+        "character_name": "Flame Slime",
+        "tier": "D"
+      },
+      {
+        "character_name": "Ice Slime",
+        "tier": "D"
+      },
+      {
+        "character_name": "Lightning Slime",
+        "tier": "D"
+      },
+      {
+        "character_name": "Rock Slime",
+        "tier": "D"
+      },
+      {
+        "character_name": "Shadow Slime",
+        "tier": "D"
+      }
+    ],
+    "last_updated": 1772402716
   }
 ]
