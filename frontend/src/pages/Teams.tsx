@@ -5,6 +5,7 @@ import {
   Button,
   Collapse,
   Container,
+  Divider,
   Group,
   Image,
   Paper,
@@ -551,39 +552,42 @@ export default function Teams() {
                                     />
                                   </Group>
                                   {(team.bench?.length ?? 0) > 0 && (
-                                    <Group
-                                      gap="xs"
-                                      align="flex-start"
-                                      wrap="nowrap"
-                                    >
-                                      <Badge
-                                        size="xs"
-                                        variant="light"
-                                        color="gray"
-                                        style={{
-                                          minWidth: 66,
-                                          justifyContent: 'center',
-                                        }}
+                                    <>
+                                      <Divider size="xs" />
+                                      <Group
+                                        gap="xs"
+                                        align="flex-start"
+                                        wrap="nowrap"
                                       >
-                                        Subs {team.bench!.length}
-                                      </Badge>
-                                      <TeamCharacterAvatars
-                                        names={team.bench!}
-                                        charMap={charMap}
-                                        size={isLargeTeamCardLayout ? 52 : 44}
-                                        isSubstitute
-                                        layout="wrap"
-                                        gap={isLargeTeamCardLayout ? 6 : 4}
-                                        wrap={
-                                          isLargeTeamCardLayout
-                                            ? 'nowrap'
-                                            : 'wrap'
-                                        }
-                                        maxVisible={
-                                          isLargeTeamCardLayout ? 6 : 5
-                                        }
-                                      />
-                                    </Group>
+                                        <Badge
+                                          size="xs"
+                                          variant="light"
+                                          color="gray"
+                                          style={{
+                                            minWidth: 66,
+                                            justifyContent: 'center',
+                                          }}
+                                        >
+                                          Subs {team.bench!.length}
+                                        </Badge>
+                                        <TeamCharacterAvatars
+                                          names={team.bench!}
+                                          charMap={charMap}
+                                          size={isLargeTeamCardLayout ? 52 : 44}
+                                          isSubstitute
+                                          layout="wrap"
+                                          gap={isLargeTeamCardLayout ? 6 : 4}
+                                          wrap={
+                                            isLargeTeamCardLayout
+                                              ? 'nowrap'
+                                              : 'wrap'
+                                          }
+                                          maxVisible={
+                                            isLargeTeamCardLayout ? 6 : 5
+                                          }
+                                        />
+                                      </Group>
+                                    </>
                                   )}
                                 </Stack>
                               </Paper>
@@ -680,30 +684,33 @@ export default function Teams() {
                                       />
                                     </Group>
                                     {(team.bench?.length ?? 0) > 0 && (
-                                      <Group
-                                        gap="xs"
-                                        align="center"
-                                        wrap="nowrap"
-                                      >
-                                        <Badge
-                                          size="xs"
-                                          variant="light"
-                                          color="gray"
-                                          style={{
-                                            minWidth: 56,
-                                            justifyContent: 'center',
-                                          }}
+                                      <>
+                                        <Divider size="xs" />
+                                        <Group
+                                          gap="xs"
+                                          align="center"
+                                          wrap="nowrap"
                                         >
-                                          Subs
-                                        </Badge>
-                                        <TeamCharacterAvatars
-                                          names={team.bench!}
-                                          charMap={charMap}
-                                          size={32}
-                                          isSubstitute
-                                          maxVisible={5}
-                                        />
-                                      </Group>
+                                          <Badge
+                                            size="xs"
+                                            variant="light"
+                                            color="gray"
+                                            style={{
+                                              minWidth: 56,
+                                              justifyContent: 'center',
+                                            }}
+                                          >
+                                            Subs
+                                          </Badge>
+                                          <TeamCharacterAvatars
+                                            names={team.bench!}
+                                            charMap={charMap}
+                                            size={32}
+                                            isSubstitute
+                                            maxVisible={5}
+                                          />
+                                        </Group>
+                                      </>
                                     )}
                                   </Stack>
                                 </Paper>
