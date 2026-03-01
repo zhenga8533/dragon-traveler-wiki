@@ -23,38 +23,14 @@ import {
   getCardHoverProps,
   RICH_TOOLTIP_STYLES,
 } from '../../constants/styles';
-import type { Character, RecommendedGearEntry } from '../../types/character';
-import type { GearSetBonus } from '../../types/gear';
+import type {
+  ActivatedSetBonus,
+  Character,
+  RecommendedGearDetail,
+  RecommendedSubclassEntry,
+} from '../../types/character';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
-
-type RecommendedSubclassEntry = {
-  name: string;
-  icon: string | undefined;
-  tier: number | undefined;
-  className: string | undefined;
-  bonuses: string[];
-  effect: string | undefined;
-};
-
-type RecommendedGearDetail = RecommendedGearEntry & {
-  label: string;
-  icon: string;
-  slotIcon: string;
-  setName: string | null;
-  setBonus: GearSetBonus | null;
-  quality: string | undefined;
-  lore: string | undefined;
-  stats: Record<string, string | number> | undefined;
-};
-
-type ActivatedSetBonus = {
-  setName: string;
-  pieces: number;
-  requiredPieces: number;
-  description: string;
-  activations: number;
-};
 
 interface CharacterPageBuildSectionProps {
   character: Character;
@@ -83,7 +59,9 @@ export default function CharacterPageBuildSection({
       {character.lore && (
         <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
           <Stack gap="md">
-            <Title order={2} size="h3">About</Title>
+            <Title order={2} size="h3">
+              About
+            </Title>
             <RichText
               text={character.lore}
               statusEffects={statusEffects}
@@ -215,7 +193,9 @@ export default function CharacterPageBuildSection({
           <Stack gap="md">
             <Group justify="space-between" align="flex-start" gap="sm">
               <Stack gap={2}>
-                <Title order={2} size="h3">Recommended Build</Title>
+                <Title order={2} size="h3">
+                  Recommended Build
+                </Title>
                 <Text size="sm" c="dimmed">
                   Suggested setup based on current character data.
                 </Text>

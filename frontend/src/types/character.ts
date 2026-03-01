@@ -1,5 +1,5 @@
 import type { FactionName } from './faction';
-import type { GearType } from './gear';
+import type { GearSetBonus, GearType } from './gear';
 import type { Quality } from './quality';
 
 export type CharacterClass =
@@ -55,6 +55,34 @@ export interface RecommendedGearEntry {
   slot: RecommendedGearSlot;
   type: GearType;
   name: string;
+}
+
+export interface RecommendedSubclassEntry {
+  name: string;
+  icon: string | undefined;
+  tier: number | undefined;
+  className: string | undefined;
+  bonuses: string[];
+  effect: string | undefined;
+}
+
+export type RecommendedGearDetail = RecommendedGearEntry & {
+  label: string;
+  icon: string;
+  slotIcon: string;
+  setName: string | null;
+  setBonus: GearSetBonus | null;
+  quality: string | undefined;
+  lore: string | undefined;
+  stats: Record<string, string | number> | undefined;
+};
+
+export interface ActivatedSetBonus {
+  setName: string;
+  pieces: number;
+  requiredPieces: number;
+  description: string;
+  activations: number;
 }
 
 export interface Character {

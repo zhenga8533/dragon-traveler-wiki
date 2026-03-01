@@ -16,10 +16,12 @@ import {
   Text,
   Tooltip,
   UnstyledButton,
+  VisuallyHidden,
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import {
+  type KeyboardEvent as ReactKeyboardEvent,
   useCallback,
   useContext,
   useEffect,
@@ -57,7 +59,13 @@ import {
   useDataFetch,
   useMobileTooltip,
 } from '../../hooks';
-import type { Character, RecommendedGearEntry } from '../../types/character';
+import type {
+  ActivatedSetBonus,
+  Character,
+  RecommendedGearDetail,
+  RecommendedGearEntry,
+  RecommendedSubclassEntry,
+} from '../../types/character';
 import type { Gear, GearSet } from '../../types/gear';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
@@ -211,7 +219,7 @@ export default function CharacterPage() {
     return entries;
   }, [character]);
 
-  const recommendedSubclassEntries = useMemo(() => {
+  const recommendedSubclassEntries = useMemo<RecommendedSubclassEntry[]>(() => {
     return (character?.recommended_subclasses ?? [])
       .map((subclassName) => subclassName.trim())
       .filter((subclassName) => subclassName.length > 0)
@@ -244,7 +252,7 @@ export default function CharacterPage() {
     return map;
   }, [gearSets]);
 
-  const recommendedGearDetails = useMemo(() => {
+  const recommendedGearDetails = useMemo<RecommendedGearDetail[]>(() => {
     return recommendedGearEntries.map((entry) => {
       const gearItem = gearByName.get(entry.name.toLowerCase());
       const setName = gearItem?.set?.trim() ?? '';
@@ -262,7 +270,7 @@ export default function CharacterPage() {
     });
   }, [recommendedGearEntries, gearByName, gearSetByName]);
 
-  const activatedSetBonuses = useMemo(() => {
+  const activatedSetBonuses = useMemo<ActivatedSetBonus[]>(() => {
     const sets = new Map<
       string,
       {
@@ -354,6 +362,38 @@ export default function CharacterPage() {
   const mediaContainerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const activeIllustrationName = activeIllustration?.name;
+  const thumbnailHintId = 'character-illustration-thumbnails-hint';
+
+  const selectIllustrationByIndex = useCallback(
+    (index: number) => {
+      const candidate = illustrations[index];
+      if (candidate) {
+        setSelectedIllustration(candidate);
+      }
+    },
+    [illustrations, setSelectedIllustration]
+  );
+
+  const handleThumbnailKeyDown = useCallback(
+    (event: ReactKeyboardEvent<HTMLButtonElement>, index: number) => {
+      if (event.key === 'ArrowRight') {
+        event.preventDefault();
+        selectIllustrationByIndex((index + 1) % illustrations.length);
+      } else if (event.key === 'ArrowLeft') {
+        event.preventDefault();
+        selectIllustrationByIndex(
+          (index - 1 + illustrations.length) % illustrations.length
+        );
+      } else if (event.key === 'Home') {
+        event.preventDefault();
+        selectIllustrationByIndex(0);
+      } else if (event.key === 'End') {
+        event.preventDefault();
+        selectIllustrationByIndex(illustrations.length - 1);
+      }
+    },
+    [illustrations.length, selectIllustrationByIndex]
+  );
 
   const handleFullscreen = useCallback(async () => {
     if (document.fullscreenElement) {
@@ -727,6 +767,14 @@ export default function CharacterPage() {
         >
           {activeIllustration && (
             <Stack gap="md">
+              <VisuallyHidden
+                role="status"
+                aria-live="polite"
+                aria-atomic="true"
+              >
+                {`Illustration ${activeIllustrationIndex + 1} of ${illustrations.length}: ${activeIllustrationName ?? character.name}`}
+              </VisuallyHidden>
+
               {/* Header */}
               <Group justify="space-between" align="center">
                 <Group gap="sm" align="center">
@@ -889,77 +937,94 @@ export default function CharacterPage() {
 
               {/* Thumbnail strip */}
               {hasMultipleIllustrations && (
-                <Box
-                  style={{
-                    display: 'flex',
-                    gap: 8,
-                    justifyContent: 'center',
-                    overflowX: 'auto',
-                    paddingBottom: 4,
-                    paddingTop: 4,
-                  }}
-                >
-                  {illustrations.map((illust) => {
-                    const isActive = illust.name === activeIllustrationName;
-                    return (
-                      <Stack
-                        key={`thumb-${illust.name}`}
-                        gap={4}
-                        align="center"
-                        style={{ flexShrink: 0 }}
-                      >
-                        <UnstyledButton
-                          onClick={() => setSelectedIllustration(illust)}
-                          aria-label={`Go to ${illust.name}`}
-                          style={{
-                            width: 96,
-                            height: 60,
-                            borderRadius: 'var(--mantine-radius-sm)',
-                            overflow: 'hidden',
-                            border: `2px solid ${
-                              isActive
-                                ? 'var(--mantine-color-blue-5)'
-                                : 'var(--mantine-color-default-border)'
-                            }`,
-                            opacity: isActive ? 1 : 0.6,
-                            transition: `opacity ${TRANSITION.FAST}, border-color ${TRANSITION.FAST}`,
-                          }}
+                <>
+                  <VisuallyHidden id={thumbnailHintId}>
+                    Use Left and Right Arrow keys to move between thumbnails.
+                    Use Home for first and End for last illustration.
+                  </VisuallyHidden>
+                  <Box
+                    role="listbox"
+                    aria-label="Illustration thumbnails"
+                    aria-describedby={thumbnailHintId}
+                    style={{
+                      display: 'flex',
+                      gap: 8,
+                      justifyContent: 'center',
+                      overflowX: 'auto',
+                      paddingBottom: 4,
+                      paddingTop: 4,
+                    }}
+                  >
+                    {illustrations.map((illust, index) => {
+                      const isActive = illust.name === activeIllustrationName;
+                      return (
+                        <Stack
+                          key={`thumb-${illust.name}`}
+                          gap={4}
+                          align="center"
+                          style={{ flexShrink: 0 }}
                         >
-                          {illust.type === 'video' ? (
-                            <Center
-                              style={{
-                                width: '100%',
-                                height: '100%',
-                                background: 'var(--mantine-color-dark-6)',
-                              }}
-                            >
-                              <RiFilmLine size={22} color="white" />
-                            </Center>
-                          ) : (
-                            <Image
-                              src={illust.src}
-                              alt={illust.name}
-                              w={96}
-                              h={60}
-                              fit="cover"
-                              loading="lazy"
-                            />
-                          )}
-                        </UnstyledButton>
-                        <Text
-                          size="xs"
-                          c={isActive ? 'blue' : 'dimmed'}
-                          fw={isActive ? 600 : 400}
-                          ta="center"
-                          lineClamp={1}
-                          style={{ maxWidth: 96 }}
-                        >
-                          {illust.name}
-                        </Text>
-                      </Stack>
-                    );
-                  })}
-                </Box>
+                          <UnstyledButton
+                            onClick={() => setSelectedIllustration(illust)}
+                            onKeyDown={(event) =>
+                              handleThumbnailKeyDown(event, index)
+                            }
+                            role="option"
+                            aria-selected={isActive}
+                            aria-current={isActive ? 'true' : undefined}
+                            aria-keyshortcuts="ArrowLeft ArrowRight Home End"
+                            aria-describedby={thumbnailHintId}
+                            aria-label={`Go to ${illust.name}`}
+                            style={{
+                              width: 96,
+                              height: 60,
+                              borderRadius: 'var(--mantine-radius-sm)',
+                              overflow: 'hidden',
+                              border: `2px solid ${
+                                isActive
+                                  ? 'var(--mantine-color-blue-5)'
+                                  : 'var(--mantine-color-default-border)'
+                              }`,
+                              opacity: isActive ? 1 : 0.6,
+                              transition: `opacity ${TRANSITION.FAST}, border-color ${TRANSITION.FAST}`,
+                            }}
+                          >
+                            {illust.type === 'video' ? (
+                              <Center
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
+                                  background: 'var(--mantine-color-dark-6)',
+                                }}
+                              >
+                                <RiFilmLine size={22} color="white" />
+                              </Center>
+                            ) : (
+                              <Image
+                                src={illust.src}
+                                alt={illust.name}
+                                w={96}
+                                h={60}
+                                fit="cover"
+                                loading="lazy"
+                              />
+                            )}
+                          </UnstyledButton>
+                          <Text
+                            size="xs"
+                            c={isActive ? 'blue' : 'dimmed'}
+                            fw={isActive ? 600 : 400}
+                            ta="center"
+                            lineClamp={1}
+                            style={{ maxWidth: 96 }}
+                          >
+                            {illust.name}
+                          </Text>
+                        </Stack>
+                      );
+                    })}
+                  </Box>
+                </>
               )}
             </Stack>
           )}
