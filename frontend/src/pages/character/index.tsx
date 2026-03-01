@@ -1,5 +1,6 @@
 import {
   ActionIcon,
+  Alert,
   Badge,
   Box,
   Center,
@@ -10,6 +11,7 @@ import {
   Modal,
   Paper,
   SimpleGrid,
+  Skeleton,
   Stack,
   Text,
   Tooltip,
@@ -317,6 +319,8 @@ export default function CharacterPage() {
 
   const {
     illustrations,
+    illustrationsLoading,
+    illustrationsError,
     talentIcon,
     skillIcons,
     setSelectedIllustration,
@@ -436,7 +440,36 @@ export default function CharacterPage() {
               }}
             >
               <Box>
-                {illustrations.length > 0 ? (
+                {illustrationsLoading ? (
+                  <Paper p="md" radius="lg" withBorder {...getCardHoverProps()}>
+                    <Stack gap="xs">
+                      <Group justify="space-between" align="center">
+                        <Text fw={600} size="sm">
+                          Illustrations
+                        </Text>
+                        <Text size="xs" c="dimmed">
+                          Loading...
+                        </Text>
+                      </Group>
+                      <Skeleton height={320} radius="md" />
+                    </Stack>
+                  </Paper>
+                ) : illustrationsError ? (
+                  <Paper p="md" radius="lg" withBorder {...getCardHoverProps()}>
+                    <Stack gap="sm">
+                      <Text fw={600} size="sm">
+                        Illustrations
+                      </Text>
+                      <Alert
+                        color="red"
+                        variant="light"
+                        title="Couldn't load illustrations"
+                      >
+                        {illustrationsError}
+                      </Alert>
+                    </Stack>
+                  </Paper>
+                ) : illustrations.length > 0 ? (
                   <Stack gap="sm">
                     <Paper
                       p="md"

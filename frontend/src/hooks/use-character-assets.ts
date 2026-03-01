@@ -10,6 +10,8 @@ import type { Character } from '../types/character';
 
 interface UseCharacterAssetsResult {
   illustrations: CharacterIllustration[];
+  illustrationsLoading: boolean;
+  illustrationsError: string | null;
   talentIcon: string | undefined;
   skillIcons: Map<string, string>;
   setSelectedIllustration: (illustration: CharacterIllustration | null) => void;
@@ -26,6 +28,10 @@ export function useCharacterAssets(
   const [illustrations, setIllustrations] = useState<CharacterIllustration[]>(
     []
   );
+  const [illustrationsLoading, setIllustrationsLoading] = useState(false);
+  const [illustrationsError, setIllustrationsError] = useState<string | null>(
+    null
+  );
   const [selectedIllustration, setSelectedIllustration] =
     useState<CharacterIllustration | null>(null);
   const [talentIcon, setTalentIcon] = useState<string | undefined>();
@@ -36,9 +42,14 @@ export function useCharacterAssets(
 
     if (!character) {
       setIllustrations([]);
+      setIllustrationsLoading(false);
+      setIllustrationsError(null);
       setSelectedIllustration(null);
       return;
     }
+
+    setIllustrationsLoading(true);
+    setIllustrationsError(null);
 
     getIllustrations(character.name)
       .then((imgs) => {
@@ -52,8 +63,16 @@ export function useCharacterAssets(
       .catch(() => {
         if (isCancelled) return;
 
+        console.error(
+          `Failed to load illustrations for character "${character.name}"`
+        );
         setIllustrations([]);
+        setIllustrationsError('Unable to load illustrations right now.');
         setSelectedIllustration(null);
+      })
+      .finally(() => {
+        if (isCancelled) return;
+        setIllustrationsLoading(false);
       });
 
     return () => {
@@ -77,6 +96,7 @@ export function useCharacterAssets(
       })
       .catch(() => {
         if (!isCancelled) {
+          console.error(`Failed to load talent icon for "${character.name}"`);
           setTalentIcon(undefined);
         }
       });
@@ -118,6 +138,7 @@ export function useCharacterAssets(
       })
       .catch(() => {
         if (!isCancelled) {
+          console.error(`Failed to load skill icons for "${character.name}"`);
           setSkillIcons(new Map());
         }
       });
@@ -162,6 +183,8 @@ export function useCharacterAssets(
 
   return {
     illustrations,
+    illustrationsLoading,
+    illustrationsError,
     talentIcon,
     skillIcons,
     setSelectedIllustration,
