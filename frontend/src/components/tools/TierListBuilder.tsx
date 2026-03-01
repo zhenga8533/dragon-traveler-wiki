@@ -557,13 +557,27 @@ function TierNotePopover({
             size="xs"
             c={value ? 'violet' : 'dimmed'}
             lineClamp={1}
-            style={{ opacity: value ? 1 : 0.45 }}
+            style={{
+              opacity: value ? 1 : 0.5,
+              transition:
+                'color 140ms ease, opacity 140ms ease, text-shadow 140ms ease',
+              textShadow: value
+                ? '0 0 0.5px var(--mantine-color-violet-outline)'
+                : 'none',
+            }}
           >
             {value || emptyLabel}
           </Text>
         </div>
       </Popover.Target>
-      <Popover.Dropdown p="xs">
+      <Popover.Dropdown
+        p="xs"
+        style={{
+          border: '1px solid var(--mantine-color-default-border)',
+          background: 'var(--mantine-color-body)',
+          boxShadow: 'var(--mantine-shadow-md)',
+        }}
+      >
         <Textarea
           ref={textareaRef}
           size="xs"
@@ -586,6 +600,10 @@ function TierNotePopover({
               maxWidth: editorMaxWidth,
               lineHeight: 1.35,
               opacity: draftValue ? 1 : 0.9,
+              backgroundColor: 'var(--mantine-color-body)',
+              borderColor: draftValue
+                ? 'var(--mantine-color-violet-4)'
+                : 'var(--mantine-color-default-border)',
               whiteSpace: 'pre-wrap',
               overflowWrap: 'anywhere',
               wordBreak: 'break-word',

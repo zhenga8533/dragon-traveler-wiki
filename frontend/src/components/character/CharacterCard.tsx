@@ -42,7 +42,7 @@ export default function CharacterCard({
           color={
             isBuilderNoteVariant
               ? 'var(--mantine-color-violet-1)'
-              : 'var(--mantine-color-blue-5)'
+              : 'var(--mantine-color-violet-filled)'
           }
           style={{
             position: 'absolute',
@@ -53,10 +53,10 @@ export default function CharacterCard({
               : 'var(--mantine-color-body)',
             border: isBuilderNoteVariant
               ? '1px solid var(--mantine-color-violet-4)'
-              : undefined,
+              : '1px solid var(--mantine-color-default-border)',
             boxShadow: isBuilderNoteVariant
-              ? '0 4px 10px rgba(124, 58, 237, 0.28)'
-              : undefined,
+              ? 'var(--mantine-shadow-sm)'
+              : 'var(--mantine-shadow-xs)',
             borderRadius: '50%',
           }}
         />
@@ -83,6 +83,14 @@ export default function CharacterCard({
           multiline
           withArrow
           maw={280}
+          styles={{
+            tooltip: {
+              background: 'var(--mantine-color-body)',
+              color: 'var(--mantine-color-text)',
+              border: '1px solid var(--mantine-color-default-border)',
+              boxShadow: 'var(--mantine-shadow-md)',
+            },
+          }}
         >
           {portrait}
         </Tooltip>
