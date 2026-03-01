@@ -82,6 +82,90 @@ const FACTION_GIFTS: {
   },
 ];
 
+const GUILD_EXPEDITION_PRIORITIES: {
+  priority: number;
+  objective: React.ReactNode;
+  reward: React.ReactNode;
+}[] = [
+  { priority: 1, objective: 'Rune Crystals', reward: '10x Class Rune' },
+  {
+    priority: 2,
+    objective: 'Bosses',
+    reward: (
+      <>
+        Chance for key, <ResourceBadge name="Leaf of the World Tree" />, Auction
+        addition
+      </>
+    ),
+  },
+  {
+    priority: 3,
+    objective: 'Normal enemies/ locked chests',
+    reward: (
+      <>
+        Key, <ResourceBadge name="Leaf of the World Tree" /> / Gems, Faction
+        Runes, <ResourceBadge name="Dragonblood" />
+      </>
+    ),
+  },
+  {
+    priority: 4,
+    objective: 'Dragon Soul Statues',
+    reward: '1x RANDOM SR Dragon Shard',
+  },
+  {
+    priority: 5,
+    objective: 'Three Dragon Soul Statues',
+    reward: '1x RANDOM SSR Dragon Shard',
+  },
+  { priority: 6, objective: 'Rune Monument', reward: '1x Class Rune' },
+  {
+    priority: 7,
+    objective: 'Cart Full of Dragon Souls',
+    reward: (
+      <>
+        1x <ResourceBadge name="Wyrm Essence" /> Pack (1 hr)
+      </>
+    ),
+  },
+  {
+    priority: 8,
+    objective: 'Dragon Soul Stone',
+    reward: (
+      <>
+        5x <ResourceBadge name="Wyrm Essence" />
+      </>
+    ),
+  },
+  {
+    priority: 9,
+    objective: 'Ancient Tree',
+    reward: (
+      <>
+        1x <ResourceBadge name="Luminary EXP" /> Pack (1 hr)
+      </>
+    ),
+  },
+  {
+    priority: 10,
+    objective: 'Cart Full of Gold',
+    reward: (
+      <>
+        1x <ResourceBadge name="Gold" /> Pack (1 hr)
+      </>
+    ),
+  },
+  {
+    priority: 11,
+    objective: 'Gold',
+    reward: (
+      <>
+        7500 <ResourceBadge name="Gold" />
+      </>
+    ),
+  },
+];
+
 function QA({
   q,
   children,
@@ -94,10 +178,25 @@ function QA({
   return (
     <Paper p="md" radius="md" withBorder {...getCardHoverProps({ style })}>
       <Stack gap="xs">
-        <Text fw={700}>Q: {q}</Text>
-        <Text size="sm" c="dimmed" component="div">
-          A: {children}
-        </Text>
+        <Group align="flex-start" gap={6} wrap="nowrap">
+          <Text fw={700}>Q:</Text>
+          <Text fw={700} component="div" style={{ flex: 1, minWidth: 0 }}>
+            {q}
+          </Text>
+        </Group>
+        <Group align="flex-start" gap={6} wrap="nowrap">
+          <Text size="sm" c="dimmed" fw={700}>
+            A:
+          </Text>
+          <Text
+            size="sm"
+            c="dimmed"
+            component="div"
+            style={{ flex: 1, minWidth: 0 }}
+          >
+            {children}
+          </Text>
+        </Group>
       </Stack>
     </Paper>
   );
@@ -169,7 +268,12 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Summoning &amp; Characters</Title>
 
@@ -179,8 +283,8 @@ export default function BeginnerQA() {
             >
               Go for at least 8 copies of <CharacterTag name="Ifrit" /> (AoE
               attack, physical defense reduction) to reach Red 1★ for the
-              powerful Level 4 passive. Then always summon for at least 1 copy
-              of each limited character to unlock them in the Heart Trial.
+              powerful Level 4 passive. Then try to summon at least 1 copy of
+              each limited character.
             </QA>
 
             <QA
@@ -197,18 +301,30 @@ export default function BeginnerQA() {
 
             <QA q="How should I set my Wishlist?" style={sectionCardStyle}>
               Fill all 8 slots or it will not activate. For SSR+, take up to two{' '}
-              <CharacterTag name="Titania" />, then switch to{' '}
-              <CharacterTag name="Scheherazade" />;{' '}
-              <CharacterTag name="Pan Junbao" />
-              needs one copy. For SSR, prioritize{' '}
-              <CharacterTag name="Atanith" />,
-              <CharacterTag name="Caligula" />, and{' '}
-              <CharacterTag name="Herman" />.
+              <CharacterTag name="Titania" />, then prioritize{' '}
+              <CharacterTag name="Scheherazade" />,{' '}
+              <CharacterTag name="Huginn & Muninn" />,{' '}
+              <CharacterTag name="Gullveig" />, and{' '}
+              <CharacterTag name="Anubis" />. Also, try to acquire one copy of
+              each SSR+ Luminary.
+              <br />
+              For SSR, prioritize <CharacterTag name="Atanith" />,{' '}
+              <CharacterTag name="Lorllin" />, <CharacterTag name="Nemesis" />,{' '}
+              <CharacterTag name="Chiron" />, <CharacterTag name="Caligula" />,
+              and <CharacterTag name="Herman" />.<br />
+              Note that this is just the reccommended order for F2P and new
+              players; if you have a specific team composition in mind, you may
+              want to prioritize different characters.
             </QA>
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Economy &amp; Shopping</Title>
 
@@ -253,7 +369,12 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Progression &amp; Mechanics</Title>
 
@@ -294,7 +415,12 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Events &amp; Guilds</Title>
 
@@ -320,11 +446,56 @@ export default function BeginnerQA() {
               <ResourceBadge name="Leaf of the World Tree" />
               source). In Exploration, prioritize Limited Resources &gt; Rune
               Crystals &gt; Dragon Soul Statues.
+              <br />
+              <br />
+              Guild Expedition priority:
+              <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                <Table
+                  striped
+                  withTableBorder
+                  withColumnBorders
+                  style={getMinWidthStyle(700)}
+                >
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Priority</Table.Th>
+                      <Table.Th>Objective</Table.Th>
+                      <Table.Th>Reward</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {GUILD_EXPEDITION_PRIORITIES.map(
+                      ({ priority, objective, reward }) => (
+                        <Table.Tr key={priority}>
+                          <Table.Td>
+                            <Text size="sm" fw={600}>
+                              {priority}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td>
+                            <Text size="sm">{objective}</Text>
+                          </Table.Td>
+                          <Table.Td>
+                            <Text size="sm" c="dimmed">
+                              {reward}
+                            </Text>
+                          </Table.Td>
+                        </Table.Tr>
+                      )
+                    )}
+                  </Table.Tbody>
+                </Table>
+              </ScrollArea>
             </QA>
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Affection Gifts</Title>
             <Text size="sm" c="dimmed">
@@ -353,7 +524,10 @@ export default function BeginnerQA() {
                   {FACTION_GIFTS.map(({ faction, ssr, sr, r, n }) => (
                     <Table.Tr key={faction}>
                       <Table.Td>
-                        <Text size="sm" fw={faction === 'Any' ? 600 : undefined}>
+                        <Text
+                          size="sm"
+                          fw={faction === 'Any' ? 600 : undefined}
+                        >
                           {faction}
                         </Text>
                       </Table.Td>
@@ -379,7 +553,12 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card withBorder radius="md" p="lg" {...getCardHoverProps({ style: sectionCardStyle })}>
+        <Card
+          withBorder
+          radius="md"
+          p="lg"
+          {...getCardHoverProps({ style: sectionCardStyle })}
+        >
           <Stack gap="sm">
             <Title order={2}>Combat Strategy</Title>
 
@@ -400,4 +579,3 @@ export default function BeginnerQA() {
     </Container>
   );
 }
-
