@@ -3,1497 +3,1329 @@
     "name": "Taiwan Tier List",
     "author": "ligong0214",
     "content_type": "All",
-    "description": "",
-    "entries": [
+    "description": "Please note that this tier list is for the Taiwan server, which is ~1 year ahead of the global server. Therefore, it may not accurately reflect the current state of the global server. Use it as a reference, but keep in mind that the meta may differ. Tiers are assigned assuming characters are fully built, disregarding their Noble Phantasms.",
+    "tiers": [
       {
-        "character_name": "Athena",
-        "tier": "S+",
-        "note": ""
+        "name": "SS",
+        "note": "Child of the Meta. Without these, it's nearly impossible to compete with players who have them. Having them vs. not having them creates two different games. Provides an excellent gaming experience."
       },
       {
-        "character_name": "Caesar",
-        "tier": "S+",
-        "note": ""
+        "name": "S+",
+        "note": "Factions Powerhouses. Very strong characters tied to specific factions, but don't perform as well in others. SS rank is usually reserved for those who are versatile across all factions."
       },
       {
-        "character_name": "Salome",
-        "tier": "S+",
-        "note": ""
+        "name": "S",
+        "note": "Overpowered. Core building blocks for their specific color/elemental teams. The game is difficult without them; they significantly improve the gameplay experience."
       },
       {
-        "character_name": "Venus",
-        "tier": "S+",
-        "note": ""
+        "name": "A+",
+        "note": "Unique Utility. Raw power isn't \"broken,\" but they possess irreplaceable functions or have very low investment costs, leading to a noticeable improvement in gameplay."
       },
       {
-        "character_name": "Morgana",
-        "tier": "S+",
-        "note": ""
+        "name": "A",
+        "note": "Average/Decent. Usable but not essential. They add depth to your roster but have low usage rates. Occasionally improves the gaming experience slightly."
       },
       {
-        "character_name": "Vivienne",
-        "tier": "S+",
-        "note": ""
+        "name": "B",
+        "note": "Low ROI. The resources invested do not yield a proportional return in gameplay. Barely passing; only used out of necessity in a few specific teams."
       },
       {
-        "character_name": "Silbismo",
-        "tier": "S+",
-        "note": ""
+        "name": "C",
+        "note": "Not worth investing. Rarely used and not worth ranking."
       },
       {
-        "character_name": "Ares",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Apollo",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Mimir",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Jing",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Artemis",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Talos",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Loki",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Poseidon",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Prometheus",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Duvalin",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Pompey",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Hela",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Atanith",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Hades",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Zagrus",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Rin",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Thor",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Asmodeus",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Azure Dragon",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Tyrfing",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Ifrit",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Ningluosi",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Gabriele",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Crassus",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Vermilion Bird",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Faust",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Helveil",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Herman",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Oberonnie",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Scheherazade",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Chiron",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Goblin War Drummer",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Nemesis",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Fenrir",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Andevaly",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Asteros",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Orion",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Medusa",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Huginn & Muninn",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Lorillin",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Gullveig",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Nanalie",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Eurytion",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Anubis",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Drasill",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Goren",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Ophelia",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Caligula",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Siren",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Titania",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Jormungandr",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Pan Junbao",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "White Tiger",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Siegfried",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Marylis",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Brynhild",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Beowulf",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Nessus",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Cleopatra",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Melina",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Telperion",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Gudong",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Flora",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Mordred",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Lancelot",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Arthur",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Guna",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Van Helsing",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Cerberus",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Dwarf Warrior",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Mummy",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Rock Slime",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Viel",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Breeze Slime",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Bladeheart",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Boar Knight",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Sword Dancer",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Shadow Slime",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Grimnir",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Murphy",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Goblin Battering Ram",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Flame Slime",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Polyphemus",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Dwarven Cannoneer",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Wood Elf Archer",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Lightning Slime",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Buck",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Kleina",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Dwarven Sage",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Pharaoh",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Ice Slime",
-        "tier": "D",
-        "note": ""
+        "name": "F",
+        "note": "Fodder."
       }
     ],
-    "last_updated": 1771812465
-  },
-  {
-    "name": "Taiwan PvP Tier List",
-    "author": "ligong0214",
-    "content_type": "PvP",
-    "description": "",
     "entries": [
       {
-        "character_name": "Caesar",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Salome",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Venus",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Ares",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Azure Dragon",
-        "tier": "S+",
-        "note": ""
-      },
-      {
         "character_name": "Artemis",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Loki",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Poseidon",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Talos",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Prometheus",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Duvalin",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Pompey",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Hela",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Morgana",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Vivienne",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Silbismo",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Rin",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Hades",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Thor",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Asmodeus",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Ifrit",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Mimir",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Ningluosi",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Gabriele",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Crassus",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Vermilion Bird",
-        "tier": "S",
-        "note": ""
+        "tier": "SS"
       },
       {
         "character_name": "Athena",
-        "tier": "A",
-        "note": ""
+        "tier": "SS"
       },
       {
-        "character_name": "Helveil",
-        "tier": "A",
-        "note": ""
+        "character_name": "Loki",
+        "tier": "SS"
       },
       {
-        "character_name": "Atanith",
-        "tier": "A",
-        "note": ""
+        "character_name": "Poseidon",
+        "tier": "SS"
       },
       {
-        "character_name": "Scheherazade",
-        "tier": "A",
-        "note": ""
+        "character_name": "Venus",
+        "tier": "SS"
       },
       {
-        "character_name": "Chiron",
-        "tier": "A",
-        "note": ""
+        "character_name": "Lilith",
+        "tier": "SS"
       },
       {
-        "character_name": "Zagrus",
-        "tier": "A",
-        "note": ""
+        "character_name": "Talos",
+        "tier": "SS"
       },
       {
-        "character_name": "Andevaly",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Tyrfing",
-        "tier": "A",
-        "note": ""
+        "character_name": "Vivienne",
+        "tier": "SS"
       },
       {
         "character_name": "Apollo",
-        "tier": "A",
-        "note": ""
+        "tier": "S+"
+      },
+      {
+        "character_name": "Ares",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Hela",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Caesar",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Duvalin",
+        "tier": "S+"
       },
       {
         "character_name": "Jing",
-        "tier": "A",
-        "note": ""
+        "tier": "S+"
       },
       {
-        "character_name": "Huginn & Muninn",
-        "tier": "A",
-        "note": ""
+        "character_name": "Mimir",
+        "tier": "S+"
       },
       {
-        "character_name": "Herman",
-        "tier": "B",
-        "note": ""
+        "character_name": "Morgana",
+        "tier": "S+"
       },
       {
-        "character_name": "Oberonnie",
-        "tier": "B",
-        "note": ""
+        "character_name": "Pompey",
+        "tier": "S+"
       },
       {
-        "character_name": "Anubis",
-        "tier": "B",
-        "note": ""
+        "character_name": "Salome",
+        "tier": "S+"
       },
       {
-        "character_name": "Drasill",
-        "tier": "B",
-        "note": ""
+        "character_name": "Tyrfing",
+        "tier": "S+"
       },
       {
-        "character_name": "Goren",
-        "tier": "B",
-        "note": ""
+        "character_name": "Hades",
+        "tier": "S"
       },
       {
-        "character_name": "Ophelia",
-        "tier": "B",
-        "note": ""
+        "character_name": "Prometheus",
+        "tier": "S"
       },
       {
-        "character_name": "Caligula",
-        "tier": "B",
-        "note": ""
+        "character_name": "Thor",
+        "tier": "S"
       },
       {
-        "character_name": "Siren",
-        "tier": "B",
-        "note": ""
+        "character_name": "Asmodeus",
+        "tier": "S"
       },
       {
-        "character_name": "Nemesis",
-        "tier": "B",
-        "note": ""
+        "character_name": "Azure Dragon",
+        "tier": "S"
       },
       {
-        "character_name": "Fenrir",
-        "tier": "B",
-        "note": ""
+        "character_name": "Crassus",
+        "tier": "S"
       },
       {
-        "character_name": "Jormungandr",
-        "tier": "B",
-        "note": ""
+        "character_name": "Gabriele",
+        "tier": "S"
       },
       {
-        "character_name": "White Tiger",
-        "tier": "B",
-        "note": ""
+        "character_name": "Hitomi",
+        "tier": "S"
       },
       {
-        "character_name": "Mordred",
-        "tier": "B",
-        "note": ""
+        "character_name": "Ifrit",
+        "tier": "S"
       },
       {
-        "character_name": "Lancelot",
-        "tier": "B",
-        "note": ""
+        "character_name": "Ningluosi",
+        "tier": "S"
       },
       {
-        "character_name": "Asteros",
-        "tier": "B",
-        "note": ""
+        "character_name": "Rin",
+        "tier": "S"
       },
       {
-        "character_name": "Siegfried",
-        "tier": "B",
-        "note": ""
+        "character_name": "Silbismo",
+        "tier": "S"
       },
       {
-        "character_name": "Marylis",
-        "tier": "B",
-        "note": ""
+        "character_name": "Vermilion Bird",
+        "tier": "S"
       },
       {
-        "character_name": "Brynhild",
-        "tier": "B",
-        "note": ""
+        "character_name": "Zagrus",
+        "tier": "S"
       },
       {
-        "character_name": "Beowulf",
-        "tier": "B",
-        "note": ""
+        "character_name": "Atanith",
+        "tier": "S"
       },
       {
-        "character_name": "Orion",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Medusa",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Lorillin",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Nessus",
-        "tier": "B",
-        "note": ""
+        "character_name": "Andevaly",
+        "tier": "A+"
       },
       {
         "character_name": "Gullveig",
-        "tier": "B",
-        "note": ""
+        "tier": "A+"
+      },
+      {
+        "character_name": "Orion",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Scheherazade",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Asteros",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Chiron",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Medusa",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Anubis",
+        "tier": "A"
       },
       {
         "character_name": "Faust",
-        "tier": "B",
-        "note": ""
+        "tier": "A"
+      },
+      {
+        "character_name": "Helveil",
+        "tier": "A"
+      },
+      {
+        "character_name": "Huginn & Muninn",
+        "tier": "A"
+      },
+      {
+        "character_name": "Jormungandr",
+        "tier": "A"
+      },
+      {
+        "character_name": "Fenrir",
+        "tier": "A"
+      },
+      {
+        "character_name": "Herman",
+        "tier": "A"
+      },
+      {
+        "character_name": "Lorillin",
+        "tier": "A"
       },
       {
         "character_name": "Nanalie",
-        "tier": "B",
-        "note": ""
+        "tier": "A"
       },
       {
-        "character_name": "Telperion",
-        "tier": "B",
-        "note": ""
+        "character_name": "Nemesis",
+        "tier": "A"
       },
       {
-        "character_name": "Eurytion",
-        "tier": "C",
-        "note": ""
+        "character_name": "Oberonnie",
+        "tier": "A"
       },
       {
-        "character_name": "Gudong",
-        "tier": "C",
-        "note": ""
+        "character_name": "Brynhild",
+        "tier": "B"
       },
       {
-        "character_name": "Goblin War Drummer",
-        "tier": "C",
-        "note": ""
+        "character_name": "Marylis",
+        "tier": "B"
       },
       {
-        "character_name": "Titania",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Flora",
-        "tier": "C",
-        "note": ""
+        "character_name": "Ophelia",
+        "tier": "B"
       },
       {
         "character_name": "Pan Junbao",
-        "tier": "C",
-        "note": ""
+        "tier": "B"
       },
       {
-        "character_name": "Guna",
-        "tier": "C",
-        "note": ""
+        "character_name": "Siegfried",
+        "tier": "B"
       },
       {
-        "character_name": "Arthur",
-        "tier": "C",
-        "note": ""
+        "character_name": "Titania",
+        "tier": "B"
       },
       {
-        "character_name": "Van Helsing",
-        "tier": "C",
-        "note": ""
+        "character_name": "White Tiger",
+        "tier": "B"
       },
       {
-        "character_name": "Cerberus",
-        "tier": "C",
-        "note": ""
+        "character_name": "Beowulf",
+        "tier": "B"
+      },
+      {
+        "character_name": "Caligula",
+        "tier": "B"
       },
       {
         "character_name": "Cleopatra",
-        "tier": "C",
-        "note": ""
+        "tier": "B"
+      },
+      {
+        "character_name": "Drasill",
+        "tier": "B"
+      },
+      {
+        "character_name": "Goren",
+        "tier": "B"
       },
       {
         "character_name": "Melina",
-        "tier": "C",
-        "note": ""
+        "tier": "B"
       },
       {
-        "character_name": "Dwarf Warrior",
-        "tier": "D",
-        "note": ""
+        "character_name": "Telperion",
+        "tier": "B"
       },
       {
-        "character_name": "Mummy",
-        "tier": "D",
-        "note": ""
+        "character_name": "Eurytion",
+        "tier": "B"
       },
       {
-        "character_name": "Rock Slime",
-        "tier": "D",
-        "note": ""
+        "character_name": "Nessus",
+        "tier": "B"
       },
       {
-        "character_name": "Viel",
-        "tier": "D",
-        "note": ""
+        "character_name": "Siren",
+        "tier": "B"
       },
       {
-        "character_name": "Breeze Slime",
-        "tier": "D",
-        "note": ""
+        "character_name": "Arthur",
+        "tier": "C"
+      },
+      {
+        "character_name": "Mordred",
+        "tier": "C"
+      },
+      {
+        "character_name": "Cerberus",
+        "tier": "C"
+      },
+      {
+        "character_name": "Gudong",
+        "tier": "C"
+      },
+      {
+        "character_name": "Guna",
+        "tier": "C"
+      },
+      {
+        "character_name": "Lancelot",
+        "tier": "C"
+      },
+      {
+        "character_name": "Van Helsing",
+        "tier": "C"
+      },
+      {
+        "character_name": "Flora",
+        "tier": "C"
       },
       {
         "character_name": "Bladeheart",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Boar Knight",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Sword Dancer",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Shadow Slime",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Grimnir",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Murphy",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Goblin Battering Ram",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Flame Slime",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Polyphemus",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Dwarven Cannoneer",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Wood Elf Archer",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Lightning Slime",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
       },
       {
         "character_name": "Buck",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
+      },
+      {
+        "character_name": "Grimnir",
+        "tier": "F"
       },
       {
         "character_name": "Kleina",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
+      },
+      {
+        "character_name": "Murphy",
+        "tier": "F"
+      },
+      {
+        "character_name": "Polyphemus",
+        "tier": "F"
+      },
+      {
+        "character_name": "Boar Knight",
+        "tier": "F"
+      },
+      {
+        "character_name": "Dwarf Warrior",
+        "tier": "F"
+      },
+      {
+        "character_name": "Dwarven Cannoneer",
+        "tier": "F"
       },
       {
         "character_name": "Dwarven Sage",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
+      },
+      {
+        "character_name": "Goblin Battering Ram",
+        "tier": "F"
+      },
+      {
+        "character_name": "Goblin War Drummer",
+        "tier": "F"
+      },
+      {
+        "character_name": "Mummy",
+        "tier": "F"
       },
       {
         "character_name": "Pharaoh",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
+      },
+      {
+        "character_name": "Sword Dancer",
+        "tier": "F"
+      },
+      {
+        "character_name": "Viel",
+        "tier": "F"
+      },
+      {
+        "character_name": "Wood Elf Archer",
+        "tier": "F"
+      },
+      {
+        "character_name": "Breeze Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Flame Slime",
+        "tier": "F"
       },
       {
         "character_name": "Ice Slime",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
+      },
+      {
+        "character_name": "Lightning Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Rock Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Shadow Slime",
+        "tier": "F"
       }
     ],
-    "last_updated": 1771820426
+    "last_updated": 1772349780
   },
   {
     "name": "Taiwan PvE Tier List",
     "author": "ligong0214",
     "content_type": "PvE",
-    "description": "",
+    "description": "Please note that this tier list is for the Taiwan server, which is ~1 year ahead of the global server. Therefore, it may not accurately reflect the current state of the global server. Use it as a reference, but keep in mind that the meta may differ. Tiers are assigned assuming characters are fully built, disregarding their Noble Phantasms.",
+    "tiers": [
+      {
+        "name": "SS",
+        "note": "Child of the Meta. Without these, it's nearly impossible to compete with players who have them. Having them vs. not having them creates two different games. Provides an excellent gaming experience."
+      },
+      {
+        "name": "S+",
+        "note": "Factions Powerhouses. Very strong characters tied to specific factions, but don't perform as well in others. SS rank is usually reserved for those who are versatile across all factions."
+      },
+      {
+        "name": "S",
+        "note": "Overpowered. Core building blocks for their specific color/elemental teams. The game is difficult without them; they significantly improve the gameplay experience."
+      },
+      {
+        "name": "A+",
+        "note": "Unique Utility. Raw power isn't \"broken,\" but they possess irreplaceable functions or have very low investment costs, leading to a noticeable improvement in gameplay."
+      },
+      {
+        "name": "A",
+        "note": "Average/Decent. Usable but not essential. They add depth to your roster but have low usage rates. Occasionally improves the gaming experience slightly."
+      },
+      {
+        "name": "B",
+        "note": "Low ROI. The resources invested do not yield a proportional return in gameplay. Barely passing; only used out of necessity in a few specific teams."
+      },
+      {
+        "name": "C",
+        "note": "Not worth investing. Rarely used and not worth ranking."
+      },
+      {
+        "name": "F",
+        "note": "Fodder."
+      }
+    ],
     "entries": [
       {
-        "character_name": "Athena",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Prometheus",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Salome",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Hela",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Morgana",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Atanith",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Zagrus",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Ares",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Asmodeus",
-        "tier": "S+",
-        "note": ""
-      },
-      {
         "character_name": "Apollo",
-        "tier": "S+",
-        "note": ""
+        "tier": "SS"
       },
       {
         "character_name": "Artemis",
-        "tier": "S+",
-        "note": ""
+        "tier": "SS"
+      },
+      {
+        "character_name": "Athena",
+        "tier": "SS"
+      },
+      {
+        "character_name": "Hela",
+        "tier": "SS"
+      },
+      {
+        "character_name": "Prometheus",
+        "tier": "SS"
       },
       {
         "character_name": "Jing",
-        "tier": "S+",
-        "note": ""
+        "tier": "SS"
+      },
+      {
+        "character_name": "Lilith",
+        "tier": "SS"
       },
       {
         "character_name": "Mimir",
-        "tier": "S+",
-        "note": ""
+        "tier": "SS"
       },
       {
-        "character_name": "Orion",
-        "tier": "S+",
-        "note": ""
+        "character_name": "Morgana",
+        "tier": "SS"
       },
       {
-        "character_name": "Medusa",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Vermilion Bird",
-        "tier": "S+",
-        "note": ""
+        "character_name": "Salome",
+        "tier": "SS"
       },
       {
         "character_name": "Talos",
-        "tier": "S+",
-        "note": ""
-      },
-      {
-        "character_name": "Caesar",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Duvalin",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Pompey",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Venus",
-        "tier": "S",
-        "note": ""
+        "tier": "SS"
       },
       {
         "character_name": "Vivienne",
-        "tier": "S",
-        "note": ""
+        "tier": "SS"
       },
       {
-        "character_name": "Scheherazade",
-        "tier": "S",
-        "note": ""
+        "character_name": "Atanith",
+        "tier": "SS"
       },
       {
-        "character_name": "Silbismo",
-        "tier": "S",
-        "note": ""
+        "character_name": "Ares",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Asmodeus",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Duvalin",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Orion",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Pompey",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Vermilion Bird",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Zagrus",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Medusa",
+        "tier": "S+"
       },
       {
         "character_name": "Hades",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Rin",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Thor",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Azure Dragon",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Asteros",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Tyrfing",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Ifrit",
-        "tier": "S",
-        "note": ""
-      },
-      {
-        "character_name": "Ningluosi",
-        "tier": "S",
-        "note": ""
+        "tier": "S"
       },
       {
         "character_name": "Loki",
-        "tier": "S",
-        "note": ""
+        "tier": "S"
       },
       {
         "character_name": "Poseidon",
-        "tier": "S",
-        "note": ""
+        "tier": "S"
       },
       {
-        "character_name": "Gabriele",
-        "tier": "S",
-        "note": ""
+        "character_name": "Thor",
+        "tier": "S"
+      },
+      {
+        "character_name": "Venus",
+        "tier": "S"
+      },
+      {
+        "character_name": "Azure Dragon",
+        "tier": "S"
+      },
+      {
+        "character_name": "Caesar",
+        "tier": "S"
       },
       {
         "character_name": "Crassus",
-        "tier": "S",
-        "note": ""
+        "tier": "S"
+      },
+      {
+        "character_name": "Gabriele",
+        "tier": "S"
       },
       {
         "character_name": "Gullveig",
-        "tier": "S",
-        "note": ""
+        "tier": "S"
       },
       {
-        "character_name": "Helveil",
-        "tier": "A",
-        "note": ""
+        "character_name": "Hitomi",
+        "tier": "S"
       },
       {
-        "character_name": "Herman",
-        "tier": "A",
-        "note": ""
+        "character_name": "Ifrit",
+        "tier": "S"
       },
       {
-        "character_name": "Eurytion",
-        "tier": "A",
-        "note": ""
+        "character_name": "Ningluosi",
+        "tier": "S"
       },
       {
-        "character_name": "Anubis",
-        "tier": "A",
-        "note": ""
+        "character_name": "Rin",
+        "tier": "S"
       },
       {
-        "character_name": "Oberonnie",
-        "tier": "A",
-        "note": ""
+        "character_name": "Scheherazade",
+        "tier": "S"
       },
       {
-        "character_name": "Chiron",
-        "tier": "A",
-        "note": ""
+        "character_name": "Silbismo",
+        "tier": "S"
       },
       {
-        "character_name": "Ophelia",
-        "tier": "A",
-        "note": ""
+        "character_name": "Tyrfing",
+        "tier": "S"
       },
       {
-        "character_name": "Nemesis",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Fenrir",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Pan Junbao",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Andevaly",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Brynhild",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Lorillin",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Faust",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Melina",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Nanalie",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Telperion",
-        "tier": "A",
-        "note": ""
-      },
-      {
-        "character_name": "Goren",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Caligula",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Titania",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Siren",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Jormungandr",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Mordred",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "White Tiger",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Lancelot",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Marylis",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Siegfried",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Beowulf",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Huginn & Muninn",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Nessus",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Cleopatra",
-        "tier": "B",
-        "note": ""
-      },
-      {
-        "character_name": "Drasill",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Gudong",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Flora",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Arthur",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Guna",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Van Helsing",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Cerberus",
-        "tier": "C",
-        "note": ""
-      },
-      {
-        "character_name": "Dwarf Warrior",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Mummy",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Rock Slime",
-        "tier": "D",
-        "note": ""
+        "character_name": "Asteros",
+        "tier": "S"
       },
       {
         "character_name": "Goblin War Drummer",
-        "tier": "D",
-        "note": ""
+        "tier": "S"
       },
       {
-        "character_name": "Viel",
-        "tier": "D",
-        "note": ""
+        "character_name": "Andevaly",
+        "tier": "A+"
       },
       {
-        "character_name": "Breeze Slime",
-        "tier": "D",
-        "note": ""
+        "character_name": "Chiron",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Anubis",
+        "tier": "A"
+      },
+      {
+        "character_name": "Faust",
+        "tier": "A"
+      },
+      {
+        "character_name": "Helveil",
+        "tier": "A"
+      },
+      {
+        "character_name": "Ophelia",
+        "tier": "A"
+      },
+      {
+        "character_name": "Pan Junbao",
+        "tier": "A"
+      },
+      {
+        "character_name": "Fenrir",
+        "tier": "A"
+      },
+      {
+        "character_name": "Herman",
+        "tier": "A"
+      },
+      {
+        "character_name": "Lorillin",
+        "tier": "A"
+      },
+      {
+        "character_name": "Melina",
+        "tier": "A"
+      },
+      {
+        "character_name": "Nanalie",
+        "tier": "A"
+      },
+      {
+        "character_name": "Nemesis",
+        "tier": "A"
+      },
+      {
+        "character_name": "Oberonnie",
+        "tier": "A"
+      },
+      {
+        "character_name": "Telperion",
+        "tier": "A"
+      },
+      {
+        "character_name": "Eurytion",
+        "tier": "A"
+      },
+      {
+        "character_name": "Brynhild",
+        "tier": "B"
+      },
+      {
+        "character_name": "Huginn & Muninn",
+        "tier": "B"
+      },
+      {
+        "character_name": "Jormungandr",
+        "tier": "B"
+      },
+      {
+        "character_name": "Marylis",
+        "tier": "B"
+      },
+      {
+        "character_name": "Siegfried",
+        "tier": "B"
+      },
+      {
+        "character_name": "Titania",
+        "tier": "B"
+      },
+      {
+        "character_name": "White Tiger",
+        "tier": "B"
+      },
+      {
+        "character_name": "Beowulf",
+        "tier": "B"
+      },
+      {
+        "character_name": "Caligula",
+        "tier": "B"
+      },
+      {
+        "character_name": "Cleopatra",
+        "tier": "B"
+      },
+      {
+        "character_name": "Goren",
+        "tier": "B"
+      },
+      {
+        "character_name": "Nessus",
+        "tier": "B"
+      },
+      {
+        "character_name": "Siren",
+        "tier": "B"
+      },
+      {
+        "character_name": "Arthur",
+        "tier": "C"
+      },
+      {
+        "character_name": "Mordred",
+        "tier": "C"
+      },
+      {
+        "character_name": "Cerberus",
+        "tier": "C"
+      },
+      {
+        "character_name": "Drasill",
+        "tier": "C"
+      },
+      {
+        "character_name": "Gudong",
+        "tier": "C"
+      },
+      {
+        "character_name": "Guna",
+        "tier": "C"
+      },
+      {
+        "character_name": "Lancelot",
+        "tier": "C"
+      },
+      {
+        "character_name": "Van Helsing",
+        "tier": "C"
+      },
+      {
+        "character_name": "Flora",
+        "tier": "C"
       },
       {
         "character_name": "Bladeheart",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Boar Knight",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Sword Dancer",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Shadow Slime",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Grimnir",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Murphy",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Goblin Battering Ram",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Flame Slime",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Polyphemus",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Dwarven Cannoneer",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Wood Elf Archer",
-        "tier": "D",
-        "note": ""
-      },
-      {
-        "character_name": "Lightning Slime",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
       },
       {
         "character_name": "Buck",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
+      },
+      {
+        "character_name": "Grimnir",
+        "tier": "F"
       },
       {
         "character_name": "Kleina",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
+      },
+      {
+        "character_name": "Murphy",
+        "tier": "F"
+      },
+      {
+        "character_name": "Polyphemus",
+        "tier": "F"
+      },
+      {
+        "character_name": "Boar Knight",
+        "tier": "F"
+      },
+      {
+        "character_name": "Dwarf Warrior",
+        "tier": "F"
+      },
+      {
+        "character_name": "Dwarven Cannoneer",
+        "tier": "F"
       },
       {
         "character_name": "Dwarven Sage",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
+      },
+      {
+        "character_name": "Goblin Battering Ram",
+        "tier": "F"
+      },
+      {
+        "character_name": "Mummy",
+        "tier": "F"
       },
       {
         "character_name": "Pharaoh",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
+      },
+      {
+        "character_name": "Sword Dancer",
+        "tier": "F"
+      },
+      {
+        "character_name": "Viel",
+        "tier": "F"
+      },
+      {
+        "character_name": "Wood Elf Archer",
+        "tier": "F"
+      },
+      {
+        "character_name": "Breeze Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Flame Slime",
+        "tier": "F"
       },
       {
         "character_name": "Ice Slime",
-        "tier": "D",
-        "note": ""
+        "tier": "F"
+      },
+      {
+        "character_name": "Lightning Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Rock Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Shadow Slime",
+        "tier": "F"
       }
     ],
-    "last_updated": 1771821899
+    "last_updated": 1772349780
+  },
+  {
+    "name": "Taiwan PvP Tier List",
+    "author": "ligong0214",
+    "content_type": "PvP",
+    "description": "Please note that this tier list is for the Taiwan server, which is ~1 year ahead of the global server. Therefore, it may not accurately reflect the current state of the global server. Use it as a reference, but keep in mind that the meta may differ. Tiers are assigned assuming characters are fully built, disregarding their Noble Phantasms.",
+    "tiers": [
+      {
+        "name": "SS",
+        "note": "Child of the Meta. Without these, it's nearly impossible to compete with players who have them. Having them vs. not having them creates two different games. Provides an excellent gaming experience."
+      },
+      {
+        "name": "S+",
+        "note": "Factions Powerhouses. Very strong characters tied to specific factions, but don't perform as well in others. SS rank is usually reserved for those who are versatile across all factions."
+      },
+      {
+        "name": "S",
+        "note": "Overpowered. Core building blocks for their specific color/elemental teams. The game is difficult without them; they significantly improve the gameplay experience."
+      },
+      {
+        "name": "A+",
+        "note": "Unique Utility. Raw power isn't \"broken,\" but they possess irreplaceable functions or have very low investment costs, leading to a noticeable improvement in gameplay."
+      },
+      {
+        "name": "A",
+        "note": "Average/Decent. Usable but not essential. They add depth to your roster but have low usage rates. Occasionally improves the gaming experience slightly."
+      },
+      {
+        "name": "B",
+        "note": "Low ROI. The resources invested do not yield a proportional return in gameplay. Barely passing; only used out of necessity in a few specific teams."
+      },
+      {
+        "name": "C",
+        "note": "Not worth investing. Rarely used and not worth ranking."
+      },
+      {
+        "name": "F",
+        "note": "Fodder."
+      }
+    ],
+    "entries": [
+      {
+        "character_name": "Artemis",
+        "tier": "SS"
+      },
+      {
+        "character_name": "Loki",
+        "tier": "SS"
+      },
+      {
+        "character_name": "Poseidon",
+        "tier": "SS"
+      },
+      {
+        "character_name": "Venus",
+        "tier": "SS"
+      },
+      {
+        "character_name": "Lilith",
+        "tier": "SS"
+      },
+      {
+        "character_name": "Salome",
+        "tier": "SS"
+      },
+      {
+        "character_name": "Talos",
+        "tier": "SS"
+      },
+      {
+        "character_name": "Vivienne",
+        "tier": "SS"
+      },
+      {
+        "character_name": "Ares",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Azure Dragon",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Caesar",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Duvalin",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Pompey",
+        "tier": "S+"
+      },
+      {
+        "character_name": "Hades",
+        "tier": "S"
+      },
+      {
+        "character_name": "Hela",
+        "tier": "S"
+      },
+      {
+        "character_name": "Prometheus",
+        "tier": "S"
+      },
+      {
+        "character_name": "Thor",
+        "tier": "S"
+      },
+      {
+        "character_name": "Asmodeus",
+        "tier": "S"
+      },
+      {
+        "character_name": "Crassus",
+        "tier": "S"
+      },
+      {
+        "character_name": "Gabriele",
+        "tier": "S"
+      },
+      {
+        "character_name": "Hitomi",
+        "tier": "S"
+      },
+      {
+        "character_name": "Ifrit",
+        "tier": "S"
+      },
+      {
+        "character_name": "Mimir",
+        "tier": "S"
+      },
+      {
+        "character_name": "Morgana",
+        "tier": "S"
+      },
+      {
+        "character_name": "Ningluosi",
+        "tier": "S"
+      },
+      {
+        "character_name": "Rin",
+        "tier": "S"
+      },
+      {
+        "character_name": "Silbismo",
+        "tier": "S"
+      },
+      {
+        "character_name": "Vermilion Bird",
+        "tier": "S"
+      },
+      {
+        "character_name": "Athena",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Andevaly",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Chiron",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Apollo",
+        "tier": "A"
+      },
+      {
+        "character_name": "Anubis",
+        "tier": "A"
+      },
+      {
+        "character_name": "Helveil",
+        "tier": "A"
+      },
+      {
+        "character_name": "Huginn & Muninn",
+        "tier": "A"
+      },
+      {
+        "character_name": "Jing",
+        "tier": "A"
+      },
+      {
+        "character_name": "Jormungandr",
+        "tier": "A"
+      },
+      {
+        "character_name": "Scheherazade",
+        "tier": "A"
+      },
+      {
+        "character_name": "Tyrfing",
+        "tier": "A"
+      },
+      {
+        "character_name": "Zagrus",
+        "tier": "A"
+      },
+      {
+        "character_name": "Atanith",
+        "tier": "A"
+      },
+      {
+        "character_name": "Brynhild",
+        "tier": "B"
+      },
+      {
+        "character_name": "Faust",
+        "tier": "B"
+      },
+      {
+        "character_name": "Gullveig",
+        "tier": "B"
+      },
+      {
+        "character_name": "Marylis",
+        "tier": "B"
+      },
+      {
+        "character_name": "Ophelia",
+        "tier": "B"
+      },
+      {
+        "character_name": "Orion",
+        "tier": "B"
+      },
+      {
+        "character_name": "Siegfried",
+        "tier": "B"
+      },
+      {
+        "character_name": "White Tiger",
+        "tier": "B"
+      },
+      {
+        "character_name": "Asteros",
+        "tier": "B"
+      },
+      {
+        "character_name": "Beowulf",
+        "tier": "B"
+      },
+      {
+        "character_name": "Caligula",
+        "tier": "B"
+      },
+      {
+        "character_name": "Drasill",
+        "tier": "B"
+      },
+      {
+        "character_name": "Fenrir",
+        "tier": "B"
+      },
+      {
+        "character_name": "Herman",
+        "tier": "B"
+      },
+      {
+        "character_name": "Lorillin",
+        "tier": "B"
+      },
+      {
+        "character_name": "Medusa",
+        "tier": "B"
+      },
+      {
+        "character_name": "Nanalie",
+        "tier": "B"
+      },
+      {
+        "character_name": "Nemesis",
+        "tier": "B"
+      },
+      {
+        "character_name": "Oberonnie",
+        "tier": "B"
+      },
+      {
+        "character_name": "Telperion",
+        "tier": "B"
+      },
+      {
+        "character_name": "Nessus",
+        "tier": "B"
+      },
+      {
+        "character_name": "Siren",
+        "tier": "B"
+      },
+      {
+        "character_name": "Arthur",
+        "tier": "C"
+      },
+      {
+        "character_name": "Mordred",
+        "tier": "C"
+      },
+      {
+        "character_name": "Pan Junbao",
+        "tier": "C"
+      },
+      {
+        "character_name": "Titania",
+        "tier": "C"
+      },
+      {
+        "character_name": "Cerberus",
+        "tier": "C"
+      },
+      {
+        "character_name": "Cleopatra",
+        "tier": "C"
+      },
+      {
+        "character_name": "Goren",
+        "tier": "C"
+      },
+      {
+        "character_name": "Gudong",
+        "tier": "C"
+      },
+      {
+        "character_name": "Guna",
+        "tier": "C"
+      },
+      {
+        "character_name": "Lancelot",
+        "tier": "C"
+      },
+      {
+        "character_name": "Melina",
+        "tier": "C"
+      },
+      {
+        "character_name": "Van Helsing",
+        "tier": "C"
+      },
+      {
+        "character_name": "Eurytion",
+        "tier": "C"
+      },
+      {
+        "character_name": "Flora",
+        "tier": "C"
+      },
+      {
+        "character_name": "Goblin War Drummer",
+        "tier": "C"
+      },
+      {
+        "character_name": "Bladeheart",
+        "tier": "F"
+      },
+      {
+        "character_name": "Buck",
+        "tier": "F"
+      },
+      {
+        "character_name": "Grimnir",
+        "tier": "F"
+      },
+      {
+        "character_name": "Kleina",
+        "tier": "F"
+      },
+      {
+        "character_name": "Murphy",
+        "tier": "F"
+      },
+      {
+        "character_name": "Polyphemus",
+        "tier": "F"
+      },
+      {
+        "character_name": "Boar Knight",
+        "tier": "F"
+      },
+      {
+        "character_name": "Dwarf Warrior",
+        "tier": "F"
+      },
+      {
+        "character_name": "Dwarven Cannoneer",
+        "tier": "F"
+      },
+      {
+        "character_name": "Dwarven Sage",
+        "tier": "F"
+      },
+      {
+        "character_name": "Goblin Battering Ram",
+        "tier": "F"
+      },
+      {
+        "character_name": "Mummy",
+        "tier": "F"
+      },
+      {
+        "character_name": "Pharaoh",
+        "tier": "F"
+      },
+      {
+        "character_name": "Sword Dancer",
+        "tier": "F"
+      },
+      {
+        "character_name": "Viel",
+        "tier": "F"
+      },
+      {
+        "character_name": "Wood Elf Archer",
+        "tier": "F"
+      },
+      {
+        "character_name": "Breeze Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Flame Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Ice Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Lightning Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Rock Slime",
+        "tier": "F"
+      },
+      {
+        "character_name": "Shadow Slime",
+        "tier": "F"
+      }
+    ],
+    "last_updated": 1772349780
   }
 ]
