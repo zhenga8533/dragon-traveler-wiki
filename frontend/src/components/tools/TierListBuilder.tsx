@@ -899,7 +899,9 @@ export default function TierListBuilder({
         if (activeTier) {
           setPlacements((prev) => {
             const next = cloneRecordArrays(prev) as TierPlacements;
-            next[activeTier] = next[activeTier].filter((n) => n !== charName);
+            const activeIndex = next[activeTier].indexOf(charName);
+            if (activeIndex === -1) return next;
+            next[activeTier][activeIndex] = targetCharName;
             return next;
           });
         }

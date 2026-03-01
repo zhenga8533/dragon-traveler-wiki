@@ -14,13 +14,14 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useMemo } from 'react';
+import { useMemo, useState } from 'react';
 import { IoCreate, IoFlash, IoInformationCircle } from 'react-icons/io5';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterPortrait from '../components/character/CharacterPortrait';
 import ClassTag from '../components/common/ClassTag';
+import ConfirmActionModal from '../components/common/ConfirmActionModal';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import FactionTag from '../components/common/FactionTag';
@@ -41,6 +42,7 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
+import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
@@ -55,6 +57,7 @@ export default function TeamPage() {
   const { teamName } = useParams<{ teamName: string }>();
   const isDark = useComputedColorScheme('light') === 'dark';
   const navigate = useNavigate();
+  const [confirmEditOpen, setConfirmEditOpen] = useState(false);
 
   const { data: teams, loading: loadingTeams } = useDataFetch<Team[]>(
     'data/teams.json',
@@ -180,6 +183,25 @@ export default function TeamPage() {
       team.wyrmspells.wildcry ||
       team.wyrmspells.dragons_call);
 
+  const hasBuilderDraft = () => {
+    if (typeof window === 'undefined') return false;
+    return Boolean(
+      window.localStorage.getItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT)
+    );
+  };
+
+  const openEditInBuilder = () => {
+    navigate('/teams', { state: { editTeam: team } });
+  };
+
+  const requestEdit = () => {
+    if (!hasBuilderDraft()) {
+      openEditInBuilder();
+      return;
+    }
+    setConfirmEditOpen(true);
+  };
+
   return (
     <Box>
       {/* Hero Section */}
@@ -202,9 +224,7 @@ export default function TeamPage() {
               <Button
                 variant="light"
                 leftSection={<IoCreate size={14} />}
-                onClick={() => {
-                  navigate('/teams', { state: { editTeam: team } });
-                }}
+                onClick={requestEdit}
               >
                 Edit Team
               </Button>
@@ -395,6 +415,18 @@ export default function TeamPage() {
           </Stack>
         </Container>
       </Box>
+
+      <ConfirmActionModal
+        opened={confirmEditOpen}
+        onCancel={() => setConfirmEditOpen(false)}
+        title="Replace current builder data?"
+        message="Opening this team will replace your current builder draft."
+        confirmLabel="Replace"
+        onConfirm={() => {
+          setConfirmEditOpen(false);
+          openEditInBuilder();
+        }}
+      />
 
       <Container size="lg" py="xl">
         <Stack gap="xl">

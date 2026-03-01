@@ -1373,6 +1373,38 @@ export default function TeamBuilder({
       }
       const occupant = slots[targetSlotIndex];
 
+      if (from.zone === 'bench' && occupant) {
+        const incomingBenchNote = benchNotes[charName] || '';
+        const outgoingSlotNote = slotNotes[targetSlotIndex] || '';
+
+        setSlots((prev) => {
+          const next = [...prev];
+          next[targetSlotIndex] = charName;
+          return next;
+        });
+        removeOverdriveSlot(targetSlotIndex);
+        setSlotNotes((prev) => {
+          const next = [...prev];
+          next[targetSlotIndex] = incomingBenchNote;
+          return next;
+        });
+        setBench((prev) => {
+          const next = [...prev];
+          const benchIndex = next.indexOf(charName);
+          if (benchIndex !== -1) {
+            next[benchIndex] = occupant;
+          }
+          return next;
+        });
+        setBenchNotes((prev) => {
+          const next = { ...prev };
+          delete next[charName];
+          next[occupant] = outgoingSlotNote;
+          return next;
+        });
+        return;
+      }
+
       if (from.zone === 'available' || from.zone === 'bench') {
         const incomingNote =
           from.zone === 'bench' ? benchNotes[charName] || '' : '';
@@ -1502,27 +1534,43 @@ export default function TeamBuilder({
       }
 
       if (from.zone === 'slot') {
-        const movedSlotNote = slotNotes[from.index];
+        if (!isValidPlacement(targetName, from.index)) {
+          notifyInvalidPlacement(targetName, from.index);
+          return;
+        }
+
+        const movedSlotNote = slotNotes[from.index] || '';
+        const incomingBenchNote = benchNotes[targetName] || '';
+
         setSlots((prev) => {
           const next = [...prev];
-          next[from.index] = null;
+          next[from.index] = targetName;
           return next;
         });
         removeOverdriveSlot(from.index);
         setSlotNotes((prev) => {
           const next = [...prev];
-          next[from.index] = '';
+          next[from.index] = incomingBenchNote;
           return next;
         });
-        setBenchNotes((prev) => ({
-          ...prev,
-          [charName]: prev[charName]?.trim().length
-            ? prev[charName]
-            : movedSlotNote,
-        }));
+        setBench((prev) => {
+          const next = [...prev];
+          const targetIndex = next.indexOf(targetName);
+          if (targetIndex !== -1) {
+            next[targetIndex] = charName;
+          }
+          return next;
+        });
+        setBenchNotes((prev) => {
+          const next = { ...prev };
+          delete next[targetName];
+          next[charName] = movedSlotNote;
+          return next;
+        });
+        return;
       }
 
-      if (from.zone === 'available' || from.zone === 'slot') {
+      if (from.zone === 'available') {
         setBench((prev) => insertUniqueBefore(prev, charName, targetName));
         setBenchNotes((prev) => ({
           ...prev,

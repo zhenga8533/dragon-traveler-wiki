@@ -21,6 +21,12 @@ function CharacterNoteButton({
   const hasNote = value.trim().length > 0;
 
   useEffect(() => {
+    if (!opened) {
+      setDraftValue(value);
+    }
+  }, [value, opened]);
+
+  useEffect(() => {
     if (!opened) return;
     const frameId = window.requestAnimationFrame(() => {
       const textarea = textareaRef.current;
@@ -109,6 +115,9 @@ function CharacterNoteButton({
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
+                if (!opened) {
+                  setDraftValue(value);
+                }
                 setOpened((prev) => !prev);
               }}
               aria-label={value ? 'Edit note' : 'Add note'}
