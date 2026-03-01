@@ -79,6 +79,7 @@ import { compareCharactersByQualityThenName } from '../../utils/filter-character
 import { showWarningToast } from '../../utils/toast';
 import CharacterCard from '../character/CharacterCard';
 import FilterableCharacterPool from '../character/FilterableCharacterPool';
+import ConfirmActionModal from '../common/ConfirmActionModal';
 import CharacterNoteButton from './CharacterNoteButton';
 
 interface TierPlacements {
@@ -705,6 +706,10 @@ export default function TierListBuilder({
   const [newTierNote, setNewTierNote] = useState('');
   const [pasteModalOpened, { open: openPasteModal, close: closePasteModal }] =
     useDisclosure(false);
+  const [
+    clearConfirmOpened,
+    { open: openClearConfirm, close: closeClearConfirm },
+  ] = useDisclosure(false);
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
   const [draftHydrated, setDraftHydrated] = useState(false);
@@ -1172,7 +1177,7 @@ export default function TierListBuilder({
               color="red"
               size="sm"
               leftSection={<IoTrash size={16} />}
-              onClick={handleClear}
+              onClick={openClearConfirm}
               disabled={!hasAnyPlaced}
             >
               Clear All
@@ -1356,6 +1361,19 @@ export default function TierListBuilder({
           </Group>
         </Stack>
       </Modal>
+
+      <ConfirmActionModal
+        opened={clearConfirmOpened}
+        onCancel={closeClearConfirm}
+        title="Clear tier list builder?"
+        message="This will remove all ranked characters, notes, and custom tier changes in the builder."
+        confirmLabel="Clear All"
+        confirmColor="red"
+        onConfirm={() => {
+          handleClear();
+          closeClearConfirm();
+        }}
+      />
     </DndContext>
   );
 }

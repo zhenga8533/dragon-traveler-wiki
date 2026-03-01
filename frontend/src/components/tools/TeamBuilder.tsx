@@ -78,6 +78,7 @@ import { computeTeamSynergy } from '../../utils/team-synergy';
 import { showWarningToast } from '../../utils/toast';
 import CharacterCard from '../character/CharacterCard';
 import FilterableCharacterPool from '../character/FilterableCharacterPool';
+import ConfirmActionModal from '../common/ConfirmActionModal';
 import CharacterNoteButton from './CharacterNoteButton';
 import TeamSynergyAssistant from './TeamSynergyAssistant';
 
@@ -995,6 +996,10 @@ export default function TeamBuilder({
   const [activeId, setActiveId] = useState<string | null>(null);
   const [pasteModalOpened, { open: openPasteModal, close: closePasteModal }] =
     useDisclosure(false);
+  const [
+    clearConfirmOpened,
+    { open: openClearConfirm, close: closeClearConfirm },
+  ] = useDisclosure(false);
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
@@ -1879,7 +1884,7 @@ export default function TeamBuilder({
                   variant="light"
                   color="red"
                   disabled={teamSize === 0}
-                  onClick={handleClear}
+                  onClick={openClearConfirm}
                 >
                   <IoTrash size={16} />
                 </ActionIcon>
@@ -1890,7 +1895,7 @@ export default function TeamBuilder({
                 color="red"
                 size="sm"
                 leftSection={<IoTrash size={16} />}
-                onClick={handleClear}
+                onClick={openClearConfirm}
                 disabled={teamSize === 0}
               >
                 Clear All
@@ -2115,6 +2120,19 @@ export default function TeamBuilder({
           </Group>
         </Stack>
       </Modal>
+
+      <ConfirmActionModal
+        opened={clearConfirmOpened}
+        onCancel={closeClearConfirm}
+        title="Clear team builder?"
+        message="This will remove all team slots, bench entries, notes, overdrive order, and selected wyrmspells in the builder."
+        confirmLabel="Clear All"
+        confirmColor="red"
+        onConfirm={() => {
+          handleClear();
+          closeClearConfirm();
+        }}
+      />
     </DndContext>
   );
 }
