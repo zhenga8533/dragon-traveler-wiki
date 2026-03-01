@@ -269,7 +269,9 @@ export default function TeamPage() {
                 {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
               >
                 <Stack gap="sm">
-                  <Title order={2} size="h3">Faction Overview</Title>
+                  <Title order={2} size="h3">
+                    Faction Overview
+                  </Title>
                   <RichText
                     text={factionInfo.description}
                     statusEffects={statusEffects}
@@ -401,7 +403,9 @@ export default function TeamPage() {
           {/* Wyrmspells Section */}
           {hasWyrmspells && (
             <Stack gap="md">
-              <Title order={2} size="h3">Wyrmspells</Title>
+              <Title order={2} size="h3">
+                Wyrmspells
+              </Title>
               <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
                 {team.wyrmspells!.breach && (
                   <WyrmspellCard
@@ -438,7 +442,9 @@ export default function TeamPage() {
           {/* Team Members */}
           <Stack gap="md">
             <Group gap="sm">
-              <Title order={2} size="h3">Team Composition</Title>
+              <Title order={2} size="h3">
+                Team Composition
+              </Title>
               <Badge variant="light" color={factionColor} size="sm">
                 {team.members.length} members
               </Badge>
@@ -578,6 +584,7 @@ export default function TeamPage() {
 }
 
 const BG_ROW_COLORS = ['red', 'orange', 'blue'] as const;
+const BG_ROW_LABELS = ['Front', 'Middle', 'Back'] as const;
 const BG_ROW_HINTS = [
   'Guardian · Warrior · Assassin',
   'Warrior · Priest · Mage · Archer · Assassin',
@@ -638,12 +645,35 @@ function BattlefieldGrid({
           <Tooltip label={BG_ROW_HINTS[rowIdx]} withArrow position="right">
             <Box
               style={{
-                width: 6,
+                width: 24,
+                minWidth: 24,
                 flexShrink: 0,
                 borderRadius: 'var(--mantine-radius-sm)',
                 background: `var(--mantine-color-${BG_ROW_COLORS[rowIdx]}-5)`,
+                color: 'var(--mantine-color-white)',
+                display: 'flex',
+                alignItems: 'center',
+                justifyContent: 'center',
+                writingMode: 'vertical-rl',
+                transform: 'rotate(180deg)',
+                fontSize: 10,
+                fontWeight: 700,
+                letterSpacing: '0.12em',
+                lineHeight: 1,
+                textTransform: 'uppercase',
+                userSelect: 'none',
               }}
-            />
+            >
+              <span
+                style={{
+                  display: 'inline-block',
+                  transform: 'scaleY(1.2)',
+                  transformOrigin: 'center',
+                }}
+              >
+                {BG_ROW_LABELS[rowIdx]}
+              </span>
+            </Box>
           </Tooltip>
 
           {/* 3 cells */}

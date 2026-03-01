@@ -85,6 +85,7 @@ const MAX_ROSTER_SIZE = 6;
 const GRID_SIZE = 9; // 3×3 grid
 
 const ROW_COLORS = ['red', 'orange', 'blue'] as const;
+const ROW_STRIP_LABELS = ['Front', 'Middle', 'Back'] as const;
 const ROW_LABELS = ['the front row', 'the middle row', 'the back row'] as const;
 const ROW_CLASS_HINTS = [
   'Guardian · Warrior · Assassin',
@@ -700,15 +701,38 @@ function SlotsGrid({
               <Tooltip label={ROW_CLASS_HINTS[row]} withArrow position="right">
                 <Box
                   style={{
-                    width: 6,
+                    width: 24,
+                    minWidth: 24,
                     flexShrink: 0,
                     borderRadius: 'var(--mantine-radius-sm)',
                     background: isDragging
                       ? `var(--mantine-color-${isValidDrop ? 'green' : 'red'}-5)`
                       : `var(--mantine-color-${ROW_COLORS[row]}-5)`,
                     transition: `background ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+                    color: 'var(--mantine-color-white)',
+                    display: 'flex',
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    writingMode: 'vertical-rl',
+                    transform: 'rotate(180deg)',
+                    fontSize: 10,
+                    fontWeight: 700,
+                    letterSpacing: '0.12em',
+                    lineHeight: 1,
+                    textTransform: 'uppercase',
+                    userSelect: 'none',
                   }}
-                />
+                >
+                  <span
+                    style={{
+                      display: 'inline-block',
+                      transform: 'scaleY(1.2)',
+                      transformOrigin: 'center',
+                    }}
+                  >
+                    {ROW_STRIP_LABELS[row]}
+                  </span>
+                </Box>
               </Tooltip>
 
               {/* 3 slots for this row */}
