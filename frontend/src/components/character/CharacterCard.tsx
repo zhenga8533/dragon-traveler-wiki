@@ -13,6 +13,7 @@ interface CharacterCardProps {
   disableLink?: boolean;
   tierLabel?: string;
   note?: string;
+  noteIconVariant?: 'default' | 'builder';
 }
 
 export default function CharacterCard({
@@ -22,8 +23,10 @@ export default function CharacterCard({
   disableLink = false,
   tierLabel,
   note,
+  noteIconVariant = 'default',
 }: CharacterCardProps) {
   const nameColor = disableLink ? 'dimmed' : 'violet';
+  const isBuilderNoteVariant = noteIconVariant === 'builder';
 
   const portrait = (
     <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -36,12 +39,24 @@ export default function CharacterCard({
       {note && (
         <IoInformationCircle
           size={18}
-          color="var(--mantine-color-blue-5)"
+          color={
+            isBuilderNoteVariant
+              ? 'var(--mantine-color-violet-1)'
+              : 'var(--mantine-color-blue-5)'
+          }
           style={{
             position: 'absolute',
             top: 0,
             right: 0,
-            background: 'var(--mantine-color-body)',
+            background: isBuilderNoteVariant
+              ? 'linear-gradient(135deg, var(--mantine-color-violet-6) 0%, var(--mantine-color-grape-6) 100%)'
+              : 'var(--mantine-color-body)',
+            border: isBuilderNoteVariant
+              ? '1px solid var(--mantine-color-violet-4)'
+              : undefined,
+            boxShadow: isBuilderNoteVariant
+              ? '0 4px 10px rgba(124, 58, 237, 0.28)'
+              : undefined,
             borderRadius: '50%',
           }}
         />

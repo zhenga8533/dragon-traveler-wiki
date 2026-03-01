@@ -383,6 +383,7 @@ export default function TierList() {
                                               name={entry.character_name}
                                               quality={char?.quality}
                                               note={entry.note}
+                                              noteIconVariant="builder"
                                             />
                                           );
                                         })}
