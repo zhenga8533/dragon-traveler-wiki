@@ -203,7 +203,7 @@ export default function DataStatsBar() {
           <ThemeIcon variant="light" color="grape" size="lg" radius="md">
             <IoStatsChart size={20} />
           </ThemeIcon>
-          <Title order={4}>Wiki Database</Title>
+          <Title order={2} size="h3">Wiki Database</Title>
         </Group>
         <SimpleGrid cols={{ base: 3, sm: 5, lg: 9 }} spacing={0}>
           {stats.map((stat) => (

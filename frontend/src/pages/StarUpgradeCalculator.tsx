@@ -275,7 +275,7 @@ function parseNumberInput(value: string | number): number | null {
 }
 
 export default function StarUpgradeCalculator() {
-  const isDark = useComputedColorScheme('dark') === 'dark';
+  const isDark = useComputedColorScheme('light') === 'dark';
   const [currentValue, setCurrentValue] = useState<string>(
     STAR_LEVELS[0].value
   );
@@ -421,7 +421,7 @@ export default function StarUpgradeCalculator() {
           {...getCardHoverProps({ style: sectionCardStyle })}
         >
           <Stack gap="md">
-            <Title order={3}>
+            <Title order={2} size="h3">
               <Group gap="xs">
                 <IoStar />
                 Upgrade Requirements
@@ -514,7 +514,7 @@ export default function StarUpgradeCalculator() {
             {...getCardHoverProps({ style: sectionCardStyle })}
           >
             <Stack gap="md">
-              <Title order={3}>
+              <Title order={2} size="h3">
                 <Group gap="xs">
                   <IoHeart />
                   Heart Trial Estimator
@@ -783,7 +783,7 @@ export default function StarUpgradeCalculator() {
             <UnstyledButton onClick={refTableHandlers.toggle}>
               <Group justify="space-between" align="center">
                 <Stack gap={2}>
-                  <Title order={3}>
+                  <Title order={2} size="h3">
                     <Group gap="xs">
                       <IoStatsChart />
                       Star Upgrade Reference Table

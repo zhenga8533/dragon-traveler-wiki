@@ -135,7 +135,7 @@ function calculateMilestoneRewards(summons: number): number {
 }
 
 export default function MythicSummonCalculator() {
-  const isDark = useComputedColorScheme('dark') === 'dark';
+  const isDark = useComputedColorScheme('light') === 'dark';
   const [numSummons, setNumSummons] = useState<number | null>(100);
   const [currentPulls, setCurrentPulls] = useState<number | null>(0);
   const [targetShards, setTargetShards] = useState<number | null>(null);
@@ -389,7 +389,7 @@ export default function MythicSummonCalculator() {
           {...getCardHoverProps({ style: sectionCardStyle })}
         >
           <Stack gap="md">
-            <Title order={3}>
+            <Title order={2} size="h3">
               <Group gap="xs">
                 <IoFlag />
                 Target Resources
@@ -470,7 +470,7 @@ export default function MythicSummonCalculator() {
           {...getCardHoverProps({ style: sectionCardStyle })}
         >
           <Stack gap="md">
-            <Title order={3}>
+            <Title order={2} size="h3">
               <Group gap="xs">
                 <IoSparkles />
                 Expected Projection
@@ -524,7 +524,7 @@ export default function MythicSummonCalculator() {
           {...getCardHoverProps({ style: sectionCardStyle })}
         >
           <Stack gap="md">
-            <Title order={3}>Expected Rewards</Title>
+            <Title order={2} size="h3">Expected Rewards</Title>
             <Text size="sm" c="dimmed">
               Average rewards from your selected summons.
             </Text>
@@ -593,7 +593,7 @@ export default function MythicSummonCalculator() {
 
         <Divider my="md" />
 
-        <Title order={3}>Drop Rates Reference</Title>
+        <Title order={2} size="h3">Drop Rates Reference</Title>
 
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
           <Card
@@ -790,7 +790,7 @@ export default function MythicSummonCalculator() {
           </Card>
         </SimpleGrid>
 
-        <Title order={3}>Milestone Rewards</Title>
+        <Title order={2} size="h3">Milestone Rewards</Title>
 
         <Card
           withBorder

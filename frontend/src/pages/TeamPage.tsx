@@ -269,7 +269,7 @@ export default function TeamPage() {
                 {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
               >
                 <Stack gap="sm">
-                  <Title order={4}>Faction Overview</Title>
+                  <Title order={2} size="h3">Faction Overview</Title>
                   <RichText
                     text={factionInfo.description}
                     statusEffects={statusEffects}
@@ -401,7 +401,7 @@ export default function TeamPage() {
           {/* Wyrmspells Section */}
           {hasWyrmspells && (
             <Stack gap="md">
-              <Title order={3}>Wyrmspells</Title>
+              <Title order={2} size="h3">Wyrmspells</Title>
               <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
                 {team.wyrmspells!.breach && (
                   <WyrmspellCard
@@ -438,7 +438,7 @@ export default function TeamPage() {
           {/* Team Members */}
           <Stack gap="md">
             <Group gap="sm">
-              <Title order={3}>Team Composition</Title>
+              <Title order={2} size="h3">Team Composition</Title>
               <Badge variant="light" color={factionColor} size="sm">
                 {team.members.length} members
               </Badge>
@@ -455,7 +455,7 @@ export default function TeamPage() {
             {team.bench && team.bench.length > 0 && (
               <Stack gap="sm">
                 <Group gap="sm">
-                  <Title order={4}>Bench</Title>
+                  <Title order={3}>Bench</Title>
                   <Badge variant="light" color={factionColor} size="sm">
                     {team.bench.length}
                   </Badge>

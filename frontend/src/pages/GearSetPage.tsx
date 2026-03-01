@@ -337,7 +337,7 @@ export default function GearSetPage() {
                       <Text fw={600} size="sm">
                         Stats
                       </Text>
-                      <SimpleGrid cols={{ base: 2, sm: 2 }} spacing="xs">
+                      <SimpleGrid cols={2} spacing="xs">
                         {Object.entries(item.stats).map(
                           ([statName, statValue]) => (
                             <Paper

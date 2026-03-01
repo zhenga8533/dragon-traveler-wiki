@@ -90,7 +90,7 @@ export default function FeaturedCharactersMarquee() {
         <ThemeIcon variant="light" color="grape" size="lg" radius="md">
           <IoTrophy size={20} />
         </ThemeIcon>
-        <Title order={4}>Featured Characters</Title>
+        <Title order={2} size="h3">Featured Characters</Title>
       </Group>
       {tierListMeta.length > 0 && (
         <Text size="xs" c="dimmed" ta="center">

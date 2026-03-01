@@ -83,7 +83,7 @@ export default function CharacterPageBuildSection({
       {character.lore && (
         <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
           <Stack gap="md">
-            <Title order={3}>About</Title>
+            <Title order={2} size="h3">About</Title>
             <RichText
               text={character.lore}
               statusEffects={statusEffects}
@@ -215,7 +215,7 @@ export default function CharacterPageBuildSection({
           <Stack gap="md">
             <Group justify="space-between" align="flex-start" gap="sm">
               <Stack gap={2}>
-                <Title order={3}>Recommended Build</Title>
+                <Title order={2} size="h3">Recommended Build</Title>
                 <Text size="sm" c="dimmed">
                   Suggested setup based on current character data.
                 </Text>

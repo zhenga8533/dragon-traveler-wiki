@@ -6,6 +6,7 @@ import {
   Container,
   Group,
   Paper,
+  ScrollArea,
   Stack,
   Table,
   Text,
@@ -20,6 +21,7 @@ import {
   BRAND_TITLE_STYLE,
   getCardHoverProps,
   getGuideSectionCardStyles,
+  getMinWidthStyle,
 } from '../constants/styles';
 
 const FACTION_GIFTS: {
@@ -102,7 +104,7 @@ function QA({
 }
 
 export default function BeginnerQA() {
-  const isDark = useComputedColorScheme('dark') === 'dark';
+  const isDark = useComputedColorScheme('light') === 'dark';
 
   const sectionCardStyle = getGuideSectionCardStyles(isDark);
 
@@ -331,42 +333,49 @@ export default function BeginnerQA() {
               faction. Universal gifts (Any) work on all Luminaries but yield
               fewer points than a matched faction gift.
             </Text>
-            <Table striped withTableBorder withColumnBorders>
-              <Table.Thead>
-                <Table.Tr>
-                  <Table.Th>Faction</Table.Th>
-                  <Table.Th>SSR</Table.Th>
-                  <Table.Th>SR</Table.Th>
-                  <Table.Th>R</Table.Th>
-                  <Table.Th>N</Table.Th>
-                </Table.Tr>
-              </Table.Thead>
-              <Table.Tbody>
-                {FACTION_GIFTS.map(({ faction, ssr, sr, r, n }) => (
-                  <Table.Tr key={faction}>
-                    <Table.Td>
-                      <Text size="sm" fw={faction === 'Any' ? 600 : undefined}>
-                        {faction}
-                      </Text>
-                    </Table.Td>
-                    {[ssr, sr, r, n].map((gift) => (
-                      <Table.Td key={gift.name}>
-                        <Group gap={4} wrap="nowrap">
-                          <ResourceBadge name={gift.name} />
-                          <Text
-                            size="xs"
-                            c="dimmed"
-                            style={{ whiteSpace: 'nowrap' }}
-                          >
-                            +{gift.pts}
-                          </Text>
-                        </Group>
-                      </Table.Td>
-                    ))}
+            <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+              <Table
+                striped
+                withTableBorder
+                withColumnBorders
+                style={getMinWidthStyle(520)}
+              >
+                <Table.Thead>
+                  <Table.Tr>
+                    <Table.Th>Faction</Table.Th>
+                    <Table.Th>SSR</Table.Th>
+                    <Table.Th>SR</Table.Th>
+                    <Table.Th>R</Table.Th>
+                    <Table.Th>N</Table.Th>
                   </Table.Tr>
-                ))}
-              </Table.Tbody>
-            </Table>
+                </Table.Thead>
+                <Table.Tbody>
+                  {FACTION_GIFTS.map(({ faction, ssr, sr, r, n }) => (
+                    <Table.Tr key={faction}>
+                      <Table.Td>
+                        <Text size="sm" fw={faction === 'Any' ? 600 : undefined}>
+                          {faction}
+                        </Text>
+                      </Table.Td>
+                      {[ssr, sr, r, n].map((gift) => (
+                        <Table.Td key={gift.name}>
+                          <Group gap={4} wrap="nowrap">
+                            <ResourceBadge name={gift.name} />
+                            <Text
+                              size="xs"
+                              c="dimmed"
+                              style={{ whiteSpace: 'nowrap' }}
+                            >
+                              +{gift.pts}
+                            </Text>
+                          </Group>
+                        </Table.Td>
+                      ))}
+                    </Table.Tr>
+                  ))}
+                </Table.Tbody>
+              </Table>
+            </ScrollArea>
           </Stack>
         </Card>
 

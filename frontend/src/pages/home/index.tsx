@@ -293,7 +293,7 @@ export default function Home() {
                   >
                     <IoGameController size={20} />
                   </ThemeIcon>
-                  <Title order={3}>About the Game</Title>
+                  <Title order={2} size="h3">About the Game</Title>
                 </Group>
                 <Text size="sm" fs="italic" c="dimmed">
                   Love x Comedy x Isekai = The Ultimate Bishoujo RPG!
@@ -368,7 +368,7 @@ export default function Home() {
                     >
                       <IoPricetag size={20} />
                     </ThemeIcon>
-                    <Title order={4}>Active Codes</Title>
+                    <Title order={2} size="h3">Active Codes</Title>
                   </Group>
                   <ActiveCodesSection />
                 </Stack>
@@ -393,7 +393,7 @@ export default function Home() {
                     >
                       <IoList size={20} />
                     </ThemeIcon>
-                    <Title order={4}>Recent Updates</Title>
+                    <Title order={2} size="h3">Recent Updates</Title>
                   </Group>
                   <RecentUpdatesSection />
                 </Stack>

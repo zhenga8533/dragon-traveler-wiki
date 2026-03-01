@@ -296,7 +296,7 @@ export default function ArtifactPage() {
         <Stack gap="xl">
           {/* Artifact Effects */}
           <Stack gap="md">
-            <Title order={3}>Artifact Effects</Title>
+            <Title order={2} size="h3">Artifact Effects</Title>
             <EffectTable
               effects={artifact.effect}
               statusEffects={statusEffects}
@@ -307,7 +307,7 @@ export default function ArtifactPage() {
           {artifact.treasures.length > 0 && (
             <Stack gap="md">
               <Group gap="sm">
-                <Title order={3}>Treasures</Title>
+                <Title order={2} size="h3">Treasures</Title>
                 <Badge variant="light" color="violet" size="sm">
                   {artifact.treasures.length} treasure
                   {artifact.treasures.length !== 1 ? 's' : ''}

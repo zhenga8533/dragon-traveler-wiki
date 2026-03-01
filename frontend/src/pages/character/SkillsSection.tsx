@@ -57,7 +57,7 @@ export default function CharacterPageSkillsSection({
                   loading="lazy"
                 />
               )}
-              <Title order={3}>{talent?.name ?? 'Talent'}</Title>
+              <Title order={2} size="h3">{talent?.name ?? 'Talent'}</Title>
             </Group>
 
             <Stack gap="sm">
@@ -88,7 +88,7 @@ export default function CharacterPageSkillsSection({
       {character.skills.length > 0 && (
         <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
           <Stack gap="md">
-            <Title order={3}>Skills</Title>
+            <Title order={2} size="h3">Skills</Title>
 
             <Stack gap="md">
               {character.skills.map((skill) => {

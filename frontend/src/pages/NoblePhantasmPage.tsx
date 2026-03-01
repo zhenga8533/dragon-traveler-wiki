@@ -335,7 +335,7 @@ export default function NoblePhantasmPage() {
       <Container size="lg" py="xl">
         <Stack gap="xl">
           <Stack gap="md">
-            <Title order={3}>Effects</Title>
+            <Title order={2} size="h3">Effects</Title>
             <EffectTable
               effects={noblePhantasm.effects}
               statusEffects={statusEffects}
@@ -345,7 +345,7 @@ export default function NoblePhantasmPage() {
           </Stack>
 
           <Stack gap="md">
-            <Title order={3}>Skill Progression</Title>
+            <Title order={2} size="h3">Skill Progression</Title>
             <SkillTable
               skills={noblePhantasm.skills}
               statusEffects={statusEffects}

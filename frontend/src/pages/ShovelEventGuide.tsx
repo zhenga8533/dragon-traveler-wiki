@@ -8,6 +8,7 @@ import {
   Divider,
   Group,
   Paper,
+  ScrollArea,
   Stack,
   Table,
   Text,
@@ -21,6 +22,7 @@ import {
   BRAND_TITLE_STYLE,
   getCardHoverProps,
   getGuideSectionCardStyles,
+  getMinWidthStyle,
 } from '../constants/styles';
 
 const TARGET_ROWS = [
@@ -63,7 +65,7 @@ const EFFICIENCY_ROWS = [
 ];
 
 export default function ShovelEventGuide() {
-  const isDark = useComputedColorScheme('dark') === 'dark';
+  const isDark = useComputedColorScheme('light') === 'dark';
 
   const sectionCardStyle = getGuideSectionCardStyles(isDark);
 
@@ -179,28 +181,34 @@ export default function ShovelEventGuide() {
               withBorder
               {...getCardHoverProps({ style: sectionCardStyle })}
             >
-              <Table striped highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Target</Table.Th>
-                    <Table.Th>When to Aim</Table.Th>
-                    <Table.Th>Diamond Cost</Table.Th>
-                    <Table.Th>Notable Reward</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {TARGET_ROWS.map((row) => (
-                    <Table.Tr key={row.target}>
-                      <Table.Td>
-                        <Text fw={600}>{row.target}</Text>
-                      </Table.Td>
-                      <Table.Td>{row.recommendation}</Table.Td>
-                      <Table.Td>{row.cost}</Table.Td>
-                      <Table.Td>{row.rewards}</Table.Td>
+              <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                <Table
+                  striped
+                  highlightOnHover
+                  style={getMinWidthStyle(540)}
+                >
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Target</Table.Th>
+                      <Table.Th>When to Aim</Table.Th>
+                      <Table.Th>Diamond Cost</Table.Th>
+                      <Table.Th>Notable Reward</Table.Th>
                     </Table.Tr>
-                  ))}
-                </Table.Tbody>
-              </Table>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {TARGET_ROWS.map((row) => (
+                      <Table.Tr key={row.target}>
+                        <Table.Td>
+                          <Text fw={600}>{row.target}</Text>
+                        </Table.Td>
+                        <Table.Td>{row.recommendation}</Table.Td>
+                        <Table.Td>{row.cost}</Table.Td>
+                        <Table.Td>{row.rewards}</Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </Table.Tbody>
+                </Table>
+              </ScrollArea>
             </Paper>
             <Text size="sm" c="dimmed">
               Priority is layer push, not stars. Stars carry over to next event;
@@ -249,26 +257,32 @@ export default function ShovelEventGuide() {
               withBorder
               {...getCardHoverProps({ style: sectionCardStyle })}
             >
-              <Table striped highlightOnHover>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Metric</Table.Th>
-                    <Table.Th>Value</Table.Th>
-                    <Table.Th>Interpretation</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {EFFICIENCY_ROWS.map((row) => (
-                    <Table.Tr key={row.metric}>
-                      <Table.Td>
-                        <Text fw={600}>{row.metric}</Text>
-                      </Table.Td>
-                      <Table.Td>{row.value}</Table.Td>
-                      <Table.Td>{row.note}</Table.Td>
+              <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                <Table
+                  striped
+                  highlightOnHover
+                  style={getMinWidthStyle(500)}
+                >
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Metric</Table.Th>
+                      <Table.Th>Value</Table.Th>
+                      <Table.Th>Interpretation</Table.Th>
                     </Table.Tr>
-                  ))}
-                </Table.Tbody>
-              </Table>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {EFFICIENCY_ROWS.map((row) => (
+                      <Table.Tr key={row.metric}>
+                        <Table.Td>
+                          <Text fw={600}>{row.metric}</Text>
+                        </Table.Td>
+                        <Table.Td>{row.value}</Table.Td>
+                        <Table.Td>{row.note}</Table.Td>
+                      </Table.Tr>
+                    ))}
+                  </Table.Tbody>
+                </Table>
+              </ScrollArea>
             </Paper>
           </Stack>
         </Card>
