@@ -188,6 +188,9 @@ function CharacterNoteButton({
                   ? 'rgba(16, 17, 19, 0.86)'
                   : 'rgba(255, 255, 255, 0.92)',
               opacity: draftValue ? 1 : 0.9,
+              whiteSpace: 'pre-wrap',
+              overflowWrap: 'anywhere',
+              wordBreak: 'break-word',
             },
           }}
         />

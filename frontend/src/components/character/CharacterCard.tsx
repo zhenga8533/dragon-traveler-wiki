@@ -67,7 +67,23 @@ export default function CharacterCard({
   const content = (
     <Stack gap={2} align="center">
       {note ? (
-        <Tooltip label={note} multiline withArrow maw={250}>
+        <Tooltip
+          label={
+            <Text
+              size="xs"
+              style={{
+                whiteSpace: 'pre-wrap',
+                overflowWrap: 'anywhere',
+                wordBreak: 'break-word',
+              }}
+            >
+              {note}
+            </Text>
+          }
+          multiline
+          withArrow
+          maw={280}
+        >
           {portrait}
         </Tooltip>
       ) : (

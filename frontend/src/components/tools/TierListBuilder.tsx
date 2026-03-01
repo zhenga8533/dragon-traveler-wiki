@@ -474,6 +474,12 @@ function TierNotePopover({
   const [draftValue, setDraftValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
+  useEffect(() => {
+    if (!opened) {
+      setDraftValue(value);
+    }
+  }, [value, opened]);
+
   function commitAndClose() {
     if (draftValue !== value) {
       onCommit(draftValue);
@@ -531,10 +537,18 @@ function TierNotePopover({
           onMouseDown={(e) => {
             e.preventDefault();
           }}
-          onClick={() => setOpened((prev) => !prev)}
+          onClick={() => {
+            if (!opened) {
+              setDraftValue(value);
+            }
+            setOpened((prev) => !prev);
+          }}
           onKeyDown={(e) => {
             if (e.key === 'Enter' || e.key === ' ') {
               e.preventDefault();
+              if (!opened) {
+                setDraftValue(value);
+              }
               setOpened((prev) => !prev);
             }
           }}
@@ -572,6 +586,9 @@ function TierNotePopover({
               maxWidth: editorMaxWidth,
               lineHeight: 1.35,
               opacity: draftValue ? 1 : 0.9,
+              whiteSpace: 'pre-wrap',
+              overflowWrap: 'anywhere',
+              wordBreak: 'break-word',
             },
           }}
         />
