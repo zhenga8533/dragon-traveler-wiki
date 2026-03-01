@@ -1,5 +1,4 @@
 import {
-  ActionIcon,
   Alert,
   Badge,
   Box,
@@ -8,7 +7,6 @@ import {
   Grid,
   Group,
   Image,
-  Modal,
   Paper,
   SimpleGrid,
   Skeleton,
@@ -16,28 +14,11 @@ import {
   Text,
   Tooltip,
   UnstyledButton,
-  VisuallyHidden,
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import {
-  type KeyboardEvent as ReactKeyboardEvent,
-  useCallback,
-  useContext,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
-import {
-  RiArrowLeftSLine,
-  RiArrowRightSLine,
-  RiCloseLine,
-  RiFilmLine,
-  RiFullscreenExitLine,
-  RiFullscreenLine,
-  RiZoomInLine,
-} from 'react-icons/ri';
+import { useCallback, useContext, useMemo, useState } from 'react';
+import { RiZoomInLine } from 'react-icons/ri';
 import { useParams } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../../assets/gear';
@@ -52,7 +33,7 @@ import {
   DETAIL_TOOLTIP_STYLES,
   getCardHoverProps,
 } from '../../constants/styles';
-import { BREAKPOINTS, TRANSITION } from '../../constants/ui';
+import { BREAKPOINTS } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
 import {
   useCharacterAssets,
@@ -73,6 +54,7 @@ import type { Subclass } from '../../types/subclass';
 import { compareCharactersByQualityThenName } from '../../utils/filter-characters';
 import BuildSection from './BuildSection';
 import HeroSection from './HeroSection';
+import IllustrationPreviewModal from './IllustrationPreviewModal';
 import SkillsSection from './SkillsSection';
 
 const GEAR_SLOT_CONFIG: Array<{
@@ -341,9 +323,6 @@ export default function CharacterPage() {
   } = useCharacterAssets(character);
 
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [modalHoverSide, setModalHoverSide] = useState<'left' | 'right' | null>(
-    null
-  );
 
   const scrollToSkill = useCallback((skillName: string) => {
     const el = document.getElementById(`skill-${skillName}`);
@@ -359,80 +338,7 @@ export default function CharacterPage() {
     }
   }, []);
 
-  const mediaContainerRef = useRef<HTMLDivElement>(null);
-  const [isFullscreen, setIsFullscreen] = useState(false);
   const activeIllustrationName = activeIllustration?.name;
-  const thumbnailHintId = 'character-illustration-thumbnails-hint';
-
-  const selectIllustrationByIndex = useCallback(
-    (index: number) => {
-      const candidate = illustrations[index];
-      if (candidate) {
-        setSelectedIllustration(candidate);
-      }
-    },
-    [illustrations, setSelectedIllustration]
-  );
-
-  const handleThumbnailKeyDown = useCallback(
-    (event: ReactKeyboardEvent<HTMLButtonElement>, index: number) => {
-      if (event.key === 'ArrowRight') {
-        event.preventDefault();
-        selectIllustrationByIndex((index + 1) % illustrations.length);
-      } else if (event.key === 'ArrowLeft') {
-        event.preventDefault();
-        selectIllustrationByIndex(
-          (index - 1 + illustrations.length) % illustrations.length
-        );
-      } else if (event.key === 'Home') {
-        event.preventDefault();
-        selectIllustrationByIndex(0);
-      } else if (event.key === 'End') {
-        event.preventDefault();
-        selectIllustrationByIndex(illustrations.length - 1);
-      }
-    },
-    [illustrations.length, selectIllustrationByIndex]
-  );
-
-  const handleFullscreen = useCallback(async () => {
-    if (document.fullscreenElement) {
-      await document.exitFullscreen();
-      return;
-    }
-    const el = mediaContainerRef.current;
-    if (!el) return;
-    try {
-      await el.requestFullscreen();
-    } catch {
-      // Fullscreen not supported (e.g. iOS) — open image in new tab
-      if (activeIllustration?.type === 'image' && activeIllustration.src) {
-        window.open(activeIllustration.src, '_blank', 'noopener,noreferrer');
-      }
-    }
-  }, [activeIllustration]);
-
-  useEffect(() => {
-    const handleFsChange = () => setIsFullscreen(!!document.fullscreenElement);
-    document.addEventListener('fullscreenchange', handleFsChange);
-    return () =>
-      document.removeEventListener('fullscreenchange', handleFsChange);
-  }, []);
-
-  useEffect(() => {
-    if (!previewOpen || !hasMultipleIllustrations) return;
-    const handleKey = (e: KeyboardEvent) => {
-      if (e.key === 'ArrowLeft') showPreviousIllustration();
-      else if (e.key === 'ArrowRight') showNextIllustration();
-    };
-    window.addEventListener('keydown', handleKey);
-    return () => window.removeEventListener('keydown', handleKey);
-  }, [
-    previewOpen,
-    hasMultipleIllustrations,
-    showPreviousIllustration,
-    showNextIllustration,
-  ]);
 
   if (loading) {
     return (
@@ -758,277 +664,19 @@ export default function CharacterPage() {
           </Grid.Col>
         </Grid>
 
-        <Modal
+        <IllustrationPreviewModal
           opened={previewOpen}
           onClose={() => setPreviewOpen(false)}
-          size="95%"
-          centered
-          withCloseButton={false}
-        >
-          {activeIllustration && (
-            <Stack gap="md">
-              <VisuallyHidden
-                role="status"
-                aria-live="polite"
-                aria-atomic="true"
-              >
-                {`Illustration ${activeIllustrationIndex + 1} of ${illustrations.length}: ${activeIllustrationName ?? character.name}`}
-              </VisuallyHidden>
-
-              {/* Header */}
-              <Group justify="space-between" align="center">
-                <Group gap="sm" align="center">
-                  <Text fw={600} size="lg">
-                    {activeIllustrationName ?? character.name}
-                  </Text>
-                  {activeIllustrationIndex >= 0 && (
-                    <Badge variant="light" color="gray">
-                      {activeIllustrationIndex + 1}/{illustrations.length}
-                    </Badge>
-                  )}
-                </Group>
-                <Group gap="xs">
-                  {activeIllustration.type === 'image' && (
-                    <Tooltip
-                      label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
-                      {...tooltipProps}
-                    >
-                      <ActionIcon
-                        onClick={handleFullscreen}
-                        aria-label={
-                          isFullscreen ? 'Exit fullscreen' : 'Fullscreen'
-                        }
-                        variant="default"
-                        radius="xl"
-                      >
-                        {isFullscreen ? (
-                          <RiFullscreenExitLine />
-                        ) : (
-                          <RiFullscreenLine />
-                        )}
-                      </ActionIcon>
-                    </Tooltip>
-                  )}
-                  <ActionIcon
-                    onClick={() => setPreviewOpen(false)}
-                    aria-label="Close"
-                    variant="default"
-                    radius="xl"
-                  >
-                    <RiCloseLine />
-                  </ActionIcon>
-                </Group>
-              </Group>
-
-              {/* Image / video */}
-              <Paper
-                ref={mediaContainerRef}
-                withBorder
-                radius="lg"
-                p={0}
-                {...getCardHoverProps({
-                  style: {
-                    position: 'relative',
-                    maxHeight: isFullscreen ? '100dvh' : '70vh',
-                    overflow: isFullscreen ? 'hidden' : 'auto',
-                    display: 'flex',
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    background: isFullscreen ? 'black' : undefined,
-                    borderRadius: isFullscreen ? 0 : 'var(--mantine-radius-lg)',
-                  },
-                })}
-              >
-                {activeIllustration.type === 'video' ? (
-                  <Box
-                    component="video"
-                    src={activeIllustration.src}
-                    controls
-                    style={{
-                      width: '100%',
-                      maxHeight: isFullscreen ? '100dvh' : '70vh',
-                      borderRadius: isFullscreen
-                        ? 0
-                        : 'var(--mantine-radius-lg)',
-                    }}
-                  />
-                ) : (
-                  <Image
-                    src={activeIllustration.src}
-                    alt={`${character.name} - ${activeIllustration.name}`}
-                    fit="contain"
-                    mah={isFullscreen ? '100dvh' : '70vh'}
-                    radius={isFullscreen ? 0 : 'lg'}
-                    loading="lazy"
-                  />
-                )}
-
-                {hasMultipleIllustrations && (
-                  <>
-                    <Box
-                      onMouseEnter={() => setModalHoverSide('left')}
-                      onMouseLeave={() => setModalHoverSide(null)}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        bottom: 0,
-                        left: 0,
-                        width: 84,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <ActionIcon
-                        onClick={showPreviousIllustration}
-                        aria-label="Previous illustration"
-                        variant="filled"
-                        color="dark"
-                        radius="xl"
-                        size="lg"
-                        style={{
-                          opacity: modalHoverSide === 'left' ? 1 : 0.55,
-                          transition: `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}, transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-                          transform:
-                            modalHoverSide === 'left'
-                              ? 'scale(1.1)'
-                              : 'scale(1)',
-                        }}
-                      >
-                        <RiArrowLeftSLine size={24} />
-                      </ActionIcon>
-                    </Box>
-                    <Box
-                      onMouseEnter={() => setModalHoverSide('right')}
-                      onMouseLeave={() => setModalHoverSide(null)}
-                      style={{
-                        position: 'absolute',
-                        top: 0,
-                        bottom: 0,
-                        right: 0,
-                        width: 84,
-                        display: 'flex',
-                        alignItems: 'center',
-                        justifyContent: 'center',
-                      }}
-                    >
-                      <ActionIcon
-                        onClick={showNextIllustration}
-                        aria-label="Next illustration"
-                        variant="filled"
-                        color="dark"
-                        radius="xl"
-                        size="lg"
-                        style={{
-                          opacity: modalHoverSide === 'right' ? 1 : 0.55,
-                          transition: `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}, transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-                          transform:
-                            modalHoverSide === 'right'
-                              ? 'scale(1.1)'
-                              : 'scale(1)',
-                        }}
-                      >
-                        <RiArrowRightSLine size={24} />
-                      </ActionIcon>
-                    </Box>
-                  </>
-                )}
-              </Paper>
-
-              {/* Thumbnail strip */}
-              {hasMultipleIllustrations && (
-                <>
-                  <VisuallyHidden id={thumbnailHintId}>
-                    Use Left and Right Arrow keys to move between thumbnails.
-                    Use Home for first and End for last illustration.
-                  </VisuallyHidden>
-                  <Box
-                    role="listbox"
-                    aria-label="Illustration thumbnails"
-                    aria-describedby={thumbnailHintId}
-                    style={{
-                      display: 'flex',
-                      gap: 8,
-                      justifyContent: 'center',
-                      overflowX: 'auto',
-                      paddingBottom: 4,
-                      paddingTop: 4,
-                    }}
-                  >
-                    {illustrations.map((illust, index) => {
-                      const isActive = illust.name === activeIllustrationName;
-                      return (
-                        <Stack
-                          key={`thumb-${illust.name}`}
-                          gap={4}
-                          align="center"
-                          style={{ flexShrink: 0 }}
-                        >
-                          <UnstyledButton
-                            onClick={() => setSelectedIllustration(illust)}
-                            onKeyDown={(event) =>
-                              handleThumbnailKeyDown(event, index)
-                            }
-                            role="option"
-                            aria-selected={isActive}
-                            aria-current={isActive ? 'true' : undefined}
-                            aria-keyshortcuts="ArrowLeft ArrowRight Home End"
-                            aria-describedby={thumbnailHintId}
-                            aria-label={`Go to ${illust.name}`}
-                            style={{
-                              width: 96,
-                              height: 60,
-                              borderRadius: 'var(--mantine-radius-sm)',
-                              overflow: 'hidden',
-                              border: `2px solid ${
-                                isActive
-                                  ? 'var(--mantine-color-blue-5)'
-                                  : 'var(--mantine-color-default-border)'
-                              }`,
-                              opacity: isActive ? 1 : 0.6,
-                              transition: `opacity ${TRANSITION.FAST}, border-color ${TRANSITION.FAST}`,
-                            }}
-                          >
-                            {illust.type === 'video' ? (
-                              <Center
-                                style={{
-                                  width: '100%',
-                                  height: '100%',
-                                  background: 'var(--mantine-color-dark-6)',
-                                }}
-                              >
-                                <RiFilmLine size={22} color="white" />
-                              </Center>
-                            ) : (
-                              <Image
-                                src={illust.src}
-                                alt={illust.name}
-                                w={96}
-                                h={60}
-                                fit="cover"
-                                loading="lazy"
-                              />
-                            )}
-                          </UnstyledButton>
-                          <Text
-                            size="xs"
-                            c={isActive ? 'blue' : 'dimmed'}
-                            fw={isActive ? 600 : 400}
-                            ta="center"
-                            lineClamp={1}
-                            style={{ maxWidth: 96 }}
-                          >
-                            {illust.name}
-                          </Text>
-                        </Stack>
-                      );
-                    })}
-                  </Box>
-                </>
-              )}
-            </Stack>
-          )}
-        </Modal>
+          characterName={character.name}
+          illustrations={illustrations}
+          activeIllustration={activeIllustration}
+          activeIllustrationIndex={activeIllustrationIndex}
+          hasMultipleIllustrations={hasMultipleIllustrations}
+          showPreviousIllustration={showPreviousIllustration}
+          showNextIllustration={showNextIllustration}
+          onSelectIllustration={setSelectedIllustration}
+          tooltipProps={tooltipProps}
+        />
 
         <DetailPageNavigation
           previousItem={
