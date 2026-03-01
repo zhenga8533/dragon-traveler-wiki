@@ -1,10 +1,4 @@
-import {
-  ActionIcon,
-  Popover,
-  Textarea,
-  Tooltip,
-  useComputedColorScheme,
-} from '@mantine/core';
+import { ActionIcon, Popover, Textarea, Tooltip } from '@mantine/core';
 import { memo, useEffect, useRef, useState, type CSSProperties } from 'react';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 
@@ -24,9 +18,6 @@ function CharacterNoteButton({
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
-  const colorScheme = useComputedColorScheme('light', {
-    getInitialValueInEffect: true,
-  });
   const hasNote = value.trim().length > 0;
 
   useEffect(() => {
@@ -84,24 +75,16 @@ function CharacterNoteButton({
                 root: {
                   background: hasNote
                     ? 'linear-gradient(135deg, var(--mantine-color-violet-6) 0%, var(--mantine-color-grape-6) 100%)'
-                    : colorScheme === 'dark'
-                      ? 'rgba(20, 21, 23, 0.84)'
-                      : 'rgba(255, 255, 255, 0.86)',
+                    : 'var(--mantine-color-body)',
                   color: hasNote
                     ? 'var(--mantine-color-white)'
-                    : colorScheme === 'dark'
-                      ? 'var(--mantine-color-violet-2)'
-                      : 'var(--mantine-color-violet-7)',
+                    : 'var(--mantine-color-violet-filled)',
                   border: hasNote
                     ? '1px solid var(--mantine-color-violet-4)'
-                    : colorScheme === 'dark'
-                      ? '1px solid rgba(255, 255, 255, 0.16)'
-                      : '1px solid rgba(124, 58, 237, 0.28)',
+                    : '1px solid var(--mantine-color-default-border)',
                   boxShadow: hasNote
-                    ? '0 4px 10px rgba(124, 58, 237, 0.28)'
-                    : colorScheme === 'dark'
-                      ? '0 3px 8px rgba(0, 0, 0, 0.32)'
-                      : '0 3px 8px rgba(0, 0, 0, 0.12)',
+                    ? 'var(--mantine-shadow-sm)'
+                    : 'var(--mantine-shadow-xs)',
                   backdropFilter: 'blur(8px)',
                   WebkitBackdropFilter: 'blur(8px)',
                   opacity: opened ? 1 : 0.97,
@@ -111,14 +94,10 @@ function CharacterNoteButton({
                   '&:hover': {
                     background: hasNote
                       ? 'linear-gradient(135deg, var(--mantine-color-violet-7) 0%, var(--mantine-color-grape-7) 100%)'
-                      : colorScheme === 'dark'
-                        ? 'rgba(34, 35, 39, 0.92)'
-                        : 'rgba(255, 255, 255, 0.96)',
+                      : 'var(--mantine-color-default-hover)',
                     boxShadow: hasNote
-                      ? '0 6px 14px rgba(124, 58, 237, 0.36)'
-                      : colorScheme === 'dark'
-                        ? '0 4px 11px rgba(0, 0, 0, 0.4)'
-                        : '0 4px 11px rgba(0, 0, 0, 0.16)',
+                      ? 'var(--mantine-shadow-md)'
+                      : 'var(--mantine-shadow-sm)',
                     transform: 'scale(1.06)',
                   },
                 },
@@ -142,21 +121,11 @@ function CharacterNoteButton({
       <Popover.Dropdown
         p="xs"
         style={{
-          border: `1px solid ${
-            colorScheme === 'dark'
-              ? 'rgba(255, 255, 255, 0.12)'
-              : 'rgba(124, 58, 237, 0.2)'
-          }`,
-          background:
-            colorScheme === 'dark'
-              ? 'rgba(20, 21, 23, 0.94)'
-              : 'rgba(255, 255, 255, 0.95)',
+          border: '1px solid var(--mantine-color-default-border)',
+          background: 'var(--mantine-color-body)',
           backdropFilter: 'blur(12px)',
           WebkitBackdropFilter: 'blur(12px)',
-          boxShadow:
-            colorScheme === 'dark'
-              ? '0 10px 28px rgba(0, 0, 0, 0.42)'
-              : '0 8px 24px rgba(124, 58, 237, 0.16)',
+          boxShadow: 'var(--mantine-shadow-md)',
         }}
       >
         <Textarea
@@ -183,10 +152,7 @@ function CharacterNoteButton({
               borderColor: hasNote
                 ? 'var(--mantine-color-violet-4)'
                 : undefined,
-              backgroundColor:
-                colorScheme === 'dark'
-                  ? 'rgba(16, 17, 19, 0.86)'
-                  : 'rgba(255, 255, 255, 0.92)',
+              backgroundColor: 'var(--mantine-color-body)',
               opacity: draftValue ? 1 : 0.9,
               whiteSpace: 'pre-wrap',
               overflowWrap: 'anywhere',
