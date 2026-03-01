@@ -1,5 +1,4 @@
 import {
-  ActionIcon,
   Badge,
   Box,
   Button,
@@ -16,7 +15,6 @@ import {
   Table,
   Text,
   Title,
-  Tooltip,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
@@ -466,22 +464,20 @@ export default function Teams() {
                                     {team.name}
                                   </Text>
                                 </Group>
-                                <Tooltip label="Edit in builder" withArrow>
-                                  <ActionIcon
-                                    variant="subtle"
-                                    size="md"
-                                    color="violet"
-                                    style={{ flexShrink: 0 }}
-                                    onClick={(e) => {
-                                      e.stopPropagation();
-                                      setEditData(team);
-                                      setMode('builder');
-                                    }}
-                                    aria-label="Edit team"
-                                  >
-                                    <IoCreate size={16} />
-                                  </ActionIcon>
-                                </Tooltip>
+                                <Button
+                                  variant="subtle"
+                                  size="compact-xs"
+                                  color="violet"
+                                  leftSection={<IoCreate size={12} />}
+                                  style={{ flexShrink: 0 }}
+                                  onClick={(e) => {
+                                    e.stopPropagation();
+                                    setEditData(team);
+                                    setMode('builder');
+                                  }}
+                                >
+                                  Edit
+                                </Button>
                               </Group>
 
                               {/* Tags */}

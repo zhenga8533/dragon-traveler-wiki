@@ -300,48 +300,48 @@ export default function TierList() {
                           pt="md"
                         >
                           <Stack gap="md">
-                            <Group justify="space-between" align="flex-start">
-                              <Stack gap={0}>
-                                <Group gap="xs" wrap="wrap" mb={8}>
-                                  <Badge variant="light" size="sm">
-                                    {normalizeContentType(
-                                      tierList.content_type,
-                                      'All'
-                                    )}
-                                  </Badge>
-                                  <Text size="sm" c="dimmed">
-                                    by{' '}
-                                    <Text span c="violet" inherit>
-                                      {tierList.author}
-                                    </Text>
-                                  </Text>
-                                  {tierList.description && (
-                                    <>
-                                      <Text size="sm" c="dimmed">
-                                        •
-                                      </Text>
-                                      <Text size="sm" c="dimmed">
-                                        {tierList.description}
-                                      </Text>
-                                    </>
+                            <Stack gap={6}>
+                              <Group gap="xs" wrap="wrap" mb={2}>
+                                <Badge variant="light" size="sm">
+                                  {normalizeContentType(
+                                    tierList.content_type,
+                                    'All'
                                   )}
-                                </Group>
+                                </Badge>
+                                <Text size="sm" c="dimmed">
+                                  by{' '}
+                                  <Text span c="violet" inherit>
+                                    {tierList.author}
+                                  </Text>
+                                </Text>
+                                {tierList.description && (
+                                  <>
+                                    <Text size="sm" c="dimmed">
+                                      •
+                                    </Text>
+                                    <Text size="sm" c="dimmed">
+                                      {tierList.description}
+                                    </Text>
+                                  </>
+                                )}
+                              </Group>
+                              <Group gap="xs" wrap="wrap">
                                 <LastUpdated
                                   timestamp={tierList.last_updated}
                                 />
-                              </Stack>
-                              <Button
-                                variant="light"
-                                size="sm"
-                                leftSection={<IoCreate size={14} />}
-                                onClick={() => {
-                                  setEditData(tierList);
-                                  setMode('builder');
-                                }}
-                              >
-                                Edit
-                              </Button>
-                            </Group>
+                                <Button
+                                  variant="light"
+                                  size="compact-xs"
+                                  leftSection={<IoCreate size={12} />}
+                                  onClick={() => {
+                                    setEditData(tierList);
+                                    setMode('builder');
+                                  }}
+                                >
+                                  Edit
+                                </Button>
+                              </Group>
+                            </Stack>
 
                             {byTier.map(
                               ({ tier, tierIndex, note, entries }) => (
