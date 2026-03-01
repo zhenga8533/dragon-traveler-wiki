@@ -269,6 +269,8 @@ export default function GearPage() {
           cmp = a.set.localeCompare(b.set);
         } else if (col === 'type') {
           cmp = typeCmp || qualityCmp || nameCmp;
+        } else if (col === 'rarity') {
+          cmp = qualityCmp || typeCmp || nameCmp;
         }
         if (cmp !== 0) return applyDir(cmp, dir);
       }
@@ -531,7 +533,14 @@ export default function GearPage() {
                           >
                             Set
                           </SortableTh>
-                          <Table.Th>Rarity</Table.Th>
+                          <SortableTh
+                            sortKey="rarity"
+                            sortCol={sortCol}
+                            sortDir={sortDir}
+                            onSort={handleSort}
+                          >
+                            Rarity
+                          </SortableTh>
                           <Table.Th>Set Bonus</Table.Th>
                         </Table.Tr>
                       </Table.Thead>
