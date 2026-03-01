@@ -1,5 +1,62 @@
 [
   {
+    "date": "2026-03-01",
+    "version": "1.0.6",
+    "changes": [
+      {
+        "type": "added",
+        "category": "guides",
+        "description": "Added guild priorities section and UI refinements in Beginner Q&A"
+      },
+      {
+        "type": "added",
+        "category": "teams",
+        "description": "Added clear and edit confirmation modals in Team Builder and Tier List builder flows"
+      },
+      {
+        "type": "added",
+        "category": "teams",
+        "description": "Added vertical row labels for team and battle grid views"
+      },
+      {
+        "type": "updated",
+        "category": "gear",
+        "description": "Added rarity column sorting on the Gear page"
+      },
+      {
+        "type": "updated",
+        "category": "tier-list",
+        "description": "Improved character sorting to follow tier option ordering and expanded partial JSON paste support in builders"
+      },
+      {
+        "type": "updated",
+        "category": "teams",
+        "description": "Persisted builder drafts and improved note/edit workflows, including safer draft replacement behavior"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Polished character card/note styling, avatar overflow display, and mobile-friendly Team/Tier builder layouts"
+      },
+      {
+        "type": "updated",
+        "category": "codebase",
+        "description": "Refactored shared modals, asset-loading hooks, and filtered page data hooks for cleaner page implementations"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live team and tier-list datasets and normalized note/deduplication handling"
+      },
+      {
+        "type": "fixed",
+        "category": "teams",
+        "description": "Fixed note wrapping and popover draft reset behavior to prevent accidental note loss"
+      }
+    ],
+    "last_updated": 1772323200
+  },
+  {
     "date": "2026-02-28",
     "version": "1.0.5",
     "changes": [
