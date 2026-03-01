@@ -116,6 +116,17 @@ export default function TierList() {
       ? viewFilters.contentTypes.length + (search.trim() ? 1 : 0)
       : 0;
 
+  const confirmReplaceBuilderData = () => {
+    if (typeof window === 'undefined') return true;
+    const hasDraft = Boolean(
+      window.localStorage.getItem(STORAGE_KEY.TIER_LIST_BUILDER_DRAFT)
+    );
+    if (!hasDraft) return true;
+    return window.confirm(
+      'Open this tier list in the builder? This will replace your current builder data.'
+    );
+  };
+
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY.TIER_LIST_SEARCH, search);
   }, [search]);
@@ -334,6 +345,7 @@ export default function TierList() {
                                   size="compact-xs"
                                   leftSection={<IoCreate size={12} />}
                                   onClick={() => {
+                                    if (!confirmReplaceBuilderData()) return;
                                     setEditData(tierList);
                                     setMode('builder');
                                   }}

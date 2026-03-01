@@ -257,6 +257,17 @@ export default function Teams() {
         (search.trim() ? 1 : 0)
       : 0;
 
+  const confirmReplaceBuilderData = () => {
+    if (typeof window === 'undefined') return true;
+    const hasDraft = Boolean(
+      window.localStorage.getItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT)
+    );
+    if (!hasDraft) return true;
+    return window.confirm(
+      'Open this team in the builder? This will replace your current builder data.'
+    );
+  };
+
   const filteredTeams = useMemo(() => {
     return teams.filter((team) => {
       if (search && !team.name.toLowerCase().includes(search.toLowerCase()))
@@ -472,6 +483,7 @@ export default function Teams() {
                                   style={{ flexShrink: 0 }}
                                   onClick={(e) => {
                                     e.stopPropagation();
+                                    if (!confirmReplaceBuilderData()) return;
                                     setEditData(team);
                                     setMode('builder');
                                   }}
