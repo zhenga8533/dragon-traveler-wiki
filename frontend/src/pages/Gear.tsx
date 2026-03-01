@@ -39,10 +39,8 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks';
-import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
+import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
-import { applyDir, useSortState } from '../hooks/use-sort';
 import type { Gear, GearSet, GearType } from '../types/gear';
 import type { Quality } from '../types/quality';
 import { getLatestTimestamp } from '../utils';
@@ -213,72 +211,74 @@ export default function GearPage() {
     [gearSetOptions]
   );
 
-  const { filters, setFilters } = useFilters<GearFilters>({
-    emptyFilters: EMPTY_FILTERS,
-    storageKey: STORAGE_KEY.GEAR_FILTERS,
-  });
-  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
-  const [viewMode, setViewMode] = useViewMode({
-    storageKey: STORAGE_KEY.GEAR_VIEW_MODE,
-    defaultMode: 'grid',
-  });
-  const { sortState, handleSort } = useSortState(STORAGE_KEY.GEAR_SORT);
-  const { col: sortCol, dir: sortDir } = sortState;
-
-  const filtered = useMemo(() => {
-    return gear
-      .filter((item) => {
-        if (
-          !filters.search &&
-          filters.types.length === 0 &&
-          filters.qualities.length === 0
-        ) {
-          return true;
-        }
-        const query = filters.search.toLowerCase();
-        const matchesSearch =
-          !filters.search ||
-          item.name.toLowerCase().includes(query) ||
-          item.set.toLowerCase().includes(query);
-        const matchesType =
-          filters.types.length === 0 || filters.types.includes(item.type);
-        const matchesQuality =
-          filters.qualities.length === 0 ||
-          filters.qualities.includes(item.quality);
-        return matchesSearch && matchesType && matchesQuality;
-      })
-      .sort((a, b) => {
-        const typeCmp =
-          GEAR_TYPE_ORDER.indexOf(a.type) - GEAR_TYPE_ORDER.indexOf(b.type);
-        const qualityCmp =
-          QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
-        const nameCmp = a.name.localeCompare(b.name);
-
-        if (sortCol) {
-          let cmp = 0;
-          if (sortCol === 'name') {
-            cmp = nameCmp;
-          } else if (sortCol === 'set') {
-            cmp = a.set.localeCompare(b.set);
-          } else if (sortCol === 'type') {
-            cmp = typeCmp || qualityCmp || nameCmp;
-          }
-          if (cmp !== 0) return applyDir(cmp, sortDir);
-        }
-
-        if (typeCmp !== 0) return typeCmp;
-        if (qualityCmp !== 0) return qualityCmp;
-        return nameCmp;
-      });
-  }, [gear, filters, sortCol, sortDir]);
-
   const {
+    filters,
+    setFilters,
+    filterOpen,
+    toggleFilter,
+    viewMode,
+    setViewMode,
+    sortState,
+    handleSort,
+    pageItems: gearPageItems,
+    filtered,
     page: gearPage,
     setPage: setGearPage,
     totalPages: gearTotalPages,
-    offset: gearOffset,
-  } = usePagination(filtered.length, PAGE_SIZE, JSON.stringify(filters));
-  const gearPageItems = filtered.slice(gearOffset, gearOffset + PAGE_SIZE);
+    activeFilterCount,
+  } = useFilteredPageData(gear, {
+    emptyFilters: EMPTY_FILTERS,
+    storageKeys: {
+      filters: STORAGE_KEY.GEAR_FILTERS,
+      viewMode: STORAGE_KEY.GEAR_VIEW_MODE,
+      sort: STORAGE_KEY.GEAR_SORT,
+    },
+    defaultViewMode: 'grid',
+    filterFn: (item, filters) => {
+      if (
+        !filters.search &&
+        filters.types.length === 0 &&
+        filters.qualities.length === 0
+      ) {
+        return true;
+      }
+      const query = filters.search.toLowerCase();
+      const matchesSearch =
+        !filters.search ||
+        item.name.toLowerCase().includes(query) ||
+        item.set.toLowerCase().includes(query);
+      const matchesType =
+        filters.types.length === 0 || filters.types.includes(item.type);
+      const matchesQuality =
+        filters.qualities.length === 0 ||
+        filters.qualities.includes(item.quality);
+      return matchesSearch && matchesType && matchesQuality;
+    },
+    sortFn: (a, b, col, dir) => {
+      const typeCmp =
+        GEAR_TYPE_ORDER.indexOf(a.type) - GEAR_TYPE_ORDER.indexOf(b.type);
+      const qualityCmp =
+        QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+      const nameCmp = a.name.localeCompare(b.name);
+
+      if (col) {
+        let cmp = 0;
+        if (col === 'name') {
+          cmp = nameCmp;
+        } else if (col === 'set') {
+          cmp = a.set.localeCompare(b.set);
+        } else if (col === 'type') {
+          cmp = typeCmp || qualityCmp || nameCmp;
+        }
+        if (cmp !== 0) return applyDir(cmp, dir);
+      }
+
+      if (typeCmp !== 0) return typeCmp;
+      if (qualityCmp !== 0) return qualityCmp;
+      return nameCmp;
+    },
+  });
+  const { col: sortCol, dir: sortDir } = sortState;
 
   const gearSetByName = useMemo(
     () => new Map(gearSets.map((entry) => [entry.name, entry])),
@@ -342,8 +342,6 @@ export default function GearPage() {
     () => getLatestTimestamp(gearSets),
     [gearSets]
   );
-  const activeFilterCount =
-    (filters.search ? 1 : 0) + filters.types.length + filters.qualities.length;
 
   return (
     <Container size="md" py="xl">

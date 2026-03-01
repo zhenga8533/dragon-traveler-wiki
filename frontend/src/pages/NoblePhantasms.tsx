@@ -28,16 +28,8 @@ import {
   getCardHoverProps,
   getMinWidthStyle,
 } from '../constants/styles';
-import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks';
-import {
-  countActiveFilters,
-  useFilterPanel,
-  useFilters,
-  useViewMode,
-} from '../hooks/use-filters';
-import { usePagination } from '../hooks/use-pagination';
-import { applyDir, useSortState } from '../hooks/use-sort';
+import { STORAGE_KEY } from '../constants/ui';
+import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { Character } from '../types/character';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import { getLatestTimestamp } from '../utils';
@@ -101,69 +93,68 @@ export default function NoblePhantasms() {
     ];
   }, [characters]);
 
-  const { filters, setFilters } = useFilters<NoblePhantasmFilters>({
+  const {
+    filters,
+    setFilters,
+    filterOpen,
+    toggleFilter,
+    viewMode,
+    setViewMode,
+    sortState,
+    handleSort,
+    pageItems,
+    filtered,
+    page,
+    setPage,
+    totalPages,
+    activeFilterCount,
+  } = useFilteredPageData(noblePhantasms, {
     emptyFilters: EMPTY_FILTERS,
-    storageKey: STORAGE_KEY.NOBLE_PHANTASM_FILTERS,
-  });
-  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
-  const [viewMode, setViewMode] = useViewMode({
-    storageKey: STORAGE_KEY.NOBLE_PHANTASM_VIEW_MODE,
-    defaultMode: 'grid',
-  });
-  const { sortState, handleSort } = useSortState(
-    STORAGE_KEY.NOBLE_PHANTASM_SORT
-  );
-  const { col: sortCol, dir: sortDir } = sortState;
-
-  const filtered = useMemo(() => {
-    return noblePhantasms
-      .filter((np) => {
-        if (!filters.search) return true;
-        const q = filters.search.toLowerCase();
-        return (
-          np.name.toLowerCase().includes(q) ||
-          (np.character || '').toLowerCase().includes(q)
-        );
-      })
-      .sort((a, b) => {
-        if (sortCol) {
-          let cmp = 0;
-          if (sortCol === 'name') {
-            cmp = a.name.localeCompare(b.name);
-          } else if (sortCol === 'character') {
-            const cA = a.character ?? '';
-            const cB = b.character ?? '';
-            if (!cA && cB) return 1;
-            if (cA && !cB) return -1;
-            cmp = cA.localeCompare(cB);
-          } else if (sortCol === 'effects') {
-            cmp = b.effects.length - a.effects.length;
-          } else if (sortCol === 'skills') {
-            cmp = b.skills.length - a.skills.length;
-          } else if (sortCol === 'global') {
-            cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
-          }
-          if (cmp !== 0) return applyDir(cmp, sortDir);
+    storageKeys: {
+      filters: STORAGE_KEY.NOBLE_PHANTASM_FILTERS,
+      viewMode: STORAGE_KEY.NOBLE_PHANTASM_VIEW_MODE,
+      sort: STORAGE_KEY.NOBLE_PHANTASM_SORT,
+    },
+    defaultViewMode: 'grid',
+    filterFn: (np, filters) => {
+      if (!filters.search) return true;
+      const q = filters.search.toLowerCase();
+      return (
+        np.name.toLowerCase().includes(q) ||
+        (np.character || '').toLowerCase().includes(q)
+      );
+    },
+    sortFn: (a, b, col, dir) => {
+      if (col) {
+        let cmp = 0;
+        if (col === 'name') {
+          cmp = a.name.localeCompare(b.name);
+        } else if (col === 'character') {
+          const cA = a.character ?? '';
+          const cB = b.character ?? '';
+          if (!cA && cB) return 1;
+          if (cA && !cB) return -1;
+          cmp = cA.localeCompare(cB);
+        } else if (col === 'effects') {
+          cmp = b.effects.length - a.effects.length;
+        } else if (col === 'skills') {
+          cmp = b.skills.length - a.skills.length;
+        } else if (col === 'global') {
+          cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
         }
-        const charCmp = (a.character ?? '').localeCompare(b.character ?? '');
-        if (charCmp !== 0) return charCmp;
-        return a.name.localeCompare(b.name);
-      });
-  }, [noblePhantasms, filters.search, sortCol, sortDir]);
-
-  const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length,
-    PAGE_SIZE,
-    JSON.stringify(filters)
-  );
-  const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
+        if (cmp !== 0) return applyDir(cmp, dir);
+      }
+      const charCmp = (a.character ?? '').localeCompare(b.character ?? '');
+      if (charCmp !== 0) return charCmp;
+      return a.name.localeCompare(b.name);
+    },
+  });
+  const { col: sortCol, dir: sortDir } = sortState;
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(noblePhantasms),
     [noblePhantasms]
   );
-
-  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">

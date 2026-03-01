@@ -40,15 +40,8 @@ import SuggestModal, {
 import { QUALITY_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks';
-import {
-  countActiveFilters,
-  useFilterPanel,
-  useFilters,
-  useViewMode,
-} from '../hooks/use-filters';
+import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
-import { applyDir, useSortState } from '../hooks/use-sort';
 import type { GoldenAlliance, Howlkin } from '../types/howlkin';
 import type { Quality } from '../types/quality';
 import { getLatestTimestamp } from '../utils';
@@ -176,16 +169,62 @@ export default function Howlkins() {
     error: alliancesError,
   } = useDataFetch<GoldenAlliance[]>('data/golden_alliances.json', []);
 
-  const { filters, setFilters } = useFilters<HowlkinFilters>({
+  const {
+    filters,
+    setFilters,
+    filterOpen,
+    toggleFilter,
+    viewMode,
+    setViewMode,
+    sortState,
+    handleSort,
+    pageItems: howlkinPageItems,
+    filtered,
+    page: howlkinPage,
+    setPage: setHowlkinPage,
+    totalPages: howlkinTotalPages,
+    activeFilterCount,
+  } = useFilteredPageData(howlkins, {
     emptyFilters: EMPTY_FILTERS,
-    storageKey: STORAGE_KEY.HOWLKIN_FILTERS,
+    storageKeys: {
+      filters: STORAGE_KEY.HOWLKIN_FILTERS,
+      viewMode: STORAGE_KEY.HOWLKIN_VIEW_MODE,
+      sort: STORAGE_KEY.HOWLKIN_SORT,
+    },
+    defaultViewMode: 'grid',
+    filterFn: (howlkin, filters) => {
+      if (
+        filters.search &&
+        !howlkin.name.toLowerCase().includes(filters.search.toLowerCase())
+      ) {
+        return false;
+      }
+      if (
+        filters.qualities.length > 0 &&
+        !filters.qualities.includes(howlkin.quality)
+      ) {
+        return false;
+      }
+      return true;
+    },
+    sortFn: (a, b, col, dir) => {
+      if (col) {
+        let cmp = 0;
+        if (col === 'name') {
+          cmp = a.name.localeCompare(b.name);
+        } else if (col === 'quality') {
+          cmp =
+            QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+        }
+        if (cmp !== 0) return applyDir(cmp, dir);
+      }
+      // Default: quality > name
+      const qA = QUALITY_ORDER.indexOf(a.quality);
+      const qB = QUALITY_ORDER.indexOf(b.quality);
+      if (qA !== qB) return qA - qB;
+      return a.name.localeCompare(b.name);
+    },
   });
-  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
-  const [viewMode, setViewMode] = useViewMode({
-    storageKey: STORAGE_KEY.HOWLKIN_VIEW_MODE,
-    defaultMode: 'grid',
-  });
-  const { sortState, handleSort } = useSortState(STORAGE_KEY.HOWLKIN_SORT);
   const { col: sortCol, dir: sortDir } = sortState;
 
   const [allianceSearch, setAllianceSearch] = useState(() => {
@@ -226,54 +265,6 @@ export default function Howlkins() {
     ];
   }, [qualityOptions]);
 
-  const filtered = useMemo(() => {
-    return howlkins
-      .filter((howlkin) => {
-        if (
-          filters.search &&
-          !howlkin.name.toLowerCase().includes(filters.search.toLowerCase())
-        ) {
-          return false;
-        }
-        if (
-          filters.qualities.length > 0 &&
-          !filters.qualities.includes(howlkin.quality)
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        if (sortCol) {
-          let cmp = 0;
-          if (sortCol === 'name') {
-            cmp = a.name.localeCompare(b.name);
-          } else if (sortCol === 'quality') {
-            cmp =
-              QUALITY_ORDER.indexOf(a.quality) -
-              QUALITY_ORDER.indexOf(b.quality);
-          }
-          if (cmp !== 0) return applyDir(cmp, sortDir);
-        }
-        // Default: quality > name
-        const qA = QUALITY_ORDER.indexOf(a.quality);
-        const qB = QUALITY_ORDER.indexOf(b.quality);
-        if (qA !== qB) return qA - qB;
-        return a.name.localeCompare(b.name);
-      });
-  }, [howlkins, filters, sortCol, sortDir]);
-
-  const {
-    page: howlkinPage,
-    setPage: setHowlkinPage,
-    totalPages: howlkinTotalPages,
-    offset: howlkinOffset,
-  } = usePagination(filtered.length, PAGE_SIZE, JSON.stringify(filters));
-  const howlkinPageItems = filtered.slice(
-    howlkinOffset,
-    howlkinOffset + PAGE_SIZE
-  );
-
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(howlkins),
     [howlkins]
@@ -312,8 +303,6 @@ export default function Howlkins() {
     allianceOffset,
     allianceOffset + PAGE_SIZE
   );
-
-  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">

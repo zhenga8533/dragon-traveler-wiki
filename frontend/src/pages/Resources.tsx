@@ -31,16 +31,9 @@ import {
   RESOURCE_CATEGORY_ORDER,
 } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
-import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
+import { STORAGE_KEY } from '../constants/ui';
 import { ResourcesContext } from '../contexts';
-import {
-  countActiveFilters,
-  useFilterPanel,
-  useFilters,
-  useViewMode,
-} from '../hooks';
-import { usePagination } from '../hooks/use-pagination';
-import { applyDir, useSortState } from '../hooks/use-sort';
+import { applyDir, useFilteredPageData } from '../hooks';
 import type { ResourceCategory } from '../types/resource';
 import { getLatestTimestamp } from '../utils';
 
@@ -95,75 +88,76 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 
 export default function Resources() {
   const { resources, loading } = useContext(ResourcesContext);
-  const { filters, setFilters } = useFilters<ResourceFilters>({
+  const {
+    filters,
+    setFilters,
+    filterOpen,
+    toggleFilter,
+    viewMode,
+    setViewMode,
+    sortState,
+    handleSort,
+    pageItems,
+    filtered,
+    page,
+    setPage,
+    totalPages,
+    activeFilterCount,
+  } = useFilteredPageData(resources, {
     emptyFilters: EMPTY_FILTERS,
-    storageKey: STORAGE_KEY.RESOURCE_FILTERS,
+    storageKeys: {
+      filters: STORAGE_KEY.RESOURCE_FILTERS,
+      viewMode: STORAGE_KEY.RESOURCE_VIEW_MODE,
+      sort: STORAGE_KEY.RESOURCE_SORT,
+    },
+    defaultViewMode: 'list',
+    filterFn: (r, filters) => {
+      if (
+        filters.search &&
+        !r.name.toLowerCase().includes(filters.search.toLowerCase())
+      ) {
+        return false;
+      }
+      if (
+        filters.categories.length > 0 &&
+        !filters.categories.includes(r.category)
+      ) {
+        return false;
+      }
+      return true;
+    },
+    sortFn: (a, b, col, dir) => {
+      if (col) {
+        let cmp = 0;
+        if (col === 'name') {
+          cmp = a.name.localeCompare(b.name);
+        } else if (col === 'quality') {
+          const qA = QUALITY_ORDER.indexOf(a.quality);
+          const qB = QUALITY_ORDER.indexOf(b.quality);
+          cmp = qA - qB;
+        } else if (col === 'category') {
+          cmp =
+            RESOURCE_CATEGORY_ORDER.indexOf(a.category) -
+            RESOURCE_CATEGORY_ORDER.indexOf(b.category);
+        }
+        if (cmp !== 0) return applyDir(cmp, dir);
+      }
+      // Default: category > quality > name
+      const catA = RESOURCE_CATEGORY_ORDER.indexOf(a.category);
+      const catB = RESOURCE_CATEGORY_ORDER.indexOf(b.category);
+      if (catA !== catB) return catA - catB;
+      const qA = QUALITY_ORDER.indexOf(a.quality);
+      const qB = QUALITY_ORDER.indexOf(b.quality);
+      if (qA !== qB) return qA - qB;
+      return a.name.localeCompare(b.name);
+    },
   });
-  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
-  const [viewMode, setViewMode] = useViewMode({
-    storageKey: STORAGE_KEY.RESOURCE_VIEW_MODE,
-    defaultMode: 'list',
-  });
-  const { sortState, handleSort } = useSortState(STORAGE_KEY.RESOURCE_SORT);
   const { col: sortCol, dir: sortDir } = sortState;
-
-  const filtered = useMemo(() => {
-    return resources
-      .filter((r) => {
-        if (
-          filters.search &&
-          !r.name.toLowerCase().includes(filters.search.toLowerCase())
-        ) {
-          return false;
-        }
-        if (
-          filters.categories.length > 0 &&
-          !filters.categories.includes(r.category)
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        if (sortCol) {
-          let cmp = 0;
-          if (sortCol === 'name') {
-            cmp = a.name.localeCompare(b.name);
-          } else if (sortCol === 'quality') {
-            const qA = QUALITY_ORDER.indexOf(a.quality);
-            const qB = QUALITY_ORDER.indexOf(b.quality);
-            cmp = qA - qB;
-          } else if (sortCol === 'category') {
-            cmp =
-              RESOURCE_CATEGORY_ORDER.indexOf(a.category) -
-              RESOURCE_CATEGORY_ORDER.indexOf(b.category);
-          }
-          if (cmp !== 0) return applyDir(cmp, sortDir);
-        }
-        // Default: category > quality > name
-        const catA = RESOURCE_CATEGORY_ORDER.indexOf(a.category);
-        const catB = RESOURCE_CATEGORY_ORDER.indexOf(b.category);
-        if (catA !== catB) return catA - catB;
-        const qA = QUALITY_ORDER.indexOf(a.quality);
-        const qB = QUALITY_ORDER.indexOf(b.quality);
-        if (qA !== qB) return qA - qB;
-        return a.name.localeCompare(b.name);
-      });
-  }, [resources, filters, sortCol, sortDir]);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(resources),
     [resources]
   );
-
-  const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length,
-    PAGE_SIZE,
-    JSON.stringify(filters)
-  );
-  const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
-
-  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">

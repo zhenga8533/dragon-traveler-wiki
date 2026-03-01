@@ -23,16 +23,8 @@ import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
-import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks';
-import {
-  countActiveFilters,
-  useFilterPanel,
-  useFilters,
-  useViewMode,
-} from '../hooks/use-filters';
-import { usePagination } from '../hooks/use-pagination';
-import { applyDir, useSortState } from '../hooks/use-sort';
+import { STORAGE_KEY } from '../constants/ui';
+import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { StatusEffect, StatusEffectType } from '../types/status-effect';
 import { getLatestTimestamp } from '../utils';
 
@@ -98,65 +90,64 @@ export default function StatusEffects() {
     loading,
     error,
   } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
-  const { filters, setFilters } = useFilters<StatusEffectFilters>({
+  const {
+    filters,
+    setFilters,
+    filterOpen,
+    toggleFilter,
+    viewMode,
+    setViewMode,
+    sortState,
+    handleSort,
+    pageItems,
+    filtered,
+    page,
+    setPage,
+    totalPages,
+    activeFilterCount,
+  } = useFilteredPageData(effects, {
     emptyFilters: EMPTY_FILTERS,
-    storageKey: STORAGE_KEY.STATUS_EFFECT_FILTERS,
+    storageKeys: {
+      filters: STORAGE_KEY.STATUS_EFFECT_FILTERS,
+      viewMode: STORAGE_KEY.STATUS_EFFECT_VIEW_MODE,
+      sort: STORAGE_KEY.STATUS_EFFECT_SORT,
+    },
+    defaultViewMode: 'list',
+    filterFn: (effect, filters) => {
+      if (
+        filters.search &&
+        !effect.name.toLowerCase().includes(filters.search.toLowerCase())
+      ) {
+        return false;
+      }
+      if (filters.types.length > 0 && !filters.types.includes(effect.type)) {
+        return false;
+      }
+      return true;
+    },
+    sortFn: (a, b, col, dir) => {
+      if (col) {
+        let cmp = 0;
+        if (col === 'name') {
+          cmp = a.name.localeCompare(b.name);
+        } else if (col === 'type') {
+          cmp = STATE_ORDER.indexOf(a.type) - STATE_ORDER.indexOf(b.type);
+        }
+        if (cmp !== 0) return applyDir(cmp, dir);
+      }
+      // Default: type > name
+      const typeIndexA = STATE_ORDER.indexOf(a.type);
+      const typeIndexB = STATE_ORDER.indexOf(b.type);
+      if (typeIndexA !== typeIndexB) return typeIndexA - typeIndexB;
+      return a.name.localeCompare(b.name);
+    },
   });
-  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
-  const [viewMode, setViewMode] = useViewMode({
-    storageKey: STORAGE_KEY.STATUS_EFFECT_VIEW_MODE,
-    defaultMode: 'list',
-  });
-  const { sortState, handleSort } = useSortState(
-    STORAGE_KEY.STATUS_EFFECT_SORT
-  );
   const { col: sortCol, dir: sortDir } = sortState;
-
-  const filtered = useMemo(() => {
-    return effects
-      .filter((effect) => {
-        if (
-          filters.search &&
-          !effect.name.toLowerCase().includes(filters.search.toLowerCase())
-        ) {
-          return false;
-        }
-        if (filters.types.length > 0 && !filters.types.includes(effect.type)) {
-          return false;
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        if (sortCol) {
-          let cmp = 0;
-          if (sortCol === 'name') {
-            cmp = a.name.localeCompare(b.name);
-          } else if (sortCol === 'type') {
-            cmp = STATE_ORDER.indexOf(a.type) - STATE_ORDER.indexOf(b.type);
-          }
-          if (cmp !== 0) return applyDir(cmp, sortDir);
-        }
-        // Default: type > name
-        const typeIndexA = STATE_ORDER.indexOf(a.type);
-        const typeIndexB = STATE_ORDER.indexOf(b.type);
-        if (typeIndexA !== typeIndexB) return typeIndexA - typeIndexB;
-        return a.name.localeCompare(b.name);
-      });
-  }, [effects, filters, sortCol, sortDir]);
-
-  const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length,
-    PAGE_SIZE,
-    JSON.stringify(filters)
-  );
-  const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(effects),
     [effects]
   );
-
-  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">

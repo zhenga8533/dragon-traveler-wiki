@@ -72,6 +72,7 @@ const MAX_ROSTER_SIZE = 6;
 const GRID_SIZE = 9; // 3×3 grid
 
 const ROW_COLORS = ['red', 'orange', 'blue'] as const;
+const ROW_LABELS = ['the front row', 'the middle row', 'the back row'] as const;
 const ROW_CLASS_HINTS = [
   'Guardian · Warrior · Assassin',
   'Warrior · Priest · Mage · Archer · Assassin',

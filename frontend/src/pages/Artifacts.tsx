@@ -31,16 +31,8 @@ import {
   getCardHoverProps,
   getMinWidthStyle,
 } from '../constants/styles';
-import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks';
-import {
-  countActiveFilters,
-  useFilterPanel,
-  useFilters,
-  useViewMode,
-} from '../hooks/use-filters';
-import { usePagination } from '../hooks/use-pagination';
-import { applyDir, useSortState } from '../hooks/use-sort';
+import { STORAGE_KEY } from '../constants/ui';
+import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { Artifact } from '../types/artifact';
 import { getLatestTimestamp } from '../utils';
 
@@ -125,68 +117,68 @@ export default function Artifacts() {
     loading,
     error,
   } = useDataFetch<Artifact[]>('data/artifacts.json', []);
-  const { filters, setFilters } = useFilters<ArtifactFilters>({
+  const {
+    filters,
+    setFilters,
+    filterOpen,
+    toggleFilter,
+    viewMode,
+    setViewMode,
+    sortState,
+    handleSort,
+    pageItems,
+    filtered,
+    page,
+    setPage,
+    totalPages,
+    activeFilterCount,
+  } = useFilteredPageData(artifacts, {
     emptyFilters: EMPTY_FILTERS,
-    storageKey: STORAGE_KEY.ARTIFACT_FILTERS,
+    storageKeys: {
+      filters: STORAGE_KEY.ARTIFACT_FILTERS,
+      viewMode: STORAGE_KEY.ARTIFACT_VIEW_MODE,
+      sort: STORAGE_KEY.ARTIFACT_SORT,
+    },
+    defaultViewMode: 'grid',
+    filterFn: (a, filters) => {
+      if (
+        filters.search &&
+        !a.name.toLowerCase().includes(filters.search.toLowerCase())
+      ) {
+        return false;
+      }
+      return true;
+    },
+    sortFn: (a, b, col, dir) => {
+      if (col) {
+        let cmp = 0;
+        if (col === 'name') {
+          cmp = a.name.localeCompare(b.name);
+        } else if (col === 'quality') {
+          cmp =
+            QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+        } else if (col === 'size') {
+          cmp = a.rows * a.columns - b.rows * b.columns;
+        } else if (col === 'treasures') {
+          cmp = b.treasures.length - a.treasures.length;
+        } else if (col === 'global') {
+          cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
+        }
+        if (cmp !== 0) return applyDir(cmp, dir);
+      }
+      // Default: quality > name
+      const qA = QUALITY_ORDER.indexOf(a.quality);
+      const qB = QUALITY_ORDER.indexOf(b.quality);
+      if (qA !== qB) return qA - qB;
+      return a.name.localeCompare(b.name);
+    },
   });
-  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
-  const [viewMode, setViewMode] = useViewMode({
-    storageKey: STORAGE_KEY.ARTIFACT_VIEW_MODE,
-    defaultMode: 'grid',
-  });
-  const { sortState, handleSort } = useSortState(STORAGE_KEY.ARTIFACT_SORT);
   const { col: sortCol, dir: sortDir } = sortState;
-
-  const filtered = useMemo(() => {
-    return artifacts
-      .filter((a) => {
-        if (
-          filters.search &&
-          !a.name.toLowerCase().includes(filters.search.toLowerCase())
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        if (sortCol) {
-          let cmp = 0;
-          if (sortCol === 'name') {
-            cmp = a.name.localeCompare(b.name);
-          } else if (sortCol === 'quality') {
-            cmp =
-              QUALITY_ORDER.indexOf(a.quality) -
-              QUALITY_ORDER.indexOf(b.quality);
-          } else if (sortCol === 'size') {
-            cmp = a.rows * a.columns - b.rows * b.columns;
-          } else if (sortCol === 'treasures') {
-            cmp = b.treasures.length - a.treasures.length;
-          } else if (sortCol === 'global') {
-            cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
-          }
-          if (cmp !== 0) return applyDir(cmp, sortDir);
-        }
-        // Default: quality > name
-        const qA = QUALITY_ORDER.indexOf(a.quality);
-        const qB = QUALITY_ORDER.indexOf(b.quality);
-        if (qA !== qB) return qA - qB;
-        return a.name.localeCompare(b.name);
-      });
-  }, [artifacts, filters, sortCol, sortDir]);
-
-  const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length,
-    PAGE_SIZE,
-    JSON.stringify(filters)
-  );
-  const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(artifacts),
     [artifacts]
   );
-
-  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">

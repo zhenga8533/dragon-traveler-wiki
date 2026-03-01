@@ -25,11 +25,8 @@ import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { CLASS_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
-import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks';
-import { useFilterPanel, useFilters, useViewMode } from '../hooks/use-filters';
-import { usePagination } from '../hooks/use-pagination';
-import { applyDir, useSortState } from '../hooks/use-sort';
+import { STORAGE_KEY } from '../constants/ui';
+import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { CharacterClass } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
 import type { Subclass } from '../types/subclass';
@@ -110,79 +107,71 @@ export default function Subclasses() {
     []
   );
 
-  const { filters, setFilters } = useFilters<SubclassFilters>({
+  const {
+    filters,
+    setFilters,
+    filterOpen,
+    toggleFilter,
+    viewMode,
+    setViewMode,
+    sortState,
+    handleSort,
+    pageItems,
+    filtered,
+    page,
+    setPage,
+    totalPages,
+    activeFilterCount,
+  } = useFilteredPageData(subclasses, {
     emptyFilters: EMPTY_FILTERS,
-    storageKey: STORAGE_KEY.SUBCLASS_FILTERS,
+    storageKeys: {
+      filters: STORAGE_KEY.SUBCLASS_FILTERS,
+      viewMode: STORAGE_KEY.SUBCLASS_VIEW_MODE,
+      sort: STORAGE_KEY.SUBCLASS_SORT,
+    },
+    defaultViewMode: 'list',
+    filterFn: (item, filters) => {
+      if (
+        filters.search &&
+        !item.name.toLowerCase().includes(filters.search.toLowerCase())
+      ) {
+        return false;
+      }
+      if (filters.classes.length > 0 && !filters.classes.includes(item.class)) {
+        return false;
+      }
+      if (
+        filters.tiers.length > 0 &&
+        !filters.tiers.includes(String(item.tier))
+      ) {
+        return false;
+      }
+      return true;
+    },
+    sortFn: (a, b, col, dir) => {
+      if (col) {
+        let cmp = 0;
+        if (col === 'name') {
+          cmp = a.name.localeCompare(b.name);
+        } else if (col === 'class') {
+          cmp = getClassRank(a.class) - getClassRank(b.class);
+        } else if (col === 'tier') {
+          cmp = a.tier - b.tier;
+        }
+        if (cmp !== 0) return applyDir(cmp, dir);
+      }
+      const classCmp = getClassRank(a.class) - getClassRank(b.class);
+      if (classCmp !== 0) return classCmp;
+      if (a.tier !== b.tier) return a.tier - b.tier;
+      return a.name.localeCompare(b.name);
+    },
   });
-  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
-  const [viewMode, setViewMode] = useViewMode({
-    storageKey: STORAGE_KEY.SUBCLASS_VIEW_MODE,
-    defaultMode: 'list',
-  });
-  const { sortState, handleSort } = useSortState(STORAGE_KEY.SUBCLASS_SORT);
   const { col: sortCol, dir: sortDir } = sortState;
-
-  const filtered = useMemo(() => {
-    return subclasses
-      .filter((item) => {
-        if (
-          filters.search &&
-          !item.name.toLowerCase().includes(filters.search.toLowerCase())
-        ) {
-          return false;
-        }
-
-        if (
-          filters.classes.length > 0 &&
-          !filters.classes.includes(item.class)
-        ) {
-          return false;
-        }
-
-        if (
-          filters.tiers.length > 0 &&
-          !filters.tiers.includes(String(item.tier))
-        ) {
-          return false;
-        }
-
-        return true;
-      })
-      .sort((a, b) => {
-        if (sortCol) {
-          let cmp = 0;
-          if (sortCol === 'name') {
-            cmp = a.name.localeCompare(b.name);
-          } else if (sortCol === 'class') {
-            cmp = getClassRank(a.class) - getClassRank(b.class);
-          } else if (sortCol === 'tier') {
-            cmp = a.tier - b.tier;
-          }
-
-          if (cmp !== 0) return applyDir(cmp, sortDir);
-        }
-
-        const classCmp = getClassRank(a.class) - getClassRank(b.class);
-        if (classCmp !== 0) return classCmp;
-        if (a.tier !== b.tier) return a.tier - b.tier;
-        return a.name.localeCompare(b.name);
-      });
-  }, [subclasses, filters, sortCol, sortDir]);
-
-  const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length,
-    PAGE_SIZE,
-    JSON.stringify(filters)
-  );
-  const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(subclasses),
     [subclasses]
   );
-
-  const activeFilterCount =
-    (filters.search ? 1 : 0) + filters.classes.length + filters.tiers.length;
 
   return (
     <Container size="md" py="xl">

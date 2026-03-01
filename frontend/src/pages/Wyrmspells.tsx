@@ -28,16 +28,8 @@ import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { FACTION_NAMES, QUALITY_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
-import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch, useMobileTooltip } from '../hooks';
-import {
-  countActiveFilters,
-  useFilterPanel,
-  useFilters,
-  useViewMode,
-} from '../hooks/use-filters';
-import { usePagination } from '../hooks/use-pagination';
-import { applyDir, useSortState } from '../hooks/use-sort';
+import { STORAGE_KEY } from '../constants/ui';
+import { applyDir, useDataFetch, useFilteredPageData, useMobileTooltip } from '../hooks';
 import type { Wyrmspell } from '../types/wyrmspell';
 import { getLatestTimestamp } from '../utils';
 
@@ -98,16 +90,79 @@ export default function Wyrmspells() {
     loading,
     error,
   } = useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
-  const { filters, setFilters } = useFilters<WyrmspellFilters>({
+  const {
+    filters,
+    setFilters,
+    filterOpen,
+    toggleFilter,
+    viewMode,
+    setViewMode,
+    sortState,
+    handleSort,
+    pageItems,
+    filtered,
+    page,
+    setPage,
+    totalPages,
+    activeFilterCount,
+  } = useFilteredPageData(wyrmspells, {
     emptyFilters: EMPTY_FILTERS,
-    storageKey: STORAGE_KEY.WYRMSPELL_FILTERS,
+    storageKeys: {
+      filters: STORAGE_KEY.WYRMSPELL_FILTERS,
+      viewMode: STORAGE_KEY.WYRMSPELL_VIEW_MODE,
+      sort: STORAGE_KEY.WYRMSPELL_SORT,
+    },
+    defaultViewMode: 'list',
+    filterFn: (spell, filters) => {
+      if (
+        filters.search &&
+        !spell.name.toLowerCase().includes(filters.search.toLowerCase())
+      ) {
+        return false;
+      }
+      if (filters.types.length > 0 && !filters.types.includes(spell.type)) {
+        return false;
+      }
+      if (
+        filters.qualities.length > 0 &&
+        !filters.qualities.includes(spell.quality)
+      ) {
+        return false;
+      }
+      return true;
+    },
+    sortFn: (a, b, col, dir) => {
+      if (col) {
+        let cmp = 0;
+        if (col === 'name') {
+          cmp = a.name.localeCompare(b.name);
+        } else if (col === 'type') {
+          cmp = a.type.localeCompare(b.type);
+        } else if (col === 'quality') {
+          const qA = QUALITY_ORDER.indexOf(a.quality);
+          const qB = QUALITY_ORDER.indexOf(b.quality);
+          cmp = (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
+        } else if (col === 'faction') {
+          const fA = a.exclusive_faction ?? '';
+          const fB = b.exclusive_faction ?? '';
+          // entries with no faction sort last
+          if (!fA && fB) return 1;
+          if (fA && !fB) return -1;
+          cmp = fA.localeCompare(fB);
+        } else if (col === 'global') {
+          cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
+        }
+        if (cmp !== 0) return applyDir(cmp, dir);
+      }
+      // Default: type > quality > name
+      const typeCmp = a.type.localeCompare(b.type);
+      if (typeCmp !== 0) return typeCmp;
+      const qA = QUALITY_ORDER.indexOf(a.quality);
+      const qB = QUALITY_ORDER.indexOf(b.quality);
+      if (qA !== qB) return (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
+      return a.name.localeCompare(b.name);
+    },
   });
-  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
-  const [viewMode, setViewMode] = useViewMode({
-    storageKey: STORAGE_KEY.WYRMSPELL_VIEW_MODE,
-    defaultMode: 'list',
-  });
-  const { sortState, handleSort } = useSortState(STORAGE_KEY.WYRMSPELL_SORT);
   const { col: sortCol, dir: sortDir } = sortState;
 
   const typeOptions = useMemo(() => {
@@ -144,72 +199,10 @@ export default function Wyrmspells() {
     return groups;
   }, [typeOptions, qualityOptions]);
 
-  const filtered = useMemo(() => {
-    return wyrmspells
-      .filter((spell) => {
-        if (
-          filters.search &&
-          !spell.name.toLowerCase().includes(filters.search.toLowerCase())
-        ) {
-          return false;
-        }
-        if (filters.types.length > 0 && !filters.types.includes(spell.type)) {
-          return false;
-        }
-        if (
-          filters.qualities.length > 0 &&
-          !filters.qualities.includes(spell.quality)
-        ) {
-          return false;
-        }
-        return true;
-      })
-      .sort((a, b) => {
-        if (sortCol) {
-          let cmp = 0;
-          if (sortCol === 'name') {
-            cmp = a.name.localeCompare(b.name);
-          } else if (sortCol === 'type') {
-            cmp = a.type.localeCompare(b.type);
-          } else if (sortCol === 'quality') {
-            const qA = QUALITY_ORDER.indexOf(a.quality);
-            const qB = QUALITY_ORDER.indexOf(b.quality);
-            cmp = (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
-          } else if (sortCol === 'faction') {
-            const fA = a.exclusive_faction ?? '';
-            const fB = b.exclusive_faction ?? '';
-            // entries with no faction sort last
-            if (!fA && fB) return 1;
-            if (fA && !fB) return -1;
-            cmp = fA.localeCompare(fB);
-          } else if (sortCol === 'global') {
-            cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
-          }
-          if (cmp !== 0) return applyDir(cmp, sortDir);
-        }
-        // Default: type > quality > name
-        const typeCmp = a.type.localeCompare(b.type);
-        if (typeCmp !== 0) return typeCmp;
-        const qA = QUALITY_ORDER.indexOf(a.quality);
-        const qB = QUALITY_ORDER.indexOf(b.quality);
-        if (qA !== qB) return (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
-        return a.name.localeCompare(b.name);
-      });
-  }, [wyrmspells, filters, sortCol, sortDir]);
-
-  const { page, setPage, totalPages, offset } = usePagination(
-    filtered.length,
-    PAGE_SIZE,
-    JSON.stringify(filters)
-  );
-  const pageItems = filtered.slice(offset, offset + PAGE_SIZE);
-
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(wyrmspells),
     [wyrmspells]
   );
-
-  const activeFilterCount = countActiveFilters(filters);
 
   return (
     <Container size="md" py="xl">
