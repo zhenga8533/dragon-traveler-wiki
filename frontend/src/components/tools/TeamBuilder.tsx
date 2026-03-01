@@ -57,12 +57,17 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../constants/github';
 import { getCardHoverProps } from '../../constants/styles';
-import { BREAKPOINTS, CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
+import {
+  BREAKPOINTS,
+  CHARACTER_GRID_SPACING,
+  TRANSITION,
+} from '../../constants/ui';
 import type { Character, CharacterClass } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Team, TeamMember, TeamWyrmspells } from '../../types/team';
 import type { Wyrmspell } from '../../types/wyrmspell';
 import { insertUniqueBefore, removeItem } from '../../utils/dnd-list';
+import { computeTeamSynergy } from '../../utils/team-synergy';
 import CharacterCard from '../character/CharacterCard';
 import FilterableCharacterPool from '../character/FilterableCharacterPool';
 import CharacterNoteButton from './CharacterNoteButton';
@@ -96,44 +101,6 @@ function getValidRows(charClass: CharacterClass): number[] {
     default:
       return [0, 1, 2];
   }
-}
-
-type SynergySignal = {
-  label: string;
-  score: number;
-  weight: number;
-  detail: string;
-};
-
-function clamp01(value: number): number {
-  if (value < 0) return 0;
-  if (value > 1) return 1;
-  return value;
-}
-
-function toRatio(current: number, target: number): number {
-  if (target <= 0) return 0;
-  return clamp01(current / target);
-}
-
-function hasSkillKeyword(character: Character, regex: RegExp): boolean {
-  return character.skills.some(
-    (skill) =>
-      regex.test(skill.name.toLowerCase()) ||
-      regex.test(skill.description.toLowerCase())
-  );
-}
-
-function getSynergyGrade(score: number): string {
-  if (score >= 90) return 'S';
-  if (score >= 80) return 'A';
-  if (score >= 70) return 'B';
-  if (score >= 60) return 'C';
-  return 'D';
-}
-
-function normalizeFactionValue(value: string): string {
-  return value.trim().toLowerCase();
 }
 
 interface TeamBuilderProps {
@@ -177,7 +144,12 @@ function DraggableCharCard({
       onClick={overlay ? undefined : onClick}
       {...(overlay ? {} : { ...(listeners ?? {}), ...attributes })}
     >
-      <CharacterCard name={name} quality={char?.quality} disableLink size={size} />
+      <CharacterCard
+        name={name}
+        quality={char?.quality}
+        disableLink
+        size={size}
+      />
     </div>
   );
 }
@@ -269,7 +241,12 @@ function SlotCard({
         isMobile ? (
           // Mobile: header row for controls, smaller portrait, single OD tap-to-cycle
           <Stack gap={4} align="center" style={{ width: '100%' }}>
-            <Group justify="space-between" align="center" gap={0} style={{ width: '100%' }}>
+            <Group
+              justify="space-between"
+              align="center"
+              gap={0}
+              style={{ width: '100%' }}
+            >
               {overdriveOrder != null ? (
                 <Badge size="xs" circle variant="filled" color="orange">
                   {overdriveOrder}
@@ -385,7 +362,9 @@ function SlotCard({
                   variant={overdriveOrder != null ? 'filled' : 'light'}
                   color="orange"
                   leftSection={
-                    overdriveOrder != null ? <IoCheckmark size={12} /> : undefined
+                    overdriveOrder != null ? (
+                      <IoCheckmark size={12} />
+                    ) : undefined
                   }
                   onClick={() =>
                     onOverdriveOrderChange(overdriveOrder != null ? null : 1)
@@ -986,198 +965,23 @@ export default function TeamBuilder({
       .map((slotName) => charMap.get(slotName))
       .filter((c): c is Character => Boolean(c));
 
-    const rosterSize = roster.length;
-    const classCounts = new Map<string, number>();
-    for (const c of roster) {
-      classCounts.set(
-        c.character_class,
-        (classCounts.get(c.character_class) || 0) + 1
-      );
-    }
-
-    const normalizedSelectedFaction = faction
-      ? normalizeFactionValue(faction)
-      : null;
-
-    const matchingFactionCount = normalizedSelectedFaction
-      ? roster.filter((c) =>
-          c.factions.some(
-            (memberFaction) =>
-              normalizeFactionValue(memberFaction) === normalizedSelectedFaction
-          )
-        ).length
-      : 0;
-
-    const frontlineCount = roster.filter(
-      (c) => c.character_class === 'Guardian' || c.character_class === 'Warrior'
-    ).length;
-    const sustainCount = roster.filter(
-      (c) => c.character_class === 'Priest'
-    ).length;
-    const damageCount = roster.filter(
-      (c) =>
-        c.character_class === 'Assassin' ||
-        c.character_class === 'Archer' ||
-        c.character_class === 'Mage' ||
-        c.character_class === 'Warrior'
-    ).length;
-
-    const controlRegex =
-      /stun|silence|sleep|freeze|taunt|bind|control|interrupt|knock/i;
-    const debuffRegex =
-      /debuff|reduce|weaken|vulnerab|armor break|breach|resistance down|def down|atk down/i;
-    const supportRegex =
-      /heal|shield|barrier|buff|cleanse|regen|recovery|restore/i;
-
-    const hasControl = roster.some((c) => hasSkillKeyword(c, controlRegex));
-    const hasDebuff = roster.some((c) => hasSkillKeyword(c, debuffRegex));
-    const hasSupport = roster.some((c) => hasSkillKeyword(c, supportRegex));
-
-    const isPvP = contentType === 'PvP';
-    const isPvE = contentType === 'PvE';
-    const isBoss = contentType === 'Boss';
-
-    const rosterSignal: SynergySignal = {
-      label: 'Roster size',
-      weight: 20,
-      score: 20 * toRatio(rosterSize, MAX_ROSTER_SIZE),
-      detail: `${rosterSize}/${MAX_ROSTER_SIZE} members slotted`,
-    };
-
-    const factionSignal: SynergySignal = {
-      label: 'Faction cohesion',
-      weight: 20,
-      score:
-        rosterSize > 0 && faction
-          ? 20 * toRatio(matchingFactionCount, rosterSize)
-          : rosterSize > 0
-            ? 10
-            : 0,
-      detail: faction
-        ? `${matchingFactionCount}/${rosterSize || 0} members match ${faction}`
-        : 'Set a faction for tighter guidance',
-    };
-
-    const classSignal: SynergySignal = {
-      label: 'Class coverage',
-      weight: 15,
-      score: 15 * toRatio(classCounts.size, 4),
-      detail: `${classCounts.size} unique classes represented`,
-    };
-
-    const frontlineSignal: SynergySignal = {
-      label: 'Frontline & sustain',
-      weight: 15,
-      score: (() => {
-        if (frontlineCount > 0 && sustainCount > 0) return 15;
-        if (frontlineCount > 0 || sustainCount > 0) return 8;
-        return 0;
-      })(),
-      detail: `Frontline ${frontlineCount} • Sustain ${sustainCount}`,
-    };
-
-    const damageSignal: SynergySignal = {
-      label: 'Damage pressure',
-      weight: 15,
-      score: 15 * toRatio(damageCount, 3),
-      detail: `${damageCount} burst/DPS-oriented members`,
-    };
-
-    const utilitySignal: SynergySignal = {
-      label: 'Buff/debuff/control mix',
-      weight: 10,
-      score:
-        ((hasSupport ? 1 : 0) + (hasDebuff ? 1 : 0) + (hasControl ? 1 : 0)) *
-        (10 / 3),
-      detail: `${hasSupport ? 'Support' : 'No support'} • ${hasDebuff ? 'Debuff' : 'No debuff'} • ${hasControl ? 'Control' : 'No control'}`,
-    };
-
-    const contentFitBase = (() => {
-      if (rosterSize === 0) return 0;
-      if (isPvP) {
-        return (
-          (hasControl ? 2 : 0) +
-          (damageCount >= 2 ? 2 : damageCount >= 1 ? 1 : 0) +
-          (frontlineCount >= 1 ? 1 : 0)
-        );
-      }
-      if (isPvE || isBoss) {
-        return (
-          (sustainCount >= 1 ? 2 : 0) +
-          (damageCount >= 2 ? 2 : damageCount >= 1 ? 1 : 0) +
-          (frontlineCount >= 1 ? 1 : 0)
-        );
-      }
-      return 3;
-    })();
-
-    const contentSignal: SynergySignal = {
-      label: 'Content type fit',
-      weight: 5,
-      score: 5 * toRatio(contentFitBase, 5),
-      detail: contentType
-        ? `Evaluated for ${contentType}`
-        : 'Set content type for stronger recommendations',
-    };
-
-    const signals: SynergySignal[] = [
-      rosterSignal,
-      factionSignal,
-      classSignal,
-      frontlineSignal,
-      damageSignal,
-      utilitySignal,
-      contentSignal,
-    ];
-
-    const totalScore = Math.round(
-      signals.reduce((sum, signal) => sum + signal.score, 0)
-    );
-
-    const recommendations: string[] = [];
-    if (rosterSize < MAX_ROSTER_SIZE) {
-      recommendations.push('Fill all 6 slots to maximize consistency.');
-    }
-    if (!faction) {
-      recommendations.push(
-        'Pick a faction to evaluate faction synergy and buffs.'
-      );
-    } else if (
-      rosterSize > 0 &&
-      matchingFactionCount < Math.ceil(rosterSize / 2)
-    ) {
-      recommendations.push(
-        'Consider more members from your selected faction for stronger cohesion.'
-      );
-    }
-    if (sustainCount === 0) {
-      recommendations.push('Add a Priest or a stronger sustain option.');
-    }
-    if (frontlineCount === 0) {
-      recommendations.push(
-        'Add a frontline (Guardian/Warrior) to stabilize damage intake.'
-      );
-    }
-    if (!hasDebuff) {
-      recommendations.push(
-        'Add at least one debuff source to improve team damage efficiency.'
-      );
-    }
-    if (!hasControl && isPvP) {
-      recommendations.push(
-        'For PvP, include crowd control to improve tempo and pick potential.'
-      );
-    }
-
-    return {
-      score: totalScore,
-      grade: getSynergyGrade(totalScore),
-      signals,
-      recommendations,
-      classCounts,
+    return computeTeamSynergy({
+      roster,
+      faction,
+      contentType,
       overdriveCount: overdriveSequence.length,
-    };
-  }, [slots, charMap, faction, contentType, overdriveSequence]);
+      teamWyrmspells,
+      wyrmspells,
+    });
+  }, [
+    slots,
+    charMap,
+    faction,
+    contentType,
+    overdriveSequence,
+    teamWyrmspells,
+    wyrmspells,
+  ]);
 
   const teamIssueQuery = useMemo(() => {
     const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
@@ -1654,7 +1458,11 @@ export default function TeamBuilder({
                       color={copied ? 'teal' : undefined}
                       onClick={copy}
                     >
-                      {copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />}
+                      {copied ? (
+                        <IoCheckmark size={16} />
+                      ) : (
+                        <IoCopy size={16} />
+                      )}
                     </ActionIcon>
                   </Tooltip>
                 ) : (

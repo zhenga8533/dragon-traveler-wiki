@@ -43,6 +43,7 @@ import { getSubclassIcon } from '../../assets/subclass';
 import ClassTag from '../../components/common/ClassTag';
 import DetailPageNavigation from '../../components/common/DetailPageNavigation';
 import EntityNotFound from '../../components/common/EntityNotFound';
+import ErrorBoundary from '../../components/common/ErrorBoundary';
 import TierBadge from '../../components/common/TierBadge';
 import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
 import {
@@ -418,13 +419,15 @@ export default function CharacterPage() {
 
   return (
     <Box>
-      <HeroSection
-        character={character}
-        portrait={portrait}
-        isDark={isDark}
-        tierLabel={tierLabel}
-        activeIllustration={activeIllustration}
-      />
+      <ErrorBoundary>
+        <HeroSection
+          character={character}
+          portrait={portrait}
+          isDark={isDark}
+          tierLabel={tierLabel}
+          activeIllustration={activeIllustration}
+        />
+      </ErrorBoundary>
 
       {/* Main Content */}
       <Container size="xl" py="xl">
@@ -689,24 +692,28 @@ export default function CharacterPage() {
           {/* Right Column */}
           <Grid.Col span={{ base: 12, md: 8 }}>
             <Stack gap="xl">
-              <BuildSection
-                character={character}
-                statusEffects={statusEffects}
-                recommendedGearDetails={recommendedGearDetails}
-                recommendedSubclassEntries={recommendedSubclassEntries}
-                activatedSetBonuses={activatedSetBonuses}
-                linkedNoblePhantasm={linkedNoblePhantasm}
-                scrollToSkill={scrollToSkill}
-                scrollToTalent={scrollToTalent}
-              />
-              <SkillsSection
-                character={character}
-                statusEffects={statusEffects}
-                talentIcon={talentIcon}
-                skillIcons={skillIcons}
-                scrollToSkill={scrollToSkill}
-                scrollToTalent={scrollToTalent}
-              />
+              <ErrorBoundary>
+                <BuildSection
+                  character={character}
+                  statusEffects={statusEffects}
+                  recommendedGearDetails={recommendedGearDetails}
+                  recommendedSubclassEntries={recommendedSubclassEntries}
+                  activatedSetBonuses={activatedSetBonuses}
+                  linkedNoblePhantasm={linkedNoblePhantasm}
+                  scrollToSkill={scrollToSkill}
+                  scrollToTalent={scrollToTalent}
+                />
+              </ErrorBoundary>
+              <ErrorBoundary>
+                <SkillsSection
+                  character={character}
+                  statusEffects={statusEffects}
+                  talentIcon={talentIcon}
+                  skillIcons={skillIcons}
+                  scrollToSkill={scrollToSkill}
+                  scrollToTalent={scrollToTalent}
+                />
+              </ErrorBoundary>
             </Stack>
           </Grid.Col>
         </Grid>

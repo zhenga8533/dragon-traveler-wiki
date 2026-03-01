@@ -71,7 +71,7 @@ export const PAGE_SIZE = 50;
 
 export const BREAKPOINTS = {
   MOBILE: '(max-width: 768px)',
-  DESKTOP: '(min-width: 62em)',
+  DESKTOP: '(min-width: 48em)',
 } as const;
 
 export const NAV_ITEM_HEIGHT = 42;
