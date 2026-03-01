@@ -28,7 +28,7 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -57,7 +57,7 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../constants/github';
 import { getCardHoverProps } from '../../constants/styles';
-import { CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
+import { BREAKPOINTS, CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
 import type { Character, CharacterClass } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Team, TeamMember, TeamWyrmspells } from '../../types/team';
@@ -71,7 +71,6 @@ import TeamSynergyAssistant from './TeamSynergyAssistant';
 const MAX_ROSTER_SIZE = 6;
 const GRID_SIZE = 9; // 3×3 grid
 
-const ROW_LABELS = ['Front', 'Middle', 'Back'] as const;
 const ROW_COLORS = ['red', 'orange', 'blue'] as const;
 const ROW_CLASS_HINTS = [
   'Guardian · Warrior · Assassin',
@@ -150,11 +149,13 @@ function DraggableCharCard({
   char,
   overlay,
   onClick,
+  size,
 }: {
   name: string;
   char: Character | undefined;
   overlay?: boolean;
   onClick?: () => void;
+  size?: number;
 }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: name,
@@ -175,7 +176,7 @@ function DraggableCharCard({
       onClick={overlay ? undefined : onClick}
       {...(overlay ? {} : { ...(listeners ?? {}), ...attributes })}
     >
-      <CharacterCard name={name} quality={char?.quality} disableLink />
+      <CharacterCard name={name} quality={char?.quality} disableLink size={size} />
     </div>
   );
 }
@@ -229,6 +230,7 @@ function SlotCard({
   isValidDrop: boolean;
   isDragging: boolean;
 }) {
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { setNodeRef, isOver } = useDroppable({ id: `slot-${index}` });
 
   let borderColor: string | undefined;
@@ -243,7 +245,7 @@ function SlotCard({
   return (
     <Paper
       ref={setNodeRef}
-      p="xs"
+      p={isMobile ? 4 : 'xs'}
       radius="md"
       withBorder
       {...getCardHoverProps({
@@ -253,7 +255,7 @@ function SlotCard({
             isOver || (isDragging && !isValidDrop && !charName) ? 2 : undefined,
           opacity: isDragging && !isValidDrop && !charName ? 0.45 : 1,
           transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}, opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-          minHeight: 120,
+          minHeight: isMobile ? 100 : 120,
           display: 'flex',
           flexDirection: 'column',
           alignItems: 'center',
@@ -263,32 +265,30 @@ function SlotCard({
       })}
     >
       {charName ? (
-        <>
-          <ActionIcon
-            size="xs"
-            variant="filled"
-            color="red"
-            radius="xl"
-            style={{ position: 'absolute', top: 4, right: 4 }}
-            onClick={onRemove}
-            aria-label="Remove from team"
-          >
-            <IoClose size={12} />
-          </ActionIcon>
-          {overdriveOrder != null && (
-            <Badge
-              size="sm"
-              circle
-              variant="filled"
-              color="orange"
-              style={{ position: 'absolute', top: 4, left: 4 }}
-            >
-              {overdriveOrder}
-            </Badge>
-          )}
-          <Stack gap={4} align="center">
+        isMobile ? (
+          // Mobile: header row for controls, smaller portrait, single OD tap-to-cycle
+          <Stack gap={4} align="center" style={{ width: '100%' }}>
+            <Group justify="space-between" align="center" gap={0} style={{ width: '100%' }}>
+              {overdriveOrder != null ? (
+                <Badge size="xs" circle variant="filled" color="orange">
+                  {overdriveOrder}
+                </Badge>
+              ) : (
+                <Box style={{ width: 16 }} />
+              )}
+              <ActionIcon
+                size="xs"
+                variant="filled"
+                color="red"
+                radius="xl"
+                onClick={onRemove}
+                aria-label="Remove from team"
+              >
+                <IoClose size={12} />
+              </ActionIcon>
+            </Group>
             <Box style={{ position: 'relative', display: 'inline-block' }}>
-              <DraggableCharCard name={charName} char={char} />
+              <DraggableCharCard name={charName} char={char} size={56} />
               <CharacterNoteButton
                 value={note}
                 onCommit={onNoteChange}
@@ -296,20 +296,7 @@ function SlotCard({
                 style={{ position: 'absolute', top: 2, right: 2 }}
               />
             </Box>
-            <Group gap={6} align="center" wrap="nowrap">
-              <ActionIcon
-                size="sm"
-                variant="light"
-                color="orange"
-                onClick={() =>
-                  onOverdriveOrderChange(
-                    overdriveOrder == null ? 1 : overdriveOrder - 1
-                  )
-                }
-                aria-label="Decrease overdrive order"
-              >
-                <IoRemove size={12} />
-              </ActionIcon>
+            <Group gap={4} wrap="nowrap" style={{ width: '100%' }}>
               <Button
                 size="compact-xs"
                 variant={overdriveOrder != null ? 'filled' : 'light'}
@@ -318,27 +305,110 @@ function SlotCard({
                   overdriveOrder != null ? <IoCheckmark size={12} /> : undefined
                 }
                 onClick={() =>
-                  onOverdriveOrderChange(overdriveOrder != null ? null : 1)
-                }
-              >
-                {overdriveOrder != null ? `OD ${overdriveOrder}` : 'OD Off'}
-              </Button>
-              <ActionIcon
-                size="sm"
-                variant="light"
-                color="orange"
-                onClick={() =>
                   onOverdriveOrderChange(
-                    overdriveOrder == null ? 1 : overdriveOrder + 1
+                    overdriveOrder == null
+                      ? 1
+                      : overdriveOrder >= 6
+                        ? 1
+                        : overdriveOrder + 1
                   )
                 }
-                aria-label="Increase overdrive order"
+                style={{ flex: 1 }}
               >
-                <IoAdd size={12} />
-              </ActionIcon>
+                {overdriveOrder != null ? `OD ${overdriveOrder}` : 'OD'}
+              </Button>
+              {overdriveOrder != null && (
+                <ActionIcon
+                  size="xs"
+                  variant="light"
+                  color="red"
+                  onClick={() => onOverdriveOrderChange(null)}
+                  aria-label="Disable overdrive"
+                >
+                  <IoClose size={10} />
+                </ActionIcon>
+              )}
             </Group>
           </Stack>
-        </>
+        ) : (
+          // Desktop: existing layout with absolute-positioned controls
+          <>
+            <ActionIcon
+              size="xs"
+              variant="filled"
+              color="red"
+              radius="xl"
+              style={{ position: 'absolute', top: 4, right: 4 }}
+              onClick={onRemove}
+              aria-label="Remove from team"
+            >
+              <IoClose size={12} />
+            </ActionIcon>
+            {overdriveOrder != null && (
+              <Badge
+                size="sm"
+                circle
+                variant="filled"
+                color="orange"
+                style={{ position: 'absolute', top: 4, left: 4 }}
+              >
+                {overdriveOrder}
+              </Badge>
+            )}
+            <Stack gap={4} align="center">
+              <Box style={{ position: 'relative', display: 'inline-block' }}>
+                <DraggableCharCard name={charName} char={char} />
+                <CharacterNoteButton
+                  value={note}
+                  onCommit={onNoteChange}
+                  placeholder="Add note..."
+                  style={{ position: 'absolute', top: 2, right: 2 }}
+                />
+              </Box>
+              <Group gap={6} align="center" wrap="nowrap">
+                <ActionIcon
+                  size="sm"
+                  variant="light"
+                  color="orange"
+                  onClick={() =>
+                    onOverdriveOrderChange(
+                      overdriveOrder == null ? 1 : overdriveOrder - 1
+                    )
+                  }
+                  aria-label="Decrease overdrive order"
+                >
+                  <IoRemove size={12} />
+                </ActionIcon>
+                <Button
+                  size="compact-xs"
+                  variant={overdriveOrder != null ? 'filled' : 'light'}
+                  color="orange"
+                  leftSection={
+                    overdriveOrder != null ? <IoCheckmark size={12} /> : undefined
+                  }
+                  onClick={() =>
+                    onOverdriveOrderChange(overdriveOrder != null ? null : 1)
+                  }
+                >
+                  {overdriveOrder != null ? `OD ${overdriveOrder}` : 'OD Off'}
+                </Button>
+                <ActionIcon
+                  size="sm"
+                  variant="light"
+                  color="orange"
+                  onClick={() =>
+                    onOverdriveOrderChange(
+                      overdriveOrder == null ? 1 : overdriveOrder + 1
+                    )
+                  }
+                  aria-label="Increase overdrive order"
+                >
+                  <IoAdd size={12} />
+                </ActionIcon>
+              </Group>
+            </Stack>
+          </>
+        )
       ) : (
         <Text size="xs" c="dimmed" ta="center" lh={1.4}>
           Drop here
@@ -395,38 +465,19 @@ function SlotsGrid({
             : true;
           return (
             <Group key={row} gap="xs" align="stretch" mb="xs" wrap="nowrap">
-              {/* Row label */}
+              {/* Row indicator */}
               <Tooltip label={ROW_CLASS_HINTS[row]} withArrow position="right">
                 <Box
                   style={{
-                    width: 52,
+                    width: 6,
                     flexShrink: 0,
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'flex-end',
+                    borderRadius: 'var(--mantine-radius-sm)',
+                    background: isDragging
+                      ? `var(--mantine-color-${isValidDrop ? 'green' : 'red'}-5)`
+                      : `var(--mantine-color-${ROW_COLORS[row]}-5)`,
+                    transition: `background ${TRANSITION.FAST} ${TRANSITION.EASE}`,
                   }}
-                >
-                  <Stack gap={2} align="flex-end">
-                    <Text
-                      size="xs"
-                      fw={700}
-                      c={`${ROW_COLORS[row]}.5`}
-                      style={{ letterSpacing: '0.03em' }}
-                    >
-                      {ROW_LABELS[row]}
-                    </Text>
-                    {isDragging && (
-                      <Badge
-                        size="xs"
-                        variant="dot"
-                        color={isValidDrop ? 'green' : 'red'}
-                        style={{ cursor: 'default' }}
-                      >
-                        {isValidDrop ? 'OK' : 'No'}
-                      </Badge>
-                    )}
-                  </Stack>
-                </Box>
+                />
               </Tooltip>
 
               {/* 3 slots for this row */}
@@ -519,6 +570,7 @@ function BenchDropItem({
   note: string;
   onNoteChange: (name: string, note: string) => void;
 }) {
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { setNodeRef: setItemNodeRef, isOver: isOverItem } = useDroppable({
     id: `bench-item-${name}`,
   });
@@ -535,7 +587,11 @@ function BenchDropItem({
     >
       <Stack gap={4} align="center">
         <Box style={{ position: 'relative', display: 'inline-block' }}>
-          <DraggableCharCard name={name} char={charMap.get(name)} />
+          <DraggableCharCard
+            name={name}
+            char={charMap.get(name)}
+            size={isMobile ? 56 : undefined}
+          />
           <CharacterNoteButton
             value={note}
             onCommit={(nextNote) => onNoteChange(name, nextNote)}
@@ -646,6 +702,7 @@ export default function TeamBuilder({
   const [activeId, setActiveId] = useState<string | null>(null);
   const [pasteModalOpened, { open: openPasteModal, close: closePasteModal }] =
     useDisclosure(false);
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
 
@@ -1497,6 +1554,22 @@ export default function TeamBuilder({
     setBenchNotes((prev) => ({ ...prev, [charName]: note }));
   }
 
+  function handleSubmitSuggestion() {
+    if (!teamIssueUrl) {
+      const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Team] New team suggestion', body: buildEmptyIssueBody('team') }).toString()}`;
+      window.open(emptyUrl, '_blank');
+      notifications.show({
+        color: 'yellow',
+        title: 'Team JSON is too large',
+        message:
+          'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
+        autoClose: 8000,
+      });
+      return;
+    }
+    window.open(teamIssueUrl, '_blank');
+  }
+
   function handleClear() {
     setSlots(Array(GRID_SIZE).fill(null));
     setOverdriveSequence([]);
@@ -1569,68 +1642,97 @@ export default function TeamBuilder({
           maxRows={4}
         />
 
-        <Group justify="space-between" wrap="wrap" gap="sm">
-          <Group gap="sm" wrap="wrap">
+        <Group justify="space-between" wrap="nowrap" gap="sm">
+          <Group gap="xs" wrap="nowrap">
             <CopyButton value={json}>
-              {({ copied, copy }) => (
-                <Button
-                  variant="light"
-                  size="sm"
-                  leftSection={
-                    copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
-                  }
-                  onClick={copy}
-                  color={copied ? 'teal' : undefined}
-                >
-                  {copied ? 'Copied' : 'Copy JSON'}
-                </Button>
-              )}
+              {({ copied, copy }) =>
+                isMobile ? (
+                  <Tooltip label={copied ? 'Copied!' : 'Copy JSON'} withArrow>
+                    <ActionIcon
+                      variant="light"
+                      color={copied ? 'teal' : undefined}
+                      onClick={copy}
+                    >
+                      {copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />}
+                    </ActionIcon>
+                  </Tooltip>
+                ) : (
+                  <Button
+                    variant="light"
+                    size="sm"
+                    leftSection={
+                      copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
+                    }
+                    onClick={copy}
+                    color={copied ? 'teal' : undefined}
+                  >
+                    {copied ? 'Copied' : 'Copy JSON'}
+                  </Button>
+                )
+              }
             </CopyButton>
-            <Button
-              variant="light"
-              size="sm"
-              leftSection={<IoClipboardOutline size={16} />}
-              onClick={openPasteModal}
-            >
-              Paste JSON
-            </Button>
+            {isMobile ? (
+              <Tooltip label="Paste JSON" withArrow>
+                <ActionIcon variant="light" onClick={openPasteModal}>
+                  <IoClipboardOutline size={16} />
+                </ActionIcon>
+              </Tooltip>
+            ) : (
+              <Button
+                variant="light"
+                size="sm"
+                leftSection={<IoClipboardOutline size={16} />}
+                onClick={openPasteModal}
+              >
+                Paste JSON
+              </Button>
+            )}
           </Group>
-          <Group gap="sm" wrap="wrap">
-            <Button
-              variant="light"
-              size="sm"
-              leftSection={<IoOpenOutline size={16} />}
-              onClick={() => {
-                if (!teamIssueUrl) {
-                  // URL too long, open issue with template but empty JSON
-                  const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Team] New team suggestion', body: buildEmptyIssueBody('team') }).toString()}`;
-                  window.open(emptyUrl, '_blank');
-                  notifications.show({
-                    color: 'yellow',
-                    title: 'Team JSON is too large',
-                    message:
-                      'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
-                    autoClose: 8000,
-                  });
-                  return;
-                }
-
-                window.open(teamIssueUrl, '_blank');
-              }}
-              disabled={teamSize === 0}
-            >
-              Submit Suggestion
-            </Button>
-            <Button
-              variant="light"
-              color="red"
-              size="sm"
-              leftSection={<IoTrash size={16} />}
-              onClick={handleClear}
-              disabled={teamSize === 0}
-            >
-              Clear All
-            </Button>
+          <Group gap="xs" wrap="nowrap">
+            {isMobile ? (
+              <Tooltip label="Submit Suggestion" withArrow>
+                <ActionIcon
+                  variant="light"
+                  disabled={teamSize === 0}
+                  onClick={handleSubmitSuggestion}
+                >
+                  <IoOpenOutline size={16} />
+                </ActionIcon>
+              </Tooltip>
+            ) : (
+              <Button
+                variant="light"
+                size="sm"
+                leftSection={<IoOpenOutline size={16} />}
+                onClick={handleSubmitSuggestion}
+                disabled={teamSize === 0}
+              >
+                Submit Suggestion
+              </Button>
+            )}
+            {isMobile ? (
+              <Tooltip label="Clear All" withArrow>
+                <ActionIcon
+                  variant="light"
+                  color="red"
+                  disabled={teamSize === 0}
+                  onClick={handleClear}
+                >
+                  <IoTrash size={16} />
+                </ActionIcon>
+              </Tooltip>
+            ) : (
+              <Button
+                variant="light"
+                color="red"
+                size="sm"
+                leftSection={<IoTrash size={16} />}
+                onClick={handleClear}
+                disabled={teamSize === 0}
+              >
+                Clear All
+              </Button>
+            )}
             <Badge variant="light" color={factionColor} size="lg" radius="sm">
               {teamSize} / {MAX_ROSTER_SIZE}
             </Badge>
@@ -1775,6 +1877,7 @@ export default function TeamBuilder({
                   key={c.name}
                   name={c.name}
                   char={c}
+                  size={isMobile ? 56 : undefined}
                   onClick={() => handleAddToNextSlot(c.name)}
                 />
               ))}

@@ -577,7 +577,6 @@ export default function TeamPage() {
   );
 }
 
-const BG_ROW_LABELS = ['Front', 'Middle', 'Back'] as const;
 const BG_ROW_COLORS = ['red', 'orange', 'blue'] as const;
 const BG_ROW_HINTS = [
   'Guardian · Warrior · Assassin',
@@ -635,27 +634,16 @@ function BattlefieldGrid({
     <Stack gap="sm">
       {grid.map((row, rowIdx) => (
         <Group key={rowIdx} gap="sm" align="stretch" wrap="nowrap">
-          {/* Row label */}
+          {/* Row indicator */}
           <Tooltip label={BG_ROW_HINTS[rowIdx]} withArrow position="right">
             <Box
               style={{
-                width: 52,
+                width: 6,
                 flexShrink: 0,
-                display: 'flex',
-                alignItems: 'center',
-                justifyContent: 'flex-end',
+                borderRadius: 'var(--mantine-radius-sm)',
+                background: `var(--mantine-color-${BG_ROW_COLORS[rowIdx]}-5)`,
               }}
-            >
-              <Text
-                size="xs"
-                fw={700}
-                c={`${BG_ROW_COLORS[rowIdx]}.5`}
-                ta="right"
-                style={{ letterSpacing: '0.04em', textTransform: 'uppercase' }}
-              >
-                {BG_ROW_LABELS[rowIdx]}
-              </Text>
-            </Box>
+            />
           </Tooltip>
 
           {/* 3 cells */}

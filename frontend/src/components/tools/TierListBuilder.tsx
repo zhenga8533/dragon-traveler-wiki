@@ -1,8 +1,12 @@
 import {
   DndContext,
   DragOverlay,
+  PointerSensor,
+  TouchSensor,
   useDraggable,
   useDroppable,
+  useSensor,
+  useSensors,
   type DragEndEvent,
   type DragStartEvent,
 } from '@dnd-kit/core';
@@ -24,7 +28,7 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { notifications } from '@mantine/notifications';
 import { useEffect, useMemo, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -52,7 +56,7 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../constants/github';
 import { getCardHoverProps } from '../../constants/styles';
-import { CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
+import { BREAKPOINTS, CHARACTER_GRID_SPACING, TRANSITION } from '../../constants/ui';
 import type { Character } from '../../types/character';
 import type { TierDefinition, TierList } from '../../types/tier-list';
 import {
@@ -78,11 +82,13 @@ function DraggableCharCard({
   char,
   overlay,
   tier,
+  size,
 }: {
   name: string;
   char: Character | undefined;
   overlay?: boolean;
   tier?: string;
+  size?: number;
 }) {
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
     id: name,
@@ -99,6 +105,7 @@ function DraggableCharCard({
         opacity: isDragging ? 0.3 : 1,
         cursor: isDragging ? 'grabbing' : 'grab',
         transition: `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+        touchAction: 'none',
       };
 
   return (
@@ -119,7 +126,7 @@ function DraggableCharCard({
       }}
       {...(overlay ? {} : { ...listeners, ...attributes })}
     >
-      <CharacterCard name={name} quality={char?.quality} disableLink />
+      <CharacterCard name={name} quality={char?.quality} disableLink size={size} />
     </div>
   );
 }
@@ -432,6 +439,11 @@ export default function TierListBuilder({
     useDisclosure(false);
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const sensors = useSensors(
+    useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
+    useSensor(TouchSensor, { activationConstraint: { delay: 120, tolerance: 8 } })
+  );
 
   function loadFromTierList(data: TierList) {
     setName(data.name || '');
@@ -709,7 +721,7 @@ export default function TierListBuilder({
   }
 
   return (
-    <DndContext onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
+    <DndContext sensors={sensors} onDragStart={handleDragStart} onDragEnd={handleDragEnd}>
       <Stack gap="md">
         <Group gap="sm" wrap="wrap">
           <TextInput
@@ -853,6 +865,7 @@ export default function TierListBuilder({
                     name={n}
                     char={charMap.get(n)}
                     tier={tier}
+                    size={isMobile ? 56 : undefined}
                   />
                   <CharacterNoteButton
                     value={notes[n] || ''}
@@ -914,7 +927,7 @@ export default function TierListBuilder({
               paginationControl={paginationControl}
             >
               {filtered.map((c) => (
-                <DraggableCharCard key={c.name} name={c.name} char={c} />
+                <DraggableCharCard key={c.name} name={c.name} char={c} size={isMobile ? 56 : undefined} />
               ))}
             </UnrankedPool>
           )}
