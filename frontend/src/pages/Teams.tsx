@@ -7,6 +7,7 @@ import {
   Divider,
   Group,
   Image,
+  Modal,
   Paper,
   ScrollArea,
   SegmentedControl,
@@ -179,6 +180,8 @@ export default function Teams() {
   });
   const [mode, setMode] = useState<'view' | 'builder'>('view');
   const [editData, setEditData] = useState<Team | null>(null);
+  const [pendingEditTeam, setPendingEditTeam] = useState<Team | null>(null);
+  const [confirmEditOpen, setConfirmEditOpen] = useState(false);
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TEAMS_VIEW_MODE,
     defaultMode: 'grid',
@@ -257,15 +260,25 @@ export default function Teams() {
         (search.trim() ? 1 : 0)
       : 0;
 
-  const confirmReplaceBuilderData = () => {
+  const hasBuilderDraft = () => {
     if (typeof window === 'undefined') return true;
-    const hasDraft = Boolean(
+    return Boolean(
       window.localStorage.getItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT)
     );
-    if (!hasDraft) return true;
-    return window.confirm(
-      'Open this team in the builder? This will replace your current builder data.'
-    );
+  };
+
+  const openTeamInBuilder = (team: Team) => {
+    setEditData(team);
+    setMode('builder');
+  };
+
+  const requestEditTeam = (team: Team) => {
+    if (!hasBuilderDraft()) {
+      openTeamInBuilder(team);
+      return;
+    }
+    setPendingEditTeam(team);
+    setConfirmEditOpen(true);
   };
 
   const filteredTeams = useMemo(() => {
@@ -483,9 +496,7 @@ export default function Teams() {
                                   style={{ flexShrink: 0 }}
                                   onClick={(e) => {
                                     e.stopPropagation();
-                                    if (!confirmReplaceBuilderData()) return;
-                                    setEditData(team);
-                                    setMode('builder');
+                                    requestEditTeam(team);
                                   }}
                                 >
                                   Edit
@@ -768,6 +779,45 @@ export default function Teams() {
             )}
           </>
         )}
+
+        <Modal
+          opened={confirmEditOpen}
+          onClose={() => {
+            setConfirmEditOpen(false);
+            setPendingEditTeam(null);
+          }}
+          title="Replace current builder data?"
+          centered
+        >
+          <Stack gap="md">
+            <Text size="sm" c="dimmed">
+              Opening this team will replace your current builder draft.
+            </Text>
+            <Group justify="flex-end">
+              <Button
+                variant="default"
+                onClick={() => {
+                  setConfirmEditOpen(false);
+                  setPendingEditTeam(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                color="violet"
+                onClick={() => {
+                  if (pendingEditTeam) {
+                    openTeamInBuilder(pendingEditTeam);
+                  }
+                  setConfirmEditOpen(false);
+                  setPendingEditTeam(null);
+                }}
+              >
+                Replace
+              </Button>
+            </Group>
+          </Stack>
+        </Modal>
       </Stack>
     </Container>
   );

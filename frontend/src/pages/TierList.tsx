@@ -4,6 +4,7 @@ import {
   Collapse,
   Container,
   Group,
+  Modal,
   Paper,
   ScrollArea,
   SegmentedControl,
@@ -71,6 +72,9 @@ export default function TierList() {
   });
   const [mode, setMode] = useState<'view' | 'builder'>('view');
   const [editData, setEditData] = useState<TierListType | null>(null);
+  const [pendingEditTierList, setPendingEditTierList] =
+    useState<TierListType | null>(null);
+  const [confirmEditOpen, setConfirmEditOpen] = useState(false);
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TIER_LIST_VIEW_MODE,
     defaultMode: 'grid',
@@ -116,15 +120,25 @@ export default function TierList() {
       ? viewFilters.contentTypes.length + (search.trim() ? 1 : 0)
       : 0;
 
-  const confirmReplaceBuilderData = () => {
+  const hasBuilderDraft = () => {
     if (typeof window === 'undefined') return true;
-    const hasDraft = Boolean(
+    return Boolean(
       window.localStorage.getItem(STORAGE_KEY.TIER_LIST_BUILDER_DRAFT)
     );
-    if (!hasDraft) return true;
-    return window.confirm(
-      'Open this tier list in the builder? This will replace your current builder data.'
-    );
+  };
+
+  const openTierListInBuilder = (tierList: TierListType) => {
+    setEditData(tierList);
+    setMode('builder');
+  };
+
+  const requestEditTierList = (tierList: TierListType) => {
+    if (!hasBuilderDraft()) {
+      openTierListInBuilder(tierList);
+      return;
+    }
+    setPendingEditTierList(tierList);
+    setConfirmEditOpen(true);
   };
 
   useEffect(() => {
@@ -345,9 +359,7 @@ export default function TierList() {
                                   size="compact-xs"
                                   leftSection={<IoCreate size={12} />}
                                   onClick={() => {
-                                    if (!confirmReplaceBuilderData()) return;
-                                    setEditData(tierList);
-                                    setMode('builder');
+                                    requestEditTierList(tierList);
                                   }}
                                 >
                                   Edit
@@ -648,6 +660,45 @@ export default function TierList() {
             )}
           </>
         )}
+
+        <Modal
+          opened={confirmEditOpen}
+          onClose={() => {
+            setConfirmEditOpen(false);
+            setPendingEditTierList(null);
+          }}
+          title="Replace current builder data?"
+          centered
+        >
+          <Stack gap="md">
+            <Text size="sm" c="dimmed">
+              Opening this tier list will replace your current builder draft.
+            </Text>
+            <Group justify="flex-end">
+              <Button
+                variant="default"
+                onClick={() => {
+                  setConfirmEditOpen(false);
+                  setPendingEditTierList(null);
+                }}
+              >
+                Cancel
+              </Button>
+              <Button
+                color="violet"
+                onClick={() => {
+                  if (pendingEditTierList) {
+                    openTierListInBuilder(pendingEditTierList);
+                  }
+                  setConfirmEditOpen(false);
+                  setPendingEditTierList(null);
+                }}
+              >
+                Replace
+              </Button>
+            </Group>
+          </Stack>
+        </Modal>
       </Stack>
     </Container>
   );
