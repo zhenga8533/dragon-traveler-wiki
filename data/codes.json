@@ -636,5 +636,25 @@
     },
     "active": true,
     "last_updated": 1772417732
+  },
+  {
+    "code": "GoddessOfLove",
+    "rewards": {
+      "Gold": 3000,
+      "Summoning Ticket": 1,
+      "Dragonblood": 1
+    },
+    "active": true,
+    "last_updated": 1772464992
+  },
+  {
+    "code": "DCMEM3000",
+    "rewards": {
+      "Gold": 30000,
+      "Summoning Ticket": 3,
+      "Random Refinement Stone": 10
+    },
+    "active": true,
+    "last_updated": 1772464992
   }
 ]
