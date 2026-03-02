@@ -508,8 +508,8 @@
         "description": "[Sand Shield] Applies an additional 2 stacks of [Balance] to both yourself and the target."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Each time [Heart's Balance] is triggered, [Sands of Solace] is released again."
       }
     ],
@@ -545,7 +545,7 @@
         "description": "Grants an additional 5% damage reduction per stack of [Balance]."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "Radiant Sun Bow",
@@ -564,8 +564,8 @@
         "description": "Once in the [Grace] state, the next [Solar Arrow Stream] will definitely fire 90 arrows regardless of the [Deathrattle] stack."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "The first basic attack dealt to each enemy unit applies an additional 4 stacks of [Sigil of Radiance]."
       }
     ],
@@ -590,8 +590,8 @@
       },
       {
         "level": 5,
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Skill has been changed to include an additional 6 layers of [Sigil of Radiance]."
       },
       {
@@ -601,7 +601,7 @@
         "description": "Increases damage coefficient by 180%."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "Lake Maiden's Holy Sword",
@@ -620,13 +620,13 @@
         "description": "Whenever you apply [Fervor], there is a 60%/75%/100% chance to additionally grant the target who received [Fervor] a random attribute-type buff."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "At the start of battle, grant all allied Luminaries the [Eternal King] skill."
       }
     ],
     "skills": [],
-    "last_updated": 1771867941
+    "last_updated": 1772486758
   },
   {
     "name": "Jade Dragon Seal",
@@ -645,13 +645,13 @@
         "description": "The shield provided by Qinglong's own skills reduces the ultimate skill cooldown by 1/1.2 seconds when applied and when broken."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "After releasing [Azure Dragon Formation], it additionally provides a shield equal to 15% of the user's maximum health to the user and the ally with the highest attack for 6 seconds. During the duration of this shield, the ally shares the 60/80% damage increase bonus of [Skysoar Dragon]."
       }
     ],
     "skills": [],
-    "last_updated": 1772078181
+    "last_updated": 1772486758
   },
   {
     "name": "Dragon's Breath Greatsword",
@@ -670,8 +670,8 @@
         "description": "Records the total amount of healing received throughout the entire battle. When in the [Wild] state, [Dragon Shadow Slash] deals an additional 180% physical damage based on the amount of healing received (up to a maximum of 600% of the user's maximum health), and [Blazing Domain] deals an additional 30% physical damage based on the amount of healing received (up to a maximum of 100% of the user's maximum health)."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "When in the [Wild] state, all [Physical Defense Up] applied by one's own skills becomes [Significant Physical Defense Up]."
       }
     ],
@@ -707,7 +707,7 @@
         "description": "Parry damage reduction efficiency is increased by an additional 20%."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "Little Man in a Bottle",
@@ -726,8 +726,8 @@
         "description": "When Krul dies, he will not disappear and will gain the [Rabbit Bomb]. When Krul is carrying the [Rabbit Bomb], he will have an additional 100% increase in life conversion and 100% damage reduction."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "At the start of battle, Krul will be automatically summoned at the furthest enemy Luminary in the same row. When summoned, it will deal magic damage equal to 1250% of the caster's attack to the enemy Luminary and inflict [Stun] and [Damage Reduction Down] for 3 seconds."
       }
     ],
@@ -740,8 +740,8 @@
       },
       {
         "level": 3,
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Increases damage coefficient by 250%."
       },
       {
@@ -752,8 +752,8 @@
       },
       {
         "level": 5,
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Increases damage coefficient by 500%."
       },
       {
@@ -763,7 +763,7 @@
         "description": "Krul inherits an additional 10% of its own attributes."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "Judgment Horn",
@@ -782,8 +782,8 @@
         "description": "[Celestial Awakening] Increases the maximum number of [Deathrattle] consumed each time it is triggered to 10, and increases ultimate skill damage by an additional 7.5%/9%/12% for each stack consumed."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "When [Invictus] is released, an additional slash is released at the enemy Luminary with the highest attack, but enemy units within both the original range and the additional range only take 20%/30% of the additional slash damage."
       }
     ],
@@ -814,12 +814,12 @@
       },
       {
         "level": 6,
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Enemy units simultaneously within the original range and the additional range receive 30% more bonus slash damage."
       }
     ],
-    "last_updated": 1771867941
+    "last_updated": 1772486758
   },
   {
     "name": "Lich Soul Box",
@@ -838,13 +838,13 @@
         "description": "When present, enemy units under the [Heal Block] or [Healing Down] status will have their attack reduced by an additional 20%."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "The duration of the [Healing Down] and [Heal Block] effects applied by our side has been extended to 12 seconds."
       }
     ],
     "skills": [],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "The Sighing Spear",
@@ -863,13 +863,13 @@
         "description": "When other friendly spirits gain [Awakening] or [Deathrattle], there is a 30% chance that they will gain an additional stack."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "If the target's health drops below 10% after the user inflicts damage, the user will immediately deal additional true damage equal to 100% of the target's current health. Furthermore, the health requirement to trigger this effect will increase by 1% for each instance of damage dealt by the clone (up to a maximum of 20%)."
       }
     ],
     "skills": [],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "Goddess Profile",
@@ -888,13 +888,13 @@
         "description": "[Spirit Shackles] Increases the shield provided to the user by 75/90/120% , and the duration of the shield array increases the damage reduction of other allied spirits within the shield array range by 100/120/160%."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Enemy units damaged by [Dark Shield] will lose 40/48% of their maximum health over the next 5 seconds (this effect does not apply to bosses and can not exceed 200/240% of their maximum health ). Consecutive hits with this effect will only reset the duration and cannot be stacked."
       }
     ],
     "skills": [],
-    "last_updated": 1772078181
+    "last_updated": 1772486758
   },
   {
     "name": "Dark Raven's Feather",
@@ -913,13 +913,13 @@
         "description": "When in the [Wild] state, the number of basic attack bounces increases by 4."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "The damage dealt by basic attack bounces is increased to 75%/100%."
       }
     ],
     "skills": [],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "Flame Magic Jar",
@@ -938,8 +938,8 @@
         "description": "When your basic attack crits, there is a 60% chance to apply an additional stack of [Flamebrand] to the target."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "[Hexagram] When the same unit is attacked by a second or subsequent fireball, the damage taken is increased to 28%."
       }
     ],
@@ -958,8 +958,8 @@
       },
       {
         "level": 4,
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "When the same unit is attacked by a second or more fireballs, the damage it receives is increased by an additional 8%."
       },
       {
@@ -975,7 +975,7 @@
         "description": "Increases the chance of applying [Flamebrand] when a basic attack crits by 20%."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "Piercing Sun Sword Box",
@@ -994,8 +994,8 @@
         "description": "[Unlimited Blade Works] will remove the primary target's shield and prevent them from gaining a shield for 9 seconds (regardless of whether they are in the Blade Works area)."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "During combat, increases own critical strike chance by 400. The additional damage from [Sword Shadow Chasing Soul] ignores an additional 15% physical defense against targets without buffs (this damage can exceed the stacking limit of the defense-ignoring effect)."
       }
     ],
@@ -1014,8 +1014,8 @@
       },
       {
         "level": 4,
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Grants an additional 80% critical strike chance and ignores an additional 3% physical defense."
       },
       {
@@ -1026,12 +1026,12 @@
       },
       {
         "level": 6,
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Grants an additional 160% critical strike chance and ignores an additional 6% physical defense."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "Ring of Demon Blade",
@@ -1050,13 +1050,13 @@
         "description": "One second after the start of the battle, grant yourself an untargetable state and increase your attack by 80%/100%/140% for 10 seconds. Each time you trigger the [Punishment] effect or gain a [Blessing Buff] status, extend the above effect by 0.5 seconds (only the attack increase applies in 1V1 mode)."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "When present, whenever our Luminary gains a [Blessing Buff] status, its next basic attack will trigger [Ravaging Maw] on the target an additional time (the source of damage is considered to be Jormungandr)."
       }
     ],
     "skills": [],
-    "last_updated": 1771867941
+    "last_updated": 1772486758
   },
   {
     "name": "Serpent God's Blade",
@@ -1075,8 +1075,8 @@
         "description": "The skill type of [Blade Dance] has been changed to a normal attack. Each time [Blade Dance] is used in this battle, it increases the user's attack and defense by 3%, stacking up to 20 times."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "When your HP is above 50%, [Blade Dance] grants a 32% damage increase; when your HP is below 50%, [Blade Dance] grants a 32% HP conversion."
       }
     ],
@@ -1095,8 +1095,8 @@
       },
       {
         "level": 4,
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Increases damage bonus and Life Steal bonus by 12%."
       },
       {
@@ -1112,7 +1112,7 @@
         "description": "Increases the bonus by 1.2% per level."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "Judgment Axe",
@@ -1131,8 +1131,8 @@
         "description": "At the start of battle, apply 2 stacks of [Commander's Intimidation] to all enemy Luminaries. This effect can trigger the [Punishment] effect. When [Punishment] is triggered, an additional 3 stacks of [Commander's Intimidation] are applied. This effect will be triggered again whenever an enemy unit with 5 stacks of [Commander's Intimidation] dies."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Whenever an enemy unit reaches 5 stacks of [Commander's Intimidation], apply [Taunt] to it for 5 seconds. (Can trigger a maximum of 1 time per target within 10 seconds)"
       }
     ],
@@ -1145,8 +1145,8 @@
       },
       {
         "level": 3,
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "[Taunt] duration delayed by 1 second."
       },
       {
@@ -1157,8 +1157,8 @@
       },
       {
         "level": 5,
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "[Taunt] duration delayed by 2 seconds."
       },
       {
@@ -1168,7 +1168,7 @@
         "description": "Damage reduction increased to 90% of own attack * number of [Commander's Intimidation] stacks on the target."
       }
     ],
-    "last_updated": 1771867941
+    "last_updated": 1772486758
   },
   {
     "name": "Love Elixir",
@@ -1187,13 +1187,13 @@
         "description": "[Meteorfall] Upon hitting a target, it additionally reduces the target's magic damage by 48% for 6 seconds."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "[Redemption] has been changed to dispel all debuffs on the target."
       }
     ],
     "skills": [],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   },
   {
     "name": "Severing Demon Blade",
@@ -1212,13 +1212,13 @@
         "description": "When dealing damage, for every 10% higher healing received than the target, the user gains 10% increased damage and 15% increased critical hit damage."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "When your own health is below 50%, increase both physical and magical defense by 80% and the healing received by 80%."
       }
     ],
     "skills": [],
-    "last_updated": 1771867941
+    "last_updated": 1772486758
   },
   {
     "name": "Broken Steel Scabbard",
@@ -1237,13 +1237,13 @@
         "description": "During the possession period, 25/30/40% of the damage taken by the possessed target is transferred to the possessed individual, and the possessed individual recovers 10% of their maximum health every 2 seconds (no more health recovery after reaching full health)."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "During possession, every 8 buffs the possessed target receives, reset their possession shield and grant them [Crit Damage Up]. (Trigger interval: 10 seconds)"
       }
     ],
     "skills": [],
-    "last_updated": 1772078181
+    "last_updated": 1772486758
   },
   {
     "name": "Tiger Tally",
@@ -1262,8 +1262,8 @@
         "description": "[Soaring Tempest] Increases ultimate skill damage by 90% and grants immunity to damage during the duration."
       },
       {
-        "tier": "Diamond",
-        "tier_level": 1,
+        "tier": "Divine",
+        "tier_level": 3,
         "description": "Whenever the user receives healing from another allied unit, they gain a significant attack speed boost."
       }
     ],
@@ -1299,6 +1299,6 @@
         "description": "The trigger probability effect is increased by 12%."
       }
     ],
-    "last_updated": 1771464391
+    "last_updated": 1772486758
   }
 ]
