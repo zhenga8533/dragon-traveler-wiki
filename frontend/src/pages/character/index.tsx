@@ -17,9 +17,9 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useCallback, useContext, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { RiZoomInLine } from 'react-icons/ri';
-import { useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../../assets/gear';
 import { getSubclassIcon } from '../../assets/subclass';
@@ -51,6 +51,11 @@ import type { Gear, GearSet } from '../../types/gear';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
 import type { Subclass } from '../../types/subclass';
+import {
+  findEntityByParam,
+  shouldRedirectToEntitySlug,
+  toEntitySlug,
+} from '../../utils/entity-slug';
 import { compareCharactersByQualityThenName } from '../../utils/filter-characters';
 import BuildSection from './BuildSection';
 import HeroSection from './HeroSection';
@@ -106,6 +111,7 @@ export default function CharacterPage() {
   const isDark = useComputedColorScheme('light') === 'dark';
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
   const { name } = useParams<{ name: string }>();
+  const navigate = useNavigate();
   const { data: characters, loading } = useDataFetch<Character[]>(
     'data/characters.json',
     []
@@ -129,12 +135,14 @@ export default function CharacterPage() {
   );
 
   const character = useMemo(() => {
-    if (!name) return null;
-    const decodedName = decodeURIComponent(name);
-    return characters.find(
-      (c) => c.name.toLowerCase() === decodedName.toLowerCase()
-    );
+    return findEntityByParam(characters, name, (c) => c.name);
   }, [characters, name]);
+
+  useEffect(() => {
+    if (!character || !name) return;
+    if (!shouldRedirectToEntitySlug(name, character.name)) return;
+    navigate(`/characters/${toEntitySlug(character.name)}`, { replace: true });
+  }, [character, name, navigate]);
 
   const tierLabel = useMemo(() => {
     if (!selectedTierListName || !character) return null;
@@ -683,7 +691,7 @@ export default function CharacterPage() {
             previousCharacter
               ? {
                   label: previousCharacter.name,
-                  path: `/characters/${encodeURIComponent(previousCharacter.name)}`,
+                  path: `/characters/${toEntitySlug(previousCharacter.name)}`,
                 }
               : null
           }
@@ -691,7 +699,7 @@ export default function CharacterPage() {
             nextCharacter
               ? {
                   label: nextCharacter.name,
-                  path: `/characters/${encodeURIComponent(nextCharacter.name)}`,
+                  path: `/characters/${toEntitySlug(nextCharacter.name)}`,
                 }
               : null
           }

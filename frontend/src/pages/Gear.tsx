@@ -44,6 +44,7 @@ import { usePagination } from '../hooks/use-pagination';
 import type { Gear, GearSet, GearType } from '../types/gear';
 import type { Quality } from '../types/quality';
 import { getLatestTimestamp } from '../utils';
+import { toEntitySlug } from '../utils/entity-slug';
 
 const GEAR_TYPE_ORDER: GearType[] = [
   'Headgear',
@@ -445,7 +446,7 @@ export default function GearPage() {
                         <Paper
                           key={item.name}
                           component={Link}
-                          to={`/gear-sets/${encodeURIComponent(item.set)}`}
+                          to={`/gear-sets/${toEntitySlug(item.set)}`}
                           p="md"
                           radius="md"
                           withBorder
@@ -554,9 +555,7 @@ export default function GearPage() {
                               key={item.name}
                               style={{ cursor: 'pointer' }}
                               onClick={() =>
-                                navigate(
-                                  `/gear-sets/${encodeURIComponent(item.set)}`
-                                )
+                                navigate(`/gear-sets/${toEntitySlug(item.set)}`)
                               }
                             >
                               <Table.Td>
@@ -573,7 +572,7 @@ export default function GearPage() {
                               <Table.Td>
                                 <Text
                                   component={Link}
-                                  to={`/gear-sets/${encodeURIComponent(item.set)}`}
+                                  to={`/gear-sets/${toEntitySlug(item.set)}`}
                                   fw={600}
                                   size="sm"
                                   c="violet"
@@ -650,7 +649,7 @@ export default function GearPage() {
                           <Paper
                             key={set.name}
                             component={Link}
-                            to={`/gear-sets/${encodeURIComponent(set.name)}`}
+                            to={`/gear-sets/${toEntitySlug(set.name)}`}
                             p="md"
                             radius="md"
                             withBorder

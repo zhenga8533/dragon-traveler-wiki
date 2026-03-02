@@ -5,6 +5,7 @@ import { getPortrait } from '../../assets/character';
 import { QUALITY_BORDER_COLOR } from '../../constants/colors';
 import { getCharacterPortraitHoverProps } from '../../constants/styles';
 import type { Quality } from '../../types/quality';
+import { toEntitySlug } from '../../utils/entity-slug';
 
 interface CharacterPortraitProps {
   name: string;
@@ -74,7 +75,7 @@ export default function CharacterPortrait({
 
   const linkedPortrait = link ? (
     <Link
-      to={`/characters/${encodeURIComponent(name)}`}
+      to={`/characters/${toEntitySlug(name)}`}
       style={{ display: 'inline-flex', textDecoration: 'none' }}
       aria-label={`View ${name}`}
     >

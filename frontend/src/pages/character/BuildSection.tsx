@@ -31,6 +31,7 @@ import type {
 } from '../../types/character';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
+import { toEntitySlug } from '../../utils/entity-slug';
 
 interface CharacterPageBuildSectionProps {
   character: Character;
@@ -128,7 +129,7 @@ export default function CharacterPageBuildSection({
                       return (
                         <Stack gap="xs">
                           <Link
-                            to={`/noble-phantasms/${encodeURIComponent(linkedNoblePhantasm.name)}`}
+                            to={`/noble-phantasms/${toEntitySlug(linkedNoblePhantasm.name)}`}
                             style={{
                               textDecoration: 'none',
                               width: 'fit-content',

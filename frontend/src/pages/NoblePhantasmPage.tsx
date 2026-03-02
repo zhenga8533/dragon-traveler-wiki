@@ -11,8 +11,8 @@ import {
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import CharacterTag from '../components/character/CharacterTag';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
@@ -37,6 +37,11 @@ import type {
   NoblePhantasmSkill,
 } from '../types/noble-phantasm';
 import type { StatusEffect } from '../types/status-effect';
+import {
+  findEntityByParam,
+  shouldRedirectToEntitySlug,
+  toEntitySlug,
+} from '../utils/entity-slug';
 
 function EffectTable({
   effects,
@@ -166,6 +171,7 @@ function SkillTable({
 
 export default function NoblePhantasmPage() {
   const { name } = useParams<{ name: string }>();
+  const navigate = useNavigate();
   const isDark = useComputedColorScheme('light') === 'dark';
 
   const { data: noblePhantasms, loading } = useDataFetch<NoblePhantasm[]>(
@@ -182,12 +188,16 @@ export default function NoblePhantasmPage() {
   );
 
   const noblePhantasm = useMemo(() => {
-    if (!name) return null;
-    const decodedName = decodeURIComponent(name);
-    return noblePhantasms.find(
-      (np) => np.name.toLowerCase() === decodedName.toLowerCase()
-    );
+    return findEntityByParam(noblePhantasms, name, (np) => np.name);
   }, [name, noblePhantasms]);
+
+  useEffect(() => {
+    if (!noblePhantasm || !name) return;
+    if (!shouldRedirectToEntitySlug(name, noblePhantasm.name)) return;
+    navigate(`/noble-phantasms/${toEntitySlug(noblePhantasm.name)}`, {
+      replace: true,
+    });
+  }, [name, navigate, noblePhantasm]);
 
   // Match list page: sort by character, then name
   const orderedNoblePhantasms = useMemo(
@@ -335,7 +345,9 @@ export default function NoblePhantasmPage() {
       <Container size="lg" py="xl">
         <Stack gap="xl">
           <Stack gap="md">
-            <Title order={2} size="h3">Effects</Title>
+            <Title order={2} size="h3">
+              Effects
+            </Title>
             <EffectTable
               effects={noblePhantasm.effects}
               statusEffects={statusEffects}
@@ -345,7 +357,9 @@ export default function NoblePhantasmPage() {
           </Stack>
 
           <Stack gap="md">
-            <Title order={2} size="h3">Skill Progression</Title>
+            <Title order={2} size="h3">
+              Skill Progression
+            </Title>
             <SkillTable
               skills={noblePhantasm.skills}
               statusEffects={statusEffects}
@@ -360,7 +374,7 @@ export default function NoblePhantasmPage() {
             previousNoblePhantasm
               ? {
                   label: previousNoblePhantasm.name,
-                  path: `/noble-phantasms/${encodeURIComponent(previousNoblePhantasm.name)}`,
+                  path: `/noble-phantasms/${toEntitySlug(previousNoblePhantasm.name)}`,
                 }
               : null
           }
@@ -368,7 +382,7 @@ export default function NoblePhantasmPage() {
             nextNoblePhantasm
               ? {
                   label: nextNoblePhantasm.name,
-                  path: `/noble-phantasms/${encodeURIComponent(nextNoblePhantasm.name)}`,
+                  path: `/noble-phantasms/${toEntitySlug(nextNoblePhantasm.name)}`,
                 }
               : null
           }

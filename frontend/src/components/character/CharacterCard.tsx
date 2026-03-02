@@ -11,6 +11,7 @@ import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { CHARACTER_CARD, TRANSITION } from '../../constants/ui';
 import type { Quality } from '../../types/quality';
+import { toEntitySlug } from '../../utils/entity-slug';
 import TierBadge from '../common/TierBadge';
 import CharacterPortrait from './CharacterPortrait';
 
@@ -169,7 +170,7 @@ export default function CharacterCard({
   return (
     <UnstyledButton
       component={Link}
-      to={`/characters/${encodeURIComponent(name)}`}
+      to={`/characters/${toEntitySlug(name)}`}
       style={{
         borderRadius: 'var(--mantine-radius-md)',
         transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,

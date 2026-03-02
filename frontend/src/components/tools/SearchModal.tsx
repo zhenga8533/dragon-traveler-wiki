@@ -43,6 +43,7 @@ import { normalizeContentType } from '../../constants/content-types';
 import { TRANSITION } from '../../constants/ui';
 import { SearchDataContext } from '../../contexts';
 import { isCodeActive } from '../../utils';
+import { toEntitySlug } from '../../utils/entity-slug';
 import CharacterPortrait from '../character/CharacterPortrait';
 
 type SearchResult = {
@@ -239,7 +240,7 @@ export default function SearchModal({
           type: 'character' as const,
           title: r.item.name,
           subtitle: `${r.item.quality} ${r.item.character_class}`,
-          path: `/characters/${encodeURIComponent(r.item.name)}`,
+          path: `/characters/${toEntitySlug(r.item.name)}`,
           icon: IoPersonOutline,
           color: 'blue',
         }))
@@ -264,7 +265,7 @@ export default function SearchModal({
           type: 'artifact' as const,
           title: r.item.name,
           subtitle: `${r.item.quality} Artifact`,
-          path: `/artifacts/${encodeURIComponent(r.item.name)}`,
+          path: `/artifacts/${toEntitySlug(r.item.name)}`,
           icon: getArtifactIcon(r.item.name) ?? IoDiamondOutline,
           color: 'teal',
         }))
@@ -283,7 +284,7 @@ export default function SearchModal({
           type: 'gear' as const,
           title: r.item.name,
           subtitle: `${r.item.type} • ${r.item.set}`,
-          path: `/gear-sets/${encodeURIComponent(r.item.set)}`,
+          path: `/gear-sets/${toEntitySlug(r.item.set)}`,
           icon: getGearIcon(r.item.type, r.item.name) ?? IoShieldOutline,
           color: 'teal',
         }))
@@ -413,7 +414,7 @@ export default function SearchModal({
           type: 'noble-phantasm' as const,
           title: r.item.name,
           subtitle: r.item.character || 'Noble Phantasm',
-          path: `/noble-phantasms/${encodeURIComponent(r.item.name)}`,
+          path: `/noble-phantasms/${toEntitySlug(r.item.name)}`,
           icon: getNoblePhantasmIcon(r.item.name) ?? IoFlashOutline,
           color: 'teal',
         }))
