@@ -14,6 +14,7 @@ import { getCardHoverProps } from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { Team, TeamMemberPosition } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
+import CollapsibleSectionCard from './CollapsibleSectionCard.tsx';
 
 interface CharacterReferenceSectionProps {
   character: Character;
@@ -123,8 +124,8 @@ export default function CharacterReferenceSection({
   }
 
   return (
-    <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
-      <Stack gap="md">
+    <CollapsibleSectionCard
+      header={
         <Stack gap={2}>
           <Title order={2} size="h3">
             Character Usage
@@ -133,7 +134,9 @@ export default function CharacterReferenceSection({
             Quick reference from tier list notes and saved team examples.
           </Text>
         </Stack>
-
+      }
+    >
+      <Stack gap="md">
         {hasTierContext && (
           <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
             <Stack gap={6}>
@@ -231,6 +234,6 @@ export default function CharacterReferenceSection({
           </Stack>
         )}
       </Stack>
-    </Paper>
+    </CollapsibleSectionCard>
   );
 }

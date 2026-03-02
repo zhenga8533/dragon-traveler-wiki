@@ -13,6 +13,7 @@ import RichText from '../../components/common/RichText';
 import { getCardHoverProps } from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { StatusEffect } from '../../types/status-effect';
+import CollapsibleSectionCard from './CollapsibleSectionCard.tsx';
 
 interface CharacterPageSkillsSectionProps {
   character: Character;
@@ -38,26 +39,34 @@ export default function CharacterPageSkillsSection({
     <>
       {/* Talent Section */}
       {talentLevels.length > 0 && (
-        <Paper
+        <CollapsibleSectionCard
           id="talent-section"
-          p="lg"
-          radius="md"
-          withBorder
-          {...getCardHoverProps()}
+          header={
+            <Stack gap={2}>
+              <Title order={2} size="h3">
+                Talent
+              </Title>
+              <Text size="sm" c="dimmed">
+                Talent levels and progression effects for this character.
+              </Text>
+            </Stack>
+          }
         >
           <Stack gap="md">
             <Group gap="md">
               {talentIcon && (
                 <Image
                   src={talentIcon}
-                  alt="Talent"
+                  alt={talent?.name ?? 'Talent'}
                   w={54}
                   h={74}
                   fit="contain"
                   loading="lazy"
                 />
               )}
-              <Title order={2} size="h3">{talent?.name ?? 'Talent'}</Title>
+              <Title order={3} size="h4">
+                {talent?.name ?? 'Talent'}
+              </Title>
             </Group>
 
             <Stack gap="sm">
@@ -81,15 +90,24 @@ export default function CharacterPageSkillsSection({
               ))}
             </Stack>
           </Stack>
-        </Paper>
+        </CollapsibleSectionCard>
       )}
 
       {/* Skills Section */}
       {character.skills.length > 0 && (
-        <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
+        <CollapsibleSectionCard
+          header={
+            <Stack gap={2}>
+              <Title order={2} size="h3">
+                Skills
+              </Title>
+              <Text size="sm" c="dimmed">
+                Core skill descriptions, type tags, and cooldown information.
+              </Text>
+            </Stack>
+          }
+        >
           <Stack gap="md">
-            <Title order={2} size="h3">Skills</Title>
-
             <Stack gap="md">
               {character.skills.map((skill) => {
                 const skillIcon = skillIcons.get(skill.name);
@@ -152,7 +170,7 @@ export default function CharacterPageSkillsSection({
               })}
             </Stack>
           </Stack>
-        </Paper>
+        </CollapsibleSectionCard>
       )}
     </>
   );
