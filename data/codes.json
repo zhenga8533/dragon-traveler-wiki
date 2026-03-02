@@ -626,5 +626,15 @@
     },
     "active": true,
     "last_updated": 1772137650
+  },
+  {
+    "code": "BridalOath",
+    "rewards": {
+      "Gold": 3000,
+      "Summoning Ticket": 1,
+      "Dragonblood": 1
+    },
+    "active": true,
+    "last_updated": 1772417732
   }
 ]
