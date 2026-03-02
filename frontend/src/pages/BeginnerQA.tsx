@@ -309,7 +309,7 @@ export default function BeginnerQA() {
               each SSR+ Luminary.
               <br />
               For SSR, prioritize <CharacterTag name="Atanith" />,{' '}
-              <CharacterTag name="Lorllin" />, <CharacterTag name="Nemesis" />,{' '}
+              <CharacterTag name="Lorilin" />, <CharacterTag name="Nemesis" />,{' '}
               <CharacterTag name="Chiron" />, <CharacterTag name="Caligula" />,
               and <CharacterTag name="Herman" />.<br />
               Note that this is just the reccommended order for F2P and new
