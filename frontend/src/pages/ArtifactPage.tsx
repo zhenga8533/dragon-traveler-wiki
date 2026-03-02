@@ -12,8 +12,8 @@ import {
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useMemo } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useMemo } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
 import ClassTag from '../components/common/ClassTag';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
@@ -41,6 +41,11 @@ import type {
 } from '../types/artifact';
 import type { Faction } from '../types/faction';
 import type { StatusEffect } from '../types/status-effect';
+import {
+  findEntityByParam,
+  shouldRedirectToEntitySlug,
+  toEntitySlug,
+} from '../utils/entity-slug';
 
 function EffectTable({
   effects,
@@ -133,6 +138,7 @@ function TreasureCard({
 
 export default function ArtifactPage() {
   const { name } = useParams<{ name: string }>();
+  const navigate = useNavigate();
   const isDark = useComputedColorScheme('light') === 'dark';
 
   const { data: artifacts, loading } = useDataFetch<Artifact[]>(
@@ -146,12 +152,14 @@ export default function ArtifactPage() {
   const { data: factions } = useDataFetch<Faction[]>('data/factions.json', []);
 
   const artifact = useMemo(() => {
-    if (!name) return null;
-    const decodedName = decodeURIComponent(name);
-    return artifacts.find(
-      (a) => a.name.toLowerCase() === decodedName.toLowerCase()
-    );
+    return findEntityByParam(artifacts, name, (a) => a.name);
   }, [artifacts, name]);
+
+  useEffect(() => {
+    if (!artifact || !name) return;
+    if (!shouldRedirectToEntitySlug(name, artifact.name)) return;
+    navigate(`/artifacts/${toEntitySlug(artifact.name)}`, { replace: true });
+  }, [artifact, name, navigate]);
 
   // Match list page: sort by quality, then name
   const orderedArtifacts = useMemo(
@@ -296,7 +304,9 @@ export default function ArtifactPage() {
         <Stack gap="xl">
           {/* Artifact Effects */}
           <Stack gap="md">
-            <Title order={2} size="h3">Artifact Effects</Title>
+            <Title order={2} size="h3">
+              Artifact Effects
+            </Title>
             <EffectTable
               effects={artifact.effect}
               statusEffects={statusEffects}
@@ -307,7 +317,9 @@ export default function ArtifactPage() {
           {artifact.treasures.length > 0 && (
             <Stack gap="md">
               <Group gap="sm">
-                <Title order={2} size="h3">Treasures</Title>
+                <Title order={2} size="h3">
+                  Treasures
+                </Title>
                 <Badge variant="light" color="violet" size="sm">
                   {artifact.treasures.length} treasure
                   {artifact.treasures.length !== 1 ? 's' : ''}
@@ -334,7 +346,7 @@ export default function ArtifactPage() {
             previousArtifact
               ? {
                   label: previousArtifact.name,
-                  path: `/artifacts/${encodeURIComponent(previousArtifact.name)}`,
+                  path: `/artifacts/${toEntitySlug(previousArtifact.name)}`,
                 }
               : null
           }
@@ -342,7 +354,7 @@ export default function ArtifactPage() {
             nextArtifact
               ? {
                   label: nextArtifact.name,
-                  path: `/artifacts/${encodeURIComponent(nextArtifact.name)}`,
+                  path: `/artifacts/${toEntitySlug(nextArtifact.name)}`,
                 }
               : null
           }

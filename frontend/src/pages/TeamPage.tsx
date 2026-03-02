@@ -14,7 +14,7 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFlash, IoInformationCircle } from 'react-icons/io5';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
@@ -50,6 +50,11 @@ import type { Faction } from '../types/faction';
 import type { StatusEffect } from '../types/status-effect';
 import type { Team, TeamMember } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
+import {
+  findEntityByParam,
+  shouldRedirectToEntitySlug,
+  toEntitySlug,
+} from '../utils/entity-slug';
 import { computeTeamSynergy } from '../utils/team-synergy';
 
 export default function TeamPage() {
@@ -90,9 +95,14 @@ export default function TeamPage() {
     loadingStatusEffects;
 
   const team = useMemo(() => {
-    if (!teamName) return null;
-    return teams.find((t) => t.name === decodeURIComponent(teamName));
+    return findEntityByParam(teams, teamName, (t) => t.name);
   }, [teams, teamName]);
+
+  useEffect(() => {
+    if (!team || !teamName) return;
+    if (!shouldRedirectToEntitySlug(teamName, team.name)) return;
+    navigate(`/teams/${toEntitySlug(team.name)}`, { replace: true });
+  }, [navigate, team, teamName]);
 
   // Match list page: preserve data file order (no sort)
   const orderedTeams = useMemo(() => [...teams], [teams]);
@@ -314,7 +324,7 @@ export default function TeamPage() {
                                 {...tooltipProps}
                               >
                                 <Link
-                                  to={`/artifacts/${encodeURIComponent(artifactName)}`}
+                                  to={`/artifacts/${toEntitySlug(artifactName)}`}
                                   style={{ textDecoration: 'none' }}
                                 >
                                   <Paper
@@ -535,7 +545,7 @@ export default function TeamPage() {
                             size="sm"
                             ta="center"
                             component={Link}
-                            to={`/characters/${encodeURIComponent(benchName)}`}
+                            to={`/characters/${toEntitySlug(benchName)}`}
                             c="violet"
                             style={{ textDecoration: 'none' }}
                             lineClamp={1}
@@ -597,7 +607,7 @@ export default function TeamPage() {
             previousTeam
               ? {
                   label: previousTeam.name,
-                  path: `/teams/${encodeURIComponent(previousTeam.name)}`,
+                  path: `/teams/${toEntitySlug(previousTeam.name)}`,
                 }
               : null
           }
@@ -605,7 +615,7 @@ export default function TeamPage() {
             nextTeam
               ? {
                   label: nextTeam.name,
-                  path: `/teams/${encodeURIComponent(nextTeam.name)}`,
+                  path: `/teams/${toEntitySlug(nextTeam.name)}`,
                 }
               : null
           }
@@ -787,7 +797,7 @@ function BattlefieldGrid({
                       size="sm"
                       ta="center"
                       component={Link}
-                      to={`/characters/${encodeURIComponent(member.character_name)}`}
+                      to={`/characters/${toEntitySlug(member.character_name)}`}
                       c="violet"
                       style={{ textDecoration: 'none' }}
                       lineClamp={1}

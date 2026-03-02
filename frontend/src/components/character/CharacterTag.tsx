@@ -1,5 +1,6 @@
 import { Badge } from '@mantine/core';
 import { Link } from 'react-router-dom';
+import { toEntitySlug } from '../../utils/entity-slug';
 import CharacterPortrait from './CharacterPortrait';
 
 export interface CharacterTagProps {
@@ -32,7 +33,7 @@ export default function CharacterTag({
 
   return (
     <Link
-      to={`/characters/${encodeURIComponent(name)}`}
+      to={`/characters/${toEntitySlug(name)}`}
       style={{ textDecoration: 'none', display: 'inline-flex' }}
     >
       {badge}

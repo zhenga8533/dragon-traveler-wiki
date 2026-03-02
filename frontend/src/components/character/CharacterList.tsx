@@ -26,6 +26,7 @@ import {
 import { usePagination } from '../../hooks/use-pagination';
 import { applyDir, useSortState } from '../../hooks/use-sort';
 import type { Character } from '../../types/character';
+import { toEntitySlug } from '../../utils/entity-slug';
 import type { CharacterFilters } from '../../utils/filter-characters';
 import {
   compareCharactersByQualityThenName,
@@ -291,7 +292,7 @@ export default function CharacterList({
                     <Table.Td>
                       <UnstyledButton
                         component={Link}
-                        to={`/characters/${encodeURIComponent(char.name)}`}
+                        to={`/characters/${toEntitySlug(char.name)}`}
                       >
                         <Group gap="sm" wrap="nowrap">
                           <CharacterPortrait

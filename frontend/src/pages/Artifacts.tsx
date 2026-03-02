@@ -35,6 +35,7 @@ import { STORAGE_KEY } from '../constants/ui';
 import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { Artifact } from '../types/artifact';
 import { getLatestTimestamp } from '../utils';
+import { toEntitySlug } from '../utils/entity-slug';
 
 const ARTIFACT_FIELDS: FieldDef[] = [
   {
@@ -238,7 +239,7 @@ export default function Artifacts() {
                     <Paper
                       key={artifact.name}
                       component={Link}
-                      to={`/artifacts/${encodeURIComponent(artifact.name)}`}
+                      to={`/artifacts/${toEntitySlug(artifact.name)}`}
                       p="md"
                       radius="md"
                       withBorder
@@ -346,7 +347,7 @@ export default function Artifacts() {
                           style={{ cursor: 'pointer' }}
                           onClick={() =>
                             navigate(
-                              `/artifacts/${encodeURIComponent(artifact.name)}`
+                              `/artifacts/${toEntitySlug(artifact.name)}`
                             )
                           }
                         >
@@ -366,7 +367,7 @@ export default function Artifacts() {
                           <Table.Td>
                             <Text
                               component={Link}
-                              to={`/artifacts/${encodeURIComponent(artifact.name)}`}
+                              to={`/artifacts/${toEntitySlug(artifact.name)}`}
                               size="sm"
                               fw={500}
                               c="violet"

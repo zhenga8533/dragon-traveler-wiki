@@ -1,8 +1,17 @@
-import { Group, Stack, Text, Tooltip, UnstyledButton } from '@mantine/core';
+import {
+  Group,
+  Popover,
+  Stack,
+  Text,
+  Tooltip,
+  UnstyledButton,
+} from '@mantine/core';
+import { useState } from 'react';
 import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { CHARACTER_CARD, TRANSITION } from '../../constants/ui';
 import type { Quality } from '../../types/quality';
+import { toEntitySlug } from '../../utils/entity-slug';
 import TierBadge from '../common/TierBadge';
 import CharacterPortrait from './CharacterPortrait';
 
@@ -25,6 +34,7 @@ export default function CharacterCard({
   note,
   noteIconVariant = 'default',
 }: CharacterCardProps) {
+  const [noteOpened, setNoteOpened] = useState(false);
   const nameColor = disableLink ? 'dimmed' : 'violet';
   const isBuilderNoteVariant = noteIconVariant === 'builder';
 
@@ -37,38 +47,80 @@ export default function CharacterCard({
         borderWidth={CHARACTER_CARD.BORDER_WIDTH}
       />
       {note && (
-        <IoInformationCircle
-          size={18}
-          color={
-            isBuilderNoteVariant
-              ? 'var(--mantine-color-violet-1)'
-              : 'var(--mantine-color-violet-filled)'
-          }
-          style={{
-            position: 'absolute',
-            top: 0,
-            right: 0,
-            background: isBuilderNoteVariant
-              ? 'linear-gradient(135deg, var(--mantine-color-violet-6) 0%, var(--mantine-color-grape-6) 100%)'
-              : 'var(--mantine-color-body)',
-            border: isBuilderNoteVariant
-              ? '1px solid var(--mantine-color-violet-4)'
-              : '1px solid var(--mantine-color-default-border)',
-            boxShadow: isBuilderNoteVariant
-              ? 'var(--mantine-shadow-sm)'
-              : 'var(--mantine-shadow-xs)',
-            borderRadius: '50%',
-          }}
-        />
-      )}
-    </div>
-  );
-
-  const content = (
-    <Stack gap={2} align="center">
-      {note ? (
-        <Tooltip
-          label={
+        <Popover
+          opened={noteOpened}
+          onChange={setNoteOpened}
+          position="top"
+          withArrow
+          withinPortal
+          shadow="md"
+          offset={6}
+        >
+          <Popover.Target>
+            <div
+              role="button"
+              tabIndex={0}
+              aria-label={`Show note for ${name}`}
+              style={{
+                position: 'absolute',
+                top: 0,
+                right: 0,
+                lineHeight: 0,
+                cursor: 'pointer',
+              }}
+              onMouseDown={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+              }}
+              onClick={(e) => {
+                e.preventDefault();
+                e.stopPropagation();
+                setNoteOpened((prev) => !prev);
+              }}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter' || e.key === ' ') {
+                  e.preventDefault();
+                  e.stopPropagation();
+                  setNoteOpened((prev) => !prev);
+                }
+              }}
+            >
+              <Tooltip label="View note" withArrow>
+                <span>
+                  <IoInformationCircle
+                    size={18}
+                    color={
+                      isBuilderNoteVariant
+                        ? 'var(--mantine-color-violet-1)'
+                        : 'var(--mantine-color-violet-filled)'
+                    }
+                    style={{
+                      background: isBuilderNoteVariant
+                        ? 'linear-gradient(135deg, var(--mantine-color-violet-6) 0%, var(--mantine-color-grape-6) 100%)'
+                        : 'var(--mantine-color-body)',
+                      border: isBuilderNoteVariant
+                        ? '1px solid var(--mantine-color-violet-4)'
+                        : '1px solid var(--mantine-color-default-border)',
+                      boxShadow: isBuilderNoteVariant
+                        ? 'var(--mantine-shadow-sm)'
+                        : 'var(--mantine-shadow-xs)',
+                      borderRadius: '50%',
+                    }}
+                  />
+                </span>
+              </Tooltip>
+            </div>
+          </Popover.Target>
+          <Popover.Dropdown
+            p="xs"
+            style={{
+              maxWidth: 280,
+              background: 'var(--mantine-color-body)',
+              color: 'var(--mantine-color-text)',
+              border: '1px solid var(--mantine-color-default-border)',
+              boxShadow: 'var(--mantine-shadow-md)',
+            }}
+          >
             <Text
               size="xs"
               style={{
@@ -79,24 +131,15 @@ export default function CharacterCard({
             >
               {note}
             </Text>
-          }
-          multiline
-          withArrow
-          maw={280}
-          styles={{
-            tooltip: {
-              background: 'var(--mantine-color-body)',
-              color: 'var(--mantine-color-text)',
-              border: '1px solid var(--mantine-color-default-border)',
-              boxShadow: 'var(--mantine-shadow-md)',
-            },
-          }}
-        >
-          {portrait}
-        </Tooltip>
-      ) : (
-        portrait
+          </Popover.Dropdown>
+        </Popover>
       )}
+    </div>
+  );
+
+  const content = (
+    <Stack gap={2} align="center">
+      {portrait}
       <Group
         gap={4}
         justify="center"
@@ -127,7 +170,7 @@ export default function CharacterCard({
   return (
     <UnstyledButton
       component={Link}
-      to={`/characters/${encodeURIComponent(name)}`}
+      to={`/characters/${toEntitySlug(name)}`}
       style={{
         borderRadius: 'var(--mantine-radius-md)',
         transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,

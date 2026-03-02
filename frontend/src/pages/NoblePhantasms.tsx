@@ -33,6 +33,7 @@ import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { Character } from '../types/character';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import { getLatestTimestamp } from '../utils';
+import { toEntitySlug } from '../utils/entity-slug';
 
 interface NoblePhantasmFilters {
   search: string;
@@ -213,7 +214,7 @@ export default function NoblePhantasms() {
                     <Paper
                       key={np.name}
                       component={Link}
-                      to={`/noble-phantasms/${encodeURIComponent(np.name)}`}
+                      to={`/noble-phantasms/${toEntitySlug(np.name)}`}
                       p="md"
                       radius="md"
                       withBorder
@@ -330,7 +331,7 @@ export default function NoblePhantasms() {
                           style={{ cursor: 'pointer' }}
                           onClick={() =>
                             navigate(
-                              `/noble-phantasms/${encodeURIComponent(np.name)}`
+                              `/noble-phantasms/${toEntitySlug(np.name)}`
                             )
                           }
                         >
@@ -354,7 +355,7 @@ export default function NoblePhantasms() {
                           <Table.Td>
                             <Text
                               component={Link}
-                              to={`/noble-phantasms/${encodeURIComponent(np.name)}`}
+                              to={`/noble-phantasms/${toEntitySlug(np.name)}`}
                               size="sm"
                               fw={600}
                               c="violet"

@@ -55,6 +55,7 @@ import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
+import { toEntitySlug } from '../utils/entity-slug';
 
 const TEAMS_PER_PAGE = 12;
 
@@ -439,18 +440,14 @@ export default function Teams() {
                               },
                             })}
                             onClick={() =>
-                              navigate(
-                                `/teams/${encodeURIComponent(team.name)}`
-                              )
+                              navigate(`/teams/${toEntitySlug(team.name)}`)
                             }
                             role="link"
                             tabIndex={0}
                             onKeyDown={(e) => {
                               if (e.key === 'Enter' || e.key === ' ') {
                                 e.preventDefault();
-                                navigate(
-                                  `/teams/${encodeURIComponent(team.name)}`
-                                );
+                                navigate(`/teams/${toEntitySlug(team.name)}`);
                               }
                             }}
                           >
@@ -639,9 +636,7 @@ export default function Teams() {
                               key={team.name}
                               style={{ cursor: 'pointer' }}
                               onClick={() =>
-                                navigate(
-                                  `/teams/${encodeURIComponent(team.name)}`
-                                )
+                                navigate(`/teams/${toEntitySlug(team.name)}`)
                               }
                             >
                               <Table.Td>
@@ -659,7 +654,7 @@ export default function Teams() {
                                   />
                                   <Text
                                     component={Link}
-                                    to={`/teams/${encodeURIComponent(team.name)}`}
+                                    to={`/teams/${toEntitySlug(team.name)}`}
                                     size="sm"
                                     fw={500}
                                     c="violet"

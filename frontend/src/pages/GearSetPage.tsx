@@ -11,8 +11,8 @@ import {
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
-import { useParams } from 'react-router-dom';
+import { useEffect, useMemo, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getGearIcon } from '../assets/gear';
 import CharacterPortrait from '../components/character/CharacterPortrait';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
@@ -34,6 +34,11 @@ import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Character } from '../types/character';
 import type { Gear, GearSet, GearType } from '../types/gear';
 import type { Quality } from '../types/quality';
+import {
+  findEntityByParam,
+  shouldRedirectToEntitySlug,
+  toEntitySlug,
+} from '../utils/entity-slug';
 
 const SSR_AND_ABOVE: Quality[] = ['UR', 'SSR EX', 'SSR+', 'SSR'];
 
@@ -48,6 +53,7 @@ const GEAR_TYPE_ORDER: GearType[] = [
 
 export default function GearSetPage() {
   const { setName } = useParams<{ setName: string }>();
+  const navigate = useNavigate();
   const isDark = useComputedColorScheme('light') === 'dark';
   const tooltipProps = useMobileTooltip();
   const { data: gear, loading } = useDataFetch<Gear[]>('data/gear.json', []);
@@ -57,7 +63,30 @@ export default function GearSetPage() {
     []
   );
 
-  const decodedSetName = setName ? decodeURIComponent(setName) : '';
+  const decodedSetName = useMemo(() => {
+    const fromSetData = findEntityByParam(
+      gearSets,
+      setName,
+      (entry) => entry.name
+    );
+    if (fromSetData) return fromSetData.name;
+    const setNamesFromGear = [...new Set(gear.map((item) => item.set))];
+    return findEntityByParam(setNamesFromGear, setName, (value) => value) ?? '';
+  }, [gear, gearSets, setName]);
+
+  const setData = useMemo(
+    () =>
+      gearSets.find(
+        (entry) => entry.name.toLowerCase() === decodedSetName.toLowerCase()
+      ) ?? null,
+    [decodedSetName, gearSets]
+  );
+
+  useEffect(() => {
+    if (!decodedSetName || !setName) return;
+    if (!shouldRedirectToEntitySlug(setName, decodedSetName)) return;
+    navigate(`/gear-sets/${toEntitySlug(decodedSetName)}`, { replace: true });
+  }, [decodedSetName, navigate, setName]);
 
   const setItems = useMemo(() => {
     if (!decodedSetName) return [];
@@ -157,9 +186,6 @@ export default function GearSetPage() {
     );
   }
 
-  const setData = gearSets.find(
-    (entry) => entry.name.toLowerCase() === decodedSetName.toLowerCase()
-  );
   const setBonus = setData?.set_bonus ?? setItems[0]?.set_bonus;
   const qualityColor = QUALITY_COLOR[setItems[0].quality] ?? 'grape';
   const latestItemTimestamp = setItems.reduce(
@@ -372,7 +398,7 @@ export default function GearSetPage() {
             previousSetName
               ? {
                   label: `${previousSetName} Set`,
-                  path: `/gear-sets/${encodeURIComponent(previousSetName)}`,
+                  path: `/gear-sets/${toEntitySlug(previousSetName)}`,
                 }
               : null
           }
@@ -380,7 +406,7 @@ export default function GearSetPage() {
             nextSetName
               ? {
                   label: `${nextSetName} Set`,
-                  path: `/gear-sets/${encodeURIComponent(nextSetName)}`,
+                  path: `/gear-sets/${toEntitySlug(nextSetName)}`,
                 }
               : null
           }

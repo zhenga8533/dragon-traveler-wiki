@@ -46,6 +46,7 @@ import { useDataFetch } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
+import { toEntitySlug } from '../utils/entity-slug';
 import { sortCharactersByQuality } from '../utils/filter-characters';
 
 export default function TierList() {
@@ -469,7 +470,7 @@ export default function TierList() {
                                                         />
                                                         <Text
                                                           component={Link}
-                                                          to={`/characters/${encodeURIComponent(entry.character_name)}`}
+                                                          to={`/characters/${toEntitySlug(entry.character_name)}`}
                                                           size="sm"
                                                           fw={500}
                                                           c="violet"
@@ -620,7 +621,7 @@ export default function TierList() {
                                                   />
                                                   <Text
                                                     component={Link}
-                                                    to={`/characters/${encodeURIComponent(c.name)}`}
+                                                    to={`/characters/${toEntitySlug(c.name)}`}
                                                     size="sm"
                                                     fw={500}
                                                     c="violet"
