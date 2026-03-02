@@ -149,13 +149,14 @@
         "note": "Low-cost interrupt; provides Fervor."
       }
     ],
-    "last_updated": 1772402716,
+    "last_updated": 1772475994,
     "bench": [
       "Scheherazade",
       "Orion",
       "Goblin War Drummer",
       "Gullveig",
-      "Helveil"
+      "Helveil",
+      "Mimir"
     ],
     "bench_notes": {
       "Helveil": "Counters dual assassins; group crit resistance.",
