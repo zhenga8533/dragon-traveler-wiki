@@ -31,10 +31,16 @@ import type {
 } from '../../types/character';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
+import type { Team } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
+import CharacterReferenceSection from './CharacterReferenceSection.tsx';
 
 interface CharacterPageBuildSectionProps {
   character: Character;
+  teams: Team[];
+  selectedTierListName: string;
+  tierLabel: string | null;
+  tierListCharacterNote: string | null;
   statusEffects: StatusEffect[];
   recommendedGearDetails: RecommendedGearDetail[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
@@ -46,6 +52,10 @@ interface CharacterPageBuildSectionProps {
 
 export default function CharacterPageBuildSection({
   character,
+  teams,
+  selectedTierListName,
+  tierLabel,
+  tierListCharacterNote,
   statusEffects,
   recommendedGearDetails,
   recommendedSubclassEntries,
@@ -186,6 +196,14 @@ export default function CharacterPageBuildSection({
           </Stack>
         </Paper>
       )}
+
+      <CharacterReferenceSection
+        character={character}
+        teams={teams}
+        selectedTierListName={selectedTierListName}
+        tierLabel={tierLabel}
+        tierListCharacterNote={tierListCharacterNote}
+      />
 
       {/* Recommended Build */}
       {(recommendedGearDetails.length > 0 ||
