@@ -495,12 +495,6 @@ function TierNotePopover({
   const [draftValue, setDraftValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
 
-  useEffect(() => {
-    if (!opened) {
-      setDraftValue(value);
-    }
-  }, [value, opened]);
-
   function commitAndClose() {
     if (draftValue !== value) {
       onCommit(draftValue);
@@ -805,7 +799,9 @@ export default function TierListBuilder({
     }
 
     if (typeof window === 'undefined') {
-      setDraftHydrated(true);
+      queueMicrotask(() => {
+        setDraftHydrated(true);
+      });
       return;
     }
 
@@ -816,7 +812,9 @@ export default function TierListBuilder({
       try {
         const parsedDraft = JSON.parse(storedDraft) as TierList;
         if (Array.isArray(parsedDraft.entries)) {
-          loadFromTierList(parsedDraft);
+          queueMicrotask(() => {
+            loadFromTierList(parsedDraft);
+          });
         } else {
           window.localStorage.removeItem(STORAGE_KEY.TIER_LIST_BUILDER_DRAFT);
         }
@@ -825,7 +823,9 @@ export default function TierListBuilder({
       }
     }
 
-    setDraftHydrated(true);
+    queueMicrotask(() => {
+      setDraftHydrated(true);
+    });
   }, [initialData]);
 
   const deferredName = useDeferredValue(name);
@@ -833,7 +833,7 @@ export default function TierListBuilder({
   const deferredDescription = useDeferredValue(description);
   const deferredCategoryName = useDeferredValue(categoryName);
 
-  const json = useMemo(() => {
+  const json = (() => {
     const result: TierList = {
       name: deferredName || 'My Tier List',
       author: deferredAuthor || 'Anonymous',
@@ -853,15 +853,7 @@ export default function TierListBuilder({
       last_updated: 0,
     };
     return JSON.stringify(result, null, 2);
-  }, [
-    placements,
-    notes,
-    deferredName,
-    deferredAuthor,
-    deferredCategoryName,
-    deferredDescription,
-    tierDefs,
-  ]);
+  })();
 
   const unrankedCharacters = useMemo(() => {
     const placed = new Set(Object.values(placements).flat());

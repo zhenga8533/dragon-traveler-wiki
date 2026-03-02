@@ -1125,7 +1125,9 @@ export default function TeamBuilder({
     }
 
     if (typeof window === 'undefined') {
-      setDraftHydrated(true);
+      queueMicrotask(() => {
+        setDraftHydrated(true);
+      });
       return;
     }
 
@@ -1136,7 +1138,9 @@ export default function TeamBuilder({
       try {
         const parsedDraft = JSON.parse(storedDraft) as Team;
         if (Array.isArray(parsedDraft.members)) {
-          loadFromTeam(parsedDraft);
+          queueMicrotask(() => {
+            loadFromTeam(parsedDraft);
+          });
         } else {
           window.localStorage.removeItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT);
         }
@@ -1145,7 +1149,9 @@ export default function TeamBuilder({
       }
     }
 
-    setDraftHydrated(true);
+    queueMicrotask(() => {
+      setDraftHydrated(true);
+    });
   }, [initialData]);
 
   const deferredName = useDeferredValue(name);
@@ -1177,7 +1183,7 @@ export default function TeamBuilder({
 
   const teamSize = teamNames.size;
 
-  const json = useMemo(() => {
+  const json = (() => {
     const members: TeamMember[] = [];
     let overdriveOrder = 1;
 
@@ -1243,20 +1249,7 @@ export default function TeamBuilder({
     }
 
     return JSON.stringify(result, null, 2);
-  }, [
-    slots,
-    overdriveSequence,
-    overdriveOrderBySlot,
-    bench,
-    benchNotes,
-    slotNotes,
-    teamWyrmspells,
-    deferredName,
-    deferredAuthor,
-    deferredContentType,
-    deferredDescription,
-    deferredFaction,
-  ]);
+  })();
 
   useEffect(() => {
     if (!draftHydrated || typeof window === 'undefined') return;

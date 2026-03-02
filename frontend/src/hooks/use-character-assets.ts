@@ -8,6 +8,8 @@ import {
 import { getSkillIcon } from '../assets/skill';
 import type { Character } from '../types/character';
 
+const EMPTY_SKILL_ICONS = new Map<string, string>();
+
 interface UseCharacterAssetsResult {
   illustrations: CharacterIllustration[];
   illustrationsLoading: boolean;
@@ -41,15 +43,14 @@ export function useCharacterAssets(
     let isCancelled = false;
 
     if (!character) {
-      setIllustrations([]);
-      setIllustrationsLoading(false);
-      setIllustrationsError(null);
-      setSelectedIllustration(null);
       return;
     }
 
-    setIllustrationsLoading(true);
-    setIllustrationsError(null);
+    queueMicrotask(() => {
+      if (isCancelled) return;
+      setIllustrationsLoading(true);
+      setIllustrationsError(null);
+    });
 
     getIllustrations(character.name)
       .then((imgs) => {
@@ -84,7 +85,6 @@ export function useCharacterAssets(
     let isCancelled = false;
 
     if (!character) {
-      setTalentIcon(undefined);
       return;
     }
 
@@ -110,7 +110,6 @@ export function useCharacterAssets(
     let isCancelled = false;
 
     if (!character || !character.skills) {
-      setSkillIcons(new Map());
       return;
     }
 
@@ -163,7 +162,18 @@ export function useCharacterAssets(
     );
   }, [activeIllustration, illustrations]);
 
-  const hasMultipleIllustrations = illustrations.length > 1;
+  const displayIllustrations = character ? illustrations : [];
+  const displayIllustrationsLoading = character ? illustrationsLoading : false;
+  const displayIllustrationsError = character ? illustrationsError : null;
+  const displayActiveIllustration = character ? activeIllustration : null;
+  const displayActiveIllustrationIndex = character
+    ? activeIllustrationIndex
+    : -1;
+  const displayHasMultipleIllustrations =
+    Boolean(character) && displayIllustrations.length > 1;
+  const displayTalentIcon = character ? talentIcon : undefined;
+  const displaySkillIcons =
+    character && character.skills ? skillIcons : EMPTY_SKILL_ICONS;
 
   const showPreviousIllustration = useCallback(() => {
     if (illustrations.length === 0 || activeIllustrationIndex < 0) return;
@@ -182,15 +192,15 @@ export function useCharacterAssets(
   }, [illustrations, activeIllustrationIndex]);
 
   return {
-    illustrations,
-    illustrationsLoading,
-    illustrationsError,
-    talentIcon,
-    skillIcons,
+    illustrations: displayIllustrations,
+    illustrationsLoading: displayIllustrationsLoading,
+    illustrationsError: displayIllustrationsError,
+    talentIcon: displayTalentIcon,
+    skillIcons: displaySkillIcons,
     setSelectedIllustration,
-    activeIllustration,
-    activeIllustrationIndex,
-    hasMultipleIllustrations,
+    activeIllustration: displayActiveIllustration,
+    activeIllustrationIndex: displayActiveIllustrationIndex,
+    hasMultipleIllustrations: displayHasMultipleIllustrations,
     showPreviousIllustration,
     showNextIllustration,
   };

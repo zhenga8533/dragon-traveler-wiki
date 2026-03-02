@@ -1,11 +1,11 @@
-import { useMemo, useRef } from 'react';
+import { useMemo } from 'react';
+import type { ViewMode } from './use-filters';
 import {
   countActiveFilters,
   useFilterPanel,
   useFilters,
   useViewMode,
 } from './use-filters';
-import type { ViewMode } from './use-filters';
 import { usePagination } from './use-pagination';
 import { useSortState } from './use-sort';
 
@@ -31,11 +31,6 @@ export function useFilteredPageData<T, F extends object>(
     pageSize = DEFAULT_PAGE_SIZE,
   } = options;
 
-  const filterFnRef = useRef(filterFn);
-  filterFnRef.current = filterFn;
-  const sortFnRef = useRef(sortFn);
-  sortFnRef.current = sortFn;
-
   const { filters, setFilters, resetFilters, updateFilter } = useFilters<F>({
     emptyFilters,
     storageKey: storageKeys.filters,
@@ -54,9 +49,9 @@ export function useFilteredPageData<T, F extends object>(
   const filtered = useMemo(
     () =>
       data
-        .filter((item) => filterFnRef.current(item, filters))
-        .sort((a, b) => sortFnRef.current(a, b, sortCol, sortDir)),
-    [data, filters, sortCol, sortDir]
+        .filter((item) => filterFn(item, filters))
+        .sort((a, b) => sortFn(a, b, sortCol, sortDir)),
+    [data, filters, sortCol, sortDir, filterFn, sortFn]
   );
 
   const { page, setPage, totalPages, offset } = usePagination(
