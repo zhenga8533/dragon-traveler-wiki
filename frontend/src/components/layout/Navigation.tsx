@@ -10,6 +10,7 @@ import {
 import {
   IoBook,
   IoGift,
+  IoHelpCircleOutline,
   IoHome,
   IoLink,
   IoList,
@@ -72,6 +73,7 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Tier List', path: '/tier-list', icon: IoTrophy },
   { label: 'Teams', path: '/teams', icon: IoShield },
   { label: 'Codes', path: '/codes', icon: IoGift },
+  { label: 'FAQ', path: '/guides/faq', icon: IoHelpCircleOutline },
   { label: 'Useful Links', path: '/useful-links', icon: IoLink },
   { label: 'Changelog', path: '/changelog', icon: IoList },
 ];

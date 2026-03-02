@@ -24,6 +24,7 @@ const Codes = lazy(() => import('../pages/Codes'));
 const UsefulLinks = lazy(() => import('../pages/UsefulLinks'));
 const Changelog = lazy(() => import('../pages/Changelog'));
 const BeginnerQA = lazy(() => import('../pages/BeginnerQA'));
+const FAQ = lazy(() => import('../pages/FAQ'));
 const StarUpgradeCalculator = lazy(
   () => import('../pages/StarUpgradeCalculator')
 );
@@ -65,6 +66,7 @@ export default function AppRoutes() {
         <Route path="/codes" element={<Codes />} />
         <Route path="/useful-links" element={<UsefulLinks />} />
         <Route path="/changelog" element={<Changelog />} />
+        <Route path="/guides/faq" element={<FAQ />} />
         <Route path="/guides/beginner-qa" element={<BeginnerQA />} />
         <Route
           path="/guides/star-upgrade-calculator"
