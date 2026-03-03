@@ -12,14 +12,14 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { useContext, useMemo } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import {
   IoChevronBack,
   IoChevronForward,
   IoMoon,
   IoSunny,
 } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { normalizeContentType } from '../../constants/content-types';
 import { getGlassStyles } from '../../constants/glass';
 import {
@@ -35,6 +35,7 @@ import {
 import { TierListReferenceContext } from '../../contexts';
 import { useSidebar } from '../../hooks';
 import AppRoutes from '../../routes/AppRoutes';
+import BannerMediaBackground from '../common/BannerMediaBackground';
 import ErrorBoundary from '../common/ErrorBoundary';
 import KonamiEasterEgg from '../tools/KonamiEasterEgg';
 import SearchModal from '../tools/SearchModal';
@@ -42,6 +43,18 @@ import Footer from './Footer';
 import Navigation from './Navigation';
 import PageTransition from './PageTransition';
 import ScrollToTop from './ScrollToTop';
+
+const HOME_BANNER_GLOBAL_ROUTES_STORAGE_KEY =
+  'home-banner-global-routes-enabled';
+const HOME_BANNER_ACTIVE_SRC_STORAGE_KEY = 'home-banner-active-src';
+const HOME_BANNER_ACTIVE_TYPE_STORAGE_KEY = 'home-banner-active-type';
+const DETAIL_DATA_ROUTE_PATTERNS = [
+  /^\/artifacts\/[^/]+$/,
+  /^\/characters\/[^/]+$/,
+  /^\/gear-sets\/[^/]+$/,
+  /^\/noble-phantasms\/[^/]+$/,
+  /^\/teams\/[^/]+$/,
+];
 
 function ThemeToggle() {
   const { toggleColorScheme } = useMantineColorScheme();
@@ -62,8 +75,14 @@ export default function AppLayout() {
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
     useDisclosure();
   const sidebar = useSidebar();
+  const location = useLocation();
   const isDark = useComputedColorScheme('light') === 'dark';
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const [globalBannerEnabled, setGlobalBannerEnabled] = useState(false);
+  const [globalBannerSrc, setGlobalBannerSrc] = useState('/banner.png');
+  const [globalBannerType, setGlobalBannerType] = useState<'image' | 'video'>(
+    'image'
+  );
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);
 
@@ -81,6 +100,36 @@ export default function AppLayout() {
   const navbarWidth = isMobile
     ? SIDEBAR.WIDTH_EXPANDED
     : sidebar.effectiveWidth;
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+
+    setGlobalBannerEnabled(
+      window.localStorage.getItem(HOME_BANNER_GLOBAL_ROUTES_STORAGE_KEY) ===
+        'true'
+    );
+
+    const storedSrc =
+      window.localStorage.getItem(HOME_BANNER_ACTIVE_SRC_STORAGE_KEY) ||
+      '/banner.png';
+    setGlobalBannerSrc(storedSrc);
+
+    const storedType = window.localStorage.getItem(
+      HOME_BANNER_ACTIVE_TYPE_STORAGE_KEY
+    );
+    setGlobalBannerType(storedType === 'video' ? 'video' : 'image');
+  }, [location.pathname]);
+
+  const isDetailDataRoute = DETAIL_DATA_ROUTE_PATTERNS.some((pattern) =>
+    pattern.test(location.pathname)
+  );
+
+  const globalRouteBannerHeight = isMobile ? 320 : 350;
+
+  const shouldShowGlobalBanner =
+    globalBannerEnabled && location.pathname !== '/' && !isDetailDataRoute;
 
   return (
     <AppShell
@@ -190,16 +239,34 @@ export default function AppLayout() {
           display: 'flex',
           flexDirection: 'column',
           minHeight: '100vh',
+          position: 'relative',
         }}
       >
-        <Box style={{ flex: 1 }}>
+        {shouldShowGlobalBanner ? (
+          <BannerMediaBackground
+            isDark={isDark}
+            media={{ src: globalBannerSrc, type: globalBannerType }}
+            style={{
+              top: 0,
+              left: 0,
+              right: 0,
+              height: globalRouteBannerHeight,
+              borderRadius: 12,
+              pointerEvents: 'none',
+              zIndex: 0,
+            }}
+          />
+        ) : null}
+        <Box style={{ flex: 1, position: 'relative', zIndex: 1 }}>
           <PageTransition>
             <ErrorBoundary>
               <AppRoutes />
             </ErrorBoundary>
           </PageTransition>
         </Box>
-        <Footer />
+        <Box style={{ position: 'relative', zIndex: 1 }}>
+          <Footer />
+        </Box>
       </AppShell.Main>
 
       <ScrollToTop />

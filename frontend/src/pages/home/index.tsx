@@ -26,6 +26,10 @@ import HomeHeroSection from './HomeHeroSection';
 import RecentUpdatesSection from './RecentUpdatesSection';
 
 const HOME_BANNER_STORAGE_KEY = 'home-banner-selection';
+const HOME_BANNER_GLOBAL_ROUTES_STORAGE_KEY =
+  'home-banner-global-routes-enabled';
+const HOME_BANNER_ACTIVE_SRC_STORAGE_KEY = 'home-banner-active-src';
+const HOME_BANNER_ACTIVE_TYPE_STORAGE_KEY = 'home-banner-active-type';
 const RANDOM_BANNER_ALL_VALUE = '__random_all__';
 const RANDOM_BANNER_PNG_VALUE = '__random_png__';
 const RANDOM_BANNER_MP4_VALUE = '__random_mp4__';
@@ -97,6 +101,17 @@ export default function Home() {
   });
   const [selectedBannerValue, setSelectedBannerValue] = useState<string | null>(
     null
+  );
+  const [carryBannerToOtherRoutes, setCarryBannerToOtherRoutes] = useState(
+    () => {
+      if (typeof window === 'undefined') {
+        return false;
+      }
+      return (
+        window.localStorage.getItem(HOME_BANNER_GLOBAL_ROUTES_STORAGE_KEY) ===
+        'true'
+      );
+    }
   );
 
   const characterNameByAssetKey = useMemo(() => {
@@ -216,6 +231,16 @@ export default function Home() {
     window.localStorage.setItem(HOME_BANNER_STORAGE_KEY, bannerPreference);
   }, [bannerPreference]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    window.localStorage.setItem(
+      HOME_BANNER_GLOBAL_ROUTES_STORAGE_KEY,
+      carryBannerToOtherRoutes ? 'true' : 'false'
+    );
+  }, [carryBannerToOtherRoutes]);
+
   const selectedBanner =
     selectedBannerValue === null
       ? null
@@ -239,6 +264,21 @@ export default function Home() {
     setBannerLoaded(false);
   }, [selectedBanner?.src]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined' || !selectedBanner?.src) {
+      return;
+    }
+
+    window.localStorage.setItem(
+      HOME_BANNER_ACTIVE_SRC_STORAGE_KEY,
+      selectedBanner.src
+    );
+    window.localStorage.setItem(
+      HOME_BANNER_ACTIVE_TYPE_STORAGE_KEY,
+      selectedBanner.type
+    );
+  }, [selectedBanner?.src, selectedBanner?.type]);
+
   return (
     <Stack gap={0}>
       <HomeHeroSection
@@ -248,8 +288,10 @@ export default function Home() {
         bannerSelectData={bannerSelectData}
         bannerPreference={bannerPreference}
         defaultBannerValue={DEFAULT_BANNER_OPTION.value}
+        carryBannerToOtherRoutes={carryBannerToOtherRoutes}
         onBannerLoaded={() => setBannerLoaded(true)}
         onBannerPreferenceChange={setBannerPreference}
+        onCarryBannerToOtherRoutesChange={setCarryBannerToOtherRoutes}
       />
 
       {/* Content sections */}
