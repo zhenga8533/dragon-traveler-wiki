@@ -134,7 +134,9 @@ export default function BannerBackground() {
         style={{
           position: 'absolute',
           inset: 0,
-          background: isDark ? 'rgba(0, 0, 0, 0.45)' : 'rgba(0, 0, 0, 0.18)',
+          background: isDark
+            ? 'rgba(0, 0, 0, 0.5)'
+            : 'rgba(255, 255, 255, 0.5)',
         }}
       />
       <Box
