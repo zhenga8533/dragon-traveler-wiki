@@ -31,10 +31,17 @@ import type {
 } from '../../types/character';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
+import type { Team } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
+import CharacterReferenceSection from './CharacterReferenceSection.tsx';
+import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 
 interface CharacterPageBuildSectionProps {
   character: Character;
+  teams: Team[];
+  selectedTierListName: string;
+  tierLabel: string | null;
+  tierListCharacterNote: string | null;
   statusEffects: StatusEffect[];
   recommendedGearDetails: RecommendedGearDetail[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
@@ -46,6 +53,10 @@ interface CharacterPageBuildSectionProps {
 
 export default function CharacterPageBuildSection({
   character,
+  teams,
+  selectedTierListName,
+  tierLabel,
+  tierListCharacterNote,
   statusEffects,
   recommendedGearDetails,
   recommendedSubclassEntries,
@@ -58,11 +69,19 @@ export default function CharacterPageBuildSection({
     <>
       {/* Lore Section */}
       {character.lore && (
-        <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
+        <CollapsibleSectionCard
+          header={
+            <Stack gap={2}>
+              <Title order={2} size="h3">
+                About
+              </Title>
+              <Text size="sm" c="dimmed">
+                Character lore, quote, origin, and noble phantasm details.
+              </Text>
+            </Stack>
+          }
+        >
           <Stack gap="md">
-            <Title order={2} size="h3">
-              About
-            </Title>
             <RichText
               text={character.lore}
               statusEffects={statusEffects}
@@ -184,15 +203,23 @@ export default function CharacterPageBuildSection({
               </>
             )}
           </Stack>
-        </Paper>
+        </CollapsibleSectionCard>
       )}
+
+      <CharacterReferenceSection
+        character={character}
+        teams={teams}
+        selectedTierListName={selectedTierListName}
+        tierLabel={tierLabel}
+        tierListCharacterNote={tierListCharacterNote}
+      />
 
       {/* Recommended Build */}
       {(recommendedGearDetails.length > 0 ||
         recommendedSubclassEntries.length > 0) && (
-        <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
-          <Stack gap="md">
-            <Group justify="space-between" align="flex-start" gap="sm">
+        <CollapsibleSectionCard
+          header={
+            <Group align="flex-start" gap="sm">
               <Stack gap={2}>
                 <Title order={2} size="h3">
                   Recommended Build
@@ -201,13 +228,10 @@ export default function CharacterPageBuildSection({
                   Suggested setup based on current character data.
                 </Text>
               </Stack>
-              {recommendedGearDetails.length > 0 && (
-                <Badge variant="light" color="blue" size="lg">
-                  {recommendedGearDetails.length}/6 Gear Slots
-                </Badge>
-              )}
             </Group>
-
+          }
+        >
+          <Stack gap="md">
             {recommendedSubclassEntries.length > 0 && (
               <Stack gap="sm">
                 <Text fw={600} size="sm">
@@ -541,7 +565,7 @@ export default function CharacterPageBuildSection({
               </Stack>
             )}
           </Stack>
-        </Paper>
+        </CollapsibleSectionCard>
       )}
     </>
   );

@@ -12,7 +12,7 @@ import {
   Textarea,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useCallback, useDeferredValue, useMemo, useState } from 'react';
+import { useCallback, useDeferredValue, useState } from 'react';
 import {
   IoAdd,
   IoAddCircleOutline,
@@ -331,10 +331,7 @@ export default function SuggestModal({
 
   const deferredValues = useDeferredValue(values);
   const deferredArrayValues = useDeferredValue(arrayValues);
-  const isFormValid = useMemo(
-    () => isValid(deferredValues, deferredArrayValues),
-    [deferredValues, deferredArrayValues, fields, arrayFields]
-  );
+  const isFormValid = isValid(deferredValues, deferredArrayValues);
 
   const renderField = (
     f: FieldDef,

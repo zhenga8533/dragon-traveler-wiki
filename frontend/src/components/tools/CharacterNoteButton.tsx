@@ -21,12 +21,6 @@ function CharacterNoteButton({
   const hasNote = value.trim().length > 0;
 
   useEffect(() => {
-    if (!opened) {
-      setDraftValue(value);
-    }
-  }, [value, opened]);
-
-  useEffect(() => {
     if (!opened) return;
     const frameId = window.requestAnimationFrame(() => {
       const textarea = textareaRef.current;

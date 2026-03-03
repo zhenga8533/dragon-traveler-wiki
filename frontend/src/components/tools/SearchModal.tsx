@@ -117,6 +117,11 @@ const PAGES = [
     keywords: 'wyrmspells dragon spells magic',
   },
   {
+    title: 'FAQ',
+    path: '/guides/faq',
+    keywords: 'faq frequently asked questions help guide beginner',
+  },
+  {
     title: 'Beginner Q&A',
     path: '/guides/beginner-qa',
     keywords: 'beginner guide faq help tutorial',

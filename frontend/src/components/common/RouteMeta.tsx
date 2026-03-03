@@ -33,6 +33,7 @@ const KNOWN_ROUTE_PATTERNS = [
   '/codes',
   '/useful-links',
   '/changelog',
+  '/guides/faq',
   '/guides/beginner-qa',
   '/guides/star-upgrade-calculator',
   '/guides/mythic-summon-calculator',
@@ -198,6 +199,14 @@ const ROUTE_META: Array<{ pattern: string; meta: RouteMeta }> = [
       title: 'Changelog',
       description:
         'Track documented wiki updates, including data refreshes and feature improvements.',
+    },
+  },
+  {
+    pattern: '/guides/faq',
+    meta: {
+      title: 'FAQ',
+      description:
+        'Frequently asked questions covering wiki usage, beginner priorities, and practical progression guidance.',
     },
   },
   {

@@ -70,8 +70,14 @@ export default function UsefulLinks() {
   return (
     <Container size="md" py="xl">
       <Stack gap="md">
-        <Group justify="space-between" align="center">
-          <Title order={1}>Useful Links</Title>
+        <Group justify="space-between" align="flex-start">
+          <Stack gap={2}>
+            <Title order={1}>Useful Links</Title>
+            <Text size="sm" c="dimmed">
+              Curated official and community resources for guides, tools, and
+              reference material.
+            </Text>
+          </Stack>
           <SuggestModal
             buttonLabel="Suggest a Link"
             modalTitle="Suggest a New Link"

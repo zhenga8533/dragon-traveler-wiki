@@ -3,6 +3,7 @@ import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
+import { BREAKPOINTS } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
 import type { Character } from '../../types/character';
 import type { CharacterFilters } from '../../utils/filter-characters';
@@ -38,9 +39,9 @@ export default function FilterableCharacterPool({
   const [page, setPage] = useState(1);
 
   // Mirror the SimpleGrid breakpoints: base: 2, xs: 3, sm: 4, md: 6
-  const isMd = useMediaQuery('(min-width: 62em)');
-  const isSm = useMediaQuery('(min-width: 48em)');
-  const isXs = useMediaQuery('(min-width: 36em)');
+  const isMd = useMediaQuery(BREAKPOINTS.MD);
+  const isSm = useMediaQuery(BREAKPOINTS.DESKTOP);
+  const isXs = useMediaQuery(BREAKPOINTS.XS);
   const cols = isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
   const pageSize = cols * ROWS_PER_PAGE;
 

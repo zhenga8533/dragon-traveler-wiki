@@ -6,7 +6,7 @@ import {
   Tooltip,
   UnstyledButton,
 } from '@mantine/core';
-import { useState } from 'react';
+import { useDisclosure } from '@mantine/hooks';
 import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { CHARACTER_CARD, TRANSITION } from '../../constants/ui';
@@ -34,7 +34,7 @@ export default function CharacterCard({
   note,
   noteIconVariant = 'default',
 }: CharacterCardProps) {
-  const [noteOpened, setNoteOpened] = useState(false);
+  const [noteOpened, { toggle: toggleNote, close: closeNote }] = useDisclosure(false);
   const nameColor = disableLink ? 'dimmed' : 'violet';
   const isBuilderNoteVariant = noteIconVariant === 'builder';
 
@@ -49,7 +49,7 @@ export default function CharacterCard({
       {note && (
         <Popover
           opened={noteOpened}
-          onChange={setNoteOpened}
+          onChange={(v) => !v && closeNote()}
           position="top"
           withArrow
           withinPortal
@@ -75,13 +75,13 @@ export default function CharacterCard({
               onClick={(e) => {
                 e.preventDefault();
                 e.stopPropagation();
-                setNoteOpened((prev) => !prev);
+                toggleNote();
               }}
               onKeyDown={(e) => {
                 if (e.key === 'Enter' || e.key === ' ') {
                   e.preventDefault();
                   e.stopPropagation();
-                  setNoteOpened((prev) => !prev);
+                  toggleNote();
                 }
               }}
             >

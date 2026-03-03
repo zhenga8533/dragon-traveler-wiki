@@ -32,7 +32,7 @@ import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
 } from '../components/tools/SuggestModal';
-import { QUALITY_ORDER } from '../constants/colors';
+import { GEAR_TYPE_ORDER, QUALITY_ORDER } from '../constants/colors';
 import {
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
@@ -46,14 +46,6 @@ import type { Quality } from '../types/quality';
 import { getLatestTimestamp } from '../utils';
 import { toEntitySlug } from '../utils/entity-slug';
 
-const GEAR_TYPE_ORDER: GearType[] = [
-  'Headgear',
-  'Chestplate',
-  'Bracers',
-  'Boots',
-  'Weapon',
-  'Accessory',
-];
 
 const GEAR_SET_FIELDS: FieldDef[] = [
   {

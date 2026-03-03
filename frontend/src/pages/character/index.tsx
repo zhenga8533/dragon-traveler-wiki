@@ -51,6 +51,7 @@ import type { Gear, GearSet } from '../../types/gear';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
 import type { Subclass } from '../../types/subclass';
+import type { Team } from '../../types/team';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
@@ -130,6 +131,7 @@ export default function CharacterPage() {
   );
   const { data: gear } = useDataFetch<Gear[]>('data/gear.json', []);
   const { data: gearSets } = useDataFetch<GearSet[]>('data/gear_sets.json', []);
+  const { data: teams } = useDataFetch<Team[]>('data/teams.json', []);
   const { tierLists, selectedTierListName } = useContext(
     TierListReferenceContext
   );
@@ -144,13 +146,35 @@ export default function CharacterPage() {
     navigate(`/characters/${toEntitySlug(character.name)}`, { replace: true });
   }, [character, name, navigate]);
 
+  const selectedTierList = useMemo(() => {
+    if (!selectedTierListName) return null;
+    return tierLists.find((list) => list.name === selectedTierListName) ?? null;
+  }, [tierLists, selectedTierListName]);
+
+  const selectedTierListEntry = useMemo(() => {
+    if (!selectedTierList || !character) return null;
+    return (
+      selectedTierList.entries.find(
+        (entry) =>
+          entry.character_name.toLowerCase() === character.name.toLowerCase()
+      ) ?? null
+    );
+  }, [selectedTierList, character]);
+
   const tierLabel = useMemo(() => {
-    if (!selectedTierListName || !character) return null;
-    const list = tierLists.find((l) => l.name === selectedTierListName);
-    if (!list) return null;
-    const entry = list.entries.find((e) => e.character_name === character.name);
-    return entry?.tier ?? 'Unranked';
-  }, [tierLists, selectedTierListName, character]);
+    if (!selectedTierListName || !selectedTierList || !character) return null;
+    return selectedTierListEntry?.tier ?? 'Unranked';
+  }, [
+    selectedTierListName,
+    selectedTierList,
+    selectedTierListEntry,
+    character,
+  ]);
+
+  const tierListCharacterNote = useMemo(() => {
+    const note = selectedTierListEntry?.note?.trim();
+    return note ? note : null;
+  }, [selectedTierListEntry]);
 
   // Match list page: sort by quality, then name
   const orderedCharacters = useMemo(
@@ -649,6 +673,10 @@ export default function CharacterPage() {
               <ErrorBoundary>
                 <BuildSection
                   character={character}
+                  teams={teams}
+                  selectedTierListName={selectedTierListName}
+                  tierLabel={tierLabel}
+                  tierListCharacterNote={tierListCharacterNote}
                   statusEffects={statusEffects}
                   recommendedGearDetails={recommendedGearDetails}
                   recommendedSubclassEntries={recommendedSubclassEntries}
