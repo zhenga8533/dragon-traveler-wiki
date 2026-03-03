@@ -64,6 +64,7 @@ import { insertUniqueBefore, removeItem } from '../../../utils/dnd-list';
 import { computeTeamSynergy } from '../../../utils/team-synergy';
 import { showWarningToast } from '../../../utils/toast';
 import CharacterCard from '../../character/CharacterCard';
+import SaveLoadSlots from '../../common/SaveLoadSlots';
 import FilterableCharacterPool from '../../character/FilterableCharacterPool';
 import ConfirmActionModal from '../../common/ConfirmActionModal';
 import TeamSynergyAssistant from '../TeamSynergyAssistant';
@@ -144,6 +145,8 @@ export default function TeamBuilder({
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
   const [draftHydrated, setDraftHydrated] = useState(false);
+
+
   const handleContentTypeChange = useCallback((value: string | null) => {
     setContentType(normalizeContentType(value, DEFAULT_CONTENT_TYPE));
   }, []);
@@ -919,6 +922,7 @@ export default function TeamBuilder({
     setTeamWyrmspells({});
   }
 
+
   return (
     <DndContext
       sensors={sensors}
@@ -988,6 +992,17 @@ export default function TeamBuilder({
                 Paste JSON
               </Button>
             )}
+            <SaveLoadSlots<Team>
+              storageKey={STORAGE_KEY.TEAMS_BUILDER_SLOTS}
+              currentJson={json}
+              onLoad={loadFromTeam}
+              defaultName="My Team"
+              compact={isMobile}
+              renderSlotDetail={(t) => {
+                const n = t.members?.length ?? 0;
+                return `${n} member${n !== 1 ? 's' : ''}`;
+              }}
+            />
           </Group>
           <Group gap="xs" wrap="nowrap">
             {isMobile ? (
@@ -1266,6 +1281,7 @@ export default function TeamBuilder({
           closeClearConfirm();
         }}
       />
+
     </DndContext>
   );
 }

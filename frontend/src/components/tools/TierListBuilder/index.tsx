@@ -62,6 +62,7 @@ import { compareCharactersByQualityThenName } from '../../../utils/filter-charac
 import { showWarningToast } from '../../../utils/toast';
 import FilterableCharacterPool from '../../character/FilterableCharacterPool';
 import ConfirmActionModal from '../../common/ConfirmActionModal';
+import SaveLoadSlots from '../../common/SaveLoadSlots';
 import CharacterNoteButton from '../CharacterNoteButton';
 import {
   DraggableCharCard,
@@ -540,6 +541,17 @@ export default function TierListBuilder({
             >
               Paste JSON
             </Button>
+            <SaveLoadSlots<TierList>
+              storageKey={STORAGE_KEY.TIER_LIST_BUILDER_SLOTS}
+              numSlots={3}
+              currentJson={json}
+              onLoad={loadFromTierList}
+              defaultName="My Tier List"
+              renderSlotDetail={(t) => {
+                const n = t.entries?.length ?? 0;
+                return `${n} entr${n !== 1 ? 'ies' : 'y'}`;
+              }}
+            />
             <Button
               variant="light"
               size="sm"
