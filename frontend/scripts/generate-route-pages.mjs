@@ -284,7 +284,7 @@ function writeRoutePages() {
       continue;
     }
 
-    writePage(route.pattern, route.meta, null);
+    writePage(route.pattern, route.meta);
   }
 
   const dynamicRouteConfigs = [
