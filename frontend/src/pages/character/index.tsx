@@ -12,7 +12,6 @@ import {
   Skeleton,
   Stack,
   Text,
-  Title,
   Tooltip,
   UnstyledButton,
   useComputedColorScheme,
@@ -20,7 +19,7 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { RiZoomInLine } from 'react-icons/ri';
-import { Link, useNavigate, useParams } from 'react-router-dom';
+import { useNavigate, useParams } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../../assets/gear';
 import { getSubclassIcon } from '../../assets/subclass';
@@ -68,6 +67,7 @@ import BuildSection from './BuildSection';
 import HeroSection from './HeroSection';
 import IllustrationPreviewModal from './IllustrationPreviewModal';
 import SkillsSection from './SkillsSection';
+import VariantSelector from './VariantSelector';
 
 const GEAR_SLOT_CONFIG: Array<{
   slot: keyof NonNullable<Character['recommended_gear']>;
@@ -449,46 +449,10 @@ export default function CharacterPage() {
   if (!character) {
     if (sameNameVariants.length > 1 && routeMatch.baseSlug) {
       return (
-        <Container size="lg" py="xl">
-          <Stack gap="md">
-            <Title order={2}>Choose a {sameNameVariants[0].name} rarity</Title>
-            <Text c="dimmed" size="sm">
-              This character has multiple rarities. Pick one to view detailed
-              skills, builds, and references.
-            </Text>
-            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-              {sameNameVariants.map((variant) => (
-                <Paper
-                  key={getCharacterIdentityKey(variant)}
-                  withBorder
-                  radius="md"
-                  p="md"
-                >
-                  <Stack gap="xs">
-                    <Group justify="space-between" align="center">
-                      <Text fw={600}>{variant.name}</Text>
-                      <Badge variant="light" color="grape">
-                        {variant.quality}
-                      </Badge>
-                    </Group>
-                    <Text size="sm" c="dimmed" lineClamp={2}>
-                      {variant.title}
-                    </Text>
-                    <Text
-                      component={Link}
-                      to={getCharacterRoutePath(variant, characterNameCounts)}
-                      fw={600}
-                      c="violet"
-                      size="sm"
-                    >
-                      Open details
-                    </Text>
-                  </Stack>
-                </Paper>
-              ))}
-            </SimpleGrid>
-          </Stack>
-        </Container>
+        <VariantSelector
+          variants={sameNameVariants}
+          characterNameCounts={characterNameCounts}
+        />
       );
     }
 
