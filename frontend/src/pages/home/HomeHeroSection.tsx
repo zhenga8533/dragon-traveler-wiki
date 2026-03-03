@@ -11,7 +11,9 @@ import {
   Text,
   ThemeIcon,
   Title,
+  useComputedColorScheme,
 } from '@mantine/core';
+import { useContext } from 'react';
 import {
   IoGameController,
   IoGlobe,
@@ -29,9 +31,9 @@ import {
   HOME_HERO_TITLE_STYLE,
   HOME_HERO_WORDMARK_STYLE,
   getCardHoverProps,
-  getHomeHeroPlaceholderGradient,
 } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
+import { BannerContext } from '../../contexts';
 
 const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];
 
@@ -64,32 +66,16 @@ const HOME_HERO_HEADING_PANEL_STYLE = {
   borderRadius: 14,
 };
 
-export interface HomeHeroBannerMedia {
-  src: string;
-  type: 'image' | 'video';
-}
+export default function HomeHeroSection() {
+  const isDark = useComputedColorScheme('light') === 'dark';
+  const {
+    selectedBanner,
+    bannerSelectData,
+    bannerPreference,
+    setBannerPreference,
+    defaultBannerValue,
+  } = useContext(BannerContext);
 
-interface HomeHeroSectionProps {
-  isDark: boolean;
-  bannerLoaded: boolean;
-  selectedBanner: HomeHeroBannerMedia | null;
-  bannerSelectData: Array<{ value: string; label: string }>;
-  bannerPreference: string;
-  defaultBannerValue: string;
-  onBannerLoaded: () => void;
-  onBannerPreferenceChange: (value: string) => void;
-}
-
-export default function HomeHeroSection({
-  isDark,
-  bannerLoaded,
-  selectedBanner,
-  bannerSelectData,
-  bannerPreference,
-  defaultBannerValue,
-  onBannerLoaded,
-  onBannerPreferenceChange,
-}: HomeHeroSectionProps) {
   const headingPanelStyle = {
     ...HOME_HERO_HEADING_PANEL_STYLE,
     border: isDark
@@ -115,113 +101,6 @@ export default function HomeHeroSection({
         overflow: 'hidden',
       }}
     >
-      <Box
-        style={{
-          position: 'absolute',
-          top: 0,
-          left: 0,
-          right: 0,
-          height: '100%',
-          overflow: 'hidden',
-        }}
-      >
-        <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: getHomeHeroPlaceholderGradient(isDark),
-          }}
-        />
-        {selectedBanner?.type === 'video' ? (
-          <video
-            src={selectedBanner.src}
-            autoPlay
-            loop
-            muted
-            playsInline
-            onLoadedData={onBannerLoaded}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center top',
-              opacity: bannerLoaded ? 1 : 0,
-              transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
-            }}
-          />
-        ) : selectedBanner ? (
-          <img
-            src={selectedBanner.src}
-            alt=""
-            fetchPriority="high"
-            onLoad={onBannerLoaded}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center top',
-              opacity: bannerLoaded ? 1 : 0,
-              transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
-            }}
-          />
-        ) : null}
-        <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background: isDark ? 'rgba(0, 0, 0, 0.45)' : 'rgba(0, 0, 0, 0.35)',
-          }}
-        />
-        <Box
-          style={{
-            position: 'absolute',
-            width: 340,
-            height: 340,
-            top: -130,
-            left: -80,
-            borderRadius: '50%',
-            background:
-              'radial-gradient(circle, rgba(236,72,153,0.32) 0%, rgba(236,72,153,0) 72%)',
-            filter: 'blur(4px)',
-            pointerEvents: 'none',
-          }}
-        />
-        <Box
-          style={{
-            position: 'absolute',
-            width: 360,
-            height: 360,
-            bottom: -170,
-            right: -90,
-            borderRadius: '50%',
-            background:
-              'radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(59,130,246,0) 74%)',
-            filter: 'blur(6px)',
-            pointerEvents: 'none',
-          }}
-        />
-        <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background:
-              'linear-gradient(to bottom, transparent 40%, var(--mantine-color-body) 100%)',
-          }}
-        />
-        <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background:
-              'linear-gradient(to right, var(--mantine-color-body) 0%, transparent 10%, transparent 90%, var(--mantine-color-body) 100%)',
-          }}
-        />
-      </Box>
-
       <Container
         size="md"
         style={{ position: 'relative', zIndex: 1 }}
@@ -345,7 +224,7 @@ export default function HomeHeroSection({
                 searchable
                 nothingFoundMessage="No illustrations found"
                 onChange={(value) => {
-                  onBannerPreferenceChange(value ?? defaultBannerValue);
+                  setBannerPreference(value ?? defaultBannerValue);
                 }}
                 styles={{
                   input: {

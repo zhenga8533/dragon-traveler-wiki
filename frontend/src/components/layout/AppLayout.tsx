@@ -19,7 +19,7 @@ import {
   IoMoon,
   IoSunny,
 } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { normalizeContentType } from '../../constants/content-types';
 import { getGlassStyles } from '../../constants/glass';
 import {
@@ -32,9 +32,10 @@ import {
   SIDEBAR,
   TRANSITION,
 } from '../../constants/ui';
-import { TierListReferenceContext } from '../../contexts';
+import { BannerContext, TierListReferenceContext } from '../../contexts';
 import { useSidebar } from '../../hooks';
 import AppRoutes from '../../routes/AppRoutes';
+import BannerBackground from './BannerBackground';
 import ErrorBoundary from '../common/ErrorBoundary';
 import KonamiEasterEgg from '../tools/KonamiEasterEgg';
 import SearchModal from '../tools/SearchModal';
@@ -42,6 +43,18 @@ import Footer from './Footer';
 import Navigation from './Navigation';
 import PageTransition from './PageTransition';
 import ScrollToTop from './ScrollToTop';
+
+const DETAIL_ROUTE_PATTERNS = [
+  /^\/artifacts\/.+/,
+  /^\/characters\/.+/,
+  /^\/gear-sets\/.+/,
+  /^\/noble-phantasms\/.+/,
+  /^\/teams\/.+/,
+];
+
+function isBaseRoute(pathname: string): boolean {
+  return !DETAIL_ROUTE_PATTERNS.some((pattern) => pattern.test(pathname));
+}
 
 function ThemeToggle() {
   const { toggleColorScheme } = useMantineColorScheme();
@@ -66,6 +79,9 @@ export default function AppLayout() {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);
+  const { selectedBanner } = useContext(BannerContext);
+  const location = useLocation();
+  const showBanner = isBaseRoute(location.pathname) && selectedBanner !== null;
 
   const glassStyles = getGlassStyles(isDark);
   const tierListOptions = useMemo(
@@ -190,9 +206,11 @@ export default function AppLayout() {
           display: 'flex',
           flexDirection: 'column',
           minHeight: '100vh',
+          position: 'relative',
         }}
       >
-        <Box style={{ flex: 1 }}>
+        {showBanner && <BannerBackground />}
+        <Box style={{ flex: 1, position: 'relative', zIndex: 1 }}>
           <PageTransition>
             <ErrorBoundary>
               <AppRoutes />

@@ -126,4 +126,5 @@ export const STORAGE_KEY = {
   SIDEBAR_COLLAPSED: 'sidebar:collapsed',
   TEAMS_BUILDER_SLOTS: 'teams:builderSlots',
   TIER_LIST_BUILDER_SLOTS: 'tier-list:builderSlots',
+  HOME_BANNER: 'home:banner',
 } as const;

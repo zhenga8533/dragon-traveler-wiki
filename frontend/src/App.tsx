@@ -2,6 +2,7 @@ import { BrowserRouter } from 'react-router-dom';
 import RouteMeta from './components/common/RouteMeta';
 import AppLayout from './components/layout/AppLayout';
 import {
+  BannerProvider,
   ResourcesProvider,
   SearchDataProvider,
   TierListReferenceProvider,
@@ -14,7 +15,9 @@ export default function App() {
       <SearchDataProvider>
         <ResourcesProvider>
           <TierListReferenceProvider>
-            <AppLayout />
+            <BannerProvider>
+              <AppLayout />
+            </BannerProvider>
           </TierListReferenceProvider>
         </ResourcesProvider>
       </SearchDataProvider>
