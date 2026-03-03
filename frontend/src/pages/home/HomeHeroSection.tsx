@@ -8,6 +8,7 @@ import {
   Kbd,
   Select,
   Stack,
+  Switch,
   Text,
   ThemeIcon,
   Title,
@@ -74,6 +75,8 @@ export default function HomeHeroSection() {
     bannerPreference,
     setBannerPreference,
     defaultBannerValue,
+    showOnAllRoutes,
+    setShowOnAllRoutes,
   } = useContext(BannerContext);
 
   const headingPanelStyle = {
@@ -242,6 +245,23 @@ export default function HomeHeroSection() {
                     backgroundColor: isDark
                       ? 'rgba(18, 20, 25, 0.96)'
                       : 'rgba(255, 255, 255, 0.98)',
+                  },
+                }}
+              />
+              <Switch
+                mt={8}
+                size="xs"
+                label="Show banner on all pages"
+                checked={showOnAllRoutes}
+                onChange={(event) =>
+                  setShowOnAllRoutes(event.currentTarget.checked)
+                }
+                styles={{
+                  label: {
+                    color: isDark
+                      ? 'var(--mantine-color-gray-3)'
+                      : 'var(--mantine-color-dark-1)',
+                    fontSize: 'var(--mantine-font-size-xs)',
                   },
                 }}
               />

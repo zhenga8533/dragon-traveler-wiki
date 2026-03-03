@@ -56,6 +56,8 @@ export interface BannerContextValue {
   bannerPreference: string;
   setBannerPreference: (value: string) => void;
   defaultBannerValue: string;
+  showOnAllRoutes: boolean;
+  setShowOnAllRoutes: (value: boolean) => void;
 }
 
 export const BannerContext = createContext<BannerContextValue>({
@@ -66,6 +68,8 @@ export const BannerContext = createContext<BannerContextValue>({
   bannerPreference: DEFAULT_BANNER_PREFERENCE,
   setBannerPreference: () => {},
   defaultBannerValue: DEFAULT_BANNER_OPTION.value,
+  showOnAllRoutes: false,
+  setShowOnAllRoutes: () => {},
 });
 
 export function BannerProvider({ children }: { children: ReactNode }) {
@@ -73,6 +77,11 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     'data/characters.json',
     []
   );
+
+  const [showOnAllRoutes, setShowOnAllRoutes] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return window.localStorage.getItem(STORAGE_KEY.HOME_BANNER_GLOBAL) === 'true';
+  });
 
   const [bannerLoaded, setBannerLoaded] = useState(false);
   const [bannerOptionsReady, setBannerOptionsReady] = useState(false);
@@ -191,6 +200,14 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     window.localStorage.setItem(STORAGE_KEY.HOME_BANNER, bannerPreference);
   }, [bannerPreference]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem(
+      STORAGE_KEY.HOME_BANNER_GLOBAL,
+      String(showOnAllRoutes)
+    );
+  }, [showOnAllRoutes]);
+
   const selectedBanner =
     selectedBannerValue === null || !bannerOptionsReady
       ? null
@@ -224,8 +241,10 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       bannerPreference,
       setBannerPreference,
       defaultBannerValue: DEFAULT_BANNER_OPTION.value,
+      showOnAllRoutes,
+      setShowOnAllRoutes,
     }),
-    [selectedBanner, bannerLoaded, bannerSelectData, bannerPreference]
+    [selectedBanner, bannerLoaded, bannerSelectData, bannerPreference, showOnAllRoutes]
   );
 
   return createElement(BannerContext.Provider, { value }, children);

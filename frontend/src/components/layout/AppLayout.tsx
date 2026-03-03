@@ -79,9 +79,12 @@ export default function AppLayout() {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);
-  const { selectedBanner } = useContext(BannerContext);
+  const { selectedBanner, showOnAllRoutes } = useContext(BannerContext);
   const location = useLocation();
-  const showBanner = isBaseRoute(location.pathname) && selectedBanner !== null;
+  const isHome = location.pathname === '/';
+  const showBanner =
+    selectedBanner !== null &&
+    (isHome || (showOnAllRoutes && isBaseRoute(location.pathname)));
 
   const glassStyles = getGlassStyles(isDark);
   const tierListOptions = useMemo(

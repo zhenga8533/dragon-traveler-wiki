@@ -127,4 +127,5 @@ export const STORAGE_KEY = {
   TEAMS_BUILDER_SLOTS: 'teams:builderSlots',
   TIER_LIST_BUILDER_SLOTS: 'tier-list:builderSlots',
   HOME_BANNER: 'home:banner',
+  HOME_BANNER_GLOBAL: 'home:bannerGlobal',
 } as const;
