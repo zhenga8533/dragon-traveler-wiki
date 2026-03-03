@@ -1,5 +1,67 @@
 [
   {
+    "date": "2026-03-02",
+    "version": "1.0.7",
+    "changes": [
+      {
+        "type": "added",
+        "category": "guides",
+        "description": "Added FAQ page with categorized Q&A sections, embedded external source, and helpful links"
+      },
+      {
+        "type": "added",
+        "category": "characters",
+        "description": "Added CharacterReferenceSection showing team inclusions and tier list notes on character detail pages"
+      },
+      {
+        "type": "added",
+        "category": "site",
+        "description": "Added RouteMeta component for route-specific SEO metadata, Open Graph, and Twitter card tags"
+      },
+      {
+        "type": "updated",
+        "category": "navigation",
+        "description": "Introduced canonical entity slug utilities and client-side redirect logic across detail pages for consistent, SEO-friendly URLs"
+      },
+      {
+        "type": "updated",
+        "category": "characters",
+        "description": "Applied CollapsibleSectionCard layout to character detail build sections"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Replaced note tooltip with an accessible Popover on builder workflows"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Added subtitle and aligned header layout in the UsefulLinks page"
+      },
+      {
+        "type": "updated",
+        "category": "guides",
+        "description": "Updated Beginner Q&A content"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live datasets (teams, noble phantasms)"
+      },
+      {
+        "type": "updated",
+        "category": "codebase",
+        "description": "Refactored TeamBuilder into split components and utility modules for cleaner organization"
+      },
+      {
+        "type": "updated",
+        "category": "codebase",
+        "description": "Unified breakpoint usage across character and tool components via shared BREAKPOINTS constant; reorganized CollapsibleSectionCard, WyrmspellCard renderer, and cleaned up unused imports"
+      }
+    ],
+    "last_updated": 1772409600
+  },
+  {
     "date": "2026-03-01",
     "version": "1.0.6",
     "changes": [
