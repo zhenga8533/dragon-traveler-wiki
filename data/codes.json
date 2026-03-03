@@ -656,5 +656,14 @@
     },
     "active": true,
     "last_updated": 1772464992
+  },
+  {
+    "code": "GXGG101",
+    "rewards": {
+      "Gold": 3000,
+      "Legacy Dragon Crystal": 3,
+      "Apple": 1
+    },
+    "active": true
   }
 ]
