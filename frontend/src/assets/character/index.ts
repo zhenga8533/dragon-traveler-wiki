@@ -18,6 +18,11 @@ const skillModules = import.meta.glob<{ default: string }>('./**/skills/*.png');
 
 const CACHE_MAX_SIZE = 20;
 
+function resolveAssetKey(characterName: string, characterKey?: string): string {
+  const explicitKey = (characterKey ?? '').trim();
+  return normalizeKey(explicitKey || characterName);
+}
+
 function evictOldest(cache: Map<string, unknown>): void {
   if (cache.size > CACHE_MAX_SIZE) {
     const firstKey = cache.keys().next().value;
@@ -116,15 +121,19 @@ for (const [path, loader] of Object.entries(skillModules)) {
   }
 }
 
-export function getPortrait(characterName: string): string | undefined {
-  const key = normalizeKey(characterName);
+export function getPortrait(
+  characterName: string,
+  characterKey?: string
+): string | undefined {
+  const key = resolveAssetKey(characterName, characterKey);
   return portraits.get(key);
 }
 
 export async function getIllustrations(
-  characterName: string
+  characterName: string,
+  characterKey?: string
 ): Promise<CharacterIllustration[]> {
-  const key = normalizeKey(characterName);
+  const key = resolveAssetKey(characterName, characterKey);
 
   // Check cache first
   if (illustrationsCache.has(key)) {
@@ -153,16 +162,18 @@ export async function getIllustrations(
 
 // For backwards compatibility - returns first illustration
 export async function getIllustration(
-  characterName: string
+  characterName: string,
+  characterKey?: string
 ): Promise<string | undefined> {
-  const list = await getIllustrations(characterName);
+  const list = await getIllustrations(characterName, characterKey);
   return list.length > 0 ? list[0].src : undefined;
 }
 
 export async function getTalentIcon(
-  characterName: string
+  characterName: string,
+  characterKey?: string
 ): Promise<string | undefined> {
-  const key = normalizeKey(characterName);
+  const key = resolveAssetKey(characterName, characterKey);
 
   // Check cache first
   if (talentsCache.has(key)) {
@@ -183,9 +194,10 @@ export async function getTalentIcon(
 
 export async function getCharacterSkillIcon(
   characterName: string,
-  skillName: string
+  skillName: string,
+  characterKey?: string
 ): Promise<string | undefined> {
-  const charKey = normalizeKey(characterName);
+  const charKey = resolveAssetKey(characterName, characterKey);
   const skillKey = normalizeKey(skillName);
 
   // Check cache first

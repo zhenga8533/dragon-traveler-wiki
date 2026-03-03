@@ -5,7 +5,7 @@ import { getPortrait } from '../../assets/character';
 import { QUALITY_BORDER_COLOR } from '../../constants/colors';
 import { getCharacterPortraitHoverProps } from '../../constants/styles';
 import type { Quality } from '../../types/quality';
-import { toEntitySlug } from '../../utils/entity-slug';
+import { getCharacterRoutePathByName } from '../../utils/character-route';
 
 interface CharacterPortraitProps {
   name: string;
@@ -22,6 +22,8 @@ interface CharacterPortraitProps {
   className?: string;
   style?: CSSProperties;
   fallbackSrc?: string;
+  routePath?: string;
+  assetKey?: string;
 }
 
 export default function CharacterPortrait({
@@ -39,14 +41,18 @@ export default function CharacterPortrait({
   className,
   style,
   fallbackSrc,
+  routePath,
+  assetKey,
 }: CharacterPortraitProps) {
+  const routeAssetKey = routePath?.match(/^\/characters\/([^/?#]+)/)?.[1];
+  const resolvedAssetKey = assetKey ?? routeAssetKey;
   const resolvedBorderColor =
     borderColor ??
     (quality ? QUALITY_BORDER_COLOR[quality] : 'var(--mantine-color-gray-5)');
 
   const portrait = (
     <Image
-      src={getPortrait(name)}
+      src={getPortrait(name, resolvedAssetKey)}
       alt={name}
       w={size}
       h={size}
@@ -75,7 +81,7 @@ export default function CharacterPortrait({
 
   const linkedPortrait = link ? (
     <Link
-      to={`/characters/${toEntitySlug(name)}`}
+      to={routePath ?? getCharacterRoutePathByName(name)}
       style={{ display: 'inline-flex', textDecoration: 'none' }}
       aria-label={`View ${name}`}
     >

@@ -2,6 +2,8 @@ from typing import Literal
 
 from pydantic import BaseModel, field_validator
 
+from backend.models.character import Quality
+
 ContentType = Literal["All", "PvP", "PvE", "Boss"]
 
 DEFAULT_TIERS = ["S+", "S", "A", "B", "C", "D"]
@@ -14,6 +16,7 @@ class TierDefinition(BaseModel):
 
 class TierEntry(BaseModel):
     character_name: str
+    character_quality: Quality | None = None
     tier: str  # Any string; validated against TierList.tiers or DEFAULT_TIERS
     note: str = ""
 
@@ -23,7 +26,9 @@ class TierList(BaseModel):
     author: str
     content_type: ContentType
     description: str
-    tiers: list[TierDefinition] | None = None  # optional; defaults to DEFAULT_TIERS if absent
+    tiers: list[TierDefinition] | None = (
+        None  # optional; defaults to DEFAULT_TIERS if absent
+    )
     entries: list[TierEntry]
 
     @staticmethod

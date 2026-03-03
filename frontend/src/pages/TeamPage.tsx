@@ -14,15 +14,15 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFlash, IoInformationCircle } from 'react-icons/io5';
 import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterPortrait from '../components/character/CharacterPortrait';
+import ChangeHistory from '../components/common/ChangeHistory';
 import ClassTag from '../components/common/ClassTag';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
-import ChangeHistory from '../components/common/ChangeHistory';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import FactionTag from '../components/common/FactionTag';
@@ -52,6 +52,14 @@ import type { Faction } from '../types/faction';
 import type { StatusEffect } from '../types/status-effect';
 import type { Team, TeamMember } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
+import {
+  buildCharacterByIdentityMap,
+  buildCharacterNameCounts,
+  buildPreferredCharacterByNameMap,
+  getCharacterRoutePath,
+  getCharacterRoutePathByName,
+  resolveCharacterByNameAndQuality,
+} from '../utils/character-route';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
@@ -127,10 +135,31 @@ export default function TeamPage() {
       : null;
 
   const charMap = useMemo(() => {
-    const map = new Map<string, Character>();
-    for (const c of characters) map.set(c.name, c);
-    return map;
+    return buildPreferredCharacterByNameMap(characters);
   }, [characters]);
+
+  const characterByIdentity = useMemo(() => {
+    return buildCharacterByIdentityMap(characters);
+  }, [characters]);
+
+  const characterNameCounts = useMemo(
+    () => buildCharacterNameCounts(characters),
+    [characters]
+  );
+
+  const getCharacterPath = useCallback(
+    (characterName: string, characterQuality?: string | null) => {
+      const character = resolveCharacterByNameAndQuality(
+        characterName,
+        characterQuality,
+        charMap,
+        characterByIdentity
+      );
+      if (!character) return getCharacterRoutePathByName(characterName);
+      return getCharacterRoutePath(character, characterNameCounts);
+    },
+    [charMap, characterByIdentity, characterNameCounts]
+  );
 
   const factionInfo = useMemo(() => {
     if (!team) return null;
@@ -158,7 +187,14 @@ export default function TeamPage() {
     }
 
     const roster = team.members
-      .map((member) => charMap.get(member.character_name))
+      .map((member) =>
+        resolveCharacterByNameAndQuality(
+          member.character_name,
+          member.character_quality,
+          charMap,
+          characterByIdentity
+        )
+      )
       .filter((character): character is Character => Boolean(character));
 
     return computeTeamSynergy({
@@ -171,7 +207,7 @@ export default function TeamPage() {
       teamWyrmspells: team.wyrmspells || {},
       wyrmspells,
     });
-  }, [team, charMap, wyrmspells]);
+  }, [team, charMap, characterByIdentity, wyrmspells]);
 
   if (loading) {
     return (
@@ -500,6 +536,8 @@ export default function TeamPage() {
             <BattlefieldGrid
               members={team.members}
               charMap={charMap}
+              characterByIdentity={characterByIdentity}
+              getCharacterPath={getCharacterPath}
               factionColor={factionColor}
               isDark={isDark}
               tooltipProps={tooltipProps}
@@ -517,6 +555,7 @@ export default function TeamPage() {
                 <SimpleGrid cols={{ base: 2, sm: 3, md: 4 }} spacing="sm">
                   {team.bench.map((benchName) => {
                     const char = charMap.get(benchName);
+                    const routePath = getCharacterPath(benchName);
                     const benchNote = team.bench_notes?.[benchName]?.trim();
                     return (
                       <Paper
@@ -542,6 +581,7 @@ export default function TeamPage() {
                                 quality={char?.quality}
                                 borderWidth={3}
                                 link
+                                routePath={routePath}
                               />
                             </Tooltip>
                           </Box>
@@ -551,7 +591,7 @@ export default function TeamPage() {
                             size="sm"
                             ta="center"
                             component={Link}
-                            to={`/characters/${toEntitySlug(benchName)}`}
+                            to={routePath}
                             c="violet"
                             style={{ textDecoration: 'none' }}
                             lineClamp={1}
@@ -674,12 +714,19 @@ function buildPositionGrid(members: TeamMember[]): (TeamMember | null)[][] {
 function BattlefieldGrid({
   members,
   charMap,
+  characterByIdentity,
+  getCharacterPath,
   factionColor,
   isDark,
   tooltipProps,
 }: {
   members: TeamMember[];
   charMap: Map<string, Character>;
+  characterByIdentity: Map<string, Character>;
+  getCharacterPath: (
+    characterName: string,
+    characterQuality?: string | null
+  ) => string;
   factionColor: string;
   isDark: boolean;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
@@ -753,7 +800,16 @@ function BattlefieldGrid({
                 );
               }
 
-              const character = charMap.get(member.character_name);
+              const character = resolveCharacterByNameAndQuality(
+                member.character_name,
+                member.character_quality,
+                charMap,
+                characterByIdentity
+              );
+              const routePath = getCharacterPath(
+                member.character_name,
+                member.character_quality
+              );
               return (
                 <Paper
                   key={colIdx}
@@ -774,11 +830,12 @@ function BattlefieldGrid({
                         {...tooltipProps}
                       >
                         <CharacterPortrait
-                          name={member.character_name}
+                          name={character?.name ?? member.character_name}
                           size={72}
                           quality={character?.quality}
                           borderWidth={3}
                           link
+                          routePath={routePath}
                         />
                       </Tooltip>
                       {member.overdrive_order != null && (
@@ -805,12 +862,12 @@ function BattlefieldGrid({
                       size="sm"
                       ta="center"
                       component={Link}
-                      to={`/characters/${toEntitySlug(member.character_name)}`}
+                      to={routePath}
                       c="violet"
                       style={{ textDecoration: 'none' }}
                       lineClamp={1}
                     >
-                      {member.character_name}
+                      {character?.name ?? member.character_name}
                     </Text>
 
                     {/* Class + Quality */}

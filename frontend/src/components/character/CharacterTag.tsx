@@ -1,6 +1,6 @@
 import { Badge } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { toEntitySlug } from '../../utils/entity-slug';
+import { getCharacterRoutePathByName } from '../../utils/character-route';
 import CharacterPortrait from './CharacterPortrait';
 
 export interface CharacterTagProps {
@@ -8,6 +8,7 @@ export interface CharacterTagProps {
   color?: string;
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
   link?: boolean;
+  routePath?: string;
 }
 
 export default function CharacterTag({
@@ -15,6 +16,7 @@ export default function CharacterTag({
   color = 'blue',
   size = 'md',
   link = true,
+  routePath,
 }: CharacterTagProps) {
   const badge = (
     <Badge
@@ -33,7 +35,7 @@ export default function CharacterTag({
 
   return (
     <Link
-      to={`/characters/${toEntitySlug(name)}`}
+      to={routePath ?? getCharacterRoutePathByName(name)}
       style={{ textDecoration: 'none', display: 'inline-flex' }}
     >
       {badge}

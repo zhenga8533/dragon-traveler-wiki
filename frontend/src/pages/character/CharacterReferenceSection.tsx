@@ -9,16 +9,17 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
+import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 import { normalizeContentType } from '../../constants/content-types';
 import { getCardHoverProps } from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { Team, TeamMemberPosition } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
-import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 
 interface CharacterReferenceSectionProps {
   character: Character;
   teams: Team[];
+  enableNameBasedReferences?: boolean;
   selectedTierListName: string;
   tierLabel: string | null;
   tierListCharacterNote: string | null;
@@ -56,11 +57,16 @@ function formatPosition(position: TeamMemberPosition | null): string | null {
 export default function CharacterReferenceSection({
   character,
   teams,
+  enableNameBasedReferences = true,
   selectedTierListName,
   tierLabel,
   tierListCharacterNote,
 }: CharacterReferenceSectionProps) {
   const teamInclusions = useMemo<TeamInclusion[]>(() => {
+    if (!enableNameBasedReferences) {
+      return [];
+    }
+
     const name = character.name.toLowerCase();
     const results: TeamInclusion[] = [];
 
@@ -111,7 +117,7 @@ export default function CharacterReferenceSection({
       }
       return a.teamName.localeCompare(b.teamName);
     });
-  }, [character.name, teams]);
+  }, [character.name, enableNameBasedReferences, teams]);
 
   const hasTierContext =
     Boolean(selectedTierListName) &&

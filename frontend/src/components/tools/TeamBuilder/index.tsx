@@ -52,21 +52,24 @@ import {
   GITHUB_REPO_URL,
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../../constants/github';
-import {
-  BREAKPOINTS,
-  STORAGE_KEY,
-} from '../../../constants/ui';
+import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
+import type { Quality } from '../../../types/quality';
 import type { Team, TeamMember, TeamWyrmspells } from '../../../types/team';
 import type { Wyrmspell } from '../../../types/wyrmspell';
+import {
+  buildCharacterNameCounts,
+  getCharacterBaseSlug,
+  getCharacterIdentityKey,
+} from '../../../utils/character-route';
 import { insertUniqueBefore, removeItem } from '../../../utils/dnd-list';
 import { computeTeamSynergy } from '../../../utils/team-synergy';
 import { showWarningToast } from '../../../utils/toast';
 import CharacterCard from '../../character/CharacterCard';
-import SaveLoadSlots from '../../common/SaveLoadSlots';
 import FilterableCharacterPool from '../../character/FilterableCharacterPool';
 import ConfirmActionModal from '../../common/ConfirmActionModal';
+import SaveLoadSlots from '../../common/SaveLoadSlots';
 import TeamSynergyAssistant from '../TeamSynergyAssistant';
 import {
   AvailablePool,
@@ -76,13 +79,13 @@ import {
   TeamMetaFields,
 } from './components';
 import {
+  getPastedTeamPatch,
+  getValidRows,
   GRID_SIZE,
   MAX_ROSTER_SIZE,
-  ROW_LABELS,
-  getValidRows,
-  getPastedTeamPatch,
   normalizeNote,
   normalizeTeamFromPartial,
+  ROW_LABELS,
 } from './utils';
 
 interface TeamBuilderProps {
@@ -146,6 +149,39 @@ export default function TeamBuilder({
   const [pasteError, setPasteError] = useState('');
   const [draftHydrated, setDraftHydrated] = useState(false);
 
+  const characterNameCounts = useMemo(
+    () => buildCharacterNameCounts(characters),
+    [characters]
+  );
+
+  const characterByIdentity = useMemo(() => {
+    const map = new Map<string, Character>();
+    for (const character of characters) {
+      map.set(getCharacterIdentityKey(character), character);
+    }
+    return map;
+  }, [characters]);
+
+  const getCharacterFromKey = useCallback(
+    (characterKey: string) =>
+      characterByIdentity.get(characterKey) ?? charMap.get(characterKey),
+    [characterByIdentity, charMap]
+  );
+
+  const getCharacterKeyFromReference = useCallback(
+    (name: string, quality?: string) => {
+      const exactKey = getCharacterIdentityKey(name, quality);
+      if (quality && characterByIdentity.has(exactKey)) {
+        return exactKey;
+      }
+      const preferred = charMap.get(name);
+      if (preferred) return getCharacterIdentityKey(preferred);
+      const first = characters.find((character) => character.name === name);
+      if (first) return getCharacterIdentityKey(first);
+      return exactKey;
+    },
+    [characterByIdentity, charMap, characters]
+  );
 
   const handleContentTypeChange = useCallback((value: string | null) => {
     setContentType(normalizeContentType(value, DEFAULT_CONTENT_TYPE));
@@ -179,10 +215,14 @@ export default function TeamBuilder({
       order: number;
     }> = [];
     const newNotes: string[] = Array(GRID_SIZE).fill('');
-    const usedNames = new Set<string>();
+    const usedKeys = new Set<string>();
 
     for (const member of data.members) {
-      if (usedNames.has(member.character_name)) continue;
+      const characterKey = getCharacterKeyFromReference(
+        member.character_name,
+        member.character_quality
+      );
+      if (usedKeys.has(characterKey)) continue;
 
       let idx: number;
       if (member.position) {
@@ -190,9 +230,10 @@ export default function TeamBuilder({
       } else {
         idx = newSlots.findIndex((slotValue) => slotValue === null);
       }
+
       if (idx >= 0 && idx < GRID_SIZE && newSlots[idx] === null) {
-        newSlots[idx] = member.character_name;
-        usedNames.add(member.character_name);
+        newSlots[idx] = characterKey;
+        usedKeys.add(characterKey);
         if (member.overdrive_order != null) {
           parsedOverdriveEntries.push({
             slotIndex: idx,
@@ -208,18 +249,27 @@ export default function TeamBuilder({
       .map((entry) => entry.slotIndex)
       .slice(0, MAX_ROSTER_SIZE);
 
-    const normalizedBench = (data.bench || []).filter(
-      (benchName, index, arr) => {
-        if (typeof benchName !== 'string') return false;
-        if (usedNames.has(benchName)) return false;
-        return arr.indexOf(benchName) === index;
-      }
-    );
-
+    const seenBenchKeys = new Set<string>();
+    const normalizedBench = (data.bench || [])
+      .map((benchName) =>
+        typeof benchName === 'string'
+          ? getCharacterKeyFromReference(benchName)
+          : ''
+      )
+      .filter((benchKey) => {
+        if (!benchKey) return false;
+        if (usedKeys.has(benchKey)) return false;
+        if (seenBenchKeys.has(benchKey)) return false;
+        seenBenchKeys.add(benchKey);
+        return true;
+      });
     const normalizedBenchSet = new Set(normalizedBench);
     const normalizedBenchNotes: Record<string, string> = Object.fromEntries(
       Object.entries(data.bench_notes || {})
-        .map(([benchName, note]) => [benchName, normalizeNote(note)] as const)
+        .map(([benchName, note]) => {
+          const benchKey = getCharacterKeyFromReference(benchName);
+          return [benchKey, normalizeNote(note)] as const;
+        })
         .filter((entry): entry is readonly [string, string] => {
           const [benchName, note] = entry;
           return normalizedBenchSet.has(benchName) && Boolean(note);
@@ -327,6 +377,25 @@ export default function TeamBuilder({
   const teamSize = teamNames.size;
 
   const json = (() => {
+    const toCharacterReference = (
+      characterKey: string
+    ): {
+      character_name: string;
+      character_quality?: Quality;
+    } => {
+      const character = getCharacterFromKey(characterKey);
+      const characterName = character?.name ?? characterKey;
+      const isMultiQualityName =
+        (characterNameCounts.get(getCharacterBaseSlug(characterName)) ?? 1) > 1;
+
+      return {
+        character_name: characterName,
+        ...(isMultiQualityName && character?.quality
+          ? { character_quality: character.quality }
+          : {}),
+      };
+    };
+
     const members: TeamMember[] = [];
     let overdriveOrder = 1;
 
@@ -335,7 +404,7 @@ export default function TeamBuilder({
       const n = slots[slotIndex];
       if (n) {
         members.push({
-          character_name: n,
+          ...toCharacterReference(n),
           overdrive_order: overdriveOrder++,
           position: { row: Math.floor(slotIndex / 3), col: slotIndex % 3 },
           ...(slotNotes[slotIndex].trim()
@@ -350,7 +419,7 @@ export default function TeamBuilder({
       const n = slots[i];
       if (n && !overdriveOrderBySlot.has(i)) {
         members.push({
-          character_name: n,
+          ...toCharacterReference(n),
           overdrive_order: null,
           position: { row: Math.floor(i / 3), col: i % 3 },
           ...(slotNotes[i].trim() ? { note: slotNotes[i].trim() } : {}),
@@ -369,16 +438,26 @@ export default function TeamBuilder({
     };
 
     if (bench.length > 0) {
-      result.bench = bench;
+      result.bench = bench.map((characterKey) => {
+        const character = getCharacterFromKey(characterKey);
+        return character?.name ?? characterKey;
+      });
     }
 
     const normalizedBenchNotes = Object.fromEntries(
       Object.entries(benchNotes).filter(
-        ([name, note]) => bench.includes(name) && note.trim().length > 0
+        ([characterKey, note]) =>
+          bench.includes(characterKey) && note.trim().length > 0
       )
     );
-    if (Object.keys(normalizedBenchNotes).length > 0) {
-      result.bench_notes = normalizedBenchNotes;
+    const normalizedBenchNotesByName = Object.fromEntries(
+      Object.entries(normalizedBenchNotes).map(([characterKey, note]) => {
+        const character = getCharacterFromKey(characterKey);
+        return [character?.name ?? characterKey, note] as const;
+      })
+    );
+    if (Object.keys(normalizedBenchNotesByName).length > 0) {
+      result.bench_notes = normalizedBenchNotesByName;
     }
 
     // Add wyrmspells if any are selected
@@ -407,7 +486,7 @@ export default function TeamBuilder({
   }, [slots, bench]);
 
   const availableCharacters = useMemo(() => {
-    return characters.filter((c) => !usedNames.has(c.name));
+    return characters.filter((c) => !usedNames.has(getCharacterIdentityKey(c)));
   }, [characters, usedNames]);
 
   const breachWyrmspellOptions = useMemo(
@@ -445,7 +524,7 @@ export default function TeamBuilder({
   const synergy = useMemo(() => {
     const roster = slots
       .filter((slotName): slotName is string => Boolean(slotName))
-      .map((slotName) => charMap.get(slotName))
+      .map((slotName) => getCharacterFromKey(slotName))
       .filter((c): c is Character => Boolean(c));
 
     return computeTeamSynergy({
@@ -458,7 +537,7 @@ export default function TeamBuilder({
     });
   }, [
     slots,
-    charMap,
+    getCharacterFromKey,
     faction,
     contentType,
     overdriveSequence,
@@ -505,14 +584,15 @@ export default function TeamBuilder({
   }
 
   function isValidPlacement(charName: string, slotIndex: number): boolean {
-    const char = charMap.get(charName);
+    const char = getCharacterFromKey(charName);
     if (!char) return true;
     const row = Math.floor(slotIndex / 3);
     return getValidRows(char.character_class).includes(row);
   }
 
   function notifyInvalidPlacement(charName: string, slotIndex: number) {
-    const char = charMap.get(charName);
+    const char = getCharacterFromKey(charName);
+    const displayName = char?.name ?? charName;
     const targetRow = Math.floor(slotIndex / 3);
     const targetRowLabel = ROW_LABELS[targetRow] || 'that row';
 
@@ -520,14 +600,14 @@ export default function TeamBuilder({
       id: 'teambuilder-invalid-placement',
       title: 'Invalid slot placement',
       message: char
-        ? `${charName} (${char.character_class}) cannot be placed in ${targetRowLabel}.`
-        : `${charName} cannot be placed in ${targetRowLabel}.`,
+        ? `${displayName} (${char.character_class}) cannot be placed in ${targetRowLabel}.`
+        : `${displayName} cannot be placed in ${targetRowLabel}.`,
       autoClose: 2400,
     });
   }
 
   function findValidEmptySlotForCharacter(charName: string): number {
-    const char = charMap.get(charName);
+    const char = getCharacterFromKey(charName);
     const validRows = char ? getValidRows(char.character_class) : [0, 1, 2];
 
     for (const row of validRows) {
@@ -822,12 +902,13 @@ export default function TeamBuilder({
   function handleAddToNextSlot(charName: string) {
     if (teamSize >= MAX_ROSTER_SIZE) return;
     const targetIdx = findValidEmptySlotForCharacter(charName);
+    const displayName = getCharacterFromKey(charName)?.name ?? charName;
 
     if (targetIdx === -1) {
       showWarningToast({
         id: 'teambuilder-no-valid-slot',
         title: 'No valid slot available',
-        message: `${charName} has no empty valid row right now. Move someone first.`,
+        message: `${displayName} has no empty valid row right now. Move someone first.`,
         autoClose: 2400,
       });
       return;
@@ -921,7 +1002,6 @@ export default function TeamBuilder({
     setBenchNotes({});
     setTeamWyrmspells({});
   }
-
 
   return (
     <DndContext
@@ -1163,7 +1243,7 @@ export default function TeamBuilder({
           slots={slots}
           overdriveOrderBySlot={overdriveOrderBySlot}
           slotNotes={slotNotes}
-          charMap={charMap}
+          charMap={characterByIdentity}
           onOverdriveOrderChange={handleOverdriveOrderChange}
           onRemove={handleRemoveFromTeam}
           onNoteChange={handleSlotNoteChange}
@@ -1176,7 +1256,7 @@ export default function TeamBuilder({
           </Text>
           <BenchPool
             bench={bench}
-            charMap={charMap}
+            charMap={characterByIdentity}
             benchNotes={benchNotes}
             onBenchNoteChange={handleBenchNoteChange}
           />
@@ -1190,11 +1270,14 @@ export default function TeamBuilder({
             >
               {filtered.map((c) => (
                 <DraggableCharCard
-                  key={c.name}
+                  key={getCharacterIdentityKey(c)}
                   name={c.name}
+                  charKey={getCharacterIdentityKey(c)}
                   char={c}
                   size={isMobile ? 56 : undefined}
-                  onClick={() => handleAddToNextSlot(c.name)}
+                  onClick={() =>
+                    handleAddToNextSlot(getCharacterIdentityKey(c))
+                  }
                 />
               ))}
             </AvailablePool>
@@ -1208,8 +1291,8 @@ export default function TeamBuilder({
               {activeId ? (
                 <div style={{ cursor: 'grabbing' }}>
                   <CharacterCard
-                    name={activeId}
-                    quality={charMap.get(activeId)?.quality}
+                    name={getCharacterFromKey(activeId)?.name ?? activeId}
+                    quality={getCharacterFromKey(activeId)?.quality}
                     disableLink
                   />
                 </div>
@@ -1281,7 +1364,6 @@ export default function TeamBuilder({
           closeClearConfirm();
         }}
       />
-
     </DndContext>
   );
 }

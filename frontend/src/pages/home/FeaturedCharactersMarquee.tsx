@@ -17,6 +17,12 @@ import { normalizeContentType } from '../../constants/content-types';
 import { TierListReferenceContext } from '../../contexts/tier-list-reference-context';
 import { useDataFetch } from '../../hooks';
 import type { Character } from '../../types/character';
+import {
+  buildCharacterByIdentityMap,
+  buildPreferredCharacterByNameMap,
+  getCharacterIdentityKey,
+  resolveCharacterByNameAndQuality,
+} from '../../utils/character-route';
 import styles from './FeaturedCharactersMarquee.module.css';
 
 export default function FeaturedCharactersMarquee() {
@@ -46,7 +52,8 @@ export default function FeaturedCharactersMarquee() {
     tierLists.find((t) => t.name === selectedTierListName) ?? tierLists[0];
   if (!tierList) return null;
 
-  const charMap = new Map(characters.map((c) => [c.name, c]));
+  const charMap = buildPreferredCharacterByNameMap(characters);
+  const characterByIdentity = buildCharacterByIdentityMap(characters);
   const topEntries = tierList.entries.filter(
     (e) => e.tier === 'S+' || e.tier === 'S'
   );
@@ -55,10 +62,15 @@ export default function FeaturedCharactersMarquee() {
 
   const renderCharacters = (keyPrefix: string) =>
     topEntries.map((entry) => {
-      const char = charMap.get(entry.character_name);
+      const char = resolveCharacterByNameAndQuality(
+        entry.character_name,
+        entry.character_quality,
+        charMap,
+        characterByIdentity
+      );
       return (
         <Stack
-          key={`${keyPrefix}-${entry.character_name}`}
+          key={`${keyPrefix}-${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
           className={styles.featuredItem}
           gap={2}
           align="center"

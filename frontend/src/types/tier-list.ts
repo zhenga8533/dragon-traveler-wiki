@@ -1,4 +1,5 @@
 import type { ContentType } from '../constants/content-types';
+import type { Quality } from './quality';
 
 export type Tier = string;
 
@@ -9,6 +10,7 @@ export interface TierDefinition {
 
 export interface TierEntry {
   character_name: string;
+  character_quality?: Quality;
   tier: Tier;
   note?: string;
 }

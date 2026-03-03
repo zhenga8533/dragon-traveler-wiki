@@ -1,4 +1,5 @@
 import { normalizeContentType } from '../../../constants/content-types';
+import type { Quality } from '../../../types/quality';
 import type { TierList } from '../../../types/tier-list';
 
 export const INPUT_COMMIT_DELAY_MS = 150;
@@ -7,9 +8,12 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
   return typeof value === 'object' && value !== null;
 }
 
-export function isTierEntryLike(
-  value: unknown
-): value is { character_name: string; tier: string; note?: string } {
+export function isTierEntryLike(value: unknown): value is {
+  character_name: string;
+  character_quality?: Quality;
+  tier: string;
+  note?: string;
+} {
   return (
     isRecord(value) &&
     typeof value.character_name === 'string' &&
@@ -23,7 +27,9 @@ export function normalizeNote(value: unknown): string | undefined {
   return trimmed.length > 0 ? trimmed : undefined;
 }
 
-export function getPastedTierListPatch(value: unknown): Partial<TierList> | null {
+export function getPastedTierListPatch(
+  value: unknown
+): Partial<TierList> | null {
   if (Array.isArray(value)) {
     if (value.every(isTierEntryLike)) {
       return { entries: value };
@@ -47,6 +53,13 @@ export function normalizeTierListFromPartial(
   partial: Partial<TierList>,
   fallback: TierList
 ): TierList {
+  const getEntryIdentity = (entry: {
+    character_name: string;
+    character_quality?: string;
+  }): string => {
+    return `${entry.character_name}__${entry.character_quality ?? ''}`.toLowerCase();
+  };
+
   const normalizedTiers = Array.isArray(partial.tiers)
     ? partial.tiers
         .filter(
@@ -67,11 +80,18 @@ export function normalizeTierListFromPartial(
         const entries: TierList['entries'] = [];
         for (const entry of partial.entries) {
           if (!isTierEntryLike(entry)) continue;
-          if (seenCharacters.has(entry.character_name)) continue;
-          seenCharacters.add(entry.character_name);
+          const identity = getEntryIdentity(entry);
+          if (seenCharacters.has(identity)) continue;
+          seenCharacters.add(identity);
           const normalizedEntryNote = normalizeNote(entry.note);
           entries.push({
             character_name: entry.character_name,
+            ...(typeof entry.character_quality === 'string' &&
+            entry.character_quality.trim().length > 0
+              ? {
+                  character_quality: entry.character_quality.trim() as Quality,
+                }
+              : {}),
             tier: entry.tier,
             ...(normalizedEntryNote ? { note: normalizedEntryNote } : {}),
           });

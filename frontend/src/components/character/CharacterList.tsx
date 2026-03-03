@@ -27,7 +27,14 @@ import {
 import { usePagination } from '../../hooks/use-pagination';
 import { applyDir, useSortState } from '../../hooks/use-sort';
 import type { Character } from '../../types/character';
-import { toEntitySlug } from '../../utils/entity-slug';
+import {
+  buildCharacterByIdentityMap,
+  buildCharacterNameCounts,
+  buildPreferredCharacterByNameMap,
+  getCharacterIdentityKey,
+  getCharacterRoutePath,
+  resolveCharacterByNameAndQuality,
+} from '../../utils/character-route';
 import type { CharacterFilters } from '../../utils/filter-characters';
 import {
   compareCharactersByQualityThenName,
@@ -88,6 +95,21 @@ export default function CharacterList({
     [characters]
   );
 
+  const characterNameCounts = useMemo(
+    () => buildCharacterNameCounts(characters),
+    [characters]
+  );
+
+  const preferredCharacterByName = useMemo(
+    () => buildPreferredCharacterByNameMap(characters),
+    [characters]
+  );
+
+  const characterByIdentity = useMemo(
+    () => buildCharacterByIdentityMap(characters),
+    [characters]
+  );
+
   const tierOptions = useMemo(() => {
     if (!selectedTierListName) return [];
     const list = tierLists.find((l) => l.name === selectedTierListName);
@@ -124,14 +146,31 @@ export default function CharacterList({
     const list = tierLists.find((l) => l.name === selectedTierListName);
     if (!list) return map;
     for (const entry of list.entries) {
-      map.set(entry.character_name, entry.tier);
+      const resolved = resolveCharacterByNameAndQuality(
+        entry.character_name,
+        entry.character_quality,
+        preferredCharacterByName,
+        characterByIdentity
+      );
+      if (resolved) {
+        map.set(getCharacterIdentityKey(resolved), entry.tier);
+      }
     }
     return map;
-  }, [tierLists, selectedTierListName]);
+  }, [
+    tierLists,
+    selectedTierListName,
+    preferredCharacterByName,
+    characterByIdentity,
+  ]);
 
-  const getTierLabel = (name: string) => {
+  const getTierLabel = (character: Character) => {
     if (!selectedTierListName) return undefined;
-    return tierLookup.get(name) ?? 'Unranked';
+    return (
+      tierLookup.get(getCharacterIdentityKey(character)) ??
+      tierLookup.get(character.name) ??
+      'Unranked'
+    );
   };
 
   const filteredAndSorted = useMemo(() => {
@@ -152,8 +191,8 @@ export default function CharacterList({
         } else if (sortCol === 'global') {
           cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
         } else if (sortCol === 'tier') {
-          const tA = tierLookup.get(a.name) ?? 'Unranked';
-          const tB = tierLookup.get(b.name) ?? 'Unranked';
+          const tA = getTierLabel(a) ?? 'Unranked';
+          const tB = getTierLabel(b) ?? 'Unranked';
           const iA = tierRank.get(tA) ?? Number.MAX_SAFE_INTEGER;
           const iB = tierRank.get(tB) ?? Number.MAX_SAFE_INTEGER;
           cmp = iA - iB;
@@ -230,10 +269,11 @@ export default function CharacterList({
           <SimpleGrid cols={cols} spacing={spacing}>
             {pageItems.map((char) => (
               <CharacterCard
-                key={char.name}
+                key={getCharacterIdentityKey(char)}
                 name={char.name}
                 quality={char.quality}
-                tierLabel={getTierLabel(char.name)}
+                tierLabel={getTierLabel(char)}
+                routePath={getCharacterRoutePath(char, characterNameCounts)}
               />
             ))}
           </SimpleGrid>
@@ -289,11 +329,14 @@ export default function CharacterList({
               </Table.Thead>
               <Table.Tbody>
                 {pageItems.map((char) => (
-                  <Table.Tr key={char.name} style={{ cursor: 'pointer' }}>
+                  <Table.Tr
+                    key={getCharacterIdentityKey(char)}
+                    style={{ cursor: 'pointer' }}
+                  >
                     <Table.Td>
                       <UnstyledButton
                         component={Link}
-                        to={`/characters/${toEntitySlug(char.name)}`}
+                        to={getCharacterRoutePath(char, characterNameCounts)}
                       >
                         <Group gap="sm" wrap="nowrap">
                           <CharacterPortrait
@@ -332,7 +375,7 @@ export default function CharacterList({
                     {selectedTierListName && (
                       <Table.Td>
                         {(() => {
-                          const tier = getTierLabel(char.name);
+                          const tier = getTierLabel(char);
                           return tier ? (
                             <TierBadge tier={tier} size="sm" />
                           ) : null;

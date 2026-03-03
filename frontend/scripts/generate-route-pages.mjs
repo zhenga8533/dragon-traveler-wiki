@@ -40,6 +40,17 @@ function toEntitySlug(value) {
     .replace(/^_+|_+$/g, '');
 }
 
+function normalizeQualitySuffix(value) {
+  return String(value ?? '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_+]/g, '')
+    .replace(/^_+|_+$/g, '');
+}
+
 function truncateText(value, maxLength = 240) {
   const text = String(value ?? '')
     .replace(/\s+/g, ' ')
@@ -197,7 +208,12 @@ function buildRouteHtml(
   if (imageUrl) {
     html = replaceFirstMeta(html, 'property', 'og:image', imageUrl);
     html = replaceFirstMeta(html, 'name', 'twitter:image', imageUrl);
-    html = replaceFirstMeta(html, 'name', 'twitter:card', 'summary_large_image');
+    html = replaceFirstMeta(
+      html,
+      'name',
+      'twitter:card',
+      'summary_large_image'
+    );
   } else {
     html = removeMeta(html, 'property', 'og:image');
     html = removeMeta(html, 'name', 'twitter:image');
@@ -360,11 +376,45 @@ function writeRoutePages() {
     }
 
     const items = readJsonArray(config.file);
+    const characterNameCounts =
+      config.pattern === '/characters/:name'
+        ? (() => {
+            const counts = new Map();
+            for (const item of items) {
+              const baseSlug = toEntitySlug(config.getName(item));
+              if (!baseSlug) continue;
+              counts.set(baseSlug, (counts.get(baseSlug) ?? 0) + 1);
+            }
+            return counts;
+          })()
+        : null;
+    const characterBasePagesWritten = new Set();
+
     for (const item of items) {
       const name = config.getName(item);
-      const slug = toEntitySlug(name);
-      if (!slug) {
+      const baseSlug = toEntitySlug(name);
+      if (!baseSlug) {
         continue;
+      }
+
+      let slug = baseSlug;
+      if (config.pattern === '/characters/:name') {
+        const hasMultipleRarities =
+          (characterNameCounts?.get(baseSlug) ?? 0) > 1;
+        if (hasMultipleRarities) {
+          const qualitySuffix = normalizeQualitySuffix(item?.quality);
+          slug = qualitySuffix ? `${baseSlug}_${qualitySuffix}` : baseSlug;
+
+          if (!characterBasePagesWritten.has(baseSlug)) {
+            characterBasePagesWritten.add(baseSlug);
+            writePage(`/characters/${baseSlug}`, {
+              title: String(name ?? baseMeta.title),
+              description: truncateText(
+                `${name ?? 'Character'} has multiple rarities. Open this page to choose a rarity-specific build and detail page.`
+              ),
+            });
+          }
+        }
       }
 
       const routePath = config.pattern.replace(/:[^/]+$/, slug);

@@ -15,7 +15,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IoCreate, IoFilter } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterCard from '../components/character/CharacterCard';
@@ -46,7 +46,15 @@ import { useDataFetch } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
-import { toEntitySlug } from '../utils/entity-slug';
+import {
+  buildCharacterByIdentityMap,
+  buildCharacterNameCounts,
+  buildPreferredCharacterByNameMap,
+  getCharacterIdentityKey,
+  getCharacterRoutePath,
+  getCharacterRoutePathByName,
+  resolveCharacterByNameAndQuality,
+} from '../utils/character-route';
 import { sortCharactersByQuality } from '../utils/filter-characters';
 
 export default function TierList() {
@@ -83,11 +91,31 @@ export default function TierList() {
   const loading = loadingTiers || loadingChars;
   const error = tierListsError || charactersError;
 
-  const charMap = useMemo(() => {
-    const map = new Map<string, Character>();
-    for (const c of characters) map.set(c.name, c);
-    return map;
+  const preferredCharacterByName = useMemo(() => {
+    return buildPreferredCharacterByNameMap(characters);
   }, [characters]);
+
+  const characterByIdentity = useMemo(() => {
+    return buildCharacterByIdentityMap(characters);
+  }, [characters]);
+
+  const charMap = preferredCharacterByName;
+
+  const characterNameCounts = useMemo(
+    () => buildCharacterNameCounts(characters),
+    [characters]
+  );
+
+  const resolveTierEntryCharacter = useCallback(
+    (entry: TierListType['entries'][number]) =>
+      resolveCharacterByNameAndQuality(
+        entry.character_name,
+        entry.character_quality,
+        preferredCharacterByName,
+        characterByIdentity
+      ),
+    [preferredCharacterByName, characterByIdentity]
+  );
 
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
 
@@ -313,10 +341,20 @@ export default function TierList() {
                         .filter((g) => g.entries.length > 0);
 
                       const rankedNames = new Set(
-                        tierList.entries.map((e) => e.character_name)
+                        tierList.entries.map((e) => {
+                          const resolved = resolveTierEntryCharacter(e);
+                          return resolved
+                            ? getCharacterIdentityKey(resolved)
+                            : getCharacterIdentityKey(
+                                e.character_name,
+                                e.character_quality
+                              );
+                        })
                       );
                       const unranked = sortCharactersByQuality(
-                        characters.filter((c) => !rankedNames.has(c.name))
+                        characters.filter(
+                          (c) => !rankedNames.has(getCharacterIdentityKey(c))
+                        )
                       );
 
                       return (
@@ -407,16 +445,27 @@ export default function TierList() {
                                           spacing={CHARACTER_GRID_SPACING}
                                         >
                                           {entries.map((entry) => {
-                                            const char = charMap.get(
-                                              entry.character_name
-                                            );
+                                            const char =
+                                              resolveTierEntryCharacter(entry);
+                                            const routePath = char
+                                              ? getCharacterRoutePath(
+                                                  char,
+                                                  characterNameCounts
+                                                )
+                                              : getCharacterRoutePathByName(
+                                                  entry.character_name
+                                                );
                                             const entryNote =
                                               entry.note?.trim() || undefined;
                                             return (
                                               <CharacterCard
-                                                key={entry.character_name}
-                                                name={entry.character_name}
+                                                key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
+                                                name={
+                                                  char?.name ??
+                                                  entry.character_name
+                                                }
                                                 quality={char?.quality}
+                                                routePath={routePath}
                                                 note={entryNote}
                                                 noteIconVariant="builder"
                                               />
@@ -445,14 +494,23 @@ export default function TierList() {
                                             </Table.Thead>
                                             <Table.Tbody>
                                               {entries.map((entry) => {
-                                                const char = charMap.get(
-                                                  entry.character_name
-                                                );
+                                                const char =
+                                                  resolveTierEntryCharacter(
+                                                    entry
+                                                  );
+                                                const routePath = char
+                                                  ? getCharacterRoutePath(
+                                                      char,
+                                                      characterNameCounts
+                                                    )
+                                                  : getCharacterRoutePathByName(
+                                                      entry.character_name
+                                                    );
                                                 const entryNote =
                                                   entry.note?.trim() || '';
                                                 return (
                                                   <Table.Tr
-                                                    key={entry.character_name}
+                                                    key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
                                                   >
                                                     <Table.Td>
                                                       <Group
@@ -467,15 +525,17 @@ export default function TierList() {
                                                           quality={
                                                             char?.quality
                                                           }
+                                                          routePath={routePath}
                                                         />
                                                         <Text
                                                           component={Link}
-                                                          to={`/characters/${toEntitySlug(entry.character_name)}`}
+                                                          to={routePath}
                                                           size="sm"
                                                           fw={500}
                                                           c="violet"
                                                         >
-                                                          {entry.character_name}
+                                                          {char?.name ??
+                                                            entry.character_name}
                                                         </Text>
                                                       </Group>
                                                     </Table.Td>
@@ -584,9 +644,13 @@ export default function TierList() {
                                     >
                                       {unranked.map((c) => (
                                         <CharacterCard
-                                          key={c.name}
+                                          key={getCharacterIdentityKey(c)}
                                           name={c.name}
                                           quality={c.quality}
+                                          routePath={getCharacterRoutePath(
+                                            c,
+                                            characterNameCounts
+                                          )}
                                         />
                                       ))}
                                     </SimpleGrid>
@@ -611,7 +675,9 @@ export default function TierList() {
                                         </Table.Thead>
                                         <Table.Tbody>
                                           {unranked.map((c) => (
-                                            <Table.Tr key={c.name}>
+                                            <Table.Tr
+                                              key={getCharacterIdentityKey(c)}
+                                            >
                                               <Table.Td>
                                                 <Group gap="sm" wrap="nowrap">
                                                   <CharacterPortrait
@@ -621,7 +687,10 @@ export default function TierList() {
                                                   />
                                                   <Text
                                                     component={Link}
-                                                    to={`/characters/${toEntitySlug(c.name)}`}
+                                                    to={getCharacterRoutePath(
+                                                      c,
+                                                      characterNameCounts
+                                                    )}
                                                     size="sm"
                                                     fw={500}
                                                     c="violet"

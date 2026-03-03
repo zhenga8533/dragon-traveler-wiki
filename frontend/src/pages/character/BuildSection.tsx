@@ -15,6 +15,7 @@ import {
 import { RiDoubleQuotesL } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
+import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 import GearTypeTag from '../../components/common/GearTypeTag';
 import QualityBadge from '../../components/common/QualityBadge';
 import RichText from '../../components/common/RichText';
@@ -34,11 +35,11 @@ import type { StatusEffect } from '../../types/status-effect';
 import type { Team } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
 import CharacterReferenceSection from './CharacterReferenceSection.tsx';
-import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 
 interface CharacterPageBuildSectionProps {
   character: Character;
   teams: Team[];
+  enableNameBasedReferences?: boolean;
   selectedTierListName: string;
   tierLabel: string | null;
   tierListCharacterNote: string | null;
@@ -54,6 +55,7 @@ interface CharacterPageBuildSectionProps {
 export default function CharacterPageBuildSection({
   character,
   teams,
+  enableNameBasedReferences = true,
   selectedTierListName,
   tierLabel,
   tierListCharacterNote,
@@ -209,6 +211,7 @@ export default function CharacterPageBuildSection({
       <CharacterReferenceSection
         character={character}
         teams={teams}
+        enableNameBasedReferences={enableNameBasedReferences}
         selectedTierListName={selectedTierListName}
         tierLabel={tierLabel}
         tierListCharacterNote={tierListCharacterNote}

@@ -55,13 +55,19 @@ import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
 import type { Wyrmspell } from '../types/wyrmspell';
+import {
+  buildCharacterByIdentityMap,
+  buildPreferredCharacterByNameMap,
+  resolveCharacterByNameAndQuality,
+} from '../utils/character-route';
 import { toEntitySlug } from '../utils/entity-slug';
 
 const TEAMS_PER_PAGE = 12;
 
 function TeamCharacterAvatars({
-  names,
-  charMap,
+  refs,
+  preferredByName,
+  byIdentity,
   size,
   isSubstitute = false,
   layout = 'wrap',
@@ -70,8 +76,9 @@ function TeamCharacterAvatars({
   wrap = 'wrap',
   maxVisible,
 }: {
-  names: string[];
-  charMap: Map<string, Character>;
+  refs: Array<{ name: string; quality?: string }>;
+  preferredByName: Map<string, Character>;
+  byIdentity: Map<string, Character>;
   size: number;
   isSubstitute?: boolean;
   layout?: 'wrap' | 'grid';
@@ -82,20 +89,26 @@ function TeamCharacterAvatars({
 }) {
   const visibleNames =
     typeof maxVisible === 'number' && maxVisible >= 0
-      ? names.slice(0, maxVisible)
-      : names;
-  const hiddenCount = names.length - visibleNames.length;
+      ? refs.slice(0, maxVisible)
+      : refs;
+  const hiddenCount = refs.length - visibleNames.length;
 
-  const portraits = visibleNames.map((name) => {
-    const char = charMap.get(name);
+  const portraits = visibleNames.map((entry) => {
+    const char = resolveCharacterByNameAndQuality(
+      entry.name,
+      entry.quality,
+      preferredByName,
+      byIdentity
+    );
+    const displayName = char?.name ?? entry.name;
     return (
       <CharacterPortrait
-        key={`${isSubstitute ? 'sub' : 'main'}-${name}`}
-        name={name}
+        key={`${isSubstitute ? 'sub' : 'main'}-${entry.name}-${entry.quality ?? ''}`}
+        name={displayName}
         size={size}
         quality={char?.quality}
         isSubstitute={isSubstitute}
-        tooltip={isSubstitute ? `${name} (Sub)` : name}
+        tooltip={isSubstitute ? `${displayName} (Sub)` : displayName}
       />
     );
   });
@@ -208,9 +221,11 @@ export default function Teams() {
   }, [location.state, navigate, location.pathname]);
 
   const charMap = useMemo(() => {
-    const map = new Map<string, Character>();
-    for (const c of characters) map.set(c.name, c);
-    return map;
+    return buildPreferredCharacterByNameMap(characters);
+  }, [characters]);
+
+  const characterByIdentity = useMemo(() => {
+    return buildCharacterByIdentityMap(characters);
   }, [characters]);
 
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
@@ -552,10 +567,12 @@ export default function Teams() {
                                       Main {team.members.length}
                                     </Badge>
                                     <TeamCharacterAvatars
-                                      names={team.members.map(
-                                        (member) => member.character_name
-                                      )}
-                                      charMap={charMap}
+                                      refs={team.members.map((member) => ({
+                                        name: member.character_name,
+                                        quality: member.character_quality,
+                                      }))}
+                                      preferredByName={charMap}
+                                      byIdentity={characterByIdentity}
                                       size={isLargeTeamCardLayout ? 64 : 56}
                                       layout="wrap"
                                       gap={isLargeTeamCardLayout ? 6 : 4}
@@ -587,8 +604,11 @@ export default function Teams() {
                                           Subs {team.bench!.length}
                                         </Badge>
                                         <TeamCharacterAvatars
-                                          names={team.bench!}
-                                          charMap={charMap}
+                                          refs={team.bench!.map((name) => ({
+                                            name,
+                                          }))}
+                                          preferredByName={charMap}
+                                          byIdentity={characterByIdentity}
                                           size={isLargeTeamCardLayout ? 52 : 44}
                                           isSubstitute
                                           layout="wrap"
@@ -689,10 +709,12 @@ export default function Teams() {
                                         Main
                                       </Badge>
                                       <TeamCharacterAvatars
-                                        names={team.members.map(
-                                          (member) => member.character_name
-                                        )}
-                                        charMap={charMap}
+                                        refs={team.members.map((member) => ({
+                                          name: member.character_name,
+                                          quality: member.character_quality,
+                                        }))}
+                                        preferredByName={charMap}
+                                        byIdentity={characterByIdentity}
                                         size={32}
                                         maxVisible={5}
                                       />
@@ -717,8 +739,11 @@ export default function Teams() {
                                             Subs
                                           </Badge>
                                           <TeamCharacterAvatars
-                                            names={team.bench!}
-                                            charMap={charMap}
+                                            refs={team.bench!.map((name) => ({
+                                              name,
+                                            }))}
+                                            preferredByName={charMap}
+                                            byIdentity={characterByIdentity}
                                             size={32}
                                             isSubstitute
                                             maxVisible={5}

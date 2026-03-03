@@ -22,6 +22,7 @@ import argparse
 import json
 import subprocess
 import time
+from collections.abc import Callable
 from pathlib import Path
 
 from .sort_keys import FILE_SORT_KEY
@@ -29,16 +30,32 @@ from .sort_keys import FILE_SORT_KEY
 ROOT_DIR = Path(__file__).resolve().parent.parent
 DATA_DIR = ROOT_DIR / "data"
 
-# Identity key used to match entries across current vs. committed versions.
-IDENTITY_KEY: dict[str, str] = {
+# Identity selector used to match entries across current vs. committed versions.
+IdentitySelector = str | Callable[[dict], str | None]
+
+
+def _character_identity(entry: dict) -> str | None:
+    name = entry.get("name")
+    quality = entry.get("quality")
+    if name is None or quality is None:
+        return None
+    return f"{name}__{quality}"
+
+
+IDENTITY_KEY: dict[str, IdentitySelector] = {
     "changelog.json": "version",
     "codes.json": "code",
+    "characters.json": _character_identity,
 }
 _DEFAULT_IDENTITY = "name"
 
 
-def _identity_key(filename: str) -> str:
-    return IDENTITY_KEY.get(filename, _DEFAULT_IDENTITY)
+def _identity_value(filename: str, entry: dict) -> str | None:
+    selector = IDENTITY_KEY.get(filename, _DEFAULT_IDENTITY)
+    if isinstance(selector, str):
+        identity = entry.get(selector)
+        return str(identity) if identity is not None else None
+    return selector(entry)
 
 
 _META_KEYS = {"last_updated"}
@@ -112,12 +129,11 @@ def _load_committed(filename: str) -> dict[str, dict]:
     except json.JSONDecodeError:
         return {}
 
-    key = _identity_key(filename)
     committed: dict[str, dict] = {}
     for entry in entries:
         if not isinstance(entry, dict):
             continue
-        identity = entry.get(key)
+        identity = _identity_value(filename, entry)
         if identity is None:
             continue
         committed[identity] = entry
@@ -161,13 +177,11 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
     if should_timestamp:
         result["timestamped"] = True
         committed = _load_committed(filename)
-        id_key = _identity_key(filename)
-
         for entry in entries:
             if not isinstance(entry, dict):
                 continue
 
-            identity = entry.get(id_key)
+            identity = _identity_value(filename, entry)
             committed_entry = committed.get(identity) if identity is not None else None
 
             if committed_entry is None:
@@ -187,7 +201,7 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
         for entry in entries:
             if not isinstance(entry, dict):
                 continue
-            identity = entry.get(id_key)
+            identity = _identity_value(filename, entry)
             if identity is not None:
                 current_identities.add(identity)
 
@@ -198,15 +212,19 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
             if identity not in changes_data:
                 # Was in committed but never tracked — initialise with removal
                 changes_data[identity] = {
-                    "added": committed[identity].get("last_updated", now)
-                    if identity in committed
-                    else now,
+                    "added": (
+                        committed[identity].get("last_updated", now)
+                        if identity in committed
+                        else now
+                    ),
                     "changes": [{"timestamp": now, "type": "removed"}],
                 }
             else:
                 # Already tracked — only record removal if not already removed
                 prev_changes = changes_data[identity]["changes"]
-                already_removed = prev_changes and prev_changes[-1].get("type") == "removed"
+                already_removed = (
+                    prev_changes and prev_changes[-1].get("type") == "removed"
+                )
                 if not already_removed:
                     prev_changes.append({"timestamp": now, "type": "removed"})
 
@@ -214,7 +232,7 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
         for entry in entries:
             if not isinstance(entry, dict):
                 continue
-            identity = entry.get(id_key)
+            identity = _identity_value(filename, entry)
             if identity is None:
                 continue
 

@@ -43,6 +43,10 @@ import { normalizeContentType } from '../../constants/content-types';
 import { TRANSITION } from '../../constants/ui';
 import { SearchDataContext } from '../../contexts';
 import { isCodeActive } from '../../utils';
+import {
+  buildCharacterNameCounts,
+  getCharacterRoutePath,
+} from '../../utils/character-route';
 import { toEntitySlug } from '../../utils/entity-slug';
 import CharacterPortrait from '../character/CharacterPortrait';
 
@@ -208,6 +212,11 @@ export default function SearchModal({
 
   const searchShortcutHint = 'Search (/)';
 
+  const characterNameCounts = useMemo(
+    () => buildCharacterNameCounts(characters),
+    [characters]
+  );
+
   useHotkeys(
     enableHotkeys
       ? [
@@ -245,7 +254,7 @@ export default function SearchModal({
           type: 'character' as const,
           title: r.item.name,
           subtitle: `${r.item.quality} ${r.item.character_class}`,
-          path: `/characters/${toEntitySlug(r.item.name)}`,
+          path: getCharacterRoutePath(r.item, characterNameCounts),
           icon: IoPersonOutline,
           color: 'blue',
         }))
@@ -700,6 +709,7 @@ export default function SearchModal({
                               name={result.title}
                               size={36}
                               borderWidth={0}
+                              routePath={result.path}
                             />
                           ) : typeof result.icon === 'string' ? (
                             <img

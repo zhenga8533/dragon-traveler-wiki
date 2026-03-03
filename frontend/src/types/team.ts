@@ -1,5 +1,6 @@
 import type { ContentType } from '../constants/content-types';
 import type { FactionName } from './faction';
+import type { Quality } from './quality';
 
 export interface TeamMemberPosition {
   row: number; // 0 = Front, 1 = Middle, 2 = Back
@@ -8,6 +9,7 @@ export interface TeamMemberPosition {
 
 export interface TeamMember {
   character_name: string;
+  character_quality?: Quality;
   overdrive_order: number | null;
   note?: string;
   position?: TeamMemberPosition;

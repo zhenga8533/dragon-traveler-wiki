@@ -2,6 +2,7 @@ import { QUALITY_ORDER } from '../constants/colors';
 import type { Character, CharacterClass } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Quality } from '../types/quality';
+import { getCharacterIdentityKey } from './character-route';
 import { parseEffectRefs } from './parse-effect-refs';
 
 export interface CharacterFilters {
@@ -56,7 +57,10 @@ export function filterCharacters(
       return false;
     }
     if (filters.tiers.length > 0 && tierLookup) {
-      const tier = tierLookup.get(c.name) ?? 'Unranked';
+      const tier =
+        tierLookup.get(getCharacterIdentityKey(c)) ??
+        tierLookup.get(c.name) ??
+        'Unranked';
       if (!filters.tiers.includes(tier)) {
         return false;
       }

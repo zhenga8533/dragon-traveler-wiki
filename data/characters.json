@@ -5411,6 +5411,94 @@
     "last_updated": 1771870646
   },
   {
+    "name": "Siegfried",
+    "title": "Hero Queen",
+    "quality": "SSR",
+    "character_class": "Warrior",
+    "factions": [
+      "Elemental Echo",
+      "Wild Spirit"
+    ],
+    "is_global": true,
+    "subclasses": [
+      "Fighter",
+      "Gladiator",
+      "Champion",
+      "Vanguard",
+      "Berserker",
+      "Sword Master"
+    ],
+    "height": "165cm",
+    "weight": "48kg",
+    "origin": "Norse Mythology",
+    "lore": "The only princess of Midham, the \"Kingdom Below the Mountain\", inherits the bloodline of the first hero, Sigurd. She has a straightforward and carefree personality. Having grown up listening to the legends of Sigurd, she also dreams of becoming a hero and protecting the people of Midham.",
+    "quote": "I already know the path ahead.",
+    "talent": {
+      "name": "Blazing Ambition",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "In battle, increases HP by 14%.\nAttack increases by 29% when attacking enemies afflicted with an [Elemental Debuff]."
+        },
+        {
+          "level": 2,
+          "effect": "When entering the [Wild] status, grants allies within a medium circular area [Attack Boost]."
+        },
+        {
+          "level": 3,
+          "effect": "Increases HP by 15%."
+        },
+        {
+          "level": 4,
+          "effect": "After triggering [Elemental Reactions], restores 30% of lost HP."
+        },
+        {
+          "level": 7,
+          "effect": "Life Steal increases by 30% when attacking enemies afflicted with an [Elemental Debuff]."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Blazing Vortex",
+        "type": "Overdrive",
+        "description": "Spins out a sizzling ring of fire, dealing physical damage equal to 150% of Attack to enemies in its path and dealing physical damage equal to 300% of Attack to enemies within a medium circular area at the target location. The ring of fire inflicts [Ignite] on enemies it collides with.",
+        "cooldown": 18
+      },
+      {
+        "name": "Flamecleave",
+        "type": "Ultimate Skill",
+        "description": "Sacrifices 10% of current HP to unleash 3 pillars of fire, dealing physical damage equal to 125% of Attack to enemies within a rectangular area and inflicting [Physical Defense Down].",
+        "cooldown": 16
+      },
+      {
+        "name": "Heroic Aura",
+        "type": "Secret Skill",
+        "description": "Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, Physical Defense and Magic Defense increase by 30%.",
+        "cooldown": 0
+      },
+      {
+        "name": "Indomitable Will",
+        "type": "Special Skill",
+        "description": "While in the [Wild] status, Attack increases by 30%.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Sword Master"
+    ],
+    "last_updated": 1772563593
+  },
+  {
     "name": "Grimnir",
     "title": "Death Seeker",
     "quality": "SR",
@@ -5561,6 +5649,83 @@
     "last_updated": 1771870646
   },
   {
+    "name": "Siegfried",
+    "title": "Armored Princess",
+    "quality": "SR",
+    "character_class": "Warrior",
+    "factions": [
+      "Elemental Echo",
+      "Wild Spirit"
+    ],
+    "is_global": true,
+    "subclasses": [
+      "Fighter",
+      "Gladiator",
+      "Champion",
+      "Vanguard",
+      "Berserker"
+    ],
+    "height": "165cm",
+    "weight": "48kg",
+    "origin": "Norse Mythology",
+    "lore": "The only princess of Midham, the \"Kingdom Below the Mountain\", inherits the bloodline of the first hero, Sigurd. She has a straightforward and carefree personality. Having grown up listening to the legends of Sigurd, she also dreams of becoming a hero and protecting the people of Midham.",
+    "quote": "I will save my kingdom!",
+    "talent": {
+      "name": "Blazing Ambition",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "In battle, increases HP by 12.5%. Attack increases by 26% when attacking enemies afflicted with [Ignite]."
+        },
+        {
+          "level": 2,
+          "effect": "Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, Attack increases by 30%."
+        },
+        {
+          "level": 3,
+          "effect": "Increases HP by 12%."
+        },
+        {
+          "level": 4,
+          "effect": "After triggering [Elemental Reactions], restores 30% of lost HP."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Blazing Vortex",
+        "type": "Overdrive",
+        "description": "Spins in the specified direction, dealing physical damage equal to a maximum of 356% of Attack to each enemy encountered along the way, and afflicting them with [Ignite].",
+        "cooldown": 18
+      },
+      {
+        "name": "Rising Wyrm Strike",
+        "type": "Ultimate Skill",
+        "description": "Unleashes a pillar of fire, dealing physical damage to a single target equal to 265% of Attack.",
+        "cooldown": 7
+      },
+      {
+        "name": "Heroic Aura",
+        "type": "Secret Skill",
+        "description": "In battle, increases Physical Defense and Magic Defense by 13%.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Berserker"
+    ],
+    "last_updated": 1772563593
+  },
+  {
     "name": "Goblin Battering Ram",
     "title": "",
     "quality": "R",
@@ -5624,6 +5789,73 @@
     },
     "recommended_subclasses": [],
     "last_updated": 1771870646
+  },
+  {
+    "name": "Siegfried",
+    "title": "Armored Princess",
+    "quality": "R",
+    "character_class": "Warrior",
+    "factions": [
+      "Elemental Echo",
+      "Wild Spirit"
+    ],
+    "is_global": true,
+    "subclasses": [
+      "Fighter",
+      "Gladiator",
+      "Champion",
+      "Vanguard",
+      "Berserker"
+    ],
+    "height": "165cm",
+    "weight": "48kg",
+    "origin": "Norse Mythology",
+    "lore": "The only princess of Midham, the \"Kingdom Below the Mountain\", inherits the bloodline of the first hero, Sigurd. She has a straightforward and carefree personality. Having grown up listening to the legends of Sigurd, she also dreams of becoming a hero and protecting the people of Midham.",
+    "quote": "I will save my kingdom!",
+    "talent": {
+      "name": "Blazing Ambition",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "In battle, increases HP by 11%. Attack increases by 23% when attacking enemies afflicted with [Ignite]."
+        },
+        {
+          "level": 2,
+          "effect": "Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, Attack increases by 30%."
+        },
+        {
+          "level": 3,
+          "effect": "Increases HP by 10%."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Blazing Vortex",
+        "type": "Overdrive",
+        "description": "Spins in the specified direction, dealing physical damage equal to a maximum of 326% of Attack to each enemy encountered along the way, and afflicting them with [Ignite].",
+        "cooldown": 18
+      },
+      {
+        "name": "Rising Wyrm Strike",
+        "type": "Ultimate Skill",
+        "description": "Unleashes a pillar of fire, dealing physical damage to a single target equal to 220% of Attack.",
+        "cooldown": 7
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Berserker"
+    ],
+    "last_updated": 1772563593
   },
   {
     "name": "Flame Slime",

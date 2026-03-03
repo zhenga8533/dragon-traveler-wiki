@@ -1,6 +1,7 @@
 import { normalizeContentType } from '../../../constants/content-types';
 import type { CharacterClass } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
+import type { Quality } from '../../../types/quality';
 import type { Team, TeamMember } from '../../../types/team';
 
 export const MAX_ROSTER_SIZE = 6;
@@ -8,7 +9,11 @@ export const GRID_SIZE = 9; // 3×3 grid
 
 export const ROW_COLORS = ['red', 'orange', 'blue'] as const;
 export const ROW_STRIP_LABELS = ['Front', 'Middle', 'Back'] as const;
-export const ROW_LABELS = ['the front row', 'the middle row', 'the back row'] as const;
+export const ROW_LABELS = [
+  'the front row',
+  'the middle row',
+  'the back row',
+] as const;
 export const ROW_CLASS_HINTS = [
   'Guardian · Warrior · Assassin',
   'Warrior · Priest · Mage · Archer · Assassin',
@@ -42,6 +47,13 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
 
 export function isTeamMemberLike(value: unknown): value is TeamMember {
   return isRecord(value) && typeof value.character_name === 'string';
+}
+
+function teamMemberIdentity(member: {
+  character_name: string;
+  character_quality?: string;
+}): string {
+  return `${member.character_name}__${member.character_quality ?? ''}`.toLowerCase();
 }
 
 export function normalizeNote(value: unknown): string | undefined {
@@ -80,8 +92,9 @@ export function normalizeTeamFromPartial(
         const members: TeamMember[] = [];
         for (const member of partial.members) {
           if (!isTeamMemberLike(member)) continue;
-          if (seen.has(member.character_name)) continue;
-          seen.add(member.character_name);
+          const identity = teamMemberIdentity(member);
+          if (seen.has(identity)) continue;
+          seen.add(identity);
 
           const hasValidPosition =
             typeof member.position?.row === 'number' &&
@@ -90,6 +103,12 @@ export function normalizeTeamFromPartial(
 
           members.push({
             character_name: member.character_name,
+            ...(typeof member.character_quality === 'string' &&
+            member.character_quality.trim().length > 0
+              ? {
+                  character_quality: member.character_quality.trim() as Quality,
+                }
+              : {}),
             overdrive_order:
               typeof member.overdrive_order === 'number'
                 ? member.overdrive_order

@@ -267,6 +267,14 @@ def validate_data(label, data, is_update=False):
             for i, entry in enumerate(entries):
                 if not entry.get("character_name"):
                     raise ValueError(f"Entry {i} is missing 'character_name'.")
+                if (
+                    entry.get("character_quality")
+                    and entry["character_quality"] not in VALID_CHARACTER_QUALITIES
+                ):
+                    raise ValueError(
+                        f"Entry {i} has invalid character_quality '{entry['character_quality']}'. "
+                        f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
+                    )
                 if not entry.get("tier"):
                     raise ValueError(f"Entry {i} is missing 'tier'.")
                 if entry["tier"] not in valid_tiers:
@@ -283,6 +291,14 @@ def validate_data(label, data, is_update=False):
             for i, m in enumerate(members):
                 if not m.get("character_name"):
                     raise ValueError(f"Member {i} is missing 'character_name'.")
+                if (
+                    m.get("character_quality")
+                    and m["character_quality"] not in VALID_CHARACTER_QUALITIES
+                ):
+                    raise ValueError(
+                        f"Member {i} has invalid character_quality '{m['character_quality']}'. "
+                        f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
+                    )
 
     if label == "faction" and "recommended_artifacts" in data:
         artifacts = _normalize_string_list(data.get("recommended_artifacts"))
@@ -847,7 +863,9 @@ def normalize_for_json(label, data, is_update=False):
                 if isinstance(t, dict):
                     name = str(t.get("name", "")).strip()
                     if name:
-                        result.append({"name": name, "note": str(t.get("note", "") or "")})
+                        result.append(
+                            {"name": name, "note": str(t.get("note", "") or "")}
+                        )
                 elif isinstance(t, str) and t.strip():
                     result.append({"name": t.strip(), "note": ""})
             return result if result else None
@@ -861,6 +879,7 @@ def normalize_for_json(label, data, is_update=False):
                 "entries": [
                     {
                         "character_name": e.get("character_name", ""),
+                        "character_quality": e.get("character_quality") or None,
                         "tier": e.get("tier", ""),
                         "note": e.get("note", ""),
                     }
@@ -887,6 +906,7 @@ def normalize_for_json(label, data, is_update=False):
             result["entries"] = [
                 {
                     "character_name": e.get("character_name", ""),
+                    "character_quality": e.get("character_quality") or None,
                     "tier": e.get("tier", ""),
                     "note": e.get("note", ""),
                 }
@@ -905,6 +925,7 @@ def normalize_for_json(label, data, is_update=False):
                 "members": [
                     {
                         "character_name": m.get("character_name", ""),
+                        "character_quality": m.get("character_quality") or None,
                         "overdrive_order": _coerce_optional_int(
                             m.get("overdrive_order")
                         ),
@@ -940,6 +961,7 @@ def normalize_for_json(label, data, is_update=False):
             result["members"] = [
                 {
                     "character_name": m.get("character_name", ""),
+                    "character_quality": m.get("character_quality") or None,
                     "overdrive_order": _coerce_optional_int(m.get("overdrive_order")),
                     "substitutes": _split_csv_list(m.get("substitutes", [])),
                     "note": m.get("note", ""),
@@ -990,6 +1012,19 @@ def _get_identity_key(label):
     return "name"
 
 
+def _entry_identity(label, data):
+    """Return a stable identity value for matching existing entries."""
+    if label == "character":
+        name = str(data.get("name", "") or "").strip()
+        quality = str(data.get("quality", "") or "").strip()
+        if not name:
+            return ""
+        return f"{name}__{quality}" if quality else name
+
+    identity_key = _get_identity_key(label)
+    return str(data.get(identity_key, "") or "").strip()
+
+
 def update_json_file(label, data):
     """Upsert normalized data into the corresponding JSON data file."""
     filename = LABEL_JSON_FILE[label]
@@ -1001,11 +1036,11 @@ def update_json_file(label, data):
         existing = json.load(f)
 
     identity_key = _get_identity_key(label)
-    new_value = data.get(identity_key, "")
+    new_value = _entry_identity(label, data)
     matched_index = None
     if new_value:
         for index, item in enumerate(existing):
-            if item.get(identity_key) == new_value:
+            if _entry_identity(label, item) == new_value:
                 matched_index = index
                 break
 

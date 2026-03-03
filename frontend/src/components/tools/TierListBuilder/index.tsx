@@ -37,7 +37,10 @@ import {
   IoSwapVertical,
   IoTrash,
 } from 'react-icons/io5';
-import { DEFAULT_TIER_DEFINITIONS, getTierColor } from '../../../constants/colors';
+import {
+  DEFAULT_TIER_DEFINITIONS,
+  getTierColor,
+} from '../../../constants/colors';
 import {
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
@@ -48,12 +51,14 @@ import {
   GITHUB_REPO_URL,
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../../constants/github';
-import {
-  BREAKPOINTS,
-  STORAGE_KEY,
-} from '../../../constants/ui';
+import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
 import type { TierDefinition, TierList } from '../../../types/tier-list';
+import {
+  buildCharacterNameCounts,
+  getCharacterBaseSlug,
+  getCharacterIdentityKey,
+} from '../../../utils/character-route';
 import {
   cloneRecordArrays,
   removeItemFromRecordArrays,
@@ -77,7 +82,7 @@ import {
 } from './utils';
 
 interface TierPlacements {
-  [tier: string]: string[]; // tier -> ordered array of character names
+  [tier: string]: string[]; // tier -> ordered array of character identity keys
 }
 
 interface TierListBuilderProps {
@@ -119,6 +124,38 @@ export default function TierListBuilder({
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
   const [draftHydrated, setDraftHydrated] = useState(false);
+  const characterNameCounts = useMemo(
+    () => buildCharacterNameCounts(characters),
+    [characters]
+  );
+  const characterByIdentity = useMemo(() => {
+    const map = new Map<string, Character>();
+    for (const character of characters) {
+      map.set(getCharacterIdentityKey(character), character);
+    }
+    return map;
+  }, [characters]);
+
+  const getCharacterFromKey = useCallback(
+    (characterKey: string) =>
+      characterByIdentity.get(characterKey) ?? charMap.get(characterKey),
+    [characterByIdentity, charMap]
+  );
+
+  const getCharacterKeyFromReference = useCallback(
+    (name: string, quality?: string) => {
+      const exactKey = getCharacterIdentityKey(name, quality);
+      if (quality && characterByIdentity.has(exactKey)) {
+        return exactKey;
+      }
+      const preferred = charMap.get(name);
+      if (preferred) return getCharacterIdentityKey(preferred);
+      const first = characters.find((character) => character.name === name);
+      if (first) return getCharacterIdentityKey(first);
+      return exactKey;
+    },
+    [characterByIdentity, charMap, characters]
+  );
   const handleCategoryChange = useCallback((value: string | null) => {
     setCategoryName(normalizeContentType(value, DEFAULT_CONTENT_TYPE));
   }, []);
@@ -162,13 +199,17 @@ export default function TierListBuilder({
     const n: Record<string, string> = {};
     const seenCharacters = new Set<string>();
     for (const entry of data.entries) {
-      if (seenCharacters.has(entry.character_name)) continue;
-      seenCharacters.add(entry.character_name);
+      const characterKey = getCharacterKeyFromReference(
+        entry.character_name,
+        entry.character_quality
+      );
+      if (seenCharacters.has(characterKey)) continue;
+      seenCharacters.add(characterKey);
       if (p[entry.tier] !== undefined) {
-        p[entry.tier].push(entry.character_name);
+        p[entry.tier].push(characterKey);
       }
       const normalizedEntryNote = normalizeNote(entry.note);
-      if (normalizedEntryNote) n[entry.character_name] = normalizedEntryNote;
+      if (normalizedEntryNote) n[characterKey] = normalizedEntryNote;
     }
     setPlacements(p);
     setNotes(n);
@@ -256,11 +297,21 @@ export default function TierListBuilder({
         ...(note ? { note } : {}),
       })),
       entries: tierDefs.flatMap(({ name: tierName }) =>
-        (placements[tierName] || []).map((character_name) => ({
-          character_name,
-          tier: tierName,
-          ...(notes[character_name] ? { note: notes[character_name] } : {}),
-        }))
+        (placements[tierName] || []).map((characterKey) => {
+          const character = getCharacterFromKey(characterKey);
+          const characterName = character?.name ?? characterKey;
+          const isMultiQualityName =
+            (characterNameCounts.get(getCharacterBaseSlug(characterName)) ??
+              1) > 1;
+          return {
+            character_name: characterName,
+            ...(isMultiQualityName && character?.quality
+              ? { character_quality: character.quality }
+              : {}),
+            tier: tierName,
+            ...(notes[characterKey] ? { note: notes[characterKey] } : {}),
+          };
+        })
       ),
       last_updated: 0,
     };
@@ -269,7 +320,7 @@ export default function TierListBuilder({
 
   const unrankedCharacters = useMemo(() => {
     const placed = new Set(Object.values(placements).flat());
-    return characters.filter((c) => !placed.has(c.name));
+    return characters.filter((c) => !placed.has(getCharacterIdentityKey(c)));
   }, [characters, placements]);
 
   const hasAnyPlaced = useMemo(
@@ -302,7 +353,7 @@ export default function TierListBuilder({
 
   function handleDragEnd(event: DragEndEvent) {
     setActiveId(null);
-    const charName = event.active.id as string;
+    const charKey = event.active.id as string;
     const overId = event.over?.id as string | undefined;
 
     if (!overId) return;
@@ -314,13 +365,13 @@ export default function TierListBuilder({
       if (activeTier) {
         setPlacements((prev) => {
           const next = { ...prev };
-          next[activeTier] = next[activeTier].filter((n) => n !== charName);
+          next[activeTier] = next[activeTier].filter((n) => n !== charKey);
           return next;
         });
         setNotes((prev) => {
-          if (!(charName in prev)) return prev;
+          if (!(charKey in prev)) return prev;
           const next = { ...prev };
-          delete next[charName];
+          delete next[charKey];
           return next;
         });
       }
@@ -329,7 +380,7 @@ export default function TierListBuilder({
 
     // Drop on a character (swap within tier or move to new tier)
     if (overId.startsWith('char-')) {
-      const targetCharName = event.over?.data.current?.characterName as
+      const targetCharName = event.over?.data.current?.characterKey as
         | string
         | undefined;
       const targetTier = event.over?.data.current?.tier as string | undefined;
@@ -341,15 +392,15 @@ export default function TierListBuilder({
         if (activeTier) {
           setPlacements((prev) => {
             const next = cloneRecordArrays(prev) as TierPlacements;
-            const activeIndex = next[activeTier].indexOf(charName);
+            const activeIndex = next[activeTier].indexOf(charKey);
             if (activeIndex === -1) return next;
             next[activeTier][activeIndex] = targetCharName;
             return next;
           });
           setNotes((prev) => {
-            if (!(charName in prev)) return prev;
+            if (!(charKey in prev)) return prev;
             const next = { ...prev };
-            delete next[charName];
+            delete next[charKey];
             return next;
           });
         }
@@ -357,7 +408,7 @@ export default function TierListBuilder({
       }
 
       // If dropping on itself, do nothing
-      if (charName === targetCharName) return;
+      if (charKey === targetCharName) return;
 
       setPlacements((prev) => {
         const next = cloneRecordArrays(prev) as TierPlacements;
@@ -365,23 +416,23 @@ export default function TierListBuilder({
         if (targetIndex === -1) return next;
 
         if (activeTier) {
-          const activeIndex = next[activeTier].indexOf(charName);
+          const activeIndex = next[activeTier].indexOf(charKey);
           if (activeIndex === -1) return next;
 
           if (activeTier === targetTier) {
             next[targetTier][activeIndex] = targetCharName;
-            next[targetTier][targetIndex] = charName;
+            next[targetTier][targetIndex] = charKey;
             return next;
           }
 
-          next[activeTier] = next[activeTier].filter((n) => n !== charName);
-          next[targetTier][targetIndex] = charName;
+          next[activeTier] = next[activeTier].filter((n) => n !== charKey);
+          next[targetTier][targetIndex] = charKey;
           next[activeTier].push(targetCharName);
           return next;
         }
 
-        removeItemFromRecordArrays(next, charName);
-        next[targetTier][targetIndex] = charName;
+        removeItemFromRecordArrays(next, charKey);
+        next[targetTier][targetIndex] = charKey;
 
         return next;
       });
@@ -393,9 +444,9 @@ export default function TierListBuilder({
       const tier = overId.replace('tier-', '');
       setPlacements((prev) => {
         const next = cloneRecordArrays(prev) as TierPlacements;
-        removeItemFromRecordArrays(next, charName);
+        removeItemFromRecordArrays(next, charKey);
         if (!next[tier]) next[tier] = [];
-        next[tier].push(charName);
+        next[tier].push(charKey);
         return next;
       });
     }
@@ -406,8 +457,8 @@ export default function TierListBuilder({
       const next: TierPlacements = {};
       for (const { name: tier } of tierDefs) {
         next[tier] = [...(prev[tier] || [])].sort((a, b) => {
-          const charA = charMap.get(a);
-          const charB = charMap.get(b);
+          const charA = getCharacterFromKey(a);
+          const charB = getCharacterFromKey(b);
           if (!charA && !charB) return a.localeCompare(b);
           if (!charA) return 1;
           if (!charB) return -1;
@@ -620,40 +671,44 @@ export default function TierListBuilder({
               isLast={index === tierDefs.length - 1}
               canDelete={tierDefs.length > 1}
             >
-              {names.map((n) => (
-                <Box
-                  key={n}
-                  style={{ position: 'relative', display: 'inline-block' }}
-                >
-                  <DraggableCharCard
-                    name={n}
-                    char={charMap.get(n)}
-                    tier={tier}
-                    size={isMobile ? 56 : undefined}
-                  />
-                  <CharacterNoteButton
-                    value={notes[n] || ''}
-                    onCommit={(value) => {
-                      const normalized = value.trim();
-                      setNotes((prev) => {
-                        const next = { ...prev };
-                        if (normalized.length > 0) {
-                          next[n] = normalized;
-                        } else {
-                          delete next[n];
-                        }
-                        return next;
-                      });
-                    }}
-                    style={{
-                      position: 'absolute',
-                      top: 2,
-                      left: 'calc(50% + 24px)',
-                      transform: 'translateX(-50%)',
-                    }}
-                  />
-                </Box>
-              ))}
+              {names.map((n) => {
+                const character = getCharacterFromKey(n);
+                return (
+                  <Box
+                    key={n}
+                    style={{ position: 'relative', display: 'inline-block' }}
+                  >
+                    <DraggableCharCard
+                      name={character?.name ?? n}
+                      charKey={n}
+                      char={character}
+                      tier={tier}
+                      size={isMobile ? 56 : undefined}
+                    />
+                    <CharacterNoteButton
+                      value={notes[n] || ''}
+                      onCommit={(value) => {
+                        const normalized = value.trim();
+                        setNotes((prev) => {
+                          const next = { ...prev };
+                          if (normalized.length > 0) {
+                            next[n] = normalized;
+                          } else {
+                            delete next[n];
+                          }
+                          return next;
+                        });
+                      }}
+                      style={{
+                        position: 'absolute',
+                        top: 2,
+                        left: 'calc(50% + 24px)',
+                        transform: 'translateX(-50%)',
+                      }}
+                    />
+                  </Box>
+                );
+              })}
             </TierDropZone>
           );
         })}
@@ -701,8 +756,9 @@ export default function TierListBuilder({
             >
               {filtered.map((c) => (
                 <DraggableCharCard
-                  key={c.name}
+                  key={getCharacterIdentityKey(c)}
                   name={c.name}
+                  charKey={getCharacterIdentityKey(c)}
                   char={c}
                   size={isMobile ? 56 : undefined}
                 />
@@ -717,8 +773,9 @@ export default function TierListBuilder({
             <DragOverlay dropAnimation={null}>
               {activeId ? (
                 <DraggableCharCard
-                  name={activeId}
-                  char={charMap.get(activeId)}
+                  name={getCharacterFromKey(activeId)?.name ?? activeId}
+                  charKey={activeId}
+                  char={getCharacterFromKey(activeId)}
                   overlay
                 />
               ) : null}

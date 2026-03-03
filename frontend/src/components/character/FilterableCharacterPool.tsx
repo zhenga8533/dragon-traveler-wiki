@@ -6,6 +6,12 @@ import { getCardHoverProps } from '../../constants/styles';
 import { BREAKPOINTS } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
 import type { Character } from '../../types/character';
+import {
+  buildCharacterByIdentityMap,
+  buildPreferredCharacterByNameMap,
+  getCharacterIdentityKey,
+  resolveCharacterByNameAndQuality,
+} from '../../utils/character-route';
 import type { CharacterFilters } from '../../utils/filter-characters';
 import {
   EMPTY_FILTERS,
@@ -47,6 +53,16 @@ export default function FilterableCharacterPool({
 
   const effectOptions = useMemo(
     () => extractAllEffectRefs(characters),
+    [characters]
+  );
+
+  const preferredCharacterByName = useMemo(
+    () => buildPreferredCharacterByNameMap(characters),
+    [characters]
+  );
+
+  const characterByIdentity = useMemo(
+    () => buildCharacterByIdentityMap(characters),
     [characters]
   );
 
@@ -92,10 +108,23 @@ export default function FilterableCharacterPool({
     const list = tierLists.find((l) => l.name === selectedTierListName);
     if (!list) return map;
     for (const entry of list.entries) {
-      map.set(entry.character_name, entry.tier);
+      const resolved = resolveCharacterByNameAndQuality(
+        entry.character_name,
+        entry.character_quality,
+        preferredCharacterByName,
+        characterByIdentity
+      );
+      if (resolved) {
+        map.set(getCharacterIdentityKey(resolved), entry.tier);
+      }
     }
     return map;
-  }, [tierLists, selectedTierListName]);
+  }, [
+    tierLists,
+    selectedTierListName,
+    preferredCharacterByName,
+    characterByIdentity,
+  ]);
 
   const filtered = useMemo(() => {
     const filteredChars = filterCharacters(

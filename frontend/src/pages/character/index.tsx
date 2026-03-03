@@ -12,6 +12,7 @@ import {
   Skeleton,
   Stack,
   Text,
+  Title,
   Tooltip,
   UnstyledButton,
   useComputedColorScheme,
@@ -19,12 +20,12 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { RiZoomInLine } from 'react-icons/ri';
-import { useNavigate, useParams } from 'react-router-dom';
+import { Link, useNavigate, useParams } from 'react-router-dom';
 import { getPortrait } from '../../assets/character';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../../assets/gear';
 import { getSubclassIcon } from '../../assets/subclass';
-import ClassTag from '../../components/common/ClassTag';
 import ChangeHistory from '../../components/common/ChangeHistory';
+import ClassTag from '../../components/common/ClassTag';
 import DetailPageNavigation from '../../components/common/DetailPageNavigation';
 import EntityNotFound from '../../components/common/EntityNotFound';
 import ErrorBoundary from '../../components/common/ErrorBoundary';
@@ -41,6 +42,7 @@ import {
   useDataFetch,
   useMobileTooltip,
 } from '../../hooks';
+import type { ChangesFile } from '../../types/changes';
 import type {
   ActivatedSetBonus,
   Character,
@@ -51,14 +53,16 @@ import type {
 import type { Gear, GearSet } from '../../types/gear';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
-import type { ChangesFile } from '../../types/changes';
 import type { Subclass } from '../../types/subclass';
 import type { Team } from '../../types/team';
 import {
-  findEntityByParam,
-  shouldRedirectToEntitySlug,
-  toEntitySlug,
-} from '../../utils/entity-slug';
+  buildCharacterNameCounts,
+  buildPreferredCharacterByNameMap,
+  getCharacterIdentityKey,
+  getCharacterRoutePath,
+  getCharacterRouteSlug,
+  resolveCharacterRoute,
+} from '../../utils/character-route';
 import { compareCharactersByQualityThenName } from '../../utils/filter-characters';
 import BuildSection from './BuildSection';
 import HeroSection from './HeroSection';
@@ -142,30 +146,80 @@ export default function CharacterPage() {
     TierListReferenceContext
   );
 
-  const character = useMemo(() => {
-    return findEntityByParam(characters, name, (c) => c.name);
-  }, [characters, name]);
+  const characterNameCounts = useMemo(
+    () => buildCharacterNameCounts(characters),
+    [characters]
+  );
+
+  const preferredCharacterByName = useMemo(
+    () => buildPreferredCharacterByNameMap(characters),
+    [characters]
+  );
+
+  const routeMatch = useMemo(
+    () => resolveCharacterRoute(characters, name, characterNameCounts),
+    [characters, name, characterNameCounts]
+  );
+
+  const character = routeMatch.character;
+  const sameNameVariants = useMemo(
+    () => [...routeMatch.variants].sort(compareCharactersByQualityThenName),
+    [routeMatch.variants]
+  );
 
   useEffect(() => {
-    if (!character || !name) return;
-    if (!shouldRedirectToEntitySlug(name, character.name)) return;
-    navigate(`/characters/${toEntitySlug(character.name)}`, { replace: true });
-  }, [character, name, navigate]);
+    if (!name) return;
+
+    if (character) {
+      const canonicalSlug = getCharacterRouteSlug(
+        character,
+        characterNameCounts
+      );
+      if (routeMatch.incomingSlug === canonicalSlug) return;
+      navigate(`/characters/${canonicalSlug}`, { replace: true });
+      return;
+    }
+
+    if (sameNameVariants.length > 1 && routeMatch.baseSlug) {
+      if (routeMatch.incomingSlug === routeMatch.baseSlug) return;
+      navigate(`/characters/${routeMatch.baseSlug}`, { replace: true });
+    }
+  }, [
+    character,
+    characterNameCounts,
+    name,
+    navigate,
+    routeMatch.baseSlug,
+    routeMatch.incomingSlug,
+    sameNameVariants.length,
+  ]);
 
   const selectedTierList = useMemo(() => {
     if (!selectedTierListName) return null;
     return tierLists.find((list) => list.name === selectedTierListName) ?? null;
   }, [tierLists, selectedTierListName]);
 
+  const isPreferredCharacterForNameReferences = useMemo(() => {
+    if (!character) return false;
+    const preferred = preferredCharacterByName.get(character.name);
+    if (!preferred) return false;
+    return (
+      getCharacterIdentityKey(preferred) === getCharacterIdentityKey(character)
+    );
+  }, [character, preferredCharacterByName]);
+
   const selectedTierListEntry = useMemo(() => {
     if (!selectedTierList || !character) return null;
+    if (!isPreferredCharacterForNameReferences) {
+      return null;
+    }
     return (
       selectedTierList.entries.find(
         (entry) =>
           entry.character_name.toLowerCase() === character.name.toLowerCase()
       ) ?? null
     );
-  }, [selectedTierList, character]);
+  }, [selectedTierList, character, isPreferredCharacterForNameReferences]);
 
   const tierLabel = useMemo(() => {
     if (!selectedTierListName || !selectedTierList || !character) return null;
@@ -190,8 +244,9 @@ export default function CharacterPage() {
 
   const characterIndex = useMemo(() => {
     if (!character) return -1;
+    const identity = getCharacterIdentityKey(character);
     return orderedCharacters.findIndex(
-      (entry) => entry.name.toLowerCase() === character.name.toLowerCase()
+      (entry) => getCharacterIdentityKey(entry) === identity
     );
   }, [orderedCharacters, character]);
 
@@ -201,6 +256,11 @@ export default function CharacterPage() {
     characterIndex >= 0 && characterIndex < orderedCharacters.length - 1
       ? orderedCharacters[characterIndex + 1]
       : null;
+
+  const characterAssetKey = useMemo(() => {
+    if (!character) return undefined;
+    return getCharacterRouteSlug(character, characterNameCounts);
+  }, [character, characterNameCounts]);
 
   const linkedNoblePhantasm = useMemo(() => {
     if (!character?.noble_phantasm) return null;
@@ -358,7 +418,7 @@ export default function CharacterPage() {
     hasMultipleIllustrations,
     showPreviousIllustration,
     showNextIllustration,
-  } = useCharacterAssets(character);
+  } = useCharacterAssets(character, characterAssetKey);
 
   const [previewOpen, setPreviewOpen] = useState(false);
 
@@ -387,6 +447,51 @@ export default function CharacterPage() {
   }
 
   if (!character) {
+    if (sameNameVariants.length > 1 && routeMatch.baseSlug) {
+      return (
+        <Container size="lg" py="xl">
+          <Stack gap="md">
+            <Title order={2}>Choose a {sameNameVariants[0].name} rarity</Title>
+            <Text c="dimmed" size="sm">
+              This character has multiple rarities. Pick one to view detailed
+              skills, builds, and references.
+            </Text>
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+              {sameNameVariants.map((variant) => (
+                <Paper
+                  key={getCharacterIdentityKey(variant)}
+                  withBorder
+                  radius="md"
+                  p="md"
+                >
+                  <Stack gap="xs">
+                    <Group justify="space-between" align="center">
+                      <Text fw={600}>{variant.name}</Text>
+                      <Badge variant="light" color="grape">
+                        {variant.quality}
+                      </Badge>
+                    </Group>
+                    <Text size="sm" c="dimmed" lineClamp={2}>
+                      {variant.title}
+                    </Text>
+                    <Text
+                      component={Link}
+                      to={getCharacterRoutePath(variant, characterNameCounts)}
+                      fw={600}
+                      c="violet"
+                      size="sm"
+                    >
+                      Open details
+                    </Text>
+                  </Stack>
+                </Paper>
+              ))}
+            </SimpleGrid>
+          </Stack>
+        </Container>
+      );
+    }
+
     return (
       <EntityNotFound
         entityType="Character"
@@ -397,7 +502,7 @@ export default function CharacterPage() {
     );
   }
 
-  const portrait = getPortrait(character.name);
+  const portrait = getPortrait(character.name, characterAssetKey);
   const stickyTopOffset =
     'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))';
 
@@ -680,6 +785,9 @@ export default function CharacterPage() {
                 <BuildSection
                   character={character}
                   teams={teams}
+                  enableNameBasedReferences={
+                    isPreferredCharacterForNameReferences
+                  }
                   selectedTierListName={selectedTierListName}
                   tierLabel={tierLabel}
                   tierListCharacterNote={tierListCharacterNote}
@@ -720,14 +828,22 @@ export default function CharacterPage() {
           tooltipProps={tooltipProps}
         />
 
-        <ChangeHistory history={changesData[character.name]} />
+        <ChangeHistory
+          history={
+            changesData[getCharacterIdentityKey(character)] ??
+            changesData[character.name]
+          }
+        />
 
         <DetailPageNavigation
           previousItem={
             previousCharacter
               ? {
                   label: previousCharacter.name,
-                  path: `/characters/${toEntitySlug(previousCharacter.name)}`,
+                  path: getCharacterRoutePath(
+                    previousCharacter,
+                    characterNameCounts
+                  ),
                 }
               : null
           }
@@ -735,7 +851,10 @@ export default function CharacterPage() {
             nextCharacter
               ? {
                   label: nextCharacter.name,
-                  path: `/characters/${toEntitySlug(nextCharacter.name)}`,
+                  path: getCharacterRoutePath(
+                    nextCharacter,
+                    characterNameCounts
+                  ),
                 }
               : null
           }

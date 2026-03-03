@@ -2,6 +2,7 @@ from typing import Literal
 
 from pydantic import BaseModel, field_validator
 
+from backend.models.character import Quality
 from backend.models.faction import FactionName
 
 ContentType = Literal["All", "PvP", "PvE", "Boss"]
@@ -14,6 +15,7 @@ class TeamMemberPosition(BaseModel):
 
 class TeamMember(BaseModel):
     character_name: str
+    character_quality: Quality | None = None
     overdrive_order: int | None = None
     note: str = ""
     position: TeamMemberPosition | None = None

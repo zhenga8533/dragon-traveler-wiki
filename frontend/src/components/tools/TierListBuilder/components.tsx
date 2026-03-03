@@ -13,22 +13,15 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { memo, useEffect, useRef, useState } from 'react';
 import type { CSSProperties } from 'react';
-import {
-  IoChevronDown,
-  IoChevronUp,
-  IoTrash,
-} from 'react-icons/io5';
+import { memo, useEffect, useRef, useState } from 'react';
+import { IoChevronDown, IoChevronUp, IoTrash } from 'react-icons/io5';
 import {
   CONTENT_TYPE_OPTIONS,
   type ContentType,
 } from '../../../constants/content-types';
 import { getCardHoverProps } from '../../../constants/styles';
-import {
-  CHARACTER_GRID_SPACING,
-  TRANSITION,
-} from '../../../constants/ui';
+import { CHARACTER_GRID_SPACING, TRANSITION } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
 import CharacterCard from '../../character/CharacterCard';
 import { INPUT_COMMIT_DELAY_MS } from './utils';
@@ -132,24 +125,27 @@ export const TierListMetaFields = memo(function TierListMetaFields({
 
 export function DraggableCharCard({
   name,
+  charKey,
   char,
   overlay,
   tier,
   size,
 }: {
   name: string;
+  charKey?: string;
   char: Character | undefined;
   overlay?: boolean;
   tier?: string;
   size?: number;
 }) {
+  const dragKey = charKey ?? name;
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-    id: name,
+    id: dragKey,
     data: { tier },
   });
   const { setNodeRef: setDropRef, isOver } = useDroppable({
-    id: `char-${name}`,
-    data: { characterName: name, tier },
+    id: `char-${dragKey}`,
+    data: { characterKey: dragKey, tier },
   });
 
   const style: CSSProperties = overlay
@@ -515,4 +511,3 @@ export function UnrankedPool({
     </Paper>
   );
 }
-

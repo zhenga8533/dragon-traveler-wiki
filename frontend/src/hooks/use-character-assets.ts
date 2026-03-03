@@ -25,7 +25,8 @@ interface UseCharacterAssetsResult {
 }
 
 export function useCharacterAssets(
-  character: Character | null | undefined
+  character: Character | null | undefined,
+  characterAssetKey?: string
 ): UseCharacterAssetsResult {
   const [illustrations, setIllustrations] = useState<CharacterIllustration[]>(
     []
@@ -52,7 +53,7 @@ export function useCharacterAssets(
       setIllustrationsError(null);
     });
 
-    getIllustrations(character.name)
+    getIllustrations(character.name, characterAssetKey)
       .then((imgs) => {
         if (isCancelled) return;
 
@@ -79,7 +80,7 @@ export function useCharacterAssets(
     return () => {
       isCancelled = true;
     };
-  }, [character]);
+  }, [character, characterAssetKey]);
 
   useEffect(() => {
     let isCancelled = false;
@@ -88,7 +89,7 @@ export function useCharacterAssets(
       return;
     }
 
-    getTalentIcon(character.name)
+    getTalentIcon(character.name, characterAssetKey)
       .then((icon) => {
         if (!isCancelled) {
           setTalentIcon(icon);
@@ -104,7 +105,7 @@ export function useCharacterAssets(
     return () => {
       isCancelled = true;
     };
-  }, [character]);
+  }, [character, characterAssetKey]);
 
   useEffect(() => {
     let isCancelled = false;
@@ -120,7 +121,11 @@ export function useCharacterAssets(
           return divineIcon ? [skill.name, divineIcon] : null;
         }
 
-        const icon = await getCharacterSkillIcon(character.name, skill.name);
+        const icon = await getCharacterSkillIcon(
+          character.name,
+          skill.name,
+          characterAssetKey
+        );
         return icon ? [skill.name, icon] : null;
       })
     )
@@ -145,7 +150,7 @@ export function useCharacterAssets(
     return () => {
       isCancelled = true;
     };
-  }, [character]);
+  }, [character, characterAssetKey]);
 
   const activeIllustration = useMemo(
     () => selectedIllustration ?? illustrations[0] ?? null,

@@ -11,7 +11,7 @@ import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { CHARACTER_CARD, TRANSITION } from '../../constants/ui';
 import type { Quality } from '../../types/quality';
-import { toEntitySlug } from '../../utils/entity-slug';
+import { getCharacterRoutePathByName } from '../../utils/character-route';
 import TierBadge from '../common/TierBadge';
 import CharacterPortrait from './CharacterPortrait';
 
@@ -23,6 +23,7 @@ interface CharacterCardProps {
   tierLabel?: string;
   note?: string;
   noteIconVariant?: 'default' | 'builder';
+  routePath?: string;
 }
 
 export default function CharacterCard({
@@ -33,8 +34,10 @@ export default function CharacterCard({
   tierLabel,
   note,
   noteIconVariant = 'default',
+  routePath,
 }: CharacterCardProps) {
-  const [noteOpened, { toggle: toggleNote, close: closeNote }] = useDisclosure(false);
+  const [noteOpened, { toggle: toggleNote, close: closeNote }] =
+    useDisclosure(false);
   const nameColor = disableLink ? 'dimmed' : 'violet';
   const isBuilderNoteVariant = noteIconVariant === 'builder';
 
@@ -45,6 +48,7 @@ export default function CharacterCard({
         size={size}
         quality={quality}
         borderWidth={CHARACTER_CARD.BORDER_WIDTH}
+        routePath={routePath}
       />
       {note && (
         <Popover
@@ -170,7 +174,7 @@ export default function CharacterCard({
   return (
     <UnstyledButton
       component={Link}
-      to={`/characters/${toEntitySlug(name)}`}
+      to={routePath ?? getCharacterRoutePathByName(name)}
       style={{
         borderRadius: 'var(--mantine-radius-md)',
         transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,

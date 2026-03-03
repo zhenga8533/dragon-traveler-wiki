@@ -16,14 +16,9 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { memo, useEffect, useState } from 'react';
 import type { CSSProperties } from 'react';
-import {
-  IoAdd,
-  IoCheckmark,
-  IoClose,
-  IoRemove,
-} from 'react-icons/io5';
+import { memo, useEffect, useState } from 'react';
+import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '../../../assets/faction';
 import { FACTION_NAMES } from '../../../constants/colors';
 import {
@@ -41,8 +36,8 @@ import type { FactionName } from '../../../types/faction';
 import CharacterCard from '../../character/CharacterCard';
 import CharacterNoteButton from '../CharacterNoteButton';
 import {
-  INPUT_COMMIT_DELAY_MS,
   getValidRows,
+  INPUT_COMMIT_DELAY_MS,
   ROW_CLASS_HINTS,
   ROW_COLORS,
   ROW_STRIP_LABELS,
@@ -174,19 +169,22 @@ export const TeamMetaFields = memo(function TeamMetaFields({
 
 export function DraggableCharCard({
   name,
+  charKey,
   char,
   overlay,
   onClick,
   size,
 }: {
   name: string;
+  charKey?: string;
   char: Character | undefined;
   overlay?: boolean;
   onClick?: () => void;
   size?: number;
 }) {
+  const dragKey = charKey ?? name;
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
-    id: name,
+    id: dragKey,
   });
 
   const style: CSSProperties = overlay
@@ -314,7 +312,12 @@ export function SlotCard({
               </ActionIcon>
             </Group>
             <Box style={{ position: 'relative', display: 'inline-block' }}>
-              <DraggableCharCard name={charName} char={char} size={56} />
+              <DraggableCharCard
+                name={char?.name ?? charName}
+                charKey={charName}
+                char={char}
+                size={56}
+              />
               <CharacterNoteButton
                 value={note}
                 onCommit={onNoteChange}
@@ -383,7 +386,11 @@ export function SlotCard({
             )}
             <Stack gap={4} align="center">
               <Box style={{ position: 'relative', display: 'inline-block' }}>
-                <DraggableCharCard name={charName} char={char} />
+                <DraggableCharCard
+                  name={char?.name ?? charName}
+                  charKey={charName}
+                  char={char}
+                />
                 <CharacterNoteButton
                   value={note}
                   onCommit={onNoteChange}
@@ -611,19 +618,21 @@ export function AvailablePool({
 /* ── Bench pool ── */
 
 export function BenchDropItem({
+  charKey,
   name,
   charMap,
   note,
   onNoteChange,
 }: {
+  charKey: string;
   name: string;
   charMap: Map<string, Character>;
   note: string;
-  onNoteChange: (name: string, note: string) => void;
+  onNoteChange: (charKey: string, note: string) => void;
 }) {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { setNodeRef: setItemNodeRef, isOver: isOverItem } = useDroppable({
-    id: `bench-item-${name}`,
+    id: `bench-item-${charKey}`,
   });
 
   return (
@@ -640,12 +649,13 @@ export function BenchDropItem({
         <Box style={{ position: 'relative', display: 'inline-block' }}>
           <DraggableCharCard
             name={name}
-            char={charMap.get(name)}
+            charKey={charKey}
+            char={charMap.get(charKey)}
             size={isMobile ? 56 : undefined}
           />
           <CharacterNoteButton
             value={note}
-            onCommit={(nextNote) => onNoteChange(name, nextNote)}
+            onCommit={(nextNote) => onNoteChange(charKey, nextNote)}
             placeholder="Add note..."
             style={{ position: 'absolute', top: 2, right: 2 }}
           />
@@ -664,7 +674,7 @@ export function BenchPool({
   bench: string[];
   charMap: Map<string, Character>;
   benchNotes: Record<string, string>;
-  onBenchNoteChange: (name: string, note: string) => void;
+  onBenchNoteChange: (charKey: string, note: string) => void;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'bench' });
 
@@ -689,15 +699,19 @@ export function BenchPool({
           style={{ minHeight: 72 }}
         >
           {bench.length > 0 ? (
-            bench.map((name) => (
-              <BenchDropItem
-                key={name}
-                name={name}
-                charMap={charMap}
-                note={benchNotes[name] || ''}
-                onNoteChange={onBenchNoteChange}
-              />
-            ))
+            bench.map((name) => {
+              const char = charMap.get(name);
+              return (
+                <BenchDropItem
+                  key={name}
+                  charKey={name}
+                  name={char?.name ?? name}
+                  charMap={charMap}
+                  note={benchNotes[name] || ''}
+                  onNoteChange={onBenchNoteChange}
+                />
+              );
+            })
           ) : (
             <Box
               style={{
