@@ -1,8 +1,8 @@
 import { normalizeContentType } from '../../../constants/content-types';
 import type { CharacterClass } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
-import type { Quality } from '../../../types/quality';
 import type { Team, TeamMember } from '../../../types/team';
+import { toQuality } from '../../../utils/quality';
 
 export const MAX_ROSTER_SIZE = 6;
 export const GRID_SIZE = 9; // 3×3 grid
@@ -46,12 +46,23 @@ export function isRecord(value: unknown): value is Record<string, unknown> {
 }
 
 export function isTeamMemberLike(value: unknown): value is TeamMember {
-  return isRecord(value) && typeof value.character_name === 'string';
+  if (!isRecord(value) || typeof value.character_name !== 'string') {
+    return false;
+  }
+
+  if (
+    value.character_quality === undefined ||
+    value.character_quality === null
+  ) {
+    return true;
+  }
+
+  return toQuality(value.character_quality) !== undefined;
 }
 
 function teamMemberIdentity(member: {
   character_name: string;
-  character_quality?: string;
+  character_quality?: string | null;
 }): string {
   return `${member.character_name}__${member.character_quality ?? ''}`.toLowerCase();
 }
@@ -100,14 +111,12 @@ export function normalizeTeamFromPartial(
             typeof member.position?.row === 'number' &&
             typeof member.position?.col === 'number';
           const normalizedMemberNote = normalizeNote(member.note);
+          const normalizedQuality = toQuality(member.character_quality);
 
           members.push({
             character_name: member.character_name,
-            ...(typeof member.character_quality === 'string' &&
-            member.character_quality.trim().length > 0
-              ? {
-                  character_quality: member.character_quality.trim() as Quality,
-                }
+            ...(normalizedQuality
+              ? { character_quality: normalizedQuality }
               : {}),
             overdrive_order:
               typeof member.overdrive_order === 'number'
@@ -128,8 +137,15 @@ export function normalizeTeamFromPartial(
       })()
     : fallback.members;
 
+  const normalizedMemberIdentitySet = new Set(
+    normalizedMembers.map((member) => teamMemberIdentity(member))
+  );
+
+  // Bench entries are name-only in the schema, so collapse identities to names here.
   const normalizedMemberNameSet = new Set(
-    normalizedMembers.map((member) => member.character_name)
+    [...normalizedMemberIdentitySet].map(
+      (identity) => identity.split('__', 1)[0]
+    )
   );
 
   const normalizedBench = Array.isArray(partial.bench)

@@ -55,9 +55,12 @@ import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
 import type { TierDefinition, TierList } from '../../../types/tier-list';
 import {
+  buildCharacterByIdentityMap,
   buildCharacterNameCounts,
-  getCharacterBaseSlug,
+  getCharacterByReferenceKey,
   getCharacterIdentityKey,
+  resolveCharacterReferenceKey,
+  toCharacterReferenceFromKey,
 } from '../../../utils/character-route';
 import {
   cloneRecordArrays,
@@ -129,31 +132,24 @@ export default function TierListBuilder({
     [characters]
   );
   const characterByIdentity = useMemo(() => {
-    const map = new Map<string, Character>();
-    for (const character of characters) {
-      map.set(getCharacterIdentityKey(character), character);
-    }
-    return map;
+    return buildCharacterByIdentityMap(characters);
   }, [characters]);
 
   const getCharacterFromKey = useCallback(
     (characterKey: string) =>
-      characterByIdentity.get(characterKey) ?? charMap.get(characterKey),
+      getCharacterByReferenceKey(characterKey, charMap, characterByIdentity),
     [characterByIdentity, charMap]
   );
 
   const getCharacterKeyFromReference = useCallback(
-    (name: string, quality?: string) => {
-      const exactKey = getCharacterIdentityKey(name, quality);
-      if (quality && characterByIdentity.has(exactKey)) {
-        return exactKey;
-      }
-      const preferred = charMap.get(name);
-      if (preferred) return getCharacterIdentityKey(preferred);
-      const first = characters.find((character) => character.name === name);
-      if (first) return getCharacterIdentityKey(first);
-      return exactKey;
-    },
+    (name: string, quality?: string) =>
+      resolveCharacterReferenceKey(
+        name,
+        quality,
+        characters,
+        charMap,
+        characterByIdentity
+      ),
     [characterByIdentity, charMap, characters]
   );
   const handleCategoryChange = useCallback((value: string | null) => {
@@ -297,21 +293,16 @@ export default function TierListBuilder({
         ...(note ? { note } : {}),
       })),
       entries: tierDefs.flatMap(({ name: tierName }) =>
-        (placements[tierName] || []).map((characterKey) => {
-          const character = getCharacterFromKey(characterKey);
-          const characterName = character?.name ?? characterKey;
-          const isMultiQualityName =
-            (characterNameCounts.get(getCharacterBaseSlug(characterName)) ??
-              1) > 1;
-          return {
-            character_name: characterName,
-            ...(isMultiQualityName && character?.quality
-              ? { character_quality: character.quality }
-              : {}),
-            tier: tierName,
-            ...(notes[characterKey] ? { note: notes[characterKey] } : {}),
-          };
-        })
+        (placements[tierName] || []).map((characterKey) => ({
+          ...toCharacterReferenceFromKey(
+            characterKey,
+            charMap,
+            characterByIdentity,
+            characterNameCounts
+          ),
+          tier: tierName,
+          ...(notes[characterKey] ? { note: notes[characterKey] } : {}),
+        }))
       ),
       last_updated: 0,
     };

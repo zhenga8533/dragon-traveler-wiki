@@ -109,6 +109,58 @@ export function buildCharacterByIdentityMap(
   return map;
 }
 
+export function getCharacterByReferenceKey(
+  characterKey: string,
+  preferredByName: Map<string, Character>,
+  byIdentity: Map<string, Character>
+): Character | undefined {
+  return byIdentity.get(characterKey) ?? preferredByName.get(characterKey);
+}
+
+export function resolveCharacterReferenceKey(
+  name: string,
+  quality: string | null | undefined,
+  characters: Character[],
+  preferredByName: Map<string, Character>,
+  byIdentity: Map<string, Character>
+): string {
+  const exactKey = getCharacterIdentityKey(name, quality ?? '');
+  if (quality && byIdentity.has(exactKey)) {
+    return exactKey;
+  }
+
+  const preferred = preferredByName.get(name);
+  if (preferred) return getCharacterIdentityKey(preferred);
+
+  const first = characters.find((character) => character.name === name);
+  if (first) return getCharacterIdentityKey(first);
+
+  return exactKey;
+}
+
+export function toCharacterReferenceFromKey(
+  characterKey: string,
+  preferredByName: Map<string, Character>,
+  byIdentity: Map<string, Character>,
+  nameCounts?: Map<string, number>
+): { character_name: string; character_quality?: Quality } {
+  const character = getCharacterByReferenceKey(
+    characterKey,
+    preferredByName,
+    byIdentity
+  );
+  const characterName = character?.name ?? characterKey;
+  const isMultiQualityName =
+    (nameCounts?.get(getCharacterBaseSlug(characterName)) ?? 1) > 1;
+
+  return {
+    character_name: characterName,
+    ...(isMultiQualityName && character?.quality
+      ? { character_quality: character.quality }
+      : {}),
+  };
+}
+
 export function resolveCharacterByNameAndQuality(
   name: string,
   quality: string | null | undefined,

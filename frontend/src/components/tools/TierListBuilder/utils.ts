@@ -1,6 +1,7 @@
 import { normalizeContentType } from '../../../constants/content-types';
 import type { Quality } from '../../../types/quality';
 import type { TierList } from '../../../types/tier-list';
+import { toQuality } from '../../../utils/quality';
 
 export const INPUT_COMMIT_DELAY_MS = 150;
 
@@ -14,11 +15,23 @@ export function isTierEntryLike(value: unknown): value is {
   tier: string;
   note?: string;
 } {
-  return (
-    isRecord(value) &&
-    typeof value.character_name === 'string' &&
-    typeof value.tier === 'string'
-  );
+  if (!isRecord(value)) return false;
+
+  if (
+    typeof value.character_name !== 'string' ||
+    typeof value.tier !== 'string'
+  ) {
+    return false;
+  }
+
+  if (
+    value.character_quality === undefined ||
+    value.character_quality === null
+  ) {
+    return true;
+  }
+
+  return toQuality(value.character_quality) !== undefined;
 }
 
 export function normalizeNote(value: unknown): string | undefined {
@@ -84,13 +97,11 @@ export function normalizeTierListFromPartial(
           if (seenCharacters.has(identity)) continue;
           seenCharacters.add(identity);
           const normalizedEntryNote = normalizeNote(entry.note);
+          const normalizedQuality = toQuality(entry.character_quality);
           entries.push({
             character_name: entry.character_name,
-            ...(typeof entry.character_quality === 'string' &&
-            entry.character_quality.trim().length > 0
-              ? {
-                  character_quality: entry.character_quality.trim() as Quality,
-                }
+            ...(normalizedQuality
+              ? { character_quality: normalizedQuality }
               : {}),
             tier: entry.tier,
             ...(normalizedEntryNote ? { note: normalizedEntryNote } : {}),

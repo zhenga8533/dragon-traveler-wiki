@@ -55,13 +55,15 @@ import {
 import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
-import type { Quality } from '../../../types/quality';
 import type { Team, TeamMember, TeamWyrmspells } from '../../../types/team';
 import type { Wyrmspell } from '../../../types/wyrmspell';
 import {
+  buildCharacterByIdentityMap,
   buildCharacterNameCounts,
-  getCharacterBaseSlug,
+  getCharacterByReferenceKey,
   getCharacterIdentityKey,
+  resolveCharacterReferenceKey,
+  toCharacterReferenceFromKey,
 } from '../../../utils/character-route';
 import { insertUniqueBefore, removeItem } from '../../../utils/dnd-list';
 import { computeTeamSynergy } from '../../../utils/team-synergy';
@@ -155,31 +157,24 @@ export default function TeamBuilder({
   );
 
   const characterByIdentity = useMemo(() => {
-    const map = new Map<string, Character>();
-    for (const character of characters) {
-      map.set(getCharacterIdentityKey(character), character);
-    }
-    return map;
+    return buildCharacterByIdentityMap(characters);
   }, [characters]);
 
   const getCharacterFromKey = useCallback(
     (characterKey: string) =>
-      characterByIdentity.get(characterKey) ?? charMap.get(characterKey),
+      getCharacterByReferenceKey(characterKey, charMap, characterByIdentity),
     [characterByIdentity, charMap]
   );
 
   const getCharacterKeyFromReference = useCallback(
-    (name: string, quality?: string) => {
-      const exactKey = getCharacterIdentityKey(name, quality);
-      if (quality && characterByIdentity.has(exactKey)) {
-        return exactKey;
-      }
-      const preferred = charMap.get(name);
-      if (preferred) return getCharacterIdentityKey(preferred);
-      const first = characters.find((character) => character.name === name);
-      if (first) return getCharacterIdentityKey(first);
-      return exactKey;
-    },
+    (name: string, quality?: string) =>
+      resolveCharacterReferenceKey(
+        name,
+        quality,
+        characters,
+        charMap,
+        characterByIdentity
+      ),
     [characterByIdentity, charMap, characters]
   );
 
@@ -377,25 +372,6 @@ export default function TeamBuilder({
   const teamSize = teamNames.size;
 
   const json = (() => {
-    const toCharacterReference = (
-      characterKey: string
-    ): {
-      character_name: string;
-      character_quality?: Quality;
-    } => {
-      const character = getCharacterFromKey(characterKey);
-      const characterName = character?.name ?? characterKey;
-      const isMultiQualityName =
-        (characterNameCounts.get(getCharacterBaseSlug(characterName)) ?? 1) > 1;
-
-      return {
-        character_name: characterName,
-        ...(isMultiQualityName && character?.quality
-          ? { character_quality: character.quality }
-          : {}),
-      };
-    };
-
     const members: TeamMember[] = [];
     let overdriveOrder = 1;
 
@@ -404,7 +380,12 @@ export default function TeamBuilder({
       const n = slots[slotIndex];
       if (n) {
         members.push({
-          ...toCharacterReference(n),
+          ...toCharacterReferenceFromKey(
+            n,
+            charMap,
+            characterByIdentity,
+            characterNameCounts
+          ),
           overdrive_order: overdriveOrder++,
           position: { row: Math.floor(slotIndex / 3), col: slotIndex % 3 },
           ...(slotNotes[slotIndex].trim()
@@ -419,7 +400,12 @@ export default function TeamBuilder({
       const n = slots[i];
       if (n && !overdriveOrderBySlot.has(i)) {
         members.push({
-          ...toCharacterReference(n),
+          ...toCharacterReferenceFromKey(
+            n,
+            charMap,
+            characterByIdentity,
+            characterNameCounts
+          ),
           overdrive_order: null,
           position: { row: Math.floor(i / 3), col: i % 3 },
           ...(slotNotes[i].trim() ? { note: slotNotes[i].trim() } : {}),
