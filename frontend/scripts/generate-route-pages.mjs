@@ -197,9 +197,11 @@ function buildRouteHtml(
   if (imageUrl) {
     html = replaceFirstMeta(html, 'property', 'og:image', imageUrl);
     html = replaceFirstMeta(html, 'name', 'twitter:image', imageUrl);
+    html = replaceFirstMeta(html, 'name', 'twitter:card', 'summary_large_image');
   } else {
     html = removeMeta(html, 'property', 'og:image');
     html = removeMeta(html, 'name', 'twitter:image');
+    html = replaceFirstMeta(html, 'name', 'twitter:card', 'summary');
   }
 
   return html;
