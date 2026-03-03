@@ -8,7 +8,6 @@ import {
   Kbd,
   Select,
   Stack,
-  Switch,
   Text,
   ThemeIcon,
   Title,
@@ -22,8 +21,6 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import type { BannerMedia } from '../../components/common/BannerMediaBackground';
-import BannerMediaBackground from '../../components/common/BannerMediaBackground';
 import SearchModal from '../../components/tools/SearchModal';
 import {
   HOME_HERO_META_TEXT_STYLE,
@@ -32,6 +29,7 @@ import {
   HOME_HERO_TITLE_STYLE,
   HOME_HERO_WORDMARK_STYLE,
   getCardHoverProps,
+  getHomeHeroPlaceholderGradient,
 } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
 
@@ -66,17 +64,20 @@ const HOME_HERO_HEADING_PANEL_STYLE = {
   borderRadius: 14,
 };
 
+export interface HomeHeroBannerMedia {
+  src: string;
+  type: 'image' | 'video';
+}
+
 interface HomeHeroSectionProps {
   isDark: boolean;
   bannerLoaded: boolean;
-  selectedBanner: BannerMedia | null;
+  selectedBanner: HomeHeroBannerMedia | null;
   bannerSelectData: Array<{ value: string; label: string }>;
   bannerPreference: string;
   defaultBannerValue: string;
-  carryBannerToOtherRoutes: boolean;
   onBannerLoaded: () => void;
   onBannerPreferenceChange: (value: string) => void;
-  onCarryBannerToOtherRoutesChange: (value: boolean) => void;
 }
 
 export default function HomeHeroSection({
@@ -86,10 +87,8 @@ export default function HomeHeroSection({
   bannerSelectData,
   bannerPreference,
   defaultBannerValue,
-  carryBannerToOtherRoutes,
   onBannerLoaded,
   onBannerPreferenceChange,
-  onCarryBannerToOtherRoutesChange,
 }: HomeHeroSectionProps) {
   const headingPanelStyle = {
     ...HOME_HERO_HEADING_PANEL_STYLE,
@@ -116,13 +115,112 @@ export default function HomeHeroSection({
         overflow: 'hidden',
       }}
     >
-      <BannerMediaBackground
-        isDark={isDark}
-        media={selectedBanner}
-        loaded={bannerLoaded}
-        onLoaded={onBannerLoaded}
-        style={{ top: 0, left: 0, right: 0, height: '100%' }}
-      />
+      <Box
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: '100%',
+          overflow: 'hidden',
+        }}
+      >
+        <Box
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: getHomeHeroPlaceholderGradient(isDark),
+          }}
+        />
+        {selectedBanner?.type === 'video' ? (
+          <video
+            src={selectedBanner.src}
+            autoPlay
+            loop
+            muted
+            playsInline
+            onLoadedData={onBannerLoaded}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center top',
+              opacity: bannerLoaded ? 1 : 0,
+              transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
+            }}
+          />
+        ) : selectedBanner ? (
+          <img
+            src={selectedBanner.src}
+            alt=""
+            fetchPriority="high"
+            onLoad={onBannerLoaded}
+            style={{
+              position: 'absolute',
+              inset: 0,
+              width: '100%',
+              height: '100%',
+              objectFit: 'cover',
+              objectPosition: 'center top',
+              opacity: bannerLoaded ? 1 : 0,
+              transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
+            }}
+          />
+        ) : null}
+        <Box
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background: isDark ? 'rgba(0, 0, 0, 0.45)' : 'rgba(0, 0, 0, 0.35)',
+          }}
+        />
+        <Box
+          style={{
+            position: 'absolute',
+            width: 340,
+            height: 340,
+            top: -130,
+            left: -80,
+            borderRadius: '50%',
+            background:
+              'radial-gradient(circle, rgba(236,72,153,0.32) 0%, rgba(236,72,153,0) 72%)',
+            filter: 'blur(4px)',
+            pointerEvents: 'none',
+          }}
+        />
+        <Box
+          style={{
+            position: 'absolute',
+            width: 360,
+            height: 360,
+            bottom: -170,
+            right: -90,
+            borderRadius: '50%',
+            background:
+              'radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(59,130,246,0) 74%)',
+            filter: 'blur(6px)',
+            pointerEvents: 'none',
+          }}
+        />
+        <Box
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(to bottom, transparent 40%, var(--mantine-color-body) 100%)',
+          }}
+        />
+        <Box
+          style={{
+            position: 'absolute',
+            inset: 0,
+            background:
+              'linear-gradient(to right, var(--mantine-color-body) 0%, transparent 10%, transparent 90%, var(--mantine-color-body) 100%)',
+          }}
+        />
+      </Box>
 
       <Container
         size="md"
@@ -268,22 +366,6 @@ export default function HomeHeroSection({
                   },
                 }}
               />
-              <Group justify="space-between" mt={10}>
-                <Text size="xs" c={isDark ? 'gray.3' : 'dark.2'}>
-                  Apply this banner style on other routes
-                </Text>
-                <Switch
-                  size="sm"
-                  checked={carryBannerToOtherRoutes}
-                  onChange={(event) => {
-                    onCarryBannerToOtherRoutesChange(
-                      event.currentTarget.checked
-                    );
-                  }}
-                  onLabel="ON"
-                  offLabel="OFF"
-                />
-              </Group>
             </Box>
             <Stack gap="sm" mt="md" align="center">
               <Group gap="sm" justify="center" wrap="wrap">
