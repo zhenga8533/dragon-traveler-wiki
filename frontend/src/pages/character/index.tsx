@@ -24,6 +24,7 @@ import { getPortrait } from '../../assets/character';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../../assets/gear';
 import { getSubclassIcon } from '../../assets/subclass';
 import ClassTag from '../../components/common/ClassTag';
+import ChangeHistory from '../../components/common/ChangeHistory';
 import DetailPageNavigation from '../../components/common/DetailPageNavigation';
 import EntityNotFound from '../../components/common/EntityNotFound';
 import ErrorBoundary from '../../components/common/ErrorBoundary';
@@ -50,6 +51,7 @@ import type {
 import type { Gear, GearSet } from '../../types/gear';
 import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
+import type { ChangesFile } from '../../types/changes';
 import type { Subclass } from '../../types/subclass';
 import type { Team } from '../../types/team';
 import {
@@ -132,6 +134,10 @@ export default function CharacterPage() {
   const { data: gear } = useDataFetch<Gear[]>('data/gear.json', []);
   const { data: gearSets } = useDataFetch<GearSet[]>('data/gear_sets.json', []);
   const { data: teams } = useDataFetch<Team[]>('data/teams.json', []);
+  const { data: changesData } = useDataFetch<ChangesFile>(
+    'data/changes/characters.json',
+    {}
+  );
   const { tierLists, selectedTierListName } = useContext(
     TierListReferenceContext
   );
@@ -713,6 +719,8 @@ export default function CharacterPage() {
           onSelectIllustration={setSelectedIllustration}
           tooltipProps={tooltipProps}
         />
+
+        <ChangeHistory history={changesData[character.name]} />
 
         <DetailPageNavigation
           previousItem={

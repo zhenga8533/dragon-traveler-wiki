@@ -15,6 +15,7 @@ import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import CharacterTag from '../components/character/CharacterTag';
+import ChangeHistory from '../components/common/ChangeHistory';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GlobalBadge from '../components/common/GlobalBadge';
@@ -30,6 +31,7 @@ import {
   getHeroIconBoxStyles,
 } from '../constants/styles';
 import { useDataFetch } from '../hooks';
+import type { ChangesFile } from '../types/changes';
 import type { Character, Skill, Talent } from '../types/character';
 import type {
   NoblePhantasm,
@@ -185,6 +187,10 @@ export default function NoblePhantasmPage() {
   const { data: statusEffects } = useDataFetch<StatusEffect[]>(
     'data/status-effects.json',
     []
+  );
+  const { data: changesData } = useDataFetch<ChangesFile>(
+    'data/changes/noble_phantasm.json',
+    {}
   );
 
   const noblePhantasm = useMemo(() => {
@@ -368,6 +374,8 @@ export default function NoblePhantasmPage() {
             />
           </Stack>
         </Stack>
+
+        <ChangeHistory history={changesData[noblePhantasm.name]} />
 
         <DetailPageNavigation
           previousItem={

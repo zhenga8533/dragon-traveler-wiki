@@ -15,6 +15,7 @@ import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getGearIcon } from '../assets/gear';
 import CharacterPortrait from '../components/character/CharacterPortrait';
+import ChangeHistory from '../components/common/ChangeHistory';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GearTypeTag from '../components/common/GearTypeTag';
@@ -31,6 +32,7 @@ import {
   getDetailHeroGradient,
 } from '../constants/styles';
 import { useDataFetch, useMobileTooltip } from '../hooks';
+import type { ChangesFile } from '../types/changes';
 import type { Character } from '../types/character';
 import type { Gear, GearSet } from '../types/gear';
 import type { Quality } from '../types/quality';
@@ -53,6 +55,14 @@ export default function GearSetPage() {
   const { data: characters } = useDataFetch<Character[]>(
     'data/characters.json',
     []
+  );
+  const { data: changesData } = useDataFetch<ChangesFile>(
+    'data/changes/gear_sets.json',
+    {}
+  );
+  const { data: gearChangesData } = useDataFetch<ChangesFile>(
+    'data/changes/gear.json',
+    {}
   );
 
   const decodedSetName = useMemo(() => {
@@ -91,6 +101,12 @@ export default function GearSetPage() {
         return a.name.localeCompare(b.name);
       });
   }, [decodedSetName, gear]);
+
+  const gearItemHistories = useMemo(() => {
+    return setItems
+      .filter((item) => gearChangesData[item.name])
+      .map((item) => ({ label: item.name, history: gearChangesData[item.name] }));
+  }, [setItems, gearChangesData]);
 
   const setItemNames = useMemo(
     () => new Set(setItems.map((i) => i.name)),
@@ -384,6 +400,11 @@ export default function GearSetPage() {
             })}
           </SimpleGrid>
         </Stack>
+
+        <ChangeHistory
+          history={changesData[decodedSetName]}
+          extraHistories={gearItemHistories}
+        />
 
         <DetailPageNavigation
           previousItem={

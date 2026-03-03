@@ -16,6 +16,7 @@ import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
 import ClassTag from '../components/common/ClassTag';
+import ChangeHistory from '../components/common/ChangeHistory';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import FactionTag from '../components/common/FactionTag';
@@ -39,6 +40,7 @@ import type {
   ArtifactEffect,
   ArtifactTreasure,
 } from '../types/artifact';
+import type { ChangesFile } from '../types/changes';
 import type { Faction } from '../types/faction';
 import type { StatusEffect } from '../types/status-effect';
 import {
@@ -150,6 +152,10 @@ export default function ArtifactPage() {
     []
   );
   const { data: factions } = useDataFetch<Faction[]>('data/factions.json', []);
+  const { data: changesData } = useDataFetch<ChangesFile>(
+    'data/changes/artifacts.json',
+    {}
+  );
 
   const artifact = useMemo(() => {
     return findEntityByParam(artifacts, name, (a) => a.name);
@@ -340,6 +346,8 @@ export default function ArtifactPage() {
             </Stack>
           )}
         </Stack>
+
+        <ChangeHistory history={changesData[artifact.name]} />
 
         <DetailPageNavigation
           previousItem={

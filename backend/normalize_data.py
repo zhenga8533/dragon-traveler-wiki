@@ -1,10 +1,11 @@
 """Normalize data files by sorting entries and bumping last_updated timestamps.
 
-This script combines deterministic entry sorting (where a sort key exists) and
-timestamp updates for changed entries (relative to HEAD).
+This script combines deterministic entry sorting (where a sort key exists),
+timestamp updates for changed entries (relative to HEAD), and external
+change history tracking in data/changes/.
 
 Usage:
-    # Sort + bump all data files:
+    # Sort + bump + track changes for all data files:
     python -m backend.normalize_data
 
     # Sort + bump specific files:
@@ -40,8 +41,51 @@ def _identity_key(filename: str) -> str:
     return IDENTITY_KEY.get(filename, _DEFAULT_IDENTITY)
 
 
-def _without_timestamp(entry: dict) -> dict:
-    return {k: v for k, v in entry.items() if k != "last_updated"}
+_META_KEYS = {"last_updated"}
+
+CHANGES_DIR = DATA_DIR / "changes"
+
+
+def _load_changes_file(filename: str) -> dict:
+    """Load existing changes file from data/changes/<filename> or return {}."""
+    path = CHANGES_DIR / filename
+    if not path.exists():
+        return {}
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            return json.load(f)
+    except (json.JSONDecodeError, OSError):
+        return {}
+
+
+def _save_changes_file(filename: str, data: dict) -> None:
+    """Write changes data to data/changes/<filename>, creating dir if needed."""
+    CHANGES_DIR.mkdir(parents=True, exist_ok=True)
+    path = CHANGES_DIR / filename
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(data, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+
+
+def _without_meta(entry: dict) -> dict:
+    return {k: v for k, v in entry.items() if k not in _META_KEYS}
+
+
+def _compute_field_diffs(old: dict, new: dict) -> dict[str, dict]:
+    """Return {field: {"old": ..., "new": ...}} for fields that differ."""
+    diffs: dict[str, dict] = {}
+    all_keys = set(old.keys()) | set(new.keys())
+    for key in sorted(all_keys - _META_KEYS):
+        old_val = old.get(key)
+        new_val = new.get(key)
+        if old_val != new_val:
+            diff: dict = {}
+            if old_val is not None:
+                diff["old"] = old_val
+            if new_val is not None:
+                diff["new"] = new_val
+            diffs[key] = diff
+    return diffs
 
 
 def _has_any_object_entries(entries: list) -> bool:
@@ -129,13 +173,71 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
             if committed_entry is None:
                 changed = True
             else:
-                changed = _without_timestamp(entry) != _without_timestamp(
-                    committed_entry
-                )
+                changed = _without_meta(entry) != _without_meta(committed_entry)
 
             if changed or "last_updated" not in entry:
                 entry["last_updated"] = now
                 result["bumped"] += 1
+
+        # Write external changes file
+        changes_data = _load_changes_file(filename)
+
+        # Build set of current identities
+        current_identities: set[str] = set()
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            identity = entry.get(id_key)
+            if identity is not None:
+                current_identities.add(identity)
+
+        # Detect removals: in committed (or previously tracked) but not in current
+        for identity in set(committed.keys()) | set(changes_data.keys()):
+            if identity in current_identities:
+                continue
+            if identity not in changes_data:
+                # Was in committed but never tracked — initialise with removal
+                changes_data[identity] = {
+                    "added": committed[identity].get("last_updated", now)
+                    if identity in committed
+                    else now,
+                    "changes": [{"timestamp": now, "type": "removed"}],
+                }
+            else:
+                # Already tracked — only record removal if not already removed
+                prev_changes = changes_data[identity]["changes"]
+                already_removed = prev_changes and prev_changes[-1].get("type") == "removed"
+                if not already_removed:
+                    prev_changes.append({"timestamp": now, "type": "removed"})
+
+        # Process current entries: additions, re-additions, and field changes
+        for entry in entries:
+            if not isinstance(entry, dict):
+                continue
+            identity = entry.get(id_key)
+            if identity is None:
+                continue
+
+            if identity not in changes_data:
+                # Brand new entity
+                changes_data[identity] = {"added": now, "changes": []}
+            else:
+                # Existing history — check if last event was a removal (re-addition)
+                prev_changes = changes_data[identity]["changes"]
+                was_removed = prev_changes and prev_changes[-1].get("type") == "removed"
+                if was_removed:
+                    prev_changes.append({"timestamp": now, "type": "readded"})
+
+            committed_entry = committed.get(identity)
+            if committed_entry is not None:
+                if _without_meta(entry) != _without_meta(committed_entry):
+                    field_diffs = _compute_field_diffs(committed_entry, entry)
+                    if field_diffs:
+                        changes_data[identity]["changes"].append(
+                            {"timestamp": now, "fields": field_diffs}
+                        )
+
+        _save_changes_file(filename, changes_data)
 
         timestamped_in_file = sum(
             1

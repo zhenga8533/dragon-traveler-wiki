@@ -22,6 +22,7 @@ import { FACTION_WYRM_MAP } from '../assets/wyrms';
 import CharacterPortrait from '../components/character/CharacterPortrait';
 import ClassTag from '../components/common/ClassTag';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
+import ChangeHistory from '../components/common/ChangeHistory';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import FactionTag from '../components/common/FactionTag';
@@ -45,6 +46,7 @@ import {
 import { STORAGE_KEY } from '../constants/ui';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Artifact } from '../types/artifact';
+import type { ChangesFile } from '../types/changes';
 import type { Character } from '../types/character';
 import type { Faction } from '../types/faction';
 import type { StatusEffect } from '../types/status-effect';
@@ -85,6 +87,10 @@ export default function TeamPage() {
   const { data: statusEffects, loading: loadingStatusEffects } = useDataFetch<
     StatusEffect[]
   >('data/status-effects.json', []);
+  const { data: changesData } = useDataFetch<ChangesFile>(
+    'data/changes/teams.json',
+    {}
+  );
 
   const loading =
     loadingTeams ||
@@ -601,6 +607,8 @@ export default function TeamPage() {
             )}
           </Stack>
         </Stack>
+
+        <ChangeHistory history={changesData[team.name]} />
 
         <DetailPageNavigation
           previousItem={
