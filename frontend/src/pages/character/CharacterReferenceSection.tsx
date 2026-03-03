@@ -14,7 +14,7 @@ import { getCardHoverProps } from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { Team, TeamMemberPosition } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
-import CollapsibleSectionCard from './CollapsibleSectionCard.tsx';
+import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 
 interface CharacterReferenceSectionProps {
   character: Character;

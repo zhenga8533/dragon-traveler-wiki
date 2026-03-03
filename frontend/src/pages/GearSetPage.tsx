@@ -23,7 +23,7 @@ import QualityBadge from '../components/common/QualityBadge';
 import QualityIcon from '../components/common/QualityIcon';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
-import { QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
+import { GEAR_TYPE_ORDER, QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
@@ -42,14 +42,6 @@ import {
 
 const SSR_AND_ABOVE: Quality[] = ['UR', 'SSR EX', 'SSR+', 'SSR'];
 
-const GEAR_TYPE_ORDER: GearType[] = [
-  'Headgear',
-  'Chestplate',
-  'Bracers',
-  'Boots',
-  'Weapon',
-  'Accessory',
-];
 
 export default function GearSetPage() {
   const { setName } = useParams<{ setName: string }>();

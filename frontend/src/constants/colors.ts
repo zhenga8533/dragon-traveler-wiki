@@ -1,5 +1,6 @@
 import type { CharacterClass } from '../types/character';
 import type { FactionName } from '../types/faction';
+import type { GearType } from '../types/gear';
 import type { ResourceCategory } from '../types/resource';
 import type { StatusEffectType } from '../types/status-effect';
 import type { TierDefinition } from '../types/tier-list';
@@ -13,6 +14,15 @@ export const CLASS_ORDER: CharacterClass[] = [
   'Warrior',
   'Archer',
   'Mage',
+];
+
+export const GEAR_TYPE_ORDER: GearType[] = [
+  'Headgear',
+  'Chestplate',
+  'Bracers',
+  'Boots',
+  'Weapon',
+  'Accessory',
 ];
 
 export { QUALITY_COLOR, QUALITY_ORDER };

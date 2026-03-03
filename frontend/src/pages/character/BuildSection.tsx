@@ -34,7 +34,7 @@ import type { StatusEffect } from '../../types/status-effect';
 import type { Team } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
 import CharacterReferenceSection from './CharacterReferenceSection.tsx';
-import CollapsibleSectionCard from './CollapsibleSectionCard.tsx';
+import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 
 interface CharacterPageBuildSectionProps {
   character: Character;
