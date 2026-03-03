@@ -34,6 +34,21 @@
   </head>
   <body>
     <script>
+      (function () {
+        var hash = window.location.hash;
+        if (!hash || hash.length < 2 || hash.charAt(1) !== '/') {
+          return;
+        }
+
+        var target = hash.slice(1);
+        if (!target.startsWith('/')) {
+          return;
+        }
+
+        window.location.replace(target);
+      })();
+    </script>
+    <script>
       try {
         var s = localStorage.getItem('mantine-color-scheme-value');
         var c =
