@@ -1,5 +1,31 @@
 [
   {
+    "name": "Archangel",
+    "quality": "UR",
+    "basic_stats": {
+      "Belligerence": 432,
+      "PvP DMG Reduction": 432
+    },
+    "passive_effects": [
+      "Golden Dragon and Shadow Dragon unlock extra areas in the Dragon Nest",
+      "ATK +4320.0"
+    ],
+    "last_updated": 1772505430
+  },
+  {
+    "name": "Archdemon",
+    "quality": "UR",
+    "basic_stats": {
+      "Belligerence": 576,
+      "PvP DMG Reduction": 288
+    },
+    "passive_effects": [
+      "Red Dragon and Black Dragon unlock extra areas in the Dragon Nest",
+      "Penetration +4320.0"
+    ],
+    "last_updated": 1772505430
+  },
+  {
     "name": "Black Dragon",
     "quality": "UR",
     "basic_stats": {
