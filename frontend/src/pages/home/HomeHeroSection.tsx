@@ -56,6 +56,14 @@ const HOME_CTA_BUTTON_STYLES = {
   },
 };
 
+const HOME_HERO_HEADING_PANEL_STYLE = {
+  width: '100%',
+  maxWidth: 760,
+  marginInline: 'auto',
+  padding: '18px 20px',
+  borderRadius: 14,
+};
+
 export interface HomeHeroBannerMedia {
   src: string;
   type: 'image' | 'video';
@@ -82,6 +90,20 @@ export default function HomeHeroSection({
   onBannerLoaded,
   onBannerPreferenceChange,
 }: HomeHeroSectionProps) {
+  const headingPanelStyle = {
+    ...HOME_HERO_HEADING_PANEL_STYLE,
+    border: isDark
+      ? '1px solid rgba(255, 255, 255, 0.14)'
+      : '1px solid rgba(255, 255, 255, 0.34)',
+    background: isDark
+      ? 'linear-gradient(180deg, rgba(14, 16, 21, 0.68) 0%, rgba(14, 16, 21, 0.5) 100%)'
+      : 'linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.2) 100%)',
+    backdropFilter: 'blur(7px)',
+    boxShadow: isDark
+      ? '0 10px 30px rgba(0, 0, 0, 0.34)'
+      : '0 10px 26px rgba(21, 30, 56, 0.2)',
+  };
+
   return (
     <Box
       style={{
@@ -157,6 +179,34 @@ export default function HomeHeroSection({
         <Box
           style={{
             position: 'absolute',
+            width: 340,
+            height: 340,
+            top: -130,
+            left: -80,
+            borderRadius: '50%',
+            background:
+              'radial-gradient(circle, rgba(236,72,153,0.32) 0%, rgba(236,72,153,0) 72%)',
+            filter: 'blur(4px)',
+            pointerEvents: 'none',
+          }}
+        />
+        <Box
+          style={{
+            position: 'absolute',
+            width: 360,
+            height: 360,
+            bottom: -170,
+            right: -90,
+            borderRadius: '50%',
+            background:
+              'radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(59,130,246,0) 74%)',
+            filter: 'blur(6px)',
+            pointerEvents: 'none',
+          }}
+        />
+        <Box
+          style={{
+            position: 'absolute',
             inset: 0,
             background:
               'linear-gradient(to bottom, transparent 40%, var(--mantine-color-body) 100%)',
@@ -175,52 +225,75 @@ export default function HomeHeroSection({
       <Container
         size="md"
         style={{ position: 'relative', zIndex: 1 }}
-        pt={60}
+        pt={56}
         pb="xl"
       >
         <Stack gap="lg">
           <Box style={{ textAlign: 'center' }}>
-            <Title order={1} style={HOME_HERO_TITLE_STYLE}>
-              <Text component="span" inherit style={HOME_HERO_WORDMARK_STYLE}>
-                Dragon Traveler
-              </Text>{' '}
-              <Text
-                component="span"
-                inherit
-                style={{ color: 'var(--mantine-color-white)' }}
-              >
-                Wiki
+            <Box style={headingPanelStyle}>
+              <Group justify="center" mb={10}>
+                <Badge
+                  radius="xl"
+                  variant="gradient"
+                  gradient={{ from: 'pink', to: 'violet', deg: 110 }}
+                  style={{ letterSpacing: 0.3 }}
+                >
+                  Community Resource Hub
+                </Badge>
+              </Group>
+              <Title order={1} style={HOME_HERO_TITLE_STYLE}>
+                <Text component="span" inherit style={HOME_HERO_WORDMARK_STYLE}>
+                  Dragon Traveler
+                </Text>{' '}
+                <Text
+                  component="span"
+                  inherit
+                  style={{ color: 'var(--mantine-color-white)' }}
+                >
+                  Wiki
+                </Text>
+              </Title>
+              <Text size="lg" mt="xs" style={HOME_HERO_SUBTITLE_STYLE}>
+                A{' '}
+                <Text
+                  component="span"
+                  inherit
+                  fw={700}
+                  style={{ color: 'var(--mantine-color-violet-1)' }}
+                >
+                  community-driven
+                </Text>{' '}
+                wiki for{' '}
+                <Text
+                  component="span"
+                  inherit
+                  fw={700}
+                  style={{ color: 'var(--mantine-color-blue-1)' }}
+                >
+                  Dragon Traveler
+                </Text>
               </Text>
-            </Title>
-            <Text size="lg" mt="xs" style={HOME_HERO_SUBTITLE_STYLE}>
-              A{' '}
-              <Text
-                component="span"
-                inherit
-                fw={700}
-                style={{ color: 'var(--mantine-color-violet-1)' }}
-              >
-                community-driven
-              </Text>{' '}
-              wiki for{' '}
-              <Text
-                component="span"
-                inherit
-                fw={700}
-                style={{ color: 'var(--mantine-color-blue-1)' }}
-              >
-                Dragon Traveler
+              <Text size="sm" mt={6} style={HOME_HERO_META_TEXT_STYLE}>
+                Authored by{' '}
+                <Text component="span" inherit fw={700} c="grape.2">
+                  Litee
+                </Text>{' '}
+                <Text component="span" inherit c="blue.1">
+                  (Server: Freya 2)
+                </Text>
               </Text>
-            </Text>
-            <Text size="sm" mt={6} style={HOME_HERO_META_TEXT_STYLE}>
-              Authored by{' '}
-              <Text component="span" inherit fw={700} c="grape.2">
-                Litee
-              </Text>{' '}
-              <Text component="span" inherit c="blue.1">
-                (Server: Freya 2)
-              </Text>
-            </Text>
+              <Group justify="center" gap={8} mt="sm" wrap="wrap">
+                <Badge variant="light" color="violet" radius="xl">
+                  Character Builds
+                </Badge>
+                <Badge variant="light" color="blue" radius="xl">
+                  Team Tools
+                </Badge>
+                <Badge variant="light" color="grape" radius="xl">
+                  Codes & Updates
+                </Badge>
+              </Group>
+            </Box>
             <Box
               mt="md"
               mx="auto"
