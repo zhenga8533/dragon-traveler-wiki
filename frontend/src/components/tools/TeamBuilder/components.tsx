@@ -25,7 +25,6 @@ import {
   IoRemove,
 } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '../../../assets/faction';
-import { getWyrmspellIcon } from '../../../assets/wyrmspell';
 import { FACTION_NAMES } from '../../../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
@@ -215,19 +214,7 @@ export function DraggableCharCard({
   );
 }
 
-export function renderWyrmspellOption({ option }: { option: { label: string } }) {
-  const iconSrc = getWyrmspellIcon(option.label);
-  return (
-    <Group gap="xs" align="center">
-      {iconSrc ? (
-        <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
-      ) : null}
-      <Text size="sm">{option.label}</Text>
-    </Group>
-  );
-}
-
-export function renderFactionOption({ option }: { option: { label: string } }) {
+function renderFactionOption({ option }: { option: { label: string } }) {
   const iconSrc = FACTION_ICON_MAP[option.label as FactionName];
   return (
     <Group gap="xs" align="center">

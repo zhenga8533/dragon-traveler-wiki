@@ -32,7 +32,7 @@ import {
 } from '../constants/styles';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { Character } from '../types/character';
-import type { Gear, GearSet, GearType } from '../types/gear';
+import type { Gear, GearSet } from '../types/gear';
 import type { Quality } from '../types/quality';
 import {
   findEntityByParam,

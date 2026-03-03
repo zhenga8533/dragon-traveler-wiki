@@ -36,7 +36,6 @@ import { createPortal } from 'react-dom';
 import {
   IoCheckmark,
   IoClipboardOutline,
-  IoClose,
   IoCopy,
   IoOpenOutline,
   IoTrash,
@@ -74,7 +73,6 @@ import {
   DraggableCharCard,
   SlotsGrid,
   TeamMetaFields,
-  renderWyrmspellOption,
 } from './components';
 import {
   GRID_SIZE,
@@ -91,6 +89,18 @@ interface TeamBuilderProps {
   charMap: Map<string, Character>;
   initialData?: Team | null;
   wyrmspells?: Wyrmspell[];
+}
+
+function renderWyrmspellOption({ option }: { option: { label: string } }) {
+  const iconSrc = getWyrmspellIcon(option.label);
+  return (
+    <Group gap="xs" align="center">
+      {iconSrc ? (
+        <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
+      ) : null}
+      <Text size="sm">{option.label}</Text>
+    </Group>
+  );
 }
 
 /* ── Main TeamBuilder ── */

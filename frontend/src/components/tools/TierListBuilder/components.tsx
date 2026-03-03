@@ -2,7 +2,6 @@ import { useDraggable, useDroppable } from '@dnd-kit/core';
 import {
   ActionIcon,
   Badge,
-  Box,
   Group,
   Paper,
   Popover,
@@ -32,7 +31,6 @@ import {
 } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
 import CharacterCard from '../../character/CharacterCard';
-import CharacterNoteButton from '../CharacterNoteButton';
 import { INPUT_COMMIT_DELAY_MS } from './utils';
 
 export const TierListMetaFields = memo(function TierListMetaFields({
