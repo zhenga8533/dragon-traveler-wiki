@@ -6,6 +6,7 @@ import {
   Container,
   Group,
   Kbd,
+  Select,
   SimpleGrid,
   Stack,
   Text,
@@ -13,7 +14,7 @@ import {
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import {
   IoGameController,
   IoGlobe,
@@ -25,6 +26,11 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import {
+  getIllustrations,
+  type CharacterIllustration,
+} from '../../assets/character';
+import { normalizeKey } from '../../assets/utils';
 import SearchModal from '../../components/tools/SearchModal';
 import {
   HOME_HERO_META_TEXT_STYLE,
@@ -36,6 +42,8 @@ import {
   getHomeHeroPlaceholderGradient,
 } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
+import { useDataFetch } from '../../hooks/use-data-fetch';
+import type { Character } from '../../types/character';
 import ActiveCodesSection from './ActiveCodesSection';
 import DataStatsBar from './DataStatsBar';
 import FeaturedCharactersMarquee from './FeaturedCharactersMarquee';
@@ -64,10 +72,130 @@ const HOME_CTA_BUTTON_STYLES = {
   },
 };
 
+const HOME_BANNER_STORAGE_KEY = 'home-banner-selection';
+
+interface HomeBannerOption {
+  value: string;
+  label: string;
+  src: string;
+  type: CharacterIllustration['type'];
+}
+
+const DEFAULT_BANNER_OPTION: HomeBannerOption = {
+  value: 'default',
+  label: 'Default banner',
+  src: '/banner.png',
+  type: 'image',
+};
+
 export default function Home() {
   const isDark = useComputedColorScheme('light') === 'dark';
 
+  const { data: characters } = useDataFetch<Character[]>(
+    'data/characters.json',
+    []
+  );
+
   const [bannerLoaded, setBannerLoaded] = useState(false);
+  const [bannerOptions, setBannerOptions] = useState<HomeBannerOption[]>([
+    DEFAULT_BANNER_OPTION,
+  ]);
+  const [selectedBannerValue, setSelectedBannerValue] = useState(() => {
+    if (typeof window === 'undefined') {
+      return DEFAULT_BANNER_OPTION.value;
+    }
+    return (
+      window.localStorage.getItem(HOME_BANNER_STORAGE_KEY) ??
+      DEFAULT_BANNER_OPTION.value
+    );
+  });
+
+  const characterNameByAssetKey = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const character of characters) {
+      const key = normalizeKey(character.name);
+      if (!map.has(key)) {
+        map.set(key, character.name);
+      }
+    }
+    return map;
+  }, [characters]);
+
+  useEffect(() => {
+    let isCancelled = false;
+
+    async function loadBannerOptions(): Promise<void> {
+      const entries = Array.from(characterNameByAssetKey.entries());
+      if (entries.length === 0) {
+        return;
+      }
+
+      const mediaByCharacter = await Promise.all(
+        entries.map(async ([assetKey, characterName]) => {
+          const illustrations = await getIllustrations(assetKey, assetKey);
+          return { assetKey, characterName, illustrations };
+        })
+      );
+
+      if (isCancelled) {
+        return;
+      }
+
+      const loadedOptions: HomeBannerOption[] = [DEFAULT_BANNER_OPTION];
+      for (const {
+        assetKey,
+        characterName,
+        illustrations,
+      } of mediaByCharacter) {
+        illustrations.forEach((illustration, index) => {
+          loadedOptions.push({
+            value: `${assetKey}::${index}`,
+            label: `${characterName} — ${illustration.name}`,
+            src: illustration.src,
+            type: illustration.type,
+          });
+        });
+      }
+
+      const orderedOptions = [
+        DEFAULT_BANNER_OPTION,
+        ...loadedOptions
+          .filter((option) => option.value !== DEFAULT_BANNER_OPTION.value)
+          .sort((a, b) => a.label.localeCompare(b.label)),
+      ];
+
+      setBannerOptions(orderedOptions);
+      setSelectedBannerValue((currentValue) => {
+        const exists = orderedOptions.some(
+          (option) => option.value === currentValue
+        );
+        return exists ? currentValue : DEFAULT_BANNER_OPTION.value;
+      });
+    }
+
+    loadBannerOptions().catch((error) => {
+      console.error('Failed to load home banner options:', error);
+    });
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [characterNameByAssetKey]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') {
+      return;
+    }
+    window.localStorage.setItem(HOME_BANNER_STORAGE_KEY, selectedBannerValue);
+  }, [selectedBannerValue]);
+
+  const selectedBanner =
+    bannerOptions.find((option) => option.value === selectedBannerValue) ??
+    DEFAULT_BANNER_OPTION;
+
+  useEffect(() => {
+    setBannerLoaded(false);
+  }, [selectedBanner.src]);
 
   return (
     <Stack gap={0}>
@@ -101,23 +229,44 @@ export default function Home() {
               background: getHomeHeroPlaceholderGradient(isDark),
             }}
           />
-          {/* Actual banner image (fades in when loaded) */}
-          <img
-            src="/banner.png"
-            alt=""
-            fetchPriority="high"
-            onLoad={() => setBannerLoaded(true)}
-            style={{
-              position: 'absolute',
-              inset: 0,
-              width: '100%',
-              height: '100%',
-              objectFit: 'cover',
-              objectPosition: 'center top',
-              opacity: bannerLoaded ? 1 : 0,
-              transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
-            }}
-          />
+          {/* Selected banner media (fades in when loaded) */}
+          {selectedBanner.type === 'video' ? (
+            <video
+              src={selectedBanner.src}
+              autoPlay
+              loop
+              muted
+              playsInline
+              onLoadedData={() => setBannerLoaded(true)}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center top',
+                opacity: bannerLoaded ? 1 : 0,
+                transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
+              }}
+            />
+          ) : (
+            <img
+              src={selectedBanner.src}
+              alt=""
+              fetchPriority="high"
+              onLoad={() => setBannerLoaded(true)}
+              style={{
+                position: 'absolute',
+                inset: 0,
+                width: '100%',
+                height: '100%',
+                objectFit: 'cover',
+                objectPosition: 'center top',
+                opacity: bannerLoaded ? 1 : 0,
+                transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
+              }}
+            />
+          )}
           {/* Dark overlay for text readability */}
           <Box
             style={{
@@ -199,6 +348,25 @@ export default function Home() {
                   (Server: Freya 2)
                 </Text>
               </Text>
+              <Select
+                mt="md"
+                size="sm"
+                radius="md"
+                label="Landing banner"
+                placeholder="Select a character illustration"
+                data={bannerOptions.map((option) => ({
+                  value: option.value,
+                  label: option.label,
+                }))}
+                value={selectedBannerValue}
+                searchable
+                nothingFoundMessage="No illustrations found"
+                onChange={(value) => {
+                  setBannerLoaded(false);
+                  setSelectedBannerValue(value ?? DEFAULT_BANNER_OPTION.value);
+                }}
+                style={{ maxWidth: 420, marginInline: 'auto' }}
+              />
               <Stack gap="sm" mt="md" align="center">
                 <Group gap="sm" justify="center" wrap="wrap">
                   <Button
