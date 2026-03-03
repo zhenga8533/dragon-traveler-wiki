@@ -35,6 +35,21 @@
       },
       {
         "type": "updated",
+        "category": "site",
+        "description": "Switched from HashRouter to BrowserRouter with a client-side redirect preserving legacy hash URLs for cleaner, SEO-friendly paths"
+      },
+      {
+        "type": "updated",
+        "category": "site",
+        "description": "Added build-time static HTML generation for all routes and dynamic entity pages (characters, artifacts, noble phantasms, teams, gear) with proper Open Graph and Twitter Card meta tags"
+      },
+      {
+        "type": "updated",
+        "category": "site",
+        "description": "Per-character Open Graph images using default illustrations, dynamic twitter:card type based on image availability, and a proper 404 fallback page"
+      },
+      {
+        "type": "updated",
         "category": "navigation",
         "description": "Introduced canonical entity slug utilities and client-side redirect logic across detail pages for consistent, SEO-friendly URLs"
       },
@@ -74,7 +89,7 @@
         "description": "Unified breakpoint usage across character and tool components via shared BREAKPOINTS constant; reorganized CollapsibleSectionCard, WyrmspellCard renderer, and cleaned up unused imports"
       }
     ],
-    "last_updated": 1772511703
+    "last_updated": 1772511300
   },
   {
     "date": "2026-03-01",
