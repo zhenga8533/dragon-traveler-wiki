@@ -1,4 +1,10 @@
-import { existsSync, mkdirSync, readFileSync, writeFileSync } from 'node:fs';
+import {
+  copyFileSync,
+  existsSync,
+  mkdirSync,
+  readFileSync,
+  writeFileSync,
+} from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -139,6 +145,14 @@ function replaceFirstMeta(html, attr, key, value) {
   return html.replace(pattern, replacement);
 }
 
+function removeMeta(html, attr, key) {
+  const pattern = new RegExp(
+    `\\s*<meta\\s+${attr}=["']${escapeRegExp(key)}["']\\s+content=["'][^"']*["']\\s*\\/?>`,
+    'i'
+  );
+  return html.replace(pattern, '');
+}
+
 function writeHtmlForPath(routePath, html) {
   const normalized = routePath.replace(/^\//, '');
   const flatPath = path.join(distDir, `${normalized}.html`);
@@ -158,7 +172,7 @@ function buildRouteHtml(
   meta,
   siteName,
   baseUrl,
-  defaultImage
+  imageUrl
 ) {
   const pageTitle =
     meta.title === siteName ? siteName : `${meta.title} | ${siteName}`;
@@ -172,7 +186,6 @@ function buildRouteHtml(
   html = replaceFirstMeta(html, 'property', 'og:title', pageTitle);
   html = replaceFirstMeta(html, 'property', 'og:description', meta.description);
   html = replaceFirstMeta(html, 'property', 'og:url', pageUrl);
-  html = replaceFirstMeta(html, 'property', 'og:image', defaultImage);
   html = replaceFirstMeta(html, 'name', 'twitter:title', pageTitle);
   html = replaceFirstMeta(
     html,
@@ -180,9 +193,44 @@ function buildRouteHtml(
     'twitter:description',
     meta.description
   );
-  html = replaceFirstMeta(html, 'name', 'twitter:image', defaultImage);
+
+  if (imageUrl) {
+    html = replaceFirstMeta(html, 'property', 'og:image', imageUrl);
+    html = replaceFirstMeta(html, 'name', 'twitter:image', imageUrl);
+  } else {
+    html = removeMeta(html, 'property', 'og:image');
+    html = removeMeta(html, 'name', 'twitter:image');
+  }
 
   return html;
+}
+
+function getCharacterDefaultIllustrationRelativePath(characterSlug) {
+  const extensionCandidates = ['png', 'jpg', 'jpeg', 'webp'];
+  for (const extension of extensionCandidates) {
+    const sourcePath = path.join(
+      projectRoot,
+      'src',
+      'assets',
+      'character',
+      characterSlug,
+      'illustrations',
+      `default.${extension}`
+    );
+
+    if (!existsSync(sourcePath)) {
+      continue;
+    }
+
+    const destinationDir = path.join(distDir, 'character-illustrations');
+    const destinationFileName = `${characterSlug}.${extension}`;
+    const destinationPath = path.join(destinationDir, destinationFileName);
+    mkdirSync(destinationDir, { recursive: true });
+    copyFileSync(sourcePath, destinationPath);
+    return `/character-illustrations/${destinationFileName}`;
+  }
+
+  return null;
 }
 
 function writeRoutePages() {
@@ -208,7 +256,7 @@ function writeRoutePages() {
   );
   const writtenPaths = new Set();
 
-  const writePage = (routePath, meta) => {
+  const writePage = (routePath, meta, imageUrl = null) => {
     if (!routePath || routePath === '/') {
       return;
     }
@@ -221,7 +269,7 @@ function writeRoutePages() {
       meta,
       siteName,
       baseUrl,
-      defaultImage
+      imageUrl
     );
     writeHtmlForPath(routePath, html);
     writtenPaths.add(routePath);
@@ -236,7 +284,7 @@ function writeRoutePages() {
       continue;
     }
 
-    writePage(route.pattern, route.meta);
+    writePage(route.pattern, route.meta, null);
   }
 
   const dynamicRouteConfigs = [
@@ -318,12 +366,20 @@ function writeRoutePages() {
       }
 
       const routePath = config.pattern.replace(/:[^/]+$/, slug);
+      const imageUrl =
+        config.pattern === '/characters/:name'
+          ? (() => {
+              const relativePath =
+                getCharacterDefaultIllustrationRelativePath(slug);
+              return relativePath ? `${baseUrl}${relativePath}` : null;
+            })()
+          : null;
       const meta = {
         title: String(name ?? baseMeta.title),
         description: config.getDescription(item, baseMeta.description),
       };
 
-      writePage(routePath, meta);
+      writePage(routePath, meta, imageUrl);
     }
   }
 
@@ -347,7 +403,21 @@ function writeRoutePages() {
     }
   }
 
-  writeFileSync(path.join(distDir, '404.html'), indexHtml, 'utf-8');
+  const fallbackMeta = routeMetaByPattern.get('*') ??
+    routeMetaByPattern.get('/') ?? {
+      title: siteName,
+      description:
+        'A comprehensive wiki for Dragon Traveler game information, characters, resources, and more.',
+    };
+  const notFoundHtml = buildRouteHtml(
+    indexHtml,
+    '/404',
+    fallbackMeta,
+    siteName,
+    baseUrl,
+    null
+  );
+  writeFileSync(path.join(distDir, '404.html'), notFoundHtml, 'utf-8');
 }
 
 writeRoutePages();
