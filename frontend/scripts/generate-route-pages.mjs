@@ -6,6 +6,7 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const distDir = path.resolve(projectRoot, 'dist');
+const dataDir = path.resolve(projectRoot, '../data');
 const routeMetaPath = path.resolve(projectRoot, 'src/constants/route-meta.ts');
 const indexHtmlPath = path.join(distDir, 'index.html');
 
@@ -20,6 +21,41 @@ function escapeHtml(value) {
     .replace(/>/g, '&gt;')
     .replace(/"/g, '&quot;')
     .replace(/'/g, '&#39;');
+}
+
+function toEntitySlug(value) {
+  return String(value ?? '')
+    .trim()
+    .toLowerCase()
+    .normalize('NFKD')
+    .replace(/[\u0300-\u036f]/g, '')
+    .replace(/[’']/g, '')
+    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/^_+|_+$/g, '');
+}
+
+function truncateText(value, maxLength = 240) {
+  const text = String(value ?? '')
+    .replace(/\s+/g, ' ')
+    .trim();
+  if (text.length <= maxLength) {
+    return text;
+  }
+  return `${text.slice(0, maxLength - 1).trimEnd()}…`;
+}
+
+function readJsonArray(fileName) {
+  const filePath = path.join(dataDir, fileName);
+  if (!existsSync(filePath)) {
+    return [];
+  }
+
+  try {
+    const parsed = JSON.parse(readFileSync(filePath, 'utf-8'));
+    return Array.isArray(parsed) ? parsed : [];
+  } catch {
+    return [];
+  }
 }
 
 function parseRouteMetaSource(source) {
@@ -103,6 +139,19 @@ function replaceFirstMeta(html, attr, key, value) {
   return html.replace(pattern, replacement);
 }
 
+function writeHtmlForPath(routePath, html) {
+  const normalized = routePath.replace(/^\//, '');
+  const flatPath = path.join(distDir, `${normalized}.html`);
+  const nestedDir = path.join(distDir, normalized);
+  const nestedIndexPath = path.join(nestedDir, 'index.html');
+
+  mkdirSync(path.dirname(flatPath), { recursive: true });
+  mkdirSync(nestedDir, { recursive: true });
+
+  writeFileSync(flatPath, html, 'utf-8');
+  writeFileSync(nestedIndexPath, html, 'utf-8');
+}
+
 function buildRouteHtml(
   indexHtml,
   routePath,
@@ -154,6 +203,29 @@ function writeRoutePages() {
   }
 
   const indexHtml = readFileSync(indexHtmlPath, 'utf-8');
+  const routeMetaByPattern = new Map(
+    routes.map((route) => [route.pattern, route.meta])
+  );
+  const writtenPaths = new Set();
+
+  const writePage = (routePath, meta) => {
+    if (!routePath || routePath === '/') {
+      return;
+    }
+    if (writtenPaths.has(routePath)) {
+      return;
+    }
+    const html = buildRouteHtml(
+      indexHtml,
+      routePath,
+      meta,
+      siteName,
+      baseUrl,
+      defaultImage
+    );
+    writeHtmlForPath(routePath, html);
+    writtenPaths.add(routePath);
+  };
 
   for (const route of routes) {
     if (
@@ -164,25 +236,115 @@ function writeRoutePages() {
       continue;
     }
 
-    const normalized = route.pattern.replace(/^\//, '');
-    const html = buildRouteHtml(
-      indexHtml,
-      route.pattern,
-      route.meta,
-      siteName,
-      baseUrl,
-      defaultImage
-    );
+    writePage(route.pattern, route.meta);
+  }
 
-    const flatPath = path.join(distDir, `${normalized}.html`);
-    const nestedDir = path.join(distDir, normalized);
-    const nestedIndexPath = path.join(nestedDir, 'index.html');
+  const dynamicRouteConfigs = [
+    {
+      pattern: '/characters/:name',
+      file: 'characters.json',
+      getName: (item) => item?.name,
+      getDescription: (item, baseDescription) => {
+        const title = item?.title ? `, ${item.title}` : '';
+        return truncateText(
+          `${item?.name ?? 'Character'}${title}. ${baseDescription}`
+        );
+      },
+    },
+    {
+      pattern: '/artifacts/:name',
+      file: 'artifacts.json',
+      getName: (item) => item?.name,
+      getDescription: (item, baseDescription) => {
+        const lore = item?.lore ? truncateText(item.lore, 140) : '';
+        return truncateText(
+          `${item?.name ?? 'Artifact'} details. ${lore ? `${lore} ` : ''}${baseDescription}`
+        );
+      },
+    },
+    {
+      pattern: '/noble-phantasms/:name',
+      file: 'noble_phantasm.json',
+      getName: (item) => item?.name,
+      getDescription: (item, baseDescription) => {
+        const owner = item?.character
+          ? `Linked character: ${item.character}. `
+          : '';
+        return truncateText(
+          `${item?.name ?? 'Noble Phantasm'} details. ${owner}${baseDescription}`
+        );
+      },
+    },
+    {
+      pattern: '/teams/:teamName',
+      file: 'teams.json',
+      getName: (item) => item?.name,
+      getDescription: (item, baseDescription) => {
+        const teamDesc = item?.description
+          ? `${truncateText(item.description, 140)} `
+          : '';
+        return truncateText(
+          `${item?.name ?? 'Team'} composition guide. ${teamDesc}${baseDescription}`
+        );
+      },
+    },
+    {
+      pattern: '/gear-sets/:setName',
+      file: 'gear_sets.json',
+      getName: (item) => item?.name,
+      getDescription: (item, baseDescription) => {
+        const bonus = item?.set_bonus?.description
+          ? `Set bonus: ${truncateText(item.set_bonus.description, 120)}. `
+          : '';
+        return truncateText(
+          `${item?.name ?? 'Gear Set'} details. ${bonus}${baseDescription}`
+        );
+      },
+    },
+  ];
 
-    mkdirSync(path.dirname(flatPath), { recursive: true });
-    mkdirSync(nestedDir, { recursive: true });
+  for (const config of dynamicRouteConfigs) {
+    const baseMeta = routeMetaByPattern.get(config.pattern);
+    if (!baseMeta) {
+      continue;
+    }
 
-    writeFileSync(flatPath, html, 'utf-8');
-    writeFileSync(nestedIndexPath, html, 'utf-8');
+    const items = readJsonArray(config.file);
+    for (const item of items) {
+      const name = config.getName(item);
+      const slug = toEntitySlug(name);
+      if (!slug) {
+        continue;
+      }
+
+      const routePath = config.pattern.replace(/:[^/]+$/, slug);
+      const meta = {
+        title: String(name ?? baseMeta.title),
+        description: config.getDescription(item, baseMeta.description),
+      };
+
+      writePage(routePath, meta);
+    }
+  }
+
+  const gearSetsMeta = routeMetaByPattern.get('/gear-sets/:setName');
+  if (gearSetsMeta) {
+    const gearItems = readJsonArray('gear.json');
+    const setNames = new Set();
+    for (const item of gearItems) {
+      const setName = item?.set;
+      const slug = toEntitySlug(setName);
+      if (!slug || setNames.has(slug)) {
+        continue;
+      }
+      setNames.add(slug);
+      writePage(`/gear-sets/${slug}`, {
+        title: String(setName ?? gearSetsMeta.title),
+        description: truncateText(
+          `${setName ?? 'Gear Set'} details. ${gearSetsMeta.description}`
+        ),
+      });
+    }
   }
 
   writeFileSync(path.join(distDir, '404.html'), indexHtml, 'utf-8');
