@@ -13,6 +13,7 @@ import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getMinWidthStyle } from '../../constants/styles';
 import {
+  BREAKPOINTS,
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
   STORAGE_KEY,
@@ -76,9 +77,9 @@ export default function CharacterList({
   const { col: sortCol, dir: sortDir } = sortState;
 
   // Mirror CHARACTER_GRID_COLS breakpoints to keep page size = whole rows
-  const isMd = useMediaQuery('(min-width: 62em)');
-  const isSm = useMediaQuery('(min-width: 48em)');
-  const isXs = useMediaQuery('(min-width: 36em)');
+  const isMd = useMediaQuery(BREAKPOINTS.MD);
+  const isSm = useMediaQuery(BREAKPOINTS.DESKTOP);
+  const isXs = useMediaQuery(BREAKPOINTS.XS);
   const activeCols = isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
   const pageSize = activeCols * 10;
 
