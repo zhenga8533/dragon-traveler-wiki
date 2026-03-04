@@ -5,44 +5,32 @@ import {
   Burger,
   Group,
   Image,
-  Select,
   Title,
   Tooltip,
   useComputedColorScheme,
-  useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { useContext, useMemo } from 'react';
-import {
-  IoChevronBack,
-  IoChevronForward,
-  IoMoon,
-  IoSunny,
-} from 'react-icons/io5';
+import { useContext } from 'react';
+import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
-import { normalizeContentType } from '../../constants/content-types';
 import { getGlassStyles } from '../../constants/glass';
 import {
   BRAND_TITLE_STYLE,
   LINK_BLOCK_RESET_STYLE,
 } from '../../constants/styles';
-import {
-  BREAKPOINTS,
-  HEADER_SELECT_WIDTH,
-  SIDEBAR,
-  TRANSITION,
-} from '../../constants/ui';
-import { BannerContext, TierListReferenceContext } from '../../contexts';
+import { BREAKPOINTS, SIDEBAR, TRANSITION } from '../../constants/ui';
+import { BannerContext } from '../../contexts';
 import { useSidebar } from '../../hooks';
 import AppRoutes from '../../routes/AppRoutes';
-import BannerBackground from './BannerBackground';
 import ErrorBoundary from '../common/ErrorBoundary';
 import KonamiEasterEgg from '../tools/KonamiEasterEgg';
 import SearchModal from '../tools/SearchModal';
+import BannerBackground from './BannerBackground';
 import Footer from './Footer';
 import Navigation from './Navigation';
 import PageTransition from './PageTransition';
 import ScrollToTop from './ScrollToTop';
+import SettingsPanel from './SettingsPanel';
 
 const DETAIL_ROUTE_PATTERNS = [
   /^\/artifacts\/.+/,
@@ -56,29 +44,12 @@ function isBaseRoute(pathname: string): boolean {
   return !DETAIL_ROUTE_PATTERNS.some((pattern) => pattern.test(pathname));
 }
 
-function ThemeToggle() {
-  const { toggleColorScheme } = useMantineColorScheme();
-  const computedColorScheme = useComputedColorScheme('light');
-  return (
-    <ActionIcon
-      variant="default"
-      size="lg"
-      onClick={toggleColorScheme}
-      aria-label="Toggle color scheme"
-    >
-      {computedColorScheme === 'dark' ? <IoSunny /> : <IoMoon />}
-    </ActionIcon>
-  );
-}
-
 export default function AppLayout() {
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
     useDisclosure();
   const sidebar = useSidebar();
   const isDark = useComputedColorScheme('light') === 'dark';
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
-  const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
-    useContext(TierListReferenceContext);
   const { selectedBanner, showOnAllRoutes } = useContext(BannerContext);
   const location = useLocation();
   const isHome = location.pathname === '/';
@@ -87,14 +58,6 @@ export default function AppLayout() {
     (isHome || (showOnAllRoutes && isBaseRoute(location.pathname)));
 
   const glassStyles = getGlassStyles(isDark);
-  const tierListOptions = useMemo(
-    () =>
-      tierLists.map((list) => ({
-        value: list.name,
-        label: `${list.name} (${normalizeContentType(list.content_type, 'All')})`,
-      })),
-    [tierLists]
-  );
 
   const showLabels = isMobile ? true : sidebar.showLabels;
   const navbarWidth = isMobile
@@ -161,19 +124,8 @@ export default function AppLayout() {
             </Link>
           </Group>
           <Group gap="xs" wrap="nowrap">
-            <Select
-              placeholder="Tier list reference"
-              data={tierListOptions}
-              value={selectedTierListName || null}
-              onChange={(value) => setSelectedTierListName(value ?? '')}
-              clearable
-              size="xs"
-              disabled={loading || tierListOptions.length === 0}
-              w={HEADER_SELECT_WIDTH}
-              visibleFrom="sm"
-            />
             <SearchModal />
-            <ThemeToggle />
+            <SettingsPanel />
           </Group>
         </Group>
       </AppShell.Header>
@@ -189,17 +141,6 @@ export default function AppLayout() {
             onNavigate={closeMobile}
             showLabels={showLabels}
             onExpand={() => sidebar.setCollapsed(false)}
-          />
-        </Box>
-        <Box hiddenFrom="sm" px="xs" pb="xs" pt="xs" style={{ flexShrink: 0 }}>
-          <Select
-            placeholder="Tier list reference"
-            data={tierListOptions}
-            value={selectedTierListName || null}
-            onChange={(value) => setSelectedTierListName(value ?? '')}
-            clearable
-            size="xs"
-            disabled={loading || tierListOptions.length === 0}
           />
         </Box>
       </AppShell.Navbar>

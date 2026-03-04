@@ -6,15 +6,12 @@ import {
   Container,
   Group,
   Kbd,
-  Select,
   Stack,
-  Switch,
   Text,
   ThemeIcon,
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useContext } from 'react';
 import {
   IoGameController,
   IoGlobe,
@@ -34,7 +31,6 @@ import {
   getHomeHeroWordmarkStyle,
 } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
-import { BannerContext } from '../../contexts';
 
 const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];
 
@@ -69,15 +65,6 @@ const HOME_HERO_HEADING_PANEL_STYLE = {
 
 export default function HomeHeroSection() {
   const isDark = useComputedColorScheme('light') === 'dark';
-  const {
-    selectedBanner,
-    bannerSelectData,
-    bannerPreference,
-    setBannerPreference,
-    defaultBannerValue,
-    showOnAllRoutes,
-    setShowOnAllRoutes,
-  } = useContext(BannerContext);
 
   const headingPanelStyle = {
     ...HOME_HERO_HEADING_PANEL_STYLE,
@@ -197,96 +184,6 @@ export default function HomeHeroSection() {
                   Codes & Updates
                 </Badge>
               </Group>
-            </Box>
-            <Box
-              mt="md"
-              mx="auto"
-              style={{
-                width: '100%',
-                maxWidth: 500,
-                padding: '12px 14px',
-                borderRadius: '12px',
-                border: isDark
-                  ? '1px solid rgba(255, 255, 255, 0.14)'
-                  : '1px solid var(--mantine-color-gray-3)',
-                background: isDark
-                  ? 'rgba(16, 18, 22, 0.58)'
-                  : 'rgba(255, 255, 255, 0.82)',
-                backdropFilter: 'blur(6px)',
-                boxShadow: isDark
-                  ? '0 8px 20px rgba(0, 0, 0, 0.28)'
-                  : '0 8px 18px rgba(38, 52, 84, 0.14)',
-              }}
-            >
-              <Group justify="space-between" align="center" mb={6}>
-                <Text
-                  size="xs"
-                  fw={700}
-                  tt="uppercase"
-                  c={isDark ? 'violet.1' : 'indigo.8'}
-                  style={{ letterSpacing: 0.7 }}
-                >
-                  Landing Banner
-                </Text>
-                <Badge
-                  size="sm"
-                  variant="light"
-                  color={selectedBanner?.type === 'video' ? 'pink' : 'blue'}
-                >
-                  {selectedBanner?.type === 'video' ? 'MP4' : 'PNG'}
-                </Badge>
-              </Group>
-              <Text size="xs" c={isDark ? 'gray.3' : 'dark.1'} mb={8}>
-                Choose an illustration, or randomize from all media, PNGs, or
-                MP4 clips.
-              </Text>
-              <Select
-                size="sm"
-                radius="md"
-                placeholder="Select a character illustration"
-                data={bannerSelectData}
-                value={bannerPreference}
-                searchable
-                nothingFoundMessage="No illustrations found"
-                onChange={(value) => {
-                  setBannerPreference(value ?? defaultBannerValue);
-                }}
-                styles={{
-                  input: {
-                    backgroundColor: isDark
-                      ? 'rgba(9, 10, 13, 0.62)'
-                      : 'rgba(255, 255, 255, 0.9)',
-                    borderColor: isDark
-                      ? 'rgba(255, 255, 255, 0.2)'
-                      : 'rgba(65, 84, 131, 0.28)',
-                  },
-                  dropdown: {
-                    borderColor: isDark
-                      ? 'rgba(255, 255, 255, 0.18)'
-                      : 'rgba(65, 84, 131, 0.24)',
-                    backgroundColor: isDark
-                      ? 'rgba(18, 20, 25, 0.96)'
-                      : 'rgba(255, 255, 255, 0.98)',
-                  },
-                }}
-              />
-              <Switch
-                mt={8}
-                size="xs"
-                label="Show banner on all pages"
-                checked={showOnAllRoutes}
-                onChange={(event) =>
-                  setShowOnAllRoutes(event.currentTarget.checked)
-                }
-                styles={{
-                  label: {
-                    color: isDark
-                      ? 'var(--mantine-color-gray-3)'
-                      : 'var(--mantine-color-dark-1)',
-                    fontSize: 'var(--mantine-font-size-xs)',
-                  },
-                }}
-              />
             </Box>
             <Stack gap="sm" mt="md" align="center">
               <Group gap="sm" justify="center" wrap="wrap">
