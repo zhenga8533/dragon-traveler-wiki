@@ -23,15 +23,15 @@ const TeamPage = lazy(() => import('../pages/team'));
 const Codes = lazy(() => import('../pages/Codes'));
 const UsefulLinks = lazy(() => import('../pages/UsefulLinks'));
 const Changelog = lazy(() => import('../pages/Changelog'));
-const BeginnerQA = lazy(() => import('../pages/BeginnerQA'));
+const BeginnerQA = lazy(() => import('../pages/guides/BeginnerQA'));
 const FAQ = lazy(() => import('../pages/FAQ'));
 const StarUpgradeCalculator = lazy(
-  () => import('../pages/StarUpgradeCalculator')
+  () => import('../pages/guides/StarUpgradeCalculator')
 );
 const MythicSummonCalculator = lazy(
-  () => import('../pages/MythicSummonCalculator')
+  () => import('../pages/guides/MythicSummonCalculator')
 );
-const ShovelEventGuide = lazy(() => import('../pages/ShovelEventGuide'));
+const ShovelEventGuide = lazy(() => import('../pages/guides/ShovelEventGuide'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
 function RouteFallback() {
