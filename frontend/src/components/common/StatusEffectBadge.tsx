@@ -1,8 +1,8 @@
-import { Badge, Group, Image, Popover, Stack, Text } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Badge, Group, Image, Stack, Text } from '@mantine/core';
 import { getStatusEffectIcon } from '../../assets/status_effect';
 import { STATE_COLOR } from '../../constants/colors';
 import type { StatusEffect } from '../../types/status-effect';
+import IconBadge from './IconBadge';
 
 export interface StatusEffectBadgeProps {
   name: string;
@@ -13,7 +13,6 @@ export default function StatusEffectBadge({
   name,
   statusEffects,
 }: StatusEffectBadgeProps) {
-  const [opened, { open, close }] = useDisclosure(false);
   const normalizedName = name.trim().toLowerCase();
   const effect = statusEffects.find(
     (e) => e.name.trim().toLowerCase() === normalizedName
@@ -31,26 +30,13 @@ export default function StatusEffectBadge({
   const iconSrc = getStatusEffectIcon(effect.name);
 
   return (
-    <Popover opened={opened} position="top" withArrow shadow="md">
-      <Popover.Target>
-        <Badge
-          variant="light"
-          color={color}
-          size="sm"
-          component="span"
-          style={{ cursor: 'pointer' }}
-          onMouseEnter={open}
-          onMouseLeave={close}
-          leftSection={
-            iconSrc ? (
-              <Image src={iconSrc} alt={effect.name} w={14} h={14} />
-            ) : undefined
-          }
-        >
-          {name}
-        </Badge>
-      </Popover.Target>
-      <Popover.Dropdown style={{ pointerEvents: 'none' }}>
+    <IconBadge
+      label={name}
+      color={color}
+      size="sm"
+      iconSrc={iconSrc ?? undefined}
+      component="span"
+      popoverContent={
         <Stack gap="xs" maw={280}>
           <Group gap="xs" wrap="nowrap">
             {iconSrc && <Image src={iconSrc} alt={effect.name} w={18} h={18} />}
@@ -75,7 +61,7 @@ export default function StatusEffectBadge({
             </Text>
           )}
         </Stack>
-      </Popover.Dropdown>
-    </Popover>
+      }
+    />
   );
 }

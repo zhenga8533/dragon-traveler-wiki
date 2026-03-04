@@ -48,16 +48,14 @@ import {
   LINK_BLOCK_RESET_STYLE,
 } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks';
+import { useCharacterResolution } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
+import { useCharacters, useTeams, useWyrmspells } from '../hooks/use-common-data';
 import { usePagination } from '../hooks/use-pagination';
 import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
-import type { Wyrmspell } from '../types/wyrmspell';
 import {
-  buildCharacterByIdentityMap,
-  buildPreferredCharacterByNameMap,
   resolveCharacterByNameAndQuality,
 } from '../utils/character-route';
 import { toEntitySlug } from '../utils/entity-slug';
@@ -177,17 +175,17 @@ export default function Teams() {
     data: teams,
     loading: loadingTeams,
     error: teamsError,
-  } = useDataFetch<Team[]>('data/teams.json', []);
+  } = useTeams();
   const {
     data: characters,
     loading: loadingChars,
     error: charactersError,
-  } = useDataFetch<Character[]>('data/characters.json', []);
+  } = useCharacters();
   const {
     data: wyrmspells,
     loading: loadingSpells,
     error: wyrmspellsError,
-  } = useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
+  } = useWyrmspells();
   const { filters: viewFilters, setFilters: setViewFilters } = useFilters<
     Record<string, string[]>
   >({
@@ -227,13 +225,8 @@ export default function Teams() {
     }
   }, [location.state, navigate, location.pathname]);
 
-  const charMap = useMemo(() => {
-    return buildPreferredCharacterByNameMap(characters);
-  }, [characters]);
-
-  const characterByIdentity = useMemo(() => {
-    return buildCharacterByIdentityMap(characters);
-  }, [characters]);
+  const { preferredByName: charMap, byIdentity: characterByIdentity } =
+    useCharacterResolution(characters);
 
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
 

@@ -46,13 +46,12 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../../constants/github';
 import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
+import { useCharacterResolution } from '../../../hooks';
 import type { Character } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
 import type { Team, TeamMember, TeamWyrmspells } from '../../../types/team';
 import type { Wyrmspell } from '../../../types/wyrmspell';
 import {
-  buildCharacterByIdentityMap,
-  buildCharacterNameCounts,
   getCharacterBaseSlug,
   getCharacterByReferenceKey,
   getCharacterIdentityKey,
@@ -140,14 +139,8 @@ export default function TeamBuilder({
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const [draftHydrated, setDraftHydrated] = useState(false);
 
-  const characterNameCounts = useMemo(
-    () => buildCharacterNameCounts(characters),
-    [characters]
-  );
-
-  const characterByIdentity = useMemo(() => {
-    return buildCharacterByIdentityMap(characters);
-  }, [characters]);
+  const { byIdentity: characterByIdentity, nameCounts: characterNameCounts } =
+    useCharacterResolution(characters);
 
   const getCharacterFromKey = useCallback(
     (characterKey: string) =>

@@ -2,6 +2,22 @@
 export { useCharacterAssets } from './use-character-assets';
 export { useCharacterResolution } from './use-character-resolution';
 export type { CharacterResolution } from './use-character-resolution';
+export {
+  useArtifacts,
+  useCharacterChanges,
+  useCharacters,
+  useFactions,
+  useGear,
+  useGearSets,
+  useNoblePhantasms,
+  useStatusEffects,
+  useSubclasses,
+  useTeamChanges,
+  useTeams,
+  useTierListChanges,
+  useTierLists,
+  useWyrmspells,
+} from './use-common-data';
 export { useDataFetch } from './use-data-fetch';
 export { useFilteredPageData } from './use-filtered-page-data';
 export {

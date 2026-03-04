@@ -1,15 +1,17 @@
-import { useMemo } from 'react';
+import { useCallback, useMemo } from 'react';
 import type { Character } from '../types/character';
 import {
   buildCharacterByIdentityMap,
   buildCharacterNameCounts,
   buildPreferredCharacterByNameMap,
+  getCharacterByReferenceKey,
 } from '../utils/character-route';
 
 export interface CharacterResolution {
   preferredByName: Map<string, Character>;
   byIdentity: Map<string, Character>;
   nameCounts: Map<string, number>;
+  resolve: (key: string) => Character | undefined;
 }
 
 export function useCharacterResolution(
@@ -27,5 +29,9 @@ export function useCharacterResolution(
     () => buildCharacterNameCounts(characters),
     [characters]
   );
-  return { preferredByName, byIdentity, nameCounts };
+  const resolve = useCallback(
+    (key: string) => getCharacterByReferenceKey(key, preferredByName, byIdentity),
+    [preferredByName, byIdentity]
+  );
+  return { preferredByName, byIdentity, nameCounts, resolve };
 }

@@ -1,9 +1,9 @@
-import { Badge, Group, Image, Popover, Stack, Text } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { Group, Image, Stack, Text } from '@mantine/core';
 import { useContext } from 'react';
 import { getResourceIcon } from '../../assets/resource';
 import { IMAGE_SIZE } from '../../constants/ui';
 import { ResourcesContext } from '../../contexts';
+import IconBadge from './IconBadge';
 import InlineMarkup from './InlineMarkup';
 
 export interface ResourceBadgeProps {
@@ -20,7 +20,6 @@ export default function ResourceBadge({
   quantity,
   size = 'sm',
 }: ResourceBadgeProps) {
-  const [opened, { open, close }] = useDisclosure(false);
   const { resources } = useContext(ResourcesContext);
 
   const iconSrc = getResourceIcon(name);
@@ -29,50 +28,31 @@ export default function ResourceBadge({
   );
 
   const iconSize = size === 'xs' ? IMAGE_SIZE.ICON_XS : IMAGE_SIZE.ICON_SM;
-
-  const badge = (
-    <Badge
-      variant="light"
-      color="yellow"
-      size={size}
-      component="span"
-      style={resource ? { cursor: 'pointer' } : undefined}
-      onMouseEnter={resource ? open : undefined}
-      onMouseLeave={resource ? close : undefined}
-      leftSection={
-        iconSrc ? (
-          <Image
-            src={iconSrc}
-            w={iconSize}
-            h={iconSize}
-            style={{ objectFit: 'contain' }}
-          />
-        ) : undefined
-      }
-    >
-      {name}
-      {quantity != null && ` x${quantity.toLocaleString()}`}
-    </Badge>
-  );
-
-  if (!resource) return badge;
+  const label = `${name}${quantity != null ? ` x${quantity.toLocaleString()}` : ''}`;
 
   return (
-    <Popover opened={opened} position="top" withArrow shadow="md">
-      <Popover.Target>{badge}</Popover.Target>
-      <Popover.Dropdown style={{ pointerEvents: 'none' }}>
-        <Stack gap="xs" maw={280}>
-          <Group gap="xs" wrap="nowrap">
-            {iconSrc && <Image src={iconSrc} alt={name} w={18} h={18} />}
-            <Text fw={600} size="sm">
-              {resource.name}
+    <IconBadge
+      label={label}
+      color="yellow"
+      size={size}
+      iconSrc={iconSrc ?? undefined}
+      iconSize={iconSize}
+      component="span"
+      popoverContent={
+        resource ? (
+          <Stack gap="xs" maw={280}>
+            <Group gap="xs" wrap="nowrap">
+              {iconSrc && <Image src={iconSrc} alt={name} w={18} h={18} />}
+              <Text fw={600} size="sm">
+                {resource.name}
+              </Text>
+            </Group>
+            <Text size="xs" style={{ whiteSpace: 'pre-line' }} component="span">
+              <InlineMarkup text={resource.description} />
             </Text>
-          </Group>
-          <Text size="xs" style={{ whiteSpace: 'pre-line' }} component="span">
-            <InlineMarkup text={resource.description} />
-          </Text>
-        </Stack>
-      </Popover.Dropdown>
-    </Popover>
+          </Stack>
+        ) : undefined
+      }
+    />
   );
 }

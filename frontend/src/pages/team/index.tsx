@@ -20,14 +20,18 @@ import TeamSynergyAssistant from '../../components/tools/TeamSynergyAssistant';
 import { FACTION_COLOR } from '../../constants/colors';
 import { normalizeContentType } from '../../constants/content-types';
 import { STORAGE_KEY } from '../../constants/ui';
-import { useCharacterResolution, useDataFetch, useMobileTooltip } from '../../hooks';
+import { useCharacterResolution, useMobileTooltip } from '../../hooks';
+import {
+  useArtifacts,
+  useCharacters,
+  useFactions,
+  useStatusEffects,
+  useTeamChanges,
+  useTeams,
+  useWyrmspells,
+} from '../../hooks/use-common-data';
 import type { Artifact } from '../../types/artifact';
-import type { ChangesFile } from '../../types/changes';
 import type { Character } from '../../types/character';
-import type { Faction } from '../../types/faction';
-import type { StatusEffect } from '../../types/status-effect';
-import type { Team } from '../../types/team';
-import type { Wyrmspell } from '../../types/wyrmspell';
 import {
   getCharacterRoutePath,
   getCharacterRoutePathByName,
@@ -50,28 +54,13 @@ export default function TeamPage() {
   const navigate = useNavigate();
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
 
-  const { data: teams, loading: loadingTeams } = useDataFetch<Team[]>(
-    'data/teams.json',
-    []
-  );
-  const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
-  const { data: wyrmspells, loading: loadingSpells } =
-    useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
-  const { data: factions, loading: loadingFactions } = useDataFetch<Faction[]>(
-    'data/factions.json',
-    []
-  );
-  const { data: artifacts, loading: loadingArtifacts } =
-    useDataFetch<Artifact[]>('data/artifacts.json', []);
-  const { data: statusEffects, loading: loadingStatusEffects } =
-    useDataFetch<StatusEffect[]>('data/status-effects.json', []);
-  const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/teams.json',
-    {}
-  );
+  const { data: teams, loading: loadingTeams } = useTeams();
+  const { data: characters, loading: loadingChars } = useCharacters();
+  const { data: wyrmspells, loading: loadingSpells } = useWyrmspells();
+  const { data: factions, loading: loadingFactions } = useFactions();
+  const { data: artifacts, loading: loadingArtifacts } = useArtifacts();
+  const { data: statusEffects, loading: loadingStatusEffects } = useStatusEffects();
+  const { data: changesData } = useTeamChanges();
 
   const loading =
     loadingTeams ||

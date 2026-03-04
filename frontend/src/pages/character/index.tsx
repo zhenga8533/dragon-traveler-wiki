@@ -38,10 +38,19 @@ import { BREAKPOINTS } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
 import {
   useCharacterAssets,
-  useDataFetch,
+  useCharacterResolution,
   useMobileTooltip,
 } from '../../hooks';
-import type { ChangesFile } from '../../types/changes';
+import {
+  useCharacterChanges,
+  useCharacters,
+  useGear,
+  useGearSets,
+  useNoblePhantasms,
+  useStatusEffects,
+  useSubclasses,
+  useTeams,
+} from '../../hooks/use-common-data';
 import type {
   ActivatedSetBonus,
   Character,
@@ -50,13 +59,8 @@ import type {
   RecommendedSubclassEntry,
 } from '../../types/character';
 import type { Gear, GearSet } from '../../types/gear';
-import type { NoblePhantasm } from '../../types/noble-phantasm';
-import type { StatusEffect } from '../../types/status-effect';
 import type { Subclass } from '../../types/subclass';
-import type { Team } from '../../types/team';
 import {
-  buildCharacterNameCounts,
-  buildPreferredCharacterByNameMap,
   getCharacterIdentityKey,
   getCharacterRoutePath,
   getCharacterRouteSlug,
@@ -119,42 +123,20 @@ export default function CharacterPage() {
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
-  const { data: characters, loading } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>(
-    'data/status-effects.json',
-    []
-  );
-  const { data: noblePhantasms } = useDataFetch<NoblePhantasm[]>(
-    'data/noble_phantasm.json',
-    []
-  );
-  const { data: subclasses } = useDataFetch<Subclass[]>(
-    'data/subclasses.json',
-    []
-  );
-  const { data: gear } = useDataFetch<Gear[]>('data/gear.json', []);
-  const { data: gearSets } = useDataFetch<GearSet[]>('data/gear_sets.json', []);
-  const { data: teams } = useDataFetch<Team[]>('data/teams.json', []);
-  const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/characters.json',
-    {}
-  );
+  const { data: characters, loading } = useCharacters();
+  const { data: statusEffects } = useStatusEffects();
+  const { data: noblePhantasms } = useNoblePhantasms();
+  const { data: subclasses } = useSubclasses();
+  const { data: gear } = useGear();
+  const { data: gearSets } = useGearSets();
+  const { data: teams } = useTeams();
+  const { data: changesData } = useCharacterChanges();
   const { tierLists, selectedTierListName } = useContext(
     TierListReferenceContext
   );
 
-  const characterNameCounts = useMemo(
-    () => buildCharacterNameCounts(characters),
-    [characters]
-  );
-
-  const preferredCharacterByName = useMemo(
-    () => buildPreferredCharacterByNameMap(characters),
-    [characters]
-  );
+  const { preferredByName: preferredCharacterByName, nameCounts: characterNameCounts } =
+    useCharacterResolution(characters);
 
   const routeMatch = useMemo(
     () => resolveCharacterRoute(characters, name, characterNameCounts),

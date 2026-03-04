@@ -44,15 +44,11 @@ import {
 } from '../constants/content-types';
 import { getCardHoverProps } from '../constants/styles';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks';
+import { useCharacterResolution } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
-import type { ChangesFile } from '../types/changes';
-import type { Character } from '../types/character';
+import { useCharacters, useTierListChanges, useTierLists } from '../hooks/use-common-data';
 import type { TierList as TierListType } from '../types/tier-list';
 import {
-  buildCharacterByIdentityMap,
-  buildCharacterNameCounts,
-  buildPreferredCharacterByNameMap,
   getCharacterBaseSlug,
   getCharacterIdentityKey,
   getCharacterRoutePath,
@@ -66,16 +62,13 @@ export default function TierList() {
     data: tierLists,
     loading: loadingTiers,
     error: tierListsError,
-  } = useDataFetch<TierListType[]>('data/tier-lists.json', []);
+  } = useTierLists();
   const {
     data: characters,
     loading: loadingChars,
     error: charactersError,
-  } = useDataFetch<Character[]>('data/characters.json', []);
-  const { data: tierListChanges } = useDataFetch<ChangesFile>(
-    'data/changes/tier-lists.json',
-    {}
-  );
+  } = useCharacters();
+  const { data: tierListChanges } = useTierListChanges();
   const { filters: viewFilters, setFilters: setViewFilters } = useFilters<
     Record<string, string[]>
   >({
@@ -99,20 +92,13 @@ export default function TierList() {
   const loading = loadingTiers || loadingChars;
   const error = tierListsError || charactersError;
 
-  const preferredCharacterByName = useMemo(() => {
-    return buildPreferredCharacterByNameMap(characters);
-  }, [characters]);
-
-  const characterByIdentity = useMemo(() => {
-    return buildCharacterByIdentityMap(characters);
-  }, [characters]);
+  const {
+    preferredByName: preferredCharacterByName,
+    byIdentity: characterByIdentity,
+    nameCounts: characterNameCounts,
+  } = useCharacterResolution(characters);
 
   const charMap = preferredCharacterByName;
-
-  const characterNameCounts = useMemo(
-    () => buildCharacterNameCounts(characters),
-    [characters]
-  );
 
   const resolveTierEntryCharacter = useCallback(
     (entry: TierListType['entries'][number]) =>
