@@ -58,9 +58,11 @@ export default function FeaturedCharactersMarquee() {
   const charMap = buildPreferredCharacterByNameMap(characters);
   const characterByIdentity = buildCharacterByIdentityMap(characters);
   const nameCounts = buildCharacterNameCounts(characters);
-  const topEntries = tierList.entries.filter(
-    (e) => e.tier === 'S+' || e.tier === 'S'
-  );
+  const topTierNames =
+    tierList.tiers && tierList.tiers.length >= 2
+      ? [tierList.tiers[0].name, tierList.tiers[1].name]
+      : ['S+', 'S'];
+  const topEntries = tierList.entries.filter((e) => topTierNames.includes(e.tier));
 
   if (topEntries.length === 0) return null;
 
