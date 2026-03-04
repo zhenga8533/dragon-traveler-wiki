@@ -256,7 +256,7 @@
         "note": "Eternal chain seal; counters resurrection."
       }
     ],
-    "last_updated": 1772402716,
+    "last_updated": 1772600511,
     "bench": [
       {
         "character_name": "Azure Dragon",
@@ -264,6 +264,7 @@
       },
       {
         "character_name": "Oberonnie",
+        "character_quality": "SSR",
         "note": "Counters dual assassins."
       },
       {
@@ -552,7 +553,7 @@
         "note": "Sustained DPS (Damage per second)"
       }
     ],
-    "last_updated": 1772402716,
+    "last_updated": 1772600511,
     "bench": [
       {
         "character_name": "Anubis",
@@ -560,6 +561,7 @@
       },
       {
         "character_name": "Oberonnie",
+        "character_quality": "SSR",
         "note": "Stable damage mitigation / Tanking"
       },
       {
@@ -572,6 +574,7 @@
       },
       {
         "character_name": "Fenrir",
+        "character_quality": "SSR",
         "note": "Finishing (Execute) and Interrupt"
       },
       {

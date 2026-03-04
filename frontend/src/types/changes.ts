@@ -1,6 +1,12 @@
 export interface FieldDiff {
-  old?: unknown;
-  new?: unknown;
+  // Scalar change
+  old?: string | number | boolean;
+  new?: string | number | boolean;
+  // Array change (entries, members, bench, etc.)
+  added?: string[];
+  removed?: string[];
+  modified?: string[]; // items with same identity but changed content
+  changed?: Record<string, { old: string | number | boolean; new: string | number | boolean }>;
 }
 
 export interface ChangeRecord {

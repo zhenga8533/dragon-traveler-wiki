@@ -1,18 +1,102 @@
 {
   "Taiwan Tier List": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "entries": {
+            "added": [
+              "Fenrir (SR)",
+              "Fenrir (SSR)",
+              "Oberonnie (SR)",
+              "Oberonnie (SSR)",
+              "Siegfried (R)",
+              "Siegfried (SR)",
+              "Siegfried (SSR)"
+            ],
+            "removed": [
+              "Fenrir",
+              "Oberonnie"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Taiwan PvE Tier List": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "entries": {
+            "added": [
+              "Fenrir (SR)",
+              "Fenrir (SSR)",
+              "Oberonnie (SR)",
+              "Oberonnie (SSR)",
+              "Siegfried (R)",
+              "Siegfried (SR)",
+              "Siegfried (SSR)"
+            ],
+            "removed": [
+              "Fenrir",
+              "Oberonnie"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Taiwan PvP Tier List": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "entries": {
+            "added": [
+              "Fenrir (SR)",
+              "Fenrir (SSR)",
+              "Oberonnie (SR)",
+              "Oberonnie (SSR)",
+              "Siegfried (R)",
+              "Siegfried (SR)",
+              "Siegfried (SSR)"
+            ],
+            "removed": [
+              "Fenrir",
+              "Oberonnie"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Global Tier List": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "entries": {
+            "added": [
+              "Fenrir (SR)",
+              "Fenrir (SSR)",
+              "Oberonnie (SR)",
+              "Oberonnie (SSR)",
+              "Siegfried (R)",
+              "Siegfried (SR)",
+              "Siegfried (SSR)"
+            ],
+            "removed": [
+              "Fenrir",
+              "Oberonnie"
+            ]
+          }
+        }
+      }
+    ]
   }
 }

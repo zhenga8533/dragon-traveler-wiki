@@ -13,11 +13,31 @@
   },
   "Caesar__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Duvalin__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Helveil__SSR+": {
     "added": 1772563593,
@@ -25,11 +45,31 @@
   },
   "Pompey__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Greek Mythology",
+            "new": "Roman Civilization"
+          }
+        }
+      }
+    ]
   },
   "Salome__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Drasill__SSR": {
     "added": 1772563593,
@@ -37,15 +77,45 @@
   },
   "Goren__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Hebrew Legends",
+            "new": "Hebrew Legend"
+          }
+        }
+      }
+    ]
   },
   "Gudong__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Herman__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "German Folklore",
+            "new": "Germanic Civilization"
+          }
+        }
+      }
+    ]
   },
   "Oberonnie__SSR": {
     "added": 1772563593,
@@ -53,19 +123,75 @@
   },
   "Eurytion__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "223cm"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "305kg"
+          }
+        }
+      }
+    ]
   },
   "Dwarf Warrior__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "147cm"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "86kg"
+          }
+        }
+      }
+    ]
   },
   "Mummy__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "135cm"
+          },
+          "origin": {
+            "old": "Egyptian Mythology",
+            "new": "Egyptian Civilization"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "35kg"
+          }
+        }
+      }
+    ]
   },
   "Rock Slime__N": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Hela__SSR EX": {
     "added": 1772563593,
@@ -81,15 +207,45 @@
   },
   "Ophelia__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Scheherazade__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Arabian Mythology",
+            "new": "Arabian Legend"
+          }
+        }
+      }
+    ]
   },
   "Silbismo__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Titania__SSR+": {
     "added": 1772563593,
@@ -105,7 +261,17 @@
   },
   "Caligula__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Chiron__SSR": {
     "added": 1772563593,
@@ -113,23 +279,101 @@
   },
   "Flora__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "94cm"
+          },
+          "origin": {
+            "old": "European Folklore",
+            "new": "Roman Mythology"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "23kg"
+          }
+        }
+      }
+    ]
   },
   "Siren__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "162cm"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "53kg"
+          }
+        }
+      }
+    ]
   },
   "Goblin War Drummer__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "85cm"
+          },
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "32kg"
+          }
+        }
+      }
+    ]
   },
   "Viel__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "132cm"
+          },
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Norse Mythology"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "32kg"
+          }
+        }
+      }
+    ]
   },
   "Breeze Slime__N": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Hades__SSR EX": {
     "added": 1772563593,
@@ -145,15 +389,42 @@
   },
   "Mordred__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "talent": {}
+        }
+      }
+    ]
   },
   "Pan Junbao__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Eastern Mythology",
+            "new": "Eastern Civilization"
+          }
+        }
+      }
+    ]
   },
   "Rin__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Eastern Mythology",
+            "new": "Eastern Civilization"
+          }
+        }
+      }
+    ]
   },
   "White Tiger__SSR+": {
     "added": 1772563593,
@@ -165,7 +436,14 @@
   },
   "Fenrir__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "talent": {}
+        }
+      }
+    ]
   },
   "Lancelot__SSR": {
     "added": 1772563593,
@@ -177,19 +455,83 @@
   },
   "Bladeheart__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "164cm"
+          },
+          "origin": {
+            "old": "Eastern Mythology",
+            "new": "Japanese Legend"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "44kg"
+          }
+        }
+      }
+    ]
   },
   "Boar Knight__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "182cm"
+          },
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "63kg"
+          }
+        }
+      }
+    ]
   },
   "Sword Dancer__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "160cm"
+          },
+          "origin": {
+            "old": "Eastern Mythology",
+            "new": "Norse Mythology"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "50kg"
+          }
+        }
+      }
+    ]
   },
   "Shadow Slime__N": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Ares__SSR EX": {
     "added": 1772563593,
@@ -209,7 +551,17 @@
   },
   "Asmodeus__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Azure Dragon__SSR+": {
     "added": 1772563593,
@@ -221,7 +573,17 @@
   },
   "Hitomi__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Eastern Mythology",
+            "new": "Eastern Civilization"
+          }
+        }
+      }
+    ]
   },
   "Marylis__SSR+": {
     "added": 1772563593,
@@ -229,15 +591,36 @@
   },
   "Siegfried__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "talent": {}
+        }
+      }
+    ]
   },
   "Siegfried__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "talent": {}
+        }
+      }
+    ]
   },
   "Siegfried__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "talent": {}
+        }
+      }
+    ]
   },
   "Siegfried__R": {
     "added": 1772563593,
@@ -261,19 +644,79 @@
   },
   "Grimnir__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "159cm"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "91kg"
+          }
+        }
+      }
+    ]
   },
   "Murphy__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "92cm"
+          },
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Hebrew Mythology"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "37kg"
+          }
+        }
+      }
+    ]
   },
   "Goblin Battering Ram__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "84cm"
+          },
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "33kg"
+          }
+        }
+      }
+    ]
   },
   "Flame Slime__N": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Apollo__SSR EX": {
     "added": 1772563593,
@@ -293,7 +736,17 @@
   },
   "Jing__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Eastern Mythology",
+            "new": "Eastern Civilization"
+          }
+        }
+      }
+    ]
   },
   "Mimir__SSR+": {
     "added": 1772563593,
@@ -321,23 +774,93 @@
   },
   "Nessus__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "221cm"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "301kg"
+          }
+        }
+      }
+    ]
   },
   "Polyphemus__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "393cm"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "563kg"
+          }
+        }
+      }
+    ]
   },
   "Dwarven Cannoneer__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "147cm"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "85kg"
+          }
+        }
+      }
+    ]
   },
   "Wood Elf Archer__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "146cm"
+          },
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Norse Mythology"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "40kg"
+          }
+        }
+      }
+    ]
   },
   "Lightning Slime__N": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
   },
   "Loki__SSR EX": {
     "added": 1772563593,
@@ -349,7 +872,17 @@
   },
   "Crassus__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Eastern Mythology",
+            "new": "Eastern Civilization"
+          }
+        }
+      }
+    ]
   },
   "Faust__SSR+": {
     "added": 1772563593,
@@ -357,7 +890,17 @@
   },
   "Gabriele__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Hebrew Legends",
+            "new": "Hebrew Mythology"
+          }
+        }
+      }
+    ]
   },
   "Gullveig__SSR+": {
     "added": 1772563593,
@@ -369,7 +912,17 @@
   },
   "Vermilion Bird__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Eastern Mythology",
+            "new": "Eastern Civilization"
+          }
+        }
+      }
+    ]
   },
   "Cerberus__SSR": {
     "added": 1772563593,
@@ -377,7 +930,17 @@
   },
   "Cleopatra__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Egyptian Mythology",
+            "new": "Egyptian Civilization"
+          }
+        }
+      }
+    ]
   },
   "Melina__SSR": {
     "added": 1772563593,
@@ -393,22 +956,104 @@
   },
   "Buck__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "89cm"
+          },
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "36kg"
+          }
+        }
+      }
+    ]
   },
   "Kleina__SR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "160cm"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "0kg"
+          }
+        }
+      }
+    ]
   },
   "Dwarven Sage__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "146cm"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "82kg"
+          }
+        }
+      }
+    ]
   },
   "Pharaoh__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "height": {
+            "old": "?cm",
+            "new": "136cm"
+          },
+          "origin": {
+            "old": "Egyptian Mythology",
+            "new": "Egyptian Civilization"
+          },
+          "weight": {
+            "old": "?kg",
+            "new": "36kg"
+          }
+        }
+      }
+    ]
   },
   "Ice Slime__N": {
     "added": 1772563593,
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "origin": {
+            "old": "Modern Fantasy",
+            "new": "Modern Fantasy Literature"
+          }
+        }
+      }
+    ]
+  },
+  "Oberonnie__SR": {
+    "added": 1772600511,
+    "changes": []
+  },
+  "Fenrir__SR": {
+    "added": 1772600511,
     "changes": []
   }
 }

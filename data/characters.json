@@ -311,7 +311,7 @@
     ],
     "height": "173cm",
     "weight": "59kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "Caesar Nibelungen was the eldest daughter of Constantine XI, crown princess, and heir to the Nibelgarde Empire.\nAs a member of the royal family, she was accompanied by heavy courses and training from a young age. Even in her youth, Caesar had already noticed the doubts within the country about her as the female heir, but only her father was determined to make her the crown prince.\nTo repay this trust, she worked far beyond what ordinary people could do to gain more recognition and support, and thus gradually became recognized by the people as a leader they would follow to the death.",
     "quote": "",
     "talent": {
@@ -383,7 +383,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1772600511
   },
   {
     "name": "Duvalin",
@@ -405,7 +405,7 @@
     ],
     "height": "179cm",
     "weight": "62kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "As the guardian appointed by the gods, Duvalin has shouldered the responsibility of maintaining life in the Nine Realms since ancient times. She was granted the power to control flames and forge, and leads the valiant Red Dragon Legion.",
     "quote": "",
     "talent": {
@@ -477,7 +477,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1772600511
   },
   {
     "name": "Helveil",
@@ -593,7 +593,7 @@
     ],
     "height": "177cm",
     "weight": "57kg",
-    "origin": "Greek Mythology",
+    "origin": "Roman Civilization",
     "lore": "A general of the Nibelgard Empire, commanding a large army, decisive in battle, and single-handedly guarding both the inside and outside.",
     "quote": "",
     "talent": {
@@ -665,7 +665,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Salome",
@@ -687,7 +687,7 @@
     ],
     "height": "165cm",
     "weight": "42kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "Salome grew up in the treacherous depths of the court, witnessing the deepest darkness of humanity from a young age. Her mother molded her into the sharpest weapon, concealing her brilliance with her unparalleled beauty and captivating dance. Whenever her mother acted on her love, she would grant her mother's wishes, even if it meant taking another's life. Her mother was undoubtedly satisfied and proud, but poor Salome could no longer distinguish the boundary between love and death.",
     "quote": "",
     "talent": {
@@ -760,7 +760,7 @@
       "Templar",
       "Guardian"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1772600511
   },
   {
     "name": "Drasill",
@@ -870,7 +870,7 @@
     ],
     "height": "617cm",
     "weight": "1746kg",
-    "origin": "Hebrew Legends",
+    "origin": "Hebrew Legend",
     "lore": "The colossal rock statues often encountered in ancient ruins usually lie dormant, appearing as ordinary rocks. However, if an enemy approaches, they will rise from the ground and smash their massive stone fists into the ground.",
     "quote": "I'll form the head!",
     "talent": {
@@ -936,7 +936,7 @@
     "recommended_subclasses": [
       "Lionheart Knight"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Gudong",
@@ -958,7 +958,7 @@
     ],
     "height": "45cm",
     "weight": "53kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "If you think those bouncy, slimy creatures everywhere are just the go-to grinders for newbies to farm experience—you're sorely mistaken! Before you stands the slime of slimes, the king of kings, the eternal pinnacle of monster history in human games! *Gulp!*",
     "quote": "Bubble!",
     "talent": {
@@ -1024,7 +1024,7 @@
     "recommended_subclasses": [
       "Martyr"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Herman",
@@ -1046,7 +1046,7 @@
     ],
     "height": "178cm",
     "weight": "60kg",
-    "origin": "German Folklore",
+    "origin": "Germanic Civilization",
     "lore": "The barbarian leader, formerly the daughter of the chieftain of the Fenris tribe, was sent to the Nibelgard Empire as a hostage after the failed rebellion. Due to her exceptional strength, she was selected to join the imperial army.",
     "quote": "Spirit of the Beast, fight by my side!",
     "talent": {
@@ -1112,7 +1112,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Oberonnie",
@@ -1219,8 +1219,8 @@
       "Templar",
       "Lionheart Knight"
     ],
-    "height": "?cm",
-    "weight": "?kg",
+    "height": "223cm",
+    "weight": "305kg",
     "origin": "Greek Mythology",
     "lore": "",
     "quote": "My battle axe drinks blood!",
@@ -1275,7 +1275,84 @@
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
+  },
+  {
+    "name": "Oberonnie",
+    "title": "Forest Lord",
+    "quality": "SR",
+    "character_class": "Guardian",
+    "factions": [
+      "Elemental Echo",
+      "Wild Spirit"
+    ],
+    "is_global": true,
+    "subclasses": [
+      "Shield Guard",
+      "Standard Bearer",
+      "Centurion",
+      "Vanguard Warrior",
+      "Guardian"
+    ],
+    "height": "170cm",
+    "weight": "46kg",
+    "origin": "European Folklore",
+    "lore": "Living in the forest, she is the daughter of the Elf King, leading the elves with a serious and meticulous manner. She is methodical and rarely smiles. In battle, she always leads from the front, personally defending the peace of the forest.",
+    "quote": "I guard this forest!",
+    "talent": {
+      "name": "Forest Blessing",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Increases Dodge by 350.\nWhen attacked by an enemy afflicted with an [Elemental Debuff], gains an additional 350 Dodge."
+        },
+        {
+          "level": 2,
+          "effect": "While in the [Wild] status, recovers HP equal to 4% of Max HP after each dodge."
+        },
+        {
+          "level": 3,
+          "effect": "Increases HP by 12%."
+        },
+        {
+          "level": 4,
+          "effect": "Upon entering the [Wild] status, instantly generates a Shield worth 20% of Max HP for 10 seconds."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Might of Mother Nature",
+        "type": "Overdrive",
+        "description": "Swinging a long spear, deals physical damage equal to 240% of Attack to enemies within a large circular area, inflicting [Chill] and gaining a shield equal to 35% of Max HP for 8 seconds.",
+        "cooldown": 20
+      },
+      {
+        "name": "Shield Bash",
+        "type": "Ultimate Skill",
+        "description": "When shielded, Magic Defense increases by 44% and basic attacks deal AoE damage.",
+        "cooldown": 0
+      },
+      {
+        "name": "Warden",
+        "type": "Secret Skill",
+        "description": "Increases the effect of self-generated shields by 30%.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
+    },
+    "recommended_subclasses": [
+      "Guardian"
+    ],
+    "last_updated": 1772600511
   },
   {
     "name": "Dwarf Warrior",
@@ -1294,8 +1371,8 @@
       "Templar",
       "Avenger"
     ],
-    "height": "?cm",
-    "weight": "?kg",
+    "height": "147cm",
+    "weight": "86kg",
     "origin": "Norse Mythology",
     "lore": "",
     "quote": "Fight? Count me in!",
@@ -1340,7 +1417,7 @@
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Mummy",
@@ -1359,9 +1436,9 @@
       "Vanguard Warrior",
       "Guardian"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Egyptian Mythology",
+    "height": "135cm",
+    "weight": "35kg",
+    "origin": "Egyptian Civilization",
     "lore": "",
     "quote": "Curse...",
     "talent": {
@@ -1405,7 +1482,7 @@
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Rock Slime",
@@ -1419,7 +1496,7 @@
     "subclasses": [],
     "height": "?cm",
     "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -1449,7 +1526,7 @@
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Hela",
@@ -1762,7 +1839,7 @@
     ],
     "height": "169cm",
     "weight": "51kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "She is the archbishop of the Holy Sword Gram Church, bearing the heavy responsibility of leading the congregation.",
     "quote": "Guarding the holy sword... is my duty.",
     "talent": {
@@ -1836,7 +1913,7 @@
       "Inquisitor",
       "Divine Officer"
     ],
-    "last_updated": 1771883017
+    "last_updated": 1772600511
   },
   {
     "name": "Scheherazade",
@@ -1858,7 +1935,7 @@
     ],
     "height": "170cm",
     "weight": "0kg",
-    "origin": "Arabian Mythology",
+    "origin": "Arabian Legend",
     "lore": "Legend has it that the ancient Sassanid king left behind a magic lamp, which, when lit, grants three wishes. When someone actually finds this lamp, the spirit he summons is a warm and cheerful woman who calls herself Scheherazade. However, although the spirit is eager to grant your wishes, she doesn't seem to be as omnipotent as the legends say...?",
     "quote": "Make a wish!",
     "talent": {
@@ -1931,7 +2008,7 @@
       "High Priest",
       "Executor"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Silbismo",
@@ -1953,7 +2030,7 @@
     ],
     "height": "166cm",
     "weight": "45kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "Silbimo has been wandering in the shattered land for a hundred years. She doesn't remember what happened in the past or where she is going. She is just a living shell.\nUntil that day, the will of the Ring of Domination awakened in her consciousness like a spark, fully restoring her intellect and reminding her of her mission as the Ringbearer. She felt the Ring of Domination's call—to guide the destined one to Him. From that moment on, her path had direction.",
     "quote": "",
     "talent": {
@@ -2027,7 +2104,7 @@
       "Inquisitor",
       "Divine Officer"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1772600511
   },
   {
     "name": "Titania",
@@ -2333,7 +2410,7 @@
     ],
     "height": "256cm",
     "weight": "172kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "The ogre wizards, like other ogres, are not only lazy and gluttonous, but also possess the wisdom common to mages—in their case, cunning.",
     "quote": "You look... delicious.",
     "talent": {
@@ -2406,7 +2483,7 @@
       "High Priest",
       "Inquisitor"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Chiron",
@@ -2520,9 +2597,9 @@
       "Bishop",
       "Divine Officer"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "European Folklore",
+    "height": "94cm",
+    "weight": "23kg",
+    "origin": "Roman Mythology",
     "lore": "",
     "quote": "May hope and flowers bloom together~",
     "talent": {
@@ -2576,7 +2653,7 @@
       "accessory": "Mana's Tear"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771883017
+    "last_updated": 1772600511
   },
   {
     "name": "Siren",
@@ -2595,8 +2672,8 @@
       "High Priest",
       "Divine Officer"
     ],
-    "height": "?cm",
-    "weight": "?kg",
+    "height": "162cm",
+    "weight": "53kg",
     "origin": "Greek Mythology",
     "lore": "",
     "quote": "Embrace the sea!",
@@ -2654,7 +2731,7 @@
       "High Priest",
       "Divine Officer"
     ],
-    "last_updated": 1771883017
+    "last_updated": 1772600511
   },
   {
     "name": "Goblin War Drummer",
@@ -2673,9 +2750,9 @@
       "Bishop",
       "Divine Officer"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "height": "85cm",
+    "weight": "32kg",
+    "origin": "Modern Fantasy Literature",
     "lore": "",
     "quote": "Starfall Debut!",
     "talent": {
@@ -2721,7 +2798,7 @@
     "recommended_subclasses": [
       "Divine Officer"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Viel",
@@ -2740,9 +2817,9 @@
       "High Priest",
       "Executor"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "height": "132cm",
+    "weight": "32kg",
+    "origin": "Norse Mythology",
     "lore": "",
     "quote": "Lost your way? Follow me~",
     "talent": {
@@ -2796,7 +2873,7 @@
       "accessory": "Mana's Tear"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771883017
+    "last_updated": 1772600511
   },
   {
     "name": "Breeze Slime",
@@ -2810,7 +2887,7 @@
     "subclasses": [],
     "height": "?cm",
     "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -2840,7 +2917,7 @@
       "accessory": "Mana's Tear"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771883017
+    "last_updated": 1772600511
   },
   {
     "name": "Hades",
@@ -3151,7 +3228,7 @@
         },
         {
           "level": 2,
-          "effect": "After triggering [Elemental Reactions], reduces the Cooldown of [Mourning Edge Devour] and [Devour Wheel] by 4s."
+          "effect": "After triggering [Elemental Reaction], reduces the Cooldown of [Mourning Edge Devour] and [Devour Wheel] by 4s."
         },
         {
           "level": 3,
@@ -3211,7 +3288,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Pan Junbao",
@@ -3233,7 +3310,7 @@
     ],
     "height": "201cm",
     "weight": "122kg",
-    "origin": "Eastern Mythology",
+    "origin": "Eastern Civilization",
     "lore": "He embodies the unity of knowledge and action, traversing mountains and rivers. The people of Illusion Mountain may occasionally catch a glimpse of this kung fu master, perhaps in the dangerous Demon Realm, or perhaps in a bustling city square. The black and white panda man is hard to miss, but soon he will vanish without a trace.",
     "quote": "Manifest the universe, unite with the qi.",
     "talent": {
@@ -3299,7 +3376,7 @@
     "recommended_subclasses": [
       "Forest Bandit"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Rin",
@@ -3321,7 +3398,7 @@
     ],
     "height": "168cm",
     "weight": "54kg",
-    "origin": "Eastern Mythology",
+    "origin": "Eastern Civilization",
     "lore": "Rin was born into a family of swordsmen and was renowned for his dual-wielding technique. He fought over sixty battles without ever being defeated, and once even defeated a powerful enemy using only a wooden sword. Rin is known throughout the world as a master swordsman, leaving behind numerous legendary tales.",
     "quote": "",
     "talent": {
@@ -3393,7 +3470,7 @@
     "recommended_subclasses": [
       "Outlaw"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1772600511
   },
   {
     "name": "White Tiger",
@@ -3624,7 +3701,7 @@
         },
         {
           "level": 4,
-          "effect": "After triggering [Elemental Reactions], gains [Attack Boost]."
+          "effect": "After triggering [Elemental Reaction], gains [Attack Boost]."
         },
         {
           "level": 7,
@@ -3676,7 +3753,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Lancelot",
@@ -3871,9 +3948,9 @@
       "Forest Bandit",
       "Executioner"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Eastern Mythology",
+    "height": "164cm",
+    "weight": "44kg",
+    "origin": "Japanese Legend",
     "lore": "",
     "quote": "Death comes for all mortals.",
     "talent": {
@@ -3927,7 +4004,84 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
+  },
+  {
+    "name": "Fenrir",
+    "title": "Twilight Beast",
+    "quality": "SR",
+    "character_class": "Assassin",
+    "factions": [
+      "Elemental Echo",
+      "Arcane Wisdom"
+    ],
+    "is_global": true,
+    "subclasses": [
+      "Thief",
+      "Nightblade",
+      "Scoundrel",
+      "Masked Thief",
+      "Executioner"
+    ],
+    "height": "164cm",
+    "weight": "42kg",
+    "origin": "Norse Mythology",
+    "lore": "A elusive humanoid beast, appearing silently in the night, swiftly delivering a fatal blow to its enemies with its agile claws before vanishing without a trace. Living entirely in nature, nocturnal and free-spirited, hunting is its greatest passion.",
+    "quote": "The hunt... begins!",
+    "talent": {
+      "name": "Hunting Rhythm",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "When there is at least 1 enemy on the battlefield with less than 50% HP, Life Steal increases by 23%. [Hunting Time] This skill's cooldown resets if the target is defeated."
+        },
+        {
+          "level": 2,
+          "effect": "Each time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. For each stack of [Awakening], Life Steal is increased by an additional 4%."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own Attack by 15%."
+        },
+        {
+          "level": 4,
+          "effect": "After triggering [Elemental Reaction], gains [Attack Boost]."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Hunting Time",
+        "type": "Overdrive",
+        "description": "Quickly darts in front of a single target, dealing physical damage equal to 430% of Attack and knocking them down. If the target is defeated, deals additional physical damage equal to 129% of Attack to enemies within a large circular area. Crit increases by 1,200 for this skill's duration.",
+        "cooldown": 18
+      },
+      {
+        "name": "Secret Raid",
+        "type": "Ultimate Skill",
+        "description": "Blinks to the back of a single target, dealing Physical Damage equal to 275% of Attack.",
+        "cooldown": 12
+      },
+      {
+        "name": "Predatory Pulse",
+        "type": "Secret Skill",
+        "description": "At the start of battle and every 12 seconds thereafter, the next instance of damage inflicted deals additional physical damage equal to 90% of Attack and inflicts [Shock].",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Executioner"
+    ],
+    "last_updated": 1772600511
   },
   {
     "name": "Boar Knight",
@@ -3946,9 +4100,9 @@
       "Masked Thief",
       "Forest Bandit"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "height": "182cm",
+    "weight": "63kg",
+    "origin": "Modern Fantasy Literature",
     "lore": "",
     "quote": "Got you now!",
     "talent": {
@@ -3992,7 +4146,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Sword Dancer",
@@ -4011,9 +4165,9 @@
       "Forest Bandit",
       "Executioner"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Eastern Mythology",
+    "height": "160cm",
+    "weight": "50kg",
+    "origin": "Norse Mythology",
     "lore": "",
     "quote": "Any Deathrattle?",
     "talent": {
@@ -4057,7 +4211,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Shadow Slime",
@@ -4071,7 +4225,7 @@
     "subclasses": [],
     "height": "?cm",
     "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -4101,7 +4255,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Ares",
@@ -4508,7 +4662,7 @@
     ],
     "height": "169cm",
     "weight": "50kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "Asmodeus is one of the oldest demon lords of Hell, the embodiment of desire among the Seven Deadly Sins. Throughout countless ages, she has silently observed the rise and fall of various worlds. Unlike the cruelty of other demon lords, she is more fond of weaving dreams—sowing delusions in the emperor's night and planting ambition in the beggar's dreams. All beings are actors on her stage, and she only needs to gently pluck the strings of desire to make the entire world dance.",
     "quote": "",
     "talent": {
@@ -4581,7 +4735,7 @@
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1772600511
   },
   {
     "name": "Azure Dragon",
@@ -4791,7 +4945,7 @@
     ],
     "height": "173cm",
     "weight": "48kg",
-    "origin": "Eastern Mythology",
+    "origin": "Eastern Civilization",
     "lore": "Hitomi, a Sengoku daimyo who rose from humble beginnings in one province to rule the entire Kinai region, successfully stormed Kyoto after breaking through the encirclement of various powerful daimyo, took control of the shogunate, and ultimately became the ruler of the entire Ashihara region.\nAs a child, Hitomi was known as a \"big fool\" among the people. She despised the rigid etiquette of the Eastern Kingdom and disdained her studies, often causing her parents headaches with her unruly nature. It wasn't until Hitomi personally led her army to conquer several cities and achieved numerous victories that people realized that the young lord's military talent was not to be underestimated.",
     "quote": "",
     "talent": {
@@ -4854,7 +5008,7 @@
     "noble_phantasm": "",
     "recommended_gear": null,
     "recommended_subclasses": [],
-    "last_updated": 1772261350
+    "last_updated": 1772600511
   },
   {
     "name": "Marylis",
@@ -4990,7 +5144,7 @@
         },
         {
           "level": 4,
-          "effect": "After triggering [Elemental Reactions], restores 30% of lost HP."
+          "effect": "After triggering [Elemental Reaction], restores 30% of lost HP."
         },
         {
           "level": 7,
@@ -5042,7 +5196,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Tyrfing",
@@ -5450,7 +5604,7 @@
         },
         {
           "level": 4,
-          "effect": "After triggering [Elemental Reactions], restores 30% of lost HP."
+          "effect": "After triggering [Elemental Reaction], restores 30% of lost HP."
         },
         {
           "level": 7,
@@ -5496,7 +5650,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1772563593
+    "last_updated": 1772600511
   },
   {
     "name": "Grimnir",
@@ -5515,8 +5669,8 @@
       "Berserker",
       "Sword Master"
     ],
-    "height": "?cm",
-    "weight": "?kg",
+    "height": "159cm",
+    "weight": "91kg",
     "origin": "Norse Mythology",
     "lore": "",
     "quote": "I will fight to the death!",
@@ -5571,7 +5725,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Murphy",
@@ -5590,9 +5744,9 @@
       "Crusader",
       "Sword Master"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "height": "92cm",
+    "weight": "37kg",
+    "origin": "Hebrew Mythology",
     "lore": "",
     "quote": "Show some manners... mortal!",
     "talent": {
@@ -5646,7 +5800,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Siegfried",
@@ -5687,7 +5841,7 @@
         },
         {
           "level": 4,
-          "effect": "After triggering [Elemental Reactions], restores 30% of lost HP."
+          "effect": "After triggering [Elemental Reaction], restores 30% of lost HP."
         }
       ]
     },
@@ -5723,7 +5877,7 @@
     "recommended_subclasses": [
       "Berserker"
     ],
-    "last_updated": 1772563593
+    "last_updated": 1772600511
   },
   {
     "name": "Goblin Battering Ram",
@@ -5742,9 +5896,9 @@
       "Crusader",
       "Sword Master"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "height": "84cm",
+    "weight": "33kg",
+    "origin": "Modern Fantasy Literature",
     "lore": "",
     "quote": "Heave ho... ouch!",
     "talent": {
@@ -5788,7 +5942,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Siegfried",
@@ -5869,7 +6023,7 @@
     "subclasses": [],
     "height": "?cm",
     "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -5899,7 +6053,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Apollo",
@@ -6306,7 +6460,7 @@
     ],
     "height": "173cm",
     "weight": "52kg",
-    "origin": "Eastern Mythology",
+    "origin": "Eastern Civilization",
     "lore": "Jing is an assassin. From the time she can remember, she has been learning assassination techniques from her master, honing her skills day after day. Finally, on the day she came of age, her master gave her five short blades, telling her that her mission was to be the ruler of the world, to assassinate unjust gods, and to protect the rights of mortals.",
     "quote": "",
     "talent": {
@@ -6378,7 +6532,7 @@
     "recommended_subclasses": [
       "Bounty Hunter"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1772600511
   },
   {
     "name": "Mimir",
@@ -6956,8 +7110,8 @@
       "Bloodhunter",
       "Sharpshooter"
     ],
-    "height": "?cm",
-    "weight": "?kg",
+    "height": "221cm",
+    "weight": "301kg",
     "origin": "Greek Mythology",
     "lore": "",
     "quote": "Spears, pierce through the armor!",
@@ -7012,7 +7166,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Polyphemus",
@@ -7031,8 +7185,8 @@
       "Bloodhunter",
       "Light Ranger"
     ],
-    "height": "?cm",
-    "weight": "?kg",
+    "height": "393cm",
+    "weight": "563kg",
     "origin": "Greek Mythology",
     "lore": "",
     "quote": "Hehe, play with me.",
@@ -7087,7 +7241,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Dwarven Cannoneer",
@@ -7106,8 +7260,8 @@
       "Bloodhunter",
       "Sniper"
     ],
-    "height": "?cm",
-    "weight": "?kg",
+    "height": "147cm",
+    "weight": "85kg",
     "origin": "Norse Mythology",
     "lore": "",
     "quote": "Let's make some noise!",
@@ -7152,7 +7306,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Wood Elf Archer",
@@ -7171,9 +7325,9 @@
       "Bounty Hunter",
       "Sniper"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "height": "146cm",
+    "weight": "40kg",
+    "origin": "Norse Mythology",
     "lore": "",
     "quote": "Arrows never miss!",
     "talent": {
@@ -7217,7 +7371,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Lightning Slime",
@@ -7231,7 +7385,7 @@
     "subclasses": [],
     "height": "?cm",
     "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -7261,7 +7415,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Loki",
@@ -7481,7 +7635,7 @@
     ],
     "height": "174cm",
     "weight": "58kg",
-    "origin": "Eastern Mythology",
+    "origin": "Eastern Civilization",
     "lore": "Crassus was born into a military aristocratic family in the Nibelgard Empire, receiving rigorous tactical and leadership training from a young age. As the sole heir to the family fortune, she not only continued the martial tradition but also broke free from the family's shackles of solely engaging in military affairs with her exceptional business acumen, accumulating immense wealth through numerous successful investments. With her unique personal charisma and iron-fisted methods, she built a private army completely loyal to her, continuously expanding the family's sphere of influence. Ultimately, relying on shrewd political strategy and decisive military action, she ascended to the high position of Imperial Consul.",
     "quote": "",
     "talent": {
@@ -7553,7 +7707,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1772600511
   },
   {
     "name": "Faust",
@@ -7669,7 +7823,7 @@
     ],
     "height": "177cm",
     "weight": "55kg",
-    "origin": "Hebrew Legends",
+    "origin": "Hebrew Mythology",
     "lore": "One of the archangels of Heaven, she is proud and steadfast in her duty as the guardian of the realm. Protected by the gods, she is invincible and frequently bestows celestial power upon righteous warriors, earning her the adoration of the brave. She is fiercely opposed to evil and bears the mission of eradicating all darkness and wickedness from the world, leading the celestial army in an eternal battle against Hell.",
     "quote": "The righteous need no prayers.",
     "talent": {
@@ -7741,7 +7895,7 @@
     "recommended_subclasses": [
       "Rune Mage"
     ],
-    "last_updated": 1771868965
+    "last_updated": 1772600511
   },
   {
     "name": "Gullveig",
@@ -7953,7 +8107,7 @@
     ],
     "height": "174cm",
     "weight": "58kg",
-    "origin": "Eastern Mythology",
+    "origin": "Eastern Civilization",
     "lore": "Born from the power of the stars, the Vermilion Bird Goddess is one of the Four Divine Beasts, along with the Azure Dragon, White Tiger, and Black Tortoise, and has protected the human world through the changing seasons for thousands of years. She is responsible for guarding the south, and always appears as a girl in red, holding a feather fan made of flames, controlling the purest fire in the world, and commanding the seven southern constellations.",
     "quote": "",
     "talent": {
@@ -8025,7 +8179,7 @@
     "recommended_subclasses": [
       "Elemental Mage"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1772600511
   },
   {
     "name": "Cerberus",
@@ -8135,7 +8289,7 @@
     ],
     "height": "168cm",
     "weight": "41kg",
-    "origin": "Egyptian Mythology",
+    "origin": "Egyptian Civilization",
     "lore": "Cleopatra VII, a ruthless pharaoh who ruled Egypt for many years, was a woman of immense power. Her stunning beauty captivated countless men and became a powerful tool for her strategic maneuvering. Naturally intelligent, she not only possessed keen insight into human nature but also had a deep understanding of various esoteric arts. Rumor has it that the forbidden power of resurrection was what she truly sought…",
     "quote": "Do you seek the quicksand secrets?",
     "talent": {
@@ -8208,7 +8362,7 @@
       "Astrologer",
       "Potion Master"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Melina",
@@ -8510,9 +8664,9 @@
       "Elementalist",
       "Potion Master"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "height": "89cm",
+    "weight": "36kg",
+    "origin": "Modern Fantasy Literature",
     "lore": "",
     "quote": "Did I cause trouble again?",
     "talent": {
@@ -8566,7 +8720,7 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Kleina",
@@ -8585,8 +8739,8 @@
       "Grand Archmage",
       "Potion Master"
     ],
-    "height": "?cm",
-    "weight": "?kg",
+    "height": "160cm",
+    "weight": "0kg",
     "origin": "European Folklore",
     "lore": "",
     "quote": "Where... are we going...",
@@ -8641,7 +8795,7 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Dwarven Sage",
@@ -8660,8 +8814,8 @@
       "Elementalist",
       "Potion Master"
     ],
-    "height": "?cm",
-    "weight": "?kg",
+    "height": "146cm",
+    "weight": "82kg",
     "origin": "Norse Mythology",
     "lore": "",
     "quote": "Runes, forge my will!",
@@ -8706,7 +8860,7 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Pharaoh",
@@ -8725,9 +8879,9 @@
       "Astrologer",
       "Potion Master"
     ],
-    "height": "?cm",
-    "weight": "?kg",
-    "origin": "Egyptian Mythology",
+    "height": "136cm",
+    "weight": "36kg",
+    "origin": "Egyptian Civilization",
     "lore": "",
     "quote": "Who disturbs my peace...",
     "talent": {
@@ -8771,7 +8925,7 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   },
   {
     "name": "Ice Slime",
@@ -8785,7 +8939,7 @@
     "subclasses": [],
     "height": "?cm",
     "weight": "?kg",
-    "origin": "Modern Fantasy",
+    "origin": "Modern Fantasy Literature",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -8815,6 +8969,6 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1771870646
+    "last_updated": 1772600511
   }
 ]

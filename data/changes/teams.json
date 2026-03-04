@@ -9,7 +9,21 @@
   },
   "End Game Wild Spirit": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "bench": {
+            "added": [
+              "Oberonnie (SSR)"
+            ],
+            "removed": [
+              "Oberonnie"
+            ]
+          }
+        }
+      }
+    ]
   },
   "End Game Illusion Veil": {
     "added": 1772563593,
@@ -21,6 +35,22 @@
   },
   "End Game Elemental Echo": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "bench": {
+            "added": [
+              "Fenrir (SSR)",
+              "Oberonnie (SSR)"
+            ],
+            "removed": [
+              "Fenrir",
+              "Oberonnie"
+            ]
+          }
+        }
+      }
+    ]
   }
 }

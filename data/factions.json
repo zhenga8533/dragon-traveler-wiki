@@ -2,14 +2,14 @@
   {
     "name": "Elemental Echo",
     "wyrm": "Fire Whelp",
-    "description": "Inflict [Ignite], [Shock], or [Chill] to trigger [Elemental Reactions] against enemies, dealing damage while weaknening their combat abilities.",
+    "description": "Inflict [Ignite], [Shock], or [Chill] to trigger [Elemental Reaction] against enemies, dealing damage while weaknening their combat abilities.",
     "recommended_artifacts": [
       "Sisyphus Monolith",
       "Aladdin's Lamp",
       "Sun God's Cloak",
       "Trident of Poseidon"
     ],
-    "last_updated": 1771881641
+    "last_updated": 1772600511
   },
   {
     "name": "Wild Spirit",

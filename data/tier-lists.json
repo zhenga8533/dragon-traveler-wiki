@@ -225,6 +225,7 @@
       },
       {
         "character_name": "Fenrir",
+        "character_quality": "SSR",
         "tier": "A"
       },
       {
@@ -245,6 +246,7 @@
       },
       {
         "character_name": "Oberonnie",
+        "character_quality": "SSR",
         "tier": "A"
       },
       {
@@ -301,11 +303,21 @@
         "tier": "B"
       },
       {
+        "character_name": "Siegfried",
+        "character_quality": "SSR",
+        "tier": "B"
+      },
+      {
         "character_name": "Telperion",
         "tier": "B"
       },
       {
         "character_name": "Eurytion",
+        "tier": "B"
+      },
+      {
+        "character_name": "Fenrir",
+        "character_quality": "SR",
         "tier": "B"
       },
       {
@@ -346,6 +358,16 @@
       },
       {
         "character_name": "Flora",
+        "tier": "C"
+      },
+      {
+        "character_name": "Oberonnie",
+        "character_quality": "SR",
+        "tier": "C"
+      },
+      {
+        "character_name": "Siegfried",
+        "character_quality": "SR",
         "tier": "C"
       },
       {
@@ -405,6 +427,11 @@
         "tier": "F"
       },
       {
+        "character_name": "Siegfried",
+        "character_quality": "R",
+        "tier": "F"
+      },
+      {
         "character_name": "Sword Dancer",
         "tier": "F"
       },
@@ -441,7 +468,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1772349780
+    "last_updated": 1772600511
   },
   {
     "name": "Taiwan PvE Tier List",
@@ -673,6 +700,7 @@
       },
       {
         "character_name": "Fenrir",
+        "character_quality": "SSR",
         "tier": "A"
       },
       {
@@ -697,6 +725,7 @@
       },
       {
         "character_name": "Oberonnie",
+        "character_quality": "SSR",
         "tier": "A"
       },
       {
@@ -753,6 +782,11 @@
         "tier": "B"
       },
       {
+        "character_name": "Siegfried",
+        "character_quality": "SSR",
+        "tier": "B"
+      },
+      {
         "character_name": "Nessus",
         "tier": "B"
       },
@@ -793,7 +827,22 @@
         "tier": "C"
       },
       {
+        "character_name": "Fenrir",
+        "character_quality": "SR",
+        "tier": "C"
+      },
+      {
         "character_name": "Flora",
+        "tier": "C"
+      },
+      {
+        "character_name": "Oberonnie",
+        "character_quality": "SR",
+        "tier": "C"
+      },
+      {
+        "character_name": "Siegfried",
+        "character_quality": "SR",
         "tier": "C"
       },
       {
@@ -849,6 +898,11 @@
         "tier": "F"
       },
       {
+        "character_name": "Siegfried",
+        "character_quality": "R",
+        "tier": "F"
+      },
+      {
         "character_name": "Sword Dancer",
         "tier": "F"
       },
@@ -885,7 +939,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1772349780
+    "last_updated": 1772600511
   },
   {
     "name": "Taiwan PvP Tier List",
@@ -1142,6 +1196,7 @@
       },
       {
         "character_name": "Fenrir",
+        "character_quality": "SSR",
         "tier": "B"
       },
       {
@@ -1166,6 +1221,12 @@
       },
       {
         "character_name": "Oberonnie",
+        "character_quality": "SSR",
+        "tier": "B"
+      },
+      {
+        "character_name": "Siegfried",
+        "character_quality": "SSR",
         "tier": "B"
       },
       {
@@ -1233,7 +1294,22 @@
         "tier": "C"
       },
       {
+        "character_name": "Fenrir",
+        "character_quality": "SR",
+        "tier": "C"
+      },
+      {
         "character_name": "Flora",
+        "tier": "C"
+      },
+      {
+        "character_name": "Oberonnie",
+        "character_quality": "SR",
+        "tier": "C"
+      },
+      {
+        "character_name": "Siegfried",
+        "character_quality": "SR",
         "tier": "C"
       },
       {
@@ -1293,6 +1369,11 @@
         "tier": "F"
       },
       {
+        "character_name": "Siegfried",
+        "character_quality": "R",
+        "tier": "F"
+      },
+      {
         "character_name": "Sword Dancer",
         "tier": "F"
       },
@@ -1329,7 +1410,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1772349780
+    "last_updated": 1772600511
   },
   {
     "name": "Global Tier List",
@@ -1415,6 +1496,7 @@
       },
       {
         "character_name": "Oberonnie",
+        "character_quality": "SSR",
         "tier": "S+",
         "note": "Easy investment. Falls off later on."
       },
@@ -1450,6 +1532,7 @@
       },
       {
         "character_name": "Fenrir",
+        "character_quality": "SSR",
         "tier": "S",
         "note": "Easy investment. Falls off later on."
       },
@@ -1567,6 +1650,11 @@
         "tier": "B"
       },
       {
+        "character_name": "Siegfried",
+        "character_quality": "SSR",
+        "tier": "B"
+      },
+      {
         "character_name": "Telperion",
         "tier": "B"
       },
@@ -1612,6 +1700,21 @@
       },
       {
         "character_name": "Van Helsing",
+        "tier": "C"
+      },
+      {
+        "character_name": "Fenrir",
+        "character_quality": "SR",
+        "tier": "C"
+      },
+      {
+        "character_name": "Oberonnie",
+        "character_quality": "SR",
+        "tier": "C"
+      },
+      {
+        "character_name": "Siegfried",
+        "character_quality": "SR",
         "tier": "C"
       },
       {
@@ -1667,6 +1770,11 @@
         "tier": "D"
       },
       {
+        "character_name": "Siegfried",
+        "character_quality": "R",
+        "tier": "D"
+      },
+      {
         "character_name": "Sword Dancer",
         "tier": "D"
       },
@@ -1703,6 +1811,6 @@
         "tier": "D"
       }
     ],
-    "last_updated": 1772402716
+    "last_updated": 1772600511
   }
 ]

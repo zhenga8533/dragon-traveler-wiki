@@ -16,7 +16,7 @@ import {
   IoRemoveCircleOutline,
   IoTimeOutline,
 } from 'react-icons/io5';
-import type { ChangeRecord, EntityChangeHistory } from '../../types/changes';
+import type { ChangeRecord, EntityChangeHistory, FieldDiff } from '../../types/changes';
 import CollapsibleSectionCard from './CollapsibleSectionCard';
 
 const PAGE_SIZE = 5;
@@ -47,19 +47,6 @@ function formatTimestamp(ts: number): string {
 
 function formatExactDate(ts: number): string {
   return new Date(ts * 1000).toLocaleString();
-}
-
-function formatValue(value: unknown): string {
-  if (value === null || value === undefined) return '(none)';
-  if (typeof value === 'string')
-    return value.length > 100 ? value.slice(0, 100) + '…' : value;
-  if (typeof value === 'number' || typeof value === 'boolean')
-    return String(value);
-  if (Array.isArray(value))
-    return value
-      .map((v) => (typeof v === 'string' ? v : JSON.stringify(v)))
-      .join(', ');
-  return JSON.stringify(value);
 }
 
 function LifecycleEvent({
@@ -94,9 +81,26 @@ function LifecycleEvent({
   );
 }
 
+function fieldDiffTooltip(diff: FieldDiff): string | null {
+  const parts: string[] = [];
+  if (diff.added?.length) parts.push(...diff.added.map((n) => `+${n}`));
+  if (diff.removed?.length) parts.push(...diff.removed.map((n) => `-${n}`));
+  if (diff.modified?.length) parts.push(...diff.modified.map((n) => `~${n}`));
+  if (diff.changed) {
+    for (const [k, v] of Object.entries(diff.changed)) parts.push(`${k}: ${v.old} → ${v.new}`);
+  }
+  if (parts.length > 0) return parts.join(', ');
+  if (diff.old !== undefined && diff.new !== undefined) return `${diff.old} → ${diff.new}`;
+  if (diff.old !== undefined) return `removed: ${diff.old}`;
+  if (diff.new !== undefined) return `added: ${diff.new}`;
+  return null;
+}
+
 function FieldChangeEntry({ entry }: { entry: MergedRecord }) {
-  const fields = Object.keys(entry.record.fields ?? {});
-  if (fields.length === 0) return null;
+  const { fields } = entry.record;
+  if (!fields) return null;
+  const fieldNames = Object.keys(fields);
+  if (fieldNames.length === 0) return null;
 
   return (
     <Stack gap="xs">
@@ -112,57 +116,33 @@ function FieldChangeEntry({ entry }: { entry: MergedRecord }) {
             </Badge>
           )}
           <Text size="xs" c="dimmed">
-            — {fields.length} field
-            {fields.length !== 1 ? 's' : ''}
+            — {fieldNames.length} field
+            {fieldNames.length !== 1 ? 's' : ''}
           </Text>
         </Group>
       </Tooltip>
 
-      <Stack gap={6}>
-        {fields.map((field) => {
-          const diff = entry.record.fields![field];
-          return (
-            <Box
-              key={field}
-              pl="sm"
-              style={{
-                borderLeft:
-                  '2px solid var(--mantine-color-default-border)',
-              }}
+      <Group gap={6} pl="sm">
+        {fieldNames.map((fieldName) => {
+          const label = fieldDiffTooltip(fields[fieldName]);
+          const badge = (
+            <Badge
+              variant="outline"
+              color="gray"
+              size="sm"
+              style={{ fontFamily: 'monospace' }}
             >
-              <Text size="xs" fw={600} mb={2}>
-                {field}
-              </Text>
-              <Group gap="xs" wrap="wrap">
-                {diff.old !== undefined && (
-                  <Text
-                    size="xs"
-                    c="red.6"
-                    style={{
-                      wordBreak: 'break-word',
-                      whiteSpace: 'pre-wrap',
-                    }}
-                  >
-                    - {formatValue(diff.old)}
-                  </Text>
-                )}
-                {diff.new !== undefined && (
-                  <Text
-                    size="xs"
-                    c="green.6"
-                    style={{
-                      wordBreak: 'break-word',
-                      whiteSpace: 'pre-wrap',
-                    }}
-                  >
-                    + {formatValue(diff.new)}
-                  </Text>
-                )}
-              </Group>
-            </Box>
+              {fieldName}
+            </Badge>
+          );
+          if (!label) return <span key={fieldName}>{badge}</span>;
+          return (
+            <Tooltip key={fieldName} label={label} withArrow>
+              {badge}
+            </Tooltip>
           );
         })}
-      </Stack>
+      </Group>
     </Stack>
   );
 }

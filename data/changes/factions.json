@@ -1,7 +1,17 @@
 {
   "Elemental Echo": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772600511,
+        "fields": {
+          "description": {
+            "old": "Inflict [Ignite], [Shock], or [Chill] to trigger [Elemental Reactions] against enemies, dealing damage while weaknening their combat abilities.",
+            "new": "Inflict [Ignite], [Shock], or [Chill] to trigger [Elemental Reaction] against enemies, dealing damage while weaknening their combat abilities."
+          }
+        }
+      }
+    ]
   },
   "Wild Spirit": {
     "added": 1772563593,
