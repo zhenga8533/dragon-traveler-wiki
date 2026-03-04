@@ -348,6 +348,69 @@
             }
           }
         }
+      },
+      {
+        "timestamp": 1772646202,
+        "fields": {
+          "quote": {
+            "old": "",
+            "new": "Who can refuse the gift of love?"
+          },
+          "skills": {
+            "modified": {
+              "Bewitchment": {
+                "description": {
+                  "old": "When first hit by a melee Luminary, inflicts [Charm] on the attacker for 9.3s.",
+                  "new": "When first hit by a melee Luminary, inflicts [Charm] on the attacker for 9s."
+                }
+              },
+              "Heart Seed": {
+                "description": {
+                  "old": "Targets the allied Luminary with the lowest HP percentage, then heals allies within a large circular area around them for 21.5% of the caster's Max HP.",
+                  "new": "Targets the allied Luminary with the lowest HP percentage, then heals allies within a large circular area around them for 21% of the caster's Max HP."
+                }
+              },
+              "Heavensong": {
+                "description": {
+                  "old": "[Equalize] the HP of all allies, then restores 31% of their Max HP.\nWhenever [Stun] or [Silence] are applied to other Luminaries, reduces the Energy Cost of the next Overdrive by 1.",
+                  "new": "[Equalize] the HP of all allies, then restores 25% of their Max HP.\nWhenever [Stun] or [Silence] are applied to other Luminaries, reduces the Energy Cost of the next Overdrive by 1."
+                }
+              },
+              "Siren Strings": {
+                "description": {
+                  "old": "Deals magic damage equal to 200% of Attack to enemies in a straight line and applies [Attack Speed Down], and additionally inflicts [Attack Down] on targets afflicted with an [Elemental Debuff].",
+                  "new": "Deals magic damage equal to 140% of Attack to enemies in a straight line and applies [Attack Speed Down], and additionally inflicts [Attack Down] on targets afflicted with an [Elemental Debuff]."
+                }
+              }
+            }
+          },
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "1": {
+                  "old": "After casting a healing effect, grants the target [Divine Melody]: Increases Damage Reduction by 20.5%, plus an additional 20.5% when HP is less than or equal to 50%.",
+                  "new": "After casting a healing effect, grants the target [Divine Melody]: Increases Damage Reduction by 26%, plus an additional 26% when HP is less than or equal to 50%."
+                },
+                "2": {
+                  "old": "When our Luminary enters [Wild] status or triggers [Elemental Reaction], it receives healing, restoring 12% of its maximum Health. (Can trigger on the same target once every 5s)",
+                  "new": "When an allied Luminary enters the [Wild] state or triggers an [Elemental Reaction], heals that unit for 18% of its Max HP. This can trigger once per target every 5 seconds."
+                },
+                "3": {
+                  "old": "[Heavensong] additionally removes all control effects and debuffs from all allied units, and grants them immunity to control effects for 3s.",
+                  "new": "[Heavensong] additionally removes all control effects and debuffs from all allied units and grants Control Immunity for 5 seconds."
+                },
+                "4": {
+                  "old": "The [Charm] duration of [Bewitchment] is increased by 6s. Before [Bewitchment] is triggered, the caster is immune to control effects and the [Next Overdrive Energy Consumption Increase] effect.",
+                  "new": "The [Charm] duration of [Bewitchment] is increased by 6 seconds. Before [Bewitchment] is triggered, the caster is immune to control effects and the [Overdrive Energy Consumption Increase] effect."
+                }
+              }
+            }
+          },
+          "title": {
+            "old": "Deity of Love",
+            "new": "Love Goddess"
+          }
+        }
       }
     ]
   },
