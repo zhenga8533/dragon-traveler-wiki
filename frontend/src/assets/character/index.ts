@@ -23,6 +23,10 @@ function resolveAssetKey(characterName: string, characterKey?: string): string {
   return normalizeKey(explicitKey || characterName);
 }
 
+function normalizeQualityKey(value: string): string {
+  return normalizeKey(value.replace(/\+/g, ' plus '));
+}
+
 function evictOldest(cache: Map<string, unknown>): void {
   if (cache.size > CACHE_MAX_SIZE) {
     const firstKey = cache.keys().next().value;
@@ -144,9 +148,15 @@ export function getPortrait(
   }
 
   if (quality) {
-    const qualityKey = `${normalizedName}_${normalizeKey(quality)}`;
+    const qualityKey = `${normalizedName}_${normalizeQualityKey(quality)}`;
     if (!candidateKeys.includes(qualityKey)) {
       candidateKeys.unshift(qualityKey);
+    }
+
+    // Backward-compatible fallback for previously normalized quality keys.
+    const legacyQualityKey = `${normalizedName}_${normalizeKey(quality)}`;
+    if (!candidateKeys.includes(legacyQualityKey)) {
+      candidateKeys.push(legacyQualityKey);
     }
   }
 
