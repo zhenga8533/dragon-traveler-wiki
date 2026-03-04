@@ -407,61 +407,61 @@
     "weight": "62kg",
     "origin": "Modern Fantasy Literature",
     "lore": "As the guardian appointed by the gods, Duvalin has shouldered the responsibility of maintaining life in the Nine Realms since ancient times. She was granted the power to control flames and forge, and leads the valiant Red Dragon Legion.",
-    "quote": "",
+    "quote": "Defective products are not worth my time.",
     "talent": {
-      "name": "Blazing Domain",
+      "name": "Domain of Wild Flames",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Increases own block chance by 280/310/340/370/400/430/460. Recovers 15% of rage upon triggering a block. Rage accumulates as health decreases. When rage is full, enters the [Wild] state. In [Wild] state, further increases own block chance by 280/310/340/370/400/430/460 , and every 2 seconds deals physical damage equal to 230%/250%/270%/290%/310%/330%/350% of own attack to enemies within a large circular area, with a 20% chance to inflict [Ignite]. This chance increases by 1% for every 100 block chance the user possesses."
+          "effect": "Increases Block by 280. After triggering Block, regenerates 15% Rage. Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, Block is increased by an additional 280, and every 2 seconds, deals physical damage equal to 230% of Attack to enemies within a large circular area, with a 20% chance to inflict [Ignite]. For every 100 Block, this chance increased by 1%."
         },
         {
           "level": 2,
-          "effect": "After triggering an elemental reaction, additionally applies an attack reduction effect to the target."
+          "effect": "When self-triggered [Elemental Reaction] occur, additionally applies [Attack Down] to the target."
         },
         {
           "level": 3,
-          "effect": "Increases own health by 10% and block by 50."
+          "effect": "Increases HP by 10% and Block by 50."
         },
         {
           "level": 4,
-          "effect": "Whenever you take damage equal to 30% of your maximum health, reduce the cooldown of [Dragon Human Form] by 2 seconds and remove the [Increased Energy Cost for Next Ultimate] effect applied to you."
+          "effect": "Each time accumulated damage taken reaches 30% of Max HP, reduces the cooldown of [Dragonkin Form] by 2 seconds and removes the [Next Overdrive Energy Cost Increase] effect from self."
         },
         {
           "level": 7,
-          "effect": "Whenever the user releases [Dragon Human Form], all allied units gain [Physical Defense Up] and all allied Luminaries are cleared of the [Increased Energy Cost for Next Ultimate] effect."
+          "effect": "Whenever using [Dragonkin Form], grants all allied units [Physical Defense Up] and removes all [Next Overdrive Energy Cost Increase] effects from allied Luminaries of the same faction."
         }
       ]
     },
     "skills": [
       {
-        "name": "Dragon Human Form",
+        "name": "Dragonkin Form",
         "type": "Overdrive",
-        "description": "Dispels all debuffs on itself, restores 33%/36%/39%/42%/45%/48% of its maximum health and 100% rage, and deals physical damage equal to 165%/180%/195%/210%/225%/240% of its attack to enemy units in a large circular area.\nIf the user is already in the [Wild] state when released, the recovery amount is increased by 40%.",
+        "description": "Dispels all debuffs from self, regenerates HP equal to 33% of own Max HP and 100% Rage, and deals physical damage equal to 165% of Attack to enemies within a large circular area. If already in the [Wild] status when cast, the generation amount is increased by 40%.",
         "cooldown": 20
       },
       {
-        "name": "Flaming Blade Returns to Heaven",
+        "name": "Flameblade Reversal",
         "type": "Ultimate Skill",
-        "description": "Throws a blade at the furthest enemy Luminary, dealing physical damage equal to 210%/230%/250%/270%/310% of the user's attack and bouncing back to grant the user a shield equal to 21%/23%/25%/27%/31% of their maximum health for 6 seconds. If the blade hits a target with an elemental debuff, it instead grants a shield to allied units within a larger circular area.",
+        "description": "Throws a blade at the farthest enemy Luminary, dealing physical damage equal to 210% of Attack and bouncing back to provide a shield equal to 21% of Max HP for 6 seconds. If the blade hits a target afflicted with an [Elemental Debuff], it instead grants a shield to allies within a large circular area.",
         "cooldown": 12
       },
       {
-        "name": "Crimson Scale Gauntlets",
+        "name": "Red Scale Gauntlet",
         "type": "Secret Skill",
-        "description": "During battle, increases own HP by 18%/19%/20%/21%/22%/23%. Each time the effect of increasing the energy consumption of the next ultimate skill is applied, restores HP equal to 9%/9.5%/10%/10.5%/11%/11.5% of maximum HP.",
+        "description": "In battle, increases HP by 18%.\nEach time the [Next Overdrive Cost Increase] effect is applied, restores HP equal to 9% of Max HP.",
         "cooldown": 0
       },
       {
-        "name": "Dragon Shadow Slash",
+        "name": "Wyrmshade Execution",
         "type": "Special Skill",
-        "description": "Deals three consecutive slashes to a single target, resulting in physical damage equal to 480%/520%/560%/600%/640% of the user's attack, and grants the user [Physical Defense Up]. While in [Wild] state, the user also knocks the target into the air.",
+        "description": "Slashes a single target three times, dealing total physical damage equal to 480% of Attack and gaining [Physical Defense Up]. When in the [Wild] status, additionally launches the target.",
         "cooldown": 16
       },
       {
         "name": "Red Scale Crazy Armor",
         "type": "Divine Skill",
-        "description": "When the [Crimson Scale Gauntlets] Luminary is affected by the [Increased Energy Cost for Next Ultimate Skill] effect, it recovers 5% of its maximum HP.",
+        "description": "When the [Red Scale Gauntlet] Luminary is affected by the [Next Overdrive Cost Increase] effect, it recovers 5% of its maximum HP.",
         "cooldown": 0
       }
     ],
@@ -477,7 +477,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1772645598
   },
   {
     "name": "Helveil",
@@ -3422,7 +3422,7 @@
         },
         {
           "level": 7,
-          "effect": "Each time [Phantom Martial Soul] is released, the [Increased Energy Cost for Next Ultimate Skill] effect is removed. When [Swallow Return] deals damage, [Two Heavens Imprint] is applied."
+          "effect": "Each time [Phantom Martial Soul] is released, the [Next Overdrive Cost Increase] effect is removed. When [Swallow Return] deals damage, [Two Heavens Imprint] is applied."
         }
       ]
     },
@@ -3470,7 +3470,7 @@
     "recommended_subclasses": [
       "Outlaw"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1772645598
   },
   {
     "name": "White Tiger",

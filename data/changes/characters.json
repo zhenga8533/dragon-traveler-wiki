@@ -66,6 +66,67 @@
             "new": "Modern Fantasy Literature"
           }
         }
+      },
+      {
+        "timestamp": 1772645598,
+        "fields": {
+          "quote": {
+            "old": "",
+            "new": "Defective products are not worth my time."
+          },
+          "skills": {
+            "added": [
+              "Dragonkin Form",
+              "Flameblade Reversal",
+              "Red Scale Gauntlet",
+              "Wyrmshade Execution"
+            ],
+            "removed": [
+              "Crimson Scale Gauntlets",
+              "Dragon Human Form",
+              "Dragon Shadow Slash",
+              "Flaming Blade Returns to Heaven"
+            ],
+            "modified": {
+              "Red Scale Crazy Armor": {
+                "description": {
+                  "old": "When the [Crimson Scale Gauntlets] Luminary is affected by the [Increased Energy Cost for Next Ultimate Skill] effect, it recovers 5% of its maximum HP.",
+                  "new": "When the [Red Scale Gauntlet] Luminary is affected by the [Next Overdrive Cost Increase] effect, it recovers 5% of its maximum HP."
+                }
+              }
+            }
+          },
+          "talent": {
+            "name": {
+              "old": "Blazing Domain",
+              "new": "Domain of Wild Flames"
+            },
+            "talent_levels": {
+              "changed": {
+                "1": {
+                  "old": "Increases own block chance by 280/310/340/370/400/430/460. Recovers 15% of rage upon triggering a block. Rage accumulates as health decreases. When rage is full, enters the [Wild] state. In [Wild] state, further increases own block chance by 280/310/340/370/400/430/460 , and every 2 seconds deals physical damage equal to 230%/250%/270%/290%/310%/330%/350% of own attack to enemies within a large circular area, with a 20% chance to inflict [Ignite]. This chance increases by 1% for every 100 block chance the user possesses.",
+                  "new": "Increases Block by 280. After triggering Block, regenerates 15% Rage. Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, Block is increased by an additional 280, and every 2 seconds, deals physical damage equal to 230% of Attack to enemies within a large circular area, with a 20% chance to inflict [Ignite]. For every 100 Block, this chance increased by 1%."
+                },
+                "2": {
+                  "old": "After triggering an elemental reaction, additionally applies an attack reduction effect to the target.",
+                  "new": "When self-triggered [Elemental Reaction] occur, additionally applies [Attack Down] to the target."
+                },
+                "3": {
+                  "old": "Increases own health by 10% and block by 50.",
+                  "new": "Increases HP by 10% and Block by 50."
+                },
+                "4": {
+                  "old": "Whenever you take damage equal to 30% of your maximum health, reduce the cooldown of [Dragon Human Form] by 2 seconds and remove the [Increased Energy Cost for Next Ultimate] effect applied to you.",
+                  "new": "Each time accumulated damage taken reaches 30% of Max HP, reduces the cooldown of [Dragonkin Form] by 2 seconds and removes the [Next Overdrive Energy Cost Increase] effect from self."
+                },
+                "7": {
+                  "old": "Whenever the user releases [Dragon Human Form], all allied units gain [Physical Defense Up] and all allied Luminaries are cleared of the [Increased Energy Cost for Next Ultimate] effect.",
+                  "new": "Whenever using [Dragonkin Form], grants all allied units [Physical Defense Up] and removes all [Next Overdrive Energy Cost Increase] effects from allied Luminaries of the same faction."
+                }
+              }
+            }
+          }
+        }
       }
     ]
   },
@@ -548,6 +609,21 @@
           "origin": {
             "old": "Eastern Mythology",
             "new": "Eastern Civilization"
+          }
+        }
+      },
+      {
+        "timestamp": 1772645598,
+        "fields": {
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "7": {
+                  "old": "Each time [Phantom Martial Soul] is released, the [Increased Energy Cost for Next Ultimate Skill] effect is removed. When [Swallow Return] deals damage, [Two Heavens Imprint] is applied.",
+                  "new": "Each time [Phantom Martial Soul] is released, the [Next Overdrive Cost Increase] effect is removed. When [Swallow Return] deals damage, [Two Heavens Imprint] is applied."
+                }
+              }
+            }
           }
         }
       }
