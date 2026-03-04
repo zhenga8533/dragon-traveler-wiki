@@ -1,13 +1,12 @@
 import {
-  Badge,
   Box,
   Button,
   Divider,
   Group,
+  Paper,
   Stack,
   Text,
   Title,
-  Tooltip,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
 import {
@@ -16,7 +15,11 @@ import {
   IoRemoveCircleOutline,
   IoTimeOutline,
 } from 'react-icons/io5';
-import type { ChangeRecord, EntityChangeHistory, FieldDiff } from '../../types/changes';
+import type {
+  ChangeRecord,
+  EntityChangeHistory,
+  FieldDiff,
+} from '../../types/changes';
 import CollapsibleSectionCard from './CollapsibleSectionCard';
 
 const PAGE_SIZE = 5;
@@ -49,6 +52,27 @@ function formatExactDate(ts: number): string {
   return new Date(ts * 1000).toLocaleString();
 }
 
+function renderDetailLine(fieldName: string, detail: string, index: number) {
+  const match = detail.match(/^(Added|Removed|Updated):\s*(.*)$/);
+  if (!match) {
+    return (
+      <Text key={`${fieldName}-${index}`} size="xs" c="dimmed" mt={2}>
+        {detail}
+      </Text>
+    );
+  }
+
+  const [, label, value] = match;
+  return (
+    <Text key={`${fieldName}-${index}`} size="xs" c="dimmed" mt={2}>
+      <Text component="span" fw={700} c="dark">
+        {label}:
+      </Text>{' '}
+      {value}
+    </Text>
+  );
+}
+
 function LifecycleEvent({
   record,
   label,
@@ -62,38 +86,67 @@ function LifecycleEvent({
   const text = isRemoved ? 'Removed' : 'Re-added';
 
   return (
-    <Tooltip label={formatExactDate(record.timestamp)} withArrow>
-      <Group gap={6} w="fit-content">
-        <Icon size={14} color={`var(--mantine-color-${color}-6)`} />
-        <Text size="sm" fw={600} c={`${color}.6`}>
-          {text}
+    <Group gap="xs" align="flex-start" wrap="nowrap">
+      <Icon size={14} color={`var(--mantine-color-${color}-6)`} />
+      <Stack gap={0}>
+        <Group gap={6} wrap="wrap">
+          <Text size="sm" fw={700} c={`${color}.6`}>
+            {text}
+          </Text>
+          {label && (
+            <Text size="xs" c="dimmed">
+              • {label}
+            </Text>
+          )}
+        </Group>
+        <Text size="xs" c="dimmed">
+          {formatTimestamp(record.timestamp)}
         </Text>
         <Text size="xs" c="dimmed">
-          on {formatTimestamp(record.timestamp)}
+          {formatExactDate(record.timestamp)}
         </Text>
-        {label && (
-          <Badge variant="light" color="violet" size="xs">
-            {label}
-          </Badge>
-        )}
-      </Group>
-    </Tooltip>
+      </Stack>
+    </Group>
   );
 }
 
-function fieldDiffTooltip(diff: FieldDiff): string | null {
-  const parts: string[] = [];
-  if (diff.added?.length) parts.push(...diff.added.map((n) => `+${n}`));
-  if (diff.removed?.length) parts.push(...diff.removed.map((n) => `-${n}`));
-  if (diff.modified?.length) parts.push(...diff.modified.map((n) => `~${n}`));
+function summarizeFieldDiff(diff: FieldDiff): {
+  kind: string;
+  details: string[];
+} {
+  const details: string[] = [];
+
+  if (diff.added?.length) details.push(`Added: ${diff.added.join(', ')}`);
+  if (diff.removed?.length) details.push(`Removed: ${diff.removed.join(', ')}`);
+  if (diff.modified?.length)
+    details.push(`Updated: ${diff.modified.join(', ')}`);
+
   if (diff.changed) {
-    for (const [k, v] of Object.entries(diff.changed)) parts.push(`${k}: ${v.old} → ${v.new}`);
+    for (const [key, value] of Object.entries(diff.changed)) {
+      details.push(`${key}: ${value.old} → ${value.new}`);
+    }
   }
-  if (parts.length > 0) return parts.join(', ');
-  if (diff.old !== undefined && diff.new !== undefined) return `${diff.old} → ${diff.new}`;
-  if (diff.old !== undefined) return `removed: ${diff.old}`;
-  if (diff.new !== undefined) return `added: ${diff.new}`;
-  return null;
+
+  if (diff.old !== undefined && diff.new !== undefined) {
+    details.push(`${diff.old} → ${diff.new}`);
+  } else if (diff.new !== undefined) {
+    details.push(`Added: ${diff.new}`);
+  } else if (diff.old !== undefined) {
+    details.push(`Removed: ${diff.old}`);
+  }
+
+  if (details.length === 0) {
+    return { kind: 'Updated', details: ['Value changed'] };
+  }
+
+  const hasAdd = diff.added?.length || diff.new !== undefined;
+  const hasRemove = diff.removed?.length || diff.old !== undefined;
+  const hasUpdate = diff.modified?.length || !!diff.changed;
+
+  if (hasAdd && !hasRemove && !hasUpdate) return { kind: 'Added', details };
+  if (!hasAdd && hasRemove && !hasUpdate) return { kind: 'Removed', details };
+
+  return { kind: 'Updated', details };
 }
 
 function FieldChangeEntry({ entry }: { entry: MergedRecord }) {
@@ -103,47 +156,66 @@ function FieldChangeEntry({ entry }: { entry: MergedRecord }) {
   if (fieldNames.length === 0) return null;
 
   return (
-    <Stack gap="xs">
-      <Tooltip label={formatExactDate(entry.record.timestamp)} withArrow>
-        <Group gap={6} w="fit-content">
-          <IoTimeOutline size={13} color="var(--mantine-color-dimmed)" />
-          <Text size="sm" fw={600}>
-            {formatTimestamp(entry.record.timestamp)}
-          </Text>
-          {entry.label && (
-            <Badge variant="light" color="violet" size="xs">
-              {entry.label}
-            </Badge>
-          )}
-          <Text size="xs" c="dimmed">
-            — {fieldNames.length} field
-            {fieldNames.length !== 1 ? 's' : ''}
+    <Paper p="sm" withBorder radius="md" bg="var(--mantine-color-body)">
+      <Stack gap="xs">
+        <Group
+          justify="space-between"
+          align="flex-start"
+          gap="sm"
+          wrap="nowrap"
+        >
+          <Group gap="xs" align="flex-start" wrap="nowrap">
+            <IoTimeOutline size={13} color="var(--mantine-color-dimmed)" />
+            <Stack gap={0}>
+              <Text size="sm" fw={600}>
+                {formatTimestamp(entry.record.timestamp)}
+              </Text>
+              <Text size="xs" c="dimmed">
+                {formatExactDate(entry.record.timestamp)}
+              </Text>
+            </Stack>
+          </Group>
+          <Text size="xs" c="dimmed" ta="right">
+            {fieldNames.length} field{fieldNames.length !== 1 ? 's' : ''}
+            {entry.label ? ` • ${entry.label}` : ''}
           </Text>
         </Group>
-      </Tooltip>
 
-      <Group gap={6} pl="sm">
-        {fieldNames.map((fieldName) => {
-          const label = fieldDiffTooltip(fields[fieldName]);
-          const badge = (
-            <Badge
-              variant="outline"
-              color="gray"
-              size="sm"
-              style={{ fontFamily: 'monospace' }}
-            >
-              {fieldName}
-            </Badge>
-          );
-          if (!label) return <span key={fieldName}>{badge}</span>;
-          return (
-            <Tooltip key={fieldName} label={label} withArrow>
-              {badge}
-            </Tooltip>
-          );
-        })}
-      </Group>
-    </Stack>
+        <Stack gap={8}>
+          {fieldNames.map((fieldName) => {
+            const diff = fields[fieldName];
+            const summary = summarizeFieldDiff(diff);
+
+            return (
+              <Paper
+                key={fieldName}
+                p="xs"
+                withBorder
+                radius="sm"
+                bg="var(--mantine-color-body)"
+              >
+                <Group
+                  justify="space-between"
+                  align="flex-start"
+                  gap="sm"
+                  wrap="nowrap"
+                >
+                  <Text size="sm" fw={600} ff="monospace">
+                    {fieldName}
+                  </Text>
+                  <Text size="xs" c="dimmed" fw={700}>
+                    {summary.kind}
+                  </Text>
+                </Group>
+                {summary.details.map((detail, index) =>
+                  renderDetailLine(fieldName, detail, index)
+                )}
+              </Paper>
+            );
+          })}
+        </Stack>
+      </Stack>
+    </Paper>
   );
 }
 
@@ -195,32 +267,42 @@ export default function ChangeHistory({
       <CollapsibleSectionCard
         defaultExpanded={false}
         header={
-          <Group gap="sm" align="center">
-            <Title order={2} size="h3">
-              Change History
-            </Title>
-            {sorted.length > 0 && (
-              <Badge variant="light" color="gray" size="sm">
-                {sorted.length} update{sorted.length !== 1 ? 's' : ''}
-              </Badge>
-            )}
-          </Group>
+          <Stack gap={2}>
+            <Group gap="sm" align="center">
+              <Title order={2} size="h3">
+                Change History
+              </Title>
+              {sorted.length > 0 && (
+                <Text size="sm" c="dimmed" fw={500}>
+                  {sorted.length} update{sorted.length !== 1 ? 's' : ''}
+                </Text>
+              )}
+            </Group>
+            <Text size="xs" c="dimmed">
+              Recent edits, lifecycle events, and field-level updates.
+            </Text>
+          </Stack>
         }
       >
         <Stack gap="md">
           {/* Added date */}
           {earliestAdded !== null && (
-            <Tooltip label={formatExactDate(earliestAdded)} withArrow>
-              <Group gap={6} w="fit-content">
+            <Paper p="xs" withBorder radius="md" bg="var(--mantine-color-body)">
+              <Group gap="xs" align="flex-start" wrap="nowrap">
                 <IoCalendarOutline
                   size={14}
                   color="var(--mantine-color-dimmed)"
                 />
-                <Text size="sm" c="dimmed">
-                  Added on {formatTimestamp(earliestAdded)}
-                </Text>
+                <Stack gap={0}>
+                  <Text size="sm" c="dimmed" fw={500}>
+                    Added on {formatTimestamp(earliestAdded)}
+                  </Text>
+                  <Text size="xs" c="dimmed">
+                    {formatExactDate(earliestAdded)}
+                  </Text>
+                </Stack>
               </Group>
-            </Tooltip>
+            </Paper>
           )}
 
           {sorted.length === 0 ? (
@@ -230,15 +312,20 @@ export default function ChangeHistory({
           ) : (
             <Stack gap="sm">
               {visible.map((entry, index) => (
-                <Box
-                  key={`${entry.record.timestamp}-${entry.label}-${index}`}
-                >
+                <Box key={`${entry.record.timestamp}-${entry.label}-${index}`}>
                   {index > 0 && <Divider mb="sm" />}
                   {entry.record.type ? (
-                    <LifecycleEvent
-                      record={entry.record}
-                      label={entry.label}
-                    />
+                    <Paper
+                      p="sm"
+                      withBorder
+                      radius="md"
+                      bg="var(--mantine-color-body)"
+                    >
+                      <LifecycleEvent
+                        record={entry.record}
+                        label={entry.label}
+                      />
+                    </Paper>
                   ) : (
                     <FieldChangeEntry entry={entry} />
                   )}
@@ -250,14 +337,10 @@ export default function ChangeHistory({
                   variant="subtle"
                   color="gray"
                   size="xs"
-                  onClick={() =>
-                    setVisibleCount((prev) => prev + PAGE_SIZE)
-                  }
+                  onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
                 >
                   Show {Math.min(remaining, PAGE_SIZE)} more
-                  {remaining > PAGE_SIZE
-                    ? ` of ${remaining} remaining`
-                    : ''}
+                  {remaining > PAGE_SIZE ? ` of ${remaining} remaining` : ''}
                 </Button>
               )}
             </Stack>
