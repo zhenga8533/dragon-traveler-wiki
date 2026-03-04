@@ -209,33 +209,49 @@ export const HOME_HERO_TITLE_STYLE = {
     '0 2px 16px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 58, 237, 0.35)',
 } as const satisfies CSSProperties;
 
-export const HOME_HERO_WORDMARK_STYLE = {
-  background:
-    'linear-gradient(135deg, var(--mantine-color-pink-2) 0%, var(--mantine-color-violet-2) 45%, var(--mantine-color-blue-2) 100%)',
-  WebkitBackgroundClip: 'text',
-  backgroundClip: 'text',
-  WebkitTextFillColor: 'transparent',
-  color: 'var(--mantine-color-white)',
-} as const satisfies CSSProperties;
+export function getHomeHeroWordmarkStyle(isDark: boolean): CSSProperties {
+  return {
+    color: isDark
+      ? 'var(--mantine-color-violet-1)'
+      : 'var(--mantine-color-violet-8)',
+    textShadow: isDark
+      ? '0 1px 10px rgba(124, 58, 237, 0.35)'
+      : '0 1px 4px rgba(76, 29, 149, 0.14)',
+  };
+}
 
-export const HOME_HERO_SUBTITLE_STYLE = {
-  color: 'rgba(255, 255, 255, 0.92)',
-  fontWeight: 500,
-  textShadow: '0 1px 6px rgba(0, 0, 0, 0.9)',
-} as const satisfies CSSProperties;
+export function getHomeHeroSubtitleStyle(isDark: boolean): CSSProperties {
+  return {
+    color: isDark
+      ? 'var(--mantine-color-gray-1)'
+      : 'var(--mantine-color-dark-8)',
+    fontWeight: 500,
+    textShadow: isDark ? '0 1px 6px rgba(0, 0, 0, 0.9)' : 'none',
+  };
+}
 
-export const HOME_HERO_META_TEXT_STYLE = {
-  color: 'rgba(255, 255, 255, 0.9)',
-  textShadow: '0 1px 4px rgba(0, 0, 0, 0.85)',
-} as const satisfies CSSProperties;
+export function getHomeHeroMetaTextStyle(isDark: boolean): CSSProperties {
+  return {
+    color: isDark
+      ? 'var(--mantine-color-gray-2)'
+      : 'var(--mantine-color-dark-6)',
+    textShadow: isDark ? '0 1px 4px rgba(0, 0, 0, 0.85)' : 'none',
+  };
+}
 
-export const HOME_HERO_PLAY_NOW_STYLE = {
-  borderColor: 'rgba(255, 255, 255, 0.4)',
-  color: 'rgba(255, 255, 255, 0.95)',
-  backdropFilter: 'blur(4px)',
-  backgroundColor: 'rgba(255, 255, 255, 0.1)',
-  whiteSpace: 'nowrap',
-} as const satisfies CSSProperties;
+export function getHomeHeroPlayNowStyle(isDark: boolean): CSSProperties {
+  return {
+    borderColor: isDark
+      ? 'rgba(255, 255, 255, 0.4)'
+      : 'var(--mantine-color-gray-4)',
+    color: isDark ? 'rgba(255, 255, 255, 0.95)' : 'var(--mantine-color-dark-8)',
+    backdropFilter: 'blur(4px)',
+    backgroundColor: isDark
+      ? 'rgba(255, 255, 255, 0.1)'
+      : 'rgba(255, 255, 255, 0.78)',
+    whiteSpace: 'nowrap',
+  };
+}
 
 /**
  * 96×96 icon box for detail page hero sections.

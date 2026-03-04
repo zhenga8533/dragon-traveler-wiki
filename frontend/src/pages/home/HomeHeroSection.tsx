@@ -26,12 +26,12 @@ import {
 import { Link } from 'react-router-dom';
 import SearchModal from '../../components/tools/SearchModal';
 import {
-  HOME_HERO_META_TEXT_STYLE,
-  HOME_HERO_PLAY_NOW_STYLE,
-  HOME_HERO_SUBTITLE_STYLE,
   HOME_HERO_TITLE_STYLE,
-  HOME_HERO_WORDMARK_STYLE,
   getCardHoverProps,
+  getHomeHeroMetaTextStyle,
+  getHomeHeroPlayNowStyle,
+  getHomeHeroSubtitleStyle,
+  getHomeHeroWordmarkStyle,
 } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
 import { BannerContext } from '../../contexts';
@@ -83,15 +83,20 @@ export default function HomeHeroSection() {
     ...HOME_HERO_HEADING_PANEL_STYLE,
     border: isDark
       ? '1px solid rgba(255, 255, 255, 0.14)'
-      : '1px solid rgba(255, 255, 255, 0.34)',
+      : '1px solid var(--mantine-color-gray-3)',
     background: isDark
       ? 'linear-gradient(180deg, rgba(14, 16, 21, 0.68) 0%, rgba(14, 16, 21, 0.5) 100%)'
-      : 'linear-gradient(180deg, rgba(255, 255, 255, 0.32) 0%, rgba(255, 255, 255, 0.2) 100%)',
+      : 'linear-gradient(180deg, rgba(255, 255, 255, 0.84) 0%, rgba(248, 249, 250, 0.74) 100%)',
     backdropFilter: 'blur(7px)',
     boxShadow: isDark
       ? '0 10px 30px rgba(0, 0, 0, 0.34)'
-      : '0 10px 26px rgba(21, 30, 56, 0.2)',
+      : '0 10px 24px rgba(38, 52, 84, 0.16)',
   };
+
+  const homeHeroWordmarkStyle = getHomeHeroWordmarkStyle(isDark);
+  const homeHeroSubtitleStyle = getHomeHeroSubtitleStyle(isDark);
+  const homeHeroMetaTextStyle = getHomeHeroMetaTextStyle(isDark);
+  const homeHeroPlayNowStyle = getHomeHeroPlayNowStyle(isDark);
 
   return (
     <Box
@@ -124,24 +129,32 @@ export default function HomeHeroSection() {
                 </Badge>
               </Group>
               <Title order={1} style={HOME_HERO_TITLE_STYLE}>
-                <Text component="span" inherit style={HOME_HERO_WORDMARK_STYLE}>
+                <Text component="span" inherit style={homeHeroWordmarkStyle}>
                   Dragon Traveler
                 </Text>{' '}
                 <Text
                   component="span"
                   inherit
-                  style={{ color: 'var(--mantine-color-white)' }}
+                  style={{
+                    color: isDark
+                      ? 'var(--mantine-color-white)'
+                      : 'var(--mantine-color-dark-9)',
+                  }}
                 >
                   Wiki
                 </Text>
               </Title>
-              <Text size="lg" mt="xs" style={HOME_HERO_SUBTITLE_STYLE}>
+              <Text size="lg" mt="xs" style={homeHeroSubtitleStyle}>
                 A{' '}
                 <Text
                   component="span"
                   inherit
                   fw={700}
-                  style={{ color: 'var(--mantine-color-violet-1)' }}
+                  style={{
+                    color: isDark
+                      ? 'var(--mantine-color-violet-1)'
+                      : 'var(--mantine-color-violet-8)',
+                  }}
                 >
                   community-driven
                 </Text>{' '}
@@ -150,17 +163,26 @@ export default function HomeHeroSection() {
                   component="span"
                   inherit
                   fw={700}
-                  style={{ color: 'var(--mantine-color-blue-1)' }}
+                  style={{
+                    color: isDark
+                      ? 'var(--mantine-color-blue-1)'
+                      : 'var(--mantine-color-blue-8)',
+                  }}
                 >
                   Dragon Traveler
                 </Text>
               </Text>
-              <Text size="sm" mt={6} style={HOME_HERO_META_TEXT_STYLE}>
+              <Text size="sm" mt={6} style={homeHeroMetaTextStyle}>
                 Authored by{' '}
-                <Text component="span" inherit fw={700} c="grape.2">
+                <Text
+                  component="span"
+                  inherit
+                  fw={700}
+                  c={isDark ? 'grape.2' : 'grape.8'}
+                >
                   Litee
                 </Text>{' '}
-                <Text component="span" inherit c="blue.1">
+                <Text component="span" inherit c={isDark ? 'blue.1' : 'blue.8'}>
                   (Server: Freya 2)
                 </Text>
               </Text>
@@ -186,14 +208,14 @@ export default function HomeHeroSection() {
                 borderRadius: '12px',
                 border: isDark
                   ? '1px solid rgba(255, 255, 255, 0.14)'
-                  : '1px solid rgba(255, 255, 255, 0.26)',
+                  : '1px solid var(--mantine-color-gray-3)',
                 background: isDark
                   ? 'rgba(16, 18, 22, 0.58)'
-                  : 'rgba(255, 255, 255, 0.2)',
+                  : 'rgba(255, 255, 255, 0.82)',
                 backdropFilter: 'blur(6px)',
                 boxShadow: isDark
                   ? '0 8px 20px rgba(0, 0, 0, 0.28)'
-                  : '0 8px 20px rgba(19, 26, 44, 0.18)',
+                  : '0 8px 18px rgba(38, 52, 84, 0.14)',
               }}
             >
               <Group justify="space-between" align="center" mb={6}>
@@ -303,7 +325,7 @@ export default function HomeHeroSection() {
                   styles={HOME_CTA_BUTTON_STYLES}
                   leftSection={<IoGameController size={18} />}
                   rightSection={<IoOpenOutline size={14} />}
-                  style={HOME_HERO_PLAY_NOW_STYLE}
+                  style={homeHeroPlayNowStyle}
                 >
                   Play Now
                 </Button>
@@ -326,7 +348,7 @@ export default function HomeHeroSection() {
                   )}
                 />
                 <Group gap={4} visibleFrom="sm">
-                  <Text size="xs" style={HOME_HERO_META_TEXT_STYLE}>
+                  <Text size="xs" style={homeHeroMetaTextStyle}>
                     press
                   </Text>
                   <Kbd size="xs">/</Kbd>
