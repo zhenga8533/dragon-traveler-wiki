@@ -14,7 +14,9 @@ export default function BannerBackground() {
   const imgRef = useCallback(
     (el: HTMLImageElement | null) => {
       if (!el) return;
-      const update = () => setMediaHeight(el.offsetHeight);
+      const update = () => {
+        if (el.naturalHeight > 0) setMediaHeight(el.naturalHeight);
+      };
       const markLoaded = () => setBannerLoaded(true);
       if (el.complete) {
         update();
@@ -30,13 +32,7 @@ export default function BannerBackground() {
     (el: HTMLVideoElement | null) => {
       if (!el) return;
       const update = () => {
-        if (el.videoWidth > 0 && el.videoHeight > 0) {
-          const containerWidth =
-            containerRef.current?.offsetWidth ?? el.clientWidth;
-          setMediaHeight(
-            Math.round(containerWidth * (el.videoHeight / el.videoWidth))
-          );
-        }
+        if (el.videoHeight > 0) setMediaHeight(el.videoHeight);
       };
       const markLoaded = () => setBannerLoaded(true);
       if (el.readyState >= 1) update();
@@ -47,25 +43,9 @@ export default function BannerBackground() {
     [selectedBanner?.src, setBannerLoaded]
   );
 
-  // Recalculate on window resize
   useEffect(() => {
-    if (selectedBanner?.type !== 'video') return;
-
-    const video = containerRef.current?.querySelector('video');
-    if (!video) return;
-
-    const onResize = () => {
-      if (video.videoWidth > 0 && video.videoHeight > 0) {
-        const containerWidth = containerRef.current?.offsetWidth ?? 0;
-        setMediaHeight(
-          Math.round(containerWidth * (video.videoHeight / video.videoWidth))
-        );
-      }
-    };
-
-    window.addEventListener('resize', onResize);
-    return () => window.removeEventListener('resize', onResize);
-  }, [selectedBanner?.type, selectedBanner?.src]);
+    setMediaHeight(0);
+  }, [selectedBanner?.src, selectedBanner?.type]);
 
   const height = mediaHeight > 0 ? mediaHeight : 350;
 
@@ -78,7 +58,6 @@ export default function BannerBackground() {
         left: 0,
         right: 0,
         height,
-        maxHeight: '100%',
         overflow: 'hidden',
         pointerEvents: 'none',
         zIndex: 0,

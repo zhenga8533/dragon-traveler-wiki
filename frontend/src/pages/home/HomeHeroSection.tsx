@@ -98,9 +98,8 @@ export default function HomeHeroSection() {
     >
       <Container
         size="md"
-        style={{ position: 'relative', zIndex: 1 }}
-        pt={56}
-        pb="xl"
+        style={{ position: 'relative', zIndex: 1, width: '100%' }}
+        py="xl"
       >
         <Stack gap="lg">
           <Box style={{ textAlign: 'center' }}>
