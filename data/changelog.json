@@ -1,5 +1,62 @@
 [
   {
+    "date": "2026-03-04",
+    "version": "1.0.8",
+    "changes": [
+      {
+        "type": "added",
+        "category": "tier-list",
+        "description": "Added change history panel to Tier List pages with external diff integration"
+      },
+      {
+        "type": "added",
+        "category": "site",
+        "description": "Added selectable home banner media with shared banner context and optional banner visibility across routes"
+      },
+      {
+        "type": "added",
+        "category": "ui",
+        "description": "Added SettingsPanel extraction and home hero presentation enhancements"
+      },
+      {
+        "type": "updated",
+        "category": "teams",
+        "description": "Refactored Team Builder and Tier List Builder workflows into cleaner component structure with improved paste handling and note flows"
+      },
+      {
+        "type": "updated",
+        "category": "characters",
+        "description": "Improved character identity resolution by adding character_quality support, duplicate-name handling, and legacy quality fallbacks"
+      },
+      {
+        "type": "updated",
+        "category": "site",
+        "description": "Improved URL handling to support '+' in entity slugs and quality keys"
+      },
+      {
+        "type": "updated",
+        "category": "tools",
+        "description": "Enhanced backend normalization support for structured array diffs and varied JSON input shapes"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Refined home banner styling with theme-aware hero visuals, adjusted overlays, and layout polish"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live datasets and normalized team bench schema for consistent data loading"
+      },
+      {
+        "type": "fixed",
+        "category": "layout",
+        "description": "Fixed banner media sizing/overflow behavior and improved measured height caching stability"
+      }
+    ],
+    "last_updated": 1772606479
+  },
+  {
     "date": "2026-03-02",
     "version": "1.0.7",
     "changes": [
