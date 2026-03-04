@@ -151,7 +151,7 @@ export default function AppLayout() {
           flexDirection: 'column',
           minHeight: '100vh',
           position: 'relative',
-          overflow: 'hidden',
+          overflow: 'clip',
         }}
       >
         {showBanner && <BannerBackground />}
