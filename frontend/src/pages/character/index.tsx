@@ -794,7 +794,7 @@ export default function CharacterPage() {
 
         <ChangeHistory
           history={
-            changesData[getCharacterIdentityKey(character)] ??
+            changesData[`${character.name}__${character.quality}`] ??
             changesData[character.name]
           }
         />
