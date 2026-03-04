@@ -52,7 +52,7 @@ export default function CharacterPortrait({
 
   const portrait = (
     <Image
-      src={getPortrait(name, resolvedAssetKey)}
+      src={getPortrait(name, resolvedAssetKey, quality)}
       alt={name}
       w={size}
       h={size}

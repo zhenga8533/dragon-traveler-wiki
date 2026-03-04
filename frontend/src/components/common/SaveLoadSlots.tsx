@@ -35,6 +35,74 @@ interface SaveLoadSlotsProps<T extends SlotData> {
   compact?: boolean;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function asSlotData(value: unknown): SlotData | null {
+  if (!isRecord(value)) return null;
+
+  const nested = value.data;
+  if (isRecord(nested)) {
+    return nested as SlotData;
+  }
+
+  const payload = value.payload;
+  if (isRecord(payload)) {
+    return payload as SlotData;
+  }
+
+  return value as SlotData;
+}
+
+function normalizeStoredSlots<T extends SlotData>(
+  raw: unknown,
+  numSlots: number
+): Record<string, T | null> {
+  const slots: Record<string, T | null> = {};
+
+  const assignSlot = (index: number, value: unknown): void => {
+    if (!Number.isInteger(index) || index < 0 || index >= numSlots) return;
+    const slotData = asSlotData(value);
+    if (slotData) {
+      slots[String(index)] = slotData as T;
+    }
+  };
+
+  if (Array.isArray(raw)) {
+    raw.forEach((value, index) => assignSlot(index, value));
+    return slots;
+  }
+
+  if (!isRecord(raw)) {
+    return slots;
+  }
+
+  const source = (() => {
+    const nestedSlots = raw.slots;
+    if (Array.isArray(nestedSlots) || isRecord(nestedSlots)) {
+      return nestedSlots;
+    }
+    return raw;
+  })();
+
+  if (Array.isArray(source)) {
+    source.forEach((value, index) => assignSlot(index, value));
+    return slots;
+  }
+
+  if (!isRecord(source)) {
+    return slots;
+  }
+
+  Object.entries(source).forEach(([key, value]) => {
+    if (!/^\d+$/.test(key)) return;
+    assignSlot(Number(key), value);
+  });
+
+  return slots;
+}
+
 export default function SaveLoadSlots<T extends SlotData>({
   storageKey,
   numSlots = 6,
@@ -51,8 +119,8 @@ export default function SaveLoadSlots<T extends SlotData>({
     try {
       const stored = window.localStorage.getItem(storageKey);
       if (stored) {
-        const parsed = JSON.parse(stored) as SaveSlots;
-        if (parsed && typeof parsed === 'object') return parsed;
+        const parsed = JSON.parse(stored) as unknown;
+        return normalizeStoredSlots<T>(parsed, numSlots);
       }
     } catch {
       // ignore
@@ -75,8 +143,12 @@ export default function SaveLoadSlots<T extends SlotData>({
   );
 
   function handleSave(index: number) {
-    const data = JSON.parse(currentJson) as T;
-    persistSlots({ ...saveSlots, [String(index)]: data });
+    try {
+      const data = JSON.parse(currentJson) as T;
+      persistSlots({ ...saveSlots, [String(index)]: data });
+    } catch {
+      // ignore malformed current JSON
+    }
   }
 
   function handleLoad(index: number) {

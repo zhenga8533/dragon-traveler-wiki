@@ -588,7 +588,14 @@ export default function TierListBuilder({
               storageKey={STORAGE_KEY.TIER_LIST_BUILDER_SLOTS}
               numSlots={3}
               currentJson={json}
-              onLoad={loadFromTierList}
+              onLoad={(data) => {
+                const currentTierList = JSON.parse(json) as TierList;
+                const mergedTierList = normalizeTierListFromPartial(
+                  data,
+                  currentTierList
+                );
+                loadFromTierList(mergedTierList);
+              }}
               defaultName="My Tier List"
               renderSlotDetail={(t) => {
                 const n = t.entries?.length ?? 0;

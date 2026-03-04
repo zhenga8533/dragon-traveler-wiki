@@ -131,10 +131,35 @@ for (const [path, loader] of Object.entries(skillModules)) {
 
 export function getPortrait(
   characterName: string,
-  characterKey?: string
+  characterKey?: string,
+  quality?: string
 ): string | undefined {
-  const key = resolveAssetKey(characterName, characterKey);
-  return portraits.get(key);
+  const normalizedName = normalizeKey(characterName);
+  const resolvedKey = resolveAssetKey(characterName, characterKey);
+
+  const candidateKeys: string[] = [];
+
+  if (resolvedKey) {
+    candidateKeys.push(resolvedKey);
+  }
+
+  if (quality) {
+    const qualityKey = `${normalizedName}_${normalizeKey(quality)}`;
+    if (!candidateKeys.includes(qualityKey)) {
+      candidateKeys.unshift(qualityKey);
+    }
+  }
+
+  if (!candidateKeys.includes(normalizedName)) {
+    candidateKeys.push(normalizedName);
+  }
+
+  for (const key of candidateKeys) {
+    const portrait = portraits.get(key);
+    if (portrait) return portrait;
+  }
+
+  return undefined;
 }
 
 export async function getIllustrations(

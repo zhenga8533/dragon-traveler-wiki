@@ -109,6 +109,27 @@ def _has_any_object_entries(entries: list) -> bool:
     return any(isinstance(entry, dict) for entry in entries)
 
 
+def _extract_entries(
+    payload: object,
+) -> tuple[list | None, Callable[[list], None] | None]:
+    """Extract a mutable entries list and updater from supported payload shapes.
+
+    Supported forms:
+    - Top-level list
+    - Top-level object with one of: entries/items/data/records/values (as list)
+    """
+    if isinstance(payload, list):
+        return payload, None
+
+    if isinstance(payload, dict):
+        for key in ("entries", "items", "data", "records", "values"):
+            value = payload.get(key)
+            if isinstance(value, list):
+                return value, lambda updated, k=key: payload.__setitem__(k, updated)
+
+    return None, None
+
+
 def _load_committed(filename: str) -> dict[str, dict]:
     """Load HEAD-committed version of a file as {identity: entry}."""
     git_path = f"data/{filename}"
@@ -125,8 +146,12 @@ def _load_committed(filename: str) -> dict[str, dict]:
         return {}
 
     try:
-        entries = json.loads(result.stdout.decode("utf-8"))
+        payload = json.loads(result.stdout.decode("utf-8"))
     except json.JSONDecodeError:
+        return {}
+
+    entries, _ = _extract_entries(payload)
+    if entries is None:
         return {}
 
     committed: dict[str, dict] = {}
@@ -164,11 +189,12 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
     result["exists"] = True
 
     with open(path, "r", encoding="utf-8") as f:
-        entries = json.load(f)
+        payload = json.load(f)
 
-    if not isinstance(entries, list):
+    entries, update_entries = _extract_entries(payload)
+    if entries is None:
         with open(path, "w", encoding="utf-8") as f:
-            json.dump(entries, f, indent=2, ensure_ascii=False)
+            json.dump(payload, f, indent=2, ensure_ascii=False)
             f.write("\n")
         return result
 
@@ -270,8 +296,11 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
             entries.sort(key=sort_key)
             result["sorted"] = True
 
+    if update_entries is not None:
+        update_entries(entries)
+
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(entries, f, indent=2, ensure_ascii=False)
+        json.dump(payload, f, indent=2, ensure_ascii=False)
         f.write("\n")
 
     return result

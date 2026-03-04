@@ -1077,7 +1077,11 @@ export default function TeamBuilder({
             <SaveLoadSlots<Team>
               storageKey={STORAGE_KEY.TEAMS_BUILDER_SLOTS}
               currentJson={json}
-              onLoad={loadFromTeam}
+              onLoad={(data) => {
+                const currentTeam = JSON.parse(json) as Team;
+                const mergedTeam = normalizeTeamFromPartial(data, currentTeam);
+                loadFromTeam(mergedTeam);
+              }}
               defaultName="My Team"
               compact={isMobile}
               renderSlotDetail={(t) => {
