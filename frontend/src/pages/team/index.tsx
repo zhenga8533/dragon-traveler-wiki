@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Badge,
   Box,
   Container,
@@ -6,9 +7,12 @@ import {
   SimpleGrid,
   Stack,
   Title,
+  Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { toPng } from 'html-to-image';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { IoDownload } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChangeHistory from '../../components/common/ChangeHistory';
 import ConfirmActionModal from '../../components/common/ConfirmActionModal';
@@ -53,6 +57,8 @@ export default function TeamPage() {
   const isDark = useComputedColorScheme('light') === 'dark';
   const navigate = useNavigate();
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
+  const [exporting, setExporting] = useState(false);
+  const exportRef = useRef<HTMLDivElement>(null);
 
   const { data: teams, loading: loadingTeams } = useTeams();
   const { data: characters, loading: loadingChars } = useCharacters();
@@ -205,6 +211,23 @@ export default function TeamPage() {
     setConfirmEditOpen(true);
   };
 
+  const exportAsImage = async () => {
+    if (!exportRef.current || !team) return;
+    setExporting(true);
+    try {
+      const dataUrl = await toPng(exportRef.current, {
+        backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
+        pixelRatio: 2,
+      });
+      const link = document.createElement('a');
+      link.download = `${team.name.replace(/\s+/g, '_')}.png`;
+      link.href = dataUrl;
+      link.click();
+    } finally {
+      setExporting(false);
+    }
+  };
+
   return (
     <Box>
       <TeamHeroSection
@@ -272,34 +295,51 @@ export default function TeamPage() {
           )}
 
           <Stack gap="md">
-            <Group gap="sm">
-              <Title order={2} size="h3">
-                Team Composition
-              </Title>
-              <Badge variant="light" color={factionColor} size="sm">
-                {team.members.length} members
-              </Badge>
+            <Group gap="sm" justify="space-between">
+              <Group gap="sm">
+                <Title order={2} size="h3">
+                  Team Composition
+                </Title>
+                <Badge variant="light" color={factionColor} size="sm">
+                  {team.members.length} members
+                </Badge>
+              </Group>
+              <Tooltip label="Export as image" withArrow>
+                <ActionIcon
+                  variant="subtle"
+                  color={factionColor}
+                  size="lg"
+                  loading={exporting}
+                  onClick={exportAsImage}
+                >
+                  <IoDownload size={18} />
+                </ActionIcon>
+              </Tooltip>
             </Group>
-            <BattlefieldGrid
-              members={team.members}
-              charMap={charMap}
-              characterByIdentity={characterByIdentity}
-              getCharacterPath={getCharacterPath}
-              factionColor={factionColor}
-              isDark={isDark}
-              tooltipProps={tooltipProps}
-            />
+            <Box ref={exportRef} style={{ padding: 8 }}>
+              <Stack gap="md">
+                <BattlefieldGrid
+                  members={team.members}
+                  charMap={charMap}
+                  characterByIdentity={characterByIdentity}
+                  getCharacterPath={getCharacterPath}
+                  factionColor={factionColor}
+                  isDark={isDark}
+                  tooltipProps={tooltipProps}
+                />
 
-            {team.bench && team.bench.length > 0 && (
-              <BenchSection
-                bench={team.bench}
-                charMap={charMap}
-                characterByIdentity={characterByIdentity}
-                getCharacterPath={getCharacterPath}
-                factionColor={factionColor}
-                tooltipProps={tooltipProps}
-              />
-            )}
+                {team.bench && team.bench.length > 0 && (
+                  <BenchSection
+                    bench={team.bench}
+                    charMap={charMap}
+                    characterByIdentity={characterByIdentity}
+                    getCharacterPath={getCharacterPath}
+                    factionColor={factionColor}
+                    tooltipProps={tooltipProps}
+                  />
+                )}
+              </Stack>
+            </Box>
           </Stack>
         </Stack>
 

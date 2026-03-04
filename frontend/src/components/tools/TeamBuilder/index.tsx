@@ -11,19 +11,23 @@ import {
 import {
   ActionIcon,
   Badge,
+  Box,
   Button,
   CopyButton,
   Group,
   Stack,
   Text,
   Tooltip,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { toPng } from 'html-to-image';
 import {
   useCallback,
   useDeferredValue,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
@@ -31,10 +35,12 @@ import {
   IoCheckmark,
   IoClipboardOutline,
   IoCopy,
+  IoDownload,
   IoOpenOutline,
   IoTrash,
 } from 'react-icons/io5';
 import { FACTION_COLOR } from '../../../constants/colors';
+import { useMobileTooltip } from '../../../hooks';
 import {
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
@@ -56,9 +62,13 @@ import {
   getCharacterByReferenceKey,
   getCharacterIdentityKey,
   getCharacterRoutePath,
+  getCharacterRoutePathByName,
+  resolveCharacterByNameAndQuality,
   resolveCharacterReferenceKey,
   toCharacterReferenceFromKey,
 } from '../../../utils/character-route';
+import { BattlefieldGrid } from '../../../pages/team/BattlefieldGrid';
+import { BenchSection } from '../../../pages/team/BenchSection';
 import { insertUniqueBefore, removeItem } from '../../../utils/dnd-list';
 import {
   getTeamBenchEntryName,
@@ -138,6 +148,10 @@ export default function TeamBuilder({
   ] = useDisclosure(false);
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const [draftHydrated, setDraftHydrated] = useState(false);
+  const [isCapturing, setIsCapturing] = useState(false);
+  const exportRef = useRef<HTMLDivElement>(null);
+  const isDark = useComputedColorScheme('light') === 'dark';
+  const tooltipProps = useMobileTooltip();
 
   const { byIdentity: characterByIdentity, nameCounts: characterNameCounts } =
     useCharacterResolution(characters);
@@ -436,6 +450,48 @@ export default function TeamBuilder({
     if (!draftHydrated || typeof window === 'undefined') return;
     window.localStorage.setItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT, json);
   }, [draftHydrated, json]);
+
+  const teamData = useMemo(() => JSON.parse(json) as Team, [json]);
+
+  const getCharacterPath = useCallback(
+    (characterName: string, characterQuality?: string | null) => {
+      const character = resolveCharacterByNameAndQuality(
+        characterName,
+        characterQuality,
+        charMap,
+        characterByIdentity
+      );
+      if (!character) return getCharacterRoutePathByName(characterName);
+      return getCharacterRoutePath(character, characterNameCounts);
+    },
+    [charMap, characterByIdentity, characterNameCounts]
+  );
+
+  useEffect(() => {
+    if (!isCapturing) return;
+    const el = exportRef.current;
+    if (!el) return;
+
+    const run = async () => {
+      // Brief delay so portrait images (already cached) can paint
+      await new Promise((r) => setTimeout(r, 150));
+      try {
+        const dataUrl = await toPng(el, {
+          backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
+          pixelRatio: 2,
+        });
+        const link = document.createElement('a');
+        link.download = `${(teamData.name || 'team').replace(/\s+/g, '_')}.png`;
+        link.href = dataUrl;
+        link.click();
+      } finally {
+        setIsCapturing(false);
+      }
+    };
+
+    run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCapturing]);
 
   const usedNames = useMemo(() => {
     const s = new Set<string>();
@@ -958,6 +1014,7 @@ export default function TeamBuilder({
   }
 
   return (
+    <>
     <DndContext
       sensors={sensors}
       onDragStart={handleDragStart}
@@ -1043,6 +1100,29 @@ export default function TeamBuilder({
             />
           </Group>
           <Group gap="xs" wrap="nowrap">
+            {isMobile ? (
+              <Tooltip label="Export as Image" withArrow>
+                <ActionIcon
+                  variant="light"
+                  disabled={teamSize === 0}
+                  loading={isCapturing}
+                  onClick={() => setIsCapturing(true)}
+                >
+                  <IoDownload size={16} />
+                </ActionIcon>
+              </Tooltip>
+            ) : (
+              <Button
+                variant="light"
+                size="sm"
+                leftSection={<IoDownload size={16} />}
+                onClick={() => setIsCapturing(true)}
+                loading={isCapturing}
+                disabled={teamSize === 0}
+              >
+                Export Image
+              </Button>
+            )}
             {isMobile ? (
               <Tooltip label="Submit Suggestion" withArrow>
                 <ActionIcon
@@ -1209,5 +1289,42 @@ export default function TeamBuilder({
         }}
       />
     </DndContext>
+
+    {/* Temporary container rendered only during export — matches team page style */}
+    {/* opacity:0 on the wrapper hides it visually; the ref is on the inner Box so
+        getComputedStyle sees opacity:1 (opacity is not inherited in CSS) */}
+    {isCapturing && <div aria-hidden="true" style={{ position: 'fixed', top: 0, left: 0, opacity: 0, pointerEvents: 'none' }}>
+    <Box
+      ref={exportRef}
+      style={{
+        width: 900,
+        backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
+        padding: 16,
+      }}
+    >
+      <Stack gap="md">
+        <BattlefieldGrid
+          members={teamData.members}
+          charMap={charMap}
+          characterByIdentity={characterByIdentity}
+          getCharacterPath={getCharacterPath}
+          factionColor={factionColor}
+          isDark={isDark}
+          tooltipProps={tooltipProps}
+        />
+        {teamData.bench && teamData.bench.length > 0 && (
+          <BenchSection
+            bench={teamData.bench}
+            charMap={charMap}
+            characterByIdentity={characterByIdentity}
+            getCharacterPath={getCharacterPath}
+            factionColor={factionColor}
+            tooltipProps={tooltipProps}
+          />
+        )}
+      </Stack>
+    </Box>
+    </div>}
+    </>
   );
 }
