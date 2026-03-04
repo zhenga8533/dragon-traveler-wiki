@@ -215,6 +215,15 @@ def _dict_field_diff(filename: str, old_dict: dict, new_dict: dict) -> dict:
                     sub["removed"] = removed
                 if sub:
                     result[key] = sub
+        else:
+            # Fallback: type mismatch or complex field removed/added
+            d: dict = {}
+            if old_val is not None:
+                d["old"] = old_val
+            if new_val is not None:
+                d["new"] = new_val
+            if d:
+                result[key] = d
     return result
 
 
@@ -224,7 +233,7 @@ def _compute_field_diffs(filename: str, old: dict, new: dict) -> dict[str, dict]
     - Scalar fields (str/int/float/bool): {"old": ..., "new": ...}
     - Known array fields: {"added": [...], "removed": [...], "changed"/"modified": {...}}
     - Dict fields: recursively diffed for scalar leaf changes
-    - Other complex fields: {} (changed but values not stored)
+    - Removed/type-changed complex fields: {"old": ..., "new": ...} with the raw values
     """
     diffs: dict[str, dict] = {}
     all_keys = set(old.keys()) | set(new.keys())
@@ -254,10 +263,11 @@ def _compute_field_diffs(filename: str, old: dict, new: dict) -> dict[str, dict]
             elif isinstance(old_val, dict) and isinstance(new_val, dict):
                 diff = _dict_field_diff(filename, old_val, new_val)
             else:
+                # Fallback: type mismatch, or complex field removed/set to a different type
                 diff = {}
-                if isinstance(old_val, _SCALAR_TYPES):
+                if old_val is not None:
                     diff["old"] = old_val
-                if isinstance(new_val, _SCALAR_TYPES):
+                if new_val is not None:
                     diff["new"] = new_val
             diffs[key] = diff
     return diffs
