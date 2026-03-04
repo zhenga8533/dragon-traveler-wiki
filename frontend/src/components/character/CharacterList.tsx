@@ -9,7 +9,7 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useContext, useMemo } from 'react';
+import { useCallback, useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import { getMinWidthStyle } from '../../constants/styles';
 import {
@@ -164,14 +164,17 @@ export default function CharacterList({
     characterByIdentity,
   ]);
 
-  const getTierLabel = (character: Character) => {
-    if (!selectedTierListName) return undefined;
-    return (
-      tierLookup.get(getCharacterIdentityKey(character)) ??
-      tierLookup.get(character.name) ??
-      'Unranked'
-    );
-  };
+  const getTierLabel = useCallback(
+    (character: Character) => {
+      if (!selectedTierListName) return undefined;
+      return (
+        tierLookup.get(getCharacterIdentityKey(character)) ??
+        tierLookup.get(character.name) ??
+        'Unranked'
+      );
+    },
+    [selectedTierListName, tierLookup]
+  );
 
   const filteredAndSorted = useMemo(() => {
     const filtered = filterCharacters(
@@ -210,6 +213,7 @@ export default function CharacterList({
     tierLookup,
     tierRank,
     selectedTierListName,
+    getTierLabel,
   ]);
 
   const { page, setPage, totalPages, offset } = usePagination(

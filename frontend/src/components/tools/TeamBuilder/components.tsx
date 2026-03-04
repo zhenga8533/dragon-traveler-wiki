@@ -22,8 +22,6 @@ import { memo, useEffect, useMemo, useState } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '../../../assets/faction';
 import { getWyrmspellIcon } from '../../../assets/wyrmspell';
-import type { TeamWyrmspells } from '../../../types/team';
-import type { Wyrmspell } from '../../../types/wyrmspell';
 import { FACTION_NAMES } from '../../../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
@@ -37,6 +35,8 @@ import {
 } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
+import type { TeamWyrmspells } from '../../../types/team';
+import type { Wyrmspell } from '../../../types/wyrmspell';
 import {
   getCharacterBaseSlug,
   getCharacterRoutePath,
@@ -755,7 +755,9 @@ export function WyrmspellSelector({
   function leftIcon(name: string | undefined) {
     if (!name) return undefined;
     const src = getWyrmspellIcon(name);
-    return src ? <Image src={src} alt="" w={16} h={16} fit="contain" /> : undefined;
+    return src ? (
+      <Image src={src} alt="" w={16} h={16} fit="contain" />
+    ) : undefined;
   }
 
   return (
@@ -832,8 +834,10 @@ export function PasteJsonModal({
 
   useEffect(() => {
     if (!opened) {
-      setPasteText('');
-      setPasteError('');
+      queueMicrotask(() => {
+        setPasteText('');
+        setPasteError('');
+      });
     }
   }, [opened]);
 

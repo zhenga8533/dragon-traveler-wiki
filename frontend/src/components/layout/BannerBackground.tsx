@@ -1,5 +1,5 @@
 import { Box, useComputedColorScheme } from '@mantine/core';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import { useCallback, useContext, useRef, useState } from 'react';
 import { getHomeHeroPlaceholderGradient } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
 import { BannerContext } from '../../contexts';
@@ -10,18 +10,21 @@ export default function BannerBackground() {
   const isDark = useComputedColorScheme('light') === 'dark';
   const { selectedBanner, bannerLoaded, setBannerLoaded } =
     useContext(BannerContext);
-  const [mediaHeight, setMediaHeight] = useState<number>(0);
+  const selectedBannerSrc = selectedBanner?.src;
+  const [measuredMedia, setMeasuredMedia] = useState<{
+    src: string;
+    height: number;
+  } | null>(null);
   const containerRef = useRef<HTMLDivElement>(null);
 
   const updateMeasuredHeight = useCallback(
     (height: number) => {
       if (height <= 0) return;
-      if (selectedBanner?.src) {
-        measuredHeightBySource.set(selectedBanner.src, height);
-      }
-      setMediaHeight(height);
+      if (!selectedBannerSrc) return;
+      measuredHeightBySource.set(selectedBannerSrc, height);
+      setMeasuredMedia({ src: selectedBannerSrc, height });
     },
-    [selectedBanner?.src]
+    [selectedBannerSrc]
   );
 
   const imgRef = useCallback(
@@ -53,17 +56,16 @@ export default function BannerBackground() {
       el.addEventListener('loadedmetadata', update, { once: true });
       el.addEventListener('loadeddata', markLoaded, { once: true });
     },
-    [selectedBanner?.src, setBannerLoaded, updateMeasuredHeight]
+    [setBannerLoaded, updateMeasuredHeight]
   );
 
-  useEffect(() => {
-    if (!selectedBanner?.src) {
-      setMediaHeight(0);
-      return;
-    }
-    const cachedHeight = measuredHeightBySource.get(selectedBanner.src);
-    setMediaHeight(cachedHeight ?? 0);
-  }, [selectedBanner?.src, selectedBanner?.type]);
+  const cachedHeight = selectedBannerSrc
+    ? measuredHeightBySource.get(selectedBannerSrc)
+    : undefined;
+  const mediaHeight = selectedBannerSrc
+    ? (cachedHeight ??
+      (measuredMedia?.src === selectedBannerSrc ? measuredMedia.height : 0))
+    : 0;
 
   const height = mediaHeight > 0 ? mediaHeight : 350;
 

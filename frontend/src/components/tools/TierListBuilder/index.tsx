@@ -164,53 +164,56 @@ export default function TierListBuilder({
     })
   );
 
-  function loadFromTierList(data: TierList) {
-    setName(data.name || '');
-    setAuthor(data.author || '');
-    setCategoryName(normalizeContentType(data.content_type));
-    setDescription(data.description || '');
+  const loadFromTierList = useCallback(
+    (data: TierList) => {
+      setName(data.name || '');
+      setAuthor(data.author || '');
+      setCategoryName(normalizeContentType(data.content_type));
+      setDescription(data.description || '');
 
-    const baseDefs: TierDefinition[] = data.tiers?.length
-      ? data.tiers.map((t) => ({
-          name: t.name,
-          note: normalizeNote(t.note) || '',
-        }))
-      : DEFAULT_TIER_DEFINITIONS.map((t) => ({ ...t }));
+      const baseDefs: TierDefinition[] = data.tiers?.length
+        ? data.tiers.map((t) => ({
+            name: t.name,
+            note: normalizeNote(t.note) || '',
+          }))
+        : DEFAULT_TIER_DEFINITIONS.map((t) => ({ ...t }));
 
-    // Also add any tiers referenced by entries but not in baseDefs
-    const tierNameSet = new Set(baseDefs.map((t) => t.name));
-    const extraDefs: TierDefinition[] = [];
-    for (const entry of data.entries) {
-      if (!tierNameSet.has(entry.tier)) {
-        extraDefs.push({ name: entry.tier, note: '' });
-        tierNameSet.add(entry.tier);
+      // Also add any tiers referenced by entries but not in baseDefs
+      const tierNameSet = new Set(baseDefs.map((t) => t.name));
+      const extraDefs: TierDefinition[] = [];
+      for (const entry of data.entries) {
+        if (!tierNameSet.has(entry.tier)) {
+          extraDefs.push({ name: entry.tier, note: '' });
+          tierNameSet.add(entry.tier);
+        }
       }
-    }
-    const allDefs = [...baseDefs, ...extraDefs];
-    setTierDefs(allDefs);
+      const allDefs = [...baseDefs, ...extraDefs];
+      setTierDefs(allDefs);
 
-    const p: TierPlacements = {};
-    allDefs.forEach((t) => {
-      p[t.name] = [];
-    });
-    const n: Record<string, string> = {};
-    const seenCharacters = new Set<string>();
-    for (const entry of data.entries) {
-      const characterKey = getCharacterKeyFromReference(
-        entry.character_name,
-        entry.character_quality
-      );
-      if (seenCharacters.has(characterKey)) continue;
-      seenCharacters.add(characterKey);
-      if (p[entry.tier] !== undefined) {
-        p[entry.tier].push(characterKey);
+      const p: TierPlacements = {};
+      allDefs.forEach((t) => {
+        p[t.name] = [];
+      });
+      const n: Record<string, string> = {};
+      const seenCharacters = new Set<string>();
+      for (const entry of data.entries) {
+        const characterKey = getCharacterKeyFromReference(
+          entry.character_name,
+          entry.character_quality
+        );
+        if (seenCharacters.has(characterKey)) continue;
+        seenCharacters.add(characterKey);
+        if (p[entry.tier] !== undefined) {
+          p[entry.tier].push(characterKey);
+        }
+        const normalizedEntryNote = normalizeNote(entry.note);
+        if (normalizedEntryNote) n[characterKey] = normalizedEntryNote;
       }
-      const normalizedEntryNote = normalizeNote(entry.note);
-      if (normalizedEntryNote) n[characterKey] = normalizedEntryNote;
-    }
-    setPlacements(p);
-    setNotes(n);
-  }
+      setPlacements(p);
+      setNotes(n);
+    },
+    [getCharacterKeyFromReference]
+  );
 
   function handlePasteApply() {
     try {
@@ -276,7 +279,7 @@ export default function TierListBuilder({
     queueMicrotask(() => {
       setDraftHydrated(true);
     });
-  }, [initialData]);
+  }, [initialData, loadFromTierList]);
 
   const deferredName = useDeferredValue(name);
   const deferredAuthor = useDeferredValue(author);

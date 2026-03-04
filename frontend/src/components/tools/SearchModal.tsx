@@ -521,6 +521,7 @@ export default function SearchModal({
   }, [
     debouncedQuery,
     characters,
+    characterNameCounts,
     artifacts,
     gear,
     howlkins,

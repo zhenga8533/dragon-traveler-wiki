@@ -20,13 +20,14 @@ import { IoCreate, IoFilter } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterCard from '../components/character/CharacterCard';
 import CharacterPortrait from '../components/character/CharacterPortrait';
+import ChangeHistory from '../components/common/ChangeHistory';
 import ClassTag from '../components/common/ClassTag';
+import CollapsibleSectionCard from '../components/common/CollapsibleSectionCard';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
 import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
 import FactionTag from '../components/common/FactionTag';
-import ChangeHistory from '../components/common/ChangeHistory';
 import LastUpdated from '../components/common/LastUpdated';
 import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
 import QualityIcon from '../components/common/QualityIcon';
@@ -45,8 +46,8 @@ import { getCardHoverProps } from '../constants/styles';
 import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
-import type { Character } from '../types/character';
 import type { ChangesFile } from '../types/changes';
+import type { Character } from '../types/character';
 import type { TierList as TierListType } from '../types/tier-list';
 import {
   buildCharacterByIdentityMap,
@@ -418,14 +419,10 @@ export default function TierList() {
                                 const tierNote = note?.trim() || '';
 
                                 return (
-                                  <Paper
+                                  <CollapsibleSectionCard
                                     key={tier}
-                                    p="md"
-                                    radius="md"
-                                    withBorder
-                                    {...getCardHoverProps()}
-                                  >
-                                    <Stack gap="sm">
+                                    defaultExpanded
+                                    header={
                                       <Stack gap={4}>
                                         <Badge
                                           variant="filled"
@@ -441,221 +438,210 @@ export default function TierList() {
                                           </Text>
                                         )}
                                       </Stack>
-                                      {viewMode === 'grid' ? (
-                                        <SimpleGrid
-                                          cols={{
-                                            base: 2,
-                                            xs: 3,
-                                            sm: 4,
-                                            md: 6,
-                                          }}
-                                          spacing={CHARACTER_GRID_SPACING}
-                                        >
-                                          {entries.map((entry) => {
-                                            const char =
-                                              resolveTierEntryCharacter(entry);
-                                            const routePath = char
-                                              ? getCharacterRoutePath(
-                                                  char,
-                                                  characterNameCounts
-                                                )
-                                              : getCharacterRoutePathByName(
-                                                  entry.character_name
-                                                );
-                                            const entryNote =
-                                              entry.note?.trim() || undefined;
-                                            const isMultiQuality =
-                                              char &&
-                                              (characterNameCounts.get(
-                                                getCharacterBaseSlug(char.name)
-                                              ) ?? 1) > 1;
-                                            return (
-                                              <CharacterCard
-                                                key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
-                                                name={
-                                                  char?.name ??
-                                                  entry.character_name
-                                                }
-                                                label={
-                                                  isMultiQuality
-                                                    ? `${char!.name} (${char!.quality})`
-                                                    : undefined
-                                                }
-                                                quality={char?.quality}
-                                                routePath={routePath}
-                                                note={entryNote}
-                                                noteIconVariant="builder"
-                                              />
-                                            );
-                                          })}
-                                        </SimpleGrid>
-                                      ) : (
-                                        <ScrollArea
-                                          type="auto"
-                                          scrollbarSize={6}
-                                          offsetScrollbars
-                                        >
-                                          <Table
-                                            striped
-                                            highlightOnHover
-                                            style={{ minWidth: 460 }}
-                                          >
-                                            <Table.Thead>
-                                              <Table.Tr>
-                                                <Table.Th>Character</Table.Th>
-                                                <Table.Th>Quality</Table.Th>
-                                                <Table.Th>Class</Table.Th>
-                                                <Table.Th>Factions</Table.Th>
-                                                <Table.Th>Note</Table.Th>
-                                              </Table.Tr>
-                                            </Table.Thead>
-                                            <Table.Tbody>
-                                              {entries.map((entry) => {
-                                                const char =
-                                                  resolveTierEntryCharacter(
-                                                    entry
-                                                  );
-                                                const routePath = char
-                                                  ? getCharacterRoutePath(
-                                                      char,
-                                                      characterNameCounts
-                                                    )
-                                                  : getCharacterRoutePathByName(
-                                                      entry.character_name
-                                                    );
-                                                const resolvedName =
-                                                  char?.name ??
-                                                  entry.character_name;
-                                                const isMultiQuality =
-                                                  char &&
-                                                  (characterNameCounts.get(
-                                                    getCharacterBaseSlug(
-                                                      char.name
-                                                    )
-                                                  ) ?? 1) > 1;
-                                                const displayName = isMultiQuality
+                                    }
+                                  >
+                                    {viewMode === 'grid' ? (
+                                      <SimpleGrid
+                                        cols={{
+                                          base: 2,
+                                          xs: 3,
+                                          sm: 4,
+                                          md: 6,
+                                        }}
+                                        spacing={CHARACTER_GRID_SPACING}
+                                      >
+                                        {entries.map((entry) => {
+                                          const char =
+                                            resolveTierEntryCharacter(entry);
+                                          const routePath = char
+                                            ? getCharacterRoutePath(
+                                                char,
+                                                characterNameCounts
+                                              )
+                                            : getCharacterRoutePathByName(
+                                                entry.character_name
+                                              );
+                                          const entryNote =
+                                            entry.note?.trim() || undefined;
+                                          const isMultiQuality =
+                                            char &&
+                                            (characterNameCounts.get(
+                                              getCharacterBaseSlug(char.name)
+                                            ) ?? 1) > 1;
+                                          return (
+                                            <CharacterCard
+                                              key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
+                                              name={
+                                                char?.name ??
+                                                entry.character_name
+                                              }
+                                              label={
+                                                isMultiQuality
                                                   ? `${char!.name} (${char!.quality})`
-                                                  : resolvedName;
-                                                const entryNote =
-                                                  entry.note?.trim() || '';
-                                                return (
-                                                  <Table.Tr
-                                                    key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
-                                                  >
-                                                    <Table.Td>
-                                                      <Group
-                                                        gap="sm"
-                                                        wrap="nowrap"
+                                                  : undefined
+                                              }
+                                              quality={char?.quality}
+                                              routePath={routePath}
+                                              note={entryNote}
+                                              noteIconVariant="builder"
+                                            />
+                                          );
+                                        })}
+                                      </SimpleGrid>
+                                    ) : (
+                                      <ScrollArea
+                                        type="auto"
+                                        scrollbarSize={6}
+                                        offsetScrollbars
+                                      >
+                                        <Table
+                                          striped
+                                          highlightOnHover
+                                          style={{ minWidth: 460 }}
+                                        >
+                                          <Table.Thead>
+                                            <Table.Tr>
+                                              <Table.Th>Character</Table.Th>
+                                              <Table.Th>Quality</Table.Th>
+                                              <Table.Th>Class</Table.Th>
+                                              <Table.Th>Factions</Table.Th>
+                                              <Table.Th>Note</Table.Th>
+                                            </Table.Tr>
+                                          </Table.Thead>
+                                          <Table.Tbody>
+                                            {entries.map((entry) => {
+                                              const char =
+                                                resolveTierEntryCharacter(
+                                                  entry
+                                                );
+                                              const routePath = char
+                                                ? getCharacterRoutePath(
+                                                    char,
+                                                    characterNameCounts
+                                                  )
+                                                : getCharacterRoutePathByName(
+                                                    entry.character_name
+                                                  );
+                                              const resolvedName =
+                                                char?.name ??
+                                                entry.character_name;
+                                              const isMultiQuality =
+                                                char &&
+                                                (characterNameCounts.get(
+                                                  getCharacterBaseSlug(
+                                                    char.name
+                                                  )
+                                                ) ?? 1) > 1;
+                                              const displayName = isMultiQuality
+                                                ? `${char!.name} (${char!.quality})`
+                                                : resolvedName;
+                                              const entryNote =
+                                                entry.note?.trim() || '';
+                                              return (
+                                                <Table.Tr
+                                                  key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
+                                                >
+                                                  <Table.Td>
+                                                    <Group
+                                                      gap="sm"
+                                                      wrap="nowrap"
+                                                    >
+                                                      <CharacterPortrait
+                                                        name={resolvedName}
+                                                        size={32}
+                                                        quality={char?.quality}
+                                                        routePath={routePath}
+                                                      />
+                                                      <Text
+                                                        component={Link}
+                                                        to={routePath}
+                                                        size="sm"
+                                                        fw={500}
+                                                        c="violet"
                                                       >
-                                                        <CharacterPortrait
-                                                          name={resolvedName}
-                                                          size={32}
-                                                          quality={
-                                                            char?.quality
-                                                          }
-                                                          routePath={routePath}
-                                                        />
-                                                        <Text
-                                                          component={Link}
-                                                          to={routePath}
-                                                          size="sm"
-                                                          fw={500}
-                                                          c="violet"
-                                                        >
-                                                          {displayName}
-                                                        </Text>
-                                                      </Group>
-                                                    </Table.Td>
-                                                    <Table.Td>
-                                                      {char ? (
-                                                        <QualityIcon
-                                                          quality={char.quality}
-                                                          size={18}
-                                                        />
-                                                      ) : (
-                                                        <Text
-                                                          size="sm"
-                                                          c="dimmed"
-                                                        >
-                                                          —
-                                                        </Text>
-                                                      )}
-                                                    </Table.Td>
-                                                    <Table.Td>
-                                                      {char ? (
-                                                        <ClassTag
-                                                          characterClass={
-                                                            char.character_class
-                                                          }
-                                                          size="sm"
-                                                        />
-                                                      ) : (
-                                                        <Text
-                                                          size="sm"
-                                                          c="dimmed"
-                                                        >
-                                                          —
-                                                        </Text>
-                                                      )}
-                                                    </Table.Td>
-                                                    <Table.Td>
-                                                      {char &&
-                                                      char.factions.length >
-                                                        0 ? (
-                                                        <Group
-                                                          gap={4}
-                                                          wrap="wrap"
-                                                        >
-                                                          {char.factions.map(
-                                                            (faction) => (
-                                                              <FactionTag
-                                                                key={faction}
-                                                                faction={
-                                                                  faction
-                                                                }
-                                                                size="xs"
-                                                              />
-                                                            )
-                                                          )}
-                                                        </Group>
-                                                      ) : (
-                                                        <Text
-                                                          size="sm"
-                                                          c="dimmed"
-                                                        >
-                                                          —
-                                                        </Text>
-                                                      )}
-                                                    </Table.Td>
-                                                    <Table.Td>
+                                                        {displayName}
+                                                      </Text>
+                                                    </Group>
+                                                  </Table.Td>
+                                                  <Table.Td>
+                                                    {char ? (
+                                                      <QualityIcon
+                                                        quality={char.quality}
+                                                        size={18}
+                                                      />
+                                                    ) : (
                                                       <Text
                                                         size="sm"
                                                         c="dimmed"
                                                       >
-                                                        {entryNote || '—'}
+                                                        —
                                                       </Text>
-                                                    </Table.Td>
-                                                  </Table.Tr>
-                                                );
-                                              })}
-                                            </Table.Tbody>
-                                          </Table>
-                                        </ScrollArea>
-                                      )}
-                                    </Stack>
-                                  </Paper>
+                                                    )}
+                                                  </Table.Td>
+                                                  <Table.Td>
+                                                    {char ? (
+                                                      <ClassTag
+                                                        characterClass={
+                                                          char.character_class
+                                                        }
+                                                        size="sm"
+                                                      />
+                                                    ) : (
+                                                      <Text
+                                                        size="sm"
+                                                        c="dimmed"
+                                                      >
+                                                        —
+                                                      </Text>
+                                                    )}
+                                                  </Table.Td>
+                                                  <Table.Td>
+                                                    {char &&
+                                                    char.factions.length > 0 ? (
+                                                      <Group
+                                                        gap={4}
+                                                        wrap="wrap"
+                                                      >
+                                                        {char.factions.map(
+                                                          (faction) => (
+                                                            <FactionTag
+                                                              key={faction}
+                                                              faction={faction}
+                                                              size="xs"
+                                                            />
+                                                          )
+                                                        )}
+                                                      </Group>
+                                                    ) : (
+                                                      <Text
+                                                        size="sm"
+                                                        c="dimmed"
+                                                      >
+                                                        —
+                                                      </Text>
+                                                    )}
+                                                  </Table.Td>
+                                                  <Table.Td>
+                                                    <Text size="sm" c="dimmed">
+                                                      {entryNote || '—'}
+                                                    </Text>
+                                                  </Table.Td>
+                                                </Table.Tr>
+                                              );
+                                            })}
+                                          </Table.Tbody>
+                                        </Table>
+                                      </ScrollArea>
+                                    )}
+                                  </CollapsibleSectionCard>
                                 );
                               }
                             )}
 
                             {unranked.length > 0 && (
-                              <Paper
-                                p="md"
-                                radius="md"
-                                withBorder
-                                {...getCardHoverProps()}
-                              >
-                                <Stack gap="sm">
+                              <CollapsibleSectionCard
+                                defaultExpanded={false}
+                                header={
                                   <Badge
                                     variant="filled"
                                     color="gray"
@@ -664,63 +650,65 @@ export default function TierList() {
                                   >
                                     Unranked
                                   </Badge>
-                                  {viewMode === 'grid' ? (
-                                    <SimpleGrid
-                                      cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-                                      spacing={CHARACTER_GRID_SPACING}
-                                    >
-                                      {unranked.map((c) => {
-                                        const isMultiQuality =
-                                          (characterNameCounts.get(
-                                            getCharacterBaseSlug(c.name)
-                                          ) ?? 1) > 1;
-                                        return (
-                                          <CharacterCard
-                                            key={getCharacterIdentityKey(c)}
-                                            name={c.name}
-                                            label={
-                                              isMultiQuality
-                                                ? `${c.name} (${c.quality})`
-                                                : undefined
-                                            }
-                                            quality={c.quality}
-                                            routePath={getCharacterRoutePath(
-                                              c,
-                                              characterNameCounts
-                                            )}
-                                          />
-                                        );
-                                      })}
-                                    </SimpleGrid>
-                                  ) : (
-                                    <ScrollArea
-                                      type="auto"
-                                      scrollbarSize={6}
-                                      offsetScrollbars
-                                    >
-                                      <Table
-                                        striped
-                                        highlightOnHover
-                                        style={{ minWidth: 460 }}
-                                      >
-                                        <Table.Thead>
-                                          <Table.Tr>
-                                            <Table.Th>Character</Table.Th>
-                                            <Table.Th>Quality</Table.Th>
-                                            <Table.Th>Class</Table.Th>
-                                            <Table.Th>Factions</Table.Th>
-                                          </Table.Tr>
-                                        </Table.Thead>
-                                        <Table.Tbody>
-                                          {unranked.map((c) => {
-                                            const isMultiQuality =
-                                              (characterNameCounts.get(
-                                                getCharacterBaseSlug(c.name)
-                                              ) ?? 1) > 1;
-                                            const displayName = isMultiQuality
+                                }
+                              >
+                                {viewMode === 'grid' ? (
+                                  <SimpleGrid
+                                    cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
+                                    spacing={CHARACTER_GRID_SPACING}
+                                  >
+                                    {unranked.map((c) => {
+                                      const isMultiQuality =
+                                        (characterNameCounts.get(
+                                          getCharacterBaseSlug(c.name)
+                                        ) ?? 1) > 1;
+                                      return (
+                                        <CharacterCard
+                                          key={getCharacterIdentityKey(c)}
+                                          name={c.name}
+                                          label={
+                                            isMultiQuality
                                               ? `${c.name} (${c.quality})`
-                                              : c.name;
-                                            return (
+                                              : undefined
+                                          }
+                                          quality={c.quality}
+                                          routePath={getCharacterRoutePath(
+                                            c,
+                                            characterNameCounts
+                                          )}
+                                        />
+                                      );
+                                    })}
+                                  </SimpleGrid>
+                                ) : (
+                                  <ScrollArea
+                                    type="auto"
+                                    scrollbarSize={6}
+                                    offsetScrollbars
+                                  >
+                                    <Table
+                                      striped
+                                      highlightOnHover
+                                      style={{ minWidth: 460 }}
+                                    >
+                                      <Table.Thead>
+                                        <Table.Tr>
+                                          <Table.Th>Character</Table.Th>
+                                          <Table.Th>Quality</Table.Th>
+                                          <Table.Th>Class</Table.Th>
+                                          <Table.Th>Factions</Table.Th>
+                                        </Table.Tr>
+                                      </Table.Thead>
+                                      <Table.Tbody>
+                                        {unranked.map((c) => {
+                                          const isMultiQuality =
+                                            (characterNameCounts.get(
+                                              getCharacterBaseSlug(c.name)
+                                            ) ?? 1) > 1;
+                                          const displayName = isMultiQuality
+                                            ? `${c.name} (${c.quality})`
+                                            : c.name;
+                                          return (
                                             <Table.Tr
                                               key={getCharacterIdentityKey(c)}
                                             >
@@ -771,16 +759,17 @@ export default function TierList() {
                                                 </Group>
                                               </Table.Td>
                                             </Table.Tr>
-                                            );
-                                          })}
-                                        </Table.Tbody>
-                                      </Table>
-                                    </ScrollArea>
-                                  )}
-                                </Stack>
-                              </Paper>
+                                          );
+                                        })}
+                                      </Table.Tbody>
+                                    </Table>
+                                  </ScrollArea>
+                                )}
+                              </CollapsibleSectionCard>
                             )}
-                            <ChangeHistory history={tierListChanges[tierList.name]} />
+                            <ChangeHistory
+                              history={tierListChanges[tierList.name]}
+                            />
                           </Stack>
                         </Tabs.Panel>
                       );

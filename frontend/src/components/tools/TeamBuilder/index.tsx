@@ -186,106 +186,112 @@ export default function TeamBuilder({
     })
   );
 
-  function loadFromTeam(data: Team) {
-    setName(data.name || '');
-    setAuthor(data.author || '');
-    setContentType(normalizeContentType(data.content_type));
-    setDescription(data.description || '');
-    setFaction(data.faction || null);
+  const loadFromTeam = useCallback(
+    (data: Team) => {
+      setName(data.name || '');
+      setAuthor(data.author || '');
+      setContentType(normalizeContentType(data.content_type));
+      setDescription(data.description || '');
+      setFaction(data.faction || null);
 
-    const newSlots: (string | null)[] = Array(GRID_SIZE).fill(null);
-    const parsedOverdriveEntries: Array<{
-      slotIndex: number;
-      order: number;
-    }> = [];
-    const newNotes: string[] = Array(GRID_SIZE).fill('');
-    const usedKeys = new Set<string>();
+      const newSlots: (string | null)[] = Array(GRID_SIZE).fill(null);
+      const parsedOverdriveEntries: Array<{
+        slotIndex: number;
+        order: number;
+      }> = [];
+      const newNotes: string[] = Array(GRID_SIZE).fill('');
+      const usedKeys = new Set<string>();
 
-    for (const member of data.members) {
-      const characterKey = getCharacterKeyFromReference(
-        member.character_name,
-        member.character_quality
-      );
-      if (usedKeys.has(characterKey)) continue;
+      for (const member of data.members) {
+        const characterKey = getCharacterKeyFromReference(
+          member.character_name,
+          member.character_quality
+        );
+        if (usedKeys.has(characterKey)) continue;
 
-      let idx: number;
-      if (member.position) {
-        idx = member.position.row * 3 + member.position.col;
-      } else {
-        idx = newSlots.findIndex((slotValue) => slotValue === null);
-      }
-
-      if (idx >= 0 && idx < GRID_SIZE && newSlots[idx] === null) {
-        newSlots[idx] = characterKey;
-        usedKeys.add(characterKey);
-        if (member.overdrive_order != null) {
-          parsedOverdriveEntries.push({
-            slotIndex: idx,
-            order: member.overdrive_order,
-          });
+        let idx: number;
+        if (member.position) {
+          idx = member.position.row * 3 + member.position.col;
+        } else {
+          idx = newSlots.findIndex((slotValue) => slotValue === null);
         }
-        newNotes[idx] = normalizeNote(member.note) || '';
+
+        if (idx >= 0 && idx < GRID_SIZE && newSlots[idx] === null) {
+          newSlots[idx] = characterKey;
+          usedKeys.add(characterKey);
+          if (member.overdrive_order != null) {
+            parsedOverdriveEntries.push({
+              slotIndex: idx,
+              order: member.overdrive_order,
+            });
+          }
+          newNotes[idx] = normalizeNote(member.note) || '';
+        }
       }
-    }
 
-    parsedOverdriveEntries.sort((a, b) => a.order - b.order);
-    const normalizedOverdriveSequence = parsedOverdriveEntries
-      .map((entry) => entry.slotIndex)
-      .slice(0, MAX_ROSTER_SIZE);
+      parsedOverdriveEntries.sort((a, b) => a.order - b.order);
+      const normalizedOverdriveSequence = parsedOverdriveEntries
+        .map((entry) => entry.slotIndex)
+        .slice(0, MAX_ROSTER_SIZE);
 
-    const legacyBenchNotes = Object.fromEntries(
-      Object.entries(
-        (data as Team & { bench_notes?: Record<string, string> }).bench_notes ||
-          {}
-      )
-        .map(([benchName, note]) => {
-          const benchKey = getCharacterKeyFromReference(benchName);
-          return [benchKey, normalizeNote(note)] as const;
+      const legacyBenchNotes = Object.fromEntries(
+        Object.entries(
+          (data as Team & { bench_notes?: Record<string, string> })
+            .bench_notes || {}
+        )
+          .map(([benchName, note]) => {
+            const benchKey = getCharacterKeyFromReference(benchName);
+            return [benchKey, normalizeNote(note)] as const;
+          })
+          .filter((entry): entry is readonly [string, string] => {
+            const [benchKey, note] = entry;
+            return Boolean(benchKey) && Boolean(note);
+          })
+      );
+
+      const seenBenchKeys = new Set<string>();
+      const normalizedBenchEntries = (data.bench || [])
+        .map((benchEntry) => {
+          const benchName = getTeamBenchEntryName(benchEntry);
+          const benchQuality = getTeamBenchEntryQuality(benchEntry);
+          const benchKey = getCharacterKeyFromReference(
+            benchName,
+            benchQuality
+          );
+          const benchNote =
+            normalizeNote(getTeamBenchEntryNote(benchEntry)) ??
+            (benchKey ? legacyBenchNotes[benchKey] : undefined);
+          return { benchKey, benchNote };
         })
-        .filter((entry): entry is readonly [string, string] => {
-          const [benchKey, note] = entry;
-          return Boolean(benchKey) && Boolean(note);
-        })
-    );
+        .filter((entry) => {
+          if (!entry.benchKey) return false;
+          if (usedKeys.has(entry.benchKey)) return false;
+          if (seenBenchKeys.has(entry.benchKey)) return false;
+          seenBenchKeys.add(entry.benchKey);
+          return true;
+        });
 
-    const seenBenchKeys = new Set<string>();
-    const normalizedBenchEntries = (data.bench || [])
-      .map((benchEntry) => {
-        const benchName = getTeamBenchEntryName(benchEntry);
-        const benchQuality = getTeamBenchEntryQuality(benchEntry);
-        const benchKey = getCharacterKeyFromReference(benchName, benchQuality);
-        const benchNote =
-          normalizeNote(getTeamBenchEntryNote(benchEntry)) ??
-          (benchKey ? legacyBenchNotes[benchKey] : undefined);
-        return { benchKey, benchNote };
-      })
-      .filter((entry) => {
-        if (!entry.benchKey) return false;
-        if (usedKeys.has(entry.benchKey)) return false;
-        if (seenBenchKeys.has(entry.benchKey)) return false;
-        seenBenchKeys.add(entry.benchKey);
-        return true;
-      });
+      const normalizedBench = normalizedBenchEntries.map(
+        (entry) => entry.benchKey
+      );
+      const normalizedBenchNotes: Record<string, string> = Object.fromEntries(
+        normalizedBenchEntries
+          .map((entry) => [entry.benchKey, entry.benchNote] as const)
+          .filter((entry): entry is readonly [string, string] => {
+            const [, note] = entry;
+            return Boolean(note);
+          })
+      );
 
-    const normalizedBench = normalizedBenchEntries.map(
-      (entry) => entry.benchKey
-    );
-    const normalizedBenchNotes: Record<string, string> = Object.fromEntries(
-      normalizedBenchEntries
-        .map((entry) => [entry.benchKey, entry.benchNote] as const)
-        .filter((entry): entry is readonly [string, string] => {
-          const [, note] = entry;
-          return Boolean(note);
-        })
-    );
-
-    setTeamWyrmspells(data.wyrmspells || {});
-    setBench(normalizedBench);
-    setBenchNotes(normalizedBenchNotes);
-    setSlots(newSlots);
-    setOverdriveSequence(normalizedOverdriveSequence);
-    setSlotNotes(newNotes);
-  }
+      setTeamWyrmspells(data.wyrmspells || {});
+      setBench(normalizedBench);
+      setBenchNotes(normalizedBenchNotes);
+      setSlots(newSlots);
+      setOverdriveSequence(normalizedOverdriveSequence);
+      setSlotNotes(newNotes);
+    },
+    [getCharacterKeyFromReference]
+  );
 
   useEffect(() => {
     if (initialData) {
@@ -324,7 +330,7 @@ export default function TeamBuilder({
     queueMicrotask(() => {
       setDraftHydrated(true);
     });
-  }, [initialData]);
+  }, [initialData, loadFromTeam]);
 
   const deferredName = useDeferredValue(name);
   const deferredAuthor = useDeferredValue(author);
@@ -462,7 +468,7 @@ export default function TeamBuilder({
         return 'Could not parse JSON. Paste a JSON object, a one-item team array, or a members array.';
       }
     },
-    [json, closePasteModal]
+    [json, closePasteModal, loadFromTeam]
   );
 
   const availableCharacters = useMemo(() => {
