@@ -9,8 +9,13 @@ export async function downloadElementAsPng(
     backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
     pixelRatio: 2,
   });
-  const link = document.createElement('a');
-  link.download = `${filename.replace(/\s+/g, '_')}.png`;
-  link.href = dataUrl;
-  link.click();
+  const isMobile = /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
+  if (isMobile) {
+    window.open(dataUrl, '_blank');
+  } else {
+    const link = document.createElement('a');
+    link.download = `${filename.replace(/\s+/g, '_')}.png`;
+    link.href = dataUrl;
+    link.click();
+  }
 }
