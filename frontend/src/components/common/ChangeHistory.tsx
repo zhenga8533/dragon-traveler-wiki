@@ -8,13 +8,14 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { useMemo } from 'react';
 import {
   IoAddCircleOutline,
   IoCalendarOutline,
   IoRemoveCircleOutline,
   IoTimeOutline,
 } from 'react-icons/io5';
+import { usePagination } from '../../hooks/use-pagination';
 import type {
   ChangeRecord,
   EntityChangeHistory,
@@ -295,7 +296,6 @@ export default function ChangeHistory({
   extraHistories,
 }: ChangeHistoryProps) {
   const hasExtras = extraHistories && extraHistories.length > 0;
-  const [visibleCount, setVisibleCount] = useState(PAGE_SIZE);
 
   const sorted = useMemo(() => {
     const merged: MergedRecord[] = [];
@@ -328,8 +328,17 @@ export default function ChangeHistory({
     return timestamps.length > 0 ? Math.min(...timestamps) : null;
   }, [history, extraHistories]);
 
+  const paginationResetKey = useMemo(() => {
+    const newestTimestamp = sorted[0]?.record.timestamp ?? 0;
+    const oldestTimestamp = sorted[sorted.length - 1]?.record.timestamp ?? 0;
+    return `${earliestAdded ?? 0}:${sorted.length}:${newestTimestamp}:${oldestTimestamp}`;
+  }, [earliestAdded, sorted]);
+
+  const { page, setPage } = usePagination(sorted.length, 1, paginationResetKey);
+
   if (!history && !hasExtras) return null;
 
+  const visibleCount = Math.min(sorted.length, page * PAGE_SIZE);
   const visible = sorted.slice(0, visibleCount);
   const remaining = sorted.length - visibleCount;
 
@@ -408,7 +417,7 @@ export default function ChangeHistory({
                   variant="subtle"
                   color="gray"
                   size="xs"
-                  onClick={() => setVisibleCount((prev) => prev + PAGE_SIZE)}
+                  onClick={() => setPage((prev) => prev + 1)}
                 >
                   Show {Math.min(remaining, PAGE_SIZE)} more
                   {remaining > PAGE_SIZE ? ` of ${remaining} remaining` : ''}
