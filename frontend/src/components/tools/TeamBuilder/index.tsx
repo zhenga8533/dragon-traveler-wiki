@@ -14,14 +14,8 @@ import {
   Button,
   CopyButton,
   Group,
-  Image,
-  Modal,
-  Paper,
-  Select,
-  SimpleGrid,
   Stack,
   Text,
-  Textarea,
   Tooltip,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
@@ -40,7 +34,6 @@ import {
   IoOpenOutline,
   IoTrash,
 } from 'react-icons/io5';
-import { getWyrmspellIcon } from '../../../assets/wyrmspell';
 import { FACTION_COLOR } from '../../../constants/colors';
 import {
   DEFAULT_CONTENT_TYPE,
@@ -84,8 +77,10 @@ import {
   AvailablePool,
   BenchPool,
   DraggableCharCard,
+  PasteJsonModal,
   SlotsGrid,
   TeamMetaFields,
+  WyrmspellSelector,
 } from './components';
 import {
   getPastedTeamPatch,
@@ -102,18 +97,6 @@ interface TeamBuilderProps {
   charMap: Map<string, Character>;
   initialData?: Team | null;
   wyrmspells?: Wyrmspell[];
-}
-
-function renderWyrmspellOption({ option }: { option: { label: string } }) {
-  const iconSrc = getWyrmspellIcon(option.label);
-  return (
-    <Group gap="xs" align="center">
-      {iconSrc ? (
-        <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
-      ) : null}
-      <Text size="sm">{option.label}</Text>
-    </Group>
-  );
 }
 
 /* ── Main TeamBuilder ── */
@@ -149,13 +132,32 @@ export default function TeamBuilder({
   const [activeId, setActiveId] = useState<string | null>(null);
   const [pasteModalOpened, { open: openPasteModal, close: closePasteModal }] =
     useDisclosure(false);
+
+  const handlePasteApply = useCallback(
+    (pasteText: string): string | null => {
+      try {
+        const parsed = JSON.parse(pasteText) as unknown;
+        const partialTeam = getPastedTeamPatch(parsed);
+        if (!partialTeam) {
+          return 'Invalid team JSON: expected an object or a members array.';
+        }
+        const currentTeam = JSON.parse(json) as Team;
+        const mergedTeam = normalizeTeamFromPartial(partialTeam, currentTeam);
+        loadFromTeam(mergedTeam);
+        closePasteModal();
+        return null;
+      } catch {
+        return 'Could not parse JSON. Paste a JSON object, a one-item team array, or a members array.';
+      }
+    },
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+    [json, closePasteModal]
+  );
   const [
     clearConfirmOpened,
     { open: openClearConfirm, close: closeClearConfirm },
   ] = useDisclosure(false);
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
-  const [pasteText, setPasteText] = useState('');
-  const [pasteError, setPasteError] = useState('');
   const [draftHydrated, setDraftHydrated] = useState(false);
 
   const characterNameCounts = useMemo(
@@ -303,30 +305,6 @@ export default function TeamBuilder({
     setSlots(newSlots);
     setOverdriveSequence(normalizedOverdriveSequence);
     setSlotNotes(newNotes);
-  }
-
-  function handlePasteApply() {
-    try {
-      const parsed = JSON.parse(pasteText) as unknown;
-      const partialTeam = getPastedTeamPatch(parsed);
-      if (!partialTeam) {
-        setPasteError(
-          'Invalid team JSON: expected an object or a members array.'
-        );
-        return;
-      }
-
-      const currentTeam = JSON.parse(json) as Team;
-      const mergedTeam = normalizeTeamFromPartial(partialTeam, currentTeam);
-      loadFromTeam(mergedTeam);
-      closePasteModal();
-      setPasteText('');
-      setPasteError('');
-    } catch {
-      setPasteError(
-        'Could not parse JSON. Paste a JSON object, a one-item team array, or a members array.'
-      );
-    }
   }
 
   useEffect(() => {
@@ -491,36 +469,11 @@ export default function TeamBuilder({
     return characters.filter((c) => !usedNames.has(getCharacterIdentityKey(c)));
   }, [characters, usedNames]);
 
-  const breachWyrmspellOptions = useMemo(
-    () =>
-      wyrmspells
-        .filter((w) => w.type === 'Breach')
-        .map((w) => ({ value: w.name, label: w.name })),
-    [wyrmspells]
-  );
-
-  const refugeWyrmspellOptions = useMemo(
-    () =>
-      wyrmspells
-        .filter((w) => w.type === 'Refuge')
-        .map((w) => ({ value: w.name, label: w.name })),
-    [wyrmspells]
-  );
-
-  const wildcryWyrmspellOptions = useMemo(
-    () =>
-      wyrmspells
-        .filter((w) => w.type === 'Wildcry')
-        .map((w) => ({ value: w.name, label: w.name })),
-    [wyrmspells]
-  );
-
-  const dragonsCallWyrmspellOptions = useMemo(
-    () =>
-      wyrmspells
-        .filter((w) => w.type === "Dragon's Call")
-        .map((w) => ({ value: w.name, label: w.name })),
-    [wyrmspells]
+  const handleWyrmspellChange = useCallback(
+    (key: keyof TeamWyrmspells, value: string | null) => {
+      setTeamWyrmspells((prev) => ({ ...prev, [key]: value || undefined }));
+    },
+    []
   );
 
   const synergy = useMemo(() => {
@@ -1143,107 +1096,11 @@ export default function TeamBuilder({
 
         <TeamSynergyAssistant synergy={synergy} />
 
-        <Paper p="md" radius="md" withBorder>
-          <Stack gap="sm">
-            <Text size="sm" fw={600}>
-              Wyrmspells
-            </Text>
-            <SimpleGrid cols={{ base: 2, xs: 4 }} spacing="sm">
-              <Select
-                label="Breach"
-                placeholder="Select breach wyrmspell"
-                data={breachWyrmspellOptions}
-                renderOption={renderWyrmspellOption}
-                leftSection={(() => {
-                  const iconSrc = teamWyrmspells.breach
-                    ? getWyrmspellIcon(teamWyrmspells.breach)
-                    : undefined;
-                  return iconSrc ? (
-                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
-                  ) : undefined;
-                })()}
-                value={teamWyrmspells.breach || null}
-                onChange={(value) =>
-                  setTeamWyrmspells((prev) => ({
-                    ...prev,
-                    breach: value || undefined,
-                  }))
-                }
-                searchable={breachWyrmspellOptions.length >= 10}
-                clearable
-              />
-              <Select
-                label="Refuge"
-                placeholder="Select refuge wyrmspell"
-                data={refugeWyrmspellOptions}
-                renderOption={renderWyrmspellOption}
-                leftSection={(() => {
-                  const iconSrc = teamWyrmspells.refuge
-                    ? getWyrmspellIcon(teamWyrmspells.refuge)
-                    : undefined;
-                  return iconSrc ? (
-                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
-                  ) : undefined;
-                })()}
-                value={teamWyrmspells.refuge || null}
-                onChange={(value) =>
-                  setTeamWyrmspells((prev) => ({
-                    ...prev,
-                    refuge: value || undefined,
-                  }))
-                }
-                searchable={refugeWyrmspellOptions.length >= 10}
-                clearable
-              />
-              <Select
-                label="Wildcry"
-                placeholder="Select wildcry wyrmspell"
-                data={wildcryWyrmspellOptions}
-                renderOption={renderWyrmspellOption}
-                leftSection={(() => {
-                  const iconSrc = teamWyrmspells.wildcry
-                    ? getWyrmspellIcon(teamWyrmspells.wildcry)
-                    : undefined;
-                  return iconSrc ? (
-                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
-                  ) : undefined;
-                })()}
-                value={teamWyrmspells.wildcry || null}
-                onChange={(value) =>
-                  setTeamWyrmspells((prev) => ({
-                    ...prev,
-                    wildcry: value || undefined,
-                  }))
-                }
-                searchable={wildcryWyrmspellOptions.length >= 10}
-                clearable
-              />
-              <Select
-                label="Dragon's Call"
-                placeholder="Select dragon's call wyrmspell"
-                data={dragonsCallWyrmspellOptions}
-                renderOption={renderWyrmspellOption}
-                leftSection={(() => {
-                  const iconSrc = teamWyrmspells.dragons_call
-                    ? getWyrmspellIcon(teamWyrmspells.dragons_call)
-                    : undefined;
-                  return iconSrc ? (
-                    <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
-                  ) : undefined;
-                })()}
-                value={teamWyrmspells.dragons_call || null}
-                onChange={(value) =>
-                  setTeamWyrmspells((prev) => ({
-                    ...prev,
-                    dragons_call: value || undefined,
-                  }))
-                }
-                searchable={dragonsCallWyrmspellOptions.length >= 10}
-                clearable
-              />
-            </SimpleGrid>
-          </Stack>
-        </Paper>
+        <WyrmspellSelector
+          wyrmspells={wyrmspells}
+          teamWyrmspells={teamWyrmspells}
+          onChange={handleWyrmspellChange}
+        />
 
         <SlotsGrid
           slots={slots}
@@ -1334,55 +1191,11 @@ export default function TeamBuilder({
           )
         : null}
 
-      <Modal
+      <PasteJsonModal
         opened={pasteModalOpened}
-        onClose={() => {
-          closePasteModal();
-          setPasteText('');
-          setPasteError('');
-        }}
-        title="Paste Team JSON"
-        size="lg"
-      >
-        <Stack gap="md">
-          <Text size="sm" c="dimmed">
-            Paste a team JSON object below to load it into the builder.
-          </Text>
-          <Textarea
-            placeholder={'{\n  "name": "...",\n  "members": [...]\n}'}
-            value={pasteText}
-            onChange={(e) => {
-              setPasteText(e.currentTarget.value);
-              setPasteError('');
-            }}
-            minRows={8}
-            maxRows={20}
-            autosize
-            error={pasteError || undefined}
-            styles={{
-              input: {
-                fontFamily: 'monospace',
-                fontSize: 'var(--mantine-font-size-xs)',
-              },
-            }}
-          />
-          <Group justify="flex-end">
-            <Button
-              variant="default"
-              onClick={() => {
-                closePasteModal();
-                setPasteText('');
-                setPasteError('');
-              }}
-            >
-              Cancel
-            </Button>
-            <Button onClick={handlePasteApply} disabled={!pasteText.trim()}>
-              Apply
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+        onClose={closePasteModal}
+        onApply={handlePasteApply}
+      />
 
       <ConfirmActionModal
         opened={clearConfirmOpened}

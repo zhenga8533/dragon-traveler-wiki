@@ -1,5 +1,7 @@
 // Hook exports for cleaner imports
 export { useCharacterAssets } from './use-character-assets';
+export { useCharacterResolution } from './use-character-resolution';
+export type { CharacterResolution } from './use-character-resolution';
 export { useDataFetch } from './use-data-fetch';
 export { useFilteredPageData } from './use-filtered-page-data';
 export {

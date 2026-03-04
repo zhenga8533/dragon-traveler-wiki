@@ -6,6 +6,7 @@ import {
   Button,
   Group,
   Image,
+  Modal,
   Paper,
   Select,
   SimpleGrid,
@@ -17,9 +18,12 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import type { CSSProperties } from 'react';
-import { memo, useEffect, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '../../../assets/faction';
+import { getWyrmspellIcon } from '../../../assets/wyrmspell';
+import type { TeamWyrmspells } from '../../../types/team';
+import type { Wyrmspell } from '../../../types/wyrmspell';
 import { FACTION_NAMES } from '../../../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
@@ -695,6 +699,189 @@ export function BenchDropItem({
     </Box>
   );
 }
+
+/* ── Wyrmspell selector ── */
+
+function renderWyrmspellOption({ option }: { option: { label: string } }) {
+  const iconSrc = getWyrmspellIcon(option.label);
+  return (
+    <Group gap="xs" align="center">
+      {iconSrc ? (
+        <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
+      ) : null}
+      <Text size="sm">{option.label}</Text>
+    </Group>
+  );
+}
+
+export function WyrmspellSelector({
+  wyrmspells,
+  teamWyrmspells,
+  onChange,
+}: {
+  wyrmspells: Wyrmspell[];
+  teamWyrmspells: TeamWyrmspells;
+  onChange: (key: keyof TeamWyrmspells, value: string | null) => void;
+}) {
+  const breachOptions = useMemo(
+    () =>
+      wyrmspells
+        .filter((w) => w.type === 'Breach')
+        .map((w) => ({ value: w.name, label: w.name })),
+    [wyrmspells]
+  );
+  const refugeOptions = useMemo(
+    () =>
+      wyrmspells
+        .filter((w) => w.type === 'Refuge')
+        .map((w) => ({ value: w.name, label: w.name })),
+    [wyrmspells]
+  );
+  const wildcryOptions = useMemo(
+    () =>
+      wyrmspells
+        .filter((w) => w.type === 'Wildcry')
+        .map((w) => ({ value: w.name, label: w.name })),
+    [wyrmspells]
+  );
+  const dragonsCallOptions = useMemo(
+    () =>
+      wyrmspells
+        .filter((w) => w.type === "Dragon's Call")
+        .map((w) => ({ value: w.name, label: w.name })),
+    [wyrmspells]
+  );
+
+  function leftIcon(name: string | undefined) {
+    if (!name) return undefined;
+    const src = getWyrmspellIcon(name);
+    return src ? <Image src={src} alt="" w={16} h={16} fit="contain" /> : undefined;
+  }
+
+  return (
+    <Paper p="md" radius="md" withBorder>
+      <Stack gap="sm">
+        <Text size="sm" fw={600}>
+          Wyrmspells
+        </Text>
+        <SimpleGrid cols={{ base: 2, xs: 4 }} spacing="sm">
+          <Select
+            label="Breach"
+            placeholder="Select breach wyrmspell"
+            data={breachOptions}
+            renderOption={renderWyrmspellOption}
+            leftSection={leftIcon(teamWyrmspells.breach)}
+            value={teamWyrmspells.breach || null}
+            onChange={(value) => onChange('breach', value)}
+            searchable={breachOptions.length >= 10}
+            clearable
+          />
+          <Select
+            label="Refuge"
+            placeholder="Select refuge wyrmspell"
+            data={refugeOptions}
+            renderOption={renderWyrmspellOption}
+            leftSection={leftIcon(teamWyrmspells.refuge)}
+            value={teamWyrmspells.refuge || null}
+            onChange={(value) => onChange('refuge', value)}
+            searchable={refugeOptions.length >= 10}
+            clearable
+          />
+          <Select
+            label="Wildcry"
+            placeholder="Select wildcry wyrmspell"
+            data={wildcryOptions}
+            renderOption={renderWyrmspellOption}
+            leftSection={leftIcon(teamWyrmspells.wildcry)}
+            value={teamWyrmspells.wildcry || null}
+            onChange={(value) => onChange('wildcry', value)}
+            searchable={wildcryOptions.length >= 10}
+            clearable
+          />
+          <Select
+            label="Dragon's Call"
+            placeholder="Select dragon's call wyrmspell"
+            data={dragonsCallOptions}
+            renderOption={renderWyrmspellOption}
+            leftSection={leftIcon(teamWyrmspells.dragons_call)}
+            value={teamWyrmspells.dragons_call || null}
+            onChange={(value) => onChange('dragons_call', value)}
+            searchable={dragonsCallOptions.length >= 10}
+            clearable
+          />
+        </SimpleGrid>
+      </Stack>
+    </Paper>
+  );
+}
+
+/* ── Paste JSON modal ── */
+
+export function PasteJsonModal({
+  opened,
+  onClose,
+  onApply,
+}: {
+  opened: boolean;
+  onClose: () => void;
+  /** Receives raw paste text; returns an error string on failure, null on success. */
+  onApply: (text: string) => string | null;
+}) {
+  const [pasteText, setPasteText] = useState('');
+  const [pasteError, setPasteError] = useState('');
+
+  useEffect(() => {
+    if (!opened) {
+      setPasteText('');
+      setPasteError('');
+    }
+  }, [opened]);
+
+  function handleApply() {
+    const error = onApply(pasteText);
+    if (error) {
+      setPasteError(error);
+    }
+  }
+
+  return (
+    <Modal opened={opened} onClose={onClose} title="Paste Team JSON" size="lg">
+      <Stack gap="md">
+        <Text size="sm" c="dimmed">
+          Paste a team JSON object below to load it into the builder.
+        </Text>
+        <Textarea
+          placeholder={'{\n  "name": "...",\n  "members": [...]\n}'}
+          value={pasteText}
+          onChange={(e) => {
+            setPasteText(e.currentTarget.value);
+            setPasteError('');
+          }}
+          minRows={8}
+          maxRows={20}
+          autosize
+          error={pasteError || undefined}
+          styles={{
+            input: {
+              fontFamily: 'monospace',
+              fontSize: 'var(--mantine-font-size-xs)',
+            },
+          }}
+        />
+        <Group justify="flex-end">
+          <Button variant="default" onClick={onClose}>
+            Cancel
+          </Button>
+          <Button onClick={handleApply} disabled={!pasteText.trim()}>
+            Apply
+          </Button>
+        </Group>
+      </Stack>
+    </Modal>
+  );
+}
+
+/* ── Bench pool ── */
 
 export function BenchPool({
   bench,
