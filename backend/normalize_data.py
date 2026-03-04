@@ -88,19 +88,111 @@ def _without_meta(entry: dict) -> dict:
     return {k: v for k, v in entry.items() if k not in _META_KEYS}
 
 
-def _compute_field_diffs(old: dict, new: dict) -> dict[str, dict]:
-    """Return {field: {"old": ..., "new": ...}} for fields that differ."""
+_SCALAR_TYPES = (str, int, float, bool)
+
+
+def _character_entry_identity(item: dict) -> str:
+    """Composite label for character entries: 'Name (Quality)' when quality is present."""
+    name = item.get("character_name", "")
+    quality = item.get("character_quality")
+    return f"{name} ({quality})" if quality else name
+
+
+# Per-file, per-field config for structured array diffing.
+# "identity": callable or str key used to match items across old/new arrays.
+# "value": optional field whose changes are shown as "old → new" per item.
+_ARRAY_DIFF_CFG: dict[tuple[str, str], dict] = {
+    ("tier-lists.json", "entries"): {"identity": _character_entry_identity, "value": "tier"},
+    ("teams.json", "members"): {"identity": _character_entry_identity, "value": None},
+    ("teams.json", "bench"): {"identity": _character_entry_identity, "value": None},
+}
+
+
+def _array_field_diff(
+    old_arr: list,
+    new_arr: list,
+    identity: str | Callable[[dict], str],
+    value_key: str | None,
+) -> dict:
+    """Return a structured diff for an array of dicts keyed by an identity field."""
+
+    def get_id(item: dict) -> str:
+        if callable(identity):
+            return identity(item)
+        return str(item.get(identity, ""))
+
+    old_by_id = {get_id(item): item for item in old_arr if isinstance(item, dict)}
+    new_by_id = {get_id(item): item for item in new_arr if isinstance(item, dict)}
+    result: dict = {}
+    added = sorted(set(new_by_id) - set(old_by_id))
+    removed = sorted(set(old_by_id) - set(new_by_id))
+    if added:
+        result["added"] = added
+    if removed:
+        result["removed"] = removed
+    shared = sorted(set(old_by_id) & set(new_by_id))
+    if value_key:
+        changed = {
+            ident: {"old": old_by_id[ident].get(value_key), "new": new_by_id[ident].get(value_key)}
+            for ident in shared
+            # Only track if the field existed before (not a new attribute)
+            if old_by_id[ident].get(value_key) is not None
+            and old_by_id[ident].get(value_key) != new_by_id[ident].get(value_key)
+        }
+        if changed:
+            result["changed"] = changed
+    else:
+        # Only flag modified if a field that existed in the OLD item changed value
+        modified = [
+            ident for ident in shared
+            if any(
+                old_by_id[ident].get(k) != new_by_id[ident].get(k)
+                for k in old_by_id[ident]
+            )
+        ]
+        if modified:
+            result["modified"] = modified
+    return result
+
+
+def _compute_field_diffs(filename: str, old: dict, new: dict) -> dict[str, dict]:
+    """Return {field: diff_info} for fields that differ.
+
+    - Scalar fields (str/int/float/bool): {"old": ..., "new": ...}
+    - Known array fields: {"added": [...], "removed": [...], "changed"/"modified": {...}}
+    - Other complex fields: {} (changed but values not stored)
+    """
     diffs: dict[str, dict] = {}
     all_keys = set(old.keys()) | set(new.keys())
     for key in sorted(all_keys - _META_KEYS):
         old_val = old.get(key)
         new_val = new.get(key)
-        if old_val != new_val:
-            diff: dict = {}
-            if old_val is not None:
-                diff["old"] = old_val
-            if new_val is not None:
-                diff["new"] = new_val
+        # Skip if field didn't exist before — new attributes are structural additions, not changes
+        if old_val is not None and old_val != new_val:
+            cfg = _ARRAY_DIFF_CFG.get((filename, key))
+            if cfg and isinstance(old_val, list) and isinstance(new_val, list):
+                diff = _array_field_diff(old_val, new_val, cfg["identity"], cfg.get("value"))  # type: ignore[arg-type]
+            elif (
+                isinstance(old_val, list)
+                and isinstance(new_val, list)
+                and all(isinstance(x, _SCALAR_TYPES) for x in old_val)
+                and all(isinstance(x, _SCALAR_TYPES) for x in new_val)
+            ):
+                # Primitive string/number arrays: set-based diff
+                old_set, new_set = set(map(str, old_val)), set(map(str, new_val))
+                diff = {}
+                added = sorted(new_set - old_set)
+                removed = sorted(old_set - new_set)
+                if added:
+                    diff["added"] = added
+                if removed:
+                    diff["removed"] = removed
+            else:
+                diff = {}
+                if isinstance(old_val, _SCALAR_TYPES):
+                    diff["old"] = old_val
+                if isinstance(new_val, _SCALAR_TYPES):
+                    diff["new"] = new_val
             diffs[key] = diff
     return diffs
 
@@ -275,7 +367,7 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
             committed_entry = committed.get(identity)
             if committed_entry is not None:
                 if _without_meta(entry) != _without_meta(committed_entry):
-                    field_diffs = _compute_field_diffs(committed_entry, entry)
+                    field_diffs = _compute_field_diffs(filename, committed_entry, entry)
                     if field_diffs:
                         changes_data[identity]["changes"].append(
                             {"timestamp": now, "fields": field_diffs}
