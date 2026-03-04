@@ -9,3 +9,4 @@ class Subclass(BaseModel):
     tier: int
     bonuses: list[str]
     effect: str
+    last_updated: int | None = None

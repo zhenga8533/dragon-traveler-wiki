@@ -1,10 +1,15 @@
-from typing import Optional
+from typing import Literal
 
 from pydantic import BaseModel
+
+from backend.models.character import Quality
+
+ResourceCategory = Literal["Currency", "Gift", "Item", "Material", "Summoning", "Shard"]
 
 
 class Resource(BaseModel):
     name: str
-    description: str = ""
-    category: str = ""
-    quality: Optional[str] = None
+    description: str
+    category: ResourceCategory
+    quality: Quality
+    last_updated: int | None = None

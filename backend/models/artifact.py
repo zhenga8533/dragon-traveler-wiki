@@ -24,3 +24,4 @@ class Artifact(BaseModel):
     columns: int
     rows: int
     treasures: list[ArtifactTreasure]
+    last_updated: int | None = None

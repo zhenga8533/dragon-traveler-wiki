@@ -13,4 +13,11 @@ class Gear(BaseModel):
     quality: str
     lore: str
     stats: dict[str, int | float | str]
+    set_bonus: GearSetBonus | None = None
+    last_updated: int | None = None
+
+
+class GearSet(BaseModel):
+    name: str
     set_bonus: GearSetBonus
+    last_updated: int | None = None

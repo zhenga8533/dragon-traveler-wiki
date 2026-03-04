@@ -75,3 +75,4 @@ class Character(BaseModel):
     noble_phantasm: str
     recommended_gear: RecommendedGear | None = None
     recommended_subclasses: list[str] = Field(default_factory=list)
+    last_updated: int | None = None

@@ -2,6 +2,8 @@ from enum import Enum
 
 from pydantic import BaseModel
 
+from backend.models.character import Quality
+
 
 class WyrmspellType(str, Enum):
     BREACH = "Breach"
@@ -14,6 +16,7 @@ class Wyrmspell(BaseModel):
     name: str
     effect: str
     type: WyrmspellType
-    quality: str = ""
+    quality: Quality
     exclusive_faction: str | None = None
     is_global: bool = True
+    last_updated: int | None = None

@@ -10,3 +10,4 @@ class GoldenAlliance(BaseModel):
     name: str
     howlkins: list[str] = Field(default_factory=list)
     effects: list[GoldenAllianceEffect] = Field(default_factory=list)
+    last_updated: int | None = None

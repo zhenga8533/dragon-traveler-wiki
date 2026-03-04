@@ -26,3 +26,4 @@ class Faction(BaseModel):
     wyrm: Wyrm
     description: str
     recommended_artifacts: list[str] = Field(default_factory=list)
+    last_updated: int | None = None

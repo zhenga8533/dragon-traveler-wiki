@@ -7,3 +7,4 @@ class UsefulLink(BaseModel):
     name: str
     description: str
     link: str
+    last_updated: int | None = None

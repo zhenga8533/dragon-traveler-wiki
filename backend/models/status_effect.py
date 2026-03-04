@@ -18,3 +18,4 @@ class StatusEffect(BaseModel):
     type: StatusEffectType | str = ""
     effect: str
     remark: str
+    last_updated: int | None = None

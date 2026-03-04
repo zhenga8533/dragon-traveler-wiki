@@ -21,3 +21,4 @@ class NoblePhantasm(BaseModel):
     lore: str
     effects: list[NoblePhantasmEffect]
     skills: list[NoblePhantasmSkill]
+    last_updated: int | None = None

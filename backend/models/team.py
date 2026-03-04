@@ -43,6 +43,7 @@ class Team(BaseModel):
     members: list[TeamMember]
     bench: list[TeamBenchMember] | None = None
     wyrmspells: TeamWyrmspells | None = None
+    last_updated: int | None = None
 
     @field_validator("content_type", mode="before")
     @classmethod

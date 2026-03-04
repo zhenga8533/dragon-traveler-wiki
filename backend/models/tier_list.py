@@ -30,6 +30,7 @@ class TierList(BaseModel):
         None  # optional; defaults to DEFAULT_TIERS if absent
     )
     entries: list[TierEntry]
+    last_updated: int | None = None
 
     @staticmethod
     def _normalize_content_type(value: str) -> ContentType:

@@ -10,3 +10,4 @@ class Howlkin(BaseModel):
     quality: Quality
     basic_stats: Dict[str, float] = Field(default_factory=dict)
     passive_effects: list[str] = Field(default_factory=list)
+    last_updated: int | None = None
