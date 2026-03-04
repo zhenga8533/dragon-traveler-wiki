@@ -57,10 +57,8 @@ export default function Footer() {
       py="lg"
       style={{
         ...glassStyles,
+        border: 'none',
         borderTop: glassStyles.border,
-        borderLeft: 'none',
-        borderRight: 'none',
-        borderBottom: 'none',
       }}
     >
       <Container size="lg">
