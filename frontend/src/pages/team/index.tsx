@@ -10,7 +10,7 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { toPng } from 'html-to-image';
+import { downloadElementAsPng } from '../../utils/export-image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { IoDownload } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -215,14 +215,7 @@ export default function TeamPage() {
     if (!exportRef.current || !team) return;
     setExporting(true);
     try {
-      const dataUrl = await toPng(exportRef.current, {
-        backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
-        pixelRatio: 2,
-      });
-      const link = document.createElement('a');
-      link.download = `${team.name.replace(/\s+/g, '_')}.png`;
-      link.href = dataUrl;
-      link.click();
+      await downloadElementAsPng(exportRef.current, team.name, isDark);
     } finally {
       setExporting(false);
     }

@@ -17,7 +17,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { toPng } from 'html-to-image';
+import { downloadElementAsPng } from '../utils/export-image';
 import { IoCreate, IoDownload, IoFilter } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterCard from '../components/character/CharacterCard';
@@ -211,14 +211,7 @@ export default function TierList() {
     const name = isCapturingTierList;
     const run = async () => {
       try {
-        const dataUrl = await toPng(el, {
-          backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
-          pixelRatio: 2,
-        });
-        const link = document.createElement('a');
-        link.download = `${name.replace(/\s+/g, '_')}.png`;
-        link.href = dataUrl;
-        link.click();
+        await downloadElementAsPng(el, name, isDark);
       } finally {
         setIsCapturingTierList(null);
       }
