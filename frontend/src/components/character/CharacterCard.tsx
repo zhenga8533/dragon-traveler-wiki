@@ -17,6 +17,8 @@ import CharacterPortrait from './CharacterPortrait';
 
 interface CharacterCardProps {
   name: string;
+  /** Override the displayed name label without affecting portrait asset lookup. */
+  label?: string;
   quality?: Quality;
   size?: number;
   disableLink?: boolean;
@@ -28,6 +30,7 @@ interface CharacterCardProps {
 
 export default function CharacterCard({
   name,
+  label,
   quality,
   size = CHARACTER_CARD.PORTRAIT_SIZE,
   disableLink = false,
@@ -158,7 +161,7 @@ export default function CharacterCard({
           c={nameColor}
           style={{ minWidth: 0 }}
         >
-          {name}
+          {label ?? name}
         </Text>
         {tierLabel && (
           <TierBadge tier={tierLabel} size="xs" style={{ flexShrink: 0 }} />

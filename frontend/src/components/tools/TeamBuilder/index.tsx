@@ -60,6 +60,7 @@ import type { Wyrmspell } from '../../../types/wyrmspell';
 import {
   buildCharacterByIdentityMap,
   buildCharacterNameCounts,
+  getCharacterBaseSlug,
   getCharacterByReferenceKey,
   getCharacterIdentityKey,
   resolveCharacterReferenceKey,
@@ -1234,6 +1235,7 @@ export default function TeamBuilder({
           onRemove={handleRemoveFromTeam}
           onNoteChange={handleSlotNoteChange}
           activeId={activeId}
+          nameCounts={characterNameCounts}
         />
 
         <Stack gap="xs">
@@ -1245,6 +1247,7 @@ export default function TeamBuilder({
             charMap={characterByIdentity}
             benchNotes={benchNotes}
             onBenchNoteChange={handleBenchNoteChange}
+            nameCounts={characterNameCounts}
           />
         </Stack>
 
@@ -1261,6 +1264,7 @@ export default function TeamBuilder({
                   charKey={getCharacterIdentityKey(c)}
                   char={c}
                   size={isMobile ? 56 : undefined}
+                  nameCounts={characterNameCounts}
                   onClick={() =>
                     handleAddToNextSlot(getCharacterIdentityKey(c))
                   }
@@ -1274,15 +1278,20 @@ export default function TeamBuilder({
       {typeof document !== 'undefined'
         ? createPortal(
             <DragOverlay dropAnimation={null}>
-              {activeId ? (
-                <div style={{ cursor: 'grabbing' }}>
-                  <CharacterCard
-                    name={getCharacterFromKey(activeId)?.name ?? activeId}
-                    quality={getCharacterFromKey(activeId)?.quality}
-                    disableLink
-                  />
-                </div>
-              ) : null}
+              {activeId ? (() => {
+                const activeChar = getCharacterFromKey(activeId);
+                const isDuplicate = activeChar && (characterNameCounts.get(getCharacterBaseSlug(activeChar.name)) ?? 1) > 1;
+                return (
+                  <div style={{ cursor: 'grabbing' }}>
+                    <CharacterCard
+                      name={activeChar?.name ?? activeId}
+                      label={isDuplicate && activeChar ? `${activeChar.name} (${activeChar.quality})` : undefined}
+                      quality={activeChar?.quality}
+                      disableLink
+                    />
+                  </div>
+                );
+              })() : null}
             </DragOverlay>,
             document.body
           )

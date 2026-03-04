@@ -125,6 +125,7 @@ export const TierListMetaFields = memo(function TierListMetaFields({
 
 export function DraggableCharCard({
   name,
+  label,
   charKey,
   char,
   overlay,
@@ -132,6 +133,7 @@ export function DraggableCharCard({
   size,
 }: {
   name: string;
+  label?: string;
   charKey?: string;
   char: Character | undefined;
   overlay?: boolean;
@@ -177,6 +179,7 @@ export function DraggableCharCard({
     >
       <CharacterCard
         name={name}
+        label={label}
         quality={char?.quality}
         disableLink
         size={size}

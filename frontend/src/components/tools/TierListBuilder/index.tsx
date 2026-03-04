@@ -57,6 +57,7 @@ import type { TierDefinition, TierList } from '../../../types/tier-list';
 import {
   buildCharacterByIdentityMap,
   buildCharacterNameCounts,
+  getCharacterBaseSlug,
   getCharacterByReferenceKey,
   getCharacterIdentityKey,
   resolveCharacterReferenceKey,
@@ -664,6 +665,7 @@ export default function TierListBuilder({
             >
               {names.map((n) => {
                 const character = getCharacterFromKey(n);
+                const isDuplicate = character && (characterNameCounts.get(getCharacterBaseSlug(character.name)) ?? 1) > 1;
                 return (
                   <Box
                     key={n}
@@ -671,6 +673,7 @@ export default function TierListBuilder({
                   >
                     <DraggableCharCard
                       name={character?.name ?? n}
+                      label={isDuplicate && character ? `${character.name} (${character.quality})` : undefined}
                       charKey={n}
                       char={character}
                       tier={tier}
@@ -745,15 +748,19 @@ export default function TierListBuilder({
               filterHeader={filterHeader}
               paginationControl={paginationControl}
             >
-              {filtered.map((c) => (
-                <DraggableCharCard
-                  key={getCharacterIdentityKey(c)}
-                  name={c.name}
-                  charKey={getCharacterIdentityKey(c)}
-                  char={c}
-                  size={isMobile ? 56 : undefined}
-                />
-              ))}
+              {filtered.map((c) => {
+                const isDuplicate = (characterNameCounts.get(getCharacterBaseSlug(c.name)) ?? 1) > 1;
+                return (
+                  <DraggableCharCard
+                    key={getCharacterIdentityKey(c)}
+                    name={c.name}
+                    label={isDuplicate ? `${c.name} (${c.quality})` : undefined}
+                    charKey={getCharacterIdentityKey(c)}
+                    char={c}
+                    size={isMobile ? 56 : undefined}
+                  />
+                );
+              })}
             </UnrankedPool>
           )}
         </FilterableCharacterPool>
@@ -762,14 +769,19 @@ export default function TierListBuilder({
       {typeof document !== 'undefined'
         ? createPortal(
             <DragOverlay dropAnimation={null}>
-              {activeId ? (
-                <DraggableCharCard
-                  name={getCharacterFromKey(activeId)?.name ?? activeId}
-                  charKey={activeId}
-                  char={getCharacterFromKey(activeId)}
-                  overlay
-                />
-              ) : null}
+              {activeId ? (() => {
+                const activeChar = getCharacterFromKey(activeId);
+                const isDuplicate = activeChar && (characterNameCounts.get(getCharacterBaseSlug(activeChar.name)) ?? 1) > 1;
+                return (
+                  <DraggableCharCard
+                    name={activeChar?.name ?? activeId}
+                    label={isDuplicate && activeChar ? `${activeChar.name} (${activeChar.quality})` : undefined}
+                    charKey={activeId}
+                    char={activeChar}
+                    overlay
+                  />
+                );
+              })() : null}
             </DragOverlay>,
             document.body
           )

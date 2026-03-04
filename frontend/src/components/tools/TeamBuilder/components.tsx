@@ -33,6 +33,7 @@ import {
 } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
+import { getCharacterBaseSlug } from '../../../utils/character-route';
 import CharacterCard from '../../character/CharacterCard';
 import CharacterNoteButton from '../CharacterNoteButton';
 import {
@@ -169,18 +170,22 @@ export const TeamMetaFields = memo(function TeamMetaFields({
 
 export function DraggableCharCard({
   name,
+  label,
   charKey,
   char,
   overlay,
   onClick,
   size,
+  nameCounts,
 }: {
   name: string;
+  label?: string;
   charKey?: string;
   char: Character | undefined;
   overlay?: boolean;
   onClick?: () => void;
   size?: number;
+  nameCounts?: Map<string, number>;
 }) {
   const dragKey = charKey ?? name;
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
@@ -195,6 +200,12 @@ export function DraggableCharCard({
         touchAction: 'none',
       };
 
+  const resolvedLabel =
+    label ??
+    (char && nameCounts && (nameCounts.get(getCharacterBaseSlug(char.name)) ?? 1) > 1
+      ? `${char.name} (${char.quality})`
+      : undefined);
+
   return (
     <div
       ref={overlay ? undefined : setNodeRef}
@@ -204,6 +215,7 @@ export function DraggableCharCard({
     >
       <CharacterCard
         name={name}
+        label={resolvedLabel}
         quality={char?.quality}
         disableLink
         size={size}
@@ -237,6 +249,7 @@ export function SlotCard({
   onNoteChange,
   isValidDrop,
   isDragging,
+  nameCounts,
 }: {
   index: number;
   charName: string | null;
@@ -248,6 +261,7 @@ export function SlotCard({
   onNoteChange: (note: string) => void;
   isValidDrop: boolean;
   isDragging: boolean;
+  nameCounts?: Map<string, number>;
 }) {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { setNodeRef, isOver } = useDroppable({ id: `slot-${index}` });
@@ -317,6 +331,7 @@ export function SlotCard({
                 charKey={charName}
                 char={char}
                 size={56}
+                nameCounts={nameCounts}
               />
               <CharacterNoteButton
                 value={note}
@@ -390,6 +405,7 @@ export function SlotCard({
                   name={char?.name ?? charName}
                   charKey={charName}
                   char={char}
+                  nameCounts={nameCounts}
                 />
                 <CharacterNoteButton
                   value={note}
@@ -464,6 +480,7 @@ export function SlotsGrid({
   onRemove,
   onNoteChange,
   activeId,
+  nameCounts,
 }: {
   slots: (string | null)[];
   overdriveOrderBySlot: Map<number, number>;
@@ -473,6 +490,7 @@ export function SlotsGrid({
   onRemove: (index: number) => void;
   onNoteChange: (index: number, note: string) => void;
   activeId: string | null;
+  nameCounts?: Map<string, number>;
 }) {
   // Determine valid rows for the character being dragged
   const activeChar = activeId ? charMap.get(activeId) : null;
@@ -557,6 +575,7 @@ export function SlotsGrid({
                       onNoteChange={(note) => onNoteChange(idx, note)}
                       isValidDrop={isValidDrop}
                       isDragging={isDragging}
+                      nameCounts={nameCounts}
                     />
                   );
                 })}
@@ -623,12 +642,14 @@ export function BenchDropItem({
   charMap,
   note,
   onNoteChange,
+  nameCounts,
 }: {
   charKey: string;
   name: string;
   charMap: Map<string, Character>;
   note: string;
   onNoteChange: (charKey: string, note: string) => void;
+  nameCounts?: Map<string, number>;
 }) {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { setNodeRef: setItemNodeRef, isOver: isOverItem } = useDroppable({
@@ -652,6 +673,7 @@ export function BenchDropItem({
             charKey={charKey}
             char={charMap.get(charKey)}
             size={isMobile ? 56 : undefined}
+            nameCounts={nameCounts}
           />
           <CharacterNoteButton
             value={note}
@@ -670,11 +692,13 @@ export function BenchPool({
   charMap,
   benchNotes,
   onBenchNoteChange,
+  nameCounts,
 }: {
   bench: string[];
   charMap: Map<string, Character>;
   benchNotes: Record<string, string>;
   onBenchNoteChange: (charKey: string, note: string) => void;
+  nameCounts?: Map<string, number>;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'bench' });
 
@@ -709,6 +733,7 @@ export function BenchPool({
                   charMap={charMap}
                   note={benchNotes[name] || ''}
                   onNoteChange={onBenchNoteChange}
+                  nameCounts={nameCounts}
                 />
               );
             })

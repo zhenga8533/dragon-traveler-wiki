@@ -19,8 +19,11 @@ import { useDataFetch } from '../../hooks';
 import type { Character } from '../../types/character';
 import {
   buildCharacterByIdentityMap,
+  buildCharacterNameCounts,
   buildPreferredCharacterByNameMap,
   getCharacterIdentityKey,
+  getCharacterRoutePath,
+  getCharacterRoutePathByName,
   resolveCharacterByNameAndQuality,
 } from '../../utils/character-route';
 import styles from './FeaturedCharactersMarquee.module.css';
@@ -54,6 +57,7 @@ export default function FeaturedCharactersMarquee() {
 
   const charMap = buildPreferredCharacterByNameMap(characters);
   const characterByIdentity = buildCharacterByIdentityMap(characters);
+  const nameCounts = buildCharacterNameCounts(characters);
   const topEntries = tierList.entries.filter(
     (e) => e.tier === 'S+' || e.tier === 'S'
   );
@@ -80,6 +84,11 @@ export default function FeaturedCharactersMarquee() {
             name={entry.character_name}
             quality={char?.quality}
             size={64}
+            routePath={
+              char
+                ? getCharacterRoutePath(char, nameCounts)
+                : getCharacterRoutePathByName(entry.character_name)
+            }
           />
           <Badge size="xs" variant="light" color={TIER_COLOR[entry.tier]}>
             {entry.tier}
