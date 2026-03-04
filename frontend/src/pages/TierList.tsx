@@ -50,6 +50,7 @@ import {
   buildCharacterByIdentityMap,
   buildCharacterNameCounts,
   buildPreferredCharacterByNameMap,
+  getCharacterBaseSlug,
   getCharacterIdentityKey,
   getCharacterRoutePath,
   getCharacterRoutePathByName,
@@ -457,12 +458,22 @@ export default function TierList() {
                                                 );
                                             const entryNote =
                                               entry.note?.trim() || undefined;
+                                            const isMultiQuality =
+                                              char &&
+                                              (characterNameCounts.get(
+                                                getCharacterBaseSlug(char.name)
+                                              ) ?? 1) > 1;
                                             return (
                                               <CharacterCard
                                                 key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
                                                 name={
                                                   char?.name ??
                                                   entry.character_name
+                                                }
+                                                label={
+                                                  isMultiQuality
+                                                    ? `${char!.name} (${char!.quality})`
+                                                    : undefined
                                                 }
                                                 quality={char?.quality}
                                                 routePath={routePath}
@@ -509,6 +520,16 @@ export default function TierList() {
                                                 const resolvedName =
                                                   char?.name ??
                                                   entry.character_name;
+                                                const isMultiQuality =
+                                                  char &&
+                                                  (characterNameCounts.get(
+                                                    getCharacterBaseSlug(
+                                                      char.name
+                                                    )
+                                                  ) ?? 1) > 1;
+                                                const displayName = isMultiQuality
+                                                  ? `${char!.name} (${char!.quality})`
+                                                  : resolvedName;
                                                 const entryNote =
                                                   entry.note?.trim() || '';
                                                 return (
@@ -535,7 +556,7 @@ export default function TierList() {
                                                           fw={500}
                                                           c="violet"
                                                         >
-                                                          {resolvedName}
+                                                          {displayName}
                                                         </Text>
                                                       </Group>
                                                     </Table.Td>
@@ -642,17 +663,28 @@ export default function TierList() {
                                       cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
                                       spacing={CHARACTER_GRID_SPACING}
                                     >
-                                      {unranked.map((c) => (
-                                        <CharacterCard
-                                          key={getCharacterIdentityKey(c)}
-                                          name={c.name}
-                                          quality={c.quality}
-                                          routePath={getCharacterRoutePath(
-                                            c,
-                                            characterNameCounts
-                                          )}
-                                        />
-                                      ))}
+                                      {unranked.map((c) => {
+                                        const isMultiQuality =
+                                          (characterNameCounts.get(
+                                            getCharacterBaseSlug(c.name)
+                                          ) ?? 1) > 1;
+                                        return (
+                                          <CharacterCard
+                                            key={getCharacterIdentityKey(c)}
+                                            name={c.name}
+                                            label={
+                                              isMultiQuality
+                                                ? `${c.name} (${c.quality})`
+                                                : undefined
+                                            }
+                                            quality={c.quality}
+                                            routePath={getCharacterRoutePath(
+                                              c,
+                                              characterNameCounts
+                                            )}
+                                          />
+                                        );
+                                      })}
                                     </SimpleGrid>
                                   ) : (
                                     <ScrollArea
@@ -674,7 +706,15 @@ export default function TierList() {
                                           </Table.Tr>
                                         </Table.Thead>
                                         <Table.Tbody>
-                                          {unranked.map((c) => (
+                                          {unranked.map((c) => {
+                                            const isMultiQuality =
+                                              (characterNameCounts.get(
+                                                getCharacterBaseSlug(c.name)
+                                              ) ?? 1) > 1;
+                                            const displayName = isMultiQuality
+                                              ? `${c.name} (${c.quality})`
+                                              : c.name;
+                                            return (
                                             <Table.Tr
                                               key={getCharacterIdentityKey(c)}
                                             >
@@ -695,7 +735,7 @@ export default function TierList() {
                                                     fw={500}
                                                     c="violet"
                                                   >
-                                                    {c.name}
+                                                    {displayName}
                                                   </Text>
                                                 </Group>
                                               </Table.Td>
@@ -725,7 +765,8 @@ export default function TierList() {
                                                 </Group>
                                               </Table.Td>
                                             </Table.Tr>
-                                          ))}
+                                            );
+                                          })}
                                         </Table.Tbody>
                                       </Table>
                                     </ScrollArea>
