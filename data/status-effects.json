@@ -637,6 +637,13 @@
     "last_updated": 1771129358
   },
   {
+    "name": "Sigil of Radiance",
+    "type": "Exclusive",
+    "effect": "Cannot be dispelled. Reduces Crit Resistance by 75 per stack. Stacks up to 10 times. Lasts for 15s.",
+    "remark": "",
+    "last_updated": 1772634281
+  },
+  {
     "name": "Sunfire",
     "type": "Exclusive",
     "effect": "Each stack reduces magic defense by 9%, stacking up to 6 times, lasting 10 seconds.",

@@ -21,6 +21,23 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "entries": {
+            "added": [
+              "Cleopatra (SSR)",
+              "Cleopatra (SSR+)",
+              "Medusa (SSR)",
+              "Medusa (SSR+)"
+            ],
+            "removed": [
+              "Cleopatra",
+              "Medusa"
+            ]
+          }
+        }
       }
     ]
   },
@@ -43,6 +60,23 @@
             "removed": [
               "Fenrir",
               "Oberonnie"
+            ]
+          }
+        }
+      },
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "entries": {
+            "added": [
+              "Cleopatra (SSR)",
+              "Cleopatra (SSR+)",
+              "Medusa (SSR)",
+              "Medusa (SSR+)"
+            ],
+            "removed": [
+              "Cleopatra",
+              "Medusa"
             ]
           }
         }
@@ -71,6 +105,23 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "entries": {
+            "added": [
+              "Cleopatra (SSR)",
+              "Cleopatra (SSR+)",
+              "Medusa (SSR)",
+              "Medusa (SSR+)"
+            ],
+            "removed": [
+              "Cleopatra",
+              "Medusa"
+            ]
+          }
+        }
       }
     ]
   },
@@ -93,6 +144,21 @@
             "removed": [
               "Fenrir",
               "Oberonnie"
+            ]
+          }
+        }
+      },
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "entries": {
+            "added": [
+              "Cleopatra (SSR)",
+              "Medusa (SSR)"
+            ],
+            "removed": [
+              "Cleopatra",
+              "Medusa"
             ]
           }
         }

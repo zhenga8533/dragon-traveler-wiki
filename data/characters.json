@@ -27,11 +27,11 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Each attack deals additional physical damage equal to 12% of own lost HP. For each enemy hit, recovers 6% of lost HP.\nWhen possessing both [Morale] and [Fervor] enters the [Grace] status. While in the [Grace] status, the effect of [Battle Resolve] is increased by 30%."
+          "effect": "Each attack deals additional physical damage equal to 12% of own lost HP. For each enemy hit, recovers 6% of lost HP.\nWhen possessing both [Morale] and [Fervor] enters the [Grace] status. While in the [Grace] status, the effect of [Battle Resolve] is increased by 40%."
         },
         {
           "level": 2,
-          "effect": "While in [Grace] status, [Battle Resolve] additionally increases by 30%."
+          "effect": "While in [Grace] status, [Battle Resolve] additionally increases by 40%."
         },
         {
           "level": 3,
@@ -67,7 +67,7 @@
       {
         "name": "Life Link",
         "type": "Secret Skill",
-        "description": "When an allied Luminary's HP falls below 30%, forms a Life Link with them, increasing the target's Damage Reduction by 20% and redirecting 60% of damage taken by the target to self. Lasts for 8 seconds. This effect can trigger only once on each Luminary.",
+        "description": "When an allied Luminary's HP falls below 30%, forms a Life Link with them, increasing the target's Damage Reduction by 40% and redirecting 60% of damage taken by the target to self. Lasts for 8 seconds. This effect can trigger only once on each Luminary.",
         "cooldown": 0
       },
       {
@@ -96,7 +96,7 @@
       "Vanguard Warrior",
       "Lionheart Knight"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772634281
   },
   {
     "name": "Prometheus",
@@ -2947,7 +2947,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Attacks are not affected by Attack Speed. Cannot gain [Awakening]. Damage Amplification is increased by 20%. For every 4 stacks of [Awakening] gained by other allied Luminaries, Damage Amplification increases by an additional 10% and [Soul Chase] evolves once. Stacks up to 4 times."
+          "effect": "Attacks are not affected by Attack Speed. Cannot gain [Awakening]. Bonus Damage is increased by 20%. For every 4 stacks of [Awakening] gained by other allied Luminaries, Bonus Damage increases by an additional 15% and [Soul Chase] evolves once. Stacks up to 4 times."
         },
         {
           "level": 2,
@@ -2981,19 +2981,19 @@
       {
         "name": "Soul Chase",
         "type": "Ultimate Skill",
-        "description": "Enhances basic attacks. Each evolution adds an additional instance of damage to basic attacks, up to a maximum of four instances. Each instance deals physical damage to a single target equal to 160% of Attack. The fourth instance deals double damage.",
+        "description": "Enhances basic attacks. Each evolution adds an additional instance of damage to basic attacks, up to a maximum of four instances. Each instance deals physical damage to a single target equal to 180% of Attack. The fourth instance deals double damage.",
         "cooldown": 0
       },
       {
         "name": "Ruthless Hunter",
         "type": "Secret Skill",
-        "description": "When attacking, damage increases based on the target's lost HP percentage. For every 1% of HP lost, Damage Amplification increases by 0.4%.",
+        "description": "When attacking, damage increases based on the target's lost HP percentage. For every 1% of HP lost, Damage Amplification increases by 0.55%.",
         "cooldown": 0
       },
       {
         "name": "Elysium",
         "type": "Special Skill",
-        "description": "Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Attack increases by 1%. Consumes 0/7 stacks of [Deathrattle] to gain immunity to the first/second instance of fatal damage received, and dispels all debuffs and control effects. Flies toward and absorbs each Clone on the battlefield in sequence, recovering 25% of Max HP for each Clone absorbed, and deals physical damage equal to 230% of Attack to enemies encountered along the way (Cannot be triggered if there are not enough [Deathrattle] stacks or no Clones on the field).",
+        "description": "Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Attack increases by 1.5%. Consumes [Deathrattle] stacks to block fatal damage (0 stacks for the first block, 7 for the second) and dispels all debuffs and control effects. Flies toward Clones in sequence, absorbing them to recover 25% of Max HP for each Clone absorbed, and dealing physical damage equal to 230% of Attack to enemies encountered along the way (Cannot be triggered if there are not enough [Deathrattle] stacks or Clones).",
         "cooldown": 0
       },
       {
@@ -3015,7 +3015,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772634281
   },
   {
     "name": "Jormungandr",
@@ -4285,11 +4285,11 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Basic attacks deal additional physical AoE damage equal to 16% of Max HP.\nEach time a basic attack deals damage or when taking basic attack damage, gains 5% Energy. When at full Energy, [Godfist] and [Focused Fist] become supercharged."
+          "effect": "When using basic attacks, deals additional physical damage equal to 29% of Max HP to the target and enemies in a cone-shaped area behind them. Additional damage increases according to Energy, up to a maximum of 120% increased damage.\nEach time a basic attack deals damage or when taking damage from a basic attack, accumulates 5% Energy. When Energy if full, [Godfist] and [Focused Fist] are enhanced."
         },
         {
           "level": 2,
-          "effect": "[Deathless Domination] Resets the cooldown of [Godfist] after being triggered and reduces the Energy cost of this unit's next Overdrive by 1."
+          "effect": "After [Deathless Domination] is triggered, resets the cooldown of [Godfist] and reduces the Energy cost of the next Overdrive by 3."
         },
         {
           "level": 3,
@@ -4297,15 +4297,15 @@
         },
         {
           "level": 4,
-          "effect": "Gain 50% Energy at the start of combat. When at full Energy, gain +750 Critical Hit and +750 Break."
+          "effect": "Grants 75% Energy at the start of battle. When at full Energy, increases Crit and Break by 1500."
         },
         {
           "level": 5,
-          "effect": "Increases own HP and Life Steal by 10%."
+          "effect": "Increases own HP and Lifesteal by 10%."
         },
         {
           "level": 7,
-          "effect": "Increases Life Steal by 20%."
+          "effect": "Increases Lifesteal by 20%."
         }
       ]
     },
@@ -4313,25 +4313,25 @@
       {
         "name": "Godfist",
         "type": "Overdrive",
-        "description": "Flexes both arms into a frenzied fit, pummeling forward and dealing physical damage equal to 600% of Attack to enemy units in a medium rectangular area while knocking them back. When at full Energy, deals additional physical damage equal to 44% of Max HP. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, this additional damage is doubled and inflicts a 4s [Stun] on targets affected by [Punishment].",
+        "description": "Releases both arms to enter a burst state, pummeling forward and dealing physical damage equal to 660% of Attack + 88% of Max HP to enemies within a medium rectangular area, with a knockback effect. The higher the Energy, the higher the damage of this skill, up to a maximum increase of 80%. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, the additional damage value is doubled and applies a 4-second [Stun] to targets affected by [Punishment].",
         "cooldown": 18
       },
       {
         "name": "Focused Fist",
         "type": "Ultimate Skill",
-        "description": "Unleashes a forceful fist forward to tear through enemies within a cone-shaped area, dealing physical damage equal to 190% of Attack. Deals additional physical damage equal to 19% of Max HP to enemies in the center of this area.\nThis skill deals more damage when possessing more Energy, up to a maximum of 100% increased damage. When at full Energy, additionally grants a shield equal to 30% of Max HP, lasting 6 seconds.",
+        "description": "Unleashes a powerful punch on enemies within a cone-shaped area ahead, dealing physical damage equal to 220% of Attack. Enemies in the central area take additional physical damage equal to 44% of Max HP.\nThe higher the Energy possessed, the higher the damage of this skill, up to a maximum increase of 100%. At full Energy, additionally grants a shield equal to 45% of Max HP, lasting for 6 seconds.",
         "cooldown": 12
       },
       {
         "name": "Seismic Soul",
         "type": "Secret Skill",
-        "description": "When attacking enemies under control effects, increases damage dealt by 40%.\nEach time an ally casts an Overdrive, the caster gains 1 stack of [Awakening]. When the caster has at least 3 stacks of [Awakening], all 3 stacks are consumed to empower the next normal attack: slamming a single target to deal 240% of the caster's Attack as Physical Damage and inflicting [Stun] for 4s.",
+        "description": "Increases bonus damage by 60% when attacking enemies affected by crowd control.\nEach time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. When possessing at least 3 stacks of [Awakening], consumes 3 stacks of [Awakening] to power up basic attack: Slaps a single target, dealing physical damage equal to 240% of the caster's Attack and inflicting a 4-second [Stun].",
         "cooldown": 0
       },
       {
         "name": "Deathless Domination",
         "type": "Special Skill",
-        "description": "Upon taking fatal damage for the first time, becomes briefly Invincible and inflicts [Time Stasis] on enemies within a large circular area for 5s.\nThen begins consuming Energy, restoring 10% of Max HP for every 10% Energy consumed, up to full HP. Energy will no longer be consumed once HP is fully restored.",
+        "description": "When first taking fatal damage, becomes Invincible for 2 seconds and applies [Time Stasis] to enemies within a large circular area for 5 seconds. Then, consumes Energy, restoring 10% of Max HP for every 10% Energy consumed, up to 100% HP. Once at full HP, Energy will no longer be consumed.",
         "cooldown": 0
       },
       {
@@ -4354,7 +4354,7 @@
       "Berserker",
       "Vanguard"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772634281
   },
   {
     "name": "Thor",
@@ -6095,7 +6095,7 @@
         },
         {
           "level": 4,
-          "effect": "For every 10 applications of [Sigil of Radiance], permanently increases Critical Damage by 8% for the rest of the battle. Stacks up to 10 times."
+          "effect": "For every 10 applications of [Sigil of Radiance], permanently increases Critical Damage by 12% for the rest of the battle. Stacks up to 10 times."
         },
         {
           "level": 5,
@@ -6111,13 +6111,13 @@
       {
         "name": "Solar Arrow Stream",
         "type": "Overdrive",
-        "description": "Transforms into the sun, firing 30 arrows to sweep through enemies ahead, each arrow dealing physical damage equal to 74% of Attack. During the skill's duration, Damage Reduction increases by 30%. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For every 5 stacks of [Deathrattle], fires an additional 10 arrows.",
+        "description": "Transforms into the sun, firing 30 arrows to sweep through enemies ahead, each arrow dealing physical damage equal to 74% of Attack. During the skill's duration, Damage Reduction increases by 40%. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For every 5 stacks of [Deathrattle], fires an additional 10 arrows.",
         "cooldown": 18
       },
       {
         "name": "Lightfall Arrow Rain",
         "type": "Ultimate Skill",
-        "description": "Calls down a rain of blades, striking enemies in an extra-large circular area around the target 5 times, each hit dealing 34% of Attack as physical damage.\nAt the end, gains 1 stack of [Deathrattle] and [Attack Speed Boost].",
+        "description": "Calls down a rain of blades, striking enemies in an extra-large circular area around the target 5 times, each hit dealing 43% of Attack as physical damage.\nAt the end, gains 1 stack of [Deathrattle] and [Attack Speed Boost].",
         "cooldown": 12
       },
       {
@@ -6129,7 +6129,7 @@
       {
         "name": "Scatterlight Arrow",
         "type": "Special Skill",
-        "description": "When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, Basic Attack additionally deals splash damage equal to 95% of Attack (splash damage is also considered Basic Attack damage but cannot Crit).",
+        "description": "When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, Basic Attack additionally deals splash damage equal to 190% of Attack (splash damage is also considered Basic Attack damage but cannot Crit).",
         "cooldown": 0
       },
       {
@@ -6151,7 +6151,7 @@
     "recommended_subclasses": [
       "Bloodhunter"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772634281
   },
   {
     "name": "Artemis",
@@ -6533,6 +6533,100 @@
       "Bounty Hunter"
     ],
     "last_updated": 1772600511
+  },
+  {
+    "name": "Medusa",
+    "title": "The Mother of All Serpents",
+    "quality": "SSR+",
+    "character_class": "Archer",
+    "factions": [
+      "Illusion Veil",
+      "Otherworld Return"
+    ],
+    "is_global": true,
+    "subclasses": [
+      "Arrowslinger",
+      "Guerrilla",
+      "Hunter",
+      "Bounty Hunter",
+      "Sharpshooter",
+      "Sniper"
+    ],
+    "height": "190cm",
+    "weight": "70kg",
+    "origin": "Greek Mythology",
+    "lore": "A terrifying banshee with long hair covered in pythons, sometimes speaking to the pythons on her head. She possesses the ability to petrify, treating petrified human figures as precious toys and collectibles. She spends most of her time lurking in a dark, damp palace, waiting for prey to walk into her trap. For some reason, she harbors a stronger hostility towards men.",
+    "quote": "Come here, cutie~",
+    "talent": {
+      "name": "Venom Mark",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "After a Basic Attack deals damage, applies 1 stack of [Venom Mark]. At 4 stacks, immediately detonates the mark to deal Physical Damage equal to 210% of the caster's Attack to the target."
+        },
+        {
+          "level": 2,
+          "effect": "Each time [Deathrattle] is gained, applies 1 stack of [Venom Mark] to all enemy units."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own Attack by 15%."
+        },
+        {
+          "level": 4,
+          "effect": "[Snake Venom Mark] After detonation, there is a 10% chance to increase the target's next Overdrive Energy Consumption by 1."
+        },
+        {
+          "level": 7,
+          "effect": "After [Venom Mark] is detonated, it can trigger the [Punishment] effect. After triggering the [Punishment] effect, dispels 1 buff from the target."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Stonegaze",
+        "type": "Overdrive",
+        "description": "Deals physical damage equal to 260% of Attack to enemy units in a straight line. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, it additionally applies the [Petrify] status for 4 seconds.",
+        "cooldown": 18
+      },
+      {
+        "name": "Broken Arrow",
+        "type": "Ultimate Skill",
+        "description": "Basic Attacks have a 40% chance to unleash Broken Arrows for 2 additional strikes on random enemies. Broken Arrows deal 65% of base Basic Attack damage.\nEach time an ally falls, gain 1 stack of [Deathrattle]. Each stack of [Deathrattle] increases this chance by 2%.",
+        "cooldown": 0
+      },
+      {
+        "name": "Snake Dance",
+        "type": "Secret Skill",
+        "description": "Increases own Attack Speed by 10%.\nFor each stack of [Deathrattle], gain an additional 6% Attack Speed Boost.",
+        "cooldown": 0
+      },
+      {
+        "name": "Mystic Serpent",
+        "type": "Special Skill",
+        "description": "Releases a Mystic Serpent, which jumps between up to 3 enemy units, dealing 230% Physical Damage based on its own Attack to each target and delaying their Overdrive Cooldown by 3 seconds.",
+        "cooldown": 11
+      },
+      {
+        "name": "Mystic Evil Jade",
+        "type": "Divine Skill",
+        "description": "[Mystic Serpent] Can steal an additional 10% attack speed from enemy units for 6 seconds.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Sharpshooter"
+    ],
+    "last_updated": 1772634281
   },
   {
     "name": "Mimir",
@@ -6975,7 +7069,7 @@
       {
         "name": "Snake Dance",
         "type": "Secret Skill",
-        "description": "For each stack of [Deathrattle], gain Attack Speed Boost 6%",
+        "description": "For each stack of [Deathrattle], gain Attack Speed Boost 6%.",
         "cooldown": 0
       },
       {
@@ -6983,12 +7077,6 @@
         "type": "Special Skill",
         "description": "Releases a Mystic Serpent, which jumps between up to 3 enemy units, dealing 210% Physical Damage based on its own Attack to each target and delaying their Overdrive Cooldown by 3 seconds.",
         "cooldown": 11
-      },
-      {
-        "name": "Mystic Evil Jade",
-        "type": "Divine Skill",
-        "description": "[Mystic Serpent] Can steal an additional 10% attack speed from enemy units for 6 seconds.",
-        "cooldown": 0
       }
     ],
     "noble_phantasm": "",
@@ -7003,7 +7091,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772634281
   },
   {
     "name": "Van Helsing",
@@ -7544,7 +7632,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "All Poseidon's skills inflict [Chill].\nWhen triggering [Elemental Reaction], instantly deals additional Magic Damage equal to 80% of Poseidon's Attack."
+          "effect": "All Poseidon's skills inflict [Chill].\nWhen triggering [Elemental Reaction], instantly deals additional Magic Damage equal to 125% of Poseidon's Attack."
         },
         {
           "level": 2,
@@ -7552,11 +7640,11 @@
         },
         {
           "level": 3,
-          "effect": "[Frost Barrier] Usable times +1. When Poseidon is present, the Magic Defense of all enemies is reduced by 10%."
+          "effect": "[Frost Barrier] trigger count +1 and cannot affect the same target repeatedly. While Poseidon is present, all enemies' Magic Defense is reduced by 20%."
         },
         {
           "level": 4,
-          "effect": "For each [Elemental Debuff] on the target, damage increases by 25%."
+          "effect": "Before dealing damage, damage dealt is increased by 40% for each [Elemental Debuff] on the target."
         },
         {
           "level": 5,
@@ -7584,7 +7672,7 @@
       {
         "name": "Tide of the Abyss",
         "type": "Secret Skill",
-        "description": "Max Energy +5.\nGains 1 Energy whenever an [Elemental Reaction] is triggered by an ally.\nAt full Energy, automatically unleashes a torrent on enemies with the lowest Overdrive Energy Consumption, dealing 135% of Attack as Magic Damage.\nIf the target's Overdrive Energy Consumption is less than 4, its next Overdrive costs +1 Energy.",
+        "description": "Gains 5 Max Energy.\nWhen an ally triggers an [Elemental Reaction], gains 1 Energy.\nUpon reaching full Energy, casts immediately, creating 5 waves in sequence. Each wave deals 135% of Attack as Magic Damage to the enemy unit with the lowest current Overdrive Energy Cost. If the target's Overdrive Energy Cost is less than 4, their next Overdrive Energy Cost is increased by 1.",
         "cooldown": 6
       },
       {
@@ -7613,7 +7701,102 @@
       "Elementalist",
       "Potion Master"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772634281
+  },
+  {
+    "name": "Cleopatra",
+    "title": "Black Cat Goddess",
+    "quality": "SSR+",
+    "character_class": "Mage",
+    "factions": [
+      "Otherworld Return",
+      "Arcane Wisdom"
+    ],
+    "is_global": true,
+    "subclasses": [
+      "Scholar",
+      "Sorcerer",
+      "Arcane Master",
+      "Astrologer",
+      "Rune Mage",
+      "Potion Master"
+    ],
+    "height": "168cm",
+    "weight": "41kg",
+    "origin": "Egyptian Civilization",
+    "lore": "Cleopatra VII, a ruthless pharaoh who ruled Egypt for many years, was a woman of immense power. Her stunning beauty captivated countless men and became a powerful tool for her strategic maneuvering. Naturally intelligent, she not only possessed keen insight into human nature but also had a deep understanding of various esoteric arts. Rumor has it that the forbidden power of resurrection was what she truly sought…",
+    "quote": "Do you seek the quicksand secrets?",
+    "talent": {
+      "name": "Mummy Army",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Each time a non-Overdrive skill is used, summons a Mummy (up to 4 at a time). The Mummy inherits 30% of Attack, 15% of HP, and 100% of all other Attributes, lasting for 20s."
+        },
+        {
+          "level": 2,
+          "effect": "Each time an ally uses Overdrive, gains 1 stack of [Awakening]. When possessing at least 2 stacks of [Awakening], consumes 2 stacks to unleash an additional [Cascade of Shifting Sands]."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own Attack by 15%."
+        },
+        {
+          "level": 4,
+          "effect": "Summoned Mummy has the skill [Hop 'n' Chop]: Deals Magic Damage equal to 120% of own Attack to the target and gains a Shield equal to 12% of own max HP."
+        },
+        {
+          "level": 7,
+          "effect": "When a summoned Mummy is defeated, inflicts a random [Stat Debuff] on enemies within a medium circular area."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Arc Burst",
+        "type": "Overdrive",
+        "description": "Deals 130% of Attack as Magic Damage to enemies in a large circular area around the target. Summons 2 additional Mummies, ignoring the usual limit. Then, all Mummies on the field charge at the designated target and self-destruct, each dealing Magic Damage equal to 380% of their Attack.",
+        "cooldown": 20
+      },
+      {
+        "name": "Arc Shield",
+        "type": "Ultimate Skill",
+        "description": "Provides a magic Shield equal to 29% of own max HP to self and all Mummies for 10s.",
+        "cooldown": 18
+      },
+      {
+        "name": "Reincarnation",
+        "type": "Secret Skill",
+        "description": "When an ally is defeated, gain 1 stack of [Deathrattle].\nEach stack increases the Attack inherited by summoned Mummies by an additional 1%.",
+        "cooldown": 0
+      },
+      {
+        "name": "Cascade of Shifting Sands",
+        "type": "Special Skill",
+        "description": "Releases quicksand, dealing Magic Damage equal to 280% of own Attack to enemy units in a straight line.",
+        "cooldown": 20
+      },
+      {
+        "name": "Quicksand Dispel",
+        "type": "Divine Skill",
+        "description": "When [Cascade of Shifting Sands] deals damage, it randomly dispels one buff.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Astrologer",
+      "Potion Master"
+    ],
+    "last_updated": 1772634281
   },
   {
     "name": "Crassus",
@@ -8341,12 +8524,6 @@
         "type": "Special Skill",
         "description": "Releases quicksand, dealing Magic Damage equal to 260% of own Attack to enemy units in a straight line.",
         "cooldown": 20
-      },
-      {
-        "name": "Quicksand Dispel",
-        "type": "Divine Skill",
-        "description": "When [Cascade of Shifting Sands] deals damage, it randomly dispels one buff.",
-        "cooldown": 0
       }
     ],
     "noble_phantasm": "",
@@ -8362,7 +8539,7 @@
       "Astrologer",
       "Potion Master"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1772634281
   },
   {
     "name": "Melina",

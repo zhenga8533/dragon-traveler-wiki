@@ -1,7 +1,37 @@
 {
   "Athena__SSR EX": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Life Link": {
+                "description": {
+                  "old": "When an allied Luminary's HP falls below 30%, forms a Life Link with them, increasing the target's Damage Reduction by 20% and redirecting 60% of damage taken by the target to self. Lasts for 8 seconds. This effect can trigger only once on each Luminary.",
+                  "new": "When an allied Luminary's HP falls below 30%, forms a Life Link with them, increasing the target's Damage Reduction by 40% and redirecting 60% of damage taken by the target to self. Lasts for 8 seconds. This effect can trigger only once on each Luminary."
+                }
+              }
+            }
+          },
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "1": {
+                  "old": "Each attack deals additional physical damage equal to 12% of own lost HP. For each enemy hit, recovers 6% of lost HP.\nWhen possessing both [Morale] and [Fervor] enters the [Grace] status. While in the [Grace] status, the effect of [Battle Resolve] is increased by 30%.",
+                  "new": "Each attack deals additional physical damage equal to 12% of own lost HP. For each enemy hit, recovers 6% of lost HP.\nWhen possessing both [Morale] and [Fervor] enters the [Grace] status. While in the [Grace] status, the effect of [Battle Resolve] is increased by 40%."
+                },
+                "2": {
+                  "old": "While in [Grace] status, [Battle Resolve] additionally increases by 30%.",
+                  "new": "While in [Grace] status, [Battle Resolve] additionally increases by 40%."
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Prometheus__SSR EX": {
     "added": 1772563593,
@@ -377,7 +407,45 @@
   },
   "Hades__SSR EX": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Elysium": {
+                "description": {
+                  "old": "Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Attack increases by 1%. Consumes 0/7 stacks of [Deathrattle] to gain immunity to the first/second instance of fatal damage received, and dispels all debuffs and control effects. Flies toward and absorbs each Clone on the battlefield in sequence, recovering 25% of Max HP for each Clone absorbed, and deals physical damage equal to 230% of Attack to enemies encountered along the way (Cannot be triggered if there are not enough [Deathrattle] stacks or no Clones on the field).",
+                  "new": "Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], Attack increases by 1.5%. Consumes [Deathrattle] stacks to block fatal damage (0 stacks for the first block, 7 for the second) and dispels all debuffs and control effects. Flies toward Clones in sequence, absorbing them to recover 25% of Max HP for each Clone absorbed, and dealing physical damage equal to 230% of Attack to enemies encountered along the way (Cannot be triggered if there are not enough [Deathrattle] stacks or Clones)."
+                }
+              },
+              "Ruthless Hunter": {
+                "description": {
+                  "old": "When attacking, damage increases based on the target's lost HP percentage. For every 1% of HP lost, Damage Amplification increases by 0.4%.",
+                  "new": "When attacking, damage increases based on the target's lost HP percentage. For every 1% of HP lost, Damage Amplification increases by 0.55%."
+                }
+              },
+              "Soul Chase": {
+                "description": {
+                  "old": "Enhances basic attacks. Each evolution adds an additional instance of damage to basic attacks, up to a maximum of four instances. Each instance deals physical damage to a single target equal to 160% of Attack. The fourth instance deals double damage.",
+                  "new": "Enhances basic attacks. Each evolution adds an additional instance of damage to basic attacks, up to a maximum of four instances. Each instance deals physical damage to a single target equal to 180% of Attack. The fourth instance deals double damage."
+                }
+              }
+            }
+          },
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "1": {
+                  "old": "Attacks are not affected by Attack Speed. Cannot gain [Awakening]. Damage Amplification is increased by 20%. For every 4 stacks of [Awakening] gained by other allied Luminaries, Damage Amplification increases by an additional 10% and [Soul Chase] evolves once. Stacks up to 4 times.",
+                  "new": "Attacks are not affected by Attack Speed. Cannot gain [Awakening]. Bonus Damage is increased by 20%. For every 4 stacks of [Awakening] gained by other allied Luminaries, Bonus Damage increases by an additional 15% and [Soul Chase] evolves once. Stacks up to 4 times."
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Jormungandr__SSR+": {
     "added": 1772563593,
@@ -535,7 +603,67 @@
   },
   "Ares__SSR EX": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Deathless Domination": {
+                "description": {
+                  "old": "Upon taking fatal damage for the first time, becomes briefly Invincible and inflicts [Time Stasis] on enemies within a large circular area for 5s.\nThen begins consuming Energy, restoring 10% of Max HP for every 10% Energy consumed, up to full HP. Energy will no longer be consumed once HP is fully restored.",
+                  "new": "When first taking fatal damage, becomes Invincible for 2 seconds and applies [Time Stasis] to enemies within a large circular area for 5 seconds. Then, consumes Energy, restoring 10% of Max HP for every 10% Energy consumed, up to 100% HP. Once at full HP, Energy will no longer be consumed."
+                }
+              },
+              "Focused Fist": {
+                "description": {
+                  "old": "Unleashes a forceful fist forward to tear through enemies within a cone-shaped area, dealing physical damage equal to 190% of Attack. Deals additional physical damage equal to 19% of Max HP to enemies in the center of this area.\nThis skill deals more damage when possessing more Energy, up to a maximum of 100% increased damage. When at full Energy, additionally grants a shield equal to 30% of Max HP, lasting 6 seconds.",
+                  "new": "Unleashes a powerful punch on enemies within a cone-shaped area ahead, dealing physical damage equal to 220% of Attack. Enemies in the central area take additional physical damage equal to 44% of Max HP.\nThe higher the Energy possessed, the higher the damage of this skill, up to a maximum increase of 100%. At full Energy, additionally grants a shield equal to 45% of Max HP, lasting for 6 seconds."
+                }
+              },
+              "Godfist": {
+                "description": {
+                  "old": "Flexes both arms into a frenzied fit, pummeling forward and dealing physical damage equal to 600% of Attack to enemy units in a medium rectangular area while knocking them back. When at full Energy, deals additional physical damage equal to 44% of Max HP. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, this additional damage is doubled and inflicts a 4s [Stun] on targets affected by [Punishment].",
+                  "new": "Releases both arms to enter a burst state, pummeling forward and dealing physical damage equal to 660% of Attack + 88% of Max HP to enemies within a medium rectangular area, with a knockback effect. The higher the Energy, the higher the damage of this skill, up to a maximum increase of 80%. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, the additional damage value is doubled and applies a 4-second [Stun] to targets affected by [Punishment]."
+                }
+              },
+              "Seismic Soul": {
+                "description": {
+                  "old": "When attacking enemies under control effects, increases damage dealt by 40%.\nEach time an ally casts an Overdrive, the caster gains 1 stack of [Awakening]. When the caster has at least 3 stacks of [Awakening], all 3 stacks are consumed to empower the next normal attack: slamming a single target to deal 240% of the caster's Attack as Physical Damage and inflicting [Stun] for 4s.",
+                  "new": "Increases bonus damage by 60% when attacking enemies affected by crowd control.\nEach time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. When possessing at least 3 stacks of [Awakening], consumes 3 stacks of [Awakening] to power up basic attack: Slaps a single target, dealing physical damage equal to 240% of the caster's Attack and inflicting a 4-second [Stun]."
+                }
+              }
+            }
+          },
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "1": {
+                  "old": "Basic attacks deal additional physical AoE damage equal to 16% of Max HP.\nEach time a basic attack deals damage or when taking basic attack damage, gains 5% Energy. When at full Energy, [Godfist] and [Focused Fist] become supercharged.",
+                  "new": "When using basic attacks, deals additional physical damage equal to 29% of Max HP to the target and enemies in a cone-shaped area behind them. Additional damage increases according to Energy, up to a maximum of 120% increased damage.\nEach time a basic attack deals damage or when taking damage from a basic attack, accumulates 5% Energy. When Energy if full, [Godfist] and [Focused Fist] are enhanced."
+                },
+                "2": {
+                  "old": "[Deathless Domination] Resets the cooldown of [Godfist] after being triggered and reduces the Energy cost of this unit's next Overdrive by 1.",
+                  "new": "After [Deathless Domination] is triggered, resets the cooldown of [Godfist] and reduces the Energy cost of the next Overdrive by 3."
+                },
+                "4": {
+                  "old": "Gain 50% Energy at the start of combat. When at full Energy, gain +750 Critical Hit and +750 Break.",
+                  "new": "Grants 75% Energy at the start of battle. When at full Energy, increases Crit and Break by 1500."
+                },
+                "5": {
+                  "old": "Increases own HP and Life Steal by 10%.",
+                  "new": "Increases own HP and Lifesteal by 10%."
+                },
+                "7": {
+                  "old": "Increases Life Steal by 20%.",
+                  "new": "Increases Lifesteal by 20%."
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Thor__SSR EX": {
     "added": 1772563593,
@@ -720,7 +848,45 @@
   },
   "Apollo__SSR EX": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Lightfall Arrow Rain": {
+                "description": {
+                  "old": "Calls down a rain of blades, striking enemies in an extra-large circular area around the target 5 times, each hit dealing 34% of Attack as physical damage.\nAt the end, gains 1 stack of [Deathrattle] and [Attack Speed Boost].",
+                  "new": "Calls down a rain of blades, striking enemies in an extra-large circular area around the target 5 times, each hit dealing 43% of Attack as physical damage.\nAt the end, gains 1 stack of [Deathrattle] and [Attack Speed Boost]."
+                }
+              },
+              "Scatterlight Arrow": {
+                "description": {
+                  "old": "When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, Basic Attack additionally deals splash damage equal to 95% of Attack (splash damage is also considered Basic Attack damage but cannot Crit).",
+                  "new": "When possessing both [Morale] and [Fervor], enters the [Grace] status. While in the [Grace] status, Basic Attack additionally deals splash damage equal to 190% of Attack (splash damage is also considered Basic Attack damage but cannot Crit)."
+                }
+              },
+              "Solar Arrow Stream": {
+                "description": {
+                  "old": "Transforms into the sun, firing 30 arrows to sweep through enemies ahead, each arrow dealing physical damage equal to 74% of Attack. During the skill's duration, Damage Reduction increases by 30%. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For every 5 stacks of [Deathrattle], fires an additional 10 arrows.",
+                  "new": "Transforms into the sun, firing 30 arrows to sweep through enemies ahead, each arrow dealing physical damage equal to 74% of Attack. During the skill's duration, Damage Reduction increases by 40%. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For every 5 stacks of [Deathrattle], fires an additional 10 arrows."
+                }
+              }
+            }
+          },
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "4": {
+                  "old": "For every 10 applications of [Sigil of Radiance], permanently increases Critical Damage by 8% for the rest of the battle. Stacks up to 10 times.",
+                  "new": "For every 10 applications of [Sigil of Radiance], permanently increases Critical Damage by 12% for the rest of the battle. Stacks up to 10 times."
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Artemis__SSR EX": {
     "added": 1772563593,
@@ -766,7 +932,26 @@
   },
   "Medusa__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "skills": {
+            "removed": [
+              "Mystic Evil Jade"
+            ],
+            "modified": {
+              "Snake Dance": {
+                "description": {
+                  "old": "For each stack of [Deathrattle], gain Attack Speed Boost 6%",
+                  "new": "For each stack of [Deathrattle], gain Attack Speed Boost 6%."
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Van Helsing__SSR": {
     "added": 1772563593,
@@ -868,7 +1053,41 @@
   },
   "Poseidon__SSR EX": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Tide of the Abyss": {
+                "description": {
+                  "old": "Max Energy +5.\nGains 1 Energy whenever an [Elemental Reaction] is triggered by an ally.\nAt full Energy, automatically unleashes a torrent on enemies with the lowest Overdrive Energy Consumption, dealing 135% of Attack as Magic Damage.\nIf the target's Overdrive Energy Consumption is less than 4, its next Overdrive costs +1 Energy.",
+                  "new": "Gains 5 Max Energy.\nWhen an ally triggers an [Elemental Reaction], gains 1 Energy.\nUpon reaching full Energy, casts immediately, creating 5 waves in sequence. Each wave deals 135% of Attack as Magic Damage to the enemy unit with the lowest current Overdrive Energy Cost. If the target's Overdrive Energy Cost is less than 4, their next Overdrive Energy Cost is increased by 1."
+                }
+              }
+            }
+          },
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "1": {
+                  "old": "All Poseidon's skills inflict [Chill].\nWhen triggering [Elemental Reaction], instantly deals additional Magic Damage equal to 80% of Poseidon's Attack.",
+                  "new": "All Poseidon's skills inflict [Chill].\nWhen triggering [Elemental Reaction], instantly deals additional Magic Damage equal to 125% of Poseidon's Attack."
+                },
+                "3": {
+                  "old": "[Frost Barrier] Usable times +1. When Poseidon is present, the Magic Defense of all enemies is reduced by 10%.",
+                  "new": "[Frost Barrier] trigger count +1 and cannot affect the same target repeatedly. While Poseidon is present, all enemies' Magic Defense is reduced by 20%."
+                },
+                "4": {
+                  "old": "For each [Elemental Debuff] on the target, damage increases by 25%.",
+                  "new": "Before dealing damage, damage dealt is increased by 40% for each [Elemental Debuff] on the target."
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Crassus__SSR+": {
     "added": 1772563593,
@@ -937,6 +1156,16 @@
           "origin": {
             "old": "Egyptian Mythology",
             "new": "Egyptian Civilization"
+          }
+        }
+      },
+      {
+        "timestamp": 1772634281,
+        "fields": {
+          "skills": {
+            "removed": [
+              "Quicksand Dispel"
+            ]
           }
         }
       }
@@ -1054,6 +1283,14 @@
   },
   "Fenrir__SR": {
     "added": 1772600511,
+    "changes": []
+  },
+  "Medusa__SSR+": {
+    "added": 1772634281,
+    "changes": []
+  },
+  "Cleopatra__SSR+": {
+    "added": 1772634281,
     "changes": []
   }
 }
