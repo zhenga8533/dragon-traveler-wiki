@@ -133,26 +133,6 @@ export default function TeamBuilder({
   const [pasteModalOpened, { open: openPasteModal, close: closePasteModal }] =
     useDisclosure(false);
 
-  const handlePasteApply = useCallback(
-    (pasteText: string): string | null => {
-      try {
-        const parsed = JSON.parse(pasteText) as unknown;
-        const partialTeam = getPastedTeamPatch(parsed);
-        if (!partialTeam) {
-          return 'Invalid team JSON: expected an object or a members array.';
-        }
-        const currentTeam = JSON.parse(json) as Team;
-        const mergedTeam = normalizeTeamFromPartial(partialTeam, currentTeam);
-        loadFromTeam(mergedTeam);
-        closePasteModal();
-        return null;
-      } catch {
-        return 'Could not parse JSON. Paste a JSON object, a one-item team array, or a members array.';
-      }
-    },
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-    [json, closePasteModal]
-  );
   const [
     clearConfirmOpened,
     { open: openClearConfirm, close: closeClearConfirm },
@@ -464,6 +444,26 @@ export default function TeamBuilder({
     for (const n of bench) s.add(n);
     return s;
   }, [slots, bench]);
+
+  const handlePasteApply = useCallback(
+    (pasteText: string): string | null => {
+      try {
+        const parsed = JSON.parse(pasteText) as unknown;
+        const partialTeam = getPastedTeamPatch(parsed);
+        if (!partialTeam) {
+          return 'Invalid team JSON: expected an object or a members array.';
+        }
+        const currentTeam = JSON.parse(json) as Team;
+        const mergedTeam = normalizeTeamFromPartial(partialTeam, currentTeam);
+        loadFromTeam(mergedTeam);
+        closePasteModal();
+        return null;
+      } catch {
+        return 'Could not parse JSON. Paste a JSON object, a one-item team array, or a members array.';
+      }
+    },
+    [json, closePasteModal]
+  );
 
   const availableCharacters = useMemo(() => {
     return characters.filter((c) => !usedNames.has(getCharacterIdentityKey(c)));

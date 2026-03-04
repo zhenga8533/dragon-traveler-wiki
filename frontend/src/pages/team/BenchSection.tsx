@@ -19,7 +19,7 @@ import QualityIcon from '../../components/common/QualityIcon';
 import { getCardHoverProps } from '../../constants/styles';
 import { useMobileTooltip } from '../../hooks';
 import type { Character } from '../../types/character';
-import type { TeamBenchEntry } from '../../types/team';
+import type { TeamBenchMember } from '../../types/team';
 import { resolveCharacterByNameAndQuality } from '../../utils/character-route';
 import {
   getTeamBenchEntryName,
@@ -35,7 +35,7 @@ export function BenchSection({
   factionColor,
   tooltipProps,
 }: {
-  bench: TeamBenchEntry[];
+  bench: TeamBenchMember[];
   charMap: Map<string, Character>;
   characterByIdentity: Map<string, Character>;
   getCharacterPath: (

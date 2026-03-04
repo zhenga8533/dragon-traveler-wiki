@@ -92,7 +92,7 @@ export default function CharacterCard({
                 }
               }}
             >
-              <Tooltip label="View note" withArrow>
+              <Tooltip label={note} multiline maw={240} withArrow>
                 <span>
                   <IoInformationCircle
                     size={18}

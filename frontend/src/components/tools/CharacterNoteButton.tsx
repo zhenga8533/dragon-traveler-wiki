@@ -61,11 +61,7 @@ function CharacterNoteButton({
     >
       <Popover.Target>
         <div style={style}>
-          <Tooltip
-            label={value ? 'Edit note' : 'Add note'}
-            withArrow
-            position="left"
-          >
+          <Tooltip label={value ? 'Edit note' : 'Add note'} withArrow>
             <ActionIcon
               size="sm"
               radius="md"
