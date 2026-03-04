@@ -26,6 +26,7 @@ import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
 import FactionTag from '../components/common/FactionTag';
+import ChangeHistory from '../components/common/ChangeHistory';
 import LastUpdated from '../components/common/LastUpdated';
 import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
 import QualityIcon from '../components/common/QualityIcon';
@@ -45,6 +46,7 @@ import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
 import { useDataFetch } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import type { Character } from '../types/character';
+import type { ChangesFile } from '../types/changes';
 import type { TierList as TierListType } from '../types/tier-list';
 import {
   buildCharacterByIdentityMap,
@@ -69,6 +71,10 @@ export default function TierList() {
     loading: loadingChars,
     error: charactersError,
   } = useDataFetch<Character[]>('data/characters.json', []);
+  const { data: tierListChanges } = useDataFetch<ChangesFile>(
+    'data/changes/tier-lists.json',
+    {}
+  );
   const { filters: viewFilters, setFilters: setViewFilters } = useFilters<
     Record<string, string[]>
   >({
@@ -774,6 +780,7 @@ export default function TierList() {
                                 </Stack>
                               </Paper>
                             )}
+                            <ChangeHistory history={tierListChanges[tierList.name]} />
                           </Stack>
                         </Tabs.Panel>
                       );
