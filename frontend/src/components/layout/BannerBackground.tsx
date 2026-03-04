@@ -11,12 +11,20 @@ export default function BannerBackground() {
   const [mediaHeight, setMediaHeight] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
-  const imgRef = useCallback((el: HTMLImageElement | null) => {
-    if (!el) return;
-    const update = () => setMediaHeight(el.offsetHeight);
-    if (el.complete) update();
-    el.addEventListener('load', update);
-  }, []);
+  const imgRef = useCallback(
+    (el: HTMLImageElement | null) => {
+      if (!el) return;
+      const update = () => setMediaHeight(el.offsetHeight);
+      const markLoaded = () => setBannerLoaded(true);
+      if (el.complete) {
+        update();
+        markLoaded();
+      }
+      el.addEventListener('load', update, { once: true });
+      el.addEventListener('load', markLoaded, { once: true });
+    },
+    [setBannerLoaded]
+  );
 
   const videoRef = useCallback(
     (el: HTMLVideoElement | null) => {
@@ -30,10 +38,13 @@ export default function BannerBackground() {
           );
         }
       };
+      const markLoaded = () => setBannerLoaded(true);
       if (el.readyState >= 1) update();
-      el.addEventListener('loadedmetadata', update);
+      if (el.readyState >= 2) markLoaded();
+      el.addEventListener('loadedmetadata', update, { once: true });
+      el.addEventListener('loadeddata', markLoaded, { once: true });
     },
-    [selectedBanner?.src]
+    [selectedBanner?.src, setBannerLoaded]
   );
 
   // Recalculate on window resize
