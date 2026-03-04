@@ -760,7 +760,18 @@
   },
   "Asteros__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772641754,
+        "fields": {
+          "skills": {
+            "removed": [
+              "Wild Cyclone"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Beowulf__SSR": {
     "added": 1772563593,
@@ -1291,6 +1302,10 @@
   },
   "Cleopatra__SSR+": {
     "added": 1772634281,
+    "changes": []
+  },
+  "Asteros__SSR+": {
+    "added": 1772641754,
     "changes": []
   }
 }

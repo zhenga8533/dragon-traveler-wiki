@@ -38,6 +38,20 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1772641754,
+        "fields": {
+          "entries": {
+            "added": [
+              "Asteros (SSR)",
+              "Asteros (SSR+)"
+            ],
+            "removed": [
+              "Asteros"
+            ]
+          }
+        }
       }
     ]
   },
@@ -77,6 +91,20 @@
             "removed": [
               "Cleopatra",
               "Medusa"
+            ]
+          }
+        }
+      },
+      {
+        "timestamp": 1772641754,
+        "fields": {
+          "entries": {
+            "added": [
+              "Asteros (SSR)",
+              "Asteros (SSR+)"
+            ],
+            "removed": [
+              "Asteros"
             ]
           }
         }
@@ -122,6 +150,20 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1772641754,
+        "fields": {
+          "entries": {
+            "added": [
+              "Asteros (SSR)",
+              "Asteros (SSR+)"
+            ],
+            "removed": [
+              "Asteros"
+            ]
+          }
+        }
       }
     ]
   },
@@ -159,6 +201,19 @@
             "removed": [
               "Cleopatra",
               "Medusa"
+            ]
+          }
+        }
+      },
+      {
+        "timestamp": 1772641754,
+        "fields": {
+          "entries": {
+            "added": [
+              "Asteros (SSR)"
+            ],
+            "removed": [
+              "Asteros"
             ]
           }
         }

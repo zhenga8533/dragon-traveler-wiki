@@ -193,6 +193,7 @@
       },
       {
         "character_name": "Asteros",
+        "character_quality": "SSR+",
         "tier": "A+"
       },
       {
@@ -206,6 +207,11 @@
       },
       {
         "character_name": "Anubis",
+        "tier": "A"
+      },
+      {
+        "character_name": "Asteros",
+        "character_quality": "SSR",
         "tier": "A"
       },
       {
@@ -480,7 +486,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1772634281
+    "last_updated": 1772641754
   },
   {
     "name": "Taiwan PvE Tier List",
@@ -682,6 +688,7 @@
       },
       {
         "character_name": "Asteros",
+        "character_quality": "SSR+",
         "tier": "S"
       },
       {
@@ -698,6 +705,11 @@
       },
       {
         "character_name": "Anubis",
+        "tier": "A"
+      },
+      {
+        "character_name": "Asteros",
+        "character_quality": "SSR",
         "tier": "A"
       },
       {
@@ -963,7 +975,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1772634281
+    "last_updated": 1772641754
   },
   {
     "name": "Taiwan PvP Tier List",
@@ -1204,6 +1216,7 @@
       },
       {
         "character_name": "Asteros",
+        "character_quality": "SSR+",
         "tier": "B"
       },
       {
@@ -1268,6 +1281,11 @@
       },
       {
         "character_name": "Arthur",
+        "tier": "C"
+      },
+      {
+        "character_name": "Asteros",
+        "character_quality": "SSR",
         "tier": "C"
       },
       {
@@ -1446,7 +1464,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1772634281
+    "last_updated": 1772641754
   },
   {
     "name": "Global Tier List",
@@ -1665,6 +1683,7 @@
       },
       {
         "character_name": "Asteros",
+        "character_quality": "SSR",
         "tier": "B"
       },
       {
@@ -1849,6 +1868,6 @@
         "tier": "D"
       }
     ],
-    "last_updated": 1772634281
+    "last_updated": 1772641754
   }
 ]

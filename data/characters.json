@@ -4738,6 +4738,101 @@
     "last_updated": 1772600511
   },
   {
+    "name": "Asteros",
+    "title": "The Powerful Bull",
+    "quality": "SSR+",
+    "character_class": "Warrior",
+    "factions": [
+      "Wild Spirit",
+      "Otherworld Return"
+    ],
+    "is_global": true,
+    "subclasses": [
+      "Fighter",
+      "Arcane Duelist",
+      "Knight",
+      "Vanguard",
+      "Crusader",
+      "Sword Master"
+    ],
+    "height": "278cm",
+    "weight": "340kg",
+    "origin": "Greek Mythology",
+    "lore": "The Minotaur was born by chance under the curse of Poseidon, the god of the sea. In order to keep the existence of this bull-headed, man-bodied monster a secret, Minos asked Daedalus to build an extremely complex labyrinth as a prison to imprison the Minotaur.",
+    "quote": "I'm stubborn as a bull.",
+    "talent": {
+      "name": "Savage Cyclone",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Gains Rage when HP decreases. When Rage is at the limit, enters the [Wild] status. While in the [Wild] status, begins spinning relentlessly to strike nearby enemies. Each spin deals physical damage equal to 100% of Attack to enemies within a medium circular area."
+        },
+        {
+          "level": 2,
+          "effect": "Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], [Savage Cyclone] damage is increased by an additional 2%."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own Attack by 15%."
+        },
+        {
+          "level": 4,
+          "effect": "While in the [Wild] status, Healing Increases by 30%."
+        },
+        {
+          "level": 7,
+          "effect": "While in the [Wild] status, Attack increases by 5% per second (up to 100%). Resets upon exiting the [Wild] status."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Heaven's Mandate",
+        "type": "Overdrive",
+        "description": "Sacrifices 20% of current HP to materialize a spirit avatar that deals physical damage equal to 480% of Attack to enemies within a medium circular area and launches them into the air. The avatar also deals physical damage equal to 160% of Attack to enemies along its path.",
+        "cooldown": 18
+      },
+      {
+        "name": "Savage Charge",
+        "type": "Ultimate Skill",
+        "description": "Becomes supercharged when charging for the first time, dealing additional physical damage equal to 160% of Attack and launching the target into the air.",
+        "cooldown": 0
+      },
+      {
+        "name": "Ancestral Will",
+        "type": "Secret Skill",
+        "description": "Whenever entering the [Wild] status, instantly recovers 22% of lost HP.",
+        "cooldown": 5
+      },
+      {
+        "name": "Battleborn",
+        "type": "Special Skill",
+        "description": "While in the [Wild] status, Attack increases by 25% and gains immunity to control effects.",
+        "cooldown": 0
+      },
+      {
+        "name": "Wild Cyclone",
+        "type": "Divine Skill",
+        "description": "[Savage Cyclone] The range of the circle has changed from medium to large.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
+    "recommended_subclasses": [
+      "Sword Master",
+      "Vanguard"
+    ],
+    "last_updated": 1772641754
+  },
+  {
     "name": "Azure Dragon",
     "title": "Four Saints",
     "quality": "SSR+",
@@ -5365,12 +5460,6 @@
         "type": "Special Skill",
         "description": "While in the [Wild] status, Attack increases by 25% and gains immunity to control effects.",
         "cooldown": 0
-      },
-      {
-        "name": "Wild Cyclone",
-        "type": "Special Skill",
-        "description": "[Savage Cyclone] The range of the circle has changed from medium to large.",
-        "cooldown": 0
       }
     ],
     "noble_phantasm": "",
@@ -5386,7 +5475,7 @@
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1772641754
   },
   {
     "name": "Beowulf",

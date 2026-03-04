@@ -73,7 +73,19 @@
   },
   "Gear": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772641754,
+        "fields": {
+          "set_bonus": {
+            "old": {
+              "quantity": 0,
+              "description": ""
+            }
+          }
+        }
+      }
+    ]
   },
   "Grievous Wound": {
     "added": 1772563593,

@@ -145,11 +145,7 @@
   },
   {
     "name": "Gear",
-    "set_bonus": {
-      "quantity": 0,
-      "description": ""
-    },
-    "last_updated": 1771712675
+    "last_updated": 1772641754
   },
   {
     "name": "Grievous Wound",
