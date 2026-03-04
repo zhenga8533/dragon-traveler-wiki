@@ -22,13 +22,13 @@ import {
   IoSparkles,
   IoStar,
 } from 'react-icons/io5';
-import ResourceBadge from '../components/common/ResourceBadge';
-import StatCard from '../components/common/StatCard';
+import ResourceBadge from '../../components/common/ResourceBadge';
+import StatCard from '../../components/common/StatCard';
 import {
   BRAND_TITLE_STYLE,
   getCardHoverProps,
   getGuideSectionCardStyles,
-} from '../constants/styles';
+} from '../../constants/styles';
 
 type DropRate = {
   chance: number;
@@ -524,7 +524,9 @@ export default function MythicSummonCalculator() {
           {...getCardHoverProps({ style: sectionCardStyle })}
         >
           <Stack gap="md">
-            <Title order={2} size="h3">Expected Rewards</Title>
+            <Title order={2} size="h3">
+              Expected Rewards
+            </Title>
             <Text size="sm" c="dimmed">
               Average rewards from your selected summons.
             </Text>
@@ -593,7 +595,9 @@ export default function MythicSummonCalculator() {
 
         <Divider my="md" />
 
-        <Title order={2} size="h3">Drop Rates Reference</Title>
+        <Title order={2} size="h3">
+          Drop Rates Reference
+        </Title>
 
         <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
           <Card
@@ -790,7 +794,9 @@ export default function MythicSummonCalculator() {
           </Card>
         </SimpleGrid>
 
-        <Title order={2} size="h3">Milestone Rewards</Title>
+        <Title order={2} size="h3">
+          Milestone Rewards
+        </Title>
 
         <Card
           withBorder

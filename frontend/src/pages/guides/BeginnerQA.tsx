@@ -15,14 +15,14 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import CharacterTag from '../components/character/CharacterTag';
-import ResourceBadge from '../components/common/ResourceBadge';
+import CharacterTag from '../../components/character/CharacterTag';
+import ResourceBadge from '../../components/common/ResourceBadge';
 import {
   BRAND_TITLE_STYLE,
   getCardHoverProps,
   getGuideSectionCardStyles,
   getMinWidthStyle,
-} from '../constants/styles';
+} from '../../constants/styles';
 
 const FACTION_GIFTS: {
   faction: string;

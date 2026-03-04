@@ -17,13 +17,13 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import ResourceBadge from '../components/common/ResourceBadge';
+import ResourceBadge from '../../components/common/ResourceBadge';
 import {
   BRAND_TITLE_STYLE,
   getCardHoverProps,
   getGuideSectionCardStyles,
   getMinWidthStyle,
-} from '../constants/styles';
+} from '../../constants/styles';
 
 const TARGET_ROWS = [
   {
@@ -182,11 +182,7 @@ export default function ShovelEventGuide() {
               {...getCardHoverProps({ style: sectionCardStyle })}
             >
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                <Table
-                  striped
-                  highlightOnHover
-                  style={getMinWidthStyle(540)}
-                >
+                <Table striped highlightOnHover style={getMinWidthStyle(540)}>
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Target</Table.Th>
@@ -258,11 +254,7 @@ export default function ShovelEventGuide() {
               {...getCardHoverProps({ style: sectionCardStyle })}
             >
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                <Table
-                  striped
-                  highlightOnHover
-                  style={getMinWidthStyle(500)}
-                >
+                <Table striped highlightOnHover style={getMinWidthStyle(500)}>
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Metric</Table.Th>

@@ -38,14 +38,14 @@ import {
   IoStatsChart,
   IoTime,
 } from 'react-icons/io5';
-import { QUALITY_ICON_MAP } from '../assets/quality';
-import StatCard from '../components/common/StatCard';
+import { QUALITY_ICON_MAP } from '../../assets/quality';
+import StatCard from '../../components/common/StatCard';
 import {
   BRAND_TITLE_STYLE,
   getCardHoverProps,
   getGuideSectionCardStyles,
-} from '../constants/styles';
-import { TRANSITION } from '../constants/ui';
+} from '../../constants/styles';
+import { TRANSITION } from '../../constants/ui';
 
 type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
 
