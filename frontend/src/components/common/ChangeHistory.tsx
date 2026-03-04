@@ -39,6 +39,57 @@ interface MergedRecord {
   record: ChangeRecord;
 }
 
+function isRecord(value: unknown): value is Record<string, unknown> {
+  return typeof value === 'object' && value !== null;
+}
+
+function formatDiffValue(value: unknown): string {
+  if (value === null) return 'null';
+  if (value === undefined) return '—';
+  if (typeof value === 'string') return value;
+  if (typeof value === 'number' || typeof value === 'boolean') {
+    return String(value);
+  }
+
+  try {
+    return JSON.stringify(value);
+  } catch {
+    return String(value);
+  }
+}
+
+function extractNestedDiffDetails(value: unknown, pathPrefix = ''): string[] {
+  if (!isRecord(value)) return [];
+
+  const hasOldOrNew = 'old' in value || 'new' in value;
+  if (hasOldOrNew) {
+    const oldVal = (value as Record<string, unknown>).old;
+    const newVal = (value as Record<string, unknown>).new;
+    const label = pathPrefix || 'Value';
+
+    if (oldVal !== undefined && newVal !== undefined) {
+      return [
+        `${label}: ${formatDiffValue(oldVal)} → ${formatDiffValue(newVal)}`,
+      ];
+    }
+    if (newVal !== undefined) {
+      return [`${label}: Added ${formatDiffValue(newVal)}`];
+    }
+    if (oldVal !== undefined) {
+      return [`${label}: Removed ${formatDiffValue(oldVal)}`];
+    }
+    return [];
+  }
+
+  const details: string[] = [];
+  for (const [key, nested] of Object.entries(value)) {
+    const nextPath = pathPrefix ? `${pathPrefix}.${key}` : key;
+    details.push(...extractNestedDiffDetails(nested, nextPath));
+  }
+
+  return details;
+}
+
 function formatTimestamp(ts: number): string {
   const date = new Date(ts * 1000);
   return date.toLocaleDateString('en-US', {
@@ -118,21 +169,34 @@ function summarizeFieldDiff(diff: FieldDiff): {
 
   if (diff.added?.length) details.push(`Added: ${diff.added.join(', ')}`);
   if (diff.removed?.length) details.push(`Removed: ${diff.removed.join(', ')}`);
-  if (diff.modified?.length)
-    details.push(`Updated: ${diff.modified.join(', ')}`);
+  if (diff.modified) {
+    if (Array.isArray(diff.modified) && diff.modified.length) {
+      details.push(`Updated: ${diff.modified.join(', ')}`);
+    } else if (isRecord(diff.modified)) {
+      const updatedItems = Object.keys(diff.modified);
+      if (updatedItems.length > 0) {
+        details.push(`Updated: ${updatedItems.join(', ')}`);
+        for (const [itemKey, nested] of Object.entries(diff.modified)) {
+          details.push(...extractNestedDiffDetails(nested, itemKey));
+        }
+      }
+    }
+  }
 
   if (diff.changed) {
     for (const [key, value] of Object.entries(diff.changed)) {
-      details.push(`${key}: ${value.old} → ${value.new}`);
+      details.push(
+        `${key}: ${formatDiffValue(value.old)} → ${formatDiffValue(value.new)}`
+      );
     }
   }
 
   if (diff.old !== undefined && diff.new !== undefined) {
-    details.push(`${diff.old} → ${diff.new}`);
+    details.push(`${formatDiffValue(diff.old)} → ${formatDiffValue(diff.new)}`);
   } else if (diff.new !== undefined) {
-    details.push(`Added: ${diff.new}`);
+    details.push(`Added: ${formatDiffValue(diff.new)}`);
   } else if (diff.old !== undefined) {
-    details.push(`Removed: ${diff.old}`);
+    details.push(`Removed: ${formatDiffValue(diff.old)}`);
   }
 
   if (details.length === 0) {
@@ -141,7 +205,14 @@ function summarizeFieldDiff(diff: FieldDiff): {
 
   const hasAdd = diff.added?.length || diff.new !== undefined;
   const hasRemove = diff.removed?.length || diff.old !== undefined;
-  const hasUpdate = diff.modified?.length || !!diff.changed;
+  const hasModified = Array.isArray(diff.modified)
+    ? diff.modified.length > 0
+    : !!(
+        diff.modified &&
+        isRecord(diff.modified) &&
+        Object.keys(diff.modified).length
+      );
+  const hasUpdate = hasModified || !!diff.changed;
 
   if (hasAdd && !hasRemove && !hasUpdate) return { kind: 'Added', details };
   if (!hasAdd && hasRemove && !hasUpdate) return { kind: 'Removed', details };
