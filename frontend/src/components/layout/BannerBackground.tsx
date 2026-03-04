@@ -4,6 +4,8 @@ import { getHomeHeroPlaceholderGradient } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
 import { BannerContext } from '../../contexts';
 
+const measuredHeightBySource = new Map<string, number>();
+
 export default function BannerBackground() {
   const isDark = useComputedColorScheme('light') === 'dark';
   const { selectedBanner, bannerLoaded, setBannerLoaded } =
@@ -11,11 +13,22 @@ export default function BannerBackground() {
   const [mediaHeight, setMediaHeight] = useState<number>(0);
   const containerRef = useRef<HTMLDivElement>(null);
 
+  const updateMeasuredHeight = useCallback(
+    (height: number) => {
+      if (height <= 0) return;
+      if (selectedBanner?.src) {
+        measuredHeightBySource.set(selectedBanner.src, height);
+      }
+      setMediaHeight(height);
+    },
+    [selectedBanner?.src]
+  );
+
   const imgRef = useCallback(
     (el: HTMLImageElement | null) => {
       if (!el) return;
       const update = () => {
-        if (el.naturalHeight > 0) setMediaHeight(el.naturalHeight);
+        if (el.naturalHeight > 0) updateMeasuredHeight(el.naturalHeight);
       };
       const markLoaded = () => setBannerLoaded(true);
       if (el.complete) {
@@ -25,14 +38,14 @@ export default function BannerBackground() {
       el.addEventListener('load', update, { once: true });
       el.addEventListener('load', markLoaded, { once: true });
     },
-    [setBannerLoaded]
+    [setBannerLoaded, updateMeasuredHeight]
   );
 
   const videoRef = useCallback(
     (el: HTMLVideoElement | null) => {
       if (!el) return;
       const update = () => {
-        if (el.videoHeight > 0) setMediaHeight(el.videoHeight);
+        if (el.videoHeight > 0) updateMeasuredHeight(el.videoHeight);
       };
       const markLoaded = () => setBannerLoaded(true);
       if (el.readyState >= 1) update();
@@ -40,11 +53,16 @@ export default function BannerBackground() {
       el.addEventListener('loadedmetadata', update, { once: true });
       el.addEventListener('loadeddata', markLoaded, { once: true });
     },
-    [selectedBanner?.src, setBannerLoaded]
+    [selectedBanner?.src, setBannerLoaded, updateMeasuredHeight]
   );
 
   useEffect(() => {
-    setMediaHeight(0);
+    if (!selectedBanner?.src) {
+      setMediaHeight(0);
+      return;
+    }
+    const cachedHeight = measuredHeightBySource.get(selectedBanner.src);
+    setMediaHeight(cachedHeight ?? 0);
   }, [selectedBanner?.src, selectedBanner?.type]);
 
   const height = mediaHeight > 0 ? mediaHeight : 350;
