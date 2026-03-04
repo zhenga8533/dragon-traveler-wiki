@@ -9,7 +9,17 @@
   },
   "Dragon Hunter Helmet": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772631119,
+        "fields": {
+          "lore": {
+            "old": "",
+            "new": "Forged from the remains of a fallen Wyrm, an eternal shame to dragons, but a badge of honor to dragonslayers."
+          }
+        }
+      }
+    ]
   },
   "Flamelord's Helmet": {
     "added": 1772563593,
@@ -25,7 +35,12 @@
   },
   "Pious Biretta": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772631119,
+        "type": "removed"
+      }
+    ]
   },
   "Quenched Helmet": {
     "added": 1772563593,
@@ -437,6 +452,10 @@
   },
   "Traveler's Canteen": {
     "added": 1772563593,
+    "changes": []
+  },
+  "Pious Crown": {
+    "added": 1772631119,
     "changes": []
   }
 }

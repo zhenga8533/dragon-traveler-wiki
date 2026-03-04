@@ -28,12 +28,12 @@
     "set": "Attack",
     "type": "Headgear",
     "quality": "SSR",
-    "lore": "",
+    "lore": "Forged from the remains of a fallen Wyrm, an eternal shame to dragons, but a badge of honor to dragonslayers.",
     "stats": {
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771712675
+    "last_updated": 1772631119
   },
   {
     "name": "Flamelord's Helmet",
@@ -72,16 +72,16 @@
     "last_updated": 1771712675
   },
   {
-    "name": "Pious Biretta",
+    "name": "Pious Crown",
     "set": "Healing",
     "type": "Headgear",
     "quality": "SSR",
-    "lore": "",
+    "lore": "A crown worn by the devoted Priests, who dedicate their lives to others.",
     "stats": {
       "HP": 11810,
       "MDEF": 363
     },
-    "last_updated": 1771712675
+    "last_updated": 1772631119
   },
   {
     "name": "Quenched Helmet",
