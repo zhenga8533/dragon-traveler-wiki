@@ -9,10 +9,6 @@ import {
   type RouteMeta as RouteMetaType,
 } from '../../constants/route-meta';
 
-const KNOWN_ROUTE_PATTERNS = ROUTE_META.filter(
-  ({ pattern }) => pattern !== '*'
-).map(({ pattern }) => pattern);
-
 function upsertMetaTag(
   attr: 'name' | 'property',
   key: string,
@@ -41,17 +37,6 @@ function getRouteMeta(pathname: string): RouteMetaType {
     return explicit.meta;
   }
 
-  const isKnownPage = KNOWN_ROUTE_PATTERNS.some(
-    (pattern) => matchPath({ path: pattern, end: true }, pathname) !== null
-  );
-
-  if (isKnownPage) {
-    return {
-      title: SITE_NAME,
-      description: DEFAULT_DESCRIPTION,
-    };
-  }
-
   const notFound = ROUTE_META.find(({ pattern }) => pattern === '*');
 
   return (
@@ -72,8 +57,7 @@ export default function RouteMeta() {
       routeMeta.title === SITE_NAME
         ? SITE_NAME
         : `${routeMeta.title} | ${SITE_NAME}`;
-    const routePath = pathname === '/' ? '/' : pathname;
-    const pageUrl = `${BASE_URL}${routePath}`;
+    const pageUrl = `${BASE_URL}${pathname}`;
 
     document.title = pageTitle;
     upsertMetaTag('name', 'description', routeMeta.description);

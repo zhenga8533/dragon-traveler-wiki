@@ -76,7 +76,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Howlkins',
       description:
-        'Compare Howlkins and Golden Alliances with ability context and lineup recommendations.',
+        'Browse Howlkins and Golden Alliances with passive abilities, alliance bonuses, and stat progression by membership level.',
     },
   },
   {
@@ -84,7 +84,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Noble Phantasms',
       description:
-        'Browse Noble Phantasms with effects, skill notes, and role-fit recommendations by content type.',
+        'Browse Noble Phantasms with skill counts, lore previews, global availability, and links to their characters.',
     },
   },
   {
@@ -92,7 +92,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Noble Phantasm Details',
       description:
-        'Noble Phantasm deep dive with effects, skill tables, and best-fit character considerations.',
+        'Noble Phantasm deep dive with tier-based effect tables, skill progression by level, and character attribution.',
     },
   },
   {
@@ -100,7 +100,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Resources',
       description:
-        'Track resource types with sources and practical progression priorities to accelerate account growth.',
+        'Search and filter game resources by category and quality, with descriptions covering each item\'s purpose and use.',
     },
   },
   {
@@ -124,7 +124,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Wyrmspells',
       description:
-        'Browse Wyrmspells with effect details and pairing ideas for strong PvE performance.',
+        'Browse Wyrmspells with quality, type, faction exclusivity, global availability, and max-quality effect descriptions.',
     },
   },
   {
@@ -132,7 +132,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Tier List',
       description:
-        'View curated tier lists with role-based rankings and context to guide your upgrade priorities.',
+        'View and build tier lists with content-type rankings, filterable character grids, and upgrade priority context.',
     },
   },
   {
@@ -140,7 +140,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Teams',
       description:
-        'Explore curated teams with composition goals, synergy notes, and progression-focused alternatives.',
+        'Browse and build teams with faction and content-type filters, synergy scoring, and character roster details.',
     },
   },
   {
@@ -188,7 +188,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Beginner Q&A Guide',
       description:
-        'Beginner-first FAQ with practical advice for early progression, spending priorities, and common mistakes.',
+        'Translated beginner guide covering summoning priorities, diamond spending, progression mechanics, events, guild tips, and affection gifts.',
     },
   },
   {
