@@ -301,7 +301,12 @@
   },
   "Equilibirum": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772642613,
+        "type": "removed"
+      }
+    ]
   },
   "Exile": {
     "added": 1772563593,
@@ -389,6 +394,10 @@
   },
   "Sigil of Radiance": {
     "added": 1772634281,
+    "changes": []
+  },
+  "Equalize": {
+    "added": 1772642613,
     "changes": []
   }
 }

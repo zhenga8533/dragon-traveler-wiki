@@ -601,7 +601,7 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "After dealing damage, applies 1 stack of [Commander's Intimidation], reducing the target's damage dealt to the caster by 8% for 8s. Stacks up to 5 times.\nWhen any enemy reaches 5 stacks of [Commander's Intimidation], enters [Momentum Burst], gaining bonus Attack equal to 8.5% of Max HP for 8s."
+          "effect": "After dealing damage, applies 1 stack of [Commander's Intimidation], reducing the target's damage dealt to the caster by 8% for 8s. Stacks up to 5 times.\nWhen any enemy reaches 5 stacks of [Commander's Intimidation], enters [Momentum Burst], gaining bonus Attack equal to 7% of Max HP for 8s."
         },
         {
           "level": 2,
@@ -625,25 +625,25 @@
       {
         "name": "Dominion Slash - Intimidate",
         "type": "Overdrive",
-        "description": "Pulls a single enemy into the line of fire and delivers a brutal slash, dealing physical damage equal to 800% of Attack. Damage is increased by 20% for each stack of [Commander's Intimidation] on the traget. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, applies 2 additional stacks of [Commander's Intimidation] to the target before dealing damage.",
+        "description": "Pulls a single enemy into the line of fire and delivers a brutal slash, dealing physical damage equal to 680% of Attack. Damage is increased by 20% for each stack of [Commander's Intimidation] on the traget. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, applies 2 additional stacks of [Commander's Intimidation] to the target before dealing damage.",
         "cooldown": 20
       },
       {
         "name": "Ironclad Surge",
         "type": "Ultimate Skill",
-        "description": "Deals physical damage equal to 300% of Attack to enemies within a large circular area. Recovers HP equal to 90% of Attack + 8% of lost HP for each target hit.",
+        "description": "Deals physical damage equal to 240% of Attack to enemies within a large circular area. Recovers HP equal to 60% of Attack + 8% of lost HP for each target hit.",
         "cooldown": 12
       },
       {
         "name": "Battleborn of Slaughter",
         "type": "Secret Skill",
-        "description": "In battle, increases HP by 13%. Gains [Awakening] when an ally unleashes an Overdrive. While possessing [Awakening], consumes it to cast [Ironclad Surge] an additional time.",
+        "description": "In battle, increases HP by 10%. Gains [Awakening] when an ally unleashes an Overdrive. While possessing [Awakening], consumes it to cast [Ironclad Surge] an additional time.",
         "cooldown": 0
       },
       {
         "name": "Crimson Onslaught",
         "type": "Special Skill",
-        "description": "Whenever an enemy with 5 stacks of [Commander's Intimidation] dies, immediately gains a shield equal to 28% of Max HP for 6s and resets the cooldown of [Dominion Slash - Intimidate].",
+        "description": "Whenever an enemy with 5 stacks of [Commander's Intimidation] dies, immediately gains a shield equal to 22% of Max HP for 6s and resets the cooldown of [Dominion Slash - Intimidate].",
         "cooldown": 0
       },
       {
@@ -665,7 +665,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1772642613
   },
   {
     "name": "Salome",
@@ -1682,7 +1682,7 @@
       {
         "name": "Heavensong",
         "type": "Overdrive",
-        "description": "[Equilibirum] Increases the HP of all allied units, then restores all allied units to 25% of their maximum HP. Whenever another allied Luminary is affected by [Stun] or [Silence], reduces the energy cost of the user's next ultimate skill by 1.",
+        "description": "[Equalize] the HP of all allies, then restores 31% of their Max HP.\nWhenever [Stun] or [Silence] are applied to other Luminaries, reduces the Energy Cost of the next Overdrive by 1.",
         "cooldown": 20
       },
       {
@@ -1722,7 +1722,7 @@
     "recommended_subclasses": [
       "High Priest"
     ],
-    "last_updated": 1771993396
+    "last_updated": 1772642613
   },
   {
     "name": "Morgana",

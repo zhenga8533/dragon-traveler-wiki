@@ -84,6 +84,49 @@
             "new": "Roman Civilization"
           }
         }
+      },
+      {
+        "timestamp": 1772642613,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Battleborn of Slaughter": {
+                "description": {
+                  "old": "In battle, increases HP by 13%. Gains [Awakening] when an ally unleashes an Overdrive. While possessing [Awakening], consumes it to cast [Ironclad Surge] an additional time.",
+                  "new": "In battle, increases HP by 10%. Gains [Awakening] when an ally unleashes an Overdrive. While possessing [Awakening], consumes it to cast [Ironclad Surge] an additional time."
+                }
+              },
+              "Crimson Onslaught": {
+                "description": {
+                  "old": "Whenever an enemy with 5 stacks of [Commander's Intimidation] dies, immediately gains a shield equal to 28% of Max HP for 6s and resets the cooldown of [Dominion Slash - Intimidate].",
+                  "new": "Whenever an enemy with 5 stacks of [Commander's Intimidation] dies, immediately gains a shield equal to 22% of Max HP for 6s and resets the cooldown of [Dominion Slash - Intimidate]."
+                }
+              },
+              "Dominion Slash - Intimidate": {
+                "description": {
+                  "old": "Pulls a single enemy into the line of fire and delivers a brutal slash, dealing physical damage equal to 800% of Attack. Damage is increased by 20% for each stack of [Commander's Intimidation] on the traget. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, applies 2 additional stacks of [Commander's Intimidation] to the target before dealing damage.",
+                  "new": "Pulls a single enemy into the line of fire and delivers a brutal slash, dealing physical damage equal to 680% of Attack. Damage is increased by 20% for each stack of [Commander's Intimidation] on the traget. This skill can trigger the [Punishment] effect. When [Punishment] is triggered, applies 2 additional stacks of [Commander's Intimidation] to the target before dealing damage."
+                }
+              },
+              "Ironclad Surge": {
+                "description": {
+                  "old": "Deals physical damage equal to 300% of Attack to enemies within a large circular area. Recovers HP equal to 90% of Attack + 8% of lost HP for each target hit.",
+                  "new": "Deals physical damage equal to 240% of Attack to enemies within a large circular area. Recovers HP equal to 60% of Attack + 8% of lost HP for each target hit."
+                }
+              }
+            }
+          },
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "1": {
+                  "old": "After dealing damage, applies 1 stack of [Commander's Intimidation], reducing the target's damage dealt to the caster by 8% for 8s. Stacks up to 5 times.\nWhen any enemy reaches 5 stacks of [Commander's Intimidation], enters [Momentum Burst], gaining bonus Attack equal to 8.5% of Max HP for 8s.",
+                  "new": "After dealing damage, applies 1 stack of [Commander's Intimidation], reducing the target's damage dealt to the caster by 8% for 8s. Stacks up to 5 times.\nWhen any enemy reaches 5 stacks of [Commander's Intimidation], enters [Momentum Burst], gaining bonus Attack equal to 7% of Max HP for 8s."
+                }
+              }
+            }
+          }
+        }
       }
     ]
   },
@@ -229,7 +272,23 @@
   },
   "Venus__SSR EX": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772642613,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Heavensong": {
+                "description": {
+                  "old": "[Equilibirum] Increases the HP of all allied units, then restores all allied units to 25% of their maximum HP. Whenever another allied Luminary is affected by [Stun] or [Silence], reduces the energy cost of the user's next ultimate skill by 1.",
+                  "new": "[Equalize] the HP of all allies, then restores 31% of their Max HP.\nWhenever [Stun] or [Silence] are applied to other Luminaries, reduces the Energy Cost of the next Overdrive by 1."
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Morgana__SSR+": {
     "added": 1772563593,

@@ -525,11 +525,11 @@
     "last_updated": 1771993396
   },
   {
-    "name": "Equilibirum",
+    "name": "Equalize",
     "type": "Exclusive",
-    "effect": "Resets the target's health percentage to the current team's average health percentage, unaffected by healing effects.",
+    "effect": "Sets the target's HP percentage to the team's current average HP percentage. Unaffected by healing effects.",
     "remark": "",
-    "last_updated": 1771374946
+    "last_updated": 1772642613
   },
   {
     "name": "Exile",
