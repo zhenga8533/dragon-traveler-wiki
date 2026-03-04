@@ -13,10 +13,12 @@ import {
   Tabs,
   Text,
   Title,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { IoCreate, IoFilter } from 'react-icons/io5';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { toPng } from 'html-to-image';
+import { IoCreate, IoDownload, IoFilter } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterCard from '../components/character/CharacterCard';
 import CharacterPortrait from '../components/character/CharacterPortrait';
@@ -89,6 +91,9 @@ export default function TierList() {
     storageKey: STORAGE_KEY.TIER_LIST_VIEW_MODE,
     defaultMode: 'grid',
   });
+  const [isCapturingTierList, setIsCapturingTierList] = useState<string | null>(null);
+  const exportRefs = useRef<Map<string, HTMLDivElement>>(new Map());
+  const isDark = useComputedColorScheme('light') === 'dark';
   const loading = loadingTiers || loadingChars;
   const error = tierListsError || charactersError;
 
@@ -198,6 +203,29 @@ export default function TierList() {
       return true;
     });
   }, [tierLists, search, viewFilters]);
+
+  useEffect(() => {
+    if (!isCapturingTierList) return;
+    const el = exportRefs.current.get(isCapturingTierList);
+    if (!el) return;
+    const name = isCapturingTierList;
+    const run = async () => {
+      try {
+        const dataUrl = await toPng(el, {
+          backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
+          pixelRatio: 2,
+        });
+        const link = document.createElement('a');
+        link.download = `${name.replace(/\s+/g, '_')}.png`;
+        link.href = dataUrl;
+        link.click();
+      } finally {
+        setIsCapturingTierList(null);
+      }
+    };
+    run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCapturingTierList]);
 
   return (
     <Container size="lg" py="xl">
@@ -397,9 +425,25 @@ export default function TierList() {
                                 >
                                   Edit
                                 </Button>
+                                <Button
+                                  variant="light"
+                                  size="compact-xs"
+                                  leftSection={<IoDownload size={12} />}
+                                  loading={isCapturingTierList === tierList.name}
+                                  onClick={() => setIsCapturingTierList(tierList.name)}
+                                >
+                                  Export Image
+                                </Button>
                               </Group>
                             </Stack>
 
+                            <div
+                              ref={(node) => {
+                                if (node) exportRefs.current.set(tierList.name, node);
+                                else exportRefs.current.delete(tierList.name);
+                              }}
+                            >
+                            <Stack gap="md">
                             {byTier.map(
                               ({ tier, tierIndex, note, entries }) => {
                                 const tierNote = note?.trim() || '';
@@ -623,6 +667,8 @@ export default function TierList() {
                                 );
                               }
                             )}
+                            </Stack>
+                            </div>
 
                             {unranked.length > 0 && (
                               <CollapsibleSectionCard
@@ -793,6 +839,7 @@ export default function TierList() {
           }}
         />
       </Stack>
+
     </Container>
   );
 }

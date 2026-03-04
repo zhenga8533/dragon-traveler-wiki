@@ -18,13 +18,16 @@ import {
   Text,
   Textarea,
   TextInput,
+  useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { toPng } from 'html-to-image';
 import {
   useCallback,
   useDeferredValue,
   useEffect,
   useMemo,
+  useRef,
   useState,
 } from 'react';
 import { createPortal } from 'react-dom';
@@ -33,6 +36,7 @@ import {
   IoCheckmark,
   IoClipboardOutline,
   IoCopy,
+  IoDownload,
   IoOpenOutline,
   IoSwapVertical,
   IoTrash,
@@ -84,6 +88,7 @@ import {
   normalizeNote,
   normalizeTierListFromPartial,
 } from './utils';
+import { TierListExportView, type TierExportRow } from './ExportView';
 
 interface TierPlacements {
   [tier: string]: string[]; // tier -> ordered array of character identity keys
@@ -128,6 +133,9 @@ export default function TierListBuilder({
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
   const [draftHydrated, setDraftHydrated] = useState(false);
+  const [isCapturing, setIsCapturing] = useState(false);
+  const exportRef = useRef<HTMLDivElement>(null);
+  const isDark = useComputedColorScheme('light') === 'dark';
   const characterNameCounts = useMemo(
     () => buildCharacterNameCounts(characters),
     [characters]
@@ -342,6 +350,52 @@ export default function TierListBuilder({
     window.localStorage.setItem(STORAGE_KEY.TIER_LIST_BUILDER_DRAFT, json);
   }, [draftHydrated, json]);
 
+  const tierExportRows = useMemo<TierExportRow[]>(
+    () =>
+      tierDefs
+        .map((tierDef, index) => ({
+          tier: tierDef.name,
+          tierIndex: index,
+          note: tierDef.note,
+          entries: (placements[tierDef.name] || []).map((characterKey) => {
+            const char = getCharacterFromKey(characterKey);
+            const isDuplicate =
+              char &&
+              (characterNameCounts.get(getCharacterBaseSlug(char.name)) ?? 1) > 1;
+            return {
+              characterName: char?.name ?? characterKey,
+              characterQuality: char?.quality ?? null,
+              label: isDuplicate && char ? `${char.name} (${char.quality})` : undefined,
+            };
+          }),
+        }))
+        .filter((row) => row.entries.length > 0),
+    [tierDefs, placements, getCharacterFromKey, characterNameCounts]
+  );
+
+  useEffect(() => {
+    if (!isCapturing) return;
+    const el = exportRef.current;
+    if (!el) return;
+    const run = async () => {
+      await new Promise((r) => setTimeout(r, 150));
+      try {
+        const dataUrl = await toPng(el, {
+          backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
+          pixelRatio: 2,
+        });
+        const link = document.createElement('a');
+        link.download = `${(name || 'tier-list').replace(/\s+/g, '_')}.png`;
+        link.href = dataUrl;
+        link.click();
+      } finally {
+        setIsCapturing(false);
+      }
+    };
+    run();
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [isCapturing]);
+
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);
   }
@@ -543,6 +597,7 @@ export default function TierListBuilder({
   }
 
   return (
+    <>
     <DndContext
       sensors={sensors}
       onDragStart={handleDragStart}
@@ -616,6 +671,16 @@ export default function TierListBuilder({
             </Button>
           </Group>
           <Group gap="sm" wrap="wrap">
+            <Button
+              variant="light"
+              size="sm"
+              leftSection={<IoDownload size={16} />}
+              onClick={() => setIsCapturing(true)}
+              loading={isCapturing}
+              disabled={!hasAnyPlaced}
+            >
+              Export Image
+            </Button>
             <Button
               variant="light"
               size="sm"
@@ -883,5 +948,25 @@ export default function TierListBuilder({
         }}
       />
     </DndContext>
+
+    {isCapturing && (
+      <div aria-hidden="true" style={{ position: 'fixed', top: 0, left: 0, opacity: 0, pointerEvents: 'none' }}>
+        <Box
+          ref={exportRef}
+          style={{
+            width: 900,
+            backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
+            padding: 16,
+          }}
+        >
+          <TierListExportView
+            tierListName={name || 'My Tier List'}
+            author={author || undefined}
+            tierRows={tierExportRows}
+          />
+        </Box>
+      </div>
+    )}
+    </>
   );
 }
