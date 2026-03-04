@@ -15,6 +15,11 @@ import { getCardHoverProps } from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { Team, TeamMemberPosition } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
+import {
+  getTeamBenchEntryName,
+  getTeamBenchEntryNote,
+  getTeamBenchEntryQuality,
+} from '../../utils/team-bench';
 
 interface CharacterReferenceSectionProps {
   character: Character;
@@ -73,7 +78,10 @@ export default function CharacterReferenceSection({
     for (const team of teams) {
       const member =
         team.members.find(
-          (entry) => entry.character_name.toLowerCase() === name
+          (entry) =>
+            entry.character_name.toLowerCase() === name &&
+            (!entry.character_quality ||
+              entry.character_quality === character.quality)
         ) ?? null;
 
       if (member) {
@@ -88,17 +96,21 @@ export default function CharacterReferenceSection({
         });
       }
 
-      const benchName =
-        team.bench?.find((entry) => entry.toLowerCase() === name) ?? null;
+      const benchEntry =
+        team.bench?.find((entry) => {
+          const benchName = getTeamBenchEntryName(entry).toLowerCase();
+          const benchQuality = getTeamBenchEntryQuality(entry);
+          return (
+            benchName === name &&
+            (!benchQuality || benchQuality === character.quality)
+          );
+        }) ?? null;
 
-      if (!benchName) {
+      if (!benchEntry) {
         continue;
       }
 
-      const benchNote =
-        Object.entries(team.bench_notes ?? {}).find(
-          ([key]) => key.toLowerCase() === benchName.toLowerCase()
-        )?.[1] ?? null;
+      const benchNote = getTeamBenchEntryNote(benchEntry) ?? null;
 
       results.push({
         teamName: team.name,

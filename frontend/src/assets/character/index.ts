@@ -76,7 +76,7 @@ for (const [path, module] of Object.entries(portraitModules)) {
   // path is like "./fenrir/portrait.png"
   const match = path.match(/\.\/([^/]+)\/portrait\.png$/);
   if (match) {
-    portraits.set(match[1], module.default);
+    portraits.set(normalizeKey(match[1]), module.default);
   }
 }
 
@@ -86,10 +86,11 @@ for (const [path, loader] of Object.entries(illustrationModules)) {
   const match = path.match(/\.\/([^/]+)\/illustrations\/([^/]+)\.(png|mp4)$/);
   if (match) {
     const [, charKey, illustrationName, extension] = match;
-    if (!illustrationLoaders.has(charKey)) {
-      illustrationLoaders.set(charKey, []);
+    const normalizedCharKey = normalizeKey(charKey);
+    if (!illustrationLoaders.has(normalizedCharKey)) {
+      illustrationLoaders.set(normalizedCharKey, []);
     }
-    illustrationLoaders.get(charKey)!.push({
+    illustrationLoaders.get(normalizedCharKey)!.push({
       name: formatIllustrationName(illustrationName),
       loader: loader as () => Promise<{ default: string }>,
       type: extension === 'mp4' ? 'video' : 'image',
@@ -102,7 +103,10 @@ for (const [path, loader] of Object.entries(talentModules)) {
   // path is like "./fenrir/talent.png"
   const match = path.match(/\.\/([^/]+)\/talent\.png$/);
   if (match) {
-    talentLoaders.set(match[1], loader as () => Promise<{ default: string }>);
+    talentLoaders.set(
+      normalizeKey(match[1]),
+      loader as () => Promise<{ default: string }>
+    );
   }
 }
 
@@ -112,12 +116,16 @@ for (const [path, loader] of Object.entries(skillModules)) {
   const match = path.match(/\.\/([^/]+)\/skills\/([^/]+)\.png$/);
   if (match) {
     const [, charKey, skillName] = match;
-    if (!skillLoaders.has(charKey)) {
-      skillLoaders.set(charKey, new Map());
+    const normalizedCharKey = normalizeKey(charKey);
+    if (!skillLoaders.has(normalizedCharKey)) {
+      skillLoaders.set(normalizedCharKey, new Map());
     }
     skillLoaders
-      .get(charKey)!
-      .set(skillName, loader as () => Promise<{ default: string }>);
+      .get(normalizedCharKey)!
+      .set(
+        normalizeKey(skillName),
+        loader as () => Promise<{ default: string }>
+      );
   }
 }
 

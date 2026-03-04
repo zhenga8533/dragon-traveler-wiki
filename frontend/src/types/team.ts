@@ -15,6 +15,12 @@ export interface TeamMember {
   position?: TeamMemberPosition;
 }
 
+export interface TeamBenchMember {
+  character_name: string;
+  character_quality?: Quality;
+  note?: string;
+}
+
 export interface TeamWyrmspells {
   breach?: string;
   refuge?: string;
@@ -29,8 +35,7 @@ export interface Team {
   description: string;
   faction: FactionName;
   members: TeamMember[];
-  bench?: string[];
-  bench_notes?: Record<string, string>;
+  bench?: TeamBenchMember[];
   wyrmspells?: TeamWyrmspells;
   last_updated: number;
 }

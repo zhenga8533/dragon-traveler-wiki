@@ -72,6 +72,7 @@ export default function FeaturedCharactersMarquee() {
         charMap,
         characterByIdentity
       );
+      const resolvedName = char?.name ?? entry.character_name;
       return (
         <Stack
           key={`${keyPrefix}-${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
@@ -81,7 +82,7 @@ export default function FeaturedCharactersMarquee() {
           style={{ flexShrink: 0, width: 90 }}
         >
           <CharacterCard
-            name={entry.character_name}
+            name={resolvedName}
             quality={char?.quality}
             size={64}
             routePath={

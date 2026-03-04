@@ -9,7 +9,7 @@ const icons = new Map<string, string>();
 for (const [path, module] of Object.entries(iconModules)) {
   const match = path.match(/\/([^/]+)\.png$/);
   if (match) {
-    icons.set(match[1].toLowerCase(), module.default);
+    icons.set(normalizeKey(match[1]), module.default);
   }
 }
 

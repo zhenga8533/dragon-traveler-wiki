@@ -7,6 +7,51 @@ const QUALITY_RANK = new Map<Quality, number>(
   QUALITY_ORDER.map((quality, index) => [quality, index])
 );
 
+function normalizeCharacterNameKey(value: string): string {
+  return value.trim().toLowerCase();
+}
+
+function shouldPreferCandidate(
+  existing: Character,
+  candidate: Character
+): boolean {
+  const existingRank =
+    QUALITY_RANK.get(existing.quality) ?? Number.MAX_SAFE_INTEGER;
+  const candidateRank =
+    QUALITY_RANK.get(candidate.quality) ?? Number.MAX_SAFE_INTEGER;
+
+  if (candidateRank < existingRank) {
+    return true;
+  }
+
+  if (candidateRank === existingRank) {
+    const existingUpdated = existing.last_updated ?? 0;
+    const candidateUpdated = candidate.last_updated ?? 0;
+    return candidateUpdated > existingUpdated;
+  }
+
+  return false;
+}
+
+function getPreferredCharacterByName(
+  name: string,
+  preferredByName: Map<string, Character>
+): Character | undefined {
+  const exact = preferredByName.get(name);
+  if (exact) return exact;
+
+  const trimmed = name.trim();
+  if (trimmed !== name) {
+    const trimmedMatch = preferredByName.get(trimmed);
+    if (trimmedMatch) return trimmedMatch;
+  }
+
+  const normalized = normalizeCharacterNameKey(trimmed);
+  if (!normalized) return undefined;
+
+  return preferredByName.get(normalized);
+}
+
 function normalizeQualitySuffix(value: string): string {
   return value
     .trim()
@@ -71,27 +116,16 @@ export function buildPreferredCharacterByNameMap(
   const map = new Map<string, Character>();
 
   for (const candidate of characters) {
-    const existing = map.get(candidate.name);
-    if (!existing) {
-      map.set(candidate.name, candidate);
-      continue;
-    }
+    const keys = new Set([
+      candidate.name,
+      normalizeCharacterNameKey(candidate.name),
+    ]);
 
-    const existingRank =
-      QUALITY_RANK.get(existing.quality) ?? Number.MAX_SAFE_INTEGER;
-    const candidateRank =
-      QUALITY_RANK.get(candidate.quality) ?? Number.MAX_SAFE_INTEGER;
-
-    if (candidateRank < existingRank) {
-      map.set(candidate.name, candidate);
-      continue;
-    }
-
-    if (candidateRank === existingRank) {
-      const existingUpdated = existing.last_updated ?? 0;
-      const candidateUpdated = candidate.last_updated ?? 0;
-      if (candidateUpdated > existingUpdated) {
-        map.set(candidate.name, candidate);
+    for (const key of keys) {
+      if (!key) continue;
+      const existing = map.get(key);
+      if (!existing || shouldPreferCandidate(existing, candidate)) {
+        map.set(key, candidate);
       }
     }
   }
@@ -114,7 +148,10 @@ export function getCharacterByReferenceKey(
   preferredByName: Map<string, Character>,
   byIdentity: Map<string, Character>
 ): Character | undefined {
-  return byIdentity.get(characterKey) ?? preferredByName.get(characterKey);
+  return (
+    byIdentity.get(characterKey) ??
+    getPreferredCharacterByName(characterKey, preferredByName)
+  );
 }
 
 export function resolveCharacterReferenceKey(
@@ -129,10 +166,13 @@ export function resolveCharacterReferenceKey(
     return exactKey;
   }
 
-  const preferred = preferredByName.get(name);
+  const preferred = getPreferredCharacterByName(name, preferredByName);
   if (preferred) return getCharacterIdentityKey(preferred);
 
-  const first = characters.find((character) => character.name === name);
+  const normalizedName = normalizeCharacterNameKey(name);
+  const first = characters.find(
+    (character) => normalizeCharacterNameKey(character.name) === normalizedName
+  );
   if (first) return getCharacterIdentityKey(first);
 
   return exactKey;
@@ -170,7 +210,7 @@ export function resolveCharacterByNameAndQuality(
   const identity = getCharacterIdentityKey(name, quality ?? '');
   const exact = byIdentity.get(identity);
   if (exact) return exact;
-  return preferredByName.get(name) ?? null;
+  return getPreferredCharacterByName(name, preferredByName) ?? null;
 }
 
 export interface CharacterRouteMatch {

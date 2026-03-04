@@ -19,7 +19,7 @@ for (const [path, module] of Object.entries(artifactModules)) {
   // path is like "./sisyphus_monolith/artifact.png"
   const match = path.match(/\.\/([^/]+)\/artifact\.png$/);
   if (match) {
-    artifactIcons.set(match[1], module.default);
+    artifactIcons.set(normalizeKey(match[1]), module.default);
   }
 }
 
@@ -28,7 +28,10 @@ for (const [path, module] of Object.entries(treasureModules)) {
   const match = path.match(/\.\/([^/]+)\/treasures\/([^/]+)\.png$/);
   if (match) {
     const [, artifactKey, treasureKey] = match;
-    treasureIcons.set(`${artifactKey}/${treasureKey}`, module.default);
+    treasureIcons.set(
+      `${normalizeKey(artifactKey)}/${normalizeKey(treasureKey)}`,
+      module.default
+    );
   }
 }
 

@@ -21,6 +21,12 @@ class TeamMember(BaseModel):
     position: TeamMemberPosition | None = None
 
 
+class TeamBenchMember(BaseModel):
+    character_name: str
+    character_quality: Quality | None = None
+    note: str | None = None
+
+
 class TeamWyrmspells(BaseModel):
     breach: str | None = None
     refuge: str | None = None
@@ -35,8 +41,7 @@ class Team(BaseModel):
     description: str
     faction: FactionName
     members: list[TeamMember]
-    bench: list[str] | None = None
-    bench_notes: dict[str, str] | None = None
+    bench: list[TeamBenchMember] | None = None
     wyrmspells: TeamWyrmspells | None = None
 
     @field_validator("content_type", mode="before")
@@ -59,3 +64,20 @@ class Team(BaseModel):
         if len(v) < 1 or len(v) > 6:
             raise ValueError("A team must have between 1 and 6 members")
         return v
+
+    @field_validator("bench", mode="before")
+    @classmethod
+    def normalize_bench_entries(cls, v):
+        if v is None:
+            return None
+        if not isinstance(v, list):
+            raise ValueError("bench must be an array")
+
+        normalized = []
+        for entry in v:
+            if isinstance(entry, str):
+                normalized.append({"character_name": entry})
+                continue
+            normalized.append(entry)
+
+        return normalized

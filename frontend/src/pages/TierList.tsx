@@ -506,6 +506,9 @@ export default function TierList() {
                                                   : getCharacterRoutePathByName(
                                                       entry.character_name
                                                     );
+                                                const resolvedName =
+                                                  char?.name ??
+                                                  entry.character_name;
                                                 const entryNote =
                                                   entry.note?.trim() || '';
                                                 return (
@@ -518,9 +521,7 @@ export default function TierList() {
                                                         wrap="nowrap"
                                                       >
                                                         <CharacterPortrait
-                                                          name={
-                                                            entry.character_name
-                                                          }
+                                                          name={resolvedName}
                                                           size={32}
                                                           quality={
                                                             char?.quality
@@ -534,8 +535,7 @@ export default function TierList() {
                                                           fw={500}
                                                           c="violet"
                                                         >
-                                                          {char?.name ??
-                                                            entry.character_name}
+                                                          {resolvedName}
                                                         </Text>
                                                       </Group>
                                                     </Table.Td>

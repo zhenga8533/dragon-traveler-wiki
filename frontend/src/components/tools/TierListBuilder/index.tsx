@@ -665,7 +665,11 @@ export default function TierListBuilder({
             >
               {names.map((n) => {
                 const character = getCharacterFromKey(n);
-                const isDuplicate = character && (characterNameCounts.get(getCharacterBaseSlug(character.name)) ?? 1) > 1;
+                const isDuplicate =
+                  character &&
+                  (characterNameCounts.get(
+                    getCharacterBaseSlug(character.name)
+                  ) ?? 1) > 1;
                 return (
                   <Box
                     key={n}
@@ -673,11 +677,16 @@ export default function TierListBuilder({
                   >
                     <DraggableCharCard
                       name={character?.name ?? n}
-                      label={isDuplicate && character ? `${character.name} (${character.quality})` : undefined}
+                      label={
+                        isDuplicate && character
+                          ? `${character.name} (${character.quality})`
+                          : undefined
+                      }
                       charKey={n}
                       char={character}
                       tier={tier}
                       size={isMobile ? 56 : undefined}
+                      nameCounts={characterNameCounts}
                     />
                     <CharacterNoteButton
                       value={notes[n] || ''}
@@ -749,7 +758,9 @@ export default function TierListBuilder({
               paginationControl={paginationControl}
             >
               {filtered.map((c) => {
-                const isDuplicate = (characterNameCounts.get(getCharacterBaseSlug(c.name)) ?? 1) > 1;
+                const isDuplicate =
+                  (characterNameCounts.get(getCharacterBaseSlug(c.name)) ?? 1) >
+                  1;
                 return (
                   <DraggableCharCard
                     key={getCharacterIdentityKey(c)}
@@ -758,6 +769,7 @@ export default function TierListBuilder({
                     charKey={getCharacterIdentityKey(c)}
                     char={c}
                     size={isMobile ? 56 : undefined}
+                    nameCounts={characterNameCounts}
                   />
                 );
               })}
@@ -769,19 +781,30 @@ export default function TierListBuilder({
       {typeof document !== 'undefined'
         ? createPortal(
             <DragOverlay dropAnimation={null}>
-              {activeId ? (() => {
-                const activeChar = getCharacterFromKey(activeId);
-                const isDuplicate = activeChar && (characterNameCounts.get(getCharacterBaseSlug(activeChar.name)) ?? 1) > 1;
-                return (
-                  <DraggableCharCard
-                    name={activeChar?.name ?? activeId}
-                    label={isDuplicate && activeChar ? `${activeChar.name} (${activeChar.quality})` : undefined}
-                    charKey={activeId}
-                    char={activeChar}
-                    overlay
-                  />
-                );
-              })() : null}
+              {activeId
+                ? (() => {
+                    const activeChar = getCharacterFromKey(activeId);
+                    const isDuplicate =
+                      activeChar &&
+                      (characterNameCounts.get(
+                        getCharacterBaseSlug(activeChar.name)
+                      ) ?? 1) > 1;
+                    return (
+                      <DraggableCharCard
+                        name={activeChar?.name ?? activeId}
+                        label={
+                          isDuplicate && activeChar
+                            ? `${activeChar.name} (${activeChar.quality})`
+                            : undefined
+                        }
+                        charKey={activeId}
+                        char={activeChar}
+                        overlay
+                        nameCounts={characterNameCounts}
+                      />
+                    );
+                  })()
+                : null}
             </DragOverlay>,
             document.body
           )

@@ -33,7 +33,10 @@ import {
 } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
-import { getCharacterBaseSlug } from '../../../utils/character-route';
+import {
+  getCharacterBaseSlug,
+  getCharacterRoutePath,
+} from '../../../utils/character-route';
 import CharacterCard from '../../character/CharacterCard';
 import CharacterNoteButton from '../CharacterNoteButton';
 import {
@@ -202,9 +205,14 @@ export function DraggableCharCard({
 
   const resolvedLabel =
     label ??
-    (char && nameCounts && (nameCounts.get(getCharacterBaseSlug(char.name)) ?? 1) > 1
+    (char &&
+    nameCounts &&
+    (nameCounts.get(getCharacterBaseSlug(char.name)) ?? 1) > 1
       ? `${char.name} (${char.quality})`
       : undefined);
+
+  const routePath =
+    char && nameCounts ? getCharacterRoutePath(char, nameCounts) : undefined;
 
   return (
     <div
@@ -219,6 +227,7 @@ export function DraggableCharCard({
         quality={char?.quality}
         disableLink
         size={size}
+        routePath={routePath}
       />
     </div>
   );

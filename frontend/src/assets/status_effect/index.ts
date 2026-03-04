@@ -11,7 +11,7 @@ for (const [path, module] of Object.entries(iconModules)) {
   // Match e.g. ./buff/attack_boost.png → attack_boost
   const match = path.match(/\.\/[^/]+\/(.+)\.png$/);
   if (match) {
-    icons.set(match[1], module.default);
+    icons.set(normalizeKey(match[1]), module.default);
   }
 }
 

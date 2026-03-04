@@ -65,6 +65,11 @@ import {
   shouldRedirectToEntitySlug,
   toEntitySlug,
 } from '../utils/entity-slug';
+import {
+  getTeamBenchEntryName,
+  getTeamBenchEntryNote,
+  getTeamBenchEntryQuality,
+} from '../utils/team-bench';
 import { computeTeamSynergy } from '../utils/team-synergy';
 
 export default function TeamPage() {
@@ -553,13 +558,24 @@ export default function TeamPage() {
                   </Badge>
                 </Group>
                 <SimpleGrid cols={{ base: 2, sm: 3, md: 4 }} spacing="sm">
-                  {team.bench.map((benchName) => {
-                    const char = charMap.get(benchName);
-                    const routePath = getCharacterPath(benchName);
-                    const benchNote = team.bench_notes?.[benchName]?.trim();
+                  {team.bench.map((benchEntry) => {
+                    const benchName = getTeamBenchEntryName(benchEntry);
+                    const benchQuality = getTeamBenchEntryQuality(benchEntry);
+                    const char = resolveCharacterByNameAndQuality(
+                      benchName,
+                      benchQuality,
+                      charMap,
+                      characterByIdentity
+                    );
+                    const routePath = getCharacterPath(benchName, benchQuality);
+                    const resolvedName = char?.name ?? benchName;
+                    const resolvedLabel = char?.quality
+                      ? `${resolvedName} (${char.quality})`
+                      : resolvedName;
+                    const benchNote = getTeamBenchEntryNote(benchEntry);
                     return (
                       <Paper
-                        key={benchName}
+                        key={`${benchName}-${benchQuality ?? ''}`}
                         p="sm"
                         radius="md"
                         withBorder
@@ -572,11 +588,11 @@ export default function TeamPage() {
                         <Stack gap={6} align="center">
                           <Box pos="relative">
                             <Tooltip
-                              label={`View ${benchName}`}
+                              label={`View ${resolvedLabel}`}
                               {...tooltipProps}
                             >
                               <CharacterPortrait
-                                name={benchName}
+                                name={resolvedName}
                                 size={72}
                                 quality={char?.quality}
                                 borderWidth={3}
@@ -596,7 +612,7 @@ export default function TeamPage() {
                             style={{ textDecoration: 'none' }}
                             lineClamp={1}
                           >
-                            {benchName}
+                            {resolvedName}
                           </Text>
 
                           {char && (
@@ -810,6 +826,7 @@ function BattlefieldGrid({
                 member.character_name,
                 member.character_quality
               );
+              const resolvedName = character?.name ?? member.character_name;
               return (
                 <Paper
                   key={colIdx}
@@ -825,12 +842,9 @@ function BattlefieldGrid({
                   <Stack gap={6} align="center">
                     {/* Portrait */}
                     <Box pos="relative">
-                      <Tooltip
-                        label={`View ${member.character_name}`}
-                        {...tooltipProps}
-                      >
+                      <Tooltip label={`View ${resolvedName}`} {...tooltipProps}>
                         <CharacterPortrait
-                          name={character?.name ?? member.character_name}
+                          name={resolvedName}
                           size={72}
                           quality={character?.quality}
                           borderWidth={3}
@@ -867,7 +881,7 @@ function BattlefieldGrid({
                       style={{ textDecoration: 'none' }}
                       lineClamp={1}
                     >
-                      {character?.name ?? member.character_name}
+                      {resolvedName}
                     </Text>
 
                     {/* Class + Quality */}

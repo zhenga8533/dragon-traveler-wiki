@@ -1,8 +1,13 @@
 import { normalizeContentType } from '../../../constants/content-types';
 import type { CharacterClass } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
-import type { Team, TeamMember } from '../../../types/team';
+import type { Team, TeamBenchMember, TeamMember } from '../../../types/team';
 import { toQuality } from '../../../utils/quality';
+import {
+  getTeamBenchEntryName,
+  getTeamBenchEntryNote,
+  normalizeTeamBenchEntry,
+} from '../../../utils/team-bench';
 
 export const MAX_ROSTER_SIZE = 6;
 export const GRID_SIZE = 9; // 3×3 grid
@@ -97,6 +102,35 @@ export function normalizeTeamFromPartial(
   partial: Partial<Team>,
   fallback: Team
 ): Team {
+  const partialBenchNotes =
+    isRecord(partial) &&
+    isRecord((partial as Record<string, unknown>).bench_notes)
+      ? ((partial as Record<string, unknown>).bench_notes as Record<
+          string,
+          unknown
+        >)
+      : null;
+  const fallbackBenchNotes =
+    isRecord(fallback) &&
+    isRecord((fallback as unknown as Record<string, unknown>).bench_notes)
+      ? ((fallback as unknown as Record<string, unknown>).bench_notes as Record<
+          string,
+          unknown
+        >)
+      : null;
+
+  const legacyBenchNotes = Object.fromEntries(
+    Object.entries(partialBenchNotes ?? fallbackBenchNotes ?? {})
+      .filter((entry): entry is [string, string] => {
+        const [characterName, note] = entry;
+        return typeof characterName === 'string' && typeof note === 'string';
+      })
+      .map(
+        ([characterName, note]) => [characterName, normalizeNote(note)] as const
+      )
+      .filter((entry): entry is readonly [string, string] => Boolean(entry[1]))
+  );
+
   const normalizedMembers = Array.isArray(partial.members)
     ? (() => {
         const seen = new Set<string>();
@@ -151,39 +185,24 @@ export function normalizeTeamFromPartial(
   const normalizedBench = Array.isArray(partial.bench)
     ? (() => {
         const seen = new Set<string>();
-        const bench: string[] = [];
-        for (const benchName of partial.bench) {
-          if (typeof benchName !== 'string') continue;
+        const bench: TeamBenchMember[] = [];
+        for (const rawBenchEntry of partial.bench) {
+          const benchEntry = normalizeTeamBenchEntry(rawBenchEntry);
+          if (!benchEntry) continue;
+          const benchName = getTeamBenchEntryName(benchEntry);
           if (normalizedMemberNameSet.has(benchName)) continue;
           if (seen.has(benchName)) continue;
           seen.add(benchName);
-          bench.push(benchName);
+          const normalizedBenchNote =
+            getTeamBenchEntryNote(benchEntry) ?? legacyBenchNotes[benchName];
+          bench.push({
+            ...benchEntry,
+            ...(normalizedBenchNote ? { note: normalizedBenchNote } : {}),
+          });
         }
         return bench;
       })()
     : fallback.bench;
-
-  const normalizedBenchNameSet = new Set(normalizedBench);
-
-  const normalizedBenchNotes = isRecord(partial.bench_notes)
-    ? Object.fromEntries(
-        Object.entries(partial.bench_notes)
-          .filter((entry): entry is [string, string] => {
-            const [characterName, note] = entry;
-            return (
-              typeof characterName === 'string' && typeof note === 'string'
-            );
-          })
-          .map(
-            ([characterName, note]) =>
-              [characterName, normalizeNote(note)] as const
-          )
-          .filter((entry): entry is readonly [string, string] => {
-            const [characterName, note] = entry;
-            return normalizedBenchNameSet.has(characterName) && Boolean(note);
-          })
-      )
-    : fallback.bench_notes;
 
   const normalizedWyrmspells = isRecord(partial.wyrmspells)
     ? {
@@ -219,7 +238,6 @@ export function normalizeTeamFromPartial(
         : fallback.faction,
     members: normalizedMembers,
     ...(normalizedBench ? { bench: normalizedBench } : {}),
-    ...(normalizedBenchNotes ? { bench_notes: normalizedBenchNotes } : {}),
     ...(normalizedWyrmspells ? { wyrmspells: normalizedWyrmspells } : {}),
     last_updated:
       typeof partial.last_updated === 'number'

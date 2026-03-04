@@ -23,6 +23,7 @@ import {
 import { getCardHoverProps } from '../../../constants/styles';
 import { CHARACTER_GRID_SPACING, TRANSITION } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
+import { getCharacterRoutePath } from '../../../utils/character-route';
 import CharacterCard from '../../character/CharacterCard';
 import { INPUT_COMMIT_DELAY_MS } from './utils';
 
@@ -131,6 +132,7 @@ export function DraggableCharCard({
   overlay,
   tier,
   size,
+  nameCounts,
 }: {
   name: string;
   label?: string;
@@ -139,6 +141,7 @@ export function DraggableCharCard({
   overlay?: boolean;
   tier?: string;
   size?: number;
+  nameCounts?: Map<string, number>;
 }) {
   const dragKey = charKey ?? name;
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({
@@ -158,6 +161,9 @@ export function DraggableCharCard({
         transition: `opacity ${TRANSITION.FAST} ${TRANSITION.EASE}`,
         touchAction: 'none',
       };
+
+  const routePath =
+    char && nameCounts ? getCharacterRoutePath(char, nameCounts) : undefined;
 
   return (
     <div
@@ -183,6 +189,7 @@ export function DraggableCharCard({
         quality={char?.quality}
         disableLink
         size={size}
+        routePath={routePath}
       />
     </div>
   );

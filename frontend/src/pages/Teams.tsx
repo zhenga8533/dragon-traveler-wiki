@@ -61,6 +61,10 @@ import {
   resolveCharacterByNameAndQuality,
 } from '../utils/character-route';
 import { toEntitySlug } from '../utils/entity-slug';
+import {
+  getTeamBenchEntryName,
+  getTeamBenchEntryQuality,
+} from '../utils/team-bench';
 
 const TEAMS_PER_PAGE = 12;
 
@@ -101,6 +105,9 @@ function TeamCharacterAvatars({
       byIdentity
     );
     const displayName = char?.name ?? entry.name;
+    const displayLabel = char?.quality
+      ? `${displayName} (${char.quality})`
+      : displayName;
     return (
       <CharacterPortrait
         key={`${isSubstitute ? 'sub' : 'main'}-${entry.name}-${entry.quality ?? ''}`}
@@ -108,7 +115,7 @@ function TeamCharacterAvatars({
         size={size}
         quality={char?.quality}
         isSubstitute={isSubstitute}
-        tooltip={isSubstitute ? `${displayName} (Sub)` : displayName}
+        tooltip={isSubstitute ? `${displayLabel} (Sub)` : displayLabel}
       />
     );
   });
@@ -604,8 +611,10 @@ export default function Teams() {
                                           Subs {team.bench!.length}
                                         </Badge>
                                         <TeamCharacterAvatars
-                                          refs={team.bench!.map((name) => ({
-                                            name,
+                                          refs={team.bench!.map((entry) => ({
+                                            name: getTeamBenchEntryName(entry),
+                                            quality:
+                                              getTeamBenchEntryQuality(entry),
                                           }))}
                                           preferredByName={charMap}
                                           byIdentity={characterByIdentity}
@@ -739,8 +748,12 @@ export default function Teams() {
                                             Subs
                                           </Badge>
                                           <TeamCharacterAvatars
-                                            refs={team.bench!.map((name) => ({
-                                              name,
+                                            refs={team.bench!.map((entry) => ({
+                                              name: getTeamBenchEntryName(
+                                                entry
+                                              ),
+                                              quality:
+                                                getTeamBenchEntryQuality(entry),
                                             }))}
                                             preferredByName={charMap}
                                             byIdentity={characterByIdentity}

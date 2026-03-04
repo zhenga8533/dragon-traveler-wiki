@@ -12,7 +12,7 @@ for (const [path, module] of Object.entries(modules)) {
   // path is like "./fireball.png"
   const match = path.match(/\.\/([^/]+)\.png$/);
   if (match) {
-    icons.set(match[1], module.default);
+    icons.set(normalizeKey(match[1]), module.default);
   }
 }
 

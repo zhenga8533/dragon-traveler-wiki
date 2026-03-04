@@ -35,8 +35,9 @@ function toEntitySlug(value) {
     .toLowerCase()
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/[’']/g, '')
-    .replace(/[^a-z0-9]+/g, '_')
+    .replace(/\s+/g, '_')
+    .replace(/[^a-z0-9_]/g, '')
+    .replace(/_+/g, '_')
     .replace(/^_+|_+$/g, '');
 }
 

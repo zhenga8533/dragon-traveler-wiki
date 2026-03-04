@@ -27,7 +27,7 @@ for (const [path, module] of Object.entries(iconModules)) {
   if (!match) continue;
   const [, typeDir, fileName] = match;
   gearIcons.set(
-    `${typeDir.toLowerCase()}/${fileName.toLowerCase()}`,
+    `${normalizeKey(typeDir)}/${normalizeKey(fileName)}`,
     module.default
   );
 }

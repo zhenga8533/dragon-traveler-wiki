@@ -15,10 +15,10 @@ for (const [path, module] of Object.entries(modules)) {
   if (match) {
     const [, characterClass, subclassFile] = match;
     // Store with both the full class/subclass key and just the subclass key
-    const fullKey = `${characterClass}/${subclassFile}`;
+    const fullKey = `${normalizeKey(characterClass)}/${normalizeKey(subclassFile)}`;
     icons.set(fullKey, module.default);
     // Also store by subclass alone for backwards compatibility
-    icons.set(subclassFile, module.default);
+    icons.set(normalizeKey(subclassFile), module.default);
   }
 }
 

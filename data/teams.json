@@ -63,23 +63,35 @@
     ],
     "last_updated": 1772402716,
     "bench": [
-      "Herman",
-      "Talos",
-      "Nemesis",
-      "Poseidon",
-      "Scheherazade",
-      "Medusa",
-      "Azure Dragon"
+      {
+        "character_name": "Herman",
+        "note": "Counters dual assassins; Interrupt control."
+      },
+      {
+        "character_name": "Talos",
+        "note": "Sustained damage output."
+      },
+      {
+        "character_name": "Nemesis",
+        "note": "Energy recovery; High-frequency silence."
+      },
+      {
+        "character_name": "Poseidon",
+        "note": "Critical death immunity; Delays engagement/combat."
+      },
+      {
+        "character_name": "Scheherazade",
+        "note": "Cost reduction activation; High-tier priest utility."
+      },
+      {
+        "character_name": "Medusa",
+        "note": "High-frequency petrification; Steals CD; Counters basic attacks."
+      },
+      {
+        "character_name": "Azure Dragon",
+        "note": "General formation protection; Provides \"Deathrattle\" (On-death) effects."
+      }
     ],
-    "bench_notes": {
-      "Nemesis": "Energy recovery; High-frequency silence.",
-      "Poseidon": "Critical death immunity; Delays engagement/combat.",
-      "Medusa": "High-frequency petrification; Steals CD; Counters basic attacks.",
-      "Herman": "Counters dual assassins; Interrupt control.",
-      "Azure Dragon": "General formation protection; Provides \"Deathrattle\" (On-death) effects.",
-      "Talos": "Sustained damage output.",
-      "Scheherazade": "Cost reduction activation; High-tier priest utility."
-    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
@@ -151,20 +163,30 @@
     ],
     "last_updated": 1772475994,
     "bench": [
-      "Scheherazade",
-      "Orion",
-      "Goblin War Drummer",
-      "Gullveig",
-      "Helveil",
-      "Mimir"
+      {
+        "character_name": "Scheherazade",
+        "note": "Early game cost reduction; high-tier priest; group healing."
+      },
+      {
+        "character_name": "Orion",
+        "note": "Heal block; interrupt control."
+      },
+      {
+        "character_name": "Goblin War Drummer",
+        "note": "Early game buffs; fast activation."
+      },
+      {
+        "character_name": "Gullveig",
+        "note": "Group heal block; group healing."
+      },
+      {
+        "character_name": "Helveil",
+        "note": "Counters dual assassins; group crit resistance."
+      },
+      {
+        "character_name": "Mimir"
+      }
     ],
-    "bench_notes": {
-      "Helveil": "Counters dual assassins; group crit resistance.",
-      "Goblin War Drummer": "Early game buffs; fast activation.",
-      "Scheherazade": "Early game cost reduction; high-tier priest; group healing.",
-      "Orion": "Heal block; interrupt control.",
-      "Gullveig": "Group heal block; group healing."
-    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
@@ -236,23 +258,35 @@
     ],
     "last_updated": 1772402716,
     "bench": [
-      "Azure Dragon",
-      "Oberonnie",
-      "Tyrfing",
-      "Chiron",
-      "Gullveig",
-      "Caligula",
-      "Lorillin"
+      {
+        "character_name": "Azure Dragon",
+        "note": "General formation protection; provides \"Deathrattle\" (On-death) effects."
+      },
+      {
+        "character_name": "Oberonnie",
+        "note": "Counters dual assassins."
+      },
+      {
+        "character_name": "Tyrfing",
+        "note": "Heal block; cuts through tanks."
+      },
+      {
+        "character_name": "Chiron",
+        "note": "Magic orb buffs; dispels debuffs; punishes high-cost units."
+      },
+      {
+        "character_name": "Gullveig",
+        "note": "Group heal block (Anti-heal); group healing."
+      },
+      {
+        "character_name": "Caligula",
+        "note": "High-tier priest; front-row damage reduction."
+      },
+      {
+        "character_name": "Lorillin",
+        "note": "Low-cost interrupt."
+      }
     ],
-    "bench_notes": {
-      "Oberonnie": "Counters dual assassins.",
-      "Caligula": "High-tier priest; front-row damage reduction.",
-      "Lorillin": "Low-cost interrupt.",
-      "Chiron": "Magic orb buffs; dispels debuffs; punishes high-cost units.",
-      "Azure Dragon": "General formation protection; provides \"Deathrattle\" (On-death) effects.",
-      "Gullveig": "Group heal block (Anti-heal); group healing.",
-      "Tyrfing": "Heal block; cuts through tanks."
-    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
@@ -324,21 +358,31 @@
     ],
     "last_updated": 1772402716,
     "bench": [
-      "Medusa",
-      "Nemesis",
-      "Huginn & Muninn",
-      "Herman",
-      "Orion",
-      "Pompey"
+      {
+        "character_name": "Medusa",
+        "note": "High-frequency petrification; steals CD; counters basic attacks."
+      },
+      {
+        "character_name": "Nemesis",
+        "note": "High-frequency silence; energy recovery."
+      },
+      {
+        "character_name": "Huginn & Muninn",
+        "note": "Sustained DPS."
+      },
+      {
+        "character_name": "Herman",
+        "note": "Counters dual assassins; interrupts and controls."
+      },
+      {
+        "character_name": "Orion",
+        "note": "Heal block/Silence control; sustained DPS."
+      },
+      {
+        "character_name": "Pompey",
+        "note": "Interrupts incoming damage; supplementary DPS."
+      }
     ],
-    "bench_notes": {
-      "Pompey": "Interrupts incoming damage; supplementary DPS.",
-      "Orion": "Heal block/Silence control; sustained DPS.",
-      "Nemesis": "High-frequency silence; energy recovery.",
-      "Medusa": "High-frequency petrification; steals CD; counters basic attacks.",
-      "Herman": "Counters dual assassins; interrupts and controls.",
-      "Huginn & Muninn": "Sustained DPS."
-    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",
@@ -410,23 +454,35 @@
     ],
     "last_updated": 1772402716,
     "bench": [
-      "Helveil",
-      "Gabriele",
-      "Ningluosi",
-      "Jing",
-      "Caligula",
-      "Gullveig",
-      "Cleopatra"
+      {
+        "character_name": "Helveil",
+        "note": "Stable damage absorption; team anti-crit."
+      },
+      {
+        "character_name": "Gabriele",
+        "note": "Group burst damage."
+      },
+      {
+        "character_name": "Ningluosi",
+        "note": "Sustained DPS."
+      },
+      {
+        "character_name": "Jing",
+        "note": "Burst tank-shredding; sustained DPS."
+      },
+      {
+        "character_name": "Caligula",
+        "note": "High-tier priest; front-row damage reduction."
+      },
+      {
+        "character_name": "Gullveig",
+        "note": "Group heal block; group HP recovery."
+      },
+      {
+        "character_name": "Cleopatra",
+        "note": "Provides Deathrattle."
+      }
     ],
-    "bench_notes": {
-      "Helveil": "Stable damage absorption; team anti-crit.",
-      "Jing": "Burst tank-shredding; sustained DPS.",
-      "Gabriele": "Group burst damage.",
-      "Gullveig": "Group heal block; group HP recovery.",
-      "Ningluosi": "Sustained DPS.",
-      "Caligula": "High-tier priest; front-row damage reduction.",
-      "Cleopatra": "Provides Deathrattle."
-    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Shield Aura",
@@ -498,25 +554,40 @@
     ],
     "last_updated": 1772402716,
     "bench": [
-      "Anubis",
-      "Oberonnie",
-      "Orion",
-      "Gullveig",
-      "Fenrir",
-      "Siegfried",
-      "Lorillin",
-      "Zagrus"
+      {
+        "character_name": "Anubis",
+        "note": "Counters dual-assassins; Backline damage reduction"
+      },
+      {
+        "character_name": "Oberonnie",
+        "note": "Stable damage mitigation / Tanking"
+      },
+      {
+        "character_name": "Orion",
+        "note": "Healing reduction (Grievous Wounds); Sustained DPS"
+      },
+      {
+        "character_name": "Gullveig",
+        "note": "Group healing reduction; Group healing"
+      },
+      {
+        "character_name": "Fenrir",
+        "note": "Finishing (Execute) and Interrupt"
+      },
+      {
+        "character_name": "Siegfried",
+        "character_quality": "SSR+",
+        "note": "Stable damage mitigation; Elemental reaction"
+      },
+      {
+        "character_name": "Lorillin",
+        "note": "Low-cost interrupt; Elemental reaction"
+      },
+      {
+        "character_name": "Zagrus",
+        "note": "Elemental reaction; Chain crowd control (CC)"
+      }
     ],
-    "bench_notes": {
-      "Oberonnie": "Stable damage mitigation / Tanking",
-      "Zagrus": "Elemental reaction; Chain crowd control (CC)",
-      "Orion": "Healing reduction (Grievous Wounds); Sustained DPS",
-      "Lorillin": "Low-cost interrupt; Elemental reaction",
-      "Anubis": "Counters dual-assassins; Backline damage reduction",
-      "Siegfried": "Stable damage mitigation; Elemental reaction",
-      "Fenrir": "Finishing (Execute) and Interrupt",
-      "Gullveig": "Group healing reduction; Group healing"
-    },
     "wyrmspells": {
       "breach": "Agility Aura",
       "refuge": "Magic Defense Aura",

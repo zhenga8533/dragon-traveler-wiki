@@ -63,10 +63,16 @@ import {
   getCharacterBaseSlug,
   getCharacterByReferenceKey,
   getCharacterIdentityKey,
+  getCharacterRoutePath,
   resolveCharacterReferenceKey,
   toCharacterReferenceFromKey,
 } from '../../../utils/character-route';
 import { insertUniqueBefore, removeItem } from '../../../utils/dnd-list';
+import {
+  getTeamBenchEntryName,
+  getTeamBenchEntryNote,
+  getTeamBenchEntryQuality,
+} from '../../../utils/team-bench';
 import { computeTeamSynergy } from '../../../utils/team-synergy';
 import { showWarningToast } from '../../../utils/toast';
 import CharacterCard from '../../character/CharacterCard';
@@ -245,30 +251,49 @@ export default function TeamBuilder({
       .map((entry) => entry.slotIndex)
       .slice(0, MAX_ROSTER_SIZE);
 
-    const seenBenchKeys = new Set<string>();
-    const normalizedBench = (data.bench || [])
-      .map((benchName) =>
-        typeof benchName === 'string'
-          ? getCharacterKeyFromReference(benchName)
-          : ''
+    const legacyBenchNotes = Object.fromEntries(
+      Object.entries(
+        (data as Team & { bench_notes?: Record<string, string> }).bench_notes ||
+          {}
       )
-      .filter((benchKey) => {
-        if (!benchKey) return false;
-        if (usedKeys.has(benchKey)) return false;
-        if (seenBenchKeys.has(benchKey)) return false;
-        seenBenchKeys.add(benchKey);
-        return true;
-      });
-    const normalizedBenchSet = new Set(normalizedBench);
-    const normalizedBenchNotes: Record<string, string> = Object.fromEntries(
-      Object.entries(data.bench_notes || {})
         .map(([benchName, note]) => {
           const benchKey = getCharacterKeyFromReference(benchName);
           return [benchKey, normalizeNote(note)] as const;
         })
         .filter((entry): entry is readonly [string, string] => {
-          const [benchName, note] = entry;
-          return normalizedBenchSet.has(benchName) && Boolean(note);
+          const [benchKey, note] = entry;
+          return Boolean(benchKey) && Boolean(note);
+        })
+    );
+
+    const seenBenchKeys = new Set<string>();
+    const normalizedBenchEntries = (data.bench || [])
+      .map((benchEntry) => {
+        const benchName = getTeamBenchEntryName(benchEntry);
+        const benchQuality = getTeamBenchEntryQuality(benchEntry);
+        const benchKey = getCharacterKeyFromReference(benchName, benchQuality);
+        const benchNote =
+          normalizeNote(getTeamBenchEntryNote(benchEntry)) ??
+          (benchKey ? legacyBenchNotes[benchKey] : undefined);
+        return { benchKey, benchNote };
+      })
+      .filter((entry) => {
+        if (!entry.benchKey) return false;
+        if (usedKeys.has(entry.benchKey)) return false;
+        if (seenBenchKeys.has(entry.benchKey)) return false;
+        seenBenchKeys.add(entry.benchKey);
+        return true;
+      });
+
+    const normalizedBench = normalizedBenchEntries.map(
+      (entry) => entry.benchKey
+    );
+    const normalizedBenchNotes: Record<string, string> = Object.fromEntries(
+      normalizedBenchEntries
+        .map((entry) => [entry.benchKey, entry.benchNote] as const)
+        .filter((entry): entry is readonly [string, string] => {
+          const [, note] = entry;
+          return Boolean(note);
         })
     );
 
@@ -426,25 +451,15 @@ export default function TeamBuilder({
 
     if (bench.length > 0) {
       result.bench = bench.map((characterKey) => {
-        const character = getCharacterFromKey(characterKey);
-        return character?.name ?? characterKey;
+        const reference = toCharacterReferenceFromKey(
+          characterKey,
+          charMap,
+          characterByIdentity,
+          characterNameCounts
+        );
+        const note = benchNotes[characterKey]?.trim();
+        return note ? { ...reference, note } : reference;
       });
-    }
-
-    const normalizedBenchNotes = Object.fromEntries(
-      Object.entries(benchNotes).filter(
-        ([characterKey, note]) =>
-          bench.includes(characterKey) && note.trim().length > 0
-      )
-    );
-    const normalizedBenchNotesByName = Object.fromEntries(
-      Object.entries(normalizedBenchNotes).map(([characterKey, note]) => {
-        const character = getCharacterFromKey(characterKey);
-        return [character?.name ?? characterKey, note] as const;
-      })
-    );
-    if (Object.keys(normalizedBenchNotesByName).length > 0) {
-      result.bench_notes = normalizedBenchNotesByName;
     }
 
     // Add wyrmspells if any are selected
@@ -1278,20 +1293,38 @@ export default function TeamBuilder({
       {typeof document !== 'undefined'
         ? createPortal(
             <DragOverlay dropAnimation={null}>
-              {activeId ? (() => {
-                const activeChar = getCharacterFromKey(activeId);
-                const isDuplicate = activeChar && (characterNameCounts.get(getCharacterBaseSlug(activeChar.name)) ?? 1) > 1;
-                return (
-                  <div style={{ cursor: 'grabbing' }}>
-                    <CharacterCard
-                      name={activeChar?.name ?? activeId}
-                      label={isDuplicate && activeChar ? `${activeChar.name} (${activeChar.quality})` : undefined}
-                      quality={activeChar?.quality}
-                      disableLink
-                    />
-                  </div>
-                );
-              })() : null}
+              {activeId
+                ? (() => {
+                    const activeChar = getCharacterFromKey(activeId);
+                    const isDuplicate =
+                      activeChar &&
+                      (characterNameCounts.get(
+                        getCharacterBaseSlug(activeChar.name)
+                      ) ?? 1) > 1;
+                    return (
+                      <div style={{ cursor: 'grabbing' }}>
+                        <CharacterCard
+                          name={activeChar?.name ?? activeId}
+                          label={
+                            isDuplicate && activeChar
+                              ? `${activeChar.name} (${activeChar.quality})`
+                              : undefined
+                          }
+                          quality={activeChar?.quality}
+                          disableLink
+                          routePath={
+                            activeChar
+                              ? getCharacterRoutePath(
+                                  activeChar,
+                                  characterNameCounts
+                                )
+                              : undefined
+                          }
+                        />
+                      </div>
+                    );
+                  })()
+                : null}
             </DragOverlay>,
             document.body
           )
