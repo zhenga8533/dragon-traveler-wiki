@@ -129,7 +129,7 @@ export default function CharacterReferenceSection({
       }
       return a.teamName.localeCompare(b.teamName);
     });
-  }, [character.name, enableNameBasedReferences, teams]);
+  }, [character, enableNameBasedReferences, teams]);
 
   const hasTierContext =
     Boolean(selectedTierListName) &&

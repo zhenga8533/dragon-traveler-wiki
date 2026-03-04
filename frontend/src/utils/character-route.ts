@@ -52,17 +52,6 @@ function getPreferredCharacterByName(
   return preferredByName.get(normalized);
 }
 
-function normalizeQualitySuffix(value: string): string {
-  return value
-    .trim()
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s+/g, '_')
-    .replace(/[^a-z0-9_+]/g, '')
-    .replace(/^_+|_+$/g, '');
-}
-
 export function getCharacterIdentityKey(
   characterOrName: Character | string,
   quality?: string
@@ -95,7 +84,7 @@ export function getCharacterRouteSlug(
   const base = getCharacterBaseSlug(character.name);
   const count = nameCounts?.get(base) ?? 1;
   if (count <= 1) return base;
-  const qualitySuffix = normalizeQualitySuffix(character.quality);
+  const qualitySuffix = toEntitySlug(character.quality, { allowPlus: true });
   return qualitySuffix ? `${base}_${qualitySuffix}` : base;
 }
 
