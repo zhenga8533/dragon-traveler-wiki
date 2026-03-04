@@ -205,8 +205,6 @@ export const HOME_HERO_TITLE_STYLE = {
   letterSpacing: BRAND_TITLE_STYLE.letterSpacing,
   fontWeight: 700,
   fontSize: 'clamp(2rem, 6vw, 3.5rem)',
-  textShadow:
-    '0 2px 16px rgba(0, 0, 0, 0.6), 0 0 40px rgba(124, 58, 237, 0.35)',
 } as const satisfies CSSProperties;
 
 export function getHomeHeroWordmarkStyle(isDark: boolean): CSSProperties {
