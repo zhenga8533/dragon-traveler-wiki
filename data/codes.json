@@ -666,5 +666,15 @@
     },
     "active": true,
     "last_updated": 1772511671
+  },
+  {
+    "code": "FunHero",
+    "rewards": {
+      "Gold": 3000,
+      "Golden Horn": 1,
+      "Leaf of the World Tree": 5
+    },
+    "active": true,
+    "last_updated": 1772680055
   }
 ]
