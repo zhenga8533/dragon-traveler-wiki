@@ -1,5 +1,77 @@
 [
   {
+    "date": "2026-03-05",
+    "version": "1.0.9",
+    "changes": [
+      {
+        "type": "added",
+        "category": "teams",
+        "description": "Added image export support for Team Builder compositions"
+      },
+      {
+        "type": "added",
+        "category": "tier-list",
+        "description": "Added image export support for Tier List builder views"
+      },
+      {
+        "type": "added",
+        "category": "tools",
+        "description": "Added reusable export-image utility and expanded image export usage across builder flows"
+      },
+      {
+        "type": "added",
+        "category": "tools",
+        "description": "Added My Saved local storage support with saved tabs for builder workflows"
+      },
+      {
+        "type": "added",
+        "category": "ui",
+        "description": "Added entity action controls including quick actions, filters, and timestamp surfaces"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Replaced theme toggle with a segmented control and refined builder UI interactions"
+      },
+      {
+        "type": "updated",
+        "category": "navigation",
+        "description": "Updated page mode state handling to use URL search parameters"
+      },
+      {
+        "type": "updated",
+        "category": "site",
+        "description": "Simplified RouteMeta behavior and refreshed route descriptions"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live datasets through multiple data uploads"
+      },
+      {
+        "type": "fixed",
+        "category": "gear",
+        "description": "Fixed optional set_bonus handling in GearPage and related typing paths"
+      },
+      {
+        "type": "fixed",
+        "category": "teams",
+        "description": "Removed Last Updated labels from TeamCard for cleaner card output"
+      },
+      {
+        "type": "fixed",
+        "category": "tier-list",
+        "description": "Fixed featured-tier filtering behavior and history pagination reset timing"
+      },
+      {
+        "type": "fixed",
+        "category": "ui",
+        "description": "Improved mobile export behavior by opening generated images in a new tab"
+      }
+    ],
+    "last_updated": 1772694000
+  },
+  {
     "date": "2026-03-04",
     "version": "1.0.8",
     "changes": [
