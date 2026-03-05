@@ -24,7 +24,6 @@ import {
   getTeamBenchEntryQuality,
 } from '../../utils/team-bench';
 import FactionTag from '../common/FactionTag';
-import LastUpdated from '../common/LastUpdated';
 import TeamCharacterAvatars from './TeamCharacterAvatars';
 
 interface TeamCardProps {
@@ -33,7 +32,6 @@ interface TeamCardProps {
   characterByIdentity: Map<string, Character>;
   onNavigate?: () => void;
   actions: React.ReactNode;
-  showLastUpdated?: boolean;
 }
 
 export default function TeamCard({
@@ -42,7 +40,6 @@ export default function TeamCard({
   characterByIdentity,
   onNavigate,
   actions,
-  showLastUpdated = false,
 }: TeamCardProps) {
   const isLargeTeamCardLayout = useMediaQuery('(min-width: 75em)');
 
@@ -132,8 +129,6 @@ export default function TeamCard({
             )}
           </Text>
         )}
-
-        {showLastUpdated && <LastUpdated timestamp={team.last_updated} />}
 
         {/* Member portraits */}
         <Paper p="xs" radius="sm" bg="var(--mantine-color-default-hover)">
