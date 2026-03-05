@@ -293,21 +293,19 @@ export default function TierList() {
     );
   }, [savedTierLists, search, viewFilters]);
 
-  useEffect(() => {
-    if (!isCapturingTierList) return;
-    const el = exportRefs.current.get(isCapturingTierList);
-    if (!el) return;
-    const name = isCapturingTierList;
-    const run = async () => {
+  const handleRequestExport = useCallback(
+    async (name: string) => {
+      const el = exportRefs.current.get(name);
+      if (!el) return;
+      setIsCapturingTierList(name);
       try {
         await downloadElementAsPng(el, name, isDark);
       } finally {
         setIsCapturingTierList(null);
       }
-    };
-    run();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCapturingTierList]);
+    },
+    [isDark]
+  );
 
   const exportRefCallback = useCallback(
     (name: string, node: HTMLDivElement | null) => {
@@ -397,7 +395,7 @@ export default function TierList() {
                 onOpenFilters={toggleFilter}
                 tierListChanges={tierListChanges}
                 onRequestEdit={requestEditTierList}
-                onRequestExport={setIsCapturingTierList}
+                onRequestExport={handleRequestExport}
                 isExporting={isCapturingTierList}
                 exportRefCallback={exportRefCallback}
               />
@@ -419,7 +417,7 @@ export default function TierList() {
                 onClearFilters={handleClearFilters}
                 onOpenFilters={toggleFilter}
                 onRequestEdit={requestEditTierList}
-                onRequestExport={setIsCapturingTierList}
+                onRequestExport={handleRequestExport}
                 isExporting={isCapturingTierList}
                 exportRefCallback={exportRefCallback}
                 onRequestDelete={setPendingDeleteSavedTierList}
