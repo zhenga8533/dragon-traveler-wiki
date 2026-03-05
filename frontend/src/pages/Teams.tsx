@@ -75,6 +75,51 @@ function matchesTeamFilters(
   return true;
 }
 
+function loadSavedTeamsFromStorage(): Team[] {
+  if (typeof window === 'undefined') return [];
+
+  try {
+    const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
+    if (!raw) return [];
+
+    const parsed = JSON.parse(raw) as Record<string, unknown>;
+    const now = Math.floor(Date.now() / 1000);
+    let changed = false;
+
+    const saved: Team[] = [];
+
+    for (const [key, value] of Object.entries(parsed)) {
+      if (value === null || typeof value !== 'object') continue;
+
+      const maybeTeam = value as Partial<Team>;
+      if (!Array.isArray(maybeTeam.members)) continue;
+
+      if ((maybeTeam.last_updated ?? 0) > 0) {
+        saved.push(maybeTeam as Team);
+        continue;
+      }
+
+      changed = true;
+      const normalized: Team = { ...(maybeTeam as Team), last_updated: now };
+      parsed[key] = normalized;
+      saved.push(normalized);
+    }
+
+    saved.sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
+
+    if (changed) {
+      window.localStorage.setItem(
+        STORAGE_KEY.TEAMS_MY_SAVED,
+        JSON.stringify(parsed)
+      );
+    }
+
+    return saved;
+  } catch {
+    return [];
+  }
+}
+
 export default function Teams() {
   const navigate = useNavigate();
   const location = useLocation();
@@ -102,10 +147,16 @@ export default function Teams() {
     return window.localStorage.getItem(STORAGE_KEY.TEAMS_SEARCH) || '';
   });
   const mode = parseMode(searchParams.get('mode'));
-  const [editData, setEditData] = useState<Team | null>(null);
+  const navigationEditTeam = (location.state as { editTeam?: Team } | null)
+    ?.editTeam;
+  const [editData, setEditData] = useState<Team | null>(
+    () => navigationEditTeam ?? null
+  );
   const [pendingEditTeam, setPendingEditTeam] = useState<Team | null>(null);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
-  const [savedTeams, setSavedTeams] = useState<Team[]>([]);
+  const [savedTeams, setSavedTeams] = useState<Team[]>(() =>
+    mode === 'saved' ? loadSavedTeamsFromStorage() : []
+  );
   const [pendingDeleteSavedTeam, setPendingDeleteSavedTeam] = useState<
     string | null
   >(null);
@@ -122,11 +173,10 @@ export default function Teams() {
 
   // Handle edit state from navigation
   useEffect(() => {
-    if (location.state?.editTeam) {
-      setEditData(location.state.editTeam);
+    if (navigationEditTeam) {
       navigate('?mode=builder', { replace: true, state: {} });
     }
-  }, [location.state, navigate]);
+  }, [navigationEditTeam, navigate]);
 
   const { preferredByName: charMap, byIdentity: characterByIdentity } =
     useCharacterResolution(characters);
@@ -212,50 +262,6 @@ export default function Teams() {
     setConfirmEditOpen(true);
   };
 
-  const refreshSavedTeams = useCallback(() => {
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
-      if (!raw) {
-        setSavedTeams([]);
-        return;
-      }
-      const parsed = JSON.parse(raw) as Record<string, unknown>;
-      const now = Math.floor(Date.now() / 1000);
-      let changed = false;
-
-      const saved = Object.entries(parsed)
-        .filter(
-          ([, v]): v is Team =>
-            v !== null &&
-            typeof v === 'object' &&
-            Array.isArray((v as Team).members)
-        )
-        .map(([key, team]) => {
-          if ((team.last_updated ?? 0) > 0) return team;
-          changed = true;
-          const normalized: Team = { ...team, last_updated: now };
-          parsed[key] = normalized;
-          return normalized;
-        })
-        .sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
-
-      if (changed) {
-        window.localStorage.setItem(
-          STORAGE_KEY.TEAMS_MY_SAVED,
-          JSON.stringify(parsed)
-        );
-      }
-
-      setSavedTeams(saved);
-    } catch {
-      setSavedTeams([]);
-    }
-  }, []);
-
-  useEffect(() => {
-    if (mode === 'saved') refreshSavedTeams();
-  }, [mode, refreshSavedTeams]);
-
   function deleteSavedTeam(name: string) {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
@@ -265,7 +271,7 @@ export default function Teams() {
         STORAGE_KEY.TEAMS_MY_SAVED,
         JSON.stringify(saves)
       );
-      setSavedTeams((prev) => prev.filter((t) => t.name !== name));
+      setSavedTeams((prev) => prev.filter((team) => team.name !== name));
     } catch {
       // ignore
     }
@@ -351,6 +357,9 @@ export default function Teams() {
               value={mode}
               onChange={(val) => {
                 const newMode = val as 'view' | 'saved' | 'builder';
+                if (newMode === 'saved') {
+                  setSavedTeams(loadSavedTeamsFromStorage());
+                }
                 setSearchParams(newMode === 'view' ? {} : { mode: newMode });
                 if (newMode === 'view') setEditData(null);
               }}
@@ -408,7 +417,7 @@ export default function Teams() {
               <TeamBuilder
                 characters={characters}
                 charMap={charMap}
-                initialData={editData}
+                initialData={navigationEditTeam ?? editData}
                 wyrmspells={wyrmspells}
               />
             )}
