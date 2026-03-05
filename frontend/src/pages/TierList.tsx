@@ -217,21 +217,29 @@ export default function TierList() {
       const now = Math.floor(Date.now() / 1000);
       let changed = false;
 
-      const lists = Object.entries(parsed)
-        .filter(
-          ([, v]): v is TierListType =>
-            v !== null &&
-            typeof v === 'object' &&
-            Array.isArray((v as TierListType).entries)
-        )
-        .map(([key, tierList]) => {
-          if ((tierList.last_updated ?? 0) > 0) return tierList;
-          changed = true;
-          const normalized: TierListType = { ...tierList, last_updated: now };
-          parsed[key] = normalized;
-          return normalized;
-        })
-        .sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
+      const lists: TierListType[] = [];
+
+      for (const [key, value] of Object.entries(parsed)) {
+        if (value === null || typeof value !== 'object') continue;
+
+        const maybeTierList = value as Partial<TierListType>;
+        if (!Array.isArray(maybeTierList.entries)) continue;
+
+        if ((maybeTierList.last_updated ?? 0) > 0) {
+          lists.push(maybeTierList as TierListType);
+          continue;
+        }
+
+        changed = true;
+        const normalized: TierListType = {
+          ...(maybeTierList as TierListType),
+          last_updated: now,
+        };
+        parsed[key] = normalized;
+        lists.push(normalized);
+      }
+
+      lists.sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
 
       if (changed) {
         window.localStorage.setItem(
