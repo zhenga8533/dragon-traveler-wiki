@@ -6,6 +6,7 @@ import {
   Group,
   Paper,
   Popover,
+  SegmentedControl,
   Select,
   Stack,
   Switch,
@@ -16,7 +17,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useContext, useMemo } from 'react';
-import { IoMoon, IoSettingsOutline, IoSunny } from 'react-icons/io5';
+import { IoSettingsOutline } from 'react-icons/io5';
 import { normalizeContentType } from '../../constants/content-types';
 import { BREAKPOINTS, Z_INDEX } from '../../constants/ui';
 import { BannerContext, TierListReferenceContext } from '../../contexts';
@@ -24,7 +25,7 @@ import { BannerContext, TierListReferenceContext } from '../../contexts';
 export default function SettingsPanel() {
   const [opened, { toggle: toggleOpened, close: closeOpened }] =
     useDisclosure(false);
-  const { toggleColorScheme } = useMantineColorScheme();
+  const { colorScheme, setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light');
   const isDark = computedColorScheme === 'dark';
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
@@ -59,24 +60,35 @@ export default function SettingsPanel() {
   const settingsContent = (
     <Stack gap="md">
       <Paper p="sm" radius="md" withBorder>
-        <Group justify="space-between" align="center" wrap="nowrap">
-          <Text size="sm" fw={600}>
-            Theme
-          </Text>
-          <Group gap="xs" wrap="nowrap">
-            <Text size="xs" c="dimmed" fw={600}>
-              {isDark ? 'Dark' : 'Light'}
+        <Stack gap="xs">
+          <Group justify="space-between" align="center" wrap="nowrap">
+            <Text size="sm" fw={600}>
+              Theme
             </Text>
-            <ActionIcon
-              variant="default"
-              size={isMobile ? 'xl' : 'lg'}
-              onClick={toggleColorScheme}
-              aria-label="Toggle color scheme"
-            >
-              {isDark ? <IoSunny /> : <IoMoon />}
-            </ActionIcon>
+            <Text size="xs" c="dimmed" fw={600}>
+              {colorScheme === 'auto'
+                ? `Auto (${isDark ? 'Dark' : 'Light'})`
+                : isDark
+                  ? 'Dark'
+                  : 'Light'}
+            </Text>
           </Group>
-        </Group>
+
+          <SegmentedControl
+            fullWidth
+            size={controlSize}
+            value={colorScheme}
+            onChange={(value) =>
+              setColorScheme(value as 'auto' | 'dark' | 'light')
+            }
+            data={[
+              { label: 'Auto', value: 'auto' },
+              { label: 'Light', value: 'light' },
+              { label: 'Dark', value: 'dark' },
+            ]}
+            aria-label="Select theme"
+          />
+        </Stack>
       </Paper>
 
       <Paper p="sm" radius="md" withBorder>
