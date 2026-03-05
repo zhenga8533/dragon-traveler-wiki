@@ -26,15 +26,33 @@ function triggerAnchorDownload(
 ) {
   const link = document.createElement('a');
   link.href = dataUrl;
-  link.download = `${filename}.png`;
   if (mobile) {
-    // iOS/Safari may ignore download, but opening a tab still allows save/share.
+    // Opening the image directly allows mobile browsers to save to Photos/Camera Roll.
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
+  } else {
+    link.download = `${filename}.png`;
   }
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+}
+
+function tryOpenImagePreviewForMobile(dataUrl: string): boolean {
+  if (typeof window === 'undefined') {
+    return false;
+  }
+
+  const preview = window.open('', '_blank', 'noopener,noreferrer');
+  if (!preview) {
+    return false;
+  }
+
+  preview.document.title = 'Image Preview';
+  preview.document.body.style.margin = '0';
+  preview.document.body.style.background = '#111';
+  preview.document.body.innerHTML = `<img src="${dataUrl}" alt="exported image" style="display:block;width:100%;height:auto;" />`;
+  return true;
 }
 
 export async function downloadElementAsPng(
@@ -63,6 +81,10 @@ export async function downloadElementAsPng(
   }
 
   if (mobile) {
+    if (tryOpenImagePreviewForMobile(dataUrl)) {
+      return;
+    }
+
     const nav = navigator as NavigatorWithShare;
     if (nav.share && nav.canShare) {
       try {
