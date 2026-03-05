@@ -11,7 +11,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
-import { useLocation, useNavigate } from 'react-router-dom';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
 import DataFetchError from '../components/common/DataFetchError';
@@ -41,9 +41,15 @@ import TeamsViewTab from './teams/TeamsViewTab';
 
 const TEAMS_PER_PAGE = 12;
 
+function parseMode(raw: string | null): 'view' | 'saved' | 'builder' {
+  if (raw === 'saved' || raw === 'builder') return raw;
+  return 'view';
+}
+
 export default function Teams() {
   const navigate = useNavigate();
   const location = useLocation();
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
     data: teams,
     loading: loadingTeams,
@@ -70,7 +76,7 @@ export default function Teams() {
     if (typeof window === 'undefined') return '';
     return window.localStorage.getItem(STORAGE_KEY.TEAMS_SEARCH) || '';
   });
-  const [mode, setMode] = useState<'view' | 'saved' | 'builder'>('view');
+  const mode = parseMode(searchParams.get('mode'));
   const [editData, setEditData] = useState<Team | null>(null);
   const [pendingEditTeam, setPendingEditTeam] = useState<Team | null>(null);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
@@ -90,14 +96,10 @@ export default function Teams() {
   // Handle edit state from navigation
   useEffect(() => {
     if (location.state?.editTeam) {
-      queueMicrotask(() => {
-        setEditData(location.state.editTeam);
-        setMode('builder');
-      });
-      // Clear the state
-      navigate(location.pathname, { replace: true, state: {} });
+      setEditData(location.state.editTeam);
+      navigate('?mode=builder', { replace: true, state: {} });
     }
-  }, [location.state, navigate, location.pathname]);
+  }, [location.state, navigate]);
 
   const { preferredByName: charMap, byIdentity: characterByIdentity } =
     useCharacterResolution(characters);
@@ -159,7 +161,7 @@ export default function Teams() {
 
   const openTeamInBuilder = (team: Team) => {
     setEditData(team);
-    setMode('builder');
+    setSearchParams({ mode: 'builder' });
   };
 
   const requestEditTeam = (team: Team) => {
@@ -291,9 +293,8 @@ export default function Teams() {
               value={mode}
               onChange={(val) => {
                 const newMode = val as 'view' | 'saved' | 'builder';
-                setMode(newMode);
+                setSearchParams(newMode === 'view' ? {} : { mode: newMode });
                 if (newMode === 'view') setEditData(null);
-                if (newMode === 'saved') refreshSavedTeams();
               }}
               data={[
                 { label: 'View Teams', value: 'view' },
@@ -337,7 +338,7 @@ export default function Teams() {
                 viewMode={viewMode}
                 onRequestEdit={requestEditTeam}
                 onRequestDelete={setPendingDeleteSavedTeam}
-                onGoToBuilder={() => setMode('builder')}
+                onGoToBuilder={() => setSearchParams({ mode: 'builder' })}
               />
             )}
 

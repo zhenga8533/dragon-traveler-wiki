@@ -12,6 +12,7 @@ import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { downloadElementAsPng } from '../utils/export-image';
 import { IoFilter } from 'react-icons/io5';
+import { useSearchParams } from 'react-router-dom';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
 import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
@@ -36,7 +37,13 @@ import { resolveCharacterByNameAndQuality } from '../utils/character-route';
 import TierListSavedTab from './tier-list/TierListSavedTab';
 import TierListViewTab from './tier-list/TierListViewTab';
 
+function parseMode(raw: string | null): 'view' | 'saved' | 'builder' {
+  if (raw === 'saved' || raw === 'builder') return raw;
+  return 'view';
+}
+
 export default function TierList() {
+  const [searchParams, setSearchParams] = useSearchParams();
   const {
     data: tierLists,
     loading: loadingTiers,
@@ -59,7 +66,7 @@ export default function TierList() {
     if (typeof window === 'undefined') return '';
     return window.localStorage.getItem(STORAGE_KEY.TIER_LIST_SEARCH) || '';
   });
-  const [mode, setMode] = useState<'view' | 'saved' | 'builder'>('view');
+  const mode = parseMode(searchParams.get('mode'));
   const [editData, setEditData] = useState<TierListType | null>(null);
   const [pendingEditTierList, setPendingEditTierList] =
     useState<TierListType | null>(null);
@@ -136,7 +143,7 @@ export default function TierList() {
 
   const openTierListInBuilder = (tierList: TierListType) => {
     setEditData(tierList);
-    setMode('builder');
+    setSearchParams({ mode: 'builder' });
   };
 
   const requestEditTierList = (tierList: TierListType) => {
@@ -292,9 +299,8 @@ export default function TierList() {
               value={mode}
               onChange={(val) => {
                 const newMode = val as 'view' | 'saved' | 'builder';
-                setMode(newMode);
+                setSearchParams(newMode === 'view' ? {} : { mode: newMode });
                 if (newMode === 'view') setEditData(null);
-                if (newMode === 'saved') refreshSavedTierLists();
               }}
               data={[
                 { label: 'View Tier Lists', value: 'view' },
@@ -339,7 +345,7 @@ export default function TierList() {
                 viewMode={viewMode}
                 onRequestEdit={requestEditTierList}
                 onRequestDelete={setPendingDeleteSavedTierList}
-                onGoToBuilder={() => setMode('builder')}
+                onGoToBuilder={() => setSearchParams({ mode: 'builder' })}
               />
             )}
 
