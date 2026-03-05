@@ -10,14 +10,21 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import React from 'react';
 import { FACTION_WYRM_MAP } from '../../assets/wyrms';
-import FactionTag from '../common/FactionTag';
 import { FACTION_COLOR } from '../../constants/colors';
 import { normalizeContentType } from '../../constants/content-types';
-import { getCardHoverProps, LINK_BLOCK_RESET_STYLE } from '../../constants/styles';
+import {
+  getCardHoverProps,
+  LINK_BLOCK_RESET_STYLE,
+} from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Team } from '../../types/team';
-import { getTeamBenchEntryName, getTeamBenchEntryQuality } from '../../utils/team-bench';
+import {
+  getTeamBenchEntryName,
+  getTeamBenchEntryQuality,
+} from '../../utils/team-bench';
+import FactionTag from '../common/FactionTag';
+import LastUpdated from '../common/LastUpdated';
 import TeamCharacterAvatars from './TeamCharacterAvatars';
 
 interface TeamCardProps {
@@ -26,6 +33,7 @@ interface TeamCardProps {
   characterByIdentity: Map<string, Character>;
   onNavigate?: () => void;
   actions: React.ReactNode;
+  showLastUpdated?: boolean;
 }
 
 export default function TeamCard({
@@ -34,6 +42,7 @@ export default function TeamCard({
   characterByIdentity,
   onNavigate,
   actions,
+  showLastUpdated = false,
 }: TeamCardProps) {
   const isLargeTeamCardLayout = useMediaQuery('(min-width: 75em)');
 
@@ -117,18 +126,17 @@ export default function TeamCard({
             )}
             {team.description && (
               <Text span inherit>
-                {team.author ? ' · ' : ''}{team.description}
+                {team.author ? ' · ' : ''}
+                {team.description}
               </Text>
             )}
           </Text>
         )}
 
+        {showLastUpdated && <LastUpdated timestamp={team.last_updated} />}
+
         {/* Member portraits */}
-        <Paper
-          p="xs"
-          radius="sm"
-          bg="var(--mantine-color-default-hover)"
-        >
+        <Paper p="xs" radius="sm" bg="var(--mantine-color-default-hover)">
           <Stack gap="xs">
             <Group gap="xs" align="flex-start" wrap="nowrap">
               <Badge

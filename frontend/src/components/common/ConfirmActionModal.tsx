@@ -22,7 +22,13 @@ export default function ConfirmActionModal({
   onConfirm,
 }: ConfirmActionModalProps) {
   return (
-    <Modal opened={opened} onClose={onCancel} title={title} centered>
+    <Modal
+      opened={opened}
+      onClose={onCancel}
+      title={title}
+      centered
+      lockScroll={false}
+    >
       <Stack gap="md">
         <Text size="sm" c="dimmed">
           {message}

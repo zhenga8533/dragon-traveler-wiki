@@ -536,13 +536,15 @@ export default function TierListBuilder({
   function executeSaveToMySaved(key: string) {
     try {
       const data = JSON.parse(json) as TierList;
+      const now = Math.floor(Date.now() / 1000);
+      const normalized: TierList = { ...data, last_updated: now };
       const stored = window.localStorage.getItem(
         STORAGE_KEY.TIER_LIST_MY_SAVED
       );
       const saves: Record<string, TierList> = stored
         ? (JSON.parse(stored) as Record<string, TierList>)
         : {};
-      saves[key] = data;
+      saves[key] = normalized;
       window.localStorage.setItem(
         STORAGE_KEY.TIER_LIST_MY_SAVED,
         JSON.stringify(saves)

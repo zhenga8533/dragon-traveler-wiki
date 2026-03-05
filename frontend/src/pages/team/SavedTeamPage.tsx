@@ -1,19 +1,16 @@
 import {
-  ActionIcon,
   Badge,
   Box,
   Button,
   Container,
-  CopyButton,
   Group,
   SimpleGrid,
   Stack,
   Title,
-  Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { IoCreate, IoDownload, IoTrash } from 'react-icons/io5';
+import { IoDownload } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 import ConfirmActionModal from '../../components/common/ConfirmActionModal';
 import EntityNotFound from '../../components/common/EntityNotFound';
@@ -58,7 +55,19 @@ function readSavedTeamBySlug(slug: string): Team | null {
       'members' in (val as object) &&
       Array.isArray((val as Team).members)
     ) {
-      return val as Team;
+      const team = val as Team;
+      if ((team.last_updated ?? 0) > 0) return team;
+
+      const normalized: Team = {
+        ...team,
+        last_updated: Math.floor(Date.now() / 1000),
+      };
+      saves[slug] = normalized;
+      window.localStorage.setItem(
+        STORAGE_KEY.TEAMS_MY_SAVED,
+        JSON.stringify(saves)
+      );
+      return normalized;
     }
     return null;
   } catch {
@@ -250,6 +259,7 @@ export default function SavedTeamPage() {
         isDark={isDark}
         tooltipProps={tooltipProps}
         onRequestEdit={requestLoadInBuilder}
+        onRequestDelete={() => setConfirmDeleteOpen(true)}
       />
 
       <ConfirmActionModal
@@ -279,39 +289,6 @@ export default function SavedTeamPage() {
 
       <Container size="lg" py="xl">
         <Stack gap="xl">
-          {/* Secondary actions */}
-          <Group gap="xs">
-            <Button
-              variant="light"
-              size="sm"
-              leftSection={<IoCreate size={16} />}
-              onClick={requestLoadInBuilder}
-            >
-              Load
-            </Button>
-            <CopyButton value={JSON.stringify(team, null, 2)}>
-              {({ copy, copied }) => (
-                <Button
-                  variant="light"
-                  size="sm"
-                  color={copied ? 'teal' : undefined}
-                  onClick={copy}
-                >
-                  {copied ? 'Copied!' : 'Copy JSON'}
-                </Button>
-              )}
-            </CopyButton>
-            <Button
-              variant="light"
-              size="sm"
-              color="red"
-              leftSection={<IoTrash size={16} />}
-              onClick={() => setConfirmDeleteOpen(true)}
-            >
-              Delete
-            </Button>
-          </Group>
-
           <TeamSynergyAssistant synergy={teamSynergy} />
 
           {hasWyrmspells && (
@@ -362,17 +339,16 @@ export default function SavedTeamPage() {
                   {team.members.length} members
                 </Badge>
               </Group>
-              <Tooltip label="Export as image" withArrow>
-                <ActionIcon
-                  variant="subtle"
-                  color={factionColor}
-                  size="lg"
-                  loading={exporting}
-                  onClick={exportAsImage}
-                >
-                  <IoDownload size={18} />
-                </ActionIcon>
-              </Tooltip>
+              <Button
+                variant="subtle"
+                color={factionColor}
+                size="sm"
+                leftSection={<IoDownload size={16} />}
+                loading={exporting}
+                onClick={exportAsImage}
+              >
+                Export Image
+              </Button>
             </Group>
             <Box ref={exportRef} style={{ padding: 8 }}>
               <Stack gap="md">

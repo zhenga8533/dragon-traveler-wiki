@@ -936,11 +936,13 @@ export default function TeamBuilder({
   function executeSaveToMySaved(key: string) {
     try {
       const data = JSON.parse(json) as Team;
+      const now = Math.floor(Date.now() / 1000);
+      const normalized: Team = { ...data, last_updated: now };
       const stored = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
       const saves: Record<string, Team> = stored
         ? (JSON.parse(stored) as Record<string, Team>)
         : {};
-      saves[key] = data;
+      saves[key] = normalized;
       window.localStorage.setItem(
         STORAGE_KEY.TEAMS_MY_SAVED,
         JSON.stringify(saves)

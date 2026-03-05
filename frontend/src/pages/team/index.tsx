@@ -1,16 +1,14 @@
 import {
-  ActionIcon,
   Badge,
   Box,
+  Button,
   Container,
   Group,
   SimpleGrid,
   Stack,
   Title,
-  Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { downloadElementAsPng } from '../../utils/export-image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { IoDownload } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -46,6 +44,7 @@ import {
   shouldRedirectToEntitySlug,
   toEntitySlug,
 } from '../../utils/entity-slug';
+import { downloadElementAsPng } from '../../utils/export-image';
 import { computeTeamSynergy } from '../../utils/team-synergy';
 import { BattlefieldGrid } from './BattlefieldGrid';
 import { BenchSection } from './BenchSection';
@@ -65,7 +64,8 @@ export default function TeamPage() {
   const { data: wyrmspells, loading: loadingSpells } = useWyrmspells();
   const { data: factions, loading: loadingFactions } = useFactions();
   const { data: artifacts, loading: loadingArtifacts } = useArtifacts();
-  const { data: statusEffects, loading: loadingStatusEffects } = useStatusEffects();
+  const { data: statusEffects, loading: loadingStatusEffects } =
+    useStatusEffects();
   const { data: changesData } = useTeamChanges();
 
   const loading =
@@ -101,8 +101,11 @@ export default function TeamPage() {
       ? orderedTeams[teamIndex + 1]
       : null;
 
-  const { preferredByName: charMap, byIdentity: characterByIdentity, nameCounts: characterNameCounts } =
-    useCharacterResolution(characters);
+  const {
+    preferredByName: charMap,
+    byIdentity: characterByIdentity,
+    nameCounts: characterNameCounts,
+  } = useCharacterResolution(characters);
 
   const getCharacterPath = useCallback(
     (characterName: string, characterQuality?: string | null) => {
@@ -297,17 +300,16 @@ export default function TeamPage() {
                   {team.members.length} members
                 </Badge>
               </Group>
-              <Tooltip label="Export as image" withArrow>
-                <ActionIcon
-                  variant="subtle"
-                  color={factionColor}
-                  size="lg"
-                  loading={exporting}
-                  onClick={exportAsImage}
-                >
-                  <IoDownload size={18} />
-                </ActionIcon>
-              </Tooltip>
+              <Button
+                variant="subtle"
+                color={factionColor}
+                size="sm"
+                leftSection={<IoDownload size={16} />}
+                loading={exporting}
+                onClick={exportAsImage}
+              >
+                Export Image
+              </Button>
             </Group>
             <Box ref={exportRef} style={{ padding: 8 }}>
               <Stack gap="md">

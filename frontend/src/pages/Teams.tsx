@@ -29,13 +29,17 @@ import {
   normalizeContentType,
 } from '../constants/content-types';
 import { STORAGE_KEY } from '../constants/ui';
-import { toEntitySlug } from '../utils/entity-slug';
 import { useCharacterResolution } from '../hooks';
+import {
+  useCharacters,
+  useTeams,
+  useWyrmspells,
+} from '../hooks/use-common-data';
 import { useFilters, useViewMode } from '../hooks/use-filters';
-import { useCharacters, useTeams, useWyrmspells } from '../hooks/use-common-data';
 import { usePagination } from '../hooks/use-pagination';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
+import { toEntitySlug } from '../utils/entity-slug';
 import TeamsSavedTab from './teams/TeamsSavedTab';
 import TeamsViewTab from './teams/TeamsViewTab';
 
@@ -46,15 +50,36 @@ function parseMode(raw: string | null): 'view' | 'saved' | 'builder' {
   return 'view';
 }
 
+function matchesTeamFilters(
+  team: Team,
+  search: string,
+  viewFilters: Record<string, string[]>
+) {
+  if (search && !team.name.toLowerCase().includes(search.toLowerCase())) {
+    return false;
+  }
+  if (
+    viewFilters.factions.length > 0 &&
+    !viewFilters.factions.includes(team.faction)
+  ) {
+    return false;
+  }
+  if (
+    viewFilters.contentTypes.length > 0 &&
+    !viewFilters.contentTypes.includes(
+      normalizeContentType(team.content_type, 'All')
+    )
+  ) {
+    return false;
+  }
+  return true;
+}
+
 export default function Teams() {
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
-  const {
-    data: teams,
-    loading: loadingTeams,
-    error: teamsError,
-  } = useTeams();
+  const { data: teams, loading: loadingTeams, error: teamsError } = useTeams();
   const {
     data: characters,
     loading: loadingChars,
@@ -81,7 +106,9 @@ export default function Teams() {
   const [pendingEditTeam, setPendingEditTeam] = useState<Team | null>(null);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
   const [savedTeams, setSavedTeams] = useState<Team[]>([]);
-  const [pendingDeleteSavedTeam, setPendingDeleteSavedTeam] = useState<string | null>(null);
+  const [pendingDeleteSavedTeam, setPendingDeleteSavedTeam] = useState<
+    string | null
+  >(null);
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TEAMS_VIEW_MODE,
     defaultMode: 'grid',
@@ -146,11 +173,23 @@ export default function Teams() {
   );
 
   const activeFilterCount =
-    mode === 'view'
+    mode === 'view' || mode === 'saved'
       ? viewFilters.factions.length +
         viewFilters.contentTypes.length +
         (search.trim() ? 1 : 0)
       : 0;
+
+  const handleFilterChange = useCallback(
+    (key: string, values: string[]) => {
+      setViewFilters((prev) => ({ ...prev, [key]: values }));
+    },
+    [setViewFilters]
+  );
+
+  const handleClearFilters = useCallback(() => {
+    setViewFilters({ factions: [], contentTypes: [] });
+    setSearch('');
+  }, [setViewFilters]);
 
   const hasBuilderDraft = () => {
     if (typeof window === 'undefined') return true;
@@ -176,13 +215,37 @@ export default function Teams() {
   const refreshSavedTeams = useCallback(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
-      if (!raw) { setSavedTeams([]); return; }
+      if (!raw) {
+        setSavedTeams([]);
+        return;
+      }
       const parsed = JSON.parse(raw) as Record<string, unknown>;
-      const saved = Object.values(parsed)
-        .filter((v): v is Team =>
-          v !== null && typeof v === 'object' && Array.isArray((v as Team).members)
+      const now = Math.floor(Date.now() / 1000);
+      let changed = false;
+
+      const saved = Object.entries(parsed)
+        .filter(
+          ([, v]): v is Team =>
+            v !== null &&
+            typeof v === 'object' &&
+            Array.isArray((v as Team).members)
         )
+        .map(([key, team]) => {
+          if ((team.last_updated ?? 0) > 0) return team;
+          changed = true;
+          const normalized: Team = { ...team, last_updated: now };
+          parsed[key] = normalized;
+          return normalized;
+        })
         .sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
+
+      if (changed) {
+        window.localStorage.setItem(
+          STORAGE_KEY.TEAMS_MY_SAVED,
+          JSON.stringify(parsed)
+        );
+      }
+
       setSavedTeams(saved);
     } catch {
       setSavedTeams([]);
@@ -198,31 +261,26 @@ export default function Teams() {
       const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
       const saves = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
       delete saves[toEntitySlug(name)];
-      window.localStorage.setItem(STORAGE_KEY.TEAMS_MY_SAVED, JSON.stringify(saves));
+      window.localStorage.setItem(
+        STORAGE_KEY.TEAMS_MY_SAVED,
+        JSON.stringify(saves)
+      );
       setSavedTeams((prev) => prev.filter((t) => t.name !== name));
     } catch {
       // ignore
     }
   }
 
+  const filteredSavedTeams = useMemo(() => {
+    return savedTeams.filter((team) =>
+      matchesTeamFilters(team, search, viewFilters)
+    );
+  }, [savedTeams, search, viewFilters]);
+
   const filteredTeams = useMemo(() => {
-    return teams.filter((team) => {
-      if (search && !team.name.toLowerCase().includes(search.toLowerCase()))
-        return false;
-      if (
-        viewFilters.factions.length > 0 &&
-        !viewFilters.factions.includes(team.faction)
-      )
-        return false;
-      if (
-        viewFilters.contentTypes.length > 0 &&
-        !viewFilters.contentTypes.includes(
-          normalizeContentType(team.content_type, 'All')
-        )
-      )
-        return false;
-      return true;
-    });
+    return teams.filter((team) =>
+      matchesTeamFilters(team, search, viewFilters)
+    );
   }, [teams, search, viewFilters]);
 
   const { page, setPage, totalPages, offset } = usePagination(
@@ -252,7 +310,7 @@ export default function Teams() {
             {(mode === 'view' || mode === 'saved') && (
               <ViewToggle viewMode={viewMode} onChange={setViewMode} />
             )}
-            {mode === 'view' && (
+            {(mode === 'view' || mode === 'saved') && (
               <Button
                 variant="default"
                 size="xs"
@@ -314,14 +372,9 @@ export default function Teams() {
                 entityFilterGroups={entityFilterGroups}
                 viewFilters={viewFilters}
                 search={search}
-                onFilterChange={(key, values) =>
-                  setViewFilters((prev) => ({ ...prev, [key]: values }))
-                }
+                onFilterChange={handleFilterChange}
                 onSearchChange={setSearch}
-                onClearFilters={() => {
-                  setViewFilters({ factions: [], contentTypes: [] });
-                  setSearch('');
-                }}
+                onClearFilters={handleClearFilters}
                 onOpenFilters={toggleFilter}
                 page={page}
                 totalPages={totalPages}
@@ -333,9 +386,18 @@ export default function Teams() {
             {mode === 'saved' && (
               <TeamsSavedTab
                 savedTeams={savedTeams}
+                filteredSavedTeams={filteredSavedTeams}
                 charMap={charMap}
                 characterByIdentity={characterByIdentity}
                 viewMode={viewMode}
+                filterOpen={filterOpen}
+                entityFilterGroups={entityFilterGroups}
+                viewFilters={viewFilters}
+                search={search}
+                onFilterChange={handleFilterChange}
+                onSearchChange={setSearch}
+                onClearFilters={handleClearFilters}
+                onOpenFilters={toggleFilter}
                 onRequestEdit={requestEditTeam}
                 onRequestDelete={setPendingDeleteSavedTeam}
                 onGoToBuilder={() => setSearchParams({ mode: 'builder' })}

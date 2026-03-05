@@ -1,6 +1,5 @@
 import {
   Badge,
-  Button,
   Collapse,
   Divider,
   Group,
@@ -12,9 +11,9 @@ import {
   Table,
   Text,
 } from '@mantine/core';
-import { IoCreate } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
 import { FACTION_WYRM_MAP } from '../../assets/wyrms';
+import EntityActionButtons from '../../components/common/EntityActionButtons';
 import type { ChipFilterGroup } from '../../components/common/EntityFilter';
 import EntityFilter from '../../components/common/EntityFilter';
 import FactionTag from '../../components/common/FactionTag';
@@ -27,8 +26,11 @@ import { getMinWidthStyle } from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Team } from '../../types/team';
-import { getTeamBenchEntryName, getTeamBenchEntryQuality } from '../../utils/team-bench';
 import { toEntitySlug } from '../../utils/entity-slug';
+import {
+  getTeamBenchEntryName,
+  getTeamBenchEntryQuality,
+} from '../../utils/team-bench';
 
 interface TeamsViewTabProps {
   paginatedTeams: Team[];
@@ -110,19 +112,12 @@ export default function TeamsViewTab({
               characterByIdentity={characterByIdentity}
               onNavigate={() => navigate(`/teams/${toEntitySlug(team.name)}`)}
               actions={
-                <Button
-                  variant="subtle"
+                <EntityActionButtons
+                  onEdit={() => onRequestEdit(team)}
                   size="compact-xs"
-                  color="violet"
-                  leftSection={<IoCreate size={12} />}
-                  style={{ flexShrink: 0 }}
-                  onClick={(e) => {
-                    e.stopPropagation();
-                    onRequestEdit(team);
-                  }}
-                >
-                  Edit
-                </Button>
+                  variant="subtle"
+                  stopPropagation
+                />
               }
             />
           ))}
@@ -137,6 +132,7 @@ export default function TeamsViewTab({
                 <Table.Th>Faction</Table.Th>
                 <Table.Th>Content Type</Table.Th>
                 <Table.Th>Author</Table.Th>
+                <Table.Th>Actions</Table.Th>
               </Table.Tr>
             </Table.Thead>
             <Table.Tbody>
@@ -152,9 +148,7 @@ export default function TeamsViewTab({
                     <Table.Td>
                       <Group gap="sm" wrap="nowrap">
                         <Image
-                          src={
-                            FACTION_WYRM_MAP[team.faction as FactionName]
-                          }
+                          src={FACTION_WYRM_MAP[team.faction as FactionName]}
                           alt={`${team.faction} Whelp`}
                           w={28}
                           h={28}
@@ -250,6 +244,16 @@ export default function TeamsViewTab({
                       <Text size="sm" c="violet">
                         {team.author}
                       </Text>
+                    </Table.Td>
+                    <Table.Td>
+                      <Group gap={4} wrap="nowrap">
+                        <EntityActionButtons
+                          onEdit={() => onRequestEdit(team)}
+                          size="compact-xs"
+                          variant="subtle"
+                          stopPropagation
+                        />
+                      </Group>
                     </Table.Td>
                   </Table.Tr>
                 );

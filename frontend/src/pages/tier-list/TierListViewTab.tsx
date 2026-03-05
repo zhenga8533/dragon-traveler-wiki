@@ -1,6 +1,5 @@
 import {
   Badge,
-  Button,
   Collapse,
   Group,
   Paper,
@@ -11,13 +10,13 @@ import {
   Tabs,
   Text,
 } from '@mantine/core';
-import { IoCreate, IoDownload } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterCard from '../../components/character/CharacterCard';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
 import ChangeHistory from '../../components/common/ChangeHistory';
 import ClassTag from '../../components/common/ClassTag';
 import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
+import EntityActionButtons from '../../components/common/EntityActionButtons';
 import type { ChipFilterGroup } from '../../components/common/EntityFilter';
 import EntityFilter from '../../components/common/EntityFilter';
 import FactionTag from '../../components/common/FactionTag';
@@ -26,8 +25,8 @@ import QualityIcon from '../../components/common/QualityIcon';
 import TierListContent from '../../components/tier-list/TierListContent';
 import { getCardHoverProps } from '../../constants/styles';
 import { CHARACTER_GRID_SPACING } from '../../constants/ui';
-import type { Character } from '../../types/character';
 import type { ChangesFile } from '../../types/changes';
+import type { Character } from '../../types/character';
 import type { TierList as TierListType } from '../../types/tier-list';
 import {
   getCharacterBaseSlug,
@@ -112,7 +111,7 @@ export default function TierListViewTab({
 
       {visibleTierLists.length > 0 && (
         <Tabs defaultValue={visibleTierLists[0]?.name}>
-          <Group justify="space-between" mb="md" wrap="wrap">
+          <Group justify="space-between" mb={0} wrap="wrap">
             <Tabs.List style={{ flexWrap: 'wrap', flex: 1 }}>
               {visibleTierLists.map((tierList) => (
                 <Tabs.Tab key={tierList.name} value={tierList.name}>
@@ -141,25 +140,13 @@ export default function TierListViewTab({
             );
 
             const headerActions = (
-              <>
-                <Button
-                  variant="light"
-                  size="compact-xs"
-                  leftSection={<IoCreate size={12} />}
-                  onClick={() => onRequestEdit(tierList)}
-                >
-                  Edit
-                </Button>
-                <Button
-                  variant="light"
-                  size="compact-xs"
-                  leftSection={<IoDownload size={12} />}
-                  loading={isExporting === tierList.name}
-                  onClick={() => onRequestExport(tierList.name)}
-                >
-                  Export Image
-                </Button>
-              </>
+              <EntityActionButtons
+                onEdit={() => onRequestEdit(tierList)}
+                onExport={() => onRequestExport(tierList.name)}
+                isExporting={isExporting === tierList.name}
+                size="compact-xs"
+                variant="light"
+              />
             );
 
             return (

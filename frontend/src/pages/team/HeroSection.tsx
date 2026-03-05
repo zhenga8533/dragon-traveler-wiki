@@ -12,7 +12,7 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { IoCreate } from 'react-icons/io5';
+import { IoCreate, IoTrash } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getArtifactIcon } from '../../assets/artifacts';
 import { FACTION_WYRM_MAP } from '../../assets/wyrms';
@@ -46,6 +46,7 @@ export function TeamHeroSection({
   isDark,
   tooltipProps,
   onRequestEdit,
+  onRequestDelete,
 }: {
   team: Team;
   factionInfo: Faction | null;
@@ -54,6 +55,7 @@ export function TeamHeroSection({
   isDark: boolean;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
   onRequestEdit: () => void;
+  onRequestDelete?: () => void;
 }) {
   const factionColor = FACTION_COLOR[team.faction];
 
@@ -61,26 +63,31 @@ export function TeamHeroSection({
     <Box style={DETAIL_HERO_WRAPPER_STYLES}>
       <Box style={getDetailHeroGradient(isDark, factionColor)} />
 
-      <Container
-        size="lg"
-        style={{ position: 'relative', zIndex: 1 }}
-        py="xl"
-      >
+      <Container size="lg" style={{ position: 'relative', zIndex: 1 }} py="xl">
         <Stack gap="lg">
           <Group justify="space-between">
             <Breadcrumbs
-              items={[
-                { label: 'Teams', path: '/teams' },
-                { label: team.name },
-              ]}
+              items={[{ label: 'Teams', path: '/teams' }, { label: team.name }]}
             />
-            <Button
-              variant="light"
-              leftSection={<IoCreate size={14} />}
-              onClick={onRequestEdit}
-            >
-              Edit Team
-            </Button>
+            <Group gap="xs">
+              <Button
+                variant="light"
+                leftSection={<IoCreate size={14} />}
+                onClick={onRequestEdit}
+              >
+                Edit Team
+              </Button>
+              {onRequestDelete && (
+                <Button
+                  variant="light"
+                  color="red"
+                  leftSection={<IoTrash size={14} />}
+                  onClick={onRequestDelete}
+                >
+                  Delete
+                </Button>
+              )}
+            </Group>
           </Group>
 
           <Group gap="lg" align="flex-start" wrap="nowrap">
@@ -183,8 +190,7 @@ export function TeamHeroSection({
                                     style={{
                                       width: 64,
                                       height: 64,
-                                      borderRadius:
-                                        'var(--mantine-radius-md)',
+                                      borderRadius: 'var(--mantine-radius-md)',
                                       background: isDark
                                         ? 'rgba(0,0,0,0.3)'
                                         : 'rgba(255,255,255,0.6)',
@@ -233,13 +239,8 @@ export function TeamHeroSection({
                                       )}
                                     </Group>
                                     {artifact && (
-                                      <Text
-                                        size="xs"
-                                        c="dimmed"
-                                        lineClamp={1}
-                                      >
-                                        {artifact.lore ||
-                                          'No lore available.'}
+                                      <Text size="xs" c="dimmed" lineClamp={1}>
+                                        {artifact.lore || 'No lore available.'}
                                       </Text>
                                     )}
                                   </Stack>

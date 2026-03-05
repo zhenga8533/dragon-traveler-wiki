@@ -10,7 +10,6 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { downloadElementAsPng } from '../utils/export-image';
 import { IoFilter } from 'react-icons/io5';
 import { useSearchParams } from 'react-router-dom';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
@@ -28,18 +27,50 @@ import {
   normalizeContentType,
 } from '../constants/content-types';
 import { STORAGE_KEY } from '../constants/ui';
-import { toEntitySlug } from '../utils/entity-slug';
 import { useCharacterResolution } from '../hooks';
+import {
+  useCharacters,
+  useTierListChanges,
+  useTierLists,
+} from '../hooks/use-common-data';
 import { useFilters, useViewMode } from '../hooks/use-filters';
-import { useCharacters, useTierListChanges, useTierLists } from '../hooks/use-common-data';
 import type { TierList as TierListType } from '../types/tier-list';
 import { resolveCharacterByNameAndQuality } from '../utils/character-route';
+import { toEntitySlug } from '../utils/entity-slug';
+import { downloadElementAsPng } from '../utils/export-image';
 import TierListSavedTab from './tier-list/TierListSavedTab';
 import TierListViewTab from './tier-list/TierListViewTab';
 
 function parseMode(raw: string | null): 'view' | 'saved' | 'builder' {
   if (raw === 'saved' || raw === 'builder') return raw;
   return 'view';
+}
+
+function matchesTierListFilters(
+  tierList: TierListType,
+  search: string,
+  viewFilters: Record<string, string[]>
+) {
+  if (
+    search &&
+    ![tierList.name, tierList.author, tierList.description ?? '']
+      .join(' ')
+      .toLowerCase()
+      .includes(search.toLowerCase())
+  ) {
+    return false;
+  }
+
+  if (
+    viewFilters.contentTypes.length > 0 &&
+    !viewFilters.contentTypes.includes(
+      normalizeContentType(tierList.content_type, 'All')
+    )
+  ) {
+    return false;
+  }
+
+  return true;
 }
 
 export default function TierList() {
@@ -72,12 +103,16 @@ export default function TierList() {
     useState<TierListType | null>(null);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
   const [savedTierLists, setSavedTierLists] = useState<TierListType[]>([]);
-  const [pendingDeleteSavedTierList, setPendingDeleteSavedTierList] = useState<string | null>(null);
+  const [pendingDeleteSavedTierList, setPendingDeleteSavedTierList] = useState<
+    string | null
+  >(null);
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TIER_LIST_VIEW_MODE,
     defaultMode: 'grid',
   });
-  const [isCapturingTierList, setIsCapturingTierList] = useState<string | null>(null);
+  const [isCapturingTierList, setIsCapturingTierList] = useState<string | null>(
+    null
+  );
   const exportRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const isDark = useComputedColorScheme('light') === 'dark';
   const loading = loadingTiers || loadingChars;
@@ -130,9 +165,21 @@ export default function TierList() {
   );
 
   const activeFilterCount =
-    mode === 'view'
+    mode === 'view' || mode === 'saved'
       ? viewFilters.contentTypes.length + (search.trim() ? 1 : 0)
       : 0;
+
+  const handleFilterChange = useCallback(
+    (key: string, values: string[]) => {
+      setViewFilters((prev) => ({ ...prev, [key]: values }));
+    },
+    [setViewFilters]
+  );
+
+  const handleClearFilters = useCallback(() => {
+    setViewFilters({ contentTypes: [] });
+    setSearch('');
+  }, [setViewFilters]);
 
   const hasBuilderDraft = () => {
     if (typeof window === 'undefined') return true;
@@ -162,13 +209,37 @@ export default function TierList() {
   const refreshSavedTierLists = useCallback(() => {
     try {
       const raw = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
-      if (!raw) { setSavedTierLists([]); return; }
+      if (!raw) {
+        setSavedTierLists([]);
+        return;
+      }
       const parsed = JSON.parse(raw) as Record<string, unknown>;
-      const lists = Object.values(parsed)
-        .filter((v): v is TierListType =>
-          v !== null && typeof v === 'object' && Array.isArray((v as TierListType).entries)
+      const now = Math.floor(Date.now() / 1000);
+      let changed = false;
+
+      const lists = Object.entries(parsed)
+        .filter(
+          ([, v]): v is TierListType =>
+            v !== null &&
+            typeof v === 'object' &&
+            Array.isArray((v as TierListType).entries)
         )
+        .map(([key, tierList]) => {
+          if ((tierList.last_updated ?? 0) > 0) return tierList;
+          changed = true;
+          const normalized: TierListType = { ...tierList, last_updated: now };
+          parsed[key] = normalized;
+          return normalized;
+        })
         .sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
+
+      if (changed) {
+        window.localStorage.setItem(
+          STORAGE_KEY.TIER_LIST_MY_SAVED,
+          JSON.stringify(parsed)
+        );
+      }
+
       setSavedTierLists(lists);
     } catch {
       setSavedTierLists([]);
@@ -184,7 +255,10 @@ export default function TierList() {
       const raw = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
       const saves = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
       delete saves[toEntitySlug(name)];
-      window.localStorage.setItem(STORAGE_KEY.TIER_LIST_MY_SAVED, JSON.stringify(saves));
+      window.localStorage.setItem(
+        STORAGE_KEY.TIER_LIST_MY_SAVED,
+        JSON.stringify(saves)
+      );
       setSavedTierLists((prev) => prev.filter((t) => t.name !== name));
     } catch {
       // ignore
@@ -200,27 +274,16 @@ export default function TierList() {
   }, [tierLists]);
 
   const visibleTierLists = useMemo(() => {
-    return tierLists.filter((tl) => {
-      if (
-        search &&
-        ![tl.name, tl.author, tl.description ?? '']
-          .join(' ')
-          .toLowerCase()
-          .includes(search.toLowerCase())
-      )
-        return false;
-
-      if (
-        viewFilters.contentTypes.length > 0 &&
-        !viewFilters.contentTypes.includes(
-          normalizeContentType(tl.content_type, 'All')
-        )
-      )
-        return false;
-
-      return true;
-    });
+    return tierLists.filter((tierList) =>
+      matchesTierListFilters(tierList, search, viewFilters)
+    );
   }, [tierLists, search, viewFilters]);
+
+  const visibleSavedTierLists = useMemo(() => {
+    return savedTierLists.filter((tierList) =>
+      matchesTierListFilters(tierList, search, viewFilters)
+    );
+  }, [savedTierLists, search, viewFilters]);
 
   useEffect(() => {
     if (!isCapturingTierList) return;
@@ -258,7 +321,7 @@ export default function TierList() {
             {(mode === 'view' || mode === 'saved') && (
               <ViewToggle viewMode={viewMode} onChange={setViewMode} />
             )}
-            {mode === 'view' && (
+            {(mode === 'view' || mode === 'saved') && (
               <Button
                 variant="default"
                 size="xs"
@@ -320,14 +383,9 @@ export default function TierList() {
                 entityFilterGroups={entityFilterGroups}
                 viewFilters={viewFilters}
                 search={search}
-                onFilterChange={(key, values) =>
-                  setViewFilters((prev) => ({ ...prev, [key]: values }))
-                }
+                onFilterChange={handleFilterChange}
                 onSearchChange={setSearch}
-                onClearFilters={() => {
-                  setViewFilters({ contentTypes: [] });
-                  setSearch('');
-                }}
+                onClearFilters={handleClearFilters}
                 onOpenFilters={toggleFilter}
                 tierListChanges={tierListChanges}
                 onRequestEdit={requestEditTierList}
@@ -340,10 +398,22 @@ export default function TierList() {
             {mode === 'saved' && (
               <TierListSavedTab
                 savedTierLists={savedTierLists}
+                visibleSavedTierLists={visibleSavedTierLists}
                 resolveTierEntryCharacter={resolveTierEntryCharacter}
                 characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
+                filterOpen={filterOpen}
+                entityFilterGroups={entityFilterGroups}
+                viewFilters={viewFilters}
+                search={search}
+                onFilterChange={handleFilterChange}
+                onSearchChange={setSearch}
+                onClearFilters={handleClearFilters}
+                onOpenFilters={toggleFilter}
                 onRequestEdit={requestEditTierList}
+                onRequestExport={setIsCapturingTierList}
+                isExporting={isCapturingTierList}
+                exportRefCallback={exportRefCallback}
                 onRequestDelete={setPendingDeleteSavedTierList}
                 onGoToBuilder={() => setSearchParams({ mode: 'builder' })}
               />
@@ -385,12 +455,12 @@ export default function TierList() {
           confirmLabel="Delete"
           confirmColor="red"
           onConfirm={() => {
-            if (pendingDeleteSavedTierList) deleteSavedTierList(pendingDeleteSavedTierList);
+            if (pendingDeleteSavedTierList)
+              deleteSavedTierList(pendingDeleteSavedTierList);
             setPendingDeleteSavedTierList(null);
           }}
         />
       </Stack>
-
     </Container>
   );
 }
