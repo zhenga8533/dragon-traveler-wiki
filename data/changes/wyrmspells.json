@@ -237,7 +237,21 @@
   },
   "Reincarnation Roar": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772685061,
+        "fields": {
+          "effect": {
+            "old": "After the dragon summoned by Dragonmight dies, it deals Magic Damage equal to 155% of its own Attack to enemy units in a large circular area and restores HP equal to 10.25% of its own max HP to allied units in a large circular area.",
+            "new": "After the dragon summoned by Dragonmight dies, it deals Magic Damage equal to 150% of its own Attack to enemy units in a large circular area and restores HP equal to 10% of its own max HP to allied units in a large circular area."
+          },
+          "quality": {
+            "old": "SSR",
+            "new": "UR"
+          }
+        }
+      }
+    ]
   },
   "Soulguard Roar": {
     "added": 1772563593,

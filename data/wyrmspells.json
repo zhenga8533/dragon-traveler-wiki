@@ -432,6 +432,15 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Reincarnation Roar",
+    "effect": "After the dragon summoned by Dragonmight dies, it deals Magic Damage equal to 150% of its own Attack to enemy units in a large circular area and restores HP equal to 10% of its own max HP to allied units in a large circular area.",
+    "type": "Wildcry",
+    "quality": "UR",
+    "exclusive_faction": "Otherworld Return",
+    "is_global": true,
+    "last_updated": 1772685061
+  },
+  {
     "name": "Surging Roar",
     "effect": "When Dragonmight triggers an [Elemental Reaction], inflict [Stun] for 5.5 seconds.",
     "type": "Wildcry",
@@ -527,15 +536,6 @@
     "type": "Wildcry",
     "quality": "SSR",
     "exclusive_faction": "Sanctum Glory",
-    "is_global": true,
-    "last_updated": 1771129475
-  },
-  {
-    "name": "Reincarnation Roar",
-    "effect": "After the dragon summoned by Dragonmight dies, it deals Magic Damage equal to 155% of its own Attack to enemy units in a large circular area and restores HP equal to 10.25% of its own max HP to allied units in a large circular area.",
-    "type": "Wildcry",
-    "quality": "SSR",
-    "exclusive_faction": "Otherworld Return",
     "is_global": true,
     "last_updated": 1771129475
   },
