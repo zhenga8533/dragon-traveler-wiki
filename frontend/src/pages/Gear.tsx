@@ -46,7 +46,6 @@ import type { Quality } from '../types/quality';
 import { getLatestTimestamp } from '../utils';
 import { toEntitySlug } from '../utils/entity-slug';
 
-
 const GEAR_SET_FIELDS: FieldDef[] = [
   {
     name: 'name',
@@ -637,6 +636,9 @@ export default function GearPage() {
                     <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                       {gearSetPageItems.map((set) => {
                         const items = gearItemsBySet.get(set.name) ?? [];
+                        const setBonus = set.set_bonus;
+                        const bonusQuantity = setBonus?.quantity ?? 0;
+                        const bonusDescription = setBonus?.description ?? '';
                         return (
                           <Paper
                             key={set.name}
@@ -655,20 +657,20 @@ export default function GearPage() {
                                 <Text fw={700} c="violet" lineClamp={1}>
                                   {set.name}
                                 </Text>
-                                {set.set_bonus.quantity > 0 && (
+                                {bonusQuantity > 0 && (
                                   <Badge
                                     variant="outline"
                                     size="sm"
                                     color="gray"
                                   >
-                                    {set.set_bonus.quantity}-piece
+                                    {bonusQuantity}-piece
                                   </Badge>
                                 )}
                               </Group>
 
                               <Text size="sm" c="dimmed">
-                                {set.set_bonus.quantity > 0
-                                  ? set.set_bonus.description ||
+                                {bonusQuantity > 0
+                                  ? bonusDescription ||
                                     'No set bonus description.'
                                   : 'No set bonus.'}
                               </Text>

@@ -15,7 +15,7 @@ export interface GearSetBonus {
 
 export interface GearSet {
   name: string;
-  set_bonus: GearSetBonus;
+  set_bonus?: GearSetBonus;
   last_updated?: number;
 }
 
