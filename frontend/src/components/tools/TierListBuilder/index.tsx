@@ -21,7 +21,6 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { downloadElementAsPng } from '../../../utils/export-image';
 import {
   useCallback,
   useDeferredValue,
@@ -73,6 +72,7 @@ import {
   removeItemFromRecordArrays,
 } from '../../../utils/dnd-list';
 import { toEntitySlug } from '../../../utils/entity-slug';
+import { downloadElementAsPng } from '../../../utils/export-image';
 import { compareCharactersByQualityThenName } from '../../../utils/filter-characters';
 import { showSuccessToast, showWarningToast } from '../../../utils/toast';
 import FilterableCharacterPool from '../../character/FilterableCharacterPool';
@@ -84,12 +84,12 @@ import {
   TierListMetaFields,
   UnrankedPool,
 } from './components';
+import { TierListExportView, type TierExportRow } from './ExportView';
 import {
   getPastedTierListPatch,
   normalizeNote,
   normalizeTierListFromPartial,
 } from './utils';
-import { TierListExportView, type TierExportRow } from './ExportView';
 
 interface TierPlacements {
   [tier: string]: string[]; // tier -> ordered array of character identity keys
@@ -135,7 +135,9 @@ export default function TierListBuilder({
   const [pasteError, setPasteError] = useState('');
   const [draftHydrated, setDraftHydrated] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
-  const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<string | null>(null);
+  const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<
+    string | null
+  >(null);
   const exportRef = useRef<HTMLDivElement>(null);
   const isDark = useComputedColorScheme('light') === 'dark';
   const characterNameCounts = useMemo(
@@ -333,6 +335,37 @@ export default function TierListBuilder({
     [placements]
   );
 
+  const hasAnyBuilderData = useMemo(
+    () =>
+      hasAnyPlaced ||
+      Object.values(notes).some((note) => note.trim().length > 0) ||
+      tierDefs.length !== DEFAULT_TIER_DEFINITIONS.length ||
+      tierDefs.some((tierDef, index) => {
+        const defaultDef = DEFAULT_TIER_DEFINITIONS[index];
+        if (!defaultDef) return true;
+        const tierNote = (tierDef.note || '').trim();
+        const defaultNote = (defaultDef.note || '').trim();
+        return tierDef.name !== defaultDef.name || tierNote !== defaultNote;
+      }) ||
+      name.trim().length > 0 ||
+      author.trim().length > 0 ||
+      description.trim().length > 0 ||
+      categoryName !== DEFAULT_CONTENT_TYPE ||
+      newTierName.trim().length > 0 ||
+      newTierNote.trim().length > 0,
+    [
+      author,
+      categoryName,
+      description,
+      hasAnyPlaced,
+      name,
+      newTierName,
+      newTierNote,
+      notes,
+      tierDefs,
+    ]
+  );
+
   const tierListIssueQuery = useMemo(() => {
     const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
     return new URLSearchParams({
@@ -363,11 +396,15 @@ export default function TierListBuilder({
             const char = getCharacterFromKey(characterKey);
             const isDuplicate =
               char &&
-              (characterNameCounts.get(getCharacterBaseSlug(char.name)) ?? 1) > 1;
+              (characterNameCounts.get(getCharacterBaseSlug(char.name)) ?? 1) >
+                1;
             return {
               characterName: char?.name ?? characterKey,
               characterQuality: char?.quality ?? null,
-              label: isDuplicate && char ? `${char.name} (${char.quality})` : undefined,
+              label:
+                isDuplicate && char
+                  ? `${char.name} (${char.quality})`
+                  : undefined,
             };
           }),
         }))
@@ -499,13 +536,21 @@ export default function TierListBuilder({
   function executeSaveToMySaved(key: string) {
     try {
       const data = JSON.parse(json) as TierList;
-      const stored = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
+      const stored = window.localStorage.getItem(
+        STORAGE_KEY.TIER_LIST_MY_SAVED
+      );
       const saves: Record<string, TierList> = stored
         ? (JSON.parse(stored) as Record<string, TierList>)
         : {};
       saves[key] = data;
-      window.localStorage.setItem(STORAGE_KEY.TIER_LIST_MY_SAVED, JSON.stringify(saves));
-      showSuccessToast({ title: 'Saved!', message: `"${key}" saved to My Saved Tier Lists.` });
+      window.localStorage.setItem(
+        STORAGE_KEY.TIER_LIST_MY_SAVED,
+        JSON.stringify(saves)
+      );
+      showSuccessToast({
+        title: 'Saved!',
+        message: `"${key}" saved to My Saved Tier Lists.`,
+      });
     } catch {
       // ignore
     }
@@ -515,7 +560,9 @@ export default function TierListBuilder({
     try {
       const data = JSON.parse(json) as TierList;
       const key = toEntitySlug(data.name?.trim() || 'Untitled');
-      const stored = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
+      const stored = window.localStorage.getItem(
+        STORAGE_KEY.TIER_LIST_MY_SAVED
+      );
       const saves: Record<string, TierList> = stored
         ? (JSON.parse(stored) as Record<string, TierList>)
         : {};
@@ -557,6 +604,12 @@ export default function TierListBuilder({
       return init;
     });
     setNotes({});
+    setName('');
+    setAuthor('');
+    setCategoryName(DEFAULT_CONTENT_TYPE);
+    setDescription('');
+    setNewTierName('');
+    setNewTierNote('');
   }
 
   function handleTierNoteChange(tierName: string, note: string) {
@@ -626,378 +679,390 @@ export default function TierListBuilder({
 
   return (
     <>
-    <DndContext
-      sensors={sensors}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-    >
-      <Stack gap="md">
-        <TierListMetaFields
-          name={name}
-          author={author}
-          categoryName={categoryName}
-          description={description}
-          onNameCommit={setName}
-          onAuthorCommit={setAuthor}
-          onCategoryChange={handleCategoryChange}
-          onDescriptionCommit={setDescription}
-        />
+      <DndContext
+        sensors={sensors}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <Stack gap="md">
+          <TierListMetaFields
+            name={name}
+            author={author}
+            categoryName={categoryName}
+            description={description}
+            onNameCommit={setName}
+            onAuthorCommit={setAuthor}
+            onCategoryChange={handleCategoryChange}
+            onDescriptionCommit={setDescription}
+          />
 
-        <Group justify="space-between" wrap="wrap" gap="sm">
-          <Group gap="sm" wrap="wrap" align="center">
-            <CopyButton value={json}>
-              {({ copied, copy }) => (
-                <Button
-                  variant="light"
-                  size="sm"
-                  leftSection={
-                    copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
-                  }
-                  onClick={() => {
-                    copy();
-                  }}
-                  color={copied ? 'teal' : undefined}
-                >
-                  {copied ? 'Copied' : 'Copy JSON'}
-                </Button>
-              )}
-            </CopyButton>
-            <Button
-              variant="light"
-              size="sm"
-              leftSection={<IoClipboardOutline size={16} />}
-              onClick={openPasteModal}
-            >
-              Paste JSON
-            </Button>
-            <Button
-              variant="light"
-              size="sm"
-              leftSection={<IoSave size={16} />}
-              onClick={handleSaveToMySaved}
-            >
-              Save
-            </Button>
-            <Button
-              variant="light"
-              size="sm"
-              leftSection={<IoSwapVertical size={16} />}
-              onClick={handleSort}
-              disabled={!hasAnyPlaced}
-            >
-              Sort Tiers
-            </Button>
-          </Group>
-          <Group gap="sm" wrap="wrap">
-            <Button
-              variant="light"
-              size="sm"
-              leftSection={<IoDownload size={16} />}
-              onClick={() => setIsCapturing(true)}
-              loading={isCapturing}
-              disabled={!hasAnyPlaced}
-            >
-              Export Image
-            </Button>
-            <Button
-              variant="light"
-              size="sm"
-              leftSection={<IoOpenOutline size={16} />}
-              onClick={() => {
-                if (!tierListIssueUrl) {
-                  // URL too long, open issue with template but empty JSON
-                  const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Tier List] New tier list suggestion', body: buildEmptyIssueBody('tier list') }).toString()}`;
-                  window.open(emptyUrl, '_blank');
-                  showWarningToast({
-                    title: 'Tier list JSON is too large',
-                    message:
-                      'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
-                    autoClose: 8000,
-                  });
-                  return;
-                }
-
-                window.open(tierListIssueUrl, '_blank');
-              }}
-              disabled={!hasAnyPlaced}
-            >
-              Submit Suggestion
-            </Button>
-            <Button
-              variant="light"
-              color="red"
-              size="sm"
-              leftSection={<IoTrash size={16} />}
-              onClick={openClearConfirm}
-              disabled={!hasAnyPlaced}
-            >
-              Clear All
-            </Button>
-          </Group>
-        </Group>
-
-        {tierDefs.map((tierDef, index) => {
-          const tier = tierDef.name;
-          const names = placements[tier] || [];
-          const color = getTierColor(tier, index);
-
-          return (
-            <TierDropZone
-              key={tier}
-              id={`tier-${tier}`}
-              label={`${tier} Tier`}
-              color={color}
-              note={tierDef.note}
-              onNoteChange={(note) => handleTierNoteChange(tier, note)}
-              onDelete={() => handleDeleteTier(tier)}
-              onMoveUp={() => handleMoveTierUp(index)}
-              onMoveDown={() => handleMoveTierDown(index)}
-              isFirst={index === 0}
-              isLast={index === tierDefs.length - 1}
-              canDelete={tierDefs.length > 1}
-            >
-              {names.map((n) => {
-                const character = getCharacterFromKey(n);
-                const isDuplicate =
-                  character &&
-                  (characterNameCounts.get(
-                    getCharacterBaseSlug(character.name)
-                  ) ?? 1) > 1;
-                return (
-                  <Box
-                    key={n}
-                    style={{ position: 'relative', display: 'inline-block' }}
+          <Group justify="space-between" wrap="wrap" gap="sm">
+            <Group gap="sm" wrap="wrap" align="center">
+              <CopyButton value={json}>
+                {({ copied, copy }) => (
+                  <Button
+                    variant="light"
+                    size="sm"
+                    leftSection={
+                      copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
+                    }
+                    onClick={() => {
+                      copy();
+                    }}
+                    color={copied ? 'teal' : undefined}
                   >
+                    {copied ? 'Copied' : 'Copy JSON'}
+                  </Button>
+                )}
+              </CopyButton>
+              <Button
+                variant="light"
+                size="sm"
+                leftSection={<IoClipboardOutline size={16} />}
+                onClick={openPasteModal}
+              >
+                Paste JSON
+              </Button>
+              <Button
+                variant="light"
+                size="sm"
+                leftSection={<IoSave size={16} />}
+                onClick={handleSaveToMySaved}
+              >
+                Save
+              </Button>
+              <Button
+                variant="light"
+                size="sm"
+                leftSection={<IoSwapVertical size={16} />}
+                onClick={handleSort}
+                disabled={!hasAnyPlaced}
+              >
+                Sort Tiers
+              </Button>
+            </Group>
+            <Group gap="sm" wrap="wrap">
+              <Button
+                variant="light"
+                size="sm"
+                leftSection={<IoDownload size={16} />}
+                onClick={() => setIsCapturing(true)}
+                loading={isCapturing}
+                disabled={!hasAnyPlaced}
+              >
+                Export Image
+              </Button>
+              <Button
+                variant="light"
+                size="sm"
+                leftSection={<IoOpenOutline size={16} />}
+                onClick={() => {
+                  if (!tierListIssueUrl) {
+                    // URL too long, open issue with template but empty JSON
+                    const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Tier List] New tier list suggestion', body: buildEmptyIssueBody('tier list') }).toString()}`;
+                    window.open(emptyUrl, '_blank');
+                    showWarningToast({
+                      title: 'Tier list JSON is too large',
+                      message:
+                        'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
+                      autoClose: 8000,
+                    });
+                    return;
+                  }
+
+                  window.open(tierListIssueUrl, '_blank');
+                }}
+                disabled={!hasAnyPlaced}
+              >
+                Submit Suggestion
+              </Button>
+              <Button
+                variant="light"
+                color="red"
+                size="sm"
+                leftSection={<IoTrash size={16} />}
+                onClick={openClearConfirm}
+                disabled={!hasAnyBuilderData}
+              >
+                Clear All
+              </Button>
+            </Group>
+          </Group>
+
+          {tierDefs.map((tierDef, index) => {
+            const tier = tierDef.name;
+            const names = placements[tier] || [];
+            const color = getTierColor(tier, index);
+
+            return (
+              <TierDropZone
+                key={tier}
+                id={`tier-${tier}`}
+                label={`${tier} Tier`}
+                color={color}
+                note={tierDef.note}
+                onNoteChange={(note) => handleTierNoteChange(tier, note)}
+                onDelete={() => handleDeleteTier(tier)}
+                onMoveUp={() => handleMoveTierUp(index)}
+                onMoveDown={() => handleMoveTierDown(index)}
+                isFirst={index === 0}
+                isLast={index === tierDefs.length - 1}
+                canDelete={tierDefs.length > 1}
+              >
+                {names.map((n) => {
+                  const character = getCharacterFromKey(n);
+                  const isDuplicate =
+                    character &&
+                    (characterNameCounts.get(
+                      getCharacterBaseSlug(character.name)
+                    ) ?? 1) > 1;
+                  return (
+                    <Box
+                      key={n}
+                      style={{ position: 'relative', display: 'inline-block' }}
+                    >
+                      <DraggableCharCard
+                        name={character?.name ?? n}
+                        label={
+                          isDuplicate && character
+                            ? `${character.name} (${character.quality})`
+                            : undefined
+                        }
+                        charKey={n}
+                        char={character}
+                        tier={tier}
+                        size={isMobile ? 56 : undefined}
+                        nameCounts={characterNameCounts}
+                      />
+                      <CharacterNoteButton
+                        value={notes[n] || ''}
+                        onCommit={(value) => {
+                          const normalized = value.trim();
+                          setNotes((prev) => {
+                            const next = { ...prev };
+                            if (normalized.length > 0) {
+                              next[n] = normalized;
+                            } else {
+                              delete next[n];
+                            }
+                            return next;
+                          });
+                        }}
+                        style={{
+                          position: 'absolute',
+                          top: 2,
+                          left: 'calc(50% + 24px)',
+                          transform: 'translateX(-50%)',
+                        }}
+                      />
+                    </Box>
+                  );
+                })}
+              </TierDropZone>
+            );
+          })}
+
+          <Group gap="sm" wrap="wrap">
+            <TextInput
+              placeholder="New tier name (e.g. F)"
+              value={newTierName}
+              onChange={(e) => setNewTierName(e.currentTarget.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleAddTier();
+              }}
+              size="sm"
+              style={{ width: 150 }}
+            />
+            <TextInput
+              placeholder="Tier note (optional)"
+              value={newTierNote}
+              onChange={(e) => setNewTierNote(e.currentTarget.value)}
+              onKeyDown={(e) => {
+                if (e.key === 'Enter') handleAddTier();
+              }}
+              size="sm"
+              style={{ flex: 1, minWidth: 140 }}
+            />
+            <Button
+              size="sm"
+              variant="light"
+              leftSection={<IoAddOutline size={14} />}
+              onClick={handleAddTier}
+              disabled={
+                !newTierName.trim() ||
+                tierDefs.some((t) => t.name === newTierName.trim())
+              }
+            >
+              Add Tier
+            </Button>
+          </Group>
+
+          <FilterableCharacterPool characters={unrankedCharacters}>
+            {(filtered, filterHeader, paginationControl) => (
+              <UnrankedPool
+                filterHeader={filterHeader}
+                paginationControl={paginationControl}
+              >
+                {filtered.map((c) => {
+                  const isDuplicate =
+                    (characterNameCounts.get(getCharacterBaseSlug(c.name)) ??
+                      1) > 1;
+                  return (
                     <DraggableCharCard
-                      name={character?.name ?? n}
+                      key={getCharacterIdentityKey(c)}
+                      name={c.name}
                       label={
-                        isDuplicate && character
-                          ? `${character.name} (${character.quality})`
-                          : undefined
+                        isDuplicate ? `${c.name} (${c.quality})` : undefined
                       }
-                      charKey={n}
-                      char={character}
-                      tier={tier}
+                      charKey={getCharacterIdentityKey(c)}
+                      char={c}
                       size={isMobile ? 56 : undefined}
                       nameCounts={characterNameCounts}
                     />
-                    <CharacterNoteButton
-                      value={notes[n] || ''}
-                      onCommit={(value) => {
-                        const normalized = value.trim();
-                        setNotes((prev) => {
-                          const next = { ...prev };
-                          if (normalized.length > 0) {
-                            next[n] = normalized;
-                          } else {
-                            delete next[n];
+                  );
+                })}
+              </UnrankedPool>
+            )}
+          </FilterableCharacterPool>
+        </Stack>
+
+        {typeof document !== 'undefined'
+          ? createPortal(
+              <DragOverlay dropAnimation={null}>
+                {activeId
+                  ? (() => {
+                      const activeChar = getCharacterFromKey(activeId);
+                      const isDuplicate =
+                        activeChar &&
+                        (characterNameCounts.get(
+                          getCharacterBaseSlug(activeChar.name)
+                        ) ?? 1) > 1;
+                      return (
+                        <DraggableCharCard
+                          name={activeChar?.name ?? activeId}
+                          label={
+                            isDuplicate && activeChar
+                              ? `${activeChar.name} (${activeChar.quality})`
+                              : undefined
                           }
-                          return next;
-                        });
-                      }}
-                      style={{
-                        position: 'absolute',
-                        top: 2,
-                        left: 'calc(50% + 24px)',
-                        transform: 'translateX(-50%)',
-                      }}
-                    />
-                  </Box>
-                );
-              })}
-            </TierDropZone>
-          );
-        })}
+                          charKey={activeId}
+                          char={activeChar}
+                          overlay
+                          nameCounts={characterNameCounts}
+                        />
+                      );
+                    })()
+                  : null}
+              </DragOverlay>,
+              document.body
+            )
+          : null}
 
-        <Group gap="sm" wrap="wrap">
-          <TextInput
-            placeholder="New tier name (e.g. F)"
-            value={newTierName}
-            onChange={(e) => setNewTierName(e.currentTarget.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleAddTier();
-            }}
-            size="sm"
-            style={{ width: 150 }}
-          />
-          <TextInput
-            placeholder="Tier note (optional)"
-            value={newTierNote}
-            onChange={(e) => setNewTierNote(e.currentTarget.value)}
-            onKeyDown={(e) => {
-              if (e.key === 'Enter') handleAddTier();
-            }}
-            size="sm"
-            style={{ flex: 1, minWidth: 140 }}
-          />
-          <Button
-            size="sm"
-            variant="light"
-            leftSection={<IoAddOutline size={14} />}
-            onClick={handleAddTier}
-            disabled={
-              !newTierName.trim() ||
-              tierDefs.some((t) => t.name === newTierName.trim())
-            }
-          >
-            Add Tier
-          </Button>
-        </Group>
-
-        <FilterableCharacterPool characters={unrankedCharacters}>
-          {(filtered, filterHeader, paginationControl) => (
-            <UnrankedPool
-              filterHeader={filterHeader}
-              paginationControl={paginationControl}
-            >
-              {filtered.map((c) => {
-                const isDuplicate =
-                  (characterNameCounts.get(getCharacterBaseSlug(c.name)) ?? 1) >
-                  1;
-                return (
-                  <DraggableCharCard
-                    key={getCharacterIdentityKey(c)}
-                    name={c.name}
-                    label={isDuplicate ? `${c.name} (${c.quality})` : undefined}
-                    charKey={getCharacterIdentityKey(c)}
-                    char={c}
-                    size={isMobile ? 56 : undefined}
-                    nameCounts={characterNameCounts}
-                  />
-                );
-              })}
-            </UnrankedPool>
-          )}
-        </FilterableCharacterPool>
-      </Stack>
-
-      {typeof document !== 'undefined'
-        ? createPortal(
-            <DragOverlay dropAnimation={null}>
-              {activeId
-                ? (() => {
-                    const activeChar = getCharacterFromKey(activeId);
-                    const isDuplicate =
-                      activeChar &&
-                      (characterNameCounts.get(
-                        getCharacterBaseSlug(activeChar.name)
-                      ) ?? 1) > 1;
-                    return (
-                      <DraggableCharCard
-                        name={activeChar?.name ?? activeId}
-                        label={
-                          isDuplicate && activeChar
-                            ? `${activeChar.name} (${activeChar.quality})`
-                            : undefined
-                        }
-                        charKey={activeId}
-                        char={activeChar}
-                        overlay
-                        nameCounts={characterNameCounts}
-                      />
-                    );
-                  })()
-                : null}
-            </DragOverlay>,
-            document.body
-          )
-        : null}
-
-      <Modal
-        opened={pasteModalOpened}
-        onClose={() => {
-          closePasteModal();
-          setPasteText('');
-          setPasteError('');
-        }}
-        title="Paste Tier List JSON"
-        size="lg"
-      >
-        <Stack gap="md">
-          <Text size="sm" c="dimmed">
-            Paste a tier list JSON object below to load it into the builder.
-          </Text>
-          <Textarea
-            placeholder={'{\n  "name": "...",\n  "entries": [...]\n}'}
-            value={pasteText}
-            onChange={(e) => {
-              setPasteText(e.currentTarget.value);
-              setPasteError('');
-            }}
-            minRows={8}
-            maxRows={20}
-            autosize
-            error={pasteError || undefined}
-            styles={{
-              input: {
-                fontFamily: 'monospace',
-                fontSize: 'var(--mantine-font-size-xs)',
-              },
-            }}
-          />
-          <Group justify="flex-end">
-            <Button
-              variant="default"
-              onClick={() => {
-                closePasteModal();
-                setPasteText('');
+        <Modal
+          opened={pasteModalOpened}
+          onClose={() => {
+            closePasteModal();
+            setPasteText('');
+            setPasteError('');
+          }}
+          title="Paste Tier List JSON"
+          size="lg"
+        >
+          <Stack gap="md">
+            <Text size="sm" c="dimmed">
+              Paste a tier list JSON object below to load it into the builder.
+            </Text>
+            <Textarea
+              placeholder={'{\n  "name": "...",\n  "entries": [...]\n}'}
+              value={pasteText}
+              onChange={(e) => {
+                setPasteText(e.currentTarget.value);
                 setPasteError('');
               }}
-            >
-              Cancel
-            </Button>
-            <Button onClick={handlePasteApply} disabled={!pasteText.trim()}>
-              Apply
-            </Button>
-          </Group>
-        </Stack>
-      </Modal>
+              minRows={8}
+              maxRows={20}
+              autosize
+              error={pasteError || undefined}
+              styles={{
+                input: {
+                  fontFamily: 'monospace',
+                  fontSize: 'var(--mantine-font-size-xs)',
+                },
+              }}
+            />
+            <Group justify="flex-end">
+              <Button
+                variant="default"
+                onClick={() => {
+                  closePasteModal();
+                  setPasteText('');
+                  setPasteError('');
+                }}
+              >
+                Cancel
+              </Button>
+              <Button onClick={handlePasteApply} disabled={!pasteText.trim()}>
+                Apply
+              </Button>
+            </Group>
+          </Stack>
+        </Modal>
 
-      <ConfirmActionModal
-        opened={clearConfirmOpened}
-        onCancel={closeClearConfirm}
-        title="Clear tier list builder?"
-        message="This will remove all ranked characters, notes, and custom tier changes in the builder."
-        confirmLabel="Clear All"
-        confirmColor="red"
-        onConfirm={() => {
-          handleClear();
-          closeClearConfirm();
-        }}
-      />
+        <ConfirmActionModal
+          opened={clearConfirmOpened}
+          onCancel={closeClearConfirm}
+          title="Clear tier list builder?"
+          message="This will remove all ranked characters, notes, custom tier changes, and metadata fields (name, author, category, and description) in the builder."
+          confirmLabel="Clear All"
+          confirmColor="red"
+          onConfirm={() => {
+            handleClear();
+            closeClearConfirm();
+          }}
+        />
 
-      <ConfirmActionModal
-        opened={pendingSaveOverwrite !== null}
-        onCancel={() => setPendingSaveOverwrite(null)}
-        title="Overwrite saved tier list?"
-        message={`A saved tier list named "${pendingSaveOverwrite ?? ''}" already exists. Overwrite it?`}
-        confirmLabel="Overwrite"
-        confirmColor="blue"
-        onConfirm={() => {
-          if (pendingSaveOverwrite) executeSaveToMySaved(pendingSaveOverwrite);
-          setPendingSaveOverwrite(null);
-        }}
-      />
-    </DndContext>
+        <ConfirmActionModal
+          opened={pendingSaveOverwrite !== null}
+          onCancel={() => setPendingSaveOverwrite(null)}
+          title="Overwrite saved tier list?"
+          message={`A saved tier list named "${pendingSaveOverwrite ?? ''}" already exists. Overwrite it?`}
+          confirmLabel="Overwrite"
+          confirmColor="blue"
+          onConfirm={() => {
+            if (pendingSaveOverwrite)
+              executeSaveToMySaved(pendingSaveOverwrite);
+            setPendingSaveOverwrite(null);
+          }}
+        />
+      </DndContext>
 
-    {isCapturing && (
-      <div aria-hidden="true" style={{ position: 'fixed', top: 0, left: 0, opacity: 0, pointerEvents: 'none' }}>
-        <Box
-          ref={exportRef}
+      {isCapturing && (
+        <div
+          aria-hidden="true"
           style={{
-            width: 900,
-            backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
-            padding: 16,
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            opacity: 0,
+            pointerEvents: 'none',
           }}
         >
-          <TierListExportView
-            tierListName={name || 'My Tier List'}
-            author={author || undefined}
-            tierRows={tierExportRows}
-          />
-        </Box>
-      </div>
-    )}
+          <Box
+            ref={exportRef}
+            style={{
+              width: 900,
+              backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
+              padding: 16,
+            }}
+          >
+            <TierListExportView
+              tierListName={name || 'My Tier List'}
+              author={author || undefined}
+              tierRows={tierExportRows}
+            />
+          </Box>
+        </div>
+      )}
     </>
   );
 }

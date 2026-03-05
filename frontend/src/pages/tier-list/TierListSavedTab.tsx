@@ -31,7 +31,8 @@ export default function TierListSavedTab({
         <Stack align="center" gap="sm">
           <Text c="dimmed">No saved tier lists yet.</Text>
           <Text size="xs" c="dimmed">
-            Use the &ldquo;Create Your Own&rdquo; tab to build and save a tier list.
+            Use the &ldquo;Create Your Own&rdquo; tab to build and save a tier
+            list.
           </Text>
           <Button
             variant="light"
@@ -65,7 +66,7 @@ export default function TierListSavedTab({
               leftSection={<IoCreate size={12} />}
               onClick={() => onRequestEdit(tierList)}
             >
-              Load into Builder
+              Load
             </Button>
             <CopyButton value={JSON.stringify(tierList, null, 2)}>
               {({ copy, copied }) => (

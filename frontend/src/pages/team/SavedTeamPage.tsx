@@ -12,7 +12,6 @@ import {
   Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
-import { downloadElementAsPng } from '../../utils/export-image';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { IoCreate, IoDownload, IoTrash } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
@@ -41,6 +40,7 @@ import {
   resolveCharacterByNameAndQuality,
 } from '../../utils/character-route';
 import { toEntitySlug } from '../../utils/entity-slug';
+import { downloadElementAsPng } from '../../utils/export-image';
 import { computeTeamSynergy } from '../../utils/team-synergy';
 import { BattlefieldGrid } from './BattlefieldGrid';
 import { BenchSection } from './BenchSection';
@@ -71,7 +71,10 @@ function deleteSavedTeamFromStorage(name: string) {
     const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
     const saves = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
     delete saves[toEntitySlug(name)];
-    window.localStorage.setItem(STORAGE_KEY.TEAMS_MY_SAVED, JSON.stringify(saves));
+    window.localStorage.setItem(
+      STORAGE_KEY.TEAMS_MY_SAVED,
+      JSON.stringify(saves)
+    );
   } catch {
     // ignore
   }
@@ -89,7 +92,9 @@ export default function SavedTeamPage() {
   const exportRef = useRef<HTMLDivElement>(null);
 
   // Read team from localStorage
-  const [team, setTeam] = useState<Team | null>(() => readSavedTeamBySlug(slug));
+  const [team, setTeam] = useState<Team | null>(() =>
+    readSavedTeamBySlug(slug)
+  );
 
   useEffect(() => {
     setTeam(readSavedTeamBySlug(slug));
@@ -99,7 +104,8 @@ export default function SavedTeamPage() {
   const { data: wyrmspells, loading: loadingSpells } = useWyrmspells();
   const { data: factions, loading: loadingFactions } = useFactions();
   const { data: artifacts, loading: loadingArtifacts } = useArtifacts();
-  const { data: statusEffects, loading: loadingStatusEffects } = useStatusEffects();
+  const { data: statusEffects, loading: loadingStatusEffects } =
+    useStatusEffects();
 
   const loading =
     loadingChars ||
@@ -108,8 +114,11 @@ export default function SavedTeamPage() {
     loadingArtifacts ||
     loadingStatusEffects;
 
-  const { preferredByName: charMap, byIdentity: characterByIdentity, nameCounts: characterNameCounts } =
-    useCharacterResolution(characters);
+  const {
+    preferredByName: charMap,
+    byIdentity: characterByIdentity,
+    nameCounts: characterNameCounts,
+  } = useCharacterResolution(characters);
 
   const getCharacterPath = useCallback(
     (characterName: string, characterQuality?: string | null) => {
@@ -164,7 +173,8 @@ export default function SavedTeamPage() {
       roster,
       faction: team.faction,
       contentType: normalizeContentType(team.content_type, 'All'),
-      overdriveCount: team.members.filter((m) => m.overdrive_order != null).length,
+      overdriveCount: team.members.filter((m) => m.overdrive_order != null)
+        .length,
       teamWyrmspells: team.wyrmspells || {},
       wyrmspells,
     });
@@ -198,7 +208,9 @@ export default function SavedTeamPage() {
 
   const hasBuilderDraft = () => {
     if (typeof window === 'undefined') return false;
-    return Boolean(window.localStorage.getItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT));
+    return Boolean(
+      window.localStorage.getItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT)
+    );
   };
 
   const openInBuilder = () => {
@@ -275,7 +287,7 @@ export default function SavedTeamPage() {
               leftSection={<IoCreate size={16} />}
               onClick={requestLoadInBuilder}
             >
-              Load into Builder
+              Load
             </Button>
             <CopyButton value={JSON.stringify(team, null, 2)}>
               {({ copy, copied }) => (

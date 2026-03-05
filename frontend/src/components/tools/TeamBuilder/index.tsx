@@ -21,7 +21,6 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { downloadElementAsPng } from '../../../utils/export-image';
 import {
   useCallback,
   useDeferredValue,
@@ -41,7 +40,6 @@ import {
   IoTrash,
 } from 'react-icons/io5';
 import { FACTION_COLOR } from '../../../constants/colors';
-import { useMobileTooltip } from '../../../hooks';
 import {
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
@@ -53,7 +51,9 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
 } from '../../../constants/github';
 import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
-import { useCharacterResolution } from '../../../hooks';
+import { useCharacterResolution, useMobileTooltip } from '../../../hooks';
+import { BattlefieldGrid } from '../../../pages/team/BattlefieldGrid';
+import { BenchSection } from '../../../pages/team/BenchSection';
 import type { Character } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
 import type { Team, TeamMember, TeamWyrmspells } from '../../../types/team';
@@ -68,10 +68,9 @@ import {
   resolveCharacterReferenceKey,
   toCharacterReferenceFromKey,
 } from '../../../utils/character-route';
-import { BattlefieldGrid } from '../../../pages/team/BattlefieldGrid';
-import { BenchSection } from '../../../pages/team/BenchSection';
-import { toEntitySlug } from '../../../utils/entity-slug';
 import { insertUniqueBefore, removeItem } from '../../../utils/dnd-list';
+import { toEntitySlug } from '../../../utils/entity-slug';
+import { downloadElementAsPng } from '../../../utils/export-image';
 import {
   getTeamBenchEntryName,
   getTeamBenchEntryNote,
@@ -150,7 +149,9 @@ export default function TeamBuilder({
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const [draftHydrated, setDraftHydrated] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
-  const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<string | null>(null);
+  const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<
+    string | null
+  >(null);
   const exportRef = useRef<HTMLDivElement>(null);
   const isDark = useComputedColorScheme('light') === 'dark';
   const tooltipProps = useMobileTooltip();
@@ -369,6 +370,34 @@ export default function TeamBuilder({
   }, [slots]);
 
   const teamSize = teamNames.size;
+
+  const hasAnyBuilderData = useMemo(
+    () =>
+      teamSize > 0 ||
+      bench.length > 0 ||
+      overdriveSequence.length > 0 ||
+      slotNotes.some((note) => note.trim().length > 0) ||
+      Object.values(benchNotes).some((note) => note.trim().length > 0) ||
+      Object.values(teamWyrmspells).some((value) => Boolean(value)) ||
+      name.trim().length > 0 ||
+      author.trim().length > 0 ||
+      description.trim().length > 0 ||
+      faction !== null ||
+      contentType !== DEFAULT_CONTENT_TYPE,
+    [
+      author,
+      bench.length,
+      benchNotes,
+      contentType,
+      description,
+      faction,
+      name,
+      overdriveSequence.length,
+      slotNotes,
+      teamSize,
+      teamWyrmspells,
+    ]
+  );
 
   const json = (() => {
     const members: TeamMember[] = [];
@@ -912,8 +941,14 @@ export default function TeamBuilder({
         ? (JSON.parse(stored) as Record<string, Team>)
         : {};
       saves[key] = data;
-      window.localStorage.setItem(STORAGE_KEY.TEAMS_MY_SAVED, JSON.stringify(saves));
-      showSuccessToast({ title: 'Saved!', message: `"${key}" saved to My Saved Teams.` });
+      window.localStorage.setItem(
+        STORAGE_KEY.TEAMS_MY_SAVED,
+        JSON.stringify(saves)
+      );
+      showSuccessToast({
+        title: 'Saved!',
+        message: `"${key}" saved to My Saved Teams.`,
+      });
     } catch {
       // ignore
     }
@@ -1039,334 +1074,355 @@ export default function TeamBuilder({
     setBench([]);
     setBenchNotes({});
     setTeamWyrmspells({});
+    setName('');
+    setAuthor('');
+    setContentType(DEFAULT_CONTENT_TYPE);
+    setDescription('');
+    setFaction(null);
   }
 
   return (
     <>
-    <DndContext
-      sensors={sensors}
-      onDragStart={handleDragStart}
-      onDragEnd={handleDragEnd}
-    >
-      <Stack gap="md">
-        <TeamMetaFields
-          name={name}
-          author={author}
-          contentType={contentType}
-          faction={faction}
-          description={description}
-          onNameCommit={setName}
-          onAuthorCommit={setAuthor}
-          onContentTypeChange={handleContentTypeChange}
-          onFactionChange={handleFactionChange}
-          onDescriptionCommit={setDescription}
-        />
+      <DndContext
+        sensors={sensors}
+        onDragStart={handleDragStart}
+        onDragEnd={handleDragEnd}
+      >
+        <Stack gap="md">
+          <TeamMetaFields
+            name={name}
+            author={author}
+            contentType={contentType}
+            faction={faction}
+            description={description}
+            onNameCommit={setName}
+            onAuthorCommit={setAuthor}
+            onContentTypeChange={handleContentTypeChange}
+            onFactionChange={handleFactionChange}
+            onDescriptionCommit={setDescription}
+          />
 
-        <Group justify="space-between" wrap="nowrap" gap="sm">
-          <Group gap="xs" wrap="nowrap">
-            <CopyButton value={json}>
-              {({ copied, copy }) =>
-                isMobile ? (
-                  <Tooltip label={copied ? 'Copied!' : 'Copy JSON'} withArrow>
-                    <ActionIcon
+          <Group justify="space-between" wrap="nowrap" gap="sm">
+            <Group gap="xs" wrap="nowrap">
+              <CopyButton value={json}>
+                {({ copied, copy }) =>
+                  isMobile ? (
+                    <Tooltip label={copied ? 'Copied!' : 'Copy JSON'} withArrow>
+                      <ActionIcon
+                        variant="light"
+                        color={copied ? 'teal' : undefined}
+                        onClick={copy}
+                      >
+                        {copied ? (
+                          <IoCheckmark size={16} />
+                        ) : (
+                          <IoCopy size={16} />
+                        )}
+                      </ActionIcon>
+                    </Tooltip>
+                  ) : (
+                    <Button
                       variant="light"
-                      color={copied ? 'teal' : undefined}
+                      size="sm"
+                      leftSection={
+                        copied ? (
+                          <IoCheckmark size={16} />
+                        ) : (
+                          <IoCopy size={16} />
+                        )
+                      }
                       onClick={copy}
+                      color={copied ? 'teal' : undefined}
                     >
-                      {copied ? (
-                        <IoCheckmark size={16} />
-                      ) : (
-                        <IoCopy size={16} />
-                      )}
-                    </ActionIcon>
-                  </Tooltip>
-                ) : (
-                  <Button
+                      {copied ? 'Copied' : 'Copy JSON'}
+                    </Button>
+                  )
+                }
+              </CopyButton>
+              {isMobile ? (
+                <Tooltip label="Paste JSON" withArrow>
+                  <ActionIcon variant="light" onClick={openPasteModal}>
+                    <IoClipboardOutline size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="light"
+                  size="sm"
+                  leftSection={<IoClipboardOutline size={16} />}
+                  onClick={openPasteModal}
+                >
+                  Paste JSON
+                </Button>
+              )}
+              {isMobile ? (
+                <Tooltip label="Save to My Saved" withArrow>
+                  <ActionIcon variant="light" onClick={handleSaveToMySaved}>
+                    <IoSave size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="light"
+                  size="sm"
+                  leftSection={<IoSave size={16} />}
+                  onClick={handleSaveToMySaved}
+                >
+                  Save
+                </Button>
+              )}
+            </Group>
+            <Group gap="xs" wrap="nowrap">
+              {isMobile ? (
+                <Tooltip label="Export as Image" withArrow>
+                  <ActionIcon
                     variant="light"
-                    size="sm"
-                    leftSection={
-                      copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
-                    }
-                    onClick={copy}
-                    color={copied ? 'teal' : undefined}
+                    disabled={teamSize === 0}
+                    loading={isCapturing}
+                    onClick={() => setIsCapturing(true)}
                   >
-                    {copied ? 'Copied' : 'Copy JSON'}
-                  </Button>
-                )
-              }
-            </CopyButton>
-            {isMobile ? (
-              <Tooltip label="Paste JSON" withArrow>
-                <ActionIcon variant="light" onClick={openPasteModal}>
-                  <IoClipboardOutline size={16} />
-                </ActionIcon>
-              </Tooltip>
-            ) : (
-              <Button
-                variant="light"
-                size="sm"
-                leftSection={<IoClipboardOutline size={16} />}
-                onClick={openPasteModal}
-              >
-                Paste JSON
-              </Button>
-            )}
-            {isMobile ? (
-              <Tooltip label="Save to My Saved" withArrow>
-                <ActionIcon variant="light" onClick={handleSaveToMySaved}>
-                  <IoSave size={16} />
-                </ActionIcon>
-              </Tooltip>
-            ) : (
-              <Button
-                variant="light"
-                size="sm"
-                leftSection={<IoSave size={16} />}
-                onClick={handleSaveToMySaved}
-              >
-                Save
-              </Button>
-            )}
-          </Group>
-          <Group gap="xs" wrap="nowrap">
-            {isMobile ? (
-              <Tooltip label="Export as Image" withArrow>
-                <ActionIcon
+                    <IoDownload size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
                   variant="light"
-                  disabled={teamSize === 0}
-                  loading={isCapturing}
+                  size="sm"
+                  leftSection={<IoDownload size={16} />}
                   onClick={() => setIsCapturing(true)}
-                >
-                  <IoDownload size={16} />
-                </ActionIcon>
-              </Tooltip>
-            ) : (
-              <Button
-                variant="light"
-                size="sm"
-                leftSection={<IoDownload size={16} />}
-                onClick={() => setIsCapturing(true)}
-                loading={isCapturing}
-                disabled={teamSize === 0}
-              >
-                Export Image
-              </Button>
-            )}
-            {isMobile ? (
-              <Tooltip label="Submit Suggestion" withArrow>
-                <ActionIcon
-                  variant="light"
+                  loading={isCapturing}
                   disabled={teamSize === 0}
-                  onClick={handleSubmitSuggestion}
                 >
-                  <IoOpenOutline size={16} />
-                </ActionIcon>
-              </Tooltip>
-            ) : (
-              <Button
-                variant="light"
-                size="sm"
-                leftSection={<IoOpenOutline size={16} />}
-                onClick={handleSubmitSuggestion}
-                disabled={teamSize === 0}
-              >
-                Submit Suggestion
-              </Button>
-            )}
-            {isMobile ? (
-              <Tooltip label="Clear All" withArrow>
-                <ActionIcon
+                  Export Image
+                </Button>
+              )}
+              {isMobile ? (
+                <Tooltip label="Submit Suggestion" withArrow>
+                  <ActionIcon
+                    variant="light"
+                    disabled={teamSize === 0}
+                    onClick={handleSubmitSuggestion}
+                  >
+                    <IoOpenOutline size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="light"
+                  size="sm"
+                  leftSection={<IoOpenOutline size={16} />}
+                  onClick={handleSubmitSuggestion}
+                  disabled={teamSize === 0}
+                >
+                  Submit Suggestion
+                </Button>
+              )}
+              {isMobile ? (
+                <Tooltip label="Clear All" withArrow>
+                  <ActionIcon
+                    variant="light"
+                    color="red"
+                    disabled={!hasAnyBuilderData}
+                    onClick={openClearConfirm}
+                  >
+                    <IoTrash size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
                   variant="light"
                   color="red"
-                  disabled={teamSize === 0}
+                  size="sm"
+                  leftSection={<IoTrash size={16} />}
                   onClick={openClearConfirm}
+                  disabled={!hasAnyBuilderData}
                 >
-                  <IoTrash size={16} />
-                </ActionIcon>
-              </Tooltip>
-            ) : (
-              <Button
-                variant="light"
-                color="red"
-                size="sm"
-                leftSection={<IoTrash size={16} />}
-                onClick={openClearConfirm}
-                disabled={teamSize === 0}
-              >
-                Clear All
-              </Button>
-            )}
-            <Badge variant="light" color={factionColor} size="lg" radius="sm">
-              {teamSize} / {MAX_ROSTER_SIZE}
-            </Badge>
+                  Clear All
+                </Button>
+              )}
+              <Badge variant="light" color={factionColor} size="lg" radius="sm">
+                {teamSize} / {MAX_ROSTER_SIZE}
+              </Badge>
+            </Group>
           </Group>
-        </Group>
 
-        <TeamSynergyAssistant synergy={synergy} />
+          <TeamSynergyAssistant synergy={synergy} />
 
-        <WyrmspellSelector
-          wyrmspells={wyrmspells}
-          teamWyrmspells={teamWyrmspells}
-          onChange={handleWyrmspellChange}
-        />
+          <WyrmspellSelector
+            wyrmspells={wyrmspells}
+            teamWyrmspells={teamWyrmspells}
+            onChange={handleWyrmspellChange}
+          />
 
-        <SlotsGrid
-          slots={slots}
-          overdriveOrderBySlot={overdriveOrderBySlot}
-          slotNotes={slotNotes}
-          charMap={characterByIdentity}
-          onOverdriveOrderChange={handleOverdriveOrderChange}
-          onRemove={handleRemoveFromTeam}
-          onNoteChange={handleSlotNoteChange}
-          activeId={activeId}
-          nameCounts={characterNameCounts}
-        />
-
-        <Stack gap="xs">
-          <Text size="sm" fw={600}>
-            Bench
-          </Text>
-          <BenchPool
-            bench={bench}
+          <SlotsGrid
+            slots={slots}
+            overdriveOrderBySlot={overdriveOrderBySlot}
+            slotNotes={slotNotes}
             charMap={characterByIdentity}
-            benchNotes={benchNotes}
-            onBenchNoteChange={handleBenchNoteChange}
+            onOverdriveOrderChange={handleOverdriveOrderChange}
+            onRemove={handleRemoveFromTeam}
+            onNoteChange={handleSlotNoteChange}
+            activeId={activeId}
             nameCounts={characterNameCounts}
           />
+
+          <Stack gap="xs">
+            <Text size="sm" fw={600}>
+              Bench
+            </Text>
+            <BenchPool
+              bench={bench}
+              charMap={characterByIdentity}
+              benchNotes={benchNotes}
+              onBenchNoteChange={handleBenchNoteChange}
+              nameCounts={characterNameCounts}
+            />
+          </Stack>
+
+          <FilterableCharacterPool characters={availableCharacters}>
+            {(filtered, filterHeader, paginationControl) => (
+              <AvailablePool
+                filterHeader={filterHeader}
+                paginationControl={paginationControl}
+              >
+                {filtered.map((c) => (
+                  <DraggableCharCard
+                    key={getCharacterIdentityKey(c)}
+                    name={c.name}
+                    charKey={getCharacterIdentityKey(c)}
+                    char={c}
+                    size={isMobile ? 56 : undefined}
+                    nameCounts={characterNameCounts}
+                    onClick={() =>
+                      handleAddToNextSlot(getCharacterIdentityKey(c))
+                    }
+                  />
+                ))}
+              </AvailablePool>
+            )}
+          </FilterableCharacterPool>
         </Stack>
 
-        <FilterableCharacterPool characters={availableCharacters}>
-          {(filtered, filterHeader, paginationControl) => (
-            <AvailablePool
-              filterHeader={filterHeader}
-              paginationControl={paginationControl}
-            >
-              {filtered.map((c) => (
-                <DraggableCharCard
-                  key={getCharacterIdentityKey(c)}
-                  name={c.name}
-                  charKey={getCharacterIdentityKey(c)}
-                  char={c}
-                  size={isMobile ? 56 : undefined}
-                  nameCounts={characterNameCounts}
-                  onClick={() =>
-                    handleAddToNextSlot(getCharacterIdentityKey(c))
-                  }
-                />
-              ))}
-            </AvailablePool>
-          )}
-        </FilterableCharacterPool>
-      </Stack>
+        {typeof document !== 'undefined'
+          ? createPortal(
+              <DragOverlay dropAnimation={null}>
+                {activeId
+                  ? (() => {
+                      const activeChar = getCharacterFromKey(activeId);
+                      const isDuplicate =
+                        activeChar &&
+                        (characterNameCounts.get(
+                          getCharacterBaseSlug(activeChar.name)
+                        ) ?? 1) > 1;
+                      return (
+                        <div style={{ cursor: 'grabbing' }}>
+                          <CharacterCard
+                            name={activeChar?.name ?? activeId}
+                            label={
+                              isDuplicate && activeChar
+                                ? `${activeChar.name} (${activeChar.quality})`
+                                : undefined
+                            }
+                            quality={activeChar?.quality}
+                            disableLink
+                            routePath={
+                              activeChar
+                                ? getCharacterRoutePath(
+                                    activeChar,
+                                    characterNameCounts
+                                  )
+                                : undefined
+                            }
+                          />
+                        </div>
+                      );
+                    })()
+                  : null}
+              </DragOverlay>,
+              document.body
+            )
+          : null}
 
-      {typeof document !== 'undefined'
-        ? createPortal(
-            <DragOverlay dropAnimation={null}>
-              {activeId
-                ? (() => {
-                    const activeChar = getCharacterFromKey(activeId);
-                    const isDuplicate =
-                      activeChar &&
-                      (characterNameCounts.get(
-                        getCharacterBaseSlug(activeChar.name)
-                      ) ?? 1) > 1;
-                    return (
-                      <div style={{ cursor: 'grabbing' }}>
-                        <CharacterCard
-                          name={activeChar?.name ?? activeId}
-                          label={
-                            isDuplicate && activeChar
-                              ? `${activeChar.name} (${activeChar.quality})`
-                              : undefined
-                          }
-                          quality={activeChar?.quality}
-                          disableLink
-                          routePath={
-                            activeChar
-                              ? getCharacterRoutePath(
-                                  activeChar,
-                                  characterNameCounts
-                                )
-                              : undefined
-                          }
-                        />
-                      </div>
-                    );
-                  })()
-                : null}
-            </DragOverlay>,
-            document.body
-          )
-        : null}
-
-      <PasteJsonModal
-        opened={pasteModalOpened}
-        onClose={closePasteModal}
-        onApply={handlePasteApply}
-      />
-
-      <ConfirmActionModal
-        opened={clearConfirmOpened}
-        onCancel={closeClearConfirm}
-        title="Clear team builder?"
-        message="This will remove all team slots, bench entries, notes, overdrive order, and selected wyrmspells in the builder."
-        confirmLabel="Clear All"
-        confirmColor="red"
-        onConfirm={() => {
-          handleClear();
-          closeClearConfirm();
-        }}
-      />
-
-      <ConfirmActionModal
-        opened={pendingSaveOverwrite !== null}
-        onCancel={() => setPendingSaveOverwrite(null)}
-        title="Overwrite saved team?"
-        message={`A saved team named "${pendingSaveOverwrite ?? ''}" already exists. Overwrite it?`}
-        confirmLabel="Overwrite"
-        confirmColor="blue"
-        onConfirm={() => {
-          if (pendingSaveOverwrite) executeSaveToMySaved(pendingSaveOverwrite);
-          setPendingSaveOverwrite(null);
-        }}
-      />
-    </DndContext>
-
-    {/* Temporary container rendered only during export — matches team page style */}
-    {/* opacity:0 on the wrapper hides it visually; the ref is on the inner Box so
-        getComputedStyle sees opacity:1 (opacity is not inherited in CSS) */}
-    {isCapturing && <div aria-hidden="true" style={{ position: 'fixed', top: 0, left: 0, opacity: 0, pointerEvents: 'none' }}>
-    <Box
-      ref={exportRef}
-      style={{
-        width: 900,
-        backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
-        padding: 16,
-      }}
-    >
-      <Stack gap="md">
-        <BattlefieldGrid
-          members={teamData.members}
-          charMap={charMap}
-          characterByIdentity={characterByIdentity}
-          getCharacterPath={getCharacterPath}
-          factionColor={factionColor}
-          isDark={isDark}
-          tooltipProps={tooltipProps}
+        <PasteJsonModal
+          opened={pasteModalOpened}
+          onClose={closePasteModal}
+          onApply={handlePasteApply}
         />
-        {teamData.bench && teamData.bench.length > 0 && (
-          <BenchSection
-            bench={teamData.bench}
-            charMap={charMap}
-            characterByIdentity={characterByIdentity}
-            getCharacterPath={getCharacterPath}
-            factionColor={factionColor}
-            tooltipProps={tooltipProps}
-          />
-        )}
-      </Stack>
-    </Box>
-    </div>}
+
+        <ConfirmActionModal
+          opened={clearConfirmOpened}
+          onCancel={closeClearConfirm}
+          title="Clear team builder?"
+          message="This will remove all team slots, bench entries, notes, overdrive order, selected wyrmspells, and metadata fields (name, author, content type, faction, and description) in the builder."
+          confirmLabel="Clear All"
+          confirmColor="red"
+          onConfirm={() => {
+            handleClear();
+            closeClearConfirm();
+          }}
+        />
+
+        <ConfirmActionModal
+          opened={pendingSaveOverwrite !== null}
+          onCancel={() => setPendingSaveOverwrite(null)}
+          title="Overwrite saved team?"
+          message={`A saved team named "${pendingSaveOverwrite ?? ''}" already exists. Overwrite it?`}
+          confirmLabel="Overwrite"
+          confirmColor="blue"
+          onConfirm={() => {
+            if (pendingSaveOverwrite)
+              executeSaveToMySaved(pendingSaveOverwrite);
+            setPendingSaveOverwrite(null);
+          }}
+        />
+      </DndContext>
+
+      {/* Temporary container rendered only during export — matches team page style */}
+      {/* opacity:0 on the wrapper hides it visually; the ref is on the inner Box so
+        getComputedStyle sees opacity:1 (opacity is not inherited in CSS) */}
+      {isCapturing && (
+        <div
+          aria-hidden="true"
+          style={{
+            position: 'fixed',
+            top: 0,
+            left: 0,
+            opacity: 0,
+            pointerEvents: 'none',
+          }}
+        >
+          <Box
+            ref={exportRef}
+            style={{
+              width: 900,
+              backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
+              padding: 16,
+            }}
+          >
+            <Stack gap="md">
+              <BattlefieldGrid
+                members={teamData.members}
+                charMap={charMap}
+                characterByIdentity={characterByIdentity}
+                getCharacterPath={getCharacterPath}
+                factionColor={factionColor}
+                isDark={isDark}
+                tooltipProps={tooltipProps}
+              />
+              {teamData.bench && teamData.bench.length > 0 && (
+                <BenchSection
+                  bench={teamData.bench}
+                  charMap={charMap}
+                  characterByIdentity={characterByIdentity}
+                  getCharacterPath={getCharacterPath}
+                  factionColor={factionColor}
+                  tooltipProps={tooltipProps}
+                />
+              )}
+            </Stack>
+          </Box>
+        </div>
+      )}
     </>
   );
 }
