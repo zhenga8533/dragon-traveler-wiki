@@ -37,6 +37,7 @@ import {
   IoCopy,
   IoDownload,
   IoOpenOutline,
+  IoSave,
   IoTrash,
 } from 'react-icons/io5';
 import { FACTION_COLOR } from '../../../constants/colors';
@@ -69,6 +70,7 @@ import {
 } from '../../../utils/character-route';
 import { BattlefieldGrid } from '../../../pages/team/BattlefieldGrid';
 import { BenchSection } from '../../../pages/team/BenchSection';
+import { toEntitySlug } from '../../../utils/entity-slug';
 import { insertUniqueBefore, removeItem } from '../../../utils/dnd-list';
 import {
   getTeamBenchEntryName,
@@ -76,11 +78,10 @@ import {
   getTeamBenchEntryQuality,
 } from '../../../utils/team-bench';
 import { computeTeamSynergy } from '../../../utils/team-synergy';
-import { showWarningToast } from '../../../utils/toast';
+import { showSuccessToast, showWarningToast } from '../../../utils/toast';
 import CharacterCard from '../../character/CharacterCard';
 import FilterableCharacterPool from '../../character/FilterableCharacterPool';
 import ConfirmActionModal from '../../common/ConfirmActionModal';
-import SaveLoadSlots from '../../common/SaveLoadSlots';
 import TeamSynergyAssistant from '../TeamSynergyAssistant';
 import {
   AvailablePool,
@@ -149,6 +150,7 @@ export default function TeamBuilder({
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const [draftHydrated, setDraftHydrated] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
+  const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<string | null>(null);
   const exportRef = useRef<HTMLDivElement>(null);
   const isDark = useComputedColorScheme('light') === 'dark';
   const tooltipProps = useMobileTooltip();
@@ -902,6 +904,39 @@ export default function TeamBuilder({
     }
   }
 
+  function executeSaveToMySaved(key: string) {
+    try {
+      const data = JSON.parse(json) as Team;
+      const stored = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
+      const saves: Record<string, Team> = stored
+        ? (JSON.parse(stored) as Record<string, Team>)
+        : {};
+      saves[key] = data;
+      window.localStorage.setItem(STORAGE_KEY.TEAMS_MY_SAVED, JSON.stringify(saves));
+      showSuccessToast({ title: 'Saved!', message: `"${key}" saved to My Saved Teams.` });
+    } catch {
+      // ignore
+    }
+  }
+
+  function handleSaveToMySaved() {
+    try {
+      const data = JSON.parse(json) as Team;
+      const key = toEntitySlug(data.name?.trim() || 'Untitled');
+      const stored = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
+      const saves: Record<string, Team> = stored
+        ? (JSON.parse(stored) as Record<string, Team>)
+        : {};
+      if (saves[key]) {
+        setPendingSaveOverwrite(key);
+        return;
+      }
+      executeSaveToMySaved(key);
+    } catch {
+      // ignore
+    }
+  }
+
   function handleAddToNextSlot(charName: string) {
     if (teamSize >= MAX_ROSTER_SIZE) return;
     const targetIdx = findValidEmptySlotForCharacter(charName);
@@ -1076,21 +1111,22 @@ export default function TeamBuilder({
                 Paste JSON
               </Button>
             )}
-            <SaveLoadSlots<Team>
-              storageKey={STORAGE_KEY.TEAMS_BUILDER_SLOTS}
-              currentJson={json}
-              onLoad={(data) => {
-                const currentTeam = JSON.parse(json) as Team;
-                const mergedTeam = normalizeTeamFromPartial(data, currentTeam);
-                loadFromTeam(mergedTeam);
-              }}
-              defaultName="My Team"
-              compact={isMobile}
-              renderSlotDetail={(t) => {
-                const n = t.members?.length ?? 0;
-                return `${n} member${n !== 1 ? 's' : ''}`;
-              }}
-            />
+            {isMobile ? (
+              <Tooltip label="Save to My Saved" withArrow>
+                <ActionIcon variant="light" onClick={handleSaveToMySaved}>
+                  <IoSave size={16} />
+                </ActionIcon>
+              </Tooltip>
+            ) : (
+              <Button
+                variant="light"
+                size="sm"
+                leftSection={<IoSave size={16} />}
+                onClick={handleSaveToMySaved}
+              >
+                Save
+              </Button>
+            )}
           </Group>
           <Group gap="xs" wrap="nowrap">
             {isMobile ? (
@@ -1279,6 +1315,19 @@ export default function TeamBuilder({
         onConfirm={() => {
           handleClear();
           closeClearConfirm();
+        }}
+      />
+
+      <ConfirmActionModal
+        opened={pendingSaveOverwrite !== null}
+        onCancel={() => setPendingSaveOverwrite(null)}
+        title="Overwrite saved team?"
+        message={`A saved team named "${pendingSaveOverwrite ?? ''}" already exists. Overwrite it?`}
+        confirmLabel="Overwrite"
+        confirmColor="blue"
+        onConfirm={() => {
+          if (pendingSaveOverwrite) executeSaveToMySaved(pendingSaveOverwrite);
+          setPendingSaveOverwrite(null);
         }}
       />
     </DndContext>

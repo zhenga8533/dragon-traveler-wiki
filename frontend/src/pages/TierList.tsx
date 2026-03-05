@@ -1,63 +1,40 @@
 import {
   Badge,
   Button,
-  Collapse,
   Container,
   Group,
-  Paper,
-  ScrollArea,
   SegmentedControl,
-  SimpleGrid,
   Stack,
-  Table,
-  Tabs,
-  Text,
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { downloadElementAsPng } from '../utils/export-image';
-import { IoCreate, IoDownload, IoFilter } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
-import CharacterCard from '../components/character/CharacterCard';
-import CharacterPortrait from '../components/character/CharacterPortrait';
-import ChangeHistory from '../components/common/ChangeHistory';
-import ClassTag from '../components/common/ClassTag';
-import CollapsibleSectionCard from '../components/common/CollapsibleSectionCard';
+import { IoFilter } from 'react-icons/io5';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
 import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
-import EntityFilter from '../components/common/EntityFilter';
-import FactionTag from '../components/common/FactionTag';
 import LastUpdated from '../components/common/LastUpdated';
-import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
-import QualityIcon from '../components/common/QualityIcon';
 import ViewToggle from '../components/common/ViewToggle';
 import {
   ListPageLoading,
   ViewModeLoading,
 } from '../components/layout/PageLoadingSkeleton';
 import TierListBuilder from '../components/tools/TierListBuilder';
-import { getTierColor, TIER_ORDER } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentType,
 } from '../constants/content-types';
-import { getCardHoverProps } from '../constants/styles';
-import { CHARACTER_GRID_SPACING, STORAGE_KEY } from '../constants/ui';
+import { STORAGE_KEY } from '../constants/ui';
+import { toEntitySlug } from '../utils/entity-slug';
 import { useCharacterResolution } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import { useCharacters, useTierListChanges, useTierLists } from '../hooks/use-common-data';
 import type { TierList as TierListType } from '../types/tier-list';
-import {
-  getCharacterBaseSlug,
-  getCharacterIdentityKey,
-  getCharacterRoutePath,
-  getCharacterRoutePathByName,
-  resolveCharacterByNameAndQuality,
-} from '../utils/character-route';
-import { sortCharactersByQuality } from '../utils/filter-characters';
+import { resolveCharacterByNameAndQuality } from '../utils/character-route';
+import TierListSavedTab from './tier-list/TierListSavedTab';
+import TierListViewTab from './tier-list/TierListViewTab';
 
 export default function TierList() {
   const {
@@ -82,11 +59,13 @@ export default function TierList() {
     if (typeof window === 'undefined') return '';
     return window.localStorage.getItem(STORAGE_KEY.TIER_LIST_SEARCH) || '';
   });
-  const [mode, setMode] = useState<'view' | 'builder'>('view');
+  const [mode, setMode] = useState<'view' | 'saved' | 'builder'>('view');
   const [editData, setEditData] = useState<TierListType | null>(null);
   const [pendingEditTierList, setPendingEditTierList] =
     useState<TierListType | null>(null);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
+  const [savedTierLists, setSavedTierLists] = useState<TierListType[]>([]);
+  const [pendingDeleteSavedTierList, setPendingDeleteSavedTierList] = useState<string | null>(null);
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TIER_LIST_VIEW_MODE,
     defaultMode: 'grid',
@@ -173,6 +152,38 @@ export default function TierList() {
     window.localStorage.setItem(STORAGE_KEY.TIER_LIST_SEARCH, search);
   }, [search]);
 
+  const refreshSavedTierLists = useCallback(() => {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
+      if (!raw) { setSavedTierLists([]); return; }
+      const parsed = JSON.parse(raw) as Record<string, unknown>;
+      const lists = Object.values(parsed)
+        .filter((v): v is TierListType =>
+          v !== null && typeof v === 'object' && Array.isArray((v as TierListType).entries)
+        )
+        .sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
+      setSavedTierLists(lists);
+    } catch {
+      setSavedTierLists([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (mode === 'saved') refreshSavedTierLists();
+  }, [mode, refreshSavedTierLists]);
+
+  function deleteSavedTierList(name: string) {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
+      const saves = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
+      delete saves[toEntitySlug(name)];
+      window.localStorage.setItem(STORAGE_KEY.TIER_LIST_MY_SAVED, JSON.stringify(saves));
+      setSavedTierLists((prev) => prev.filter((t) => t.name !== name));
+    } catch {
+      // ignore
+    }
+  }
+
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
     for (const tl of tierLists) {
@@ -220,6 +231,14 @@ export default function TierList() {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [isCapturingTierList]);
 
+  const exportRefCallback = useCallback(
+    (name: string, node: HTMLDivElement | null) => {
+      if (node) exportRefs.current.set(name, node);
+      else exportRefs.current.delete(name);
+    },
+    []
+  );
+
   return (
     <Container size="lg" py="xl">
       <Stack gap="md">
@@ -229,7 +248,7 @@ export default function TierList() {
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
           <Group gap="xs">
-            {mode === 'view' && (
+            {(mode === 'view' || mode === 'saved') && (
               <ViewToggle viewMode={viewMode} onChange={setViewMode} />
             )}
             {mode === 'view' && (
@@ -253,10 +272,10 @@ export default function TierList() {
         </Group>
 
         {loading &&
-          (mode === 'view' ? (
-            <ViewModeLoading viewMode={viewMode} cards={3} cardHeight={180} />
-          ) : (
+          (mode === 'builder' ? (
             <ListPageLoading cards={3} />
+          ) : (
+            <ViewModeLoading viewMode={viewMode} cards={3} cardHeight={180} />
           ))}
 
         {!loading && error && (
@@ -272,536 +291,56 @@ export default function TierList() {
             <SegmentedControl
               value={mode}
               onChange={(val) => {
-                setMode(val as 'view' | 'builder');
-                if (val === 'view') setEditData(null);
+                const newMode = val as 'view' | 'saved' | 'builder';
+                setMode(newMode);
+                if (newMode === 'view') setEditData(null);
+                if (newMode === 'saved') refreshSavedTierLists();
               }}
               data={[
                 { label: 'View Tier Lists', value: 'view' },
+                { label: 'My Saved', value: 'saved' },
                 { label: 'Create Your Own', value: 'builder' },
               ]}
             />
 
             {mode === 'view' && (
-              <Collapse in={filterOpen}>
-                <Paper
-                  p="sm"
-                  radius="md"
-                  withBorder
-                  {...getCardHoverProps()}
-                  bg="var(--mantine-color-body)"
-                >
-                  <EntityFilter
-                    groups={entityFilterGroups}
-                    selected={viewFilters}
-                    onChange={(key, values) =>
-                      setViewFilters((prev) => ({ ...prev, [key]: values }))
-                    }
-                    onClear={() => {
-                      setViewFilters({ contentTypes: [] });
-                      setSearch('');
-                    }}
-                    search={search}
-                    onSearchChange={setSearch}
-                    searchPlaceholder="Search tier lists..."
-                  />
-                </Paper>
-              </Collapse>
+              <TierListViewTab
+                visibleTierLists={visibleTierLists}
+                characters={characters}
+                resolveTierEntryCharacter={resolveTierEntryCharacter}
+                characterNameCounts={characterNameCounts}
+                viewMode={viewMode}
+                filterOpen={filterOpen}
+                entityFilterGroups={entityFilterGroups}
+                viewFilters={viewFilters}
+                search={search}
+                onFilterChange={(key, values) =>
+                  setViewFilters((prev) => ({ ...prev, [key]: values }))
+                }
+                onSearchChange={setSearch}
+                onClearFilters={() => {
+                  setViewFilters({ contentTypes: [] });
+                  setSearch('');
+                }}
+                onOpenFilters={toggleFilter}
+                tierListChanges={tierListChanges}
+                onRequestEdit={requestEditTierList}
+                onRequestExport={setIsCapturingTierList}
+                isExporting={isCapturingTierList}
+                exportRefCallback={exportRefCallback}
+              />
             )}
 
-            {mode === 'view' && (
-              <>
-                {visibleTierLists.length === 0 && (
-                  <NoResultsSuggestions
-                    title="No tier lists found"
-                    message="No tier lists match the current filters."
-                    onReset={() => {
-                      setViewFilters({ contentTypes: [] });
-                      setSearch('');
-                    }}
-                    onOpenFilters={toggleFilter}
-                  />
-                )}
-
-                {visibleTierLists.length > 0 && (
-                  <Tabs defaultValue={visibleTierLists[0]?.name}>
-                    <Group justify="space-between" mb="md" wrap="wrap">
-                      <Tabs.List style={{ flexWrap: 'wrap', flex: 1 }}>
-                        {visibleTierLists.map((tierList) => (
-                          <Tabs.Tab key={tierList.name} value={tierList.name}>
-                            {tierList.name}
-                          </Tabs.Tab>
-                        ))}
-                      </Tabs.List>
-                    </Group>
-
-                    {visibleTierLists.map((tierList) => {
-                      const tierOrder =
-                        tierList.tiers?.map((t) => t.name) ?? TIER_ORDER;
-                      const definedTierSet = new Set(tierOrder);
-                      const extraTiers = [
-                        ...new Set(tierList.entries.map((e) => e.tier)),
-                      ].filter((t) => !definedTierSet.has(t));
-                      const allTierOrder = [...tierOrder, ...extraTiers];
-
-                      const byTier = allTierOrder
-                        .map((tier, tierIndex) => ({
-                          tier,
-                          tierIndex,
-                          note: tierList.tiers?.find((t) => t.name === tier)
-                            ?.note,
-                          entries: tierList.entries.filter(
-                            (e) => e.tier === tier
-                          ),
-                        }))
-                        .filter((g) => g.entries.length > 0);
-
-                      const rankedNames = new Set(
-                        tierList.entries.map((e) => {
-                          const resolved = resolveTierEntryCharacter(e);
-                          return resolved
-                            ? getCharacterIdentityKey(resolved)
-                            : getCharacterIdentityKey(
-                                e.character_name,
-                                e.character_quality
-                              );
-                        })
-                      );
-                      const unranked = sortCharactersByQuality(
-                        characters.filter(
-                          (c) => !rankedNames.has(getCharacterIdentityKey(c))
-                        )
-                      );
-
-                      return (
-                        <Tabs.Panel
-                          key={tierList.name}
-                          value={tierList.name}
-                          pt="md"
-                        >
-                          <Stack gap="md">
-                            <Stack gap={6}>
-                              <Group gap="xs" wrap="wrap" mb={2}>
-                                <Badge variant="light" size="sm">
-                                  {normalizeContentType(
-                                    tierList.content_type,
-                                    'All'
-                                  )}
-                                </Badge>
-                                <Text size="sm" c="dimmed">
-                                  by{' '}
-                                  <Text span c="violet" inherit>
-                                    {tierList.author}
-                                  </Text>
-                                </Text>
-                                {tierList.description && (
-                                  <>
-                                    <Text size="sm" c="dimmed">
-                                      •
-                                    </Text>
-                                    <Text size="sm" c="dimmed">
-                                      {tierList.description}
-                                    </Text>
-                                  </>
-                                )}
-                              </Group>
-                              <Group gap="xs" wrap="wrap">
-                                <LastUpdated
-                                  timestamp={tierList.last_updated}
-                                />
-                                <Button
-                                  variant="light"
-                                  size="compact-xs"
-                                  leftSection={<IoCreate size={12} />}
-                                  onClick={() => {
-                                    requestEditTierList(tierList);
-                                  }}
-                                >
-                                  Edit
-                                </Button>
-                                <Button
-                                  variant="light"
-                                  size="compact-xs"
-                                  leftSection={<IoDownload size={12} />}
-                                  loading={isCapturingTierList === tierList.name}
-                                  onClick={() => setIsCapturingTierList(tierList.name)}
-                                >
-                                  Export Image
-                                </Button>
-                              </Group>
-                            </Stack>
-
-                            <div
-                              ref={(node) => {
-                                if (node) exportRefs.current.set(tierList.name, node);
-                                else exportRefs.current.delete(tierList.name);
-                              }}
-                            >
-                            <Stack gap="md">
-                            {byTier.map(
-                              ({ tier, tierIndex, note, entries }) => {
-                                const tierNote = note?.trim() || '';
-
-                                return (
-                                  <CollapsibleSectionCard
-                                    key={tier}
-                                    defaultExpanded
-                                    header={
-                                      <Stack gap={4}>
-                                        <Badge
-                                          variant="filled"
-                                          color={getTierColor(tier, tierIndex)}
-                                          size="lg"
-                                          radius="sm"
-                                        >
-                                          {tier} Tier
-                                        </Badge>
-                                        {tierNote && (
-                                          <Text size="xs" c="dimmed">
-                                            {tierNote}
-                                          </Text>
-                                        )}
-                                      </Stack>
-                                    }
-                                  >
-                                    {viewMode === 'grid' ? (
-                                      <SimpleGrid
-                                        cols={{
-                                          base: 2,
-                                          xs: 3,
-                                          sm: 4,
-                                          md: 6,
-                                        }}
-                                        spacing={CHARACTER_GRID_SPACING}
-                                      >
-                                        {entries.map((entry) => {
-                                          const char =
-                                            resolveTierEntryCharacter(entry);
-                                          const routePath = char
-                                            ? getCharacterRoutePath(
-                                                char,
-                                                characterNameCounts
-                                              )
-                                            : getCharacterRoutePathByName(
-                                                entry.character_name
-                                              );
-                                          const entryNote =
-                                            entry.note?.trim() || undefined;
-                                          const isMultiQuality =
-                                            char &&
-                                            (characterNameCounts.get(
-                                              getCharacterBaseSlug(char.name)
-                                            ) ?? 1) > 1;
-                                          return (
-                                            <CharacterCard
-                                              key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
-                                              name={
-                                                char?.name ??
-                                                entry.character_name
-                                              }
-                                              label={
-                                                isMultiQuality
-                                                  ? `${char!.name} (${char!.quality})`
-                                                  : undefined
-                                              }
-                                              quality={char?.quality}
-                                              routePath={routePath}
-                                              note={entryNote}
-                                              noteIconVariant="builder"
-                                            />
-                                          );
-                                        })}
-                                      </SimpleGrid>
-                                    ) : (
-                                      <ScrollArea
-                                        type="auto"
-                                        scrollbarSize={6}
-                                        offsetScrollbars
-                                      >
-                                        <Table
-                                          striped
-                                          highlightOnHover
-                                          style={{ minWidth: 460 }}
-                                        >
-                                          <Table.Thead>
-                                            <Table.Tr>
-                                              <Table.Th>Character</Table.Th>
-                                              <Table.Th>Quality</Table.Th>
-                                              <Table.Th>Class</Table.Th>
-                                              <Table.Th>Factions</Table.Th>
-                                              <Table.Th>Note</Table.Th>
-                                            </Table.Tr>
-                                          </Table.Thead>
-                                          <Table.Tbody>
-                                            {entries.map((entry) => {
-                                              const char =
-                                                resolveTierEntryCharacter(
-                                                  entry
-                                                );
-                                              const routePath = char
-                                                ? getCharacterRoutePath(
-                                                    char,
-                                                    characterNameCounts
-                                                  )
-                                                : getCharacterRoutePathByName(
-                                                    entry.character_name
-                                                  );
-                                              const resolvedName =
-                                                char?.name ??
-                                                entry.character_name;
-                                              const isMultiQuality =
-                                                char &&
-                                                (characterNameCounts.get(
-                                                  getCharacterBaseSlug(
-                                                    char.name
-                                                  )
-                                                ) ?? 1) > 1;
-                                              const displayName = isMultiQuality
-                                                ? `${char!.name} (${char!.quality})`
-                                                : resolvedName;
-                                              const entryNote =
-                                                entry.note?.trim() || '';
-                                              return (
-                                                <Table.Tr
-                                                  key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
-                                                >
-                                                  <Table.Td>
-                                                    <Group
-                                                      gap="sm"
-                                                      wrap="nowrap"
-                                                    >
-                                                      <CharacterPortrait
-                                                        name={resolvedName}
-                                                        size={32}
-                                                        quality={char?.quality}
-                                                        routePath={routePath}
-                                                      />
-                                                      <Text
-                                                        component={Link}
-                                                        to={routePath}
-                                                        size="sm"
-                                                        fw={500}
-                                                        c="violet"
-                                                      >
-                                                        {displayName}
-                                                      </Text>
-                                                    </Group>
-                                                  </Table.Td>
-                                                  <Table.Td>
-                                                    {char ? (
-                                                      <QualityIcon
-                                                        quality={char.quality}
-                                                        size={18}
-                                                      />
-                                                    ) : (
-                                                      <Text
-                                                        size="sm"
-                                                        c="dimmed"
-                                                      >
-                                                        —
-                                                      </Text>
-                                                    )}
-                                                  </Table.Td>
-                                                  <Table.Td>
-                                                    {char ? (
-                                                      <ClassTag
-                                                        characterClass={
-                                                          char.character_class
-                                                        }
-                                                        size="sm"
-                                                      />
-                                                    ) : (
-                                                      <Text
-                                                        size="sm"
-                                                        c="dimmed"
-                                                      >
-                                                        —
-                                                      </Text>
-                                                    )}
-                                                  </Table.Td>
-                                                  <Table.Td>
-                                                    {char &&
-                                                    char.factions.length > 0 ? (
-                                                      <Group
-                                                        gap={4}
-                                                        wrap="wrap"
-                                                      >
-                                                        {char.factions.map(
-                                                          (faction) => (
-                                                            <FactionTag
-                                                              key={faction}
-                                                              faction={faction}
-                                                              size="xs"
-                                                            />
-                                                          )
-                                                        )}
-                                                      </Group>
-                                                    ) : (
-                                                      <Text
-                                                        size="sm"
-                                                        c="dimmed"
-                                                      >
-                                                        —
-                                                      </Text>
-                                                    )}
-                                                  </Table.Td>
-                                                  <Table.Td>
-                                                    <Text size="sm" c="dimmed">
-                                                      {entryNote || '—'}
-                                                    </Text>
-                                                  </Table.Td>
-                                                </Table.Tr>
-                                              );
-                                            })}
-                                          </Table.Tbody>
-                                        </Table>
-                                      </ScrollArea>
-                                    )}
-                                  </CollapsibleSectionCard>
-                                );
-                              }
-                            )}
-                            </Stack>
-                            </div>
-
-                            {unranked.length > 0 && (
-                              <CollapsibleSectionCard
-                                defaultExpanded={false}
-                                header={
-                                  <Badge
-                                    variant="filled"
-                                    color="gray"
-                                    size="lg"
-                                    radius="sm"
-                                  >
-                                    Unranked
-                                  </Badge>
-                                }
-                              >
-                                {viewMode === 'grid' ? (
-                                  <SimpleGrid
-                                    cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
-                                    spacing={CHARACTER_GRID_SPACING}
-                                  >
-                                    {unranked.map((c) => {
-                                      const isMultiQuality =
-                                        (characterNameCounts.get(
-                                          getCharacterBaseSlug(c.name)
-                                        ) ?? 1) > 1;
-                                      return (
-                                        <CharacterCard
-                                          key={getCharacterIdentityKey(c)}
-                                          name={c.name}
-                                          label={
-                                            isMultiQuality
-                                              ? `${c.name} (${c.quality})`
-                                              : undefined
-                                          }
-                                          quality={c.quality}
-                                          routePath={getCharacterRoutePath(
-                                            c,
-                                            characterNameCounts
-                                          )}
-                                        />
-                                      );
-                                    })}
-                                  </SimpleGrid>
-                                ) : (
-                                  <ScrollArea
-                                    type="auto"
-                                    scrollbarSize={6}
-                                    offsetScrollbars
-                                  >
-                                    <Table
-                                      striped
-                                      highlightOnHover
-                                      style={{ minWidth: 460 }}
-                                    >
-                                      <Table.Thead>
-                                        <Table.Tr>
-                                          <Table.Th>Character</Table.Th>
-                                          <Table.Th>Quality</Table.Th>
-                                          <Table.Th>Class</Table.Th>
-                                          <Table.Th>Factions</Table.Th>
-                                        </Table.Tr>
-                                      </Table.Thead>
-                                      <Table.Tbody>
-                                        {unranked.map((c) => {
-                                          const isMultiQuality =
-                                            (characterNameCounts.get(
-                                              getCharacterBaseSlug(c.name)
-                                            ) ?? 1) > 1;
-                                          const displayName = isMultiQuality
-                                            ? `${c.name} (${c.quality})`
-                                            : c.name;
-                                          return (
-                                            <Table.Tr
-                                              key={getCharacterIdentityKey(c)}
-                                            >
-                                              <Table.Td>
-                                                <Group gap="sm" wrap="nowrap">
-                                                  <CharacterPortrait
-                                                    name={c.name}
-                                                    size={32}
-                                                    quality={c.quality}
-                                                  />
-                                                  <Text
-                                                    component={Link}
-                                                    to={getCharacterRoutePath(
-                                                      c,
-                                                      characterNameCounts
-                                                    )}
-                                                    size="sm"
-                                                    fw={500}
-                                                    c="violet"
-                                                  >
-                                                    {displayName}
-                                                  </Text>
-                                                </Group>
-                                              </Table.Td>
-                                              <Table.Td>
-                                                <QualityIcon
-                                                  quality={c.quality}
-                                                  size={18}
-                                                />
-                                              </Table.Td>
-                                              <Table.Td>
-                                                <ClassTag
-                                                  characterClass={
-                                                    c.character_class
-                                                  }
-                                                  size="sm"
-                                                />
-                                              </Table.Td>
-                                              <Table.Td>
-                                                <Group gap={4} wrap="wrap">
-                                                  {c.factions.map((faction) => (
-                                                    <FactionTag
-                                                      key={faction}
-                                                      faction={faction}
-                                                      size="xs"
-                                                    />
-                                                  ))}
-                                                </Group>
-                                              </Table.Td>
-                                            </Table.Tr>
-                                          );
-                                        })}
-                                      </Table.Tbody>
-                                    </Table>
-                                  </ScrollArea>
-                                )}
-                              </CollapsibleSectionCard>
-                            )}
-                            <ChangeHistory
-                              history={tierListChanges[tierList.name]}
-                            />
-                          </Stack>
-                        </Tabs.Panel>
-                      );
-                    })}
-                  </Tabs>
-                )}
-              </>
+            {mode === 'saved' && (
+              <TierListSavedTab
+                savedTierLists={savedTierLists}
+                resolveTierEntryCharacter={resolveTierEntryCharacter}
+                characterNameCounts={characterNameCounts}
+                viewMode={viewMode}
+                onRequestEdit={requestEditTierList}
+                onRequestDelete={setPendingDeleteSavedTierList}
+                onGoToBuilder={() => setMode('builder')}
+              />
             )}
 
             {mode === 'builder' && (
@@ -829,6 +368,19 @@ export default function TierList() {
             }
             setConfirmEditOpen(false);
             setPendingEditTierList(null);
+          }}
+        />
+
+        <ConfirmActionModal
+          opened={pendingDeleteSavedTierList !== null}
+          onCancel={() => setPendingDeleteSavedTierList(null)}
+          title="Delete saved tier list?"
+          message={`This will permanently delete "${pendingDeleteSavedTierList ?? ''}" from your saved tier lists.`}
+          confirmLabel="Delete"
+          confirmColor="red"
+          onConfirm={() => {
+            if (pendingDeleteSavedTierList) deleteSavedTierList(pendingDeleteSavedTierList);
+            setPendingDeleteSavedTierList(null);
           }}
         />
       </Stack>

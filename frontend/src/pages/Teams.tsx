@@ -1,172 +1,45 @@
 import {
   Badge,
-  Box,
   Button,
-  Collapse,
   Container,
-  Divider,
   Group,
   Image,
-  Paper,
-  ScrollArea,
   SegmentedControl,
-  SimpleGrid,
   Stack,
-  Table,
-  Text,
   Title,
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { useEffect, useMemo, useState } from 'react';
-import { IoCreate, IoFilter } from 'react-icons/io5';
-import { Link, useLocation, useNavigate } from 'react-router-dom';
+import { useDisclosure } from '@mantine/hooks';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { IoFilter } from 'react-icons/io5';
+import { useLocation, useNavigate } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
-import { FACTION_WYRM_MAP } from '../assets/wyrms';
-import CharacterPortrait from '../components/character/CharacterPortrait';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
 import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
-import EntityFilter from '../components/common/EntityFilter';
-import FactionTag from '../components/common/FactionTag';
 import LastUpdated from '../components/common/LastUpdated';
-import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
-import PaginationControl from '../components/common/PaginationControl';
 import ViewToggle from '../components/common/ViewToggle';
 import {
   ListPageLoading,
   ViewModeLoading,
 } from '../components/layout/PageLoadingSkeleton';
 import TeamBuilder from '../components/tools/TeamBuilder';
-import { FACTION_COLOR, FACTION_NAMES } from '../constants/colors';
+import { FACTION_NAMES } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentType,
 } from '../constants/content-types';
-import {
-  getCardHoverProps,
-  getMinWidthStyle,
-  LINK_BLOCK_RESET_STYLE,
-} from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
+import { toEntitySlug } from '../utils/entity-slug';
 import { useCharacterResolution } from '../hooks';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import { useCharacters, useTeams, useWyrmspells } from '../hooks/use-common-data';
 import { usePagination } from '../hooks/use-pagination';
-import type { Character } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
-import {
-  resolveCharacterByNameAndQuality,
-} from '../utils/character-route';
-import { toEntitySlug } from '../utils/entity-slug';
-import {
-  getTeamBenchEntryName,
-  getTeamBenchEntryQuality,
-} from '../utils/team-bench';
+import TeamsSavedTab from './teams/TeamsSavedTab';
+import TeamsViewTab from './teams/TeamsViewTab';
 
 const TEAMS_PER_PAGE = 12;
-
-function TeamCharacterAvatars({
-  refs,
-  preferredByName,
-  byIdentity,
-  size,
-  isSubstitute = false,
-  layout = 'wrap',
-  columns = 3,
-  gap = 4,
-  wrap = 'wrap',
-  maxVisible,
-}: {
-  refs: Array<{ name: string; quality?: string }>;
-  preferredByName: Map<string, Character>;
-  byIdentity: Map<string, Character>;
-  size: number;
-  isSubstitute?: boolean;
-  layout?: 'wrap' | 'grid';
-  columns?: number;
-  gap?: number;
-  wrap?: 'wrap' | 'nowrap';
-  maxVisible?: number;
-}) {
-  const visibleNames =
-    typeof maxVisible === 'number' && maxVisible >= 0
-      ? refs.slice(0, maxVisible)
-      : refs;
-  const hiddenCount = refs.length - visibleNames.length;
-
-  const portraits = visibleNames.map((entry) => {
-    const char = resolveCharacterByNameAndQuality(
-      entry.name,
-      entry.quality,
-      preferredByName,
-      byIdentity
-    );
-    const displayName = char?.name ?? entry.name;
-    const displayLabel = char?.quality
-      ? `${displayName} (${char.quality})`
-      : displayName;
-    return (
-      <CharacterPortrait
-        key={`${isSubstitute ? 'sub' : 'main'}-${entry.name}-${entry.quality ?? ''}`}
-        name={displayName}
-        size={size}
-        quality={char?.quality}
-        isSubstitute={isSubstitute}
-        tooltip={isSubstitute ? `${displayLabel} (Sub)` : displayLabel}
-      />
-    );
-  });
-
-  const overflowIndicator =
-    hiddenCount > 0 ? (
-      <Badge
-        key={`${isSubstitute ? 'sub' : 'main'}-overflow`}
-        size="sm"
-        variant="light"
-        color="gray"
-        style={{
-          width: size,
-          height: size,
-          borderRadius: '50%',
-          display: 'inline-flex',
-          alignItems: 'center',
-          justifyContent: 'center',
-          padding: 0,
-          fontSize: 11,
-          fontWeight: 600,
-          lineHeight: 1,
-          flexShrink: 0,
-        }}
-      >
-        +{hiddenCount}
-      </Badge>
-    ) : null;
-
-  const portraitItems = overflowIndicator
-    ? [...portraits, overflowIndicator]
-    : portraits;
-
-  if (layout === 'grid') {
-    return (
-      <Box
-        style={{
-          display: 'grid',
-          gridTemplateColumns: `repeat(${columns}, ${size}px)`,
-          gap: 6,
-        }}
-      >
-        {portraitItems}
-      </Box>
-    );
-  }
-
-  return (
-    <Group gap={gap} wrap={wrap}>
-      {portraitItems}
-    </Group>
-  );
-}
 
 export default function Teams() {
   const navigate = useNavigate();
@@ -197,15 +70,16 @@ export default function Teams() {
     if (typeof window === 'undefined') return '';
     return window.localStorage.getItem(STORAGE_KEY.TEAMS_SEARCH) || '';
   });
-  const [mode, setMode] = useState<'view' | 'builder'>('view');
+  const [mode, setMode] = useState<'view' | 'saved' | 'builder'>('view');
   const [editData, setEditData] = useState<Team | null>(null);
   const [pendingEditTeam, setPendingEditTeam] = useState<Team | null>(null);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
+  const [savedTeams, setSavedTeams] = useState<Team[]>([]);
+  const [pendingDeleteSavedTeam, setPendingDeleteSavedTeam] = useState<string | null>(null);
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TEAMS_VIEW_MODE,
     defaultMode: 'grid',
   });
-  const isLargeTeamCardLayout = useMediaQuery('(min-width: 75em)');
   const loading = loadingTeams || loadingChars || loadingSpells;
   const error = teamsError || charactersError || wyrmspellsError;
 
@@ -297,6 +171,38 @@ export default function Teams() {
     setConfirmEditOpen(true);
   };
 
+  const refreshSavedTeams = useCallback(() => {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
+      if (!raw) { setSavedTeams([]); return; }
+      const parsed = JSON.parse(raw) as Record<string, unknown>;
+      const saved = Object.values(parsed)
+        .filter((v): v is Team =>
+          v !== null && typeof v === 'object' && Array.isArray((v as Team).members)
+        )
+        .sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
+      setSavedTeams(saved);
+    } catch {
+      setSavedTeams([]);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (mode === 'saved') refreshSavedTeams();
+  }, [mode, refreshSavedTeams]);
+
+  function deleteSavedTeam(name: string) {
+    try {
+      const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
+      const saves = raw ? (JSON.parse(raw) as Record<string, unknown>) : {};
+      delete saves[toEntitySlug(name)];
+      window.localStorage.setItem(STORAGE_KEY.TEAMS_MY_SAVED, JSON.stringify(saves));
+      setSavedTeams((prev) => prev.filter((t) => t.name !== name));
+    } catch {
+      // ignore
+    }
+  }
+
   const filteredTeams = useMemo(() => {
     return teams.filter((team) => {
       if (search && !team.name.toLowerCase().includes(search.toLowerCase()))
@@ -341,7 +247,7 @@ export default function Teams() {
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
           <Group gap="xs">
-            {mode === 'view' && (
+            {(mode === 'view' || mode === 'saved') && (
               <ViewToggle viewMode={viewMode} onChange={setViewMode} />
             )}
             {mode === 'view' && (
@@ -365,10 +271,10 @@ export default function Teams() {
         </Group>
 
         {loading &&
-          (mode === 'view' ? (
-            <ViewModeLoading viewMode={viewMode} cards={4} cardHeight={200} />
-          ) : (
+          (mode === 'builder' ? (
             <ListPageLoading cards={4} />
+          ) : (
+            <ViewModeLoading viewMode={viewMode} cards={4} cardHeight={200} />
           ))}
 
         {!loading && error && (
@@ -384,415 +290,55 @@ export default function Teams() {
             <SegmentedControl
               value={mode}
               onChange={(val) => {
-                setMode(val as 'view' | 'builder');
-                if (val === 'view') setEditData(null);
+                const newMode = val as 'view' | 'saved' | 'builder';
+                setMode(newMode);
+                if (newMode === 'view') setEditData(null);
+                if (newMode === 'saved') refreshSavedTeams();
               }}
               data={[
                 { label: 'View Teams', value: 'view' },
+                { label: 'My Saved', value: 'saved' },
                 { label: 'Create Your Own', value: 'builder' },
               ]}
             />
 
             {mode === 'view' && (
-              <Collapse in={filterOpen}>
-                <Paper
-                  p="sm"
-                  radius="md"
-                  withBorder
-                  bg="var(--mantine-color-body)"
-                >
-                  <EntityFilter
-                    groups={entityFilterGroups}
-                    selected={viewFilters}
-                    onChange={(key, values) =>
-                      setViewFilters((prev) => ({ ...prev, [key]: values }))
-                    }
-                    onClear={() => {
-                      setViewFilters({ factions: [], contentTypes: [] });
-                      setSearch('');
-                    }}
-                    search={search}
-                    onSearchChange={setSearch}
-                    searchPlaceholder="Search teams..."
-                  />
-                </Paper>
-              </Collapse>
+              <TeamsViewTab
+                paginatedTeams={paginatedTeams}
+                filteredTeams={filteredTeams}
+                charMap={charMap}
+                characterByIdentity={characterByIdentity}
+                viewMode={viewMode}
+                filterOpen={filterOpen}
+                entityFilterGroups={entityFilterGroups}
+                viewFilters={viewFilters}
+                search={search}
+                onFilterChange={(key, values) =>
+                  setViewFilters((prev) => ({ ...prev, [key]: values }))
+                }
+                onSearchChange={setSearch}
+                onClearFilters={() => {
+                  setViewFilters({ factions: [], contentTypes: [] });
+                  setSearch('');
+                }}
+                onOpenFilters={toggleFilter}
+                page={page}
+                totalPages={totalPages}
+                onPageChange={setPage}
+                onRequestEdit={requestEditTeam}
+              />
             )}
 
-            {mode === 'view' && (
-              <>
-                {filteredTeams.length === 0 && (
-                  <NoResultsSuggestions
-                    title={search ? 'No teams found' : 'No matching teams'}
-                    message={
-                      search
-                        ? 'No teams match your search.'
-                        : 'No teams match the current filters.'
-                    }
-                    onReset={() => {
-                      setViewFilters({ factions: [], contentTypes: [] });
-                      setSearch('');
-                    }}
-                    onOpenFilters={toggleFilter}
-                  />
-                )}
-
-                {viewMode === 'grid' ? (
-                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                    {paginatedTeams.map((team) =>
-                      (() => {
-                        return (
-                          <Paper
-                            key={team.name}
-                            p="md"
-                            radius="md"
-                            withBorder
-                            {...getCardHoverProps({
-                              interactive: true,
-                              style: {
-                                ...LINK_BLOCK_RESET_STYLE,
-                                borderTop: `3px solid var(--mantine-color-${FACTION_COLOR[team.faction as FactionName] ?? 'violet'}-5)`,
-                              },
-                            })}
-                            onClick={() =>
-                              navigate(`/teams/${toEntitySlug(team.name)}`)
-                            }
-                            role="link"
-                            tabIndex={0}
-                            onKeyDown={(e) => {
-                              if (e.key === 'Enter' || e.key === ' ') {
-                                e.preventDefault();
-                                navigate(`/teams/${toEntitySlug(team.name)}`);
-                              }
-                            }}
-                          >
-                            <Stack gap="sm">
-                              {/* Header: whelp + name + edit icon */}
-                              <Group
-                                justify="space-between"
-                                align="flex-start"
-                                wrap="nowrap"
-                                gap="xs"
-                              >
-                                <Group
-                                  gap="xs"
-                                  wrap="nowrap"
-                                  style={{ minWidth: 0 }}
-                                >
-                                  <Image
-                                    src={
-                                      FACTION_WYRM_MAP[
-                                        team.faction as FactionName
-                                      ]
-                                    }
-                                    alt={`${team.faction} Whelp`}
-                                    w={32}
-                                    h={32}
-                                    fit="contain"
-                                    style={{ flexShrink: 0 }}
-                                  />
-                                  <Text
-                                    fw={700}
-                                    size="md"
-                                    c="violet"
-                                    lineClamp={1}
-                                  >
-                                    {team.name}
-                                  </Text>
-                                </Group>
-                                <Button
-                                  variant="subtle"
-                                  size="compact-xs"
-                                  color="violet"
-                                  leftSection={<IoCreate size={12} />}
-                                  style={{ flexShrink: 0 }}
-                                  onClick={(e) => {
-                                    e.stopPropagation();
-                                    requestEditTeam(team);
-                                  }}
-                                >
-                                  Edit
-                                </Button>
-                              </Group>
-
-                              {/* Tags */}
-                              <Group gap="xs">
-                                <FactionTag
-                                  faction={team.faction as FactionName}
-                                  size="sm"
-                                />
-                                <Badge variant="light" size="sm" color="gray">
-                                  {normalizeContentType(
-                                    team.content_type,
-                                    'All'
-                                  )}
-                                </Badge>
-                              </Group>
-
-                              {/* Author + description */}
-                              <Text size="xs" c="dimmed" lineClamp={1}>
-                                by{' '}
-                                <Text span c="violet" fw={500} inherit>
-                                  {team.author}
-                                </Text>
-                                {team.description && (
-                                  <Text span inherit>
-                                    {' '}
-                                    · {team.description}
-                                  </Text>
-                                )}
-                              </Text>
-
-                              {/* Member portraits */}
-                              <Paper
-                                p="xs"
-                                radius="sm"
-                                bg="var(--mantine-color-default-hover)"
-                              >
-                                <Stack gap="xs">
-                                  <Group
-                                    gap="xs"
-                                    align="flex-start"
-                                    wrap="nowrap"
-                                  >
-                                    <Badge
-                                      size="xs"
-                                      variant="light"
-                                      color="blue"
-                                      style={{
-                                        minWidth: 66,
-                                        justifyContent: 'center',
-                                      }}
-                                    >
-                                      Main {team.members.length}
-                                    </Badge>
-                                    <TeamCharacterAvatars
-                                      refs={team.members.map((member) => ({
-                                        name: member.character_name,
-                                        quality: member.character_quality,
-                                      }))}
-                                      preferredByName={charMap}
-                                      byIdentity={characterByIdentity}
-                                      size={isLargeTeamCardLayout ? 64 : 56}
-                                      layout="wrap"
-                                      gap={isLargeTeamCardLayout ? 6 : 4}
-                                      wrap={
-                                        isLargeTeamCardLayout
-                                          ? 'nowrap'
-                                          : 'wrap'
-                                      }
-                                      maxVisible={isLargeTeamCardLayout ? 6 : 5}
-                                    />
-                                  </Group>
-                                  {(team.bench?.length ?? 0) > 0 && (
-                                    <>
-                                      <Divider size="xs" />
-                                      <Group
-                                        gap="xs"
-                                        align="flex-start"
-                                        wrap="nowrap"
-                                      >
-                                        <Badge
-                                          size="xs"
-                                          variant="light"
-                                          color="gray"
-                                          style={{
-                                            minWidth: 66,
-                                            justifyContent: 'center',
-                                          }}
-                                        >
-                                          Subs {team.bench!.length}
-                                        </Badge>
-                                        <TeamCharacterAvatars
-                                          refs={team.bench!.map((entry) => ({
-                                            name: getTeamBenchEntryName(entry),
-                                            quality:
-                                              getTeamBenchEntryQuality(entry),
-                                          }))}
-                                          preferredByName={charMap}
-                                          byIdentity={characterByIdentity}
-                                          size={isLargeTeamCardLayout ? 52 : 44}
-                                          isSubstitute
-                                          layout="wrap"
-                                          gap={isLargeTeamCardLayout ? 6 : 4}
-                                          wrap={
-                                            isLargeTeamCardLayout
-                                              ? 'nowrap'
-                                              : 'wrap'
-                                          }
-                                          maxVisible={
-                                            isLargeTeamCardLayout ? 6 : 5
-                                          }
-                                        />
-                                      </Group>
-                                    </>
-                                  )}
-                                </Stack>
-                              </Paper>
-                            </Stack>
-                          </Paper>
-                        );
-                      })()
-                    )}
-                  </SimpleGrid>
-                ) : (
-                  <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                    <Table
-                      striped
-                      highlightOnHover
-                      style={getMinWidthStyle(640)}
-                    >
-                      <Table.Thead>
-                        <Table.Tr>
-                          <Table.Th>Name</Table.Th>
-                          <Table.Th>Members</Table.Th>
-                          <Table.Th>Faction</Table.Th>
-                          <Table.Th>Content Type</Table.Th>
-                          <Table.Th>Author</Table.Th>
-                        </Table.Tr>
-                      </Table.Thead>
-                      <Table.Tbody>
-                        {paginatedTeams.map((team) => {
-                          return (
-                            <Table.Tr
-                              key={team.name}
-                              style={{ cursor: 'pointer' }}
-                              onClick={() =>
-                                navigate(`/teams/${toEntitySlug(team.name)}`)
-                              }
-                            >
-                              <Table.Td>
-                                <Group gap="sm" wrap="nowrap">
-                                  <Image
-                                    src={
-                                      FACTION_WYRM_MAP[
-                                        team.faction as FactionName
-                                      ]
-                                    }
-                                    alt={`${team.faction} Whelp`}
-                                    w={28}
-                                    h={28}
-                                    fit="contain"
-                                  />
-                                  <Text
-                                    component={Link}
-                                    to={`/teams/${toEntitySlug(team.name)}`}
-                                    size="sm"
-                                    fw={500}
-                                    c="violet"
-                                    style={{ textDecoration: 'none' }}
-                                    onClick={(e) => e.stopPropagation()}
-                                  >
-                                    {team.name}
-                                  </Text>
-                                </Group>
-                              </Table.Td>
-                              <Table.Td>
-                                <Paper
-                                  p="xs"
-                                  radius="sm"
-                                  bg="var(--mantine-color-default-hover)"
-                                >
-                                  <Stack gap="xs">
-                                    <Group
-                                      gap="xs"
-                                      align="center"
-                                      wrap="nowrap"
-                                    >
-                                      <Badge
-                                        size="xs"
-                                        variant="light"
-                                        color="blue"
-                                        style={{
-                                          minWidth: 56,
-                                          justifyContent: 'center',
-                                        }}
-                                      >
-                                        Main
-                                      </Badge>
-                                      <TeamCharacterAvatars
-                                        refs={team.members.map((member) => ({
-                                          name: member.character_name,
-                                          quality: member.character_quality,
-                                        }))}
-                                        preferredByName={charMap}
-                                        byIdentity={characterByIdentity}
-                                        size={32}
-                                        maxVisible={5}
-                                      />
-                                    </Group>
-                                    {(team.bench?.length ?? 0) > 0 && (
-                                      <>
-                                        <Divider size="xs" />
-                                        <Group
-                                          gap="xs"
-                                          align="center"
-                                          wrap="nowrap"
-                                        >
-                                          <Badge
-                                            size="xs"
-                                            variant="light"
-                                            color="gray"
-                                            style={{
-                                              minWidth: 56,
-                                              justifyContent: 'center',
-                                            }}
-                                          >
-                                            Subs
-                                          </Badge>
-                                          <TeamCharacterAvatars
-                                            refs={team.bench!.map((entry) => ({
-                                              name: getTeamBenchEntryName(
-                                                entry
-                                              ),
-                                              quality:
-                                                getTeamBenchEntryQuality(entry),
-                                            }))}
-                                            preferredByName={charMap}
-                                            byIdentity={characterByIdentity}
-                                            size={32}
-                                            isSubstitute
-                                            maxVisible={5}
-                                          />
-                                        </Group>
-                                      </>
-                                    )}
-                                  </Stack>
-                                </Paper>
-                              </Table.Td>
-                              <Table.Td>
-                                <FactionTag
-                                  faction={team.faction as FactionName}
-                                  size="sm"
-                                />
-                              </Table.Td>
-                              <Table.Td>
-                                <Badge variant="light" size="sm">
-                                  {normalizeContentType(
-                                    team.content_type,
-                                    'All'
-                                  )}
-                                </Badge>
-                              </Table.Td>
-                              <Table.Td>
-                                <Text size="sm" c="violet">
-                                  {team.author}
-                                </Text>
-                              </Table.Td>
-                            </Table.Tr>
-                          );
-                        })}
-                      </Table.Tbody>
-                    </Table>
-                  </ScrollArea>
-                )}
-
-                <PaginationControl
-                  currentPage={page}
-                  totalPages={totalPages}
-                  onChange={setPage}
-                />
-              </>
+            {mode === 'saved' && (
+              <TeamsSavedTab
+                savedTeams={savedTeams}
+                charMap={charMap}
+                characterByIdentity={characterByIdentity}
+                viewMode={viewMode}
+                onRequestEdit={requestEditTeam}
+                onRequestDelete={setPendingDeleteSavedTeam}
+                onGoToBuilder={() => setMode('builder')}
+              />
             )}
 
             {mode === 'builder' && (
@@ -821,6 +367,19 @@ export default function Teams() {
             }
             setConfirmEditOpen(false);
             setPendingEditTeam(null);
+          }}
+        />
+
+        <ConfirmActionModal
+          opened={pendingDeleteSavedTeam !== null}
+          onCancel={() => setPendingDeleteSavedTeam(null)}
+          title="Delete saved team?"
+          message={`This will permanently delete "${pendingDeleteSavedTeam ?? ''}" from your saved teams.`}
+          confirmLabel="Delete"
+          confirmColor="red"
+          onConfirm={() => {
+            if (pendingDeleteSavedTeam) deleteSavedTeam(pendingDeleteSavedTeam);
+            setPendingDeleteSavedTeam(null);
           }}
         />
       </Stack>

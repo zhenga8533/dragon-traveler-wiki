@@ -38,6 +38,7 @@ import {
   IoCopy,
   IoDownload,
   IoOpenOutline,
+  IoSave,
   IoSwapVertical,
   IoTrash,
 } from 'react-icons/io5';
@@ -71,11 +72,11 @@ import {
   cloneRecordArrays,
   removeItemFromRecordArrays,
 } from '../../../utils/dnd-list';
+import { toEntitySlug } from '../../../utils/entity-slug';
 import { compareCharactersByQualityThenName } from '../../../utils/filter-characters';
-import { showWarningToast } from '../../../utils/toast';
+import { showSuccessToast, showWarningToast } from '../../../utils/toast';
 import FilterableCharacterPool from '../../character/FilterableCharacterPool';
 import ConfirmActionModal from '../../common/ConfirmActionModal';
-import SaveLoadSlots from '../../common/SaveLoadSlots';
 import CharacterNoteButton from '../CharacterNoteButton';
 import {
   DraggableCharCard,
@@ -134,6 +135,7 @@ export default function TierListBuilder({
   const [pasteError, setPasteError] = useState('');
   const [draftHydrated, setDraftHydrated] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
+  const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<string | null>(null);
   const exportRef = useRef<HTMLDivElement>(null);
   const isDark = useComputedColorScheme('light') === 'dark';
   const characterNameCounts = useMemo(
@@ -494,6 +496,39 @@ export default function TierListBuilder({
     }
   }
 
+  function executeSaveToMySaved(key: string) {
+    try {
+      const data = JSON.parse(json) as TierList;
+      const stored = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
+      const saves: Record<string, TierList> = stored
+        ? (JSON.parse(stored) as Record<string, TierList>)
+        : {};
+      saves[key] = data;
+      window.localStorage.setItem(STORAGE_KEY.TIER_LIST_MY_SAVED, JSON.stringify(saves));
+      showSuccessToast({ title: 'Saved!', message: `"${key}" saved to My Saved Tier Lists.` });
+    } catch {
+      // ignore
+    }
+  }
+
+  function handleSaveToMySaved() {
+    try {
+      const data = JSON.parse(json) as TierList;
+      const key = toEntitySlug(data.name?.trim() || 'Untitled');
+      const stored = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
+      const saves: Record<string, TierList> = stored
+        ? (JSON.parse(stored) as Record<string, TierList>)
+        : {};
+      if (saves[key]) {
+        setPendingSaveOverwrite(key);
+        return;
+      }
+      executeSaveToMySaved(key);
+    } catch {
+      // ignore
+    }
+  }
+
   function handleSort() {
     setPlacements((prev) => {
       const next: TierPlacements = {};
@@ -635,24 +670,14 @@ export default function TierListBuilder({
             >
               Paste JSON
             </Button>
-            <SaveLoadSlots<TierList>
-              storageKey={STORAGE_KEY.TIER_LIST_BUILDER_SLOTS}
-              numSlots={3}
-              currentJson={json}
-              onLoad={(data) => {
-                const currentTierList = JSON.parse(json) as TierList;
-                const mergedTierList = normalizeTierListFromPartial(
-                  data,
-                  currentTierList
-                );
-                loadFromTierList(mergedTierList);
-              }}
-              defaultName="My Tier List"
-              renderSlotDetail={(t) => {
-                const n = t.entries?.length ?? 0;
-                return `${n} entr${n !== 1 ? 'ies' : 'y'}`;
-              }}
-            />
+            <Button
+              variant="light"
+              size="sm"
+              leftSection={<IoSave size={16} />}
+              onClick={handleSaveToMySaved}
+            >
+              Save
+            </Button>
             <Button
               variant="light"
               size="sm"
@@ -938,6 +963,19 @@ export default function TierListBuilder({
         onConfirm={() => {
           handleClear();
           closeClearConfirm();
+        }}
+      />
+
+      <ConfirmActionModal
+        opened={pendingSaveOverwrite !== null}
+        onCancel={() => setPendingSaveOverwrite(null)}
+        title="Overwrite saved tier list?"
+        message={`A saved tier list named "${pendingSaveOverwrite ?? ''}" already exists. Overwrite it?`}
+        confirmLabel="Overwrite"
+        confirmColor="blue"
+        onConfirm={() => {
+          if (pendingSaveOverwrite) executeSaveToMySaved(pendingSaveOverwrite);
+          setPendingSaveOverwrite(null);
         }}
       />
     </DndContext>

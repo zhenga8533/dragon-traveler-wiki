@@ -20,6 +20,7 @@ const DragonSpells = lazy(() => import('../pages/Wyrmspells'));
 const TierList = lazy(() => import('../pages/TierList'));
 const Teams = lazy(() => import('../pages/Teams'));
 const TeamPage = lazy(() => import('../pages/team'));
+const SavedTeamPage = lazy(() => import('../pages/team/SavedTeamPage'));
 const Codes = lazy(() => import('../pages/Codes'));
 const UsefulLinks = lazy(() => import('../pages/UsefulLinks'));
 const Changelog = lazy(() => import('../pages/Changelog'));
@@ -62,6 +63,7 @@ export default function AppRoutes() {
         <Route path="/wyrmspells" element={<DragonSpells />} />
         <Route path="/tier-list" element={<TierList />} />
         <Route path="/teams" element={<Teams />} />
+        <Route path="/teams/saved/:teamSlug" element={<SavedTeamPage />} />
         <Route path="/teams/:teamName" element={<TeamPage />} />
         <Route path="/codes" element={<Codes />} />
         <Route path="/useful-links" element={<UsefulLinks />} />
