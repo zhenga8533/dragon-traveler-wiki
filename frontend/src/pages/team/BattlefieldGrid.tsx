@@ -153,12 +153,14 @@ export function BattlefieldGrid({
                       },
                     })}
                   >
-                    <Text size="xs" c="dimmed" tt="uppercase" fw={600}>
-                      {BG_COL_LABELS[colIdx]}
-                    </Text>
-                    <Text size="xs" c="dimmed">
-                      —
-                    </Text>
+                    <Stack gap={2} align="center">
+                      <Text size="xs" c="dimmed" tt="uppercase" fw={600}>
+                        {BG_COL_LABELS[colIdx]}
+                      </Text>
+                      <Text size="xs" c="dimmed">
+                        —
+                      </Text>
+                    </Stack>
                   </Paper>
                 );
               }
