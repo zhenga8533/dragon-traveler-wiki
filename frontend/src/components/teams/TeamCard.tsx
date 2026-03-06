@@ -11,7 +11,10 @@ import { useMediaQuery } from '@mantine/hooks';
 import React from 'react';
 import { FACTION_WYRM_MAP } from '../../assets/wyrms';
 import { FACTION_COLOR } from '../../constants/colors';
-import { normalizeContentType } from '../../constants/content-types';
+import {
+  getContentTypeColor,
+  normalizeContentType,
+} from '../../constants/content-types';
 import {
   getCardHoverProps,
   LINK_BLOCK_RESET_STYLE,
@@ -107,7 +110,11 @@ export default function TeamCard({
             <FactionTag faction={team.faction as FactionName} size="sm" />
           )}
           {team.content_type && (
-            <Badge variant="light" size="sm" color="gray">
+            <Badge
+              variant="light"
+              size="sm"
+              color={getContentTypeColor(team.content_type, 'All')}
+            >
               {normalizeContentType(team.content_type, 'All')}
             </Badge>
           )}

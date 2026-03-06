@@ -4,6 +4,13 @@ export type ContentType = (typeof CONTENT_TYPE_OPTIONS)[number];
 
 export const DEFAULT_CONTENT_TYPE: ContentType = 'PvE';
 
+export const CONTENT_TYPE_COLOR: Record<ContentType, string> = {
+  All: 'gray',
+  PvP: 'red',
+  PvE: 'teal',
+  Boss: 'orange',
+};
+
 const warnedInvalidContentTypes = new Set<string>();
 
 function warnInvalidContentType(rawValue: string, fallback: ContentType): void {
@@ -42,6 +49,13 @@ export function normalizeContentType(
   }
 
   return fallback;
+}
+
+export function getContentTypeColor(
+  value: string | null | undefined,
+  fallback: ContentType = 'All'
+): string {
+  return CONTENT_TYPE_COLOR[normalizeContentType(value, fallback)] ?? 'gray';
 }
 
 export function normalizeContentTypeFilters(

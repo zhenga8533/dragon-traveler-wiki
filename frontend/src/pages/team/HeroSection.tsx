@@ -24,7 +24,10 @@ import QualityIcon from '../../components/common/QualityIcon';
 import RichText from '../../components/common/RichText';
 import Breadcrumbs from '../../components/layout/Breadcrumbs';
 import { FACTION_COLOR } from '../../constants/colors';
-import { normalizeContentType } from '../../constants/content-types';
+import {
+  getContentTypeColor,
+  normalizeContentType,
+} from '../../constants/content-types';
 import { GLASS_BORDER, getLoreGlassStyles } from '../../constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
@@ -67,7 +70,11 @@ export function TeamHeroSection({
     <Box style={DETAIL_HERO_WRAPPER_STYLES}>
       <Box style={getDetailHeroGradient(isDark, factionColor)} />
 
-      <Container size="lg" style={{ position: 'relative', zIndex: 1 }} py={{ base: 'lg', sm: 'xl' }}>
+      <Container
+        size="lg"
+        style={{ position: 'relative', zIndex: 1 }}
+        py={{ base: 'lg', sm: 'xl' }}
+      >
         <Stack gap="lg">
           <Group justify="space-between">
             <Breadcrumbs
@@ -125,7 +132,11 @@ export function TeamHeroSection({
               </Group>
               <Group gap="sm" mt={4}>
                 <FactionTag faction={team.faction} size="lg" />
-                <Badge size="lg" variant="outline" color="gray">
+                <Badge
+                  size="lg"
+                  variant="outline"
+                  color={getContentTypeColor(team.content_type, 'All')}
+                >
                   {normalizeContentType(team.content_type, 'All')}
                 </Badge>
               </Group>

@@ -10,7 +10,10 @@ import {
 import type React from 'react';
 import { Link } from 'react-router-dom';
 import { getTierColor, TIER_ORDER } from '../../constants/colors';
-import { normalizeContentType } from '../../constants/content-types';
+import {
+  getContentTypeColor,
+  normalizeContentType,
+} from '../../constants/content-types';
 import { CHARACTER_GRID_SPACING } from '../../constants/ui';
 import type { Character } from '../../types/character';
 import type { TierList as TierListType } from '../../types/tier-list';
@@ -68,7 +71,11 @@ export default function TierListContent({
       <Stack gap={6}>
         <Group gap="xs" wrap="wrap" mb={2} align="center">
           {tierList.content_type && (
-            <Badge variant="light" color="teal" size="sm">
+            <Badge
+              variant="light"
+              color={getContentTypeColor(tierList.content_type, 'All')}
+              size="sm"
+            >
               {normalizeContentType(tierList.content_type, 'All')}
             </Badge>
           )}

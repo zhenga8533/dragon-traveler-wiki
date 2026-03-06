@@ -23,7 +23,10 @@ import FactionTag from '../../components/common/FactionTag';
 import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
 import TeamCard from '../../components/teams/TeamCard';
 import TeamCharacterAvatars from '../../components/teams/TeamCharacterAvatars';
-import { normalizeContentType } from '../../constants/content-types';
+import {
+  getContentTypeColor,
+  normalizeContentType,
+} from '../../constants/content-types';
 import { getMinWidthStyle } from '../../constants/styles';
 import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { Character } from '../../types/character';
@@ -266,7 +269,11 @@ export default function TeamsSavedTab({
                 </Table.Td>
                 <Table.Td>
                   {team.content_type && (
-                    <Badge variant="light" size="sm">
+                    <Badge
+                      variant="light"
+                      size="sm"
+                      color={getContentTypeColor(team.content_type, 'All')}
+                    >
                       {normalizeContentType(team.content_type, 'All')}
                     </Badge>
                   )}
