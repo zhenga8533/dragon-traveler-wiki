@@ -153,9 +153,9 @@ export default function FeaturedCharactersMarquee() {
           width: '100%',
           contain: 'inline-size',
           maskImage:
-            'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+            'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
           WebkitMaskImage:
-            'linear-gradient(to right, transparent, black 5%, black 95%, transparent)',
+            'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
         }}
       >
         <Group

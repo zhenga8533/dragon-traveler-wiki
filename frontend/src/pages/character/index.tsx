@@ -566,7 +566,7 @@ export default function CharacterPage() {
                               position: 'absolute',
                               inset: 0,
                               background:
-                                'linear-gradient(180deg, transparent 55%, rgba(0,0,0,0.55) 100%)',
+                                'linear-gradient(180deg, transparent var(--dt-gradient-overlay-mid), rgba(0,0,0,0.55) 100%)',
                               pointerEvents: 'none',
                             }}
                           />

@@ -159,7 +159,7 @@ export default function BannerBackground() {
           left: -80,
           borderRadius: '50%',
           background:
-            'radial-gradient(circle, rgba(236,72,153,0.32) 0%, rgba(236,72,153,0) 72%)',
+            'radial-gradient(circle, rgba(236,72,153,0.32) 0%, rgba(236,72,153,0) var(--dt-gradient-radial-falloff))',
           filter: 'blur(4px)',
           pointerEvents: 'none',
         }}
@@ -173,7 +173,7 @@ export default function BannerBackground() {
           right: -90,
           borderRadius: '50%',
           background:
-            'radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(59,130,246,0) 74%)',
+            'radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(59,130,246,0) var(--dt-gradient-radial-falloff))',
           filter: 'blur(6px)',
           pointerEvents: 'none',
         }}
@@ -183,7 +183,7 @@ export default function BannerBackground() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to bottom, transparent 40%, var(--mantine-color-body) 100%)',
+            'linear-gradient(to bottom, transparent var(--dt-gradient-overlay-mid), var(--mantine-color-body) 100%)',
         }}
       />
       <Box
@@ -191,7 +191,7 @@ export default function BannerBackground() {
           position: 'absolute',
           inset: 0,
           background:
-            'linear-gradient(to right, var(--mantine-color-body) 0%, transparent 10%, transparent 90%, var(--mantine-color-body) 100%)',
+            'linear-gradient(to right, var(--mantine-color-body) 0%, transparent var(--dt-gradient-fade-edge-start), transparent var(--dt-gradient-fade-edge-end), var(--mantine-color-body) 100%)',
         }}
       />
     </Box>

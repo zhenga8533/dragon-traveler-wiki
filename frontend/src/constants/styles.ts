@@ -157,15 +157,17 @@ export function getDetailHeroGradient(
   secondaryColor = 'violet',
   opacity = { dark: 0.7, light: 0.9 }
 ) {
+  const fadeStop = '58%';
+
   return {
     position: 'absolute' as const,
     inset: 0,
     background: isDark
-      ? `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${primaryColor}-9) 0%, transparent 50%),
-         radial-gradient(ellipse at 70% 80%, var(--mantine-color-${secondaryColor}-9) 0%, transparent 50%),
+      ? `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${primaryColor}-9) 0%, transparent ${fadeStop}),
+         radial-gradient(ellipse at 70% 80%, var(--mantine-color-${secondaryColor}-9) 0%, transparent ${fadeStop}),
          var(--mantine-color-dark-8)`
-      : `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${primaryColor}-1) 0%, transparent 50%),
-         radial-gradient(ellipse at 70% 80%, var(--mantine-color-${secondaryColor}-1) 0%, transparent 50%),
+      : `radial-gradient(ellipse at 30% 20%, var(--mantine-color-${primaryColor}-1) 0%, transparent ${fadeStop}),
+         radial-gradient(ellipse at 70% 80%, var(--mantine-color-${secondaryColor}-1) 0%, transparent ${fadeStop}),
          var(--mantine-color-gray-0)`,
     opacity: isDark ? opacity.dark : opacity.light,
   };

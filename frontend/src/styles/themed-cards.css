@@ -1,4 +1,10 @@
 :root {
+  --dt-home-hero-stop-mid: 44%;
+  --dt-home-hero-stop-accent: 72%;
+  --dt-gradient-fade-edge-start: 8%;
+  --dt-gradient-fade-edge-end: 92%;
+  --dt-gradient-overlay-mid: 58%;
+  --dt-gradient-radial-falloff: 76%;
   --dt-surface-glow-a: rgba(124, 58, 237, 0.3);
   --dt-surface-glow-b: rgba(236, 72, 153, 0.2);
   --dt-grid-line: rgba(148, 163, 184, 0.09);
@@ -12,15 +18,15 @@
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-violet-9) 0%,
-    var(--mantine-color-grape-9) 50%,
-    var(--mantine-color-pink-9) 50%,
+    var(--mantine-color-grape-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-pink-9) var(--dt-home-hero-stop-accent),
     var(--mantine-color-violet-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-violet-1) 0%,
-    var(--mantine-color-grape-2) 50%,
-    var(--mantine-color-pink-3) 50%,
+    var(--mantine-color-grape-2) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-pink-3) var(--dt-home-hero-stop-accent),
     var(--mantine-color-violet-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-violet-1);
@@ -63,15 +69,15 @@
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-cyan-9) 0%,
-    var(--mantine-color-teal-9) 50%,
-    var(--mantine-color-orange-9) 50%,
+    var(--mantine-color-teal-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-orange-9) var(--dt-home-hero-stop-accent),
     var(--mantine-color-cyan-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-cyan-1) 0%,
-    var(--mantine-color-teal-1) 50%,
-    var(--mantine-color-orange-2) 50%,
+    var(--mantine-color-teal-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-orange-2) var(--dt-home-hero-stop-accent),
     var(--mantine-color-cyan-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-cyan-0);
@@ -113,15 +119,15 @@
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-orange-9) 0%,
-    var(--mantine-color-red-8) 50%,
-    var(--mantine-color-pink-8) 50%,
+    var(--mantine-color-red-8) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-pink-8) var(--dt-home-hero-stop-accent),
     var(--mantine-color-orange-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-orange-1) 0%,
-    var(--mantine-color-red-1) 50%,
-    var(--mantine-color-yellow-2) 50%,
+    var(--mantine-color-red-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-yellow-2) var(--dt-home-hero-stop-accent),
     var(--mantine-color-orange-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-orange-0);
@@ -157,15 +163,15 @@
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-green-9) 0%,
-    var(--mantine-color-teal-8) 50%,
-    var(--mantine-color-lime-8) 50%,
+    var(--mantine-color-teal-8) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-lime-8) var(--dt-home-hero-stop-accent),
     var(--mantine-color-green-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-green-1) 0%,
-    var(--mantine-color-teal-1) 50%,
-    var(--mantine-color-lime-1) 50%,
+    var(--mantine-color-teal-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-lime-1) var(--dt-home-hero-stop-accent),
     var(--mantine-color-green-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-green-0);
@@ -201,15 +207,15 @@
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-red-9) 0%,
-    var(--mantine-color-orange-9) 50%,
-    var(--mantine-color-pink-9) 50%,
+    var(--mantine-color-orange-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-pink-9) var(--dt-home-hero-stop-accent),
     var(--mantine-color-red-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-red-1) 0%,
-    var(--mantine-color-orange-1) 50%,
-    var(--mantine-color-pink-2) 50%,
+    var(--mantine-color-orange-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-pink-2) var(--dt-home-hero-stop-accent),
     var(--mantine-color-red-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-red-0);
@@ -245,15 +251,15 @@
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-indigo-9) 0%,
-    var(--mantine-color-violet-9) 50%,
-    var(--mantine-color-orange-9) 50%,
+    var(--mantine-color-violet-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-orange-9) var(--dt-home-hero-stop-accent),
     var(--mantine-color-indigo-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-indigo-1) 0%,
-    var(--mantine-color-violet-1) 50%,
-    var(--mantine-color-orange-1) 50%,
+    var(--mantine-color-violet-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-orange-1) var(--dt-home-hero-stop-accent),
     var(--mantine-color-indigo-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-violet-0);
@@ -289,15 +295,15 @@
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-cyan-9) 0%,
-    var(--mantine-color-teal-8) 50%,
-    var(--mantine-color-lime-8) 50%,
+    var(--mantine-color-teal-8) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-lime-8) var(--dt-home-hero-stop-accent),
     var(--mantine-color-cyan-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-cyan-0) 0%,
-    var(--mantine-color-teal-0) 50%,
-    var(--mantine-color-lime-1) 50%,
+    var(--mantine-color-teal-0) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-lime-1) var(--dt-home-hero-stop-accent),
     var(--mantine-color-cyan-0) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-cyan-0);
@@ -333,15 +339,15 @@
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-pink-9) 0%,
-    var(--mantine-color-grape-9) 50%,
-    var(--mantine-color-orange-9) 50%,
+    var(--mantine-color-grape-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-orange-9) var(--dt-home-hero-stop-accent),
     var(--mantine-color-pink-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-pink-1) 0%,
-    var(--mantine-color-grape-1) 50%,
-    var(--mantine-color-orange-1) 50%,
+    var(--mantine-color-grape-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-orange-1) var(--dt-home-hero-stop-accent),
     var(--mantine-color-pink-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-pink-0);

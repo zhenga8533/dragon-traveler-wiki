@@ -1406,6 +1406,7 @@ export default function TeamBuilder({
                 members={teamData.members}
                 charMap={charMap}
                 characterByIdentity={characterByIdentity}
+                characterNameCounts={characterNameCounts}
                 getCharacterPath={getCharacterPath}
                 factionColor={factionColor}
                 isDark={isDark}
@@ -1416,6 +1417,7 @@ export default function TeamBuilder({
                   bench={teamData.bench}
                   charMap={charMap}
                   characterByIdentity={characterByIdentity}
+                  characterNameCounts={characterNameCounts}
                   getCharacterPath={getCharacterPath}
                   factionColor={factionColor}
                   tooltipProps={tooltipProps}

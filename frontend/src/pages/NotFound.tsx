@@ -25,8 +25,7 @@ export default function NotFound() {
             fontSize: 'clamp(4rem, 10vw, 8rem)',
             fontWeight: 900,
             lineHeight: 1,
-            background:
-              'linear-gradient(135deg, var(--mantine-color-grape-5) 0%, var(--mantine-color-violet-4) 50%, var(--mantine-color-blue-4) 100%)',
+            background: 'var(--dt-brand-gradient)',
             WebkitBackgroundClip: 'text',
             backgroundClip: 'text',
             WebkitTextFillColor: 'transparent',

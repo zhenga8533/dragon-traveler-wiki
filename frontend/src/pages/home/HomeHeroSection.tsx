@@ -297,9 +297,9 @@ export default function HomeHeroSection() {
             {...getCardHoverProps({
               style: {
                 backdropFilter: 'blur(8px)',
-                backgroundColor: isDark
-                  ? 'var(--dt-home-hero-card-dark)'
-                  : 'var(--dt-home-hero-card-light)',
+                background: isDark
+                  ? 'linear-gradient(155deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) var(--dt-gradient-overlay-mid), rgba(0,0,0,0.08) 100%), var(--dt-home-hero-panel-dark)'
+                  : 'linear-gradient(155deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.38) var(--dt-gradient-overlay-mid), rgba(255,255,255,0.56) 100%), var(--dt-home-hero-panel-light)',
               },
             })}
           >
