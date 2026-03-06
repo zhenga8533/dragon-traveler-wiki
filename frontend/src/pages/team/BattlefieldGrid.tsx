@@ -133,6 +133,7 @@ export function BattlefieldGrid({
           <SimpleGrid
             cols={{ base: 1, xs: 2, sm: 3 }}
             spacing={{ base: 'xs', sm: 'sm' }}
+            data-export-cols-desktop="3"
             style={{ flex: 1 }}
           >
             {row.map((member, colIdx) => {
