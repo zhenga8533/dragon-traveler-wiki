@@ -676,5 +676,15 @@
     },
     "active": true,
     "last_updated": 1772680055
+  },
+  {
+    "code": "Win4KOR",
+    "rewards": {
+      "Gold": 88888,
+      "Summoning Ticket": 10,
+      "Random Refinement Stone": 10
+    },
+    "active": true,
+    "last_updated": 1772813511
   }
 ]
