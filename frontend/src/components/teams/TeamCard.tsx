@@ -8,7 +8,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import React from 'react';
+import { useContext, type KeyboardEvent, type ReactNode } from 'react';
 import { FACTION_WYRM_MAP } from '../../assets/wyrms';
 import { FACTION_COLOR } from '../../constants/colors';
 import {
@@ -35,7 +35,7 @@ interface TeamCardProps {
   charMap: Map<string, Character>;
   characterByIdentity: Map<string, Character>;
   onNavigate?: () => void;
-  actions: React.ReactNode;
+  actions: ReactNode;
 }
 
 export default function TeamCard({
@@ -45,7 +45,7 @@ export default function TeamCard({
   onNavigate,
   actions,
 }: TeamCardProps) {
-  const { palette } = React.useContext(GradientThemeContext);
+  const { palette } = useContext(GradientThemeContext);
   const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const isLargeTeamCardLayout = useMediaQuery('(min-width: 75em)');
 
@@ -63,7 +63,7 @@ export default function TeamCard({
         onClick: onNavigate,
         role: 'link' as const,
         tabIndex: 0,
-        onKeyDown: (e: React.KeyboardEvent<HTMLDivElement>) => {
+        onKeyDown: (e: KeyboardEvent<HTMLDivElement>) => {
           if (e.key === 'Enter' || e.key === ' ') {
             e.preventDefault();
             onNavigate();
