@@ -148,9 +148,19 @@ export default function SettingsPanel() {
           <Badge
             size="sm"
             variant="light"
-            color={selectedBanner?.type === 'video' ? 'pink' : 'blue'}
+            color={
+              !selectedBanner
+                ? 'gray'
+                : selectedBanner.type === 'video'
+                  ? 'pink'
+                  : 'blue'
+            }
           >
-            {selectedBanner?.type === 'video' ? 'MP4' : 'PNG'}
+            {!selectedBanner
+              ? 'OFF'
+              : selectedBanner.type === 'video'
+                ? 'MP4'
+                : 'PNG'}
           </Badge>
         </Group>
         <Select

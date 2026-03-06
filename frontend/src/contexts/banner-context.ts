@@ -18,6 +18,7 @@ import type { Character } from '../types/character';
 const RANDOM_BANNER_ALL_VALUE = '__random_all__';
 const RANDOM_BANNER_PNG_VALUE = '__random_png__';
 const RANDOM_BANNER_MP4_VALUE = '__random_mp4__';
+const NO_BANNER_VALUE = '__no_banner__';
 const DEFAULT_BANNER_PREFERENCE = RANDOM_BANNER_ALL_VALUE;
 
 export interface BannerOption {
@@ -80,7 +81,9 @@ export function BannerProvider({ children }: { children: ReactNode }) {
 
   const [showOnAllRoutes, setShowOnAllRoutes] = useState(() => {
     if (typeof window === 'undefined') return false;
-    return window.localStorage.getItem(STORAGE_KEY.HOME_BANNER_GLOBAL) === 'true';
+    return (
+      window.localStorage.getItem(STORAGE_KEY.HOME_BANNER_GLOBAL) === 'true'
+    );
   });
 
   const [bannerLoaded, setBannerLoaded] = useState(false);
@@ -166,6 +169,11 @@ export function BannerProvider({ children }: { children: ReactNode }) {
   useEffect(() => {
     if (!bannerOptionsReady) return;
 
+    if (bannerPreference === NO_BANNER_VALUE) {
+      setSelectedBannerValue(null);
+      return;
+    }
+
     if (bannerPreference === RANDOM_BANNER_ALL_VALUE) {
       const random = pickRandomBanner(bannerOptions, 'all');
       setSelectedBannerValue(random?.value ?? DEFAULT_BANNER_OPTION.value);
@@ -211,12 +219,12 @@ export function BannerProvider({ children }: { children: ReactNode }) {
   const selectedBanner =
     selectedBannerValue === null || !bannerOptionsReady
       ? null
-      : (bannerOptions.find(
-          (option) => option.value === selectedBannerValue
-        ) ?? DEFAULT_BANNER_OPTION);
+      : (bannerOptions.find((option) => option.value === selectedBannerValue) ??
+        DEFAULT_BANNER_OPTION);
 
   const bannerSelectData = useMemo(
     () => [
+      { value: NO_BANNER_VALUE, label: 'No banner' },
       { value: RANDOM_BANNER_ALL_VALUE, label: 'Randomize (All)' },
       { value: RANDOM_BANNER_PNG_VALUE, label: 'Randomize (PNG only)' },
       { value: RANDOM_BANNER_MP4_VALUE, label: 'Randomize (MP4 only)' },
@@ -244,7 +252,13 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       showOnAllRoutes,
       setShowOnAllRoutes,
     }),
-    [selectedBanner, bannerLoaded, bannerSelectData, bannerPreference, showOnAllRoutes]
+    [
+      selectedBanner,
+      bannerLoaded,
+      bannerSelectData,
+      bannerPreference,
+      showOnAllRoutes,
+    ]
   );
 
   return createElement(BannerContext.Provider, { value }, children);
