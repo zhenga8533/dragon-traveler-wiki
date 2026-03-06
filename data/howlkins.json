@@ -243,6 +243,30 @@
     "last_updated": 1771529295
   },
   {
+    "name": "Sorcery Chess King",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 180,
+      "PvP DMG Reduction": 36
+    },
+    "passive_effects": [
+      "For Every 250 Class Levels Gained: HP +1.0%"
+    ],
+    "last_updated": 1772771966
+  },
+  {
+    "name": "Sorcery Chess Rook",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 144,
+      "PvP DMG Reduction": 72
+    },
+    "passive_effects": [
+      "PDEF +10.0%"
+    ],
+    "last_updated": 1772771966
+  },
+  {
     "name": "Taurus",
     "quality": "SSR+",
     "basic_stats": {
@@ -253,6 +277,18 @@
       "Warrior Dodge +100.0"
     ],
     "last_updated": 1771529295
+  },
+  {
+    "name": "Tea Party Teapot",
+    "quality": "SSR+",
+    "basic_stats": {
+      "Belligerence": 72,
+      "PvP DMG Reduction": 144
+    },
+    "passive_effects": [
+      "MDEF +10.0%"
+    ],
+    "last_updated": 1772771966
   },
   {
     "name": "The Hunchback of Notre Dame",
@@ -567,6 +603,42 @@
     "last_updated": 1771529295
   },
   {
+    "name": "Sorcery Chess Bishop",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 36,
+      "PvP DMG Reduction": 108
+    },
+    "passive_effects": [
+      "In non-competitive mode, Magic Damage +10.0%"
+    ],
+    "last_updated": 1772771966
+  },
+  {
+    "name": "Sorcery Chess Knight",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 72,
+      "PvP DMG Reduction": 72
+    },
+    "passive_effects": [
+      "In Arena Mode, ATK +1440.0"
+    ],
+    "last_updated": 1772771966
+  },
+  {
+    "name": "Sorcery Chess Pawn",
+    "quality": "SSR",
+    "basic_stats": {
+      "Belligerence": 48,
+      "PvP DMG Reduction": 96
+    },
+    "passive_effects": [
+      "For Every 6 Chapters of Adventure Main Story Cleared: HP +1400.0"
+    ],
+    "last_updated": 1772771966
+  },
+  {
     "name": "Stymphalian Terrorbird",
     "quality": "SSR",
     "basic_stats": {
@@ -829,6 +901,30 @@
       "ATK +360.0"
     ],
     "last_updated": 1771529295
+  },
+  {
+    "name": "Tea Party Candle",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 24,
+      "PvP DMG Reduction": 48
+    },
+    "passive_effects": [
+      "Mage Crit +50.0"
+    ],
+    "last_updated": 1772771966
+  },
+  {
+    "name": "Tea Party Fork",
+    "quality": "SR",
+    "basic_stats": {
+      "Belligerence": 18,
+      "PvP DMG Reduction": 54
+    },
+    "passive_effects": [
+      "HP +3600.0"
+    ],
+    "last_updated": 1772771966
   },
   {
     "name": "Tri-Star Rat King",

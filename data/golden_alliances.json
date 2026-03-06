@@ -1,5 +1,51 @@
 [
   {
+    "name": "Arcane Chess",
+    "howlkins": [
+      "Sorcery Chess King",
+      "Sorcery Chess Rook",
+      "Sorcery Chess Knight",
+      "Sorcery Chess Bishop",
+      "Sorcery Chess Pawn"
+    ],
+    "effects": [
+      {
+        "level": 0,
+        "stats": [
+          "Max HP +3200",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 3,
+        "stats": [
+          "HP +4%"
+        ]
+      },
+      {
+        "level": 6,
+        "stats": [
+          "Max HP +3200",
+          "Max Magic Defense +320"
+        ]
+      },
+      {
+        "level": 9,
+        "stats": [
+          "HP +4%"
+        ]
+      },
+      {
+        "level": 10,
+        "stats": [
+          "HP +3.2%",
+          "MDEF +3.2%"
+        ]
+      }
+    ],
+    "last_updated": 1772771966
+  },
+  {
     "name": "Disgaea",
     "howlkins": [
       "Horned Fiend",
