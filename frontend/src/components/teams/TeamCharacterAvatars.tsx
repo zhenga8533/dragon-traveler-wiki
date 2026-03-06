@@ -1,7 +1,7 @@
 import { Badge, Box, Group } from '@mantine/core';
-import CharacterPortrait from '../character/CharacterPortrait';
 import type { Character } from '../../types/character';
 import { resolveCharacterByNameAndQuality } from '../../utils/character-route';
+import CharacterPortrait from '../character/CharacterPortrait';
 
 export default function TeamCharacterAvatars({
   refs,
@@ -26,10 +26,14 @@ export default function TeamCharacterAvatars({
   wrap?: 'wrap' | 'nowrap';
   maxVisible?: number;
 }) {
-  const visibleNames =
-    typeof maxVisible === 'number' && maxVisible >= 0
-      ? refs.slice(0, maxVisible)
-      : refs;
+  const shouldLimitVisibleCount =
+    typeof maxVisible === 'number' &&
+    maxVisible >= 0 &&
+    (layout === 'grid' || wrap === 'nowrap');
+
+  const visibleNames = shouldLimitVisibleCount
+    ? refs.slice(0, maxVisible)
+    : refs;
   const hiddenCount = refs.length - visibleNames.length;
 
   const portraits = visibleNames.map((entry) => {
