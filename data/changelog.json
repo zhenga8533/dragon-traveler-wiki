@@ -1,5 +1,72 @@
 [
   {
+    "date": "2026-03-06",
+    "version": "1.0.10",
+    "changes": [
+      {
+        "type": "added",
+        "category": "site",
+        "description": "Added selectable gradient themes, palette support, and a 'No banner' option for home banner customization"
+      },
+      {
+        "type": "added",
+        "category": "ui",
+        "description": "Added NoteTooltipIcon and improved note button feedback in builder workflows"
+      },
+      {
+        "type": "updated",
+        "category": "tools",
+        "description": "Enhanced image export flow with refined PNG/JPEG generation, desktop clone/share handling, and mobile preview behavior"
+      },
+      {
+        "type": "updated",
+        "category": "tier-list",
+        "description": "Persisted active tier tab selection and refactored tier selection context/type handling"
+      },
+      {
+        "type": "updated",
+        "category": "characters",
+        "description": "Improved multi-quality character disambiguation and name-count display in UI flows"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Standardized badge rendering with ClassTag/FactionTag and applied content-type/accent color usage across components"
+      },
+      {
+        "type": "updated",
+        "category": "teams",
+        "description": "Improved battlefield and bench responsiveness with layout-aware avatar limiting behavior"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Centralized tooltip styling in theme tokens and refined responsive spacing/padding across pages"
+      },
+      {
+        "type": "updated",
+        "category": "tools",
+        "description": "Added normalization and helper utilities for note handling, issue URLs, and storage workflows"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Refined SimpleGrid desktop export column behavior and improved centered column header alignment"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live datasets through data uploads"
+      },
+      {
+        "type": "fixed",
+        "category": "tools",
+        "description": "Warn once for invalid content-type values in development builds"
+      }
+    ],
+    "last_updated": 1772805007
+  },
+  {
     "date": "2026-03-05",
     "version": "1.0.9",
     "changes": [
