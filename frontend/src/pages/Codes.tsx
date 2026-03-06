@@ -37,6 +37,7 @@ import {
 } from 'react-icons/io5';
 import { getResourceIcon } from '../assets/resource';
 import DataFetchError from '../components/common/DataFetchError';
+import EmptyState from '../components/common/EmptyState';
 import LastUpdated from '../components/common/LastUpdated';
 import PaginationControl from '../components/common/PaginationControl';
 import ResourceBadge from '../components/common/ResourceBadge';
@@ -304,7 +305,7 @@ export default function Codes() {
           : 'No active codes are available right now.';
 
   return (
-    <Container size="md" py="xl">
+    <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <Group justify="space-between" align="center">
           <Group gap="sm" align="baseline">
@@ -509,21 +510,13 @@ export default function Codes() {
         )}
 
         {!loading && !error && filtered.length === 0 && (
-          <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
-            <Stack gap="xs" align="center">
-              <ThemeIcon
-                variant="light"
-                color={accent.primary}
-                size="lg"
-                radius="xl"
-              >
-                <IoSearch size={18} />
-              </ThemeIcon>
-              <Text fw={600}>{emptyStateTitle}</Text>
-              <Text size="sm" c="dimmed" ta="center">
-                {emptyStateMessage}
-              </Text>
-              <Group mt="xs">
+          <EmptyState
+            icon={<IoSearch size={32} />}
+            title={emptyStateTitle}
+            description={emptyStateMessage}
+            color={accent.primary}
+            action={
+              <Group>
                 <Button
                   size="xs"
                   variant="default"
@@ -539,8 +532,8 @@ export default function Codes() {
                   Show all
                 </Button>
               </Group>
-            </Stack>
-          </Paper>
+            }
+          />
         )}
 
         {!loading &&

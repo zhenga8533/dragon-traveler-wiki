@@ -67,7 +67,7 @@ export function TeamHeroSection({
     <Box style={DETAIL_HERO_WRAPPER_STYLES}>
       <Box style={getDetailHeroGradient(isDark, factionColor)} />
 
-      <Container size="lg" style={{ position: 'relative', zIndex: 1 }} py="xl">
+      <Container size="lg" style={{ position: 'relative', zIndex: 1 }} py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="lg">
           <Group justify="space-between">
             <Breadcrumbs

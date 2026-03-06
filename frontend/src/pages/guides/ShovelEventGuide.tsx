@@ -69,7 +69,7 @@ export default function ShovelEventGuide() {
   const sectionCardStyle = getGuideSectionCardStyles(isDark);
 
   return (
-    <Container size="xl" py="xl">
+    <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
         <Card
           withBorder

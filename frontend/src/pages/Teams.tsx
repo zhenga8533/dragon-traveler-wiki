@@ -8,7 +8,7 @@ import {
   Stack,
   Title,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
@@ -26,9 +26,10 @@ import TeamBuilder from '../components/tools/TeamBuilder';
 import { FACTION_NAMES } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
-  normalizeContentType,
+  matchesContentTypeFilters,
+  normalizeContentTypeFilters,
 } from '../constants/content-types';
-import { STORAGE_KEY } from '../constants/ui';
+import { BREAKPOINTS, STORAGE_KEY } from '../constants/ui';
 import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { useCharacterResolution } from '../hooks';
 import {
@@ -40,16 +41,12 @@ import { useFilters, useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
+import { loadSavedFromStorage, parseTabMode } from '../utils';
 import { toEntitySlug } from '../utils/entity-slug';
 import TeamsSavedTab from './teams/TeamsSavedTab';
 import TeamsViewTab from './teams/TeamsViewTab';
 
 const TEAMS_PER_PAGE = 12;
-
-function parseMode(raw: string | null): 'view' | 'saved' | 'builder' {
-  if (raw === 'saved' || raw === 'builder') return raw;
-  return 'view';
-}
 
 function matchesTeamFilters(
   team: Team,
@@ -65,60 +62,10 @@ function matchesTeamFilters(
   ) {
     return false;
   }
-  if (
-    viewFilters.contentTypes.length > 0 &&
-    !viewFilters.contentTypes.includes(
-      normalizeContentType(team.content_type, 'All')
-    )
-  ) {
+  if (!matchesContentTypeFilters(team.content_type, viewFilters.contentTypes)) {
     return false;
   }
   return true;
-}
-
-function loadSavedTeamsFromStorage(): Team[] {
-  if (typeof window === 'undefined') return [];
-
-  try {
-    const raw = window.localStorage.getItem(STORAGE_KEY.TEAMS_MY_SAVED);
-    if (!raw) return [];
-
-    const parsed = JSON.parse(raw) as Record<string, unknown>;
-    const now = Math.floor(Date.now() / 1000);
-    let changed = false;
-
-    const saved: Team[] = [];
-
-    for (const [key, value] of Object.entries(parsed)) {
-      if (value === null || typeof value !== 'object') continue;
-
-      const maybeTeam = value as Partial<Team>;
-      if (!Array.isArray(maybeTeam.members)) continue;
-
-      if ((maybeTeam.last_updated ?? 0) > 0) {
-        saved.push(maybeTeam as Team);
-        continue;
-      }
-
-      changed = true;
-      const normalized: Team = { ...(maybeTeam as Team), last_updated: now };
-      parsed[key] = normalized;
-      saved.push(normalized);
-    }
-
-    saved.sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
-
-    if (changed) {
-      window.localStorage.setItem(
-        STORAGE_KEY.TEAMS_MY_SAVED,
-        JSON.stringify(parsed)
-      );
-    }
-
-    return saved;
-  } catch {
-    return [];
-  }
 }
 
 export default function Teams() {
@@ -149,7 +96,7 @@ export default function Teams() {
     if (typeof window === 'undefined') return '';
     return window.localStorage.getItem(STORAGE_KEY.TEAMS_SEARCH) || '';
   });
-  const mode = parseMode(searchParams.get('mode'));
+  const mode = parseTabMode(searchParams.get('mode'));
   const navigationEditTeam = (location.state as { editTeam?: Team } | null)
     ?.editTeam;
   const [editData, setEditData] = useState<Team | null>(
@@ -157,8 +104,13 @@ export default function Teams() {
   );
   const [pendingEditTeam, setPendingEditTeam] = useState<Team | null>(null);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const [savedTeams, setSavedTeams] = useState<Team[]>(() =>
-    mode === 'saved' ? loadSavedTeamsFromStorage() : []
+    mode === 'saved'
+      ? loadSavedFromStorage<Team>(STORAGE_KEY.TEAMS_MY_SAVED, (v) =>
+          Array.isArray(v.members)
+        )
+      : []
   );
   const [pendingDeleteSavedTeam, setPendingDeleteSavedTeam] = useState<
     string | null
@@ -187,10 +139,7 @@ export default function Teams() {
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
 
   useEffect(() => {
-    const normalized = viewFilters.contentTypes.map((value) =>
-      normalizeContentType(value, 'All')
-    );
-    const deduped = [...new Set(normalized)];
+    const deduped = normalizeContentTypeFilters(viewFilters.contentTypes);
     const unchanged =
       deduped.length === viewFilters.contentTypes.length &&
       deduped.every(
@@ -308,9 +257,9 @@ export default function Teams() {
   }, [teams]);
 
   return (
-    <Container size="lg" py="xl">
+    <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
+        <Group justify="space-between" align="center" wrap="wrap" gap="sm">
           <Group gap="sm" align="baseline">
             <Title order={1}>Teams</Title>
             <LastUpdated timestamp={mostRecentUpdate} />
@@ -322,7 +271,7 @@ export default function Teams() {
             {(mode === 'view' || mode === 'saved') && (
               <Button
                 variant="default"
-                size="xs"
+                size={isMobile ? 'sm' : 'xs'}
                 leftSection={<IoFilter size={16} />}
                 rightSection={
                   activeFilterCount > 0 ? (
@@ -357,12 +306,19 @@ export default function Teams() {
         {!loading && !error && (
           <>
             <SegmentedControl
+              fullWidth
+              size={isMobile ? 'sm' : 'md'}
               color={accent.primary}
               value={mode}
               onChange={(val) => {
                 const newMode = val as 'view' | 'saved' | 'builder';
                 if (newMode === 'saved') {
-                  setSavedTeams(loadSavedTeamsFromStorage());
+                  setSavedTeams(
+                    loadSavedFromStorage<Team>(
+                      STORAGE_KEY.TEAMS_MY_SAVED,
+                      (v) => Array.isArray(v.members)
+                    )
+                  );
                 }
                 setSearchParams(newMode === 'view' ? {} : { mode: newMode });
                 if (newMode === 'view') setEditData(null);

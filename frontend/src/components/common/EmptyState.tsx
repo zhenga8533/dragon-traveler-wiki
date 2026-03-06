@@ -7,6 +7,7 @@ interface EmptyStateProps {
   title: string;
   description?: string;
   action?: ReactNode;
+  color?: string;
 }
 
 export default function EmptyState({
@@ -14,6 +15,7 @@ export default function EmptyState({
   title,
   description,
   action,
+  color = 'gray',
 }: EmptyStateProps) {
   return (
     <Box py="xl">
@@ -22,7 +24,7 @@ export default function EmptyState({
           size={64}
           radius="xl"
           variant="light"
-          color="gray"
+          color={color}
         >
           {icon || <IoSearch size={32} />}
         </ThemeIcon>

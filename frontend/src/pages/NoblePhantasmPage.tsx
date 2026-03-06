@@ -245,7 +245,7 @@ export default function NoblePhantasmPage() {
 
   if (loading) {
     return (
-      <Container size="lg" py="xl">
+      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <DetailPageLoading />
       </Container>
     );
@@ -351,7 +351,7 @@ export default function NoblePhantasmPage() {
         </Container>
       </Box>
 
-      <Container size="lg" py="xl">
+      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="xl">
           <Stack gap="md">
             <Title order={2} size="h3">

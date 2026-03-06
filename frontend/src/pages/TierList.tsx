@@ -31,7 +31,8 @@ import {
 import TierListBuilder from '../components/tools/TierListBuilder';
 import {
   CONTENT_TYPE_OPTIONS,
-  normalizeContentType,
+  matchesContentTypeFilters,
+  normalizeContentTypeFilters,
 } from '../constants/content-types';
 import { BREAKPOINTS, STORAGE_KEY } from '../constants/ui';
 import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
@@ -43,16 +44,12 @@ import {
 } from '../hooks/use-common-data';
 import { useFilters, useViewMode } from '../hooks/use-filters';
 import type { TierList as TierListType } from '../types/tier-list';
+import { loadSavedFromStorage, parseTabMode } from '../utils';
 import { resolveCharacterByNameAndQuality } from '../utils/character-route';
 import { toEntitySlug } from '../utils/entity-slug';
 import { downloadElementAsPng } from '../utils/export-image';
 import TierListSavedTab from './tier-list/TierListSavedTab';
 import TierListViewTab from './tier-list/TierListViewTab';
-
-function parseMode(raw: string | null): 'view' | 'saved' | 'builder' {
-  if (raw === 'saved' || raw === 'builder') return raw;
-  return 'view';
-}
 
 function matchesTierListFilters(
   tierList: TierListType,
@@ -70,10 +67,7 @@ function matchesTierListFilters(
   }
 
   if (
-    viewFilters.contentTypes.length > 0 &&
-    !viewFilters.contentTypes.includes(
-      normalizeContentType(tierList.content_type, 'All')
-    )
+    !matchesContentTypeFilters(tierList.content_type, viewFilters.contentTypes)
   ) {
     return false;
   }
@@ -105,7 +99,7 @@ export default function TierList() {
     if (typeof window === 'undefined') return '';
     return window.localStorage.getItem(STORAGE_KEY.TIER_LIST_SEARCH) || '';
   });
-  const mode = parseMode(searchParams.get('mode'));
+  const mode = parseTabMode(searchParams.get('mode'));
   const [editData, setEditData] = useState<TierListType | null>(null);
   const [pendingEditTierList, setPendingEditTierList] =
     useState<TierListType | null>(null);
@@ -151,10 +145,7 @@ export default function TierList() {
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
 
   useEffect(() => {
-    const normalized = viewFilters.contentTypes.map((value) =>
-      normalizeContentType(value, 'All')
-    );
-    const deduped = [...new Set(normalized)];
+    const deduped = normalizeContentTypeFilters(viewFilters.contentTypes);
     const unchanged =
       deduped.length === viewFilters.contentTypes.length &&
       deduped.every(
@@ -218,51 +209,11 @@ export default function TierList() {
   }, [search]);
 
   const refreshSavedTierLists = useCallback(() => {
-    try {
-      const raw = window.localStorage.getItem(STORAGE_KEY.TIER_LIST_MY_SAVED);
-      if (!raw) {
-        setSavedTierLists([]);
-        return;
-      }
-      const parsed = JSON.parse(raw) as Record<string, unknown>;
-      const now = Math.floor(Date.now() / 1000);
-      let changed = false;
-
-      const lists: TierListType[] = [];
-
-      for (const [key, value] of Object.entries(parsed)) {
-        if (value === null || typeof value !== 'object') continue;
-
-        const maybeTierList = value as Partial<TierListType>;
-        if (!Array.isArray(maybeTierList.entries)) continue;
-
-        if ((maybeTierList.last_updated ?? 0) > 0) {
-          lists.push(maybeTierList as TierListType);
-          continue;
-        }
-
-        changed = true;
-        const normalized: TierListType = {
-          ...(maybeTierList as TierListType),
-          last_updated: now,
-        };
-        parsed[key] = normalized;
-        lists.push(normalized);
-      }
-
-      lists.sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
-
-      if (changed) {
-        window.localStorage.setItem(
-          STORAGE_KEY.TIER_LIST_MY_SAVED,
-          JSON.stringify(parsed)
-        );
-      }
-
-      setSavedTierLists(lists);
-    } catch {
-      setSavedTierLists([]);
-    }
+    setSavedTierLists(
+      loadSavedFromStorage<TierListType>(STORAGE_KEY.TIER_LIST_MY_SAVED, (v) =>
+        Array.isArray(v.entries)
+      )
+    );
   }, []);
 
   useEffect(() => {

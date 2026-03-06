@@ -39,6 +39,7 @@ import {
 } from 'react-icons/io5';
 import { QUALITY_ICON_MAP } from '../../assets/quality';
 import StatCard from '../../components/common/StatCard';
+import { GLASS } from '../../constants/glass';
 import {
   BRAND_TITLE_STYLE,
   getCardHoverProps,
@@ -359,7 +360,7 @@ export default function StarUpgradeCalculator() {
   const sectionCardStyle = getGuideSectionCardStyles(isDark);
 
   return (
-    <Container size="xl" py="xl">
+    <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
         <Card
           withBorder
@@ -368,7 +369,7 @@ export default function StarUpgradeCalculator() {
           {...getCardHoverProps({
             style: {
               ...sectionCardStyle,
-              backdropFilter: 'blur(8px)',
+              backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
               backgroundColor: isDark
                 ? 'var(--dt-home-hero-card-dark)'
                 : 'var(--dt-home-hero-card-light)',

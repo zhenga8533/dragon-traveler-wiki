@@ -131,7 +131,7 @@ export default function SavedTeamPage() {
 
   if (loading) {
     return (
-      <Container size="lg" py="xl">
+      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <DetailPageLoading />
       </Container>
     );
@@ -213,7 +213,7 @@ export default function SavedTeamPage() {
         }}
       />
 
-      <Container size="lg" py="xl">
+      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <TeamDetailContent
           team={team}
           teamSynergy={teamSynergy}

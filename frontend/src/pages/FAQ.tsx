@@ -324,7 +324,7 @@ function FAQCard({
 
 export default function FAQ() {
   return (
-    <Container size="md" py="xl">
+    <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
         <Stack gap={2}>
           <Title order={1}>FAQ</Title>

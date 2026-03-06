@@ -185,9 +185,9 @@ export default function Artifacts() {
   );
 
   return (
-    <Container size="md" py="xl">
+    <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
+        <Group justify="space-between" align="center" wrap="wrap" gap="sm">
           <Group gap="sm" align="baseline">
             <Title order={1}>Artifacts</Title>
             <LastUpdated timestamp={mostRecentUpdate} />

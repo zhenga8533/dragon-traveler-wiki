@@ -345,7 +345,7 @@ export default function GearPage() {
   );
 
   return (
-    <Container size="md" py="xl">
+    <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <Group justify="space-between" align="center">
           <Group gap="sm" align="baseline">

@@ -68,7 +68,7 @@ export default function Changelog() {
   }
 
   return (
-    <Container size="md" py="xl">
+    <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
         <div>
           <Title order={1}>Changelog</Title>

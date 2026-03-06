@@ -186,7 +186,7 @@ export default function GearSetPage() {
 
   if (loading) {
     return (
-      <Container size="lg" py="xl">
+      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <DetailPageLoading />
       </Container>
     );
@@ -226,7 +226,7 @@ export default function GearSetPage() {
         <Container
           size="lg"
           style={{ position: 'relative', zIndex: 1 }}
-          py="xl"
+          py={{ base: 'lg', sm: 'xl' }}
         >
           <Stack gap="lg">
             <Breadcrumbs
@@ -273,7 +273,12 @@ export default function GearSetPage() {
             </Group>
 
             {setBonus && setBonus.quantity > 0 && (
-              <Paper p="md" radius="md" style={getLoreGlassStyles(isDark)}>
+              <Paper
+                p="md"
+                radius="md"
+                withBorder
+                {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+              >
                 <Stack gap={4}>
                   <Text fw={600} size="sm">
                     Set Bonus
@@ -336,7 +341,7 @@ export default function GearSetPage() {
         </Container>
       </Box>
 
-      <Container size="lg" py="xl">
+      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="lg">
           <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
             {setItems.map((item) => {

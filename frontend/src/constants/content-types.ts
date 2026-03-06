@@ -43,3 +43,25 @@ export function normalizeContentType(
 
   return fallback;
 }
+
+export function normalizeContentTypeFilters(
+  values: readonly string[] | null | undefined
+): ContentType[] {
+  if (!values || values.length === 0) return [];
+  return [
+    ...new Set(values.map((value) => normalizeContentType(value, 'All'))),
+  ];
+}
+
+export function matchesContentTypeFilters(
+  value: string | null | undefined,
+  selectedFilters: readonly string[] | null | undefined
+): boolean {
+  const normalizedFilters = normalizeContentTypeFilters(selectedFilters);
+  if (normalizedFilters.length === 0) {
+    return true;
+  }
+
+  const normalizedValue = normalizeContentType(value, 'All');
+  return normalizedFilters.includes(normalizedValue);
+}

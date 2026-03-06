@@ -70,7 +70,7 @@ export default function Characters() {
   );
 
   return (
-    <Container size="lg" py="xl">
+    <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <Group justify="space-between" align="center" wrap="wrap">
           <Group gap="sm" align="baseline">
@@ -90,7 +90,7 @@ export default function Characters() {
           loading={loading}
           error={error}
           errorTitle="Could not load characters"
-          hasData={true}
+          hasData={characters.length > 0}
           emptyMessage="No character data available yet."
           skeletonCards={18}
         >

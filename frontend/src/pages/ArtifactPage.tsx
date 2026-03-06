@@ -207,7 +207,7 @@ export default function ArtifactPage() {
 
   if (loading) {
     return (
-      <Container size="lg" py="xl">
+      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <DetailPageLoading />
       </Container>
     );
@@ -309,7 +309,7 @@ export default function ArtifactPage() {
         </Container>
       </Box>
 
-      <Container size="lg" py="xl">
+      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="xl">
           {/* Artifact Effects */}
           <Stack gap="md">

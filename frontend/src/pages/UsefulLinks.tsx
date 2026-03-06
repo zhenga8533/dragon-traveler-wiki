@@ -1,6 +1,7 @@
 import {
   Anchor,
   Badge,
+  Box,
   Card,
   Container,
   Group,
@@ -69,7 +70,7 @@ export default function UsefulLinks() {
   } = useDataFetch<UsefulLink[]>('data/useful-links.json', []);
 
   return (
-    <Container size="md" py="xl">
+    <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <Group justify="space-between" align="flex-start">
           <Stack gap={2}>
@@ -109,7 +110,7 @@ export default function UsefulLinks() {
                   <Text size="xl" lh={1}>
                     <Icon />
                   </Text>
-                  <div style={{ flex: 1 }}>
+                  <Box style={{ flex: 1 }}>
                     <Group gap="xs" mb={4}>
                       <Anchor href={link.link} target="_blank" fw={600}>
                         {link.name}
@@ -125,7 +126,7 @@ export default function UsefulLinks() {
                     <Text size="sm" c="dimmed">
                       {link.description}
                     </Text>
-                  </div>
+                  </Box>
                 </Group>
               </Card>
             );

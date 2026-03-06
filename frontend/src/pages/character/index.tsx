@@ -424,7 +424,7 @@ export default function CharacterPage() {
 
   if (loading) {
     return (
-      <Container size="lg" py="xl">
+      <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <DetailPageLoading />
       </Container>
     );
@@ -467,7 +467,7 @@ export default function CharacterPage() {
       </ErrorBoundary>
 
       {/* Main Content */}
-      <Container size="xl" py="xl">
+      <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
         <Grid gutter="xl">
           {/* Left Column - Illustration */}
           <Grid.Col span={{ base: 12, md: 4 }}>
