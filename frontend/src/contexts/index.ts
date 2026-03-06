@@ -1,5 +1,17 @@
 export { BannerContext, BannerProvider } from './banner-context';
 export type { BannerContextValue } from './banner-context';
+export {
+  DEFAULT_PALETTE,
+  GRADIENT_PALETTE_ACCENTS,
+  GradientThemeContext,
+  normalizePalette,
+} from './gradient-theme';
+export type {
+  GradientPalette,
+  GradientPaletteAccents,
+  GradientThemeContextValue,
+} from './gradient-theme';
+export { GradientThemeProvider } from './gradient-theme-context';
 export { ResourcesContext, ResourcesProvider } from './resources-context';
 export type { ResourcesContextValue } from './resources-context';
 export { SearchDataContext, SearchDataProvider } from './search-data-context';

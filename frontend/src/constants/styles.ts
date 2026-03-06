@@ -6,8 +6,7 @@ export const BRAND_TITLE_STYLE = {
   fontFamily: '"Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif',
   letterSpacing: '0.02em',
   fontWeight: 700,
-  backgroundImage:
-    'linear-gradient(120deg, var(--mantine-color-cyan-5) 0%, var(--mantine-color-teal-6) 45%, var(--mantine-color-orange-5) 100%)',
+  backgroundImage: 'var(--dt-brand-gradient)',
   backgroundClip: 'text',
   WebkitBackgroundClip: 'text',
   color: 'transparent',
@@ -196,8 +195,8 @@ export function getMinWidthStyle(minWidth: number): CSSProperties {
 
 export function getHomeHeroPlaceholderGradient(isDark: boolean): string {
   return isDark
-    ? 'linear-gradient(135deg, var(--mantine-color-cyan-9) 0%, var(--mantine-color-teal-9) 38%, var(--mantine-color-orange-9) 68%, var(--mantine-color-cyan-9) 100%)'
-    : 'linear-gradient(135deg, var(--mantine-color-cyan-1) 0%, var(--mantine-color-teal-1) 38%, var(--mantine-color-orange-2) 68%, var(--mantine-color-cyan-1) 100%)';
+    ? 'var(--dt-home-hero-gradient-dark)'
+    : 'var(--dt-home-hero-gradient-light)';
 }
 
 export const HOME_HERO_TITLE_STYLE = {
@@ -210,11 +209,11 @@ export const HOME_HERO_TITLE_STYLE = {
 export function getHomeHeroWordmarkStyle(isDark: boolean): CSSProperties {
   return {
     color: isDark
-      ? 'var(--mantine-color-cyan-0)'
-      : 'var(--mantine-color-teal-8)',
+      ? 'var(--dt-wordmark-color-dark)'
+      : 'var(--dt-wordmark-color-light)',
     textShadow: isDark
-      ? '0 1px 10px rgba(6, 182, 212, 0.28)'
-      : '0 1px 4px rgba(13, 148, 136, 0.12)',
+      ? 'var(--dt-wordmark-shadow-dark)'
+      : 'var(--dt-wordmark-shadow-light)',
   };
 }
 

@@ -15,7 +15,7 @@ const dark: MantineColorsTuple = [
 ];
 
 export const theme = createTheme({
-  primaryColor: 'teal',
+  primaryColor: 'violet',
   defaultRadius: 'md',
   fontFamily:
     '"Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif',

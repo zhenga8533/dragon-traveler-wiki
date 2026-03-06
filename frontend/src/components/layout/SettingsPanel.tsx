@@ -16,19 +16,26 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { useContext, useMemo } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { normalizeContentType } from '../../constants/content-types';
 import { BREAKPOINTS, Z_INDEX } from '../../constants/ui';
-import { BannerContext, TierListReferenceContext } from '../../contexts';
+import type { GradientPalette } from '../../contexts';
+import {
+  BannerContext,
+  GradientThemeContext,
+  TierListReferenceContext,
+} from '../../contexts';
 
 export default function SettingsPanel() {
   const [opened, { toggle: toggleOpened, close: closeOpened }] =
     useDisclosure(false);
+  const [isSelectDropdownOpen, setIsSelectDropdownOpen] = useState(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   const computedColorScheme = useComputedColorScheme('light');
   const isDark = computedColorScheme === 'dark';
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const { palette, setPalette } = useContext(GradientThemeContext);
 
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);
@@ -88,6 +95,30 @@ export default function SettingsPanel() {
             ]}
             aria-label="Select theme"
           />
+
+          <Select
+            label="Gradient Palette"
+            placeholder="Select gradient palette"
+            data={[
+              { value: 'violet', label: 'Classic Purple' },
+              { value: 'ocean', label: 'Ocean Teal' },
+              { value: 'sunset', label: 'Sunset Gold' },
+              { value: 'forest', label: 'Emerald Forest' },
+              { value: 'ember', label: 'Crimson Ember' },
+              { value: 'dusk', label: 'Twilight Dusk' },
+              { value: 'frost', label: 'Arctic Frost' },
+              { value: 'blossom', label: 'Cherry Blossom' },
+            ]}
+            value={palette}
+            onChange={(value) =>
+              setPalette((value as GradientPalette) ?? 'violet')
+            }
+            size={controlSize}
+            comboboxProps={selectComboboxProps}
+            onDropdownOpen={() => setIsSelectDropdownOpen(true)}
+            onDropdownClose={() => setIsSelectDropdownOpen(false)}
+            allowDeselect={false}
+          />
         </Stack>
       </Paper>
 
@@ -99,6 +130,8 @@ export default function SettingsPanel() {
           value={selectedTierListName || null}
           onChange={(value) => setSelectedTierListName(value ?? '')}
           comboboxProps={selectComboboxProps}
+          onDropdownOpen={() => setIsSelectDropdownOpen(true)}
+          onDropdownClose={() => setIsSelectDropdownOpen(false)}
           clearable
           size={controlSize}
           disabled={loading || tierListOptions.length === 0}
@@ -126,6 +159,8 @@ export default function SettingsPanel() {
           value={bannerPreference}
           searchable
           comboboxProps={selectComboboxProps}
+          onDropdownOpen={() => setIsSelectDropdownOpen(true)}
+          onDropdownClose={() => setIsSelectDropdownOpen(false)}
           nothingFoundMessage="No illustrations found"
           onChange={(value) => {
             setBannerPreference(value ?? defaultBannerValue);
@@ -160,7 +195,7 @@ export default function SettingsPanel() {
           position="bottom"
           withCloseButton
           closeButtonProps={{ 'aria-label': 'Close settings panel' }}
-          closeOnClickOutside
+          closeOnClickOutside={!isSelectDropdownOpen}
           closeOnEscape
           padding="md"
           title="Settings"
@@ -185,6 +220,7 @@ export default function SettingsPanel() {
     <Popover
       opened={opened}
       onDismiss={closeOpened}
+      closeOnClickOutside={!isSelectDropdownOpen}
       width={380}
       position="bottom-end"
       keepMounted

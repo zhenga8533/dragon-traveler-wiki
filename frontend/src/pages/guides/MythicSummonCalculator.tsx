@@ -1,6 +1,5 @@
 import {
   Alert,
-  Box,
   Card,
   Container,
   Divider,
@@ -337,23 +336,14 @@ export default function MythicSummonCalculator() {
           {...getCardHoverProps({
             style: {
               ...sectionCardStyle,
-              position: 'relative',
-              overflow: 'hidden',
+              backdropFilter: 'blur(8px)',
+              backgroundColor: isDark
+                ? 'var(--dt-home-hero-card-dark)'
+                : 'var(--dt-home-hero-card-light)',
             },
           })}
         >
-          <Box
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: isDark
-                ? 'radial-gradient(circle at top right, rgba(124, 58, 237, 0.24), transparent 55%), radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.2), transparent 50%)'
-                : 'radial-gradient(circle at top right, rgba(124, 58, 237, 0.16), transparent 55%), radial-gradient(circle at bottom left, rgba(236, 72, 153, 0.14), transparent 50%)',
-              pointerEvents: 'none',
-            }}
-          />
-
-          <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
+          <Stack gap="md">
             <Group gap="sm" wrap="nowrap">
               <ThemeIcon size="xl" radius="md" variant="light" color="violet">
                 <IoSparkles size={20} />

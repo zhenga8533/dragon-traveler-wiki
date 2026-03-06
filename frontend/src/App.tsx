@@ -3,6 +3,7 @@ import RouteMeta from './components/common/RouteMeta';
 import AppLayout from './components/layout/AppLayout';
 import {
   BannerProvider,
+  GradientThemeProvider,
   ResourcesProvider,
   SearchDataProvider,
   TierListReferenceProvider,
@@ -15,9 +16,11 @@ export default function App() {
       <SearchDataProvider>
         <ResourcesProvider>
           <TierListReferenceProvider>
-            <BannerProvider>
-              <AppLayout />
-            </BannerProvider>
+            <GradientThemeProvider>
+              <BannerProvider>
+                <AppLayout />
+              </BannerProvider>
+            </GradientThemeProvider>
           </TierListReferenceProvider>
         </ResourcesProvider>
       </SearchDataProvider>

@@ -1,15 +1,351 @@
 :root {
-  --dt-surface-glow-a: rgba(6, 182, 212, 0.24);
-  --dt-surface-glow-b: rgba(249, 115, 22, 0.2);
+  --dt-surface-glow-a: rgba(124, 58, 237, 0.3);
+  --dt-surface-glow-b: rgba(236, 72, 153, 0.2);
   --dt-grid-line: rgba(148, 163, 184, 0.09);
-  --dt-focus-ring: rgba(20, 184, 166, 0.42);
+  --dt-focus-ring: rgba(167, 139, 250, 0.48);
+  --dt-brand-gradient: linear-gradient(
+    120deg,
+    var(--mantine-color-violet-4) 0%,
+    var(--mantine-color-violet-6) 45%,
+    var(--mantine-color-grape-6) 100%
+  );
+  --dt-home-hero-gradient-dark: linear-gradient(
+    135deg,
+    var(--mantine-color-violet-9) 0%,
+    var(--mantine-color-grape-9) 35%,
+    var(--mantine-color-pink-9) 65%,
+    var(--mantine-color-violet-9) 100%
+  );
+  --dt-home-hero-gradient-light: linear-gradient(
+    135deg,
+    var(--mantine-color-violet-1) 0%,
+    var(--mantine-color-grape-2) 35%,
+    var(--mantine-color-pink-3) 65%,
+    var(--mantine-color-violet-1) 100%
+  );
+  --dt-wordmark-color-dark: var(--mantine-color-violet-1);
+  --dt-wordmark-color-light: var(--mantine-color-violet-8);
+  --dt-wordmark-shadow-dark: 0 1px 10px rgba(124, 58, 237, 0.35);
+  --dt-wordmark-shadow-light: 0 1px 4px rgba(76, 29, 149, 0.14);
+  --dt-home-hero-panel-light: linear-gradient(
+    180deg,
+    rgba(255, 255, 255, 0.84) 0%,
+    rgba(248, 249, 250, 0.74) 100%
+  );
+  --dt-home-hero-panel-dark: linear-gradient(
+    180deg,
+    rgba(14, 16, 21, 0.68) 0%,
+    rgba(14, 16, 21, 0.5) 100%
+  );
+  --dt-home-hero-card-light: rgba(255, 255, 255, 0.9);
+  --dt-home-hero-card-dark: rgba(20, 21, 23, 0.92);
 }
 
 [data-mantine-color-scheme='dark'] {
+  --dt-surface-glow-a: rgba(139, 92, 246, 0.28);
+  --dt-surface-glow-b: rgba(236, 72, 153, 0.24);
+  --dt-grid-line: rgba(71, 85, 105, 0.22);
+  --dt-focus-ring: rgba(196, 181, 253, 0.5);
+}
+
+[data-gradient-palette='ocean'] {
+  --dt-surface-glow-a: rgba(6, 182, 212, 0.24);
+  --dt-surface-glow-b: rgba(249, 115, 22, 0.2);
+  --dt-focus-ring: rgba(20, 184, 166, 0.42);
+  --dt-brand-gradient: linear-gradient(
+    120deg,
+    var(--mantine-color-cyan-5) 0%,
+    var(--mantine-color-teal-6) 45%,
+    var(--mantine-color-orange-5) 100%
+  );
+  --dt-home-hero-gradient-dark: linear-gradient(
+    135deg,
+    var(--mantine-color-cyan-9) 0%,
+    var(--mantine-color-teal-9) 38%,
+    var(--mantine-color-orange-9) 68%,
+    var(--mantine-color-cyan-9) 100%
+  );
+  --dt-home-hero-gradient-light: linear-gradient(
+    135deg,
+    var(--mantine-color-cyan-1) 0%,
+    var(--mantine-color-teal-1) 38%,
+    var(--mantine-color-orange-2) 68%,
+    var(--mantine-color-cyan-1) 100%
+  );
+  --dt-wordmark-color-dark: var(--mantine-color-cyan-0);
+  --dt-wordmark-color-light: var(--mantine-color-teal-8);
+  --dt-wordmark-shadow-dark: 0 1px 10px rgba(6, 182, 212, 0.28);
+  --dt-wordmark-shadow-light: 0 1px 4px rgba(13, 148, 136, 0.12);
+  --dt-home-hero-panel-light: linear-gradient(
+    180deg,
+    rgba(240, 253, 250, 0.86) 0%,
+    rgba(236, 254, 255, 0.76) 100%
+  );
+  --dt-home-hero-panel-dark: linear-gradient(
+    180deg,
+    rgba(8, 20, 24, 0.7) 0%,
+    rgba(8, 20, 24, 0.56) 100%
+  );
+  --dt-home-hero-card-light: rgba(240, 253, 250, 0.9);
+  --dt-home-hero-card-dark: rgba(14, 36, 42, 0.9);
+}
+
+[data-gradient-palette='ocean'][data-mantine-color-scheme='dark'] {
   --dt-surface-glow-a: rgba(6, 182, 212, 0.28);
   --dt-surface-glow-b: rgba(249, 115, 22, 0.24);
-  --dt-grid-line: rgba(71, 85, 105, 0.22);
   --dt-focus-ring: rgba(45, 212, 191, 0.45);
+}
+
+[data-gradient-palette='sunset'] {
+  --dt-surface-glow-a: rgba(251, 146, 60, 0.24);
+  --dt-surface-glow-b: rgba(244, 114, 182, 0.2);
+  --dt-focus-ring: rgba(251, 191, 36, 0.4);
+  --dt-brand-gradient: linear-gradient(
+    120deg,
+    var(--mantine-color-orange-4) 0%,
+    var(--mantine-color-pink-5) 45%,
+    var(--mantine-color-yellow-5) 100%
+  );
+  --dt-home-hero-gradient-dark: linear-gradient(
+    135deg,
+    var(--mantine-color-orange-9) 0%,
+    var(--mantine-color-red-8) 38%,
+    var(--mantine-color-pink-8) 72%,
+    var(--mantine-color-orange-9) 100%
+  );
+  --dt-home-hero-gradient-light: linear-gradient(
+    135deg,
+    var(--mantine-color-orange-1) 0%,
+    var(--mantine-color-red-1) 40%,
+    var(--mantine-color-yellow-2) 72%,
+    var(--mantine-color-orange-1) 100%
+  );
+  --dt-wordmark-color-dark: var(--mantine-color-orange-0);
+  --dt-wordmark-color-light: var(--mantine-color-orange-8);
+  --dt-wordmark-shadow-dark: 0 1px 10px rgba(249, 115, 22, 0.3);
+  --dt-wordmark-shadow-light: 0 1px 4px rgba(194, 65, 12, 0.16);
+  --dt-home-hero-panel-light: linear-gradient(
+    180deg,
+    rgba(255, 247, 237, 0.88) 0%,
+    rgba(255, 241, 242, 0.78) 100%
+  );
+  --dt-home-hero-panel-dark: linear-gradient(
+    180deg,
+    rgba(36, 16, 8, 0.72) 0%,
+    rgba(36, 16, 8, 0.56) 100%
+  );
+  --dt-home-hero-card-light: rgba(255, 247, 237, 0.9);
+  --dt-home-hero-card-dark: rgba(45, 23, 10, 0.9);
+}
+
+[data-gradient-palette='forest'] {
+  --dt-surface-glow-a: rgba(34, 197, 94, 0.24);
+  --dt-surface-glow-b: rgba(20, 184, 166, 0.2);
+  --dt-focus-ring: rgba(74, 222, 128, 0.42);
+  --dt-brand-gradient: linear-gradient(
+    120deg,
+    var(--mantine-color-green-4) 0%,
+    var(--mantine-color-teal-5) 45%,
+    var(--mantine-color-lime-5) 100%
+  );
+  --dt-home-hero-gradient-dark: linear-gradient(
+    135deg,
+    var(--mantine-color-green-9) 0%,
+    var(--mantine-color-teal-8) 40%,
+    var(--mantine-color-lime-8) 70%,
+    var(--mantine-color-green-9) 100%
+  );
+  --dt-home-hero-gradient-light: linear-gradient(
+    135deg,
+    var(--mantine-color-green-1) 0%,
+    var(--mantine-color-teal-1) 40%,
+    var(--mantine-color-lime-1) 70%,
+    var(--mantine-color-green-1) 100%
+  );
+  --dt-wordmark-color-dark: var(--mantine-color-green-0);
+  --dt-wordmark-color-light: var(--mantine-color-green-8);
+  --dt-wordmark-shadow-dark: 0 1px 10px rgba(34, 197, 94, 0.28);
+  --dt-wordmark-shadow-light: 0 1px 4px rgba(21, 128, 61, 0.14);
+  --dt-home-hero-panel-light: linear-gradient(
+    180deg,
+    rgba(240, 253, 244, 0.88) 0%,
+    rgba(236, 253, 245, 0.78) 100%
+  );
+  --dt-home-hero-panel-dark: linear-gradient(
+    180deg,
+    rgba(10, 30, 18, 0.72) 0%,
+    rgba(10, 30, 18, 0.56) 100%
+  );
+  --dt-home-hero-card-light: rgba(240, 253, 244, 0.9);
+  --dt-home-hero-card-dark: rgba(14, 44, 26, 0.9);
+}
+
+[data-gradient-palette='ember'] {
+  --dt-surface-glow-a: rgba(248, 113, 113, 0.24);
+  --dt-surface-glow-b: rgba(251, 146, 60, 0.2);
+  --dt-focus-ring: rgba(252, 165, 165, 0.44);
+  --dt-brand-gradient: linear-gradient(
+    120deg,
+    var(--mantine-color-red-5) 0%,
+    var(--mantine-color-orange-5) 45%,
+    var(--mantine-color-pink-6) 100%
+  );
+  --dt-home-hero-gradient-dark: linear-gradient(
+    135deg,
+    var(--mantine-color-red-9) 0%,
+    var(--mantine-color-orange-9) 38%,
+    var(--mantine-color-pink-9) 72%,
+    var(--mantine-color-red-9) 100%
+  );
+  --dt-home-hero-gradient-light: linear-gradient(
+    135deg,
+    var(--mantine-color-red-1) 0%,
+    var(--mantine-color-orange-1) 40%,
+    var(--mantine-color-pink-2) 72%,
+    var(--mantine-color-red-1) 100%
+  );
+  --dt-wordmark-color-dark: var(--mantine-color-red-0);
+  --dt-wordmark-color-light: var(--mantine-color-red-8);
+  --dt-wordmark-shadow-dark: 0 1px 10px rgba(239, 68, 68, 0.3);
+  --dt-wordmark-shadow-light: 0 1px 4px rgba(185, 28, 28, 0.14);
+  --dt-home-hero-panel-light: linear-gradient(
+    180deg,
+    rgba(254, 242, 242, 0.88) 0%,
+    rgba(255, 247, 237, 0.78) 100%
+  );
+  --dt-home-hero-panel-dark: linear-gradient(
+    180deg,
+    rgba(40, 15, 15, 0.72) 0%,
+    rgba(40, 15, 15, 0.56) 100%
+  );
+  --dt-home-hero-card-light: rgba(254, 242, 242, 0.9);
+  --dt-home-hero-card-dark: rgba(50, 20, 20, 0.9);
+}
+
+[data-gradient-palette='dusk'] {
+  --dt-surface-glow-a: rgba(99, 102, 241, 0.26);
+  --dt-surface-glow-b: rgba(251, 146, 60, 0.2);
+  --dt-focus-ring: rgba(165, 180, 252, 0.44);
+  --dt-brand-gradient: linear-gradient(
+    120deg,
+    var(--mantine-color-indigo-4) 0%,
+    var(--mantine-color-violet-6) 42%,
+    var(--mantine-color-orange-5) 100%
+  );
+  --dt-home-hero-gradient-dark: linear-gradient(
+    135deg,
+    var(--mantine-color-indigo-9) 0%,
+    var(--mantine-color-violet-9) 42%,
+    var(--mantine-color-orange-9) 75%,
+    var(--mantine-color-indigo-9) 100%
+  );
+  --dt-home-hero-gradient-light: linear-gradient(
+    135deg,
+    var(--mantine-color-indigo-1) 0%,
+    var(--mantine-color-violet-1) 42%,
+    var(--mantine-color-orange-1) 75%,
+    var(--mantine-color-indigo-1) 100%
+  );
+  --dt-wordmark-color-dark: var(--mantine-color-violet-0);
+  --dt-wordmark-color-light: var(--mantine-color-indigo-8);
+  --dt-wordmark-shadow-dark: 0 1px 10px rgba(99, 102, 241, 0.3);
+  --dt-wordmark-shadow-light: 0 1px 4px rgba(67, 56, 202, 0.14);
+  --dt-home-hero-panel-light: linear-gradient(
+    180deg,
+    rgba(238, 242, 255, 0.88) 0%,
+    rgba(255, 247, 237, 0.78) 100%
+  );
+  --dt-home-hero-panel-dark: linear-gradient(
+    180deg,
+    rgba(18, 20, 46, 0.72) 0%,
+    rgba(36, 20, 10, 0.56) 100%
+  );
+  --dt-home-hero-card-light: rgba(238, 242, 255, 0.9);
+  --dt-home-hero-card-dark: rgba(24, 23, 52, 0.9);
+}
+
+[data-gradient-palette='frost'] {
+  --dt-surface-glow-a: rgba(56, 189, 248, 0.26);
+  --dt-surface-glow-b: rgba(163, 230, 53, 0.18);
+  --dt-focus-ring: rgba(125, 211, 252, 0.46);
+  --dt-brand-gradient: linear-gradient(
+    120deg,
+    var(--mantine-color-cyan-4) 0%,
+    var(--mantine-color-teal-5) 45%,
+    var(--mantine-color-lime-4) 100%
+  );
+  --dt-home-hero-gradient-dark: linear-gradient(
+    135deg,
+    var(--mantine-color-cyan-9) 0%,
+    var(--mantine-color-teal-8) 45%,
+    var(--mantine-color-lime-8) 74%,
+    var(--mantine-color-cyan-9) 100%
+  );
+  --dt-home-hero-gradient-light: linear-gradient(
+    135deg,
+    var(--mantine-color-cyan-0) 0%,
+    var(--mantine-color-teal-0) 45%,
+    var(--mantine-color-lime-1) 74%,
+    var(--mantine-color-cyan-0) 100%
+  );
+  --dt-wordmark-color-dark: var(--mantine-color-cyan-0);
+  --dt-wordmark-color-light: var(--mantine-color-teal-8);
+  --dt-wordmark-shadow-dark: 0 1px 10px rgba(14, 165, 233, 0.3);
+  --dt-wordmark-shadow-light: 0 1px 4px rgba(13, 148, 136, 0.14);
+  --dt-home-hero-panel-light: linear-gradient(
+    180deg,
+    rgba(236, 254, 255, 0.9) 0%,
+    rgba(247, 254, 231, 0.8) 100%
+  );
+  --dt-home-hero-panel-dark: linear-gradient(
+    180deg,
+    rgba(8, 28, 38, 0.72) 0%,
+    rgba(20, 38, 14, 0.56) 100%
+  );
+  --dt-home-hero-card-light: rgba(236, 254, 255, 0.92);
+  --dt-home-hero-card-dark: rgba(12, 42, 56, 0.9);
+}
+
+[data-gradient-palette='blossom'] {
+  --dt-surface-glow-a: rgba(244, 114, 182, 0.25);
+  --dt-surface-glow-b: rgba(251, 146, 60, 0.18);
+  --dt-focus-ring: rgba(244, 114, 182, 0.45);
+  --dt-brand-gradient: linear-gradient(
+    120deg,
+    var(--mantine-color-pink-4) 0%,
+    var(--mantine-color-grape-5) 45%,
+    var(--mantine-color-orange-4) 100%
+  );
+  --dt-home-hero-gradient-dark: linear-gradient(
+    135deg,
+    var(--mantine-color-pink-9) 0%,
+    var(--mantine-color-grape-9) 45%,
+    var(--mantine-color-orange-9) 74%,
+    var(--mantine-color-pink-9) 100%
+  );
+  --dt-home-hero-gradient-light: linear-gradient(
+    135deg,
+    var(--mantine-color-pink-1) 0%,
+    var(--mantine-color-grape-1) 45%,
+    var(--mantine-color-orange-1) 74%,
+    var(--mantine-color-pink-1) 100%
+  );
+  --dt-wordmark-color-dark: var(--mantine-color-pink-0);
+  --dt-wordmark-color-light: var(--mantine-color-grape-8);
+  --dt-wordmark-shadow-dark: 0 1px 10px rgba(236, 72, 153, 0.3);
+  --dt-wordmark-shadow-light: 0 1px 4px rgba(190, 24, 93, 0.14);
+  --dt-home-hero-panel-light: linear-gradient(
+    180deg,
+    rgba(253, 242, 248, 0.9) 0%,
+    rgba(255, 247, 237, 0.8) 100%
+  );
+  --dt-home-hero-panel-dark: linear-gradient(
+    180deg,
+    rgba(54, 17, 38, 0.72) 0%,
+    rgba(44, 20, 10, 0.56) 100%
+  );
+  --dt-home-hero-card-light: rgba(253, 242, 248, 0.92);
+  --dt-home-hero-card-dark: rgba(62, 24, 48, 0.9);
 }
 
 html {
@@ -20,12 +356,12 @@ body {
   background:
     radial-gradient(
       circle at 20% -10%,
-      rgba(6, 182, 212, 0.14) 0%,
+      var(--dt-surface-glow-a) 0%,
       transparent 34%
     ),
     radial-gradient(
       circle at 90% 10%,
-      rgba(249, 115, 22, 0.12) 0%,
+      var(--dt-surface-glow-b) 0%,
       transparent 32%
     ),
     linear-gradient(var(--dt-grid-line) 1px, transparent 1px),

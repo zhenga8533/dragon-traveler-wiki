@@ -135,4 +135,5 @@ export const STORAGE_KEY = {
   TIER_LIST_MY_SAVED: 'tier-list:mySaved',
   HOME_BANNER: 'home:banner',
   HOME_BANNER_GLOBAL: 'home:bannerGlobal',
+  GRADIENT_PALETTE: 'ui:gradientPalette',
 } as const;

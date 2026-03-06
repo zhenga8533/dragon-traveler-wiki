@@ -2,7 +2,6 @@ import {
   Alert,
   Anchor,
   Badge,
-  Box,
   Card,
   Container,
   Divider,
@@ -79,23 +78,14 @@ export default function ShovelEventGuide() {
           {...getCardHoverProps({
             style: {
               ...sectionCardStyle,
-              position: 'relative',
-              overflow: 'hidden',
+              backdropFilter: 'blur(8px)',
+              backgroundColor: isDark
+                ? 'var(--dt-home-hero-card-dark)'
+                : 'var(--dt-home-hero-card-light)',
             },
           })}
         >
-          <Box
-            style={{
-              position: 'absolute',
-              inset: 0,
-              background: isDark
-                ? 'radial-gradient(circle at top right, rgba(245, 158, 11, 0.2), transparent 55%), radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.2), transparent 50%)'
-                : 'radial-gradient(circle at top right, rgba(245, 158, 11, 0.14), transparent 55%), radial-gradient(circle at bottom left, rgba(168, 85, 247, 0.14), transparent 50%)',
-              pointerEvents: 'none',
-            }}
-          />
-
-          <Stack gap="md" style={{ position: 'relative', zIndex: 1 }}>
+          <Stack gap="md">
             <Group gap="sm" wrap="nowrap">
               <ThemeIcon size="xl" radius="md" variant="light" color="yellow">
                 <IoInformationCircleOutline size={20} />

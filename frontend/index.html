@@ -60,6 +60,28 @@
         document.documentElement.setAttribute('data-mantine-color-scheme', c);
       } catch (e) {}
     </script>
+    <script>
+      try {
+        var p = localStorage.getItem('ui:gradientPalette');
+        var valid = [
+          'violet',
+          'ocean',
+          'sunset',
+          'forest',
+          'ember',
+          'dusk',
+          'frost',
+          'blossom',
+        ];
+        var palette = valid.indexOf(p) >= 0 ? p : 'violet';
+        document.documentElement.setAttribute('data-gradient-palette', palette);
+      } catch (e) {
+        document.documentElement.setAttribute(
+          'data-gradient-palette',
+          'violet'
+        );
+      }
+    </script>
     <div id="root"></div>
     <script type="module" src="/src/main.tsx"></script>
   </body>
