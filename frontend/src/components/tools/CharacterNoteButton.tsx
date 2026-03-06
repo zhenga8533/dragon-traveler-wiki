@@ -1,6 +1,14 @@
 import { ActionIcon, Popover, Textarea, Tooltip } from '@mantine/core';
-import { memo, useEffect, useRef, useState, type CSSProperties } from 'react';
+import {
+  memo,
+  useContext,
+  useEffect,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react';
 import { IoDocumentTextOutline } from 'react-icons/io5';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 
 interface CharacterNoteButtonProps {
   value: string;
@@ -15,6 +23,8 @@ function CharacterNoteButton({
   placeholder = 'Add note...',
   style,
 }: CharacterNoteButtonProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -66,17 +76,17 @@ function CharacterNoteButton({
               size="sm"
               radius="md"
               variant="filled"
-              color={hasNote ? 'violet' : 'grape'}
+              color={hasNote ? accent.primary : accent.secondary}
               styles={{
                 root: {
                   background: hasNote
-                    ? 'linear-gradient(135deg, var(--mantine-color-violet-6) 0%, var(--mantine-color-grape-6) 100%)'
+                    ? `linear-gradient(135deg, var(--mantine-color-${accent.primary}-6) 0%, var(--mantine-color-${accent.secondary}-6) 100%)`
                     : 'var(--mantine-color-body)',
                   color: hasNote
                     ? 'var(--mantine-color-white)'
-                    : 'var(--mantine-color-violet-filled)',
+                    : `var(--mantine-color-${accent.primary}-filled)`,
                   border: hasNote
-                    ? '1px solid var(--mantine-color-violet-4)'
+                    ? `1px solid var(--mantine-color-${accent.primary}-4)`
                     : '1px solid var(--mantine-color-default-border)',
                   boxShadow: hasNote
                     ? 'var(--mantine-shadow-sm)'
@@ -89,7 +99,7 @@ function CharacterNoteButton({
                     'background 140ms ease, color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease, opacity 140ms ease',
                   '&:hover': {
                     background: hasNote
-                      ? 'linear-gradient(135deg, var(--mantine-color-violet-7) 0%, var(--mantine-color-grape-7) 100%)'
+                      ? `linear-gradient(135deg, var(--mantine-color-${accent.primary}-7) 0%, var(--mantine-color-${accent.secondary}-7) 100%)`
                       : 'var(--mantine-color-default-hover)',
                     boxShadow: hasNote
                       ? 'var(--mantine-shadow-md)'
@@ -149,7 +159,7 @@ function CharacterNoteButton({
               maxWidth: 220,
               lineHeight: 1.35,
               borderColor: hasNote
-                ? 'var(--mantine-color-violet-4)'
+                ? `var(--mantine-color-${accent.primary}-4)`
                 : undefined,
               backgroundColor: 'var(--mantine-color-body)',
               opacity: draftValue ? 1 : 0.9,

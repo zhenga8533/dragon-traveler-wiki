@@ -7,11 +7,12 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 import { normalizeContentType } from '../../constants/content-types';
 import { getCardHoverProps } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { Character } from '../../types/character';
 import type { Team, TeamMemberPosition } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
@@ -67,6 +68,9 @@ export default function CharacterReferenceSection({
   tierLabel,
   tierListCharacterNote,
 }: CharacterReferenceSectionProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+
   const teamInclusions = useMemo<TeamInclusion[]>(() => {
     if (!enableNameBasedReferences) {
       return [];
@@ -162,11 +166,11 @@ export default function CharacterReferenceSection({
                 <Text fw={600} size="sm">
                   Tier List Note
                 </Text>
-                <Badge variant="light" color="violet" size="sm">
+                <Badge variant="light" color={accent.primary} size="sm">
                   {selectedTierListName}
                 </Badge>
                 {tierLabel && (
-                  <Badge variant="light" color="grape" size="sm">
+                  <Badge variant="light" color={accent.secondary} size="sm">
                     {tierLabel === 'Unranked' ? tierLabel : `Tier ${tierLabel}`}
                   </Badge>
                 )}
@@ -205,13 +209,17 @@ export default function CharacterReferenceSection({
                           to={`/teams/${toEntitySlug(entry.teamName)}`}
                           style={{ textDecoration: 'none' }}
                         >
-                          <Text fw={600} size="sm">
+                          <Text fw={600} size="sm" c={`${accent.primary}.7`}>
                             {entry.teamName}
                           </Text>
                         </Link>
                         <Badge
                           variant="light"
-                          color={entry.role === 'Main' ? 'blue' : 'gray'}
+                          color={
+                            entry.role === 'Main'
+                              ? accent.secondary
+                              : accent.tertiary
+                          }
                           size="xs"
                         >
                           {entry.role}
@@ -219,10 +227,14 @@ export default function CharacterReferenceSection({
                       </Group>
 
                       <Group gap={6} wrap="wrap">
-                        <Badge variant="light" color="violet" size="xs">
+                        <Badge variant="light" color={accent.primary} size="xs">
                           {entry.faction}
                         </Badge>
-                        <Badge variant="light" color="indigo" size="xs">
+                        <Badge
+                          variant="light"
+                          color={accent.secondary}
+                          size="xs"
+                        >
                           {entry.contentType}
                         </Badge>
                       </Group>

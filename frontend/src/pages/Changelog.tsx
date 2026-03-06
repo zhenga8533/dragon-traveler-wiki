@@ -10,11 +10,12 @@ import {
   Timeline,
   Title,
 } from '@mantine/core';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import PaginationControl from '../components/common/PaginationControl';
 import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { getCardHoverProps } from '../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { useDataFetch } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 
@@ -38,6 +39,8 @@ const TYPE_COLORS: Record<string, string> = {
 const ENTRIES_PER_PAGE = 10;
 
 export default function Changelog() {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const { data: changelog, loading } = useDataFetch<ChangelogEntry[]>(
     'data/changelog.json',
     []
@@ -104,7 +107,7 @@ export default function Changelog() {
                         <Group gap="sm">
                           <Text fw={600}>{formattedDate}</Text>
                           {entry.version && (
-                            <Badge variant="light" color="violet">
+                            <Badge variant="light" color={accent.primary}>
                               v{entry.version}
                             </Badge>
                           )}
@@ -112,7 +115,7 @@ export default function Changelog() {
                         <Button
                           size="compact-xs"
                           variant="subtle"
-                          color="gray"
+                          color={accent.primary}
                           onClick={() => toggleEntry(entryId)}
                         >
                           {isExpanded ? 'Minimize' : 'Expand'}
@@ -149,7 +152,11 @@ export default function Changelog() {
                                         {change.type.charAt(0).toUpperCase() +
                                           change.type.slice(1)}
                                       </Badge>
-                                      <Badge size="sm" variant="light">
+                                      <Badge
+                                        size="sm"
+                                        variant="light"
+                                        color={accent.secondary}
+                                      >
                                         {change.category}
                                       </Badge>
                                     </Group>

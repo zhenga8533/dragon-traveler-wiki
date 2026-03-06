@@ -18,7 +18,7 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import type { CSSProperties } from 'react';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useContext, useEffect, useMemo, useState } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '../../../assets/faction';
 import { getWyrmspellIcon } from '../../../assets/wyrmspell';
@@ -33,6 +33,10 @@ import {
   CHARACTER_GRID_SPACING,
   TRANSITION,
 } from '../../../constants/ui';
+import {
+  GRADIENT_PALETTE_ACCENTS,
+  GradientThemeContext,
+} from '../../../contexts';
 import type { Character } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
 import type { TeamWyrmspells } from '../../../types/team';
@@ -829,6 +833,8 @@ export function PasteJsonModal({
   /** Receives raw paste text; returns an error string on failure, null on success. */
   onApply: (text: string) => string | null;
 }) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
 
@@ -876,7 +882,11 @@ export function PasteJsonModal({
           <Button variant="default" onClick={onClose}>
             Cancel
           </Button>
-          <Button onClick={handleApply} disabled={!pasteText.trim()}>
+          <Button
+            color={accent.primary}
+            onClick={handleApply}
+            disabled={!pasteText.trim()}
+          >
             Apply
           </Button>
         </Group>

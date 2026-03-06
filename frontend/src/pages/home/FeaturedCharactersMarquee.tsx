@@ -14,6 +14,7 @@ import { Link } from 'react-router-dom';
 import CharacterCard from '../../components/character/CharacterCard';
 import { TIER_COLOR } from '../../constants/colors';
 import { normalizeContentType } from '../../constants/content-types';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import { TierListReferenceContext } from '../../contexts/tier-list-reference-context';
 import { useDataFetch } from '../../hooks';
 import type { Character } from '../../types/character';
@@ -29,6 +30,8 @@ import {
 import styles from './FeaturedCharactersMarquee.module.css';
 
 export default function FeaturedCharactersMarquee() {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const {
     tierLists,
     loading: loadingTiers,
@@ -62,7 +65,9 @@ export default function FeaturedCharactersMarquee() {
     tierList.tiers && tierList.tiers.length >= 2
       ? [tierList.tiers[0].name, tierList.tiers[1].name]
       : ['S+', 'S'];
-  const topEntries = tierList.entries.filter((e) => topTierNames.includes(e.tier));
+  const topEntries = tierList.entries.filter((e) =>
+    topTierNames.includes(e.tier)
+  );
 
   if (topEntries.length === 0) return null;
 
@@ -133,7 +138,7 @@ export default function FeaturedCharactersMarquee() {
                   · by{' '}
                 </Text>
               )}
-              <Text span c="violet" fw={500} inherit>
+              <Text span c={`${accent.primary}.7`} fw={500} inherit>
                 {tierList.author}
               </Text>
             </>

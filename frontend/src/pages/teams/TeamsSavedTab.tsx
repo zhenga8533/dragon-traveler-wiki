@@ -12,6 +12,7 @@ import {
   Table,
   Text,
 } from '@mantine/core';
+import { useContext } from 'react';
 import { IoCreate } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { FACTION_WYRM_MAP } from '../../assets/wyrms';
@@ -24,6 +25,7 @@ import TeamCard from '../../components/teams/TeamCard';
 import TeamCharacterAvatars from '../../components/teams/TeamCharacterAvatars';
 import { normalizeContentType } from '../../constants/content-types';
 import { getMinWidthStyle } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { Character } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Team } from '../../types/team';
@@ -71,6 +73,8 @@ export default function TeamsSavedTab({
   onGoToBuilder,
 }: TeamsSavedTabProps) {
   const navigate = useNavigate();
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
 
   const filterPanel = (
     <Collapse in={filterOpen}>
@@ -98,6 +102,7 @@ export default function TeamsSavedTab({
           </Text>
           <Button
             variant="light"
+            color={accent.primary}
             size="sm"
             leftSection={<IoCreate size={16} />}
             onClick={onGoToBuilder}
@@ -190,7 +195,7 @@ export default function TeamsSavedTab({
                         fit="contain"
                       />
                     )}
-                    <Text size="sm" fw={500} c="violet">
+                    <Text size="sm" fw={500} c={`${accent.primary}.7`}>
                       {team.name || 'Untitled'}
                     </Text>
                   </Group>
@@ -206,7 +211,7 @@ export default function TeamsSavedTab({
                         <Badge
                           size="xs"
                           variant="light"
-                          color="blue"
+                          color={accent.primary}
                           style={{ minWidth: 56, justifyContent: 'center' }}
                         >
                           Main

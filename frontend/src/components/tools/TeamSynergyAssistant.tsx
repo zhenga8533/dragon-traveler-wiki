@@ -11,8 +11,10 @@ import {
   Text,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import { useContext } from 'react';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { TeamSynergyResult } from '../../utils/team-synergy';
 import ClassTag from '../common/ClassTag';
 
@@ -31,6 +33,8 @@ export default function TeamSynergyAssistant({
   synergy,
   defaultExpanded = false,
 }: TeamSynergyAssistantProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const [expanded, { toggle }] = useDisclosure(defaultExpanded);
 
   return (
@@ -41,7 +45,7 @@ export default function TeamSynergyAssistant({
             Synergy Assistant
           </Text>
           <Group gap="xs">
-            <Badge variant="light" color="orange" size="sm">
+            <Badge variant="light" color={accent.secondary} size="sm">
               Overdrive: {synergy.overdriveCount}
             </Badge>
             <Badge
@@ -53,6 +57,7 @@ export default function TeamSynergyAssistant({
             </Badge>
             <ActionIcon
               variant="subtle"
+              color={accent.primary}
               size="sm"
               onClick={toggle}
               aria-label={
@@ -95,7 +100,7 @@ export default function TeamSynergyAssistant({
                         {signal.detail}
                       </Text>
                     </Stack>
-                    <Badge variant="light" size="xs" color="gray">
+                    <Badge variant="light" size="xs" color={accent.tertiary}>
                       {Math.round(signal.score)}/{signal.weight}
                     </Badge>
                   </Group>
@@ -109,7 +114,11 @@ export default function TeamSynergyAssistant({
                   ([cls, count]) => (
                     <Group key={cls} gap={4} wrap="nowrap">
                       <ClassTag characterClass={cls} size="sm" />
-                      <Badge variant="outline" size="sm" color="gray">
+                      <Badge
+                        variant="outline"
+                        size="sm"
+                        color={accent.tertiary}
+                      >
                         {count}
                       </Badge>
                     </Group>

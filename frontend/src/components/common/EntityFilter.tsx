@@ -1,8 +1,10 @@
 import { Button, Chip, Group, Stack, Text, TextInput } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import type { ReactNode } from 'react';
+import { useContext } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 import { BREAKPOINTS, IMAGE_SIZE } from '../../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 
 export interface ChipFilterGroup {
   key: string;
@@ -31,6 +33,9 @@ export default function EntityFilter({
   searchPlaceholder = 'Search by name...',
 }: EntityFilterProps) {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const searchIconColor = `var(--mantine-color-${accent.primary}-6)`;
   const hasChipFilters = Object.values(selected).some((v) => v.length > 0);
   const hasSearch = search !== undefined && search !== '';
   const hasFilters = hasChipFilters || hasSearch;
@@ -41,7 +46,9 @@ export default function EntityFilter({
         <Group gap="xs" align="center" wrap="wrap">
           <TextInput
             placeholder={searchPlaceholder}
-            leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
+            leftSection={
+              <IoSearch size={IMAGE_SIZE.ICON_MD} color={searchIconColor} />
+            }
             value={search ?? ''}
             onChange={(e) => onSearchChange(e.currentTarget.value)}
             size={isMobile ? 'md' : 'xs'}
@@ -50,7 +57,7 @@ export default function EntityFilter({
           {hasFilters && (
             <Button
               variant="subtle"
-              color="gray"
+              color={accent.primary}
               size={isMobile ? 'md' : 'compact-xs'}
               leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
               onClick={onClear}
@@ -65,7 +72,7 @@ export default function EntityFilter({
         <Group justify="flex-end">
           <Button
             variant="subtle"
-            color="gray"
+            color={accent.primary}
             size={isMobile ? 'md' : 'compact-xs'}
             leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
             onClick={onClear}
@@ -93,7 +100,12 @@ export default function EntityFilter({
           >
             <Group gap={4} wrap="wrap">
               {group.options.map((option) => (
-                <Chip key={option} value={option} size={isMobile ? 'md' : 'xs'}>
+                <Chip
+                  key={option}
+                  value={option}
+                  size={isMobile ? 'md' : 'xs'}
+                  color={accent.primary}
+                >
                   <Group gap={4} wrap="nowrap" align="center">
                     {group.icon?.(option)}
                     <span>{option}</span>

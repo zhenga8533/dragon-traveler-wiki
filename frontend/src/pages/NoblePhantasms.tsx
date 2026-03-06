@@ -11,7 +11,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
@@ -29,6 +29,7 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { Character } from '../types/character';
 import type { NoblePhantasm } from '../types/noble-phantasm';
@@ -45,6 +46,8 @@ const EMPTY_FILTERS: NoblePhantasmFilters = {
 
 export default function NoblePhantasms() {
   const navigate = useNavigate();
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const {
     data: noblePhantasms,
     loading,
@@ -244,22 +247,38 @@ export default function NoblePhantasms() {
                                 borderWidth={0}
                               />
                             )}
-                            <Text fw={700} c="violet" lineClamp={1}>
+                            <Text
+                              fw={700}
+                              c={`${accent.primary}.7`}
+                              lineClamp={1}
+                            >
                               {np.name}
                             </Text>
                           </Group>
                           <Group gap="xs" wrap="wrap">
                             {np.character && (
-                              <Badge variant="light" size="sm" color="blue">
+                              <Badge
+                                variant="light"
+                                size="sm"
+                                color={accent.secondary}
+                              >
                                 {np.character}
                               </Badge>
                             )}
                             <GlobalBadge isGlobal={np.is_global} size="sm" />
-                            <Badge variant="light" size="sm" color="grape">
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={accent.primary}
+                            >
                               {np.effects.length} effect
                               {np.effects.length !== 1 ? 's' : ''}
                             </Badge>
-                            <Badge variant="light" size="sm" color="indigo">
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={accent.tertiary}
+                            >
                               {np.skills.length} skill
                               {np.skills.length !== 1 ? 's' : ''}
                             </Badge>
@@ -358,7 +377,7 @@ export default function NoblePhantasms() {
                               to={`/noble-phantasms/${toEntitySlug(np.name)}`}
                               size="sm"
                               fw={600}
-                              c="violet"
+                              c={`${accent.primary}.7`}
                               style={{ textDecoration: 'none' }}
                               onClick={(e) => e.stopPropagation()}
                             >

@@ -23,6 +23,7 @@ import {
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import {
   useCallback,
+  useContext,
   useDeferredValue,
   useEffect,
   useMemo,
@@ -46,6 +47,10 @@ import {
   type ContentType,
 } from '../../../constants/content-types';
 import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
+import {
+  GRADIENT_PALETTE_ACCENTS,
+  GradientThemeContext,
+} from '../../../contexts';
 import { useCharacterResolution, useMobileTooltip } from '../../../hooks';
 import { BattlefieldGrid } from '../../../pages/team/BattlefieldGrid';
 import { BenchSection } from '../../../pages/team/BenchSection';
@@ -112,6 +117,8 @@ export default function TeamBuilder({
   initialData,
   wyrmspells = [],
 }: TeamBuilderProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   // Team grid: 3×3 = 9 slots (indexed row*3+col)
   const [slots, setSlots] = useState<(string | null)[]>(
     Array(GRID_SIZE).fill(null)
@@ -1086,7 +1093,7 @@ export default function TeamBuilder({
                     <Tooltip label={copied ? 'Copied!' : 'Copy JSON'} withArrow>
                       <ActionIcon
                         variant="light"
-                        color={copied ? 'teal' : undefined}
+                        color={copied ? accent.secondary : accent.primary}
                         onClick={copy}
                       >
                         {copied ? (
@@ -1099,6 +1106,7 @@ export default function TeamBuilder({
                   ) : (
                     <Button
                       variant="light"
+                      color={copied ? accent.secondary : accent.primary}
                       size="sm"
                       leftSection={
                         copied ? (
@@ -1108,7 +1116,6 @@ export default function TeamBuilder({
                         )
                       }
                       onClick={copy}
-                      color={copied ? 'teal' : undefined}
                     >
                       {copied ? 'Copied' : 'Copy JSON'}
                     </Button>
@@ -1117,13 +1124,18 @@ export default function TeamBuilder({
               </CopyButton>
               {isMobile ? (
                 <Tooltip label="Paste JSON" withArrow>
-                  <ActionIcon variant="light" onClick={openPasteModal}>
+                  <ActionIcon
+                    variant="light"
+                    color={accent.primary}
+                    onClick={openPasteModal}
+                  >
                     <IoClipboardOutline size={16} />
                   </ActionIcon>
                 </Tooltip>
               ) : (
                 <Button
                   variant="light"
+                  color={accent.primary}
                   size="sm"
                   leftSection={<IoClipboardOutline size={16} />}
                   onClick={openPasteModal}
@@ -1133,13 +1145,18 @@ export default function TeamBuilder({
               )}
               {isMobile ? (
                 <Tooltip label="Save to My Saved" withArrow>
-                  <ActionIcon variant="light" onClick={handleSaveToMySaved}>
+                  <ActionIcon
+                    variant="light"
+                    color={accent.primary}
+                    onClick={handleSaveToMySaved}
+                  >
                     <IoSave size={16} />
                   </ActionIcon>
                 </Tooltip>
               ) : (
                 <Button
                   variant="light"
+                  color={accent.primary}
                   size="sm"
                   leftSection={<IoSave size={16} />}
                   onClick={handleSaveToMySaved}
@@ -1153,6 +1170,7 @@ export default function TeamBuilder({
                 <Tooltip label="Export as Image" withArrow>
                   <ActionIcon
                     variant="light"
+                    color={accent.primary}
                     disabled={teamSize === 0}
                     loading={isCapturing}
                     onClick={() => setIsCapturing(true)}
@@ -1163,6 +1181,7 @@ export default function TeamBuilder({
               ) : (
                 <Button
                   variant="light"
+                  color={accent.primary}
                   size="sm"
                   leftSection={<IoDownload size={16} />}
                   onClick={() => setIsCapturing(true)}
@@ -1176,6 +1195,7 @@ export default function TeamBuilder({
                 <Tooltip label="Submit Suggestion" withArrow>
                   <ActionIcon
                     variant="light"
+                    color={accent.primary}
                     disabled={teamSize === 0}
                     onClick={handleSubmitSuggestion}
                   >
@@ -1185,6 +1205,7 @@ export default function TeamBuilder({
               ) : (
                 <Button
                   variant="light"
+                  color={accent.primary}
                   size="sm"
                   leftSection={<IoOpenOutline size={16} />}
                   onClick={handleSubmitSuggestion}

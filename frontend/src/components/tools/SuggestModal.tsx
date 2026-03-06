@@ -12,7 +12,7 @@ import {
   Textarea,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { useCallback, useDeferredValue, useState } from 'react';
+import { useCallback, useContext, useDeferredValue, useState } from 'react';
 import {
   IoAdd,
   IoAddCircleOutline,
@@ -28,6 +28,7 @@ import {
   buildEmptyIssueBody,
 } from '../../constants/github';
 import { BREAKPOINTS } from '../../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import { showWarningToast } from '../../utils/toast';
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number';
@@ -117,6 +118,8 @@ export default function SuggestModal({
 }: SuggestModalProps) {
   const [opened, { open, close }] = useDisclosure(false);
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const [values, setValues] = useState<Record<string, string | boolean>>(() =>
     buildInitialValues(fields)
   );
@@ -443,6 +446,7 @@ export default function SuggestModal({
     <>
       <Button
         variant="light"
+        color={accent.primary}
         size={isMobile ? 'sm' : 'xs'}
         leftSection={<IoAddCircleOutline size={16} />}
         onClick={handleOpen}
@@ -476,6 +480,7 @@ export default function SuggestModal({
                 </Text>
                 <Button
                   variant="subtle"
+                  color={accent.secondary}
                   size={isMobile ? 'sm' : 'xs'}
                   leftSection={<IoAdd size={14} />}
                   onClick={() => addArrayRow(af.name)}
@@ -510,6 +515,7 @@ export default function SuggestModal({
 
           <Group justify="flex-end" mt="md">
             <Button
+              color={accent.primary}
               leftSection={<IoOpenOutline size={16} />}
               onClick={handleSubmit}
               disabled={!isFormValid}

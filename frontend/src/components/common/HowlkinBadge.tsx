@@ -1,6 +1,8 @@
 import { Badge, Group, Image, Stack, Text } from '@mantine/core';
+import { useContext } from 'react';
 import { getHowlkinIcon } from '../../assets/howlkin';
 import { QUALITY_COLOR } from '../../constants/colors';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { Howlkin } from '../../types/howlkin';
 import IconBadge from './IconBadge';
 import QualityIcon from './QualityIcon';
@@ -11,11 +13,13 @@ interface HowlkinBadgeProps {
 }
 
 export default function HowlkinBadge({ name, howlkin }: HowlkinBadgeProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const iconSrc = getHowlkinIcon(name);
   const color = howlkin ? QUALITY_COLOR[howlkin.quality] : 'gray';
 
-  const statsEntries = Object.entries(howlkin?.basic_stats ?? {}).sort(([a], [b]) =>
-    a.localeCompare(b)
+  const statsEntries = Object.entries(howlkin?.basic_stats ?? {}).sort(
+    ([a], [b]) => a.localeCompare(b)
   );
 
   return (
@@ -29,7 +33,14 @@ export default function HowlkinBadge({ name, howlkin }: HowlkinBadgeProps) {
           <Stack gap="xs">
             <Group gap="xs" wrap="nowrap">
               {iconSrc && (
-                <Image src={iconSrc} alt={name} w={32} h={32} fit="contain" radius="sm" />
+                <Image
+                  src={iconSrc}
+                  alt={name}
+                  w={32}
+                  h={32}
+                  fit="contain"
+                  radius="sm"
+                />
               )}
               <div>
                 <Text size="sm" fw={700} lh={1.2}>
@@ -52,11 +63,18 @@ export default function HowlkinBadge({ name, howlkin }: HowlkinBadgeProps) {
             {statsEntries.length > 0 && (
               <Group gap={4} wrap="wrap">
                 {statsEntries.map(([stat, value]) => (
-                  <Badge key={stat} variant="light" color="blue" size="xs">
+                  <Badge
+                    key={stat}
+                    variant="light"
+                    color={accent.secondary}
+                    size="xs"
+                  >
                     {stat}:{' '}
                     {typeof value === 'number'
                       ? value.toLocaleString(undefined, {
-                          maximumFractionDigits: Number.isInteger(value) ? 0 : 2,
+                          maximumFractionDigits: Number.isInteger(value)
+                            ? 0
+                            : 2,
                         })
                       : String(value)}
                   </Badge>

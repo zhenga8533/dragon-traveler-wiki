@@ -13,7 +13,7 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../assets/gear';
@@ -32,13 +32,18 @@ import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
 } from '../components/tools/SuggestModal';
-import { GEAR_TYPE_ORDER, QUALITY_ORDER } from '../constants/colors';
+import {
+  GEAR_TYPE_ORDER,
+  QUALITY_ORDER,
+  getStableTagColor,
+} from '../constants/colors';
 import {
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
   getMinWidthStyle,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import type { Gear, GearSet, GearType } from '../types/gear';
@@ -130,6 +135,8 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 ];
 
 export default function GearPage() {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const [activeTab, setActiveTab] = useState<string>(() => {
     if (typeof window === 'undefined') return 'gear';
     return window.localStorage.getItem(STORAGE_KEY.GEAR_TAB) || 'gear';
@@ -459,7 +466,11 @@ export default function GearPage() {
                             )}
                             <Stack gap={4} style={{ flex: 1 }}>
                               <Group gap="xs" wrap="wrap">
-                                <Text fw={700} c="violet" lineClamp={1}>
+                                <Text
+                                  fw={700}
+                                  c={`${accent.primary}.7`}
+                                  lineClamp={1}
+                                >
                                   {item.name}
                                 </Text>
                                 {item.quality && (
@@ -468,14 +479,18 @@ export default function GearPage() {
                               </Group>
                               <Group gap="xs" wrap="wrap">
                                 <GearTypeTag type={item.type} />
-                                <Badge variant="light" size="sm" color="grape">
+                                <Badge
+                                  variant="light"
+                                  size="sm"
+                                  color={getStableTagColor(item.set)}
+                                >
                                   {item.set}
                                 </Badge>
                                 {setBonus && setBonus.quantity > 0 && (
                                   <Badge
                                     variant="outline"
                                     size="sm"
-                                    color="gray"
+                                    color={accent.tertiary}
                                   >
                                     {setBonus.quantity}-piece set
                                   </Badge>
@@ -566,7 +581,7 @@ export default function GearPage() {
                                   to={`/gear-sets/${toEntitySlug(item.set)}`}
                                   fw={600}
                                   size="sm"
-                                  c="violet"
+                                  c={`${accent.primary}.7`}
                                   style={{ textDecoration: 'none' }}
                                   onClick={(e) => e.stopPropagation()}
                                 >
@@ -577,7 +592,11 @@ export default function GearPage() {
                                 <GearTypeTag type={item.type} />
                               </Table.Td>
                               <Table.Td>
-                                <Badge variant="light" size="sm" color="grape">
+                                <Badge
+                                  variant="light"
+                                  size="sm"
+                                  color={getStableTagColor(item.set)}
+                                >
                                   {item.set}
                                 </Badge>
                               </Table.Td>
@@ -654,14 +673,18 @@ export default function GearPage() {
                           >
                             <Stack gap="xs">
                               <Group justify="space-between" align="center">
-                                <Text fw={700} c="violet" lineClamp={1}>
+                                <Text
+                                  fw={700}
+                                  c={`${accent.primary}.7`}
+                                  lineClamp={1}
+                                >
                                   {set.name}
                                 </Text>
                                 {bonusQuantity > 0 && (
                                   <Badge
                                     variant="outline"
                                     size="sm"
-                                    color="gray"
+                                    color={accent.tertiary}
                                   >
                                     {bonusQuantity}-piece
                                   </Badge>
@@ -676,7 +699,11 @@ export default function GearPage() {
                               </Text>
 
                               <Group gap="xs" wrap="wrap">
-                                <Badge variant="light" size="sm" color="grape">
+                                <Badge
+                                  variant="light"
+                                  size="sm"
+                                  color={accent.secondary}
+                                >
                                   {items.length} item
                                   {items.length === 1 ? '' : 's'}
                                 </Badge>

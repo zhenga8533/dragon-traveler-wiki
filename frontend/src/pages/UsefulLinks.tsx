@@ -13,6 +13,7 @@ import { FaDiscord } from 'react-icons/fa';
 import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
 import { SiGooglesheets } from 'react-icons/si';
 import { ListPageShell, SuggestModal, type FieldDef } from '../components';
+import { getStableTagColor } from '../constants/colors';
 import { getCardHoverProps } from '../constants/styles';
 import { useDataFetch } from '../hooks';
 import type { UsefulLink } from '../types/useful-link';
@@ -113,7 +114,11 @@ export default function UsefulLinks() {
                       <Anchor href={link.link} target="_blank" fw={600}>
                         {link.name}
                       </Anchor>
-                      <Badge variant="light" size="sm">
+                      <Badge
+                        variant="light"
+                        size="sm"
+                        color={getStableTagColor(link.application)}
+                      >
                         {link.application}
                       </Badge>
                     </Group>

@@ -8,7 +8,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { type ReactNode, useEffect, useRef } from 'react';
+import { type ReactNode, useContext, useEffect, useRef } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
 import {
@@ -17,6 +17,7 @@ import {
   IMAGE_SIZE,
   Z_INDEX,
 } from '../../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { ViewMode } from '../../hooks/use-filters';
 import ViewToggle from '../common/ViewToggle';
 
@@ -43,6 +44,8 @@ export default function FilterToolbar({
 }: FilterToolbarProps) {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const filterPanelRef = useRef<HTMLDivElement>(null);
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
 
   useEffect(() => {
     if (filterOpen && isMobile && filterPanelRef.current) {
@@ -83,11 +86,17 @@ export default function FilterToolbar({
             <ViewToggle viewMode={viewMode} onChange={onViewModeChange} />
             <Button
               variant="default"
+              color={accent.primary}
               size={isMobile ? 'sm' : 'xs'}
               leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
               rightSection={
                 filterCount > 0 ? (
-                  <Badge size="xs" circle variant="filled">
+                  <Badge
+                    size="xs"
+                    circle
+                    variant="filled"
+                    color={accent.primary}
+                  >
                     {filterCount}
                   </Badge>
                 ) : null

@@ -9,6 +9,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { useContext } from 'react';
 import { IoFlash } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
@@ -17,6 +18,7 @@ import FactionTag from '../../components/common/FactionTag';
 import NoteTooltipIcon from '../../components/common/NoteTooltipIcon';
 import QualityIcon from '../../components/common/QualityIcon';
 import { getCardHoverProps } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import { useMobileTooltip } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { TeamMember } from '../../types/team';
@@ -81,6 +83,8 @@ export function BattlefieldGrid({
   isDark: boolean;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
 }) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const grid = buildPositionGrid(members);
   const accentColor = `var(--mantine-color-${factionColor}-${isDark ? 7 : 5})`;
   const isMobile = useMediaQuery('(max-width: 30em)');
@@ -240,7 +244,7 @@ export function BattlefieldGrid({
                       ta="center"
                       component={Link}
                       to={routePath}
-                      c="violet"
+                      c={`${accent.primary}.7`}
                       style={{ textDecoration: 'none' }}
                       lineClamp={1}
                     >

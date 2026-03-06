@@ -1,6 +1,8 @@
 import { Group, Stack, Text, UnstyledButton } from '@mantine/core';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { CHARACTER_CARD, TRANSITION } from '../../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { Quality } from '../../types/quality';
 import { getCharacterRoutePathByName } from '../../utils/character-route';
 import NoteTooltipIcon from '../common/NoteTooltipIcon';
@@ -29,7 +31,9 @@ export default function CharacterCard({
   note,
   routePath,
 }: CharacterCardProps) {
-  const nameColor = disableLink ? 'dimmed' : 'violet';
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const nameColor = disableLink ? 'dimmed' : `${accent.primary}.7`;
 
   const portrait = (
     <div style={{ position: 'relative', display: 'inline-block' }}>

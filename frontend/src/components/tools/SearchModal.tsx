@@ -46,7 +46,11 @@ import { getSubclassIcon } from '../../assets/subclass';
 import { getWyrmspellIcon } from '../../assets/wyrmspell';
 import { normalizeContentType } from '../../constants/content-types';
 import { BREAKPOINTS, TRANSITION } from '../../constants/ui';
-import { SearchDataContext } from '../../contexts';
+import {
+  GRADIENT_PALETTE_ACCENTS,
+  GradientThemeContext,
+  SearchDataContext,
+} from '../../contexts';
 import { isCodeActive } from '../../utils';
 import {
   buildCharacterNameCounts,
@@ -199,6 +203,8 @@ export default function SearchModal({
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const {
     characters,
@@ -579,6 +585,7 @@ export default function SearchModal({
         <Tooltip label={searchShortcutHint} position="bottom" withArrow>
           <ActionIcon
             variant="subtle"
+            color={accent.primary}
             size={isMobile ? 'xl' : 'lg'}
             onClick={open}
             aria-label={searchShortcutHint}
@@ -627,7 +634,14 @@ export default function SearchModal({
               value={query}
               onChange={(e) => setQuery(e.currentTarget.value)}
               onKeyDown={handleKeyDown}
-              leftSection={<IoSearch size={18} />}
+              leftSection={
+                <IoSearch
+                  size={18}
+                  style={{
+                    color: `var(--mantine-color-${accent.primary}-6)`,
+                  }}
+                />
+              }
               rightSection={
                 query ? (
                   <ActionIcon

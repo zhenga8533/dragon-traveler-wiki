@@ -16,6 +16,7 @@ import {
   getCardHoverProps,
   LINK_BLOCK_RESET_STYLE,
 } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { Character } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Team } from '../../types/team';
@@ -41,6 +42,8 @@ export default function TeamCard({
   onNavigate,
   actions,
 }: TeamCardProps) {
+  const { palette } = React.useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const isLargeTeamCardLayout = useMediaQuery('(min-width: 75em)');
 
   const borderTopStyle = `3px solid var(--mantine-color-${FACTION_COLOR[team.faction as FactionName] ?? 'violet'}-5)`;
@@ -89,7 +92,7 @@ export default function TeamCard({
                 style={{ flexShrink: 0 }}
               />
             )}
-            <Text fw={700} size="md" c="violet" lineClamp={1}>
+            <Text fw={700} size="md" c={`${accent.primary}.7`} lineClamp={1}>
               {team.name || 'Untitled'}
             </Text>
           </Group>
@@ -116,7 +119,7 @@ export default function TeamCard({
             {team.author && (
               <>
                 by{' '}
-                <Text span c="violet" fw={500} inherit>
+                <Text span c={`${accent.primary}.7`} fw={500} inherit>
                   {team.author}
                 </Text>
               </>

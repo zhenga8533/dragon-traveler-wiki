@@ -23,6 +23,7 @@ import { BREAKPOINTS, Z_INDEX } from '../../constants/ui';
 import type { GradientPalette } from '../../contexts';
 import {
   BannerContext,
+  GRADIENT_PALETTE_ACCENTS,
   GradientThemeContext,
   TierListReferenceContext,
 } from '../../contexts';
@@ -36,6 +37,7 @@ export default function SettingsPanel() {
   const isDark = computedColorScheme === 'dark';
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { palette, setPalette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
 
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);
@@ -169,6 +171,7 @@ export default function SettingsPanel() {
         <Switch
           mt="sm"
           size={isMobile ? 'sm' : 'xs'}
+          color={accent.primary}
           label="Show banner on all pages"
           checked={showOnAllRoutes}
           onChange={(event) => setShowOnAllRoutes(event.currentTarget.checked)}

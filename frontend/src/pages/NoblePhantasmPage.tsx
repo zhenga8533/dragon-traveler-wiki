@@ -11,7 +11,7 @@ import {
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import CharacterTag from '../components/character/CharacterTag';
@@ -30,6 +30,7 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { useDataFetch } from '../hooks';
 import type { ChangesFile } from '../types/changes';
 import type { Character, Skill, Talent } from '../types/character';
@@ -174,6 +175,8 @@ function SkillTable({
 export default function NoblePhantasmPage() {
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const isDark = useComputedColorScheme('light') === 'dark';
 
   const { data: noblePhantasms, loading } = useDataFetch<NoblePhantasm[]>(
@@ -312,16 +315,16 @@ export default function NoblePhantasmPage() {
                   {noblePhantasm.character && (
                     <CharacterTag
                       name={noblePhantasm.character}
-                      color="blue"
+                      color={accent.secondary}
                       size="lg"
                     />
                   )}
                   <GlobalBadge isGlobal={noblePhantasm.is_global} size="md" />
-                  <Badge size="lg" variant="outline" color="grape">
+                  <Badge size="lg" variant="light" color={accent.primary}>
                     {noblePhantasm.effects.length} effect
                     {noblePhantasm.effects.length !== 1 ? 's' : ''}
                   </Badge>
-                  <Badge size="lg" variant="outline" color="indigo">
+                  <Badge size="lg" variant="light" color={accent.tertiary}>
                     {noblePhantasm.skills.length} skill
                     {noblePhantasm.skills.length !== 1 ? 's' : ''}
                   </Badge>

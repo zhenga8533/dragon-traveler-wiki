@@ -9,7 +9,7 @@ import {
   ThemeIcon,
   Title,
 } from '@mantine/core';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import {
   IoCube,
   IoDiamond,
@@ -25,6 +25,7 @@ import {
 import { Link } from 'react-router-dom';
 import LastUpdated from '../../components/common/LastUpdated';
 import { getCardHoverProps } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import { useDataFetch } from '../../hooks';
 import type { Artifact } from '../../types/artifact';
 import type { Character } from '../../types/character';
@@ -45,6 +46,20 @@ type StatItem = {
 };
 
 export default function DataStatsBar() {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const accentCycle = [
+    accent.primary,
+    accent.secondary,
+    accent.tertiary,
+    accent.primary,
+    accent.secondary,
+    accent.tertiary,
+    accent.primary,
+    accent.secondary,
+    accent.tertiary,
+  ];
+
   const { data: characters, loading: l1 } = useDataFetch<Character[]>(
     'data/characters.json',
     []
@@ -135,63 +150,63 @@ export default function DataStatsBar() {
       label: 'Artifacts',
       count: artifacts.length,
       to: '/artifacts',
-      color: 'teal',
+      color: accentCycle[0],
       icon: IoDiamond,
     },
     {
       label: 'Characters',
       count: characters.length,
       to: '/characters',
-      color: 'blue',
+      color: accentCycle[1],
       icon: IoPeople,
     },
     {
       label: 'Gear',
       count: gear.length,
       to: '/gear',
-      color: 'teal',
+      color: accentCycle[2],
       icon: IoShield,
     },
     {
       label: 'Howlkins',
       count: howlkins.length,
       to: '/howlkins',
-      color: 'orange',
+      color: accentCycle[3],
       icon: IoPaw,
     },
     {
       label: 'Noble Phantasms',
       count: noblePhantasms.length,
       to: '/noble-phantasms',
-      color: 'teal',
+      color: accentCycle[4],
       icon: IoFlash,
     },
     {
       label: 'Resources',
       count: resources.length,
       to: '/resources',
-      color: 'teal',
+      color: accentCycle[5],
       icon: IoCube,
     },
     {
       label: 'Status Effects',
       count: statusEffects.length,
       to: '/status-effects',
-      color: 'cyan',
+      color: accentCycle[6],
       icon: IoSparkles,
     },
     {
       label: 'Subclasses',
       count: subclasses.length,
       to: '/subclasses',
-      color: 'grape',
+      color: accentCycle[7],
       icon: IoGrid,
     },
     {
       label: 'Wyrmspells',
       count: wyrmspells.length,
       to: '/wyrmspells',
-      color: 'indigo',
+      color: accentCycle[8],
       icon: IoFlame,
     },
   ];
@@ -200,7 +215,12 @@ export default function DataStatsBar() {
     <Card padding="lg" radius="md" withBorder {...getCardHoverProps()}>
       <Stack gap="md">
         <Group gap="sm">
-          <ThemeIcon variant="light" color="grape" size="lg" radius="md">
+          <ThemeIcon
+            variant="light"
+            color={accent.secondary}
+            size="lg"
+            radius="md"
+          >
             <IoStatsChart size={20} />
           </ThemeIcon>
           <Title order={2} size="h3">
@@ -226,7 +246,13 @@ export default function DataStatsBar() {
                 >
                   <stat.icon size={16} />
                 </ThemeIcon>
-                <Text fw={700} size="sm" ta="center" lh={1}>
+                <Text
+                  fw={700}
+                  size="sm"
+                  ta="center"
+                  lh={1}
+                  c={`${stat.color}.7`}
+                >
                   {stat.count}
                 </Text>
                 <Text size="xs" c="dimmed" ta="center" lh={1.3}>

@@ -11,7 +11,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { getSubclassIcon } from '../assets/subclass';
 import ClassTag from '../components/common/ClassTag';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
@@ -26,6 +26,7 @@ import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { CLASS_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { CharacterClass } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
@@ -97,6 +98,8 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 ];
 
 export default function Subclasses() {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const {
     data: subclasses,
     loading,
@@ -272,7 +275,12 @@ export default function Subclasses() {
                         {item.bonuses.length > 0 && (
                           <Group gap="xs" wrap="wrap">
                             {item.bonuses.map((bonus) => (
-                              <Badge key={bonus} variant="outline" size="xs">
+                              <Badge
+                                key={bonus}
+                                variant="outline"
+                                size="xs"
+                                color={accent.secondary}
+                              >
                                 {bonus}
                               </Badge>
                             ))}
@@ -362,7 +370,12 @@ export default function Subclasses() {
                           <Table.Td>
                             <Group gap="xs" wrap="wrap">
                               {item.bonuses.map((bonus) => (
-                                <Badge key={bonus} variant="outline" size="xs">
+                                <Badge
+                                  key={bonus}
+                                  variant="outline"
+                                  size="xs"
+                                  color={accent.secondary}
+                                >
                                   {bonus}
                                 </Badge>
                               ))}

@@ -4,7 +4,11 @@ import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
 import { BREAKPOINTS } from '../../constants/ui';
-import { TierListReferenceContext } from '../../contexts';
+import {
+  GRADIENT_PALETTE_ACCENTS,
+  GradientThemeContext,
+  TierListReferenceContext,
+} from '../../contexts';
 import type { Character } from '../../types/character';
 import {
   buildCharacterByIdentityMap,
@@ -40,6 +44,8 @@ export default function FilterableCharacterPool({
   const { tierLists, selectedTierListName } = useContext(
     TierListReferenceContext
   );
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [page, setPage] = useState(1);
@@ -168,11 +174,12 @@ export default function FilterableCharacterPool({
         </Text>
         <Button
           variant="default"
+          color={accent.primary}
           size="xs"
           leftSection={<IoFilter size={16} />}
           rightSection={
             activeFilterCount > 0 ? (
-              <Badge size="xs" circle variant="filled">
+              <Badge size="xs" circle variant="filled" color={accent.primary}>
                 {activeFilterCount}
               </Badge>
             ) : null

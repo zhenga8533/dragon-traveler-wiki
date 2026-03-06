@@ -23,6 +23,7 @@ import {
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import {
   useCallback,
+  useContext,
   useDeferredValue,
   useEffect,
   useMemo,
@@ -51,6 +52,10 @@ import {
   type ContentType,
 } from '../../../constants/content-types';
 import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
+import {
+  GRADIENT_PALETTE_ACCENTS,
+  GradientThemeContext,
+} from '../../../contexts';
 import type { Character } from '../../../types/character';
 import type { TierDefinition, TierList } from '../../../types/tier-list';
 import {
@@ -102,6 +107,8 @@ export default function TierListBuilder({
   charMap,
   initialData,
 }: TierListBuilderProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const [tierDefs, setTierDefs] = useState<TierDefinition[]>(() =>
     DEFAULT_TIER_DEFINITIONS.map((t) => ({ ...t }))
   );
@@ -716,7 +723,7 @@ export default function TierListBuilder({
                     onClick={() => {
                       copy();
                     }}
-                    color={copied ? 'teal' : undefined}
+                    color={copied ? accent.secondary : accent.primary}
                   >
                     {copied ? 'Copied' : 'Copy JSON'}
                   </Button>
@@ -724,6 +731,7 @@ export default function TierListBuilder({
               </CopyButton>
               <Button
                 variant="light"
+                color={accent.primary}
                 size={actionButtonSize}
                 leftSection={<IoClipboardOutline size={16} />}
                 onClick={openPasteModal}
@@ -732,6 +740,7 @@ export default function TierListBuilder({
               </Button>
               <Button
                 variant="light"
+                color={accent.primary}
                 size={actionButtonSize}
                 leftSection={<IoSave size={16} />}
                 onClick={handleSaveToMySaved}
@@ -740,6 +749,7 @@ export default function TierListBuilder({
               </Button>
               <Button
                 variant="light"
+                color={accent.primary}
                 size={actionButtonSize}
                 leftSection={<IoSwapVertical size={16} />}
                 onClick={handleSort}
@@ -751,6 +761,7 @@ export default function TierListBuilder({
             <Group gap="sm" wrap="wrap">
               <Button
                 variant="light"
+                color={accent.primary}
                 size={actionButtonSize}
                 leftSection={<IoDownload size={16} />}
                 onClick={() => setIsCapturing(true)}
@@ -761,6 +772,7 @@ export default function TierListBuilder({
               </Button>
               <Button
                 variant="light"
+                color={accent.primary}
                 size={actionButtonSize}
                 leftSection={<IoOpenOutline size={16} />}
                 onClick={handleSubmitSuggestion}
@@ -878,6 +890,7 @@ export default function TierListBuilder({
             <Button
               size={actionButtonSize}
               variant="light"
+              color={accent.primary}
               leftSection={<IoAddOutline size={14} />}
               onClick={handleAddTier}
               disabled={
@@ -993,7 +1006,11 @@ export default function TierListBuilder({
               >
                 Cancel
               </Button>
-              <Button onClick={handlePasteApply} disabled={!pasteText.trim()}>
+              <Button
+                color={accent.primary}
+                onClick={handlePasteApply}
+                disabled={!pasteText.trim()}
+              >
                 Apply
               </Button>
             </Group>

@@ -10,6 +10,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
 import ClassTag from '../../components/common/ClassTag';
@@ -17,6 +18,7 @@ import FactionTag from '../../components/common/FactionTag';
 import NoteTooltipIcon from '../../components/common/NoteTooltipIcon';
 import QualityIcon from '../../components/common/QualityIcon';
 import { getCardHoverProps } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import { useMobileTooltip } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { TeamBenchMember } from '../../types/team';
@@ -46,6 +48,8 @@ export function BenchSection({
   tooltipProps: ReturnType<typeof useMobileTooltip>;
 }) {
   const isMobile = useMediaQuery('(max-width: 30em)');
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
 
   return (
     <Stack gap={isMobile ? 'xs' : 'sm'}>
@@ -119,7 +123,7 @@ export function BenchSection({
                   ta="center"
                   component={Link}
                   to={routePath}
-                  c="violet"
+                  c={`${accent.primary}.7`}
                   style={{ textDecoration: 'none' }}
                   lineClamp={1}
                 >

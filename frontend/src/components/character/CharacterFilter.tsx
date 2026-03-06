@@ -8,6 +8,7 @@ import {
   Text,
   TextInput,
 } from '@mantine/core';
+import { useContext } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 import { CLASS_ICON_MAP } from '../../assets/class';
 import { FACTION_ICON_MAP } from '../../assets/faction';
@@ -19,6 +20,7 @@ import {
   QUALITY_ORDER,
 } from '../../constants/colors';
 import { IMAGE_SIZE } from '../../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { CharacterClass } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Quality } from '../../types/quality';
@@ -44,6 +46,9 @@ export default function CharacterFilter({
   showTierFilter = false,
   tierOptions = [],
 }: CharacterFilterProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const searchIconColor = `var(--mantine-color-${accent.primary}-6)`;
   const hasFilters =
     filters.search !== '' ||
     filters.qualities.length > 0 ||
@@ -58,7 +63,9 @@ export default function CharacterFilter({
       <Group gap="xs" align="center" wrap="wrap">
         <TextInput
           placeholder="Search by name..."
-          leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
+          leftSection={
+            <IoSearch size={IMAGE_SIZE.ICON_MD} color={searchIconColor} />
+          }
           value={filters.search}
           onChange={(e) =>
             onChange({ ...filters, search: e.currentTarget.value })
@@ -69,7 +76,7 @@ export default function CharacterFilter({
         {hasFilters && (
           <Button
             variant="subtle"
-            color="gray"
+            color={accent.primary}
             size="compact-xs"
             leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
             onClick={() => onChange(EMPTY_FILTERS)}
@@ -102,10 +109,10 @@ export default function CharacterFilter({
           }}
         >
           <Group gap={4}>
-            <Chip value="global" size="xs">
+            <Chip value="global" size="xs" color={accent.primary}>
               Global
             </Chip>
-            <Chip value="cn" size="xs">
+            <Chip value="cn" size="xs" color={accent.primary}>
               TW / CN
             </Chip>
           </Group>
@@ -125,7 +132,7 @@ export default function CharacterFilter({
         >
           <Group gap={4} wrap="wrap">
             {QUALITIES.map((q) => (
-              <Chip key={q} value={q} size="xs">
+              <Chip key={q} value={q} size="xs" color={accent.primary}>
                 <Group gap={4} wrap="nowrap" align="center">
                   <Image
                     src={QUALITY_ICON_MAP[q]}
@@ -155,7 +162,7 @@ export default function CharacterFilter({
         >
           <Group gap={4} wrap="wrap">
             {CLASS_ORDER.map((c) => (
-              <Chip key={c} value={c} size="xs">
+              <Chip key={c} value={c} size="xs" color={accent.primary}>
                 <Group gap={4} wrap="nowrap" align="center">
                   <Image
                     src={CLASS_ICON_MAP[c]}
@@ -185,7 +192,7 @@ export default function CharacterFilter({
         >
           <Group gap={4} wrap="wrap">
             {FACTION_NAMES.map((f) => (
-              <Chip key={f} value={f} size="xs">
+              <Chip key={f} value={f} size="xs" color={accent.primary}>
                 <Group gap={4} wrap="nowrap" align="center">
                   <Image
                     src={FACTION_ICON_MAP[f]}
@@ -220,7 +227,7 @@ export default function CharacterFilter({
           >
             <Group gap={4} wrap="wrap">
               {tierOptions.map((tier) => (
-                <Chip key={tier} value={tier} size="xs">
+                <Chip key={tier} value={tier} size="xs" color={accent.primary}>
                   {tier}
                 </Chip>
               ))}

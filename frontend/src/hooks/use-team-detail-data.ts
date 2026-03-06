@@ -1,0 +1,108 @@
+import { useCallback, useMemo } from 'react';
+import { FACTION_COLOR } from '../constants/colors';
+import { normalizeContentType } from '../constants/content-types';
+import type { Artifact } from '../types/artifact';
+import type { Character } from '../types/character';
+import type { Faction } from '../types/faction';
+import type { Team } from '../types/team';
+import type { Wyrmspell } from '../types/wyrmspell';
+import {
+  getCharacterRoutePath,
+  getCharacterRoutePathByName,
+  resolveCharacterByNameAndQuality,
+} from '../utils/character-route';
+import { computeTeamSynergy } from '../utils/team-synergy';
+
+interface UseTeamDetailDataParams {
+  team: Team | null;
+  factions: Faction[];
+  artifacts: Artifact[];
+  charMap: Map<string, Character>;
+  characterByIdentity: Map<string, Character>;
+  characterNameCounts: Map<string, number>;
+  wyrmspells: Wyrmspell[];
+  fallbackFactionColor: string;
+}
+
+export function useTeamDetailData({
+  team,
+  factions,
+  artifacts,
+  charMap,
+  characterByIdentity,
+  characterNameCounts,
+  wyrmspells,
+  fallbackFactionColor,
+}: UseTeamDetailDataParams) {
+  const getCharacterPath = useCallback(
+    (characterName: string, characterQuality?: string | null) => {
+      const character = resolveCharacterByNameAndQuality(
+        characterName,
+        characterQuality,
+        charMap,
+        characterByIdentity
+      );
+      if (!character) return getCharacterRoutePathByName(characterName);
+      return getCharacterRoutePath(character, characterNameCounts);
+    },
+    [charMap, characterByIdentity, characterNameCounts]
+  );
+
+  const factionInfo = useMemo(() => {
+    if (!team) return null;
+    return factions.find((f) => f.name === team.faction) ?? null;
+  }, [factions, team]);
+
+  const artifactMap = useMemo(() => {
+    const map = new Map<string, Artifact>();
+    for (const artifact of artifacts) map.set(artifact.name, artifact);
+    return map;
+  }, [artifacts]);
+
+  const factionColor = team
+    ? FACTION_COLOR[team.faction]
+    : fallbackFactionColor;
+
+  const teamSynergy = useMemo(() => {
+    if (!team) {
+      return computeTeamSynergy({
+        roster: [],
+        faction: null,
+        contentType: 'All',
+        overdriveCount: 0,
+        teamWyrmspells: {},
+        wyrmspells,
+      });
+    }
+
+    const roster = team.members
+      .map((member) =>
+        resolveCharacterByNameAndQuality(
+          member.character_name,
+          member.character_quality,
+          charMap,
+          characterByIdentity
+        )
+      )
+      .filter((character): character is Character => Boolean(character));
+
+    return computeTeamSynergy({
+      roster,
+      faction: team.faction,
+      contentType: normalizeContentType(team.content_type, 'All'),
+      overdriveCount: team.members.filter(
+        (member) => member.overdrive_order != null
+      ).length,
+      teamWyrmspells: team.wyrmspells || {},
+      wyrmspells,
+    });
+  }, [team, charMap, characterByIdentity, wyrmspells]);
+
+  return {
+    getCharacterPath,
+    factionInfo,
+    artifactMap,
+    factionColor,
+    teamSynergy,
+  };
+}

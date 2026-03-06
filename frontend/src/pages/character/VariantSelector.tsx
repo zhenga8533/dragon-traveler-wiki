@@ -7,6 +7,7 @@ import {
   Text,
   UnstyledButton,
 } from '@mantine/core';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
 import ClassTag from '../../components/common/ClassTag';
@@ -15,6 +16,7 @@ import GlobalBadge from '../../components/common/GlobalBadge';
 import QualityBadge from '../../components/common/QualityBadge';
 import { getCardHoverProps } from '../../constants/styles';
 import { CHARACTER_CARD } from '../../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { Character } from '../../types/character';
 import {
   getCharacterIdentityKey,
@@ -30,6 +32,9 @@ export default function CharacterVariantSelector({
   variants,
   characterNameCounts,
 }: CharacterVariantSelectorProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+
   if (variants.length === 0) {
     return null;
   }
@@ -80,7 +85,12 @@ export default function CharacterVariantSelector({
                     <Stack gap={4} style={{ minWidth: 0, flex: 1 }}>
                       <Group justify="space-between" align="flex-start" gap={6}>
                         <Group gap={6} wrap="wrap" style={{ minWidth: 0 }}>
-                          <Text fw={700} size="sm" c="violet" lineClamp={1}>
+                          <Text
+                            fw={700}
+                            size="sm"
+                            c={`${accent.primary}.7`}
+                            lineClamp={1}
+                          >
                             {variant.name}
                           </Text>
                           <QualityBadge quality={variant.quality} size="xs" />
@@ -112,7 +122,7 @@ export default function CharacterVariantSelector({
                         </Group>
                       )}
 
-                      <Text fw={600} c="violet" size="xs">
+                      <Text fw={600} c={`${accent.primary}.7`} size="xs">
                         Open details →
                       </Text>
                     </Stack>

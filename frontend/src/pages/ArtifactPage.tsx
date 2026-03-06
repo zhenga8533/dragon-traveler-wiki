@@ -12,11 +12,11 @@ import {
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useEffect, useMemo } from 'react';
+import { useContext, useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
-import ClassTag from '../components/common/ClassTag';
 import ChangeHistory from '../components/common/ChangeHistory';
+import ClassTag from '../components/common/ClassTag';
 import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import FactionTag from '../components/common/FactionTag';
@@ -34,6 +34,7 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { useDataFetch } from '../hooks';
 import type {
   Artifact,
@@ -141,6 +142,8 @@ function TreasureCard({
 export default function ArtifactPage() {
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const isDark = useComputedColorScheme('light') === 'dark';
 
   const { data: artifacts, loading } = useDataFetch<Artifact[]>(
@@ -270,11 +273,11 @@ export default function ArtifactPage() {
                 </Group>
                 <LastUpdated timestamp={artifact.last_updated} />
                 <Group gap="sm" mt={4}>
-                  <Badge size="lg" variant="light" color="blue">
+                  <Badge size="lg" variant="light" color={accent.secondary}>
                     {artifact.rows}x{artifact.columns}
                   </Badge>
                   <GlobalBadge isGlobal={artifact.is_global} size="md" />
-                  <Badge size="lg" variant="outline" color="gray">
+                  <Badge size="lg" variant="light" color={accent.tertiary}>
                     {artifact.treasures.length} treasure
                     {artifact.treasures.length !== 1 ? 's' : ''}
                   </Badge>
@@ -326,7 +329,7 @@ export default function ArtifactPage() {
                 <Title order={2} size="h3">
                   Treasures
                 </Title>
-                <Badge variant="light" color="violet" size="sm">
+                <Badge variant="light" color={accent.tertiary} size="sm">
                   {artifact.treasures.length} treasure
                   {artifact.treasures.length !== 1 ? 's' : ''}
                 </Badge>

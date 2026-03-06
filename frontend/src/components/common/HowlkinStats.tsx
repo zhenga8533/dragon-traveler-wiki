@@ -1,4 +1,6 @@
 import { Badge, Group, Text } from '@mantine/core';
+import { useContext } from 'react';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 
 interface HowlkinStatsProps {
   stats: Record<string, number | string> | null | undefined;
@@ -14,8 +16,15 @@ function formatValue(value: number | string): string {
   return String(value);
 }
 
-export default function HowlkinStats({ stats, size = 'sm' }: HowlkinStatsProps) {
-  const entries = Object.entries(stats ?? {}).sort(([a], [b]) => a.localeCompare(b));
+export default function HowlkinStats({
+  stats,
+  size = 'sm',
+}: HowlkinStatsProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const entries = Object.entries(stats ?? {}).sort(([a], [b]) =>
+    a.localeCompare(b)
+  );
 
   if (entries.length === 0) {
     if (size === 'xs') return null;
@@ -29,7 +38,7 @@ export default function HowlkinStats({ stats, size = 'sm' }: HowlkinStatsProps) 
   return (
     <Group gap={size === 'xs' ? 4 : 6} wrap="wrap">
       {entries.map(([stat, value]) => (
-        <Badge key={stat} variant="light" size={size} color="blue">
+        <Badge key={stat} variant="light" size={size} color={accent.secondary}>
           {stat}: {formatValue(value)}
         </Badge>
       ))}

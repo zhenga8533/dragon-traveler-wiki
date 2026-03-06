@@ -11,7 +11,7 @@ import {
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getGearIcon } from '../assets/gear';
 import CharacterPortrait from '../components/character/CharacterPortrait';
@@ -24,13 +24,18 @@ import QualityBadge from '../components/common/QualityBadge';
 import QualityIcon from '../components/common/QualityIcon';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
-import { GEAR_TYPE_ORDER, QUALITY_COLOR, QUALITY_ORDER } from '../constants/colors';
+import {
+  GEAR_TYPE_ORDER,
+  QUALITY_COLOR,
+  QUALITY_ORDER,
+} from '../constants/colors';
 import { getLoreGlassStyles } from '../constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
   getCardHoverProps,
   getDetailHeroGradient,
 } from '../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import type { ChangesFile } from '../types/changes';
 import type { Character } from '../types/character';
@@ -44,8 +49,9 @@ import {
 
 const SSR_AND_ABOVE: Quality[] = ['UR', 'SSR EX', 'SSR+', 'SSR'];
 
-
 export default function GearSetPage() {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const { setName } = useParams<{ setName: string }>();
   const navigate = useNavigate();
   const isDark = useComputedColorScheme('light') === 'dark';
@@ -105,7 +111,10 @@ export default function GearSetPage() {
   const gearItemHistories = useMemo(() => {
     return setItems
       .filter((item) => gearChangesData[item.name])
-      .map((item) => ({ label: item.name, history: gearChangesData[item.name] }));
+      .map((item) => ({
+        label: item.name,
+        history: gearChangesData[item.name],
+      }));
   }, [setItems, gearChangesData]);
 
   const setItemNames = useMemo(
@@ -232,7 +241,7 @@ export default function GearSetPage() {
                 <Title order={1} c={isDark ? 'white' : 'dark'}>
                   {decodedSetName} Set
                 </Title>
-                <Badge variant="light" color="grape" size="lg">
+                <Badge variant="light" color={accent.secondary} size="lg">
                   {setItems.length} item{setItems.length !== 1 ? 's' : ''}
                 </Badge>
               </Group>
@@ -245,7 +254,7 @@ export default function GearSetPage() {
               {recommendedStats !== null && (
                 <Text size="sm" c="dimmed">
                   Recommended for{' '}
-                  <Text span fw={600} c="violet">
+                  <Text span fw={600} c={`${accent.primary}.7`}>
                     {recommendedStats.count}
                   </Text>{' '}
                   of {recommendedStats.total} SSR and above characters (
@@ -257,7 +266,7 @@ export default function GearSetPage() {
             <Group gap="xs" wrap="wrap">
               <QualityBadge quality={setItems[0].quality} size="md" />
               {setBonus && setBonus.quantity > 0 && (
-                <Badge variant="light" color="violet" size="md">
+                <Badge variant="outline" color={accent.tertiary} size="md">
                   {setBonus.quantity}-piece bonus
                 </Badge>
               )}
@@ -354,7 +363,12 @@ export default function GearSetPage() {
                         />
                       )}
                       <Stack gap={4} style={{ flex: 1 }}>
-                        <Text fw={700} size="lg" c="violet" lineClamp={1}>
+                        <Text
+                          fw={700}
+                          size="lg"
+                          c={`${accent.primary}.7`}
+                          lineClamp={1}
+                        >
                           {item.name}
                         </Text>
                         <Group gap="xs" wrap="wrap">

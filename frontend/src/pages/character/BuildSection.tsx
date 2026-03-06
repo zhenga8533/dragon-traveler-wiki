@@ -12,6 +12,7 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
+import { useContext } from 'react';
 import { RiDoubleQuotesL } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
@@ -24,6 +25,7 @@ import {
   getCardHoverProps,
   RICH_TOOLTIP_STYLES,
 } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type {
   ActivatedSetBonus,
   Character,
@@ -67,6 +69,9 @@ export default function CharacterPageBuildSection({
   scrollToSkill,
   scrollToTalent,
 }: CharacterPageBuildSectionProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+
   return (
     <>
       {/* Lore Section */}
@@ -177,7 +182,11 @@ export default function CharacterPageBuildSection({
                                   />
                                 </Box>
                               )}
-                              <Badge variant="light" color="grape" size="lg">
+                              <Badge
+                                variant="light"
+                                color={accent.primary}
+                                size="lg"
+                              >
                                 {linkedNoblePhantasm.name}
                               </Badge>
                             </Group>
@@ -249,12 +258,20 @@ export default function CharacterPageBuildSection({
                         </Text>
                         <Group gap={6} wrap="wrap">
                           {typeof entry.tier === 'number' && (
-                            <Badge variant="light" color="grape" size="xs">
+                            <Badge
+                              variant="light"
+                              color={accent.primary}
+                              size="xs"
+                            >
                               Tier {entry.tier}
                             </Badge>
                           )}
                           {entry.className && (
-                            <Badge variant="light" color="blue" size="xs">
+                            <Badge
+                              variant="light"
+                              color={accent.secondary}
+                              size="xs"
+                            >
                               {entry.className}
                             </Badge>
                           )}
@@ -321,14 +338,18 @@ export default function CharacterPageBuildSection({
                                 {typeof entry.tier === 'number' && (
                                   <Badge
                                     variant="light"
-                                    color="grape"
+                                    color={accent.primary}
                                     size="xs"
                                   >
                                     Tier {entry.tier}
                                   </Badge>
                                 )}
                                 {entry.className && (
-                                  <Badge variant="light" color="blue" size="xs">
+                                  <Badge
+                                    variant="light"
+                                    color={accent.secondary}
+                                    size="xs"
+                                  >
                                     {entry.className}
                                   </Badge>
                                 )}
@@ -386,7 +407,11 @@ export default function CharacterPageBuildSection({
                             {(entry.setName || entry.quality) && (
                               <Group gap={4} wrap="wrap">
                                 {entry.setName && (
-                                  <Badge variant="light" color="blue" size="xs">
+                                  <Badge
+                                    variant="light"
+                                    color={accent.secondary}
+                                    size="xs"
+                                  >
                                     {entry.setName} Set
                                   </Badge>
                                 )}
@@ -407,7 +432,7 @@ export default function CharacterPageBuildSection({
                             <Stack gap={2}>
                               <Badge
                                 variant="light"
-                                color="teal"
+                                color={accent.primary}
                                 size="xs"
                                 w="fit-content"
                               >
@@ -429,7 +454,7 @@ export default function CharacterPageBuildSection({
                                 <Badge
                                   key={`${entry.slot}-${statName}`}
                                   variant="light"
-                                  color="indigo"
+                                  color={accent.tertiary}
                                   size="xs"
                                 >
                                   {statName}: {String(statValue)}
@@ -515,7 +540,11 @@ export default function CharacterPageBuildSection({
                           <Badge variant="light" color="gray" size="xs">
                             Pieces: {setBonus.pieces}/{setBonus.requiredPieces}
                           </Badge>
-                          <Badge variant="light" color="teal" size="xs">
+                          <Badge
+                            variant="light"
+                            color={accent.primary}
+                            size="xs"
+                          >
                             Activations: ×{setBonus.activations}
                           </Badge>
                         </Group>
@@ -549,7 +578,11 @@ export default function CharacterPageBuildSection({
                               <Text fw={600} size="sm" truncate>
                                 {setBonus.setName}
                               </Text>
-                              <Badge variant="filled" color="teal" size="xs">
+                              <Badge
+                                variant="filled"
+                                color={accent.primary}
+                                size="xs"
+                              >
                                 ×{setBonus.activations}
                               </Badge>
                             </Group>

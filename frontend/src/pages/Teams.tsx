@@ -9,7 +9,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
@@ -29,6 +29,7 @@ import {
   normalizeContentType,
 } from '../constants/content-types';
 import { STORAGE_KEY } from '../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { useCharacterResolution } from '../hooks';
 import {
   useCharacters,
@@ -121,6 +122,8 @@ function loadSavedTeamsFromStorage(): Team[] {
 }
 
 export default function Teams() {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -354,6 +357,7 @@ export default function Teams() {
         {!loading && !error && (
           <>
             <SegmentedControl
+              color={accent.primary}
               value={mode}
               onChange={(val) => {
                 const newMode = val as 'view' | 'saved' | 'builder';

@@ -11,7 +11,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import EntityFilter from '../components/common/EntityFilter';
@@ -32,6 +32,7 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { Artifact } from '../types/artifact';
 import { getLatestTimestamp } from '../utils';
@@ -113,6 +114,8 @@ const EMPTY_FILTERS: ArtifactFilters = {
 
 export default function Artifacts() {
   const navigate = useNavigate();
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const {
     data: artifacts,
     loading,
@@ -263,19 +266,27 @@ export default function Artifacts() {
                         <Stack gap={4} style={{ flex: 1 }}>
                           <Group gap="sm">
                             <QualityIcon quality={artifact.quality} />
-                            <Text fw={600} size="lg" c="violet">
+                            <Text fw={600} size="lg" c={`${accent.primary}.7`}>
                               {artifact.name}
                             </Text>
                           </Group>
                           <Group gap="xs">
-                            <Badge variant="light" size="sm" color="blue">
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={accent.secondary}
+                            >
                               {artifact.rows}x{artifact.columns}
                             </Badge>
                             <GlobalBadge
                               isGlobal={artifact.is_global}
                               size="sm"
                             />
-                            <Badge variant="light" size="sm" color="gray">
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={accent.tertiary}
+                            >
                               {artifact.treasures.length} treasure
                               {artifact.treasures.length !== 1 ? 's' : ''}
                             </Badge>
@@ -370,7 +381,7 @@ export default function Artifacts() {
                               to={`/artifacts/${toEntitySlug(artifact.name)}`}
                               size="sm"
                               fw={500}
-                              c="violet"
+                              c={`${accent.primary}.7`}
                               style={{ textDecoration: 'none' }}
                               onClick={(e) => e.stopPropagation()}
                             >
@@ -381,7 +392,11 @@ export default function Artifacts() {
                             <QualityIcon quality={artifact.quality} />
                           </Table.Td>
                           <Table.Td>
-                            <Badge variant="light" size="sm" color="blue">
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={accent.secondary}
+                            >
                               {artifact.rows}x{artifact.columns}
                             </Badge>
                           </Table.Td>

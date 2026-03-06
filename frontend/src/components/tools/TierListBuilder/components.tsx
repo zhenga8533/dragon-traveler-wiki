@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import type { CSSProperties } from 'react';
-import { memo, useEffect, useRef, useState } from 'react';
+import { memo, useContext, useEffect, useRef, useState } from 'react';
 import { IoChevronDown, IoChevronUp, IoTrash } from 'react-icons/io5';
 import {
   CONTENT_TYPE_OPTIONS,
@@ -22,6 +22,10 @@ import {
 } from '../../../constants/content-types';
 import { getCardHoverProps } from '../../../constants/styles';
 import { CHARACTER_GRID_SPACING, TRANSITION } from '../../../constants/ui';
+import {
+  GRADIENT_PALETTE_ACCENTS,
+  GradientThemeContext,
+} from '../../../contexts';
 import type { Character } from '../../../types/character';
 import { getCharacterRoutePath } from '../../../utils/character-route';
 import CharacterCard from '../../character/CharacterCard';
@@ -339,6 +343,8 @@ export function TierNotePopover({
   editorMaxWidth?: number;
   align?: 'left' | 'center';
 }) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -418,14 +424,14 @@ export function TierNotePopover({
         >
           <Text
             size="xs"
-            c={value ? 'violet' : 'dimmed'}
+            c={value ? `${accent.primary}.6` : 'dimmed'}
             lineClamp={1}
             style={{
               opacity: value ? 1 : 0.5,
               transition:
                 'color 140ms ease, opacity 140ms ease, text-shadow 140ms ease',
               textShadow: value
-                ? '0 0 0.5px var(--mantine-color-violet-outline)'
+                ? `0 0 0.5px var(--mantine-color-${accent.primary}-outline)`
                 : 'none',
             }}
           >
@@ -465,7 +471,7 @@ export function TierNotePopover({
               opacity: draftValue ? 1 : 0.9,
               backgroundColor: 'var(--mantine-color-body)',
               borderColor: draftValue
-                ? 'var(--mantine-color-violet-4)'
+                ? `var(--mantine-color-${accent.primary}-4)`
                 : 'var(--mantine-color-default-border)',
               whiteSpace: 'pre-wrap',
               overflowWrap: 'anywhere',

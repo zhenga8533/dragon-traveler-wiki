@@ -9,7 +9,14 @@ import {
   useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { useSearchParams } from 'react-router-dom';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
@@ -27,6 +34,7 @@ import {
   normalizeContentType,
 } from '../constants/content-types';
 import { BREAKPOINTS, STORAGE_KEY } from '../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { useCharacterResolution } from '../hooks';
 import {
   useCharacters,
@@ -116,6 +124,8 @@ export default function TierList() {
   const exportRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const isDark = useComputedColorScheme('light') === 'dark';
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const loading = loadingTiers || loadingChars;
   const error = tierListsError || charactersError;
 
@@ -368,6 +378,7 @@ export default function TierList() {
             <SegmentedControl
               fullWidth
               size={isMobile ? 'sm' : 'md'}
+              color={accent.primary}
               value={mode}
               onChange={(val) => {
                 const newMode = val as 'view' | 'saved' | 'builder';

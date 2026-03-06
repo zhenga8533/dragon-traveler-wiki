@@ -12,6 +12,7 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
+import { useContext } from 'react';
 import { IoCreate, IoTrash } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getArtifactIcon } from '../../assets/artifacts';
@@ -31,6 +32,7 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import { useMobileTooltip } from '../../hooks';
 import type { Artifact } from '../../types/artifact';
 import type { Faction } from '../../types/faction';
@@ -57,6 +59,8 @@ export function TeamHeroSection({
   onRequestEdit: () => void;
   onRequestDelete?: () => void;
 }) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const factionColor = FACTION_COLOR[team.faction];
 
   return (
@@ -72,6 +76,7 @@ export function TeamHeroSection({
             <Group gap="xs">
               <Button
                 variant="light"
+                color={accent.primary}
                 leftSection={<IoCreate size={14} />}
                 onClick={onRequestEdit}
               >
@@ -112,7 +117,7 @@ export function TeamHeroSection({
               <Group gap="sm" align="center">
                 <Text size="sm" c="dimmed">
                   by{' '}
-                  <Text span c="violet" inherit>
+                  <Text span c={`${accent.primary}.7`} inherit>
                     {team.author}
                   </Text>
                 </Text>
@@ -217,7 +222,14 @@ export function TeamHeroSection({
                                   </Box>
                                   <Stack gap={4} style={{ minWidth: 0 }}>
                                     <Text size="sm" fw={600} lineClamp={1}>
-                                      {artifactName}
+                                      <Text
+                                        span
+                                        size="sm"
+                                        fw={600}
+                                        c={`${accent.primary}.7`}
+                                      >
+                                        {artifactName}
+                                      </Text>
                                     </Text>
                                     <Group gap={6} align="center">
                                       {artifact?.quality && (
@@ -233,9 +245,13 @@ export function TeamHeroSection({
                                         />
                                       )}
                                       {artifact && (
-                                        <Text size="xs" c="dimmed">
+                                        <Badge
+                                          variant="light"
+                                          size="xs"
+                                          color={accent.secondary}
+                                        >
                                           {artifact.rows}x{artifact.columns}
-                                        </Text>
+                                        </Badge>
                                       )}
                                     </Group>
                                     {artifact && (

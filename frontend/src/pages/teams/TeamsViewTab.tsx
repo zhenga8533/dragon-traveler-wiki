@@ -11,6 +11,7 @@ import {
   Table,
   Text,
 } from '@mantine/core';
+import { useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FACTION_WYRM_MAP } from '../../assets/wyrms';
 import EntityActionButtons from '../../components/common/EntityActionButtons';
@@ -23,6 +24,7 @@ import TeamCard from '../../components/teams/TeamCard';
 import TeamCharacterAvatars from '../../components/teams/TeamCharacterAvatars';
 import { normalizeContentType } from '../../constants/content-types';
 import { getMinWidthStyle } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { Character } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Team } from '../../types/team';
@@ -72,6 +74,8 @@ export default function TeamsViewTab({
   onRequestEdit,
 }: TeamsViewTabProps) {
   const navigate = useNavigate();
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
 
   return (
     <>
@@ -159,7 +163,7 @@ export default function TeamsViewTab({
                           to={`/teams/${toEntitySlug(team.name)}`}
                           size="sm"
                           fw={500}
-                          c="violet"
+                          c={`${accent.primary}.7`}
                           style={{ textDecoration: 'none' }}
                           onClick={(e) => e.stopPropagation()}
                         >
@@ -178,7 +182,7 @@ export default function TeamsViewTab({
                             <Badge
                               size="xs"
                               variant="light"
-                              color="blue"
+                              color={accent.primary}
                               style={{
                                 minWidth: 56,
                                 justifyContent: 'center',
@@ -241,7 +245,7 @@ export default function TeamsViewTab({
                       </Badge>
                     </Table.Td>
                     <Table.Td>
-                      <Text size="sm" c="violet">
+                      <Text size="sm" c={`${accent.primary}.7`}>
                         {team.author}
                       </Text>
                     </Table.Td>

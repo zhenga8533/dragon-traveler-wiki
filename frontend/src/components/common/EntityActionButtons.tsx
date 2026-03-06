@@ -1,6 +1,8 @@
 import { Button, type ButtonProps } from '@mantine/core';
 import type { MouseEvent } from 'react';
+import { useContext } from 'react';
 import { IoCreate, IoDownload, IoTrash } from 'react-icons/io5';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 
 type CompactSize =
   | 'compact-xs'
@@ -45,6 +47,8 @@ export default function EntityActionButtons({
   variant = 'subtle',
   stopPropagation = false,
 }: EntityActionButtonsProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const iconSize = getIconSize(size);
 
   const withStopPropagation = (handler: () => void) => {
@@ -60,7 +64,7 @@ export default function EntityActionButtons({
       <Button
         variant={variant}
         size={size}
-        color="violet"
+        color={accent.primary}
         leftSection={<IoCreate size={iconSize} />}
         onClick={withStopPropagation(onEdit)}
       >
@@ -71,6 +75,7 @@ export default function EntityActionButtons({
         <Button
           variant={variant}
           size={size}
+          color={accent.secondary}
           leftSection={<IoDownload size={iconSize} />}
           loading={isExporting}
           onClick={withStopPropagation(onExport)}

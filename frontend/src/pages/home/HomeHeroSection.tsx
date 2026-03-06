@@ -161,8 +161,8 @@ export default function HomeHeroSection() {
                   fw={700}
                   style={{
                     color: isDark
-                      ? 'var(--mantine-color-blue-1)'
-                      : 'var(--mantine-color-blue-8)',
+                      ? `var(--mantine-color-${accent.secondary}-1)`
+                      : `var(--mantine-color-${accent.secondary}-8)`,
                   }}
                 >
                   Dragon Traveler
@@ -174,11 +174,23 @@ export default function HomeHeroSection() {
                   component="span"
                   inherit
                   fw={700}
-                  c={isDark ? 'grape.2' : 'grape.8'}
+                  style={{
+                    color: isDark
+                      ? `var(--mantine-color-${accent.tertiary}-2)`
+                      : `var(--mantine-color-${accent.tertiary}-8)`,
+                  }}
                 >
                   Litee
                 </Text>{' '}
-                <Text component="span" inherit c={isDark ? 'blue.1' : 'blue.8'}>
+                <Text
+                  component="span"
+                  inherit
+                  style={{
+                    color: isDark
+                      ? `var(--mantine-color-${accent.secondary}-1)`
+                      : `var(--mantine-color-${accent.secondary}-8)`,
+                  }}
+                >
                   (Server: Freya 2)
                 </Text>
               </Text>
@@ -207,6 +219,7 @@ export default function HomeHeroSection() {
                   size="md"
                   fullWidth={isMobile}
                   radius="md"
+                  color={accent.primary}
                   styles={HOME_CTA_BUTTON_STYLES}
                   leftSection={<IoPeople size={18} />}
                 >
@@ -316,11 +329,16 @@ export default function HomeHeroSection() {
               </Text>
               <Group gap="xs" wrap="wrap">
                 {GENRES.map((genre) => (
-                  <Badge key={genre} variant="light" size="sm">
+                  <Badge
+                    key={genre}
+                    variant="light"
+                    color={accent.primary}
+                    size="sm"
+                  >
                     {genre}
                   </Badge>
                 ))}
-                <Badge variant="light" color="green" size="sm">
+                <Badge variant="light" color={accent.secondary} size="sm">
                   Free to Play
                 </Badge>
               </Group>

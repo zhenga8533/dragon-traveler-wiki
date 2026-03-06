@@ -26,10 +26,20 @@ import SortableTh from '../components/common/SortableTh';
 import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
-import { FACTION_NAMES, QUALITY_ORDER } from '../constants/colors';
+import {
+  FACTION_NAMES,
+  QUALITY_ORDER,
+  WYRMSPELL_TYPE_COLOR,
+  getStableTagColor,
+} from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData, useMobileTooltip } from '../hooks';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useMobileTooltip,
+} from '../hooks';
 import type { Wyrmspell } from '../types/wyrmspell';
 import { getLatestTimestamp } from '../utils';
 
@@ -287,7 +297,14 @@ export default function Wyrmspells() {
                             <Text fw={600}>{spell.name}</Text>
                           </Group>
                           <Group gap="sm" wrap="wrap">
-                            <Badge variant="light" size="sm">
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={
+                                WYRMSPELL_TYPE_COLOR[spell.type] ??
+                                getStableTagColor(spell.type)
+                              }
+                            >
                               {spell.type}
                             </Badge>
                             <GlobalBadge isGlobal={spell.is_global} size="sm" />
@@ -381,7 +398,14 @@ export default function Wyrmspells() {
                             </Text>
                           </Table.Td>
                           <Table.Td>
-                            <Badge variant="light" size="sm">
+                            <Badge
+                              variant="light"
+                              size="sm"
+                              color={
+                                WYRMSPELL_TYPE_COLOR[spell.type] ??
+                                getStableTagColor(spell.type)
+                              }
+                            >
                               {spell.type}
                             </Badge>
                           </Table.Td>

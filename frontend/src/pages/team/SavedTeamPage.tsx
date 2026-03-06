@@ -1,25 +1,11 @@
-import {
-  Badge,
-  Box,
-  Button,
-  Container,
-  Group,
-  SimpleGrid,
-  Stack,
-  Title,
-  useComputedColorScheme,
-} from '@mantine/core';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { IoDownload } from 'react-icons/io5';
+import { Box, Container, useComputedColorScheme } from '@mantine/core';
+import { useContext, useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ConfirmActionModal from '../../components/common/ConfirmActionModal';
 import EntityNotFound from '../../components/common/EntityNotFound';
-import WyrmspellCard from '../../components/common/WyrmspellCard';
 import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
-import TeamSynergyAssistant from '../../components/tools/TeamSynergyAssistant';
-import { FACTION_COLOR } from '../../constants/colors';
-import { normalizeContentType } from '../../constants/content-types';
 import { STORAGE_KEY } from '../../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import { useCharacterResolution, useMobileTooltip } from '../../hooks';
 import {
   useArtifacts,
@@ -28,20 +14,15 @@ import {
   useStatusEffects,
   useWyrmspells,
 } from '../../hooks/use-common-data';
-import type { Artifact } from '../../types/artifact';
-import type { Character } from '../../types/character';
+import { useTeamDetailData } from '../../hooks/use-team-detail-data';
 import type { Team } from '../../types/team';
-import {
-  getCharacterRoutePath,
-  getCharacterRoutePathByName,
-  resolveCharacterByNameAndQuality,
-} from '../../utils/character-route';
 import { toEntitySlug } from '../../utils/entity-slug';
-import { downloadElementAsPng } from '../../utils/export-image';
-import { computeTeamSynergy } from '../../utils/team-synergy';
-import { BattlefieldGrid } from './BattlefieldGrid';
-import { BenchSection } from './BenchSection';
+import {
+  exportTeamCompositionAsImage,
+  hasTeamBuilderDraft,
+} from '../../utils/team-page';
 import { TeamHeroSection } from './HeroSection';
+import TeamDetailContent from './TeamDetailContent';
 
 function readSavedTeamBySlug(slug: string): Team | null {
   try {
@@ -94,6 +75,8 @@ export default function SavedTeamPage() {
   const slug = teamSlug ?? '';
   const tooltipProps = useMobileTooltip();
   const isDark = useComputedColorScheme('light') === 'dark';
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const navigate = useNavigate();
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
   const [confirmDeleteOpen, setConfirmDeleteOpen] = useState(false);
@@ -129,65 +112,22 @@ export default function SavedTeamPage() {
     nameCounts: characterNameCounts,
   } = useCharacterResolution(characters);
 
-  const getCharacterPath = useCallback(
-    (characterName: string, characterQuality?: string | null) => {
-      const character = resolveCharacterByNameAndQuality(
-        characterName,
-        characterQuality,
-        charMap,
-        characterByIdentity
-      );
-      if (!character) return getCharacterRoutePathByName(characterName);
-      return getCharacterRoutePath(character, characterNameCounts);
-    },
-    [charMap, characterByIdentity, characterNameCounts]
-  );
-
-  const factionInfo = useMemo(() => {
-    if (!team) return null;
-    return factions.find((f) => f.name === team.faction) ?? null;
-  }, [factions, team]);
-
-  const artifactMap = useMemo(() => {
-    const map = new Map<string, Artifact>();
-    for (const artifact of artifacts) map.set(artifact.name, artifact);
-    return map;
-  }, [artifacts]);
-
-  const factionColor = team ? FACTION_COLOR[team.faction] : 'violet';
-
-  const teamSynergy = useMemo(() => {
-    if (!team) {
-      return computeTeamSynergy({
-        roster: [],
-        faction: null,
-        contentType: 'All',
-        overdriveCount: 0,
-        teamWyrmspells: {},
-        wyrmspells,
-      });
-    }
-    const roster = team.members
-      .map((member) =>
-        resolveCharacterByNameAndQuality(
-          member.character_name,
-          member.character_quality,
-          charMap,
-          characterByIdentity
-        )
-      )
-      .filter((character): character is Character => Boolean(character));
-
-    return computeTeamSynergy({
-      roster,
-      faction: team.faction,
-      contentType: normalizeContentType(team.content_type, 'All'),
-      overdriveCount: team.members.filter((m) => m.overdrive_order != null)
-        .length,
-      teamWyrmspells: team.wyrmspells || {},
-      wyrmspells,
-    });
-  }, [team, charMap, characterByIdentity, wyrmspells]);
+  const {
+    getCharacterPath,
+    factionInfo,
+    artifactMap,
+    factionColor,
+    teamSynergy,
+  } = useTeamDetailData({
+    team,
+    factions,
+    artifacts,
+    charMap,
+    characterByIdentity,
+    characterNameCounts,
+    wyrmspells,
+    fallbackFactionColor: accent.secondary,
+  });
 
   if (loading) {
     return (
@@ -208,26 +148,12 @@ export default function SavedTeamPage() {
     );
   }
 
-  const hasWyrmspells =
-    team.wyrmspells &&
-    (team.wyrmspells.breach ||
-      team.wyrmspells.refuge ||
-      team.wyrmspells.wildcry ||
-      team.wyrmspells.dragons_call);
-
-  const hasBuilderDraft = () => {
-    if (typeof window === 'undefined') return false;
-    return Boolean(
-      window.localStorage.getItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT)
-    );
-  };
-
   const openInBuilder = () => {
     navigate('/teams', { state: { editTeam: team } });
   };
 
   const requestLoadInBuilder = () => {
-    if (!hasBuilderDraft()) {
+    if (!hasTeamBuilderDraft(STORAGE_KEY.TEAMS_BUILDER_DRAFT)) {
       openInBuilder();
       return;
     }
@@ -240,10 +166,10 @@ export default function SavedTeamPage() {
   };
 
   const exportAsImage = async () => {
-    if (!exportRef.current || !team) return;
+    if (!team) return;
     setExporting(true);
     try {
-      await downloadElementAsPng(exportRef.current, team.name, isDark);
+      await exportTeamCompositionAsImage(exportRef, team.name, isDark);
     } finally {
       setExporting(false);
     }
@@ -288,94 +214,21 @@ export default function SavedTeamPage() {
       />
 
       <Container size="lg" py="xl">
-        <Stack gap="xl">
-          <TeamSynergyAssistant synergy={teamSynergy} />
-
-          {hasWyrmspells && (
-            <Stack gap="md">
-              <Title order={2} size="h3">
-                Wyrmspells
-              </Title>
-              <SimpleGrid cols={{ base: 1, sm: 2, md: 4 }} spacing="md">
-                {team.wyrmspells!.breach && (
-                  <WyrmspellCard
-                    name={team.wyrmspells!.breach}
-                    type="Breach"
-                    wyrmspells={wyrmspells}
-                  />
-                )}
-                {team.wyrmspells!.refuge && (
-                  <WyrmspellCard
-                    name={team.wyrmspells!.refuge}
-                    type="Refuge"
-                    wyrmspells={wyrmspells}
-                  />
-                )}
-                {team.wyrmspells!.wildcry && (
-                  <WyrmspellCard
-                    name={team.wyrmspells!.wildcry}
-                    type="Wildcry"
-                    wyrmspells={wyrmspells}
-                  />
-                )}
-                {team.wyrmspells!.dragons_call && (
-                  <WyrmspellCard
-                    name={team.wyrmspells!.dragons_call}
-                    type="Dragon's Call"
-                    wyrmspells={wyrmspells}
-                  />
-                )}
-              </SimpleGrid>
-            </Stack>
-          )}
-
-          <Stack gap="md">
-            <Group gap="sm" justify="space-between">
-              <Group gap="sm">
-                <Title order={2} size="h3">
-                  Team Composition
-                </Title>
-                <Badge variant="light" color={factionColor} size="sm">
-                  {team.members.length} members
-                </Badge>
-              </Group>
-              <Button
-                variant="subtle"
-                color={factionColor}
-                size="sm"
-                leftSection={<IoDownload size={16} />}
-                loading={exporting}
-                onClick={exportAsImage}
-              >
-                Export Image
-              </Button>
-            </Group>
-            <Box ref={exportRef} style={{ padding: 8 }}>
-              <Stack gap="md">
-                <BattlefieldGrid
-                  members={team.members}
-                  charMap={charMap}
-                  characterByIdentity={characterByIdentity}
-                  getCharacterPath={getCharacterPath}
-                  factionColor={factionColor}
-                  isDark={isDark}
-                  tooltipProps={tooltipProps}
-                />
-
-                {team.bench && team.bench.length > 0 && (
-                  <BenchSection
-                    bench={team.bench}
-                    charMap={charMap}
-                    characterByIdentity={characterByIdentity}
-                    getCharacterPath={getCharacterPath}
-                    factionColor={factionColor}
-                    tooltipProps={tooltipProps}
-                  />
-                )}
-              </Stack>
-            </Box>
-          </Stack>
-        </Stack>
+        <TeamDetailContent
+          team={team}
+          teamSynergy={teamSynergy}
+          charMap={charMap}
+          characterByIdentity={characterByIdentity}
+          getCharacterPath={getCharacterPath}
+          factionColor={factionColor}
+          accentPrimary={accent.primary}
+          isDark={isDark}
+          tooltipProps={tooltipProps}
+          wyrmspells={wyrmspells}
+          exportRef={exportRef}
+          exporting={exporting}
+          onExportAsImage={exportAsImage}
+        />
       </Container>
     </Box>
   );

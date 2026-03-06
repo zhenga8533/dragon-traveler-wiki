@@ -1,5 +1,9 @@
 import { Badge, Group, Image, Paper, Stack, Text } from '@mantine/core';
 import { getWyrmspellIcon } from '../../assets/wyrmspell';
+import {
+  WYRMSPELL_TYPE_COLOR,
+  getStableTagColor,
+} from '../../constants/colors';
 import { getCardHoverProps } from '../../constants/styles';
 import type { Wyrmspell } from '../../types/wyrmspell';
 import FactionTag from './FactionTag';
@@ -41,7 +45,15 @@ export default function WyrmspellCard({
           </Text>
         </Group>
         <Group gap={4} justify="center">
-          <Badge variant="light" size="sm">
+          <Badge
+            variant="light"
+            size="sm"
+            color={
+              WYRMSPELL_TYPE_COLOR[
+                displayType as keyof typeof WYRMSPELL_TYPE_COLOR
+              ] ?? getStableTagColor(displayType)
+            }
+          >
             {displayType}
           </Badge>
           {wyrmspell?.exclusive_faction && (

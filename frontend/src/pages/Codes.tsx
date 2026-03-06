@@ -22,7 +22,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
 import {
   IoCheckmark,
   IoChevronDown,
@@ -48,6 +48,7 @@ import SuggestModal, {
 } from '../components/tools/SuggestModal';
 import { getCardHoverProps } from '../constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { useDataFetch, useMobileTooltip } from '../hooks';
 import { useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
@@ -145,6 +146,8 @@ const CODES_PER_PAGE = 20;
 
 export default function Codes() {
   const tooltipProps = useMobileTooltip();
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const {
     data: codes,
     loading,
@@ -321,6 +324,7 @@ export default function Codes() {
         <Alert
           icon={<IoInformationCircleOutline size={20} />}
           title="How to redeem"
+          color={accent.primary}
           variant="light"
         >
           <Text size="sm">
@@ -359,13 +363,20 @@ export default function Codes() {
             <ViewToggle viewMode={viewMode} onChange={setViewMode} />
           </Group>
           <Group gap="xs">
-            <Button size="xs" variant="light" onClick={openMarkAll}>
+            <Button
+              size="xs"
+              variant="light"
+              color={accent.primary}
+              leftSection={<IoCheckmark size={14} />}
+              onClick={openMarkAll}
+            >
               Mark All Redeemed
             </Button>
             <Button
               size="xs"
               variant="light"
-              color="gray"
+              color="red"
+              leftSection={<IoCloseCircleOutline size={14} />}
               onClick={openClearAll}
             >
               Clear All Redeemed
@@ -392,7 +403,12 @@ export default function Codes() {
               py={4}
             >
               <Group gap="sm">
-                <ThemeIcon variant="light" color="violet" size="md" radius="md">
+                <ThemeIcon
+                  variant="light"
+                  color={accent.primary}
+                  size="md"
+                  radius="md"
+                >
                   <IoStatsChart size={14} />
                 </ThemeIcon>
                 <Text fw={600} size="sm">
@@ -495,7 +511,12 @@ export default function Codes() {
         {!loading && !error && filtered.length === 0 && (
           <Paper p="lg" radius="md" withBorder {...getCardHoverProps()}>
             <Stack gap="xs" align="center">
-              <ThemeIcon variant="light" color="violet" size="lg" radius="xl">
+              <ThemeIcon
+                variant="light"
+                color={accent.primary}
+                size="lg"
+                radius="xl"
+              >
                 <IoSearch size={18} />
               </ThemeIcon>
               <Text fw={600}>{emptyStateTitle}</Text>
@@ -595,6 +616,7 @@ export default function Codes() {
                     <Checkbox
                       checked={redeemed.has(entry.code)}
                       onChange={() => toggleRedeemed(entry.code)}
+                      color={accent.primary}
                       label="Redeemed"
                       styles={{ label: { paddingLeft: 8 } }}
                     />
@@ -702,6 +724,7 @@ export default function Codes() {
                       <Checkbox
                         checked={redeemed.has(entry.code)}
                         onChange={() => toggleRedeemed(entry.code)}
+                        color={accent.primary}
                         label="Redeemed"
                         styles={{ label: { paddingLeft: 8 } }}
                       />
@@ -734,6 +757,7 @@ export default function Codes() {
               Cancel
             </Button>
             <Button
+              color={accent.primary}
               onClick={() => {
                 markAllRedeemed();
                 closeMarkAll();

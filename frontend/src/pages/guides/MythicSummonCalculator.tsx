@@ -13,7 +13,7 @@ import {
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
+import { useContext, useMemo, useState } from 'react';
 import {
   IoDiamond,
   IoFlag,
@@ -28,6 +28,7 @@ import {
   getCardHoverProps,
   getGuideSectionCardStyles,
 } from '../../constants/styles';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 
 type DropRate = {
   chance: number;
@@ -135,6 +136,8 @@ function calculateMilestoneRewards(summons: number): number {
 
 export default function MythicSummonCalculator() {
   const isDark = useComputedColorScheme('light') === 'dark';
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const [numSummons, setNumSummons] = useState<number | null>(100);
   const [currentPulls, setCurrentPulls] = useState<number | null>(0);
   const [targetShards, setTargetShards] = useState<number | null>(null);
@@ -498,7 +501,7 @@ export default function MythicSummonCalculator() {
               <Text size="sm" c="dimmed">
                 •
               </Text>
-              <Text size="sm" c="violet">
+              <Text size="sm" c={`${accent.primary}.7`}>
                 Next guaranteed mythic shard pull in:{' '}
                 <strong>{results.nextGuaranteedPull}</strong> summon
                 {results.nextGuaranteedPull !== 1 ? 's' : ''}

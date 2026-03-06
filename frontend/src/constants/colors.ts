@@ -1,10 +1,11 @@
 import type { CharacterClass } from '../types/character';
 import type { FactionName } from '../types/faction';
 import type { GearType } from '../types/gear';
+import type { Quality } from '../types/quality';
 import type { ResourceCategory } from '../types/resource';
 import type { StatusEffectType } from '../types/status-effect';
 import type { TierDefinition } from '../types/tier-list';
-import type { Quality } from '../types/quality';
+import type { WyrmspellType } from '../types/wyrmspell';
 import { QUALITY_COLOR, QUALITY_ORDER } from './quality';
 
 export const CLASS_ORDER: CharacterClass[] = [
@@ -16,6 +17,15 @@ export const CLASS_ORDER: CharacterClass[] = [
   'Mage',
 ];
 
+export const CLASS_COLOR: Record<CharacterClass, string> = {
+  Guardian: 'blue',
+  Priest: 'teal',
+  Assassin: 'grape',
+  Warrior: 'red',
+  Archer: 'orange',
+  Mage: 'violet',
+};
+
 export const GEAR_TYPE_ORDER: GearType[] = [
   'Headgear',
   'Chestplate',
@@ -24,6 +34,15 @@ export const GEAR_TYPE_ORDER: GearType[] = [
   'Weapon',
   'Accessory',
 ];
+
+export const GEAR_TYPE_COLOR: Record<GearType, string> = {
+  Headgear: 'cyan',
+  Chestplate: 'blue',
+  Bracers: 'orange',
+  Boots: 'lime',
+  Weapon: 'red',
+  Accessory: 'grape',
+};
 
 export { QUALITY_COLOR, QUALITY_ORDER };
 
@@ -93,6 +112,38 @@ export const RESOURCE_CATEGORY_COLOR: Record<ResourceCategory, string> = {
   Summoning: 'violet',
   Shard: 'cyan',
 };
+
+export const WYRMSPELL_TYPE_COLOR: Record<WyrmspellType, string> = {
+  Breach: 'red',
+  Refuge: 'teal',
+  Wildcry: 'orange',
+  "Dragon's Call": 'violet',
+};
+
+const TAG_COLOR_CYCLE = [
+  'blue',
+  'teal',
+  'grape',
+  'indigo',
+  'cyan',
+  'lime',
+  'orange',
+  'yellow',
+  'pink',
+  'red',
+];
+
+export function getStableTagColor(tag: string): string {
+  const normalized = tag.trim().toLowerCase();
+  if (!normalized) return 'gray';
+
+  let hash = 0;
+  for (let i = 0; i < normalized.length; i += 1) {
+    hash = (hash * 31 + normalized.charCodeAt(i)) | 0;
+  }
+
+  return TAG_COLOR_CYCLE[Math.abs(hash) % TAG_COLOR_CYCLE.length];
+}
 
 export const TIER_ORDER: string[] = ['S+', 'S', 'A', 'B', 'C', 'D'];
 
