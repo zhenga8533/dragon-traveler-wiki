@@ -9,7 +9,6 @@ import {
   type CSSProperties,
 } from 'react';
 import { IoInformationCircle } from 'react-icons/io5';
-import { DETAIL_TOOLTIP_STYLES } from '../../constants/styles';
 import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 
 interface NoteTooltipIconProps {
@@ -90,7 +89,6 @@ export default function NoteTooltipIcon({
       multiline
       maw={tooltipMaxWidth}
       withArrow
-      styles={DETAIL_TOOLTIP_STYLES}
       opened={isTouchDevice ? isOpen : undefined}
       events={
         isTouchDevice

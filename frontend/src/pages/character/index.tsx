@@ -30,10 +30,7 @@ import EntityNotFound from '../../components/common/EntityNotFound';
 import ErrorBoundary from '../../components/common/ErrorBoundary';
 import TierBadge from '../../components/common/TierBadge';
 import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
-import {
-  DETAIL_TOOLTIP_STYLES,
-  getCardHoverProps,
-} from '../../constants/styles';
+import { getCardHoverProps } from '../../constants/styles';
 import { BREAKPOINTS } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
 import {
@@ -676,7 +673,6 @@ export default function CharacterPage() {
                             multiline
                             {...tooltipProps}
                             maw={300}
-                            styles={DETAIL_TOOLTIP_STYLES}
                           >
                             <Paper
                               p="xs"

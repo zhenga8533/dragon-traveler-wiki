@@ -1,4 +1,5 @@
 import { createTheme, type MantineColorsTuple } from '@mantine/core';
+import { DETAIL_TOOLTIP_STYLES } from './constants/styles';
 
 // Custom dark color for deeper dark mode
 const dark: MantineColorsTuple = [
@@ -121,6 +122,7 @@ export const theme = createTheme({
         openDelay: 120,
         closeDelay: 120,
         events: { hover: true, focus: true, touch: true },
+        styles: DETAIL_TOOLTIP_STYLES,
       },
     },
   },

@@ -20,11 +20,7 @@ import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCa
 import GearTypeTag from '../../components/common/GearTypeTag';
 import QualityBadge from '../../components/common/QualityBadge';
 import RichText from '../../components/common/RichText';
-import {
-  DETAIL_TOOLTIP_STYLES,
-  getCardHoverProps,
-  RICH_TOOLTIP_STYLES,
-} from '../../constants/styles';
+import { getCardHoverProps, RICH_TOOLTIP_STYLES } from '../../constants/styles';
 import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type {
   ActivatedSetBonus,
@@ -299,7 +295,6 @@ export default function CharacterPageBuildSection({
                         label={tooltipLabel}
                         multiline
                         maw={300}
-                        styles={DETAIL_TOOLTIP_STYLES}
                       >
                         <Paper
                           p="sm"
