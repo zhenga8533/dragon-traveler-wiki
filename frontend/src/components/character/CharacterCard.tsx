@@ -1,17 +1,9 @@
-import {
-  Group,
-  Popover,
-  Stack,
-  Text,
-  Tooltip,
-  UnstyledButton,
-} from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { IoInformationCircle } from 'react-icons/io5';
+import { Group, Stack, Text, UnstyledButton } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { CHARACTER_CARD, TRANSITION } from '../../constants/ui';
 import type { Quality } from '../../types/quality';
 import { getCharacterRoutePathByName } from '../../utils/character-route';
+import NoteTooltipIcon from '../common/NoteTooltipIcon';
 import TierBadge from '../common/TierBadge';
 import CharacterPortrait from './CharacterPortrait';
 
@@ -24,7 +16,6 @@ interface CharacterCardProps {
   disableLink?: boolean;
   tierLabel?: string;
   note?: string;
-  noteIconVariant?: 'default' | 'builder';
   routePath?: string;
 }
 
@@ -36,13 +27,9 @@ export default function CharacterCard({
   disableLink = false,
   tierLabel,
   note,
-  noteIconVariant = 'default',
   routePath,
 }: CharacterCardProps) {
-  const [noteOpened, { toggle: toggleNote, close: closeNote }] =
-    useDisclosure(false);
   const nameColor = disableLink ? 'dimmed' : 'violet';
-  const isBuilderNoteVariant = noteIconVariant === 'builder';
 
   const portrait = (
     <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -54,92 +41,16 @@ export default function CharacterCard({
         routePath={routePath}
       />
       {note && (
-        <Popover
-          opened={noteOpened}
-          onChange={(v) => !v && closeNote()}
-          position="top"
-          withArrow
-          withinPortal
-          shadow="md"
-          offset={6}
-        >
-          <Popover.Target>
-            <div
-              role="button"
-              tabIndex={0}
-              aria-label={`Show note for ${name}`}
-              style={{
-                position: 'absolute',
-                top: 0,
-                right: 0,
-                lineHeight: 0,
-                cursor: 'pointer',
-              }}
-              onMouseDown={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-              }}
-              onClick={(e) => {
-                e.preventDefault();
-                e.stopPropagation();
-                toggleNote();
-              }}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter' || e.key === ' ') {
-                  e.preventDefault();
-                  e.stopPropagation();
-                  toggleNote();
-                }
-              }}
-            >
-              <Tooltip label={note} multiline maw={240} withArrow>
-                <span>
-                  <IoInformationCircle
-                    size={18}
-                    color={
-                      isBuilderNoteVariant
-                        ? 'var(--mantine-color-violet-1)'
-                        : 'var(--mantine-color-violet-filled)'
-                    }
-                    style={{
-                      background: isBuilderNoteVariant
-                        ? 'linear-gradient(135deg, var(--mantine-color-violet-6) 0%, var(--mantine-color-grape-6) 100%)'
-                        : 'var(--mantine-color-body)',
-                      border: isBuilderNoteVariant
-                        ? '1px solid var(--mantine-color-violet-4)'
-                        : '1px solid var(--mantine-color-default-border)',
-                      boxShadow: isBuilderNoteVariant
-                        ? 'var(--mantine-shadow-sm)'
-                        : 'var(--mantine-shadow-xs)',
-                      borderRadius: '50%',
-                    }}
-                  />
-                </span>
-              </Tooltip>
-            </div>
-          </Popover.Target>
-          <Popover.Dropdown
-            p="xs"
-            style={{
-              maxWidth: 280,
-              background: 'var(--mantine-color-body)',
-              color: 'var(--mantine-color-text)',
-              border: '1px solid var(--mantine-color-default-border)',
-              boxShadow: 'var(--mantine-shadow-md)',
-            }}
-          >
-            <Text
-              size="xs"
-              style={{
-                whiteSpace: 'pre-wrap',
-                overflowWrap: 'anywhere',
-                wordBreak: 'break-word',
-              }}
-            >
-              {note}
-            </Text>
-          </Popover.Dropdown>
-        </Popover>
+        <NoteTooltipIcon
+          note={note}
+          ariaLabel={`Show note for ${name}`}
+          stopPropagation
+          wrapperStyle={{
+            position: 'absolute',
+            top: 0,
+            right: 0,
+          }}
+        />
       )}
     </div>
   );

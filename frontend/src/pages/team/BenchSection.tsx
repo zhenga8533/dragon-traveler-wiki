@@ -1,7 +1,6 @@
 import {
   Badge,
   Box,
-  Divider,
   Group,
   Paper,
   SimpleGrid,
@@ -10,11 +9,11 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { IoInformationCircle } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
 import ClassTag from '../../components/common/ClassTag';
 import FactionTag from '../../components/common/FactionTag';
+import NoteTooltipIcon from '../../components/common/NoteTooltipIcon';
 import QualityIcon from '../../components/common/QualityIcon';
 import { getCardHoverProps } from '../../constants/styles';
 import { useMobileTooltip } from '../../hooks';
@@ -97,6 +96,18 @@ export function BenchSection({
                       routePath={routePath}
                     />
                   </Tooltip>
+                  {benchNote && (
+                    <NoteTooltipIcon
+                      note={benchNote}
+                      ariaLabel={`Show note for ${resolvedName}`}
+                      stopPropagation
+                      wrapperStyle={{
+                        position: 'absolute',
+                        top: 0,
+                        right: 0,
+                      }}
+                    />
+                  )}
                 </Box>
 
                 <Text
@@ -125,28 +136,6 @@ export function BenchSection({
                       <FactionTag key={f} faction={f} size="xs" />
                     ))}
                   </Group>
-                )}
-
-                {benchNote && (
-                  <>
-                    <Divider style={{ width: '100%' }} />
-                    <Group gap={4} wrap="nowrap" align="flex-start">
-                      <IoInformationCircle
-                        size={12}
-                        color="var(--mantine-color-dimmed)"
-                        style={{ flexShrink: 0, marginTop: 2 }}
-                      />
-                      <Text
-                        size="xs"
-                        c="dimmed"
-                        fs="italic"
-                        lh={1.4}
-                        ta="center"
-                      >
-                        {benchNote}
-                      </Text>
-                    </Group>
-                  </>
                 )}
               </Stack>
             </Paper>

@@ -1,7 +1,6 @@
 import {
   Badge,
   Box,
-  Divider,
   Group,
   Paper,
   SimpleGrid,
@@ -9,11 +8,12 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
-import { IoFlash, IoInformationCircle } from 'react-icons/io5';
+import { IoFlash } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
 import ClassTag from '../../components/common/ClassTag';
 import FactionTag from '../../components/common/FactionTag';
+import NoteTooltipIcon from '../../components/common/NoteTooltipIcon';
 import QualityIcon from '../../components/common/QualityIcon';
 import { getCardHoverProps } from '../../constants/styles';
 import { useMobileTooltip } from '../../hooks';
@@ -173,10 +173,7 @@ export function BattlefieldGrid({
                 >
                   <Stack gap={6} align="center">
                     <Box pos="relative">
-                      <Tooltip
-                        label={`View ${resolvedName}`}
-                        {...tooltipProps}
-                      >
+                      <Tooltip label={`View ${resolvedName}`} {...tooltipProps}>
                         <CharacterPortrait
                           name={resolvedName}
                           size={72}
@@ -186,6 +183,18 @@ export function BattlefieldGrid({
                           routePath={routePath}
                         />
                       </Tooltip>
+                      {(member.note?.trim() || '').length > 0 && (
+                        <NoteTooltipIcon
+                          note={member.note?.trim() ?? ''}
+                          ariaLabel={`Show note for ${resolvedName}`}
+                          stopPropagation
+                          wrapperStyle={{
+                            position: 'absolute',
+                            top: 0,
+                            right: 0,
+                          }}
+                        />
+                      )}
                       {member.overdrive_order != null && (
                         <Badge
                           size="md"
@@ -245,28 +254,6 @@ export function BattlefieldGrid({
                           Overdrive #{member.overdrive_order}
                         </Text>
                       </Group>
-                    )}
-
-                    {(member.note?.trim() || '').length > 0 && (
-                      <>
-                        <Divider style={{ width: '100%' }} />
-                        <Group gap={4} wrap="nowrap" align="flex-start">
-                          <IoInformationCircle
-                            size={12}
-                            color="var(--mantine-color-dimmed)"
-                            style={{ flexShrink: 0, marginTop: 2 }}
-                          />
-                          <Text
-                            size="xs"
-                            c="dimmed"
-                            fs="italic"
-                            lh={1.4}
-                            ta="center"
-                          >
-                            {member.note?.trim()}
-                          </Text>
-                        </Group>
-                      </>
                     )}
                   </Stack>
                 </Paper>

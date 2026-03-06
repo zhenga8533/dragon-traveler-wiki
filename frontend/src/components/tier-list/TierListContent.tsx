@@ -152,7 +152,6 @@ export default function TierListContent({
                           quality={char?.quality}
                           routePath={routePath}
                           note={entryNote}
-                          noteIconVariant="builder"
                         />
                       );
                     })}
