@@ -50,11 +50,6 @@ import {
   normalizeContentType,
   type ContentType,
 } from '../../../constants/content-types';
-import {
-  buildEmptyIssueBody,
-  GITHUB_REPO_URL,
-  MAX_GITHUB_ISSUE_URL_LENGTH,
-} from '../../../constants/github';
 import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
 import type { Character } from '../../../types/character';
 import type { TierDefinition, TierList } from '../../../types/tier-list';
@@ -74,6 +69,7 @@ import {
 import { toEntitySlug } from '../../../utils/entity-slug';
 import { downloadElementAsPng } from '../../../utils/export-image';
 import { compareCharactersByQualityThenName } from '../../../utils/filter-characters';
+import { buildSuggestionIssueUrls } from '../../../utils/github-issues';
 import { showSuccessToast, showWarningToast } from '../../../utils/toast';
 import FilterableCharacterPool from '../../character/FilterableCharacterPool';
 import ConfirmActionModal from '../../common/ConfirmActionModal';
@@ -338,13 +334,13 @@ export default function TierListBuilder({
   const hasAnyBuilderData = useMemo(
     () =>
       hasAnyPlaced ||
-      Object.values(notes).some((note) => note.trim().length > 0) ||
+      Object.values(notes).some((note) => Boolean(normalizeNote(note))) ||
       tierDefs.length !== DEFAULT_TIER_DEFINITIONS.length ||
       tierDefs.some((tierDef, index) => {
         const defaultDef = DEFAULT_TIER_DEFINITIONS[index];
         if (!defaultDef) return true;
-        const tierNote = (tierDef.note || '').trim();
-        const defaultNote = (defaultDef.note || '').trim();
+        const tierNote = normalizeNote(tierDef.note) || '';
+        const defaultNote = normalizeNote(defaultDef.note) || '';
         return tierDef.name !== defaultDef.name || tierNote !== defaultNote;
       }) ||
       name.trim().length > 0 ||
@@ -352,7 +348,7 @@ export default function TierListBuilder({
       description.trim().length > 0 ||
       categoryName !== DEFAULT_CONTENT_TYPE ||
       newTierName.trim().length > 0 ||
-      newTierNote.trim().length > 0,
+      Boolean(normalizeNote(newTierNote)),
     [
       author,
       categoryName,
@@ -366,19 +362,31 @@ export default function TierListBuilder({
     ]
   );
 
-  const tierListIssueQuery = useMemo(() => {
-    const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
-    return new URLSearchParams({
-      title: '[Tier List] New tier list suggestion',
-      body,
-    }).toString();
-  }, [json]);
+  const { issueUrl: tierListIssueUrl, emptyIssueUrl: tierListEmptyIssueUrl } =
+    useMemo(
+      () =>
+        buildSuggestionIssueUrls({
+          title: '[Tier List] New tier list suggestion',
+          json,
+          entityType: 'tier list',
+        }),
+      [json]
+    );
 
-  const tierListIssueUrl = useMemo(() => {
-    const url = `${GITHUB_REPO_URL}/issues/new?${tierListIssueQuery}`;
-    if (url.length > MAX_GITHUB_ISSUE_URL_LENGTH) return null;
-    return url;
-  }, [tierListIssueQuery]);
+  function handleSubmitSuggestion() {
+    if (!tierListIssueUrl) {
+      window.open(tierListEmptyIssueUrl, '_blank');
+      showWarningToast({
+        title: 'Tier list JSON is too large',
+        message:
+          'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
+        autoClose: 8000,
+      });
+      return;
+    }
+
+    window.open(tierListIssueUrl, '_blank');
+  }
 
   useEffect(() => {
     if (!draftHydrated || typeof window === 'undefined') return;
@@ -615,13 +623,9 @@ export default function TierListBuilder({
   }
 
   function handleTierNoteChange(tierName: string, note: string) {
-    const normalized = note.trim();
+    const normalized = normalizeNote(note) || '';
     setTierDefs((prev) =>
-      prev.map((t) =>
-        t.name === tierName
-          ? { ...t, note: normalized.length > 0 ? normalized : '' }
-          : t
-      )
+      prev.map((t) => (t.name === tierName ? { ...t, note: normalized } : t))
     );
   }
 
@@ -672,7 +676,7 @@ export default function TierListBuilder({
     if (tierDefs.some((t) => t.name === trimmed)) return;
     setTierDefs((prev) => [
       ...prev,
-      { name: trimmed, note: newTierNote.trim() || undefined },
+      { name: trimmed, note: normalizeNote(newTierNote) },
     ]);
     setPlacements((prev) => ({ ...prev, [trimmed]: [] }));
     setNewTierName('');
@@ -758,22 +762,7 @@ export default function TierListBuilder({
                 variant="light"
                 size="sm"
                 leftSection={<IoOpenOutline size={16} />}
-                onClick={() => {
-                  if (!tierListIssueUrl) {
-                    // URL too long, open issue with template but empty JSON
-                    const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Tier List] New tier list suggestion', body: buildEmptyIssueBody('tier list') }).toString()}`;
-                    window.open(emptyUrl, '_blank');
-                    showWarningToast({
-                      title: 'Tier list JSON is too large',
-                      message:
-                        'Please copy the JSON using the Copy JSON button and paste it into the GitHub issue body.',
-                      autoClose: 8000,
-                    });
-                    return;
-                  }
-
-                  window.open(tierListIssueUrl, '_blank');
-                }}
+                onClick={handleSubmitSuggestion}
                 disabled={!hasAnyPlaced}
               >
                 Submit Suggestion
@@ -839,10 +828,10 @@ export default function TierListBuilder({
                       <CharacterNoteButton
                         value={notes[n] || ''}
                         onCommit={(value) => {
-                          const normalized = value.trim();
+                          const normalized = normalizeNote(value);
                           setNotes((prev) => {
                             const next = { ...prev };
-                            if (normalized.length > 0) {
+                            if (normalized) {
                               next[n] = normalized;
                             } else {
                               delete next[n];

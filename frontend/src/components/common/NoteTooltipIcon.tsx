@@ -1,6 +1,12 @@
 import { Tooltip } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useEffect, useRef, useState, type CSSProperties } from 'react';
+import {
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+  type CSSProperties,
+} from 'react';
 import { IoInformationCircle } from 'react-icons/io5';
 import { DETAIL_TOOLTIP_STYLES } from '../../constants/styles';
 
@@ -26,17 +32,15 @@ export default function NoteTooltipIcon({
   zIndex = 700,
 }: NoteTooltipIconProps) {
   const isCoarsePointer = useMediaQuery('(hover: none), (pointer: coarse)');
-  const [hasTouchSupport, setHasTouchSupport] = useState(false);
-  const [isOpen, setIsOpen] = useState(false);
-  const triggerRef = useRef<HTMLDivElement | null>(null);
-
-  useEffect(() => {
-    if (typeof window === 'undefined') return;
-    setHasTouchSupport(
+  const hasTouchSupport = useMemo(() => {
+    if (typeof window === 'undefined') return false;
+    return (
       'ontouchstart' in window ||
-        (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0)
+      (typeof navigator !== 'undefined' && navigator.maxTouchPoints > 0)
     );
   }, []);
+  const [isOpen, setIsOpen] = useState(false);
+  const triggerRef = useRef<HTMLDivElement | null>(null);
 
   const isTouchDevice = isCoarsePointer || hasTouchSupport;
 

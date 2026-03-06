@@ -45,11 +45,6 @@ import {
   normalizeContentType,
   type ContentType,
 } from '../../../constants/content-types';
-import {
-  buildEmptyIssueBody,
-  GITHUB_REPO_URL,
-  MAX_GITHUB_ISSUE_URL_LENGTH,
-} from '../../../constants/github';
 import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
 import { useCharacterResolution, useMobileTooltip } from '../../../hooks';
 import { BattlefieldGrid } from '../../../pages/team/BattlefieldGrid';
@@ -71,6 +66,7 @@ import {
 import { insertUniqueBefore, removeItem } from '../../../utils/dnd-list';
 import { toEntitySlug } from '../../../utils/entity-slug';
 import { downloadElementAsPng } from '../../../utils/export-image';
+import { buildSuggestionIssueUrls } from '../../../utils/github-issues';
 import {
   getTeamBenchEntryName,
   getTeamBenchEntryNote,
@@ -244,21 +240,6 @@ export default function TeamBuilder({
         .map((entry) => entry.slotIndex)
         .slice(0, MAX_ROSTER_SIZE);
 
-      const legacyBenchNotes = Object.fromEntries(
-        Object.entries(
-          (data as Team & { bench_notes?: Record<string, string> })
-            .bench_notes || {}
-        )
-          .map(([benchName, note]) => {
-            const benchKey = getCharacterKeyFromReference(benchName);
-            return [benchKey, normalizeNote(note)] as const;
-          })
-          .filter((entry): entry is readonly [string, string] => {
-            const [benchKey, note] = entry;
-            return Boolean(benchKey) && Boolean(note);
-          })
-      );
-
       const seenBenchKeys = new Set<string>();
       const normalizedBenchEntries = (data.bench || [])
         .map((benchEntry) => {
@@ -268,9 +249,7 @@ export default function TeamBuilder({
             benchName,
             benchQuality
           );
-          const benchNote =
-            normalizeNote(getTeamBenchEntryNote(benchEntry)) ??
-            (benchKey ? legacyBenchNotes[benchKey] : undefined);
+          const benchNote = normalizeNote(getTeamBenchEntryNote(benchEntry));
           return { benchKey, benchNote };
         })
         .filter((entry) => {
@@ -376,8 +355,8 @@ export default function TeamBuilder({
       teamSize > 0 ||
       bench.length > 0 ||
       overdriveSequence.length > 0 ||
-      slotNotes.some((note) => note.trim().length > 0) ||
-      Object.values(benchNotes).some((note) => note.trim().length > 0) ||
+      slotNotes.some((note) => Boolean(normalizeNote(note))) ||
+      Object.values(benchNotes).some((note) => Boolean(normalizeNote(note))) ||
       Object.values(teamWyrmspells).some((value) => Boolean(value)) ||
       name.trim().length > 0 ||
       author.trim().length > 0 ||
@@ -407,6 +386,7 @@ export default function TeamBuilder({
     for (const slotIndex of overdriveSequence) {
       const n = slots[slotIndex];
       if (n) {
+        const slotNote = normalizeNote(slotNotes[slotIndex]);
         members.push({
           ...toCharacterReferenceFromKey(
             n,
@@ -416,9 +396,7 @@ export default function TeamBuilder({
           ),
           overdrive_order: overdriveOrder++,
           position: { row: Math.floor(slotIndex / 3), col: slotIndex % 3 },
-          ...(slotNotes[slotIndex].trim()
-            ? { note: slotNotes[slotIndex].trim() }
-            : {}),
+          ...(slotNote ? { note: slotNote } : {}),
         });
       }
     }
@@ -427,6 +405,7 @@ export default function TeamBuilder({
     for (let i = 0; i < GRID_SIZE; i++) {
       const n = slots[i];
       if (n && !overdriveOrderBySlot.has(i)) {
+        const slotNote = normalizeNote(slotNotes[i]);
         members.push({
           ...toCharacterReferenceFromKey(
             n,
@@ -436,7 +415,7 @@ export default function TeamBuilder({
           ),
           overdrive_order: null,
           position: { row: Math.floor(i / 3), col: i % 3 },
-          ...(slotNotes[i].trim() ? { note: slotNotes[i].trim() } : {}),
+          ...(slotNote ? { note: slotNote } : {}),
         });
       }
     }
@@ -459,7 +438,7 @@ export default function TeamBuilder({
           characterByIdentity,
           characterNameCounts
         );
-        const note = benchNotes[characterKey]?.trim();
+        const note = normalizeNote(benchNotes[characterKey]);
         return note ? { ...reference, note } : reference;
       });
     }
@@ -579,19 +558,15 @@ export default function TeamBuilder({
     wyrmspells,
   ]);
 
-  const teamIssueQuery = useMemo(() => {
-    const body = `**Paste your JSON below:**\n\n\`\`\`json\n${json}\n\`\`\`\n`;
-    return new URLSearchParams({
-      title: '[Team] New team suggestion',
-      body,
-    }).toString();
-  }, [json]);
-
-  const teamIssueUrl = useMemo(() => {
-    const url = `${GITHUB_REPO_URL}/issues/new?${teamIssueQuery}`;
-    if (url.length > MAX_GITHUB_ISSUE_URL_LENGTH) return null;
-    return url;
-  }, [teamIssueQuery]);
+  const { issueUrl: teamIssueUrl, emptyIssueUrl: teamEmptyIssueUrl } = useMemo(
+    () =>
+      buildSuggestionIssueUrls({
+        title: '[Team] New team suggestion',
+        json,
+        entityType: 'team',
+      }),
+    [json]
+  );
 
   function handleDragStart(event: DragStartEvent) {
     setActiveId(event.active.id as string);
@@ -1033,7 +1008,7 @@ export default function TeamBuilder({
   }
 
   function handleSlotNoteChange(slotIndex: number, note: string) {
-    const normalized = note.trim();
+    const normalized = normalizeNote(note) || '';
     setSlotNotes((prev) => {
       const next = [...prev];
       next[slotIndex] = normalized;
@@ -1042,10 +1017,10 @@ export default function TeamBuilder({
   }
 
   function handleBenchNoteChange(charName: string, note: string) {
-    const normalized = note.trim();
+    const normalized = normalizeNote(note);
     setBenchNotes((prev) => {
       const next = { ...prev };
-      if (normalized.length > 0) {
+      if (normalized) {
         next[charName] = normalized;
       } else {
         delete next[charName];
@@ -1056,8 +1031,7 @@ export default function TeamBuilder({
 
   function handleSubmitSuggestion() {
     if (!teamIssueUrl) {
-      const emptyUrl = `${GITHUB_REPO_URL}/issues/new?${new URLSearchParams({ title: '[Team] New team suggestion', body: buildEmptyIssueBody('team') }).toString()}`;
-      window.open(emptyUrl, '_blank');
+      window.open(teamEmptyIssueUrl, '_blank');
       showWarningToast({
         title: 'Team JSON is too large',
         message:

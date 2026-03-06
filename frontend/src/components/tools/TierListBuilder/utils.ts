@@ -1,6 +1,7 @@
 import { normalizeContentType } from '../../../constants/content-types';
 import type { Quality } from '../../../types/quality';
 import type { TierList } from '../../../types/tier-list';
+import { normalizeOptionalNote } from '../../../utils/normalize-note';
 import { toQuality } from '../../../utils/quality';
 
 export const INPUT_COMMIT_DELAY_MS = 150;
@@ -35,9 +36,7 @@ export function isTierEntryLike(value: unknown): value is {
 }
 
 export function normalizeNote(value: unknown): string | undefined {
-  if (typeof value !== 'string') return undefined;
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : undefined;
+  return normalizeOptionalNote(value);
 }
 
 export function getPastedTierListPatch(

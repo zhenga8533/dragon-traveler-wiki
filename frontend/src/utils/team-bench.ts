@@ -1,11 +1,6 @@
 import type { TeamBenchMember } from '../types/team';
+import { normalizeOptionalNote } from './normalize-note';
 import { toQuality } from './quality';
-
-function normalizeBenchNote(value: unknown): string | undefined {
-  if (typeof value !== 'string') return undefined;
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : undefined;
-}
 
 export function isTeamBenchMember(value: unknown): value is TeamBenchMember {
   if (typeof value !== 'object' || value === null) return false;
@@ -43,7 +38,7 @@ export function getTeamBenchEntryQuality(
 export function getTeamBenchEntryNote(
   entry: TeamBenchMember
 ): TeamBenchMember['note'] | undefined {
-  return normalizeBenchNote(entry.note);
+  return normalizeOptionalNote(entry.note);
 }
 
 export function normalizeTeamBenchEntry(
@@ -58,7 +53,7 @@ export function normalizeTeamBenchEntry(
   }
 
   const normalizedQuality = toQuality(value.character_quality);
-  const normalizedNote = normalizeBenchNote(value.note);
+  const normalizedNote = normalizeOptionalNote(value.note);
   return {
     character_name: value.character_name,
     ...(normalizedQuality ? { character_quality: normalizedQuality } : {}),

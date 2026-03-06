@@ -2,6 +2,7 @@ import { normalizeContentType } from '../../../constants/content-types';
 import type { CharacterClass } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
 import type { Team, TeamBenchMember, TeamMember } from '../../../types/team';
+import { normalizeOptionalNote } from '../../../utils/normalize-note';
 import { toQuality } from '../../../utils/quality';
 import {
   getTeamBenchEntryName,
@@ -73,9 +74,7 @@ function teamMemberIdentity(member: {
 }
 
 export function normalizeNote(value: unknown): string | undefined {
-  if (typeof value !== 'string') return undefined;
-  const trimmed = value.trim();
-  return trimmed.length > 0 ? trimmed : undefined;
+  return normalizeOptionalNote(value);
 }
 
 export function getPastedTeamPatch(value: unknown): Partial<Team> | null {
@@ -102,35 +101,6 @@ export function normalizeTeamFromPartial(
   partial: Partial<Team>,
   fallback: Team
 ): Team {
-  const partialBenchNotes =
-    isRecord(partial) &&
-    isRecord((partial as Record<string, unknown>).bench_notes)
-      ? ((partial as Record<string, unknown>).bench_notes as Record<
-          string,
-          unknown
-        >)
-      : null;
-  const fallbackBenchNotes =
-    isRecord(fallback) &&
-    isRecord((fallback as unknown as Record<string, unknown>).bench_notes)
-      ? ((fallback as unknown as Record<string, unknown>).bench_notes as Record<
-          string,
-          unknown
-        >)
-      : null;
-
-  const legacyBenchNotes = Object.fromEntries(
-    Object.entries(partialBenchNotes ?? fallbackBenchNotes ?? {})
-      .filter((entry): entry is [string, string] => {
-        const [characterName, note] = entry;
-        return typeof characterName === 'string' && typeof note === 'string';
-      })
-      .map(
-        ([characterName, note]) => [characterName, normalizeNote(note)] as const
-      )
-      .filter((entry): entry is readonly [string, string] => Boolean(entry[1]))
-  );
-
   const normalizedMembers = Array.isArray(partial.members)
     ? (() => {
         const seen = new Set<string>();
@@ -193,8 +163,7 @@ export function normalizeTeamFromPartial(
           if (normalizedMemberNameSet.has(benchName)) continue;
           if (seen.has(benchName)) continue;
           seen.add(benchName);
-          const normalizedBenchNote =
-            getTeamBenchEntryNote(benchEntry) ?? legacyBenchNotes[benchName];
+          const normalizedBenchNote = getTeamBenchEntryNote(benchEntry);
           bench.push({
             ...benchEntry,
             ...(normalizedBenchNote ? { note: normalizedBenchNote } : {}),
