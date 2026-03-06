@@ -9,13 +9,6 @@ import {
 } from '@mantine/core';
 import type React from 'react';
 import { Link } from 'react-router-dom';
-import CharacterCard from '../character/CharacterCard';
-import CharacterPortrait from '../character/CharacterPortrait';
-import ClassTag from '../common/ClassTag';
-import CollapsibleSectionCard from '../common/CollapsibleSectionCard';
-import FactionTag from '../common/FactionTag';
-import LastUpdated from '../common/LastUpdated';
-import QualityIcon from '../common/QualityIcon';
 import { getTierColor, TIER_ORDER } from '../../constants/colors';
 import { normalizeContentType } from '../../constants/content-types';
 import { CHARACTER_GRID_SPACING } from '../../constants/ui';
@@ -27,6 +20,13 @@ import {
   getCharacterRoutePath,
   getCharacterRoutePathByName,
 } from '../../utils/character-route';
+import CharacterCard from '../character/CharacterCard';
+import CharacterPortrait from '../character/CharacterPortrait';
+import ClassTag from '../common/ClassTag';
+import CollapsibleSectionCard from '../common/CollapsibleSectionCard';
+import FactionTag from '../common/FactionTag';
+import LastUpdated from '../common/LastUpdated';
+import QualityIcon from '../common/QualityIcon';
 
 interface TierListContentProps {
   tierList: TierListType;
@@ -49,9 +49,9 @@ export default function TierListContent({
 }: TierListContentProps) {
   const tierOrder = tierList.tiers?.map((t) => t.name) ?? TIER_ORDER;
   const definedTierSet = new Set(tierOrder);
-  const extraTiers = [
-    ...new Set(tierList.entries.map((e) => e.tier)),
-  ].filter((t) => !definedTierSet.has(t));
+  const extraTiers = [...new Set(tierList.entries.map((e) => e.tier))].filter(
+    (t) => !definedTierSet.has(t)
+  );
   const allTierOrder = [...tierOrder, ...extraTiers];
 
   const byTier = allTierOrder
@@ -127,6 +127,7 @@ export default function TierListContent({
                   <SimpleGrid
                     cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
                     spacing={CHARACTER_GRID_SPACING}
+                    data-export-cols-desktop="6"
                   >
                     {entries.map((entry) => {
                       const char = resolveTierEntryCharacter(entry);
@@ -174,7 +175,8 @@ export default function TierListContent({
                           const routePath = char
                             ? getCharacterRoutePath(char, characterNameCounts)
                             : getCharacterRoutePathByName(entry.character_name);
-                          const resolvedName = char?.name ?? entry.character_name;
+                          const resolvedName =
+                            char?.name ?? entry.character_name;
                           const isMultiQuality =
                             char &&
                             (characterNameCounts.get(
@@ -209,7 +211,10 @@ export default function TierListContent({
                               </Table.Td>
                               <Table.Td>
                                 {char ? (
-                                  <QualityIcon quality={char.quality} size={18} />
+                                  <QualityIcon
+                                    quality={char.quality}
+                                    size={18}
+                                  />
                                 ) : (
                                   <Text size="sm" c="dimmed">
                                     —

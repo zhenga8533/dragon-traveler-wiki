@@ -53,7 +53,11 @@ export function BenchSection({
           {bench.length}
         </Badge>
       </Group>
-      <SimpleGrid cols={{ base: 2, sm: 3, md: 4 }} spacing="sm">
+      <SimpleGrid
+        cols={{ base: 2, sm: 3, md: 4 }}
+        spacing="sm"
+        data-export-cols-desktop="4"
+      >
         {bench.map((benchEntry) => {
           const benchName = getTeamBenchEntryName(benchEntry);
           const benchQuality = getTeamBenchEntryQuality(benchEntry);
@@ -83,10 +87,7 @@ export function BenchSection({
             >
               <Stack gap={6} align="center">
                 <Box pos="relative">
-                  <Tooltip
-                    label={`View ${resolvedLabel}`}
-                    {...tooltipProps}
-                  >
+                  <Tooltip label={`View ${resolvedLabel}`} {...tooltipProps}>
                     <CharacterPortrait
                       name={resolvedName}
                       size={72}
@@ -114,10 +115,7 @@ export function BenchSection({
                 {char && (
                   <Group gap={4} justify="center" wrap="nowrap">
                     <QualityIcon quality={char.quality} size={16} />
-                    <ClassTag
-                      characterClass={char.character_class}
-                      size="xs"
-                    />
+                    <ClassTag characterClass={char.character_class} size="xs" />
                   </Group>
                 )}
 

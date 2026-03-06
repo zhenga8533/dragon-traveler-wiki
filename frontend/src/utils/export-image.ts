@@ -1,6 +1,15 @@
-import { toPng } from 'html-to-image';
+import { toJpeg } from 'html-to-image';
 
-type NavigatorWithShare = Navigator & {
+const JPEG_EXTENSION = 'jpg';
+const JPEG_MIME_TYPE = 'image/jpeg';
+const JPEG_QUALITY = 0.95;
+const LIGHT_BACKGROUND = '#ffffff';
+const DARK_BACKGROUND = '#1a1b1e';
+const DESKTOP_PIXEL_RATIO = 2;
+const MOBILE_MAX_PIXEL_RATIO = 1.5;
+const DESKTOP_EXPORT_WIDTH = 1200;
+
+type ShareCapableNavigator = Navigator & {
   share?: (data: ShareData) => Promise<void>;
   canShare?: (data?: ShareData) => boolean;
 };
@@ -9,6 +18,22 @@ function isMobileDevice(): boolean {
   if (typeof window === 'undefined' || typeof navigator === 'undefined') {
     return false;
   }
+
+  const nav = navigator as Navigator & {
+    userAgentData?: {
+      mobile?: boolean;
+    };
+  };
+
+  if (nav.userAgentData?.mobile) {
+    return true;
+  }
+
+  // iPadOS can report a desktop-like UA string; touch capability disambiguates it.
+  if (/Macintosh/i.test(navigator.userAgent) && navigator.maxTouchPoints > 1) {
+    return true;
+  }
+
   return /Mobi|Android|iPhone|iPad|iPod/i.test(navigator.userAgent);
 }
 
@@ -31,11 +56,74 @@ function triggerAnchorDownload(
     link.target = '_blank';
     link.rel = 'noopener noreferrer';
   } else {
-    link.download = `${filename}.png`;
+    link.download = `${filename}.${JPEG_EXTENSION}`;
   }
   document.body.appendChild(link);
   link.click();
   document.body.removeChild(link);
+}
+
+async function renderElementAsJpeg(
+  el: HTMLElement,
+  isDark: boolean,
+  pixelRatio: number,
+  width?: number,
+  height?: number
+): Promise<string> {
+  return toJpeg(el, {
+    backgroundColor: isDark ? DARK_BACKGROUND : LIGHT_BACKGROUND,
+    pixelRatio,
+    quality: JPEG_QUALITY,
+    ...(width ? { width } : {}),
+    ...(height ? { height } : {}),
+    // Always skip embedding webfonts to avoid cross-origin stylesheet access failures.
+    skipFonts: true,
+    // When provided, html-to-image skips scanning document stylesheets for @font-face.
+    // Empty CSS is intentional to avoid cross-origin cssRules access errors.
+    fontEmbedCSS: '',
+  });
+}
+
+function createDesktopExportClone(source: HTMLElement): {
+  container: HTMLDivElement;
+  clone: HTMLElement;
+  width: number;
+  height: number;
+} {
+  const container = document.createElement('div');
+  const clone = source.cloneNode(true) as HTMLElement;
+
+  container.style.position = 'fixed';
+  container.style.top = '0';
+  container.style.left = '-100000px';
+  container.style.width = `${DESKTOP_EXPORT_WIDTH}px`;
+  container.style.opacity = '0';
+  container.style.pointerEvents = 'none';
+  container.style.zIndex = '-1';
+
+  clone.style.width = '100%';
+  clone.style.maxWidth = 'none';
+  clone.style.minWidth = `${DESKTOP_EXPORT_WIDTH}px`;
+
+  // Allow components to opt into export-only desktop column counts.
+  clone
+    .querySelectorAll<HTMLElement>('[data-export-cols-desktop]')
+    .forEach((node) => {
+      const desktopCols = node.getAttribute('data-export-cols-desktop');
+      if (!desktopCols) {
+        return;
+      }
+      node.style.setProperty('--sg-cols', desktopCols);
+    });
+
+  container.appendChild(clone);
+  document.body.appendChild(container);
+
+  // Ensure layout is fully measured before capture.
+  const width = Math.max(DESKTOP_EXPORT_WIDTH, Math.ceil(clone.scrollWidth));
+  const height = Math.max(1, Math.ceil(clone.scrollHeight));
+
+  return { container, clone, width, height };
 }
 
 function tryOpenImagePreviewForMobile(dataUrl: string): boolean {
@@ -55,7 +143,33 @@ function tryOpenImagePreviewForMobile(dataUrl: string): boolean {
   return true;
 }
 
-export async function downloadElementAsPng(
+async function tryShareOnMobile(
+  dataUrl: string,
+  filename: string
+): Promise<boolean> {
+  const nav = navigator as ShareCapableNavigator;
+  if (!nav.share) {
+    return false;
+  }
+
+  try {
+    const blob = await (await fetch(dataUrl)).blob();
+    const file = new File([blob], `${filename}.${JPEG_EXTENSION}`, {
+      type: JPEG_MIME_TYPE,
+    });
+
+    if (nav.canShare && !nav.canShare({ files: [file] })) {
+      return false;
+    }
+
+    await nav.share({ files: [file], title: filename });
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export async function downloadElementAsImage(
   el: HTMLElement,
   filename: string,
   isDark: boolean
@@ -63,44 +177,58 @@ export async function downloadElementAsPng(
   const mobile = isMobileDevice();
   const safeFilename = sanitizeFilename(filename) || 'export';
   const preferredPixelRatio = mobile
-    ? Math.min(window.devicePixelRatio || 1, 1.5)
-    : 2;
+    ? Math.min(window.devicePixelRatio || 1, MOBILE_MAX_PIXEL_RATIO)
+    : DESKTOP_PIXEL_RATIO;
 
   let dataUrl: string;
+  let exportElement = el;
+  let exportWidth: number | undefined;
+  let exportHeight: number | undefined;
+  let exportContainer: HTMLDivElement | undefined;
+
+  if (mobile) {
+    const desktopClone = createDesktopExportClone(el);
+    exportContainer = desktopClone.container;
+    exportElement = desktopClone.clone;
+    exportWidth = desktopClone.width;
+    exportHeight = desktopClone.height;
+  }
+
   try {
-    dataUrl = await toPng(el, {
-      backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
-      pixelRatio: preferredPixelRatio,
-    });
+    dataUrl = await renderElementAsJpeg(
+      exportElement,
+      isDark,
+      preferredPixelRatio,
+      exportWidth,
+      exportHeight
+    );
   } catch {
     // Retry with a lower pixel ratio for memory-constrained mobile devices.
-    dataUrl = await toPng(el, {
-      backgroundColor: isDark ? '#1a1b1e' : '#ffffff',
-      pixelRatio: 1,
-    });
+    dataUrl = await renderElementAsJpeg(
+      exportElement,
+      isDark,
+      1,
+      exportWidth,
+      exportHeight
+    );
+  } finally {
+    if (exportContainer) {
+      exportContainer.remove();
+    }
   }
 
   if (mobile) {
-    if (tryOpenImagePreviewForMobile(dataUrl)) {
+    if (await tryShareOnMobile(dataUrl, safeFilename)) {
       return;
     }
 
-    const nav = navigator as NavigatorWithShare;
-    if (nav.share && nav.canShare) {
-      try {
-        const blob = await (await fetch(dataUrl)).blob();
-        const file = new File([blob], `${safeFilename}.png`, {
-          type: 'image/png',
-        });
-        if (nav.canShare({ files: [file] })) {
-          await nav.share({ files: [file], title: safeFilename });
-          return;
-        }
-      } catch {
-        // Fallback to anchor download/open below.
-      }
+    if (tryOpenImagePreviewForMobile(dataUrl)) {
+      return;
     }
   }
 
   triggerAnchorDownload(dataUrl, safeFilename, mobile);
 }
+
+// Backward-compatible alias used by existing imports.
+export const downloadElementAsPng = downloadElementAsImage;
