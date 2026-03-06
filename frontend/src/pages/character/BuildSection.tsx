@@ -16,6 +16,7 @@ import { useContext } from 'react';
 import { RiDoubleQuotesL } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
+import ClassTag from '../../components/common/ClassTag';
 import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 import GearTypeTag from '../../components/common/GearTypeTag';
 import QualityBadge from '../../components/common/QualityBadge';
@@ -263,13 +264,10 @@ export default function CharacterPageBuildSection({
                             </Badge>
                           )}
                           {entry.className && (
-                            <Badge
-                              variant="light"
-                              color={accent.secondary}
+                            <ClassTag
+                              characterClass={entry.className}
                               size="xs"
-                            >
-                              {entry.className}
-                            </Badge>
+                            />
                           )}
                         </Group>
                         {entry.effect && (
@@ -340,13 +338,10 @@ export default function CharacterPageBuildSection({
                                   </Badge>
                                 )}
                                 {entry.className && (
-                                  <Badge
-                                    variant="light"
-                                    color={accent.secondary}
+                                  <ClassTag
+                                    characterClass={entry.className}
                                     size="xs"
-                                  >
-                                    {entry.className}
-                                  </Badge>
+                                  />
                                 )}
                               </Group>
                               {entry.bonuses.length > 0 && (
@@ -495,11 +490,7 @@ export default function CharacterPageBuildSection({
                               loading="lazy"
                             />
                             <Stack gap={2} style={{ minWidth: 0 }}>
-                              <GearTypeTag
-                                type={entry.type}
-                                color="gray"
-                                size="xs"
-                              />
+                              <GearTypeTag type={entry.type} size="xs" />
                               <Text size="sm" fw={600} truncate>
                                 {entry.name}
                               </Text>

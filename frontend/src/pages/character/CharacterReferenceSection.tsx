@@ -10,10 +10,12 @@ import {
 import { useContext, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
+import FactionTag from '../../components/common/FactionTag';
 import { normalizeContentType } from '../../constants/content-types';
 import { getCardHoverProps } from '../../constants/styles';
 import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { Character } from '../../types/character';
+import type { FactionName } from '../../types/faction';
 import type { Team, TeamMemberPosition } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
 import {
@@ -34,7 +36,7 @@ interface CharacterReferenceSectionProps {
 interface TeamInclusion {
   teamName: string;
   role: 'Main' | 'Bench';
-  faction: string;
+  faction: FactionName;
   contentType: string;
   overdriveOrder: number | null;
   note: string | null;
@@ -227,9 +229,7 @@ export default function CharacterReferenceSection({
                       </Group>
 
                       <Group gap={6} wrap="wrap">
-                        <Badge variant="light" color={accent.primary} size="xs">
-                          {entry.faction}
-                        </Badge>
+                        <FactionTag faction={entry.faction} size="xs" />
                         <Badge
                           variant="light"
                           color={accent.secondary}

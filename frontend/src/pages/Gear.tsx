@@ -32,11 +32,7 @@ import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
 } from '../components/tools/SuggestModal';
-import {
-  GEAR_TYPE_ORDER,
-  QUALITY_ORDER,
-  getStableTagColor,
-} from '../constants/colors';
+import { GEAR_TYPE_ORDER, QUALITY_ORDER } from '../constants/colors';
 import {
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
@@ -482,7 +478,7 @@ export default function GearPage() {
                                 <Badge
                                   variant="light"
                                   size="sm"
-                                  color={getStableTagColor(item.set)}
+                                  color={accent.secondary}
                                 >
                                   {item.set}
                                 </Badge>
@@ -595,7 +591,7 @@ export default function GearPage() {
                                 <Badge
                                   variant="light"
                                   size="sm"
-                                  color={getStableTagColor(item.set)}
+                                  color={accent.secondary}
                                 >
                                   {item.set}
                                 </Badge>
