@@ -11,7 +11,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useContext } from 'react';
+import { useContext, useEffect, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CharacterCard from '../../components/character/CharacterCard';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
@@ -84,6 +84,26 @@ export default function TierListViewTab({
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { palette } = useContext(GradientThemeContext);
   const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const [activeTierListName, setActiveTierListName] = useState<string | null>(
+    visibleTierLists[0]?.name ?? null
+  );
+
+  useEffect(() => {
+    if (visibleTierLists.length === 0) {
+      setActiveTierListName(null);
+      return;
+    }
+
+    setActiveTierListName((current) => {
+      if (
+        current &&
+        visibleTierLists.some((tierList) => tierList.name === current)
+      ) {
+        return current;
+      }
+      return visibleTierLists[0].name;
+    });
+  }, [visibleTierLists]);
 
   return (
     <>
@@ -117,7 +137,10 @@ export default function TierListViewTab({
       )}
 
       {visibleTierLists.length > 0 && (
-        <Tabs defaultValue={visibleTierLists[0]?.name}>
+        <Tabs
+          value={activeTierListName ?? visibleTierLists[0].name}
+          onChange={setActiveTierListName}
+        >
           <ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
             <Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
               {visibleTierLists.map((tierList) => (
