@@ -177,6 +177,7 @@ export default function TeamPage() {
           teamSynergy={teamSynergy}
           charMap={charMap}
           characterByIdentity={characterByIdentity}
+          characterNameCounts={characterNameCounts}
           getCharacterPath={getCharacterPath}
           factionColor={factionColor}
           accentPrimary={accent.primary}

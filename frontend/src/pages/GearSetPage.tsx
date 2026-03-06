@@ -42,6 +42,10 @@ import type { Character } from '../types/character';
 import type { Gear, GearSet } from '../types/gear';
 import type { Quality } from '../types/quality';
 import {
+  buildCharacterNameCounts,
+  getCharacterBaseSlug,
+} from '../utils/character-route';
+import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
   toEntitySlug,
@@ -142,6 +146,11 @@ export default function GearSetPage() {
         return a.name.localeCompare(b.name);
       });
   }, [characters, setItemNames]);
+
+  const characterNameCounts = useMemo(
+    () => buildCharacterNameCounts(characters),
+    [characters]
+  );
 
   const recommendedStats = useMemo(() => {
     const ssrChars = characters.filter((c) =>
@@ -299,14 +308,22 @@ export default function GearSetPage() {
                 </Text>
                 <Group gap="xs" wrap="wrap">
                   {displayedCharacters.map((character) => {
+                    const isMultiQualityCharacter =
+                      (characterNameCounts.get(
+                        getCharacterBaseSlug(character.name)
+                      ) ?? 1) > 1;
+                    const tooltipLabel = isMultiQualityCharacter
+                      ? `${character.name} (${character.quality})`
+                      : character.name;
+
                     return (
                       <CharacterPortrait
-                        key={character.name}
+                        key={`${character.name}-${character.quality}`}
                         name={character.name}
                         size={44}
                         quality={character.quality}
                         link
-                        tooltip={`${character.name} (${character.quality})`}
+                        tooltip={tooltipLabel}
                         tooltipProps={tooltipProps}
                         borderColor={`var(--mantine-color-${qualityColor}-${isDark ? 6 : 4})`}
                       />

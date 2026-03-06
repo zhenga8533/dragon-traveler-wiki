@@ -1,6 +1,9 @@
 import { Badge, Box, Group } from '@mantine/core';
 import type { Character } from '../../types/character';
-import { resolveCharacterByNameAndQuality } from '../../utils/character-route';
+import {
+  getCharacterBaseSlug,
+  resolveCharacterByNameAndQuality,
+} from '../../utils/character-route';
 import CharacterPortrait from '../character/CharacterPortrait';
 
 export default function TeamCharacterAvatars({
@@ -14,6 +17,7 @@ export default function TeamCharacterAvatars({
   gap = 4,
   wrap = 'wrap',
   maxVisible,
+  nameCounts,
 }: {
   refs: Array<{ name: string; quality?: string }>;
   preferredByName: Map<string, Character>;
@@ -25,6 +29,7 @@ export default function TeamCharacterAvatars({
   gap?: number;
   wrap?: 'wrap' | 'nowrap';
   maxVisible?: number;
+  nameCounts?: Map<string, number>;
 }) {
   const shouldLimitVisibleCount =
     typeof maxVisible === 'number' &&
@@ -44,9 +49,12 @@ export default function TeamCharacterAvatars({
       byIdentity
     );
     const displayName = char?.name ?? entry.name;
-    const displayLabel = char?.quality
-      ? `${displayName} (${char.quality})`
-      : displayName;
+    const isMultiQualityCharacter =
+      (nameCounts?.get(getCharacterBaseSlug(displayName)) ?? 1) > 1;
+    const displayLabel =
+      isMultiQualityCharacter && char?.quality
+        ? `${displayName} (${char.quality})`
+        : displayName;
     return (
       <CharacterPortrait
         key={`${isSubstitute ? 'sub' : 'main'}-${entry.name}-${entry.quality ?? ''}`}

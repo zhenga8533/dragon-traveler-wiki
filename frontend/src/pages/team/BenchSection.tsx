@@ -22,7 +22,10 @@ import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import { useMobileTooltip } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { TeamBenchMember } from '../../types/team';
-import { resolveCharacterByNameAndQuality } from '../../utils/character-route';
+import {
+  getCharacterBaseSlug,
+  resolveCharacterByNameAndQuality,
+} from '../../utils/character-route';
 import {
   getTeamBenchEntryName,
   getTeamBenchEntryNote,
@@ -33,6 +36,7 @@ export function BenchSection({
   bench,
   charMap,
   characterByIdentity,
+  characterNameCounts,
   getCharacterPath,
   factionColor,
   tooltipProps,
@@ -40,6 +44,7 @@ export function BenchSection({
   bench: TeamBenchMember[];
   charMap: Map<string, Character>;
   characterByIdentity: Map<string, Character>;
+  characterNameCounts: Map<string, number>;
   getCharacterPath: (
     characterName: string,
     characterQuality?: string | null
@@ -75,9 +80,13 @@ export function BenchSection({
           );
           const routePath = getCharacterPath(benchName, benchQuality);
           const resolvedName = char?.name ?? benchName;
-          const resolvedLabel = char?.quality
-            ? `${resolvedName} (${char.quality})`
-            : resolvedName;
+          const isMultiQualityCharacter =
+            (characterNameCounts.get(getCharacterBaseSlug(resolvedName)) ?? 1) >
+            1;
+          const resolvedLabel =
+            isMultiQualityCharacter && char?.quality
+              ? `${resolvedName} (${char.quality})`
+              : resolvedName;
           const benchNote = getTeamBenchEntryNote(benchEntry);
           return (
             <Paper
@@ -127,7 +136,7 @@ export function BenchSection({
                   style={{ textDecoration: 'none' }}
                   lineClamp={1}
                 >
-                  {resolvedName}
+                  {resolvedLabel}
                 </Text>
 
                 {char && (

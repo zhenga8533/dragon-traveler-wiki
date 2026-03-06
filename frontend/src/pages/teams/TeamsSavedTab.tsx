@@ -43,6 +43,7 @@ interface TeamsSavedTabProps {
   filteredSavedTeams: Team[];
   charMap: Map<string, Character>;
   characterByIdentity: Map<string, Character>;
+  characterNameCounts: Map<string, number>;
   viewMode: string;
   filterOpen: boolean;
   entityFilterGroups: ChipFilterGroup[];
@@ -62,6 +63,7 @@ export default function TeamsSavedTab({
   filteredSavedTeams,
   charMap,
   characterByIdentity,
+  characterNameCounts,
   viewMode,
   filterOpen,
   entityFilterGroups,
@@ -150,6 +152,7 @@ export default function TeamsSavedTab({
               team={team}
               charMap={charMap}
               characterByIdentity={characterByIdentity}
+              characterNameCounts={characterNameCounts}
               onNavigate={() =>
                 navigate(`/teams/saved/${toEntitySlug(team.name)}`)
               }
@@ -226,6 +229,7 @@ export default function TeamsSavedTab({
                           }))}
                           preferredByName={charMap}
                           byIdentity={characterByIdentity}
+                          nameCounts={characterNameCounts}
                           size={32}
                           maxVisible={5}
                         />
@@ -249,6 +253,7 @@ export default function TeamsSavedTab({
                               }))}
                               preferredByName={charMap}
                               byIdentity={characterByIdentity}
+                              nameCounts={characterNameCounts}
                               size={32}
                               isSubstitute
                               maxVisible={5}

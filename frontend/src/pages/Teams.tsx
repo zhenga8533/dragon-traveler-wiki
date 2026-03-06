@@ -133,8 +133,11 @@ export default function Teams() {
     }
   }, [navigationEditTeam, navigate]);
 
-  const { preferredByName: charMap, byIdentity: characterByIdentity } =
-    useCharacterResolution(characters);
+  const {
+    preferredByName: charMap,
+    byIdentity: characterByIdentity,
+    nameCounts: characterNameCounts,
+  } = useCharacterResolution(characters);
 
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
 
@@ -336,6 +339,7 @@ export default function Teams() {
                 filteredTeams={filteredTeams}
                 charMap={charMap}
                 characterByIdentity={characterByIdentity}
+                characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
                 filterOpen={filterOpen}
                 entityFilterGroups={entityFilterGroups}
@@ -358,6 +362,7 @@ export default function Teams() {
                 filteredSavedTeams={filteredSavedTeams}
                 charMap={charMap}
                 characterByIdentity={characterByIdentity}
+                characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
                 filterOpen={filterOpen}
                 entityFilterGroups={entityFilterGroups}

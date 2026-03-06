@@ -42,6 +42,7 @@ interface TeamsViewTabProps {
   filteredTeams: Team[];
   charMap: Map<string, Character>;
   characterByIdentity: Map<string, Character>;
+  characterNameCounts: Map<string, number>;
   viewMode: string;
   filterOpen: boolean;
   entityFilterGroups: ChipFilterGroup[];
@@ -62,6 +63,7 @@ export default function TeamsViewTab({
   filteredTeams,
   charMap,
   characterByIdentity,
+  characterNameCounts,
   viewMode,
   filterOpen,
   entityFilterGroups,
@@ -117,6 +119,7 @@ export default function TeamsViewTab({
               team={team}
               charMap={charMap}
               characterByIdentity={characterByIdentity}
+              characterNameCounts={characterNameCounts}
               onNavigate={() => navigate(`/teams/${toEntitySlug(team.name)}`)}
               actions={
                 <EntityActionButtons
@@ -200,6 +203,7 @@ export default function TeamsViewTab({
                               }))}
                               preferredByName={charMap}
                               byIdentity={characterByIdentity}
+                              nameCounts={characterNameCounts}
                               size={32}
                               maxVisible={5}
                             />
@@ -226,6 +230,7 @@ export default function TeamsViewTab({
                                   }))}
                                   preferredByName={charMap}
                                   byIdentity={characterByIdentity}
+                                  nameCounts={characterNameCounts}
                                   size={32}
                                   isSubstitute
                                   maxVisible={5}
