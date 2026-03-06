@@ -55,7 +55,7 @@ export function BenchSection({
     <Stack gap={isMobile ? 'xs' : 'sm'}>
       <Group gap="sm">
         <Title order={3}>Bench</Title>
-        <Badge variant="light" color={factionColor} size="sm">
+        <Badge variant="light" color={accent.secondary} size="sm">
           {bench.length}
         </Badge>
       </Group>

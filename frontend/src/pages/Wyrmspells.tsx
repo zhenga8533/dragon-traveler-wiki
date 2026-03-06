@@ -10,10 +10,8 @@ import {
   Table,
   Text,
   Title,
-  Tooltip,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { FACTION_ICON_MAP } from '../assets/faction';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
@@ -34,12 +32,7 @@ import {
 } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
-import {
-  applyDir,
-  useDataFetch,
-  useFilteredPageData,
-  useMobileTooltip,
-} from '../hooks';
+import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { Wyrmspell } from '../types/wyrmspell';
 import { getLatestTimestamp } from '../utils';
 
@@ -56,7 +49,6 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
     label: 'Type',
     type: 'select',
     required: true,
-    options: ['Breach', 'Refuge', 'Wildcry', "Dragon's Call"],
   },
   {
     name: 'quality',
@@ -94,7 +86,6 @@ const EMPTY_FILTERS: WyrmspellFilters = {
 };
 
 export default function Wyrmspells() {
-  const tooltipProps = useMobileTooltip();
   const {
     data: wyrmspells,
     loading,
@@ -375,9 +366,6 @@ export default function Wyrmspells() {
                   <Table.Tbody>
                     {pageItems.map((spell) => {
                       const iconSrc = getWyrmspellIcon(spell.name);
-                      const factionIcon = spell.exclusive_faction
-                        ? FACTION_ICON_MAP[spell.exclusive_faction]
-                        : undefined;
                       return (
                         <Table.Tr key={spell.name}>
                           <Table.Td>
@@ -414,17 +402,10 @@ export default function Wyrmspells() {
                           </Table.Td>
                           <Table.Td>
                             {spell.exclusive_faction ? (
-                              <Tooltip
-                                label={spell.exclusive_faction}
-                                {...tooltipProps}
-                              >
-                                <Image
-                                  src={factionIcon}
-                                  alt={spell.exclusive_faction}
-                                  w={24}
-                                  h={24}
-                                />
-                              </Tooltip>
+                              <FactionTag
+                                faction={spell.exclusive_faction}
+                                size="sm"
+                              />
                             ) : (
                               <Text size="sm" c="dimmed">
                                 —

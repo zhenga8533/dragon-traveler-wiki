@@ -118,7 +118,7 @@ export default function TeamDetailContent({
             <Title order={2} size="h3">
               Team Composition
             </Title>
-            <Badge variant="light" color={factionColor} size="sm">
+            <Badge variant="light" color={accentPrimary} size="sm">
               {team.members.length} members
             </Badge>
           </Group>

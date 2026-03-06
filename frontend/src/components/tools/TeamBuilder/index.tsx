@@ -1237,7 +1237,12 @@ export default function TeamBuilder({
                   Clear All
                 </Button>
               )}
-              <Badge variant="light" color={factionColor} size="lg" radius="sm">
+              <Badge
+                variant="light"
+                color={accent.secondary}
+                size="lg"
+                radius="sm"
+              >
                 {teamSize} / {MAX_ROSTER_SIZE}
               </Badge>
             </Group>
