@@ -9,6 +9,7 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
 import ClassTag from '../../components/common/ClassTag';
@@ -44,8 +45,10 @@ export function BenchSection({
   factionColor: string;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
 }) {
+  const isMobile = useMediaQuery('(max-width: 30em)');
+
   return (
-    <Stack gap="sm">
+    <Stack gap={isMobile ? 'xs' : 'sm'}>
       <Group gap="sm">
         <Title order={3}>Bench</Title>
         <Badge variant="light" color={factionColor} size="sm">
@@ -53,8 +56,8 @@ export function BenchSection({
         </Badge>
       </Group>
       <SimpleGrid
-        cols={{ base: 2, sm: 3, md: 4 }}
-        spacing="sm"
+        cols={{ base: 1, xs: 2, sm: 3, md: 4 }}
+        spacing={{ base: 'xs', sm: 'sm' }}
         data-export-cols-desktop="4"
       >
         {bench.map((benchEntry) => {
@@ -75,7 +78,7 @@ export function BenchSection({
           return (
             <Paper
               key={`${benchName}-${benchQuality ?? ''}`}
-              p="sm"
+              p={isMobile ? 'xs' : 'sm'}
               radius="md"
               withBorder
               {...getCardHoverProps({
@@ -89,7 +92,7 @@ export function BenchSection({
                   <Tooltip label={`View ${resolvedLabel}`} {...tooltipProps}>
                     <CharacterPortrait
                       name={resolvedName}
-                      size={72}
+                      size={isMobile ? 64 : 72}
                       quality={char?.quality}
                       borderWidth={3}
                       link
@@ -112,7 +115,7 @@ export function BenchSection({
 
                 <Text
                   fw={700}
-                  size="sm"
+                  size={isMobile ? 'xs' : 'sm'}
                   ta="center"
                   component={Link}
                   to={routePath}
@@ -125,7 +128,10 @@ export function BenchSection({
 
                 {char && (
                   <Group gap={4} justify="center" wrap="nowrap">
-                    <QualityIcon quality={char.quality} size={16} />
+                    <QualityIcon
+                      quality={char.quality}
+                      size={isMobile ? 14 : 16}
+                    />
                     <ClassTag characterClass={char.character_class} size="xs" />
                   </Group>
                 )}

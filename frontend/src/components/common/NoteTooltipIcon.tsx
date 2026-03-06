@@ -1,4 +1,4 @@
-import { Tooltip, useComputedColorScheme } from '@mantine/core';
+import { Tooltip } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useEffect, useRef, useState, type CSSProperties } from 'react';
 import { IoInformationCircle } from 'react-icons/io5';
@@ -26,7 +26,6 @@ export default function NoteTooltipIcon({
   zIndex = 700,
 }: NoteTooltipIconProps) {
   const isCoarsePointer = useMediaQuery('(hover: none), (pointer: coarse)');
-  const isDark = useComputedColorScheme('light') === 'dark';
   const [hasTouchSupport, setHasTouchSupport] = useState(false);
   const [isOpen, setIsOpen] = useState(false);
   const triggerRef = useRef<HTMLDivElement | null>(null);
@@ -74,9 +73,7 @@ export default function NoteTooltipIcon({
     event.stopPropagation();
   };
 
-  const iconBorderColor = isDark
-    ? 'rgba(255, 255, 255, 0.22)'
-    : 'var(--mantine-color-default-border)';
+  const iconBorderColor = 'var(--mantine-color-body)';
   const iconShadow = 'var(--mantine-shadow-xs)';
 
   return (

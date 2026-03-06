@@ -8,6 +8,7 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { IoFlash } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
@@ -23,6 +24,7 @@ import { resolveCharacterByNameAndQuality } from '../../utils/character-route';
 
 const BG_ROW_COLORS = ['red', 'orange', 'blue'] as const;
 const BG_ROW_LABELS = ['Front', 'Middle', 'Back'] as const;
+const BG_COL_LABELS = ['Left', 'Center', 'Right'] as const;
 const BG_ROW_HINTS = [
   'Guardian · Warrior · Assassin',
   'Warrior · Priest · Mage · Archer · Assassin',
@@ -81,17 +83,23 @@ export function BattlefieldGrid({
 }) {
   const grid = buildPositionGrid(members);
   const accentColor = `var(--mantine-color-${factionColor}-${isDark ? 7 : 5})`;
+  const isMobile = useMediaQuery('(max-width: 30em)');
 
   return (
-    <Stack gap="sm">
+    <Stack gap={isMobile ? 'xs' : 'sm'}>
       {grid.map((row, rowIdx) => (
-        <Group key={rowIdx} gap="sm" align="stretch" wrap="nowrap">
+        <Group
+          key={rowIdx}
+          gap={isMobile ? 'xs' : 'sm'}
+          align="stretch"
+          wrap="nowrap"
+        >
           {/* Row indicator */}
           <Tooltip label={BG_ROW_HINTS[rowIdx]} withArrow position="right">
             <Box
               style={{
-                width: 24,
-                minWidth: 24,
+                width: isMobile ? 20 : 24,
+                minWidth: isMobile ? 20 : 24,
                 flexShrink: 0,
                 borderRadius: 'var(--mantine-radius-sm)',
                 background: `var(--mantine-color-${BG_ROW_COLORS[rowIdx]}-5)`,
@@ -101,7 +109,7 @@ export function BattlefieldGrid({
                 justifyContent: 'center',
                 writingMode: 'vertical-rl',
                 transform: 'rotate(180deg)',
-                fontSize: 10,
+                fontSize: isMobile ? 9 : 10,
                 fontWeight: 700,
                 letterSpacing: '0.12em',
                 lineHeight: 1,
@@ -122,7 +130,11 @@ export function BattlefieldGrid({
           </Tooltip>
 
           {/* 3 cells */}
-          <SimpleGrid cols={3} spacing="sm" style={{ flex: 1 }}>
+          <SimpleGrid
+            cols={{ base: 1, xs: 2, sm: 3 }}
+            spacing={{ base: 'xs', sm: 'sm' }}
+            style={{ flex: 1 }}
+          >
             {row.map((member, colIdx) => {
               if (!member) {
                 return (
@@ -132,7 +144,7 @@ export function BattlefieldGrid({
                     withBorder
                     {...getCardHoverProps({
                       style: {
-                        minHeight: 80,
+                        minHeight: isMobile ? 72 : 80,
                         display: 'flex',
                         alignItems: 'center',
                         justifyContent: 'center',
@@ -141,6 +153,9 @@ export function BattlefieldGrid({
                       },
                     })}
                   >
+                    <Text size="xs" c="dimmed" tt="uppercase" fw={600}>
+                      {BG_COL_LABELS[colIdx]}
+                    </Text>
                     <Text size="xs" c="dimmed">
                       —
                     </Text>
@@ -162,7 +177,7 @@ export function BattlefieldGrid({
               return (
                 <Paper
                   key={colIdx}
-                  p="sm"
+                  p={isMobile ? 'xs' : 'sm'}
                   radius="md"
                   withBorder
                   {...getCardHoverProps({
@@ -172,11 +187,14 @@ export function BattlefieldGrid({
                   })}
                 >
                   <Stack gap={6} align="center">
+                    <Text size="xs" c="dimmed" tt="uppercase" fw={600}>
+                      {BG_COL_LABELS[colIdx]}
+                    </Text>
                     <Box pos="relative">
                       <Tooltip label={`View ${resolvedName}`} {...tooltipProps}>
                         <CharacterPortrait
                           name={resolvedName}
-                          size={72}
+                          size={isMobile ? 64 : 72}
                           quality={character?.quality}
                           borderWidth={3}
                           link
@@ -215,7 +233,7 @@ export function BattlefieldGrid({
 
                     <Text
                       fw={700}
-                      size="sm"
+                      size={isMobile ? 'xs' : 'sm'}
                       ta="center"
                       component={Link}
                       to={routePath}
@@ -228,7 +246,10 @@ export function BattlefieldGrid({
 
                     {character && (
                       <Group gap={4} justify="center" wrap="nowrap">
-                        <QualityIcon quality={character.quality} size={16} />
+                        <QualityIcon
+                          quality={character.quality}
+                          size={isMobile ? 14 : 16}
+                        />
                         <ClassTag
                           characterClass={character.character_class}
                           size="xs"
