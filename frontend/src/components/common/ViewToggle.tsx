@@ -17,9 +17,10 @@ export default function ViewToggle({ viewMode, onChange }: ViewToggleProps) {
       <Tooltip label="Grid view">
         <ActionIcon
           variant={viewMode === 'grid' ? 'filled' : 'default'}
-          size={isMobile ? 'md' : 'sm'}
+          size={isMobile ? 'lg' : 'sm'}
           onClick={() => onChange('grid')}
           aria-label="Switch to grid view"
+          aria-pressed={viewMode === 'grid'}
         >
           <IoGrid size={IMAGE_SIZE.ICON_MD} />
         </ActionIcon>
@@ -27,9 +28,10 @@ export default function ViewToggle({ viewMode, onChange }: ViewToggleProps) {
       <Tooltip label="List view">
         <ActionIcon
           variant={viewMode === 'list' ? 'filled' : 'default'}
-          size={isMobile ? 'md' : 'sm'}
+          size={isMobile ? 'lg' : 'sm'}
           onClick={() => onChange('list')}
           aria-label="Switch to list view"
+          aria-pressed={viewMode === 'list'}
         >
           <IoList size={IMAGE_SIZE.ICON_MD} />
         </ActionIcon>

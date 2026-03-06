@@ -10,7 +10,12 @@ import {
   Tooltip,
   UnstyledButton,
 } from '@mantine/core';
-import { useDebouncedValue, useDisclosure, useHotkeys } from '@mantine/hooks';
+import {
+  useDebouncedValue,
+  useDisclosure,
+  useHotkeys,
+  useMediaQuery,
+} from '@mantine/hooks';
 import Fuse from 'fuse.js';
 import type { ReactNode } from 'react';
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react';
@@ -40,7 +45,7 @@ import { getStatusEffectIcon } from '../../assets/status_effect';
 import { getSubclassIcon } from '../../assets/subclass';
 import { getWyrmspellIcon } from '../../assets/wyrmspell';
 import { normalizeContentType } from '../../constants/content-types';
-import { TRANSITION } from '../../constants/ui';
+import { BREAKPOINTS, TRANSITION } from '../../constants/ui';
 import { SearchDataContext } from '../../contexts';
 import { isCodeActive } from '../../utils';
 import {
@@ -194,6 +199,7 @@ export default function SearchModal({
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const {
     characters,
     artifacts,
@@ -573,7 +579,7 @@ export default function SearchModal({
         <Tooltip label={searchShortcutHint} position="bottom" withArrow>
           <ActionIcon
             variant="subtle"
-            size="lg"
+            size={isMobile ? 'xl' : 'lg'}
             onClick={open}
             aria-label={searchShortcutHint}
           >
@@ -589,7 +595,8 @@ export default function SearchModal({
           setQuery('');
         }}
         title={null}
-        size="600px"
+        size={isMobile ? '100%' : '600px'}
+        fullScreen={isMobile}
         padding={0}
         withCloseButton={false}
         centered
@@ -600,7 +607,7 @@ export default function SearchModal({
             overflow: 'hidden',
           },
           inner: {
-            padding: '0 16px',
+            padding: isMobile ? 0 : '0 16px',
           },
         }}
         overlayProps={{
@@ -626,7 +633,7 @@ export default function SearchModal({
                   <ActionIcon
                     variant="subtle"
                     onClick={() => setQuery('')}
-                    size="sm"
+                    size={isMobile ? 'md' : 'sm'}
                     color="gray"
                     aria-label="Clear search"
                   >
@@ -643,7 +650,7 @@ export default function SearchModal({
                 },
               }}
               autoFocus
-              size="md"
+              size={isMobile ? 'lg' : 'md'}
             />
           </Box>
 
@@ -656,7 +663,13 @@ export default function SearchModal({
           )}
 
           {searchResults.length > 0 && (
-            <Stack gap={0} style={{ maxHeight: '500px', overflowY: 'auto' }}>
+            <Stack
+              gap={0}
+              style={{
+                maxHeight: isMobile ? 'calc(100dvh - 120px)' : '500px',
+                overflowY: 'auto',
+              }}
+            >
               {searchResults.map((result, index) => {
                 const isSelected = index === selectedIndex;
                 const isNewCategory =
@@ -679,10 +692,11 @@ export default function SearchModal({
                     <UnstyledButton
                       onClick={() => handleSelect(result)}
                       onMouseEnter={() => setSelectedIndex(index)}
-                      p="md"
+                      p={isMobile ? 'lg' : 'md'}
                       style={{
                         display: 'block',
                         width: '100%',
+                        minHeight: isMobile ? 52 : 44,
                         backgroundColor: isSelected
                           ? 'var(--mantine-color-default-hover)'
                           : 'transparent',

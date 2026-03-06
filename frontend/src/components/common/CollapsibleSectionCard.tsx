@@ -22,7 +22,12 @@ export default function CollapsibleSectionCard({
     <Paper id={id} p="lg" radius="md" withBorder {...getCardHoverProps()}>
       <UnstyledButton
         onClick={() => setOpened((value) => !value)}
-        style={{ width: '100%' }}
+        style={{
+          width: '100%',
+          minHeight: 44,
+          paddingBlock: 4,
+          borderRadius: 'var(--mantine-radius-sm)',
+        }}
         aria-expanded={opened}
       >
         <Group justify="space-between" align="center" wrap="nowrap" gap="sm">

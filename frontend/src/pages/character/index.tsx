@@ -135,8 +135,10 @@ export default function CharacterPage() {
     TierListReferenceContext
   );
 
-  const { preferredByName: preferredCharacterByName, nameCounts: characterNameCounts } =
-    useCharacterResolution(characters);
+  const {
+    preferredByName: preferredCharacterByName,
+    nameCounts: characterNameCounts,
+  } = useCharacterResolution(characters);
 
   const routeMatch = useMemo(
     () => resolveCharacterRoute(characters, name, characterNameCounts),
@@ -532,6 +534,7 @@ export default function CharacterPage() {
                           style={{
                             display: 'block',
                             width: '100%',
+                            minHeight: isDesktop ? undefined : 44,
                             borderRadius: 'var(--mantine-radius-md)',
                             overflow: 'hidden',
                             position: 'relative',
@@ -594,6 +597,7 @@ export default function CharacterPage() {
                               leftSection={<RiZoomInLine />}
                               variant="light"
                               color="gray"
+                              size={isDesktop ? 'md' : 'lg'}
                             >
                               View
                             </Badge>

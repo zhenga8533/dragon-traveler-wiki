@@ -10,6 +10,7 @@ import {
   Tabs,
   Text,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
 import CharacterCard from '../../components/character/CharacterCard';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
@@ -24,7 +25,7 @@ import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
 import QualityIcon from '../../components/common/QualityIcon';
 import TierListContent from '../../components/tier-list/TierListContent';
 import { getCardHoverProps } from '../../constants/styles';
-import { CHARACTER_GRID_SPACING } from '../../constants/ui';
+import { BREAKPOINTS, CHARACTER_GRID_SPACING } from '../../constants/ui';
 import type { ChangesFile } from '../../types/changes';
 import type { Character } from '../../types/character';
 import type { TierList as TierListType } from '../../types/tier-list';
@@ -78,6 +79,8 @@ export default function TierListViewTab({
   isExporting,
   exportRefCallback,
 }: TierListViewTabProps) {
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+
   return (
     <>
       <Collapse in={filterOpen}>
@@ -111,15 +114,19 @@ export default function TierListViewTab({
 
       {visibleTierLists.length > 0 && (
         <Tabs defaultValue={visibleTierLists[0]?.name}>
-          <Group justify="space-between" mb={0} wrap="wrap">
-            <Tabs.List style={{ flexWrap: 'wrap', flex: 1 }}>
+          <ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
+            <Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
               {visibleTierLists.map((tierList) => (
-                <Tabs.Tab key={tierList.name} value={tierList.name}>
+                <Tabs.Tab
+                  key={tierList.name}
+                  value={tierList.name}
+                  style={{ minHeight: 40 }}
+                >
                   {tierList.name}
                 </Tabs.Tab>
               ))}
             </Tabs.List>
-          </Group>
+          </ScrollArea>
 
           {visibleTierLists.map((tierList) => {
             const rankedNames = new Set(
@@ -144,7 +151,7 @@ export default function TierListViewTab({
                 onEdit={() => onRequestEdit(tierList)}
                 onExport={() => onRequestExport(tierList.name)}
                 isExporting={isExporting === tierList.name}
-                size="compact-xs"
+                size={isMobile ? 'xs' : 'compact-xs'}
                 variant="light"
               />
             );
@@ -250,7 +257,7 @@ export default function TierListViewTab({
                                           )}
                                           size="sm"
                                           fw={500}
-                                          c="violet"
+                                          c="teal"
                                         >
                                           {displayName}
                                         </Text>

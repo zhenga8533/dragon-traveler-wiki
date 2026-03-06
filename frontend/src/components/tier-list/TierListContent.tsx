@@ -66,16 +66,16 @@ export default function TierListContent({
   return (
     <Stack gap="md">
       <Stack gap={6}>
-        <Group gap="xs" wrap="wrap" mb={2}>
+        <Group gap="xs" wrap="wrap" mb={2} align="center">
           {tierList.content_type && (
-            <Badge variant="light" size="sm">
+            <Badge variant="light" color="teal" size="sm">
               {normalizeContentType(tierList.content_type, 'All')}
             </Badge>
           )}
           {tierList.author && (
             <Text size="sm" c="dimmed">
               by{' '}
-              <Text span c="violet" inherit>
+              <Text span c="teal" inherit fw={600}>
                 {tierList.author}
               </Text>
             </Text>
@@ -202,7 +202,7 @@ export default function TierListContent({
                                     to={routePath}
                                     size="sm"
                                     fw={500}
-                                    c="violet"
+                                    c="teal"
                                   >
                                     {displayName}
                                   </Text>

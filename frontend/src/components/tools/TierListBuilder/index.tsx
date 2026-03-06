@@ -165,6 +165,7 @@ export default function TierListBuilder({
     setCategoryName(normalizeContentType(value, DEFAULT_CONTENT_TYPE));
   }, []);
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const actionButtonSize = isMobile ? 'md' : 'sm';
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),
     useSensor(TouchSensor, {
@@ -708,7 +709,7 @@ export default function TierListBuilder({
                 {({ copied, copy }) => (
                   <Button
                     variant="light"
-                    size="sm"
+                    size={actionButtonSize}
                     leftSection={
                       copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
                     }
@@ -723,7 +724,7 @@ export default function TierListBuilder({
               </CopyButton>
               <Button
                 variant="light"
-                size="sm"
+                size={actionButtonSize}
                 leftSection={<IoClipboardOutline size={16} />}
                 onClick={openPasteModal}
               >
@@ -731,7 +732,7 @@ export default function TierListBuilder({
               </Button>
               <Button
                 variant="light"
-                size="sm"
+                size={actionButtonSize}
                 leftSection={<IoSave size={16} />}
                 onClick={handleSaveToMySaved}
               >
@@ -739,7 +740,7 @@ export default function TierListBuilder({
               </Button>
               <Button
                 variant="light"
-                size="sm"
+                size={actionButtonSize}
                 leftSection={<IoSwapVertical size={16} />}
                 onClick={handleSort}
                 disabled={!hasAnyPlaced}
@@ -750,7 +751,7 @@ export default function TierListBuilder({
             <Group gap="sm" wrap="wrap">
               <Button
                 variant="light"
-                size="sm"
+                size={actionButtonSize}
                 leftSection={<IoDownload size={16} />}
                 onClick={() => setIsCapturing(true)}
                 loading={isCapturing}
@@ -760,7 +761,7 @@ export default function TierListBuilder({
               </Button>
               <Button
                 variant="light"
-                size="sm"
+                size={actionButtonSize}
                 leftSection={<IoOpenOutline size={16} />}
                 onClick={handleSubmitSuggestion}
                 disabled={!hasAnyPlaced}
@@ -770,7 +771,7 @@ export default function TierListBuilder({
               <Button
                 variant="light"
                 color="red"
-                size="sm"
+                size={actionButtonSize}
                 leftSection={<IoTrash size={16} />}
                 onClick={openClearConfirm}
                 disabled={!hasAnyBuilderData}
@@ -861,8 +862,8 @@ export default function TierListBuilder({
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleAddTier();
               }}
-              size="sm"
-              style={{ width: 150 }}
+              size={actionButtonSize}
+              style={{ width: isMobile ? '100%' : 150 }}
             />
             <TextInput
               placeholder="Tier note (optional)"
@@ -871,11 +872,11 @@ export default function TierListBuilder({
               onKeyDown={(e) => {
                 if (e.key === 'Enter') handleAddTier();
               }}
-              size="sm"
-              style={{ flex: 1, minWidth: 140 }}
+              size={actionButtonSize}
+              style={{ flex: 1, minWidth: isMobile ? '100%' : 140 }}
             />
             <Button
-              size="sm"
+              size={actionButtonSize}
               variant="light"
               leftSection={<IoAddOutline size={14} />}
               onClick={handleAddTier}

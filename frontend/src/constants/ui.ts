@@ -66,6 +66,11 @@ export const SIDEBAR = {
   WIDTH_COLLAPSED: 70,
 } as const;
 
+export const HEADER_HEIGHT = {
+  MOBILE: 64,
+  DESKTOP: 72,
+} as const;
+
 // Storage keys
 export const PAGE_SIZE = 50;
 

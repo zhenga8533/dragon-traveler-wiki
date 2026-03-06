@@ -25,3 +25,24 @@
   animation-timing-function: linear;
   animation-iteration-count: infinite;
 }
+
+@media (max-width: 48em) {
+  .marqueeTrack {
+    animation-duration: calc(var(--marquee-duration, 30s) * 0.8);
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .marqueeTrack {
+    animation: none;
+    transform: none;
+  }
+
+  .featuredItem {
+    transition: none;
+  }
+
+  .featuredItem:hover {
+    transform: none;
+  }
+}

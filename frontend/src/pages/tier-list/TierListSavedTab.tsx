@@ -1,18 +1,20 @@
 import {
   Button,
   Collapse,
-  Group,
   Paper,
+  ScrollArea,
   Stack,
   Tabs,
   Text,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import { IoCreate } from 'react-icons/io5';
 import EntityActionButtons from '../../components/common/EntityActionButtons';
 import type { ChipFilterGroup } from '../../components/common/EntityFilter';
 import EntityFilter from '../../components/common/EntityFilter';
 import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
 import TierListContent from '../../components/tier-list/TierListContent';
+import { BREAKPOINTS } from '../../constants/ui';
 import type { Character } from '../../types/character';
 import type { TierList as TierListType } from '../../types/tier-list';
 
@@ -61,6 +63,8 @@ export default function TierListSavedTab({
   onRequestDelete,
   onGoToBuilder,
 }: TierListSavedTabProps) {
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+
   const filterPanel = (
     <Collapse in={filterOpen}>
       <Paper p="sm" radius="md" withBorder bg="var(--mantine-color-body)">
@@ -127,15 +131,15 @@ export default function TierListSavedTab({
       {filterPanel}
 
       <Tabs defaultValue={visibleSavedTierLists[0]?.name}>
-        <Group justify="space-between" mb={0} wrap="wrap">
-          <Tabs.List style={{ flexWrap: 'wrap', flex: 1 }}>
+        <ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
+          <Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
             {visibleSavedTierLists.map((tl) => (
-              <Tabs.Tab key={tl.name} value={tl.name}>
+              <Tabs.Tab key={tl.name} value={tl.name} style={{ minHeight: 40 }}>
                 {tl.name || 'Untitled'}
               </Tabs.Tab>
             ))}
           </Tabs.List>
-        </Group>
+        </ScrollArea>
 
         {visibleSavedTierLists.map((tierList) => {
           const headerActions = (
@@ -144,7 +148,7 @@ export default function TierListSavedTab({
               onExport={() => onRequestExport(tierList.name)}
               isExporting={isExporting === tierList.name}
               onDelete={() => onRequestDelete(tierList.name)}
-              size="compact-xs"
+              size={isMobile ? 'xs' : 'compact-xs'}
               variant="light"
             />
           );

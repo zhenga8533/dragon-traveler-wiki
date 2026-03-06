@@ -48,8 +48,8 @@ export default function CharacterPageHeroSection({
         overflow: 'hidden',
         background: 'var(--mantine-color-body)',
         margin:
-          'calc(-1 * var(--mantine-spacing-md)) calc(-1 * var(--mantine-spacing-md)) 0',
-        padding: 'var(--mantine-spacing-md) var(--mantine-spacing-md) 0',
+          'calc(-1 * var(--mantine-spacing-sm)) calc(-1 * var(--mantine-spacing-sm)) 0',
+        padding: 'var(--mantine-spacing-sm) var(--mantine-spacing-sm) 0',
       }}
     >
       {/* Blurred background layer using default illustration */}
@@ -99,89 +99,110 @@ export default function CharacterPageHeroSection({
       )}
 
       {/* Content overlay */}
-      <Container size="lg" style={{ position: 'relative', zIndex: 1 }} py="xl">
-        <Grid gutter="xl" align="center">
-          {/* Portrait */}
-          <Grid.Col span={{ base: 12, sm: 'content' }}>
-            <Center>
-              <Box
-                style={{
-                  width: CHARACTER_HERO.PORTRAIT_SIZE,
-                  height: CHARACTER_HERO.PORTRAIT_SIZE,
-                  borderRadius: '50%',
-                  border: `${CHARACTER_HERO.BORDER_WIDTH}px solid var(--mantine-color-${QUALITY_COLOR[character.quality]}-5)`,
-                  overflow: 'hidden',
-                  boxShadow: 'var(--mantine-shadow-lg)',
-                }}
-              >
-                <Image
-                  src={portrait}
-                  alt={character.name}
-                  w={CHARACTER_HERO.PORTRAIT_SIZE}
-                  h={CHARACTER_HERO.PORTRAIT_SIZE}
-                  fit="cover"
-                  fallbackSrc={`https://placehold.co/${CHARACTER_HERO.PORTRAIT_SIZE}x${CHARACTER_HERO.PORTRAIT_SIZE}?text=?`}
+      <Container
+        size="lg"
+        style={{ position: 'relative', zIndex: 1 }}
+        py={{ base: 'lg', sm: 'xl' }}
+      >
+        <Box
+          style={{
+            borderRadius: 'var(--mantine-radius-lg)',
+            border: isDark
+              ? '1px solid rgba(255, 255, 255, 0.16)'
+              : '1px solid rgba(15, 23, 42, 0.12)',
+            background: isDark
+              ? 'linear-gradient(180deg, rgba(8, 12, 18, 0.64) 0%, rgba(8, 12, 18, 0.5) 100%)'
+              : 'linear-gradient(180deg, rgba(255, 255, 255, 0.8) 0%, rgba(248, 250, 252, 0.72) 100%)',
+            backdropFilter: 'blur(6px)',
+            padding: 'var(--mantine-spacing-md)',
+            boxShadow: isDark
+              ? '0 16px 34px rgba(0, 0, 0, 0.3)'
+              : '0 12px 28px rgba(15, 23, 42, 0.1)',
+          }}
+        >
+          <Grid gutter={{ base: 'md', sm: 'xl' }} align="center">
+            {/* Portrait */}
+            <Grid.Col span={{ base: 12, sm: 'content' }}>
+              <Center>
+                <Box
+                  style={{
+                    width: CHARACTER_HERO.PORTRAIT_SIZE,
+                    height: CHARACTER_HERO.PORTRAIT_SIZE,
+                    borderRadius: '50%',
+                    border: `${CHARACTER_HERO.BORDER_WIDTH}px solid var(--mantine-color-${QUALITY_COLOR[character.quality]}-5)`,
+                    overflow: 'hidden',
+                    boxShadow: 'var(--mantine-shadow-lg)',
+                  }}
+                >
+                  <Image
+                    src={portrait}
+                    alt={character.name}
+                    w={CHARACTER_HERO.PORTRAIT_SIZE}
+                    h={CHARACTER_HERO.PORTRAIT_SIZE}
+                    fit="cover"
+                    fallbackSrc={`https://placehold.co/${CHARACTER_HERO.PORTRAIT_SIZE}x${CHARACTER_HERO.PORTRAIT_SIZE}?text=?`}
+                  />
+                </Box>
+              </Center>
+            </Grid.Col>
+
+            {/* Character Info */}
+            <Grid.Col span={{ base: 12, sm: 'auto' }}>
+              <Stack gap="sm">
+                <Breadcrumbs
+                  items={[
+                    { label: 'Characters', path: '/characters' },
+                    { label: character.name },
+                  ]}
                 />
-              </Box>
-            </Center>
-          </Grid.Col>
 
-          {/* Character Info */}
-          <Grid.Col span={{ base: 12, sm: 'auto' }}>
-            <Stack gap="sm">
-              <Breadcrumbs
-                items={[
-                  { label: 'Characters', path: '/characters' },
-                  { label: character.name },
-                ]}
-              />
-
-              <Group gap="md" align="center">
-                <Title order={1} c={isDark ? 'white' : 'dark'}>
-                  {character.name}
-                </Title>
-                <GlobalBadge isGlobal={character.is_global} size="md" />
-              </Group>
-
-              {character.title && (
-                <Text size="sm" fw={500} c="dimmed">
-                  {character.title}
-                </Text>
-              )}
-
-              <LastUpdated timestamp={character.last_updated} />
-
-              <Group gap="lg">
-                <QualityIcon quality={character.quality} size={24} />
-
-                {tierLabel && <TierBadge tier={tierLabel} size="lg" />}
-
-                <ClassTag characterClass={character.character_class} />
-              </Group>
-
-              <Group gap="sm">
-                {character.factions.map((f) => (
-                  <FactionTag key={f} faction={f} size="lg" />
-                ))}
-              </Group>
-
-              {(character.height || character.weight) && (
-                <Group gap="md">
-                  {character.height && (
-                    <Text size="sm" c="dimmed">
-                      Height: {character.height}
-                    </Text>
-                  )}
-                  {character.weight && (
-                    <Text size="sm" c="dimmed">
-                      Weight: {character.weight}
-                    </Text>
-                  )}
+                <Group gap="md" align="center" wrap="wrap">
+                  <Title order={1} c={isDark ? 'white' : 'dark'}>
+                    {character.name}
+                  </Title>
+                  <GlobalBadge isGlobal={character.is_global} size="md" />
                 </Group>
-              )}
-            </Stack>
-          </Grid.Col>
-        </Grid>
+
+                {character.title && (
+                  <Text size="sm" fw={500} c="dimmed">
+                    {character.title}
+                  </Text>
+                )}
+
+                <LastUpdated timestamp={character.last_updated} />
+
+                <Group gap="sm" wrap="wrap">
+                  <QualityIcon quality={character.quality} size={24} />
+
+                  {tierLabel && <TierBadge tier={tierLabel} size="lg" />}
+
+                  <ClassTag characterClass={character.character_class} />
+                </Group>
+
+                <Group gap="sm" wrap="wrap">
+                  {character.factions.map((f) => (
+                    <FactionTag key={f} faction={f} size="lg" />
+                  ))}
+                </Group>
+
+                {(character.height || character.weight) && (
+                  <Group gap="md" wrap="wrap">
+                    {character.height && (
+                      <Text size="sm" c="dimmed">
+                        Height: {character.height}
+                      </Text>
+                    )}
+                    {character.weight && (
+                      <Text size="sm" c="dimmed">
+                        Weight: {character.weight}
+                      </Text>
+                    )}
+                  </Group>
+                )}
+              </Stack>
+            </Grid.Col>
+          </Grid>
+        </Box>
       </Container>
 
       {/* Gradient overlay at bottom */}

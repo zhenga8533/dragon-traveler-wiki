@@ -1,5 +1,53 @@
+:root {
+  --dt-surface-glow-a: rgba(6, 182, 212, 0.24);
+  --dt-surface-glow-b: rgba(249, 115, 22, 0.2);
+  --dt-grid-line: rgba(148, 163, 184, 0.09);
+  --dt-focus-ring: rgba(20, 184, 166, 0.42);
+}
+
+[data-mantine-color-scheme='dark'] {
+  --dt-surface-glow-a: rgba(6, 182, 212, 0.28);
+  --dt-surface-glow-b: rgba(249, 115, 22, 0.24);
+  --dt-grid-line: rgba(71, 85, 105, 0.22);
+  --dt-focus-ring: rgba(45, 212, 191, 0.45);
+}
+
 html {
   scrollbar-gutter: stable;
+}
+
+body {
+  background:
+    radial-gradient(
+      circle at 20% -10%,
+      rgba(6, 182, 212, 0.14) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 90% 10%,
+      rgba(249, 115, 22, 0.12) 0%,
+      transparent 32%
+    ),
+    linear-gradient(var(--dt-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--dt-grid-line) 1px, transparent 1px),
+    var(--mantine-color-body);
+  background-size:
+    auto,
+    auto,
+    28px 28px,
+    28px 28px,
+    auto;
+  background-position:
+    center,
+    center,
+    0 0,
+    0 0,
+    center;
+}
+
+:focus-visible {
+  outline: 2px solid var(--dt-focus-ring);
+  outline-offset: 2px;
 }
 
 .mantine-Paper-root[data-with-border],
@@ -8,17 +56,35 @@ html {
   background:
     linear-gradient(var(--mantine-color-body), var(--mantine-color-body))
       padding-box,
-    linear-gradient(135deg, rgba(124, 58, 237, 0.35), rgba(236, 72, 153, 0.18))
+    linear-gradient(135deg, var(--dt-surface-glow-a), var(--dt-surface-glow-b))
       border-box;
   transition:
     transform 180ms ease,
-    box-shadow 180ms ease;
+    box-shadow 180ms ease,
+    border-color 180ms ease;
 }
 
 .mantine-Paper-root[data-with-border]:hover:not([data-no-hover]),
 .mantine-Card-root[data-with-border]:hover:not([data-no-hover]) {
   transform: translateY(-2px);
-  box-shadow: var(--mantine-shadow-md);
+  box-shadow:
+    var(--mantine-shadow-md),
+    0 10px 28px rgba(2, 6, 23, 0.12);
+}
+
+.mantine-NavLink-root[data-active='true'] {
+  box-shadow: inset 3px 0 0 0 var(--mantine-primary-color-filled);
+}
+
+@media (max-width: 48em) {
+  body {
+    background-size:
+      auto,
+      auto,
+      20px 20px,
+      20px 20px,
+      auto;
+  }
 }
 
 @media (prefers-reduced-motion: reduce) {

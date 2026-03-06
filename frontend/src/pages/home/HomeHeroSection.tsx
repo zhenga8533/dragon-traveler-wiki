@@ -12,6 +12,7 @@ import {
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import {
   IoGameController,
   IoGlobe,
@@ -30,7 +31,7 @@ import {
   getHomeHeroSubtitleStyle,
   getHomeHeroWordmarkStyle,
 } from '../../constants/styles';
-import { TRANSITION } from '../../constants/ui';
+import { BREAKPOINTS, TRANSITION } from '../../constants/ui';
 
 const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];
 
@@ -59,12 +60,13 @@ const HOME_HERO_HEADING_PANEL_STYLE = {
   width: '100%',
   maxWidth: 760,
   marginInline: 'auto',
-  padding: '18px 20px',
+  padding: '20px 22px',
   borderRadius: 14,
 };
 
 export default function HomeHeroSection() {
   const isDark = useComputedColorScheme('light') === 'dark';
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
 
   const headingPanelStyle = {
     ...HOME_HERO_HEADING_PANEL_STYLE,
@@ -99,16 +101,16 @@ export default function HomeHeroSection() {
       <Container
         size="md"
         style={{ position: 'relative', zIndex: 1, width: '100%' }}
-        py="xl"
+        py={{ base: 'lg', sm: 'xl' }}
       >
-        <Stack gap="lg">
+        <Stack gap={isMobile ? 'md' : 'lg'}>
           <Box style={{ textAlign: 'center' }}>
             <Box style={headingPanelStyle}>
               <Group justify="center" mb={10}>
                 <Badge
                   radius="xl"
                   variant="gradient"
-                  gradient={{ from: 'pink', to: 'violet', deg: 110 }}
+                  gradient={{ from: 'cyan', to: 'teal', deg: 110 }}
                   style={{ letterSpacing: 0.3 }}
                 >
                   Community Resource Hub
@@ -138,8 +140,8 @@ export default function HomeHeroSection() {
                   fw={700}
                   style={{
                     color: isDark
-                      ? 'var(--mantine-color-violet-1)'
-                      : 'var(--mantine-color-violet-8)',
+                      ? 'var(--mantine-color-teal-1)'
+                      : 'var(--mantine-color-teal-8)',
                   }}
                 >
                   community-driven
@@ -173,23 +175,29 @@ export default function HomeHeroSection() {
                 </Text>
               </Text>
               <Group justify="center" gap={8} mt="sm" wrap="wrap">
-                <Badge variant="light" color="violet" radius="xl">
+                <Badge variant="light" color="teal" radius="xl">
                   Character Builds
                 </Badge>
-                <Badge variant="light" color="blue" radius="xl">
+                <Badge variant="light" color="cyan" radius="xl">
                   Team Tools
                 </Badge>
-                <Badge variant="light" color="grape" radius="xl">
+                <Badge variant="light" color="orange" radius="xl">
                   Codes & Updates
                 </Badge>
               </Group>
             </Box>
-            <Stack gap="sm" mt="md" align="center">
-              <Group gap="sm" justify="center" wrap="wrap">
+            <Stack gap="sm" mt="md" align="center" w="100%">
+              <Group
+                gap="sm"
+                justify="center"
+                wrap="wrap"
+                style={{ width: '100%', maxWidth: isMobile ? 440 : undefined }}
+              >
                 <Button
                   component={Link}
                   to="/characters"
                   size="md"
+                  fullWidth={isMobile}
                   radius="md"
                   styles={HOME_CTA_BUTTON_STYLES}
                   leftSection={<IoPeople size={18} />}
@@ -200,9 +208,10 @@ export default function HomeHeroSection() {
                   component={Link}
                   to="/tier-list"
                   size="md"
+                  fullWidth={isMobile}
                   radius="md"
                   variant="light"
-                  color="grape"
+                  color="teal"
                   styles={HOME_CTA_BUTTON_STYLES}
                   leftSection={<IoTrophy size={18} />}
                 >
@@ -226,18 +235,24 @@ export default function HomeHeroSection() {
                   Play Now
                 </Button>
               </Group>
-              <Group gap="xs" justify="center">
+              <Group
+                gap="xs"
+                justify="center"
+                style={{ width: '100%', maxWidth: isMobile ? 440 : undefined }}
+              >
                 <SearchModal
                   enableHotkeys={false}
                   trigger={({ open }) => (
                     <Button
                       onClick={open}
-                      size="sm"
+                      size={isMobile ? 'md' : 'sm'}
+                      fullWidth={isMobile}
                       radius="md"
-                      variant="white"
-                      color="dark"
+                      variant="light"
+                      color="teal"
                       styles={HOME_CTA_BUTTON_STYLES}
                       leftSection={<IoSearch size={16} />}
+                      style={{ minHeight: isMobile ? 44 : undefined }}
                     >
                       Search the Wiki
                     </Button>
@@ -269,7 +284,7 @@ export default function HomeHeroSection() {
           >
             <Stack gap="md">
               <Group gap="sm">
-                <ThemeIcon variant="light" color="grape" size="lg" radius="md">
+                <ThemeIcon variant="light" color="teal" size="lg" radius="md">
                   <IoGameController size={20} />
                 </ThemeIcon>
                 <Title order={2} size="h3">
@@ -299,7 +314,7 @@ export default function HomeHeroSection() {
               <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
                 <ThemeIcon
                   variant="light"
-                  color="blue"
+                  color="cyan"
                   size="md"
                   radius="md"
                   style={{ flexShrink: 0 }}

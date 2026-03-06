@@ -44,14 +44,14 @@ export default function EntityFilter({
             leftSection={<IoSearch size={IMAGE_SIZE.ICON_MD} />}
             value={search ?? ''}
             onChange={(e) => onSearchChange(e.currentTarget.value)}
-            size={isMobile ? 'sm' : 'xs'}
+            size={isMobile ? 'md' : 'xs'}
             style={{ flex: 1, minWidth: 180 }}
           />
           {hasFilters && (
             <Button
               variant="subtle"
               color="gray"
-              size={isMobile ? 'sm' : 'compact-xs'}
+              size={isMobile ? 'md' : 'compact-xs'}
               leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
               onClick={onClear}
             >
@@ -66,7 +66,7 @@ export default function EntityFilter({
           <Button
             variant="subtle"
             color="gray"
-            size={isMobile ? 'sm' : 'compact-xs'}
+            size={isMobile ? 'md' : 'compact-xs'}
             leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
             onClick={onClear}
           >
@@ -93,7 +93,7 @@ export default function EntityFilter({
           >
             <Group gap={4} wrap="wrap">
               {group.options.map((option) => (
-                <Chip key={option} value={option} size={isMobile ? 'sm' : 'xs'}>
+                <Chip key={option} value={option} size={isMobile ? 'md' : 'xs'}>
                   <Group gap={4} wrap="nowrap" align="center">
                     {group.icon?.(option)}
                     <span>{option}</span>

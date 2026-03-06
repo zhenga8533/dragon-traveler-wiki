@@ -15,7 +15,8 @@ const dark: MantineColorsTuple = [
 ];
 
 export const theme = createTheme({
-  primaryColor: 'violet',
+  primaryColor: 'teal',
+  defaultRadius: 'md',
   fontFamily:
     '"Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
   colors: {
@@ -52,7 +53,7 @@ export const theme = createTheme({
   // Enhanced heading styles
   headings: {
     fontFamily:
-      '"Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
+      '"Space Grotesk", "Plus Jakarta Sans", system-ui, -apple-system, BlinkMacSystemFont, sans-serif',
     fontWeight: '700',
     sizes: {
       h1: { fontSize: '2.5rem', lineHeight: '1.2' },
@@ -69,6 +70,7 @@ export const theme = createTheme({
     Button: {
       defaultProps: {
         radius: 'md',
+        fw: 600,
       },
     },
     Paper: {
@@ -87,7 +89,27 @@ export const theme = createTheme({
         radius: 'md',
       },
     },
+    Select: {
+      defaultProps: {
+        radius: 'md',
+      },
+    },
     Modal: {
+      defaultProps: {
+        radius: 'md',
+      },
+    },
+    Drawer: {
+      defaultProps: {
+        radius: 'md',
+      },
+    },
+    ActionIcon: {
+      defaultProps: {
+        radius: 'md',
+      },
+    },
+    NavLink: {
       defaultProps: {
         radius: 'md',
       },

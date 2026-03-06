@@ -18,7 +18,12 @@ import {
   BRAND_TITLE_STYLE,
   LINK_BLOCK_RESET_STYLE,
 } from '../../constants/styles';
-import { BREAKPOINTS, SIDEBAR, TRANSITION } from '../../constants/ui';
+import {
+  BREAKPOINTS,
+  HEADER_HEIGHT,
+  SIDEBAR,
+  TRANSITION,
+} from '../../constants/ui';
 import { BannerContext } from '../../contexts';
 import { useSidebar } from '../../hooks';
 import AppRoutes from '../../routes/AppRoutes';
@@ -66,13 +71,15 @@ export default function AppLayout() {
 
   return (
     <AppShell
-      header={{ height: 60 }}
+      header={{
+        height: { base: HEADER_HEIGHT.MOBILE, sm: HEADER_HEIGHT.DESKTOP },
+      }}
       navbar={{
         width: navbarWidth,
         breakpoint: 'sm',
         collapsed: { mobile: !mobileOpened },
       }}
-      padding="md"
+      padding={{ base: 'sm', sm: 'md' }}
       transitionDuration={parseInt(TRANSITION.NORMAL)}
       transitionTimingFunction={TRANSITION.EASE}
     >
@@ -149,9 +156,11 @@ export default function AppLayout() {
         style={{
           display: 'flex',
           flexDirection: 'column',
-          minHeight: '100vh',
+          minHeight: '100dvh',
           position: 'relative',
           overflow: 'clip',
+          background:
+            'linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 22%), var(--mantine-color-body)',
         }}
       >
         {showBanner && <BannerBackground />}

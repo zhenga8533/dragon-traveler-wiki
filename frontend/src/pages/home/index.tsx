@@ -22,7 +22,11 @@ export default function Home() {
       <HomeHeroSection />
 
       {/* Content sections */}
-      <Container size="lg" py="xl" mt="md">
+      <Container
+        size="lg"
+        py={{ base: 'lg', sm: 'xl' }}
+        mt={{ base: 'sm', sm: 'md' }}
+      >
         <Stack gap="xl">
           {/* Featured Characters Marquee */}
           <FeaturedCharactersMarquee />
@@ -44,7 +48,7 @@ export default function Home() {
                   <Group gap="sm">
                     <ThemeIcon
                       variant="light"
-                      color="grape"
+                      color="teal"
                       size="lg"
                       radius="md"
                     >
@@ -71,7 +75,7 @@ export default function Home() {
                   <Group gap="sm">
                     <ThemeIcon
                       variant="light"
-                      color="grape"
+                      color="teal"
                       size="lg"
                       radius="md"
                     >

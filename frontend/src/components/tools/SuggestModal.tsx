@@ -11,7 +11,7 @@ import {
   TextInput,
   Textarea,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useCallback, useDeferredValue, useState } from 'react';
 import {
   IoAdd,
@@ -27,6 +27,7 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
   buildEmptyIssueBody,
 } from '../../constants/github';
+import { BREAKPOINTS } from '../../constants/ui';
 import { showWarningToast } from '../../utils/toast';
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number';
@@ -115,6 +116,7 @@ export default function SuggestModal({
   excludeFromJson,
 }: SuggestModalProps) {
   const [opened, { open, close }] = useDisclosure(false);
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const [values, setValues] = useState<Record<string, string | boolean>>(() =>
     buildInitialValues(fields)
   );
@@ -441,7 +443,7 @@ export default function SuggestModal({
     <>
       <Button
         variant="light"
-        size="xs"
+        size={isMobile ? 'sm' : 'xs'}
         leftSection={<IoAddCircleOutline size={16} />}
         onClick={handleOpen}
       >
@@ -452,7 +454,8 @@ export default function SuggestModal({
         opened={opened}
         onClose={close}
         title={modalTitle}
-        size="lg"
+        size={isMobile ? '100%' : 'lg'}
+        fullScreen={isMobile}
         centered
       >
         <Stack gap="sm">
@@ -473,7 +476,7 @@ export default function SuggestModal({
                 </Text>
                 <Button
                   variant="subtle"
-                  size="xs"
+                  size={isMobile ? 'sm' : 'xs'}
                   leftSection={<IoAdd size={14} />}
                   onClick={() => addArrayRow(af.name)}
                 >
@@ -493,7 +496,7 @@ export default function SuggestModal({
                     <ActionIcon
                       variant="subtle"
                       color="red"
-                      size="sm"
+                      size={isMobile ? 'md' : 'sm'}
                       onClick={() => removeArrayRow(af.name, idx)}
                       aria-label="Remove row"
                     >

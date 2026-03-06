@@ -8,7 +8,7 @@ import {
   Title,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { useSearchParams } from 'react-router-dom';
@@ -26,7 +26,7 @@ import {
   CONTENT_TYPE_OPTIONS,
   normalizeContentType,
 } from '../constants/content-types';
-import { STORAGE_KEY } from '../constants/ui';
+import { BREAKPOINTS, STORAGE_KEY } from '../constants/ui';
 import { useCharacterResolution } from '../hooks';
 import {
   useCharacters,
@@ -115,6 +115,7 @@ export default function TierList() {
   );
   const exportRefs = useRef<Map<string, HTMLDivElement>>(new Map());
   const isDark = useComputedColorScheme('light') === 'dark';
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const loading = loadingTiers || loadingChars;
   const error = tierListsError || charactersError;
 
@@ -316,9 +317,9 @@ export default function TierList() {
   );
 
   return (
-    <Container size="lg" py="xl">
+    <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
+        <Group justify="space-between" align="center" wrap="wrap" gap="sm">
           <Group gap="sm" align="baseline">
             <Title order={1}>Tier List</Title>
             <LastUpdated timestamp={mostRecentUpdate} />
@@ -330,7 +331,7 @@ export default function TierList() {
             {(mode === 'view' || mode === 'saved') && (
               <Button
                 variant="default"
-                size="xs"
+                size={isMobile ? 'sm' : 'xs'}
                 leftSection={<IoFilter size={16} />}
                 rightSection={
                   activeFilterCount > 0 ? (
@@ -365,6 +366,8 @@ export default function TierList() {
         {!loading && !error && (
           <>
             <SegmentedControl
+              fullWidth
+              size={isMobile ? 'sm' : 'md'}
               value={mode}
               onChange={(val) => {
                 const newMode = val as 'view' | 'saved' | 'builder';

@@ -162,10 +162,18 @@ export default function SettingsPanel() {
           closeButtonProps={{ 'aria-label': 'Close settings panel' }}
           closeOnClickOutside
           closeOnEscape
-          padding="sm"
+          padding="md"
           title="Settings"
           radius="md"
-          size="auto"
+          size="85%"
+          styles={{
+            body: {
+              maxHeight: '75dvh',
+              overflowY: 'auto',
+              paddingBottom:
+                'max(var(--mantine-spacing-lg), env(safe-area-inset-bottom))',
+            },
+          }}
         >
           {settingsContent}
         </Drawer>

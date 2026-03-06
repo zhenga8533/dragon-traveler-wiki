@@ -11,7 +11,12 @@ import { useMediaQuery } from '@mantine/hooks';
 import { type ReactNode, useEffect, useRef } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
-import { BREAKPOINTS, IMAGE_SIZE, Z_INDEX } from '../../constants/ui';
+import {
+  BREAKPOINTS,
+  HEADER_HEIGHT,
+  IMAGE_SIZE,
+  Z_INDEX,
+} from '../../constants/ui';
 import type { ViewMode } from '../../hooks/use-filters';
 import ViewToggle from '../common/ViewToggle';
 
@@ -43,7 +48,10 @@ export default function FilterToolbar({
     if (filterOpen && isMobile && filterPanelRef.current) {
       // Small delay to let the Collapse animation start before scrolling
       const id = setTimeout(() => {
-        filterPanelRef.current?.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+        filterPanelRef.current?.scrollIntoView({
+          behavior: 'smooth',
+          block: 'nearest',
+        });
       }, 50);
       return () => clearTimeout(id);
     }
@@ -56,7 +64,7 @@ export default function FilterToolbar({
           isMobile
             ? {
                 position: 'sticky',
-                top: 'calc(60px + var(--mantine-spacing-xs))',
+                top: `calc(${HEADER_HEIGHT.MOBILE}px + var(--mantine-spacing-xs))`,
                 zIndex: Z_INDEX.STICKY,
                 padding: 'var(--mantine-spacing-xs)',
                 borderRadius: 'var(--mantine-radius-md)',
@@ -93,7 +101,13 @@ export default function FilterToolbar({
       </Box>
 
       <Collapse in={filterOpen}>
-        <Paper ref={filterPanelRef} p="sm" radius="md" withBorder {...getCardHoverProps()}>
+        <Paper
+          ref={filterPanelRef}
+          p="sm"
+          radius="md"
+          withBorder
+          {...getCardHoverProps()}
+        >
           {children}
         </Paper>
       </Collapse>
