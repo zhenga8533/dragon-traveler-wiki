@@ -158,10 +158,9 @@ function CharacterNoteButton({
               minWidth: 180,
               maxWidth: 220,
               lineHeight: 1.35,
-              borderColor:
-                draftValue.trim().length > 0
-                  ? `var(--mantine-color-${accent.primary}-4)`
-                  : 'var(--mantine-color-default-border)',
+              borderColor: draftValue
+                ? `var(--mantine-color-${accent.primary}-4)`
+                : 'var(--mantine-color-default-border)',
               backgroundColor: 'var(--mantine-color-body)',
               opacity: draftValue ? 1 : 0.9,
               whiteSpace: 'pre-wrap',
