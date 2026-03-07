@@ -35,6 +35,13 @@
     "last_updated": 1771374946
   },
   {
+    "name": "Renewal Coin",
+    "quality": "SSR",
+    "description": "The only designated currency for the Skin Store, collect currency to buy new outfits for your favorite Luminary.",
+    "category": "Currency",
+    "last_updated": 1772856370
+  },
+  {
     "name": "Treasure Essence",
     "quality": "SSR",
     "description": "Obtained through Treasure Dismantling. Exchange for treasures at the Treasure Store.",
@@ -350,6 +357,27 @@
     "last_updated": 1771464391
   },
   {
+    "name": "Diamond Star",
+    "quality": "UR",
+    "description": "A magnificient diamond formed by the essence of countless treasures of heaven and earth. It is an indispensable precious material when buffing those divine wonders.",
+    "category": "Material",
+    "last_updated": 1772856370
+  },
+  {
+    "name": "Ether Pure Crystal - UR",
+    "quality": "UR",
+    "description": "A highly refined crystal containing a large amount of Ether Energy.",
+    "category": "Material",
+    "last_updated": 1772856370
+  },
+  {
+    "name": "Advanced Mandrake",
+    "quality": "SSR",
+    "description": "Mandrake, fully matured, provides vitality to the Howlkin of the Thunderhowl Legion. For hearing protection, only the edible leaves are kept during harvest.",
+    "category": "Material",
+    "last_updated": 1772856370
+  },
+  {
     "name": "Aurora Crystal",
     "quality": "SSR",
     "description": "Contains immense Energy from the origin of life. An Advanced Material for Artifact Advancement.",
@@ -378,6 +406,13 @@
     "last_updated": 1771374946
   },
   {
+    "name": "Ether Pure Crystal - SSR",
+    "quality": "SSR",
+    "description": "A refined crystal containing a moderate amount of Ether Energy.",
+    "category": "Material",
+    "last_updated": 1772856370
+  },
+  {
     "name": "Highwyrm EXP",
     "quality": "SSR",
     "description": "Used to increase Dragon level.",
@@ -390,6 +425,27 @@
     "description": "An amber crystal containing ancient Luminary memories. Unlocks advanced classes.",
     "category": "Material",
     "last_updated": 1771374946
+  },
+  {
+    "name": "Superior Mandrake",
+    "quality": "SSR",
+    "description": "An exceptionally rare, ancient Mandrake that provides vitality to the Howlkin of the Thunderhowl Legion. For hearing protection, only the edible leaves are kept during harvest.",
+    "category": "Material",
+    "last_updated": 1772856370
+  },
+  {
+    "name": "Ether Pure Crystal - Aggregate",
+    "quality": "SR",
+    "description": "A lightly refined crystal containing a small amount of Ether Energy.",
+    "category": "Material",
+    "last_updated": 1772856370
+  },
+  {
+    "name": "Intermediate Mandrake",
+    "quality": "SR",
+    "description": "Mandrake, in growth, provides vitality to the Howlkin of the Thunderhowl Legion. For hearing protection, only the edible leaves are kept during harvest.",
+    "category": "Material",
+    "last_updated": 1772856370
   },
   {
     "name": "Starlight Sigil",
@@ -406,11 +462,25 @@
     "last_updated": 1771374946
   },
   {
+    "name": "Basic Mandrake",
+    "quality": "R",
+    "description": "Mandrake, newly sprouted, provides vitality to the Howlkin of the Thunderhowl Legion. For hearing protection, only the edible leaves are kept during harvest.",
+    "category": "Material",
+    "last_updated": 1772856370
+  },
+  {
     "name": "Dragonfire",
     "quality": "R",
     "description": "An eternal flame that enhances the Dragon Roar effect.",
     "category": "Material",
     "last_updated": 1771374946
+  },
+  {
+    "name": "Ether Pure Crystal - Initial Type",
+    "quality": "R",
+    "description": "An unpolished crystal containing a faint trace of Ether Energy.",
+    "category": "Material",
+    "last_updated": 1772856370
   },
   {
     "name": "Leaf of the World Tree",
@@ -462,6 +532,13 @@
     "last_updated": 1771374946
   },
   {
+    "name": "Geomancy Probe",
+    "quality": "SSR",
+    "description": "A surveying plumb that always points toward ley line convergence. Use it to excavate artifacts. Used for Regular Archaeology.",
+    "category": "Summoning",
+    "last_updated": 1772856370
+  },
+  {
     "name": "Golden Horn",
     "quality": "SSR",
     "description": "A golden horn that can awaken the World Serpent. Can be used in Treasure Hunts.",
@@ -476,6 +553,13 @@
     "last_updated": 1771374946
   },
   {
+    "name": "Mausoleum Probe",
+    "quality": "SSR",
+    "description": "A surveying plumb that always points toward imperial tombs. Use it to excavate artifacts. Used for Seasonal Archaeology.",
+    "category": "Summoning",
+    "last_updated": 1772856370
+  },
+  {
     "name": "Soul Elixir",
     "quality": "SSR",
     "description": "Soul essence extracted from pure souls. Regarded across the land as a forbidden alchemical potion. Can be used for Howlkin Refinement.",
@@ -488,6 +572,13 @@
     "description": "A ticket crystallized from Luminary memories within the World Tree, serving as a soul link to channel Luminaries. Can be used for Luminary Summons.",
     "category": "Summoning",
     "last_updated": 1771374946
+  },
+  {
+    "name": "Tomb Probe",
+    "quality": "SSR",
+    "description": "A surveying plumb that always points toward ancient god tombs. Use it to excavate artifacts. Used for Special Archaeology.",
+    "category": "Summoning",
+    "last_updated": 1772856370
   },
   {
     "name": "Wishing Lily",
@@ -516,6 +607,13 @@
     "description": "Collect 60 Shards to obtain a 6-star Substitute Doll.",
     "category": "Shard",
     "last_updated": 1772043851
+  },
+  {
+    "name": "Divine Shards",
+    "quality": "SSR",
+    "description": "Collect 60 Shards to forge a Divine Crystal, used to enhance a Luminary's Divinity.",
+    "category": "Shard",
+    "last_updated": 1772856370
   },
   {
     "name": "Mythic Luminary Shard",

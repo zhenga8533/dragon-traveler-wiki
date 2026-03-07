@@ -469,6 +469,13 @@
     "last_updated": 1771185685
   },
   {
+    "name": "Burning Pulse",
+    "type": "Exclusive",
+    "effect": "Each stack permanently increases the holder's attack and critical strike damage by 1% , up to a maximum of 20 stacks.",
+    "remark": "",
+    "last_updated": 1772856370
+  },
+  {
     "name": "Commander's Intimidation",
     "type": "Exclusive",
     "effect": "Cannot be dispelled. Reduces damage dealt by the target to self by 8%. Stacks up to 5 times. Lasts for 8 seconds.",

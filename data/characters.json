@@ -3018,6 +3018,104 @@
     "last_updated": 1772634281
   },
   {
+    "name": "Hermes",
+    "title": "Goddess of Swiftness",
+    "quality": "SSR EX",
+    "character_class": "Assassin",
+    "factions": [
+      "Illusion Veil",
+      "Elemental Echo"
+    ],
+    "is_global": false,
+    "subclasses": [
+      "Thief",
+      "Spy",
+      "Scoundrel",
+      "Masked Thief",
+      "Forest Bandit",
+      "Executioner"
+    ],
+    "height": "162cm",
+    "weight": "40kg",
+    "origin": "Greek Mythology",
+    "lore": "Hermes, one of the twelve Olympian gods, is known for her wisdom and cunning. In ancient Greece, she was the god in charge of trade, shepherding, theft, and travel, and also served as the messenger and envoy of the gods. As a guide between the gods, humans, and the underworld, she is a symbol of crossing boundaries and a key being connecting different dimensions.",
+    "quote": "",
+    "talent": {
+      "name": "Flame Tail Glide",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "She starts with a maximum of 100 energy. Each time an ally triggers [Ignite], she gains 8 energy. If she triggers it herself, she gains an additional 8 energy. When her energy is full, Hermes will ride on flying boards and traverse the air until her energy is depleted. During this time, she consumes 12 energy per second and deals magic damage equal to 940% of her attack and a slight knockback to enemy units within a small circular area around her every 0.5 seconds."
+        },
+        {
+          "level": 2,
+          "effect": "Automatically casts [Lava Rock Slam] on the nearest enemy unit every 5 seconds while gliding on the skateboard."
+        },
+        {
+          "level": 3,
+          "effect": "Gain full energy at the start of battle. Whenever an enemy unit on the [Flame Stone Formation] is triggered by an [Elemental Reaction], you become untargetable for 4 seconds."
+        },
+        {
+          "level": 4,
+          "effect": "[Flame Domain Pursuit] removes the target's shield each time the [Punishment] effect is triggered."
+        },
+        {
+          "level": 5,
+          "effect": "Increases own critical hit attribute by 100 points and critical hit damage by 9%."
+        },
+        {
+          "level": 7,
+          "effect": "Increases own critical hit damage by 18%."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Flame Stone Formation",
+        "type": "Overdrive",
+        "description": "Creates a trapezoidal array of firestones in front of the caster, dealing magic damage equal to 1260% of the caster's attack and inflicting the [Ignite] effect on enemy units. The firestone array lasts for 7.5 seconds, and enemy units within the array have their healing received reduced by 80% and their critical strike resistance reduced by 500.",
+        "cooldown": 18
+      },
+      {
+        "name": "Lava Rock Slam",
+        "type": "Ultimate Skill",
+        "description": "Summons a rock spike at the target location, dealing magic damage equal to 820% of the caster's attack, knocking enemies back and inflicting [Ignite], with a 50% chance to grant the target [Next Ultimate Skill Energy Cost +1].",
+        "cooldown": 12
+      },
+      {
+        "name": "Flame Domain Pursuit",
+        "type": "Secret Skill",
+        "description": "When an enemy unit on the Firestone Array is forcibly displaced (pulled, knocked back, or launched into the air), it will be dealt additional magic damage equal to 1200% of the user's attack (this effect can trigger at most once per target per second). This damage can trigger the [Punishment] effect, which ignores 40% of the target's magic defense when triggered.",
+        "cooldown": 0
+      },
+      {
+        "name": "Overheating",
+        "type": "Special Skill",
+        "description": "During combat, increases own attack and critical hit damage by 20%.\nEach time our side triggers [Ignite] or [Punishment], the triggerer gains one stack of [Burning Pulse].",
+        "cooldown": 0
+      },
+      {
+        "name": "Lava Hell",
+        "type": "Divine Skill",
+        "description": "[Lava Rock Slam] Each time a rock spike is released, select an additional target to release it.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Executioner"
+    ],
+    "last_updated": 1772856370
+  },
+  {
     "name": "Jormungandr",
     "title": "World Serpent",
     "quality": "SSR+",
