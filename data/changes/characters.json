@@ -429,6 +429,17 @@
             "new": "Modern Fantasy Literature"
           }
         }
+      },
+      {
+        "timestamp": 1772925921,
+        "fields": {
+          "recommended_gear": {
+            "headgear": {
+              "old": "Pious Biretta",
+              "new": "Pious Crown"
+            }
+          }
+        }
       }
     ]
   },
@@ -462,7 +473,19 @@
   },
   "Titania__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772925921,
+        "fields": {
+          "recommended_gear": {
+            "headgear": {
+              "old": "Pious Biretta",
+              "new": "Pious Crown"
+            }
+          }
+        }
+      }
+    ]
   },
   "Vivienne__SSR+": {
     "added": 1772563593,
@@ -488,7 +511,19 @@
   },
   "Chiron__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772925921,
+        "fields": {
+          "recommended_gear": {
+            "headgear": {
+              "old": "Pious Biretta",
+              "new": "Pious Crown"
+            }
+          }
+        }
+      }
+    ]
   },
   "Flora__SR": {
     "added": 1772563593,
@@ -509,6 +544,17 @@
             "new": "23kg"
           }
         }
+      },
+      {
+        "timestamp": 1772925921,
+        "fields": {
+          "recommended_gear": {
+            "headgear": {
+              "old": "Pious Biretta",
+              "new": "Pious Crown"
+            }
+          }
+        }
       }
     ]
   },
@@ -525,6 +571,17 @@
           "weight": {
             "old": "?kg",
             "new": "53kg"
+          }
+        }
+      },
+      {
+        "timestamp": 1772925921,
+        "fields": {
+          "recommended_gear": {
+            "headgear": {
+              "old": "Pious Biretta",
+              "new": "Pious Crown"
+            }
           }
         }
       }
@@ -571,6 +628,17 @@
             "new": "32kg"
           }
         }
+      },
+      {
+        "timestamp": 1772925921,
+        "fields": {
+          "recommended_gear": {
+            "headgear": {
+              "old": "Pious Biretta",
+              "new": "Pious Crown"
+            }
+          }
+        }
       }
     ]
   },
@@ -583,6 +651,17 @@
           "origin": {
             "old": "Modern Fantasy",
             "new": "Modern Fantasy Literature"
+          }
+        }
+      },
+      {
+        "timestamp": 1772925921,
+        "fields": {
+          "recommended_gear": {
+            "headgear": {
+              "old": "Pious Biretta",
+              "new": "Pious Crown"
+            }
           }
         }
       }
