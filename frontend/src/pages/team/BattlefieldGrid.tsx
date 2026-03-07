@@ -73,6 +73,7 @@ export function BattlefieldGrid({
   factionColor,
   isDark,
   tooltipProps,
+  disableNameClamp = false,
 }: {
   members: TeamMember[];
   charMap: Map<string, Character>;
@@ -85,6 +86,7 @@ export function BattlefieldGrid({
   factionColor: string;
   isDark: boolean;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
+  disableNameClamp?: boolean;
 }) {
   const { accent } = useGradientAccent();
   const grid = buildPositionGrid(members);
@@ -254,8 +256,12 @@ export function BattlefieldGrid({
                       component={Link}
                       to={routePath}
                       c={`${accent.primary}.7`}
-                      style={{ textDecoration: 'none' }}
-                      lineClamp={1}
+                      style={{
+                        textDecoration: 'none',
+                        width: '100%',
+                        whiteSpace: disableNameClamp ? 'normal' : undefined,
+                      }}
+                      lineClamp={disableNameClamp ? undefined : 1}
                     >
                       {displayName}
                     </Text>

@@ -38,6 +38,7 @@ export function BenchSection({
   getCharacterPath,
   factionColor,
   tooltipProps,
+  disableNameClamp = false,
 }: {
   bench: TeamBenchMember[];
   charMap: Map<string, Character>;
@@ -49,6 +50,7 @@ export function BenchSection({
   ) => string;
   factionColor: string;
   tooltipProps: ReturnType<typeof useMobileTooltip>;
+  disableNameClamp?: boolean;
 }) {
   const isMobile = useMediaQuery('(max-width: 30em)');
   const { accent } = useGradientAccent();
@@ -130,8 +132,12 @@ export function BenchSection({
                   component={Link}
                   to={routePath}
                   c={`${accent.primary}.7`}
-                  style={{ textDecoration: 'none' }}
-                  lineClamp={1}
+                  style={{
+                    textDecoration: 'none',
+                    width: '100%',
+                    whiteSpace: disableNameClamp ? 'normal' : undefined,
+                  }}
+                  lineClamp={disableNameClamp ? undefined : 1}
                 >
                   {resolvedLabel}
                 </Text>

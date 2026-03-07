@@ -197,6 +197,7 @@ export default function TierListViewTab({
                     characterNameCounts={characterNameCounts}
                     viewMode={viewMode}
                     headerActions={headerActions}
+                    disableNameClamp={isExporting === tierList.name}
                     exportRefCallback={(node) =>
                       exportRefCallback(tierList.name, node)
                     }

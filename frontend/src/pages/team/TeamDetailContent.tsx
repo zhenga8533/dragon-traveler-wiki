@@ -146,6 +146,7 @@ export default function TeamDetailContent({
               factionColor={factionColor}
               isDark={isDark}
               tooltipProps={tooltipProps}
+              disableNameClamp={exporting}
             />
 
             {team.bench && team.bench.length > 0 && (
@@ -157,6 +158,7 @@ export default function TeamDetailContent({
                 getCharacterPath={getCharacterPath}
                 factionColor={factionColor}
                 tooltipProps={tooltipProps}
+                disableNameClamp={exporting}
               />
             )}
           </Stack>

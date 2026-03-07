@@ -8,6 +8,9 @@ const DARK_BACKGROUND = '#1a1b1e';
 const DESKTOP_PIXEL_RATIO = 2;
 const MOBILE_MAX_PIXEL_RATIO = 1.5;
 const DESKTOP_EXPORT_WIDTH = 1200;
+const FONT_READY_TIMEOUT_MS = 2000;
+
+type FontRenderMode = 'embed' | 'skip';
 
 type ShareCapableNavigator = Navigator & {
   share?: (data: ShareData) => Promise<void>;
@@ -67,21 +70,52 @@ async function renderElementAsJpeg(
   el: HTMLElement,
   isDark: boolean,
   pixelRatio: number,
+  fontRenderMode: FontRenderMode,
   width?: number,
   height?: number
 ): Promise<string> {
+  const includeFontEmbedOptions = fontRenderMode === 'skip';
+
   return toJpeg(el, {
     backgroundColor: isDark ? DARK_BACKGROUND : LIGHT_BACKGROUND,
     pixelRatio,
     quality: JPEG_QUALITY,
     ...(width ? { width } : {}),
     ...(height ? { height } : {}),
-    // Always skip embedding webfonts to avoid cross-origin stylesheet access failures.
-    skipFonts: true,
-    // When provided, html-to-image skips scanning document stylesheets for @font-face.
-    // Empty CSS is intentional to avoid cross-origin cssRules access errors.
-    fontEmbedCSS: '',
+    ...(includeFontEmbedOptions
+      ? {
+          // Fallback mode: skip embedding webfonts to avoid cross-origin stylesheet access failures.
+          skipFonts: true,
+          // Empty CSS prevents cssRules access in cross-origin stylesheets.
+          fontEmbedCSS: '',
+        }
+      : {}),
   });
+}
+
+async function waitForDocumentFonts(): Promise<void> {
+  if (typeof document === 'undefined') {
+    return;
+  }
+
+  const docWithFonts = document as Document & {
+    fonts?: {
+      ready: Promise<unknown>;
+    };
+  };
+
+  if (!docWithFonts.fonts?.ready) {
+    return;
+  }
+
+  try {
+    await Promise.race([
+      docWithFonts.fonts.ready,
+      new Promise((resolve) => setTimeout(resolve, FONT_READY_TIMEOUT_MS)),
+    ]);
+  } catch {
+    // Ignore font readiness failures and continue with best-effort capture.
+  }
 }
 
 function createDesktopExportClone(source: HTMLElement): {
@@ -194,23 +228,40 @@ export async function downloadElementAsImage(
     exportHeight = desktopClone.height;
   }
 
+  await waitForDocumentFonts();
+
   try {
+    // First attempt: preserve live page typography for consistent text metrics.
     dataUrl = await renderElementAsJpeg(
       exportElement,
       isDark,
       preferredPixelRatio,
+      'embed',
       exportWidth,
       exportHeight
     );
   } catch {
-    // Retry with a lower pixel ratio for memory-constrained mobile devices.
-    dataUrl = await renderElementAsJpeg(
-      exportElement,
-      isDark,
-      1,
-      exportWidth,
-      exportHeight
-    );
+    try {
+      // Fallback: disable font embedding when stylesheet CORS blocks access.
+      dataUrl = await renderElementAsJpeg(
+        exportElement,
+        isDark,
+        preferredPixelRatio,
+        'skip',
+        exportWidth,
+        exportHeight
+      );
+    } catch {
+      // Final fallback for memory-constrained devices.
+      dataUrl = await renderElementAsJpeg(
+        exportElement,
+        isDark,
+        1,
+        'skip',
+        exportWidth,
+        exportHeight
+      );
+    }
   } finally {
     if (exportContainer) {
       exportContainer.remove();

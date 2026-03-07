@@ -18,6 +18,7 @@ interface CharacterCardProps {
   tierLabel?: string;
   note?: string;
   routePath?: string;
+  clampName?: boolean;
 }
 
 export default function CharacterCard({
@@ -29,6 +30,7 @@ export default function CharacterCard({
   tierLabel,
   note,
   routePath,
+  clampName = true,
 }: CharacterCardProps) {
   const { accent } = useGradientAccent();
   const nameColor = disableLink ? 'dimmed' : `${accent.primary}.7`;
@@ -70,9 +72,12 @@ export default function CharacterCard({
           size="xs"
           fw={500}
           ta="center"
-          lineClamp={1}
+          lineClamp={clampName ? 1 : undefined}
           c={nameColor}
-          style={{ minWidth: 0 }}
+          style={{
+            minWidth: 0,
+            whiteSpace: clampName ? undefined : 'normal',
+          }}
         >
           {label ?? name}
         </Text>

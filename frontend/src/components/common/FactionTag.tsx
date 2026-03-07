@@ -2,6 +2,7 @@ import { Badge, Image } from '@mantine/core';
 import { FACTION_ICON_MAP } from '../../assets/faction';
 import { FACTION_COLOR } from '../../constants/colors';
 import type { FactionName } from '../../types/faction';
+import { TAG_BADGE_STYLE } from './tag-badge-style';
 
 export interface FactionTagProps {
   faction: FactionName;
@@ -17,9 +18,17 @@ export default function FactionTag({ faction, size = 'sm' }: FactionTagProps) {
       variant="light"
       color={color}
       size={size}
+      style={TAG_BADGE_STYLE}
       leftSection={
         icon ? (
-          <Image src={icon} alt={faction} w={12} h={12} fit="contain" loading="lazy" />
+          <Image
+            src={icon}
+            alt={faction}
+            w={12}
+            h={12}
+            fit="contain"
+            loading="lazy"
+          />
         ) : undefined
       }
     >

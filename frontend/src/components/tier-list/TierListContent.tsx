@@ -42,6 +42,7 @@ interface TierListContentProps {
   headerActions: ReactNode;
   exportRefCallback?: (node: HTMLDivElement | null) => void;
   characterFilter?: (character: Character) => boolean;
+  disableNameClamp?: boolean;
 }
 
 export default function TierListContent({
@@ -52,6 +53,7 @@ export default function TierListContent({
   headerActions,
   exportRefCallback,
   characterFilter,
+  disableNameClamp = false,
 }: TierListContentProps) {
   const { accent } = useGradientAccent();
   const tierOrder = tierList.tiers?.map((t) => t.name) ?? TIER_ORDER;
@@ -169,6 +171,7 @@ export default function TierListContent({
                           quality={char?.quality}
                           routePath={routePath}
                           note={entryNote}
+                          clampName={!disableNameClamp}
                         />
                       );
                     })}

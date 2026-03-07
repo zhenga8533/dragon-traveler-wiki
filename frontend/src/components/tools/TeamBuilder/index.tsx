@@ -1438,6 +1438,7 @@ export default function TeamBuilder({
                 factionColor={factionColor}
                 isDark={isDark}
                 tooltipProps={tooltipProps}
+                disableNameClamp
               />
               {teamData.bench && teamData.bench.length > 0 && (
                 <BenchSection
@@ -1448,6 +1449,7 @@ export default function TeamBuilder({
                   getCharacterPath={getCharacterPath}
                   factionColor={factionColor}
                   tooltipProps={tooltipProps}
+                  disableNameClamp
                 />
               )}
             </Stack>
