@@ -7,7 +7,7 @@ import {
   Stack,
   Text,
 } from '@mantine/core';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   IoBulb,
   IoChevronDown,
@@ -17,6 +17,7 @@ import {
 } from 'react-icons/io5';
 import { GITHUB_REPO_URL } from '../../constants/github';
 import { getGlassStyles } from '../../constants/glass';
+import { UiOpacityContext } from '../../contexts';
 import { useDarkMode, useGradientAccent } from '../../hooks';
 
 const DATA_SOURCE_URL = 'https://www.gamekee.com/lhlr/';
@@ -28,7 +29,8 @@ export default function Footer() {
   const [showLegal, setShowLegal] = useState(false);
   const isDark = useDarkMode();
   const { accent } = useGradientAccent();
-  const glassStyles = getGlassStyles(isDark, true);
+  const { surfaceOpacity } = useContext(UiOpacityContext);
+  const glassStyles = getGlassStyles(isDark, true, surfaceOpacity);
   const currentYear = new Date().getFullYear();
 
   const footerLinks = [

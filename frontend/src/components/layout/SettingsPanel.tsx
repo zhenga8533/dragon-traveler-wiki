@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Badge,
+  Button,
   Divider,
   Drawer,
   Group,
@@ -8,6 +9,7 @@ import {
   Popover,
   SegmentedControl,
   Select,
+  Slider,
   Stack,
   Switch,
   Text,
@@ -23,6 +25,7 @@ import type { GradientPalette } from '../../contexts';
 import {
   BannerContext,
   TierListReferenceContext,
+  UiOpacityContext,
 } from '../../contexts';
 import { useDarkMode, useGradientAccent, useIsMobile } from '../../hooks';
 
@@ -46,6 +49,15 @@ export default function SettingsPanel() {
     showOnAllRoutes,
     setShowOnAllRoutes,
   } = useContext(BannerContext);
+  const {
+    bannerMediaOpacity,
+    setBannerMediaOpacity,
+    bannerOverlayOpacity,
+    setBannerOverlayOpacity,
+    surfaceOpacity,
+    setSurfaceOpacity,
+    resetOpacitySettings,
+  } = useContext(UiOpacityContext);
 
   const tierListOptions = useMemo(
     () =>
@@ -182,6 +194,83 @@ export default function SettingsPanel() {
           checked={showOnAllRoutes}
           onChange={(event) => setShowOnAllRoutes(event.currentTarget.checked)}
         />
+      </Paper>
+
+      <Paper p="sm" radius="md" withBorder>
+        <Group justify="space-between" align="center" mb={6}>
+          <Text size="sm" fw={600}>
+            Opacity
+          </Text>
+          <Button
+            variant="subtle"
+            size="compact-xs"
+            onClick={resetOpacitySettings}
+          >
+            Reset
+          </Button>
+        </Group>
+
+        <Stack gap="sm">
+          <Stack gap={4}>
+            <Group justify="space-between" align="center" wrap="nowrap">
+              <Text size="xs" fw={500}>
+                Banner Media
+              </Text>
+              <Text size="xs" c="dimmed">
+                {Math.round(bannerMediaOpacity * 100)}%
+              </Text>
+            </Group>
+            <Slider
+              size={isMobile ? 'md' : 'sm'}
+              min={0}
+              max={100}
+              step={1}
+              value={Math.round(bannerMediaOpacity * 100)}
+              onChange={(value) => setBannerMediaOpacity(value / 100)}
+              label={(value) => `${value}%`}
+            />
+          </Stack>
+
+          <Stack gap={4}>
+            <Group justify="space-between" align="center" wrap="nowrap">
+              <Text size="xs" fw={500}>
+                Banner Overlay
+              </Text>
+              <Text size="xs" c="dimmed">
+                {Math.round(bannerOverlayOpacity * 100)}%
+              </Text>
+            </Group>
+            <Slider
+              size={isMobile ? 'md' : 'sm'}
+              min={0}
+              max={100}
+              step={1}
+              value={Math.round(bannerOverlayOpacity * 100)}
+              onChange={(value) => setBannerOverlayOpacity(value / 100)}
+              label={(value) => `${value}%`}
+            />
+          </Stack>
+
+          <Stack gap={4}>
+            <Group justify="space-between" align="center" wrap="nowrap">
+              <Text size="xs" fw={500}>
+                UI Surfaces
+              </Text>
+              <Text size="xs" c="dimmed">
+                {Math.round(surfaceOpacity * 100)}%
+              </Text>
+            </Group>
+            <Slider
+              size={isMobile ? 'md' : 'sm'}
+              min={0}
+              max={100}
+              step={1}
+              value={Math.round(surfaceOpacity * 100)}
+              onChange={(value) => setSurfaceOpacity(value / 100)}
+              label={(value) => `${value}%`}
+            />
+          </Stack>
+        </Stack>
       </Paper>
     </Stack>
   );

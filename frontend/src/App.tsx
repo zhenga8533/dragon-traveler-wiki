@@ -7,6 +7,7 @@ import {
   ResourcesProvider,
   SearchDataProvider,
   TierListReferenceProvider,
+  UiOpacityProvider,
 } from './contexts';
 
 export default function App() {
@@ -17,9 +18,11 @@ export default function App() {
         <ResourcesProvider>
           <TierListReferenceProvider>
             <GradientThemeProvider>
-              <BannerProvider>
-                <AppLayout />
-              </BannerProvider>
+              <UiOpacityProvider>
+                <BannerProvider>
+                  <AppLayout />
+                </BannerProvider>
+              </UiOpacityProvider>
             </GradientThemeProvider>
           </TierListReferenceProvider>
         </ResourcesProvider>

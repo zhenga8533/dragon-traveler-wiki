@@ -135,4 +135,7 @@ export const STORAGE_KEY = {
   HOME_BANNER: 'home:banner',
   HOME_BANNER_GLOBAL: 'home:bannerGlobal',
   GRADIENT_PALETTE: 'ui:gradientPalette',
+  UI_BANNER_MEDIA_OPACITY: 'ui:bannerMediaOpacity',
+  UI_BANNER_OVERLAY_OPACITY: 'ui:bannerOverlayOpacity',
+  UI_SURFACE_OPACITY: 'ui:surfaceOpacity',
 } as const;

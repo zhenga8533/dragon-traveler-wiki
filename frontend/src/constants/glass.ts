@@ -20,6 +20,11 @@ export const GLASS_BORDER = {
   light: '1px solid rgba(0, 0, 0, 0.1)',
 } as const;
 
+function normalizeOpacity(opacity: number): number {
+  if (!Number.isFinite(opacity)) return 1;
+  return Math.min(1, Math.max(0, opacity));
+}
+
 /**
  * Subtle glass style for lore/description cards
  */
@@ -36,17 +41,20 @@ export function getLoreGlassStyles(isDark: boolean) {
 /**
  * Get glassmorphism styles based on color scheme
  */
-export function getGlassStyles(isDark: boolean, subtle = false) {
+export function getGlassStyles(
+  isDark: boolean,
+  subtle = false,
+  opacityOverride?: number
+) {
+  const defaultOpacity = subtle ? (isDark ? 0.75 : 0.7) : isDark ? 0.9 : 0.85;
+  const opacity = normalizeOpacity(opacityOverride ?? defaultOpacity);
+
   return {
     backdropFilter: `blur(${GLASS.BLUR})`,
     WebkitBackdropFilter: `blur(${GLASS.BLUR})`,
-    backgroundColor: subtle
-      ? isDark
-        ? GLASS_BACKGROUND.darkSubtle
-        : GLASS_BACKGROUND.lightSubtle
-      : isDark
-        ? GLASS_BACKGROUND.dark
-        : GLASS_BACKGROUND.light,
+    backgroundColor: isDark
+      ? `rgba(20, 21, 23, ${opacity})`
+      : `rgba(255, 255, 255, ${opacity})`,
     border: isDark ? GLASS_BORDER.dark : GLASS_BORDER.light,
   };
 }

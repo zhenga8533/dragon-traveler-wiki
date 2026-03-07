@@ -21,3 +21,5 @@ export {
   TierListReferenceProvider,
 } from './tier-list-reference-context';
 export type { TierListReferenceContextValue } from './tier-list-reference-context';
+export { UiOpacityContext, UiOpacityProvider } from './ui-opacity-context';
+export type { UiOpacityContextValue } from './ui-opacity-context';

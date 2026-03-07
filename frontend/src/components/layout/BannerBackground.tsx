@@ -2,7 +2,7 @@ import { Box } from '@mantine/core';
 import { useCallback, useContext, useRef, useState } from 'react';
 import { getHomeHeroPlaceholderGradient } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
-import { BannerContext } from '../../contexts';
+import { BannerContext, UiOpacityContext } from '../../contexts';
 import { useDarkMode } from '../../hooks';
 
 const measuredHeightBySource = new Map<string, number>();
@@ -11,6 +11,8 @@ export default function BannerBackground() {
   const isDark = useDarkMode();
   const { selectedBanner, bannerLoaded, setBannerLoaded } =
     useContext(BannerContext);
+  const { bannerMediaOpacity, bannerOverlayOpacity } =
+    useContext(UiOpacityContext);
   const selectedBannerSrc = selectedBanner?.src;
   const [measuredMedia, setMeasuredMedia] = useState<{
     src: string;
@@ -107,7 +109,7 @@ export default function BannerBackground() {
             height: '100%',
             objectFit: 'cover',
             objectPosition: 'center top',
-            opacity: bannerLoaded ? 1 : 0,
+            opacity: bannerLoaded ? bannerMediaOpacity : 0,
             transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
           }}
         />
@@ -137,7 +139,7 @@ export default function BannerBackground() {
             height: '100%',
             objectFit: 'cover',
             objectPosition: 'center top',
-            opacity: bannerLoaded ? 1 : 0,
+            opacity: bannerLoaded ? bannerMediaOpacity : 0,
             transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
           }}
         />
@@ -147,8 +149,8 @@ export default function BannerBackground() {
           position: 'absolute',
           inset: 0,
           background: isDark
-            ? 'rgba(0, 0, 0, 0.8)'
-            : 'rgba(255, 255, 255, 0.8)',
+            ? `rgba(0, 0, 0, ${bannerOverlayOpacity})`
+            : `rgba(255, 255, 255, ${bannerOverlayOpacity})`,
         }}
       />
       <Box

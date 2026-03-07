@@ -17,12 +17,8 @@ import {
   BRAND_TITLE_STYLE,
   LINK_BLOCK_RESET_STYLE,
 } from '../../constants/styles';
-import {
-  HEADER_HEIGHT,
-  SIDEBAR,
-  TRANSITION,
-} from '../../constants/ui';
-import { BannerContext } from '../../contexts';
+import { HEADER_HEIGHT, SIDEBAR, TRANSITION } from '../../constants/ui';
+import { BannerContext, UiOpacityContext } from '../../contexts';
 import { useDarkMode, useIsMobile, useSidebar } from '../../hooks';
 import AppRoutes from '../../routes/AppRoutes';
 import ErrorBoundary from '../common/ErrorBoundary';
@@ -54,13 +50,14 @@ export default function AppLayout() {
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
   const { selectedBanner, showOnAllRoutes } = useContext(BannerContext);
+  const { surfaceOpacity } = useContext(UiOpacityContext);
   const location = useLocation();
   const isHome = location.pathname === '/';
   const showBanner =
     selectedBanner !== null &&
     (isHome || (showOnAllRoutes && isBaseRoute(location.pathname)));
 
-  const glassStyles = getGlassStyles(isDark);
+  const glassStyles = getGlassStyles(isDark, false, surfaceOpacity);
 
   const showLabels = isMobile ? true : sidebar.showLabels;
   const navbarWidth = isMobile
