@@ -82,7 +82,6 @@ export const BREAKPOINTS = {
 } as const;
 
 export const NAV_ITEM_HEIGHT = 42;
-export const HEADER_SELECT_WIDTH = 220;
 
 export const STORAGE_KEY = {
   CHARACTER_VIEW_MODE: 'characters:viewMode',

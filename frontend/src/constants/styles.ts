@@ -84,20 +84,6 @@ export function getCharacterPortraitHoverProps(
 }
 
 /**
- * Subtle glow effect for cards (use with hover)
- */
-export const cardGlowHandlers = (color: string = 'violet') => ({
-  onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.transform = 'translateY(-2px)';
-    e.currentTarget.style.boxShadow = `var(--mantine-shadow-md), 0 0 20px var(--mantine-color-${color}-light)`;
-  },
-  onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.transform = 'translateY(0)';
-    e.currentTarget.style.boxShadow = '';
-  },
-});
-
-/**
  * Tooltip styles for detail pages (skill/gear/status effect tooltips)
  */
 export const DETAIL_TOOLTIP_STYLES = {
