@@ -608,6 +608,7 @@ export default function SearchModal({
         withCloseButton={false}
         centered
         radius="md"
+        removeScrollProps={{ removeScrollBar: false }}
         styles={{
           body: { padding: 0 },
           content: {
