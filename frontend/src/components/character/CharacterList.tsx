@@ -364,8 +364,8 @@ export default function CharacterList({
                     <Table.Td>
                       <ClassTag characterClass={char.character_class} />
                     </Table.Td>
-                    <Table.Td>
-                      <Group gap={4} wrap="wrap">
+                    <Table.Td className="table-badge-cell">
+                      <Group gap={4} wrap="wrap" className="table-badge-list">
                         {char.factions.map((faction) => (
                           <FactionTag
                             key={faction}

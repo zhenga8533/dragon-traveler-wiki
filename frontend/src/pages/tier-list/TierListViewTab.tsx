@@ -310,8 +310,12 @@ export default function TierListViewTab({
                                         size="sm"
                                       />
                                     </Table.Td>
-                                    <Table.Td>
-                                      <Group gap={4} wrap="wrap">
+                                    <Table.Td className="table-badge-cell">
+                                      <Group
+                                        gap={4}
+                                        wrap="wrap"
+                                        className="table-badge-list"
+                                      >
                                         {c.factions.map((faction) => (
                                           <FactionTag
                                             key={faction}

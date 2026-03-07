@@ -27,7 +27,12 @@ import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { CLASS_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '../hooks';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useGradientAccent,
+} from '../hooks';
 import type { CharacterClass } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
 import type { Subclass } from '../types/subclass';
@@ -380,8 +385,12 @@ export default function Subclasses() {
                               index={item.tier - 1}
                             />
                           </Table.Td>
-                          <Table.Td>
-                            <Group gap="xs" wrap="wrap">
+                          <Table.Td className="table-badge-cell">
+                            <Group
+                              gap="xs"
+                              wrap="wrap"
+                              className="table-badge-list"
+                            >
                               {item.bonuses.map((bonus) => (
                                 <Badge
                                   key={bonus}

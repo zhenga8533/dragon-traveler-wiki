@@ -378,6 +378,26 @@
   --dt-home-hero-card-dark: rgba(62, 24, 48, 0.9);
 }
 
+/* In table/list views, keep text-only badges fully visible. */
+.mantine-Table-td .mantine-Badge-root:not([data-with-left-section]),
+.mantine-Table-th .mantine-Badge-root:not([data-with-left-section]) {
+  max-width: none;
+  min-width: max-content;
+  overflow: visible;
+  text-overflow: clip;
+}
+
+.mantine-Table-td.table-badge-cell,
+.mantine-Table-th.table-badge-cell {
+  white-space: normal;
+}
+
+.mantine-Table-td .table-badge-list,
+.mantine-Table-th .table-badge-list {
+  max-width: 100%;
+  align-items: flex-start;
+}
+
 html {
   scrollbar-gutter: stable;
 }
