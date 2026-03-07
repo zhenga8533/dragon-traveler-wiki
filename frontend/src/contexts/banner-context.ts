@@ -224,14 +224,20 @@ export function BannerProvider({ children }: { children: ReactNode }) {
 
   const bannerSelectData = useMemo(
     () => [
+      {
+        value: DEFAULT_BANNER_OPTION.value,
+        label: DEFAULT_BANNER_OPTION.label,
+      },
       { value: NO_BANNER_VALUE, label: 'No banner' },
       { value: RANDOM_BANNER_ALL_VALUE, label: 'Randomize (All)' },
       { value: RANDOM_BANNER_PNG_VALUE, label: 'Randomize (PNG only)' },
       { value: RANDOM_BANNER_MP4_VALUE, label: 'Randomize (MP4 only)' },
-      ...bannerOptions.map((option) => ({
-        value: option.value,
-        label: option.label,
-      })),
+      ...bannerOptions
+        .filter((option) => option.value !== DEFAULT_BANNER_OPTION.value)
+        .map((option) => ({
+          value: option.value,
+          label: option.label,
+        })),
     ],
     [bannerOptions]
   );
