@@ -624,7 +624,8 @@ export default function SearchModal({
       >
         <Box>
           <Box
-            p="md"
+            px="md"
+            py={isMobile ? 'sm' : 'md'}
             style={{
               borderBottom: '1px solid var(--mantine-color-default-border)',
             }}
@@ -669,7 +670,7 @@ export default function SearchModal({
           </Box>
 
           {query && searchResults.length === 0 && (
-            <Box p="xl" ta="center">
+            <Box p={isMobile ? 'lg' : 'xl'} ta="center">
               <Text c="dimmed" size="sm">
                 No results found for "{query}"
               </Text>
@@ -680,8 +681,9 @@ export default function SearchModal({
             <Stack
               gap={0}
               style={{
-                maxHeight: isMobile ? 'calc(100dvh - 120px)' : '500px',
+                maxHeight: isMobile ? 'calc(100dvh - 116px)' : '500px',
                 overflowY: 'auto',
+                paddingBottom: 6,
               }}
             >
               {searchResults.map((result, index) => {
@@ -689,35 +691,49 @@ export default function SearchModal({
                 const isNewCategory =
                   index === 0 || searchResults[index - 1].type !== result.type;
                 const isCharacterResult = result.type === 'character';
+                const rowMinHeight = isMobile ? 56 : 52;
+                const showEnterHint = isSelected && !isMobile;
                 return (
                   <Fragment key={`${result.type}-${result.title}-${index}`}>
                     {isNewCategory && (
-                      <Text
-                        size="xs"
-                        c={result.color}
+                      <Box
                         px="md"
-                        pt="xs"
-                        fw={600}
-                        tt="uppercase"
+                        pb={5}
+                        pt={index === 0 ? 8 : 12}
+                        style={{
+                          borderTop:
+                            index === 0
+                              ? 'none'
+                              : '1px solid var(--mantine-color-default-border)',
+                        }}
                       >
-                        {CATEGORY_LABELS[result.type]}
-                      </Text>
+                        <Text
+                          size="xs"
+                          c={result.color}
+                          fw={600}
+                          tt="uppercase"
+                          style={{ letterSpacing: '0.04em', lineHeight: 1.25 }}
+                        >
+                          {CATEGORY_LABELS[result.type]}
+                        </Text>
+                      </Box>
                     )}
                     <UnstyledButton
                       onClick={() => handleSelect(result)}
                       onMouseEnter={() => setSelectedIndex(index)}
-                      p={isMobile ? 'lg' : 'md'}
+                      py={isMobile ? 10 : 8}
+                      px="md"
                       style={{
                         display: 'block',
                         width: '100%',
-                        minHeight: isMobile ? 52 : 44,
+                        minHeight: rowMinHeight,
                         backgroundColor: isSelected
                           ? 'var(--mantine-color-default-hover)'
                           : 'transparent',
                         transition: `background-color ${TRANSITION.FAST}`,
                       }}
                     >
-                      <Group wrap="nowrap" gap="md">
+                      <Group wrap="nowrap" gap={isMobile ? 'sm' : 'md'}>
                         <Box
                           style={{
                             width: 36,
@@ -764,20 +780,40 @@ export default function SearchModal({
                           )}
                         </Box>
                         <div style={{ flex: 1, minWidth: 0 }}>
-                          <Text size="sm" fw={500} truncate>
+                          <Text
+                            size="sm"
+                            fw={500}
+                            truncate
+                            style={{ lineHeight: 1.2 }}
+                          >
                             {result.title}
                           </Text>
-                          {result.subtitle && (
-                            <Text size="xs" c="dimmed" truncate>
-                              {result.subtitle}
-                            </Text>
-                          )}
-                        </div>
-                        {isSelected && (
-                          <Text size="xs" c="dimmed">
-                            <Kbd size="xs">↵</Kbd>
+                          <Text
+                            size="xs"
+                            c="dimmed"
+                            truncate
+                            style={{
+                              visibility: result.subtitle
+                                ? 'visible'
+                                : 'hidden',
+                              lineHeight: 1.2,
+                              marginTop: 2,
+                            }}
+                          >
+                            {result.subtitle ?? '\u00a0'}
                           </Text>
-                        )}
+                        </div>
+                        <Text
+                          size="xs"
+                          c="dimmed"
+                          style={{
+                            visibility: showEnterHint ? 'visible' : 'hidden',
+                            width: isMobile ? 0 : 28,
+                            flexShrink: 0,
+                          }}
+                        >
+                          {!isMobile && <Kbd size="xs">↵</Kbd>}
+                        </Text>
                       </Group>
                     </UnstyledButton>
                   </Fragment>
@@ -787,7 +823,7 @@ export default function SearchModal({
           )}
 
           {!query && (
-            <Box p="xl" ta="center">
+            <Box p={isMobile ? 'lg' : 'xl'} ta="center">
               <Text c="dimmed" size="sm">
                 Search artifacts, characters, howlkins, resources, status
                 effects, wyrmspells, teams, codes, tier lists, links, and pages
