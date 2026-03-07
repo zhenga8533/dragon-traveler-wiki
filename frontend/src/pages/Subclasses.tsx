@@ -12,6 +12,7 @@ import {
   Title,
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
+import { CLASS_ICON_MAP } from '../assets/class';
 import { getSubclassIcon } from '../assets/subclass';
 import ClassTag from '../components/common/ClassTag';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
@@ -25,7 +26,7 @@ import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { CLASS_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
-import { STORAGE_KEY } from '../constants/ui';
+import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
 import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { CharacterClass } from '../types/character';
@@ -89,6 +90,20 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
     key: 'classes',
     label: 'Class',
     options: [...CLASS_ORDER],
+    icon: (value) => {
+      const icon =
+        CLASS_ICON_MAP[value as CharacterClass] ??
+        (CLASS_ICON_MAP as Record<string, string | undefined>)[value];
+      return icon ? (
+        <Image
+          src={icon}
+          alt={value}
+          w={IMAGE_SIZE.ICON_SM}
+          h={IMAGE_SIZE.ICON_SM}
+          fit="contain"
+        />
+      ) : null;
+    },
   },
   {
     key: 'tiers',

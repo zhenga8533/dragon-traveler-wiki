@@ -59,6 +59,8 @@ interface TierListViewTabProps {
   onRequestExport: (name: string) => void;
   isExporting: string | null;
   exportRefCallback: (name: string, node: HTMLDivElement | null) => void;
+  characterFilter: (character: Character) => boolean;
+  hasCharacterFilters: boolean;
 }
 
 export default function TierListViewTab({
@@ -80,6 +82,8 @@ export default function TierListViewTab({
   onRequestExport,
   isExporting,
   exportRefCallback,
+  characterFilter,
+  hasCharacterFilters,
 }: TierListViewTabProps) {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { palette } = useContext(GradientThemeContext);
@@ -152,19 +156,27 @@ export default function TierListViewTab({
 
           {visibleTierLists.map((tierList) => {
             const rankedNames = new Set(
-              tierList.entries.map((e) => {
-                const resolved = resolveTierEntryCharacter(e);
-                return resolved
-                  ? getCharacterIdentityKey(resolved)
-                  : getCharacterIdentityKey(
-                      e.character_name,
-                      e.character_quality
-                    );
-              })
+              tierList.entries
+                .filter((entry) => {
+                  if (!hasCharacterFilters) return true;
+                  const resolved = resolveTierEntryCharacter(entry);
+                  return resolved ? characterFilter(resolved) : false;
+                })
+                .map((e) => {
+                  const resolved = resolveTierEntryCharacter(e);
+                  return resolved
+                    ? getCharacterIdentityKey(resolved)
+                    : getCharacterIdentityKey(
+                        e.character_name,
+                        e.character_quality
+                      );
+                })
             );
             const unranked = sortCharactersByQuality(
               characters.filter(
-                (c) => !rankedNames.has(getCharacterIdentityKey(c))
+                (c) =>
+                  !rankedNames.has(getCharacterIdentityKey(c)) &&
+                  (!hasCharacterFilters || characterFilter(c))
               )
             );
 
@@ -189,6 +201,9 @@ export default function TierListViewTab({
                     headerActions={headerActions}
                     exportRefCallback={(node) =>
                       exportRefCallback(tierList.name, node)
+                    }
+                    characterFilter={
+                      hasCharacterFilters ? characterFilter : undefined
                     }
                   />
 

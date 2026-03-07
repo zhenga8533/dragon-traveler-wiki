@@ -1,6 +1,4 @@
 import {
-  Badge,
-  Button,
   Container,
   Group,
   Image,
@@ -10,14 +8,13 @@ import {
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
-import { IoFilter } from 'react-icons/io5';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
 import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import LastUpdated from '../components/common/LastUpdated';
-import ViewToggle from '../components/common/ViewToggle';
+import PageFilterHeaderControls from '../components/layout/PageFilterHeaderControls';
 import {
   ListPageLoading,
   ViewModeLoading,
@@ -37,7 +34,11 @@ import {
   useTeams,
   useWyrmspells,
 } from '../hooks/use-common-data';
-import { useFilters, useViewMode } from '../hooks/use-filters';
+import {
+  countActiveFilters,
+  useFilters,
+  useViewMode,
+} from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import type { FactionName } from '../types/faction';
 import type { Team } from '../types/team';
@@ -179,9 +180,7 @@ export default function Teams() {
 
   const activeFilterCount =
     mode === 'view' || mode === 'saved'
-      ? viewFilters.factions.length +
-        viewFilters.contentTypes.length +
-        (search.trim() ? 1 : 0)
+      ? countActiveFilters(viewFilters) + (search.trim() ? 1 : 0)
       : 0;
 
   const handleFilterChange = useCallback(
@@ -269,24 +268,13 @@ export default function Teams() {
           </Group>
           <Group gap="xs">
             {(mode === 'view' || mode === 'saved') && (
-              <ViewToggle viewMode={viewMode} onChange={setViewMode} />
-            )}
-            {(mode === 'view' || mode === 'saved') && (
-              <Button
-                variant="default"
-                size={isMobile ? 'sm' : 'xs'}
-                leftSection={<IoFilter size={16} />}
-                rightSection={
-                  activeFilterCount > 0 ? (
-                    <Badge size="xs" circle variant="filled">
-                      {activeFilterCount}
-                    </Badge>
-                  ) : null
-                }
-                onClick={toggleFilter}
-              >
-                Filters
-              </Button>
+              <PageFilterHeaderControls
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                filterCount={activeFilterCount}
+                onFilterToggle={toggleFilter}
+                isMobile={isMobile}
+              />
             )}
           </Group>
         </Group>

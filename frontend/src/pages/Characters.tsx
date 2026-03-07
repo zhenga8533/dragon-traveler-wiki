@@ -1,5 +1,5 @@
 import { Container, Group, Stack, Title } from '@mantine/core';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { IoPeople } from 'react-icons/io5';
 import {
   CharacterList,
@@ -10,6 +10,7 @@ import {
   type FieldDef,
 } from '../components';
 import { CLASS_ORDER, QUALITY_ORDER } from '../constants/colors';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
 import { useDataFetch } from '../hooks';
 import type { Character } from '../types/character';
 import { getLatestTimestamp } from '../utils';
@@ -58,6 +59,8 @@ const CHARACTER_FIELDS: FieldDef[] = [
 ];
 
 export default function Characters() {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const {
     data: characters,
     loading,
@@ -99,6 +102,7 @@ export default function Characters() {
               icon={<IoPeople size={32} />}
               title="No characters yet"
               description="Character data will appear here once available."
+              color={accent.primary}
             />
           ) : (
             <CharacterList characters={characters} />

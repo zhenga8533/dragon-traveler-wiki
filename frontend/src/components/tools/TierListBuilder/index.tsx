@@ -997,7 +997,8 @@ export default function TierListBuilder({
             />
             <Group justify="flex-end">
               <Button
-                variant="default"
+                variant="outline"
+                color={accent.primary}
                 onClick={() => {
                   closePasteModal();
                   setPasteText('');

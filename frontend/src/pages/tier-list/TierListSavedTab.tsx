@@ -42,6 +42,7 @@ interface TierListSavedTabProps {
   exportRefCallback: (name: string, node: HTMLDivElement | null) => void;
   onRequestDelete: (name: string) => void;
   onGoToBuilder: () => void;
+  characterFilter: (character: Character) => boolean;
 }
 
 export default function TierListSavedTab({
@@ -64,6 +65,7 @@ export default function TierListSavedTab({
   exportRefCallback,
   onRequestDelete,
   onGoToBuilder,
+  characterFilter,
 }: TierListSavedTabProps) {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const { palette } = useContext(GradientThemeContext);
@@ -169,6 +171,7 @@ export default function TierListSavedTab({
                 exportRefCallback={(node) =>
                   exportRefCallback(tierList.name, node)
                 }
+                characterFilter={characterFilter}
               />
             </Tabs.Panel>
           );

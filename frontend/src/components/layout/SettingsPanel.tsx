@@ -195,6 +195,7 @@ export default function SettingsPanel() {
       <>
         <ActionIcon
           variant="default"
+          color={accent.primary}
           size="xl"
           aria-label="Open settings panel"
           onClick={toggleOpened}
@@ -249,6 +250,7 @@ export default function SettingsPanel() {
         >
           <ActionIcon
             variant="default"
+            color={accent.primary}
             size="lg"
             aria-label="Open settings panel"
             onClick={toggleOpened}

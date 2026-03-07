@@ -519,7 +519,8 @@ export default function Codes() {
               <Group>
                 <Button
                   size="xs"
-                  variant="default"
+                  variant="outline"
+                  color={accent.primary}
                   onClick={() => setSearch('')}
                 >
                   Clear search
@@ -527,6 +528,7 @@ export default function Codes() {
                 <Button
                   size="xs"
                   variant="light"
+                  color={accent.primary}
                   onClick={() => setView('all')}
                 >
                   Show all
@@ -746,7 +748,11 @@ export default function Codes() {
             This will mark {tabCodeCount} {tab} codes as redeemed.
           </Text>
           <Group justify="flex-end">
-            <Button variant="default" onClick={closeMarkAll}>
+            <Button
+              variant="outline"
+              color={accent.primary}
+              onClick={closeMarkAll}
+            >
               Cancel
             </Button>
             <Button
@@ -771,7 +777,11 @@ export default function Codes() {
             This will mark {tabCodeCount} {tab} codes as unredeemed.
           </Text>
           <Group justify="flex-end">
-            <Button variant="default" onClick={closeClearAll}>
+            <Button
+              variant="outline"
+              color={accent.primary}
+              onClick={closeClearAll}
+            >
               Cancel
             </Button>
             <Button

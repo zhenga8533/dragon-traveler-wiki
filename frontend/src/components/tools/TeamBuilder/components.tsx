@@ -879,7 +879,7 @@ export function PasteJsonModal({
           }}
         />
         <Group justify="flex-end">
-          <Button variant="default" onClick={onClose}>
+          <Button variant="outline" color={accent.primary} onClick={onClose}>
             Cancel
           </Button>
           <Button

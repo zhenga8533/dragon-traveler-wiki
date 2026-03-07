@@ -1,15 +1,4 @@
-import {
-  Button,
-  Chip,
-  Group,
-  Image,
-  MultiSelect,
-  Stack,
-  Text,
-  TextInput,
-} from '@mantine/core';
-import { useContext } from 'react';
-import { IoClose, IoSearch } from 'react-icons/io5';
+import { Group, Image, Stack, Text } from '@mantine/core';
 import { CLASS_ICON_MAP } from '../../assets/class';
 import { FACTION_ICON_MAP } from '../../assets/faction';
 import { QUALITY_ICON_MAP } from '../../assets/quality';
@@ -20,16 +9,21 @@ import {
   QUALITY_ORDER,
 } from '../../constants/colors';
 import { IMAGE_SIZE } from '../../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import type { CharacterClass } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Quality } from '../../types/quality';
 import type { CharacterFilters } from '../../utils/filter-characters';
 import { EMPTY_FILTERS } from '../../utils/filter-characters';
+import {
+  FilterChipGroup,
+  FilterClearButton,
+  FilterMultiSelect,
+  FilterSearchInput,
+  FilterSection,
+  type FilterChipOption,
+} from '../common/FilterControls';
 
 const QUALITIES: Quality[] = [...QUALITY_ORDER];
-
-const LABEL_STYLE = { minWidth: 60 } as const;
 
 export interface CharacterFilterProps {
   filters: CharacterFilters;
@@ -46,9 +40,6 @@ export default function CharacterFilter({
   showTierFilter = false,
   tierOptions = [],
 }: CharacterFilterProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
-  const searchIconColor = `var(--mantine-color-${accent.primary}-6)`;
   const hasFilters =
     filters.search !== '' ||
     filters.qualities.length > 0 ||
@@ -61,11 +52,8 @@ export default function CharacterFilter({
   return (
     <Stack gap={8}>
       <Group gap="xs" align="center" wrap="wrap">
-        <TextInput
+        <FilterSearchInput
           placeholder="Search by name..."
-          leftSection={
-            <IoSearch size={IMAGE_SIZE.ICON_MD} color={searchIconColor} />
-          }
           value={filters.search}
           onChange={(e) =>
             onChange({ ...filters, search: e.currentTarget.value })
@@ -74,24 +62,16 @@ export default function CharacterFilter({
           style={{ flex: 1, minWidth: 180 }}
         />
         {hasFilters && (
-          <Button
-            variant="subtle"
-            color={accent.primary}
+          <FilterClearButton
             size="compact-xs"
-            leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
             onClick={() => onChange(EMPTY_FILTERS)}
-          >
-            Clear
-          </Button>
+          />
         )}
       </Group>
 
-      <Group gap="xs" align="center" wrap="wrap">
-        <Text size="xs" fw={600} tt="uppercase" c="dimmed" style={LABEL_STYLE}>
-          Server
-        </Text>
-        <Chip.Group
-          multiple
+      <FilterSection label="Server">
+        <FilterChipGroup
+          size="xs"
           value={
             filters.globalOnly === null
               ? []
@@ -107,32 +87,24 @@ export default function CharacterFilter({
                 next === 'global' ? true : next === 'cn' ? false : null,
             });
           }}
-        >
-          <Group gap={4}>
-            <Chip value="global" size="xs" color={accent.primary}>
-              Global
-            </Chip>
-            <Chip value="cn" size="xs" color={accent.primary}>
-              TW / CN
-            </Chip>
-          </Group>
-        </Chip.Group>
-      </Group>
+          options={[
+            { value: 'global', label: 'Global' },
+            { value: 'cn', label: 'TW / CN' },
+          ]}
+        />
+      </FilterSection>
 
-      <Group gap="xs" align="center" wrap="wrap">
-        <Text size="xs" fw={600} tt="uppercase" c="dimmed" style={LABEL_STYLE}>
-          Quality
-        </Text>
-        <Chip.Group
-          multiple
+      <FilterSection label="Quality">
+        <FilterChipGroup
+          size="xs"
           value={filters.qualities}
           onChange={(val) =>
             onChange({ ...filters, qualities: val as Quality[] })
           }
-        >
-          <Group gap={4} wrap="wrap">
-            {QUALITIES.map((q) => (
-              <Chip key={q} value={q} size="xs" color={accent.primary}>
+          options={QUALITIES.map(
+            (q): FilterChipOption => ({
+              value: q,
+              label: (
                 <Group gap={4} wrap="nowrap" align="center">
                   <Image
                     src={QUALITY_ICON_MAP[q]}
@@ -143,26 +115,23 @@ export default function CharacterFilter({
                   />
                   <span>{q}</span>
                 </Group>
-              </Chip>
-            ))}
-          </Group>
-        </Chip.Group>
-      </Group>
+              ),
+            })
+          )}
+        />
+      </FilterSection>
 
-      <Group gap="xs" align="center" wrap="wrap">
-        <Text size="xs" fw={600} tt="uppercase" c="dimmed" style={LABEL_STYLE}>
-          Class
-        </Text>
-        <Chip.Group
-          multiple
+      <FilterSection label="Class">
+        <FilterChipGroup
+          size="xs"
           value={filters.classes}
           onChange={(val) =>
             onChange({ ...filters, classes: val as CharacterClass[] })
           }
-        >
-          <Group gap={4} wrap="wrap">
-            {CLASS_ORDER.map((c) => (
-              <Chip key={c} value={c} size="xs" color={accent.primary}>
+          options={CLASS_ORDER.map(
+            (c): FilterChipOption => ({
+              value: c,
+              label: (
                 <Group gap={4} wrap="nowrap" align="center">
                   <Image
                     src={CLASS_ICON_MAP[c]}
@@ -173,26 +142,23 @@ export default function CharacterFilter({
                   />
                   <span>{c}</span>
                 </Group>
-              </Chip>
-            ))}
-          </Group>
-        </Chip.Group>
-      </Group>
+              ),
+            })
+          )}
+        />
+      </FilterSection>
 
-      <Group gap="xs" align="center" wrap="wrap">
-        <Text size="xs" fw={600} tt="uppercase" c="dimmed" style={LABEL_STYLE}>
-          Faction
-        </Text>
-        <Chip.Group
-          multiple
+      <FilterSection label="Faction">
+        <FilterChipGroup
+          size="xs"
           value={filters.factions}
           onChange={(val) =>
             onChange({ ...filters, factions: val as FactionName[] })
           }
-        >
-          <Group gap={4} wrap="wrap">
-            {FACTION_NAMES.map((f) => (
-              <Chip key={f} value={f} size="xs" color={accent.primary}>
+          options={FACTION_NAMES.map(
+            (f): FilterChipOption => ({
+              value: f,
+              label: (
                 <Group gap={4} wrap="nowrap" align="center">
                   <Image
                     src={FACTION_ICON_MAP[f]}
@@ -203,51 +169,26 @@ export default function CharacterFilter({
                   />
                   <span>{f}</span>
                 </Group>
-              </Chip>
-            ))}
-          </Group>
-        </Chip.Group>
-      </Group>
+              ),
+            })
+          )}
+        />
+      </FilterSection>
 
       {showTierFilter && (
-        <Group gap="xs" align="center" wrap="wrap">
-          <Text
+        <FilterSection label="Tier">
+          <FilterChipGroup
             size="xs"
-            fw={600}
-            tt="uppercase"
-            c="dimmed"
-            style={LABEL_STYLE}
-          >
-            Tier
-          </Text>
-          <Chip.Group
-            multiple
             value={filters.tiers}
             onChange={(val) => onChange({ ...filters, tiers: val as string[] })}
-          >
-            <Group gap={4} wrap="wrap">
-              {tierOptions.map((tier) => (
-                <Chip key={tier} value={tier} size="xs" color={accent.primary}>
-                  {tier}
-                </Chip>
-              ))}
-            </Group>
-          </Chip.Group>
-        </Group>
+            options={tierOptions.map((tier) => ({ value: tier, label: tier }))}
+          />
+        </FilterSection>
       )}
 
       {effectOptions.length > 0 && (
-        <Group gap="xs" align="center" wrap="wrap">
-          <Text
-            size="xs"
-            fw={600}
-            tt="uppercase"
-            c="dimmed"
-            style={LABEL_STYLE}
-          >
-            Effects
-          </Text>
-          <MultiSelect
+        <FilterSection label="Effects">
+          <FilterMultiSelect
             data={effectOptions}
             value={filters.statusEffects}
             onChange={(val) => onChange({ ...filters, statusEffects: val })}
@@ -268,7 +209,7 @@ export default function CharacterFilter({
             size="xs"
             style={{ flex: 1, minWidth: 180 }}
           />
-        </Group>
+        </FilterSection>
       )}
     </Stack>
   );

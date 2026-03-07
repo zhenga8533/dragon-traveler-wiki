@@ -42,6 +42,7 @@ interface TierListContentProps {
   viewMode: string;
   headerActions: ReactNode;
   exportRefCallback?: (node: HTMLDivElement | null) => void;
+  characterFilter?: (character: Character) => boolean;
 }
 
 export default function TierListContent({
@@ -51,6 +52,7 @@ export default function TierListContent({
   viewMode,
   headerActions,
   exportRefCallback,
+  characterFilter,
 }: TierListContentProps) {
   const { palette } = useContext(GradientThemeContext);
   const accent = GRADIENT_PALETTE_ACCENTS[palette];
@@ -61,12 +63,18 @@ export default function TierListContent({
   );
   const allTierOrder = [...tierOrder, ...extraTiers];
 
+  const filteredEntries = tierList.entries.filter((entry) => {
+    if (!characterFilter) return true;
+    const character = resolveTierEntryCharacter(entry);
+    return character ? characterFilter(character) : false;
+  });
+
   const byTier = allTierOrder
     .map((tier, tierIndex) => ({
       tier,
       tierIndex,
       note: tierList.tiers?.find((t) => t.name === tier)?.note,
-      entries: tierList.entries.filter((e) => e.tier === tier),
+      entries: filteredEntries.filter((e) => e.tier === tier),
     }))
     .filter((g) => g.entries.length > 0);
 

@@ -9,6 +9,7 @@
   --dt-surface-glow-b: rgba(236, 72, 153, 0.2);
   --dt-grid-line: rgba(148, 163, 184, 0.09);
   --dt-focus-ring: rgba(167, 139, 250, 0.48);
+  --dt-focus-border: var(--mantine-color-violet-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
     var(--mantine-color-violet-4) 0%,
@@ -60,6 +61,7 @@
   --dt-surface-glow-a: rgba(6, 182, 212, 0.24);
   --dt-surface-glow-b: rgba(249, 115, 22, 0.2);
   --dt-focus-ring: rgba(20, 184, 166, 0.42);
+  --dt-focus-border: var(--mantine-color-teal-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
     var(--mantine-color-cyan-5) 0%,
@@ -110,6 +112,7 @@
   --dt-surface-glow-a: rgba(251, 146, 60, 0.24);
   --dt-surface-glow-b: rgba(244, 114, 182, 0.2);
   --dt-focus-ring: rgba(251, 191, 36, 0.4);
+  --dt-focus-border: var(--mantine-color-orange-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
     var(--mantine-color-orange-4) 0%,
@@ -154,6 +157,7 @@
   --dt-surface-glow-a: rgba(34, 197, 94, 0.24);
   --dt-surface-glow-b: rgba(20, 184, 166, 0.2);
   --dt-focus-ring: rgba(74, 222, 128, 0.42);
+  --dt-focus-border: var(--mantine-color-green-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
     var(--mantine-color-green-4) 0%,
@@ -198,6 +202,7 @@
   --dt-surface-glow-a: rgba(248, 113, 113, 0.24);
   --dt-surface-glow-b: rgba(251, 146, 60, 0.2);
   --dt-focus-ring: rgba(252, 165, 165, 0.44);
+  --dt-focus-border: var(--mantine-color-red-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
     var(--mantine-color-red-5) 0%,
@@ -242,6 +247,7 @@
   --dt-surface-glow-a: rgba(99, 102, 241, 0.26);
   --dt-surface-glow-b: rgba(251, 146, 60, 0.2);
   --dt-focus-ring: rgba(165, 180, 252, 0.44);
+  --dt-focus-border: var(--mantine-color-violet-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
     var(--mantine-color-indigo-4) 0%,
@@ -286,6 +292,7 @@
   --dt-surface-glow-a: rgba(56, 189, 248, 0.26);
   --dt-surface-glow-b: rgba(163, 230, 53, 0.18);
   --dt-focus-ring: rgba(125, 211, 252, 0.46);
+  --dt-focus-border: var(--mantine-color-teal-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
     var(--mantine-color-cyan-4) 0%,
@@ -330,6 +337,7 @@
   --dt-surface-glow-a: rgba(244, 114, 182, 0.25);
   --dt-surface-glow-b: rgba(251, 146, 60, 0.18);
   --dt-focus-ring: rgba(244, 114, 182, 0.45);
+  --dt-focus-border: var(--mantine-color-red-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
     var(--mantine-color-pink-4) 0%,
@@ -406,6 +414,13 @@ body {
 :focus-visible {
   outline: 2px solid var(--dt-focus-ring);
   outline-offset: 2px;
+}
+
+.mantine-Input-input:focus,
+.mantine-Input-input:focus-within,
+.mantine-Input-input[data-expanded='true'] {
+  border-color: var(--dt-focus-border) !important;
+  box-shadow: 0 0 0 1px var(--dt-focus-ring) !important;
 }
 
 .mantine-Anchor-root {

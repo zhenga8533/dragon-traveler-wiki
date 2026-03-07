@@ -16,6 +16,7 @@ import {
 import {
   type KeyboardEvent as ReactKeyboardEvent,
   useCallback,
+  useContext,
   useEffect,
   useRef,
   useState,
@@ -31,6 +32,7 @@ import {
 import type { CharacterIllustration } from '../../assets/character';
 import { getCardHoverProps } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 
 type TooltipInteractionProps = {
   openDelay: number;
@@ -71,6 +73,8 @@ export default function IllustrationPreviewModal({
   onSelectIllustration,
   tooltipProps,
 }: IllustrationPreviewModalProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const mediaContainerRef = useRef<HTMLDivElement>(null);
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [modalHoverSide, setModalHoverSide] = useState<'left' | 'right' | null>(
@@ -189,6 +193,7 @@ export default function IllustrationPreviewModal({
                     onClick={handleFullscreen}
                     aria-label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}
                     variant="default"
+                    color={accent.primary}
                     radius="xl"
                   >
                     {isFullscreen ? (
@@ -203,6 +208,7 @@ export default function IllustrationPreviewModal({
                 onClick={onClose}
                 aria-label="Close"
                 variant="default"
+                color={accent.primary}
                 radius="xl"
               >
                 <RiCloseLine />

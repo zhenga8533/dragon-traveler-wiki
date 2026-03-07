@@ -1,8 +1,7 @@
 import {
-  Badge,
-  Button,
   Container,
   Group,
+  Image,
   SegmentedControl,
   Stack,
   Title,
@@ -17,18 +16,21 @@ import {
   useRef,
   useState,
 } from 'react';
-import { IoFilter } from 'react-icons/io5';
 import { useSearchParams } from 'react-router-dom';
+import { CLASS_ICON_MAP } from '../assets/class';
+import { FACTION_ICON_MAP } from '../assets/faction';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
 import DataFetchError from '../components/common/DataFetchError';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import LastUpdated from '../components/common/LastUpdated';
-import ViewToggle from '../components/common/ViewToggle';
+import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
+import PageFilterHeaderControls from '../components/layout/PageFilterHeaderControls';
 import {
   ListPageLoading,
   ViewModeLoading,
 } from '../components/layout/PageLoadingSkeleton';
 import TierListBuilder from '../components/tools/TierListBuilder';
+import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER } from '../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   matchesContentTypeFilters,
@@ -42,7 +44,13 @@ import {
   useTierListChanges,
   useTierLists,
 } from '../hooks/use-common-data';
-import { useFilters, useViewMode } from '../hooks/use-filters';
+import {
+  countActiveFilters,
+  useFilters,
+  useViewMode,
+} from '../hooks/use-filters';
+import type { Character, CharacterClass } from '../types/character';
+import type { FactionName } from '../types/faction';
 import type { TierList as TierListType } from '../types/tier-list';
 import { loadSavedFromStorage, parseTabMode } from '../utils';
 import { resolveCharacterByNameAndQuality } from '../utils/character-route';
@@ -88,12 +96,23 @@ export default function TierList() {
     error: charactersError,
   } = useCharacters();
   const { data: tierListChanges } = useTierListChanges();
-  const { filters: viewFilters, setFilters: setViewFilters } = useFilters<
-    Record<string, string[]>
-  >({
-    emptyFilters: { contentTypes: [] },
-    storageKey: STORAGE_KEY.TIER_LIST_FILTERS,
-  });
+  interface TierListViewFilters {
+    contentTypes: string[];
+    factions: string[];
+    classes: string[];
+    qualities: string[];
+  }
+
+  const { filters: viewFilters, setFilters: setViewFilters } =
+    useFilters<TierListViewFilters>({
+      emptyFilters: {
+        contentTypes: [],
+        factions: [],
+        classes: [],
+        qualities: [],
+      },
+      storageKey: STORAGE_KEY.TIER_LIST_FILTERS,
+    });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [search, setSearch] = useState(() => {
     if (typeof window === 'undefined') return '';
@@ -143,6 +162,40 @@ export default function TierList() {
   );
 
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
+  const hasCharacterFilters =
+    viewFilters.factions.length > 0 ||
+    viewFilters.classes.length > 0 ||
+    viewFilters.qualities.length > 0;
+
+  const matchesCharacterViewFilters = useCallback(
+    (character: Character) => {
+      if (
+        viewFilters.factions.length > 0 &&
+        !character.factions.some((faction) =>
+          viewFilters.factions.includes(faction)
+        )
+      ) {
+        return false;
+      }
+
+      if (
+        viewFilters.classes.length > 0 &&
+        !viewFilters.classes.includes(character.character_class)
+      ) {
+        return false;
+      }
+
+      if (
+        viewFilters.qualities.length > 0 &&
+        !viewFilters.qualities.includes(character.quality)
+      ) {
+        return false;
+      }
+
+      return true;
+    },
+    [viewFilters.factions, viewFilters.classes, viewFilters.qualities]
+  );
 
   useEffect(() => {
     const deduped = normalizeContentTypeFilters(viewFilters.contentTypes);
@@ -162,13 +215,47 @@ export default function TierList() {
         label: 'Content Type',
         options: contentTypeOptions,
       },
+      {
+        key: 'factions',
+        label: 'Faction',
+        options: [...FACTION_NAMES],
+        icon: (value: string) => (
+          <Image
+            src={FACTION_ICON_MAP[value as FactionName]}
+            alt={value}
+            w={14}
+            h={14}
+            fit="contain"
+          />
+        ),
+      },
+      {
+        key: 'classes',
+        label: 'Class',
+        options: [...CLASS_ORDER],
+        icon: (value: string) => (
+          <Image
+            src={CLASS_ICON_MAP[value as CharacterClass]}
+            alt={value}
+            w={14}
+            h={14}
+            fit="contain"
+          />
+        ),
+      },
+      {
+        key: 'qualities',
+        label: 'Quality',
+        options: [...QUALITY_ORDER],
+        icon: renderQualityFilterIcon,
+      },
     ],
     [contentTypeOptions]
   );
 
   const activeFilterCount =
     mode === 'view' || mode === 'saved'
-      ? viewFilters.contentTypes.length + (search.trim() ? 1 : 0)
+      ? countActiveFilters(viewFilters) + (search.trim() ? 1 : 0)
       : 0;
 
   const handleFilterChange = useCallback(
@@ -179,7 +266,12 @@ export default function TierList() {
   );
 
   const handleClearFilters = useCallback(() => {
-    setViewFilters({ contentTypes: [] });
+    setViewFilters({
+      contentTypes: [],
+      factions: [],
+      classes: [],
+      qualities: [],
+    });
     setSearch('');
   }, [setViewFilters]);
 
@@ -244,16 +336,42 @@ export default function TierList() {
   }, [tierLists]);
 
   const visibleTierLists = useMemo(() => {
-    return tierLists.filter((tierList) =>
-      matchesTierListFilters(tierList, search, viewFilters)
-    );
-  }, [tierLists, search, viewFilters]);
+    return tierLists.filter((tierList) => {
+      if (!matchesTierListFilters(tierList, search, viewFilters)) return false;
+      if (!hasCharacterFilters) return true;
+
+      return tierList.entries.some((entry) => {
+        const character = resolveTierEntryCharacter(entry);
+        return character ? matchesCharacterViewFilters(character) : false;
+      });
+    });
+  }, [
+    tierLists,
+    search,
+    viewFilters,
+    hasCharacterFilters,
+    resolveTierEntryCharacter,
+    matchesCharacterViewFilters,
+  ]);
 
   const visibleSavedTierLists = useMemo(() => {
-    return savedTierLists.filter((tierList) =>
-      matchesTierListFilters(tierList, search, viewFilters)
-    );
-  }, [savedTierLists, search, viewFilters]);
+    return savedTierLists.filter((tierList) => {
+      if (!matchesTierListFilters(tierList, search, viewFilters)) return false;
+      if (!hasCharacterFilters) return true;
+
+      return tierList.entries.some((entry) => {
+        const character = resolveTierEntryCharacter(entry);
+        return character ? matchesCharacterViewFilters(character) : false;
+      });
+    });
+  }, [
+    savedTierLists,
+    search,
+    viewFilters,
+    hasCharacterFilters,
+    resolveTierEntryCharacter,
+    matchesCharacterViewFilters,
+  ]);
 
   const handleRequestExport = useCallback(
     async (name: string) => {
@@ -287,24 +405,13 @@ export default function TierList() {
           </Group>
           <Group gap="xs">
             {(mode === 'view' || mode === 'saved') && (
-              <ViewToggle viewMode={viewMode} onChange={setViewMode} />
-            )}
-            {(mode === 'view' || mode === 'saved') && (
-              <Button
-                variant="default"
-                size={isMobile ? 'sm' : 'xs'}
-                leftSection={<IoFilter size={16} />}
-                rightSection={
-                  activeFilterCount > 0 ? (
-                    <Badge size="xs" circle variant="filled">
-                      {activeFilterCount}
-                    </Badge>
-                  ) : null
-                }
-                onClick={toggleFilter}
-              >
-                Filters
-              </Button>
+              <PageFilterHeaderControls
+                viewMode={viewMode}
+                onViewModeChange={setViewMode}
+                filterCount={activeFilterCount}
+                onFilterToggle={toggleFilter}
+                isMobile={isMobile}
+              />
             )}
           </Group>
         </Group>
@@ -363,6 +470,8 @@ export default function TierList() {
                 onRequestExport={handleRequestExport}
                 isExporting={isCapturingTierList}
                 exportRefCallback={exportRefCallback}
+                characterFilter={matchesCharacterViewFilters}
+                hasCharacterFilters={hasCharacterFilters}
               />
             )}
 
@@ -387,6 +496,7 @@ export default function TierList() {
                 exportRefCallback={exportRefCallback}
                 onRequestDelete={setPendingDeleteSavedTierList}
                 onGoToBuilder={() => setSearchParams({ mode: 'builder' })}
+                characterFilter={matchesCharacterViewFilters}
               />
             )}
 

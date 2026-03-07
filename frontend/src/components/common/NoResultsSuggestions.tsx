@@ -1,4 +1,6 @@
 import { Button, Group, Stack, Text } from '@mantine/core';
+import { useContext } from 'react';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import EmptyState from './EmptyState';
 
 interface NoResultsSuggestionsProps {
@@ -16,10 +18,14 @@ export default function NoResultsSuggestions({
   onOpenFilters,
   resetLabel = 'Reset filters',
 }: NoResultsSuggestionsProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+
   return (
     <EmptyState
       title={title}
       description={message}
+      color={accent.primary}
       action={
         <Stack align="center" gap="xs">
           <Text size="xs" c="dimmed" ta="center">
@@ -28,12 +34,22 @@ export default function NoResultsSuggestions({
           </Text>
           <Group gap="xs" justify="center" wrap="wrap">
             {onReset && (
-              <Button size="xs" variant="light" onClick={onReset}>
+              <Button
+                size="xs"
+                variant="light"
+                color={accent.primary}
+                onClick={onReset}
+              >
                 {resetLabel}
               </Button>
             )}
             {onOpenFilters && (
-              <Button size="xs" variant="default" onClick={onOpenFilters}>
+              <Button
+                size="xs"
+                variant="outline"
+                color={accent.primary}
+                onClick={onOpenFilters}
+              >
                 Open filters
               </Button>
             )}

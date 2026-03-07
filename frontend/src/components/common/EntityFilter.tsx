@@ -1,10 +1,14 @@
-import { Button, Chip, Group, Stack, Text, TextInput } from '@mantine/core';
+import { Group, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import type { ReactNode } from 'react';
-import { useContext } from 'react';
-import { IoClose, IoSearch } from 'react-icons/io5';
-import { BREAKPOINTS, IMAGE_SIZE } from '../../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { BREAKPOINTS } from '../../constants/ui';
+import {
+  FilterChipGroup,
+  FilterClearButton,
+  FilterSearchInput,
+  FilterSection,
+  type FilterChipOption,
+} from './FilterControls';
 
 export interface ChipFilterGroup {
   key: string;
@@ -33,9 +37,6 @@ export default function EntityFilter({
   searchPlaceholder = 'Search by name...',
 }: EntityFilterProps) {
   const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
-  const searchIconColor = `var(--mantine-color-${accent.primary}-6)`;
   const hasChipFilters = Object.values(selected).some((v) => v.length > 0);
   const hasSearch = search !== undefined && search !== '';
   const hasFilters = hasChipFilters || hasSearch;
@@ -44,77 +45,50 @@ export default function EntityFilter({
     <Stack gap={8}>
       {onSearchChange !== undefined && (
         <Group gap="xs" align="center" wrap="wrap">
-          <TextInput
+          <FilterSearchInput
             placeholder={searchPlaceholder}
-            leftSection={
-              <IoSearch size={IMAGE_SIZE.ICON_MD} color={searchIconColor} />
-            }
             value={search ?? ''}
             onChange={(e) => onSearchChange(e.currentTarget.value)}
             size={isMobile ? 'md' : 'xs'}
             style={{ flex: 1, minWidth: 180 }}
           />
           {hasFilters && (
-            <Button
-              variant="subtle"
-              color={accent.primary}
+            <FilterClearButton
               size={isMobile ? 'md' : 'compact-xs'}
-              leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
               onClick={onClear}
-            >
-              Clear
-            </Button>
+            />
           )}
         </Group>
       )}
 
       {onSearchChange === undefined && hasFilters && (
         <Group justify="flex-end">
-          <Button
-            variant="subtle"
-            color={accent.primary}
+          <FilterClearButton
             size={isMobile ? 'md' : 'compact-xs'}
-            leftSection={<IoClose size={IMAGE_SIZE.ICON_SM} />}
             onClick={onClear}
-          >
-            Clear
-          </Button>
+          />
         </Group>
       )}
 
       {groups.map((group) => (
-        <Group key={group.key} gap="xs" align="center" wrap="wrap">
-          <Text
-            size="xs"
-            fw={600}
-            tt="uppercase"
-            c="dimmed"
-            style={{ minWidth: 60 }}
-          >
-            {group.label}
-          </Text>
-          <Chip.Group
-            multiple
+        <FilterSection key={group.key} label={group.label}>
+          <FilterChipGroup
             value={selected[group.key] ?? []}
             onChange={(val) => onChange(group.key, val)}
-          >
-            <Group gap={4} wrap="wrap">
-              {group.options.map((option) => (
-                <Chip
-                  key={option}
-                  value={option}
-                  size={isMobile ? 'md' : 'xs'}
-                  color={accent.primary}
-                >
+            size={isMobile ? 'md' : 'xs'}
+            options={group.options.map(
+              (option): FilterChipOption => ({
+                value: option,
+                label: (
                   <Group gap={4} wrap="nowrap" align="center">
                     {group.icon?.(option)}
                     <span>{option}</span>
                   </Group>
-                </Chip>
-              ))}
-            </Group>
-          </Chip.Group>
-        </Group>
+                ),
+              })
+            )}
+          />
+        </FilterSection>
       ))}
     </Stack>
   );

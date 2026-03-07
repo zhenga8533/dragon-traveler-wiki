@@ -1,4 +1,6 @@
 import { Button, Group, Modal, Stack, Text } from '@mantine/core';
+import { useContext } from 'react';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 
 interface ConfirmActionModalProps {
   opened: boolean;
@@ -17,10 +19,13 @@ export default function ConfirmActionModal({
   message,
   confirmLabel = 'Confirm',
   cancelLabel = 'Cancel',
-  confirmColor = 'violet',
+  confirmColor,
   onCancel,
   onConfirm,
 }: ConfirmActionModalProps) {
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+
   return (
     <Modal
       opened={opened}
@@ -34,10 +39,10 @@ export default function ConfirmActionModal({
           {message}
         </Text>
         <Group justify="flex-end">
-          <Button variant="default" onClick={onCancel}>
+          <Button variant="outline" color={accent.primary} onClick={onCancel}>
             {cancelLabel}
           </Button>
-          <Button color={confirmColor} onClick={onConfirm}>
+          <Button color={confirmColor ?? accent.primary} onClick={onConfirm}>
             {confirmLabel}
           </Button>
         </Group>

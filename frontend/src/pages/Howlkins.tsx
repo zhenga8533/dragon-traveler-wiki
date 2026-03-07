@@ -363,6 +363,7 @@ export default function Howlkins() {
               <EmptyState
                 title="No howlkins yet"
                 description="Howlkin data hasn't been added yet."
+                color={accent.primary}
               />
             )}
 
@@ -545,6 +546,7 @@ export default function Howlkins() {
                 <EmptyState
                   title="No golden alliances yet"
                   description="Golden alliance data hasn't been added yet."
+                  color={accent.primary}
                 />
               )}
 
