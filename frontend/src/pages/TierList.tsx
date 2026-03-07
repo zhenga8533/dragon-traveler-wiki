@@ -97,6 +97,7 @@ export default function TierList() {
   } = useCharacters();
   const { data: tierListChanges } = useTierListChanges();
   interface TierListViewFilters {
+    [key: string]: string[];
     contentTypes: string[];
     factions: string[];
     classes: string[];
