@@ -1,6 +1,5 @@
 import { Button, Group, Modal, Stack, Text } from '@mantine/core';
-import { useContext } from 'react';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 
 interface ConfirmActionModalProps {
   opened: boolean;
@@ -23,8 +22,7 @@ export default function ConfirmActionModal({
   onCancel,
   onConfirm,
 }: ConfirmActionModalProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
 
   return (
     <Modal

@@ -1,9 +1,9 @@
 import { ActionIcon, Affix, Transition } from '@mantine/core';
 import { useWindowScroll } from '@mantine/hooks';
-import { useContext, useEffect } from 'react';
+import { useEffect } from 'react';
 import { IoArrowUp } from 'react-icons/io5';
 import { useLocation, useNavigationType } from 'react-router-dom';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 
 const SCROLL_KEY = 'scroll-pos-';
 
@@ -14,8 +14,7 @@ if ('scrollRestoration' in window.history) {
 
 export default function ScrollToTop() {
   const [scroll, scrollTo] = useWindowScroll();
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const location = useLocation();
   const navigationType = useNavigationType();
 

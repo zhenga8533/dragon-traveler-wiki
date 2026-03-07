@@ -10,13 +10,12 @@ import {
   Timeline,
   Title,
 } from '@mantine/core';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import { IoCheckmarkCircle } from 'react-icons/io5';
 import PaginationControl from '../components/common/PaginationControl';
 import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { getCardHoverProps } from '../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { useDataFetch } from '../hooks';
+import { useDataFetch, useGradientAccent } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 
 interface ChangelogEntry {
@@ -39,8 +38,7 @@ const TYPE_COLORS: Record<string, string> = {
 const ENTRIES_PER_PAGE = 10;
 
 export default function Changelog() {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const { data: changelog, loading } = useDataFetch<ChangelogEntry[]>(
     'data/changelog.json',
     []

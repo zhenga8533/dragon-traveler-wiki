@@ -13,7 +13,6 @@ import {
   Text,
   ThemeIcon,
   Title,
-  useComputedColorScheme,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import ResourceBadge from '../../components/common/ResourceBadge';
@@ -23,6 +22,7 @@ import {
   getGuideSectionCardStyles,
   getMinWidthStyle,
 } from '../../constants/styles';
+import { useDarkMode } from '../../hooks';
 
 const TARGET_ROWS = [
   {
@@ -64,7 +64,7 @@ const EFFICIENCY_ROWS = [
 ];
 
 export default function ShovelEventGuide() {
-  const isDark = useComputedColorScheme('light') === 'dark';
+  const isDark = useDarkMode();
 
   const sectionCardStyle = getGuideSectionCardStyles(isDark);
 

@@ -20,12 +20,10 @@ import {
   Textarea,
   TextInput,
   Tooltip,
-  useComputedColorScheme,
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import {
   useCallback,
-  useContext,
   useDeferredValue,
   useEffect,
   useMemo,
@@ -53,11 +51,8 @@ import {
   normalizeContentType,
   type ContentType,
 } from '../../../constants/content-types';
-import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
-import {
-  GRADIENT_PALETTE_ACCENTS,
-  GradientThemeContext,
-} from '../../../contexts';
+import { STORAGE_KEY } from '../../../constants/ui';
+import { useDarkMode, useGradientAccent, useIsMobile } from '../../../hooks';
 import type { Character } from '../../../types/character';
 import type { TierDefinition, TierList } from '../../../types/tier-list';
 import {
@@ -109,8 +104,7 @@ export default function TierListBuilder({
   charMap,
   initialData,
 }: TierListBuilderProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const [tierDefs, setTierDefs] = useState<TierDefinition[]>(() =>
     DEFAULT_TIER_DEFINITIONS.map((t) => ({ ...t }))
   );
@@ -144,7 +138,7 @@ export default function TierListBuilder({
     string | null
   >(null);
   const exportRef = useRef<HTMLDivElement>(null);
-  const isDark = useComputedColorScheme('light') === 'dark';
+  const isDark = useDarkMode();
   const characterNameCounts = useMemo(
     () => buildCharacterNameCounts(characters),
     [characters]
@@ -173,7 +167,7 @@ export default function TierListBuilder({
   const handleCategoryChange = useCallback((value: string | null) => {
     setCategoryName(normalizeContentType(value, DEFAULT_CONTENT_TYPE));
   }, []);
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const isMobile = useIsMobile();
   const actionButtonSize = isMobile ? 'md' : 'sm';
   const sensors = useSensors(
     useSensor(PointerSensor, { activationConstraint: { distance: 8 } }),

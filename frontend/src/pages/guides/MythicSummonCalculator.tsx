@@ -11,9 +11,8 @@ import {
   Text,
   ThemeIcon,
   Title,
-  useComputedColorScheme,
 } from '@mantine/core';
-import { useContext, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import {
   IoDiamond,
   IoFlag,
@@ -28,7 +27,7 @@ import {
   getCardHoverProps,
   getGuideSectionCardStyles,
 } from '../../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useDarkMode, useGradientAccent } from '../../hooks';
 
 type DropRate = {
   chance: number;
@@ -135,9 +134,8 @@ function calculateMilestoneRewards(summons: number): number {
 }
 
 export default function MythicSummonCalculator() {
-  const isDark = useComputedColorScheme('light') === 'dark';
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const isDark = useDarkMode();
+  const { accent } = useGradientAccent();
   const [numSummons, setNumSummons] = useState<number | null>(100);
   const [currentPulls, setCurrentPulls] = useState<number | null>(0);
   const [targetShards, setTargetShards] = useState<number | null>(null);

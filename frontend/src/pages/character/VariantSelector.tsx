@@ -7,7 +7,6 @@ import {
   Text,
   UnstyledButton,
 } from '@mantine/core';
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
 import ClassTag from '../../components/common/ClassTag';
@@ -16,7 +15,7 @@ import GlobalBadge from '../../components/common/GlobalBadge';
 import QualityBadge from '../../components/common/QualityBadge';
 import { getCardHoverProps } from '../../constants/styles';
 import { CHARACTER_CARD } from '../../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import type { Character } from '../../types/character';
 import {
   getCharacterIdentityKey,
@@ -32,8 +31,7 @@ export default function CharacterVariantSelector({
   variants,
   characterNameCounts,
 }: CharacterVariantSelectorProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
 
   if (variants.length === 0) {
     return null;

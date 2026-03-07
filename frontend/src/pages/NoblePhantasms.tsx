@@ -11,7 +11,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
@@ -29,8 +29,7 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
+import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '../hooks';
 import type { Character } from '../types/character';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import { getLatestTimestamp } from '../utils';
@@ -46,8 +45,7 @@ const EMPTY_FILTERS: NoblePhantasmFilters = {
 
 export default function NoblePhantasms() {
   const navigate = useNavigate();
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const {
     data: noblePhantasms,
     loading,

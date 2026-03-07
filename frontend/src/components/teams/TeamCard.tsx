@@ -8,7 +8,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useContext, type KeyboardEvent, type ReactNode } from 'react';
+import { type KeyboardEvent, type ReactNode } from 'react';
 import { FACTION_WYRM_MAP } from '../../assets/wyrms';
 import { FACTION_COLOR } from '../../constants/colors';
 import {
@@ -19,7 +19,7 @@ import {
   getCardHoverProps,
   LINK_BLOCK_RESET_STYLE,
 } from '../../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Team } from '../../types/team';
@@ -47,8 +47,7 @@ export default function TeamCard({
   onNavigate,
   actions,
 }: TeamCardProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const isLargeTeamCardLayout = useMediaQuery('(min-width: 75em)');
 
   const borderTopStyle = `3px solid var(--mantine-color-${FACTION_COLOR[team.faction as FactionName] ?? 'violet'}-5)`;

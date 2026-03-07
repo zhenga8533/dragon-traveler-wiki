@@ -1,5 +1,5 @@
-import { Box, Container, useComputedColorScheme } from '@mantine/core';
-import { useContext, useEffect, useMemo, useRef, useState } from 'react';
+import { Box, Container } from '@mantine/core';
+import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ChangeHistory from '../../components/common/ChangeHistory';
 import ConfirmActionModal from '../../components/common/ConfirmActionModal';
@@ -7,8 +7,7 @@ import DetailPageNavigation from '../../components/common/DetailPageNavigation';
 import EntityNotFound from '../../components/common/EntityNotFound';
 import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
 import { STORAGE_KEY } from '../../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
-import { useCharacterResolution, useMobileTooltip } from '../../hooks';
+import { useCharacterResolution, useDarkMode, useGradientAccent, useMobileTooltip } from '../../hooks';
 import {
   useArtifacts,
   useCharacters,
@@ -34,9 +33,8 @@ import TeamDetailContent from './TeamDetailContent';
 export default function TeamPage() {
   const tooltipProps = useMobileTooltip();
   const { teamName } = useParams<{ teamName: string }>();
-  const isDark = useComputedColorScheme('light') === 'dark';
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const isDark = useDarkMode();
+  const { accent } = useGradientAccent();
   const navigate = useNavigate();
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
   const [exporting, setExporting] = useState(false);

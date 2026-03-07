@@ -11,10 +11,9 @@ import {
   Text,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useContext } from 'react';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import type { TeamSynergyResult } from '../../utils/team-synergy';
 import ClassTag from '../common/ClassTag';
 
@@ -33,8 +32,7 @@ export default function TeamSynergyAssistant({
   synergy,
   defaultExpanded = false,
 }: TeamSynergyAssistantProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const [expanded, { toggle }] = useDisclosure(defaultExpanded);
 
   return (

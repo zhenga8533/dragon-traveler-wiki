@@ -8,7 +8,6 @@ import {
   Text,
 } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { getTierColor, TIER_ORDER } from '../../constants/colors';
 import {
@@ -16,7 +15,7 @@ import {
   normalizeContentType,
 } from '../../constants/content-types';
 import { CHARACTER_GRID_SPACING } from '../../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { TierList as TierListType } from '../../types/tier-list';
 import {
@@ -54,8 +53,7 @@ export default function TierListContent({
   exportRefCallback,
   characterFilter,
 }: TierListContentProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const tierOrder = tierList.tiers?.map((t) => t.name) ?? TIER_ORDER;
   const definedTierSet = new Set(tierOrder);
   const extraTiers = [...new Set(tierList.entries.map((e) => e.tier))].filter(

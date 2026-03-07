@@ -1,6 +1,5 @@
 import { Center, Pagination } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
-import { BREAKPOINTS } from '../../constants/ui';
+import { useIsMobile } from '../../hooks';
 
 interface PaginationControlProps {
   currentPage: number;
@@ -13,7 +12,7 @@ export default function PaginationControl({
   totalPages,
   onChange,
 }: PaginationControlProps) {
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const isMobile = useIsMobile();
 
   if (totalPages <= 1) return null;
 

@@ -14,7 +14,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import type { CSSProperties } from 'react';
-import { memo, useContext, useEffect, useRef, useState } from 'react';
+import { memo, useEffect, useRef, useState } from 'react';
 import { IoChevronDown, IoChevronUp, IoTrash } from 'react-icons/io5';
 import {
   CONTENT_TYPE_OPTIONS,
@@ -22,10 +22,7 @@ import {
 } from '../../../constants/content-types';
 import { getCardHoverProps } from '../../../constants/styles';
 import { CHARACTER_GRID_SPACING, TRANSITION } from '../../../constants/ui';
-import {
-  GRADIENT_PALETTE_ACCENTS,
-  GradientThemeContext,
-} from '../../../contexts';
+import { useGradientAccent } from '../../../hooks';
 import type { Character } from '../../../types/character';
 import { getCharacterRoutePath } from '../../../utils/character-route';
 import CharacterCard from '../../character/CharacterCard';
@@ -343,8 +340,7 @@ export function TierNotePopover({
   editorMaxWidth?: number;
   align?: 'left' | 'center';
 }) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);

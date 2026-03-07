@@ -7,9 +7,8 @@ import {
   Image,
   Title,
   Tooltip,
-  useComputedColorScheme,
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
@@ -19,13 +18,12 @@ import {
   LINK_BLOCK_RESET_STYLE,
 } from '../../constants/styles';
 import {
-  BREAKPOINTS,
   HEADER_HEIGHT,
   SIDEBAR,
   TRANSITION,
 } from '../../constants/ui';
 import { BannerContext } from '../../contexts';
-import { useSidebar } from '../../hooks';
+import { useDarkMode, useIsMobile, useSidebar } from '../../hooks';
 import AppRoutes from '../../routes/AppRoutes';
 import ErrorBoundary from '../common/ErrorBoundary';
 import KonamiEasterEgg from '../tools/KonamiEasterEgg';
@@ -53,8 +51,8 @@ export default function AppLayout() {
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
     useDisclosure();
   const sidebar = useSidebar();
-  const isDark = useComputedColorScheme('light') === 'dark';
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const isDark = useDarkMode();
+  const isMobile = useIsMobile();
   const { selectedBanner, showOnAllRoutes } = useContext(BannerContext);
   const location = useLocation();
   const isHome = location.pathname === '/';

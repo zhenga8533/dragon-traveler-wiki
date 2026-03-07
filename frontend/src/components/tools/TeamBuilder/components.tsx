@@ -16,9 +16,9 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
+import { useIsMobile } from '../../../hooks';
 import type { CSSProperties } from 'react';
-import { memo, useContext, useEffect, useMemo, useState } from 'react';
+import { memo, useEffect, useMemo, useState } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '../../../assets/faction';
 import { getWyrmspellIcon } from '../../../assets/wyrmspell';
@@ -29,14 +29,10 @@ import {
 } from '../../../constants/content-types';
 import { getCardHoverProps } from '../../../constants/styles';
 import {
-  BREAKPOINTS,
   CHARACTER_GRID_SPACING,
   TRANSITION,
 } from '../../../constants/ui';
-import {
-  GRADIENT_PALETTE_ACCENTS,
-  GradientThemeContext,
-} from '../../../contexts';
+import { useGradientAccent } from '../../../hooks';
 import type { Character } from '../../../types/character';
 import type { FactionName } from '../../../types/faction';
 import type { TeamWyrmspells } from '../../../types/team';
@@ -280,7 +276,7 @@ export function SlotCard({
   isDragging: boolean;
   nameCounts?: Map<string, number>;
 }) {
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const isMobile = useIsMobile();
   const { setNodeRef, isOver } = useDroppable({ id: `slot-${index}` });
 
   let borderColor: string | undefined;
@@ -668,7 +664,7 @@ export function BenchDropItem({
   onNoteChange: (charKey: string, note: string) => void;
   nameCounts?: Map<string, number>;
 }) {
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const isMobile = useIsMobile();
   const { setNodeRef: setItemNodeRef, isOver: isOverItem } = useDroppable({
     id: `bench-item-${charKey}`,
   });
@@ -833,8 +829,7 @@ export function PasteJsonModal({
   /** Receives raw paste text; returns an error string on failure, null on success. */
   onApply: (text: string) => string | null;
 }) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const [pasteText, setPasteText] = useState('');
   const [pasteError, setPasteError] = useState('');
 

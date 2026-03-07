@@ -1,4 +1,5 @@
 import { Image, Tooltip } from '@mantine/core';
+import { memo } from 'react';
 import { QUALITY_ICON_MAP } from '../../assets/quality';
 
 interface QualityIconProps {
@@ -6,7 +7,7 @@ interface QualityIconProps {
   size?: number;
 }
 
-export default function QualityIcon({ quality, size = 20 }: QualityIconProps) {
+function QualityIcon({ quality, size = 20 }: QualityIconProps) {
   return (
     <Tooltip label={quality}>
       <Image
@@ -20,3 +21,5 @@ export default function QualityIcon({ quality, size = 20 }: QualityIconProps) {
     </Tooltip>
   );
 }
+
+export default memo(QualityIcon);

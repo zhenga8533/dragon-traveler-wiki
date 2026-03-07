@@ -18,12 +18,10 @@ import {
   Stack,
   Text,
   Tooltip,
-  useComputedColorScheme,
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import {
   useCallback,
-  useContext,
   useDeferredValue,
   useEffect,
   useMemo,
@@ -46,12 +44,8 @@ import {
   normalizeContentType,
   type ContentType,
 } from '../../../constants/content-types';
-import { BREAKPOINTS, STORAGE_KEY } from '../../../constants/ui';
-import {
-  GRADIENT_PALETTE_ACCENTS,
-  GradientThemeContext,
-} from '../../../contexts';
-import { useCharacterResolution, useMobileTooltip } from '../../../hooks';
+import { STORAGE_KEY } from '../../../constants/ui';
+import { useCharacterResolution, useDarkMode, useGradientAccent, useIsMobile, useMobileTooltip } from '../../../hooks';
 import { BattlefieldGrid } from '../../../pages/team/BattlefieldGrid';
 import { BenchSection } from '../../../pages/team/BenchSection';
 import type { Character } from '../../../types/character';
@@ -117,8 +111,7 @@ export default function TeamBuilder({
   initialData,
   wyrmspells = [],
 }: TeamBuilderProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   // Team grid: 3×3 = 9 slots (indexed row*3+col)
   const [slots, setSlots] = useState<(string | null)[]>(
     Array(GRID_SIZE).fill(null)
@@ -149,14 +142,14 @@ export default function TeamBuilder({
     clearConfirmOpened,
     { open: openClearConfirm, close: closeClearConfirm },
   ] = useDisclosure(false);
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const isMobile = useIsMobile();
   const [draftHydrated, setDraftHydrated] = useState(false);
   const [isCapturing, setIsCapturing] = useState(false);
   const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<
     string | null
   >(null);
   const exportRef = useRef<HTMLDivElement>(null);
-  const isDark = useComputedColorScheme('light') === 'dark';
+  const isDark = useDarkMode();
   const tooltipProps = useMobileTooltip();
 
   const { byIdentity: characterByIdentity, nameCounts: characterNameCounts } =

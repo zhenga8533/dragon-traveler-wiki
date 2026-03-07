@@ -1,14 +1,13 @@
 import { ActionIcon, Popover, Textarea, Tooltip } from '@mantine/core';
 import {
   memo,
-  useContext,
   useEffect,
   useRef,
   useState,
   type CSSProperties,
 } from 'react';
 import { IoDocumentTextOutline } from 'react-icons/io5';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 
 interface CharacterNoteButtonProps {
   value: string;
@@ -23,8 +22,7 @@ function CharacterNoteButton({
   placeholder = 'Add note...',
   style,
 }: CharacterNoteButtonProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);

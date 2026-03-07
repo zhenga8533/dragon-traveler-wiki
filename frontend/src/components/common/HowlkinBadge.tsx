@@ -1,8 +1,7 @@
 import { Badge, Group, Image, Stack, Text } from '@mantine/core';
-import { useContext } from 'react';
 import { getHowlkinIcon } from '../../assets/howlkin';
 import { QUALITY_COLOR } from '../../constants/colors';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import type { Howlkin } from '../../types/howlkin';
 import IconBadge from './IconBadge';
 import QualityIcon from './QualityIcon';
@@ -13,8 +12,7 @@ interface HowlkinBadgeProps {
 }
 
 export default function HowlkinBadge({ name, howlkin }: HowlkinBadgeProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const iconSrc = getHowlkinIcon(name);
   const color = howlkin ? QUALITY_COLOR[howlkin.quality] : 'gray';
 

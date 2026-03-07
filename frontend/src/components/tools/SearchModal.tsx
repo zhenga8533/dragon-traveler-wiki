@@ -14,7 +14,6 @@ import {
   useDebouncedValue,
   useDisclosure,
   useHotkeys,
-  useMediaQuery,
 } from '@mantine/hooks';
 import Fuse from 'fuse.js';
 import type { ReactNode } from 'react';
@@ -45,12 +44,11 @@ import { getStatusEffectIcon } from '../../assets/status_effect';
 import { getSubclassIcon } from '../../assets/subclass';
 import { getWyrmspellIcon } from '../../assets/wyrmspell';
 import { normalizeContentType } from '../../constants/content-types';
-import { BREAKPOINTS, TRANSITION } from '../../constants/ui';
+import { TRANSITION } from '../../constants/ui';
 import {
-  GRADIENT_PALETTE_ACCENTS,
-  GradientThemeContext,
   SearchDataContext,
 } from '../../contexts';
+import { useGradientAccent, useIsMobile } from '../../hooks';
 import { isCodeActive } from '../../utils';
 import {
   buildCharacterNameCounts,
@@ -203,9 +201,8 @@ export default function SearchModal({
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [selectedIndex, setSelectedIndex] = useState(0);
   const navigate = useNavigate();
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const { accent } = useGradientAccent();
+  const isMobile = useIsMobile();
   const {
     characters,
     artifacts,

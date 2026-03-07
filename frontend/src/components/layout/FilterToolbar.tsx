@@ -7,17 +7,15 @@ import {
   Paper,
   Text,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
-import { type ReactNode, useContext, useEffect, useRef } from 'react';
+import { type ReactNode, useEffect, useRef } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
 import {
-  BREAKPOINTS,
   HEADER_HEIGHT,
   IMAGE_SIZE,
   Z_INDEX,
 } from '../../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent, useIsMobile } from '../../hooks';
 import type { ViewMode } from '../../hooks/use-filters';
 import ViewToggle from '../common/ViewToggle';
 
@@ -42,10 +40,9 @@ export default function FilterToolbar({
   onFilterToggle,
   children,
 }: FilterToolbarProps) {
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const isMobile = useIsMobile();
   const filterPanelRef = useRef<HTMLDivElement>(null);
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
 
   useEffect(() => {
     if (filterOpen && isMobile && filterPanelRef.current) {

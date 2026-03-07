@@ -11,8 +11,8 @@ import {
   TextInput,
   Textarea,
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { useCallback, useContext, useDeferredValue, useState } from 'react';
+import { useDisclosure } from '@mantine/hooks';
+import { useCallback, useDeferredValue, useState } from 'react';
 import {
   IoAdd,
   IoAddCircleOutline,
@@ -27,8 +27,7 @@ import {
   MAX_GITHUB_ISSUE_URL_LENGTH,
   buildEmptyIssueBody,
 } from '../../constants/github';
-import { BREAKPOINTS } from '../../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent, useIsMobile } from '../../hooks';
 import { showWarningToast } from '../../utils/toast';
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number';
@@ -117,9 +116,8 @@ export default function SuggestModal({
   excludeFromJson,
 }: SuggestModalProps) {
   const [opened, { open, close }] = useDisclosure(false);
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const isMobile = useIsMobile();
+  const { accent } = useGradientAccent();
   const [values, setValues] = useState<Record<string, string | boolean>>(() =>
     buildInitialValues(fields)
   );

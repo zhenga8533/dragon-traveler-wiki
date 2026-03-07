@@ -1,5 +1,5 @@
 import { Container, Group, Stack, Title } from '@mantine/core';
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import { IoPeople } from 'react-icons/io5';
 import {
   CharacterList,
@@ -10,8 +10,7 @@ import {
   type FieldDef,
 } from '../components';
 import { CLASS_ORDER, QUALITY_ORDER } from '../constants/colors';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { useDataFetch } from '../hooks';
+import { useDataFetch, useGradientAccent } from '../hooks';
 import type { Character } from '../types/character';
 import { getLatestTimestamp } from '../utils';
 
@@ -59,8 +58,7 @@ const CHARACTER_FIELDS: FieldDef[] = [
 ];
 
 export default function Characters() {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const {
     data: characters,
     loading,

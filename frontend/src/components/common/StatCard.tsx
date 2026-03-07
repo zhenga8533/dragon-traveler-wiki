@@ -1,4 +1,5 @@
 import { Group, Paper, Stack, Text, ThemeIcon } from '@mantine/core';
+import { memo } from 'react';
 import type { ReactNode } from 'react';
 import { getCardHoverProps } from '../../constants/styles';
 import ResourceBadge from './ResourceBadge';
@@ -15,7 +16,7 @@ interface StatCardProps {
   showResourceQuantity?: boolean;
 }
 
-export default function StatCard({
+function StatCard({
   icon,
   title,
   value,
@@ -66,3 +67,5 @@ export default function StatCard({
     </Paper>
   );
 }
+
+export default memo(StatCard);

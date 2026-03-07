@@ -8,10 +8,9 @@ import {
   ThemeIcon,
   Title,
 } from '@mantine/core';
-import { useContext } from 'react';
 import { IoList, IoPricetag } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import ActiveCodesSection from './ActiveCodesSection';
 import DataStatsBar from './DataStatsBar';
 import FeaturedCharactersMarquee from './FeaturedCharactersMarquee';
@@ -19,8 +18,7 @@ import HomeHeroSection from './HomeHeroSection';
 import RecentUpdatesSection from './RecentUpdatesSection';
 
 export default function Home() {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
 
   return (
     <Stack gap={0}>

@@ -14,9 +14,8 @@ import { Link } from 'react-router-dom';
 import CharacterCard from '../../components/character/CharacterCard';
 import { TIER_COLOR } from '../../constants/colors';
 import { normalizeContentType } from '../../constants/content-types';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 import { TierListReferenceContext } from '../../contexts/tier-list-reference-context';
-import { useDataFetch } from '../../hooks';
+import { useDataFetch, useGradientAccent } from '../../hooks';
 import type { Character } from '../../types/character';
 import {
   buildCharacterByIdentityMap,
@@ -30,8 +29,7 @@ import {
 import styles from './FeaturedCharactersMarquee.module.css';
 
 export default function FeaturedCharactersMarquee() {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const {
     tierLists,
     loading: loadingTiers,

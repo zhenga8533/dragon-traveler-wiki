@@ -1,4 +1,5 @@
 import { useMediaQuery } from '@mantine/hooks';
+import { BREAKPOINTS } from '../constants/ui';
 
 /**
  * Hook to determine if tooltips should be interactive on touch devices
@@ -6,7 +7,7 @@ import { useMediaQuery } from '@mantine/hooks';
  * On desktop, returns default behavior
  */
 export function useMobileTooltip() {
-  const isMobile = useMediaQuery('(max-width: 768px)');
+  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
   const isTouchDevice =
     typeof window !== 'undefined' &&
     ('ontouchstart' in window ||

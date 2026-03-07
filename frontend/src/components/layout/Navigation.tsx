@@ -21,11 +21,8 @@ import {
 import { Link, useLocation } from 'react-router-dom';
 import { getAccentForPath, PARENT_ACCENTS } from '../../constants/accents';
 import { NAV_ITEM_HEIGHT, STORAGE_KEY } from '../../constants/ui';
-import {
-  GRADIENT_PALETTE_ACCENTS,
-  GradientThemeContext,
-  SearchDataContext,
-} from '../../contexts';
+import { SearchDataContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import { isCodeActive } from '../../utils';
 
 type NavItem = {
@@ -129,8 +126,7 @@ export default function Navigation({
 }) {
   const location = useLocation();
   const { codes } = useContext(SearchDataContext);
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
 
   const loadRedeemedCodes = () => {
     try {

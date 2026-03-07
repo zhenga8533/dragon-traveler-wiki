@@ -12,32 +12,28 @@ import {
   Switch,
   Text,
   Tooltip,
-  useComputedColorScheme,
   useMantineColorScheme,
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import { useContext, useMemo, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { normalizeContentType } from '../../constants/content-types';
-import { BREAKPOINTS, Z_INDEX } from '../../constants/ui';
+import { Z_INDEX } from '../../constants/ui';
 import type { GradientPalette } from '../../contexts';
 import {
   BannerContext,
-  GRADIENT_PALETTE_ACCENTS,
-  GradientThemeContext,
   TierListReferenceContext,
 } from '../../contexts';
+import { useDarkMode, useGradientAccent, useIsMobile } from '../../hooks';
 
 export default function SettingsPanel() {
   const [opened, { toggle: toggleOpened, close: closeOpened }] =
     useDisclosure(false);
   const [isSelectDropdownOpen, setIsSelectDropdownOpen] = useState(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
-  const computedColorScheme = useComputedColorScheme('light');
-  const isDark = computedColorScheme === 'dark';
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
-  const { palette, setPalette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const isDark = useDarkMode();
+  const isMobile = useIsMobile();
+  const { accent, palette, setPalette } = useGradientAccent();
 
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);

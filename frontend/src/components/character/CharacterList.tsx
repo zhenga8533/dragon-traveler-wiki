@@ -18,11 +18,8 @@ import {
   CHARACTER_GRID_SPACING,
   STORAGE_KEY,
 } from '../../constants/ui';
-import {
-  GRADIENT_PALETTE_ACCENTS,
-  GradientThemeContext,
-  TierListReferenceContext,
-} from '../../contexts';
+import { TierListReferenceContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import {
   useFilterPanel,
   useFilters,
@@ -72,8 +69,7 @@ export default function CharacterList({
   spacing = CHARACTER_GRID_SPACING,
   showFilter = true,
 }: CharacterListProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const { tierLists, selectedTierListName } = useContext(
     TierListReferenceContext
   );

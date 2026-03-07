@@ -1,7 +1,6 @@
 import { Group, Stack } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
 import type { ReactNode } from 'react';
-import { BREAKPOINTS } from '../../constants/ui';
+import { useIsMobile } from '../../hooks';
 import {
   FilterChipGroup,
   FilterClearButton,
@@ -36,7 +35,7 @@ export default function EntityFilter({
   onSearchChange,
   searchPlaceholder = 'Search by name...',
 }: EntityFilterProps) {
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const isMobile = useIsMobile();
   const hasChipFilters = Object.values(selected).some((v) => v.length > 0);
   const hasSearch = search !== undefined && search !== '';
   const hasFilters = hasChipFilters || hasSearch;

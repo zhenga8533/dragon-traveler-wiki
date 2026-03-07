@@ -1,8 +1,7 @@
 import { Box, Group, Paper, Text } from '@mantine/core';
-import { useContext } from 'react';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 
 type DetailNavigationItem = {
   label: string;
@@ -18,8 +17,7 @@ export default function DetailPageNavigation({
   previousItem,
   nextItem,
 }: DetailPageNavigationProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
 
   if (!previousItem && !nextItem) return null;
 

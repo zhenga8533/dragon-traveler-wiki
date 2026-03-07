@@ -1,13 +1,14 @@
-import { Box, useComputedColorScheme } from '@mantine/core';
+import { Box } from '@mantine/core';
 import { useCallback, useContext, useRef, useState } from 'react';
 import { getHomeHeroPlaceholderGradient } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
 import { BannerContext } from '../../contexts';
+import { useDarkMode } from '../../hooks';
 
 const measuredHeightBySource = new Map<string, number>();
 
 export default function BannerBackground() {
-  const isDark = useComputedColorScheme('light') === 'dark';
+  const isDark = useDarkMode();
   const { selectedBanner, bannerLoaded, setBannerLoaded } =
     useContext(BannerContext);
   const selectedBannerSrc = selectedBanner?.src;

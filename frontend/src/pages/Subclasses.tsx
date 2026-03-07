@@ -11,7 +11,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import { CLASS_ICON_MAP } from '../assets/class';
 import { getSubclassIcon } from '../assets/subclass';
 import ClassTag from '../components/common/ClassTag';
@@ -27,8 +27,7 @@ import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import { CLASS_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
+import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '../hooks';
 import type { CharacterClass } from '../types/character';
 import type { StatusEffect } from '../types/status-effect';
 import type { Subclass } from '../types/subclass';
@@ -113,8 +112,7 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 ];
 
 export default function Subclasses() {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const {
     data: subclasses,
     loading,

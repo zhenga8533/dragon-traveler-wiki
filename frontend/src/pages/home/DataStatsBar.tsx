@@ -9,7 +9,7 @@ import {
   ThemeIcon,
   Title,
 } from '@mantine/core';
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import {
   IoCube,
   IoDiamond,
@@ -25,8 +25,7 @@ import {
 import { Link } from 'react-router-dom';
 import LastUpdated from '../../components/common/LastUpdated';
 import { getCardHoverProps } from '../../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
-import { useDataFetch } from '../../hooks';
+import { useDataFetch, useGradientAccent } from '../../hooks';
 import type { Artifact } from '../../types/artifact';
 import type { Character } from '../../types/character';
 import type { Gear } from '../../types/gear';
@@ -46,8 +45,7 @@ type StatItem = {
 };
 
 export default function DataStatsBar() {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const accentCycle = [
     accent.primary,
     accent.secondary,

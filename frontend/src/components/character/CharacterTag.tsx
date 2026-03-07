@@ -1,7 +1,6 @@
 import { Badge } from '@mantine/core';
-import { useContext } from 'react';
 import { Link } from 'react-router-dom';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import { getCharacterRoutePathByName } from '../../utils/character-route';
 import CharacterPortrait from './CharacterPortrait';
 
@@ -20,8 +19,7 @@ export default function CharacterTag({
   link = true,
   routePath,
 }: CharacterTagProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
 
   const badge = (
     <Badge

@@ -12,7 +12,6 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { useContext } from 'react';
 import { RiDoubleQuotesL } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
@@ -22,7 +21,7 @@ import GearTypeTag from '../../components/common/GearTypeTag';
 import QualityBadge from '../../components/common/QualityBadge';
 import RichText from '../../components/common/RichText';
 import { getCardHoverProps, RICH_TOOLTIP_STYLES } from '../../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import type {
   ActivatedSetBonus,
   Character,
@@ -66,8 +65,7 @@ export default function CharacterPageBuildSection({
   scrollToSkill,
   scrollToTalent,
 }: CharacterPageBuildSectionProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
 
   return (
     <>

@@ -20,7 +20,6 @@ import {
   ThemeIcon,
   Title,
   UnstyledButton,
-  useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo, useState } from 'react';
@@ -46,6 +45,7 @@ import {
   getGuideSectionCardStyles,
 } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
+import { useDarkMode } from '../../hooks';
 
 type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
 
@@ -275,7 +275,7 @@ function parseNumberInput(value: string | number): number | null {
 }
 
 export default function StarUpgradeCalculator() {
-  const isDark = useComputedColorScheme('light') === 'dark';
+  const isDark = useDarkMode();
   const [currentValue, setCurrentValue] = useState<string>(
     STAR_LEVELS[0].value
   );

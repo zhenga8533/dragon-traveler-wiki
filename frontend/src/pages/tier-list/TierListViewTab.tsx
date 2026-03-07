@@ -10,8 +10,7 @@ import {
   Tabs,
   Text,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
-import { useContext, useMemo, useState } from 'react';
+import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CharacterCard from '../../components/character/CharacterCard';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
@@ -26,8 +25,8 @@ import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
 import QualityIcon from '../../components/common/QualityIcon';
 import TierListContent from '../../components/tier-list/TierListContent';
 import { getCardHoverProps } from '../../constants/styles';
-import { BREAKPOINTS, CHARACTER_GRID_SPACING } from '../../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { CHARACTER_GRID_SPACING } from '../../constants/ui';
+import { useGradientAccent, useIsMobile } from '../../hooks';
 import type { ChangesFile } from '../../types/changes';
 import type { Character } from '../../types/character';
 import type { TierList as TierListType } from '../../types/tier-list';
@@ -85,9 +84,8 @@ export default function TierListViewTab({
   characterFilter,
   hasCharacterFilters,
 }: TierListViewTabProps) {
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const isMobile = useIsMobile();
+  const { accent } = useGradientAccent();
   const [selectedTierListName, setSelectedTierListName] = useState<
     string | null
   >(null);

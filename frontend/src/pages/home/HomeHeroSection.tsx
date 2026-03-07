@@ -10,10 +10,7 @@ import {
   Text,
   ThemeIcon,
   Title,
-  useComputedColorScheme,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
-import { useContext } from 'react';
 import {
   IoGameController,
   IoGlobe,
@@ -32,8 +29,8 @@ import {
   getHomeHeroSubtitleStyle,
   getHomeHeroWordmarkStyle,
 } from '../../constants/styles';
-import { BREAKPOINTS, TRANSITION } from '../../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { TRANSITION } from '../../constants/ui';
+import { useDarkMode, useGradientAccent, useIsMobile } from '../../hooks';
 
 const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];
 
@@ -67,10 +64,9 @@ const HOME_HERO_HEADING_PANEL_STYLE = {
 };
 
 export default function HomeHeroSection() {
-  const isDark = useComputedColorScheme('light') === 'dark';
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const isDark = useDarkMode();
+  const isMobile = useIsMobile();
+  const { accent } = useGradientAccent();
 
   const headingPanelStyle = {
     ...HOME_HERO_HEADING_PANEL_STYLE,

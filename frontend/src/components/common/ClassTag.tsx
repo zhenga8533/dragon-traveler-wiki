@@ -1,8 +1,8 @@
 import { Badge, Image } from '@mantine/core';
-import { useContext } from 'react';
+import { memo } from 'react';
 import { CLASS_ICON_MAP } from '../../assets/class';
 import { CLASS_COLOR } from '../../constants/colors';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import type { CharacterClass } from '../../types/character';
 
 export interface ClassTagProps {
@@ -12,14 +12,13 @@ export interface ClassTagProps {
   showIcon?: boolean;
 }
 
-export default function ClassTag({
+function ClassTag({
   characterClass,
   color,
   size = 'sm',
   showIcon = true,
 }: ClassTagProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const classColor = (CLASS_COLOR as Record<string, string | undefined>)[
     characterClass
   ];
@@ -49,3 +48,5 @@ export default function ClassTag({
     </Badge>
   );
 }
+
+export default memo(ClassTag);

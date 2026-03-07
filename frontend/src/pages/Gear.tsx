@@ -13,7 +13,7 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '../assets/gear';
@@ -39,8 +39,7 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
+import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import type { Gear, GearSet, GearType } from '../types/gear';
 import type { Quality } from '../types/quality';
@@ -131,8 +130,7 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 ];
 
 export default function GearPage() {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const [activeTab, setActiveTab] = useState<string>(() => {
     if (typeof window === 'undefined') return 'gear';
     return window.localStorage.getItem(STORAGE_KEY.GEAR_TAB) || 'gear';

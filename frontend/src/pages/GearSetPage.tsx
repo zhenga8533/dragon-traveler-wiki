@@ -9,9 +9,8 @@ import {
   Stack,
   Text,
   Title,
-  useComputedColorScheme,
 } from '@mantine/core';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getGearIcon } from '../assets/gear';
 import CharacterPortrait from '../components/character/CharacterPortrait';
@@ -35,8 +34,7 @@ import {
   getCardHoverProps,
   getDetailHeroGradient,
 } from '../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { useDataFetch, useMobileTooltip } from '../hooks';
+import { useDarkMode, useDataFetch, useGradientAccent, useMobileTooltip } from '../hooks';
 import type { ChangesFile } from '../types/changes';
 import type { Character } from '../types/character';
 import type { Gear, GearSet } from '../types/gear';
@@ -54,11 +52,10 @@ import {
 const SSR_AND_ABOVE: Quality[] = ['UR', 'SSR EX', 'SSR+', 'SSR'];
 
 export default function GearSetPage() {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const { setName } = useParams<{ setName: string }>();
   const navigate = useNavigate();
-  const isDark = useComputedColorScheme('light') === 'dark';
+  const isDark = useDarkMode();
   const tooltipProps = useMobileTooltip();
   const { data: gear, loading } = useDataFetch<Gear[]>('data/gear.json', []);
   const { data: gearSets } = useDataFetch<GearSet[]>('data/gear_sets.json', []);

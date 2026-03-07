@@ -12,7 +12,6 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { useContext } from 'react';
 import { IoCreate, IoTrash } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getArtifactIcon } from '../../assets/artifacts';
@@ -35,8 +34,7 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
-import { useMobileTooltip } from '../../hooks';
+import { useGradientAccent, useMobileTooltip } from '../../hooks';
 import type { Artifact } from '../../types/artifact';
 import type { Faction } from '../../types/faction';
 import type { StatusEffect } from '../../types/status-effect';
@@ -62,8 +60,7 @@ export function TeamHeroSection({
   onRequestEdit: () => void;
   onRequestDelete?: () => void;
 }) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const factionColor = FACTION_COLOR[team.faction];
 
   return (

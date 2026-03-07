@@ -11,7 +11,6 @@ import {
   Text,
   ThemeIcon,
   Title,
-  useComputedColorScheme,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import CharacterTag from '../../components/character/CharacterTag';
@@ -23,6 +22,7 @@ import {
   getGuideSectionCardStyles,
   getMinWidthStyle,
 } from '../../constants/styles';
+import { useDarkMode } from '../../hooks';
 
 const FACTION_GIFTS: {
   faction: string;
@@ -203,7 +203,7 @@ function QA({
 }
 
 export default function BeginnerQA() {
-  const isDark = useComputedColorScheme('light') === 'dark';
+  const isDark = useDarkMode();
 
   const sectionCardStyle = getGuideSectionCardStyles(isDark);
 

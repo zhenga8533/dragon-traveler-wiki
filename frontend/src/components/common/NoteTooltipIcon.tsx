@@ -1,7 +1,6 @@
 import { Tooltip } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import {
-  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -9,7 +8,7 @@ import {
   type CSSProperties,
 } from 'react';
 import { IoInformationCircle } from 'react-icons/io5';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 
 interface NoteTooltipIconProps {
   note: string;
@@ -32,8 +31,7 @@ export default function NoteTooltipIcon({
   offset = 6,
   zIndex = 700,
 }: NoteTooltipIconProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const isCoarsePointer = useMediaQuery('(hover: none), (pointer: coarse)');
   const hasTouchSupport = useMemo(() => {
     if (typeof window === 'undefined') return false;

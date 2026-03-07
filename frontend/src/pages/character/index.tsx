@@ -14,7 +14,6 @@ import {
   Text,
   Tooltip,
   UnstyledButton,
-  useComputedColorScheme,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
@@ -36,6 +35,7 @@ import { TierListReferenceContext } from '../../contexts';
 import {
   useCharacterAssets,
   useCharacterResolution,
+  useDarkMode,
   useMobileTooltip,
 } from '../../hooks';
 import {
@@ -116,7 +116,7 @@ const GEAR_SLOT_CONFIG: Array<{
 
 export default function CharacterPage() {
   const tooltipProps = useMobileTooltip();
-  const isDark = useComputedColorScheme('light') === 'dark';
+  const isDark = useDarkMode();
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();

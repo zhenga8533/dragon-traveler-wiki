@@ -1,9 +1,7 @@
 import { ActionIcon, Group, Tooltip } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
-import { useContext } from 'react';
 import { IoGrid, IoList } from 'react-icons/io5';
-import { BREAKPOINTS, IMAGE_SIZE } from '../../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { IMAGE_SIZE } from '../../constants/ui';
+import { useGradientAccent, useIsMobile } from '../../hooks';
 import type { ViewMode } from '../../hooks/use-filters';
 
 interface ViewToggleProps {
@@ -12,9 +10,8 @@ interface ViewToggleProps {
 }
 
 export default function ViewToggle({ viewMode, onChange }: ViewToggleProps) {
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const isMobile = useIsMobile();
+  const { accent } = useGradientAccent();
 
   return (
     <Group gap={4}>

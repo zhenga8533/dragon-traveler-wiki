@@ -11,7 +11,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useContext, useMemo } from 'react';
+import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import EntityFilter from '../components/common/EntityFilter';
@@ -32,8 +32,7 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
+import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '../hooks';
 import type { Artifact } from '../types/artifact';
 import { getLatestTimestamp } from '../utils';
 import { toEntitySlug } from '../utils/entity-slug';
@@ -114,8 +113,7 @@ const EMPTY_FILTERS: ArtifactFilters = {
 
 export default function Artifacts() {
   const navigate = useNavigate();
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const {
     data: artifacts,
     loading,

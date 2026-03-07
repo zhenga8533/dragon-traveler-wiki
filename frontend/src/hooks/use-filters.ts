@@ -56,7 +56,7 @@ interface UseFiltersOptions<T> {
 /**
  * Generic hook for managing filter state with optional localStorage persistence
  */
-export function useFilters<T>({
+export function useFilters<T extends object>({
   emptyFilters,
   storageKey,
 }: UseFiltersOptions<T>) {

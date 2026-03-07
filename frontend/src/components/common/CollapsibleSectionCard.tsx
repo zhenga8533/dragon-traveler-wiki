@@ -1,5 +1,5 @@
 import { Box, Collapse, Group, Paper, UnstyledButton } from '@mantine/core';
-import { useState, type ReactNode } from 'react';
+import { useCallback, useState, type ReactNode } from 'react';
 import { IoChevronDown } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
 
@@ -17,11 +17,12 @@ export default function CollapsibleSectionCard({
   id,
 }: CollapsibleSectionCardProps) {
   const [opened, setOpened] = useState(defaultExpanded);
+  const toggle = useCallback(() => setOpened((v) => !v), []);
 
   return (
     <Paper id={id} p="lg" radius="md" withBorder {...getCardHoverProps()}>
       <UnstyledButton
-        onClick={() => setOpened((value) => !value)}
+        onClick={toggle}
         style={{
           width: '100%',
           minHeight: 44,

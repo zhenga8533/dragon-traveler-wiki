@@ -5,12 +5,10 @@ import {
   SegmentedControl,
   Stack,
   Title,
-  useComputedColorScheme,
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
+import { useDisclosure } from '@mantine/hooks';
 import {
   useCallback,
-  useContext,
   useEffect,
   useMemo,
   useRef,
@@ -36,9 +34,8 @@ import {
   matchesContentTypeFilters,
   normalizeContentTypeFilters,
 } from '../constants/content-types';
-import { BREAKPOINTS, STORAGE_KEY } from '../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { useCharacterResolution } from '../hooks';
+import { STORAGE_KEY } from '../constants/ui';
+import { useCharacterResolution, useDarkMode, useGradientAccent, useIsMobile } from '../hooks';
 import {
   useCharacters,
   useTierListChanges,
@@ -136,10 +133,9 @@ export default function TierList() {
     null
   );
   const exportRefs = useRef<Map<string, HTMLDivElement>>(new Map());
-  const isDark = useComputedColorScheme('light') === 'dark';
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const isDark = useDarkMode();
+  const isMobile = useIsMobile();
+  const { accent } = useGradientAccent();
   const loading = loadingTiers || loadingChars;
   const error = tierListsError || charactersError;
 

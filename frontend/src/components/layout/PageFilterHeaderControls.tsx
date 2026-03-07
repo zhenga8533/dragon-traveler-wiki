@@ -1,7 +1,6 @@
 import { Badge, Button, Group } from '@mantine/core';
-import { useContext } from 'react';
 import { IoFilter } from 'react-icons/io5';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import type { ViewMode } from '../../hooks/use-filters';
 import ViewToggle from '../common/ViewToggle';
 
@@ -22,8 +21,7 @@ export default function PageFilterHeaderControls({
   isMobile,
   buttonLabel = 'Filters',
 }: PageFilterHeaderControlsProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
 
   return (
     <Group gap="xs">

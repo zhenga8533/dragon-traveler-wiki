@@ -22,7 +22,7 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   IoCheckmark,
   IoChevronDown,
@@ -49,8 +49,7 @@ import SuggestModal, {
 } from '../components/tools/SuggestModal';
 import { getCardHoverProps } from '../constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { useDataFetch, useMobileTooltip } from '../hooks';
+import { useDataFetch, useGradientAccent, useMobileTooltip } from '../hooks';
 import { useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import type { Code } from '../types/code';
@@ -147,8 +146,7 @@ const CODES_PER_PAGE = 20;
 
 export default function Codes() {
   const tooltipProps = useMobileTooltip();
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const {
     data: codes,
     loading,

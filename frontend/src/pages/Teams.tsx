@@ -6,8 +6,8 @@ import {
   Stack,
   Title,
 } from '@mantine/core';
-import { useDisclosure, useMediaQuery } from '@mantine/hooks';
-import { useCallback, useContext, useEffect, useMemo, useState } from 'react';
+import { useDisclosure } from '@mantine/hooks';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 import { FACTION_ICON_MAP } from '../assets/faction';
 import ConfirmActionModal from '../components/common/ConfirmActionModal';
@@ -26,9 +26,8 @@ import {
   matchesContentTypeFilters,
   normalizeContentTypeFilters,
 } from '../constants/content-types';
-import { BREAKPOINTS, STORAGE_KEY } from '../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { useCharacterResolution } from '../hooks';
+import { STORAGE_KEY } from '../constants/ui';
+import { useCharacterResolution, useGradientAccent, useIsMobile } from '../hooks';
 import {
   useCharacters,
   useTeams,
@@ -70,8 +69,7 @@ function matchesTeamFilters(
 }
 
 export default function Teams() {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const navigate = useNavigate();
   const location = useLocation();
   const [searchParams, setSearchParams] = useSearchParams();
@@ -105,7 +103,7 @@ export default function Teams() {
   );
   const [pendingEditTeam, setPendingEditTeam] = useState<Team | null>(null);
   const [confirmEditOpen, setConfirmEditOpen] = useState(false);
-  const isMobile = useMediaQuery(BREAKPOINTS.MOBILE);
+  const isMobile = useIsMobile();
   const [savedTeams, setSavedTeams] = useState<Team[]>(() =>
     mode === 'saved'
       ? loadSavedFromStorage<Team>(STORAGE_KEY.TEAMS_MY_SAVED, (v) =>

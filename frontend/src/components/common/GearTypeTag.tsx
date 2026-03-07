@@ -1,8 +1,8 @@
 import { Badge, Image } from '@mantine/core';
-import { useContext } from 'react';
+import { memo } from 'react';
 import { GEAR_TYPE_ICON_MAP } from '../../assets/gear';
 import { GEAR_TYPE_COLOR } from '../../constants/colors';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import type { GearType } from '../../types/gear';
 
 export interface GearTypeTagProps {
@@ -11,13 +11,12 @@ export interface GearTypeTagProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export default function GearTypeTag({
+function GearTypeTag({
   type,
   color,
   size = 'sm',
 }: GearTypeTagProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const icon = GEAR_TYPE_ICON_MAP[type];
 
   return (
@@ -42,3 +41,5 @@ export default function GearTypeTag({
     </Badge>
   );
 }
+
+export default memo(GearTypeTag);

@@ -13,7 +13,7 @@ import {
   TextInput,
   Title,
 } from '@mantine/core';
-import { useContext, useEffect, useMemo, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { getHowlkinIcon } from '../assets/howlkin';
 import DataFetchError from '../components/common/DataFetchError';
@@ -40,8 +40,7 @@ import SuggestModal, {
 import { QUALITY_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
+import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import type { GoldenAlliance, Howlkin } from '../types/howlkin';
 import type { Quality } from '../types/quality';
@@ -147,8 +146,7 @@ const EMPTY_FILTERS: HowlkinFilters = {
 };
 
 export default function Howlkins() {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const [activeTab, setActiveTab] = useState<string>(() => {
     if (typeof window === 'undefined') return 'howlkins';
     return window.localStorage.getItem(STORAGE_KEY.HOWLKIN_TAB) || 'howlkins';

@@ -1,5 +1,8 @@
 // Hook exports for cleaner imports
 export { useCharacterAssets } from './use-character-assets';
+export { useDarkMode } from './use-dark-mode';
+export { useGradientAccent } from './use-gradient-accent';
+export { useIsMobile } from './use-is-mobile';
 export { useCharacterResolution } from './use-character-resolution';
 export type { CharacterResolution } from './use-character-resolution';
 export {

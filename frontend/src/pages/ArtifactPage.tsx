@@ -10,9 +10,8 @@ import {
   Table,
   Text,
   Title,
-  useComputedColorScheme,
 } from '@mantine/core';
-import { useContext, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getArtifactIcon, getTreasureIcon } from '../assets/artifacts';
 import ChangeHistory from '../components/common/ChangeHistory';
@@ -34,8 +33,7 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { useDataFetch } from '../hooks';
+import { useDarkMode, useDataFetch, useGradientAccent } from '../hooks';
 import type {
   Artifact,
   ArtifactEffect,
@@ -142,9 +140,8 @@ function TreasureCard({
 export default function ArtifactPage() {
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
-  const isDark = useComputedColorScheme('light') === 'dark';
+  const { accent } = useGradientAccent();
+  const isDark = useDarkMode();
 
   const { data: artifacts, loading } = useDataFetch<Artifact[]>(
     'data/artifacts.json',

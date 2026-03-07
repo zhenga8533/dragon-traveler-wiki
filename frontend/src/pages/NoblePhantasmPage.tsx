@@ -9,9 +9,8 @@ import {
   Table,
   Text,
   Title,
-  useComputedColorScheme,
 } from '@mantine/core';
-import { useContext, useEffect, useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import CharacterTag from '../components/character/CharacterTag';
@@ -30,8 +29,7 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../contexts';
-import { useDataFetch } from '../hooks';
+import { useDarkMode, useDataFetch, useGradientAccent } from '../hooks';
 import type { ChangesFile } from '../types/changes';
 import type { Character, Skill, Talent } from '../types/character';
 import type {
@@ -175,9 +173,8 @@ function SkillTable({
 export default function NoblePhantasmPage() {
   const { name } = useParams<{ name: string }>();
   const navigate = useNavigate();
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
-  const isDark = useComputedColorScheme('light') === 'dark';
+  const { accent } = useGradientAccent();
+  const isDark = useDarkMode();
 
   const { data: noblePhantasms, loading } = useDataFetch<NoblePhantasm[]>(
     'data/noble_phantasm.json',

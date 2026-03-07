@@ -12,7 +12,6 @@ import {
   Table,
   Text,
 } from '@mantine/core';
-import { useContext } from 'react';
 import { IoCreate } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { FACTION_WYRM_MAP } from '../../assets/wyrms';
@@ -28,7 +27,7 @@ import {
   normalizeContentType,
 } from '../../constants/content-types';
 import { getMinWidthStyle } from '../../constants/styles';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Team } from '../../types/team';
@@ -78,8 +77,7 @@ export default function TeamsSavedTab({
   onGoToBuilder,
 }: TeamsSavedTabProps) {
   const navigate = useNavigate();
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
 
   const filterPanel = (
     <Collapse in={filterOpen}>

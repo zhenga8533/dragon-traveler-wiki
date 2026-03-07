@@ -1,6 +1,5 @@
 import { Badge, Group, Text } from '@mantine/core';
-import { useContext } from 'react';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useGradientAccent } from '../../hooks';
 
 interface HowlkinStatsProps {
   stats: Record<string, number | string> | null | undefined;
@@ -20,8 +19,7 @@ export default function HowlkinStats({
   stats,
   size = 'sm',
 }: HowlkinStatsProps) {
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const { accent } = useGradientAccent();
   const entries = Object.entries(stats ?? {}).sort(([a], [b]) =>
     a.localeCompare(b)
   );

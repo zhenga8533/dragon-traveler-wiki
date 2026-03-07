@@ -6,9 +6,8 @@ import {
   Group,
   Stack,
   Text,
-  useComputedColorScheme,
 } from '@mantine/core';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import {
   IoBulb,
   IoChevronDown,
@@ -18,7 +17,7 @@ import {
 } from 'react-icons/io5';
 import { GITHUB_REPO_URL } from '../../constants/github';
 import { getGlassStyles } from '../../constants/glass';
-import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
+import { useDarkMode, useGradientAccent } from '../../hooks';
 
 const DATA_SOURCE_URL = 'https://www.gamekee.com/lhlr/';
 
@@ -27,9 +26,8 @@ const LEGAL_DISCLAIMER =
 
 export default function Footer() {
   const [showLegal, setShowLegal] = useState(false);
-  const isDark = useComputedColorScheme('light') === 'dark';
-  const { palette } = useContext(GradientThemeContext);
-  const accent = GRADIENT_PALETTE_ACCENTS[palette];
+  const isDark = useDarkMode();
+  const { accent } = useGradientAccent();
   const glassStyles = getGlassStyles(isDark, true);
   const currentYear = new Date().getFullYear();
 
