@@ -45,7 +45,13 @@ import {
   type ContentType,
 } from '../../../constants/content-types';
 import { STORAGE_KEY } from '../../../constants/ui';
-import { useCharacterResolution, useDarkMode, useGradientAccent, useIsMobile, useMobileTooltip } from '../../../hooks';
+import {
+  useCharacterResolution,
+  useDarkMode,
+  useGradientAccent,
+  useIsMobile,
+  useMobileTooltip,
+} from '../../../hooks';
 import { BattlefieldGrid } from '../../../pages/team/BattlefieldGrid';
 import { BenchSection } from '../../../pages/team/BenchSection';
 import type { Character } from '../../../types/character';
@@ -615,6 +621,25 @@ export default function TeamBuilder({
     });
   }
 
+  function notifyTeamFull() {
+    showWarningToast({
+      id: 'teambuilder-team-full',
+      title: 'Team is full',
+      message: `A team can have up to ${MAX_ROSTER_SIZE} members. Remove one before adding another.`,
+      autoClose: 2400,
+    });
+  }
+
+  function notifyNoValidSwapRoom(charName: string) {
+    const displayName = getCharacterFromKey(charName)?.name ?? charName;
+    showWarningToast({
+      id: 'teambuilder-no-valid-swap-room',
+      title: 'No valid slot available',
+      message: `${displayName} cannot be moved because no valid empty row is available.`,
+      autoClose: 2400,
+    });
+  }
+
   function findValidEmptySlotForCharacter(charName: string): number {
     const char = getCharacterFromKey(charName);
     const validRows = char ? getValidRows(char.character_class) : [0, 1, 2];
@@ -715,24 +740,30 @@ export default function TeamBuilder({
         } else if (occupant) {
           // Slot occupied but team not full — move occupant (with its notes) to empty slot
           const emptyIdx = findValidEmptySlotForCharacter(occupant);
-          if (emptyIdx !== -1) {
-            setSlots((prev) => {
-              const next = [...prev];
-              next[targetSlotIndex] = charName;
-              next[emptyIdx] = occupant;
-              return next;
-            });
-            moveOverdriveSlot(targetSlotIndex, emptyIdx);
-            setSlotNotes((prev) => {
-              const next = [...prev];
-              next[emptyIdx] = next[targetSlotIndex]; // Move occupant's note
-              next[targetSlotIndex] = incomingNote;
-              return next;
-            });
+          if (emptyIdx === -1) {
+            notifyNoValidSwapRoom(occupant);
+            return;
           }
+
+          setSlots((prev) => {
+            const next = [...prev];
+            next[targetSlotIndex] = charName;
+            next[emptyIdx] = occupant;
+            return next;
+          });
+          moveOverdriveSlot(targetSlotIndex, emptyIdx);
+          setSlotNotes((prev) => {
+            const next = [...prev];
+            next[emptyIdx] = next[targetSlotIndex]; // Move occupant's note
+            next[targetSlotIndex] = incomingNote;
+            return next;
+          });
         } else {
           // Slot empty — check team size
-          if (teamSize >= MAX_ROSTER_SIZE) return;
+          if (teamSize >= MAX_ROSTER_SIZE) {
+            notifyTeamFull();
+            return;
+          }
           setSlots((prev) => {
             const next = [...prev];
             next[targetSlotIndex] = charName;
@@ -950,7 +981,10 @@ export default function TeamBuilder({
   }
 
   function handleAddToNextSlot(charName: string) {
-    if (teamSize >= MAX_ROSTER_SIZE) return;
+    if (teamSize >= MAX_ROSTER_SIZE) {
+      notifyTeamFull();
+      return;
+    }
     const targetIdx = findValidEmptySlotForCharacter(charName);
     const displayName = getCharacterFromKey(charName)?.name ?? charName;
 

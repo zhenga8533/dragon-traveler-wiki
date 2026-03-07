@@ -676,8 +676,26 @@ export default function TierListBuilder({
 
   function handleAddTier() {
     const trimmed = newTierName.trim();
-    if (!trimmed) return;
-    if (tierDefs.some((t) => t.name === trimmed)) return;
+    if (!trimmed) {
+      showWarningToast({
+        id: 'tierlistbuilder-tier-name-required',
+        title: 'Tier name required',
+        message: 'Enter a tier name before adding a new tier.',
+        autoClose: 2400,
+      });
+      return;
+    }
+
+    if (tierDefs.some((t) => t.name === trimmed)) {
+      showWarningToast({
+        id: 'tierlistbuilder-tier-name-duplicate',
+        title: 'Tier already exists',
+        message: `A tier named "${trimmed}" already exists. Use a different name.`,
+        autoClose: 2400,
+      });
+      return;
+    }
+
     setTierDefs((prev) => [
       ...prev,
       { name: trimmed, note: normalizeNote(newTierNote) },
