@@ -15,7 +15,7 @@ import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getPortrait } from '../assets/character';
 import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
-import CharacterPortrait from '../components/character/CharacterPortrait';
+import CharacterTag from '../components/character/CharacterTag';
 import EntityFilter from '../components/common/EntityFilter';
 import GlobalBadge from '../components/common/GlobalBadge';
 import LastUpdated from '../components/common/LastUpdated';
@@ -29,7 +29,12 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '../hooks';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useGradientAccent,
+} from '../hooks';
 import type { Character } from '../types/character';
 import type { NoblePhantasm } from '../types/noble-phantasm';
 import { getLatestTimestamp } from '../utils';
@@ -237,31 +242,21 @@ export default function NoblePhantasms() {
                           />
                         )}
                         <Stack gap={4} style={{ flex: 1 }}>
-                          <Group gap="xs" align="center" wrap="nowrap">
-                            {np.character && (
-                              <CharacterPortrait
-                                name={np.character}
-                                size={20}
-                                borderWidth={0}
-                              />
-                            )}
-                            <Text
-                              fw={700}
-                              c={`${accent.primary}.7`}
-                              lineClamp={1}
-                            >
-                              {np.name}
-                            </Text>
-                          </Group>
+                          <Text
+                            fw={700}
+                            c={`${accent.primary}.7`}
+                            lineClamp={1}
+                          >
+                            {np.name}
+                          </Text>
                           <Group gap="xs" wrap="wrap">
                             {np.character && (
-                              <Badge
-                                variant="light"
+                              <CharacterTag
+                                name={np.character}
                                 size="sm"
                                 color={accent.secondary}
-                              >
-                                {np.character}
-                              </Badge>
+                                link={false}
+                              />
                             )}
                             <GlobalBadge isGlobal={np.is_global} size="sm" />
                             <Badge
@@ -383,22 +378,18 @@ export default function NoblePhantasms() {
                             </Text>
                           </Table.Td>
                           <Table.Td>
-                            <Group gap="xs" wrap="nowrap">
-                              {np.character && (
-                                <CharacterPortrait
-                                  name={np.character}
-                                  size={20}
-                                  borderWidth={0}
-                                />
-                              )}
-                              <Text
+                            {np.character ? (
+                              <CharacterTag
+                                name={np.character}
                                 size="sm"
-                                c={np.character ? undefined : 'dimmed'}
-                                lineClamp={1}
-                              >
-                                {np.character || '—'}
+                                color={accent.secondary}
+                                link={false}
+                              />
+                            ) : (
+                              <Text size="sm" c="dimmed">
+                                —
                               </Text>
-                            </Group>
+                            )}
                           </Table.Td>
                           <Table.Td>
                             <Text size="sm">{np.effects.length}</Text>

@@ -265,10 +265,15 @@ export default function NoblePhantasmPage() {
     <Box>
       <Box style={DETAIL_HERO_WRAPPER_STYLES}>
         <Box
-          style={getDetailHeroGradient(isDark, 'grape', 'indigo', {
-            dark: 0.75,
-            light: 0.95,
-          })}
+          style={getDetailHeroGradient(
+            isDark,
+            accent.primary,
+            accent.secondary,
+            {
+              dark: 0.75,
+              light: 0.95,
+            }
+          )}
         />
 
         <Container
@@ -286,7 +291,7 @@ export default function NoblePhantasmPage() {
 
             <Group gap="lg" align="flex-start" wrap="nowrap">
               {iconSrc && (
-                <Box style={getHeroIconBoxStyles(isDark, 'violet')}>
+                <Box style={getHeroIconBoxStyles(isDark, accent.primary)}>
                   <Image
                     src={iconSrc}
                     alt={noblePhantasm.name}
