@@ -9,6 +9,7 @@ import {
   type DragStartEvent,
 } from '@dnd-kit/core';
 import {
+  ActionIcon,
   Box,
   Button,
   CopyButton,
@@ -18,6 +19,7 @@ import {
   Text,
   Textarea,
   TextInput,
+  Tooltip,
   useComputedColorScheme,
 } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
@@ -710,86 +712,181 @@ export default function TierListBuilder({
             onDescriptionCommit={setDescription}
           />
 
-          <Group justify="space-between" wrap="wrap" gap="sm">
-            <Group gap="sm" wrap="wrap" align="center">
+          <Group justify="space-between" wrap="nowrap" gap="sm">
+            <Group gap="xs" wrap="nowrap" align="center">
               <CopyButton value={json}>
-                {({ copied, copy }) => (
-                  <Button
-                    variant="light"
-                    size={actionButtonSize}
-                    leftSection={
-                      copied ? <IoCheckmark size={16} /> : <IoCopy size={16} />
-                    }
-                    onClick={() => {
-                      copy();
-                    }}
-                    color={copied ? accent.secondary : accent.primary}
-                  >
-                    {copied ? 'Copied' : 'Copy JSON'}
-                  </Button>
-                )}
+                {({ copied, copy }) =>
+                  isMobile ? (
+                    <Tooltip label={copied ? 'Copied!' : 'Copy JSON'} withArrow>
+                      <ActionIcon
+                        variant="light"
+                        color={copied ? accent.secondary : accent.primary}
+                        onClick={copy}
+                      >
+                        {copied ? (
+                          <IoCheckmark size={16} />
+                        ) : (
+                          <IoCopy size={16} />
+                        )}
+                      </ActionIcon>
+                    </Tooltip>
+                  ) : (
+                    <Button
+                      variant="light"
+                      size="sm"
+                      leftSection={
+                        copied ? (
+                          <IoCheckmark size={16} />
+                        ) : (
+                          <IoCopy size={16} />
+                        )
+                      }
+                      onClick={copy}
+                      color={copied ? accent.secondary : accent.primary}
+                    >
+                      {copied ? 'Copied' : 'Copy JSON'}
+                    </Button>
+                  )
+                }
               </CopyButton>
-              <Button
-                variant="light"
-                color={accent.primary}
-                size={actionButtonSize}
-                leftSection={<IoClipboardOutline size={16} />}
-                onClick={openPasteModal}
-              >
-                Paste JSON
-              </Button>
-              <Button
-                variant="light"
-                color={accent.primary}
-                size={actionButtonSize}
-                leftSection={<IoSave size={16} />}
-                onClick={handleSaveToMySaved}
-              >
-                Save
-              </Button>
-              <Button
-                variant="light"
-                color={accent.primary}
-                size={actionButtonSize}
-                leftSection={<IoSwapVertical size={16} />}
-                onClick={handleSort}
-                disabled={!hasAnyPlaced}
-              >
-                Sort Tiers
-              </Button>
+              {isMobile ? (
+                <Tooltip label="Paste JSON" withArrow>
+                  <ActionIcon
+                    variant="light"
+                    color={accent.primary}
+                    onClick={openPasteModal}
+                  >
+                    <IoClipboardOutline size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="light"
+                  color={accent.primary}
+                  size="sm"
+                  leftSection={<IoClipboardOutline size={16} />}
+                  onClick={openPasteModal}
+                >
+                  Paste JSON
+                </Button>
+              )}
+              {isMobile ? (
+                <Tooltip label="Save to My Saved" withArrow>
+                  <ActionIcon
+                    variant="light"
+                    color={accent.primary}
+                    onClick={handleSaveToMySaved}
+                  >
+                    <IoSave size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="light"
+                  color={accent.primary}
+                  size="sm"
+                  leftSection={<IoSave size={16} />}
+                  onClick={handleSaveToMySaved}
+                >
+                  Save
+                </Button>
+              )}
+              {isMobile ? (
+                <Tooltip label="Sort Tiers" withArrow>
+                  <ActionIcon
+                    variant="light"
+                    color={accent.primary}
+                    onClick={handleSort}
+                    disabled={!hasAnyPlaced}
+                  >
+                    <IoSwapVertical size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="light"
+                  color={accent.primary}
+                  size="sm"
+                  leftSection={<IoSwapVertical size={16} />}
+                  onClick={handleSort}
+                  disabled={!hasAnyPlaced}
+                >
+                  Sort Tiers
+                </Button>
+              )}
             </Group>
-            <Group gap="sm" wrap="wrap">
-              <Button
-                variant="light"
-                color={accent.primary}
-                size={actionButtonSize}
-                leftSection={<IoDownload size={16} />}
-                onClick={() => setIsCapturing(true)}
-                loading={isCapturing}
-                disabled={!hasAnyPlaced}
-              >
-                Export Image
-              </Button>
-              <Button
-                variant="light"
-                color={accent.primary}
-                size={actionButtonSize}
-                leftSection={<IoOpenOutline size={16} />}
-                onClick={handleSubmitSuggestion}
-                disabled={!hasAnyPlaced}
-              >
-                Submit Suggestion
-              </Button>
-              <Button
-                variant="light"
-                color="red"
-                size={actionButtonSize}
-                leftSection={<IoTrash size={16} />}
-                onClick={openClearConfirm}
-                disabled={!hasAnyBuilderData}
-              >
-                Clear All
-              </Button>
+            <Group gap="xs" wrap="nowrap">
+              {isMobile ? (
+                <Tooltip label="Export as Image" withArrow>
+                  <ActionIcon
+                    variant="light"
+                    color={accent.primary}
+                    disabled={!hasAnyPlaced}
+                    loading={isCapturing}
+                    onClick={() => setIsCapturing(true)}
+                  >
+                    <IoDownload size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="light"
+                  color={accent.primary}
+                  size="sm"
+                  leftSection={<IoDownload size={16} />}
+                  onClick={() => setIsCapturing(true)}
+                  loading={isCapturing}
+                  disabled={!hasAnyPlaced}
+                >
+                  Export Image
+                </Button>
+              )}
+              {isMobile ? (
+                <Tooltip label="Submit Suggestion" withArrow>
+                  <ActionIcon
+                    variant="light"
+                    color={accent.primary}
+                    disabled={!hasAnyPlaced}
+                    onClick={handleSubmitSuggestion}
+                  >
+                    <IoOpenOutline size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="light"
+                  color={accent.primary}
+                  size="sm"
+                  leftSection={<IoOpenOutline size={16} />}
+                  onClick={handleSubmitSuggestion}
+                  disabled={!hasAnyPlaced}
+                >
+                  Submit Suggestion
+                </Button>
+              )}
+              {isMobile ? (
+                <Tooltip label="Clear All" withArrow>
+                  <ActionIcon
+                    variant="light"
+                    color="red"
+                    disabled={!hasAnyBuilderData}
+                    onClick={openClearConfirm}
+                  >
+                    <IoTrash size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
+                  variant="light"
+                  color="red"
+                  size="sm"
+                  leftSection={<IoTrash size={16} />}
+                  onClick={openClearConfirm}
+                  disabled={!hasAnyBuilderData}
+                >
+                  Clear All
+                </Button>
+              )}
             </Group>
           </Group>
 

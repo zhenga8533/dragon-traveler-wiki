@@ -556,6 +556,10 @@ export default function SearchModal({
 
   const handleSelect = (result: SearchResult) => {
     navigate(result.path);
+    handleClose();
+  };
+
+  const handleClose = () => {
     close();
     setQuery('');
   };
@@ -597,10 +601,7 @@ export default function SearchModal({
 
       <Modal
         opened={opened}
-        onClose={() => {
-          close();
-          setQuery('');
-        }}
+        onClose={handleClose}
         title={null}
         size={isMobile ? '100%' : '600px'}
         fullScreen={isMobile}
@@ -645,11 +646,34 @@ export default function SearchModal({
                 />
               }
               rightSection={
-                query ? (
+                isMobile ? (
+                  <Group gap={4} wrap="nowrap">
+                    {query && (
+                      <ActionIcon
+                        variant="subtle"
+                        onClick={() => setQuery('')}
+                        size="md"
+                        color="gray"
+                        aria-label="Clear search"
+                      >
+                        <IoClose size={16} />
+                      </ActionIcon>
+                    )}
+                    <ActionIcon
+                      variant="subtle"
+                      onClick={handleClose}
+                      size="md"
+                      color="gray"
+                      aria-label="Close search"
+                    >
+                      <IoClose size={16} />
+                    </ActionIcon>
+                  </Group>
+                ) : query ? (
                   <ActionIcon
                     variant="subtle"
                     onClick={() => setQuery('')}
-                    size={isMobile ? 'md' : 'sm'}
+                    size="sm"
                     color="gray"
                     aria-label="Clear search"
                   >
@@ -659,6 +683,7 @@ export default function SearchModal({
                   <Kbd size="sm">/</Kbd>
                 )
               }
+              rightSectionWidth={isMobile ? (query ? 72 : 40) : query ? 34 : 24}
               styles={{
                 input: {
                   border: 'none',
