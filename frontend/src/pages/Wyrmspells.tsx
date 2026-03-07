@@ -36,6 +36,13 @@ import { applyDir, useDataFetch, useFilteredPageData } from '../hooks';
 import type { Wyrmspell } from '../types/wyrmspell';
 import { getLatestTimestamp } from '../utils';
 
+const WYRMSPELL_TYPE_FILTER_ORDER = [
+  'Breach',
+  'Refuge',
+  'Wildcry',
+  "Dragon's Call",
+] as const;
+
 const WYRMSPELL_FIELDS: FieldDef[] = [
   {
     name: 'name',
@@ -173,7 +180,15 @@ export default function Wyrmspells() {
         types.add(spell.type);
       }
     }
-    return [...types].sort();
+
+    const preferred = WYRMSPELL_TYPE_FILTER_ORDER.filter((type) =>
+      types.has(type)
+    );
+    const extras = [...types]
+      .filter((type) => !WYRMSPELL_TYPE_FILTER_ORDER.includes(type as never))
+      .sort();
+
+    return [...preferred, ...extras];
   }, [wyrmspells]);
 
   const qualityOptions = useMemo(() => {
