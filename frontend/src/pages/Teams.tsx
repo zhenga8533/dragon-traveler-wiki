@@ -27,7 +27,11 @@ import {
   normalizeContentTypeFilters,
 } from '../constants/content-types';
 import { STORAGE_KEY } from '../constants/ui';
-import { useCharacterResolution, useGradientAccent, useIsMobile } from '../hooks';
+import {
+  useCharacterResolution,
+  useGradientAccent,
+  useIsMobile,
+} from '../hooks';
 import {
   useCharacters,
   useTeams,
@@ -154,6 +158,11 @@ export default function Teams() {
   const entityFilterGroups: ChipFilterGroup[] = useMemo(
     () => [
       {
+        key: 'contentTypes',
+        label: 'Content Type',
+        options: contentTypeOptions,
+      },
+      {
         key: 'factions',
         label: 'Faction',
         options: FACTION_NAMES,
@@ -166,11 +175,6 @@ export default function Teams() {
             fit="contain"
           />
         ),
-      },
-      {
-        key: 'contentTypes',
-        label: 'Content Type',
-        options: contentTypeOptions,
       },
     ],
     [contentTypeOptions]
