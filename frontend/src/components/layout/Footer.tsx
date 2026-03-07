@@ -8,7 +8,7 @@ import {
   Text,
   useComputedColorScheme,
 } from '@mantine/core';
-import { useState } from 'react';
+import { useContext, useState } from 'react';
 import {
   IoBulb,
   IoChevronDown,
@@ -18,6 +18,7 @@ import {
 } from 'react-icons/io5';
 import { GITHUB_REPO_URL } from '../../constants/github';
 import { getGlassStyles } from '../../constants/glass';
+import { GRADIENT_PALETTE_ACCENTS, GradientThemeContext } from '../../contexts';
 
 const DATA_SOURCE_URL = 'https://www.gamekee.com/lhlr/';
 
@@ -27,6 +28,8 @@ const LEGAL_DISCLAIMER =
 export default function Footer() {
   const [showLegal, setShowLegal] = useState(false);
   const isDark = useComputedColorScheme('light') === 'dark';
+  const { palette } = useContext(GradientThemeContext);
+  const accent = GRADIENT_PALETTE_ACCENTS[palette];
   const glassStyles = getGlassStyles(isDark, true);
   const currentYear = new Date().getFullYear();
 
@@ -54,7 +57,8 @@ export default function Footer() {
     <Box
       component="footer"
       mt="lg"
-      py="lg"
+      pt="lg"
+      pb="md"
       style={{
         ...glassStyles,
         border: 'none',
@@ -69,7 +73,7 @@ export default function Footer() {
                 key={link.label}
                 href={link.href}
                 aria-label={link.label}
-                c={isDark ? 'gray.4' : 'gray.7'}
+                c={`${accent.primary}.${isDark ? 3 : 7}`}
                 underline="hover"
                 size="sm"
                 target="_blank"
@@ -103,7 +107,7 @@ export default function Footer() {
               onClick={() => setShowLegal((value) => !value)}
               aria-expanded={showLegal}
               aria-controls="footer-legal"
-              c="blue.5"
+              c={`${accent.primary}.${isDark ? 3 : 7}`}
               size="xs"
               fw={600}
               style={{ display: 'flex', alignItems: 'center', gap: 4 }}
@@ -125,7 +129,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   size="xs"
-                  c="blue.4"
+                  c={`${accent.primary}.${isDark ? 3 : 7}`}
                 >
                   GameKee Wiki
                 </Anchor>
