@@ -1,11 +1,6 @@
-import {
-  createContext,
-  useEffect,
-  useMemo,
-  useState,
-  type ReactNode,
-} from 'react';
+import { useEffect, useMemo, useState, type ReactNode } from 'react';
 import { STORAGE_KEY } from '../constants/ui';
+import { UI_OPACITY_DEFAULTS, UiOpacityContext } from './ui-opacity';
 
 function clampOpacity(value: number): number {
   if (!Number.isFinite(value)) return 1;
@@ -18,54 +13,36 @@ function parseStoredOpacity(value: string | null, fallback: number): number {
   return clampOpacity(Number.isNaN(parsed) ? fallback : parsed);
 }
 
-const DEFAULT_BANNER_MEDIA_OPACITY = 1;
-const DEFAULT_BANNER_OVERLAY_OPACITY = 0.8;
-const DEFAULT_SURFACE_OPACITY = 0.9;
-
-export interface UiOpacityContextValue {
-  bannerMediaOpacity: number;
-  setBannerMediaOpacity: (value: number) => void;
-  bannerOverlayOpacity: number;
-  setBannerOverlayOpacity: (value: number) => void;
-  surfaceOpacity: number;
-  setSurfaceOpacity: (value: number) => void;
-  resetOpacitySettings: () => void;
-}
-
-export const UiOpacityContext = createContext<UiOpacityContextValue>({
-  bannerMediaOpacity: DEFAULT_BANNER_MEDIA_OPACITY,
-  setBannerMediaOpacity: () => {},
-  bannerOverlayOpacity: DEFAULT_BANNER_OVERLAY_OPACITY,
-  setBannerOverlayOpacity: () => {},
-  surfaceOpacity: DEFAULT_SURFACE_OPACITY,
-  setSurfaceOpacity: () => {},
-  resetOpacitySettings: () => {},
-});
-
 export function UiOpacityProvider({ children }: { children: ReactNode }) {
   const [bannerMediaOpacity, setBannerMediaOpacityRaw] = useState<number>(
     () => {
-      if (typeof window === 'undefined') return DEFAULT_BANNER_MEDIA_OPACITY;
+      if (typeof window === 'undefined') {
+        return UI_OPACITY_DEFAULTS.bannerMediaOpacity;
+      }
       return parseStoredOpacity(
         window.localStorage.getItem(STORAGE_KEY.UI_BANNER_MEDIA_OPACITY),
-        DEFAULT_BANNER_MEDIA_OPACITY
+        UI_OPACITY_DEFAULTS.bannerMediaOpacity
       );
     }
   );
   const [bannerOverlayOpacity, setBannerOverlayOpacityRaw] = useState<number>(
     () => {
-      if (typeof window === 'undefined') return DEFAULT_BANNER_OVERLAY_OPACITY;
+      if (typeof window === 'undefined') {
+        return UI_OPACITY_DEFAULTS.bannerOverlayOpacity;
+      }
       return parseStoredOpacity(
         window.localStorage.getItem(STORAGE_KEY.UI_BANNER_OVERLAY_OPACITY),
-        DEFAULT_BANNER_OVERLAY_OPACITY
+        UI_OPACITY_DEFAULTS.bannerOverlayOpacity
       );
     }
   );
   const [surfaceOpacity, setSurfaceOpacityRaw] = useState<number>(() => {
-    if (typeof window === 'undefined') return DEFAULT_SURFACE_OPACITY;
+    if (typeof window === 'undefined') {
+      return UI_OPACITY_DEFAULTS.surfaceOpacity;
+    }
     return parseStoredOpacity(
       window.localStorage.getItem(STORAGE_KEY.UI_SURFACE_OPACITY),
-      DEFAULT_SURFACE_OPACITY
+      UI_OPACITY_DEFAULTS.surfaceOpacity
     );
   });
 
@@ -80,9 +57,9 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
   };
 
   const resetOpacitySettings = () => {
-    setBannerMediaOpacityRaw(DEFAULT_BANNER_MEDIA_OPACITY);
-    setBannerOverlayOpacityRaw(DEFAULT_BANNER_OVERLAY_OPACITY);
-    setSurfaceOpacityRaw(DEFAULT_SURFACE_OPACITY);
+    setBannerMediaOpacityRaw(UI_OPACITY_DEFAULTS.bannerMediaOpacity);
+    setBannerOverlayOpacityRaw(UI_OPACITY_DEFAULTS.bannerOverlayOpacity);
+    setSurfaceOpacityRaw(UI_OPACITY_DEFAULTS.surfaceOpacity);
   };
 
   useEffect(() => {
