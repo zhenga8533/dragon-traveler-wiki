@@ -40,7 +40,7 @@ import SuggestModal, {
 import { QUALITY_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '../hooks';
+import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent, useTabParam } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import type { GoldenAlliance, Howlkin } from '../types/howlkin';
 import type { Quality } from '../types/quality';
@@ -147,16 +147,7 @@ const EMPTY_FILTERS: HowlkinFilters = {
 
 export default function Howlkins() {
   const { accent } = useGradientAccent();
-  const [activeTab, setActiveTab] = useState<string>(() => {
-    if (typeof window === 'undefined') return 'howlkins';
-    return window.localStorage.getItem(STORAGE_KEY.HOWLKIN_TAB) || 'howlkins';
-  });
-
-  const handleTabChange = (value: string | null) => {
-    const tab = value ?? 'howlkins';
-    setActiveTab(tab);
-    window.localStorage.setItem(STORAGE_KEY.HOWLKIN_TAB, tab);
-  };
+  const [activeTab, handleTabChange] = useTabParam('tab', 'howlkins', ['howlkins', 'golden-alliances']);
 
   const {
     data: howlkins,

@@ -13,7 +13,7 @@ import type { ChipFilterGroup } from '../../components/common/EntityFilter';
 import EntityFilter from '../../components/common/EntityFilter';
 import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
 import TierListContent from '../../components/tier-list/TierListContent';
-import { useGradientAccent, useIsMobile } from '../../hooks';
+import { useEntityTabParam, useGradientAccent, useIsMobile } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { TierList as TierListType } from '../../types/tier-list';
 
@@ -66,6 +66,7 @@ export default function TierListSavedTab({
 }: TierListSavedTabProps) {
   const isMobile = useIsMobile();
   const { accent } = useGradientAccent();
+  const [activeValue, handleSelectTierList] = useEntityTabParam('saved-list', visibleSavedTierLists);
 
   const filterPanel = (
     <Collapse in={filterOpen}>
@@ -133,7 +134,7 @@ export default function TierListSavedTab({
     <>
       {filterPanel}
 
-      <Tabs defaultValue={visibleSavedTierLists[0]?.name}>
+      <Tabs value={activeValue} onChange={handleSelectTierList}>
         <ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
           <Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
             {visibleSavedTierLists.map((tl) => (

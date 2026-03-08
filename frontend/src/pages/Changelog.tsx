@@ -28,8 +28,7 @@ import {
 import PaginationControl from '../components/common/PaginationControl';
 import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { getCardHoverProps } from '../constants/styles';
-import { STORAGE_KEY } from '../constants/ui';
-import { useDataFetch, useGradientAccent } from '../hooks';
+import { useDataFetch, useGradientAccent, useTabParam } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import type { FieldDiff } from '../types/changes';
 
@@ -398,10 +397,7 @@ export default function Changelog() {
     'data/changelog.json',
     []
   );
-  const [activeTab, setActiveTab] = useState<string>(() => {
-    if (typeof window === 'undefined') return 'site';
-    return window.localStorage.getItem(STORAGE_KEY.CHANGELOG_TAB) ?? 'site';
-  });
+  const [activeTab, handleTabChange] = useTabParam('tab', 'site', ['site', 'data']);
   const { set: expandedEntries, toggle: toggleEntry, clear: clearEntries } =
     useToggleSet<number>();
 
@@ -411,12 +407,6 @@ export default function Changelog() {
     String(changelog.length)
   );
   const paginatedChangelog = changelog.slice(offset, offset + SITE_PAGE_SIZE);
-
-  function handleTabChange(value: string | null) {
-    const tab = value ?? 'site';
-    setActiveTab(tab);
-    window.localStorage.setItem(STORAGE_KEY.CHANGELOG_TAB, tab);
-  }
 
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>

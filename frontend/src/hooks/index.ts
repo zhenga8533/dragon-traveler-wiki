@@ -34,6 +34,7 @@ export { useMobileTooltip } from './use-mobile-tooltip';
 export { usePagination } from './use-pagination';
 export { useSidebar } from './use-sidebar';
 export { applyDir, useSortState } from './use-sort';
+export { useEntityTabParam, useTabParam } from './use-tab-param';
 
 // Re-export hook types
 export type { DataFetchResult } from './use-data-fetch';

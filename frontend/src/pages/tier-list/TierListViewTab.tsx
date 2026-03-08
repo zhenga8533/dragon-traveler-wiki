@@ -10,7 +10,6 @@ import {
   Tabs,
   Text,
 } from '@mantine/core';
-import { useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 import CharacterCard from '../../components/character/CharacterCard';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
@@ -26,7 +25,7 @@ import QualityIcon from '../../components/common/QualityIcon';
 import TierListContent from '../../components/tier-list/TierListContent';
 import { getCardHoverProps } from '../../constants/styles';
 import { CHARACTER_GRID_SPACING } from '../../constants/ui';
-import { useGradientAccent, useIsMobile } from '../../hooks';
+import { useEntityTabParam, useGradientAccent, useIsMobile } from '../../hooks';
 import type { ChangesFile } from '../../types/changes';
 import type { Character } from '../../types/character';
 import type { TierList as TierListType } from '../../types/tier-list';
@@ -86,21 +85,7 @@ export default function TierListViewTab({
 }: TierListViewTabProps) {
   const isMobile = useIsMobile();
   const { accent } = useGradientAccent();
-  const [selectedTierListName, setSelectedTierListName] = useState<
-    string | null
-  >(null);
-  const activeTierListName = useMemo(() => {
-    if (visibleTierLists.length === 0) return null;
-    if (
-      selectedTierListName &&
-      visibleTierLists.some(
-        (tierList) => tierList.name === selectedTierListName
-      )
-    ) {
-      return selectedTierListName;
-    }
-    return visibleTierLists[0].name;
-  }, [visibleTierLists, selectedTierListName]);
+  const [activeTierListName, handleSelectTierList] = useEntityTabParam('list', visibleTierLists);
 
   return (
     <>
@@ -135,8 +120,8 @@ export default function TierListViewTab({
 
       {visibleTierLists.length > 0 && (
         <Tabs
-          value={activeTierListName ?? visibleTierLists[0].name}
-          onChange={setSelectedTierListName}
+          value={activeTierListName}
+          onChange={handleSelectTierList}
         >
           <ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
             <Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>

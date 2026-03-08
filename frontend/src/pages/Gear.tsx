@@ -39,7 +39,7 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '../hooks';
+import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent, useTabParam } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import type { Gear, GearSet, GearType } from '../types/gear';
 import type { Quality } from '../types/quality';
@@ -131,16 +131,7 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 
 export default function GearPage() {
   const { accent } = useGradientAccent();
-  const [activeTab, setActiveTab] = useState<string>(() => {
-    if (typeof window === 'undefined') return 'gear';
-    return window.localStorage.getItem(STORAGE_KEY.GEAR_TAB) || 'gear';
-  });
-
-  const handleTabChange = (value: string | null) => {
-    const tab = value ?? 'gear';
-    setActiveTab(tab);
-    window.localStorage.setItem(STORAGE_KEY.GEAR_TAB, tab);
-  };
+  const [activeTab, handleTabChange] = useTabParam('tab', 'gear', ['gear', 'gear-sets']);
 
   const navigate = useNavigate();
   const {
