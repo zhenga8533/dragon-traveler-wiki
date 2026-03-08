@@ -19,8 +19,6 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useMemo, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
-import { useLocation } from 'react-router-dom';
-import { getAccentForPath } from '../../constants/accents';
 import { normalizeContentType } from '../../constants/content-types';
 import { Z_INDEX } from '../../constants/ui';
 import type { GradientPalette } from '../../contexts';
@@ -35,12 +33,10 @@ export default function SettingsPanel() {
   const [opened, { toggle: toggleOpened, close: closeOpened }] =
     useDisclosure(false);
   const [isSelectDropdownOpen, setIsSelectDropdownOpen] = useState(false);
-  const location = useLocation();
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
   const { accent, palette, setPalette } = useGradientAccent();
-  const pageAccent = getAccentForPath(location.pathname);
 
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);
@@ -207,7 +203,7 @@ export default function SettingsPanel() {
           </Text>
           <Button
             variant="subtle"
-            color={pageAccent}
+            color={accent.primary}
             size="compact-xs"
             onClick={resetOpacitySettings}
           >
@@ -226,7 +222,7 @@ export default function SettingsPanel() {
               </Text>
             </Group>
             <Slider
-              color={pageAccent}
+              color={accent.primary}
               size={isMobile ? 'md' : 'sm'}
               min={0}
               max={100}
@@ -247,7 +243,7 @@ export default function SettingsPanel() {
               </Text>
             </Group>
             <Slider
-              color={pageAccent}
+              color={accent.primary}
               size={isMobile ? 'md' : 'sm'}
               min={0}
               max={100}
@@ -268,7 +264,7 @@ export default function SettingsPanel() {
               </Text>
             </Group>
             <Slider
-              color={pageAccent}
+              color={accent.primary}
               size={isMobile ? 'md' : 'sm'}
               min={0}
               max={100}

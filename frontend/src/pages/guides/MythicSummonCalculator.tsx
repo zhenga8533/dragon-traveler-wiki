@@ -346,7 +346,12 @@ export default function MythicSummonCalculator() {
         >
           <Stack gap="md">
             <Group gap="sm" wrap="nowrap">
-              <ThemeIcon size="xl" radius="md" variant="light" color="violet">
+              <ThemeIcon
+                size="xl"
+                radius="md"
+                variant="light"
+                color={accent.primary}
+              >
                 <IoSparkles size={20} />
               </ThemeIcon>
               <Stack gap={2}>
@@ -527,7 +532,7 @@ export default function MythicSummonCalculator() {
                 icon={<IoStar />}
                 title="Mythic Luminary Shards"
                 value={results.totalMythicShards.toFixed(1)}
-                color="violet"
+                color={accent.primary}
                 subtitle={`${results.mythicShards.toFixed(1)} drops + ${results.milestoneShards} milestone`}
                 resourceName="Mythic Luminary Shard"
                 showIcon={false}
@@ -572,7 +577,7 @@ export default function MythicSummonCalculator() {
         </Card>
 
         {nextMilestone && (
-          <Alert variant="light" color="violet" icon={<IoStar />}>
+          <Alert variant="light" color={accent.primary} icon={<IoStar />}>
             Next milestone: <strong>{nextMilestone.summons} summons</strong> for{' '}
             <strong>{nextMilestone.shards}</strong>{' '}
             <ResourceBadge
@@ -636,7 +641,7 @@ export default function MythicSummonCalculator() {
                   ).toFixed(2)}
                 </strong>
               </Text>
-              <Alert variant="light" color="violet" p="xs" mt="xs">
+              <Alert variant="light" color={accent.primary} p="xs" mt="xs">
                 <Text size="xs">
                   <strong>Guaranteed:</strong> Every 5th summon guarantees one
                   of these drops (distribution based on rates above)

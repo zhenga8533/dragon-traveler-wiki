@@ -50,7 +50,7 @@ export default function TeamCard({
   const { accent } = useGradientAccent();
   const isLargeTeamCardLayout = useMediaQuery('(min-width: 75em)');
 
-  const borderTopStyle = `3px solid var(--mantine-color-${FACTION_COLOR[team.faction as FactionName] ?? 'violet'}-5)`;
+  const borderTopStyle = `3px solid var(--mantine-color-${FACTION_COLOR[team.faction as FactionName] ?? accent.primary}-5)`;
 
   const interactiveProps = onNavigate
     ? {

@@ -26,6 +26,7 @@ import {
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getCardHoverProps } from '../constants/styles';
+import { useGradientAccent } from '../hooks';
 
 type FAQItem = {
   question: string;
@@ -146,7 +147,7 @@ const FAQ_SECTIONS: FAQSection[] = [
           </>
         ),
         icon: IoTicketOutline,
-        color: 'violet',
+        color: 'accent',
       },
       {
         question: 'Where are calculators and planning tools located?',
@@ -297,17 +298,24 @@ function FAQCard({
   answer,
   icon: Icon,
   color,
+  accentColor,
 }: {
   question: string;
   answer: React.ReactNode;
   icon: IconType;
   color: string;
+  accentColor: string;
 }) {
   return (
     <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
       <Stack gap="xs">
         <Group gap="xs" wrap="nowrap" align="flex-start">
-          <ThemeIcon variant="light" color={color} radius="md" size="md">
+          <ThemeIcon
+            variant="light"
+            color={color === 'accent' ? accentColor : color}
+            radius="md"
+            size="md"
+          >
             <Icon size={16} />
           </ThemeIcon>
           <Text fw={700} style={{ flex: 1 }}>
@@ -323,6 +331,8 @@ function FAQCard({
 }
 
 export default function FAQ() {
+  const { accent } = useGradientAccent();
+
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
@@ -355,6 +365,7 @@ export default function FAQ() {
                     answer={item.answer}
                     icon={item.icon}
                     color={item.color}
+                    accentColor={accent.primary}
                   />
                 ))}
               </Stack>

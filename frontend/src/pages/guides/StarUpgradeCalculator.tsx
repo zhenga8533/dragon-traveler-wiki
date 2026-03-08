@@ -45,7 +45,7 @@ import {
   getGuideSectionCardStyles,
 } from '../../constants/styles';
 import { TRANSITION } from '../../constants/ui';
-import { useDarkMode } from '../../hooks';
+import { useDarkMode, useGradientAccent } from '../../hooks';
 
 type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
 
@@ -276,6 +276,7 @@ function parseNumberInput(value: string | number): number | null {
 
 export default function StarUpgradeCalculator() {
   const isDark = useDarkMode();
+  const { accent } = useGradientAccent();
   const [currentValue, setCurrentValue] = useState<string>(
     STAR_LEVELS[0].value
   );
@@ -378,7 +379,12 @@ export default function StarUpgradeCalculator() {
         >
           <Stack gap="md">
             <Group gap="sm" wrap="nowrap">
-              <ThemeIcon size="xl" radius="md" variant="light" color="violet">
+              <ThemeIcon
+                size="xl"
+                radius="md"
+                variant="light"
+                color={accent.primary}
+              >
                 <IoStar size={20} />
               </ThemeIcon>
               <Stack gap={2}>
@@ -618,7 +624,7 @@ export default function StarUpgradeCalculator() {
                   value={shardProgress}
                   size="lg"
                   radius="md"
-                  color={shardProgress >= 100 ? 'teal' : 'violet'}
+                  color={shardProgress >= 100 ? 'teal' : accent.primary}
                 />
               </Stack>
 
