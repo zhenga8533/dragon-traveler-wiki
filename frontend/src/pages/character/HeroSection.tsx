@@ -19,12 +19,12 @@ import TierBadge from '../../components/common/TierBadge';
 import Breadcrumbs from '../../components/layout/Breadcrumbs';
 import { QUALITY_COLOR } from '../../constants/colors';
 import { CHARACTER_HERO } from '../../constants/ui';
+import { useDarkMode } from '../../hooks';
 import type { Character } from '../../types/character';
 
 interface CharacterPageHeroSectionProps {
   character: Character;
   portrait: string | undefined;
-  isDark: boolean;
   tierLabel: string | null;
   activeIllustration: CharacterIllustration | null;
 }
@@ -32,10 +32,10 @@ interface CharacterPageHeroSectionProps {
 export default function CharacterPageHeroSection({
   character,
   portrait,
-  isDark,
   tierLabel,
   activeIllustration,
 }: CharacterPageHeroSectionProps) {
+  const isDark = useDarkMode();
   const heroBlurFilter = isDark
     ? `blur(${CHARACTER_HERO.BLUR_AMOUNT}) brightness(${CHARACTER_HERO.BRIGHTNESS})`
     : `blur(${CHARACTER_HERO.BLUR_AMOUNT}) brightness(1.2) saturate(1.05)`;
