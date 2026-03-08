@@ -708,6 +708,16 @@
     "last_updated": 1772943743
   },
   {
+    "code": "NextVictory",
+    "rewards": {
+      "Gold": 88888,
+      "Summoning Ticket": 10,
+      "Selectable Refinement Stone": 10
+    },
+    "active": true,
+    "last_updated": 1773012070
+  },
+  {
     "code": "MysteryGirl",
     "rewards": {
       "Gold": 3000,
