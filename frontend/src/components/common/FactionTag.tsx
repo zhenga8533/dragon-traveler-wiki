@@ -1,4 +1,5 @@
 import { Badge, Image } from '@mantine/core';
+import { memo } from 'react';
 import { FACTION_ICON_MAP } from '../../assets/faction';
 import { FACTION_COLOR } from '../../constants/colors';
 import type { FactionName } from '../../types/faction';
@@ -9,7 +10,7 @@ export interface FactionTagProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-export default function FactionTag({ faction, size = 'sm' }: FactionTagProps) {
+function FactionTag({ faction, size = 'sm' }: FactionTagProps) {
   const icon = FACTION_ICON_MAP[faction];
   const color = FACTION_COLOR[faction];
 
@@ -36,3 +37,5 @@ export default function FactionTag({ faction, size = 'sm' }: FactionTagProps) {
     </Badge>
   );
 }
+
+export default memo(FactionTag);

@@ -4,6 +4,7 @@ import { GEAR_TYPE_ICON_MAP } from '../../assets/gear';
 import { GEAR_TYPE_COLOR } from '../../constants/colors';
 import { useGradientAccent } from '../../hooks';
 import type { GearType } from '../../types/gear';
+import { TAG_BADGE_STYLE } from './tag-badge-style';
 
 export interface GearTypeTagProps {
   type: GearType;
@@ -24,6 +25,7 @@ function GearTypeTag({
       variant="light"
       color={color ?? GEAR_TYPE_COLOR[type] ?? accent.primary}
       size={size}
+      style={TAG_BADGE_STYLE}
       leftSection={
         icon ? (
           <Image

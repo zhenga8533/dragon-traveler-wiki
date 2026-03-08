@@ -1,5 +1,6 @@
 import { Group, Table } from '@mantine/core';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
+import { useGradientAccent } from '../../hooks';
 
 interface SortableThProps {
   children: React.ReactNode;
@@ -16,6 +17,7 @@ export default function SortableTh({
   sortDir,
   onSort,
 }: SortableThProps) {
+  const { accent } = useGradientAccent();
   const active = sortCol === sortKey;
   const Icon = active && sortDir === 'desc' ? IoChevronDown : IoChevronUp;
 
@@ -25,7 +27,7 @@ export default function SortableTh({
       style={{
         cursor: 'pointer',
         userSelect: 'none',
-        color: active ? 'var(--mantine-color-blue-filled)' : undefined,
+        color: active ? `var(--mantine-color-${accent.primary}-filled)` : undefined,
       }}
     >
       <Group gap={4} wrap="nowrap">
