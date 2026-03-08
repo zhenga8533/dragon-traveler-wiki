@@ -1,5 +1,9 @@
 // Hook exports for cleaner imports
 export { useCharacterAssets } from './use-character-assets';
+export { useCharacterListData } from './use-character-list-data';
+export type { CharacterListData } from './use-character-list-data';
+export { getCharacterNavPaths, useCharacterPageData } from './use-character-page-data';
+export type { CharacterPageData } from './use-character-page-data';
 export { useDarkMode } from './use-dark-mode';
 export { useGradientAccent } from './use-gradient-accent';
 export { useIsMobile } from './use-is-mobile';
