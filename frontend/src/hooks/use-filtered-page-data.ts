@@ -79,6 +79,8 @@ export function useFilteredPageData<T, F extends object>(
     // Sort state
     sortState,
     handleSort,
+    sortCol,
+    sortDir,
     // Data
     filtered,
     pageItems,

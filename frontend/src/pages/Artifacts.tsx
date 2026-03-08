@@ -9,15 +9,14 @@ import {
   Stack,
   Table,
   Text,
-  Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { getArtifactIcon } from '../assets/artifacts';
 import EntityFilter from '../components/common/EntityFilter';
 import GlobalBadge from '../components/common/GlobalBadge';
-import LastUpdated from '../components/common/LastUpdated';
 import QualityIcon from '../components/common/QualityIcon';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import SortableTh from '../components/common/SortableTh';
 import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
@@ -122,11 +121,13 @@ export default function Artifacts() {
   const {
     filters,
     setFilters,
+    resetFilters,
     filterOpen,
     toggleFilter,
     viewMode,
     setViewMode,
-    sortState,
+    sortCol,
+    sortDir,
     handleSort,
     pageItems,
     filtered,
@@ -175,7 +176,6 @@ export default function Artifacts() {
       return a.name.localeCompare(b.name);
     },
   });
-  const { col: sortCol, dir: sortDir } = sortState;
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(artifacts),
@@ -185,11 +185,7 @@ export default function Artifacts() {
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center" wrap="wrap" gap="sm">
-          <Group gap="sm" align="baseline">
-            <Title order={1}>Artifacts</Title>
-            <LastUpdated timestamp={mostRecentUpdate} />
-          </Group>
+        <ListPageHeader title="Artifacts" timestamp={mostRecentUpdate}>
           <SuggestModal
             buttonLabel="Suggest an Artifact"
             modalTitle="Suggest a New Artifact"
@@ -197,7 +193,7 @@ export default function Artifacts() {
             fields={ARTIFACT_FIELDS}
             arrayFields={ARTIFACT_EFFECT_ARRAY_FIELDS}
           />
-        </Group>
+        </ListPageHeader>
 
         <ListPageShell
           loading={loading}
@@ -215,13 +211,13 @@ export default function Artifacts() {
             filterCount={activeFilterCount}
             filterOpen={filterOpen}
             onFilterToggle={toggleFilter}
-            onResetFilters={() => setFilters(EMPTY_FILTERS)}
+            onResetFilters={resetFilters}
             filterContent={
               <EntityFilter
                 groups={[]}
                 selected={{}}
                 onChange={() => {}}
-                onClear={() => setFilters(EMPTY_FILTERS)}
+                onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>
                   setFilters({ ...filters, search: value })

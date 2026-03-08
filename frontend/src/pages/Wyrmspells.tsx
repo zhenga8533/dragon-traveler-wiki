@@ -9,7 +9,6 @@ import {
   Stack,
   Table,
   Text,
-  Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { getWyrmspellIcon } from '../assets/wyrmspell';
@@ -17,8 +16,8 @@ import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
 import FactionTag from '../components/common/FactionTag';
 import GlobalBadge from '../components/common/GlobalBadge';
-import LastUpdated from '../components/common/LastUpdated';
 import QualityIcon from '../components/common/QualityIcon';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
 import SortableTh from '../components/common/SortableTh';
 import FilteredListShell from '../components/layout/FilteredListShell';
@@ -101,11 +100,13 @@ export default function Wyrmspells() {
   const {
     filters,
     setFilters,
+    resetFilters,
     filterOpen,
     toggleFilter,
     viewMode,
     setViewMode,
-    sortState,
+    sortCol,
+    sortDir,
     handleSort,
     pageItems,
     filtered,
@@ -171,7 +172,6 @@ export default function Wyrmspells() {
       return a.name.localeCompare(b.name);
     },
   });
-  const { col: sortCol, dir: sortDir } = sortState;
 
   const typeOptions = useMemo(() => {
     const types = new Set<string>();
@@ -223,18 +223,14 @@ export default function Wyrmspells() {
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
-          <Group gap="sm" align="baseline">
-            <Title order={1}>Wyrmspells</Title>
-            <LastUpdated timestamp={mostRecentUpdate} />
-          </Group>
+        <ListPageHeader title="Wyrmspells" timestamp={mostRecentUpdate}>
           <SuggestModal
             buttonLabel="Suggest a Wyrmspell"
             modalTitle="Suggest a New Wyrmspell"
             issueTitle="[Wyrmspell] New wyrmspell suggestion"
             fields={WYRMSPELL_FIELDS}
           />
-        </Group>
+        </ListPageHeader>
 
         <ListPageShell
           loading={loading}
@@ -252,7 +248,7 @@ export default function Wyrmspells() {
             filterCount={activeFilterCount}
             filterOpen={filterOpen}
             onFilterToggle={toggleFilter}
-            onResetFilters={() => setFilters(EMPTY_FILTERS)}
+            onResetFilters={resetFilters}
             filterContent={
               <EntityFilter
                 groups={filterGroups}
@@ -263,7 +259,7 @@ export default function Wyrmspells() {
                 onChange={(key, values) =>
                   setFilters({ ...filters, [key]: values })
                 }
-                onClear={() => setFilters(EMPTY_FILTERS)}
+                onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>
                   setFilters({ ...filters, search: value })

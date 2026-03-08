@@ -9,14 +9,13 @@ import {
   Stack,
   Table,
   Text,
-  Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { getStatusEffectIcon } from '../assets/status_effect';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
-import LastUpdated from '../components/common/LastUpdated';
 import RichText from '../components/common/RichText';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import SortableTh from '../components/common/SortableTh';
 import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
@@ -93,11 +92,13 @@ export default function StatusEffects() {
   const {
     filters,
     setFilters,
+    resetFilters,
     filterOpen,
     toggleFilter,
     viewMode,
     setViewMode,
-    sortState,
+    sortCol,
+    sortDir,
     handleSort,
     pageItems,
     filtered,
@@ -142,7 +143,6 @@ export default function StatusEffects() {
       return a.name.localeCompare(b.name);
     },
   });
-  const { col: sortCol, dir: sortDir } = sortState;
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(effects),
@@ -152,18 +152,14 @@ export default function StatusEffects() {
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center" wrap="wrap" gap="sm">
-          <Group gap="sm" align="baseline">
-            <Title order={1}>Status Effects</Title>
-            <LastUpdated timestamp={mostRecentUpdate} />
-          </Group>
+        <ListPageHeader title="Status Effects" timestamp={mostRecentUpdate}>
           <SuggestModal
             buttonLabel="Suggest a Status Effect"
             modalTitle="Suggest a New Status Effect"
             issueTitle="[Status Effect] New status effect suggestion"
             fields={STATUS_EFFECT_FIELDS}
           />
-        </Group>
+        </ListPageHeader>
 
         <ListPageShell
           loading={loading}
@@ -181,7 +177,7 @@ export default function StatusEffects() {
             filterCount={activeFilterCount}
             filterOpen={filterOpen}
             onFilterToggle={toggleFilter}
-            onResetFilters={() => setFilters(EMPTY_FILTERS)}
+            onResetFilters={resetFilters}
             filterContent={
               <EntityFilter
                 groups={FILTER_GROUPS}
@@ -192,7 +188,7 @@ export default function StatusEffects() {
                     [key]: values as StatusEffectType[],
                   })
                 }
-                onClear={() => setFilters(EMPTY_FILTERS)}
+                onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>
                   setFilters({ ...filters, search: value })

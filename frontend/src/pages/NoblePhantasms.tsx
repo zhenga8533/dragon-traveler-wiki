@@ -9,7 +9,6 @@ import {
   Stack,
   Table,
   Text,
-  Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
@@ -18,8 +17,8 @@ import { getNoblePhantasmIcon } from '../assets/noble_phantasm';
 import CharacterTag from '../components/character/CharacterTag';
 import EntityFilter from '../components/common/EntityFilter';
 import GlobalBadge from '../components/common/GlobalBadge';
-import LastUpdated from '../components/common/LastUpdated';
 import SortableTh from '../components/common/SortableTh';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import FilteredListShell from '../components/layout/FilteredListShell';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
@@ -103,11 +102,13 @@ export default function NoblePhantasms() {
   const {
     filters,
     setFilters,
+    resetFilters,
     filterOpen,
     toggleFilter,
     viewMode,
     setViewMode,
-    sortState,
+    sortCol,
+    sortDir,
     handleSort,
     pageItems,
     filtered,
@@ -156,7 +157,6 @@ export default function NoblePhantasms() {
       return a.name.localeCompare(b.name);
     },
   });
-  const { col: sortCol, dir: sortDir } = sortState;
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(noblePhantasms),
@@ -166,18 +166,14 @@ export default function NoblePhantasms() {
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
-          <Group gap="sm" align="baseline">
-            <Title order={1}>Noble Phantasms</Title>
-            <LastUpdated timestamp={mostRecentUpdate} />
-          </Group>
+        <ListPageHeader title="Noble Phantasms" timestamp={mostRecentUpdate}>
           <SuggestModal
             buttonLabel="Suggest a Noble Phantasm"
             modalTitle="Suggest a New Noble Phantasm"
             issueTitle="[Noble Phantasm] New noble phantasm suggestion"
             fields={noblePhantasmFields}
           />
-        </Group>
+        </ListPageHeader>
 
         <ListPageShell
           loading={loading}
@@ -195,13 +191,13 @@ export default function NoblePhantasms() {
             filterCount={activeFilterCount}
             filterOpen={filterOpen}
             onFilterToggle={toggleFilter}
-            onResetFilters={() => setFilters(EMPTY_FILTERS)}
+            onResetFilters={resetFilters}
             filterContent={
               <EntityFilter
                 groups={[]}
                 selected={{}}
                 onChange={() => {}}
-                onClear={() => setFilters(EMPTY_FILTERS)}
+                onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>
                   setFilters({ ...filters, search: value })

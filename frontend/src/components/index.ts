@@ -32,6 +32,7 @@ export { default as Breadcrumbs } from './layout/Breadcrumbs';
 export { default as FilteredListShell } from './layout/FilteredListShell';
 export { default as FilterToolbar } from './layout/FilterToolbar';
 export { default as Footer } from './layout/Footer';
+export { default as ListPageHeader } from './layout/ListPageHeader';
 export { default as ListPageShell } from './layout/ListPageShell';
 export {
   DetailPageLoading,

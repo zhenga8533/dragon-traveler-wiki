@@ -11,7 +11,6 @@ import {
   Tabs,
   Text,
   TextInput,
-  Title,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
@@ -22,8 +21,8 @@ import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
 import HowlkinBadge from '../components/common/HowlkinBadge';
 import HowlkinStats from '../components/common/HowlkinStats';
-import LastUpdated from '../components/common/LastUpdated';
 import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import PaginationControl from '../components/common/PaginationControl';
 import QualityIcon from '../components/common/QualityIcon';
 import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
@@ -164,11 +163,13 @@ export default function Howlkins() {
   const {
     filters,
     setFilters,
+    resetFilters,
     filterOpen,
     toggleFilter,
     viewMode,
     setViewMode,
-    sortState,
+    sortCol,
+    sortDir,
     handleSort,
     pageItems: howlkinPageItems,
     filtered,
@@ -217,7 +218,6 @@ export default function Howlkins() {
       return a.name.localeCompare(b.name);
     },
   });
-  const { col: sortCol, dir: sortDir } = sortState;
 
   const [allianceSearch, setAllianceSearch] = useState(() => {
     if (typeof window === 'undefined') return '';
@@ -299,17 +299,14 @@ export default function Howlkins() {
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
-          <Group gap="sm" align="baseline">
-            <Title order={1}>Howlkins</Title>
-            <LastUpdated
-              timestamp={
-                activeTab === 'golden-alliances'
-                  ? mostRecentAllianceUpdate
-                  : mostRecentUpdate
-              }
-            />
-          </Group>
+        <ListPageHeader
+          title="Howlkins"
+          timestamp={
+            activeTab === 'golden-alliances'
+              ? mostRecentAllianceUpdate
+              : mostRecentUpdate
+          }
+        >
           {activeTab === 'golden-alliances' ? (
             <SuggestModal
               buttonLabel="Suggest a Golden Alliance"
@@ -327,7 +324,7 @@ export default function Howlkins() {
               arrayFields={HOWLKIN_STATS_FIELDS}
             />
           )}
-        </Group>
+        </ListPageHeader>
 
         <Tabs value={activeTab} onChange={handleTabChange}>
           <Tabs.List>
@@ -365,7 +362,7 @@ export default function Howlkins() {
                 filterCount={activeFilterCount}
                 filterOpen={filterOpen}
                 onFilterToggle={toggleFilter}
-                onResetFilters={() => setFilters(EMPTY_FILTERS)}
+                onResetFilters={resetFilters}
                 emptyMessage="No howlkins match the current filters."
                 filterContent={
                   <EntityFilter
@@ -378,7 +375,7 @@ export default function Howlkins() {
                       })
                     }
                     onClear={() => {
-                      setFilters(EMPTY_FILTERS);
+                      resetFilters();
                       setAllianceSearch('');
                     }}
                     search={filters.search}

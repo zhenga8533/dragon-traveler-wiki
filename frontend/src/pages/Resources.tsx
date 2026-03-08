@@ -9,7 +9,6 @@ import {
   Stack,
   Table,
   Text,
-  Title,
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
 import { getResourceIcon } from '../assets/resource';
@@ -17,7 +16,7 @@ import {
   EntityFilter,
   FilteredListShell,
   InlineMarkup,
-  LastUpdated,
+  ListPageHeader,
   ListPageShell,
   QualityIcon,
   SortableTh,
@@ -91,11 +90,13 @@ export default function Resources() {
   const {
     filters,
     setFilters,
+    resetFilters,
     filterOpen,
     toggleFilter,
     viewMode,
     setViewMode,
-    sortState,
+    sortCol,
+    sortDir,
     handleSort,
     pageItems,
     filtered,
@@ -152,7 +153,6 @@ export default function Resources() {
       return a.name.localeCompare(b.name);
     },
   });
-  const { col: sortCol, dir: sortDir } = sortState;
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(resources),
@@ -162,18 +162,14 @@ export default function Resources() {
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
-          <Group gap="sm" align="baseline">
-            <Title order={1}>Resources</Title>
-            <LastUpdated timestamp={mostRecentUpdate} />
-          </Group>
+        <ListPageHeader title="Resources" timestamp={mostRecentUpdate}>
           <SuggestModal
             buttonLabel="Suggest a Resource"
             modalTitle="Suggest a New Resource"
             issueTitle="[Resource] New resource suggestion"
             fields={RESOURCE_FIELDS}
           />
-        </Group>
+        </ListPageHeader>
 
         <ListPageShell
           loading={loading}
@@ -189,7 +185,7 @@ export default function Resources() {
             filterCount={activeFilterCount}
             filterOpen={filterOpen}
             onFilterToggle={toggleFilter}
-            onResetFilters={() => setFilters(EMPTY_FILTERS)}
+            onResetFilters={resetFilters}
             filterContent={
               <EntityFilter
                 groups={FILTER_GROUPS}
@@ -200,7 +196,7 @@ export default function Resources() {
                     [key]: values as ResourceCategory[],
                   })
                 }
-                onClear={() => setFilters(EMPTY_FILTERS)}
+                onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>
                   setFilters({ ...filters, search: value })

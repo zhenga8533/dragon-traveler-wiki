@@ -11,7 +11,6 @@ import {
   Tabs,
   Text,
   TextInput,
-  Title,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
@@ -21,8 +20,8 @@ import { QUALITY_ICON_MAP } from '../assets/quality';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
 import GearTypeTag from '../components/common/GearTypeTag';
-import LastUpdated from '../components/common/LastUpdated';
 import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import PaginationControl from '../components/common/PaginationControl';
 import QualityIcon from '../components/common/QualityIcon';
 import SortableTh from '../components/common/SortableTh';
@@ -198,11 +197,13 @@ export default function GearPage() {
   const {
     filters,
     setFilters,
+    resetFilters,
     filterOpen,
     toggleFilter,
     viewMode,
     setViewMode,
-    sortState,
+    sortCol,
+    sortDir,
     handleSort,
     pageItems: gearPageItems,
     filtered,
@@ -264,7 +265,6 @@ export default function GearPage() {
       return nameCmp;
     },
   });
-  const { col: sortCol, dir: sortDir } = sortState;
 
   const gearSetByName = useMemo(
     () => new Map(gearSets.map((entry) => [entry.name, entry])),
@@ -332,17 +332,12 @@ export default function GearPage() {
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
-          <Group gap="sm" align="baseline">
-            <Title order={1}>Gear</Title>
-            <LastUpdated
-              timestamp={
-                activeTab === 'gear-sets'
-                  ? mostRecentSetUpdate
-                  : mostRecentUpdate
-              }
-            />
-          </Group>
+        <ListPageHeader
+          title="Gear"
+          timestamp={
+            activeTab === 'gear-sets' ? mostRecentSetUpdate : mostRecentUpdate
+          }
+        >
           {activeTab === 'gear-sets' ? (
             <SuggestModal
               buttonLabel="Suggest Gear Set"
@@ -359,7 +354,7 @@ export default function GearPage() {
               arrayFields={GEAR_STATS_ARRAY_FIELDS}
             />
           )}
-        </Group>
+        </ListPageHeader>
 
         <Tabs value={activeTab} onChange={handleTabChange}>
           <Tabs.List>
@@ -384,7 +379,7 @@ export default function GearPage() {
                 filterCount={activeFilterCount}
                 filterOpen={filterOpen}
                 onFilterToggle={toggleFilter}
-                onResetFilters={() => setFilters(EMPTY_FILTERS)}
+                onResetFilters={resetFilters}
                 emptyMessage="No gear matches the current filters."
                 filterContent={
                   <EntityFilter

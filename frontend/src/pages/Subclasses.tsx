@@ -9,7 +9,6 @@ import {
   Stack,
   Table,
   Text,
-  Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { CLASS_ICON_MAP } from '../assets/class';
@@ -17,8 +16,8 @@ import { getSubclassIcon } from '../assets/subclass';
 import ClassTag from '../components/common/ClassTag';
 import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
-import LastUpdated from '../components/common/LastUpdated';
 import RichText from '../components/common/RichText';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import SortableTh from '../components/common/SortableTh';
 import TierBadge from '../components/common/TierBadge';
 import FilteredListShell from '../components/layout/FilteredListShell';
@@ -131,11 +130,13 @@ export default function Subclasses() {
   const {
     filters,
     setFilters,
+    resetFilters,
     filterOpen,
     toggleFilter,
     viewMode,
     setViewMode,
-    sortState,
+    sortCol,
+    sortDir,
     handleSort,
     pageItems,
     filtered,
@@ -187,7 +188,6 @@ export default function Subclasses() {
       return a.name.localeCompare(b.name);
     },
   });
-  const { col: sortCol, dir: sortDir } = sortState;
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(subclasses),
@@ -197,18 +197,14 @@ export default function Subclasses() {
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center">
-          <Group gap="sm" align="baseline">
-            <Title order={1}>Subclasses</Title>
-            <LastUpdated timestamp={mostRecentUpdate} />
-          </Group>
+        <ListPageHeader title="Subclasses" timestamp={mostRecentUpdate}>
           <SuggestModal
             buttonLabel="Suggest a Subclass"
             modalTitle="Suggest a New Subclass"
             issueTitle="[Subclass] New subclass suggestion"
             fields={SUBCLASS_FIELDS}
           />
-        </Group>
+        </ListPageHeader>
 
         <ListPageShell
           loading={loading}
@@ -226,7 +222,7 @@ export default function Subclasses() {
             filterCount={activeFilterCount}
             filterOpen={filterOpen}
             onFilterToggle={toggleFilter}
-            onResetFilters={() => setFilters(EMPTY_FILTERS)}
+            onResetFilters={resetFilters}
             filterContent={
               <EntityFilter
                 groups={FILTER_GROUPS}
@@ -241,7 +237,7 @@ export default function Subclasses() {
                   }
                   setFilters({ ...filters, tiers: values as string[] });
                 }}
-                onClear={() => setFilters(EMPTY_FILTERS)}
+                onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>
                   setFilters({ ...filters, search: value })
