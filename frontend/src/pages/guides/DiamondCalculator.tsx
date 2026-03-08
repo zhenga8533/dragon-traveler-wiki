@@ -242,26 +242,26 @@ const BASE_SPEND_SOURCES: BaseSource[] = [
 
 const POINTS_LEAGUE_OPTIONS: Option[] = [
   { value: 'legend', label: 'Legend rank (300/day)' },
-  { value: 'king', label: 'King rank (300/day)' },
-  { value: 'champion', label: 'Champion rank (300/day)' },
-  { value: 'grandmaster', label: 'Grandmaster rank (300/day)' },
-  { value: 'master', label: 'Master rank (300/day)' },
-  { value: 'expert', label: 'Expert rank (300/day)' },
-  { value: 'elite', label: 'Elite rank (300/day)' },
-  { value: 'apprentice', label: 'Apprentice rank (300/day)' },
-  { value: 'novice', label: 'Novice rank (300/day)' },
+  { value: 'king', label: 'King rank (260/day)' },
+  { value: 'champion', label: 'Champion rank (220/day)' },
+  { value: 'grandmaster', label: 'Grandmaster rank (180/day)' },
+  { value: 'master', label: 'Master rank (140/day)' },
+  { value: 'expert', label: 'Expert rank (100/day)' },
+  { value: 'elite', label: 'Elite rank (60/day)' },
+  { value: 'apprentice', label: 'Apprentice rank (40/day)' },
+  { value: 'novice', label: 'Novice rank (20/day)' },
 ];
 
 const POINTS_LEAGUE_DAILY_BY_RANK: Record<string, number> = {
   legend: 300,
-  king: 300,
-  champion: 300,
-  grandmaster: 300,
-  master: 300,
-  expert: 300,
-  elite: 300,
-  apprentice: 300,
-  novice: 300,
+  king: 260,
+  champion: 220,
+  grandmaster: 180,
+  master: 140,
+  expert: 100,
+  elite: 60,
+  apprentice: 40,
+  novice: 20,
 };
 
 const ARENA_OPTIONS: Option[] = [
