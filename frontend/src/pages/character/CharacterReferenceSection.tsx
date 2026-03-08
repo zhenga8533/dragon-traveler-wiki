@@ -28,7 +28,7 @@ interface CharacterReferenceSectionProps {
   character: Character;
   teams: Team[];
   enableNameBasedReferences?: boolean;
-  selectedTierListName: string;
+  selectedTierListName: string | null;
   tierLabel: string | null;
   tierListCharacterNote: string | null;
 }
