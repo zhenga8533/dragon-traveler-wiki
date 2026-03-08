@@ -277,18 +277,7 @@
   },
   "Win4KOR": {
     "added": 1772813511,
-    "changes": [
-      {
-        "timestamp": 1772943743,
-        "fields": {
-          "rewards": {
-            "Random Refinement Stone": {
-              "old": 10
-            }
-          }
-        }
-      }
-    ]
+    "changes": []
   },
   "MysteryGirl": {
     "added": 1772935757,
