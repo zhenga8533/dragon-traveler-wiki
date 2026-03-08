@@ -1,9 +1,9 @@
 import {
   Badge,
   Box,
-  Button,
   Divider,
   Group,
+  Pagination,
   Paper,
   Stack,
   Text,
@@ -60,7 +60,14 @@ function formatDiffValue(value: unknown): string {
   }
 }
 
-const FIELD_DIFF_KEYS = new Set(['old', 'new', 'added', 'removed', 'modified', 'changed']);
+const FIELD_DIFF_KEYS = new Set([
+  'old',
+  'new',
+  'added',
+  'removed',
+  'modified',
+  'changed',
+]);
 
 function isFieldDiff(value: unknown): value is Record<string, unknown> {
   if (!isRecord(value)) return false;
@@ -76,16 +83,23 @@ function extractNestedDiffDetails(value: unknown, pathPrefix = ''): string[] {
     const newVal = value.new;
     const label = pathPrefix || 'Value';
     if (oldVal !== undefined && newVal !== undefined) {
-      return [`${label}: ${formatDiffValue(oldVal)} → ${formatDiffValue(newVal)}`];
+      return [
+        `${label}: ${formatDiffValue(oldVal)} → ${formatDiffValue(newVal)}`,
+      ];
     }
-    if (newVal !== undefined) return [`${label}: Added ${formatDiffValue(newVal)}`];
-    if (oldVal !== undefined) return [`${label}: Removed ${formatDiffValue(oldVal)}`];
+    if (newVal !== undefined)
+      return [`${label}: Added ${formatDiffValue(newVal)}`];
+    if (oldVal !== undefined)
+      return [`${label}: Removed ${formatDiffValue(oldVal)}`];
     return [];
   }
 
   // Array diff: { added, removed, modified, changed } at this level
   if (isFieldDiff(value)) {
-    return extractFieldDiffDetails(value as Record<string, unknown>, pathPrefix);
+    return extractFieldDiffDetails(
+      value as Record<string, unknown>,
+      pathPrefix
+    );
   }
 
   // Nested dict: { subkey: <FieldDiff or nested dict> }
@@ -97,14 +111,22 @@ function extractNestedDiffDetails(value: unknown, pathPrefix = ''): string[] {
   return details;
 }
 
-function extractFieldDiffDetails(diff: Record<string, unknown>, pathPrefix = ''): string[] {
+function extractFieldDiffDetails(
+  diff: Record<string, unknown>,
+  pathPrefix = ''
+): string[] {
   const details: string[] = [];
   const label = pathPrefix || '';
 
   const added = diff.added as string[] | undefined;
   const removed = diff.removed as string[] | undefined;
-  const modified = diff.modified as string[] | Record<string, unknown> | undefined;
-  const changed = diff.changed as Record<string, { old: unknown; new: unknown }> | undefined;
+  const modified = diff.modified as
+    | string[]
+    | Record<string, unknown>
+    | undefined;
+  const changed = diff.changed as
+    | Record<string, { old: unknown; new: unknown }>
+    | undefined;
 
   if (added?.length) details.push(`Added: ${added.join(', ')}`);
   if (removed?.length) details.push(`Removed: ${removed.join(', ')}`);
@@ -127,7 +149,9 @@ function extractFieldDiffDetails(diff: Record<string, unknown>, pathPrefix = '')
   if (changed) {
     for (const [key, value] of Object.entries(changed)) {
       const keyLabel = label ? `${label}.${key}` : key;
-      details.push(`${keyLabel}: ${formatDiffValue(value.old)} → ${formatDiffValue(value.new)}`);
+      details.push(
+        `${keyLabel}: ${formatDiffValue(value.old)} → ${formatDiffValue(value.new)}`
+      );
     }
   }
 
@@ -154,7 +178,13 @@ function renderDetailLine(fieldName: string, detail: string, index: number) {
   const addedMatch = detail.match(/^Added:\s*(.+)$/);
   if (addedMatch) {
     return (
-      <Text key={key} size="xs" c="green" mt={2} style={{ wordBreak: 'break-word' }}>
+      <Text
+        key={key}
+        size="xs"
+        c="green"
+        mt={2}
+        style={{ wordBreak: 'break-word' }}
+      >
         + {addedMatch[1]}
       </Text>
     );
@@ -164,7 +194,13 @@ function renderDetailLine(fieldName: string, detail: string, index: number) {
   const removedMatch = detail.match(/^Removed:\s*(.+)$/);
   if (removedMatch) {
     return (
-      <Text key={key} size="xs" c="red" mt={2} style={{ wordBreak: 'break-word' }}>
+      <Text
+        key={key}
+        size="xs"
+        c="red"
+        mt={2}
+        style={{ wordBreak: 'break-word' }}
+      >
         − {removedMatch[1]}
       </Text>
     );
@@ -191,16 +227,26 @@ function renderDetailLine(fieldName: string, detail: string, index: number) {
       const oldVal = before.slice(colonIdx + 2);
       return (
         <Box key={key} mt={2}>
-          <Text size="xs" c="dimmed">{label}:</Text>
-          <Text size="xs" c="red" style={{ wordBreak: 'break-word' }}>− {oldVal}</Text>
-          <Text size="xs" c="green" style={{ wordBreak: 'break-word' }}>+ {after}</Text>
+          <Text size="xs" c="dimmed">
+            {label}:
+          </Text>
+          <Text size="xs" c="red" style={{ wordBreak: 'break-word' }}>
+            − {oldVal}
+          </Text>
+          <Text size="xs" c="green" style={{ wordBreak: 'break-word' }}>
+            + {after}
+          </Text>
         </Box>
       );
     }
     return (
       <Box key={key} mt={2}>
-        <Text size="xs" c="red" style={{ wordBreak: 'break-word' }}>− {before}</Text>
-        <Text size="xs" c="green" style={{ wordBreak: 'break-word' }}>+ {after}</Text>
+        <Text size="xs" c="red" style={{ wordBreak: 'break-word' }}>
+          − {before}
+        </Text>
+        <Text size="xs" c="green" style={{ wordBreak: 'break-word' }}>
+          + {after}
+        </Text>
       </Box>
     );
   }
@@ -210,8 +256,12 @@ function renderDetailLine(fieldName: string, detail: string, index: number) {
   if (labelAddedMatch) {
     return (
       <Box key={key} mt={2}>
-        <Text size="xs" c="dimmed">{labelAddedMatch[1]}:</Text>
-        <Text size="xs" c="green" style={{ wordBreak: 'break-word' }}>+ {labelAddedMatch[2]}</Text>
+        <Text size="xs" c="dimmed">
+          {labelAddedMatch[1]}:
+        </Text>
+        <Text size="xs" c="green" style={{ wordBreak: 'break-word' }}>
+          + {labelAddedMatch[2]}
+        </Text>
       </Box>
     );
   }
@@ -220,8 +270,12 @@ function renderDetailLine(fieldName: string, detail: string, index: number) {
   if (labelRemovedMatch) {
     return (
       <Box key={key} mt={2}>
-        <Text size="xs" c="dimmed">{labelRemovedMatch[1]}:</Text>
-        <Text size="xs" c="red" style={{ wordBreak: 'break-word' }}>− {labelRemovedMatch[2]}</Text>
+        <Text size="xs" c="dimmed">
+          {labelRemovedMatch[1]}:
+        </Text>
+        <Text size="xs" c="red" style={{ wordBreak: 'break-word' }}>
+          − {labelRemovedMatch[2]}
+        </Text>
       </Box>
     );
   }
@@ -279,26 +333,38 @@ function summarizeFieldDiff(diff: FieldDiff): {
   if (diff.old !== undefined || diff.new !== undefined) {
     const details: string[] = [];
     if (diff.old !== undefined && diff.new !== undefined) {
-      details.push(`${formatDiffValue(diff.old)} → ${formatDiffValue(diff.new)}`);
+      details.push(
+        `${formatDiffValue(diff.old)} → ${formatDiffValue(diff.new)}`
+      );
     } else if (diff.new !== undefined) {
       details.push(`Added: ${formatDiffValue(diff.new)}`);
     } else if (diff.old !== undefined) {
       details.push(`Removed: ${formatDiffValue(diff.old)}`);
     }
-    const kind = diff.old === undefined ? 'Added' : diff.new === undefined ? 'Removed' : 'Updated';
+    const kind =
+      diff.old === undefined
+        ? 'Added'
+        : diff.new === undefined
+          ? 'Removed'
+          : 'Updated';
     return { kind, details };
   }
 
   // Handle array/object diff (added/removed/modified/changed)
   if (isFieldDiff(diff as unknown as Record<string, unknown>)) {
-    const details = extractFieldDiffDetails(diff as unknown as Record<string, unknown>);
+    const details = extractFieldDiffDetails(
+      diff as unknown as Record<string, unknown>
+    );
     if (details.length > 0) {
       const hasAdd = !!diff.added?.length;
       const hasRemove = !!diff.removed?.length;
       const hasUpdate = !!(diff.modified || diff.changed);
       const kind =
-        hasAdd && !hasRemove && !hasUpdate ? 'Added' :
-        !hasAdd && hasRemove && !hasUpdate ? 'Removed' : 'Updated';
+        hasAdd && !hasRemove && !hasUpdate
+          ? 'Added'
+          : !hasAdd && hasRemove && !hasUpdate
+            ? 'Removed'
+            : 'Updated';
       return { kind, details };
     }
   }
@@ -337,7 +403,12 @@ export function ChangeRecordCard({
   return (
     <Paper p="sm" withBorder radius="md">
       <Stack gap="xs">
-        <Group justify="space-between" align="flex-start" gap="sm" wrap="nowrap">
+        <Group
+          justify="space-between"
+          align="flex-start"
+          gap="sm"
+          wrap="nowrap"
+        >
           <Group gap="xs" align="flex-start" wrap="nowrap">
             <IoTimeOutline size={13} color="var(--mantine-color-dimmed)" />
             <Stack gap={0}>
@@ -369,7 +440,13 @@ export function ChangeRecordCard({
                 radius="sm"
                 bg="var(--mantine-color-default)"
               >
-                <Group justify="space-between" align="center" gap="sm" wrap="nowrap" mb={summary.details.length ? 4 : 0}>
+                <Group
+                  justify="space-between"
+                  align="center"
+                  gap="sm"
+                  wrap="nowrap"
+                  mb={summary.details.length ? 4 : 0}
+                >
                   <Text size="xs" fw={600} ff="monospace" c="dimmed">
                     {fieldName}
                   </Text>
@@ -432,13 +509,15 @@ export default function ChangeHistory({
     return `${earliestAdded ?? 0}:${sorted.length}:${newestTimestamp}:${oldestTimestamp}`;
   }, [earliestAdded, sorted]);
 
-  const { page, setPage } = usePagination(sorted.length, 1, paginationResetKey);
+  const { page, setPage, totalPages, offset } = usePagination(
+    sorted.length,
+    PAGE_SIZE,
+    paginationResetKey
+  );
 
   if (!history && !hasExtras) return null;
 
-  const visibleCount = Math.min(sorted.length, page * PAGE_SIZE);
-  const visible = sorted.slice(0, visibleCount);
-  const remaining = sorted.length - visibleCount;
+  const visible = sorted.slice(offset, offset + PAGE_SIZE);
 
   return (
     <Box mt="xl">
@@ -513,16 +592,16 @@ export default function ChangeHistory({
                 </Box>
               ))}
 
-              {remaining > 0 && (
-                <Button
-                  variant="subtle"
-                  color="gray"
-                  size="xs"
-                  onClick={() => setPage((prev) => prev + 1)}
-                >
-                  Show {Math.min(remaining, PAGE_SIZE)} more
-                  {remaining > PAGE_SIZE ? ` of ${remaining} remaining` : ''}
-                </Button>
+              {totalPages > 1 && (
+                <Pagination
+                  value={page}
+                  onChange={setPage}
+                  total={totalPages}
+                  size="sm"
+                  siblings={1}
+                  boundaries={1}
+                  withEdges={totalPages > 5}
+                />
               )}
             </Stack>
           )}
