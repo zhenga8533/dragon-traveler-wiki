@@ -1,4 +1,5 @@
 import {
+  Badge,
   Box,
   Button,
   Divider,
@@ -59,33 +60,75 @@ function formatDiffValue(value: unknown): string {
   }
 }
 
+const FIELD_DIFF_KEYS = new Set(['old', 'new', 'added', 'removed', 'modified', 'changed']);
+
+function isFieldDiff(value: unknown): value is Record<string, unknown> {
+  if (!isRecord(value)) return false;
+  return Object.keys(value).some((k) => FIELD_DIFF_KEYS.has(k));
+}
+
 function extractNestedDiffDetails(value: unknown, pathPrefix = ''): string[] {
   if (!isRecord(value)) return [];
 
-  const hasOldOrNew = 'old' in value || 'new' in value;
-  if (hasOldOrNew) {
-    const oldVal = (value as Record<string, unknown>).old;
-    const newVal = (value as Record<string, unknown>).new;
+  // Scalar diff: { old, new }
+  if ('old' in value || 'new' in value) {
+    const oldVal = value.old;
+    const newVal = value.new;
     const label = pathPrefix || 'Value';
-
     if (oldVal !== undefined && newVal !== undefined) {
-      return [
-        `${label}: ${formatDiffValue(oldVal)} → ${formatDiffValue(newVal)}`,
-      ];
+      return [`${label}: ${formatDiffValue(oldVal)} → ${formatDiffValue(newVal)}`];
     }
-    if (newVal !== undefined) {
-      return [`${label}: Added ${formatDiffValue(newVal)}`];
-    }
-    if (oldVal !== undefined) {
-      return [`${label}: Removed ${formatDiffValue(oldVal)}`];
-    }
+    if (newVal !== undefined) return [`${label}: Added ${formatDiffValue(newVal)}`];
+    if (oldVal !== undefined) return [`${label}: Removed ${formatDiffValue(oldVal)}`];
     return [];
   }
 
+  // Array diff: { added, removed, modified, changed } at this level
+  if (isFieldDiff(value)) {
+    return extractFieldDiffDetails(value as Record<string, unknown>, pathPrefix);
+  }
+
+  // Nested dict: { subkey: <FieldDiff or nested dict> }
   const details: string[] = [];
   for (const [key, nested] of Object.entries(value)) {
     const nextPath = pathPrefix ? `${pathPrefix}.${key}` : key;
     details.push(...extractNestedDiffDetails(nested, nextPath));
+  }
+  return details;
+}
+
+function extractFieldDiffDetails(diff: Record<string, unknown>, pathPrefix = ''): string[] {
+  const details: string[] = [];
+  const label = pathPrefix || '';
+
+  const added = diff.added as string[] | undefined;
+  const removed = diff.removed as string[] | undefined;
+  const modified = diff.modified as string[] | Record<string, unknown> | undefined;
+  const changed = diff.changed as Record<string, { old: unknown; new: unknown }> | undefined;
+
+  if (added?.length) details.push(`Added: ${added.join(', ')}`);
+  if (removed?.length) details.push(`Removed: ${removed.join(', ')}`);
+
+  if (modified) {
+    if (Array.isArray(modified) && modified.length) {
+      details.push(`Updated: ${modified.join(', ')}`);
+    } else if (isRecord(modified)) {
+      const updatedItems = Object.keys(modified);
+      if (updatedItems.length > 0) {
+        details.push(`Updated: ${updatedItems.join(', ')}`);
+        for (const [itemKey, nested] of Object.entries(modified)) {
+          const nextPath = label ? `${label}.${itemKey}` : itemKey;
+          details.push(...extractNestedDiffDetails(nested, nextPath));
+        }
+      }
+    }
+  }
+
+  if (changed) {
+    for (const [key, value] of Object.entries(changed)) {
+      const keyLabel = label ? `${label}.${key}` : key;
+      details.push(`${keyLabel}: ${formatDiffValue(value.old)} → ${formatDiffValue(value.new)}`);
+    }
   }
 
   return details;
@@ -105,22 +148,88 @@ function formatExactDate(ts: number): string {
 }
 
 function renderDetailLine(fieldName: string, detail: string, index: number) {
-  const match = detail.match(/^(Added|Removed|Updated):\s*(.*)$/);
-  if (!match) {
+  const key = `${fieldName}-${index}`;
+
+  // "Added: items" → green
+  const addedMatch = detail.match(/^Added:\s*(.+)$/);
+  if (addedMatch) {
     return (
-      <Text key={`${fieldName}-${index}`} size="xs" c="dimmed" mt={2}>
-        {detail}
+      <Text key={key} size="xs" c="green" mt={2} style={{ wordBreak: 'break-word' }}>
+        + {addedMatch[1]}
       </Text>
     );
   }
 
-  const [, label, value] = match;
+  // "Removed: items" → red
+  const removedMatch = detail.match(/^Removed:\s*(.+)$/);
+  if (removedMatch) {
+    return (
+      <Text key={key} size="xs" c="red" mt={2} style={{ wordBreak: 'break-word' }}>
+        − {removedMatch[1]}
+      </Text>
+    );
+  }
+
+  // "Updated: items" — section header for modified sub-items, keep subtle
+  const updatedMatch = detail.match(/^Updated:\s*(.+)$/);
+  if (updatedMatch) {
+    return (
+      <Text key={key} size="xs" c="dimmed" fs="italic" mt={2}>
+        {updatedMatch[1]}
+      </Text>
+    );
+  }
+
+  // "label: old → new" or "old → new" → red/green split
+  if (detail.includes(' → ')) {
+    const arrowIdx = detail.indexOf(' → ');
+    const before = detail.slice(0, arrowIdx);
+    const after = detail.slice(arrowIdx + 3);
+    const colonIdx = before.indexOf(': ');
+    if (colonIdx !== -1) {
+      const label = before.slice(0, colonIdx);
+      const oldVal = before.slice(colonIdx + 2);
+      return (
+        <Box key={key} mt={2}>
+          <Text size="xs" c="dimmed">{label}:</Text>
+          <Text size="xs" c="red" style={{ wordBreak: 'break-word' }}>− {oldVal}</Text>
+          <Text size="xs" c="green" style={{ wordBreak: 'break-word' }}>+ {after}</Text>
+        </Box>
+      );
+    }
+    return (
+      <Box key={key} mt={2}>
+        <Text size="xs" c="red" style={{ wordBreak: 'break-word' }}>− {before}</Text>
+        <Text size="xs" c="green" style={{ wordBreak: 'break-word' }}>+ {after}</Text>
+      </Box>
+    );
+  }
+
+  // "label: Added value" / "label: Removed value" from nested diff paths
+  const labelAddedMatch = detail.match(/^(.+?):\s*Added\s+(.+)$/);
+  if (labelAddedMatch) {
+    return (
+      <Box key={key} mt={2}>
+        <Text size="xs" c="dimmed">{labelAddedMatch[1]}:</Text>
+        <Text size="xs" c="green" style={{ wordBreak: 'break-word' }}>+ {labelAddedMatch[2]}</Text>
+      </Box>
+    );
+  }
+
+  const labelRemovedMatch = detail.match(/^(.+?):\s*Removed\s+(.+)$/);
+  if (labelRemovedMatch) {
+    return (
+      <Box key={key} mt={2}>
+        <Text size="xs" c="dimmed">{labelRemovedMatch[1]}:</Text>
+        <Text size="xs" c="red" style={{ wordBreak: 'break-word' }}>− {labelRemovedMatch[2]}</Text>
+      </Box>
+    );
+  }
+
+  // Fallback
   return (
-    <Text key={`${fieldName}-${index}`} size="xs" c="dimmed" mt={2}>
-      <Text component="span" fw={700} c="dark">
-        {label}:
-      </Text>{' '}
-      {value}
+    <Text key={key} size="xs" c="dimmed" mt={2}>
+      {detail}
     </Text>
   );
 }
@@ -166,97 +275,91 @@ function summarizeFieldDiff(diff: FieldDiff): {
   kind: string;
   details: string[];
 } {
+  // Handle scalar diff
+  if (diff.old !== undefined || diff.new !== undefined) {
+    const details: string[] = [];
+    if (diff.old !== undefined && diff.new !== undefined) {
+      details.push(`${formatDiffValue(diff.old)} → ${formatDiffValue(diff.new)}`);
+    } else if (diff.new !== undefined) {
+      details.push(`Added: ${formatDiffValue(diff.new)}`);
+    } else if (diff.old !== undefined) {
+      details.push(`Removed: ${formatDiffValue(diff.old)}`);
+    }
+    const kind = diff.old === undefined ? 'Added' : diff.new === undefined ? 'Removed' : 'Updated';
+    return { kind, details };
+  }
+
+  // Handle array/object diff (added/removed/modified/changed)
+  if (isFieldDiff(diff as unknown as Record<string, unknown>)) {
+    const details = extractFieldDiffDetails(diff as unknown as Record<string, unknown>);
+    if (details.length > 0) {
+      const hasAdd = !!diff.added?.length;
+      const hasRemove = !!diff.removed?.length;
+      const hasUpdate = !!(diff.modified || diff.changed);
+      const kind =
+        hasAdd && !hasRemove && !hasUpdate ? 'Added' :
+        !hasAdd && hasRemove && !hasUpdate ? 'Removed' : 'Updated';
+      return { kind, details };
+    }
+  }
+
+  // Nested dict: { subkey: <FieldDiff or nested> } — not a direct FieldDiff
+  const diffRecord = diff as unknown as Record<string, unknown>;
   const details: string[] = [];
-
-  if (diff.added?.length) details.push(`Added: ${diff.added.join(', ')}`);
-  if (diff.removed?.length) details.push(`Removed: ${diff.removed.join(', ')}`);
-  if (diff.modified) {
-    if (Array.isArray(diff.modified) && diff.modified.length) {
-      details.push(`Updated: ${diff.modified.join(', ')}`);
-    } else if (isRecord(diff.modified)) {
-      const updatedItems = Object.keys(diff.modified);
-      if (updatedItems.length > 0) {
-        details.push(`Updated: ${updatedItems.join(', ')}`);
-        for (const [itemKey, nested] of Object.entries(diff.modified)) {
-          details.push(...extractNestedDiffDetails(nested, itemKey));
-        }
-      }
-    }
-  }
-
-  if (diff.changed) {
-    for (const [key, value] of Object.entries(diff.changed)) {
-      details.push(
-        `${key}: ${formatDiffValue(value.old)} → ${formatDiffValue(value.new)}`
-      );
-    }
-  }
-
-  if (diff.old !== undefined && diff.new !== undefined) {
-    details.push(`${formatDiffValue(diff.old)} → ${formatDiffValue(diff.new)}`);
-  } else if (diff.new !== undefined) {
-    details.push(`Added: ${formatDiffValue(diff.new)}`);
-  } else if (diff.old !== undefined) {
-    details.push(`Removed: ${formatDiffValue(diff.old)}`);
+  for (const [key, nested] of Object.entries(diffRecord)) {
+    details.push(...extractNestedDiffDetails(nested, key));
   }
 
   if (details.length === 0) {
     return { kind: 'Updated', details: ['Value changed'] };
   }
-
-  const hasAdd = diff.added?.length || diff.new !== undefined;
-  const hasRemove = diff.removed?.length || diff.old !== undefined;
-  const hasModified = Array.isArray(diff.modified)
-    ? diff.modified.length > 0
-    : !!(
-        diff.modified &&
-        isRecord(diff.modified) &&
-        Object.keys(diff.modified).length
-      );
-  const hasUpdate = hasModified || !!diff.changed;
-
-  if (hasAdd && !hasRemove && !hasUpdate) return { kind: 'Added', details };
-  if (!hasAdd && hasRemove && !hasUpdate) return { kind: 'Removed', details };
-
   return { kind: 'Updated', details };
 }
 
-function FieldChangeEntry({ entry }: { entry: MergedRecord }) {
-  const { fields } = entry.record;
+export function ChangeRecordCard({
+  record,
+  label,
+}: {
+  record: ChangeRecord;
+  label?: string | null;
+}) {
+  const { fields } = record;
   if (!fields) return null;
   const fieldNames = Object.keys(fields);
   if (fieldNames.length === 0) return null;
 
+  const KIND_COLOR: Record<string, string> = {
+    Added: 'green',
+    Removed: 'red',
+    Updated: 'blue',
+  };
+
   return (
-    <Paper p="sm" withBorder radius="md" bg="var(--mantine-color-body)">
+    <Paper p="sm" withBorder radius="md">
       <Stack gap="xs">
-        <Group
-          justify="space-between"
-          align="flex-start"
-          gap="sm"
-          wrap="nowrap"
-        >
+        <Group justify="space-between" align="flex-start" gap="sm" wrap="nowrap">
           <Group gap="xs" align="flex-start" wrap="nowrap">
             <IoTimeOutline size={13} color="var(--mantine-color-dimmed)" />
             <Stack gap={0}>
               <Text size="sm" fw={600}>
-                {formatTimestamp(entry.record.timestamp)}
+                {formatTimestamp(record.timestamp)}
               </Text>
               <Text size="xs" c="dimmed">
-                {formatExactDate(entry.record.timestamp)}
+                {formatExactDate(record.timestamp)}
               </Text>
             </Stack>
           </Group>
           <Text size="xs" c="dimmed" ta="right">
             {fieldNames.length} field{fieldNames.length !== 1 ? 's' : ''}
-            {entry.label ? ` • ${entry.label}` : ''}
+            {label ? ` • ${label}` : ''}
           </Text>
         </Group>
 
-        <Stack gap={8}>
+        <Stack gap={6}>
           {fieldNames.map((fieldName) => {
             const diff = fields[fieldName];
             const summary = summarizeFieldDiff(diff);
+            const kindColor = KIND_COLOR[summary.kind] ?? 'gray';
 
             return (
               <Paper
@@ -264,20 +367,15 @@ function FieldChangeEntry({ entry }: { entry: MergedRecord }) {
                 p="xs"
                 withBorder
                 radius="sm"
-                bg="var(--mantine-color-body)"
+                bg="var(--mantine-color-default)"
               >
-                <Group
-                  justify="space-between"
-                  align="flex-start"
-                  gap="sm"
-                  wrap="nowrap"
-                >
-                  <Text size="sm" fw={600} ff="monospace">
+                <Group justify="space-between" align="center" gap="sm" wrap="nowrap" mb={summary.details.length ? 4 : 0}>
+                  <Text size="xs" fw={600} ff="monospace" c="dimmed">
                     {fieldName}
                   </Text>
-                  <Text size="xs" c="dimmed" fw={700}>
+                  <Badge size="xs" variant="dot" color={kindColor}>
                     {summary.kind}
-                  </Text>
+                  </Badge>
                 </Group>
                 {summary.details.map((detail, index) =>
                   renderDetailLine(fieldName, detail, index)
@@ -407,7 +505,10 @@ export default function ChangeHistory({
                       />
                     </Paper>
                   ) : (
-                    <FieldChangeEntry entry={entry} />
+                    <ChangeRecordCard
+                      record={entry.record}
+                      label={entry.label}
+                    />
                   )}
                 </Box>
               ))}

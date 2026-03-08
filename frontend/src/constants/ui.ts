@@ -138,4 +138,5 @@ export const STORAGE_KEY = {
   UI_BANNER_MEDIA_OPACITY: 'ui:bannerMediaOpacity',
   UI_BANNER_OVERLAY_OPACITY: 'ui:bannerOverlayOpacity',
   UI_SURFACE_OPACITY: 'ui:surfaceOpacity',
+  CHANGELOG_TAB: 'changelog:tab',
 } as const;
