@@ -277,10 +277,29 @@
   },
   "Win4KOR": {
     "added": 1772813511,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1772943743,
+        "fields": {
+          "rewards": {
+            "Random Refinement Stone": {
+              "old": 10
+            }
+          }
+        }
+      }
+    ]
   },
   "MysteryGirl": {
     "added": 1772935757,
+    "changes": []
+  },
+  "JapanWin": {
+    "added": 1772943743,
+    "changes": []
+  },
+  "SamuraiWin": {
+    "added": 1772943743,
     "changes": []
   }
 }

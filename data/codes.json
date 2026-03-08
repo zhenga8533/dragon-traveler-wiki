@@ -682,10 +682,30 @@
     "rewards": {
       "Gold": 88888,
       "Summoning Ticket": 10,
-      "Random Refinement Stone": 10
+      "Selectable Refinement Stone": 10
     },
     "active": true,
-    "last_updated": 1772813511
+    "last_updated": 1772943743
+  },
+  {
+    "code": "JapanWin",
+    "rewards": {
+      "Gold": 88888,
+      "Summoning Ticket": 10,
+      "Selectable Refinement Stone": 10
+    },
+    "active": true,
+    "last_updated": 1772943743
+  },
+  {
+    "code": "SamuraiWin",
+    "rewards": {
+      "Gold": 88888,
+      "Summoning Ticket": 10,
+      "Selectable Refinement Stone": 10
+    },
+    "active": true,
+    "last_updated": 1772943743
   },
   {
     "code": "MysteryGirl",

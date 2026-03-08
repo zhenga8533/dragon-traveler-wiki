@@ -357,6 +357,13 @@
     "last_updated": 1771464391
   },
   {
+    "name": "Selectable Refinement Stone",
+    "quality": "SR",
+    "description": "An Energy Crystal that allows you to choose a Reforge Stone for one Gear Slot.",
+    "category": "Item",
+    "last_updated": 1772943743
+  },
+  {
     "name": "Diamond Star",
     "quality": "UR",
     "description": "A magnificient diamond formed by the essence of countless treasures of heaven and earth. It is an indispensable precious material when buffing those divine wonders.",
