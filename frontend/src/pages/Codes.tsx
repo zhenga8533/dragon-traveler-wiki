@@ -254,12 +254,7 @@ export default function Codes() {
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
     CODES_PER_PAGE,
-    JSON.stringify({
-      search,
-      view,
-      tab,
-      redeemed: [...redeemed].sort(),
-    })
+    JSON.stringify({ search, view, tab })
   );
   const paginatedCodes = filtered.slice(offset, offset + CODES_PER_PAGE);
 
@@ -733,6 +728,7 @@ export default function Codes() {
             currentPage={page}
             totalPages={totalPages}
             onChange={setPage}
+            scrollToTop
           />
         )}
 

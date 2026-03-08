@@ -382,6 +382,7 @@ function DataHistory() {
               setPage(p);
               clearExpanded();
             }}
+            scrollToTop
           />
         </>
       )}
@@ -550,6 +551,7 @@ export default function Changelog() {
                       setPage(p);
                       clearEntries();
                     }}
+                    scrollToTop
                   />
                 </>
               )}

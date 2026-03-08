@@ -20,6 +20,7 @@ import {
   filterCharacters,
   sortCharactersByQuality,
 } from '../../utils/filter-characters';
+import { usePagination } from '../../hooks/use-pagination';
 import PaginationControl from '../common/PaginationControl';
 import CharacterFilter from './CharacterFilter';
 
@@ -44,7 +45,6 @@ export default function FilterableCharacterPool({
   const { accent } = useGradientAccent();
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
-  const [page, setPage] = useState(1);
 
   // Mirror the SimpleGrid breakpoints: base: 2, xs: 3, sm: 4, md: 6
   const isMd = useMediaQuery(BREAKPOINTS.MD);
@@ -137,20 +137,13 @@ export default function FilterableCharacterPool({
     return sortCharactersByQuality(filteredChars);
   }, [characters, filters, tierLookup, selectedTierListName]);
 
-  // Reset to page 1 whenever filters or tier selection change
-  useEffect(() => {
-    queueMicrotask(() => {
-      setPage(1);
-    });
-  }, [filters, selectedTierListName]);
-
-  const totalPages = Math.max(1, Math.ceil(filtered.length / pageSize));
-  // Clamp in case pageSize grows (resize) or filtered shrinks
-  const safePage = Math.min(page, totalPages);
-  const paginated = filtered.slice(
-    (safePage - 1) * pageSize,
-    safePage * pageSize
+  const filterKey = JSON.stringify({ filters, selectedTierListName });
+  const { page: safePage, setPage, totalPages, offset } = usePagination(
+    filtered.length,
+    pageSize,
+    filterKey
   );
+  const paginated = filtered.slice(offset, offset + pageSize);
 
   const activeFilterCount =
     (filters.search ? 1 : 0) +
@@ -205,6 +198,7 @@ export default function FilterableCharacterPool({
       currentPage={safePage}
       totalPages={totalPages}
       onChange={setPage}
+      scrollToTop
     />
   );
 
