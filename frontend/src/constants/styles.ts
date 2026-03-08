@@ -21,6 +21,12 @@ export const CARD_HOVER_STYLES = {
   cursor: 'pointer',
 } as const satisfies CSSProperties;
 
+export const TAG_BADGE_STYLE = {
+  flexShrink: 0,
+  maxWidth: 'max-content',
+  whiteSpace: 'nowrap',
+} as const satisfies CSSProperties;
+
 export const cardHoverHandlers = {
   onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
     e.currentTarget.style.transform = 'translateY(-2px)';

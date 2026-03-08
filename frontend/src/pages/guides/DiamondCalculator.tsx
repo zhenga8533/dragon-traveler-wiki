@@ -497,85 +497,66 @@ function sortSourcesByCadenceThenLabel(sources: SourceRow[]): SourceRow[] {
   });
 }
 
+function readStoredCalculatorState(): Partial<CalculatorState> | null {
+  if (typeof window === 'undefined') return null;
+
+  try {
+    const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
+    if (!raw) return null;
+    return JSON.parse(raw) as Partial<CalculatorState>;
+  } catch {
+    return null;
+  }
+}
+
 export default function DiamondCalculator() {
   const isDark = useDarkMode();
   const { accent } = useGradientAccent();
   const minDate = useMemo(() => getStartOfToday(), []);
+  const storedState = useMemo(() => readStoredCalculatorState(), []);
 
-  const [bank, setBank] = useState<number | null>(0);
+  const [bank, setBank] = useState<number | null>(() =>
+    typeof storedState?.bank === 'number' && Number.isFinite(storedState.bank)
+      ? storedState.bank
+      : 0
+  );
   const [targetDate, setTargetDate] = useState<string>(() => getTodayIsoDate());
   const [gainSources, setGainSources] = useState<SourceRow[]>(
-    buildDefaultRows(BASE_GAIN_SOURCES)
+    sanitizeSourceRows(
+      storedState?.gainSources,
+      buildDefaultRows(BASE_GAIN_SOURCES)
+    )
   );
   const [spendSources, setSpendSources] = useState<SourceRow[]>(
-    buildDefaultRows(BASE_SPEND_SOURCES)
+    sanitizeSourceRows(
+      storedState?.spendSources,
+      buildDefaultRows(BASE_SPEND_SOURCES)
+    )
   );
 
   const [pointsLeagueDaily, setPointsLeagueDaily] = useState<string>(
-    POINTS_LEAGUE_OPTIONS[0].value
+    typeof storedState?.pointsLeagueRank === 'string'
+      ? storedState.pointsLeagueRank
+      : POINTS_LEAGUE_OPTIONS[0].value
   );
-  const [arenaDaily, setArenaDaily] = useState<string>(ARENA_OPTIONS[7].value);
+  const [arenaDaily, setArenaDaily] = useState<string>(
+    typeof storedState?.arenaDaily === 'string'
+      ? storedState.arenaDaily
+      : ARENA_OPTIONS[7].value
+  );
   const [colosseumBiweekly, setColosseumBiweekly] = useState<string>(
-    COLOSSEUM_OPTIONS[4].value
+    typeof storedState?.colosseumBiweekly === 'string'
+      ? storedState.colosseumBiweekly
+      : COLOSSEUM_OPTIONS[4].value
   );
   const [wildHuntBiweekly, setWildHuntBiweekly] = useState<string>(
-    WILD_HUNT_OPTIONS[7].value
+    typeof storedState?.wildHuntBiweekly === 'string'
+      ? storedState.wildHuntBiweekly
+      : WILD_HUNT_OPTIONS[7].value
   );
-  const [includeSupremeCard, setIncludeSupremeCard] = useState<boolean>(false);
-
-  useEffect(() => {
-    try {
-      const raw = localStorage.getItem(LOCAL_STORAGE_KEY);
-      if (!raw) {
-        return;
-      }
-
-      const parsed = JSON.parse(raw) as Partial<CalculatorState>;
-
-      setBank(
-        typeof parsed.bank === 'number' && Number.isFinite(parsed.bank)
-          ? parsed.bank
-          : null
-      );
-      // Always start projections from today on page load.
-      setTargetDate(getTodayIsoDate());
-      setGainSources(
-        sanitizeSourceRows(
-          parsed.gainSources,
-          buildDefaultRows(BASE_GAIN_SOURCES)
-        )
-      );
-      setSpendSources(
-        sanitizeSourceRows(
-          parsed.spendSources,
-          buildDefaultRows(BASE_SPEND_SOURCES)
-        )
-      );
-      setPointsLeagueDaily(
-        typeof parsed.pointsLeagueRank === 'string'
-          ? parsed.pointsLeagueRank
-          : POINTS_LEAGUE_OPTIONS[0].value
-      );
-      setArenaDaily(
-        typeof parsed.arenaDaily === 'string'
-          ? parsed.arenaDaily
-          : ARENA_OPTIONS[7].value
-      );
-      setColosseumBiweekly(
-        typeof parsed.colosseumBiweekly === 'string'
-          ? parsed.colosseumBiweekly
-          : COLOSSEUM_OPTIONS[4].value
-      );
-      setWildHuntBiweekly(
-        typeof parsed.wildHuntBiweekly === 'string'
-          ? parsed.wildHuntBiweekly
-          : WILD_HUNT_OPTIONS[7].value
-      );
-      setIncludeSupremeCard(Boolean(parsed.includeSupremeCard));
-    } catch {
-      // Ignore malformed local storage and fall back to defaults.
-    }
-  }, []);
+  const [includeSupremeCard, setIncludeSupremeCard] = useState<boolean>(
+    Boolean(storedState?.includeSupremeCard)
+  );
 
   useEffect(() => {
     const state: CalculatorState = {

@@ -1,5 +1,5 @@
-import { Badge, HoverCard, Image } from '@mantine/core';
 import type { MantineColor, MantineSize } from '@mantine/core';
+import { Badge, HoverCard, Image } from '@mantine/core';
 import type { ReactNode } from 'react';
 
 export interface IconBadgeProps {
@@ -42,7 +42,13 @@ export default function IconBadge({
   if (!popoverContent) return badge;
 
   return (
-    <HoverCard width={280} shadow="md" withArrow openDelay={100} closeDelay={50}>
+    <HoverCard
+      width={280}
+      shadow="md"
+      withArrow
+      openDelay={100}
+      closeDelay={50}
+    >
       <HoverCard.Target>{badge}</HoverCard.Target>
       <HoverCard.Dropdown>{popoverContent}</HoverCard.Dropdown>
     </HoverCard>

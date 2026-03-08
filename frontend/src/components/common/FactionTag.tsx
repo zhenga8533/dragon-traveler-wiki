@@ -2,8 +2,8 @@ import { Badge, Image } from '@mantine/core';
 import { memo } from 'react';
 import { FACTION_ICON_MAP } from '../../assets/faction';
 import { FACTION_COLOR } from '../../constants/colors';
+import { TAG_BADGE_STYLE } from '../../constants/styles';
 import type { FactionName } from '../../types/faction';
-import { TAG_BADGE_STYLE } from './tag-badge-style';
 
 export interface FactionTagProps {
   faction: FactionName;

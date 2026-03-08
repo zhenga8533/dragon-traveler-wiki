@@ -1,14 +1,7 @@
-import { useCallback, useContext, useMemo } from 'react';
 import { useMediaQuery } from '@mantine/hooks';
+import { useCallback, useContext, useMemo } from 'react';
 import { BREAKPOINTS, STORAGE_KEY } from '../constants/ui';
 import { TierListReferenceContext } from '../contexts';
-import {
-  useFilterPanel,
-  useFilters,
-  useViewMode,
-} from './use-filters';
-import { usePagination } from './use-pagination';
-import { applyDir, useSortState } from './use-sort';
 import type { Character } from '../types/character';
 import {
   buildCharacterByIdentityMap,
@@ -25,6 +18,9 @@ import {
   filterCharacters,
 } from '../utils/filter-characters';
 import type { ViewMode } from './use-filters';
+import { useFilterPanel, useFilters, useViewMode } from './use-filters';
+import { usePagination } from './use-pagination';
+import { applyDir, useSortState } from './use-sort';
 
 export interface CharacterListData {
   filters: CharacterFilters;
@@ -49,8 +45,12 @@ export interface CharacterListData {
   activeFilterCount: number;
 }
 
-export function useCharacterListData(characters: Character[]): CharacterListData {
-  const { tierLists, selectedTierListName } = useContext(TierListReferenceContext);
+export function useCharacterListData(
+  characters: Character[]
+): CharacterListData {
+  const { tierLists, selectedTierListName } = useContext(
+    TierListReferenceContext
+  );
 
   const { filters, setFilters } = useFilters<CharacterFilters>({
     emptyFilters: EMPTY_FILTERS,
@@ -136,7 +136,12 @@ export function useCharacterListData(characters: Character[]): CharacterListData
       }
     }
     return map;
-  }, [tierLists, selectedTierListName, preferredCharacterByName, characterByIdentity]);
+  }, [
+    tierLists,
+    selectedTierListName,
+    preferredCharacterByName,
+    characterByIdentity,
+  ]);
 
   const getTierLabel = useCallback(
     (character: Character) => {
@@ -178,7 +183,16 @@ export function useCharacterListData(characters: Character[]): CharacterListData
       }
       return compareCharactersByQualityThenName(a, b);
     });
-  }, [characters, filters, sortCol, sortDir, tierLookup, tierRank, selectedTierListName, getTierLabel]);
+  }, [
+    characters,
+    filters,
+    sortCol,
+    sortDir,
+    tierLookup,
+    tierRank,
+    selectedTierListName,
+    getTierLabel,
+  ]);
 
   const { page, setPage, totalPages, offset } = usePagination(
     filteredAndSorted.length,

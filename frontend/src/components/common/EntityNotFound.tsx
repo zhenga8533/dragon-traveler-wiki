@@ -1,4 +1,11 @@
-import { Button, Container, Stack, Text, ThemeIcon, Title } from '@mantine/core';
+import {
+  Button,
+  Container,
+  Stack,
+  Text,
+  ThemeIcon,
+  Title,
+} from '@mantine/core';
 import { IoArrowBack, IoSearch } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 

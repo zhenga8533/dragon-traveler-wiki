@@ -21,11 +21,11 @@ import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
 import GearTypeTag from '../components/common/GearTypeTag';
 import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
-import ListPageHeader from '../components/layout/ListPageHeader';
 import PaginationControl from '../components/common/PaginationControl';
 import QualityIcon from '../components/common/QualityIcon';
 import SortableTh from '../components/common/SortableTh';
 import FilteredListShell from '../components/layout/FilteredListShell';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, {
   type ArrayFieldDef,
@@ -38,7 +38,13 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent, useTabParam } from '../hooks';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useGradientAccent,
+  useTabParam,
+} from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import type { Gear, GearSet, GearType } from '../types/gear';
 import type { Quality } from '../types/quality';
@@ -130,7 +136,10 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
 
 export default function GearPage() {
   const { accent } = useGradientAccent();
-  const [activeTab, handleTabChange] = useTabParam('tab', 'gear', ['gear', 'gear-sets']);
+  const [activeTab, handleTabChange] = useTabParam('tab', 'gear', [
+    'gear',
+    'gear-sets',
+  ]);
 
   const navigate = useNavigate();
   const {

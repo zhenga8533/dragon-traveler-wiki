@@ -1,4 +1,3 @@
-import { useDataFetch } from './use-data-fetch';
 import type { Artifact } from '../types/artifact';
 import type { ChangesFile } from '../types/changes';
 import type { Character } from '../types/character';
@@ -10,6 +9,7 @@ import type { Subclass } from '../types/subclass';
 import type { Team } from '../types/team';
 import type { TierList } from '../types/tier-list';
 import type { Wyrmspell } from '../types/wyrmspell';
+import { useDataFetch } from './use-data-fetch';
 
 export function useCharacters() {
   return useDataFetch<Character[]>('data/characters.json', []);

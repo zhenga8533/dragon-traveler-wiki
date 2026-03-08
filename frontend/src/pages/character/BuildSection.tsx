@@ -18,7 +18,7 @@ import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
 import ClassTag from '../../components/common/ClassTag';
 import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 import GearTypeTag from '../../components/common/GearTypeTag';
-import QualityBadge from '../../components/common/QualityBadge';
+import QualityIcon from '../../components/common/QualityIcon';
 import RichText from '../../components/common/RichText';
 import { getCardHoverProps, RICH_TOOLTIP_STYLES } from '../../constants/styles';
 import { useGradientAccent } from '../../hooks';
@@ -32,6 +32,7 @@ import type { NoblePhantasm } from '../../types/noble-phantasm';
 import type { StatusEffect } from '../../types/status-effect';
 import type { Team } from '../../types/team';
 import { toEntitySlug } from '../../utils/entity-slug';
+import { toQuality } from '../../utils/quality';
 import CharacterReferenceSection from './CharacterReferenceSection.tsx';
 
 interface CharacterPageBuildSectionProps {
@@ -364,6 +365,7 @@ export default function CharacterPageBuildSection({
                 </Text>
                 <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="sm">
                   {recommendedGearDetails.map((entry) => {
+                    const entryQuality = toQuality(entry.quality);
                     const statsEntries = entry.stats
                       ? Object.entries(entry.stats).filter(
                           ([statName, statValue]) =>
@@ -403,10 +405,10 @@ export default function CharacterPageBuildSection({
                                     {entry.setName} Set
                                   </Badge>
                                 )}
-                                {entry.quality && (
-                                  <QualityBadge
-                                    quality={entry.quality}
-                                    size="xs"
+                                {entryQuality && (
+                                  <QualityIcon
+                                    quality={entryQuality}
+                                    size={16}
                                   />
                                 )}
                               </Group>

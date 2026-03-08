@@ -12,7 +12,7 @@ import CharacterPortrait from '../../components/character/CharacterPortrait';
 import ClassTag from '../../components/common/ClassTag';
 import FactionTag from '../../components/common/FactionTag';
 import GlobalBadge from '../../components/common/GlobalBadge';
-import QualityBadge from '../../components/common/QualityBadge';
+import QualityIcon from '../../components/common/QualityIcon';
 import { getCardHoverProps } from '../../constants/styles';
 import { CHARACTER_CARD } from '../../constants/ui';
 import { useGradientAccent } from '../../hooks';
@@ -91,7 +91,7 @@ export default function CharacterVariantSelector({
                           >
                             {variant.name}
                           </Text>
-                          <QualityBadge quality={variant.quality} size="xs" />
+                          <QualityIcon quality={variant.quality} size={16} />
                         </Group>
                         <GlobalBadge isGlobal={variant.is_global} size="sm" />
                       </Group>

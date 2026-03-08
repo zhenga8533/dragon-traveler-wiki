@@ -1,5 +1,5 @@
-import { type ReactNode } from 'react';
 import { Text } from '@mantine/core';
+import { type ReactNode } from 'react';
 import DataFetchError from '../common/DataFetchError';
 import { ListPageLoading } from './PageLoadingSkeleton';
 

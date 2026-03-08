@@ -14,8 +14,8 @@ export {
 } from './filter-characters';
 export { buildExpiredCodeUrl } from './github-issues';
 export { parseEffectRefs, splitEffectRefs } from './parse-effect-refs';
-export { getLatestTimestamp } from './timestamps';
 export { loadSavedFromStorage, parseTabMode } from './saved-storage';
+export { getLatestTimestamp } from './timestamps';
 
 // Re-export utility types
 export type { CharacterFilters } from './filter-characters';

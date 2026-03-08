@@ -10,11 +10,7 @@ import {
 import { type ReactNode, useEffect, useRef } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
-import {
-  HEADER_HEIGHT,
-  IMAGE_SIZE,
-  Z_INDEX,
-} from '../../constants/ui';
+import { HEADER_HEIGHT, IMAGE_SIZE, Z_INDEX } from '../../constants/ui';
 import { useGradientAccent, useIsMobile } from '../../hooks';
 import type { ViewMode } from '../../hooks/use-filters';
 import ViewToggle from '../common/ViewToggle';

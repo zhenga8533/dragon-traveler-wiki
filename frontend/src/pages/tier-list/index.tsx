@@ -7,54 +7,53 @@ import {
   Title,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import {
-  useCallback,
-  useEffect,
-  useMemo,
-  useRef,
-  useState,
-} from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CLASS_ICON_MAP } from '../assets/class';
-import { FACTION_ICON_MAP } from '../assets/faction';
-import ConfirmActionModal from '../components/common/ConfirmActionModal';
-import DataFetchError from '../components/common/DataFetchError';
-import type { ChipFilterGroup } from '../components/common/EntityFilter';
-import LastUpdated from '../components/common/LastUpdated';
-import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
-import PageFilterHeaderControls from '../components/layout/PageFilterHeaderControls';
+import { CLASS_ICON_MAP } from '../../assets/class';
+import { FACTION_ICON_MAP } from '../../assets/faction';
+import ConfirmActionModal from '../../components/common/ConfirmActionModal';
+import DataFetchError from '../../components/common/DataFetchError';
+import type { ChipFilterGroup } from '../../components/common/EntityFilter';
+import LastUpdated from '../../components/common/LastUpdated';
+import QualityFilterIcon from '../../components/common/QualityFilterIcon';
+import PageFilterHeaderControls from '../../components/layout/PageFilterHeaderControls';
 import {
   ListPageLoading,
   ViewModeLoading,
-} from '../components/layout/PageLoadingSkeleton';
-import TierListBuilder from '../components/tools/TierListBuilder';
-import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER } from '../constants/colors';
+} from '../../components/layout/PageLoadingSkeleton';
+import TierListBuilder from '../../components/tools/TierListBuilder';
+import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER } from '../../constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   matchesContentTypeFilters,
   normalizeContentTypeFilters,
-} from '../constants/content-types';
-import { STORAGE_KEY } from '../constants/ui';
-import { useCharacterResolution, useDarkMode, useGradientAccent, useIsMobile } from '../hooks';
+} from '../../constants/content-types';
+import { STORAGE_KEY } from '../../constants/ui';
+import {
+  useCharacterResolution,
+  useDarkMode,
+  useGradientAccent,
+  useIsMobile,
+} from '../../hooks';
 import {
   useCharacters,
   useTierListChanges,
   useTierLists,
-} from '../hooks/use-common-data';
+} from '../../hooks/use-common-data';
 import {
   countActiveFilters,
   useFilters,
   useViewMode,
-} from '../hooks/use-filters';
-import type { Character, CharacterClass } from '../types/character';
-import type { FactionName } from '../types/faction';
-import type { TierList as TierListType } from '../types/tier-list';
-import { loadSavedFromStorage, parseTabMode } from '../utils';
-import { resolveCharacterByNameAndQuality } from '../utils/character-route';
-import { toEntitySlug } from '../utils/entity-slug';
-import { downloadElementAsPng } from '../utils/export-image';
-import TierListSavedTab from './tier-list/TierListSavedTab';
-import TierListViewTab from './tier-list/TierListViewTab';
+} from '../../hooks/use-filters';
+import type { Character, CharacterClass } from '../../types/character';
+import type { FactionName } from '../../types/faction';
+import type { TierList as TierListType } from '../../types/tier-list';
+import { loadSavedFromStorage, parseTabMode } from '../../utils';
+import { resolveCharacterByNameAndQuality } from '../../utils/character-route';
+import { toEntitySlug } from '../../utils/entity-slug';
+import { downloadElementAsPng } from '../../utils/export-image';
+import TierListSavedTab from './TierListSavedTab';
+import TierListViewTab from './TierListViewTab';
 
 function matchesTierListFilters(
   tierList: TierListType,
@@ -244,7 +243,7 @@ export default function TierList() {
         key: 'qualities',
         label: 'Quality',
         options: [...QUALITY_ORDER],
-        icon: renderQualityFilterIcon,
+        icon: (value: string) => <QualityFilterIcon value={value} />,
       },
     ],
     [contentTypeOptions]

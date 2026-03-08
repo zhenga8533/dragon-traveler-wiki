@@ -2,9 +2,9 @@ import { Badge, Image } from '@mantine/core';
 import { memo } from 'react';
 import { CLASS_ICON_MAP } from '../../assets/class';
 import { CLASS_COLOR } from '../../constants/colors';
+import { TAG_BADGE_STYLE } from '../../constants/styles';
 import { useGradientAccent } from '../../hooks';
 import type { CharacterClass } from '../../types/character';
-import { TAG_BADGE_STYLE } from './tag-badge-style';
 
 export interface ClassTagProps {
   characterClass: CharacterClass | string;

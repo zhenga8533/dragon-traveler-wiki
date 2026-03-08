@@ -16,6 +16,7 @@ import { TIER_COLOR } from '../../constants/colors';
 import { normalizeContentType } from '../../constants/content-types';
 import { TierListReferenceContext } from '../../contexts/tier-list-reference-context';
 import { useDataFetch, useGradientAccent } from '../../hooks';
+import styles from '../../styles/featured-characters-marquee.module.css';
 import type { Character } from '../../types/character';
 import {
   buildCharacterByIdentityMap,
@@ -26,7 +27,6 @@ import {
   getCharacterRoutePathByName,
   resolveCharacterByNameAndQuality,
 } from '../../utils/character-route';
-import styles from './FeaturedCharactersMarquee.module.css';
 
 export default function FeaturedCharactersMarquee() {
   const { accent } = useGradientAccent();

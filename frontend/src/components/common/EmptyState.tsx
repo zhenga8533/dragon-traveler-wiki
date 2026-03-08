@@ -20,12 +20,7 @@ export default function EmptyState({
   return (
     <Box py="xl">
       <Stack align="center" gap="md">
-        <ThemeIcon
-          size={64}
-          radius="xl"
-          variant="light"
-          color={color}
-        >
+        <ThemeIcon size={64} radius="xl" variant="light" color={color}>
           {icon || <IoSearch size={32} />}
         </ThemeIcon>
         <Stack align="center" gap={4}>

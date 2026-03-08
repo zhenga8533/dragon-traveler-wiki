@@ -9,6 +9,13 @@ import {
 } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import CharacterCard from '../../components/character/CharacterCard';
+import CharacterPortrait from '../../components/character/CharacterPortrait';
+import ClassTag from '../../components/common/ClassTag';
+import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
+import FactionTag from '../../components/common/FactionTag';
+import LastUpdated from '../../components/common/LastUpdated';
+import QualityIcon from '../../components/common/QualityIcon';
 import { getTierColor, TIER_ORDER } from '../../constants/colors';
 import {
   getContentTypeColor,
@@ -24,13 +31,6 @@ import {
   getCharacterRoutePath,
   getCharacterRoutePathByName,
 } from '../../utils/character-route';
-import CharacterCard from '../character/CharacterCard';
-import CharacterPortrait from '../character/CharacterPortrait';
-import ClassTag from '../common/ClassTag';
-import CollapsibleSectionCard from '../common/CollapsibleSectionCard';
-import FactionTag from '../common/FactionTag';
-import LastUpdated from '../common/LastUpdated';
-import QualityIcon from '../common/QualityIcon';
 
 interface TierListContentProps {
   tierList: TierListType;

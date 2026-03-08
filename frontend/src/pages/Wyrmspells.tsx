@@ -16,11 +16,11 @@ import type { ChipFilterGroup } from '../components/common/EntityFilter';
 import EntityFilter from '../components/common/EntityFilter';
 import FactionTag from '../components/common/FactionTag';
 import GlobalBadge from '../components/common/GlobalBadge';
+import QualityFilterIcon from '../components/common/QualityFilterIcon';
 import QualityIcon from '../components/common/QualityIcon';
-import ListPageHeader from '../components/layout/ListPageHeader';
-import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
 import SortableTh from '../components/common/SortableTh';
 import FilteredListShell from '../components/layout/FilteredListShell';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import {
@@ -210,7 +210,7 @@ export default function Wyrmspells() {
         key: 'qualities',
         label: 'Max Quality',
         options: qualityOptions,
-        icon: renderQualityFilterIcon,
+        icon: (value: string) => <QualityFilterIcon value={value} />,
       });
     return groups;
   }, [typeOptions, qualityOptions]);

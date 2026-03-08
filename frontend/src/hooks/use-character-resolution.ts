@@ -30,7 +30,8 @@ export function useCharacterResolution(
     [characters]
   );
   const resolve = useCallback(
-    (key: string) => getCharacterByReferenceKey(key, preferredByName, byIdentity),
+    (key: string) =>
+      getCharacterByReferenceKey(key, preferredByName, byIdentity),
     [preferredByName, byIdentity]
   );
   return { preferredByName, byIdentity, nameCounts, resolve };

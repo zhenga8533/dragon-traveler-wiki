@@ -10,6 +10,7 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { type KeyboardEvent, type ReactNode } from 'react';
 import { FACTION_WYRM_MAP } from '../../assets/wyrms';
+import FactionTag from '../../components/common/FactionTag';
 import { FACTION_COLOR } from '../../constants/colors';
 import {
   getContentTypeColor,
@@ -27,7 +28,6 @@ import {
   getTeamBenchEntryName,
   getTeamBenchEntryQuality,
 } from '../../utils/team-bench';
-import FactionTag from '../common/FactionTag';
 import TeamCharacterAvatars from './TeamCharacterAvatars';
 
 interface TeamCardProps {

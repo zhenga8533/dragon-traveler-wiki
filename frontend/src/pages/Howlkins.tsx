@@ -22,12 +22,12 @@ import EntityFilter from '../components/common/EntityFilter';
 import HowlkinBadge from '../components/common/HowlkinBadge';
 import HowlkinStats from '../components/common/HowlkinStats';
 import NoResultsSuggestions from '../components/common/NoResultsSuggestions';
-import ListPageHeader from '../components/layout/ListPageHeader';
 import PaginationControl from '../components/common/PaginationControl';
+import QualityFilterIcon from '../components/common/QualityFilterIcon';
 import QualityIcon from '../components/common/QualityIcon';
-import { renderQualityFilterIcon } from '../components/common/renderQualityFilterIcon';
 import SortableTh from '../components/common/SortableTh';
 import FilteredListShell from '../components/layout/FilteredListShell';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import {
   CardGridLoading,
   ViewModeLoading,
@@ -39,7 +39,13 @@ import SuggestModal, {
 import { QUALITY_ORDER } from '../constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '../constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent, useTabParam } from '../hooks';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useGradientAccent,
+  useTabParam,
+} from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import type { GoldenAlliance, Howlkin } from '../types/howlkin';
 import type { Quality } from '../types/quality';
@@ -146,7 +152,10 @@ const EMPTY_FILTERS: HowlkinFilters = {
 
 export default function Howlkins() {
   const { accent } = useGradientAccent();
-  const [activeTab, handleTabChange] = useTabParam('tab', 'howlkins', ['howlkins', 'golden-alliances']);
+  const [activeTab, handleTabChange] = useTabParam('tab', 'howlkins', [
+    'howlkins',
+    'golden-alliances',
+  ]);
 
   const {
     data: howlkins,
@@ -252,7 +261,7 @@ export default function Howlkins() {
         key: 'qualities',
         label: 'Quality',
         options: qualityOptions,
-        icon: renderQualityFilterIcon,
+        icon: (value: string) => <QualityFilterIcon value={value} />,
       },
     ];
   }, [qualityOptions]);

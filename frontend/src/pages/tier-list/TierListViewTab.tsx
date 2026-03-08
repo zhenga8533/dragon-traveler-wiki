@@ -22,7 +22,6 @@ import EntityFilter from '../../components/common/EntityFilter';
 import FactionTag from '../../components/common/FactionTag';
 import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
 import QualityIcon from '../../components/common/QualityIcon';
-import TierListContent from '../../components/tier-list/TierListContent';
 import { getCardHoverProps } from '../../constants/styles';
 import { CHARACTER_GRID_SPACING } from '../../constants/ui';
 import { useEntityTabParam, useGradientAccent, useIsMobile } from '../../hooks';
@@ -35,6 +34,7 @@ import {
   getCharacterRoutePath,
 } from '../../utils/character-route';
 import { sortCharactersByQuality } from '../../utils/filter-characters';
+import TierListContent from './TierListContent';
 
 interface TierListViewTabProps {
   visibleTierLists: TierListType[];
@@ -85,7 +85,10 @@ export default function TierListViewTab({
 }: TierListViewTabProps) {
   const isMobile = useIsMobile();
   const { accent } = useGradientAccent();
-  const [activeTierListName, handleSelectTierList] = useEntityTabParam('list', visibleTierLists);
+  const [activeTierListName, handleSelectTierList] = useEntityTabParam(
+    'list',
+    visibleTierLists
+  );
 
   return (
     <>
@@ -119,10 +122,7 @@ export default function TierListViewTab({
       )}
 
       {visibleTierLists.length > 0 && (
-        <Tabs
-          value={activeTierListName}
-          onChange={handleSelectTierList}
-        >
+        <Tabs value={activeTierListName} onChange={handleSelectTierList}>
           <ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
             <Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
               {visibleTierLists.map((tierList) => (

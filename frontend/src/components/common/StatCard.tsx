@@ -1,6 +1,6 @@
 import { Group, Paper, Stack, Text, ThemeIcon } from '@mantine/core';
-import { memo } from 'react';
 import type { ReactNode } from 'react';
+import { memo } from 'react';
 import { getCardHoverProps } from '../../constants/styles';
 import ResourceBadge from './ResourceBadge';
 

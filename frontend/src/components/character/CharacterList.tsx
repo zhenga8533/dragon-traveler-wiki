@@ -1,12 +1,15 @@
 import { Group, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
-import { CHARACTER_GRID_COLS, CHARACTER_GRID_SPACING } from '../../constants/ui';
+import {
+  CHARACTER_GRID_COLS,
+  CHARACTER_GRID_SPACING,
+} from '../../constants/ui';
 import { useCharacterListData } from '../../hooks/use-character-list-data';
 import type { Character } from '../../types/character';
-import { EMPTY_FILTERS } from '../../utils/filter-characters';
 import {
   getCharacterIdentityKey,
   getCharacterRoutePath,
 } from '../../utils/character-route';
+import { EMPTY_FILTERS } from '../../utils/filter-characters';
 import NoResultsSuggestions from '../common/NoResultsSuggestions';
 import PaginationControl from '../common/PaginationControl';
 import FilterToolbar from '../layout/FilterToolbar';

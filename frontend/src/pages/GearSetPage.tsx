@@ -19,7 +19,6 @@ import DetailPageNavigation from '../components/common/DetailPageNavigation';
 import EntityNotFound from '../components/common/EntityNotFound';
 import GearTypeTag from '../components/common/GearTypeTag';
 import LastUpdated from '../components/common/LastUpdated';
-import QualityBadge from '../components/common/QualityBadge';
 import QualityIcon from '../components/common/QualityIcon';
 import Breadcrumbs from '../components/layout/Breadcrumbs';
 import { DetailPageLoading } from '../components/layout/PageLoadingSkeleton';
@@ -34,7 +33,12 @@ import {
   getCardHoverProps,
   getDetailHeroGradient,
 } from '../constants/styles';
-import { useDarkMode, useDataFetch, useGradientAccent, useMobileTooltip } from '../hooks';
+import {
+  useDarkMode,
+  useDataFetch,
+  useGradientAccent,
+  useMobileTooltip,
+} from '../hooks';
 import type { ChangesFile } from '../types/changes';
 import type { Character } from '../types/character';
 import type { Gear, GearSet } from '../types/gear';
@@ -270,7 +274,7 @@ export default function GearSetPage() {
             </Stack>
 
             <Group gap="xs" wrap="wrap">
-              <QualityBadge quality={setItems[0].quality} size="md" />
+              <QualityIcon quality={setItems[0].quality} size={20} />
               {setBonus && setBonus.quantity > 0 && (
                 <Badge variant="outline" color={accent.tertiary} size="md">
                   {setBonus.quantity}-piece bonus

@@ -163,8 +163,11 @@ function DataHistory() {
   const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
   const [filterOpen, setFilterOpen] = useState(false);
-  const { set: expandedIds, toggle: toggleExpanded, clear: clearExpanded } =
-    useToggleSet<string>();
+  const {
+    set: expandedIds,
+    toggle: toggleExpanded,
+    clear: clearExpanded,
+  } = useToggleSet<string>();
 
   useEffect(() => {
     const base = import.meta.env.BASE_URL ?? '/';
@@ -215,7 +218,10 @@ function DataHistory() {
       const counts = results.find((r) => r.nameCounts)?.nameCounts ?? new Map();
       const all = results
         .flatMap((r) => r.events)
-        .map((e) => ({ ...e, entityName: formatEntityName(e.entityId, counts) }))
+        .map((e) => ({
+          ...e,
+          entityName: formatEntityName(e.entityId, counts),
+        }))
         .sort((a, b) => b.timestamp - a.timestamp);
       setEvents(all);
       setLoading(false);
@@ -333,7 +339,11 @@ function DataHistory() {
                         <Text fw={600} size="sm">
                           {event.entityName}
                         </Text>
-                        <Badge size="xs" variant="light" color={accent.secondary}>
+                        <Badge
+                          size="xs"
+                          variant="light"
+                          color={accent.secondary}
+                        >
                           {event.categoryLabel}
                         </Badge>
                         <Badge size="xs" variant="dot" color={eventColor}>
@@ -398,9 +408,15 @@ export default function Changelog() {
     'data/changelog.json',
     []
   );
-  const [activeTab, handleTabChange] = useTabParam('tab', 'site', ['site', 'data']);
-  const { set: expandedEntries, toggle: toggleEntry, clear: clearEntries } =
-    useToggleSet<number>();
+  const [activeTab, handleTabChange] = useTabParam('tab', 'site', [
+    'site',
+    'data',
+  ]);
+  const {
+    set: expandedEntries,
+    toggle: toggleEntry,
+    clear: clearEntries,
+  } = useToggleSet<number>();
 
   const { page, setPage, totalPages, offset } = usePagination(
     changelog.length,
@@ -448,7 +464,9 @@ export default function Changelog() {
                       ];
                       const byCategory = categories.map((cat) => ({
                         category: cat,
-                        changes: entry.changes.filter((c) => c.category === cat),
+                        changes: entry.changes.filter(
+                          (c) => c.category === cat
+                        ),
                       }));
 
                       return (
@@ -523,8 +541,13 @@ export default function Changelog() {
                                           <Badge
                                             size="xs"
                                             variant="dot"
-                                            color={CHANGE_TYPE_COLORS[change.type]}
-                                            style={{ flexShrink: 0, marginTop: 2 }}
+                                            color={
+                                              CHANGE_TYPE_COLORS[change.type]
+                                            }
+                                            style={{
+                                              flexShrink: 0,
+                                              marginTop: 2,
+                                            }}
                                           >
                                             {capitalize(change.type)}
                                           </Badge>

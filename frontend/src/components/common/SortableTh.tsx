@@ -27,7 +27,9 @@ export default function SortableTh({
       style={{
         cursor: 'pointer',
         userSelect: 'none',
-        color: active ? `var(--mantine-color-${accent.primary}-filled)` : undefined,
+        color: active
+          ? `var(--mantine-color-${accent.primary}-filled)`
+          : undefined,
       }}
     >
       <Group gap={4} wrap="nowrap">

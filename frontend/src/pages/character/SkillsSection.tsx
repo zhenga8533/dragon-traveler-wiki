@@ -9,11 +9,11 @@ import {
   Text,
   Title,
 } from '@mantine/core';
+import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 import RichText from '../../components/common/RichText';
 import { getCardHoverProps } from '../../constants/styles';
 import type { Character } from '../../types/character';
 import type { StatusEffect } from '../../types/status-effect';
-import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
 
 interface CharacterPageSkillsSectionProps {
   character: Character;

@@ -21,7 +21,10 @@ interface ErrorBoundaryState {
   error?: Error;
 }
 
-export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBoundaryState> {
+export default class ErrorBoundary extends Component<
+  ErrorBoundaryProps,
+  ErrorBoundaryState
+> {
   state: ErrorBoundaryState = { hasError: false };
 
   static getDerivedStateFromError(error: Error): ErrorBoundaryState {
@@ -50,7 +53,12 @@ export default class ErrorBoundary extends Component<ErrorBoundaryProps, ErrorBo
             </Stack>
 
             {this.state.error?.message && (
-              <Code block maw={420} w="100%" style={{ fontSize: 'var(--mantine-font-size-xs)' }}>
+              <Code
+                block
+                maw={420}
+                w="100%"
+                style={{ fontSize: 'var(--mantine-font-size-xs)' }}
+              >
                 {this.state.error.message}
               </Code>
             )}

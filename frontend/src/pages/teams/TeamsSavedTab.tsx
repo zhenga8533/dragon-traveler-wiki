@@ -20,8 +20,6 @@ import type { ChipFilterGroup } from '../../components/common/EntityFilter';
 import EntityFilter from '../../components/common/EntityFilter';
 import FactionTag from '../../components/common/FactionTag';
 import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
-import TeamCard from '../../components/teams/TeamCard';
-import TeamCharacterAvatars from '../../components/teams/TeamCharacterAvatars';
 import {
   getContentTypeColor,
   normalizeContentType,
@@ -36,6 +34,8 @@ import {
   getTeamBenchEntryName,
   getTeamBenchEntryQuality,
 } from '../../utils/team-bench';
+import TeamCard from './TeamCard';
+import TeamCharacterAvatars from './TeamCharacterAvatars';
 
 interface TeamsSavedTabProps {
   savedTeams: Team[];

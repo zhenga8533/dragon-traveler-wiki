@@ -12,10 +12,10 @@ import EntityActionButtons from '../../components/common/EntityActionButtons';
 import type { ChipFilterGroup } from '../../components/common/EntityFilter';
 import EntityFilter from '../../components/common/EntityFilter';
 import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
-import TierListContent from '../../components/tier-list/TierListContent';
 import { useEntityTabParam, useGradientAccent, useIsMobile } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { TierList as TierListType } from '../../types/tier-list';
+import TierListContent from './TierListContent';
 
 interface TierListSavedTabProps {
   savedTierLists: TierListType[];
@@ -66,7 +66,10 @@ export default function TierListSavedTab({
 }: TierListSavedTabProps) {
   const isMobile = useIsMobile();
   const { accent } = useGradientAccent();
-  const [activeValue, handleSelectTierList] = useEntityTabParam('saved-list', visibleSavedTierLists);
+  const [activeValue, handleSelectTierList] = useEntityTabParam(
+    'saved-list',
+    visibleSavedTierLists
+  );
 
   const filterPanel = (
     <Collapse in={filterOpen}>

@@ -6,6 +6,7 @@ import { getCardHoverProps } from '../../constants/styles';
 import { BREAKPOINTS } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
 import { useGradientAccent } from '../../hooks';
+import { usePagination } from '../../hooks/use-pagination';
 import type { Character } from '../../types/character';
 import {
   buildCharacterByIdentityMap,
@@ -20,7 +21,6 @@ import {
   filterCharacters,
   sortCharactersByQuality,
 } from '../../utils/filter-characters';
-import { usePagination } from '../../hooks/use-pagination';
 import PaginationControl from '../common/PaginationControl';
 import CharacterFilter from './CharacterFilter';
 
@@ -138,11 +138,12 @@ export default function FilterableCharacterPool({
   }, [characters, filters, tierLookup, selectedTierListName]);
 
   const filterKey = JSON.stringify({ filters, selectedTierListName });
-  const { page: safePage, setPage, totalPages, offset } = usePagination(
-    filtered.length,
-    pageSize,
-    filterKey
-  );
+  const {
+    page: safePage,
+    setPage,
+    totalPages,
+    offset,
+  } = usePagination(filtered.length, pageSize, filterKey);
   const paginated = filtered.slice(offset, offset + pageSize);
 
   const activeFilterCount =

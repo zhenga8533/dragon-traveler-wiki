@@ -2,9 +2,9 @@ import { Badge, Image } from '@mantine/core';
 import { memo } from 'react';
 import { GEAR_TYPE_ICON_MAP } from '../../assets/gear';
 import { GEAR_TYPE_COLOR } from '../../constants/colors';
+import { TAG_BADGE_STYLE } from '../../constants/styles';
 import { useGradientAccent } from '../../hooks';
 import type { GearType } from '../../types/gear';
-import { TAG_BADGE_STYLE } from './tag-badge-style';
 
 export interface GearTypeTagProps {
   type: GearType;
@@ -12,11 +12,7 @@ export interface GearTypeTagProps {
   size?: 'xs' | 'sm' | 'md' | 'lg' | 'xl';
 }
 
-function GearTypeTag({
-  type,
-  color,
-  size = 'sm',
-}: GearTypeTagProps) {
+function GearTypeTag({ type, color, size = 'sm' }: GearTypeTagProps) {
   const { accent } = useGradientAccent();
   const icon = GEAR_TYPE_ICON_MAP[type];
 

@@ -18,8 +18,8 @@ import CharacterTag from '../components/character/CharacterTag';
 import EntityFilter from '../components/common/EntityFilter';
 import GlobalBadge from '../components/common/GlobalBadge';
 import SortableTh from '../components/common/SortableTh';
-import ListPageHeader from '../components/layout/ListPageHeader';
 import FilteredListShell from '../components/layout/FilteredListShell';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '../components/tools/SuggestModal';
 import {

@@ -19,8 +19,6 @@ import EntityFilter from '../../components/common/EntityFilter';
 import FactionTag from '../../components/common/FactionTag';
 import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
 import PaginationControl from '../../components/common/PaginationControl';
-import TeamCard from '../../components/teams/TeamCard';
-import TeamCharacterAvatars from '../../components/teams/TeamCharacterAvatars';
 import {
   getContentTypeColor,
   normalizeContentType,
@@ -35,6 +33,8 @@ import {
   getTeamBenchEntryName,
   getTeamBenchEntryQuality,
 } from '../../utils/team-bench';
+import TeamCard from './TeamCard';
+import TeamCharacterAvatars from './TeamCharacterAvatars';
 
 interface TeamsViewTabProps {
   paginatedTeams: Team[];

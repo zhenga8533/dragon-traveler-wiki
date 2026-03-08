@@ -1,4 +1,10 @@
-import { useEffect, useMemo, useState, type ReactNode } from 'react';
+import {
+  useCallback,
+  useEffect,
+  useMemo,
+  useState,
+  type ReactNode,
+} from 'react';
 import { STORAGE_KEY } from '../constants/ui';
 import { useDarkMode } from '../hooks/use-dark-mode';
 import { UI_OPACITY_DEFAULTS, UiOpacityContext } from './ui-opacity';
@@ -93,40 +99,49 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
 
   const activeOpacity = opacityByTheme[activeMode];
 
-  const setBannerMediaOpacity = (value: number) => {
-    const nextValue = clampOpacity(value);
-    setOpacityByTheme((prev) => ({
-      ...prev,
-      [activeMode]: {
-        ...prev[activeMode],
-        bannerMediaOpacity: nextValue,
-      },
-    }));
-  };
+  const setBannerMediaOpacity = useCallback(
+    (value: number) => {
+      const nextValue = clampOpacity(value);
+      setOpacityByTheme((prev) => ({
+        ...prev,
+        [activeMode]: {
+          ...prev[activeMode],
+          bannerMediaOpacity: nextValue,
+        },
+      }));
+    },
+    [activeMode]
+  );
 
-  const setBannerOverlayOpacity = (value: number) => {
-    const nextValue = clampOpacity(value);
-    setOpacityByTheme((prev) => ({
-      ...prev,
-      [activeMode]: {
-        ...prev[activeMode],
-        bannerOverlayOpacity: nextValue,
-      },
-    }));
-  };
+  const setBannerOverlayOpacity = useCallback(
+    (value: number) => {
+      const nextValue = clampOpacity(value);
+      setOpacityByTheme((prev) => ({
+        ...prev,
+        [activeMode]: {
+          ...prev[activeMode],
+          bannerOverlayOpacity: nextValue,
+        },
+      }));
+    },
+    [activeMode]
+  );
 
-  const setSurfaceOpacity = (value: number) => {
-    const nextValue = clampOpacity(value);
-    setOpacityByTheme((prev) => ({
-      ...prev,
-      [activeMode]: {
-        ...prev[activeMode],
-        surfaceOpacity: nextValue,
-      },
-    }));
-  };
+  const setSurfaceOpacity = useCallback(
+    (value: number) => {
+      const nextValue = clampOpacity(value);
+      setOpacityByTheme((prev) => ({
+        ...prev,
+        [activeMode]: {
+          ...prev[activeMode],
+          surfaceOpacity: nextValue,
+        },
+      }));
+    },
+    [activeMode]
+  );
 
-  const resetOpacitySettings = () => {
+  const resetOpacitySettings = useCallback(() => {
     setOpacityByTheme((prev) => ({
       ...prev,
       [activeMode]: {
@@ -135,7 +150,7 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
         surfaceOpacity: UI_OPACITY_DEFAULTS.surfaceOpacity,
       },
     }));
-  };
+  }, [activeMode]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -170,7 +185,10 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
       activeOpacity.bannerMediaOpacity,
       activeOpacity.bannerOverlayOpacity,
       activeOpacity.surfaceOpacity,
-      activeMode,
+      resetOpacitySettings,
+      setBannerMediaOpacity,
+      setBannerOverlayOpacity,
+      setSurfaceOpacity,
     ]
   );
 

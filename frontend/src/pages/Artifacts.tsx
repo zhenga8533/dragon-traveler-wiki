@@ -16,9 +16,9 @@ import { getArtifactIcon } from '../assets/artifacts';
 import EntityFilter from '../components/common/EntityFilter';
 import GlobalBadge from '../components/common/GlobalBadge';
 import QualityIcon from '../components/common/QualityIcon';
-import ListPageHeader from '../components/layout/ListPageHeader';
 import SortableTh from '../components/common/SortableTh';
 import FilteredListShell from '../components/layout/FilteredListShell';
+import ListPageHeader from '../components/layout/ListPageHeader';
 import ListPageShell from '../components/layout/ListPageShell';
 import SuggestModal, {
   type ArrayFieldDef,
@@ -31,7 +31,12 @@ import {
   getMinWidthStyle,
 } from '../constants/styles';
 import { STORAGE_KEY } from '../constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '../hooks';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useGradientAccent,
+} from '../hooks';
 import type { Artifact } from '../types/artifact';
 import { getLatestTimestamp } from '../utils';
 import { toEntitySlug } from '../utils/entity-slug';
