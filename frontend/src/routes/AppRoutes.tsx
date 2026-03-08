@@ -32,6 +32,9 @@ const StarUpgradeCalculator = lazy(
 const MythicSummonCalculator = lazy(
   () => import('../pages/guides/MythicSummonCalculator')
 );
+const DiamondCalculator = lazy(
+  () => import('../pages/guides/DiamondCalculator')
+);
 const ShovelEventGuide = lazy(() => import('../pages/guides/ShovelEventGuide'));
 const NotFound = lazy(() => import('../pages/NotFound'));
 
@@ -77,6 +80,10 @@ export default function AppRoutes() {
         <Route
           path="/guides/mythic-summon-calculator"
           element={<MythicSummonCalculator />}
+        />
+        <Route
+          path="/guides/diamond-calculator"
+          element={<DiamondCalculator />}
         />
         <Route path="/guides/shovel-event" element={<ShovelEventGuide />} />
         <Route path="*" element={<NotFound />} />

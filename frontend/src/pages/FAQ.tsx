@@ -161,6 +161,10 @@ const FAQ_SECTIONS: FAQSection[] = [
             <Anchor component={Link} to="/guides/mythic-summon-calculator">
               Mythic Summon Calculator
             </Anchor>{' '}
+            and{' '}
+            <Anchor component={Link} to="/guides/diamond-calculator">
+              Diamond Calculator
+            </Anchor>{' '}
             in the Guides section.
           </>
         ),

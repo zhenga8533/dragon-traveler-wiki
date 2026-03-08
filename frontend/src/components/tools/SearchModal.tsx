@@ -10,11 +10,7 @@ import {
   Tooltip,
   UnstyledButton,
 } from '@mantine/core';
-import {
-  useDebouncedValue,
-  useDisclosure,
-  useHotkeys,
-} from '@mantine/hooks';
+import { useDebouncedValue, useDisclosure, useHotkeys } from '@mantine/hooks';
 import Fuse from 'fuse.js';
 import type { ReactNode } from 'react';
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react';
@@ -45,9 +41,7 @@ import { getSubclassIcon } from '../../assets/subclass';
 import { getWyrmspellIcon } from '../../assets/wyrmspell';
 import { normalizeContentType } from '../../constants/content-types';
 import { TRANSITION } from '../../constants/ui';
-import {
-  SearchDataContext,
-} from '../../contexts';
+import { SearchDataContext } from '../../contexts';
 import { useGradientAccent, useIsMobile } from '../../hooks';
 import { isCodeActive } from '../../utils';
 import {
@@ -151,6 +145,11 @@ const PAGES = [
     title: 'Mythic Summon Calculator',
     path: '/guides/mythic-summon-calculator',
     keywords: 'mythic summon calculator pull rates rewards pity simulation',
+  },
+  {
+    title: 'Diamond Calculator',
+    path: '/guides/diamond-calculator',
+    keywords: 'diamond calculator income spending budget projection',
   },
   {
     title: 'Tier List',

@@ -100,7 +100,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Resources',
       description:
-        'Search and filter game resources by category and quality, with descriptions covering each item\'s purpose and use.',
+        "Search and filter game resources by category and quality, with descriptions covering each item's purpose and use.",
     },
   },
   {
@@ -205,6 +205,14 @@ export const ROUTE_META: RouteMetaEntry[] = [
       title: 'Mythic Summon Calculator',
       description:
         'Estimate Mythic Summon outcomes and required pulls to budget resources with confidence.',
+    },
+  },
+  {
+    pattern: '/guides/diamond-calculator',
+    meta: {
+      title: 'Diamond Calculator',
+      description:
+        'Estimate recurring diamond gain and spend, forecast run-out timing, and project your balance by date.',
     },
   },
   {

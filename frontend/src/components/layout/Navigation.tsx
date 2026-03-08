@@ -66,6 +66,10 @@ const NAV_ITEMS: NavItem[] = [
         path: '/guides/mythic-summon-calculator',
       },
       {
+        label: 'Diamond Calculator',
+        path: '/guides/diamond-calculator',
+      },
+      {
         label: 'Shovel Event Guide',
         path: '/guides/shovel-event',
       },
