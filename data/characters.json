@@ -1712,17 +1712,17 @@
     ],
     "noble_phantasm": "",
     "recommended_gear": {
-      "headgear": "Night Owl Helmet",
-      "chestplate": "Night Owl Armor",
-      "bracers": "Night Owl Gauntlets",
-      "boots": "Night Owl Boots",
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
       "weapon": "Tome of Stars",
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [
       "High Priest"
     ],
-    "last_updated": 1772646202
+    "last_updated": 1773011198
   },
   {
     "name": "Morgana",

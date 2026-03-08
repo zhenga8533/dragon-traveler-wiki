@@ -411,6 +411,29 @@
             "new": "Love Goddess"
           }
         }
+      },
+      {
+        "timestamp": 1773011198,
+        "fields": {
+          "recommended_gear": {
+            "boots": {
+              "old": "Night Owl Boots",
+              "new": "Flamelord's Boots"
+            },
+            "bracers": {
+              "old": "Night Owl Gauntlets",
+              "new": "Flamelord's Gauntlets"
+            },
+            "chestplate": {
+              "old": "Night Owl Armor",
+              "new": "Flamelord's Armor"
+            },
+            "headgear": {
+              "old": "Night Owl Helmet",
+              "new": "Flamelord's Helmet"
+            }
+          }
+        }
       }
     ]
   },
