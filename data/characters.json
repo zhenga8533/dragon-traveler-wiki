@@ -4844,7 +4844,7 @@
       "Wild Spirit",
       "Otherworld Return"
     ],
-    "is_global": true,
+    "is_global": false,
     "subclasses": [
       "Fighter",
       "Arcane Duelist",
@@ -4928,7 +4928,7 @@
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1772641754
+    "last_updated": 1773071584
   },
   {
     "name": "Azure Dragon",
@@ -6730,7 +6730,7 @@
       "Illusion Veil",
       "Otherworld Return"
     ],
-    "is_global": true,
+    "is_global": false,
     "subclasses": [
       "Arrowslinger",
       "Guerrilla",
@@ -6813,7 +6813,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1772634281
+    "last_updated": 1773071584
   },
   {
     "name": "Mimir",
@@ -7899,7 +7899,7 @@
       "Otherworld Return",
       "Arcane Wisdom"
     ],
-    "is_global": true,
+    "is_global": false,
     "subclasses": [
       "Scholar",
       "Sorcerer",
@@ -7983,7 +7983,7 @@
       "Astrologer",
       "Potion Master"
     ],
-    "last_updated": 1772634281
+    "last_updated": 1773071584
   },
   {
     "name": "Crassus",

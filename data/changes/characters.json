@@ -1598,15 +1598,45 @@
   },
   "Medusa__SSR+": {
     "added": 1772634281,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773071584,
+        "fields": {
+          "is_global": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "Cleopatra__SSR+": {
     "added": 1772634281,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773071584,
+        "fields": {
+          "is_global": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "Asteros__SSR+": {
     "added": 1772641754,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773071584,
+        "fields": {
+          "is_global": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "Hermes__SSR EX": {
     "added": 1772856370,
