@@ -160,6 +160,14 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    pattern: '/events',
+    meta: {
+      title: 'Events',
+      description:
+        'Browse active and past in-game events for Dragon Traveler, automatically synced from the App Store.',
+    },
+  },
+  {
     pattern: '/useful-links',
     meta: {
       title: 'Useful Links',

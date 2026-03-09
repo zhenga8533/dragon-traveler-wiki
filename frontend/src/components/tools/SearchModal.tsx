@@ -16,6 +16,7 @@ import type { ReactNode } from 'react';
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react';
 import type { IconType } from 'react-icons';
 import {
+  IoCalendarOutline,
   IoClose,
   IoCubeOutline,
   IoDiamondOutline,
@@ -56,6 +57,7 @@ type SearchResult = {
     | 'artifact'
     | 'character'
     | 'code'
+    | 'event'
     | 'gear'
     | 'howlkin'
     | 'resource'
@@ -163,6 +165,11 @@ const PAGES = [
   },
   { title: 'Codes', path: '/codes', keywords: 'codes redeem rewards gifts' },
   {
+    title: 'Events',
+    path: '/events',
+    keywords: 'events special event in-game limited time active',
+  },
+  {
     title: 'Useful Links',
     path: '/useful-links',
     keywords: 'links resources tools external',
@@ -173,6 +180,7 @@ const CATEGORY_LABELS: Record<SearchResult['type'], string> = {
   artifact: 'Artifacts',
   character: 'Characters',
   code: 'Codes',
+  event: 'Events',
   gear: 'Gear',
   howlkin: 'Howlkins',
   'noble-phantasm': 'Noble Phantasms',
@@ -214,6 +222,7 @@ export default function SearchModal({
     noblePhantasms,
     teams,
     codes,
+    events,
     usefulLinks,
     tierLists,
   } = useContext(SearchDataContext);
@@ -462,6 +471,29 @@ export default function SearchModal({
       );
     }
 
+    // Search events
+    if (events.length > 0) {
+      const eventFuse = new Fuse(events, {
+        keys: [
+          { name: 'name', weight: 2 },
+          { name: 'badge', weight: 0.5 },
+          { name: 'description', weight: 0.5 },
+        ],
+        threshold: 0.3,
+      });
+      const eventResults = eventFuse.search(debouncedQuery).slice(0, 5);
+      results.push(
+        ...eventResults.map((r) => ({
+          type: 'event' as const,
+          title: r.item.name,
+          subtitle: r.item.active ? 'Active event' : 'Past event',
+          path: `/events?tab=${r.item.active ? 'active' : 'past'}`,
+          icon: IoCalendarOutline,
+          color: 'green',
+        }))
+      );
+    }
+
     // Search codes
     if (codes.length > 0) {
       const codeFuse = new Fuse(codes, {
@@ -540,6 +572,7 @@ export default function SearchModal({
     noblePhantasms,
     teams,
     codes,
+    events,
     usefulLinks,
     tierLists,
   ]);
@@ -848,7 +881,8 @@ export default function SearchModal({
             <Box p={isMobile ? 'lg' : 'xl'} ta="center">
               <Text c="dimmed" size="sm">
                 Search artifacts, characters, howlkins, resources, status
-                effects, wyrmspells, teams, codes, tier lists, links, and pages
+                effects, wyrmspells, teams, events, codes, tier lists, links,
+                and pages
               </Text>
               <Group justify="center" gap="xs" mt="md">
                 <Text size="xs" c="dimmed">

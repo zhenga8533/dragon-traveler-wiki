@@ -8,10 +8,11 @@ import {
   ThemeIcon,
   Title,
 } from '@mantine/core';
-import { IoList, IoPricetag } from 'react-icons/io5';
+import { IoCalendar, IoList, IoPricetag } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
 import { useGradientAccent } from '../../hooks';
 import ActiveCodesSection from './ActiveCodesSection';
+import ActiveEventsSection from './ActiveEventsSection';
 import DataStatsBar from './DataStatsBar';
 import FeaturedCharactersMarquee from './FeaturedCharactersMarquee';
 import HomeHeroSection from './HomeHeroSection';
@@ -93,6 +94,31 @@ export default function Home() {
               </Card>
             </Box>
           </SimpleGrid>
+
+          {/* Active Events */}
+          <Card
+            padding="lg"
+            radius="md"
+            withBorder
+            {...getCardHoverProps()}
+          >
+            <Stack gap="md">
+              <Group gap="sm">
+                <ThemeIcon
+                  variant="light"
+                  color={accent.primary}
+                  size="lg"
+                  radius="md"
+                >
+                  <IoCalendar size={20} />
+                </ThemeIcon>
+                <Title order={2} size="h3">
+                  Active Events
+                </Title>
+              </Group>
+              <ActiveEventsSection />
+            </Stack>
+          </Card>
         </Stack>
       </Container>
     </Stack>

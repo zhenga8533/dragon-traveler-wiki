@@ -2,6 +2,7 @@
 export type { Artifact, ArtifactEffect, ArtifactTreasure } from './artifact';
 export type { Character, CharacterClass, Skill, Talent } from './character';
 export type { Code } from './code';
+export type { GameEvent } from './event';
 export type { Faction, FactionName, Wyrm } from './faction';
 export type { Gear, GearSet, GearSetBonus, GearType } from './gear';
 export type { Howlkin } from './howlkin';

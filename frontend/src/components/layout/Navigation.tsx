@@ -9,6 +9,7 @@ import {
 } from 'react';
 import {
   IoBook,
+  IoCalendar,
   IoGift,
   IoHelpCircleOutline,
   IoHome,
@@ -77,6 +78,7 @@ const NAV_ITEMS: NavItem[] = [
   },
   { label: 'Tier List', path: '/tier-list', icon: IoTrophy },
   { label: 'Teams', path: '/teams', icon: IoShield },
+  { label: 'Events', path: '/events', icon: IoCalendar },
   { label: 'Codes', path: '/codes', icon: IoGift },
   { label: 'FAQ', path: '/guides/faq', icon: IoHelpCircleOutline },
   { label: 'Useful Links', path: '/useful-links', icon: IoLink },
@@ -129,7 +131,7 @@ export default function Navigation({
   onExpand?: () => void;
 }) {
   const location = useLocation();
-  const { codes } = useContext(SearchDataContext);
+  const { codes, events } = useContext(SearchDataContext);
   const { accent } = useGradientAccent();
 
   const loadRedeemedCodes = () => {
@@ -171,6 +173,11 @@ export default function Navigation({
         (code) => isCodeActive(code) && !redeemedCodes.has(code.code)
       ).length,
     [codes, redeemedCodes]
+  );
+
+  const activeEventsCount = useMemo(
+    () => events.filter((e) => e.active).length,
+    [events]
   );
 
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
@@ -286,7 +293,9 @@ export default function Navigation({
           const tooltipLabel =
             item.label === 'Codes' && activeCodesCount > 0
               ? `${item.label} (${activeCodesCount})`
-              : item.label;
+              : item.label === 'Events' && activeEventsCount > 0
+                ? `${item.label} (${activeEventsCount})`
+                : item.label;
           return (
             <Tooltip
               key={item.path}
@@ -323,6 +332,13 @@ export default function Navigation({
                 radius="sm"
               >
                 {activeCodesCount}
+              </Badge>
+            </Group>
+          ) : item.label === 'Events' && activeEventsCount > 0 ? (
+            <Group gap={6} wrap="nowrap">
+              <span>{item.label}</span>
+              <Badge size="xs" variant="light" color="green" radius="sm">
+                {activeEventsCount}
               </Badge>
             </Group>
           ) : (

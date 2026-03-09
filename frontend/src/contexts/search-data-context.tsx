@@ -4,6 +4,7 @@ import { useDataFetch } from '../hooks/use-data-fetch';
 import type { Artifact } from '../types/artifact';
 import type { Character } from '../types/character';
 import type { Code } from '../types/code';
+import type { GameEvent } from '../types/event';
 import type { Gear } from '../types/gear';
 import type { Howlkin } from '../types/howlkin';
 import type { NoblePhantasm } from '../types/noble-phantasm';
@@ -27,6 +28,7 @@ export interface SearchDataContextValue {
   noblePhantasms: NoblePhantasm[];
   teams: Team[];
   codes: Code[];
+  events: GameEvent[];
   usefulLinks: UsefulLink[];
   tierLists: TierList[];
 }
@@ -43,6 +45,7 @@ export const SearchDataContext = createContext<SearchDataContextValue>({
   noblePhantasms: [],
   teams: [],
   codes: [],
+  events: [],
   usefulLinks: [],
   tierLists: [],
 });
@@ -80,6 +83,7 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
   );
   const { data: teams } = useDataFetch<Team[]>('data/teams.json', []);
   const { data: codes } = useDataFetch<Code[]>('data/codes.json', []);
+  const { data: events } = useDataFetch<GameEvent[]>('data/events.json', []);
   const { data: usefulLinks } = useDataFetch<UsefulLink[]>(
     'data/useful-links.json',
     []
@@ -102,6 +106,7 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
       noblePhantasms,
       teams,
       codes,
+      events,
       usefulLinks,
       tierLists,
     }),
@@ -117,6 +122,7 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
       noblePhantasms,
       teams,
       codes,
+      events,
       usefulLinks,
       tierLists,
     ]

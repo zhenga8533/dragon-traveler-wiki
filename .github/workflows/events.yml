@@ -2,7 +2,8 @@ name: Sync App Store Events
 
 on:
   schedule:
-    - cron: '0 6 * * *'  # 6am UTC daily
+    - cron: '0 6 * * *'   # 6am UTC
+    - cron: '0 18 * * *'  # 6pm UTC
   workflow_dispatch:
 
 permissions:

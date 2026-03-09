@@ -32,6 +32,7 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   '/tier-list': 'orange',
   '/teams': 'pink',
   '/codes': 'yellow',
+  '/events': 'green',
   '/useful-links': 'gray',
   '/changelog': 'grape',
 } as const;

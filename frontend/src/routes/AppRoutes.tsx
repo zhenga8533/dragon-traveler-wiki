@@ -22,6 +22,7 @@ const Teams = lazy(() => import('../pages/teams'));
 const TeamPage = lazy(() => import('../pages/team'));
 const SavedTeamPage = lazy(() => import('../pages/team/SavedTeamPage'));
 const Codes = lazy(() => import('../pages/Codes'));
+const Events = lazy(() => import('../pages/Events'));
 const UsefulLinks = lazy(() => import('../pages/UsefulLinks'));
 const Changelog = lazy(() => import('../pages/Changelog'));
 const BeginnerQA = lazy(() => import('../pages/guides/BeginnerQA'));
@@ -69,6 +70,7 @@ export default function AppRoutes() {
         <Route path="/teams/saved/:teamSlug" element={<SavedTeamPage />} />
         <Route path="/teams/:teamName" element={<TeamPage />} />
         <Route path="/codes" element={<Codes />} />
+        <Route path="/events" element={<Events />} />
         <Route path="/useful-links" element={<UsefulLinks />} />
         <Route path="/changelog" element={<Changelog />} />
         <Route path="/guides/faq" element={<FAQ />} />
