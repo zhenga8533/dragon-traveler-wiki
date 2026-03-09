@@ -12,12 +12,13 @@ import { IoCheckmark, IoCopyOutline } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import ResourceBadge from '../../components/common/ResourceBadge';
 import { getCardHoverProps } from '../../constants/styles';
-import { useDataFetch, useMobileTooltip } from '../../hooks';
+import { useDataFetch, useGradientAccent, useMobileTooltip } from '../../hooks';
 import type { Code } from '../../types/code';
 import { isCodeActive } from '../../utils';
 
 export default function ActiveCodesSection() {
   const tooltipProps = useMobileTooltip();
+  const { accent } = useGradientAccent();
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
   const activeCodes = codes.filter(isCodeActive).reverse().slice(0, 5);
 
@@ -91,7 +92,7 @@ export default function ActiveCodesSection() {
         component={Link}
         to="/codes"
         size="xs"
-        c="dimmed"
+        c={accent.primary}
         td="underline"
         style={{ alignSelf: 'flex-end' }}
       >

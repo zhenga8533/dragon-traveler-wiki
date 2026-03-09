@@ -85,7 +85,7 @@ export default function ActiveEventsSection() {
         component={Link}
         to="/events"
         size="xs"
-        c="dimmed"
+        c={accent.primary}
         td="underline"
         style={{ alignSelf: 'flex-end' }}
       >

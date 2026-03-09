@@ -23,7 +23,6 @@ import { Link, useLocation } from 'react-router-dom';
 import { getAccentForPath, PARENT_ACCENTS } from '../../constants/accents';
 import { NAV_ITEM_HEIGHT, STORAGE_KEY } from '../../constants/ui';
 import { SearchDataContext } from '../../contexts';
-import { useGradientAccent } from '../../hooks';
 import { isCodeActive } from '../../utils';
 
 type NavItem = {
@@ -132,7 +131,6 @@ export default function Navigation({
 }) {
   const location = useLocation();
   const { codes, events } = useContext(SearchDataContext);
-  const { accent } = useGradientAccent();
 
   const loadRedeemedCodes = () => {
     try {
@@ -325,12 +323,7 @@ export default function Navigation({
           item.label === 'Codes' && activeCodesCount > 0 ? (
             <Group gap={6} wrap="nowrap">
               <span>{item.label}</span>
-              <Badge
-                size="xs"
-                variant="light"
-                color={accent.primary}
-                radius="sm"
-              >
+              <Badge size="xs" variant="light" color="yellow" radius="sm">
                 {activeCodesCount}
               </Badge>
             </Group>

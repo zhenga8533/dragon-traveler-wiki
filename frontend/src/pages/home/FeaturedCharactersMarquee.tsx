@@ -179,7 +179,7 @@ export default function FeaturedCharactersMarquee() {
           component={Link}
           to="/tier-list"
           size="xs"
-          c="dimmed"
+          c={accent.primary}
           td="underline"
         >
           View full tier list
@@ -188,7 +188,7 @@ export default function FeaturedCharactersMarquee() {
           component={Link}
           to="/characters"
           size="xs"
-          c="dimmed"
+          c={accent.primary}
           td="underline"
         >
           Browse all characters
