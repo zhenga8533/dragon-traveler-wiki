@@ -49,7 +49,12 @@ import SuggestModal, {
 } from '../components/tools/SuggestModal';
 import { getCardHoverProps } from '../constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '../constants/ui';
-import { useDataFetch, useGradientAccent, useMobileTooltip } from '../hooks';
+import {
+  useDataFetch,
+  useGradientAccent,
+  useMobileTooltip,
+  useTabParam,
+} from '../hooks';
 import { useViewMode } from '../hooks/use-filters';
 import { usePagination } from '../hooks/use-pagination';
 import type { Code } from '../types/code';
@@ -158,7 +163,11 @@ export default function Codes() {
   );
   const [redeemed, setRedeemed] = useState<Set<string>>(() => loadRedeemed());
   const [view, setView] = useState<ViewFilter>('unredeemed');
-  const [tab, setTab] = useState<TabFilter>('active');
+  const [tabParam, handleTabChange] = useTabParam('tab', 'active', [
+    'active',
+    'expired',
+  ]);
+  const tab = tabParam as TabFilter;
   const [search, setSearch] = useState('');
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.CODES_VIEW_MODE,
@@ -336,7 +345,7 @@ export default function Codes() {
           onChange={(e) => setSearch(e.currentTarget.value)}
         />
 
-        <Tabs value={tab} onChange={(v) => setTab(v as TabFilter)}>
+        <Tabs value={tab} onChange={handleTabChange}>
           <Tabs.List>
             <Tabs.Tab value="active">Active Codes</Tabs.Tab>
             <Tabs.Tab value="expired">Expired Codes</Tabs.Tab>
