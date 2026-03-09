@@ -595,6 +595,13 @@
     "last_updated": 1771374946
   },
   {
+    "name": "Divine Stardust",
+    "quality": "SR",
+    "description": "Can be obtained through battles in the Rift of the Divine Realm.",
+    "category": "Summoning",
+    "last_updated": 1773060057
+  },
+  {
     "name": "Mercury Potion",
     "quality": "R",
     "description": "A mercury potion extracted through alchemy that emits a faint azure glow. Can be used for Howlkin Refinement.",

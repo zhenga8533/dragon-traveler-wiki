@@ -726,5 +726,15 @@
     },
     "active": true,
     "last_updated": 1772935757
+  },
+  {
+    "code": "Jing312",
+    "rewards": {
+      "Legacy Dragon Crystal": 3,
+      "Golden Horn": 1,
+      "SR Luminary Shards": 10
+    },
+    "active": true,
+    "last_updated": 1773060057
   }
 ]
