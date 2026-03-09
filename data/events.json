@@ -1,0 +1,24 @@
+[
+  {
+    "name": "The Wedding Operation Event!",
+    "active": true,
+    "event_id": "6758127954",
+    "badge": "SPECIAL EVENT",
+    "description": "Date Luminaries for confessions and hidden stories! Limited skins! Join the event, get rewards—enjoy a romantic journey!",
+    "source": "appstore",
+    "start_date": "2026-03-09",
+    "end_date": null,
+    "last_updated": 1773062958
+  },
+  {
+    "name": "The Gymnasium Locked-Room Case",
+    "active": true,
+    "event_id": "6758127956",
+    "badge": "SPECIAL EVENT",
+    "description": "SSR+ Ironclad Commander Pompey! The Gymnasium Locked-Room Case begins! Join in for the \"Slam Dunk Master\" skin!",
+    "source": "appstore",
+    "start_date": "2026-03-09",
+    "end_date": null,
+    "last_updated": 1773062958
+  }
+]
