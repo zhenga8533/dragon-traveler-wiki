@@ -52,6 +52,19 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1773071931,
+        "fields": {
+          "entries": {
+            "changed": {
+              "Salome": {
+                "old": "S+",
+                "new": "SS"
+              }
+            }
+          }
+        }
       }
     ]
   },
