@@ -1,6 +1,7 @@
 import {
   ActionIcon,
   Alert,
+  Box,
   Button,
   Card,
   Container,
@@ -56,6 +57,7 @@ type SourceRow = {
   amount: number | null;
   cadenceDays: number | null;
   isCustom: boolean;
+  enabled: boolean;
 };
 
 type CalculatorState = {
@@ -339,11 +341,16 @@ function buildDefaultRows(baseSources: BaseSource[]): SourceRow[] {
     amount: source.defaultAmount,
     cadenceDays: source.defaultCadenceDays,
     isCustom: false,
+    enabled: true,
   }));
 }
 
 function sumSourcesPerDay(sources: SourceRow[]): number {
   return sources.reduce((sum, source) => {
+    if (!source.enabled) {
+      return sum;
+    }
+
     const amount = source.amount ?? 0;
     const cadenceDays = source.cadenceDays ?? 0;
     if (amount <= 0 || cadenceDays <= 0) {
@@ -431,6 +438,7 @@ function createCustomSource(type: SourceType): SourceRow {
     amount: null,
     cadenceDays: 7,
     isCustom: true,
+    enabled: true,
   };
 }
 
@@ -460,6 +468,7 @@ function sanitizeSourceRow(input: unknown): SourceRow | null {
     amount,
     cadenceDays,
     isCustom: Boolean(source.isCustom),
+    enabled: source.enabled !== false,
   };
 }
 
@@ -729,14 +738,30 @@ export default function DiamondCalculator() {
     sources.map((source) => (
       <Table.Tr
         key={source.id}
-        style={
-          source.isCustom
+        style={{
+          opacity: source.enabled ? 1 : 0.4,
+          ...(source.isCustom
             ? {
                 backgroundColor: `var(--mantine-color-${accent.primary}-light)`,
               }
-            : undefined
-        }
+            : undefined),
+        }}
       >
+        <Table.Td w={48}>
+          <Switch
+            size="xs"
+            color={accent.primary}
+            checked={source.enabled}
+            onChange={(event) => {
+              const checked = event.currentTarget.checked;
+              updateSource(type, source.id, (prev) => ({
+                ...prev,
+                enabled: checked,
+              }));
+            }}
+            aria-label={source.enabled ? 'Disable source' : 'Enable source'}
+          />
+        </Table.Td>
         <Table.Td>
           {source.isCustom ? (
             <TextInput
@@ -987,19 +1012,22 @@ export default function DiamondCalculator() {
                 Tree Covenant. Add missing entries as custom sources.
               </Alert>
 
-              <Table striped highlightOnHover withTableBorder>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Source</Table.Th>
-                    <Table.Th>Every (days)</Table.Th>
-                    <Table.Th>Amount</Table.Th>
-                    <Table.Th w={56}>Action</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {renderSourceRows('gain', sortedGainSources)}
-                </Table.Tbody>
-              </Table>
+              <Box style={{ overflowX: 'auto' }}>
+                <Table striped highlightOnHover withTableBorder style={{ minWidth: 480 }}>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th w={48} />
+                      <Table.Th>Source</Table.Th>
+                      <Table.Th w={110}>Every (days)</Table.Th>
+                      <Table.Th w={110}>Amount</Table.Th>
+                      <Table.Th w={56}>Action</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {renderSourceRows('gain', sortedGainSources)}
+                  </Table.Tbody>
+                </Table>
+              </Box>
 
               <Group justify="flex-end">
                 <Button
@@ -1041,19 +1069,22 @@ export default function DiamondCalculator() {
                 missing entries as custom sources.
               </Alert>
 
-              <Table striped highlightOnHover withTableBorder>
-                <Table.Thead>
-                  <Table.Tr>
-                    <Table.Th>Source</Table.Th>
-                    <Table.Th>Every (days)</Table.Th>
-                    <Table.Th>Amount</Table.Th>
-                    <Table.Th w={56}>Action</Table.Th>
-                  </Table.Tr>
-                </Table.Thead>
-                <Table.Tbody>
-                  {renderSourceRows('spend', sortedSpendSources)}
-                </Table.Tbody>
-              </Table>
+              <Box style={{ overflowX: 'auto' }}>
+                <Table striped highlightOnHover withTableBorder style={{ minWidth: 480 }}>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th w={48} />
+                      <Table.Th>Source</Table.Th>
+                      <Table.Th w={110}>Every (days)</Table.Th>
+                      <Table.Th w={110}>Amount</Table.Th>
+                      <Table.Th w={56}>Action</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {renderSourceRows('spend', sortedSpendSources)}
+                  </Table.Tbody>
+                </Table>
+              </Box>
 
               <Group justify="flex-end">
                 <Button
