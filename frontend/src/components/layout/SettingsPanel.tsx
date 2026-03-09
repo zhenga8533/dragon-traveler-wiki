@@ -17,7 +17,7 @@ import {
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useContext, useMemo, useState } from 'react';
+import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
 import { normalizeContentType } from '../../constants/content-types';
 import { Z_INDEX } from '../../constants/ui';
@@ -58,6 +58,15 @@ export default function SettingsPanel() {
     setSurfaceOpacity,
     resetOpacitySettings,
   } = useContext(UiOpacityContext);
+
+  useEffect(() => {
+    if (isMobile || !opened) return;
+    const previousOverflow = document.body.style.overflow;
+    document.body.style.overflow = 'hidden';
+    return () => {
+      document.body.style.overflow = previousOverflow;
+    };
+  }, [isMobile, opened]);
 
   const tierListOptions = useMemo(
     () =>
@@ -348,7 +357,14 @@ export default function SettingsPanel() {
           </ActionIcon>
         </Tooltip>
       </Popover.Target>
-      <Popover.Dropdown p="md">
+      <Popover.Dropdown
+        p="md"
+        style={{
+          maxHeight: '70dvh',
+          overflowY: 'auto',
+          overscrollBehavior: 'contain',
+        }}
+      >
         <Stack gap="md">
           <Text size="sm" fw={700}>
             Settings
