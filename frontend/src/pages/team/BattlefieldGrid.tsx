@@ -8,7 +8,6 @@ import {
   Text,
   Tooltip,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
 import { IoFlash } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
@@ -17,7 +16,7 @@ import FactionTag from '../../components/common/FactionTag';
 import NoteTooltipIcon from '../../components/common/NoteTooltipIcon';
 import QualityIcon from '../../components/common/QualityIcon';
 import { getCardHoverProps } from '../../constants/styles';
-import { useGradientAccent, useMobileTooltip } from '../../hooks';
+import { useGradientAccent, useIsMobile, useMobileTooltip } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { TeamMember } from '../../types/team';
 import {
@@ -39,6 +38,7 @@ function buildPositionGrid(members: TeamMember[]): (TeamMember | null)[][] {
     Array(3).fill(null)
   );
   const unpositioned: TeamMember[] = [];
+
   for (const member of members) {
     if (member.position) {
       const { row, col } = member.position;
@@ -51,16 +51,18 @@ function buildPositionGrid(members: TeamMember[]): (TeamMember | null)[][] {
       unpositioned.push(member);
     }
   }
+
   for (const member of unpositioned) {
-    placed: for (let r = 0; r < 3; r++) {
-      for (let c = 0; c < 3; c++) {
-        if (!grid[r][c]) {
-          grid[r][c] = member;
+    placed: for (let rowIndex = 0; rowIndex < 3; rowIndex++) {
+      for (let colIndex = 0; colIndex < 3; colIndex++) {
+        if (!grid[rowIndex][colIndex]) {
+          grid[rowIndex][colIndex] = member;
           break placed;
         }
       }
     }
   }
+
   return grid;
 }
 
@@ -91,7 +93,7 @@ export function BattlefieldGrid({
   const { accent } = useGradientAccent();
   const grid = buildPositionGrid(members);
   const accentColor = `var(--mantine-color-${factionColor}-${isDark ? 7 : 5})`;
-  const isMobile = useMediaQuery('(max-width: 30em)');
+  const isMobile = useIsMobile();
 
   return (
     <Stack gap={isMobile ? 'xs' : 'sm'}>
@@ -102,7 +104,6 @@ export function BattlefieldGrid({
           align="stretch"
           wrap="nowrap"
         >
-          {/* Row indicator */}
           <Tooltip label={BG_ROW_HINTS[rowIdx]} withArrow position="right">
             <Box
               style={{
@@ -137,7 +138,6 @@ export function BattlefieldGrid({
             </Box>
           </Tooltip>
 
-          {/* 3 cells */}
           <SimpleGrid
             cols={{ base: 1, xs: 2, sm: 3 }}
             spacing={{ base: 'xs', sm: 'sm' }}
@@ -192,6 +192,7 @@ export function BattlefieldGrid({
                 isMultiQualityCharacter && character?.quality
                   ? `${resolvedName} (${character.quality})`
                   : resolvedName;
+
               return (
                 <Paper
                   key={colIdx}
@@ -281,8 +282,12 @@ export function BattlefieldGrid({
 
                     {character && (
                       <Group gap={4} justify="center" wrap="wrap">
-                        {character.factions.map((f) => (
-                          <FactionTag key={f} faction={f} size="xs" />
+                        {character.factions.map((faction) => (
+                          <FactionTag
+                            key={faction}
+                            faction={faction}
+                            size="xs"
+                          />
                         ))}
                       </Group>
                     )}

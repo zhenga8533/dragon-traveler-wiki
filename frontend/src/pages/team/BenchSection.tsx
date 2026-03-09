@@ -9,7 +9,6 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '../../components/character/CharacterPortrait';
 import ClassTag from '../../components/common/ClassTag';
@@ -17,7 +16,7 @@ import FactionTag from '../../components/common/FactionTag';
 import NoteTooltipIcon from '../../components/common/NoteTooltipIcon';
 import QualityIcon from '../../components/common/QualityIcon';
 import { getCardHoverProps } from '../../constants/styles';
-import { useGradientAccent, useMobileTooltip } from '../../hooks';
+import { useGradientAccent, useIsMobile, useMobileTooltip } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { TeamBenchMember } from '../../types/team';
 import {
@@ -52,7 +51,7 @@ export function BenchSection({
   tooltipProps: ReturnType<typeof useMobileTooltip>;
   disableNameClamp?: boolean;
 }) {
-  const isMobile = useMediaQuery('(max-width: 30em)');
+  const isMobile = useIsMobile();
   const { accent } = useGradientAccent();
 
   return (
@@ -87,6 +86,7 @@ export function BenchSection({
               ? `${resolvedName} (${char.quality})`
               : resolvedName;
           const benchNote = getTeamBenchEntryNote(benchEntry);
+
           return (
             <Paper
               key={`${benchName}-${benchQuality ?? ''}`}
@@ -114,7 +114,7 @@ export function BenchSection({
                   {benchNote && (
                     <NoteTooltipIcon
                       note={benchNote}
-                      ariaLabel={`Show note for ${resolvedName}`}
+                      ariaLabel={`Show note for ${resolvedLabel}`}
                       stopPropagation
                       wrapperStyle={{
                         position: 'absolute',
