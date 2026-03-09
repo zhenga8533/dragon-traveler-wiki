@@ -1,123 +1,9 @@
-"""
-Process a GitHub Issue suggestion and update the JSON data file.
-
-Reads the GitHub event JSON from $GITHUB_EVENT_PATH, extracts JSON data
-from the issue body, validates it, and appends it to the appropriate data file.
-
-Usage (inside GitHub Actions):
-    python -m backend.suggest
-"""
-
-import json
-import os
-import re
-import sys
-import time
-from pathlib import Path
-from urllib.parse import urlparse
-
-from .sort_keys import FILE_SORT_KEY
-
-SCRIPT_DIR = Path(__file__).resolve().parent
-ROOT_DIR = SCRIPT_DIR.parent
-DATA_DIR = ROOT_DIR / "data"
-
-LABEL_JSON_FILE = {
-    "codes": "codes.json",
-    "faction": "factions.json",
-    "artifact": "artifacts.json",
-    "wyrmspell": "wyrmspells.json",
-    "noble-phantasm": "noble_phantasm.json",
-    "status-effect": "status-effects.json",
-    "links": "useful-links.json",
-    "resource": "resources.json",
-    "character": "characters.json",
-    "subclass": "subclasses.json",
-    "howlkin": "howlkins.json",
-    "golden-alliance": "golden_alliances.json",
-    "gear": "gear.json",
-    "gear-set": "gear_sets.json",
-    "tier-list": "tier-lists.json",
-    "team": "teams.json",
-}
-
-REQUIRED_FIELDS = {
-    "codes": ["code"],
-    "faction": ["name", "wyrm", "description", "recommended_artifacts"],
-    "artifact": ["name"],
-    "wyrmspell": ["name"],
-    "noble-phantasm": ["name"],
-    "status-effect": ["name"],
-    "links": ["name", "link"],
-    "resource": ["name", "category", "description", "quality"],
-    "character": ["name"],
-    "subclass": ["name", "tier", "bonuses", "effect"],
-    "howlkin": ["name", "quality", "basic_stats", "passive_effects"],
-    "golden-alliance": ["name"],
-    "gear": ["name"],
-    "gear-set": ["name"],
-    "tier-list": ["name", "entries"],
-    "team": ["name", "members"],
-}
-
-# Labels whose JSON entries carry a last_updated Unix timestamp.
-TIMESTAMPED_LABELS = {
-    "artifact",
-    "wyrmspell",
-    "noble-phantasm",
-    "resource",
-    "character",
-    "subclass",
-    "howlkin",
-    "golden-alliance",
-    "gear",
-    "gear-set",
-    "team",
-}
-
-VALID_RESOURCE_CATEGORIES = {
-    "Currency",
-    "Gift",
-    "Item",
-    "Material",
-    "Summoning",
-    "Shard",
-}
-
-VALID_STATUS_EFFECT_TYPES = {
-    "Buff",
-    "Debuff",
-    "Special",
-    "Control",
-    "Elemental",
-    "Blessing",
-    "Exclusive",
-}
-
-VALID_WYRMSPELL_TYPES = {"Breach", "Refuge", "Wildcry", "Dragon's Call"}
-VALID_CHARACTER_QUALITIES = {"UR", "SSR EX", "SSR+", "SSR", "SR", "R", "N", "C"}
-VALID_CHARACTER_CLASSES = {
-    "Guardian",
-    "Priest",
-    "Assassin",
-    "Warrior",
-    "Archer",
-    "Mage",
-}
-DEFAULT_VALID_TIERS = {"S+", "S", "A", "B", "C", "D"}
+"""Data normalization helpers for GitHub Issue suggestion payloads."""
 
 
 # ---------------------------------------------------------------------------
-# Helpers
+# Primitive coercions
 # ---------------------------------------------------------------------------
-
-
-def set_output(name, value):
-    """Write a value to $GITHUB_OUTPUT."""
-    output_file = os.environ.get("GITHUB_OUTPUT")
-    if output_file:
-        with open(output_file, "a", encoding="utf-8") as f:
-            f.write(f"{name}={value}\n")
 
 
 def parse_boolish(value, default=True):
@@ -138,176 +24,25 @@ def parse_boolish(value, default=True):
     return bool(value)
 
 
-# ---------------------------------------------------------------------------
-# JSON extraction & validation
-# ---------------------------------------------------------------------------
-
-
-def extract_json_from_body(body):
-    """Extract JSON from a ```json code block in the issue body."""
-    match = re.search(r"```json\s*\n(.*?)\n\s*```", body, re.DOTALL)
-    if not match:
-        raise ValueError("No ```json code block found in the issue body.")
-    raw = match.group(1).strip()
+def _coerce_int(value, default=0):
     try:
-        return json.loads(raw)
-    except json.JSONDecodeError as e:
-        raise ValueError(f"Invalid JSON in issue body: {e}") from e
+        return int(value)
+    except (TypeError, ValueError):
+        return default
 
 
-def validate_data(label, data, is_update=False):
-    """Validate suggestion data for create or update operations."""
-    if not isinstance(data, dict):
-        raise ValueError("Suggestion JSON must be an object.")
+def _coerce_optional_int(value):
+    if value in (None, ""):
+        return None
+    try:
+        return int(value)
+    except (TypeError, ValueError):
+        return None
 
-    if is_update:
-        required = [_get_identity_key(label)]
-    else:
-        required = REQUIRED_FIELDS.get(label, [])
-    missing = [f for f in required if not data.get(f)]
-    if missing:
-        raise ValueError(f"Missing required fields for '{label}': {', '.join(missing)}")
 
-    if label == "links":
-        if "link" in data:
-            link = str(data.get("link", "")).strip()
-            parsed = urlparse(link)
-            if parsed.scheme not in {"http", "https"} or not parsed.netloc:
-                raise ValueError("Link must be a valid http/https URL.")
-
-    if label == "resource":
-        if "category" in data:
-            category = str(data.get("category", "")).strip()
-            if category not in VALID_RESOURCE_CATEGORIES:
-                raise ValueError(
-                    "Invalid resource category. "
-                    f"Expected one of: {', '.join(sorted(VALID_RESOURCE_CATEGORIES))}"
-                )
-        if data.get("quality") and data["quality"] not in VALID_CHARACTER_QUALITIES:
-            raise ValueError(
-                "Invalid resource quality. "
-                f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
-            )
-
-    if label == "wyrmspell" and data.get("type"):
-        if data["type"] not in VALID_WYRMSPELL_TYPES:
-            raise ValueError(
-                f"Invalid wyrmspell type. Expected one of: {', '.join(sorted(VALID_WYRMSPELL_TYPES))}"
-            )
-
-    if label == "status-effect" and data.get("type"):
-        if data["type"] not in VALID_STATUS_EFFECT_TYPES:
-            raise ValueError(
-                "Invalid status effect type. "
-                f"Expected one of: {', '.join(sorted(VALID_STATUS_EFFECT_TYPES))}"
-            )
-
-    if label == "character":
-        if data.get("quality") and data["quality"] not in VALID_CHARACTER_QUALITIES:
-            raise ValueError(
-                "Invalid character quality. "
-                f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
-            )
-        if (
-            data.get("character_class")
-            and data["character_class"] not in VALID_CHARACTER_CLASSES
-        ):
-            raise ValueError(
-                "Invalid character class. "
-                f"Expected one of: {', '.join(sorted(VALID_CHARACTER_CLASSES))}"
-            )
-
-    if label == "howlkin" and data.get("quality"):
-        if data["quality"] not in VALID_CHARACTER_QUALITIES:
-            raise ValueError(
-                "Invalid howlkin quality. "
-                f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
-            )
-
-    if label == "tier-list":
-        # Validate optional tiers definitions field
-        if "tiers" in data:
-            tiers_raw = data.get("tiers")
-            if tiers_raw is not None:
-                if not isinstance(tiers_raw, list):
-                    raise ValueError("'tiers' must be an array.")
-                for i, tier in enumerate(tiers_raw):
-                    if isinstance(tier, dict):
-                        if not str(tier.get("name", "")).strip():
-                            raise ValueError(f"Tier definition {i} is missing 'name'.")
-                    elif isinstance(tier, str):
-                        if not tier.strip():
-                            raise ValueError(f"Tier definition {i} has an empty name.")
-                    else:
-                        raise ValueError(
-                            f"Tier definition {i} must be a string or object with 'name'."
-                        )
-
-        if "entries" in data:
-            entries = data.get("entries", [])
-            if not isinstance(entries, list) or len(entries) == 0:
-                raise ValueError("Tier list must have at least one entry.")
-
-            # Determine valid tiers: use custom tiers if provided, else default
-            custom_tiers_raw = data.get("tiers")
-            if custom_tiers_raw and isinstance(custom_tiers_raw, list):
-                valid_tiers = set()
-                for t in custom_tiers_raw:
-                    if isinstance(t, dict):
-                        name = str(t.get("name", "")).strip()
-                        if name:
-                            valid_tiers.add(name)
-                    elif isinstance(t, str) and t.strip():
-                        valid_tiers.add(t.strip())
-                if not valid_tiers:
-                    valid_tiers = DEFAULT_VALID_TIERS
-            else:
-                valid_tiers = DEFAULT_VALID_TIERS
-
-            for i, entry in enumerate(entries):
-                if not entry.get("character_name"):
-                    raise ValueError(f"Entry {i} is missing 'character_name'.")
-                if (
-                    entry.get("character_quality")
-                    and entry["character_quality"] not in VALID_CHARACTER_QUALITIES
-                ):
-                    raise ValueError(
-                        f"Entry {i} has invalid character_quality '{entry['character_quality']}'. "
-                        f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
-                    )
-                if not entry.get("tier"):
-                    raise ValueError(f"Entry {i} is missing 'tier'.")
-                if entry["tier"] not in valid_tiers:
-                    raise ValueError(
-                        f"Entry {i} has invalid tier '{entry['tier']}'. "
-                        f"Expected one of: {', '.join(sorted(valid_tiers))}"
-                    )
-
-    if label == "team":
-        if "members" in data:
-            members = data.get("members", [])
-            if not isinstance(members, list) or len(members) == 0:
-                raise ValueError("Team must have at least one member.")
-            for i, m in enumerate(members):
-                if not m.get("character_name"):
-                    raise ValueError(f"Member {i} is missing 'character_name'.")
-                if (
-                    m.get("character_quality")
-                    and m["character_quality"] not in VALID_CHARACTER_QUALITIES
-                ):
-                    raise ValueError(
-                        f"Member {i} has invalid character_quality '{m['character_quality']}'. "
-                        f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
-                    )
-
-    if label == "faction" and "recommended_artifacts" in data:
-        artifacts = _normalize_string_list(data.get("recommended_artifacts"))
-        if len(artifacts) == 0:
-            raise ValueError("Faction must include at least one recommended artifact.")
-
-    if label == "subclass" and not is_update:
-        if not (data.get("class") or data.get("character_class")):
-            raise ValueError("Missing required fields for 'subclass': class")
+# ---------------------------------------------------------------------------
+# List / dict normalizers
+# ---------------------------------------------------------------------------
 
 
 def _split_csv_list(value):
@@ -334,22 +69,6 @@ def _normalize_string_list(value, item_key="name"):
     return []
 
 
-def _coerce_optional_int(value):
-    if value in (None, ""):
-        return None
-    try:
-        return int(value)
-    except (TypeError, ValueError):
-        return None
-
-
-def _coerce_int(value, default=0):
-    try:
-        return int(value)
-    except (TypeError, ValueError):
-        return default
-
-
 def _normalize_stat_dict(value):
     if isinstance(value, dict):
         return value
@@ -369,17 +88,14 @@ def _normalize_stat_dict(value):
 def _normalize_effect_list(value):
     if not isinstance(value, list):
         return []
-    effects = []
-    for item in value:
-        if not isinstance(item, dict):
-            continue
-        effects.append(
-            {
-                "level": _coerce_int(item.get("level"), 0),
-                "description": str(item.get("description") or ""),
-            }
-        )
-    return effects
+    return [
+        {
+            "level": _coerce_int(item.get("level"), 0),
+            "description": str(item.get("description") or ""),
+        }
+        for item in value
+        if isinstance(item, dict)
+    ]
 
 
 def _normalize_artifact_treasures(value):
@@ -406,21 +122,18 @@ def _normalize_artifact_treasures(value):
 def _normalize_golden_alliance_effects(value):
     if not isinstance(value, list):
         return []
-    effects = []
-    for item in value:
-        if not isinstance(item, dict):
-            continue
-        effects.append(
-            {
-                "level": _coerce_int(item.get("level"), 0),
-                "stats": _normalize_string_list(item.get("stats", [])),
-            }
-        )
-    return effects
+    return [
+        {
+            "level": _coerce_int(item.get("level"), 0),
+            "stats": _normalize_string_list(item.get("stats", [])),
+        }
+        for item in value
+        if isinstance(item, dict)
+    ]
 
 
 # ---------------------------------------------------------------------------
-# JSON data file updates
+# Per-label normalization
 # ---------------------------------------------------------------------------
 
 
@@ -989,188 +702,3 @@ def normalize_for_json(label, data, is_update=False):
         return result
 
     raise ValueError(f"Unknown label: {label}")
-
-
-def _deep_merge(existing, updates):
-    """Recursively merge dict updates into existing dict."""
-    if not isinstance(existing, dict) or not isinstance(updates, dict):
-        return updates
-
-    merged = dict(existing)
-    for key, value in updates.items():
-        if key in merged and isinstance(merged[key], dict) and isinstance(value, dict):
-            merged[key] = _deep_merge(merged[key], value)
-        else:
-            merged[key] = value
-    return merged
-
-
-def _get_identity_key(label):
-    """Return the field used to detect duplicates for a given label."""
-    if label == "codes":
-        return "code"
-    return "name"
-
-
-def _entry_identity(label, data):
-    """Return a stable identity value for matching existing entries."""
-    if label == "character":
-        name = str(data.get("name", "") or "").strip()
-        quality = str(data.get("quality", "") or "").strip()
-        if not name:
-            return ""
-        return f"{name}__{quality}" if quality else name
-
-    identity_key = _get_identity_key(label)
-    return str(data.get(identity_key, "") or "").strip()
-
-
-def update_json_file(label, data):
-    """Upsert normalized data into the corresponding JSON data file."""
-    filename = LABEL_JSON_FILE[label]
-    path = DATA_DIR / filename
-    if not path.exists():
-        raise RuntimeError(f"Data file not found: {path}")
-
-    with open(path, "r", encoding="utf-8") as f:
-        existing = json.load(f)
-
-    identity_key = _get_identity_key(label)
-    new_value = _entry_identity(label, data)
-    matched_index = None
-    if new_value:
-        for index, item in enumerate(existing):
-            if _entry_identity(label, item) == new_value:
-                matched_index = index
-                break
-
-    is_update = matched_index is not None
-    validate_data(label, data, is_update=is_update)
-    entry = normalize_for_json(label, data, is_update=is_update)
-
-    if is_update:
-        existing[matched_index] = _deep_merge(existing[matched_index], entry)
-        if label in TIMESTAMPED_LABELS:
-            existing[matched_index]["last_updated"] = int(time.time())
-        action = "updated"
-    else:
-        if label in TIMESTAMPED_LABELS:
-            entry["last_updated"] = int(time.time())
-        existing.append(entry)
-        action = "added"
-
-    sort_key = FILE_SORT_KEY.get(filename)
-    if sort_key:
-        existing.sort(key=sort_key)
-
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(existing, f, indent=2, ensure_ascii=False)
-        f.write("\n")
-
-    print(
-        f"Updated {filename} ({action} {identity_key} '{new_value}', total {len(existing)})"
-    )
-    return filename
-
-
-# ---------------------------------------------------------------------------
-# Main
-# ---------------------------------------------------------------------------
-
-
-def main():
-    event_path = os.environ.get("GITHUB_EVENT_PATH")
-    if not event_path:
-        print(
-            "Error: GITHUB_EVENT_PATH not set. Run inside GitHub Actions.",
-            file=sys.stderr,
-        )
-        sys.exit(1)
-
-    with open(event_path, "r", encoding="utf-8") as f:
-        event = json.load(f)
-
-    issue = event.get("issue", {})
-    issue_number = issue.get("number")
-    issue_title = issue.get("title", "")
-    issue_body = issue.get("body", "")
-
-    print(f"Processing issue #{issue_number}: {issue_title}")
-
-    # Special case: expired code reports — no JSON block, just mark code inactive
-    EXPIRED_PREFIX = "[Code] Report expired:"
-    if issue_title.startswith(EXPIRED_PREFIX):
-        code = issue_title[len(EXPIRED_PREFIX) :].strip()
-        if not code:
-            set_output("label", "")
-            set_output("processed", "false")
-            set_output("manual_review", "false")
-            print("Expired code report missing code name. Skipping.")
-            sys.exit(0)
-        data = {"code": code, "active": False}
-        json_file = update_json_file("codes", data)
-        set_output("json_file", json_file)
-        set_output("label", "codes")
-        set_output("processed", "true")
-        set_output("manual_review", "false")
-        print(f"Marked code '{code}' as inactive.")
-        sys.exit(0)
-
-    # Detect label from title prefix
-    prefix_to_label = {
-        "[Code]": "codes",
-        "[Faction]": "faction",
-        "[Artifact]": "artifact",
-        "[Character]": "character",
-        "[Subclass]": "subclass",
-        "[Wyrmspell]": "wyrmspell",
-        "[Noble Phantasm]": "noble-phantasm",
-        "[Status Effect]": "status-effect",
-        "[Link]": "links",
-        "[Resource]": "resource",
-        "[Howlkin]": "howlkin",
-        "[Golden Alliance]": "golden-alliance",
-        "[Gear]": "gear",
-        "[Gear Set]": "gear-set",
-        "[Tier List]": "tier-list",
-        "[Team]": "team",
-    }
-
-    label = None
-    for prefix, lbl in prefix_to_label.items():
-        if issue_title.startswith(prefix):
-            label = lbl
-            break
-
-    if not label:
-        # If the title looks like a structured suggestion (starts with [Type]) but
-        # isn't one we auto-process, flag it for manual review.
-        manual_review = bool(re.match(r"^\[.+\]", issue_title))
-        set_output("manual_review", "true" if manual_review else "false")
-        set_output("label", "")
-        set_output("processed", "false")
-        print("No known suggestion prefix found in title. Skipping.")
-        sys.exit(0)
-
-    set_output("manual_review", "false")
-
-    print(f"Matched label: {label}")
-
-    # Extract and validate JSON from issue body
-    data = extract_json_from_body(issue_body)
-    print(f"Extracted JSON: {json.dumps(data, indent=2)[:500]}")
-    print(
-        "JSON extracted. Validation and update mode will be resolved in file update step."
-    )
-
-    # Update the JSON data file
-    json_file = update_json_file(label, data)
-    set_output("json_file", json_file)
-    set_output("label", label)
-    set_output("processed", "true")
-
-    print("Done!")
-
-
-if __name__ == "__main__":
-    main()

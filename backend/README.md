@@ -43,35 +43,45 @@ python -m backend.normalize_data --timestamps-only
 python -m backend.normalize_data --sort-only
 ```
 
-### Key Utilities
+### Scrape Events
 
-- `sort_keys.py` — shared deterministic sorting helpers
-- `models/` — Pydantic models used for data validation
+Fetches active in-app events from the App Store and syncs them to `data/events.json`.
+Downloads landscape event images to `frontend/src/assets/event/`.
+
+```bash
+python -m backend.scrape_events
+```
 
 ## Project Structure
 
 ```
 backend/
-├── suggest.py             # Issue suggestion processor (auto-sets last_updated)
-├── normalize_data.py      # Sort data and refresh last_updated in one pass
-├── sort_keys.py           # Deterministic sort-key helpers
-├── requirements.txt       # Python dependencies
-└── models/                # Pydantic data models
-    ├── artifact.py
-    ├── character.py
-    ├── code.py
-    ├── faction.py
-    ├── gear.py
-    ├── golden_alliance.py
-    ├── howlkin.py
-    ├── noble_phantasm.py
-    ├── resource.py
-    ├── subclass.py
-    ├── status_effect.py
-    ├── team.py
-    ├── tier_list.py
-    ├── useful_link.py
-    └── wyrmspell.py
+├── normalize_data/        # Data normalization tool
+│   ├── core.py            # normalize_file, run, CLI
+│   └── diff.py            # Change tracking and field diffing
+├── suggest/               # GitHub Issue ingestion tool
+│   ├── handlers.py        # Routing, file upsert, main
+│   ├── normalize.py       # Per-label data normalization
+│   └── validate.py        # Per-label validation
+├── models/                # Pydantic data models
+│   ├── artifact.py
+│   ├── character.py
+│   ├── code.py
+│   ├── faction.py
+│   ├── gear.py
+│   ├── golden_alliance.py
+│   ├── howlkin.py
+│   ├── noble_phantasm.py
+│   ├── resource.py
+│   ├── subclass.py
+│   ├── status_effect.py
+│   ├── team.py
+│   ├── tier_list.py
+│   ├── useful_link.py
+│   └── wyrmspell.py
+├── scrape_events.py       # App Store event scraper
+├── sort_keys.py           # Shared deterministic sort-key helpers
+└── requirements.txt
 ```
 
 ## Data Files
@@ -155,4 +165,6 @@ Tier lists support an optional `tiers` field that defines a custom ordered set o
 
 ## Dependencies
 
-- **pydantic** — Data validation and serialization
+- **pydantic** — Data validation and serialization (models)
+- **requests** — HTTP requests (scrape_events)
+- **beautifulsoup4** / **lxml** — HTML parsing (scrape_events)
