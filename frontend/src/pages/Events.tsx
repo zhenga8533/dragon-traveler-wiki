@@ -12,7 +12,11 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { IoCalendar, IoCalendarOutline, IoInformationCircleOutline } from 'react-icons/io5';
+import {
+  IoCalendar,
+  IoCalendarOutline,
+  IoInformationCircleOutline,
+} from 'react-icons/io5';
 import { getEventImage } from '../assets/event';
 import DataFetchError from '../components/common/DataFetchError';
 import EmptyState from '../components/common/EmptyState';
@@ -69,7 +73,7 @@ function EventCard({ event }: { event: GameEvent }) {
         </Text>
 
         {event.description && (
-          <Text size="sm" c="dimmed" lineClamp={3}>
+          <Text size="sm" c="dimmed">
             {event.description}
           </Text>
         )}

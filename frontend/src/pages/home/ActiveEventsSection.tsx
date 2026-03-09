@@ -42,7 +42,14 @@ export default function ActiveEventsSection() {
 
   return (
     <Stack gap="sm">
-      <SimpleGrid cols={{ base: 1, sm: activeEvents.length > 1 ? 2 : 1, md: activeEvents.length }} spacing="sm">
+      <SimpleGrid
+        cols={{
+          base: 1,
+          sm: activeEvents.length > 1 ? 2 : 1,
+          md: activeEvents.length,
+        }}
+        spacing="sm"
+      >
         {activeEvents.map((event) => {
           const image = getEventImage(event.name);
           return (
@@ -55,11 +62,23 @@ export default function ActiveEventsSection() {
               style={{ display: 'flex', flexDirection: 'column' }}
             >
               <Card.Section>
-                <Image src={image} height={130} fit="cover" alt={event.name} style={{ objectPosition: 'top' }} />
+                <Image
+                  src={image}
+                  height={130}
+                  fit="cover"
+                  alt={event.name}
+                  style={{ objectPosition: 'top' }}
+                />
               </Card.Section>
               <Stack gap={4} p="sm" style={{ flex: 1 }}>
                 {event.badge && (
-                  <Badge size="xs" variant="light" color={accent.primary} radius="sm" w="fit-content">
+                  <Badge
+                    size="xs"
+                    variant="light"
+                    color={accent.primary}
+                    radius="sm"
+                    w="fit-content"
+                  >
                     {event.badge}
                   </Badge>
                 )}
@@ -67,13 +86,15 @@ export default function ActiveEventsSection() {
                   {event.name}
                 </Text>
                 {event.description && (
-                  <Text size="xs" c="dimmed" lineClamp={2}>
+                  <Text size="xs" c="dimmed">
                     {event.description}
                   </Text>
                 )}
                 {event.start_date && (
                   <Group gap={4} mt="auto">
-                    <Text size="xs" c="dimmed">Since {event.start_date}</Text>
+                    <Text size="xs" c="dimmed">
+                      Since {event.start_date}
+                    </Text>
                   </Group>
                 )}
               </Stack>
