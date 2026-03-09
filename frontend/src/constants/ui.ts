@@ -75,6 +75,7 @@ export const HEADER_HEIGHT = {
 export const PAGE_SIZE = 50;
 
 export const BREAKPOINTS = {
+  COMPACT: '(max-width: 380px)',
   MOBILE: '(max-width: 768px)',
   XS: '(min-width: 36em)',
   DESKTOP: '(min-width: 48em)',

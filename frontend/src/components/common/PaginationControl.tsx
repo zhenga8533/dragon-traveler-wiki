@@ -1,5 +1,7 @@
-import { Button, Group, Pagination, Stack, TextInput } from '@mantine/core';
-import { useState } from 'react';
+import { Group, NumberInput, Pagination, Stack, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
+import { useEffect, useState } from 'react';
+import { BREAKPOINTS } from '../../constants/ui';
 import { useIsMobile } from '../../hooks';
 
 interface PaginationControlProps {
@@ -17,69 +19,147 @@ export default function PaginationControl({
   scrollToTop = false,
 }: PaginationControlProps) {
   const isMobile = useIsMobile();
-  const [jumpValue, setJumpValue] = useState('');
+  const isCompactPagination = useMediaQuery(BREAKPOINTS.COMPACT) ?? false;
+  const [jumpValue, setJumpValue] = useState<string | number>(currentPage);
+  const hasManyPages = totalPages > 12;
+  const controlSize = isMobile ? 32 : 36;
+  const inputHeight = isMobile ? 28 : 30;
+
+  useEffect(() => {
+    setJumpValue(currentPage);
+  }, [currentPage]);
 
   if (totalPages <= 1) return null;
 
   function handleChange(page: number) {
+    if (page === currentPage) {
+      return;
+    }
+
     onChange(page);
     if (scrollToTop) {
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
   }
 
+  function clampPage(value: string | number) {
+    const parsed = Number(value);
+
+    if (!Number.isFinite(parsed)) {
+      return null;
+    }
+
+    return Math.min(Math.max(1, Math.round(parsed)), totalPages);
+  }
+
   function handleJumpSubmit() {
-    const parsed = Number.parseInt(jumpValue, 10);
-    if (!Number.isFinite(parsed)) return;
-    const clamped = Math.min(Math.max(1, parsed), totalPages);
-    setJumpValue(String(clamped));
+    const clamped = clampPage(jumpValue);
+
+    if (clamped === null) {
+      return;
+    }
+
+    setJumpValue(clamped);
     handleChange(clamped);
   }
 
-  const showJumpControl = totalPages >= 15;
+  const siblings = isCompactPagination
+    ? 0
+    : isMobile
+      ? 1
+      : hasManyPages
+        ? 1
+        : 2;
+  const boundaries = isCompactPagination
+    ? 0
+    : isMobile
+      ? 0
+      : hasManyPages
+        ? 1
+        : 2;
+  const paginationSize = isMobile ? 'xs' : 'sm';
+  const withEdges = !isMobile && totalPages > 5;
+  const pageDigits =
+    String(jumpValue ?? currentPage).replace(/\D/g, '').length || 1;
+  const pageInputWidth = Math.min(
+    isMobile ? 56 : 64,
+    Math.max(34, pageDigits * 10)
+  );
 
   return (
-    <Stack mt="md" gap="xs" align="center">
-      <Pagination
-        value={currentPage}
-        onChange={handleChange}
-        total={totalPages}
-        size={isMobile ? 'md' : 'sm'}
-        siblings={isMobile ? 1 : 1}
-        boundaries={isMobile ? 1 : 2}
-        withEdges={totalPages > 5}
-      />
-
-      {showJumpControl && (
-        <Group gap="xs" align="center" wrap="nowrap">
-          <TextInput
-            aria-label="Jump to page"
-            placeholder={`1-${totalPages}`}
-            value={jumpValue}
-            onChange={(event) => {
-              const digitsOnly = event.currentTarget.value.replace(/\D+/g, '');
-              setJumpValue(digitsOnly);
+    <nav aria-label="Pagination navigation">
+      <Stack mt="md" gap="xs" align="center">
+        <Group justify="center" w="100%" wrap="nowrap">
+          <Pagination
+            value={currentPage}
+            onChange={handleChange}
+            total={totalPages}
+            size={paginationSize}
+            siblings={siblings}
+            boundaries={boundaries}
+            withEdges={withEdges}
+            styles={{
+              root: {
+                flexWrap: 'nowrap',
+                overflowX: 'auto',
+                maxWidth: '100%',
+                justifyContent: 'center',
+                scrollbarWidth: 'none',
+              },
+              control: {
+                flexShrink: 0,
+                borderRadius: 999,
+                borderColor: 'var(--mantine-color-default-border)',
+                minWidth: controlSize,
+                height: controlSize,
+              },
+              dots: {
+                flexShrink: 0,
+                minWidth: controlSize,
+              },
             }}
+          />
+        </Group>
+
+        <Group gap="xs" align="center" justify="center" wrap="nowrap">
+          <Text size="xs" c="dimmed">
+            Page
+          </Text>
+          <NumberInput
+            aria-label="Current page"
+            value={jumpValue}
+            onChange={setJumpValue}
+            onBlur={handleJumpSubmit}
             onKeyDown={(event) => {
               if (event.key === 'Enter') {
                 event.preventDefault();
                 handleJumpSubmit();
               }
             }}
-            inputMode="numeric"
-            pattern="[0-9]*"
-            w={isMobile ? 96 : 112}
-            size={isMobile ? 'sm' : 'xs'}
+            min={1}
+            max={totalPages}
+            allowDecimal={false}
+            allowNegative={false}
+            clampBehavior="strict"
+            hideControls
+            size="xs"
+            radius="xl"
+            w={pageInputWidth}
+            styles={{
+              input: {
+                textAlign: 'center',
+                fontWeight: 600,
+                height: inputHeight,
+                minHeight: inputHeight,
+                paddingInline: 6,
+              },
+            }}
           />
-          <Button
-            variant="default"
-            size={isMobile ? 'sm' : 'xs'}
-            onClick={handleJumpSubmit}
-          >
-            Go
-          </Button>
+          <Text size="xs" c="dimmed">
+            of {totalPages}
+          </Text>
         </Group>
-      )}
-    </Stack>
+      </Stack>
+    </nav>
   );
 }

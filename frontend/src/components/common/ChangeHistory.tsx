@@ -3,7 +3,6 @@ import {
   Box,
   Divider,
   Group,
-  Pagination,
   Paper,
   Stack,
   Text,
@@ -23,6 +22,7 @@ import type {
   FieldDiff,
 } from '../../types/changes';
 import CollapsibleSectionCard from './CollapsibleSectionCard';
+import PaginationControl from './PaginationControl';
 
 const PAGE_SIZE = 5;
 
@@ -593,14 +593,10 @@ export default function ChangeHistory({
               ))}
 
               {totalPages > 1 && (
-                <Pagination
-                  value={page}
+                <PaginationControl
+                  currentPage={page}
+                  totalPages={totalPages}
                   onChange={setPage}
-                  total={totalPages}
-                  size="sm"
-                  siblings={1}
-                  boundaries={1}
-                  withEdges={totalPages > 5}
                 />
               )}
             </Stack>
