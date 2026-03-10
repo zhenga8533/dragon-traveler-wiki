@@ -1,4 +1,4 @@
-import { Group, NumberInput, Pagination, Stack, Text } from '@mantine/core';
+import { Box, Group, NumberInput, Pagination, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useEffect, useState } from 'react';
 import { BREAKPOINTS } from '../../constants/ui';
@@ -22,6 +22,7 @@ export default function PaginationControl({
   const isCompactPagination = useMediaQuery(BREAKPOINTS.COMPACT) ?? false;
   const [jumpValue, setJumpValue] = useState<string | number>(currentPage);
   const hasManyPages = totalPages > 12;
+  const maxPageDigits = String(totalPages).length;
   const controlSize = isMobile ? 32 : 36;
   const inputHeight = isMobile ? 28 : 30;
 
@@ -79,17 +80,23 @@ export default function PaginationControl({
         : 2;
   const paginationSize = isMobile ? 'xs' : 'sm';
   const withEdges = !isMobile && totalPages > 5;
-  const pageDigits =
-    String(jumpValue ?? currentPage).replace(/\D/g, '').length || 1;
   const pageInputWidth = Math.min(
     isMobile ? 56 : 64,
-    Math.max(34, pageDigits * 10)
+    Math.max(34, maxPageDigits * 10)
   );
 
   return (
     <nav aria-label="Pagination navigation">
-      <Stack mt="md" gap="xs" align="center">
-        <Group justify="center" w="100%" wrap="nowrap">
+      <Stack gap="xs" align="center">
+        <Box
+          style={{
+            overflowX: 'auto',
+            maxWidth: '100%',
+            scrollbarWidth: 'none',
+            display: 'flex',
+            justifyContent: 'center',
+          }}
+        >
           <Pagination
             value={currentPage}
             onChange={handleChange}
@@ -101,10 +108,6 @@ export default function PaginationControl({
             styles={{
               root: {
                 flexWrap: 'nowrap',
-                overflowX: 'auto',
-                maxWidth: '100%',
-                justifyContent: 'center',
-                scrollbarWidth: 'none',
               },
               control: {
                 flexShrink: 0,
@@ -119,46 +122,48 @@ export default function PaginationControl({
               },
             }}
           />
-        </Group>
+        </Box>
 
-        <Group gap="xs" align="center" justify="center" wrap="nowrap">
-          <Text size="xs" c="dimmed">
-            Page
-          </Text>
-          <NumberInput
-            aria-label="Current page"
-            value={jumpValue}
-            onChange={setJumpValue}
-            onBlur={handleJumpSubmit}
-            onKeyDown={(event) => {
-              if (event.key === 'Enter') {
-                event.preventDefault();
-                handleJumpSubmit();
-              }
-            }}
-            min={1}
-            max={totalPages}
-            allowDecimal={false}
-            allowNegative={false}
-            clampBehavior="strict"
-            hideControls
-            size="xs"
-            radius="xl"
-            w={pageInputWidth}
-            styles={{
-              input: {
-                textAlign: 'center',
-                fontWeight: 600,
-                height: inputHeight,
-                minHeight: inputHeight,
-                paddingInline: 6,
-              },
-            }}
-          />
-          <Text size="xs" c="dimmed">
-            of {totalPages}
-          </Text>
-        </Group>
+        {hasManyPages && (
+          <Group gap="xs" align="center" justify="center" wrap="nowrap">
+            <Text size="xs" c="dimmed">
+              Page
+            </Text>
+            <NumberInput
+              aria-label="Current page"
+              value={jumpValue}
+              onChange={setJumpValue}
+              onBlur={handleJumpSubmit}
+              onKeyDown={(event) => {
+                if (event.key === 'Enter') {
+                  event.preventDefault();
+                  handleJumpSubmit();
+                }
+              }}
+              min={1}
+              max={totalPages}
+              allowDecimal={false}
+              allowNegative={false}
+              clampBehavior="blur"
+              hideControls
+              size="xs"
+              radius="xl"
+              w={pageInputWidth}
+              styles={{
+                input: {
+                  textAlign: 'center',
+                  fontWeight: 600,
+                  height: inputHeight,
+                  minHeight: inputHeight,
+                  paddingInline: 6,
+                },
+              }}
+            />
+            <Text size="xs" c="dimmed">
+              of {totalPages}
+            </Text>
+          </Group>
+        )}
       </Stack>
     </nav>
   );
