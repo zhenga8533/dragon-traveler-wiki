@@ -9,6 +9,7 @@ import {
   QUALITY_ORDER,
 } from '../../constants/colors';
 import { IMAGE_SIZE } from '../../constants/ui';
+import { useIsMobile } from '../../hooks';
 import type { CharacterClass } from '../../types/character';
 import type { FactionName } from '../../types/faction';
 import type { Quality } from '../../types/quality';
@@ -40,6 +41,8 @@ export default function CharacterFilter({
   showTierFilter = false,
   tierOptions = [],
 }: CharacterFilterProps) {
+  const isMobile = useIsMobile();
+  const chipSize = isMobile ? 'md' : 'xs';
   const hasFilters =
     filters.search !== '' ||
     filters.qualities.length > 0 ||
@@ -58,12 +61,12 @@ export default function CharacterFilter({
           onChange={(e) =>
             onChange({ ...filters, search: e.currentTarget.value })
           }
-          size="xs"
+          size={isMobile ? 'md' : 'xs'}
           style={{ flex: 1, minWidth: 180 }}
         />
         {hasFilters && (
           <FilterClearButton
-            size="compact-xs"
+            size={isMobile ? 'md' : 'compact-xs'}
             onClick={() => onChange(EMPTY_FILTERS)}
           />
         )}
@@ -71,7 +74,7 @@ export default function CharacterFilter({
 
       <FilterSection label="Server">
         <FilterChipGroup
-          size="xs"
+          size={chipSize}
           value={
             filters.globalOnly === null
               ? []
@@ -96,7 +99,7 @@ export default function CharacterFilter({
 
       <FilterSection label="Quality">
         <FilterChipGroup
-          size="xs"
+          size={chipSize}
           value={filters.qualities}
           onChange={(val) =>
             onChange({ ...filters, qualities: val as Quality[] })
@@ -123,7 +126,7 @@ export default function CharacterFilter({
 
       <FilterSection label="Class">
         <FilterChipGroup
-          size="xs"
+          size={chipSize}
           value={filters.classes}
           onChange={(val) =>
             onChange({ ...filters, classes: val as CharacterClass[] })
@@ -150,7 +153,7 @@ export default function CharacterFilter({
 
       <FilterSection label="Faction">
         <FilterChipGroup
-          size="xs"
+          size={chipSize}
           value={filters.factions}
           onChange={(val) =>
             onChange({ ...filters, factions: val as FactionName[] })
@@ -178,7 +181,7 @@ export default function CharacterFilter({
       {showTierFilter && (
         <FilterSection label="Tier">
           <FilterChipGroup
-            size="xs"
+            size={chipSize}
             value={filters.tiers}
             onChange={(val) => onChange({ ...filters, tiers: val as string[] })}
             options={tierOptions.map((tier) => ({ value: tier, label: tier }))}
@@ -206,8 +209,9 @@ export default function CharacterFilter({
             }}
             searchable={effectOptions.length >= 10}
             clearable
-            size="xs"
+            size={chipSize}
             style={{ flex: 1, minWidth: 180 }}
+            comboboxProps={{ withinPortal: !isMobile }}
           />
         </FilterSection>
       )}

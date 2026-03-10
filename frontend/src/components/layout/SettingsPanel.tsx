@@ -3,7 +3,6 @@ import {
   Badge,
   Button,
   Divider,
-  Drawer,
   Group,
   Paper,
   Popover,
@@ -16,6 +15,7 @@ import {
   Tooltip,
   useMantineColorScheme,
 } from '@mantine/core';
+import MobileBottomDrawer from '../common/MobileBottomDrawer';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
@@ -33,6 +33,7 @@ export default function SettingsPanel() {
   const [opened, { toggle: toggleOpened, close: closeOpened }] =
     useDisclosure(false);
   const [isSelectDropdownOpen, setIsSelectDropdownOpen] = useState(false);
+  const [isBannerDropdownOpen, setIsBannerDropdownOpen] = useState(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
@@ -82,6 +83,13 @@ export default function SettingsPanel() {
     withinPortal: true,
     zIndex: Z_INDEX.TOOLTIP,
   } as const;
+
+  // On mobile, the searchable banner Select triggers the virtual keyboard, which shifts
+  // the viewport and causes the portaled dropdown to appear off-center. Using withinPortal: false
+  // positions the dropdown relative to its DOM parent instead of the viewport, so it's unaffected.
+  const bannerComboboxProps = isMobile
+    ? ({ withinPortal: false, zIndex: Z_INDEX.TOOLTIP } as const)
+    : selectComboboxProps;
 
   const settingsContent = (
     <Stack gap="md">
@@ -157,7 +165,12 @@ export default function SettingsPanel() {
         />
       </Paper>
 
-      <Paper p="sm" radius="md" withBorder>
+      <Paper
+        p="sm"
+        radius="md"
+        withBorder
+        style={isBannerDropdownOpen ? { position: 'relative', zIndex: 1 } : undefined}
+      >
         <Group justify="space-between" align="center" mb={6}>
           <Text size="sm" fw={600}>
             Landing Banner
@@ -187,9 +200,15 @@ export default function SettingsPanel() {
           data={bannerSelectData}
           value={bannerPreference}
           searchable
-          comboboxProps={selectComboboxProps}
-          onDropdownOpen={() => setIsSelectDropdownOpen(true)}
-          onDropdownClose={() => setIsSelectDropdownOpen(false)}
+          comboboxProps={bannerComboboxProps}
+          onDropdownOpen={() => {
+            setIsSelectDropdownOpen(true);
+            setIsBannerDropdownOpen(true);
+          }}
+          onDropdownClose={() => {
+            setIsSelectDropdownOpen(false);
+            setIsBannerDropdownOpen(false);
+          }}
           nothingFoundMessage="No illustrations found"
           onChange={(value) => {
             setBannerPreference(value ?? defaultBannerValue);
@@ -205,7 +224,12 @@ export default function SettingsPanel() {
         />
       </Paper>
 
-      <Paper p="sm" radius="md" withBorder>
+      <Paper
+        p="sm"
+        radius="md"
+        withBorder
+        style={isBannerDropdownOpen ? { isolation: 'isolate' } : undefined}
+      >
         <Group justify="space-between" align="center" mb={6}>
           <Text size="sm" fw={600}>
             Opacity
@@ -301,29 +325,18 @@ export default function SettingsPanel() {
           <IoSettingsOutline />
         </ActionIcon>
 
-        <Drawer
+        <MobileBottomDrawer
           opened={opened}
           onClose={closeOpened}
-          position="bottom"
-          withCloseButton
+          title="Settings"
           closeButtonProps={{ 'aria-label': 'Close settings panel' }}
           closeOnClickOutside={!isSelectDropdownOpen}
-          closeOnEscape
-          padding="md"
-          title="Settings"
-          radius="md"
-          size="85%"
-          styles={{
-            body: {
-              maxHeight: '75dvh',
-              overflowY: 'auto',
-              paddingBottom:
-                'max(var(--mantine-spacing-lg), env(safe-area-inset-bottom))',
-            },
-          }}
+          // When the inline (non-portaled) banner dropdown is open, allow it to
+          // visually escape the scrollable container instead of being clipped.
+          bodyStyle={{ overflowY: isBannerDropdownOpen ? 'visible' : 'auto' }}
         >
           {settingsContent}
-        </Drawer>
+        </MobileBottomDrawer>
       </>
     );
   }

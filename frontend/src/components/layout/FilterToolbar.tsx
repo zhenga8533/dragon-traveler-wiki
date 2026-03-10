@@ -7,7 +7,8 @@ import {
   Paper,
   Text,
 } from '@mantine/core';
-import { type ReactNode, useEffect, useRef } from 'react';
+import MobileBottomDrawer from '../common/MobileBottomDrawer';
+import { type ReactNode } from 'react';
 import { IoFilter } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
 import { HEADER_HEIGHT, IMAGE_SIZE, Z_INDEX } from '../../constants/ui';
@@ -37,21 +38,26 @@ export default function FilterToolbar({
   children,
 }: FilterToolbarProps) {
   const isMobile = useIsMobile();
-  const filterPanelRef = useRef<HTMLDivElement>(null);
   const { accent } = useGradientAccent();
 
-  useEffect(() => {
-    if (filterOpen && isMobile && filterPanelRef.current) {
-      // Small delay to let the Collapse animation start before scrolling
-      const id = setTimeout(() => {
-        filterPanelRef.current?.scrollIntoView({
-          behavior: 'smooth',
-          block: 'nearest',
-        });
-      }, 50);
-      return () => clearTimeout(id);
-    }
-  }, [filterOpen, isMobile]);
+  const filterButton = (
+    <Button
+      variant="default"
+      color={accent.primary}
+      size={isMobile ? 'sm' : 'xs'}
+      leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
+      rightSection={
+        filterCount > 0 ? (
+          <Badge size="xs" circle variant="filled" color={accent.primary}>
+            {filterCount}
+          </Badge>
+        ) : null
+      }
+      onClick={onFilterToggle}
+    >
+      Filters
+    </Button>
+  );
 
   return (
     <>
@@ -77,42 +83,27 @@ export default function FilterToolbar({
           </Text>
           <Group gap="xs">
             <ViewToggle viewMode={viewMode} onChange={onViewModeChange} />
-            <Button
-              variant="default"
-              color={accent.primary}
-              size={isMobile ? 'sm' : 'xs'}
-              leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
-              rightSection={
-                filterCount > 0 ? (
-                  <Badge
-                    size="xs"
-                    circle
-                    variant="filled"
-                    color={accent.primary}
-                  >
-                    {filterCount}
-                  </Badge>
-                ) : null
-              }
-              onClick={onFilterToggle}
-            >
-              Filters
-            </Button>
+            {filterButton}
           </Group>
         </Group>
       </Box>
 
-      <Collapse in={filterOpen}>
-        <Paper
-          ref={filterPanelRef}
-          p="sm"
-          radius="md"
-          withBorder
-          {...getCardHoverProps()}
+      {isMobile ? (
+        <MobileBottomDrawer
+          opened={filterOpen}
+          onClose={onFilterToggle}
+          title="Filters"
+          closeButtonProps={{ 'aria-label': 'Close filters' }}
         >
           {children}
-        </Paper>
-      </Collapse>
+        </MobileBottomDrawer>
+      ) : (
+        <Collapse in={filterOpen}>
+          <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
+            {children}
+          </Paper>
+        </Collapse>
+      )}
     </>
   );
 }
