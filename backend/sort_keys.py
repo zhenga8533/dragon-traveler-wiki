@@ -142,6 +142,10 @@ def code_sort_key(c):
     return (c.get("code") or "").lower()
 
 
+def tw_event_sort_key(e):
+    return (e.get("start_date") or "", (e.get("name") or "").lower())
+
+
 # Canonical mapping: data file name → sort key function.
 # Files absent from this mapping maintain stable insertion order.
 FILE_SORT_KEY = {
@@ -158,4 +162,5 @@ FILE_SORT_KEY = {
     "noble_phantasm.json": noble_phantasm_sort_key,
     "subclasses.json": subclass_sort_key,
     "golden_alliances.json": golden_alliance_sort_key,
+    "events_tw.json": tw_event_sort_key,
 }
