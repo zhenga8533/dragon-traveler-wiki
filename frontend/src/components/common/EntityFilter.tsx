@@ -47,7 +47,7 @@ export default function EntityFilter({
           <FilterSearchInput
             placeholder={searchPlaceholder}
             value={search ?? ''}
-            onChange={(e) => onSearchChange(e.currentTarget.value)}
+            onSearch={onSearchChange}
             size={isMobile ? 'md' : 'xs'}
             style={{ flex: 1, minWidth: 180 }}
           />

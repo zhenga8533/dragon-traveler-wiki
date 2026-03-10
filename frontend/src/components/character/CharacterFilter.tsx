@@ -58,9 +58,7 @@ export default function CharacterFilter({
         <FilterSearchInput
           placeholder="Search by name..."
           value={filters.search}
-          onChange={(e) =>
-            onChange({ ...filters, search: e.currentTarget.value })
-          }
+          onSearch={(v) => onChange({ ...filters, search: v })}
           size={isMobile ? 'md' : 'xs'}
           style={{ flex: 1, minWidth: 180 }}
         />

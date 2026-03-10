@@ -8,22 +8,49 @@ import {
   type MultiSelectProps,
   type TextInputProps,
 } from '@mantine/core';
-import type { ReactNode } from 'react';
+import { useDebouncedValue } from '@mantine/hooks';
+import { useEffect, useRef, useState, type ReactNode } from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
 import { IMAGE_SIZE } from '../../constants/ui';
 import { useFilterTheme } from '../../hooks/use-filter-theme';
 
-export interface FilterSearchInputProps extends TextInputProps {
+export interface FilterSearchInputProps
+  extends Omit<TextInputProps, 'onChange'> {
   iconSize?: number;
+  /** Called with the search string after debounce. Use instead of onChange. */
+  onSearch?: (value: string) => void;
+  debounceMs?: number;
 }
 
 export function FilterSearchInput({
   iconSize = IMAGE_SIZE.ICON_MD,
   color,
   leftSection,
+  value,
+  onSearch,
+  debounceMs = 150,
   ...props
 }: FilterSearchInputProps) {
   const { accent, searchIconColor } = useFilterTheme();
+  const [localValue, setLocalValue] = useState((value as string) ?? '');
+  const [debouncedValue] = useDebouncedValue(localValue, debounceMs);
+  const onSearchRef = useRef(onSearch);
+  onSearchRef.current = onSearch;
+  const isFirstRender = useRef(true);
+
+  // Sync local value when external value changes (e.g., Clear button resets to '')
+  useEffect(() => {
+    setLocalValue((value as string) ?? '');
+  }, [value]);
+
+  // Notify parent after debounce (skip on mount to avoid spurious initial call)
+  useEffect(() => {
+    if (isFirstRender.current) {
+      isFirstRender.current = false;
+      return;
+    }
+    onSearchRef.current?.(debouncedValue);
+  }, [debouncedValue]);
 
   return (
     <TextInput
@@ -31,6 +58,8 @@ export function FilterSearchInput({
       leftSection={
         leftSection ?? <IoSearch size={iconSize} color={searchIconColor} />
       }
+      value={localValue}
+      onChange={(e) => setLocalValue(e.currentTarget.value)}
       {...props}
     />
   );
