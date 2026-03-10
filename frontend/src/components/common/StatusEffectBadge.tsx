@@ -1,6 +1,7 @@
 import { Badge, Group, Image, Stack, Text } from '@mantine/core';
 import { getStatusEffectIcon } from '../../assets/status_effect';
 import { STATE_COLOR } from '../../constants/colors';
+import { WHITE_SPACE_PRE_LINE_STYLE } from '../../constants/styles';
 import type { StatusEffect } from '../../types/status-effect';
 import IconBadge from './IconBadge';
 
@@ -47,7 +48,7 @@ export default function StatusEffectBadge({
               {effect.type}
             </Badge>
           </Group>
-          <Text size="xs" style={{ whiteSpace: 'pre-line' }}>
+          <Text size="xs" style={WHITE_SPACE_PRE_LINE_STYLE}>
             {effect.effect}
           </Text>
           {effect.remark && (
@@ -55,7 +56,7 @@ export default function StatusEffectBadge({
               size="xs"
               c="dimmed"
               fs="italic"
-              style={{ whiteSpace: 'pre-line' }}
+              style={WHITE_SPACE_PRE_LINE_STYLE}
             >
               {effect.remark}
             </Text>

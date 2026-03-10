@@ -21,6 +21,7 @@ import type {
   EntityChangeHistory,
   FieldDiff,
 } from '../../types/changes';
+import { formatExactDate, formatShortDate } from '../../utils';
 import CollapsibleSectionCard from './CollapsibleSectionCard';
 import PaginationControl from './PaginationControl';
 
@@ -156,19 +157,6 @@ function extractFieldDiffDetails(
   }
 
   return details;
-}
-
-function formatTimestamp(ts: number): string {
-  const date = new Date(ts * 1000);
-  return date.toLocaleDateString('en-US', {
-    year: 'numeric',
-    month: 'short',
-    day: 'numeric',
-  });
-}
-
-function formatExactDate(ts: number): string {
-  return new Date(ts * 1000).toLocaleString();
 }
 
 function renderDetailLine(fieldName: string, detail: string, index: number) {
@@ -315,7 +303,7 @@ function LifecycleEvent({
           )}
         </Group>
         <Text size="xs" c="dimmed">
-          {formatTimestamp(record.timestamp)}
+          {formatShortDate(record.timestamp)}
         </Text>
         <Text size="xs" c="dimmed">
           {formatExactDate(record.timestamp)}
@@ -413,7 +401,7 @@ export function ChangeRecordCard({
             <IoTimeOutline size={13} color="var(--mantine-color-dimmed)" />
             <Stack gap={0}>
               <Text size="sm" fw={600}>
-                {formatTimestamp(record.timestamp)}
+                {formatShortDate(record.timestamp)}
               </Text>
               <Text size="xs" c="dimmed">
                 {formatExactDate(record.timestamp)}
@@ -552,7 +540,7 @@ export default function ChangeHistory({
                 />
                 <Stack gap={0}>
                   <Text size="sm" c="dimmed" fw={500}>
-                    Added on {formatTimestamp(earliestAdded)}
+                    Added on {formatShortDate(earliestAdded)}
                   </Text>
                   <Text size="xs" c="dimmed">
                     {formatExactDate(earliestAdded)}

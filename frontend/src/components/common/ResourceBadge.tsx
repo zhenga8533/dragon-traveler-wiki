@@ -1,6 +1,7 @@
 import { Group, Image, Stack, Text } from '@mantine/core';
 import { useContext } from 'react';
 import { getResourceIcon } from '../../assets/resource';
+import { WHITE_SPACE_PRE_LINE_STYLE } from '../../constants/styles';
 import { IMAGE_SIZE } from '../../constants/ui';
 import { ResourcesContext } from '../../contexts';
 import IconBadge from './IconBadge';
@@ -47,7 +48,7 @@ export default function ResourceBadge({
                 {resource.name}
               </Text>
             </Group>
-            <Text size="xs" style={{ whiteSpace: 'pre-line' }} component="span">
+            <Text size="xs" style={WHITE_SPACE_PRE_LINE_STYLE} component="span">
               <InlineMarkup text={resource.description} />
             </Text>
           </Stack>
