@@ -1,7 +1,6 @@
 import {
   Alert,
   Badge,
-  Box,
   Card,
   Container,
   Group,
@@ -12,6 +11,7 @@ import {
   Tabs,
   Text,
   Title,
+  UnstyledButton,
 } from '@mantine/core';
 import { useEffect, useState } from 'react';
 import {
@@ -39,6 +39,7 @@ import type { GameEvent, TwEvent } from '../types';
 import { getLatestTimestamp } from '../utils';
 
 const EVENTS_PER_PAGE = 12;
+const INDICATOR_DOT_SIZE = 8;
 
 type TabFilter = 'active' | 'past' | 'tw';
 
@@ -110,7 +111,6 @@ function useTwIllustration(characters: string[]): TwIllustrationState {
 }
 
 function TwEventCard({ event }: { event: TwEvent }) {
-  const { accent } = useGradientAccent();
   const { src, idx, total, goTo } = useTwIllustration(event.characters);
   const imageSrc = src ?? placeholderEventImage;
   const active = isTwEventActive(event);
@@ -128,22 +128,20 @@ function TwEventCard({ event }: { event: TwEvent }) {
         <Image src={imageSrc} height={160} fit="cover" alt={event.name} />
         {total > 1 && (
           <Group
-            gap={6}
+            gap={4}
             justify="center"
-            style={{ position: 'absolute', bottom: 8, left: 0, right: 0 }}
+            style={{ position: 'absolute', bottom: INDICATOR_DOT_SIZE, left: 0, right: 0 }}
           >
             {Array.from({ length: total }, (_, i) => (
-              <Box
+              <UnstyledButton
                 key={i}
                 onClick={(e) => { e.stopPropagation(); goTo(i); }}
                 style={{
-                  width: 8,
-                  height: 8,
+                  width: INDICATOR_DOT_SIZE,
+                  height: INDICATOR_DOT_SIZE,
                   borderRadius: '50%',
                   background: i === idx ? 'white' : 'rgba(255,255,255,0.45)',
                   border: '1px solid rgba(0,0,0,0.25)',
-                  cursor: 'pointer',
-                  flexShrink: 0,
                 }}
               />
             ))}
@@ -170,12 +168,12 @@ function TwEventCard({ event }: { event: TwEvent }) {
         </Text>
 
         {event.characters.length > 0 && (
-          <Group gap={6} wrap="wrap">
+          <Group gap="xs" wrap="wrap">
             {event.characters.map((char) => (
               <CharacterPortrait
                 key={char}
                 name={char}
-                size={36}
+                size={IMAGE_SIZE.PORTRAIT_SM}
                 link
                 tooltip={char}
                 loading="lazy"
@@ -393,7 +391,7 @@ export default function Events() {
             </Tabs.Tab>
             <Tabs.Tab
               value="tw"
-              leftSection={<IoGlobeOutline size={14} />}
+              leftSection={<IoGlobeOutline size={IMAGE_SIZE.ICON_SM} />}
               rightSection={
                 twActiveCount > 0 ? (
                   <Badge size="xs" variant="light" color={accent.primary}>
