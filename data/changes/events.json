@@ -21,6 +21,15 @@
   },
   "Sweetness in Progress": {
     "added": 1773070877,
+    "changes": [
+      {
+        "timestamp": 1773158650,
+        "type": "removed"
+      }
+    ]
+  },
+  "The Joyous Union": {
+    "added": 1773158650,
     "changes": []
   }
 }

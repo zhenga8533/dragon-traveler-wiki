@@ -2,7 +2,9 @@
   {
     "name": "Beyond the Mirror",
     "type": "Release",
-    "characters": ["Helveil"],
+    "characters": [
+      "Helveil"
+    ],
     "start_date": "2025-01-16",
     "end_date": "2025-01-30",
     "last_updated": 1773062958
@@ -10,7 +12,9 @@
   {
     "name": "Spring Festival Lanterns",
     "type": "Release",
-    "characters": ["Jormungandr"],
+    "characters": [
+      "Jormungandr"
+    ],
     "start_date": "2025-01-27",
     "end_date": "2025-02-13",
     "last_updated": 1773062958
@@ -18,7 +22,9 @@
   {
     "name": "Lantern Festival",
     "type": "Skin",
-    "characters": ["Poseidon"],
+    "characters": [
+      "Poseidon"
+    ],
     "start_date": "2025-02-06",
     "end_date": "2025-02-17",
     "last_updated": 1773062958
@@ -26,15 +32,29 @@
   {
     "name": "Angel's Dollhouse",
     "type": "Release",
-    "characters": ["Gabriele", "Venus"],
+    "characters": [
+      "Gabriele"
+    ],
     "start_date": "2025-02-13",
     "end_date": "2025-02-27",
-    "last_updated": 1773062958
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Venus Mythic Ascension",
+    "type": "Mythic Ascension",
+    "characters": [
+      "Venus"
+    ],
+    "start_date": "2025-02-13",
+    "end_date": "2025-02-27",
+    "last_updated": 1773158650
   },
   {
     "name": "Game of Life and Death",
     "type": "Release",
-    "characters": ["Tyrfing"],
+    "characters": [
+      "Tyrfing"
+    ],
     "start_date": "2025-02-27",
     "end_date": "2025-03-13",
     "last_updated": 1773062958
@@ -42,17 +62,410 @@
   {
     "name": "Swan Dance",
     "type": "Release",
-    "characters": ["Ophelia"],
+    "characters": [
+      "Ophelia"
+    ],
     "start_date": "2025-03-13",
     "end_date": "2025-03-27",
     "last_updated": 1773062958
   },
   {
     "name": "Ares Mythic Ascension",
-    "type": "Release",
-    "characters": ["Ares"],
+    "type": "Mythic Ascension",
+    "characters": [
+      "Ares"
+    ],
     "start_date": "2025-03-20",
     "end_date": "2025-04-03",
-    "last_updated": 1773062958
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Gymnasium Locked-Room Incident!",
+    "type": "Release",
+    "characters": [
+      "Pompey"
+    ],
+    "start_date": "2025-03-27",
+    "end_date": "2025-04-10",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Shine! Idol",
+    "type": "Release",
+    "characters": [
+      "Faust"
+    ],
+    "start_date": "2025-04-10",
+    "end_date": "2025-04-24",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Mindscape Chronicles",
+    "type": "Release",
+    "characters": [
+      "Mordred"
+    ],
+    "start_date": "2025-04-24",
+    "end_date": "2025-05-08",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Guiding Polaris",
+    "type": "Release",
+    "characters": [
+      "Brynhild"
+    ],
+    "start_date": "2025-05-15",
+    "end_date": "2025-05-29",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Immortal Scribe's Fate",
+    "type": "Release",
+    "characters": [
+      "Vivienne",
+      "Apollo"
+    ],
+    "start_date": "2025-05-29",
+    "end_date": "2025-06-12",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Hospital Horror Night",
+    "type": "Release",
+    "characters": [
+      "Orion"
+    ],
+    "start_date": "2025-06-12",
+    "end_date": "2025-06-26",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #1",
+    "type": "Rerun",
+    "characters": [
+      "Gabriele",
+      "Jormungandr",
+      "Ophelia"
+    ],
+    "start_date": "2025-06-23",
+    "end_date": "2025-07-03",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Beyond the Horizon",
+    "type": "Release",
+    "characters": [
+      "Duvalin"
+    ],
+    "start_date": "2025-07-03",
+    "end_date": "2025-07-17",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rapid Kill",
+    "type": "Release",
+    "characters": [
+      "Jing"
+    ],
+    "start_date": "2025-07-17",
+    "end_date": "2025-07-31",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Dual Companions",
+    "type": "Release",
+    "characters": [
+      "Talos"
+    ],
+    "start_date": "2025-07-31",
+    "end_date": "2025-08-14",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Thor Mythic Ascension",
+    "type": "Mythic Ascension",
+    "characters": [
+      "Thor"
+    ],
+    "start_date": "2025-08-07",
+    "end_date": "2025-08-21",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Ice Dancer's Wish",
+    "type": "Release",
+    "characters": [
+      "Zagrus"
+    ],
+    "start_date": "2025-08-14",
+    "end_date": "2025-08-28",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "The Joyous Union",
+    "type": "Release",
+    "characters": [
+      "Azure Dragon"
+    ],
+    "start_date": "2025-08-28",
+    "end_date": "2025-09-11",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Lurking Doom",
+    "type": "Release",
+    "characters": [
+      "Silbismo"
+    ],
+    "start_date": "2025-09-11",
+    "end_date": "2025-09-25",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Flavors of the Fantasy Realm",
+    "type": "Release",
+    "characters": [
+      "Caesar"
+    ],
+    "start_date": "2025-09-25",
+    "end_date": "2025-10-09",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Loki Mythic Ascension",
+    "type": "Mythic Ascension",
+    "characters": [
+      "Loki"
+    ],
+    "start_date": "2025-09-25",
+    "end_date": "2025-10-09",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Garden War: Zombies",
+    "type": "Release",
+    "characters": [
+      "Ningluosi"
+    ],
+    "start_date": "2025-10-09",
+    "end_date": "2025-10-23",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #2",
+    "type": "Rerun",
+    "characters": [
+      "Talos",
+      "Ifrit",
+      "Marylis",
+      "Gullveig"
+    ],
+    "start_date": "2025-10-16",
+    "end_date": "2025-10-23",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Target! Grand Slam!",
+    "type": "Release",
+    "characters": [
+      "Vermilion Bird"
+    ],
+    "start_date": "2025-10-23",
+    "end_date": "2025-11-06",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Artemis Mythic Ascension",
+    "type": "Mythic Ascension",
+    "characters": [
+      "Artemis"
+    ],
+    "start_date": "2025-10-30",
+    "end_date": "2025-11-12",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Baseball Conspiracy",
+    "type": "Release",
+    "characters": [
+      "Asmodeus"
+    ],
+    "start_date": "2025-11-06",
+    "end_date": "2025-11-20",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Fantasy Realm",
+    "type": "Release",
+    "characters": [
+      "Mimir"
+    ],
+    "start_date": "2025-11-20",
+    "end_date": "2025-12-04",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #3",
+    "type": "Rerun",
+    "characters": [
+      "Jing",
+      "Pompey",
+      "Tyrfing",
+      "Gabriele"
+    ],
+    "start_date": "2025-11-27",
+    "end_date": "2025-12-04",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Prada Promotion Story",
+    "type": "Release",
+    "characters": [
+      "Crassus"
+    ],
+    "start_date": "2025-12-04",
+    "end_date": "2025-12-18",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Prometheus Mythic Ascension",
+    "type": "Mythic Ascension",
+    "characters": [
+      "Prometheus"
+    ],
+    "start_date": "2025-12-11",
+    "end_date": "2025-12-25",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Snowland Romance",
+    "type": "Release",
+    "characters": [
+      "Rin"
+    ],
+    "start_date": "2025-12-18",
+    "end_date": "2026-01-01",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #4",
+    "type": "Rerun",
+    "characters": [
+      "Azure Dragon",
+      "Caesar",
+      "Zagrus",
+      "Silbismo"
+    ],
+    "start_date": "2025-12-25",
+    "end_date": "2026-01-01",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #5",
+    "type": "Rerun",
+    "characters": [
+      "Jing",
+      "Faust",
+      "Duvalin"
+    ],
+    "start_date": "2026-0-",
+    "end_date": "2026-0-",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Escape from Eden Town",
+    "type": "Release",
+    "characters": [
+      "Morgana"
+    ],
+    "start_date": "2026-01-01",
+    "end_date": "2026-01-15",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "The Final Game",
+    "type": "Release",
+    "characters": [
+      "Salome"
+    ],
+    "start_date": "2026-01-15",
+    "end_date": "2026-01-29",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Hela Mythic Ascension",
+    "type": "Mythic Ascension",
+    "characters": [
+      "Hela"
+    ],
+    "start_date": "2026-01-22",
+    "end_date": "2026-02-05",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "How to Raise a Dragon Maid",
+    "type": "Release",
+    "characters": [
+      "Andevaly"
+    ],
+    "start_date": "2026-01-29",
+    "end_date": "2026-02-12",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Golden Night Festival",
+    "type": "Release",
+    "characters": [
+      "Lilith"
+    ],
+    "start_date": "2026-02-12",
+    "end_date": "2026-02-26",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #6",
+    "type": "Rerun",
+    "characters": [
+      "Mimir",
+      "Ningluosi",
+      "Talos",
+      "Jing"
+    ],
+    "start_date": "2026-02-16",
+    "end_date": "2026-02-26",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #7",
+    "type": "Rerun",
+    "characters": [
+      "Azure Dragon",
+      "Vivienne",
+      "Helveil"
+    ],
+    "start_date": "2026-02-19",
+    "end_date": "2026-02-26",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Dreaming of Electric Sheep",
+    "type": "Release",
+    "characters": [
+      "Hitomi"
+    ],
+    "start_date": "2026-02-26",
+    "end_date": "2026-03-12",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Hermes Mythic Ascension",
+    "type": "Mythic Ascension",
+    "characters": [
+      "Hermes"
+    ],
+    "start_date": "2026-03-05",
+    "end_date": "2026-03-19",
+    "last_updated": 1773158650
   }
 ]

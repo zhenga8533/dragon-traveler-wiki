@@ -718,6 +718,26 @@
     "last_updated": 1773012070
   },
   {
+    "code": "YAYKOREA",
+    "rewards": {
+      "Gold": 88888,
+      "Summoning Ticket": 10,
+      "Selectable Refinement Stone": 10
+    },
+    "active": true,
+    "last_updated": 1773158650
+  },
+  {
+    "code": "CHAMPIONJPN",
+    "rewards": {
+      "Gold": 88888,
+      "Summoning Ticket": 10,
+      "Selectable Refinement Stone": 10
+    },
+    "active": true,
+    "last_updated": 1773158650
+  },
+  {
     "code": "MysteryGirl",
     "rewards": {
       "Gold": 3000,
@@ -746,5 +766,25 @@
     },
     "active": true,
     "last_updated": 1773147115
+  },
+  {
+    "code": "Blindfolded",
+    "rewards": {
+      "Gold": 3000,
+      "Summoning Ticket": 1,
+      "Dragonblood": 1
+    },
+    "active": true,
+    "last_updated": 1773158650
+  },
+  {
+    "code": "GOJAPAN",
+    "rewards": {
+      "Gold": 10000,
+      "Golden Horn": 2,
+      "Random Refinement Stone": 5
+    },
+    "active": true,
+    "last_updated": 1773158650
   }
 ]
