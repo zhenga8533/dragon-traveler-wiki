@@ -1,0 +1,58 @@
+[
+  {
+    "name": "Beyond the Mirror",
+    "type": "Release",
+    "characters": ["Helveil"],
+    "start_date": "2025-01-16",
+    "end_date": "2025-01-30",
+    "last_updated": 1773062958
+  },
+  {
+    "name": "Spring Festival Lanterns",
+    "type": "Release",
+    "characters": ["Jormungandr"],
+    "start_date": "2025-01-27",
+    "end_date": "2025-02-13",
+    "last_updated": 1773062958
+  },
+  {
+    "name": "Lantern Festival",
+    "type": "Skin",
+    "characters": ["Poseidon"],
+    "start_date": "2025-02-06",
+    "end_date": "2025-02-17",
+    "last_updated": 1773062958
+  },
+  {
+    "name": "Angel's Dollhouse",
+    "type": "Release",
+    "characters": ["Gabriele", "Venus"],
+    "start_date": "2025-02-13",
+    "end_date": "2025-02-27",
+    "last_updated": 1773062958
+  },
+  {
+    "name": "Game of Life and Death",
+    "type": "Release",
+    "characters": ["Tyrfing"],
+    "start_date": "2025-02-27",
+    "end_date": "2025-03-13",
+    "last_updated": 1773062958
+  },
+  {
+    "name": "Swan Dance",
+    "type": "Release",
+    "characters": ["Ophelia"],
+    "start_date": "2025-03-13",
+    "end_date": "2025-03-27",
+    "last_updated": 1773062958
+  },
+  {
+    "name": "Ares Mythic Ascension",
+    "type": "Release",
+    "characters": ["Ares"],
+    "start_date": "2025-03-20",
+    "end_date": "2025-04-03",
+    "last_updated": 1773062958
+  }
+]
