@@ -41,7 +41,7 @@ import { getStatusEffectIcon } from '../../assets/status_effect';
 import { getSubclassIcon } from '../../assets/subclass';
 import { getWyrmspellIcon } from '../../assets/wyrmspell';
 import { normalizeContentType } from '../../constants/content-types';
-import { TRANSITION } from '../../constants/ui';
+import { IMAGE_SIZE, TRANSITION } from '../../constants/ui';
 import { SearchDataContext } from '../../contexts';
 import { useGradientAccent, useIsMobile } from '../../hooks';
 import { isCodeActive } from '../../utils';
@@ -623,7 +623,7 @@ export default function SearchModal({
             onClick={open}
             aria-label={searchShortcutHint}
           >
-            <IoSearch size={18} />
+            <IoSearch size={IMAGE_SIZE.ICON_LG} />
           </ActionIcon>
         </Tooltip>
       )}
@@ -668,7 +668,7 @@ export default function SearchModal({
               onKeyDown={handleKeyDown}
               leftSection={
                 <IoSearch
-                  size={18}
+                  size={IMAGE_SIZE.ICON_LG}
                   style={{
                     color: `var(--mantine-color-${accent.primary}-6)`,
                   }}

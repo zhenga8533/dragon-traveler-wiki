@@ -20,7 +20,12 @@ import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCa
 import GearTypeTag from '../../components/common/GearTypeTag';
 import QualityIcon from '../../components/common/QualityIcon';
 import RichText from '../../components/common/RichText';
-import { getCardHoverProps, RICH_TOOLTIP_STYLES } from '../../constants/styles';
+import {
+  getCardHoverProps,
+  LINK_FIT_CONTENT_RESET_STYLE,
+  RICH_TOOLTIP_STYLES,
+} from '../../constants/styles';
+import { IMAGE_SIZE } from '../../constants/ui';
 import { useGradientAccent } from '../../hooks';
 import type {
   ActivatedSetBonus,
@@ -101,7 +106,7 @@ export default function CharacterPageBuildSection({
                 <Group gap="sm" align="flex-start" wrap="nowrap">
                   <Box
                     style={{
-                      color: 'var(--mantine-color-blue-6)',
+                      color: `var(--mantine-color-${accent.primary}-6)`,
                       fontSize: 28,
                       lineHeight: 1,
                       paddingTop: 2,
@@ -152,17 +157,14 @@ export default function CharacterPageBuildSection({
                         <Stack gap="xs">
                           <Link
                             to={`/noble-phantasms/${toEntitySlug(linkedNoblePhantasm.name)}`}
-                            style={{
-                              textDecoration: 'none',
-                              width: 'fit-content',
-                            }}
+                            style={LINK_FIT_CONTENT_RESET_STYLE}
                           >
                             <Group gap="sm" wrap="nowrap">
                               {noblePhantasmIcon && (
                                 <Box
                                   style={{
-                                    width: 40,
-                                    height: 40,
+                                    width: IMAGE_SIZE.PORTRAIT_SM,
+                                    height: IMAGE_SIZE.PORTRAIT_SM,
                                     borderRadius: 'var(--mantine-radius-sm)',
                                     overflow: 'hidden',
                                     flexShrink: 0,
@@ -171,8 +173,8 @@ export default function CharacterPageBuildSection({
                                   <Image
                                     src={noblePhantasmIcon}
                                     alt={linkedNoblePhantasm.name}
-                                    w={40}
-                                    h={40}
+                                    w={IMAGE_SIZE.PORTRAIT_SM}
+                                    h={IMAGE_SIZE.PORTRAIT_SM}
                                     fit="cover"
                                     loading="lazy"
                                   />
@@ -292,6 +294,7 @@ export default function CharacterPageBuildSection({
                         label={tooltipLabel}
                         multiline
                         maw={300}
+                        styles={RICH_TOOLTIP_STYLES}
                       >
                         <Paper
                           p="sm"

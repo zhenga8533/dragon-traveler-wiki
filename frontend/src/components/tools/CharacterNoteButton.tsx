@@ -7,6 +7,7 @@ import {
   type CSSProperties,
 } from 'react';
 import { IoDocumentTextOutline } from 'react-icons/io5';
+import { GLASS } from '../../constants/glass';
 import { useGradientAccent } from '../../hooks';
 
 interface CharacterNoteButtonProps {
@@ -89,8 +90,8 @@ function CharacterNoteButton({
                   boxShadow: hasNote
                     ? 'var(--mantine-shadow-sm)'
                     : 'var(--mantine-shadow-xs)',
-                  backdropFilter: 'blur(8px)',
-                  WebkitBackdropFilter: 'blur(8px)',
+                  backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
+                  WebkitBackdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
                   opacity: opened ? 1 : 0.97,
                   transform: opened ? 'scale(1.04)' : 'scale(1)',
                   transition:
@@ -130,8 +131,8 @@ function CharacterNoteButton({
         style={{
           border: '1px solid var(--mantine-color-default-border)',
           background: 'var(--mantine-color-body)',
-          backdropFilter: 'blur(12px)',
-          WebkitBackdropFilter: 'blur(12px)',
+          backdropFilter: `blur(${GLASS.BLUR})`,
+          WebkitBackdropFilter: `blur(${GLASS.BLUR})`,
           boxShadow: 'var(--mantine-shadow-md)',
         }}
       >

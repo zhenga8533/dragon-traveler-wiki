@@ -23,7 +23,7 @@ import FactionTag from '../../components/common/FactionTag';
 import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
 import QualityIcon from '../../components/common/QualityIcon';
 import { getCardHoverProps } from '../../constants/styles';
-import { CHARACTER_GRID_SPACING } from '../../constants/ui';
+import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '../../constants/ui';
 import { useEntityTabParam, useGradientAccent, useIsMobile } from '../../hooks';
 import type { ChangesFile } from '../../types/changes';
 import type { Character } from '../../types/character';
@@ -287,7 +287,7 @@ export default function TierListViewTab({
                                     <Table.Td>
                                       <QualityIcon
                                         quality={c.quality}
-                                        size={18}
+                                        size={IMAGE_SIZE.ICON_LG}
                                       />
                                     </Table.Td>
                                     <Table.Td>

@@ -28,6 +28,7 @@ import {
 import PaginationControl from '../components/common/PaginationControl';
 import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
 import { getCardHoverProps } from '../constants/styles';
+import { IMAGE_SIZE } from '../constants/ui';
 import { useDataFetch, useGradientAccent, useTabParam } from '../hooks';
 import { usePagination } from '../hooks/use-pagination';
 import type { FieldDiff } from '../types/changes';
@@ -326,11 +327,11 @@ function DataHistory() {
                   color={eventColor}
                   bullet={
                     event.eventType === 'removed' ? (
-                      <IoCloseCircle size={18} />
+                      <IoCloseCircle size={IMAGE_SIZE.ICON_LG} />
                     ) : event.eventType === 'readded' ? (
-                      <IoAddCircle size={18} />
+                      <IoAddCircle size={IMAGE_SIZE.ICON_LG} />
                     ) : (
-                      <IoCheckmarkCircle size={18} />
+                      <IoCheckmarkCircle size={IMAGE_SIZE.ICON_LG} />
                     )
                   }
                   title={
@@ -473,7 +474,7 @@ export default function Changelog() {
                         <Timeline.Item
                           key={entry.date}
                           color={accent.primary}
-                          bullet={<IoCheckmarkCircle size={18} />}
+                          bullet={<IoCheckmarkCircle size={IMAGE_SIZE.ICON_LG} />}
                           title={
                             <Group
                               justify="space-between"
@@ -531,9 +532,9 @@ export default function Changelog() {
                                       </Badge>
                                     </Group>
                                     <Stack gap={4}>
-                                      {changes.map((change, i) => (
+                                      {changes.map((change) => (
                                         <Group
-                                          key={i}
+                                          key={`${change.type}-${change.description}`}
                                           gap="xs"
                                           wrap="nowrap"
                                           align="flex-start"

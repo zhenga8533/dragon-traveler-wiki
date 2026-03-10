@@ -33,6 +33,7 @@ import {
   getCardHoverProps,
   getDetailHeroGradient,
 } from '../constants/styles';
+import { IMAGE_SIZE } from '../constants/ui';
 import {
   useDarkMode,
   useDataFetch,
@@ -396,7 +397,7 @@ export default function GearSetPage() {
                         </Text>
                         <Group gap="xs" wrap="wrap">
                           <GearTypeTag type={item.type} />
-                          <QualityIcon quality={item.quality} size={18} />
+                          <QualityIcon quality={item.quality} size={IMAGE_SIZE.ICON_LG} />
                         </Group>
                         <Text size="sm" c="dimmed" fs="italic" lineClamp={2}>
                           {item.lore}

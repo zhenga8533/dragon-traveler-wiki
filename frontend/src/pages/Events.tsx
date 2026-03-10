@@ -23,6 +23,7 @@ import EmptyState from '../components/common/EmptyState';
 import LastUpdated from '../components/common/LastUpdated';
 import PaginationControl from '../components/common/PaginationControl';
 import { getCardHoverProps } from '../constants/styles';
+import { IMAGE_SIZE } from '../constants/ui';
 import {
   useDataFetch,
   useGradientAccent,
@@ -156,7 +157,7 @@ export default function Events() {
         </Group>
 
         <Alert
-          icon={<IoInformationCircleOutline size={18} />}
+          icon={<IoInformationCircleOutline size={IMAGE_SIZE.ICON_LG} />}
           color={accent.primary}
           variant="light"
         >

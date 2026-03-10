@@ -6,7 +6,6 @@
 export const CHARACTER_CARD = {
   PORTRAIT_SIZE: 80,
   BORDER_WIDTH: 3,
-  TRANSITION_DURATION: '150ms',
 } as const;
 
 // Character page hero
@@ -23,11 +22,8 @@ export const IMAGE_SIZE = {
   ICON_XS: 12,
   ICON_SM: 14,
   ICON_MD: 16,
-  ICON_LG: 20,
-  ICON_XL: 24,
+  ICON_LG: 18,
   PORTRAIT_SM: 40,
-  PORTRAIT_MD: 80,
-  PORTRAIT_LG: 180,
 } as const;
 
 // Transitions
@@ -82,7 +78,18 @@ export const BREAKPOINTS = {
   MD: '(min-width: 62em)',
 } as const;
 
-export const NAV_ITEM_HEIGHT = 42;
+/** WCAG minimum touch target height, also used as nav item height */
+export const NAV_ITEM_HEIGHT = 44;
+
+export const POPOVER_MAX_WIDTH = 320;
+
+export const DETAIL_ROUTE_PATTERNS = [
+  /^\/artifacts\/.+/,
+  /^\/characters\/.+/,
+  /^\/gear-sets\/.+/,
+  /^\/noble-phantasms\/.+/,
+  /^\/teams\/.+/,
+];
 
 export const STORAGE_KEY = {
   CHARACTER_VIEW_MODE: 'characters:viewMode',

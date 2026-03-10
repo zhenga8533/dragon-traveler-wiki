@@ -9,7 +9,6 @@ import {
   Stack,
   Table,
   Text,
-  ThemeIcon,
   Title,
 } from '@mantine/core';
 import { useMemo, useState } from 'react';
@@ -22,11 +21,8 @@ import {
 } from 'react-icons/io5';
 import ResourceBadge from '../../components/common/ResourceBadge';
 import StatCard from '../../components/common/StatCard';
-import {
-  BRAND_TITLE_STYLE,
-  getCardHoverProps,
-  getGuideSectionCardStyles,
-} from '../../constants/styles';
+import GuideHeroCard from '../../components/guides/GuideHeroCard';
+import { getCardHoverProps, getGuideSectionCardStyles } from '../../constants/styles';
 import { useDarkMode, useGradientAccent } from '../../hooks';
 
 type DropRate = {
@@ -330,53 +326,22 @@ export default function MythicSummonCalculator() {
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
-        <Card
-          withBorder
-          radius="md"
-          p="xl"
-          {...getCardHoverProps({
-            style: {
-              ...sectionCardStyle,
-              backdropFilter: 'blur(8px)',
-              backgroundColor: isDark
-                ? 'var(--dt-home-hero-card-dark)'
-                : 'var(--dt-home-hero-card-light)',
-            },
-          })}
+        <GuideHeroCard
+          icon={<IoSparkles size={20} />}
+          title="Mythic Summon Calculator"
+          subtitle="Forecast summon outcomes and reverse-calculate required pulls for your goals."
         >
-          <Stack gap="md">
-            <Group gap="sm" wrap="nowrap">
-              <ThemeIcon
-                size="xl"
-                radius="md"
-                variant="light"
-                color={accent.primary}
-              >
-                <IoSparkles size={20} />
-              </ThemeIcon>
-              <Stack gap={2}>
-                <Title order={1} style={BRAND_TITLE_STYLE}>
-                  Mythic Summon Calculator
-                </Title>
-                <Text size="sm" c="dimmed">
-                  Forecast summon outcomes and reverse-calculate required pulls
-                  for your goals.
-                </Text>
-              </Stack>
-            </Group>
-
-            <Alert
-              variant="light"
-              color="blue"
-              title="About this calculator"
-              icon={<IoInformationCircleOutline />}
-            >
-              Calculate the average resource yield from Mythic Summons,
-              including both drop rates and milestone rewards. Enter the number
-              of summons to see expected returns.
-            </Alert>
-          </Stack>
-        </Card>
+          <Alert
+            variant="light"
+            color="blue"
+            title="About this calculator"
+            icon={<IoInformationCircleOutline />}
+          >
+            Calculate the average resource yield from Mythic Summons, including
+            both drop rates and milestone rewards. Enter the number of summons
+            to see expected returns.
+          </Alert>
+        </GuideHeroCard>
 
         <Card
           withBorder

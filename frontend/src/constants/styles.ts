@@ -13,30 +13,11 @@ export const BRAND_TITLE_STYLE = {
   WebkitTextFillColor: 'transparent',
 } as const satisfies CSSProperties;
 
-/**
- * Consistent hover effect styles for interactive cards
- */
-export const CARD_HOVER_STYLES = {
-  transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, box-shadow ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-  cursor: 'pointer',
-} as const satisfies CSSProperties;
-
 export const TAG_BADGE_STYLE = {
   flexShrink: 0,
   maxWidth: 'max-content',
   whiteSpace: 'nowrap',
 } as const satisfies CSSProperties;
-
-export const cardHoverHandlers = {
-  onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.transform = 'translateY(-2px)';
-    e.currentTarget.style.boxShadow = 'var(--mantine-shadow-md)';
-  },
-  onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
-    e.currentTarget.style.transform = 'translateY(0)';
-    e.currentTarget.style.boxShadow = '';
-  },
-};
 
 type CardHoverPropsOptions = {
   interactive?: boolean;
@@ -48,16 +29,17 @@ type CharacterPortraitHoverOptions = {
   style?: CSSProperties;
 };
 
+/**
+ * Returns className (and optional style) for card hover effect.
+ * The actual transition/lift is handled by `.card-hover` in themed-cards.css.
+ * withBorder Paper/Card elements get hover automatically via CSS selectors there.
+ */
 export function getCardHoverProps(options: CardHoverPropsOptions = {}) {
   const { interactive = false, style } = options;
-  return {
-    style: {
-      ...CARD_HOVER_STYLES,
-      cursor: interactive ? 'pointer' : 'default',
-      ...style,
-    } as CSSProperties,
-    ...cardHoverHandlers,
-  };
+  const className = interactive
+    ? 'card-hover card-hover-interactive'
+    : 'card-hover';
+  return style ? { className, style } : { className };
 }
 
 export function getCharacterPortraitHoverProps(
@@ -169,6 +151,22 @@ export const LINK_BLOCK_RESET_STYLE = {
   textDecoration: 'none',
   color: 'inherit',
   display: 'block',
+} as const satisfies CSSProperties;
+
+export const LINK_FIT_CONTENT_RESET_STYLE = {
+  textDecoration: 'none',
+  width: 'fit-content',
+} as const satisfies CSSProperties;
+
+/** Flex layout for an anchor containing an icon + text label */
+export const ICON_TEXT_FLEX_STYLE = {
+  display: 'flex',
+  alignItems: 'center',
+  gap: 6,
+} as const satisfies CSSProperties;
+
+export const WHITE_SPACE_PRE_LINE_STYLE = {
+  whiteSpace: 'pre-line',
 } as const satisfies CSSProperties;
 
 /**

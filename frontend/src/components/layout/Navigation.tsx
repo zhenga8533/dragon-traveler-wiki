@@ -21,7 +21,7 @@ import {
 } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
 import { getAccentForPath, PARENT_ACCENTS } from '../../constants/accents';
-import { NAV_ITEM_HEIGHT, STORAGE_KEY } from '../../constants/ui';
+import { IMAGE_SIZE, NAV_ITEM_HEIGHT, STORAGE_KEY } from '../../constants/ui';
 import { SearchDataContext } from '../../contexts';
 import { isCodeActive } from '../../utils';
 
@@ -118,7 +118,7 @@ const renderNavIcon = (
   Icon: ComponentType<{ size?: number; style?: CSSProperties }>,
   accent: string,
   isActive: boolean
-) => <Icon size={18} style={{ color: getIconColor(accent, isActive) }} />;
+) => <Icon size={IMAGE_SIZE.ICON_LG} style={{ color: getIconColor(accent, isActive) }} />;
 
 export default function Navigation({
   onNavigate,

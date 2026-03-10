@@ -3,6 +3,7 @@ import { useWindowScroll } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { IoArrowUp } from 'react-icons/io5';
 import { useLocation, useNavigationType } from 'react-router-dom';
+import { IMAGE_SIZE } from '../../constants/ui';
 import { useGradientAccent } from '../../hooks';
 
 const SCROLL_KEY = 'scroll-pos-';
@@ -58,7 +59,7 @@ export default function ScrollToTop() {
             onClick={() => scrollTo({ y: 0 })}
             aria-label="Scroll to top"
           >
-            <IoArrowUp size={18} />
+            <IoArrowUp size={IMAGE_SIZE.ICON_LG} />
           </ActionIcon>
         )}
       </Transition>

@@ -1,5 +1,6 @@
 import { Alert, Button, Group, Text } from '@mantine/core';
 import { IoAlertCircleOutline, IoRefresh } from 'react-icons/io5';
+import { IMAGE_SIZE } from '../../constants/ui';
 
 interface DataFetchErrorProps {
   title?: string;
@@ -18,7 +19,7 @@ export default function DataFetchError({
       color="red"
       radius="md"
       title={title}
-      icon={<IoAlertCircleOutline size={18} />}
+      icon={<IoAlertCircleOutline size={IMAGE_SIZE.ICON_LG} />}
     >
       <Group justify="space-between" align="flex-start" wrap="wrap" gap="sm">
         <Text size="sm" c="dimmed">

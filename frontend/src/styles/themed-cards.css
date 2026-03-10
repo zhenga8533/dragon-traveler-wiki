@@ -378,6 +378,34 @@
   --dt-home-hero-card-dark: rgba(62, 24, 48, 0.9);
 }
 
+/* Card hover utility class — for cards/papers without withBorder that still
+   need the lift-and-shadow effect. withBorder elements get this automatically
+   via the .mantine-Paper-root[data-with-border] rules below. */
+.card-hover {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.card-hover:hover:not([data-no-hover]) {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--mantine-shadow-md),
+    0 10px 28px rgba(2, 6, 23, 0.12);
+}
+
+.card-hover-interactive {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .card-hover {
+    transition: none;
+  }
+
+  .card-hover:hover:not([data-no-hover]) {
+    transform: none;
+  }
+}
+
 /* In table/list views, keep text-only badges fully visible. */
 .mantine-Table-td .mantine-Badge-root:not([data-with-left-section]),
 .mantine-Table-th .mantine-Badge-root:not([data-with-left-section]) {

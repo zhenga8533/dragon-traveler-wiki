@@ -34,6 +34,7 @@ import {
   getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '../../constants/styles';
+import { IMAGE_SIZE } from '../../constants/ui';
 import { useGradientAccent, useMobileTooltip } from '../../hooks';
 import type { Artifact } from '../../types/artifact';
 import type { Faction } from '../../types/faction';
@@ -243,7 +244,7 @@ export function TeamHeroSection({
                                       {artifact?.quality && (
                                         <QualityIcon
                                           quality={artifact.quality}
-                                          size={18}
+                                          size={IMAGE_SIZE.ICON_LG}
                                         />
                                       )}
                                       {artifact && (

@@ -9,15 +9,13 @@ import {
   Stack,
   Table,
   Text,
-  ThemeIcon,
   Title,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import CharacterTag from '../../components/character/CharacterTag';
 import ResourceBadge from '../../components/common/ResourceBadge';
-import { GLASS } from '../../constants/glass';
+import GuideHeroCard from '../../components/guides/GuideHeroCard';
 import {
-  BRAND_TITLE_STYLE,
   getCardHoverProps,
   getGuideSectionCardStyles,
   getMinWidthStyle,
@@ -210,54 +208,29 @@ export default function BeginnerQA() {
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
-        <Card
-          withBorder
-          radius="md"
-          p="xl"
-          {...getCardHoverProps({
-            style: {
-              ...sectionCardStyle,
-              backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
-              backgroundColor: isDark
-                ? 'var(--dt-home-hero-card-dark)'
-                : 'var(--dt-home-hero-card-light)',
-            },
-          })}
+        <GuideHeroCard
+          icon={<IoInformationCircleOutline size={20} />}
+          iconColor="cyan"
+          title="Beginner Q&A"
+          subtitle="Fast answers for early progression, spending priorities, and event planning."
         >
-          <Stack gap="md">
-            <Group gap="sm" wrap="nowrap">
-              <ThemeIcon size="xl" radius="md" variant="light" color="cyan">
-                <IoInformationCircleOutline size={20} />
-              </ThemeIcon>
-              <Stack gap={2}>
-                <Title order={1} style={BRAND_TITLE_STYLE}>
-                  Beginner Q&amp;A
-                </Title>
-                <Text size="sm" c="dimmed">
-                  Fast answers for early progression, spending priorities, and
-                  event planning.
-                </Text>
-              </Stack>
-            </Group>
-
-            <Alert
-              variant="light"
-              color="yellow"
-              title="Translation note"
-              icon={<IoInformationCircleOutline />}
+          <Alert
+            variant="light"
+            color="yellow"
+            title="Translation note"
+            icon={<IoInformationCircleOutline />}
+          >
+            This section is translated and adapted from a Chinese community
+            guide on GameKee:{' '}
+            <Anchor
+              href="https://www.gamekee.com/lhlr/670682.html"
+              target="_blank"
             >
-              This section is translated and adapted from a Chinese community
-              guide on GameKee:{' '}
-              <Anchor
-                href="https://www.gamekee.com/lhlr/670682.html"
-                target="_blank"
-              >
-                萌新Q&amp;A / Beginner Q&amp;A
-              </Anchor>
-              . Source terms may contain typos or naming differences.
-            </Alert>
-          </Stack>
-        </Card>
+              萌新Q&A / Beginner Q&A
+            </Anchor>
+            . Source terms may contain typos or naming differences.
+          </Alert>
+        </GuideHeroCard>
 
         <Card
           withBorder

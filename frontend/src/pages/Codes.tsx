@@ -585,7 +585,7 @@ export default function Codes() {
                           color="red"
                           aria-label="Report expired"
                         >
-                          <IoCloseCircleOutline size={18} />
+                          <IoCloseCircleOutline size={IMAGE_SIZE.ICON_LG} />
                         </ActionIcon>
                       </Tooltip>
                     )}
@@ -602,9 +602,9 @@ export default function Codes() {
                             aria-label={copied ? 'Copied!' : 'Copy code'}
                           >
                             {copied ? (
-                              <IoCheckmark size={18} />
+                              <IoCheckmark size={IMAGE_SIZE.ICON_LG} />
                             ) : (
-                              <IoCopyOutline size={18} />
+                              <IoCopyOutline size={IMAGE_SIZE.ICON_LG} />
                             )}
                           </ActionIcon>
                         </Tooltip>

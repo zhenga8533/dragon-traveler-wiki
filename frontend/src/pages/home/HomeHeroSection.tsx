@@ -29,7 +29,8 @@ import {
   getHomeHeroSubtitleStyle,
   getHomeHeroWordmarkStyle,
 } from '../../constants/styles';
-import { TRANSITION } from '../../constants/ui';
+import { GLASS } from '../../constants/glass';
+import { IMAGE_SIZE, TRANSITION } from '../../constants/ui';
 import { useDarkMode, useGradientAccent, useIsMobile } from '../../hooks';
 
 const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];
@@ -76,7 +77,7 @@ export default function HomeHeroSection() {
         ? 'var(--dt-home-hero-panel-dark)'
         : 'var(--dt-home-hero-panel-light)'
     } padding-box, linear-gradient(135deg, var(--dt-surface-glow-a), var(--dt-surface-glow-b)) border-box`,
-    backdropFilter: 'blur(7px)',
+    backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
     boxShadow: isDark
       ? '0 10px 30px rgba(0, 0, 0, 0.34)'
       : '0 10px 24px rgba(38, 52, 84, 0.16)',
@@ -217,7 +218,7 @@ export default function HomeHeroSection() {
                   radius="md"
                   color={accent.primary}
                   styles={HOME_CTA_BUTTON_STYLES}
-                  leftSection={<IoPeople size={18} />}
+                  leftSection={<IoPeople size={IMAGE_SIZE.ICON_LG} />}
                 >
                   Browse Characters
                 </Button>
@@ -230,7 +231,7 @@ export default function HomeHeroSection() {
                   variant="light"
                   color={accent.primary}
                   styles={HOME_CTA_BUTTON_STYLES}
-                  leftSection={<IoTrophy size={18} />}
+                  leftSection={<IoTrophy size={IMAGE_SIZE.ICON_LG} />}
                 >
                   View Tier List
                 </Button>
@@ -245,7 +246,7 @@ export default function HomeHeroSection() {
                   variant="outline"
                   color="gray"
                   styles={HOME_CTA_BUTTON_STYLES}
-                  leftSection={<IoGameController size={18} />}
+                  leftSection={<IoGameController size={IMAGE_SIZE.ICON_LG} />}
                   rightSection={<IoOpenOutline size={14} />}
                   style={homeHeroPlayNowStyle}
                 >
@@ -292,7 +293,7 @@ export default function HomeHeroSection() {
             shadow="lg"
             {...getCardHoverProps({
               style: {
-                backdropFilter: 'blur(8px)',
+                backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
                 background: isDark
                   ? 'linear-gradient(155deg, rgba(255,255,255,0.06) 0%, rgba(255,255,255,0.02) var(--dt-gradient-overlay-mid), rgba(0,0,0,0.08) 100%), var(--dt-home-hero-panel-dark)'
                   : 'linear-gradient(155deg, rgba(255,255,255,0.78) 0%, rgba(255,255,255,0.38) var(--dt-gradient-overlay-mid), rgba(255,255,255,0.56) 100%), var(--dt-home-hero-panel-light)',

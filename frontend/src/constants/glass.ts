@@ -4,15 +4,7 @@
 
 export const GLASS = {
   BLUR: '12px',
-  BLUR_STRONG: '20px',
   BLUR_SUBTLE: '8px',
-} as const;
-
-export const GLASS_BACKGROUND = {
-  dark: 'rgba(20, 21, 23, 0.9)',
-  light: 'rgba(255, 255, 255, 0.85)',
-  darkSubtle: 'rgba(20, 21, 23, 0.75)',
-  lightSubtle: 'rgba(255, 255, 255, 0.7)',
 } as const;
 
 export const GLASS_BORDER = {

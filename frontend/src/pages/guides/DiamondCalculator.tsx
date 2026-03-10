@@ -14,7 +14,6 @@ import {
   Table,
   Text,
   TextInput,
-  ThemeIcon,
   Title,
 } from '@mantine/core';
 import { DateInput, type DateValue } from '@mantine/dates';
@@ -30,8 +29,8 @@ import {
   IoWallet,
 } from 'react-icons/io5';
 import StatCard from '../../components/common/StatCard';
+import GuideHeroCard from '../../components/guides/GuideHeroCard';
 import {
-  BRAND_TITLE_STYLE,
   getCardHoverProps,
   getGuideSectionCardStyles,
 } from '../../constants/styles';
@@ -137,8 +136,20 @@ const BASE_GAIN_SOURCES: BaseSource[] = [
   },
   {
     id: 'realmClash',
-    label: 'Realm Clash (WIP/manual)',
+    label: 'Realm Clash',
     defaultAmount: 1500,
+    defaultCadenceDays: 7,
+  },
+  {
+    id: 'dailyGift',
+    label: 'Daily Gift',
+    defaultAmount: 30,
+    defaultCadenceDays: 1,
+  },
+  {
+    id: 'guildExpedition',
+    label: 'Guild Expedition',
+    defaultAmount: 1000,
     defaultCadenceDays: 7,
   },
 ];
@@ -244,26 +255,26 @@ const BASE_SPEND_SOURCES: BaseSource[] = [
 
 const POINTS_LEAGUE_OPTIONS: Option[] = [
   { value: 'legend', label: 'Legend rank (300/day)' },
-  { value: 'king', label: 'King rank (260/day)' },
-  { value: 'champion', label: 'Champion rank (220/day)' },
-  { value: 'grandmaster', label: 'Grandmaster rank (180/day)' },
-  { value: 'master', label: 'Master rank (140/day)' },
+  { value: 'king', label: 'King rank (240/day)' },
+  { value: 'champion', label: 'Champion rank (200/day)' },
+  { value: 'grandmaster', label: 'Grandmaster rank (160/day)' },
+  { value: 'master', label: 'Master rank (120/day)' },
   { value: 'expert', label: 'Expert rank (100/day)' },
-  { value: 'elite', label: 'Elite rank (60/day)' },
-  { value: 'apprentice', label: 'Apprentice rank (40/day)' },
-  { value: 'novice', label: 'Novice rank (20/day)' },
+  { value: 'elite', label: 'Elite rank (80/day)' },
+  { value: 'apprentice', label: 'Apprentice rank (60/day)' },
+  { value: 'novice', label: 'Novice rank (40/day)' },
 ];
 
 const POINTS_LEAGUE_DAILY_BY_RANK: Record<string, number> = {
   legend: 300,
-  king: 260,
-  champion: 220,
-  grandmaster: 180,
-  master: 140,
+  king: 240,
+  champion: 200,
+  grandmaster: 160,
+  master: 120,
   expert: 100,
-  elite: 60,
-  apprentice: 40,
-  novice: 20,
+  elite: 80,
+  apprentice: 60,
+  novice: 40,
 };
 
 const ARENA_OPTIONS: Option[] = [
@@ -829,54 +840,22 @@ export default function DiamondCalculator() {
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
-        <Card
-          withBorder
-          radius="md"
-          p="xl"
-          {...getCardHoverProps({
-            style: {
-              ...sectionCardStyle,
-              backdropFilter: 'blur(8px)',
-              backgroundColor: isDark
-                ? 'var(--dt-home-hero-card-dark)'
-                : 'var(--dt-home-hero-card-light)',
-            },
-          })}
+        <GuideHeroCard
+          icon={<IoDiamond size={20} />}
+          title="Diamond Calculator"
+          subtitle="Estimate average gain, spend, runway, and projected balance by date."
         >
-          <Stack gap="md">
-            <Group gap="sm" wrap="nowrap">
-              <ThemeIcon
-                size="xl"
-                radius="md"
-                variant="light"
-                color={accent.primary}
-              >
-                <IoDiamond size={20} />
-              </ThemeIcon>
-              <Stack gap={2}>
-                <Title order={1} style={BRAND_TITLE_STYLE}>
-                  Diamond Calculator
-                </Title>
-                <Text size="sm" c="dimmed">
-                  Estimate average gain, spend, runway, and projected balance by
-                  date.
-                </Text>
-              </Stack>
-            </Group>
-
-            <Alert
-              variant="light"
-              color="blue"
-              title="How to use"
-              icon={<IoInformationCircleOutline />}
-            >
-              This is an average-value planner based on recurring income and
-              spending from your reference list. Set your current bank and
-              cadence values, then use the date field for rough balance
-              projection.
-            </Alert>
-          </Stack>
-        </Card>
+          <Alert
+            variant="light"
+            color="blue"
+            title="How to use"
+            icon={<IoInformationCircleOutline />}
+          >
+            This is an average-value planner based on recurring income and
+            spending from your reference list. Set your current bank and cadence
+            values, then use the date field for rough balance projection.
+          </Alert>
+        </GuideHeroCard>
 
         <Card
           withBorder
@@ -1013,7 +992,12 @@ export default function DiamondCalculator() {
               </Alert>
 
               <Box style={{ overflowX: 'auto' }}>
-                <Table striped highlightOnHover withTableBorder style={{ minWidth: 480 }}>
+                <Table
+                  striped
+                  highlightOnHover
+                  withTableBorder
+                  style={{ minWidth: 480 }}
+                >
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th w={48} />
@@ -1070,7 +1054,12 @@ export default function DiamondCalculator() {
               </Alert>
 
               <Box style={{ overflowX: 'auto' }}>
-                <Table striped highlightOnHover withTableBorder style={{ minWidth: 480 }}>
+                <Table
+                  striped
+                  highlightOnHover
+                  withTableBorder
+                  style={{ minWidth: 480 }}
+                >
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th w={48} />

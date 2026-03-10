@@ -16,7 +16,9 @@ import {
   IoWarning,
 } from 'react-icons/io5';
 import { GITHUB_REPO_URL } from '../../constants/github';
+import { IMAGE_SIZE } from '../../constants/ui';
 import { getGlassStyles } from '../../constants/glass';
+import { ICON_TEXT_FLEX_STYLE } from '../../constants/styles';
 import { UiOpacityContext } from '../../contexts';
 import { useDarkMode, useGradientAccent } from '../../hooks';
 
@@ -37,21 +39,19 @@ export default function Footer() {
     {
       label: 'GitHub',
       href: GITHUB_REPO_URL,
-      icon: <IoLogoGithub size={18} aria-hidden="true" />,
+      icon: <IoLogoGithub size={IMAGE_SIZE.ICON_LG} aria-hidden="true" />,
     },
     {
       label: 'Report Issue',
       href: `${GITHUB_REPO_URL}/issues/new?labels=bug`,
-      icon: <IoWarning size={18} aria-hidden="true" />,
+      icon: <IoWarning size={IMAGE_SIZE.ICON_LG} aria-hidden="true" />,
     },
     {
       label: 'Suggest',
       href: `${GITHUB_REPO_URL}/issues/new?labels=enhancement`,
-      icon: <IoBulb size={18} aria-hidden="true" />,
+      icon: <IoBulb size={IMAGE_SIZE.ICON_LG} aria-hidden="true" />,
     },
   ];
-
-  const footerLinkStyle = { display: 'flex', alignItems: 'center', gap: '6px' };
 
   return (
     <Box
@@ -78,7 +78,7 @@ export default function Footer() {
                 size="sm"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={footerLinkStyle}
+                style={ICON_TEXT_FLEX_STYLE}
               >
                 {link.icon}
                 <Text span fw={500}>
@@ -110,7 +110,7 @@ export default function Footer() {
               c={`${accent.primary}.${isDark ? 3 : 7}`}
               size="xs"
               fw={600}
-              style={{ display: 'flex', alignItems: 'center', gap: 4 }}
+              style={ICON_TEXT_FLEX_STYLE}
             >
               {showLegal ? <IoChevronUp /> : <IoChevronDown />}
               Legal & Sources

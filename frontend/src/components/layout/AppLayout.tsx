@@ -17,7 +17,12 @@ import {
   BRAND_TITLE_STYLE,
   LINK_BLOCK_RESET_STYLE,
 } from '../../constants/styles';
-import { HEADER_HEIGHT, SIDEBAR, TRANSITION } from '../../constants/ui';
+import {
+  DETAIL_ROUTE_PATTERNS,
+  HEADER_HEIGHT,
+  SIDEBAR,
+  TRANSITION,
+} from '../../constants/ui';
 import { BannerContext, UiOpacityContext } from '../../contexts';
 import { useDarkMode, useIsMobile, useSidebar } from '../../hooks';
 import AppRoutes from '../../routes/AppRoutes';
@@ -30,14 +35,6 @@ import Navigation from './Navigation';
 import PageTransition from './PageTransition';
 import ScrollToTop from './ScrollToTop';
 import SettingsPanel from './SettingsPanel';
-
-const DETAIL_ROUTE_PATTERNS = [
-  /^\/artifacts\/.+/,
-  /^\/characters\/.+/,
-  /^\/gear-sets\/.+/,
-  /^\/noble-phantasms\/.+/,
-  /^\/teams\/.+/,
-];
 
 function isBaseRoute(pathname: string): boolean {
   return !DETAIL_ROUTE_PATTERNS.some((pattern) => pattern.test(pathname));

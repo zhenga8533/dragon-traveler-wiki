@@ -9,6 +9,7 @@ import {
 } from '@mantine/core';
 import { IoGift, IoHome, IoPeople, IoTrophy } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import { IMAGE_SIZE } from '../constants/ui';
 
 const QUICK_LINKS = [
   { label: 'Characters', to: '/characters', Icon: IoPeople, color: 'grape' },
@@ -46,7 +47,7 @@ export default function NotFound() {
           component={Link}
           to="/"
           size="md"
-          leftSection={<IoHome size={18} />}
+          leftSection={<IoHome size={IMAGE_SIZE.ICON_LG} />}
           variant="light"
           color="grape"
         >

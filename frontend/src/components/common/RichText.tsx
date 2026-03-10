@@ -1,6 +1,8 @@
 import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
+import { WHITE_SPACE_PRE_LINE_STYLE } from '../../constants/styles';
+import { POPOVER_MAX_WIDTH } from '../../constants/ui';
 import { ResourcesContext } from '../../contexts';
 import type { Skill, Talent } from '../../types/character';
 import type { StatusEffect } from '../../types/status-effect';
@@ -62,7 +64,7 @@ function ReferenceBadge({
         </Badge>
       </Popover.Target>
       <Popover.Dropdown style={{ pointerEvents: 'none' }}>
-        <Stack gap="xs" maw={320}>
+        <Stack gap="xs" maw={POPOVER_MAX_WIDTH}>
           <Group gap="xs" wrap="nowrap">
             <Text fw={600} size="sm">
               {name}
@@ -72,7 +74,7 @@ function ReferenceBadge({
             </Badge>
           </Group>
           {description && (
-            <Text size="xs" style={{ whiteSpace: 'pre-line' }}>
+            <Text size="xs" style={WHITE_SPACE_PRE_LINE_STYLE}>
               {description}
             </Text>
           )}
@@ -80,7 +82,7 @@ function ReferenceBadge({
             <Text
               key={`${name}-line-${idx}`}
               size="xs"
-              style={{ whiteSpace: 'pre-line' }}
+              style={WHITE_SPACE_PRE_LINE_STYLE}
             >
               {line}
             </Text>

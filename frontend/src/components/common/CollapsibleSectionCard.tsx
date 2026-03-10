@@ -2,6 +2,7 @@ import { Box, Collapse, Group, Paper, UnstyledButton } from '@mantine/core';
 import { useCallback, useState, type ReactNode } from 'react';
 import { IoChevronDown } from 'react-icons/io5';
 import { getCardHoverProps } from '../../constants/styles';
+import { IMAGE_SIZE, NAV_ITEM_HEIGHT } from '../../constants/ui';
 
 interface CollapsibleSectionCardProps {
   header: ReactNode;
@@ -25,7 +26,7 @@ export default function CollapsibleSectionCard({
         onClick={toggle}
         style={{
           width: '100%',
-          minHeight: 44,
+          minHeight: NAV_ITEM_HEIGHT,
           paddingBlock: 4,
           borderRadius: 'var(--mantine-radius-sm)',
         }}
@@ -42,7 +43,7 @@ export default function CollapsibleSectionCard({
               color: 'var(--mantine-color-dimmed)',
             }}
           >
-            <IoChevronDown size={18} />
+            <IoChevronDown size={IMAGE_SIZE.ICON_LG} />
           </Box>
         </Group>
       </UnstyledButton>

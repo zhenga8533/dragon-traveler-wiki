@@ -17,7 +17,6 @@ import {
   Switch,
   Table,
   Text,
-  ThemeIcon,
   Title,
   UnstyledButton,
 } from '@mantine/core';
@@ -38,13 +37,9 @@ import {
 } from 'react-icons/io5';
 import { QUALITY_ICON_MAP } from '../../assets/quality';
 import StatCard from '../../components/common/StatCard';
-import { GLASS } from '../../constants/glass';
-import {
-  BRAND_TITLE_STYLE,
-  getCardHoverProps,
-  getGuideSectionCardStyles,
-} from '../../constants/styles';
-import { TRANSITION } from '../../constants/ui';
+import GuideHeroCard from '../../components/guides/GuideHeroCard';
+import { getCardHoverProps, getGuideSectionCardStyles } from '../../constants/styles';
+import { IMAGE_SIZE, TRANSITION } from '../../constants/ui';
 import { useDarkMode, useGradientAccent } from '../../hooks';
 
 type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
@@ -363,53 +358,22 @@ export default function StarUpgradeCalculator() {
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
-        <Card
-          withBorder
-          radius="md"
-          p="xl"
-          {...getCardHoverProps({
-            style: {
-              ...sectionCardStyle,
-              backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
-              backgroundColor: isDark
-                ? 'var(--dt-home-hero-card-dark)'
-                : 'var(--dt-home-hero-card-light)',
-            },
-          })}
+        <GuideHeroCard
+          icon={<IoStar size={20} />}
+          title="Star Upgrade Calculator"
+          subtitle="Plan your upgrade path, shard farming timeline, and required resources."
         >
-          <Stack gap="md">
-            <Group gap="sm" wrap="nowrap">
-              <ThemeIcon
-                size="xl"
-                radius="md"
-                variant="light"
-                color={accent.primary}
-              >
-                <IoStar size={20} />
-              </ThemeIcon>
-              <Stack gap={2}>
-                <Title order={1} style={BRAND_TITLE_STYLE}>
-                  Star Upgrade Calculator
-                </Title>
-                <Text size="sm" c="dimmed">
-                  Plan your upgrade path, shard farming timeline, and required
-                  resources.
-                </Text>
-              </Stack>
-            </Group>
-
-            <Alert
-              variant="light"
-              color="blue"
-              icon={<IoInformationCircleOutline />}
-              title="How to use"
-            >
-              Pick your current and target star levels first. The calculator
-              shows cumulative requirements, then estimates farming time based
-              on your selected quality and current shard stock.
-            </Alert>
-          </Stack>
-        </Card>
+          <Alert
+            variant="light"
+            color="blue"
+            icon={<IoInformationCircleOutline />}
+            title="How to use"
+          >
+            Pick your current and target star levels first. The calculator shows
+            cumulative requirements, then estimates farming time based on your
+            selected quality and current shard stock.
+          </Alert>
+        </GuideHeroCard>
 
         <Card
           withBorder
@@ -791,9 +755,9 @@ export default function StarUpgradeCalculator() {
                   </Text>
                 </Stack>
                 {refTableOpened ? (
-                  <IoChevronUp size={18} />
+                  <IoChevronUp size={IMAGE_SIZE.ICON_LG} />
                 ) : (
-                  <IoChevronDown size={18} />
+                  <IoChevronDown size={IMAGE_SIZE.ICON_LG} />
                 )}
               </Group>
             </UnstyledButton>

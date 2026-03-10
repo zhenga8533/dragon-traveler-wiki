@@ -5,19 +5,17 @@ import {
   Card,
   Container,
   Divider,
-  Group,
   Paper,
   ScrollArea,
   Stack,
   Table,
   Text,
-  ThemeIcon,
   Title,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 import ResourceBadge from '../../components/common/ResourceBadge';
+import GuideHeroCard from '../../components/guides/GuideHeroCard';
 import {
-  BRAND_TITLE_STYLE,
   getCardHoverProps,
   getGuideSectionCardStyles,
   getMinWidthStyle,
@@ -71,54 +69,29 @@ export default function ShovelEventGuide() {
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
-        <Card
-          withBorder
-          radius="md"
-          p="xl"
-          {...getCardHoverProps({
-            style: {
-              ...sectionCardStyle,
-              backdropFilter: 'blur(8px)',
-              backgroundColor: isDark
-                ? 'var(--dt-home-hero-card-dark)'
-                : 'var(--dt-home-hero-card-light)',
-            },
-          })}
+        <GuideHeroCard
+          icon={<IoInformationCircleOutline size={20} />}
+          iconColor="yellow"
+          title="Shovel Event Guide"
+          subtitle="Practical strategy for weekly shovel events: spend timing, efficiency checks, and stop points."
         >
-          <Stack gap="md">
-            <Group gap="sm" wrap="nowrap">
-              <ThemeIcon size="xl" radius="md" variant="light" color="yellow">
-                <IoInformationCircleOutline size={20} />
-              </ThemeIcon>
-              <Stack gap={2}>
-                <Title order={1} style={BRAND_TITLE_STYLE}>
-                  Shovel Event Guide
-                </Title>
-                <Text c="dimmed">
-                  Practical strategy for weekly shovel events: spend timing,
-                  efficiency checks, and stop points.
-                </Text>
-              </Stack>
-            </Group>
-
-            <Alert
-              variant="light"
-              color="yellow"
-              title="Translation note"
-              icon={<IoInformationCircleOutline />}
+          <Alert
+            variant="light"
+            color="yellow"
+            title="Translation note"
+            icon={<IoInformationCircleOutline />}
+          >
+            This section is translated and adapted from a Chinese community
+            guide on GameKee:{' '}
+            <Anchor
+              href="https://www.gamekee.com/lhlr/671116.html"
+              target="_blank"
             >
-              This section is translated and adapted from a Chinese community
-              guide on GameKee:{' '}
-              <Anchor
-                href="https://www.gamekee.com/lhlr/671116.html"
-                target="_blank"
-              >
-                铲子活动
-              </Anchor>
-              . Source terms may contain typos or naming differences.
-            </Alert>
-          </Stack>
-        </Card>
+              铲子活动
+            </Anchor>
+            . Source terms may contain typos or naming differences.
+          </Alert>
+        </GuideHeroCard>
 
         <Card
           withBorder

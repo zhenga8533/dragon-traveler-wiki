@@ -21,7 +21,7 @@ import {
   getContentTypeColor,
   normalizeContentType,
 } from '../../constants/content-types';
-import { CHARACTER_GRID_SPACING } from '../../constants/ui';
+import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '../../constants/ui';
 import { useGradientAccent } from '../../hooks';
 import type { Character } from '../../types/character';
 import type { TierList as TierListType } from '../../types/tier-list';
@@ -232,7 +232,7 @@ export default function TierListContent({
                                 {char ? (
                                   <QualityIcon
                                     quality={char.quality}
-                                    size={18}
+                                    size={IMAGE_SIZE.ICON_LG}
                                   />
                                 ) : (
                                   <Text size="sm" c="dimmed">
