@@ -21,6 +21,6 @@ for (const [path, module] of Object.entries(eventImageModules)) {
 
 export const placeholderEventImage = eventImages.get('placeholder') as string;
 
-export function getEventImage(eventName: string): string {
-  return eventImages.get(toEventSlug(eventName)) ?? placeholderEventImage;
+export function getEventImage(eventName: string): string | null {
+  return eventImages.get(toEventSlug(eventName)) ?? null;
 }

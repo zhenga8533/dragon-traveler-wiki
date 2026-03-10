@@ -61,18 +61,21 @@ interface TwIllustrationState {
   src: string | null;
   idx: number;
   total: number;
+  loading: boolean;
   goTo: (i: number) => void;
 }
 
 function useTwIllustration(characters: string[]): TwIllustrationState {
   const [srcs, setSrcs] = useState<string[]>([]);
   const [idx, setIdx] = useState(0);
+  const [loading, setLoading] = useState(true);
   const charKey = characters.join(',');
 
   useEffect(() => {
     let cancelled = false;
     setSrcs([]);
     setIdx(0);
+    setLoading(true);
     Promise.all(
       characters.map(async (char) => {
         const list = await getIllustrations(char);
@@ -85,6 +88,7 @@ function useTwIllustration(characters: string[]): TwIllustrationState {
     ).then((results) => {
       if (!cancelled) {
         setSrcs(results.filter((s): s is string => s !== null));
+        setLoading(false);
       }
     });
     return () => {
@@ -106,13 +110,13 @@ function useTwIllustration(characters: string[]): TwIllustrationState {
     src: srcs.length > 0 ? srcs[idx] : null,
     idx,
     total: srcs.length,
+    loading,
     goTo: setIdx,
   };
 }
 
 function TwEventCard({ event }: { event: TwEvent }) {
-  const { src, idx, total, goTo } = useTwIllustration(event.characters);
-  const imageSrc = src ?? placeholderEventImage;
+  const { src, idx, total, loading, goTo } = useTwIllustration(event.characters);
   const active = isTwEventActive(event);
   const typeColor = TW_TYPE_COLOR[event.type] ?? 'gray';
 
@@ -125,7 +129,11 @@ function TwEventCard({ event }: { event: TwEvent }) {
       style={{ display: 'flex', flexDirection: 'column' }}
     >
       <Card.Section style={{ position: 'relative' }}>
-        <Image src={imageSrc} height={160} fit="cover" alt={event.name} />
+        {loading ? (
+          <Skeleton height={160} radius={0} />
+        ) : (
+          <Image src={src ?? placeholderEventImage} height={160} fit="cover" alt={event.name} />
+        )}
         {total > 1 && (
           <Group
             gap={4}
@@ -221,9 +229,11 @@ function EventCard({ event }: { event: GameEvent }) {
       {...getCardHoverProps()}
       style={{ display: 'flex', flexDirection: 'column' }}
     >
-      <Card.Section>
-        <Image src={image} height={160} fit="cover" alt={event.name} />
-      </Card.Section>
+      {image && (
+        <Card.Section>
+          <Image src={image} height={160} fit="cover" alt={event.name} />
+        </Card.Section>
+      )}
       <Stack gap="xs" p="md" style={{ flex: 1 }}>
         <Group gap="xs" wrap="wrap">
           {event.badge && (
