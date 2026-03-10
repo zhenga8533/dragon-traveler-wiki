@@ -525,6 +525,26 @@ body {
   }
 }
 
+.dt-stat-link .mantine-ThemeIcon-root {
+  transition: transform 180ms ease, box-shadow 180ms ease;
+}
+
+.dt-stat-link:hover .mantine-ThemeIcon-root {
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dt-stat-link .mantine-ThemeIcon-root {
+    transition: none;
+  }
+
+  .dt-stat-link:hover .mantine-ThemeIcon-root {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
 @media (prefers-reduced-motion: reduce) {
   .mantine-Paper-root[data-with-border],
   .mantine-Card-root[data-with-border] {

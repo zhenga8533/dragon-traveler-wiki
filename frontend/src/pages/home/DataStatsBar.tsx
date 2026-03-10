@@ -233,6 +233,7 @@ export default function DataStatsBar() {
               to={stat.to}
               py="sm"
               px="xs"
+              className="dt-stat-link"
               style={{ textDecoration: 'none' }}
             >
               <Stack gap={4} align="center">

@@ -1,4 +1,5 @@
 import {
+  Anchor,
   Box,
   Card,
   Container,
@@ -9,6 +10,7 @@ import {
   Title,
 } from '@mantine/core';
 import { IoCalendar, IoList, IoPricetag } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 import { getCardHoverProps } from '../../constants/styles';
 import { useGradientAccent } from '../../hooks';
 import ActiveCodesSection from './ActiveCodesSection';
@@ -49,18 +51,23 @@ export default function Home() {
                 {...getCardHoverProps()}
               >
                 <Stack gap="md">
-                  <Group gap="sm">
-                    <ThemeIcon
-                      variant="light"
-                      color={accent.primary}
-                      size="lg"
-                      radius="md"
-                    >
-                      <IoPricetag size={20} />
-                    </ThemeIcon>
-                    <Title order={2} size="h3">
-                      Active Codes
-                    </Title>
+                  <Group justify="space-between">
+                    <Group gap="sm">
+                      <ThemeIcon
+                        variant="light"
+                        color={accent.primary}
+                        size="lg"
+                        radius="md"
+                      >
+                        <IoPricetag size={20} />
+                      </ThemeIcon>
+                      <Title order={2} size="h3">
+                        Active Codes
+                      </Title>
+                    </Group>
+                    <Anchor component={Link} to="/codes" size="xs" c={accent.primary}>
+                      View all codes →
+                    </Anchor>
                   </Group>
                   <ActiveCodesSection />
                 </Stack>
@@ -76,18 +83,23 @@ export default function Home() {
                 {...getCardHoverProps()}
               >
                 <Stack gap="md">
-                  <Group gap="sm">
-                    <ThemeIcon
-                      variant="light"
-                      color={accent.primary}
-                      size="lg"
-                      radius="md"
-                    >
-                      <IoList size={20} />
-                    </ThemeIcon>
-                    <Title order={2} size="h3">
-                      Recent Updates
-                    </Title>
+                  <Group justify="space-between">
+                    <Group gap="sm">
+                      <ThemeIcon
+                        variant="light"
+                        color={accent.primary}
+                        size="lg"
+                        radius="md"
+                      >
+                        <IoList size={20} />
+                      </ThemeIcon>
+                      <Title order={2} size="h3">
+                        Recent Updates
+                      </Title>
+                    </Group>
+                    <Anchor component={Link} to="/changelog" size="xs" c={accent.primary}>
+                      View full changelog →
+                    </Anchor>
                   </Group>
                   <RecentUpdatesSection />
                 </Stack>
@@ -103,18 +115,23 @@ export default function Home() {
             {...getCardHoverProps()}
           >
             <Stack gap="md">
-              <Group gap="sm">
-                <ThemeIcon
-                  variant="light"
-                  color={accent.primary}
-                  size="lg"
-                  radius="md"
-                >
-                  <IoCalendar size={20} />
-                </ThemeIcon>
-                <Title order={2} size="h3">
-                  Active Events
-                </Title>
+              <Group justify="space-between">
+                <Group gap="sm">
+                  <ThemeIcon
+                    variant="light"
+                    color={accent.primary}
+                    size="lg"
+                    radius="md"
+                  >
+                    <IoCalendar size={20} />
+                  </ThemeIcon>
+                  <Title order={2} size="h3">
+                    Active Events
+                  </Title>
+                </Group>
+                <Anchor component={Link} to="/events" size="xs" c={accent.primary}>
+                  View all events →
+                </Anchor>
               </Group>
               <ActiveEventsSection />
             </Stack>

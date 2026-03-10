@@ -10,7 +10,6 @@ import {
 } from '@mantine/core';
 import { useContext } from 'react';
 import { IoTrophy } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
 import CharacterCard from '../../components/character/CharacterCard';
 import { TIER_COLOR } from '../../constants/colors';
 import { normalizeContentType } from '../../constants/content-types';
@@ -174,26 +173,7 @@ export default function FeaturedCharactersMarquee() {
           {renderCharacters('b')}
         </Group>
       </Box>
-      <Group gap="md" justify="center">
-        <Text
-          component={Link}
-          to="/tier-list"
-          size="xs"
-          c={accent.primary}
-          td="underline"
-        >
-          View full tier list
-        </Text>
-        <Text
-          component={Link}
-          to="/characters"
-          size="xs"
-          c={accent.primary}
-          td="underline"
-        >
-          Browse all characters
-        </Text>
-      </Group>
+      <Box h="xs" />
     </Stack>
   );
 }

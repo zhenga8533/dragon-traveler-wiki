@@ -1,7 +1,6 @@
 import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
-import { Link } from 'react-router-dom';
 import { getCardHoverProps } from '../../constants/styles';
-import { useDataFetch, useGradientAccent } from '../../hooks';
+import { useDataFetch } from '../../hooks';
 
 interface ChangelogEntry {
   date: string;
@@ -21,7 +20,6 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 export default function RecentUpdatesSection() {
-  const { accent } = useGradientAccent();
   const { data: changelog, loading } = useDataFetch<ChangelogEntry[]>(
     'data/changelog.json',
     []
@@ -94,16 +92,6 @@ export default function RecentUpdatesSection() {
           </Stack>
         </Paper>
       ))}
-      <Text
-        component={Link}
-        to="/changelog"
-        size="xs"
-        c={accent.primary}
-        td="underline"
-        style={{ alignSelf: 'flex-end' }}
-      >
-        View full changelog
-      </Text>
     </Stack>
   );
 }

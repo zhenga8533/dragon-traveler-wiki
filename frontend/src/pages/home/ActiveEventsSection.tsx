@@ -8,7 +8,6 @@ import {
   Stack,
   Text,
 } from '@mantine/core';
-import { Link } from 'react-router-dom';
 import { getEventImage } from '../../assets/event';
 import { getCardHoverProps } from '../../constants/styles';
 import { useDataFetch, useGradientAccent } from '../../hooks';
@@ -102,16 +101,6 @@ export default function ActiveEventsSection() {
           );
         })}
       </SimpleGrid>
-      <Text
-        component={Link}
-        to="/events"
-        size="xs"
-        c={accent.primary}
-        td="underline"
-        style={{ alignSelf: 'flex-end' }}
-      >
-        View all events
-      </Text>
     </Stack>
   );
 }

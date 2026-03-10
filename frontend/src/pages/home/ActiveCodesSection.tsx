@@ -9,16 +9,14 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IoCheckmark, IoCopyOutline } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
 import ResourceBadge from '../../components/common/ResourceBadge';
 import { getCardHoverProps } from '../../constants/styles';
-import { useDataFetch, useGradientAccent, useMobileTooltip } from '../../hooks';
+import { useDataFetch, useMobileTooltip } from '../../hooks';
 import type { Code } from '../../types/code';
 import { isCodeActive } from '../../utils';
 
 export default function ActiveCodesSection() {
   const tooltipProps = useMobileTooltip();
-  const { accent } = useGradientAccent();
   const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
   const activeCodes = codes.filter(isCodeActive).reverse().slice(0, 5);
 
@@ -88,16 +86,6 @@ export default function ActiveCodesSection() {
           )}
         </Paper>
       ))}
-      <Text
-        component={Link}
-        to="/codes"
-        size="xs"
-        c={accent.primary}
-        td="underline"
-        style={{ alignSelf: 'flex-end' }}
-      >
-        View all codes
-      </Text>
     </Stack>
   );
 }
