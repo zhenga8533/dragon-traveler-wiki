@@ -18,6 +18,15 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Extreme Crit Drain Aura",
+    "effect": "While deployed, all allied units gain 180 Crit, 18% Crit Damage, and 9% Lifesteal.",
+    "type": "Breach",
+    "quality": "SSR+",
+    "exclusive_faction": null,
+    "is_global": true,
+    "last_updated": 1773147115
+  },
+  {
     "name": "Arcane Aura",
     "effect": "While deployed, all allied units gain 40% Overdrive Damage Boost and 200 Hit.",
     "type": "Breach",
@@ -295,6 +304,15 @@
     "exclusive_faction": null,
     "is_global": true,
     "last_updated": 1771129475
+  },
+  {
+    "name": "Dual Defense Resist Aura",
+    "effect": "While deployed, all allied units gain 180 Crit Resist, 18% Physical Defense, and 18% Magic Defense.",
+    "type": "Refuge",
+    "quality": "SSR+",
+    "exclusive_faction": null,
+    "is_global": true,
+    "last_updated": 1773147115
   },
   {
     "name": "Block Aura",

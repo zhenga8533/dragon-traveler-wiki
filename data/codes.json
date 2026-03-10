@@ -534,8 +534,8 @@
       "Golden Horn": 1,
       "Leaf of the World Tree": 5
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1773147115
   },
   {
     "code": "NEWNOTICE",
@@ -736,5 +736,15 @@
     },
     "active": true,
     "last_updated": 1773060057
+  },
+  {
+    "code": "BunnyGirl",
+    "rewards": {
+      "Legacy Dragon Crystal": 3,
+      "Golden Horn": 1,
+      "SR Luminary Shards": 10
+    },
+    "active": true,
+    "last_updated": 1773147115
   }
 ]
