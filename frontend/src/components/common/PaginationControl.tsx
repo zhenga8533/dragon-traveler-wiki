@@ -1,4 +1,5 @@
-import { Group, Paper, Select, Stack, Text } from '@mantine/core';
+import { ActionIcon, Group, Paper, Select, Stack, Text } from '@mantine/core';
+import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
 import { useIsMobile } from '../../hooks';
 
 interface PaginationControlProps {
@@ -30,14 +31,12 @@ export default function PaginationControl({
     pageSizeOptions !== undefined &&
     pageSizeOptions.length > 1 &&
     onPageSizeChange !== undefined;
-  const rangeStart =
-    totalItems && totalItems > 0 && pageSize
-      ? (currentPage - 1) * pageSize + 1
-      : 0;
-  const rangeEnd =
-    totalItems && totalItems > 0 && pageSize
-      ? Math.min(totalItems, currentPage * pageSize)
-      : 0;
+  const hasItemsCount =
+    totalItems !== undefined && totalItems > 0 && pageSize !== undefined;
+  const rangeStart = hasItemsCount ? (currentPage - 1) * pageSize + 1 : 0;
+  const rangeEnd = hasItemsCount
+    ? Math.min(totalItems, currentPage * pageSize)
+    : 0;
   const pageSizeData = (pageSizeOptions ?? []).map((option) => ({
     value: String(option),
     label: `${option} / page`,
@@ -50,18 +49,39 @@ export default function PaginationControl({
       label: `Page ${pageNumber}`,
     };
   });
-  const summaryValue =
-    totalItems !== undefined && pageSize !== undefined
-      ? `${rangeStart}-${rangeEnd} of ${totalItems}`
-      : `${currentPage} of ${totalPages}`;
-  const summaryLabel =
-    totalItems !== undefined && pageSize !== undefined
-      ? `Showing items · page ${currentPage} of ${totalPages}`
-      : hasPagination
-        ? 'Current page'
-        : undefined;
+
+  const hasItemsData = totalItems !== undefined && pageSize !== undefined;
+  const summaryValue = hasItemsData
+    ? `${rangeStart}-${rangeEnd} of ${totalItems}`
+    : `${currentPage} of ${totalPages}`;
+  const summaryLabel = hasItemsData
+    ? `Showing items · page ${currentPage} of ${totalPages}`
+    : hasPagination
+      ? 'Current page'
+      : undefined;
 
   if (!hasPagination && !hasPageSizeSelector) return null;
+
+  const commonSelectProps = {
+    allowDeselect: false,
+    size: 'sm' as const,
+    radius: 'xl',
+    comboboxProps: { position: 'bottom-end' as const },
+    styles: { input: { fontWeight: 600 } },
+  };
+
+  const commonActionIconProps = {
+    variant: 'subtle',
+    color: 'gray',
+    size: 'md',
+    radius: 'xl',
+  } as const;
+
+  const LabelText = ({ children }: { children: React.ReactNode }) => (
+    <Text size="xs" c="dimmed" fw={600} tt="uppercase">
+      {children}
+    </Text>
+  );
 
   function handleChange(page: number) {
     if (page === currentPage) {
@@ -84,32 +104,53 @@ export default function PaginationControl({
           bg="var(--mantine-color-body)"
           style={{ boxShadow: 'var(--mantine-shadow-xs)' }}
         >
-          <Group justify="space-between" align="flex-end" wrap="wrap" gap="sm">
-            <Group
-              justify="space-between"
-              align="flex-end"
-              wrap="wrap"
-              gap="sm"
-              style={{ flex: 1 }}
+          <Group
+            justify={isMobile ? 'center' : 'space-between'}
+            align={isMobile ? 'center' : 'flex-end'}
+            wrap="wrap"
+            gap="sm"
+          >
+            <Stack
+              gap={2}
+              align={isMobile ? 'center' : 'flex-start'}
+              style={{ flexShrink: 0 }}
             >
-              <Stack gap={2}>
-                {summaryLabel && (
-                  <Text size="xs" c="dimmed" fw={600} tt="uppercase">
-                    {summaryLabel}
-                  </Text>
-                )}
-                <Text size="sm" fw={600}>
-                  {summaryValue}
-                </Text>
-              </Stack>
+              {summaryLabel && <LabelText>{summaryLabel}</LabelText>}
+              <Text size="sm" fw={600}>
+                {summaryValue}
+              </Text>
+            </Stack>
 
-              <Group gap="sm" align="flex-end" wrap="wrap">
-                {hasPagination && (
-                  <Stack gap={4} align={isMobile ? 'stretch' : 'flex-end'}>
-                    <Text size="xs" c="dimmed" fw={600} tt="uppercase">
-                      Page
-                    </Text>
+            <Group
+              gap="sm"
+              align={isMobile ? 'center' : 'flex-end'}
+              justify={isMobile ? 'center' : 'flex-end'}
+              wrap="wrap"
+              style={{ flexGrow: 1 }}
+            >
+              {hasPagination && (
+                <Group
+                  gap="xs"
+                  wrap="nowrap"
+                  align={isMobile ? 'center' : 'flex-end'}
+                >
+                  <ActionIcon
+                    {...commonActionIconProps}
+                    onClick={() => handleChange(currentPage - 1)}
+                    disabled={currentPage <= 1}
+                    aria-label="Previous page"
+                  >
+                    <FaChevronLeft size={14} />
+                  </ActionIcon>
+
+                  <Stack
+                    gap={4}
+                    align={isMobile ? 'center' : 'flex-end'}
+                    style={{ flex: isMobile ? 1 : undefined }}
+                  >
+                    <LabelText>Page</LabelText>
                     <Select
+                      {...commonSelectProps}
                       aria-label="Page number"
                       value={String(currentPage)}
                       data={pageNumberData}
@@ -120,51 +161,41 @@ export default function PaginationControl({
 
                         handleChange(Number(value));
                       }}
-                      allowDeselect={false}
-                      size="sm"
-                      radius="xl"
                       searchable={totalPages > 12}
                       w={isMobile ? '100%' : 136}
-                      comboboxProps={{ position: 'bottom-end' }}
-                      styles={{
-                        input: {
-                          fontWeight: 600,
-                        },
-                      }}
                     />
                   </Stack>
-                )}
 
-                {hasPageSizeSelector && (
-                  <Stack gap={4} align={isMobile ? 'stretch' : 'flex-end'}>
-                    <Text size="xs" c="dimmed" fw={600} tt="uppercase">
-                      Items per page
-                    </Text>
-                    <Select
-                      aria-label="Items per page"
-                      value={pageSize === undefined ? null : String(pageSize)}
-                      data={pageSizeData}
-                      onChange={(value) => {
-                        if (!value || !onPageSizeChange) {
-                          return;
-                        }
+                  <ActionIcon
+                    {...commonActionIconProps}
+                    onClick={() => handleChange(currentPage + 1)}
+                    disabled={currentPage >= totalPages}
+                    aria-label="Next page"
+                  >
+                    <FaChevronRight size={14} />
+                  </ActionIcon>
+                </Group>
+              )}
 
-                        onPageSizeChange(Number(value));
-                      }}
-                      allowDeselect={false}
-                      size="sm"
-                      radius="xl"
-                      w={isMobile ? '100%' : 132}
-                      comboboxProps={{ position: 'bottom-end' }}
-                      styles={{
-                        input: {
-                          fontWeight: 600,
-                        },
-                      }}
-                    />
-                  </Stack>
-                )}
-              </Group>
+              {hasPageSizeSelector && (
+                <Stack gap={4} align={isMobile ? 'center' : 'flex-end'}>
+                  <LabelText>Items per page</LabelText>
+                  <Select
+                    {...commonSelectProps}
+                    aria-label="Items per page"
+                    value={pageSize === undefined ? null : String(pageSize)}
+                    data={pageSizeData}
+                    onChange={(value) => {
+                      if (!value || !onPageSizeChange) {
+                        return;
+                      }
+
+                      onPageSizeChange(Number(value));
+                    }}
+                    w={isMobile ? '100%' : 132}
+                  />
+                </Stack>
+              )}
             </Group>
           </Group>
         </Paper>
