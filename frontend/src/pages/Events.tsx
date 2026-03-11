@@ -219,7 +219,7 @@ function TwEventCard({ event }: { event: TwEvent }) {
 
 function EventCard({ event }: { event: GameEvent }) {
   const { accent } = useGradientAccent();
-  const image = getEventImage(event.name);
+  const image = getEventImage(event.name) ?? placeholderEventImage;
 
   return (
     <Card
@@ -229,11 +229,9 @@ function EventCard({ event }: { event: GameEvent }) {
       {...getCardHoverProps()}
       style={{ display: 'flex', flexDirection: 'column' }}
     >
-      {image && (
-        <Card.Section>
-          <Image src={image} height={160} fit="cover" alt={event.name} />
-        </Card.Section>
-      )}
+      <Card.Section>
+        <Image src={image} height={160} fit="cover" alt={event.name} />
+      </Card.Section>
       <Stack gap="xs" p="md" style={{ flex: 1 }}>
         <Group gap="xs" wrap="wrap">
           {event.badge && (
