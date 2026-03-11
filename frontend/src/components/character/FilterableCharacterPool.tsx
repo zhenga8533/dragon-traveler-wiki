@@ -6,7 +6,11 @@ import { getCardHoverProps } from '../../constants/styles';
 import { BREAKPOINTS } from '../../constants/ui';
 import { TierListReferenceContext } from '../../contexts';
 import { useGradientAccent } from '../../hooks';
-import { usePagination } from '../../hooks/use-pagination';
+import {
+  buildRowAlignedPageSizeOptions,
+  usePageSize,
+  usePagination,
+} from '../../hooks/use-pagination';
 import type { Character } from '../../types/character';
 import {
   buildCharacterByIdentityMap,
@@ -51,7 +55,13 @@ export default function FilterableCharacterPool({
   const isSm = useMediaQuery(BREAKPOINTS.DESKTOP);
   const isXs = useMediaQuery(BREAKPOINTS.XS);
   const cols = isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
-  const pageSize = cols * ROWS_PER_PAGE;
+  const pageSizeOptions = useMemo(
+    () => buildRowAlignedPageSizeOptions(cols, [4, 6, 8, 10]),
+    [cols]
+  );
+  const { pageSize, setPageSize } = usePageSize(pageSizeOptions, {
+    defaultSize: cols * ROWS_PER_PAGE,
+  });
 
   const effectOptions = useMemo(
     () => extractAllEffectRefs(characters),
@@ -144,6 +154,11 @@ export default function FilterableCharacterPool({
     totalPages,
     offset,
   } = usePagination(filtered.length, pageSize, filterKey);
+
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize, setPage]);
+
   const paginated = filtered.slice(offset, offset + pageSize);
 
   const activeFilterCount =
@@ -199,6 +214,10 @@ export default function FilterableCharacterPool({
       currentPage={safePage}
       totalPages={totalPages}
       onChange={setPage}
+      totalItems={filtered.length}
+      pageSize={pageSize}
+      pageSizeOptions={pageSizeOptions}
+      onPageSizeChange={setPageSize}
       scrollToTop
     />
   );

@@ -31,6 +31,7 @@ import {
   useCharacterResolution,
   useGradientAccent,
   useIsMobile,
+  usePageSize,
 } from '../../hooks';
 import {
   useCharacters,
@@ -42,7 +43,10 @@ import {
   useFilters,
   useViewMode,
 } from '../../hooks/use-filters';
-import { usePagination } from '../../hooks/use-pagination';
+import {
+  getPageSizeStorageKey,
+  usePagination,
+} from '../../hooks/use-pagination';
 import type { FactionName } from '../../types/faction';
 import type { Team } from '../../types/team';
 import { loadSavedFromStorage, parseTabMode } from '../../utils';
@@ -51,6 +55,10 @@ import TeamsSavedTab from './TeamsSavedTab';
 import TeamsViewTab from './TeamsViewTab';
 
 const TEAMS_PER_PAGE = 12;
+const TEAM_PAGE_SIZE_OPTIONS = {
+  grid: [6, 12, 18, 24],
+  list: [10, 20, 30, 50],
+} as const;
 
 function matchesTeamFilters(
   team: Team,
@@ -245,12 +253,25 @@ export default function Teams() {
     );
   }, [teams, search, viewFilters]);
 
+  const { pageSize, setPageSize, pageSizeOptions } = usePageSize(
+    TEAM_PAGE_SIZE_OPTIONS[viewMode],
+    {
+      defaultSize: TEAMS_PER_PAGE,
+      storageKey: getPageSizeStorageKey(STORAGE_KEY.TEAMS_VIEW_MODE),
+    }
+  );
+
   const { page, setPage, totalPages, offset } = usePagination(
     filteredTeams.length,
-    TEAMS_PER_PAGE,
+    pageSize,
     JSON.stringify({ search, viewFilters })
   );
-  const paginatedTeams = filteredTeams.slice(offset, offset + TEAMS_PER_PAGE);
+
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize, setPage]);
+
+  const paginatedTeams = filteredTeams.slice(offset, offset + pageSize);
 
   const mostRecentUpdate = useMemo(() => {
     let latest = 0;
@@ -342,6 +363,9 @@ export default function Teams() {
                 page={page}
                 totalPages={totalPages}
                 onPageChange={setPage}
+                pageSize={pageSize}
+                pageSizeOptions={pageSizeOptions}
+                onPageSizeChange={setPageSize}
                 onRequestEdit={requestEditTeam}
               />
             )}

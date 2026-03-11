@@ -1,5 +1,5 @@
 import { useMediaQuery } from '@mantine/hooks';
-import { useCallback, useContext, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 import { BREAKPOINTS, STORAGE_KEY } from '../constants/ui';
 import { TierListReferenceContext } from '../contexts';
 import type { Character } from '../types/character';
@@ -20,7 +20,12 @@ import {
 import { useStatusEffects } from './use-common-data';
 import type { ViewMode } from './use-filters';
 import { useFilterPanel, useFilters, useViewMode } from './use-filters';
-import { usePagination } from './use-pagination';
+import {
+  buildRowAlignedPageSizeOptions,
+  getPageSizeStorageKey,
+  usePageSize,
+  usePagination,
+} from './use-pagination';
 import { applyDir, useSortState } from './use-sort';
 
 export interface CharacterListData {
@@ -43,6 +48,9 @@ export interface CharacterListData {
   page: number;
   setPage: (page: number) => void;
   totalPages: number;
+  pageSize: number;
+  setPageSize: (pageSize: number) => void;
+  pageSizeOptions: readonly number[];
   activeFilterCount: number;
 }
 
@@ -71,7 +79,18 @@ export function useCharacterListData(
   const isSm = useMediaQuery(BREAKPOINTS.DESKTOP);
   const isXs = useMediaQuery(BREAKPOINTS.XS);
   const activeCols = isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
-  const pageSize = activeCols * 10;
+  const gridPageSizeOptions = useMemo(
+    () => buildRowAlignedPageSizeOptions(activeCols, [4, 6, 8, 10]),
+    [activeCols]
+  );
+  const listPageSizeOptions = [10, 20, 30, 50] as const;
+  const { pageSize, setPageSize, pageSizeOptions } = usePageSize(
+    viewMode === 'grid' ? gridPageSizeOptions : listPageSizeOptions,
+    {
+      defaultSize: activeCols * 6,
+      storageKey: getPageSizeStorageKey(STORAGE_KEY.CHARACTER_VIEW_MODE),
+    }
+  );
 
   const effectOptions = useMemo(() => {
     const referencedEffects = new Set(extractAllEffectRefs(characters));
@@ -205,6 +224,11 @@ export function useCharacterListData(
     pageSize,
     JSON.stringify(filters)
   );
+
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize, setPage]);
+
   const pageItems = filteredAndSorted.slice(offset, offset + pageSize);
 
   const activeFilterCount =
@@ -236,6 +260,9 @@ export function useCharacterListData(
     page,
     setPage,
     totalPages,
+    pageSize,
+    setPageSize,
+    pageSizeOptions,
     activeFilterCount,
   };
 }

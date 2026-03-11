@@ -54,6 +54,9 @@ interface TeamsViewTabProps {
   page: number;
   totalPages: number;
   onPageChange: (page: number) => void;
+  pageSize: number;
+  pageSizeOptions: readonly number[];
+  onPageSizeChange: (pageSize: number) => void;
   onRequestEdit: (team: Team) => void;
 }
 
@@ -75,6 +78,9 @@ export default function TeamsViewTab({
   page,
   totalPages,
   onPageChange,
+  pageSize,
+  pageSizeOptions,
+  onPageSizeChange,
   onRequestEdit,
 }: TeamsViewTabProps) {
   const navigate = useNavigate();
@@ -281,6 +287,10 @@ export default function TeamsViewTab({
         currentPage={page}
         totalPages={totalPages}
         onChange={onPageChange}
+        totalItems={filteredTeams.length}
+        pageSize={pageSize}
+        pageSizeOptions={pageSizeOptions}
+        onPageSizeChange={onPageSizeChange}
       />
     </>
   );

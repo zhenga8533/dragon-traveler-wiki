@@ -105,6 +105,9 @@ export default function StatusEffects() {
     page,
     setPage,
     totalPages,
+    pageSize,
+    setPageSize,
+    pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(effects, {
     emptyFilters: EMPTY_FILTERS,
@@ -199,6 +202,9 @@ export default function StatusEffects() {
             page={page}
             totalPages={totalPages}
             onPageChange={setPage}
+            pageSize={pageSize}
+            pageSizeOptions={pageSizeOptions}
+            onPageSizeChange={setPageSize}
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((effect) => {

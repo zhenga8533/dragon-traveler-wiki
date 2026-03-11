@@ -21,6 +21,9 @@ interface FilteredListShellProps {
   page?: number;
   totalPages?: number;
   onPageChange?: (page: number) => void;
+  pageSize?: number;
+  pageSizeOptions?: readonly number[];
+  onPageSizeChange?: (pageSize: number) => void;
 }
 
 export default function FilteredListShell({
@@ -39,6 +42,9 @@ export default function FilteredListShell({
   page,
   totalPages,
   onPageChange,
+  pageSize,
+  pageSizeOptions,
+  onPageSizeChange,
 }: FilteredListShellProps) {
   const defaultEmpty = `No ${noun}s match the current filters.`;
 
@@ -75,6 +81,10 @@ export default function FilteredListShell({
             currentPage={page}
             totalPages={totalPages}
             onChange={onPageChange}
+            totalItems={count}
+            pageSize={pageSize}
+            pageSizeOptions={pageSizeOptions}
+            onPageSizeChange={onPageSizeChange}
           />
         )}
       </Stack>

@@ -15,7 +15,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import {
   IoCalendar,
   IoCalendarOutline,
@@ -45,17 +45,23 @@ import {
   useFilters,
   useGradientAccent,
   useIsMobile,
+  usePageSize,
   usePagination,
   useTabParam,
   useViewMode,
 } from '../hooks';
 import type { ViewMode } from '../hooks/use-filters';
 import { countActiveFilters } from '../hooks/use-filters';
+import { getPageSizeStorageKey } from '../hooks/use-pagination';
 import type { GameEvent, TwEvent } from '../types';
 import { getLatestTimestamp } from '../utils';
 import { getTwEventTypeColor, isTwEventActive } from '../utils/event-utils';
 
 const EVENTS_PER_PAGE = 12;
+const EVENT_PAGE_SIZE_OPTIONS: Record<ViewMode, readonly number[]> = {
+  grid: [12, 18, 24, 36],
+  list: [6, 12, 18, 24],
+};
 
 type TabFilter = 'active' | 'past';
 
@@ -657,12 +663,26 @@ export default function Events() {
     });
   }, [scopedEvents, eventFilters]);
 
+  const {
+    pageSize: eventPageSize,
+    setPageSize: setEventPageSize,
+    pageSizeOptions: eventPageSizeOptions,
+  } = usePageSize(EVENT_PAGE_SIZE_OPTIONS[eventViewMode], {
+    defaultSize: EVENTS_PER_PAGE,
+    storageKey: getPageSizeStorageKey(STORAGE_KEY.EVENT_VIEW_MODE),
+  });
+
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
-    EVENTS_PER_PAGE,
+    eventPageSize,
     `${tab}:${JSON.stringify(eventFilters)}`
   );
-  const paginated = filtered.slice(offset, offset + EVENTS_PER_PAGE);
+
+  useEffect(() => {
+    setPage(1);
+  }, [eventPageSize, setPage]);
+
+  const paginated = filtered.slice(offset, offset + eventPageSize);
 
   const mostRecentUpdate = Math.max(
     getLatestTimestamp(events) || 0,
@@ -838,6 +858,10 @@ export default function Events() {
             currentPage={page}
             totalPages={totalPages}
             onChange={setPage}
+            totalItems={filtered.length}
+            pageSize={eventPageSize}
+            pageSizeOptions={eventPageSizeOptions}
+            onPageSizeChange={setEventPageSize}
             scrollToTop
           />
         )}

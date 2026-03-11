@@ -143,6 +143,9 @@ export default function Subclasses() {
     page,
     setPage,
     totalPages,
+    pageSize,
+    setPageSize,
+    pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(subclasses, {
     emptyFilters: EMPTY_FILTERS,
@@ -248,6 +251,9 @@ export default function Subclasses() {
             page={page}
             totalPages={totalPages}
             onPageChange={setPage}
+            pageSize={pageSize}
+            pageSizeOptions={pageSizeOptions}
+            onPageSizeChange={setPageSize}
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((item) => {

@@ -50,6 +50,9 @@ export default function CharacterList({
     page,
     setPage,
     totalPages,
+    pageSize,
+    setPageSize,
+    pageSizeOptions,
     activeFilterCount,
   } = useCharacterListData(characters);
 
@@ -118,6 +121,10 @@ export default function CharacterList({
           currentPage={page}
           totalPages={totalPages}
           onChange={setPage}
+          totalItems={filteredAndSorted.length}
+          pageSize={pageSize}
+          pageSizeOptions={pageSizeOptions}
+          onPageSizeChange={setPageSize}
         />
       </Stack>
     </Paper>

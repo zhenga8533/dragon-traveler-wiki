@@ -43,9 +43,10 @@ import {
   useDataFetch,
   useFilteredPageData,
   useGradientAccent,
+  usePageSize,
   useTabParam,
 } from '../hooks';
-import { usePagination } from '../hooks/use-pagination';
+import { getPageSizeStorageKey, usePagination } from '../hooks/use-pagination';
 import type { Gear, GearSet, GearType } from '../types/gear';
 import type { Quality } from '../types/quality';
 import { getLatestTimestamp } from '../utils';
@@ -219,6 +220,9 @@ export default function GearPage() {
     page: gearPage,
     setPage: setGearPage,
     totalPages: gearTotalPages,
+    pageSize: gearPageSize,
+    setPageSize: setGearPageSize,
+    pageSizeOptions: gearPageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(gear, {
     emptyFilters: EMPTY_FILTERS,
@@ -322,14 +326,28 @@ export default function GearPage() {
   }, [gearSets, gearSetSearch]);
 
   const {
+    pageSize: gearSetPageSize,
+    setPageSize: setGearSetPageSize,
+    pageSizeOptions: gearSetPageSizeOptions,
+  } = usePageSize([10, 20, 30, 50], {
+    defaultSize: PAGE_SIZE,
+    storageKey: getPageSizeStorageKey(STORAGE_KEY.GEAR_SET_SEARCH),
+  });
+
+  const {
     page: gearSetPage,
     setPage: setGearSetPage,
     totalPages: gearSetTotalPages,
     offset: gearSetOffset,
-  } = usePagination(filteredGearSets.length, PAGE_SIZE, gearSetSearch);
+  } = usePagination(filteredGearSets.length, gearSetPageSize, gearSetSearch);
+
+  useEffect(() => {
+    setGearSetPage(1);
+  }, [gearSetPageSize, setGearSetPage]);
+
   const gearSetPageItems = filteredGearSets.slice(
     gearSetOffset,
-    gearSetOffset + PAGE_SIZE
+    gearSetOffset + gearSetPageSize
   );
 
   const mostRecentUpdate = useMemo(() => getLatestTimestamp(gear), [gear]);
@@ -390,6 +408,12 @@ export default function GearPage() {
                 onFilterToggle={toggleFilter}
                 onResetFilters={resetFilters}
                 emptyMessage="No gear matches the current filters."
+                page={gearPage}
+                totalPages={gearTotalPages}
+                onPageChange={setGearPage}
+                pageSize={gearPageSize}
+                pageSizeOptions={gearPageSizeOptions}
+                onPageSizeChange={setGearPageSize}
                 filterContent={
                   <EntityFilter
                     groups={FILTER_GROUPS}
@@ -608,9 +632,6 @@ export default function GearPage() {
                     </Table>
                   </ScrollArea>
                 }
-                page={gearPage}
-                totalPages={gearTotalPages}
-                onPageChange={setGearPage}
               />
             </ListPageShell>
           </Tabs.Panel>
@@ -714,6 +735,10 @@ export default function GearPage() {
                     currentPage={gearSetPage}
                     totalPages={gearSetTotalPages}
                     onChange={setGearSetPage}
+                    totalItems={filteredGearSets.length}
+                    pageSize={gearSetPageSize}
+                    pageSizeOptions={gearSetPageSizeOptions}
+                    onPageSizeChange={setGearSetPageSize}
                   />
                 </Stack>
               </Paper>

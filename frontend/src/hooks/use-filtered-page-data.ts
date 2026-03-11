@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+import { useEffect, useMemo } from 'react';
 import type { ViewMode } from './use-filters';
 import {
   countActiveFilters,
@@ -6,7 +6,13 @@ import {
   useFilters,
   useViewMode,
 } from './use-filters';
-import { usePagination } from './use-pagination';
+import {
+  getPageSizeStorageKey,
+  resolvePageSizeOptions,
+  usePageSize,
+  usePagination,
+  type PageSizeOptionsByViewMode,
+} from './use-pagination';
 import { useSortState } from './use-sort';
 
 const DEFAULT_PAGE_SIZE = 50;
@@ -17,9 +23,15 @@ export function useFilteredPageData<T, F extends object>(
     emptyFilters: F;
     filterFn: (item: T, filters: F) => boolean;
     sortFn: (a: T, b: T, col: string | null, dir: 'asc' | 'desc') => number;
-    storageKeys?: { filters?: string; viewMode?: string; sort?: string };
+    storageKeys?: {
+      filters?: string;
+      viewMode?: string;
+      sort?: string;
+      pageSize?: string;
+    };
     defaultViewMode?: ViewMode;
     pageSize?: number;
+    pageSizeOptions?: readonly number[] | PageSizeOptionsByViewMode;
   }
 ) {
   const {
@@ -29,6 +41,7 @@ export function useFilteredPageData<T, F extends object>(
     storageKeys = {},
     defaultViewMode = 'grid',
     pageSize = DEFAULT_PAGE_SIZE,
+    pageSizeOptions,
   } = options;
 
   const { filters, setFilters, resetFilters, updateFilter } = useFilters<F>({
@@ -45,6 +58,21 @@ export function useFilteredPageData<T, F extends object>(
 
   const { sortState, handleSort } = useSortState(storageKeys.sort ?? '');
   const { col: sortCol, dir: sortDir } = sortState;
+  const resolvedPageSizeOptions = useMemo(
+    () => resolvePageSizeOptions(viewMode, pageSizeOptions),
+    [pageSizeOptions, viewMode]
+  );
+  const pageSizeStorageKey =
+    storageKeys.pageSize ??
+    getPageSizeStorageKey(storageKeys.viewMode ?? storageKeys.filters);
+  const {
+    pageSize: activePageSize,
+    setPageSize,
+    pageSizeOptions: availablePageSizeOptions,
+  } = usePageSize(resolvedPageSizeOptions, {
+    defaultSize: pageSize,
+    storageKey: pageSizeStorageKey,
+  });
 
   const filtered = useMemo(
     () =>
@@ -56,11 +84,15 @@ export function useFilteredPageData<T, F extends object>(
 
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
-    pageSize,
+    activePageSize,
     JSON.stringify(filters)
   );
 
-  const pageItems = filtered.slice(offset, offset + pageSize);
+  useEffect(() => {
+    setPage(1);
+  }, [activePageSize, setPage]);
+
+  const pageItems = filtered.slice(offset, offset + activePageSize);
 
   const activeFilterCount = countActiveFilters(filters);
 
@@ -88,6 +120,9 @@ export function useFilteredPageData<T, F extends object>(
     page,
     setPage,
     totalPages,
+    pageSize: activePageSize,
+    setPageSize,
+    pageSizeOptions: availablePageSizeOptions,
     // Derived
     activeFilterCount,
   };

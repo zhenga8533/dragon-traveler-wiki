@@ -115,6 +115,9 @@ export default function NoblePhantasms() {
     page,
     setPage,
     totalPages,
+    pageSize,
+    setPageSize,
+    pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(noblePhantasms, {
     emptyFilters: EMPTY_FILTERS,
@@ -208,6 +211,9 @@ export default function NoblePhantasms() {
             page={page}
             totalPages={totalPages}
             onPageChange={setPage}
+            pageSize={pageSize}
+            pageSizeOptions={pageSizeOptions}
+            onPageSizeChange={setPageSize}
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 {pageItems.map((np) => {

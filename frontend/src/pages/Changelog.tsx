@@ -27,10 +27,14 @@ import {
 } from '../components/common/FilterControls';
 import PaginationControl from '../components/common/PaginationControl';
 import { ListPageLoading } from '../components/layout/PageLoadingSkeleton';
-import { getCardHoverProps } from '../constants/styles';
 import { IMAGE_SIZE } from '../constants/ui';
-import { useDataFetch, useGradientAccent, useTabParam } from '../hooks';
-import { usePagination } from '../hooks/use-pagination';
+import {
+  useDataFetch,
+  useGradientAccent,
+  usePageSize,
+  useTabParam,
+} from '../hooks';
+import { getPageSizeStorageKey, usePagination } from '../hooks/use-pagination';
 import type { FieldDiff } from '../types/changes';
 
 // ─── Site changelog types ─────────────────────────────────────────────────────
@@ -51,6 +55,7 @@ const CHANGE_TYPE_COLORS: Record<string, string> = {
   fixed: 'orange',
   removed: 'red',
 };
+const CHANGELOG_PAGE_SIZE_OPTIONS = [10, 20, 30, 50] as const;
 
 // ─── Data changes types ───────────────────────────────────────────────────────
 
@@ -235,12 +240,23 @@ function DataHistory() {
       : events.filter((e) => selectedCategories.includes(e.category));
 
   const filterKey = selectedCategories.join(',');
+  const { pageSize, setPageSize, pageSizeOptions } = usePageSize(
+    CHANGELOG_PAGE_SIZE_OPTIONS,
+    {
+      defaultSize: DATA_PAGE_SIZE,
+      storageKey: getPageSizeStorageKey('changelog:data'),
+    }
+  );
+
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
-    DATA_PAGE_SIZE,
+    pageSize,
     filterKey
   );
-  const pageItems = filtered.slice(offset, offset + DATA_PAGE_SIZE);
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize, setPage]);
+  const pageItems = filtered.slice(offset, offset + pageSize);
 
   const categoryChipOptions = DATA_FILES.filter(({ file }) =>
     events.some((e) => e.category === file)
@@ -393,6 +409,10 @@ function DataHistory() {
               setPage(p);
               clearExpanded();
             }}
+            totalItems={filtered.length}
+            pageSize={pageSize}
+            pageSizeOptions={pageSizeOptions}
+            onPageSizeChange={setPageSize}
             scrollToTop
           />
         </>
@@ -419,12 +439,23 @@ export default function Changelog() {
     clear: clearEntries,
   } = useToggleSet<number>();
 
+  const { pageSize, setPageSize, pageSizeOptions } = usePageSize(
+    CHANGELOG_PAGE_SIZE_OPTIONS,
+    {
+      defaultSize: SITE_PAGE_SIZE,
+      storageKey: getPageSizeStorageKey('changelog:site'),
+    }
+  );
+
   const { page, setPage, totalPages, offset } = usePagination(
     changelog.length,
-    SITE_PAGE_SIZE,
+    pageSize,
     String(changelog.length)
   );
-  const paginatedChangelog = changelog.slice(offset, offset + SITE_PAGE_SIZE);
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize, setPage]);
+  const paginatedChangelog = changelog.slice(offset, offset + pageSize);
 
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
@@ -474,7 +505,9 @@ export default function Changelog() {
                         <Timeline.Item
                           key={entry.date}
                           color={accent.primary}
-                          bullet={<IoCheckmarkCircle size={IMAGE_SIZE.ICON_LG} />}
+                          bullet={
+                            <IoCheckmarkCircle size={IMAGE_SIZE.ICON_LG} />
+                          }
                           title={
                             <Group
                               justify="space-between"
@@ -575,24 +608,14 @@ export default function Changelog() {
                       setPage(p);
                       clearEntries();
                     }}
+                    totalItems={changelog.length}
+                    pageSize={pageSize}
+                    pageSizeOptions={pageSizeOptions}
+                    onPageSizeChange={setPageSize}
                     scrollToTop
                   />
                 </>
               )}
-
-              <Paper
-                p="md"
-                radius="md"
-                withBorder
-                {...getCardHoverProps({
-                  style: { marginTop: 'var(--mantine-spacing-xl)' },
-                })}
-              >
-                <Text size="sm" c="dimmed" ta="center">
-                  This changelog tracks major updates to the wiki database. For
-                  site improvements and bug fixes, check the GitHub repository.
-                </Text>
-              </Paper>
             </Stack>
           </Tabs.Panel>
 

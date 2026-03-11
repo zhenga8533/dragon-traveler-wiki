@@ -30,15 +30,21 @@ export { useDataFetch } from './use-data-fetch';
 export { useFilteredPageData } from './use-filtered-page-data';
 export {
   countActiveFilters,
-  useFilteredData,
   useFilterPanel,
+  useFilteredData,
   useFilters,
   useViewMode,
 } from './use-filters';
 export { useGradientAccent } from './use-gradient-accent';
 export { useIsMobile } from './use-is-mobile';
 export { useMobileTooltip } from './use-mobile-tooltip';
-export { usePagination } from './use-pagination';
+export {
+  buildRowAlignedPageSizeOptions,
+  getPageSizeStorageKey,
+  resolvePageSizeOptions,
+  usePageSize,
+  usePagination,
+} from './use-pagination';
 export { useSidebar } from './use-sidebar';
 export { applyDir, useSortState } from './use-sort';
 export { useEntityTabParam, useTabParam } from './use-tab-param';
@@ -46,4 +52,5 @@ export { useEntityTabParam, useTabParam } from './use-tab-param';
 // Re-export hook types
 export type { DataFetchResult } from './use-data-fetch';
 export type { ViewMode } from './use-filters';
+export type { PageSizeOptionsByViewMode } from './use-pagination';
 export type { UseSidebarReturn } from './use-sidebar';

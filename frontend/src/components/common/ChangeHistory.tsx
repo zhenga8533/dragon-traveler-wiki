@@ -15,7 +15,11 @@ import {
   IoRemoveCircleOutline,
   IoTimeOutline,
 } from 'react-icons/io5';
-import { usePagination } from '../../hooks/use-pagination';
+import {
+  getPageSizeStorageKey,
+  usePageSize,
+  usePagination,
+} from '../../hooks/use-pagination';
 import type {
   ChangeRecord,
   EntityChangeHistory,
@@ -26,6 +30,7 @@ import CollapsibleSectionCard from './CollapsibleSectionCard';
 import PaginationControl from './PaginationControl';
 
 const PAGE_SIZE = 5;
+const CHANGE_HISTORY_PAGE_SIZE_OPTIONS = [5, 10, 20, 30] as const;
 
 interface LabeledHistory {
   label: string;
@@ -497,15 +502,23 @@ export default function ChangeHistory({
     return `${earliestAdded ?? 0}:${sorted.length}:${newestTimestamp}:${oldestTimestamp}`;
   }, [earliestAdded, sorted]);
 
+  const { pageSize, setPageSize, pageSizeOptions } = usePageSize(
+    CHANGE_HISTORY_PAGE_SIZE_OPTIONS,
+    {
+      defaultSize: PAGE_SIZE,
+      storageKey: getPageSizeStorageKey('change-history'),
+    }
+  );
+
   const { page, setPage, totalPages, offset } = usePagination(
     sorted.length,
-    PAGE_SIZE,
+    pageSize,
     paginationResetKey
   );
 
   if (!history && !hasExtras) return null;
 
-  const visible = sorted.slice(offset, offset + PAGE_SIZE);
+  const visible = sorted.slice(offset, offset + pageSize);
 
   return (
     <Box mt="xl">
@@ -585,6 +598,10 @@ export default function ChangeHistory({
                   currentPage={page}
                   totalPages={totalPages}
                   onChange={setPage}
+                  totalItems={sorted.length}
+                  pageSize={pageSize}
+                  pageSizeOptions={pageSizeOptions}
+                  onPageSizeChange={setPageSize}
                 />
               )}
             </Stack>

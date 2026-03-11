@@ -139,6 +139,9 @@ export default function Artifacts() {
     page,
     setPage,
     totalPages,
+    pageSize,
+    setPageSize,
+    pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(artifacts, {
     emptyFilters: EMPTY_FILTERS,
@@ -233,6 +236,9 @@ export default function Artifacts() {
             page={page}
             totalPages={totalPages}
             onPageChange={setPage}
+            pageSize={pageSize}
+            pageSizeOptions={pageSizeOptions}
+            onPageSizeChange={setPageSize}
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 {pageItems.map((artifact) => {

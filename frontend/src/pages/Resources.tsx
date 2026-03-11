@@ -103,6 +103,9 @@ export default function Resources() {
     page,
     setPage,
     totalPages,
+    pageSize,
+    setPageSize,
+    pageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(resources, {
     emptyFilters: EMPTY_FILTERS,
@@ -205,6 +208,12 @@ export default function Resources() {
               />
             }
             emptyMessage="No resources match the current filters."
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+            pageSize={pageSize}
+            pageSizeOptions={pageSizeOptions}
+            onPageSizeChange={setPageSize}
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((resource) => {

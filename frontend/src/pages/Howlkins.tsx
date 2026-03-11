@@ -44,9 +44,10 @@ import {
   useDataFetch,
   useFilteredPageData,
   useGradientAccent,
+  usePageSize,
   useTabParam,
 } from '../hooks';
-import { usePagination } from '../hooks/use-pagination';
+import { getPageSizeStorageKey, usePagination } from '../hooks/use-pagination';
 import type { GoldenAlliance, Howlkin } from '../types/howlkin';
 import type { Quality } from '../types/quality';
 import { getLatestTimestamp } from '../utils';
@@ -185,6 +186,9 @@ export default function Howlkins() {
     page: howlkinPage,
     setPage: setHowlkinPage,
     totalPages: howlkinTotalPages,
+    pageSize: howlkinPageSize,
+    setPageSize: setHowlkinPageSize,
+    pageSizeOptions: howlkinPageSizeOptions,
     activeFilterCount,
   } = useFilteredPageData(howlkins, {
     emptyFilters: EMPTY_FILTERS,
@@ -295,14 +299,28 @@ export default function Howlkins() {
   }, [goldenAlliances, allianceSearch]);
 
   const {
+    pageSize: alliancePageSize,
+    setPageSize: setAlliancePageSize,
+    pageSizeOptions: alliancePageSizeOptions,
+  } = usePageSize([10, 20, 30, 50], {
+    defaultSize: PAGE_SIZE,
+    storageKey: getPageSizeStorageKey(STORAGE_KEY.GOLDEN_ALLIANCE_SEARCH),
+  });
+
+  const {
     page: alliancePage,
     setPage: setAlliancePage,
     totalPages: allianceTotalPages,
     offset: allianceOffset,
-  } = usePagination(filteredAlliances.length, PAGE_SIZE, allianceSearch);
+  } = usePagination(filteredAlliances.length, alliancePageSize, allianceSearch);
+
+  useEffect(() => {
+    setAlliancePage(1);
+  }, [alliancePageSize, setAlliancePage]);
+
   const alliancePageItems = filteredAlliances.slice(
     allianceOffset,
-    allianceOffset + PAGE_SIZE
+    allianceOffset + alliancePageSize
   );
 
   return (
@@ -373,6 +391,12 @@ export default function Howlkins() {
                 onFilterToggle={toggleFilter}
                 onResetFilters={resetFilters}
                 emptyMessage="No howlkins match the current filters."
+                page={howlkinPage}
+                totalPages={howlkinTotalPages}
+                onPageChange={setHowlkinPage}
+                pageSize={howlkinPageSize}
+                pageSizeOptions={howlkinPageSizeOptions}
+                onPageSizeChange={setHowlkinPageSize}
                 filterContent={
                   <EntityFilter
                     groups={filterGroups}
@@ -517,9 +541,6 @@ export default function Howlkins() {
                     </Table>
                   </ScrollArea>
                 }
-                page={howlkinPage}
-                totalPages={howlkinTotalPages}
-                onPageChange={setHowlkinPage}
               />
             )}
           </Tabs.Panel>
@@ -660,6 +681,10 @@ export default function Howlkins() {
                       currentPage={alliancePage}
                       totalPages={allianceTotalPages}
                       onChange={setAlliancePage}
+                      totalItems={filteredAlliances.length}
+                      pageSize={alliancePageSize}
+                      pageSizeOptions={alliancePageSizeOptions}
+                      onPageSizeChange={setAlliancePageSize}
                     />
                   </Stack>
                 </Paper>

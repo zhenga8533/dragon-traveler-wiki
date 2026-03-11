@@ -53,10 +53,11 @@ import {
   useDataFetch,
   useGradientAccent,
   useMobileTooltip,
+  usePageSize,
   useTabParam,
 } from '../hooks';
 import { useViewMode } from '../hooks/use-filters';
-import { usePagination } from '../hooks/use-pagination';
+import { getPageSizeStorageKey, usePagination } from '../hooks/use-pagination';
 import type { Code } from '../types/code';
 import type { Resource } from '../types/resource';
 import {
@@ -92,6 +93,11 @@ const CODE_FIELDS: FieldDef[] = [
     placeholder: 'Where did you find this code?',
   },
 ];
+
+const CODE_PAGE_SIZE_OPTIONS: Record<ViewMode, readonly number[]> = {
+  grid: [6, 12, 18, 24],
+  list: [10, 20, 30, 50],
+};
 
 function buildCodeRewardArrayFields(resources: Resource[]): ArrayFieldDef[] {
   const resourceNames = resources.map((r) => r.name).sort();
@@ -260,12 +266,25 @@ export default function Codes() {
     });
   }, [tabScopedCodes, tab]);
 
+  const { pageSize, setPageSize, pageSizeOptions } = usePageSize(
+    CODE_PAGE_SIZE_OPTIONS[viewMode],
+    {
+      defaultSize: CODES_PER_PAGE,
+      storageKey: getPageSizeStorageKey(STORAGE_KEY.CODES_VIEW_MODE),
+    }
+  );
+
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
-    CODES_PER_PAGE,
+    pageSize,
     JSON.stringify({ search, view, tab })
   );
-  const paginatedCodes = filtered.slice(offset, offset + CODES_PER_PAGE);
+
+  useEffect(() => {
+    setPage(1);
+  }, [pageSize, setPage]);
+
+  const paginatedCodes = filtered.slice(offset, offset + pageSize);
 
   const tabUnclaimedRewards = useMemo(
     () => aggregateRewards(tabScopedCodes.filter((c) => !redeemed.has(c.code))),
@@ -737,6 +756,10 @@ export default function Codes() {
             currentPage={page}
             totalPages={totalPages}
             onChange={setPage}
+            totalItems={filtered.length}
+            pageSize={pageSize}
+            pageSizeOptions={pageSizeOptions}
+            onPageSizeChange={setPageSize}
             scrollToTop
           />
         )}

@@ -1,7 +1,4 @@
-import { Box, Group, NumberInput, Pagination, Stack, Text } from '@mantine/core';
-import { useMediaQuery } from '@mantine/hooks';
-import { useEffect, useState } from 'react';
-import { BREAKPOINTS } from '../../constants/ui';
+import { Group, Paper, Select, Stack, Text } from '@mantine/core';
 import { useIsMobile } from '../../hooks';
 
 interface PaginationControlProps {
@@ -10,6 +7,10 @@ interface PaginationControlProps {
   onChange: (page: number) => void;
   /** Scroll the page to the top after changing page. Default: false. */
   scrollToTop?: boolean;
+  totalItems?: number;
+  pageSize?: number;
+  pageSizeOptions?: readonly number[];
+  onPageSizeChange?: (pageSize: number) => void;
 }
 
 export default function PaginationControl({
@@ -17,20 +18,50 @@ export default function PaginationControl({
   totalPages,
   onChange,
   scrollToTop = false,
+  totalItems,
+  pageSize,
+  pageSizeOptions,
+  onPageSizeChange,
 }: PaginationControlProps) {
   const isMobile = useIsMobile();
-  const isCompactPagination = useMediaQuery(BREAKPOINTS.COMPACT) ?? false;
-  const [jumpValue, setJumpValue] = useState<string | number>(currentPage);
-  const hasManyPages = totalPages > 12;
-  const maxPageDigits = String(totalPages).length;
-  const controlSize = isMobile ? 32 : 36;
-  const inputHeight = isMobile ? 28 : 30;
+  const hasPagination = totalPages > 1;
+  const hasPageSizeSelector =
+    pageSize !== undefined &&
+    pageSizeOptions !== undefined &&
+    pageSizeOptions.length > 1 &&
+    onPageSizeChange !== undefined;
+  const rangeStart =
+    totalItems && totalItems > 0 && pageSize
+      ? (currentPage - 1) * pageSize + 1
+      : 0;
+  const rangeEnd =
+    totalItems && totalItems > 0 && pageSize
+      ? Math.min(totalItems, currentPage * pageSize)
+      : 0;
+  const pageSizeData = (pageSizeOptions ?? []).map((option) => ({
+    value: String(option),
+    label: `${option} / page`,
+  }));
+  const pageNumberData = Array.from({ length: totalPages }, (_, index) => {
+    const pageNumber = index + 1;
 
-  useEffect(() => {
-    setJumpValue(currentPage);
-  }, [currentPage]);
+    return {
+      value: String(pageNumber),
+      label: `Page ${pageNumber}`,
+    };
+  });
+  const summaryValue =
+    totalItems !== undefined && pageSize !== undefined
+      ? `${rangeStart}-${rangeEnd} of ${totalItems}`
+      : `${currentPage} of ${totalPages}`;
+  const summaryLabel =
+    totalItems !== undefined && pageSize !== undefined
+      ? `Showing items · page ${currentPage} of ${totalPages}`
+      : hasPagination
+        ? 'Current page'
+        : undefined;
 
-  if (totalPages <= 1) return null;
+  if (!hasPagination && !hasPageSizeSelector) return null;
 
   function handleChange(page: number) {
     if (page === currentPage) {
@@ -43,127 +74,100 @@ export default function PaginationControl({
     }
   }
 
-  function clampPage(value: string | number) {
-    const parsed = Number(value);
-
-    if (!Number.isFinite(parsed)) {
-      return null;
-    }
-
-    return Math.min(Math.max(1, Math.round(parsed)), totalPages);
-  }
-
-  function handleJumpSubmit() {
-    const clamped = clampPage(jumpValue);
-
-    if (clamped === null) {
-      return;
-    }
-
-    setJumpValue(clamped);
-    handleChange(clamped);
-  }
-
-  const siblings = isCompactPagination
-    ? 0
-    : isMobile
-      ? 1
-      : hasManyPages
-        ? 1
-        : 2;
-  const boundaries = isCompactPagination
-    ? 0
-    : isMobile
-      ? 0
-      : hasManyPages
-        ? 1
-        : 2;
-  const paginationSize = isMobile ? 'xs' : 'sm';
-  const withEdges = !isMobile && totalPages > 5;
-  const pageInputWidth = Math.min(
-    isMobile ? 56 : 64,
-    Math.max(34, maxPageDigits * 10)
-  );
-
   return (
     <nav aria-label="Pagination navigation">
-      <Stack gap="xs" align="center">
-        <Box
-          style={{
-            overflowX: 'auto',
-            maxWidth: '100%',
-            scrollbarWidth: 'none',
-            display: 'flex',
-            justifyContent: 'center',
-          }}
+      <Stack gap="xs">
+        <Paper
+          withBorder
+          radius="xl"
+          p={isMobile ? 'sm' : 'md'}
+          bg="var(--mantine-color-body)"
+          style={{ boxShadow: 'var(--mantine-shadow-xs)' }}
         >
-          <Pagination
-            value={currentPage}
-            onChange={handleChange}
-            total={totalPages}
-            size={paginationSize}
-            siblings={siblings}
-            boundaries={boundaries}
-            withEdges={withEdges}
-            styles={{
-              root: {
-                flexWrap: 'nowrap',
-              },
-              control: {
-                flexShrink: 0,
-                borderRadius: 999,
-                borderColor: 'var(--mantine-color-default-border)',
-                minWidth: controlSize,
-                height: controlSize,
-              },
-              dots: {
-                flexShrink: 0,
-                minWidth: controlSize,
-              },
-            }}
-          />
-        </Box>
+          <Group justify="space-between" align="flex-end" wrap="wrap" gap="sm">
+            <Group
+              justify="space-between"
+              align="flex-end"
+              wrap="wrap"
+              gap="sm"
+              style={{ flex: 1 }}
+            >
+              <Stack gap={2}>
+                {summaryLabel && (
+                  <Text size="xs" c="dimmed" fw={600} tt="uppercase">
+                    {summaryLabel}
+                  </Text>
+                )}
+                <Text size="sm" fw={600}>
+                  {summaryValue}
+                </Text>
+              </Stack>
 
-        {hasManyPages && (
-          <Group gap="xs" align="center" justify="center" wrap="nowrap">
-            <Text size="xs" c="dimmed">
-              Page
-            </Text>
-            <NumberInput
-              aria-label="Current page"
-              value={jumpValue}
-              onChange={setJumpValue}
-              onBlur={handleJumpSubmit}
-              onKeyDown={(event) => {
-                if (event.key === 'Enter') {
-                  event.preventDefault();
-                  handleJumpSubmit();
-                }
-              }}
-              min={1}
-              max={totalPages}
-              allowDecimal={false}
-              allowNegative={false}
-              clampBehavior="blur"
-              hideControls
-              size="xs"
-              radius="xl"
-              w={pageInputWidth}
-              styles={{
-                input: {
-                  textAlign: 'center',
-                  fontWeight: 600,
-                  height: inputHeight,
-                  minHeight: inputHeight,
-                  paddingInline: 6,
-                },
-              }}
-            />
-            <Text size="xs" c="dimmed">
-              of {totalPages}
-            </Text>
+              <Group gap="sm" align="flex-end" wrap="wrap">
+                {hasPagination && (
+                  <Stack gap={4} align={isMobile ? 'stretch' : 'flex-end'}>
+                    <Text size="xs" c="dimmed" fw={600} tt="uppercase">
+                      Page
+                    </Text>
+                    <Select
+                      aria-label="Page number"
+                      value={String(currentPage)}
+                      data={pageNumberData}
+                      onChange={(value) => {
+                        if (!value) {
+                          return;
+                        }
+
+                        handleChange(Number(value));
+                      }}
+                      allowDeselect={false}
+                      size="sm"
+                      radius="xl"
+                      searchable={totalPages > 12}
+                      w={isMobile ? '100%' : 136}
+                      comboboxProps={{ position: 'bottom-end' }}
+                      styles={{
+                        input: {
+                          fontWeight: 600,
+                        },
+                      }}
+                    />
+                  </Stack>
+                )}
+
+                {hasPageSizeSelector && (
+                  <Stack gap={4} align={isMobile ? 'stretch' : 'flex-end'}>
+                    <Text size="xs" c="dimmed" fw={600} tt="uppercase">
+                      Items per page
+                    </Text>
+                    <Select
+                      aria-label="Items per page"
+                      value={pageSize === undefined ? null : String(pageSize)}
+                      data={pageSizeData}
+                      onChange={(value) => {
+                        if (!value || !onPageSizeChange) {
+                          return;
+                        }
+
+                        onPageSizeChange(Number(value));
+                      }}
+                      allowDeselect={false}
+                      size="sm"
+                      radius="xl"
+                      w={isMobile ? '100%' : 132}
+                      comboboxProps={{ position: 'bottom-end' }}
+                      styles={{
+                        input: {
+                          fontWeight: 600,
+                        },
+                      }}
+                    />
+                  </Stack>
+                )}
+              </Group>
+            </Group>
           </Group>
-        )}
+        </Paper>
       </Stack>
     </nav>
   );
