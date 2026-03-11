@@ -17,6 +17,7 @@ import {
   extractAllEffectRefs,
   filterCharacters,
 } from '../utils/filter-characters';
+import { useStatusEffects } from './use-common-data';
 import type { ViewMode } from './use-filters';
 import { useFilterPanel, useFilters, useViewMode } from './use-filters';
 import { usePagination } from './use-pagination';
@@ -51,6 +52,7 @@ export function useCharacterListData(
   const { tierLists, selectedTierListName } = useContext(
     TierListReferenceContext
   );
+  const { data: statusEffects } = useStatusEffects();
 
   const { filters, setFilters } = useFilters<CharacterFilters>({
     emptyFilters: EMPTY_FILTERS,
@@ -71,10 +73,14 @@ export function useCharacterListData(
   const activeCols = isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
   const pageSize = activeCols * 10;
 
-  const effectOptions = useMemo(
-    () => extractAllEffectRefs(characters),
-    [characters]
-  );
+  const effectOptions = useMemo(() => {
+    const referencedEffects = new Set(extractAllEffectRefs(characters));
+
+    return statusEffects
+      .map((effect) => effect.name)
+      .filter((name) => referencedEffects.has(name))
+      .sort((a, b) => a.localeCompare(b));
+  }, [characters, statusEffects]);
 
   const characterNameCounts = useMemo(
     () => buildCharacterNameCounts(characters),
