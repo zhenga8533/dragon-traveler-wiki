@@ -9,15 +9,15 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { getEventImage, placeholderEventImage } from '../../assets/event';
-import CharacterPortrait from '../../components/character/CharacterPortrait';
-import GlobalBadge from '../../components/common/GlobalBadge';
-import TwEventBanner from '../../components/common/TwEventBanner';
-import { getCardHoverProps } from '../../constants/styles';
-import { IMAGE_SIZE } from '../../constants/ui';
-import { useDataFetch, useGradientAccent } from '../../hooks';
-import type { GameEvent, TwEvent } from '../../types';
-import { getTwEventTypeColor, isTwEventActive } from '../../utils/event-utils';
+import { getEventImage, placeholderEventImage } from '@/assets/event';
+import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
+import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import TwEventBanner from '@/features/wiki/components/TwEventBanner';
+import { getCardHoverProps } from '@/constants/styles';
+import { IMAGE_SIZE } from '@/constants/ui';
+import { useDataFetch, useGradientAccent } from '@/hooks';
+import type { GameEvent, TwEvent } from '@/types';
+import { getTwEventTypeColor, isTwEventActive } from '@/utils/event-utils';
 
 type HomeEventEntry =
   | {

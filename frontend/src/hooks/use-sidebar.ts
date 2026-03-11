@@ -1,5 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
-import { SIDEBAR, STORAGE_KEY } from '../constants/ui';
+import { SIDEBAR, STORAGE_KEY } from '@/constants/ui';
 
 export interface UseSidebarReturn {
   /** Whether the sidebar is collapsed */

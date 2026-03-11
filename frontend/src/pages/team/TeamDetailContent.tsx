@@ -9,14 +9,14 @@ import {
 } from '@mantine/core';
 import type { RefObject } from 'react';
 import { IoDownload } from 'react-icons/io5';
-import WyrmspellCard from '../../components/common/WyrmspellCard';
-import TeamSynergyAssistant from '../../components/tools/TeamSynergyAssistant';
-import { useMobileTooltip } from '../../hooks';
-import type { Character } from '../../types/character';
-import type { Team, TeamWyrmspells } from '../../types/team';
-import type { Wyrmspell } from '../../types/wyrmspell';
-import { hasTeamWyrmspells } from '../../utils/team-page';
-import type { TeamSynergyResult } from '../../utils/team-synergy';
+import WyrmspellCard from '@/features/wiki/components/WyrmspellCard';
+import TeamSynergyAssistant from '@/features/teams/components/TeamSynergyAssistant';
+import { useMobileTooltip } from '@/hooks';
+import type { Character } from '@/features/characters/types';
+import type { Team, TeamWyrmspells } from '@/features/teams/types';
+import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
+import { hasTeamWyrmspells } from '@/features/teams/utils/team-page';
+import type { TeamSynergyResult } from '@/features/teams/utils/team-synergy';
 import { BattlefieldGrid } from './BattlefieldGrid';
 import { BenchSection } from './BenchSection';
 

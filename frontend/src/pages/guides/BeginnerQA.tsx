@@ -12,15 +12,15 @@ import {
   Title,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import CharacterTag from '../../components/character/CharacterTag';
-import ResourceBadge from '../../components/common/ResourceBadge';
-import GuideHeroCard from '../../components/guides/GuideHeroCard';
+import CharacterTag from '@/features/characters/components/CharacterTag';
+import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import GuideHeroCard from '@/components/guides/GuideHeroCard';
 import {
   getCardHoverProps,
   getGuideSectionCardStyles,
   getMinWidthStyle,
-} from '../../constants/styles';
-import { useDarkMode } from '../../hooks';
+} from '@/constants/styles';
+import { useDarkMode } from '@/hooks';
 
 const FACTION_GIFTS: {
   faction: string;

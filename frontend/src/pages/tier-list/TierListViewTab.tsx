@@ -11,29 +11,29 @@ import {
   Text,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import CharacterCard from '../../components/character/CharacterCard';
-import CharacterPortrait from '../../components/character/CharacterPortrait';
-import ChangeHistory from '../../components/common/ChangeHistory';
-import ClassTag from '../../components/common/ClassTag';
-import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
-import EntityActionButtons from '../../components/common/EntityActionButtons';
-import type { ChipFilterGroup } from '../../components/common/EntityFilter';
-import EntityFilter from '../../components/common/EntityFilter';
-import FactionTag from '../../components/common/FactionTag';
-import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
-import QualityIcon from '../../components/common/QualityIcon';
-import { getCardHoverProps } from '../../constants/styles';
-import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '../../constants/ui';
-import { useEntityTabParam, useGradientAccent, useIsMobile } from '../../hooks';
-import type { ChangesFile } from '../../types/changes';
-import type { Character } from '../../types/character';
-import type { TierList as TierListType } from '../../types/tier-list';
+import CharacterCard from '@/features/characters/components/CharacterCard';
+import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
+import ChangeHistory from '@/components/common/ChangeHistory';
+import ClassTag from '@/features/characters/components/ClassTag';
+import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
+import EntityActionButtons from '@/components/common/EntityActionButtons';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
+import FactionTag from '@/features/characters/components/FactionTag';
+import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import { getCardHoverProps } from '@/constants/styles';
+import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '@/constants/ui';
+import { useEntityTabParam, useGradientAccent, useIsMobile } from '@/hooks';
+import type { ChangesFile } from '@/types/changes';
+import type { Character } from '@/features/characters/types';
+import type { TierList as TierListType } from '@/features/teams/tier-list-types';
 import {
   getCharacterBaseSlug,
   getCharacterIdentityKey,
   getCharacterRoutePath,
-} from '../../utils/character-route';
-import { sortCharactersByQuality } from '../../utils/filter-characters';
+} from '@/features/characters/utils/character-route';
+import { sortCharactersByQuality } from '@/features/characters/utils/filter-characters';
 import TierListContent from './TierListContent';
 
 interface TierListViewTabProps {

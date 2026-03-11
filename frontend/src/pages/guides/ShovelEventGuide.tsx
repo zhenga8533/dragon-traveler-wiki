@@ -13,14 +13,14 @@ import {
   Title,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
-import ResourceBadge from '../../components/common/ResourceBadge';
-import GuideHeroCard from '../../components/guides/GuideHeroCard';
+import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import GuideHeroCard from '@/components/guides/GuideHeroCard';
 import {
   getCardHoverProps,
   getGuideSectionCardStyles,
   getMinWidthStyle,
-} from '../../constants/styles';
-import { useDarkMode } from '../../hooks';
+} from '@/constants/styles';
+import { useDarkMode } from '@/hooks';
 
 const TARGET_ROWS = [
   {

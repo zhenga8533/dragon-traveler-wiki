@@ -6,9 +6,9 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
-import type { TierList as TierListType } from '../types/tier-list';
+import { STORAGE_KEY } from '@/constants/ui';
+import { useDataFetch } from '@/hooks/use-data-fetch';
+import type { TierList as TierListType } from '@/features/teams/tier-list-types';
 
 export interface TierListReferenceContextValue {
   tierLists: TierListType[];

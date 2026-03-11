@@ -9,18 +9,18 @@ import {
   Text,
   Title,
 } from '@mantine/core';
-import type { CharacterIllustration } from '../../assets/character';
-import ClassTag from '../../components/common/ClassTag';
-import FactionTag from '../../components/common/FactionTag';
-import GlobalBadge from '../../components/common/GlobalBadge';
-import LastUpdated from '../../components/common/LastUpdated';
-import QualityIcon from '../../components/common/QualityIcon';
-import TierBadge from '../../components/common/TierBadge';
-import Breadcrumbs from '../../components/layout/Breadcrumbs';
-import { QUALITY_COLOR } from '../../constants/colors';
-import { CHARACTER_HERO } from '../../constants/ui';
-import { useDarkMode } from '../../hooks';
-import type { Character } from '../../types/character';
+import type { CharacterIllustration } from '@/assets/character';
+import ClassTag from '@/features/characters/components/ClassTag';
+import FactionTag from '@/features/characters/components/FactionTag';
+import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import LastUpdated from '@/components/common/LastUpdated';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import TierBadge from '@/features/teams/components/TierBadge';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
+import { QUALITY_COLOR } from '@/constants/colors';
+import { CHARACTER_HERO } from '@/constants/ui';
+import { useDarkMode } from '@/hooks';
+import type { Character } from '@/features/characters/types';
 
 interface CharacterPageHeroSectionProps {
   character: Character;

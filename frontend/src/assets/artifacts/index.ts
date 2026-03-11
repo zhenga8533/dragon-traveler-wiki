@@ -1,4 +1,4 @@
-import { normalizeKey } from '../utils';
+import { normalizeKey } from '@/assets/utils';
 
 // Eager-load artifact icons (artifact.png per artifact folder)
 const artifactModules = import.meta.glob<{ default: string }>(

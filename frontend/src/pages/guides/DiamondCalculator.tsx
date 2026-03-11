@@ -28,13 +28,13 @@ import {
   IoTrendingUp,
   IoWallet,
 } from 'react-icons/io5';
-import StatCard from '../../components/common/StatCard';
-import GuideHeroCard from '../../components/guides/GuideHeroCard';
+import StatCard from '@/components/ui/StatCard';
+import GuideHeroCard from '@/components/guides/GuideHeroCard';
 import {
   getCardHoverProps,
   getGuideSectionCardStyles,
-} from '../../constants/styles';
-import { useDarkMode, useGradientAccent } from '../../hooks';
+} from '@/constants/styles';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 
 type SourceType = 'gain' | 'spend';
 

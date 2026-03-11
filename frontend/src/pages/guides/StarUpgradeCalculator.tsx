@@ -35,12 +35,12 @@ import {
   IoStatsChart,
   IoTime,
 } from 'react-icons/io5';
-import { QUALITY_ICON_MAP } from '../../assets/quality';
-import StatCard from '../../components/common/StatCard';
-import GuideHeroCard from '../../components/guides/GuideHeroCard';
-import { getCardHoverProps, getGuideSectionCardStyles } from '../../constants/styles';
-import { IMAGE_SIZE, TRANSITION } from '../../constants/ui';
-import { useDarkMode, useGradientAccent } from '../../hooks';
+import { QUALITY_ICON_MAP } from '@/assets/quality';
+import StatCard from '@/components/ui/StatCard';
+import GuideHeroCard from '@/components/guides/GuideHeroCard';
+import { getCardHoverProps, getGuideSectionCardStyles } from '@/constants/styles';
+import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 
 type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
 

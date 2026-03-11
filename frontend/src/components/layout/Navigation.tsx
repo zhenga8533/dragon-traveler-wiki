@@ -20,10 +20,10 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
-import { getAccentForPath, PARENT_ACCENTS } from '../../constants/accents';
-import { IMAGE_SIZE, NAV_ITEM_HEIGHT, STORAGE_KEY } from '../../constants/ui';
-import { SearchDataContext } from '../../contexts';
-import { isCodeActive } from '../../utils';
+import { getAccentForPath, PARENT_ACCENTS } from '@/constants/accents';
+import { IMAGE_SIZE, NAV_ITEM_HEIGHT, STORAGE_KEY } from '@/constants/ui';
+import { SearchDataContext } from '@/contexts';
+import { isCodeActive } from '@/utils';
 
 type NavItem = {
   label: string;

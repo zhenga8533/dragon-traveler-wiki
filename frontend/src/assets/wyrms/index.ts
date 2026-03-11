@@ -1,4 +1,4 @@
-import type { FactionName } from '../../types/faction';
+import type { FactionName } from '@/types/faction';
 import butterflyWhelp from './butterfly_whelp.png';
 import darkWhelp from './dark_whelp.png';
 import emeraldWhelp from './emerald_whelp.png';

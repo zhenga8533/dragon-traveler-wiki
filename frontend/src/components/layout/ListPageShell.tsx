@@ -1,6 +1,6 @@
 import { Text } from '@mantine/core';
 import { type ReactNode } from 'react';
-import DataFetchError from '../common/DataFetchError';
+import DataFetchError from '@/components/ui/DataFetchError';
 import { ListPageLoading } from './PageLoadingSkeleton';
 
 interface ListPageShellProps {

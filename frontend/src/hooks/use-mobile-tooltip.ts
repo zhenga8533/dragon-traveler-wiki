@@ -1,5 +1,5 @@
 import { useMediaQuery } from '@mantine/hooks';
-import { BREAKPOINTS } from '../constants/ui';
+import { BREAKPOINTS } from '@/constants/ui';
 
 /**
  * Hook to determine if tooltips should be interactive on touch devices

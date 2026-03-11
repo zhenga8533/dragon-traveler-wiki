@@ -1,6 +1,6 @@
 import { Group, Title } from '@mantine/core';
 import type { ReactNode } from 'react';
-import LastUpdated from '../common/LastUpdated';
+import LastUpdated from '@/components/common/LastUpdated';
 
 interface ListPageHeaderProps {
   title: string;

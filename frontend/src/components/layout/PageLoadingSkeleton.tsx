@@ -1,5 +1,5 @@
 import { Paper, SimpleGrid, Skeleton, Stack } from '@mantine/core';
-import { getCardHoverProps } from '../../constants/styles';
+import { getCardHoverProps } from '@/constants/styles';
 
 export function ListPageLoading({ cards = 4 }: { cards?: number }) {
   return (

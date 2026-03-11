@@ -32,25 +32,25 @@ import {
   IoSparklesOutline,
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-import { getArtifactIcon } from '../../assets/artifacts';
-import { getGearIcon } from '../../assets/gear';
-import { getHowlkinIcon } from '../../assets/howlkin';
-import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
-import { getResourceIcon } from '../../assets/resource';
-import { getStatusEffectIcon } from '../../assets/status_effect';
-import { getSubclassIcon } from '../../assets/subclass';
-import { getWyrmspellIcon } from '../../assets/wyrmspell';
-import { normalizeContentType } from '../../constants/content-types';
-import { IMAGE_SIZE, TRANSITION } from '../../constants/ui';
-import { SearchDataContext } from '../../contexts';
-import { useGradientAccent, useIsMobile } from '../../hooks';
-import { isCodeActive } from '../../utils';
+import { getArtifactIcon } from '@/assets/artifacts';
+import { getGearIcon } from '@/assets/gear';
+import { getHowlkinIcon } from '@/assets/howlkin';
+import { getNoblePhantasmIcon } from '@/assets/noble_phantasm';
+import { getResourceIcon } from '@/assets/resource';
+import { getStatusEffectIcon } from '@/assets/status_effect';
+import { getSubclassIcon } from '@/assets/subclass';
+import { getWyrmspellIcon } from '@/assets/wyrmspell';
+import { normalizeContentType } from '@/constants/content-types';
+import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
+import { SearchDataContext } from '@/contexts';
+import { useGradientAccent, useIsMobile } from '@/hooks';
+import { isCodeActive } from '@/utils';
 import {
   buildCharacterNameCounts,
   getCharacterRoutePath,
-} from '../../utils/character-route';
-import { toEntitySlug } from '../../utils/entity-slug';
-import CharacterPortrait from '../character/CharacterPortrait';
+} from '@/features/characters/utils/character-route';
+import { toEntitySlug } from '@/utils/entity-slug';
+import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 
 type SearchResult = {
   type:

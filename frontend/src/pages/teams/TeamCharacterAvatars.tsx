@@ -1,10 +1,10 @@
 import { Badge, Box, Group } from '@mantine/core';
-import CharacterPortrait from '../../components/character/CharacterPortrait';
-import type { Character } from '../../types/character';
+import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
+import type { Character } from '@/features/characters/types';
 import {
   getCharacterBaseSlug,
   resolveCharacterByNameAndQuality,
-} from '../../utils/character-route';
+} from '@/features/characters/utils/character-route';
 
 export default function TeamCharacterAvatars({
   refs,

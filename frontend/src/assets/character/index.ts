@@ -1,4 +1,4 @@
-import { normalizeKey } from '../utils';
+import { normalizeKey } from '@/assets/utils';
 
 // Dynamic imports for character assets
 // Portraits load immediately (needed for character lists)

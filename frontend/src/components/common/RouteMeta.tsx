@@ -7,7 +7,7 @@ import {
   ROUTE_META,
   SITE_NAME,
   type RouteMeta as RouteMetaType,
-} from '../../constants/route-meta';
+} from '@/constants/route-meta';
 
 function upsertMetaTag(
   attr: 'name' | 'property',

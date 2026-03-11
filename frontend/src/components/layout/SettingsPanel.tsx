@@ -15,19 +15,19 @@ import {
   Tooltip,
   useMantineColorScheme,
 } from '@mantine/core';
-import MobileBottomDrawer from '../common/MobileBottomDrawer';
+import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
-import { normalizeContentType } from '../../constants/content-types';
-import { Z_INDEX } from '../../constants/ui';
-import type { GradientPalette } from '../../contexts';
+import { normalizeContentType } from '@/constants/content-types';
+import { Z_INDEX } from '@/constants/ui';
+import type { GradientPalette } from '@/contexts';
 import {
   BannerContext,
   TierListReferenceContext,
   UiOpacityContext,
-} from '../../contexts';
-import { useDarkMode, useGradientAccent, useIsMobile } from '../../hooks';
+} from '@/contexts';
+import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
 
 export default function SettingsPanel() {
   const [opened, { toggle: toggleOpened, close: closeOpened }] =

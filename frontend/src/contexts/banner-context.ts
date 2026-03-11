@@ -9,11 +9,11 @@ import {
 import {
   getIllustrations,
   type CharacterIllustration,
-} from '../assets/character';
-import { normalizeKey } from '../assets/utils';
-import { STORAGE_KEY } from '../constants/ui';
-import { useDataFetch } from '../hooks/use-data-fetch';
-import type { Character } from '../types/character';
+} from '@/assets/character';
+import { normalizeKey } from '@/assets/utils';
+import { STORAGE_KEY } from '@/constants/ui';
+import { useDataFetch } from '@/hooks/use-data-fetch';
+import type { Character } from '@/features/characters/types';
 
 const RANDOM_BANNER_ALL_VALUE = '__random_all__';
 const RANDOM_BANNER_PNG_VALUE = '__random_png__';

@@ -1,20 +1,20 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, createElement, useMemo, type ReactNode } from 'react';
-import { useDataFetch } from '../hooks/use-data-fetch';
-import type { Artifact } from '../types/artifact';
-import type { Character } from '../types/character';
-import type { Code } from '../types/code';
-import type { GameEvent } from '../types/event';
-import type { Gear } from '../types/gear';
-import type { Howlkin } from '../types/howlkin';
-import type { NoblePhantasm } from '../types/noble-phantasm';
-import type { Resource } from '../types/resource';
-import type { StatusEffect } from '../types/status-effect';
-import type { Subclass } from '../types/subclass';
-import type { Team } from '../types/team';
-import type { TierList } from '../types/tier-list';
-import type { UsefulLink } from '../types/useful-link';
-import type { Wyrmspell } from '../types/wyrmspell';
+import { useDataFetch } from '@/hooks/use-data-fetch';
+import type { Artifact } from '@/features/wiki/types/artifact';
+import type { Character } from '@/features/characters/types';
+import type { Code } from '@/types/code';
+import type { GameEvent } from '@/features/wiki/types/event';
+import type { Gear } from '@/features/wiki/types/gear';
+import type { Howlkin } from '@/features/wiki/types/howlkin';
+import type { NoblePhantasm } from '@/features/wiki/types/noble-phantasm';
+import type { Resource } from '@/types/resource';
+import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import type { Subclass } from '@/features/wiki/types/subclass';
+import type { Team } from '@/features/teams/types';
+import type { TierList } from '@/features/teams/tier-list-types';
+import type { UsefulLink } from '@/types/useful-link';
+import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
 
 export interface SearchDataContextValue {
   characters: Character[];

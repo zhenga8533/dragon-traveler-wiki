@@ -9,20 +9,20 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
-import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
-import FactionTag from '../../components/common/FactionTag';
-import { normalizeContentType } from '../../constants/content-types';
-import { getCardHoverProps } from '../../constants/styles';
-import { useGradientAccent } from '../../hooks';
-import type { Character } from '../../types/character';
-import type { FactionName } from '../../types/faction';
-import type { Team, TeamMemberPosition } from '../../types/team';
-import { toEntitySlug } from '../../utils/entity-slug';
+import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
+import FactionTag from '@/features/characters/components/FactionTag';
+import { normalizeContentType } from '@/constants/content-types';
+import { getCardHoverProps } from '@/constants/styles';
+import { useGradientAccent } from '@/hooks';
+import type { Character } from '@/features/characters/types';
+import type { FactionName } from '@/types/faction';
+import type { Team, TeamMemberPosition } from '@/features/teams/types';
+import { toEntitySlug } from '@/utils/entity-slug';
 import {
   getTeamBenchEntryName,
   getTeamBenchEntryNote,
   getTeamBenchEntryQuality,
-} from '../../utils/team-bench';
+} from '@/features/teams/utils/team-bench';
 
 interface CharacterReferenceSectionProps {
   character: Character;

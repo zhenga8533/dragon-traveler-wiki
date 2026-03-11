@@ -1,4 +1,4 @@
-import type { TwEvent } from '../types';
+import type { TwEvent } from '@/types';
 
 const TW_TYPE_COLOR: Record<string, string> = {
   Release: 'blue',

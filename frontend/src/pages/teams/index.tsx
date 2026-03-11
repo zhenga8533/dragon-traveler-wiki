@@ -9,48 +9,48 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { FACTION_ICON_MAP } from '../../assets/faction';
-import ConfirmActionModal from '../../components/common/ConfirmActionModal';
-import DataFetchError from '../../components/common/DataFetchError';
-import type { ChipFilterGroup } from '../../components/common/EntityFilter';
-import LastUpdated from '../../components/common/LastUpdated';
-import PageFilterHeaderControls from '../../components/layout/PageFilterHeaderControls';
+import { FACTION_ICON_MAP } from '@/assets/faction';
+import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import DataFetchError from '@/components/ui/DataFetchError';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import LastUpdated from '@/components/common/LastUpdated';
+import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
 import {
   ListPageLoading,
   ViewModeLoading,
-} from '../../components/layout/PageLoadingSkeleton';
-import TeamBuilder from '../../components/tools/TeamBuilder';
-import { FACTION_NAMES } from '../../constants/colors';
+} from '@/components/layout/PageLoadingSkeleton';
+import TeamBuilder from '@/features/teams/components/TeamBuilder';
+import { FACTION_NAMES } from '@/constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   matchesContentTypeFilters,
   normalizeContentTypeFilters,
-} from '../../constants/content-types';
-import { STORAGE_KEY } from '../../constants/ui';
+} from '@/constants/content-types';
+import { STORAGE_KEY } from '@/constants/ui';
 import {
   useCharacterResolution,
   useGradientAccent,
   useIsMobile,
   usePageSize,
-} from '../../hooks';
+} from '@/hooks';
 import {
   useCharacters,
   useTeams,
   useWyrmspells,
-} from '../../hooks/use-common-data';
+} from '@/hooks/use-common-data';
 import {
   countActiveFilters,
   useFilters,
   useViewMode,
-} from '../../hooks/use-filters';
+} from '@/hooks/use-filters';
 import {
   getPageSizeStorageKey,
   usePagination,
-} from '../../hooks/use-pagination';
-import type { FactionName } from '../../types/faction';
-import type { Team } from '../../types/team';
-import { loadSavedFromStorage, parseTabMode } from '../../utils';
-import { toEntitySlug } from '../../utils/entity-slug';
+} from '@/hooks/use-pagination';
+import type { FactionName } from '@/types/faction';
+import type { Team } from '@/features/teams/types';
+import { loadSavedFromStorage, parseTabMode } from '@/utils';
+import { toEntitySlug } from '@/utils/entity-slug';
 import TeamsSavedTab from './TeamsSavedTab';
 import TeamsViewTab from './TeamsViewTab';
 

@@ -1,5 +1,5 @@
-import type { GearType } from '../../types/gear';
-import { normalizeKey } from '../utils';
+import type { GearType } from '@/features/wiki/types/gear';
+import { normalizeKey } from '@/assets/utils';
 import accessoryIcon from './icons/accessory.png';
 import bootsIcon from './icons/boots.png';
 import bracersIcon from './icons/bracers.png';

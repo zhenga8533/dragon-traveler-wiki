@@ -20,7 +20,7 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import SearchModal from '../../components/tools/SearchModal';
+import SearchModal from '@/components/tools/SearchModal';
 import {
   HOME_HERO_TITLE_STYLE,
   getCardHoverProps,
@@ -28,10 +28,10 @@ import {
   getHomeHeroPlayNowStyle,
   getHomeHeroSubtitleStyle,
   getHomeHeroWordmarkStyle,
-} from '../../constants/styles';
-import { GLASS } from '../../constants/glass';
-import { IMAGE_SIZE, TRANSITION } from '../../constants/ui';
-import { useDarkMode, useGradientAccent, useIsMobile } from '../../hooks';
+} from '@/constants/styles';
+import { GLASS } from '@/constants/glass';
+import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
+import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
 
 const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];
 

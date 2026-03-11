@@ -15,12 +15,12 @@ import {
   IoLogoGithub,
   IoWarning,
 } from 'react-icons/io5';
-import { GITHUB_REPO_URL } from '../../constants/github';
-import { IMAGE_SIZE } from '../../constants/ui';
-import { getGlassStyles } from '../../constants/glass';
-import { ICON_TEXT_FLEX_STYLE } from '../../constants/styles';
-import { UiOpacityContext } from '../../contexts';
-import { useDarkMode, useGradientAccent } from '../../hooks';
+import { GITHUB_REPO_URL } from '@/constants/github';
+import { IMAGE_SIZE } from '@/constants/ui';
+import { getGlassStyles } from '@/constants/glass';
+import { ICON_TEXT_FLEX_STYLE } from '@/constants/styles';
+import { UiOpacityContext } from '@/contexts';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 
 const DATA_SOURCE_URL = 'https://www.gamekee.com/lhlr/';
 

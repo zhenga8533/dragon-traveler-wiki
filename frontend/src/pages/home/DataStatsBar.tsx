@@ -23,18 +23,18 @@ import {
   IoStatsChart,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import LastUpdated from '../../components/common/LastUpdated';
-import { getCardHoverProps } from '../../constants/styles';
-import { useDataFetch, useGradientAccent } from '../../hooks';
-import type { Artifact } from '../../types/artifact';
-import type { Character } from '../../types/character';
-import type { Gear } from '../../types/gear';
-import type { Howlkin } from '../../types/howlkin';
-import type { NoblePhantasm } from '../../types/noble-phantasm';
-import type { Resource } from '../../types/resource';
-import type { StatusEffect } from '../../types/status-effect';
-import type { Subclass } from '../../types/subclass';
-import type { Wyrmspell } from '../../types/wyrmspell';
+import LastUpdated from '@/components/common/LastUpdated';
+import { getCardHoverProps } from '@/constants/styles';
+import { useDataFetch, useGradientAccent } from '@/hooks';
+import type { Artifact } from '@/features/wiki/types/artifact';
+import type { Character } from '@/features/characters/types';
+import type { Gear } from '@/features/wiki/types/gear';
+import type { Howlkin } from '@/features/wiki/types/howlkin';
+import type { NoblePhantasm } from '@/features/wiki/types/noble-phantasm';
+import type { Resource } from '@/types/resource';
+import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import type { Subclass } from '@/features/wiki/types/subclass';
+import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
 
 type StatItem = {
   label: string;

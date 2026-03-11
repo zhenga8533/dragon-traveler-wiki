@@ -1,14 +1,14 @@
 // Hook exports for cleaner imports
-export { useCharacterAssets } from './use-character-assets';
-export { useCharacterListData } from './use-character-list-data';
-export type { CharacterListData } from './use-character-list-data';
+export { useCharacterAssets } from '@/features/characters/hooks/use-character-assets';
+export { useCharacterListData } from '@/features/characters/hooks/use-character-list-data';
+export type { CharacterListData } from '@/features/characters/hooks/use-character-list-data';
 export {
   getCharacterNavPaths,
   useCharacterPageData,
-} from './use-character-page-data';
-export type { CharacterPageData } from './use-character-page-data';
-export { useCharacterResolution } from './use-character-resolution';
-export type { CharacterResolution } from './use-character-resolution';
+} from '@/features/characters/hooks/use-character-page-data';
+export type { CharacterPageData } from '@/features/characters/hooks/use-character-page-data';
+export { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
+export type { CharacterResolution } from '@/features/characters/hooks/use-character-resolution';
 export {
   useArtifacts,
   useCharacterChanges,

@@ -8,19 +8,19 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import CharacterPortrait from '../../components/character/CharacterPortrait';
-import ClassTag from '../../components/common/ClassTag';
-import FactionTag from '../../components/common/FactionTag';
-import GlobalBadge from '../../components/common/GlobalBadge';
-import QualityIcon from '../../components/common/QualityIcon';
-import { getCardHoverProps } from '../../constants/styles';
-import { CHARACTER_CARD } from '../../constants/ui';
-import { useGradientAccent } from '../../hooks';
-import type { Character } from '../../types/character';
+import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
+import ClassTag from '@/features/characters/components/ClassTag';
+import FactionTag from '@/features/characters/components/FactionTag';
+import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import { getCardHoverProps } from '@/constants/styles';
+import { CHARACTER_CARD } from '@/constants/ui';
+import { useGradientAccent } from '@/hooks';
+import type { Character } from '@/features/characters/types';
 import {
   getCharacterIdentityKey,
   getCharacterRoutePath,
-} from '../../utils/character-route';
+} from '@/features/characters/utils/character-route';
 
 interface CharacterVariantSelectorProps {
   variants: Character[];

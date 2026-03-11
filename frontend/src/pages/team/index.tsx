@@ -1,13 +1,13 @@
 import { Box, Container } from '@mantine/core';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import ChangeHistory from '../../components/common/ChangeHistory';
-import ConfirmActionModal from '../../components/common/ConfirmActionModal';
-import DetailPageNavigation from '../../components/common/DetailPageNavigation';
-import EntityNotFound from '../../components/common/EntityNotFound';
-import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
-import { STORAGE_KEY } from '../../constants/ui';
-import { useCharacterResolution, useDarkMode, useGradientAccent, useMobileTooltip } from '../../hooks';
+import ChangeHistory from '@/components/common/ChangeHistory';
+import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import DetailPageNavigation from '@/components/common/DetailPageNavigation';
+import EntityNotFound from '@/components/ui/EntityNotFound';
+import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import { STORAGE_KEY } from '@/constants/ui';
+import { useCharacterResolution, useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import {
   useArtifacts,
   useCharacters,
@@ -16,17 +16,17 @@ import {
   useTeamChanges,
   useTeams,
   useWyrmspells,
-} from '../../hooks/use-common-data';
-import { useTeamDetailData } from '../../hooks/use-team-detail-data';
+} from '@/hooks/use-common-data';
+import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
   toEntitySlug,
-} from '../../utils/entity-slug';
+} from '@/utils/entity-slug';
 import {
   exportTeamCompositionAsImage,
   hasTeamBuilderDraft,
-} from '../../utils/team-page';
+} from '@/features/teams/utils/team-page';
 import { TeamHeroSection } from './HeroSection';
 import TeamDetailContent from './TeamDetailContent';
 

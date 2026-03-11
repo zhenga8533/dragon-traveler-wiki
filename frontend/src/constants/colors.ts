@@ -1,11 +1,11 @@
-import type { CharacterClass } from '../types/character';
-import type { FactionName } from '../types/faction';
-import type { GearType } from '../types/gear';
-import type { Quality } from '../types/quality';
-import type { ResourceCategory } from '../types/resource';
-import type { StatusEffectType } from '../types/status-effect';
-import type { TierDefinition } from '../types/tier-list';
-import type { WyrmspellType } from '../types/wyrmspell';
+import type { CharacterClass } from '@/features/characters/types';
+import type { FactionName } from '@/types/faction';
+import type { GearType } from '@/features/wiki/types/gear';
+import type { Quality } from '@/types/quality';
+import type { ResourceCategory } from '@/types/resource';
+import type { StatusEffectType } from '@/features/wiki/types/status-effect';
+import type { TierDefinition } from '@/features/teams/tier-list-types';
+import type { WyrmspellType } from '@/features/wiki/types/wyrmspell';
 import { QUALITY_COLOR, QUALITY_ORDER } from './quality';
 
 export const CLASS_ORDER: CharacterClass[] = [

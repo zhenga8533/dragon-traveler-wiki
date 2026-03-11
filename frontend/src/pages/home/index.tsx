@@ -11,8 +11,8 @@ import {
 } from '@mantine/core';
 import { IoCalendar, IoList, IoPricetag } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { getCardHoverProps } from '../../constants/styles';
-import { useGradientAccent } from '../../hooks';
+import { getCardHoverProps } from '@/constants/styles';
+import { useGradientAccent } from '@/hooks';
 import ActiveCodesSection from './ActiveCodesSection';
 import ActiveEventsSection from './ActiveEventsSection';
 import DataStatsBar from './DataStatsBar';

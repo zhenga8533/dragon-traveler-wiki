@@ -1,7 +1,7 @@
 import { Box, Group, Paper, Text } from '@mantine/core';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { useGradientAccent } from '../../hooks';
+import { useGradientAccent } from '@/hooks';
 
 type DetailNavigationItem = {
   label: string;

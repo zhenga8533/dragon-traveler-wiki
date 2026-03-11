@@ -1,4 +1,4 @@
-import { normalizeKey } from '../utils';
+import { normalizeKey } from '@/assets/utils';
 
 // Dynamic imports for subclass icons
 // Images are organized in subdirectories by character class (e.g., archer/, assassin/)

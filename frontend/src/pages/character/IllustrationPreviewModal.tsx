@@ -28,10 +28,10 @@ import {
   RiFullscreenExitLine,
   RiFullscreenLine,
 } from 'react-icons/ri';
-import type { CharacterIllustration } from '../../assets/character';
-import { getCardHoverProps } from '../../constants/styles';
-import { TRANSITION } from '../../constants/ui';
-import { useGradientAccent } from '../../hooks';
+import type { CharacterIllustration } from '@/assets/character';
+import { getCardHoverProps } from '@/constants/styles';
+import { TRANSITION } from '@/constants/ui';
+import { useGradientAccent } from '@/hooks';
 
 type TooltipInteractionProps = {
   openDelay: number;

@@ -7,14 +7,14 @@ import {
   Paper,
   Text,
 } from '@mantine/core';
-import MobileBottomDrawer from '../common/MobileBottomDrawer';
+import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { type ReactNode } from 'react';
 import { IoFilter } from 'react-icons/io5';
-import { getCardHoverProps } from '../../constants/styles';
-import { HEADER_HEIGHT, IMAGE_SIZE, Z_INDEX } from '../../constants/ui';
-import { useGradientAccent, useIsMobile } from '../../hooks';
-import type { ViewMode } from '../../hooks/use-filters';
-import ViewToggle from '../common/ViewToggle';
+import { getCardHoverProps } from '@/constants/styles';
+import { HEADER_HEIGHT, IMAGE_SIZE, Z_INDEX } from '@/constants/ui';
+import { useGradientAccent, useIsMobile } from '@/hooks';
+import type { ViewMode } from '@/hooks/use-filters';
+import ViewToggle from '@/components/ui/ViewToggle';
 
 interface FilterToolbarProps {
   count: number;

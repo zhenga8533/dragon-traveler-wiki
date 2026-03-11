@@ -1,4 +1,4 @@
-import type { FactionName } from '../../types/faction';
+import type { FactionName } from '@/types/faction';
 import arcaneWisdom from './arcane_wisdom.png';
 import elementalEcho from './elemental_echo.png';
 import illusionVeil from './illusion_veil.png';

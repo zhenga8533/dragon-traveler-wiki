@@ -10,19 +10,19 @@ import {
 } from '@mantine/core';
 import { IoFlash } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import CharacterPortrait from '../../components/character/CharacterPortrait';
-import ClassTag from '../../components/common/ClassTag';
-import FactionTag from '../../components/common/FactionTag';
-import NoteTooltipIcon from '../../components/common/NoteTooltipIcon';
-import QualityIcon from '../../components/common/QualityIcon';
-import { getCardHoverProps } from '../../constants/styles';
-import { useGradientAccent, useIsMobile, useMobileTooltip } from '../../hooks';
-import type { Character } from '../../types/character';
-import type { TeamMember } from '../../types/team';
+import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
+import ClassTag from '@/features/characters/components/ClassTag';
+import FactionTag from '@/features/characters/components/FactionTag';
+import NoteTooltipIcon from '@/components/ui/NoteTooltipIcon';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import { getCardHoverProps } from '@/constants/styles';
+import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
+import type { Character } from '@/features/characters/types';
+import type { TeamMember } from '@/features/teams/types';
 import {
   getCharacterBaseSlug,
   resolveCharacterByNameAndQuality,
-} from '../../utils/character-route';
+} from '@/features/characters/utils/character-route';
 
 const BG_ROW_COLORS = ['red', 'orange', 'blue'] as const;
 const BG_ROW_LABELS = ['Front', 'Middle', 'Back'] as const;

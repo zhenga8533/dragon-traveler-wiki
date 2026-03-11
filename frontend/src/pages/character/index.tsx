@@ -19,22 +19,22 @@ import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useState } from 'react';
 import { RiZoomInLine } from 'react-icons/ri';
 import { useParams } from 'react-router-dom';
-import { getPortrait } from '../../assets/character';
-import { getSubclassIcon } from '../../assets/subclass';
-import ChangeHistory from '../../components/common/ChangeHistory';
-import ClassTag from '../../components/common/ClassTag';
-import DetailPageNavigation from '../../components/common/DetailPageNavigation';
-import EntityNotFound from '../../components/common/EntityNotFound';
-import ErrorBoundary from '../../components/common/ErrorBoundary';
-import TierBadge from '../../components/common/TierBadge';
-import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
-import { getCardHoverProps } from '../../constants/styles';
-import { BREAKPOINTS } from '../../constants/ui';
-import { useCharacterAssets, useMobileTooltip } from '../../hooks';
+import { getPortrait } from '@/assets/character';
+import { getSubclassIcon } from '@/assets/subclass';
+import ChangeHistory from '@/components/common/ChangeHistory';
+import ClassTag from '@/features/characters/components/ClassTag';
+import DetailPageNavigation from '@/components/common/DetailPageNavigation';
+import EntityNotFound from '@/components/ui/EntityNotFound';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
+import TierBadge from '@/features/teams/components/TierBadge';
+import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import { getCardHoverProps } from '@/constants/styles';
+import { BREAKPOINTS } from '@/constants/ui';
+import { useCharacterAssets, useMobileTooltip } from '@/hooks';
 import {
   getCharacterNavPaths,
   useCharacterPageData,
-} from '../../hooks/use-character-page-data';
+} from '@/features/characters/hooks/use-character-page-data';
 import BuildSection from './BuildSection';
 import HeroSection from './HeroSection';
 import IllustrationPreviewModal from './IllustrationPreviewModal';

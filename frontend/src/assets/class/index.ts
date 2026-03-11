@@ -1,4 +1,4 @@
-import type { CharacterClass } from '../../types/character';
+import type { CharacterClass } from '@/features/characters/types';
 
 import archer from './archer.png';
 import assassin from './assassin.png';

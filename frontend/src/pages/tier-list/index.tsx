@@ -9,49 +9,49 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { CLASS_ICON_MAP } from '../../assets/class';
-import { FACTION_ICON_MAP } from '../../assets/faction';
-import ConfirmActionModal from '../../components/common/ConfirmActionModal';
-import DataFetchError from '../../components/common/DataFetchError';
-import type { ChipFilterGroup } from '../../components/common/EntityFilter';
-import LastUpdated from '../../components/common/LastUpdated';
-import QualityFilterIcon from '../../components/common/QualityFilterIcon';
-import PageFilterHeaderControls from '../../components/layout/PageFilterHeaderControls';
+import { CLASS_ICON_MAP } from '@/assets/class';
+import { FACTION_ICON_MAP } from '@/assets/faction';
+import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import DataFetchError from '@/components/ui/DataFetchError';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import LastUpdated from '@/components/common/LastUpdated';
+import QualityFilterIcon from '@/features/characters/components/QualityFilterIcon';
+import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
 import {
   ListPageLoading,
   ViewModeLoading,
-} from '../../components/layout/PageLoadingSkeleton';
-import TierListBuilder from '../../components/tools/TierListBuilder';
-import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER } from '../../constants/colors';
+} from '@/components/layout/PageLoadingSkeleton';
+import TierListBuilder from '@/features/teams/components/TierListBuilder';
+import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER } from '@/constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   matchesContentTypeFilters,
   normalizeContentTypeFilters,
-} from '../../constants/content-types';
-import { STORAGE_KEY } from '../../constants/ui';
+} from '@/constants/content-types';
+import { STORAGE_KEY } from '@/constants/ui';
 import {
   useCharacterResolution,
   useDarkMode,
   useGradientAccent,
   useIsMobile,
-} from '../../hooks';
+} from '@/hooks';
 import {
   useCharacters,
   useTierListChanges,
   useTierLists,
-} from '../../hooks/use-common-data';
+} from '@/hooks/use-common-data';
 import {
   countActiveFilters,
   useFilters,
   useViewMode,
-} from '../../hooks/use-filters';
-import type { Character, CharacterClass } from '../../types/character';
-import type { FactionName } from '../../types/faction';
-import type { TierList as TierListType } from '../../types/tier-list';
-import { loadSavedFromStorage, parseTabMode } from '../../utils';
-import { resolveCharacterByNameAndQuality } from '../../utils/character-route';
-import { toEntitySlug } from '../../utils/entity-slug';
-import { downloadElementAsPng } from '../../utils/export-image';
+} from '@/hooks/use-filters';
+import type { Character, CharacterClass } from '@/features/characters/types';
+import type { FactionName } from '@/types/faction';
+import type { TierList as TierListType } from '@/features/teams/tier-list-types';
+import { loadSavedFromStorage, parseTabMode } from '@/utils';
+import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
+import { toEntitySlug } from '@/utils/entity-slug';
+import { downloadElementAsPng } from '@/utils/export-image';
 import TierListSavedTab from './TierListSavedTab';
 import TierListViewTab from './TierListViewTab';
 

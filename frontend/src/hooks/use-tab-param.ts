@@ -1,6 +1,6 @@
 import { useMemo } from 'react';
 import { useSearchParams } from 'react-router-dom';
-import { toEntitySlug } from '../utils/entity-slug';
+import { toEntitySlug } from '@/utils/entity-slug';
 
 /**
  * Syncs a tab selection with a URL search parameter.

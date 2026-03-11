@@ -1,5 +1,5 @@
 import { Text, Tooltip } from '@mantine/core';
-import { formatExactDate, formatRelativeTime } from '../../utils';
+import { formatExactDate, formatRelativeTime } from '@/utils';
 
 export default function LastUpdated({ timestamp }: { timestamp: number }) {
   const formatted = formatRelativeTime(timestamp);

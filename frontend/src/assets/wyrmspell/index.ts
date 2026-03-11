@@ -1,4 +1,4 @@
-import { normalizeKey } from '../utils';
+import { normalizeKey } from '@/assets/utils';
 
 // Dynamic imports for wyrmspell icons in type subdirectories
 const iconModules = import.meta.glob<{ default: string }>('./**/*.png', {

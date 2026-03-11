@@ -1,6 +1,6 @@
 import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
-import { getCardHoverProps } from '../../constants/styles';
-import { useDataFetch } from '../../hooks';
+import { getCardHoverProps } from '@/constants/styles';
+import { useDataFetch } from '@/hooks';
 
 interface ChangelogEntry {
   date: string;

@@ -1,6 +1,6 @@
 import { Group, Stack } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { useIsMobile } from '../../hooks';
+import { useIsMobile } from '@/hooks';
 import {
   FilterChipGroup,
   FilterClearButton,

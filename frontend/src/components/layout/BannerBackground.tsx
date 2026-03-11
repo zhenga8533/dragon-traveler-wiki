@@ -1,9 +1,9 @@
 import { Box } from '@mantine/core';
 import { useCallback, useContext, useRef, useState } from 'react';
-import { getHomeHeroPlaceholderGradient } from '../../constants/styles';
-import { TRANSITION } from '../../constants/ui';
-import { BannerContext, UiOpacityContext } from '../../contexts';
-import { useDarkMode } from '../../hooks';
+import { getHomeHeroPlaceholderGradient } from '@/constants/styles';
+import { TRANSITION } from '@/constants/ui';
+import { BannerContext, UiOpacityContext } from '@/contexts';
+import { useDarkMode } from '@/hooks';
 
 const measuredHeightBySource = new Map<string, number>();
 

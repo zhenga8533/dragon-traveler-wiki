@@ -1,8 +1,8 @@
 import { Badge, Button, Group } from '@mantine/core';
 import { IoFilter } from 'react-icons/io5';
-import { useGradientAccent } from '../../hooks';
-import type { ViewMode } from '../../hooks/use-filters';
-import ViewToggle from '../common/ViewToggle';
+import { useGradientAccent } from '@/hooks';
+import type { ViewMode } from '@/hooks/use-filters';
+import ViewToggle from '@/components/ui/ViewToggle';
 
 interface PageFilterHeaderControlsProps {
   viewMode: ViewMode;

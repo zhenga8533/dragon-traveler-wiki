@@ -9,11 +9,11 @@ import {
   Tooltip,
 } from '@mantine/core';
 import { IoCheckmark, IoCopyOutline } from 'react-icons/io5';
-import ResourceBadge from '../../components/common/ResourceBadge';
-import { getCardHoverProps } from '../../constants/styles';
-import { useDataFetch, useMobileTooltip } from '../../hooks';
-import type { Code } from '../../types/code';
-import { isCodeActive } from '../../utils';
+import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import { getCardHoverProps } from '@/constants/styles';
+import { useDataFetch, useMobileTooltip } from '@/hooks';
+import type { Code } from '@/types/code';
+import { isCodeActive } from '@/utils';
 
 export default function ActiveCodesSection() {
   const tooltipProps = useMobileTooltip();

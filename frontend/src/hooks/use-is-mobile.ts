@@ -1,5 +1,5 @@
 import { useMediaQuery } from '@mantine/hooks';
-import { BREAKPOINTS } from '../constants/ui';
+import { BREAKPOINTS } from '@/constants/ui';
 
 export function useIsMobile() {
   return useMediaQuery(BREAKPOINTS.MOBILE) ?? false;

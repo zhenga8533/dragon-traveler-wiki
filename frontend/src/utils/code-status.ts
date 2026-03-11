@@ -1,4 +1,4 @@
-import type { Code } from '../types/code';
+import type { Code } from '@/types/code';
 
 type MaybeCodeStatus = Pick<Code, 'active'> | null | undefined;
 

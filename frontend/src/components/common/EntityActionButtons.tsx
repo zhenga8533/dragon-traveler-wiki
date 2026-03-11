@@ -1,7 +1,7 @@
 import { Button, type ButtonProps } from '@mantine/core';
 import type { MouseEvent } from 'react';
 import { IoCreate, IoDownload, IoTrash } from 'react-icons/io5';
-import { useGradientAccent } from '../../hooks';
+import { useGradientAccent } from '@/hooks';
 
 type CompactSize =
   | 'compact-xs'

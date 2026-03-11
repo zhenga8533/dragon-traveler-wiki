@@ -1,4 +1,4 @@
-import { normalizeKey } from '../utils';
+import { normalizeKey } from '@/assets/utils';
 
 const iconModules = import.meta.glob<{ default: string }>('./*.png', {
   eager: true,

@@ -1,4 +1,4 @@
-import type { Quality } from '../types';
+import type { Quality } from '@/types';
 
 export const QUALITY_ORDER: Quality[] = [
   'UR',

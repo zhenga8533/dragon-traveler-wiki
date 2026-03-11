@@ -1,14 +1,14 @@
-import type { Artifact } from '../types/artifact';
-import type { ChangesFile } from '../types/changes';
-import type { Character } from '../types/character';
-import type { Faction } from '../types/faction';
-import type { Gear, GearSet } from '../types/gear';
-import type { NoblePhantasm } from '../types/noble-phantasm';
-import type { StatusEffect } from '../types/status-effect';
-import type { Subclass } from '../types/subclass';
-import type { Team } from '../types/team';
-import type { TierList } from '../types/tier-list';
-import type { Wyrmspell } from '../types/wyrmspell';
+import type { Artifact } from '@/features/wiki/types/artifact';
+import type { ChangesFile } from '@/types/changes';
+import type { Character } from '@/features/characters/types';
+import type { Faction } from '@/types/faction';
+import type { Gear, GearSet } from '@/features/wiki/types/gear';
+import type { NoblePhantasm } from '@/features/wiki/types/noble-phantasm';
+import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import type { Subclass } from '@/features/wiki/types/subclass';
+import type { Team } from '@/features/teams/types';
+import type { TierList } from '@/features/teams/tier-list-types';
+import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
 import { useDataFetch } from './use-data-fetch';
 
 export function useCharacters() {

@@ -1,7 +1,7 @@
 import { Anchor, Blockquote, Box, Image, Modal, Stack, Text } from '@mantine/core';
 import { useCallback } from 'react';
 import { useDisclosure } from '@mantine/hooks';
-import { useKonami } from '../../hooks/use-konami';
+import { useKonami } from '@/hooks/use-konami';
 
 export default function KonamiEasterEgg() {
   const [opened, { open, close }] = useDisclosure(false);

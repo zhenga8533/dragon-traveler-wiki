@@ -1,0 +1,426 @@
+import {
+  Badge,
+  Container,
+  Group,
+  Image,
+  Paper,
+  ScrollArea,
+  SimpleGrid,
+  Stack,
+  Table,
+  Text,
+} from '@mantine/core';
+import { useMemo } from 'react';
+import { CLASS_ICON_MAP } from '@/assets/class';
+import { getSubclassIcon } from '@/assets/subclass';
+import ClassTag from '@/features/characters/components/ClassTag';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
+import RichText from '@/components/ui/RichText';
+import SortableTh from '@/components/ui/SortableTh';
+import TierBadge from '@/features/teams/components/TierBadge';
+import FilteredListShell from '@/components/layout/FilteredListShell';
+import ListPageHeader from '@/components/layout/ListPageHeader';
+import ListPageShell from '@/components/layout/ListPageShell';
+import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
+import { CLASS_ORDER } from '@/constants/colors';
+import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useGradientAccent,
+} from '@/hooks';
+import type { CharacterClass } from '@/features/characters/types';
+import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import type { Subclass } from '@/features/wiki/types/subclass';
+import { getLatestTimestamp } from '@/utils';
+import { getClassRank } from '@/utils/class-order';
+
+const SUBCLASS_FIELDS: FieldDef[] = [
+  {
+    name: 'name',
+    label: 'Name',
+    type: 'text',
+    required: true,
+    placeholder: 'Subclass name',
+  },
+  {
+    name: 'class',
+    label: 'Class',
+    type: 'select',
+    required: true,
+    options: CLASS_ORDER,
+  },
+  {
+    name: 'tier',
+    label: 'Tier',
+    type: 'number',
+    required: true,
+    placeholder: '1, 2, or 3',
+  },
+  {
+    name: 'bonuses',
+    label: 'Bonuses',
+    type: 'textarea',
+    required: true,
+    placeholder: 'One bonus per line',
+  },
+  {
+    name: 'effect',
+    label: 'Effect',
+    type: 'textarea',
+    required: true,
+    placeholder: 'Describe the subclass effect',
+  },
+];
+
+interface SubclassFilters {
+  search: string;
+  classes: CharacterClass[];
+  tiers: string[];
+}
+
+const EMPTY_FILTERS: SubclassFilters = {
+  search: '',
+  classes: [],
+  tiers: [],
+};
+
+const FILTER_GROUPS: ChipFilterGroup[] = [
+  {
+    key: 'classes',
+    label: 'Class',
+    options: [...CLASS_ORDER],
+    icon: (value) => {
+      const icon =
+        CLASS_ICON_MAP[value as CharacterClass] ??
+        (CLASS_ICON_MAP as Record<string, string | undefined>)[value];
+      return icon ? (
+        <Image
+          src={icon}
+          alt={value}
+          w={IMAGE_SIZE.ICON_SM}
+          h={IMAGE_SIZE.ICON_SM}
+          fit="contain"
+        />
+      ) : null;
+    },
+  },
+  {
+    key: 'tiers',
+    label: 'Tier',
+    options: ['1', '2', '3'],
+  },
+];
+
+export default function Subclasses() {
+  const { accent } = useGradientAccent();
+  const {
+    data: subclasses,
+    loading,
+    error,
+  } = useDataFetch<Subclass[]>('data/subclasses.json', []);
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>(
+    'data/status-effects.json',
+    []
+  );
+
+  const {
+    filters,
+    setFilters,
+    resetFilters,
+    filterOpen,
+    toggleFilter,
+    viewMode,
+    setViewMode,
+    sortCol,
+    sortDir,
+    handleSort,
+    pageItems,
+    filtered,
+    page,
+    setPage,
+    totalPages,
+    pageSize,
+    setPageSize,
+    pageSizeOptions,
+    activeFilterCount,
+  } = useFilteredPageData(subclasses, {
+    emptyFilters: EMPTY_FILTERS,
+    storageKeys: {
+      filters: STORAGE_KEY.SUBCLASS_FILTERS,
+      viewMode: STORAGE_KEY.SUBCLASS_VIEW_MODE,
+      sort: STORAGE_KEY.SUBCLASS_SORT,
+    },
+    defaultViewMode: 'list',
+    filterFn: (item, filters) => {
+      if (
+        filters.search &&
+        !item.name.toLowerCase().includes(filters.search.toLowerCase())
+      ) {
+        return false;
+      }
+      if (filters.classes.length > 0 && !filters.classes.includes(item.class)) {
+        return false;
+      }
+      if (
+        filters.tiers.length > 0 &&
+        !filters.tiers.includes(String(item.tier))
+      ) {
+        return false;
+      }
+      return true;
+    },
+    sortFn: (a, b, col, dir) => {
+      if (col) {
+        let cmp = 0;
+        if (col === 'name') {
+          cmp = a.name.localeCompare(b.name);
+        } else if (col === 'class') {
+          cmp = getClassRank(a.class) - getClassRank(b.class);
+        } else if (col === 'tier') {
+          cmp = a.tier - b.tier;
+        }
+        if (cmp !== 0) return applyDir(cmp, dir);
+      }
+      const classCmp = getClassRank(a.class) - getClassRank(b.class);
+      if (classCmp !== 0) return classCmp;
+      if (a.tier !== b.tier) return a.tier - b.tier;
+      return a.name.localeCompare(b.name);
+    },
+  });
+
+  const mostRecentUpdate = useMemo(
+    () => getLatestTimestamp(subclasses),
+    [subclasses]
+  );
+
+  return (
+    <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
+      <Stack gap="md">
+        <ListPageHeader title="Subclasses" timestamp={mostRecentUpdate}>
+          <SuggestModal
+            buttonLabel="Suggest a Subclass"
+            modalTitle="Suggest a New Subclass"
+            issueTitle="[Subclass] New subclass suggestion"
+            fields={SUBCLASS_FIELDS}
+          />
+        </ListPageHeader>
+
+        <ListPageShell
+          loading={loading}
+          error={error}
+          errorTitle="Could not load subclasses"
+          hasData={subclasses.length > 0}
+          emptyMessage="No subclass data available yet."
+          skeletonCards={4}
+        >
+          <FilteredListShell
+            count={filtered.length}
+            noun="subclass"
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            filterCount={activeFilterCount}
+            filterOpen={filterOpen}
+            onFilterToggle={toggleFilter}
+            onResetFilters={resetFilters}
+            filterContent={
+              <EntityFilter
+                groups={FILTER_GROUPS}
+                selected={{ classes: filters.classes, tiers: filters.tiers }}
+                onChange={(key, values) => {
+                  if (key === 'classes') {
+                    setFilters({
+                      ...filters,
+                      classes: values as CharacterClass[],
+                    });
+                    return;
+                  }
+                  setFilters({ ...filters, tiers: values as string[] });
+                }}
+                onClear={resetFilters}
+                search={filters.search}
+                onSearchChange={(value) =>
+                  setFilters({ ...filters, search: value })
+                }
+                searchPlaceholder="Search by name..."
+              />
+            }
+            page={page}
+            totalPages={totalPages}
+            onPageChange={setPage}
+            pageSize={pageSize}
+            pageSizeOptions={pageSizeOptions}
+            onPageSizeChange={setPageSize}
+            gridContent={
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                {pageItems.map((item) => {
+                  const subclassIcon = getSubclassIcon(item.name, item.class);
+                  return (
+                    <Paper
+                      key={item.name}
+                      p="sm"
+                      radius="md"
+                      withBorder
+                      {...getCardHoverProps()}
+                    >
+                      <Stack gap="xs">
+                        <Group gap="sm" wrap="nowrap">
+                          {subclassIcon && (
+                            <Image
+                              src={subclassIcon}
+                              alt={item.name}
+                              w={52}
+                              h={48}
+                              fit="contain"
+                              loading="lazy"
+                            />
+                          )}
+                          <Stack gap={2} style={{ flex: 1 }}>
+                            <Text fw={600}>{item.name}</Text>
+                            <Group gap="xs">
+                              <ClassTag characterClass={item.class} size="xs" />
+                              <TierBadge
+                                tier={String(item.tier)}
+                                showPrefix
+                                size="xs"
+                                index={item.tier - 1}
+                              />
+                            </Group>
+                          </Stack>
+                        </Group>
+
+                        {item.bonuses.length > 0 && (
+                          <Group gap="xs" wrap="wrap">
+                            {item.bonuses.map((bonus) => (
+                              <Badge
+                                key={bonus}
+                                variant="outline"
+                                size="xs"
+                                color={accent.secondary}
+                              >
+                                {bonus}
+                              </Badge>
+                            ))}
+                          </Group>
+                        )}
+
+                        <RichText
+                          text={item.effect}
+                          statusEffects={statusEffects}
+                        />
+                      </Stack>
+                    </Paper>
+                  );
+                })}
+              </SimpleGrid>
+            }
+            tableContent={
+              <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+                <Table striped highlightOnHover style={getMinWidthStyle(860)}>
+                  <Table.Thead>
+                    <Table.Tr>
+                      <Table.Th>Icon</Table.Th>
+                      <SortableTh
+                        sortKey="name"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Name
+                      </SortableTh>
+                      <SortableTh
+                        sortKey="class"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Class
+                      </SortableTh>
+                      <SortableTh
+                        sortKey="tier"
+                        sortCol={sortCol}
+                        sortDir={sortDir}
+                        onSort={handleSort}
+                      >
+                        Tier
+                      </SortableTh>
+                      <Table.Th>Bonuses</Table.Th>
+                      <Table.Th>Effect</Table.Th>
+                    </Table.Tr>
+                  </Table.Thead>
+                  <Table.Tbody>
+                    {pageItems.map((item) => {
+                      const subclassIcon = getSubclassIcon(
+                        item.name,
+                        item.class
+                      );
+                      return (
+                        <Table.Tr key={item.name}>
+                          <Table.Td>
+                            {subclassIcon && (
+                              <Image
+                                src={subclassIcon}
+                                alt={item.name}
+                                w={48}
+                                h={44}
+                                fit="contain"
+                                loading="lazy"
+                              />
+                            )}
+                          </Table.Td>
+                          <Table.Td>
+                            <Text fw={600} size="sm">
+                              {item.name}
+                            </Text>
+                          </Table.Td>
+                          <Table.Td>
+                            <ClassTag characterClass={item.class} size="sm" />
+                          </Table.Td>
+                          <Table.Td>
+                            <TierBadge
+                              tier={String(item.tier)}
+                              showPrefix
+                              size="sm"
+                              index={item.tier - 1}
+                            />
+                          </Table.Td>
+                          <Table.Td className="table-badge-cell">
+                            <Group
+                              gap="xs"
+                              wrap="wrap"
+                              className="table-badge-list"
+                            >
+                              {item.bonuses.map((bonus) => (
+                                <Badge
+                                  key={bonus}
+                                  variant="outline"
+                                  size="xs"
+                                  color={accent.secondary}
+                                >
+                                  {bonus}
+                                </Badge>
+                              ))}
+                            </Group>
+                          </Table.Td>
+                          <Table.Td>
+                            <RichText
+                              text={item.effect}
+                              statusEffects={statusEffects}
+                            />
+                          </Table.Td>
+                        </Table.Tr>
+                      );
+                    })}
+                  </Table.Tbody>
+                </Table>
+              </ScrollArea>
+            }
+          />
+        </ListPageShell>
+      </Stack>
+    </Container>
+  );
+}

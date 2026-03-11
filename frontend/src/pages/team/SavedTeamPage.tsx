@@ -1,25 +1,25 @@
 import { Box, Container } from '@mantine/core';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import ConfirmActionModal from '../../components/common/ConfirmActionModal';
-import EntityNotFound from '../../components/common/EntityNotFound';
-import { DetailPageLoading } from '../../components/layout/PageLoadingSkeleton';
-import { STORAGE_KEY } from '../../constants/ui';
-import { useCharacterResolution, useDarkMode, useGradientAccent, useMobileTooltip } from '../../hooks';
+import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import EntityNotFound from '@/components/ui/EntityNotFound';
+import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import { STORAGE_KEY } from '@/constants/ui';
+import { useCharacterResolution, useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import {
   useArtifacts,
   useCharacters,
   useFactions,
   useStatusEffects,
   useWyrmspells,
-} from '../../hooks/use-common-data';
-import { useTeamDetailData } from '../../hooks/use-team-detail-data';
-import type { Team } from '../../types/team';
-import { toEntitySlug } from '../../utils/entity-slug';
+} from '@/hooks/use-common-data';
+import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
+import type { Team } from '@/features/teams/types';
+import { toEntitySlug } from '@/utils/entity-slug';
 import {
   exportTeamCompositionAsImage,
   hasTeamBuilderDraft,
-} from '../../utils/team-page';
+} from '@/features/teams/utils/team-page';
 import { TeamHeroSection } from './HeroSection';
 import TeamDetailContent from './TeamDetailContent';
 

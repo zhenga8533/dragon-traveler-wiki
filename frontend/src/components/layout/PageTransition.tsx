@@ -2,7 +2,7 @@ import { Box } from '@mantine/core';
 import { useReducedMotion } from '@mantine/hooks';
 import { useLayoutEffect, useRef, type ReactNode } from 'react';
 import { useLocation } from 'react-router-dom';
-import { TRANSITION } from '../../constants/ui';
+import { TRANSITION } from '@/constants/ui';
 
 interface PageTransitionProps {
   children: ReactNode;

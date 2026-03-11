@@ -9,28 +9,28 @@ import {
 } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
-import CharacterCard from '../../components/character/CharacterCard';
-import CharacterPortrait from '../../components/character/CharacterPortrait';
-import ClassTag from '../../components/common/ClassTag';
-import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
-import FactionTag from '../../components/common/FactionTag';
-import LastUpdated from '../../components/common/LastUpdated';
-import QualityIcon from '../../components/common/QualityIcon';
-import { getTierColor, TIER_ORDER } from '../../constants/colors';
+import CharacterCard from '@/features/characters/components/CharacterCard';
+import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
+import ClassTag from '@/features/characters/components/ClassTag';
+import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
+import FactionTag from '@/features/characters/components/FactionTag';
+import LastUpdated from '@/components/common/LastUpdated';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import { getTierColor, TIER_ORDER } from '@/constants/colors';
 import {
   getContentTypeColor,
   normalizeContentType,
-} from '../../constants/content-types';
-import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '../../constants/ui';
-import { useGradientAccent } from '../../hooks';
-import type { Character } from '../../types/character';
-import type { TierList as TierListType } from '../../types/tier-list';
+} from '@/constants/content-types';
+import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '@/constants/ui';
+import { useGradientAccent } from '@/hooks';
+import type { Character } from '@/features/characters/types';
+import type { TierList as TierListType } from '@/features/teams/tier-list-types';
 import {
   getCharacterBaseSlug,
   getCharacterIdentityKey,
   getCharacterRoutePath,
   getCharacterRoutePathByName,
-} from '../../utils/character-route';
+} from '@/features/characters/utils/character-route';
 
 interface TierListContentProps {
   tierList: TierListType;

@@ -14,30 +14,30 @@ import {
 } from '@mantine/core';
 import { RiDoubleQuotesL } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
-import { getNoblePhantasmIcon } from '../../assets/noble_phantasm';
-import ClassTag from '../../components/common/ClassTag';
-import CollapsibleSectionCard from '../../components/common/CollapsibleSectionCard';
-import GearTypeTag from '../../components/common/GearTypeTag';
-import QualityIcon from '../../components/common/QualityIcon';
-import RichText from '../../components/common/RichText';
+import { getNoblePhantasmIcon } from '@/assets/noble_phantasm';
+import ClassTag from '@/features/characters/components/ClassTag';
+import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
+import GearTypeTag from '@/features/wiki/components/GearTypeTag';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import RichText from '@/components/ui/RichText';
 import {
   getCardHoverProps,
   LINK_FIT_CONTENT_RESET_STYLE,
   RICH_TOOLTIP_STYLES,
-} from '../../constants/styles';
-import { IMAGE_SIZE } from '../../constants/ui';
-import { useGradientAccent } from '../../hooks';
+} from '@/constants/styles';
+import { IMAGE_SIZE } from '@/constants/ui';
+import { useGradientAccent } from '@/hooks';
 import type {
   ActivatedSetBonus,
   Character,
   RecommendedGearDetail,
   RecommendedSubclassEntry,
-} from '../../types/character';
-import type { NoblePhantasm } from '../../types/noble-phantasm';
-import type { StatusEffect } from '../../types/status-effect';
-import type { Team } from '../../types/team';
-import { toEntitySlug } from '../../utils/entity-slug';
-import { toQuality } from '../../utils/quality';
+} from '@/features/characters/types';
+import type { NoblePhantasm } from '@/features/wiki/types/noble-phantasm';
+import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import type { Team } from '@/features/teams/types';
+import { toEntitySlug } from '@/utils/entity-slug';
+import { toQuality } from '@/utils/quality';
 import CharacterReferenceSection from './CharacterReferenceSection.tsx';
 
 interface CharacterPageBuildSectionProps {

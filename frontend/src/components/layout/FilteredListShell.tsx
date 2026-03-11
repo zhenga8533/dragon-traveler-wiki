@@ -1,8 +1,8 @@
 import { Paper, Stack } from '@mantine/core';
 import type { ReactNode } from 'react';
-import type { ViewMode } from '../../hooks/use-filters';
-import NoResultsSuggestions from '../common/NoResultsSuggestions';
-import PaginationControl from '../common/PaginationControl';
+import type { ViewMode } from '@/hooks/use-filters';
+import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
+import PaginationControl from '@/components/ui/PaginationControl';
 import FilterToolbar from './FilterToolbar';
 
 interface FilteredListShellProps {

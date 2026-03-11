@@ -1,4 +1,4 @@
-import type { Quality } from '../../types/quality';
+import type { Quality } from '@/types/quality';
 
 import c from './c.png';
 import n from './n.png';

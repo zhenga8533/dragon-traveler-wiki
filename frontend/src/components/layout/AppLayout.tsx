@@ -12,23 +12,23 @@ import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
-import { getGlassStyles } from '../../constants/glass';
+import { getGlassStyles } from '@/constants/glass';
 import {
   BRAND_TITLE_STYLE,
   LINK_BLOCK_RESET_STYLE,
-} from '../../constants/styles';
+} from '@/constants/styles';
 import {
   DETAIL_ROUTE_PATTERNS,
   HEADER_HEIGHT,
   SIDEBAR,
   TRANSITION,
-} from '../../constants/ui';
-import { BannerContext, UiOpacityContext } from '../../contexts';
-import { useDarkMode, useIsMobile, useSidebar } from '../../hooks';
-import AppRoutes from '../../routes/AppRoutes';
-import ErrorBoundary from '../common/ErrorBoundary';
-import KonamiEasterEgg from '../tools/KonamiEasterEgg';
-import SearchModal from '../tools/SearchModal';
+} from '@/constants/ui';
+import { BannerContext, UiOpacityContext } from '@/contexts';
+import { useDarkMode, useIsMobile, useSidebar } from '@/hooks';
+import AppRoutes from '@/routes/AppRoutes';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
+import KonamiEasterEgg from '@/components/tools/KonamiEasterEgg';
+import SearchModal from '@/components/tools/SearchModal';
 import BannerBackground from './BannerBackground';
 import Footer from './Footer';
 import Navigation from './Navigation';

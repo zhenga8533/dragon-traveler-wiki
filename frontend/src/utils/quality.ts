@@ -1,5 +1,5 @@
-import { QUALITY_ORDER } from '../constants/quality';
-import type { Quality } from '../types/quality';
+import { QUALITY_ORDER } from '@/constants/quality';
+import type { Quality } from '@/types/quality';
 
 export function isQuality(value: unknown): value is Quality {
   return typeof value === 'string' && QUALITY_ORDER.includes(value as Quality);

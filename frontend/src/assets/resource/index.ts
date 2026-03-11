@@ -1,4 +1,4 @@
-import { normalizeKey } from '../utils';
+import { normalizeKey } from '@/assets/utils';
 
 // Dynamic imports for resource icons organised by category sub-folders
 const iconModules = import.meta.glob<{ default: string }>('./**/*.png', {

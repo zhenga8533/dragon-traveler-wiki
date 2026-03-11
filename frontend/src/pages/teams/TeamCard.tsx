@@ -9,25 +9,25 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { type KeyboardEvent, type ReactNode } from 'react';
-import { FACTION_WYRM_MAP } from '../../assets/wyrms';
-import FactionTag from '../../components/common/FactionTag';
-import { FACTION_COLOR } from '../../constants/colors';
+import { FACTION_WYRM_MAP } from '@/assets/wyrms';
+import FactionTag from '@/features/characters/components/FactionTag';
+import { FACTION_COLOR } from '@/constants/colors';
 import {
   getContentTypeColor,
   normalizeContentType,
-} from '../../constants/content-types';
+} from '@/constants/content-types';
 import {
   getCardHoverProps,
   LINK_BLOCK_RESET_STYLE,
-} from '../../constants/styles';
-import { useGradientAccent } from '../../hooks';
-import type { Character } from '../../types/character';
-import type { FactionName } from '../../types/faction';
-import type { Team } from '../../types/team';
+} from '@/constants/styles';
+import { useGradientAccent } from '@/hooks';
+import type { Character } from '@/features/characters/types';
+import type { FactionName } from '@/types/faction';
+import type { Team } from '@/features/teams/types';
 import {
   getTeamBenchEntryName,
   getTeamBenchEntryQuality,
-} from '../../utils/team-bench';
+} from '@/features/teams/utils/team-bench';
 import TeamCharacterAvatars from './TeamCharacterAvatars';
 
 interface TeamCardProps {

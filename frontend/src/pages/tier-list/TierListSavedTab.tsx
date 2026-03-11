@@ -8,13 +8,13 @@ import {
   Text,
 } from '@mantine/core';
 import { IoCreate } from 'react-icons/io5';
-import EntityActionButtons from '../../components/common/EntityActionButtons';
-import type { ChipFilterGroup } from '../../components/common/EntityFilter';
-import EntityFilter from '../../components/common/EntityFilter';
-import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
-import { useEntityTabParam, useGradientAccent, useIsMobile } from '../../hooks';
-import type { Character } from '../../types/character';
-import type { TierList as TierListType } from '../../types/tier-list';
+import EntityActionButtons from '@/components/common/EntityActionButtons';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
+import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
+import { useEntityTabParam, useGradientAccent, useIsMobile } from '@/hooks';
+import type { Character } from '@/features/characters/types';
+import type { TierList as TierListType } from '@/features/teams/tier-list-types';
 import TierListContent from './TierListContent';
 
 interface TierListSavedTabProps {

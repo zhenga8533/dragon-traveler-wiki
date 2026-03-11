@@ -1,5 +1,5 @@
 import { useEffect, useMemo, useState, type ReactNode } from 'react';
-import { STORAGE_KEY } from '../constants/ui';
+import { STORAGE_KEY } from '@/constants/ui';
 import {
   DEFAULT_PALETTE,
   GradientThemeContext,

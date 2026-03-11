@@ -1,12 +1,12 @@
 import { Card, Group, Stack, Text, ThemeIcon, Title } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { GLASS } from '../../constants/glass';
+import { GLASS } from '@/constants/glass';
 import {
   BRAND_TITLE_STYLE,
   getCardHoverProps,
   getGuideSectionCardStyles,
-} from '../../constants/styles';
-import { useDarkMode, useGradientAccent } from '../../hooks';
+} from '@/constants/styles';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 
 interface GuideHeroCardProps {
   icon: ReactNode;

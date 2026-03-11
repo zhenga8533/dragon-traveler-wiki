@@ -10,13 +10,13 @@ import {
 } from '@mantine/core';
 import { useContext } from 'react';
 import { IoTrophy } from 'react-icons/io5';
-import CharacterCard from '../../components/character/CharacterCard';
-import { TIER_COLOR } from '../../constants/colors';
-import { normalizeContentType } from '../../constants/content-types';
-import { TierListReferenceContext } from '../../contexts/tier-list-reference-context';
-import { useDataFetch, useGradientAccent } from '../../hooks';
-import styles from '../../styles/featured-characters-marquee.module.css';
-import type { Character } from '../../types/character';
+import CharacterCard from '@/features/characters/components/CharacterCard';
+import { TIER_COLOR } from '@/constants/colors';
+import { normalizeContentType } from '@/constants/content-types';
+import { TierListReferenceContext } from '@/contexts/tier-list-reference-context';
+import { useDataFetch, useGradientAccent } from '@/hooks';
+import styles from '@/styles/featured-characters-marquee.module.css';
+import type { Character } from '@/features/characters/types';
 import {
   buildCharacterByIdentityMap,
   buildCharacterNameCounts,
@@ -25,7 +25,7 @@ import {
   getCharacterRoutePath,
   getCharacterRoutePathByName,
   resolveCharacterByNameAndQuality,
-} from '../../utils/character-route';
+} from '@/features/characters/utils/character-route';
 
 export default function FeaturedCharactersMarquee() {
   const { accent } = useGradientAccent();

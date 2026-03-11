@@ -14,33 +14,33 @@ import {
 } from '@mantine/core';
 import { IoCreate, IoTrash } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { getArtifactIcon } from '../../assets/artifacts';
-import { FACTION_WYRM_MAP } from '../../assets/wyrms';
-import FactionTag from '../../components/common/FactionTag';
-import GlobalBadge from '../../components/common/GlobalBadge';
-import LastUpdated from '../../components/common/LastUpdated';
-import QualityIcon from '../../components/common/QualityIcon';
-import RichText from '../../components/common/RichText';
-import Breadcrumbs from '../../components/layout/Breadcrumbs';
-import { FACTION_COLOR } from '../../constants/colors';
+import { getArtifactIcon } from '@/assets/artifacts';
+import { FACTION_WYRM_MAP } from '@/assets/wyrms';
+import FactionTag from '@/features/characters/components/FactionTag';
+import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import LastUpdated from '@/components/common/LastUpdated';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import RichText from '@/components/ui/RichText';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
+import { FACTION_COLOR } from '@/constants/colors';
 import {
   getContentTypeColor,
   normalizeContentType,
-} from '../../constants/content-types';
-import { GLASS_BORDER, getLoreGlassStyles } from '../../constants/glass';
+} from '@/constants/content-types';
+import { GLASS_BORDER, getLoreGlassStyles } from '@/constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
   getCardHoverProps,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
-} from '../../constants/styles';
-import { IMAGE_SIZE } from '../../constants/ui';
-import { useGradientAccent, useMobileTooltip } from '../../hooks';
-import type { Artifact } from '../../types/artifact';
-import type { Faction } from '../../types/faction';
-import type { StatusEffect } from '../../types/status-effect';
-import type { Team } from '../../types/team';
-import { toEntitySlug } from '../../utils/entity-slug';
+} from '@/constants/styles';
+import { IMAGE_SIZE } from '@/constants/ui';
+import { useGradientAccent, useMobileTooltip } from '@/hooks';
+import type { Artifact } from '@/features/wiki/types/artifact';
+import type { Faction } from '@/types/faction';
+import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import type { Team } from '@/features/teams/types';
+import { toEntitySlug } from '@/utils/entity-slug';
 
 export function TeamHeroSection({
   team,

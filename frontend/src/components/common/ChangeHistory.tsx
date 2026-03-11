@@ -19,15 +19,15 @@ import {
   getPageSizeStorageKey,
   usePageSize,
   usePagination,
-} from '../../hooks/use-pagination';
+} from '@/hooks/use-pagination';
 import type {
   ChangeRecord,
   EntityChangeHistory,
   FieldDiff,
-} from '../../types/changes';
-import { formatExactDate, formatShortDate } from '../../utils';
-import CollapsibleSectionCard from './CollapsibleSectionCard';
-import PaginationControl from './PaginationControl';
+} from '@/types/changes';
+import { formatExactDate, formatShortDate } from '@/utils';
+import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
+import PaginationControl from '@/components/ui/PaginationControl';
 
 const PAGE_SIZE = 5;
 const CHANGE_HISTORY_PAGE_SIZE_OPTIONS = [5, 10, 20, 30] as const;

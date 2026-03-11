@@ -94,7 +94,8 @@ export function resolvePageSizeOptions(
   }
 
   return normalizePageSizeOptions(
-    pageSizeOptions?.[viewMode] ?? fallbackOptions
+    (pageSizeOptions as PageSizeOptionsByViewMode | undefined)?.[viewMode] ??
+      fallbackOptions
   );
 }
 
@@ -107,7 +108,7 @@ export function usePageSize(
     [options]
   );
 
-  const [pageSize, setPageSizeState] = useState(() => {
+  const [pageSizeRaw, setPageSizeState] = useState(() => {
     if (typeof window !== 'undefined' && storageKey) {
       const stored = Number(window.localStorage.getItem(storageKey));
 
@@ -122,15 +123,9 @@ export function usePageSize(
     );
   });
 
-  useEffect(() => {
-    setPageSizeState((current) => {
-      if (normalizedOptions.includes(current)) {
-        return current;
-      }
-
-      return pickClosestPageSize(defaultSize ?? current, normalizedOptions);
-    });
-  }, [defaultSize, normalizedOptions]);
+  const pageSize = normalizedOptions.includes(pageSizeRaw)
+    ? pageSizeRaw
+    : pickClosestPageSize(defaultSize ?? pageSizeRaw, normalizedOptions);
 
   useEffect(() => {
     if (typeof window !== 'undefined' && storageKey) {

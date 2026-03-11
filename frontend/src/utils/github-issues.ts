@@ -2,7 +2,7 @@ import {
   buildEmptyIssueBody,
   GITHUB_REPO_URL,
   MAX_GITHUB_ISSUE_URL_LENGTH,
-} from '../constants/github';
+} from '@/constants/github';
 
 export function buildExpiredCodeUrl(code: string): string {
   const params = new URLSearchParams({

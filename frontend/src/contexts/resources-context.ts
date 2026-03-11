@@ -1,6 +1,6 @@
 import { createContext, createElement, useMemo, type ReactNode } from 'react';
-import { useDataFetch } from '../hooks/use-data-fetch';
-import type { Resource } from '../types/resource';
+import { useDataFetch } from '@/hooks/use-data-fetch';
+import type { Resource } from '@/types/resource';
 
 export interface ResourcesContextValue {
   resources: Resource[];

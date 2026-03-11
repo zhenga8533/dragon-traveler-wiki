@@ -14,26 +14,26 @@ import {
 } from '@mantine/core';
 import { IoCreate } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-import { FACTION_WYRM_MAP } from '../../assets/wyrms';
-import EntityActionButtons from '../../components/common/EntityActionButtons';
-import type { ChipFilterGroup } from '../../components/common/EntityFilter';
-import EntityFilter from '../../components/common/EntityFilter';
-import FactionTag from '../../components/common/FactionTag';
-import NoResultsSuggestions from '../../components/common/NoResultsSuggestions';
+import { FACTION_WYRM_MAP } from '@/assets/wyrms';
+import EntityActionButtons from '@/components/common/EntityActionButtons';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
+import FactionTag from '@/features/characters/components/FactionTag';
+import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import {
   getContentTypeColor,
   normalizeContentType,
-} from '../../constants/content-types';
-import { getMinWidthStyle } from '../../constants/styles';
-import { useGradientAccent } from '../../hooks';
-import type { Character } from '../../types/character';
-import type { FactionName } from '../../types/faction';
-import type { Team } from '../../types/team';
-import { toEntitySlug } from '../../utils/entity-slug';
+} from '@/constants/content-types';
+import { getMinWidthStyle } from '@/constants/styles';
+import { useGradientAccent } from '@/hooks';
+import type { Character } from '@/features/characters/types';
+import type { FactionName } from '@/types/faction';
+import type { Team } from '@/features/teams/types';
+import { toEntitySlug } from '@/utils/entity-slug';
 import {
   getTeamBenchEntryName,
   getTeamBenchEntryQuality,
-} from '../../utils/team-bench';
+} from '@/features/teams/utils/team-bench';
 import TeamCard from './TeamCard';
 import TeamCharacterAvatars from './TeamCharacterAvatars';
 
