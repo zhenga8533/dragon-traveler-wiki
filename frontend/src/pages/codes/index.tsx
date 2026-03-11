@@ -1,3 +1,35 @@
+import { getResourceIcon } from '@/assets/resource';
+import LastUpdated from '@/components/common/LastUpdated';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
+import SuggestModal, {
+  type ArrayFieldDef,
+  type FieldDef,
+} from '@/components/tools/SuggestModal';
+import DataFetchError from '@/components/ui/DataFetchError';
+import EmptyState from '@/components/ui/EmptyState';
+import PaginationControl from '@/components/ui/PaginationControl';
+import ViewToggle from '@/components/ui/ViewToggle';
+import { getCardHoverProps } from '@/constants/styles';
+import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import {
+  useDataFetch,
+  useGradientAccent,
+  useMobileTooltip,
+  usePageSize,
+  useTabParam,
+} from '@/hooks';
+import { useViewMode, type ViewMode } from '@/hooks/use-filters';
+import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
+import type { Code } from '@/types/code';
+import type { Resource } from '@/types/resource';
+import {
+  buildExpiredCodeUrl,
+  getLatestTimestamp,
+  isCodeActive,
+  isCodeExpired,
+} from '@/utils';
+import { showInfoToast, showSuccessToast } from '@/utils/toast';
 import {
   ActionIcon,
   Alert,
@@ -35,38 +67,6 @@ import {
   IoStatsChart,
   IoTrophy,
 } from 'react-icons/io5';
-import { getResourceIcon } from '@/assets/resource';
-import DataFetchError from '@/components/ui/DataFetchError';
-import EmptyState from '@/components/ui/EmptyState';
-import LastUpdated from '@/components/common/LastUpdated';
-import PaginationControl from '@/components/ui/PaginationControl';
-import ResourceBadge from '@/features/characters/components/ResourceBadge';
-import ViewToggle from '@/components/ui/ViewToggle';
-import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
-import SuggestModal, {
-  type ArrayFieldDef,
-  type FieldDef,
-} from '@/components/tools/SuggestModal';
-import { getCardHoverProps } from '@/constants/styles';
-import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import {
-  useDataFetch,
-  useGradientAccent,
-  useMobileTooltip,
-  usePageSize,
-  useTabParam,
-} from '@/hooks';
-import { useViewMode, type ViewMode } from '@/hooks/use-filters';
-import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
-import type { Code } from '@/types/code';
-import type { Resource } from '@/types/resource';
-import {
-  buildExpiredCodeUrl,
-  getLatestTimestamp,
-  isCodeActive,
-  isCodeExpired,
-} from '@/utils';
-import { showInfoToast, showSuccessToast } from '@/utils/toast';
 
 function aggregateRewards(codes: Code[]): Map<string, number> {
   const totals = new Map<string, number>();
@@ -434,7 +434,13 @@ export default function Codes() {
                   <IoStatsChart size={14} />
                 </ThemeIcon>
                 <Text fw={600} size="sm">
-                  Reward Summary ({tab === 'active' ? 'Active' : 'Expired'})
+                  Reward Summary ({tab === 'active' ? 'Active' : 'Expired'} ·{' '}
+                  {view === 'unredeemed'
+                    ? 'Unredeemed'
+                    : view === 'redeemed'
+                      ? 'Redeemed'
+                      : 'All'}
+                  )
                 </Text>
               </Group>
               {rewardsOpen ? (
@@ -446,81 +452,99 @@ export default function Codes() {
             <Collapse in={rewardsOpen}>
               <Divider mt="sm" mb="md" />
               <Group align="flex-start" gap={0} wrap="wrap">
-                <Stack gap="xs" style={{ flex: '1 1 220px' }}>
-                  <Group gap="xs">
-                    <ThemeIcon
-                      variant="light"
-                      color="yellow"
-                      size="sm"
-                      radius="sm"
-                    >
-                      <IoGift size={12} />
-                    </ThemeIcon>
-                    <Text size="sm" fw={600}>
-                      {tab === 'active' ? 'Unclaimed' : 'Unredeemed'}
-                    </Text>
-                    {tabUnclaimedRewards.size > 0 && (
-                      <Badge variant="light" color="yellow" size="xs">
-                        {tabUnclaimedRewards.size} types
-                      </Badge>
-                    )}
-                  </Group>
-                  {tabUnclaimedRewards.size > 0 ? (
-                    <Group gap="xs" wrap="wrap">
-                      {[...tabUnclaimedRewards.entries()].map(([name, qty]) => (
-                        <ResourceBadge key={name} name={name} quantity={qty} />
-                      ))}
+                {view !== 'redeemed' && (
+                  <Stack gap="xs" style={{ flex: '1 1 220px' }}>
+                    <Group gap="xs">
+                      <ThemeIcon
+                        variant="light"
+                        color="yellow"
+                        size="sm"
+                        radius="sm"
+                      >
+                        <IoGift size={12} />
+                      </ThemeIcon>
+                      <Text size="sm" fw={600}>
+                        {tab === 'active' ? 'Unclaimed' : 'Unredeemed'}
+                      </Text>
+                      {tabUnclaimedRewards.size > 0 && (
+                        <Badge variant="light" color="yellow" size="xs">
+                          {tabUnclaimedRewards.size} types
+                        </Badge>
+                      )}
                     </Group>
-                  ) : (
-                    <Text size="sm" c="dimmed" fs="italic">
-                      {tab === 'active'
-                        ? 'Nothing left to claim!'
-                        : 'No unredeemed expired rewards.'}
-                    </Text>
-                  )}
-                </Stack>
-
-                <Divider
-                  orientation="vertical"
-                  mx="lg"
-                  visibleFrom="sm"
-                  style={{ alignSelf: 'stretch' }}
-                />
-                <Divider hiddenFrom="sm" w="100%" my="sm" />
-
-                <Stack gap="xs" style={{ flex: '1 1 220px' }}>
-                  <Group gap="xs">
-                    <ThemeIcon
-                      variant="light"
-                      color="teal"
-                      size="sm"
-                      radius="sm"
-                    >
-                      <IoTrophy size={12} />
-                    </ThemeIcon>
-                    <Text size="sm" fw={600}>
-                      Claimed
-                    </Text>
-                    {tabClaimedRewards.size > 0 && (
-                      <Badge variant="light" color="teal" size="xs">
-                        {tabClaimedRewards.size} types
-                      </Badge>
+                    {tabUnclaimedRewards.size > 0 ? (
+                      <Group gap="xs" wrap="wrap">
+                        {[...tabUnclaimedRewards.entries()].map(
+                          ([name, qty]) => (
+                            <ResourceBadge
+                              key={name}
+                              name={name}
+                              quantity={qty}
+                            />
+                          )
+                        )}
+                      </Group>
+                    ) : (
+                      <Text size="sm" c="dimmed" fs="italic">
+                        {tab === 'active'
+                          ? 'Nothing left to claim!'
+                          : 'No unredeemed expired rewards.'}
+                      </Text>
                     )}
-                  </Group>
-                  {tabClaimedRewards.size > 0 ? (
-                    <Group gap="xs" wrap="wrap">
-                      {[...tabClaimedRewards.entries()].map(([name, qty]) => (
-                        <ResourceBadge key={name} name={name} quantity={qty} />
-                      ))}
+                  </Stack>
+                )}
+
+                {view === 'all' && (
+                  <>
+                    <Divider
+                      orientation="vertical"
+                      mx="lg"
+                      visibleFrom="sm"
+                      style={{ alignSelf: 'stretch' }}
+                    />
+                    <Divider hiddenFrom="sm" w="100%" my="sm" />
+                  </>
+                )}
+
+                {view !== 'unredeemed' && (
+                  <Stack gap="xs" style={{ flex: '1 1 220px' }}>
+                    <Group gap="xs">
+                      <ThemeIcon
+                        variant="light"
+                        color="teal"
+                        size="sm"
+                        radius="sm"
+                      >
+                        <IoTrophy size={12} />
+                      </ThemeIcon>
+                      <Text size="sm" fw={600}>
+                        Claimed
+                      </Text>
+                      {tabClaimedRewards.size > 0 && (
+                        <Badge variant="light" color="teal" size="xs">
+                          {tabClaimedRewards.size} types
+                        </Badge>
+                      )}
                     </Group>
-                  ) : (
-                    <Text size="sm" c="dimmed" fs="italic">
-                      {tab === 'active'
-                        ? 'No active codes redeemed yet.'
-                        : 'No expired codes redeemed yet.'}
-                    </Text>
-                  )}
-                </Stack>
+                    {tabClaimedRewards.size > 0 ? (
+                      <Group gap="xs" wrap="wrap">
+                        {[...tabClaimedRewards.entries()].map(([name, qty]) => (
+                          <ResourceBadge
+                            key={name}
+                            name={name}
+                            quantity={qty}
+                          />
+                        ))}
+                      </Group>
+                    ) : (
+                      <Text size="sm" c="dimmed" fs="italic">
+                        {tab === 'active'
+                          ? 'No active codes redeemed yet.'
+                          : 'No expired codes redeemed yet.'}
+                      </Text>
+                    )}
+                  </Stack>
+                )}
               </Group>
             </Collapse>
           </Paper>
