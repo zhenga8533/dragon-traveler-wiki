@@ -42,6 +42,7 @@ HEADERS = {
 # Fetch
 # ---------------------------------------------------------------------------
 
+
 def fetch_page() -> str:
     resp = requests.get(APP_STORE_URL, headers=HEADERS, timeout=30)
     resp.raise_for_status()
@@ -52,6 +53,7 @@ def fetch_page() -> str:
 # ---------------------------------------------------------------------------
 # Parse
 # ---------------------------------------------------------------------------
+
 
 def _largest_image_url(item: BeautifulSoup) -> str | None:
     """Return the URL of the largest landscape image in the event item."""
@@ -69,13 +71,35 @@ def _largest_image_url(item: BeautifulSoup) -> str | None:
     return pairs[0][1]
 
 
+def _to_title_case(text: str) -> str:
+    """Normalize display text to title case with collapsed whitespace."""
+    normalized = " ".join(text.split())
+    return normalized.title()
+
+
+def _normalize_source_display(text: str) -> str:
+    """Normalize a source label for display."""
+    normalized = _normalize_source_key(text)
+    if normalized == "appstore":
+        return "App Store"
+    return _to_title_case(text)
+
+
+def _normalize_source_key(text: str | None) -> str:
+    """Canonicalize a source string for internal comparisons."""
+    if not text:
+        return ""
+    normalized = " ".join(text.split()).lower()
+    return re.sub(r"[^a-z0-9]+", "", normalized)
+
+
 def parse_events(html: str) -> list[dict]:
     """Extract event data from the static App Store HTML.
 
     Structure (Svelte SSR):
       .app-event-item
         a[href*=eventid]  — aria-label = name, href contains event ID
-          h4              — badge type (e.g. "SPECIAL EVENT")
+                    h4              — badge type (e.g. "Special Event")
           h3              — event name
           p               — truncated description
         picture source    — srcset with multiple landscape image sizes
@@ -105,7 +129,9 @@ def parse_events(html: str) -> list[dict]:
             continue
 
         href = link.get("href", "")
-        event_id = href.split("eventid=")[-1].split("&")[0] if "eventid=" in href else None
+        event_id = (
+            href.split("eventid=")[-1].split("&")[0] if "eventid=" in href else None
+        )
 
         badge_el = item.select_one("h4")
         desc_el = item.select_one("p")
@@ -117,7 +143,7 @@ def parse_events(html: str) -> list[dict]:
         if badge_el:
             badge = badge_el.get_text(strip=True)
             if badge:
-                event["badge"] = badge
+                event["badge"] = _to_title_case(badge)
         if desc_el:
             event["description"] = desc_el.get_text(strip=True)
         if image_url:
@@ -132,6 +158,7 @@ def parse_events(html: str) -> list[dict]:
 # ---------------------------------------------------------------------------
 # Image download
 # ---------------------------------------------------------------------------
+
 
 def _to_snake_case(name: str) -> str:
     """Convert an event name to a snake_case filename stem.
@@ -161,12 +188,15 @@ def download_image(name: str, url: str) -> None:
         dest.write_bytes(resp.content)
         print(f"    Downloaded image: {filename}")
     except Exception as e:
-        print(f"    WARNING: Failed to download image for {name!r}: {e}", file=sys.stderr)
+        print(
+            f"    WARNING: Failed to download image for {name!r}: {e}", file=sys.stderr
+        )
 
 
 # ---------------------------------------------------------------------------
 # Load / merge / write
 # ---------------------------------------------------------------------------
+
 
 def load_existing() -> list[dict]:
     if not EVENTS_FILE.exists():
@@ -181,9 +211,9 @@ def merge_events(existing: list[dict], scraped: list[dict], today: str) -> list[
     Rules:
     - Scraped events are upserted; scraped fields overwrite existing fields.
     - `start_date` is set on first detection and never overwritten.
-    - `end_date` is set when an appstore event disappears from the scrape,
+        - `end_date` is set when an Appstore event disappears from the scrape,
       and cleared if the event reappears.
-    - Manual entries (source != "appstore") are never modified.
+        - Manual entries (source != "Appstore") are never modified.
     - All entries (active and ended) are retained for history.
     """
     scraped_by_id: dict[str, dict] = {}
@@ -210,7 +240,8 @@ def merge_events(existing: list[dict], scraped: list[dict], today: str) -> list[
 
         # Find existing entry by event_id first, then name
         existing_entry = (
-            existing_by_id.get(event_id) if event_id
+            existing_by_id.get(event_id)
+            if event_id
             else existing_by_name.get(scraped_event["name"])
         ) or {}
 
@@ -220,7 +251,7 @@ def merge_events(existing: list[dict], scraped: list[dict], today: str) -> list[
         for k, v in scraped_event.items():
             merged[k] = v
 
-        merged["source"] = "appstore"
+        merged["source"] = _normalize_source_display("appstore")
         merged["active"] = True
 
         # Set start_date on first detection
@@ -249,7 +280,7 @@ def merge_events(existing: list[dict], scraped: list[dict], today: str) -> list[
         if not event_id and name in scraped_by_name:
             continue
 
-        is_manual = existing_entry.get("source") != "appstore"
+        is_manual = _normalize_source_key(existing_entry.get("source")) != "appstore"
         if is_manual:
             result.append(existing_entry)
             continue
@@ -278,6 +309,7 @@ def write_events(events: list[dict]) -> None:
 # Main
 # ---------------------------------------------------------------------------
 
+
 def main() -> int:
     print(f"Fetching {APP_STORE_URL} ...")
     try:
@@ -302,7 +334,9 @@ def main() -> int:
 
     active = sum(1 for e in merged if e.get("active"))
     total = len(merged)
-    print(f"Wrote {active} active / {total} total event(s) to {EVENTS_FILE.relative_to(ROOT_DIR)}")
+    print(
+        f"Wrote {active} active / {total} total event(s) to {EVENTS_FILE.relative_to(ROOT_DIR)}"
+    )
     return 0
 
 

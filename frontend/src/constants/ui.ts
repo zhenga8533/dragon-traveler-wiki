@@ -95,6 +95,8 @@ export const STORAGE_KEY = {
   CHARACTER_VIEW_MODE: 'characters:viewMode',
   CHARACTER_FILTERS: 'characters:filters',
   CHARACTER_TIER_LIST_REFERENCE: 'characters:tierListReference',
+  EVENT_VIEW_MODE: 'events:viewMode',
+  EVENT_FILTERS: 'events:filters',
   STATUS_EFFECT_VIEW_MODE: 'status-effects:viewMode',
   STATUS_EFFECT_FILTERS: 'status-effects:filters',
   WYRMSPELL_VIEW_MODE: 'wyrmspells:viewMode',
