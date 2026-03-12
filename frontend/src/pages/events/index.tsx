@@ -1,30 +1,5 @@
-import {
-  Alert,
-  Badge,
-  Button,
-  Card,
-  Collapse,
-  Container,
-  Group,
-  Image,
-  Paper,
-  SimpleGrid,
-  Skeleton,
-  Stack,
-  Tabs,
-  Text,
-  Title,
-} from '@mantine/core';
-import { useEffect, useMemo } from 'react';
-import {
-  IoCalendar,
-  IoCalendarOutline,
-  IoInformationCircleOutline,
-} from 'react-icons/io5';
+import { getPortrait } from '@/assets/character';
 import { getEventImage, placeholderEventImage } from '@/assets/event';
-import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import DataFetchError from '@/components/ui/DataFetchError';
-import EmptyState from '@/components/ui/EmptyState';
 import {
   FilterChipGroup,
   FilterClearButton,
@@ -32,13 +7,16 @@ import {
   FilterSearchInput,
   FilterSection,
 } from '@/components/common/FilterControls';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
 import LastUpdated from '@/components/common/LastUpdated';
-import PaginationControl from '@/components/ui/PaginationControl';
-import TwEventBanner from '@/features/wiki/components/TwEventBanner';
 import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
+import DataFetchError from '@/components/ui/DataFetchError';
+import EmptyState from '@/components/ui/EmptyState';
+import PaginationControl from '@/components/ui/PaginationControl';
 import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
+import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import TwEventBanner from '@/features/wiki/components/TwEventBanner';
 import {
   useDataFetch,
   useFilterPanel,
@@ -56,6 +34,30 @@ import { getPageSizeStorageKey } from '@/hooks/use-pagination';
 import type { GameEvent, TwEvent } from '@/types';
 import { getLatestTimestamp } from '@/utils';
 import { getTwEventTypeColor, isTwEventActive } from '@/utils/event-utils';
+import {
+  Alert,
+  Badge,
+  Button,
+  Card,
+  Collapse,
+  Container,
+  Group,
+  Image,
+  Paper,
+  SimpleGrid,
+  Skeleton,
+  Stack,
+  Tabs,
+  Text,
+  Title,
+} from '@mantine/core';
+import { DatePickerInput } from '@mantine/dates';
+import { useEffect, useMemo } from 'react';
+import {
+  IoCalendar,
+  IoCalendarOutline,
+  IoInformationCircleOutline,
+} from 'react-icons/io5';
 
 const EVENTS_PER_PAGE = 12;
 const EVENT_PAGE_SIZE_OPTIONS: Record<ViewMode, readonly number[]> = {
@@ -71,6 +73,7 @@ interface EventFilters {
   labels: string[];
   sources: string[];
   characters: string[];
+  dateRange: [Date | null, Date | null];
 }
 
 const EMPTY_EVENT_FILTERS: EventFilters = {
@@ -79,6 +82,7 @@ const EMPTY_EVENT_FILTERS: EventFilters = {
   labels: [],
   sources: [],
   characters: [],
+  dateRange: [null, null],
 };
 
 type EventEntry =
@@ -230,7 +234,9 @@ function EventFilter({
     filters.servers.length > 0 ||
     filters.labels.length > 0 ||
     filters.sources.length > 0 ||
-    filters.characters.length > 0;
+    filters.characters.length > 0 ||
+    filters.dateRange[0] !== null ||
+    filters.dateRange[1] !== null;
 
   return (
     <Stack gap={8}>
@@ -249,6 +255,24 @@ function EventFilter({
           />
         ) : null}
       </Group>
+
+      <FilterSection label="Date Range">
+        <DatePickerInput
+          type="range"
+          value={filters.dateRange}
+          onChange={(value) =>
+            onChange({
+              ...filters,
+              dateRange: value as [Date | null, Date | null],
+            })
+          }
+          placeholder="Pick date range"
+          clearable
+          size={chipSize}
+          valueFormat="MMM D, YYYY"
+          style={{ minWidth: 220 }}
+        />
+      </FilterSection>
 
       {serverOptions.length > 0 ? (
         <FilterSection label="Server">
@@ -299,6 +323,24 @@ function EventFilter({
             value={filters.characters}
             onChange={(value) => onChange({ ...filters, characters: value })}
             placeholder="Filter by character..."
+            renderOption={({ option }) => {
+              const portrait = getPortrait(option.label);
+              return (
+                <Group gap="xs" align="center">
+                  {portrait ? (
+                    <Image
+                      src={portrait}
+                      alt=""
+                      w={20}
+                      h={20}
+                      fit="contain"
+                      radius="sm"
+                    />
+                  ) : null}
+                  <Text size="sm">{option.label}</Text>
+                </Group>
+              );
+            }}
             searchable={characterOptions.length >= 8}
             clearable
             size={chipSize}
@@ -658,6 +700,34 @@ export default function Events() {
         )
       ) {
         return false;
+      }
+      const [rangeStart, rangeEnd] = eventFilters.dateRange;
+      if (rangeStart !== null || rangeEnd !== null) {
+        // Parse YYYY-MM-DD strings as local dates (not UTC) so they match
+        // the local-midnight Date objects returned by DatePickerInput
+        const parseLocal = (s: string) => {
+          const [y, m, d] = s.split('-').map(Number);
+          return new Date(y, m - 1, d);
+        };
+        const eventStart = event.startDate ? parseLocal(event.startDate) : null;
+        // Set event end to end-of-day so a range starting on the same day still matches
+        const eventEnd = event.endDate
+          ? (() => {
+              const d = parseLocal(event.endDate);
+              d.setHours(23, 59, 59, 999);
+              return d;
+            })()
+          : null;
+        // Exclude events that end before rangeStart
+        if (rangeStart !== null && eventEnd !== null && eventEnd < rangeStart) {
+          return false;
+        }
+        // Exclude events that start after rangeEnd (treat rangeEnd as end-of-day)
+        if (rangeEnd !== null && eventStart !== null) {
+          const rangeEndOfDay = new Date(rangeEnd);
+          rangeEndOfDay.setHours(23, 59, 59, 999);
+          if (eventStart > rangeEndOfDay) return false;
+        }
       }
       return true;
     });
