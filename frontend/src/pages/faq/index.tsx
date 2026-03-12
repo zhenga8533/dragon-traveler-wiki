@@ -1,3 +1,6 @@
+import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
+import { getCardHoverProps } from '@/constants/styles';
+import { useGradientAccent } from '@/hooks';
 import {
   Alert,
   Anchor,
@@ -25,8 +28,6 @@ import {
   IoTrophyOutline,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { getCardHoverProps } from '@/constants/styles';
-import { useGradientAccent } from '@/hooks';
 
 type FAQItem = {
   question: string;
@@ -334,6 +335,40 @@ function FAQCard({
   );
 }
 
+function FAQSectionCard({
+  section,
+  accentColor,
+}: {
+  section: FAQSection;
+  accentColor: string;
+}) {
+  return (
+    <CollapsibleSectionCard
+      header={
+        <Stack gap={2}>
+          <Title order={3}>{section.title}</Title>
+          <Text size="sm" c="dimmed">
+            {section.description}
+          </Text>
+        </Stack>
+      }
+    >
+      <Stack gap="xs">
+        {section.items.map((item) => (
+          <FAQCard
+            key={item.question}
+            question={item.question}
+            answer={item.answer}
+            icon={item.icon}
+            color={item.color}
+            accentColor={accentColor}
+          />
+        ))}
+      </Stack>
+    </CollapsibleSectionCard>
+  );
+}
+
 export default function FAQ() {
   const { accent } = useGradientAccent();
 
@@ -350,30 +385,11 @@ export default function FAQ() {
 
         <Stack gap="md">
           {FAQ_SECTIONS.map((section) => (
-            <Card
+            <FAQSectionCard
               key={section.title}
-              withBorder
-              radius="md"
-              p="md"
-              {...getCardHoverProps()}
-            >
-              <Stack gap="xs">
-                <Title order={3}>{section.title}</Title>
-                <Text size="sm" c="dimmed">
-                  {section.description}
-                </Text>
-                {section.items.map((item) => (
-                  <FAQCard
-                    key={item.question}
-                    question={item.question}
-                    answer={item.answer}
-                    icon={item.icon}
-                    color={item.color}
-                    accentColor={accent.primary}
-                  />
-                ))}
-              </Stack>
-            </Card>
+              section={section}
+              accentColor={accent.primary}
+            />
           ))}
         </Stack>
 
