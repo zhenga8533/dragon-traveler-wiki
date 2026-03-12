@@ -3,13 +3,16 @@ import { TRANSITION } from '@/constants/ui';
 import { BannerContext, UiOpacityContext } from '@/contexts';
 import { useDarkMode } from '@/hooks';
 import { Box } from '@mantine/core';
+import { useReducedMotion } from '@mantine/hooks';
 import { useCallback, useContext, useEffect, useRef, useState } from 'react';
 
 const measuredHeightBySource = new Map<string, number>();
 const PARALLAX_RATE = 0.14;
+const MAX_PARALLAX_OFFSET = 220;
 
 export default function BannerBackground() {
   const isDark = useDarkMode();
+  const reduceMotion = useReducedMotion();
   const { selectedBanner, bannerLoaded, setBannerLoaded, slowScrollEnabled } =
     useContext(BannerContext);
   const { bannerMediaOpacity, bannerOverlayOpacity } =
@@ -21,9 +24,10 @@ export default function BannerBackground() {
   } | null>(null);
   const [scrollY, setScrollY] = useState(0);
   const containerRef = useRef<HTMLDivElement>(null);
+  const parallaxEnabled = slowScrollEnabled && !reduceMotion;
 
   useEffect(() => {
-    if (!slowScrollEnabled) {
+    if (!parallaxEnabled) {
       setScrollY(0);
       return;
     }
@@ -49,7 +53,7 @@ export default function BannerBackground() {
         window.cancelAnimationFrame(frameId);
       }
     };
-  }, [slowScrollEnabled]);
+  }, [parallaxEnabled]);
 
   const updateMeasuredHeight = useCallback(
     (height: number) => {
@@ -102,8 +106,10 @@ export default function BannerBackground() {
     : 0;
 
   const height = mediaHeight > 0 ? mediaHeight : 350;
-  const parallaxOffset = scrollY * PARALLAX_RATE;
-  const outerStyle = slowScrollEnabled
+  const parallaxOffset = parallaxEnabled
+    ? Math.min(scrollY * PARALLAX_RATE, MAX_PARALLAX_OFFSET)
+    : 0;
+  const outerStyle = parallaxEnabled
     ? {
         position: 'absolute' as const,
         top: 0,
@@ -123,7 +129,7 @@ export default function BannerBackground() {
         pointerEvents: 'none' as const,
         zIndex: 0,
       };
-  const stageStyle = slowScrollEnabled
+  const stageStyle = parallaxEnabled
     ? {
         position: 'sticky' as const,
         top: 0,
@@ -135,14 +141,14 @@ export default function BannerBackground() {
         height: '100%',
         overflow: 'hidden' as const,
       };
-  const driftingStyle = slowScrollEnabled
+  const driftingStyle = parallaxEnabled
     ? {
         position: 'absolute' as const,
-        top: 0,
         left: 0,
         right: 0,
-        height: `calc(100% + ${parallaxOffset}px)`,
-        transform: `translateY(-${parallaxOffset}px) scale(1.08)`,
+        top: -MAX_PARALLAX_OFFSET,
+        bottom: -MAX_PARALLAX_OFFSET,
+        transform: `translate3d(0, -${parallaxOffset}px, 0) scale(1.08)`,
         transformOrigin: 'center top',
         willChange: 'transform',
       }
