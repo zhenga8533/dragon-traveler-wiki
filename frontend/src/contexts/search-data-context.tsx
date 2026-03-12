@@ -1,20 +1,21 @@
 /* eslint-disable react-refresh/only-export-components */
-import { createContext, createElement, useMemo, type ReactNode } from 'react';
-import { useDataFetch } from '@/hooks/use-data-fetch';
-import type { Artifact } from '@/features/wiki/types/artifact';
 import type { Character } from '@/features/characters/types';
-import type { Code } from '@/types/code';
+import type { TierList } from '@/features/teams/tier-list-types';
+import type { Team } from '@/features/teams/types';
+import type { Artifact } from '@/features/wiki/types/artifact';
 import type { GameEvent } from '@/features/wiki/types/event';
 import type { Gear } from '@/features/wiki/types/gear';
 import type { Howlkin } from '@/features/wiki/types/howlkin';
 import type { NoblePhantasm } from '@/features/wiki/types/noble-phantasm';
-import type { Resource } from '@/types/resource';
 import type { StatusEffect } from '@/features/wiki/types/status-effect';
 import type { Subclass } from '@/features/wiki/types/subclass';
-import type { Team } from '@/features/teams/types';
-import type { TierList } from '@/features/teams/tier-list-types';
-import type { UsefulLink } from '@/types/useful-link';
+import type { TwEvent } from '@/features/wiki/types/tw-event';
 import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
+import { useDataFetch } from '@/hooks/use-data-fetch';
+import type { Code } from '@/types/code';
+import type { Resource } from '@/types/resource';
+import type { UsefulLink } from '@/types/useful-link';
+import { createContext, createElement, useMemo, type ReactNode } from 'react';
 
 export interface SearchDataContextValue {
   characters: Character[];
@@ -29,6 +30,7 @@ export interface SearchDataContextValue {
   teams: Team[];
   codes: Code[];
   events: GameEvent[];
+  twEvents: TwEvent[];
   usefulLinks: UsefulLink[];
   tierLists: TierList[];
 }
@@ -46,6 +48,7 @@ export const SearchDataContext = createContext<SearchDataContextValue>({
   teams: [],
   codes: [],
   events: [],
+  twEvents: [],
   usefulLinks: [],
   tierLists: [],
 });
@@ -84,6 +87,7 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
   const { data: teams } = useDataFetch<Team[]>('data/teams.json', []);
   const { data: codes } = useDataFetch<Code[]>('data/codes.json', []);
   const { data: events } = useDataFetch<GameEvent[]>('data/events.json', []);
+  const { data: twEvents } = useDataFetch<TwEvent[]>('data/events_tw.json', []);
   const { data: usefulLinks } = useDataFetch<UsefulLink[]>(
     'data/useful-links.json',
     []
@@ -107,6 +111,7 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
       teams,
       codes,
       events,
+      twEvents,
       usefulLinks,
       tierLists,
     }),
@@ -123,6 +128,7 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
       teams,
       codes,
       events,
+      twEvents,
       usefulLinks,
       tierLists,
     ]

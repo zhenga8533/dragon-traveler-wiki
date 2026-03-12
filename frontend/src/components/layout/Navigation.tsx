@@ -1,3 +1,8 @@
+import { getAccentForPath, PARENT_ACCENTS } from '@/constants/accents';
+import { IMAGE_SIZE, NAV_ITEM_HEIGHT, STORAGE_KEY } from '@/constants/ui';
+import { SearchDataContext } from '@/contexts';
+import { isCodeActive } from '@/utils';
+import { isTwEventActive } from '@/utils/event-utils';
 import { Badge, Group, NavLink, Tooltip } from '@mantine/core';
 import {
   useContext,
@@ -20,10 +25,6 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
-import { getAccentForPath, PARENT_ACCENTS } from '@/constants/accents';
-import { IMAGE_SIZE, NAV_ITEM_HEIGHT, STORAGE_KEY } from '@/constants/ui';
-import { SearchDataContext } from '@/contexts';
-import { isCodeActive } from '@/utils';
 
 type NavItem = {
   label: string;
@@ -118,7 +119,12 @@ const renderNavIcon = (
   Icon: ComponentType<{ size?: number; style?: CSSProperties }>,
   accent: string,
   isActive: boolean
-) => <Icon size={IMAGE_SIZE.ICON_LG} style={{ color: getIconColor(accent, isActive) }} />;
+) => (
+  <Icon
+    size={IMAGE_SIZE.ICON_LG}
+    style={{ color: getIconColor(accent, isActive) }}
+  />
+);
 
 export default function Navigation({
   onNavigate,
@@ -130,7 +136,7 @@ export default function Navigation({
   onExpand?: () => void;
 }) {
   const location = useLocation();
-  const { codes, events } = useContext(SearchDataContext);
+  const { codes, events, twEvents } = useContext(SearchDataContext);
 
   const loadRedeemedCodes = () => {
     try {
@@ -174,8 +180,10 @@ export default function Navigation({
   );
 
   const activeEventsCount = useMemo(
-    () => events.filter((e) => e.active).length,
-    [events]
+    () =>
+      events.filter((event) => event.active).length +
+      twEvents.filter(isTwEventActive).length,
+    [events, twEvents]
   );
 
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
