@@ -6629,7 +6629,7 @@
   },
   {
     "name": "Jing",
-    "title": "Crimson Blade Soul",
+    "title": "Crimson Thornblade",
     "quality": "SSR+",
     "character_class": "Archer",
     "factions": [
@@ -6649,61 +6649,61 @@
     "weight": "52kg",
     "origin": "Eastern Civilization",
     "lore": "Jing is an assassin. From the time she can remember, she has been learning assassination techniques from her master, honing her skills day after day. Finally, on the day she came of age, her master gave her five short blades, telling her that her mission was to be the ruler of the world, to assassinate unjust gods, and to protect the rights of mortals.",
-    "quote": "",
+    "quote": "Right and wrong, good and evil, all follow one heart.",
     "talent": {
-      "name": "Sword Shadow Chasing Soul",
+      "name": "Phantom Blade Pursuit",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "At the start of battle, reduce your critical hit rate by half. The reduced critical hit rate will be converted into critical hit damage proportionally, with every 10 points of critical hit rate converted into 1% critical hit damage.\nWhen a basic attack or the Phantom Sword from [Unlimited Blade Works] deals a critical hit, it will additionally deal physical damage equal to 330%/360%/390%/420%/450%/480%/510% of its own attack to the target, and this damage will also have an additional 1500 critical hit chance (this can only be triggered once per second on the same target)."
+          "effect": "At the start of battle, reduces Crit by half and converts the reduced Crit into Crit Damage at a rate of 1% Crit Damage for every 10 points of Crit. When the caster's basic attacks or Phantom Swords from [Endless Edge] land a Crit, deals additional physical damage equal to 330% of Attack to the Crit target, and this damage gains an additional 1,500 Crit (can trigger at most once per second on the same target)."
         },
         {
           "level": 2,
-          "effect": "Each time the user enters the [Wild] state, all allied Luminaries in the [Wild] state gain [Crit Up]."
+          "effect": "Each time it enters [Wild] status, all allied Luminaries in [Wild] status gain [Crit Up]."
         },
         {
           "level": 3,
-          "effect": "Increases own attack by 5% and critical hit rate by 100%."
+          "effect": "Increases own Attack by 5% and Crit by 100."
         },
         {
           "level": 4,
-          "effect": "Enemy units within the sword array of [Unlimited Blade Works] cannot gain any buffs or shields."
+          "effect": "Enemy units within the [Endless Edge] sword formation cannot gain any Buffs or Shields."
         },
         {
           "level": 7,
-          "effect": "[Sword Shadow Chasing Soul] skill adds damage that ignores 30% of the target's physical defense (the defense-ignoring effect can stack up to 40%), and the trigger interval on the same target is reduced to 0.2 seconds."
+          "effect": "[Phantom Blade Pursuit] Additional damage ignores 30% of the target's Physical Defense (up to 40%), and the trigger interval for the same target is reduced to 0.2 seconds."
         }
       ]
     },
     "skills": [
       {
-        "name": "Unlimited Blade Works",
+        "name": "Endless Edge",
         "type": "Overdrive",
-        "description": "Deals 450%/490%/530%/570%/610%/650% physical damage to a single target , then creates a sword array around the target for 7 seconds. Enemy units within the sword array have their movement speed reduced by 90%, while allied elite summons within the sword array have their critical strike damage increased by 90%.\nWhile the sword formation exists, after each basic attack or active skill cast by the user or an elite summoned unit within the sword formation, a phantom sword is cast on a random enemy unit within the sword formation, dealing physical damage equal to 164%/180%/196%/212%/228%/244% of the user's attack (prioritizing targets not attacked by the phantom sword).",
+        "description": "Deals physical damage equal to 450% of the caster's Attack to one target, then creates a Sword Formation around the target for 7s. Enemy units within the formation have -90% Movement Speed, and allied Elite Summons within the formation gain 90% Crit Damage. While the formation exists, each time the caster or an allied Elite Summon within the formation uses a basic attack or active skill, releases a Phantom Sword at a random enemy within the formation, dealing physical damage equal to 164% of the caster's Attack (prioritizes enemies not yet hit by a Phantom Sword).",
         "cooldown": 18
       },
       {
-        "name": "Crimson Lotus Blade",
+        "name": "Crimson Blade",
         "type": "Ultimate Skill",
-        "description": "Unleashes 5 spinning blades against a single target, dealing a total of 480%/520%/560%/600%/640%/680% of the user's attack as physical damage. Each blade that crits grants 1 stack of [Deathrattle].",
+        "description": "Releases 5 spinning blades at a single target, dealing total physical damage equal to 480% of the caster's Attack. Each blade that lands a Crit grants 1 stack of [Deathrattle].",
         "cooldown": 10
       },
       {
-        "name": "Dance of the Sword",
+        "name": "Sword Dance",
         "type": "Secret Skill",
-        "description": "When your own health decreases, you will accumulate rage. When your rage is full, you will enter the [Wild] state. In the [Wild] state, your basic attack will become a continuous firing of 5 blades, dealing physical damage equal to 75%/81%/87%/93%/99%/105% of your own attack.",
+        "description": "When HP decreases, gains Rage. When Rage is full, enters [Wild]. While in [Wild], basic attacks become a consecutive launch of 5 blades, each dealing physical damage equal to 75% of the caster's Attack.",
         "cooldown": 0
       },
       {
-        "name": "Echo of the Sword Soul",
+        "name": "Ember Echo",
         "type": "Special Skill",
-        "description": "During battle, increases own attack by 10%/11%/12%/13%/14%. Whenever an allied unit is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], increases own attack by an additional 1.5%. Each time [Deathrattle] is gained, gains an additional 15% rage.",
+        "description": "During battle, increases Attack by 10%. Whenever an allied unit is defeated, gains 1 stack of [Deathrattle]. Each stack increases Attack by an additional 1.5%. Each time a stack of [Deathrattle] is gained, also gains 15% Rage.",
         "cooldown": 0
       },
       {
         "name": "Sword Shadow Hunter",
         "type": "Divine Skill",
-        "description": "[Sword Shadow Chasing Soul] Every 10 points of critical hits are converted into 1.5% critical hit damage.",
+        "description": "[Phantom Blade Pursuit] Every 10 points of critical hits are converted into 1.5% critical hit damage.",
         "cooldown": 0
       }
     ],
@@ -6719,7 +6719,7 @@
     "recommended_subclasses": [
       "Bounty Hunter"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1773319003
   },
   {
     "name": "Medusa",

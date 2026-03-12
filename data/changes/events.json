@@ -24,6 +24,15 @@
             "new": false
           }
         }
+      },
+      {
+        "timestamp": 1773319003,
+        "fields": {
+          "source": {
+            "old": "Appstore",
+            "new": "App Store"
+          }
+        }
       }
     ]
   },

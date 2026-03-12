@@ -1222,6 +1222,71 @@
             "new": "Eastern Civilization"
           }
         }
+      },
+      {
+        "timestamp": 1773319003,
+        "fields": {
+          "quote": {
+            "old": "",
+            "new": "Right and wrong, good and evil, all follow one heart."
+          },
+          "skills": {
+            "added": [
+              "Crimson Blade",
+              "Ember Echo",
+              "Endless Edge",
+              "Sword Dance"
+            ],
+            "removed": [
+              "Crimson Lotus Blade",
+              "Dance of the Sword",
+              "Echo of the Sword Soul",
+              "Unlimited Blade Works"
+            ],
+            "modified": {
+              "Sword Shadow Hunter": {
+                "description": {
+                  "old": "[Sword Shadow Chasing Soul] Every 10 points of critical hits are converted into 1.5% critical hit damage.",
+                  "new": "[Phantom Blade Pursuit] Every 10 points of critical hits are converted into 1.5% critical hit damage."
+                }
+              }
+            }
+          },
+          "talent": {
+            "name": {
+              "old": "Sword Shadow Chasing Soul",
+              "new": "Phantom Blade Pursuit"
+            },
+            "talent_levels": {
+              "changed": {
+                "1": {
+                  "old": "At the start of battle, reduce your critical hit rate by half. The reduced critical hit rate will be converted into critical hit damage proportionally, with every 10 points of critical hit rate converted into 1% critical hit damage.\nWhen a basic attack or the Phantom Sword from [Unlimited Blade Works] deals a critical hit, it will additionally deal physical damage equal to 330%/360%/390%/420%/450%/480%/510% of its own attack to the target, and this damage will also have an additional 1500 critical hit chance (this can only be triggered once per second on the same target).",
+                  "new": "At the start of battle, reduces Crit by half and converts the reduced Crit into Crit Damage at a rate of 1% Crit Damage for every 10 points of Crit. When the caster's basic attacks or Phantom Swords from [Endless Edge] land a Crit, deals additional physical damage equal to 330% of Attack to the Crit target, and this damage gains an additional 1,500 Crit (can trigger at most once per second on the same target)."
+                },
+                "2": {
+                  "old": "Each time the user enters the [Wild] state, all allied Luminaries in the [Wild] state gain [Crit Up].",
+                  "new": "Each time it enters [Wild] status, all allied Luminaries in [Wild] status gain [Crit Up]."
+                },
+                "3": {
+                  "old": "Increases own attack by 5% and critical hit rate by 100%.",
+                  "new": "Increases own Attack by 5% and Crit by 100."
+                },
+                "4": {
+                  "old": "Enemy units within the sword array of [Unlimited Blade Works] cannot gain any buffs or shields.",
+                  "new": "Enemy units within the [Endless Edge] sword formation cannot gain any Buffs or Shields."
+                },
+                "7": {
+                  "old": "[Sword Shadow Chasing Soul] skill adds damage that ignores 30% of the target's physical defense (the defense-ignoring effect can stack up to 40%), and the trigger interval on the same target is reduced to 0.2 seconds.",
+                  "new": "[Phantom Blade Pursuit] Additional damage ignores 30% of the target's Physical Defense (up to 40%), and the trigger interval for the same target is reduced to 0.2 seconds."
+                }
+              }
+            }
+          },
+          "title": {
+            "old": "Crimson Blade Soul",
+            "new": "Crimson Thornblade"
+          }
+        }
       }
     ]
   },
