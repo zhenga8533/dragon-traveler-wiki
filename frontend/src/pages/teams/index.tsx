@@ -51,8 +51,8 @@ import type { FactionName } from '@/types/faction';
 import type { Team } from '@/features/teams/types';
 import { loadSavedFromStorage, parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
-import TeamsSavedTab from './TeamsSavedTab';
-import TeamsViewTab from './TeamsViewTab';
+import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
+import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
 
 const TEAMS_PER_PAGE = 12;
 const TEAM_PAGE_SIZE_OPTIONS = {

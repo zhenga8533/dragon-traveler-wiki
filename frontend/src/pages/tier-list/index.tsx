@@ -52,8 +52,8 @@ import { loadSavedFromStorage, parseTabMode } from '@/utils';
 import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { downloadElementAsPng } from '@/utils/export-image';
-import TierListSavedTab from './TierListSavedTab';
-import TierListViewTab from './TierListViewTab';
+import TierListSavedTab from '@/features/teams/components/TierListSavedTab';
+import TierListViewTab from '@/features/teams/components/TierListViewTab';
 
 function matchesTierListFilters(
   tierList: TierListType,

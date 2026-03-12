@@ -13,12 +13,12 @@ import { IoCalendar, IoList, IoPricetag } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getCardHoverProps } from '@/constants/styles';
 import { useGradientAccent } from '@/hooks';
-import ActiveCodesSection from './ActiveCodesSection';
-import ActiveEventsSection from './ActiveEventsSection';
-import DataStatsBar from './DataStatsBar';
-import FeaturedCharactersMarquee from './FeaturedCharactersMarquee';
-import HomeHeroSection from './HomeHeroSection';
-import RecentUpdatesSection from './RecentUpdatesSection';
+import ActiveCodesSection from '@/features/home/components/ActiveCodesSection';
+import ActiveEventsSection from '@/features/home/components/ActiveEventsSection';
+import DataStatsBar from '@/features/home/components/DataStatsBar';
+import FeaturedCharactersMarquee from '@/features/home/components/FeaturedCharactersMarquee';
+import HomeHeroSection from '@/features/home/components/HomeHeroSection';
+import RecentUpdatesSection from '@/features/home/components/RecentUpdatesSection';
 
 export default function Home() {
   const { accent } = useGradientAccent();

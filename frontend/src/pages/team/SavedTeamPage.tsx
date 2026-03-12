@@ -20,8 +20,8 @@ import {
   exportTeamCompositionAsImage,
   hasTeamBuilderDraft,
 } from '@/features/teams/utils/team-page';
-import { TeamHeroSection } from './HeroSection';
-import TeamDetailContent from './TeamDetailContent';
+import { TeamHeroSection } from '@/features/teams/components/TeamHeroSection';
+import TeamDetailContent from '@/features/teams/components/TeamDetailContent';
 
 function readSavedTeamBySlug(slug: string): Team | null {
   try {

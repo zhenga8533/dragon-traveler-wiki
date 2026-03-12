@@ -35,11 +35,11 @@ import {
   getCharacterNavPaths,
   useCharacterPageData,
 } from '@/features/characters/hooks/use-character-page-data';
-import BuildSection from './BuildSection';
-import HeroSection from './HeroSection';
-import IllustrationPreviewModal from './IllustrationPreviewModal';
-import SkillsSection from './SkillsSection';
-import VariantSelector from './VariantSelector';
+import CharacterBuildSection from '@/features/characters/components/CharacterBuildSection';
+import CharacterHeroSection from '@/features/characters/components/CharacterHeroSection';
+import IllustrationPreviewModal from '@/features/characters/components/IllustrationPreviewModal';
+import CharacterSkillsSection from '@/features/characters/components/CharacterSkillsSection';
+import CharacterVariantSelector from '@/features/characters/components/CharacterVariantSelector';
 
 export default function CharacterPage() {
   const tooltipProps = useMobileTooltip();
@@ -110,7 +110,7 @@ export default function CharacterPage() {
   if (!character) {
     if (sameNameVariants.length > 1 && routeBaseSlug) {
       return (
-        <VariantSelector
+        <CharacterVariantSelector
           variants={sameNameVariants}
           characterNameCounts={characterNameCounts}
         />
@@ -140,7 +140,7 @@ export default function CharacterPage() {
   return (
     <Box>
       <ErrorBoundary>
-        <HeroSection
+        <CharacterHeroSection
           character={character}
           portrait={portrait}
           tierLabel={tierLabel}
@@ -413,7 +413,7 @@ export default function CharacterPage() {
           <Grid.Col span={{ base: 12, md: 8 }}>
             <Stack gap="xl">
               <ErrorBoundary>
-                <BuildSection
+                <CharacterBuildSection
                   character={character}
                   teams={teams}
                   enableNameBasedReferences={
@@ -432,7 +432,7 @@ export default function CharacterPage() {
                 />
               </ErrorBoundary>
               <ErrorBoundary>
-                <SkillsSection
+                <CharacterSkillsSection
                   character={character}
                   statusEffects={statusEffects}
                   talentIcon={talentIcon}

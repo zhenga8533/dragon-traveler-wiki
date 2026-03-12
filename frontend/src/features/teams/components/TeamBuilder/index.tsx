@@ -52,8 +52,8 @@ import {
   useIsMobile,
   useMobileTooltip,
 } from '@/hooks';
-import { BattlefieldGrid } from '@/pages/team/BattlefieldGrid';
-import { BenchSection } from '@/pages/team/BenchSection';
+import { BattlefieldGrid } from '@/features/teams/components/BattlefieldGrid';
+import { BenchSection } from '@/features/teams/components/BenchSection';
 import type { Character } from '@/features/characters/types';
 import type { FactionName } from '@/types/faction';
 import type { Team, TeamMember, TeamWyrmspells } from '@/features/teams/types';
