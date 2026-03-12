@@ -1,6 +1,7 @@
 import { useIsMobile } from '@/hooks';
 import { Group, Stack } from '@mantine/core';
 import type { ReactNode } from 'react';
+import type { ChipFilterGroup } from './EntityFilterGroups';
 import {
   FilterChipGroup,
   FilterClearButton,
@@ -9,12 +10,7 @@ import {
   type FilterChipOption,
 } from './FilterControls';
 
-export interface ChipFilterGroup {
-  key: string;
-  label: string;
-  options: string[];
-  icon?: (value: string) => ReactNode;
-}
+export type { ChipFilterGroup } from './EntityFilterGroups';
 
 export interface EntityFilterProps {
   groups: ChipFilterGroup[];

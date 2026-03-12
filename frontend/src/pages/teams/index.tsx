@@ -1,33 +1,24 @@
-import {
-  Container,
-  Group,
-  Image,
-  SegmentedControl,
-  Stack,
-  Title,
-} from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useCallback, useEffect, useMemo, useState } from 'react';
-import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
-import { FACTION_ICON_MAP } from '@/assets/faction';
-import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
-import DataFetchError from '@/components/ui/DataFetchError';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
+import { createFactionFilterGroup } from '@/components/common/EntityFilterGroups';
 import LastUpdated from '@/components/common/LastUpdated';
 import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
 import {
   ListPageLoading,
   ViewModeLoading,
 } from '@/components/layout/PageLoadingSkeleton';
-import TeamBuilder from '@/features/teams/components/TeamBuilder';
-import { FACTION_NAMES } from '@/constants/colors';
+import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import DataFetchError from '@/components/ui/DataFetchError';
 import {
   CONTENT_TYPE_OPTIONS,
   matchesContentTypeFilters,
   normalizeContentTypeFilters,
 } from '@/constants/content-types';
 import { STORAGE_KEY } from '@/constants/ui';
+import TeamBuilder from '@/features/teams/components/TeamBuilder';
+import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
+import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
+import type { Team } from '@/features/teams/types';
 import {
   useCharacterResolution,
   useGradientAccent,
@@ -44,16 +35,19 @@ import {
   useFilters,
   useViewMode,
 } from '@/hooks/use-filters';
-import {
-  getPageSizeStorageKey,
-  usePagination,
-} from '@/hooks/use-pagination';
-import type { FactionName } from '@/types/faction';
-import type { Team } from '@/features/teams/types';
+import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
 import { loadSavedFromStorage, parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
-import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
-import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
+import {
+  Container,
+  Group,
+  SegmentedControl,
+  Stack,
+  Title,
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useLocation, useNavigate, useSearchParams } from 'react-router-dom';
 
 const TEAMS_PER_PAGE = 12;
 const TEAM_PAGE_SIZE_OPTIONS = {
@@ -171,20 +165,7 @@ export default function Teams() {
         label: 'Content Type',
         options: contentTypeOptions,
       },
-      {
-        key: 'factions',
-        label: 'Faction',
-        options: FACTION_NAMES,
-        icon: (value: string) => (
-          <Image
-            src={FACTION_ICON_MAP[value as FactionName]}
-            alt={value}
-            w={14}
-            h={14}
-            fit="contain"
-          />
-        ),
-      },
+      createFactionFilterGroup(),
     ],
     [contentTypeOptions]
   );
@@ -307,7 +288,9 @@ export default function Teams() {
                   search={search}
                   onSearchChange={setSearch}
                   searchPlaceholder={
-                    mode === 'saved' ? 'Search saved teams...' : 'Search teams...'
+                    mode === 'saved'
+                      ? 'Search saved teams...'
+                      : 'Search teams...'
                   }
                 />
               </PageFilterHeaderControls>

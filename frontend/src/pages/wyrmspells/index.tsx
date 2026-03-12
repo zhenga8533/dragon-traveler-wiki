@@ -1,3 +1,29 @@
+import { getWyrmspellIcon } from '@/assets/wyrmspell';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
+import {
+  createQualityFilterGroup,
+  orderFilterOptions,
+} from '@/components/common/EntityFilterGroups';
+import FilteredListShell from '@/components/layout/FilteredListShell';
+import ListPageHeader from '@/components/layout/ListPageHeader';
+import ListPageShell from '@/components/layout/ListPageShell';
+import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
+import SortableTh from '@/components/ui/SortableTh';
+import {
+  FACTION_NAMES,
+  QUALITY_ORDER,
+  WYRMSPELL_TYPE_COLOR,
+  getStableTagColor,
+} from '@/constants/colors';
+import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { STORAGE_KEY } from '@/constants/ui';
+import FactionTag from '@/features/characters/components/FactionTag';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
+import { applyDir, useDataFetch, useFilteredPageData } from '@/hooks';
+import { getLatestTimestamp } from '@/utils';
 import {
   Badge,
   Container,
@@ -11,29 +37,6 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { getWyrmspellIcon } from '@/assets/wyrmspell';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
-import FactionTag from '@/features/characters/components/FactionTag';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
-import QualityFilterIcon from '@/features/characters/components/QualityFilterIcon';
-import QualityIcon from '@/features/characters/components/QualityIcon';
-import SortableTh from '@/components/ui/SortableTh';
-import FilteredListShell from '@/components/layout/FilteredListShell';
-import ListPageHeader from '@/components/layout/ListPageHeader';
-import ListPageShell from '@/components/layout/ListPageShell';
-import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
-import {
-  FACTION_NAMES,
-  QUALITY_ORDER,
-  WYRMSPELL_TYPE_COLOR,
-  getStableTagColor,
-} from '@/constants/colors';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
-import { STORAGE_KEY } from '@/constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData } from '@/hooks';
-import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
-import { getLatestTimestamp } from '@/utils';
 
 const WYRMSPELL_TYPE_FILTER_ORDER = [
   'Breach',
@@ -195,13 +198,10 @@ export default function Wyrmspells() {
   }, [wyrmspells]);
 
   const qualityOptions = useMemo(() => {
-    const qualities = new Set<string>();
-    for (const spell of wyrmspells) {
-      if (spell.quality) {
-        qualities.add(spell.quality);
-      }
-    }
-    return [...qualities].sort();
+    return orderFilterOptions(
+      wyrmspells.flatMap((spell) => (spell.quality ? [spell.quality] : [])),
+      QUALITY_ORDER
+    );
   }, [wyrmspells]);
 
   const filterGroups: ChipFilterGroup[] = useMemo(() => {
@@ -209,12 +209,12 @@ export default function Wyrmspells() {
     if (typeOptions.length > 0)
       groups.push({ key: 'types', label: 'Type', options: typeOptions });
     if (qualityOptions.length > 0)
-      groups.push({
-        key: 'qualities',
-        label: 'Max Quality',
-        options: qualityOptions,
-        icon: (value: string) => <QualityFilterIcon value={value} />,
-      });
+      groups.push(
+        createQualityFilterGroup({
+          label: 'Max Quality',
+          options: qualityOptions,
+        })
+      );
     return groups;
   }, [typeOptions, qualityOptions]);
 

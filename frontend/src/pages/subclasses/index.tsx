@@ -1,8 +1,33 @@
+import { getSubclassIcon } from '@/assets/subclass';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
+import { createClassFilterGroup } from '@/components/common/EntityFilterGroups';
+import FilteredListShell from '@/components/layout/FilteredListShell';
+import ListPageHeader from '@/components/layout/ListPageHeader';
+import ListPageShell from '@/components/layout/ListPageShell';
+import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
+import RichText from '@/components/ui/RichText';
+import SortableTh from '@/components/ui/SortableTh';
+import { CLASS_ORDER } from '@/constants/colors';
+import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { STORAGE_KEY } from '@/constants/ui';
+import ClassTag from '@/features/characters/components/ClassTag';
+import type { CharacterClass } from '@/features/characters/types';
+import TierBadge from '@/features/teams/components/TierBadge';
+import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import type { Subclass } from '@/features/wiki/types/subclass';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useGradientAccent,
+} from '@/hooks';
+import { getLatestTimestamp } from '@/utils';
+import { getClassRank } from '@/utils/class-order';
 import {
   Badge,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -11,32 +36,6 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { CLASS_ICON_MAP } from '@/assets/class';
-import { getSubclassIcon } from '@/assets/subclass';
-import ClassTag from '@/features/characters/components/ClassTag';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
-import RichText from '@/components/ui/RichText';
-import SortableTh from '@/components/ui/SortableTh';
-import TierBadge from '@/features/teams/components/TierBadge';
-import FilteredListShell from '@/components/layout/FilteredListShell';
-import ListPageHeader from '@/components/layout/ListPageHeader';
-import ListPageShell from '@/components/layout/ListPageShell';
-import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
-import { CLASS_ORDER } from '@/constants/colors';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
-import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import {
-  applyDir,
-  useDataFetch,
-  useFilteredPageData,
-  useGradientAccent,
-} from '@/hooks';
-import type { CharacterClass } from '@/features/characters/types';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
-import type { Subclass } from '@/features/wiki/types/subclass';
-import { getLatestTimestamp } from '@/utils';
-import { getClassRank } from '@/utils/class-order';
 
 const SUBCLASS_FIELDS: FieldDef[] = [
   {
@@ -89,25 +88,7 @@ const EMPTY_FILTERS: SubclassFilters = {
 };
 
 const FILTER_GROUPS: ChipFilterGroup[] = [
-  {
-    key: 'classes',
-    label: 'Class',
-    options: [...CLASS_ORDER],
-    icon: (value) => {
-      const icon =
-        CLASS_ICON_MAP[value as CharacterClass] ??
-        (CLASS_ICON_MAP as Record<string, string | undefined>)[value];
-      return icon ? (
-        <Image
-          src={icon}
-          alt={value}
-          w={IMAGE_SIZE.ICON_SM}
-          h={IMAGE_SIZE.ICON_SM}
-          fit="contain"
-        />
-      ) : null;
-    },
-  },
+  createClassFilterGroup(),
   {
     key: 'tiers',
     label: 'Tier',

@@ -1,3 +1,39 @@
+import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets/gear';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
+import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
+import FilteredListShell from '@/components/layout/FilteredListShell';
+import ListPageHeader from '@/components/layout/ListPageHeader';
+import ListPageShell from '@/components/layout/ListPageShell';
+import SuggestModal, {
+  type ArrayFieldDef,
+  type FieldDef,
+} from '@/components/tools/SuggestModal';
+import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
+import PaginationControl from '@/components/ui/PaginationControl';
+import SortableTh from '@/components/ui/SortableTh';
+import { GEAR_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
+import {
+  LINK_BLOCK_RESET_STYLE,
+  getCardHoverProps,
+  getMinWidthStyle,
+} from '@/constants/styles';
+import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import GearTypeTag from '@/features/wiki/components/GearTypeTag';
+import type { Gear, GearSet, GearType } from '@/features/wiki/types/gear';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useGradientAccent,
+  usePageSize,
+  useTabParam,
+} from '@/hooks';
+import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
+import type { Quality } from '@/types/quality';
+import { getLatestTimestamp } from '@/utils';
+import { toEntitySlug } from '@/utils/entity-slug';
 import {
   Badge,
   Container,
@@ -15,42 +51,6 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
-import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets/gear';
-import { QUALITY_ICON_MAP } from '@/assets/quality';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
-import GearTypeTag from '@/features/wiki/components/GearTypeTag';
-import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
-import PaginationControl from '@/components/ui/PaginationControl';
-import QualityIcon from '@/features/characters/components/QualityIcon';
-import SortableTh from '@/components/ui/SortableTh';
-import FilteredListShell from '@/components/layout/FilteredListShell';
-import ListPageHeader from '@/components/layout/ListPageHeader';
-import ListPageShell from '@/components/layout/ListPageShell';
-import SuggestModal, {
-  type ArrayFieldDef,
-  type FieldDef,
-} from '@/components/tools/SuggestModal';
-import { GEAR_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
-import {
-  LINK_BLOCK_RESET_STYLE,
-  getCardHoverProps,
-  getMinWidthStyle,
-} from '@/constants/styles';
-import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import {
-  applyDir,
-  useDataFetch,
-  useFilteredPageData,
-  useGradientAccent,
-  usePageSize,
-  useTabParam,
-} from '@/hooks';
-import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
-import type { Gear, GearSet, GearType } from '@/features/wiki/types/gear';
-import type { Quality } from '@/types/quality';
-import { getLatestTimestamp } from '@/utils';
-import { toEntitySlug } from '@/utils/entity-slug';
 
 const GEAR_SET_FIELDS: FieldDef[] = [
   {
@@ -124,14 +124,7 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
     },
   },
   {
-    key: 'qualities',
-    label: 'Quality',
-    options: [...QUALITY_ORDER],
-    icon: (value: string) => {
-      const iconSrc = QUALITY_ICON_MAP[value as Quality];
-      if (!iconSrc) return null;
-      return <Image src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
-    },
+    ...createQualityFilterGroup(),
   },
 ];
 

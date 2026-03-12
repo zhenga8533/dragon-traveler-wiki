@@ -7,6 +7,10 @@ interface MobileBottomDrawerProps extends Omit<DrawerProps, 'position'> {
   bodyStyle?: CSSProperties;
 }
 
+const MOBILE_DRAWER_TOP_PADDING = 'var(--mantine-spacing-xs)';
+const MOBILE_DRAWER_BOTTOM_PADDING =
+  'max(var(--mantine-spacing-lg), env(safe-area-inset-bottom))';
+
 export default function MobileBottomDrawer({
   children,
   bodyStyle,
@@ -30,8 +34,9 @@ export default function MobileBottomDrawer({
           flex: 1,
           minHeight: 0,
           overflowY: 'auto',
-          paddingBottom:
-            'max(var(--mantine-spacing-lg), env(safe-area-inset-bottom))',
+          paddingTop: MOBILE_DRAWER_TOP_PADDING,
+          paddingBottom: MOBILE_DRAWER_BOTTOM_PADDING,
+          scrollPaddingTop: MOBILE_DRAWER_TOP_PADDING,
           ...bodyStyle,
         },
       }}

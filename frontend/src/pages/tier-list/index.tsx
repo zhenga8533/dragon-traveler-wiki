@@ -1,35 +1,30 @@
-import {
-  Container,
-  Group,
-  Image,
-  SegmentedControl,
-  Stack,
-  Title,
-} from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
-import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
-import { useSearchParams } from 'react-router-dom';
-import { CLASS_ICON_MAP } from '@/assets/class';
-import { FACTION_ICON_MAP } from '@/assets/faction';
-import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
-import DataFetchError from '@/components/ui/DataFetchError';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
+import {
+  createClassFilterGroup,
+  createFactionFilterGroup,
+  createQualityFilterGroup,
+} from '@/components/common/EntityFilterGroups';
 import LastUpdated from '@/components/common/LastUpdated';
-import QualityFilterIcon from '@/features/characters/components/QualityFilterIcon';
 import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
 import {
   ListPageLoading,
   ViewModeLoading,
 } from '@/components/layout/PageLoadingSkeleton';
-import TierListBuilder from '@/features/teams/components/TierListBuilder';
-import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER } from '@/constants/colors';
+import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import DataFetchError from '@/components/ui/DataFetchError';
 import {
   CONTENT_TYPE_OPTIONS,
   matchesContentTypeFilters,
   normalizeContentTypeFilters,
 } from '@/constants/content-types';
 import { STORAGE_KEY } from '@/constants/ui';
+import type { Character } from '@/features/characters/types';
+import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
+import TierListBuilder from '@/features/teams/components/TierListBuilder';
+import TierListSavedTab from '@/features/teams/components/TierListSavedTab';
+import TierListViewTab from '@/features/teams/components/TierListViewTab';
+import type { TierList as TierListType } from '@/features/teams/tier-list-types';
 import {
   useCharacterResolution,
   useDarkMode,
@@ -46,15 +41,19 @@ import {
   useFilters,
   useViewMode,
 } from '@/hooks/use-filters';
-import type { Character, CharacterClass } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
-import type { TierList as TierListType } from '@/features/teams/tier-list-types';
 import { loadSavedFromStorage, parseTabMode } from '@/utils';
-import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { downloadElementAsPng } from '@/utils/export-image';
-import TierListSavedTab from '@/features/teams/components/TierListSavedTab';
-import TierListViewTab from '@/features/teams/components/TierListViewTab';
+import {
+  Container,
+  Group,
+  SegmentedControl,
+  Stack,
+  Title,
+} from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 
 function matchesTierListFilters(
   tierList: TierListType,
@@ -212,40 +211,9 @@ export default function TierList() {
         label: 'Content Type',
         options: contentTypeOptions,
       },
-      {
-        key: 'factions',
-        label: 'Faction',
-        options: [...FACTION_NAMES],
-        icon: (value: string) => (
-          <Image
-            src={FACTION_ICON_MAP[value as FactionName]}
-            alt={value}
-            w={14}
-            h={14}
-            fit="contain"
-          />
-        ),
-      },
-      {
-        key: 'classes',
-        label: 'Class',
-        options: [...CLASS_ORDER],
-        icon: (value: string) => (
-          <Image
-            src={CLASS_ICON_MAP[value as CharacterClass]}
-            alt={value}
-            w={14}
-            h={14}
-            fit="contain"
-          />
-        ),
-      },
-      {
-        key: 'qualities',
-        label: 'Quality',
-        options: [...QUALITY_ORDER],
-        icon: (value: string) => <QualityFilterIcon value={value} />,
-      },
+      createFactionFilterGroup(),
+      createClassFilterGroup(),
+      createQualityFilterGroup(),
     ],
     [contentTypeOptions]
   );

@@ -1,3 +1,43 @@
+import { getHowlkinIcon } from '@/assets/howlkin';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
+import {
+  createQualityFilterGroup,
+  orderFilterOptions,
+} from '@/components/common/EntityFilterGroups';
+import FilteredListShell from '@/components/layout/FilteredListShell';
+import ListPageHeader from '@/components/layout/ListPageHeader';
+import {
+  CardGridLoading,
+  ViewModeLoading,
+} from '@/components/layout/PageLoadingSkeleton';
+import SuggestModal, {
+  type ArrayFieldDef,
+  type FieldDef,
+} from '@/components/tools/SuggestModal';
+import DataFetchError from '@/components/ui/DataFetchError';
+import EmptyState from '@/components/ui/EmptyState';
+import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
+import PaginationControl from '@/components/ui/PaginationControl';
+import SortableTh from '@/components/ui/SortableTh';
+import { QUALITY_ORDER } from '@/constants/colors';
+import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import HowlkinBadge from '@/features/wiki/components/HowlkinBadge';
+import HowlkinStats from '@/features/wiki/components/HowlkinStats';
+import type { GoldenAlliance, Howlkin } from '@/features/wiki/types/howlkin';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useGradientAccent,
+  usePageSize,
+  useTabParam,
+} from '@/hooks';
+import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
+import type { Quality } from '@/types/quality';
+import { getLatestTimestamp } from '@/utils';
 import {
   Badge,
   Container,
@@ -14,43 +54,6 @@ import {
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
-import { getHowlkinIcon } from '@/assets/howlkin';
-import DataFetchError from '@/components/ui/DataFetchError';
-import EmptyState from '@/components/ui/EmptyState';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
-import HowlkinBadge from '@/features/wiki/components/HowlkinBadge';
-import HowlkinStats from '@/features/wiki/components/HowlkinStats';
-import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
-import PaginationControl from '@/components/ui/PaginationControl';
-import QualityFilterIcon from '@/features/characters/components/QualityFilterIcon';
-import QualityIcon from '@/features/characters/components/QualityIcon';
-import SortableTh from '@/components/ui/SortableTh';
-import FilteredListShell from '@/components/layout/FilteredListShell';
-import ListPageHeader from '@/components/layout/ListPageHeader';
-import {
-  CardGridLoading,
-  ViewModeLoading,
-} from '@/components/layout/PageLoadingSkeleton';
-import SuggestModal, {
-  type ArrayFieldDef,
-  type FieldDef,
-} from '@/components/tools/SuggestModal';
-import { QUALITY_ORDER } from '@/constants/colors';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
-import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import {
-  applyDir,
-  useDataFetch,
-  useFilteredPageData,
-  useGradientAccent,
-  usePageSize,
-  useTabParam,
-} from '@/hooks';
-import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
-import type { GoldenAlliance, Howlkin } from '@/features/wiki/types/howlkin';
-import type { Quality } from '@/types/quality';
-import { getLatestTimestamp } from '@/utils';
 
 const HOWLKIN_FIELDS: FieldDef[] = [
   {
@@ -247,27 +250,15 @@ export default function Howlkins() {
   }, [allianceSearch]);
 
   const qualityOptions = useMemo(() => {
-    const qualities = new Set<Quality>();
-    for (const howlkin of howlkins) {
-      if (howlkin.quality) {
-        qualities.add(howlkin.quality);
-      }
-    }
-    return [...qualities].sort(
-      (a, b) => QUALITY_ORDER.indexOf(a) - QUALITY_ORDER.indexOf(b)
+    return orderFilterOptions(
+      howlkins.flatMap((howlkin) => (howlkin.quality ? [howlkin.quality] : [])),
+      QUALITY_ORDER
     );
   }, [howlkins]);
 
   const filterGroups: ChipFilterGroup[] = useMemo(() => {
     if (qualityOptions.length === 0) return [];
-    return [
-      {
-        key: 'qualities',
-        label: 'Quality',
-        options: qualityOptions,
-        icon: (value: string) => <QualityFilterIcon value={value} />,
-      },
-    ];
+    return [createQualityFilterGroup({ options: qualityOptions })];
   }, [qualityOptions]);
 
   const mostRecentUpdate = useMemo(
