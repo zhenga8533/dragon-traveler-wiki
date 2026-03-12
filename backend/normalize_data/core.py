@@ -38,6 +38,47 @@ IdentitySelector = str | Callable[[dict], str | None]
 _META_KEYS = frozenset({"last_updated"})
 
 
+def _change_signature(change: dict) -> dict:
+    return {key: value for key, value in change.items() if key != "timestamp"}
+
+
+def _changes_equivalent(left: dict, right: dict) -> bool:
+    return _change_signature(left) == _change_signature(right)
+
+
+def _dedupe_change_list(changes: list[dict]) -> list[dict]:
+    deduped: list[dict] = []
+    for change in changes:
+        if not isinstance(change, dict):
+            continue
+        if deduped and _changes_equivalent(deduped[-1], change):
+            continue
+        deduped.append(change)
+    return deduped
+
+
+def _dedupe_changes_data(data: dict) -> dict:
+    normalized: dict = {}
+    for identity, payload in data.items():
+        if not isinstance(payload, dict):
+            continue
+        deduped_payload = dict(payload)
+        raw_changes = payload.get("changes", [])
+        if isinstance(raw_changes, list):
+            deduped_payload["changes"] = _dedupe_change_list(raw_changes)
+        else:
+            deduped_payload["changes"] = []
+        normalized[identity] = deduped_payload
+    return normalized
+
+
+def _append_change(changes: list[dict], change: dict) -> bool:
+    if changes and _changes_equivalent(changes[-1], change):
+        return False
+    changes.append(change)
+    return True
+
+
 def _character_identity(entry: dict) -> str | None:
     name = entry.get("name")
     quality = entry.get("quality")
@@ -84,7 +125,7 @@ def _load_changes_file(filename: str) -> dict:
         return {}
     try:
         with open(path, "r", encoding="utf-8") as f:
-            return json.load(f)
+            return _dedupe_changes_data(json.load(f))
     except (json.JSONDecodeError, OSError):
         return {}
 
@@ -94,7 +135,7 @@ def _save_changes_file(filename: str, data: dict) -> None:
     CHANGES_DIR.mkdir(parents=True, exist_ok=True)
     path = CHANGES_DIR / filename
     with open(path, "w", encoding="utf-8") as f:
-        json.dump(data, f, indent=2, ensure_ascii=False)
+        json.dump(_dedupe_changes_data(data), f, indent=2, ensure_ascii=False)
         f.write("\n")
 
 
@@ -262,7 +303,7 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
                     prev_changes and prev_changes[-1].get("type") == "removed"
                 )
                 if not already_removed:
-                    prev_changes.append({"timestamp": now, "type": "removed"})
+                    _append_change(prev_changes, {"timestamp": now, "type": "removed"})
 
         # Process current entries: additions, re-additions, and field changes
         for entry in entries:
@@ -278,7 +319,7 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
                 prev_changes = changes_data[identity]["changes"]
                 was_removed = prev_changes and prev_changes[-1].get("type") == "removed"
                 if was_removed:
-                    prev_changes.append({"timestamp": now, "type": "readded"})
+                    _append_change(prev_changes, {"timestamp": now, "type": "readded"})
 
             committed_entry = committed.get(identity)
             if committed_entry is not None:
@@ -292,8 +333,9 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
                         _META_KEYS,
                     )
                     if field_diffs:
-                        changes_data[identity]["changes"].append(
-                            {"timestamp": now, "fields": field_diffs}
+                        _append_change(
+                            changes_data[identity]["changes"],
+                            {"timestamp": now, "fields": field_diffs},
                         )
 
         _save_changes_file(filename, changes_data)
