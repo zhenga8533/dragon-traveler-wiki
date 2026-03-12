@@ -133,11 +133,31 @@
   },
   "Magic Defense Down": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773334188,
+        "fields": {
+          "remark": {
+            "old": "",
+            "new": "Does not stack with [Significant Magic Defense Down]."
+          }
+        }
+      }
+    ]
   },
   "Physical Defense Down": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773334188,
+        "fields": {
+          "remark": {
+            "old": "",
+            "new": "Does not stack with [Significant Physical Defense Down]."
+          }
+        }
+      }
+    ]
   },
   "Stat Debuff": {
     "added": 1772563593,
@@ -402,6 +422,22 @@
   },
   "Burning Pulse": {
     "added": 1772856370,
+    "changes": []
+  },
+  "Significant Magic Defense Down": {
+    "added": 1773334188,
+    "changes": []
+  },
+  "Significant Physical Defense Down": {
+    "added": 1773334188,
+    "changes": []
+  },
+  "Frost Vortex": {
+    "added": 1773334188,
+    "changes": []
+  },
+  "Ice Soul Mark": {
+    "added": 1773334188,
     "changes": []
   }
 }
