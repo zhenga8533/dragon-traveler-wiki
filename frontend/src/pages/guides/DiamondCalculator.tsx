@@ -1,3 +1,10 @@
+import GuideHeroCard from '@/components/guides/GuideHeroCard';
+import StatCard from '@/components/ui/StatCard';
+import {
+  getCardHoverProps,
+  getGuideSectionCardStyles,
+} from '@/constants/styles';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   ActionIcon,
   Alert,
@@ -28,13 +35,6 @@ import {
   IoTrendingUp,
   IoWallet,
 } from 'react-icons/io5';
-import StatCard from '@/components/ui/StatCard';
-import GuideHeroCard from '@/components/guides/GuideHeroCard';
-import {
-  getCardHoverProps,
-  getGuideSectionCardStyles,
-} from '@/constants/styles';
-import { useDarkMode, useGradientAccent } from '@/hooks';
 
 type SourceType = 'gain' | 'spend';
 
@@ -256,8 +256,8 @@ const BASE_SPEND_SOURCES: BaseSource[] = [
 const POINTS_LEAGUE_OPTIONS: Option[] = [
   { value: 'legend', label: 'Legend rank (300/day)' },
   { value: 'king', label: 'King rank (240/day)' },
-  { value: 'champion', label: 'Champion rank (200/day)' },
-  { value: 'grandmaster', label: 'Grandmaster rank (160/day)' },
+  { value: 'champion', label: 'Champion rank (180/day)' },
+  { value: 'grandmaster', label: 'Grandmaster rank (150/day)' },
   { value: 'master', label: 'Master rank (120/day)' },
   { value: 'expert', label: 'Expert rank (100/day)' },
   { value: 'elite', label: 'Elite rank (80/day)' },
@@ -268,8 +268,8 @@ const POINTS_LEAGUE_OPTIONS: Option[] = [
 const POINTS_LEAGUE_DAILY_BY_RANK: Record<string, number> = {
   legend: 300,
   king: 240,
-  champion: 200,
-  grandmaster: 160,
+  champion: 180,
+  grandmaster: 150,
   master: 120,
   expert: 100,
   elite: 80,
