@@ -25,8 +25,8 @@ import time
 from collections.abc import Callable
 from pathlib import Path
 
-from .diff import compute_field_diffs
 from ..sort_keys import FILE_SORT_KEY
+from .diff import compute_field_diffs
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = ROOT_DIR / "data"
@@ -44,6 +44,16 @@ def _character_identity(entry: dict) -> str | None:
     if name is None or quality is None:
         return None
     return f"{name}__{quality}"
+
+
+def _normalize_entry_for_compare(filename: str, entry: dict) -> dict:
+    normalized = dict(entry)
+    if filename == "events.json":
+        if "tag" not in normalized and "badge" in normalized:
+            normalized["tag"] = normalized["badge"]
+        normalized.pop("badge", None)
+        normalized.pop("source", None)
+    return normalized
 
 
 IDENTITY_KEY: dict[str, IdentitySelector] = {
@@ -93,8 +103,9 @@ def _save_changes_file(filename: str, data: dict) -> None:
 # ---------------------------------------------------------------------------
 
 
-def _without_meta(entry: dict) -> dict:
-    return {k: v for k, v in entry.items() if k not in _META_KEYS}
+def _without_meta(filename: str, entry: dict) -> dict:
+    normalized = _normalize_entry_for_compare(filename, entry)
+    return {k: v for k, v in normalized.items() if k not in _META_KEYS}
 
 
 def _has_any_object_entries(entries: list) -> bool:
@@ -184,8 +195,11 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
 
     result["exists"] = True
 
-    with open(path, "r", encoding="utf-8") as f:
-        payload = json.load(f)
+    try:
+        with open(path, "r", encoding="utf-8") as f:
+            payload = json.load(f)
+    except json.JSONDecodeError as exc:
+        raise ValueError(f"Invalid JSON in {filename}: {exc}") from exc
 
     entries, update_entries = _extract_entries(payload)
     if entries is None:
@@ -209,7 +223,9 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
             if committed_entry is None:
                 changed = True
             else:
-                changed = _without_meta(entry) != _without_meta(committed_entry)
+                changed = _without_meta(filename, entry) != _without_meta(
+                    filename, committed_entry
+                )
 
             if changed or "last_updated" not in entry:
                 entry["last_updated"] = now
@@ -266,8 +282,15 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
 
             committed_entry = committed.get(identity)
             if committed_entry is not None:
-                if _without_meta(entry) != _without_meta(committed_entry):
-                    field_diffs = compute_field_diffs(filename, committed_entry, entry, _META_KEYS)
+                if _without_meta(filename, entry) != _without_meta(
+                    filename, committed_entry
+                ):
+                    field_diffs = compute_field_diffs(
+                        filename,
+                        _normalize_entry_for_compare(filename, committed_entry),
+                        _normalize_entry_for_compare(filename, entry),
+                        _META_KEYS,
+                    )
                     if field_diffs:
                         changes_data[identity]["changes"].append(
                             {"timestamp": now, "fields": field_diffs}

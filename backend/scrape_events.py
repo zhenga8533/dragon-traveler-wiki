@@ -57,10 +57,10 @@ def fetch_page() -> str:
 
 def _largest_image_url(item: BeautifulSoup) -> str | None:
     """Return the URL of the largest landscape image in the event item."""
-    source = item.select_one("picture source[srcset]")
-    if not source:
+    picture_source = item.select_one("picture source[srcset]")
+    if not picture_source:
         return None
-    srcset = source.get("srcset", "")
+    srcset = picture_source.get("srcset", "")
     # Each entry: "<url> <width>w" — leading comma may be present
     pairs: list[tuple[int, str]] = []
     for m in re.finditer(r"([^\s,][^\s]*)\s+(\d+)w", srcset):
@@ -77,20 +77,13 @@ def _to_title_case(text: str) -> str:
     return normalized.title()
 
 
-def _normalize_source_display(text: str) -> str:
-    """Normalize a source label for display."""
-    normalized = _normalize_source_key(text)
-    if normalized == "appstore":
-        return "App Store"
-    return _to_title_case(text)
+def _is_app_store_event_id(event_id: str | None) -> bool:
+    """Return true for App Store-managed event ids.
 
-
-def _normalize_source_key(text: str | None) -> str:
-    """Canonicalize a source string for internal comparisons."""
-    if not text:
-        return ""
-    normalized = " ".join(text.split()).lower()
-    return re.sub(r"[^a-z0-9]+", "", normalized)
+    App Store event ids are long numeric identifiers. Manual historical entries
+    should keep using non-App-Store ids so the scraper does not overwrite them.
+    """
+    return bool(event_id and re.fullmatch(r"\d{8,}", event_id))
 
 
 def parse_events(html: str) -> list[dict]:
@@ -99,7 +92,7 @@ def parse_events(html: str) -> list[dict]:
     Structure (Svelte SSR):
       .app-event-item
         a[href*=eventid]  — aria-label = name, href contains event ID
-                    h4              — badge type (e.g. "Special Event")
+                      h4              — tag type (e.g. "Special Event")
           h3              — event name
           p               — truncated description
         picture source    — srcset with multiple landscape image sizes
@@ -133,17 +126,17 @@ def parse_events(html: str) -> list[dict]:
             href.split("eventid=")[-1].split("&")[0] if "eventid=" in href else None
         )
 
-        badge_el = item.select_one("h4")
+        tag_el = item.select_one("h4")
         desc_el = item.select_one("p")
         image_url = _largest_image_url(item)
 
         event: dict = {"name": name, "active": True}
         if event_id:
             event["event_id"] = event_id
-        if badge_el:
-            badge = badge_el.get_text(strip=True)
-            if badge:
-                event["badge"] = _to_title_case(badge)
+        if tag_el:
+            tag = tag_el.get_text(strip=True)
+            if tag:
+                event["tag"] = _to_title_case(tag)
         if desc_el:
             event["description"] = desc_el.get_text(strip=True)
         if image_url:
@@ -211,9 +204,9 @@ def merge_events(existing: list[dict], scraped: list[dict], today: str) -> list[
     Rules:
     - Scraped events are upserted; scraped fields overwrite existing fields.
     - `start_date` is set on first detection and never overwritten.
-        - `end_date` is set when an Appstore event disappears from the scrape,
-      and cleared if the event reappears.
-        - Manual entries (source != "Appstore") are never modified.
+        - `end_date` is set when an App Store event disappears from the scrape,
+            and cleared if the event reappears.
+        - Manual entries (non-App-Store ids) are never modified.
     - All entries (active and ended) are retained for history.
     """
     scraped_by_id: dict[str, dict] = {}
@@ -246,12 +239,13 @@ def merge_events(existing: list[dict], scraped: list[dict], today: str) -> list[
         ) or {}
 
         merged = dict(existing_entry)
+        for deprecated_key in ("badge", "source"):
+            merged.pop(deprecated_key, None)
 
         # Upsert scraped fields
         for k, v in scraped_event.items():
             merged[k] = v
 
-        merged["source"] = _normalize_source_display("appstore")
         merged["active"] = True
 
         # Set start_date on first detection
@@ -280,12 +274,11 @@ def merge_events(existing: list[dict], scraped: list[dict], today: str) -> list[
         if not event_id and name in scraped_by_name:
             continue
 
-        is_manual = _normalize_source_key(existing_entry.get("source")) != "appstore"
-        if is_manual:
+        if not _is_app_store_event_id(event_id):
             result.append(existing_entry)
             continue
 
-        # Appstore entry that's gone — mark inactive and record end_date
+        # App Store entry that's gone — mark inactive and record end_date
         entry = dict(existing_entry)
         if entry.get("active"):
             entry["active"] = False
@@ -325,7 +318,7 @@ def main() -> int:
 
     print("Events found:")
     for e in scraped:
-        print(f"  [{e.get('badge', 'event')}] {e['name']}")
+        print(f"  [{e.get('tag', 'event')}] {e['name']}")
 
     today = date.today().isoformat()
     existing = load_existing()

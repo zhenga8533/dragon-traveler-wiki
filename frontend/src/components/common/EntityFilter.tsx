@@ -1,6 +1,6 @@
+import { useIsMobile } from '@/hooks';
 import { Group, Stack } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { useIsMobile } from '@/hooks';
 import {
   FilterChipGroup,
   FilterClearButton,
@@ -21,9 +21,12 @@ export interface EntityFilterProps {
   selected: Record<string, string[]>;
   onChange: (key: string, values: string[]) => void;
   onClear: () => void;
+  hasActiveFilters?: boolean;
   search?: string;
   onSearchChange?: (value: string) => void;
   searchPlaceholder?: string;
+  beforeGroups?: ReactNode;
+  afterGroups?: ReactNode;
 }
 
 export default function EntityFilter({
@@ -31,14 +34,17 @@ export default function EntityFilter({
   selected,
   onChange,
   onClear,
+  hasActiveFilters,
   search,
   onSearchChange,
   searchPlaceholder = 'Search by name...',
+  beforeGroups,
+  afterGroups,
 }: EntityFilterProps) {
   const isMobile = useIsMobile();
   const hasChipFilters = Object.values(selected).some((v) => v.length > 0);
   const hasSearch = search !== undefined && search !== '';
-  const hasFilters = hasChipFilters || hasSearch;
+  const hasFilters = (hasActiveFilters ?? hasChipFilters) || hasSearch;
 
   return (
     <Stack gap={8}>
@@ -69,6 +75,8 @@ export default function EntityFilter({
         </Group>
       )}
 
+      {beforeGroups}
+
       {groups.map((group) => (
         <FilterSection key={group.key} label={group.label}>
           <FilterChipGroup
@@ -89,6 +97,8 @@ export default function EntityFilter({
           />
         </FilterSection>
       ))}
+
+      {afterGroups}
     </Stack>
   );
 }

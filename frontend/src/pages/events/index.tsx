@@ -1,10 +1,8 @@
 import { getPortrait } from '@/assets/character';
 import { getEventImage, placeholderEventImage } from '@/assets/event';
+import EntityFilter from '@/components/common/EntityFilter';
 import {
-  FilterChipGroup,
-  FilterClearButton,
   FilterMultiSelect,
-  FilterSearchInput,
   FilterSection,
 } from '@/components/common/FilterControls';
 import LastUpdated from '@/components/common/LastUpdated';
@@ -70,8 +68,7 @@ type TabFilter = 'active' | 'past';
 interface EventFilters {
   search: string;
   servers: string[];
-  labels: string[];
-  sources: string[];
+  tags: string[];
   characters: string[];
   dateRange: [Date | null, Date | null];
 }
@@ -79,8 +76,7 @@ interface EventFilters {
 const EMPTY_EVENT_FILTERS: EventFilters = {
   search: '',
   servers: [],
-  labels: [],
-  sources: [],
+  tags: [],
   characters: [],
   dateRange: [null, null],
 };
@@ -91,9 +87,8 @@ type EventEntry =
       id: string;
       active: boolean;
       name: string;
-      label: string | null;
+      tag: string | null;
       server: 'Global';
-      source: string;
       description: string;
       characters: string[];
       startDate: string | null;
@@ -106,9 +101,8 @@ type EventEntry =
       id: string;
       active: boolean;
       name: string;
-      label: string;
+      tag: string;
       server: 'TW';
-      source: null;
       description: string;
       characters: string[];
       startDate: string | null;
@@ -119,28 +113,21 @@ type EventEntry =
 
 function EventBadges({
   server,
-  label,
-  labelColor,
+  tag,
+  tagColor,
   active,
-  source,
 }: {
   server: 'Global' | 'TW';
-  label?: string | null;
-  labelColor?: string;
+  tag?: string | null;
+  tagColor?: string;
   active: boolean;
-  source?: string | null;
 }) {
   return (
     <Group gap="xs" wrap="wrap">
       <GlobalBadge isGlobal={server === 'Global'} size="sm" />
-      {label ? (
-        <Badge
-          size="xs"
-          variant="light"
-          color={labelColor ?? 'gray'}
-          radius="sm"
-        >
-          {label}
+      {tag ? (
+        <Badge size="xs" variant="light" color={tagColor ?? 'gray'} radius="sm">
+          {tag}
         </Badge>
       ) : null}
       <Badge
@@ -151,11 +138,6 @@ function EventBadges({
       >
         {active ? 'Active' : 'Ended'}
       </Badge>
-      {source ? (
-        <Badge size="xs" variant="outline" radius="sm">
-          {source}
-        </Badge>
-      ) : null}
     </Group>
   );
 }
@@ -216,15 +198,13 @@ function EventFilter({
   filters,
   onChange,
   serverOptions,
-  labelOptions,
-  sourceOptions,
+  tagOptions,
   characterOptions,
 }: {
   filters: EventFilters;
   onChange: (filters: EventFilters) => void;
   serverOptions: string[];
-  labelOptions: string[];
-  sourceOptions: string[];
+  tagOptions: string[];
   characterOptions: string[];
 }) {
   const isMobile = useIsMobile();
@@ -232,124 +212,90 @@ function EventFilter({
   const hasFilters =
     filters.search !== '' ||
     filters.servers.length > 0 ||
-    filters.labels.length > 0 ||
-    filters.sources.length > 0 ||
+    filters.tags.length > 0 ||
     filters.characters.length > 0 ||
     filters.dateRange[0] !== null ||
     filters.dateRange[1] !== null;
+  const groups = [
+    serverOptions.length > 0
+      ? { key: 'servers', label: 'Server', options: serverOptions }
+      : null,
+    tagOptions.length > 0
+      ? { key: 'tags', label: 'Tag', options: tagOptions }
+      : null,
+  ].filter(
+    (group): group is { key: string; label: string; options: string[] } =>
+      group !== null
+  );
 
   return (
-    <Stack gap={8}>
-      <Group gap="xs" align="center" wrap="wrap">
-        <FilterSearchInput
-          placeholder="Search by name, tag, source, or character..."
-          value={filters.search}
-          onSearch={(value) => onChange({ ...filters, search: value })}
-          size={isMobile ? 'md' : 'xs'}
-          style={{ flex: 1, minWidth: 180 }}
-        />
-        {hasFilters ? (
-          <FilterClearButton
-            size={isMobile ? 'md' : 'compact-xs'}
-            onClick={() => onChange(EMPTY_EVENT_FILTERS)}
-          />
-        ) : null}
-      </Group>
-
-      <FilterSection label="Date Range">
-        <DatePickerInput
-          type="range"
-          value={filters.dateRange}
-          onChange={(value) =>
-            onChange({
-              ...filters,
-              dateRange: value as [Date | null, Date | null],
-            })
-          }
-          placeholder="Pick date range"
-          clearable
-          size={chipSize}
-          valueFormat="MMM D, YYYY"
-          style={{ minWidth: 220 }}
-        />
-      </FilterSection>
-
-      {serverOptions.length > 0 ? (
-        <FilterSection label="Server">
-          <FilterChipGroup
-            size={chipSize}
-            value={filters.servers}
-            onChange={(value) => onChange({ ...filters, servers: value })}
-            options={serverOptions.map((server) => ({
-              value: server,
-              label: server,
-            }))}
-          />
-        </FilterSection>
-      ) : null}
-
-      {labelOptions.length > 0 ? (
-        <FilterSection label="Tag">
-          <FilterChipGroup
-            size={chipSize}
-            value={filters.labels}
-            onChange={(value) => onChange({ ...filters, labels: value })}
-            options={labelOptions.map((label) => ({
-              value: label,
-              label,
-            }))}
-          />
-        </FilterSection>
-      ) : null}
-
-      {sourceOptions.length > 0 ? (
-        <FilterSection label="Source">
-          <FilterChipGroup
-            size={chipSize}
-            value={filters.sources}
-            onChange={(value) => onChange({ ...filters, sources: value })}
-            options={sourceOptions.map((source) => ({
-              value: source,
-              label: source,
-            }))}
-          />
-        </FilterSection>
-      ) : null}
-
-      {characterOptions.length > 0 ? (
-        <FilterSection label="Character">
-          <FilterMultiSelect
-            data={characterOptions}
-            value={filters.characters}
-            onChange={(value) => onChange({ ...filters, characters: value })}
-            placeholder="Filter by character..."
-            renderOption={({ option }) => {
-              const portrait = getPortrait(option.label);
-              return (
-                <Group gap="xs" align="center">
-                  {portrait ? (
-                    <Image
-                      src={portrait}
-                      alt=""
-                      w={20}
-                      h={20}
-                      fit="contain"
-                      radius="sm"
-                    />
-                  ) : null}
-                  <Text size="sm">{option.label}</Text>
-                </Group>
-              );
-            }}
-            searchable={characterOptions.length >= 8}
+    <EntityFilter
+      groups={groups}
+      selected={{
+        servers: filters.servers,
+        tags: filters.tags,
+      }}
+      onChange={(key, value) => onChange({ ...filters, [key]: value })}
+      onClear={() => onChange(EMPTY_EVENT_FILTERS)}
+      hasActiveFilters={hasFilters}
+      search={filters.search}
+      onSearchChange={(value) => onChange({ ...filters, search: value })}
+      searchPlaceholder="Search by name, tag, or character..."
+      beforeGroups={
+        <FilterSection label="Date Range">
+          <DatePickerInput
+            type="range"
+            value={filters.dateRange}
+            onChange={(value) =>
+              onChange({
+                ...filters,
+                dateRange: value as [Date | null, Date | null],
+              })
+            }
+            placeholder="Pick date range"
             clearable
             size={chipSize}
-            style={{ flex: 1, minWidth: 180 }}
-            comboboxProps={{ withinPortal: !isMobile }}
+            valueFormat="MMM D, YYYY"
+            style={{ minWidth: 220 }}
           />
         </FilterSection>
-      ) : null}
-    </Stack>
+      }
+      afterGroups={
+        characterOptions.length > 0 ? (
+          <FilterSection label="Character">
+            <FilterMultiSelect
+              data={characterOptions}
+              value={filters.characters}
+              onChange={(value) => onChange({ ...filters, characters: value })}
+              placeholder="Filter by character..."
+              renderOption={({ option }) => {
+                const portrait = getPortrait(option.label);
+                return (
+                  <Group gap="xs" align="center">
+                    {portrait ? (
+                      <Image
+                        src={portrait}
+                        alt=""
+                        w={20}
+                        h={20}
+                        fit="contain"
+                        radius="sm"
+                      />
+                    ) : null}
+                    <Text size="sm">{option.label}</Text>
+                  </Group>
+                );
+              }}
+              searchable={characterOptions.length >= 8}
+              clearable
+              size={chipSize}
+              style={{ flex: 1, minWidth: 180 }}
+              comboboxProps={{ withinPortal: !isMobile }}
+            />
+          </FilterSection>
+        ) : null
+      }
+    />
   );
 }
 
@@ -371,8 +317,8 @@ function TwEventCard({ event }: { event: TwEvent }) {
       <Stack gap="xs" p="md" style={{ flex: 1 }}>
         <EventBadges
           server="TW"
-          label={event.type}
-          labelColor={typeColor}
+          tag={event.type}
+          tagColor={typeColor}
           active={active}
         />
 
@@ -413,10 +359,9 @@ function EventCard({ event }: { event: GameEvent }) {
       <Stack gap="xs" p="md" style={{ flex: 1 }}>
         <EventBadges
           server="Global"
-          label={event.badge}
-          labelColor={accent.primary}
+          tag={event.tag}
+          tagColor={accent.primary}
           active={event.active}
-          source={event.source}
         />
 
         <Text fw={600} size="md" lineClamp={2}>
@@ -461,10 +406,9 @@ function EventListItem({ event }: { event: GameEvent }) {
         <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
           <EventBadges
             server="Global"
-            label={event.badge}
-            labelColor={accent.primary}
+            tag={event.tag}
+            tagColor={accent.primary}
             active={event.active}
-            source={event.source}
           />
 
           <Text fw={600} size="lg">
@@ -505,8 +449,8 @@ function TwEventListItem({ event }: { event: TwEvent }) {
         <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
           <EventBadges
             server="TW"
-            label={event.type}
-            labelColor={typeColor}
+            tag={event.type}
+            tagColor={typeColor}
             active={active}
           />
 
@@ -586,9 +530,8 @@ export default function Events() {
       id: event.event_id ?? `global:${event.name}`,
       active: event.active,
       name: event.name,
-      label: event.badge ?? null,
+      tag: event.tag ?? null,
       server: 'Global',
-      source: event.source,
       description: event.description ?? '',
       characters: [],
       startDate: event.start_date ?? null,
@@ -602,9 +545,8 @@ export default function Events() {
       id: `tw:${event.name}:${event.start_date}`,
       active: isTwEventActive(event),
       name: event.name,
-      label: event.type,
+      tag: event.type,
       server: 'TW',
-      source: null,
       description: '',
       characters: event.characters,
       startDate: event.start_date,
@@ -633,23 +575,13 @@ export default function Events() {
     [scopedEvents]
   );
 
-  const labelOptions = useMemo(
+  const tagOptions = useMemo(
     () =>
       [
         ...new Set(
-          scopedEvents.map((event) => event.label).filter(Boolean) as string[]
+          scopedEvents.map((event) => event.tag).filter(Boolean) as string[]
         ),
       ].sort((a, b) => a.localeCompare(b)),
-    [scopedEvents]
-  );
-
-  const sourceOptions = useMemo(
-    () =>
-      [
-        ...new Set(
-          scopedEvents.map((event) => event.source).filter(Boolean) as string[]
-        ),
-      ].sort(),
     [scopedEvents]
   );
 
@@ -667,8 +599,7 @@ export default function Events() {
         const haystack = [
           event.name,
           event.description,
-          event.label ?? '',
-          event.source ?? '',
+          event.tag ?? '',
           event.server,
           ...event.characters,
         ]
@@ -682,16 +613,10 @@ export default function Events() {
       ) {
         return false;
       }
-      if (eventFilters.labels.length > 0) {
-        if (!event.label || !eventFilters.labels.includes(event.label)) {
+      if (eventFilters.tags.length > 0) {
+        if (!event.tag || !eventFilters.tags.includes(event.tag)) {
           return false;
         }
-      }
-      if (
-        eventFilters.sources.length > 0 &&
-        (!event.source || !eventFilters.sources.includes(event.source))
-      ) {
-        return false;
       }
       if (
         eventFilters.characters.length > 0 &&
@@ -868,8 +793,7 @@ export default function Events() {
                 filters={eventFilters}
                 onChange={setEventFilters}
                 serverOptions={serverOptions}
-                labelOptions={labelOptions}
-                sourceOptions={sourceOptions}
+                tagOptions={tagOptions}
                 characterOptions={characterOptions}
               />
             </Paper>

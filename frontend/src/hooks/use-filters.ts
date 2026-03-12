@@ -121,7 +121,17 @@ export function useFilteredData<T, F>({
 export function countActiveFilters<T extends object>(filters: T): number {
   return Object.values(filters as Record<string, unknown>).reduce<number>(
     (acc, v) => {
-      if (Array.isArray(v)) return acc + v.length;
+      if (Array.isArray(v)) {
+        return (
+          acc +
+          v.filter(
+            (item) =>
+              item !== null &&
+              item !== undefined &&
+              (!(typeof item === 'string') || item.trim() !== '')
+          ).length
+        );
+      }
       if (typeof v === 'string') return acc + (v ? 1 : 0);
       return acc;
     },
