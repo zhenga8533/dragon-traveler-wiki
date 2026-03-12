@@ -290,11 +290,31 @@
   },
   "NEWNOTICE": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773277159,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "GIFT321": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773277159,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "D212CCPGIFT": {
     "added": 1772563593,
@@ -302,11 +322,31 @@
   },
   "SJGGZYLBM": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773277159,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "KWYCOSER": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773277159,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "MysteriousDate": {
     "added": 1772563593,
@@ -374,7 +414,17 @@
   },
   "YAYKOREA": {
     "added": 1773158650,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773277159,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "CHAMPIONJPN": {
     "added": 1773158650,
