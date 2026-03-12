@@ -5,21 +5,21 @@
     "event_id": "6758127954",
     "badge": "Special Event",
     "description": "Date Luminaries for confessions and hidden stories! Limited skins! Join the event, get rewards—enjoy a romantic journey!",
-    "source": "Appstore",
+    "source": "App Store",
     "start_date": "2026-02-12",
     "end_date": null,
-    "last_updated": 1773062958
+    "last_updated": 1773298186
   },
   {
     "name": "The Gymnasium Locked-Room Case",
-    "active": true,
+    "active": false,
     "event_id": "6758127956",
     "badge": "Special Event",
     "description": "SSR+ Ironclad Commander Pompey! The Gymnasium Locked-Room Case begins! Join in for the \"Slam Dunk Master\" skin!",
     "source": "Appstore",
     "start_date": "2026-02-26",
-    "end_date": null,
-    "last_updated": 1773062958
+    "end_date": "2026-03-12",
+    "last_updated": 1773298186
   },
   {
     "name": "The Joyous Union",
