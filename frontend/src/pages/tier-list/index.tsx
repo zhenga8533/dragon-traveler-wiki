@@ -26,21 +26,17 @@ import TierListSavedTab from '@/features/teams/components/TierListSavedTab';
 import TierListViewTab from '@/features/teams/components/TierListViewTab';
 import type { TierList as TierListType } from '@/features/teams/tier-list-types';
 import {
+  countActiveFilters,
   useCharacterResolution,
+  useCharacters,
   useDarkMode,
+  useFilters,
   useGradientAccent,
   useIsMobile,
-} from '@/hooks';
-import {
-  useCharacters,
   useTierListChanges,
   useTierLists,
-} from '@/hooks/use-common-data';
-import {
-  countActiveFilters,
-  useFilters,
   useViewMode,
-} from '@/hooks/use-filters';
+} from '@/hooks';
 import { loadSavedFromStorage, parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { downloadElementAsPng } from '@/utils/export-image';

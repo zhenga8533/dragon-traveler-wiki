@@ -1,10 +1,9 @@
-import { Badge, Image } from '@mantine/core';
-import { memo } from 'react';
 import { GEAR_TYPE_ICON_MAP } from '@/assets/gear';
+import EntityTagBadge from '@/components/ui/EntityTagBadge';
 import { GEAR_TYPE_COLOR } from '@/constants/colors';
-import { TAG_BADGE_STYLE } from '@/constants/styles';
-import { useGradientAccent } from '@/hooks';
 import type { GearType } from '@/features/wiki/types/gear';
+import { useGradientAccent } from '@/hooks';
+import { memo } from 'react';
 
 export interface GearTypeTagProps {
   type: GearType;
@@ -14,29 +13,14 @@ export interface GearTypeTagProps {
 
 function GearTypeTag({ type, color, size = 'sm' }: GearTypeTagProps) {
   const { accent } = useGradientAccent();
-  const icon = GEAR_TYPE_ICON_MAP[type];
 
   return (
-    <Badge
-      variant="light"
+    <EntityTagBadge
+      label={type}
       color={color ?? GEAR_TYPE_COLOR[type] ?? accent.primary}
+      iconSrc={GEAR_TYPE_ICON_MAP[type]}
       size={size}
-      style={TAG_BADGE_STYLE}
-      leftSection={
-        icon ? (
-          <Image
-            src={icon}
-            alt={type}
-            w={12}
-            h={12}
-            fit="contain"
-            loading="lazy"
-          />
-        ) : undefined
-      }
-    >
-      {type}
-    </Badge>
+    />
   );
 }
 

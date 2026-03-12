@@ -15,7 +15,10 @@ import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import GlobalBadge from '@/features/teams/components/GlobalBadge';
 import TwEventBanner from '@/features/wiki/components/TwEventBanner';
+import type { ViewMode } from '@/hooks';
 import {
+  countActiveFilters,
+  getPageSizeStorageKey,
   useDataFetch,
   useFilterPanel,
   useFilters,
@@ -26,9 +29,6 @@ import {
   useTabParam,
   useViewMode,
 } from '@/hooks';
-import type { ViewMode } from '@/hooks/use-filters';
-import { countActiveFilters } from '@/hooks/use-filters';
-import { getPageSizeStorageKey } from '@/hooks/use-pagination';
 import type { GameEvent, TwEvent } from '@/types';
 import { getLatestTimestamp } from '@/utils';
 import { getTwEventTypeColor, isTwEventActive } from '@/utils/event-utils';

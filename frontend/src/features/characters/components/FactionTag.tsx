@@ -1,9 +1,8 @@
-import { Badge, Image } from '@mantine/core';
-import { memo } from 'react';
 import { FACTION_ICON_MAP } from '@/assets/faction';
+import EntityTagBadge from '@/components/ui/EntityTagBadge';
 import { FACTION_COLOR } from '@/constants/colors';
-import { TAG_BADGE_STYLE } from '@/constants/styles';
 import type { FactionName } from '@/types/faction';
+import { memo } from 'react';
 
 export interface FactionTagProps {
   faction: FactionName;
@@ -11,30 +10,13 @@ export interface FactionTagProps {
 }
 
 function FactionTag({ faction, size = 'sm' }: FactionTagProps) {
-  const icon = FACTION_ICON_MAP[faction];
-  const color = FACTION_COLOR[faction];
-
   return (
-    <Badge
-      variant="light"
-      color={color}
+    <EntityTagBadge
+      label={faction}
+      color={FACTION_COLOR[faction]}
+      iconSrc={FACTION_ICON_MAP[faction]}
       size={size}
-      style={TAG_BADGE_STYLE}
-      leftSection={
-        icon ? (
-          <Image
-            src={icon}
-            alt={faction}
-            w={12}
-            h={12}
-            fit="contain"
-            loading="lazy"
-          />
-        ) : undefined
-      }
-    >
-      {faction}
-    </Badge>
+    />
   );
 }
 

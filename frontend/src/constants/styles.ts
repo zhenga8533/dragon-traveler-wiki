@@ -55,21 +55,29 @@ export function getCharacterPortraitHoverProps(
   };
 }
 
-/**
- * Tooltip styles for detail pages (skill/gear/status effect tooltips)
- */
-export const DETAIL_TOOLTIP_STYLES = {
+/** Shared base for all Mantine Tooltip `styles` objects. */
+const TOOLTIP_BASE = {
   tooltip: {
     backgroundColor: 'var(--mantine-color-body)',
     color: 'var(--mantine-color-text)',
     border: '1px solid var(--mantine-color-default-border)',
-    boxShadow: 'var(--mantine-shadow-sm)',
-    padding: 'var(--mantine-spacing-xs) var(--mantine-spacing-sm)',
   },
   arrow: {
     backgroundColor: 'var(--mantine-color-body)',
     border: '1px solid var(--mantine-color-default-border)',
   },
+} as const;
+
+/**
+ * Tooltip styles for detail pages (skill/gear/status effect tooltips)
+ */
+export const DETAIL_TOOLTIP_STYLES = {
+  tooltip: {
+    ...TOOLTIP_BASE.tooltip,
+    boxShadow: 'var(--mantine-shadow-sm)',
+    padding: 'var(--mantine-spacing-xs) var(--mantine-spacing-sm)',
+  },
+  arrow: TOOLTIP_BASE.arrow,
 };
 
 /**
@@ -77,17 +85,12 @@ export const DETAIL_TOOLTIP_STYLES = {
  */
 export const RICH_TOOLTIP_STYLES = {
   tooltip: {
-    backgroundColor: 'var(--mantine-color-body)',
-    color: 'var(--mantine-color-text)',
-    border: '1px solid var(--mantine-color-default-border)',
+    ...TOOLTIP_BASE.tooltip,
     boxShadow: 'var(--mantine-shadow-md)',
     borderRadius: 'var(--mantine-radius-md)',
     padding: 'var(--mantine-spacing-sm) var(--mantine-spacing-md)',
   },
-  arrow: {
-    backgroundColor: 'var(--mantine-color-body)',
-    border: '1px solid var(--mantine-color-default-border)',
-  },
+  arrow: TOOLTIP_BASE.arrow,
 };
 
 /**

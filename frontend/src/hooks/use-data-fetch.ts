@@ -42,11 +42,39 @@ async function fetchJsonCached(path: string): Promise<unknown> {
   return request;
 }
 
-export function useDataFetch<T>(path: string, initial: T): DataFetchResult<T> {
+/**
+ * Fetches a JSON file and optionally validates/transforms the raw data.
+ *
+ * @param path    - Path relative to the site base URL (e.g. `'data/characters.json'`)
+ * @param initial - Value returned while loading or on error
+ * @param parse   - Optional transform/validator called on the raw JSON before it is
+ *                  stored in state.  Throwing here sets the `error` field instead of
+ *                  silently coercing bad data.  Plug in a Zod schema's `.parse` method,
+ *                  a valibot `parse` call, or a simple type-guard function.
+ *
+ * @example
+ *   // Zod (install zod separately):
+ *   const CharacterSchema = z.object({ name: z.string(), quality: QualitySchema });
+ *   useDataFetch('data/characters.json', [], (raw) => z.array(CharacterSchema).parse(raw));
+ */
+export function useDataFetch<T>(
+  path: string,
+  initial: T,
+  parse?: (raw: unknown) => T
+): DataFetchResult<T> {
   const hasCachedValue = dataCache.has(path);
-  const [data, setData] = useState<T>(() =>
-    hasCachedValue ? (dataCache.get(path) as T) : initial
-  );
+  const [data, setData] = useState<T>(() => {
+    if (!hasCachedValue) return initial;
+    const raw = dataCache.get(path);
+    if (parse) {
+      try {
+        return parse(raw);
+      } catch {
+        return initial;
+      }
+    }
+    return raw as T;
+  });
   const [loading, setLoading] = useState(() => !hasCachedValue);
   const [error, setError] = useState<Error | null>(null);
 
@@ -63,7 +91,7 @@ export function useDataFetch<T>(path: string, initial: T): DataFetchResult<T> {
     fetchJsonCached(path)
       .then((result) => {
         if (isCancelled) return;
-        setData(result as T);
+        setData(parse ? parse(result) : (result as T));
       })
       .catch((err) => {
         if (isCancelled) return;
@@ -78,6 +106,9 @@ export function useDataFetch<T>(path: string, initial: T): DataFetchResult<T> {
     return () => {
       isCancelled = true;
     };
+    // `parse` is intentionally omitted from deps — it is expected to be a stable
+    // module-level reference (e.g. a Zod schema's bound .parse method).
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]);
 
   return { data, loading, error };

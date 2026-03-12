@@ -1,3 +1,13 @@
+import { FACTION_ICON_MAP } from '@/assets/faction';
+import { GEAR_TYPE_ICON_MAP } from '@/assets/gear';
+import { QUALITY_ICON_MAP } from '@/assets/quality';
+import {
+  GITHUB_REPO_URL,
+  MAX_GITHUB_ISSUE_URL_LENGTH,
+  buildEmptyIssueBody,
+} from '@/constants/github';
+import { useGradientAccent, useIsMobile } from '@/hooks';
+import { showWarningToast } from '@/utils/toast';
 import {
   ActionIcon,
   Button,
@@ -19,16 +29,6 @@ import {
   IoClose,
   IoOpenOutline,
 } from 'react-icons/io5';
-import { FACTION_ICON_MAP } from '@/assets/faction';
-import { GEAR_TYPE_ICON_MAP } from '@/assets/gear';
-import { QUALITY_ICON_MAP } from '@/assets/quality';
-import {
-  GITHUB_REPO_URL,
-  MAX_GITHUB_ISSUE_URL_LENGTH,
-  buildEmptyIssueBody,
-} from '@/constants/github';
-import { useGradientAccent, useIsMobile } from '@/hooks';
-import { showWarningToast } from '@/utils/toast';
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number';
 
@@ -38,7 +38,7 @@ export interface FieldDef {
   type: FieldType;
   required?: boolean;
   placeholder?: string;
-  options?: string[];
+  options?: readonly string[];
   optionIcons?: Record<string, string>;
 }
 

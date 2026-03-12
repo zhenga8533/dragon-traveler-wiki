@@ -1,3 +1,5 @@
+import { IMAGE_SIZE } from '@/constants/ui';
+import { useGradientAccent } from '@/hooks';
 import {
   Button,
   Chip,
@@ -9,13 +11,19 @@ import {
   type TextInputProps,
 } from '@mantine/core';
 import { useDebouncedValue } from '@mantine/hooks';
-import { useEffect, useLayoutEffect, useRef, useState, type ReactNode } from 'react';
+import {
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+  type ReactNode,
+} from 'react';
 import { IoClose, IoSearch } from 'react-icons/io5';
-import { IMAGE_SIZE } from '@/constants/ui';
-import { useFilterTheme } from '@/hooks/use-filter-theme';
 
-export interface FilterSearchInputProps
-  extends Omit<TextInputProps, 'onChange'> {
+export interface FilterSearchInputProps extends Omit<
+  TextInputProps,
+  'onChange'
+> {
   iconSize?: number;
   /** Called with the search string after debounce. Use instead of onChange. */
   onSearch?: (value: string) => void;
@@ -31,7 +39,8 @@ export function FilterSearchInput({
   debounceMs = 150,
   ...props
 }: FilterSearchInputProps) {
-  const { accent, searchIconColor } = useFilterTheme();
+  const { accent } = useGradientAccent();
+  const searchIconColor = `var(--mantine-color-${accent.primary}-6)`;
   const [localValue, setLocalValue] = useState((value as string) ?? '');
   const [prevExternalValue, setPrevExternalValue] = useState(value);
   const [debouncedValue] = useDebouncedValue(localValue, debounceMs);
@@ -70,7 +79,7 @@ export function FilterSearchInput({
 }
 
 export function FilterMultiSelect({ color, ...props }: MultiSelectProps) {
-  const { accent } = useFilterTheme();
+  const { accent } = useGradientAccent();
 
   return <MultiSelect color={color ?? accent.primary} {...props} />;
 }
@@ -86,7 +95,7 @@ export function FilterClearButton({
   size = 'compact-xs',
   label = 'Clear',
 }: FilterClearButtonProps) {
-  const { accent } = useFilterTheme();
+  const { accent } = useGradientAccent();
 
   return (
     <Button
@@ -141,7 +150,7 @@ export function FilterChipGroup({
   options,
   size = 'xs',
 }: FilterChipGroupProps) {
-  const { accent } = useFilterTheme();
+  const { accent } = useGradientAccent();
 
   return (
     <Chip.Group multiple value={value} onChange={onChange}>

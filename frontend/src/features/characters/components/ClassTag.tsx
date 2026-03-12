@@ -1,10 +1,9 @@
-import { Badge, Image } from '@mantine/core';
-import { memo } from 'react';
 import { CLASS_ICON_MAP } from '@/assets/class';
+import EntityTagBadge from '@/components/ui/EntityTagBadge';
 import { CLASS_COLOR } from '@/constants/colors';
-import { TAG_BADGE_STYLE } from '@/constants/styles';
-import { useGradientAccent } from '@/hooks';
 import type { CharacterClass } from '@/features/characters/types';
+import { useGradientAccent } from '@/hooks';
+import { memo } from 'react';
 
 export interface ClassTagProps {
   characterClass: CharacterClass | string;
@@ -23,31 +22,17 @@ function ClassTag({
   const classColor = (CLASS_COLOR as Record<string, string | undefined>)[
     characterClass
   ];
-  const icon = (CLASS_ICON_MAP as Record<string, string | undefined>)[
-    characterClass
-  ];
+  const iconSrc = showIcon
+    ? (CLASS_ICON_MAP as Record<string, string | undefined>)[characterClass]
+    : undefined;
 
   return (
-    <Badge
-      variant="light"
+    <EntityTagBadge
+      label={characterClass}
       color={color ?? classColor ?? accent.secondary}
+      iconSrc={iconSrc}
       size={size}
-      style={TAG_BADGE_STYLE}
-      leftSection={
-        showIcon && icon ? (
-          <Image
-            src={icon}
-            alt={characterClass}
-            w={12}
-            h={12}
-            fit="contain"
-            loading="lazy"
-          />
-        ) : undefined
-      }
-    >
-      {characterClass}
-    </Badge>
+    />
   );
 }
 

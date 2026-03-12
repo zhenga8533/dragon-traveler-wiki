@@ -1,11 +1,11 @@
 import type { CharacterClass } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
+import type { TierDefinition } from '@/features/teams/tier-list-types';
 import type { GearType } from '@/features/wiki/types/gear';
+import type { StatusEffectType } from '@/features/wiki/types/status-effect';
+import type { WyrmspellType } from '@/features/wiki/types/wyrmspell';
+import { FACTION_NAMES, type FactionName } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 import type { ResourceCategory } from '@/types/resource';
-import type { StatusEffectType } from '@/features/wiki/types/status-effect';
-import type { TierDefinition } from '@/features/teams/tier-list-types';
-import type { WyrmspellType } from '@/features/wiki/types/wyrmspell';
 import { QUALITY_COLOR, QUALITY_ORDER } from './quality';
 
 export const CLASS_ORDER: CharacterClass[] = [
@@ -86,14 +86,7 @@ export const FACTION_COLOR: Record<FactionName, string> = {
   'Illusion Veil': 'dark',
 };
 
-export const FACTION_NAMES: FactionName[] = [
-  'Elemental Echo',
-  'Wild Spirit',
-  'Arcane Wisdom',
-  'Sanctum Glory',
-  'Otherworld Return',
-  'Illusion Veil',
-];
+export { FACTION_NAMES };
 
 export const RESOURCE_CATEGORY_ORDER: ResourceCategory[] = [
   'Currency',

@@ -176,6 +176,12 @@ const PAGES = [
   },
 ];
 
+// PAGES Fuse index is module-level — the list never changes at runtime.
+const PAGE_FUSE = new Fuse(PAGES, {
+  keys: ['title', 'keywords'],
+  threshold: 0.4,
+});
+
 const CATEGORY_LABELS: Record<SearchResult['type'], string> = {
   artifact: 'Artifacts',
   character: 'Characters',
@@ -248,334 +254,376 @@ export default function SearchModal({
       : []
   );
 
+  // Fuse index instances are built once per data-load, not on every keystroke.
+  // Rebuilding a Fuse index is O(n·log n); doing it on each debounced keypress
+  // is wasteful when the underlying data rarely changes.
+  const fuseIndices = useMemo(
+    () => ({
+      characters: characters.length
+        ? new Fuse(characters, {
+            keys: [
+              { name: 'name', weight: 2 },
+              { name: 'character_class', weight: 0.5 },
+              { name: 'factions', weight: 0.3 },
+              { name: 'subclasses', weight: 0.3 },
+            ],
+            threshold: 0.3,
+            includeScore: true,
+          })
+        : null,
+      artifacts: artifacts.length
+        ? new Fuse(artifacts, {
+            keys: [
+              'name',
+              'quality',
+              'lore',
+              'effect.description',
+              'treasures.name',
+            ],
+            threshold: 0.3,
+          })
+        : null,
+      gear: gear.length
+        ? new Fuse(gear, {
+            keys: ['name', 'set', 'type', 'lore'],
+            threshold: 0.3,
+          })
+        : null,
+      statusEffects: statusEffects.length
+        ? new Fuse(statusEffects, {
+            keys: ['name', 'type', 'effect'],
+            threshold: 0.3,
+          })
+        : null,
+      subclasses: subclasses.length
+        ? new Fuse(subclasses, {
+            keys: ['name', 'class', 'effect', 'bonuses'],
+            threshold: 0.3,
+          })
+        : null,
+      wyrmspells: wyrmspells.length
+        ? new Fuse(wyrmspells, {
+            keys: ['name', 'type', 'effect'],
+            threshold: 0.3,
+          })
+        : null,
+      teams: teams.length
+        ? new Fuse(teams, {
+            keys: ['name', 'description', 'members.character_name'],
+            threshold: 0.3,
+          })
+        : null,
+      howlkins: howlkins.length
+        ? new Fuse(howlkins, {
+            keys: ['name', 'quality', 'passive_effects'],
+            threshold: 0.3,
+          })
+        : null,
+      noblePhantasms: noblePhantasms.length
+        ? new Fuse(noblePhantasms, {
+            keys: ['name', 'character', 'lore'],
+            threshold: 0.3,
+          })
+        : null,
+      resources: resources.length
+        ? new Fuse(resources, {
+            keys: ['name', 'description', 'category', 'quality'],
+            threshold: 0.3,
+          })
+        : null,
+      events: events.length
+        ? new Fuse(events, {
+            keys: [
+              { name: 'name', weight: 2 },
+              { name: 'tag', weight: 0.5 },
+              { name: 'description', weight: 0.5 },
+            ],
+            threshold: 0.3,
+          })
+        : null,
+      codes: codes.length
+        ? new Fuse(codes, { keys: ['code'], threshold: 0.25 })
+        : null,
+      usefulLinks: usefulLinks.length
+        ? new Fuse(usefulLinks, {
+            keys: ['application', 'name', 'description', 'link'],
+            threshold: 0.3,
+          })
+        : null,
+      tierLists: tierLists.length
+        ? new Fuse(tierLists, {
+            keys: [
+              'name',
+              'author',
+              'content_type',
+              'description',
+              'entries.character_name',
+            ],
+            threshold: 0.3,
+          })
+        : null,
+    }),
+    [
+      characters,
+      artifacts,
+      gear,
+      statusEffects,
+      subclasses,
+      wyrmspells,
+      teams,
+      howlkins,
+      noblePhantasms,
+      resources,
+      events,
+      codes,
+      usefulLinks,
+      tierLists,
+    ]
+  );
+
   const searchResults = useMemo(() => {
     if (!debouncedQuery.trim()) return [];
-
+    const q = debouncedQuery;
     const results: SearchResult[] = [];
 
-    // Search characters (prioritize these)
-    if (characters.length > 0) {
-      const charFuse = new Fuse(characters, {
-        keys: [
-          { name: 'name', weight: 2 },
-          { name: 'character_class', weight: 0.5 },
-          { name: 'factions', weight: 0.3 },
-          { name: 'subclasses', weight: 0.3 },
-        ],
-        threshold: 0.3,
-        includeScore: true,
-      });
-      const charResults = charFuse.search(debouncedQuery).slice(0, 8);
+    if (fuseIndices.characters) {
       results.push(
-        ...charResults.map((r) => ({
-          type: 'character' as const,
-          title: r.item.name,
-          subtitle: `${r.item.quality} ${r.item.character_class}`,
-          path: getCharacterRoutePath(r.item, characterNameCounts),
-          icon: IoPersonOutline,
-          color: 'blue',
-        }))
+        ...fuseIndices.characters
+          .search(q)
+          .slice(0, 8)
+          .map((r) => ({
+            type: 'character' as const,
+            title: r.item.name,
+            subtitle: `${r.item.quality} ${r.item.character_class}`,
+            path: getCharacterRoutePath(r.item, characterNameCounts),
+            icon: IoPersonOutline,
+            color: 'blue',
+          }))
       );
     }
 
-    // Search artifacts
-    if (artifacts.length > 0) {
-      const artifactFuse = new Fuse(artifacts, {
-        keys: [
-          'name',
-          'quality',
-          'lore',
-          'effect.description',
-          'treasures.name',
-        ],
-        threshold: 0.3,
-      });
-      const artifactResults = artifactFuse.search(debouncedQuery).slice(0, 5);
+    if (fuseIndices.artifacts) {
       results.push(
-        ...artifactResults.map((r) => ({
-          type: 'artifact' as const,
-          title: r.item.name,
-          subtitle: `${r.item.quality} Artifact`,
-          path: `/artifacts/${toEntitySlug(r.item.name)}`,
-          icon: getArtifactIcon(r.item.name) ?? IoDiamondOutline,
-          color: 'teal',
-        }))
+        ...fuseIndices.artifacts
+          .search(q)
+          .slice(0, 5)
+          .map((r) => ({
+            type: 'artifact' as const,
+            title: r.item.name,
+            subtitle: `${r.item.quality} Artifact`,
+            path: `/artifacts/${toEntitySlug(r.item.name)}`,
+            icon: getArtifactIcon(r.item.name) ?? IoDiamondOutline,
+            color: 'teal',
+          }))
       );
     }
 
-    // Search gear
-    if (gear.length > 0) {
-      const gearFuse = new Fuse(gear, {
-        keys: ['name', 'set', 'type', 'lore'],
-        threshold: 0.3,
-      });
-      const gearResults = gearFuse.search(debouncedQuery).slice(0, 5);
+    if (fuseIndices.gear) {
       results.push(
-        ...gearResults.map((r) => ({
-          type: 'gear' as const,
-          title: r.item.name,
-          subtitle: `${r.item.type} • ${r.item.set}`,
-          path: `/gear-sets/${toEntitySlug(r.item.set)}`,
-          icon: getGearIcon(r.item.type, r.item.name) ?? IoShieldOutline,
-          color: 'teal',
-        }))
+        ...fuseIndices.gear
+          .search(q)
+          .slice(0, 5)
+          .map((r) => ({
+            type: 'gear' as const,
+            title: r.item.name,
+            subtitle: `${r.item.type} • ${r.item.set}`,
+            path: `/gear-sets/${toEntitySlug(r.item.set)}`,
+            icon: getGearIcon(r.item.type, r.item.name) ?? IoShieldOutline,
+            color: 'teal',
+          }))
       );
     }
 
-    // Search pages
-    const pageFuse = new Fuse(PAGES, {
-      keys: ['title', 'keywords'],
-      threshold: 0.4,
-    });
-    const pageResults = pageFuse.search(debouncedQuery).slice(0, 3);
     results.push(
-      ...pageResults.map((r) => ({
-        type: 'page' as const,
-        title: r.item.title,
-        path: r.item.path,
-        icon: IoDocumentTextOutline,
-        color: 'gray',
-      }))
+      ...PAGE_FUSE.search(q)
+        .slice(0, 3)
+        .map((r) => ({
+          type: 'page' as const,
+          title: r.item.title,
+          path: r.item.path,
+          icon: IoDocumentTextOutline,
+          color: 'gray',
+        }))
     );
 
-    // Search status effects
-    if (statusEffects.length > 0) {
-      const effectFuse = new Fuse(statusEffects, {
-        keys: ['name', 'type', 'effect'],
-        threshold: 0.3,
-      });
-      const effectResults = effectFuse.search(debouncedQuery).slice(0, 5);
+    if (fuseIndices.statusEffects) {
       results.push(
-        ...effectResults.map((r) => ({
-          type: 'status-effect' as const,
-          title: r.item.name,
-          subtitle: r.item.type,
-          path: '/status-effects',
-          icon: getStatusEffectIcon(r.item.name) ?? IoSparklesOutline,
-          color: 'cyan',
-        }))
+        ...fuseIndices.statusEffects
+          .search(q)
+          .slice(0, 5)
+          .map((r) => ({
+            type: 'status-effect' as const,
+            title: r.item.name,
+            subtitle: r.item.type,
+            path: '/status-effects',
+            icon: getStatusEffectIcon(r.item.name) ?? IoSparklesOutline,
+            color: 'cyan',
+          }))
       );
     }
 
-    // Search subclasses
-    if (subclasses.length > 0) {
-      const subclassFuse = new Fuse(subclasses, {
-        keys: ['name', 'class', 'effect', 'bonuses'],
-        threshold: 0.3,
-      });
-      const subclassResults = subclassFuse.search(debouncedQuery).slice(0, 5);
+    if (fuseIndices.subclasses) {
       results.push(
-        ...subclassResults.map((r) => ({
-          type: 'subclass' as const,
-          title: r.item.name,
-          subtitle: `${r.item.class} • Tier ${r.item.tier}`,
-          path: '/subclasses',
-          icon: getSubclassIcon(r.item.name, r.item.class) ?? IoGridOutline,
-          color: 'grape',
-        }))
+        ...fuseIndices.subclasses
+          .search(q)
+          .slice(0, 5)
+          .map((r) => ({
+            type: 'subclass' as const,
+            title: r.item.name,
+            subtitle: `${r.item.class} • Tier ${r.item.tier}`,
+            path: '/subclasses',
+            icon: getSubclassIcon(r.item.name, r.item.class) ?? IoGridOutline,
+            color: 'grape',
+          }))
       );
     }
 
-    // Search wyrmspells
-    if (wyrmspells.length > 0) {
-      const spellFuse = new Fuse(wyrmspells, {
-        keys: ['name', 'type', 'effect'],
-        threshold: 0.3,
-      });
-      const spellResults = spellFuse.search(debouncedQuery).slice(0, 5);
+    if (fuseIndices.wyrmspells) {
       results.push(
-        ...spellResults.map((r) => ({
-          type: 'wyrmspell' as const,
-          title: r.item.name,
-          subtitle: r.item.type,
-          path: '/wyrmspells',
-          icon: getWyrmspellIcon(r.item.name) ?? IoFlameOutline,
-          color: 'indigo',
-        }))
+        ...fuseIndices.wyrmspells
+          .search(q)
+          .slice(0, 5)
+          .map((r) => ({
+            type: 'wyrmspell' as const,
+            title: r.item.name,
+            subtitle: r.item.type,
+            path: '/wyrmspells',
+            icon: getWyrmspellIcon(r.item.name) ?? IoFlameOutline,
+            color: 'indigo',
+          }))
       );
     }
 
-    // Search teams
-    if (teams.length > 0) {
-      const teamFuse = new Fuse(teams, {
-        keys: ['name', 'description', 'members.character_name'],
-        threshold: 0.3,
-      });
-      const teamResults = teamFuse.search(debouncedQuery).slice(0, 3);
+    if (fuseIndices.teams) {
       results.push(
-        ...teamResults.map((r) => ({
-          type: 'team' as const,
-          title: r.item.name,
-          subtitle: `${r.item.members.length} characters`,
-          path: '/teams',
-          icon: IoPeopleOutline,
-          color: 'green',
-        }))
+        ...fuseIndices.teams
+          .search(q)
+          .slice(0, 3)
+          .map((r) => ({
+            type: 'team' as const,
+            title: r.item.name,
+            subtitle: `${r.item.members.length} characters`,
+            path: '/teams',
+            icon: IoPeopleOutline,
+            color: 'green',
+          }))
       );
     }
 
-    // Search howlkins
-    if (howlkins.length > 0) {
-      const howlkinFuse = new Fuse(howlkins, {
-        keys: ['name', 'quality', 'passive_effects'],
-        threshold: 0.3,
-      });
-      const howlkinResults = howlkinFuse.search(debouncedQuery).slice(0, 4);
+    if (fuseIndices.howlkins) {
       results.push(
-        ...howlkinResults.map((r) => ({
-          type: 'howlkin' as const,
-          title: r.item.name,
-          subtitle: `${r.item.quality} Howlkin`,
-          path: '/howlkins',
-          icon: getHowlkinIcon(r.item.name) ?? IoPawOutline,
-          color: 'orange',
-        }))
+        ...fuseIndices.howlkins
+          .search(q)
+          .slice(0, 4)
+          .map((r) => ({
+            type: 'howlkin' as const,
+            title: r.item.name,
+            subtitle: `${r.item.quality} Howlkin`,
+            path: '/howlkins',
+            icon: getHowlkinIcon(r.item.name) ?? IoPawOutline,
+            color: 'orange',
+          }))
       );
     }
 
-    // Search noble phantasms
-    if (noblePhantasms.length > 0) {
-      const npFuse = new Fuse(noblePhantasms, {
-        keys: ['name', 'character', 'lore'],
-        threshold: 0.3,
-      });
-      const npResults = npFuse.search(debouncedQuery).slice(0, 5);
+    if (fuseIndices.noblePhantasms) {
       results.push(
-        ...npResults.map((r) => ({
-          type: 'noble-phantasm' as const,
-          title: r.item.name,
-          subtitle: r.item.character || 'Noble Phantasm',
-          path: `/noble-phantasms/${toEntitySlug(r.item.name)}`,
-          icon: getNoblePhantasmIcon(r.item.name) ?? IoFlashOutline,
-          color: 'teal',
-        }))
+        ...fuseIndices.noblePhantasms
+          .search(q)
+          .slice(0, 5)
+          .map((r) => ({
+            type: 'noble-phantasm' as const,
+            title: r.item.name,
+            subtitle: r.item.character || 'Noble Phantasm',
+            path: `/noble-phantasms/${toEntitySlug(r.item.name)}`,
+            icon: getNoblePhantasmIcon(r.item.name) ?? IoFlashOutline,
+            color: 'teal',
+          }))
       );
     }
 
-    // Search resources
-    if (resources.length > 0) {
-      const resourceFuse = new Fuse(resources, {
-        keys: ['name', 'description', 'category', 'quality'],
-        threshold: 0.3,
-      });
-      const resourceResults = resourceFuse.search(debouncedQuery).slice(0, 5);
+    if (fuseIndices.resources) {
       results.push(
-        ...resourceResults.map((r) => ({
-          type: 'resource' as const,
-          title: r.item.name,
-          subtitle: `${r.item.category} • ${r.item.quality}`,
-          path: '/resources',
-          icon: getResourceIcon(r.item.name) ?? IoCubeOutline,
-          color: 'teal',
-        }))
+        ...fuseIndices.resources
+          .search(q)
+          .slice(0, 5)
+          .map((r) => ({
+            type: 'resource' as const,
+            title: r.item.name,
+            subtitle: `${r.item.category} • ${r.item.quality}`,
+            path: '/resources',
+            icon: getResourceIcon(r.item.name) ?? IoCubeOutline,
+            color: 'teal',
+          }))
       );
     }
 
-    // Search events
-    if (events.length > 0) {
-      const eventFuse = new Fuse(events, {
-        keys: [
-          { name: 'name', weight: 2 },
-          { name: 'tag', weight: 0.5 },
-          { name: 'description', weight: 0.5 },
-        ],
-        threshold: 0.3,
-      });
-      const eventResults = eventFuse.search(debouncedQuery).slice(0, 5);
+    if (fuseIndices.events) {
       results.push(
-        ...eventResults.map((r) => ({
-          type: 'event' as const,
-          title: r.item.name,
-          subtitle: r.item.active ? 'Active event' : 'Past event',
-          path: `/events?tab=${r.item.active ? 'active' : 'past'}`,
-          icon: IoCalendarOutline,
-          color: 'green',
-        }))
+        ...fuseIndices.events
+          .search(q)
+          .slice(0, 5)
+          .map((r) => ({
+            type: 'event' as const,
+            title: r.item.name,
+            subtitle: r.item.active ? 'Active event' : 'Past event',
+            path: `/events?tab=${r.item.active ? 'active' : 'past'}`,
+            icon: IoCalendarOutline,
+            color: 'green',
+          }))
       );
     }
 
-    // Search codes
-    if (codes.length > 0) {
-      const codeFuse = new Fuse(codes, {
-        keys: ['code'],
-        threshold: 0.25,
-      });
-      const codeResults = codeFuse.search(debouncedQuery).slice(0, 4);
+    if (fuseIndices.codes) {
       results.push(
-        ...codeResults.map((r) => ({
-          type: 'code' as const,
-          title: r.item.code,
-          subtitle: isCodeActive(r.item) ? 'Active code' : 'Expired code',
-          path: '/codes',
-          icon: IoFlashOutline,
-          color: 'cyan',
-        }))
+        ...fuseIndices.codes
+          .search(q)
+          .slice(0, 4)
+          .map((r) => ({
+            type: 'code' as const,
+            title: r.item.code,
+            subtitle: isCodeActive(r.item) ? 'Active code' : 'Expired code',
+            path: '/codes',
+            icon: IoFlashOutline,
+            color: 'cyan',
+          }))
       );
     }
 
-    // Search useful links
-    if (usefulLinks.length > 0) {
-      const linksFuse = new Fuse(usefulLinks, {
-        keys: ['application', 'name', 'description', 'link'],
-        threshold: 0.3,
-      });
-      const linkResults = linksFuse.search(debouncedQuery).slice(0, 4);
+    if (fuseIndices.usefulLinks) {
       results.push(
-        ...linkResults.map((r) => ({
-          type: 'useful-link' as const,
-          title: r.item.name,
-          subtitle: r.item.application,
-          path: '/useful-links',
-          icon: IoDocumentTextOutline,
-          color: 'indigo',
-        }))
+        ...fuseIndices.usefulLinks
+          .search(q)
+          .slice(0, 4)
+          .map((r) => ({
+            type: 'useful-link' as const,
+            title: r.item.name,
+            subtitle: r.item.application,
+            path: '/useful-links',
+            icon: IoDocumentTextOutline,
+            color: 'indigo',
+          }))
       );
     }
 
-    // Search tier lists
-    if (tierLists.length > 0) {
-      const tierListFuse = new Fuse(tierLists, {
-        keys: [
-          'name',
-          'author',
-          'content_type',
-          'description',
-          'entries.character_name',
-        ],
-        threshold: 0.3,
-      });
-      const tierListResults = tierListFuse.search(debouncedQuery).slice(0, 3);
+    if (fuseIndices.tierLists) {
       results.push(
-        ...tierListResults.map((r) => ({
-          type: 'tier-list' as const,
-          title: r.item.name,
-          subtitle: `${normalizeContentType(r.item.content_type, 'All')} • ${r.item.author}`,
-          path: '/tier-list',
-          icon: IoDocumentTextOutline,
-          color: 'pink',
-        }))
+        ...fuseIndices.tierLists
+          .search(q)
+          .slice(0, 3)
+          .map((r) => ({
+            type: 'tier-list' as const,
+            title: r.item.name,
+            subtitle: `${normalizeContentType(r.item.content_type, 'All')} • ${r.item.author}`,
+            path: '/tier-list',
+            icon: IoDocumentTextOutline,
+            color: 'pink',
+          }))
       );
     }
 
     return results.slice(0, 18);
-  }, [
-    debouncedQuery,
-    characters,
-    characterNameCounts,
-    artifacts,
-    gear,
-    howlkins,
-    resources,
-    statusEffects,
-    subclasses,
-    wyrmspells,
-    noblePhantasms,
-    teams,
-    codes,
-    events,
-    usefulLinks,
-    tierLists,
-  ]);
+  }, [debouncedQuery, fuseIndices, characterNameCounts]);
 
   useEffect(() => {
     queueMicrotask(() => {

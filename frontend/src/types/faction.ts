@@ -1,10 +1,16 @@
-export type FactionName =
-  | 'Elemental Echo'
-  | 'Wild Spirit'
-  | 'Arcane Wisdom'
-  | 'Sanctum Glory'
-  | 'Otherworld Return'
-  | 'Illusion Veil';
+// FACTION_NAMES is the canonical list of all factions.
+// FactionName is derived from it so that adding a new faction here
+// automatically flags every Record<FactionName, …> that is now incomplete.
+export const FACTION_NAMES = [
+  'Elemental Echo',
+  'Wild Spirit',
+  'Arcane Wisdom',
+  'Sanctum Glory',
+  'Otherworld Return',
+  'Illusion Veil',
+] as const;
+
+export type FactionName = (typeof FACTION_NAMES)[number];
 
 export type Wyrm =
   | 'Fire Whelp'

@@ -20,22 +20,19 @@ import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
 import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
 import type { Team } from '@/features/teams/types';
 import {
+  countActiveFilters,
+  getPageSizeStorageKey,
   useCharacterResolution,
+  useCharacters,
+  useFilters,
   useGradientAccent,
   useIsMobile,
   usePageSize,
-} from '@/hooks';
-import {
-  useCharacters,
+  usePagination,
   useTeams,
-  useWyrmspells,
-} from '@/hooks/use-common-data';
-import {
-  countActiveFilters,
-  useFilters,
   useViewMode,
-} from '@/hooks/use-filters';
-import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
+  useWyrmspells,
+} from '@/hooks';
 import { loadSavedFromStorage, parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
