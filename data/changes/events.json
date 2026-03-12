@@ -1,17 +1,7 @@
 {
   "The Wedding Operation Event!": {
     "added": 1773062958,
-    "changes": [
-      {
-        "timestamp": 1773298186,
-        "fields": {
-          "source": {
-            "old": "Appstore",
-            "new": "App Store"
-          }
-        }
-      }
-    ]
+    "changes": []
   },
   "The Gymnasium Locked-Room Case": {
     "added": 1773062958,
@@ -22,15 +12,6 @@
           "active": {
             "old": true,
             "new": false
-          }
-        }
-      },
-      {
-        "timestamp": 1773319003,
-        "fields": {
-          "source": {
-            "old": "Appstore",
-            "new": "App Store"
           }
         }
       }

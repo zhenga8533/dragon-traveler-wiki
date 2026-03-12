@@ -3,77 +3,70 @@
     "name": "The Wedding Operation Event!",
     "active": true,
     "event_id": "6758127954",
-    "badge": "Special Event",
+    "tag": "Special Event",
     "description": "Date Luminaries for confessions and hidden stories! Limited skins! Join the event, get rewards—enjoy a romantic journey!",
-    "source": "App Store",
     "start_date": "2026-02-12",
     "end_date": null,
-    "last_updated": 1773298186
+    "last_updated": 1773324599
   },
   {
     "name": "The Deadly Rush Event Begins!",
     "active": true,
     "event_id": "6760324638",
-    "badge": "Special Event",
+    "tag": "Special Event",
     "description": "New SSR+ Luminary Crimson Thornblade Jing awakens! Complete Deadly Rush event goals for her \"Crimson Lady\" skin!",
-    "source": "App Store",
     "start_date": "2026-03-12",
     "end_date": null,
-    "last_updated": 1773314962
+    "last_updated": 1773324599
   },
   {
     "name": "The Gymnasium Locked-Room Case",
     "active": false,
     "event_id": "6758127956",
-    "badge": "Special Event",
+    "tag": "Special Event",
     "description": "SSR+ Ironclad Commander Pompey! The Gymnasium Locked-Room Case begins! Join in for the \"Slam Dunk Master\" skin!",
-    "source": "App Store",
     "start_date": "2026-02-26",
     "end_date": "2026-03-12",
-    "last_updated": 1773319003
+    "last_updated": 1773324599
   },
   {
     "name": "The Joyous Union",
     "active": false,
     "event_id": "4",
-    "badge": "Special Event",
+    "tag": "Special Event",
     "description": "During the event, Limited Summon gives you the chance to obtain \"Four Saints - Azure Dragon\"—the SSR+ Warrior Luminary of the \"Otherworld Return\" and \"Arcane Wisdom\" factions!",
-    "source": "Discord",
     "start_date": "2026-02-12",
     "end_date": "2026-02-26",
-    "last_updated": 1773158650
+    "last_updated": 1773324599
   },
   {
     "name": "Sun Goddess Apollo Arrives",
     "active": false,
     "event_id": "3",
-    "badge": "Special Event",
+    "tag": "Special Event",
     "description": "This round features SSR Ex Luminaries: Sun Goddess - Apollo, Goddess of Wisdom - Athena, Goddess of War - Ares, and Sea Goddess - Poseidon",
-    "source": "Discord",
     "start_date": "2026-02-05",
     "end_date": "2026-02-19",
-    "last_updated": 1773070877
+    "last_updated": 1773324599
   },
   {
     "name": "Inkbound Immortal Tales",
     "active": false,
     "event_id": "2",
-    "badge": "Special Event",
+    "tag": "Special Event",
     "description": "During the event, Limited Summon gives you the chance to obtain the Priest of the \"Elemental Echo\" and \"Sanctum Glory\" factions: Lady of the Lake - Vivienne.",
-    "source": "Discord",
     "start_date": "2026-01-29",
     "end_date": "2026-02-12",
-    "last_updated": 1773070877
+    "last_updated": 1773324599
   },
   {
     "name": "The Sanctum Shines with Glory, Crowned with Divinity!",
     "active": false,
     "event_id": "1",
-    "badge": "Special Event",
+    "tag": "Special Event",
     "description": "The brand-new SSR+ quality Luminary \"Archangel - Gabriele\" is about to take the stage! Join the new limited-time event \"Angel Playing House\"!",
-    "source": "Discord",
     "start_date": "2026-01-16",
     "end_date": "2026-01-30",
-    "last_updated": 1773070877
+    "last_updated": 1773324599
   }
 ]
