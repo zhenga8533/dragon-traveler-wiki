@@ -144,6 +144,7 @@ export const STORAGE_KEY = {
   TIER_LIST_MY_SAVED: 'tier-list:mySaved',
   HOME_BANNER: 'home:banner',
   HOME_BANNER_GLOBAL: 'home:bannerGlobal',
+  HOME_BANNER_SLOW_SCROLL: 'home:bannerSlowScroll',
   GRADIENT_PALETTE: 'ui:gradientPalette',
   UI_BANNER_MEDIA_OPACITY: 'ui:bannerMediaOpacity',
   UI_BANNER_OVERLAY_OPACITY: 'ui:bannerOverlayOpacity',

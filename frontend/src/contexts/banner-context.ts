@@ -1,4 +1,12 @@
 import {
+  getIllustrations,
+  type CharacterIllustration,
+} from '@/assets/character';
+import { normalizeKey } from '@/assets/utils';
+import { STORAGE_KEY } from '@/constants/ui';
+import type { Character } from '@/features/characters/types';
+import { useDataFetch } from '@/hooks/use-data-fetch';
+import {
   createContext,
   createElement,
   useEffect,
@@ -6,14 +14,6 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import {
-  getIllustrations,
-  type CharacterIllustration,
-} from '@/assets/character';
-import { normalizeKey } from '@/assets/utils';
-import { STORAGE_KEY } from '@/constants/ui';
-import { useDataFetch } from '@/hooks/use-data-fetch';
-import type { Character } from '@/features/characters/types';
 
 const RANDOM_BANNER_ALL_VALUE = '__random_all__';
 const RANDOM_BANNER_PNG_VALUE = '__random_png__';
@@ -59,6 +59,8 @@ export interface BannerContextValue {
   defaultBannerValue: string;
   showOnAllRoutes: boolean;
   setShowOnAllRoutes: (value: boolean) => void;
+  slowScrollEnabled: boolean;
+  setSlowScrollEnabled: (value: boolean) => void;
 }
 
 export const BannerContext = createContext<BannerContextValue>({
@@ -71,6 +73,8 @@ export const BannerContext = createContext<BannerContextValue>({
   defaultBannerValue: DEFAULT_BANNER_OPTION.value,
   showOnAllRoutes: false,
   setShowOnAllRoutes: () => {},
+  slowScrollEnabled: false,
+  setSlowScrollEnabled: () => {},
 });
 
 export function BannerProvider({ children }: { children: ReactNode }) {
@@ -83,6 +87,13 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     if (typeof window === 'undefined') return false;
     return (
       window.localStorage.getItem(STORAGE_KEY.HOME_BANNER_GLOBAL) === 'true'
+    );
+  });
+  const [slowScrollEnabled, setSlowScrollEnabled] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return (
+      window.localStorage.getItem(STORAGE_KEY.HOME_BANNER_SLOW_SCROLL) ===
+      'true'
     );
   });
 
@@ -216,6 +227,14 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     );
   }, [showOnAllRoutes]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem(
+      STORAGE_KEY.HOME_BANNER_SLOW_SCROLL,
+      String(slowScrollEnabled)
+    );
+  }, [slowScrollEnabled]);
+
   const selectedBanner =
     selectedBannerValue === null || !bannerOptionsReady
       ? null
@@ -257,6 +276,8 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       defaultBannerValue: DEFAULT_BANNER_OPTION.value,
       showOnAllRoutes,
       setShowOnAllRoutes,
+      slowScrollEnabled,
+      setSlowScrollEnabled,
     }),
     [
       selectedBanner,
@@ -264,6 +285,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       bannerSelectData,
       bannerPreference,
       showOnAllRoutes,
+      slowScrollEnabled,
     ]
   );
 

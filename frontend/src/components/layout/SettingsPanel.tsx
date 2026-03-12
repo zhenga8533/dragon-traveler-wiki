@@ -1,3 +1,13 @@
+import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
+import { normalizeContentType } from '@/constants/content-types';
+import { Z_INDEX } from '@/constants/ui';
+import type { GradientPalette } from '@/contexts';
+import {
+  BannerContext,
+  TierListReferenceContext,
+  UiOpacityContext,
+} from '@/contexts';
+import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
 import {
   ActionIcon,
   Badge,
@@ -15,19 +25,9 @@ import {
   Tooltip,
   useMantineColorScheme,
 } from '@mantine/core';
-import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
-import { normalizeContentType } from '@/constants/content-types';
-import { Z_INDEX } from '@/constants/ui';
-import type { GradientPalette } from '@/contexts';
-import {
-  BannerContext,
-  TierListReferenceContext,
-  UiOpacityContext,
-} from '@/contexts';
-import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
 
 export default function SettingsPanel() {
   const [opened, { toggle: toggleOpened, close: closeOpened }] =
@@ -49,6 +49,8 @@ export default function SettingsPanel() {
     defaultBannerValue,
     showOnAllRoutes,
     setShowOnAllRoutes,
+    slowScrollEnabled,
+    setSlowScrollEnabled,
   } = useContext(BannerContext);
   const {
     bannerMediaOpacity,
@@ -169,7 +171,9 @@ export default function SettingsPanel() {
         p="sm"
         radius="md"
         withBorder
-        style={isBannerDropdownOpen ? { position: 'relative', zIndex: 1 } : undefined}
+        style={
+          isBannerDropdownOpen ? { position: 'relative', zIndex: 1 } : undefined
+        }
       >
         <Group justify="space-between" align="center" mb={6}>
           <Text size="sm" fw={600}>
@@ -222,6 +226,20 @@ export default function SettingsPanel() {
           checked={showOnAllRoutes}
           onChange={(event) => setShowOnAllRoutes(event.currentTarget.checked)}
         />
+        <Switch
+          mt="xs"
+          size={isMobile ? 'sm' : 'xs'}
+          color={accent.primary}
+          label="Slow scroll banner with page"
+          checked={slowScrollEnabled}
+          onChange={(event) =>
+            setSlowScrollEnabled(event.currentTarget.checked)
+          }
+        />
+        <Text size="xs" c="dimmed" mt={4}>
+          Keeps the banner visible on long pages by letting it drift with the
+          scroll instead of ending at the hero height.
+        </Text>
       </Paper>
 
       <Paper
