@@ -241,59 +241,62 @@ function EventFilter({
       search={filters.search}
       onSearchChange={(value) => onChange({ ...filters, search: value })}
       searchPlaceholder="Search by name, tag, or character..."
-      beforeGroups={
-        <FilterSection label="Date Range">
-          <DatePickerInput
-            type="range"
-            value={filters.dateRange}
-            onChange={(value) =>
-              onChange({
-                ...filters,
-                dateRange: value as [Date | null, Date | null],
-              })
-            }
-            placeholder="Pick date range"
-            clearable
-            size={chipSize}
-            valueFormat="MMM D, YYYY"
-            style={{ minWidth: 220 }}
-          />
-        </FilterSection>
-      }
       afterGroups={
-        characterOptions.length > 0 ? (
-          <FilterSection label="Character">
-            <FilterMultiSelect
-              data={characterOptions}
-              value={filters.characters}
-              onChange={(value) => onChange({ ...filters, characters: value })}
-              placeholder="Filter by character..."
-              renderOption={({ option }) => {
-                const portrait = getPortrait(option.label);
-                return (
-                  <Group gap="xs" align="center">
-                    {portrait ? (
-                      <Image
-                        src={portrait}
-                        alt=""
-                        w={20}
-                        h={20}
-                        fit="contain"
-                        radius="sm"
-                      />
-                    ) : null}
-                    <Text size="sm">{option.label}</Text>
-                  </Group>
-                );
-              }}
-              searchable={characterOptions.length >= 8}
+        <>
+          {characterOptions.length > 0 ? (
+            <FilterSection label="Character">
+              <FilterMultiSelect
+                data={characterOptions}
+                value={filters.characters}
+                onChange={(value) =>
+                  onChange({ ...filters, characters: value })
+                }
+                placeholder="Filter by character..."
+                renderOption={({ option }) => {
+                  const portrait = getPortrait(option.label);
+                  return (
+                    <Group gap="xs" align="center">
+                      {portrait ? (
+                        <Image
+                          src={portrait}
+                          alt=""
+                          w={20}
+                          h={20}
+                          fit="contain"
+                          radius="sm"
+                        />
+                      ) : null}
+                      <Text size="sm">{option.label}</Text>
+                    </Group>
+                  );
+                }}
+                searchable={characterOptions.length >= 8}
+                clearable
+                size={chipSize}
+                style={{ flex: 1, minWidth: 180 }}
+                comboboxProps={{ withinPortal: !isMobile }}
+              />
+            </FilterSection>
+          ) : null}
+
+          <FilterSection label="Date Range">
+            <DatePickerInput
+              type="range"
+              value={filters.dateRange}
+              onChange={(value) =>
+                onChange({
+                  ...filters,
+                  dateRange: value as [Date | null, Date | null],
+                })
+              }
+              placeholder="Pick date range"
               clearable
               size={chipSize}
-              style={{ flex: 1, minWidth: 180 }}
-              comboboxProps={{ withinPortal: !isMobile }}
+              valueFormat="MMM D, YYYY"
+              style={{ minWidth: 220 }}
             />
           </FilterSection>
-        ) : null
+        </>
       }
     />
   );
