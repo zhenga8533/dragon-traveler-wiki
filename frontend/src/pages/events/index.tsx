@@ -51,7 +51,7 @@ import {
 } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { useEffect, useMemo } from 'react';
-import { IoInformationCircleOutline } from 'react-icons/io5';
+import { IoCalendarOutline, IoInformationCircleOutline } from 'react-icons/io5';
 
 const EVENTS_PER_PAGE = 12;
 const EVENT_PAGE_SIZE_OPTIONS: Record<ViewMode, readonly number[]> = {
@@ -492,7 +492,6 @@ function EventListSkeleton() {
 
 export default function Events() {
   const { accent } = useGradientAccent();
-  const isMobile = useIsMobile();
   const {
     data: events,
     loading,

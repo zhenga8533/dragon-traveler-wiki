@@ -1,3 +1,37 @@
+import { getArtifactIcon, getTreasureIcon } from '@/assets/artifacts';
+import ChangeHistory from '@/components/common/ChangeHistory';
+import DetailPageNavigation from '@/components/common/DetailPageNavigation';
+import LastUpdated from '@/components/common/LastUpdated';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
+import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import EntityNotFound from '@/components/ui/EntityNotFound';
+import RichText from '@/components/ui/RichText';
+import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
+import { getLoreGlassStyles } from '@/constants/glass';
+import {
+  DETAIL_HERO_WRAPPER_STYLES,
+  getCardHoverProps,
+  getDetailHeroGradient,
+  getHeroIconBoxStyles,
+} from '@/constants/styles';
+import ClassTag from '@/features/characters/components/ClassTag';
+import FactionTag from '@/features/characters/components/FactionTag';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import type {
+  Artifact,
+  ArtifactEffect,
+  ArtifactTreasure,
+} from '@/features/wiki/types/artifact';
+import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
+import type { ChangesFile } from '@/types/changes';
+import type { Faction } from '@/types/faction';
+import {
+  findEntityByParam,
+  shouldRedirectToEntitySlug,
+  toEntitySlug,
+} from '@/utils/entity-slug';
 import {
   Badge,
   Box,
@@ -13,40 +47,6 @@ import {
 } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getArtifactIcon, getTreasureIcon } from '@/assets/artifacts';
-import ChangeHistory from '@/components/common/ChangeHistory';
-import ClassTag from '@/features/characters/components/ClassTag';
-import DetailPageNavigation from '@/components/common/DetailPageNavigation';
-import EntityNotFound from '@/components/ui/EntityNotFound';
-import FactionTag from '@/features/characters/components/FactionTag';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
-import LastUpdated from '@/components/common/LastUpdated';
-import QualityIcon from '@/features/characters/components/QualityIcon';
-import RichText from '@/components/ui/RichText';
-import Breadcrumbs from '@/components/layout/Breadcrumbs';
-import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
-import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
-import { getLoreGlassStyles } from '@/constants/glass';
-import {
-  DETAIL_HERO_WRAPPER_STYLES,
-  getCardHoverProps,
-  getDetailHeroGradient,
-  getHeroIconBoxStyles,
-} from '@/constants/styles';
-import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
-import type {
-  Artifact,
-  ArtifactEffect,
-  ArtifactTreasure,
-} from '@/features/wiki/types/artifact';
-import type { ChangesFile } from '@/types/changes';
-import type { Faction } from '@/types/faction';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
-import {
-  findEntityByParam,
-  shouldRedirectToEntitySlug,
-  toEntitySlug,
-} from '@/utils/entity-slug';
 
 function EffectTable({
   effects,
@@ -263,7 +263,8 @@ export default function ArtifactPage() {
                   <Title
                     order={1}
                     c={isDark ? 'white' : 'dark'}
-                    style={{ lineHeight: 1.2 }}
+                    fz={{ base: '1.5rem', sm: '2.125rem' }}
+                    style={{ lineHeight: 1.2, wordBreak: 'break-word' }}
                   >
                     {artifact.name}
                   </Title>

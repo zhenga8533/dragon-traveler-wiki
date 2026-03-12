@@ -301,8 +301,8 @@ export default function Wyrmspells() {
                         )}
                         <Stack gap={4} style={{ flex: 1 }}>
                           <Group gap="sm" wrap="wrap">
-                            <QualityIcon quality={spell.quality} />
                             <Text fw={600}>{spell.name}</Text>
+                            <QualityIcon quality={spell.quality} />
                           </Group>
                           <Group gap="sm" wrap="wrap">
                             <Badge

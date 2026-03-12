@@ -435,8 +435,8 @@ export default function Howlkins() {
                               )}
                               <Stack gap={2} style={{ flex: 1 }}>
                                 <Group gap="sm" wrap="wrap">
-                                  <QualityIcon quality={howlkin.quality} />
                                   <Text fw={600}>{howlkin.name}</Text>
+                                  <QualityIcon quality={howlkin.quality} />
                                 </Group>
                                 <Stack gap={2}>
                                   {(howlkin.passive_effects ?? []).map(

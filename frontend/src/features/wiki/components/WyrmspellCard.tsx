@@ -1,13 +1,10 @@
-import { Badge, Group, Image, Paper, Stack, Text } from '@mantine/core';
 import { getWyrmspellIcon } from '@/assets/wyrmspell';
-import {
-  WYRMSPELL_TYPE_COLOR,
-  getStableTagColor,
-} from '@/constants/colors';
+import { WYRMSPELL_TYPE_COLOR, getStableTagColor } from '@/constants/colors';
 import { getCardHoverProps } from '@/constants/styles';
-import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
 import FactionTag from '@/features/characters/components/FactionTag';
 import QualityIcon from '@/features/characters/components/QualityIcon';
+import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
+import { Badge, Group, Image, Paper, Stack, Text } from '@mantine/core';
 
 interface WyrmspellCardProps {
   name: string;
@@ -39,10 +36,10 @@ export default function WyrmspellCard({
           />
         )}
         <Group gap={4} justify="center" align="center">
-          {quality && <QualityIcon quality={quality} />}
           <Text size="sm" fw={600} ta="center">
             {name}
           </Text>
+          {quality && <QualityIcon quality={quality} />}
         </Group>
         <Group gap={4} justify="center">
           <Badge

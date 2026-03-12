@@ -1,3 +1,31 @@
+import { getArtifactIcon } from '@/assets/artifacts';
+import EntityFilter from '@/components/common/EntityFilter';
+import FilteredListShell from '@/components/layout/FilteredListShell';
+import ListPageHeader from '@/components/layout/ListPageHeader';
+import ListPageShell from '@/components/layout/ListPageShell';
+import SuggestModal, {
+  type ArrayFieldDef,
+  type FieldDef,
+} from '@/components/tools/SuggestModal';
+import SortableTh from '@/components/ui/SortableTh';
+import { QUALITY_ORDER } from '@/constants/colors';
+import {
+  LINK_BLOCK_RESET_STYLE,
+  getCardHoverProps,
+  getMinWidthStyle,
+} from '@/constants/styles';
+import { STORAGE_KEY } from '@/constants/ui';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import type { Artifact } from '@/features/wiki/types/artifact';
+import {
+  applyDir,
+  useDataFetch,
+  useFilteredPageData,
+  useGradientAccent,
+} from '@/hooks';
+import { getLatestTimestamp } from '@/utils';
+import { toEntitySlug } from '@/utils/entity-slug';
 import {
   Badge,
   Container,
@@ -12,34 +40,6 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getArtifactIcon } from '@/assets/artifacts';
-import EntityFilter from '@/components/common/EntityFilter';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
-import QualityIcon from '@/features/characters/components/QualityIcon';
-import SortableTh from '@/components/ui/SortableTh';
-import FilteredListShell from '@/components/layout/FilteredListShell';
-import ListPageHeader from '@/components/layout/ListPageHeader';
-import ListPageShell from '@/components/layout/ListPageShell';
-import SuggestModal, {
-  type ArrayFieldDef,
-  type FieldDef,
-} from '@/components/tools/SuggestModal';
-import { QUALITY_ORDER } from '@/constants/colors';
-import {
-  LINK_BLOCK_RESET_STYLE,
-  getCardHoverProps,
-  getMinWidthStyle,
-} from '@/constants/styles';
-import { STORAGE_KEY } from '@/constants/ui';
-import {
-  applyDir,
-  useDataFetch,
-  useFilteredPageData,
-  useGradientAccent,
-} from '@/hooks';
-import type { Artifact } from '@/features/wiki/types/artifact';
-import { getLatestTimestamp } from '@/utils';
-import { toEntitySlug } from '@/utils/entity-slug';
 
 const ARTIFACT_FIELDS: FieldDef[] = [
   {
@@ -270,10 +270,10 @@ export default function Artifacts() {
                         )}
                         <Stack gap={4} style={{ flex: 1 }}>
                           <Group gap="sm">
-                            <QualityIcon quality={artifact.quality} />
                             <Text fw={600} size="lg" c={`${accent.primary}.7`}>
                               {artifact.name}
                             </Text>
+                            <QualityIcon quality={artifact.quality} />
                           </Group>
                           <Group gap="xs">
                             <Badge

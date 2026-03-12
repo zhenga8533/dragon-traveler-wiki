@@ -28,6 +28,7 @@ import {
   Badge,
   Container,
   Group,
+  Image,
   Paper,
   ScrollArea,
   SimpleGrid,

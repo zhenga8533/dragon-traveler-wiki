@@ -1,3 +1,44 @@
+import { getGearIcon } from '@/assets/gear';
+import ChangeHistory from '@/components/common/ChangeHistory';
+import DetailPageNavigation from '@/components/common/DetailPageNavigation';
+import LastUpdated from '@/components/common/LastUpdated';
+import Breadcrumbs from '@/components/layout/Breadcrumbs';
+import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import EntityNotFound from '@/components/ui/EntityNotFound';
+import {
+  GEAR_TYPE_ORDER,
+  QUALITY_COLOR,
+  QUALITY_ORDER,
+} from '@/constants/colors';
+import { getLoreGlassStyles } from '@/constants/glass';
+import {
+  DETAIL_HERO_WRAPPER_STYLES,
+  getCardHoverProps,
+  getDetailHeroGradient,
+} from '@/constants/styles';
+import { IMAGE_SIZE } from '@/constants/ui';
+import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
+import QualityIcon from '@/features/characters/components/QualityIcon';
+import type { Character } from '@/features/characters/types';
+import {
+  buildCharacterNameCounts,
+  getCharacterBaseSlug,
+} from '@/features/characters/utils/character-route';
+import GearTypeTag from '@/features/wiki/components/GearTypeTag';
+import type { Gear, GearSet } from '@/features/wiki/types/gear';
+import {
+  useDarkMode,
+  useDataFetch,
+  useGradientAccent,
+  useMobileTooltip,
+} from '@/hooks';
+import type { ChangesFile } from '@/types/changes';
+import type { Quality } from '@/types/quality';
+import {
+  findEntityByParam,
+  shouldRedirectToEntitySlug,
+  toEntitySlug,
+} from '@/utils/entity-slug';
 import {
   Badge,
   Box,
@@ -12,47 +53,6 @@ import {
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-import { getGearIcon } from '@/assets/gear';
-import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import ChangeHistory from '@/components/common/ChangeHistory';
-import DetailPageNavigation from '@/components/common/DetailPageNavigation';
-import EntityNotFound from '@/components/ui/EntityNotFound';
-import GearTypeTag from '@/features/wiki/components/GearTypeTag';
-import LastUpdated from '@/components/common/LastUpdated';
-import QualityIcon from '@/features/characters/components/QualityIcon';
-import Breadcrumbs from '@/components/layout/Breadcrumbs';
-import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
-import {
-  GEAR_TYPE_ORDER,
-  QUALITY_COLOR,
-  QUALITY_ORDER,
-} from '@/constants/colors';
-import { getLoreGlassStyles } from '@/constants/glass';
-import {
-  DETAIL_HERO_WRAPPER_STYLES,
-  getCardHoverProps,
-  getDetailHeroGradient,
-} from '@/constants/styles';
-import { IMAGE_SIZE } from '@/constants/ui';
-import {
-  useDarkMode,
-  useDataFetch,
-  useGradientAccent,
-  useMobileTooltip,
-} from '@/hooks';
-import type { ChangesFile } from '@/types/changes';
-import type { Character } from '@/features/characters/types';
-import type { Gear, GearSet } from '@/features/wiki/types/gear';
-import type { Quality } from '@/types/quality';
-import {
-  buildCharacterNameCounts,
-  getCharacterBaseSlug,
-} from '@/features/characters/utils/character-route';
-import {
-  findEntityByParam,
-  shouldRedirectToEntitySlug,
-  toEntitySlug,
-} from '@/utils/entity-slug';
 
 const SSR_AND_ABOVE: Quality[] = ['UR', 'SSR EX', 'SSR+', 'SSR'];
 
@@ -249,7 +249,12 @@ export default function GearSetPage() {
 
             <Stack gap={6}>
               <Group gap="sm" align="center" wrap="wrap">
-                <Title order={1} c={isDark ? 'white' : 'dark'}>
+                <Title
+                  order={1}
+                  c={isDark ? 'white' : 'dark'}
+                  fz={{ base: '1.5rem', sm: '2.125rem' }}
+                  style={{ wordBreak: 'break-word' }}
+                >
                   {decodedSetName} Set
                 </Title>
                 <Badge variant="light" color={accent.secondary} size="lg">
@@ -397,7 +402,10 @@ export default function GearSetPage() {
                         </Text>
                         <Group gap="xs" wrap="wrap">
                           <GearTypeTag type={item.type} />
-                          <QualityIcon quality={item.quality} size={IMAGE_SIZE.ICON_LG} />
+                          <QualityIcon
+                            quality={item.quality}
+                            size={IMAGE_SIZE.ICON_LG}
+                          />
                         </Group>
                         <Text size="sm" c="dimmed" fs="italic" lineClamp={2}>
                           {item.lore}
