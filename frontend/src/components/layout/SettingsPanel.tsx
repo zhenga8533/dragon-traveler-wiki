@@ -236,10 +236,6 @@ export default function SettingsPanel() {
             setSlowScrollEnabled(event.currentTarget.checked)
           }
         />
-        <Text size="xs" c="dimmed" mt={4}>
-          Keeps the banner visible on long pages by letting it drift with the
-          scroll instead of ending at the hero height.
-        </Text>
       </Paper>
 
       <Paper
