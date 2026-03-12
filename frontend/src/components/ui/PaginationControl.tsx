@@ -1,7 +1,7 @@
+import { useIsMobile } from '@/hooks';
 import { ActionIcon, Group, Paper, Select, Stack, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
-import { useIsMobile } from '@/hooks';
 
 function LabelText({ children }: { children: ReactNode }) {
   return (
@@ -34,8 +34,10 @@ export default function PaginationControl({
   onPageSizeChange,
 }: PaginationControlProps) {
   const isMobile = useIsMobile();
+  const hasItems = totalItems === undefined ? totalPages > 0 : totalItems > 0;
   const hasPagination = totalPages > 1;
   const hasPageSizeSelector =
+    hasItems &&
     pageSize !== undefined &&
     pageSizeOptions !== undefined &&
     pageSizeOptions.length > 1 &&
@@ -69,7 +71,7 @@ export default function PaginationControl({
       ? 'Current page'
       : undefined;
 
-  if (!hasPagination && !hasPageSizeSelector) return null;
+  if (!hasItems || (!hasPagination && !hasPageSizeSelector)) return null;
 
   const commonSelectProps = {
     allowDeselect: false,
