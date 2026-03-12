@@ -17,12 +17,18 @@ export default function MobileBottomDrawer({
       position="bottom"
       padding="md"
       radius="md"
-      size="85%"
+      size="90dvh"
       closeOnEscape
       withCloseButton
       styles={{
+        content: {
+          display: 'flex',
+          flexDirection: 'column',
+          maxHeight: '90dvh',
+        },
         body: {
-          maxHeight: '75dvh',
+          flex: 1,
+          minHeight: 0,
           overflowY: 'auto',
           paddingBottom:
             'max(var(--mantine-spacing-lg), env(safe-area-inset-bottom))',

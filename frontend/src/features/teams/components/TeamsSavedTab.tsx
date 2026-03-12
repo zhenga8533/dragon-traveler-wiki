@@ -1,7 +1,6 @@
 import {
 	Badge,
 	Button,
-	Collapse,
 	Divider,
 	Group,
 	Image,
@@ -16,8 +15,6 @@ import { IoCreate } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { FACTION_WYRM_MAP } from '@/assets/wyrms';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
 import FactionTag from '@/features/characters/components/FactionTag';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import {
@@ -44,12 +41,7 @@ interface TeamsSavedTabProps {
 	characterByIdentity: Map<string, Character>;
 	characterNameCounts: Map<string, number>;
 	viewMode: string;
-	filterOpen: boolean;
-	entityFilterGroups: ChipFilterGroup[];
-	viewFilters: Record<string, string[]>;
 	search: string;
-	onFilterChange: (key: string, values: string[]) => void;
-	onSearchChange: (value: string) => void;
 	onClearFilters: () => void;
 	onOpenFilters: () => void;
 	onRequestEdit: (team: Team) => void;
@@ -64,12 +56,7 @@ export default function TeamsSavedTab({
 	characterByIdentity,
 	characterNameCounts,
 	viewMode,
-	filterOpen,
-	entityFilterGroups,
-	viewFilters,
 	search,
-	onFilterChange,
-	onSearchChange,
 	onClearFilters,
 	onOpenFilters,
 	onRequestEdit,
@@ -78,22 +65,6 @@ export default function TeamsSavedTab({
 }: TeamsSavedTabProps) {
 	const navigate = useNavigate();
 	const { accent } = useGradientAccent();
-
-	const filterPanel = (
-		<Collapse in={filterOpen}>
-			<Paper p="sm" radius="md" withBorder bg="var(--mantine-color-body)">
-				<EntityFilter
-					groups={entityFilterGroups}
-					selected={viewFilters}
-					onChange={(key, values) => onFilterChange(key, values)}
-					onClear={onClearFilters}
-					search={search}
-					onSearchChange={onSearchChange}
-					searchPlaceholder="Search saved teams..."
-				/>
-			</Paper>
-		</Collapse>
-	);
 
 	if (savedTeams.length === 0) {
 		return (
@@ -122,9 +93,7 @@ export default function TeamsSavedTab({
 	if (hasNoFilteredResults) {
 		return (
 			<>
-				{filterPanel}
-
-				<NoResultsSuggestions
+		<NoResultsSuggestions
 					title={search ? 'No saved teams found' : 'No matching saved teams'}
 					message={
 						search
@@ -141,9 +110,7 @@ export default function TeamsSavedTab({
 	if (viewMode === 'grid') {
 		return (
 			<>
-				{filterPanel}
-
-				<SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+		<SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
 					{filteredSavedTeams.map((team) => (
 						<TeamCard
 							key={team.name}
@@ -172,9 +139,7 @@ export default function TeamsSavedTab({
 
 	return (
 		<>
-			{filterPanel}
-
-			<ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+<ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
 				<Table striped highlightOnHover style={getMinWidthStyle(640)}>
 					<Table.Thead>
 						<Table.Tr>

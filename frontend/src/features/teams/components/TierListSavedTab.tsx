@@ -1,6 +1,5 @@
 import {
 	Button,
-	Collapse,
 	Paper,
 	ScrollArea,
 	Stack,
@@ -9,8 +8,6 @@ import {
 } from '@mantine/core';
 import { IoCreate } from 'react-icons/io5';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import { useEntityTabParam, useGradientAccent, useIsMobile } from '@/hooks';
 import type { Character } from '@/features/characters/types';
@@ -25,12 +22,7 @@ interface TierListSavedTabProps {
 	) => Character | null | undefined;
 	characterNameCounts: Map<string, number>;
 	viewMode: string;
-	filterOpen: boolean;
-	entityFilterGroups: ChipFilterGroup[];
-	viewFilters: Record<string, string[]>;
 	search: string;
-	onFilterChange: (key: string, values: string[]) => void;
-	onSearchChange: (value: string) => void;
 	onClearFilters: () => void;
 	onOpenFilters: () => void;
 	onRequestEdit: (tierList: TierListType) => void;
@@ -48,12 +40,7 @@ export default function TierListSavedTab({
 	resolveTierEntryCharacter,
 	characterNameCounts,
 	viewMode,
-	filterOpen,
-	entityFilterGroups,
-	viewFilters,
 	search,
-	onFilterChange,
-	onSearchChange,
 	onClearFilters,
 	onOpenFilters,
 	onRequestEdit,
@@ -69,22 +56,6 @@ export default function TierListSavedTab({
 	const [activeValue, handleSelectTierList] = useEntityTabParam(
 		'saved-list',
 		visibleSavedTierLists
-	);
-
-	const filterPanel = (
-		<Collapse in={filterOpen}>
-			<Paper p="sm" radius="md" withBorder bg="var(--mantine-color-body)">
-				<EntityFilter
-					groups={entityFilterGroups}
-					selected={viewFilters}
-					onChange={onFilterChange}
-					onClear={onClearFilters}
-					search={search}
-					onSearchChange={onSearchChange}
-					searchPlaceholder="Search saved tier lists..."
-				/>
-			</Paper>
-		</Collapse>
 	);
 
 	if (savedTierLists.length === 0) {
@@ -113,9 +84,7 @@ export default function TierListSavedTab({
 	if (visibleSavedTierLists.length === 0) {
 		return (
 			<>
-				{filterPanel}
-
-				<NoResultsSuggestions
+		<NoResultsSuggestions
 					title={
 						search
 							? 'No saved tier lists found'
@@ -135,9 +104,7 @@ export default function TierListSavedTab({
 
 	return (
 		<>
-			{filterPanel}
-
-			<Tabs value={activeValue} onChange={handleSelectTierList}>
+<Tabs value={activeValue} onChange={handleSelectTierList}>
 				<ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
 					<Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
 						{visibleSavedTierLists.map((tl) => (

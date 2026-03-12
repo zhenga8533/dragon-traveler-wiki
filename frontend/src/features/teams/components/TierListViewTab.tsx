@@ -1,8 +1,6 @@
 import {
 	Badge,
-	Collapse,
 	Group,
-	Paper,
 	ScrollArea,
 	SimpleGrid,
 	Stack,
@@ -17,12 +15,9 @@ import ChangeHistory from '@/components/common/ChangeHistory';
 import ClassTag from '@/features/characters/components/ClassTag';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
 import FactionTag from '@/features/characters/components/FactionTag';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import QualityIcon from '@/features/characters/components/QualityIcon';
-import { getCardHoverProps } from '@/constants/styles';
 import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '@/constants/ui';
 import { useEntityTabParam, useGradientAccent, useIsMobile } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
@@ -44,12 +39,6 @@ interface TierListViewTabProps {
 	) => Character | null | undefined;
 	characterNameCounts: Map<string, number>;
 	viewMode: string;
-	filterOpen: boolean;
-	entityFilterGroups: ChipFilterGroup[];
-	viewFilters: Record<string, string[]>;
-	search: string;
-	onFilterChange: (key: string, values: string[]) => void;
-	onSearchChange: (value: string) => void;
 	onClearFilters: () => void;
 	onOpenFilters: () => void;
 	tierListChanges: ChangesFile;
@@ -67,12 +56,6 @@ export default function TierListViewTab({
 	resolveTierEntryCharacter,
 	characterNameCounts,
 	viewMode,
-	filterOpen,
-	entityFilterGroups,
-	viewFilters,
-	search,
-	onFilterChange,
-	onSearchChange,
 	onClearFilters,
 	onOpenFilters,
 	tierListChanges,
@@ -92,26 +75,6 @@ export default function TierListViewTab({
 
 	return (
 		<>
-			<Collapse in={filterOpen}>
-				<Paper
-					p="sm"
-					radius="md"
-					withBorder
-					{...getCardHoverProps()}
-					bg="var(--mantine-color-body)"
-				>
-					<EntityFilter
-						groups={entityFilterGroups}
-						selected={viewFilters}
-						onChange={onFilterChange}
-						onClear={onClearFilters}
-						search={search}
-						onSearchChange={onSearchChange}
-						searchPlaceholder="Search tier lists..."
-					/>
-				</Paper>
-			</Collapse>
-
 			{visibleTierLists.length === 0 && (
 				<NoResultsSuggestions
 					title="No tier lists found"

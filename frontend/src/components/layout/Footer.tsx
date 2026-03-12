@@ -1,3 +1,9 @@
+import { GITHUB_REPO_URL } from '@/constants/github';
+import { getGlassStyles } from '@/constants/glass';
+import { ICON_TEXT_FLEX_STYLE } from '@/constants/styles';
+import { IMAGE_SIZE } from '@/constants/ui';
+import { UiOpacityContext } from '@/contexts';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   Anchor,
   Box,
@@ -15,12 +21,6 @@ import {
   IoLogoGithub,
   IoWarning,
 } from 'react-icons/io5';
-import { GITHUB_REPO_URL } from '@/constants/github';
-import { IMAGE_SIZE } from '@/constants/ui';
-import { getGlassStyles } from '@/constants/glass';
-import { ICON_TEXT_FLEX_STYLE } from '@/constants/styles';
-import { UiOpacityContext } from '@/contexts';
-import { useDarkMode, useGradientAccent } from '@/hooks';
 
 const DATA_SOURCE_URL = 'https://www.gamekee.com/lhlr/';
 
@@ -78,7 +78,11 @@ export default function Footer() {
                 size="sm"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={ICON_TEXT_FLEX_STYLE}
+                style={{
+                  ...ICON_TEXT_FLEX_STYLE,
+                  minHeight: 44,
+                  padding: '0 6px',
+                }}
               >
                 {link.icon}
                 <Text span fw={500}>

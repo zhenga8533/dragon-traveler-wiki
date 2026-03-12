@@ -1,3 +1,7 @@
+/* ==============================================
+   PALETTE: ARCANE (violet — default)
+   Rich violet → deep grape → indigo
+   ============================================== */
 :root {
   --dt-home-hero-stop-mid: 44%;
   --dt-home-hero-stop-accent: 72%;
@@ -5,384 +9,471 @@
   --dt-gradient-fade-edge-end: 92%;
   --dt-gradient-overlay-mid: 58%;
   --dt-gradient-radial-falloff: 76%;
-  --dt-surface-glow-a: rgba(124, 58, 237, 0.3);
-  --dt-surface-glow-b: rgba(236, 72, 153, 0.2);
+  --dt-surface-glow-a: rgba(124, 58, 237, 0.32);
+  --dt-surface-glow-b: rgba(92, 0, 185, 0.22);
   --dt-grid-line: rgba(148, 163, 184, 0.09);
   --dt-focus-ring: rgba(167, 139, 250, 0.48);
   --dt-focus-border: var(--mantine-color-violet-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
-    var(--mantine-color-violet-4) 0%,
-    var(--mantine-color-violet-6) 50%,
-    var(--mantine-color-grape-6) 100%
+    var(--mantine-color-violet-3) 0%,
+    var(--mantine-color-grape-5) 50%,
+    var(--mantine-color-pink-5) 100%
   );
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-violet-9) 0%,
     var(--mantine-color-grape-9) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-pink-9) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-indigo-9) var(--dt-home-hero-stop-accent),
     var(--mantine-color-violet-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-violet-1) 0%,
     var(--mantine-color-grape-2) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-pink-3) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-indigo-2) var(--dt-home-hero-stop-accent),
     var(--mantine-color-violet-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-violet-1);
   --dt-wordmark-color-light: var(--mantine-color-violet-8);
-  --dt-wordmark-shadow-dark: 0 1px 10px rgba(124, 58, 237, 0.35);
-  --dt-wordmark-shadow-light: 0 1px 4px rgba(76, 29, 149, 0.14);
+  --dt-wordmark-shadow-dark: 0 1px 12px rgba(124, 58, 237, 0.42);
+  --dt-wordmark-shadow-light: 0 1px 6px rgba(76, 29, 149, 0.18);
   --dt-link-color-light: var(--mantine-color-violet-7);
   --dt-link-color-dark: var(--mantine-color-violet-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
-    rgba(255, 255, 255, 0.84) 0%,
-    rgba(248, 249, 250, 0.74) 100%
+    rgba(250, 245, 255, 0.86) 0%,
+    rgba(246, 238, 255, 0.76) 100%
   );
   --dt-home-hero-panel-dark: linear-gradient(
     180deg,
-    rgba(14, 16, 21, 0.68) 0%,
-    rgba(14, 16, 21, 0.5) 100%
+    rgba(18, 10, 36, 0.7) 0%,
+    rgba(14, 8, 28, 0.54) 100%
   );
-  --dt-home-hero-card-light: rgba(255, 255, 255, 0.9);
-  --dt-home-hero-card-dark: rgba(20, 21, 23, 0.92);
+  --dt-home-hero-card-light: rgba(250, 245, 255, 0.92);
+  --dt-home-hero-card-dark: rgba(24, 14, 44, 0.92);
 }
 
 [data-mantine-color-scheme='dark'] {
-  --dt-surface-glow-a: rgba(139, 92, 246, 0.28);
-  --dt-surface-glow-b: rgba(236, 72, 153, 0.24);
+  --dt-surface-glow-a: rgba(139, 92, 246, 0.3);
+  --dt-surface-glow-b: rgba(109, 0, 220, 0.24);
   --dt-grid-line: rgba(71, 85, 105, 0.22);
   --dt-focus-ring: rgba(196, 181, 253, 0.5);
 }
 
+/* ==============================================
+   PALETTE: ABYSS (ocean)
+   Deep navy → electric blue → cyan
+   ============================================== */
 [data-gradient-palette='ocean'] {
-  --dt-surface-glow-a: rgba(6, 182, 212, 0.24);
-  --dt-surface-glow-b: rgba(249, 115, 22, 0.2);
-  --dt-focus-ring: rgba(20, 184, 166, 0.42);
-  --dt-focus-border: var(--mantine-color-teal-6);
+  --dt-surface-glow-a: rgba(37, 99, 235, 0.28);
+  --dt-surface-glow-b: rgba(6, 182, 212, 0.2);
+  --dt-focus-ring: rgba(96, 165, 250, 0.46);
+  --dt-focus-border: var(--mantine-color-blue-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
-    var(--mantine-color-cyan-5) 0%,
-    var(--mantine-color-teal-6) 50%,
-    var(--mantine-color-orange-5) 100%
+    var(--mantine-color-blue-3) 0%,
+    var(--mantine-color-blue-6) 50%,
+    var(--mantine-color-cyan-5) 100%
   );
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
-    var(--mantine-color-cyan-9) 0%,
-    var(--mantine-color-teal-9) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-orange-9) var(--dt-home-hero-stop-accent),
-    var(--mantine-color-cyan-9) 100%
+    var(--mantine-color-blue-9) 0%,
+    var(--mantine-color-indigo-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-cyan-9) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-blue-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
-    var(--mantine-color-cyan-1) 0%,
-    var(--mantine-color-teal-1) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-orange-2) var(--dt-home-hero-stop-accent),
-    var(--mantine-color-cyan-1) 100%
+    var(--mantine-color-blue-1) 0%,
+    var(--mantine-color-indigo-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-cyan-1) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-blue-1) 100%
   );
-  --dt-wordmark-color-dark: var(--mantine-color-cyan-0);
-  --dt-wordmark-color-light: var(--mantine-color-teal-8);
-  --dt-wordmark-shadow-dark: 0 1px 10px rgba(6, 182, 212, 0.28);
-  --dt-wordmark-shadow-light: 0 1px 4px rgba(13, 148, 136, 0.12);
-  --dt-link-color-light: var(--mantine-color-teal-7);
-  --dt-link-color-dark: var(--mantine-color-cyan-3);
+  --dt-wordmark-color-dark: var(--mantine-color-blue-0);
+  --dt-wordmark-color-light: var(--mantine-color-blue-8);
+  --dt-wordmark-shadow-dark: 0 1px 12px rgba(37, 99, 235, 0.42);
+  --dt-wordmark-shadow-light: 0 1px 6px rgba(30, 64, 175, 0.18);
+  --dt-link-color-light: var(--mantine-color-blue-7);
+  --dt-link-color-dark: var(--mantine-color-blue-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
-    rgba(240, 253, 250, 0.86) 0%,
-    rgba(236, 254, 255, 0.76) 100%
+    rgba(239, 246, 255, 0.88) 0%,
+    rgba(224, 242, 254, 0.78) 100%
   );
   --dt-home-hero-panel-dark: linear-gradient(
     180deg,
-    rgba(8, 20, 24, 0.7) 0%,
-    rgba(8, 20, 24, 0.56) 100%
+    rgba(8, 12, 40, 0.72) 0%,
+    rgba(8, 18, 52, 0.56) 100%
   );
-  --dt-home-hero-card-light: rgba(240, 253, 250, 0.9);
-  --dt-home-hero-card-dark: rgba(14, 36, 42, 0.9);
+  --dt-home-hero-card-light: rgba(239, 246, 255, 0.92);
+  --dt-home-hero-card-dark: rgba(10, 16, 54, 0.92);
 }
 
 [data-gradient-palette='ocean'][data-mantine-color-scheme='dark'] {
-  --dt-surface-glow-a: rgba(6, 182, 212, 0.28);
-  --dt-surface-glow-b: rgba(249, 115, 22, 0.24);
-  --dt-focus-ring: rgba(45, 212, 191, 0.45);
+  --dt-surface-glow-a: rgba(37, 99, 235, 0.34);
+  --dt-surface-glow-b: rgba(6, 182, 212, 0.26);
+  --dt-focus-ring: rgba(147, 197, 253, 0.52);
 }
 
+/* ==============================================
+   PALETTE: GOLDEN HOUR (sunset)
+   Rich amber → warm orange → desert gold
+   ============================================== */
 [data-gradient-palette='sunset'] {
-  --dt-surface-glow-a: rgba(251, 146, 60, 0.24);
-  --dt-surface-glow-b: rgba(244, 114, 182, 0.2);
-  --dt-focus-ring: rgba(251, 191, 36, 0.4);
-  --dt-focus-border: var(--mantine-color-orange-6);
+  --dt-surface-glow-a: rgba(245, 158, 11, 0.3);
+  --dt-surface-glow-b: rgba(251, 146, 60, 0.22);
+  --dt-focus-ring: rgba(252, 211, 77, 0.46);
+  --dt-focus-border: var(--mantine-color-yellow-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
-    var(--mantine-color-orange-4) 0%,
-    var(--mantine-color-pink-5) 50%,
-    var(--mantine-color-yellow-5) 100%
+    var(--mantine-color-yellow-4) 0%,
+    var(--mantine-color-orange-4) 50%,
+    var(--mantine-color-yellow-6) 100%
   );
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
-    var(--mantine-color-orange-9) 0%,
-    var(--mantine-color-red-8) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-pink-8) var(--dt-home-hero-stop-accent),
-    var(--mantine-color-orange-9) 100%
+    var(--mantine-color-yellow-9) 0%,
+    var(--mantine-color-orange-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-yellow-8) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-yellow-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
-    var(--mantine-color-orange-1) 0%,
-    var(--mantine-color-red-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-yellow-1) 0%,
+    var(--mantine-color-orange-1) var(--dt-home-hero-stop-mid),
     var(--mantine-color-yellow-2) var(--dt-home-hero-stop-accent),
-    var(--mantine-color-orange-1) 100%
+    var(--mantine-color-yellow-1) 100%
   );
-  --dt-wordmark-color-dark: var(--mantine-color-orange-0);
+  --dt-wordmark-color-dark: var(--mantine-color-yellow-0);
   --dt-wordmark-color-light: var(--mantine-color-orange-8);
-  --dt-wordmark-shadow-dark: 0 1px 10px rgba(249, 115, 22, 0.3);
-  --dt-wordmark-shadow-light: 0 1px 4px rgba(194, 65, 12, 0.16);
+  --dt-wordmark-shadow-dark: 0 1px 12px rgba(245, 158, 11, 0.44);
+  --dt-wordmark-shadow-light: 0 1px 6px rgba(180, 83, 9, 0.2);
   --dt-link-color-light: var(--mantine-color-orange-7);
   --dt-link-color-dark: var(--mantine-color-yellow-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
-    rgba(255, 247, 237, 0.88) 0%,
-    rgba(255, 241, 242, 0.78) 100%
+    rgba(255, 251, 235, 0.9) 0%,
+    rgba(255, 247, 220, 0.8) 100%
   );
   --dt-home-hero-panel-dark: linear-gradient(
     180deg,
-    rgba(36, 16, 8, 0.72) 0%,
-    rgba(36, 16, 8, 0.56) 100%
+    rgba(36, 22, 4, 0.72) 0%,
+    rgba(44, 26, 6, 0.56) 100%
   );
-  --dt-home-hero-card-light: rgba(255, 247, 237, 0.9);
-  --dt-home-hero-card-dark: rgba(45, 23, 10, 0.9);
+  --dt-home-hero-card-light: rgba(255, 251, 235, 0.92);
+  --dt-home-hero-card-dark: rgba(50, 30, 8, 0.92);
 }
 
+[data-gradient-palette='sunset'][data-mantine-color-scheme='dark'] {
+  --dt-surface-glow-a: rgba(245, 158, 11, 0.36);
+  --dt-surface-glow-b: rgba(251, 146, 60, 0.28);
+  --dt-focus-ring: rgba(253, 224, 71, 0.5);
+}
+
+/* ==============================================
+   PALETTE: ANCIENT GROVE (forest)
+   Deep emerald → rich teal → dark forest
+   ============================================== */
 [data-gradient-palette='forest'] {
-  --dt-surface-glow-a: rgba(34, 197, 94, 0.24);
-  --dt-surface-glow-b: rgba(20, 184, 166, 0.2);
-  --dt-focus-ring: rgba(74, 222, 128, 0.42);
-  --dt-focus-border: var(--mantine-color-green-6);
+  --dt-surface-glow-a: rgba(5, 150, 105, 0.3);
+  --dt-surface-glow-b: rgba(13, 148, 136, 0.2);
+  --dt-focus-ring: rgba(52, 211, 153, 0.46);
+  --dt-focus-border: var(--mantine-color-green-7);
   --dt-brand-gradient: linear-gradient(
     120deg,
     var(--mantine-color-green-4) 0%,
-    var(--mantine-color-teal-5) 50%,
-    var(--mantine-color-lime-5) 100%
+    var(--mantine-color-teal-6) 50%,
+    var(--mantine-color-green-6) 100%
   );
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-green-9) 0%,
-    var(--mantine-color-teal-8) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-lime-8) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-teal-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-green-8) var(--dt-home-hero-stop-accent),
     var(--mantine-color-green-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-green-1) 0%,
     var(--mantine-color-teal-1) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-lime-1) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-green-2) var(--dt-home-hero-stop-accent),
     var(--mantine-color-green-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-green-0);
   --dt-wordmark-color-light: var(--mantine-color-green-8);
-  --dt-wordmark-shadow-dark: 0 1px 10px rgba(34, 197, 94, 0.28);
-  --dt-wordmark-shadow-light: 0 1px 4px rgba(21, 128, 61, 0.14);
+  --dt-wordmark-shadow-dark: 0 1px 12px rgba(5, 150, 105, 0.42);
+  --dt-wordmark-shadow-light: 0 1px 6px rgba(6, 95, 70, 0.18);
   --dt-link-color-light: var(--mantine-color-green-7);
-  --dt-link-color-dark: var(--mantine-color-lime-3);
+  --dt-link-color-dark: var(--mantine-color-teal-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
-    rgba(240, 253, 244, 0.88) 0%,
-    rgba(236, 253, 245, 0.78) 100%
+    rgba(236, 253, 245, 0.88) 0%,
+    rgba(209, 250, 229, 0.78) 100%
   );
   --dt-home-hero-panel-dark: linear-gradient(
     180deg,
-    rgba(10, 30, 18, 0.72) 0%,
-    rgba(10, 30, 18, 0.56) 100%
+    rgba(4, 24, 16, 0.72) 0%,
+    rgba(6, 32, 22, 0.56) 100%
   );
-  --dt-home-hero-card-light: rgba(240, 253, 244, 0.9);
-  --dt-home-hero-card-dark: rgba(14, 44, 26, 0.9);
+  --dt-home-hero-card-light: rgba(236, 253, 245, 0.92);
+  --dt-home-hero-card-dark: rgba(6, 36, 26, 0.92);
 }
 
+[data-gradient-palette='forest'][data-mantine-color-scheme='dark'] {
+  --dt-surface-glow-a: rgba(5, 150, 105, 0.36);
+  --dt-surface-glow-b: rgba(13, 148, 136, 0.26);
+  --dt-focus-ring: rgba(110, 231, 183, 0.5);
+}
+
+/* ==============================================
+   PALETTE: DRAGON FIRE (ember)
+   Crimson → scarlet rose → electric magenta
+   ============================================== */
 [data-gradient-palette='ember'] {
-  --dt-surface-glow-a: rgba(248, 113, 113, 0.24);
-  --dt-surface-glow-b: rgba(251, 146, 60, 0.2);
-  --dt-focus-ring: rgba(252, 165, 165, 0.44);
+  --dt-surface-glow-a: rgba(225, 29, 72, 0.28);
+  --dt-surface-glow-b: rgba(190, 24, 93, 0.22);
+  --dt-focus-ring: rgba(251, 113, 133, 0.48);
   --dt-focus-border: var(--mantine-color-red-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
-    var(--mantine-color-red-5) 0%,
-    var(--mantine-color-orange-5) 50%,
-    var(--mantine-color-pink-6) 100%
+    var(--mantine-color-red-4) 0%,
+    var(--mantine-color-pink-5) 50%,
+    var(--mantine-color-grape-5) 100%
   );
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
     var(--mantine-color-red-9) 0%,
-    var(--mantine-color-orange-9) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-pink-9) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-pink-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-grape-9) var(--dt-home-hero-stop-accent),
     var(--mantine-color-red-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-red-1) 0%,
-    var(--mantine-color-orange-1) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-pink-2) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-pink-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-grape-1) var(--dt-home-hero-stop-accent),
     var(--mantine-color-red-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-red-0);
   --dt-wordmark-color-light: var(--mantine-color-red-8);
-  --dt-wordmark-shadow-dark: 0 1px 10px rgba(239, 68, 68, 0.3);
-  --dt-wordmark-shadow-light: 0 1px 4px rgba(185, 28, 28, 0.14);
+  --dt-wordmark-shadow-dark: 0 1px 12px rgba(225, 29, 72, 0.44);
+  --dt-wordmark-shadow-light: 0 1px 6px rgba(159, 18, 57, 0.18);
   --dt-link-color-light: var(--mantine-color-red-7);
-  --dt-link-color-dark: var(--mantine-color-orange-3);
+  --dt-link-color-dark: var(--mantine-color-pink-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
-    rgba(254, 242, 242, 0.88) 0%,
-    rgba(255, 247, 237, 0.78) 100%
+    rgba(255, 241, 242, 0.88) 0%,
+    rgba(253, 232, 244, 0.78) 100%
   );
   --dt-home-hero-panel-dark: linear-gradient(
     180deg,
-    rgba(40, 15, 15, 0.72) 0%,
-    rgba(40, 15, 15, 0.56) 100%
+    rgba(44, 6, 18, 0.72) 0%,
+    rgba(56, 8, 32, 0.56) 100%
   );
-  --dt-home-hero-card-light: rgba(254, 242, 242, 0.9);
-  --dt-home-hero-card-dark: rgba(50, 20, 20, 0.9);
+  --dt-home-hero-card-light: rgba(255, 241, 242, 0.92);
+  --dt-home-hero-card-dark: rgba(58, 10, 28, 0.92);
 }
 
+[data-gradient-palette='ember'][data-mantine-color-scheme='dark'] {
+  --dt-surface-glow-a: rgba(225, 29, 72, 0.34);
+  --dt-surface-glow-b: rgba(190, 24, 93, 0.28);
+  --dt-focus-ring: rgba(253, 164, 175, 0.52);
+}
+
+/* ==============================================
+   PALETTE: NORTHERN LIGHTS (dusk)
+   Electric teal → aurora violet → midnight indigo
+   ============================================== */
 [data-gradient-palette='dusk'] {
-  --dt-surface-glow-a: rgba(99, 102, 241, 0.26);
-  --dt-surface-glow-b: rgba(251, 146, 60, 0.2);
-  --dt-focus-ring: rgba(165, 180, 252, 0.44);
-  --dt-focus-border: var(--mantine-color-violet-6);
-  --dt-brand-gradient: linear-gradient(
-    120deg,
-    var(--mantine-color-indigo-4) 0%,
-    var(--mantine-color-violet-6) 50%,
-    var(--mantine-color-orange-5) 100%
-  );
-  --dt-home-hero-gradient-dark: linear-gradient(
-    135deg,
-    var(--mantine-color-indigo-9) 0%,
-    var(--mantine-color-violet-9) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-orange-9) var(--dt-home-hero-stop-accent),
-    var(--mantine-color-indigo-9) 100%
-  );
-  --dt-home-hero-gradient-light: linear-gradient(
-    135deg,
-    var(--mantine-color-indigo-1) 0%,
-    var(--mantine-color-violet-1) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-orange-1) var(--dt-home-hero-stop-accent),
-    var(--mantine-color-indigo-1) 100%
-  );
-  --dt-wordmark-color-dark: var(--mantine-color-violet-0);
-  --dt-wordmark-color-light: var(--mantine-color-indigo-8);
-  --dt-wordmark-shadow-dark: 0 1px 10px rgba(99, 102, 241, 0.3);
-  --dt-wordmark-shadow-light: 0 1px 4px rgba(67, 56, 202, 0.14);
-  --dt-link-color-light: var(--mantine-color-indigo-7);
-  --dt-link-color-dark: var(--mantine-color-violet-3);
-  --dt-home-hero-panel-light: linear-gradient(
-    180deg,
-    rgba(238, 242, 255, 0.88) 0%,
-    rgba(255, 247, 237, 0.78) 100%
-  );
-  --dt-home-hero-panel-dark: linear-gradient(
-    180deg,
-    rgba(18, 20, 46, 0.72) 0%,
-    rgba(36, 20, 10, 0.56) 100%
-  );
-  --dt-home-hero-card-light: rgba(238, 242, 255, 0.9);
-  --dt-home-hero-card-dark: rgba(24, 23, 52, 0.9);
-}
-
-[data-gradient-palette='frost'] {
-  --dt-surface-glow-a: rgba(56, 189, 248, 0.26);
-  --dt-surface-glow-b: rgba(163, 230, 53, 0.18);
-  --dt-focus-ring: rgba(125, 211, 252, 0.46);
+  --dt-surface-glow-a: rgba(20, 184, 166, 0.28);
+  --dt-surface-glow-b: rgba(139, 92, 246, 0.22);
+  --dt-focus-ring: rgba(94, 234, 212, 0.48);
   --dt-focus-border: var(--mantine-color-teal-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
-    var(--mantine-color-cyan-4) 0%,
-    var(--mantine-color-teal-5) 50%,
-    var(--mantine-color-lime-4) 100%
+    var(--mantine-color-teal-3) 0%,
+    var(--mantine-color-violet-5) 50%,
+    var(--mantine-color-indigo-5) 100%
   );
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
-    var(--mantine-color-cyan-9) 0%,
-    var(--mantine-color-teal-8) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-lime-8) var(--dt-home-hero-stop-accent),
-    var(--mantine-color-cyan-9) 100%
+    var(--mantine-color-teal-9) 0%,
+    var(--mantine-color-violet-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-indigo-9) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-teal-9) 100%
+  );
+  --dt-home-hero-gradient-light: linear-gradient(
+    135deg,
+    var(--mantine-color-teal-0) 0%,
+    var(--mantine-color-violet-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-indigo-1) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-teal-0) 100%
+  );
+  --dt-wordmark-color-dark: var(--mantine-color-teal-0);
+  --dt-wordmark-color-light: var(--mantine-color-teal-8);
+  --dt-wordmark-shadow-dark: 0 1px 12px rgba(20, 184, 166, 0.42);
+  --dt-wordmark-shadow-light: 0 1px 6px rgba(15, 118, 110, 0.18);
+  --dt-link-color-light: var(--mantine-color-teal-7);
+  --dt-link-color-dark: var(--mantine-color-teal-3);
+  --dt-home-hero-panel-light: linear-gradient(
+    180deg,
+    rgba(240, 253, 250, 0.88) 0%,
+    rgba(243, 232, 255, 0.78) 100%
+  );
+  --dt-home-hero-panel-dark: linear-gradient(
+    180deg,
+    rgba(6, 30, 28, 0.72) 0%,
+    rgba(18, 12, 44, 0.56) 100%
+  );
+  --dt-home-hero-card-light: rgba(240, 253, 250, 0.92);
+  --dt-home-hero-card-dark: rgba(8, 38, 38, 0.92);
+}
+
+[data-gradient-palette='dusk'][data-mantine-color-scheme='dark'] {
+  --dt-surface-glow-a: rgba(20, 184, 166, 0.34);
+  --dt-surface-glow-b: rgba(139, 92, 246, 0.28);
+  --dt-focus-ring: rgba(153, 246, 228, 0.52);
+}
+
+/* ==============================================
+   PALETTE: GLACIAL (frost)
+   Pale ice sky → crystal blue → arctic shimmer
+   ============================================== */
+[data-gradient-palette='frost'] {
+  --dt-surface-glow-a: rgba(56, 189, 248, 0.26);
+  --dt-surface-glow-b: rgba(186, 230, 253, 0.32);
+  --dt-focus-ring: rgba(125, 211, 252, 0.5);
+  --dt-focus-border: var(--mantine-color-cyan-5);
+  --dt-brand-gradient: linear-gradient(
+    120deg,
+    var(--mantine-color-cyan-2) 0%,
+    var(--mantine-color-blue-3) 50%,
+    var(--mantine-color-cyan-4) 100%
+  );
+  --dt-home-hero-gradient-dark: linear-gradient(
+    135deg,
+    var(--mantine-color-cyan-8) 0%,
+    var(--mantine-color-blue-8) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-cyan-7) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-cyan-8) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
     var(--mantine-color-cyan-0) 0%,
-    var(--mantine-color-teal-0) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-lime-1) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-blue-0) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-cyan-1) var(--dt-home-hero-stop-accent),
     var(--mantine-color-cyan-0) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-cyan-0);
-  --dt-wordmark-color-light: var(--mantine-color-teal-8);
-  --dt-wordmark-shadow-dark: 0 1px 10px rgba(14, 165, 233, 0.3);
-  --dt-wordmark-shadow-light: 0 1px 4px rgba(13, 148, 136, 0.14);
-  --dt-link-color-light: var(--mantine-color-teal-7);
-  --dt-link-color-dark: var(--mantine-color-cyan-3);
+  --dt-wordmark-color-light: var(--mantine-color-blue-7);
+  --dt-wordmark-shadow-dark: 0 1px 12px rgba(56, 189, 248, 0.4);
+  --dt-wordmark-shadow-light: 0 1px 6px rgba(3, 105, 161, 0.16);
+  --dt-link-color-light: var(--mantine-color-blue-6);
+  --dt-link-color-dark: var(--mantine-color-cyan-2);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
-    rgba(236, 254, 255, 0.9) 0%,
-    rgba(247, 254, 231, 0.8) 100%
+    rgba(240, 249, 255, 0.92) 0%,
+    rgba(224, 242, 254, 0.84) 100%
   );
   --dt-home-hero-panel-dark: linear-gradient(
     180deg,
-    rgba(8, 28, 38, 0.72) 0%,
-    rgba(20, 38, 14, 0.56) 100%
+    rgba(6, 22, 40, 0.7) 0%,
+    rgba(8, 28, 52, 0.54) 100%
   );
-  --dt-home-hero-card-light: rgba(236, 254, 255, 0.92);
-  --dt-home-hero-card-dark: rgba(12, 42, 56, 0.9);
+  --dt-home-hero-card-light: rgba(240, 249, 255, 0.94);
+  --dt-home-hero-card-dark: rgba(8, 32, 58, 0.92);
 }
 
+[data-gradient-palette='frost'][data-mantine-color-scheme='dark'] {
+  --dt-surface-glow-a: rgba(56, 189, 248, 0.32);
+  --dt-surface-glow-b: rgba(186, 230, 253, 0.24);
+  --dt-focus-ring: rgba(186, 230, 253, 0.54);
+}
+
+/* ==============================================
+   PALETTE: NIGHT GARDEN (blossom)
+   Deep plum → vivid rose → rich magenta
+   ============================================== */
 [data-gradient-palette='blossom'] {
-  --dt-surface-glow-a: rgba(244, 114, 182, 0.25);
-  --dt-surface-glow-b: rgba(251, 146, 60, 0.18);
-  --dt-focus-ring: rgba(244, 114, 182, 0.45);
-  --dt-focus-border: var(--mantine-color-red-6);
+  --dt-surface-glow-a: rgba(190, 24, 93, 0.28);
+  --dt-surface-glow-b: rgba(134, 25, 143, 0.24);
+  --dt-focus-ring: rgba(244, 114, 182, 0.48);
+  --dt-focus-border: var(--mantine-color-pink-6);
   --dt-brand-gradient: linear-gradient(
     120deg,
-    var(--mantine-color-pink-4) 0%,
+    var(--mantine-color-pink-3) 0%,
     var(--mantine-color-grape-5) 50%,
-    var(--mantine-color-orange-4) 100%
+    var(--mantine-color-pink-6) 100%
   );
   --dt-home-hero-gradient-dark: linear-gradient(
     135deg,
-    var(--mantine-color-pink-9) 0%,
-    var(--mantine-color-grape-9) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-orange-9) var(--dt-home-hero-stop-accent),
-    var(--mantine-color-pink-9) 100%
+    var(--mantine-color-grape-9) 0%,
+    var(--mantine-color-pink-9) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-grape-8) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-grape-9) 100%
   );
   --dt-home-hero-gradient-light: linear-gradient(
     135deg,
-    var(--mantine-color-pink-1) 0%,
-    var(--mantine-color-grape-1) var(--dt-home-hero-stop-mid),
-    var(--mantine-color-orange-1) var(--dt-home-hero-stop-accent),
-    var(--mantine-color-pink-1) 100%
+    var(--mantine-color-grape-1) 0%,
+    var(--mantine-color-pink-1) var(--dt-home-hero-stop-mid),
+    var(--mantine-color-grape-2) var(--dt-home-hero-stop-accent),
+    var(--mantine-color-grape-1) 100%
   );
   --dt-wordmark-color-dark: var(--mantine-color-pink-0);
   --dt-wordmark-color-light: var(--mantine-color-grape-8);
-  --dt-wordmark-shadow-dark: 0 1px 10px rgba(236, 72, 153, 0.3);
-  --dt-wordmark-shadow-light: 0 1px 4px rgba(190, 24, 93, 0.14);
-  --dt-link-color-light: var(--mantine-color-pink-7);
+  --dt-wordmark-shadow-dark: 0 1px 12px rgba(190, 24, 93, 0.44);
+  --dt-wordmark-shadow-light: 0 1px 6px rgba(134, 25, 143, 0.18);
+  --dt-link-color-light: var(--mantine-color-grape-7);
   --dt-link-color-dark: var(--mantine-color-pink-3);
   --dt-home-hero-panel-light: linear-gradient(
     180deg,
-    rgba(253, 242, 248, 0.9) 0%,
-    rgba(255, 247, 237, 0.8) 100%
+    rgba(253, 232, 246, 0.9) 0%,
+    rgba(250, 232, 255, 0.8) 100%
   );
   --dt-home-hero-panel-dark: linear-gradient(
     180deg,
-    rgba(54, 17, 38, 0.72) 0%,
-    rgba(44, 20, 10, 0.56) 100%
+    rgba(50, 8, 38, 0.72) 0%,
+    rgba(58, 8, 62, 0.56) 100%
   );
-  --dt-home-hero-card-light: rgba(253, 242, 248, 0.92);
-  --dt-home-hero-card-dark: rgba(62, 24, 48, 0.9);
+  --dt-home-hero-card-light: rgba(253, 232, 246, 0.92);
+  --dt-home-hero-card-dark: rgba(62, 12, 52, 0.92);
+}
+
+[data-gradient-palette='blossom'][data-mantine-color-scheme='dark'] {
+  --dt-surface-glow-a: rgba(190, 24, 93, 0.34);
+  --dt-surface-glow-b: rgba(134, 25, 143, 0.3);
+  --dt-focus-ring: rgba(249, 168, 212, 0.54);
+}
+
+/* Portrait hover — declarative CSS replacement for JS onMouseEnter/onMouseLeave */
+.portrait-hover {
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.portrait-hover:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.portrait-hover-substitute {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
+}
+
+.portrait-hover-substitute:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
 }
 
 /* Card hover utility class — for cards/papers without withBorder that still
    need the lift-and-shadow effect. withBorder elements get this automatically
    via the .mantine-Paper-root[data-with-border] rules below. */
 .card-hover {
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .card-hover:hover:not([data-no-hover]) {
@@ -397,6 +488,14 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
+  .portrait-hover {
+    transition: none;
+  }
+
+  .portrait-hover:hover {
+    transform: none;
+  }
+
   .card-hover {
     transition: none;
   }
@@ -424,6 +523,23 @@
 .mantine-Table-th .table-badge-list {
   max-width: 100%;
   align-items: flex-start;
+}
+
+.search-pill-trigger {
+  transition:
+    border-color 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.search-pill-trigger:hover {
+  border-color: var(--dt-focus-border) !important;
+  box-shadow: 0 0 0 1px var(--dt-focus-ring);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .search-pill-trigger {
+    transition: none;
+  }
 }
 
 html {
@@ -504,6 +620,11 @@ body {
 .mantine-NavLink-root[data-active='true'] {
   box-shadow: inset 3px 0 0 0
     light-dark(var(--dt-link-color-light), var(--dt-link-color-dark));
+  background-color: color-mix(
+    in srgb,
+    var(--dt-surface-glow-a) 45%,
+    transparent
+  );
 }
 
 .mantine-Tabs-tab[data-active='true'] {
@@ -526,7 +647,9 @@ body {
 }
 
 .dt-stat-link .mantine-ThemeIcon-root {
-  transition: transform 180ms ease, box-shadow 180ms ease;
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease;
 }
 
 .dt-stat-link:hover .mantine-ThemeIcon-root {

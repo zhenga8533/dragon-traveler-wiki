@@ -18,16 +18,65 @@ import {
   Popover,
   SegmentedControl,
   Select,
+  SimpleGrid,
   Slider,
   Stack,
   Switch,
   Text,
   Tooltip,
+  UnstyledButton,
   useMantineColorScheme,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
+
+const PALETTE_SWATCHES: {
+  value: GradientPalette;
+  label: string;
+  gradient: string;
+}[] = [
+  {
+    value: 'violet',
+    label: 'Arcane',
+    gradient: 'linear-gradient(135deg, #7c3aed 0%, #9333ea 50%, #4338ca 100%)',
+  },
+  {
+    value: 'ocean',
+    label: 'Abyss',
+    gradient: 'linear-gradient(135deg, #1d4ed8 0%, #2563eb 50%, #0891b2 100%)',
+  },
+  {
+    value: 'sunset',
+    label: 'Golden Hour',
+    gradient: 'linear-gradient(135deg, #b45309 0%, #f97316 50%, #ca8a04 100%)',
+  },
+  {
+    value: 'forest',
+    label: 'Ancient Grove',
+    gradient: 'linear-gradient(135deg, #065f46 0%, #0f766e 50%, #134e4a 100%)',
+  },
+  {
+    value: 'ember',
+    label: 'Dragon Fire',
+    gradient: 'linear-gradient(135deg, #be123c 0%, #f43f5e 50%, #c026d3 100%)',
+  },
+  {
+    value: 'dusk',
+    label: 'Northern Lights',
+    gradient: 'linear-gradient(135deg, #0f766e 0%, #7c3aed 50%, #312e81 100%)',
+  },
+  {
+    value: 'frost',
+    label: 'Glacial',
+    gradient: 'linear-gradient(135deg, #38bdf8 0%, #7dd3fc 50%, #a5f3fc 100%)',
+  },
+  {
+    value: 'blossom',
+    label: 'Night Garden',
+    gradient: 'linear-gradient(135deg, #831843 0%, #db2777 50%, #6b21a8 100%)',
+  },
+];
 
 export default function SettingsPanel() {
   const [opened, { toggle: toggleOpened, close: closeOpened }] =
@@ -125,29 +174,47 @@ export default function SettingsPanel() {
             aria-label="Select theme"
           />
 
-          <Select
-            label="Gradient Palette"
-            placeholder="Select gradient palette"
-            data={[
-              { value: 'violet', label: 'Classic Purple' },
-              { value: 'ocean', label: 'Ocean Teal' },
-              { value: 'sunset', label: 'Sunset Gold' },
-              { value: 'forest', label: 'Emerald Forest' },
-              { value: 'ember', label: 'Crimson Ember' },
-              { value: 'dusk', label: 'Twilight Dusk' },
-              { value: 'frost', label: 'Arctic Frost' },
-              { value: 'blossom', label: 'Cherry Blossom' },
-            ]}
-            value={palette}
-            onChange={(value) =>
-              setPalette((value as GradientPalette) ?? 'violet')
-            }
-            size={controlSize}
-            comboboxProps={selectComboboxProps}
-            onDropdownOpen={() => setIsSelectDropdownOpen(true)}
-            onDropdownClose={() => setIsSelectDropdownOpen(false)}
-            allowDeselect={false}
-          />
+          <Stack gap={6}>
+            <Text size={controlSize} fw={500}>
+              Gradient Palette
+            </Text>
+            <SimpleGrid cols={4} spacing={6}>
+              {PALETTE_SWATCHES.map((p) => (
+                <Tooltip key={p.value} label={p.label} position="top" withArrow>
+                  <UnstyledButton
+                    onClick={() => setPalette(p.value)}
+                    aria-label={`${p.label}${palette === p.value ? ' (selected)' : ''}`}
+                    aria-pressed={palette === p.value}
+                    style={{
+                      height: 28,
+                      borderRadius: 'var(--mantine-radius-sm)',
+                      background: p.gradient,
+                      border: `2px solid ${
+                        palette === p.value
+                          ? `var(--mantine-color-${accent.primary}-5)`
+                          : 'transparent'
+                      }`,
+                      outline:
+                        palette === p.value
+                          ? `2px solid var(--mantine-color-${accent.primary}-6)`
+                          : 'none',
+                      outlineOffset: 1,
+                      cursor: 'pointer',
+                      transition:
+                        'transform 150ms ease, border-color 150ms ease',
+                    }}
+                    onMouseEnter={(e) => {
+                      if (palette !== p.value)
+                        e.currentTarget.style.transform = 'scale(1.06)';
+                    }}
+                    onMouseLeave={(e) => {
+                      e.currentTarget.style.transform = 'scale(1)';
+                    }}
+                  />
+                </Tooltip>
+              ))}
+            </SimpleGrid>
+          </Stack>
         </Stack>
       </Paper>
 

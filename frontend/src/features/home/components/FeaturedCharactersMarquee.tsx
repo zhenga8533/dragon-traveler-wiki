@@ -1,179 +1,190 @@
-import {
-	Badge,
-	Box,
-	Group,
-	Skeleton,
-	Stack,
-	Text,
-	ThemeIcon,
-	Title,
-} from '@mantine/core';
-import { useContext } from 'react';
-import { IoTrophy } from 'react-icons/io5';
-import CharacterCard from '@/features/characters/components/CharacterCard';
 import { TIER_COLOR } from '@/constants/colors';
 import { normalizeContentType } from '@/constants/content-types';
 import { TierListReferenceContext } from '@/contexts/tier-list-reference-context';
-import { useDataFetch, useGradientAccent } from '@/hooks';
-import styles from '@/styles/featured-characters-marquee.module.css';
+import CharacterCard from '@/features/characters/components/CharacterCard';
 import type { Character } from '@/features/characters/types';
 import {
-	buildCharacterByIdentityMap,
-	buildCharacterNameCounts,
-	buildPreferredCharacterByNameMap,
-	getCharacterIdentityKey,
-	getCharacterRoutePath,
-	getCharacterRoutePathByName,
-	resolveCharacterByNameAndQuality,
+  buildCharacterByIdentityMap,
+  buildCharacterNameCounts,
+  buildPreferredCharacterByNameMap,
+  getCharacterIdentityKey,
+  getCharacterRoutePath,
+  getCharacterRoutePathByName,
+  resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
+import { useDataFetch, useGradientAccent } from '@/hooks';
+import styles from '@/styles/featured-characters-marquee.module.css';
+import {
+  Badge,
+  Box,
+  Group,
+  Skeleton,
+  Stack,
+  Text,
+  ThemeIcon,
+  Title,
+} from '@mantine/core';
+import { useContext } from 'react';
+import { IoTrophy } from 'react-icons/io5';
 
 export default function FeaturedCharactersMarquee() {
-	const { accent } = useGradientAccent();
-	const {
-		tierLists,
-		loading: loadingTiers,
-		selectedTierListName,
-	} = useContext(TierListReferenceContext);
-	const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
-		'data/characters.json',
-		[]
-	);
+  const { accent } = useGradientAccent();
+  const {
+    tierLists,
+    loading: loadingTiers,
+    selectedTierListName,
+  } = useContext(TierListReferenceContext);
+  const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
+    'data/characters.json',
+    []
+  );
 
-	const loading = loadingTiers || loadingChars;
+  const loading = loadingTiers || loadingChars;
 
-	if (loading) {
-		return (
-			<Group gap="md" justify="center" wrap="wrap">
-				{[1, 2, 3, 4].map((i) => (
-					<Skeleton key={i} height={100} width={80} radius="md" />
-				))}
-			</Group>
-		);
-	}
+  if (loading) {
+    return (
+      <Stack gap="md">
+        <Group gap="sm" justify="center">
+          <Skeleton height={32} width={32} radius="md" />
+          <Skeleton height={24} width={160} radius="sm" />
+        </Group>
+        <Box style={{ overflowX: 'hidden', width: '100%' }}>
+          <Group gap="md" wrap="nowrap" justify="center">
+            {Array.from({ length: 7 }, (_, i) => (
+              <Stack key={i} gap={4} align="center" style={{ flexShrink: 0 }}>
+                <Skeleton height={64} width={64} radius="50%" />
+                <Skeleton height={18} width={36} radius="sm" />
+              </Stack>
+            ))}
+          </Group>
+        </Box>
+      </Stack>
+    );
+  }
 
-	const tierList =
-		tierLists.find((t) => t.name === selectedTierListName) ?? tierLists[0];
-	if (!tierList) return null;
+  const tierList =
+    tierLists.find((t) => t.name === selectedTierListName) ?? tierLists[0];
+  if (!tierList) return null;
 
-	const charMap = buildPreferredCharacterByNameMap(characters);
-	const characterByIdentity = buildCharacterByIdentityMap(characters);
-	const nameCounts = buildCharacterNameCounts(characters);
-	const topTierNames =
-		tierList.tiers && tierList.tiers.length >= 2
-			? [tierList.tiers[0].name, tierList.tiers[1].name]
-			: ['S+', 'S'];
-	const topEntries = tierList.entries.filter((e) =>
-		topTierNames.includes(e.tier)
-	);
+  const charMap = buildPreferredCharacterByNameMap(characters);
+  const characterByIdentity = buildCharacterByIdentityMap(characters);
+  const nameCounts = buildCharacterNameCounts(characters);
+  const topTierNames =
+    tierList.tiers && tierList.tiers.length >= 2
+      ? [tierList.tiers[0].name, tierList.tiers[1].name]
+      : ['S+', 'S'];
+  const topEntries = tierList.entries.filter((e) =>
+    topTierNames.includes(e.tier)
+  );
 
-	if (topEntries.length === 0) return null;
+  if (topEntries.length === 0) return null;
 
-	const renderCharacters = (keyPrefix: string) =>
-		topEntries.map((entry) => {
-			const char = resolveCharacterByNameAndQuality(
-				entry.character_name,
-				entry.character_quality,
-				charMap,
-				characterByIdentity
-			);
-			const resolvedName = char?.name ?? entry.character_name;
-			return (
-				<Stack
-					key={`${keyPrefix}-${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
-					className={styles.featuredItem}
-					gap={2}
-					align="center"
-					style={{ flexShrink: 0, width: 90 }}
-				>
-					<CharacterCard
-						name={resolvedName}
-						quality={char?.quality}
-						size={64}
-						routePath={
-							char
-								? getCharacterRoutePath(char, nameCounts)
-								: getCharacterRoutePathByName(entry.character_name)
-						}
-					/>
-					<Badge size="xs" variant="light" color={TIER_COLOR[entry.tier]}>
-						{entry.tier}
-					</Badge>
-				</Stack>
-			);
-		});
+  const renderCharacters = (keyPrefix: string) =>
+    topEntries.map((entry) => {
+      const char = resolveCharacterByNameAndQuality(
+        entry.character_name,
+        entry.character_quality,
+        charMap,
+        characterByIdentity
+      );
+      const resolvedName = char?.name ?? entry.character_name;
+      return (
+        <Stack
+          key={`${keyPrefix}-${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
+          className={styles.featuredItem}
+          gap={2}
+          align="center"
+          style={{ flexShrink: 0, width: 90 }}
+        >
+          <CharacterCard
+            name={resolvedName}
+            quality={char?.quality}
+            size={64}
+            routePath={
+              char
+                ? getCharacterRoutePath(char, nameCounts)
+                : getCharacterRoutePathByName(entry.character_name)
+            }
+          />
+          <Badge size="xs" variant="light" color={TIER_COLOR[entry.tier]}>
+            {entry.tier}
+          </Badge>
+        </Stack>
+      );
+    });
 
-	const duration = topEntries.length * 3;
+  const duration = topEntries.length * 3;
 
-	const tierListMeta = [
-		tierList.name,
-		normalizeContentType(tierList.content_type, 'All'),
-	];
+  const tierListMeta = [
+    tierList.name,
+    normalizeContentType(tierList.content_type, 'All'),
+  ];
 
-	return (
-		<Stack gap="md">
-			<Group gap="sm" justify="center">
-				<ThemeIcon variant="light" color="grape" size="lg" radius="md">
-					<IoTrophy size={20} />
-				</ThemeIcon>
-				<Title order={2} size="h3">
-					Featured Characters
-				</Title>
-			</Group>
-			{(tierListMeta.length > 0 || tierList.author) && (
-				<Text size="xs" c="dimmed" ta="center">
-					{tierListMeta.map((item, index) => (
-						<Text key={item} span inherit>
-							{index > 0 ? ' · ' : ''}
-							{item}
-						</Text>
-					))}
-					{tierList.author && (
-						<>
-							{tierListMeta.length > 0 && (
-								<Text span inherit>
-									{' '}
-									· by{' '}
-								</Text>
-							)}
-							<Text span c={`${accent.primary}.7`} fw={500} inherit>
-								{tierList.author}
-							</Text>
-						</>
-					)}
-				</Text>
-			)}
-			<Box
-				style={{
-					overflowX: 'hidden',
-					overflowY: 'visible',
-					padding: '8px 0',
-					width: '100%',
-					contain: 'inline-size',
-					maskImage:
-						'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
-					WebkitMaskImage:
-						'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
-				}}
-			>
-				<Group
-					className={styles.marqueeTrack}
-					gap="md"
-					wrap="nowrap"
-					style={{
-						'--marquee-duration': `${duration}s`,
-					}}
-					onMouseEnter={(e) => {
-						e.currentTarget.style.animationPlayState = 'paused';
-					}}
-					onMouseLeave={(e) => {
-						e.currentTarget.style.animationPlayState = 'running';
-					}}
-				>
-					{renderCharacters('a')}
-					{renderCharacters('b')}
-				</Group>
-			</Box>
-			<Box h="xs" />
-		</Stack>
-	);
+  return (
+    <Stack gap="md">
+      <Group gap="sm" justify="center">
+        <ThemeIcon variant="light" color="grape" size="lg" radius="md">
+          <IoTrophy size={20} />
+        </ThemeIcon>
+        <Title order={2} size="h3">
+          Featured Characters
+        </Title>
+      </Group>
+      {(tierListMeta.length > 0 || tierList.author) && (
+        <Text size="xs" c="dimmed" ta="center">
+          {tierListMeta.map((item, index) => (
+            <Text key={item} span inherit>
+              {index > 0 ? ' · ' : ''}
+              {item}
+            </Text>
+          ))}
+          {tierList.author && (
+            <>
+              {tierListMeta.length > 0 && (
+                <Text span inherit>
+                  {' '}
+                  · by{' '}
+                </Text>
+              )}
+              <Text span c={`${accent.primary}.7`} fw={500} inherit>
+                {tierList.author}
+              </Text>
+            </>
+          )}
+        </Text>
+      )}
+      <Box
+        style={{
+          overflowX: 'hidden',
+          overflowY: 'visible',
+          padding: '8px 0',
+          width: '100%',
+          contain: 'inline-size',
+          maskImage:
+            'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
+          WebkitMaskImage:
+            'linear-gradient(to right, transparent, black var(--dt-gradient-fade-edge-start), black var(--dt-gradient-fade-edge-end), transparent)',
+        }}
+      >
+        <Group
+          className={styles.marqueeTrack}
+          gap="md"
+          wrap="nowrap"
+          style={{
+            '--marquee-duration': `${duration}s`,
+          }}
+          onMouseEnter={(e) => {
+            e.currentTarget.style.animationPlayState = 'paused';
+          }}
+          onMouseLeave={(e) => {
+            e.currentTarget.style.animationPlayState = 'running';
+          }}
+        >
+          {renderCharacters('a')}
+          {renderCharacters('b')}
+        </Group>
+      </Box>
+      <Box h="xs" />
+    </Stack>
+  );
 }

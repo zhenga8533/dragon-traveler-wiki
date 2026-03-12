@@ -37,7 +37,6 @@ import {
   Badge,
   Button,
   Card,
-  Collapse,
   Container,
   Group,
   Image,
@@ -734,9 +733,17 @@ export default function Events() {
               viewMode={eventViewMode}
               onViewModeChange={setEventViewMode}
               filterCount={eventFilterCount}
+              filterOpen={eventFilterOpen}
               onFilterToggle={toggleEventFilter}
-              isMobile={isMobile}
-            />
+            >
+              <EventFilter
+                filters={eventFilters}
+                onChange={setEventFilters}
+                serverOptions={serverOptions}
+                tagOptions={tagOptions}
+                characterOptions={characterOptions}
+              />
+            </PageFilterHeaderControls>
           )}
         </Group>
 
@@ -783,25 +790,6 @@ export default function Events() {
           </Tabs.List>
         </Tabs>
 
-        {!isLoading && !combinedError && (
-          <Collapse in={eventFilterOpen}>
-            <Paper
-              p="sm"
-              radius="md"
-              withBorder
-              {...getCardHoverProps()}
-              bg="var(--mantine-color-body)"
-            >
-              <EventFilter
-                filters={eventFilters}
-                onChange={setEventFilters}
-                serverOptions={serverOptions}
-                tagOptions={tagOptions}
-                characterOptions={characterOptions}
-              />
-            </Paper>
-          </Collapse>
-        )}
 
         {isLoading &&
           (eventViewMode === 'list' ? (

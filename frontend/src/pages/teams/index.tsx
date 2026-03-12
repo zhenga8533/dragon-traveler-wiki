@@ -13,6 +13,7 @@ import { FACTION_ICON_MAP } from '@/assets/faction';
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import DataFetchError from '@/components/ui/DataFetchError';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
 import LastUpdated from '@/components/common/LastUpdated';
 import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
 import {
@@ -295,9 +296,21 @@ export default function Teams() {
                 viewMode={viewMode}
                 onViewModeChange={setViewMode}
                 filterCount={activeFilterCount}
+                filterOpen={filterOpen}
                 onFilterToggle={toggleFilter}
-                isMobile={isMobile}
-              />
+              >
+                <EntityFilter
+                  groups={entityFilterGroups}
+                  selected={viewFilters}
+                  onChange={handleFilterChange}
+                  onClear={handleClearFilters}
+                  search={search}
+                  onSearchChange={setSearch}
+                  searchPlaceholder={
+                    mode === 'saved' ? 'Search saved teams...' : 'Search teams...'
+                  }
+                />
+              </PageFilterHeaderControls>
             )}
           </Group>
         </Group>
@@ -352,12 +365,7 @@ export default function Teams() {
                 characterByIdentity={characterByIdentity}
                 characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
-                filterOpen={filterOpen}
-                entityFilterGroups={entityFilterGroups}
-                viewFilters={viewFilters}
                 search={search}
-                onFilterChange={handleFilterChange}
-                onSearchChange={setSearch}
                 onClearFilters={handleClearFilters}
                 onOpenFilters={toggleFilter}
                 page={page}
@@ -378,12 +386,7 @@ export default function Teams() {
                 characterByIdentity={characterByIdentity}
                 characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
-                filterOpen={filterOpen}
-                entityFilterGroups={entityFilterGroups}
-                viewFilters={viewFilters}
                 search={search}
-                onFilterChange={handleFilterChange}
-                onSearchChange={setSearch}
                 onClearFilters={handleClearFilters}
                 onOpenFilters={toggleFilter}
                 onRequestEdit={requestEditTeam}

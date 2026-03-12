@@ -39,6 +39,8 @@ export const Z_INDEX = {
   BASE: 0,
   DROPDOWN: 100,
   STICKY: 200,
+  /** Mobile bottom nav: above page content, below Mantine overlays (200) and modals/drawers (300) */
+  BOTTOM_NAV: 150,
   FIXED: 300,
   MODAL_BACKDROP: 400,
   MODAL: 500,

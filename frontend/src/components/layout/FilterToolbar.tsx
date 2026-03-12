@@ -2,15 +2,13 @@ import {
   Badge,
   Box,
   Button,
-  Collapse,
   Group,
-  Paper,
+  Popover,
   Text,
 } from '@mantine/core';
 import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { type ReactNode } from 'react';
 import { IoFilter } from 'react-icons/io5';
-import { getCardHoverProps } from '@/constants/styles';
 import { HEADER_HEIGHT, IMAGE_SIZE, Z_INDEX } from '@/constants/ui';
 import { useGradientAccent, useIsMobile } from '@/hooks';
 import type { ViewMode } from '@/hooks/use-filters';
@@ -83,12 +81,37 @@ export default function FilterToolbar({
           </Text>
           <Group gap="xs">
             <ViewToggle viewMode={viewMode} onChange={onViewModeChange} />
-            {filterButton}
+            {isMobile ? (
+              filterButton
+            ) : (
+              <Popover
+                opened={filterOpen}
+                onDismiss={onFilterToggle}
+                width={480}
+                position="bottom-end"
+                withArrow
+                offset={8}
+                shadow="md"
+                closeOnClickOutside
+              >
+                <Popover.Target>{filterButton}</Popover.Target>
+                <Popover.Dropdown
+                  p="sm"
+                  style={{
+                    maxHeight: '70dvh',
+                    overflowY: 'auto',
+                    overscrollBehavior: 'contain',
+                  }}
+                >
+                  {children}
+                </Popover.Dropdown>
+              </Popover>
+            )}
           </Group>
         </Group>
       </Box>
 
-      {isMobile ? (
+      {isMobile && (
         <MobileBottomDrawer
           opened={filterOpen}
           onClose={onFilterToggle}
@@ -97,12 +120,6 @@ export default function FilterToolbar({
         >
           {children}
         </MobileBottomDrawer>
-      ) : (
-        <Collapse in={filterOpen}>
-          <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
-            {children}
-          </Paper>
-        </Collapse>
       )}
     </>
   );

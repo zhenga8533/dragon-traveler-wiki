@@ -1,6 +1,5 @@
 import {
 	Badge,
-	Collapse,
 	Divider,
 	Group,
 	Image,
@@ -14,8 +13,6 @@ import {
 import { Link, useNavigate } from 'react-router-dom';
 import { FACTION_WYRM_MAP } from '@/assets/wyrms';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
 import FactionTag from '@/features/characters/components/FactionTag';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import PaginationControl from '@/components/ui/PaginationControl';
@@ -43,12 +40,7 @@ interface TeamsViewTabProps {
 	characterByIdentity: Map<string, Character>;
 	characterNameCounts: Map<string, number>;
 	viewMode: string;
-	filterOpen: boolean;
-	entityFilterGroups: ChipFilterGroup[];
-	viewFilters: Record<string, string[]>;
 	search: string;
-	onFilterChange: (key: string, values: string[]) => void;
-	onSearchChange: (value: string) => void;
 	onClearFilters: () => void;
 	onOpenFilters: () => void;
 	page: number;
@@ -67,12 +59,7 @@ export default function TeamsViewTab({
 	characterByIdentity,
 	characterNameCounts,
 	viewMode,
-	filterOpen,
-	entityFilterGroups,
-	viewFilters,
 	search,
-	onFilterChange,
-	onSearchChange,
 	onClearFilters,
 	onOpenFilters,
 	page,
@@ -88,20 +75,6 @@ export default function TeamsViewTab({
 
 	return (
 		<>
-			<Collapse in={filterOpen}>
-				<Paper p="sm" radius="md" withBorder bg="var(--mantine-color-body)">
-					<EntityFilter
-						groups={entityFilterGroups}
-						selected={viewFilters}
-						onChange={(key, values) => onFilterChange(key, values)}
-						onClear={onClearFilters}
-						search={search}
-						onSearchChange={onSearchChange}
-						searchPlaceholder="Search teams..."
-					/>
-				</Paper>
-			</Collapse>
-
 			{filteredTeams.length === 0 && (
 				<NoResultsSuggestions
 					title={search ? 'No teams found' : 'No matching teams'}

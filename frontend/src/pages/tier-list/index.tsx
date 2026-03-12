@@ -14,6 +14,7 @@ import { FACTION_ICON_MAP } from '@/assets/faction';
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import DataFetchError from '@/components/ui/DataFetchError';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
 import LastUpdated from '@/components/common/LastUpdated';
 import QualityFilterIcon from '@/features/characters/components/QualityFilterIcon';
 import PageFilterHeaderControls from '@/components/layout/PageFilterHeaderControls';
@@ -405,9 +406,23 @@ export default function TierList() {
                 viewMode={viewMode}
                 onViewModeChange={setViewMode}
                 filterCount={activeFilterCount}
+                filterOpen={filterOpen}
                 onFilterToggle={toggleFilter}
-                isMobile={isMobile}
-              />
+              >
+                <EntityFilter
+                  groups={entityFilterGroups}
+                  selected={viewFilters}
+                  onChange={handleFilterChange}
+                  onClear={handleClearFilters}
+                  search={search}
+                  onSearchChange={setSearch}
+                  searchPlaceholder={
+                    mode === 'saved'
+                      ? 'Search saved tier lists...'
+                      : 'Search tier lists...'
+                  }
+                />
+              </PageFilterHeaderControls>
             )}
           </Group>
         </Group>
@@ -453,12 +468,6 @@ export default function TierList() {
                 resolveTierEntryCharacter={resolveTierEntryCharacter}
                 characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
-                filterOpen={filterOpen}
-                entityFilterGroups={entityFilterGroups}
-                viewFilters={viewFilters}
-                search={search}
-                onFilterChange={handleFilterChange}
-                onSearchChange={setSearch}
                 onClearFilters={handleClearFilters}
                 onOpenFilters={toggleFilter}
                 tierListChanges={tierListChanges}
@@ -478,12 +487,7 @@ export default function TierList() {
                 resolveTierEntryCharacter={resolveTierEntryCharacter}
                 characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
-                filterOpen={filterOpen}
-                entityFilterGroups={entityFilterGroups}
-                viewFilters={viewFilters}
                 search={search}
-                onFilterChange={handleFilterChange}
-                onSearchChange={setSearch}
                 onClearFilters={handleClearFilters}
                 onOpenFilters={toggleFilter}
                 onRequestEdit={requestEditTierList}

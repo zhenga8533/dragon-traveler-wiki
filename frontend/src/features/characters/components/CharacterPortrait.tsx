@@ -1,11 +1,11 @@
-import { Image, Tooltip, type TooltipProps } from '@mantine/core';
-import type { CSSProperties, ReactNode } from 'react';
-import { Link } from 'react-router-dom';
 import { getPortrait } from '@/assets/character';
 import { QUALITY_BORDER_COLOR } from '@/constants/colors';
 import { getCharacterPortraitHoverProps } from '@/constants/styles';
-import type { Quality } from '@/types/quality';
 import { getCharacterRoutePathByName } from '@/features/characters/utils/character-route';
+import type { Quality } from '@/types/quality';
+import { Image, Tooltip, type TooltipProps } from '@mantine/core';
+import type { CSSProperties, ReactNode } from 'react';
+import { Link } from 'react-router-dom';
 
 interface CharacterPortraitProps {
   name: string;
@@ -59,23 +59,26 @@ export default function CharacterPortrait({
       fit={fit}
       radius="50%"
       loading={loading}
-      className={className}
+      className={[
+        getCharacterPortraitHoverProps({ isSubstitute }).className,
+        className,
+      ]
+        .filter(Boolean)
+        .join(' ')}
+      style={{
+        ...(borderWidth > 0
+          ? {
+              border: `${borderWidth}px solid ${resolvedBorderColor}`,
+              borderRadius: '50%',
+            }
+          : {}),
+        opacity: isSubstitute ? 0.9 : 1,
+        ...style,
+      }}
       fallbackSrc={
         fallbackSrc ??
         `https://placehold.co/${size}x${size}?text=${encodeURIComponent(name.charAt(0))}`
       }
-      {...getCharacterPortraitHoverProps({
-        isSubstitute,
-        style: {
-          ...(borderWidth > 0
-            ? {
-                border: `${borderWidth}px solid ${resolvedBorderColor}`,
-                borderRadius: '50%',
-              }
-            : {}),
-          ...style,
-        },
-      })}
     />
   );
 

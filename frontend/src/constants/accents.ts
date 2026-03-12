@@ -11,15 +11,15 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   '/': 'violet',
 
   // Database
-  '/artifacts': 'teal',
+  '/artifacts': 'orange',
   '/characters': 'blue',
-  '/gear': 'teal',
-  '/gear-sets': 'teal',
-  '/howlkins': 'orange',
-  '/noble-phantasms': 'teal',
-  '/status-effects': 'cyan',
-  '/wyrmspells': 'indigo',
-  '/resources': 'teal',
+  '/gear': 'cyan',
+  '/gear-sets': 'cyan',
+  '/howlkins': 'yellow',
+  '/noble-phantasms': 'indigo',
+  '/status-effects': 'pink',
+  '/wyrmspells': 'violet',
+  '/resources': 'green',
   '/subclasses': 'grape',
 
   // Guides
@@ -59,11 +59,11 @@ export function getAccentForPath(path: string): SectionAccent {
 
   // Check for noble phantasm page (dynamic route)
   if (path.startsWith('/noble-phantasms/')) {
-    return 'teal';
+    return 'indigo';
   }
 
   if (path.startsWith('/gear-sets/')) {
-    return 'teal';
+    return 'cyan';
   }
 
   // Check for team page (dynamic route)

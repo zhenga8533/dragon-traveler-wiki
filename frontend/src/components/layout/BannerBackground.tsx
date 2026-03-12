@@ -27,10 +27,7 @@ export default function BannerBackground() {
   const parallaxEnabled = slowScrollEnabled && !reduceMotion;
 
   useEffect(() => {
-    if (!parallaxEnabled) {
-      setScrollY(0);
-      return;
-    }
+    if (!parallaxEnabled) return;
 
     if (typeof window === 'undefined') return;
 

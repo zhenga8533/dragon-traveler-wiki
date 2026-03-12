@@ -1,3 +1,17 @@
+import KonamiEasterEgg from '@/components/tools/KonamiEasterEgg';
+import SearchModal from '@/components/tools/SearchModal';
+import ErrorBoundary from '@/components/ui/ErrorBoundary';
+import { getGlassStyles } from '@/constants/glass';
+import { BRAND_TITLE_STYLE, LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
+import {
+  DETAIL_ROUTE_PATTERNS,
+  HEADER_HEIGHT,
+  SIDEBAR,
+  TRANSITION,
+} from '@/constants/ui';
+import { BannerContext, UiOpacityContext } from '@/contexts';
+import { useDarkMode, useIsMobile, useSidebar } from '@/hooks';
+import AppRoutes from '@/routes/AppRoutes';
 import {
   ActionIcon,
   AppShell,
@@ -12,25 +26,9 @@ import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
-import { getGlassStyles } from '@/constants/glass';
-import {
-  BRAND_TITLE_STYLE,
-  LINK_BLOCK_RESET_STYLE,
-} from '@/constants/styles';
-import {
-  DETAIL_ROUTE_PATTERNS,
-  HEADER_HEIGHT,
-  SIDEBAR,
-  TRANSITION,
-} from '@/constants/ui';
-import { BannerContext, UiOpacityContext } from '@/contexts';
-import { useDarkMode, useIsMobile, useSidebar } from '@/hooks';
-import AppRoutes from '@/routes/AppRoutes';
-import ErrorBoundary from '@/components/ui/ErrorBoundary';
-import KonamiEasterEgg from '@/components/tools/KonamiEasterEgg';
-import SearchModal from '@/components/tools/SearchModal';
 import BannerBackground from './BannerBackground';
 import Footer from './Footer';
+import MobileBottomNav from './MobileBottomNav';
 import Navigation from './Navigation';
 import PageTransition from './PageTransition';
 import ScrollToTop from './ScrollToTop';
@@ -141,14 +139,21 @@ export default function AppLayout() {
             showLabels={showLabels}
             onExpand={() => sidebar.setCollapsed(false)}
           />
+          {/* Spacer so the last nav items don't sit behind the fixed mobile
+               bottom nav when the sidebar is scrolled to the bottom. */}
+          <Box
+            hiddenFrom="sm"
+            style={{
+              height: 'calc(64px + env(safe-area-inset-bottom, 0px))',
+              flexShrink: 0,
+            }}
+            aria-hidden="true"
+          />
         </Box>
       </AppShell.Navbar>
 
       <AppShell.Main
         style={{
-          display: 'flex',
-          flexDirection: 'column',
-          minHeight: '100dvh',
           position: 'relative',
           overflow: 'clip',
           background:
@@ -156,7 +161,7 @@ export default function AppLayout() {
         }}
       >
         {showBanner && <BannerBackground />}
-        <Box style={{ flex: 1, position: 'relative', zIndex: 1 }}>
+        <Box style={{ position: 'relative', zIndex: 1 }}>
           <PageTransition>
             <ErrorBoundary>
               <AppRoutes />
@@ -164,10 +169,19 @@ export default function AppLayout() {
           </PageTransition>
         </Box>
         <Footer />
+        {/* Spacer placed AFTER the footer so the fixed mobile bottom nav
+             doesn't overlap footer content when scrolled to the bottom.
+             Includes env(safe-area-inset-bottom) for notched devices. */}
+        <Box
+          hiddenFrom="sm"
+          style={{ height: 'calc(64px + env(safe-area-inset-bottom, 0px))' }}
+          aria-hidden="true"
+        />
       </AppShell.Main>
 
       <ScrollToTop />
       <KonamiEasterEgg />
+      <MobileBottomNav />
     </AppShell>
   );
 }

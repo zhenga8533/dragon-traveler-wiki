@@ -1,3 +1,23 @@
+import { ChangeRecordCard } from '@/components/common/ChangeHistory';
+import EntityFilter from '@/components/common/EntityFilter';
+import {
+  FilterChipGroup,
+  FilterSection,
+} from '@/components/common/FilterControls';
+import { ListPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
+import PaginationControl from '@/components/ui/PaginationControl';
+import { IMAGE_SIZE } from '@/constants/ui';
+import {
+  useDataFetch,
+  useFilterPanel,
+  useGradientAccent,
+  useIsMobile,
+  usePageSize,
+  useTabParam,
+} from '@/hooks';
+import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
+import type { FieldDiff } from '@/types/changes';
 import {
   Badge,
   Box,
@@ -6,6 +26,7 @@ import {
   Container,
   Group,
   Paper,
+  Popover,
   Stack,
   Tabs,
   Text,
@@ -19,23 +40,6 @@ import {
   IoCloseCircle,
   IoFilter,
 } from 'react-icons/io5';
-import { ChangeRecordCard } from '@/components/common/ChangeHistory';
-import {
-  FilterChipGroup,
-  FilterClearButton,
-  FilterSection,
-} from '@/components/common/FilterControls';
-import PaginationControl from '@/components/ui/PaginationControl';
-import { ListPageLoading } from '@/components/layout/PageLoadingSkeleton';
-import { IMAGE_SIZE } from '@/constants/ui';
-import {
-  useDataFetch,
-  useGradientAccent,
-  usePageSize,
-  useTabParam,
-} from '@/hooks';
-import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
-import type { FieldDiff } from '@/types/changes';
 
 // ─── Site changelog types ─────────────────────────────────────────────────────
 
@@ -165,10 +169,11 @@ const EVENT_TYPE_LABEL: Record<DataEvent['eventType'], string> = {
 
 function DataHistory() {
   const { accent } = useGradientAccent();
+  const isMobile = useIsMobile();
   const [events, setEvents] = useState<DataEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
-  const [filterOpen, setFilterOpen] = useState(false);
+  const { isOpen: filterOpen, toggle: toggleFilter } = useFilterPanel();
   const {
     set: expandedIds,
     toggle: toggleExpanded,
@@ -262,15 +267,32 @@ function DataHistory() {
     events.some((e) => e.category === file)
   ).map(({ file, label }) => ({ value: file, label }));
 
-  function handleCategoryChange(values: string[]) {
-    setSelectedCategories(values);
-    clearExpanded();
-  }
-
   function clearFilters() {
     setSelectedCategories([]);
     clearExpanded();
   }
+
+  const filterContent = (
+    <EntityFilter
+      groups={[]}
+      selected={{}}
+      onChange={() => {}}
+      onClear={clearFilters}
+      hasActiveFilters={selectedCategories.length > 0}
+      afterGroups={
+        <FilterSection label="Category">
+          <FilterChipGroup
+            value={selectedCategories}
+            onChange={(values) => {
+              setSelectedCategories(values);
+              clearExpanded();
+            }}
+            options={categoryChipOptions}
+          />
+        </FilterSection>
+      }
+    />
+  );
 
   if (loading) return <ListPageLoading cards={4} />;
 
@@ -289,40 +311,81 @@ function DataHistory() {
         <Text size="sm" c="dimmed">
           {filtered.length} change{filtered.length !== 1 ? 's' : ''}
         </Text>
-        <Button
-          variant="default"
-          color={accent.primary}
-          size="xs"
-          leftSection={<IoFilter size={16} />}
-          rightSection={
-            selectedCategories.length > 0 ? (
-              <Badge size="xs" circle variant="filled" color={accent.primary}>
-                {selectedCategories.length}
-              </Badge>
-            ) : null
-          }
-          onClick={() => setFilterOpen((o) => !o)}
-        >
-          Filters
-        </Button>
+        {isMobile ? (
+          <Button
+            variant="default"
+            color={accent.primary}
+            size="xs"
+            leftSection={<IoFilter size={16} />}
+            rightSection={
+              selectedCategories.length > 0 ? (
+                <Badge size="xs" circle variant="filled" color={accent.primary}>
+                  {selectedCategories.length}
+                </Badge>
+              ) : null
+            }
+            onClick={toggleFilter}
+          >
+            Filters
+          </Button>
+        ) : (
+          <Popover
+            opened={filterOpen}
+            width={480}
+            position="bottom-end"
+            withArrow
+            offset={8}
+            shadow="md"
+            closeOnClickOutside
+            onDismiss={toggleFilter}
+          >
+            <Popover.Target>
+              <Button
+                variant="default"
+                color={accent.primary}
+                size="xs"
+                leftSection={<IoFilter size={16} />}
+                rightSection={
+                  selectedCategories.length > 0 ? (
+                    <Badge
+                      size="xs"
+                      circle
+                      variant="filled"
+                      color={accent.primary}
+                    >
+                      {selectedCategories.length}
+                    </Badge>
+                  ) : null
+                }
+                onClick={toggleFilter}
+              >
+                Filters
+              </Button>
+            </Popover.Target>
+            <Popover.Dropdown
+              p="sm"
+              style={{
+                maxHeight: '70dvh',
+                overflowY: 'auto',
+                overscrollBehavior: 'contain',
+              }}
+            >
+              {filterContent}
+            </Popover.Dropdown>
+          </Popover>
+        )}
       </Group>
 
-      <Collapse in={filterOpen}>
-        <Paper p="sm" radius="md" withBorder>
-          <Stack gap="xs">
-            <FilterSection label="Category">
-              <FilterChipGroup
-                value={selectedCategories}
-                onChange={handleCategoryChange}
-                options={categoryChipOptions}
-              />
-            </FilterSection>
-            {selectedCategories.length > 0 && (
-              <FilterClearButton onClick={clearFilters} />
-            )}
-          </Stack>
-        </Paper>
-      </Collapse>
+      {isMobile && (
+        <MobileBottomDrawer
+          opened={filterOpen}
+          onClose={toggleFilter}
+          title="Filters"
+          closeButtonProps={{ 'aria-label': 'Close filters' }}
+        >
+          {filterContent}
+        </MobileBottomDrawer>
+      )}
 
       {filtered.length === 0 ? (
         <Text c="dimmed" ta="center" py="lg">

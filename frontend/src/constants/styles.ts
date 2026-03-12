@@ -1,6 +1,5 @@
 import type { CSSProperties } from 'react';
 import { getGlassStyles } from './glass';
-import { TRANSITION } from './ui';
 
 export const BRAND_TITLE_STYLE = {
   fontFamily: '"Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif',
@@ -26,7 +25,6 @@ type CardHoverPropsOptions = {
 
 type CharacterPortraitHoverOptions = {
   isSubstitute?: boolean;
-  style?: CSSProperties;
 };
 
 /**
@@ -42,32 +40,18 @@ export function getCardHoverProps(options: CardHoverPropsOptions = {}) {
   return style ? { className, style } : { className };
 }
 
+/**
+ * Returns a CSS class for character portrait hover effect (scale + shadow).
+ * Actual transitions are handled by `.portrait-hover` in themed-cards.css.
+ */
 export function getCharacterPortraitHoverProps(
   options: CharacterPortraitHoverOptions = {}
 ) {
-  const { isSubstitute = false, style } = options;
-  const baseShadow = isSubstitute
-    ? '0 1px 4px rgba(0,0,0,0.16)'
-    : '0 2px 6px rgba(0,0,0,0.2)';
-  const hoverShadow = isSubstitute
-    ? '0 3px 8px rgba(0,0,0,0.2)'
-    : '0 4px 10px rgba(0,0,0,0.25)';
-
+  const { isSubstitute = false } = options;
   return {
-    style: {
-      boxShadow: baseShadow,
-      opacity: isSubstitute ? 0.9 : 1,
-      transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, box-shadow ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-      ...style,
-    } as CSSProperties,
-    onMouseEnter: (e: React.MouseEvent<HTMLElement>) => {
-      e.currentTarget.style.transform = 'scale(1.08)';
-      e.currentTarget.style.boxShadow = hoverShadow;
-    },
-    onMouseLeave: (e: React.MouseEvent<HTMLElement>) => {
-      e.currentTarget.style.transform = 'scale(1)';
-      e.currentTarget.style.boxShadow = baseShadow;
-    },
+    className: isSubstitute
+      ? 'portrait-hover portrait-hover-substitute'
+      : 'portrait-hover',
   };
 }
 
@@ -93,15 +77,15 @@ export const DETAIL_TOOLTIP_STYLES = {
  */
 export const RICH_TOOLTIP_STYLES = {
   tooltip: {
-    backgroundColor: 'var(--mantine-color-default)',
+    backgroundColor: 'var(--mantine-color-body)',
     color: 'var(--mantine-color-text)',
     border: '1px solid var(--mantine-color-default-border)',
     boxShadow: 'var(--mantine-shadow-md)',
-    borderRadius: 'var(--mantine-radius-sm)',
+    borderRadius: 'var(--mantine-radius-md)',
     padding: 'var(--mantine-spacing-sm) var(--mantine-spacing-md)',
   },
   arrow: {
-    backgroundColor: 'var(--mantine-color-default)',
+    backgroundColor: 'var(--mantine-color-body)',
     border: '1px solid var(--mantine-color-default-border)',
   },
 };
@@ -257,7 +241,7 @@ export function getHeroIconBoxStyles(
     width: 96,
     height: 96,
     flexShrink: 0,
-    borderRadius: circle ? '50%' : 12,
+    borderRadius: circle ? '50%' : 'var(--mantine-radius-md)',
     background: isDark ? 'rgba(0,0,0,0.3)' : 'rgba(255,255,255,0.5)',
     border: `3px solid var(--mantine-color-${color}-${isDark ? 7 : 4})`,
     display: 'flex' as const,

@@ -11,54 +11,88 @@ export type GradientPalette =
   | 'blossom';
 
 export interface GradientPaletteAccents {
-  primary: 'violet' | 'teal' | 'orange' | 'green' | 'red';
-  secondary: 'grape' | 'cyan' | 'pink' | 'lime' | 'teal' | 'orange';
-  tertiary: 'pink' | 'orange' | 'yellow' | 'teal' | 'lime';
+  primary:
+    | 'violet'
+    | 'teal'
+    | 'orange'
+    | 'green'
+    | 'red'
+    | 'blue'
+    | 'pink'
+    | 'yellow';
+  secondary:
+    | 'grape'
+    | 'cyan'
+    | 'pink'
+    | 'lime'
+    | 'teal'
+    | 'orange'
+    | 'blue'
+    | 'violet'
+    | 'yellow';
+  tertiary:
+    | 'pink'
+    | 'orange'
+    | 'yellow'
+    | 'teal'
+    | 'lime'
+    | 'cyan'
+    | 'grape'
+    | 'violet'
+    | 'indigo';
 }
 
 export const GRADIENT_PALETTE_ACCENTS: Record<
   GradientPalette,
   GradientPaletteAccents
 > = {
+  // Arcane — rich violet, deep grape, indigo
   violet: {
     primary: 'violet',
     secondary: 'grape',
     tertiary: 'pink',
   },
+  // Abyss — deep navy, electric blue, cyan
   ocean: {
-    primary: 'teal',
+    primary: 'blue',
     secondary: 'cyan',
-    tertiary: 'orange',
+    tertiary: 'teal',
   },
+  // Golden Hour — amber, warm orange, desert gold
   sunset: {
     primary: 'orange',
-    secondary: 'pink',
-    tertiary: 'yellow',
+    secondary: 'yellow',
+    tertiary: 'orange',
   },
+  // Ancient Grove — deep emerald, dark teal
   forest: {
     primary: 'green',
     secondary: 'teal',
     tertiary: 'lime',
   },
+  // Dragon Fire — crimson, scarlet rose, magenta
   ember: {
     primary: 'red',
-    secondary: 'orange',
-    tertiary: 'pink',
+    secondary: 'pink',
+    tertiary: 'grape',
   },
+  // Northern Lights — electric teal, aurora violet, indigo
   dusk: {
-    primary: 'violet',
-    secondary: 'orange',
+    primary: 'teal',
+    secondary: 'violet',
+    tertiary: 'indigo',
+  },
+  // Glacial — pale sky, crystal blue, arctic shimmer
+  frost: {
+    primary: 'blue',
+    secondary: 'cyan',
     tertiary: 'teal',
   },
-  frost: {
-    primary: 'teal',
-    secondary: 'cyan',
-    tertiary: 'lime',
-  },
+  // Night Garden — deep plum, vivid rose, rich magenta
   blossom: {
-    primary: 'red',
-    secondary: 'pink',
-    tertiary: 'orange',
+    primary: 'pink',
+    secondary: 'grape',
+    tertiary: 'violet',
   },
 };
 

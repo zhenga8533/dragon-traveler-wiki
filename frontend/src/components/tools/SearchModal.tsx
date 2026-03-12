@@ -614,18 +614,49 @@ export default function SearchModal({
     <>
       {trigger ? (
         trigger({ open })
-      ) : (
+      ) : isMobile ? (
         <Tooltip label={searchShortcutHint} position="bottom" withArrow>
           <ActionIcon
             variant="subtle"
             color={accent.primary}
-            size={isMobile ? 'xl' : 'lg'}
+            size="xl"
             onClick={open}
             aria-label={searchShortcutHint}
           >
             <IoSearch size={IMAGE_SIZE.ICON_LG} />
           </ActionIcon>
         </Tooltip>
+      ) : (
+        <UnstyledButton
+          onClick={open}
+          aria-label={searchShortcutHint}
+          className="search-pill-trigger"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: 8,
+            padding: '5px 10px 5px 12px',
+            borderRadius: 'var(--mantine-radius-md)',
+            border: '1px solid var(--mantine-color-default-border)',
+            background: 'var(--mantine-color-default)',
+            color: 'var(--mantine-color-dimmed)',
+            minWidth: 150,
+          }}
+        >
+          <IoSearch
+            size={IMAGE_SIZE.ICON_MD}
+            style={{
+              color: `var(--mantine-color-${accent.primary}-6)`,
+              flexShrink: 0,
+            }}
+          />
+          <Text size="sm" c="dimmed" style={{ flex: 1, userSelect: 'none' }}>
+            Search...
+          </Text>
+          <Kbd size="xs" style={{ flexShrink: 0 }}>
+            /
+          </Kbd>
+        </UnstyledButton>
       )}
 
       <Modal

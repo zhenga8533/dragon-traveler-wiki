@@ -1,10 +1,10 @@
+import { IMAGE_SIZE } from '@/constants/ui';
+import { useGradientAccent, useIsMobile } from '@/hooks';
 import { ActionIcon, Affix, Transition } from '@mantine/core';
 import { useWindowScroll } from '@mantine/hooks';
 import { useEffect } from 'react';
 import { IoArrowUp } from 'react-icons/io5';
 import { useLocation, useNavigationType } from 'react-router-dom';
-import { IMAGE_SIZE } from '@/constants/ui';
-import { useGradientAccent } from '@/hooks';
 
 const SCROLL_KEY = 'scroll-pos-';
 
@@ -16,6 +16,7 @@ if ('scrollRestoration' in window.history) {
 export default function ScrollToTop() {
   const [scroll, scrollTo] = useWindowScroll();
   const { accent } = useGradientAccent();
+  const isMobile = useIsMobile();
   const location = useLocation();
   const navigationType = useNavigationType();
 
@@ -47,7 +48,12 @@ export default function ScrollToTop() {
   }, [location.key, navigationType]);
 
   return (
-    <Affix position={{ bottom: 20, right: 20 }}>
+    <Affix
+      position={{
+        bottom: isMobile ? 'calc(80px + env(safe-area-inset-bottom, 0px))' : 20,
+        right: 20,
+      }}
+    >
       <Transition transition="slide-up" mounted={scroll.y > 300}>
         {(transitionStyles) => (
           <ActionIcon
