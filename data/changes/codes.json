@@ -276,15 +276,6 @@
             "new": false
           }
         }
-      },
-      {
-        "timestamp": 1773147115,
-        "fields": {
-          "active": {
-            "old": true,
-            "new": false
-          }
-        }
       }
     ]
   },
@@ -389,69 +380,6 @@
     "changes": [
       {
         "timestamp": 1773324454,
-        "fields": {
-          "active": {
-            "old": true,
-            "new": false
-          }
-        }
-      },
-      {
-        "timestamp": 1773324599,
-        "fields": {
-          "active": {
-            "old": true,
-            "new": false
-          }
-        }
-      },
-      {
-        "timestamp": 1773324693,
-        "fields": {
-          "active": {
-            "old": true,
-            "new": false
-          }
-        }
-      },
-      {
-        "timestamp": 1773324728,
-        "fields": {
-          "active": {
-            "old": true,
-            "new": false
-          }
-        }
-      },
-      {
-        "timestamp": 1773324793,
-        "fields": {
-          "active": {
-            "old": true,
-            "new": false
-          }
-        }
-      },
-      {
-        "timestamp": 1773324861,
-        "fields": {
-          "active": {
-            "old": true,
-            "new": false
-          }
-        }
-      },
-      {
-        "timestamp": 1773324876,
-        "fields": {
-          "active": {
-            "old": true,
-            "new": false
-          }
-        }
-      },
-      {
-        "timestamp": 1773324967,
         "fields": {
           "active": {
             "old": true,
