@@ -11,6 +11,17 @@
     "last_updated": 1773298186
   },
   {
+    "name": "The Deadly Rush Event Begins!",
+    "active": true,
+    "event_id": "6760324638",
+    "badge": "Special Event",
+    "description": "New SSR+ Luminary Crimson Thornblade Jing awakens! Complete Deadly Rush event goals for her \"Crimson Lady\" skin!",
+    "source": "App Store",
+    "start_date": "2026-03-12",
+    "end_date": null,
+    "last_updated": 1773314962
+  },
+  {
     "name": "The Gymnasium Locked-Room Case",
     "active": false,
     "event_id": "6758127956",
