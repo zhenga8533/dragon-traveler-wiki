@@ -41,6 +41,7 @@ import {
   Group,
   Image,
   Paper,
+  ScrollArea,
   SimpleGrid,
   Skeleton,
   Stack,
@@ -50,11 +51,7 @@ import {
 } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
 import { useEffect, useMemo } from 'react';
-import {
-  IoCalendar,
-  IoCalendarOutline,
-  IoInformationCircleOutline,
-} from 'react-icons/io5';
+import { IoInformationCircleOutline } from 'react-icons/io5';
 
 const EVENTS_PER_PAGE = 12;
 const EVENT_PAGE_SIZE_OPTIONS: Record<ViewMode, readonly number[]> = {
@@ -760,36 +757,35 @@ export default function Events() {
         </Alert>
 
         <Tabs value={tab} onChange={handleTabChange}>
-          <Tabs.List>
-            <Tabs.Tab
-              value="active"
-              leftSection={<IoCalendar size={14} />}
-              rightSection={
-                activeCount > 0 ? (
-                  <Badge size="xs" variant="light" color={accent.primary}>
-                    {activeCount}
-                  </Badge>
-                ) : undefined
-              }
-            >
-              Active Events
-            </Tabs.Tab>
-            <Tabs.Tab
-              value="past"
-              leftSection={<IoCalendarOutline size={14} />}
-              rightSection={
-                pastCount > 0 ? (
-                  <Badge size="xs" variant="light" color={accent.primary}>
-                    {pastCount}
-                  </Badge>
-                ) : undefined
-              }
-            >
-              Past Events
-            </Tabs.Tab>
-          </Tabs.List>
+          <ScrollArea type="auto" scrollbarSize={5} offsetScrollbars>
+            <Tabs.List style={{ flexWrap: 'nowrap', minWidth: 'max-content' }}>
+              <Tabs.Tab
+                value="active"
+                rightSection={
+                  activeCount > 0 ? (
+                    <Badge size="xs" variant="light" color={accent.primary}>
+                      {activeCount}
+                    </Badge>
+                  ) : undefined
+                }
+              >
+                Active Events
+              </Tabs.Tab>
+              <Tabs.Tab
+                value="past"
+                rightSection={
+                  pastCount > 0 ? (
+                    <Badge size="xs" variant="light" color={accent.primary}>
+                      {pastCount}
+                    </Badge>
+                  ) : undefined
+                }
+              >
+                Past Events
+              </Tabs.Tab>
+            </Tabs.List>
+          </ScrollArea>
         </Tabs>
-
 
         {isLoading &&
           (eventViewMode === 'list' ? (
