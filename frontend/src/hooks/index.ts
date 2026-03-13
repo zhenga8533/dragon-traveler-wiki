@@ -37,7 +37,6 @@ export {
 } from './use-filters';
 export { useGradientAccent } from './use-gradient-accent';
 export { useIsMobile } from './use-is-mobile';
-export { useMobileNavEnabled } from './use-mobile-nav-enabled';
 export { useMobileTooltip } from './use-mobile-tooltip';
 export {
   buildRowAlignedPageSizeOptions,
@@ -49,7 +48,6 @@ export {
 export { useSidebar } from './use-sidebar';
 export { applyDir, useSortState } from './use-sort';
 export { useEntityTabParam, useTabParam } from './use-tab-param';
-export { useViewportCssVars } from './use-viewport-css-vars';
 
 // Re-export hook types
 export type { DataFetchResult } from './use-data-fetch';

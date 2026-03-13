@@ -39,8 +39,6 @@ export const Z_INDEX = {
   BASE: 0,
   DROPDOWN: 100,
   STICKY: 200,
-  /** Mobile bottom nav: above page content, below Mantine overlays (200) and modals/drawers (300) */
-  BOTTOM_NAV: 150,
   FIXED: 300,
   MODAL_BACKDROP: 400,
   MODAL: 500,
@@ -68,16 +66,6 @@ export const HEADER_HEIGHT = {
   MOBILE: 64,
   DESKTOP: 72,
 } as const;
-
-export const APP_VIEWPORT_HEIGHT = 'var(--app-viewport-height, 100dvh)';
-export const MOBILE_VIEWPORT_BOTTOM_OFFSET =
-  'var(--app-viewport-bottom-offset, 0px)';
-
-/**
- * Visible height of the mobile bottom nav bar (icon + label + py="xs" padding).
- * Used for bottom spacers and positioning sticky UI elements (e.g. ScrollToTop).
- */
-export const MOBILE_NAV_HEIGHT = 60;
 
 // Storage keys
 export const PAGE_SIZE = 50;
@@ -161,6 +149,5 @@ export const STORAGE_KEY = {
   UI_BANNER_MEDIA_OPACITY: 'ui:bannerMediaOpacity',
   UI_BANNER_OVERLAY_OPACITY: 'ui:bannerOverlayOpacity',
   UI_SURFACE_OPACITY: 'ui:surfaceOpacity',
-  MOBILE_NAV_ENABLED: 'ui:mobileNavEnabled',
   CHANGELOG_TAB: 'changelog:tab',
 } as const;

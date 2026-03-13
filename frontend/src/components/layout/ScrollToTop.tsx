@@ -1,9 +1,5 @@
-import {
-  IMAGE_SIZE,
-  MOBILE_NAV_HEIGHT,
-  MOBILE_VIEWPORT_BOTTOM_OFFSET,
-} from '@/constants/ui';
-import { useGradientAccent, useIsMobile } from '@/hooks';
+import { IMAGE_SIZE } from '@/constants/ui';
+import { useGradientAccent } from '@/hooks';
 import { ActionIcon, Affix, Transition } from '@mantine/core';
 import { useWindowScroll } from '@mantine/hooks';
 import { useEffect } from 'react';
@@ -17,14 +13,9 @@ if ('scrollRestoration' in window.history) {
   window.history.scrollRestoration = 'manual';
 }
 
-export default function ScrollToTop({
-  mobileNavOffset = false,
-}: {
-  mobileNavOffset?: boolean;
-}) {
+export default function ScrollToTop() {
   const [scroll, scrollTo] = useWindowScroll();
   const { accent } = useGradientAccent();
-  const isMobile = useIsMobile();
   const location = useLocation();
   const navigationType = useNavigationType();
 
@@ -58,11 +49,7 @@ export default function ScrollToTop({
   return (
     <Affix
       position={{
-        // On mobile (portrait) keep the button clear of the bottom nav bar.
-        bottom:
-          isMobile && mobileNavOffset
-            ? `calc(${MOBILE_NAV_HEIGHT + 16}px + env(safe-area-inset-bottom, 0px) + ${MOBILE_VIEWPORT_BOTTOM_OFFSET})`
-            : 20,
+        bottom: 20,
         right: 20,
       }}
     >

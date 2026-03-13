@@ -1,11 +1,7 @@
 import { GITHUB_REPO_URL } from '@/constants/github';
 import { getGlassStyles } from '@/constants/glass';
 import { ICON_TEXT_FLEX_STYLE } from '@/constants/styles';
-import {
-  IMAGE_SIZE,
-  MOBILE_NAV_HEIGHT,
-  MOBILE_VIEWPORT_BOTTOM_OFFSET,
-} from '@/constants/ui';
+import { IMAGE_SIZE } from '@/constants/ui';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   Anchor,
@@ -30,11 +26,7 @@ const DATA_SOURCE_URL = 'https://www.gamekee.com/lhlr/';
 const LEGAL_DISCLAIMER =
   'This is an unofficial, fan-run wiki and is not affiliated with or endorsed by GameTree. Dragon Traveler names, assets, and related intellectual property belong to GameTree.';
 
-export default function Footer({
-  mobileNavOffset = false,
-}: {
-  mobileNavOffset?: boolean;
-}) {
+export default function Footer() {
   const [showLegal, setShowLegal] = useState(false);
   const isDark = useDarkMode();
   const { accent } = useGradientAccent();
@@ -72,9 +64,7 @@ export default function Footer({
         marginRight: 'calc(-1 * var(--app-shell-padding))',
         marginBottom: 'calc(-1 * var(--app-shell-padding))',
         paddingTop: 'var(--mantine-spacing-md)',
-        paddingBottom: mobileNavOffset
-          ? `calc(var(--mantine-spacing-md) + ${MOBILE_NAV_HEIGHT}px + env(safe-area-inset-bottom, 0px) + ${MOBILE_VIEWPORT_BOTTOM_OFFSET})`
-          : 'var(--mantine-spacing-md)',
+        paddingBottom: 'var(--mantine-spacing-md)',
       }}
     >
       <Container size="lg">
