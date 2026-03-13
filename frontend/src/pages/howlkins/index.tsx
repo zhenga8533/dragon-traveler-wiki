@@ -38,6 +38,7 @@ import {
 import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
 import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
+import SandstormOverlay from '@/components/layout/SandstormOverlay';
 import {
   Badge,
   Container,
@@ -154,8 +155,11 @@ const EMPTY_FILTERS: HowlkinFilters = {
   qualities: [],
 };
 
+const PHARAOH_NAME = 'Pharaoh Guardian';
+
 export default function Howlkins() {
   const { accent } = useGradientAccent();
+  const [shurimaActive, setShurimaActive] = useState(false);
   const [activeTab, handleTabChange] = useTabParam('tab', 'howlkins', [
     'howlkins',
     'golden-alliances',
@@ -316,6 +320,7 @@ export default function Howlkins() {
 
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
+      <SandstormOverlay active={shurimaActive} />
       <Stack gap="md">
         <ListPageHeader
           title="Howlkins"
@@ -413,6 +418,7 @@ export default function Howlkins() {
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                     {howlkinPageItems.map((howlkin) => {
                       const iconSrc = getHowlkinIcon(howlkin.name);
+                      const isPharaoh = howlkin.name === PHARAOH_NAME;
                       return (
                         <Paper
                           key={howlkin.name}
@@ -420,6 +426,31 @@ export default function Howlkins() {
                           radius="md"
                           withBorder
                           {...getCardHoverProps()}
+                          onMouseEnter={
+                            isPharaoh
+                              ? () => setShurimaActive(true)
+                              : undefined
+                          }
+                          onMouseLeave={
+                            isPharaoh
+                              ? () => setShurimaActive(false)
+                              : undefined
+                          }
+                          onTouchStart={
+                            isPharaoh
+                              ? () => setShurimaActive(true)
+                              : undefined
+                          }
+                          onTouchEnd={
+                            isPharaoh
+                              ? () => setShurimaActive(false)
+                              : undefined
+                          }
+                          onTouchCancel={
+                            isPharaoh
+                              ? () => setShurimaActive(false)
+                              : undefined
+                          }
                         >
                           <Stack gap="xs">
                             <Group gap="sm" wrap="nowrap">
@@ -489,8 +520,36 @@ export default function Howlkins() {
                       <Table.Tbody>
                         {howlkinPageItems.map((howlkin) => {
                           const iconSrc = getHowlkinIcon(howlkin.name);
+                          const isPharaoh = howlkin.name === PHARAOH_NAME;
                           return (
-                            <Table.Tr key={howlkin.name}>
+                            <Table.Tr
+                              key={howlkin.name}
+                              onMouseEnter={
+                                isPharaoh
+                                  ? () => setShurimaActive(true)
+                                  : undefined
+                              }
+                              onMouseLeave={
+                                isPharaoh
+                                  ? () => setShurimaActive(false)
+                                  : undefined
+                              }
+                              onTouchStart={
+                                isPharaoh
+                                  ? () => setShurimaActive(true)
+                                  : undefined
+                              }
+                              onTouchEnd={
+                                isPharaoh
+                                  ? () => setShurimaActive(false)
+                                  : undefined
+                              }
+                              onTouchCancel={
+                                isPharaoh
+                                  ? () => setShurimaActive(false)
+                                  : undefined
+                              }
+                            >
                               <Table.Td>
                                 {iconSrc && (
                                   <Image

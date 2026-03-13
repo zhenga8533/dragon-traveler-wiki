@@ -1,0 +1,211 @@
+/* ── Looping sand particles ───────────────────────────────────────────────── */
+
+@keyframes sandDrift {
+  0% {
+    transform: translateX(-120vw) translateY(0);
+    opacity: 0;
+  }
+  6% {
+    opacity: var(--p-opacity, 0.7);
+  }
+  94% {
+    opacity: var(--p-opacity, 0.7);
+  }
+  100% {
+    transform: translateX(120vw) translateY(var(--p-drift, 0px));
+    opacity: 0;
+  }
+}
+
+@keyframes sandDriftAlt {
+  0% {
+    transform: translateX(-120vw) translateY(var(--p-drift, 0px));
+    opacity: 0;
+  }
+  6% {
+    opacity: var(--p-opacity, 0.7);
+  }
+  94% {
+    opacity: var(--p-opacity, 0.7);
+  }
+  100% {
+    transform: translateX(120vw) translateY(0);
+    opacity: 0;
+  }
+}
+
+@keyframes streakDrift {
+  0% {
+    transform: translateX(-120vw) translateY(var(--p-drift, 0px));
+    opacity: 0;
+  }
+  5% {
+    opacity: var(--p-opacity, 0.45);
+  }
+  95% {
+    opacity: var(--p-opacity, 0.45);
+  }
+  100% {
+    transform: translateX(120vw) translateY(0);
+    opacity: 0;
+  }
+}
+
+/* ── Letter fly-through (plays once per hover) ───────────────────────────── */
+
+@keyframes letterFly {
+  0% {
+    transform: translateX(-115vw) translateY(0) rotate(calc(var(--l-rot, 0) * 1deg));
+    opacity: 0;
+  }
+  6% {
+    opacity: var(--l-opacity, 0.95);
+  }
+  50% {
+    transform: translateX(0) translateY(var(--l-drift, 0px)) rotate(0deg);
+  }
+  94% {
+    opacity: var(--l-opacity, 0.95);
+  }
+  100% {
+    transform: translateX(115vw) translateY(0) rotate(calc(var(--l-rot, 0) * -0.5deg));
+    opacity: 0;
+  }
+}
+
+/* ── Overlay enter / exit ────────────────────────────────────────────────── */
+
+@keyframes overlayIn {
+  from { opacity: 0; }
+  to   { opacity: 1; }
+}
+
+@keyframes overlayOut {
+  from { opacity: 1; }
+  to   { opacity: 0; }
+}
+
+/* ── Haze pulse ──────────────────────────────────────────────────────────── */
+
+@keyframes hazeShift {
+  0%, 100% {
+    opacity: 0.75;
+    transform: scaleX(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scaleX(1.03);
+  }
+}
+
+/* ── Structure ───────────────────────────────────────────────────────────── */
+
+.overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 10000;
+  pointer-events: none;
+  overflow: hidden;
+  animation: overlayIn 0.2s ease forwards;
+}
+
+.overlay.fadeOut {
+  animation: overlayOut 0.75s ease forwards;
+}
+
+/* Inner wrapper keyed per activation; overflow hidden inherited from parent */
+.content {
+  position: absolute;
+  inset: 0;
+}
+
+.dimLayer {
+  position: absolute;
+  inset: 0;
+  background: rgba(18, 10, 0, 0.52);
+}
+
+.sandLayer {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    180deg,
+    rgba(150, 100, 20, 0.1)  0%,
+    rgba(210, 155, 60, 0.36) 25%,
+    rgba(230, 178, 82, 0.48) 50%,
+    rgba(210, 155, 60, 0.36) 75%,
+    rgba(150, 100, 20, 0.1)  100%
+  );
+  animation: hazeShift 3s ease-in-out infinite;
+}
+
+/* ── Particles ───────────────────────────────────────────────────────────── */
+
+.particle {
+  position: absolute;
+  border-radius: 50%;
+  background: radial-gradient(
+    circle,
+    rgba(230, 185, 105, var(--p-opacity, 0.75)) 0%,
+    rgba(190, 140, 60,  calc(var(--p-opacity, 0.75) * 0.35)) 100%
+  );
+  animation: sandDrift var(--p-dur, 3s) var(--p-delay, 0s) linear infinite;
+}
+
+.particle.alt {
+  animation-name: sandDriftAlt;
+}
+
+.streak {
+  position: absolute;
+  border-radius: 9999px;
+  background: linear-gradient(
+    90deg,
+    transparent                                         0%,
+    rgba(220, 175, 90,  var(--p-opacity, 0.45))        25%,
+    rgba(235, 195, 110, var(--p-opacity, 0.45))        50%,
+    rgba(220, 175, 90,  var(--p-opacity, 0.45))        75%,
+    transparent                                         100%
+  );
+  animation: streakDrift var(--p-dur, 2s) var(--p-delay, 0s) linear infinite;
+}
+
+/* ── Flying letters ──────────────────────────────────────────────────────── */
+
+.letter {
+  position: absolute;
+  font-family: 'Georgia', 'Times New Roman', serif;
+  font-size: clamp(1.8rem, 6vw, 4.5rem);
+  font-weight: 700;
+  color: #fde68a;
+  text-shadow:
+    0 0 18px rgba(255, 195, 70,  0.9),
+    0 0 45px rgba(240, 155, 25,  0.55),
+    2px 3px 6px rgba(0, 0, 0, 0.95);
+  /* Plays once; fill:both hides the letter before its delay and after it exits */
+  animation: letterFly var(--l-dur, 3.2s) var(--l-delay, 0ms) linear 1 both;
+  white-space: pre;
+  user-select: none;
+}
+
+/* ── Reduced motion ──────────────────────────────────────────────────────── */
+
+@media (prefers-reduced-motion: reduce) {
+  .overlay,
+  .overlay.fadeOut,
+  .particle,
+  .streak,
+  .sandLayer,
+  .letter {
+    animation: none;
+  }
+
+  .overlay       { opacity: 1; }
+  .overlay.fadeOut { display: none; }
+
+  .letter {
+    position: static;
+    display: inline;
+    opacity: 1;
+  }
+}
