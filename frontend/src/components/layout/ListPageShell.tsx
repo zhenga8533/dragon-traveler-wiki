@@ -1,7 +1,7 @@
+import DataFetchError from '@/components/ui/DataFetchError';
 import { Text } from '@mantine/core';
 import { type ReactNode } from 'react';
-import DataFetchError from '@/components/ui/DataFetchError';
-import { ListPageLoading } from './PageLoadingSkeleton';
+import { CardGridLoading, ListPageLoading } from './PageLoadingSkeleton';
 
 interface ListPageShellProps {
   loading: boolean;
@@ -10,6 +10,9 @@ interface ListPageShellProps {
   emptyMessage: string;
   errorTitle?: string;
   skeletonCards?: number;
+  skeletonType?: 'list' | 'grid';
+  skeletonCardHeight?: number;
+  skeletonCols?: number | Partial<Record<string, number>>;
   children: ReactNode;
 }
 
@@ -20,9 +23,22 @@ export default function ListPageShell({
   emptyMessage,
   errorTitle = 'Could not load data',
   skeletonCards = 4,
+  skeletonType = 'list',
+  skeletonCardHeight,
+  skeletonCols,
   children,
 }: ListPageShellProps) {
-  if (loading) return <ListPageLoading cards={skeletonCards} />;
+  if (loading) {
+    return skeletonType === 'grid' ? (
+      <CardGridLoading
+        cards={skeletonCards}
+        cardHeight={skeletonCardHeight}
+        cols={skeletonCols}
+      />
+    ) : (
+      <ListPageLoading cards={skeletonCards} />
+    );
+  }
   if (error) {
     return (
       <DataFetchError

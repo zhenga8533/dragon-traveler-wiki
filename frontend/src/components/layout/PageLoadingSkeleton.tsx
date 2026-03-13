@@ -1,5 +1,5 @@
-import { Paper, SimpleGrid, Skeleton, Stack } from '@mantine/core';
 import { getCardHoverProps } from '@/constants/styles';
+import { Paper, SimpleGrid, Skeleton, Stack } from '@mantine/core';
 
 export function ListPageLoading({ cards = 4 }: { cards?: number }) {
   return (
@@ -33,12 +33,14 @@ export function ListPageLoading({ cards = 4 }: { cards?: number }) {
 export function CardGridLoading({
   cards = 4,
   cardHeight = 200,
+  cols,
 }: {
   cards?: number;
   cardHeight?: number;
+  cols?: number | Partial<Record<string, number>>;
 }) {
   return (
-    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+    <SimpleGrid cols={cols ?? { base: 1, sm: 2 }} spacing="md">
       {Array.from({ length: cards }).map((_, index) => (
         <Skeleton key={index} height={cardHeight} radius="md" />
       ))}

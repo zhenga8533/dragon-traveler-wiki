@@ -1,6 +1,3 @@
-import { Container, Group, Stack, Title } from '@mantine/core';
-import { useMemo } from 'react';
-import { IoPeople } from 'react-icons/io5';
 import {
   CharacterList,
   EmptyState,
@@ -10,9 +7,13 @@ import {
   type FieldDef,
 } from '@/components';
 import { CLASS_ORDER, QUALITY_ORDER } from '@/constants/colors';
-import { useDataFetch, useGradientAccent } from '@/hooks';
+import { CHARACTER_GRID_COLS } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
+import { useDataFetch, useGradientAccent } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
+import { Container, Group, Stack, Title } from '@mantine/core';
+import { useMemo } from 'react';
+import { IoPeople } from 'react-icons/io5';
 
 const CHARACTER_FIELDS: FieldDef[] = [
   {
@@ -93,7 +94,10 @@ export default function Characters() {
           errorTitle="Could not load characters"
           hasData={characters.length > 0}
           emptyMessage="No character data available yet."
-          skeletonCards={18}
+          skeletonType="grid"
+          skeletonCards={12}
+          skeletonCardHeight={110}
+          skeletonCols={CHARACTER_GRID_COLS}
         >
           {characters.length === 0 ? (
             <EmptyState

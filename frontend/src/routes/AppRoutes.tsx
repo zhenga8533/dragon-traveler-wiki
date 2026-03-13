@@ -1,7 +1,10 @@
+import {
+  DetailPageLoading,
+  ListPageLoading,
+} from '@/components/layout/PageLoadingSkeleton';
 import { Container } from '@mantine/core';
 import { lazy, Suspense } from 'react';
-import { Route, Routes } from 'react-router-dom';
-import { ListPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import { Route, Routes, useLocation } from 'react-router-dom';
 
 const Home = lazy(() => import('@/pages/home'));
 const Artifacts = lazy(() => import('@/pages/artifacts/ListPage'));
@@ -12,7 +15,9 @@ const GearPage = lazy(() => import('@/pages/gear/ListPage'));
 const GearSetPage = lazy(() => import('@/pages/gear/DetailPage'));
 const Howlkins = lazy(() => import('@/pages/howlkins'));
 const NoblePhantasms = lazy(() => import('@/pages/noble-phantasms/ListPage'));
-const NoblePhantasmPage = lazy(() => import('@/pages/noble-phantasms/DetailPage'));
+const NoblePhantasmPage = lazy(
+  () => import('@/pages/noble-phantasms/DetailPage')
+);
 const Resources = lazy(() => import('@/pages/resources'));
 const Subclasses = lazy(() => import('@/pages/subclasses'));
 const StatusEffects = lazy(() => import('@/pages/status-effects'));
@@ -39,8 +44,17 @@ const DiamondCalculator = lazy(
 const ShovelEventGuide = lazy(() => import('@/pages/guides/ShovelEventGuide'));
 const NotFound = lazy(() => import('@/pages/not-found'));
 
+const DETAIL_ROUTE_RE =
+  /^\/(?:artifacts|characters|noble-phantasms|gear-sets|teams(?:\/saved)?)(\/[^/]+)+$/;
+
 function RouteFallback() {
-  return (
+  const { pathname } = useLocation();
+  const isDetail = DETAIL_ROUTE_RE.test(pathname);
+  return isDetail ? (
+    <Container size="xl" py="xl">
+      <DetailPageLoading />
+    </Container>
+  ) : (
     <Container size="md" py="xl">
       <ListPageLoading cards={4} />
     </Container>
