@@ -147,7 +147,9 @@ export function TeamHeroSection({
               p="md"
               radius="md"
               withBorder
-              {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+              {...getCardHoverProps({
+                style: getLoreGlassStyles(isDark),
+              })}
             >
               <Text size="sm" lh={1.6}>
                 {team.description}
@@ -160,7 +162,9 @@ export function TeamHeroSection({
               p="md"
               radius="md"
               withBorder
-              {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+              {...getCardHoverProps({
+                style: getLoreGlassStyles(isDark),
+              })}
             >
               <Stack gap="sm">
                 <Title order={2} size="h3">

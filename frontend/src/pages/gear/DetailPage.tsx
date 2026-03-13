@@ -293,7 +293,9 @@ export default function GearSetPage() {
                 p="md"
                 radius="md"
                 withBorder
-                {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+                {...getCardHoverProps({
+                  style: getLoreGlassStyles(isDark),
+                })}
               >
                 <Stack gap={4}>
                   <Text fw={600} size="sm">

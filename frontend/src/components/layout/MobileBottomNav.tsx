@@ -1,10 +1,8 @@
 import SearchModal from '@/components/tools/SearchModal';
 import { getGlassStyles } from '@/constants/glass';
 import { Z_INDEX } from '@/constants/ui';
-import { UiOpacityContext } from '@/contexts';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import { Box, Group, Stack, Text } from '@mantine/core';
-import { useContext } from 'react';
 import {
   IoCalendar,
   IoGift,
@@ -25,8 +23,7 @@ export default function MobileBottomNav() {
   const location = useLocation();
   const isDark = useDarkMode();
   const { accent } = useGradientAccent();
-  const { surfaceOpacity } = useContext(UiOpacityContext);
-  const glassStyles = getGlassStyles(isDark, false, surfaceOpacity);
+  const glassStyles = getGlassStyles(isDark);
 
   return (
     <Box

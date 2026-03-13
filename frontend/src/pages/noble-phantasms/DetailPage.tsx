@@ -339,7 +339,9 @@ export default function NoblePhantasmPage() {
               p="md"
               radius="md"
               withBorder
-              {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+              {...getCardHoverProps({
+                style: getLoreGlassStyles(isDark),
+              })}
             >
               <RichText
                 text={noblePhantasm.lore}

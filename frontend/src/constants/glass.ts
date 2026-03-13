@@ -12,17 +12,21 @@ export const GLASS_BORDER = {
   light: '1px solid rgba(0, 0, 0, 0.1)',
 } as const;
 
-function normalizeOpacity(opacity: number): number {
-  if (!Number.isFinite(opacity)) return 1;
-  return Math.min(1, Math.max(0, opacity));
-}
-
 /**
- * Subtle glass style for lore/description cards
+ * Subtle glass style for lore/description cards.
+ * Opacity scales automatically via --dt-surface-opacity CSS variable.
  */
 export function getLoreGlassStyles(isDark: boolean) {
+  // These multipliers preserve the original ratio:
+  //   dark lore default (0.25) / surface default (0.9) ≈ 0.278
+  //   light lore default (0.60) / surface default (0.9) ≈ 0.667
+  const alpha = isDark
+    ? 'calc(var(--dt-surface-opacity, 0.9) * 0.278)'
+    : 'calc(var(--dt-surface-opacity, 0.9) * 0.667)';
   return {
-    background: isDark ? 'rgba(0,0,0,0.25)' : 'rgba(255,255,255,0.6)',
+    background: isDark
+      ? `rgba(0 0 0 / ${alpha})`
+      : `rgba(255 255 255 / ${alpha})`,
     backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
     border: isDark
       ? '1px solid rgba(255,255,255,0.06)'
@@ -31,22 +35,22 @@ export function getLoreGlassStyles(isDark: boolean) {
 }
 
 /**
- * Get glassmorphism styles based on color scheme
+ * Get glassmorphism styles based on color scheme.
+ * Opacity scales automatically via --dt-surface-opacity CSS variable.
  */
-export function getGlassStyles(
-  isDark: boolean,
-  subtle = false,
-  opacityOverride?: number
-) {
-  const defaultOpacity = subtle ? (isDark ? 0.75 : 0.7) : isDark ? 0.9 : 0.85;
-  const opacity = normalizeOpacity(opacityOverride ?? defaultOpacity);
+export function getGlassStyles(isDark: boolean, subtle = false) {
+  // subtle factor (0.833) preserves the original subtle/non-subtle ratio:
+  //   0.75 (subtle dark default) / 0.9 (non-subtle dark default) ≈ 0.833
+  const alpha = subtle
+    ? 'calc(var(--dt-surface-opacity, 0.9) * 0.833)'
+    : 'var(--dt-surface-opacity, 0.9)';
 
   return {
     backdropFilter: `blur(${GLASS.BLUR})`,
     WebkitBackdropFilter: `blur(${GLASS.BLUR})`,
     backgroundColor: isDark
-      ? `rgba(20, 21, 23, ${opacity})`
-      : `rgba(255, 255, 255, ${opacity})`,
+      ? `rgba(20 21 23 / ${alpha})`
+      : `rgba(255 255 255 / ${alpha})`,
     border: isDark ? GLASS_BORDER.dark : GLASS_BORDER.light,
   };
 }

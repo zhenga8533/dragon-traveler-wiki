@@ -297,7 +297,9 @@ export default function ArtifactPage() {
               p="md"
               radius="md"
               withBorder
-              {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
+              {...getCardHoverProps({
+                style: getLoreGlassStyles(isDark),
+              })}
             >
               <Text size="sm" lh={1.6} fs="italic">
                 {artifact.lore}

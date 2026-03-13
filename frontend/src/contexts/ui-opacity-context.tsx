@@ -1,3 +1,5 @@
+import { STORAGE_KEY } from '@/constants/ui';
+import { useDarkMode } from '@/hooks/use-dark-mode';
 import {
   useCallback,
   useEffect,
@@ -5,8 +7,6 @@ import {
   useState,
   type ReactNode,
 } from 'react';
-import { STORAGE_KEY } from '@/constants/ui';
-import { useDarkMode } from '@/hooks/use-dark-mode';
 import { UI_OPACITY_DEFAULTS, UiOpacityContext } from './ui-opacity';
 
 type ThemeMode = 'dark' | 'light';
@@ -170,6 +170,14 @@ export function UiOpacityProvider({ children }: { children: ReactNode }) {
       );
     }
   }, [opacityByTheme]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    document.documentElement.style.setProperty(
+      '--dt-surface-opacity',
+      String(activeOpacity.surfaceOpacity)
+    );
+  }, [activeOpacity.surfaceOpacity]);
 
   const value = useMemo(
     () => ({

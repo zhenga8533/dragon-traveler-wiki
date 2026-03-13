@@ -2,7 +2,6 @@ import { GITHUB_REPO_URL } from '@/constants/github';
 import { getGlassStyles } from '@/constants/glass';
 import { ICON_TEXT_FLEX_STYLE } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
-import { UiOpacityContext } from '@/contexts';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   Anchor,
@@ -13,7 +12,7 @@ import {
   Stack,
   Text,
 } from '@mantine/core';
-import { useContext, useState } from 'react';
+import { useState } from 'react';
 import {
   IoBulb,
   IoChevronDown,
@@ -31,8 +30,7 @@ export default function Footer() {
   const [showLegal, setShowLegal] = useState(false);
   const isDark = useDarkMode();
   const { accent } = useGradientAccent();
-  const { surfaceOpacity } = useContext(UiOpacityContext);
-  const glassStyles = getGlassStyles(isDark, true, surfaceOpacity);
+  const glassStyles = getGlassStyles(isDark, true);
   const currentYear = new Date().getFullYear();
 
   const footerLinks = [

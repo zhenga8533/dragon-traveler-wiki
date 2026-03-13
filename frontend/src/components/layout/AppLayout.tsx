@@ -9,7 +9,7 @@ import {
   SIDEBAR,
   TRANSITION,
 } from '@/constants/ui';
-import { BannerContext, UiOpacityContext } from '@/contexts';
+import { BannerContext } from '@/contexts';
 import { useDarkMode, useIsMobile, useSidebar } from '@/hooks';
 import AppRoutes from '@/routes/AppRoutes';
 import {
@@ -45,14 +45,13 @@ export default function AppLayout() {
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
   const { selectedBanner, showOnAllRoutes } = useContext(BannerContext);
-  const { surfaceOpacity } = useContext(UiOpacityContext);
   const location = useLocation();
   const isHome = location.pathname === '/';
   const showBanner =
     selectedBanner !== null &&
     (isHome || (showOnAllRoutes && isBaseRoute(location.pathname)));
 
-  const glassStyles = getGlassStyles(isDark, false, surfaceOpacity);
+  const glassStyles = getGlassStyles(isDark);
 
   const showLabels = isMobile ? true : sidebar.showLabels;
   const navbarWidth = isMobile

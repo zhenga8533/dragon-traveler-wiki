@@ -1,3 +1,11 @@
+import GuideHeroCard from '@/components/guides/GuideHeroCard';
+import StatCard from '@/components/ui/StatCard';
+import {
+  getCardHoverProps,
+  getGuideSectionCardStyles,
+} from '@/constants/styles';
+import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   Alert,
   Card,
@@ -19,11 +27,6 @@ import {
   IoSparkles,
   IoStar,
 } from 'react-icons/io5';
-import ResourceBadge from '@/features/characters/components/ResourceBadge';
-import StatCard from '@/components/ui/StatCard';
-import GuideHeroCard from '@/components/guides/GuideHeroCard';
-import { getCardHoverProps, getGuideSectionCardStyles } from '@/constants/styles';
-import { useDarkMode, useGradientAccent } from '@/hooks';
 
 type DropRate = {
   chance: number;
