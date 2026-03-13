@@ -84,11 +84,12 @@ export default function SandstormOverlay({ active }: Props) {
   const [mounted, setMounted] = useState(false);
   // Bumped on every activation; used as key to remount content and restart animations
   const [activationId, setActivationId] = useState(0);
-  const unmountTimer = useRef<ReturnType<typeof setTimeout>>();
+  const unmountTimer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
 
   useEffect(() => {
     if (active) {
       clearTimeout(unmountTimer.current);
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setMounted(true);
       setActivationId((id) => id + 1);
     } else {
