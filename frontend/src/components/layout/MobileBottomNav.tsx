@@ -3,6 +3,7 @@ import { getGlassStyles } from '@/constants/glass';
 import { Z_INDEX } from '@/constants/ui';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import { Box, Group, Stack, Text } from '@mantine/core';
+import { useMediaQuery } from '@mantine/hooks';
 import {
   IoCalendar,
   IoGift,
@@ -24,6 +25,9 @@ export default function MobileBottomNav() {
   const isDark = useDarkMode();
   const { accent } = useGradientAccent();
   const glassStyles = getGlassStyles(isDark);
+  const isLandscape = useMediaQuery('(orientation: landscape)');
+
+  if (isLandscape) return null;
 
   return (
     <Box
@@ -32,19 +36,17 @@ export default function MobileBottomNav() {
       aria-label="Quick navigation"
       style={{
         position: 'fixed',
-        // -1px overhangs the viewport by 1px, eliminating any subpixel sliver
-        // between the nav background and the screen edge.
-        bottom: '-1px',
+        // Extend 100px below the viewport so the background fills any gap the
+        // mobile browser creates when its toolbar collapses/expands on scroll.
+        bottom: '-100px',
         left: 0,
         right: 0,
-        // Below Mantine overlay (200) and modal/drawer panels (300) so they
-        // always render on top of the nav when open.
         zIndex: Z_INDEX.BOTTOM_NAV,
         ...glassStyles,
         border: 'none',
         borderTop: glassStyles.border,
-        // +1px compensates for the -1px bottom offset so items aren't clipped.
-        paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 1px)',
+        // Extra 100px compensates for the -100px bottom offset.
+        paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 100px)',
       }}
     >
       <Group justify="space-around" gap={0} py="xs" px="sm" wrap="nowrap">

@@ -22,7 +22,7 @@ import {
   Title,
   Tooltip,
 } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
+import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useContext } from 'react';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link, useLocation } from 'react-router-dom';
@@ -44,6 +44,7 @@ export default function AppLayout() {
   const sidebar = useSidebar();
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
+  const isLandscape = useMediaQuery('(orientation: landscape)');
   const { selectedBanner, showOnAllRoutes } = useContext(BannerContext);
   const location = useLocation();
   const isHome = location.pathname === '/';
@@ -140,14 +141,16 @@ export default function AppLayout() {
           />
           {/* Spacer so the last nav items don't sit behind the fixed mobile
                bottom nav when the sidebar is scrolled to the bottom. */}
-          <Box
-            hiddenFrom="sm"
-            style={{
-              height: 'calc(64px + env(safe-area-inset-bottom, 0px))',
-              flexShrink: 0,
-            }}
-            aria-hidden="true"
-          />
+          {!isLandscape && (
+            <Box
+              hiddenFrom="sm"
+              style={{
+                height: 'calc(64px + env(safe-area-inset-bottom, 0px))',
+                flexShrink: 0,
+              }}
+              aria-hidden="true"
+            />
+          )}
         </Box>
       </AppShell.Navbar>
 
@@ -171,11 +174,13 @@ export default function AppLayout() {
         {/* Spacer placed AFTER the footer so the fixed mobile bottom nav
              doesn't overlap footer content when scrolled to the bottom.
              Includes env(safe-area-inset-bottom) for notched devices. */}
-        <Box
-          hiddenFrom="sm"
-          style={{ height: 'calc(64px + env(safe-area-inset-bottom, 0px))' }}
-          aria-hidden="true"
-        />
+        {!isLandscape && (
+          <Box
+            hiddenFrom="sm"
+            style={{ height: 'calc(64px + env(safe-area-inset-bottom, 0px))' }}
+            aria-hidden="true"
+          />
+        )}
       </AppShell.Main>
 
       <ScrollToTop />
