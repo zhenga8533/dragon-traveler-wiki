@@ -69,6 +69,10 @@ export const HEADER_HEIGHT = {
   DESKTOP: 72,
 } as const;
 
+export const APP_VIEWPORT_HEIGHT = 'var(--app-viewport-height, 100dvh)';
+export const MOBILE_VIEWPORT_BOTTOM_OFFSET =
+  'var(--app-viewport-bottom-offset, 0px)';
+
 /**
  * Visible height of the mobile bottom nav bar (icon + label + py="xs" padding).
  * Used for bottom spacers and positioning sticky UI elements (e.g. ScrollToTop).
@@ -157,5 +161,6 @@ export const STORAGE_KEY = {
   UI_BANNER_MEDIA_OPACITY: 'ui:bannerMediaOpacity',
   UI_BANNER_OVERLAY_OPACITY: 'ui:bannerOverlayOpacity',
   UI_SURFACE_OPACITY: 'ui:surfaceOpacity',
+  MOBILE_NAV_ENABLED: 'ui:mobileNavEnabled',
   CHANGELOG_TAB: 'changelog:tab',
 } as const;

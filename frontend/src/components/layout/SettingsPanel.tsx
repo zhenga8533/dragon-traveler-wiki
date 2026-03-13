@@ -7,7 +7,12 @@ import {
   TierListReferenceContext,
   UiOpacityContext,
 } from '@/contexts';
-import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
+import {
+  useDarkMode,
+  useGradientAccent,
+  useIsMobile,
+  useMobileNavEnabled,
+} from '@/hooks';
 import {
   ActionIcon,
   Badge,
@@ -87,6 +92,7 @@ export default function SettingsPanel() {
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
   const { accent, palette, setPalette } = useGradientAccent();
+  const { isMobileNavEnabled, setMobileNavEnabled } = useMobileNavEnabled();
 
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);
@@ -232,6 +238,24 @@ export default function SettingsPanel() {
           size={controlSize}
           disabled={loading || tierListOptions.length === 0}
         />
+      </Paper>
+
+      <Paper p="sm" radius="md" withBorder>
+        <Stack gap="xs">
+          <Text size="sm" fw={600}>
+            Navigation
+          </Text>
+          <Switch
+            size={isMobile ? 'sm' : 'xs'}
+            color={accent.primary}
+            label="Show mobile bottom nav"
+            description="Uses the fixed bottom shortcut bar on phones in portrait mode."
+            checked={isMobileNavEnabled}
+            onChange={(event) =>
+              setMobileNavEnabled(event.currentTarget.checked)
+            }
+          />
+        </Stack>
       </Paper>
 
       <Paper

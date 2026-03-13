@@ -4,14 +4,22 @@ import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { getGlassStyles } from '@/constants/glass';
 import { BRAND_TITLE_STYLE, LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import {
+  APP_VIEWPORT_HEIGHT,
   DETAIL_ROUTE_PATTERNS,
   HEADER_HEIGHT,
   MOBILE_NAV_HEIGHT,
+  MOBILE_VIEWPORT_BOTTOM_OFFSET,
   SIDEBAR,
   TRANSITION,
 } from '@/constants/ui';
 import { BannerContext } from '@/contexts';
-import { useDarkMode, useIsMobile, useSidebar } from '@/hooks';
+import {
+  useDarkMode,
+  useIsMobile,
+  useMobileNavEnabled,
+  useSidebar,
+  useViewportCssVars,
+} from '@/hooks';
 import AppRoutes from '@/routes/AppRoutes';
 import {
   ActionIcon,
@@ -40,11 +48,14 @@ function isBaseRoute(pathname: string): boolean {
 }
 
 export default function AppLayout() {
+  useViewportCssVars();
+
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
     useDisclosure();
   const sidebar = useSidebar();
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
+  const { isMobileNavEnabled } = useMobileNavEnabled();
   const isLandscape = useMediaQuery('(orientation: landscape)');
   const { selectedBanner, showOnAllRoutes } = useContext(BannerContext);
   const location = useLocation();
@@ -59,6 +70,7 @@ export default function AppLayout() {
   const navbarWidth = isMobile
     ? SIDEBAR.WIDTH_EXPANDED
     : sidebar.effectiveWidth;
+  const showMobileBottomNav = isMobile && !isLandscape && isMobileNavEnabled;
 
   return (
     <AppShell
@@ -73,7 +85,7 @@ export default function AppLayout() {
       padding={{ base: 'sm', sm: 'md' }}
       transitionDuration={parseInt(TRANSITION.NORMAL)}
       transitionTimingFunction={TRANSITION.EASE}
-      style={{ minHeight: '100dvh' }}
+      style={{ minHeight: APP_VIEWPORT_HEIGHT }}
     >
       <AppShell.Header style={glassStyles}>
         <Group h="100%" px="md" justify="space-between" wrap="nowrap">
@@ -144,11 +156,11 @@ export default function AppLayout() {
           {/* Spacer so the last nav items don't sit behind the fixed mobile
                bottom nav when the sidebar is scrolled to the bottom.
                Hidden in landscape because the bottom nav is also hidden there. */}
-          {!isLandscape && (
+          {showMobileBottomNav && (
             <Box
               hiddenFrom="sm"
               style={{
-                height: `calc(${MOBILE_NAV_HEIGHT}px + env(safe-area-inset-bottom, 0px))`,
+                height: `calc(${MOBILE_NAV_HEIGHT}px + env(safe-area-inset-bottom, 0px) + ${MOBILE_VIEWPORT_BOTTOM_OFFSET})`,
                 flexShrink: 0,
               }}
               aria-hidden="true"
@@ -176,12 +188,12 @@ export default function AppLayout() {
             </ErrorBoundary>
           </PageTransition>
         </Box>
-        <Footer mobileNavOffset={isMobile && !isLandscape} />
+        <Footer mobileNavOffset={showMobileBottomNav} />
       </AppShell.Main>
 
-      <ScrollToTop />
+      <ScrollToTop mobileNavOffset={showMobileBottomNav} />
       <KonamiEasterEgg />
-      <MobileBottomNav />
+      {showMobileBottomNav && <MobileBottomNav />}
     </AppShell>
   );
 }

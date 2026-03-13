@@ -1,6 +1,6 @@
 import SearchModal from '@/components/tools/SearchModal';
 import { getGlassStyles } from '@/constants/glass';
-import { Z_INDEX } from '@/constants/ui';
+import { MOBILE_VIEWPORT_BOTTOM_OFFSET, Z_INDEX } from '@/constants/ui';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import { Box, Group, Stack, Text } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
@@ -36,14 +36,15 @@ export default function MobileBottomNav() {
       aria-label="Quick navigation"
       style={{
         position: 'fixed',
-        bottom: 0,
+        bottom: MOBILE_VIEWPORT_BOTTOM_OFFSET,
         left: 0,
         right: 0,
         zIndex: Z_INDEX.BOTTOM_NAV,
         ...glassStyles,
         border: 'none',
         borderTop: glassStyles.border,
-        paddingBottom: 'calc(var(--mantine-spacing-xs) + env(safe-area-inset-bottom, 0px))',
+        paddingBottom:
+          'calc(var(--mantine-spacing-xs) + env(safe-area-inset-bottom, 0px))',
       }}
     >
       <Group justify="space-around" gap={0} pt="xs" px="sm" wrap="nowrap">
