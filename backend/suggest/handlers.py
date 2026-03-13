@@ -164,6 +164,12 @@ def _deep_merge(existing, updates):
     return merged
 
 
+def _without_meta(entry):
+    if not isinstance(entry, dict):
+        return entry
+    return {key: value for key, value in entry.items() if key != "last_updated"}
+
+
 # ---------------------------------------------------------------------------
 # File upsert
 # ---------------------------------------------------------------------------
@@ -178,6 +184,7 @@ def update_json_file(label, data):
 
     with open(path, "r", encoding="utf-8") as f:
         existing = json.load(f)
+    original_existing = json.loads(json.dumps(existing))
 
     identity_key = _get_identity_key(label)
     new_value = _entry_identity(label, data)
@@ -189,14 +196,18 @@ def update_json_file(label, data):
                 break
 
     is_update = matched_index is not None
-    validate_data(label, data, REQUIRED_FIELDS, is_update=is_update, identity_key=identity_key)
+    validate_data(
+        label, data, REQUIRED_FIELDS, is_update=is_update, identity_key=identity_key
+    )
     entry = normalize_for_json(label, data, is_update=is_update)
 
     if is_update:
-        existing[matched_index] = _deep_merge(existing[matched_index], entry)
-        if label in TIMESTAMPED_LABELS:
-            existing[matched_index]["last_updated"] = int(time.time())
-        action = "updated"
+        merged_entry = _deep_merge(existing[matched_index], entry)
+        changed = _without_meta(merged_entry) != _without_meta(existing[matched_index])
+        if changed and label in TIMESTAMPED_LABELS:
+            merged_entry["last_updated"] = int(time.time())
+        existing[matched_index] = merged_entry
+        action = "updated" if changed else "unchanged"
     else:
         if label in TIMESTAMPED_LABELS:
             entry["last_updated"] = int(time.time())
@@ -207,9 +218,10 @@ def update_json_file(label, data):
     if sort_key:
         existing.sort(key=sort_key)
 
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(existing, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+    if existing != original_existing:
+        with open(path, "w", encoding="utf-8") as f:
+            json.dump(existing, f, indent=2, ensure_ascii=False)
+            f.write("\n")
 
     print(
         f"Updated {filename} ({action} {identity_key} '{new_value}', total {len(existing)})"
@@ -244,7 +256,7 @@ def main():
     # Special case: expired code reports — no JSON block, just mark code inactive
     EXPIRED_PREFIX = "[Code] Report expired:"
     if issue_title.startswith(EXPIRED_PREFIX):
-        code = issue_title[len(EXPIRED_PREFIX):].strip()
+        code = issue_title[len(EXPIRED_PREFIX) :].strip()
         if not code:
             set_output("label", "")
             set_output("processed", "false")

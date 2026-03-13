@@ -21,6 +21,8 @@ from pathlib import Path
 import requests
 from bs4 import BeautifulSoup
 
+from .sort_keys import event_sort_key
+
 APP_STORE_URL = "https://apps.apple.com/us/app/dragon-traveler/id6751086804"
 
 ROOT_DIR = Path(__file__).resolve().parent.parent
@@ -299,6 +301,10 @@ def write_events(events: list[dict]) -> None:
         f.write("\n")
 
 
+def sort_events(events: list[dict]) -> list[dict]:
+    return sorted(events, key=event_sort_key)
+
+
 # ---------------------------------------------------------------------------
 # Main
 # ---------------------------------------------------------------------------
@@ -322,8 +328,13 @@ def main() -> int:
         print(f"  [{e.get('type', 'event')}] {e['name']}")
 
     today = date.today().isoformat()
-    existing = load_existing()
-    merged = merge_events(existing, scraped, today)
+    existing = sort_events(load_existing())
+    merged = sort_events(merge_events(existing, scraped, today))
+
+    if merged == existing:
+        print("No event field changes detected; leaving data/events.json unchanged.")
+        return 0
+
     write_events(merged)
 
     active = sum(1 for e in merged if e.get("end_date") is None)

@@ -19,6 +19,7 @@ Usage:
 """
 
 import argparse
+import copy
 import json
 import subprocess
 import time
@@ -139,6 +140,16 @@ def _save_changes_file(filename: str, data: dict) -> None:
         f.write("\n")
 
 
+def _write_json_if_changed(path: Path, original: object, updated: object) -> bool:
+    if original == updated:
+        return False
+
+    with open(path, "w", encoding="utf-8") as f:
+        json.dump(updated, f, indent=2, ensure_ascii=False)
+        f.write("\n")
+    return True
+
+
 # ---------------------------------------------------------------------------
 # Entry helpers
 # ---------------------------------------------------------------------------
@@ -229,6 +240,8 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
         "timestamped": False,
         "bumped": 0,
         "skipped_unchanged": 0,
+        "written": False,
+        "changes_written": False,
     }
 
     if not path.exists():
@@ -242,11 +255,10 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
     except json.JSONDecodeError as exc:
         raise ValueError(f"Invalid JSON in {filename}: {exc}") from exc
 
+    original_payload = copy.deepcopy(payload)
+
     entries, update_entries = _extract_entries(payload)
     if entries is None:
-        with open(path, "w", encoding="utf-8") as f:
-            json.dump(payload, f, indent=2, ensure_ascii=False)
-            f.write("\n")
         return result
 
     should_timestamp = do_timestamps and _has_any_object_entries(entries)
@@ -268,12 +280,15 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
                     filename, committed_entry
                 )
 
-            if changed or "last_updated" not in entry:
+            if (changed or "last_updated" not in entry) and entry.get(
+                "last_updated"
+            ) != now:
                 entry["last_updated"] = now
                 result["bumped"] += 1
 
         # Write external changes file
         changes_data = _load_changes_file(filename)
+        original_changes_data = copy.deepcopy(changes_data)
 
         # Build set of current identities
         current_identities: set[str] = set()
@@ -338,7 +353,10 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
                             {"timestamp": now, "fields": field_diffs},
                         )
 
-        _save_changes_file(filename, changes_data)
+        normalized_changes_data = _dedupe_changes_data(changes_data)
+        if normalized_changes_data != original_changes_data:
+            _save_changes_file(filename, normalized_changes_data)
+            result["changes_written"] = True
 
         timestamped_in_file = sum(
             1
@@ -356,9 +374,7 @@ def normalize_file(filename: str, now: int, do_sort: bool, do_timestamps: bool) 
     if update_entries is not None:
         update_entries(entries)
 
-    with open(path, "w", encoding="utf-8") as f:
-        json.dump(payload, f, indent=2, ensure_ascii=False)
-        f.write("\n")
+    result["written"] = _write_json_if_changed(path, original_payload, payload)
 
     return result
 
@@ -423,6 +439,8 @@ def run(argv: list[str] | None = None) -> int:
             parts.append(f"bumped {result['bumped']}")
             if result["skipped_unchanged"]:
                 parts.append(f"skipped {result['skipped_unchanged']} unchanged")
+        if not result["written"] and not result["changes_written"]:
+            parts.append("no file changes")
         if not parts:
             parts.append("no-op")
 

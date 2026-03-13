@@ -2,8 +2,8 @@ name: Sync App Store Events
 
 on:
   schedule:
-    - cron: '0 6 * * *'   # 6am UTC
-    - cron: '0 18 * * *'  # 6pm UTC
+    - cron: '0 6 * * *' # 6am UTC
+    - cron: '0 18 * * *' # 6pm UTC
   workflow_dispatch:
 
 permissions:
@@ -21,8 +21,8 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Install dependencies
-        run: pip install requests beautifulsoup4 lxml
+      - name: Install backend dependencies
+        run: pip install -r backend/requirements.txt
 
       - name: Scrape events from App Store
         run: python -m backend.scrape_events

@@ -25,9 +25,29 @@ jobs:
         with:
           python-version: '3.12'
 
+      - name: Install backend dependencies
+        run: pip install -r backend/requirements.txt
+
       - name: Process suggestion
         id: suggest
         run: python -m backend.suggest
+
+      - name: Normalize updated data file
+        if: steps.suggest.outputs.processed == 'true' && steps.suggest.outputs.json_file != ''
+        run: python -m backend.normalize_data "${{ steps.suggest.outputs.json_file }}"
+
+      - name: Commit data changes
+        if: success() && steps.suggest.outputs.processed == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data/
+          if git diff --cached --quiet; then
+            echo "No changes to commit."
+          else
+            git commit -m "Auto-update: process issue suggestion #${{ github.event.issue.number }}"
+            git push
+          fi
 
       - name: Apply labels to issue
         if: steps.suggest.outputs.processed == 'true' && steps.suggest.outputs.label != ''
