@@ -3,7 +3,7 @@
 Behaviour:
 - Upserts active events from the App Store page into data/events.json.
 - Sets `start_date` (ISO date) when an event is first detected.
-- Sets `end_date` (ISO date, or null while active) for every entry.
+- Sets `end_date` (ISO date, or null while ongoing) for every entry.
 - Downloads the landscape event image to frontend/src/assets/event/<snake_case_name>.webp.
 - Does NOT touch fields that haven't changed, so normalize_data.py only bumps
   `last_updated` for entries that actually differ from the committed version.
@@ -130,15 +130,22 @@ def parse_events(html: str) -> list[dict]:
         desc_el = item.select_one("p")
         image_url = _largest_image_url(item)
 
-        event: dict = {"name": name, "active": True}
-        if event_id:
-            event["event_id"] = event_id
+        event_type = ""
         if tag_el:
             tag = tag_el.get_text(strip=True)
             if tag:
-                event["tag"] = _to_title_case(tag)
-        if desc_el:
-            event["description"] = desc_el.get_text(strip=True)
+                event_type = _to_title_case(tag)
+
+        desc_text = desc_el.get_text(strip=True) if desc_el else ""
+
+        event: dict = {
+            "name": name,
+            "event_id": event_id,
+            "type": event_type,
+            "description": desc_text,
+            "characters": [],
+            "is_global": True,
+        }
         if image_url:
             event["_image_url"] = image_url  # temp field, stripped before writing
 
@@ -239,20 +246,18 @@ def merge_events(existing: list[dict], scraped: list[dict], today: str) -> list[
         ) or {}
 
         merged = dict(existing_entry)
-        for deprecated_key in ("badge", "source"):
+        for deprecated_key in ("active", "badge", "source", "tag"):
             merged.pop(deprecated_key, None)
 
         # Upsert scraped fields
         for k, v in scraped_event.items():
             merged[k] = v
 
-        merged["active"] = True
-
         # Set start_date on first detection
         if "start_date" not in merged:
             merged["start_date"] = today
 
-        # Always present; null while active
+        # Always present; null while ongoing
         merged["end_date"] = None
 
         # Download image (named by snake_case event name)
@@ -278,15 +283,11 @@ def merge_events(existing: list[dict], scraped: list[dict], today: str) -> list[
             result.append(existing_entry)
             continue
 
-        # App Store entry that's gone — mark inactive and record end_date
+        # App Store entry that's gone — record end_date
         entry = dict(existing_entry)
-        if entry.get("active"):
-            entry["active"] = False
+        if entry.get("end_date") is None:
             entry["end_date"] = today
             print(f"    Event ended: {name}")
-        elif entry.get("end_date") is None:
-            # Was already inactive but end_date never set — fill it in
-            entry["end_date"] = today
         result.append(entry)
 
     return result
@@ -318,14 +319,14 @@ def main() -> int:
 
     print("Events found:")
     for e in scraped:
-        print(f"  [{e.get('tag', 'event')}] {e['name']}")
+        print(f"  [{e.get('type', 'event')}] {e['name']}")
 
     today = date.today().isoformat()
     existing = load_existing()
     merged = merge_events(existing, scraped, today)
     write_events(merged)
 
-    active = sum(1 for e in merged if e.get("active"))
+    active = sum(1 for e in merged if e.get("end_date") is None)
     total = len(merged)
     print(
         f"Wrote {active} active / {total} total event(s) to {EVENTS_FILE.relative_to(ROOT_DIR)}"

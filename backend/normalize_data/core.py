@@ -92,8 +92,8 @@ def _normalize_entry_for_compare(filename: str, entry: dict) -> dict:
     if filename == "events.json":
         if "tag" not in normalized and "badge" in normalized:
             normalized["tag"] = normalized["badge"]
-        normalized.pop("badge", None)
-        normalized.pop("source", None)
+        for deprecated_key in ("badge", "source", "tag", "active"):
+            normalized.pop(deprecated_key, None)
     return normalized
 
 

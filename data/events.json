@@ -1,72 +1,683 @@
 [
   {
-    "name": "The Wedding Operation Event!",
-    "active": true,
-    "event_id": "6758127954",
-    "tag": "Special Event",
-    "description": "Date Luminaries for confessions and hidden stories! Limited skins! Join the event, get rewards—enjoy a romantic journey!",
-    "start_date": "2026-02-12",
-    "end_date": null,
-    "last_updated": 1773324599
-  },
-  {
     "name": "The Deadly Rush Event Begins!",
-    "active": true,
     "event_id": "6760324638",
-    "tag": "Special Event",
+    "type": "Special Event",
     "description": "New SSR+ Luminary Crimson Thornblade Jing awakens! Complete Deadly Rush event goals for her \"Crimson Lady\" skin!",
+    "characters": [],
+    "is_global": true,
     "start_date": "2026-03-12",
     "end_date": null,
     "last_updated": 1773324599
   },
   {
+    "name": "Hermes Mythic Ascension",
+    "event_id": null,
+    "type": "Mythic Ascension",
+    "description": "",
+    "characters": [
+      "Hermes"
+    ],
+    "is_global": false,
+    "start_date": "2026-03-05",
+    "end_date": "2026-03-19",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Dreaming of Electric Sheep",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Hitomi"
+    ],
+    "is_global": false,
+    "start_date": "2026-02-26",
+    "end_date": "2026-03-12",
+    "last_updated": 1773158650
+  },
+  {
     "name": "The Gymnasium Locked-Room Case",
-    "active": false,
     "event_id": "6758127956",
-    "tag": "Special Event",
+    "type": "Special Event",
     "description": "SSR+ Ironclad Commander Pompey! The Gymnasium Locked-Room Case begins! Join in for the \"Slam Dunk Master\" skin!",
+    "characters": [],
+    "is_global": true,
     "start_date": "2026-02-26",
     "end_date": "2026-03-12",
     "last_updated": 1773324599
   },
   {
+    "name": "Rerun Gacha #7",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Azure Dragon",
+      "Vivienne",
+      "Helveil"
+    ],
+    "is_global": false,
+    "start_date": "2026-02-19",
+    "end_date": "2026-02-26",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #6",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Mimir",
+      "Ningluosi",
+      "Talos",
+      "Jing"
+    ],
+    "is_global": false,
+    "start_date": "2026-02-16",
+    "end_date": "2026-02-26",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Golden Night Festival",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Lilith"
+    ],
+    "is_global": false,
+    "start_date": "2026-02-12",
+    "end_date": "2026-02-26",
+    "last_updated": 1773158650
+  },
+  {
     "name": "The Joyous Union",
-    "active": false,
     "event_id": "4",
-    "tag": "Special Event",
+    "type": "Special Event",
     "description": "During the event, Limited Summon gives you the chance to obtain \"Four Saints - Azure Dragon\"—the SSR+ Warrior Luminary of the \"Otherworld Return\" and \"Arcane Wisdom\" factions!",
+    "characters": [],
+    "is_global": true,
     "start_date": "2026-02-12",
     "end_date": "2026-02-26",
     "last_updated": 1773324599
   },
   {
+    "name": "The Wedding Operation Event!",
+    "event_id": "6758127954",
+    "type": "Special Event",
+    "description": "Date Luminaries for confessions and hidden stories! Limited skins! Join the event, get rewards—enjoy a romantic journey!",
+    "characters": [],
+    "is_global": true,
+    "start_date": "2026-02-12",
+    "end_date": null,
+    "last_updated": 1773324599
+  },
+  {
     "name": "Sun Goddess Apollo Arrives",
-    "active": false,
     "event_id": "3",
-    "tag": "Special Event",
+    "type": "Special Event",
     "description": "This round features SSR Ex Luminaries: Sun Goddess - Apollo, Goddess of Wisdom - Athena, Goddess of War - Ares, and Sea Goddess - Poseidon",
+    "characters": [],
+    "is_global": true,
     "start_date": "2026-02-05",
     "end_date": "2026-02-19",
     "last_updated": 1773324599
   },
   {
+    "name": "How to Raise a Dragon Maid",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Andevaly"
+    ],
+    "is_global": false,
+    "start_date": "2026-01-29",
+    "end_date": "2026-02-12",
+    "last_updated": 1773158650
+  },
+  {
     "name": "Inkbound Immortal Tales",
-    "active": false,
     "event_id": "2",
-    "tag": "Special Event",
+    "type": "Special Event",
     "description": "During the event, Limited Summon gives you the chance to obtain the Priest of the \"Elemental Echo\" and \"Sanctum Glory\" factions: Lady of the Lake - Vivienne.",
+    "characters": [],
+    "is_global": true,
     "start_date": "2026-01-29",
     "end_date": "2026-02-12",
     "last_updated": 1773324599
   },
   {
+    "name": "Hela Mythic Ascension",
+    "event_id": null,
+    "type": "Mythic Ascension",
+    "description": "",
+    "characters": [
+      "Hela"
+    ],
+    "is_global": false,
+    "start_date": "2026-01-22",
+    "end_date": "2026-02-05",
+    "last_updated": 1773158650
+  },
+  {
     "name": "The Sanctum Shines with Glory, Crowned with Divinity!",
-    "active": false,
     "event_id": "1",
-    "tag": "Special Event",
+    "type": "Special Event",
     "description": "The brand-new SSR+ quality Luminary \"Archangel - Gabriele\" is about to take the stage! Join the new limited-time event \"Angel Playing House\"!",
+    "characters": [],
+    "is_global": true,
     "start_date": "2026-01-16",
     "end_date": "2026-01-30",
     "last_updated": 1773324599
+  },
+  {
+    "name": "The Final Game",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Salome"
+    ],
+    "is_global": false,
+    "start_date": "2026-01-15",
+    "end_date": "2026-01-29",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Escape from Eden Town",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Morgana"
+    ],
+    "is_global": false,
+    "start_date": "2026-01-01",
+    "end_date": "2026-01-15",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #5",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Jing",
+      "Faust",
+      "Duvalin"
+    ],
+    "is_global": false,
+    "start_date": "2026-0-",
+    "end_date": "2026-0-",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #4",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Azure Dragon",
+      "Caesar",
+      "Zagrus",
+      "Silbismo"
+    ],
+    "is_global": false,
+    "start_date": "2025-12-25",
+    "end_date": "2026-01-01",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Snowland Romance",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Rin"
+    ],
+    "is_global": false,
+    "start_date": "2025-12-18",
+    "end_date": "2026-01-01",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Prometheus Mythic Ascension",
+    "event_id": null,
+    "type": "Mythic Ascension",
+    "description": "",
+    "characters": [
+      "Prometheus"
+    ],
+    "is_global": false,
+    "start_date": "2025-12-11",
+    "end_date": "2025-12-25",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Prada Promotion Story",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Crassus"
+    ],
+    "is_global": false,
+    "start_date": "2025-12-04",
+    "end_date": "2025-12-18",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #3",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Jing",
+      "Pompey",
+      "Tyrfing",
+      "Gabriele"
+    ],
+    "is_global": false,
+    "start_date": "2025-11-27",
+    "end_date": "2025-12-04",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Fantasy Realm",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Mimir"
+    ],
+    "is_global": false,
+    "start_date": "2025-11-20",
+    "end_date": "2025-12-04",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Baseball Conspiracy",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Asmodeus"
+    ],
+    "is_global": false,
+    "start_date": "2025-11-06",
+    "end_date": "2025-11-20",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Artemis Mythic Ascension",
+    "event_id": null,
+    "type": "Mythic Ascension",
+    "description": "",
+    "characters": [
+      "Artemis"
+    ],
+    "is_global": false,
+    "start_date": "2025-10-30",
+    "end_date": "2025-11-12",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Target! Grand Slam!",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Vermilion Bird"
+    ],
+    "is_global": false,
+    "start_date": "2025-10-23",
+    "end_date": "2025-11-06",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #2",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Talos",
+      "Ifrit",
+      "Marylis",
+      "Gullveig"
+    ],
+    "is_global": false,
+    "start_date": "2025-10-16",
+    "end_date": "2025-10-23",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Garden War: Zombies",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Ningluosi"
+    ],
+    "is_global": false,
+    "start_date": "2025-10-09",
+    "end_date": "2025-10-23",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Flavors of the Fantasy Realm",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Caesar"
+    ],
+    "is_global": false,
+    "start_date": "2025-09-25",
+    "end_date": "2025-10-09",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Loki Mythic Ascension",
+    "event_id": null,
+    "type": "Mythic Ascension",
+    "description": "",
+    "characters": [
+      "Loki"
+    ],
+    "is_global": false,
+    "start_date": "2025-09-25",
+    "end_date": "2025-10-09",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Lurking Doom",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Silbismo"
+    ],
+    "is_global": false,
+    "start_date": "2025-09-11",
+    "end_date": "2025-09-25",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "The Joyous Union",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Azure Dragon"
+    ],
+    "is_global": false,
+    "start_date": "2025-08-28",
+    "end_date": "2025-09-11",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Ice Dancer's Wish",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Zagrus"
+    ],
+    "is_global": false,
+    "start_date": "2025-08-14",
+    "end_date": "2025-08-28",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Thor Mythic Ascension",
+    "event_id": null,
+    "type": "Mythic Ascension",
+    "description": "",
+    "characters": [
+      "Thor"
+    ],
+    "is_global": false,
+    "start_date": "2025-08-07",
+    "end_date": "2025-08-21",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Dual Companions",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Talos"
+    ],
+    "is_global": false,
+    "start_date": "2025-07-31",
+    "end_date": "2025-08-14",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rapid Kill",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Jing"
+    ],
+    "is_global": false,
+    "start_date": "2025-07-17",
+    "end_date": "2025-07-31",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Beyond the Horizon",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Duvalin"
+    ],
+    "is_global": false,
+    "start_date": "2025-07-03",
+    "end_date": "2025-07-17",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #1",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Gabriele",
+      "Jormungandr",
+      "Ophelia"
+    ],
+    "is_global": false,
+    "start_date": "2025-06-23",
+    "end_date": "2025-07-03",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Hospital Horror Night",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Orion"
+    ],
+    "is_global": false,
+    "start_date": "2025-06-12",
+    "end_date": "2025-06-26",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Immortal Scribe's Fate",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Vivienne",
+      "Apollo"
+    ],
+    "is_global": false,
+    "start_date": "2025-05-29",
+    "end_date": "2025-06-12",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Guiding Polaris",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Brynhild"
+    ],
+    "is_global": false,
+    "start_date": "2025-05-15",
+    "end_date": "2025-05-29",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Mindscape Chronicles",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Mordred"
+    ],
+    "is_global": false,
+    "start_date": "2025-04-24",
+    "end_date": "2025-05-08",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Shine! Idol",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Faust"
+    ],
+    "is_global": false,
+    "start_date": "2025-04-10",
+    "end_date": "2025-04-24",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Gymnasium Locked-Room Incident!",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Pompey"
+    ],
+    "is_global": false,
+    "start_date": "2025-03-27",
+    "end_date": "2025-04-10",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Ares Mythic Ascension",
+    "event_id": null,
+    "type": "Mythic Ascension",
+    "description": "",
+    "characters": [
+      "Ares"
+    ],
+    "is_global": false,
+    "start_date": "2025-03-20",
+    "end_date": "2025-04-03",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Swan Dance",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Ophelia"
+    ],
+    "is_global": false,
+    "start_date": "2025-03-13",
+    "end_date": "2025-03-27",
+    "last_updated": 1773062958
+  },
+  {
+    "name": "Game of Life and Death",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Tyrfing"
+    ],
+    "is_global": false,
+    "start_date": "2025-02-27",
+    "end_date": "2025-03-13",
+    "last_updated": 1773062958
+  },
+  {
+    "name": "Angel's Dollhouse",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Gabriele"
+    ],
+    "is_global": false,
+    "start_date": "2025-02-13",
+    "end_date": "2025-02-27",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Venus Mythic Ascension",
+    "event_id": null,
+    "type": "Mythic Ascension",
+    "description": "",
+    "characters": [
+      "Venus"
+    ],
+    "is_global": false,
+    "start_date": "2025-02-13",
+    "end_date": "2025-02-27",
+    "last_updated": 1773158650
+  },
+  {
+    "name": "Lantern Festival",
+    "event_id": null,
+    "type": "Skin",
+    "description": "",
+    "characters": [
+      "Poseidon"
+    ],
+    "is_global": false,
+    "start_date": "2025-02-06",
+    "end_date": "2025-02-17",
+    "last_updated": 1773062958
+  },
+  {
+    "name": "Spring Festival Lanterns",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Jormungandr"
+    ],
+    "is_global": false,
+    "start_date": "2025-01-27",
+    "end_date": "2025-02-13",
+    "last_updated": 1773062958
+  },
+  {
+    "name": "Beyond the Mirror",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Helveil"
+    ],
+    "is_global": false,
+    "start_date": "2025-01-16",
+    "end_date": "2025-01-30",
+    "last_updated": 1773062958
   }
 ]

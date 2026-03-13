@@ -29,9 +29,9 @@ import {
   useTabParam,
   useViewMode,
 } from '@/hooks';
-import type { GameEvent, TwEvent } from '@/types';
+import type { GameEvent } from '@/types';
 import { getLatestTimestamp } from '@/utils';
-import { getTwEventTypeColor, isTwEventActive } from '@/utils/event-utils';
+import { getEventTypeColor, isGameEventActive } from '@/utils/event-utils';
 import {
   Alert,
   Badge,
@@ -64,7 +64,7 @@ type TabFilter = 'active' | 'past';
 interface EventFilters {
   search: string;
   servers: string[];
-  tags: string[];
+  types: string[];
   characters: string[];
   dateRange: [Date | null, Date | null];
 }
@@ -72,58 +72,41 @@ interface EventFilters {
 const EMPTY_EVENT_FILTERS: EventFilters = {
   search: '',
   servers: [],
-  tags: [],
+  types: [],
   characters: [],
   dateRange: [null, null],
 };
 
-type EventEntry =
-  | {
-      kind: 'global';
-      id: string;
-      active: boolean;
-      name: string;
-      tag: string | null;
-      server: 'Global';
-      description: string;
-      characters: string[];
-      startDate: string | null;
-      endDate: string | null;
-      sortDate: string;
-      event: GameEvent;
-    }
-  | {
-      kind: 'tw';
-      id: string;
-      active: boolean;
-      name: string;
-      tag: string;
-      server: 'TW';
-      description: string;
-      characters: string[];
-      startDate: string | null;
-      endDate: string | null;
-      sortDate: string;
-      event: TwEvent;
-    };
+interface EventEntry {
+  id: string;
+  active: boolean;
+  server: 'Global' | 'TW';
+  sortDate: string;
+  event: GameEvent;
+}
 
 function EventBadges({
   server,
-  tag,
-  tagColor,
+  type,
+  typeColor,
   active,
 }: {
   server: 'Global' | 'TW';
-  tag?: string | null;
-  tagColor?: string;
+  type?: string | null;
+  typeColor?: string;
   active: boolean;
 }) {
   return (
     <Group gap="xs" wrap="wrap">
       <GlobalBadge isGlobal={server === 'Global'} size="sm" />
-      {tag ? (
-        <Badge size="xs" variant="light" color={tagColor ?? 'gray'} radius="sm">
-          {tag}
+      {type ? (
+        <Badge
+          size="xs"
+          variant="light"
+          color={typeColor ?? 'gray'}
+          radius="sm"
+        >
+          {type}
         </Badge>
       ) : null}
       <Badge
@@ -175,13 +158,13 @@ function EventFilter({
   filters,
   onChange,
   serverOptions,
-  tagOptions,
+  typeOptions,
   characterOptions,
 }: {
   filters: EventFilters;
   onChange: (filters: EventFilters) => void;
   serverOptions: string[];
-  tagOptions: string[];
+  typeOptions: string[];
   characterOptions: string[];
 }) {
   const isMobile = useIsMobile();
@@ -189,7 +172,7 @@ function EventFilter({
   const hasFilters =
     filters.search !== '' ||
     filters.servers.length > 0 ||
-    filters.tags.length > 0 ||
+    filters.types.length > 0 ||
     filters.characters.length > 0 ||
     filters.dateRange[0] !== null ||
     filters.dateRange[1] !== null;
@@ -197,8 +180,8 @@ function EventFilter({
     serverOptions.length > 0
       ? { key: 'servers', label: 'Server', options: serverOptions }
       : null,
-    tagOptions.length > 0
-      ? { key: 'tags', label: 'Tag', options: tagOptions }
+    typeOptions.length > 0
+      ? { key: 'types', label: 'Type', options: typeOptions }
       : null,
   ].filter(
     (group): group is { key: string; label: string; options: string[] } =>
@@ -210,14 +193,14 @@ function EventFilter({
       groups={groups}
       selected={{
         servers: filters.servers,
-        tags: filters.tags,
+        types: filters.types,
       }}
       onChange={(key, value) => onChange({ ...filters, [key]: value })}
       onClear={() => onChange(EMPTY_EVENT_FILTERS)}
       hasActiveFilters={hasFilters}
       search={filters.search}
       onSearchChange={(value) => onChange({ ...filters, search: value })}
-      searchPlaceholder="Search by name, tag, or character..."
+      searchPlaceholder="Search by name, type, or character..."
       afterGroups={
         <>
           {characterOptions.length > 0 ? (
@@ -279,9 +262,18 @@ function EventFilter({
   );
 }
 
-function TwEventCard({ event }: { event: TwEvent }) {
-  const active = isTwEventActive(event);
-  const typeColor = getTwEventTypeColor(event.type);
+function useEventDisplay(event: GameEvent) {
+  const { accent } = useGradientAccent();
+  const image = getEventImage(event.name) ?? placeholderEventImage;
+  const active = isGameEventActive(event);
+  const typeColor = event.is_global
+    ? accent.primary
+    : getEventTypeColor(event.type);
+  return { image, active, typeColor };
+}
+
+function EventCard({ event }: { event: GameEvent }) {
+  const { image, active, typeColor } = useEventDisplay(event);
 
   return (
     <Card
@@ -292,13 +284,21 @@ function TwEventCard({ event }: { event: TwEvent }) {
       style={{ display: 'flex', flexDirection: 'column' }}
     >
       <Card.Section style={{ position: 'relative' }}>
-        <TwEventBanner characters={event.characters} height={160} radius="0" />
+        {event.is_global ? (
+          <Image src={image} height={160} fit="cover" alt={event.name} />
+        ) : (
+          <TwEventBanner
+            characters={event.characters}
+            height={160}
+            radius="0"
+          />
+        )}
       </Card.Section>
       <Stack gap="xs" p="md" style={{ flex: 1 }}>
         <EventBadges
-          server="TW"
-          tag={event.type}
-          tagColor={typeColor}
+          server={event.is_global ? 'Global' : 'TW'}
+          type={event.type}
+          typeColor={typeColor}
           active={active}
         />
 
@@ -306,94 +306,66 @@ function TwEventCard({ event }: { event: TwEvent }) {
           {event.name}
         </Text>
 
-        <EventCharacterAvatars characters={event.characters} />
-
-        <Stack gap={2} mt="auto">
-          <EventDates
-            startDate={event.start_date}
-            endDate={event.end_date}
-            active={active}
-            size="xs"
-          />
-        </Stack>
-      </Stack>
-    </Card>
-  );
-}
-
-function EventCard({ event }: { event: GameEvent }) {
-  const { accent } = useGradientAccent();
-  const image = getEventImage(event.name) ?? placeholderEventImage;
-
-  return (
-    <Card
-      radius="md"
-      withBorder
-      padding={0}
-      {...getCardHoverProps()}
-      style={{ display: 'flex', flexDirection: 'column' }}
-    >
-      <Card.Section>
-        <Image src={image} height={160} fit="cover" alt={event.name} />
-      </Card.Section>
-      <Stack gap="xs" p="md" style={{ flex: 1 }}>
-        <EventBadges
-          server="Global"
-          tag={event.tag}
-          tagColor={accent.primary}
-          active={event.active}
-        />
-
-        <Text fw={600} size="md" lineClamp={2}>
-          {event.name}
-        </Text>
+        {event.characters.length > 0 && (
+          <EventCharacterAvatars characters={event.characters} />
+        )}
 
         {event.description && (
-          <Text size="sm" c="dimmed">
+          <Text size="sm" c="dimmed" lineClamp={2}>
             {event.description}
           </Text>
         )}
 
-        <Stack gap={2} mt="auto">
-          <EventDates
-            startDate={event.start_date}
-            endDate={event.end_date}
-            active={event.active}
-            size="xs"
-          />
-        </Stack>
+        <EventDates
+          startDate={event.start_date}
+          endDate={event.end_date}
+          active={active}
+          size="xs"
+        />
       </Stack>
     </Card>
   );
 }
 
 function EventListItem({ event }: { event: GameEvent }) {
-  const { accent } = useGradientAccent();
-  const image = getEventImage(event.name) ?? placeholderEventImage;
+  const { image, active, typeColor } = useEventDisplay(event);
 
   return (
     <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
       <Group align="stretch" gap="md" wrap="nowrap">
-        <Image
-          src={image}
-          w={160}
-          h={96}
-          radius="md"
-          fit="cover"
-          alt={event.name}
-          visibleFrom="sm"
-        />
+        {event.is_global ? (
+          <Image
+            src={image}
+            w={160}
+            h={96}
+            radius="md"
+            fit="cover"
+            alt={event.name}
+            visibleFrom="sm"
+          />
+        ) : (
+          <TwEventBanner
+            characters={event.characters}
+            height={96}
+            width={160}
+            visibleFrom="sm"
+          />
+        )}
         <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
           <EventBadges
-            server="Global"
-            tag={event.tag}
-            tagColor={accent.primary}
-            active={event.active}
+            server={event.is_global ? 'Global' : 'TW'}
+            type={event.type}
+            typeColor={typeColor}
+            active={active}
           />
 
           <Text fw={600} size="lg">
             {event.name}
           </Text>
+
+          {event.characters.length > 0 && (
+            <EventCharacterAvatars characters={event.characters} />
+          )}
 
           {event.description && (
             <Text size="sm" c="dimmed" lineClamp={2}>
@@ -404,7 +376,7 @@ function EventListItem({ event }: { event: GameEvent }) {
           <EventDates
             startDate={event.start_date}
             endDate={event.end_date}
-            active={event.active}
+            active={active}
           />
         </Stack>
       </Group>
@@ -412,42 +384,22 @@ function EventListItem({ event }: { event: GameEvent }) {
   );
 }
 
-function TwEventListItem({ event }: { event: TwEvent }) {
-  const active = isTwEventActive(event);
-  const typeColor = getTwEventTypeColor(event.type);
-
+function renderEvents(items: EventEntry[], viewMode: ViewMode) {
+  if (viewMode === 'list') {
+    return (
+      <Stack gap="md">
+        {items.map((entry) => (
+          <EventListItem key={entry.id} event={entry.event} />
+        ))}
+      </Stack>
+    );
+  }
   return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
-      <Group align="stretch" gap="md" wrap="nowrap">
-        <TwEventBanner
-          characters={event.characters}
-          height={96}
-          width={160}
-          visibleFrom="sm"
-        />
-
-        <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
-          <EventBadges
-            server="TW"
-            tag={event.type}
-            tagColor={typeColor}
-            active={active}
-          />
-
-          <Text fw={600} size="lg">
-            {event.name}
-          </Text>
-
-          <EventCharacterAvatars characters={event.characters} />
-
-          <EventDates
-            startDate={event.start_date}
-            endDate={event.end_date}
-            active={active}
-          />
-        </Stack>
-      </Group>
-    </Paper>
+    <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
+      {items.map((entry) => (
+        <EventCard key={entry.id} event={entry.event} />
+      ))}
+    </SimpleGrid>
   );
 }
 
@@ -479,12 +431,6 @@ export default function Events() {
     error,
   } = useDataFetch<GameEvent[]>('data/events.json', []);
 
-  const {
-    data: twEvents,
-    loading: twLoading,
-    error: twError,
-  } = useDataFetch<TwEvent[]>('data/events_tw.json', []);
-
   const [tabParam, handleTabChange] = useTabParam('tab', 'active', [
     'active',
     'past',
@@ -504,42 +450,24 @@ export default function Events() {
   });
 
   const allEvents = useMemo<EventEntry[]>(() => {
-    const globalEvents: EventEntry[] = events.map((event) => ({
-      kind: 'global',
-      id: event.event_id ?? `global:${event.name}`,
-      active: event.active,
-      name: event.name,
-      tag: event.tag ?? null,
-      server: 'Global',
-      description: event.description ?? '',
-      characters: [],
-      startDate: event.start_date ?? null,
-      endDate: event.end_date,
-      sortDate: event.start_date ?? event.end_date ?? '',
-      event,
-    }));
-
-    const taiwanEvents: EventEntry[] = twEvents.map((event) => ({
-      kind: 'tw',
-      id: `tw:${event.name}:${event.start_date}`,
-      active: isTwEventActive(event),
-      name: event.name,
-      tag: event.type,
-      server: 'TW',
-      description: '',
-      characters: event.characters,
-      startDate: event.start_date,
-      endDate: event.end_date,
-      sortDate: event.start_date ?? event.end_date ?? '',
-      event,
-    }));
-
-    return [...globalEvents, ...taiwanEvents].sort((a, b) => {
-      const dateCompare = (b.sortDate ?? '').localeCompare(a.sortDate ?? '');
-      if (dateCompare !== 0) return dateCompare;
-      return a.name.localeCompare(b.name);
-    });
-  }, [events, twEvents]);
+    return events
+      .map((event) => ({
+        id:
+          event.event_id ??
+          (event.is_global
+            ? `global:${event.name}`
+            : `tw:${event.name}:${event.start_date}`),
+        active: isGameEventActive(event),
+        server: (event.is_global ? 'Global' : 'TW') as 'Global' | 'TW',
+        sortDate: event.start_date ?? event.end_date ?? '',
+        event,
+      }))
+      .sort((a, b) => {
+        const dateCompare = (b.sortDate ?? '').localeCompare(a.sortDate ?? '');
+        if (dateCompare !== 0) return dateCompare;
+        return a.event.name.localeCompare(b.event.name);
+      });
+  }, [events]);
 
   const scopedEvents = useMemo(
     () =>
@@ -550,15 +478,17 @@ export default function Events() {
   );
 
   const serverOptions = useMemo(
-    () => [...new Set(scopedEvents.map((event) => event.server))].sort(),
+    () => [...new Set(scopedEvents.map((entry) => entry.server))].sort(),
     [scopedEvents]
   );
 
-  const tagOptions = useMemo(
+  const typeOptions = useMemo(
     () =>
       [
         ...new Set(
-          scopedEvents.map((event) => event.tag).filter(Boolean) as string[]
+          scopedEvents
+            .map((entry) => entry.event.type)
+            .filter(Boolean) as string[]
         ),
       ].sort((a, b) => a.localeCompare(b)),
     [scopedEvents]
@@ -566,21 +496,24 @@ export default function Events() {
 
   const characterOptions = useMemo(
     () =>
-      [...new Set(scopedEvents.flatMap((event) => event.characters))].sort(),
+      [
+        ...new Set(scopedEvents.flatMap((entry) => entry.event.characters)),
+      ].sort(),
     [scopedEvents]
   );
 
   const filtered = useMemo(() => {
     const search = eventFilters.search.trim().toLowerCase();
 
-    return scopedEvents.filter((event) => {
+    return scopedEvents.filter((entry) => {
+      const ev = entry.event;
       if (search) {
         const haystack = [
-          event.name,
-          event.description,
-          event.tag ?? '',
-          event.server,
-          ...event.characters,
+          ev.name,
+          ev.description,
+          ev.type ?? '',
+          entry.server,
+          ...ev.characters,
         ]
           .join(' ')
           .toLowerCase();
@@ -588,18 +521,18 @@ export default function Events() {
       }
       if (
         eventFilters.servers.length > 0 &&
-        !eventFilters.servers.includes(event.server)
+        !eventFilters.servers.includes(entry.server)
       ) {
         return false;
       }
-      if (eventFilters.tags.length > 0) {
-        if (!event.tag || !eventFilters.tags.includes(event.tag)) {
+      if (eventFilters.types.length > 0) {
+        if (!ev.type || !eventFilters.types.includes(ev.type)) {
           return false;
         }
       }
       if (
         eventFilters.characters.length > 0 &&
-        !event.characters.some((character) =>
+        !ev.characters.some((character) =>
           eventFilters.characters.includes(character)
         )
       ) {
@@ -607,26 +540,21 @@ export default function Events() {
       }
       const [rangeStart, rangeEnd] = eventFilters.dateRange;
       if (rangeStart !== null || rangeEnd !== null) {
-        // Parse YYYY-MM-DD strings as local dates (not UTC) so they match
-        // the local-midnight Date objects returned by DatePickerInput
         const parseLocal = (s: string) => {
           const [y, m, d] = s.split('-').map(Number);
           return new Date(y, m - 1, d);
         };
-        const eventStart = event.startDate ? parseLocal(event.startDate) : null;
-        // Set event end to end-of-day so a range starting on the same day still matches
-        const eventEnd = event.endDate
+        const eventStart = ev.start_date ? parseLocal(ev.start_date) : null;
+        const eventEnd = ev.end_date
           ? (() => {
-              const d = parseLocal(event.endDate);
+              const d = parseLocal(ev.end_date);
               d.setHours(23, 59, 59, 999);
               return d;
             })()
           : null;
-        // Exclude events that end before rangeStart
         if (rangeStart !== null && eventEnd !== null && eventEnd < rangeStart) {
           return false;
         }
-        // Exclude events that start after rangeEnd (treat rangeEnd as end-of-day)
         if (rangeEnd !== null && eventStart !== null) {
           const rangeEndOfDay = new Date(rangeEnd);
           rangeEndOfDay.setHours(23, 59, 59, 999);
@@ -658,44 +586,11 @@ export default function Events() {
 
   const paginated = filtered.slice(offset, offset + eventPageSize);
 
-  const mostRecentUpdate = Math.max(
-    getLatestTimestamp(events) || 0,
-    getLatestTimestamp(twEvents) || 0
-  );
+  const mostRecentUpdate = getLatestTimestamp(events) || 0;
 
   const activeCount = allEvents.filter((event) => event.active).length;
   const pastCount = allEvents.filter((event) => !event.active).length;
   const eventFilterCount = countActiveFilters(eventFilters);
-  const isLoading = loading || twLoading;
-  const combinedError = error ?? twError;
-
-  const renderEvents = (items: EventEntry[], viewMode: ViewMode) => {
-    if (viewMode === 'list') {
-      return (
-        <Stack gap="md">
-          {items.map((event) =>
-            event.kind === 'global' ? (
-              <EventListItem key={event.id} event={event.event} />
-            ) : (
-              <TwEventListItem key={event.id} event={event.event} />
-            )
-          )}
-        </Stack>
-      );
-    }
-
-    return (
-      <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="md">
-        {items.map((event) =>
-          event.kind === 'global' ? (
-            <EventCard key={event.id} event={event.event} />
-          ) : (
-            <TwEventCard key={event.id} event={event.event} />
-          )
-        )}
-      </SimpleGrid>
-    );
-  };
 
   return (
     <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
@@ -705,7 +600,7 @@ export default function Events() {
             <Title order={1}>Events</Title>
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
-          {!isLoading && !combinedError && (
+          {!loading && !error && (
             <PageFilterHeaderControls
               viewMode={eventViewMode}
               onViewModeChange={setEventViewMode}
@@ -717,7 +612,7 @@ export default function Events() {
                 filters={eventFilters}
                 onChange={setEventFilters}
                 serverOptions={serverOptions}
-                tagOptions={tagOptions}
+                typeOptions={typeOptions}
                 characterOptions={characterOptions}
               />
             </PageFilterHeaderControls>
@@ -767,22 +662,22 @@ export default function Events() {
           </ScrollArea>
         </Tabs>
 
-        {isLoading &&
+        {loading &&
           (eventViewMode === 'list' ? (
             <EventListSkeleton />
           ) : (
             <EventGridSkeleton />
           ))}
 
-        {!isLoading && combinedError && (
+        {!loading && error && (
           <DataFetchError
             title="Could not load events"
-            message={combinedError.message}
+            message={error.message}
             onRetry={() => window.location.reload()}
           />
         )}
 
-        {!isLoading && !combinedError && filtered.length === 0 && (
+        {!loading && !error && filtered.length === 0 && (
           <EmptyState
             icon={<IoCalendarOutline size={32} />}
             title={tab === 'active' ? 'No active events' : 'No past events'}
@@ -809,12 +704,12 @@ export default function Events() {
           />
         )}
 
-        {!isLoading &&
-          !combinedError &&
+        {!loading &&
+          !error &&
           paginated.length > 0 &&
           renderEvents(paginated, eventViewMode)}
 
-        {!isLoading && !combinedError && (
+        {!loading && !error && (
           <PaginationControl
             currentPage={page}
             totalPages={totalPages}

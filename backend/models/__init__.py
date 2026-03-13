@@ -22,7 +22,6 @@ from backend.models.subclass import Subclass
 from backend.models.team import Team
 from backend.models.tier_list import TierDefinition, TierEntry, TierList
 from backend.models.useful_link import UsefulLink
-from backend.models.tw_event import TwEvent
 from backend.models.wyrmspell import Wyrmspell
 
 __all__ = [
@@ -54,7 +53,6 @@ __all__ = [
     "TierDefinition",
     "TierEntry",
     "TierList",
-    "TwEvent",
     "UsefulLink",
     "Wyrm",
     "Wyrmspell",

@@ -142,8 +142,11 @@ def code_sort_key(c):
     return (c.get("code") or "").lower()
 
 
-def tw_event_sort_key(e):
-    return (e.get("start_date") or "", (e.get("name") or "").lower())
+def event_sort_key(e):
+    date_str = e.get("start_date") or ""
+    # Convert YYYY-MM-DD to int so we can negate for descending sort
+    date_int = int(date_str.replace("-", "")) if date_str else 0
+    return (-date_int, (e.get("name") or "").lower())
 
 
 # Canonical mapping: data file name → sort key function.
@@ -162,5 +165,5 @@ FILE_SORT_KEY = {
     "noble_phantasm.json": noble_phantasm_sort_key,
     "subclasses.json": subclass_sort_key,
     "golden_alliances.json": golden_alliance_sort_key,
-    "events_tw.json": tw_event_sort_key,
+    "events.json": event_sort_key,
 }

@@ -1,19 +1,19 @@
-import type { TwEvent } from '@/types';
+import type { GameEvent } from '@/types';
 
-const TW_TYPE_COLOR: Record<string, string> = {
+const EVENT_TYPE_COLOR: Record<string, string> = {
   Release: 'blue',
   Skin: 'teal',
   'Mythic Ascension': 'violet',
   Rerun: 'gray',
 };
 
-export function isTwEventActive(event: TwEvent): boolean {
+export function isGameEventActive(event: GameEvent): boolean {
   const today = new Date().toISOString().slice(0, 10);
-  if (!event.start_date || !event.end_date) return false;
-  if (event.start_date.length < 10 || event.end_date.length < 10) return false;
-  return event.start_date <= today && event.end_date >= today;
+  if (event.start_date && event.start_date > today) return false;
+  if (event.end_date === null) return true;
+  return event.end_date >= today;
 }
 
-export function getTwEventTypeColor(type: string): string {
-  return TW_TYPE_COLOR[type] ?? 'gray';
+export function getEventTypeColor(type: string): string {
+  return EVENT_TYPE_COLOR[type] ?? 'gray';
 }

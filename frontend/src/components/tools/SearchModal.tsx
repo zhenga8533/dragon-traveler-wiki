@@ -17,6 +17,7 @@ import {
 import { useGradientAccent, useIsMobile } from '@/hooks';
 import { isCodeActive } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
+import { isGameEventActive } from '@/utils/event-utils';
 import {
   ActionIcon,
   Box,
@@ -566,8 +567,8 @@ export default function SearchModal({
           .map((r) => ({
             type: 'event' as const,
             title: r.item.name,
-            subtitle: r.item.active ? 'Active event' : 'Past event',
-            path: `/events?tab=${r.item.active ? 'active' : 'past'}`,
+            subtitle: isGameEventActive(r.item) ? 'Active event' : 'Past event',
+            path: `/events?tab=${isGameEventActive(r.item) ? 'active' : 'past'}`,
             icon: IoCalendarOutline,
             color: 'green',
           }))

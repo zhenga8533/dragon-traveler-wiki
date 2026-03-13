@@ -2,7 +2,7 @@ import { getAccentForPath, PARENT_ACCENTS } from '@/constants/accents';
 import { IMAGE_SIZE, NAV_ITEM_HEIGHT, STORAGE_KEY } from '@/constants/ui';
 import { SearchDataContext } from '@/contexts';
 import { isCodeActive } from '@/utils';
-import { isTwEventActive } from '@/utils/event-utils';
+import { isGameEventActive } from '@/utils/event-utils';
 import { Badge, Group, NavLink, Tooltip } from '@mantine/core';
 import {
   useContext,
@@ -136,7 +136,7 @@ export default function Navigation({
   onExpand?: () => void;
 }) {
   const location = useLocation();
-  const { codes, events, twEvents } = useContext(SearchDataContext);
+  const { codes, events } = useContext(SearchDataContext);
 
   const loadRedeemedCodes = () => {
     try {
@@ -180,10 +180,8 @@ export default function Navigation({
   );
 
   const activeEventsCount = useMemo(
-    () =>
-      events.filter((event) => event.active).length +
-      twEvents.filter(isTwEventActive).length,
-    [events, twEvents]
+    () => events.filter((event) => isGameEventActive(event)).length,
+    [events]
   );
 
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
