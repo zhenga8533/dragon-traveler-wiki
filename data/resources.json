@@ -455,6 +455,13 @@
     "last_updated": 1772856370
   },
   {
+    "name": "Ruins Map",
+    "quality": "SR",
+    "description": "A map recording many ancient ruins. Can be exchanged for Geomancy Probes, Mausoleum Probes, and Limited Time Tomb Probes.",
+    "category": "Material",
+    "last_updated": 1773364837
+  },
+  {
     "name": "Starlight Sigil",
     "quality": "SR",
     "description": "A Starshine Mark with flowing light, used to upgrade the Stellar Power level of dragons.",
