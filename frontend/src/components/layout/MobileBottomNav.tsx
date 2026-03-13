@@ -43,10 +43,10 @@ export default function MobileBottomNav() {
         ...glassStyles,
         border: 'none',
         borderTop: glassStyles.border,
-        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
+        paddingBottom: 'calc(var(--mantine-spacing-xs) + env(safe-area-inset-bottom, 0px))',
       }}
     >
-      <Group justify="space-around" gap={0} py="xs" px="sm" wrap="nowrap">
+      <Group justify="space-around" gap={0} pt="xs" px="sm" wrap="nowrap">
         {BOTTOM_NAV_ITEMS.map((item) => {
           const isActive = item.exact
             ? location.pathname === item.path
