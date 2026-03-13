@@ -63,6 +63,18 @@
     "last_updated": 1771529295
   },
   {
+    "name": "Pharaoh Guardian",
+    "quality": "UR",
+    "basic_stats": {
+      "Belligerence": 432,
+      "PvP DMG Reduction": 432
+    },
+    "passive_effects": [
+      "For Each 4 Stages Cleared in the Temporal Rift: HP +2.0%"
+    ],
+    "last_updated": 1773363472
+  },
+  {
     "name": "Pumpkin Knight",
     "quality": "UR",
     "basic_stats": {

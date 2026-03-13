@@ -476,6 +476,13 @@
     "last_updated": 1772856370
   },
   {
+    "name": "Crystal",
+    "quality": "R",
+    "description": "Formed through countless years of accumulation and nurturing, this crystal shines with mysterious light. Its energy can be used to upgrade faction development.",
+    "category": "Material",
+    "last_updated": 1773363472
+  },
+  {
     "name": "Dragonfire",
     "quality": "R",
     "description": "An eternal flame that enhances the Dragon Roar effect.",
@@ -502,6 +509,13 @@
     "description": "Essence crystallized from traces of Luminaries, used to increase a Luminary's Level.",
     "category": "Material",
     "last_updated": 1771374946
+  },
+  {
+    "name": "Magic Power",
+    "quality": "R",
+    "description": "The depths of the spring contain pure magical energy rather than liquid. After extraction, it can be used to upgrade Core Development.",
+    "category": "Material",
+    "last_updated": 1773363472
   },
   {
     "name": "Mythic Summoning Ticket",
