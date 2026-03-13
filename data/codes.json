@@ -514,8 +514,8 @@
     "rewards": {
       "Summoning Ticket": 5
     },
-    "active": true,
-    "last_updated": 1771512550
+    "active": false,
+    "last_updated": 1773417457
   },
   {
     "code": "XJLYQL8",
@@ -594,8 +594,8 @@
       "Legacy Dragon Crystal": 3,
       "Apple": 1
     },
-    "active": true,
-    "last_updated": 1771644484
+    "active": false,
+    "last_updated": 1773417457
   },
   {
     "code": "SlamDunk",
@@ -604,8 +604,8 @@
       "Golden Horn": 1,
       "SR Luminary Shards": 10
     },
-    "active": true,
-    "last_updated": 1771820426
+    "active": false,
+    "last_updated": 1773417457
   },
   {
     "code": "NEWNOTICE666",

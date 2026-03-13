@@ -249,7 +249,17 @@
   },
   "1MONTHGIFT": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773417457,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "XJLYQL8": {
     "added": 1772563593,
@@ -341,11 +351,31 @@
   },
   "MysteriousDate": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773417457,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "SlamDunk": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773417457,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "NEWNOTICE666": {
     "added": 1772563593,
