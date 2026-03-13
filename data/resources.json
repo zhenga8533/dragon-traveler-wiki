@@ -63,6 +63,13 @@
     "last_updated": 1771374946
   },
   {
+    "name": "Ruins Map",
+    "quality": "SR",
+    "description": "A map recording many ancient ruins. Can be exchanged for Geomancy Probes, Mausoleum Probes, and Limited Time Tomb Probes.",
+    "category": "Currency",
+    "last_updated": 1773365199
+  },
+  {
     "name": "Arena Coins",
     "quality": "R",
     "description": "Arena Currency is awarded to honor participants and is exchangeable for rare resources in the Arena Store.",
@@ -385,6 +392,13 @@
     "last_updated": 1772856370
   },
   {
+    "name": "Adventure EXP",
+    "quality": "SSR",
+    "description": "The precious experience gained from adventures charts the parallel growth of both Dragons and Heroes alike.",
+    "category": "Material",
+    "last_updated": 1773365199
+  },
+  {
     "name": "Aurora Crystal",
     "quality": "SSR",
     "description": "Contains immense Energy from the origin of life. An Advanced Material for Artifact Advancement.",
@@ -453,13 +467,6 @@
     "description": "Mandrake, in growth, provides vitality to the Howlkin of the Thunderhowl Legion. For hearing protection, only the edible leaves are kept during harvest.",
     "category": "Material",
     "last_updated": 1772856370
-  },
-  {
-    "name": "Ruins Map",
-    "quality": "SR",
-    "description": "A map recording many ancient ruins. Can be exchanged for Geomancy Probes, Mausoleum Probes, and Limited Time Tomb Probes.",
-    "category": "Material",
-    "last_updated": 1773364837
   },
   {
     "name": "Starlight Sigil",
