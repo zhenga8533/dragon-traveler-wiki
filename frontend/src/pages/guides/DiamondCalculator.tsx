@@ -1,8 +1,5 @@
-import GuideHeroCard from './components/GuideHeroCard';
 import StatCard from '@/components/ui/StatCard';
-import {
-  getCardHoverProps,
-} from '@/constants/styles';
+import { getCardHoverProps } from '@/constants/styles';
 import { useGradientAccent } from '@/hooks';
 import {
   ActionIcon,
@@ -34,6 +31,7 @@ import {
   IoTrendingUp,
   IoWallet,
 } from 'react-icons/io5';
+import GuideHeroCard from './components/GuideHeroCard';
 
 type SourceType = 'gain' | 'spend';
 
@@ -254,7 +252,7 @@ const BASE_SPEND_SOURCES: BaseSource[] = [
 
 const POINTS_LEAGUE_OPTIONS: Option[] = [
   { value: 'legend', label: 'Legend rank (300/day)' },
-  { value: 'king', label: 'King rank (240/day)' },
+  { value: 'king', label: 'King rank (220/day)' },
   { value: 'champion', label: 'Champion rank (180/day)' },
   { value: 'grandmaster', label: 'Grandmaster rank (150/day)' },
   { value: 'master', label: 'Master rank (120/day)' },
@@ -266,7 +264,7 @@ const POINTS_LEAGUE_OPTIONS: Option[] = [
 
 const POINTS_LEAGUE_DAILY_BY_RANK: Record<string, number> = {
   legend: 300,
-  king: 240,
+  king: 220,
   champion: 180,
   grandmaster: 150,
   master: 120,
@@ -854,12 +852,7 @@ export default function DiamondCalculator() {
           </Alert>
         </GuideHeroCard>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
           <Stack gap="md">
             <Title order={2} size="h3">
               <Group gap="xs">
@@ -962,12 +955,7 @@ export default function DiamondCalculator() {
         </Card>
 
         <SimpleGrid cols={{ base: 1, lg: 2 }} spacing="lg">
-          <Card
-            withBorder
-            radius="md"
-            p="lg"
-            {...getCardHoverProps()}
-          >
+          <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
             <Stack gap="md">
               <Title order={2} size="h3">
                 <Group gap="xs">
@@ -1024,12 +1012,7 @@ export default function DiamondCalculator() {
             </Stack>
           </Card>
 
-          <Card
-            withBorder
-            radius="md"
-            p="lg"
-            {...getCardHoverProps()}
-          >
+          <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
             <Stack gap="md">
               <Title order={2} size="h3">
                 <Group gap="xs">
@@ -1087,12 +1070,7 @@ export default function DiamondCalculator() {
           </Card>
         </SimpleGrid>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
           <Stack gap="md">
             <Title order={2} size="h3">
               Results
