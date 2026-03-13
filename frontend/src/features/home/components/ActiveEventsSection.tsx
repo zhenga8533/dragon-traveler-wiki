@@ -1,8 +1,7 @@
 import { getEventImage, placeholderEventImage } from '@/assets/event';
 import { getCardHoverProps } from '@/constants/styles';
-import { IMAGE_SIZE } from '@/constants/ui';
-import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import EventCharacterAvatars from '@/features/wiki/components/EventCharacterAvatars';
 import TwEventBanner from '@/features/wiki/components/TwEventBanner';
 import { useDataFetch, useGradientAccent } from '@/hooks';
 import type { GameEvent, TwEvent } from '@/types';
@@ -161,19 +160,8 @@ export default function ActiveEventsSection() {
                 <Text size="sm" fw={600} lineClamp={2}>
                   {event.name}
                 </Text>
-                {event.kind === 'tw' && event.characters.length > 0 && (
-                  <Group gap={4} wrap="wrap">
-                    {event.characters.map((character) => (
-                      <CharacterPortrait
-                        key={character}
-                        name={character}
-                        size={IMAGE_SIZE.PORTRAIT_SM}
-                        link
-                        tooltip={character}
-                        loading="lazy"
-                      />
-                    ))}
-                  </Group>
+                {event.kind === 'tw' && (
+                  <EventCharacterAvatars characters={event.characters} />
                 )}
                 {event.description && (
                   <Text size="xs" c="dimmed" lineClamp={2}>

@@ -334,7 +334,6 @@ export default function GearSetPage() {
                         link
                         tooltip={tooltipLabel}
                         tooltipProps={tooltipProps}
-                        borderColor={`var(--mantine-color-${qualityColor}-${isDark ? 6 : 4})`}
                       />
                     );
                   })}

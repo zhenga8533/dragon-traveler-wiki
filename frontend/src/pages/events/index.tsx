@@ -12,8 +12,8 @@ import EmptyState from '@/components/ui/EmptyState';
 import PaginationControl from '@/components/ui/PaginationControl';
 import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import EventCharacterAvatars from '@/features/wiki/components/EventCharacterAvatars';
 import TwEventBanner from '@/features/wiki/components/TwEventBanner';
 import type { ViewMode } from '@/hooks';
 import {
@@ -171,25 +171,6 @@ function EventDates({
   );
 }
 
-function EventCharacters({ characters }: { characters: string[] }) {
-  if (characters.length === 0) return null;
-
-  return (
-    <Group gap="xs" wrap="wrap">
-      {characters.map((char) => (
-        <CharacterPortrait
-          key={char}
-          name={char}
-          size={IMAGE_SIZE.PORTRAIT_SM}
-          link
-          tooltip={char}
-          loading="lazy"
-        />
-      ))}
-    </Group>
-  );
-}
-
 function EventFilter({
   filters,
   onChange,
@@ -325,7 +306,7 @@ function TwEventCard({ event }: { event: TwEvent }) {
           {event.name}
         </Text>
 
-        <EventCharacters characters={event.characters} />
+        <EventCharacterAvatars characters={event.characters} />
 
         <Stack gap={2} mt="auto">
           <EventDates
@@ -457,7 +438,7 @@ function TwEventListItem({ event }: { event: TwEvent }) {
             {event.name}
           </Text>
 
-          <EventCharacters characters={event.characters} />
+          <EventCharacterAvatars characters={event.characters} />
 
           <EventDates
             startDate={event.start_date}
