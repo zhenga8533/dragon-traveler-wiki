@@ -249,6 +249,7 @@ export default function GearSetPage() {
 
             <Stack gap={6}>
               <Group gap="sm" align="center" wrap="wrap">
+                <QualityIcon quality={setItems[0].quality} size={28} />
                 <Title
                   order={1}
                   c={isDark ? 'white' : 'dark'}
@@ -278,15 +279,6 @@ export default function GearSetPage() {
                 </Text>
               )}
             </Stack>
-
-            <Group gap="xs" wrap="wrap">
-              <QualityIcon quality={setItems[0].quality} size={20} />
-              {setBonus && setBonus.quantity > 0 && (
-                <Badge variant="outline" color={accent.tertiary} size="md">
-                  {setBonus.quantity}-piece bonus
-                </Badge>
-              )}
-            </Group>
 
             {setBonus && setBonus.quantity > 0 && (
               <Paper

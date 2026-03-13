@@ -471,7 +471,7 @@ export default function GearPage() {
                               />
                             )}
                             <Stack gap={4} style={{ flex: 1 }}>
-                              <Group gap="xs" wrap="wrap">
+                              <Group gap="sm" wrap="wrap">
                                 <Text
                                   fw={700}
                                   c={`${accent.primary}.7`}
