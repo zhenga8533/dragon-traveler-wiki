@@ -69,6 +69,12 @@ export const HEADER_HEIGHT = {
   DESKTOP: 72,
 } as const;
 
+/**
+ * Visible height of the mobile bottom nav bar (icon + label + py="xs" padding).
+ * Used for bottom spacers and positioning sticky UI elements (e.g. ScrollToTop).
+ */
+export const MOBILE_NAV_HEIGHT = 60;
+
 // Storage keys
 export const PAGE_SIZE = 50;
 

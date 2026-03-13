@@ -36,17 +36,14 @@ export default function MobileBottomNav() {
       aria-label="Quick navigation"
       style={{
         position: 'fixed',
-        // Extend 100px below the viewport so the background fills any gap the
-        // mobile browser creates when its toolbar collapses/expands on scroll.
-        bottom: '-100px',
+        bottom: 0,
         left: 0,
         right: 0,
         zIndex: Z_INDEX.BOTTOM_NAV,
         ...glassStyles,
         border: 'none',
         borderTop: glassStyles.border,
-        // Extra 100px compensates for the -100px bottom offset.
-        paddingBottom: 'calc(env(safe-area-inset-bottom, 0px) + 100px)',
+        paddingBottom: 'env(safe-area-inset-bottom, 0px)',
       }}
     >
       <Group justify="space-around" gap={0} py="xs" px="sm" wrap="nowrap">

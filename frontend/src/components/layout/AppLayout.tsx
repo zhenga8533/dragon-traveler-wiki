@@ -6,6 +6,7 @@ import { BRAND_TITLE_STYLE, LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import {
   DETAIL_ROUTE_PATTERNS,
   HEADER_HEIGHT,
+  MOBILE_NAV_HEIGHT,
   SIDEBAR,
   TRANSITION,
 } from '@/constants/ui';
@@ -72,6 +73,7 @@ export default function AppLayout() {
       padding={{ base: 'sm', sm: 'md' }}
       transitionDuration={parseInt(TRANSITION.NORMAL)}
       transitionTimingFunction={TRANSITION.EASE}
+      style={{ minHeight: '100dvh' }}
     >
       <AppShell.Header style={glassStyles}>
         <Group h="100%" px="md" justify="space-between" wrap="nowrap">
@@ -140,12 +142,13 @@ export default function AppLayout() {
             onExpand={() => sidebar.setCollapsed(false)}
           />
           {/* Spacer so the last nav items don't sit behind the fixed mobile
-               bottom nav when the sidebar is scrolled to the bottom. */}
+               bottom nav when the sidebar is scrolled to the bottom.
+               Hidden in landscape because the bottom nav is also hidden there. */}
           {!isLandscape && (
             <Box
               hiddenFrom="sm"
               style={{
-                height: 'calc(64px + env(safe-area-inset-bottom, 0px))',
+                height: `calc(${MOBILE_NAV_HEIGHT}px + env(safe-area-inset-bottom, 0px))`,
                 flexShrink: 0,
               }}
               aria-hidden="true"
@@ -158,12 +161,15 @@ export default function AppLayout() {
         style={{
           position: 'relative',
           overflow: 'clip',
+          display: 'flex',
+          flexDirection: 'column',
           background:
             'linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 22%), var(--mantine-color-body)',
         }}
       >
         {showBanner && <BannerBackground />}
-        <Box style={{ position: 'relative', zIndex: 1 }}>
+        {/* flex:1 fills remaining Main height so the Footer stays at the bottom */}
+        <Box style={{ position: 'relative', zIndex: 1, flex: 1, minHeight: 0 }}>
           <PageTransition>
             <ErrorBoundary>
               <AppRoutes />
@@ -173,11 +179,13 @@ export default function AppLayout() {
         <Footer />
         {/* Spacer placed AFTER the footer so the fixed mobile bottom nav
              doesn't overlap footer content when scrolled to the bottom.
-             Includes env(safe-area-inset-bottom) for notched devices. */}
+             Hidden in landscape because the bottom nav is also hidden there. */}
         {!isLandscape && (
           <Box
             hiddenFrom="sm"
-            style={{ height: 'calc(64px + env(safe-area-inset-bottom, 0px))' }}
+            style={{
+              height: `calc(${MOBILE_NAV_HEIGHT}px + env(safe-area-inset-bottom, 0px))`,
+            }}
             aria-hidden="true"
           />
         )}
