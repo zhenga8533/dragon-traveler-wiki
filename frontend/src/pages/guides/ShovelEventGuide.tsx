@@ -1,11 +1,9 @@
-import GuideHeroCard from '@/components/guides/GuideHeroCard';
+import GuideHeroCard from './components/GuideHeroCard';
 import {
   getCardHoverProps,
-  getGuideSectionCardStyles,
   getMinWidthStyle,
 } from '@/constants/styles';
 import ResourceBadge from '@/features/characters/components/ResourceBadge';
-import { useDarkMode } from '@/hooks';
 import {
   Alert,
   Anchor,
@@ -62,9 +60,7 @@ const EFFICIENCY_ROWS = [
 ];
 
 export default function ShovelEventGuide() {
-  const isDark = useDarkMode();
 
-  const sectionCardStyle = getGuideSectionCardStyles(isDark);
 
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
@@ -97,7 +93,7 @@ export default function ShovelEventGuide() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="sm">
             <Title order={2}>Main Conclusion &amp; Schedule</Title>
@@ -105,7 +101,7 @@ export default function ShovelEventGuide() {
               p="md"
               radius="md"
               withBorder
-              {...getCardHoverProps({ style: sectionCardStyle })}
+              {...getCardHoverProps()}
             >
               <Stack gap="xs">
                 <Text>
@@ -134,7 +130,7 @@ export default function ShovelEventGuide() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="sm">
             <Title order={2}>Event Targets</Title>
@@ -142,7 +138,7 @@ export default function ShovelEventGuide() {
               p="md"
               radius="md"
               withBorder
-              {...getCardHoverProps({ style: sectionCardStyle })}
+              {...getCardHoverProps()}
             >
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
                 <Table striped highlightOnHover style={getMinWidthStyle(540)}>
@@ -182,7 +178,7 @@ export default function ShovelEventGuide() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="sm">
             <Title order={2}>Efficiency &amp; Investment Check</Title>
@@ -190,7 +186,7 @@ export default function ShovelEventGuide() {
               p="md"
               radius="md"
               withBorder
-              {...getCardHoverProps({ style: sectionCardStyle })}
+              {...getCardHoverProps()}
             >
               <Stack gap="xs">
                 <Text>
@@ -214,7 +210,7 @@ export default function ShovelEventGuide() {
               p="md"
               radius="md"
               withBorder
-              {...getCardHoverProps({ style: sectionCardStyle })}
+              {...getCardHoverProps()}
             >
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
                 <Table striped highlightOnHover style={getMinWidthStyle(500)}>
@@ -248,7 +244,7 @@ export default function ShovelEventGuide() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="sm">
             <Title order={2}>Pro Digging Tips</Title>
@@ -256,7 +252,7 @@ export default function ShovelEventGuide() {
               p="md"
               radius="md"
               withBorder
-              {...getCardHoverProps({ style: sectionCardStyle })}
+              {...getCardHoverProps()}
             >
               <Stack gap="xs">
                 <Text>
@@ -287,7 +283,7 @@ export default function ShovelEventGuide() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="sm">
             <Title order={2}>Diamond Value Note</Title>
@@ -295,7 +291,7 @@ export default function ShovelEventGuide() {
               p="md"
               radius="md"
               withBorder
-              {...getCardHoverProps({ style: sectionCardStyle })}
+              {...getCardHoverProps()}
             >
               <Stack gap="xs">
                 <Text>

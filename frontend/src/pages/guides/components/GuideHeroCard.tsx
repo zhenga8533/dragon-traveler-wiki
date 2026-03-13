@@ -1,9 +1,5 @@
 import { GLASS } from '@/constants/glass';
-import {
-  BRAND_TITLE_STYLE,
-  getCardHoverProps,
-  getGuideSectionCardStyles,
-} from '@/constants/styles';
+import { BRAND_TITLE_STYLE, getCardHoverProps } from '@/constants/styles';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import { Card, Group, Stack, Text, ThemeIcon, Title } from '@mantine/core';
 import { type ReactNode } from 'react';
@@ -26,7 +22,6 @@ export default function GuideHeroCard({
 }: GuideHeroCardProps) {
   const isDark = useDarkMode();
   const { accent } = useGradientAccent();
-  const sectionCardStyle = getGuideSectionCardStyles(isDark);
 
   return (
     <Card
@@ -35,7 +30,6 @@ export default function GuideHeroCard({
       p="xl"
       {...getCardHoverProps({
         style: {
-          ...sectionCardStyle,
           backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
           backgroundColor: isDark
             ? 'var(--dt-home-hero-card-dark)'

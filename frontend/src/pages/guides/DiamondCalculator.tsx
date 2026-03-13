@@ -1,10 +1,9 @@
-import GuideHeroCard from '@/components/guides/GuideHeroCard';
+import GuideHeroCard from './components/GuideHeroCard';
 import StatCard from '@/components/ui/StatCard';
 import {
   getCardHoverProps,
-  getGuideSectionCardStyles,
 } from '@/constants/styles';
-import { useDarkMode, useGradientAccent } from '@/hooks';
+import { useGradientAccent } from '@/hooks';
 import {
   ActionIcon,
   Alert,
@@ -530,7 +529,6 @@ function readStoredCalculatorState(): Partial<CalculatorState> | null {
 }
 
 export default function DiamondCalculator() {
-  const isDark = useDarkMode();
   const { accent } = useGradientAccent();
   const minDate = useMemo(() => getStartOfToday(), []);
   const storedState = useMemo(() => readStoredCalculatorState(), []);
@@ -680,7 +678,6 @@ export default function DiamondCalculator() {
     });
   }, [targetDate]);
 
-  const sectionCardStyle = getGuideSectionCardStyles(isDark);
   const targetDateValue = useMemo(
     () => isoDateToDate(targetDate),
     [targetDate]
@@ -861,7 +858,7 @@ export default function DiamondCalculator() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="md">
             <Title order={2} size="h3">
@@ -969,7 +966,7 @@ export default function DiamondCalculator() {
             withBorder
             radius="md"
             p="lg"
-            {...getCardHoverProps({ style: sectionCardStyle })}
+            {...getCardHoverProps()}
           >
             <Stack gap="md">
               <Title order={2} size="h3">
@@ -1031,7 +1028,7 @@ export default function DiamondCalculator() {
             withBorder
             radius="md"
             p="lg"
-            {...getCardHoverProps({ style: sectionCardStyle })}
+            {...getCardHoverProps()}
           >
             <Stack gap="md">
               <Title order={2} size="h3">
@@ -1094,7 +1091,7 @@ export default function DiamondCalculator() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="md">
             <Title order={2} size="h3">

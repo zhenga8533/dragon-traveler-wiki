@@ -1,12 +1,6 @@
-import GuideHeroCard from '@/components/guides/GuideHeroCard';
-import {
-  getCardHoverProps,
-  getGuideSectionCardStyles,
-  getMinWidthStyle,
-} from '@/constants/styles';
+import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
 import ResourceBadge from '@/features/characters/components/ResourceBadge';
-import { useDarkMode } from '@/hooks';
 import {
   Alert,
   Anchor,
@@ -21,6 +15,7 @@ import {
   Title,
 } from '@mantine/core';
 import { IoInformationCircleOutline } from 'react-icons/io5';
+import GuideHeroCard from './components/GuideHeroCard';
 
 const FACTION_GIFTS: {
   faction: string;
@@ -164,17 +159,9 @@ const GUILD_EXPEDITION_PRIORITIES: {
   },
 ];
 
-function QA({
-  q,
-  children,
-  style,
-}: {
-  q: string;
-  children: React.ReactNode;
-  style?: React.CSSProperties;
-}) {
+function QA({ q, children }: { q: string; children: React.ReactNode }) {
   return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps({ style })}>
+    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
       <Stack gap="xs">
         <Group align="flex-start" gap={6} wrap="nowrap">
           <Text fw={700}>Q:</Text>
@@ -201,10 +188,6 @@ function QA({
 }
 
 export default function BeginnerQA() {
-  const isDark = useDarkMode();
-
-  const sectionCardStyle = getGuideSectionCardStyles(isDark);
-
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
@@ -232,29 +215,18 @@ export default function BeginnerQA() {
           </Alert>
         </GuideHeroCard>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
-        >
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
           <Stack gap="sm">
             <Title order={2}>Summoning &amp; Characters</Title>
 
-            <QA
-              q="Which characters should I prioritize summoning?"
-              style={sectionCardStyle}
-            >
+            <QA q="Which characters should I prioritize summoning?">
               Go for at least 8 copies of <CharacterTag name="Ifrit" /> (AoE
               attack, physical defense reduction) to reach Red 1★ for the
               powerful Level 4 passive. Then try to summon at least 1 copy of
               each limited character.
             </QA>
 
-            <QA
-              q="How should I pull characters strategically?"
-              style={sectionCardStyle}
-            >
+            <QA q="How should I pull characters strategically?">
               Most characters need higher stars to become fully viable. For
               F2P/new players, save <ResourceBadge name="Diamond" /> and{' '}
               <ResourceBadge name="Fated Summoning Ticket" /> for strong
@@ -263,7 +235,7 @@ export default function BeginnerQA() {
               passives.
             </QA>
 
-            <QA q="How should I set my Wishlist?" style={sectionCardStyle}>
+            <QA q="How should I set my Wishlist?">
               Fill all 8 slots or it will not activate. For SSR+, take up to two{' '}
               <CharacterTag name="Titania" />, then prioritize{' '}
               <CharacterTag name="Scheherazade" />,{' '}
@@ -283,26 +255,18 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
-        >
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
           <Stack gap="sm">
             <Title order={2}>Economy &amp; Shopping</Title>
 
-            <QA
-              q="What is the best way to spend Diamonds?"
-              style={sectionCardStyle}
-            >
+            <QA q="What is the best way to spend Diamonds?">
               Priority path: shop essentials &gt; sweeps (except Dragon Soul
               Stones) &gt; treasure hunt resources &gt; planned pulls &gt;
               patrols &gt; auctions (bidding). Avoid unplanned pulls or
               standard-pool pulls.
             </QA>
 
-            <QA q="Which shops should I buy from?" style={sectionCardStyle}>
+            <QA q="Which shops should I buy from?">
               • Mystery Shop: <ResourceBadge name="Exploration Guide" />{' '}
               (daily), <ResourceBadge name="Primal Amber" />
               (monthly).
@@ -318,10 +282,7 @@ export default function BeginnerQA() {
               here if stuck on evolution.
             </QA>
 
-            <QA
-              q="How should I buy Treasure Hunt resources?"
-              style={sectionCardStyle}
-            >
+            <QA q="How should I buy Treasure Hunt resources?">
               Prioritize daily purchases based on your Diamond reserve:
               <br />• 1–3 Purple Bottles (<ResourceBadge name="Soul Elixir" />)
               <br />• 1–5 Dragon Words (
@@ -333,44 +294,30 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
-        >
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
           <Stack gap="sm">
             <Title order={2}>Progression &amp; Mechanics</Title>
 
-            <QA
-              q="What is the level cap for Luminaries?"
-              style={sectionCardStyle}
-            >
+            <QA q="What is the level cap for Luminaries?">
               After level 100, the cap increases by 50 each stage (150, 200,
               250, 300), then continues to Peak level.
             </QA>
 
-            <QA q="How do I evolve Dragons?" style={sectionCardStyle}>
+            <QA q="How do I evolve Dragons?">
               Dragon star-up uses Dragon Souls. If you lack the exact soul, you
               can substitute lower-tier souls or{' '}
               <ResourceBadge name="Dragonblood" />. Conversion: 3 Small = 1
               Medium, and 4 Medium = 1 Large.
             </QA>
 
-            <QA
-              q="What should I prioritize in Dispatch?"
-              style={sectionCardStyle}
-            >
+            <QA q="What should I prioritize in Dispatch?">
               <ResourceBadge name="Luminary EXP" /> ≥{' '}
               <ResourceBadge name="Gold" /> &gt;{' '}
               <ResourceBadge name="Leaf of the World Tree" /> ≥{' '}
               <ResourceBadge name="Diamond" />.
             </QA>
 
-            <QA
-              q="What attributes are best for equipment?"
-              style={sectionCardStyle}
-            >
+            <QA q="What attributes are best for equipment?">
               • Frontline: Block ≥ HP &gt; Physical Defense &gt; Magic Defense.
               <br />• DPS: Independent Damage Boost &gt; CD Reduction ≥ Crit DMG
               &gt; Attack Speed &gt; Crit Rate.
@@ -379,32 +326,24 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
-        >
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
           <Stack gap="sm">
             <Title order={2}>Events &amp; Guilds</Title>
 
-            <QA q="How do Golden Leaf events work?" style={sectionCardStyle}>
+            <QA q="How do Golden Leaf events work?">
               Events rotate weekly (Howlkins → Wyrmspells → Artifacts).
               Typically aim to complete one full round (commonly 270 or 900
               pulls) to secure the core reward (12 Golden Leaves). If you cannot
               complete the round, skip and save.
             </QA>
 
-            <QA
-              q="What should I exchange Golden Leaves for?"
-              style={sectionCardStyle}
-            >
+            <QA q="What should I exchange Golden Leaves for?">
               Crit/ATK Howlkins ≥ Mythic Dragon Words &gt; HP Howlkins &gt;
               Mythic Artifacts. Avoid exchanging for Diamond-equivalent currency
               or generic shards.
             </QA>
 
-            <QA q="What are the Guild priorities?" style={sectionCardStyle}>
+            <QA q="What are the Guild priorities?">
               Always do Guild Wars (losses still give points). Always hit the
               Guild Dragon (primary{' '}
               <ResourceBadge name="Leaf of the World Tree" />
@@ -454,12 +393,7 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
-        >
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
           <Stack gap="sm">
             <Title order={2}>Affection Gifts</Title>
             <Text size="sm" c="dimmed">
@@ -517,19 +451,11 @@ export default function BeginnerQA() {
           </Stack>
         </Card>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
-        >
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
           <Stack gap="sm">
             <Title order={2}>Combat Strategy</Title>
 
-            <QA
-              q="Why is Physical Defense usually prioritized over Magic Defense?"
-              style={sectionCardStyle}
-            >
+            <QA q="Why is Physical Defense usually prioritized over Magic Defense?">
               Most magic damage comes from Mages and Priests; Priests are
               commonly support-focused with lower output. Many meta Mages are
               currently utility-focused, with fewer high-damage exceptions (such

@@ -1,11 +1,10 @@
-import GuideHeroCard from '@/components/guides/GuideHeroCard';
+import GuideHeroCard from './components/GuideHeroCard';
 import StatCard from '@/components/ui/StatCard';
 import {
   getCardHoverProps,
-  getGuideSectionCardStyles,
 } from '@/constants/styles';
 import ResourceBadge from '@/features/characters/components/ResourceBadge';
-import { useDarkMode, useGradientAccent } from '@/hooks';
+import { useGradientAccent } from '@/hooks';
 import {
   Alert,
   Card,
@@ -133,7 +132,6 @@ function calculateMilestoneRewards(summons: number): number {
 }
 
 export default function MythicSummonCalculator() {
-  const isDark = useDarkMode();
   const { accent } = useGradientAccent();
   const [numSummons, setNumSummons] = useState<number | null>(100);
   const [currentPulls, setCurrentPulls] = useState<number | null>(0);
@@ -324,7 +322,6 @@ export default function MythicSummonCalculator() {
     currentPulls,
   ]);
 
-  const sectionCardStyle = getGuideSectionCardStyles(isDark);
 
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
@@ -350,7 +347,7 @@ export default function MythicSummonCalculator() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="md">
             <Title order={2} size="h3">
@@ -431,7 +428,7 @@ export default function MythicSummonCalculator() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="md">
             <Title order={2} size="h3">
@@ -485,7 +482,7 @@ export default function MythicSummonCalculator() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="md">
             <Title order={2} size="h3">
@@ -568,7 +565,7 @@ export default function MythicSummonCalculator() {
             withBorder
             radius="md"
             p="md"
-            {...getCardHoverProps({ style: sectionCardStyle })}
+            {...getCardHoverProps()}
           >
             <Stack gap="xs">
               <Group gap="xs">
@@ -622,7 +619,7 @@ export default function MythicSummonCalculator() {
             withBorder
             radius="md"
             p="md"
-            {...getCardHoverProps({ style: sectionCardStyle })}
+            {...getCardHoverProps()}
           >
             <Stack gap="xs">
               <Group gap="xs">
@@ -671,7 +668,7 @@ export default function MythicSummonCalculator() {
             withBorder
             radius="md"
             p="md"
-            {...getCardHoverProps({ style: sectionCardStyle })}
+            {...getCardHoverProps()}
           >
             <Stack gap="xs">
               <Group gap="xs">
@@ -718,7 +715,7 @@ export default function MythicSummonCalculator() {
             withBorder
             radius="md"
             p="md"
-            {...getCardHoverProps({ style: sectionCardStyle })}
+            {...getCardHoverProps()}
           >
             <Stack gap="xs">
               <Group gap="xs">
@@ -766,7 +763,7 @@ export default function MythicSummonCalculator() {
           withBorder
           radius="md"
           p="md"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="xs">
             <Text fw={600}>

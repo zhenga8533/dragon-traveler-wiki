@@ -1,12 +1,11 @@
 import { QUALITY_ICON_MAP } from '@/assets/quality';
-import GuideHeroCard from '@/components/guides/GuideHeroCard';
+import GuideHeroCard from './components/GuideHeroCard';
 import StatCard from '@/components/ui/StatCard';
 import {
   getCardHoverProps,
-  getGuideSectionCardStyles,
 } from '@/constants/styles';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
-import { useDarkMode, useGradientAccent } from '@/hooks';
+import { useGradientAccent } from '@/hooks';
 import {
   Alert,
   Badge,
@@ -273,7 +272,6 @@ function parseNumberInput(value: string | number): number | null {
 }
 
 export default function StarUpgradeCalculator() {
-  const isDark = useDarkMode();
   const { accent } = useGradientAccent();
   const [currentValue, setCurrentValue] = useState<string>(
     STAR_LEVELS[0].value
@@ -356,7 +354,6 @@ export default function StarUpgradeCalculator() {
     label: `${level.label} • ${level.copies} copies / ${level.fodder} fodder`,
   }));
 
-  const sectionCardStyle = getGuideSectionCardStyles(isDark);
 
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
@@ -382,7 +379,7 @@ export default function StarUpgradeCalculator() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="md">
             <Title order={2} size="h3">
@@ -475,7 +472,7 @@ export default function StarUpgradeCalculator() {
             withBorder
             radius="md"
             p="lg"
-            {...getCardHoverProps({ style: sectionCardStyle })}
+            {...getCardHoverProps()}
           >
             <Stack gap="md">
               <Title order={2} size="h3">
@@ -741,7 +738,7 @@ export default function StarUpgradeCalculator() {
           withBorder
           radius="md"
           p="lg"
-          {...getCardHoverProps({ style: sectionCardStyle })}
+          {...getCardHoverProps()}
         >
           <Stack gap="sm">
             <UnstyledButton onClick={refTableHandlers.toggle}>

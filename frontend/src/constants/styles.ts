@@ -1,5 +1,4 @@
 import type { CSSProperties } from 'react';
-import { getGlassStyles } from './glass';
 
 export const BRAND_TITLE_STYLE = {
   fontFamily: '"Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif',
@@ -155,18 +154,6 @@ export const ICON_TEXT_FLEX_STYLE = {
 export const WHITE_SPACE_PRE_LINE_STYLE = {
   whiteSpace: 'pre-line',
 } as const satisfies CSSProperties;
-
-/**
- * Shared section card style used across guide pages.
- */
-export function getGuideSectionCardStyles(isDark: boolean): CSSProperties {
-  return {
-    ...getGlassStyles(isDark, true),
-    boxShadow: isDark
-      ? '0 10px 28px rgba(0, 0, 0, 0.28)'
-      : '0 8px 24px rgba(124, 58, 237, 0.08)',
-  };
-}
 
 export function getMinWidthStyle(minWidth: number): CSSProperties {
   return { minWidth };
