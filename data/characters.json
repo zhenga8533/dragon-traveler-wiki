@@ -6467,11 +6467,11 @@
       "talent_levels": [
         {
           "level": 1,
-          "effect": "After hitting an enemy with a Basic Attack or skill 7 times, applies [Scar Sigil] to the target. Increases 650 Critical Hit when attacking a target with [Scar Sigil]."
+          "effect": "After hitting an enemy with a Basic Attack or skill 7 times, applies [Scar] to the target. Increases 650 Critical Hit when attacking a target with [Scar]."
         },
         {
           "level": 2,
-          "effect": "When basic attacks deal damage to enemy units with an Overdrive Energy Cost of 4 or more, ignores 15% of their Physical Defense. If the target carries a [Scar Sigil], the effect is doubled. (Defense Ignore effect can stack up to 40%)"
+          "effect": "When basic attacks deal damage to enemy units with an Overdrive Energy Cost of 4 or more, ignores 15% of their Physical Defense. If the target carries a [Scar], the effect is doubled. (Defense Ignore effect can stack up to 40%)"
         },
         {
           "level": 3,
@@ -6497,7 +6497,7 @@
       {
         "name": "Bedlam Beacon",
         "type": "Ultimate Skill",
-        "description": "Calls upon Muninn to deal 210% of Attack as Physical Damage to a Single Target. If the target has [Scar Sigil], additionally applies [Physical Defense Down].",
+        "description": "Calls upon Muninn to deal 210% of Attack as Physical Damage to a Single Target. If the target has [Scar], additionally applies [Physical Defense Down].",
         "cooldown": 8
       },
       {
@@ -6531,7 +6531,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1773414613
   },
   {
     "name": "Ifrit",

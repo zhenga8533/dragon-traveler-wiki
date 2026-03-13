@@ -665,6 +665,13 @@
     "last_updated": 1771129475
   },
   {
+    "name": "Scar",
+    "type": "Exclusive",
+    "effect": "Reduces healing received by 20%. Lasts until the end of the battle.",
+    "remark": "",
+    "last_updated": 1773414613
+  },
+  {
     "name": "Seal",
     "type": "Exclusive",
     "effect": "If the sealed skill is an active skill, it cannot be used; if it is a passive skill, it will not take effect (it will not affect passive effects that have already been triggered).",

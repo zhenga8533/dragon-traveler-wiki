@@ -1205,7 +1205,37 @@
   },
   "Huginn & Muninn__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773414593,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Bedlam Beacon": {
+                "description": {
+                  "old": "Calls upon Muninn to deal 210% of Attack as Physical Damage to a Single Target. If the target has [Scar Sigil], additionally applies [Physical Defense Down].",
+                  "new": "Calls upon Muninn to deal 210% of Attack as Physical Damage to a Single Target. If the target has [Scar], additionally applies [Physical Defense Down]."
+                }
+              }
+            }
+          },
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "1": {
+                  "old": "After hitting an enemy with a Basic Attack or skill 7 times, applies [Scar Sigil] to the target. Increases 650 Critical Hit when attacking a target with [Scar Sigil].",
+                  "new": "After hitting an enemy with a Basic Attack or skill 7 times, applies [Scar] to the target. Increases 650 Critical Hit when attacking a target with [Scar]."
+                },
+                "2": {
+                  "old": "When basic attacks deal damage to enemy units with an Overdrive Energy Cost of 4 or more, ignores 15% of their Physical Defense. If the target carries a [Scar Sigil], the effect is doubled. (Defense Ignore effect can stack up to 40%)",
+                  "new": "When basic attacks deal damage to enemy units with an Overdrive Energy Cost of 4 or more, ignores 15% of their Physical Defense. If the target carries a [Scar], the effect is doubled. (Defense Ignore effect can stack up to 40%)"
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Ifrit__SSR+": {
     "added": 1772563593,

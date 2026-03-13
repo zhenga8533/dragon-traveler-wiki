@@ -100,7 +100,7 @@
     "is_global": true,
     "start_date": "2026-02-12",
     "end_date": "2026-02-26",
-    "last_updated": 1773324599
+    "last_updated": 1773414613
   },
   {
     "name": "The Wedding Operation Event!",
@@ -196,21 +196,6 @@
     "is_global": false,
     "start_date": "2026-01-01",
     "end_date": "2026-01-15",
-    "last_updated": 1773158650
-  },
-  {
-    "name": "Rerun Gacha #5",
-    "event_id": null,
-    "type": "Rerun",
-    "description": "",
-    "characters": [
-      "Jing",
-      "Faust",
-      "Duvalin"
-    ],
-    "is_global": false,
-    "start_date": "2026-0-",
-    "end_date": "2026-0-",
     "last_updated": 1773158650
   },
   {
@@ -679,5 +664,20 @@
     "start_date": "2025-01-16",
     "end_date": "2025-01-30",
     "last_updated": 1773062958
+  },
+  {
+    "name": "Rerun Gacha #5",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Jing",
+      "Faust",
+      "Duvalin"
+    ],
+    "is_global": false,
+    "start_date": "2026-0-",
+    "end_date": "2026-0-",
+    "last_updated": 1773158650
   }
 ]
