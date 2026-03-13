@@ -176,19 +176,7 @@ export default function AppLayout() {
             </ErrorBoundary>
           </PageTransition>
         </Box>
-        <Footer />
-        {/* Spacer placed AFTER the footer so the fixed mobile bottom nav
-             doesn't overlap footer content when scrolled to the bottom.
-             Hidden in landscape because the bottom nav is also hidden there. */}
-        {!isLandscape && (
-          <Box
-            hiddenFrom="sm"
-            style={{
-              height: `calc(${MOBILE_NAV_HEIGHT}px + env(safe-area-inset-bottom, 0px))`,
-            }}
-            aria-hidden="true"
-          />
-        )}
+        <Footer mobileNavOffset={isMobile && !isLandscape} />
       </AppShell.Main>
 
       <ScrollToTop />

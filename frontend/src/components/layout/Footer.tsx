@@ -1,7 +1,7 @@
 import { GITHUB_REPO_URL } from '@/constants/github';
 import { getGlassStyles } from '@/constants/glass';
 import { ICON_TEXT_FLEX_STYLE } from '@/constants/styles';
-import { IMAGE_SIZE } from '@/constants/ui';
+import { IMAGE_SIZE, MOBILE_NAV_HEIGHT } from '@/constants/ui';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   Anchor,
@@ -26,12 +26,17 @@ const DATA_SOURCE_URL = 'https://www.gamekee.com/lhlr/';
 const LEGAL_DISCLAIMER =
   'This is an unofficial, fan-run wiki and is not affiliated with or endorsed by GameTree. Dragon Traveler names, assets, and related intellectual property belong to GameTree.';
 
-export default function Footer() {
+export default function Footer({
+  mobileNavOffset = false,
+}: {
+  mobileNavOffset?: boolean;
+}) {
   const [showLegal, setShowLegal] = useState(false);
   const isDark = useDarkMode();
   const { accent } = useGradientAccent();
   const glassStyles = getGlassStyles(isDark, true);
   const currentYear = new Date().getFullYear();
+  const accentColor = `${accent.primary}.${isDark ? 3 : 7}`;
 
   const footerLinks = [
     {
@@ -55,12 +60,17 @@ export default function Footer() {
     <Box
       component="footer"
       mt="lg"
-      pt="lg"
-      pb="md"
       style={{
         ...glassStyles,
         border: 'none',
         borderTop: glassStyles.border,
+        marginLeft: 'calc(-1 * var(--app-shell-padding))',
+        marginRight: 'calc(-1 * var(--app-shell-padding))',
+        marginBottom: 'calc(-1 * var(--app-shell-padding))',
+        paddingTop: 'var(--mantine-spacing-md)',
+        paddingBottom: mobileNavOffset
+          ? `calc(var(--mantine-spacing-md) + ${MOBILE_NAV_HEIGHT}px + env(safe-area-inset-bottom, 0px))`
+          : 'var(--mantine-spacing-md)',
       }}
     >
       <Container size="lg">
@@ -71,16 +81,12 @@ export default function Footer() {
                 key={link.label}
                 href={link.href}
                 aria-label={link.label}
-                c={`${accent.primary}.${isDark ? 3 : 7}`}
+                c={accentColor}
                 underline="hover"
                 size="sm"
                 target="_blank"
                 rel="noopener noreferrer"
-                style={{
-                  ...ICON_TEXT_FLEX_STYLE,
-                  minHeight: 44,
-                  padding: '0 6px',
-                }}
+                style={ICON_TEXT_FLEX_STYLE}
               >
                 {link.icon}
                 <Text span fw={500}>
@@ -88,13 +94,17 @@ export default function Footer() {
                 </Text>
               </Anchor>
             ))}
-
-            <Text size="sm" c="dimmed" ta="center">
-              © {currentYear} Dragon Traveler Wiki
-            </Text>
           </Group>
 
-          <Group gap={6} justify="center" wrap="wrap">
+          <Group gap="xs" justify="center" wrap="wrap">
+            <Text size="xs" c="dimmed">
+              © {currentYear} Dragon Traveler Wiki
+            </Text>
+
+            <Text size="xs" c="dimmed" aria-hidden="true">
+              •
+            </Text>
+
             <Text size="xs" c="dimmed" fs="italic">
               Unofficial fan project
             </Text>
@@ -109,7 +119,7 @@ export default function Footer() {
               onClick={() => setShowLegal((value) => !value)}
               aria-expanded={showLegal}
               aria-controls="footer-legal"
-              c={`${accent.primary}.${isDark ? 3 : 7}`}
+              c={accentColor}
               size="xs"
               fw={600}
               style={ICON_TEXT_FLEX_STYLE}
@@ -120,7 +130,7 @@ export default function Footer() {
           </Group>
 
           <Collapse in={showLegal} id="footer-legal">
-            <Stack gap={2} align="center" pt={6}>
+            <Stack gap="xs" align="center" pt="xs">
               <Text size="xs" c="dimmed" ta="center" maw={600}>
                 {LEGAL_DISCLAIMER}
               </Text>
@@ -131,7 +141,7 @@ export default function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   size="xs"
-                  c={`${accent.primary}.${isDark ? 3 : 7}`}
+                  c={accentColor}
                 >
                   GameKee Wiki
                 </Anchor>
