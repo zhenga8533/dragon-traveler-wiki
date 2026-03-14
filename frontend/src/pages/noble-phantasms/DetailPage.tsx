@@ -1,16 +1,14 @@
 import { getNoblePhantasmIcon } from '@/assets/noble_phantasm';
 import ChangeHistory from '@/components/common/ChangeHistory';
+import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
-import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import RichText from '@/components/ui/RichText';
 import { getLoreGlassStyles } from '@/constants/glass';
 import {
-  DETAIL_HERO_WRAPPER_STYLES,
   getCardHoverProps,
-  getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
@@ -263,98 +261,80 @@ export default function NoblePhantasmPage() {
 
   return (
     <Box>
-      <Box style={DETAIL_HERO_WRAPPER_STYLES}>
-        <Box
-          style={getDetailHeroGradient(
-            isDark,
-            accent.primary,
-            accent.secondary,
-            {
-              dark: 0.75,
-              light: 0.95,
-            }
-          )}
-        />
-
-        <Container
-          size="lg"
-          style={{ position: 'relative', zIndex: 1 }}
-          py="xl"
-        >
-          <Stack gap="lg">
-            <Breadcrumbs
-              items={[
-                { label: 'Noble Phantasms', path: '/noble-phantasms' },
-                { label: noblePhantasm.name },
-              ]}
-            />
-
-            <Group gap="lg" align="flex-start" wrap="nowrap">
-              {iconSrc && (
-                <Box style={getHeroIconBoxStyles(isDark, accent.primary)}>
-                  <Image
-                    src={iconSrc}
-                    alt={noblePhantasm.name}
-                    w={72}
-                    h={72}
-                    fit="contain"
-                    radius="sm"
-                  />
-                </Box>
-              )}
-
-              <Stack gap={6} style={{ flex: 1 }}>
-                <Title
-                  order={1}
-                  c={isDark ? 'white' : 'dark'}
-                  fz={{ base: '1.5rem', sm: '2.125rem' }}
-                  style={{ lineHeight: 1.2, wordBreak: 'break-word' }}
-                >
-                  {noblePhantasm.name}
-                </Title>
-                <LastUpdated timestamp={noblePhantasm.last_updated ?? 0} />
-
-                <Group gap="sm" mt={4}>
-                  {noblePhantasm.character && (
-                    <CharacterTag
-                      name={noblePhantasm.character}
-                      color={accent.secondary}
-                      size="lg"
-                    />
-                  )}
-                  <GlobalBadge isGlobal={noblePhantasm.is_global} size="md" />
-                  <Badge size="lg" variant="light" color={accent.primary}>
-                    {noblePhantasm.effects.length} effect
-                    {noblePhantasm.effects.length !== 1 ? 's' : ''}
-                  </Badge>
-                  <Badge size="lg" variant="light" color={accent.tertiary}>
-                    {noblePhantasm.skills.length} skill
-                    {noblePhantasm.skills.length !== 1 ? 's' : ''}
-                  </Badge>
-                </Group>
-              </Stack>
-            </Group>
-
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps({
-                style: getLoreGlassStyles(isDark),
-              })}
-            >
-              <RichText
-                text={noblePhantasm.lore}
-                statusEffects={statusEffects}
-                skills={linkedCharacter?.skills}
-                talent={linkedCharacter?.talent}
-                italic
-                lineHeight={1.6}
+      <DetailPageHero
+        isDark={isDark}
+        qualityColor={accent.primary}
+        secondaryColor={accent.secondary}
+        gradientOpacity={{ dark: 0.75, light: 0.95 }}
+        breadcrumbItems={[
+          { label: 'Noble Phantasms', path: '/noble-phantasms' },
+          { label: noblePhantasm.name },
+        ]}
+      >
+        <Group gap="lg" align="flex-start" wrap="nowrap">
+          {iconSrc && (
+            <Box style={getHeroIconBoxStyles(isDark, accent.primary)}>
+              <Image
+                src={iconSrc}
+                alt={noblePhantasm.name}
+                w={72}
+                h={72}
+                fit="contain"
+                radius="sm"
               />
-            </Paper>
+            </Box>
+          )}
+
+          <Stack gap={6} style={{ flex: 1 }}>
+            <Title
+              order={1}
+              c={isDark ? 'white' : 'dark'}
+              fz={{ base: '1.5rem', sm: '2.125rem' }}
+              style={{ lineHeight: 1.2, wordBreak: 'break-word' }}
+            >
+              {noblePhantasm.name}
+            </Title>
+            <LastUpdated timestamp={noblePhantasm.last_updated ?? 0} />
+
+            <Group gap="sm" mt={4}>
+              {noblePhantasm.character && (
+                <CharacterTag
+                  name={noblePhantasm.character}
+                  color={accent.secondary}
+                  size="lg"
+                />
+              )}
+              <GlobalBadge isGlobal={noblePhantasm.is_global} size="md" />
+              <Badge size="lg" variant="light" color={accent.primary}>
+                {noblePhantasm.effects.length} effect
+                {noblePhantasm.effects.length !== 1 ? 's' : ''}
+              </Badge>
+              <Badge size="lg" variant="light" color={accent.tertiary}>
+                {noblePhantasm.skills.length} skill
+                {noblePhantasm.skills.length !== 1 ? 's' : ''}
+              </Badge>
+            </Group>
           </Stack>
-        </Container>
-      </Box>
+        </Group>
+
+        <Paper
+          p="md"
+          radius="md"
+          withBorder
+          {...getCardHoverProps({
+            style: getLoreGlassStyles(isDark),
+          })}
+        >
+          <RichText
+            text={noblePhantasm.lore}
+            statusEffects={statusEffects}
+            skills={linkedCharacter?.skills}
+            talent={linkedCharacter?.talent}
+            italic
+            lineHeight={1.6}
+          />
+        </Paper>
+      </DetailPageHero>
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="xl">

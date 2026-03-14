@@ -22,6 +22,7 @@ import type { Team } from '@/features/teams/types';
 import {
   countActiveFilters,
   getPageSizeStorageKey,
+  useBuilderEditState,
   useCharacterResolution,
   useCharacters,
   useFilters,
@@ -102,11 +103,23 @@ export default function Teams() {
   const mode = parseTabMode(searchParams.get('mode'));
   const navigationEditTeam = (location.state as { editTeam?: Team } | null)
     ?.editTeam;
-  const [editData, setEditData] = useState<Team | null>(
-    () => navigationEditTeam ?? null
-  );
-  const [pendingEditTeam, setPendingEditTeam] = useState<Team | null>(null);
-  const [confirmEditOpen, setConfirmEditOpen] = useState(false);
+  const {
+    editData,
+    setEditData,
+    pendingEditItem: pendingEditTeam,
+    setPendingEditItem: setPendingEditTeam,
+    confirmEditOpen,
+    setConfirmEditOpen,
+    pendingDeleteSavedItem: pendingDeleteSavedTeam,
+    setPendingDeleteSavedItem: setPendingDeleteSavedTeam,
+    openInBuilder: openTeamInBuilder,
+    requestEdit: requestEditTeam,
+  } = useBuilderEditState<Team>({
+    draftStorageKey: STORAGE_KEY.TEAMS_BUILDER_DRAFT,
+    setSearchParams,
+    navigationInitialItem: navigationEditTeam,
+    navigate,
+  });
   const isMobile = useIsMobile();
   const [savedTeams, setSavedTeams] = useState<Team[]>(() =>
     mode === 'saved'
@@ -115,9 +128,6 @@ export default function Teams() {
         )
       : []
   );
-  const [pendingDeleteSavedTeam, setPendingDeleteSavedTeam] = useState<
-    string | null
-  >(null);
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TEAMS_VIEW_MODE,
     defaultMode: 'grid',
@@ -128,13 +138,6 @@ export default function Teams() {
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY.TEAMS_SEARCH, search);
   }, [search]);
-
-  // Handle edit state from navigation
-  useEffect(() => {
-    if (navigationEditTeam) {
-      navigate('?mode=builder', { replace: true, state: {} });
-    }
-  }, [navigationEditTeam, navigate]);
 
   const {
     preferredByName: charMap,
@@ -183,27 +186,6 @@ export default function Teams() {
     setViewFilters({ factions: [], contentTypes: [] });
     setSearch('');
   }, [setViewFilters]);
-
-  const hasBuilderDraft = () => {
-    if (typeof window === 'undefined') return true;
-    return Boolean(
-      window.localStorage.getItem(STORAGE_KEY.TEAMS_BUILDER_DRAFT)
-    );
-  };
-
-  const openTeamInBuilder = (team: Team) => {
-    setEditData(team);
-    setSearchParams({ mode: 'builder' });
-  };
-
-  const requestEditTeam = (team: Team) => {
-    if (!hasBuilderDraft()) {
-      openTeamInBuilder(team);
-      return;
-    }
-    setPendingEditTeam(team);
-    setConfirmEditOpen(true);
-  };
 
   function deleteSavedTeam(name: string) {
     try {

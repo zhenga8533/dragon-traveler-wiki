@@ -16,7 +16,7 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { useIsMobile } from '@/hooks';
+import { useInputCommit, useIsMobile } from '@/hooks';
 import type { CSSProperties } from 'react';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
@@ -30,7 +30,6 @@ import {
 import { getCardHoverProps } from '@/constants/styles';
 import {
   CHARACTER_GRID_SPACING,
-  INPUT_COMMIT_DELAY_MS,
   TRANSITION,
 } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
@@ -74,45 +73,9 @@ export const TeamMetaFields = memo(function TeamMetaFields({
   onFactionChange: (value: string | null) => void;
   onDescriptionCommit: (value: string) => void;
 }) {
-  const [nameInput, setNameInput] = useState(name);
-  const [authorInput, setAuthorInput] = useState(author);
-  const [descriptionInput, setDescriptionInput] = useState(description);
-
-  useEffect(() => {
-    setNameInput(name);
-  }, [name]);
-
-  useEffect(() => {
-    setAuthorInput(author);
-  }, [author]);
-
-  useEffect(() => {
-    setDescriptionInput(description);
-  }, [description]);
-
-  useEffect(() => {
-    if (nameInput === name) return;
-    const timer = setTimeout(() => {
-      onNameCommit(nameInput);
-    }, INPUT_COMMIT_DELAY_MS);
-    return () => clearTimeout(timer);
-  }, [nameInput, name, onNameCommit]);
-
-  useEffect(() => {
-    if (authorInput === author) return;
-    const timer = setTimeout(() => {
-      onAuthorCommit(authorInput);
-    }, INPUT_COMMIT_DELAY_MS);
-    return () => clearTimeout(timer);
-  }, [authorInput, author, onAuthorCommit]);
-
-  useEffect(() => {
-    if (descriptionInput === description) return;
-    const timer = setTimeout(() => {
-      onDescriptionCommit(descriptionInput);
-    }, INPUT_COMMIT_DELAY_MS);
-    return () => clearTimeout(timer);
-  }, [descriptionInput, description, onDescriptionCommit]);
+  const [nameInput, setNameInput] = useInputCommit(name, onNameCommit);
+  const [authorInput, setAuthorInput] = useInputCommit(author, onAuthorCommit);
+  const [descriptionInput, setDescriptionInput] = useInputCommit(description, onDescriptionCommit);
 
   return (
     <>

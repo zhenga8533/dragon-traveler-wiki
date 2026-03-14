@@ -10,7 +10,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useState } from 'react';
 import { IoClose, IoSave } from 'react-icons/io5';
-import ConfirmActionModal from './ConfirmActionModal';
+import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import { isRecord } from '@/utils/type-guards';
 
 type SlotAction = { index: number; type: 'load' | 'save' | 'delete' };

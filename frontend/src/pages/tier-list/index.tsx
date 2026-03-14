@@ -27,6 +27,7 @@ import TierListViewTab from '@/features/tier-list/components/TierListViewTab';
 import type { TierList as TierListType } from '@/features/tier-list/types';
 import {
   countActiveFilters,
+  useBuilderEditState,
   useCharacterResolution,
   useCharacters,
   useDarkMode,
@@ -112,14 +113,22 @@ export default function TierList() {
     return window.localStorage.getItem(STORAGE_KEY.TIER_LIST_SEARCH) || '';
   });
   const mode = parseTabMode(searchParams.get('mode'));
-  const [editData, setEditData] = useState<TierListType | null>(null);
-  const [pendingEditTierList, setPendingEditTierList] =
-    useState<TierListType | null>(null);
-  const [confirmEditOpen, setConfirmEditOpen] = useState(false);
+  const {
+    editData,
+    setEditData,
+    pendingEditItem: pendingEditTierList,
+    setPendingEditItem: setPendingEditTierList,
+    confirmEditOpen,
+    setConfirmEditOpen,
+    pendingDeleteSavedItem: pendingDeleteSavedTierList,
+    setPendingDeleteSavedItem: setPendingDeleteSavedTierList,
+    openInBuilder: openTierListInBuilder,
+    requestEdit: requestEditTierList,
+  } = useBuilderEditState<TierListType>({
+    draftStorageKey: STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
+    setSearchParams,
+  });
   const [savedTierLists, setSavedTierLists] = useState<TierListType[]>([]);
-  const [pendingDeleteSavedTierList, setPendingDeleteSavedTierList] = useState<
-    string | null
-  >(null);
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.TIER_LIST_VIEW_MODE,
     defaultMode: 'grid',
@@ -235,27 +244,6 @@ export default function TierList() {
     });
     setSearch('');
   }, [setViewFilters]);
-
-  const hasBuilderDraft = () => {
-    if (typeof window === 'undefined') return true;
-    return Boolean(
-      window.localStorage.getItem(STORAGE_KEY.TIER_LIST_BUILDER_DRAFT)
-    );
-  };
-
-  const openTierListInBuilder = (tierList: TierListType) => {
-    setEditData(tierList);
-    setSearchParams({ mode: 'builder' });
-  };
-
-  const requestEditTierList = (tierList: TierListType) => {
-    if (!hasBuilderDraft()) {
-      openTierListInBuilder(tierList);
-      return;
-    }
-    setPendingEditTierList(tierList);
-    setConfirmEditOpen(true);
-  };
 
   useEffect(() => {
     window.localStorage.setItem(STORAGE_KEY.TIER_LIST_SEARCH, search);

@@ -1,17 +1,15 @@
 import { getArtifactIcon, getTreasureIcon } from '@/assets/artifacts';
 import ChangeHistory from '@/components/common/ChangeHistory';
+import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
-import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import RichText from '@/components/ui/RichText';
 import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import {
-  DETAIL_HERO_WRAPPER_STYLES,
   getCardHoverProps,
-  getDetailHeroGradient,
   getHeroIconBoxStyles,
 } from '@/constants/styles';
 import ClassTag from '@/features/characters/components/ClassTag';
@@ -226,88 +224,77 @@ export default function ArtifactPage() {
 
   return (
     <Box>
-      {/* Hero Section */}
-      <Box style={DETAIL_HERO_WRAPPER_STYLES}>
-        <Box style={getDetailHeroGradient(isDark, qualityColor)} />
+      <DetailPageHero
+        isDark={isDark}
+        qualityColor={qualityColor}
+        breadcrumbItems={[
+          { label: 'Artifacts', path: '/artifacts' },
+          { label: artifact.name },
+        ]}
+      >
+        <Group gap="lg" align="flex-start" wrap="nowrap">
+          {iconSrc && (
+            <Box style={getHeroIconBoxStyles(isDark, qualityColor)}>
+              <Image
+                src={iconSrc}
+                alt={artifact.name}
+                w={72}
+                h={72}
+                fit="contain"
+                radius="sm"
+              />
+            </Box>
+          )}
 
-        <Container
-          size="lg"
-          style={{ position: 'relative', zIndex: 1 }}
-          py="xl"
-        >
-          <Stack gap="lg">
-            <Breadcrumbs
-              items={[
-                { label: 'Artifacts', path: '/artifacts' },
-                { label: artifact.name },
-              ]}
-            />
-
-            <Group gap="lg" align="flex-start" wrap="nowrap">
-              {iconSrc && (
-                <Box style={getHeroIconBoxStyles(isDark, qualityColor)}>
-                  <Image
-                    src={iconSrc}
-                    alt={artifact.name}
-                    w={72}
-                    h={72}
-                    fit="contain"
-                    radius="sm"
-                  />
-                </Box>
-              )}
-
-              <Stack gap={6} style={{ flex: 1 }}>
-                <Group gap="sm" align="center">
-                  <QualityIcon quality={artifact.quality} size={28} />
-                  <Title
-                    order={1}
-                    c={isDark ? 'white' : 'dark'}
-                    fz={{ base: '1.5rem', sm: '2.125rem' }}
-                    style={{ lineHeight: 1.2, wordBreak: 'break-word' }}
-                  >
-                    {artifact.name}
-                  </Title>
-                </Group>
-                <LastUpdated timestamp={artifact.last_updated} />
-                <Group gap="sm" mt={4}>
-                  <Badge size="lg" variant="light" color={accent.secondary}>
-                    {artifact.rows}x{artifact.columns}
-                  </Badge>
-                  <GlobalBadge isGlobal={artifact.is_global} size="md" />
-                  <Badge size="lg" variant="light" color={accent.tertiary}>
-                    {artifact.treasures.length} treasure
-                    {artifact.treasures.length !== 1 ? 's' : ''}
-                  </Badge>
-                </Group>
-                {recommendingFactions.length > 0 && (
-                  <Group gap="xs" mt={2}>
-                    <Text size="sm" c="dimmed">
-                      Recommended by:
-                    </Text>
-                    {recommendingFactions.map((f) => (
-                      <FactionTag key={f.name} faction={f.name} size="sm" />
-                    ))}
-                  </Group>
-                )}
-              </Stack>
+          <Stack gap={6} style={{ flex: 1 }}>
+            <Group gap="sm" align="center">
+              <QualityIcon quality={artifact.quality} size={28} />
+              <Title
+                order={1}
+                c={isDark ? 'white' : 'dark'}
+                fz={{ base: '1.5rem', sm: '2.125rem' }}
+                style={{ lineHeight: 1.2, wordBreak: 'break-word' }}
+              >
+                {artifact.name}
+              </Title>
             </Group>
-
-            <Paper
-              p="md"
-              radius="md"
-              withBorder
-              {...getCardHoverProps({
-                style: getLoreGlassStyles(isDark),
-              })}
-            >
-              <Text size="sm" lh={1.6} fs="italic">
-                {artifact.lore}
-              </Text>
-            </Paper>
+            <LastUpdated timestamp={artifact.last_updated} />
+            <Group gap="sm" mt={4}>
+              <Badge size="lg" variant="light" color={accent.secondary}>
+                {artifact.rows}x{artifact.columns}
+              </Badge>
+              <GlobalBadge isGlobal={artifact.is_global} size="md" />
+              <Badge size="lg" variant="light" color={accent.tertiary}>
+                {artifact.treasures.length} treasure
+                {artifact.treasures.length !== 1 ? 's' : ''}
+              </Badge>
+            </Group>
+            {recommendingFactions.length > 0 && (
+              <Group gap="xs" mt={2}>
+                <Text size="sm" c="dimmed">
+                  Recommended by:
+                </Text>
+                {recommendingFactions.map((f) => (
+                  <FactionTag key={f.name} faction={f.name} size="sm" />
+                ))}
+              </Group>
+            )}
           </Stack>
-        </Container>
-      </Box>
+        </Group>
+
+        <Paper
+          p="md"
+          radius="md"
+          withBorder
+          {...getCardHoverProps({
+            style: getLoreGlassStyles(isDark),
+          })}
+        >
+          <Text size="sm" lh={1.6} fs="italic">
+            {artifact.lore}
+          </Text>
+        </Paper>
+      </DetailPageHero>
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="xl">
