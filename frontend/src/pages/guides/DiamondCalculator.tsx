@@ -149,6 +149,12 @@ const BASE_GAIN_SOURCES: BaseSource[] = [
     defaultAmount: 1000,
     defaultCadenceDays: 7,
   },
+  {
+    id: 'luckyOverdriveCombo',
+    label: 'Lucky Overdrive Combo',
+    defaultAmount: 100,
+    defaultCadenceDays: 1,
+  },
 ];
 
 const BASE_SPEND_SOURCES: BaseSource[] = [
