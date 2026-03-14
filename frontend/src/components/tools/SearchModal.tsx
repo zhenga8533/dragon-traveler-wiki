@@ -36,6 +36,7 @@ import type { ReactNode } from 'react';
 import { Fragment, useContext, useEffect, useMemo, useState } from 'react';
 import type { IconType } from 'react-icons';
 import {
+  IoArrowBack,
   IoCalendarOutline,
   IoClose,
   IoCubeOutline,
@@ -775,7 +776,7 @@ export default function SearchModal({
                       color="gray"
                       aria-label="Close search"
                     >
-                      <IoClose size={16} />
+                      <IoArrowBack size={16} />
                     </ActionIcon>
                   </Group>
                 ) : query ? (
