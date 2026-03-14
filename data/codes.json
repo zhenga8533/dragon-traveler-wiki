@@ -786,5 +786,16 @@
     },
     "active": true,
     "last_updated": 1773158650
+  },
+  {
+    "code": "HAPPYWHITEDAY",
+    "rewards": {
+      "Gold": 100000,
+      "Summoning Ticket": 10,
+      "Random Refinement Stone": 10,
+      "Potion Class Notes": 1,
+      "Graveyard Lily": 1
+    },
+    "last_updated": 1773512448
   }
 ]

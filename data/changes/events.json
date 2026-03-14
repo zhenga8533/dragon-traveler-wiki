@@ -1,237 +1,210 @@
 {
-  "The Deadly Rush Event Begins!": {
-    "added": 1773414613,
+  "The Deadly Rush Event Begins!__global": {
+    "added": 1773512448,
     "changes": []
   },
-  "Hermes Mythic Ascension": {
-    "added": 1773414613,
+  "Hermes Mythic Ascension__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Dreaming of Electric Sheep": {
-    "added": 1773414613,
+  "Dreaming of Electric Sheep__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "The Gymnasium Locked-Room Case": {
-    "added": 1773414613,
+  "The Gymnasium Locked-Room Case__global": {
+    "added": 1773512448,
     "changes": []
   },
-  "Rerun Gacha #7": {
-    "added": 1773414613,
+  "Rerun Gacha #7__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Rerun Gacha #6": {
-    "added": 1773414613,
+  "Rerun Gacha #6__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Golden Night Festival": {
-    "added": 1773414613,
+  "Golden Night Festival__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "The Joyous Union": {
-    "added": 1773414613,
-    "changes": [
-      {
-        "timestamp": 1773414613,
-        "fields": {
-          "characters": {
-            "removed": [
-              "Azure Dragon"
-            ]
-          },
-          "description": {
-            "old": "",
-            "new": "During the event, Limited Summon gives you the chance to obtain \"Four Saints - Azure Dragon\"—the SSR+ Warrior Luminary of the \"Otherworld Return\" and \"Arcane Wisdom\" factions!"
-          },
-          "end_date": {
-            "old": "2025-09-11",
-            "new": "2026-02-26"
-          },
-          "is_global": {
-            "old": false,
-            "new": true
-          },
-          "start_date": {
-            "old": "2025-08-28",
-            "new": "2026-02-12"
-          },
-          "type": {
-            "old": "Release",
-            "new": "Special Event"
-          }
-        }
-      }
-    ]
-  },
-  "The Wedding Operation Event!": {
-    "added": 1773414613,
+  "The Joyous Union__global": {
+    "added": 1773512448,
     "changes": []
   },
-  "Sun Goddess Apollo Arrives": {
-    "added": 1773414613,
+  "The Wedding Operation Event!__global": {
+    "added": 1773512448,
     "changes": []
   },
-  "How to Raise a Dragon Maid": {
-    "added": 1773414613,
+  "Sun Goddess Apollo Arrives__global": {
+    "added": 1773512448,
     "changes": []
   },
-  "Inkbound Immortal Tales": {
-    "added": 1773414613,
+  "How to Raise a Dragon Maid__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Hela Mythic Ascension": {
-    "added": 1773414613,
+  "Inkbound Immortal Tales__global": {
+    "added": 1773512448,
     "changes": []
   },
-  "The Sanctum Shines with Glory, Crowned with Divinity!": {
-    "added": 1773414613,
+  "Hela Mythic Ascension__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "The Final Game": {
-    "added": 1773414613,
+  "The Sanctum Shines with Glory, Crowned with Divinity!__global": {
+    "added": 1773512448,
     "changes": []
   },
-  "Escape from Eden Town": {
-    "added": 1773414613,
+  "The Final Game__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Rerun Gacha #4": {
-    "added": 1773414613,
+  "Escape from Eden Town__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Snowland Romance": {
-    "added": 1773414613,
+  "Rerun Gacha #4__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Prometheus Mythic Ascension": {
-    "added": 1773414613,
+  "Snowland Romance__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Prada Promotion Story": {
-    "added": 1773414613,
+  "Prometheus Mythic Ascension__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Rerun Gacha #3": {
-    "added": 1773414613,
+  "Prada Promotion Story__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Fantasy Realm": {
-    "added": 1773414613,
+  "Rerun Gacha #3__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Baseball Conspiracy": {
-    "added": 1773414613,
+  "Fantasy Realm__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Artemis Mythic Ascension": {
-    "added": 1773414613,
+  "Baseball Conspiracy__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Target! Grand Slam!": {
-    "added": 1773414613,
+  "Artemis Mythic Ascension__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Rerun Gacha #2": {
-    "added": 1773414613,
+  "Target! Grand Slam!__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Garden War: Zombies": {
-    "added": 1773414613,
+  "Rerun Gacha #2__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Flavors of the Fantasy Realm": {
-    "added": 1773414613,
+  "Garden War: Zombies__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Loki Mythic Ascension": {
-    "added": 1773414613,
+  "Flavors of the Fantasy Realm__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Lurking Doom": {
-    "added": 1773414613,
+  "Loki Mythic Ascension__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Ice Dancer's Wish": {
-    "added": 1773414613,
+  "Lurking Doom__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Thor Mythic Ascension": {
-    "added": 1773414613,
+  "The Joyous Union__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Dual Companions": {
-    "added": 1773414613,
+  "Ice Dancer's Wish__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Rapid Kill": {
-    "added": 1773414613,
+  "Thor Mythic Ascension__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Beyond the Horizon": {
-    "added": 1773414613,
+  "Dual Companions__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Rerun Gacha #1": {
-    "added": 1773414613,
+  "Rapid Kill__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Hospital Horror Night": {
-    "added": 1773414613,
+  "Beyond the Horizon__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Immortal Scribe's Fate": {
-    "added": 1773414613,
+  "Rerun Gacha #1__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Guiding Polaris": {
-    "added": 1773414613,
+  "Hospital Horror Night__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Mindscape Chronicles": {
-    "added": 1773414613,
+  "Immortal Scribe's Fate__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Shine! Idol": {
-    "added": 1773414613,
+  "Guiding Polaris__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Gymnasium Locked-Room Incident!": {
-    "added": 1773414613,
+  "Mindscape Chronicles__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Ares Mythic Ascension": {
-    "added": 1773414613,
+  "Shine! Idol__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Swan Dance": {
-    "added": 1773414613,
+  "Gymnasium Locked-Room Incident!__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Game of Life and Death": {
-    "added": 1773414613,
+  "Ares Mythic Ascension__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Angel's Dollhouse": {
-    "added": 1773414613,
+  "Swan Dance__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Venus Mythic Ascension": {
-    "added": 1773414613,
+  "Game of Life and Death__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Lantern Festival": {
-    "added": 1773414613,
+  "Angel's Dollhouse__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Spring Festival Lanterns": {
-    "added": 1773414613,
+  "Venus Mythic Ascension__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Beyond the Mirror": {
-    "added": 1773414613,
+  "Lantern Festival__tw": {
+    "added": 1773512448,
     "changes": []
   },
-  "Rerun Gacha #5": {
-    "added": 1773414613,
+  "Spring Festival Lanterns__tw": {
+    "added": 1773512448,
+    "changes": []
+  },
+  "Beyond the Mirror__tw": {
+    "added": 1773512448,
+    "changes": []
+  },
+  "Rerun Gacha #5__tw": {
+    "added": 1773512448,
     "changes": []
   }
 }
