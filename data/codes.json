@@ -786,5 +786,17 @@
     },
     "active": true,
     "last_updated": 1773158650
+  },
+  {
+    "code": "HAPPYWHITEDAY",
+    "rewards": {
+      "Summoning Ticket": 10,
+      "Gold": 100000,
+      "Random Refinement Stone": 10,
+      "Griffin Doll": 1,
+      "Graveyard Lily": 1
+    },
+    "active": true,
+    "last_updated": 1773511418
   }
 ]
