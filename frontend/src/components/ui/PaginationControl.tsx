@@ -71,7 +71,13 @@ export default function PaginationControl({
       ? 'Current page'
       : undefined;
 
-  if (!hasItems || (!hasPagination && !hasPageSizeSelector)) return null;
+  const fitsOnOnePage =
+    totalItems !== undefined &&
+    pageSizeOptions !== undefined &&
+    pageSizeOptions.length > 0 &&
+    totalItems <= Math.min(...pageSizeOptions);
+
+  if (!hasItems || fitsOnOnePage || (!hasPagination && !hasPageSizeSelector)) return null;
 
   const commonSelectProps = {
     allowDeselect: false,
