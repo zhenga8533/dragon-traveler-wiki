@@ -2,7 +2,7 @@ import type { ContentType } from '@/constants/content-types';
 import type { Character } from '@/features/characters/types';
 import type { FactionName } from '@/types/faction';
 import type { TeamWyrmspells } from '@/features/teams/types';
-import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
+import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 
 export type SynergySignal = {
   label: string;

@@ -5,14 +5,17 @@ import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import { STORAGE_KEY } from '@/constants/ui';
-import { useCharacterResolution, useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import {
   useArtifacts,
+  useCharacterResolution,
   useCharacters,
+  useDarkMode,
   useFactions,
+  useGradientAccent,
+  useMobileTooltip,
   useStatusEffects,
   useWyrmspells,
-} from '@/hooks/use-common-data';
+} from '@/hooks';
 import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
 import type { Team } from '@/features/teams/types';
 import { toEntitySlug } from '@/utils/entity-slug';

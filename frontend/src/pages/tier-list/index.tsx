@@ -21,10 +21,10 @@ import {
 import { STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import { resolveCharacterByNameAndQuality } from '@/features/characters/utils/character-route';
-import TierListBuilder from '@/features/teams/components/TierListBuilder';
-import TierListSavedTab from '@/features/teams/components/TierListSavedTab';
-import TierListViewTab from '@/features/teams/components/TierListViewTab';
-import type { TierList as TierListType } from '@/features/teams/tier-list-types';
+import TierListBuilder from '@/features/tier-list/components/TierListBuilder';
+import TierListSavedTab from '@/features/tier-list/components/TierListSavedTab';
+import TierListViewTab from '@/features/tier-list/components/TierListViewTab';
+import type { TierList as TierListType } from '@/features/tier-list/types';
 import {
   countActiveFilters,
   useCharacterResolution,

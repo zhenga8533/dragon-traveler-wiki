@@ -9,12 +9,12 @@ import {
 } from '@mantine/core';
 import type { RefObject } from 'react';
 import { IoDownload } from 'react-icons/io5';
-import WyrmspellCard from '@/features/wiki/components/WyrmspellCard';
+import WyrmspellCard from '@/features/wiki/wyrmspells/components/WyrmspellCard';
 import TeamSynergyAssistant from '@/features/teams/components/TeamSynergyAssistant';
 import { useMobileTooltip } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { Team, TeamWyrmspells } from '@/features/teams/types';
-import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
+import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { hasTeamWyrmspells } from '@/features/teams/utils/team-page';
 import type { TeamSynergyResult } from '@/features/teams/utils/team-synergy';
 import { BattlefieldGrid } from '@/features/teams/components/BattlefieldGrid';

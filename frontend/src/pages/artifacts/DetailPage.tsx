@@ -17,13 +17,13 @@ import {
 import ClassTag from '@/features/characters/components/ClassTag';
 import FactionTag from '@/features/characters/components/FactionTag';
 import QualityIcon from '@/features/characters/components/QualityIcon';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import type {
   Artifact,
   ArtifactEffect,
   ArtifactTreasure,
-} from '@/features/wiki/types/artifact';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
+} from '@/features/wiki/artifacts/types';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
 import type { Faction } from '@/types/faction';

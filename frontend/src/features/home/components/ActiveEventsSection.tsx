@@ -1,8 +1,8 @@
 import { getEventImage, placeholderEventImage } from '@/assets/event';
 import { getCardHoverProps } from '@/constants/styles';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
-import EventCharacterAvatars from '@/features/wiki/components/EventCharacterAvatars';
-import TwEventBanner from '@/features/wiki/components/TwEventBanner';
+import GlobalBadge from '@/components/ui/GlobalBadge';
+import EventCharacterAvatars from '@/features/wiki/events/components/EventCharacterAvatars';
+import TwEventBanner from '@/features/wiki/events/components/TwEventBanner';
 import { useDataFetch, useGradientAccent } from '@/hooks';
 import type { GameEvent } from '@/types';
 import { getEventTypeColor, isGameEventActive } from '@/utils/event-utils';

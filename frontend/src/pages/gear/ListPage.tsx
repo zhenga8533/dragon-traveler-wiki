@@ -20,8 +20,8 @@ import {
 } from '@/constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/features/characters/components/QualityIcon';
-import GearTypeTag from '@/features/wiki/components/GearTypeTag';
-import type { Gear, GearSet, GearType } from '@/features/wiki/types/gear';
+import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
+import type { Gear, GearSet, GearType } from '@/features/wiki/gear/types';
 import {
   applyDir,
   useDataFetch,

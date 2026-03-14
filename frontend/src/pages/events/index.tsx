@@ -12,9 +12,9 @@ import EmptyState from '@/components/ui/EmptyState';
 import PaginationControl from '@/components/ui/PaginationControl';
 import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
-import EventCharacterAvatars from '@/features/wiki/components/EventCharacterAvatars';
-import TwEventBanner from '@/features/wiki/components/TwEventBanner';
+import GlobalBadge from '@/components/ui/GlobalBadge';
+import EventCharacterAvatars from '@/features/wiki/events/components/EventCharacterAvatars';
+import TwEventBanner from '@/features/wiki/events/components/TwEventBanner';
 import type { ViewMode } from '@/hooks';
 import {
   countActiveFilters,

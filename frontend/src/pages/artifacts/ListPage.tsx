@@ -16,8 +16,8 @@ import {
 } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/features/characters/components/QualityIcon';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
-import type { Artifact } from '@/features/wiki/types/artifact';
+import GlobalBadge from '@/components/ui/GlobalBadge';
+import type { Artifact } from '@/features/wiki/artifacts/types';
 import {
   applyDir,
   useDataFetch,

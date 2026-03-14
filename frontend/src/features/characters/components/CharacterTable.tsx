@@ -9,10 +9,10 @@ import {
 } from '@/features/characters/utils/character-route';
 import ClassTag from './ClassTag';
 import FactionTag from './FactionTag';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from './QualityIcon';
 import SortableTh from '@/components/ui/SortableTh';
-import TierBadge from '@/features/teams/components/TierBadge';
+import TierBadge from '@/features/tier-list/components/TierBadge';
 import CharacterPortrait from './CharacterPortrait';
 
 interface CharacterTableProps {

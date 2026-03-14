@@ -11,7 +11,7 @@ import { Link } from 'react-router-dom';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import ClassTag from '@/features/characters/components/ClassTag';
 import FactionTag from '@/features/characters/components/FactionTag';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/features/characters/components/QualityIcon';
 import { getCardHoverProps } from '@/constants/styles';
 import { CHARACTER_CARD } from '@/constants/ui';

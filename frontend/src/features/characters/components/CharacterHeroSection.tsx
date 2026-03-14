@@ -7,8 +7,8 @@ import ClassTag from '@/features/characters/components/ClassTag';
 import FactionTag from '@/features/characters/components/FactionTag';
 import QualityIcon from '@/features/characters/components/QualityIcon';
 import type { Character } from '@/features/characters/types';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
-import TierBadge from '@/features/teams/components/TierBadge';
+import GlobalBadge from '@/components/ui/GlobalBadge';
+import TierBadge from '@/features/tier-list/components/TierBadge';
 import { useDarkMode } from '@/hooks';
 import {
   Box,

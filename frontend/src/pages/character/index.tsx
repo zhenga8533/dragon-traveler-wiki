@@ -26,7 +26,7 @@ import ClassTag from '@/features/characters/components/ClassTag';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
-import TierBadge from '@/features/teams/components/TierBadge';
+import TierBadge from '@/features/tier-list/components/TierBadge';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import { getCardHoverProps } from '@/constants/styles';
 import { BREAKPOINTS } from '@/constants/ui';

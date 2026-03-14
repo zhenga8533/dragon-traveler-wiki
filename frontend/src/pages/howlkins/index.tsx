@@ -24,9 +24,9 @@ import { QUALITY_ORDER } from '@/constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/features/characters/components/QualityIcon';
-import HowlkinBadge from '@/features/wiki/components/HowlkinBadge';
-import HowlkinStats from '@/features/wiki/components/HowlkinStats';
-import type { GoldenAlliance, Howlkin } from '@/features/wiki/types/howlkin';
+import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
+import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
+import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
 import {
   applyDir,
   useDataFetch,

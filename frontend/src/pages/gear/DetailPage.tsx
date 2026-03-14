@@ -24,8 +24,8 @@ import {
   buildCharacterNameCounts,
   getCharacterBaseSlug,
 } from '@/features/characters/utils/character-route';
-import GearTypeTag from '@/features/wiki/components/GearTypeTag';
-import type { Gear, GearSet } from '@/features/wiki/types/gear';
+import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
+import type { Gear, GearSet } from '@/features/wiki/gear/types';
 import {
   useDarkMode,
   useDataFetch,

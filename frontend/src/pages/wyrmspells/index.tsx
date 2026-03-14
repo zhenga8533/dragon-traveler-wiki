@@ -20,8 +20,8 @@ import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import FactionTag from '@/features/characters/components/FactionTag';
 import QualityIcon from '@/features/characters/components/QualityIcon';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
-import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
+import GlobalBadge from '@/components/ui/GlobalBadge';
+import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { applyDir, useDataFetch, useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import {

@@ -26,6 +26,9 @@ export const IMAGE_SIZE = {
   PORTRAIT_SM: 40,
 } as const;
 
+/** Debounce delay (ms) before committing a text input value to state. */
+export const INPUT_COMMIT_DELAY_MS = 150;
+
 // Transitions
 export const TRANSITION = {
   FAST: '150ms',

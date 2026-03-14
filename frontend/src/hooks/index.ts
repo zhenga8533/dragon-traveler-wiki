@@ -10,21 +10,27 @@ export type { CharacterPageData } from '@/features/characters/hooks/use-characte
 export { useCharacterResolution } from '@/features/characters/hooks/use-character-resolution';
 export type { CharacterResolution } from '@/features/characters/hooks/use-character-resolution';
 export {
-  useArtifacts,
   useCharacterChanges,
   useCharacters,
-  useFactions,
+} from '@/features/characters/hooks/use-characters-data';
+export {
+  useTeamChanges,
+  useTeams,
+} from '@/features/teams/hooks/use-teams-data';
+export {
+  useTierListChanges,
+  useTierLists,
+} from '@/features/tier-list/hooks/use-tier-list-data';
+export {
+  useArtifacts,
   useGear,
   useGearSets,
   useNoblePhantasms,
   useStatusEffects,
   useSubclasses,
-  useTeamChanges,
-  useTeams,
-  useTierListChanges,
-  useTierLists,
   useWyrmspells,
-} from './use-common-data';
+} from '@/features/wiki/hooks/use-wiki-data';
+export { useFactions } from './use-factions';
 export { useDarkMode } from './use-dark-mode';
 export { useDataFetch } from './use-data-fetch';
 export { useFilteredPageData } from './use-filtered-page-data';

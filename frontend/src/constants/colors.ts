@@ -1,180 +1,22 @@
-import type { CharacterClass } from '@/features/characters/types';
-import type { TierDefinition } from '@/features/teams/tier-list-types';
-import type { GearType } from '@/features/wiki/types/gear';
-import type { StatusEffectType } from '@/features/wiki/types/status-effect';
-import type { WyrmspellType } from '@/features/wiki/types/wyrmspell';
-import { FACTION_NAMES, type FactionName } from '@/types/faction';
-import type { Quality } from '@/types/quality';
-import type { ResourceCategory } from '@/types/resource';
-import { QUALITY_COLOR, QUALITY_ORDER } from './quality';
-
-export const CLASS_ORDER: CharacterClass[] = [
-  'Guardian',
-  'Priest',
-  'Assassin',
-  'Warrior',
-  'Archer',
-  'Mage',
-];
-
-export const CLASS_COLOR: Record<CharacterClass, string> = {
-  Guardian: 'blue',
-  Priest: 'teal',
-  Assassin: 'grape',
-  Warrior: 'red',
-  Archer: 'orange',
-  Mage: 'violet',
-};
-
-export const GEAR_TYPE_ORDER: GearType[] = [
-  'Headgear',
-  'Chestplate',
-  'Bracers',
-  'Boots',
-  'Weapon',
-  'Accessory',
-];
-
-export const GEAR_TYPE_COLOR: Record<GearType, string> = {
-  Headgear: 'cyan',
-  Chestplate: 'blue',
-  Bracers: 'orange',
-  Boots: 'lime',
-  Weapon: 'red',
-  Accessory: 'grape',
-};
-
-export { QUALITY_COLOR, QUALITY_ORDER };
-
-export const QUALITY_BORDER_COLOR: Record<Quality, string> = {
-  UR: 'var(--mantine-color-pink-6)',
-  'SSR EX': 'var(--mantine-color-red-6)',
-  'SSR+': 'var(--mantine-color-orange-5)',
-  SSR: 'var(--mantine-color-yellow-5)',
-  SR: 'var(--mantine-color-violet-5)',
-  R: 'var(--mantine-color-blue-5)',
-  N: 'var(--mantine-color-lime-5)',
-  C: 'var(--mantine-color-gray-5)',
-};
-
-export const STATE_COLOR: Record<StatusEffectType, string> = {
-  Buff: 'green',
-  Debuff: 'red',
-  Special: 'blue',
-  Control: 'violet',
-  Elemental: 'cyan',
-  Blessing: 'yellow',
-  Exclusive: 'orange',
-};
-
-export const STATE_ORDER: StatusEffectType[] = [
-  'Buff',
-  'Debuff',
-  'Special',
-  'Control',
-  'Elemental',
-  'Blessing',
-  'Exclusive',
-];
-
-export const FACTION_COLOR: Record<FactionName, string> = {
-  'Elemental Echo': 'red',
-  'Wild Spirit': 'green',
-  'Arcane Wisdom': 'blue',
-  'Sanctum Glory': 'yellow',
-  'Otherworld Return': 'violet',
-  'Illusion Veil': 'dark',
-};
-
-export { FACTION_NAMES };
-
-export const RESOURCE_CATEGORY_ORDER: ResourceCategory[] = [
-  'Currency',
-  'Gift',
-  'Item',
-  'Material',
-  'Summoning',
-  'Shard',
-];
-
-export const RESOURCE_CATEGORY_COLOR: Record<ResourceCategory, string> = {
-  Currency: 'yellow',
-  Gift: 'pink',
-  Item: 'teal',
-  Material: 'orange',
-  Summoning: 'violet',
-  Shard: 'cyan',
-};
-
-export const WYRMSPELL_TYPE_COLOR: Record<WyrmspellType, string> = {
-  Breach: 'red',
-  Refuge: 'teal',
-  Wildcry: 'orange',
-  "Dragon's Call": 'violet',
-};
-
-const TAG_COLOR_CYCLE = [
-  'blue',
-  'teal',
-  'grape',
-  'indigo',
-  'cyan',
-  'lime',
-  'orange',
-  'yellow',
-  'pink',
-  'red',
-];
-
-export function getStableTagColor(tag: string): string {
-  const normalized = tag.trim().toLowerCase();
-  if (!normalized) return 'gray';
-
-  let hash = 0;
-  for (let i = 0; i < normalized.length; i += 1) {
-    hash = (hash * 31 + normalized.charCodeAt(i)) | 0;
-  }
-
-  return TAG_COLOR_CYCLE[Math.abs(hash) % TAG_COLOR_CYCLE.length];
-}
-
-export const TIER_ORDER: string[] = ['S+', 'S', 'A', 'B', 'C', 'D'];
-
-export const TIER_COLOR: Record<string, string> = {
-  'S+': 'pink',
-  S: 'red',
-  A: 'orange',
-  B: 'yellow',
-  C: 'green',
-  D: 'gray',
-};
-
-const CUSTOM_TIER_COLOR_CYCLE = [
-  'blue',
-  'teal',
-  'violet',
-  'grape',
-  'indigo',
-  'cyan',
-  'lime',
-  'orange',
-  'pink',
-];
-
-/** Returns a Mantine color for a tier, cycling through a palette for custom tiers. */
-export function getTierColor(tier: string, index = 0): string {
-  return (
-    TIER_COLOR[tier] ??
-    CUSTOM_TIER_COLOR_CYCLE[index % CUSTOM_TIER_COLOR_CYCLE.length]
-  );
-}
-
-/** Default tier definitions used when a tier list has no custom tiers. */
-export const DEFAULT_TIER_DEFINITIONS: TierDefinition[] = [
-  { name: 'S+' },
-  { name: 'S' },
-  { name: 'A' },
-  { name: 'B' },
-  { name: 'C' },
-  { name: 'D' },
-];
+// Re-export barrel — import directly from domain files for new code.
+export { CLASS_COLOR, CLASS_ORDER } from './class-colors';
+export { FACTION_COLOR, FACTION_NAMES } from './faction-colors';
+export { GEAR_TYPE_COLOR, GEAR_TYPE_ORDER } from './gear-colors';
+export {
+  QUALITY_BORDER_COLOR,
+  QUALITY_COLOR,
+  QUALITY_ORDER,
+} from './quality';
+export {
+  RESOURCE_CATEGORY_COLOR,
+  RESOURCE_CATEGORY_ORDER,
+} from './resource-colors';
+export { STATE_COLOR, STATE_ORDER } from './status-effect-colors';
+export {
+  DEFAULT_TIER_DEFINITIONS,
+  getTierColor,
+  TIER_COLOR,
+  TIER_ORDER,
+} from './tier-colors';
+export { getStableTagColor } from './tag-colors';
+export { WYRMSPELL_TYPE_COLOR } from './wyrmspell-colors';

@@ -15,13 +15,13 @@ import {
 } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
 import type { Character, Skill, Talent } from '@/features/characters/types';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import type {
   NoblePhantasm,
   NoblePhantasmEffect,
   NoblePhantasmSkill,
-} from '@/features/wiki/types/noble-phantasm';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
+} from '@/features/wiki/noble-phantasms/types';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
 import {

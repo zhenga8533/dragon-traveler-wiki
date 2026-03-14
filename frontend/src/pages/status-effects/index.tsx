@@ -24,7 +24,7 @@ import { STATE_COLOR, STATE_ORDER } from '@/constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import { applyDir, useDataFetch, useFilteredPageData } from '@/hooks';
-import type { StatusEffect, StatusEffectType } from '@/features/wiki/types/status-effect';
+import type { StatusEffect, StatusEffectType } from '@/features/wiki/status-effects/types';
 import { getLatestTimestamp } from '@/utils';
 
 const STATUS_EFFECT_FIELDS: FieldDef[] = [

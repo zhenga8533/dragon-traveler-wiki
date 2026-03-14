@@ -13,7 +13,7 @@ import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import RichText from '@/components/ui/RichText';
 import { getCardHoverProps } from '@/constants/styles';
 import type { Character } from '@/features/characters/types';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 
 interface CharacterPageSkillsSectionProps {
 	character: Character;

@@ -18,10 +18,10 @@ import {
 import { IMAGE_SIZE } from '@/constants/ui';
 import FactionTag from '@/features/characters/components/FactionTag';
 import QualityIcon from '@/features/characters/components/QualityIcon';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import type { Team } from '@/features/teams/types';
-import type { Artifact } from '@/features/wiki/types/artifact';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import type { Artifact } from '@/features/wiki/artifacts/types';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useGradientAccent, useMobileTooltip } from '@/hooks';
 import type { Faction } from '@/types/faction';
 import { toEntitySlug } from '@/utils/entity-slug';

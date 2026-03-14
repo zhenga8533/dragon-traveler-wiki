@@ -26,15 +26,15 @@ import { Link } from 'react-router-dom';
 import LastUpdated from '@/components/common/LastUpdated';
 import { getCardHoverProps } from '@/constants/styles';
 import { useDataFetch, useGradientAccent } from '@/hooks';
-import type { Artifact } from '@/features/wiki/types/artifact';
+import type { Artifact } from '@/features/wiki/artifacts/types';
 import type { Character } from '@/features/characters/types';
-import type { Gear } from '@/features/wiki/types/gear';
-import type { Howlkin } from '@/features/wiki/types/howlkin';
-import type { NoblePhantasm } from '@/features/wiki/types/noble-phantasm';
+import type { Gear } from '@/features/wiki/gear/types';
+import type { Howlkin } from '@/features/wiki/howlkins/types';
+import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
 import type { Resource } from '@/types/resource';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
-import type { Subclass } from '@/features/wiki/types/subclass';
-import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import type { Subclass } from '@/features/wiki/subclasses/types';
+import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 
 type StatItem = {
 	label: string;

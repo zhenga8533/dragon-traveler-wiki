@@ -5,10 +5,10 @@ import { WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
 import { POPOVER_MAX_WIDTH } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
 import type { Skill, Talent } from '@/features/characters/types';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { splitEffectRefs } from '@/utils/parse-effect-refs';
 import ResourceBadge from '@/features/characters/components/ResourceBadge';
-import StatusEffectBadge from '@/features/wiki/components/StatusEffectBadge';
+import StatusEffectBadge from '@/features/wiki/status-effects/components/StatusEffectBadge';
 
 export interface RichTextProps {
   text: string;

@@ -26,6 +26,7 @@ import type {
   FieldDiff,
 } from '@/types/changes';
 import { formatExactDate, formatShortDate } from '@/utils';
+import { isRecord } from '@/utils/type-guards';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import PaginationControl from '@/components/ui/PaginationControl';
 
@@ -45,10 +46,6 @@ interface ChangeHistoryProps {
 interface MergedRecord {
   label: string | null;
   record: ChangeRecord;
-}
-
-function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
 }
 
 function formatDiffValue(value: unknown): string {

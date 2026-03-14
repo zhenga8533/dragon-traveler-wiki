@@ -24,7 +24,7 @@ const StatusEffects = lazy(() => import('@/pages/status-effects'));
 const DragonSpells = lazy(() => import('@/pages/wyrmspells'));
 const TierList = lazy(() => import('@/pages/tier-list'));
 const Teams = lazy(() => import('@/pages/teams'));
-const TeamPage = lazy(() => import('@/pages/team'));
+const TeamPage = lazy(() => import('@/pages/team/TeamPage'));
 const SavedTeamPage = lazy(() => import('@/pages/team/SavedTeamPage'));
 const Codes = lazy(() => import('@/pages/codes'));
 const Events = lazy(() => import('@/pages/events'));

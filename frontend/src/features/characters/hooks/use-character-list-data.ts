@@ -17,7 +17,7 @@ import {
   extractAllEffectRefs,
   filterCharacters,
 } from '@/features/characters/utils/filter-characters';
-import { useStatusEffects } from '@/hooks/use-common-data';
+import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import type { ViewMode } from '@/hooks/use-filters';
 import { useFilterPanel, useFilters, useViewMode } from '@/hooks/use-filters';
 import {
