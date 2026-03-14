@@ -452,11 +452,7 @@ export default function Events() {
   const allEvents = useMemo<EventEntry[]>(() => {
     return events
       .map((event) => ({
-        id:
-          event.event_id ??
-          (event.is_global
-            ? `global:${event.name}`
-            : `tw:${event.name}:${event.start_date}`),
+        id: `${event.name}__${event.is_global ? 'global' : 'tw'}`,
         active: isGameEventActive(event),
         server: (event.is_global ? 'Global' : 'TW') as 'Global' | 'TW',
         sortDate: event.start_date ?? event.end_date ?? '',
