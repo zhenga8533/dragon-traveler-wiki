@@ -18,6 +18,7 @@ import {
   Text,
   Title,
 } from '@mantine/core';
+import { useGradientAccent } from '@/hooks';
 import { IoInformationCircleOutline } from 'react-icons/io5';
 
 const TARGET_ROWS = [
@@ -60,7 +61,7 @@ const EFFICIENCY_ROWS = [
 ];
 
 export default function ShovelEventGuide() {
-
+  const { accent } = useGradientAccent();
 
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
@@ -193,7 +194,7 @@ export default function ShovelEventGuide() {
                   Formula:{' '}
                   <Badge
                     variant="light"
-                    color="blue"
+                    color={accent.primary}
                     size="lg"
                     component="span"
                   >

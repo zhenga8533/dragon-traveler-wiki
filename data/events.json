@@ -24,6 +24,22 @@
     "last_updated": 1773158650
   },
   {
+    "name": "Rerun Gacha #1",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Ifrit",
+      "Marylis",
+      "Gabriele",
+      "Helveil"
+    ],
+    "is_global": true,
+    "start_date": "2026-03-05",
+    "end_date": "2026-03-12",
+    "last_updated": 1773609724
+  },
+  {
     "name": "Dreaming of Electric Sheep",
     "event_id": null,
     "type": "Release",

@@ -13,9 +13,9 @@ import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import ClassTag from '@/features/characters/components/ClassTag';
 import type { CharacterClass } from '@/features/characters/types';
-import TierBadge from '@/features/teams/components/TierBadge';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
-import type { Subclass } from '@/features/wiki/types/subclass';
+import TierBadge from '@/features/tier-list/components/TierBadge';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import type { Subclass } from '@/features/wiki/subclasses/types';
 import {
   applyDir,
   useDataFetch,

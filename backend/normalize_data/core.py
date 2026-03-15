@@ -88,6 +88,14 @@ def _character_identity(entry: dict) -> str | None:
     return f"{name}__{quality}"
 
 
+def _event_identity(entry: dict) -> str | None:
+    name = entry.get("name")
+    if name is None:
+        return None
+    server = "global" if entry.get("is_global") else "tw"
+    return f"{name}__{server}"
+
+
 def _normalize_entry_for_compare(filename: str, entry: dict) -> dict:
     normalized = dict(entry)
     if filename == "events.json":
@@ -102,6 +110,7 @@ IDENTITY_KEY: dict[str, IdentitySelector] = {
     "changelog.json": "version",
     "codes.json": "code",
     "characters.json": _character_identity,
+    "events.json": _event_identity,
 }
 _DEFAULT_IDENTITY = "name"
 

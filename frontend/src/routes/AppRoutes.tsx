@@ -13,7 +13,14 @@ const Characters = lazy(() => import('@/pages/characters'));
 const CharacterPage = lazy(() => import('@/pages/character'));
 const GearPage = lazy(() => import('@/pages/gear/ListPage'));
 const GearSetPage = lazy(() => import('@/pages/gear/DetailPage'));
+const RelicPage = lazy(() => import('@/pages/relics/ListPage'));
+const OracleScrollPage = lazy(
+  () => import('@/pages/relics/OracleScrollDetailPage')
+);
 const Howlkins = lazy(() => import('@/pages/howlkins'));
+const GoldenAlliancePage = lazy(
+  () => import('@/pages/howlkins/GoldenAllianceDetailPage')
+);
 const NoblePhantasms = lazy(() => import('@/pages/noble-phantasms/ListPage'));
 const NoblePhantasmPage = lazy(
   () => import('@/pages/noble-phantasms/DetailPage')
@@ -24,7 +31,7 @@ const StatusEffects = lazy(() => import('@/pages/status-effects'));
 const DragonSpells = lazy(() => import('@/pages/wyrmspells'));
 const TierList = lazy(() => import('@/pages/tier-list'));
 const Teams = lazy(() => import('@/pages/teams'));
-const TeamPage = lazy(() => import('@/pages/team'));
+const TeamPage = lazy(() => import('@/pages/team/TeamPage'));
 const SavedTeamPage = lazy(() => import('@/pages/team/SavedTeamPage'));
 const Codes = lazy(() => import('@/pages/codes'));
 const Events = lazy(() => import('@/pages/events'));
@@ -45,7 +52,7 @@ const ShovelEventGuide = lazy(() => import('@/pages/guides/ShovelEventGuide'));
 const NotFound = lazy(() => import('@/pages/not-found'));
 
 const DETAIL_ROUTE_RE =
-  /^\/(?:artifacts|characters|noble-phantasms|gear-sets|teams(?:\/saved)?)(\/[^/]+)+$/;
+  /^\/(?:artifacts|characters|howlkins|noble-phantasms|gear-sets|oracle-scrolls|teams(?:\/saved)?)(\/[^/]+)+$/;
 
 function RouteFallback() {
   const { pathname } = useLocation();
@@ -72,7 +79,13 @@ export default function AppRoutes() {
         <Route path="/characters/:name" element={<CharacterPage />} />
         <Route path="/gear" element={<GearPage />} />
         <Route path="/gear-sets/:setName" element={<GearSetPage />} />
+        <Route path="/relics" element={<RelicPage />} />
+        <Route path="/oracle-scrolls/:scrollName" element={<OracleScrollPage />} />
         <Route path="/howlkins" element={<Howlkins />} />
+        <Route
+          path="/howlkins/:allianceName"
+          element={<GoldenAlliancePage />}
+        />
         <Route path="/noble-phantasms" element={<NoblePhantasms />} />
         <Route path="/noble-phantasms/:name" element={<NoblePhantasmPage />} />
         <Route path="/resources" element={<Resources />} />

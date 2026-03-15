@@ -16,7 +16,7 @@ import { getPortrait } from '@/assets/character';
 import { getNoblePhantasmIcon } from '@/assets/noble_phantasm';
 import CharacterTag from '@/features/characters/components/CharacterTag';
 import EntityFilter from '@/components/common/EntityFilter';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
+import GlobalBadge from '@/components/ui/GlobalBadge';
 import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
@@ -35,7 +35,7 @@ import {
   useGradientAccent,
 } from '@/hooks';
 import type { Character } from '@/features/characters/types';
-import type { NoblePhantasm } from '@/features/wiki/types/noble-phantasm';
+import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
 import { getLatestTimestamp } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 

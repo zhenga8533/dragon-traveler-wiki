@@ -10,7 +10,6 @@ import {
   useMemo,
   useState,
   type ComponentType,
-  type CSSProperties,
 } from 'react';
 import {
   IoBook,
@@ -44,6 +43,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Gear', path: '/gear' },
       { label: 'Howlkins', path: '/howlkins' },
       { label: 'Noble Phantasms', path: '/noble-phantasms' },
+      { label: 'Relics', path: '/relics' },
       { label: 'Resources', path: '/resources' },
       { label: 'Subclasses', path: '/subclasses' },
       { label: 'Status Effects', path: '/status-effects' },
@@ -116,13 +116,13 @@ const getIconColor = (accent: string, isActive: boolean) =>
   `var(--mantine-color-${accent}-${isActive ? '6' : '5'})`;
 
 const renderNavIcon = (
-  Icon: ComponentType<{ size?: number; style?: CSSProperties }>,
+  Icon: ComponentType<{ size?: number; color?: string }>,
   accent: string,
   isActive: boolean
 ) => (
   <Icon
     size={IMAGE_SIZE.ICON_LG}
-    style={{ color: getIconColor(accent, isActive) }}
+    color={getIconColor(accent, isActive)}
   />
 );
 

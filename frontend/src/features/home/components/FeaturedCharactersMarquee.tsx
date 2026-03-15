@@ -123,7 +123,7 @@ export default function FeaturedCharactersMarquee() {
   return (
     <Stack gap="md">
       <Group gap="sm" justify="center">
-        <ThemeIcon variant="light" color="grape" size="lg" radius="md">
+        <ThemeIcon variant="light" color={accent.secondary} size="lg" radius="md">
           <IoTrophy size={20} />
         </ThemeIcon>
         <Title order={2} size="h3">

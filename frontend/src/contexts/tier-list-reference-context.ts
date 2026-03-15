@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { STORAGE_KEY } from '@/constants/ui';
 import { useDataFetch } from '@/hooks/use-data-fetch';
-import type { TierList as TierListType } from '@/features/teams/tier-list-types';
+import type { TierList as TierListType } from '@/features/tier-list/types';
 
 export interface TierListReferenceContextValue {
   tierLists: TierListType[];

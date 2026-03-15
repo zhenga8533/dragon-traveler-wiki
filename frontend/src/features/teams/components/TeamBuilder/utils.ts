@@ -4,6 +4,7 @@ import type { FactionName } from '@/types/faction';
 import type { Team, TeamBenchMember, TeamMember } from '@/features/teams/types';
 import { normalizeOptionalNote } from '@/utils/normalize-note';
 import { toQuality } from '@/utils/quality';
+import { isRecord } from '@/utils/type-guards';
 import {
   getTeamBenchEntryName,
   getTeamBenchEntryNote,
@@ -26,8 +27,6 @@ export const ROW_CLASS_HINTS = [
   'Priest · Mage · Archer · Assassin',
 ] as const;
 
-export const INPUT_COMMIT_DELAY_MS = 150;
-
 export function getValidRows(charClass: CharacterClass): number[] {
   switch (charClass) {
     case 'Guardian':
@@ -45,10 +44,6 @@ export function getValidRows(charClass: CharacterClass): number[] {
     default:
       return [0, 1, 2];
   }
-}
-
-export function isRecord(value: unknown): value is Record<string, unknown> {
-  return typeof value === 'object' && value !== null;
 }
 
 export function isTeamMemberLike(value: unknown): value is TeamMember {
@@ -71,10 +66,6 @@ function teamMemberIdentity(member: {
   character_quality?: string | null;
 }): string {
   return `${member.character_name}__${member.character_quality ?? ''}`.toLowerCase();
-}
-
-export function normalizeNote(value: unknown): string | undefined {
-  return normalizeOptionalNote(value);
 }
 
 export function getPastedTeamPatch(value: unknown): Partial<Team> | null {
@@ -114,7 +105,7 @@ export function normalizeTeamFromPartial(
           const hasValidPosition =
             typeof member.position?.row === 'number' &&
             typeof member.position?.col === 'number';
-          const normalizedMemberNote = normalizeNote(member.note);
+          const normalizedMemberNote = normalizeOptionalNote(member.note);
           const normalizedQuality = toQuality(member.character_quality);
 
           members.push({

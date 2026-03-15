@@ -148,7 +148,7 @@ export default function TeamCard({
 							<Badge
 								size="xs"
 								variant="light"
-								color="blue"
+								color={accent.primary}
 								style={{
 									minWidth: 66,
 									justifyContent: 'center',

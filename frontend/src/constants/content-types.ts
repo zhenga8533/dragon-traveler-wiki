@@ -55,7 +55,7 @@ export function getContentTypeColor(
   value: string | null | undefined,
   fallback: ContentType = 'All'
 ): string {
-  return CONTENT_TYPE_COLOR[normalizeContentType(value, fallback)] ?? 'gray';
+  return CONTENT_TYPE_COLOR[normalizeContentType(value, fallback)];
 }
 
 export function normalizeContentTypeFilters(

@@ -11,10 +11,10 @@ import type {
   RecommendedGearEntry,
   RecommendedSubclassEntry,
 } from '@/features/characters/types';
-import type { Gear, GearSet } from '@/features/wiki/types/gear';
-import type { NoblePhantasm } from '@/features/wiki/types/noble-phantasm';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
-import type { Subclass } from '@/features/wiki/types/subclass';
+import type { Gear, GearSet } from '@/features/wiki/gear/types';
+import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import type { Subclass } from '@/features/wiki/subclasses/types';
 import type { Team } from '@/features/teams/types';
 import {
   getCharacterIdentityKey,
@@ -27,13 +27,17 @@ import { useCharacterResolution } from './use-character-resolution';
 import {
   useCharacterChanges,
   useCharacters,
+} from './use-characters-data';
+import {
+  useTeams,
+} from '@/features/teams/hooks/use-teams-data';
+import {
   useGear,
   useGearSets,
   useNoblePhantasms,
   useStatusEffects,
   useSubclasses,
-  useTeams,
-} from '@/hooks/use-common-data';
+} from '@/features/wiki/hooks/use-wiki-data';
 
 const GEAR_SLOT_CONFIG: Array<{
   slot: keyof NonNullable<Character['recommended_gear']>;

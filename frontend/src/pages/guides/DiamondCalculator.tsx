@@ -149,6 +149,12 @@ const BASE_GAIN_SOURCES: BaseSource[] = [
     defaultAmount: 1000,
     defaultCadenceDays: 7,
   },
+  {
+    id: 'luckyOverdriveCombo',
+    label: 'Lucky Overdrive Combo',
+    defaultAmount: 100,
+    defaultCadenceDays: 1,
+  },
 ];
 
 const BASE_SPEND_SOURCES: BaseSource[] = [
@@ -680,14 +686,7 @@ export default function DiamondCalculator() {
     () => isoDateToDate(targetDate),
     [targetDate]
   );
-  const customInputStyles = useMemo(
-    () => ({
-      input: {
-        borderColor: `var(--mantine-color-${accent.primary}-6)`,
-      },
-    }),
-    [accent.primary]
-  );
+  const customInputStyles = { input: { borderColor: 'var(--mantine-primary-color-6)' } };
 
   const deferredGainSources = useDeferredValue(gainSources);
   const deferredSpendSources = useDeferredValue(spendSources);
@@ -748,7 +747,7 @@ export default function DiamondCalculator() {
           opacity: source.enabled ? 1 : 0.4,
           ...(source.isCustom
             ? {
-                backgroundColor: `var(--mantine-color-${accent.primary}-light)`,
+                backgroundColor: 'var(--mantine-primary-color-light)',
               }
             : undefined),
         }}
@@ -842,7 +841,7 @@ export default function DiamondCalculator() {
         >
           <Alert
             variant="light"
-            color="blue"
+            color={accent.primary}
             title="How to use"
             icon={<IoInformationCircleOutline />}
           >

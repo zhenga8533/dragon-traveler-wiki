@@ -1,0 +1,218 @@
+[
+  {
+    "name": "Viking Round Shield",
+    "oracle_sroll": "Royal Routine",
+    "lore": "Excavated in 1880 from the Gokstad ship burial in Norway, this round shield measures approximately 92 centimeters in diameter, with edges thinner than its center. Its shape prevented warriors from striking their legs while running and also provided protection against volleys of arrows.",
+    "type": "Sanctuary Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Edda Manuscript",
+    "oracle_sroll": "Royal Routine",
+    "lore": "In 1643, scholar Svensson discovered manuscripts of the poetic Edda, composed between the 9th and 13th centuries AD. These texts preserve both the myths of the Norse gods and the histories of human heroes and rulers.",
+    "type": "Legendary Ritual Vessel",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Viking Battle Axe",
+    "oracle_sroll": "Royal Routine",
+    "lore": "Crafted in the 9th century and unearthed from a Danish bog, this battle axe once belonged to a Viking warrior. The blade is made of high- hardness steel and measures about 15 centimeters in length. Both sides of the axe head are engraved with intricate patterns and inlaid with precious gemstones.",
+    "type": "Legendary Ritual Vessel",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Box of Despair",
+    "oracle_sroll": "Royal Routine",
+    "lore": "As early as the 7th century AD, Viking craftsmen carved whale bone into valuable containers. According to Norse belief, the sword of the fire giant Surtr was stored in such a vessel, secured with nine locks.",
+    "type": "Fated Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Sif's Golden Hair",
+    "oracle_sroll": "Royal Routine",
+    "lore": "Hair was commonly included as a burial item in Viking graves and was considered to possess magical qualities, stored separately from the deceased. According to the Edda, Loki once cut off the long hair of the harvest goddess Sif while she slept. To atone for his offense, he commissioned dwarven craftsmen to create a wig for her.",
+    "type": "Fated Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Viking Runes",
+    "oracle_sroll": "Royal Routine",
+    "lore": "The earliest known runic inscriptions date to around AD 200 and are primarily found in Scandinavia and regions reached by Viking expansion. It is widely believed that these runes and spells were revealed to Odin while he hung upside down from the World Tree.",
+    "type": "Fated Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Loki's Hearthstone",
+    "oracle_sroll": "Royal Routine",
+    "lore": "Discovered in 1870 at St. Stephen's Church in northern England, this carving depicts the punishment of the god of deception. Local belief holds that after the gods learned of Loki's role in Balder's death, he was bound to a pillar, with serpent venom dripping onto his face and body as punishment.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Rhine Gold",
+    "oracle_sroll": "Royal Routine",
+    "lore": "By the 13th century, stories of a cursed golden ring were already widespread in Norse lands. According to the Edda, Loki seized a magical ring to pay a ransom, and its curse spread among mortals, accelerating the coming of Ragnarok.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Runestone of Punishment",
+    "oracle_sroll": "Royal Routine",
+    "lore": "Discovered in 1950 on the beach of Snaptun, Denmark, this stone carving, dated to around AD 1000, is believed to depict the face of Loki. According to the Prose Edda, Loki was punished for his mischief by having his lips sewn shut, which is why the carved face shows scarred lips.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Coin of Augustus",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "One of the most representative gold coins of the Roman Empire, it originally weighed approximately 7.8 grams before later being reduced to about 4.5 grams. It was first introduced by Julius Caesar and became widely used during the reign of Augustus (27 BC-AD 14).",
+    "type": "Sanctuary Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Caesar Bust",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "Unearthed in the coastal city of Cádiz, Spain, and dating back 2,000 years, this vessel was commonly used by Romans to transport wine, olive oil, honey, dried fish, and other goods. It was also used to store ashes, bitumen, or perfume.",
+    "type": "Legendary Ritual Vessel",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Roman Amphora",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "Unearthed at the ruins of Tusculum in Italy and now displayed in the Louvre, this bust is the only surviving statue believed to have been created during Caesar's lifetime. Unlike typical depictions of rulers, it portrays Caesar in the role of a general.",
+    "type": "Legendary Ritual Vessel",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Capitoline Wolf Statue",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "Created around 480 BC by a disciple of the Etruscan sculptor Vulca, this work is now housed in the Capitoline Museums in Rome. The she-wolf's alert and imposing expression symbolizes the stern and resilient character of the ancient Roman people.",
+    "type": "Fated Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Cupid's Jewelry Box",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "This jewelry box was produced in 19th-century France during the reign of Napoleon III. The decoration on its lid depicts Cupid, the god of love, with intertwined wings and bow, symbolizing the entanglement of love and hatred in the world.",
+    "type": "Fated Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Triumphal Wreath",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "This gold crown was produced during the rise of the Roman Republic and is now housed in the Kerameikos Museum in Athens. Laurel wreaths symbolized military victory in Rome and were worn by triumphant generals during victory parades.",
+    "type": "Fated Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Gallic Wars",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "Published in 51 BC and consisting of eight volumes, the first seven were written by Julius Caesar himself. The work promotes his military achievements, serving as political capital in his pursuit of supreme power.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Maimed Venus",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "This marble sculpture was created around 150 BC by the ancient Greek sculptor Alexandros. It was unearthed by a farmer on the island of Milos in February 1820 and is now housed in the Louvre.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "The Birth of Venus",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "This tempera painting was created in 1487 by the Italian artist Sandro Botticelli and is now housed in the Uffizi Gallery in Florence. Venus stands upon a shell, gazing into the distance with an expression of confusion, sorrow, and contemplation.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Legendary Fossil",
+    "oracle_sroll": null,
+    "lore": "Ancient marine organisms calcified and preserved in sedimentary layers, with complete ammonite fossils commonly found in Jurassic strata in Europe. The ancient Greek philosopher Xenophanes observed spiral-shaped ammonites embedded in mountain rocks, considering them evidence that the land was once a vast ocean.",
+    "type": "Sanctuary Relic",
+    "quality": "SSR",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Legendary Amber",
+    "oracle_sroll": null,
+    "lore": "Eocene conifer resin dripped and buried in forest areas, oxidizing over time, with the Baltic coast sedimentary layers having the highest yield. The ancient Greeks believed amber to be the solidified tears of the sun shed during Phaethon's fall, and The Homeric Epics list it among the treasured possessions of Trojan nobility.",
+    "type": "Legendary Ritual Vessel",
+    "quality": "SSR",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Legendary Mural",
+    "oracle_sroll": null,
+    "lore": "Around 17,000 years ago during the Paleolithic era, humans used a mixture of charcoal and animal marrow as paint to create artwork in the Lascaux Caves in France. When accidentally discovered in 1940, hundreds of paintings of bison, herds of horses, and giant deer inside the cave were still as vibrant as new. A layer of calcium carbonate seeping through the rock walls unexpectedly formed a natural protective film, preserving the paintings to this day.",
+    "type": "Legendary Ritual Vessel",
+    "quality": "SSR",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Legendary Marble",
+    "oracle_sroll": null,
+    "lore": "Ancient marine sediments, subjected to high pressure and geothermal activity, gradually recrystallized limestone into marble. This rock possesses both sculptural suitability and crack resistance, making it ideal for carving. Ancient Greece and Rome revered marble as a treasure, creating countless awe-inspiring works of art and architectural masterpieces with it.",
+    "type": "Fated Relic",
+    "quality": "SSR",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Legendary Mythsteel",
+    "oracle_sroll": null,
+    "lore": "From the 3rd century AD, Persian blacksmiths forged wavy-patterned blades by folding high-carbon steel with wrought iron, achieving a balance of steel's toughness and iron's flexibility. During the Umayyad Dynasty, craftsmen in Damascus refined quenching and temperature control techniques, producing curved blades capable of cutting through chainmail without losing their edge.",
+    "type": "Fated Relic",
+    "quality": "SSR",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Legendary Oracle Script",
+    "oracle_sroll": null,
+    "lore": "Since at least the 14th century BC, the Shang Dynasty in China used turtle shells and animal bones for divination, with diviners inscribing the results beside the fire-cracked lines. These records formed the earliest mature system of Chinese characters. The oracle bones are mostly brown and yellow in appearance, with characters that are thin and sharp like a knife. The content covers rainfall, war, and sacrifices, with the direction of the cracks determining major decisions for the dynasty over hundreds of years.",
+    "type": "Fated Relic",
+    "quality": "SSR",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Legendary Porcelain",
+    "oracle_sroll": null,
+    "lore": "As early as the 1st century AD, craftsmen of China's Eastern Han Dynasty unintentionally raised kiln temperatures above 1300°C during pottery firing, causing vitrification and giving rise to early porcelain. After the Tang Dynasty refined kaolin formulas, porcelain was exported across Eurasia. The ceramic body is translucent like jade and produces a clear, resonant sound when struck. Celadon glazes resemble early Summer lake water, while white porcelain appears pure and flawless. With the addition of cobalt blue decoration, it evolved into the famous blue-and-white porcelain.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Legendary Stained Glass",
+    "oracle_sroll": null,
+    "lore": "Around 2500 BC, Mesopotamians discovered transparent glassy material while firing ceramic glazes, while Egyptians shaped glass using the sand-core technique. After the Roman Empire improved glassblowing methods, glassware became widespread. When newly formed, glass appears soft and orange-red, but becomes hard and brittle once cooled. Adding minerals produces sapphire blue, emerald green, or amber hues, and trapped air bubbles serves as clues for dating.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Legendary Tapestry",
+    "oracle_sroll": null,
+    "lore": "As early as the 3rd century AD, the Sassanid Empire on the Persian Plateau used a double-knot technique to weave wool carpets, incorporating patterns derived from ancient Persian Zoroastrian symbolism. High-quality plateau wool was selected, and craftsmen hand-tied up to 400 knots per inch. Complex designs often required several years to complete.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR",
+    "last_updated": 1773598546
+  }
+]

@@ -1,4 +1,4 @@
-import type { GearType } from '@/features/wiki/types/gear';
+import type { GearType } from '@/features/wiki/gear/types';
 import { normalizeKey } from '@/assets/utils';
 import accessoryIcon from './icons/accessory.png';
 import bootsIcon from './icons/boots.png';

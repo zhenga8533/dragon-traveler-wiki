@@ -37,6 +37,7 @@ LABEL_JSON_FILE = {
     "golden-alliance": "golden_alliances.json",
     "gear": "gear.json",
     "gear-set": "gear_sets.json",
+    "relic": "relic.json",
     "tier-list": "tier-lists.json",
     "team": "teams.json",
 }
@@ -56,6 +57,7 @@ REQUIRED_FIELDS = {
     "golden-alliance": ["name"],
     "gear": ["name"],
     "gear-set": ["name"],
+    "relic": ["name"],
     "tier-list": ["name", "entries"],
     "team": ["name", "members"],
 }
@@ -72,6 +74,7 @@ TIMESTAMPED_LABELS = {
     "golden-alliance",
     "gear",
     "gear-set",
+    "relic",
     "team",
 }
 
@@ -90,6 +93,7 @@ PREFIX_TO_LABEL = {
     "[Golden Alliance]": "golden-alliance",
     "[Gear]": "gear",
     "[Gear Set]": "gear-set",
+    "[Relic]": "relic",
     "[Tier List]": "tier-list",
     "[Team]": "team",
 }

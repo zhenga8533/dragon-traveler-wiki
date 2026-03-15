@@ -6,7 +6,7 @@ export {
   moveItemBefore,
   removeItem,
   removeItemFromRecordArrays,
-} from '@/features/teams/utils/dnd-list';
+} from './dnd-list';
 export {
   EMPTY_FILTERS,
   extractAllEffectRefs,
@@ -15,6 +15,7 @@ export {
 export { buildExpiredCodeUrl } from './github-issues';
 export { parseEffectRefs, splitEffectRefs } from './parse-effect-refs';
 export { loadSavedFromStorage, parseTabMode } from './saved-storage';
+export { isRecord } from './type-guards';
 export {
   formatExactDate,
   formatRelativeTime,

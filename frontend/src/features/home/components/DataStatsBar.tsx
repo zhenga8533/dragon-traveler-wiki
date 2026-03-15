@@ -11,6 +11,7 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import {
+	IoArchive,
 	IoCube,
 	IoDiamond,
 	IoFlame,
@@ -26,15 +27,16 @@ import { Link } from 'react-router-dom';
 import LastUpdated from '@/components/common/LastUpdated';
 import { getCardHoverProps } from '@/constants/styles';
 import { useDataFetch, useGradientAccent } from '@/hooks';
-import type { Artifact } from '@/features/wiki/types/artifact';
+import type { Artifact } from '@/features/wiki/artifacts/types';
 import type { Character } from '@/features/characters/types';
-import type { Gear } from '@/features/wiki/types/gear';
-import type { Howlkin } from '@/features/wiki/types/howlkin';
-import type { NoblePhantasm } from '@/features/wiki/types/noble-phantasm';
+import type { Gear } from '@/features/wiki/gear/types';
+import type { Howlkin } from '@/features/wiki/howlkins/types';
+import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
 import type { Resource } from '@/types/resource';
-import type { StatusEffect } from '@/features/wiki/types/status-effect';
-import type { Subclass } from '@/features/wiki/types/subclass';
-import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import type { Subclass } from '@/features/wiki/subclasses/types';
+import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
+import type { Relic } from '@/features/wiki/relics/types';
 
 type StatItem = {
 	label: string;
@@ -56,6 +58,7 @@ export default function DataStatsBar() {
 		accent.primary,
 		accent.secondary,
 		accent.tertiary,
+		accent.primary,
 	];
 
 	const { data: characters, loading: l1 } = useDataFetch<Character[]>(
@@ -94,6 +97,10 @@ export default function DataStatsBar() {
 		'data/subclasses.json',
 		[]
 	);
+	const { data: relics, loading: l10 } = useDataFetch<Relic[]>(
+		'data/relic.json',
+		[]
+	);
 
 	const mostRecentUpdate = useMemo(() => {
 		let latest = 0;
@@ -107,6 +114,7 @@ export default function DataStatsBar() {
 			howlkins,
 			gear,
 			subclasses,
+			relics,
 		];
 		for (const list of updateLists) {
 			for (const item of list) {
@@ -125,13 +133,14 @@ export default function DataStatsBar() {
 		wyrmspells,
 		gear,
 		subclasses,
+		relics,
 	]);
 
-	if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9) {
+	if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9 || l10) {
 		return (
 			<Card padding="lg" radius="md" withBorder {...getCardHoverProps()}>
-				<SimpleGrid cols={{ base: 3, sm: 5, lg: 9 }} spacing={0}>
-					{Array.from({ length: 9 }).map((_, i) => (
+				<SimpleGrid cols={{ base: 2, sm: 5, lg: 10 }} spacing={0}>
+					{Array.from({ length: 10 }).map((_, i) => (
 						<Stack key={i} gap={4} align="center" py="sm">
 							<Skeleton height={28} width={28} radius="md" />
 							<Skeleton height={12} width={30} radius="xs" />
@@ -201,10 +210,17 @@ export default function DataStatsBar() {
 			icon: IoGrid,
 		},
 		{
+			label: 'Relics',
+			count: relics.length,
+			to: '/relics',
+			color: accentCycle[8],
+			icon: IoArchive,
+		},
+		{
 			label: 'Wyrmspells',
 			count: wyrmspells.length,
 			to: '/wyrmspells',
-			color: accentCycle[8],
+			color: accentCycle[9],
 			icon: IoFlame,
 		},
 	];
@@ -225,7 +241,7 @@ export default function DataStatsBar() {
 						Wiki Database
 					</Title>
 				</Group>
-				<SimpleGrid cols={{ base: 3, sm: 5, lg: 9 }} spacing={0}>
+				<SimpleGrid cols={{ base: 2, sm: 5, lg: 10 }} spacing={0}>
 					{stats.map((stat) => (
 						<Box
 							key={stat.to}

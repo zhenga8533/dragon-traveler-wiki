@@ -26,6 +26,9 @@ export const IMAGE_SIZE = {
   PORTRAIT_SM: 40,
 } as const;
 
+/** Debounce delay (ms) before committing a text input value to state. */
+export const INPUT_COMMIT_DELAY_MS = 150;
+
 // Transitions
 export const TRANSITION = {
   FAST: '150ms',
@@ -87,7 +90,9 @@ export const DETAIL_ROUTE_PATTERNS = [
   /^\/artifacts\/.+/,
   /^\/characters\/.+/,
   /^\/gear-sets\/.+/,
+  /^\/howlkins\/.+/,
   /^\/noble-phantasms\/.+/,
+  /^\/oracle-scrolls\/.+/,
   /^\/teams\/.+/,
 ];
 
@@ -132,6 +137,11 @@ export const STORAGE_KEY = {
   RESOURCE_SORT: 'resources:sort',
   ARTIFACT_SORT: 'artifacts:sort',
   GEAR_SORT: 'gear:sort',
+  RELIC_VIEW_MODE: 'relics:viewMode',
+  RELIC_TAB: 'relics:tab',
+  RELIC_FILTERS: 'relics:filters',
+  RELIC_SORT: 'relics:sort',
+  RELIC_ORACLE_SCROLL_SEARCH: 'relics:oracleScrollSearch',
   HOWLKIN_SORT: 'howlkins:sort',
   WYRMSPELL_SORT: 'wyrmspells:sort',
   NOBLE_PHANTASM_SORT: 'noble-phantasms:sort',

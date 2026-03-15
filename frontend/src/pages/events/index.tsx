@@ -12,9 +12,9 @@ import EmptyState from '@/components/ui/EmptyState';
 import PaginationControl from '@/components/ui/PaginationControl';
 import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import GlobalBadge from '@/features/teams/components/GlobalBadge';
-import EventCharacterAvatars from '@/features/wiki/components/EventCharacterAvatars';
-import TwEventBanner from '@/features/wiki/components/TwEventBanner';
+import GlobalBadge from '@/components/ui/GlobalBadge';
+import EventCharacterAvatars from '@/features/wiki/events/components/EventCharacterAvatars';
+import TwEventBanner from '@/features/wiki/events/components/TwEventBanner';
 import type { ViewMode } from '@/hooks';
 import {
   countActiveFilters,
@@ -452,11 +452,7 @@ export default function Events() {
   const allEvents = useMemo<EventEntry[]>(() => {
     return events
       .map((event) => ({
-        id:
-          event.event_id ??
-          (event.is_global
-            ? `global:${event.name}`
-            : `tw:${event.name}:${event.start_date}`),
+        id: `${event.name}__${event.is_global ? 'global' : 'tw'}`,
         active: isGameEventActive(event),
         server: (event.is_global ? 'Global' : 'TW') as 'Global' | 'TW',
         sortDate: event.start_date ?? event.end_date ?? '',

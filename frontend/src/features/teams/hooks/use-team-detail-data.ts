@@ -1,11 +1,11 @@
 import { useCallback, useMemo } from 'react';
 import { FACTION_COLOR } from '@/constants/colors';
 import { normalizeContentType } from '@/constants/content-types';
-import type { Artifact } from '@/features/wiki/types/artifact';
+import type { Artifact } from '@/features/wiki/artifacts/types';
 import type { Character } from '@/features/characters/types';
 import type { Faction } from '@/types/faction';
 import type { Team } from '@/features/teams/types';
-import type { Wyrmspell } from '@/features/wiki/types/wyrmspell';
+import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import {
   getCharacterRoutePath,
   getCharacterRoutePathByName,

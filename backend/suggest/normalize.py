@@ -701,4 +701,25 @@ def normalize_for_json(label, data, is_update=False):
             result["wyrmspells"] = wyrmspell_updates
         return result
 
+    if label == "relic":
+        if not is_update:
+            return {
+                "name": data["name"],
+                "oracle_sroll": data.get("oracle_sroll") or None,
+                "lore": data.get("lore", ""),
+                "type": data.get("type", ""),
+                "quality": data.get("quality", ""),
+            }
+
+        result = {"name": data["name"]}
+        if "oracle_sroll" in data:
+            result["oracle_sroll"] = data.get("oracle_sroll") or None
+        if "lore" in data:
+            result["lore"] = data.get("lore", "")
+        if "type" in data:
+            result["type"] = data.get("type", "")
+        if "quality" in data:
+            result["quality"] = data.get("quality", "")
+        return result
+
     raise ValueError(f"Unknown label: {label}")

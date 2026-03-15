@@ -1,7 +1,6 @@
 import { Tooltip } from '@mantine/core';
 import type { CSSProperties } from 'react';
 import { IoInformationCircle } from 'react-icons/io5';
-import { useGradientAccent } from '@/hooks';
 
 interface NoteTooltipIconProps {
   note: string;
@@ -24,8 +23,6 @@ export default function NoteTooltipIcon({
   offset = 6,
   zIndex = 700,
 }: NoteTooltipIconProps) {
-  const { accent } = useGradientAccent();
-
   const preventBubble = stopPropagation
     ? (e: { preventDefault(): void; stopPropagation(): void }) => {
         e.preventDefault();
@@ -61,7 +58,7 @@ export default function NoteTooltipIcon({
         <span>
           <IoInformationCircle
             size={size}
-            color={`var(--mantine-color-${accent.primary}-filled)`}
+            color="var(--mantine-primary-color-filled)"
             style={{
               background: 'var(--mantine-color-body)',
               border: '1px solid var(--mantine-color-body)',

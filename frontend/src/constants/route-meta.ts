@@ -80,6 +80,14 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    pattern: '/howlkins/:allianceName',
+    meta: {
+      title: 'Golden Alliance Details',
+      description:
+        'View all members, stat effects by level, and change history for this Golden Alliance.',
+    },
+  },
+  {
     pattern: '/noble-phantasms',
     meta: {
       title: 'Noble Phantasms',
@@ -93,6 +101,22 @@ export const ROUTE_META: RouteMetaEntry[] = [
       title: 'Noble Phantasm Details',
       description:
         'Noble Phantasm deep dive with tier-based effect tables, skill progression by level, and character attribution.',
+    },
+  },
+  {
+    pattern: '/relics',
+    meta: {
+      title: 'Relics',
+      description:
+        'Browse relics with historical lore, oracle scrolls, types, and quality tiers.',
+    },
+  },
+  {
+    pattern: '/oracle-scrolls/:scrollName',
+    meta: {
+      title: 'Oracle Scroll Details',
+      description:
+        'View all relics belonging to this oracle scroll with lore, type, and quality details.',
     },
   },
   {

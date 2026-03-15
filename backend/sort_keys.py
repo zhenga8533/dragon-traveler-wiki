@@ -138,6 +138,25 @@ def gear_set_sort_key(gs):
     return (gs.get("name") or "").lower()
 
 
+
+RELIC_TYPE_ORDER = [
+    "Sanctuary Relic",
+    "Legendary Ritual Vessel",
+    "Fated Relic",
+    "Symbol of Theocracy",
+]
+RELIC_TYPE_RANK = {t: i for i, t in enumerate(RELIC_TYPE_ORDER)}
+
+
+def relic_sort_key(r):
+    return (
+        QUALITY_RANK.get(r.get("quality", ""), _FALLBACK),
+        (r.get("oracle_sroll") or "").lower(),
+        RELIC_TYPE_RANK.get(r.get("type", ""), _FALLBACK),
+        (r.get("name") or "").lower(),
+    )
+
+
 def code_sort_key(c):
     return (c.get("code") or "").lower()
 
@@ -166,4 +185,5 @@ FILE_SORT_KEY = {
     "subclasses.json": subclass_sort_key,
     "golden_alliances.json": golden_alliance_sort_key,
     "events.json": event_sort_key,
+    "relic.json": relic_sort_key,
 }

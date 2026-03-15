@@ -1,8 +1,8 @@
 import { getGearIcon } from '@/assets/gear';
 import ChangeHistory from '@/components/common/ChangeHistory';
+import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
-import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import {
@@ -12,9 +12,7 @@ import {
 } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import {
-  DETAIL_HERO_WRAPPER_STYLES,
   getCardHoverProps,
-  getDetailHeroGradient,
 } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
@@ -24,8 +22,8 @@ import {
   buildCharacterNameCounts,
   getCharacterBaseSlug,
 } from '@/features/characters/utils/character-route';
-import GearTypeTag from '@/features/wiki/components/GearTypeTag';
-import type { Gear, GearSet } from '@/features/wiki/types/gear';
+import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
+import type { Gear, GearSet } from '@/features/wiki/gear/types';
 import {
   useDarkMode,
   useDataFetch,
@@ -215,7 +213,7 @@ export default function GearSetPage() {
   }
 
   const setBonus = setData?.set_bonus ?? setItems[0]?.set_bonus;
-  const qualityColor = QUALITY_COLOR[setItems[0].quality] ?? 'grape';
+  const qualityColor = QUALITY_COLOR[setItems[0].quality];
   const latestItemTimestamp = setItems.reduce(
     (latest, item) => Math.max(latest, item.last_updated ?? 0),
     0
@@ -231,21 +229,15 @@ export default function GearSetPage() {
 
   return (
     <Box>
-      <Box style={DETAIL_HERO_WRAPPER_STYLES}>
-        <Box style={getDetailHeroGradient(isDark, qualityColor)} />
-
-        <Container
-          size="lg"
-          style={{ position: 'relative', zIndex: 1 }}
-          py={{ base: 'lg', sm: 'xl' }}
-        >
-          <Stack gap="lg">
-            <Breadcrumbs
-              items={[
-                { label: 'Gear', path: '/gear' },
-                { label: decodedSetName },
-              ]}
-            />
+      <DetailPageHero
+        isDark={isDark}
+        qualityColor={qualityColor}
+        breadcrumbItems={[
+          { label: 'Gear', path: '/gear' },
+          { label: decodedSetName },
+        ]}
+        py={{ base: 'lg', sm: 'xl' }}
+      >
 
             <Stack gap={6}>
               <Group gap="sm" align="center" wrap="wrap">
@@ -354,9 +346,7 @@ export default function GearSetPage() {
                 </Group>
               </Stack>
             )}
-          </Stack>
-        </Container>
-      </Box>
+      </DetailPageHero>
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="lg">

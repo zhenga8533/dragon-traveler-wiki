@@ -21,13 +21,13 @@ import {
 	useState,
 } from 'react';
 import {
-	RiArrowLeftSLine,
-	RiArrowRightSLine,
-	RiCloseLine,
-	RiFilmLine,
-	RiFullscreenExitLine,
-	RiFullscreenLine,
-} from 'react-icons/ri';
+	IoChevronBack,
+	IoChevronForward,
+	IoClose,
+	IoContract,
+	IoExpand,
+	IoFilm,
+} from 'react-icons/io5';
 import type { CharacterIllustration } from '@/assets/character';
 import { getCardHoverProps } from '@/constants/styles';
 import { TRANSITION } from '@/constants/ui';
@@ -144,6 +144,8 @@ export default function IllustrationPreviewModal({
 	useEffect(() => {
 		if (!opened || !hasMultipleIllustrations) return;
 		const handleKey = (e: KeyboardEvent) => {
+			// Skip if a thumbnail button already handled this via onKeyDown
+			if ((e.target as HTMLElement | null)?.closest('[role="listbox"]')) return;
 			if (e.key === 'ArrowLeft') showPreviousIllustration();
 			else if (e.key === 'ArrowRight') showNextIllustration();
 		};
@@ -163,6 +165,7 @@ export default function IllustrationPreviewModal({
 			size="95%"
 			centered
 			withCloseButton={false}
+			lockScroll={false}
 		>
 			{activeIllustration && (
 				<Stack gap="md">
@@ -193,11 +196,11 @@ export default function IllustrationPreviewModal({
 										variant="default"
 										color={accent.primary}
 										radius="xl"
-									>
+										>
 										{isFullscreen ? (
-											<RiFullscreenExitLine />
+											<IoContract />
 										) : (
-											<RiFullscreenLine />
+											<IoExpand />
 										)}
 									</ActionIcon>
 								</Tooltip>
@@ -209,7 +212,7 @@ export default function IllustrationPreviewModal({
 								color={accent.primary}
 								radius="xl"
 							>
-								<RiCloseLine />
+								<IoClose />
 							</ActionIcon>
 						</Group>
 					</Group>
@@ -284,7 +287,7 @@ export default function IllustrationPreviewModal({
 												modalHoverSide === 'left' ? 'scale(1.1)' : 'scale(1)',
 										}}
 									>
-										<RiArrowLeftSLine size={24} />
+										<IoChevronBack size={24} />
 									</ActionIcon>
 								</Box>
 								<Box
@@ -315,7 +318,7 @@ export default function IllustrationPreviewModal({
 												modalHoverSide === 'right' ? 'scale(1.1)' : 'scale(1)',
 										}}
 									>
-										<RiArrowRightSLine size={24} />
+										<IoChevronForward size={24} />
 									</ActionIcon>
 								</Box>
 							</>
@@ -357,7 +360,6 @@ export default function IllustrationPreviewModal({
 												}
 												role="option"
 												aria-selected={isActive}
-												aria-current={isActive ? 'true' : undefined}
 												aria-keyshortcuts="ArrowLeft ArrowRight Home End"
 												aria-describedby={thumbnailHintId}
 												aria-label={`Go to ${illust.name}`}
@@ -368,7 +370,7 @@ export default function IllustrationPreviewModal({
 													overflow: 'hidden',
 													border: `2px solid ${
 														isActive
-															? 'var(--mantine-color-blue-5)'
+															? 'var(--mantine-primary-color-5)'
 															: 'var(--mantine-color-default-border)'
 													}`,
 													opacity: isActive ? 1 : 0.6,
@@ -383,7 +385,7 @@ export default function IllustrationPreviewModal({
 															background: 'var(--mantine-color-dark-6)',
 														}}
 													>
-														<RiFilmLine size={22} color="white" />
+														<IoFilm size={22} color="white" />
 													</Center>
 												) : (
 													<Image
@@ -398,7 +400,7 @@ export default function IllustrationPreviewModal({
 											</UnstyledButton>
 											<Text
 												size="xs"
-												c={isActive ? 'blue' : 'dimmed'}
+												c={isActive ? accent.primary : 'dimmed'}
 												fw={isActive ? 600 : 400}
 												ta="center"
 												lineClamp={1}

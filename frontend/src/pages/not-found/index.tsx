@@ -49,7 +49,6 @@ export default function NotFound() {
           size="md"
           leftSection={<IoHome size={IMAGE_SIZE.ICON_LG} />}
           variant="light"
-          color="grape"
         >
           Back to Home
         </Button>
