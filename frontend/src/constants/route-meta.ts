@@ -104,6 +104,14 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    pattern: '/oracle-scrolls/:scrollName',
+    meta: {
+      title: 'Oracle Scroll Details',
+      description:
+        'View all relics belonging to this oracle scroll with lore, type, and quality details.',
+    },
+  },
+  {
     pattern: '/resources',
     meta: {
       title: 'Resources',

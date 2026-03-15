@@ -22,6 +22,7 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   '/resources': 'green',
   '/subclasses': 'grape',
   '/relics': 'yellow',
+  '/oracle-scrolls': 'yellow',
 
   // Guides
   '/guides/beginner-qa': 'teal',
@@ -67,7 +68,7 @@ export function getAccentForPath(path: string): SectionAccent {
     return 'cyan';
   }
 
-  if (path.startsWith('/relics/')) {
+  if (path.startsWith('/relics/') || path.startsWith('/oracle-scrolls/')) {
     return 'yellow';
   }
 

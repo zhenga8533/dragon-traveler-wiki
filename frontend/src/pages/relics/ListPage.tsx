@@ -13,7 +13,11 @@ import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import PaginationControl from '@/components/ui/PaginationControl';
 import SortableTh from '@/components/ui/SortableTh';
 import { RELIC_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import {
+  LINK_BLOCK_RESET_STYLE,
+  getCardHoverProps,
+  getMinWidthStyle,
+} from '@/constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/features/characters/components/QualityIcon';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
@@ -29,6 +33,7 @@ import {
 import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
 import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
+import { toEntitySlug } from '@/utils/entity-slug';
 import {
   Badge,
   Container,
@@ -45,6 +50,7 @@ import {
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 
 const RELIC_FIELDS: FieldDef[] = [
   {
@@ -355,13 +361,25 @@ export default function RelicPage() {
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                     {relicPageItems.map((item) => {
                       const iconSrc = getRelicIcon(item.name);
+                      const scrollSlug = item.oracle_sroll
+                        ? toEntitySlug(item.oracle_sroll)
+                        : null;
                       return (
                         <Paper
                           key={item.name}
+                          {...(scrollSlug
+                            ? {
+                                component: Link,
+                                to: `/oracle-scrolls/${scrollSlug}`,
+                              }
+                            : {})}
                           p="md"
                           radius="md"
                           withBorder
-                          {...getCardHoverProps({ interactive: false })}
+                          {...getCardHoverProps({
+                            interactive: !!scrollSlug,
+                            style: scrollSlug ? LINK_BLOCK_RESET_STYLE : undefined,
+                          })}
                         >
                           <Group gap="md" align="flex-start" wrap="nowrap">
                             {iconSrc && (
@@ -376,7 +394,11 @@ export default function RelicPage() {
                             )}
                             <Stack gap={4} style={{ flex: 1 }}>
                               <Group gap="sm" wrap="wrap">
-                                <Text fw={700} c={`${accent.primary}.7`} lineClamp={1}>
+                                <Text
+                                  fw={700}
+                                  c={scrollSlug ? `${accent.primary}.7` : undefined}
+                                  lineClamp={1}
+                                >
                                   {item.name}
                                 </Text>
                                 {item.quality && (
@@ -467,7 +489,11 @@ export default function RelicPage() {
                               )}
                             </Table.Td>
                             <Table.Td>
-                              <Text fw={600} size="sm" c={`${accent.primary}.7`}>
+                              <Text
+                                fw={600}
+                                size="sm"
+                                c={item.oracle_sroll ? `${accent.primary}.7` : undefined}
+                              >
                                 {item.name}
                               </Text>
                             </Table.Td>
@@ -482,9 +508,13 @@ export default function RelicPage() {
                             <Table.Td>
                               {item.oracle_sroll ? (
                                 <Badge
+                                  component={Link}
+                                  to={`/oracle-scrolls/${toEntitySlug(item.oracle_sroll)}`}
                                   variant="light"
                                   size="sm"
                                   color={accent.secondary}
+                                  style={{ cursor: 'pointer', textDecoration: 'none' }}
+                                  onClick={(e: React.MouseEvent) => e.stopPropagation()}
                                 >
                                   {item.oracle_sroll}
                                 </Badge>
@@ -543,10 +573,15 @@ export default function RelicPage() {
                         return (
                           <Paper
                             key={scrollName}
+                            component={Link}
+                            to={`/oracle-scrolls/${toEntitySlug(scrollName)}`}
                             p="md"
                             radius="md"
                             withBorder
-                            {...getCardHoverProps({ interactive: false })}
+                            {...getCardHoverProps({
+                              interactive: true,
+                              style: LINK_BLOCK_RESET_STYLE,
+                            })}
                           >
                             <Stack gap="xs">
                               <Group gap="md" align="flex-start" wrap="nowrap">
