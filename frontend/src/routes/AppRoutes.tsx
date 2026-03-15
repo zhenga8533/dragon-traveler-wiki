@@ -13,6 +13,7 @@ const Characters = lazy(() => import('@/pages/characters'));
 const CharacterPage = lazy(() => import('@/pages/character'));
 const GearPage = lazy(() => import('@/pages/gear/ListPage'));
 const GearSetPage = lazy(() => import('@/pages/gear/DetailPage'));
+const RelicPage = lazy(() => import('@/pages/relics/ListPage'));
 const Howlkins = lazy(() => import('@/pages/howlkins'));
 const NoblePhantasms = lazy(() => import('@/pages/noble-phantasms/ListPage'));
 const NoblePhantasmPage = lazy(
@@ -72,6 +73,7 @@ export default function AppRoutes() {
         <Route path="/characters/:name" element={<CharacterPage />} />
         <Route path="/gear" element={<GearPage />} />
         <Route path="/gear-sets/:setName" element={<GearSetPage />} />
+        <Route path="/relics" element={<RelicPage />} />
         <Route path="/howlkins" element={<Howlkins />} />
         <Route path="/noble-phantasms" element={<NoblePhantasms />} />
         <Route path="/noble-phantasms/:name" element={<NoblePhantasmPage />} />

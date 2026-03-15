@@ -20,3 +20,4 @@ export {
 } from './tier-colors';
 export { getStableTagColor } from './tag-colors';
 export { WYRMSPELL_TYPE_COLOR } from './wyrmspell-colors';
+export { RELIC_TYPE_COLOR, RELIC_TYPE_ORDER } from './relic-colors';

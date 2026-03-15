@@ -43,6 +43,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Gear', path: '/gear' },
       { label: 'Howlkins', path: '/howlkins' },
       { label: 'Noble Phantasms', path: '/noble-phantasms' },
+      { label: 'Relics', path: '/relics' },
       { label: 'Resources', path: '/resources' },
       { label: 'Subclasses', path: '/subclasses' },
       { label: 'Status Effects', path: '/status-effects' },

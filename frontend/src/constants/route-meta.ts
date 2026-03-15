@@ -96,6 +96,14 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    pattern: '/relics',
+    meta: {
+      title: 'Relics',
+      description:
+        'Browse relics with historical lore, oracle scrolls, types, and quality tiers.',
+    },
+  },
+  {
     pattern: '/resources',
     meta: {
       title: 'Resources',

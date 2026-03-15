@@ -3,6 +3,7 @@
 from ..sort_keys import (
     CLASS_ORDER,
     QUALITY_ORDER,
+    RELIC_TYPE_ORDER,
     RESOURCE_CATEGORY_ORDER,
     STATE_ORDER,
     TIER_ORDER,
@@ -16,6 +17,7 @@ VALID_RESOURCE_CATEGORIES = set(RESOURCE_CATEGORY_ORDER)
 DEFAULT_VALID_TIERS = set(TIER_ORDER)
 
 VALID_WYRMSPELL_TYPES = {"Breach", "Refuge", "Wildcry", "Dragon's Call"}
+VALID_RELIC_TYPES = set(RELIC_TYPE_ORDER)
 
 
 def validate_data(label, data, required_fields, is_update=False, identity_key="name"):
@@ -166,6 +168,18 @@ def validate_data(label, data, required_fields, is_update=False, identity_key="n
         artifacts = _normalize_string_list(data.get("recommended_artifacts"))
         if len(artifacts) == 0:
             raise ValueError("Faction must include at least one recommended artifact.")
+
+    if label == "relic":
+        if data.get("type") and data["type"] not in VALID_RELIC_TYPES:
+            raise ValueError(
+                "Invalid relic type. "
+                f"Expected one of: {', '.join(RELIC_TYPE_ORDER)}"
+            )
+        if data.get("quality") and data["quality"] not in VALID_CHARACTER_QUALITIES:
+            raise ValueError(
+                "Invalid relic quality. "
+                f"Expected one of: {', '.join(sorted(VALID_CHARACTER_QUALITIES))}"
+            )
 
     if label == "subclass" and not is_update:
         if not (data.get("class") or data.get("character_class")):

@@ -21,6 +21,7 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   '/wyrmspells': 'violet',
   '/resources': 'green',
   '/subclasses': 'grape',
+  '/relics': 'yellow',
 
   // Guides
   '/guides/beginner-qa': 'teal',
@@ -64,6 +65,10 @@ export function getAccentForPath(path: string): SectionAccent {
 
   if (path.startsWith('/gear-sets/')) {
     return 'cyan';
+  }
+
+  if (path.startsWith('/relics/')) {
+    return 'yellow';
   }
 
   // Check for team page (dynamic route)
