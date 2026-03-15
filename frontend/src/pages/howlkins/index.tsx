@@ -438,8 +438,9 @@ export default function Howlkins() {
                       return (
                         <Paper
                           key={howlkin.name}
-                          component={allianceSlug ? Link : undefined}
-                          to={allianceSlug ? `/howlkins/${allianceSlug}` : undefined}
+                          {...(allianceSlug
+                            ? { component: Link, to: `/howlkins/${allianceSlug}` }
+                            : ({} as { component?: typeof Link; to: string }))}
                           p="sm"
                           radius="md"
                           withBorder
@@ -594,8 +595,9 @@ export default function Howlkins() {
                               </Table.Td>
                               <Table.Td>
                                 <Text
-                                  component={allianceSlug ? Link : undefined}
-                                  to={allianceSlug ? `/howlkins/${allianceSlug}` : undefined}
+                                  {...(allianceSlug
+                                    ? { component: Link, to: `/howlkins/${allianceSlug}` }
+                                    : ({} as { component?: typeof Link; to: string }))}
                                   fw={600}
                                   size="sm"
                                   c={allianceSlug ? `${accent.primary}.7` : undefined}

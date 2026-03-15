@@ -153,7 +153,9 @@ export default function GoldenAllianceDetailPage() {
               {alliance.howlkins.length !== 1 ? 's' : ''}
             </Badge>
           </Group>
-          <LastUpdated timestamp={alliance.last_updated} />
+          {alliance.last_updated !== undefined && (
+            <LastUpdated timestamp={alliance.last_updated} />
+          )}
         </Stack>
       </DetailPageHero>
 

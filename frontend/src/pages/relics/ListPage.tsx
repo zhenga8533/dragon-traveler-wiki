@@ -368,11 +368,8 @@ export default function RelicPage() {
                         <Paper
                           key={item.name}
                           {...(scrollSlug
-                            ? {
-                                component: Link,
-                                to: `/oracle-scrolls/${scrollSlug}`,
-                              }
-                            : {})}
+                            ? { component: Link, to: `/oracle-scrolls/${scrollSlug}` }
+                            : ({} as { component?: typeof Link; to: string }))}
                           p="md"
                           radius="md"
                           withBorder
