@@ -220,7 +220,7 @@ export default function ArtifactPage() {
   }
 
   const iconSrc = getArtifactIcon(artifact.name);
-  const qualityColor = QUALITY_COLOR[artifact.quality] ?? 'gray';
+  const qualityColor = QUALITY_COLOR[artifact.quality];
 
   return (
     <Box>

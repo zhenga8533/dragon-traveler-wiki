@@ -333,7 +333,7 @@ export default function MythicSummonCalculator() {
         >
           <Alert
             variant="light"
-            color="blue"
+            color={accent.primary}
             title="About this calculator"
             icon={<IoInformationCircleOutline />}
           >
@@ -407,7 +407,7 @@ export default function MythicSummonCalculator() {
             {Object.entries(reverseResults).length > 0 && (
               <Stack gap="xs">
                 {Object.entries(reverseResults).map(([resource, summons]) => (
-                  <Alert key={resource} variant="light" color="blue" p="sm">
+                  <Alert key={resource} variant="light" color={accent.primary} p="sm">
                     <Group justify="space-between" wrap="nowrap">
                       <Text size="sm">
                         <ResourceBadge name={resource} size="xs" /> need{' '}

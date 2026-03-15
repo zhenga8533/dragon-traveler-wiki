@@ -14,6 +14,7 @@ import RichText from '@/components/ui/RichText';
 import { getCardHoverProps } from '@/constants/styles';
 import type { Character } from '@/features/characters/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import { useGradientAccent } from '@/hooks';
 
 interface CharacterPageSkillsSectionProps {
 	character: Character;
@@ -32,6 +33,7 @@ export default function CharacterPageSkillsSection({
 	scrollToSkill,
 	scrollToTalent,
 }: CharacterPageSkillsSectionProps) {
+	const { accent } = useGradientAccent();
 	const talent = character.talent;
 	const talentLevels = talent?.talent_levels ?? [];
 
@@ -73,7 +75,7 @@ export default function CharacterPageSkillsSection({
 							{talentLevels.map((talentLevel, idx) => (
 								<Box key={talentLevel.level}>
 									<Group gap="xs" mb="xs">
-										<Badge variant="filled" color="blue">
+										<Badge variant="filled" color={accent.primary}>
 											Level {talentLevel.level}
 										</Badge>
 									</Group>
@@ -138,7 +140,7 @@ export default function CharacterPageSkillsSection({
 															{skill.name}
 														</Text>
 														{skill.type && (
-															<Badge size="lg" variant="light" color="grape">
+															<Badge size="lg" variant="light" color={accent.secondary}>
 																{skill.type}
 															</Badge>
 														)}
@@ -148,7 +150,7 @@ export default function CharacterPageSkillsSection({
 													<Badge
 														size="lg"
 														variant={skill.cooldown === 0 ? 'light' : 'filled'}
-														color={skill.cooldown === 0 ? 'gray' : 'blue'}
+														color={skill.cooldown === 0 ? 'gray' : accent.primary}
 													>
 														{skill.cooldown === 0
 															? 'Passive'

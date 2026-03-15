@@ -585,7 +585,7 @@ export function AvailablePool({
       withBorder
       {...getCardHoverProps({
         style: {
-          borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
+          borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
           borderWidth: isOver ? 2 : undefined,
           transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
         },
@@ -637,7 +637,7 @@ export function BenchDropItem({
       ref={setItemNodeRef}
       style={{
         borderRadius: 'var(--mantine-radius-md)',
-        outline: isOverItem ? '2px solid var(--mantine-color-blue-5)' : 'none',
+        outline: isOverItem ? '2px solid var(--mantine-primary-color-5)' : 'none',
         outlineOffset: 2,
         transition: `outline-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
       }}
@@ -878,7 +878,7 @@ export function BenchPool({
       withBorder
       {...getCardHoverProps({
         style: {
-          borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
+          borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
           borderWidth: isOver ? 2 : undefined,
           transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
         },

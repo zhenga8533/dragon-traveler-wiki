@@ -420,7 +420,7 @@ export function ChangeRecordCard({
           {fieldNames.map((fieldName) => {
             const diff = fields[fieldName];
             const summary = summarizeFieldDiff(diff);
-            const kindColor = KIND_COLOR[summary.kind] ?? 'gray';
+            const kindColor = KIND_COLOR[summary.kind];
 
             return (
               <Paper

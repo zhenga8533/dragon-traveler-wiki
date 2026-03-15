@@ -365,7 +365,7 @@ export default function StarUpgradeCalculator() {
         >
           <Alert
             variant="light"
-            color="blue"
+            color={accent.primary}
             icon={<IoInformationCircleOutline />}
             title="How to use"
           >
@@ -445,13 +445,13 @@ export default function StarUpgradeCalculator() {
                     icon={<IoCopy size={16} />}
                     title="5-Star Copies"
                     value={copiesNeeded}
-                    color="blue"
+                    color={accent.primary}
                   />
                   <StatCard
                     icon={<IoPeople size={16} />}
                     title="6-Star Fodder"
                     value={fodderNeeded}
-                    color="grape"
+                    color={accent.secondary}
                   />
                   {divineCrystalsNeeded > 0 && (
                     <StatCard
@@ -806,7 +806,7 @@ export default function StarUpgradeCalculator() {
                                 </Badge>
                               )}
                               {inRange && !isTarget && (
-                                <Badge color="blue" variant="dot">
+                                <Badge color={accent.primary} variant="dot">
                                   In path
                                 </Badge>
                               )}

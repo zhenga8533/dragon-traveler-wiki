@@ -2,7 +2,7 @@ import { Box, Collapse, Group, Paper, UnstyledButton } from '@mantine/core';
 import { useCallback, useState, type ReactNode } from 'react';
 import { IoChevronDown } from 'react-icons/io5';
 import { getCardHoverProps } from '@/constants/styles';
-import { IMAGE_SIZE, NAV_ITEM_HEIGHT } from '@/constants/ui';
+import { IMAGE_SIZE, NAV_ITEM_HEIGHT, TRANSITION } from '@/constants/ui';
 
 interface CollapsibleSectionCardProps {
   header: ReactNode;
@@ -38,7 +38,7 @@ export default function CollapsibleSectionCard({
             aria-hidden="true"
             style={{
               display: 'inline-flex',
-              transition: 'transform 150ms ease',
+              transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
               transform: opened ? 'rotate(180deg)' : 'rotate(0deg)',
               color: 'var(--mantine-color-dimmed)',
             }}

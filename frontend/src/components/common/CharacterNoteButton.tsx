@@ -79,13 +79,13 @@ function CharacterNoteButton({
               styles={{
                 root: {
                   background: hasNote
-                    ? `linear-gradient(135deg, var(--mantine-color-${accent.primary}-6) 0%, var(--mantine-color-${accent.secondary}-6) 100%)`
+                    ? `linear-gradient(135deg, var(--mantine-primary-color-6) 0%, var(--mantine-color-${accent.secondary}-6) 100%)`
                     : 'var(--mantine-color-body)',
                   color: hasNote
                     ? 'var(--mantine-color-white)'
-                    : `var(--mantine-color-${accent.primary}-filled)`,
+                    : 'var(--mantine-primary-color-filled)',
                   border: hasNote
-                    ? `1px solid var(--mantine-color-${accent.primary}-4)`
+                    ? '1px solid var(--mantine-primary-color-4)'
                     : '1px solid var(--mantine-color-default-border)',
                   boxShadow: hasNote
                     ? 'var(--mantine-shadow-sm)'
@@ -98,7 +98,7 @@ function CharacterNoteButton({
                     'background 140ms ease, color 140ms ease, border-color 140ms ease, box-shadow 140ms ease, transform 140ms ease, opacity 140ms ease',
                   '&:hover': {
                     background: hasNote
-                      ? `linear-gradient(135deg, var(--mantine-color-${accent.primary}-7) 0%, var(--mantine-color-${accent.secondary}-7) 100%)`
+                      ? `linear-gradient(135deg, var(--mantine-primary-color-7) 0%, var(--mantine-color-${accent.secondary}-7) 100%)`
                       : 'var(--mantine-color-default-hover)',
                     boxShadow: hasNote
                       ? 'var(--mantine-shadow-md)'
@@ -158,7 +158,7 @@ function CharacterNoteButton({
               maxWidth: 220,
               lineHeight: 1.35,
               borderColor: draftValue
-                ? `var(--mantine-color-${accent.primary}-4)`
+                ? 'var(--mantine-primary-color-4)'
                 : 'var(--mantine-color-default-border)',
               backgroundColor: 'var(--mantine-color-body)',
               opacity: draftValue ? 1 : 0.9,

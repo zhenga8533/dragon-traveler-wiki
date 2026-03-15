@@ -145,7 +145,7 @@ export function DraggableCharCard({
         ...style,
         outline:
           isOver && !overlay
-            ? '2px solid var(--mantine-color-blue-5)'
+            ? '2px solid var(--mantine-primary-color-5)'
             : undefined,
         borderRadius: 'var(--mantine-radius-xs)',
       }}
@@ -191,6 +191,7 @@ export function TierDropZone({
   children: React.ReactNode;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id });
+  const { accent } = useGradientAccent();
 
   return (
     <Paper
@@ -232,7 +233,7 @@ export function TierDropZone({
                 size="sm"
                 radius="md"
                 variant="light"
-                color="blue"
+                color={accent.primary}
                 onClick={onMoveUp}
                 disabled={isFirst}
                 aria-label="Move tier up"
@@ -249,7 +250,7 @@ export function TierDropZone({
                 size="sm"
                 radius="md"
                 variant="light"
-                color="blue"
+                color={accent.primary}
                 onClick={onMoveDown}
                 disabled={isLast}
                 aria-label="Move tier down"
@@ -307,7 +308,6 @@ export function TierNotePopover({
   editorMaxWidth?: number;
   align?: 'left' | 'center';
 }) {
-  const { accent } = useGradientAccent();
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -387,14 +387,15 @@ export function TierNotePopover({
         >
           <Text
             size="xs"
-            c={value ? `${accent.primary}.6` : 'dimmed'}
+            c={value ? undefined : 'dimmed'}
             lineClamp={1}
             style={{
+              color: value ? 'var(--mantine-primary-color-6)' : undefined,
               opacity: value ? 1 : 0.5,
               transition:
                 'color 140ms ease, opacity 140ms ease, text-shadow 140ms ease',
               textShadow: value
-                ? `0 0 0.5px var(--mantine-color-${accent.primary}-outline)`
+                ? '0 0 0.5px var(--mantine-primary-color-outline)'
                 : 'none',
             }}
           >
@@ -434,7 +435,7 @@ export function TierNotePopover({
               opacity: draftValue ? 1 : 0.9,
               backgroundColor: 'var(--mantine-color-body)',
               borderColor: draftValue
-                ? `var(--mantine-color-${accent.primary}-4)`
+                ? 'var(--mantine-primary-color-4)'
                 : 'var(--mantine-color-default-border)',
               whiteSpace: 'pre-wrap',
               overflowWrap: 'anywhere',
@@ -466,7 +467,7 @@ export function UnrankedPool({
       withBorder
       {...getCardHoverProps({
         style: {
-          borderColor: isOver ? 'var(--mantine-color-blue-5)' : undefined,
+          borderColor: isOver ? 'var(--mantine-primary-color-5)' : undefined,
           borderWidth: isOver ? 2 : undefined,
           transition: `border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
         },

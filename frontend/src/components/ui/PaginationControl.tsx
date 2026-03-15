@@ -1,7 +1,7 @@
 import { useIsMobile } from '@/hooks';
 import { ActionIcon, Group, Paper, Select, Stack, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { FaChevronLeft, FaChevronRight } from 'react-icons/fa';
+import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 
 function LabelText({ children }: { children: ReactNode }) {
   return (
@@ -151,7 +151,7 @@ export default function PaginationControl({
                     disabled={currentPage <= 1}
                     aria-label="Previous page"
                   >
-                    <FaChevronLeft size={14} />
+                    <IoChevronBack size={14} />
                   </ActionIcon>
 
                   <Stack
@@ -183,7 +183,7 @@ export default function PaginationControl({
                     disabled={currentPage >= totalPages}
                     aria-label="Next page"
                   >
-                    <FaChevronRight size={14} />
+                    <IoChevronForward size={14} />
                   </ActionIcon>
                 </Group>
               )}

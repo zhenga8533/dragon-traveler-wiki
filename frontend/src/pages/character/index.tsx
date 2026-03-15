@@ -1,4 +1,5 @@
 import {
+  ActionIcon,
   Alert,
   Badge,
   Box,
@@ -17,7 +18,11 @@ import {
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useState } from 'react';
-import { RiZoomInLine } from 'react-icons/ri';
+import {
+  IoChevronBack,
+  IoChevronForward,
+  IoExpand,
+} from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
 import { getPortrait } from '@/assets/character';
 import { getSubclassIcon } from '@/assets/subclass';
@@ -30,7 +35,7 @@ import TierBadge from '@/features/tier-list/components/TierBadge';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import { getCardHoverProps } from '@/constants/styles';
 import { BREAKPOINTS } from '@/constants/ui';
-import { useCharacterAssets, useMobileTooltip } from '@/hooks';
+import { useCharacterAssets, useGradientAccent, useMobileTooltip } from '@/hooks';
 import {
   getCharacterNavPaths,
   useCharacterPageData,
@@ -43,6 +48,7 @@ import CharacterVariantSelector from '@/features/characters/components/Character
 
 export default function CharacterPage() {
   const tooltipProps = useMobileTooltip();
+  const { accent } = useGradientAccent();
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
   const { name } = useParams<{ name: string }>();
 
@@ -204,12 +210,38 @@ export default function CharacterPage() {
                           <Text fw={600} size="sm">
                             Illustrations
                           </Text>
-                          {activeIllustrationIndex >= 0 && (
-                            <Text size="xs" c="dimmed">
-                              {activeIllustrationIndex + 1}/
-                              {illustrations.length}
-                            </Text>
-                          )}
+                          {activeIllustrationIndex >= 0 &&
+                            (hasMultipleIllustrations ? (
+                              <Group gap={2} align="center">
+                                <ActionIcon
+                                  onClick={showPreviousIllustration}
+                                  variant="subtle"
+                                  color={accent.primary}
+                                  size="sm"
+                                  aria-label="Previous illustration"
+                                >
+                                  <IoChevronBack />
+                                </ActionIcon>
+                                <Text size="xs" c="dimmed">
+                                  {activeIllustrationIndex + 1}/
+                                  {illustrations.length}
+                                </Text>
+                                <ActionIcon
+                                  onClick={showNextIllustration}
+                                  variant="subtle"
+                                  color={accent.primary}
+                                  size="sm"
+                                  aria-label="Next illustration"
+                                >
+                                  <IoChevronForward />
+                                </ActionIcon>
+                              </Group>
+                            ) : (
+                              <Text size="xs" c="dimmed">
+                                {activeIllustrationIndex + 1}/
+                                {illustrations.length}
+                              </Text>
+                            ))}
                         </Group>
                         <UnstyledButton
                           onClick={() => setPreviewOpen(true)}
@@ -226,7 +258,6 @@ export default function CharacterPage() {
                             <Box
                               component="video"
                               src={activeIllustration.src}
-                              controls
                               style={{
                                 width: '100%',
                                 maxHeight: 420,
@@ -276,9 +307,9 @@ export default function CharacterPage() {
                               </Text>
                             </Stack>
                             <Badge
-                              leftSection={<RiZoomInLine />}
+                              leftSection={<IoExpand />}
                               variant="light"
-                              color="gray"
+                              color={accent.primary}
                               size={isDesktop ? 'md' : 'lg'}
                             >
                               View

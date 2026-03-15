@@ -10,7 +10,6 @@ import {
   useMemo,
   useState,
   type ComponentType,
-  type CSSProperties,
 } from 'react';
 import {
   IoBook,
@@ -116,13 +115,13 @@ const getIconColor = (accent: string, isActive: boolean) =>
   `var(--mantine-color-${accent}-${isActive ? '6' : '5'})`;
 
 const renderNavIcon = (
-  Icon: ComponentType<{ size?: number; style?: CSSProperties }>,
+  Icon: ComponentType<{ size?: number; color?: string }>,
   accent: string,
   isActive: boolean
 ) => (
   <Icon
     size={IMAGE_SIZE.ICON_LG}
-    style={{ color: getIconColor(accent, isActive) }}
+    color={getIconColor(accent, isActive)}
   />
 );
 

@@ -149,8 +149,8 @@ export default function HomeHeroSection() {
                   fw={700}
                   style={{
                     color: isDark
-                      ? `var(--mantine-color-${accent.primary}-1)`
-                      : `var(--mantine-color-${accent.primary}-8)`,
+                      ? 'var(--mantine-primary-color-1)'
+                      : 'var(--mantine-primary-color-8)',
                   }}
                 >
                   community-driven

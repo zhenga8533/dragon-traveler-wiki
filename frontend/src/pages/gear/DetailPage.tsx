@@ -213,7 +213,7 @@ export default function GearSetPage() {
   }
 
   const setBonus = setData?.set_bonus ?? setItems[0]?.set_bonus;
-  const qualityColor = QUALITY_COLOR[setItems[0].quality] ?? 'grape';
+  const qualityColor = QUALITY_COLOR[setItems[0].quality];
   const latestItemTimestamp = setItems.reduce(
     (latest, item) => Math.max(latest, item.last_updated ?? 0),
     0

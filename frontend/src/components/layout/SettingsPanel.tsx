@@ -1,6 +1,6 @@
 import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { normalizeContentType } from '@/constants/content-types';
-import { Z_INDEX } from '@/constants/ui';
+import { TRANSITION, Z_INDEX } from '@/constants/ui';
 import type { GradientPalette } from '@/contexts';
 import {
   BannerContext,
@@ -191,17 +191,16 @@ export default function SettingsPanel() {
                       background: p.gradient,
                       border: `2px solid ${
                         palette === p.value
-                          ? `var(--mantine-color-${accent.primary}-5)`
+                          ? 'var(--mantine-primary-color-5)'
                           : 'transparent'
                       }`,
                       outline:
                         palette === p.value
-                          ? `2px solid var(--mantine-color-${accent.primary}-6)`
+                          ? '2px solid var(--mantine-primary-color-6)'
                           : 'none',
                       outlineOffset: 1,
                       cursor: 'pointer',
-                      transition:
-                        'transform 150ms ease, border-color 150ms ease',
+                      transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
                     }}
                     onMouseEnter={(e) => {
                       if (palette !== p.value)

@@ -446,6 +446,136 @@
   --dt-focus-ring: rgba(249, 168, 212, 0.54);
 }
 
+/* ==============================================
+   MANTINE PRIMARY COLOR OVERRIDES PER PALETTE
+   Mantine sets --mantine-primary-color-* via a <style> tag on :root.
+   Attribute selectors on <html> have higher specificity and override them,
+   making all Mantine components (focus rings, filled/light variants, etc.)
+   automatically follow the selected palette without needing explicit color props.
+   Violet (default) is already correct via theme.ts primaryColor: 'violet'.
+   ============================================== */
+
+/* ocean + frost → primary: blue */
+[data-gradient-palette='ocean'],
+[data-gradient-palette='frost'] {
+  --mantine-primary-color-0: var(--mantine-color-blue-0);
+  --mantine-primary-color-1: var(--mantine-color-blue-1);
+  --mantine-primary-color-2: var(--mantine-color-blue-2);
+  --mantine-primary-color-3: var(--mantine-color-blue-3);
+  --mantine-primary-color-4: var(--mantine-color-blue-4);
+  --mantine-primary-color-5: var(--mantine-color-blue-5);
+  --mantine-primary-color-6: var(--mantine-color-blue-6);
+  --mantine-primary-color-7: var(--mantine-color-blue-7);
+  --mantine-primary-color-8: var(--mantine-color-blue-8);
+  --mantine-primary-color-9: var(--mantine-color-blue-9);
+  --mantine-primary-color-filled: var(--mantine-color-blue-filled);
+  --mantine-primary-color-filled-hover: var(--mantine-color-blue-filled-hover);
+  --mantine-primary-color-light: var(--mantine-color-blue-light);
+  --mantine-primary-color-light-hover: var(--mantine-color-blue-light-hover);
+  --mantine-primary-color-light-color: var(--mantine-color-blue-light-color);
+  --mantine-primary-color-contrast: var(--mantine-color-blue-contrast);
+}
+
+/* sunset → primary: orange */
+[data-gradient-palette='sunset'] {
+  --mantine-primary-color-0: var(--mantine-color-orange-0);
+  --mantine-primary-color-1: var(--mantine-color-orange-1);
+  --mantine-primary-color-2: var(--mantine-color-orange-2);
+  --mantine-primary-color-3: var(--mantine-color-orange-3);
+  --mantine-primary-color-4: var(--mantine-color-orange-4);
+  --mantine-primary-color-5: var(--mantine-color-orange-5);
+  --mantine-primary-color-6: var(--mantine-color-orange-6);
+  --mantine-primary-color-7: var(--mantine-color-orange-7);
+  --mantine-primary-color-8: var(--mantine-color-orange-8);
+  --mantine-primary-color-9: var(--mantine-color-orange-9);
+  --mantine-primary-color-filled: var(--mantine-color-orange-filled);
+  --mantine-primary-color-filled-hover: var(--mantine-color-orange-filled-hover);
+  --mantine-primary-color-light: var(--mantine-color-orange-light);
+  --mantine-primary-color-light-hover: var(--mantine-color-orange-light-hover);
+  --mantine-primary-color-light-color: var(--mantine-color-orange-light-color);
+  --mantine-primary-color-contrast: var(--mantine-color-orange-contrast);
+}
+
+/* forest → primary: green */
+[data-gradient-palette='forest'] {
+  --mantine-primary-color-0: var(--mantine-color-green-0);
+  --mantine-primary-color-1: var(--mantine-color-green-1);
+  --mantine-primary-color-2: var(--mantine-color-green-2);
+  --mantine-primary-color-3: var(--mantine-color-green-3);
+  --mantine-primary-color-4: var(--mantine-color-green-4);
+  --mantine-primary-color-5: var(--mantine-color-green-5);
+  --mantine-primary-color-6: var(--mantine-color-green-6);
+  --mantine-primary-color-7: var(--mantine-color-green-7);
+  --mantine-primary-color-8: var(--mantine-color-green-8);
+  --mantine-primary-color-9: var(--mantine-color-green-9);
+  --mantine-primary-color-filled: var(--mantine-color-green-filled);
+  --mantine-primary-color-filled-hover: var(--mantine-color-green-filled-hover);
+  --mantine-primary-color-light: var(--mantine-color-green-light);
+  --mantine-primary-color-light-hover: var(--mantine-color-green-light-hover);
+  --mantine-primary-color-light-color: var(--mantine-color-green-light-color);
+  --mantine-primary-color-contrast: var(--mantine-color-green-contrast);
+}
+
+/* ember → primary: red */
+[data-gradient-palette='ember'] {
+  --mantine-primary-color-0: var(--mantine-color-red-0);
+  --mantine-primary-color-1: var(--mantine-color-red-1);
+  --mantine-primary-color-2: var(--mantine-color-red-2);
+  --mantine-primary-color-3: var(--mantine-color-red-3);
+  --mantine-primary-color-4: var(--mantine-color-red-4);
+  --mantine-primary-color-5: var(--mantine-color-red-5);
+  --mantine-primary-color-6: var(--mantine-color-red-6);
+  --mantine-primary-color-7: var(--mantine-color-red-7);
+  --mantine-primary-color-8: var(--mantine-color-red-8);
+  --mantine-primary-color-9: var(--mantine-color-red-9);
+  --mantine-primary-color-filled: var(--mantine-color-red-filled);
+  --mantine-primary-color-filled-hover: var(--mantine-color-red-filled-hover);
+  --mantine-primary-color-light: var(--mantine-color-red-light);
+  --mantine-primary-color-light-hover: var(--mantine-color-red-light-hover);
+  --mantine-primary-color-light-color: var(--mantine-color-red-light-color);
+  --mantine-primary-color-contrast: var(--mantine-color-red-contrast);
+}
+
+/* dusk → primary: teal */
+[data-gradient-palette='dusk'] {
+  --mantine-primary-color-0: var(--mantine-color-teal-0);
+  --mantine-primary-color-1: var(--mantine-color-teal-1);
+  --mantine-primary-color-2: var(--mantine-color-teal-2);
+  --mantine-primary-color-3: var(--mantine-color-teal-3);
+  --mantine-primary-color-4: var(--mantine-color-teal-4);
+  --mantine-primary-color-5: var(--mantine-color-teal-5);
+  --mantine-primary-color-6: var(--mantine-color-teal-6);
+  --mantine-primary-color-7: var(--mantine-color-teal-7);
+  --mantine-primary-color-8: var(--mantine-color-teal-8);
+  --mantine-primary-color-9: var(--mantine-color-teal-9);
+  --mantine-primary-color-filled: var(--mantine-color-teal-filled);
+  --mantine-primary-color-filled-hover: var(--mantine-color-teal-filled-hover);
+  --mantine-primary-color-light: var(--mantine-color-teal-light);
+  --mantine-primary-color-light-hover: var(--mantine-color-teal-light-hover);
+  --mantine-primary-color-light-color: var(--mantine-color-teal-light-color);
+  --mantine-primary-color-contrast: var(--mantine-color-teal-contrast);
+}
+
+/* blossom → primary: pink */
+[data-gradient-palette='blossom'] {
+  --mantine-primary-color-0: var(--mantine-color-pink-0);
+  --mantine-primary-color-1: var(--mantine-color-pink-1);
+  --mantine-primary-color-2: var(--mantine-color-pink-2);
+  --mantine-primary-color-3: var(--mantine-color-pink-3);
+  --mantine-primary-color-4: var(--mantine-color-pink-4);
+  --mantine-primary-color-5: var(--mantine-color-pink-5);
+  --mantine-primary-color-6: var(--mantine-color-pink-6);
+  --mantine-primary-color-7: var(--mantine-color-pink-7);
+  --mantine-primary-color-8: var(--mantine-color-pink-8);
+  --mantine-primary-color-9: var(--mantine-color-pink-9);
+  --mantine-primary-color-filled: var(--mantine-color-pink-filled);
+  --mantine-primary-color-filled-hover: var(--mantine-color-pink-filled-hover);
+  --mantine-primary-color-light: var(--mantine-color-pink-light);
+  --mantine-primary-color-light-hover: var(--mantine-color-pink-light-hover);
+  --mantine-primary-color-light-color: var(--mantine-color-pink-light-color);
+  --mantine-primary-color-contrast: var(--mantine-color-pink-contrast);
+}
+
 /* Portrait hover — declarative CSS replacement for JS onMouseEnter/onMouseLeave */
 .portrait-hover {
   transition:

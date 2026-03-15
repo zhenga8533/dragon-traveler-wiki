@@ -667,7 +667,7 @@ export default function SearchModal({
       ) : isMobile ? (
         <Tooltip label={searchShortcutHint} position="bottom" withArrow>
           <ActionIcon
-            variant="subtle"
+            variant="default"
             color={accent.primary}
             size="xl"
             onClick={open}
@@ -695,10 +695,8 @@ export default function SearchModal({
         >
           <IoSearch
             size={IMAGE_SIZE.ICON_MD}
-            style={{
-              color: `var(--mantine-color-${accent.primary}-6)`,
-              flexShrink: 0,
-            }}
+            color={`var(--mantine-color-${accent.primary}-6)`}
+            style={{ flexShrink: 0 }}
           />
           <Text size="sm" c="dimmed" style={{ flex: 1, userSelect: 'none' }}>
             Search...
@@ -750,9 +748,7 @@ export default function SearchModal({
               leftSection={
                 <IoSearch
                   size={IMAGE_SIZE.ICON_LG}
-                  style={{
-                    color: `var(--mantine-color-${accent.primary}-6)`,
-                  }}
+                  color={`var(--mantine-color-${accent.primary}-6)`}
                 />
               }
               rightSection={

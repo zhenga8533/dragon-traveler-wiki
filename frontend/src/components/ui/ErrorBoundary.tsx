@@ -77,7 +77,6 @@ export default class ErrorBoundary extends Component<
                 to="/"
                 leftSection={<IoHome size={16} />}
                 variant="light"
-                color="grape"
               >
                 Go home
               </Button>

@@ -12,7 +12,6 @@ import {
 	Title,
 	Tooltip,
 } from '@mantine/core';
-import { RiDoubleQuotesL } from 'react-icons/ri';
 import { Link } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '@/assets/noble_phantasm';
 import ClassTag from '@/features/characters/components/ClassTag';
@@ -106,14 +105,14 @@ export default function CharacterPageBuildSection({
 								<Group gap="sm" align="flex-start" wrap="nowrap">
 									<Box
 										style={{
-											color: `var(--mantine-color-${accent.primary}-6)`,
+											color: 'var(--mantine-primary-color-6)',
 											fontSize: 28,
 											lineHeight: 1,
 											paddingTop: 2,
 										}}
 										aria-hidden="true"
 									>
-										<RiDoubleQuotesL />
+										{'\u201C'}
 									</Box>
 									<Stack gap={4}>
 										<Text fs="italic" size="sm" style={{ lineHeight: 1.7 }}>

@@ -6,6 +6,7 @@ import { POPOVER_MAX_WIDTH } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
 import type { Skill, Talent } from '@/features/characters/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import { useGradientAccent } from '@/hooks';
 import { splitEffectRefs } from '@/utils/parse-effect-refs';
 import ResourceBadge from '@/features/characters/components/ResourceBadge';
 import StatusEffectBadge from '@/features/wiki/status-effects/components/StatusEffectBadge';
@@ -114,6 +115,7 @@ export default function RichText({
 }: RichTextProps) {
   const segments = splitEffectRefs(text);
   const { resources } = useContext(ResourcesContext);
+  const { accent } = useGradientAccent();
   const talentLines = talent?.talent_levels.map(
     (level) => `Level ${level.level}: ${level.effect}`
   );
@@ -154,7 +156,7 @@ export default function RichText({
               <Badge
                 key={i}
                 variant="light"
-                color="grape"
+                color={accent.secondary}
                 size="sm"
                 component="span"
                 style={{ cursor: 'pointer' }}
@@ -169,7 +171,7 @@ export default function RichText({
               key={i}
               name={skill.name}
               label="Skill"
-              color="grape"
+              color={accent.secondary}
               description={skill.description}
             />
           );
@@ -181,7 +183,7 @@ export default function RichText({
               <Badge
                 key={i}
                 variant="light"
-                color="indigo"
+                color={accent.tertiary}
                 size="sm"
                 component="span"
                 style={{ cursor: 'pointer' }}
@@ -196,7 +198,7 @@ export default function RichText({
               key={i}
               name={talent.name}
               label="Talent"
-              color="indigo"
+              color={accent.tertiary}
               lines={talentLines}
             />
           );
