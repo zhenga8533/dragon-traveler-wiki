@@ -1,13 +1,5 @@
 [
   {
-    "name": "Coin of Augustus",
-    "oracle_sroll": "Shrine of the Love Goddess",
-    "lore": "One of the most representative gold coins of the Roman Empire, it originally weighed approximately 7.8 grams before later being reduced to about 4.5 grams. It was first introduced by Julius Caesar and became widely used during the reign of Augustus (27 BC-AD 14).",
-    "type": "Sanctuary Relic",
-    "quality": "SSR+",
-    "last_updated": 1773598546
-  },
-  {
     "name": "Viking Round Shield",
     "oracle_sroll": "Royal Routine",
     "lore": "Excavated in 1880 from the Gokstad ship burial in Norway, this round shield measures approximately 92 centimeters in diameter, with edges thinner than its center. Its shape prevented warriors from striking their legs while running and also provided protection against volleys of arrows.",
@@ -16,25 +8,9 @@
     "last_updated": 1773598546
   },
   {
-    "name": "Caesar Bust",
-    "oracle_sroll": "Shrine of the Love Goddess",
-    "lore": "Unearthed in the coastal city of Cádiz, Spain, and dating back 2,000 years, this vessel was commonly used by Romans to transport wine, olive oil, honey, dried fish, and other goods. It was also used to store ashes, bitumen, or perfume.",
-    "type": "Legendary Ritual Vessel",
-    "quality": "SSR+",
-    "last_updated": 1773598546
-  },
-  {
     "name": "Edda Manuscript",
     "oracle_sroll": "Royal Routine",
     "lore": "In 1643, scholar Svensson discovered manuscripts of the poetic Edda, composed between the 9th and 13th centuries AD. These texts preserve both the myths of the Norse gods and the histories of human heroes and rulers.",
-    "type": "Legendary Ritual Vessel",
-    "quality": "SSR+",
-    "last_updated": 1773598546
-  },
-  {
-    "name": "Roman Amphora",
-    "oracle_sroll": "Shrine of the Love Goddess",
-    "lore": "Unearthed at the ruins of Tusculum in Italy and now displayed in the Louvre, this bust is the only surviving statue believed to have been created during Caesar's lifetime. Unlike typical depictions of rulers, it portrays Caesar in the role of a general.",
     "type": "Legendary Ritual Vessel",
     "quality": "SSR+",
     "last_updated": 1773598546
@@ -56,33 +32,9 @@
     "last_updated": 1773598546
   },
   {
-    "name": "Capitoline Wolf Statue",
-    "oracle_sroll": "Shrine of the Love Goddess",
-    "lore": "Created around 480 BC by a disciple of the Etruscan sculptor Vulca, this work is now housed in the Capitoline Museums in Rome. The she-wolf's alert and imposing expression symbolizes the stern and resilient character of the ancient Roman people.",
-    "type": "Fated Relic",
-    "quality": "SSR+",
-    "last_updated": 1773598546
-  },
-  {
-    "name": "Cupid's Jewelry Box",
-    "oracle_sroll": "Shrine of the Love Goddess",
-    "lore": "This jewelry box was produced in 19th-century France during the reign of Napoleon III. The decoration on its lid depicts Cupid, the god of love, with intertwined wings and bow, symbolizing the entanglement of love and hatred in the world.",
-    "type": "Fated Relic",
-    "quality": "SSR+",
-    "last_updated": 1773598546
-  },
-  {
     "name": "Sif's Golden Hair",
     "oracle_sroll": "Royal Routine",
     "lore": "Hair was commonly included as a burial item in Viking graves and was considered to possess magical qualities, stored separately from the deceased. According to the Edda, Loki once cut off the long hair of the harvest goddess Sif while she slept. To atone for his offense, he commissioned dwarven craftsmen to create a wig for her.",
-    "type": "Fated Relic",
-    "quality": "SSR+",
-    "last_updated": 1773598546
-  },
-  {
-    "name": "Triumphal Wreath",
-    "oracle_sroll": "Shrine of the Love Goddess",
-    "lore": "This gold crown was produced during the rise of the Roman Republic and is now housed in the Kerameikos Museum in Athens. Laurel wreaths symbolized military victory in Rome and were worn by triumphant generals during victory parades.",
     "type": "Fated Relic",
     "quality": "SSR+",
     "last_updated": 1773598546
@@ -96,25 +48,9 @@
     "last_updated": 1773598546
   },
   {
-    "name": "Gallic Wars",
-    "oracle_sroll": "Shrine of the Love Goddess",
-    "lore": "Published in 51 BC and consisting of eight volumes, the first seven were written by Julius Caesar himself. The work promotes his military achievements, serving as political capital in his pursuit of supreme power.",
-    "type": "Symbol of Theocracy",
-    "quality": "SSR+",
-    "last_updated": 1773598546
-  },
-  {
     "name": "Loki's Hearthstone",
     "oracle_sroll": "Royal Routine",
     "lore": "Discovered in 1870 at St. Stephen's Church in northern England, this carving depicts the punishment of the god of deception. Local belief holds that after the gods learned of Loki's role in Balder's death, he was bound to a pillar, with serpent venom dripping onto his face and body as punishment.",
-    "type": "Symbol of Theocracy",
-    "quality": "SSR+",
-    "last_updated": 1773598546
-  },
-  {
-    "name": "Maimed Venus",
-    "oracle_sroll": "Shrine of the Love Goddess",
-    "lore": "This marble sculpture was created around 150 BC by the ancient Greek sculptor Alexandros. It was unearthed by a farmer on the island of Milos in February 1820 and is now housed in the Louvre.",
     "type": "Symbol of Theocracy",
     "quality": "SSR+",
     "last_updated": 1773598546
@@ -131,6 +67,70 @@
     "name": "Runestone of Punishment",
     "oracle_sroll": "Royal Routine",
     "lore": "Discovered in 1950 on the beach of Snaptun, Denmark, this stone carving, dated to around AD 1000, is believed to depict the face of Loki. According to the Prose Edda, Loki was punished for his mischief by having his lips sewn shut, which is why the carved face shows scarred lips.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Coin of Augustus",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "One of the most representative gold coins of the Roman Empire, it originally weighed approximately 7.8 grams before later being reduced to about 4.5 grams. It was first introduced by Julius Caesar and became widely used during the reign of Augustus (27 BC-AD 14).",
+    "type": "Sanctuary Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Caesar Bust",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "Unearthed in the coastal city of Cádiz, Spain, and dating back 2,000 years, this vessel was commonly used by Romans to transport wine, olive oil, honey, dried fish, and other goods. It was also used to store ashes, bitumen, or perfume.",
+    "type": "Legendary Ritual Vessel",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Roman Amphora",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "Unearthed at the ruins of Tusculum in Italy and now displayed in the Louvre, this bust is the only surviving statue believed to have been created during Caesar's lifetime. Unlike typical depictions of rulers, it portrays Caesar in the role of a general.",
+    "type": "Legendary Ritual Vessel",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Capitoline Wolf Statue",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "Created around 480 BC by a disciple of the Etruscan sculptor Vulca, this work is now housed in the Capitoline Museums in Rome. The she-wolf's alert and imposing expression symbolizes the stern and resilient character of the ancient Roman people.",
+    "type": "Fated Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Cupid's Jewelry Box",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "This jewelry box was produced in 19th-century France during the reign of Napoleon III. The decoration on its lid depicts Cupid, the god of love, with intertwined wings and bow, symbolizing the entanglement of love and hatred in the world.",
+    "type": "Fated Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Triumphal Wreath",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "This gold crown was produced during the rise of the Roman Republic and is now housed in the Kerameikos Museum in Athens. Laurel wreaths symbolized military victory in Rome and were worn by triumphant generals during victory parades.",
+    "type": "Fated Relic",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Gallic Wars",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "Published in 51 BC and consisting of eight volumes, the first seven were written by Julius Caesar himself. The work promotes his military achievements, serving as political capital in his pursuit of supreme power.",
+    "type": "Symbol of Theocracy",
+    "quality": "SSR+",
+    "last_updated": 1773598546
+  },
+  {
+    "name": "Maimed Venus",
+    "oracle_sroll": "Shrine of the Love Goddess",
+    "lore": "This marble sculpture was created around 150 BC by the ancient Greek sculptor Alexandros. It was unearthed by a farmer on the island of Milos in February 1820 and is now housed in the Louvre.",
     "type": "Symbol of Theocracy",
     "quality": "SSR+",
     "last_updated": 1773598546

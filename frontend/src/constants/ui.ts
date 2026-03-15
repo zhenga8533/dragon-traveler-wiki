@@ -91,6 +91,7 @@ export const DETAIL_ROUTE_PATTERNS = [
   /^\/characters\/.+/,
   /^\/gear-sets\/.+/,
   /^\/noble-phantasms\/.+/,
+  /^\/oracle-scrolls\/.+/,
   /^\/teams\/.+/,
 ];
 

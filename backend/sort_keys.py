@@ -138,6 +138,7 @@ def gear_set_sort_key(gs):
     return (gs.get("name") or "").lower()
 
 
+
 RELIC_TYPE_ORDER = [
     "Sanctuary Relic",
     "Legendary Ritual Vessel",
@@ -150,6 +151,7 @@ RELIC_TYPE_RANK = {t: i for i, t in enumerate(RELIC_TYPE_ORDER)}
 def relic_sort_key(r):
     return (
         QUALITY_RANK.get(r.get("quality", ""), _FALLBACK),
+        (r.get("oracle_sroll") or "").lower(),
         RELIC_TYPE_RANK.get(r.get("type", ""), _FALLBACK),
         (r.get("name") or "").lower(),
     )

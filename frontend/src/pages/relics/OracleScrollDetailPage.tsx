@@ -19,6 +19,7 @@ import {
   toEntitySlug,
 } from '@/utils/entity-slug';
 import {
+  Badge,
   Box,
   Container,
   Group,
@@ -105,13 +106,11 @@ export default function OracleScrollDetailPage() {
     [scrollRelics]
   );
 
-  // Derive a hero quality color from the highest-quality relic in this scroll
+  // All relics in a scroll share the same quality — use the first one for the hero color
   const heroQualityColor = useMemo(() => {
     if (!scrollRelics.length) return accent.primary;
     return QUALITY_COLOR[scrollRelics[0].quality] ?? accent.primary;
   }, [scrollRelics, accent.primary]);
-
-  const illustrationSrc = getOracleScrollImage(decodedScrollName);
 
   if (loading) {
     return (
@@ -132,6 +131,8 @@ export default function OracleScrollDetailPage() {
     );
   }
 
+  const illustrationSrc = getOracleScrollImage(decodedScrollName);
+
   // Collect per-relic change histories to display alongside the scroll
   const relicHistories = scrollRelics
     .filter((r) => changesData[r.name])
@@ -149,33 +150,36 @@ export default function OracleScrollDetailPage() {
         ]}
         py={{ base: 'lg', sm: 'xl' }}
       >
-        <Group gap="lg" align="flex-start" wrap="nowrap">
+        <Stack gap="lg">
+          <Stack gap={6}>
+            <Group gap="sm" align="center" wrap="wrap">
+              <QualityIcon quality={scrollRelics[0].quality} size={28} />
+              <Title
+                order={1}
+                c={isDark ? 'white' : 'dark'}
+                fz={{ base: '1.5rem', sm: '2.125rem' }}
+                style={{ wordBreak: 'break-word' }}
+              >
+                {decodedScrollName}
+              </Title>
+              <Badge variant="light" color={accent.secondary} size="lg">
+                {scrollRelics.length} relic{scrollRelics.length !== 1 ? 's' : ''}
+              </Badge>
+            </Group>
+            <LastUpdated timestamp={lastUpdated} />
+          </Stack>
           {illustrationSrc && (
             <Image
               src={illustrationSrc}
               alt={decodedScrollName}
-              w={{ base: 80, sm: 120 }}
-              h={{ base: 80, sm: 120 }}
-              fit="contain"
               radius="md"
-              style={{ flexShrink: 0 }}
+              style={{
+                border: `2px solid var(--mantine-color-${heroQualityColor}-${isDark ? 7 : 4})`,
+                boxShadow: `0 4px 32px var(--mantine-color-${heroQualityColor}-${isDark ? 9 : 2})`,
+              }}
             />
           )}
-          <Stack gap={6}>
-            <Title
-              order={1}
-              c={isDark ? 'white' : 'dark'}
-              fz={{ base: '1.5rem', sm: '2.125rem' }}
-              style={{ wordBreak: 'break-word' }}
-            >
-              {decodedScrollName}
-            </Title>
-            <Text size="sm" c="dimmed">
-              {scrollRelics.length} relic{scrollRelics.length !== 1 ? 's' : ''}
-            </Text>
-            <LastUpdated timestamp={lastUpdated} />
-          </Stack>
-        </Group>
+        </Stack>
       </DetailPageHero>
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>

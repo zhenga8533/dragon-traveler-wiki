@@ -179,6 +179,7 @@ export default function RelicPage() {
         RELIC_TYPE_ORDER.indexOf(a.type) - RELIC_TYPE_ORDER.indexOf(b.type);
       const qualityCmp =
         QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
+      const oracleCmp = (a.oracle_sroll ?? '').localeCompare(b.oracle_sroll ?? '');
       const nameCmp = a.name.localeCompare(b.name);
 
       if (col) {
@@ -186,18 +187,17 @@ export default function RelicPage() {
         if (col === 'name') {
           cmp = nameCmp;
         } else if (col === 'type') {
-          cmp = typeCmp || qualityCmp || nameCmp;
+          cmp = typeCmp || qualityCmp || oracleCmp || nameCmp;
         } else if (col === 'rarity') {
-          cmp = qualityCmp || typeCmp || nameCmp;
+          cmp = qualityCmp || oracleCmp || typeCmp || nameCmp;
         } else if (col === 'oracle') {
-          const aOracle = a.oracle_sroll ?? '';
-          const bOracle = b.oracle_sroll ?? '';
-          cmp = aOracle.localeCompare(bOracle);
+          cmp = oracleCmp || typeCmp || nameCmp;
         }
         if (cmp !== 0) return applyDir(cmp, dir);
       }
 
       if (qualityCmp !== 0) return qualityCmp;
+      if (oracleCmp !== 0) return oracleCmp;
       if (typeCmp !== 0) return typeCmp;
       return nameCmp;
     },
@@ -575,31 +575,37 @@ export default function RelicPage() {
                             key={scrollName}
                             component={Link}
                             to={`/oracle-scrolls/${toEntitySlug(scrollName)}`}
-                            p="md"
+                            p={0}
                             radius="md"
                             withBorder
+                            style={{ overflow: 'hidden' }}
                             {...getCardHoverProps({
                               interactive: true,
                               style: LINK_BLOCK_RESET_STYLE,
                             })}
                           >
-                            <Stack gap="xs">
-                              <Group gap="md" align="flex-start" wrap="nowrap">
-                                {illustrationSrc && (
-                                  <Image
-                                    src={illustrationSrc}
-                                    alt={scrollName}
-                                    w={72}
-                                    h={72}
-                                    fit="contain"
-                                    radius="sm"
-                                  />
-                                )}
-                                <Stack gap={4} style={{ flex: 1 }}>
+                            <Stack gap={0}>
+                              {illustrationSrc && (
+                                <Image
+                                  src={illustrationSrc}
+                                  alt={scrollName}
+                                  h={130}
+                                  fit="cover"
+                                  style={{
+                                    display: 'block',
+                                    objectPosition: 'top',
+                                    borderTopLeftRadius: 'var(--mantine-radius-md)',
+                                    borderTopRightRadius: 'var(--mantine-radius-md)',
+                                  }}
+                                />
+                              )}
+                              <Stack gap="xs" p="md">
+                                <Group justify="space-between" align="center">
                                   <Text
                                     fw={700}
                                     c={`${accent.primary}.7`}
                                     lineClamp={1}
+                                    style={{ flex: 1 }}
                                   >
                                     {scrollName}
                                   </Text>
@@ -607,33 +613,33 @@ export default function RelicPage() {
                                     variant="light"
                                     size="sm"
                                     color={accent.secondary}
-                                    style={{ alignSelf: 'flex-start' }}
+                                    style={{ flexShrink: 0 }}
                                   >
                                     {items.length} relic
                                     {items.length === 1 ? '' : 's'}
                                   </Badge>
-                                </Stack>
-                              </Group>
+                                </Group>
 
-                              <Stack gap={4}>
-                                {items.map((relic) => (
-                                  <Group key={relic.name} gap="xs" wrap="nowrap">
-                                    {getRelicIcon(relic.name) && (
-                                      <Image
-                                        src={getRelicIcon(relic.name)}
-                                        alt={relic.name}
-                                        w={24}
-                                        h={24}
-                                        fit="contain"
-                                        radius="sm"
-                                      />
-                                    )}
-                                    <Text size="sm" fw={500} style={{ flex: 1 }}>
-                                      {relic.name}
-                                    </Text>
-                                    <RelicTypeTag type={relic.type} />
-                                  </Group>
-                                ))}
+                                <Stack gap={4}>
+                                  {items.map((relic) => (
+                                    <Group key={relic.name} gap="xs" wrap="nowrap">
+                                      {getRelicIcon(relic.name) && (
+                                        <Image
+                                          src={getRelicIcon(relic.name)}
+                                          alt={relic.name}
+                                          w={24}
+                                          h={24}
+                                          fit="contain"
+                                          radius="sm"
+                                        />
+                                      )}
+                                      <Text size="sm" fw={500} style={{ flex: 1 }}>
+                                        {relic.name}
+                                      </Text>
+                                      <RelicTypeTag type={relic.type} />
+                                    </Group>
+                                  ))}
+                                </Stack>
                               </Stack>
                             </Stack>
                           </Paper>
