@@ -68,6 +68,10 @@ export function getAccentForPath(path: string): SectionAccent {
     return 'cyan';
   }
 
+  if (path.startsWith('/howlkins/')) {
+    return 'yellow';
+  }
+
   if (path.startsWith('/relics/') || path.startsWith('/oracle-scrolls/')) {
     return 'yellow';
   }

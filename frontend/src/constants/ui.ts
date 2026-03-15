@@ -90,6 +90,7 @@ export const DETAIL_ROUTE_PATTERNS = [
   /^\/artifacts\/.+/,
   /^\/characters\/.+/,
   /^\/gear-sets\/.+/,
+  /^\/howlkins\/.+/,
   /^\/noble-phantasms\/.+/,
   /^\/oracle-scrolls\/.+/,
   /^\/teams\/.+/,

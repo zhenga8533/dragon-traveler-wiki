@@ -80,6 +80,14 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    pattern: '/howlkins/:allianceName',
+    meta: {
+      title: 'Golden Alliance Details',
+      description:
+        'View all members, stat effects by level, and change history for this Golden Alliance.',
+    },
+  },
+  {
     pattern: '/noble-phantasms',
     meta: {
       title: 'Noble Phantasms',

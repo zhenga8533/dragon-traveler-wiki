@@ -21,8 +21,9 @@ import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import PaginationControl from '@/components/ui/PaginationControl';
 import SortableTh from '@/components/ui/SortableTh';
 import { QUALITY_ORDER } from '@/constants/colors';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import { toEntitySlug } from '@/utils/entity-slug';
 import QualityIcon from '@/features/characters/components/QualityIcon';
 import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
@@ -55,6 +56,7 @@ import {
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
+import { Link } from 'react-router-dom';
 
 const HOWLKIN_FIELDS: FieldDef[] = [
   {
@@ -283,6 +285,16 @@ export default function Howlkins() {
     return map;
   }, [howlkins]);
 
+  const howlkinToAlliance = useMemo(() => {
+    const map = new Map<string, string>();
+    for (const alliance of goldenAlliances) {
+      for (const name of alliance.howlkins) {
+        map.set(name, alliance.name);
+      }
+    }
+    return map;
+  }, [goldenAlliances]);
+
   const filteredAlliances = useMemo(() => {
     if (!allianceSearch) return goldenAlliances;
     const q = allianceSearch.toLowerCase();
@@ -419,13 +431,22 @@ export default function Howlkins() {
                     {howlkinPageItems.map((howlkin) => {
                       const iconSrc = getHowlkinIcon(howlkin.name);
                       const isPharaoh = howlkin.name === PHARAOH_NAME;
+                      const allianceName = howlkinToAlliance.get(howlkin.name);
+                      const allianceSlug = allianceName
+                        ? toEntitySlug(allianceName)
+                        : undefined;
                       return (
                         <Paper
                           key={howlkin.name}
+                          component={allianceSlug ? Link : undefined}
+                          to={allianceSlug ? `/howlkins/${allianceSlug}` : undefined}
                           p="sm"
                           radius="md"
                           withBorder
-                          {...getCardHoverProps()}
+                          {...getCardHoverProps({
+                            interactive: !!allianceSlug,
+                            style: allianceSlug ? LINK_BLOCK_RESET_STYLE : undefined,
+                          })}
                           onMouseEnter={
                             isPharaoh
                               ? () => setShurimaActive(true)
@@ -466,7 +487,12 @@ export default function Howlkins() {
                               )}
                               <Stack gap={2} style={{ flex: 1 }}>
                                 <Group gap="sm" wrap="wrap">
-                                  <Text fw={600}>{howlkin.name}</Text>
+                                  <Text
+                                    fw={600}
+                                    c={allianceSlug ? `${accent.primary}.7` : undefined}
+                                  >
+                                    {howlkin.name}
+                                  </Text>
                                   <QualityIcon quality={howlkin.quality} />
                                 </Group>
                                 <Stack gap={2}>
@@ -521,6 +547,10 @@ export default function Howlkins() {
                         {howlkinPageItems.map((howlkin) => {
                           const iconSrc = getHowlkinIcon(howlkin.name);
                           const isPharaoh = howlkin.name === PHARAOH_NAME;
+                          const allianceName = howlkinToAlliance.get(howlkin.name);
+                          const allianceSlug = allianceName
+                            ? toEntitySlug(allianceName)
+                            : undefined;
                           return (
                             <Table.Tr
                               key={howlkin.name}
@@ -563,7 +593,14 @@ export default function Howlkins() {
                                 )}
                               </Table.Td>
                               <Table.Td>
-                                <Text fw={600} size="sm">
+                                <Text
+                                  component={allianceSlug ? Link : undefined}
+                                  to={allianceSlug ? `/howlkins/${allianceSlug}` : undefined}
+                                  fw={600}
+                                  size="sm"
+                                  c={allianceSlug ? `${accent.primary}.7` : undefined}
+                                  style={allianceSlug ? { textDecoration: 'none' } : undefined}
+                                >
                                   {howlkin.name}
                                 </Text>
                               </Table.Td>
@@ -639,13 +676,18 @@ export default function Howlkins() {
                         {alliancePageItems.map((alliance) => (
                           <Paper
                             key={alliance.name}
+                            component={Link}
+                            to={`/howlkins/${toEntitySlug(alliance.name)}`}
                             p="md"
                             radius="md"
                             withBorder
-                            {...getCardHoverProps()}
+                            {...getCardHoverProps({
+                              interactive: true,
+                              style: LINK_BLOCK_RESET_STYLE,
+                            })}
                           >
                             <Stack gap="sm">
-                              <Text fw={700} size="lg">
+                              <Text fw={700} size="lg" c={`${accent.primary}.7`}>
                                 {alliance.name}
                               </Text>
 
