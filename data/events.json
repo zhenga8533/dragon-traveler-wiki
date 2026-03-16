@@ -1,5 +1,18 @@
 [
   {
+    "name": "Lost Shamballa",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Catherine"
+    ],
+    "is_global": false,
+    "start_date": "2026-03-12",
+    "end_date": "2026-03-26",
+    "last_updated": 1773667780
+  },
+  {
     "name": "The Deadly Rush Event Begins!",
     "event_id": "6760324638",
     "type": "Special Event",
