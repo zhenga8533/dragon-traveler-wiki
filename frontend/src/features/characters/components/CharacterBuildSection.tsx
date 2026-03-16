@@ -25,7 +25,7 @@ import {
 	RICH_TOOLTIP_STYLES,
 } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
-import { useGradientAccent } from '@/hooks';
+import { useGradientAccent, useMobileTooltip } from '@/hooks';
 import type {
 	ActivatedSetBonus,
 	Character,
@@ -71,6 +71,7 @@ export default function CharacterPageBuildSection({
 	scrollToTalent,
 }: CharacterPageBuildSectionProps) {
 	const { accent } = useGradientAccent();
+	const mobileTooltip = useMobileTooltip();
 
 	return (
 		<>
@@ -294,6 +295,7 @@ export default function CharacterPageBuildSection({
 												multiline
 												maw={300}
 												styles={RICH_TOOLTIP_STYLES}
+												{...mobileTooltip}
 											>
 												<Paper
 													p="sm"
@@ -475,6 +477,7 @@ export default function CharacterPageBuildSection({
 												multiline
 												maw={340}
 												styles={RICH_TOOLTIP_STYLES}
+												{...mobileTooltip}
 											>
 												<Paper
 													p="sm"
@@ -554,6 +557,7 @@ export default function CharacterPageBuildSection({
 												multiline
 												maw={320}
 												styles={RICH_TOOLTIP_STYLES}
+												{...mobileTooltip}
 											>
 												<Paper
 													p="sm"

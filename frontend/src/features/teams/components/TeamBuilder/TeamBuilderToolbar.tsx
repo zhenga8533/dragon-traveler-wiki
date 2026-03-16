@@ -16,7 +16,7 @@ import {
   IoSave,
   IoTrash,
 } from 'react-icons/io5';
-import { useGradientAccent, useIsMobile } from '@/hooks';
+import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import { MAX_ROSTER_SIZE } from './utils';
 
 interface TeamBuilderToolbarProps {
@@ -44,6 +44,7 @@ function TeamBuilderToolbarComponent({
 }: TeamBuilderToolbarProps) {
   const { accent } = useGradientAccent();
   const isMobile = useIsMobile();
+  const mobileTooltip = useMobileTooltip();
 
   return (
     <Group justify="space-between" wrap="nowrap" gap="sm">
@@ -51,7 +52,7 @@ function TeamBuilderToolbarComponent({
         <CopyButton value={json}>
           {({ copied, copy }) =>
             isMobile ? (
-              <Tooltip label={copied ? 'Copied!' : 'Copy JSON'} withArrow>
+              <Tooltip label={copied ? 'Copied!' : 'Copy JSON'} {...mobileTooltip}>
                 <ActionIcon
                   variant="light"
                   color={copied ? accent.secondary : accent.primary}
@@ -76,7 +77,7 @@ function TeamBuilderToolbarComponent({
           }
         </CopyButton>
         {isMobile ? (
-          <Tooltip label="Paste JSON" withArrow>
+          <Tooltip label="Paste JSON" {...mobileTooltip}>
             <ActionIcon
               variant="light"
               color={accent.primary}
@@ -97,7 +98,7 @@ function TeamBuilderToolbarComponent({
           </Button>
         )}
         {isMobile ? (
-          <Tooltip label="Save to My Saved" withArrow>
+          <Tooltip label="Save to My Saved" {...mobileTooltip}>
             <ActionIcon variant="light" color={accent.primary} onClick={onSave}>
               <IoSave size={16} />
             </ActionIcon>
@@ -117,7 +118,7 @@ function TeamBuilderToolbarComponent({
 
       <Group gap="xs" wrap="nowrap">
         {isMobile ? (
-          <Tooltip label="Export as Image" withArrow>
+          <Tooltip label="Export as Image" {...mobileTooltip}>
             <ActionIcon
               variant="light"
               color={accent.primary}
@@ -143,7 +144,7 @@ function TeamBuilderToolbarComponent({
         )}
 
         {isMobile ? (
-          <Tooltip label="Submit Suggestion" withArrow>
+          <Tooltip label="Submit Suggestion" {...mobileTooltip}>
             <ActionIcon
               variant="light"
               color={accent.primary}
@@ -167,7 +168,7 @@ function TeamBuilderToolbarComponent({
         )}
 
         {isMobile ? (
-          <Tooltip label="Clear All" withArrow>
+          <Tooltip label="Clear All" {...mobileTooltip}>
             <ActionIcon
               variant="light"
               color="red"

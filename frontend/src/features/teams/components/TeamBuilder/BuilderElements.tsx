@@ -16,7 +16,7 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { useInputCommit, useIsMobile } from '@/hooks';
+import { useInputCommit, useIsMobile, useMobileTooltip } from '@/hooks';
 import type { CSSProperties } from 'react';
 import { memo, useEffect, useMemo, useState } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
@@ -475,6 +475,7 @@ export function SlotsGrid({
     : null;
 
   const isDragging = !!activeId;
+  const mobileTooltip = useMobileTooltip();
 
   return (
     <Stack gap="xs">
@@ -495,7 +496,7 @@ export function SlotsGrid({
           return (
             <Group key={row} gap="xs" align="stretch" mb="xs" wrap="nowrap">
               {/* Row indicator */}
-              <Tooltip label={ROW_CLASS_HINTS[row]} withArrow position="right">
+              <Tooltip label={ROW_CLASS_HINTS[row]} {...mobileTooltip} position="right">
                 <Box
                   style={{
                     width: 24,

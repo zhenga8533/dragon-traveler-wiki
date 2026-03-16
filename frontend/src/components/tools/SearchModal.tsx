@@ -14,7 +14,7 @@ import {
   buildCharacterNameCounts,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
-import { useGradientAccent, useIsMobile } from '@/hooks';
+import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import { isCodeActive } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { isGameEventActive } from '@/utils/event-utils';
@@ -218,6 +218,7 @@ export default function SearchModal({
   const navigate = useNavigate();
   const { accent } = useGradientAccent();
   const isMobile = useIsMobile();
+  const mobileTooltip = useMobileTooltip();
   const {
     characters,
     artifacts,
@@ -665,7 +666,7 @@ export default function SearchModal({
       {trigger ? (
         trigger({ open })
       ) : isMobile ? (
-        <Tooltip label={searchShortcutHint} position="bottom" withArrow>
+        <Tooltip label={searchShortcutHint} {...mobileTooltip} position="bottom">
           <ActionIcon
             variant="default"
             color={accent.primary}

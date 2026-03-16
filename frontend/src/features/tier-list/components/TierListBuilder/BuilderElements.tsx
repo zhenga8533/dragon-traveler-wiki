@@ -13,7 +13,7 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
-import { useInputCommit } from '@/hooks';
+import { useInputCommit, useMobileTooltip } from '@/hooks';
 import type { CSSProperties } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
 import { IoChevronDown, IoChevronUp, IoTrash } from 'react-icons/io5';
@@ -192,6 +192,7 @@ export function TierDropZone({
 }) {
   const { setNodeRef, isOver } = useDroppable({ id });
   const { accent } = useGradientAccent();
+  const mobileTooltip = useMobileTooltip();
 
   return (
     <Paper
@@ -226,8 +227,8 @@ export function TierDropZone({
           <Group gap={2} wrap="nowrap" style={{ flexShrink: 0 }}>
             <Tooltip
               label={isFirst ? 'Already at top tier' : 'Move tier up'}
-              withArrow
               withinPortal
+              {...mobileTooltip}
             >
               <ActionIcon
                 size="sm"
@@ -243,8 +244,8 @@ export function TierDropZone({
             </Tooltip>
             <Tooltip
               label={isLast ? 'Already at bottom tier' : 'Move tier down'}
-              withArrow
               withinPortal
+              {...mobileTooltip}
             >
               <ActionIcon
                 size="sm"
@@ -262,8 +263,8 @@ export function TierDropZone({
               label={
                 canDelete ? 'Delete tier' : 'At least one tier is required'
               }
-              withArrow
               withinPortal
+              {...mobileTooltip}
             >
               <ActionIcon
                 size="sm"

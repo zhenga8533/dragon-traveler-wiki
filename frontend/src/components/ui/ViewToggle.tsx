@@ -1,7 +1,7 @@
 import { ActionIcon, Group, Tooltip } from '@mantine/core';
 import { IoGrid, IoList } from 'react-icons/io5';
 import { IMAGE_SIZE } from '@/constants/ui';
-import { useGradientAccent, useIsMobile } from '@/hooks';
+import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import type { ViewMode } from '@/hooks/use-filters';
 
 interface ViewToggleProps {
@@ -12,10 +12,11 @@ interface ViewToggleProps {
 export default function ViewToggle({ viewMode, onChange }: ViewToggleProps) {
   const isMobile = useIsMobile();
   const { accent } = useGradientAccent();
+  const mobileTooltip = useMobileTooltip();
 
   return (
     <Group gap={4}>
-      <Tooltip label="Grid view">
+      <Tooltip label="Grid view" {...mobileTooltip}>
         <ActionIcon
           variant={viewMode === 'grid' ? 'filled' : 'default'}
           color={viewMode === 'grid' ? accent.primary : undefined}
@@ -27,7 +28,7 @@ export default function ViewToggle({ viewMode, onChange }: ViewToggleProps) {
           <IoGrid size={IMAGE_SIZE.ICON_MD} />
         </ActionIcon>
       </Tooltip>
-      <Tooltip label="List view">
+      <Tooltip label="List view" {...mobileTooltip}>
         <ActionIcon
           variant={viewMode === 'list' ? 'filled' : 'default'}
           color={viewMode === 'list' ? accent.primary : undefined}

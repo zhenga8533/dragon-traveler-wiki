@@ -8,7 +8,7 @@ import {
 } from 'react';
 import { IoDocumentTextOutline } from 'react-icons/io5';
 import { GLASS } from '@/constants/glass';
-import { useGradientAccent } from '@/hooks';
+import { useGradientAccent, useMobileTooltip } from '@/hooks';
 
 interface CharacterNoteButtonProps {
   value: string;
@@ -24,6 +24,7 @@ function CharacterNoteButton({
   style,
 }: CharacterNoteButtonProps) {
   const { accent } = useGradientAccent();
+  const mobileTooltip = useMobileTooltip();
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
   const textareaRef = useRef<HTMLTextAreaElement>(null);
@@ -70,7 +71,7 @@ function CharacterNoteButton({
     >
       <Popover.Target>
         <div style={style}>
-          <Tooltip label={value ? 'Edit note' : 'Add note'} withArrow>
+          <Tooltip label={value ? 'Edit note' : 'Add note'} {...mobileTooltip}>
             <ActionIcon
               size="sm"
               radius="md"

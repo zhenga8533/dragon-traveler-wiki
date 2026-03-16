@@ -14,6 +14,7 @@ import {
   Divider,
   Group,
   NumberInput,
+  ScrollArea,
   SimpleGrid,
   Stack,
   Switch,
@@ -686,64 +687,66 @@ export default function MythicSummonCalculator() {
             {simResult && (
               <>
                 <Divider label="Simulation result (1 run)" labelPosition="center" />
-                <Table withRowBorders={false} fz="sm">
-                  <Table.Thead>
-                    <Table.Tr>
-                      <Table.Th>Resource</Table.Th>
-                      <Table.Th ta="right">Expected</Table.Th>
-                      <Table.Th ta="right">Simulated</Table.Th>
-                      <Table.Th ta="right">Diff</Table.Th>
-                    </Table.Tr>
-                  </Table.Thead>
-                  <Table.Tbody>
-                    {[
-                      {
-                        name: 'Mythic Luminary Shard',
-                        expected: results.totalMythicShards,
-                        simulated: simResult.totalShards,
-                      },
-                      {
-                        name: 'Wishing Lily',
-                        expected: results.wishingLilies,
-                        simulated: simResult.wishingLilies,
-                      },
-                      {
-                        name: '6-Star Substitute Doll Fragment',
-                        expected: results.substituteDollFragments,
-                        simulated: simResult.substituteDolls,
-                      },
-                      {
-                        name: 'Diamond',
-                        expected: results.diamonds,
-                        simulated: simResult.diamonds,
-                      },
-                    ].map(({ name, expected, simulated }) => {
-                      const diff = simulated - expected;
-                      return (
-                        <Table.Tr key={name}>
-                          <Table.Td>
-                            <ResourceBadge name={name} size="xs" />
-                          </Table.Td>
-                          <Table.Td ta="right" c="dimmed">
-                            {expected.toFixed(1)}
-                          </Table.Td>
-                          <Table.Td ta="right">
-                            <strong>{simulated}</strong>
-                          </Table.Td>
-                          <Table.Td ta="right">
-                            <Badge
-                              size="sm"
-                              variant="light"
-                              color={diff >= 0 ? 'green' : 'red'}
-                            >
-                              {diff >= 0 ? '+' : ''}{diff.toFixed(1)}
-                            </Badge>
-                          </Table.Td>
-                        </Table.Tr>
-                      );
-                    })}
-                  </Table.Tbody>
-                </Table>
+                <ScrollArea>
+                  <Table withRowBorders={false} fz="sm" miw={380}>
+                    <Table.Thead>
+                      <Table.Tr>
+                        <Table.Th>Resource</Table.Th>
+                        <Table.Th ta="right">Expected</Table.Th>
+                        <Table.Th ta="right">Simulated</Table.Th>
+                        <Table.Th ta="right">Diff</Table.Th>
+                      </Table.Tr>
+                    </Table.Thead>
+                    <Table.Tbody>
+                      {[
+                        {
+                          name: 'Mythic Luminary Shard',
+                          expected: results.totalMythicShards,
+                          simulated: simResult.totalShards,
+                        },
+                        {
+                          name: 'Wishing Lily',
+                          expected: results.wishingLilies,
+                          simulated: simResult.wishingLilies,
+                        },
+                        {
+                          name: '6-Star Substitute Doll Fragment',
+                          expected: results.substituteDollFragments,
+                          simulated: simResult.substituteDolls,
+                        },
+                        {
+                          name: 'Diamond',
+                          expected: results.diamonds,
+                          simulated: simResult.diamonds,
+                        },
+                      ].map(({ name, expected, simulated }) => {
+                        const diff = simulated - expected;
+                        return (
+                          <Table.Tr key={name}>
+                            <Table.Td>
+                              <ResourceBadge name={name} size="xs" />
+                            </Table.Td>
+                            <Table.Td ta="right" c="dimmed">
+                              {expected.toFixed(1)}
+                            </Table.Td>
+                            <Table.Td ta="right">
+                              <strong>{simulated}</strong>
+                            </Table.Td>
+                            <Table.Td ta="right">
+                              <Badge
+                                size="sm"
+                                variant="light"
+                                color={diff >= 0 ? 'green' : 'red'}
+                              >
+                                {diff >= 0 ? '+' : ''}{diff.toFixed(1)}
+                              </Badge>
+                            </Table.Td>
+                          </Table.Tr>
+                        );
+                      })}
+                    </Table.Tbody>
+                  </Table>
+                </ScrollArea>
               </>
             )}
           </Stack>

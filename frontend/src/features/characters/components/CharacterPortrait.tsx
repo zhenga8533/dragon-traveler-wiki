@@ -6,6 +6,7 @@ import type { Quality } from '@/types/quality';
 import { Image, Tooltip, type TooltipProps } from '@mantine/core';
 import type { CSSProperties, ReactNode } from 'react';
 import { Link } from 'react-router-dom';
+import { useMobileTooltip } from '@/hooks';
 
 interface CharacterPortraitProps {
   name: string;
@@ -44,6 +45,7 @@ export default function CharacterPortrait({
   routePath,
   assetKey,
 }: CharacterPortraitProps) {
+  const mobileTooltip = useMobileTooltip();
   const routeAssetKey = routePath?.match(/^\/characters\/([^/?#]+)/)?.[1];
   const resolvedAssetKey = assetKey ?? routeAssetKey;
   const resolvedBorderColor =
@@ -99,7 +101,7 @@ export default function CharacterPortrait({
   }
 
   return (
-    <Tooltip label={tooltip} withArrow {...tooltipProps}>
+    <Tooltip label={tooltip} {...mobileTooltip} {...tooltipProps}>
       {linkedPortrait}
     </Tooltip>
   );

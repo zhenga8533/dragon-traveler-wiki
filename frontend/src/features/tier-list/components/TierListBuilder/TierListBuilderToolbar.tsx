@@ -1,4 +1,4 @@
-import { useGradientAccent, useIsMobile } from '@/hooks';
+import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import { ActionIcon, Button, CopyButton, Group, Tooltip } from '@mantine/core';
 import { memo } from 'react';
 import {
@@ -39,6 +39,7 @@ function TierListBuilderToolbarComponent({
 }: TierListBuilderToolbarProps) {
   const { accent } = useGradientAccent();
   const isMobile = useIsMobile();
+  const mobileTooltip = useMobileTooltip();
 
   return (
     <Group justify="space-between" wrap="nowrap" gap="sm">
@@ -46,7 +47,7 @@ function TierListBuilderToolbarComponent({
         <CopyButton value={json}>
           {({ copied, copy }) =>
             isMobile ? (
-              <Tooltip label={copied ? 'Copied!' : 'Copy JSON'} withArrow>
+              <Tooltip label={copied ? 'Copied!' : 'Copy JSON'} {...mobileTooltip}>
                 <ActionIcon
                   variant="light"
                   color={copied ? accent.secondary : accent.primary}
@@ -72,7 +73,7 @@ function TierListBuilderToolbarComponent({
         </CopyButton>
 
         {isMobile ? (
-          <Tooltip label="Paste JSON" withArrow>
+          <Tooltip label="Paste JSON" {...mobileTooltip}>
             <ActionIcon
               variant="light"
               color={accent.primary}
@@ -94,7 +95,7 @@ function TierListBuilderToolbarComponent({
         )}
 
         {isMobile ? (
-          <Tooltip label="Save to My Saved" withArrow>
+          <Tooltip label="Save to My Saved" {...mobileTooltip}>
             <ActionIcon variant="light" color={accent.primary} onClick={onSave}>
               <IoSave size={16} />
             </ActionIcon>
@@ -112,7 +113,7 @@ function TierListBuilderToolbarComponent({
         )}
 
         {isMobile ? (
-          <Tooltip label="Sort Tiers" withArrow>
+          <Tooltip label="Sort Tiers" {...mobileTooltip}>
             <ActionIcon
               variant="light"
               color={accent.primary}
@@ -138,7 +139,7 @@ function TierListBuilderToolbarComponent({
 
       <Group gap="xs" wrap="nowrap">
         {isMobile ? (
-          <Tooltip label="Export as Image" withArrow>
+          <Tooltip label="Export as Image" {...mobileTooltip}>
             <ActionIcon
               variant="light"
               color={accent.primary}
@@ -164,7 +165,7 @@ function TierListBuilderToolbarComponent({
         )}
 
         {isMobile ? (
-          <Tooltip label="Submit Suggestion" withArrow>
+          <Tooltip label="Submit Suggestion" {...mobileTooltip}>
             <ActionIcon
               variant="light"
               color={accent.primary}
@@ -188,7 +189,7 @@ function TierListBuilderToolbarComponent({
         )}
 
         {isMobile ? (
-          <Tooltip label="Clear All" withArrow>
+          <Tooltip label="Clear All" {...mobileTooltip}>
             <ActionIcon
               variant="light"
               color="red"

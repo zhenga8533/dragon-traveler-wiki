@@ -7,7 +7,7 @@ import {
   TierListReferenceContext,
   UiOpacityContext,
 } from '@/contexts';
-import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
+import { useDarkMode, useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import {
   ActionIcon,
   Badge,
@@ -86,6 +86,7 @@ export default function SettingsPanel() {
   const { colorScheme, setColorScheme } = useMantineColorScheme();
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
+  const mobileTooltip = useMobileTooltip();
   const { accent, palette, setPalette } = useGradientAccent();
 
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
@@ -180,7 +181,7 @@ export default function SettingsPanel() {
             </Text>
             <SimpleGrid cols={4} spacing={6}>
               {PALETTE_SWATCHES.map((p) => (
-                <Tooltip key={p.value} label={p.label} position="top" withArrow>
+                <Tooltip key={p.value} label={p.label} {...mobileTooltip}>
                   <UnstyledButton
                     onClick={() => setPalette(p.value)}
                     aria-label={`${p.label}${palette === p.value ? ' (selected)' : ''}`}

@@ -12,6 +12,7 @@ import { useCallback, useState } from 'react';
 import { IoClose, IoSave } from 'react-icons/io5';
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import { isRecord } from '@/utils/type-guards';
+import { useMobileTooltip } from '@/hooks';
 
 type SlotAction = { index: number; type: 'load' | 'save' | 'delete' };
 
@@ -111,6 +112,8 @@ export default function SaveLoadSlots<T extends SlotData>({
 }: SaveLoadSlotsProps<T>) {
   type SaveSlots = Record<string, T | null>;
 
+  const mobileTooltip = useMobileTooltip();
+
   const [saveSlots, setSaveSlots] = useState<SaveSlots>(() => {
     if (typeof window === 'undefined') return {};
     try {
@@ -187,7 +190,7 @@ export default function SaveLoadSlots<T extends SlotData>({
       >
         <Menu.Target>
           {compact ? (
-            <Tooltip label="Save/Load Slots" withArrow>
+            <Tooltip label="Save/Load Slots" {...mobileTooltip}>
               <ActionIcon variant="light">
                 <IoSave size={16} />
               </ActionIcon>
@@ -228,7 +231,7 @@ export default function SaveLoadSlots<T extends SlotData>({
                 rightSection={
                   isOccupied ? (
                     <Group gap={4} wrap="nowrap">
-                      <Tooltip label="Overwrite" withArrow>
+                      <Tooltip label="Overwrite" {...mobileTooltip}>
                         <ActionIcon
                           variant="subtle"
                           color="teal"
@@ -242,7 +245,7 @@ export default function SaveLoadSlots<T extends SlotData>({
                           <IoSave size={14} />
                         </ActionIcon>
                       </Tooltip>
-                      <Tooltip label="Delete" withArrow>
+                      <Tooltip label="Delete" {...mobileTooltip}>
                         <ActionIcon
                           variant="subtle"
                           color="red"
