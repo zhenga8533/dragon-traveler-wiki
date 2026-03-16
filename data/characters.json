@@ -193,9 +193,9 @@
     },
     "recommended_subclasses": [
       "Templar",
-      "Lionheart Knight"
+      "Avenger"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1773677829
   },
   {
     "name": "Anubis",
@@ -757,10 +757,9 @@
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [
-      "Templar",
-      "Guardian"
+      "Templar"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1773677829
   },
   {
     "name": "Drasill",
@@ -1274,8 +1273,10 @@
       "weapon": "Flamelord's Sword",
       "accessory": "Spirit Turtle Talisman"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Lionheart Knight"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Oberonnie",
@@ -1416,8 +1417,10 @@
       "weapon": "Flamelord's Sword",
       "accessory": "Spirit Turtle Talisman"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Templar"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Mummy",
@@ -1481,8 +1484,10 @@
       "weapon": "Flamelord's Sword",
       "accessory": "Spirit Turtle Talisman"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Guardian"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Rock Slime",
@@ -2573,9 +2578,9 @@
     },
     "recommended_subclasses": [
       "Executor",
-      "Divine Officer"
+      "Bishop"
     ],
-    "last_updated": 1773670017
+    "last_updated": 1773677829
   },
   {
     "name": "Flora",
@@ -2649,8 +2654,10 @@
       "weapon": "Mana's Tide",
       "accessory": "Mana's Tear"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772925921
+    "recommended_subclasses": [
+      "Divine Officer"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Siren",
@@ -2793,9 +2800,10 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [
-      "Divine Officer"
+      "Divine Officer",
+      "Bishop"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1773677829
   },
   {
     "name": "Viel",
@@ -2869,8 +2877,10 @@
       "weapon": "Mana's Tide",
       "accessory": "Mana's Tear"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772925921
+    "recommended_subclasses": [
+      "Executor"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Breeze Slime",
@@ -3280,7 +3290,7 @@
         "cooldown": 0
       },
       {
-        "name": "Shadow Blade Dance",
+        "name": "Shadow Blade Frenzy",
         "type": "Divine Skill",
         "description": "When [Shadow Blade Dance] deals damage, it also inflicts [Attack Down] and [Crit Down].",
         "cooldown": 0
@@ -3288,8 +3298,10 @@
     ],
     "noble_phantasm": "",
     "recommended_gear": null,
-    "recommended_subclasses": [],
-    "last_updated": 1771993550
+    "recommended_subclasses": [
+      "Outlaw"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Mordred",
@@ -3381,9 +3393,9 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [
-      "Executioner"
+      "Masked Thief"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1773677829
   },
   {
     "name": "Pan Junbao",
@@ -4098,8 +4110,10 @@
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Executioner"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Fenrir",
@@ -4240,8 +4254,10 @@
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Masked Thief"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Sword Dancer",
@@ -4305,8 +4321,10 @@
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Executioner"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Shadow Slime",
@@ -4733,9 +4751,9 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [
-      "Sword Master"
+      "Lord"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1773677829
   },
   {
     "name": "Asmodeus",
@@ -4828,9 +4846,9 @@
     },
     "recommended_subclasses": [
       "Sword Master",
-      "Vanguard"
+      "Berserker"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1773677829
   },
   {
     "name": "Asteros",
@@ -5111,9 +5129,9 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [
-      "Berserker"
+      "Sword Master"
     ],
-    "last_updated": 1771868965
+    "last_updated": 1773677829
   },
   {
     "name": "Hitomi",
@@ -5197,8 +5215,10 @@
     ],
     "noble_phantasm": "",
     "recommended_gear": null,
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Lord"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Marylis",
@@ -5744,9 +5764,9 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [
-      "Sword Master"
+      "Vanguard"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1773677829
   },
   {
     "name": "Siegfried",
@@ -5908,8 +5928,10 @@
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Sword Master"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Murphy",
@@ -5983,8 +6005,10 @@
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Sword Master"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Siegfried",
@@ -6059,9 +6083,9 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [
-      "Berserker"
+      "Vanguard"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1773677829
   },
   {
     "name": "Goblin Battering Ram",
@@ -6125,8 +6149,10 @@
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Sword Master"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Siegfried",
@@ -6191,9 +6217,9 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [
-      "Berserker"
+      "Vanguard"
     ],
-    "last_updated": 1772563593
+    "last_updated": 1773677829
   },
   {
     "name": "Flame Slime",
@@ -7437,8 +7463,10 @@
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Sharpshooter"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Polyphemus",
@@ -7512,8 +7540,10 @@
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Light Ranger"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Dwarven Cannoneer",
@@ -7577,8 +7607,10 @@
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Bloodhunter"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Wood Elf Archer",
@@ -7642,8 +7674,10 @@
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Bounty Hunter"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Lightning Slime",
@@ -8448,10 +8482,10 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [
-      "Elemental Mage",
+      "Elementalist",
       "Astrologer"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1773677829
   },
   {
     "name": "Talos",
@@ -8638,9 +8672,9 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [
-      "Elemental Mage"
+      "Elementalist"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1773677829
   },
   {
     "name": "Cerberus",
@@ -8726,9 +8760,9 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [
-      "Elemental Mage"
+      "Elementalist"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1773677829
   },
   {
     "name": "Cleopatra",
@@ -8909,9 +8943,9 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [
-      "Elemental Mage"
+      "Elementalist"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1773677829
   },
   {
     "name": "Nanalie",
@@ -9098,9 +9132,9 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [
-      "Elemental Mage"
+      "Elementalist"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1773677829
   },
   {
     "name": "Buck",
@@ -9174,8 +9208,10 @@
       "weapon": "Tome of Stars",
       "accessory": "Starlight Magisterium"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Potion Master"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Kleina",
@@ -9249,8 +9285,10 @@
       "weapon": "Tome of Stars",
       "accessory": "Starlight Magisterium"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Potion Master"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Dwarven Sage",
@@ -9314,8 +9352,10 @@
       "weapon": "Tome of Stars",
       "accessory": "Starlight Magisterium"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Potion Master"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Pharaoh",
@@ -9379,8 +9419,10 @@
       "weapon": "Tome of Stars",
       "accessory": "Starlight Magisterium"
     },
-    "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "recommended_subclasses": [
+      "Potion Master"
+    ],
+    "last_updated": 1773677829
   },
   {
     "name": "Ice Slime",

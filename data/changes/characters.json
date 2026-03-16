@@ -35,7 +35,21 @@
   },
   "Prometheus__SSR EX": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Avenger"
+            ],
+            "removed": [
+              "Lionheart Knight"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Anubis__SSR+": {
     "added": 1772563593,
@@ -202,6 +216,16 @@
             "new": "Modern Fantasy Literature"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "removed": [
+              "Guardian"
+            ]
+          }
+        }
       }
     ]
   },
@@ -270,6 +294,16 @@
             "new": "305kg"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Lionheart Knight"
+            ]
+          }
+        }
       }
     ]
   },
@@ -286,6 +320,16 @@
           "weight": {
             "old": "?kg",
             "new": "86kg"
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Templar"
+            ]
           }
         }
       }
@@ -308,6 +352,16 @@
           "weight": {
             "old": "?kg",
             "new": "35kg"
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Guardian"
+            ]
           }
         }
       }
@@ -602,6 +656,19 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Bishop"
+            ],
+            "removed": [
+              "Divine Officer"
+            ]
+          }
+        }
       }
     ]
   },
@@ -633,6 +700,16 @@
               "old": "Pious Biretta",
               "new": "Pious Crown"
             }
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Divine Officer"
+            ]
           }
         }
       }
@@ -686,6 +763,16 @@
             "new": "32kg"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Bishop"
+            ]
+          }
+        }
       }
     ]
   },
@@ -717,6 +804,16 @@
               "old": "Pious Biretta",
               "new": "Pious Crown"
             }
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Executor"
+            ]
           }
         }
       }
@@ -795,7 +892,39 @@
   },
   "Lilith__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Outlaw"
+            ]
+          },
+          "skills": {
+            "added": [
+              "Shadow Blade Frenzy"
+            ],
+            "modified": {
+              "Shadow Blade Dance": {
+                "cooldown": {
+                  "old": 0,
+                  "new": 12
+                },
+                "description": {
+                  "old": "When [Shadow Blade Dance] deals damage, it also inflicts [Attack Down] and [Crit Down].",
+                  "new": "Fires a magic missile at each enemy unit within a large circular area, dealing magic damage equal to 280% of the caster's attack and increasing the target's ultimate skill cooldown by 2 seconds. At the start of battle, immediately teleports to the center of the enemy team (the teleportation effect ignores enemy guards) and casts this skill once.\nWhen your own health decreases, you will accumulate rage. When your rage is full, you will enter the [Wild] state. While in the [Wild] state, [Shadow Blade Dance] will fire an additional magic missile at each target. The damage of the additional magic missile is increased to 420% of your own attack , but it will not increase the cooldown of the target's ultimate skill."
+                },
+                "type": {
+                  "old": "Divine Skill",
+                  "new": "Ultimate Skill"
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Mordred__SSR+": {
     "added": 1772563593,
@@ -804,6 +933,19 @@
         "timestamp": 1772600511,
         "fields": {
           "talent": {}
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Masked Thief"
+            ],
+            "removed": [
+              "Executioner"
+            ]
+          }
         }
       }
     ]
@@ -897,6 +1039,16 @@
             "new": "44kg"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Executioner"
+            ]
+          }
+        }
       }
     ]
   },
@@ -919,6 +1071,16 @@
             "new": "63kg"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Masked Thief"
+            ]
+          }
+        }
       }
     ]
   },
@@ -939,6 +1101,16 @@
           "weight": {
             "old": "?kg",
             "new": "50kg"
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Executioner"
+            ]
           }
         }
       }
@@ -1032,7 +1204,21 @@
   },
   "Arthur__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Lord"
+            ],
+            "removed": [
+              "Sword Master"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Asmodeus__SSR+": {
     "added": 1772563593,
@@ -1045,6 +1231,19 @@
             "new": "Modern Fantasy Literature"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Berserker"
+            ],
+            "removed": [
+              "Vanguard"
+            ]
+          }
+        }
       }
     ]
   },
@@ -1054,7 +1253,21 @@
   },
   "Brynhild__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Sword Master"
+            ],
+            "removed": [
+              "Berserker"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Hitomi__SSR+": {
     "added": 1772563593,
@@ -1065,6 +1278,16 @@
           "origin": {
             "old": "Eastern Mythology",
             "new": "Eastern Civilization"
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Lord"
+            ]
           }
         }
       }
@@ -1104,12 +1327,39 @@
         "fields": {
           "talent": {}
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Vanguard"
+            ],
+            "removed": [
+              "Berserker"
+            ]
+          }
+        }
       }
     ]
   },
   "Siegfried__R": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Vanguard"
+            ],
+            "removed": [
+              "Berserker"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Tyrfing__SSR+": {
     "added": 1772563593,
@@ -1136,7 +1386,21 @@
   },
   "Guna__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Vanguard"
+            ],
+            "removed": [
+              "Sword Master"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Grimnir__SR": {
     "added": 1772563593,
@@ -1151,6 +1415,16 @@
           "weight": {
             "old": "?kg",
             "new": "91kg"
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Sword Master"
+            ]
           }
         }
       }
@@ -1175,6 +1449,16 @@
             "new": "37kg"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Sword Master"
+            ]
+          }
+        }
       }
     ]
   },
@@ -1195,6 +1479,16 @@
           "weight": {
             "old": "?kg",
             "new": "33kg"
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Sword Master"
+            ]
           }
         }
       }
@@ -1435,6 +1729,16 @@
             "new": "301kg"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Sharpshooter"
+            ]
+          }
+        }
       }
     ]
   },
@@ -1453,6 +1757,16 @@
             "new": "563kg"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Light Ranger"
+            ]
+          }
+        }
       }
     ]
   },
@@ -1469,6 +1783,16 @@
           "weight": {
             "old": "?kg",
             "new": "85kg"
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Bloodhunter"
+            ]
           }
         }
       }
@@ -1491,6 +1815,16 @@
           "weight": {
             "old": "?kg",
             "new": "40kg"
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Bounty Hunter"
+            ]
           }
         }
       }
@@ -1586,7 +1920,21 @@
   },
   "Gullveig__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Elementalist"
+            ],
+            "removed": [
+              "Elemental Mage"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Talos__SSR+": {
     "added": 1772563593,
@@ -1603,12 +1951,39 @@
             "new": "Eastern Civilization"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Elementalist"
+            ],
+            "removed": [
+              "Elemental Mage"
+            ]
+          }
+        }
       }
     ]
   },
   "Cerberus__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Elementalist"
+            ],
+            "removed": [
+              "Elemental Mage"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Cleopatra__SSR": {
     "added": 1772563593,
@@ -1636,7 +2011,21 @@
   },
   "Melina__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Elementalist"
+            ],
+            "removed": [
+              "Elemental Mage"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Nanalie__SSR": {
     "added": 1772563593,
@@ -1644,7 +2033,21 @@
   },
   "Telperion__SSR": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Elementalist"
+            ],
+            "removed": [
+              "Elemental Mage"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Buck__SR": {
     "added": 1772563593,
@@ -1665,6 +2068,16 @@
             "new": "36kg"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Potion Master"
+            ]
+          }
+        }
       }
     ]
   },
@@ -1683,6 +2096,16 @@
             "new": "0kg"
           }
         }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Potion Master"
+            ]
+          }
+        }
       }
     ]
   },
@@ -1699,6 +2122,16 @@
           "weight": {
             "old": "?kg",
             "new": "82kg"
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Potion Master"
+            ]
           }
         }
       }
@@ -1721,6 +2154,16 @@
           "weight": {
             "old": "?kg",
             "new": "36kg"
+          }
+        }
+      },
+      {
+        "timestamp": 1773677819,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Potion Master"
+            ]
           }
         }
       }
