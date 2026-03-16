@@ -343,4 +343,53 @@ def verify_data() -> list[str]:
                         f"code '{code}': reward resource '{res_name}' not found in resources.json"
                     )
 
+    # -----------------------------------------------------------------------
+    # sort_keys.py — hardcoded order lists must stay in sync with data
+    # -----------------------------------------------------------------------
+    from ..sort_keys import (
+        CLASS_ORDER,
+        FACTION_ORDER,
+        GEAR_TYPE_ORDER,
+        RELIC_TYPE_ORDER,
+        STATE_ORDER,
+    )
+
+    def _check_order_list(
+        order: list[str],
+        actual: set[str],
+        order_name: str,
+        data_source: str,
+    ) -> None:
+        for val in order:
+            if val not in actual:
+                errors.append(
+                    f"sort_keys.{order_name}: '{val}' not found in {data_source} — stale entry"
+                )
+        for val in actual:
+            if val not in order:
+                errors.append(
+                    f"sort_keys.{order_name}: '{val}' from {data_source} is missing — add to order list"
+                )
+
+    if faction_names:
+        _check_order_list(FACTION_ORDER, faction_names, "FACTION_ORDER", "factions.json")
+
+    if isinstance(characters_data, list):
+        actual_classes = {c.get("character_class") for c in characters_data if isinstance(c, dict) and c.get("character_class")}
+        _check_order_list(CLASS_ORDER, actual_classes, "CLASS_ORDER", "characters.json")
+
+    if isinstance(gear_data, list):
+        actual_gear_types = {g.get("type") for g in gear_data if isinstance(g, dict) and g.get("type")}
+        _check_order_list(GEAR_TYPE_ORDER, actual_gear_types, "GEAR_TYPE_ORDER", "gear.json")
+
+    status_effects_data = _load_json("status-effects.json")
+    if isinstance(status_effects_data, list):
+        actual_states = {s.get("type") for s in status_effects_data if isinstance(s, dict) and s.get("type")}
+        _check_order_list(STATE_ORDER, actual_states, "STATE_ORDER", "status-effects.json")
+
+    relics_data = _load_json("relic.json")
+    if isinstance(relics_data, list):
+        actual_relic_types = {r.get("type") for r in relics_data if isinstance(r, dict) and r.get("type")}
+        _check_order_list(RELIC_TYPE_ORDER, actual_relic_types, "RELIC_TYPE_ORDER", "relic.json")
+
     return errors
