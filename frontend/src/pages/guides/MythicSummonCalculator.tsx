@@ -598,27 +598,16 @@ export default function MythicSummonCalculator() {
               }
               size="sm"
             />
-            <Group gap="xs" justify="space-between" wrap="wrap">
-              <Group gap="xs">
-                <Text size="sm" c="dimmed">
-                  Total pulls: <strong>{results.totalPulls}</strong>
-                </Text>
-                <Text size="sm" c="dimmed">•</Text>
-                <Text size="sm" c={`${accent.primary}.7`}>
-                  Next guaranteed mythic shard pull in:{' '}
-                  <strong>{results.nextGuaranteedPull}</strong> summon
-                  {results.nextGuaranteedPull !== 1 ? 's' : ''}
-                </Text>
-              </Group>
-              <Button
-                variant="light"
-                color={accent.primary}
-                size="sm"
-                onClick={handleSimulate}
-                disabled={(numSummons ?? 0) < 1}
-              >
-                {simResult ? 'Re-simulate' : 'Simulate'}
-              </Button>
+            <Group gap="xs" wrap="wrap">
+              <Text size="sm" c="dimmed">
+                Total pulls: <strong>{results.totalPulls}</strong>
+              </Text>
+              <Text size="sm" c="dimmed">•</Text>
+              <Text size="sm" c={`${accent.primary}.7`}>
+                Next guaranteed mythic shard pull in:{' '}
+                <strong>{results.nextGuaranteedPull}</strong> summon
+                {results.nextGuaranteedPull !== 1 ? 's' : ''}
+              </Text>
             </Group>
           </Stack>
         </Card>
@@ -630,12 +619,25 @@ export default function MythicSummonCalculator() {
           {...getCardHoverProps()}
         >
           <Stack gap="md">
-            <Title order={2} size="h3">
-              Expected Rewards
-            </Title>
-            <Text size="sm" c="dimmed">
-              Average rewards from your selected summons.
-            </Text>
+            <Group justify="space-between" align="flex-start" wrap="wrap">
+              <Stack gap={4}>
+                <Title order={2} size="h3">
+                  Expected Rewards
+                </Title>
+                <Text size="sm" c="dimmed">
+                  Average rewards from your selected summons.
+                </Text>
+              </Stack>
+              <Button
+                variant="light"
+                color={accent.primary}
+                size="sm"
+                onClick={handleSimulate}
+                disabled={(numSummons ?? 0) < 1}
+              >
+                {simResult ? 'Re-simulate' : 'Simulate'}
+              </Button>
+            </Group>
 
             <SimpleGrid cols={{ base: 1, sm: 2, xl: 4 }} spacing="lg">
               <StatCard
