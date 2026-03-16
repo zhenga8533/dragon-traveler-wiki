@@ -1,9 +1,6 @@
 import { QUALITY_ICON_MAP } from '@/assets/quality';
-import GuideHeroCard from './components/GuideHeroCard';
 import StatCard from '@/components/ui/StatCard';
-import {
-  getCardHoverProps,
-} from '@/constants/styles';
+import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
 import {
@@ -43,6 +40,7 @@ import {
   IoStatsChart,
   IoTime,
 } from 'react-icons/io5';
+import GuideHeroCard from './components/GuideHeroCard';
 
 type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
 
@@ -193,7 +191,7 @@ const STAR_LEVELS: StarLevel[] = [
     tier: 'legendary',
   },
   {
-    label: 'Divine 1',
+    label: 'Divine 2',
     stars: 1,
     value: 'd1',
     copies: 20,
@@ -202,7 +200,7 @@ const STAR_LEVELS: StarLevel[] = [
     tier: 'divine',
   },
   {
-    label: 'Divine 2',
+    label: 'Divine 3',
     stars: 2,
     value: 'd2',
     copies: 22,
@@ -211,7 +209,7 @@ const STAR_LEVELS: StarLevel[] = [
     tier: 'divine',
   },
   {
-    label: 'Divine 3',
+    label: 'Divine 4',
     stars: 3,
     value: 'd3',
     copies: 24,
@@ -220,7 +218,7 @@ const STAR_LEVELS: StarLevel[] = [
     tier: 'divine',
   },
   {
-    label: 'Divine 4',
+    label: 'Divine 5',
     stars: 4,
     value: 'd4',
     copies: 28,
@@ -229,7 +227,7 @@ const STAR_LEVELS: StarLevel[] = [
     tier: 'divine',
   },
   {
-    label: 'Divine 5',
+    label: 'Divine 6',
     stars: 5,
     value: 'd5',
     copies: 32,
@@ -354,7 +352,6 @@ export default function StarUpgradeCalculator() {
     label: `${level.label} • ${level.copies} copies / ${level.fodder} fodder`,
   }));
 
-
   return (
     <Container size="xl" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="lg">
@@ -375,12 +372,7 @@ export default function StarUpgradeCalculator() {
           </Alert>
         </GuideHeroCard>
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
           <Stack gap="md">
             <Title order={2} size="h3">
               <Group gap="xs">
@@ -468,12 +460,7 @@ export default function StarUpgradeCalculator() {
         </Card>
 
         {isValidSelection && copiesNeeded > 0 && (
-          <Card
-            withBorder
-            radius="md"
-            p="lg"
-            {...getCardHoverProps()}
-          >
+          <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
             <Stack gap="md">
               <Title order={2} size="h3">
                 <Group gap="xs">
@@ -734,12 +721,7 @@ export default function StarUpgradeCalculator() {
           </Card>
         )}
 
-        <Card
-          withBorder
-          radius="md"
-          p="lg"
-          {...getCardHoverProps()}
-        >
+        <Card withBorder radius="md" p="lg" {...getCardHoverProps()}>
           <Stack gap="sm">
             <UnstyledButton onClick={refTableHandlers.toggle}>
               <Group justify="space-between" align="center">
