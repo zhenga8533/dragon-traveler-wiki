@@ -1,5 +1,157 @@
 [
   {
+    "date": "2026-03-15",
+    "version": "1.1.0",
+    "changes": [
+      {
+        "type": "added",
+        "category": "wiki",
+        "description": "Added Relics database with full detail pages"
+      },
+      {
+        "type": "added",
+        "category": "wiki",
+        "description": "Added Oracle Scroll detail pages with sorting, routes, and cross-page links"
+      },
+      {
+        "type": "added",
+        "category": "wiki",
+        "description": "Added Golden Alliance detail page"
+      },
+      {
+        "type": "added",
+        "category": "events",
+        "description": "Added Events page with automated App Store sync and TW server events support"
+      },
+      {
+        "type": "added",
+        "category": "events",
+        "description": "Added date range filter, source enable/disable toggle, and horizontally scrollable event tabs"
+      },
+      {
+        "type": "added",
+        "category": "guides",
+        "description": "Added Diamond Calculator guide with pull count estimation, pity toggle, and simulation mode"
+      },
+      {
+        "type": "added",
+        "category": "characters",
+        "description": "Added animated sandstorm overlay and hover effect for Pharaoh character"
+      },
+      {
+        "type": "added",
+        "category": "ui",
+        "description": "Added data history tab with change diff visualization on supported pages"
+      },
+      {
+        "type": "added",
+        "category": "ui",
+        "description": "Added site-wide UI opacity controls"
+      },
+      {
+        "type": "added",
+        "category": "ui",
+        "description": "Added toast notifications for invalid team and tier list actions"
+      },
+      {
+        "type": "added",
+        "category": "ui",
+        "description": "Added grid loading skeletons and detail page fallback for smoother page loads"
+      },
+      {
+        "type": "added",
+        "category": "filters",
+        "description": "Added grouped filter layouts and mobile bottom drawer for responsive filter access"
+      },
+      {
+        "type": "added",
+        "category": "navigation",
+        "description": "Active tab selection now persists in the URL for shareable page links"
+      },
+      {
+        "type": "updated",
+        "category": "events",
+        "description": "Revamped events UI with character avatars, indicator buttons, and improved card layout"
+      },
+      {
+        "type": "updated",
+        "category": "events",
+        "description": "Added reward summary filtering by active view"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Applied gradient accent coloring to navigation links and badges"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Added reduced-motion support for banner animations"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Moved 'View all' links into home section headers for cleaner layout"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Improved filter tag display and search input responsiveness"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Improved pagination with responsive layout, adjustable page size, and hidden controls when unnecessary"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Cleaned up change history to remove consecutive duplicate entries and timestamp-only updates"
+      },
+      {
+        "type": "updated",
+        "category": "search",
+        "description": "Added back arrow navigation in search modal and included TW server events in global search"
+      },
+      {
+        "type": "updated",
+        "category": "wyrmspells",
+        "description": "Added preferred ordering for Wyrmspell type filter options"
+      },
+      {
+        "type": "updated",
+        "category": "codes",
+        "description": "Active tab on Codes page now syncs with the URL for shareable links"
+      },
+      {
+        "type": "updated",
+        "category": "characters",
+        "description": "Improved character list performance and variant selector behavior"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live datasets through multiple data uploads and automated event syncs"
+      },
+      {
+        "type": "removed",
+        "category": "navigation",
+        "description": "Removed mobile bottom navigation bar"
+      },
+      {
+        "type": "fixed",
+        "category": "characters",
+        "description": "Fixed SandstormOverlay animation timing"
+      },
+      {
+        "type": "fixed",
+        "category": "ui",
+        "description": "Fixed LastUpdated display and type-safe link rendering across components"
+      }
+    ],
+    "last_updated": 1773631821
+  },
+  {
     "date": "2026-03-06",
     "version": "1.0.10",
     "changes": [
