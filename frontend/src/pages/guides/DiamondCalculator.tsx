@@ -4,7 +4,6 @@ import { useGradientAccent } from '@/hooks';
 import {
   ActionIcon,
   Alert,
-  Box,
   Button,
   Card,
   Container,
@@ -14,6 +13,7 @@ import {
   SimpleGrid,
   Stack,
   Switch,
+  ScrollArea,
   Table,
   Text,
   TextInput,
@@ -975,12 +975,12 @@ export default function DiamondCalculator() {
                 Tree Covenant. Add missing entries as custom sources.
               </Alert>
 
-              <Box style={{ overflowX: 'auto' }}>
+              <ScrollArea>
                 <Table
                   striped
                   highlightOnHover
                   withTableBorder
-                  style={{ minWidth: 480 }}
+                  miw={480}
                 >
                   <Table.Thead>
                     <Table.Tr>
@@ -995,7 +995,7 @@ export default function DiamondCalculator() {
                     {renderSourceRows('gain', sortedGainSources)}
                   </Table.Tbody>
                 </Table>
-              </Box>
+              </ScrollArea>
 
               <Group justify="flex-end">
                 <Button
@@ -1032,12 +1032,12 @@ export default function DiamondCalculator() {
                 missing entries as custom sources.
               </Alert>
 
-              <Box style={{ overflowX: 'auto' }}>
+              <ScrollArea>
                 <Table
                   striped
                   highlightOnHover
                   withTableBorder
-                  style={{ minWidth: 480 }}
+                  miw={480}
                 >
                   <Table.Thead>
                     <Table.Tr>
@@ -1052,7 +1052,7 @@ export default function DiamondCalculator() {
                     {renderSourceRows('spend', sortedSpendSources)}
                   </Table.Tbody>
                 </Table>
-              </Box>
+              </ScrollArea>
 
               <Group justify="flex-end">
                 <Button

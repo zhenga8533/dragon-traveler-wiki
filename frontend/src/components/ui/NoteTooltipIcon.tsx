@@ -1,6 +1,7 @@
 import { Tooltip } from '@mantine/core';
 import type { CSSProperties } from 'react';
 import { IoInformationCircle } from 'react-icons/io5';
+import { useMobileTooltip } from '@/hooks';
 
 interface NoteTooltipIconProps {
   note: string;
@@ -23,6 +24,7 @@ export default function NoteTooltipIcon({
   offset = 6,
   zIndex = 700,
 }: NoteTooltipIconProps) {
+  const mobileTooltip = useMobileTooltip();
   const preventBubble = stopPropagation
     ? (e: { preventDefault(): void; stopPropagation(): void }) => {
         e.preventDefault();
@@ -35,12 +37,9 @@ export default function NoteTooltipIcon({
       label={note}
       multiline
       maw={tooltipMaxWidth}
-      withArrow
-      openDelay={120}
-      closeDelay={120}
-      events={{ hover: true, focus: true, touch: true }}
       offset={offset}
       zIndex={zIndex}
+      {...mobileTooltip}
     >
       <div
         role="button"

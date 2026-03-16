@@ -1,5 +1,4 @@
 import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
-import { useDisclosure } from '@mantine/hooks';
 import { useContext } from 'react';
 import { WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
 import { POPOVER_MAX_WIDTH } from '@/constants/ui';
@@ -38,7 +37,6 @@ function ReferenceBadge({
   description,
   lines,
 }: ReferenceBadgeProps) {
-  const [opened, { open, close }] = useDisclosure(false);
   const hasDetails = Boolean(description) || (lines?.length ?? 0) > 0;
 
   if (!hasDetails) {
@@ -50,7 +48,7 @@ function ReferenceBadge({
   }
 
   return (
-    <Popover opened={opened} position="top" withArrow shadow="md">
+    <Popover position="top" withArrow shadow="md" closeOnClickOutside withinPortal>
       <Popover.Target>
         <Badge
           variant="light"
@@ -58,13 +56,11 @@ function ReferenceBadge({
           size="sm"
           component="span"
           style={{ cursor: 'pointer' }}
-          onMouseEnter={open}
-          onMouseLeave={close}
         >
           {name}
         </Badge>
       </Popover.Target>
-      <Popover.Dropdown style={{ pointerEvents: 'none' }}>
+      <Popover.Dropdown>
         <Stack gap="xs" maw={POPOVER_MAX_WIDTH}>
           <Group gap="xs" wrap="nowrap">
             <Text fw={600} size="sm">
