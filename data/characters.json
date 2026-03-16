@@ -1814,10 +1814,9 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [
-      "Executor",
-      "Inquisitor"
+      "Executor"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1773670017
   },
   {
     "name": "Ophelia",
@@ -1910,10 +1909,9 @@
     },
     "recommended_subclasses": [
       "Executor",
-      "Inquisitor",
       "Divine Officer"
     ],
-    "last_updated": 1772925921
+    "last_updated": 1773670017
   },
   {
     "name": "Scheherazade",
@@ -2101,10 +2099,9 @@
     },
     "recommended_subclasses": [
       "Executor",
-      "Inquisitor",
       "Divine Officer"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1773670017
   },
   {
     "name": "Titania",
@@ -2481,9 +2478,9 @@
     },
     "recommended_subclasses": [
       "High Priest",
-      "Inquisitor"
+      "Executor"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1773670017
   },
   {
     "name": "Chiron",
@@ -2576,9 +2573,9 @@
     },
     "recommended_subclasses": [
       "Executor",
-      "Inquisitor"
+      "Divine Officer"
     ],
-    "last_updated": 1772925921
+    "last_updated": 1773670017
   },
   {
     "name": "Flora",
