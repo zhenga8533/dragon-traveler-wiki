@@ -28,6 +28,7 @@ from pathlib import Path
 
 from ..sort_keys import FILE_SORT_KEY
 from .diff import compute_field_diffs
+from .verify import verify_data
 
 ROOT_DIR = Path(__file__).resolve().parent.parent.parent
 DATA_DIR = ROOT_DIR / "data"
@@ -409,7 +410,27 @@ def run(argv: list[str] | None = None) -> int:
         action="store_true",
         help="Only sort files with configured sort keys",
     )
+    mode.add_argument(
+        "--verify-only",
+        action="store_true",
+        help="Only run cross-reference verification checks (no sorting or timestamps)",
+    )
+    parser.add_argument(
+        "--no-verify",
+        action="store_true",
+        help="Skip cross-reference verification checks",
+    )
     args = parser.parse_args(argv)
+
+    if args.verify_only:
+        errors = verify_data()
+        if errors:
+            for err in errors:
+                print(f"  ERROR {err}")
+            print(f"Verification failed: {len(errors)} error{'s' if len(errors) != 1 else ''}.")
+            return 1
+        print("Verification passed.")
+        return 0
 
     do_sort = not args.timestamps_only
     do_timestamps = not args.sort_only
@@ -459,6 +480,17 @@ def run(argv: list[str] | None = None) -> int:
         f"Done. Sorted {total_sorted} file{'s' if total_sorted != 1 else ''}; "
         f"updated {total_bumped} timestamp entr{'ies' if total_bumped != 1 else 'y'}."
     )
+
+    if not args.no_verify:
+        errors = verify_data()
+        if errors:
+            print()
+            for err in errors:
+                print(f"  ERROR {err}")
+            print(f"Verification failed: {len(errors)} error{'s' if len(errors) != 1 else ''}.")
+            return 1
+        print("Verification passed.")
+
     return 0
 
 
