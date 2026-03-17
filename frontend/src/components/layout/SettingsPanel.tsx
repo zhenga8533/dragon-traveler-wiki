@@ -1,6 +1,7 @@
+import JsonModal from '@/components/tools/JsonModal';
 import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { normalizeContentType } from '@/constants/content-types';
-import { TRANSITION, Z_INDEX } from '@/constants/ui';
+import { STORAGE_KEY, TRANSITION, Z_INDEX } from '@/constants/ui';
 import type { CustomMantineAccent, GradientPalette } from '@/contexts';
 import {
   BannerContext,
@@ -31,7 +32,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { IoSettingsOutline } from 'react-icons/io5';
+import { IoDownload, IoFolderOpen, IoSettingsOutline } from 'react-icons/io5';
 
 const CUSTOM_COLOR_FIELDS: {
   key: 'colorA' | 'colorB';
@@ -172,6 +173,47 @@ export default function SettingsPanel() {
   const bannerComboboxProps = isMobile
     ? ({ withinPortal: false, zIndex: Z_INDEX.TOOLTIP } as const)
     : selectComboboxProps;
+
+  const [exportModalOpened, { open: openExportModal, close: closeExportModal }] =
+    useDisclosure(false);
+  const [importModalOpened, { open: openImportModal, close: closeImportModal }] =
+    useDisclosure(false);
+  const [exportJson, setExportJson] = useState('');
+
+  const EXPORT_EXCLUDE = new Set([
+    STORAGE_KEY.TEAMS_BUILDER_DRAFT,
+    STORAGE_KEY.TEAMS_BUILDER_SLOTS,
+    STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,
+    STORAGE_KEY.TIER_LIST_BUILDER_SLOTS,
+  ]);
+
+  const handleOpenExport = () => {
+    const data: Record<string, string> = {};
+    for (const key of Object.values(STORAGE_KEY)) {
+      if (EXPORT_EXCLUDE.has(key)) continue;
+      const val = localStorage.getItem(key);
+      if (val !== null) data[key] = val;
+    }
+    setExportJson(
+      JSON.stringify({ version: 1, savedAt: new Date().toISOString(), data }, null, 2)
+    );
+    openExportModal();
+  };
+
+  const handleImport = (text: string): string | null => {
+    try {
+      const parsed = JSON.parse(text);
+      if (!parsed?.data || typeof parsed.data !== 'object')
+        return 'Invalid settings file.';
+      for (const [key, value] of Object.entries(parsed.data)) {
+        if (typeof value === 'string') localStorage.setItem(key, value);
+      }
+      window.location.reload();
+      return null;
+    } catch {
+      return 'Could not parse JSON. Make sure you pasted the full settings export.';
+    }
+  };
 
   const settingsContent = (
     <Stack gap="md">
@@ -523,6 +565,57 @@ export default function SettingsPanel() {
           </Stack>
         </Stack>
       </Paper>
+
+      <Paper p="sm" radius="md" withBorder>
+        <Stack gap="xs">
+          <Text size="sm" fw={600}>
+            Backup &amp; Restore
+          </Text>
+          <Text size="xs" c="dimmed">
+            Export all settings and data, then import on another device.
+          </Text>
+          <Group grow gap="xs">
+            <Button
+              variant="light"
+              color={accent.primary}
+              size="xs"
+              leftSection={<IoDownload size={14} />}
+              onClick={() => { handleOpenExport(); closeOpened(); }}
+            >
+              Export
+            </Button>
+            <Button
+              variant="light"
+              color={accent.primary}
+              size="xs"
+              leftSection={<IoFolderOpen size={14} />}
+              onClick={() => { openImportModal(); closeOpened(); }}
+            >
+              Import
+            </Button>
+          </Group>
+        </Stack>
+      </Paper>
+
+      <JsonModal
+        mode="copy"
+        title="Export Settings"
+        description="Copy the text below, or download it as a file. Paste it using Import on another device."
+        value={exportJson}
+        filename="dragon-wiki-settings.json"
+        opened={exportModalOpened}
+        onClose={closeExportModal}
+      />
+      <JsonModal
+        mode="paste"
+        title="Import Settings"
+        description="Paste your previously exported settings JSON below. This will overwrite your current settings and reload the page."
+        placeholder={'{\n  "version": 1,\n  "data": { ... }\n}'}
+        opened={importModalOpened}
+        onClose={closeImportModal}
+        onApply={handleImport}
+        applyLabel="Import & Reload"
+      />
     </Stack>
   );
 

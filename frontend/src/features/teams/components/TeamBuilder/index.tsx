@@ -339,15 +339,13 @@ export default function TeamBuilder({
           : null}
 
         <PasteJsonModal
+          mode="paste"
+          title="Paste Team JSON"
+          description="Paste a team JSON object below to load it into the builder."
+          placeholder={'{\n  "name": "...",\n  "members": [...]\n}'}
           opened={pasteModalOpened}
           onClose={closePasteModal}
-          onApply={(pasteText) => {
-            const errorMessage = handlePasteApply(pasteText);
-            if (!errorMessage) {
-              closePasteModal();
-            }
-            return errorMessage;
-          }}
+          onApply={handlePasteApply}
         />
 
         <ConfirmActionModal

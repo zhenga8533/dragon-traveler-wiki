@@ -32,7 +32,6 @@ import {
   CHARACTER_GRID_SPACING,
   TRANSITION,
 } from '@/constants/ui';
-import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { FactionName } from '@/types/faction';
 import type { TeamWyrmspells } from '@/features/teams/types';
@@ -783,76 +782,7 @@ export function WyrmspellSelector({
 
 /* ── Paste JSON modal ── */
 
-export function PasteJsonModal({
-  opened,
-  onClose,
-  onApply,
-}: {
-  opened: boolean;
-  onClose: () => void;
-  /** Receives raw paste text; returns an error string on failure, null on success. */
-  onApply: (text: string) => string | null;
-}) {
-  const { accent } = useGradientAccent();
-  const [pasteText, setPasteText] = useState('');
-  const [pasteError, setPasteError] = useState('');
-
-  useEffect(() => {
-    if (!opened) {
-      queueMicrotask(() => {
-        setPasteText('');
-        setPasteError('');
-      });
-    }
-  }, [opened]);
-
-  function handleApply() {
-    const error = onApply(pasteText);
-    if (error) {
-      setPasteError(error);
-    }
-  }
-
-  return (
-    <Modal opened={opened} onClose={onClose} title="Paste Team JSON" size="lg">
-      <Stack gap="md">
-        <Text size="sm" c="dimmed">
-          Paste a team JSON object below to load it into the builder.
-        </Text>
-        <Textarea
-          placeholder={'{\n  "name": "...",\n  "members": [...]\n}'}
-          value={pasteText}
-          onChange={(e) => {
-            setPasteText(e.currentTarget.value);
-            setPasteError('');
-          }}
-          minRows={8}
-          maxRows={20}
-          autosize
-          error={pasteError || undefined}
-          styles={{
-            input: {
-              fontFamily: 'monospace',
-              fontSize: 'var(--mantine-font-size-xs)',
-            },
-          }}
-        />
-        <Group justify="flex-end">
-          <Button variant="outline" color={accent.primary} onClick={onClose}>
-            Cancel
-          </Button>
-          <Button
-            color={accent.primary}
-            onClick={handleApply}
-            disabled={!pasteText.trim()}
-          >
-            Apply
-          </Button>
-        </Group>
-      </Stack>
-    </Modal>
-  );
-}
+export { default as PasteJsonModal } from '@/components/tools/JsonModal';
 
 /* ── Bench pool ── */
 

@@ -1,4 +1,5 @@
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import JsonModal from '@/components/tools/JsonModal';
 import { getTierColor } from '@/constants/colors';
 import { STORAGE_KEY } from '@/constants/ui';
 import FilterableCharacterPool from '@/features/characters/components/FilterableCharacterPool';
@@ -27,11 +28,9 @@ import {
   Box,
   Button,
   Group,
-  Modal,
   Stack,
   Text,
   TextInput,
-  Textarea,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useRef, useState } from 'react';
@@ -64,8 +63,6 @@ export default function TierListBuilder({
     clearConfirmOpened,
     { open: openClearConfirm, close: closeClearConfirm },
   ] = useDisclosure(false);
-  const [pasteText, setPasteText] = useState('');
-  const [pasteError, setPasteError] = useState('');
   const [isCapturing, setIsCapturing] = useState(false);
   const [pendingSaveOverwrite, setPendingSaveOverwrite] = useState<
     string | null
@@ -404,69 +401,15 @@ export default function TierListBuilder({
             )
           : null}
 
-        <Modal
-          opened={pasteModalOpened}
-          onClose={() => {
-            closePasteModal();
-            setPasteText('');
-            setPasteError('');
-          }}
+        <JsonModal
+          mode="paste"
           title="Paste Tier List JSON"
-          size="lg"
-        >
-          <Stack gap="md">
-            <Text size="sm" c="dimmed">
-              Paste a tier list JSON object below to load it into the builder.
-            </Text>
-            <Textarea
-              placeholder={'{\n  "name": "...",\n  "entries": [...]\n}'}
-              value={pasteText}
-              onChange={(e) => {
-                setPasteText(e.currentTarget.value);
-                setPasteError('');
-              }}
-              minRows={8}
-              maxRows={20}
-              autosize
-              error={pasteError || undefined}
-              styles={{
-                input: {
-                  fontFamily: 'monospace',
-                  fontSize: 'var(--mantine-font-size-xs)',
-                },
-              }}
-            />
-            <Group justify="flex-end">
-              <Button
-                variant="outline"
-                color={accent.primary}
-                onClick={() => {
-                  closePasteModal();
-                  setPasteText('');
-                  setPasteError('');
-                }}
-              >
-                Cancel
-              </Button>
-              <Button
-                color={accent.primary}
-                onClick={() => {
-                  const error = handlePasteApply(pasteText);
-                  if (error) {
-                    setPasteError(error);
-                    return;
-                  }
-                  closePasteModal();
-                  setPasteText('');
-                  setPasteError('');
-                }}
-                disabled={!pasteText.trim()}
-              >
-                Apply
-              </Button>
-            </Group>
-          </Stack>
-        </Modal>
+          description="Paste a tier list JSON object below to load it into the builder."
+          placeholder={'{\n  "name": "...",\n  "entries": [...]\n}'}
+          opened={pasteModalOpened}
+          onClose={closePasteModal}
+          onApply={handlePasteApply}
+        />
 
         <ConfirmActionModal
           opened={clearConfirmOpened}
