@@ -29,7 +29,6 @@ import {
   Button,
   Group,
   Stack,
-  Text,
   TextInput,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';

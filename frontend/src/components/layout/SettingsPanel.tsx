@@ -180,7 +180,7 @@ export default function SettingsPanel() {
     useDisclosure(false);
   const [exportJson, setExportJson] = useState('');
 
-  const EXPORT_EXCLUDE = new Set([
+  const EXPORT_EXCLUDE = new Set<string>([
     STORAGE_KEY.TEAMS_BUILDER_DRAFT,
     STORAGE_KEY.TEAMS_BUILDER_SLOTS,
     STORAGE_KEY.TIER_LIST_BUILDER_DRAFT,

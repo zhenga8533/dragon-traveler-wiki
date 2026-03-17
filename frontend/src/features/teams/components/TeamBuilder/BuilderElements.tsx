@@ -6,7 +6,6 @@ import {
   Button,
   Group,
   Image,
-  Modal,
   Paper,
   Select,
   SimpleGrid,
@@ -18,7 +17,7 @@ import {
 } from '@mantine/core';
 import { useInputCommit, useIsMobile, useMobileTooltip } from '@/hooks';
 import type { CSSProperties } from 'react';
-import { memo, useEffect, useMemo, useState } from 'react';
+import { memo, useMemo } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '@/assets/faction';
 import { getWyrmspellIcon } from '@/assets/wyrmspell';
