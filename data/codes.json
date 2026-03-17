@@ -818,5 +818,15 @@
     },
     "active": true,
     "last_updated": 1773709336
+  },
+  {
+    "code": "HeartthrobVenus",
+    "rewards": {
+      "Legacy Dragon Crystal": 3,
+      "Golden Horn": 1,
+      "SR Luminary Shards": 10
+    },
+    "active": true,
+    "last_updated": 1773714806
   }
 ]
