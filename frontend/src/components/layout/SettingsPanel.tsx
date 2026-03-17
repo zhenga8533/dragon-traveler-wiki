@@ -1,7 +1,7 @@
 import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { normalizeContentType } from '@/constants/content-types';
 import { TRANSITION, Z_INDEX } from '@/constants/ui';
-import type { GradientPalette } from '@/contexts';
+import type { CustomMantineAccent, GradientPalette } from '@/contexts';
 import {
   BannerContext,
   TierListReferenceContext,
@@ -12,6 +12,7 @@ import {
   ActionIcon,
   Badge,
   Button,
+  ColorInput,
   Divider,
   Group,
   Paper,
@@ -30,6 +31,23 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoSettingsOutline } from 'react-icons/io5';
+
+const CUSTOM_COLOR_FIELDS: {
+  key: 'colorA' | 'colorB';
+  label: string;
+  swatches: string[];
+}[] = [
+  {
+    key: 'colorA',
+    label: 'Color A',
+    swatches: ['#7c3aed', '#1d4ed8', '#0f766e', '#be123c', '#b45309', '#065f46', '#831843', '#38bdf8'],
+  },
+  {
+    key: 'colorB',
+    label: 'Color B',
+    swatches: ['#9333ea', '#2563eb', '#0891b2', '#f43f5e', '#f97316', '#0f766e', '#db2777', '#7dd3fc'],
+  },
+];
 
 const PALETTE_SWATCHES: {
   value: GradientPalette;
@@ -87,7 +105,7 @@ export default function SettingsPanel() {
   const isDark = useDarkMode();
   const isMobile = useIsMobile();
   const mobileTooltip = useMobileTooltip();
-  const { accent, palette, setPalette } = useGradientAccent();
+  const { accent, palette, setPalette, customColors, setCustomColors } = useGradientAccent();
 
   const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
     useContext(TierListReferenceContext);
@@ -214,6 +232,88 @@ export default function SettingsPanel() {
                 </Tooltip>
               ))}
             </SimpleGrid>
+
+            {/* Custom palette swatch */}
+            <Tooltip label="Custom" {...mobileTooltip}>
+              <UnstyledButton
+                onClick={() => setPalette('custom')}
+                aria-label={`Custom${palette === 'custom' ? ' (selected)' : ''}`}
+                aria-pressed={palette === 'custom'}
+                style={{
+                  height: 28,
+                  borderRadius: 'var(--mantine-radius-sm)',
+                  background: `linear-gradient(135deg, ${customColors.colorA} 0%, ${customColors.colorB} 100%)`,
+                  border: `2px solid ${
+                    palette === 'custom'
+                      ? 'var(--mantine-primary-color-5)'
+                      : 'transparent'
+                  }`,
+                  outline:
+                    palette === 'custom'
+                      ? '2px solid var(--mantine-primary-color-6)'
+                      : 'none',
+                  outlineOffset: 1,
+                  cursor: 'pointer',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}, border-color ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+                }}
+                onMouseEnter={(e) => {
+                  if (palette !== 'custom')
+                    e.currentTarget.style.transform = 'scale(1.02)';
+                }}
+                onMouseLeave={(e) => {
+                  e.currentTarget.style.transform = 'scale(1)';
+                }}
+              >
+                <Text size="xs" fw={700} style={{ color: '#fff', textShadow: '0 1px 3px rgba(0,0,0,0.5)', letterSpacing: '0.04em' }}>
+                  Custom
+                </Text>
+              </UnstyledButton>
+            </Tooltip>
+
+            {/* Custom palette editor — shown when custom is selected */}
+            {palette === 'custom' && (
+              <Stack gap={8} mt={4}>
+                <Group grow gap={8}>
+                  {CUSTOM_COLOR_FIELDS.map(({ key, label, swatches }) => (
+                    <ColorInput
+                      key={key}
+                      label={label}
+                      size="xs"
+                      format="hex"
+                      value={customColors[key]}
+                      onChange={(v) => setCustomColors({ ...customColors, [key]: v })}
+                      popoverProps={{ withinPortal: false, zIndex: Z_INDEX.TOOLTIP }}
+                      swatches={swatches}
+                      swatchesPerRow={8}
+                    />
+                  ))}
+                </Group>
+                <Select
+                  label="UI Accent"
+                  size="xs"
+                  value={customColors.mantineAccent}
+                  onChange={(v) =>
+                    v && setCustomColors({ ...customColors, mantineAccent: v as CustomMantineAccent })
+                  }
+                  onDropdownOpen={() => setIsSelectDropdownOpen(true)}
+                  onDropdownClose={() => setIsSelectDropdownOpen(false)}
+                  comboboxProps={selectComboboxProps}
+                  data={[
+                    { value: 'violet', label: 'Violet' },
+                    { value: 'blue', label: 'Blue' },
+                    { value: 'teal', label: 'Teal' },
+                    { value: 'green', label: 'Green' },
+                    { value: 'orange', label: 'Orange' },
+                    { value: 'red', label: 'Red' },
+                    { value: 'pink', label: 'Pink' },
+                    { value: 'yellow', label: 'Yellow' },
+                  ]}
+                />
+              </Stack>
+            )}
           </Stack>
         </Stack>
       </Paper>

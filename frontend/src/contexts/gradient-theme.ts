@@ -8,7 +8,8 @@ export type GradientPalette =
   | 'ember'
   | 'dusk'
   | 'frost'
-  | 'blossom';
+  | 'blossom'
+  | 'custom';
 
 export interface GradientPaletteAccents {
   primary:
@@ -42,8 +43,22 @@ export interface GradientPaletteAccents {
     | 'indigo';
 }
 
+export type CustomMantineAccent = GradientPaletteAccents['primary'];
+
+export interface CustomGradientColors {
+  colorA: string;
+  colorB: string;
+  mantineAccent: CustomMantineAccent;
+}
+
+export const DEFAULT_CUSTOM_COLORS: CustomGradientColors = {
+  colorA: '#7c3aed',
+  colorB: '#9333ea',
+  mantineAccent: 'violet',
+};
+
 export const GRADIENT_PALETTE_ACCENTS: Record<
-  GradientPalette,
+  Exclude<GradientPalette, 'custom'>,
   GradientPaletteAccents
 > = {
   // Arcane — rich violet, deep grape, indigo
@@ -99,6 +114,8 @@ export const GRADIENT_PALETTE_ACCENTS: Record<
 export interface GradientThemeContextValue {
   palette: GradientPalette;
   setPalette: (palette: GradientPalette) => void;
+  customColors: CustomGradientColors;
+  setCustomColors: (colors: CustomGradientColors) => void;
 }
 
 export const DEFAULT_PALETTE: GradientPalette = 'violet';
@@ -111,12 +128,17 @@ export function normalizePalette(value: unknown): GradientPalette {
   if (value === 'dusk') return 'dusk';
   if (value === 'frost') return 'frost';
   if (value === 'blossom') return 'blossom';
+  if (value === 'custom') return 'custom';
   return DEFAULT_PALETTE;
 }
 
 export const GradientThemeContext = createContext<GradientThemeContextValue>({
   palette: DEFAULT_PALETTE,
   setPalette: () => {
+    /* noop */
+  },
+  customColors: DEFAULT_CUSTOM_COLORS,
+  setCustomColors: () => {
     /* noop */
   },
 });

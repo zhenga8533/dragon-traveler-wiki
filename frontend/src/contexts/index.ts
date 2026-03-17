@@ -7,6 +7,8 @@ export {
   normalizePalette,
 } from './gradient-theme';
 export type {
+  CustomGradientColors,
+  CustomMantineAccent,
   GradientPalette,
   GradientPaletteAccents,
   GradientThemeContextValue,

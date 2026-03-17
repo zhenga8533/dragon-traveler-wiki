@@ -156,6 +156,7 @@ export const STORAGE_KEY = {
   HOME_BANNER_GLOBAL: 'home:bannerGlobal',
   HOME_BANNER_SLOW_SCROLL: 'home:bannerSlowScroll',
   GRADIENT_PALETTE: 'ui:gradientPalette',
+  CUSTOM_GRADIENT_COLORS: 'ui:customGradientColors',
   UI_BANNER_MEDIA_OPACITY: 'ui:bannerMediaOpacity',
   UI_BANNER_OVERLAY_OPACITY: 'ui:bannerOverlayOpacity',
   UI_SURFACE_OPACITY: 'ui:surfaceOpacity',
