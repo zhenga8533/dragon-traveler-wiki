@@ -828,5 +828,15 @@
     },
     "active": true,
     "last_updated": 1773714806
+  },
+  {
+    "code": "VenusPower",
+    "rewards": {
+      "Gold": 3000,
+      "Legacy Dragon Crystal": 3,
+      "Apple": 1
+    },
+    "active": true,
+    "last_updated": 1773749861
   }
 ]
