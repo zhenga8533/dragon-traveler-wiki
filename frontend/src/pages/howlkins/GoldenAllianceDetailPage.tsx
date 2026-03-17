@@ -35,12 +35,12 @@ export default function GoldenAllianceDetailPage() {
   const isDark = useDarkMode();
 
   const { data: alliances, loading } = useDataFetch<GoldenAlliance[]>(
-    'data/golden_alliances.json',
+    'data/golden-alliances.json',
     []
   );
   const { data: howlkins } = useDataFetch<Howlkin[]>('data/howlkins.json', []);
   const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/golden_alliances.json',
+    'data/changes/golden-alliances.json',
     {}
   );
 

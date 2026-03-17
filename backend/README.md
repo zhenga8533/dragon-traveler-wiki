@@ -92,7 +92,7 @@ The backend reads from and writes to `data/`:
 | ----------------------- | ----------------------------------------------------------- |
 | `characters.json`       | Character database                                          |
 | `subclasses.json`       | Subclass definitions                                        |
-| `noble_phantasm.json`   | Noble Phantasm data                                         |
+| `noble-phantasm.json`   | Noble Phantasm data                                         |
 | `factions.json`         | Faction definitions                                         |
 | `artifacts.json`        | Artifact database                                           |
 | `wyrmspells.json`       | Wyrmspell database                                          |
@@ -100,9 +100,9 @@ The backend reads from and writes to `data/`:
 | `codes.json`            | Redemption codes                                            |
 | `status-effects.json`   | Status effects                                              |
 | `gear.json`             | Gear database                                               |
-| `gear_sets.json`        | Gear set bonuses                                            |
+| `gear-sets.json`        | Gear set bonuses                                            |
 | `howlkins.json`         | Howlkin database                                            |
-| `golden_alliances.json` | Golden alliance sets                                        |
+| `golden-alliances.json` | Golden alliance sets                                        |
 | `tier-lists.json`       | Community tier lists (supports custom tiers and tier notes) |
 | `teams.json`            | Team compositions                                           |
 | `useful-links.json`     | Community links                                             |

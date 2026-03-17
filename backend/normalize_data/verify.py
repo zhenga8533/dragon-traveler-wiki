@@ -55,12 +55,12 @@ def verify_data() -> list[str]:
     factions_data = _load_json("factions.json")
     subclasses_data = _load_json("subclasses.json")
     gear_data = _load_json("gear.json")
-    gear_sets_data = _load_json("gear_sets.json")
+    gear_sets_data = _load_json("gear-sets.json")
     artifacts_data = _load_json("artifacts.json")
-    noble_phantasm_data = _load_json("noble_phantasm.json")
+    noble_phantasm_data = _load_json("noble-phantasm.json")
     wyrmspells_data = _load_json("wyrmspells.json")
     howlkins_data = _load_json("howlkins.json")
-    golden_alliances_data = _load_json("golden_alliances.json")
+    golden_alliances_data = _load_json("golden-alliances.json")
     teams_data = _load_json("teams.json")
     tier_lists_data = _load_json("tier-lists.json")
     events_data = _load_json("events.json")
@@ -90,12 +90,12 @@ def verify_data() -> list[str]:
         ("characters.json",      characters_data,      lambda e: f"{e.get('name')}|{e.get('quality')}"),
         ("subclasses.json",      subclasses_data,      _name_key),
         ("gear.json",            gear_data,            _name_key),
-        ("gear_sets.json",       gear_sets_data,       _name_key),
+        ("gear-sets.json",       gear_sets_data,       _name_key),
         ("artifacts.json",       artifacts_data,       _name_key),
-        ("noble_phantasm.json",  noble_phantasm_data,  _name_key),
+        ("noble-phantasm.json",  noble_phantasm_data,  _name_key),
         ("wyrmspells.json",      wyrmspells_data,      _name_key),
         ("howlkins.json",        howlkins_data,        _name_key),
-        ("golden_alliances.json",golden_alliances_data,_name_key),
+        ("golden-alliances.json",golden_alliances_data,_name_key),
         ("factions.json",        factions_data,        _name_key),
         ("teams.json",           teams_data,           _name_key),
         ("resources.json",       resources_data,       _name_key),
@@ -165,16 +165,16 @@ def verify_data() -> list[str]:
                         f"{label}: recommended_gear[{slot}] '{gear_name}' not found in gear.json"
                     )
 
-        # noble_phantasm name must exist in noble_phantasm.json
+        # noble_phantasm name must exist in noble-phantasm.json
         if np_names:
             np_val = char.get("noble_phantasm")
             if np_val and np_val not in np_names:
                 errors.append(
-                    f"{label}: noble_phantasm '{np_val}' not found in noble_phantasm.json"
+                    f"{label}: noble_phantasm '{np_val}' not found in noble-phantasm.json"
                 )
 
     # -----------------------------------------------------------------------
-    # noble_phantasm.json
+    # noble-phantasm.json
     # -----------------------------------------------------------------------
     if isinstance(noble_phantasm_data, list):
         for np in noble_phantasm_data:
@@ -212,7 +212,7 @@ def verify_data() -> list[str]:
                     )
 
     # -----------------------------------------------------------------------
-    # gear.json — set must exist in gear_sets.json
+    # gear.json — set must exist in gear-sets.json
     # -----------------------------------------------------------------------
     if isinstance(gear_data, list) and gear_set_names:
         for item in gear_data:
@@ -222,7 +222,7 @@ def verify_data() -> list[str]:
             set_name = item.get("set")
             if set_name and set_name not in gear_set_names:
                 errors.append(
-                    f"gear '{item_name}': set '{set_name}' not found in gear_sets.json"
+                    f"gear '{item_name}': set '{set_name}' not found in gear-sets.json"
                 )
 
     # -----------------------------------------------------------------------
@@ -240,7 +240,7 @@ def verify_data() -> list[str]:
                 )
 
     # -----------------------------------------------------------------------
-    # golden_alliances.json — howlkins must exist in howlkins.json
+    # golden-alliances.json — howlkins must exist in howlkins.json
     # -----------------------------------------------------------------------
     if isinstance(golden_alliances_data, list) and howlkin_names:
         for ga in golden_alliances_data:

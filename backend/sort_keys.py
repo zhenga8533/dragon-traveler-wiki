@@ -180,10 +180,10 @@ FILE_SORT_KEY = {
     "artifacts.json": artifact_sort_key,
     "howlkins.json": howlkin_sort_key,
     "gear.json": gear_sort_key,
-    "gear_sets.json": gear_set_sort_key,
-    "noble_phantasm.json": noble_phantasm_sort_key,
+    "gear-sets.json": gear_set_sort_key,
+    "noble-phantasm.json": noble_phantasm_sort_key,
     "subclasses.json": subclass_sort_key,
-    "golden_alliances.json": golden_alliance_sort_key,
+    "golden-alliances.json": golden_alliance_sort_key,
     "events.json": event_sort_key,
     "relic.json": relic_sort_key,
 }

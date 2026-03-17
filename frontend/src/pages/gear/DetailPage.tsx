@@ -61,13 +61,13 @@ export default function GearSetPage() {
   const isDark = useDarkMode();
   const tooltipProps = useMobileTooltip();
   const { data: gear, loading } = useDataFetch<Gear[]>('data/gear.json', []);
-  const { data: gearSets } = useDataFetch<GearSet[]>('data/gear_sets.json', []);
+  const { data: gearSets } = useDataFetch<GearSet[]>('data/gear-sets.json', []);
   const { data: characters } = useDataFetch<Character[]>(
     'data/characters.json',
     []
   );
   const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/gear_sets.json',
+    'data/changes/gear-sets.json',
     {}
   );
   const { data: gearChangesData } = useDataFetch<ChangesFile>(

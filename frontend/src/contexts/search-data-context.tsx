@@ -78,7 +78,7 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
     []
   );
   const { data: noblePhantasms } = useDataFetch<NoblePhantasm[]>(
-    'data/noble_phantasm.json',
+    'data/noble-phantasm.json',
     []
   );
   const { data: teams } = useDataFetch<Team[]>('data/teams.json', []);

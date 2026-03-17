@@ -36,11 +36,11 @@ _ARRAY_DIFF_CFG: dict[tuple[str, str], dict] = {
     # artifacts.json
     ("artifacts.json", "effect"): {"identity": "level", "value": "description"},
     ("artifacts.json", "treasures"): {"identity": "name", "value": None},
-    # golden_alliances.json
-    ("golden_alliances.json", "effects"): {"identity": "level", "value": None},
-    # noble_phantasm.json
-    ("noble_phantasm.json", "effects"): {"identity": _noble_phantasm_effect_identity, "value": None},
-    ("noble_phantasm.json", "skills"): {"identity": "level", "value": "description"},
+    # golden-alliances.json
+    ("golden-alliances.json", "effects"): {"identity": "level", "value": None},
+    # noble-phantasm.json
+    ("noble-phantasm.json", "effects"): {"identity": _noble_phantasm_effect_identity, "value": None},
+    ("noble-phantasm.json", "skills"): {"identity": "level", "value": "description"},
 }
 
 

@@ -145,7 +145,7 @@ export default function GearPage() {
     data: gearSets,
     loading: gearSetsLoading,
     error: gearSetsError,
-  } = useDataFetch<GearSet[]>('data/gear_sets.json', []);
+  } = useDataFetch<GearSet[]>('data/gear-sets.json', []);
 
   const gearSetOptions = useMemo(
     () =>

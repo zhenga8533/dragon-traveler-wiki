@@ -54,7 +54,7 @@ export default function NoblePhantasms() {
     data: noblePhantasms,
     loading,
     error,
-  } = useDataFetch<NoblePhantasm[]>('data/noble_phantasm.json', []);
+  } = useDataFetch<NoblePhantasm[]>('data/noble-phantasm.json', []);
   const { data: characters } = useDataFetch<Character[]>(
     'data/characters.json',
     []

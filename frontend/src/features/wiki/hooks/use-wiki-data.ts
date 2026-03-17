@@ -15,7 +15,7 @@ export function useStatusEffects() {
 }
 
 export function useNoblePhantasms() {
-  return useDataFetch<NoblePhantasm[]>('data/noble_phantasm.json', []);
+  return useDataFetch<NoblePhantasm[]>('data/noble-phantasm.json', []);
 }
 
 export function useSubclasses() {
@@ -27,7 +27,7 @@ export function useGear() {
 }
 
 export function useGearSets() {
-  return useDataFetch<GearSet[]>('data/gear_sets.json', []);
+  return useDataFetch<GearSet[]>('data/gear-sets.json', []);
 }
 
 export function useArtifacts() {

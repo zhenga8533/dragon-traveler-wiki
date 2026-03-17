@@ -177,7 +177,7 @@ export default function Howlkins() {
     data: goldenAlliances,
     loading: alliancesLoading,
     error: alliancesError,
-  } = useDataFetch<GoldenAlliance[]>('data/golden_alliances.json', []);
+  } = useDataFetch<GoldenAlliance[]>('data/golden-alliances.json', []);
 
   const {
     filters,

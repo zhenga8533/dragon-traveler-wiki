@@ -331,7 +331,7 @@ function writeRoutePages() {
     },
     {
       pattern: '/noble-phantasms/:name',
-      file: 'noble_phantasm.json',
+      file: 'noble-phantasm.json',
       getName: (item) => item?.name,
       getDescription: (item, baseDescription) => {
         const owner = item?.character
@@ -357,7 +357,7 @@ function writeRoutePages() {
     },
     {
       pattern: '/gear-sets/:setName',
-      file: 'gear_sets.json',
+      file: 'gear-sets.json',
       getName: (item) => item?.name,
       getDescription: (item, baseDescription) => {
         const bonus = item?.set_bonus?.description

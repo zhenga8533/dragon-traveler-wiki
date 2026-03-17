@@ -82,7 +82,7 @@ export default function DataStatsBar() {
 		[]
 	);
 	const { data: noblePhantasms, loading: l6 } = useDataFetch<NoblePhantasm[]>(
-		'data/noble_phantasm.json',
+		'data/noble-phantasm.json',
 		[]
 	);
 	const { data: howlkins, loading: l7 } = useDataFetch<Howlkin[]>(

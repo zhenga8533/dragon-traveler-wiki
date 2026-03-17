@@ -175,7 +175,7 @@ export default function NoblePhantasmPage() {
   const isDark = useDarkMode();
 
   const { data: noblePhantasms, loading } = useDataFetch<NoblePhantasm[]>(
-    'data/noble_phantasm.json',
+    'data/noble-phantasm.json',
     []
   );
   const { data: characters } = useDataFetch<Character[]>(
@@ -187,7 +187,7 @@ export default function NoblePhantasmPage() {
     []
   );
   const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/noble_phantasm.json',
+    'data/changes/noble-phantasm.json',
     {}
   );
 
