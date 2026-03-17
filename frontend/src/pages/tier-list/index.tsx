@@ -271,6 +271,7 @@ export default function TierList() {
         JSON.stringify(saves)
       );
       setSavedTierLists((prev) => prev.filter((t) => t.name !== name));
+      window.dispatchEvent(new CustomEvent('tier-list:saved-changed'));
     } catch {
       // ignore
     }

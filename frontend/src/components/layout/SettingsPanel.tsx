@@ -107,8 +107,13 @@ export default function SettingsPanel() {
   const mobileTooltip = useMobileTooltip();
   const { accent, palette, setPalette, customColors, setCustomColors } = useGradientAccent();
 
-  const { tierLists, loading, selectedTierListName, setSelectedTierListName } =
-    useContext(TierListReferenceContext);
+  const {
+    tierLists,
+    savedTierLists,
+    loading,
+    selectedTierListName,
+    setSelectedTierListName,
+  } = useContext(TierListReferenceContext);
   const {
     selectedBanner,
     bannerSelectData,
@@ -139,14 +144,18 @@ export default function SettingsPanel() {
     };
   }, [isMobile, opened]);
 
-  const tierListOptions = useMemo(
-    () =>
-      tierLists.map((list) => ({
-        value: list.name,
-        label: `${list.name} (${normalizeContentType(list.content_type, 'All')})`,
-      })),
-    [tierLists]
-  );
+  const tierListOptions = useMemo(() => {
+    const toOption = (list: { name: string; content_type: string }) => ({
+      value: list.name,
+      label: `${list.name} (${normalizeContentType(list.content_type, 'All')})`,
+    });
+    const official = tierLists.map(toOption);
+    if (savedTierLists.length === 0) return official;
+    return [
+      { group: 'Official', items: official },
+      { group: 'My Saved', items: savedTierLists.map(toOption) },
+    ];
+  }, [tierLists, savedTierLists]);
 
   const controlSize = isMobile ? 'md' : 'sm';
   const selectComboboxProps = {

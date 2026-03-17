@@ -182,6 +182,7 @@ export default function TierListBuilder({
         STORAGE_KEY.TIER_LIST_MY_SAVED,
         JSON.stringify(saves)
       );
+      window.dispatchEvent(new CustomEvent('tier-list:saved-changed'));
       showSuccessToast({
         title: 'Saved!',
         message: `"${key}" saved to My Saved Tier Lists.`,

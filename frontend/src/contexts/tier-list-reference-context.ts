@@ -1,6 +1,7 @@
 import {
   createContext,
   createElement,
+  useCallback,
   useEffect,
   useMemo,
   useState,
@@ -9,9 +10,11 @@ import {
 import { STORAGE_KEY } from '@/constants/ui';
 import { useDataFetch } from '@/hooks/use-data-fetch';
 import type { TierList as TierListType } from '@/features/tier-list/types';
+import { loadSavedFromStorage } from '@/utils/saved-storage';
 
 export interface TierListReferenceContextValue {
   tierLists: TierListType[];
+  savedTierLists: TierListType[];
   loading: boolean;
   selectedTierListName: string;
   setSelectedTierListName: (name: string) => void;
@@ -20,10 +23,18 @@ export interface TierListReferenceContextValue {
 export const TierListReferenceContext =
   createContext<TierListReferenceContextValue>({
     tierLists: [],
+    savedTierLists: [],
     loading: false,
     selectedTierListName: '',
     setSelectedTierListName: () => {},
   });
+
+function readSavedTierLists(): TierListType[] {
+  return loadSavedFromStorage<TierListType>(
+    STORAGE_KEY.TIER_LIST_MY_SAVED,
+    (v) => Array.isArray(v.entries)
+  );
+}
 
 export function TierListReferenceProvider({
   children,
@@ -34,6 +45,9 @@ export function TierListReferenceProvider({
     'data/tier-lists.json',
     []
   );
+  const [savedTierLists, setSavedTierLists] = useState<TierListType[]>(() =>
+    readSavedTierLists()
+  );
   const [selectedTierListName, setSelectedTierListName] = useState(() => {
     if (typeof window === 'undefined') return '';
     return (
@@ -41,6 +55,22 @@ export function TierListReferenceProvider({
       ''
     );
   });
+
+  const refreshSaved = useCallback(() => {
+    setSavedTierLists(readSavedTierLists());
+  }, []);
+
+  useEffect(() => {
+    const handleStorage = (e: StorageEvent) => {
+      if (e.key === STORAGE_KEY.TIER_LIST_MY_SAVED) refreshSaved();
+    };
+    window.addEventListener('tier-list:saved-changed', refreshSaved);
+    window.addEventListener('storage', handleStorage);
+    return () => {
+      window.removeEventListener('tier-list:saved-changed', refreshSaved);
+      window.removeEventListener('storage', handleStorage);
+    };
+  }, [refreshSaved]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -62,22 +92,28 @@ export function TierListReferenceProvider({
       });
       return;
     }
-    const exists = tierLists.some((list) => list.name === selectedTierListName);
-    if (!exists) {
+    const existsInOfficial = tierLists.some(
+      (list) => list.name === selectedTierListName
+    );
+    const existsInSaved = savedTierLists.some(
+      (list) => list.name === selectedTierListName
+    );
+    if (!existsInOfficial && !existsInSaved) {
       queueMicrotask(() => {
         setSelectedTierListName(tierLists[0].name);
       });
     }
-  }, [selectedTierListName, tierLists, loading]);
+  }, [selectedTierListName, tierLists, savedTierLists, loading]);
 
   const value = useMemo(
     () => ({
       tierLists,
+      savedTierLists,
       loading,
       selectedTierListName,
       setSelectedTierListName,
     }),
-    [tierLists, loading, selectedTierListName]
+    [tierLists, savedTierLists, loading, selectedTierListName]
   );
 
   return createElement(TierListReferenceContext.Provider, { value }, children);
