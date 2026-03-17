@@ -14,7 +14,8 @@
         "fodder": 0,
         "divine_crystals": 0
       }
-    ]
+    ],
+    "last_updated": 1773772667
   },
   {
     "name": "Purple",
@@ -55,7 +56,8 @@
         "fodder": 3,
         "divine_crystals": 0
       }
-    ]
+    ],
+    "last_updated": 1773772667
   },
   {
     "name": "Red",
@@ -96,7 +98,8 @@
         "fodder": 4,
         "divine_crystals": 0
       }
-    ]
+    ],
+    "last_updated": 1773772667
   },
   {
     "name": "Diamond",
@@ -107,7 +110,8 @@
         "fodder": 6,
         "divine_crystals": 0
       }
-    ]
+    ],
+    "last_updated": 1773772667
   },
   {
     "name": "Divinity",
@@ -148,6 +152,7 @@
         "fodder": 0,
         "divine_crystals": 5
       }
-    ]
+    ],
+    "last_updated": 1773772667
   }
 ]
