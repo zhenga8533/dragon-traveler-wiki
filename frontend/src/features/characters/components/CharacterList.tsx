@@ -54,6 +54,7 @@ export default function CharacterList({
     setPageSize,
     pageSizeOptions,
     activeFilterCount,
+    starLevelOptions,
   } = useCharacterListData(characters);
 
   return (
@@ -75,6 +76,7 @@ export default function CharacterList({
               effectOptions={effectOptions}
               showTierFilter={Boolean(selectedTierListName)}
               tierOptions={tierOptions}
+              starLevelOptions={starLevelOptions}
             />
           </FilterToolbar>
         ) : (

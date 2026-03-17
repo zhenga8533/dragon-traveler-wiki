@@ -4,6 +4,7 @@ import { TRANSITION, Z_INDEX } from '@/constants/ui';
 import type { CustomMantineAccent, GradientPalette } from '@/contexts';
 import {
   BannerContext,
+  CharacterOwnershipContext,
   TierListReferenceContext,
   UiOpacityContext,
 } from '@/contexts';
@@ -134,6 +135,8 @@ export default function SettingsPanel() {
     setSurfaceOpacity,
     resetOpacitySettings,
   } = useContext(UiOpacityContext);
+  const { grayUnowned, setGrayUnowned, showCharacterTiers, setShowCharacterTiers } =
+    useContext(CharacterOwnershipContext);
 
   useEffect(() => {
     if (isMobile || !opened) return;
@@ -328,19 +331,40 @@ export default function SettingsPanel() {
       </Paper>
 
       <Paper p="sm" radius="md" withBorder>
-        <Select
-          label="Tier List Reference"
-          placeholder="Select tier list"
-          data={tierListOptions}
-          value={selectedTierListName || null}
-          onChange={(value) => setSelectedTierListName(value ?? '')}
-          comboboxProps={selectComboboxProps}
-          onDropdownOpen={() => setIsSelectDropdownOpen(true)}
-          onDropdownClose={() => setIsSelectDropdownOpen(false)}
-          clearable
-          size={controlSize}
-          disabled={loading || tierListOptions.length === 0}
-        />
+        <Stack gap="xs">
+          <Text size="sm" fw={600}>
+            Characters
+          </Text>
+          <Switch
+            size={isMobile ? 'md' : 'sm'}
+            color={accent.primary}
+            label="Gray out unowned characters"
+            checked={grayUnowned}
+            onChange={(e) => setGrayUnowned(e.currentTarget.checked)}
+          />
+          <Switch
+            size={isMobile ? 'md' : 'sm'}
+            color={accent.primary}
+            label="Show tier badges"
+            checked={showCharacterTiers}
+            onChange={(e) => setShowCharacterTiers(e.currentTarget.checked)}
+          />
+          {showCharacterTiers && (
+            <Select
+              label="Tier List Reference"
+              placeholder="Select tier list"
+              data={tierListOptions}
+              value={selectedTierListName || null}
+              onChange={(value) => setSelectedTierListName(value ?? '')}
+              comboboxProps={selectComboboxProps}
+              onDropdownOpen={() => setIsSelectDropdownOpen(true)}
+              onDropdownClose={() => setIsSelectDropdownOpen(false)}
+              clearable
+              size={controlSize}
+              disabled={loading || tierListOptions.length === 0}
+            />
+          )}
+        </Stack>
       </Paper>
 
       <Paper
@@ -396,7 +420,7 @@ export default function SettingsPanel() {
         />
         <Switch
           mt="sm"
-          size={isMobile ? 'sm' : 'xs'}
+          size={isMobile ? 'md' : 'sm'}
           color={accent.primary}
           label="Show banner on all pages"
           checked={showOnAllRoutes}
@@ -404,7 +428,7 @@ export default function SettingsPanel() {
         />
         <Switch
           mt="xs"
-          size={isMobile ? 'sm' : 'xs'}
+          size={isMobile ? 'md' : 'sm'}
           color={accent.primary}
           label="Slow scroll banner with page"
           checked={slowScrollEnabled}

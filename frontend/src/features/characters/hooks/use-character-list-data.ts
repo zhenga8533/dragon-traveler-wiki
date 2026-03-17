@@ -1,7 +1,7 @@
 import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useContext, useEffect, useMemo } from 'react';
 import { BREAKPOINTS, STORAGE_KEY } from '@/constants/ui';
-import { TierListReferenceContext } from '@/contexts';
+import { CharacterOwnershipContext, TierListReferenceContext } from '@/contexts';
 import type { Character } from '@/features/characters/types';
 import {
   buildCharacterByIdentityMap,
@@ -17,7 +17,9 @@ import {
   extractAllEffectRefs,
   filterCharacters,
 } from '@/features/characters/utils/filter-characters';
+import { useStarLevels } from '@/features/wiki/hooks/use-wiki-data';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import { buildStarLevels } from '@/types/star-level';
 import type { ViewMode } from '@/hooks/use-filters';
 import { useFilterPanel, useFilters, useViewMode } from '@/hooks/use-filters';
 import {
@@ -52,6 +54,7 @@ export interface CharacterListData {
   setPageSize: (pageSize: number) => void;
   pageSizeOptions: readonly number[];
   activeFilterCount: number;
+  starLevelOptions: { value: string; label: string }[];
 }
 
 export function useCharacterListData(
@@ -60,7 +63,15 @@ export function useCharacterListData(
   const { tierLists, selectedTierListName } = useContext(
     TierListReferenceContext
   );
+  const { ownedCharacters, showCharacterTiers } = useContext(CharacterOwnershipContext);
   const { data: statusEffects } = useStatusEffects();
+  const { data: rawStarLevels } = useStarLevels();
+  const starLevels = useMemo(() => buildStarLevels(rawStarLevels), [rawStarLevels]);
+  const starLevelOrder = useMemo(() => starLevels.map((l) => l.value), [starLevels]);
+  const starLevelOptions = useMemo(
+    () => starLevels.map((l) => ({ value: l.value, label: l.label })),
+    [starLevels]
+  );
 
   const { filters, setFilters } = useFilters<CharacterFilters>({
     emptyFilters: EMPTY_FILTERS,
@@ -170,21 +181,23 @@ export function useCharacterListData(
 
   const getTierLabel = useCallback(
     (character: Character) => {
-      if (!selectedTierListName) return undefined;
+      if (!showCharacterTiers || !selectedTierListName) return undefined;
       return (
         tierLookup.get(getCharacterIdentityKey(character)) ??
         tierLookup.get(character.name) ??
         'Unranked'
       );
     },
-    [selectedTierListName, tierLookup]
+    [showCharacterTiers, selectedTierListName, tierLookup]
   );
 
   const filteredAndSorted = useMemo(() => {
     const filtered = filterCharacters(
       characters,
       filters,
-      selectedTierListName ? tierLookup : undefined
+      selectedTierListName ? tierLookup : undefined,
+      ownedCharacters,
+      starLevelOrder
     );
     return [...filtered].sort((a, b) => {
       if (sortCol) {
@@ -217,6 +230,8 @@ export function useCharacterListData(
     tierRank,
     selectedTierListName,
     getTierLabel,
+    ownedCharacters,
+    starLevelOrder,
   ]);
 
   const { page, setPage, totalPages, offset } = usePagination(
@@ -238,7 +253,10 @@ export function useCharacterListData(
     filters.factions.length +
     (selectedTierListName ? filters.tiers.length : 0) +
     filters.statusEffects.length +
-    (filters.globalOnly !== null ? 1 : 0);
+    (filters.globalOnly !== null ? 1 : 0) +
+    (filters.ownedOnly ? 1 : 0) +
+    (filters.minStarLevel ? 1 : 0) +
+    (filters.maxStarLevel ? 1 : 0);
 
   return {
     filters,
@@ -264,5 +282,6 @@ export function useCharacterListData(
     setPageSize,
     pageSizeOptions,
     activeFilterCount,
+    starLevelOptions,
   };
 }

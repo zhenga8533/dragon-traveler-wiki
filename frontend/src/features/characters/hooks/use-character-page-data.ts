@@ -2,7 +2,7 @@ import { useContext, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets/gear';
 import { getSubclassIcon } from '@/assets/subclass';
-import { TierListReferenceContext } from '@/contexts';
+import { CharacterOwnershipContext, TierListReferenceContext } from '@/contexts';
 import type { ChangesFile } from '@/types/changes';
 import type {
   ActivatedSetBonus,
@@ -114,6 +114,7 @@ export function useCharacterPageData(
   const { tierLists, selectedTierListName } = useContext(
     TierListReferenceContext
   );
+  const { showCharacterTiers } = useContext(CharacterOwnershipContext);
 
   const { data: characters, loading } = useCharacters();
   const { data: statusEffects } = useStatusEffects();
@@ -198,9 +199,10 @@ export function useCharacterPageData(
   }, [selectedTierList, character, isPreferredCharacterForNameReferences]);
 
   const tierLabel = useMemo(() => {
-    if (!selectedTierListName || !selectedTierList || !character) return null;
+    if (!showCharacterTiers || !selectedTierListName || !selectedTierList || !character) return null;
     return selectedTierListEntry?.tier ?? 'Unranked';
   }, [
+    showCharacterTiers,
     selectedTierListName,
     selectedTierList,
     selectedTierListEntry,

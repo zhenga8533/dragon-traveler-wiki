@@ -12,7 +12,9 @@ import {
 import { IoCalendar, IoList, IoPricetag } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import { getCardHoverProps } from '@/constants/styles';
+import { CharacterOwnershipContext } from '@/contexts';
 import { useGradientAccent } from '@/hooks';
+import { useContext } from 'react';
 import ActiveCodesSection from '@/features/home/components/ActiveCodesSection';
 import ActiveEventsSection from '@/features/home/components/ActiveEventsSection';
 import DataStatsBar from '@/features/home/components/DataStatsBar';
@@ -22,6 +24,7 @@ import RecentUpdatesSection from '@/features/home/components/RecentUpdatesSectio
 
 export default function Home() {
   const { accent } = useGradientAccent();
+  const { showCharacterTiers } = useContext(CharacterOwnershipContext);
 
   return (
     <Stack gap={0}>
@@ -35,7 +38,7 @@ export default function Home() {
       >
         <Stack gap="xl">
           {/* Featured Characters Marquee */}
-          <FeaturedCharactersMarquee />
+          {showCharacterTiers && <FeaturedCharactersMarquee />}
 
           {/* Data stats bar */}
           <DataStatsBar />

@@ -9,6 +9,7 @@ import {
   Group,
   Image,
   Paper,
+  Select,
   SimpleGrid,
   Skeleton,
   Stack,
@@ -17,7 +18,7 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useCallback, useState } from 'react';
+import { useCallback, useContext, useMemo, useState } from 'react';
 import {
   IoChevronBack,
   IoChevronForward,
@@ -35,7 +36,10 @@ import TierBadge from '@/features/tier-list/components/TierBadge';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import { getCardHoverProps } from '@/constants/styles';
 import { BREAKPOINTS } from '@/constants/ui';
-import { useCharacterAssets, useGradientAccent, useMobileTooltip } from '@/hooks';
+import { useCharacterAssets, useGradientAccent, useMobileTooltip, useStarLevels } from '@/hooks';
+import { CharacterOwnershipContext } from '@/contexts';
+import { getCharacterIdentityKey } from '@/features/characters/utils/character-route';
+import { buildStarLevels } from '@/types/star-level';
 import {
   getCharacterNavPaths,
   useCharacterPageData,
@@ -51,6 +55,18 @@ export default function CharacterPage() {
   const { accent } = useGradientAccent();
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
   const { name } = useParams<{ name: string }>();
+  const { getCharacterStarLevel, setCharacterStarLevel } = useContext(
+    CharacterOwnershipContext
+  );
+  const { data: rawStarLevels } = useStarLevels();
+  const starLevels = useMemo(() => buildStarLevels(rawStarLevels), [rawStarLevels]);
+  const starLevelOptions = useMemo(
+    () => [
+      { value: '', label: 'Not owned' },
+      ...starLevels.map((l) => ({ value: l.value, label: l.label })),
+    ],
+    [starLevels]
+  );
 
   const {
     loading,
@@ -328,6 +344,35 @@ export default function CharacterPage() {
                 )}
               </Box>
 
+              {/* My Progress */}
+              {starLevelOptions.length > 1 && (
+                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+                  <Stack gap="sm">
+                    <Text fw={600} size="sm">
+                      My Progress
+                    </Text>
+                    <Select
+                      label="Star Level"
+                      description="Track your owned star level for this character."
+                      data={starLevelOptions}
+                      value={
+                        getCharacterStarLevel(
+                          getCharacterIdentityKey(character)
+                        ) ?? ''
+                      }
+                      onChange={(val) =>
+                        setCharacterStarLevel(
+                          getCharacterIdentityKey(character),
+                          val || null
+                        )
+                      }
+                      comboboxProps={{ withinPortal: false }}
+                      size="sm"
+                    />
+                  </Stack>
+                </Paper>
+              )}
+
               {/* Subclasses */}
               {character.subclasses.length > 0 && (
                 <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
@@ -437,6 +482,7 @@ export default function CharacterPage() {
                   </Stack>
                 </Paper>
               )}
+
             </Stack>
           </Grid.Col>
 

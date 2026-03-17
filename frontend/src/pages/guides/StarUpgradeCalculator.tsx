@@ -2,7 +2,9 @@ import { QUALITY_ICON_MAP } from '@/assets/quality';
 import StatCard from '@/components/ui/StatCard';
 import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
-import { useGradientAccent } from '@/hooks';
+import { useGradientAccent, useStarLevels } from '@/hooks';
+import type { StarTier } from '@/types/star-level';
+import { buildStarLevels } from '@/types/star-level';
 import {
   Alert,
   Badge,
@@ -42,201 +44,6 @@ import {
 } from 'react-icons/io5';
 import GuideHeroCard from './components/GuideHeroCard';
 
-type StarTier = 'base' | 'purple' | 'red' | 'legendary' | 'divine';
-
-type StarLevel = {
-  label: string;
-  stars: number;
-  value: string;
-  copies: number;
-  fodder: number;
-  divineCrystals: number;
-  tier: StarTier;
-};
-
-const STAR_LEVELS: StarLevel[] = [
-  {
-    label: '5 Star',
-    stars: 5,
-    value: '5',
-    copies: 1,
-    fodder: 0,
-    divineCrystals: 0,
-    tier: 'base',
-  },
-  {
-    label: '6 Star',
-    stars: 6,
-    value: '6',
-    copies: 2,
-    fodder: 0,
-    divineCrystals: 0,
-    tier: 'base',
-  },
-  {
-    label: 'Purple 1',
-    stars: 1,
-    value: 'p1',
-    copies: 2,
-    fodder: 1,
-    divineCrystals: 0,
-    tier: 'purple',
-  },
-  {
-    label: 'Purple 2',
-    stars: 2,
-    value: 'p2',
-    copies: 4,
-    fodder: 2,
-    divineCrystals: 0,
-    tier: 'purple',
-  },
-  {
-    label: 'Purple 3',
-    stars: 3,
-    value: 'p3',
-    copies: 4,
-    fodder: 4,
-    divineCrystals: 0,
-    tier: 'purple',
-  },
-  {
-    label: 'Purple 4',
-    stars: 4,
-    value: 'p4',
-    copies: 6,
-    fodder: 6,
-    divineCrystals: 0,
-    tier: 'purple',
-  },
-  {
-    label: 'Purple 5',
-    stars: 5,
-    value: 'p5',
-    copies: 6,
-    fodder: 9,
-    divineCrystals: 0,
-    tier: 'purple',
-  },
-  {
-    label: 'Purple 6',
-    stars: 6,
-    value: 'p6',
-    copies: 8,
-    fodder: 12,
-    divineCrystals: 0,
-    tier: 'purple',
-  },
-  {
-    label: 'Red 1',
-    stars: 1,
-    value: 'r1',
-    copies: 8,
-    fodder: 16,
-    divineCrystals: 0,
-    tier: 'red',
-  },
-  {
-    label: 'Red 2',
-    stars: 2,
-    value: 'r2',
-    copies: 10,
-    fodder: 20,
-    divineCrystals: 0,
-    tier: 'red',
-  },
-  {
-    label: 'Red 3',
-    stars: 3,
-    value: 'r3',
-    copies: 10,
-    fodder: 24,
-    divineCrystals: 0,
-    tier: 'red',
-  },
-  {
-    label: 'Red 4',
-    stars: 4,
-    value: 'r4',
-    copies: 12,
-    fodder: 27,
-    divineCrystals: 0,
-    tier: 'red',
-  },
-  {
-    label: 'Red 5',
-    stars: 5,
-    value: 'r5',
-    copies: 12,
-    fodder: 30,
-    divineCrystals: 0,
-    tier: 'red',
-  },
-  {
-    label: 'Red 6',
-    stars: 6,
-    value: 'r6',
-    copies: 14,
-    fodder: 34,
-    divineCrystals: 0,
-    tier: 'red',
-  },
-  {
-    label: 'Legendary',
-    stars: 0,
-    value: 'legendary',
-    copies: 18,
-    fodder: 40,
-    divineCrystals: 0,
-    tier: 'legendary',
-  },
-  {
-    label: 'Divine 2',
-    stars: 1,
-    value: 'd1',
-    copies: 20,
-    fodder: 40,
-    divineCrystals: 2,
-    tier: 'divine',
-  },
-  {
-    label: 'Divine 3',
-    stars: 2,
-    value: 'd2',
-    copies: 22,
-    fodder: 40,
-    divineCrystals: 5,
-    tier: 'divine',
-  },
-  {
-    label: 'Divine 4',
-    stars: 3,
-    value: 'd3',
-    copies: 24,
-    fodder: 40,
-    divineCrystals: 8,
-    tier: 'divine',
-  },
-  {
-    label: 'Divine 5',
-    stars: 4,
-    value: 'd4',
-    copies: 28,
-    fodder: 40,
-    divineCrystals: 12,
-    tier: 'divine',
-  },
-  {
-    label: 'Divine 6',
-    stars: 5,
-    value: 'd5',
-    copies: 32,
-    fodder: 40,
-    divineCrystals: 17,
-    tier: 'divine',
-  },
-];
-
 const TIER_BADGE_COLORS: Record<StarTier, string> = {
   base: 'gray',
   purple: 'grape',
@@ -271,30 +78,33 @@ function parseNumberInput(value: string | number): number | null {
 
 export default function StarUpgradeCalculator() {
   const { accent } = useGradientAccent();
-  const [currentValue, setCurrentValue] = useState<string>(
-    STAR_LEVELS[0].value
-  );
-  const [targetValue, setTargetValue] = useState<string>(
-    STAR_LEVELS[STAR_LEVELS.length - 1].value
-  );
+  const { data: rawStarLevels } = useStarLevels();
+  const starLevels = useMemo(() => buildStarLevels(rawStarLevels), [rawStarLevels]);
+
+  const [currentValue, setCurrentValue] = useState<string>('');
+  const [targetValue, setTargetValue] = useState<string>('');
   const [quality, setQuality] = useState<QualityOption>('SSR');
   const [affectionLevel20, setAffectionLevel20] = useState<boolean>(false);
   const [currentCopies, setCurrentCopies] = useState<number | null>(0);
   const [currentShards, setCurrentShards] = useState<number | null>(0);
   const [refTableOpened, refTableHandlers] = useDisclosure(false);
 
-  const currentIndex = STAR_LEVELS.findIndex(
-    (level) => level.value === currentValue
+  // Fall back to first/last level when data loads or user hasn't selected yet
+  const effectiveCurrentValue = currentValue || (starLevels[0]?.value ?? '');
+  const effectiveTargetValue =
+    targetValue || (starLevels[starLevels.length - 1]?.value ?? '');
+
+  const currentIndex = starLevels.findIndex(
+    (level) => level.value === effectiveCurrentValue
   );
-  const targetIndex = STAR_LEVELS.findIndex(
-    (level) => level.value === targetValue
+  const targetIndex = starLevels.findIndex(
+    (level) => level.value === effectiveTargetValue
   );
 
-  const currentLevel = STAR_LEVELS[currentIndex] ?? STAR_LEVELS[0];
-  const targetLevel =
-    STAR_LEVELS[targetIndex] ?? STAR_LEVELS[STAR_LEVELS.length - 1];
+  const currentLevel = starLevels[currentIndex] ?? starLevels[0];
+  const targetLevel = starLevels[targetIndex] ?? starLevels[starLevels.length - 1];
 
-  const isValidSelection = currentIndex < targetIndex;
+  const isValidSelection = currentIndex >= 0 && targetIndex >= 0 && currentIndex < targetIndex;
 
   const copiesNeeded = isValidSelection
     ? targetLevel.copies - currentLevel.copies
@@ -347,7 +157,7 @@ export default function StarUpgradeCalculator() {
     });
   }, [daysNeeded]);
 
-  const levelOptions = STAR_LEVELS.map((level) => ({
+  const levelOptions = starLevels.map((level) => ({
     value: level.value,
     label: `${level.label} • ${level.copies} copies / ${level.fodder} fodder`,
   }));
@@ -385,9 +195,9 @@ export default function StarUpgradeCalculator() {
               <Select
                 label="Current Star Level"
                 data={levelOptions}
-                value={currentValue}
+                value={effectiveCurrentValue}
                 onChange={(value) =>
-                  setCurrentValue(value ?? STAR_LEVELS[0].value)
+                  setCurrentValue(value ?? starLevels[0]?.value ?? '')
                 }
                 searchable
                 nothingFoundMessage="No level found"
@@ -395,10 +205,10 @@ export default function StarUpgradeCalculator() {
               <Select
                 label="Target Star Level"
                 data={levelOptions}
-                value={targetValue}
+                value={effectiveTargetValue}
                 onChange={(value) =>
                   setTargetValue(
-                    value ?? STAR_LEVELS[STAR_LEVELS.length - 1].value
+                    value ?? starLevels[starLevels.length - 1]?.value ?? ''
                   )
                 }
                 searchable
@@ -759,7 +569,7 @@ export default function StarUpgradeCalculator() {
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
-                    {STAR_LEVELS.map((level, index) => {
+                    {starLevels.map((level, index) => {
                       const inRange =
                         isValidSelection &&
                         index > currentIndex &&

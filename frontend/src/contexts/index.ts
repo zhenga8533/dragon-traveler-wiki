@@ -1,4 +1,9 @@
 export { BannerContext, BannerProvider } from './banner-context';
+export {
+  CharacterOwnershipContext,
+  CharacterOwnershipProvider,
+} from './character-ownership-context';
+export type { CharacterOwnershipContextValue } from './character-ownership-context';
 export type { BannerContextValue } from './banner-context';
 export {
   DEFAULT_PALETTE,

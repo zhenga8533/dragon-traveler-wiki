@@ -161,4 +161,7 @@ export const STORAGE_KEY = {
   UI_BANNER_OVERLAY_OPACITY: 'ui:bannerOverlayOpacity',
   UI_SURFACE_OPACITY: 'ui:surfaceOpacity',
   CHANGELOG_TAB: 'changelog:tab',
+  CHARACTER_OWNERSHIP: 'characters:ownership',
+  UI_GRAY_UNOWNED: 'ui:grayUnowned',
+  UI_SHOW_CHARACTER_TIERS: 'ui:showCharacterTiers',
 } as const;

@@ -5,6 +5,7 @@ import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import type { Subclass } from '@/features/wiki/subclasses/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { useDataFetch } from '@/hooks/use-data-fetch';
+import type { StarTierData } from '@/types/star-level';
 
 export function useWyrmspells() {
   return useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
@@ -32,4 +33,8 @@ export function useGearSets() {
 
 export function useArtifacts() {
   return useDataFetch<Artifact[]>('data/artifacts.json', []);
+}
+
+export function useStarLevels() {
+  return useDataFetch<StarTierData[]>('data/star-levels.json', []);
 }

@@ -8,12 +8,15 @@ import {
 } from '@/components';
 import { CLASS_ORDER, QUALITY_ORDER } from '@/constants/colors';
 import { CHARACTER_GRID_COLS } from '@/constants/ui';
+import CharacterOwnershipManager from '@/features/characters/components/CharacterOwnershipManager';
 import type { Character } from '@/features/characters/types';
+import { buildCharacterNameCounts } from '@/features/characters/utils/character-route';
 import { useDataFetch, useGradientAccent } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { Container, Group, Stack, Title } from '@mantine/core';
+import { ActionIcon, Container, Group, Stack, Title, Tooltip } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
 import { useMemo } from 'react';
-import { IoPeople } from 'react-icons/io5';
+import { IoPeople, IoStar } from 'react-icons/io5';
 
 const CHARACTER_FIELDS: FieldDef[] = [
   {
@@ -71,6 +74,14 @@ export default function Characters() {
     [characters]
   );
 
+  const characterNameCounts = useMemo(
+    () => buildCharacterNameCounts(characters),
+    [characters]
+  );
+
+  const [managerOpened, { open: openManager, close: closeManager }] =
+    useDisclosure(false);
+
   return (
     <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
@@ -79,14 +90,34 @@ export default function Characters() {
             <Title order={1}>Characters</Title>
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
-          <SuggestModal
-            buttonLabel="Suggest a Character"
-            modalTitle="Suggest a New Character"
-            issueTitle="[Character] New character suggestion"
-            fields={CHARACTER_FIELDS}
-            excludeFromJson={['additional_info']}
-          />
+          <Group gap="xs">
+            <Tooltip label="Manage my characters">
+              <ActionIcon
+                variant="light"
+                color={accent.primary}
+                size="lg"
+                onClick={openManager}
+                aria-label="Manage my characters"
+              >
+                <IoStar size={16} />
+              </ActionIcon>
+            </Tooltip>
+            <SuggestModal
+              buttonLabel="Suggest a Character"
+              modalTitle="Suggest a New Character"
+              issueTitle="[Character] New character suggestion"
+              fields={CHARACTER_FIELDS}
+              excludeFromJson={['additional_info']}
+            />
+          </Group>
         </Group>
+
+        <CharacterOwnershipManager
+          characters={characters}
+          opened={managerOpened}
+          onClose={closeManager}
+          characterNameCounts={characterNameCounts}
+        />
 
         <ListPageShell
           loading={loading}

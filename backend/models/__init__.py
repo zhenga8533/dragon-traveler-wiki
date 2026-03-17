@@ -1,4 +1,5 @@
 from backend.models.artifact import Artifact, ArtifactEffect, ArtifactTreasure
+from backend.models.star_level import StarLevelEntry, StarTierData
 from backend.models.changelog import ChangelogChange, ChangelogEntry
 from backend.models.character import (
     Character,
@@ -46,6 +47,8 @@ __all__ = [
     "RecommendedGear",
     "Resource",
     "Skill",
+    "StarLevelEntry",
+    "StarTierData",
     "Subclass",
     "StatusEffect",
     "StatusEffectType",

@@ -13,6 +13,9 @@ export interface CharacterFilters {
   tiers: string[];
   statusEffects: string[];
   globalOnly: boolean | null;
+  ownedOnly: boolean;
+  minStarLevel: string | null;
+  maxStarLevel: string | null;
 }
 
 export const EMPTY_FILTERS: CharacterFilters = {
@@ -23,13 +26,18 @@ export const EMPTY_FILTERS: CharacterFilters = {
   tiers: [],
   statusEffects: [],
   globalOnly: null,
+  ownedOnly: false,
+  minStarLevel: null,
+  maxStarLevel: null,
 };
 
 /** Apply all active filters to a list of characters. Empty arrays mean no filter. */
 export function filterCharacters(
   characters: Character[],
   filters: CharacterFilters,
-  tierLookup?: Map<string, string>
+  tierLookup?: Map<string, string>,
+  ownedCharacters?: Record<string, string>,
+  starLevelOrder?: string[]
 ): Character[] {
   return characters.filter((c) => {
     if (
@@ -74,6 +82,30 @@ export function filterCharacters(
     if (filters.globalOnly !== null && c.is_global !== filters.globalOnly) {
       return false;
     }
+
+    const identityKey = getCharacterIdentityKey(c);
+    const ownedLevel = ownedCharacters?.[identityKey] ?? null;
+
+    if (filters.ownedOnly && ownedLevel === null) {
+      return false;
+    }
+    if (
+      (filters.minStarLevel || filters.maxStarLevel) &&
+      starLevelOrder &&
+      starLevelOrder.length > 0
+    ) {
+      if (ownedLevel === null) return false;
+      const ownedIndex = starLevelOrder.indexOf(ownedLevel);
+      if (filters.minStarLevel) {
+        const minIndex = starLevelOrder.indexOf(filters.minStarLevel);
+        if (ownedIndex < minIndex) return false;
+      }
+      if (filters.maxStarLevel) {
+        const maxIndex = starLevelOrder.indexOf(filters.maxStarLevel);
+        if (ownedIndex > maxIndex) return false;
+      }
+    }
+
     return true;
   });
 }

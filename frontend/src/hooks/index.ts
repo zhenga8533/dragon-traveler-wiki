@@ -26,6 +26,7 @@ export {
   useGear,
   useGearSets,
   useNoblePhantasms,
+  useStarLevels,
   useStatusEffects,
   useSubclasses,
   useWyrmspells,

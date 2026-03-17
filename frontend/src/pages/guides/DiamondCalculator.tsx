@@ -9,11 +9,11 @@ import {
   Container,
   Group,
   NumberInput,
+  ScrollArea,
   Select,
   SimpleGrid,
   Stack,
   Switch,
-  ScrollArea,
   Table,
   Text,
   TextInput,
@@ -75,7 +75,7 @@ const BASE_GAIN_SOURCES: BaseSource[] = [
     id: 'storyChapterClear',
     label: 'Story chapter clear',
     defaultAmount: 7350,
-    defaultCadenceDays: 4,
+    defaultCadenceDays: 6,
   },
   {
     id: 'wildHuntDailyQuest',
@@ -686,7 +686,9 @@ export default function DiamondCalculator() {
     () => isoDateToDate(targetDate),
     [targetDate]
   );
-  const customInputStyles = { input: { borderColor: 'var(--mantine-primary-color-6)' } };
+  const customInputStyles = {
+    input: { borderColor: 'var(--mantine-primary-color-6)' },
+  };
 
   const deferredGainSources = useDeferredValue(gainSources);
   const deferredSpendSources = useDeferredValue(spendSources);
@@ -976,12 +978,7 @@ export default function DiamondCalculator() {
               </Alert>
 
               <ScrollArea>
-                <Table
-                  striped
-                  highlightOnHover
-                  withTableBorder
-                  miw={480}
-                >
+                <Table striped highlightOnHover withTableBorder miw={480}>
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th w={48} />
@@ -1033,12 +1030,7 @@ export default function DiamondCalculator() {
               </Alert>
 
               <ScrollArea>
-                <Table
-                  striped
-                  highlightOnHover
-                  withTableBorder
-                  miw={480}
-                >
+                <Table striped highlightOnHover withTableBorder miw={480}>
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th w={48} />

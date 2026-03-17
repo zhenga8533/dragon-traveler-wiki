@@ -31,3 +31,9 @@ export type { Faction, FactionName, Wyrm } from './faction';
 export type { Quality } from './quality';
 export type { Resource, ResourceCategory } from './resource';
 export type { UsefulLink } from './useful-link';
+export type {
+  StarLevel,
+  StarLevelEntry,
+  StarTier,
+  StarTierData,
+} from './star-level';

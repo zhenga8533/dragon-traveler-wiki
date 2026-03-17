@@ -1,10 +1,12 @@
 import { getPortrait } from '@/assets/character';
 import { QUALITY_BORDER_COLOR } from '@/constants/colors';
 import { getCharacterPortraitHoverProps } from '@/constants/styles';
-import { getCharacterRoutePathByName } from '@/features/characters/utils/character-route';
+import { CharacterOwnershipContext } from '@/contexts';
+import { getCharacterIdentityKey, getCharacterRoutePathByName } from '@/features/characters/utils/character-route';
 import type { Quality } from '@/types/quality';
 import { Image, Tooltip, type TooltipProps } from '@mantine/core';
 import type { CSSProperties, ReactNode } from 'react';
+import { useContext } from 'react';
 import { Link } from 'react-router-dom';
 import { useMobileTooltip } from '@/hooks';
 
@@ -46,11 +48,16 @@ export default function CharacterPortrait({
   assetKey,
 }: CharacterPortraitProps) {
   const mobileTooltip = useMobileTooltip();
+  const { grayUnowned, isOwned } = useContext(CharacterOwnershipContext);
   const routeAssetKey = routePath?.match(/^\/characters\/([^/?#]+)/)?.[1];
   const resolvedAssetKey = assetKey ?? routeAssetKey;
   const resolvedBorderColor =
     borderColor ??
     (quality ? QUALITY_BORDER_COLOR[quality] : 'var(--mantine-color-gray-5)');
+
+  // Only dim when quality is known — prevents misidentifying same-named characters of different quality
+  const dimmed =
+    grayUnowned && quality != null && !isOwned(getCharacterIdentityKey(name, quality));
 
   const portrait = (
     <Image
@@ -74,7 +81,9 @@ export default function CharacterPortrait({
               borderRadius: '50%',
             }
           : {}),
-        opacity: isSubstitute ? 0.9 : 1,
+        opacity: dimmed ? 0.35 : isSubstitute ? 0.9 : 1,
+        filter: dimmed ? 'grayscale(1)' : undefined,
+        transition: 'opacity 150ms ease, filter 150ms ease',
         ...style,
       }}
       fallbackSrc={

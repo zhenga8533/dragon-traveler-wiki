@@ -1,0 +1,153 @@
+[
+  {
+    "name": "Base",
+    "levels": [
+      {
+        "stars": 5,
+        "copies": 1,
+        "fodder": 0,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 6,
+        "copies": 1,
+        "fodder": 0,
+        "divine_crystals": 0
+      }
+    ]
+  },
+  {
+    "name": "Purple",
+    "levels": [
+      {
+        "stars": 1,
+        "copies": 0,
+        "fodder": 1,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 2,
+        "copies": 2,
+        "fodder": 1,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 3,
+        "copies": 0,
+        "fodder": 2,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 4,
+        "copies": 2,
+        "fodder": 2,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 5,
+        "copies": 0,
+        "fodder": 3,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 6,
+        "copies": 2,
+        "fodder": 3,
+        "divine_crystals": 0
+      }
+    ]
+  },
+  {
+    "name": "Red",
+    "levels": [
+      {
+        "stars": 1,
+        "copies": 0,
+        "fodder": 4,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 2,
+        "copies": 2,
+        "fodder": 4,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 3,
+        "copies": 0,
+        "fodder": 4,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 4,
+        "copies": 2,
+        "fodder": 3,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 5,
+        "copies": 0,
+        "fodder": 4,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 6,
+        "copies": 2,
+        "fodder": 4,
+        "divine_crystals": 0
+      }
+    ]
+  },
+  {
+    "name": "Diamond",
+    "levels": [
+      {
+        "stars": 1,
+        "copies": 4,
+        "fodder": 6,
+        "divine_crystals": 0
+      }
+    ]
+  },
+  {
+    "name": "Divinity",
+    "levels": [
+      {
+        "stars": 1,
+        "copies": 0,
+        "fodder": 0,
+        "divine_crystals": 0
+      },
+      {
+        "stars": 2,
+        "copies": 2,
+        "fodder": 0,
+        "divine_crystals": 2
+      },
+      {
+        "stars": 3,
+        "copies": 2,
+        "fodder": 0,
+        "divine_crystals": 3
+      },
+      {
+        "stars": 4,
+        "copies": 2,
+        "fodder": 0,
+        "divine_crystals": 3
+      },
+      {
+        "stars": 5,
+        "copies": 4,
+        "fodder": 0,
+        "divine_crystals": 4
+      },
+      {
+        "stars": 6,
+        "copies": 4,
+        "fodder": 0,
+        "divine_crystals": 5
+      }
+    ]
+  }
+]
