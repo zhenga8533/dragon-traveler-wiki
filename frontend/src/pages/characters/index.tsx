@@ -10,6 +10,7 @@ import { CLASS_ORDER, QUALITY_ORDER } from '@/constants/colors';
 import { CHARACTER_GRID_COLS } from '@/constants/ui';
 import CharacterOwnershipManager from '@/features/characters/components/CharacterOwnershipManager';
 import type { Character } from '@/features/characters/types';
+import { useCharacterListData } from '@/features/characters/hooks/use-character-list-data';
 import { buildCharacterNameCounts } from '@/features/characters/utils/character-route';
 import { useDataFetch, useGradientAccent } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
@@ -79,6 +80,8 @@ export default function Characters() {
     [characters]
   );
 
+  const listData = useCharacterListData(characters);
+
   const [managerOpened, { open: openManager, close: closeManager }] =
     useDisclosure(false);
 
@@ -113,7 +116,9 @@ export default function Characters() {
         </Group>
 
         <CharacterOwnershipManager
-          characters={characters}
+          characters={listData.filteredAndSorted}
+          totalCharacters={characters.length}
+          activeFilterCount={listData.activeFilterCount}
           opened={managerOpened}
           onClose={closeManager}
           characterNameCounts={characterNameCounts}
@@ -138,7 +143,7 @@ export default function Characters() {
               color={accent.primary}
             />
           ) : (
-            <CharacterList characters={characters} />
+            <CharacterList data={listData} />
           )}
         </ListPageShell>
       </Stack>

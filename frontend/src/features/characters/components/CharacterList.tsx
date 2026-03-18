@@ -3,8 +3,7 @@ import {
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
 } from '@/constants/ui';
-import { useCharacterListData } from '@/features/characters/hooks/use-character-list-data';
-import type { Character } from '@/features/characters/types';
+import type { CharacterListData } from '@/features/characters/hooks/use-character-list-data';
 import {
   getCharacterIdentityKey,
   getCharacterRoutePath,
@@ -18,14 +17,14 @@ import CharacterFilter from './CharacterFilter';
 import CharacterTable from './CharacterTable';
 
 interface CharacterListProps {
-  characters: Character[];
+  data: CharacterListData;
   cols?: { base?: number; xs?: number; sm?: number; md?: number };
   spacing?: number | string;
   showFilter?: boolean;
 }
 
 export default function CharacterList({
-  characters,
+  data,
   cols = CHARACTER_GRID_COLS,
   spacing = CHARACTER_GRID_SPACING,
   showFilter = true,
@@ -55,7 +54,7 @@ export default function CharacterList({
     pageSizeOptions,
     activeFilterCount,
     starLevelOptions,
-  } = useCharacterListData(characters);
+  } = data;
 
   return (
     <Paper p="md" radius="md" withBorder data-no-hover>
