@@ -74,15 +74,13 @@ async function renderElementAsJpeg(
   width?: number,
   height?: number
 ): Promise<string> {
-  const includeFontEmbedOptions = fontRenderMode === 'skip';
-
   return toJpeg(el, {
     backgroundColor: isDark ? DARK_BACKGROUND : LIGHT_BACKGROUND,
     pixelRatio,
     quality: JPEG_QUALITY,
     ...(width ? { width } : {}),
     ...(height ? { height } : {}),
-    ...(includeFontEmbedOptions
+    ...(fontRenderMode === 'skip'
       ? {
           // Fallback mode: skip embedding webfonts to avoid cross-origin stylesheet access failures.
           skipFonts: true,
@@ -281,5 +279,3 @@ export async function downloadElementAsImage(
   triggerAnchorDownload(dataUrl, safeFilename, mobile);
 }
 
-// Backward-compatible alias used by existing imports.
-export const downloadElementAsPng = downloadElementAsImage;

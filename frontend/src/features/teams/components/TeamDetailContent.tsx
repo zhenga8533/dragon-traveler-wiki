@@ -147,6 +147,7 @@ export default function TeamDetailContent({
 							isDark={isDark}
 							tooltipProps={tooltipProps}
 							disableNameClamp={exporting}
+							desktopMode={exporting}
 						/>
 
 						{team.bench && team.bench.length > 0 && (
@@ -159,6 +160,7 @@ export default function TeamDetailContent({
 								factionColor={factionColor}
 								tooltipProps={tooltipProps}
 								disableNameClamp={exporting}
+								desktopMode={exporting}
 							/>
 						)}
 					</Stack>

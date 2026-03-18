@@ -40,7 +40,7 @@ import {
 } from '@/hooks';
 import { loadSavedFromStorage, parseTabMode } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
-import { downloadElementAsPng } from '@/utils/export-image';
+import { downloadElementAsImage } from '@/utils/export-image';
 import {
   Container,
   Group,
@@ -329,7 +329,7 @@ export default function TierList() {
       if (!el) return;
       setIsCapturingTierList(name);
       try {
-        await downloadElementAsPng(el, name, isDark);
+        await downloadElementAsImage(el, name, isDark);
       } finally {
         setIsCapturingTierList(null);
       }

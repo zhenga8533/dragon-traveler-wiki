@@ -76,6 +76,7 @@ export function BattlefieldGrid({
 	isDark,
 	tooltipProps,
 	disableNameClamp = false,
+	desktopMode = false,
 }: {
 	members: TeamMember[];
 	charMap: Map<string, Character>;
@@ -89,11 +90,12 @@ export function BattlefieldGrid({
 	isDark: boolean;
 	tooltipProps: ReturnType<typeof useMobileTooltip>;
 	disableNameClamp?: boolean;
+	desktopMode?: boolean;
 }) {
 	const { accent } = useGradientAccent();
 	const grid = buildPositionGrid(members);
 	const accentColor = `var(--mantine-color-${factionColor}-${isDark ? 7 : 5})`;
-	const isMobile = useIsMobile();
+	const isMobile = useIsMobile() && !desktopMode;
 
 	return (
 		<Stack gap={isMobile ? 'xs' : 'sm'}>

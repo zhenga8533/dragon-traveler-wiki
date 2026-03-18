@@ -1,6 +1,6 @@
 import type { RefObject } from 'react';
 import type { Team } from '@/features/teams/types';
-import { downloadElementAsPng } from '@/utils/export-image';
+import { downloadElementAsImage } from '@/utils/export-image';
 
 export function hasTeamWyrmspells(team: Team): boolean {
   const spells = team.wyrmspells;
@@ -22,5 +22,5 @@ export async function exportTeamCompositionAsImage(
   isDark: boolean
 ): Promise<void> {
   if (!exportRef.current) return;
-  await downloadElementAsPng(exportRef.current, teamName, isDark);
+  await downloadElementAsImage(exportRef.current, teamName, isDark);
 }

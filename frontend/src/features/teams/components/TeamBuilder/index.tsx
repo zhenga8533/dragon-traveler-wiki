@@ -16,7 +16,7 @@ import type { Team } from '@/features/teams/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { useDarkMode, useIsMobile, useMobileTooltip } from '@/hooks';
 import { toEntitySlug } from '@/utils/entity-slug';
-import { downloadElementAsPng } from '@/utils/export-image';
+import { downloadElementAsImage } from '@/utils/export-image';
 import { buildSuggestionIssueUrls } from '@/utils/github-issues';
 import { showSuccessToast, showWarningToast } from '@/utils/toast';
 import {
@@ -135,15 +135,14 @@ export default function TeamBuilder({
       // Brief delay so portrait images (already cached) can paint
       await new Promise((r) => setTimeout(r, 150));
       try {
-        await downloadElementAsPng(el, teamData.name || 'team', isDark);
+        await downloadElementAsImage(el, teamData.name || 'team', isDark);
       } finally {
         setIsCapturing(false);
       }
     };
 
     run();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [isCapturing]);
+  }, [isCapturing, isDark, teamData.name]);
 
   const { issueUrl: teamIssueUrl, emptyIssueUrl: teamEmptyIssueUrl } = useMemo(
     () =>
@@ -409,6 +408,7 @@ export default function TeamBuilder({
                 isDark={isDark}
                 tooltipProps={tooltipProps}
                 disableNameClamp
+                desktopMode
               />
               {teamData.bench && teamData.bench.length > 0 && (
                 <BenchSection
@@ -420,6 +420,7 @@ export default function TeamBuilder({
                   factionColor={factionColor}
                   tooltipProps={tooltipProps}
                   disableNameClamp
+                  desktopMode
                 />
               )}
             </Stack>

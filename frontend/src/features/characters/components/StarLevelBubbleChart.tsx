@@ -14,7 +14,7 @@ import {
   type StarTier,
 } from '@/types/star-level';
 import { STORAGE_KEY } from '@/constants/ui';
-import { downloadElementAsPng } from '@/utils/export-image';
+import { downloadElementAsImage } from '@/utils/export-image';
 import {
   ActionIcon,
   Box,
@@ -484,7 +484,7 @@ export default function StarLevelBubbleChart({
           })();
     const needsResolve = t !== 0 || stretchX !== 1 || stretchY !== 1;
     return needsResolve ? resolveOverlaps(lerped) : lerped;
-  }, [bubbles, config]);
+  }, [bubbles, config.padding, config.centerBias, config.stretchX, config.stretchY]);
 
   useEffect(() => {
     if (!isExporting) return;
@@ -493,7 +493,7 @@ export default function StarLevelBubbleChart({
     const run = async () => {
       await new Promise((r) => setTimeout(r, 200));
       try {
-        await downloadElementAsPng(el, 'character-investment-chart', isDark);
+        await downloadElementAsImage(el, 'character-investment-chart', isDark);
       } finally {
         setIsExporting(false);
       }

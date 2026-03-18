@@ -38,6 +38,7 @@ export function BenchSection({
 	factionColor,
 	tooltipProps,
 	disableNameClamp = false,
+	desktopMode = false,
 }: {
 	bench: TeamBenchMember[];
 	charMap: Map<string, Character>;
@@ -50,8 +51,9 @@ export function BenchSection({
 	factionColor: string;
 	tooltipProps: ReturnType<typeof useMobileTooltip>;
 	disableNameClamp?: boolean;
+	desktopMode?: boolean;
 }) {
-	const isMobile = useIsMobile();
+	const isMobile = useIsMobile() && !desktopMode;
 	const { accent } = useGradientAccent();
 
 	return (

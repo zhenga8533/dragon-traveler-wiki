@@ -13,7 +13,7 @@ import { useTierListState } from '@/features/tier-list/hooks/use-tier-list-state
 import type { TierList } from '@/features/tier-list/types';
 import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
 import { toEntitySlug } from '@/utils/entity-slug';
-import { downloadElementAsPng } from '@/utils/export-image';
+import { downloadElementAsImage } from '@/utils/export-image';
 import { buildSuggestionIssueUrls } from '@/utils/github-issues';
 import { showSuccessToast, showWarningToast } from '@/utils/toast';
 import {
@@ -151,7 +151,7 @@ export default function TierListBuilder({
     const run = async () => {
       await new Promise((r) => setTimeout(r, 150));
       try {
-        await downloadElementAsPng(
+        await downloadElementAsImage(
           el,
           tierListData.name || 'tier-list',
           isDark
