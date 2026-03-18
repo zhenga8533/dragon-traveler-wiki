@@ -33,7 +33,9 @@ import { useContext, useEffect, useMemo, useRef, useState } from 'react';
 import {
   IoAdd,
   IoBarChart,
+  IoContract,
   IoDownload,
+  IoExpand,
   IoRefresh,
   IoRemove,
   IoScanOutline,
@@ -339,8 +341,16 @@ function BubbleCanvas({ bubbles, positions, config, interactive }: BubbleCanvasP
 
 // ── Zoom controls ────────────────────────────────────────────────────────────
 
-function ZoomControls({ accent }: { accent: string }) {
-  const { zoomIn, zoomOut, resetTransform } = useControls();
+function ZoomControls({
+  accent,
+  isFullscreen,
+  onToggleFullscreen,
+}: {
+  accent: string;
+  isFullscreen: boolean;
+  onToggleFullscreen: () => void;
+}) {
+  const { zoomIn, zoomOut, centerView } = useControls();
   return (
     <Group gap={4} style={{ position: 'absolute', bottom: 8, right: 8, zIndex: 10 }}>
       <Tooltip label="Zoom in" withArrow>
@@ -354,8 +364,13 @@ function ZoomControls({ accent }: { accent: string }) {
         </ActionIcon>
       </Tooltip>
       <Tooltip label="Reset view" withArrow>
-        <ActionIcon variant="light" color={accent} size="sm" onClick={() => resetTransform()}>
+        <ActionIcon variant="light" color={accent} size="sm" onClick={() => centerView(1)}>
           <IoScanOutline size={13} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'} withArrow>
+        <ActionIcon variant="light" color={accent} size="sm" onClick={onToggleFullscreen}>
+          {isFullscreen ? <IoContract size={13} /> : <IoExpand size={13} />}
         </ActionIcon>
       </Tooltip>
     </Group>
@@ -419,7 +434,9 @@ export default function StarLevelBubbleChart({
   const { accent } = useGradientAccent();
 
   const [isExporting, setIsExporting] = useState(false);
+  const [isFullscreen, setIsFullscreen] = useState(false);
   const [settingsOpen, setSettingsOpen] = useState(false);
+  const chartContainerRef = useRef<HTMLDivElement>(null);
   const [config, setConfig] = useState<ChartConfig>(() => {
     try {
       const stored = localStorage.getItem(STORAGE_KEY.BUBBLE_CHART_CONFIG);
@@ -504,6 +521,20 @@ export default function StarLevelBubbleChart({
   useEffect(() => {
     localStorage.setItem(STORAGE_KEY.BUBBLE_CHART_CONFIG, JSON.stringify(config));
   }, [config]);
+
+  useEffect(() => {
+    const handler = () => setIsFullscreen(!!document.fullscreenElement);
+    document.addEventListener('fullscreenchange', handler);
+    return () => document.removeEventListener('fullscreenchange', handler);
+  }, []);
+
+  const toggleFullscreen = () => {
+    if (!document.fullscreenElement) {
+      chartContainerRef.current?.requestFullscreen();
+    } else {
+      document.exitFullscreen();
+    }
+  };
 
   const ownedCount = Object.keys(ownedCharacters).length;
 
@@ -670,6 +701,7 @@ export default function StarLevelBubbleChart({
 
           {/* Chart */}
           <Box
+            ref={chartContainerRef}
             style={{
               position: 'relative',
               height: '60vh',
@@ -685,7 +717,11 @@ export default function StarLevelBubbleChart({
               centerOnInit
               limitToBounds={false}
             >
-              <ZoomControls accent={accent.primary} />
+              <ZoomControls
+                accent={accent.primary}
+                isFullscreen={isFullscreen}
+                onToggleFullscreen={toggleFullscreen}
+              />
               <TransformComponent
                 wrapperStyle={{ width: '100%', height: '100%' }}
                 contentStyle={{ padding: 24 }}
