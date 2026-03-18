@@ -23,6 +23,7 @@ export default function KonamiEasterEgg() {
       }
       centered
       size="lg"
+      lockScroll={false}
     >
       <Stack gap="md">
         <Box style={{ display: 'flex', justifyContent: 'center' }}>

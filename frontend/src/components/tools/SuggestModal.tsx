@@ -459,6 +459,7 @@ export default function SuggestModal({
         size={isMobile ? '100%' : 'lg'}
         fullScreen={isMobile}
         centered
+        lockScroll={false}
       >
         <Stack gap="sm">
           <Text size="sm" c="dimmed">

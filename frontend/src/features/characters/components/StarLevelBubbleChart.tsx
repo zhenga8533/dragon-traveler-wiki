@@ -556,6 +556,7 @@ export default function StarLevelBubbleChart({
           </Group>
         }
         size="xl"
+        lockScroll={false}
       >
         <Stack gap="sm">
           {/* Toolbar */}

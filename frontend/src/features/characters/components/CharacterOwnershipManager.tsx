@@ -107,6 +107,7 @@ export default function CharacterOwnershipManager({
       }
       size="lg"
       scrollAreaComponent={ScrollArea.Autosize}
+      lockScroll={false}
     >
       <Stack gap="md">
         <TextInput

@@ -31,6 +31,7 @@ export default function KeyboardShortcuts({
       }
       centered
       size="sm"
+      lockScroll={false}
     >
       <Stack gap="sm">
         {shortcuts.map((shortcut, index) => (

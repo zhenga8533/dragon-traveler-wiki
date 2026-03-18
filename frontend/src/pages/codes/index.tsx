@@ -793,6 +793,7 @@ export default function Codes() {
           onClose={closeMarkAll}
           title="Mark all redeemed?"
           centered
+          lockScroll={false}
         >
           <Text size="sm" mb="lg">
             This will mark {tabCodeCount} {tab} codes as redeemed.
@@ -822,6 +823,7 @@ export default function Codes() {
           onClose={closeClearAll}
           title="Clear all redeemed?"
           centered
+          lockScroll={false}
         >
           <Text size="sm" mb="lg">
             This will mark {tabCodeCount} {tab} codes as unredeemed.
