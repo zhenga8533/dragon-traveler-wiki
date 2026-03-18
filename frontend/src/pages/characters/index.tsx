@@ -12,12 +12,12 @@ import CharacterOwnershipManager from '@/features/characters/components/Characte
 import type { Character } from '@/features/characters/types';
 import { useCharacterListData } from '@/features/characters/hooks/use-character-list-data';
 import { buildCharacterNameCounts } from '@/features/characters/utils/character-route';
-import { useDataFetch, useGradientAccent } from '@/hooks';
+import { useDataFetch, useGradientAccent, useIsMobile } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { ActionIcon, Container, Group, Stack, Title, Tooltip } from '@mantine/core';
+import { ActionIcon, Button, Container, Group, Stack, Title, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo } from 'react';
-import { IoPeople, IoStar } from 'react-icons/io5';
+import { IoPeople, IoStarOutline } from 'react-icons/io5';
 
 const CHARACTER_FIELDS: FieldDef[] = [
   {
@@ -81,6 +81,7 @@ export default function Characters() {
   );
 
   const listData = useCharacterListData(characters);
+  const isMobile = useIsMobile();
 
   const [managerOpened, { open: openManager, close: closeManager }] =
     useDisclosure(false);
@@ -94,17 +95,30 @@ export default function Characters() {
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
           <Group gap="xs">
-            <Tooltip label="Manage my characters">
-              <ActionIcon
+            {isMobile ? (
+              <Tooltip label="My Characters">
+                <ActionIcon
+                  variant="light"
+                  color={accent.primary}
+                  size="lg"
+                  onClick={openManager}
+                  aria-label="My Characters"
+                >
+                  <IoStarOutline size={16} />
+                </ActionIcon>
+              </Tooltip>
+            ) : (
+              <Button
                 variant="light"
                 color={accent.primary}
-                size="lg"
+                size="xs"
+                leftSection={<IoStarOutline size={16} />}
                 onClick={openManager}
-                aria-label="Manage my characters"
+                aria-label="My Characters"
               >
-                <IoStar size={16} />
-              </ActionIcon>
-            </Tooltip>
+                My Characters
+              </Button>
+            )}
             <SuggestModal
               buttonLabel="Suggest a Character"
               modalTitle="Suggest a New Character"

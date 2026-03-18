@@ -1,7 +1,7 @@
 import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { useGradientAccent, useIsMobile } from '@/hooks';
-import { Badge, Button, Popover } from '@mantine/core';
+import { ActionIcon, Badge, Button, Indicator, Popover, Tooltip } from '@mantine/core';
 import { type ReactNode } from 'react';
 import { IoFilter } from 'react-icons/io5';
 
@@ -23,11 +23,30 @@ export default function FilterPopoverButton({
   const { accent } = useGradientAccent();
   const isMobile = useIsMobile();
 
-  const filterButton = (
+  const filterButton = isMobile ? (
+    <Tooltip label={buttonLabel}>
+      <Indicator
+        disabled={filterCount === 0}
+        label={filterCount}
+        size={16}
+        color={accent.primary}
+      >
+        <ActionIcon
+          variant="default"
+          color={accent.primary}
+          size="lg"
+          onClick={onFilterToggle}
+          aria-label={buttonLabel}
+        >
+          <IoFilter size={IMAGE_SIZE.ICON_MD} />
+        </ActionIcon>
+      </Indicator>
+    </Tooltip>
+  ) : (
     <Button
       variant="default"
       color={accent.primary}
-      size={isMobile ? 'sm' : 'xs'}
+      size="xs"
       leftSection={<IoFilter size={IMAGE_SIZE.ICON_MD} />}
       rightSection={
         filterCount > 0 ? (

@@ -11,6 +11,7 @@ import { showWarningToast } from '@/utils/toast';
 import {
   ActionIcon,
   Button,
+  Tooltip,
   Group,
   Image,
   Modal,
@@ -442,15 +443,29 @@ export default function SuggestModal({
 
   return (
     <>
-      <Button
-        variant="light"
-        color={accent.primary}
-        size={isMobile ? 'sm' : 'xs'}
-        leftSection={<IoAddCircleOutline size={16} />}
-        onClick={handleOpen}
-      >
-        {buttonLabel}
-      </Button>
+      {isMobile ? (
+        <Tooltip label={buttonLabel}>
+          <ActionIcon
+            variant="light"
+            color={accent.primary}
+            size="lg"
+            onClick={handleOpen}
+            aria-label={buttonLabel}
+          >
+            <IoAddCircleOutline size={16} />
+          </ActionIcon>
+        </Tooltip>
+      ) : (
+        <Button
+          variant="light"
+          color={accent.primary}
+          size="xs"
+          leftSection={<IoAddCircleOutline size={16} />}
+          onClick={handleOpen}
+        >
+          {buttonLabel}
+        </Button>
+      )}
 
       <Modal
         opened={opened}
