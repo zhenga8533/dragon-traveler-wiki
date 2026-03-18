@@ -3,12 +3,12 @@ import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import { QUALITY_COLOR } from '@/constants/colors';
 import { CHARACTER_HERO } from '@/constants/ui';
-import ClassTag from '@/features/characters/components/ClassTag';
-import FactionTag from '@/features/characters/components/FactionTag';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import ClassTag from '@/components/ui/ClassTag';
+import FactionTag from '@/components/ui/FactionTag';
+import QualityIcon from '@/components/ui/QualityIcon';
 import type { Character } from '@/features/characters/types';
 import GlobalBadge from '@/components/ui/GlobalBadge';
-import TierBadge from '@/features/tier-list/components/TierBadge';
+import TierBadge from '@/components/ui/TierBadge';
 import { useDarkMode } from '@/hooks';
 import {
   Box,

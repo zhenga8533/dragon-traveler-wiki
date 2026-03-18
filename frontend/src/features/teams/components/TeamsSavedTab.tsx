@@ -15,7 +15,7 @@ import { IoCreate } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
 import { FACTION_WYRM_MAP } from '@/assets/wyrms';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
-import FactionTag from '@/features/characters/components/FactionTag';
+import FactionTag from '@/components/ui/FactionTag';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import {
 	getContentTypeColor,

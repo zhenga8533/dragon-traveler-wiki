@@ -6,14 +6,14 @@ import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
-import RichText from '@/components/ui/RichText';
+import RichText from '@/components/common/RichText';
 import SortableTh from '@/components/ui/SortableTh';
 import { CLASS_ORDER } from '@/constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
-import ClassTag from '@/features/characters/components/ClassTag';
+import ClassTag from '@/components/ui/ClassTag';
 import type { CharacterClass } from '@/features/characters/types';
-import TierBadge from '@/features/tier-list/components/TierBadge';
+import TierBadge from '@/components/ui/TierBadge';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import type { Subclass } from '@/features/wiki/subclasses/types';
 import {

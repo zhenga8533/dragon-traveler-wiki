@@ -16,7 +16,7 @@ import {
 } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import QualityIcon from '@/components/ui/QualityIcon';
 import type { Character } from '@/features/characters/types';
 import {
   buildCharacterNameCounts,

@@ -15,7 +15,7 @@ import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 import { getCardHoverProps } from '@/constants/styles';
 import { useGradientAccent } from '@/hooks';
 import type { TeamSynergyResult } from '@/features/teams/utils/team-synergy';
-import ClassTag from '@/features/characters/components/ClassTag';
+import ClassTag from '@/components/ui/ClassTag';
 
 function getScoreColor(score: number): string {
   if (score >= 80) return 'teal';

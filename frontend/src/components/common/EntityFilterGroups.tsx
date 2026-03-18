@@ -2,7 +2,7 @@ import { CLASS_ICON_MAP } from '@/assets/class';
 import { FACTION_ICON_MAP } from '@/assets/faction';
 import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER } from '@/constants/colors';
 import { IMAGE_SIZE } from '@/constants/ui';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import QualityIcon from '@/components/ui/QualityIcon';
 import type { CharacterClass } from '@/features/characters/types';
 import type { FactionName } from '@/types/faction';
 import type { Quality } from '@/types/quality';

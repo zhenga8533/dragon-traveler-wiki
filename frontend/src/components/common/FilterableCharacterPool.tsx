@@ -26,7 +26,7 @@ import {
   sortCharactersByQuality,
 } from '@/features/characters/utils/filter-characters';
 import PaginationControl from '@/components/ui/PaginationControl';
-import CharacterFilter from './CharacterFilter';
+import CharacterFilter from '@/features/characters/components/CharacterFilter';
 
 const ROWS_PER_PAGE = 6;
 

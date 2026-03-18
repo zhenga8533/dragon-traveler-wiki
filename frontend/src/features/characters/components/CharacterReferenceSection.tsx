@@ -10,7 +10,7 @@ import {
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
-import FactionTag from '@/features/characters/components/FactionTag';
+import FactionTag from '@/components/ui/FactionTag';
 import { normalizeContentType } from '@/constants/content-types';
 import { getCardHoverProps } from '@/constants/styles';
 import { useGradientAccent } from '@/hooks';

@@ -5,7 +5,7 @@ import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
-import RichText from '@/components/ui/RichText';
+import RichText from '@/components/common/RichText';
 import { getLoreGlassStyles } from '@/constants/glass';
 import {
   getCardHoverProps,

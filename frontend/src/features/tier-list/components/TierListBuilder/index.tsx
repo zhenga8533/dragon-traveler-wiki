@@ -2,7 +2,7 @@ import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import JsonModal from '@/components/tools/JsonModal';
 import { getTierColor } from '@/constants/colors';
 import { STORAGE_KEY } from '@/constants/ui';
-import FilterableCharacterPool from '@/features/characters/components/FilterableCharacterPool';
+import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
 import type { Character } from '@/features/characters/types';
 import {
   getCharacterBaseSlug,

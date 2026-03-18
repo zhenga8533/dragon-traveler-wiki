@@ -2,7 +2,7 @@ import { Group, Paper, Stack, Text, ThemeIcon } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { memo } from 'react';
 import { getCardHoverProps } from '@/constants/styles';
-import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import ResourceBadge from '@/components/ui/ResourceBadge';
 
 interface StatCardProps {
   icon?: ReactNode;

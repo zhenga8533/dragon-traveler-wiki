@@ -5,7 +5,7 @@ import { useGradientAccent } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import { getCharacterRoutePathByName } from '@/features/characters/utils/character-route';
 import NoteTooltipIcon from '@/components/ui/NoteTooltipIcon';
-import TierBadge from '@/features/tier-list/components/TierBadge';
+import TierBadge from '@/components/ui/TierBadge';
 import CharacterPortrait from './CharacterPortrait';
 
 interface CharacterCardProps {

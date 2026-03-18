@@ -2,7 +2,7 @@ import { getArtifactIcon } from '@/assets/artifacts';
 import { FACTION_WYRM_MAP } from '@/assets/wyrms';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
-import RichText from '@/components/ui/RichText';
+import RichText from '@/components/common/RichText';
 import { FACTION_COLOR } from '@/constants/colors';
 import {
   getContentTypeColor,
@@ -16,8 +16,8 @@ import {
   getHeroIconBoxStyles,
 } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
-import FactionTag from '@/features/characters/components/FactionTag';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import FactionTag from '@/components/ui/FactionTag';
+import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import type { Team } from '@/features/teams/types';
 import type { Artifact } from '@/features/wiki/artifacts/types';

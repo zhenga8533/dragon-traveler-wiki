@@ -14,11 +14,11 @@ import {
 } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { getNoblePhantasmIcon } from '@/assets/noble_phantasm';
-import ClassTag from '@/features/characters/components/ClassTag';
+import ClassTag from '@/components/ui/ClassTag';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
-import QualityIcon from '@/features/characters/components/QualityIcon';
-import RichText from '@/components/ui/RichText';
+import QualityIcon from '@/components/ui/QualityIcon';
+import RichText from '@/components/common/RichText';
 import {
 	getCardHoverProps,
 	LINK_FIT_CONTENT_RESET_STYLE,

@@ -15,7 +15,7 @@ import {
   getMinWidthStyle,
 } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import type { Artifact } from '@/features/wiki/artifacts/types';
 import {

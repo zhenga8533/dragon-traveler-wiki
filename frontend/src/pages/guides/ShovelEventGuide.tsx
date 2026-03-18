@@ -3,7 +3,7 @@ import {
   getCardHoverProps,
   getMinWidthStyle,
 } from '@/constants/styles';
-import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import ResourceBadge from '@/components/ui/ResourceBadge';
 import {
   Alert,
   Anchor,

@@ -8,7 +8,7 @@ import EntityNotFound from '@/components/ui/EntityNotFound';
 import { QUALITY_COLOR, RELIC_TYPE_ORDER } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getCardHoverProps } from '@/constants/styles';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import QualityIcon from '@/components/ui/QualityIcon';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
 import type { Relic } from '@/features/wiki/relics/types';
 import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';

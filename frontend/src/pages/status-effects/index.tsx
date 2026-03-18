@@ -14,7 +14,7 @@ import { useMemo } from 'react';
 import { getStatusEffectIcon } from '@/assets/status_effect';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
-import RichText from '@/components/ui/RichText';
+import RichText from '@/components/common/RichText';
 import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';

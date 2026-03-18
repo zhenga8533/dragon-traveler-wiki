@@ -19,7 +19,7 @@ import {
   getMinWidthStyle,
 } from '@/constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import QualityIcon from '@/components/ui/QualityIcon';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
 import type { Relic, RelicType } from '@/features/wiki/relics/types';
 import {

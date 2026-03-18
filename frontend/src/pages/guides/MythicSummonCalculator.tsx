@@ -3,7 +3,7 @@ import StatCard from '@/components/ui/StatCard';
 import {
   getCardHoverProps,
 } from '@/constants/styles';
-import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import ResourceBadge from '@/components/ui/ResourceBadge';
 import { useGradientAccent } from '@/hooks';
 import {
   Alert,

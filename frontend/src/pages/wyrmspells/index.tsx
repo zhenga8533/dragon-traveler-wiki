@@ -18,8 +18,8 @@ import {
 } from '@/constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
-import FactionTag from '@/features/characters/components/FactionTag';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import FactionTag from '@/components/ui/FactionTag';
+import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { applyDir, useDataFetch, useFilteredPageData } from '@/hooks';

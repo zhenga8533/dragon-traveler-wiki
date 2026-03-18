@@ -11,7 +11,7 @@ import PaginationControl from '@/components/ui/PaginationControl';
 import ViewToggle from '@/components/ui/ViewToggle';
 import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import ResourceBadge from '@/components/ui/ResourceBadge';
 import {
   useDataFetch,
   useGradientAccent,

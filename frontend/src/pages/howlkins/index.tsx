@@ -24,7 +24,7 @@ import { QUALITY_ORDER } from '@/constants/colors';
 import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import { toEntitySlug } from '@/utils/entity-slug';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import QualityIcon from '@/components/ui/QualityIcon';
 import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
 import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';

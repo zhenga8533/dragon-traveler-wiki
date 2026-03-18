@@ -11,11 +11,11 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 import CharacterCard from '@/features/characters/components/CharacterCard';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import ClassTag from '@/features/characters/components/ClassTag';
+import ClassTag from '@/components/ui/ClassTag';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
-import FactionTag from '@/features/characters/components/FactionTag';
+import FactionTag from '@/components/ui/FactionTag';
 import LastUpdated from '@/components/common/LastUpdated';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import QualityIcon from '@/components/ui/QualityIcon';
 import { getTierColor, TIER_ORDER } from '@/constants/colors';
 import {
 	getContentTypeColor,

@@ -10,7 +10,7 @@ import {
 import { useMediaQuery } from '@mantine/hooks';
 import { type KeyboardEvent, type ReactNode } from 'react';
 import { FACTION_WYRM_MAP } from '@/assets/wyrms';
-import FactionTag from '@/features/characters/components/FactionTag';
+import FactionTag from '@/components/ui/FactionTag';
 import { FACTION_COLOR } from '@/constants/colors';
 import {
 	getContentTypeColor,

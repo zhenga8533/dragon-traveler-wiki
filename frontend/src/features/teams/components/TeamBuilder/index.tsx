@@ -1,7 +1,7 @@
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import { STORAGE_KEY } from '@/constants/ui';
 import CharacterCard from '@/features/characters/components/CharacterCard';
-import FilterableCharacterPool from '@/features/characters/components/FilterableCharacterPool';
+import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
 import type { Character } from '@/features/characters/types';
 import {
   getCharacterBaseSlug,

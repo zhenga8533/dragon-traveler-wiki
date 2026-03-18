@@ -5,16 +5,16 @@ import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
-import RichText from '@/components/ui/RichText';
+import RichText from '@/components/common/RichText';
 import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import {
   getCardHoverProps,
   getHeroIconBoxStyles,
 } from '@/constants/styles';
-import ClassTag from '@/features/characters/components/ClassTag';
-import FactionTag from '@/features/characters/components/FactionTag';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import ClassTag from '@/components/ui/ClassTag';
+import FactionTag from '@/components/ui/FactionTag';
+import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import type {
   Artifact,

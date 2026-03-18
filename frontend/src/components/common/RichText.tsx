@@ -7,7 +7,7 @@ import type { Skill, Talent } from '@/features/characters/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useGradientAccent } from '@/hooks';
 import { splitEffectRefs } from '@/utils/parse-effect-refs';
-import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import ResourceBadge from '@/components/ui/ResourceBadge';
 import StatusEffectBadge from '@/features/wiki/status-effects/components/StatusEffectBadge';
 
 export interface RichTextProps {

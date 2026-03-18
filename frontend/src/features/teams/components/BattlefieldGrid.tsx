@@ -11,10 +11,10 @@ import {
 import { IoFlash } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import ClassTag from '@/features/characters/components/ClassTag';
-import FactionTag from '@/features/characters/components/FactionTag';
+import ClassTag from '@/components/ui/ClassTag';
+import FactionTag from '@/components/ui/FactionTag';
 import NoteTooltipIcon from '@/components/ui/NoteTooltipIcon';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import QualityIcon from '@/components/ui/QualityIcon';
 import { getCardHoverProps } from '@/constants/styles';
 import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import type { Character } from '@/features/characters/types';

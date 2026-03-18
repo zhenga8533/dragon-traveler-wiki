@@ -1,8 +1,8 @@
 import { getWyrmspellIcon } from '@/assets/wyrmspell';
 import { WYRMSPELL_TYPE_COLOR, getStableTagColor } from '@/constants/colors';
 import { getCardHoverProps } from '@/constants/styles';
-import FactionTag from '@/features/characters/components/FactionTag';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import FactionTag from '@/components/ui/FactionTag';
+import QualityIcon from '@/components/ui/QualityIcon';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { Badge, Group, Image, Paper, Stack, Text } from '@mantine/core';
 

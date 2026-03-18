@@ -7,12 +7,12 @@ import {
   getCharacterIdentityKey,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
-import ClassTag from './ClassTag';
-import FactionTag from './FactionTag';
+import ClassTag from '@/components/ui/ClassTag';
+import FactionTag from '@/components/ui/FactionTag';
 import GlobalBadge from '@/components/ui/GlobalBadge';
-import QualityIcon from './QualityIcon';
+import QualityIcon from '@/components/ui/QualityIcon';
 import SortableTh from '@/components/ui/SortableTh';
-import TierBadge from '@/features/tier-list/components/TierBadge';
+import TierBadge from '@/components/ui/TierBadge';
 import CharacterPortrait from './CharacterPortrait';
 
 interface CharacterTableProps {

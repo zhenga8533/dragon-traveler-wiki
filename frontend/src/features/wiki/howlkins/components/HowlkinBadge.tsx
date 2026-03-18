@@ -4,7 +4,7 @@ import { QUALITY_COLOR } from '@/constants/colors';
 import { useGradientAccent } from '@/hooks';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
 import IconBadge from '@/components/ui/IconBadge';
-import QualityIcon from '@/features/characters/components/QualityIcon';
+import QualityIcon from '@/components/ui/QualityIcon';
 
 interface HowlkinBadgeProps {
   name: string;

@@ -10,7 +10,7 @@ import {
 	Title,
 } from '@mantine/core';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
-import RichText from '@/components/ui/RichText';
+import RichText from '@/components/common/RichText';
 import { getCardHoverProps } from '@/constants/styles';
 import type { Character } from '@/features/characters/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';

@@ -1,6 +1,6 @@
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
-import ResourceBadge from '@/features/characters/components/ResourceBadge';
+import ResourceBadge from '@/components/ui/ResourceBadge';
 import {
   Alert,
   Anchor,
