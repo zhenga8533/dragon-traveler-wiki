@@ -17,15 +17,18 @@
     "@mantine/dates": "^8.3.14",
     "@mantine/hooks": "^8.3.14",
     "@mantine/notifications": "^8.3.14",
+    "d3-hierarchy": "^3.1.2",
     "fuse.js": "^7.1.0",
     "html-to-image": "^1.11.13",
     "react": "^19.2.0",
     "react-dom": "^19.2.0",
     "react-icons": "^5.5.0",
-    "react-router-dom": "^7.13.0"
+    "react-router-dom": "^7.13.0",
+    "react-zoom-pan-pinch": "^3.7.0"
   },
   "devDependencies": {
     "@eslint/js": "^9.39.1",
+    "@types/d3-hierarchy": "^3.1.7",
     "@types/node": "^24.10.1",
     "@types/react": "^19.2.5",
     "@types/react-dom": "^19.2.3",

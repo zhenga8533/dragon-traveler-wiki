@@ -19,13 +19,18 @@ import {
   Box,
   Group,
   Modal,
-  ScrollArea,
   Stack,
   Text,
   Tooltip,
 } from '@mantine/core';
+import * as d3 from 'd3-hierarchy';
 import { useContext, useEffect, useMemo, useRef, useState } from 'react';
-import { IoBarChart, IoDownload } from 'react-icons/io5';
+import { IoBarChart, IoContract, IoDownload, IoExpand, IoRemove } from 'react-icons/io5';
+import {
+  TransformComponent,
+  TransformWrapper,
+  useControls,
+} from 'react-zoom-pan-pinch';
 
 // ── Tier glow colors ────────────────────────────────────────────────────────
 
@@ -36,128 +41,6 @@ const TIER_GLOW: Record<StarTier, string> = {
   legendary: '#ffcc02',
   divine: '#80deea',
 };
-
-// ── Circle packing algorithm ────────────────────────────────────────────────
-
-interface PlacedCircle {
-  x: number;
-  y: number;
-  r: number;
-}
-
-/** Returns 0, 1, or 2 candidate centres for a circle of radius r that is
- *  simultaneously tangent (externally) to both a and b. */
-function tangentToTwo(
-  a: PlacedCircle,
-  b: PlacedCircle,
-  r: number
-): Array<{ x: number; y: number }> {
-  const ra = a.r + r;
-  const rb = b.r + r;
-  const dx = b.x - a.x;
-  const dy = b.y - a.y;
-  const d = Math.hypot(dx, dy);
-  if (d < 1e-9) return [];
-  const cosA = (ra * ra + d * d - rb * rb) / (2 * ra * d);
-  if (cosA < -1 || cosA > 1) return [];
-  const acos = Math.acos(cosA);
-  const base = Math.atan2(dy, dx);
-  return [
-    {
-      x: a.x + ra * Math.cos(base + acos),
-      y: a.y + ra * Math.sin(base + acos),
-    },
-    {
-      x: a.x + ra * Math.cos(base - acos),
-      y: a.y + ra * Math.sin(base - acos),
-    },
-  ];
-}
-
-function hasOverlap(
-  x: number,
-  y: number,
-  r: number,
-  placed: PlacedCircle[],
-  gap = 2
-): boolean {
-  for (const p of placed) {
-    if (Math.hypot(x - p.x, y - p.y) < r + p.r + gap) return true;
-  }
-  return false;
-}
-
-/**
- * Pack circles using an incremental tangent-search algorithm.
- * Circles are sorted largest-first and each new circle is placed at the
- * valid candidate position closest to the origin.
- */
-function packCircles(radii: number[]): Array<{ x: number; y: number }> {
-  const result: Array<{ x: number; y: number }> = new Array(radii.length);
-  if (radii.length === 0) return result;
-
-  const order = radii.map((r, i) => ({ r, i })).sort((a, b) => b.r - a.r);
-  const placed: PlacedCircle[] = [];
-
-  for (const { r, i } of order) {
-    if (placed.length === 0) {
-      placed.push({ x: 0, y: 0, r });
-      result[i] = { x: 0, y: 0 };
-      continue;
-    }
-
-    const candidates: Array<{ x: number; y: number }> = [];
-
-    // Angular sweep around every already-placed circle
-    for (const p of placed) {
-      const d = p.r + r + 2;
-      const steps = Math.max(24, Math.round((Math.PI * 2 * d) / (r + 2)));
-      for (let s = 0; s < steps; s++) {
-        const a = (s / steps) * Math.PI * 2;
-        candidates.push({ x: p.x + Math.cos(a) * d, y: p.y + Math.sin(a) * d });
-      }
-    }
-
-    // Tangent to every pair among the most recent placed circles
-    const from = Math.max(0, placed.length - 16);
-    for (let a = from; a < placed.length; a++) {
-      for (let b = a + 1; b < placed.length; b++) {
-        candidates.push(...tangentToTwo(placed[a], placed[b], r));
-      }
-    }
-
-    let bestX = 0;
-    let bestY = 0;
-    let bestDist = Infinity;
-
-    for (const { x, y } of candidates) {
-      if (!hasOverlap(x, y, r, placed)) {
-        const dist = Math.hypot(x, y);
-        if (dist < bestDist) {
-          bestDist = dist;
-          bestX = x;
-          bestY = y;
-        }
-      }
-    }
-
-    // Hard fallback: walk along x-axis until clear
-    if (bestDist === Infinity) {
-      for (let d = placed[0].r + r + 2; d < 20000; d += r * 0.5) {
-        if (!hasOverlap(d, 0, r, placed)) {
-          bestX = d;
-          bestY = 0;
-          break;
-        }
-      }
-    }
-
-    placed.push({ x: bestX, y: bestY, r });
-    result[i] = { x: bestX, y: bestY };
-  }
-
-  return result;
-}
 
 // ── Bubble radius ────────────────────────────────────────────────────────────
 
@@ -173,17 +56,53 @@ interface BubbleItem {
   char: Character;
   starLevel: StarLevel;
   displayName: string;
+  /** Desired radius, used as d3 pack value (r² ∝ area ∝ copies). */
   r: number;
   portrait: string | undefined;
   tierColor: string;
   qualityBorder: string;
 }
 
+// ── D3 circle packing ────────────────────────────────────────────────────────
+
+const PACK_SIZE = 900;
+
+/**
+ * Uses d3-hierarchy's `pack()` to lay out bubbles.
+ * Returns positions relative to a PACK_SIZE × PACK_SIZE canvas,
+ * with actual radii from d3 (proportional to each item's r²).
+ */
+function packWithD3(
+  bubbles: BubbleItem[]
+): Array<{ x: number; y: number; r: number }> {
+  if (bubbles.length === 0) return [];
+
+  type Root = { children?: BubbleItem[] };
+
+  const root = d3
+    .hierarchy<Root>({ children: bubbles })
+    .sum((d) => {
+      const item = d as unknown as BubbleItem;
+      return item.r != null ? item.r * item.r : 0;
+    });
+
+  const packed = d3.pack<Root>()
+    .size([PACK_SIZE, PACK_SIZE])
+    .padding(3)(root);
+
+  return packed.leaves().map((leaf) => ({
+    x: leaf.x ?? 0,
+    y: leaf.y ?? 0,
+    r: leaf.r,
+  }));
+}
+
 // ── Chart canvas ─────────────────────────────────────────────────────────────
 
 interface BubbleCanvasProps {
   bubbles: BubbleItem[];
-  positions: Array<{ x: number; y: number }>;
+  /** Packed positions with actual radii from d3, in the same order as bubbles. */
+  positions: Array<{ x: number; y: number; r: number }>;
   interactive: boolean;
 }
 
@@ -200,17 +119,16 @@ function BubbleCanvas({
     );
   }
 
-  // Bounding box
+  // d3 pack outputs positions in [0, PACK_SIZE] space — fit to content
   let minX = Infinity,
     maxX = -Infinity,
     minY = Infinity,
     maxY = -Infinity;
-  bubbles.forEach((b, idx) => {
-    const { x, y } = positions[idx];
-    minX = Math.min(minX, x - b.r);
-    maxX = Math.max(maxX, x + b.r);
-    minY = Math.min(minY, y - b.r);
-    maxY = Math.max(maxY, y + b.r);
+  positions.forEach(({ x, y, r }) => {
+    minX = Math.min(minX, x - r);
+    maxX = Math.max(maxX, x + r);
+    minY = Math.min(minY, y - r);
+    maxY = Math.max(maxY, y + r);
   });
 
   const PAD = 12;
@@ -224,16 +142,17 @@ function BubbleCanvas({
       style={{ position: 'relative', width: w, height: h, margin: '0 auto' }}
     >
       {bubbles.map((b, idx) => {
-        const cx = positions[idx].x + ox;
-        const cy = positions[idx].y + oy;
-        const d = b.r * 2;
+        const { x, y, r } = positions[idx];
+        const cx = x + ox;
+        const cy = y + oy;
+        const d = r * 2;
 
         const inner = (
           <Box
             style={{
               position: 'absolute',
-              left: Math.round(cx - b.r),
-              top: Math.round(cy - b.r),
+              left: Math.round(cx - r),
+              top: Math.round(cy - r),
               width: d,
               height: d,
               borderRadius: '50%',
@@ -275,6 +194,34 @@ function BubbleCanvas({
         );
       })}
     </Box>
+  );
+}
+
+// ── Zoom controls ────────────────────────────────────────────────────────────
+
+function ZoomControls({ accent }: { accent: string }) {
+  const { zoomIn, zoomOut, resetTransform } = useControls();
+  return (
+    <Group
+      gap={4}
+      style={{ position: 'absolute', bottom: 8, right: 8, zIndex: 10 }}
+    >
+      <Tooltip label="Zoom in" withArrow>
+        <ActionIcon variant="light" color={accent} size="sm" onClick={() => zoomIn()}>
+          <IoExpand size={13} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Zoom out" withArrow>
+        <ActionIcon variant="light" color={accent} size="sm" onClick={() => zoomOut()}>
+          <IoRemove size={13} />
+        </ActionIcon>
+      </Tooltip>
+      <Tooltip label="Reset view" withArrow>
+        <ActionIcon variant="light" color={accent} size="sm" onClick={() => resetTransform()}>
+          <IoContract size={13} />
+        </ActionIcon>
+      </Tooltip>
+    </Group>
   );
 }
 
@@ -342,11 +289,8 @@ export default function StarLevelBubbleChart({
     return items.sort((a, b) => b.r - a.r);
   }, [ownedCharacters, charByIdentity, starLevelMap]);
 
-  // Compute packed positions (memoized — only recomputes when bubbles change)
-  const positions = useMemo(
-    () => packCircles(bubbles.map((b) => b.r)),
-    [bubbles]
-  );
+  // Compute packed positions via d3 (memoized — only recomputes when bubbles change)
+  const positions = useMemo(() => packWithD3(bubbles), [bubbles]);
 
   // Export effect
   useEffect(() => {
@@ -386,7 +330,6 @@ export default function StarLevelBubbleChart({
           </Group>
         }
         size="xl"
-        scrollAreaComponent={ScrollArea.Autosize}
       >
         <Stack gap="sm">
           <Group justify="space-between" align="center">
@@ -409,11 +352,35 @@ export default function StarLevelBubbleChart({
             </Tooltip>
           </Group>
 
-          <BubbleCanvas
-            bubbles={bubbles}
-            positions={positions}
-            interactive
-          />
+          <Box
+            style={{
+              position: 'relative',
+              height: '60vh',
+              overflow: 'hidden',
+              borderRadius: 8,
+              border: '1px solid var(--mantine-color-default-border)',
+              cursor: 'grab',
+            }}
+          >
+            <TransformWrapper
+              minScale={0.2}
+              maxScale={4}
+              centerOnInit
+              limitToBounds={false}
+            >
+              <ZoomControls accent={accent.primary} />
+              <TransformComponent
+                wrapperStyle={{ width: '100%', height: '100%' }}
+                contentStyle={{ padding: 24 }}
+              >
+                <BubbleCanvas
+                  bubbles={bubbles}
+                  positions={positions}
+                  interactive
+                />
+              </TransformComponent>
+            </TransformWrapper>
+          </Box>
         </Stack>
       </Modal>
 
