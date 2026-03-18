@@ -164,4 +164,5 @@ export const STORAGE_KEY = {
   CHARACTER_OWNERSHIP: 'characters:ownership',
   UI_GRAY_UNOWNED: 'ui:grayUnowned',
   UI_SHOW_CHARACTER_TIERS: 'ui:showCharacterTiers',
+  BUBBLE_CHART_CONFIG: 'characters:bubbleChartConfig',
 } as const;
