@@ -26,6 +26,7 @@ export interface CharacterOwnershipContextValue {
   setShowCharacterTiers: (value: boolean) => void;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 export const CharacterOwnershipContext =
   createContext<CharacterOwnershipContextValue>({
     ownedCharacters: {},

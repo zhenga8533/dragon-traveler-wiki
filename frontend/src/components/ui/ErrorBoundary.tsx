@@ -27,6 +27,7 @@ interface ErrorFallbackProps {
   onRetry: () => void;
 }
 
+// eslint-disable-next-line react-refresh/only-export-components
 function ErrorFallback({ error, onRetry }: ErrorFallbackProps) {
   const { accent } = useGradientAccent();
 

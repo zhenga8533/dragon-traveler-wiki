@@ -482,7 +482,7 @@ export default function StarLevelBubbleChart({
       });
     }
     return items.sort((a, b) => b.r - a.r);
-  }, [ownedCharacters, charByIdentity, starLevelMap, config.baseSize, config.scale, config.sizeExponent]);
+  }, [ownedCharacters, charByIdentity, starLevelMap, characterNameCounts, config.baseSize, config.scale, config.sizeExponent]);
 
   const positions = useMemo(() => {
     const { padding, centerBias, stretchX, stretchY } = config;
@@ -501,7 +501,7 @@ export default function StarLevelBubbleChart({
           })();
     const needsResolve = t !== 0 || stretchX !== 1 || stretchY !== 1;
     return needsResolve ? resolveOverlaps(lerped) : lerped;
-  }, [bubbles, config.padding, config.centerBias, config.stretchX, config.stretchY]);
+  }, [bubbles, config]);
 
   useEffect(() => {
     if (!isExporting) return;
