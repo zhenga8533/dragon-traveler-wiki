@@ -1668,6 +1668,15 @@
             "new": "Crimson Thornblade"
           }
         }
+      },
+      {
+        "timestamp": 1773936891,
+        "fields": {
+          "is_global": {
+            "old": false,
+            "new": true
+          }
+        }
       }
     ]
   },

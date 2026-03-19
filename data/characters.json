@@ -6659,7 +6659,7 @@
       "Wild Spirit",
       "Otherworld Return"
     ],
-    "is_global": false,
+    "is_global": true,
     "subclasses": [
       "Tracker",
       "Hunter",
@@ -6742,7 +6742,7 @@
     "recommended_subclasses": [
       "Bounty Hunter"
     ],
-    "last_updated": 1773319003
+    "last_updated": 1773936891
   },
   {
     "name": "Medusa",
