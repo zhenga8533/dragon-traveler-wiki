@@ -1,5 +1,87 @@
 [
   {
+    "date": "2026-03-18",
+    "version": "1.1.1",
+    "changes": [
+      {
+        "type": "added",
+        "category": "characters",
+        "description": "Added character ownership tracking and star level system with bulk ownership manager, 'My Progress' selector on character pages, and owned/star level filters"
+      },
+      {
+        "type": "added",
+        "category": "characters",
+        "description": "Added star-level investment bubble chart with D3 packing, pan/zoom controls, configurable layout settings, fullscreen support, and export-to-image"
+      },
+      {
+        "type": "added",
+        "category": "tools",
+        "description": "Added settings Backup & Restore with JSON export and import via a shared JsonModal component"
+      },
+      {
+        "type": "added",
+        "category": "tier-list",
+        "description": "Added 'My Saved' tier list group in the reference picker with live updates via storage events"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Switched filter and suggest buttons to compact ActionIcon/Tooltip on mobile, with an indicator badge showing active filter count"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Disabled scroll-locking for modals and dialogs to allow background scrolling (especially on mobile)"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Added normalizeName utility and shared cursor style constants (CURSOR_POINTER_STYLE, CURSOR_DEFAULT_STYLE, POPOVER_BADGE_WIDTH) across components"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Reorganized shared presentational components (ClassTag, FactionTag, QualityIcon, ResourceBadge, TierBadge, RichText) into components/ui and components/common"
+      },
+      {
+        "type": "updated",
+        "category": "ui",
+        "description": "Applied mobile-aware tooltip behavior (useMobileTooltip) across builder toolbars, badges, portraits, and note buttons"
+      },
+      {
+        "type": "updated",
+        "category": "guides",
+        "description": "Refactored Mythic Summon Calculator results layout with a dedicated Expected Rewards card and improved summary grouping"
+      },
+      {
+        "type": "updated",
+        "category": "guides",
+        "description": "Wrapped calculator tables in ScrollArea with minimum width for better overflow handling on small screens"
+      },
+      {
+        "type": "updated",
+        "category": "teams",
+        "description": "Added desktopMode prop to BattlefieldGrid and BenchSection so export captures use the correct desktop layout"
+      },
+      {
+        "type": "updated",
+        "category": "codebase",
+        "description": "Renamed data files from snake_case to hyphenated naming (noble-phantasm, gear-sets, golden-alliances) and updated all references"
+      },
+      {
+        "type": "updated",
+        "category": "data",
+        "description": "Refreshed live datasets (codes)"
+      },
+      {
+        "type": "fixed",
+        "category": "guides",
+        "description": "Fixed off-by-one divine star level labels in the Star Upgrade Calculator (now correctly labeled Divine 2–6)"
+      }
+    ],
+    "last_updated": 1773881005
+  },
+  {
     "date": "2026-03-15",
     "version": "1.1.0",
     "changes": [
