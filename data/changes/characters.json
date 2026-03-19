@@ -488,6 +488,15 @@
             }
           }
         }
+      },
+      {
+        "timestamp": 1773941454,
+        "fields": {
+          "is_global": {
+            "old": false,
+            "new": true
+          }
+        }
       }
     ]
   },

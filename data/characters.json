@@ -1640,7 +1640,7 @@
       "Wild Spirit",
       "Elemental Echo"
     ],
-    "is_global": false,
+    "is_global": true,
     "subclasses": [
       "Acolyte",
       "Cleric",
@@ -1727,7 +1727,7 @@
     "recommended_subclasses": [
       "High Priest"
     ],
-    "last_updated": 1773011198
+    "last_updated": 1773941454
   },
   {
     "name": "Morgana",
