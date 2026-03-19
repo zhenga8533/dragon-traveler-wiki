@@ -9,7 +9,7 @@ import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
 import PaginationControl from '@/components/ui/PaginationControl';
 import ViewToggle from '@/components/ui/ViewToggle';
-import { getCardHoverProps } from '@/constants/styles';
+import { CURSOR_POINTER_STYLE, getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import {
@@ -420,7 +420,7 @@ export default function Codes() {
               justify="space-between"
               align="center"
               onClick={toggleRewards}
-              style={{ cursor: 'pointer' }}
+              style={CURSOR_POINTER_STYLE}
               px="xs"
               py={4}
             >

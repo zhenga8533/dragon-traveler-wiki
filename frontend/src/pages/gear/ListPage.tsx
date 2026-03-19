@@ -14,6 +14,7 @@ import PaginationControl from '@/components/ui/PaginationControl';
 import SortableTh from '@/components/ui/SortableTh';
 import { GEAR_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
 import {
+  CURSOR_POINTER_STYLE,
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
   getMinWidthStyle,
@@ -565,7 +566,7 @@ export default function GearPage() {
                           return (
                             <Table.Tr
                               key={item.name}
-                              style={{ cursor: 'pointer' }}
+                              style={CURSOR_POINTER_STYLE}
                               onClick={() =>
                                 navigate(`/gear-sets/${toEntitySlug(item.set)}`)
                               }

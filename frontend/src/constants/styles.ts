@@ -155,6 +155,14 @@ export const WHITE_SPACE_PRE_LINE_STYLE = {
   whiteSpace: 'pre-line',
 } as const satisfies CSSProperties;
 
+export const CURSOR_POINTER_STYLE = {
+  cursor: 'pointer',
+} as const satisfies CSSProperties;
+
+export const CURSOR_DEFAULT_STYLE = {
+  cursor: 'default',
+} as const satisfies CSSProperties;
+
 export function getMinWidthStyle(minWidth: number): CSSProperties {
   return { minWidth };
 }

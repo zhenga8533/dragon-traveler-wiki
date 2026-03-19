@@ -1,4 +1,3 @@
-// Utility exports for cleaner imports
 export { getActiveCodeCount, isCodeActive, isCodeExpired } from './code-status';
 export {
   cloneRecordArrays,
@@ -15,14 +14,14 @@ export {
 export { buildExpiredCodeUrl } from './github-issues';
 export { parseEffectRefs, splitEffectRefs } from './parse-effect-refs';
 export { loadSavedFromStorage, parseTabMode } from './saved-storage';
-export { isRecord } from './type-guards';
+export { normalizeName } from './string';
 export {
   formatExactDate,
   formatRelativeTime,
   formatShortDate,
   getLatestTimestamp,
 } from './timestamps';
+export { isRecord } from './type-guards';
 
-// Re-export utility types
 export type { CharacterFilters } from '@/features/characters/utils/filter-characters';
 export type { TextSegment } from './parse-effect-refs';

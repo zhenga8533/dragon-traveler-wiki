@@ -1,6 +1,6 @@
 import { Group, ScrollArea, Table, Text, UnstyledButton } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { getMinWidthStyle } from '@/constants/styles';
+import { CURSOR_POINTER_STYLE, getMinWidthStyle } from '@/constants/styles';
 import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import {
@@ -90,7 +90,7 @@ export default function CharacterTable({
           {pageItems.map((char) => (
             <Table.Tr
               key={getCharacterIdentityKey(char)}
-              style={{ cursor: 'pointer' }}
+              style={CURSOR_POINTER_STYLE}
             >
               <Table.Td>
                 <UnstyledButton

@@ -2,8 +2,9 @@ import { Group, Image, Stack, Text } from '@mantine/core';
 import { useContext } from 'react';
 import { getResourceIcon } from '@/assets/resource';
 import { WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
-import { IMAGE_SIZE } from '@/constants/ui';
+import { IMAGE_SIZE, POPOVER_BADGE_WIDTH } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
+import { normalizeName } from '@/utils';
 import IconBadge from '@/components/ui/IconBadge';
 import InlineMarkup from '@/components/ui/InlineMarkup';
 
@@ -25,7 +26,7 @@ export default function ResourceBadge({
 
   const iconSrc = getResourceIcon(name);
   const resource = resources.find(
-    (r) => r.name.toLowerCase() === name.toLowerCase()
+    (r) => normalizeName(r.name) === normalizeName(name)
   );
 
   const iconSize = size === 'xs' ? IMAGE_SIZE.ICON_XS : IMAGE_SIZE.ICON_SM;
@@ -41,9 +42,9 @@ export default function ResourceBadge({
       component="span"
       popoverContent={
         resource ? (
-          <Stack gap="xs" maw={280}>
+          <Stack gap="xs" maw={POPOVER_BADGE_WIDTH}>
             <Group gap="xs" wrap="nowrap">
-              {iconSrc && <Image src={iconSrc} alt={name} w={18} h={18} />}
+              {iconSrc && <Image src={iconSrc} alt={name} w={IMAGE_SIZE.ICON_LG} h={IMAGE_SIZE.ICON_LG} />}
               <Text fw={600} size="sm">
                 {resource.name}
               </Text>

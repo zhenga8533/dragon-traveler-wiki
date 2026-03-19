@@ -10,6 +10,7 @@ import SuggestModal, {
 import SortableTh from '@/components/ui/SortableTh';
 import { QUALITY_ORDER } from '@/constants/colors';
 import {
+  CURSOR_POINTER_STYLE,
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
   getMinWidthStyle,
@@ -360,7 +361,7 @@ export default function Artifacts() {
                       return (
                         <Table.Tr
                           key={artifact.name}
-                          style={{ cursor: 'pointer' }}
+                          style={CURSOR_POINTER_STYLE}
                           onClick={() =>
                             navigate(
                               `/artifacts/${toEntitySlug(artifact.name)}`

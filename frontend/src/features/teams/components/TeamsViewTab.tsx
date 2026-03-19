@@ -20,7 +20,7 @@ import {
 	getContentTypeColor,
 	normalizeContentType,
 } from '@/constants/content-types';
-import { getMinWidthStyle } from '@/constants/styles';
+import { CURSOR_POINTER_STYLE, getMinWidthStyle } from '@/constants/styles';
 import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { FactionName } from '@/types/faction';
@@ -127,7 +127,7 @@ export default function TeamsViewTab({
 								return (
 									<Table.Tr
 										key={team.name}
-										style={{ cursor: 'pointer' }}
+										style={CURSOR_POINTER_STYLE}
 										onClick={() =>
 											navigate(`/teams/${toEntitySlug(team.name)}`)
 										}

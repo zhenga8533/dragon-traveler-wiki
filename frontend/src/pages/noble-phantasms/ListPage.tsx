@@ -23,6 +23,7 @@ import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import {
+  CURSOR_POINTER_STYLE,
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
   getMinWidthStyle,
@@ -342,7 +343,7 @@ export default function NoblePhantasms() {
                       return (
                         <Table.Tr
                           key={np.name}
-                          style={{ cursor: 'pointer' }}
+                          style={CURSOR_POINTER_STYLE}
                           onClick={() =>
                             navigate(
                               `/noble-phantasms/${toEntitySlug(np.name)}`

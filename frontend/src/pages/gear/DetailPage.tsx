@@ -12,6 +12,7 @@ import {
 } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import {
+  CURSOR_POINTER_STYLE,
   getCardHoverProps,
 } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
@@ -326,7 +327,7 @@ export default function GearSetPage() {
                       variant="light"
                       color="gray"
                       size="sm"
-                      style={{ cursor: 'pointer' }}
+                      style={CURSOR_POINTER_STYLE}
                       onClick={() => setShowAllCharacters(true)}
                     >
                       +{remainingRecommendedCount} more
@@ -337,7 +338,7 @@ export default function GearSetPage() {
                       variant="light"
                       color="gray"
                       size="sm"
-                      style={{ cursor: 'pointer' }}
+                      style={CURSOR_POINTER_STYLE}
                       onClick={() => setShowAllCharacters(false)}
                     >
                       Show less

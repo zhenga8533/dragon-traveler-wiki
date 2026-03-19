@@ -86,6 +86,9 @@ export const NAV_ITEM_HEIGHT = 44;
 
 export const POPOVER_MAX_WIDTH = 320;
 
+/** Max width for badge/icon popovers (status effects, resources). */
+export const POPOVER_BADGE_WIDTH = 280;
+
 export const DETAIL_ROUTE_PATTERNS = [
   /^\/artifacts\/.+/,
   /^\/characters\/.+/,

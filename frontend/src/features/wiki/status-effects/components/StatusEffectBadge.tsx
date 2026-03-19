@@ -2,7 +2,9 @@ import { Badge, Group, Image, Stack, Text } from '@mantine/core';
 import { getStatusEffectIcon } from '@/assets/status_effect';
 import { STATE_COLOR } from '@/constants/colors';
 import { WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
+import { IMAGE_SIZE, POPOVER_BADGE_WIDTH } from '@/constants/ui';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import { normalizeName } from '@/utils';
 import IconBadge from '@/components/ui/IconBadge';
 
 export interface StatusEffectBadgeProps {
@@ -14,9 +16,8 @@ export default function StatusEffectBadge({
   name,
   statusEffects,
 }: StatusEffectBadgeProps) {
-  const normalizedName = name.trim().toLowerCase();
   const effect = statusEffects.find(
-    (e) => e.name.trim().toLowerCase() === normalizedName
+    (e) => normalizeName(e.name) === normalizeName(name)
   );
 
   if (!effect) {
@@ -38,9 +39,9 @@ export default function StatusEffectBadge({
       iconSrc={iconSrc ?? undefined}
       component="span"
       popoverContent={
-        <Stack gap="xs" maw={280}>
+        <Stack gap="xs" maw={POPOVER_BADGE_WIDTH}>
           <Group gap="xs" wrap="nowrap">
-            {iconSrc && <Image src={iconSrc} alt={effect.name} w={18} h={18} />}
+            {iconSrc && <Image src={iconSrc} alt={effect.name} w={IMAGE_SIZE.ICON_LG} h={IMAGE_SIZE.ICON_LG} />}
             <Text fw={600} size="sm">
               {effect.name}
             </Text>

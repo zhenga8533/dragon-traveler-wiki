@@ -1,12 +1,12 @@
 import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
 import { useContext } from 'react';
-import { WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
+import { CURSOR_POINTER_STYLE, WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
 import { POPOVER_MAX_WIDTH } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
 import type { Skill, Talent } from '@/features/characters/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useGradientAccent } from '@/hooks';
-import { splitEffectRefs } from '@/utils/parse-effect-refs';
+import { normalizeName, splitEffectRefs } from '@/utils';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import StatusEffectBadge from '@/features/wiki/status-effects/components/StatusEffectBadge';
 
@@ -55,7 +55,7 @@ function ReferenceBadge({
           color={color}
           size="sm"
           component="span"
-          style={{ cursor: 'pointer' }}
+          style={CURSOR_POINTER_STYLE}
         >
           {name}
         </Badge>
@@ -89,8 +89,6 @@ function ReferenceBadge({
     </Popover>
   );
 }
-
-const normalizeName = (value: string) => value.trim().toLowerCase();
 
 const findByName = <T extends { name: string }>(
   items: T[] | undefined,
@@ -133,7 +131,6 @@ export default function RichText({
           return <em key={i}>{seg.content}</em>;
         }
 
-        // effectRef
         const statusEffect = findByName(statusEffects, seg.name);
         if (statusEffect) {
           return (
@@ -155,7 +152,7 @@ export default function RichText({
                 color={accent.secondary}
                 size="sm"
                 component="span"
-                style={{ cursor: 'pointer' }}
+                style={CURSOR_POINTER_STYLE}
                 onClick={() => onSkillClick(skill.name)}
               >
                 {skill.name}
@@ -182,7 +179,7 @@ export default function RichText({
                 color={accent.tertiary}
                 size="sm"
                 component="span"
-                style={{ cursor: 'pointer' }}
+                style={CURSOR_POINTER_STYLE}
                 onClick={onTalentClick}
               >
                 {talent.name}
