@@ -235,7 +235,7 @@ export default function MythicSummonCalculator() {
   const { accent } = useGradientAccent();
   const [numSummons, setNumSummons] = useState<number | null>(100);
   const [currentPulls, setCurrentPulls] = useState<number | null>(0);
-  const [conditionalPity, setConditionalPity] = useState(true);
+  const [conditionalPity, setConditionalPity] = useState(false);
   const [simResult, setSimResult] = useState<SimResult | null>(null);
 
   const handleSimulate = useCallback(() => {
