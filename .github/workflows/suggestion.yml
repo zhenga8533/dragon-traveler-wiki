@@ -5,7 +5,7 @@ on:
     types: [opened]
 
 permissions:
-  contents: write
+  contents: read
   issues: write
 
 jobs:
@@ -18,8 +18,6 @@ jobs:
 
     steps:
       - uses: actions/checkout@v4
-        with:
-          fetch-depth: 0
 
       - uses: actions/setup-python@v5
         with:
@@ -31,23 +29,6 @@ jobs:
       - name: Process suggestion
         id: suggest
         run: python -m backend.suggest
-
-      - name: Normalize updated data file
-        if: steps.suggest.outputs.processed == 'true' && steps.suggest.outputs.json_file != ''
-        run: python -m backend.normalize_data "${{ steps.suggest.outputs.json_file }}"
-
-      - name: Commit data changes
-        if: success() && steps.suggest.outputs.processed == 'true'
-        run: |
-          git config user.name "github-actions[bot]"
-          git config user.email "github-actions[bot]@users.noreply.github.com"
-          git add data/
-          if git diff --cached --quiet; then
-            echo "No changes to commit."
-          else
-            git commit -m "Auto-update: process issue suggestion #${{ github.event.issue.number }}"
-            git push
-          fi
 
       - name: Apply labels to issue
         if: steps.suggest.outputs.processed == 'true' && steps.suggest.outputs.label != ''
@@ -96,8 +77,8 @@ jobs:
               labels,
             });
 
-      - name: Comment on issue with labels
-        if: success() && steps.suggest.outputs.processed == 'true' && steps.suggest.outputs.label != ''
+      - name: Comment on issue
+        if: success() && steps.suggest.outputs.processed == 'true'
         uses: actions/github-script@v7
         with:
           script: |
@@ -108,7 +89,7 @@ jobs:
               body: [
                 `**Thanks for your suggestion!**`,
                 ``,
-                `Your issue has been labeled and processed. A maintainer will review it soon.`
+                `Your issue has been labeled and will be reviewed by a maintainer.`
               ].join('\n')
             });
 
@@ -128,56 +109,5 @@ jobs:
                 `There was an error processing your suggestion. Please check the JSON format and try again.`,
                 ``,
                 `[View workflow run](${runUrl})`
-              ].join('\n')
-            });
-
-      - name: Comment on issue for manual review
-        if: success() && steps.suggest.outputs.manual_review == 'true'
-        uses: actions/github-script@v7
-        with:
-          script: |
-            async function ensureLabel(labelName, color) {
-              try {
-                await github.rest.issues.getLabel({
-                  owner: context.repo.owner,
-                  repo: context.repo.repo,
-                  name: labelName,
-                });
-              } catch (error) {
-                if (error.status !== 404) {
-                  throw error;
-                }
-
-                try {
-                  await github.rest.issues.createLabel({
-                    owner: context.repo.owner,
-                    repo: context.repo.repo,
-                    name: labelName,
-                    color,
-                  });
-                } catch (createError) {
-                  if (createError.status !== 422) {
-                    throw createError;
-                  }
-                }
-              }
-            }
-
-            await ensureLabel('manual-review', 'e4e669');
-
-            await github.rest.issues.addLabels({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              labels: ['manual-review'],
-            });
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: [
-                `**Thanks for your suggestion!**`,
-                ``,
-                `This type of suggestion requires manual review by a maintainer. We'll take a look and add it if appropriate.`
               ].join('\n')
             });
