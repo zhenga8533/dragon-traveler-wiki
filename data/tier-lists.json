@@ -120,6 +120,10 @@
         "tier": "S"
       },
       {
+        "character_name": "Hermes",
+        "tier": "S"
+      },
+      {
         "character_name": "Prometheus",
         "tier": "S"
       },
@@ -177,6 +181,10 @@
       },
       {
         "character_name": "Andevaly",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Catherine",
         "tier": "A+"
       },
       {
@@ -486,7 +494,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1773071931
+    "last_updated": 1774272543
   },
   {
     "name": "Taiwan PvE Tier List",
@@ -618,6 +626,10 @@
         "tier": "S"
       },
       {
+        "character_name": "Hermes",
+        "tier": "S"
+      },
+      {
         "character_name": "Loki",
         "tier": "S"
       },
@@ -697,6 +709,10 @@
       },
       {
         "character_name": "Andevaly",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Catherine",
         "tier": "A+"
       },
       {
@@ -975,7 +991,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1772641754
+    "last_updated": 1774272543
   },
   {
     "name": "Taiwan PvP Tier List",
@@ -1078,6 +1094,10 @@
         "tier": "S"
       },
       {
+        "character_name": "Hermes",
+        "tier": "S"
+      },
+      {
         "character_name": "Prometheus",
         "tier": "S"
       },
@@ -1135,6 +1155,10 @@
       },
       {
         "character_name": "Andevaly",
+        "tier": "A+"
+      },
+      {
+        "character_name": "Catherine",
         "tier": "A+"
       },
       {
@@ -1464,7 +1488,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1772641754
+    "last_updated": 1774272543
   },
   {
     "name": "Global Tier List",

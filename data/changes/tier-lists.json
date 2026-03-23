@@ -65,6 +65,17 @@
             }
           }
         }
+      },
+      {
+        "timestamp": 1774272543,
+        "fields": {
+          "entries": {
+            "added": [
+              "Catherine",
+              "Hermes"
+            ]
+          }
+        }
       }
     ]
   },
@@ -121,6 +132,17 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1774272543,
+        "fields": {
+          "entries": {
+            "added": [
+              "Catherine",
+              "Hermes"
+            ]
+          }
+        }
       }
     ]
   },
@@ -174,6 +196,17 @@
             ],
             "removed": [
               "Asteros"
+            ]
+          }
+        }
+      },
+      {
+        "timestamp": 1774272543,
+        "fields": {
+          "entries": {
+            "added": [
+              "Catherine",
+              "Hermes"
             ]
           }
         }

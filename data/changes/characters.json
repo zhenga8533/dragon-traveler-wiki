@@ -932,6 +932,16 @@
             }
           }
         }
+      },
+      {
+        "timestamp": 1774272543,
+        "fields": {
+          "recommended_subclasses": {
+            "added": [
+              "Forest Bandit"
+            ]
+          }
+        }
       }
     ]
   },
