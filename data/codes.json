@@ -838,5 +838,25 @@
     },
     "active": true,
     "last_updated": 1773749861
+  },
+  {
+    "code": "NetherPrincess",
+    "rewards": {
+      "Gold": 3000,
+      "Summoning Ticket": 1,
+      "Dragonblood": 1
+    },
+    "active": true,
+    "last_updated": 1774272120
+  },
+  {
+    "code": "DTIBARADC",
+    "rewards": {
+      "Gold": 100000,
+      "Summoning Ticket": 10,
+      "Random Refinement Stone": 10
+    },
+    "active": true,
+    "last_updated": 1774272120
   }
 ]
