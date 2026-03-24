@@ -1,7 +1,7 @@
 import type { CharacterIllustration } from '@/assets/character';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
-import { QUALITY_COLOR } from '@/constants/colors';
+import { QUALITY_BORDER_COLOR } from '@/constants/colors';
 import { CHARACTER_HERO } from '@/constants/ui';
 import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
@@ -10,13 +10,13 @@ import type { Character } from '@/features/characters/types';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import TierBadge from '@/components/ui/TierBadge';
 import { useDarkMode } from '@/hooks';
+import CharacterPortrait from './CharacterPortrait';
 import {
   Box,
   Center,
   Container,
   Grid,
   Group,
-  Image,
   Stack,
   Text,
   Title,
@@ -24,16 +24,16 @@ import {
 
 interface CharacterPageHeroSectionProps {
   character: Character;
-  portrait: string | undefined;
   tierLabel: string | null;
   activeIllustration: CharacterIllustration | null;
+  isNew?: boolean;
 }
 
 export default function CharacterPageHeroSection({
   character,
-  portrait,
   tierLabel,
   activeIllustration,
+  isNew = false,
 }: CharacterPageHeroSectionProps) {
   const isDark = useDarkMode();
   const heroBlurFilter = isDark
@@ -105,25 +105,16 @@ export default function CharacterPageHeroSection({
           {/* Portrait */}
           <Grid.Col span={{ base: 12, sm: 'content' }}>
             <Center>
-              <Box
-                style={{
-                  width: CHARACTER_HERO.PORTRAIT_SIZE,
-                  height: CHARACTER_HERO.PORTRAIT_SIZE,
-                  borderRadius: '50%',
-                  border: `${CHARACTER_HERO.BORDER_WIDTH}px solid var(--mantine-color-${QUALITY_COLOR[character.quality]}-5)`,
-                  overflow: 'hidden',
-                  boxShadow: 'var(--mantine-shadow-lg)',
-                }}
-              >
-                <Image
-                  src={portrait}
-                  alt={character.name}
-                  w={CHARACTER_HERO.PORTRAIT_SIZE}
-                  h={CHARACTER_HERO.PORTRAIT_SIZE}
-                  fit="cover"
-                  fallbackSrc={`https://placehold.co/${CHARACTER_HERO.PORTRAIT_SIZE}x${CHARACTER_HERO.PORTRAIT_SIZE}?text=?`}
-                />
-              </Box>
+              <CharacterPortrait
+                name={character.name}
+                size={CHARACTER_HERO.PORTRAIT_SIZE}
+                quality={character.quality}
+                borderWidth={CHARACTER_HERO.BORDER_WIDTH}
+                borderColor={QUALITY_BORDER_COLOR[character.quality]}
+                style={{ boxShadow: 'var(--mantine-shadow-lg)' }}
+                loading="eager"
+                isNew={isNew}
+              />
             </Center>
           </Grid.Col>
 

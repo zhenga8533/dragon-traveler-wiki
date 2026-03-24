@@ -11,6 +11,7 @@ import { CHARACTER_GRID_COLS } from '@/constants/ui';
 import CharacterOwnershipManager from '@/features/characters/components/CharacterOwnershipManager';
 import type { Character } from '@/features/characters/types';
 import { useCharacterListData } from '@/features/characters/hooks/use-character-list-data';
+import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
 import { buildCharacterNameCounts } from '@/features/characters/utils/character-route';
 import { useDataFetch, useGradientAccent, useIsMobile } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
@@ -81,6 +82,7 @@ export default function Characters() {
   );
 
   const listData = useCharacterListData(characters);
+  const newCharacterKeys = useNewCharacters();
   const isMobile = useIsMobile();
 
   const [managerOpened, { open: openManager, close: closeManager }] =
@@ -157,7 +159,7 @@ export default function Characters() {
               color={accent.primary}
             />
           ) : (
-            <CharacterList data={listData} />
+            <CharacterList data={listData} newCharacterKeys={newCharacterKeys} />
           )}
         </ListPageShell>
       </Stack>

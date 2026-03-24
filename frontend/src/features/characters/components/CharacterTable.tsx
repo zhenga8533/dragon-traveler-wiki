@@ -23,6 +23,7 @@ interface CharacterTableProps {
   handleSort: (key: string) => void;
   selectedTierListName: string | null;
   getTierLabel: (char: Character) => string | undefined;
+  newCharacterKeys?: Set<string>;
 }
 
 export default function CharacterTable({
@@ -33,6 +34,7 @@ export default function CharacterTable({
   handleSort,
   selectedTierListName,
   getTierLabel,
+  newCharacterKeys,
 }: CharacterTableProps) {
   const { accent } = useGradientAccent();
 
@@ -104,6 +106,7 @@ export default function CharacterTable({
                       quality={char.quality}
                       borderWidth={3}
                       style={{ flexShrink: 0 }}
+                      isNew={newCharacterKeys?.has(getCharacterIdentityKey(char))}
                     />
                     <Text size="sm" fw={500} c={`${accent.primary}.7`}>
                       {char.name}

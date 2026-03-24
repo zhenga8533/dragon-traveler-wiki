@@ -25,7 +25,6 @@ import {
   IoExpand,
 } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
-import { getPortrait } from '@/assets/character';
 import { getSubclassIcon } from '@/assets/subclass';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import ClassTag from '@/components/ui/ClassTag';
@@ -49,6 +48,7 @@ import CharacterHeroSection from '@/features/characters/components/CharacterHero
 import IllustrationPreviewModal from '@/features/characters/components/IllustrationPreviewModal';
 import CharacterSkillsSection from '@/features/characters/components/CharacterSkillsSection';
 import CharacterVariantSelector from '@/features/characters/components/CharacterVariantSelector';
+import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
 
 export default function CharacterPage() {
   const tooltipProps = useMobileTooltip();
@@ -105,6 +105,8 @@ export default function CharacterPage() {
     showNextIllustration,
   } = useCharacterAssets(character, characterAssetKey);
 
+  const newCharacterKeys = useNewCharacters();
+
   const [previewOpen, setPreviewOpen] = useState(false);
 
   const scrollToSkill = useCallback((skillName: string) => {
@@ -149,7 +151,6 @@ export default function CharacterPage() {
     );
   }
 
-  const portrait = getPortrait(character.name, characterAssetKey);
   const activeIllustrationName = activeIllustration?.name;
   const stickyTopOffset =
     'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))';
@@ -164,9 +165,9 @@ export default function CharacterPage() {
       <ErrorBoundary>
         <CharacterHeroSection
           character={character}
-          portrait={portrait}
           tierLabel={tierLabel}
           activeIllustration={activeIllustration}
+          isNew={newCharacterKeys.has(getCharacterIdentityKey(character))}
         />
       </ErrorBoundary>
 

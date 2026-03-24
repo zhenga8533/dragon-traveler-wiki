@@ -27,6 +27,7 @@ interface CharacterPortraitProps {
   fallbackSrc?: string;
   routePath?: string;
   assetKey?: string;
+  isNew?: boolean;
 }
 
 export default function CharacterPortrait({
@@ -46,6 +47,7 @@ export default function CharacterPortrait({
   fallbackSrc,
   routePath,
   assetKey,
+  isNew = false,
 }: CharacterPortraitProps) {
   const mobileTooltip = useMobileTooltip();
   const { grayUnowned, isOwned } = useContext(CharacterOwnershipContext);
@@ -105,13 +107,51 @@ export default function CharacterPortrait({
     portrait
   );
 
-  if (!tooltip) {
-    return linkedPortrait;
-  }
-
-  return (
+  const result = tooltip ? (
     <Tooltip label={tooltip} {...mobileTooltip} {...tooltipProps}>
       {linkedPortrait}
     </Tooltip>
+  ) : (
+    linkedPortrait
+  );
+
+  if (!isNew) return result;
+
+  // Scale font and padding with portrait size
+  const fontSize = Math.max(9, Math.round(size * 0.12));
+  const padV = Math.max(1, Math.round(fontSize * 0.3));
+  const padH = Math.max(3, Math.round(fontSize * 0.55));
+  const badgeRadius = Math.max(3, Math.round(fontSize * 0.4));
+  // 45° point on circle edge: distance from each side = size * (1 - 1/√2) / 2 ≈ size * 0.146
+  // translate(-50%, -50%) centers the badge on that exact point
+  const edge = Math.round(size * 0.146);
+
+  return (
+    <div style={{ position: 'relative', display: 'inline-flex' }}>
+      {result}
+      <span
+        style={{
+          position: 'absolute',
+          top: edge,
+          right: edge,
+          transform: 'translate(50%, -50%)',
+          background: 'var(--mantine-color-green-6)',
+          color: 'white',
+          borderRadius: badgeRadius,
+          fontSize,
+          fontWeight: 700,
+          lineHeight: 1,
+          padding: `${padV}px ${padH}px`,
+          letterSpacing: '0.04em',
+          pointerEvents: 'none',
+          userSelect: 'none',
+          boxShadow: '0 1px 3px rgba(0,0,0,0.4)',
+          whiteSpace: 'nowrap',
+          zIndex: 1,
+        }}
+      >
+        New
+      </span>
+    </div>
   );
 }
