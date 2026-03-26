@@ -1,5 +1,16 @@
 [
   {
+    "name": "Wish of the Ice Dancer Begins!",
+    "event_id": "6760327737",
+    "type": "Special Event",
+    "description": "New SSR+ Nether Princess Zagreus! Complete Wish of the Ice Dancer event goals for her \"Frostblade Dancer\" skin!",
+    "characters": [],
+    "is_global": true,
+    "start_date": "2026-03-26",
+    "end_date": null,
+    "last_updated": 1774552448
+  },
+  {
     "name": "Lost Shamballa",
     "event_id": null,
     "type": "Release",
@@ -20,8 +31,8 @@
     "characters": [],
     "is_global": true,
     "start_date": "2026-03-12",
-    "end_date": null,
-    "last_updated": 1773324599
+    "end_date": "2026-03-26",
+    "last_updated": 1774552448
   },
   {
     "name": "Hermes Mythic Ascension",
