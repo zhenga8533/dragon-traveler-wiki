@@ -3675,7 +3675,7 @@
     "last_updated": 1771870646
   },
   {
-    "name": "Zagrus",
+    "name": "Zagreus",
     "title": "Princess of the Underworld",
     "quality": "SSR+",
     "character_class": "Assassin",
@@ -3696,61 +3696,61 @@
     "weight": "52kg",
     "origin": "Greek Mythology",
     "lore": "Zagreus was the daughter of Hades, the god of the underworld. Hades received a prophecy at Zagreus's birth: this princess of the underworld was destined to die and then be reincarnated as a god. Hades did not want his daughter to experience the pain of death, so he protected her strictly and even forbade her to leave the underworld.",
-    "quote": "",
+    "quote": "Give thanks for this princess's royal favor!",
     "talent": {
-      "name": "Rose Sword",
+      "name": "Sword of Roses",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "When you apply the [Chill] effect to yourself or deal damage to an enemy unit that is under the [Chill] or [Evaporation] status, you will deal additional magic damage equal to 430% of your attack to the target and inflict [Freeze] for 4 seconds (this effect can trigger at most once per target within 8 seconds).\nEnemies in the [Freeze] state will have their base rage regeneration efficiency reduced by 60%."
+          "effect": "When inflicting [Chill] or dealing damage to enemies afflicted with [Flash Freeze] or [Evaporation], dealss additional magic damage equal to 430% of own Attack to the target, and inflicts [Freeze] for 4 seconds (can only trigger once every 8 seconds on the same target). Enemies afflicted with [Freeze] have their base Rage Regen Efficiency reduced by 60%."
         },
         {
           "level": 2,
-          "effect": "Each time you apply [Freeze] to an enemy unit, reduce the cooldown of [Instant Shadow Slash] by 4 seconds."
+          "effect": "For each enemy afflicted with [Freeze], reduces the cooldown of [Swiftshadow Execution] by 4 seconds."
         },
         {
           "level": 3,
-          "effect": "Increases own attack by 10% and accuracy by 50."
+          "effect": "Increases own Attack by 10% and Hit by 50."
         },
         {
           "level": 4,
-          "effect": "Whenever an ally triggers an [Elemental Reaction], the cost of the user's next Ultimate Skill is reduced by 1 (can trigger at most once within 2 seconds)."
+          "effect": "Whenever the team triggers an [Elemental Reaction], reduces the Energy Cost of the next Overdrive by 1. This can trigger once every 2 seconds."
         },
         {
           "level": 7,
-          "effect": "The duration of [Freeze] is extended to 6 seconds, and enemies under the [Freeze] status will have their base rage recovery efficiency reduced by 100%."
+          "effect": "Extends the duration of [Freeze] to 6 seconds. Enemies in the [Freeze] state have their base Rage Regen reduced by 100%."
         }
       ]
     },
     "skills": [
       {
-        "name": "Blizzard",
+        "name": "Storm Snowpiercer",
         "type": "Overdrive",
-        "description": "Blink to the target location and unleash a blizzard that deals 10 instances of magic damage equal to 52% of the caster's attack to enemy units in a large circular area. Each instance of damage has a 5% chance to inflict the [Chill] debuff. For each ultimate skill cast by an ally, the caster gains 1 stack of [Awakening]. For each stack of [Awakening] the caster has, the chance increases by an additional 1%.",
+        "description": "Flashes to the target location and unleashes a blizzard, dealing magic damage equal to 52% of Attack 10 times to enemy units within a large circular area. Each hit has a 5% chance to inflict [Chill]. Each time an ally unleashes an Overdrive, gains 1 stack of [Awakening]. For each stack of [Awakening] present, this chance is increased by an additional 1%.",
         "cooldown": 18
       },
       {
-        "name": "Frozen Moment",
+        "name": "Cryostasis",
         "type": "Ultimate Skill",
-        "description": "Summons an ice projectile that deals magic damage equal to 390% of the caster's attack to a single target and inflicts the [Chill] debuff.",
+        "description": "Summons an ice bomb to deal magic damage equal to 390% of own Attack to a single target and inflict [Chill].",
         "cooldown": 7
       },
       {
-        "name": "Sharp Sword Edge",
+        "name": "Razor Edge",
         "type": "Secret Skill",
-        "description": "During battle, increases own attack by 10%.\nAttacks against enemy units that are in the [Freeze] state are increased by an additional 40%.",
+        "description": "In battle, increases Attack by 10%.\nAttack increases by an additional 40% when attacking enemies afflicted with [Freeze].",
         "cooldown": 0
       },
       {
-        "name": "Instant Shadow Slash",
+        "name": "Swiftshadow Execution",
         "type": "Special Skill",
-        "description": "Performs several slashes on a single target, dealing a total of 680% of the caster's attack as magic damage. The caster is untargetable during the skill's duration.",
+        "description": "Performs multiple slashes on a single target, dealing a total of 680% of Attack as magic damage. Becomes untargetable while executing this skill.",
         "cooldown": 14
       },
       {
         "name": "Netherworld Snow",
         "type": "Divine Skill",
-        "description": "When [Blizzard] is cast, it inflicts [Magic Defense Down] and [Attack Speed Down] on enemy units within its range.",
+        "description": "When [Storm Snowpiercer] is cast, it inflicts [Magic Defense Down] and [Attack Speed Down] on enemy units within its range.",
         "cooldown": 0
       }
     ],
@@ -3767,7 +3767,7 @@
       "Outlaw",
       "Forest Bandit"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1774528303
   },
   {
     "name": "Fenrir",

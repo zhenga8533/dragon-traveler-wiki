@@ -553,7 +553,7 @@
         "note": "Sustained DPS (Damage per second)"
       }
     ],
-    "last_updated": 1772600511,
+    "last_updated": 1774528303,
     "bench": [
       {
         "character_name": "Anubis",
@@ -587,7 +587,7 @@
         "note": "Low-cost interrupt; Elemental reaction"
       },
       {
-        "character_name": "Zagrus",
+        "character_name": "Zagreus",
         "note": "Elemental reaction; Chain crowd control (CC)"
       }
     ],

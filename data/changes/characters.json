@@ -40,12 +40,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Avenger"
-            ],
-            "removed": [
-              "Lionheart Knight"
-            ]
+            "added": ["Avenger"],
+            "removed": ["Lionheart Knight"]
           }
         }
       }
@@ -221,9 +217,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "removed": [
-              "Guardian"
-            ]
+            "removed": ["Guardian"]
           }
         }
       }
@@ -299,9 +293,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Lionheart Knight"
-            ]
+            "added": ["Lionheart Knight"]
           }
         }
       }
@@ -327,9 +319,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Templar"
-            ]
+            "added": ["Templar"]
           }
         }
       }
@@ -359,9 +349,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Guardian"
-            ]
+            "added": ["Guardian"]
           }
         }
       }
@@ -507,9 +495,7 @@
         "timestamp": 1773670017,
         "fields": {
           "recommended_subclasses": {
-            "removed": [
-              "Inquisitor"
-            ]
+            "removed": ["Inquisitor"]
           }
         }
       }
@@ -542,9 +528,7 @@
         "timestamp": 1773670017,
         "fields": {
           "recommended_subclasses": {
-            "removed": [
-              "Inquisitor"
-            ]
+            "removed": ["Inquisitor"]
           }
         }
       }
@@ -580,9 +564,7 @@
         "timestamp": 1773670017,
         "fields": {
           "recommended_subclasses": {
-            "removed": [
-              "Inquisitor"
-            ]
+            "removed": ["Inquisitor"]
           }
         }
       }
@@ -628,12 +610,8 @@
         "timestamp": 1773670017,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Executor"
-            ],
-            "removed": [
-              "Inquisitor"
-            ]
+            "added": ["Executor"],
+            "removed": ["Inquisitor"]
           }
         }
       }
@@ -657,12 +635,8 @@
         "timestamp": 1773670017,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Divine Officer"
-            ],
-            "removed": [
-              "Inquisitor"
-            ]
+            "added": ["Divine Officer"],
+            "removed": ["Inquisitor"]
           }
         }
       },
@@ -670,12 +644,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Bishop"
-            ],
-            "removed": [
-              "Divine Officer"
-            ]
+            "added": ["Bishop"],
+            "removed": ["Divine Officer"]
           }
         }
       }
@@ -716,9 +686,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Divine Officer"
-            ]
+            "added": ["Divine Officer"]
           }
         }
       }
@@ -777,9 +745,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Bishop"
-            ]
+            "added": ["Bishop"]
           }
         }
       }
@@ -820,9 +786,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Executor"
-            ]
+            "added": ["Executor"]
           }
         }
       }
@@ -906,14 +870,10 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Outlaw"
-            ]
+            "added": ["Outlaw"]
           },
           "skills": {
-            "added": [
-              "Shadow Blade Frenzy"
-            ],
+            "added": ["Shadow Blade Frenzy"],
             "modified": {
               "Shadow Blade Dance": {
                 "cooldown": {
@@ -937,9 +897,7 @@
         "timestamp": 1774272543,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Forest Bandit"
-            ]
+            "added": ["Forest Bandit"]
           }
         }
       }
@@ -958,12 +916,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Masked Thief"
-            ],
-            "removed": [
-              "Executioner"
-            ]
+            "added": ["Masked Thief"],
+            "removed": ["Executioner"]
           }
         }
       }
@@ -1016,7 +970,7 @@
     "added": 1772563593,
     "changes": []
   },
-  "Zagrus__SSR+": {
+  "Zagreus__SSR+": {
     "added": 1772563593,
     "changes": []
   },
@@ -1063,9 +1017,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Executioner"
-            ]
+            "added": ["Executioner"]
           }
         }
       }
@@ -1095,9 +1047,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Masked Thief"
-            ]
+            "added": ["Masked Thief"]
           }
         }
       }
@@ -1127,9 +1077,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Executioner"
-            ]
+            "added": ["Executioner"]
           }
         }
       }
@@ -1228,12 +1176,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Lord"
-            ],
-            "removed": [
-              "Sword Master"
-            ]
+            "added": ["Lord"],
+            "removed": ["Sword Master"]
           }
         }
       }
@@ -1255,12 +1199,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Berserker"
-            ],
-            "removed": [
-              "Vanguard"
-            ]
+            "added": ["Berserker"],
+            "removed": ["Vanguard"]
           }
         }
       }
@@ -1277,12 +1217,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Sword Master"
-            ],
-            "removed": [
-              "Berserker"
-            ]
+            "added": ["Sword Master"],
+            "removed": ["Berserker"]
           }
         }
       }
@@ -1304,9 +1240,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Lord"
-            ]
+            "added": ["Lord"]
           }
         }
       }
@@ -1351,12 +1285,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Vanguard"
-            ],
-            "removed": [
-              "Berserker"
-            ]
+            "added": ["Vanguard"],
+            "removed": ["Berserker"]
           }
         }
       }
@@ -1369,12 +1299,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Vanguard"
-            ],
-            "removed": [
-              "Berserker"
-            ]
+            "added": ["Vanguard"],
+            "removed": ["Berserker"]
           }
         }
       }
@@ -1391,9 +1317,7 @@
         "timestamp": 1772641754,
         "fields": {
           "skills": {
-            "removed": [
-              "Wild Cyclone"
-            ]
+            "removed": ["Wild Cyclone"]
           }
         }
       }
@@ -1410,12 +1334,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Vanguard"
-            ],
-            "removed": [
-              "Sword Master"
-            ]
+            "added": ["Vanguard"],
+            "removed": ["Sword Master"]
           }
         }
       }
@@ -1441,9 +1361,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Sword Master"
-            ]
+            "added": ["Sword Master"]
           }
         }
       }
@@ -1473,9 +1391,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Sword Master"
-            ]
+            "added": ["Sword Master"]
           }
         }
       }
@@ -1505,9 +1421,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Sword Master"
-            ]
+            "added": ["Sword Master"]
           }
         }
       }
@@ -1722,9 +1636,7 @@
         "timestamp": 1772634281,
         "fields": {
           "skills": {
-            "removed": [
-              "Mystic Evil Jade"
-            ],
+            "removed": ["Mystic Evil Jade"],
             "modified": {
               "Snake Dance": {
                 "description": {
@@ -1762,9 +1674,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Sharpshooter"
-            ]
+            "added": ["Sharpshooter"]
           }
         }
       }
@@ -1790,9 +1700,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Light Ranger"
-            ]
+            "added": ["Light Ranger"]
           }
         }
       }
@@ -1818,9 +1726,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Bloodhunter"
-            ]
+            "added": ["Bloodhunter"]
           }
         }
       }
@@ -1850,9 +1756,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Bounty Hunter"
-            ]
+            "added": ["Bounty Hunter"]
           }
         }
       }
@@ -1953,12 +1857,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Elementalist"
-            ],
-            "removed": [
-              "Elemental Mage"
-            ]
+            "added": ["Elementalist"],
+            "removed": ["Elemental Mage"]
           }
         }
       }
@@ -1984,12 +1884,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Elementalist"
-            ],
-            "removed": [
-              "Elemental Mage"
-            ]
+            "added": ["Elementalist"],
+            "removed": ["Elemental Mage"]
           }
         }
       }
@@ -2002,12 +1898,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Elementalist"
-            ],
-            "removed": [
-              "Elemental Mage"
-            ]
+            "added": ["Elementalist"],
+            "removed": ["Elemental Mage"]
           }
         }
       }
@@ -2029,9 +1921,7 @@
         "timestamp": 1772634281,
         "fields": {
           "skills": {
-            "removed": [
-              "Quicksand Dispel"
-            ]
+            "removed": ["Quicksand Dispel"]
           }
         }
       }
@@ -2044,12 +1934,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Elementalist"
-            ],
-            "removed": [
-              "Elemental Mage"
-            ]
+            "added": ["Elementalist"],
+            "removed": ["Elemental Mage"]
           }
         }
       }
@@ -2066,12 +1952,8 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Elementalist"
-            ],
-            "removed": [
-              "Elemental Mage"
-            ]
+            "added": ["Elementalist"],
+            "removed": ["Elemental Mage"]
           }
         }
       }
@@ -2101,9 +1983,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Potion Master"
-            ]
+            "added": ["Potion Master"]
           }
         }
       }
@@ -2129,9 +2009,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Potion Master"
-            ]
+            "added": ["Potion Master"]
           }
         }
       }
@@ -2157,9 +2035,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Potion Master"
-            ]
+            "added": ["Potion Master"]
           }
         }
       }
@@ -2189,9 +2065,7 @@
         "timestamp": 1773677819,
         "fields": {
           "recommended_subclasses": {
-            "added": [
-              "Potion Master"
-            ]
+            "added": ["Potion Master"]
           }
         }
       }

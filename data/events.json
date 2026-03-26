@@ -235,13 +235,13 @@
     "characters": [
       "Azure Dragon",
       "Caesar",
-      "Zagrus",
+      "Zagreus",
       "Silbismo"
     ],
     "is_global": false,
     "start_date": "2025-12-25",
     "end_date": "2026-01-01",
-    "last_updated": 1773158650
+    "last_updated": 1774528303
   },
   {
     "name": "Snowland Romance",
@@ -437,12 +437,12 @@
     "type": "Release",
     "description": "",
     "characters": [
-      "Zagrus"
+      "Zagreus"
     ],
     "is_global": false,
     "start_date": "2025-08-14",
     "end_date": "2025-08-28",
-    "last_updated": 1773158650
+    "last_updated": 1774528303
   },
   {
     "name": "Thor Mythic Ascension",
