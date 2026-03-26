@@ -5051,12 +5051,12 @@
     ],
     "is_global": true,
     "subclasses": [
-      "Swordsman",
+      "Fighter",
       "Arcane Duelist",
       "Champion",
       "Vanguard",
-      "Crusader",
-      "Sword Master"
+      "Berserker",
+      "Lord"
     ],
     "height": "174cm",
     "weight": "47kg",
@@ -5130,9 +5130,9 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [
-      "Sword Master"
+      "Lord"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1774528420
   },
   {
     "name": "Hitomi",
