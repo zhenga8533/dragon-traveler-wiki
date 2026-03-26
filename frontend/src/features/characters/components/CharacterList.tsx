@@ -21,6 +21,7 @@ interface CharacterListProps {
   cols?: { base?: number; xs?: number; sm?: number; md?: number };
   spacing?: number | string;
   showFilter?: boolean;
+  newCharacterKeys?: Set<string>;
 }
 
 export default function CharacterList({
@@ -28,6 +29,7 @@ export default function CharacterList({
   cols = CHARACTER_GRID_COLS,
   spacing = CHARACTER_GRID_SPACING,
   showFilter = true,
+  newCharacterKeys,
 }: CharacterListProps) {
   const {
     filters,
@@ -103,6 +105,7 @@ export default function CharacterList({
                 quality={char.quality}
                 tierLabel={getTierLabel(char)}
                 routePath={getCharacterRoutePath(char, characterNameCounts)}
+                isNew={newCharacterKeys?.has(getCharacterIdentityKey(char))}
               />
             ))}
           </SimpleGrid>
@@ -115,6 +118,7 @@ export default function CharacterList({
             handleSort={handleSort}
             selectedTierListName={selectedTierListName}
             getTierLabel={getTierLabel}
+            newCharacterKeys={newCharacterKeys}
           />
         )}
 

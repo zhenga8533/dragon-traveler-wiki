@@ -19,6 +19,7 @@ interface CharacterCardProps {
   note?: string;
   routePath?: string;
   clampName?: boolean;
+  isNew?: boolean;
 }
 
 export default function CharacterCard({
@@ -31,6 +32,7 @@ export default function CharacterCard({
   note,
   routePath,
   clampName = true,
+  isNew = false,
 }: CharacterCardProps) {
   const { accent } = useGradientAccent();
   const nameColor = disableLink ? 'dimmed' : `${accent.primary}.7`;
@@ -43,6 +45,7 @@ export default function CharacterCard({
         quality={quality}
         borderWidth={CHARACTER_CARD.BORDER_WIDTH}
         routePath={routePath}
+        isNew={isNew}
       />
       {note && (
         <NoteTooltipIcon
