@@ -858,5 +858,25 @@
     },
     "active": true,
     "last_updated": 1774272120
+  },
+  {
+    "code": "EyeOnMe",
+    "rewards": {
+      "Gold": 3000,
+      "Legacy Dragon Crystal": 3,
+      "Apple": 1
+    },
+    "active": true,
+    "last_updated": 1774484628
+  },
+  {
+    "code": "LoveCantHide",
+    "rewards": {
+      "Gold": 3000,
+      "Golden Horn": 1,
+      "Leaf of the World Tree": 5
+    },
+    "active": true,
+    "last_updated": 1774484628
   }
 ]
