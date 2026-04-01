@@ -3683,7 +3683,7 @@
       "Elemental Echo",
       "Arcane Wisdom"
     ],
-    "is_global": false,
+    "is_global": true,
     "subclasses": [
       "Rogue",
       "Nightblade",
@@ -3767,7 +3767,7 @@
       "Outlaw",
       "Forest Bandit"
     ],
-    "last_updated": 1774528303
+    "last_updated": 1775014192
   },
   {
     "name": "Fenrir",
