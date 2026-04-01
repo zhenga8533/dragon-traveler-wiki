@@ -614,8 +614,8 @@
       "Legacy Dragon Crystal": 3,
       "Apple": 1
     },
-    "active": true,
-    "last_updated": 1771976423
+    "active": false,
+    "last_updated": 1775013682
   },
   {
     "code": "SJLBMBY101",
@@ -878,5 +878,34 @@
     },
     "active": true,
     "last_updated": 1774484628
+  },
+  {
+    "code": "SportsBaihu",
+    "rewards": {
+      "Legacy Dragon Crystal": 3,
+      "Golden Horn": 1,
+      "SR Luminary Shards": 10
+    },
+    "active": true,
+    "last_updated": 1775013682
+  },
+  {
+    "code": "CGGXGG102",
+    "rewards": {
+      "Gold": 3000,
+      "Summoning Ticket": 1,
+      "Dragonblood": 1
+    },
+    "active": true,
+    "last_updated": 1775013682
+  },
+  {
+    "code": "SlimeGelato",
+    "rewards": {
+      "4-Star SR Slime": 1,
+      "Slime Pack": 3
+    },
+    "active": true,
+    "last_updated": 1775013682
   }
 ]

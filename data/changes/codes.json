@@ -379,7 +379,17 @@
   },
   "NEWNOTICE666": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775013532,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "SJLBMBY101": {
     "added": 1772563593,
@@ -503,6 +513,18 @@
   },
   "LoveCantHide": {
     "added": 1774484628,
+    "changes": []
+  },
+  "SportsBaihu": {
+    "added": 1775013532,
+    "changes": []
+  },
+  "CGGXGG102": {
+    "added": 1775013532,
+    "changes": []
+  },
+  "SlimeGelato": {
+    "added": 1775013532,
     "changes": []
   }
 }

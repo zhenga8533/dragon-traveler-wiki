@@ -350,6 +350,13 @@
     "last_updated": 1771374946
   },
   {
+    "name": "4-Star SR Slime",
+    "quality": "SR",
+    "description": "Useable during Star Ascension to replace a 4-star Luminary.",
+    "category": "Item",
+    "last_updated": 1775013682
+  },
+  {
     "name": "Advanced Entry Ticket",
     "quality": "SR",
     "description": "Tickets for challenging opponents in the Advanced Points Match. In the Points League, the higher your rank, the more purcahses can be made daily.",
@@ -369,6 +376,13 @@
     "description": "An Energy Crystal that allows you to choose a Reforge Stone for one Gear Slot.",
     "category": "Item",
     "last_updated": 1772943743
+  },
+  {
+    "name": "Slime Pack",
+    "quality": "SR",
+    "description": "Open to obtain a random reward.",
+    "category": "Item",
+    "last_updated": 1775013682
   },
   {
     "name": "Diamond Star",
