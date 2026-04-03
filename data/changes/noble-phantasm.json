@@ -67,11 +67,7 @@
     "added": 1772563593,
     "changes": [
       {
-<<<<<<< Updated upstream
         "timestamp": 1775187721,
-=======
-        "timestamp": 1775189936,
->>>>>>> Stashed changes
         "fields": {
           "character": {
             "old": "Duvalin",

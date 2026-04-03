@@ -78,18 +78,11 @@
         }
       },
       {
-<<<<<<< Updated upstream
         "timestamp": 1775187721,
         "fields": {
           "entries": {
             "added": [
               "Bilqis",
-=======
-        "timestamp": 1775189936,
-        "fields": {
-          "entries": {
-            "added": [
->>>>>>> Stashed changes
               "Dvalin"
             ],
             "removed": [
@@ -166,18 +159,11 @@
         }
       },
       {
-<<<<<<< Updated upstream
         "timestamp": 1775187721,
         "fields": {
           "entries": {
             "added": [
               "Bilqis",
-=======
-        "timestamp": 1775189936,
-        "fields": {
-          "entries": {
-            "added": [
->>>>>>> Stashed changes
               "Dvalin"
             ],
             "removed": [
@@ -254,18 +240,11 @@
         }
       },
       {
-<<<<<<< Updated upstream
         "timestamp": 1775187721,
         "fields": {
           "entries": {
             "added": [
               "Bilqis",
-=======
-        "timestamp": 1775189936,
-        "fields": {
-          "entries": {
-            "added": [
->>>>>>> Stashed changes
               "Dvalin"
             ],
             "removed": [
@@ -324,7 +303,6 @@
             "removed": [
               "Asteros"
             ]
-<<<<<<< Updated upstream
           }
         }
       },
@@ -338,8 +316,6 @@
               "Venus",
               "Zagreus"
             ]
-=======
->>>>>>> Stashed changes
           }
         }
       }
