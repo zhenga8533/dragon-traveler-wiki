@@ -253,7 +253,17 @@
   },
   "Wish of the Ice Dancer Begins!__global": {
     "added": 1774552448,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775197619,
+        "fields": {
+          "type": {
+            "old": "Special Event",
+            "new": ""
+          }
+        }
+      }
+    ]
   },
   "Venus Mythic Ascension__global": {
     "added": 1775187721,
