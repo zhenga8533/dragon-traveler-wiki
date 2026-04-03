@@ -1,11 +1,11 @@
 import { Group, Image, Paper, Skeleton, UnstyledButton } from '@mantine/core';
 import { useEffect, useReducer } from 'react';
 import { getIllustrations } from '@/assets/character';
-import { placeholderEventImage } from '@/assets/event';
+import { getEventImage, placeholderEventImage } from '@/assets/event';
 
 const INDICATOR_DOT_SIZE = 8;
 
-interface TwIllustrationState {
+interface IllustrationState {
   src: string | null;
   idx: number;
   total: number;
@@ -33,7 +33,7 @@ function illustReducer(state: IllustState, action: IllustAction): IllustState {
   }
 }
 
-function useTwIllustration(characters: string[]): TwIllustrationState {
+function useIllustration(characters: string[]): IllustrationState {
   const [{ srcs, idx, loading }, dispatch] = useReducer(illustReducer, {
     srcs: [],
     idx: 0,
@@ -80,24 +80,27 @@ function useTwIllustration(characters: string[]): TwIllustrationState {
   };
 }
 
-interface TwEventBannerProps {
+interface EventBannerProps {
   characters: string[];
   height: number;
   width?: number;
   radius?: string;
   visibleFrom?: 'sm' | 'md' | 'lg';
   alt?: string;
+  eventName?: string;
 }
 
-export default function TwEventBanner({
+export default function EventBanner({
   characters,
   height,
   width,
   radius = 'md',
   visibleFrom,
   alt = '',
-}: TwEventBannerProps) {
-  const { src, idx, total, loading, goTo } = useTwIllustration(characters);
+  eventName,
+}: EventBannerProps) {
+  const { src, idx, total, loading, goTo } = useIllustration(characters);
+  const namedImage = eventName ? getEventImage(eventName) : null;
 
   return (
     <Paper
@@ -113,7 +116,7 @@ export default function TwEventBanner({
         <Skeleton height={height} radius={radius} />
       ) : (
         <Image
-          src={src ?? placeholderEventImage}
+          src={src ?? namedImage ?? placeholderEventImage}
           h={height}
           w={width}
           radius={radius}

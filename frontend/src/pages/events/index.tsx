@@ -1,5 +1,4 @@
 import { getPortrait } from '@/assets/character';
-import { getEventImage, placeholderEventImage } from '@/assets/event';
 import EntityFilter from '@/components/common/EntityFilter';
 import {
   FilterMultiSelect,
@@ -14,7 +13,7 @@ import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import EventCharacterAvatars from '@/features/wiki/events/components/EventCharacterAvatars';
-import TwEventBanner from '@/features/wiki/events/components/TwEventBanner';
+import EventBanner from '@/features/wiki/events/components/EventBanner';
 import type { ViewMode } from '@/hooks';
 import {
   countActiveFilters,
@@ -264,16 +263,15 @@ function EventFilter({
 
 function useEventDisplay(event: GameEvent) {
   const { accent } = useGradientAccent();
-  const image = getEventImage(event.name) ?? placeholderEventImage;
   const active = isGameEventActive(event);
   const typeColor = event.is_global
     ? accent.primary
     : getEventTypeColor(event.type);
-  return { image, active, typeColor };
+  return { active, typeColor };
 }
 
 function EventCard({ event }: { event: GameEvent }) {
-  const { image, active, typeColor } = useEventDisplay(event);
+  const { active, typeColor } = useEventDisplay(event);
 
   return (
     <Card
@@ -284,15 +282,12 @@ function EventCard({ event }: { event: GameEvent }) {
       style={{ display: 'flex', flexDirection: 'column' }}
     >
       <Card.Section style={{ position: 'relative' }}>
-        {event.is_global ? (
-          <Image src={image} height={160} fit="cover" alt={event.name} />
-        ) : (
-          <TwEventBanner
-            characters={event.characters}
-            height={160}
-            radius="0"
-          />
-        )}
+        <EventBanner
+          characters={event.characters}
+          eventName={event.name}
+          height={160}
+          radius="0"
+        />
       </Card.Section>
       <Stack gap="xs" p="md" style={{ flex: 1 }}>
         <EventBadges
@@ -328,29 +323,18 @@ function EventCard({ event }: { event: GameEvent }) {
 }
 
 function EventListItem({ event }: { event: GameEvent }) {
-  const { image, active, typeColor } = useEventDisplay(event);
+  const { active, typeColor } = useEventDisplay(event);
 
   return (
     <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
       <Group align="stretch" gap="md" wrap="nowrap">
-        {event.is_global ? (
-          <Image
-            src={image}
-            w={160}
-            h={96}
-            radius="md"
-            fit="cover"
-            alt={event.name}
-            visibleFrom="sm"
-          />
-        ) : (
-          <TwEventBanner
-            characters={event.characters}
-            height={96}
-            width={160}
-            visibleFrom="sm"
-          />
-        )}
+        <EventBanner
+          characters={event.characters}
+          eventName={event.name}
+          height={96}
+          width={160}
+          visibleFrom="sm"
+        />
         <Stack gap="xs" style={{ flex: 1, minWidth: 0 }}>
           <EventBadges
             server={event.is_global ? 'Global' : 'TW'}

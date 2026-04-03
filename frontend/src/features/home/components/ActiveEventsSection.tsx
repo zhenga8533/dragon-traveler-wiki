@@ -1,8 +1,7 @@
-import { getEventImage, placeholderEventImage } from '@/assets/event';
 import { getCardHoverProps } from '@/constants/styles';
 import GlobalBadge from '@/components/ui/GlobalBadge';
+import EventBanner from '@/features/wiki/events/components/EventBanner';
 import EventCharacterAvatars from '@/features/wiki/events/components/EventCharacterAvatars';
-import TwEventBanner from '@/features/wiki/events/components/TwEventBanner';
 import { useDataFetch, useGradientAccent } from '@/hooks';
 import type { GameEvent } from '@/types';
 import { getEventTypeColor, isGameEventActive } from '@/utils/event-utils';
@@ -10,7 +9,6 @@ import {
   Badge,
   Card,
   Group,
-  Image,
   SimpleGrid,
   Skeleton,
   Stack,
@@ -66,7 +64,6 @@ export default function ActiveEventsSection() {
             (event.is_global
               ? `global:${event.name}`
               : `tw:${event.name}:${event.start_date}`);
-          const image = getEventImage(event.name) ?? placeholderEventImage;
           const typeColor = event.is_global
             ? accent.primary
             : getEventTypeColor(event.type);
@@ -80,22 +77,13 @@ export default function ActiveEventsSection() {
               style={{ display: 'flex', flexDirection: 'column' }}
             >
               <Card.Section>
-                {!event.is_global ? (
-                  <TwEventBanner
-                    characters={event.characters}
-                    height={130}
-                    radius="0"
-                    alt={event.name}
-                  />
-                ) : (
-                  <Image
-                    src={image}
-                    height={130}
-                    fit="cover"
-                    alt={event.name}
-                    style={{ objectPosition: 'top' }}
-                  />
-                )}
+                <EventBanner
+                  characters={event.characters}
+                  eventName={event.name}
+                  height={130}
+                  radius="0"
+                  alt={event.name}
+                />
               </Card.Section>
               <Stack gap="xs" p="md" style={{ flex: 1 }}>
                 <Group gap="xs" wrap="wrap">
