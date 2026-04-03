@@ -499,7 +499,7 @@
     "faction": "Elemental Echo",
     "members": [
       {
-        "character_name": "Duvalin",
+        "character_name": "Dvalin",
         "overdrive_order": null,
         "position": {
           "row": 0,
@@ -553,7 +553,7 @@
         "note": "Sustained DPS (Damage per second)"
       }
     ],
-    "last_updated": 1774528303,
+    "last_updated": 1775189807,
     "bench": [
       {
         "character_name": "Anubis",

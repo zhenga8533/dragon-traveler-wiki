@@ -655,7 +655,7 @@
   },
   {
     "name": "Dragon's Breath Greatsword",
-    "character": "Duvalin",
+    "character": "Dvalin",
     "is_global": false,
     "lore": "This greatsword, capable of unleashing the power of the Muspelheim volcano, is forged from the scorching breath of dragons. On the battlefield, the dragon flames clinging to its blade will incinerate any enemy within its reach.",
     "effects": [
@@ -707,7 +707,7 @@
         "description": "Parry damage reduction efficiency is increased by an additional 20%."
       }
     ],
-    "last_updated": 1772486758
+    "last_updated": 1775189807
   },
   {
     "name": "Little Man in a Bottle",

@@ -141,7 +141,21 @@
   },
   "Beyond the Horizon__tw": {
     "added": 1773512448,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "characters": {
+            "added": [
+              "Dvalin"
+            ],
+            "removed": [
+              "Duvalin"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Rerun Gacha #1__tw": {
     "added": 1773512448,
@@ -205,7 +219,29 @@
   },
   "Rerun Gacha #5__tw": {
     "added": 1773512448,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "characters": {
+            "added": [
+              "Dvalin"
+            ],
+            "removed": [
+              "Duvalin"
+            ]
+          },
+          "end_date": {
+            "old": "2026-0-",
+            "new": "2026-01-23"
+          },
+          "start_date": {
+            "old": "2026-0-",
+            "new": "2026-01-16"
+          }
+        }
+      }
+    ]
   },
   "Rerun Gacha #1__global": {
     "added": 1773609724,
@@ -217,6 +253,30 @@
   },
   "Wish of the Ice Dancer Begins!__global": {
     "added": 1774552448,
+    "changes": []
+  },
+  "Venus Mythic Ascension__global": {
+    "added": 1775187721,
+    "changes": []
+  },
+  "Rerun Gacha #2__global": {
+    "added": 1775187721,
+    "changes": []
+  },
+  "Rerun Gacha #8__tw": {
+    "added": 1775187721,
+    "changes": []
+  },
+  "Rerun Gacha #9__tw": {
+    "added": 1775187721,
+    "changes": []
+  },
+  "Rerun Gacha #10__tw": {
+    "added": 1775187721,
+    "changes": []
+  },
+  "Braving the Golden Kingdom__tw": {
+    "added": 1775187721,
     "changes": []
   }
 }

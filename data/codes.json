@@ -624,8 +624,8 @@
       "Golden Horn": 1,
       "Leaf of the World Tree": 5
     },
-    "active": true,
-    "last_updated": 1772137650
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "BridalOath",
@@ -644,8 +644,8 @@
       "Summoning Ticket": 1,
       "Dragonblood": 1
     },
-    "active": true,
-    "last_updated": 1772464992
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "DCMEM3000",
@@ -664,8 +664,8 @@
       "Legacy Dragon Crystal": 3,
       "Apple": 1
     },
-    "active": true,
-    "last_updated": 1772511671
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "FunHero",
@@ -674,8 +674,8 @@
       "Golden Horn": 1,
       "Leaf of the World Tree": 5
     },
-    "active": true,
-    "last_updated": 1772680055
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "Win4KOR",
@@ -694,8 +694,8 @@
       "Summoning Ticket": 10,
       "Selectable Refinement Stone": 10
     },
-    "active": true,
-    "last_updated": 1772943743
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "SamuraiWin",
@@ -704,8 +704,8 @@
       "Summoning Ticket": 10,
       "Selectable Refinement Stone": 10
     },
-    "active": true,
-    "last_updated": 1772943743
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "NextVictory",
@@ -714,8 +714,8 @@
       "Summoning Ticket": 10,
       "Selectable Refinement Stone": 10
     },
-    "active": true,
-    "last_updated": 1773012070
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "YAYKOREA",
@@ -734,8 +734,8 @@
       "Summoning Ticket": 10,
       "Selectable Refinement Stone": 10
     },
-    "active": true,
-    "last_updated": 1773158650
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "MysteryGirl",
@@ -744,8 +744,8 @@
       "Golden Horn": 1,
       "Leaf of the World Tree": 5
     },
-    "active": true,
-    "last_updated": 1772935757
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "Jing312",
@@ -754,8 +754,8 @@
       "Golden Horn": 1,
       "SR Luminary Shards": 10
     },
-    "active": true,
-    "last_updated": 1773060057
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "BunnyGirl",
@@ -764,8 +764,8 @@
       "Golden Horn": 1,
       "SR Luminary Shards": 10
     },
-    "active": true,
-    "last_updated": 1773147115
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "Blindfolded",
@@ -774,8 +774,8 @@
       "Summoning Ticket": 1,
       "Dragonblood": 1
     },
-    "active": true,
-    "last_updated": 1773158650
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "GOJAPAN",
@@ -784,8 +784,8 @@
       "Golden Horn": 2,
       "Random Refinement Stone": 5
     },
-    "active": true,
-    "last_updated": 1773158650
+    "active": false,
+    "last_updated": 1775189807
   },
   {
     "code": "HAPPYWHITEDAY",
@@ -907,5 +907,25 @@
     },
     "active": true,
     "last_updated": 1775013682
+  },
+  {
+    "code": "Atanith",
+    "rewards": {
+      "Gold": 3000,
+      "Summoning Ticket": 1,
+      "Dragonblood": 1
+    },
+    "active": true,
+    "last_updated": 1775189807
+  },
+  {
+    "code": "Poseidon",
+    "rewards": {
+      "Legacy Dragon Crystal": 3,
+      "Golden Horn": 1,
+      "SR Luminary Shards": 10
+    },
+    "active": true,
+    "last_updated": 1775189807
   }
 ]

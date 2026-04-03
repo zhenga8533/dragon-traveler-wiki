@@ -29,7 +29,12 @@
   },
   "Trident of Poseidon": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775189477,
+        "type": "removed"
+      }
+    ]
   },
   "Cupid's Arrow": {
     "added": 1772563593,
@@ -85,6 +90,10 @@
   },
   "Wings of Icarus": {
     "added": 1772563593,
+    "changes": []
+  },
+  "Sea God's Trident": {
+    "added": 1775189477,
     "changes": []
   }
 }

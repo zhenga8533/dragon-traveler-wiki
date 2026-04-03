@@ -88,7 +88,7 @@
         "tier": "S+"
       },
       {
-        "character_name": "Duvalin",
+        "character_name": "Dvalin",
         "tier": "S+"
       },
       {
@@ -220,6 +220,10 @@
       {
         "character_name": "Asteros",
         "character_quality": "SSR",
+        "tier": "A"
+      },
+      {
+        "character_name": "Bilqis",
         "tier": "A"
       },
       {
@@ -494,7 +498,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1774528303
+    "last_updated": 1775189807
   },
   {
     "name": "Taiwan PvE Tier List",
@@ -597,7 +601,7 @@
         "tier": "S+"
       },
       {
-        "character_name": "Duvalin",
+        "character_name": "Dvalin",
         "tier": "S+"
       },
       {
@@ -726,6 +730,10 @@
       {
         "character_name": "Asteros",
         "character_quality": "SSR",
+        "tier": "A"
+      },
+      {
+        "character_name": "Bilqis",
         "tier": "A"
       },
       {
@@ -991,7 +999,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1774528303
+    "last_updated": 1775189807
   },
   {
     "name": "Taiwan PvP Tier List",
@@ -1078,7 +1086,7 @@
         "tier": "S+"
       },
       {
-        "character_name": "Duvalin",
+        "character_name": "Dvalin",
         "tier": "S+"
       },
       {
@@ -1171,6 +1179,10 @@
       },
       {
         "character_name": "Anubis",
+        "tier": "A"
+      },
+      {
+        "character_name": "Bilqis",
         "tier": "A"
       },
       {
@@ -1488,7 +1500,7 @@
         "tier": "F"
       }
     ],
-    "last_updated": 1774528303
+    "last_updated": 1775189807
   },
   {
     "name": "Global Tier List",
@@ -1552,9 +1564,19 @@
         "note": "Yes."
       },
       {
+        "character_name": "Venus",
+        "tier": "SSR EX",
+        "note": "Yes."
+      },
+      {
         "character_name": "Ifrit",
         "tier": "S+",
         "note": "Core DPS for blue/red for foreseeable future."
+      },
+      {
+        "character_name": "Jing",
+        "tier": "S+",
+        "note": "Core DPS for green/undead."
       },
       {
         "character_name": "Siegfried",
@@ -1632,6 +1654,11 @@
         "note": "Main tank for deathrattle. Will rely on Noble Phantasm."
       },
       {
+        "character_name": "Dvalin",
+        "tier": "A",
+        "note": "Oberonnie but tankier and more expensive."
+      },
+      {
         "character_name": "Gullveig",
         "tier": "A",
         "note": "Grievous wounds."
@@ -1655,6 +1682,11 @@
         "character_name": "Tyrfing",
         "tier": "A",
         "note": "Grievous wounds."
+      },
+      {
+        "character_name": "Zagreus",
+        "tier": "A",
+        "note": "Let it go."
       },
       {
         "character_name": "Herman",
@@ -1892,6 +1924,6 @@
         "tier": "D"
       }
     ],
-    "last_updated": 1772641754
+    "last_updated": 1775189807
   }
 ]

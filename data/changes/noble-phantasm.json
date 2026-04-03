@@ -65,7 +65,17 @@
   },
   "Dragon's Breath Greatsword": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "character": {
+            "old": "Duvalin",
+            "new": "Dvalin"
+          }
+        }
+      }
+    ]
   },
   "Little Man in a Bottle": {
     "added": 1772563593,

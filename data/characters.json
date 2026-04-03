@@ -386,7 +386,7 @@
     "last_updated": 1772600511
   },
   {
-    "name": "Duvalin",
+    "name": "Dvalin",
     "title": "Forged Dragon Princess",
     "quality": "SSR+",
     "character_class": "Guardian",
@@ -394,7 +394,7 @@
       "Elemental Echo",
       "Wild Spirit"
     ],
-    "is_global": false,
+    "is_global": true,
     "subclasses": [
       "Royal Guard",
       "Standard Bearer",
@@ -406,7 +406,7 @@
     "height": "179cm",
     "weight": "62kg",
     "origin": "Modern Fantasy Literature",
-    "lore": "As the guardian appointed by the gods, Duvalin has shouldered the responsibility of maintaining life in the Nine Realms since ancient times. She was granted the power to control flames and forge, and leads the valiant Red Dragon Legion.",
+    "lore": "As the guardian appointed by the gods, Dvalin has shouldered the responsibility of maintaining life in the Nine Realms since ancient times. She was granted the power to control flames and forge, and leads the valiant Red Dragon Legion.",
     "quote": "Defective products are not worth my time.",
     "talent": {
       "name": "Domain of Wild Flames",
@@ -477,7 +477,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1772645598
+    "last_updated": 1775189807
   },
   {
     "name": "Helveil",
@@ -1728,6 +1728,100 @@
       "High Priest"
     ],
     "last_updated": 1773941454
+  },
+  {
+    "name": "Bilqis",
+    "title": "Queen of Sheba",
+    "quality": "SSR+",
+    "character_class": "Priest",
+    "factions": [
+      "Wild Spirit",
+      "Arcane Wisdom"
+    ],
+    "is_global": false,
+    "subclasses": [
+      "Medic",
+      "Cleric",
+      "Hermit",
+      "Bishop",
+      "Divine Officer",
+      "Inquisitor"
+    ],
+    "height": "167cm",
+    "weight": "42kg",
+    "origin": "Modern Fantasy Literature",
+    "lore": "Bekis, Queen of Sheba, was the ruler of the ancient kingdom of Sheba and was renowned for her immense wealth and extraordinary wisdom. She once led a huge caravan, laden with spices, jewels, and gold, across the desert to Jerusalem, where she tested the famous King Solomon of Israel with wise questions, thus leaving a multifaceted mark on the texts and oral stories of different civilizations.",
+    "quote": "",
+    "talent": {
+      "name": "Voodoo Healing",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "Bilqis's active skill healing can crit.\nWhen Bilqis heals a target to full health, she grants that target an additional shield equal to 20% of her maximum health for 8 seconds."
+        },
+        {
+          "level": 2,
+          "effect": "When our Luminary enters the [Wild] state, reduce the cooldown of [Soul Healing] by 4 seconds."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own healing effect by 5% and critical strike chance by 50%."
+        },
+        {
+          "level": 4,
+          "effect": "When casting [Shallow Burial], grants the caster an additional 5 seconds of immunity to death."
+        },
+        {
+          "level": 7,
+          "effect": "During the duration of the [Blessed] status, the target's attack speed is increased by an additional 65% and damage by 35%."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Shallow Burial",
+        "type": "Overdrive",
+        "description": "Select one of your Luminaries or Wyrms to enter the [Blessed] state for 5 seconds and deduct 90% of their current health.\nDuring the duration of the [Blessed] status, the target is immune to death and gains increased attack speed and damage, with the increase being 0.4 times the current rage percentage of the phantom.\n[Blessed] 0.5 seconds before the effect ends, restores the target's health 6 times, each time restoring 20% of the target's lost health.",
+        "cooldown": 20
+      },
+      {
+        "name": "Soul Healing",
+        "type": "Ultimate Skill",
+        "description": "Restores 20% of its own maximum health and fires an energy wave that bounces 3 times between friendly Luminaries and Wyrms, restoring 20% of the target's maximum health. Prioritizes healing the friendly Luminary or Wyrm with the lowest health.",
+        "cooldown": 12
+      },
+      {
+        "name": "Soul Curse Ripple",
+        "type": "Secret Skill",
+        "description": "During battle, increases own health by 10%.\nWhen your healing crits, deal magic damage equal to 7.5% of your maximum health to enemy units within a medium circular radius around the healed target (up to a maximum of 15% of your maximum health).",
+        "cooldown": 0
+      },
+      {
+        "name": "Dizziness Potion",
+        "type": "Special Skill",
+        "description": "Throws a special potion that bounces 3 times between enemy Luminaries and Wyrms. Upon hitting an enemy, it deals magic damage equal to 200% of the user's attack and inflicts a 1-second stun.\nEach time our side releases an ultimate skill, we gain 1 stack of [Awakening]. When releasing [Dizziness Potion], we can consume 1 stack of [Awakening] to launch the potion bottle an additional time (up to 3 additional launches).",
+        "cooldown": 17
+      },
+      {
+        "name": "Greater Voodoo Healing",
+        "type": "Divine Skill",
+        "description": "[Voodoo Healing] When Bilqis heals a critical strike, she additionally applies [Adrenaline] to the target.",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Divine Officer"
+    ],
+    "last_updated": 1775189807
   },
   {
     "name": "Morgana",

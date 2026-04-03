@@ -1,5 +1,62 @@
 [
   {
+    "name": "Rerun Gacha #10",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Vermilion Bird",
+      "Orion",
+      "Catherine"
+    ],
+    "is_global": false,
+    "start_date": "2026-04-02",
+    "end_date": "2026-04-09",
+    "last_updated": 1775189807
+  },
+  {
+    "name": "Rerun Gacha #2",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Dvalin",
+      "Vivienne",
+      "Azure Dragon",
+      "Tyrfing"
+    ],
+    "is_global": true,
+    "start_date": "2026-04-02",
+    "end_date": "2026-04-09",
+    "last_updated": 1775189807
+  },
+  {
+    "name": "Braving the Golden Kingdom",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Bilqis"
+    ],
+    "is_global": false,
+    "start_date": "2026-03-26",
+    "end_date": "2026-04-09",
+    "last_updated": 1775189807
+  },
+  {
+    "name": "Venus Mythic Ascension",
+    "event_id": null,
+    "type": "Mythic Ascension",
+    "description": "",
+    "characters": [
+      "Venus"
+    ],
+    "is_global": true,
+    "start_date": "2026-03-26",
+    "end_date": "2026-04-09",
+    "last_updated": 1775189807
+  },
+  {
     "name": "Wish of the Ice Dancer Begins!",
     "event_id": "6760327737",
     "type": "Special Event",
@@ -9,6 +66,35 @@
     "start_date": "2026-03-26",
     "end_date": null,
     "last_updated": 1774552448
+  },
+  {
+    "name": "Rerun Gacha #9",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Rin",
+      "Crassus",
+      "Asmodeus",
+      "Silbismo"
+    ],
+    "is_global": false,
+    "start_date": "2026-03-19",
+    "end_date": "2026-03-26",
+    "last_updated": 1775189807
+  },
+  {
+    "name": "Rerun Gacha #8",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Mordred"
+    ],
+    "is_global": false,
+    "start_date": "2026-03-13",
+    "end_date": "2026-03-20",
+    "last_updated": 1775189807
   },
   {
     "name": "Lost Shamballa",
@@ -200,6 +286,21 @@
     "start_date": "2026-01-22",
     "end_date": "2026-02-05",
     "last_updated": 1773158650
+  },
+  {
+    "name": "Rerun Gacha #5",
+    "event_id": null,
+    "type": "Rerun",
+    "description": "",
+    "characters": [
+      "Jing",
+      "Faust",
+      "Dvalin"
+    ],
+    "is_global": false,
+    "start_date": "2026-01-16",
+    "end_date": "2026-01-23",
+    "last_updated": 1775189807
   },
   {
     "name": "The Sanctum Shines with Glory, Crowned with Divinity!",
@@ -500,12 +601,12 @@
     "type": "Release",
     "description": "",
     "characters": [
-      "Duvalin"
+      "Dvalin"
     ],
     "is_global": false,
     "start_date": "2025-07-03",
     "end_date": "2025-07-17",
-    "last_updated": 1773158650
+    "last_updated": 1775189807
   },
   {
     "name": "Rerun Gacha #1",
@@ -704,20 +805,5 @@
     "start_date": "2025-01-16",
     "end_date": "2025-01-30",
     "last_updated": 1773062958
-  },
-  {
-    "name": "Rerun Gacha #5",
-    "event_id": null,
-    "type": "Rerun",
-    "description": "",
-    "characters": [
-      "Jing",
-      "Faust",
-      "Duvalin"
-    ],
-    "is_global": false,
-    "start_date": "2026-0-",
-    "end_date": "2026-0-",
-    "last_updated": 1773158650
   }
 ]

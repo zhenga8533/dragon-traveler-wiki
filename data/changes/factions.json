@@ -10,6 +10,19 @@
             "new": "Inflict [Ignite], [Shock], or [Chill] to trigger [Elemental Reaction] against enemies, dealing damage while weaknening their combat abilities."
           }
         }
+      },
+      {
+        "timestamp": 1775189807,
+        "fields": {
+          "recommended_artifacts": {
+            "added": [
+              "Sea God's Trident"
+            ],
+            "removed": [
+              "Trident of Poseidon"
+            ]
+          }
+        }
       }
     ]
   },

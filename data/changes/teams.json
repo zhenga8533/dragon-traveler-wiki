@@ -14,8 +14,12 @@
         "timestamp": 1772600511,
         "fields": {
           "bench": {
-            "added": ["Oberonnie (SSR)"],
-            "removed": ["Oberonnie"]
+            "added": [
+              "Oberonnie (SSR)"
+            ],
+            "removed": [
+              "Oberonnie"
+            ]
           }
         }
       }
@@ -36,8 +40,27 @@
         "timestamp": 1772600511,
         "fields": {
           "bench": {
-            "added": ["Fenrir (SSR)", "Oberonnie (SSR)"],
-            "removed": ["Fenrir", "Oberonnie"]
+            "added": [
+              "Fenrir (SSR)",
+              "Oberonnie (SSR)"
+            ],
+            "removed": [
+              "Fenrir",
+              "Oberonnie"
+            ]
+          }
+        }
+      },
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "members": {
+            "added": [
+              "Dvalin"
+            ],
+            "removed": [
+              "Duvalin"
+            ]
           }
         }
       }

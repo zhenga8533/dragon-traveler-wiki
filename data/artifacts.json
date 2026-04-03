@@ -1674,6 +1674,285 @@
     "last_updated": 1771512626
   },
   {
+    "name": "Sea God's Trident",
+    "is_global": true,
+    "lore": "\"Poseidon, upon hearing these words, grabbed his Trident and hurled it towards the rocky crag. The stone shattered into the water, casting the bold speaker into the boundless sea, amidst the surging waves.\" — Homer, The Iliad",
+    "quality": "SSR+",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Unleashes a tidal wave to deal magic damage equal to 1040% of Wyrm Attack to all enemy units. Each time a mass debuff is applied to an enemy unit during this battle, the damage it takes from the tidal wave is increased by 6%. If the debuff applied is [Evaporation] or [Flash Freeze], the damage it takes from the tidal wave is further increased by an additional 6% (up to a maximum increase of 150% for tidal wave damage). It triggers at the 10th second after the battle starts, and then every 30 seconds thereafter."
+      },
+      {
+        "level": 2,
+        "description": "Reduces trigger interval by 5s"
+      },
+      {
+        "level": 5,
+        "description": "Tidal Wave damage increased by up to 225%"
+      },
+      {
+        "level": 8,
+        "description": "In this battle, each time an enemy unit is inflicted with a debuff status, the damage it takes from the tidal wave is increased by 9%. If the debuff is [Evaporation] or [Flash Freeze], the damage it takes from the tidal wave is further increased by 9%"
+      },
+      {
+        "level": 11,
+        "description": "Base Damage coefficient increased by 160%"
+      },
+      {
+        "level": 14,
+        "description": "Tidal Wave inflicts a 2-second [Stun] on targets with 3 or more debuffs"
+      },
+      {
+        "level": 17,
+        "description": "Reduces trigger interval by 5s"
+      },
+      {
+        "level": 20,
+        "description": "Removes all Shields from the target before Tidal Wave deals Damage"
+      }
+    ],
+    "columns": 3,
+    "rows": 4,
+    "treasures": [
+      {
+        "name": "Crown of the Sea God",
+        "lore": "\"The universe was divided into three, and we brothers each received a portion. When casting lots, I drew the gray-blue ocean as my permanent abode; Hades drew the shadowy, dark Underworld, while Zeus received the vast sky, clouds, and the clear air.\" — Homer, The Iliad",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 271"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1750"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 425"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 271"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1750"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 380"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Divine Inscription",
+        "lore": "\"Athena took an olive tree branch and planted it in a garden, not far from where Poseidon had struck his Tridant... Everyone decided that this tree was the best gift, and the king declared Athena as the city's patron deity.\" — Apollodorus, Library",
+        "character_class": "Archer",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 262"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1799"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 380"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 262"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1799"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 425"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Golden Chariot",
+        "lore": "\"Poseidon, the Earth-Shaker, came to the front of the hall, harnessed the bronze-hoofed steeds to his chariot, their slender legs swift as the wind, golden manes flowing... grasped the intricately woven golden whip, mounted the chariot, and rode the waves.\" — Homer, The Iliad",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 226"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 2035"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 452"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 226"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 2035"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 497"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Brick of Troy",
+        "lore": "\"Zeus punished Apollo and Poseidon... commanding them to serve the king of Troy. They had to build the walls of Troy, a laborious task.\" — Apollodorus, Library",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 231"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1899"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 407"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 231"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1899"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 407"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Holy Dolphin",
+        "lore": "\"Creatures of the water emerged from the seabed around Poseidon, from every corner, leaping joyfully on the sea as their master advanced; the sea parted to make way for him, rejoicing.\" — Homer, The Iliad",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 203"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1989"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 543"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 203"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1989"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 362"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "Heart of the Ocean",
+        "lore": "\"Then Poseidon gave them names... the names of the ocean and the entire great island; this island is called Atlantis because its first king was Atlas.\" — Plato, Timaeus",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 163"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 2373"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 543"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 163"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 2373"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 497"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1775189807
+  },
+  {
     "name": "Spear of Longinus",
     "is_global": true,
     "lore": "The crimson spear is stained with holy blood. It is said that whoever holds this spear will have everyone submit and dominate the fate of the world.",
@@ -1913,285 +2192,6 @@
       {
         "name": "Dead Sea Scrolls",
         "lore": "Before the temple was destroyed, devout scribes hid the scroll deep within a cave. It was not until a thousand years later that the secrets on the scroll were slowly revealed.",
-        "character_class": "Guardian",
-        "effect": [
-          {
-            "level": 0,
-            "description": "ATK increased by 163"
-          },
-          {
-            "level": 2,
-            "description": "HP increased by 2373"
-          },
-          {
-            "level": 5,
-            "description": "MDEF increased by 543"
-          },
-          {
-            "level": 8,
-            "description": "ATK increased by 1.8%"
-          },
-          {
-            "level": 11,
-            "description": "ATK increased by 163"
-          },
-          {
-            "level": 14,
-            "description": "HP increased by 2373"
-          },
-          {
-            "level": 17,
-            "description": "PDEF increased by 497"
-          },
-          {
-            "level": 20,
-            "description": "HP increased by 1.8%"
-          }
-        ]
-      }
-    ],
-    "last_updated": 1771512626
-  },
-  {
-    "name": "Trident of Poseidon",
-    "is_global": false,
-    "lore": "",
-    "quality": "SSR+",
-    "effect": [
-      {
-        "level": 0,
-        "description": "Unleash a massive wave that deals 1040% of the Dragon's attack as magic damage to all enemy units. During this battle, each time an enemy unit is affected by a debuff, the damage they take from the massive wave increases by 6%. If affected by [Evaporation] or [Chill], the damage they take from the massive wave is increased by an additional 6% (maximum damage increase of 150%).\nIt triggers 10 seconds after the start of the battle, and then once every 30 seconds thereafter."
-      },
-      {
-        "level": 2,
-        "description": "Trigger interval reduced by 5 seconds"
-      },
-      {
-        "level": 5,
-        "description": "Giant Wave damage increased by up to 225%"
-      },
-      {
-        "level": 8,
-        "description": "During this battle, each time an enemy unit is afflicted with a debuff, the damage they take from Giant Wave increases by 9%. If they are affected by [Evaporation] or [Chill], the damage they take from Giant Wave is increased by an additional 9%"
-      },
-      {
-        "level": 11,
-        "description": "Base damage coefficient increased by 160%"
-      },
-      {
-        "level": 14,
-        "description": "The giant wave will inflict a 2-second stun on targets with 3 or more debuffs"
-      },
-      {
-        "level": 17,
-        "description": "Trigger interval reduced by 5 seconds"
-      },
-      {
-        "level": 20,
-        "description": "The giant wave removes all shields from the target before dealing damage"
-      }
-    ],
-    "columns": 3,
-    "rows": 4,
-    "treasures": [
-      {
-        "name": "1",
-        "lore": "",
-        "character_class": "Mage",
-        "effect": [
-          {
-            "level": 0,
-            "description": "ATK increased by 271"
-          },
-          {
-            "level": 2,
-            "description": "HP increased by 1750"
-          },
-          {
-            "level": 5,
-            "description": "MDEF increased by 425"
-          },
-          {
-            "level": 8,
-            "description": "ATK increased by 1.8%"
-          },
-          {
-            "level": 11,
-            "description": "ATK increased by 271"
-          },
-          {
-            "level": 14,
-            "description": "HP increased by 1750"
-          },
-          {
-            "level": 17,
-            "description": "PDEF increased by 380"
-          },
-          {
-            "level": 20,
-            "description": "HP increased by 1.8%"
-          }
-        ]
-      },
-      {
-        "name": "2",
-        "lore": "",
-        "character_class": "Archer",
-        "effect": [
-          {
-            "level": 0,
-            "description": "ATK increased by 262"
-          },
-          {
-            "level": 2,
-            "description": "HP increased by 1799"
-          },
-          {
-            "level": 5,
-            "description": "MDEF increased by 380"
-          },
-          {
-            "level": 8,
-            "description": "ATK increased by 1.8%"
-          },
-          {
-            "level": 11,
-            "description": "ATK increased by 262"
-          },
-          {
-            "level": 14,
-            "description": "HP increased by 1799"
-          },
-          {
-            "level": 17,
-            "description": "PDEF increased by 425"
-          },
-          {
-            "level": 20,
-            "description": "HP increased by 1.8%"
-          }
-        ]
-      },
-      {
-        "name": "3",
-        "lore": "",
-        "character_class": "Warrior",
-        "effect": [
-          {
-            "level": 0,
-            "description": "ATK increased by 226"
-          },
-          {
-            "level": 2,
-            "description": "HP increased by 2035"
-          },
-          {
-            "level": 5,
-            "description": "MDEF increased by 452"
-          },
-          {
-            "level": 8,
-            "description": "ATK increased by 1.8%"
-          },
-          {
-            "level": 11,
-            "description": "ATK increased by 226"
-          },
-          {
-            "level": 14,
-            "description": "HP increased by 2035"
-          },
-          {
-            "level": 17,
-            "description": "PDEF increased by 497"
-          },
-          {
-            "level": 20,
-            "description": "HP increased by 1.8%"
-          }
-        ]
-      },
-      {
-        "name": "4",
-        "lore": "",
-        "character_class": "Mage",
-        "effect": [
-          {
-            "level": 0,
-            "description": "ATK increased by 231"
-          },
-          {
-            "level": 2,
-            "description": "HP increased by 1899"
-          },
-          {
-            "level": 5,
-            "description": "MDEF increased by 407"
-          },
-          {
-            "level": 8,
-            "description": "ATK increased by 1.8%"
-          },
-          {
-            "level": 11,
-            "description": "ATK increased by 231"
-          },
-          {
-            "level": 14,
-            "description": "HP increased by 1899"
-          },
-          {
-            "level": 17,
-            "description": "PDEF increased by 407"
-          },
-          {
-            "level": 20,
-            "description": "HP increased by 1.8%"
-          }
-        ]
-      },
-      {
-        "name": "5",
-        "lore": "",
-        "character_class": "Priest",
-        "effect": [
-          {
-            "level": 0,
-            "description": "ATK increased by 203"
-          },
-          {
-            "level": 2,
-            "description": "HP increased by 1989"
-          },
-          {
-            "level": 5,
-            "description": "MDEF increased by 543"
-          },
-          {
-            "level": 8,
-            "description": "ATK increased by 1.8%"
-          },
-          {
-            "level": 11,
-            "description": "ATK increased by 203"
-          },
-          {
-            "level": 14,
-            "description": "HP increased by 1989"
-          },
-          {
-            "level": 17,
-            "description": "PDEF increased by 362"
-          },
-          {
-            "level": 20,
-            "description": "HP increased by 1.8%"
-          }
-        ]
-      },
-      {
-        "name": "6",
-        "lore": "",
         "character_class": "Guardian",
         "effect": [
           {

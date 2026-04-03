@@ -393,7 +393,17 @@
   },
   "SJLBMBY101": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "BridalOath": {
     "added": 1772563593,
@@ -401,7 +411,17 @@
   },
   "GoddessOfLove": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "DCMEM3000": {
     "added": 1772563593,
@@ -409,11 +429,31 @@
   },
   "GXGG101": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "FunHero": {
     "added": 1772680055,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "Win4KOR": {
     "added": 1772813511,
@@ -431,27 +471,87 @@
   },
   "MysteryGirl": {
     "added": 1772935757,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "JapanWin": {
     "added": 1772943743,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "SamuraiWin": {
     "added": 1772943743,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "NextVictory": {
     "added": 1773012070,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "Jing312": {
     "added": 1773060057,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "BunnyGirl": {
     "added": 1773146320,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "YAYKOREA": {
     "added": 1773158650,
@@ -469,15 +569,45 @@
   },
   "CHAMPIONJPN": {
     "added": 1773158650,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "Blindfolded": {
     "added": 1773158650,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "GOJAPAN": {
     "added": 1773158650,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775187721,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "HAPPYWHITEDAY": {
     "added": 1773512264,
@@ -525,6 +655,14 @@
   },
   "SlimeGelato": {
     "added": 1775013532,
+    "changes": []
+  },
+  "Atanith": {
+    "added": 1775187721,
+    "changes": []
+  },
+  "Poseidon": {
+    "added": 1775187721,
     "changes": []
   }
 }
