@@ -300,7 +300,11 @@
     "is_global": false,
     "start_date": "2026-01-16",
     "end_date": "2026-01-23",
+<<<<<<< Updated upstream
     "last_updated": 1775189807
+=======
+    "last_updated": 1775189936
+>>>>>>> Stashed changes
   },
   {
     "name": "The Sanctum Shines with Glory, Crowned with Divinity!",
@@ -606,7 +610,11 @@
     "is_global": false,
     "start_date": "2025-07-03",
     "end_date": "2025-07-17",
+<<<<<<< Updated upstream
     "last_updated": 1775189807
+=======
+    "last_updated": 1775189936
+>>>>>>> Stashed changes
   },
   {
     "name": "Rerun Gacha #1",

@@ -707,7 +707,11 @@
         "description": "Parry damage reduction efficiency is increased by an additional 20%."
       }
     ],
+<<<<<<< Updated upstream
     "last_updated": 1775189807
+=======
+    "last_updated": 1775189936
+>>>>>>> Stashed changes
   },
   {
     "name": "Little Man in a Bottle",
