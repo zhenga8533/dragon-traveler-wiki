@@ -23,12 +23,33 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1775486487,
+        "fields": {
+          "recommended_artifacts": {
+            "added": [
+              "Commerce God's Scepter"
+            ]
+          }
+        }
       }
     ]
   },
   "Wild Spirit": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775486487,
+        "fields": {
+          "recommended_artifacts": {
+            "added": [
+              "Dreamcatcher"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Arcane Wisdom": {
     "added": 1772563593,
@@ -36,7 +57,18 @@
   },
   "Sanctum Glory": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775486487,
+        "fields": {
+          "recommended_artifacts": {
+            "added": [
+              "Vajra"
+            ]
+          }
+        }
+      }
+    ]
   },
   "Otherworld Return": {
     "added": 1772563593,
@@ -44,6 +76,17 @@
   },
   "Illusion Veil": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775486487,
+        "fields": {
+          "recommended_artifacts": {
+            "added": [
+              "Necronomicon"
+            ]
+          }
+        }
+      }
+    ]
   }
 }

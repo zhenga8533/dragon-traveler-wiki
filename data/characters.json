@@ -1997,7 +1997,7 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
+    "noble_phantasm": "Holy Sword Fragment",
     "recommended_gear": {
       "headgear": "Pious Crown",
       "chestplate": "Pious Robe",
@@ -2010,7 +2010,7 @@
       "Executor",
       "Divine Officer"
     ],
-    "last_updated": 1773670017
+    "last_updated": 1775486487
   },
   {
     "name": "Scheherazade",
@@ -7201,7 +7201,7 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
+    "noble_phantasm": "Artemis's Lament",
     "recommended_gear": {
       "headgear": "Night Owl Helmet",
       "chestplate": "Night Owl Armor",
@@ -7213,7 +7213,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1775486487
   },
   {
     "name": "Lorillin",
@@ -8678,6 +8678,99 @@
     "last_updated": 1772261350
   },
   {
+    "name": "Tamamo",
+    "title": "The Peerless Fox Spirit",
+    "quality": "SSR+",
+    "character_class": "Mage",
+    "factions": [
+      "Wild Spirit",
+      "Sanctum Glory"
+    ],
+    "is_global": false,
+    "subclasses": [
+      "Fortune Teller",
+      "Sorcerer",
+      "Arcane Master",
+      "Grand Archmage",
+      "Rune Mage",
+      "Potion Master"
+    ],
+    "height": "165cm",
+    "weight": "42kg",
+    "origin": "Japanese Legend",
+    "lore": "A peerless beauty who appeared at the end of the Heian period, a legendary fox spirit with an elusive origin.\nIt all began by chance when a fox spirit met and fell in love with a girl named \"Zao Nu.\" Zao Nu's pure and innocent kindness made her the fox spirit's primary example for observing humanity and experiencing warmth. Zao Nu was fortunate. Orphaned in her childhood, she was lovingly adopted by a warrior couple, allowing her to grow into a graceful young woman in peaceful times, free from want and with a pure heart. Later, with her outstanding talent and captivating beauty, she found herself trapped in the palace.",
+    "talent": {
+      "name": "Soul Stealing",
+      "talent_levels": [
+        {
+          "level": 1,
+          "effect": "When Tamamo's active skill deals damage to the current target, there is a 30% chance to apply one stack of [Foxfire Bind] to the target. The stealing effect can stack up to 10 times, with each stack stealing 4% of the target's magic defense (this effect does not apply to bosses). Tamamo removes all [Foxfire Bind] stacks when switching targets."
+        },
+        {
+          "level": 2,
+          "effect": "The trigger probability of [Foxfire Bind] is increased to 50%, and each stack additionally steals 5% of the target's ultimate damage."
+        },
+        {
+          "level": 3,
+          "effect": "Increases own HP by 10% and magic defense by 4%."
+        },
+        {
+          "level": 4,
+          "effect": "When Tamamo's active skill deals damage, if the target has full stacks of [Foxfire Bind], she gains an additional shield equal to 10% of her attack for 8 seconds, which can stack up to 10 times."
+        },
+        {
+          "level": 7,
+          "effect": "If Tamamo's current target has 5 or more stacks of [Foxfire Bind] when it dies, Tamamo immediately recovers 100% of her rage, and the next target inherits 5 stacks of [Foxfire Bind]."
+        }
+      ]
+    },
+    "skills": [
+      {
+        "name": "Foxfire Dance",
+        "type": "Overdrive",
+        "description": "Summons foxfire, firing 20 magic projectiles at the current target, each projectile dealing magic damage equal to 180% of the caster's attack.\nWhen your own health decreases, you will accumulate rage. When rage is full, you enter the [Wild] state. While in the [Wild] state, the damage dealt by your active skills ignores 15% of the target's magic defense (this ignore defense effect can stack up to 40%). If you are in the [Wild] state when casting [Foxfire Dance], you will fire an additional 10 magic missiles, and the damage of all magic missiles will be increased by an additional 160%.",
+        "cooldown": 20
+      },
+      {
+        "name": "Whirlwind Flame",
+        "type": "Ultimate Skill",
+        "description": "Launches a magic orb forward, then returns to its original position, dealing magic damage equal to 90% of the caster's attack to any enemy units it collides with . Targets hit twice also inflict [Healing Down].\nWhen your own HP is greater than 70%, when releasing the skill, it will consume an additional 30% of your current HP, randomly grant you 1 [Blessing Buff], and increase the damage of the magic orb to 150% of your own attack and add 100% HP conversion.",
+        "cooldown": 10
+      },
+      {
+        "name": "Divine Fox Blessing",
+        "type": "Secret Skill",
+        "description": "During combat, increases own magic defense by 30% . When the user's active skill deals damage, it deals additional magic damage equal to 80% of the user's magic defense.\bWhen you possess both [Morale] and [Fervor], you enter the [Grace] state. While in the [Grace] state, [Foxfire Dance] deals additional magic damage equal to 60% of your magic defense. You exit the [Grace] state after [Foxfire Dance] ends.",
+        "cooldown": 0
+      },
+      {
+        "name": "Nine-Tailed Bewitching",
+        "type": "Special Skill",
+        "description": "Fires 6 magic projectiles at the current target, each dealing 70% of the caster's attack as magic damage and having a 15% chance to inflict Charm on the target for 5 seconds. When successfully Charming an enemy unit, gains 1 random [Blessing Buff] (can only be triggered once every 8 seconds). While under the [Grace] buff, fires an additional 6 magic projectiles.",
+        "cooldown": 18
+      },
+      {
+        "name": "Soul Devouring",
+        "type": "Divine Skill",
+        "description": "[Soul Stealing] When the current target [Foxfire Bind] reaches full stacks, Tamamo gains [Attack Speed Boost] and [Significant Attack Boost].",
+        "cooldown": 0
+      }
+    ],
+    "noble_phantasm": "",
+    "recommended_gear": {
+      "headgear": "Arcane Hood",
+      "chestplate": "Arcane Robe",
+      "bracers": "Arcane Gauntlets",
+      "boots": "Arcane Boots",
+      "weapon": "Tome of Stars",
+      "accessory": "Starlight Magisterium"
+    },
+    "recommended_subclasses": [
+      "Potion Master"
+    ],
+    "last_updated": 1775486487
+  },
+  {
     "name": "Vermilion Bird",
     "title": "Four Saints",
     "quality": "SSR+",
@@ -8757,7 +8850,7 @@
         "cooldown": 0
       }
     ],
-    "noble_phantasm": "",
+    "noble_phantasm": "Vermilion Bird Feather Fan",
     "recommended_gear": {
       "headgear": "Paladin's Helmet",
       "chestplate": "Paladin's Armor",
@@ -8769,7 +8862,7 @@
     "recommended_subclasses": [
       "Elementalist"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775486487
   },
   {
     "name": "Cerberus",

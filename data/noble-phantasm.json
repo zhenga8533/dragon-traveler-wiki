@@ -1115,6 +1115,56 @@
     "last_updated": 1772486758
   },
   {
+    "name": "Holy Sword Fragment",
+    "character": "Ophelia",
+    "is_global": false,
+    "lore": "The supreme relic enshrined by the Church of the Holy Sword is a fragment of the holy sword Gram, bestowed upon them by Odin, and guarded by successive bishops. They never have the chance to see the sword in its entirety, yet they themselves serve as vessels, bearing this incomplete yet sacred mission.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "At the start of battle, apply [Sanctuary] to all friendly units and increase their magic defense by 20% for 12 seconds."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "When the user has [Sanctuary], they are immune to the effect of [Increased Energy Cost of Next Ultimate Skill]. When applying [Sanctuary] to an allied spirit in the [Grace] state, the effect of [Increased Energy Cost of Next Ultimate Skill] will be removed from it."
+      },
+      {
+        "tier": "Divine",
+        "tier_level": 3,
+        "description": "Each time [Sanctuary] is applied, grants the user a shield equal to 30% of their maximum health (can trigger at most once every 3 seconds), lasting 6 seconds, and also grants [Magic Defense Up] to the target of [Sanctuary]."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1775486487
+  },
+  {
+    "name": "Artemis's Lament",
+    "character": "Orion",
+    "is_global": false,
+    "lore": "The crossbow named after the goddess of the hunt is used to commemorate the goddess's regret for accidentally killing her beloved with her arrow.\nEven as a high and mighty deity, one cannot conceal endless sorrow in the face of eternal farewell and destiny.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "While in the [Concentration] state, critical strike chance is reduced by 1500, while attack speed and attack power are increased by 200% and 50%."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "The stun duration caused by the [Magic Crystal Arrow] is increased to 7 seconds, and the duration of continuous attack on the target and increased attack range is increased to 20 seconds."
+      },
+      {
+        "tier": "Divine",
+        "tier_level": 3,
+        "description": "While in the [Concentration] state, Arrow Wind can deal damage to targets that are unselectable (but will not prioritize attacking targets that are unselectable), and after each basic attack, the damage taken by the current target from Arrow Wind is increased by 15% , up to a maximum of 300% , which is reset to zero when exiting the [Concentration] state."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1775486487
+  },
+  {
     "name": "Judgment Axe",
     "character": "Pompey",
     "is_global": false,
@@ -1219,6 +1269,31 @@
     ],
     "skills": [],
     "last_updated": 1772486758
+  },
+  {
+    "name": "Vermilion Bird Feather Fan",
+    "character": "Vermilion Bird",
+    "is_global": false,
+    "lore": "A feather fan imbued with the divine power of the Vermilion Bird, the lord of the Fire element in the South.\nThe Vermilion Bird is the king of all birds, and the one who holds this fan can draw upon the exorcising power of the Vermilion Bird constellation.",
+    "effects": [
+      {
+        "tier": "Purple",
+        "tier_level": 6,
+        "description": "Increases the damage of self-released area-of-effect skills by 28% , and increases the base chance of inflicting [Ignite] on [Flame Shadow Talisman] and [Rebirth] to 75% ."
+      },
+      {
+        "tier": "Red",
+        "tier_level": 6,
+        "description": "When fully charged, each time an elemental reaction is triggered by our party, the damage multiplier of the next [Rebirth] skill is increased by an additional 3% , up to a maximum of 90% ."
+      },
+      {
+        "tier": "Divine",
+        "tier_level": 3,
+        "description": "When the damage increase from [Rebirth] reaches its maximum value, the damage effect of [Rebirth] is actively triggered. This trigger does not consume energy and does not count towards the cooldown."
+      }
+    ],
+    "skills": [],
+    "last_updated": 1775486487
   },
   {
     "name": "Broken Steel Scabbard",

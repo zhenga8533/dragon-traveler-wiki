@@ -547,6 +547,15 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1775486487,
+        "fields": {
+          "noble_phantasm": {
+            "old": "",
+            "new": "Holy Sword Fragment"
+          }
+        }
       }
     ]
   },
@@ -1744,7 +1753,17 @@
   },
   "Orion__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775486487,
+        "fields": {
+          "noble_phantasm": {
+            "old": "",
+            "new": "Artemis's Lament"
+          }
+        }
+      }
+    ]
   },
   "Lorillin__SSR": {
     "added": 1772563593,
@@ -2025,6 +2044,15 @@
             "removed": [
               "Elemental Mage"
             ]
+          }
+        }
+      },
+      {
+        "timestamp": 1775486487,
+        "fields": {
+          "noble_phantasm": {
+            "old": "",
+            "new": "Vermilion Bird Feather Fan"
           }
         }
       }
@@ -2315,6 +2343,10 @@
   },
   "Bilqis__SSR+": {
     "added": 1775187721,
+    "changes": []
+  },
+  "Tamamo__SSR+": {
+    "added": 1775484524,
     "changes": []
   }
 }

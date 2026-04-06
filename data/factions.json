@@ -7,9 +7,10 @@
       "Sisyphus Monolith",
       "Aladdin's Lamp",
       "Sun God's Cloak",
-      "Sea God's Trident"
+      "Sea God's Trident",
+      "Commerce God's Scepter"
     ],
-    "last_updated": 1775189807
+    "last_updated": 1775486487
   },
   {
     "name": "Wild Spirit",
@@ -19,9 +20,10 @@
       "Sisyphus Monolith",
       "Aladdin's Lamp",
       "Golden Fleece",
-      "Spear of Longinus"
+      "Spear of Longinus",
+      "Dreamcatcher"
     ],
-    "last_updated": 1771881641
+    "last_updated": 1775486487
   },
   {
     "name": "Arcane Wisdom",
@@ -44,9 +46,10 @@
       "Aladdin's Lamp",
       "Eye of Horus",
       "Zeus's Thunder",
-      "Flame of Olympus"
+      "Flame of Olympus",
+      "Vajra"
     ],
-    "last_updated": 1771881641
+    "last_updated": 1775486487
   },
   {
     "name": "Otherworld Return",
@@ -69,8 +72,9 @@
       "Wings of Icarus",
       "Solomon's Ring",
       "Aladdin's Lamp",
-      "Spear of Longinus"
+      "Spear of Longinus",
+      "Necronomicon"
     ],
-    "last_updated": 1771881641
+    "last_updated": 1775486487
   }
 ]

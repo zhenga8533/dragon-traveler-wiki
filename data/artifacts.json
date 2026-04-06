@@ -440,7 +440,7 @@
       {
         "name": "Mummy Pottery Jar",
         "lore": "",
-        "character_class": "Mage",
+        "character_class": "Assassin",
         "effect": [
           {
             "level": 0,
@@ -555,7 +555,286 @@
         ]
       }
     ],
-    "last_updated": 1771512626
+    "last_updated": 1775486487
+  },
+  {
+    "name": "Commerce God's Scepter",
+    "is_global": false,
+    "lore": "",
+    "quality": "SSR+",
+    "effect": [
+      {
+        "level": 0,
+        "description": "Grants the Luminary with the highest attack power in our middle row the [Snake Kiss] effect. When the debuff is applied, it deals magic damage equal to 260% of the user's attack and reduces the target 's magic defense by 3% for 6 seconds, stacking up to 6 times. Each target can trigger this effect a maximum of once every 2 seconds."
+      },
+      {
+        "level": 2,
+        "description": "Each stack reduces magic defense by an additional 1.5%"
+      },
+      {
+        "level": 5,
+        "description": "Damage coefficient increased by 100%"
+      },
+      {
+        "level": 8,
+        "description": "If the target carries an elemental debuff, an additional layer will be applied"
+      },
+      {
+        "level": 11,
+        "description": "Each stack reduces magic defense by an additional 1.5%"
+      },
+      {
+        "level": 14,
+        "description": "[Snake Kiss] applies a random [Basic Elemental Debuff] to all enemy characters at the start of the battle"
+      },
+      {
+        "level": 17,
+        "description": "Damage coefficient increased by 100%"
+      },
+      {
+        "level": 20,
+        "description": "[Snake Kiss] will silence the target for 2 seconds"
+      }
+    ],
+    "columns": 3,
+    "rows": 2,
+    "treasures": [
+      {
+        "name": "1",
+        "lore": "",
+        "character_class": "Mage",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 271"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1750"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 425"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 271"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1750"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 380"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "2",
+        "lore": "",
+        "character_class": "Archer",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 262"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1799"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 380"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 262"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1799"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 425"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "3",
+        "lore": "",
+        "character_class": "Warrior",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 226"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 2035"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 452"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 226"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 2035"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 497"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "4",
+        "lore": "",
+        "character_class": "Assassin",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 231"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1899"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 407"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 231"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1899"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 407"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "5",
+        "lore": "",
+        "character_class": "Priest",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 203"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 1989"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 543"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 203"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 1989"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 362"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      },
+      {
+        "name": "6",
+        "lore": "",
+        "character_class": "Guardian",
+        "effect": [
+          {
+            "level": 0,
+            "description": "ATK increased by 163"
+          },
+          {
+            "level": 2,
+            "description": "HP increased by 2373"
+          },
+          {
+            "level": 5,
+            "description": "MDEF increased by 543"
+          },
+          {
+            "level": 8,
+            "description": "ATK increased by 1.8%"
+          },
+          {
+            "level": 11,
+            "description": "ATK increased by 163"
+          },
+          {
+            "level": 14,
+            "description": "HP increased by 2373"
+          },
+          {
+            "level": 17,
+            "description": "PDEF increased by 497"
+          },
+          {
+            "level": 20,
+            "description": "HP increased by 1.8%"
+          }
+        ]
+      }
+    ],
+    "last_updated": 1775486487
   },
   {
     "name": "Dreamcatcher",
