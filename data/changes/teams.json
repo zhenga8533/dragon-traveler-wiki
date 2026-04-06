@@ -5,7 +5,40 @@
   },
   "End Game Sanctum Glory": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775489986,
+        "fields": {
+          "bench": {
+            "added": [
+              "Arthur",
+              "Chiron",
+              "Lorillin"
+            ]
+          },
+          "members": {
+            "added": [
+              "Hela",
+              "Rin"
+            ],
+            "removed": [
+              "Chiron",
+              "Lorillin"
+            ],
+            "modified": {
+              "Gabriele": {
+                "position": {
+                  "row": {
+                    "old": 2,
+                    "new": 1
+                  }
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "End Game Wild Spirit": {
     "added": 1772563593,
@@ -22,16 +55,137 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1775489986,
+        "fields": {
+          "bench": {
+            "added": [
+              "Asteros (SSR+)",
+              "Goblin War Drummer",
+              "Huginn & Muninn",
+              "Loki",
+              "Marylis",
+              "Silbismo",
+              "Vivienne"
+            ],
+            "removed": [
+              "Chiron",
+              "Tyrfing"
+            ]
+          },
+          "members": {
+            "added": [
+              "Chiron",
+              "Tyrfing"
+            ],
+            "removed": [
+              "Loki",
+              "Vivienne"
+            ],
+            "modified": {
+              "Jing": {
+                "position": {
+                  "col": {
+                    "old": 0,
+                    "new": 1
+                  }
+                }
+              },
+              "Talos": {
+                "position": {
+                  "col": {
+                    "old": 1,
+                    "new": 0
+                  }
+                }
+              },
+              "Venus": {
+                "position": {
+                  "col": {
+                    "old": 1,
+                    "new": 2
+                  },
+                  "row": {
+                    "old": 1,
+                    "new": 2
+                  }
+                }
+              }
+            }
+          }
+        }
       }
     ]
   },
   "End Game Illusion Veil": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775489986,
+        "fields": {
+          "bench": {
+            "added": [
+              "Ares",
+              "Atanith",
+              "Medusa (SSR+)",
+              "Ningluosi",
+              "Ophelia",
+              "Tyrfing"
+            ],
+            "removed": [
+              "Medusa"
+            ]
+          },
+          "members": {
+            "added": [
+              "Artemis",
+              "Lilith",
+              "Morgana",
+              "Vermilion Bird"
+            ],
+            "removed": [
+              "Ares",
+              "Atanith",
+              "Ningluosi",
+              "Tyrfing"
+            ]
+          }
+        }
+      }
+    ]
   },
   "End Game Otherworld Return": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775489986,
+        "fields": {
+          "bench": {
+            "added": [
+              "Apollo",
+              "Cleopatra (SSR+)",
+              "Faust",
+              "Hades",
+              "Hela",
+              "Rin"
+            ],
+            "removed": [
+              "Cleopatra",
+              "Jing"
+            ]
+          },
+          "members": {
+            "added": [
+              "Jing"
+            ],
+            "removed": [
+              "Hades"
+            ]
+          }
+        }
+      }
+    ]
   },
   "End Game Elemental Echo": {
     "added": 1772563593,
@@ -61,6 +215,49 @@
             "removed": [
               "Duvalin"
             ]
+          }
+        }
+      },
+      {
+        "timestamp": 1775489986,
+        "fields": {
+          "bench": {
+            "added": [
+              "Catherine",
+              "Dvalin",
+              "Hermes",
+              "Ifrit",
+              "Venus",
+              "Vivienne"
+            ],
+            "removed": [
+              "Anubis",
+              "Zagreus"
+            ]
+          },
+          "members": {
+            "added": [
+              "Morgana",
+              "Salome",
+              "Vermilion Bird",
+              "Zagreus"
+            ],
+            "removed": [
+              "Dvalin",
+              "Ifrit",
+              "Venus",
+              "Vivienne"
+            ],
+            "modified": {
+              "Thor": {
+                "position": {
+                  "col": {
+                    "old": 0,
+                    "new": 2
+                  }
+                }
+              }
+            }
           }
         }
       }
