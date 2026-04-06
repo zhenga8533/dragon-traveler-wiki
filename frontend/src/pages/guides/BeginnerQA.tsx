@@ -1,6 +1,8 @@
+import HowlkinBadge from '@/components/ui/HowlkinBadge';
+import ResourceBadge from '@/components/ui/ResourceBadge';
+import WyrmspellBadge from '@/components/ui/WyrmspellBadge';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
-import ResourceBadge from '@/components/ui/ResourceBadge';
 import {
   Alert,
   Anchor,
@@ -230,9 +232,8 @@ export default function BeginnerQA() {
               Most characters need higher stars to become fully viable. For
               F2P/new players, save <ResourceBadge name="Diamond" /> and{' '}
               <ResourceBadge name="Fated Summoning Ticket" /> for strong
-              universal cards or for your core team archetype (for example Angel
-              in Sanctuary). Target Purple 6★ / Red 1★ to unlock Level 4
-              passives.
+              universal cards or for your core team archetype. Target Purple 6★
+              / Red 1★ to unlock Level 4 passives.
             </QA>
 
             <QA q="How should I set my Wishlist?">
@@ -260,10 +261,11 @@ export default function BeginnerQA() {
             <Title order={2}>Economy &amp; Shopping</Title>
 
             <QA q="What is the best way to spend Diamonds?">
-              Priority path: shop essentials &gt; sweeps (except Dragon Soul
-              Stones) &gt; treasure hunt resources &gt; planned pulls &gt;
-              patrols &gt; auctions (bidding). Avoid unplanned pulls or
-              standard-pool pulls.
+              Priority path: shop essentials &gt; sweeps (except Wyrm Essence)
+              &gt; golden clover resources &gt; planned pulls &gt; patrols &gt;
+              auctions.
+              <br />
+              Avoid unplanned pulls or standard-pool pulls.
             </QA>
 
             <QA q="Which shops should I buy from?">
@@ -276,7 +278,7 @@ export default function BeginnerQA() {
               <ResourceBadge name="Mythic Summoning Ticket" />.
               <br />• God Realm Shop: <ResourceBadge name="Fate Horn" />{' '}
               (weekly) &gt; <ResourceBadge name="Aurora Dust" /> (daily) &gt;{' '}
-              <CharacterTag name="Medusa" /> (one copy first, then shards).
+              <CharacterTag name="Medusa SSR" /> (one copy first, then shards).
               <br />• Guild Shop: <ResourceBadge name="Dragonblood" /> (weekly)
               &gt; shards. Buy <ResourceBadge name="Leaf of the World Tree" />{' '}
               here if stuck on evolution.
@@ -284,12 +286,14 @@ export default function BeginnerQA() {
 
             <QA q="How should I buy Treasure Hunt resources?">
               Prioritize daily purchases based on your Diamond reserve:
-              <br />• 1–3 Purple Bottles (<ResourceBadge name="Soul Elixir" />)
-              <br />• 1–5 Dragon Words (
-              <ResourceBadge name="Legacy Dragon Crystal" />)
-              <br />• 5–10 Horns (<ResourceBadge name="Fate Horn" />)
+              <br />• 1 <ResourceBadge name="Soul Elixir" /> (up to 3 if needed)
+              <br />• 1 <ResourceBadge name="Legacy Dragon Crystal" /> (up to 5
+              if needed)
+              <br />• 5-10 <ResourceBadge name="Golden Horn" /> (reccommended to
+              stop buying after core artifacts are unlocked)
               <br />
-              Save everything until the matching event starts.
+              Save everything until the matching event starts. Buy ALL fate
+              resources available in each cycle, but feel free to save them.
             </QA>
           </Stack>
         </Card>
@@ -334,13 +338,19 @@ export default function BeginnerQA() {
               Events rotate weekly (Howlkins → Wyrmspells → Artifacts).
               Typically aim to complete one full round (commonly 270 or 900
               pulls) to secure the core reward (12 Golden Leaves). If you cannot
-              complete the round, skip and save.
+              complete the round, try to just reach the 500 breakpoint or skip +
+              save.
             </QA>
 
             <QA q="What should I exchange Golden Leaves for?">
-              Crit/ATK Howlkins ≥ Mythic Dragon Words &gt; HP Howlkins &gt;
-              Mythic Artifacts. Avoid exchanging for Diamond-equivalent currency
-              or generic shards.
+              <HowlkinBadge name="Black Dragon" /> ≥{' '}
+              <HowlkinBadge name="Pumpkin Knight" /> &gt;{' '}
+              <WyrmspellBadge name="Agility Aura" /> &gt; Mythic Wyrm Spells
+              &gt; <HowlkinBadge name="Titan" /> ≥ <HowlkinBadge name="Hydra" />{' '}
+              &gt; Mythic Artifacts.
+              <br />
+              Avoid exchanging for Diamond-equivalent currency or generic
+              shards.
             </QA>
 
             <QA q="What are the Guild priorities?">

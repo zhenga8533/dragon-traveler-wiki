@@ -1,17 +1,23 @@
-import { Badge, Group, Image, Stack, Text } from '@mantine/core';
 import { getHowlkinIcon } from '@/assets/howlkin';
-import { QUALITY_COLOR } from '@/constants/colors';
-import { useGradientAccent } from '@/hooks';
-import type { Howlkin } from '@/features/wiki/howlkins/types';
 import IconBadge from '@/components/ui/IconBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
+import { QUALITY_COLOR } from '@/constants/colors';
+import type { Howlkin } from '@/features/wiki/howlkins/types';
+import { useGradientAccent } from '@/hooks';
+import type { MantineSize } from '@mantine/core';
+import { Badge, Group, Image, Stack, Text } from '@mantine/core';
 
 interface HowlkinBadgeProps {
   name: string;
   howlkin?: Howlkin;
+  size?: MantineSize;
 }
 
-export default function HowlkinBadge({ name, howlkin }: HowlkinBadgeProps) {
+export default function HowlkinBadge({
+  name,
+  howlkin,
+  size = 'md',
+}: HowlkinBadgeProps) {
   const { accent } = useGradientAccent();
   const iconSrc = getHowlkinIcon(name);
   const color = howlkin ? QUALITY_COLOR[howlkin.quality] : 'gray';
@@ -24,7 +30,7 @@ export default function HowlkinBadge({ name, howlkin }: HowlkinBadgeProps) {
     <IconBadge
       label={name}
       color={color}
-      size="md"
+      size={size}
       iconSrc={iconSrc ?? undefined}
       popoverContent={
         howlkin ? (
