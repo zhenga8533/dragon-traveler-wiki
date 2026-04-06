@@ -407,7 +407,17 @@
   },
   "BridalOath": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775446924,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "GoddessOfLove": {
     "added": 1772563593,
@@ -615,7 +625,17 @@
   },
   "Romance": {
     "added": 1773631023,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775446924,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "Zagreus": {
     "added": 1773709336,
@@ -623,11 +643,31 @@
   },
   "HeartthrobVenus": {
     "added": 1773714806,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775446924,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "VenusPower": {
     "added": 1773749861,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775446924,
+        "fields": {
+          "active": {
+            "old": true,
+            "new": false
+          }
+        }
+      }
+    ]
   },
   "NetherPrincess": {
     "added": 1774272120,
@@ -663,6 +703,18 @@
   },
   "Poseidon": {
     "added": 1775187721,
+    "changes": []
+  },
+  "ZhuQue": {
+    "added": 1775446924,
+    "changes": []
+  },
+  "BYLBMAAA": {
+    "added": 1775446924,
+    "changes": []
+  },
+  "TennisGirl": {
+    "added": 1775446924,
     "changes": []
   }
 }
