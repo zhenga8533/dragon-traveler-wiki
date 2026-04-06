@@ -59,13 +59,13 @@
   {
     "name": "Wish of the Ice Dancer Begins!",
     "event_id": "6760327737",
-    "type": "Special Event",
+    "type": "",
     "description": "New SSR+ Nether Princess Zagreus! Complete Wish of the Ice Dancer event goals for her \"Frostblade Dancer\" skin!",
     "characters": [],
     "is_global": true,
     "start_date": "2026-03-26",
     "end_date": null,
-    "last_updated": 1774552448
+    "last_updated": 1775197619
   },
   {
     "name": "Rerun Gacha #9",
