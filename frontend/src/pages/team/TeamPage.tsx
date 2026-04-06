@@ -1,12 +1,16 @@
-import { Box, Container } from '@mantine/core';
-import { useEffect, useMemo, useRef, useState } from 'react';
-import { useNavigate, useParams } from 'react-router-dom';
 import ChangeHistory from '@/components/common/ChangeHistory';
-import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
-import EntityNotFound from '@/components/ui/EntityNotFound';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import EntityNotFound from '@/components/ui/EntityNotFound';
 import { STORAGE_KEY } from '@/constants/ui';
+import TeamDetailContent from '@/features/teams/components/TeamDetailContent';
+import { TeamHeroSection } from '@/features/teams/components/TeamHeroSection';
+import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
+import {
+  exportTeamCompositionAsImage,
+  hasTeamBuilderDraft,
+} from '@/features/teams/utils/team-page';
 import {
   useArtifacts,
   useCharacterResolution,
@@ -20,18 +24,14 @@ import {
   useTeams,
   useWyrmspells,
 } from '@/hooks';
-import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
   toEntitySlug,
 } from '@/utils/entity-slug';
-import {
-  exportTeamCompositionAsImage,
-  hasTeamBuilderDraft,
-} from '@/features/teams/utils/team-page';
-import { TeamHeroSection } from '@/features/teams/components/TeamHeroSection';
-import TeamDetailContent from '@/features/teams/components/TeamDetailContent';
+import { Box, Container } from '@mantine/core';
+import { useEffect, useMemo, useRef, useState } from 'react';
+import { useNavigate, useParams } from 'react-router-dom';
 
 export default function TeamPage() {
   const tooltipProps = useMobileTooltip();
@@ -132,7 +132,7 @@ export default function TeamPage() {
   };
 
   const requestEdit = () => {
-    if (!hasTeamBuilderDraft(STORAGE_KEY.TEAMS_BUILDER_DRAFT)) {
+    if (hasTeamBuilderDraft(STORAGE_KEY.TEAMS_BUILDER_DRAFT)) {
       setConfirmEditOpen(true);
       return;
     }
