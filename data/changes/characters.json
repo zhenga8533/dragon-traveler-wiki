@@ -66,6 +66,19 @@
             "new": "Modern Fantasy Literature"
           }
         }
+      },
+      {
+        "timestamp": 1775854585,
+        "fields": {
+          "skills": {
+            "added": [
+              "Earth Shattering Strike"
+            ],
+            "removed": [
+              "Earthe Shattering Strike"
+            ]
+          }
+        }
       }
     ]
   },
@@ -383,7 +396,17 @@
   },
   "Hela__SSR EX": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775854585,
+        "fields": {
+          "lore": {
+            "old": "Hela, the Queen of the Underworld, who governs death, disease, and aging. Due to a terrible prophecy brought about by her lineage, Odin, the king of the gods, banished her to Hel, the coldest and darkest realm of the underworld, and commanded her to rule this land of the dead, responsible for receiving all souls who did not die in honor of battle, but rather from old age or disease.",
+            "new": "Hela, the Queen of the Underworld, who governs death, disease, and aging. Due to a terrible prophecy brought about by her lineage, Odin, the king of the gods, banished her to Hell, the coldest and darkest realm of the underworld, and commanded her to rule this land of the dead, responsible for receiving all souls who did not die in honor of battle, but rather from old age or disease."
+          }
+        }
+      }
+    ]
   },
   "Venus__SSR EX": {
     "added": 1772563593,
@@ -901,6 +924,21 @@
             }
           }
         }
+      },
+      {
+        "timestamp": 1775854585,
+        "fields": {
+          "lore": {
+            "old": "Hades, the king of the underworld, is the symbol of death and the netherworld, often referred to as \"Zeus of the Underworld.\" He governs the underworld, death, and souls. His mission is to maintain order in the underworld and ensure that the soul of every deceased person receives a just rest and judgment.",
+            "new": "Hades, the Queen of the Underworld, is the symbol of death and the netherworld, often referred to as \"Zeus of the Underworld.\" She governs the underworld, death, and souls. Her mission is to maintain order in the underworld and ensure that the soul of every deceased person receives a just rest and judgment."
+          },
+          "talent": {
+            "name": {
+              "old": "Transcedence",
+              "new": "Transcendence"
+            }
+          }
+        }
       }
     ]
   },
@@ -972,6 +1010,19 @@
             ],
             "removed": [
               "Executioner"
+            ]
+          }
+        }
+      },
+      {
+        "timestamp": 1775854585,
+        "fields": {
+          "skills": {
+            "added": [
+              "Mourning Edge Devour"
+            ],
+            "removed": [
+              "Mourning Edge Devouor"
             ]
           }
         }
@@ -2343,7 +2394,17 @@
   },
   "Bilqis__SSR+": {
     "added": 1775187721,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775854585,
+        "fields": {
+          "lore": {
+            "old": "Bekis, Queen of Sheba, was the ruler of the ancient kingdom of Sheba and was renowned for her immense wealth and extraordinary wisdom. She once led a huge caravan, laden with spices, jewels, and gold, across the desert to Jerusalem, where she tested the famous King Solomon of Israel with wise questions, thus leaving a multifaceted mark on the texts and oral stories of different civilizations.",
+            "new": "Bilqis, Queen of Sheba, was the ruler of the ancient kingdom of Sheba and was renowned for her immense wealth and extraordinary wisdom. She once led a huge caravan, laden with spices, jewels, and gold, across the desert to Jerusalem, where she tested the famous King Solomon of Israel with wise questions, thus leaving a multifaceted mark on the texts and oral stories of different civilizations."
+          }
+        }
+      }
+    ]
   },
   "Tamamo__SSR+": {
     "added": 1775484524,

@@ -98,6 +98,7 @@ export interface Character {
   lore: string;
   quote: string;
   origin: string;
+  summary?: string;
   talent?: Talent | null;
   skills: Skill[];
   noble_phantasm: string;

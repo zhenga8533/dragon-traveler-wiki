@@ -1,7 +1,7 @@
 import { normalizeContentType } from '@/constants/content-types';
 import type { CharacterClass } from '@/features/characters/types';
 import type { FactionName } from '@/types/faction';
-import type { Team, TeamBenchMember, TeamMember } from '@/features/teams/types';
+import type { Team, TeamBenchMember, TeamMember, TeamPlaceholderMember } from '@/features/teams/types';
 import { normalizeOptionalNote } from '@/utils/normalize-note';
 import { toQuality } from '@/utils/quality';
 import { isRecord } from '@/utils/type-guards';
@@ -10,6 +10,11 @@ import {
   getTeamBenchEntryNote,
   normalizeTeamBenchEntry,
 } from '@/features/teams/utils/team-bench';
+import {
+  getTeamPlaceholderEntryName,
+  getTeamPlaceholderEntryNote,
+  normalizeTeamPlaceholderEntry,
+} from '@/features/teams/utils/team-placeholder';
 
 export const MAX_ROSTER_SIZE = 6;
 export const GRID_SIZE = 9; // 3×3 grid
@@ -164,6 +169,27 @@ export function normalizeTeamFromPartial(
       })()
     : fallback.bench;
 
+  const normalizedPlaceholders = Array.isArray(partial.placeholders)
+    ? (() => {
+        const seen = new Set<string>();
+        const placeholders: TeamPlaceholderMember[] = [];
+        for (const rawEntry of partial.placeholders) {
+          const entry = normalizeTeamPlaceholderEntry(rawEntry);
+          if (!entry) continue;
+          const entryName = getTeamPlaceholderEntryName(entry);
+          if (normalizedMemberNameSet.has(entryName)) continue;
+          if (seen.has(entryName)) continue;
+          seen.add(entryName);
+          const normalizedNote = getTeamPlaceholderEntryNote(entry);
+          placeholders.push({
+            ...entry,
+            ...(normalizedNote ? { note: normalizedNote } : {}),
+          });
+        }
+        return placeholders;
+      })()
+    : fallback.placeholders;
+
   const normalizedWyrmspells = isRecord(partial.wyrmspells)
     ? {
         ...(typeof partial.wyrmspells.breach === 'string'
@@ -198,6 +224,7 @@ export function normalizeTeamFromPartial(
         : fallback.faction,
     members: normalizedMembers,
     ...(normalizedBench ? { bench: normalizedBench } : {}),
+    ...(normalizedPlaceholders ? { placeholders: normalizedPlaceholders } : {}),
     ...(normalizedWyrmspells ? { wyrmspells: normalizedWyrmspells } : {}),
     last_updated:
       typeof partial.last_updated === 'number'

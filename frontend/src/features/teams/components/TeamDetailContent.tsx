@@ -153,6 +153,23 @@ export default function TeamDetailContent({
 						{team.bench && team.bench.length > 0 && (
 							<BenchSection
 								bench={team.bench}
+								description="Direct substitutes that can replace main team members in a similar role."
+								charMap={charMap}
+								characterByIdentity={characterByIdentity}
+								characterNameCounts={characterNameCounts}
+								getCharacterPath={getCharacterPath}
+								factionColor={factionColor}
+								tooltipProps={tooltipProps}
+								disableNameClamp={exporting}
+								desktopMode={exporting}
+							/>
+						)}
+
+						{team.placeholders && team.placeholders.length > 0 && (
+							<BenchSection
+								title="Placeholders"
+								description="Budget or more accessible alternatives for players building towards this team."
+								bench={team.placeholders}
 								charMap={charMap}
 								characterByIdentity={characterByIdentity}
 								characterNameCounts={characterNameCounts}

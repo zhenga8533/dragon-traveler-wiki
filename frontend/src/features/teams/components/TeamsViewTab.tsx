@@ -9,6 +9,7 @@ import {
 	Stack,
 	Table,
 	Text,
+	Tooltip,
 } from '@mantine/core';
 import { Link, useNavigate } from 'react-router-dom';
 import { FACTION_WYRM_MAP } from '@/assets/wyrms';
@@ -30,6 +31,10 @@ import {
 	getTeamBenchEntryName,
 	getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
+import {
+	getTeamPlaceholderEntryName,
+	getTeamPlaceholderEntryQuality,
+} from '@/features/teams/utils/team-placeholder';
 import TeamCard from '@/features/teams/components/TeamCard';
 import TeamCharacterAvatars from '@/features/teams/components/TeamCharacterAvatars';
 
@@ -189,21 +194,59 @@ export default function TeamsViewTab({
 														<>
 															<Divider size="xs" />
 															<Group gap="xs" align="center" wrap="nowrap">
-																<Badge
-																	size="xs"
-																	variant="light"
-																	color="gray"
-																	style={{
-																		minWidth: 56,
-																		justifyContent: 'center',
-																	}}
+																<Tooltip
+																	label="Substitutes — direct replacements for main team members"
+																	withArrow
+																	maw={200}
+																	multiline
 																>
-																	Subs
-																</Badge>
+																	<Badge
+																		size="xs"
+																		variant="light"
+																		color="gray"
+																		style={{ minWidth: 56, justifyContent: 'center', cursor: 'default' }}
+																	>
+																		Subs
+																	</Badge>
+																</Tooltip>
 																<TeamCharacterAvatars
 																	refs={team.bench!.map((entry) => ({
 																		name: getTeamBenchEntryName(entry),
 																		quality: getTeamBenchEntryQuality(entry),
+																	}))}
+																	preferredByName={charMap}
+																	byIdentity={characterByIdentity}
+																	nameCounts={characterNameCounts}
+																	size={32}
+																	isSubstitute
+																	maxVisible={5}
+																/>
+															</Group>
+														</>
+													)}
+													{(team.placeholders?.length ?? 0) > 0 && (
+														<>
+															<Divider size="xs" />
+															<Group gap="xs" align="center" wrap="nowrap">
+																<Tooltip
+																	label="Budget alternatives — more accessible characters that fill a similar role"
+																	withArrow
+																	maw={200}
+																	multiline
+																>
+																	<Badge
+																		size="xs"
+																		variant="light"
+																		color="gray"
+																		style={{ minWidth: 56, justifyContent: 'center', cursor: 'default' }}
+																	>
+																		Alt
+																	</Badge>
+																</Tooltip>
+																<TeamCharacterAvatars
+																	refs={team.placeholders!.map((entry) => ({
+																		name: getTeamPlaceholderEntryName(entry),
+																		quality: getTeamPlaceholderEntryQuality(entry),
 																	}))}
 																	preferredByName={charMap}
 																	byIdentity={characterByIdentity}

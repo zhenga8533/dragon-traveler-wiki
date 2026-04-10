@@ -6,6 +6,7 @@ import {
 	Paper,
 	Stack,
 	Text,
+	Tooltip,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { type KeyboardEvent, type ReactNode } from 'react';
@@ -28,6 +29,10 @@ import {
 	getTeamBenchEntryName,
 	getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
+import {
+	getTeamPlaceholderEntryName,
+	getTeamPlaceholderEntryQuality,
+} from '@/features/teams/utils/team-placeholder';
 import TeamCharacterAvatars from '@/features/teams/components/TeamCharacterAvatars';
 
 interface TeamCardProps {
@@ -175,21 +180,60 @@ export default function TeamCard({
 							<>
 								<Divider size="xs" />
 								<Group gap="xs" align="flex-start" wrap="nowrap">
-									<Badge
-										size="xs"
-										variant="light"
-										color="gray"
-										style={{
-											minWidth: 66,
-											justifyContent: 'center',
-										}}
-									>
-										Subs {team.bench!.length}
-									</Badge>
+									<Tooltip label="Substitutes — direct replacements for main team members" withArrow maw={200} multiline>
+										<Badge
+											size="xs"
+											variant="light"
+											color="gray"
+											style={{
+												minWidth: 66,
+												justifyContent: 'center',
+												cursor: 'default',
+											}}
+										>
+											Subs {team.bench!.length}
+										</Badge>
+									</Tooltip>
 									<TeamCharacterAvatars
 										refs={team.bench!.map((entry) => ({
 											name: getTeamBenchEntryName(entry),
 											quality: getTeamBenchEntryQuality(entry),
+										}))}
+										preferredByName={charMap}
+										byIdentity={characterByIdentity}
+										nameCounts={characterNameCounts}
+										size={isLargeTeamCardLayout ? 52 : 44}
+										isSubstitute
+										layout="wrap"
+										gap={isLargeTeamCardLayout ? 6 : 4}
+										wrap={isLargeTeamCardLayout ? 'nowrap' : 'wrap'}
+										maxVisible={isLargeTeamCardLayout ? 6 : 5}
+									/>
+								</Group>
+							</>
+						)}
+						{(team.placeholders?.length ?? 0) > 0 && (
+							<>
+								<Divider size="xs" />
+								<Group gap="xs" align="flex-start" wrap="nowrap">
+									<Tooltip label="Budget alternatives — more accessible characters that fill a similar role" withArrow maw={200} multiline>
+										<Badge
+											size="xs"
+											variant="light"
+											color="gray"
+											style={{
+												minWidth: 66,
+												justifyContent: 'center',
+												cursor: 'default',
+											}}
+										>
+											Alt {team.placeholders!.length}
+										</Badge>
+									</Tooltip>
+									<TeamCharacterAvatars
+										refs={team.placeholders!.map((entry) => ({
+											name: getTeamPlaceholderEntryName(entry),
+											quality: getTeamPlaceholderEntryQuality(entry),
 										}))}
 										preferredByName={charMap}
 										byIdentity={characterByIdentity}

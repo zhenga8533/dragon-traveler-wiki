@@ -23,6 +23,11 @@ import {
 	getTeamBenchEntryNote,
 	getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
+import {
+	getTeamPlaceholderEntryName,
+	getTeamPlaceholderEntryNote,
+	getTeamPlaceholderEntryQuality,
+} from '@/features/teams/utils/team-placeholder';
 
 interface CharacterReferenceSectionProps {
 	character: Character;
@@ -35,7 +40,7 @@ interface CharacterReferenceSectionProps {
 
 interface TeamInclusion {
 	teamName: string;
-	role: 'Main' | 'Bench';
+	role: 'Main' | 'Bench' | 'Placeholder';
 	faction: FactionName;
 	contentType: string;
 	overdriveOrder: number | null;
@@ -111,26 +116,53 @@ export default function CharacterReferenceSection({
 					);
 				}) ?? null;
 
-			if (!benchEntry) {
-				continue;
+			if (benchEntry) {
+				const benchNote = getTeamBenchEntryNote(benchEntry) ?? null;
+				results.push({
+					teamName: team.name,
+					role: 'Bench',
+					faction: team.faction,
+					contentType: normalizeContentType(team.content_type, 'All'),
+					overdriveOrder: null,
+					note: benchNote?.trim() || null,
+					position: null,
+				});
 			}
 
-			const benchNote = getTeamBenchEntryNote(benchEntry) ?? null;
+			const placeholderEntry =
+				team.placeholders?.find((entry) => {
+					const placeholderName = getTeamPlaceholderEntryName(entry).toLowerCase();
+					const placeholderQuality = getTeamPlaceholderEntryQuality(entry);
+					return (
+						placeholderName === name &&
+						(!placeholderQuality || placeholderQuality === character.quality)
+					);
+				}) ?? null;
 
-			results.push({
-				teamName: team.name,
-				role: 'Bench',
-				faction: team.faction,
-				contentType: normalizeContentType(team.content_type, 'All'),
-				overdriveOrder: null,
-				note: benchNote?.trim() || null,
-				position: null,
-			});
+			if (placeholderEntry) {
+				const placeholderNote = getTeamPlaceholderEntryNote(placeholderEntry) ?? null;
+				results.push({
+					teamName: team.name,
+					role: 'Placeholder',
+					faction: team.faction,
+					contentType: normalizeContentType(team.content_type, 'All'),
+					overdriveOrder: null,
+					note: placeholderNote?.trim() || null,
+					position: null,
+				});
+			}
+
 		}
+
+		const roleOrder: Record<TeamInclusion['role'], number> = {
+			Main: 0,
+			Bench: 1,
+			Placeholder: 2,
+		};
 
 		return results.sort((a, b) => {
 			if (a.role !== b.role) {
-				return a.role === 'Main' ? -1 : 1;
+				return roleOrder[a.role] - roleOrder[b.role];
 			}
 			return a.teamName.localeCompare(b.teamName);
 		});

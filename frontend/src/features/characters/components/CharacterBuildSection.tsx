@@ -76,7 +76,7 @@ export default function CharacterPageBuildSection({
   return (
     <>
       {/* Lore Section */}
-      {character.lore && (
+      {(character.lore || character.summary) && (
         <CollapsibleSectionCard
           header={
             <Stack gap={2}>
@@ -84,22 +84,55 @@ export default function CharacterPageBuildSection({
                 About
               </Title>
               <Text size="sm" c="dimmed">
-                Character lore, quote, origin, and noble phantasm details.
+                Character overview, lore, quote, origin, and noble phantasm details.
               </Text>
             </Stack>
           }
         >
           <Stack gap="md">
-            <RichText
-              text={character.lore}
-              statusEffects={statusEffects}
-              skills={character.skills}
-              talent={character.talent ?? null}
-              onSkillClick={scrollToSkill}
-              onTalentClick={scrollToTalent}
-              italic
-              lineHeight={1.8}
-            />
+            {character.summary && (
+              <>
+                <Stack gap={4}>
+                  <Group gap="xs" align="center">
+                    <Text fw={600} size="sm">
+                      Overview
+                    </Text>
+                    <Badge variant="light" color="gray" size="xs">
+                      AI-generated
+                    </Badge>
+                  </Group>
+                  <RichText
+                    text={character.summary}
+                    statusEffects={statusEffects}
+                    skills={character.skills}
+                    talent={character.talent ?? null}
+                    onSkillClick={scrollToSkill}
+                    onTalentClick={scrollToTalent}
+                    lineHeight={1.7}
+                  />
+                </Stack>
+                {character.lore && <Divider />}
+              </>
+            )}
+            {character.lore && (
+              <Stack gap={4}>
+                {character.summary && (
+                  <Text fw={600} size="sm">
+                    Lore
+                  </Text>
+                )}
+                <RichText
+                  text={character.lore}
+                  statusEffects={statusEffects}
+                  skills={character.skills}
+                  talent={character.talent ?? null}
+                  onSkillClick={scrollToSkill}
+                  onTalentClick={scrollToTalent}
+                  italic
+                  lineHeight={1.8}
+                />
+              </Stack>
+            )}
 
             {character.quote && (
               <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>

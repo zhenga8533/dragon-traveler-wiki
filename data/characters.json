@@ -20,6 +20,7 @@
     "height": "175cm",
     "weight": "50kg",
     "origin": "Greek Mythology",
+    "summary": "A frontline Guardian who sacrifices her own health to generate massive shields and [Taunt] enemies using [Martial Verdict]. She excels at protecting vulnerable allies by redirecting their incoming damage to herself with [Life Link]. Additionally, she provides heavy area-of-effect retaliation through [Counter Helix], which entirely loses its cooldown once she enters the [Wild] state.",
     "lore": "Olympian goddess of wisdom and war, daughter of Zeus, was accompanied by the owl, her messenger and symbol. Possessing radiant and dignified beauty, she taught humankind countless crafts and techniques, protected all aspects of human production and life, guided them to victory in war, and nurtured countless human heroes. She was also a defender of order, helping humanity establish a system of laws.",
     "quote": "Mortals, halt!",
     "talent": {
@@ -96,7 +97,7 @@
       "Vanguard Warrior",
       "Lionheart Knight"
     ],
-    "last_updated": 1772634281
+    "last_updated": 1775854585
   },
   {
     "name": "Prometheus",
@@ -119,6 +120,7 @@
     "height": "171cm",
     "weight": "56kg",
     "origin": "Greek Mythology",
+    "summary": "A debuff-focused Guardian who heavily mitigates enemy damage by reducing their critical strike damage and stealing crucial stats like attack and defense using [Nebula Chains]. She excels in survivability, converting her area damage into extreme health recovery in the [Wild] state during [Cross Chain Strike]. She constantly grants herself shields with [Triple Spiral] after consuming [Awakening] stacks.",
     "lore": "Prometheus, one of the Titans, is renowned for creating humankind and stealing fire from the gods. As a visionary, she sculpted humans from clay and imbued them with life, consistently playing the role of humanity's protector. However, in defiance of Zeus's will to treat humanity as puppets, she stole fire and sent it to humankind, angering the king of the gods and being eternally chained to a cliff in the Caucasus Mountains, where she endured the daily torment of having her liver devoured. She is a symbol of the dawn of civilization.",
     "quote": "",
     "talent": {
@@ -195,7 +197,7 @@
       "Templar",
       "Avenger"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Anubis",
@@ -218,6 +220,7 @@
     "height": "221cm",
     "weight": "109kg",
     "origin": "Egyptian Mythology",
+    "summary": "A resilient Guardian who thrives when allies fall, gaining [Deathrattle] stacks to repeatedly cheat death and recover health through [Heart's Balance]. He provides team-wide utility by granting a shield to the lowest HP ally with [Sand Shield] and bestowing Damage Reduction to ranged allies via [Sands of Solace]. Offensively, he punishes enemies with [Shock] and area magic damage using [Descending Judgement].",
     "lore": "Anubis is the god of death, the son of Set, the god of the desert, and his wife Nephthys. He is in charge of the making of mummies and the guidance and judgment of the dead.",
     "quote": "Unforgivable sin!",
     "talent": {
@@ -289,7 +292,7 @@
     "recommended_subclasses": [
       "Guardian"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Caesar",
@@ -312,6 +315,7 @@
     "height": "173cm",
     "weight": "59kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A defensive Guardian specialized in intercepting enemy projectiles using [Radiant Barrier], which grants her permanent stacking defenses through [Guardian Shield]. She punishes enemies by increasing their Overdrive energy costs when her barrier breaks and inflicts [Stun] with [Earth Shattering Strike]. Her durability is bolstered by [Unyielding Echo], allowing her to survive fatal damage and heal.",
     "lore": "Caesar Nibelungen was the eldest daughter of Constantine XI, crown princess, and heir to the Nibelgarde Empire.\nAs a member of the royal family, she was accompanied by heavy courses and training from a young age. Even in her youth, Caesar had already noticed the doubts within the country about her as the female heir, but only her father was determined to make her the crown prince.\nTo repay this trust, she worked far beyond what ordinary people could do to gain more recognition and support, and thus gradually became recognized by the people as a leader they would follow to the death.",
     "quote": "",
     "talent": {
@@ -347,7 +351,7 @@
         "cooldown": 20
       },
       {
-        "name": "Earthe Shattering Strike",
+        "name": "Earth Shattering Strike",
         "type": "Ultimate Skill",
         "description": "Slam down the shield, dealing physical damage equal to 520 of the user's attack plus 800% of the sum of the user's defense and magic resistance to enemy units within a large circular area. This skill can trigger the [Punishment] effect. When the [Punishment] effect is triggered, it will inflict a 3-second [Stun] on the target.",
         "cooldown": 13
@@ -383,7 +387,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Dvalin",
@@ -406,6 +410,7 @@
     "height": "179cm",
     "weight": "62kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A self-sustaining Guardian who relies on high Block rates and frequent [Elemental Reaction] triggers to dominate the frontline. She mitigates damage and heals herself immensely using [Dragonkin Form], completely cleansing debuffs in the process. When she enters the [Wild] state, she passively deals continuous area damage with a chance to [Ignite] enemies.",
     "lore": "As the guardian appointed by the gods, Dvalin has shouldered the responsibility of maintaining life in the Nine Realms since ancient times. She was granted the power to control flames and forge, and leads the valiant Red Dragon Legion.",
     "quote": "Defective products are not worth my time.",
     "talent": {
@@ -477,7 +482,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1775189807
+    "last_updated": 1775854585
   },
   {
     "name": "Helveil",
@@ -500,6 +505,7 @@
     "height": "175cm",
     "weight": "56kg",
     "origin": "Norse Mythology",
+    "summary": "A regenerating Guardian who creates a powerful Shield Formation using [Spirit Shackles], granting herself immense Damage Reduction and crowd control immunity. She sustains herself by absorbing enemy souls with [Soul Suck] and passively healing from non-critical hits through her [Soul Domain]. As allies fall, she gains [Deathrattle] stacks, further increasing her Crit Resist.",
     "lore": "Although once a Valkyrie of Valhalla, she betrayed the path of light and chose to join the Wild Hunt. She finds pleasure in deception, often posing as a holy Valkyrie to trick the valiant souls of warriors. Obsessed with the thrill of battle, her ferocious, beast-like fighting style is terrifying. It is said that in a rage, she broke off one of her own wings.",
     "quote": "Your soul yearns for release.",
     "talent": {
@@ -571,7 +577,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1772078181
+    "last_updated": 1775854585
   },
   {
     "name": "Pompey",
@@ -594,6 +600,7 @@
     "height": "177cm",
     "weight": "57kg",
     "origin": "Roman Civilization",
+    "summary": "An intimidating Guardian who debuffs enemies by applying [Commander's Intimidation] to reduce their damage output and increase their Overdrive costs. She aggressively sustains herself by converting her missing health into massive heals through [Ironclad Surge] and [Dominion Slash - Intimidate]. She consumes [Awakening] stacks to repeatedly cast her Ultimate Skill.",
     "lore": "A general of the Nibelgard Empire, commanding a large army, decisive in battle, and single-handedly guarding both the inside and outside.",
     "quote": "",
     "talent": {
@@ -665,7 +672,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1772642613
+    "last_updated": 1775854585
   },
   {
     "name": "Salome",
@@ -688,6 +695,7 @@
     "height": "165cm",
     "weight": "42kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "An evasion-based Guardian who mitigates damage by dodging attacks to recover health and apply [Drunken Dance of Shadows]. She charges enemies with [Sand Dance], dealing magic damage based on her current health, and synergizes heavily with [Shock] effects. When fully stacked with [Drunken Fragrance], she inflicts [Charm] on enemies and heals herself massively.",
     "lore": "Salome grew up in the treacherous depths of the court, witnessing the deepest darkness of humanity from a young age. Her mother molded her into the sharpest weapon, concealing her brilliance with her unparalleled beauty and captivating dance. Whenever her mother acted on her love, she would grant her mother's wishes, even if it meant taking another's life. Her mother was undoubtedly satisfied and proud, but poor Salome could no longer distinguish the boundary between love and death.",
     "quote": "",
     "talent": {
@@ -759,7 +767,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Drasill",
@@ -782,6 +790,7 @@
     "height": "426cm",
     "weight": "873kg",
     "origin": "Norse Mythology",
+    "summary": "A stationary, regenerating Guardian who transforms into an immovable ranged attacker upon entering the [Wild] state. He specializes in massive self-healing through [Vines] and his [Ancient Roots] talent, making him incredibly difficult to take down. He supports his team by providing a widespread shield through [Nature's Embrace] and regenerating shielded allies.",
     "lore": "For a long time, Drasill the tree-man was asleep, and as a result, his body was covered with vines and mushrooms, but Drasill never thought of cleaning them up.",
     "quote": "Who awakens me...",
     "talent": {
@@ -847,7 +856,7 @@
     "recommended_subclasses": [
       "Guardian"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Goren",
@@ -870,6 +879,7 @@
     "height": "617cm",
     "weight": "1746kg",
     "origin": "Hebrew Legend",
+    "summary": "A colossal Guardian whose physical size and Physical Defense scale inversely with his current HP percentage. He controls the battlefield by unleashing [Crushing Summit] to deal damage based on his Max HP and inflict [Stun], which becomes even more potent against enemies with an [Elemental Debuff]. At maximum size, he gains complete immunity to control effects.",
     "lore": "The colossal rock statues often encountered in ancient ruins usually lie dormant, appearing as ordinary rocks. However, if an enemy approaches, they will rise from the ground and smash their massive stone fists into the ground.",
     "quote": "I'll form the head!",
     "talent": {
@@ -935,7 +945,7 @@
     "recommended_subclasses": [
       "Lionheart Knight"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Gudong",
@@ -958,6 +968,7 @@
     "height": "45cm",
     "weight": "53kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A resilient Slime King that penalizes enemy Overdrives by scaling his own Physical Defense against high-cost enemy Luminaries. Upon death, he splits into Small Slimes that inherit his stats and debuff enemies with [Attack Down], while also leaving behind a slowing Slime Goo. He disrupts enemies with single-target [Stun] via [Cheep-Cheep].",
     "lore": "If you think those bouncy, slimy creatures everywhere are just the go-to grinders for newbies to farm experience—you're sorely mistaken! Before you stands the slime of slimes, the king of kings, the eternal pinnacle of monster history in human games! *Gulp!*",
     "quote": "Bubble!",
     "talent": {
@@ -1023,7 +1034,7 @@
     "recommended_subclasses": [
       "Martyr"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Herman",
@@ -1046,6 +1057,7 @@
     "height": "178cm",
     "weight": "60kg",
     "origin": "Germanic Civilization",
+    "summary": "A savage Guardian who capitalizes on ally Overdrives to gain [Awakening] stacks, unleashing continuous Spirit Flames that deal area damage and heal her. She disrupts enemies by applying [Healing Down] and increasing their Overdrive costs with [Axe Boomerang]. She mitigates incoming non-Overdrive damage passively through [Fearless Iron Bulwark].",
     "lore": "The barbarian leader, formerly the daughter of the chieftain of the Fenris tribe, was sent to the Nibelgard Empire as a hostage after the failed rebellion. Due to her exceptional strength, she was selected to join the imperial army.",
     "quote": "Spirit of the Beast, fight by my side!",
     "talent": {
@@ -1111,7 +1123,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Oberonnie",
@@ -1134,6 +1146,7 @@
     "height": "170cm",
     "weight": "46kg",
     "origin": "European Folklore",
+    "summary": "A highly evasive Guardian who heavily counters elemental teams, gaining massive Dodge boosts when attacked by enemies with an [Elemental Debuff]. She enters the [Wild] state to generate powerful shields, heal herself upon dodging, and increase her Magic Defense. She shares shields, applies [Chill], and buffs allied Magic Defense with [Sylvan Solace].",
     "lore": "Living in the forest, she is the daughter of the Elf King, leading the elves with a serious and meticulous manner. She is methodical and rarely smiles. In battle, she always leads from the front, personally defending the peace of the forest.",
     "quote": "The forest calls my name.",
     "talent": {
@@ -1199,7 +1212,7 @@
     "recommended_subclasses": [
       "Guardian"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Eurytion",
@@ -1221,6 +1234,7 @@
     "height": "223cm",
     "weight": "305kg",
     "origin": "Greek Mythology",
+    "summary": "A brutal Guardian centaur who sacrifices his own HP to deal massive physical damage, gain thick shields, and launch enemies into the air with [Ragecrash]. He excels in prolonged fights, accumulating Rage to enter the [Wild] state, which massively buffs his Physical Defense and empowers his [Trample] skill to inflict [Stun].",
     "lore": "",
     "quote": "My battle axe drinks blood!",
     "talent": {
@@ -1276,7 +1290,7 @@
     "recommended_subclasses": [
       "Lionheart Knight"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Oberonnie",
@@ -1298,6 +1312,7 @@
     "height": "170cm",
     "weight": "46kg",
     "origin": "European Folklore",
+    "summary": "An evasion-focused Guardian who excels at mitigating elemental damage by gaining massive Dodge boosts against enemies with an [Elemental Debuff]. She generates self-shields, applies [Chill] with [Might of Mother Nature], and becomes incredibly durable in the [Wild] state, where she recovers health with every successful dodge.",
     "lore": "Living in the forest, she is the daughter of the Elf King, leading the elves with a serious and meticulous manner. She is methodical and rarely smiles. In battle, she always leads from the front, personally defending the peace of the forest.",
     "quote": "I guard this forest!",
     "talent": {
@@ -1353,7 +1368,7 @@
     "recommended_subclasses": [
       "Guardian"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Dwarf Warrior",
@@ -1375,6 +1390,7 @@
     "height": "147cm",
     "weight": "86kg",
     "origin": "Norse Mythology",
+    "summary": "A straightforward Guardian who specializes in stacking Magic Defense through [Runic Force] and entering the [Wild] state as his HP drops. He sacrifices his own health to provide a substantial shield to allies with [Wildcry] at the start of battle. He deals solid cone-shaped physical damage with [Shock 'n' Awe] while buffing his team with [Morale].",
     "lore": "",
     "quote": "Fight? Count me in!",
     "talent": {
@@ -1420,7 +1436,7 @@
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Mummy",
@@ -1442,6 +1458,7 @@
     "height": "135cm",
     "weight": "35kg",
     "origin": "Egyptian Civilization",
+    "summary": "A frail but persistent Guardian who powers up as allies fall, gaining [Deathrattle] stacks to increase his Attack via [Shroud]. He bolsters physical defense by gaining [Awakening] when allies use Overdrives, and deals magic area damage with [Stinkstorm] while protecting himself with a minor shield using [Hop 'n' Chop].",
     "lore": "",
     "quote": "Curse...",
     "talent": {
@@ -1487,7 +1504,7 @@
     "recommended_subclasses": [
       "Guardian"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Rock Slime",
@@ -1502,6 +1519,7 @@
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A basic Guardian unit that relies on innate Damage Reduction from [Elemental Power] and occasionally generating a moderate shield for itself using [Ironhide].",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -1531,7 +1549,7 @@
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Hela",
@@ -1554,7 +1572,8 @@
     "height": "178cm",
     "weight": "51kg",
     "origin": "Norse Mythology",
-    "lore": "Hela, the Queen of the Underworld, who governs death, disease, and aging. Due to a terrible prophecy brought about by her lineage, Odin, the king of the gods, banished her to Hel, the coldest and darkest realm of the underworld, and commanded her to rule this land of the dead, responsible for receiving all souls who did not die in honor of battle, but rather from old age or disease.",
+    "summary": "A control-focused Priest who banishes enemies and deals true damage using [Void Prison]. She provides team healing by marking targets with [Grim Reaper's Gaze], granting health and [Blessing Buff]s to allies who attack them. Additionally, she utilizes [Deathrattle] stacks to pull vulnerable allies to her side, protecting them with massive shields through [Soul-Guiding Lamp].",
+    "lore": "Hela, the Queen of the Underworld, who governs death, disease, and aging. Due to a terrible prophecy brought about by her lineage, Odin, the king of the gods, banished her to Hell, the coldest and darkest realm of the underworld, and commanded her to rule this land of the dead, responsible for receiving all souls who did not die in honor of battle, but rather from old age or disease.",
     "quote": "",
     "talent": {
       "name": "Eye of Eternal Night",
@@ -1629,7 +1648,7 @@
     "recommended_subclasses": [
       "High Priest"
     ],
-    "last_updated": 1771993396
+    "last_updated": 1775854585
   },
   {
     "name": "Venus",
@@ -1652,6 +1671,7 @@
     "height": "171cm",
     "weight": "53kg",
     "origin": "Roman Mythology",
+    "summary": "A protective Priest who equalizes and restores team health with [Heavensong], granting immense Damage Reduction through [Divine Melody]. She punishes melee attackers by inflicting [Charm] via [Bewitchment]. Her utility extends to cleansing debuffs and providing Control Immunity to the entire team, making her an exceptional defensive support.",
     "lore": "Venus, the goddess of love and beauty, is \"the grace of the gods\".",
     "quote": "Who can refuse the gift of love?",
     "talent": {
@@ -1727,7 +1747,7 @@
     "recommended_subclasses": [
       "High Priest"
     ],
-    "last_updated": 1773941454
+    "last_updated": 1775854585
   },
   {
     "name": "Bilqis",
@@ -1750,7 +1770,8 @@
     "height": "167cm",
     "weight": "42kg",
     "origin": "Modern Fantasy Literature",
-    "lore": "Bekis, Queen of Sheba, was the ruler of the ancient kingdom of Sheba and was renowned for her immense wealth and extraordinary wisdom. She once led a huge caravan, laden with spices, jewels, and gold, across the desert to Jerusalem, where she tested the famous King Solomon of Israel with wise questions, thus leaving a multifaceted mark on the texts and oral stories of different civilizations.",
+    "summary": "A critical-healing Priest who grants death immunity, immense attack speed, and damage buffs via [Shallow Burial]. She provides bouncing heals to the team with [Soul Healing] and deals area-of-effect magic damage when her heals trigger a critical strike through her [Voodoo Healing] talent. Furthermore, she can stun enemies using [Dizziness Potion].",
+    "lore": "Bilqis, Queen of Sheba, was the ruler of the ancient kingdom of Sheba and was renowned for her immense wealth and extraordinary wisdom. She once led a huge caravan, laden with spices, jewels, and gold, across the desert to Jerusalem, where she tested the famous King Solomon of Israel with wise questions, thus leaving a multifaceted mark on the texts and oral stories of different civilizations.",
     "quote": "",
     "talent": {
       "name": "Voodoo Healing",
@@ -1821,7 +1842,7 @@
     "recommended_subclasses": [
       "Divine Officer"
     ],
-    "last_updated": 1775189807
+    "last_updated": 1775854585
   },
   {
     "name": "Morgana",
@@ -1844,6 +1865,7 @@
     "height": "172cm",
     "weight": "49kg",
     "origin": "European Folklore",
+    "summary": "An elemental-synergy Priest who builds [Elemental Alchemy] stacks to permanently buff the team's critical and attack stats. She launches bouncing heals and applies [Chill] during her channeled [Elemental Symphony]. She excels at disrupting enemy Overdrives by manipulating energy costs through [Elemental Crucible] while applying [Healing Prohibition].",
     "lore": "Morgana, a witch with the blood of British royalty. As the illegitimate eldest daughter of King Uther and the half-sister of King Arthur, she was secretly sent to the court library at a young age, where she studied ancient astronomy under the tutelage of the guardians. The magic flowing in her blood intertwined with her connection to the stars, quickly making her the court's sole astrologer. From the stars, she glimpsed fragments of civilization; inspired by the stars, she learned ancient astrological magic, and from that moment on, her destiny became inextricably linked to the celestial realm.",
     "quote": "",
     "talent": {
@@ -1915,7 +1937,7 @@
     "recommended_subclasses": [
       "Executor"
     ],
-    "last_updated": 1773670017
+    "last_updated": 1775854585
   },
   {
     "name": "Ophelia",
@@ -1938,6 +1960,7 @@
     "height": "169cm",
     "weight": "51kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A buff-centric Priest who grants [Sanctuary] to allies to significantly increase their attack and trigger additional healing through [Sacred Resonance]. She deals damage and heals the team whenever the [Punishment] effect is triggered by an ally using [Divine Judgement]. She also summons holy shields to passively heal allies over time with [Sacred Guard].",
     "lore": "She is the archbishop of the Holy Sword Gram Church, bearing the heavy responsibility of leading the congregation.",
     "quote": "Guarding the holy sword... is my duty.",
     "talent": {
@@ -2010,7 +2033,7 @@
       "Executor",
       "Divine Officer"
     ],
-    "last_updated": 1775486487
+    "last_updated": 1775854585
   },
   {
     "name": "Scheherazade",
@@ -2033,6 +2056,7 @@
     "height": "170cm",
     "weight": "0kg",
     "origin": "Arabian Legend",
+    "summary": "A probability-based Priest whose skills have a massive chance to trigger multiple times via [Wish Fulfillment]. She provides massive team healing and powerful buffs like [Morale] and [Fervor] through [Wish Granted]. She generates [Awakening] stacks when allies use Overdrives, which she consumes to guarantee her skill duplications and reduce team energy costs.",
     "lore": "Legend has it that the ancient Sassanid king left behind a magic lamp, which, when lit, grants three wishes. When someone actually finds this lamp, the spirit he summons is a warm and cheerful woman who calls herself Scheherazade. However, although the spirit is eager to grant your wishes, she doesn't seem to be as omnipotent as the legends say...?",
     "quote": "Make a wish!",
     "talent": {
@@ -2105,7 +2129,7 @@
       "High Priest",
       "Executor"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Silbismo",
@@ -2128,6 +2152,7 @@
     "height": "166cm",
     "weight": "45kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A summon-synergy Priest who spawns [Tentacle]s using [Touch of the Other Shore] to deal continuous damage and heal the lowest-health allies. She manipulates the battlefield by cloning the strongest allied summons with [Ritual Soul-Splitting Coffin]. She scales her own maximum health and attack speed permanently whenever allied summons are defeated through [Shadow Nourishment].",
     "lore": "Silbimo has been wandering in the shattered land for a hundred years. She doesn't remember what happened in the past or where she is going. She is just a living shell.\nUntil that day, the will of the Ring of Domination awakened in her consciousness like a spark, fully restoring her intellect and reminding her of her mission as the Ringbearer. She felt the Ring of Domination's call—to guide the destined one to Him. From that moment on, her path had direction.",
     "quote": "",
     "talent": {
@@ -2200,7 +2225,7 @@
       "Executor",
       "Divine Officer"
     ],
-    "last_updated": 1773670017
+    "last_updated": 1775854585
   },
   {
     "name": "Titania",
@@ -2223,6 +2248,7 @@
     "height": "173cm",
     "weight": "53kg",
     "origin": "European Folklore",
+    "summary": "A reliable Priest who dispels debuffs and provides AoE healing through her [Redemption] talent, which guarantees activation when the target is in the [Wild] state. She provides substantial full-team heals with [Wish] and utilizes [Meteorfall] to trigger additional healing whenever she strikes enemies afflicted with an [Elemental Debuff].",
     "lore": "Living by Lake Avalon, the gentle and maternal fairy queen is beloved for her boundless compassion and generosity towards her fairy subjects. She is captivating in appearance and possesses formidable magical abilities. Although composed, she occasionally indulges in mischievous pranks, playing small tricks on humans.",
     "quote": "Let me guide your way.",
     "talent": {
@@ -2294,7 +2320,7 @@
     "recommended_subclasses": [
       "Divine Officer"
     ],
-    "last_updated": 1772925921
+    "last_updated": 1775854585
   },
   {
     "name": "Vivienne",
@@ -2317,6 +2343,7 @@
     "height": "163cm",
     "weight": "42kg",
     "origin": "European Folklore",
+    "summary": "A unique possession-based Priest who attaches to the highest-attack ally using [Gleam of Refuge], rendering herself untargetable. While possessed, she provides her host with massive shields, Attack boosts, and continuous healing via [Sacred Spring's Blessing]. She also supports her host by dealing damage and applying [Chill] with [Cold Surge Water Bomb].",
     "lore": "A water nymph in human form. She dwells in the heart of Lake Avalon, elusive and hard to find. Few have ever witnessed her dance or heard her song. Yet, afterwards, no amount of the world's most beautiful words could ever fully capture the boundless wonder of that time.",
     "quote": "Did you drop this sword into the water...?",
     "talent": {
@@ -2389,7 +2416,7 @@
       "High Priest",
       "Divine Officer"
     ],
-    "last_updated": 1772078181
+    "last_updated": 1775854585
   },
   {
     "name": "Atanith",
@@ -2412,6 +2439,7 @@
     "height": "176cm",
     "weight": "51kg",
     "origin": "Norse Mythology",
+    "summary": "An anti-magic Priest who consistently debuffs enemies by increasing their Overdrive energy costs and heavily reducing their Magic Defense with [Cursed Domain]. She actively disrupts enemy skill usage by inflicting [Silence] through [Silent Judgement] and [Curse of Silence]. She also provides steady team healing by consuming [Awakening] stacks via [Mana Surge].",
     "lore": "An elven mage who has dedicated her life to studying and practicing arcane magic, she possesses formidable combat prowess. Few can rival her in her understanding and manipulation of magical energy. Once the leader of a mage group, she has now resigned and travels the world, single-mindedly seeking the true essence of arcane magic.",
     "quote": "Your magic is mine!",
     "talent": {
@@ -2484,7 +2512,7 @@
       "High Priest",
       "Executor"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Caligula",
@@ -2507,6 +2535,7 @@
     "height": "256cm",
     "weight": "172kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A resilient Priest who boosts allied Damage Reduction for those in the [Wild] state. She provides massive area healing and [Adrenaline] via [Arcane Arts], and sustains the team by summoning healing Totems with [Ancestral Glory]. She uniquely enhances her healing capabilities as allies fall by accumulating [Deathrattle] stacks.",
     "lore": "The ogre wizards, like other ogres, are not only lazy and gluttonous, but also possess the wisdom common to mages—in their case, cunning.",
     "quote": "You look... delicious.",
     "talent": {
@@ -2579,7 +2608,7 @@
       "High Priest",
       "Executor"
     ],
-    "last_updated": 1773670017
+    "last_updated": 1775854585
   },
   {
     "name": "Chiron",
@@ -2602,6 +2631,7 @@
     "height": "227cm",
     "weight": "304kg",
     "origin": "Greek Mythology",
+    "summary": "A synergistic Priest who binds to the highest-attack ally with [Battle Bond], coordinating magic arrows alongside their attacks. She sacrifices her own HP to grant massive team healing and [Morale] via [All or Nothing]. She also provides powerful single-target sustain by channeling [Pegasus Guard] to heavily heal the lowest-health ally.",
     "lore": "Compared to other centaurs, Chiron was not as warlike and brutal. She was said to be the offspring of a god, thus possessing a noble and powerful bloodline from birth. Chiron was proficient in music, chess, calligraphy, painting, archery, and swordsmanship; she was virtually omnipotent. Even learning just one skill from her would be enough for one to stand alone in a position of power.",
     "quote": "I give you my all.",
     "talent": {
@@ -2674,7 +2704,7 @@
       "Executor",
       "Bishop"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Flora",
@@ -2696,6 +2726,7 @@
     "height": "94cm",
     "weight": "23kg",
     "origin": "Roman Mythology",
+    "summary": "A straightforward Priest who excels in the [Wild] state, providing steady continuous healing through her [In Bloom] talent. She utilizes [Showtime] to grant single-target burst healing alongside [Physical Defense Up], and supports the broader team with area-of-effect healing via [Budding Bloom].",
     "lore": "",
     "quote": "May hope and flowers bloom together~",
     "talent": {
@@ -2751,7 +2782,7 @@
     "recommended_subclasses": [
       "Divine Officer"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Siren",
@@ -2773,6 +2804,7 @@
     "height": "162cm",
     "weight": "53kg",
     "origin": "Greek Mythology",
+    "summary": "An evasion-based Priest who heals the team with [Resolute Aria] and randomly grants [Dodge Up] through [Mana Tide]. She constantly reduces her own cooldowns whenever she successfully dodges an attack via [Serene Flow]. She also provides single-target damage and healing using [Healing Hands], which supercharges with [Awakening] stacks.",
     "lore": "",
     "quote": "Embrace the sea!",
     "talent": {
@@ -2829,7 +2861,7 @@
       "High Priest",
       "Divine Officer"
     ],
-    "last_updated": 1772925921
+    "last_updated": 1775854585
   },
   {
     "name": "Goblin War Drummer",
@@ -2851,6 +2883,7 @@
     "height": "85cm",
     "weight": "32kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A utility Priest that replaces basic attacks with [Drum Beat] to continuously grant [Attack Speed Up] to the strongest ally. He unleashes [Tempo Tantrum] to provide full-team [Adrenaline], and offers targeted healing through [Drums of Sanctuary], which becomes significantly more potent for allies in the [Wild] state.",
     "lore": "",
     "quote": "Starfall Debut!",
     "talent": {
@@ -2897,7 +2930,7 @@
       "Divine Officer",
       "Bishop"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Viel",
@@ -2919,6 +2952,7 @@
     "height": "132cm",
     "weight": "32kg",
     "origin": "Norse Mythology",
+    "summary": "A supportive Priest who provides continuous healing through [Elven Favor], which is enhanced by 50% when targets are in the [Wild] state. She uses [Showtime] to grant single-target burst healing alongside defensive buffs, and provides area-of-effect team sustain with [Budding Bloom].",
     "lore": "",
     "quote": "Lost your way? Follow me~",
     "talent": {
@@ -2974,7 +3008,7 @@
     "recommended_subclasses": [
       "Executor"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Breeze Slime",
@@ -2989,6 +3023,7 @@
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A basic Priest unit that relies on innate HP boosts from [Elemental Power] to enhance its survivability. It provides simple, moderate single-target healing through [Whisperwind].",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -3018,7 +3053,7 @@
       "accessory": "Mana's Tear"
     },
     "recommended_subclasses": [],
-    "last_updated": 1772925921
+    "last_updated": 1775854585
   },
   {
     "name": "Hades",
@@ -3041,10 +3076,11 @@
     "height": "192cm",
     "weight": "86kg",
     "origin": "Greek Mythology",
-    "lore": "Hades, the king of the underworld, is the symbol of death and the netherworld, often referred to as \"Zeus of the Underworld.\" He governs the underworld, death, and souls. His mission is to maintain order in the underworld and ensure that the soul of every deceased person receives a just rest and judgment.",
+    "summary": "A clone-summoning Assassin who deals immense physical damage and executes enemies with [Final Verdict], resetting its cooldown upon a successful kill. She scales her damage based on the target's missing health via [Ruthless Hunter] and utilizes [Deathrattle] stacks to block fatal damage, cleanse debuffs, and absorb her Clones to recover massive health using [Elysium].",
+    "lore": "Hades, the Queen of the Underworld, is the symbol of death and the netherworld, often referred to as \"Zeus of the Underworld.\" She governs the underworld, death, and souls. Her mission is to maintain order in the underworld and ensure that the soul of every deceased person receives a just rest and judgment.",
     "quote": "No soul can escape!",
     "talent": {
-      "name": "Transcedence",
+      "name": "Transcendence",
       "talent_levels": [
         {
           "level": 1,
@@ -3116,7 +3152,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1772634281
+    "last_updated": 1775854585
   },
   {
     "name": "Hermes",
@@ -3139,6 +3175,7 @@
     "height": "162cm",
     "weight": "40kg",
     "origin": "Greek Mythology",
+    "summary": "A highly mobile Assassin who traverses the battlefield on flying boards, consuming Energy to constantly deal area-of-effect magic damage and knockback. She creates a [Flame Stone Formation] that inflicts [Ignite], reduces healing received, and uniquely punishes displaced enemies by dealing massive additional damage when they are pulled or knocked back through [Flame Domain Pursuit].",
     "lore": "Hermes, one of the twelve Olympian gods, is known for her wisdom and cunning. In ancient Greece, she was the god in charge of trade, shepherding, theft, and travel, and also served as the messenger and envoy of the gods. As a guide between the gods, humans, and the underworld, she is a symbol of crossing boundaries and a key being connecting different dimensions.",
     "quote": "",
     "talent": {
@@ -3214,7 +3251,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1772856370
+    "last_updated": 1775854585
   },
   {
     "name": "Jormungandr",
@@ -3237,6 +3274,7 @@
     "height": "168cm",
     "weight": "48kg",
     "origin": "Norse Mythology",
+    "summary": "A lethal Assassin who periodically deals devastating damage based on the target's missing health using her [Ravaging Maw] talent. She controls the battlefield by launching targets into the air with [Titancoil Domain] and applies [Healing Down] through [Venombrand], spiraling her lethality by resetting cooldowns upon critical strikes.",
     "lore": "A mysterious girl with a cold expression and few words, she always acts alone, and no one knows her purpose.",
     "quote": "Only food and power are worth pursuing!",
     "talent": {
@@ -3308,7 +3346,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Lilith",
@@ -3331,6 +3369,7 @@
     "height": "166cm",
     "weight": "42kg",
     "origin": "Mesopotamian Mythology",
+    "summary": "A unique melee Assassin with extended attack range who applies [Echoes of Pain] to enemies, causing them to take massive follow-up magic damage whenever struck by allied Luminaries. She excels at disruption, teleporting directly into the enemy team to increase their ultimate skill cooldowns with [Shadow Blade Dance] and applying [Silence] through [Song of Destruction].",
     "lore": "\"Lilith, originating from the spirit of the night in Mesopotamia, is the first woman created by the gods in Hebrew legend, and the queen who rules the night.\"\nFirst, she uttered the unspeakable true name of the god. Then, under the god's gaze, she leaped from Eden and plunged into the legendary, ever-churning Red Sea. From that moment on, she had her own name — Lilith.",
     "quote": "",
     "talent": {
@@ -3396,7 +3435,7 @@
       "Forest Bandit",
       "Outlaw"
     ],
-    "last_updated": 1774272543
+    "last_updated": 1775854585
   },
   {
     "name": "Mordred",
@@ -3419,6 +3458,7 @@
     "height": "173cm",
     "weight": "50kg",
     "origin": "European Folklore",
+    "summary": "A sacrifice-based Assassin who becomes untargetable and deals devastating line-of-effect magic damage through [Soul Sacrifice Annihilation], heavily empowered by sacrificing her own team's non-elite summons. She scales her damage as allies die by accumulating [Deathrattle] stacks, and gains massive Damage Amplification against unbuffed enemies via [Flaw Execution].",
     "lore": "She was born under a curse, branded as an unfaithful child from the day she was born.",
     "quote": "Spare me the honor talk.",
     "talent": {
@@ -3454,7 +3494,7 @@
         "cooldown": 18
       },
       {
-        "name": "Mourning Edge Devouor",
+        "name": "Mourning Edge Devour",
         "type": "Ultimate Skill",
         "description": "Slash at a single target with a scythe, dealing magic damage equal to 510% of Attack. Whenever an ally is defeated, gains 1 stack of [Deathrattle]. For each stack of [Deathrattle], this skill's damage is increased by 3%.",
         "cooldown": 17
@@ -3490,7 +3530,7 @@
     "recommended_subclasses": [
       "Masked Thief"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Pan Junbao",
@@ -3513,6 +3553,7 @@
     "height": "201cm",
     "weight": "122kg",
     "origin": "Eastern Civilization",
+    "summary": "A disruptive, Taunt-heavy Assassin who continuously forces enemies to attack him using [Showstopper Smash] and his [Serenity] talent. He mitigates incoming ranged basic attacks by intercepting them with [Featherweight Force] to charge up heavy physical damage, and transitions into a rapid-striking, lifesteal-heavy fighter when he enters the [Wild] state.",
     "lore": "He embodies the unity of knowledge and action, traversing mountains and rivers. The people of Illusion Mountain may occasionally catch a glimpse of this kung fu master, perhaps in the dangerous Demon Realm, or perhaps in a bustling city square. The black and white panda man is hard to miss, but soon he will vanish without a trace.",
     "quote": "Manifest the universe, unite with the qi.",
     "talent": {
@@ -3578,7 +3619,7 @@
     "recommended_subclasses": [
       "Forest Bandit"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Rin",
@@ -3601,6 +3642,7 @@
     "height": "168cm",
     "weight": "54kg",
     "origin": "Eastern Civilization",
+    "summary": "An evasion-focused Assassin whose dodge rate scales massively with [Deathrattle] stacks and innately through [Niten Ichiryu]. She summons a highly evasive [Sword Clone] that taunts enemies, which she can later absorb to recover health and gain [Dodge Up] using [Phantom Martial Soul], and deals untargetable, massive area damage with her [Swallow Return] Overdrive.",
     "lore": "Rin was born into a family of swordsmen and was renowned for his dual-wielding technique. He fought over sixty battles without ever being defeated, and once even defeated a powerful enemy using only a wooden sword. Rin is known throughout the world as a master swordsman, leaving behind numerous legendary tales.",
     "quote": "",
     "talent": {
@@ -3672,7 +3714,7 @@
     "recommended_subclasses": [
       "Outlaw"
     ],
-    "last_updated": 1772645598
+    "last_updated": 1775854585
   },
   {
     "name": "White Tiger",
@@ -3695,6 +3737,7 @@
     "height": "161cm",
     "weight": "49kg",
     "origin": "Eastern Mythology",
+    "summary": "A relentless Assassin who sacrifices her own health to unleash a devastating flurry of strikes with [Soaring Tempest], gaining massive Life Steal in the process. She permanently ignores enemy Physical Defense through [Soulshaker] and becomes unstoppable in the [Wild] state, gaining immunity to stat reductions and supercharging her basic attacks into [Infinity Combo]s.",
     "lore": "A beast-tailed girl from a mysterious ancient kingdom in the far east, she appears energetic and innocent, loves to eat and fight, but her true form is the White Tiger God who guards the west, a powerful and all-powerful being. She only takes on the form of a girl for certain reasons and travels the world.",
     "quote": "Attack the unprepared, strike unexpectedly.",
     "talent": {
@@ -3766,7 +3809,7 @@
     "recommended_subclasses": [
       "Forest Bandit"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Zagreus",
@@ -3789,6 +3832,7 @@
     "height": "165cm",
     "weight": "52kg",
     "origin": "Greek Mythology",
+    "summary": "A highly mobile Assassin who blinks into combat and unleashes blizzards with [Storm Snowpiercer] while frequently applying [Chill] and [Freeze]. She severely restricts enemy Rage regeneration and deals massive bonus damage to frozen or elementally-debuffed targets, excelling at rapidly executing single targets while untargetable with [Swiftshadow Execution].",
     "lore": "Zagreus was the daughter of Hades, the god of the underworld. Hades received a prophecy at Zagreus's birth: this princess of the underworld was destined to die and then be reincarnated as a god. Hades did not want his daughter to experience the pain of death, so he protected her strictly and even forbade her to leave the underworld.",
     "quote": "Give thanks for this princess's royal favor!",
     "talent": {
@@ -3861,7 +3905,7 @@
       "Outlaw",
       "Forest Bandit"
     ],
-    "last_updated": 1775014192
+    "last_updated": 1775854585
   },
   {
     "name": "Fenrir",
@@ -3884,6 +3928,7 @@
     "height": "164cm",
     "weight": "42kg",
     "origin": "Norse Mythology",
+    "summary": "An opportunistic Assassin whose Life Steal skyrockets when enemies fall below half health via [Hunting Rhythm]. She executes low-health targets with [Hunting Time], resetting the skill's cooldown upon a successful kill, and empowers her basic attacks with [Predatory Pulse] to inflict [Shock] before unleashing a rapid barrage of strikes with [Furious Flurry].",
     "lore": "A elusive humanoid beast, appearing silently in the night, swiftly delivering a fatal blow to its enemies with its agile claws before vanishing without a trace. Living entirely in nature, nocturnal and free-spirited, hunting is its greatest passion.",
     "quote": "I can't lend you my claws, meow~",
     "talent": {
@@ -3955,7 +4000,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Lancelot",
@@ -3978,6 +4023,7 @@
     "height": "186cm",
     "weight": "77kg",
     "origin": "European Folklore",
+    "summary": "A highly mobile Assassin whose Damage Amplification increases based on the total distance she has moved during the battle via [Long March]. She charges through enemies to deal physical damage and stun them with [Solar Steed], synergizing heavily with [Elemental Reaction]s to continuously reduce her cooldowns and instantly dispel debuffs in the [Grace] state.",
     "lore": "Raised by the Lake Fairy, the knight is warm, cheerful, helpful, and possesses a strong sense of justice and a pure heart; she is also known as the \"Knight of the Lake.\" Her behavior perfectly embodies the spirit of chivalry. As King Arthur's close friend and the most well-known Knight of the Round Table, she has always fought valiantly to protect Camelot.",
     "quote": "In the name of the sun!",
     "talent": {
@@ -4043,7 +4089,7 @@
     "recommended_subclasses": [
       "Forest Bandit"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Nemesis",
@@ -4066,6 +4112,7 @@
     "height": "187cm",
     "weight": "63kg",
     "origin": "Greek Mythology",
+    "summary": "A rapid-striking Assassin who blinks behind targets to deal massive physical damage and inflict [Silence] with [Silent Scream]. She specifically targets and suppresses high-energy enemies using [Crippling Strike], throwing poison darts at targets with the highest Overdrive Energy costs while gaining massive Attack Speed boosts after casting Overdrives through [Endless Battle].",
     "lore": "The Furies, the goddesses of Olympus, ruthlessly and mercilessly judge all lawbreakers. They can always ignite the fighting spirit of wounded or weary warriors with hatred. They are also a symbol of judgment and punishment, offering righteous redemption to those who have suffered injustice.",
     "quote": "You have nowhere to run!",
     "talent": {
@@ -4131,7 +4178,7 @@
     "recommended_subclasses": [
       "Shadow Dancer"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Bladeheart",
@@ -4153,6 +4200,7 @@
     "height": "164cm",
     "weight": "44kg",
     "origin": "Japanese Legend",
+    "summary": "A relentless Assassin who charges through enemies with [Ruthless Hunt], chaining to new targets automatically if the initial target is defeated mid-charge. She supercharges her basic attacks through [Shadow Dance] to deal area-of-effect damage, shreds enemy defenses with [Apex Predator], and gains damage bonuses against elementally-debuffed foes.",
     "lore": "",
     "quote": "Death comes for all mortals.",
     "talent": {
@@ -4208,7 +4256,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Fenrir",
@@ -4230,6 +4278,7 @@
     "height": "164cm",
     "weight": "42kg",
     "origin": "Norse Mythology",
+    "summary": "A lethal executioner whose Life Steal surges when enemies drop below half health via [Hunting Rhythm]. He blinks behind targets with [Secret Raid] and executes vulnerable foes using [Hunting Time], resetting its cooldown upon scoring a kill while frequently empowering his attacks to deal heavy bonus physical damage and inflict [Shock] using [Predatory Pulse].",
     "lore": "A elusive humanoid beast, appearing silently in the night, swiftly delivering a fatal blow to its enemies with its agile claws before vanishing without a trace. Living entirely in nature, nocturnal and free-spirited, hunting is its greatest passion.",
     "quote": "The hunt... begins!",
     "talent": {
@@ -4285,7 +4334,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Boar Knight",
@@ -4307,6 +4356,7 @@
     "height": "182cm",
     "weight": "63kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A straightforward charging Assassin who drastically increases his Attack Speed and empowers his third strike using the [Focus] talent. He relies on his [Wild Charge] to plow through enemy lines, dealing physical damage to both his primary target and anyone in his path, and utilizes [Space Cadet] to deal area physical damage while reducing energy costs.",
     "lore": "",
     "quote": "Got you now!",
     "talent": {
@@ -4352,7 +4402,7 @@
     "recommended_subclasses": [
       "Masked Thief"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Sword Dancer",
@@ -4374,6 +4424,7 @@
     "height": "160cm",
     "weight": "50kg",
     "origin": "Norse Mythology",
+    "summary": "An evasion-scaling Assassin whose Dodge increases heavily against enemies with high Overdrive Energy costs via [Sword Dance]. She marks targets by bouncing her [Bouncing Blade] dagger among multiple enemies, setting them up for execution with [Final Thrust], which deals massive physical damage that scales heavily based on the marked target's missing health.",
     "lore": "",
     "quote": "Any Deathrattle?",
     "talent": {
@@ -4419,7 +4470,7 @@
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Shadow Slime",
@@ -4434,6 +4485,7 @@
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A basic Assassin unit that relies on an innate Critical Hit boost from its [Elemental Power] talent. It executes a simple but strong single-target attack called [Shadowstrike] to deal heavy physical damage.",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -4463,7 +4515,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Ares",
@@ -4486,6 +4538,7 @@
     "height": "179cm",
     "weight": "58kg",
     "origin": "Greek Mythology",
+    "summary": "A frontline Warrior who unleashes devastating physical damage and knockbacks with [Godfist], which scales heavily with her Energy. She accumulates Energy through basic attacks, which empowers her skills and grants her massive stat boosts, and can cheat death using [Deathless Domination] to become Invincible, apply [Time Stasis], and rapidly recover HP.",
     "lore": "Ares, son of Zeus and Hera, is the god of war, the embodiment of war.",
     "quote": "War never favors the weak.",
     "talent": {
@@ -4562,7 +4615,7 @@
       "Berserker",
       "Vanguard"
     ],
-    "last_updated": 1772634281
+    "last_updated": 1775854585
   },
   {
     "name": "Thor",
@@ -4585,6 +4638,7 @@
     "height": "177cm",
     "weight": "60kg",
     "origin": "Norse Mythology",
+    "summary": "An area-of-effect Warrior who applies [Thor's Mark] to enemies afflicted with [Shock], later detonating them for massive magic damage during [Thunder Prison Judgment]. She controls enemies by pulling and stunning them with [Divine Hammer Strike], granting herself [Morale] and [Fervor] to enter the [Grace] state for enhanced area damage and health conversion.",
     "lore": "As one of the chief gods of the Aesir, Thor is not only the most powerful and charismatic of the Norse gods, but also the only one always ready to fight the giants. As Odin's son, she voluntarily took on the responsibility of protecting Asgard.",
     "quote": "",
     "talent": {
@@ -4660,7 +4714,7 @@
     "recommended_subclasses": [
       "Lord"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1775854585
   },
   {
     "name": "Andevaly",
@@ -4683,6 +4737,7 @@
     "height": "170cm",
     "weight": "46kg",
     "origin": "Norse Mythology",
+    "summary": "A shield-synergy Warrior who continuously generates self-shields whenever enemies are displaced, reducing her ultimate energy cost in the process. She excels at area-of-effect disruption, knocking up enemies and granting her team [Damage Boost] with [Dragon's Descent], and empowers her own attack by accumulating [Black Dragon Claw] stacks through her shields.",
     "lore": "The black dragon Andvari was born from the ashes of Ragnarok and is one of the very few dragons that were not corrupted by the source poison.\nIn that cataclysmic destruction, the black dragons followed Nidhogg in their battle against the gods, ultimately nearly perishing. After the calamity, their mother found an ancient city as her nest, sheltering the last remaining bloodline of the black dragons. Those were Andvari's only peaceful times—her mother's wings protected her from the chaos of the outside world.",
     "quote": "",
     "talent": {
@@ -4754,7 +4809,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1775854585
   },
   {
     "name": "Arthur",
@@ -4777,6 +4832,7 @@
     "height": "185cm",
     "weight": "76kg",
     "origin": "European Folklore",
+    "summary": "A supportive frontline Warrior who shares [Fervor] with her allies and generates massive self-shields through [Breath of the King]. She deals heavy area-of-effect physical damage with [Sword of the Covenant], punishing enemies with high Overdrive costs, and enters the [Grace] state to significantly increase her attack range, damage, and Life Steal.",
     "lore": "Daughter of King Uther, the great and immortal Queen of Camelot, she was dashing and spirited, charming and debonair, upright and honorable, and possessed a strong sense of chivalry, earning her countless admirers and respect. The sorcerer Merlin was her companion and mentor, and many upright knights gathered around the queen, forming the Knights of the Round Table, a order without hierarchical distinctions of rank or subject, working together to contribute to the prosperity of Camelot.",
     "quote": "Glory belongs to Camelot!",
     "talent": {
@@ -4848,7 +4904,7 @@
     "recommended_subclasses": [
       "Lord"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Asmodeus",
@@ -4871,6 +4927,7 @@
     "height": "169cm",
     "weight": "50kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A summon-synergy Warrior who empowers allied elite summons by granting them [Hellfire], turning them into massive sources of area-of-effect magic damage. She disrupts enemies by summoning [Little Devil]s with [Demon Reinforcements] and heals herself or her allies through [Hell Dance] and by converting the damage dealt by her summons into health via [Blood Thirst].",
     "lore": "Asmodeus is one of the oldest demon lords of Hell, the embodiment of desire among the Seven Deadly Sins. Throughout countless ages, she has silently observed the rise and fall of various worlds. Unlike the cruelty of other demon lords, she is more fond of weaving dreams—sowing delusions in the emperor's night and planting ambition in the beggar's dreams. All beings are actors on her stage, and she only needs to gently pluck the strings of desire to make the entire world dance.",
     "quote": "",
     "talent": {
@@ -4943,7 +5000,7 @@
       "Sword Master",
       "Berserker"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Asteros",
@@ -4966,6 +5023,7 @@
     "height": "278cm",
     "weight": "340kg",
     "origin": "Greek Mythology",
+    "summary": "A resilient Warrior who enters the [Wild] state to unleash a relentless [Savage Cyclone], continuously dealing area-of-effect physical damage to nearby enemies. She rapidly recovers lost HP upon entering the [Wild] state using [Ancestral Will] and sacrifices her own health to materialize a spirit avatar that launches enemies into the air with [Heaven's Mandate].",
     "lore": "The Minotaur was born by chance under the curse of Poseidon, the god of the sea. In order to keep the existence of this bull-headed, man-bodied monster a secret, Minos asked Daedalus to build an extremely complex labyrinth as a prison to imprison the Minotaur.",
     "quote": "I'm stubborn as a bull.",
     "talent": {
@@ -5038,7 +5096,7 @@
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1773071584
+    "last_updated": 1775854585
   },
   {
     "name": "Azure Dragon",
@@ -5061,6 +5119,7 @@
     "height": "176cm",
     "weight": "62kg",
     "origin": "Eastern Mythology",
+    "summary": "A shield-focused Warrior whose damage and survivability heavily rely on the presence of shields, scaling her Damage Amplification or Damage Reduction accordingly through [Skysoar Dragon]. She provides powerful team-wide shields using [Azure Dragon Formation] and disrupts enemies by knocking them back and launching them into the air with [Draconic Dominion].",
     "lore": "The girl in armor had dragon horns on her forehead, a testament to her identity—the Azure Dragon God, guardian of the East. The Azure Dragon God commands the Seven Mansions of the East, and her absolute power places her at the head of the Four Saints.",
     "quote": "Clouds Gather, Rain Falls, All Are Blessed.",
     "talent": {
@@ -5132,7 +5191,7 @@
     "recommended_subclasses": [
       "Vanguard"
     ],
-    "last_updated": 1772078181
+    "last_updated": 1775854585
   },
   {
     "name": "Brynhild",
@@ -5155,6 +5214,7 @@
     "height": "174cm",
     "weight": "47kg",
     "origin": "Norse Mythology",
+    "summary": "A resilient Warrior who grants herself immense shields and Attack boosts by cycling in and out of the [Grace] state. She randomly strikes enemies in a massive area with [Radiant Ash Ring], gaining significant enhancements based on her accumulated [Radiant Ember] stacks, and supports her team by granting [Morale] and [Attack Boost] during combat.",
     "lore": "Odin's attendant, a sacred and noble Valkyrie, belonging to Valhalla, the Temple of Heroes. Even among the Valkyries, she is the most powerful and compassionate, often riding a white horse across the skies, overlooking the earth, her gleaming shield reflecting the aurora borealis, giving warriors courage and faith.",
     "quote": "Prove your courage!",
     "talent": {
@@ -5226,7 +5286,7 @@
     "recommended_subclasses": [
       "Lord"
     ],
-    "last_updated": 1774528420
+    "last_updated": 1775854585
   },
   {
     "name": "Hitomi",
@@ -5249,6 +5309,7 @@
     "height": "173cm",
     "weight": "48kg",
     "origin": "Eastern Civilization",
+    "summary": "A synergistic Warrior who forms a [Link] with her highest-attack ally, granting mutual stat boosts and accumulating [Prison Vision] stacks when they deal active skill damage. She unleashes devastating dash slashes with [Demon-Subduing Consecutive Slashes] and significantly empowers her linked ally's attack and defense once her [Prison Vision] reaches maximum stacks.",
     "lore": "Hitomi, a Sengoku daimyo who rose from humble beginnings in one province to rule the entire Kinai region, successfully stormed Kyoto after breaking through the encirclement of various powerful daimyo, took control of the shogunate, and ultimately became the ruler of the entire Ashihara region.\nAs a child, Hitomi was known as a \"big fool\" among the people. She despised the rigid etiquette of the Eastern Kingdom and disdained her studies, often causing her parents headaches with her unruly nature. It wasn't until Hitomi personally led her army to conquer several cities and achieved numerous victories that people realized that the young lord's military talent was not to be underestimated.",
     "quote": "",
     "talent": {
@@ -5313,7 +5374,7 @@
     "recommended_subclasses": [
       "Lord"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Marylis",
@@ -5336,6 +5397,7 @@
     "height": "210cm",
     "weight": "78kg",
     "origin": "Indian Mythology",
+    "summary": "A high-risk Warrior who sacrifices her own health to deal heavy physical damage and restore multiple instances of HP using [Limit Breaker]. She further sacrifices health to unleash area-of-effect attacks with [Blade Dance] and becomes significantly more lethal in the [Wild] state, gaining massive Life Steal and increased damage for her skills.",
     "lore": "A demigod basilisk with six arms, born in the distant past, is arrogant and dangerous. She revels in bloodshed and slaughter, devoid of any human morality. She once reaped great victories in battles between evil creatures and gods, but was ultimately banished to the underground kingdom as punishment, condemned only to bite the wicked and the dying. Over countless ages, she has built a magnificent palace underground, amassing countless bizarre and wondrous treasures...",
     "quote": "Which hand will you hold!",
     "talent": {
@@ -5407,7 +5469,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Siegfried",
@@ -5430,6 +5492,7 @@
     "height": "165cm",
     "weight": "48kg",
     "origin": "Norse Mythology",
+    "summary": "A self-sustaining Warrior who excels at attacking elementally-debuffed enemies, gaining massive Attack and Life Steal bonuses against them through [Blazing Heart]. She deals heavy area-of-effect physical damage and inflicts [Ignite] with [Infernal Wyrm], and enters the [Wild] state to massively boost her defense and attack stats while granting shields.",
     "lore": "The only princess of Midham, the \"Kingdom Below the Mountain\", inherits the bloodline of the first hero, Sigurd. She has a straightforward and carefree personality. Having grown up listening to the legends of Sigurd, she also dreams of becoming a hero and protecting the people of Midham.",
     "quote": "Between you and me, it's irreconcilable!",
     "talent": {
@@ -5501,7 +5564,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Tyrfing",
@@ -5524,6 +5587,7 @@
     "height": "178cm",
     "weight": "57kg",
     "origin": "Norse Mythology",
+    "summary": "A lifesteal-heavy Warrior who transforms into [Bloodferno Form] using [Rage Reborn], gaining massive Attack, Life Steal, and area-of-effect basic attacks. She steals enemy Healing Received effects via [Crimson Plunder] and consistently sacrifices her own HP to deal heavy damage and gain [Attack Speed Boost] with [Soulburning Blade].",
     "lore": "Tyrfong, the sword of cleavage, once drawn, will surely strike its target, draw blood, and kill its master.",
     "quote": "So much death, so much power.",
     "talent": {
@@ -5596,7 +5660,7 @@
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Asteros",
@@ -5619,6 +5683,7 @@
     "height": "278cm",
     "weight": "340kg",
     "origin": "Greek Mythology",
+    "summary": "A resilient Warrior who enters the [Wild] state to unleash a relentless [Savage Cyclone], continuously dealing area-of-effect physical damage to nearby enemies. He rapidly recovers lost HP upon entering the [Wild] state using [Ancestral Will] and sacrifices his own health to materialize a spirit avatar that launches enemies into the air with [Heaven's Mandate].",
     "lore": "The Minotaur was born by chance under the curse of Poseidon, the god of the sea. In order to keep the existence of this bull-headed, man-bodied monster a secret, Minos asked Daedalus to build an extremely complex labyrinth as a prison to imprison the Minotaur.",
     "quote": "I'm stubborn as a bull.",
     "talent": {
@@ -5685,7 +5750,7 @@
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1772641754
+    "last_updated": 1775854585
   },
   {
     "name": "Beowulf",
@@ -5708,6 +5773,7 @@
     "height": "195cm",
     "weight": "93kg",
     "origin": "Norse Mythology",
+    "summary": "A resilient Warrior who defies death once per battle, instantly recovering health and gaining massive Attack Speed at the cost of continuous HP drain via his talent. He deals continuous area-of-effect magic damage through [Dark Rising] and steals enemy magic defense while delivering heavy single-target blows using [Hammer Time].",
     "lore": "A powerful warrior clad in jet-black armor, his body shimmering with ghostly flames. His physical form had long since decayed, but his warlike spirit refused to rest.",
     "quote": "I have shed my mortal form.",
     "talent": {
@@ -5773,7 +5839,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Guna",
@@ -5796,6 +5862,7 @@
     "height": "175cm",
     "weight": "55kg",
     "origin": "Norse Mythology",
+    "summary": "A resilient Warrior who empowers her basic attacks to deal heavy area damage and heal herself whenever she gains a [Blessing Buff] through [Aegis of Radiant Pact]. She focuses heavily on charging her [Iron Bulwark Shock] to deal massive area damage while granting [Morale], and excels at punishing shielded enemies by increasing her damage against them via [Shield-Shattering Blade].",
     "lore": "Guna was the kingdom's most loyal and courageous warrior, sacrificing herself to cover the retreat of her people during an enemy invasion. Selfless and fearless, that's how those around her always described her. After her sacrifice, Guna was guided to the heavens and reborn as a candidate Valkyrie.",
     "quote": "I was chosen by Odin himself!",
     "talent": {
@@ -5861,7 +5928,7 @@
     "recommended_subclasses": [
       "Vanguard"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Siegfried",
@@ -5884,6 +5951,7 @@
     "height": "165cm",
     "weight": "48kg",
     "origin": "Norse Mythology",
+    "summary": "A self-sustaining Warrior who gains massive Attack and Life Steal bonuses when attacking elementally-debuffed enemies through [Blazing Ambition]. She deals heavy area-of-effect physical damage and inflicts [Ignite] with [Blazing Vortex], and enters the [Wild] state to massively boost her defensive stats and overall attack power.",
     "lore": "The only princess of Midham, the \"Kingdom Below the Mountain\", inherits the bloodline of the first hero, Sigurd. She has a straightforward and carefree personality. Having grown up listening to the legends of Sigurd, she also dreams of becoming a hero and protecting the people of Midham.",
     "quote": "I already know the path ahead.",
     "talent": {
@@ -5949,7 +6017,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Grimnir",
@@ -5971,6 +6039,7 @@
     "height": "159cm",
     "weight": "91kg",
     "origin": "Norse Mythology",
+    "summary": "A relentless Warrior who significantly builds his Attack Speed by continuously attacking the same target through his [Fearless] talent. He launches colossal area-of-effect strikes with [Glory Days] and sacrifices his own HP to gain [Attack Up] and massive shields through [Valor's Cry], becoming completely immune to control effects in the [Wild] state.",
     "lore": "",
     "quote": "I will fight to the death!",
     "talent": {
@@ -6026,7 +6095,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Murphy",
@@ -6048,6 +6117,7 @@
     "height": "92cm",
     "weight": "37kg",
     "origin": "Hebrew Mythology",
+    "summary": "An anti-magic Warrior who penalizes enemies with high Overdrive costs, dealing additional damage, restoring his own HP, and gaining Magic Defense whenever they are present. He disrupts the enemy team by increasing their Overdrive Energy costs with [Duskfall] and consistently pierces single targets with [Furious Thrust].",
     "lore": "",
     "quote": "Show some manners... mortal!",
     "talent": {
@@ -6103,7 +6173,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Siegfried",
@@ -6125,6 +6195,7 @@
     "height": "165cm",
     "weight": "48kg",
     "origin": "Norse Mythology",
+    "summary": "A self-sustaining Warrior who gains Attack bonuses when attacking enemies afflicted with [Ignite] through [Blazing Ambition]. She spins through enemies to deal physical damage and apply [Ignite] with [Blazing Vortex], and enters the [Wild] state to massively boost her attack power while restoring lost HP from [Elemental Reaction]s.",
     "lore": "The only princess of Midham, the \"Kingdom Below the Mountain\", inherits the bloodline of the first hero, Sigurd. She has a straightforward and carefree personality. Having grown up listening to the legends of Sigurd, she also dreams of becoming a hero and protecting the people of Midham.",
     "quote": "I will save my kingdom!",
     "talent": {
@@ -6180,7 +6251,7 @@
     "recommended_subclasses": [
       "Vanguard"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Goblin Battering Ram",
@@ -6202,6 +6273,7 @@
     "height": "84cm",
     "weight": "33kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A sacrifice-based Warrior who deals massive single-target damage with [Siegebreaker], which scales with his current HP, before instantly dying. Upon death, he spawns two Goblin Clubbers that inherit his stats and gain [Adrenaline], ensuring continued offensive pressure.",
     "lore": "",
     "quote": "Heave ho... ouch!",
     "talent": {
@@ -6247,7 +6319,7 @@
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Siegfried",
@@ -6269,6 +6341,7 @@
     "height": "165cm",
     "weight": "48kg",
     "origin": "Norse Mythology",
+    "summary": "A basic Warrior who gains Attack bonuses when striking [Ignite]-afflicted enemies and heavily boosts her Attack by entering the [Wild] state. She spins through enemies to deal physical damage and apply [Ignite] using [Blazing Vortex].",
     "lore": "The only princess of Midham, the \"Kingdom Below the Mountain\", inherits the bloodline of the first hero, Sigurd. She has a straightforward and carefree personality. Having grown up listening to the legends of Sigurd, she also dreams of becoming a hero and protecting the people of Midham.",
     "quote": "I will save my kingdom!",
     "talent": {
@@ -6314,7 +6387,7 @@
     "recommended_subclasses": [
       "Vanguard"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Flame Slime",
@@ -6329,6 +6402,7 @@
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A basic Warrior unit that boosts its own damage through [Elemental Power]. It acts as a suicide bomber, dealing massive area-of-effect magic damage with [Martyr's Might] before immediately dying.",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -6358,7 +6432,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Apollo",
@@ -6381,6 +6455,7 @@
     "height": "176cm",
     "weight": "54kg",
     "origin": "Greek Mythology",
+    "summary": "A sustained-damage Archer who applies [Sigil of Radiance] with basic attacks, causing her skills to deal massive bonus physical damage based on the target's Max HP. She rapidly fires arrows at enemies using [Solar Arrow Stream] and [Lightfall Arrow Rain], increasing her critical damage permanently as she consistently applies her sigils.",
     "lore": "Apollo, the son of light, is the embodiment of music and prophecy. He is also the god of medicine and animal husbandry. Upholding justice and virtue, he guides humanity forward.",
     "quote": "My radiance isn't something you can handle.",
     "talent": {
@@ -6456,7 +6531,7 @@
     "recommended_subclasses": [
       "Bloodhunter"
     ],
-    "last_updated": 1772634281
+    "last_updated": 1775854585
   },
   {
     "name": "Artemis",
@@ -6479,6 +6554,7 @@
     "height": "176cm",
     "weight": "53kg",
     "origin": "Greek Mythology",
+    "summary": "A rapid-firing Archer who accumulates [Moon Soul] stacks to significantly boost her Attack and enter the [Full Moon] state, drastically increasing her Attack Speed and skill efficiency. She grants the [Dark Moon] state to allied ranged Luminaries with [Embrace of the Dark Moon], increasing their skill haste and damage, while automatically retaliating against attackers using [Owl Leap].",
     "lore": "She was the moon goddess and goddess of the hunt in Olympus, the daughter of Zeus and the Titan Leto, and the twin sister of Apollo.\nWhen Artemis was three years old, she asked her father for eternal purity, twenty nymphs as her handmaidens, and the power to rule over the mountains, forests, and cities. Zeus gladly granted her request and also bestowed upon her the position of guardian goddess of the continents and islands, allowing her silver light to shine upon the rivers, seas, and lands.",
     "quote": "",
     "talent": {
@@ -6555,7 +6631,7 @@
       "Sharpshooter",
       "Bloodhunter"
     ],
-    "last_updated": 1771993396
+    "last_updated": 1775854585
   },
   {
     "name": "Huginn & Muninn",
@@ -6578,6 +6654,7 @@
     "height": "166cm",
     "weight": "41kg",
     "origin": "Norse Mythology",
+    "summary": "A bouncing-attack Archer who sacrifices her own HP to make her basic attacks ricochet between enemies through [Ricochet]. She applies [Scar] to targets to massively increase her Critical Hit rate against them and ignores enemy Physical Defense, utilizing [Featherstorm] to deal heavy physical damage in a large fan-shaped area.",
     "lore": "A strange girl is always accompanied by a talking crow. She rarely speaks, but the crow that follows her chatteres incessantly, expressing her opinions and needs. She possesses extraordinary wisdom and enjoys observing changes in things from the shadows.",
     "quote": "No one can escape my eyes.",
     "talent": {
@@ -6649,7 +6726,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1773414613
+    "last_updated": 1775854585
   },
   {
     "name": "Ifrit",
@@ -6672,6 +6749,7 @@
     "height": "159cm",
     "weight": "42kg",
     "origin": "Arabian Mythology",
+    "summary": "An area-of-effect Archer who rapidly triggers [Flamebrand] to deal extra hits of physical damage after striking the same target multiple times. She bombards the enemy team with multiple fireballs using [Hexagram] and unleashes fiery vortexes that inflict [Ignite] with [Firestorm], scaling her hits based on accumulated [Awakening] stacks.",
     "lore": "Born from the element of fire, this demon possesses the power to manipulate all flames. By nature cruel, cunning, arrogant, and eager to create chaos, she is the vanguard of the Wild Hunt, following the orders of the Black Knight. Currently, she is sowing discord and causing disasters across various regions, finding not only pleasure in the chaos and turmoil she creates, but also thoroughly enjoying it.",
     "quote": "",
     "talent": {
@@ -6743,7 +6821,7 @@
     "recommended_subclasses": [
       "Light Ranger"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Jing",
@@ -6766,6 +6844,7 @@
     "height": "173cm",
     "weight": "52kg",
     "origin": "Eastern Civilization",
+    "summary": "A critical-focused Archer who creates an [Endless Edge] sword formation that drastically reduces enemy Movement Speed and automatically fires Phantom Swords whenever she or allied summons attack. She converts her critical hit rate into critical damage, dealing massive bonus damage when landing crits, and enters the [Wild] state to unleash a rapid five-blade consecutive attack.",
     "lore": "Jing is an assassin. From the time she can remember, she has been learning assassination techniques from her master, honing her skills day after day. Finally, on the day she came of age, her master gave her five short blades, telling her that her mission was to be the ruler of the world, to assassinate unjust gods, and to protect the rights of mortals.",
     "quote": "Right and wrong, good and evil, all follow one heart.",
     "talent": {
@@ -6837,7 +6916,7 @@
     "recommended_subclasses": [
       "Bounty Hunter"
     ],
-    "last_updated": 1773936891
+    "last_updated": 1775854585
   },
   {
     "name": "Medusa",
@@ -6860,6 +6939,7 @@
     "height": "190cm",
     "weight": "70kg",
     "origin": "Greek Mythology",
+    "summary": "A poison-focused Archer who applies [Venom Mark] with basic attacks, detonating them at max stacks to deal massive physical damage and potentially dispel enemy buffs. She delays enemy Overdrives by chaining her [Mystic Serpent] between targets and unleashes [Stonegaze] to heavily damage enemies in a line while inflicting [Petrify].",
     "lore": "A terrifying banshee with long hair covered in pythons, sometimes speaking to the pythons on her head. She possesses the ability to petrify, treating petrified human figures as precious toys and collectibles. She spends most of her time lurking in a dark, damp palace, waiting for prey to walk into her trap. For some reason, she harbors a stronger hostility towards men.",
     "quote": "Come here, cutie~",
     "talent": {
@@ -6931,7 +7011,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1773071584
+    "last_updated": 1775854585
   },
   {
     "name": "Mimir",
@@ -6954,6 +7034,7 @@
     "height": "172cm",
     "weight": "53kg",
     "origin": "Norse Mythology",
+    "summary": "A shield-generating Archer whose basic attacks generate [Shield of Wisdom] stacks, providing her with continuous shields and critical damage boosts. She deals massive physical damage that scales with her current shield value using [Cyclone Slash] and launches a rebounding [Time Flying Wheel] that deals heavy damage to enemies in its path.",
     "lore": "Mimir is a wise giant who understands the essence of all things, the master of the wellspring of wisdom. She is not a guardian of knowledge, but rather the very form in which knowledge flows.\nAt first, she was captivated by exploring the metaphysical laws of the world. She rejoiced in new life and wept for destruction. However, as the boundaries of knowledge reached their limit, the warp and weft of destiny wove together in her eyes into an unalterable map. She foresaw the fall of every drop of dew, the trajectory of every life, and even the end of the gods—all things rise and fall on their predetermined paths, without exception.",
     "quote": "",
     "talent": {
@@ -7025,7 +7106,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1775854585
   },
   {
     "name": "Ningluosi",
@@ -7048,6 +7129,7 @@
     "height": "166cm",
     "weight": "50kg",
     "origin": "Norse Mythology",
+    "summary": "An anti-shield Archer whose attacks completely ignore enemy shields and significantly boost her team's damage against shielded targets via [Poisonous Rose]. She applies [Withering Thorns] to enemies with [Corruption and Decay], prioritizing them for her extended-range basic attacks and crippling them with stat debuffs using [Death Whip].",
     "lore": "She was a new shoot that grew from the World Tree Yggdrasil beside the spring of Hvaghmir, and was named Nimros by the gods, meaning \"white flower\".\nThat day, the black dragon Nidhogg gnawed through the main root, and its poisonous saliva surged up her buds year after year. The source poison and tree sap coexisted in her blood vessels, and she heard countless parallel universes of herself begin to pulsate at the same moment.",
     "quote": "",
     "talent": {
@@ -7119,7 +7201,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1775854585
   },
   {
     "name": "Orion",
@@ -7142,6 +7224,7 @@
     "height": "171cm",
     "weight": "52kg",
     "origin": "Greek Mythology",
+    "summary": "A rapid-firing Archer who accumulates Energy to enter the [Concentration] state, replacing her basic attacks with high-damage wind gusts that inflict [Heal Block]. She locks onto a single target with [Magic Crystal Arrow], increasing their Overdrive cost, inflicting [Chill], and extending her attack range for sustained damage against them.",
     "lore": "She is a sharp arrow in the frost and snow, piercing the air with a sharp sound; wherever her icy arrows reach, nothing alive remains... Even so, her heart still seeks revenge.",
     "quote": "",
     "talent": {
@@ -7213,7 +7296,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1775486487
+    "last_updated": 1775854585
   },
   {
     "name": "Lorillin",
@@ -7236,6 +7319,7 @@
     "height": "154cm",
     "weight": "0kg",
     "origin": "Norse Mythology",
+    "summary": "A supportive Archer who heavily synergizes with [Elemental Reaction]s and [Shock], raining down pillars of light on shocked enemies via [Divine Punishment]. She applies [Shock] and deals heavy physical damage with [Flashkick], while supporting her team by granting [High Morale] and [Attack Speed Boost] through [Blessing of Brilliance].",
     "lore": "Born from the light, this elemental being spends most of her time concealing her form and rarely appears before humans. She has a carefree personality, and the golden light emanating from her gives off a gentle feeling. However, due to certain reasons, she is forced to work tirelessly for her superiors, and it seems she has accumulated quite a few unspoken complaints and grievances…",
     "quote": "May this light illuminate your path.",
     "talent": {
@@ -7308,7 +7392,7 @@
       "Bloodhunter",
       "Light Ranger"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Medusa",
@@ -7331,6 +7415,7 @@
     "height": "190cm",
     "weight": "70kg",
     "origin": "Greek Mythology",
+    "summary": "A poison-focused Archer who applies [Venom Mark] with basic attacks, detonating them at max stacks to deal heavy physical damage and strip enemy buffs. She delays enemy Overdrives by chaining her [Mystic Serpent] between targets and unleashes [Stonegaze] to heavily damage enemies in a line while inflicting [Petrify].",
     "lore": "A terrifying banshee with long hair covered in pythons, sometimes speaking to the pythons on her head. She possesses the ability to petrify, treating petrified human figures as precious toys and collectibles. She spends most of her time lurking in a dark, damp palace, waiting for prey to walk into her trap. For some reason, she harbors a stronger hostility towards men.",
     "quote": "Come here, cutie~",
     "talent": {
@@ -7396,7 +7481,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1772634281
+    "last_updated": 1775854585
   },
   {
     "name": "Van Helsing",
@@ -7419,6 +7504,7 @@
     "height": "185cm",
     "weight": "74kg",
     "origin": "European Folklore",
+    "summary": "A rapid-firing Archer whose Attack Speed continuously scales throughout the battle every time she casts a skill via [Swift Shot]. She unleashes a massive barrage of projectiles that scales directly with her Attack Speed through [Waltz of the Wicked], and deals heavy single-target physical damage that scales against high-energy enemies with [Demonbane Crossbow].",
     "lore": "It is said that the Witcher Van Helsing came to the Mirage Mountain in pursuit of a bloodthirsty werewolf. However, even with her superb witch-hunting skills, she needed to explore the geography of the unknown environment before she could accurately track the werewolf's tracks.",
     "quote": "Hmph, struggle all you want!",
     "talent": {
@@ -7484,7 +7570,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Nessus",
@@ -7506,6 +7592,7 @@
     "height": "221cm",
     "weight": "301kg",
     "origin": "Greek Mythology",
+    "summary": "A sacrifice-based Archer who constantly drains her own HP to empower her basic attacks with bonus physical damage through [Pyreforged Lance]. She significantly boosts her Attack and Life Steal by sacrificing health with [Boiling Blood] and enters the [Wild] state to gain a massive Attack Speed increase.",
     "lore": "",
     "quote": "Spears, pierce through the armor!",
     "talent": {
@@ -7561,7 +7648,7 @@
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Polyphemus",
@@ -7583,6 +7670,7 @@
     "height": "393cm",
     "weight": "563kg",
     "origin": "Greek Mythology",
+    "summary": "A summon-reliant Archer who has a chance to summon a Boar minion and deal extra physical damage with every basic attack via [Dud]. He throws massive rocks to deal area physical damage with [Meteor Shower] and heavily scales his Critical Hit rate whenever allies are defeated using [Cannibalize].",
     "lore": "",
     "quote": "Hehe, play with me.",
     "talent": {
@@ -7638,7 +7726,7 @@
     "recommended_subclasses": [
       "Light Ranger"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Dwarven Cannoneer",
@@ -7660,6 +7748,7 @@
     "height": "147cm",
     "weight": "85kg",
     "origin": "Norse Mythology",
+    "summary": "An ammo-based Archer who consumes bullets with her basic attacks to deal area-of-effect physical damage through her [Barrel Up] talent. She deals extra damage to enemies with high Overdrive costs and unleashes massive explosive damage in a small area using [Blazing Barrel].",
     "lore": "",
     "quote": "Let's make some noise!",
     "talent": {
@@ -7705,7 +7794,7 @@
     "recommended_subclasses": [
       "Bloodhunter"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Wood Elf Archer",
@@ -7727,6 +7816,7 @@
     "height": "146cm",
     "weight": "40kg",
     "origin": "Norse Mythology",
+    "summary": "A rapid-firing Archer who significantly boosts her Attack Speed by consuming [Awakening] stacks via [Blessing of the Elves]. She deals heavy physical damage to a single target with [Burst Fire] and targets an area with [Cloudpiercer], dealing extra damage to enemies with high Overdrive costs.",
     "lore": "",
     "quote": "Arrows never miss!",
     "talent": {
@@ -7772,7 +7862,7 @@
     "recommended_subclasses": [
       "Bounty Hunter"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Lightning Slime",
@@ -7787,6 +7877,7 @@
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A basic Archer unit that increases its Attack Speed passively through [Elemental Power]. It uses [Lightning Rod] to continuously deal random physical damage shocks to enemy Luminaries over a duration.",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -7816,7 +7907,7 @@
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Loki",
@@ -7839,6 +7930,7 @@
     "height": "175cm",
     "weight": "61kg",
     "origin": "Greek Mythology",
+    "summary": "An evasive Mage who drops below half health to become Invincible and summon highly-damaging mirror images of herself via [Master of Deception]. She marks targets to significantly ignore their magic defense using [Evil Mark Demon Bullet], and constantly copies and enhances her previously cast skills with [Repeat the Same Trick].",
     "lore": "Loki, an Asgardian god born of giants. Her giant status destined her to be disliked by the Asgardian gods, yet her power forced them to suppress their discontent. She was like a double prism, sometimes revealing a dazzling and cunning allure, and at other times transforming into an unfathomable chaotic fire.",
     "quote": "",
     "talent": {
@@ -7915,7 +8007,7 @@
       "Astrologer",
       "Grand Archmage"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Poseidon",
@@ -7938,6 +8030,7 @@
     "height": "191cm",
     "weight": "85kg",
     "origin": "Greek Mythology",
+    "summary": "A control-heavy Mage who excels at applying [Chill] and triggering massive additional damage through [Elemental Sovereign]. She unleashes massive tidal waves with [Wail of the Deep] and delays enemy Overdrives using [Tide of the Abyss], while possessing a one-time death immunity that restores her health through [Frost Barrier].",
     "lore": "Poseidon, the goddess of the sea, is the ruler of the ocean, earthquakes, and horses. Legend has it that Poseidon gave humankind its first horse, and she often drove a golden chariot drawn by white horses across the sea.",
     "quote": "A new storm has emerged!",
     "talent": {
@@ -8014,7 +8107,7 @@
       "Elementalist",
       "Potion Master"
     ],
-    "last_updated": 1772634281
+    "last_updated": 1775854585
   },
   {
     "name": "Catherine",
@@ -8037,6 +8130,7 @@
     "height": "171cm",
     "weight": "55kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A crippling Mage who accumulates [Ice Soul Mark]s to generate a devastating [Frost Vortex], heavily slowing enemy movement and attack speed while dealing continuous area damage. She grants powerful shields and damage boosts to her allies using [Frozen Armor] and repeatedly applies [Chill] and [Magic Defense Down] with [Ice Crystal Blast].",
     "lore": "In the era of Catherine the Great, the supreme empress of the North, the monarch of the Romanov dynasty, and the only female ruler in the history of the North to be given the title \"the Great\", she expanded the territory with the might of thunder and forged the golden age of the empire with her majesty and strategy.\nShe grew up surrounded by the love and expectations of her family. Everything changed dramatically when she was fourteen, in the bitter winter of that year. A sudden rebellion broke out among the barbarians on the empire's borders. Her father and brothers led troops to quell the uprising, but ultimately failed to return home, forever remaining in that snow-covered winter.",
     "talent": {
       "name": "Winter's End",
@@ -8108,7 +8202,7 @@
       "Astrologer",
       "Potion Master"
     ],
-    "last_updated": 1773334188
+    "last_updated": 1775854585
   },
   {
     "name": "Cleopatra",
@@ -8131,6 +8225,7 @@
     "height": "168cm",
     "weight": "41kg",
     "origin": "Egyptian Civilization",
+    "summary": "A summon-heavy Mage who spawns an army of Mummies with every non-Overdrive skill cast, which inherit her stats and explode on enemies. She directs her Mummies to charge and self-destruct for massive area damage using [Arc Burst], and provides magic shields to her entire undead army with [Arc Shield].",
     "lore": "Cleopatra VII, a ruthless pharaoh who ruled Egypt for many years, was a woman of immense power. Her stunning beauty captivated countless men and became a powerful tool for her strategic maneuvering. Naturally intelligent, she not only possessed keen insight into human nature but also had a deep understanding of various esoteric arts. Rumor has it that the forbidden power of resurrection was what she truly sought…",
     "quote": "Do you seek the quicksand secrets?",
     "talent": {
@@ -8203,7 +8298,7 @@
       "Astrologer",
       "Potion Master"
     ],
-    "last_updated": 1773071584
+    "last_updated": 1775854585
   },
   {
     "name": "Crassus",
@@ -8226,6 +8321,7 @@
     "height": "174cm",
     "weight": "58kg",
     "origin": "Eastern Civilization",
+    "summary": "A disruptive Mage who constantly steals ultimate cooldowns from enemies whenever the [Punishment] effect is triggered via [Eclipse Authority]. she summons devastating meteorites that dispel enemy buffs and knock them back with [Gravitational Star Core], and inflicts [Next Ultimate Skill Energy Cost +1] and [Silence] using [Collapse Point].",
     "lore": "Crassus was born into a military aristocratic family in the Nibelgard Empire, receiving rigorous tactical and leadership training from a young age. As the sole heir to the family fortune, she not only continued the martial tradition but also broke free from the family's shackles of solely engaging in military affairs with her exceptional business acumen, accumulating immense wealth through numerous successful investments. With her unique personal charisma and iron-fisted methods, she built a private army completely loyal to her, continuously expanding the family's sphere of influence. Ultimately, relying on shrewd political strategy and decisive military action, she ascended to the high position of Imperial Consul.",
     "quote": "",
     "talent": {
@@ -8297,7 +8393,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Faust",
@@ -8320,6 +8416,7 @@
     "height": "146cm",
     "weight": "31kg",
     "origin": "European Folklore",
+    "summary": "A unique summoner Mage who forms a [Soulbound] connection with her minion Krul, sharing Attack buffs and healing him by consuming [Deathrattle] stacks. She commands Krul to deal heavy area magic damage with [Krul Charge] and attaches delayed-explosion [Bunny Bomb]s to enemies or Krul himself for massive area-of-effect damage.",
     "lore": "Driven by a thirst for knowledge, she performed a secret art of immortality, remaining in the world as a young girl for hundreds of years, becoming a scholar who had read all the books in the world and possessed all the knowledge in the world. Because there was no new knowledge left for her to learn, she felt an unbearable boredom. So she embarked on a journey to find that knowledge, which may or may not exist, that would \"satisfy her\".",
     "quote": "Kururu will always protect me.",
     "talent": {
@@ -8391,7 +8488,7 @@
     "recommended_subclasses": [
       "Astrologer"
     ],
-    "last_updated": 1771870646
+    "last_updated": 1775854585
   },
   {
     "name": "Gabriele",
@@ -8414,6 +8511,7 @@
     "height": "177cm",
     "weight": "55kg",
     "origin": "Hebrew Mythology",
+    "summary": "A critical-focused Mage who gains immense Critical Hit boosts and restores HP on crits via [Judgment of Mercy]. She becomes untargetable and unleashes heavy area magic damage slashes with [Invictus], heavily enhancing her Overdrive damage by consuming [Deathrattle] stacks gained from fallen allies using [Celestial Awakening].",
     "lore": "One of the archangels of Heaven, she is proud and steadfast in her duty as the guardian of the realm. Protected by the gods, she is invincible and frequently bestows celestial power upon righteous warriors, earning her the adoration of the brave. She is fiercely opposed to evil and bears the mission of eradicating all darkness and wickedness from the world, leading the celestial army in an eternal battle against Hell.",
     "quote": "The righteous need no prayers.",
     "talent": {
@@ -8485,7 +8583,7 @@
     "recommended_subclasses": [
       "Rune Mage"
     ],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   },
   {
     "name": "Gullveig",
@@ -8508,6 +8606,7 @@
     "height": "171cm",
     "weight": "50kg",
     "origin": "Norse Mythology",
+    "summary": "A debuff-scaling Mage whose damage significantly increases based on the number of debuffs afflicting her target through [Dominion of Pain]. she applies [Healing Down] in a large area with [Abyssal Grasp] and continuously drains health from a single target to heal her most injured ally using [Soul Siphon].",
     "lore": "A priestess with extensive knowledge of potions and torture, she can observe the movements of other planes. However, legend says that only she possesses the secret art of resurrection, which is the reason her status is comparable to that of a god. Beneath her alluring exterior lies a twisted personality and eccentricities, finding pleasure in toying with humans.",
     "quote": "The age of the gods is long gone!",
     "talent": {
@@ -8580,7 +8679,7 @@
       "Elementalist",
       "Astrologer"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Talos",
@@ -8603,6 +8702,7 @@
     "height": "160cm",
     "weight": "52kg",
     "origin": "Greek Mythology",
+    "summary": "A mechanical Mage who places numerous waiting mechanical orbs around the battlefield, eventually entering the [Wild] state to activate all of them simultaneously for massive rapid-fire magic damage via [Idle Command]. She deals heavy area damage and recovers Rage based on her orbs using [Destroy Command], while supporting her team by reducing ultimate cooldowns with [Charge Command].",
     "lore": "One of the greatest creations of the Bronze Age, Talos was forged in bronze by Hephaestus, and Zeus granted her immortality with the elixir of the gods. When her colossal body vanished, Talos embarked alone on a journey to find the elixir and a way to restore her to her former glory.",
     "quote": "",
     "talent": {
@@ -8675,7 +8775,7 @@
       "Astrologer",
       "Grand Archmage"
     ],
-    "last_updated": 1772261350
+    "last_updated": 1775854585
   },
   {
     "name": "Tamamo",
@@ -8698,6 +8798,7 @@
     "height": "165cm",
     "weight": "42kg",
     "origin": "Japanese Legend",
+    "summary": "A debuff-heavy Mage who steals enemy magic defense and ultimate damage by applying [Foxfire Bind] stacks with her skills. She unleashes a massive barrage of magic projectiles with [Foxfire Dance], and has a strong chance to inflict [Charm] on enemies while gaining [Blessing Buff]s using [Nine-Tailed Bewitching].",
     "lore": "A peerless beauty who appeared at the end of the Heian period, a legendary fox spirit with an elusive origin.\nIt all began by chance when a fox spirit met and fell in love with a girl named \"Zao Nu.\" Zao Nu's pure and innocent kindness made her the fox spirit's primary example for observing humanity and experiencing warmth. Zao Nu was fortunate. Orphaned in her childhood, she was lovingly adopted by a warrior couple, allowing her to grow into a graceful young woman in peaceful times, free from want and with a pure heart. Later, with her outstanding talent and captivating beauty, she found herself trapped in the palace.",
     "talent": {
       "name": "Soul Stealing",
@@ -8768,7 +8869,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1775486487
+    "last_updated": 1775854585
   },
   {
     "name": "Vermilion Bird",
@@ -8791,6 +8892,7 @@
     "height": "174cm",
     "weight": "58kg",
     "origin": "Eastern Civilization",
+    "summary": "An explosive Mage who accumulates [Sunfire] stacks on enemies affected by [Detonation] or [Evaporation], significantly increasing her damage against them. She unleashes a fire tornado that deals continuous area damage and applies [Ignite] with [Brahma Fire Dance], and possesses a powerful [Rebirth] skill that allows her to survive fatal damage and resurrect from an egg.",
     "lore": "Born from the power of the stars, the Vermilion Bird Goddess is one of the Four Divine Beasts, along with the Azure Dragon, White Tiger, and Black Tortoise, and has protected the human world through the changing seasons for thousands of years. She is responsible for guarding the south, and always appears as a girl in red, holding a feather fan made of flames, controlling the purest fire in the world, and commanding the seven southern constellations.",
     "quote": "",
     "talent": {
@@ -8862,7 +8964,7 @@
     "recommended_subclasses": [
       "Elementalist"
     ],
-    "last_updated": 1775486487
+    "last_updated": 1775854585
   },
   {
     "name": "Cerberus",
@@ -8885,6 +8987,7 @@
     "height": "117cm",
     "weight": "96kg",
     "origin": "Greek Mythology",
+    "summary": "A burst-focused Mage who deals heavy initial damage but enters a dormant, weakened state after casting 5 skills via [Primal Urgency]. She spits multiple fireballs that increase enemy Overdrive costs with [Doomflare] and releases pillars of fire that heavily damage random enemies using [Candle of Oblivion].",
     "lore": "The beast of the underworld, the hellhound, guards the gate, and no one is allowed to leave from here.",
     "quote": "I'll split you into three pieces.",
     "talent": {
@@ -8950,7 +9053,7 @@
     "recommended_subclasses": [
       "Elementalist"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Cleopatra",
@@ -8973,6 +9076,7 @@
     "height": "168cm",
     "weight": "41kg",
     "origin": "Egyptian Civilization",
+    "summary": "A summon-heavy Mage who continuously spawns Mummies with her skills to fight alongside her. She directs her Mummies to charge the enemy and self-destruct for heavy area damage using [Arc Burst], and provides magic shields to her entire undead army with [Arc Shield].",
     "lore": "Cleopatra VII, a ruthless pharaoh who ruled Egypt for many years, was a woman of immense power. Her stunning beauty captivated countless men and became a powerful tool for her strategic maneuvering. Naturally intelligent, she not only possessed keen insight into human nature but also had a deep understanding of various esoteric arts. Rumor has it that the forbidden power of resurrection was what she truly sought…",
     "quote": "Do you seek the quicksand secrets?",
     "talent": {
@@ -9039,7 +9143,7 @@
       "Astrologer",
       "Potion Master"
     ],
-    "last_updated": 1772634281
+    "last_updated": 1775854585
   },
   {
     "name": "Melina",
@@ -9062,6 +9166,7 @@
     "height": "166cm",
     "weight": "46kg",
     "origin": "European Folklore",
+    "summary": "A burst-focused Mage who deals heavy magic damage in a line and inflicts [Ignite] using [Phoenix Talon], which becomes permanently buffed when she enters the [Grace] state. She inflicts [Magic Defense Down] with [Sanctum of Light] and consistently supports her team by providing [Morale] and [Damage Boost] with [Arcane Blessing].",
     "lore": "Melina, Child of Flame. When the Archmage found the child, he named her after himself. The baby was abandoned at Merlin's doorstep, engulfed in flames, without even a letter explaining her situation. The Archmage had no choice but to take the infant girl home, but after searching for a long time, he still didn't know who her parents were…",
     "quote": "This is... the Grand Flame Burst!",
     "talent": {
@@ -9133,7 +9238,7 @@
     "recommended_subclasses": [
       "Elementalist"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Nanalie",
@@ -9156,6 +9261,7 @@
     "height": "165cm",
     "weight": "72kg",
     "origin": "Norse Mythology",
+    "summary": "A supportive Mage who enters the [Wild] state to constantly heal allies in a large area and reduce their Overdrive cooldowns via [Wild Echo]. She deals heavy area magic damage with [Heavenly Light Lotus] and grants [Adrenaline] to her highest-Rage ally while dealing continuous area damage around them with [Forest Sentinel].",
     "lore": "The fawn, newly transformed into human form, resembles a young girl, innocent and carefree. Unaware of the ways of the world, yet possessing a clear mind. She can communicate with plants and trees, and harbors curiosity and goodwill towards everything.",
     "quote": "I-I will protect the forest!",
     "talent": {
@@ -9228,7 +9334,7 @@
       "Astrologer",
       "Grand Archmage"
     ],
-    "last_updated": 1771993396
+    "last_updated": 1775854585
   },
   {
     "name": "Telperion",
@@ -9251,6 +9357,7 @@
     "height": "154cm",
     "weight": "0kg",
     "origin": "Norse Mythology",
+    "summary": "A burst Mage who triggers extra damage and applies [Shock] after hitting the same target multiple times via [Void Disintegration]. She channels a devastating beam of energy with [Ray of Ruination] and inflicts [Heal Block] on the enemy center while dealing area magic damage using [Umbral Edge].",
     "lore": "These elemental creatures, born from the darkness, spend most of their time concealed and rarely appear before humans. They possess a somber nature, and the eerie glow emanating from them is often unsettling…",
     "quote": "Embrace the darkness.",
     "talent": {
@@ -9322,7 +9429,7 @@
     "recommended_subclasses": [
       "Elementalist"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Buck",
@@ -9344,6 +9451,7 @@
     "height": "89cm",
     "weight": "36kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A self-sustaining Mage who gains [Flame Armor] and rapid health recovery when his HP drops low via [Flameborn Armor]. He deals heavy area magic damage and applies [Ignite] with [Magma Pulse], while creating a continuous scorching wall of fire to damage passing enemies using [Flamethrower].",
     "lore": "",
     "quote": "Did I cause trouble again?",
     "talent": {
@@ -9399,7 +9507,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Kleina",
@@ -9421,6 +9529,7 @@
     "height": "160cm",
     "weight": "0kg",
     "origin": "European Folklore",
+    "summary": "A disruptive Mage who heavily counters enemy Overdrives by automatically applying [Punishment] and dealing magic damage whenever an enemy casts a high-cost Overdrive via [Soul Reaper]. She deals massive area magic damage to both allies and enemies with [Death's Embrace] and scales her Attack whenever allies fall.",
     "lore": "",
     "quote": "Where... are we going...",
     "talent": {
@@ -9476,7 +9585,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Dwarven Sage",
@@ -9498,6 +9607,7 @@
     "height": "146cm",
     "weight": "82kg",
     "origin": "Norse Mythology",
+    "summary": "An elemental-synergy Mage who deals bonus magic damage to enemies afflicted with [Chill] using [Touch of Cold]. She unleashes an icy storm to deal area damage and apply [Chill] with [Iceplosion], while supporting her team by granting [Morale] upon triggering [Elemental Reaction]s.",
     "lore": "",
     "quote": "Runes, forge my will!",
     "talent": {
@@ -9543,7 +9653,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Pharaoh",
@@ -9565,6 +9675,7 @@
     "height": "136cm",
     "weight": "36kg",
     "origin": "Egyptian Civilization",
+    "summary": "A lifesteal Mage who scales his Attack permanently as allies fall on the battlefield via [Shroud]. He drains the life of a single target over time to restore his own health with [Bloodsuck] and deals area magic damage around a target using [Toxic Touch].",
     "lore": "",
     "quote": "Who disturbs my peace...",
     "talent": {
@@ -9610,7 +9721,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1773677829
+    "last_updated": 1775854585
   },
   {
     "name": "Ice Slime",
@@ -9625,6 +9736,7 @@
     "height": "?cm",
     "weight": "?kg",
     "origin": "Modern Fantasy Literature",
+    "summary": "A basic Mage unit that boosts its own damage output through [Elemental Power]. It continuously spits snowballs to deal heavy single-target magic damage with [Breath of Ice].",
     "lore": "",
     "quote": "Bubble!",
     "talent": {
@@ -9654,6 +9766,6 @@
       "accessory": "Starlight Magisterium"
     },
     "recommended_subclasses": [],
-    "last_updated": 1772600511
+    "last_updated": 1775854585
   }
 ]

@@ -31,6 +31,8 @@ import {
 
 export function BenchSection({
 	bench,
+	title = 'Bench',
+	description,
 	charMap,
 	characterByIdentity,
 	characterNameCounts,
@@ -41,6 +43,8 @@ export function BenchSection({
 	desktopMode = false,
 }: {
 	bench: TeamBenchMember[];
+	title?: string;
+	description?: string;
 	charMap: Map<string, Character>;
 	characterByIdentity: Map<string, Character>;
 	characterNameCounts: Map<string, number>;
@@ -59,11 +63,16 @@ export function BenchSection({
 	return (
 		<Stack gap={isMobile ? 'xs' : 'sm'}>
 			<Group gap="sm">
-				<Title order={3}>Bench</Title>
+				<Title order={3}>{title}</Title>
 				<Badge variant="light" color={accent.secondary} size="sm">
 					{bench.length}
 				</Badge>
 			</Group>
+			{description && (
+				<Text size="sm" c="dimmed">
+					{description}
+				</Text>
+			)}
 			<SimpleGrid
 				cols={{ base: 1, xs: 2, sm: 3, md: 4 }}
 				spacing={{ base: 'xs', sm: 'sm' }}

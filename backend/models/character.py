@@ -70,6 +70,7 @@ class Character(BaseModel):
     lore: str
     quote: str
     origin: str
+    summary: str = ""
     talent: Talent | None = None
     skills: list[Skill]
     noble_phantasm: str

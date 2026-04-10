@@ -176,6 +176,14 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    pattern: '/teams/saved/:teamSlug',
+    meta: {
+      title: 'Saved Team',
+      description:
+        'View a saved custom team with member roles, substitutes, and faction context.',
+    },
+  },
+  {
     pattern: '/codes',
     meta: {
       title: 'Codes',

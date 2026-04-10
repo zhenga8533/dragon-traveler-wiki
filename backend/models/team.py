@@ -27,6 +27,12 @@ class TeamBenchMember(BaseModel):
     note: str | None = None
 
 
+class TeamPlaceholderMember(BaseModel):
+    character_name: str
+    character_quality: Quality | None = None
+    note: str | None = None
+
+
 class TeamWyrmspells(BaseModel):
     breach: str | None = None
     refuge: str | None = None
@@ -42,6 +48,7 @@ class Team(BaseModel):
     faction: FactionName
     members: list[TeamMember]
     bench: list[TeamBenchMember] | None = None
+    placeholders: list[TeamPlaceholderMember] | None = None
     wyrmspells: TeamWyrmspells | None = None
     last_updated: int | None = None
 
@@ -73,6 +80,23 @@ class Team(BaseModel):
             return None
         if not isinstance(v, list):
             raise ValueError("bench must be an array")
+
+        normalized = []
+        for entry in v:
+            if isinstance(entry, str):
+                normalized.append({"character_name": entry})
+                continue
+            normalized.append(entry)
+
+        return normalized
+
+    @field_validator("placeholders", mode="before")
+    @classmethod
+    def normalize_placeholder_entries(cls, v):
+        if v is None:
+            return None
+        if not isinstance(v, list):
+            raise ValueError("placeholders must be an array")
 
         normalized = []
         for entry in v:
