@@ -1,5 +1,27 @@
 [
   {
+    "name": "Target! Grand Slam! Begins!",
+    "event_id": "6761604792",
+    "type": "",
+    "description": "SSR+ Vermilion Bird descends! Join the \"Target! Grand Slam!\" event to get the exclusive Tennis Club Captain skin!",
+    "characters": [],
+    "is_global": true,
+    "start_date": "2026-04-09",
+    "end_date": null,
+    "last_updated": 1775759269
+  },
+  {
+    "name": "The Phantasia Games Are Here!",
+    "event_id": "6761604990",
+    "type": "",
+    "description": "The Phantasia Games are underway! Get rare loot and unique sports skins! Love and rivalry clash on the sports field!",
+    "characters": [],
+    "is_global": true,
+    "start_date": "2026-04-09",
+    "end_date": null,
+    "last_updated": 1775759269
+  },
+  {
     "name": "Rerun Gacha #10",
     "event_id": null,
     "type": "Release",
@@ -64,8 +86,8 @@
     "characters": [],
     "is_global": true,
     "start_date": "2026-03-26",
-    "end_date": null,
-    "last_updated": 1775197619
+    "end_date": "2026-04-09",
+    "last_updated": 1775759269
   },
   {
     "name": "Rerun Gacha #9",
