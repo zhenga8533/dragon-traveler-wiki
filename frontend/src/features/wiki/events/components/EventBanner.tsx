@@ -1,9 +1,43 @@
 import { Group, Image, Paper, Skeleton, UnstyledButton } from '@mantine/core';
-import { useEffect, useReducer } from 'react';
+import { useEffect, useReducer, useState } from 'react';
 import { getIllustrations } from '@/assets/character';
 import { getEventImage, placeholderEventImage } from '@/assets/event';
 
 const INDICATOR_DOT_SIZE = 8;
+const BANNER_TICK_MS = 3000;
+
+// Module-level singleton so all banners rotate in lockstep.
+let _tick = 0;
+let _intervalId: ReturnType<typeof setInterval> | null = null;
+const _subscribers = new Set<(t: number) => void>();
+
+function _startTick() {
+  if (_intervalId !== null) return;
+  _intervalId = setInterval(() => {
+    _tick += 1;
+    _subscribers.forEach((cb) => cb(_tick));
+  }, BANNER_TICK_MS);
+}
+
+function _stopTick() {
+  if (_subscribers.size > 0 || _intervalId === null) return;
+  clearInterval(_intervalId);
+  _intervalId = null;
+}
+
+function useSharedBannerTick(enabled: boolean): number {
+  const [localTick, setLocalTick] = useState(_tick);
+  useEffect(() => {
+    if (!enabled) return;
+    _subscribers.add(setLocalTick);
+    _startTick();
+    return () => {
+      _subscribers.delete(setLocalTick);
+      _stopTick();
+    };
+  }, [enabled]);
+  return localTick;
+}
 
 interface IllustrationState {
   src: string | null;
@@ -65,11 +99,12 @@ function useIllustration(characters: string[]): IllustrationState {
     };
   }, [charKey, characters]);
 
+  const sharedTick = useSharedBannerTick(srcs.length > 1);
   useEffect(() => {
     if (srcs.length <= 1) return;
-    const timer = setInterval(() => dispatch({ type: 'tick' }), 3000);
-    return () => clearInterval(timer);
-  }, [srcs.length]);
+    dispatch({ type: 'tick' });
+  // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [sharedTick]);
 
   return {
     src: srcs.length > 0 ? srcs[idx] : null,
