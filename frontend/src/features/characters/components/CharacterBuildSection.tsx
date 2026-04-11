@@ -5,7 +5,6 @@ import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import QualityIcon from '@/components/ui/QualityIcon';
 import {
   getCardHoverProps,
-  LINK_FIT_CONTENT_RESET_STYLE,
   RICH_TOOLTIP_STYLES,
 } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
@@ -190,7 +189,7 @@ export default function CharacterPageBuildSection({
                         <Stack gap="xs">
                           <Link
                             to={`/noble-phantasms/${toEntitySlug(linkedNoblePhantasm.name)}`}
-                            style={LINK_FIT_CONTENT_RESET_STYLE}
+                            style={{ textDecoration: 'none', width: 'fit-content' }}
                           >
                             <Group gap="sm" wrap="nowrap">
                               {noblePhantasmIcon && (
@@ -515,7 +514,7 @@ export default function CharacterPageBuildSection({
                         {entry.setName ? (
                           <Link
                             to={`/gear-sets/${toEntitySlug(entry.setName)}`}
-                            style={{ ...LINK_FIT_CONTENT_RESET_STYLE, width: '100%', display: 'block' }}
+                            style={{ textDecoration: 'none', width: '100%', display: 'block' }}
                           >
                             <Paper
                               p="sm"

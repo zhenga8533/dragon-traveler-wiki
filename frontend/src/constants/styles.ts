@@ -139,11 +139,6 @@ export const LINK_BLOCK_RESET_STYLE = {
   display: 'block',
 } as const satisfies CSSProperties;
 
-export const LINK_FIT_CONTENT_RESET_STYLE = {
-  textDecoration: 'none',
-  width: 'fit-content',
-} as const satisfies CSSProperties;
-
 /** Flex layout for an anchor containing an icon + text label */
 export const ICON_TEXT_FLEX_STYLE = {
   display: 'flex',
