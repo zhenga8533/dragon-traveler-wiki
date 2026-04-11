@@ -8880,7 +8880,7 @@
       "Elemental Echo",
       "Illusion Veil"
     ],
-    "is_global": false,
+    "is_global": true,
     "subclasses": [
       "Wizard",
       "Sorcerer",
@@ -8892,63 +8892,63 @@
     "height": "174cm",
     "weight": "58kg",
     "origin": "Eastern Civilization",
-    "summary": "An explosive Mage who accumulates [Sunfire] stacks on enemies affected by [Detonation] or [Evaporation], significantly increasing her damage against them. She unleashes a fire tornado that deals continuous area damage and applies [Ignite] with [Brahma Fire Dance], and possesses a powerful [Rebirth] skill that allows her to survive fatal damage and resurrect from an egg.",
+    "summary": "An explosive Mage who accumulates [Scorching Sun] stacks on enemies affected by [Detonation] or [Evaporation], significantly increasing her damage against them. She unleashes a fire tornado that deals continuous area damage and applies [Ignite] with [Brahma's Fire Dance], and possesses a powerful [Nirvanic Rebirth] skill that allows her to survive fatal damage and resurrect from an egg.",
     "lore": "Born from the power of the stars, the Vermilion Bird Goddess is one of the Four Divine Beasts, along with the Azure Dragon, White Tiger, and Black Tortoise, and has protected the human world through the changing seasons for thousands of years. She is responsible for guarding the south, and always appears as a girl in red, holding a feather fan made of flames, controlling the purest fire in the world, and commanding the seven southern constellations.",
-    "quote": "",
+    "quote": "Leader of all birds, born of the crimson cave.",
     "talent": {
-      "name": "Crimson Sky Sunfire",
+      "name": "Crimson Skyflame",
       "talent_levels": [
         {
           "level": 1,
-          "effect": "Each time an enemy unit is affected by [Detonation] or [Evaporation], it gains an additional stack of [Sunfire].\nWhen attacking a target under the [Sunfire] status, increase your damage by 18% for each stack of [Sunfire] on the target."
+          "effect": "Each time an enemy unit is affected with [Detonation] or [Evaporation], a stack of [Scorching Sun] is applied to them. When attacking a target with the [Scorching Sun] status, for each stack of [Scorching Sun] on the target, Bonus Damage is increased by 18%."
         },
         {
           "level": 2,
-          "effect": "When our side triggers [Punishment], we gain 1 energy."
+          "effect": "When an ally triggers [Punishment], gains 1 Energy."
         },
         {
           "level": 3,
-          "effect": "Increases own attack by 15%."
+          "effect": "Increases own Attack by 15%."
         },
         {
           "level": 4,
-          "effect": "Each time [Rebirth] is triggered, it increases the user's attack by 30% and increases the probability of [Life-Renewing Feather Fan] inflicting [Ignite] by 25%, stacking up to 2 times, lasting until the end of the battle."
+          "effect": "Each time [Nirvanic Rebirth] is triggered, increases Attack by 30% and increases the chance for [Revitalizing Feather Fan] to inflict [Ignite] by 25%. Stacks up to 2 times and lasts until battle ends."
         },
         {
           "level": 7,
-          "effect": "[Brahma Fire Dance] will continuously apply a pulling effect to targets within range, and [Rebirth] will deal an additional amount of magic damage when in egg form."
+          "effect": "[Brahma's Fire Dance] continuously pulls enemies within range. When in egg form, [Nirvanic Rebirth] additionally deals an equal amount of magic damage."
         }
       ]
     },
     "skills": [
       {
-        "name": "Brahma Fire Dance",
+        "name": "Brahma's Fire Dance",
         "type": "Overdrive",
-        "description": "Unleashes a fire tornado, dealing 10 instances of magic damage equal to 53.6% of the caster's attack to enemy units within a large circular area, and inflicting 3 instances of [Ignite]. Before the fire tornado disappears, it deals an additional 268% of the caster's attack as magic damage and slightly knocks back enemy units within its area of effect.\nThis skill can trigger the [Punishment] effect (up to 1 time per target), and when the [Punishment] effect is triggered, an additional 3 stacks of [Sunfire] are applied.",
+        "description": "Releases a fiery tornado, dealing magic damage equal to 53.6% of Attack 10 times to enemies within a large circular area and applying [Ignite] 3 times.\nAs the tornado ends, it deals additional magic damage equal to 268% of Attack and minor knockback to enemies within the area.\nThis skill can trigger the [Punishment] effect (up to 1 time per target), and when triggering the [Punishment] effect, it additionally applies 3 stacks of [Scorching Sun].",
         "cooldown": 20
       },
       {
-        "name": "Flame Shadow Talisman",
+        "name": "Flameshadow Rune",
         "type": "Ultimate Skill",
-        "description": "Unleashing a rune that deals magic damage equal to 560% of the caster's attack to enemy units within a small circular area, and increases the energy cost of the next ultimate skill by 1. When this skill deals damage to a target under the [Sunfire] status, it will additionally deal magic damage equal to 280% of the user's attack multiplied by the number of [Sunfire] stacks on the target.",
+        "description": "Wields a rune, dealing magic damage equal to 560% of own Attack to enemy units within a small circular area and increases the Energy Cost of their next Overdrive by 1.\nWhen this skill deals damage to targets in the [Scorching Sun] status, it additionally deals magic damage equal to 280% of own Attack multiplied by the target's [Scorching Sun] stacks.",
         "cooldown": 9
       },
       {
-        "name": "Life-Renewing Feather Fan",
+        "name": "Revitalizing Feather Fan",
         "type": "Secret Skill",
-        "description": "[Flame Shadow Talisman] [Rebirth]: Before dealing damage, there is a 50% chance to inflict [Ignite] on the enemy.\nShe has a maximum of 9 energy points. Each time an ally triggers an [Elemental Reaction], she gains 1 energy point. When at full energy, if she triggers [Detonation] or [Evaporation], she loses 50% of her current HP and deals magic damage equal to 1280% of her attack to the affected target.",
+        "description": "[Flameshadow Rune] and [Nirvanic Rebirth] have a 50% chance to inflict [Ignite] on the enemy before dealing damage.\nHas an Energy limit of 9. Each time an ally triggers [Elemental Reaction], gains 1 Energy. When at full Energy, upon triggering [Detonation] or [Evaporation], sacrifices 50% of current HP to deal magic damage equal to 1280% of Attack to the target affected by the reaction.",
         "cooldown": 0
       },
       {
-        "name": "Rebirth",
+        "name": "Nirvanic Rebirth",
         "type": "Special Skill",
-        "description": "When the user receives fatal damage and has full energy, they consume all energy to become immune to damage for 2 seconds and transform into an egg form. For 5 seconds, the user continuously regenerates 100% of their maximum health. The egg form then dissolves, dealing magic damage equal to 1200% of the user's attack to all enemy units (Can trigger at most once every 15 seconds).\nWhile in egg form, when damaged by ranged Luminaries, gain 1000% damage reduction and become immune to control effects.",
+        "description": "When taking fatal damage, if Energy is full, consumes all Energy to become immune to damage for 2 seconds and transforms into Egg Form. Recovers 100% of Max HP over 5 seconds, then exits Egg Form, dealing magic damage equal to 1200% of Attack to all enemy units. (Can trigger only once every 15 seconds.)\nWhile in Egg Form, reduces damage taken from ranged Luminaries by 1000% and gains Control Immunity.",
         "cooldown": 0
       },
       {
         "name": "Everlasting Life",
         "type": "Divine Skill",
-        "description": "[Rebirth] Gain full energy at the start of battle.",
+        "description": "[Nirvanic Rebirth] Gain full energy at the start of battle.",
         "cooldown": 0
       }
     ],
@@ -8964,7 +8964,7 @@
     "recommended_subclasses": [
       "Elementalist"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775923293
   },
   {
     "name": "Cerberus",

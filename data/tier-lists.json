@@ -1540,178 +1540,144 @@
     "entries": [
       {
         "character_name": "Apollo",
-        "tier": "SSR EX",
-        "note": "Yes."
+        "tier": "SSR EX"
       },
       {
         "character_name": "Ares",
-        "tier": "SSR EX",
-        "note": "Yes."
+        "tier": "SSR EX"
       },
       {
         "character_name": "Athena",
-        "tier": "SSR EX",
-        "note": "Yes."
+        "tier": "SSR EX"
       },
       {
         "character_name": "Hades",
-        "tier": "SSR EX",
-        "note": "Yes."
+        "tier": "SSR EX"
       },
       {
         "character_name": "Poseidon",
-        "tier": "SSR EX",
-        "note": "Yes."
+        "tier": "SSR EX"
       },
       {
         "character_name": "Venus",
-        "tier": "SSR EX",
-        "note": "Yes."
+        "tier": "SSR EX"
       },
       {
         "character_name": "Ifrit",
-        "tier": "S+",
-        "note": "Core DPS for blue/red for foreseeable future."
+        "tier": "S+"
       },
       {
         "character_name": "Jing",
-        "tier": "S+",
-        "note": "Core DPS for green/undead."
+        "tier": "S+"
       },
       {
         "character_name": "Siegfried",
         "character_quality": "SSR+",
-        "tier": "S+",
-        "note": "Easy investment. Falls off later on."
+        "tier": "S+"
       },
       {
         "character_name": "Vivienne",
-        "tier": "S+",
-        "note": "Slots in anywhere to give main DPS an ATK buff."
+        "tier": "S+"
       },
       {
         "character_name": "Atanith",
-        "tier": "S+",
-        "note": "Silence mortal."
+        "tier": "S+"
       },
       {
         "character_name": "Oberonnie",
         "character_quality": "SSR",
-        "tier": "S+",
-        "note": "Easy investment. Falls off later on."
+        "tier": "S+"
       },
       {
         "character_name": "Azure Dragon",
-        "tier": "S",
-        "note": "Team-wide shield provider. Thanos for deathrattle."
+        "tier": "S"
       },
       {
         "character_name": "Gabriele",
-        "tier": "S",
-        "note": "Burst DPS for light."
+        "tier": "S"
       },
       {
         "character_name": "Pompey",
-        "tier": "S",
-        "note": "Main tank for blue."
+        "tier": "S"
       },
       {
         "character_name": "Scheherazade",
-        "tier": "S",
-        "note": "Reduces overdrive cost. Also can heal I suppose."
+        "tier": "S"
       },
       {
         "character_name": "Chiron",
-        "tier": "S",
-        "note": "Main DPS ATK buffer. Also can heal I suppose."
+        "tier": "S"
       },
       {
         "character_name": "Cleopatra",
         "character_quality": "SSR",
-        "tier": "S",
-        "note": "Shards are easy to get."
+        "tier": "S"
       },
       {
         "character_name": "Fenrir",
         "character_quality": "SSR",
-        "tier": "S",
-        "note": "Easy investment. Falls off later on."
+        "tier": "S"
       },
       {
         "character_name": "Medusa",
         "character_quality": "SSR",
-        "tier": "S",
-        "note": "Shards are easy to get."
+        "tier": "S"
       },
       {
         "character_name": "Goblin War Drummer",
-        "tier": "S",
-        "note": "Early DPS buff. Falls off later on."
+        "tier": "S"
       },
       {
         "character_name": "Anubis",
-        "tier": "A",
-        "note": "Main tank for deathrattle. Will rely on Noble Phantasm."
+        "tier": "A"
       },
       {
         "character_name": "Dvalin",
-        "tier": "A",
-        "note": "Oberonnie but tankier and more expensive."
+        "tier": "A"
       },
       {
         "character_name": "Gullveig",
-        "tier": "A",
-        "note": "Grievous wounds."
+        "tier": "A"
       },
       {
         "character_name": "Helveil",
-        "tier": "A",
-        "note": "Usable tank/subtank for light and deathrattle."
+        "tier": "A"
       },
       {
         "character_name": "Huginn & Muninn",
-        "tier": "A",
-        "note": "DPS for dark and green. Gets outclassed later."
+        "tier": "A"
       },
       {
         "character_name": "Marylis",
-        "tier": "A",
-        "note": "Go for Ifrit."
+        "tier": "A"
       },
       {
         "character_name": "Tyrfing",
-        "tier": "A",
-        "note": "Grievous wounds."
+        "tier": "A"
       },
       {
         "character_name": "Zagreus",
-        "tier": "A",
-        "note": "Let it go."
+        "tier": "A"
       },
       {
         "character_name": "Herman",
-        "tier": "A",
-        "note": "Sub tank for blue."
+        "tier": "A"
       },
       {
         "character_name": "Lorillin",
-        "tier": "A",
-        "note": "Interrupter."
+        "tier": "A"
       },
       {
         "character_name": "Nanalie",
-        "tier": "A",
-        "note": "Eep."
+        "tier": "A"
       },
       {
         "character_name": "Nemesis",
-        "tier": "A",
-        "note": "Requires max. Free energy generation and silence."
+        "tier": "A"
       },
       {
         "character_name": "Siren",
-        "tier": "A",
-        "note": "Early healer. Falls off later."
+        "tier": "A"
       },
       {
         "character_name": "Brynhild",
@@ -1924,6 +1890,6 @@
         "tier": "D"
       }
     ],
-    "last_updated": 1775189807
+    "last_updated": 1775923293
   }
 ]

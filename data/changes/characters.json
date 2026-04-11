@@ -2106,6 +2106,75 @@
             "new": "Vermilion Bird Feather Fan"
           }
         }
+      },
+      {
+        "timestamp": 1775921685,
+        "fields": {
+          "is_global": {
+            "old": false,
+            "new": true
+          },
+          "quote": {
+            "old": "",
+            "new": "Leader of all birds, born of the crimson cave."
+          },
+          "skills": {
+            "added": [
+              "Brahma's Fire Dance",
+              "Flameshadow Rune",
+              "Nirvanic Rebirth",
+              "Revitalizing Feather Fan"
+            ],
+            "removed": [
+              "Brahma Fire Dance",
+              "Flame Shadow Talisman",
+              "Life-Renewing Feather Fan",
+              "Rebirth"
+            ],
+            "modified": {
+              "Everlasting Life": {
+                "description": {
+                  "old": "[Rebirth] Gain full energy at the start of battle.",
+                  "new": "[Nirvanic Rebirth] Gain full energy at the start of battle."
+                }
+              }
+            }
+          },
+          "summary": {
+            "old": "An explosive Mage who accumulates [Sunfire] stacks on enemies affected by [Detonation] or [Evaporation], significantly increasing her damage against them. She unleashes a fire tornado that deals continuous area damage and applies [Ignite] with [Brahma Fire Dance], and possesses a powerful [Rebirth] skill that allows her to survive fatal damage and resurrect from an egg.",
+            "new": "An explosive Mage who accumulates [Scorching Sun] stacks on enemies affected by [Detonation] or [Evaporation], significantly increasing her damage against them. She unleashes a fire tornado that deals continuous area damage and applies [Ignite] with [Brahma's Fire Dance], and possesses a powerful [Nirvanic Rebirth] skill that allows her to survive fatal damage and resurrect from an egg."
+          },
+          "talent": {
+            "name": {
+              "old": "Crimson Sky Sunfire",
+              "new": "Crimson Skyflame"
+            },
+            "talent_levels": {
+              "changed": {
+                "1": {
+                  "old": "Each time an enemy unit is affected by [Detonation] or [Evaporation], it gains an additional stack of [Sunfire].\nWhen attacking a target under the [Sunfire] status, increase your damage by 18% for each stack of [Sunfire] on the target.",
+                  "new": "Each time an enemy unit is affected with [Detonation] or [Evaporation], a stack of [Scorching Sun] is applied to them. When attacking a target with the [Scorching Sun] status, for each stack of [Scorching Sun] on the target, Bonus Damage is increased by 18%."
+                },
+                "2": {
+                  "old": "When our side triggers [Punishment], we gain 1 energy.",
+                  "new": "When an ally triggers [Punishment], gains 1 Energy."
+                },
+                "3": {
+                  "old": "Increases own attack by 15%.",
+                  "new": "Increases own Attack by 15%."
+                },
+                "4": {
+                  "old": "Each time [Rebirth] is triggered, it increases the user's attack by 30% and increases the probability of [Life-Renewing Feather Fan] inflicting [Ignite] by 25%, stacking up to 2 times, lasting until the end of the battle.",
+                  "new": "Each time [Nirvanic Rebirth] is triggered, increases Attack by 30% and increases the chance for [Revitalizing Feather Fan] to inflict [Ignite] by 25%. Stacks up to 2 times and lasts until battle ends."
+                },
+                "7": {
+                  "old": "[Brahma Fire Dance] will continuously apply a pulling effect to targets within range, and [Rebirth] will deal an additional amount of magic damage when in egg form.",
+                  "new": "[Brahma's Fire Dance] continuously pulls enemies within range. When in egg form, [Nirvanic Rebirth] additionally deals an equal amount of magic damage."
+                }
+              }
+            }
+          }
+        }
       }
     ]
   },

@@ -856,8 +856,8 @@
       "Summoning Ticket": 10,
       "Random Refinement Stone": 10
     },
-    "active": true,
-    "last_updated": 1774272120
+    "active": false,
+    "last_updated": 1775923293
   },
   {
     "code": "EyesOnMe",
@@ -957,5 +957,145 @@
     },
     "active": true,
     "last_updated": 1775446924
+  },
+  {
+    "code": "DTDCZAGR",
+    "rewards": {
+      "Gold": 10000,
+      "Summoning Ticket": 5,
+      "Random Refinement Stone": 10
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "GameNEWS",
+    "rewards": {
+      "Gold": 3000,
+      "Legacy Dragon Crystal": 3,
+      "Apple": 1
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "LANXE4X8L",
+    "rewards": {
+      "Gold": 30000,
+      "Summoning Ticket": 1,
+      "Slime Goo": 2
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "UniqueMage",
+    "rewards": {
+      "Legacy Dragon Crystal": 3,
+      "Golden Horn": 1,
+      "SR Luminary Shards": 10
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "KATO11",
+    "rewards": {
+      "Wyrm Essence": 20,
+      "Gold": 10000,
+      "Golden Horn": 1
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "GONYO11",
+    "rewards": {
+      "Wyrm Essence": 20,
+      "Luminary EXP": 5000,
+      "Summoning Ticket": 1
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "SooFlower",
+    "rewards": {
+      "Gold": 30000,
+      "Fated Summoning Ticket": 1,
+      "Aurora Dust": 10
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "HENRY111",
+    "rewards": {
+      "Luminary EXP": 10000,
+      "Fated Summoning Ticket": 1,
+      "Aurora Dust": 10
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "9CNXN6XRA",
+    "rewards": {
+      "Wyrm Essence": 20,
+      "Gold": 20000,
+      "Golden Horn": 1
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "ZhuQueLove",
+    "rewards": {
+      "Gold": 3000,
+      "Summoning Ticket": 1,
+      "Dragonblood": 1
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "BAEDON11",
+    "rewards": {
+      "Diamond": 100,
+      "Gold": 10000,
+      "Summoning Ticket": 1
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "MOVINGTV111",
+    "rewards": {
+      "Diamond": 100,
+      "Gold": 10000,
+      "Golden Horn": 1
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "BaiHuzaici",
+    "rewards": {
+      "Gold": 3000,
+      "Legacy Dragon Crystal": 3,
+      "Apple": 1
+    },
+    "active": true,
+    "last_updated": 1775923293
+  },
+  {
+    "code": "JJNXAM688",
+    "rewards": {
+      "Gold": 10000,
+      "Wishing Lily": 2,
+      "Fated Summoning Ticket": 1
+    },
+    "active": true,
+    "last_updated": 1775923293
   }
 ]

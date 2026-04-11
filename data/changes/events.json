@@ -275,15 +275,72 @@
   },
   "Rerun Gacha #8__tw": {
     "added": 1775187721,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775923293,
+        "fields": {
+          "characters": {
+            "added": [
+              "Asmodeus",
+              "Crassus",
+              "Rin",
+              "Silbismo"
+            ],
+            "removed": [
+              "Mordred"
+            ]
+          },
+          "end_date": {
+            "old": "2026-03-20",
+            "new": "2026-03-26"
+          },
+          "start_date": {
+            "old": "2026-03-13",
+            "new": "2026-03-19"
+          }
+        }
+      }
+    ]
   },
   "Rerun Gacha #9__tw": {
     "added": 1775187721,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775923293,
+        "fields": {
+          "characters": {
+            "added": [
+              "Catherine",
+              "Orion",
+              "Vermilion Bird"
+            ],
+            "removed": [
+              "Asmodeus",
+              "Crassus",
+              "Rin",
+              "Silbismo"
+            ]
+          },
+          "end_date": {
+            "old": "2026-03-26",
+            "new": "2026-04-09"
+          },
+          "start_date": {
+            "old": "2026-03-19",
+            "new": "2026-04-02"
+          }
+        }
+      }
+    ]
   },
   "Rerun Gacha #10__tw": {
     "added": 1775187721,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775923293,
+        "type": "removed"
+      }
+    ]
   },
   "Braving the Golden Kingdom__tw": {
     "added": 1775187721,
@@ -295,6 +352,10 @@
   },
   "The Phantasia Games Are Here!__global": {
     "added": 1775759269,
+    "changes": []
+  },
+  "Restart! Center-position Trainee!__tw": {
+    "added": 1775923293,
     "changes": []
   }
 }

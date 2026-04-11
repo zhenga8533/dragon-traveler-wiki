@@ -1,5 +1,18 @@
 [
   {
+    "name": "Restart! Center-position Trainee!",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Tamamo"
+    ],
+    "is_global": false,
+    "start_date": "2026-04-09",
+    "end_date": "2026-04-23",
+    "last_updated": 1775923293
+  },
+  {
     "name": "Target! Grand Slam! Begins!",
     "event_id": "6761604792",
     "type": "",
@@ -22,21 +35,6 @@
     "last_updated": 1775759269
   },
   {
-    "name": "Rerun Gacha #10",
-    "event_id": null,
-    "type": "Release",
-    "description": "",
-    "characters": [
-      "Vermilion Bird",
-      "Orion",
-      "Catherine"
-    ],
-    "is_global": false,
-    "start_date": "2026-04-02",
-    "end_date": "2026-04-09",
-    "last_updated": 1775189807
-  },
-  {
     "name": "Rerun Gacha #2",
     "event_id": null,
     "type": "Rerun",
@@ -51,6 +49,21 @@
     "start_date": "2026-04-02",
     "end_date": "2026-04-09",
     "last_updated": 1775189807
+  },
+  {
+    "name": "Rerun Gacha #9",
+    "event_id": null,
+    "type": "Release",
+    "description": "",
+    "characters": [
+      "Vermilion Bird",
+      "Orion",
+      "Catherine"
+    ],
+    "is_global": false,
+    "start_date": "2026-04-02",
+    "end_date": "2026-04-09",
+    "last_updated": 1775923293
   },
   {
     "name": "Braving the Golden Kingdom",
@@ -90,7 +103,7 @@
     "last_updated": 1775759269
   },
   {
-    "name": "Rerun Gacha #9",
+    "name": "Rerun Gacha #8",
     "event_id": null,
     "type": "Release",
     "description": "",
@@ -103,20 +116,7 @@
     "is_global": false,
     "start_date": "2026-03-19",
     "end_date": "2026-03-26",
-    "last_updated": 1775189807
-  },
-  {
-    "name": "Rerun Gacha #8",
-    "event_id": null,
-    "type": "Release",
-    "description": "",
-    "characters": [
-      "Mordred"
-    ],
-    "is_global": false,
-    "start_date": "2026-03-13",
-    "end_date": "2026-03-20",
-    "last_updated": 1775189807
+    "last_updated": 1775923293
   },
   {
     "name": "Lost Shamballa",

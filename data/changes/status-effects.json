@@ -390,7 +390,12 @@
   },
   "Sunfire": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775921685,
+        "type": "removed"
+      }
+    ]
   },
   "Sword Clone": {
     "added": 1772563593,
@@ -442,6 +447,10 @@
   },
   "Scar": {
     "added": 1773414593,
+    "changes": []
+  },
+  "Scorching Sun": {
+    "added": 1775921685,
     "changes": []
   }
 }

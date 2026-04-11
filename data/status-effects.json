@@ -672,6 +672,13 @@
     "last_updated": 1773414613
   },
   {
+    "name": "Scorching Sun",
+    "type": "Exclusive",
+    "effect": "Cannot be dispelled. Reduces Magic Defense by 9% per stack. Stacks up to 6 times. Lasts for 10s.",
+    "remark": "",
+    "last_updated": 1775923293
+  },
+  {
     "name": "Seal",
     "type": "Exclusive",
     "effect": "If the sealed skill is an active skill, it cannot be used; if it is a passive skill, it will not take effect (it will not affect passive effects that have already been triggered).",
@@ -684,13 +691,6 @@
     "effect": "Cannot be dispelled. Reduces Crit Resistance by 75 per stack. Stacks up to 10 times. Lasts for 15s.",
     "remark": "",
     "last_updated": 1772634281
-  },
-  {
-    "name": "Sunfire",
-    "type": "Exclusive",
-    "effect": "Each stack reduces magic defense by 9%, stacking up to 6 times, lasting 10 seconds.",
-    "remark": "Cannot be dispelled.",
-    "last_updated": 1771185685
   },
   {
     "name": "Sword Clone",
