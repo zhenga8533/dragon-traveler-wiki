@@ -515,7 +515,7 @@ export default function CharacterPageBuildSection({
                         {entry.setName ? (
                           <Link
                             to={`/gear-sets/${toEntitySlug(entry.setName)}`}
-                            style={LINK_FIT_CONTENT_RESET_STYLE}
+                            style={{ ...LINK_FIT_CONTENT_RESET_STYLE, width: '100%', display: 'block' }}
                           >
                             <Paper
                               p="sm"
