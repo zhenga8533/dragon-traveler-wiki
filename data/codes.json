@@ -1097,5 +1097,25 @@
     },
     "active": true,
     "last_updated": 1775923293
+  },
+  {
+    "code": "BSDLbm",
+    "rewards": {
+      "Gold": 3000,
+      "Golden Horn": 1,
+      "Leaf of the World Tree": 5
+    },
+    "active": true,
+    "last_updated": 1776010711
+  },
+  {
+    "code": "SHNXD4B29",
+    "rewards": {
+      "Luminary EXP": 10000,
+      "Fated Summoning Ticket": 1,
+      "Slime Goo": 2
+    },
+    "active": true,
+    "last_updated": 1776010711
   }
 ]
