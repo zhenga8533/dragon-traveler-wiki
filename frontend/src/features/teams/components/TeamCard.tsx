@@ -29,10 +29,6 @@ import {
 	getTeamBenchEntryName,
 	getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
-import {
-	getTeamPlaceholderEntryName,
-	getTeamPlaceholderEntryQuality,
-} from '@/features/teams/utils/team-placeholder';
 import TeamCharacterAvatars from '@/features/teams/components/TeamCharacterAvatars';
 
 interface TeamCardProps {
@@ -198,42 +194,6 @@ export default function TeamCard({
 										refs={team.bench!.map((entry) => ({
 											name: getTeamBenchEntryName(entry),
 											quality: getTeamBenchEntryQuality(entry),
-										}))}
-										preferredByName={charMap}
-										byIdentity={characterByIdentity}
-										nameCounts={characterNameCounts}
-										size={isLargeTeamCardLayout ? 52 : 44}
-										isSubstitute
-										layout="wrap"
-										gap={isLargeTeamCardLayout ? 6 : 4}
-										wrap={isLargeTeamCardLayout ? 'nowrap' : 'wrap'}
-										maxVisible={isLargeTeamCardLayout ? 6 : 5}
-									/>
-								</Group>
-							</>
-						)}
-						{(team.placeholders?.length ?? 0) > 0 && (
-							<>
-								<Divider size="xs" />
-								<Group gap="xs" align="flex-start" wrap="nowrap">
-									<Tooltip label="Budget alternatives — more accessible characters that fill a similar role" withArrow maw={200} multiline>
-										<Badge
-											size="xs"
-											variant="light"
-											color="gray"
-											style={{
-												minWidth: 66,
-												justifyContent: 'center',
-												cursor: 'default',
-											}}
-										>
-											Alt {team.placeholders!.length}
-										</Badge>
-									</Tooltip>
-									<TeamCharacterAvatars
-										refs={team.placeholders!.map((entry) => ({
-											name: getTeamPlaceholderEntryName(entry),
-											quality: getTeamPlaceholderEntryQuality(entry),
 										}))}
 										preferredByName={charMap}
 										byIdentity={characterByIdentity}

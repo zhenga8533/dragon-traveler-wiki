@@ -32,10 +32,6 @@ import {
 	getTeamBenchEntryName,
 	getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
-import {
-	getTeamPlaceholderEntryName,
-	getTeamPlaceholderEntryQuality,
-} from '@/features/teams/utils/team-placeholder';
 import TeamCard from '@/features/teams/components/TeamCard';
 import TeamCharacterAvatars from '@/features/teams/components/TeamCharacterAvatars';
 
@@ -220,40 +216,6 @@ export default function TeamsSavedTab({
 														refs={team.bench!.map((e) => ({
 															name: getTeamBenchEntryName(e),
 															quality: getTeamBenchEntryQuality(e),
-														}))}
-														preferredByName={charMap}
-														byIdentity={characterByIdentity}
-														nameCounts={characterNameCounts}
-														size={32}
-														isSubstitute
-														maxVisible={5}
-													/>
-												</Group>
-											</>
-										)}
-										{(team.placeholders?.length ?? 0) > 0 && (
-											<>
-												<Divider size="xs" />
-												<Group gap="xs" align="center" wrap="nowrap">
-													<Tooltip
-														label="Budget alternatives — more accessible characters that fill a similar role"
-														withArrow
-														maw={200}
-														multiline
-													>
-														<Badge
-															size="xs"
-															variant="light"
-															color="gray"
-															style={{ minWidth: 56, justifyContent: 'center', cursor: 'default' }}
-														>
-															Alt
-														</Badge>
-													</Tooltip>
-													<TeamCharacterAvatars
-														refs={team.placeholders!.map((e) => ({
-															name: getTeamPlaceholderEntryName(e),
-															quality: getTeamPlaceholderEntryQuality(e),
 														}))}
 														preferredByName={charMap}
 														byIdentity={characterByIdentity}

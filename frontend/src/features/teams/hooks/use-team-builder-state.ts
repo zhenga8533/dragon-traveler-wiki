@@ -34,11 +34,6 @@ import {
   getTeamBenchEntryNote,
   getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
-import {
-  getTeamPlaceholderEntryName,
-  getTeamPlaceholderEntryNote,
-  getTeamPlaceholderEntryQuality,
-} from '@/features/teams/utils/team-placeholder';
 import { computeTeamSynergy } from '@/features/teams/utils/team-synergy';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { useCharacterResolution } from '@/hooks';
@@ -75,8 +70,6 @@ export interface TeamBuilderState {
   overdriveSequence: number[];
   bench: string[];
   benchNotes: Record<string, string>;
-  placeholders: string[];
-  placeholderNotes: Record<string, string>;
   slotNotes: string[];
   teamWyrmspells: TeamWyrmspells;
   meta: TeamBuilderMetaState;
@@ -86,13 +79,11 @@ export type TeamBuilderAction =
   | { type: 'LOAD_TEAM'; payload: TeamBuilderState }
   | { type: 'SET_SLOT'; slotIndex: number; characterKey: string | null }
   | { type: 'SET_BENCH'; bench: string[]; benchNotes?: Record<string, string> }
-  | { type: 'SET_PLACEHOLDER'; placeholders: string[]; placeholderNotes?: Record<string, string> }
   | { type: 'UPDATE_META'; patch: Partial<TeamBuilderMetaState> }
   | { type: 'SET_OVERDRIVE_SEQUENCE'; payload: number[] }
   | { type: 'SET_SLOT_NOTE'; slotIndex: number; note: string }
   | { type: 'SET_SLOT_NOTES'; payload: string[] }
   | { type: 'SET_BENCH_NOTE'; characterKey: string; note?: string }
-  | { type: 'SET_PLACEHOLDER_NOTE'; characterKey: string; note?: string }
   | { type: 'SET_WYRMSPELL'; key: keyof TeamWyrmspells; value?: string }
   | { type: 'RESET' };
 
@@ -104,7 +95,7 @@ export interface UseTeamBuilderStateOptions {
 }
 
 interface CharacterLocationInBuilder {
-  zone: 'slot' | 'bench' | 'placeholder' | 'available';
+  zone: 'slot' | 'bench' | 'available';
   index?: number;
 }
 
@@ -114,8 +105,6 @@ function createEmptyBuilderState(): TeamBuilderState {
     overdriveSequence: [],
     bench: [],
     benchNotes: {},
-    placeholders: [],
-    placeholderNotes: {},
     slotNotes: Array<string>(GRID_SIZE).fill(''),
     teamWyrmspells: {},
     meta: {
@@ -158,12 +147,6 @@ function teamBuilderReducer(
         bench: action.bench,
         ...(action.benchNotes ? { benchNotes: action.benchNotes } : {}),
       };
-    case 'SET_PLACEHOLDER':
-      return {
-        ...state,
-        placeholders: action.placeholders,
-        ...(action.placeholderNotes ? { placeholderNotes: action.placeholderNotes } : {}),
-      };
     case 'UPDATE_META':
       return {
         ...state,
@@ -189,15 +172,6 @@ function teamBuilderReducer(
         delete benchNotes[action.characterKey];
       }
       return { ...state, benchNotes };
-    }
-    case 'SET_PLACEHOLDER_NOTE': {
-      const placeholderNotes = { ...state.placeholderNotes };
-      if (action.note) {
-        placeholderNotes[action.characterKey] = action.note;
-      } else {
-        delete placeholderNotes[action.characterKey];
-      }
-      return { ...state, placeholderNotes };
     }
     case 'SET_WYRMSPELL': {
       const nextWyrmspells = { ...state.teamWyrmspells };
@@ -300,30 +274,6 @@ function toBuilderState(
   nextState.benchNotes = Object.fromEntries(
     normalizedBenchEntries
       .map((entry) => [entry.benchKey, entry.benchNote] as const)
-      .filter((entry): entry is readonly [string, string] => Boolean(entry[1]))
-  );
-
-  const seenPlaceholderKeys = new Set<string>();
-  const normalizedPlaceholderEntries = (data.placeholders || [])
-    .map((placeholderEntry) => {
-      const placeholderName = getTeamPlaceholderEntryName(placeholderEntry);
-      const placeholderQuality = getTeamPlaceholderEntryQuality(placeholderEntry);
-      const placeholderKey = getCharacterKeyFromReference(placeholderName, placeholderQuality);
-      const placeholderNote = normalizeNote(getTeamPlaceholderEntryNote(placeholderEntry)) || '';
-      return { placeholderKey, placeholderNote };
-    })
-    .filter((entry) => {
-      if (usedKeys.has(entry.placeholderKey)) return false;
-      if (seenBenchKeys.has(entry.placeholderKey)) return false;
-      if (seenPlaceholderKeys.has(entry.placeholderKey)) return false;
-      seenPlaceholderKeys.add(entry.placeholderKey);
-      return true;
-    });
-
-  nextState.placeholders = normalizedPlaceholderEntries.map((entry) => entry.placeholderKey);
-  nextState.placeholderNotes = Object.fromEntries(
-    normalizedPlaceholderEntries
-      .map((entry) => [entry.placeholderKey, entry.placeholderNote] as const)
       .filter((entry): entry is readonly [string, string] => Boolean(entry[1]))
   );
 
@@ -450,13 +400,9 @@ export function useTeamBuilderState({
     () =>
       teamSize > 0 ||
       state.bench.length > 0 ||
-      state.placeholders.length > 0 ||
       state.overdriveSequence.length > 0 ||
       state.slotNotes.some((note) => Boolean(normalizeNote(note))) ||
       Object.values(state.benchNotes).some((note) =>
-        Boolean(normalizeNote(note))
-      ) ||
-      Object.values(state.placeholderNotes).some((note) =>
         Boolean(normalizeNote(note))
       ) ||
       Object.values(state.teamWyrmspells).some((value) => Boolean(value)) ||
@@ -529,19 +475,6 @@ export function useTeamBuilderState({
       });
     }
 
-    if (state.placeholders.length > 0) {
-      nextTeam.placeholders = state.placeholders.map((characterKey) => {
-        const reference = toCharacterReferenceFromKey(
-          characterKey,
-          charMap,
-          characterByIdentity,
-          characterNameCounts
-        );
-        const note = normalizeNote(state.placeholderNotes[characterKey]);
-        return note ? { ...reference, note } : reference;
-      });
-    }
-
     const hasWyrmspells = Object.values(state.teamWyrmspells).some(Boolean);
     if (hasWyrmspells) {
       nextTeam.wyrmspells = state.teamWyrmspells;
@@ -560,8 +493,6 @@ export function useTeamBuilderState({
     overdriveOrderBySlot,
     state.bench,
     state.benchNotes,
-    state.placeholders,
-    state.placeholderNotes,
     state.overdriveSequence,
     state.slotNotes,
     state.slots,
@@ -583,11 +514,8 @@ export function useTeamBuilderState({
     for (const benchKey of state.bench) {
       names.add(benchKey);
     }
-    for (const placeholderKey of state.placeholders) {
-      names.add(placeholderKey);
-    }
     return names;
-  }, [state.bench, state.placeholders, state.slots]);
+  }, [state.bench, state.slots]);
 
   const availableCharacters = useMemo(
     () =>
@@ -798,12 +726,9 @@ export function useTeamBuilderState({
       const benchIndex = state.bench.indexOf(characterKey);
       if (benchIndex !== -1) return { zone: 'bench', index: benchIndex };
 
-      const placeholderIndex = state.placeholders.indexOf(characterKey);
-      if (placeholderIndex !== -1) return { zone: 'placeholder', index: placeholderIndex };
-
       return { zone: 'available' };
     },
-    [state.bench, state.placeholders, state.slots]
+    [state.bench, state.slots]
   );
 
   const handleAddToNextSlot = useCallback(
@@ -897,17 +822,6 @@ export function useTeamBuilderState({
     []
   );
 
-  const handlePlaceholderNoteChange = useCallback(
-    (characterKey: string, note: string) => {
-      dispatch({
-        type: 'SET_PLACEHOLDER_NOTE',
-        characterKey,
-        note: normalizeNote(note) || undefined,
-      });
-    },
-    []
-  );
-
   const handlePasteApply = useCallback(
     (pasteText: string) => {
       try {
@@ -993,49 +907,11 @@ export function useTeamBuilderState({
           return;
         }
 
-        if (from.zone === 'placeholder' && occupant) {
-          const incomingPlaceholderNote = state.placeholderNotes[characterKey] || '';
-          const outgoingSlotNote = state.slotNotes[targetSlotIndex] || '';
-
-          dispatch({
-            type: 'SET_SLOT',
-            slotIndex: targetSlotIndex,
-            characterKey,
-          });
-          dispatch({
-            type: 'SET_SLOT_NOTE',
-            slotIndex: targetSlotIndex,
-            note: incomingPlaceholderNote,
-          });
-          removeOverdriveSlot(targetSlotIndex);
-
-          const nextPlaceholders = [...state.placeholders];
-          const placeholderIndex = nextPlaceholders.indexOf(characterKey);
-          if (placeholderIndex !== -1) {
-            nextPlaceholders[placeholderIndex] = occupant;
-          }
-          dispatch({
-            type: 'SET_PLACEHOLDER',
-            placeholders: nextPlaceholders,
-            placeholderNotes: {
-              ...Object.fromEntries(
-                Object.entries(state.placeholderNotes).filter(
-                  ([key]) => key !== characterKey
-                )
-              ),
-              [occupant]: outgoingSlotNote,
-            },
-          });
-          return;
-        }
-
-        if (from.zone === 'available' || from.zone === 'bench' || from.zone === 'placeholder') {
+        if (from.zone === 'available' || from.zone === 'bench') {
           const incomingNote =
             from.zone === 'bench'
               ? state.benchNotes[characterKey] || ''
-              : from.zone === 'placeholder'
-                ? state.placeholderNotes[characterKey] || ''
-                : '';
+              : '';
 
           if (occupant && teamSize >= MAX_ROSTER_SIZE) {
             dispatch({
@@ -1098,16 +974,6 @@ export function useTeamBuilderState({
                 )
               ),
             });
-          } else if (from.zone === 'placeholder') {
-            dispatch({
-              type: 'SET_PLACEHOLDER',
-              placeholders: removeItem(state.placeholders, characterKey),
-              placeholderNotes: Object.fromEntries(
-                Object.entries(state.placeholderNotes).filter(
-                  ([key]) => key !== characterKey
-                )
-              ),
-            });
           }
 
           return;
@@ -1154,16 +1020,6 @@ export function useTeamBuilderState({
             bench: removeItem(state.bench, characterKey),
             benchNotes: Object.fromEntries(
               Object.entries(state.benchNotes).filter(
-                ([key]) => key !== characterKey
-              )
-            ),
-          });
-        } else if (from.zone === 'placeholder') {
-          dispatch({
-            type: 'SET_PLACEHOLDER',
-            placeholders: removeItem(state.placeholders, characterKey),
-            placeholderNotes: Object.fromEntries(
-              Object.entries(state.placeholderNotes).filter(
                 ([key]) => key !== characterKey
               )
             ),
@@ -1244,26 +1100,6 @@ export function useTeamBuilderState({
           });
         }
 
-        if (from.zone === 'placeholder') {
-          dispatch({
-            type: 'SET_PLACEHOLDER',
-            placeholders: removeItem(state.placeholders, characterKey),
-            placeholderNotes: Object.fromEntries(
-              Object.entries(state.placeholderNotes).filter(
-                ([key]) => key !== characterKey
-              )
-            ),
-          });
-          dispatch({
-            type: 'SET_BENCH',
-            bench: insertUniqueBefore(state.bench, characterKey, targetKey),
-            benchNotes: {
-              ...state.benchNotes,
-              [characterKey]: state.placeholderNotes[characterKey] || '',
-            },
-          });
-        }
-
         return;
       }
 
@@ -1305,185 +1141,6 @@ export function useTeamBuilderState({
             },
           });
         }
-
-        if (from.zone === 'placeholder') {
-          dispatch({
-            type: 'SET_PLACEHOLDER',
-            placeholders: removeItem(state.placeholders, characterKey),
-            placeholderNotes: Object.fromEntries(
-              Object.entries(state.placeholderNotes).filter(
-                ([key]) => key !== characterKey
-              )
-            ),
-          });
-          dispatch({
-            type: 'SET_BENCH',
-            bench: state.bench.includes(characterKey)
-              ? state.bench
-              : [...state.bench, characterKey],
-            benchNotes: {
-              ...state.benchNotes,
-              [characterKey]: state.placeholderNotes[characterKey] || '',
-            },
-          });
-        }
-      }
-
-      if (overId.startsWith('placeholder-item-')) {
-        const targetKey = overId.replace('placeholder-item-', '');
-        if (!state.placeholders.includes(targetKey)) return;
-
-        if (from.zone === 'placeholder') {
-          if (characterKey === targetKey) return;
-          const fromIndex = state.placeholders.indexOf(characterKey);
-          const toIndex = state.placeholders.indexOf(targetKey);
-          if (fromIndex === -1 || toIndex === -1) return;
-
-          const nextPlaceholders = [...state.placeholders];
-          [nextPlaceholders[fromIndex], nextPlaceholders[toIndex]] = [
-            nextPlaceholders[toIndex],
-            nextPlaceholders[fromIndex],
-          ];
-          dispatch({ type: 'SET_PLACEHOLDER', placeholders: nextPlaceholders });
-          return;
-        }
-
-        if (from.zone === 'slot' && from.index !== undefined) {
-          if (!isValidPlacement(targetKey, from.index)) {
-            notifyInvalidPlacement(targetKey, from.index);
-            return;
-          }
-
-          const movedSlotNote = state.slotNotes[from.index] || '';
-          const incomingPlaceholderNote = state.placeholderNotes[targetKey] || '';
-
-          dispatch({
-            type: 'SET_SLOT',
-            slotIndex: from.index,
-            characterKey: targetKey,
-          });
-          dispatch({
-            type: 'SET_SLOT_NOTE',
-            slotIndex: from.index,
-            note: incomingPlaceholderNote,
-          });
-          removeOverdriveSlot(from.index);
-
-          const nextPlaceholders = [...state.placeholders];
-          const targetIndex = nextPlaceholders.indexOf(targetKey);
-          if (targetIndex !== -1) {
-            nextPlaceholders[targetIndex] = characterKey;
-          }
-
-          dispatch({
-            type: 'SET_PLACEHOLDER',
-            placeholders: nextPlaceholders,
-            placeholderNotes: {
-              ...Object.fromEntries(
-                Object.entries(state.placeholderNotes).filter(
-                  ([key]) => key !== targetKey
-                )
-              ),
-              [characterKey]: movedSlotNote,
-            },
-          });
-          return;
-        }
-
-        if (from.zone === 'available') {
-          dispatch({
-            type: 'SET_PLACEHOLDER',
-            placeholders: insertUniqueBefore(state.placeholders, characterKey, targetKey),
-            placeholderNotes: {
-              ...state.placeholderNotes,
-              [characterKey]: state.placeholderNotes[characterKey] || '',
-            },
-          });
-        }
-
-        if (from.zone === 'bench') {
-          dispatch({
-            type: 'SET_BENCH',
-            bench: removeItem(state.bench, characterKey),
-            benchNotes: Object.fromEntries(
-              Object.entries(state.benchNotes).filter(
-                ([key]) => key !== characterKey
-              )
-            ),
-          });
-          dispatch({
-            type: 'SET_PLACEHOLDER',
-            placeholders: insertUniqueBefore(state.placeholders, characterKey, targetKey),
-            placeholderNotes: {
-              ...state.placeholderNotes,
-              [characterKey]: state.benchNotes[characterKey] || '',
-            },
-          });
-        }
-
-        return;
-      }
-
-      if (overId === 'placeholder') {
-        if (from.zone === 'slot' && from.index !== undefined) {
-          const movedSlotNote = state.slotNotes[from.index] || '';
-          dispatch({
-            type: 'SET_SLOT',
-            slotIndex: from.index,
-            characterKey: null,
-          });
-          dispatch({ type: 'SET_SLOT_NOTE', slotIndex: from.index, note: '' });
-          removeOverdriveSlot(from.index);
-
-          dispatch({
-            type: 'SET_PLACEHOLDER',
-            placeholders: state.placeholders.includes(characterKey)
-              ? state.placeholders
-              : [...state.placeholders, characterKey],
-            placeholderNotes: {
-              ...state.placeholderNotes,
-              [characterKey]: state.placeholderNotes[characterKey]?.trim().length
-                ? state.placeholderNotes[characterKey]
-                : movedSlotNote,
-            },
-          });
-          return;
-        }
-
-        if (from.zone === 'available') {
-          dispatch({
-            type: 'SET_PLACEHOLDER',
-            placeholders: state.placeholders.includes(characterKey)
-              ? state.placeholders
-              : [...state.placeholders, characterKey],
-            placeholderNotes: {
-              ...state.placeholderNotes,
-              [characterKey]: state.placeholderNotes[characterKey] || '',
-            },
-          });
-        }
-
-        if (from.zone === 'bench') {
-          dispatch({
-            type: 'SET_BENCH',
-            bench: removeItem(state.bench, characterKey),
-            benchNotes: Object.fromEntries(
-              Object.entries(state.benchNotes).filter(
-                ([key]) => key !== characterKey
-              )
-            ),
-          });
-          dispatch({
-            type: 'SET_PLACEHOLDER',
-            placeholders: state.placeholders.includes(characterKey)
-              ? state.placeholders
-              : [...state.placeholders, characterKey],
-            placeholderNotes: {
-              ...state.placeholderNotes,
-              [characterKey]: state.benchNotes[characterKey] || '',
-            },
-          });
-        }
       }
     },
     [
@@ -1506,8 +1163,6 @@ export function useTeamBuilderState({
     availableCharacters,
     bench: state.bench,
     benchNotes: state.benchNotes,
-    placeholders: state.placeholders,
-    placeholderNotes: state.placeholderNotes,
     characterByIdentity,
     characterNameCounts,
     factionColor,
@@ -1516,7 +1171,6 @@ export function useTeamBuilderState({
     handleAddToNextSlot,
     handleAuthorCommit,
     handleBenchNoteChange,
-    handlePlaceholderNoteChange,
     handleClear,
     handleContentTypeChange,
     handleDescriptionCommit,

@@ -270,9 +270,9 @@ def verify_data() -> list[str]:
                         f"team '{team_name}': faction '{faction}' not found in factions.json"
                     )
 
-            # members, bench, and placeholder character names
+            # members and bench character names
             if char_names:
-                for role in ("members", "bench", "placeholders"):
+                for role in ("members", "bench"):
                     for member in team.get(role) or []:
                         if not isinstance(member, dict):
                             continue

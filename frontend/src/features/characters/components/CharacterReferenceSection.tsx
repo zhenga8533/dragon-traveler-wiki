@@ -23,11 +23,6 @@ import {
 	getTeamBenchEntryNote,
 	getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
-import {
-	getTeamPlaceholderEntryName,
-	getTeamPlaceholderEntryNote,
-	getTeamPlaceholderEntryQuality,
-} from '@/features/teams/utils/team-placeholder';
 
 interface CharacterReferenceSectionProps {
 	character: Character;
@@ -40,7 +35,7 @@ interface CharacterReferenceSectionProps {
 
 interface TeamInclusion {
 	teamName: string;
-	role: 'Main' | 'Bench' | 'Placeholder';
+	role: 'Main' | 'Bench';
 	faction: FactionName;
 	contentType: string;
 	overdriveOrder: number | null;
@@ -129,35 +124,11 @@ export default function CharacterReferenceSection({
 				});
 			}
 
-			const placeholderEntry =
-				team.placeholders?.find((entry) => {
-					const placeholderName = getTeamPlaceholderEntryName(entry).toLowerCase();
-					const placeholderQuality = getTeamPlaceholderEntryQuality(entry);
-					return (
-						placeholderName === name &&
-						(!placeholderQuality || placeholderQuality === character.quality)
-					);
-				}) ?? null;
-
-			if (placeholderEntry) {
-				const placeholderNote = getTeamPlaceholderEntryNote(placeholderEntry) ?? null;
-				results.push({
-					teamName: team.name,
-					role: 'Placeholder',
-					faction: team.faction,
-					contentType: normalizeContentType(team.content_type, 'All'),
-					overdriveOrder: null,
-					note: placeholderNote?.trim() || null,
-					position: null,
-				});
-			}
-
 		}
 
 		const roleOrder: Record<TeamInclusion['role'], number> = {
 			Main: 0,
 			Bench: 1,
-			Placeholder: 2,
 		};
 
 		return results.sort((a, b) => {

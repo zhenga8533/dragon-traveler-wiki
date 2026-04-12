@@ -34,7 +34,6 @@ import { createPortal } from 'react-dom';
 import {
   AvailablePool,
   BenchPool,
-  PlaceholderPool,
   DraggableCharCard,
   PasteJsonModal,
   SlotsGrid,
@@ -78,8 +77,6 @@ export default function TeamBuilder({
     availableCharacters,
     bench,
     benchNotes,
-    placeholders,
-    placeholderNotes,
     characterByIdentity,
     characterNameCounts,
     factionColor,
@@ -88,7 +85,6 @@ export default function TeamBuilder({
     handleAddToNextSlot,
     handleAuthorCommit,
     handleBenchNoteChange,
-    handlePlaceholderNoteChange,
     handleClear,
     handleContentTypeChange,
     handleDescriptionCommit,
@@ -277,19 +273,6 @@ export default function TeamBuilder({
             />
           </Stack>
 
-          <Stack gap="xs">
-            <Text size="sm" fw={600}>
-              Placeholders
-            </Text>
-            <PlaceholderPool
-              placeholders={placeholders}
-              charMap={characterByIdentity}
-              placeholderNotes={placeholderNotes}
-              onPlaceholderNoteChange={handlePlaceholderNoteChange}
-              nameCounts={characterNameCounts}
-            />
-          </Stack>
-
           <FilterableCharacterPool characters={availableCharacters}>
             {(filtered, filterHeader, paginationControl) => (
               <AvailablePool
@@ -430,20 +413,6 @@ export default function TeamBuilder({
               {teamData.bench && teamData.bench.length > 0 && (
                 <BenchSection
                   bench={teamData.bench}
-                  charMap={charMap}
-                  characterByIdentity={characterByIdentity}
-                  characterNameCounts={characterNameCounts}
-                  getCharacterPath={getCharacterPath}
-                  factionColor={factionColor}
-                  tooltipProps={tooltipProps}
-                  disableNameClamp
-                  desktopMode
-                />
-              )}
-              {teamData.placeholders && teamData.placeholders.length > 0 && (
-                <BenchSection
-                  title="Placeholders"
-                  bench={teamData.placeholders}
                   charMap={charMap}
                   characterByIdentity={characterByIdentity}
                   characterNameCounts={characterNameCounts}

@@ -21,12 +21,6 @@ export interface TeamBenchMember {
   note?: string;
 }
 
-export interface TeamPlaceholderMember {
-  character_name: string;
-  character_quality?: Quality;
-  note?: string;
-}
-
 export interface TeamWyrmspells {
   breach?: string;
   refuge?: string;
@@ -42,7 +36,6 @@ export interface Team {
   faction: FactionName;
   members: TeamMember[];
   bench?: TeamBenchMember[];
-  placeholders?: TeamPlaceholderMember[];
   wyrmspells?: TeamWyrmspells;
   last_updated: number;
 }

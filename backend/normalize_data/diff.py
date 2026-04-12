@@ -30,7 +30,6 @@ _ARRAY_DIFF_CFG: dict[tuple[str, str], dict] = {
     # teams.json
     ("teams.json", "members"): {"identity": _character_entry_identity, "value": None},
     ("teams.json", "bench"): {"identity": _character_entry_identity, "value": None},
-    ("teams.json", "placeholders"): {"identity": _character_entry_identity, "value": None},
     # characters.json
     ("characters.json", "skills"): {"identity": "name", "value": None},
     ("characters.json", "talent_levels"): {"identity": "level", "value": "effect"},
