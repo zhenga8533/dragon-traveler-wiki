@@ -90,6 +90,82 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "entries": {
+            "added": [
+              "Tamamo"
+            ],
+            "changed": {
+              "Asmodeus": {
+                "old": "S",
+                "new": "S+"
+              },
+              "Asteros (SSR+)": {
+                "old": "A+",
+                "new": "A"
+              },
+              "Athena": {
+                "old": "SS",
+                "new": "S"
+              },
+              "Azure Dragon": {
+                "old": "S",
+                "new": "S+"
+              },
+              "Dvalin": {
+                "old": "S+",
+                "new": "S"
+              },
+              "Goblin War Drummer": {
+                "old": "F",
+                "new": "A+"
+              },
+              "Helveil": {
+                "old": "A",
+                "new": "A+"
+              },
+              "Ifrit": {
+                "old": "S",
+                "new": "A+"
+              },
+              "Jormungandr": {
+                "old": "A",
+                "new": "B"
+              },
+              "Lilith": {
+                "old": "SS",
+                "new": "S"
+              },
+              "Morgana": {
+                "old": "S+",
+                "new": "S"
+              },
+              "Salome": {
+                "old": "SS",
+                "new": "S+"
+              },
+              "Talos": {
+                "old": "SS",
+                "new": "S+"
+              },
+              "Tyrfing": {
+                "old": "S+",
+                "new": "S"
+              },
+              "Venus": {
+                "old": "SS",
+                "new": "S+"
+              },
+              "Vivienne": {
+                "old": "SS",
+                "new": "S+"
+              }
+            }
+          }
+        }
       }
     ]
   },
@@ -169,6 +245,66 @@
             "removed": [
               "Duvalin"
             ]
+          }
+        }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "entries": {
+            "added": [
+              "Tamamo"
+            ],
+            "changed": {
+              "Azure Dragon": {
+                "old": "S",
+                "new": "S+"
+              },
+              "Dvalin": {
+                "old": "S+",
+                "new": "S"
+              },
+              "Helveil": {
+                "old": "A",
+                "new": "A+"
+              },
+              "Ifrit": {
+                "old": "S",
+                "new": "A+"
+              },
+              "Lilith": {
+                "old": "SS",
+                "new": "S+"
+              },
+              "Loki": {
+                "old": "S",
+                "new": "S+"
+              },
+              "Morgana": {
+                "old": "SS",
+                "new": "S+"
+              },
+              "Poseidon": {
+                "old": "S",
+                "new": "S+"
+              },
+              "Prometheus": {
+                "old": "SS",
+                "new": "S"
+              },
+              "Salome": {
+                "old": "SS",
+                "new": "S+"
+              },
+              "Talos": {
+                "old": "SS",
+                "new": "S+"
+              },
+              "Vivienne": {
+                "old": "SS",
+                "new": "S+"
+              }
+            }
           }
         }
       }
@@ -252,6 +388,47 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "entries": {
+            "changed": {
+              "Dvalin": {
+                "old": "S+",
+                "new": "A+"
+              },
+              "Ifrit": {
+                "old": "S",
+                "new": "A+"
+              },
+              "Jing": {
+                "old": "A",
+                "new": "A+"
+              },
+              "Lilith": {
+                "old": "SS",
+                "new": "S+"
+              },
+              "Prometheus": {
+                "old": "S",
+                "new": "A+"
+              },
+              "Salome": {
+                "old": "SS",
+                "new": "S+"
+              },
+              "Talos": {
+                "old": "SS",
+                "new": "S+"
+              },
+              "Vivienne": {
+                "old": "SS",
+                "new": "S+"
+              }
+            }
+          }
+        }
       }
     ]
   },
@@ -323,6 +500,30 @@
         "timestamp": 1775921685,
         "fields": {
           "entries": {}
+        }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "entries": {
+            "added": [
+              "Vermilion Bird"
+            ],
+            "changed": {
+              "Azure Dragon": {
+                "old": "S",
+                "new": "S+"
+              },
+              "Cleopatra (SSR)": {
+                "old": "S",
+                "new": "A"
+              },
+              "Siegfried (SSR+)": {
+                "old": "S+",
+                "new": "S"
+              }
+            }
+          }
         }
       }
     ]

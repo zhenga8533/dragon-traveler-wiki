@@ -1,7 +1,94 @@
 {
   "End Game Arcane Wisdom": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "author": {
+            "old": "ligong0214",
+            "new": "X"
+          },
+          "bench": {
+            "added": [
+              "Ares",
+              "Hades",
+              "Ifrit",
+              "Medusa (SSR+)",
+              "Prometheus"
+            ],
+            "removed": [
+              "Azure Dragon",
+              "Medusa",
+              "Poseidon",
+              "Talos"
+            ],
+            "modified": {
+              "Herman": {
+                "note": {
+                  "old": "Counters dual assassins; Interrupt control.",
+                  "new": "Disruptive tank. Consumes [Awakening] to unleash continuous Spirit Flames that deal area damage and heal her."
+                }
+              },
+              "Nemesis": {
+                "note": {
+                  "old": "Energy recovery; High-frequency silence.",
+                  "new": "Energy recovery Assassin. Consumes [Awakening] stacks to unleash a supercharged [Crippling Strike] on high-energy enemies."
+                }
+              },
+              "Scheherazade": {
+                "note": {
+                  "old": "Cost reduction activation; High-tier priest utility.",
+                  "new": "High-tier Priest utility. Consumes [Awakening] to guarantee her massive team heals and buffs duplicate."
+                }
+              }
+            }
+          },
+          "members": {
+            "added": [
+              "Azure Dragon",
+              "Talos"
+            ],
+            "removed": [
+              "Ifrit",
+              "Orion"
+            ],
+            "modified": {
+              "Artemis": {
+                "note": {
+                  "old": "Sustained damage output; Significantly increases damage.",
+                  "new": "Main sustained DPS. Supercharged by Vivienne, she consumes [Awakening] stacks to double-cast [Luna Arrow] for massive physical damage."
+                }
+              },
+              "Atanith": {
+                "note": {
+                  "old": "Increased cost / Interrupt; Punishes high-cost units.",
+                  "new": "Disruption Priest. Stalls enemies by increasing their Overdrive costs and consumes [Awakening] stacks to heal the team via [Mana Surge]."
+                }
+              },
+              "Pompey": {
+                "note": {
+                  "old": "Stable damage tanking; occasional finishing/harvesting.",
+                  "new": "Stable damage tank. Consumes [Awakening] stacks to repeatedly cast [Ironclad Surge], turning missing health into massive heals."
+                }
+              },
+              "Vivienne": {
+                "note": {
+                  "old": "High-tier priest; Significantly increases damage.",
+                  "new": "Core support. Attaches to the highest-attack ally to make herself untargetable while granting massive shields and damage buffs."
+                }
+              }
+            }
+          },
+          "wyrmspells": {
+            "refuge": {
+              "old": "Magic Defense Aura",
+              "new": "Drain Aura"
+            }
+          }
+        }
+      }
+    ]
   },
   "End Game Sanctum Glory": {
     "added": 1772563593,
@@ -34,6 +121,112 @@
                   }
                 }
               }
+            }
+          }
+        }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "author": {
+            "old": "ligong0214",
+            "new": "X"
+          },
+          "bench": {
+            "removed": [
+              "Arthur",
+              "Gullveig",
+              "Orion"
+            ],
+            "modified": {
+              "Chiron": {
+                "note": {
+                  "old": "Magic orb buffs; dispels debuffs.",
+                  "new": "Magic orb buffs. Binds to the highest-attack ally to coordinate magic arrows and sacrifices HP for massive team healing and [Morale]."
+                }
+              },
+              "Goblin War Drummer": {
+                "note": {
+                  "old": "Early game buffs; fast activation.",
+                  "new": "Fast activation buffer. Replaces basic attacks to grant continuous [Attack Speed Up] to the strongest ally and team-wide [Adrenaline]."
+                }
+              },
+              "Helveil": {
+                "note": {
+                  "old": "Counters dual assassins; group crit resistance.",
+                  "new": "Counters dual assassins. Creates a [Spirit Shackles] shield formation for immense damage reduction and crowd control immunity."
+                }
+              },
+              "Lorillin": {
+                "note": {
+                  "old": "Low-cost interrupt; provides Fervor.",
+                  "new": "Low-cost interrupt. Provides [Fervor] and [High Morale] to allies while raining down pillars of light on shocked enemies."
+                }
+              },
+              "Scheherazade": {
+                "note": {
+                  "old": "Early game cost reduction; high-tier priest; group healing.",
+                  "new": "Early game cost reduction. High-tier Priest that guarantees duplicate heals and buffs."
+                }
+              }
+            }
+          },
+          "members": {
+            "modified": {
+              "Apollo": {
+                "note": {
+                  "old": "Burst tank-shredding; continuous stacking damage.",
+                  "new": "Burst tank-shredding. Applies [Sigil of Radiance] to deal massive bonus physical damage based on the target's Max HP."
+                }
+              },
+              "Athena": {
+                "note": {
+                  "old": "Area taunt; gathers enemies.",
+                  "new": "Area taunt tank. Sacrifices HP to generate massive shields and gathers enemies while protecting vulnerable allies with [Life Link]."
+                }
+              },
+              "Gabriele": {
+                "note": {
+                  "old": "Group burst damage.",
+                  "new": "Group burst damage. Becomes untargetable and unleashes heavy area magic damage slashes, healing herself on critical hits."
+                },
+                "position": {
+                  "row": {
+                    "old": 1,
+                    "new": 2
+                  }
+                }
+              },
+              "Hela": {
+                "position": {
+                  "col": {
+                    "old": 1,
+                    "new": 0
+                  },
+                  "row": {
+                    "old": 2,
+                    "new": 1
+                  }
+                }
+              },
+              "Vivienne": {
+                "note": {
+                  "old": "Possession immunity; massive damage increase; opening gift.",
+                  "new": "Possession immunity and massive damage increase. Attaches to the highest-attack ally to grant massive shields and continuous healing."
+                },
+                "position": {
+                  "col": {
+                    "old": 0,
+                    "new": 1
+                  }
+                }
+              }
+            }
+          },
+          "wyrmspells": {
+            "refuge": {
+              "old": "Magic Defense Aura",
+              "new": "Drain Aura"
             }
           }
         }
@@ -115,6 +308,99 @@
             }
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "author": {
+            "old": "ligong0214",
+            "new": "X"
+          },
+          "bench": {
+            "added": [
+              "Chiron",
+              "Prometheus"
+            ],
+            "removed": [
+              "Azure Dragon",
+              "Caligula",
+              "Gullveig",
+              "Loki",
+              "Lorillin",
+              "Silbismo"
+            ],
+            "modified": {
+              "Oberonnie (SSR)": {
+                "note": {
+                  "old": "Counters dual assassins.",
+                  "new": "Counters dual assassins. Enters the [Wild] state to generate powerful shields, heal herself upon dodging, and buff allied Magic Defense."
+                }
+              },
+              "Vivienne": {
+                "note": {
+                  "old": "High-tier priest; significantly increases damage.",
+                  "new": "High-tier Priest. Significantly increases damage by possessing the main DPS and granting massive shields."
+                }
+              }
+            }
+          },
+          "members": {
+            "added": [
+              "Lilith"
+            ],
+            "removed": [
+              "Chiron"
+            ],
+            "modified": {
+              "Athena": {
+                "note": {
+                  "old": "Area taunt; gathers enemies.",
+                  "new": "Area taunt tank. Redirects incoming damage to herself and provides heavy AoE retaliation that loses its cooldown in the [Wild] state."
+                }
+              },
+              "Jing": {
+                "note": {
+                  "old": "Burst tank-shredding; continuous damage output.",
+                  "new": "Burst tank-shredding. Reduces enemy Movement Speed with [Endless Edge] and unleashes a rapid five-blade attack in the [Wild] state."
+                }
+              },
+              "Talos": {
+                "note": {
+                  "old": "Sustained damage output.",
+                  "new": "Sustained area DPS. Places mechanical orbs that all activate simultaneously for massive rapid-fire damage when she enters the [Wild] state."
+                }
+              },
+              "Tyrfing": {
+                "note": {
+                  "old": "Heal block; cuts through tanks.",
+                  "new": "Heal block and sustained DPS. Transforms into [Bloodferno Form] to deal heavy damage and steal enemy Healing Received effects."
+                }
+              },
+              "Venus": {
+                "note": {
+                  "old": "High-tier priest; group healing.",
+                  "new": "High-tier Priest. Grants immense Damage Reduction through [Divine Melody] and automatically heals allies when they enter the [Wild] state."
+                },
+                "position": {
+                  "col": {
+                    "old": 2,
+                    "new": 1
+                  },
+                  "row": {
+                    "old": 2,
+                    "new": 1
+                  }
+                }
+              }
+            }
+          },
+          "wyrmspells": {
+            "refuge": {
+              "old": "Magic Defense Aura",
+              "new": "Drain Aura"
+            }
+          }
+        }
       }
     ]
   },
@@ -152,6 +438,98 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "author": {
+            "old": "ligong0214",
+            "new": "X"
+          },
+          "bench": {
+            "added": [
+              "Crassus",
+              "Hermes"
+            ],
+            "removed": [
+              "Huginn & Muninn",
+              "Ophelia",
+              "Pompey"
+            ],
+            "modified": {
+              "Ares": {
+                "note": {
+                  "old": "Continuous control; sustained DPS.",
+                  "new": "Continuous control and sustained DPS. Punishes enemies with heavy stuns from [Godfist]."
+                }
+              },
+              "Atanith": {
+                "note": {
+                  "old": "Increases cost (energy management); interrupts.",
+                  "new": "Energy management and interrupts. Constantly increases enemy Overdrive costs and inflicts [Silence]."
+                }
+              },
+              "Herman": {
+                "note": {
+                  "old": "Counters dual assassins; interrupts and controls.",
+                  "new": "Interrupt control. Punishes enemies by increasing their Overdrive costs with [Axe Boomerang] and inflicting [Stun]."
+                }
+              },
+              "Medusa (SSR+)": {
+                "note": {
+                  "old": "High-frequency petrification; steals CD; counters basic attacks.",
+                  "new": "High-frequency petrification. Steals cooldowns, delays enemy Overdrives, and counters basic attacks with [Venom Mark]."
+                }
+              },
+              "Nemesis": {
+                "note": {
+                  "old": "High-frequency silence; energy recovery.",
+                  "new": "High-frequency silence. Specifically targets and suppresses high-energy enemies with [Crippling Strike]."
+                }
+              },
+              "Ningluosi": {
+                "note": {
+                  "old": "Sustained DPS.",
+                  "new": "Sustained DPS. Ignores enemy shields and heavily penalizes enemies afflicted with [Corruption and Decay]."
+                }
+              },
+              "Orion": {
+                "note": {
+                  "old": "Heal block/Silence control; sustained DPS.",
+                  "new": "Sustained DPS with Heal block. Increases the target's next Overdrive Energy cost and inflicts [Chill] using [Magic Crystal Arrow]."
+                }
+              },
+              "Tyrfing": {
+                "note": {
+                  "old": "Sustained DPS; lifesteal/steals healing.",
+                  "new": "Sustained DPS and lifesteal. Steals enemy Healing Received effects and sacrifices HP to deal heavy damage."
+                }
+              }
+            }
+          },
+          "members": {
+            "modified": {
+              "Caesar": {
+                "note": {
+                  "old": "Stable tanking (damage absorption).",
+                  "new": "Stable tanking. Intercepts projectiles with [Radiant Barrier] and punishes enemies by increasing their Overdrive costs when the barrier breaks."
+                }
+              },
+              "Poseidon": {
+                "note": {
+                  "old": "Key death immunity; delays combat; increases room for error.",
+                  "new": "Key death immunity. Provides a critical [Frost Barrier] to save a dying ally and constantly delays enemy Overdrives via [Tide of the Abyss]."
+                }
+              }
+            }
+          },
+          "wyrmspells": {
+            "refuge": {
+              "old": "Magic Defense Aura",
+              "new": "Drain Aura"
+            }
+          }
+        }
       }
     ]
   },
@@ -182,6 +560,111 @@
             "removed": [
               "Hades"
             ]
+          }
+        }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "author": {
+            "old": "ligong0214",
+            "new": "X"
+          },
+          "bench": {
+            "added": [
+              "Medusa (SSR+)"
+            ],
+            "removed": [
+              "Apollo",
+              "Caligula",
+              "Faust",
+              "Gabriele",
+              "Gullveig"
+            ],
+            "modified": {
+              "Cleopatra (SSR+)": {
+                "note": {
+                  "old": "Provides Deathrattle.",
+                  "new": "Black Cat Goddess. Summons an army of Mummies whose inherited Attack scales up for every [Deathrattle] stack she gains."
+                }
+              },
+              "Hades": {
+                "note": {
+                  "old": "Harvests energy recovery; interrupts.",
+                  "new": "Harvests energy recovery. Uses [Deathrattle] stacks to block fatal damage, cleanse debuffs, and recover massive health."
+                }
+              },
+              "Helveil": {
+                "note": {
+                  "old": "Stable damage absorption; team anti-crit.",
+                  "new": "Stable damage absorption. Gains [Deathrattle] stacks as allies fall, immensely increasing her Crit Resist."
+                }
+              },
+              "Ningluosi": {
+                "note": {
+                  "old": "Sustained DPS.",
+                  "new": "Sustained DPS. Gains [Deathrattle] stacks and increases her chance to delay enemy ultimates when attacking afflicted targets."
+                }
+              }
+            }
+          },
+          "members": {
+            "modified": {
+              "Anubis": {
+                "note": {
+                  "old": "Stable tanking (damage absorption).",
+                  "new": "Stable tanking. Thrives when allies fall, gaining [Deathrattle] stacks to repeatedly cheat death and recover health."
+                }
+              },
+              "Asmodeus": {
+                "note": {
+                  "old": "Counters dual assassins; backline damage reduction.",
+                  "new": "Backline damage reduction. Summons [Little Devil]s to disrupt enemies and converts summon damage into health via [Blood Thirst]."
+                }
+              },
+              "Azure Dragon": {
+                "note": {
+                  "old": "Universal front-line protection; provides \"last words\" (deathrattle) effects.",
+                  "new": "Universal front-line protection. Scales her Damage Reduction or Amplification based on shields and provides massive team-wide shields."
+                }
+              },
+              "Jing": {
+                "note": {
+                  "old": "Burst tank-shredding; sustained DPS.",
+                  "new": "Burst tank-shredding. Scales her Attack drastically as allies fall by accumulating [Deathrattle] stacks."
+                },
+                "position": {
+                  "col": {
+                    "old": 0,
+                    "new": 1
+                  }
+                }
+              },
+              "Loki": {
+                "note": {
+                  "old": "Permanent chain seal; counters resurrection.",
+                  "new": "Permanent chain seal. Becomes invincible at low health, summons mirror images, and permanently seals enemy special abilities."
+                },
+                "position": {
+                  "col": {
+                    "old": 1,
+                    "new": 0
+                  }
+                }
+              },
+              "Silbismo": {
+                "note": {
+                  "old": "Duplicates summons; high-level priest.",
+                  "new": "Duplicates summons. Spawns [Tentacle]s for continuous damage/healing and scales her health permanently as summons die."
+                }
+              }
+            }
+          },
+          "wyrmspells": {
+            "refuge": {
+              "old": "Shield Aura",
+              "new": "Drain Aura"
+            }
           }
         }
       }
@@ -257,6 +740,103 @@
                   }
                 }
               }
+            }
+          }
+        }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "author": {
+            "old": "ligong0214",
+            "new": "X"
+          },
+          "bench": {
+            "added": [
+              "Morgana",
+              "Zagreus"
+            ],
+            "removed": [
+              "Fenrir (SSR)",
+              "Gullveig",
+              "Lorillin",
+              "Orion",
+              "Siegfried (SSR+)",
+              "Venus"
+            ],
+            "modified": {
+              "Dvalin": {
+                "note": {
+                  "old": "Stable damage mitigation / Tanking",
+                  "new": "Stable damage mitigation. Applies [Ignite] in her Wild state and debuffs enemy attack power whenever she triggers reactions."
+                }
+              },
+              "Ifrit": {
+                "note": {
+                  "old": "Sustained DPS (Damage per second)",
+                  "new": "Sustained DPS. Continuously applies [Ignite] via firestorms and reduces her own Overdrive costs upon triggering reactions."
+                }
+              },
+              "Oberonnie (SSR)": {
+                "note": {
+                  "old": "Stable damage mitigation / Tanking",
+                  "new": "Evasive Guardian. Becomes near-untouchable against elementally-debuffed enemies and periodically heals the team on every reaction."
+                }
+              },
+              "Vivienne": {
+                "note": {
+                  "old": "High-tier Priest; Massive damage buff",
+                  "new": "High-tier Priest. Grants a massive damage buff and continuous healing to the main DPS while supplementing with [Chill]."
+                }
+              }
+            }
+          },
+          "members": {
+            "added": [
+              "Orion",
+              "Venus"
+            ],
+            "removed": [
+              "Morgana",
+              "Zagreus"
+            ],
+            "modified": {
+              "Poseidon": {
+                "note": {
+                  "old": "Critical death immunity; Elemental reaction",
+                  "new": "Critical death immunity. All of her skills apply [Chill], and she deals massive bonus magic damage whenever she triggers an [Elemental Reaction]."
+                }
+              },
+              "Salome": {
+                "note": {
+                  "old": "Teammates gain increased damage and reduced damage when Shock is applied.",
+                  "new": "Evasion tank. Teammates gain increased damage and reduced damage whenever they successfully apply [Shock] to enemies."
+                }
+              },
+              "Thor": {
+                "note": {
+                  "old": "Elemental reaction; High burst damage",
+                  "new": "High burst damage. Applies [Thor's Mark] to enemies afflicted with [Shock], later detonating them for massive AoE magic damage."
+                }
+              },
+              "Vermilion Bird": {
+                "note": {
+                  "old": "Has a high coverage of Ignite.",
+                  "new": "High [Ignite] coverage. Rapidly stacks [Scorching Sun] to multiply her damage whenever an ally triggers [Detonation] or [Evaporation]."
+                },
+                "position": {
+                  "col": {
+                    "old": 1,
+                    "new": 0
+                  }
+                }
+              }
+            }
+          },
+          "wyrmspells": {
+            "refuge": {
+              "old": "Magic Defense Aura",
+              "new": "Drain Aura"
             }
           }
         }

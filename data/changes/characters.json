@@ -48,6 +48,37 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "recommended_gear": {
+            "accessory": {
+              "old": "Starlight Magisterium",
+              "new": "Spirit Turtle Talisman"
+            },
+            "boots": {
+              "old": "Arcane Boots",
+              "new": "Flamelord's Boots"
+            },
+            "bracers": {
+              "old": "Arcane Gauntlets",
+              "new": "Flamelord's Gauntlets"
+            },
+            "chestplate": {
+              "old": "Arcane Robe",
+              "new": "Flamelord's Armor"
+            },
+            "headgear": {
+              "old": "Arcane Hood",
+              "new": "Flamelord's Helmet"
+            },
+            "weapon": {
+              "old": "Tome of Stars",
+              "new": "Flamelord's Sword"
+            }
+          }
+        }
       }
     ]
   },
@@ -215,6 +246,21 @@
             }
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "recommended_gear": {
+            "accessory": {
+              "old": "Eagle Warrior Portrait",
+              "new": "Blessing of the Sacred Tree"
+            },
+            "weapon": {
+              "old": "Last Whisper",
+              "new": "Flamelord's Sword"
+            }
+          }
+        }
       }
     ]
   },
@@ -269,6 +315,29 @@
           "origin": {
             "old": "Modern Fantasy",
             "new": "Modern Fantasy Literature"
+          }
+        }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "recommended_gear": {
+            "boots": {
+              "old": "Arcane Boots",
+              "new": "Flamelord's Boots"
+            },
+            "bracers": {
+              "old": "Arcane Gauntlets",
+              "new": "Flamelord's Gauntlets"
+            },
+            "chestplate": {
+              "old": "Arcane Robe",
+              "new": "Flamelord's Armor"
+            },
+            "headgear": {
+              "old": "Arcane Hood",
+              "new": "Flamelord's Helmet"
+            }
           }
         }
       }
@@ -1069,6 +1138,21 @@
             }
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "3": {
+                  "old": "Increases attack by 10% and critical hit chance by 50%.",
+                  "new": "Increases attack by 10% and critical hit chance by 50."
+                }
+              }
+            }
+          }
+        }
       }
     ]
   },
@@ -1289,7 +1373,31 @@
   },
   "Andevaly__SSR+": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "recommended_gear": {
+            "boots": {
+              "old": "Night Owl Boots",
+              "new": "Dragon Hunter Boots"
+            },
+            "bracers": {
+              "old": "Night Owl Gauntlets",
+              "new": "Dragon Hunter Gauntlets"
+            },
+            "chestplate": {
+              "old": "Night Owl Armor",
+              "new": "Dragon Hunter Armor"
+            },
+            "headgear": {
+              "old": "Night Owl Helmet",
+              "new": "Dragon Hunter Helmet"
+            }
+          }
+        }
+      }
+    ]
   },
   "Arthur__SSR+": {
     "added": 1772563593,
@@ -1491,6 +1599,17 @@
             ]
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "recommended_gear": {
+            "accessory": {
+              "old": "Eagle Warrior Portrait",
+              "new": "Blessing of the Sacred Tree"
+            }
+          }
+        }
       }
     ]
   },
@@ -1666,7 +1785,23 @@
   },
   "Artemis__SSR EX": {
     "added": 1772563593,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Embrace of the Dark Moon": {
+                "description": {
+                  "old": "Increases the skill haste of all allied ranged Luminaries by 25 and their damage by 25% for 6 seconds, and puts the caster and one allied Luminary or dragon with the lowest health into the [Dark Moon] state for 4 seconds.\nUpon activation, the user gains 3 stacks of [Moon Soul]. (If there are no other selectable allied Luminaries or dragons on the field, the [Dark Moon] status granted by this skill is changed to 2 seconds).",
+                  "new": "Increases the skill haste of all allied ranged Luminaries by 25 and their damage by 25% for 6 seconds, and puts the caster and one allied Luminary or Wyrm with the lowest health into the [Dark Moon] state for 4 seconds.\nUpon activation, the user gains 3 stacks of [Moon Soul]. (If there are no other selectable allied Luminaries or Wyrms on the field, the [Dark Moon] status granted by this skill is changed to 2 seconds)."
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Huginn & Muninn__SSR+": {
     "added": 1772563593,
@@ -1837,6 +1972,37 @@
                   "new": "For each stack of [Deathrattle], gain Attack Speed Boost 6%."
                 }
               }
+            }
+          }
+        }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "recommended_gear": {
+            "accessory": {
+              "old": "Starlight Magisterium",
+              "new": "Dragonblood Seal"
+            },
+            "boots": {
+              "old": "Arcane Boots",
+              "new": "Night Owl Boots"
+            },
+            "bracers": {
+              "old": "Arcane Gauntlets",
+              "new": "Night Owl Gauntlets"
+            },
+            "chestplate": {
+              "old": "Arcane Robe",
+              "new": "Night Owl Armor"
+            },
+            "headgear": {
+              "old": "Arcane Hood",
+              "new": "Night Owl Helmet"
+            },
+            "weapon": {
+              "old": "Tome of Stars",
+              "new": "Typhon's Wrath"
             }
           }
         }
@@ -2028,6 +2194,25 @@
           "origin": {
             "old": "Eastern Mythology",
             "new": "Eastern Civilization"
+          }
+        }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "3": {
+                  "old": "Increases own health by 10% and critical strike chance by 50%.",
+                  "new": "Increases own health by 10% and critical strike chance by 50."
+                },
+                "4": {
+                  "old": "[Gravity Star Core] now consumes a maximum of 3 stacks of [Governor's Intimidation].",
+                  "new": "[Gravitational Star Core] now consumes a maximum of 3 stacks of [Governor's Intimidation]."
+                }
+              }
+            }
           }
         }
       }
@@ -2413,6 +2598,37 @@
             "new": false
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "recommended_gear": {
+            "accessory": {
+              "old": "Starlight Magisterium",
+              "new": "Dragonblood Seal"
+            },
+            "boots": {
+              "old": "Arcane Boots",
+              "new": "Night Owl Boots"
+            },
+            "bracers": {
+              "old": "Arcane Gauntlets",
+              "new": "Night Owl Gauntlets"
+            },
+            "chestplate": {
+              "old": "Arcane Robe",
+              "new": "Night Owl Armor"
+            },
+            "headgear": {
+              "old": "Arcane Hood",
+              "new": "Night Owl Helmet"
+            },
+            "weapon": {
+              "old": "Tome of Stars",
+              "new": "Typhon's Wrath"
+            }
+          }
+        }
       }
     ]
   },
@@ -2441,16 +2657,97 @@
             "new": false
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "recommended_gear": {
+            "accessory": {
+              "old": "Eagle Warrior Portrait",
+              "new": "Blessing of the Sacred Tree"
+            }
+          }
+        }
       }
     ]
   },
   "Hermes__SSR EX": {
     "added": 1772856370,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "recommended_gear": {
+            "accessory": {
+              "old": "Starlight Magisterium",
+              "new": "Eagle Warrior Portrait"
+            },
+            "boots": {
+              "old": "Arcane Boots",
+              "new": "Paladin's Boots"
+            },
+            "bracers": {
+              "old": "Arcane Gauntlets",
+              "new": "Paladin's Gauntlets"
+            },
+            "chestplate": {
+              "old": "Arcane Robe",
+              "new": "Paladin's Armor"
+            },
+            "headgear": {
+              "old": "Arcane Hood",
+              "new": "Paladin's Helmet"
+            },
+            "weapon": {
+              "old": "Tome of Stars",
+              "new": "Last Whisper"
+            }
+          }
+        }
+      }
+    ]
   },
   "Catherine__SSR+": {
     "added": 1773334188,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Extreme Cold Seal": {
+                "description": {
+                  "old": "Unleash a magical burst on the enemy phantom with the highest attack speed, dealing magic damage equal to 280% of your attack to enemy units in a medium-sized circular area around the target, and inflicting [Attack Speed Down] and [Chill].",
+                  "new": "Unleash a magical burst on the enemy Luminary with the highest attack speed, dealing magic damage equal to 280% of your attack to enemy units in a medium-sized circular area around the target, and inflicting [Attack Speed Down] and [Chill]."
+                }
+              },
+              "Frozen Armor": {
+                "description": {
+                  "old": "Grants a friendly Phantom a shield equal to 210% of your attack (prioritizes the friendly Phantom with the highest attack who has not received [Frozen Armor]), lasting 8 seconds. During the shield's duration, it increases the target's damage by 10%.\nThe user of [Frozen Armor] deals additional damage equal to 150% of their attack to enemy units in the [Chill] state . Each time an ally uses their ultimate skill, the user gains 1 stack of [Awakening].\nWhen this skill is used, it consumes 3 stacks of [Awakening] to gain an enhancement and select an additional target.",
+                  "new": "Grants a friendly Phantom a shield equal to 210% of your attack (prioritizes the friendly Phantom with the highest attack who has not received [Frozen Armor]), lasting 8 seconds. During the shield's duration, it increases the target's damage by 10%.\nThe user of [Frozen Armor] deals additional damage equal to 150% of their attack to enemy units in the [Chill] state. Each time an ally uses their ultimate skill, the user gains 1 stack of [Awakening].\nWhen this skill is used, it consumes 3 stacks of [Awakening] to gain an enhancement and select an additional target."
+                }
+              },
+              "Unyielding Chill": {
+                "description": {
+                  "old": "When [Frost Vortex] exists on the field, your ultimate skill energy consumption is reduced by 1.\nFor each enemy phantom in [Frost Vortex], increase Catherine's attack by 10% and shield efficiency by 5% .",
+                  "new": "When [Frost Vortex] exists on the field, your ultimate skill energy consumption is reduced by 1.\nFor each enemy Luminary in [Frost Vortex], increase Catherine's attack by 10% and shield efficiency by 5% ."
+                }
+              }
+            }
+          },
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "2": {
+                  "old": "Whenever an enemy phantom or dragon under the [Frost Vortex] effect enters the [Evaporation] or [Flash Freeze] state, immediately cast [Frozen Armor] once (can trigger a maximum of 1 time within 3 seconds).",
+                  "new": "Whenever an enemy Luminary or Wyrm under the [Frost Vortex] effect enters the [Evaporation] or [Flash Freeze] state, immediately cast [Frozen Armor] once (can trigger a maximum of 1 time within 3 seconds)."
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   },
   "Duvalin__SSR+": {
     "added": 1772645598,
@@ -2472,11 +2769,58 @@
             "new": "Bilqis, Queen of Sheba, was the ruler of the ancient kingdom of Sheba and was renowned for her immense wealth and extraordinary wisdom. She once led a huge caravan, laden with spices, jewels, and gold, across the desert to Jerusalem, where she tested the famous King Solomon of Israel with wise questions, thus leaving a multifaceted mark on the texts and oral stories of different civilizations."
           }
         }
+      },
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Shallow Burial": {
+                "description": {
+                  "old": "Select one of your Luminaries or Wyrms to enter the [Blessed] state for 5 seconds and deduct 90% of their current health.\nDuring the duration of the [Blessed] status, the target is immune to death and gains increased attack speed and damage, with the increase being 0.4 times the current rage percentage of the phantom.\n[Blessed] 0.5 seconds before the effect ends, restores the target's health 6 times, each time restoring 20% of the target's lost health.",
+                  "new": "Select one of your Luminaries or Wyrms to enter the [Blessed] state for 5 seconds and deduct 90% of their current health.\nDuring the duration of the [Blessed] status, the target is immune to death and gains increased attack speed and damage, with the increase being 0.4 times the current rage percentage of the Luminary.\n[Blessed] 0.5 seconds before the effect ends, restores the target's health 6 times, each time restoring 20% of the target's lost health."
+                }
+              }
+            }
+          },
+          "talent": {
+            "talent_levels": {
+              "changed": {
+                "3": {
+                  "old": "Increases own healing effect by 5% and critical strike chance by 50%.",
+                  "new": "Increases own healing effect by 5% and critical strike chance by 50."
+                }
+              }
+            }
+          }
+        }
       }
     ]
   },
   "Tamamo__SSR+": {
     "added": 1775484524,
-    "changes": []
+    "changes": [
+      {
+        "timestamp": 1775976599,
+        "fields": {
+          "skills": {
+            "modified": {
+              "Divine Fox Blessing": {
+                "description": {
+                  "old": "During combat, increases own magic defense by 30% . When the user's active skill deals damage, it deals additional magic damage equal to 80% of the user's magic defense.\bWhen you possess both [Morale] and [Fervor], you enter the [Grace] state. While in the [Grace] state, [Foxfire Dance] deals additional magic damage equal to 60% of your magic defense. You exit the [Grace] state after [Foxfire Dance] ends.",
+                  "new": "During combat, increases own magic defense by 30%. When the user's active skill deals damage, it deals additional magic damage equal to 80% of the user's magic defense.\nWhen you possess both [Morale] and [Fervor], you enter the [Grace] state. While in the [Grace] state, [Foxfire Dance] deals additional magic damage equal to 60% of your magic defense. You exit the [Grace] state after [Foxfire Dance] ends."
+                }
+              },
+              "Whirlwind Flame": {
+                "description": {
+                  "old": "Launches a magic orb forward, then returns to its original position, dealing magic damage equal to 90% of the caster's attack to any enemy units it collides with . Targets hit twice also inflict [Healing Down].\nWhen your own HP is greater than 70%, when releasing the skill, it will consume an additional 30% of your current HP, randomly grant you 1 [Blessing Buff], and increase the damage of the magic orb to 150% of your own attack and add 100% HP conversion.",
+                  "new": "Launches a magic orb forward, then returns to its original position, dealing magic damage equal to 90% of the caster's attack to any enemy units it collides with. Targets hit twice also inflict [Healing Down].\nWhen your own HP is greater than 70%, when releasing the skill, it will consume an additional 30% of your current HP, randomly grant you 1 [Blessing Buff], and increase the damage of the magic orb to 150% of your own attack and add 100% HP conversion."
+                }
+              }
+            }
+          }
+        }
+      }
+    ]
   }
 }

@@ -186,18 +186,18 @@
     ],
     "noble_phantasm": "",
     "recommended_gear": {
-      "headgear": "Arcane Hood",
-      "chestplate": "Arcane Robe",
-      "bracers": "Arcane Gauntlets",
-      "boots": "Arcane Boots",
-      "weapon": "Tome of Stars",
-      "accessory": "Starlight Magisterium"
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
+      "weapon": "Flamelord's Sword",
+      "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [
       "Templar",
       "Avenger"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Anubis",
@@ -666,13 +666,13 @@
       "chestplate": "Flamelord's Armor",
       "bracers": "Flamelord's Gauntlets",
       "boots": "Flamelord's Boots",
-      "weapon": "Last Whisper",
-      "accessory": "Eagle Warrior Portrait"
+      "weapon": "Flamelord's Sword",
+      "accessory": "Blessing of the Sacred Tree"
     },
     "recommended_subclasses": [
       "Templar"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Salome",
@@ -1024,17 +1024,17 @@
     ],
     "noble_phantasm": "",
     "recommended_gear": {
-      "headgear": "Arcane Hood",
-      "chestplate": "Arcane Robe",
-      "bracers": "Arcane Gauntlets",
-      "boots": "Arcane Boots",
+      "headgear": "Flamelord's Helmet",
+      "chestplate": "Flamelord's Armor",
+      "bracers": "Flamelord's Gauntlets",
+      "boots": "Flamelord's Boots",
       "weapon": "Flamelord's Sword",
       "accessory": "Spirit Turtle Talisman"
     },
     "recommended_subclasses": [
       "Martyr"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Herman",
@@ -1786,7 +1786,7 @@
         },
         {
           "level": 3,
-          "effect": "Increases own healing effect by 5% and critical strike chance by 50%."
+          "effect": "Increases own healing effect by 5% and critical strike chance by 50."
         },
         {
           "level": 4,
@@ -1802,7 +1802,7 @@
       {
         "name": "Shallow Burial",
         "type": "Overdrive",
-        "description": "Select one of your Luminaries or Wyrms to enter the [Blessed] state for 5 seconds and deduct 90% of their current health.\nDuring the duration of the [Blessed] status, the target is immune to death and gains increased attack speed and damage, with the increase being 0.4 times the current rage percentage of the phantom.\n[Blessed] 0.5 seconds before the effect ends, restores the target's health 6 times, each time restoring 20% of the target's lost health.",
+        "description": "Select one of your Luminaries or Wyrms to enter the [Blessed] state for 5 seconds and deduct 90% of their current health.\nDuring the duration of the [Blessed] status, the target is immune to death and gains increased attack speed and damage, with the increase being 0.4 times the current rage percentage of the Luminary.\n[Blessed] 0.5 seconds before the effect ends, restores the target's health 6 times, each time restoring 20% of the target's lost health.",
         "cooldown": 20
       },
       {
@@ -1842,7 +1842,7 @@
     "recommended_subclasses": [
       "Divine Officer"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Morgana",
@@ -3241,17 +3241,17 @@
     ],
     "noble_phantasm": "",
     "recommended_gear": {
-      "headgear": "Arcane Hood",
-      "chestplate": "Arcane Robe",
-      "bracers": "Arcane Gauntlets",
-      "boots": "Arcane Boots",
-      "weapon": "Tome of Stars",
-      "accessory": "Starlight Magisterium"
+      "headgear": "Paladin's Helmet",
+      "chestplate": "Paladin's Armor",
+      "bracers": "Paladin's Gauntlets",
+      "boots": "Paladin's Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [
       "Executioner"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Jormungandr",
@@ -3430,12 +3430,19 @@
       }
     ],
     "noble_phantasm": "",
-    "recommended_gear": null,
+    "recommended_gear": {
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Last Whisper",
+      "accessory": "Eagle Warrior Portrait"
+    },
     "recommended_subclasses": [
       "Forest Bandit",
       "Outlaw"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Mordred",
@@ -3658,7 +3665,7 @@
         },
         {
           "level": 3,
-          "effect": "Increases attack by 10% and critical hit chance by 50%."
+          "effect": "Increases attack by 10% and critical hit chance by 50."
         },
         {
           "level": 4,
@@ -3714,7 +3721,7 @@
     "recommended_subclasses": [
       "Outlaw"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "White Tiger",
@@ -4799,17 +4806,17 @@
     ],
     "noble_phantasm": "",
     "recommended_gear": {
-      "headgear": "Night Owl Helmet",
-      "chestplate": "Night Owl Armor",
-      "bracers": "Night Owl Gauntlets",
-      "boots": "Night Owl Boots",
+      "headgear": "Dragon Hunter Helmet",
+      "chestplate": "Dragon Hunter Armor",
+      "bracers": "Dragon Hunter Gauntlets",
+      "boots": "Dragon Hunter Boots",
       "weapon": "Last Whisper",
       "accessory": "Eagle Warrior Portrait"
     },
     "recommended_subclasses": [
       "Sword Master"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Arthur",
@@ -5090,13 +5097,13 @@
       "bracers": "Night Owl Gauntlets",
       "boots": "Night Owl Boots",
       "weapon": "Last Whisper",
-      "accessory": "Eagle Warrior Portrait"
+      "accessory": "Blessing of the Sacred Tree"
     },
     "recommended_subclasses": [
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Azure Dragon",
@@ -5744,13 +5751,13 @@
       "bracers": "Night Owl Gauntlets",
       "boots": "Night Owl Boots",
       "weapon": "Last Whisper",
-      "accessory": "Eagle Warrior Portrait"
+      "accessory": "Blessing of the Sacred Tree"
     },
     "recommended_subclasses": [
       "Sword Master",
       "Vanguard"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Beowulf",
@@ -6590,7 +6597,7 @@
       {
         "name": "Embrace of the Dark Moon",
         "type": "Overdrive",
-        "description": "Increases the skill haste of all allied ranged Luminaries by 25 and their damage by 25% for 6 seconds, and puts the caster and one allied Luminary or dragon with the lowest health into the [Dark Moon] state for 4 seconds.\nUpon activation, the user gains 3 stacks of [Moon Soul]. (If there are no other selectable allied Luminaries or dragons on the field, the [Dark Moon] status granted by this skill is changed to 2 seconds).",
+        "description": "Increases the skill haste of all allied ranged Luminaries by 25 and their damage by 25% for 6 seconds, and puts the caster and one allied Luminary or Wyrm with the lowest health into the [Dark Moon] state for 4 seconds.\nUpon activation, the user gains 3 stacks of [Moon Soul]. (If there are no other selectable allied Luminaries or Wyrms on the field, the [Dark Moon] status granted by this skill is changed to 2 seconds).",
         "cooldown": 18
       },
       {
@@ -6631,7 +6638,7 @@
       "Sharpshooter",
       "Bloodhunter"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Huginn & Muninn",
@@ -7001,17 +7008,17 @@
     ],
     "noble_phantasm": "",
     "recommended_gear": {
-      "headgear": "Arcane Hood",
-      "chestplate": "Arcane Robe",
-      "bracers": "Arcane Gauntlets",
-      "boots": "Arcane Boots",
-      "weapon": "Tome of Stars",
-      "accessory": "Starlight Magisterium"
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Typhon's Wrath",
+      "accessory": "Dragonblood Seal"
     },
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Mimir",
@@ -7471,17 +7478,17 @@
     ],
     "noble_phantasm": "",
     "recommended_gear": {
-      "headgear": "Arcane Hood",
-      "chestplate": "Arcane Robe",
-      "bracers": "Arcane Gauntlets",
-      "boots": "Arcane Boots",
-      "weapon": "Tome of Stars",
-      "accessory": "Starlight Magisterium"
+      "headgear": "Night Owl Helmet",
+      "chestplate": "Night Owl Armor",
+      "bracers": "Night Owl Gauntlets",
+      "boots": "Night Owl Boots",
+      "weapon": "Typhon's Wrath",
+      "accessory": "Dragonblood Seal"
     },
     "recommended_subclasses": [
       "Sharpshooter"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Van Helsing",
@@ -8141,7 +8148,7 @@
         },
         {
           "level": 2,
-          "effect": "Whenever an enemy phantom or dragon under the [Frost Vortex] effect enters the [Evaporation] or [Flash Freeze] state, immediately cast [Frozen Armor] once (can trigger a maximum of 1 time within 3 seconds)."
+          "effect": "Whenever an enemy Luminary or Wyrm under the [Frost Vortex] effect enters the [Evaporation] or [Flash Freeze] state, immediately cast [Frozen Armor] once (can trigger a maximum of 1 time within 3 seconds)."
         },
         {
           "level": 3,
@@ -8167,19 +8174,19 @@
       {
         "name": "Frozen Armor",
         "type": "Ultimate Skill",
-        "description": "Grants a friendly Phantom a shield equal to 210% of your attack (prioritizes the friendly Phantom with the highest attack who has not received [Frozen Armor]), lasting 8 seconds. During the shield's duration, it increases the target's damage by 10%.\nThe user of [Frozen Armor] deals additional damage equal to 150% of their attack to enemy units in the [Chill] state . Each time an ally uses their ultimate skill, the user gains 1 stack of [Awakening].\nWhen this skill is used, it consumes 3 stacks of [Awakening] to gain an enhancement and select an additional target.",
+        "description": "Grants a friendly Phantom a shield equal to 210% of your attack (prioritizes the friendly Phantom with the highest attack who has not received [Frozen Armor]), lasting 8 seconds. During the shield's duration, it increases the target's damage by 10%.\nThe user of [Frozen Armor] deals additional damage equal to 150% of their attack to enemy units in the [Chill] state. Each time an ally uses their ultimate skill, the user gains 1 stack of [Awakening].\nWhen this skill is used, it consumes 3 stacks of [Awakening] to gain an enhancement and select an additional target.",
         "cooldown": 16
       },
       {
         "name": "Unyielding Chill",
         "type": "Secret Skill",
-        "description": "When [Frost Vortex] exists on the field, your ultimate skill energy consumption is reduced by 1.\nFor each enemy phantom in [Frost Vortex], increase Catherine's attack by 10% and shield efficiency by 5% .",
+        "description": "When [Frost Vortex] exists on the field, your ultimate skill energy consumption is reduced by 1.\nFor each enemy Luminary in [Frost Vortex], increase Catherine's attack by 10% and shield efficiency by 5% .",
         "cooldown": 0
       },
       {
         "name": "Extreme Cold Seal",
         "type": "Special Skill",
-        "description": "Unleash a magical burst on the enemy phantom with the highest attack speed, dealing magic damage equal to 280% of your attack to enemy units in a medium-sized circular area around the target, and inflicting [Attack Speed Down] and [Chill].",
+        "description": "Unleash a magical burst on the enemy Luminary with the highest attack speed, dealing magic damage equal to 280% of your attack to enemy units in a medium-sized circular area around the target, and inflicting [Attack Speed Down] and [Chill].",
         "cooldown": 18
       },
       {
@@ -8202,7 +8209,7 @@
       "Astrologer",
       "Potion Master"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Cleopatra",
@@ -8337,11 +8344,11 @@
         },
         {
           "level": 3,
-          "effect": "Increases own health by 10% and critical strike chance by 50%."
+          "effect": "Increases own health by 10% and critical strike chance by 50."
         },
         {
           "level": 4,
-          "effect": "[Gravity Star Core] now consumes a maximum of 3 stacks of [Governor's Intimidation]."
+          "effect": "[Gravitational Star Core] now consumes a maximum of 3 stacks of [Governor's Intimidation]."
         },
         {
           "level": 7,
@@ -8393,7 +8400,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Faust",
@@ -8835,13 +8842,13 @@
       {
         "name": "Whirlwind Flame",
         "type": "Ultimate Skill",
-        "description": "Launches a magic orb forward, then returns to its original position, dealing magic damage equal to 90% of the caster's attack to any enemy units it collides with . Targets hit twice also inflict [Healing Down].\nWhen your own HP is greater than 70%, when releasing the skill, it will consume an additional 30% of your current HP, randomly grant you 1 [Blessing Buff], and increase the damage of the magic orb to 150% of your own attack and add 100% HP conversion.",
+        "description": "Launches a magic orb forward, then returns to its original position, dealing magic damage equal to 90% of the caster's attack to any enemy units it collides with. Targets hit twice also inflict [Healing Down].\nWhen your own HP is greater than 70%, when releasing the skill, it will consume an additional 30% of your current HP, randomly grant you 1 [Blessing Buff], and increase the damage of the magic orb to 150% of your own attack and add 100% HP conversion.",
         "cooldown": 10
       },
       {
         "name": "Divine Fox Blessing",
         "type": "Secret Skill",
-        "description": "During combat, increases own magic defense by 30% . When the user's active skill deals damage, it deals additional magic damage equal to 80% of the user's magic defense.\bWhen you possess both [Morale] and [Fervor], you enter the [Grace] state. While in the [Grace] state, [Foxfire Dance] deals additional magic damage equal to 60% of your magic defense. You exit the [Grace] state after [Foxfire Dance] ends.",
+        "description": "During combat, increases own magic defense by 30%. When the user's active skill deals damage, it deals additional magic damage equal to 80% of the user's magic defense.\nWhen you possess both [Morale] and [Fervor], you enter the [Grace] state. While in the [Grace] state, [Foxfire Dance] deals additional magic damage equal to 60% of your magic defense. You exit the [Grace] state after [Foxfire Dance] ends.",
         "cooldown": 0
       },
       {
@@ -8869,7 +8876,7 @@
     "recommended_subclasses": [
       "Potion Master"
     ],
-    "last_updated": 1775854585
+    "last_updated": 1775976599
   },
   {
     "name": "Vermilion Bird",
