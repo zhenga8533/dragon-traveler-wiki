@@ -3,11 +3,10 @@ import { existsSync, readFileSync } from 'fs';
 import path from 'path';
 import { visualizer } from 'rollup-plugin-visualizer';
 import type { Plugin } from 'vite';
-import { defineConfig } from 'vite';
+import { defineConfig, loadEnv } from 'vite';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
 
-function serveDataDir(): Plugin {
-  const dataDir = path.resolve(__dirname, '../data');
+function serveDataDir(dataDir: string): Plugin {
   const prefixes = ['/data/', '/dragon-traveler-wiki/data/'];
   return {
     name: 'serve-data-dir',
@@ -31,38 +30,35 @@ function serveDataDir(): Plugin {
   };
 }
 
-export default defineConfig({
-  plugins: [
-    react(),
-    serveDataDir(),
-    ViteImageOptimizer({
-      png: {
-        quality: 85,
+export default defineConfig(({ mode }) => {
+  const env = loadEnv(mode, process.cwd(), '');
+  const dataDir = path.resolve(process.cwd(), env.DATA_DIR ?? 'data');
+
+  return {
+    plugins: [
+      react(),
+      serveDataDir(dataDir),
+      ViteImageOptimizer({
+        png: { quality: 85 },
+        jpeg: { quality: 85 },
+        jpg: { quality: 85 },
+        webp: { quality: 85 },
+      }),
+      ...(env.ANALYZE === 'true'
+        ? [
+            visualizer({
+              filename: 'dist/stats.html',
+              gzipSize: true,
+              brotliSize: true,
+            }),
+          ]
+        : []),
+    ],
+    base: '/',
+    resolve: {
+      alias: {
+        '@': path.resolve(__dirname, './src'),
       },
-      jpeg: {
-        quality: 85,
-      },
-      jpg: {
-        quality: 85,
-      },
-      webp: {
-        quality: 85,
-      },
-    }),
-    ...(process.env.ANALYZE === 'true'
-      ? [
-          visualizer({
-            filename: 'dist/stats.html',
-            gzipSize: true,
-            brotliSize: true,
-          }),
-        ]
-      : []),
-  ],
-  base: '/',
-  resolve: {
-    alias: {
-      '@': path.resolve(__dirname, './src'),
     },
-  },
+  };
 });

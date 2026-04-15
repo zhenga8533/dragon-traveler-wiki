@@ -1,26 +1,41 @@
-# Node
+# Dependencies
 node_modules/
-dist/
 
-# Python
+# Build output
+dist/
+dist-ssr/
+
+# Logs
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Environment & local config
+*.local
+.env
+.claude/
+
+# Python (legacy)
 __pycache__/
 .venv/
 *.pyc
-
-# IDE/OS
-.vscode/
-.idea/
-.DS_Store
-Thumbs.db
-
-# Environment
-.env
-.env.local
-.claude/
 
 # Dolt database
 dolt-db/
 .dolt/
 
-# Backend exports
-backend/exports/
+# IDE / OS
+.vscode/*
+!.vscode/extensions.json
+.idea/
+.DS_Store
+Thumbs.db
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?

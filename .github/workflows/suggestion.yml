@@ -17,24 +17,17 @@ jobs:
       cancel-in-progress: false
 
     steps:
-      - uses: actions/checkout@v4
-
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Install backend dependencies
-        run: pip install -r backend/requirements.txt
-
-      - name: Process suggestion
-        id: suggest
-        run: python -m backend.suggest
-
-      - name: Apply labels to issue
-        if: steps.suggest.outputs.processed == 'true' && steps.suggest.outputs.label != ''
+      - name: Apply labels and comment
         uses: actions/github-script@v7
         with:
           script: |
+            const title = context.payload.issue.title;
+            const match = title.match(/^\[([^\]]+)\]/);
+            if (!match) return;
+
+            const entityLabel = match[1].toLowerCase();
+            const labels = ['suggestion', entityLabel];
+
             async function ensureLabel(labelName, color) {
               try {
                 await github.rest.issues.getLabel({
@@ -43,10 +36,7 @@ jobs:
                   name: labelName,
                 });
               } catch (error) {
-                if (error.status !== 404) {
-                  throw error;
-                }
-
+                if (error.status !== 404) throw error;
                 try {
                   await github.rest.issues.createLabel({
                     owner: context.repo.owner,
@@ -55,14 +45,11 @@ jobs:
                     color,
                   });
                 } catch (createError) {
-                  if (createError.status !== 422) {
-                    throw createError;
-                  }
+                  if (createError.status !== 422) throw createError;
                 }
               }
             }
 
-            const labels = ['suggestion', '${{ steps.suggest.outputs.label }}'];
             for (const labelName of labels) {
               await ensureLabel(
                 labelName,
@@ -77,11 +64,6 @@ jobs:
               labels,
             });
 
-      - name: Comment on issue
-        if: success() && steps.suggest.outputs.processed == 'true'
-        uses: actions/github-script@v7
-        with:
-          script: |
             await github.rest.issues.createComment({
               owner: context.repo.owner,
               repo: context.repo.repo,
@@ -90,24 +72,5 @@ jobs:
                 `**Thanks for your suggestion!**`,
                 ``,
                 `Your issue has been labeled and will be reviewed by a maintainer.`
-              ].join('\n')
-            });
-
-      - name: Comment on issue with error details
-        if: failure()
-        uses: actions/github-script@v7
-        with:
-          script: |
-            const runUrl = `${context.serverUrl}/${context.repo.owner}/${context.repo.repo}/actions/runs/${context.runId}`;
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: [
-                `**Failed to process suggestion.**`,
-                ``,
-                `There was an error processing your suggestion. Please check the JSON format and try again.`,
-                ``,
-                `[View workflow run](${runUrl})`
               ].join('\n')
             });
