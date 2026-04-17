@@ -96,6 +96,16 @@ const findByName = <T extends { name: string }>(
 ): T | undefined =>
   items?.find((item) => normalizeName(item.name) === normalizeName(name));
 
+const findStatusEffect = (
+  statusEffects: StatusEffect[],
+  name: string
+): StatusEffect | undefined =>
+  statusEffects.find(
+    (se) =>
+      normalizeName(se.name) === normalizeName(name) ||
+      se.alts.some((alt) => normalizeName(alt) === normalizeName(name))
+  );
+
 export default function RichText({
   text,
   statusEffects,
@@ -131,7 +141,7 @@ export default function RichText({
           return <em key={i}>{seg.content}</em>;
         }
 
-        const statusEffect = findByName(statusEffects, seg.name);
+        const statusEffect = findStatusEffect(statusEffects, seg.name);
         if (statusEffect) {
           return (
             <StatusEffectBadge

@@ -139,7 +139,7 @@ export default function CharacterPageHeroSection({
                   <QualityIcon quality={character.quality} size={32} />
                 </Group>
 
-                {(character.title || character.origin) && (
+                {character.title && (
                   <Text
                     size="lg"
                     fw={600}
@@ -147,12 +147,11 @@ export default function CharacterPageHeroSection({
                     style={{ letterSpacing: '0.01em' }}
                   >
                     {character.title}
-                    {character.title && character.origin && ' '}
-                    {character.origin && (
-                      <Text component="span" fw={400} c="dimmed">
-                        ({character.origin})
-                      </Text>
-                    )}
+                  </Text>
+                )}
+                {character.origin && (
+                  <Text size="sm" fw={400} c="dimmed">
+                    {character.origin}
                   </Text>
                 )}
               </Stack>

@@ -9,6 +9,7 @@ export type StatusEffectType =
 
 export interface StatusEffect {
   name: string;
+  alts: string[];
   type: StatusEffectType;
   effect: string;
   remark: string;
