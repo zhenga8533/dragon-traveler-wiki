@@ -12,7 +12,7 @@ import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
-import { getCardHoverProps, getHeroIconBoxStyles } from '@/constants/styles';
+import { COMPACT_COL_STYLE, getCardHoverProps, getHeroIconBoxStyles } from '@/constants/styles';
 import type {
   Artifact,
   ArtifactEffect,
@@ -55,14 +55,14 @@ function EffectTable({
     <Table striped withTableBorder withColumnBorders>
       <Table.Thead>
         <Table.Tr>
-          <Table.Th w={70}>Level</Table.Th>
+          <Table.Th style={COMPACT_COL_STYLE}>Level</Table.Th>
           <Table.Th>Effect</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
         {effects.map((eff) => (
           <Table.Tr key={eff.level}>
-            <Table.Td>
+            <Table.Td style={COMPACT_COL_STYLE}>
               <Text size="sm" fw={600}>
                 {eff.level}
               </Text>

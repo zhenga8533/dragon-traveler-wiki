@@ -8,6 +8,7 @@ import EntityNotFound from '@/components/ui/EntityNotFound';
 import RichText from '@/components/common/RichText';
 import { getLoreGlassStyles } from '@/constants/glass';
 import {
+  COMPACT_COL_STYLE,
   getCardHoverProps,
   getHeroIconBoxStyles,
 } from '@/constants/styles';
@@ -61,12 +62,13 @@ function EffectTable({
     );
   }
 
+  
   return (
     <Table striped withTableBorder withColumnBorders>
       <Table.Thead>
         <Table.Tr>
-          <Table.Th w={120}>Tier</Table.Th>
-          <Table.Th w={110}>Tier Level</Table.Th>
+          <Table.Th style={COMPACT_COL_STYLE}>Tier</Table.Th>
+          <Table.Th style={COMPACT_COL_STYLE}>Tier Level</Table.Th>
           <Table.Th>Description</Table.Th>
         </Table.Tr>
       </Table.Thead>
@@ -75,12 +77,12 @@ function EffectTable({
           <Table.Tr
             key={`${effect.tier ?? 'none'}-${effect.tier_level ?? 'none'}-${idx}`}
           >
-            <Table.Td>
+            <Table.Td style={COMPACT_COL_STYLE}>
               <Text size="sm" c={effect.tier ? undefined : 'dimmed'}>
                 {effect.tier || '—'}
               </Text>
             </Table.Td>
-            <Table.Td>
+            <Table.Td style={COMPACT_COL_STYLE}>
               <Text
                 size="sm"
                 c={effect.tier_level !== null ? undefined : 'dimmed'}
@@ -122,30 +124,31 @@ function SkillTable({
     );
   }
 
+  
   return (
     <Table striped withTableBorder withColumnBorders>
       <Table.Thead>
         <Table.Tr>
-          <Table.Th w={90}>Level</Table.Th>
-          <Table.Th w={120}>Tier</Table.Th>
-          <Table.Th w={110}>Tier Level</Table.Th>
+          <Table.Th style={COMPACT_COL_STYLE}>Level</Table.Th>
+          <Table.Th style={COMPACT_COL_STYLE}>Tier</Table.Th>
+          <Table.Th style={COMPACT_COL_STYLE}>Tier Level</Table.Th>
           <Table.Th>Description</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
         {skills.map((skill, idx) => (
           <Table.Tr key={`${skill.level}-${skill.tier ?? 'none'}-${idx}`}>
-            <Table.Td>
+            <Table.Td style={COMPACT_COL_STYLE}>
               <Text size="sm" fw={600}>
                 {skill.level}
               </Text>
             </Table.Td>
-            <Table.Td>
+            <Table.Td style={COMPACT_COL_STYLE}>
               <Text size="sm" c={skill.tier ? undefined : 'dimmed'}>
                 {skill.tier || '—'}
               </Text>
             </Table.Td>
-            <Table.Td>
+            <Table.Td style={COMPACT_COL_STYLE}>
               <Text
                 size="sm"
                 c={skill.tier_level !== null ? undefined : 'dimmed'}

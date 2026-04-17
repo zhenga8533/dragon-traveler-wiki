@@ -150,6 +150,12 @@ export const WHITE_SPACE_PRE_LINE_STYLE = {
   whiteSpace: 'pre-line',
 } as const satisfies CSSProperties;
 
+/** Shrinks a table column to its content width. Apply to Th/Td alongside a full-width description column. */
+export const COMPACT_COL_STYLE = {
+  whiteSpace: 'nowrap',
+  width: '1%',
+} as const satisfies CSSProperties;
+
 export const CURSOR_POINTER_STYLE = {
   cursor: 'pointer',
 } as const satisfies CSSProperties;
