@@ -1,3 +1,4 @@
+import { useMemo } from 'react';
 import { getNoblePhantasmIcon } from '@/assets/noble_phantasm';
 import RichText from '@/components/common/RichText';
 import ClassTag from '@/components/ui/ClassTag';
@@ -19,9 +20,10 @@ import type { Team } from '@/features/teams/types';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { useGradientAccent, useMobileTooltip } from '@/hooks';
+import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { toQuality } from '@/utils/quality';
+import { getLoreGlassStyles } from '@/constants/glass';
 import {
   Badge,
   Box,
@@ -60,45 +62,32 @@ interface CharacterPageBuildSectionProps {
 
 function QuoteCard({ text, attribution, label }: { text: string; attribution: string; label?: string }) {
   const { accent } = useGradientAccent();
+  const isDark = useDarkMode();
+  const glassStyles = getLoreGlassStyles(isDark);
+
   return (
-    <Box style={{ position: 'relative', overflow: 'hidden' }}>
-      <Box
-        aria-hidden="true"
-        style={{
-          position: 'absolute',
-          top: -16,
-          right: 8,
-          fontSize: 96,
-          lineHeight: 1,
-          pointerEvents: 'none',
-          color: `var(--mantine-color-${accent.primary}-6)`,
-          opacity: 0.07,
-          userSelect: 'none',
-          fontFamily: 'Georgia, serif',
-        }}
-      >
-        {'\u201C'}
-      </Box>
-      <Box
-        pl="md"
-        py="xs"
-        style={{ borderLeft: `3px solid var(--mantine-color-${accent.primary}-5)` }}
-      >
-        <Stack gap={6}>
-          {label && (
-            <Text size="xs" c={`${accent.primary}.5`} fw={600} tt="uppercase" style={{ letterSpacing: '0.06em' }}>
-              {label}
-            </Text>
-          )}
-          <Text fs="italic" size="sm" style={{ lineHeight: 1.7 }}>
-            {text}
+    <Stack gap={4}>
+      {label && (
+        <Text fw={600} size="sm">
+          {label}
+        </Text>
+      )}
+      <Paper p="md" radius="md" style={glassStyles}>
+        <Stack gap={8}>
+          <Text
+            fs="italic"
+            size="sm"
+            c={isDark ? 'gray.3' : 'dark.4'}
+            style={{ lineHeight: 1.7 }}
+          >
+            "{text}"
           </Text>
-          <Text size="xs" c="dimmed">
+          <Text size="xs" c="dimmed" fw={500} ta="right">
             — {attribution}
           </Text>
         </Stack>
-      </Box>
-    </Box>
+      </Paper>
+    </Stack>
   );
 }
 
@@ -113,10 +102,18 @@ interface LoreBlockProps {
 }
 
 function LoreBlock({ lore, showLabel, statusEffects, skills, talent, onSkillClick, onTalentClick }: LoreBlockProps) {
+  const isDark = useDarkMode();
   const [expanded, { toggle }] = useDisclosure(false);
-  const isArray = Array.isArray(lore);
-  const firstEntry = isArray ? lore[0] : lore;
-  const remaining = isArray ? lore.slice(1) : [];
+
+  const entries = useMemo(() => {
+    if (Array.isArray(lore)) return lore;
+    // Split by double newline or multiple newlines with optional whitespace
+    return lore.split(/\n\s*\n/).map(s => s.trim()).filter(Boolean);
+  }, [lore]);
+
+  const firstEntry = entries[0] || '';
+  const remaining = entries.slice(1);
+  const hasMore = remaining.length > 0;
 
   const richTextProps = {
     statusEffects,
@@ -128,6 +125,8 @@ function LoreBlock({ lore, showLabel, statusEffects, skills, talent, onSkillClic
     lineHeight: 1.8,
   } as const;
 
+  const glassStyles = getLoreGlassStyles(isDark);
+
   return (
     <Stack gap={4}>
       {showLabel && (
@@ -135,60 +134,64 @@ function LoreBlock({ lore, showLabel, statusEffects, skills, talent, onSkillClic
           Lore
         </Text>
       )}
-      <Box style={{ position: 'relative' }}>
-        <RichText text={isArray ? firstEntry : lore as string} {...richTextProps} />
-        {isArray && remaining.length > 0 && !expanded && (
-          <Box
-            aria-hidden="true"
-            style={{
-              position: 'absolute',
-              bottom: 0,
-              left: 0,
-              right: 0,
-              height: 48,
-              background: 'linear-gradient(to bottom, transparent, var(--mantine-color-body))',
-              pointerEvents: 'none',
-            }}
-          />
-        )}
-      </Box>
-      {isArray && remaining.length > 0 && (
-        <>
-          <Collapse in={expanded}>
-            <Stack gap="lg" pt="xs">
-              {remaining.map((entry, i) => (
-                <RichText key={i} text={entry} {...richTextProps} />
-              ))}
-            </Stack>
-          </Collapse>
-          <UnstyledButton
-            onClick={toggle}
-            style={{ width: '100%' }}
-            aria-expanded={expanded}
-          >
-            <Group gap="xs" wrap="nowrap">
-              <Box style={{ flex: 1, height: 1, background: 'var(--mantine-color-default-border)' }} />
-              <Group gap={4} wrap="nowrap" style={{ flexShrink: 0 }}>
-                <Text size="xs" c="dimmed">
-                  {expanded ? 'Show less' : `${remaining.length} more entr${remaining.length === 1 ? 'y' : 'ies'}`}
-                </Text>
-                <Box
-                  aria-hidden="true"
-                  style={{
-                    display: 'inline-flex',
-                    color: 'var(--mantine-color-dimmed)',
-                    transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-                    transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
-                  }}
-                >
-                  <IoChevronDown size={IMAGE_SIZE.ICON_SM} />
-                </Box>
-              </Group>
-              <Box style={{ flex: 1, height: 1, background: 'var(--mantine-color-default-border)' }} />
-            </Group>
-          </UnstyledButton>
-        </>
-      )}
+      <Paper p="md" radius="md" style={glassStyles}>
+        <Stack gap="md">
+          <Box style={{ position: 'relative' }}>
+            <RichText text={firstEntry} {...richTextProps} />
+            {hasMore && !expanded && (
+              <Box
+                aria-hidden="true"
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  left: 0,
+                  right: 0,
+                  height: 48,
+                  background: `linear-gradient(to bottom, transparent, ${isDark ? 'rgba(0,0,0,0.35)' : 'rgba(255,255,255,0.35)'})`,
+                  pointerEvents: 'none',
+                }}
+              />
+            )}
+          </Box>
+          {hasMore && (
+            <>
+              <Collapse in={expanded}>
+                <Stack gap="lg" pt="xs">
+                  {remaining.map((entry, i) => (
+                    <RichText key={i} text={entry} {...richTextProps} />
+                  ))}
+                </Stack>
+              </Collapse>
+              <UnstyledButton
+                onClick={toggle}
+                style={{ width: '100%' }}
+                aria-expanded={expanded}
+              >
+                <Group gap="xs" wrap="nowrap">
+                  <Box style={{ flex: 1, height: 1, background: 'var(--mantine-color-default-border)', opacity: 0.5 }} />
+                  <Group gap={4} wrap="nowrap" style={{ flexShrink: 0 }}>
+                    <Text size="xs" fw={600} c="dimmed">
+                      {expanded ? 'Show less' : `${remaining.length} more paragraph${remaining.length === 1 ? '' : 's'}`}
+                    </Text>
+                    <Box
+                      aria-hidden="true"
+                      style={{
+                        display: 'inline-flex',
+                        color: 'var(--mantine-color-dimmed)',
+                        transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+                        transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                      }}
+                    >
+                      <IoChevronDown size={IMAGE_SIZE.ICON_SM} />
+                    </Box>
+                  </Group>
+                  <Box style={{ flex: 1, height: 1, background: 'var(--mantine-color-default-border)', opacity: 0.5 }} />
+                </Group>
+              </UnstyledButton>
+            </>
+          )}
+        </Stack>
+      </Paper>
     </Stack>
   );
 }
@@ -210,6 +213,8 @@ export default function CharacterPageBuildSection({
 }: CharacterPageBuildSectionProps) {
   const { accent } = useGradientAccent();
   const mobileTooltip = useMobileTooltip();
+  const isDark = useDarkMode();
+  const glassStyles = getLoreGlassStyles(isDark);
 
   return (
     <>
@@ -229,33 +234,31 @@ export default function CharacterPageBuildSection({
         >
           <Stack gap="md">
             {character.summary && (
-              <>
-                <Stack gap={4}>
-                  <Group gap="xs" align="center">
-                    <Text fw={600} size="sm">
-                      Overview
-                    </Text>
-                    <Badge variant="light" color="gray" size="xs">
-                      AI-generated
-                    </Badge>
-                  </Group>
-                  <RichText
-                    text={character.summary}
-                    statusEffects={statusEffects}
-                    skills={character.skills}
-                    talent={character.talent ?? null}
-                    onSkillClick={scrollToSkill}
-                    onTalentClick={scrollToTalent}
-                    lineHeight={1.7}
-                  />
-                </Stack>
-                {character.lore && <Divider />}
-              </>
+              <Stack gap={4}>
+                <Group gap="xs" align="center">
+                  <Text fw={600} size="sm">
+                    Overview
+                  </Text>
+                  <Badge variant="light" color="gray" size="xs">
+                    AI-generated
+                  </Badge>
+                </Group>
+                <RichText
+                  text={character.summary}
+                  statusEffects={statusEffects}
+                  skills={character.skills}
+                  talent={character.talent ?? null}
+                  onSkillClick={scrollToSkill}
+                  onTalentClick={scrollToTalent}
+                  lineHeight={1.7}
+                />
+              </Stack>
             )}
+
             {character.lore && (
               <LoreBlock
                 lore={character.lore}
-                showLabel={!!character.summary}
+                showLabel={true}
                 statusEffects={statusEffects}
                 skills={character.skills}
                 talent={character.talent ?? null}
@@ -265,107 +268,88 @@ export default function CharacterPageBuildSection({
             )}
 
             {(character.ssr_quote || character.quote) && (
-              <Stack gap="sm">
+              <SimpleGrid cols={{ base: 1, sm: (character.ssr_quote && character.quote) ? 2 : 1 }} spacing="md">
                 {character.ssr_quote && (
                   <QuoteCard
                     text={character.ssr_quote}
                     attribution={character.name}
-                    label="Summon"
+                    label="Summon Quote"
                   />
                 )}
                 {character.quote && (
                   <QuoteCard
                     text={character.quote}
                     attribution={character.name}
-                    label="In-Game"
+                    label="In-Game Quote"
                   />
                 )}
-              </Stack>
-            )}
-
-            {character.origin && (
-              <>
-                <Divider />
-                <div>
-                  <Text fw={600} size="sm" mb="xs">
-                    Origin
-                  </Text>
-                  <Text size="sm" c="dimmed">
-                    {character.origin}
-                  </Text>
-                </div>
-              </>
+              </SimpleGrid>
             )}
 
             {character.noble_phantasm && (
-              <>
-                <Divider />
-                <div>
-                  <Text fw={600} size="sm" mb="xs">
-                    Noble Phantasm
-                  </Text>
-                  {linkedNoblePhantasm ? (
-                    (() => {
-                      const noblePhantasmIcon = getNoblePhantasmIcon(
-                        linkedNoblePhantasm.name
-                      );
-                      return (
-                        <Stack gap="xs">
-                          <Link
-                            to={`/noble-phantasms/${toEntitySlug(linkedNoblePhantasm.name)}`}
-                            style={{ textDecoration: 'none', width: 'fit-content' }}
-                          >
-                            <Group gap="sm" wrap="nowrap">
-                              {noblePhantasmIcon && (
-                                <Box
-                                  style={{
-                                    width: IMAGE_SIZE.PORTRAIT_SM,
-                                    height: IMAGE_SIZE.PORTRAIT_SM,
-                                    borderRadius: 'var(--mantine-radius-sm)',
-                                    overflow: 'hidden',
-                                    flexShrink: 0,
-                                  }}
-                                >
-                                  <Image
-                                    src={noblePhantasmIcon}
-                                    alt={linkedNoblePhantasm.name}
-                                    w={IMAGE_SIZE.PORTRAIT_SM}
-                                    h={IMAGE_SIZE.PORTRAIT_SM}
-                                    fit="cover"
-                                    loading="lazy"
-                                  />
-                                </Box>
-                              )}
-                              <Badge
-                                variant="light"
-                                color={accent.primary}
-                                size="lg"
+              <Stack gap={4}>
+                <Text fw={600} size="sm">
+                  Noble Phantasm
+                </Text>
+                {linkedNoblePhantasm ? (
+                  (() => {
+                    const noblePhantasmIcon = getNoblePhantasmIcon(
+                      linkedNoblePhantasm.name
+                    );
+                    return (
+                      <Stack gap="md">
+                        <Link
+                          to={`/noble-phantasms/${toEntitySlug(linkedNoblePhantasm.name)}`}
+                          style={{ textDecoration: 'none', width: 'fit-content' }}
+                        >
+                          <Group gap="sm" wrap="nowrap">
+                            {noblePhantasmIcon && (
+                              <Box
+                                style={{
+                                  width: IMAGE_SIZE.PORTRAIT_SM,
+                                  height: IMAGE_SIZE.PORTRAIT_SM,
+                                  borderRadius: 'var(--mantine-radius-sm)',
+                                  overflow: 'hidden',
+                                  flexShrink: 0,
+                                }}
                               >
-                                {linkedNoblePhantasm.name}
-                              </Badge>
-                            </Group>
-                          </Link>
-                          {linkedNoblePhantasm.lore && (
-                            <RichText
-                              text={linkedNoblePhantasm.lore}
-                              statusEffects={statusEffects}
-                              skills={character.skills}
-                              talent={character.talent ?? null}
-                              onSkillClick={scrollToSkill}
-                              onTalentClick={scrollToTalent}
-                              color="dimmed"
-                              italic
-                              lineHeight={1.6}
-                            />
-                          )}
-                        </Stack>
-                      );
-                    })()
-                  ) : (
-                    <Text size="sm">{character.noble_phantasm}</Text>
-                  )}
-                </div>
-              </>
+                                <Image
+                                  src={noblePhantasmIcon}
+                                  alt={linkedNoblePhantasm.name}
+                                  w={IMAGE_SIZE.PORTRAIT_SM}
+                                  h={IMAGE_SIZE.PORTRAIT_SM}
+                                  fit="cover"
+                                  loading="lazy"
+                                />
+                              </Box>
+                            )}
+                            <Badge
+                              variant="light"
+                              color={accent.primary}
+                              size="lg"
+                            >
+                              {linkedNoblePhantasm.name}
+                            </Badge>
+                          </Group>
+                        </Link>
+                        {linkedNoblePhantasm.lore && (
+                          <LoreBlock
+                            lore={linkedNoblePhantasm.lore}
+                            showLabel={false}
+                            statusEffects={statusEffects}
+                            skills={character.skills}
+                            talent={character.talent ?? null}
+                            onSkillClick={scrollToSkill}
+                            onTalentClick={scrollToTalent}
+                          />
+                        )}
+                      </Stack>
+                    );
+                  })()
+                ) : (
+                  <Text size="sm" style={{ lineHeight: 1.6 }}>{character.noble_phantasm}</Text>
+                )}
+              </Stack>
             )}
           </Stack>
         </CollapsibleSectionCard>

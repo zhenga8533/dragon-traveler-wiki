@@ -3,7 +3,7 @@ import { memo } from 'react';
 
 interface GlobalBadgeProps {
   isGlobal: boolean;
-  size?: 'xs' | 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md' | 'lg';
 }
 
 function GlobalBadge({ isGlobal, size = 'sm' }: GlobalBadgeProps) {

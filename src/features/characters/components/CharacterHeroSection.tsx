@@ -1,16 +1,14 @@
 import type { CharacterIllustration } from '@/assets/character';
+import { GlobalBadge } from '@/components';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
-import { QUALITY_BORDER_COLOR } from '@/constants/colors';
-import { CHARACTER_HERO } from '@/constants/ui';
 import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
+import { QUALITY_BORDER_COLOR } from '@/constants/colors';
+import { CHARACTER_HERO } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
-import GlobalBadge from '@/components/ui/GlobalBadge';
-import TierBadge from '@/components/ui/TierBadge';
 import { useDarkMode } from '@/hooks';
-import CharacterPortrait from './CharacterPortrait';
 import {
   Box,
   Center,
@@ -21,17 +19,16 @@ import {
   Text,
   Title,
 } from '@mantine/core';
+import CharacterPortrait from './CharacterPortrait';
 
 interface CharacterPageHeroSectionProps {
   character: Character;
-  tierLabel: string | null;
   activeIllustration: CharacterIllustration | null;
   isNew?: boolean;
 }
 
 export default function CharacterPageHeroSection({
   character,
-  tierLabel,
   activeIllustration,
   isNew = false,
 }: CharacterPageHeroSectionProps) {
@@ -99,7 +96,7 @@ export default function CharacterPageHeroSection({
       <Container
         size="lg"
         style={{ position: 'relative', zIndex: 1 }}
-        py={{ base: 'lg', sm: 'xl' }}
+        py={{ base: 'xl', sm: 50 }}
       >
         <Grid gutter={{ base: 'md', sm: 'xl' }} align="center">
           {/* Portrait */}
@@ -111,7 +108,7 @@ export default function CharacterPageHeroSection({
                 quality={character.quality}
                 borderWidth={CHARACTER_HERO.BORDER_WIDTH}
                 borderColor={QUALITY_BORDER_COLOR[character.quality]}
-                style={{ boxShadow: 'var(--mantine-shadow-lg)' }}
+                style={{ boxShadow: 'var(--mantine-shadow-xl)' }}
                 loading="eager"
                 isNew={isNew}
               />
@@ -120,62 +117,82 @@ export default function CharacterPageHeroSection({
 
           {/* Character Info */}
           <Grid.Col span={{ base: 12, sm: 'auto' }}>
-            <Stack gap="sm">
-              <Breadcrumbs
-                items={[
-                  { label: 'Characters', path: '/characters' },
-                  { label: character.name },
-                ]}
-              />
+            <Stack gap="md">
+              <Stack gap={4}>
+                <Breadcrumbs
+                  items={[
+                    { label: 'Characters', path: '/characters' },
+                    { label: character.name },
+                  ]}
+                />
 
-              <Group gap="md" align="center" wrap="wrap">
-                <Title
-                  order={1}
-                  c={isDark ? 'white' : 'dark'}
-                  fz={{ base: '1.5rem', sm: '2.125rem' }}
-                  style={{ wordBreak: 'break-word' }}
-                >
-                  {character.name}
-                </Title>
-                <GlobalBadge isGlobal={character.is_global} size="md" />
-              </Group>
-
-              {character.title && (
-                <Text size="sm" fw={500} c="dimmed">
-                  {character.title}
-                </Text>
-              )}
-
-              <LastUpdated timestamp={character.last_updated} />
-
-              <Group gap="sm" wrap="wrap">
-                <QualityIcon quality={character.quality} size={24} />
-
-                {tierLabel && <TierBadge tier={tierLabel} size="lg" />}
-
-                <ClassTag characterClass={character.character_class} />
-              </Group>
-
-              <Group gap="sm" wrap="wrap">
-                {character.factions.map((f) => (
-                  <FactionTag key={f} faction={f} size="lg" />
-                ))}
-              </Group>
-
-              {(character.height || character.weight) && (
-                <Group gap="md" wrap="wrap">
-                  {character.height && (
-                    <Text size="sm" c="dimmed">
-                      Height: {character.height}
-                    </Text>
-                  )}
-                  {character.weight && (
-                    <Text size="sm" c="dimmed">
-                      Weight: {character.weight}
-                    </Text>
-                  )}
+                <Group gap="md" align="center" wrap="wrap">
+                  <Title
+                    order={1}
+                    c={isDark ? 'white' : 'dark'}
+                    fz={{ base: '2.25rem', sm: '3rem' }}
+                    lh={1}
+                    style={{ wordBreak: 'break-word' }}
+                  >
+                    {character.name}
+                  </Title>
+                  <QualityIcon quality={character.quality} size={32} />
                 </Group>
-              )}
+
+                {(character.title || character.origin) && (
+                  <Text
+                    size="lg"
+                    fw={600}
+                    c={isDark ? 'gray.4' : 'gray.7'}
+                    style={{ letterSpacing: '0.01em' }}
+                  >
+                    {character.title}
+                    {character.title && character.origin && ' '}
+                    {character.origin && (
+                      <Text component="span" fw={400} c="dimmed">
+                        ({character.origin})
+                      </Text>
+                    )}
+                  </Text>
+                )}
+              </Stack>
+
+              <Stack gap="sm">
+                {/* Gameplay Attributes */}
+                <Group gap="xs" wrap="wrap">
+                  <ClassTag
+                    characterClass={character.character_class}
+                    size="lg"
+                  />
+                  <GlobalBadge isGlobal={character.is_global} size="lg" />
+                </Group>
+
+                {/* Factions */}
+                <Group gap={8}>
+                  {character.factions.map((f) => (
+                    <FactionTag key={f} faction={f} size="md" />
+                  ))}
+                </Group>
+
+                {/* Secondary Metadata: HT, WT */}
+                <Group gap="md" wrap="wrap" align="center">
+                  <Group gap="sm">
+                    {character.height && (
+                      <Text size="sm" c="dimmed" fw={500}>
+                        HT: {character.height}
+                      </Text>
+                    )}
+                    {character.weight && (
+                      <Text size="sm" c="dimmed" fw={500}>
+                        WT: {character.weight}
+                      </Text>
+                    )}
+                  </Group>
+                </Group>
+
+                {/* Last Updated */}
+                <LastUpdated timestamp={character.last_updated} />
+              </Stack>
             </Stack>
           </Grid.Col>
         </Grid>
