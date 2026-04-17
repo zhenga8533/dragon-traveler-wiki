@@ -5,19 +5,16 @@ import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
+import QualityIcon from '@/components/ui/QualityIcon';
 import {
   GEAR_TYPE_ORDER,
   QUALITY_COLOR,
   QUALITY_ORDER,
 } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
-import {
-  CURSOR_POINTER_STYLE,
-  getCardHoverProps,
-} from '@/constants/styles';
+import { CURSOR_POINTER_STYLE, getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import QualityIcon from '@/components/ui/QualityIcon';
 import type { Character } from '@/features/characters/types';
 import {
   buildCharacterNameCounts,
@@ -239,114 +236,113 @@ export default function GearSetPage() {
         ]}
         py={{ base: 'lg', sm: 'xl' }}
       >
+        <Stack gap={6}>
+          <Group gap="sm" align="center" wrap="wrap">
+            <Title
+              order={1}
+              c={isDark ? 'white' : 'dark'}
+              fz={{ base: '1.5rem', sm: '2.125rem' }}
+              style={{ wordBreak: 'break-word' }}
+            >
+              {decodedSetName} Set
+            </Title>
+            <QualityIcon quality={setItems[0].quality} size={32} />
+            <Badge variant="light" color={accent.secondary} size="lg">
+              {setItems.length} item{setItems.length !== 1 ? 's' : ''}
+            </Badge>
+          </Group>
+          <LastUpdated timestamp={lastUpdatedTimestamp} />
+          {setBonus && setBonus.quantity > 0 && (
+            <Text c="dimmed" size="sm">
+              {setBonus.quantity}-piece set bonus: {setBonus.description}
+            </Text>
+          )}
+          {recommendedStats !== null && (
+            <Text size="sm" c="dimmed">
+              Recommended for{' '}
+              <Text span fw={600} c={`${accent.primary}.7`}>
+                {recommendedStats.count}
+              </Text>{' '}
+              of {recommendedStats.total} SSR and above characters (
+              {recommendedStats.percentage}%)
+            </Text>
+          )}
+        </Stack>
 
-            <Stack gap={6}>
-              <Group gap="sm" align="center" wrap="wrap">
-                <QualityIcon quality={setItems[0].quality} size={28} />
-                <Title
-                  order={1}
-                  c={isDark ? 'white' : 'dark'}
-                  fz={{ base: '1.5rem', sm: '2.125rem' }}
-                  style={{ wordBreak: 'break-word' }}
-                >
-                  {decodedSetName} Set
-                </Title>
-                <Badge variant="light" color={accent.secondary} size="lg">
-                  {setItems.length} item{setItems.length !== 1 ? 's' : ''}
-                </Badge>
-              </Group>
-              <LastUpdated timestamp={lastUpdatedTimestamp} />
-              {setBonus && setBonus.quantity > 0 && (
-                <Text c="dimmed" size="sm">
-                  {setBonus.quantity}-piece set bonus: {setBonus.description}
-                </Text>
-              )}
-              {recommendedStats !== null && (
-                <Text size="sm" c="dimmed">
-                  Recommended for{' '}
-                  <Text span fw={600} c={`${accent.primary}.7`}>
-                    {recommendedStats.count}
-                  </Text>{' '}
-                  of {recommendedStats.total} SSR and above characters (
-                  {recommendedStats.percentage}%)
-                </Text>
-              )}
+        {setBonus && setBonus.quantity > 0 && (
+          <Paper
+            p="md"
+            radius="md"
+            withBorder
+            {...getCardHoverProps({
+              style: getLoreGlassStyles(isDark),
+            })}
+          >
+            <Stack gap={4}>
+              <Text fw={600} size="sm">
+                Set Bonus
+              </Text>
+              <Text size="sm" c="dimmed">
+                Activate {setBonus.quantity} piece
+                {setBonus.quantity !== 1 ? 's' : ''} to gain{' '}
+                {setBonus.description}
+              </Text>
             </Stack>
+          </Paper>
+        )}
 
-            {setBonus && setBonus.quantity > 0 && (
-              <Paper
-                p="md"
-                radius="md"
-                withBorder
-                {...getCardHoverProps({
-                  style: getLoreGlassStyles(isDark),
-                })}
-              >
-                <Stack gap={4}>
-                  <Text fw={600} size="sm">
-                    Set Bonus
-                  </Text>
-                  <Text size="sm" c="dimmed">
-                    Activate {setBonus.quantity} piece
-                    {setBonus.quantity !== 1 ? 's' : ''} to gain{' '}
-                    {setBonus.description}
-                  </Text>
-                </Stack>
-              </Paper>
-            )}
+        {recommendedCharacters.length > 0 && (
+          <Stack gap={8}>
+            <Text size="sm" fw={600} c={isDark ? 'gray.1' : 'dark.7'}>
+              Recommended Characters
+            </Text>
+            <Group gap="xs" wrap="wrap">
+              {displayedCharacters.map((character) => {
+                const isMultiQualityCharacter =
+                  (characterNameCounts.get(
+                    getCharacterBaseSlug(character.name)
+                  ) ?? 1) > 1;
+                const tooltipLabel = isMultiQualityCharacter
+                  ? `${character.name} (${character.quality})`
+                  : character.name;
 
-            {recommendedCharacters.length > 0 && (
-              <Stack gap={8}>
-                <Text size="sm" fw={600} c={isDark ? 'gray.1' : 'dark.7'}>
-                  Recommended Characters
-                </Text>
-                <Group gap="xs" wrap="wrap">
-                  {displayedCharacters.map((character) => {
-                    const isMultiQualityCharacter =
-                      (characterNameCounts.get(
-                        getCharacterBaseSlug(character.name)
-                      ) ?? 1) > 1;
-                    const tooltipLabel = isMultiQualityCharacter
-                      ? `${character.name} (${character.quality})`
-                      : character.name;
-
-                    return (
-                      <CharacterPortrait
-                        key={`${character.name}-${character.quality}`}
-                        name={character.name}
-                        size={44}
-                        quality={character.quality}
-                        link
-                        tooltip={tooltipLabel}
-                        tooltipProps={tooltipProps}
-                      />
-                    );
-                  })}
-                  {!showAllCharacters && remainingRecommendedCount > 0 && (
-                    <Badge
-                      variant="light"
-                      color="gray"
-                      size="sm"
-                      style={CURSOR_POINTER_STYLE}
-                      onClick={() => setShowAllCharacters(true)}
-                    >
-                      +{remainingRecommendedCount} more
-                    </Badge>
-                  )}
-                  {showAllCharacters && recommendedCharacters.length > 4 && (
-                    <Badge
-                      variant="light"
-                      color="gray"
-                      size="sm"
-                      style={CURSOR_POINTER_STYLE}
-                      onClick={() => setShowAllCharacters(false)}
-                    >
-                      Show less
-                    </Badge>
-                  )}
-                </Group>
-              </Stack>
-            )}
+                return (
+                  <CharacterPortrait
+                    key={`${character.name}-${character.quality}`}
+                    name={character.name}
+                    size={44}
+                    quality={character.quality}
+                    link
+                    tooltip={tooltipLabel}
+                    tooltipProps={tooltipProps}
+                  />
+                );
+              })}
+              {!showAllCharacters && remainingRecommendedCount > 0 && (
+                <Badge
+                  variant="light"
+                  color="gray"
+                  size="sm"
+                  style={CURSOR_POINTER_STYLE}
+                  onClick={() => setShowAllCharacters(true)}
+                >
+                  +{remainingRecommendedCount} more
+                </Badge>
+              )}
+              {showAllCharacters && recommendedCharacters.length > 4 && (
+                <Badge
+                  variant="light"
+                  color="gray"
+                  size="sm"
+                  style={CURSOR_POINTER_STYLE}
+                  onClick={() => setShowAllCharacters(false)}
+                >
+                  Show less
+                </Badge>
+              )}
+            </Group>
+          </Stack>
+        )}
       </DetailPageHero>
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>

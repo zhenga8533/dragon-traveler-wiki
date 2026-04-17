@@ -3,19 +3,16 @@ import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
-import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
-import EntityNotFound from '@/components/ui/EntityNotFound';
 import RichText from '@/components/common/RichText';
+import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
+import ClassTag from '@/components/ui/ClassTag';
+import EntityNotFound from '@/components/ui/EntityNotFound';
+import FactionTag from '@/components/ui/FactionTag';
+import GlobalBadge from '@/components/ui/GlobalBadge';
+import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
-import {
-  getCardHoverProps,
-  getHeroIconBoxStyles,
-} from '@/constants/styles';
-import ClassTag from '@/components/ui/ClassTag';
-import FactionTag from '@/components/ui/FactionTag';
-import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
+import { getCardHoverProps, getHeroIconBoxStyles } from '@/constants/styles';
 import type {
   Artifact,
   ArtifactEffect,
@@ -248,7 +245,6 @@ export default function ArtifactPage() {
 
           <Stack gap={6} style={{ flex: 1 }}>
             <Group gap="sm" align="center">
-              <QualityIcon quality={artifact.quality} size={28} />
               <Title
                 order={1}
                 c={isDark ? 'white' : 'dark'}
@@ -257,6 +253,7 @@ export default function ArtifactPage() {
               >
                 {artifact.name}
               </Title>
+              <QualityIcon quality={artifact.quality} size={32} />
             </Group>
             <LastUpdated timestamp={artifact.last_updated} />
             <Group gap="sm" mt={4}>

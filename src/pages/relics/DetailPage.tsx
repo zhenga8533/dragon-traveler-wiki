@@ -5,10 +5,10 @@ import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
+import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR, RELIC_TYPE_ORDER } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getCardHoverProps } from '@/constants/styles';
-import QualityIcon from '@/components/ui/QualityIcon';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
 import type { Relic } from '@/features/wiki/relics/types';
 import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
@@ -33,13 +33,16 @@ import {
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-export default function OracleScrollDetailPage() {
+export default function OracleScrollPage() {
   const { accent } = useGradientAccent();
   const { scrollName } = useParams<{ scrollName: string }>();
   const navigate = useNavigate();
   const isDark = useDarkMode();
 
-  const { data: relics, loading } = useDataFetch<Relic[]>('data/relic.json', []);
+  const { data: relics, loading } = useDataFetch<Relic[]>(
+    'data/relic.json',
+    []
+  );
   const { data: changesData } = useDataFetch<ChangesFile>(
     'data/changes/relic.json',
     {}
@@ -55,7 +58,8 @@ export default function OracleScrollDetailPage() {
   }, [relics]);
 
   const decodedScrollName = useMemo(
-    () => findEntityByParam(oracleScrollNames, scrollName, (name) => name) ?? '',
+    () =>
+      findEntityByParam(oracleScrollNames, scrollName, (name) => name) ?? '',
     [oracleScrollNames, scrollName]
   );
 
@@ -71,8 +75,7 @@ export default function OracleScrollDetailPage() {
     if (!decodedScrollName) return [];
     return relics
       .filter(
-        (r) =>
-          r.oracle_sroll?.toLowerCase() === decodedScrollName.toLowerCase()
+        (r) => r.oracle_sroll?.toLowerCase() === decodedScrollName.toLowerCase()
       )
       .sort((a, b) => {
         const typeCmp =
@@ -153,7 +156,6 @@ export default function OracleScrollDetailPage() {
         <Stack gap="lg">
           <Stack gap={6}>
             <Group gap="sm" align="center" wrap="wrap">
-              <QualityIcon quality={scrollRelics[0].quality} size={28} />
               <Title
                 order={1}
                 c={isDark ? 'white' : 'dark'}
@@ -162,8 +164,10 @@ export default function OracleScrollDetailPage() {
               >
                 {decodedScrollName}
               </Title>
+              <QualityIcon quality={scrollRelics[0].quality} size={32} />
               <Badge variant="light" color={accent.secondary} size="lg">
-                {scrollRelics.length} relic{scrollRelics.length !== 1 ? 's' : ''}
+                {scrollRelics.length} relic
+                {scrollRelics.length !== 1 ? 's' : ''}
               </Badge>
             </Group>
             <LastUpdated timestamp={lastUpdated} />

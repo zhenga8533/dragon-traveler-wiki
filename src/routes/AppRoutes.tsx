@@ -14,9 +14,7 @@ const CharacterPage = lazy(() => import('@/pages/character'));
 const GearPage = lazy(() => import('@/pages/gear/ListPage'));
 const GearSetPage = lazy(() => import('@/pages/gear/DetailPage'));
 const RelicPage = lazy(() => import('@/pages/relics/ListPage'));
-const OracleScrollPage = lazy(
-  () => import('@/pages/relics/OracleScrollDetailPage')
-);
+const OracleScrollPage = lazy(() => import('@/pages/relics/DetailPage'));
 const Howlkins = lazy(() => import('@/pages/howlkins'));
 const GoldenAlliancePage = lazy(
   () => import('@/pages/howlkins/GoldenAllianceDetailPage')
@@ -80,7 +78,10 @@ export default function AppRoutes() {
         <Route path="/gear" element={<GearPage />} />
         <Route path="/gear-sets/:setName" element={<GearSetPage />} />
         <Route path="/relics" element={<RelicPage />} />
-        <Route path="/oracle-scrolls/:scrollName" element={<OracleScrollPage />} />
+        <Route
+          path="/oracle-scrolls/:scrollName"
+          element={<OracleScrollPage />}
+        />
         <Route path="/howlkins" element={<Howlkins />} />
         <Route
           path="/howlkins/:allianceName"
