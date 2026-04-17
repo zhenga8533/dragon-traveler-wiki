@@ -95,8 +95,9 @@ export interface Character {
   subclasses: string[];
   height: string;
   weight: string;
-  lore: string;
+  lore: string | string[];
   quote: string;
+  ssr_quote?: string;
   origin: string;
   summary?: string;
   talent?: Talent | null;

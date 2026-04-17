@@ -7,7 +7,7 @@ import {
   getCardHoverProps,
   RICH_TOOLTIP_STYLES,
 } from '@/constants/styles';
-import { IMAGE_SIZE } from '@/constants/ui';
+import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import CharacterReferenceSection from '@/features/characters/components/CharacterReferenceSection';
 import type {
   ActivatedSetBonus,
@@ -26,6 +26,7 @@ import {
   Badge,
   Box,
   Center,
+  Collapse,
   Divider,
   Group,
   Image,
@@ -35,7 +36,10 @@ import {
   Text,
   Title,
   Tooltip,
+  UnstyledButton,
 } from '@mantine/core';
+import { useDisclosure } from '@mantine/hooks';
+import { IoChevronDown } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
 interface CharacterPageBuildSectionProps {
@@ -52,6 +56,141 @@ interface CharacterPageBuildSectionProps {
   linkedNoblePhantasm: NoblePhantasm | null;
   scrollToSkill: (skillName: string) => void;
   scrollToTalent: () => void;
+}
+
+function QuoteCard({ text, attribution, label }: { text: string; attribution: string; label?: string }) {
+  const { accent } = useGradientAccent();
+  return (
+    <Box style={{ position: 'relative', overflow: 'hidden' }}>
+      <Box
+        aria-hidden="true"
+        style={{
+          position: 'absolute',
+          top: -16,
+          right: 8,
+          fontSize: 96,
+          lineHeight: 1,
+          pointerEvents: 'none',
+          color: `var(--mantine-color-${accent.primary}-6)`,
+          opacity: 0.07,
+          userSelect: 'none',
+          fontFamily: 'Georgia, serif',
+        }}
+      >
+        {'\u201C'}
+      </Box>
+      <Box
+        pl="md"
+        py="xs"
+        style={{ borderLeft: `3px solid var(--mantine-color-${accent.primary}-5)` }}
+      >
+        <Stack gap={6}>
+          {label && (
+            <Text size="xs" c={`${accent.primary}.5`} fw={600} tt="uppercase" style={{ letterSpacing: '0.06em' }}>
+              {label}
+            </Text>
+          )}
+          <Text fs="italic" size="sm" style={{ lineHeight: 1.7 }}>
+            {text}
+          </Text>
+          <Text size="xs" c="dimmed">
+            — {attribution}
+          </Text>
+        </Stack>
+      </Box>
+    </Box>
+  );
+}
+
+interface LoreBlockProps {
+  lore: string | string[];
+  showLabel: boolean;
+  statusEffects: StatusEffect[];
+  skills: Character['skills'];
+  talent: Character['talent'] | null;
+  onSkillClick: (skillName: string) => void;
+  onTalentClick: () => void;
+}
+
+function LoreBlock({ lore, showLabel, statusEffects, skills, talent, onSkillClick, onTalentClick }: LoreBlockProps) {
+  const [expanded, { toggle }] = useDisclosure(false);
+  const isArray = Array.isArray(lore);
+  const firstEntry = isArray ? lore[0] : lore;
+  const remaining = isArray ? lore.slice(1) : [];
+
+  const richTextProps = {
+    statusEffects,
+    skills,
+    talent: talent ?? null,
+    onSkillClick,
+    onTalentClick,
+    italic: true,
+    lineHeight: 1.8,
+  } as const;
+
+  return (
+    <Stack gap={4}>
+      {showLabel && (
+        <Text fw={600} size="sm">
+          Lore
+        </Text>
+      )}
+      <Box style={{ position: 'relative' }}>
+        <RichText text={isArray ? firstEntry : lore as string} {...richTextProps} />
+        {isArray && remaining.length > 0 && !expanded && (
+          <Box
+            aria-hidden="true"
+            style={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              height: 48,
+              background: 'linear-gradient(to bottom, transparent, var(--mantine-color-body))',
+              pointerEvents: 'none',
+            }}
+          />
+        )}
+      </Box>
+      {isArray && remaining.length > 0 && (
+        <>
+          <Collapse in={expanded}>
+            <Stack gap="lg" pt="xs">
+              {remaining.map((entry, i) => (
+                <RichText key={i} text={entry} {...richTextProps} />
+              ))}
+            </Stack>
+          </Collapse>
+          <UnstyledButton
+            onClick={toggle}
+            style={{ width: '100%' }}
+            aria-expanded={expanded}
+          >
+            <Group gap="xs" wrap="nowrap">
+              <Box style={{ flex: 1, height: 1, background: 'var(--mantine-color-default-border)' }} />
+              <Group gap={4} wrap="nowrap" style={{ flexShrink: 0 }}>
+                <Text size="xs" c="dimmed">
+                  {expanded ? 'Show less' : `${remaining.length} more entr${remaining.length === 1 ? 'y' : 'ies'}`}
+                </Text>
+                <Box
+                  aria-hidden="true"
+                  style={{
+                    display: 'inline-flex',
+                    color: 'var(--mantine-color-dimmed)',
+                    transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
+                    transform: expanded ? 'rotate(180deg)' : 'rotate(0deg)',
+                  }}
+                >
+                  <IoChevronDown size={IMAGE_SIZE.ICON_SM} />
+                </Box>
+              </Group>
+              <Box style={{ flex: 1, height: 1, background: 'var(--mantine-color-default-border)' }} />
+            </Group>
+          </UnstyledButton>
+        </>
+      )}
+    </Stack>
+  );
 }
 
 export default function CharacterPageBuildSection({
@@ -114,49 +253,34 @@ export default function CharacterPageBuildSection({
               </>
             )}
             {character.lore && (
-              <Stack gap={4}>
-                {character.summary && (
-                  <Text fw={600} size="sm">
-                    Lore
-                  </Text>
-                )}
-                <RichText
-                  text={character.lore}
-                  statusEffects={statusEffects}
-                  skills={character.skills}
-                  talent={character.talent ?? null}
-                  onSkillClick={scrollToSkill}
-                  onTalentClick={scrollToTalent}
-                  italic
-                  lineHeight={1.8}
-                />
-              </Stack>
+              <LoreBlock
+                lore={character.lore}
+                showLabel={!!character.summary}
+                statusEffects={statusEffects}
+                skills={character.skills}
+                talent={character.talent ?? null}
+                onSkillClick={scrollToSkill}
+                onTalentClick={scrollToTalent}
+              />
             )}
 
-            {character.quote && (
-              <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
-                <Group gap="sm" align="flex-start" wrap="nowrap">
-                  <Box
-                    style={{
-                      color: 'var(--mantine-primary-color-6)',
-                      fontSize: 28,
-                      lineHeight: 1,
-                      paddingTop: 2,
-                    }}
-                    aria-hidden="true"
-                  >
-                    {'\u201C'}
-                  </Box>
-                  <Stack gap={4}>
-                    <Text fs="italic" size="sm" style={{ lineHeight: 1.7 }}>
-                      "{character.quote}"
-                    </Text>
-                    <Text size="xs" c="dimmed">
-                      — {character.name}
-                    </Text>
-                  </Stack>
-                </Group>
-              </Paper>
+            {(character.ssr_quote || character.quote) && (
+              <Stack gap="sm">
+                {character.ssr_quote && (
+                  <QuoteCard
+                    text={character.ssr_quote}
+                    attribution={character.name}
+                    label="Summon"
+                  />
+                )}
+                {character.quote && (
+                  <QuoteCard
+                    text={character.quote}
+                    attribution={character.name}
+                    label="In-Game"
+                  />
+                )}
+              </Stack>
             )}
 
             {character.origin && (
