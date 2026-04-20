@@ -121,9 +121,10 @@ export function useCharacterAssets(
           return divineIcon ? [skill.name, divineIcon] : null;
         }
 
+        const typeKey = skill.type.replace(/ Skill$/i, '').toLowerCase();
         const icon = await getCharacterSkillIcon(
           character.name,
-          skill.name,
+          typeKey,
           characterAssetKey
         );
         return icon ? [skill.name, icon] : null;

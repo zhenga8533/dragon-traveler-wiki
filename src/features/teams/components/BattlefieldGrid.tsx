@@ -220,6 +220,7 @@ export function BattlefieldGrid({
 													borderWidth={3}
 													link
 													routePath={routePath}
+													fallbackSrc={character === null ? `https://placehold.co/${isMobile ? 64 : 72}x${isMobile ? 64 : 72}?text=?` : undefined}
 												/>
 											</Tooltip>
 											{(member.note?.trim() || '').length > 0 && (

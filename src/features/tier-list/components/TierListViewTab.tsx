@@ -164,7 +164,7 @@ export default function TierListViewTab({
 													size="lg"
 													radius="sm"
 												>
-													Unranked
+													N/A
 												</Badge>
 											}
 										>

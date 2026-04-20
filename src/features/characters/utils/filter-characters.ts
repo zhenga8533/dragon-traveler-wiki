@@ -70,7 +70,7 @@ export function filterCharacters(
       const tier =
         tierLookup.get(getCharacterIdentityKey(c)) ??
         tierLookup.get(c.name) ??
-        'Unranked';
+        'N/A';
       if (!filters.tiers.includes(tier)) {
         return false;
       }

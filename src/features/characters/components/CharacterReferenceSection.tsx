@@ -175,7 +175,7 @@ export default function CharacterReferenceSection({
 								</Badge>
 								{tierLabel && (
 									<Badge variant="light" color={accent.secondary} size="sm">
-										{tierLabel === 'Unranked' ? tierLabel : `Tier ${tierLabel}`}
+										{tierLabel === 'N/A' ? tierLabel : `Tier ${tierLabel}`}
 									</Badge>
 								)}
 							</Group>

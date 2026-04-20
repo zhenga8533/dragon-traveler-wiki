@@ -98,7 +98,7 @@ export default function FilterableCharacterPool({
         }
       }
     }
-    tiers.push('Unranked');
+    tiers.push('N/A');
     return tiers;
   }, [tierLists, selectedTierListName]);
 

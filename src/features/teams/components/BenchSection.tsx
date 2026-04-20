@@ -113,6 +113,7 @@ export function BenchSection({
                       borderWidth={3}
                       link
                       routePath={routePath}
+                      fallbackSrc={char === null ? `https://placehold.co/${isMobile ? 64 : 72}x${isMobile ? 64 : 72}?text=?` : undefined}
                     />
                   </Tooltip>
                   {benchNote && (

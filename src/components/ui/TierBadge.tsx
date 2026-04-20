@@ -17,7 +17,7 @@ export default function TierBadge({
   index = 0,
   style,
 }: TierBadgeProps) {
-  const variant = tier === 'Unranked' ? 'default' : 'light';
+  const variant = tier === 'N/A' ? 'default' : 'light';
   const color = getTierColor(tier, index);
 
   return (

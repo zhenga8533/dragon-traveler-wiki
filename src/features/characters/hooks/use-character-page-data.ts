@@ -200,7 +200,7 @@ export function useCharacterPageData(
 
   const tierLabel = useMemo(() => {
     if (!showCharacterTiers || !selectedTierListName || !selectedTierList || !character) return null;
-    return selectedTierListEntry?.tier ?? 'Unranked';
+    return selectedTierListEntry?.tier ?? 'N/A';
   }, [
     showCharacterTiers,
     selectedTierListName,

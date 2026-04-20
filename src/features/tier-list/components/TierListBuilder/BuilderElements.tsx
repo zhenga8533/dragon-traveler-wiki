@@ -477,7 +477,7 @@ export function UnrankedPool({
       <Stack gap="sm">
         {filterHeader || (
           <Text size="sm" fw={600} c="dimmed">
-            Unranked Characters
+            N/A Characters
           </Text>
         )}
         <SimpleGrid

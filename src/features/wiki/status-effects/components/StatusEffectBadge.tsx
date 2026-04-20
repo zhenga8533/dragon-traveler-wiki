@@ -10,11 +10,13 @@ import IconBadge from '@/components/ui/IconBadge';
 export interface StatusEffectBadgeProps {
   name: string;
   statusEffects: StatusEffect[];
+  displayName?: string;
 }
 
 export default function StatusEffectBadge({
   name,
   statusEffects,
+  displayName,
 }: StatusEffectBadgeProps) {
   const effect = statusEffects.find(
     (e) => normalizeName(e.name) === normalizeName(name)
@@ -23,7 +25,7 @@ export default function StatusEffectBadge({
   if (!effect) {
     return (
       <Badge variant="light" color="gray" size="sm" component="span">
-        {name}
+        {displayName ?? name}
       </Badge>
     );
   }
@@ -33,7 +35,7 @@ export default function StatusEffectBadge({
 
   return (
     <IconBadge
-      label={name}
+      label={displayName ?? name}
       color={color}
       size="sm"
       iconSrc={iconSrc ?? undefined}

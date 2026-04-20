@@ -24,6 +24,7 @@ export interface RichTextProps {
 
 interface ReferenceBadgeProps {
   name: string;
+  displayName?: string;
   label: string;
   color: string;
   description?: string;
@@ -32,17 +33,19 @@ interface ReferenceBadgeProps {
 
 function ReferenceBadge({
   name,
+  displayName,
   label,
   color,
   description,
   lines,
 }: ReferenceBadgeProps) {
   const hasDetails = Boolean(description) || (lines?.length ?? 0) > 0;
+  const badgeLabel = displayName ?? name;
 
   if (!hasDetails) {
     return (
       <Badge variant="light" color={color} size="sm" component="span">
-        {name}
+        {badgeLabel}
       </Badge>
     );
   }
@@ -57,7 +60,7 @@ function ReferenceBadge({
           component="span"
           style={CURSOR_POINTER_STYLE}
         >
-          {name}
+          {badgeLabel}
         </Badge>
       </Popover.Target>
       <Popover.Dropdown>
@@ -90,21 +93,30 @@ function ReferenceBadge({
   );
 }
 
+const fuzzyNames = (name: string): string[] => {
+  const n = normalizeName(name);
+  return n.endsWith('s') ? [n, n.slice(0, -1)] : [n, n + 's'];
+};
+
 const findByName = <T extends { name: string }>(
   items: T[] | undefined,
   name: string
-): T | undefined =>
-  items?.find((item) => normalizeName(item.name) === normalizeName(name));
+): T | undefined => {
+  const candidates = fuzzyNames(name);
+  return items?.find((item) => candidates.includes(normalizeName(item.name)));
+};
 
 const findStatusEffect = (
   statusEffects: StatusEffect[],
   name: string
-): StatusEffect | undefined =>
-  statusEffects.find(
+): StatusEffect | undefined => {
+  const candidates = fuzzyNames(name);
+  return statusEffects.find(
     (se) =>
-      normalizeName(se.name) === normalizeName(name) ||
-      se.alts.some((alt) => normalizeName(alt) === normalizeName(name))
+      candidates.includes(normalizeName(se.name)) ||
+      se.alts.some((alt) => candidates.includes(normalizeName(alt)))
   );
+};
 
 export default function RichText({
   text,
@@ -149,12 +161,17 @@ export default function RichText({
           return <Text key={i} component="span" size="sm" c="yellow" fw={600}>{seg.content}</Text>;
         }
 
+        if (seg.type === 'number') {
+          return <Text key={i} component="span" size="sm" c="blue" fw={600}>{seg.content}</Text>;
+        }
+
         const statusEffect = findStatusEffect(statusEffects, seg.name);
         if (statusEffect) {
           return (
             <StatusEffectBadge
               key={i}
               name={statusEffect.name}
+              displayName={seg.name}
               statusEffects={statusEffects}
             />
           );
@@ -173,7 +190,7 @@ export default function RichText({
                 style={CURSOR_POINTER_STYLE}
                 onClick={() => onSkillClick(skill.name)}
               >
-                {skill.name}
+                {seg.name}
               </Badge>
             );
           }
@@ -181,6 +198,7 @@ export default function RichText({
             <ReferenceBadge
               key={i}
               name={skill.name}
+              displayName={seg.name}
               label="Skill"
               color={accent.secondary}
               description={skill.description}
@@ -200,7 +218,7 @@ export default function RichText({
                 style={CURSOR_POINTER_STYLE}
                 onClick={onTalentClick}
               >
-                {talent.name}
+                {seg.name}
               </Badge>
             );
           }
@@ -208,6 +226,7 @@ export default function RichText({
             <ReferenceBadge
               key={i}
               name={talent.name}
+              displayName={seg.name}
               label="Talent"
               color={accent.tertiary}
               lines={talentLines}
@@ -219,7 +238,7 @@ export default function RichText({
           (r) => normalizeName(r.name) === normalizeName(seg.name)
         );
         if (resource) {
-          return <ResourceBadge key={i} name={resource.name} />;
+          return <ResourceBadge key={i} name={resource.name} displayName={seg.name} />;
         }
 
         return (

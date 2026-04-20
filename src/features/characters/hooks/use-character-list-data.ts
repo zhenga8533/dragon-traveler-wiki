@@ -145,7 +145,7 @@ export function useCharacterListData(
         tiers.push(e.tier);
       }
     }
-    tiers.push('Unranked');
+    tiers.push('N/A');
     return tiers;
   }, [tierLists, selectedTierListName]);
 
@@ -185,7 +185,7 @@ export function useCharacterListData(
       return (
         tierLookup.get(getCharacterIdentityKey(character)) ??
         tierLookup.get(character.name) ??
-        'Unranked'
+        'N/A'
       );
     },
     [showCharacterTiers, selectedTierListName, tierLookup]
@@ -211,8 +211,8 @@ export function useCharacterListData(
         } else if (sortCol === 'global') {
           cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
         } else if (sortCol === 'tier') {
-          const tA = getTierLabel(a) ?? 'Unranked';
-          const tB = getTierLabel(b) ?? 'Unranked';
+          const tA = getTierLabel(a) ?? 'N/A';
+          const tB = getTierLabel(b) ?? 'N/A';
           const iA = tierRank.get(tA) ?? Number.MAX_SAFE_INTEGER;
           const iB = tierRank.get(tB) ?? Number.MAX_SAFE_INTEGER;
           cmp = iA - iB;

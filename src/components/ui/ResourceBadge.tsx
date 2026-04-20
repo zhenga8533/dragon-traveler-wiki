@@ -11,6 +11,8 @@ import InlineMarkup from '@/components/ui/InlineMarkup';
 export interface ResourceBadgeProps {
   /** Resource name (must match a name in resources.json). */
   name: string;
+  /** Optional override for the displayed label text. */
+  displayName?: string;
   /** Optional quantity — omitted when not applicable. */
   quantity?: number;
   /** Badge size passed to Mantine Badge. */
@@ -19,6 +21,7 @@ export interface ResourceBadgeProps {
 
 export default function ResourceBadge({
   name,
+  displayName,
   quantity,
   size = 'sm',
 }: ResourceBadgeProps) {
@@ -30,7 +33,7 @@ export default function ResourceBadge({
   );
 
   const iconSize = size === 'xs' ? IMAGE_SIZE.ICON_XS : IMAGE_SIZE.ICON_SM;
-  const label = `${name}${quantity != null ? ` x${quantity.toLocaleString()}` : ''}`;
+  const label = `${displayName ?? name}${quantity != null ? ` x${quantity.toLocaleString()}` : ''}`;
 
   return (
     <IconBadge
