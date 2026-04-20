@@ -1,15 +1,18 @@
 import { IMAGE_SIZE } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
 import {
+  ActionIcon,
   Button,
   Chip,
   Group,
   MultiSelect,
   Text,
   TextInput,
+  Tooltip,
   type MultiSelectProps,
   type TextInputProps,
 } from '@mantine/core';
+import { IoInformationCircleOutline } from 'react-icons/io5';
 import { useDebouncedValue } from '@mantine/hooks';
 import {
   useEffect,
@@ -112,21 +115,31 @@ export function FilterClearButton({
 
 export interface FilterSectionProps {
   label: string;
+  info?: string;
   children: ReactNode;
 }
 
-export function FilterSection({ label, children }: FilterSectionProps) {
+export function FilterSection({ label, info, children }: FilterSectionProps) {
   return (
     <Group gap="xs" align="center" wrap="wrap">
-      <Text
-        size="xs"
-        fw={600}
-        tt="uppercase"
-        c="dimmed"
-        style={{ minWidth: 60 }}
-      >
-        {label}
-      </Text>
+      <Group gap={4} align="center" wrap="nowrap">
+        <Text
+          size="xs"
+          fw={600}
+          tt="uppercase"
+          c="dimmed"
+          style={{ minWidth: 60 }}
+        >
+          {label}
+        </Text>
+        {info && (
+          <Tooltip label={info} multiline maw={220} withArrow>
+            <ActionIcon size="xs" variant="transparent" c="dimmed" tabIndex={-1}>
+              <IoInformationCircleOutline size={13} />
+            </ActionIcon>
+          </Tooltip>
+        )}
+      </Group>
       {children}
     </Group>
   );
