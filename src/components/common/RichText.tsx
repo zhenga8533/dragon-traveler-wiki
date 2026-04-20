@@ -141,6 +141,14 @@ export default function RichText({
           return <em key={i}>{seg.content}</em>;
         }
 
+        if (seg.type === 'percentRange') {
+          return <Text key={i} component="span" size="sm" c="green" fw={600}>{seg.content}</Text>;
+        }
+
+        if (seg.type === 'percent') {
+          return <Text key={i} component="span" size="sm" c="yellow" fw={600}>{seg.content}</Text>;
+        }
+
         const statusEffect = findStatusEffect(statusEffects, seg.name);
         if (statusEffect) {
           return (

@@ -1,7 +1,9 @@
 export type TextSegment =
   | { type: 'text'; content: string }
   | { type: 'effectRef'; name: string }
-  | { type: 'italic'; content: string };
+  | { type: 'italic'; content: string }
+  | { type: 'percentRange'; content: string }
+  | { type: 'percent'; content: string };
 
 const EFFECT_REF_RE = /\[([^\]]+)\]/g;
 
@@ -20,8 +22,8 @@ export function splitEffectRefs(text: string): TextSegment[] {
   const segments: TextSegment[] = [];
   let lastIndex = 0;
 
-  // Match [refs] and *italic*
-  const re = /\[([^\]]+)\]|\*([^*]+)\*/g;
+  // Match [refs], *italic*, X-Y%, X%
+  const re = /\[([^\]]+)\]|\*([^*]+)\*|(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)%|(\d+(?:\.\d+)?)%/g;
   let match: RegExpExecArray | null;
   while ((match = re.exec(text)) !== null) {
     if (match.index > lastIndex) {
@@ -29,8 +31,12 @@ export function splitEffectRefs(text: string): TextSegment[] {
     }
     if (match[1] != null) {
       segments.push({ type: 'effectRef', name: match[1] });
-    } else {
+    } else if (match[2] != null) {
       segments.push({ type: 'italic', content: match[2] });
+    } else if (match[3] != null) {
+      segments.push({ type: 'percentRange', content: match[0] });
+    } else {
+      segments.push({ type: 'percent', content: match[0] });
     }
     lastIndex = match.index + match[0].length;
   }
