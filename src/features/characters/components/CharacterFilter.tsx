@@ -95,14 +95,12 @@ export default function CharacterFilter({
         (showTierFilter && filters.tiers.length > 0) ||
         filters.statusEffects.length > 0 ||
         filters.globalOnly !== null ||
-        filters.upcomingOnly ||
         hasOwnedFilter
       }
       search={filters.search}
       onSearchChange={(value) => onChange({ ...filters, search: value })}
       searchPlaceholder="Search by name..."
       beforeGroups={
-        <>
         <FilterSection label="Server">
           <FilterChipGroup
             size={chipSize}
@@ -127,17 +125,6 @@ export default function CharacterFilter({
             ]}
           />
         </FilterSection>
-        <FilterSection label="Upcoming" info="Character data has been found in the global game files but hasn't been officially released yet.">
-          <FilterChipGroup
-            size={chipSize}
-            value={filters.upcomingOnly ? ['upcoming'] : []}
-            onChange={(val) =>
-              onChange({ ...filters, upcomingOnly: val.includes('upcoming') })
-            }
-            options={[{ value: 'upcoming', label: 'Potentially upcoming' }]}
-          />
-        </FilterSection>
-        </>
       }
       afterGroups={
         <>
