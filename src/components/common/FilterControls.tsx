@@ -7,9 +7,11 @@ import {
   MultiSelect,
   Text,
   TextInput,
+  Tooltip,
   type MultiSelectProps,
   type TextInputProps,
 } from '@mantine/core';
+import { IoInformationCircleOutline } from 'react-icons/io5';
 import { useDebouncedValue } from '@mantine/hooks';
 import {
   useEffect,
@@ -112,21 +114,25 @@ export function FilterClearButton({
 
 export interface FilterSectionProps {
   label: string;
+  info?: string;
   children: ReactNode;
 }
 
-export function FilterSection({ label, children }: FilterSectionProps) {
+export function FilterSection({ label, info, children }: FilterSectionProps) {
   return (
     <Group gap="xs" align="center" wrap="wrap">
-      <Text
-        size="xs"
-        fw={600}
-        tt="uppercase"
-        c="dimmed"
-        style={{ minWidth: 60 }}
-      >
-        {label}
-      </Text>
+      <Group gap={4} align="center" style={{ minWidth: 60 }}>
+        <Text size="xs" fw={600} tt="uppercase" c="dimmed">
+          {label}
+        </Text>
+        {info && (
+          <Tooltip label={info} multiline maw={220} withArrow position="top">
+            <Text component="span" c="dimmed" style={{ lineHeight: 1, cursor: 'default' }}>
+              <IoInformationCircleOutline size={13} />
+            </Text>
+          </Tooltip>
+        )}
+      </Group>
       {children}
     </Group>
   );

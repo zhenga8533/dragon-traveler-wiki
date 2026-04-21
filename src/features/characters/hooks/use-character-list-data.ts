@@ -254,6 +254,7 @@ export function useCharacterListData(
     (selectedTierListName ? filters.tiers.length : 0) +
     filters.statusEffects.length +
     (filters.globalOnly !== null ? 1 : 0) +
+    (filters.inGlobalAssets ? 1 : 0) +
     (filters.ownedOnly ? 1 : 0) +
     (filters.minStarLevel ? 1 : 0) +
     (filters.maxStarLevel ? 1 : 0);

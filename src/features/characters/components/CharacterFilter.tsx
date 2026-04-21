@@ -95,36 +95,55 @@ export default function CharacterFilter({
         (showTierFilter && filters.tiers.length > 0) ||
         filters.statusEffects.length > 0 ||
         filters.globalOnly !== null ||
+        filters.inGlobalAssets ||
         hasOwnedFilter
       }
       search={filters.search}
       onSearchChange={(value) => onChange({ ...filters, search: value })}
       searchPlaceholder="Search by name..."
       beforeGroups={
-        <FilterSection label="Server">
-          <FilterChipGroup
-            size={chipSize}
-            value={
-              filters.globalOnly === null
-                ? []
-                : filters.globalOnly
-                  ? ['global']
-                  : ['cn']
-            }
-            onChange={(val) => {
-              const next = val.length === 0 ? null : val[val.length - 1];
-              onChange({
-                ...filters,
-                globalOnly:
-                  next === 'global' ? true : next === 'cn' ? false : null,
-              });
-            }}
-            options={[
-              { value: 'global', label: 'Global' },
-              { value: 'cn', label: 'TW / CN' },
-            ]}
-          />
-        </FilterSection>
+        <>
+          <FilterSection label="Server">
+            <FilterChipGroup
+              size={chipSize}
+              value={
+                filters.globalOnly === null
+                  ? []
+                  : filters.globalOnly
+                    ? ['global']
+                    : ['cn']
+              }
+              onChange={(val) => {
+                const next = val.length === 0 ? null : val[val.length - 1];
+                onChange({
+                  ...filters,
+                  globalOnly:
+                    next === 'global' ? true : next === 'cn' ? false : null,
+                });
+              }}
+              options={[
+                { value: 'global', label: 'Global' },
+                { value: 'cn', label: 'TW / CN' },
+              ]}
+            />
+          </FilterSection>
+          <FilterSection
+            label="Global Assets"
+            info="Characters not yet released on Global but spotted in Global game assets"
+          >
+            <FilterChipGroup
+              size={chipSize}
+              value={filters.inGlobalAssets ? ['inGlobalAssets'] : []}
+              onChange={(val) =>
+                onChange({
+                  ...filters,
+                  inGlobalAssets: val.includes('inGlobalAssets'),
+                })
+              }
+              options={[{ value: 'inGlobalAssets', label: 'Exists' }]}
+            />
+          </FilterSection>
+        </>
       }
       afterGroups={
         <>
@@ -133,9 +152,7 @@ export default function CharacterFilter({
               <FilterMultiSelect
                 data={effectOptions}
                 value={filters.statusEffects}
-                onChange={(val) =>
-                  onChange({ ...filters, statusEffects: val })
-                }
+                onChange={(val) => onChange({ ...filters, statusEffects: val })}
                 placeholder="Filter by status effect..."
                 renderOption={({ option }) => {
                   const iconSrc = getStatusEffectIcon(option.label);

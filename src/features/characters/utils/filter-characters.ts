@@ -13,6 +13,7 @@ export interface CharacterFilters {
   tiers: string[];
   statusEffects: string[];
   globalOnly: boolean | null;
+  inGlobalAssets: boolean;
   ownedOnly: boolean;
   minStarLevel: string | null;
   maxStarLevel: string | null;
@@ -26,6 +27,7 @@ export const EMPTY_FILTERS: CharacterFilters = {
   tiers: [],
   statusEffects: [],
   globalOnly: null,
+  inGlobalAssets: false,
   ownedOnly: false,
   minStarLevel: null,
   maxStarLevel: null,
@@ -81,6 +83,10 @@ export function filterCharacters(
     }
     if (filters.globalOnly !== null && c.is_global !== filters.globalOnly) {
       return false;
+    }
+    if (filters.inGlobalAssets) {
+      const loreArr = Array.isArray(c.lore) ? c.lore : c.lore ? [c.lore] : [];
+      if (c.is_global || loreArr.length <= 1) return false;
     }
     const identityKey = getCharacterIdentityKey(c);
     const ownedLevel = ownedCharacters?.[identityKey] ?? null;
