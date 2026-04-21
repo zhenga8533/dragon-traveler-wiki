@@ -154,10 +154,12 @@ export default function SettingsPanel() {
       label: `${list.name} (${normalizeContentType(list.content_type, 'All')})`,
     });
     const official = tierLists.map(toOption);
-    if (savedTierLists.length === 0) return official;
+    const officialNames = new Set(tierLists.map((l) => l.name));
+    const uniqueSaved = savedTierLists.filter((l) => !officialNames.has(l.name));
+    if (uniqueSaved.length === 0) return official;
     return [
       { group: 'Official', items: official },
-      { group: 'My Saved', items: savedTierLists.map(toOption) },
+      { group: 'My Saved', items: uniqueSaved.map(toOption) },
     ];
   }, [tierLists, savedTierLists]);
 
