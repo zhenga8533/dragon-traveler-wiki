@@ -61,7 +61,6 @@ interface CharacterPageBuildSectionProps {
 }
 
 function QuoteCard({ text, attribution, label }: { text: string; attribution: string; label?: string }) {
-  const { accent } = useGradientAccent();
   const isDark = useDarkMode();
   const glassStyles = getLoreGlassStyles(isDark);
 
@@ -213,8 +212,6 @@ export default function CharacterPageBuildSection({
 }: CharacterPageBuildSectionProps) {
   const { accent } = useGradientAccent();
   const mobileTooltip = useMobileTooltip();
-  const isDark = useDarkMode();
-  const glassStyles = getLoreGlassStyles(isDark);
 
   return (
     <>
@@ -300,7 +297,8 @@ export default function CharacterPageBuildSection({
 
       {/* Recommended Build */}
       {(recommendedGearDetails.length > 0 ||
-        recommendedSubclassEntries.length > 0) && (
+        recommendedSubclassEntries.length > 0 ||
+        linkedNoblePhantasm !== null) && (
         <CollapsibleSectionCard
           header={
             <Group align="flex-start" gap="sm">
@@ -316,6 +314,47 @@ export default function CharacterPageBuildSection({
           }
         >
           <Stack gap="md">
+            {linkedNoblePhantasm && (() => {
+              const npIcon = getNoblePhantasmIcon(linkedNoblePhantasm.name);
+              const topEffect = linkedNoblePhantasm.effects[0];
+              return (
+                <Stack gap="sm">
+                  <Text fw={600} size="sm">
+                    Recommended Noble Phantasm
+                  </Text>
+                  <Link
+                    to={`/noble-phantasms/${toEntitySlug(linkedNoblePhantasm.name)}`}
+                    style={{ textDecoration: 'none' }}
+                  >
+                    <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
+                      <Group gap="sm" wrap="nowrap">
+                        {npIcon && (
+                          <Image
+                            src={npIcon}
+                            alt={linkedNoblePhantasm.name}
+                            w={48}
+                            h={48}
+                            fit="contain"
+                            loading="lazy"
+                          />
+                        )}
+                        <Stack gap={2} style={{ minWidth: 0 }}>
+                          <Text size="sm" fw={600} truncate>
+                            {linkedNoblePhantasm.name}
+                          </Text>
+                          {topEffect && (
+                            <Text size="xs" c="dimmed" lineClamp={2}>
+                              {topEffect.description}
+                            </Text>
+                          )}
+                        </Stack>
+                      </Group>
+                    </Paper>
+                  </Link>
+                </Stack>
+              );
+            })()}
+
             {recommendedSubclassEntries.length > 0 && (
               <Stack gap="sm">
                 <Text fw={600} size="sm">

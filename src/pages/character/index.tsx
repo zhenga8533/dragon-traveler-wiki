@@ -165,7 +165,6 @@ export default function CharacterPage() {
       <ErrorBoundary>
         <CharacterHeroSection
           character={character}
-          tierLabel={tierLabel}
           activeIllustration={activeIllustration}
           isNew={newCharacterKeys.has(getCharacterIdentityKey(character))}
         />
