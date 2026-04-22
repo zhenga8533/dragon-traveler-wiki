@@ -49,7 +49,7 @@ const RESOURCE_FIELDS: FieldDef[] = [
     label: 'Category',
     type: 'select',
     required: true,
-    options: ['Currency', 'Gift', 'Item', 'Material', 'Summoning', 'Shard'],
+    options: [...RESOURCE_CATEGORY_ORDER],
   },
   {
     name: 'quality',

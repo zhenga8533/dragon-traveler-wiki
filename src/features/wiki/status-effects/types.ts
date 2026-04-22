@@ -1,11 +1,14 @@
 export type StatusEffectType =
-  | 'Buff'
-  | 'Debuff'
-  | 'Special'
-  | 'Control'
+  | 'Control (CC)'
+  | 'Damage Over Time (DoT)'
+  | 'Defense / Immunity'
   | 'Elemental'
-  | 'Blessing'
-  | 'Exclusive';
+  | 'Faction / Unique'
+  | 'Form / Aspect'
+  | 'Stat Buff'
+  | 'Stat Debuff'
+  | 'Summon'
+  | 'Utility / Special';
 
 export interface StatusEffect {
   name: string;

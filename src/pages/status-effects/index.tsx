@@ -12,7 +12,6 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { getStatusEffectIcon } from '@/assets/status_effect';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import RichText from '@/components/common/RichText';
 import SortableTh from '@/components/ui/SortableTh';
@@ -40,15 +39,7 @@ const STATUS_EFFECT_FIELDS: FieldDef[] = [
     label: 'Type',
     type: 'select',
     required: true,
-    options: [
-      'Buff',
-      'Debuff',
-      'Special',
-      'Control',
-      'Elemental',
-      'Blessing',
-      'Exclusive',
-    ],
+    options: [...STATE_ORDER],
   },
   {
     name: 'effect',
@@ -74,14 +65,6 @@ const EMPTY_FILTERS: StatusEffectFilters = {
   search: '',
   types: [],
 };
-
-const FILTER_GROUPS: ChipFilterGroup[] = [
-  {
-    key: 'types',
-    label: 'Type',
-    options: [...STATE_ORDER],
-  },
-];
 
 export default function StatusEffects() {
   const {
@@ -147,6 +130,13 @@ export default function StatusEffects() {
     },
   });
 
+  const filterGroups = useMemo(() => {
+    const typeSet = new Set(effects.map((e) => e.type));
+    const options = STATE_ORDER.filter((t) => typeSet.has(t));
+    const extra = [...typeSet].filter((t) => !STATE_ORDER.includes(t as StatusEffectType)).sort();
+    return [{ key: 'types', label: 'Type', options: [...options, ...extra] }];
+  }, [effects]);
+
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(effects),
     [effects]
@@ -183,7 +173,7 @@ export default function StatusEffects() {
             onResetFilters={resetFilters}
             filterContent={
               <EntityFilter
-                groups={FILTER_GROUPS}
+                groups={filterGroups}
                 selected={{ types: filters.types }}
                 onChange={(key, values) =>
                   setFilters({

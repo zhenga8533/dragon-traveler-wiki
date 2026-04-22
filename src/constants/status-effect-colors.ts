@@ -1,21 +1,27 @@
 import type { StatusEffectType } from '@/features/wiki/status-effects/types';
 
 export const STATE_COLOR: Record<StatusEffectType, string> = {
-  Buff: 'green',
-  Debuff: 'red',
-  Special: 'blue',
-  Control: 'violet',
+  'Stat Buff': 'green',
+  'Stat Debuff': 'red',
+  'Control (CC)': 'violet',
+  'Damage Over Time (DoT)': 'orange',
+  'Defense / Immunity': 'teal',
   Elemental: 'cyan',
-  Blessing: 'yellow',
-  Exclusive: 'orange',
+  'Form / Aspect': 'grape',
+  'Faction / Unique': 'yellow',
+  Summon: 'indigo',
+  'Utility / Special': 'blue',
 };
 
 export const STATE_ORDER: StatusEffectType[] = [
-  'Buff',
-  'Debuff',
-  'Special',
-  'Control',
+  'Stat Buff',
+  'Stat Debuff',
+  'Control (CC)',
+  'Damage Over Time (DoT)',
+  'Defense / Immunity',
   'Elemental',
-  'Blessing',
-  'Exclusive',
+  'Form / Aspect',
+  'Faction / Unique',
+  'Summon',
+  'Utility / Special',
 ];
