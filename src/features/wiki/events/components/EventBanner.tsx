@@ -157,6 +157,10 @@ export default function EventBanner({
           radius={radius}
           fit="cover"
           alt={alt}
+          onError={(e) => {
+            e.currentTarget.src = placeholderEventImage;
+            e.currentTarget.onerror = null;
+          }}
         />
       )}
       {total > 1 && (

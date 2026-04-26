@@ -6,21 +6,8 @@ function toEventSlug(name: string): string {
     .replace(/^_+|_+$/g, '');
 }
 
-const eventImageModules = import.meta.glob<{ default: string }>('./*.webp', {
-  eager: true,
-});
+export const placeholderEventImage = '/assets/event/placeholder.webp';
 
-const eventImages = new Map<string, string>();
-
-for (const [path, module] of Object.entries(eventImageModules)) {
-  const match = path.match(/\.\/([^/]+)\.webp$/);
-  if (match) {
-    eventImages.set(match[1], module.default);
-  }
-}
-
-export const placeholderEventImage = eventImages.get('placeholder') as string;
-
-export function getEventImage(eventName: string): string | null {
-  return eventImages.get(toEventSlug(eventName)) ?? null;
+export function getEventImage(eventName: string): string {
+  return `/assets/event/${toEventSlug(eventName)}.webp`;
 }

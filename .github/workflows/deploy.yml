@@ -52,6 +52,9 @@ jobs:
       - name: Copy data into dist
         run: cp -r private-data/data dist/data
 
+      - name: Copy assets into dist
+        run: cp -r private-data/assets dist/assets
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 

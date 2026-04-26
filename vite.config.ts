@@ -30,14 +30,48 @@ function serveDataDir(dataDir: string): Plugin {
   };
 }
 
+const EXT_MIME: Record<string, string> = {
+  '.webp': 'image/webp',
+  '.png': 'image/png',
+  '.jpg': 'image/jpeg',
+  '.jpeg': 'image/jpeg',
+};
+
+function serveAssetsDir(assetsDir: string): Plugin {
+  return {
+    name: 'serve-assets-dir',
+    configureServer(server) {
+      server.middlewares.use((req, res, next) => {
+        const requestUrl = req.url ?? '';
+        if (requestUrl.startsWith('/assets/')) {
+          const filename = requestUrl.slice('/assets/'.length);
+          const ext = path.extname(filename).toLowerCase();
+          const mime = EXT_MIME[ext];
+          if (mime) {
+            const filepath = path.join(assetsDir, filename);
+            if (existsSync(filepath)) {
+              res.setHeader('Content-Type', mime);
+              res.end(readFileSync(filepath));
+              return;
+            }
+          }
+        }
+        next();
+      });
+    },
+  };
+}
+
 export default defineConfig(({ mode }) => {
   const env = loadEnv(mode, process.cwd(), '');
   const dataDir = path.resolve(process.cwd(), env.DATA_DIR ?? 'data');
+  const assetsDir = path.resolve(process.cwd(), env.ASSETS_DIR ?? '../dragon-traveler-data/assets');
 
   return {
     plugins: [
       react(),
       serveDataDir(dataDir),
+      serveAssetsDir(assetsDir),
       ViteImageOptimizer({
         png: { quality: 85 },
         jpeg: { quality: 85 },
