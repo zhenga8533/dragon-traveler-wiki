@@ -12,7 +12,8 @@ const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const distDir = path.resolve(projectRoot, 'dist');
-const dataDir = path.resolve(projectRoot, '../data');
+const dataDir = path.resolve(projectRoot, process.env.DATA_DIR || '../data');
+const assetsDir = path.resolve(projectRoot, process.env.ASSETS_DIR || 'src/assets');
 const routeMetaPath = path.resolve(projectRoot, 'src/constants/route-meta.ts');
 const indexHtmlPath = path.join(distDir, 'index.html');
 
@@ -228,9 +229,7 @@ function getCharacterDefaultIllustrationRelativePath(characterSlug) {
   const extensionCandidates = ['png', 'jpg', 'jpeg', 'webp'];
   for (const extension of extensionCandidates) {
     const sourcePath = path.join(
-      projectRoot,
-      'src',
-      'assets',
+      assetsDir,
       'character',
       characterSlug,
       'illustrations',

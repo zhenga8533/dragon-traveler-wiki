@@ -91,7 +91,7 @@ export default defineConfig(({ mode }) => {
           ]
         : []),
     ],
-    base: '/',
+    base: env.VITE_APP_BASE ?? '/',
     resolve: {
       alias: {
         '@': path.resolve(__dirname, './src'),
