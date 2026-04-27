@@ -27,6 +27,7 @@ import {
 } from '@/features/characters/utils/filter-characters';
 import PaginationControl from '@/components/ui/PaginationControl';
 import CharacterFilter from '@/features/characters/components/CharacterFilter';
+import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 
 const ROWS_PER_PAGE = 6;
 
@@ -47,6 +48,7 @@ export default function FilterableCharacterPool({
     TierListReferenceContext
   );
   const { accent } = useGradientAccent();
+  const { data: statusEffects } = useStatusEffects();
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
 
@@ -63,10 +65,18 @@ export default function FilterableCharacterPool({
     defaultSize: cols * ROWS_PER_PAGE,
   });
 
-  const effectOptions = useMemo(
-    () => extractAllEffectRefs(characters),
-    [characters]
-  );
+  const effectOptions = useMemo(() => {
+    const referencedEffects = new Set(extractAllEffectRefs(characters));
+
+    return statusEffects
+      .filter((effect) => referencedEffects.has(effect.name))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((effect) => ({
+        label: effect.name,
+        value: effect.name,
+        icon: effect.icon !== false,
+      }));
+  }, [characters, statusEffects]);
 
   const preferredCharacterByName = useMemo(
     () => buildPreferredCharacterByNameMap(characters),

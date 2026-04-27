@@ -41,7 +41,7 @@ export interface CharacterListData {
   sortDir: 'asc' | 'desc';
   handleSort: (key: string) => void;
   characterNameCounts: Map<string, number>;
-  effectOptions: string[];
+  effectOptions: { label: string; value: string; icon?: boolean }[];
   tierOptions: string[];
   selectedTierListName: string | null;
   getTierLabel: (char: Character) => string | undefined;
@@ -107,9 +107,13 @@ export function useCharacterListData(
     const referencedEffects = new Set(extractAllEffectRefs(characters));
 
     return statusEffects
-      .map((effect) => effect.name)
-      .filter((name) => referencedEffects.has(name))
-      .sort((a, b) => a.localeCompare(b));
+      .filter((effect) => referencedEffects.has(effect.name))
+      .sort((a, b) => a.name.localeCompare(b.name))
+      .map((effect) => ({
+        label: effect.name,
+        value: effect.name,
+        icon: effect.icon !== false,
+      }));
   }, [characters, statusEffects]);
 
   const characterNameCounts = useMemo(

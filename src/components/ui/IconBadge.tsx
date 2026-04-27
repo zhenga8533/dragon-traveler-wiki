@@ -1,6 +1,7 @@
 import type { MantineColor, MantineSize } from '@mantine/core';
-import { Badge, Image, Popover } from '@mantine/core';
+import { Badge, Popover } from '@mantine/core';
 import type { ReactNode } from 'react';
+import { useState } from 'react';
 import { CURSOR_DEFAULT_STYLE, CURSOR_POINTER_STYLE } from '@/constants/styles';
 import { POPOVER_BADGE_WIDTH } from '@/constants/ui';
 
@@ -24,6 +25,24 @@ export default function IconBadge({
   component = 'span',
   popoverContent,
 }: IconBadgeProps) {
+  const [imgError, setImgError] = useState(false);
+  const [prevIconSrc, setPrevIconSrc] = useState(iconSrc);
+
+  if (iconSrc !== prevIconSrc) {
+    setPrevIconSrc(iconSrc);
+    setImgError(false);
+  }
+
+  const iconElement =
+    iconSrc && !imgError ? (
+      <img
+        src={iconSrc}
+        alt=""
+        style={{ width: iconSize, height: iconSize, objectFit: 'contain', display: 'block' }}
+        onError={() => setImgError(true)}
+      />
+    ) : undefined;
+
   const badge = (
     <Badge
       variant="light"
@@ -32,11 +51,7 @@ export default function IconBadge({
       // Mantine's polymorphic type overloads don't accept string directly; cast needed.
       component={component as 'span'}
       style={popoverContent ? CURSOR_POINTER_STYLE : CURSOR_DEFAULT_STYLE}
-      leftSection={
-        iconSrc ? (
-          <Image src={iconSrc} w={iconSize} h={iconSize} fit="contain" />
-        ) : undefined
-      }
+      leftSection={iconElement}
     >
       {label}
     </Badge>

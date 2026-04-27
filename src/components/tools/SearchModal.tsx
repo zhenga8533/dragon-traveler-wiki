@@ -454,14 +454,19 @@ export default function SearchModal({
         ...fuseIndices.statusEffects
           .search(q)
           .slice(0, 5)
-          .map((r) => ({
-            type: 'status-effect' as const,
-            title: r.item.name,
-            subtitle: r.item.type,
-            path: '/status-effects',
-            icon: getStatusEffectIcon(r.item.name) ?? IoSparklesOutline,
-            color: 'cyan',
-          }))
+          .map((r) => {
+            const hasIcon = r.item.icon !== false;
+            const iconSrc = hasIcon ? getStatusEffectIcon(r.item.name) : undefined;
+            
+            return {
+              type: 'status-effect' as const,
+              title: r.item.name,
+              subtitle: r.item.type,
+              path: '/status-effects',
+              icon: iconSrc ?? IoSparklesOutline,
+              color: 'cyan',
+            };
+          })
       );
     }
 

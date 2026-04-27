@@ -2,7 +2,6 @@ import {
   Badge,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -14,6 +13,7 @@ import { useMemo } from 'react';
 import { getStatusEffectIcon } from '@/assets';
 import EntityFilter from '@/components/common/EntityFilter';
 import RichText from '@/components/common/RichText';
+import SafeImage from '@/components/ui/SafeImage';
 import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
@@ -53,6 +53,12 @@ const STATUS_EFFECT_FIELDS: FieldDef[] = [
     label: 'Remark (optional)',
     type: 'textarea',
     placeholder: 'Additional notes',
+  },
+  {
+    name: 'icon',
+    label: 'Has Icon',
+    type: 'boolean',
+    description: 'Check if this status effect has a dedicated icon file',
   },
 ];
 
@@ -198,7 +204,7 @@ export default function StatusEffects() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((effect) => {
-                  const iconSrc = getStatusEffectIcon(effect.name);
+                  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name) : undefined;
                   return (
                     <Paper
                       key={effect.name}
@@ -209,17 +215,17 @@ export default function StatusEffects() {
                     >
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
-                          {iconSrc && (
-                            <Image
-                              src={iconSrc}
-                              alt={effect.name}
-                              w={28}
-                              h={28}
-                              fit="contain"
-                              loading="lazy"
-                            />
-                          )}
+                          <SafeImage
+                            src={iconSrc}
+                            alt={effect.name}
+                            w={28}
+                            h={28}
+                            fit="contain"
+                            loading="lazy"
+                          />
                           <Text fw={600}>{effect.name}</Text>
+                        </Group>
+                        <Group gap={4}>
                           <Badge
                             variant="light"
                             color={STATE_COLOR[effect.type]}
@@ -271,20 +277,18 @@ export default function StatusEffects() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((effect) => {
-                      const iconSrc = getStatusEffectIcon(effect.name);
+                      const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name) : undefined;
                       return (
                         <Table.Tr key={effect.name}>
                           <Table.Td>
-                            {iconSrc && (
-                              <Image
-                                src={iconSrc}
-                                alt={effect.name}
-                                w={32}
-                                h={32}
-                                fit="contain"
-                                loading="lazy"
-                              />
-                            )}
+                            <SafeImage
+                              src={iconSrc}
+                              alt={effect.name}
+                              w={32}
+                              h={32}
+                              fit="contain"
+                              loading="lazy"
+                            />
                           </Table.Td>
                           <Table.Td>
                             <Text fw={600} size="sm">

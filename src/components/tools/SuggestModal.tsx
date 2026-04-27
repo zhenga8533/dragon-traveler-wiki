@@ -41,6 +41,7 @@ export interface FieldDef {
   placeholder?: string;
   options?: readonly string[];
   optionIcons?: Record<string, string>;
+  description?: string;
 }
 
 export interface ArrayFieldDef {
@@ -353,6 +354,7 @@ export default function SuggestModal({
             key={f.name}
             label={f.label}
             placeholder={f.placeholder}
+            description={f.description}
             data={(f.options ?? []).map((option) => ({
               value: option,
               label: option,
@@ -397,6 +399,7 @@ export default function SuggestModal({
           <Switch
             key={f.name}
             label={f.label}
+            description={f.description}
             checked={value as boolean}
             onChange={(e) => onChange(e.currentTarget.checked)}
           />
@@ -407,6 +410,7 @@ export default function SuggestModal({
             key={f.name}
             label={f.label}
             placeholder={f.placeholder}
+            description={f.description}
             value={value as string}
             onChange={(e) => onChange(e.currentTarget.value)}
             autosize
@@ -422,6 +426,7 @@ export default function SuggestModal({
             type="number"
             label={f.label}
             placeholder={f.placeholder}
+            description={f.description}
             value={value as string}
             onChange={(e) => onChange(e.currentTarget.value)}
             withAsterisk={f.required}
@@ -433,6 +438,7 @@ export default function SuggestModal({
             key={f.name}
             label={f.label}
             placeholder={f.placeholder}
+            description={f.description}
             value={value as string}
             onChange={(e) => onChange(e.currentTarget.value)}
             withAsterisk={f.required}
