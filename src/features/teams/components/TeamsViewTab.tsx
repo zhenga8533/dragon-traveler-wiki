@@ -12,7 +12,7 @@ import {
 	Tooltip,
 } from '@mantine/core';
 import { Link, useNavigate } from 'react-router-dom';
-import { FACTION_WYRM_MAP } from '@/assets/wyrms';
+import { FACTION_WYRM_MAP } from '@/assets';
 import EntityActionButtons from '@/components/common/EntityActionButtons';
 import FactionTag from '@/components/ui/FactionTag';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';

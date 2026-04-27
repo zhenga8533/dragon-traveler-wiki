@@ -1,4 +1,4 @@
-import { CLASS_ICON_MAP } from '@/assets/class';
+import { CLASS_ICON_MAP } from '@/assets';
 import EntityTagBadge from '@/components/ui/EntityTagBadge';
 import { CLASS_COLOR } from '@/constants/colors';
 import type { CharacterClass } from '@/features/characters/types';

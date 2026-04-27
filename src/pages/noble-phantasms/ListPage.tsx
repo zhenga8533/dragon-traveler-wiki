@@ -12,8 +12,8 @@ import {
 } from '@mantine/core';
 import { useMemo } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { getPortrait } from '@/assets/character';
-import { getNoblePhantasmIcon } from '@/assets/noble_phantasm';
+import { getPortrait } from '@/assets';
+import { getNoblePhantasmIcon } from '@/assets';
 import CharacterTag from '@/features/characters/components/CharacterTag';
 import EntityFilter from '@/components/common/EntityFilter';
 import GlobalBadge from '@/components/ui/GlobalBadge';
@@ -39,6 +39,10 @@ import type { Character } from '@/features/characters/types';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
 import { getLatestTimestamp } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
+import {
+  buildCharacterNameCounts,
+  getCharacterRouteSlug,
+} from '@/features/characters/utils/character-route';
 
 interface NoblePhantasmFilters {
   search: string;
@@ -62,13 +66,15 @@ export default function NoblePhantasms() {
   );
 
   const noblePhantasmFields = useMemo<FieldDef[]>(() => {
-    const characterOptions = characters
-      .map((c) => c.name)
-      .sort((a, b) => a.localeCompare(b));
+    const nameCounts = buildCharacterNameCounts(characters);
+    const characterOptions = [...new Set(characters.map((c) => c.name))].sort(
+      (a, b) => a.localeCompare(b)
+    );
     const characterIcons: Record<string, string> = {};
-    for (const name of characterOptions) {
-      const portrait = getPortrait(name);
-      if (portrait) characterIcons[name] = portrait;
+    for (const char of characters) {
+      if (characterIcons[char.name]) continue;
+      const portrait = getPortrait(char.name, getCharacterRouteSlug(char, nameCounts));
+      if (portrait) characterIcons[char.name] = portrait;
     }
     return [
       {

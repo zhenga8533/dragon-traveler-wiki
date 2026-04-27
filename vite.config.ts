@@ -35,6 +35,8 @@ const EXT_MIME: Record<string, string> = {
   '.png': 'image/png',
   '.jpg': 'image/jpeg',
   '.jpeg': 'image/jpeg',
+  '.mp4': 'video/mp4',
+  '.json': 'application/json',
 };
 
 function serveAssetsDir(assetsDir: string): Plugin {
@@ -42,18 +44,16 @@ function serveAssetsDir(assetsDir: string): Plugin {
     name: 'serve-assets-dir',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
-        const requestUrl = req.url ?? '';
+        const requestUrl = (req.url ?? '').split('?')[0];
         if (requestUrl.startsWith('/assets/')) {
           const filename = requestUrl.slice('/assets/'.length);
           const ext = path.extname(filename).toLowerCase();
           const mime = EXT_MIME[ext];
-          if (mime) {
-            const filepath = path.join(assetsDir, filename);
-            if (existsSync(filepath)) {
-              res.setHeader('Content-Type', mime);
-              res.end(readFileSync(filepath));
-              return;
-            }
+          const filepath = path.join(assetsDir, filename);
+          if (mime && existsSync(filepath)) {
+            res.setHeader('Content-Type', mime);
+            res.end(readFileSync(filepath));
+            return;
           }
         }
         next();

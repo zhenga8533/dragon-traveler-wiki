@@ -19,8 +19,8 @@ import { useInputCommit, useIsMobile, useMobileTooltip } from '@/hooks';
 import type { CSSProperties } from 'react';
 import { memo, useMemo } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
-import { FACTION_ICON_MAP } from '@/assets/faction';
-import { getWyrmspellIcon } from '@/assets/wyrmspell';
+import { FACTION_ICON_MAP } from '@/assets';
+import { getWyrmspellIcon } from '@/assets';
 import { FACTION_NAMES } from '@/constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
@@ -36,7 +36,6 @@ import type { FactionName } from '@/types/faction';
 import type { TeamWyrmspells } from '@/features/teams/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import {
-  getCharacterBaseSlug,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
 import CharacterCard from '@/features/characters/components/CharacterCard';
@@ -168,13 +167,7 @@ export function DraggableCharCard({
         touchAction: 'none',
       };
 
-  const resolvedLabel =
-    label ??
-    (char &&
-    nameCounts &&
-    (nameCounts.get(getCharacterBaseSlug(char.name)) ?? 1) > 1
-      ? `${char.name} (${char.quality})`
-      : undefined);
+  const resolvedLabel = label;
 
   const routePath =
     char && nameCounts ? getCharacterRoutePath(char, nameCounts) : undefined;

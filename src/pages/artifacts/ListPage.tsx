@@ -1,4 +1,4 @@
-import { getArtifactIcon } from '@/assets/artifacts';
+import { getArtifactIcon } from '@/assets';
 import EntityFilter from '@/components/common/EntityFilter';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';

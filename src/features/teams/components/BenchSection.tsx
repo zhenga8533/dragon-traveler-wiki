@@ -6,7 +6,6 @@ import { getCardHoverProps } from '@/constants/styles';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import type { Character } from '@/features/characters/types';
 import {
-  getCharacterBaseSlug,
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
 import type { TeamBenchMember } from '@/features/teams/types';
@@ -34,7 +33,6 @@ export function BenchSection({
   title = 'Bench',
   charMap,
   characterByIdentity,
-  characterNameCounts,
   getCharacterPath,
   factionColor,
   tooltipProps,
@@ -45,7 +43,6 @@ export function BenchSection({
   title?: string;
   charMap: Map<string, Character>;
   characterByIdentity: Map<string, Character>;
-  characterNameCounts: Map<string, number>;
   getCharacterPath: (
     characterName: string,
     characterQuality?: string | null
@@ -82,13 +79,6 @@ export function BenchSection({
           );
           const routePath = getCharacterPath(benchName, benchQuality);
           const resolvedName = char?.name ?? benchName;
-          const isMultiQualityCharacter =
-            (characterNameCounts.get(getCharacterBaseSlug(resolvedName)) ?? 1) >
-            1;
-          const resolvedLabel =
-            isMultiQualityCharacter && char?.quality
-              ? `${resolvedName} (${char.quality})`
-              : resolvedName;
           const benchNote = getTeamBenchEntryNote(benchEntry);
 
           return (
@@ -105,7 +95,7 @@ export function BenchSection({
             >
               <Stack gap={6} align="center">
                 <Box pos="relative">
-                  <Tooltip label={`View ${resolvedLabel}`} {...tooltipProps}>
+                  <Tooltip label={`View ${resolvedName}`} {...tooltipProps}>
                     <CharacterPortrait
                       name={resolvedName}
                       size={isMobile ? 64 : 72}
@@ -119,7 +109,7 @@ export function BenchSection({
                   {benchNote && (
                     <NoteTooltipIcon
                       note={benchNote}
-                      ariaLabel={`Show note for ${resolvedLabel}`}
+                      ariaLabel={`Show note for ${resolvedName}`}
                       stopPropagation
                       wrapperStyle={{
                         position: 'absolute',
@@ -144,7 +134,7 @@ export function BenchSection({
                   }}
                   lineClamp={disableNameClamp ? undefined : 1}
                 >
-                  {resolvedLabel}
+                  {resolvedName}
                 </Text>
 
                 {char && (

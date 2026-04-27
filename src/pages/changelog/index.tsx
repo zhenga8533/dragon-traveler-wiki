@@ -125,16 +125,9 @@ function capitalize(s: string): string {
   return s.charAt(0).toUpperCase() + s.slice(1);
 }
 
-/** Only show quality suffix for characters whose base name appears more than once. */
-function formatEntityName(
-  entityId: string,
-  charNameCounts: Map<string, number>
-): string {
+function formatEntityName(entityId: string): string {
   if (entityId.includes('__')) {
-    const sep = entityId.indexOf('__');
-    const name = entityId.slice(0, sep);
-    const quality = entityId.slice(sep + 2);
-    return (charNameCounts.get(name) ?? 0) > 1 ? `${name} (${quality})` : name;
+    return entityId.slice(0, entityId.indexOf('__'));
   }
   return entityId;
 }
@@ -186,19 +179,8 @@ function DataHistory() {
       DATA_FILES.map(async ({ file, label }) => {
         try {
           const res = await fetch(`${base}data/changes/${file}.json`);
-          if (!res.ok) return { events: [] as DataEvent[], nameCounts: null };
+          if (!res.ok) return { events: [] as DataEvent[] };
           const data: ChangesFile = await res.json();
-
-          let nameCounts: Map<string, number> | null = null;
-          if (file === 'characters') {
-            nameCounts = new Map<string, number>();
-            for (const entityId of Object.keys(data)) {
-              if (entityId.includes('__')) {
-                const name = entityId.slice(0, entityId.indexOf('__'));
-                nameCounts.set(name, (nameCounts.get(name) ?? 0) + 1);
-              }
-            }
-          }
 
           const out: DataEvent[] = [];
           for (const [entityId, entity] of Object.entries(data)) {
@@ -220,18 +202,17 @@ function DataHistory() {
               });
             });
           }
-          return { events: out, nameCounts };
+          return { events: out };
         } catch {
-          return { events: [] as DataEvent[], nameCounts: null };
+          return { events: [] as DataEvent[] };
         }
       })
     ).then((results) => {
-      const counts = results.find((r) => r.nameCounts)?.nameCounts ?? new Map();
       const all = results
         .flatMap((r) => r.events)
         .map((e) => ({
           ...e,
-          entityName: formatEntityName(e.entityId, counts),
+          entityName: formatEntityName(e.entityId),
         }))
         .sort((a, b) => b.timestamp - a.timestamp);
       setEvents(all);

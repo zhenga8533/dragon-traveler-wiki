@@ -11,7 +11,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useContext, useMemo } from 'react';
-import { getResourceIcon } from '@/assets/resource';
+import { getResourceIcon } from '@/assets';
 import {
   EntityFilter,
   FilteredListShell,

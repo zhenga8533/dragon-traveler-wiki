@@ -1,4 +1,4 @@
-import { getNoblePhantasmIcon } from '@/assets/noble_phantasm';
+import { getNoblePhantasmIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';

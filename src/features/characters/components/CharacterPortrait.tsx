@@ -1,4 +1,4 @@
-import { getPortrait } from '@/assets/character';
+import { getPortrait } from '@/assets';
 import { QUALITY_BORDER_COLOR } from '@/constants/colors';
 import { getCharacterPortraitHoverProps } from '@/constants/styles';
 import { CharacterOwnershipContext } from '@/contexts';
@@ -63,7 +63,7 @@ export default function CharacterPortrait({
 
   const portrait = (
     <Image
-      src={getPortrait(name, resolvedAssetKey, quality)}
+      src={getPortrait(name, resolvedAssetKey)}
       alt={name}
       w={size}
       h={size}

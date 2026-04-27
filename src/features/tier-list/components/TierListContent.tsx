@@ -26,7 +26,6 @@ import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { TierList as TierListType } from '@/features/tier-list/types';
 import {
-	getCharacterBaseSlug,
 	getCharacterIdentityKey,
 	getCharacterRoutePath,
 	getCharacterRoutePathByName,
@@ -154,20 +153,11 @@ export default function TierListContent({
 												? getCharacterRoutePath(char, characterNameCounts)
 												: getCharacterRoutePathByName(entry.character_name);
 											const entryNote = entry.note?.trim() || undefined;
-											const isMultiQuality =
-												char &&
-												(characterNameCounts.get(
-													getCharacterBaseSlug(char.name)
-												) ?? 1) > 1;
 											return (
 												<CharacterCard
 													key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
 													name={char?.name ?? entry.character_name}
-													label={
-														isMultiQuality
-															? `${char!.name} (${char!.quality})`
-															: undefined
-													}
+													label={undefined}
 													quality={char?.quality}
 													routePath={routePath}
 													note={entryNote}
@@ -196,14 +186,7 @@ export default function TierListContent({
 														: getCharacterRoutePathByName(entry.character_name);
 													const resolvedName =
 														char?.name ?? entry.character_name;
-													const isMultiQuality =
-														char &&
-														(characterNameCounts.get(
-															getCharacterBaseSlug(char.name)
-														) ?? 1) > 1;
-													const displayName = isMultiQuality
-														? `${char!.name} (${char!.quality})`
-														: resolvedName;
+													const displayName = resolvedName;
 													const entryNote = entry.note?.trim() || '';
 													return (
 														<Table.Tr

@@ -1,4 +1,4 @@
-import { getResourceIcon } from '@/assets/resource';
+import { getResourceIcon } from '@/assets';
 import LastUpdated from '@/components/common/LastUpdated';
 import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import SuggestModal, {

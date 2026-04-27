@@ -25,7 +25,6 @@ interface TeamDetailContentProps {
 	teamSynergy: TeamSynergyResult;
 	charMap: Map<string, Character>;
 	characterByIdentity: Map<string, Character>;
-	characterNameCounts: Map<string, number>;
 	getCharacterPath: (
 		characterName: string,
 		characterQuality?: string | null
@@ -63,7 +62,6 @@ export default function TeamDetailContent({
 	teamSynergy,
 	charMap,
 	characterByIdentity,
-	characterNameCounts,
 	getCharacterPath,
 	factionColor,
 	accentPrimary,
@@ -141,7 +139,6 @@ export default function TeamDetailContent({
 							members={team.members}
 							charMap={charMap}
 							characterByIdentity={characterByIdentity}
-							characterNameCounts={characterNameCounts}
 							getCharacterPath={getCharacterPath}
 							factionColor={factionColor}
 							isDark={isDark}
@@ -155,7 +152,6 @@ export default function TeamDetailContent({
 								bench={team.bench}
 								charMap={charMap}
 								characterByIdentity={characterByIdentity}
-								characterNameCounts={characterNameCounts}
 								getCharacterPath={getCharacterPath}
 								factionColor={factionColor}
 								tooltipProps={tooltipProps}

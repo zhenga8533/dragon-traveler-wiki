@@ -1,7 +1,7 @@
 import {
   getIllustrations,
   type CharacterIllustration,
-} from '@/assets/character';
+} from '@/assets';
 import { normalizeKey } from '@/assets/utils';
 import { STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';

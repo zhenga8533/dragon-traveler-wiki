@@ -1,7 +1,7 @@
 import {
   getOracleScrollImage,
   getRelicIcon,
-} from '@/assets/relic';
+} from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';

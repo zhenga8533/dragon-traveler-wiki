@@ -1,4 +1,4 @@
-import { QUALITY_ICON_MAP } from '@/assets/quality';
+import { QUALITY_ICON_MAP } from '@/assets';
 import { Image, Tooltip } from '@mantine/core';
 import { memo } from 'react';
 import { useMobileTooltip } from '@/hooks';

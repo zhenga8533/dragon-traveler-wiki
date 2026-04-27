@@ -1,5 +1,5 @@
 import { Badge, Group, Image, Stack, Text } from '@mantine/core';
-import { getStatusEffectIcon } from '@/assets/status_effect';
+import { getStatusEffectIcon } from '@/assets';
 import { STATE_COLOR } from '@/constants/colors';
 import { WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
 import { IMAGE_SIZE, POPOVER_BADGE_WIDTH } from '@/constants/ui';

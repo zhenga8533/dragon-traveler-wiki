@@ -1,5 +1,5 @@
 import { useMemo } from 'react';
-import { getNoblePhantasmIcon } from '@/assets/noble_phantasm';
+import { getNoblePhantasmIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import ClassTag from '@/components/ui/ClassTag';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';

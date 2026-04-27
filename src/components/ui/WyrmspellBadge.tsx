@@ -1,4 +1,4 @@
-import { getWyrmspellIcon } from '@/assets/wyrmspell';
+import { getWyrmspellIcon } from '@/assets';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { useDataFetch } from '@/hooks';

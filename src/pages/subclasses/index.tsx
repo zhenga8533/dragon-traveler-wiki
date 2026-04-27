@@ -1,4 +1,4 @@
-import { getSubclassIcon } from '@/assets/subclass';
+import { getSubclassIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import { createClassFilterGroup } from '@/components/common/EntityFilterGroups';

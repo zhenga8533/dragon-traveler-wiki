@@ -1,4 +1,4 @@
-import { QUALITY_ICON_MAP } from '@/assets/quality';
+import { QUALITY_ICON_MAP } from '@/assets';
 import StatCard from '@/components/ui/StatCard';
 import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';

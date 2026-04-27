@@ -2,7 +2,6 @@ import { QUALITY_ORDER } from '@/constants/colors';
 import { CharacterOwnershipContext } from '@/contexts';
 import type { Character } from '@/features/characters/types';
 import {
-  getCharacterBaseSlug,
   getCharacterIdentityKey,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
@@ -147,11 +146,6 @@ export default function CharacterOwnershipManager({
               {chars.map((char) => {
                 const identityKey = getCharacterIdentityKey(char);
                 const currentLevel = ownedCharacters[identityKey] ?? '';
-                const isMultiQuality =
-                  (characterNameCounts.get(getCharacterBaseSlug(char.name)) ?? 1) > 1;
-                const displayName = isMultiQuality
-                  ? `${char.name} (${char.quality})`
-                  : char.name;
                 return (
                   <Group key={identityKey} gap="sm" wrap="nowrap">
                     <CharacterPortrait
@@ -163,7 +157,7 @@ export default function CharacterOwnershipManager({
                       link
                     />
                     <Text size="sm" fw={500} style={{ flex: 1, minWidth: 0 }} truncate>
-                      {displayName}
+                      {char.name}
                     </Text>
                     <Select
                       data={starLevelOptions}

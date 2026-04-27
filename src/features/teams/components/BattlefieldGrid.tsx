@@ -20,7 +20,6 @@ import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { TeamMember } from '@/features/teams/types';
 import {
-	getCharacterBaseSlug,
 	resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
 
@@ -70,7 +69,6 @@ export function BattlefieldGrid({
 	members,
 	charMap,
 	characterByIdentity,
-	characterNameCounts,
 	getCharacterPath,
 	factionColor,
 	isDark,
@@ -81,7 +79,6 @@ export function BattlefieldGrid({
 	members: TeamMember[];
 	charMap: Map<string, Character>;
 	characterByIdentity: Map<string, Character>;
-	characterNameCounts: Map<string, number>;
 	getCharacterPath: (
 		characterName: string,
 		characterQuality?: string | null
@@ -187,13 +184,6 @@ export function BattlefieldGrid({
 								member.character_quality
 							);
 							const resolvedName = character?.name ?? member.character_name;
-							const isMultiQualityCharacter =
-								(characterNameCounts.get(getCharacterBaseSlug(resolvedName)) ??
-									1) > 1;
-							const displayName =
-								isMultiQualityCharacter && character?.quality
-									? `${resolvedName} (${character.quality})`
-									: resolvedName;
 
 							return (
 								<Paper
@@ -212,7 +202,7 @@ export function BattlefieldGrid({
 											{BG_COL_LABELS[colIdx]}
 										</Text>
 										<Box pos="relative">
-											<Tooltip label={`View ${displayName}`} {...tooltipProps}>
+											<Tooltip label={`View ${resolvedName}`} {...tooltipProps}>
 												<CharacterPortrait
 													name={resolvedName}
 													size={isMobile ? 64 : 72}
@@ -226,7 +216,7 @@ export function BattlefieldGrid({
 											{(member.note?.trim() || '').length > 0 && (
 												<NoteTooltipIcon
 													note={member.note?.trim() ?? ''}
-													ariaLabel={`Show note for ${displayName}`}
+													ariaLabel={`Show note for ${resolvedName}`}
 													stopPropagation
 													wrapperStyle={{
 														position: 'absolute',
@@ -267,7 +257,7 @@ export function BattlefieldGrid({
 											}}
 											lineClamp={disableNameClamp ? undefined : 1}
 										>
-											{displayName}
+											{resolvedName}
 										</Text>
 
 										{character && (

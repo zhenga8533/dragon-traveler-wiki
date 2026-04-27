@@ -1,7 +1,7 @@
 import { Group, Image, Paper, Skeleton, UnstyledButton } from '@mantine/core';
 import { useEffect, useReducer, useState } from 'react';
-import { getIllustrations } from '@/assets/character';
-import { getEventImage, placeholderEventImage } from '@/assets/event';
+import { getIllustrations } from '@/assets';
+import { getEventImage, placeholderEventImage } from '@/assets';
 
 const INDICATOR_DOT_SIZE = 8;
 const BANNER_TICK_MS = 3000;

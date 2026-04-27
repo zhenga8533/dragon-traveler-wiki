@@ -1,6 +1,6 @@
-import { FACTION_ICON_MAP } from '@/assets/faction';
-import { GEAR_TYPE_ICON_MAP } from '@/assets/gear';
-import { QUALITY_ICON_MAP } from '@/assets/quality';
+import { FACTION_ICON_MAP } from '@/assets';
+import { GEAR_TYPE_ICON_MAP } from '@/assets';
+import { QUALITY_ICON_MAP } from '@/assets';
 import {
   GITHUB_REPO_URL,
   MAX_GITHUB_ISSUE_URL_LENGTH,

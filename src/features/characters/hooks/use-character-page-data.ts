@@ -1,7 +1,7 @@
 import { useContext, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets/gear';
-import { getSubclassIcon } from '@/assets/subclass';
+import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets';
+import { getSubclassIcon } from '@/assets';
 import { CharacterOwnershipContext, TierListReferenceContext } from '@/contexts';
 import type { ChangesFile } from '@/types/changes';
 import type {
@@ -285,7 +285,7 @@ export function useCharacterPageData(
         const details = subclassByName.get(subclassName);
         return {
           name: subclassName,
-          icon: getSubclassIcon(subclassName),
+          icon: getSubclassIcon(subclassName, details?.class),
           tier: details?.tier,
           className: details?.class,
           bonuses: details?.bonuses ?? [],

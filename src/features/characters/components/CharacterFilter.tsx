@@ -1,4 +1,4 @@
-import { getStatusEffectIcon } from '@/assets/status_effect';
+import { getStatusEffectIcon } from '@/assets';
 import EntityFilter from '@/components/common/EntityFilter';
 import {
   createClassFilterGroup,

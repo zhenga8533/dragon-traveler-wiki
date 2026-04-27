@@ -1,4 +1,4 @@
-import { getWyrmspellIcon } from '@/assets/wyrmspell';
+import { getWyrmspellIcon } from '@/assets';
 import { WYRMSPELL_TYPE_COLOR, getStableTagColor } from '@/constants/colors';
 import { getCardHoverProps } from '@/constants/styles';
 import FactionTag from '@/components/ui/FactionTag';

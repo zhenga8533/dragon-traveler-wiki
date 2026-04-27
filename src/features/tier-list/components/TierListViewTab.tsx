@@ -24,7 +24,6 @@ import type { ChangesFile } from '@/types/changes';
 import type { Character } from '@/features/characters/types';
 import type { TierList as TierListType } from '@/features/tier-list/types';
 import {
-	getCharacterBaseSlug,
 	getCharacterIdentityKey,
 	getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
@@ -174,19 +173,11 @@ export default function TierListViewTab({
 													spacing={CHARACTER_GRID_SPACING}
 												>
 													{unranked.map((c) => {
-														const isMultiQuality =
-															(characterNameCounts.get(
-																getCharacterBaseSlug(c.name)
-															) ?? 1) > 1;
 														return (
 															<CharacterCard
 																key={getCharacterIdentityKey(c)}
 																name={c.name}
-																label={
-																	isMultiQuality
-																		? `${c.name} (${c.quality})`
-																		: undefined
-																}
+																label={undefined}
 																quality={c.quality}
 																routePath={getCharacterRoutePath(
 																	c,
@@ -217,13 +208,7 @@ export default function TierListViewTab({
 														</Table.Thead>
 														<Table.Tbody>
 															{unranked.map((c) => {
-																const isMultiQuality =
-																	(characterNameCounts.get(
-																		getCharacterBaseSlug(c.name)
-																	) ?? 1) > 1;
-																const displayName = isMultiQuality
-																	? `${c.name} (${c.quality})`
-																	: c.name;
+																const displayName = c.name;
 																return (
 																	<Table.Tr key={getCharacterIdentityKey(c)}>
 																		<Table.Td>
@@ -232,6 +217,7 @@ export default function TierListViewTab({
 																					name={c.name}
 																					size={32}
 																					quality={c.quality}
+																					routePath={getCharacterRoutePath(c, characterNameCounts)}
 																				/>
 																				<Text
 																					component={Link}

@@ -11,7 +11,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { getStatusEffectIcon } from '@/assets/status_effect';
+import { getStatusEffectIcon } from '@/assets';
 import EntityFilter from '@/components/common/EntityFilter';
 import RichText from '@/components/common/RichText';
 import SortableTh from '@/components/ui/SortableTh';

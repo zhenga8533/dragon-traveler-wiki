@@ -1,4 +1,4 @@
-import { FACTION_ICON_MAP } from '@/assets/faction';
+import { FACTION_ICON_MAP } from '@/assets';
 import EntityTagBadge from '@/components/ui/EntityTagBadge';
 import { FACTION_COLOR } from '@/constants/colors';
 import type { FactionName } from '@/types/faction';

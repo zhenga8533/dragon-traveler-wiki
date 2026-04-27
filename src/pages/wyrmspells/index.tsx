@@ -1,4 +1,4 @@
-import { getWyrmspellIcon } from '@/assets/wyrmspell';
+import { getWyrmspellIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import {

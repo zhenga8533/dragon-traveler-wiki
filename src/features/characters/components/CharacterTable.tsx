@@ -105,6 +105,7 @@ export default function CharacterTable({
                       size={40}
                       quality={char.quality}
                       borderWidth={3}
+                      routePath={getCharacterRoutePath(char, characterNameCounts)}
                       style={{ flexShrink: 0 }}
                       isNew={newCharacterKeys?.has(getCharacterIdentityKey(char))}
                     />

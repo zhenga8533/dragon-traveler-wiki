@@ -2,7 +2,7 @@ import { Badge, Box, Group } from '@mantine/core';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import type { Character } from '@/features/characters/types';
 import {
-	getCharacterBaseSlug,
+	getCharacterRouteSlug,
 	resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
 
@@ -49,20 +49,16 @@ export default function TeamCharacterAvatars({
 			byIdentity
 		);
 		const displayName = char?.name ?? entry.name;
-		const isMultiQualityCharacter =
-			(nameCounts?.get(getCharacterBaseSlug(displayName)) ?? 1) > 1;
-		const displayLabel =
-			isMultiQualityCharacter && char?.quality
-				? `${displayName} (${char.quality})`
-				: displayName;
+		const assetKey = char && nameCounts ? getCharacterRouteSlug(char, nameCounts) : undefined;
 		return (
 			<CharacterPortrait
 				key={`${isSubstitute ? 'sub' : 'main'}-${entry.name}-${entry.quality ?? ''}`}
 				name={displayName}
 				size={size}
 				quality={char?.quality}
+				assetKey={assetKey}
 				isSubstitute={isSubstitute}
-				tooltip={isSubstitute ? `${displayLabel} (Sub)` : displayLabel}
+				tooltip={isSubstitute ? `${displayName} (Sub)` : displayName}
 			/>
 		);
 	});

@@ -25,7 +25,7 @@ import {
   IoExpand,
 } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
-import { getSubclassIcon } from '@/assets/subclass';
+import { getSubclassIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import ClassTag from '@/components/ui/ClassTag';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
@@ -166,6 +166,7 @@ export default function CharacterPage() {
         <CharacterHeroSection
           character={character}
           activeIllustration={activeIllustration}
+          assetKey={characterAssetKey}
           isNew={newCharacterKeys.has(getCharacterIdentityKey(character))}
         />
       </ErrorBoundary>

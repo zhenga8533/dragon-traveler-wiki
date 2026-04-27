@@ -1,4 +1,4 @@
-import { getGearIcon } from '@/assets/gear';
+import { getGearIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
@@ -18,7 +18,8 @@ import CharacterPortrait from '@/features/characters/components/CharacterPortrai
 import type { Character } from '@/features/characters/types';
 import {
   buildCharacterNameCounts,
-  getCharacterBaseSlug,
+  getCharacterRouteSlug,
+  getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear, GearSet } from '@/features/wiki/gear/types';
@@ -298,13 +299,7 @@ export default function GearSetPage() {
             </Text>
             <Group gap="xs" wrap="wrap">
               {displayedCharacters.map((character) => {
-                const isMultiQualityCharacter =
-                  (characterNameCounts.get(
-                    getCharacterBaseSlug(character.name)
-                  ) ?? 1) > 1;
-                const tooltipLabel = isMultiQualityCharacter
-                  ? `${character.name} (${character.quality})`
-                  : character.name;
+                const tooltipLabel = character.name;
 
                 return (
                   <CharacterPortrait
@@ -312,6 +307,8 @@ export default function GearSetPage() {
                     name={character.name}
                     size={44}
                     quality={character.quality}
+                    assetKey={getCharacterRouteSlug(character, characterNameCounts)}
+                    routePath={getCharacterRoutePath(character, characterNameCounts)}
                     link
                     tooltip={tooltipLabel}
                     tooltipProps={tooltipProps}

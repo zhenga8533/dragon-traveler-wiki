@@ -1,4 +1,9 @@
-import { getPortrait } from '@/assets/character';
+import { getPortrait } from '@/assets';
+import type { Character } from '@/features/characters/types';
+import {
+  buildCharacterNameCounts,
+  getCharacterRouteSlug,
+} from '@/features/characters/utils/character-route';
 import EntityFilter from '@/components/common/EntityFilter';
 import {
   FilterMultiSelect,
@@ -159,12 +164,14 @@ function EventFilter({
   serverOptions,
   typeOptions,
   characterOptions,
+  portraitByName,
 }: {
   filters: EventFilters;
   onChange: (filters: EventFilters) => void;
   serverOptions: string[];
   typeOptions: string[];
   characterOptions: string[];
+  portraitByName: Map<string, string>;
 }) {
   const isMobile = useIsMobile();
   const chipSize = isMobile ? 'md' : 'xs';
@@ -212,7 +219,7 @@ function EventFilter({
                 }
                 placeholder="Filter by character..."
                 renderOption={({ option }) => {
-                  const portrait = getPortrait(option.label);
+                  const portrait = portraitByName.get(option.label);
                   return (
                     <Group gap="xs" align="center">
                       {portrait ? (
@@ -414,6 +421,19 @@ export default function Events() {
     loading,
     error,
   } = useDataFetch<GameEvent[]>('data/events.json', []);
+  const { data: characters } = useDataFetch<Character[]>('data/characters.json', []);
+
+  const portraitByName = useMemo(() => {
+    const nameCounts = buildCharacterNameCounts(characters);
+    const map = new Map<string, string>();
+    for (const char of characters) {
+      if (!map.has(char.name)) {
+        const portrait = getPortrait(char.name, getCharacterRouteSlug(char, nameCounts));
+        if (portrait) map.set(char.name, portrait);
+      }
+    }
+    return map;
+  }, [characters]);
 
   const [tabParam, handleTabChange] = useTabParam('tab', 'active', [
     'active',
@@ -594,6 +614,7 @@ export default function Events() {
                 serverOptions={serverOptions}
                 typeOptions={typeOptions}
                 characterOptions={characterOptions}
+                portraitByName={portraitByName}
               />
             </PageFilterHeaderControls>
           )}

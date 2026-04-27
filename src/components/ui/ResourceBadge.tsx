@@ -1,6 +1,6 @@
 import { Group, Image, Stack, Text } from '@mantine/core';
 import { useContext } from 'react';
-import { getResourceIcon } from '@/assets/resource';
+import { getResourceIcon } from '@/assets';
 import { WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
 import { IMAGE_SIZE, POPOVER_BADGE_WIDTH } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';

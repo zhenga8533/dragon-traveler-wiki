@@ -4,7 +4,6 @@ import CharacterCard from '@/features/characters/components/CharacterCard';
 import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
 import type { Character } from '@/features/characters/types';
 import {
-  getCharacterBaseSlug,
   getCharacterIdentityKey,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
@@ -303,20 +302,11 @@ export default function TeamBuilder({
                 {activeId
                   ? (() => {
                       const activeChar = getCharacterFromKey(activeId);
-                      const isDuplicate =
-                        activeChar &&
-                        (characterNameCounts.get(
-                          getCharacterBaseSlug(activeChar.name)
-                        ) ?? 1) > 1;
                       return (
                         <Box style={{ cursor: 'grabbing' }}>
                           <CharacterCard
                             name={activeChar?.name ?? activeId}
-                            label={
-                              isDuplicate && activeChar
-                                ? `${activeChar.name} (${activeChar.quality})`
-                                : undefined
-                            }
+                            label={undefined}
                             quality={activeChar?.quality}
                             disableLink
                             routePath={
@@ -402,7 +392,6 @@ export default function TeamBuilder({
                 members={teamData.members}
                 charMap={charMap}
                 characterByIdentity={characterByIdentity}
-                characterNameCounts={characterNameCounts}
                 getCharacterPath={getCharacterPath}
                 factionColor={factionColor}
                 isDark={isDark}
@@ -415,7 +404,6 @@ export default function TeamBuilder({
                   bench={teamData.bench}
                   charMap={charMap}
                   characterByIdentity={characterByIdentity}
-                  characterNameCounts={characterNameCounts}
                   getCharacterPath={getCharacterPath}
                   factionColor={factionColor}
                   tooltipProps={tooltipProps}

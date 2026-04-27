@@ -7,7 +7,6 @@ import {
 import { STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import {
-  getCharacterBaseSlug,
   getCharacterByReferenceKey,
   getCharacterIdentityKey,
   resolveCharacterReferenceKey,
@@ -594,18 +593,10 @@ export function useTierListState({
           entries: (state.placements[tierDef.name] || []).map(
             (characterKey) => {
               const character = getCharacterFromKey(characterKey);
-              const isDuplicate =
-                character &&
-                (characterNameCounts.get(
-                  getCharacterBaseSlug(character.name)
-                ) ?? 1) > 1;
               return {
                 characterName: character?.name ?? characterKey,
                 characterQuality: character?.quality ?? null,
-                label:
-                  isDuplicate && character
-                    ? `${character.name} (${character.quality})`
-                    : undefined,
+                label: undefined,
               };
             }
           ),

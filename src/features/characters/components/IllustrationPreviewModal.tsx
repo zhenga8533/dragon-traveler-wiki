@@ -28,7 +28,7 @@ import {
 	IoExpand,
 	IoFilm,
 } from 'react-icons/io5';
-import type { CharacterIllustration } from '@/assets/character';
+import type { CharacterIllustration } from '@/assets';
 import { getCardHoverProps } from '@/constants/styles';
 import { TRANSITION } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';

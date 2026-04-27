@@ -1,5 +1,5 @@
-import { CLASS_ICON_MAP } from '@/assets/class';
-import { FACTION_ICON_MAP } from '@/assets/faction';
+import { CLASS_ICON_MAP } from '@/assets';
+import { FACTION_ICON_MAP } from '@/assets';
 import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER } from '@/constants/colors';
 import { IMAGE_SIZE } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';

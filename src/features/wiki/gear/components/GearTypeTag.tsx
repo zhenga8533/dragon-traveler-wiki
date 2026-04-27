@@ -1,4 +1,4 @@
-import { GEAR_TYPE_ICON_MAP } from '@/assets/gear';
+import { GEAR_TYPE_ICON_MAP } from '@/assets';
 import EntityTagBadge from '@/components/ui/EntityTagBadge';
 import { GEAR_TYPE_COLOR } from '@/constants/colors';
 import type { GearType } from '@/features/wiki/gear/types';

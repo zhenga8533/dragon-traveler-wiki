@@ -1,4 +1,4 @@
-import { getHowlkinIcon } from '@/assets/howlkin';
+import { getHowlkinIcon } from '@/assets';
 import IconBadge from '@/components/ui/IconBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/colors';

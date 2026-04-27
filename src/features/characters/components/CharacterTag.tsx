@@ -26,7 +26,7 @@ export default function CharacterTag({
       variant="light"
       color={color ?? accent.primary}
       size={size}
-      leftSection={<CharacterPortrait name={name} size={14} borderWidth={0} />}
+      leftSection={<CharacterPortrait name={name} size={14} borderWidth={0} routePath={routePath ?? getCharacterRoutePathByName(name)} />}
     >
       {name}
     </Badge>

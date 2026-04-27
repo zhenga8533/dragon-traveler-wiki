@@ -1,4 +1,4 @@
-import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets/gear';
+import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';

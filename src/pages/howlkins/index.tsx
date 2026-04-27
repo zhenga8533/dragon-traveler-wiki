@@ -1,4 +1,4 @@
-import { getHowlkinIcon } from '@/assets/howlkin';
+import { getHowlkinIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import {

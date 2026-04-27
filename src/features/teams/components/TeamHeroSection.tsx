@@ -1,5 +1,5 @@
-import { getArtifactIcon } from '@/assets/artifacts';
-import { FACTION_WYRM_MAP } from '@/assets/wyrms';
+import { getArtifactIcon } from '@/assets';
+import { FACTION_WYRM_MAP } from '@/assets';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import RichText from '@/components/common/RichText';

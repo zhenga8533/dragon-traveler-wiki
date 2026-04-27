@@ -4,8 +4,8 @@ import {
   getIllustrations,
   getTalentIcon,
   type CharacterIllustration,
-} from '@/assets/character';
-import { getSkillIcon } from '@/assets/skill';
+} from '@/assets';
+import { getSkillIcon } from '@/assets';
 import type { Character } from '@/features/characters/types';
 
 const EMPTY_SKILL_ICONS = new Map<string, string>();

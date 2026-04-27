@@ -1,4 +1,4 @@
-import type { CharacterIllustration } from '@/assets/character';
+import type { CharacterIllustration } from '@/assets';
 import { GlobalBadge } from '@/components';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
@@ -24,12 +24,14 @@ import CharacterPortrait from './CharacterPortrait';
 interface CharacterPageHeroSectionProps {
   character: Character;
   activeIllustration: CharacterIllustration | null;
+  assetKey?: string;
   isNew?: boolean;
 }
 
 export default function CharacterPageHeroSection({
   character,
   activeIllustration,
+  assetKey,
   isNew = false,
 }: CharacterPageHeroSectionProps) {
   const isDark = useDarkMode();
@@ -106,6 +108,7 @@ export default function CharacterPageHeroSection({
                 name={character.name}
                 size={CHARACTER_HERO.PORTRAIT_SIZE}
                 quality={character.quality}
+                assetKey={assetKey}
                 borderWidth={CHARACTER_HERO.BORDER_WIDTH}
                 borderColor={QUALITY_BORDER_COLOR[character.quality]}
                 style={{ boxShadow: 'var(--mantine-shadow-xl)' }}

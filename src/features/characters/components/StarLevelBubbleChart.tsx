@@ -1,11 +1,11 @@
-import { getPortrait } from '@/assets/character';
+import { getPortrait } from '@/assets';
 import { QUALITY_BORDER_COLOR } from '@/constants/colors';
 import { CharacterOwnershipContext } from '@/contexts';
 import type { Character } from '@/features/characters/types';
 import {
   buildCharacterNameCounts,
-  getCharacterBaseSlug,
   getCharacterIdentityKey,
+  getCharacterRouteSlug,
 } from '@/features/characters/utils/character-route';
 import { useDarkMode, useGradientAccent, useStarLevels } from '@/hooks';
 import {
@@ -468,15 +468,13 @@ export default function StarLevelBubbleChart({
       const char = charByIdentity.get(identityKey);
       const starLevel = starLevelMap.get(levelValue);
       if (!char || !starLevel) continue;
-      const isMultiQuality =
-        (characterNameCounts.get(getCharacterBaseSlug(char.name)) ?? 1) > 1;
       items.push({
         identityKey,
         char,
         starLevel,
-        displayName: isMultiQuality ? `${char.name} (${char.quality})` : char.name,
+        displayName: char.name,
         r: getBubbleRadius(starLevel.copies, config.baseSize, config.scale, config.sizeExponent),
-        portrait: getPortrait(char.name, undefined, char.quality),
+        portrait: getPortrait(char.name, getCharacterRouteSlug(char, characterNameCounts)),
         tierColor: TIER_GLOW[starLevel.tier],
         qualityBorder: QUALITY_BORDER_COLOR[char.quality] ?? '#9e9e9e',
       });
