@@ -41,7 +41,7 @@ export interface CharacterListData {
   sortDir: 'asc' | 'desc';
   handleSort: (key: string) => void;
   characterNameCounts: Map<string, number>;
-  effectOptions: { label: string; value: string; icon?: boolean }[];
+  effectOptions: { label: string; value: string; icon?: boolean; type?: string }[];
   tierOptions: string[];
   selectedTierListName: string | null;
   getTierLabel: (char: Character) => string | undefined;
@@ -113,6 +113,7 @@ export function useCharacterListData(
         label: effect.name,
         value: effect.name,
         icon: effect.icon !== false,
+        type: effect.type,
       }));
   }, [characters, statusEffects]);
 

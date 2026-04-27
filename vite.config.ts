@@ -40,20 +40,23 @@ const EXT_MIME: Record<string, string> = {
 };
 
 function serveAssetsDir(assetsDir: string): Plugin {
+  const prefixes = ['/assets/', '/dragon-traveler-wiki/assets/'];
   return {
     name: 'serve-assets-dir',
     configureServer(server) {
       server.middlewares.use((req, res, next) => {
         const requestUrl = (req.url ?? '').split('?')[0];
-        if (requestUrl.startsWith('/assets/')) {
-          const filename = requestUrl.slice('/assets/'.length);
-          const ext = path.extname(filename).toLowerCase();
-          const mime = EXT_MIME[ext];
-          const filepath = path.join(assetsDir, filename);
-          if (mime && existsSync(filepath)) {
-            res.setHeader('Content-Type', mime);
-            res.end(readFileSync(filepath));
-            return;
+        for (const prefix of prefixes) {
+          if (requestUrl.startsWith(prefix)) {
+            const filename = requestUrl.slice(prefix.length);
+            const ext = path.extname(filename).toLowerCase();
+            const mime = EXT_MIME[ext];
+            const filepath = path.join(assetsDir, filename);
+            if (mime && existsSync(filepath)) {
+              res.setHeader('Content-Type', mime);
+              res.end(readFileSync(filepath));
+              return;
+            }
           }
         }
         next();

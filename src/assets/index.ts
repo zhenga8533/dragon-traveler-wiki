@@ -120,9 +120,9 @@ export function getSkillIcon(skillName: string): string | undefined {
 
 // ── Status Effect ────────────────────────────────────────────────────────────
 
-export function getStatusEffectIcon(name: string): string | undefined {
-  if (!name) return undefined;
-  return `/assets/status_effect/${normalizeKey(name)}.png`;
+export function getStatusEffectIcon(name: string, type: string): string | undefined {
+  if (!name || !type) return undefined;
+  return `/assets/status_effect/${normalizeKey(type)}/${normalizeKey(name)}.png`;
 }
 
 // ── Subclass ─────────────────────────────────────────────────────────────────

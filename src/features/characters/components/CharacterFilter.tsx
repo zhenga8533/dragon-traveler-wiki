@@ -18,7 +18,7 @@ import { Group, Image, Select, SimpleGrid, Text } from '@mantine/core';
 export interface CharacterFilterProps {
   filters: CharacterFilters;
   onChange: (filters: CharacterFilters) => void;
-  effectOptions: { label: string; value: string; icon?: boolean }[];
+  effectOptions: { label: string; value: string; icon?: boolean; type?: string }[];
   showTierFilter?: boolean;
   tierOptions?: string[];
   starLevelOptions?: { value: string; label: string }[];
@@ -156,7 +156,7 @@ export default function CharacterFilter({
                 placeholder="Filter by status effect..."
                 renderOption={({ option }) => {
                   const effect = effectOptions.find((o) => o.value === option.value);
-                  const iconSrc = effect?.icon ? getStatusEffectIcon(option.label) : undefined;
+                  const iconSrc = effect?.icon && effect.type ? getStatusEffectIcon(option.label, effect.type) : undefined;
                   return (
                     <Group gap="xs" align="center">
                       {iconSrc ? (

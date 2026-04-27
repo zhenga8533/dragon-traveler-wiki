@@ -204,7 +204,7 @@ export default function StatusEffects() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((effect) => {
-                  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name) : undefined;
+                  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name, effect.type) : undefined;
                   return (
                     <Paper
                       key={effect.name}
@@ -277,7 +277,7 @@ export default function StatusEffects() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((effect) => {
-                      const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name) : undefined;
+                      const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name, effect.type) : undefined;
                       return (
                         <Table.Tr key={effect.name}>
                           <Table.Td>

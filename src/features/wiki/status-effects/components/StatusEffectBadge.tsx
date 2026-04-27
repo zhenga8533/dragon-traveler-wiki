@@ -32,7 +32,7 @@ export default function StatusEffectBadge({
   }
 
   const color = STATE_COLOR[effect.type];
-  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name) : undefined;
+  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name, effect.type) : undefined;
 
   return (
     <IconBadge

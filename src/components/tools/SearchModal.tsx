@@ -456,7 +456,7 @@ export default function SearchModal({
           .slice(0, 5)
           .map((r) => {
             const hasIcon = r.item.icon !== false;
-            const iconSrc = hasIcon ? getStatusEffectIcon(r.item.name) : undefined;
+            const iconSrc = hasIcon ? getStatusEffectIcon(r.item.name, r.item.type) : undefined;
             
             return {
               type: 'status-effect' as const,
