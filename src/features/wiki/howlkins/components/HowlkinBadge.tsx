@@ -5,7 +5,8 @@ import { QUALITY_COLOR } from '@/constants/colors';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
 import { useGradientAccent } from '@/hooks';
 import type { MantineSize } from '@mantine/core';
-import { Badge, Group, Image, Stack, Text } from '@mantine/core';
+import { Badge, Group, Stack, Text } from '@mantine/core';
+import SafeImage from '@/components/ui/SafeImage';
 
 interface HowlkinBadgeProps {
   name: string;
@@ -37,7 +38,7 @@ export default function HowlkinBadge({
           <Stack gap="xs">
             <Group gap="xs" wrap="nowrap">
               {iconSrc && (
-                <Image
+                <SafeImage
                   src={iconSrc}
                   alt={name}
                   w={32}

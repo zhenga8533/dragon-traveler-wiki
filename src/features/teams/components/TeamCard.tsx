@@ -1,8 +1,8 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import {
 	Badge,
 	Divider,
 	Group,
-	Image,
 	Paper,
 	Stack,
 	Text,
@@ -88,7 +88,7 @@ export default function TeamCard({
 				>
 					<Group gap="xs" wrap="nowrap" style={{ minWidth: 0 }}>
 						{FACTION_WYRM_MAP[team.faction as FactionName] && (
-							<Image
+							<SafeImage
 								src={FACTION_WYRM_MAP[team.faction as FactionName]}
 								alt={`${team.faction} Whelp`}
 								w={32}
@@ -135,7 +135,7 @@ export default function TeamCard({
 						)}
 						{team.description && (
 							<Text span inherit>
-								{team.author ? ' · ' : ''}
+								{team.author ? ' Â· ' : ''}
 								{team.description}
 							</Text>
 						)}
@@ -176,7 +176,7 @@ export default function TeamCard({
 							<>
 								<Divider size="xs" />
 								<Group gap="xs" align="flex-start" wrap="nowrap">
-									<Tooltip label="Substitutes — direct replacements for main team members" withArrow maw={200} multiline>
+									<Tooltip label="Substitutes â€” direct replacements for main team members" withArrow maw={200} multiline>
 										<Badge
 											size="xs"
 											variant="light"

@@ -1,4 +1,5 @@
-import { Group, Image, Stack, Text } from '@mantine/core';
+import { Group, Stack, Text } from '@mantine/core';
+import SafeImage from './SafeImage';
 import { useContext } from 'react';
 import { getResourceIcon } from '@/assets';
 import { WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
@@ -47,7 +48,7 @@ export default function ResourceBadge({
         resource ? (
           <Stack gap="xs" maw={POPOVER_BADGE_WIDTH}>
             <Group gap="xs" wrap="nowrap">
-              {iconSrc && <Image src={iconSrc} alt={name} w={IMAGE_SIZE.ICON_LG} h={IMAGE_SIZE.ICON_LG} />}
+              {iconSrc && <SafeImage src={iconSrc} alt={name} w={IMAGE_SIZE.ICON_LG} h={IMAGE_SIZE.ICON_LG} />}
               <Text fw={600} size="sm">
                 {resource.name}
               </Text>

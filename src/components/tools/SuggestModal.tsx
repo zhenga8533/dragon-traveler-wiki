@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { FACTION_ICON_MAP } from '@/assets';
 import { GEAR_TYPE_ICON_MAP } from '@/assets';
 import { QUALITY_ICON_MAP } from '@/assets';
@@ -13,7 +14,6 @@ import {
   Button,
   Tooltip,
   Group,
-  Image,
   Modal,
   Select,
   Stack,
@@ -366,7 +366,7 @@ export default function SuggestModal({
             withAsterisk={f.required}
             leftSection={
               selectedIcon ? (
-                <Image
+                <SafeImage
                   src={selectedIcon}
                   alt={selectedValue}
                   w={16}
@@ -380,7 +380,7 @@ export default function SuggestModal({
               if (!optionIcon) return option.label;
               return (
                 <Group gap="xs" wrap="nowrap">
-                  <Image
+                  <SafeImage
                     src={optionIcon}
                     alt={option.label}
                     w={16}

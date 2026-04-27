@@ -1,4 +1,4 @@
-import { useMemo } from 'react';
+﻿import { useMemo } from 'react';
 import { getNoblePhantasmIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import ClassTag from '@/components/ui/ClassTag';
@@ -31,7 +31,6 @@ import {
   Collapse,
   Divider,
   Group,
-  Image,
   Paper,
   SimpleGrid,
   Stack,
@@ -41,6 +40,7 @@ import {
   UnstyledButton,
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
+import SafeImage from '@/components/ui/SafeImage';
 import { IoChevronDown } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
@@ -82,7 +82,7 @@ function QuoteCard({ text, attribution, label }: { text: string; attribution: st
             "{text}"
           </Text>
           <Text size="xs" c="dimmed" fw={500} ta="right">
-            — {attribution}
+            â€” {attribution}
           </Text>
         </Stack>
       </Paper>
@@ -329,7 +329,7 @@ export default function CharacterPageBuildSection({
                     <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
                       <Group gap="sm" wrap="nowrap">
                         {npIcon && (
-                          <Image
+                          <SafeImage
                             src={npIcon}
                             alt={linkedNoblePhantasm.name}
                             w={48}
@@ -428,7 +428,7 @@ export default function CharacterPageBuildSection({
                                     '1px solid var(--mantine-color-default-border)',
                                 }}
                               >
-                                <Image
+                                <SafeImage
                                   src={entry.icon}
                                   alt={entry.name}
                                   w={50}
@@ -495,7 +495,7 @@ export default function CharacterPageBuildSection({
                     const tooltipLabel = (
                       <Stack gap="xs">
                         <Group gap="sm" align="center" wrap="nowrap">
-                          <Image
+                          <SafeImage
                             src={entry.slotIcon}
                             alt={entry.label}
                             w={24}
@@ -604,7 +604,7 @@ export default function CharacterPageBuildSection({
                               {...getCardHoverProps()}
                             >
                               <Group gap="sm" wrap="nowrap">
-                                <Image
+                                <SafeImage
                                   src={entry.icon}
                                   alt={`${entry.label}: ${entry.name}`}
                                   w={48}
@@ -632,7 +632,7 @@ export default function CharacterPageBuildSection({
                             {...getCardHoverProps()}
                           >
                             <Group gap="sm" wrap="nowrap">
-                              <Image
+                              <SafeImage
                                 src={entry.icon}
                                 alt={`${entry.label}: ${entry.name}`}
                                 w={48}
@@ -683,7 +683,7 @@ export default function CharacterPageBuildSection({
                             color={accent.primary}
                             size="xs"
                           >
-                            Activations: ×{setBonus.activations}
+                            Activations: Ã—{setBonus.activations}
                           </Badge>
                         </Group>
                         <Stack gap={2}>
@@ -722,7 +722,7 @@ export default function CharacterPageBuildSection({
                                 color={accent.primary}
                                 size="xs"
                               >
-                                ×{setBonus.activations}
+                                Ã—{setBonus.activations}
                               </Badge>
                             </Group>
                             <Text size="xs" c="dimmed">

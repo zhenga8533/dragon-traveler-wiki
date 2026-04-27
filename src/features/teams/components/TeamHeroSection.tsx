@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getArtifactIcon } from '@/assets';
 import { FACTION_WYRM_MAP } from '@/assets';
 import LastUpdated from '@/components/common/LastUpdated';
@@ -31,7 +32,6 @@ import {
   Button,
   Container,
   Group,
-  Image,
   Paper,
   SimpleGrid,
   Stack,
@@ -102,7 +102,7 @@ export function TeamHeroSection({
 
           <Group gap="lg" align="flex-start" wrap="nowrap">
             <Box style={getHeroIconBoxStyles(isDark, factionColor, true)}>
-              <Image
+              <SafeImage
                 src={FACTION_WYRM_MAP[team.faction]}
                 alt={`${team.faction} Whelp`}
                 w={64}
@@ -223,7 +223,7 @@ export function TeamHeroSection({
                                     }}
                                   >
                                     {iconSrc && (
-                                      <Image
+                                      <SafeImage
                                         src={iconSrc}
                                         alt={artifactName}
                                         w={52}

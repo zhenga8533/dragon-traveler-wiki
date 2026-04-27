@@ -4,7 +4,8 @@ import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { useDataFetch } from '@/hooks';
 import { normalizeName } from '@/utils';
 import type { MantineSize } from '@mantine/core';
-import { Badge, Group, Image, Stack, Text } from '@mantine/core';
+import { Badge, Group, Stack, Text } from '@mantine/core';
+import SafeImage from './SafeImage';
 import FactionTag from './FactionTag';
 import IconBadge from './IconBadge';
 import QualityIcon from './QualityIcon';
@@ -42,7 +43,7 @@ export default function WyrmspellBadge({
           <Stack gap="xs">
             <Group gap="xs" wrap="nowrap">
               {iconSrc && (
-                <Image
+                <SafeImage
                   src={iconSrc}
                   alt={name}
                   w={32}

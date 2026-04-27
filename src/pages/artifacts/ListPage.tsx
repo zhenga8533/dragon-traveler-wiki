@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getArtifactIcon } from '@/assets';
 import EntityFilter from '@/components/common/EntityFilter';
 import FilteredListShell from '@/components/layout/FilteredListShell';
@@ -31,7 +32,6 @@ import {
   Badge,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -259,7 +259,7 @@ export default function Artifacts() {
                     >
                       <Group gap="md" align="flex-start" wrap="nowrap">
                         {iconSrc && (
-                          <Image
+                          <SafeImage
                             src={iconSrc}
                             alt={artifact.name}
                             w={64}
@@ -370,7 +370,7 @@ export default function Artifacts() {
                         >
                           <Table.Td>
                             {iconSrc && (
-                              <Image
+                              <SafeImage
                                 src={iconSrc}
                                 alt={artifact.name}
                                 w={40}

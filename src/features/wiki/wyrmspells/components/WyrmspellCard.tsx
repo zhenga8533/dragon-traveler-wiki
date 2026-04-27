@@ -4,7 +4,8 @@ import { getCardHoverProps } from '@/constants/styles';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
-import { Badge, Group, Image, Paper, Stack, Text } from '@mantine/core';
+import { Badge, Group, Paper, Stack, Text } from '@mantine/core';
+import SafeImage from '@/components/ui/SafeImage';
 
 interface WyrmspellCardProps {
   name: string;
@@ -26,7 +27,7 @@ export default function WyrmspellCard({
     <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
       <Stack gap="xs" align="center">
         {iconSrc && (
-          <Image
+          <SafeImage
             src={iconSrc}
             alt={name}
             w={48}

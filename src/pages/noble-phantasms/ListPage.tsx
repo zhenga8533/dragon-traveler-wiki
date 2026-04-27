@@ -1,8 +1,8 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import {
   Badge,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -240,7 +240,7 @@ export default function NoblePhantasms() {
                     >
                       <Group gap="md" align="flex-start" wrap="nowrap">
                         {iconSrc && (
-                          <Image
+                          <SafeImage
                             src={iconSrc}
                             alt={np.name}
                             w={56}
@@ -358,7 +358,7 @@ export default function NoblePhantasms() {
                         >
                           <Table.Td>
                             {iconSrc ? (
-                              <Image
+                              <SafeImage
                                 src={iconSrc}
                                 alt={np.name}
                                 w={40}
@@ -369,7 +369,7 @@ export default function NoblePhantasms() {
                               />
                             ) : (
                               <Text c="dimmed" size="sm">
-                                —
+                                â€”
                               </Text>
                             )}
                           </Table.Td>
@@ -396,7 +396,7 @@ export default function NoblePhantasms() {
                               />
                             ) : (
                               <Text size="sm" c="dimmed">
-                                —
+                                â€”
                               </Text>
                             )}
                           </Table.Td>

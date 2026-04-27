@@ -1,8 +1,8 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import {
   Badge,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -229,7 +229,7 @@ export default function Resources() {
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
                           {iconSrc && (
-                            <Image
+                            <SafeImage
                               src={iconSrc}
                               alt={resource.name}
                               w={28}
@@ -301,7 +301,7 @@ export default function Resources() {
                         <Table.Tr key={resource.name}>
                           <Table.Td>
                             {iconSrc && (
-                              <Image
+                              <SafeImage
                                 src={iconSrc}
                                 alt={resource.name}
                                 w={32}

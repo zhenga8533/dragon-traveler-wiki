@@ -1,5 +1,6 @@
 import { QUALITY_ICON_MAP } from '@/assets';
-import { Image, Tooltip } from '@mantine/core';
+import { Tooltip } from '@mantine/core';
+import SafeImage from './SafeImage';
 import { memo } from 'react';
 import { useMobileTooltip } from '@/hooks';
 
@@ -19,7 +20,7 @@ function QualityIcon({
   if (!src) return null;
 
   const image = (
-    <Image
+    <SafeImage
       src={src}
       alt={quality}
       h={size}

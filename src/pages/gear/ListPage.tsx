@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
@@ -39,7 +40,6 @@ import {
   Badge,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -121,7 +121,7 @@ const FILTER_GROUPS: ChipFilterGroup[] = [
     icon: (value: string) => {
       const iconSrc = GEAR_TYPE_ICON_MAP[value as GearType];
       if (!iconSrc) return null;
-      return <Image src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
+      return <SafeImage src={iconSrc} alt={value} w={14} h={14} fit="contain" />;
     },
   },
   {
@@ -462,7 +462,7 @@ export default function GearPage() {
                         >
                           <Group gap="md" align="flex-start" wrap="nowrap">
                             {iconSrc && (
-                              <Image
+                              <SafeImage
                                 src={iconSrc}
                                 alt={item.name}
                                 w={64}
@@ -573,7 +573,7 @@ export default function GearPage() {
                             >
                               <Table.Td>
                                 {iconSrc && (
-                                  <Image
+                                  <SafeImage
                                     src={iconSrc}
                                     alt={item.name}
                                     w={32}
@@ -616,7 +616,7 @@ export default function GearPage() {
                                 <Text size="sm" c="dimmed">
                                   {setBonus && setBonus.quantity > 0
                                     ? `${setBonus.quantity}-piece: ${setBonus.description}`
-                                    : '—'}
+                                    : 'â€”'}
                                 </Text>
                               </Table.Td>
                             </Table.Tr>

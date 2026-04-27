@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getNoblePhantasmIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
@@ -33,7 +34,6 @@ import {
   Box,
   Container,
   Group,
-  Image,
   Paper,
   Stack,
   Table,
@@ -79,7 +79,7 @@ function EffectTable({
           >
             <Table.Td style={COMPACT_COL_STYLE}>
               <Text size="sm" c={effect.tier ? undefined : 'dimmed'}>
-                {effect.tier || '—'}
+                {effect.tier || 'â€”'}
               </Text>
             </Table.Td>
             <Table.Td style={COMPACT_COL_STYLE}>
@@ -87,7 +87,7 @@ function EffectTable({
                 size="sm"
                 c={effect.tier_level !== null ? undefined : 'dimmed'}
               >
-                {effect.tier_level ?? '—'}
+                {effect.tier_level ?? 'â€”'}
               </Text>
             </Table.Td>
             <Table.Td>
@@ -145,7 +145,7 @@ function SkillTable({
             </Table.Td>
             <Table.Td style={COMPACT_COL_STYLE}>
               <Text size="sm" c={skill.tier ? undefined : 'dimmed'}>
-                {skill.tier || '—'}
+                {skill.tier || 'â€”'}
               </Text>
             </Table.Td>
             <Table.Td style={COMPACT_COL_STYLE}>
@@ -153,7 +153,7 @@ function SkillTable({
                 size="sm"
                 c={skill.tier_level !== null ? undefined : 'dimmed'}
               >
-                {skill.tier_level ?? '—'}
+                {skill.tier_level ?? 'â€”'}
               </Text>
             </Table.Td>
             <Table.Td>
@@ -277,7 +277,7 @@ export default function NoblePhantasmPage() {
         <Group gap="lg" align="flex-start" wrap="nowrap">
           {iconSrc && (
             <Box style={getHeroIconBoxStyles(isDark, accent.primary)}>
-              <Image
+              <SafeImage
                 src={iconSrc}
                 alt={noblePhantasm.name}
                 w={72}

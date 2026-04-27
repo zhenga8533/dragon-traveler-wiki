@@ -1,14 +1,14 @@
-import {
+﻿import {
 	Badge,
 	Box,
 	Divider,
 	Group,
-	Image,
 	Paper,
 	Stack,
 	Text,
 	Title,
 } from '@mantine/core';
+import SafeImage from '@/components/ui/SafeImage';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import RichText from '@/components/common/RichText';
 import { getCardHoverProps } from '@/constants/styles';
@@ -57,7 +57,7 @@ export default function CharacterPageSkillsSection({
 					<Stack gap="md">
 						<Group gap="md">
 							{talentIcon && (
-								<Image
+								<SafeImage
 									src={talentIcon}
 									alt={talent?.name ?? 'Talent'}
 									w={54}
@@ -126,7 +126,7 @@ export default function CharacterPageSkillsSection({
 											<Group gap="md" justify="space-between" wrap="nowrap">
 												<Group gap="md" style={{ flex: 1 }}>
 													{skillIcon && (
-														<Image
+														<SafeImage
 															src={skillIcon}
 															alt={skill.name}
 															w={60}

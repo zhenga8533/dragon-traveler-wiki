@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmspellIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
@@ -28,7 +29,6 @@ import {
   Badge,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -290,7 +290,7 @@ export default function Wyrmspells() {
                     >
                       <Group gap="md" align="flex-start" wrap="nowrap">
                         {iconSrc && (
-                          <Image
+                          <SafeImage
                             src={iconSrc}
                             alt={spell.name}
                             w={56}
@@ -387,7 +387,7 @@ export default function Wyrmspells() {
                         <Table.Tr key={spell.name}>
                           <Table.Td>
                             {iconSrc && (
-                              <Image
+                              <SafeImage
                                 src={iconSrc}
                                 alt={spell.name}
                                 w={40}
@@ -425,7 +425,7 @@ export default function Wyrmspells() {
                               />
                             ) : (
                               <Text size="sm" c="dimmed">
-                                —
+                                â€”
                               </Text>
                             )}
                           </Table.Td>

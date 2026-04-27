@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { QUALITY_ICON_MAP } from '@/assets';
 import StatCard from '@/components/ui/StatCard';
 import { getCardHoverProps } from '@/constants/styles';
@@ -13,7 +14,6 @@ import {
   Container,
   Divider,
   Group,
-  Image,
   NumberInput,
   Paper,
   Progress,
@@ -159,7 +159,7 @@ export default function StarUpgradeCalculator() {
 
   const levelOptions = starLevels.map((level) => ({
     value: level.value,
-    label: `${level.label} • ${level.copies} copies / ${level.fodder} fodder`,
+    label: `${level.label} â€¢ ${level.copies} copies / ${level.fodder} fodder`,
   }));
 
   return (
@@ -292,7 +292,7 @@ export default function StarUpgradeCalculator() {
                   {
                     value: 'SSR EX',
                     label: (
-                      <Image
+                      <SafeImage
                         src={QUALITY_ICON_MAP['SSR EX']}
                         h={18}
                         fit="contain"
@@ -302,7 +302,7 @@ export default function StarUpgradeCalculator() {
                   {
                     value: 'SSR+',
                     label: (
-                      <Image
+                      <SafeImage
                         src={QUALITY_ICON_MAP['SSR+']}
                         h={18}
                         fit="contain"
@@ -312,13 +312,13 @@ export default function StarUpgradeCalculator() {
                   {
                     value: 'SSR',
                     label: (
-                      <Image src={QUALITY_ICON_MAP.SSR} h={18} fit="contain" />
+                      <SafeImage src={QUALITY_ICON_MAP.SSR} h={18} fit="contain" />
                     ),
                   },
                   {
                     value: 'SR',
                     label: (
-                      <Image src={QUALITY_ICON_MAP.SR} h={18} fit="contain" />
+                      <SafeImage src={QUALITY_ICON_MAP.SR} h={18} fit="contain" />
                     ),
                   },
                 ]}
@@ -481,7 +481,7 @@ export default function StarUpgradeCalculator() {
                     <Table.Tbody>
                       <Table.Tr>
                         <Table.Td>
-                          <Image
+                          <SafeImage
                             src={QUALITY_ICON_MAP['SSR EX']}
                             h={20}
                             fit="contain"
@@ -492,7 +492,7 @@ export default function StarUpgradeCalculator() {
                       </Table.Tr>
                       <Table.Tr>
                         <Table.Td>
-                          <Image
+                          <SafeImage
                             src={QUALITY_ICON_MAP['SSR+']}
                             h={20}
                             fit="contain"
@@ -503,7 +503,7 @@ export default function StarUpgradeCalculator() {
                       </Table.Tr>
                       <Table.Tr>
                         <Table.Td>
-                          <Image
+                          <SafeImage
                             src={QUALITY_ICON_MAP.SSR}
                             h={20}
                             fit="contain"
@@ -514,7 +514,7 @@ export default function StarUpgradeCalculator() {
                       </Table.Tr>
                       <Table.Tr>
                         <Table.Td>
-                          <Image
+                          <SafeImage
                             src={QUALITY_ICON_MAP.SR}
                             h={20}
                             fit="contain"

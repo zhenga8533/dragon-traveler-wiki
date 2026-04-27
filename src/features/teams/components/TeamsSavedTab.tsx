@@ -1,9 +1,9 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import {
 	Badge,
 	Button,
 	Divider,
 	Group,
-	Image,
 	Paper,
 	ScrollArea,
 	SimpleGrid,
@@ -152,7 +152,7 @@ export default function TeamsSavedTab({
 							<Table.Td>
 								<Group gap="sm" wrap="nowrap">
 									{FACTION_WYRM_MAP[team.faction as FactionName] && (
-										<Image
+										<SafeImage
 											src={FACTION_WYRM_MAP[team.faction as FactionName]}
 											alt={`${team.faction} Whelp`}
 											w={28}
@@ -198,7 +198,7 @@ export default function TeamsSavedTab({
 												<Divider size="xs" />
 												<Group gap="xs" align="center" wrap="nowrap">
 													<Tooltip
-														label="Substitutes — direct replacements for main team members"
+														label="Substitutes â€” direct replacements for main team members"
 														withArrow
 														maw={200}
 														multiline

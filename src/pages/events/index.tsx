@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getPortrait } from '@/assets';
 import type { Character } from '@/features/characters/types';
 import {
@@ -43,7 +44,6 @@ import {
   Card,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -223,7 +223,7 @@ function EventFilter({
                   return (
                     <Group gap="xs" align="center">
                       {portrait ? (
-                        <Image
+                        <SafeImage
                           src={portrait}
                           alt=""
                           w={20}

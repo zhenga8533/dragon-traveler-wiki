@@ -1,10 +1,9 @@
-import {
+﻿import {
 	ActionIcon,
 	Badge,
 	Box,
 	Center,
 	Group,
-	Image,
 	Modal,
 	Paper,
 	Stack,
@@ -13,6 +12,7 @@ import {
 	UnstyledButton,
 	VisuallyHidden,
 } from '@mantine/core';
+import SafeImage from '@/components/ui/SafeImage';
 import {
 	type KeyboardEvent as ReactKeyboardEvent,
 	useCallback,
@@ -247,7 +247,7 @@ export default function IllustrationPreviewModal({
 								}}
 							/>
 						) : (
-							<Image
+							<SafeImage
 								src={activeIllustration.src}
 								alt={`${characterName} - ${activeIllustration.name}`}
 								fit="contain"
@@ -388,7 +388,7 @@ export default function IllustrationPreviewModal({
 														<IoFilm size={22} color="white" />
 													</Center>
 												) : (
-													<Image
+													<SafeImage
 														src={illust.src}
 														alt={illust.name}
 														w={96}

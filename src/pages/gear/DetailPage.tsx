@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getGearIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
@@ -41,7 +42,6 @@ import {
   Box,
   Container,
   Group,
-  Image,
   Paper,
   SimpleGrid,
   Stack,
@@ -358,7 +358,7 @@ export default function GearSetPage() {
                   <Stack gap="sm">
                     <Group gap="md" wrap="nowrap" align="flex-start">
                       {iconSrc && (
-                        <Image
+                        <SafeImage
                           src={iconSrc}
                           alt={item.name}
                           w={64}

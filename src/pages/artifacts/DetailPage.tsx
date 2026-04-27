@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getArtifactIcon, getTreasureIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
@@ -32,7 +33,6 @@ import {
   Box,
   Container,
   Group,
-  Image,
   Paper,
   SimpleGrid,
   Stack,
@@ -105,7 +105,7 @@ function TreasureCard({
       <Stack gap="md">
         <Group gap="md" wrap="nowrap" align="flex-start">
           {iconSrc && (
-            <Image
+            <SafeImage
               src={iconSrc}
               alt={treasure.name}
               w={64}
@@ -232,7 +232,7 @@ export default function ArtifactPage() {
         <Group gap="lg" align="flex-start" wrap="nowrap">
           {iconSrc && (
             <Box style={getHeroIconBoxStyles(isDark, qualityColor)}>
-              <Image
+              <SafeImage
                 src={iconSrc}
                 alt={artifact.name}
                 w={72}

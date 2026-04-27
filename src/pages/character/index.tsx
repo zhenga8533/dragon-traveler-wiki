@@ -7,7 +7,6 @@ import {
   Container,
   Grid,
   Group,
-  Image,
   Paper,
   Select,
   SimpleGrid,
@@ -25,6 +24,7 @@ import {
   IoExpand,
 } from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
+import SafeImage from '@/components/ui/SafeImage';
 import { getSubclassIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import ClassTag from '@/components/ui/ClassTag';
@@ -282,7 +282,7 @@ export default function CharacterPage() {
                               }}
                             />
                           ) : (
-                            <Image
+                            <SafeImage
                               src={activeIllustration?.src}
                               alt={
                                 activeIllustration
@@ -445,7 +445,7 @@ export default function CharacterPage() {
                               <Stack gap={6} align="center">
                                 {subclassIcon && (
                                   <Center>
-                                    <Image
+                                    <SafeImage
                                       src={subclassIcon}
                                       alt={subclass}
                                       w={100}

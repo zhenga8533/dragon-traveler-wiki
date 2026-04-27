@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import {
   getOracleScrollImage,
   getRelicIcon,
@@ -38,7 +39,6 @@ import {
   Badge,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -380,7 +380,7 @@ export default function RelicPage() {
                         >
                           <Group gap="md" align="flex-start" wrap="nowrap">
                             {iconSrc && (
-                              <Image
+                              <SafeImage
                                 src={iconSrc}
                                 alt={item.name}
                                 w={64}
@@ -476,7 +476,7 @@ export default function RelicPage() {
                           <Table.Tr key={item.name}>
                             <Table.Td>
                               {iconSrc && (
-                                <Image
+                                <SafeImage
                                   src={iconSrc}
                                   alt={item.name}
                                   w={32}
@@ -517,7 +517,7 @@ export default function RelicPage() {
                                 </Badge>
                               ) : (
                                 <Text size="sm" c="dimmed">
-                                  —
+                                  â€”
                                 </Text>
                               )}
                             </Table.Td>
@@ -583,7 +583,7 @@ export default function RelicPage() {
                           >
                             <Stack gap={0}>
                               {illustrationSrc && (
-                                <Image
+                                <SafeImage
                                   src={illustrationSrc}
                                   alt={scrollName}
                                   h={130}
@@ -621,7 +621,7 @@ export default function RelicPage() {
                                   {items.map((relic) => (
                                     <Group key={relic.name} gap="xs" wrap="nowrap">
                                       {getRelicIcon(relic.name) && (
-                                        <Image
+                                        <SafeImage
                                           src={getRelicIcon(relic.name)}
                                           alt={relic.name}
                                           w={24}

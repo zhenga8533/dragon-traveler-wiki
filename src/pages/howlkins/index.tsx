@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getHowlkinIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
@@ -44,7 +45,6 @@ import {
   Badge,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -477,7 +477,7 @@ export default function Howlkins() {
                           <Stack gap="xs">
                             <Group gap="sm" wrap="nowrap">
                               {iconSrc && (
-                                <Image
+                                <SafeImage
                                   src={iconSrc}
                                   alt={howlkin.name}
                                   w={56}
@@ -583,7 +583,7 @@ export default function Howlkins() {
                             >
                               <Table.Td>
                                 {iconSrc && (
-                                  <Image
+                                  <SafeImage
                                     src={iconSrc}
                                     alt={howlkin.name}
                                     w={40}

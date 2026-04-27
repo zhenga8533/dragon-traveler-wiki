@@ -6,7 +6,7 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import type { CharacterClass } from '@/features/characters/types';
 import type { FactionName } from '@/types/faction';
 import type { Quality } from '@/types/quality';
-import { Image } from '@mantine/core';
+import SafeImage from '@/components/ui/SafeImage';
 import type { ReactNode } from 'react';
 
 export interface ChipFilterGroup {
@@ -79,7 +79,7 @@ export function createClassFilterGroup({
         (CLASS_ICON_MAP as Record<string, string | undefined>)[value];
 
       return iconSrc ? (
-        <Image
+        <SafeImage
           src={iconSrc}
           alt={value}
           w={IMAGE_SIZE.ICON_SM}
@@ -106,7 +106,7 @@ export function createFactionFilterGroup({
         (FACTION_ICON_MAP as Record<string, string | undefined>)[value];
 
       return iconSrc ? (
-        <Image
+        <SafeImage
           src={iconSrc}
           alt={value}
           w={IMAGE_SIZE.ICON_SM}

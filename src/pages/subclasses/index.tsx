@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getSubclassIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
@@ -28,7 +29,6 @@ import {
   Badge,
   Container,
   Group,
-  Image,
   Paper,
   ScrollArea,
   SimpleGrid,
@@ -251,7 +251,7 @@ export default function Subclasses() {
                       <Stack gap="xs">
                         <Group gap="sm" wrap="nowrap">
                           {subclassIcon && (
-                            <Image
+                            <SafeImage
                               src={subclassIcon}
                               alt={item.name}
                               w={52}
@@ -343,7 +343,7 @@ export default function Subclasses() {
                         <Table.Tr key={item.name}>
                           <Table.Td>
                             {subclassIcon && (
-                              <Image
+                              <SafeImage
                                 src={subclassIcon}
                                 alt={item.name}
                                 w={48}

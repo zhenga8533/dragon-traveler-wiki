@@ -5,7 +5,6 @@ import {
   Box,
   Button,
   Group,
-  Image,
   Paper,
   Select,
   SimpleGrid,
@@ -15,6 +14,7 @@ import {
   TextInput,
   Tooltip,
 } from '@mantine/core';
+import SafeImage from '@/components/ui/SafeImage';
 import { useInputCommit, useIsMobile, useMobileTooltip } from '@/hooks';
 import type { CSSProperties } from 'react';
 import { memo, useMemo } from 'react';
@@ -114,7 +114,7 @@ export const TeamMetaFields = memo(function TeamMetaFields({
             if (!faction) return undefined;
             const iconSrc = FACTION_ICON_MAP[faction];
             return iconSrc ? (
-              <Image src={iconSrc} alt="" w={16} h={16} fit="contain" />
+              <SafeImage src={iconSrc} alt="" w={16} h={16} fit="contain" />
             ) : undefined;
           })()}
           style={{ minWidth: 160 }}
@@ -196,7 +196,7 @@ function renderFactionOption({ option }: { option: { label: string } }) {
   return (
     <Group gap="xs" align="center">
       {iconSrc ? (
-        <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
+        <SafeImage src={iconSrc} alt="" w={18} h={18} fit="contain" />
       ) : null}
       <Text size="sm">{option.label}</Text>
     </Group>
@@ -662,7 +662,7 @@ function renderWyrmspellOption({ option }: { option: { label: string } }) {
   return (
     <Group gap="xs" align="center">
       {iconSrc ? (
-        <Image src={iconSrc} alt="" w={18} h={18} fit="contain" />
+        <SafeImage src={iconSrc} alt="" w={18} h={18} fit="contain" />
       ) : null}
       <Text size="sm">{option.label}</Text>
     </Group>
@@ -711,7 +711,7 @@ export function WyrmspellSelector({
     if (!name) return undefined;
     const src = getWyrmspellIcon(name);
     return src ? (
-      <Image src={src} alt="" w={16} h={16} fit="contain" />
+      <SafeImage src={src} alt="" w={16} h={16} fit="contain" />
     ) : undefined;
   }
 

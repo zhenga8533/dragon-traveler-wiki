@@ -1,3 +1,4 @@
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getOracleScrollImage, getRelicIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
@@ -23,7 +24,6 @@ import {
   Box,
   Container,
   Group,
-  Image,
   Paper,
   SimpleGrid,
   Stack,
@@ -109,7 +109,7 @@ export default function OracleScrollPage() {
     [scrollRelics]
   );
 
-  // All relics in a scroll share the same quality — use the first one for the hero color
+  // All relics in a scroll share the same quality â€” use the first one for the hero color
   const heroQualityColor = useMemo(() => {
     if (!scrollRelics.length) return accent.primary;
     return QUALITY_COLOR[scrollRelics[0].quality] ?? accent.primary;
@@ -173,7 +173,7 @@ export default function OracleScrollPage() {
             <LastUpdated timestamp={lastUpdated} />
           </Stack>
           {illustrationSrc && (
-            <Image
+            <SafeImage
               src={illustrationSrc}
               alt={decodedScrollName}
               radius="md"
@@ -202,7 +202,7 @@ export default function OracleScrollPage() {
                   <Stack gap="sm">
                     <Group gap="md" wrap="nowrap" align="flex-start">
                       {iconSrc && (
-                        <Image
+                        <SafeImage
                           src={iconSrc}
                           alt={relic.name}
                           w={64}

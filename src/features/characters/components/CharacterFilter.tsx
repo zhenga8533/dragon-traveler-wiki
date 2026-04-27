@@ -13,7 +13,8 @@ import {
 import type { CharacterFilters } from '@/features/characters/utils/filter-characters';
 import { EMPTY_FILTERS } from '@/features/characters/utils/filter-characters';
 import { useIsMobile } from '@/hooks';
-import { Group, Image, Select, SimpleGrid, Text } from '@mantine/core';
+import { Group, Select, SimpleGrid, Text } from '@mantine/core';
+import SafeImage from '@/components/ui/SafeImage';
 
 export interface CharacterFilterProps {
   filters: CharacterFilters;
@@ -160,7 +161,7 @@ export default function CharacterFilter({
                   return (
                     <Group gap="xs" align="center">
                       {iconSrc ? (
-                        <Image
+                        <SafeImage
                           src={iconSrc}
                           alt=""
                           w={18}

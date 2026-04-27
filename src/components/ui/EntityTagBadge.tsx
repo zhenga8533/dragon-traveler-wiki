@@ -1,5 +1,6 @@
 import { TAG_BADGE_STYLE } from '@/constants/styles';
-import { Badge, Image } from '@mantine/core';
+import { Badge } from '@mantine/core';
+import SafeImage from './SafeImage';
 import { memo } from 'react';
 
 export interface EntityTagBadgeProps {
@@ -25,7 +26,7 @@ function EntityTagBadge({
       style={TAG_BADGE_STYLE}
       leftSection={
         iconSrc ? (
-          <Image
+          <SafeImage
             src={iconSrc}
             alt={label}
             w={iconSize}
