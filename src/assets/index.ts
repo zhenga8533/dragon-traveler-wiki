@@ -180,7 +180,7 @@ let manifestPromise: Promise<CharacterManifest> | null = null;
 
 function getManifest(): Promise<CharacterManifest> {
   if (!manifestPromise) {
-    manifestPromise = fetch(`${BASE}assets/character-manifest.json`).then((r) => r.json());
+    manifestPromise = fetch(`${BASE}assets/character/manifest.json`).then((r) => r.json());
   }
   return manifestPromise;
 }
