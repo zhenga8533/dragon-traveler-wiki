@@ -496,7 +496,7 @@ export default function SearchModal({
             title: r.item.name,
             subtitle: r.item.type,
             path: `/wyrmspells/${toEntitySlug(r.item.name)}`,
-            icon: getWyrmspellIcon(r.item.name) ?? IoFlameOutline,
+            icon: getWyrmspellIcon(r.item.name, r.item.type) ?? IoFlameOutline,
             color: 'indigo',
           }))
       );

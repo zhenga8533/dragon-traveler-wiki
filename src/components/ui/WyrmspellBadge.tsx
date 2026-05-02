@@ -32,7 +32,7 @@ export default function WyrmspellBadge({
       (entry) => normalizeName(entry.name) === normalizeName(name)
     ) ?? undefined;
 
-  const iconSrc = getWyrmspellIcon(name);
+  const iconSrc = getWyrmspellIcon(name, wyrmspell?.type);
   const color = wyrmspell ? WYRMSPELL_TYPE_COLOR[wyrmspell.type] : 'gray';
   const maxQuality = wyrmspell ? getMaxQuality(wyrmspell) : null;
 

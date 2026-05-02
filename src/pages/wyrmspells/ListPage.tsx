@@ -291,7 +291,7 @@ export default function Wyrmspells() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((spell) => {
-                  const iconSrc = getWyrmspellIcon(spell.name);
+                  const iconSrc = getWyrmspellIcon(spell.name, spell.type);
                   const maxQuality = getMaxQuality(spell);
                   return (
                     <Paper
@@ -409,7 +409,7 @@ export default function Wyrmspells() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((spell) => {
-                      const iconSrc = getWyrmspellIcon(spell.name);
+                      const iconSrc = getWyrmspellIcon(spell.name, spell.type);
                       const maxQuality = getMaxQuality(spell);
                       return (
                         <Table.Tr

@@ -23,8 +23,8 @@ export default function WyrmspellCard({
   wyrmspells = [],
 }: WyrmspellCardProps) {
   const wyrmspell = wyrmspells.find((w) => w.name === name);
-  const iconSrc = getWyrmspellIcon(name);
   const displayType = type || wyrmspell?.type || 'Unknown';
+  const iconSrc = getWyrmspellIcon(name, displayType);
   const maxQuality = wyrmspell ? getMaxQuality(wyrmspell) : null;
 
   return (

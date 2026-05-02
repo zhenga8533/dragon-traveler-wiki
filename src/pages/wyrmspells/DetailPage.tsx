@@ -147,7 +147,7 @@ export default function WyrmspellPage() {
     );
   }
 
-  const iconSrc = getWyrmspellIcon(wyrmspell.name);
+  const iconSrc = getWyrmspellIcon(wyrmspell.name, wyrmspell.type);
   const maxQuality = getMaxQuality(wyrmspell);
   const typeColor =
     WYRMSPELL_TYPE_COLOR[wyrmspell.type] ?? getStableTagColor(wyrmspell.type);
@@ -165,14 +165,14 @@ export default function WyrmspellPage() {
       >
         <Group gap="lg" align="flex-start" wrap="nowrap">
           {iconSrc && (
-            <Box style={getHeroIconBoxStyles(isDark, typeColor)}>
+            <Box style={getHeroIconBoxStyles(isDark, typeColor, true)}>
               <SafeImage
                 src={iconSrc}
                 alt={wyrmspell.name}
                 w={72}
                 h={72}
                 fit="contain"
-                radius="sm"
+                radius="xl"
               />
             </Box>
           )}

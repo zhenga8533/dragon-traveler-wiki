@@ -140,9 +140,13 @@ export function getSubclassIcon(subclassName: string, characterClass?: string): 
 
 // ── Wyrmspell ────────────────────────────────────────────────────────────────
 
-export function getWyrmspellIcon(name: string): string | undefined {
+export function getWyrmspellIcon(name: string, type?: string): string | undefined {
   if (!name) return undefined;
-  return `${BASE}assets/wyrmspell/${normalizeKey(name)}.png`;
+  const nameKey = normalizeKey(name);
+  if (type) {
+    return `${BASE}assets/wyrmspell/${normalizeKey(type)}/${nameKey}.png`;
+  }
+  return `${BASE}assets/wyrmspell/${nameKey}.png`;
 }
 
 // ── Event ────────────────────────────────────────────────────────────────────
