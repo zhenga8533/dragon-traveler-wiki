@@ -108,9 +108,9 @@ export function getOracleScrollImage(name: string): string | undefined {
 
 // ── Resource ─────────────────────────────────────────────────────────────────
 
-export function getResourceIcon(name: string): string | undefined {
-  if (!name) return undefined;
-  return `${BASE}assets/resource/${normalizeKey(name)}.png`;
+export function getResourceIcon(name: string, category: string): string | undefined {
+  if (!name || !category) return undefined;
+  return `${BASE}assets/resource/${category.toLowerCase()}/${normalizeKey(name)}.png`;
 }
 
 // ── Skill ────────────────────────────────────────────────────────────────────

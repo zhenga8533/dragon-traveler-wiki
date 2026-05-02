@@ -28,11 +28,11 @@ export default function ResourceBadge({
 }: ResourceBadgeProps) {
   const { resources } = useContext(ResourcesContext);
 
-  const iconSrc = getResourceIcon(name);
   const resource = resources.find(
     (r) => normalizeName(r.name) === normalizeName(name)
   );
 
+  const iconSrc = resource ? getResourceIcon(name, resource.category) : undefined;
   const iconSize = size === 'xs' ? IMAGE_SIZE.ICON_XS : IMAGE_SIZE.ICON_SM;
   const label = `${displayName ?? name}${quantity != null ? ` x${quantity.toLocaleString()}` : ''}`;
 

@@ -217,7 +217,7 @@ export default function Resources() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((resource) => {
-                  const iconSrc = getResourceIcon(resource.name);
+                  const iconSrc = getResourceIcon(resource.name, resource.category);
                   return (
                     <Paper
                       key={resource.name}
@@ -296,7 +296,7 @@ export default function Resources() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((resource) => {
-                      const iconSrc = getResourceIcon(resource.name);
+                      const iconSrc = getResourceIcon(resource.name, resource.category);
                       return (
                         <Table.Tr key={resource.name}>
                           <Table.Td>

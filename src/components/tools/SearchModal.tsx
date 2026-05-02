@@ -560,7 +560,7 @@ export default function SearchModal({
             title: r.item.name,
             subtitle: `${r.item.category} • ${r.item.quality}`,
             path: '/resources',
-            icon: getResourceIcon(r.item.name) ?? IoCubeOutline,
+            icon: getResourceIcon(r.item.name, r.item.category) ?? IoCubeOutline,
             color: 'teal',
           }))
       );

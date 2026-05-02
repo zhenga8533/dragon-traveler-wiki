@@ -103,7 +103,7 @@ function buildCodeRewardArrayFields(resources: Resource[]): ArrayFieldDef[] {
   const resourceNames = resources.map((r) => r.name).sort();
   const resourceIcons: Record<string, string> = {};
   for (const resource of resources) {
-    const icon = getResourceIcon(resource.name);
+    const icon = getResourceIcon(resource.name, resource.category);
     if (icon) {
       resourceIcons[resource.name] = icon;
     }
