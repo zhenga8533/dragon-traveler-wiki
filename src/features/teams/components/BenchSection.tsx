@@ -126,7 +126,7 @@ export function BenchSection({
                   ta="center"
                   component={Link}
                   to={routePath}
-                  c={`${accent.primary}.7`}
+                  className="dt-link-text"
                   style={{
                     textDecoration: 'none',
                     width: '100%',

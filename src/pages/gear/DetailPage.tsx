@@ -261,7 +261,7 @@ export default function GearSetPage() {
           {recommendedStats !== null && (
             <Text size="sm" c="dimmed">
               Recommended for{' '}
-              <Text span fw={600} c={`${accent.primary}.7`}>
+              <Text span fw={600} className="dt-link-text">
                 {recommendedStats.count}
               </Text>{' '}
               of {recommendedStats.total} SSR and above characters (
@@ -372,7 +372,7 @@ export default function GearSetPage() {
                         <Text
                           fw={700}
                           size="lg"
-                          c={`${accent.primary}.7`}
+                          className="dt-link-text"
                           lineClamp={1}
                         >
                           {item.name}

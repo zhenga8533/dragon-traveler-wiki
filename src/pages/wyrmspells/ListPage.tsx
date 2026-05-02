@@ -31,7 +31,7 @@ import GlobalBadge from '@/components/ui/GlobalBadge';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
-import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '@/hooks';
+import { applyDir, useDataFetch, useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
@@ -106,7 +106,6 @@ const EMPTY_FILTERS: WyrmspellFilters = {
 
 export default function Wyrmspells() {
   const navigate = useNavigate();
-  const { accent } = useGradientAccent();
   const { data: statusEffects } = useStatusEffects();
   const {
     data: wyrmspells,
@@ -320,7 +319,7 @@ export default function Wyrmspells() {
                         )}
                         <Stack gap={4} style={{ flex: 1 }}>
                           <Group gap="sm" wrap="wrap">
-                            <Text fw={600} c={`${accent.primary}.7`}>
+                            <Text fw={600} className="dt-link-text">
                               {spell.name}
                             </Text>
                             {maxQuality && (
@@ -438,7 +437,7 @@ export default function Wyrmspells() {
                               to={`/wyrmspells/${toEntitySlug(spell.name)}`}
                               fw={600}
                               size="sm"
-                              c={`${accent.primary}.7`}
+                              className="dt-link-text"
                               style={{ textDecoration: 'none' }}
                               onClick={(e) => e.stopPropagation()}
                             >

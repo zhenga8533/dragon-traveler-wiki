@@ -393,7 +393,7 @@ export default function RelicPage() {
                               <Group gap="sm" wrap="wrap">
                                 <Text
                                   fw={700}
-                                  c={scrollSlug ? `${accent.primary}.7` : undefined}
+                                  className={scrollSlug ? 'dt-link-text' : undefined}
                                   lineClamp={1}
                                 >
                                   {item.name}
@@ -489,7 +489,7 @@ export default function RelicPage() {
                               <Text
                                 fw={600}
                                 size="sm"
-                                c={item.oracle_sroll ? `${accent.primary}.7` : undefined}
+                                className={item.oracle_sroll ? 'dt-link-text' : undefined}
                               >
                                 {item.name}
                               </Text>
@@ -600,7 +600,7 @@ export default function RelicPage() {
                                 <Group justify="space-between" align="center">
                                   <Text
                                     fw={700}
-                                    c={`${accent.primary}.7`}
+                                    className="dt-link-text"
                                     lineClamp={1}
                                     style={{ flex: 1 }}
                                   >

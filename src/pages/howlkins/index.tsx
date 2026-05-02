@@ -490,7 +490,7 @@ export default function Howlkins() {
                                 <Group gap="sm" wrap="wrap">
                                   <Text
                                     fw={600}
-                                    c={allianceSlug ? `${accent.primary}.7` : undefined}
+                                    className={allianceSlug ? 'dt-link-text' : undefined}
                                   >
                                     {howlkin.name}
                                   </Text>
@@ -600,7 +600,7 @@ export default function Howlkins() {
                                     : ({} as { component?: typeof Link; to: string }))}
                                   fw={600}
                                   size="sm"
-                                  c={allianceSlug ? `${accent.primary}.7` : undefined}
+                                  className={allianceSlug ? 'dt-link-text' : undefined}
                                   style={allianceSlug ? { textDecoration: 'none' } : undefined}
                                 >
                                   {howlkin.name}
@@ -689,7 +689,7 @@ export default function Howlkins() {
                             })}
                           >
                             <Stack gap="sm">
-                              <Text fw={700} size="lg" c={`${accent.primary}.7`}>
+                              <Text fw={700} size="lg" className="dt-link-text">
                                 {alliance.name}
                               </Text>
 

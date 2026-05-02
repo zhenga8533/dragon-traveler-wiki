@@ -97,7 +97,7 @@ export default function TeamCard({
 								style={{ flexShrink: 0 }}
 							/>
 						)}
-						<Text fw={700} size="md" c={`${accent.primary}.7`} lineClamp={1}>
+						<Text fw={700} size="md" className="dt-link-text" lineClamp={1}>
 							{team.name || 'Untitled'}
 						</Text>
 					</Group>
@@ -128,7 +128,7 @@ export default function TeamCard({
 						{team.author && (
 							<>
 								by{' '}
-								<Text span c={`${accent.primary}.7`} fw={500} inherit>
+								<Text span className="dt-link-text" fw={500} inherit>
 									{team.author}
 								</Text>
 							</>

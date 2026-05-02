@@ -23,7 +23,7 @@ import GlobalBadge from '@/components/ui/GlobalBadge';
 import type { Team } from '@/features/teams/types';
 import type { Artifact } from '@/features/wiki/artifacts/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { useGradientAccent, useMobileTooltip } from '@/hooks';
+import { useMobileTooltip, useGradientAccent } from '@/hooks';
 import type { Faction } from '@/types/faction';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
@@ -123,7 +123,7 @@ export function TeamHeroSection({
               <Group gap="sm" align="center">
                 <Text size="sm" c="dimmed">
                   by{' '}
-                  <Text span c={`${accent.primary}.7`} inherit>
+                  <Text span className="dt-link-text" inherit>
                     {team.author}
                   </Text>
                 </Text>
@@ -240,7 +240,7 @@ export function TeamHeroSection({
                                         span
                                         size="sm"
                                         fw={600}
-                                        c={`${accent.primary}.7`}
+                                        className="dt-link-text"
                                       >
                                         {artifactName}
                                       </Text>

@@ -1,7 +1,7 @@
 import { Group, Stack, Text, UnstyledButton } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { CHARACTER_CARD, TRANSITION } from '@/constants/ui';
-import { useGradientAccent } from '@/hooks';
+
 import type { Quality } from '@/types/quality';
 import { getCharacterRoutePathByName } from '@/features/characters/utils/character-route';
 import NoteTooltipIcon from '@/components/ui/NoteTooltipIcon';
@@ -34,8 +34,6 @@ export default function CharacterCard({
   clampName = true,
   isNew = false,
 }: CharacterCardProps) {
-  const { accent } = useGradientAccent();
-  const nameColor = disableLink ? 'dimmed' : `${accent.primary}.7`;
 
   const portrait = (
     <div style={{ position: 'relative', display: 'inline-block' }}>
@@ -76,7 +74,8 @@ export default function CharacterCard({
           fw={500}
           ta="center"
           lineClamp={clampName ? 1 : undefined}
-          c={nameColor}
+          c={disableLink ? 'dimmed' : undefined}
+          className={disableLink ? undefined : 'dt-link-text'}
           style={{
             minWidth: 0,
             whiteSpace: clampName ? undefined : 'normal',

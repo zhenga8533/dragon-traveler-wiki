@@ -16,7 +16,7 @@ import FactionTag from '@/components/ui/FactionTag';
 import NoteTooltipIcon from '@/components/ui/NoteTooltipIcon';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { getCardHoverProps } from '@/constants/styles';
-import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
+import { useIsMobile, useMobileTooltip } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { TeamMember } from '@/features/teams/types';
 import {
@@ -89,7 +89,6 @@ export function BattlefieldGrid({
 	disableNameClamp?: boolean;
 	desktopMode?: boolean;
 }) {
-	const { accent } = useGradientAccent();
 	const grid = buildPositionGrid(members);
 	const accentColor = `var(--mantine-color-${factionColor}-${isDark ? 7 : 5})`;
 	const isMobile = useIsMobile() && !desktopMode;
@@ -249,7 +248,7 @@ export function BattlefieldGrid({
 											ta="center"
 											component={Link}
 											to={routePath}
-											c={`${accent.primary}.7`}
+											className="dt-link-text"
 											style={{
 												textDecoration: 'none',
 												width: '100%',

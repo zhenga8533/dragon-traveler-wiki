@@ -7,7 +7,6 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { toEntitySlug } from '@/utils/entity-slug';
-import { useGradientAccent } from '@/hooks';
 import { Badge, Group, Paper, Stack, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 import { Link } from 'react-router-dom';
@@ -23,7 +22,6 @@ export default function WyrmspellCard({
   type,
   wyrmspells = [],
 }: WyrmspellCardProps) {
-  const { accent } = useGradientAccent();
   const wyrmspell = wyrmspells.find((w) => w.name === name);
   const iconSrc = getWyrmspellIcon(name);
   const displayType = type || wyrmspell?.type || 'Unknown';
@@ -50,7 +48,7 @@ export default function WyrmspellCard({
           />
         )}
         <Group gap={4} justify="center" align="center">
-          <Text size="sm" fw={600} ta="center" c={`${accent.primary}.7`}>
+          <Text size="sm" fw={600} ta="center" className="dt-link-text">
             {name}
           </Text>
           {maxQuality && <QualityIcon quality={maxQuality.quality} />}

@@ -8,12 +8,12 @@ import {
 	Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
+import { useGradientAccent } from '@/hooks';
 import { Link } from 'react-router-dom';
 import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import FactionTag from '@/components/ui/FactionTag';
 import { normalizeContentType } from '@/constants/content-types';
 import { getCardHoverProps } from '@/constants/styles';
-import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { FactionName } from '@/types/faction';
 import type { Team, TeamMemberPosition } from '@/features/teams/types';
@@ -213,7 +213,7 @@ export default function CharacterReferenceSection({
 													to={`/teams/${toEntitySlug(entry.teamName)}`}
 													style={{ textDecoration: 'none' }}
 												>
-													<Text fw={600} size="sm" c={`${accent.primary}.7`}>
+													<Text fw={600} size="sm" className="dt-link-text">
 														{entry.teamName}
 													</Text>
 												</Link>

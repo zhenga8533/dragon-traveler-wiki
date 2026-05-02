@@ -253,7 +253,7 @@ export default function NoblePhantasms() {
                         <Stack gap={4} style={{ flex: 1 }}>
                           <Text
                             fw={700}
-                            c={`${accent.primary}.7`}
+                            className="dt-link-text"
                             lineClamp={1}
                           >
                             {np.name}
@@ -379,7 +379,7 @@ export default function NoblePhantasms() {
                               to={`/noble-phantasms/${toEntitySlug(np.name)}`}
                               size="sm"
                               fw={600}
-                              c={`${accent.primary}.7`}
+                              className="dt-link-text"
                               style={{ textDecoration: 'none' }}
                               onClick={(e) => e.stopPropagation()}
                             >

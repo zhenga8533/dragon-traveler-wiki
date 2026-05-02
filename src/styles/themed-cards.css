@@ -717,11 +717,13 @@ body {
   box-shadow: 0 0 0 1px var(--dt-focus-ring) !important;
 }
 
-.mantine-Anchor-root {
+.mantine-Anchor-root,
+.dt-link-text {
   color: light-dark(var(--dt-link-color-light), var(--dt-link-color-dark));
 }
 
-.mantine-Anchor-root:hover {
+.mantine-Anchor-root:hover,
+.dt-link-text:hover {
   filter: saturate(1.08);
 }
 

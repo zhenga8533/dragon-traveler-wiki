@@ -216,7 +216,7 @@ export default function OracleScrollPage() {
                         <Text
                           fw={700}
                           size="lg"
-                          c={`${accent.primary}.7`}
+                          className="dt-link-text"
                           lineClamp={1}
                         >
                           {relic.name}

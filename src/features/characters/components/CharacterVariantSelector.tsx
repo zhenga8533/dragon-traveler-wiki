@@ -15,7 +15,6 @@ import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { LINK_BLOCK_RESET_STYLE, getCardHoverProps } from '@/constants/styles';
 import { CHARACTER_CARD } from '@/constants/ui';
-import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import {
 	getCharacterIdentityKey,
@@ -31,7 +30,6 @@ export default function CharacterVariantSelector({
 	variants,
 	characterNameCounts,
 }: CharacterVariantSelectorProps) {
-	const { accent } = useGradientAccent();
 
 	if (variants.length === 0) {
 		return null;
@@ -86,7 +84,7 @@ export default function CharacterVariantSelector({
 													<Text
 														fw={700}
 														size="sm"
-														c={`${accent.primary}.7`}
+														className="dt-link-text"
 														lineClamp={1}
 													>
 														{variant.name}
@@ -120,7 +118,7 @@ export default function CharacterVariantSelector({
 												</Group>
 											)}
 
-											<Text fw={600} c={`${accent.primary}.7`} size="xs">
+											<Text fw={600} className="dt-link-text" size="xs">
 												Open details →
 											</Text>
 										</Stack>

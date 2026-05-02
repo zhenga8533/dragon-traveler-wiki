@@ -19,7 +19,7 @@ import FactionTag from '@/components/ui/FactionTag';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '@/constants/ui';
-import { useEntityTabParam, useGradientAccent, useIsMobile } from '@/hooks';
+import { useEntityTabParam, useIsMobile } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
 import type { Character } from '@/features/characters/types';
 import type { TierList as TierListType } from '@/features/tier-list/types';
@@ -66,7 +66,6 @@ export default function TierListViewTab({
 	hasCharacterFilters,
 }: TierListViewTabProps) {
 	const isMobile = useIsMobile();
-	const { accent } = useGradientAccent();
 	const [activeTierListName, handleSelectTierList] = useEntityTabParam(
 		'list',
 		visibleTierLists
@@ -227,7 +226,7 @@ export default function TierListViewTab({
 																					)}
 																					size="sm"
 																					fw={500}
-																					c={`${accent.primary}.7`}
+																					className="dt-link-text"
 																				>
 																					{displayName}
 																				</Text>

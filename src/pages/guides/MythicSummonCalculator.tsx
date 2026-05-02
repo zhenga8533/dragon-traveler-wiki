@@ -603,7 +603,7 @@ export default function MythicSummonCalculator() {
                 Total pulls: <strong>{results.totalPulls}</strong>
               </Text>
               <Text size="sm" c="dimmed">•</Text>
-              <Text size="sm" c={`${accent.primary}.7`}>
+              <Text size="sm" className="dt-link-text">
                 Next guaranteed mythic shard pull in:{' '}
                 <strong>{results.nextGuaranteedPull}</strong> summon
                 {results.nextGuaranteedPull !== 1 ? 's' : ''}

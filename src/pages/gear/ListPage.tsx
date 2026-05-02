@@ -475,7 +475,7 @@ export default function GearPage() {
                               <Group gap="sm" wrap="wrap">
                                 <Text
                                   fw={700}
-                                  c={`${accent.primary}.7`}
+                                  className="dt-link-text"
                                   lineClamp={1}
                                 >
                                   {item.name}
@@ -588,7 +588,7 @@ export default function GearPage() {
                                   to={`/gear-sets/${toEntitySlug(item.set)}`}
                                   fw={600}
                                   size="sm"
-                                  c={`${accent.primary}.7`}
+                                  className="dt-link-text"
                                   style={{ textDecoration: 'none' }}
                                   onClick={(e) => e.stopPropagation()}
                                 >
@@ -679,7 +679,7 @@ export default function GearPage() {
                               <Group justify="space-between" align="center">
                                 <Text
                                   fw={700}
-                                  c={`${accent.primary}.7`}
+                                  className="dt-link-text"
                                   lineClamp={1}
                                 >
                                   {set.name}

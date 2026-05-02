@@ -1,4 +1,3 @@
-import { useGradientAccent } from '@/hooks';
 import { Box, Group, Paper, Text } from '@mantine/core';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
@@ -17,8 +16,6 @@ export default function DetailPageNavigation({
   previousItem,
   nextItem,
 }: DetailPageNavigationProps) {
-  const { accent } = useGradientAccent();
-
   if (!previousItem && !nextItem) return null;
 
   return (
@@ -35,7 +32,7 @@ export default function DetailPageNavigation({
               radius="md"
               style={{ minHeight: 48, display: 'flex', alignItems: 'center' }}
             >
-              <Group gap="xs" c={`${accent.primary}.7`}>
+              <Group gap="xs" className="dt-link-text">
                 <IoChevronBack />
                 <Text size="sm">Previous: {previousItem.label}</Text>
               </Group>
@@ -63,7 +60,7 @@ export default function DetailPageNavigation({
                 justifyContent: 'flex-end',
               }}
             >
-              <Group gap="xs" c={`${accent.primary}.7`}>
+              <Group gap="xs" className="dt-link-text">
                 <Text size="sm">Next: {nextItem.label}</Text>
                 <IoChevronForward />
               </Group>

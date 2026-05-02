@@ -23,7 +23,6 @@ import {
 	normalizeContentType,
 } from '@/constants/content-types';
 import { getMinWidthStyle } from '@/constants/styles';
-import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { FactionName } from '@/types/faction';
 import type { Team } from '@/features/teams/types';
@@ -32,6 +31,7 @@ import {
 	getTeamBenchEntryName,
 	getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
+import { useGradientAccent } from '@/hooks';
 import TeamCard from '@/features/teams/components/TeamCard';
 import TeamCharacterAvatars from '@/features/teams/components/TeamCharacterAvatars';
 
@@ -64,8 +64,8 @@ export default function TeamsSavedTab({
 	onRequestDelete,
 	onGoToBuilder,
 }: TeamsSavedTabProps) {
-	const navigate = useNavigate();
 	const { accent } = useGradientAccent();
+	const navigate = useNavigate();
 
 	if (savedTeams.length === 0) {
 		return (
@@ -160,7 +160,7 @@ export default function TeamsSavedTab({
 											fit="contain"
 										/>
 									)}
-									<Text size="sm" fw={500} c={`${accent.primary}.7`}>
+									<Text size="sm" fw={500} className="dt-link-text">
 										{team.name || 'Untitled'}
 									</Text>
 								</Group>

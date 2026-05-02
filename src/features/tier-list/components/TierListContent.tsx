@@ -22,7 +22,6 @@ import {
 	normalizeContentType,
 } from '@/constants/content-types';
 import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '@/constants/ui';
-import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { TierList as TierListType } from '@/features/tier-list/types';
 import {
@@ -54,7 +53,6 @@ export default function TierListContent({
 	characterFilter,
 	disableNameClamp = false,
 }: TierListContentProps) {
-	const { accent } = useGradientAccent();
 	const tierOrder = tierList.tiers?.map((t) => t.name) ?? TIER_ORDER;
 	const definedTierSet = new Set(tierOrder);
 	const extraTiers = [...new Set(tierList.entries.map((e) => e.tier))].filter(
@@ -93,7 +91,7 @@ export default function TierListContent({
 					{tierList.author && (
 						<Text size="sm" c="dimmed">
 							by{' '}
-							<Text span c={`${accent.primary}.7`} inherit fw={600}>
+							<Text span className="dt-link-text" inherit fw={600}>
 								{tierList.author}
 							</Text>
 						</Text>

@@ -22,7 +22,6 @@ import {
 	normalizeContentType,
 } from '@/constants/content-types';
 import { CURSOR_POINTER_STYLE, getMinWidthStyle } from '@/constants/styles';
-import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { FactionName } from '@/types/faction';
 import type { Team } from '@/features/teams/types';
@@ -31,6 +30,7 @@ import {
 	getTeamBenchEntryName,
 	getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
+import { useGradientAccent } from '@/hooks';
 import TeamCard from '@/features/teams/components/TeamCard';
 import TeamCharacterAvatars from '@/features/teams/components/TeamCharacterAvatars';
 
@@ -71,8 +71,8 @@ export default function TeamsViewTab({
 	onPageSizeChange,
 	onRequestEdit,
 }: TeamsViewTabProps) {
-	const navigate = useNavigate();
 	const { accent } = useGradientAccent();
+	const navigate = useNavigate();
 
 	return (
 		<>
@@ -147,7 +147,7 @@ export default function TeamsViewTab({
 													to={`/teams/${toEntitySlug(team.name)}`}
 													size="sm"
 													fw={500}
-													c={`${accent.primary}.7`}
+													className="dt-link-text"
 													style={{ textDecoration: 'none' }}
 													onClick={(e) => e.stopPropagation()}
 												>
@@ -239,7 +239,7 @@ export default function TeamsViewTab({
 											</Badge>
 										</Table.Td>
 										<Table.Td>
-											<Text size="sm" c={`${accent.primary}.7`}>
+											<Text size="sm" className="dt-link-text">
 												{team.author}
 											</Text>
 										</Table.Td>

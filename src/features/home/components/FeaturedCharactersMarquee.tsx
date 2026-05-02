@@ -28,12 +28,12 @@ import { useContext } from 'react';
 import { IoTrophy } from 'react-icons/io5';
 
 export default function FeaturedCharactersMarquee() {
-  const { accent } = useGradientAccent();
   const {
     tierLists,
     loading: loadingTiers,
     selectedTierListName,
   } = useContext(TierListReferenceContext);
+  const { accent } = useGradientAccent();
   const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
     'data/characters.json',
     []
@@ -146,7 +146,7 @@ export default function FeaturedCharactersMarquee() {
                   · by{' '}
                 </Text>
               )}
-              <Text span c={`${accent.primary}.7`} fw={500} inherit>
+              <Text span className="dt-link-text" fw={500} inherit>
                 {tierList.author}
               </Text>
             </>

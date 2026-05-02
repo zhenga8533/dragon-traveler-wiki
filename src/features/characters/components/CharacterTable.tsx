@@ -1,7 +1,6 @@
 import { Group, ScrollArea, Table, Text, UnstyledButton } from '@mantine/core';
 import { Link } from 'react-router-dom';
 import { CURSOR_POINTER_STYLE, getMinWidthStyle } from '@/constants/styles';
-import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import {
   getCharacterIdentityKey,
@@ -36,8 +35,6 @@ export default function CharacterTable({
   getTierLabel,
   newCharacterKeys,
 }: CharacterTableProps) {
-  const { accent } = useGradientAccent();
-
   return (
     <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
       <Table striped highlightOnHover style={getMinWidthStyle(560)}>
@@ -109,7 +106,7 @@ export default function CharacterTable({
                       style={{ flexShrink: 0 }}
                       isNew={newCharacterKeys?.has(getCharacterIdentityKey(char))}
                     />
-                    <Text size="sm" fw={500} c={`${accent.primary}.7`}>
+                    <Text size="sm" fw={500} className="dt-link-text">
                       {char.name}
                     </Text>
                   </Group>

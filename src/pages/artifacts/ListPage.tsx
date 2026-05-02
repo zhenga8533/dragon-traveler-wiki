@@ -271,7 +271,7 @@ export default function Artifacts() {
                         )}
                         <Stack gap={4} style={{ flex: 1 }}>
                           <Group gap="sm">
-                            <Text fw={600} size="lg" c={`${accent.primary}.7`}>
+                            <Text fw={600} size="lg" className="dt-link-text">
                               {artifact.name}
                             </Text>
                             <QualityIcon quality={artifact.quality} />
@@ -387,7 +387,7 @@ export default function Artifacts() {
                               to={`/artifacts/${toEntitySlug(artifact.name)}`}
                               size="sm"
                               fw={500}
-                              c={`${accent.primary}.7`}
+                              className="dt-link-text"
                               style={{ textDecoration: 'none' }}
                               onClick={(e) => e.stopPropagation()}
                             >
