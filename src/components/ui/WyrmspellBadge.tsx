@@ -1,14 +1,17 @@
 import { getWyrmspellIcon } from '@/assets';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
+import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useDataFetch } from '@/hooks';
 import { normalizeName } from '@/utils';
+import { toEntitySlug } from '@/utils/entity-slug';
 import type { MantineSize } from '@mantine/core';
-import { Badge, Group, Stack, Text } from '@mantine/core';
+import { Anchor, Badge, Group, Stack, Text } from '@mantine/core';
 import SafeImage from './SafeImage';
 import FactionTag from './FactionTag';
 import IconBadge from './IconBadge';
 import QualityIcon from './QualityIcon';
+import { Link } from 'react-router-dom';
 
 export interface WyrmspellBadgeProps {
   name: string;
@@ -31,6 +34,7 @@ export default function WyrmspellBadge({
 
   const iconSrc = getWyrmspellIcon(name);
   const color = wyrmspell ? WYRMSPELL_TYPE_COLOR[wyrmspell.type] : 'gray';
+  const maxQuality = wyrmspell ? getMaxQuality(wyrmspell) : null;
 
   return (
     <IconBadge
@@ -60,7 +64,9 @@ export default function WyrmspellBadge({
                   <Badge variant="light" color={color} size="xs">
                     {wyrmspell.type}
                   </Badge>
-                  <QualityIcon quality={wyrmspell.quality} size={16} />
+                  {maxQuality && (
+                    <QualityIcon quality={maxQuality.quality} size={16} />
+                  )}
                   {wyrmspell.exclusive_faction && (
                     <FactionTag
                       faction={wyrmspell.exclusive_faction}
@@ -71,9 +77,19 @@ export default function WyrmspellBadge({
               </Stack>
             </Group>
 
-            <Text size="xs" c="dimmed" style={{ lineHeight: 1.4 }}>
-              {wyrmspell.effect}
-            </Text>
+            {maxQuality && (
+              <Text size="xs" c="dimmed" style={{ lineHeight: 1.4 }}>
+                {maxQuality.effect}
+              </Text>
+            )}
+
+            <Anchor
+              component={Link}
+              to={`/wyrmspells/${toEntitySlug(name)}`}
+              size="xs"
+            >
+              View details →
+            </Anchor>
           </Stack>
         ) : undefined
       }

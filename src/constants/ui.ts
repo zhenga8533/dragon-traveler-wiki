@@ -96,6 +96,7 @@ export const DETAIL_ROUTE_PATTERNS = [
   /^\/howlkins\/.+/,
   /^\/noble-phantasms\/.+/,
   /^\/oracle-scrolls\/.+/,
+  /^\/wyrmspells\/.+/,
   /^\/teams\/.+/,
 ];
 

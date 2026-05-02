@@ -306,7 +306,7 @@ export default function SearchModal({
         : null,
       wyrmspells: wyrmspells.length
         ? new Fuse(wyrmspells, {
-            keys: ['name', 'type', 'effect'],
+            keys: ['name', 'type', 'qualities.effect'],
             threshold: 0.3,
           })
         : null,
@@ -495,7 +495,7 @@ export default function SearchModal({
             type: 'wyrmspell' as const,
             title: r.item.name,
             subtitle: r.item.type,
-            path: '/wyrmspells',
+            path: `/wyrmspells/${toEntitySlug(r.item.name)}`,
             icon: getWyrmspellIcon(r.item.name) ?? IoFlameOutline,
             color: 'indigo',
           }))

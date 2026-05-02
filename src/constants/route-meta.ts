@@ -152,6 +152,14 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    pattern: '/wyrmspells/:name',
+    meta: {
+      title: 'Wyrmspell Details',
+      description:
+        'Full Wyrmspell breakdown with quality-by-quality effect descriptions, faction exclusivity, and change history.',
+    },
+  },
+  {
     pattern: '/tier-list',
     meta: {
       title: 'Tier List',

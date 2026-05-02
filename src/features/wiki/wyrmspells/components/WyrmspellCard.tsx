@@ -1,11 +1,16 @@
 import { getWyrmspellIcon } from '@/assets';
 import { WYRMSPELL_TYPE_COLOR, getStableTagColor } from '@/constants/colors';
 import { getCardHoverProps } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
+import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
+import { toEntitySlug } from '@/utils/entity-slug';
+import { useGradientAccent } from '@/hooks';
 import { Badge, Group, Paper, Stack, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
+import { Link } from 'react-router-dom';
 
 interface WyrmspellCardProps {
   name: string;
@@ -18,13 +23,21 @@ export default function WyrmspellCard({
   type,
   wyrmspells = [],
 }: WyrmspellCardProps) {
+  const { accent } = useGradientAccent();
   const wyrmspell = wyrmspells.find((w) => w.name === name);
   const iconSrc = getWyrmspellIcon(name);
   const displayType = type || wyrmspell?.type || 'Unknown';
-  const quality = wyrmspell?.quality;
+  const maxQuality = wyrmspell ? getMaxQuality(wyrmspell) : null;
 
   return (
-    <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
+    <Paper
+      component={Link}
+      to={`/wyrmspells/${toEntitySlug(name)}`}
+      p="sm"
+      radius="md"
+      withBorder
+      {...getCardHoverProps({ interactive: true, style: LINK_BLOCK_RESET_STYLE })}
+    >
       <Stack gap="xs" align="center">
         {iconSrc && (
           <SafeImage
@@ -37,10 +50,10 @@ export default function WyrmspellCard({
           />
         )}
         <Group gap={4} justify="center" align="center">
-          <Text size="sm" fw={600} ta="center">
+          <Text size="sm" fw={600} ta="center" c={`${accent.primary}.7`}>
             {name}
           </Text>
-          {quality && <QualityIcon quality={quality} />}
+          {maxQuality && <QualityIcon quality={maxQuality.quality} />}
         </Group>
         <Group gap={4} justify="center">
           <Badge
@@ -58,9 +71,9 @@ export default function WyrmspellCard({
             <FactionTag faction={wyrmspell.exclusive_faction} size="xs" />
           )}
         </Group>
-        {wyrmspell && (
+        {maxQuality && (
           <Text size="xs" c="dimmed" ta="center" lineClamp={2}>
-            {wyrmspell.effect}
+            {maxQuality.effect}
           </Text>
         )}
       </Stack>

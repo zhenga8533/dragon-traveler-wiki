@@ -1,4 +1,4 @@
-﻿import SafeImage from '@/components/ui/SafeImage';
+import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmspellIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
@@ -6,6 +6,7 @@ import {
   createQualityFilterGroup,
   orderFilterOptions,
 } from '@/components/common/EntityFilterGroups';
+import RichText from '@/components/common/RichText';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
@@ -17,14 +18,22 @@ import {
   WYRMSPELL_TYPE_COLOR,
   getStableTagColor,
 } from '@/constants/colors';
-import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import {
+  CURSOR_POINTER_STYLE,
+  LINK_BLOCK_RESET_STYLE,
+  getCardHoverProps,
+  getMinWidthStyle,
+} from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
-import { applyDir, useDataFetch, useFilteredPageData } from '@/hooks';
+import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
+import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import { applyDir, useDataFetch, useFilteredPageData, useGradientAccent } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
+import { toEntitySlug } from '@/utils/entity-slug';
 import {
   Badge,
   Container,
@@ -37,6 +46,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
+import { Link, useNavigate } from 'react-router-dom';
 
 const WYRMSPELL_TYPE_FILTER_ORDER = [
   'Breach',
@@ -95,6 +105,9 @@ const EMPTY_FILTERS: WyrmspellFilters = {
 };
 
 export default function Wyrmspells() {
+  const navigate = useNavigate();
+  const { accent } = useGradientAccent();
+  const { data: statusEffects } = useStatusEffects();
   const {
     data: wyrmspells,
     loading,
@@ -138,11 +151,9 @@ export default function Wyrmspells() {
       if (filters.types.length > 0 && !filters.types.includes(spell.type)) {
         return false;
       }
-      if (
-        filters.qualities.length > 0 &&
-        !filters.qualities.includes(spell.quality)
-      ) {
-        return false;
+      if (filters.qualities.length > 0) {
+        const maxQ = getMaxQuality(spell)?.quality;
+        if (!maxQ || !filters.qualities.includes(maxQ)) return false;
       }
       return true;
     },
@@ -154,13 +165,14 @@ export default function Wyrmspells() {
         } else if (col === 'type') {
           cmp = a.type.localeCompare(b.type);
         } else if (col === 'quality') {
-          const qA = QUALITY_ORDER.indexOf(a.quality);
-          const qB = QUALITY_ORDER.indexOf(b.quality);
+          const mA = getMaxQuality(a)?.quality;
+          const mB = getMaxQuality(b)?.quality;
+          const qA = mA !== undefined ? QUALITY_ORDER.indexOf(mA) : -1;
+          const qB = mB !== undefined ? QUALITY_ORDER.indexOf(mB) : -1;
           cmp = (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
         } else if (col === 'faction') {
           const fA = a.exclusive_faction ?? '';
           const fB = b.exclusive_faction ?? '';
-          // entries with no faction sort last
           if (!fA && fB) return 1;
           if (fA && !fB) return -1;
           cmp = fA.localeCompare(fB);
@@ -172,8 +184,10 @@ export default function Wyrmspells() {
       // Default: type > quality > name
       const typeCmp = a.type.localeCompare(b.type);
       if (typeCmp !== 0) return typeCmp;
-      const qA = QUALITY_ORDER.indexOf(a.quality);
-      const qB = QUALITY_ORDER.indexOf(b.quality);
+      const dA = getMaxQuality(a)?.quality;
+      const dB = getMaxQuality(b)?.quality;
+      const qA = dA !== undefined ? QUALITY_ORDER.indexOf(dA) : -1;
+      const qB = dB !== undefined ? QUALITY_ORDER.indexOf(dB) : -1;
       if (qA !== qB) return (qA === -1 ? 999 : qA) - (qB === -1 ? 999 : qB);
       return a.name.localeCompare(b.name);
     },
@@ -182,24 +196,23 @@ export default function Wyrmspells() {
   const typeOptions = useMemo(() => {
     const types = new Set<string>();
     for (const spell of wyrmspells) {
-      if (spell.type) {
-        types.add(spell.type);
-      }
+      if (spell.type) types.add(spell.type);
     }
-
     const preferred = WYRMSPELL_TYPE_FILTER_ORDER.filter((type) =>
       types.has(type)
     );
     const extras = [...types]
       .filter((type) => !WYRMSPELL_TYPE_FILTER_ORDER.includes(type as never))
       .sort();
-
     return [...preferred, ...extras];
   }, [wyrmspells]);
 
   const qualityOptions = useMemo(() => {
     return orderFilterOptions(
-      wyrmspells.flatMap((spell) => (spell.quality ? [spell.quality] : [])),
+      wyrmspells.flatMap((spell) => {
+        const q = getMaxQuality(spell)?.quality;
+        return q ? [q] : [];
+      }),
       QUALITY_ORDER
     );
   }, [wyrmspells]);
@@ -280,13 +293,19 @@ export default function Wyrmspells() {
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((spell) => {
                   const iconSrc = getWyrmspellIcon(spell.name);
+                  const maxQuality = getMaxQuality(spell);
                   return (
                     <Paper
                       key={spell.name}
+                      component={Link}
+                      to={`/wyrmspells/${toEntitySlug(spell.name)}`}
                       p="sm"
                       radius="md"
                       withBorder
-                      {...getCardHoverProps()}
+                      {...getCardHoverProps({
+                        interactive: true,
+                        style: LINK_BLOCK_RESET_STYLE,
+                      })}
                     >
                       <Group gap="md" align="flex-start" wrap="nowrap">
                         {iconSrc && (
@@ -301,8 +320,12 @@ export default function Wyrmspells() {
                         )}
                         <Stack gap={4} style={{ flex: 1 }}>
                           <Group gap="sm" wrap="wrap">
-                            <Text fw={600}>{spell.name}</Text>
-                            <QualityIcon quality={spell.quality} />
+                            <Text fw={600} c={`${accent.primary}.7`}>
+                              {spell.name}
+                            </Text>
+                            {maxQuality && (
+                              <QualityIcon quality={maxQuality.quality} />
+                            )}
                           </Group>
                           <Group gap="sm" wrap="wrap">
                             <Badge
@@ -323,7 +346,12 @@ export default function Wyrmspells() {
                               />
                             )}
                           </Group>
-                          <Text size="sm">{spell.effect}</Text>
+                          {maxQuality && (
+                            <RichText
+                              text={maxQuality.effect}
+                              statusEffects={statusEffects}
+                            />
+                          )}
                         </Stack>
                       </Group>
                     </Paper>
@@ -383,8 +411,15 @@ export default function Wyrmspells() {
                   <Table.Tbody>
                     {pageItems.map((spell) => {
                       const iconSrc = getWyrmspellIcon(spell.name);
+                      const maxQuality = getMaxQuality(spell);
                       return (
-                        <Table.Tr key={spell.name}>
+                        <Table.Tr
+                          key={spell.name}
+                          style={CURSOR_POINTER_STYLE}
+                          onClick={() =>
+                            navigate(`/wyrmspells/${toEntitySlug(spell.name)}`)
+                          }
+                        >
                           <Table.Td>
                             {iconSrc && (
                               <SafeImage
@@ -398,7 +433,15 @@ export default function Wyrmspells() {
                             )}
                           </Table.Td>
                           <Table.Td>
-                            <Text fw={600} size="sm">
+                            <Text
+                              component={Link}
+                              to={`/wyrmspells/${toEntitySlug(spell.name)}`}
+                              fw={600}
+                              size="sm"
+                              c={`${accent.primary}.7`}
+                              style={{ textDecoration: 'none' }}
+                              onClick={(e) => e.stopPropagation()}
+                            >
                               {spell.name}
                             </Text>
                           </Table.Td>
@@ -415,7 +458,9 @@ export default function Wyrmspells() {
                             </Badge>
                           </Table.Td>
                           <Table.Td>
-                            <QualityIcon quality={spell.quality} />
+                            {maxQuality && (
+                              <QualityIcon quality={maxQuality.quality} />
+                            )}
                           </Table.Td>
                           <Table.Td>
                             {spell.exclusive_faction ? (
@@ -425,7 +470,7 @@ export default function Wyrmspells() {
                               />
                             ) : (
                               <Text size="sm" c="dimmed">
-                                â€”
+                                —
                               </Text>
                             )}
                           </Table.Td>
@@ -433,7 +478,12 @@ export default function Wyrmspells() {
                             <GlobalBadge isGlobal={spell.is_global} size="sm" />
                           </Table.Td>
                           <Table.Td>
-                            <Text size="sm">{spell.effect}</Text>
+                            {maxQuality && (
+                              <RichText
+                                text={maxQuality.effect}
+                                statusEffects={statusEffects}
+                              />
+                            )}
                           </Table.Td>
                         </Table.Tr>
                       );
