@@ -8,7 +8,6 @@ import RichText from '@/components/common/RichText';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
-import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import {
   QUALITY_ORDER,
@@ -196,7 +195,6 @@ export default function WyrmspellPage() {
               <Badge size="lg" variant="light" color={typeColor}>
                 {wyrmspell.type}
               </Badge>
-              <GlobalBadge isGlobal={wyrmspell.is_global} size="md" />
               {wyrmspell.exclusive_faction && (
                 <FactionTag faction={wyrmspell.exclusive_faction} size="md" />
               )}

@@ -27,7 +27,6 @@ import {
 import { STORAGE_KEY } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
@@ -89,7 +88,6 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
     type: 'select',
     options: FACTION_NAMES,
   },
-  { name: 'is_global', label: 'Available on Global server', type: 'boolean' },
 ];
 
 interface WyrmspellFilters {
@@ -175,8 +173,6 @@ export default function Wyrmspells() {
           if (!fA && fB) return 1;
           if (fA && !fB) return -1;
           cmp = fA.localeCompare(fB);
-        } else if (col === 'global') {
-          cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
         }
         if (cmp !== 0) return applyDir(cmp, dir);
       }
@@ -337,7 +333,6 @@ export default function Wyrmspells() {
                             >
                               {spell.type}
                             </Badge>
-                            <GlobalBadge isGlobal={spell.is_global} size="sm" />
                             {spell.exclusive_faction && (
                               <FactionTag
                                 faction={spell.exclusive_faction}
@@ -395,14 +390,6 @@ export default function Wyrmspells() {
                         onSort={handleSort}
                       >
                         Faction
-                      </SortableTh>
-                      <SortableTh
-                        sortKey="global"
-                        sortCol={sortCol}
-                        sortDir={sortDir}
-                        onSort={handleSort}
-                      >
-                        Global
                       </SortableTh>
                       <Table.Th>Effect (Max Quality)</Table.Th>
                     </Table.Tr>
@@ -472,9 +459,6 @@ export default function Wyrmspells() {
                                 —
                               </Text>
                             )}
-                          </Table.Td>
-                          <Table.Td>
-                            <GlobalBadge isGlobal={spell.is_global} size="sm" />
                           </Table.Td>
                           <Table.Td>
                             {maxQuality && (
