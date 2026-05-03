@@ -429,7 +429,7 @@ export default function Howlkins() {
                 gridContent={
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                     {howlkinPageItems.map((howlkin) => {
-                      const iconSrc = getHowlkinIcon(howlkin.name);
+                      const iconSrc = getHowlkinIcon(howlkin.name, howlkin.quality);
                       const isPharaoh = howlkin.name === PHARAOH_NAME;
                       const allianceName = howlkinToAlliance.get(howlkin.name);
                       const allianceSlug = allianceName
@@ -546,7 +546,7 @@ export default function Howlkins() {
                       </Table.Thead>
                       <Table.Tbody>
                         {howlkinPageItems.map((howlkin) => {
-                          const iconSrc = getHowlkinIcon(howlkin.name);
+                          const iconSrc = getHowlkinIcon(howlkin.name, howlkin.quality);
                           const isPharaoh = howlkin.name === PHARAOH_NAME;
                           const allianceName = howlkinToAlliance.get(howlkin.name);
                           const allianceSlug = allianceName

@@ -528,7 +528,7 @@ export default function SearchModal({
             title: r.item.name,
             subtitle: `${r.item.quality} Howlkin`,
             path: '/howlkins',
-            icon: getHowlkinIcon(r.item.name) ?? IoPawOutline,
+            icon: getHowlkinIcon(r.item.name, r.item.quality) ?? IoPawOutline,
             color: 'orange',
           }))
       );

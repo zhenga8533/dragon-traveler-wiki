@@ -82,9 +82,9 @@ export function getGearIcon(type: string, name: string): string | undefined {
 
 // ── Howlkin ──────────────────────────────────────────────────────────────────
 
-export function getHowlkinIcon(name: string): string | undefined {
-  if (!name) return undefined;
-  return `${BASE}assets/howlkin/${normalizeKey(name)}.png`;
+export function getHowlkinIcon(name: string, quality: string): string | undefined {
+  if (!name || !quality) return undefined;
+  return `${BASE}assets/howlkin/${normalizeKey(quality)}/${normalizeKey(name)}.png`;
 }
 
 // ── Noble Phantasm ───────────────────────────────────────────────────────────
