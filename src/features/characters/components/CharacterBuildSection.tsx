@@ -82,7 +82,7 @@ function QuoteCard({ text, attribution, label }: { text: string; attribution: st
             "{text}"
           </Text>
           <Text size="xs" c="dimmed" fw={500} ta="right">
-            â€” {attribution}
+            — {attribution}
           </Text>
         </Stack>
       </Paper>
@@ -679,13 +679,12 @@ export default function CharacterPageBuildSection({
                             Pieces: {setBonus.pieces}/{setBonus.requiredPieces}
                           </Badge>
                           <Badge
-                            variant="light"
-                            color={accent.primary}
-                            size="xs"
+                          variant="light"
+                          color={accent.primary}
+                          size="xs"
                           >
-                            Activations: Ã—{setBonus.activations}
-                          </Badge>
-                        </Group>
+                          Activations: ×{setBonus.activations}
+                          </Badge>                        </Group>
                         <Stack gap={2}>
                           <Text size="xs" c="dimmed" fw={600}>
                             Effect
@@ -722,7 +721,7 @@ export default function CharacterPageBuildSection({
                                 color={accent.primary}
                                 size="xs"
                               >
-                                Ã—{setBonus.activations}
+                                ×{setBonus.activations}
                               </Badge>
                             </Group>
                             <Text size="xs" c="dimmed">

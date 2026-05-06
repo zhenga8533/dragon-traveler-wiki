@@ -135,7 +135,7 @@ export default function TeamCard({
 						)}
 						{team.description && (
 							<Text span inherit>
-								{team.author ? ' Â· ' : ''}
+								{team.author ? ' · ' : ''}
 								{team.description}
 							</Text>
 						)}
@@ -176,7 +176,7 @@ export default function TeamCard({
 							<>
 								<Divider size="xs" />
 								<Group gap="xs" align="flex-start" wrap="nowrap">
-									<Tooltip label="Substitutes â€” direct replacements for main team members" withArrow maw={200} multiline>
+									<Tooltip label="Substitutes — direct replacements for main team members" withArrow maw={200} multiline>
 										<Badge
 											size="xs"
 											variant="light"

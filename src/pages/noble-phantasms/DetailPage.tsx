@@ -79,7 +79,7 @@ function EffectTable({
           >
             <Table.Td style={COMPACT_COL_STYLE}>
               <Text size="sm" c={effect.tier ? undefined : 'dimmed'}>
-                {effect.tier || 'â€”'}
+                {effect.tier || '—'}
               </Text>
             </Table.Td>
             <Table.Td style={COMPACT_COL_STYLE}>
@@ -87,7 +87,7 @@ function EffectTable({
                 size="sm"
                 c={effect.tier_level !== null ? undefined : 'dimmed'}
               >
-                {effect.tier_level ?? 'â€”'}
+                {effect.tier_level ?? '—'}
               </Text>
             </Table.Td>
             <Table.Td>
@@ -145,7 +145,7 @@ function SkillTable({
             </Table.Td>
             <Table.Td style={COMPACT_COL_STYLE}>
               <Text size="sm" c={skill.tier ? undefined : 'dimmed'}>
-                {skill.tier || 'â€”'}
+                {skill.tier || '—'}
               </Text>
             </Table.Td>
             <Table.Td style={COMPACT_COL_STYLE}>
@@ -153,7 +153,7 @@ function SkillTable({
                 size="sm"
                 c={skill.tier_level !== null ? undefined : 'dimmed'}
               >
-                {skill.tier_level ?? 'â€”'}
+                {skill.tier_level ?? '—'}
               </Text>
             </Table.Td>
             <Table.Td>

@@ -517,7 +517,7 @@ export default function RelicPage() {
                                 </Badge>
                               ) : (
                                 <Text size="sm" c="dimmed">
-                                  â€”
+                                  —
                                 </Text>
                               )}
                             </Table.Td>

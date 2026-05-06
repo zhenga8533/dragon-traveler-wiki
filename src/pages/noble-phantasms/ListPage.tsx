@@ -369,7 +369,7 @@ export default function NoblePhantasms() {
                               />
                             ) : (
                               <Text c="dimmed" size="sm">
-                                â€”
+                                —
                               </Text>
                             )}
                           </Table.Td>
@@ -396,7 +396,7 @@ export default function NoblePhantasms() {
                               />
                             ) : (
                               <Text size="sm" c="dimmed">
-                                â€”
+                                —
                               </Text>
                             )}
                           </Table.Td>

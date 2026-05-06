@@ -109,7 +109,7 @@ export default function OracleScrollPage() {
     [scrollRelics]
   );
 
-  // All relics in a scroll share the same quality â€” use the first one for the hero color
+  // All relics in a scroll share the same quality — use the first one for the hero color
   const heroQualityColor = useMemo(() => {
     if (!scrollRelics.length) return accent.primary;
     return QUALITY_COLOR[scrollRelics[0].quality] ?? accent.primary;

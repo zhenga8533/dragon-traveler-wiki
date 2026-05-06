@@ -616,7 +616,7 @@ export default function GearPage() {
                                 <Text size="sm" c="dimmed">
                                   {setBonus && setBonus.quantity > 0
                                     ? `${setBonus.quantity}-piece: ${setBonus.description}`
-                                    : 'â€”'}
+                                    : '—'}
                                 </Text>
                               </Table.Td>
                             </Table.Tr>

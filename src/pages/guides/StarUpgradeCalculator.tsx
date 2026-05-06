@@ -159,7 +159,7 @@ export default function StarUpgradeCalculator() {
 
   const levelOptions = starLevels.map((level) => ({
     value: level.value,
-    label: `${level.label} â€¢ ${level.copies} copies / ${level.fodder} fodder`,
+    label: `${level.label} • ${level.copies} copies / ${level.fodder} fodder`,
   }));
 
   return (

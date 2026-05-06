@@ -198,7 +198,7 @@ export default function TeamsSavedTab({
 												<Divider size="xs" />
 												<Group gap="xs" align="center" wrap="nowrap">
 													<Tooltip
-														label="Substitutes â€” direct replacements for main team members"
+														label="Substitutes — direct replacements for main team members"
 														withArrow
 														maw={200}
 														multiline
