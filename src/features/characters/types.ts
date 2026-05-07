@@ -21,7 +21,8 @@ export interface Skill {
   name: string;
   type?: SkillType;
   description: string;
-  cooldown: number;
+  cooldown: number | string;
+  cost?: number | null;
 }
 
 export interface TalentLevel {

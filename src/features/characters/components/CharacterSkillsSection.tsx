@@ -113,6 +113,12 @@ export default function CharacterPageSkillsSection({
 						<Stack gap="md">
 							{character.skills.map((skill) => {
 								const skillIcon = skillIcons.get(skill.name);
+								const isPassiveCooldown =
+									skill.cooldown === 0 || skill.cooldown === '0';
+								const cooldownLabel = isPassiveCooldown
+									? 'Passive'
+									: `${skill.cooldown}s`;
+
 								return (
 									<Paper
 										key={skill.name}
@@ -149,13 +155,16 @@ export default function CharacterPageSkillsSection({
 												<Group gap="xs" style={{ flexShrink: 0 }}>
 													<Badge
 														size="lg"
-														variant={skill.cooldown === 0 ? 'light' : 'filled'}
-														color={skill.cooldown === 0 ? 'gray' : accent.primary}
+														variant={isPassiveCooldown ? 'light' : 'filled'}
+														color={isPassiveCooldown ? 'gray' : accent.primary}
 													>
-														{skill.cooldown === 0
-															? 'Passive'
-															: `${skill.cooldown}s`}
+														{cooldownLabel}
 													</Badge>
+													{skill.cost != null && (
+														<Badge size="lg" variant="light" color={accent.secondary}>
+															Cost {skill.cost}
+														</Badge>
+													)}
 												</Group>
 											</Group>
 											<RichText

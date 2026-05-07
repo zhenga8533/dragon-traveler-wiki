@@ -1,9 +1,16 @@
 // Type exports for cleaner imports
 export type {
+  ActivatedSetBonus,
   Character,
   CharacterClass,
+  RecommendedGear,
+  RecommendedGearDetail,
+  RecommendedGearEntry,
+  RecommendedGearSlot,
   Skill,
+  SkillType,
   Talent,
+  TalentLevel,
 } from '@/features/characters/types';
 export type { Tier, TierList } from '@/features/tier-list/types';
 export type { Team, TeamMember } from '@/features/teams/types';
