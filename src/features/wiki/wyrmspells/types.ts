@@ -6,6 +6,7 @@ export type WyrmspellType = 'Breach' | 'Refuge' | 'Wildcry' | "Dragon's Call";
 export interface WyrmspellQuality {
   quality: Quality;
   effect: string;
+  child_effect?: string | null;
 }
 
 export interface Wyrmspell {

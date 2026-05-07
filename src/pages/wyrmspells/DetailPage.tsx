@@ -31,8 +31,8 @@ import {
   Box,
   Container,
   Group,
-  Stack,
   Table,
+  Stack,
   Title,
 } from '@mantine/core';
 import { useEffect, useMemo } from 'react';

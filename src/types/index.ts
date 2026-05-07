@@ -37,7 +37,11 @@ export type {
   StatusEffectType,
 } from '@/features/wiki/status-effects/types';
 export type { Subclass } from '@/features/wiki/subclasses/types';
-export type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
+export type {
+  Wyrmspell,
+  WyrmspellQuality,
+  WyrmspellType,
+} from '@/features/wiki/wyrmspells/types';
 export type { Code } from './code';
 export type { Faction, FactionName, Wyrm } from './faction';
 export type { Quality } from './quality';
