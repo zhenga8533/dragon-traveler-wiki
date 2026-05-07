@@ -1,4 +1,6 @@
-export function getLatestTimestamp(items: { last_updated?: number }[]): number {
+export function getLatestTimestamp(
+  items: { last_updated?: number | null }[]
+): number {
   return items.reduce((max, item) => Math.max(max, item.last_updated ?? 0), 0);
 }
 

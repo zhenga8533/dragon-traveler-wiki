@@ -1,8 +1,9 @@
 import { Badge, Group, Text } from '@mantine/core';
 import { useGradientAccent } from '@/hooks';
+import type { HowlkinBasicStats } from '@/features/wiki/howlkins/types';
 
 interface HowlkinStatsProps {
-  stats: Record<string, number | string> | null | undefined;
+  stats: HowlkinBasicStats | null | undefined;
   size?: 'xs' | 'sm';
 }
 

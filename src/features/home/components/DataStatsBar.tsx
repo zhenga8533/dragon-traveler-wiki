@@ -104,7 +104,7 @@ export default function DataStatsBar() {
 
 	const mostRecentUpdate = useMemo(() => {
 		let latest = 0;
-		const updateLists: Array<Array<{ last_updated?: number }>> = [
+		const updateLists: Array<Array<{ last_updated?: number | null }>> = [
 			characters,
 			wyrmspells,
 			statusEffects,

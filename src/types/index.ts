@@ -26,7 +26,12 @@ export type {
   GearSetBonus,
   GearType,
 } from '@/features/wiki/gear/types';
-export type { Howlkin } from '@/features/wiki/howlkins/types';
+export type {
+  GoldenAlliance,
+  GoldenAllianceEffect,
+  Howlkin,
+  HowlkinBasicStats,
+} from '@/features/wiki/howlkins/types';
 export type {
   StatusEffect,
   StatusEffectType,
