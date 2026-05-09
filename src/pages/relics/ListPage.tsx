@@ -24,6 +24,10 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
 import type { Relic, RelicType } from '@/features/wiki/relics/types';
 import {
+  getRelicOracleScroll,
+  getRelicTypeOrder,
+} from '@/features/wiki/relics/utils';
+import {
   applyDir,
   useDataFetch,
   useFilteredPageData,
@@ -75,7 +79,7 @@ const RELIC_FIELDS: FieldDef[] = [
     options: [...QUALITY_ORDER],
   },
   {
-    name: 'oracle_sroll',
+    name: 'oracle_scroll',
     label: 'Oracle Scroll',
     type: 'text',
     placeholder: 'Oracle scroll name (leave blank if none)',
@@ -165,7 +169,7 @@ export default function RelicPage() {
       const matchesSearch =
         !filters.search ||
         item.name.toLowerCase().includes(query) ||
-        (item.oracle_sroll ?? '').toLowerCase().includes(query) ||
+        (getRelicOracleScroll(item) ?? '').toLowerCase().includes(query) ||
         item.lore.toLowerCase().includes(query);
       const matchesType =
         filters.types.length === 0 || filters.types.includes(item.type);
@@ -176,10 +180,13 @@ export default function RelicPage() {
     },
     sortFn: (a, b, col, dir) => {
       const typeCmp =
-        RELIC_TYPE_ORDER.indexOf(a.type) - RELIC_TYPE_ORDER.indexOf(b.type);
+        getRelicTypeOrder(a.type, RELIC_TYPE_ORDER) -
+        getRelicTypeOrder(b.type, RELIC_TYPE_ORDER);
       const qualityCmp =
         QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
-      const oracleCmp = (a.oracle_sroll ?? '').localeCompare(b.oracle_sroll ?? '');
+      const oracleCmp = (getRelicOracleScroll(a) ?? '').localeCompare(
+        getRelicOracleScroll(b) ?? ''
+      );
       const nameCmp = a.name.localeCompare(b.name);
 
       if (col) {
@@ -207,7 +214,8 @@ export default function RelicPage() {
   const oracleScrollNames = useMemo(() => {
     const names = new Set<string>();
     for (const relic of relics) {
-      if (relic.oracle_sroll) names.add(relic.oracle_sroll);
+      const oracleScroll = getRelicOracleScroll(relic);
+      if (oracleScroll) names.add(oracleScroll);
     }
     return [...names].sort((a, b) => a.localeCompare(b));
   }, [relics]);
@@ -215,15 +223,17 @@ export default function RelicPage() {
   const relicsByOracle = useMemo(() => {
     const map = new Map<string, Relic[]>();
     for (const relic of relics) {
-      if (!relic.oracle_sroll) continue;
-      const list = map.get(relic.oracle_sroll) ?? [];
+      const oracleScroll = getRelicOracleScroll(relic);
+      if (!oracleScroll) continue;
+      const list = map.get(oracleScroll) ?? [];
       list.push(relic);
-      map.set(relic.oracle_sroll, list);
+      map.set(oracleScroll, list);
     }
     for (const list of map.values()) {
       list.sort((a, b) => {
         const typeCmp =
-          RELIC_TYPE_ORDER.indexOf(a.type) - RELIC_TYPE_ORDER.indexOf(b.type);
+          getRelicTypeOrder(a.type, RELIC_TYPE_ORDER) -
+          getRelicTypeOrder(b.type, RELIC_TYPE_ORDER);
         if (typeCmp !== 0) return typeCmp;
         return a.name.localeCompare(b.name);
       });
@@ -360,9 +370,10 @@ export default function RelicPage() {
                 gridContent={
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                     {relicPageItems.map((item) => {
-                      const iconSrc = getRelicIcon(item.name);
-                      const scrollSlug = item.oracle_sroll
-                        ? toEntitySlug(item.oracle_sroll)
+                      const iconSrc = getRelicIcon(item.name, item.quality);
+                      const oracleScroll = getRelicOracleScroll(item);
+                      const scrollSlug = oracleScroll
+                        ? toEntitySlug(oracleScroll)
                         : null;
                       return (
                         <Paper
@@ -404,13 +415,13 @@ export default function RelicPage() {
                               </Group>
                               <Group gap="xs" wrap="wrap">
                                 <RelicTypeTag type={item.type} />
-                                {item.oracle_sroll && (
+                                {oracleScroll && (
                                   <Badge
                                     variant="light"
                                     size="sm"
                                     color={accent.secondary}
                                   >
-                                    {item.oracle_sroll}
+                                    {oracleScroll}
                                   </Badge>
                                 )}
                               </Group>
@@ -471,7 +482,8 @@ export default function RelicPage() {
                       </Table.Thead>
                       <Table.Tbody>
                         {relicPageItems.map((item) => {
-                          const iconSrc = getRelicIcon(item.name);
+                          const iconSrc = getRelicIcon(item.name, item.quality);
+                          const oracleScroll = getRelicOracleScroll(item);
                           return (
                           <Table.Tr key={item.name}>
                             <Table.Td>
@@ -489,7 +501,7 @@ export default function RelicPage() {
                               <Text
                                 fw={600}
                                 size="sm"
-                                className={item.oracle_sroll ? 'dt-link-text' : undefined}
+                                className={oracleScroll ? 'dt-link-text' : undefined}
                               >
                                 {item.name}
                               </Text>
@@ -503,17 +515,17 @@ export default function RelicPage() {
                               )}
                             </Table.Td>
                             <Table.Td>
-                              {item.oracle_sroll ? (
+                              {oracleScroll ? (
                                 <Badge
                                   component={Link}
-                                  to={`/oracle-scrolls/${toEntitySlug(item.oracle_sroll)}`}
+                                  to={`/oracle-scrolls/${toEntitySlug(oracleScroll)}`}
                                   variant="light"
                                   size="sm"
                                   color={accent.secondary}
                                   style={{ cursor: 'pointer', textDecoration: 'none' }}
                                   onClick={(e: React.MouseEvent) => e.stopPropagation()}
                                 >
-                                  {item.oracle_sroll}
+                                  {oracleScroll}
                                 </Badge>
                               ) : (
                                 <Text size="sm" c="dimmed">
@@ -618,24 +630,38 @@ export default function RelicPage() {
                                 </Group>
 
                                 <Stack gap={4}>
-                                  {items.map((relic) => (
-                                    <Group key={relic.name} gap="xs" wrap="nowrap">
-                                      {getRelicIcon(relic.name) && (
-                                        <SafeImage
-                                          src={getRelicIcon(relic.name)}
-                                          alt={relic.name}
-                                          w={24}
-                                          h={24}
-                                          fit="contain"
-                                          radius="sm"
-                                        />
-                                      )}
-                                      <Text size="sm" fw={500} style={{ flex: 1 }}>
-                                        {relic.name}
-                                      </Text>
-                                      <RelicTypeTag type={relic.type} />
-                                    </Group>
-                                  ))}
+                                  {items.map((relic) => {
+                                    const relicIconSrc = getRelicIcon(
+                                      relic.name,
+                                      relic.quality
+                                    );
+                                    return (
+                                      <Group
+                                        key={relic.name}
+                                        gap="xs"
+                                        wrap="nowrap"
+                                      >
+                                        {relicIconSrc && (
+                                          <SafeImage
+                                            src={relicIconSrc}
+                                            alt={relic.name}
+                                            w={24}
+                                            h={24}
+                                            fit="contain"
+                                            radius="sm"
+                                          />
+                                        )}
+                                        <Text
+                                          size="sm"
+                                          fw={500}
+                                          style={{ flex: 1 }}
+                                        >
+                                          {relic.name}
+                                        </Text>
+                                        <RelicTypeTag type={relic.type} />
+                                      </Group>
+                                    );
+                                  })}
                                 </Stack>
                               </Stack>
                             </Stack>

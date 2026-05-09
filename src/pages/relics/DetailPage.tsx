@@ -12,6 +12,10 @@ import { getLoreGlassStyles } from '@/constants/glass';
 import { getCardHoverProps } from '@/constants/styles';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
 import type { Relic } from '@/features/wiki/relics/types';
+import {
+  getRelicOracleScroll,
+  getRelicTypeOrder,
+} from '@/features/wiki/relics/utils';
 import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
 import {
@@ -52,7 +56,8 @@ export default function OracleScrollPage() {
   const oracleScrollNames = useMemo(() => {
     const names = new Set<string>();
     for (const relic of relics) {
-      if (relic.oracle_sroll) names.add(relic.oracle_sroll);
+      const oracleScroll = getRelicOracleScroll(relic);
+      if (oracleScroll) names.add(oracleScroll);
     }
     return [...names].sort((a, b) => a.localeCompare(b));
   }, [relics]);
@@ -75,15 +80,25 @@ export default function OracleScrollPage() {
     if (!decodedScrollName) return [];
     return relics
       .filter(
-        (r) => r.oracle_sroll?.toLowerCase() === decodedScrollName.toLowerCase()
+        (r) =>
+          getRelicOracleScroll(r)?.toLowerCase() ===
+          decodedScrollName.toLowerCase()
       )
       .sort((a, b) => {
         const typeCmp =
-          RELIC_TYPE_ORDER.indexOf(a.type) - RELIC_TYPE_ORDER.indexOf(b.type);
+          getRelicTypeOrder(a.type, RELIC_TYPE_ORDER) -
+          getRelicTypeOrder(b.type, RELIC_TYPE_ORDER);
         if (typeCmp !== 0) return typeCmp;
         return a.name.localeCompare(b.name);
       });
   }, [relics, decodedScrollName]);
+
+  const scrollRelicsByType = useMemo(() => {
+    return RELIC_TYPE_ORDER.map((type) => ({
+      type,
+      relics: scrollRelics.filter((relic) => relic.type === type),
+    })).filter((group) => group.relics.length > 0);
+  }, [scrollRelics]);
 
   const scrollIndex = useMemo(
     () =>
@@ -188,63 +203,72 @@ export default function OracleScrollPage() {
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="lg">
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
-            {scrollRelics.map((relic) => {
-              const iconSrc = getRelicIcon(relic.name);
-              return (
-                <Paper
-                  key={relic.name}
-                  p="md"
-                  radius="md"
-                  withBorder
-                  {...getCardHoverProps()}
-                >
-                  <Stack gap="sm">
-                    <Group gap="md" wrap="nowrap" align="flex-start">
-                      {iconSrc && (
-                        <SafeImage
-                          src={iconSrc}
-                          alt={relic.name}
-                          w={64}
-                          h={64}
-                          fit="contain"
-                          radius="sm"
-                          loading="lazy"
-                        />
-                      )}
-                      <Stack gap={4} style={{ flex: 1 }}>
-                        <Text
-                          fw={700}
-                          size="lg"
-                          className="dt-link-text"
-                          lineClamp={1}
-                        >
-                          {relic.name}
-                        </Text>
-                        <Group gap="xs" wrap="wrap">
-                          <RelicTypeTag type={relic.type} />
-                          <QualityIcon quality={relic.quality} />
-                        </Group>
-                      </Stack>
-                    </Group>
+          {scrollRelicsByType.map((group) => (
+            <Stack key={group.type} gap="md">
+              <Group gap="sm" align="center">
+                <RelicTypeTag type={group.type} size="md" />
+                <Text size="sm" c="dimmed">
+                  {group.relics.length} relic
+                  {group.relics.length !== 1 ? 's' : ''}
+                </Text>
+              </Group>
 
+              <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
+                {group.relics.map((relic) => {
+                  const iconSrc = getRelicIcon(relic.name, relic.quality);
+                  return (
                     <Paper
-                      p="sm"
-                      radius="sm"
+                      key={relic.name}
+                      p="md"
+                      radius="md"
                       withBorder
-                      {...getCardHoverProps({
-                        style: getLoreGlassStyles(isDark),
-                      })}
+                      {...getCardHoverProps()}
                     >
-                      <Text size="sm" c="dimmed" fs="italic">
-                        {relic.lore}
-                      </Text>
+                      <Stack gap="sm">
+                        <Group gap="md" wrap="nowrap" align="flex-start">
+                          {iconSrc && (
+                            <SafeImage
+                              src={iconSrc}
+                              alt={relic.name}
+                              w={64}
+                              h={64}
+                              fit="contain"
+                              radius="sm"
+                              loading="lazy"
+                            />
+                          )}
+                          <Stack gap={4} style={{ flex: 1 }}>
+                            <Text
+                              fw={700}
+                              size="lg"
+                              className="dt-link-text"
+                              lineClamp={1}
+                            >
+                              {relic.name}
+                            </Text>
+                            <QualityIcon quality={relic.quality} />
+                          </Stack>
+                        </Group>
+
+                        <Paper
+                          p="sm"
+                          radius="sm"
+                          withBorder
+                          {...getCardHoverProps({
+                            style: getLoreGlassStyles(isDark),
+                          })}
+                        >
+                          <Text size="sm" c="dimmed" fs="italic">
+                            {relic.lore}
+                          </Text>
+                        </Paper>
+                      </Stack>
                     </Paper>
-                  </Stack>
-                </Paper>
-              );
-            })}
-          </SimpleGrid>
+                  );
+                })}
+              </SimpleGrid>
+            </Stack>
+          ))}
 
           <ChangeHistory history={undefined} extraHistories={relicHistories} />
 
