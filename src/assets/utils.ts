@@ -2,11 +2,13 @@ export function normalizeKey(name: string): string {
   return name
     .trim()
     .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\+/g, '_plus')
-    .replace(/\s+/g, '_')
-    .replace(/[^a-z0-9_]/g, '')
+    .replace(/'/g, '')
+    .replace(/[^a-z0-9]+/g, '_')
     .replace(/_+/g, '_')
     .replace(/^_+|_+$/g, '');
+}
+
+export function normalizeQualityKey(quality: string): string {
+  const normalized = normalizeKey(quality);
+  return normalized === 'ssr' && quality.includes('+') ? 'ssr_plus' : normalized;
 }

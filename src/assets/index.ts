@@ -2,7 +2,7 @@ import type { CharacterClass } from '@/features/characters/types';
 import type { GearType } from '@/features/wiki/gear/types';
 import type { FactionName } from '@/types/faction';
 import type { Quality } from '@/types/quality';
-import { normalizeKey } from '@/assets/utils';
+import { normalizeKey, normalizeQualityKey } from '@/assets/utils';
 
 const BASE = import.meta.env.BASE_URL;
 
@@ -84,7 +84,7 @@ export function getGearIcon(type: string, name: string): string | undefined {
 
 export function getHowlkinIcon(name: string, quality: string): string | undefined {
   if (!name || !quality) return undefined;
-  return `${BASE}assets/howlkin/${normalizeKey(quality)}/${normalizeKey(name)}.png`;
+  return `${BASE}assets/howlkin/${normalizeQualityKey(quality)}/${normalizeKey(name)}.png`;
 }
 
 // ── Noble Phantasm ───────────────────────────────────────────────────────────
