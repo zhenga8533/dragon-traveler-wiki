@@ -1,6 +1,7 @@
 import type { Quality } from './quality';
 
 export type ResourceCategory =
+  | 'Container'
   | 'Currency'
   | 'Gift'
   | 'Item'

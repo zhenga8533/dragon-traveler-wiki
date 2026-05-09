@@ -21,6 +21,10 @@ import type {
   NoblePhantasmEffect,
   NoblePhantasmSkill,
 } from '@/features/wiki/noble-phantasms/types';
+import {
+  getNoblePhantasmTierDetail,
+  getNoblePhantasmTierOrder,
+} from '@/features/wiki/noble-phantasms/utils';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
@@ -54,7 +58,12 @@ function EffectTable({
   skills?: Skill[];
   talent?: Talent | null;
 }) {
-  if (effects.length === 0) {
+  const sortedEffects = [...effects].sort(
+    (a, b) =>
+      getNoblePhantasmTierOrder(a.tier) - getNoblePhantasmTierOrder(b.tier)
+  );
+
+  if (sortedEffects.length === 0) {
     return (
       <Text c="dimmed" size="sm">
         No effect breakpoints recorded.
@@ -68,38 +77,52 @@ function EffectTable({
       <Table.Thead>
         <Table.Tr>
           <Table.Th style={COMPACT_COL_STYLE}>Tier</Table.Th>
-          <Table.Th style={COMPACT_COL_STYLE}>Tier Level</Table.Th>
+          <Table.Th style={COMPACT_COL_STYLE}>Unlock</Table.Th>
           <Table.Th>Description</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {effects.map((effect, idx) => (
-          <Table.Tr
-            key={`${effect.tier ?? 'none'}-${effect.tier_level ?? 'none'}-${idx}`}
-          >
-            <Table.Td style={COMPACT_COL_STYLE}>
-              <Text size="sm" c={effect.tier ? undefined : 'dimmed'}>
-                {effect.tier || '—'}
-              </Text>
-            </Table.Td>
-            <Table.Td style={COMPACT_COL_STYLE}>
-              <Text
-                size="sm"
-                c={effect.tier_level !== null ? undefined : 'dimmed'}
-              >
-                {effect.tier_level ?? '—'}
-              </Text>
-            </Table.Td>
-            <Table.Td>
-              <RichText
-                text={effect.description}
-                statusEffects={statusEffects}
-                skills={skills}
-                talent={talent}
-              />
-            </Table.Td>
-          </Table.Tr>
-        ))}
+        {sortedEffects.map((effect, idx) => {
+          const tierDetail = getNoblePhantasmTierDetail(effect.tier);
+          return (
+            <Table.Tr
+              key={`${effect.tier ?? 'none'}-${effect.tier_level ?? 'none'}-${idx}`}
+            >
+              <Table.Td style={COMPACT_COL_STYLE}>
+                {effect.tier ? (
+                  <Badge
+                    size="sm"
+                    variant="light"
+                    color={tierDetail?.color ?? 'gray'}
+                  >
+                    {effect.tier}
+                  </Badge>
+                ) : (
+                  <Text size="sm" c="dimmed">
+                    —
+                  </Text>
+                )}
+              </Table.Td>
+              <Table.Td style={COMPACT_COL_STYLE}>
+                <Text
+                  size="sm"
+                  fw={tierDetail ? 600 : 400}
+                  c={tierDetail || effect.tier_level != null ? undefined : 'dimmed'}
+                >
+                  {tierDetail?.label ?? effect.tier_level ?? '—'}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <RichText
+                  text={effect.description}
+                  statusEffects={statusEffects}
+                  skills={skills}
+                  talent={talent}
+                />
+              </Table.Td>
+            </Table.Tr>
+          );
+        })}
       </Table.Tbody>
     </Table>
   );
@@ -116,7 +139,13 @@ function SkillTable({
   characterSkills?: Skill[];
   talent?: Talent | null;
 }) {
-  if (skills.length === 0) {
+  const sortedSkills = [...skills].sort((a, b) => {
+    const levelCmp = a.level - b.level;
+    if (levelCmp !== 0) return levelCmp;
+    return getNoblePhantasmTierOrder(a.tier) - getNoblePhantasmTierOrder(b.tier);
+  });
+
+  if (sortedSkills.length === 0) {
     return (
       <Text c="dimmed" size="sm">
         No skill levels recorded.
@@ -131,41 +160,45 @@ function SkillTable({
         <Table.Tr>
           <Table.Th style={COMPACT_COL_STYLE}>Level</Table.Th>
           <Table.Th style={COMPACT_COL_STYLE}>Tier</Table.Th>
-          <Table.Th style={COMPACT_COL_STYLE}>Tier Level</Table.Th>
           <Table.Th>Description</Table.Th>
         </Table.Tr>
       </Table.Thead>
       <Table.Tbody>
-        {skills.map((skill, idx) => (
-          <Table.Tr key={`${skill.level}-${skill.tier ?? 'none'}-${idx}`}>
-            <Table.Td style={COMPACT_COL_STYLE}>
-              <Text size="sm" fw={600}>
-                {skill.level}
-              </Text>
-            </Table.Td>
-            <Table.Td style={COMPACT_COL_STYLE}>
-              <Text size="sm" c={skill.tier ? undefined : 'dimmed'}>
-                {skill.tier || '—'}
-              </Text>
-            </Table.Td>
-            <Table.Td style={COMPACT_COL_STYLE}>
-              <Text
-                size="sm"
-                c={skill.tier_level !== null ? undefined : 'dimmed'}
-              >
-                {skill.tier_level ?? '—'}
-              </Text>
-            </Table.Td>
-            <Table.Td>
-              <RichText
-                text={skill.description}
-                statusEffects={statusEffects}
-                skills={characterSkills}
-                talent={talent}
-              />
-            </Table.Td>
-          </Table.Tr>
-        ))}
+        {sortedSkills.map((skill, idx) => {
+          const tierDetail = getNoblePhantasmTierDetail(skill.tier);
+          return (
+            <Table.Tr key={`${skill.level}-${skill.tier ?? 'none'}-${idx}`}>
+              <Table.Td style={COMPACT_COL_STYLE}>
+                <Text size="sm" fw={600}>
+                  {skill.level}
+                </Text>
+              </Table.Td>
+              <Table.Td style={COMPACT_COL_STYLE}>
+                {skill.tier ? (
+                  <Badge
+                    size="sm"
+                    variant="light"
+                    color={tierDetail?.color ?? 'gray'}
+                  >
+                    {skill.tier}
+                  </Badge>
+                ) : (
+                  <Text size="sm" c="dimmed">
+                    —
+                  </Text>
+                )}
+              </Table.Td>
+              <Table.Td>
+                <RichText
+                  text={skill.description}
+                  statusEffects={statusEffects}
+                  skills={characterSkills}
+                  talent={talent}
+                />
+              </Table.Td>
+            </Table.Tr>
+          );
+        })}
       </Table.Tbody>
     </Table>
   );
@@ -307,36 +340,32 @@ export default function NoblePhantasmPage() {
                   size="lg"
                 />
               )}
-              <GlobalBadge isGlobal={noblePhantasm.is_global} size="md" />
-              <Badge size="lg" variant="light" color={accent.primary}>
-                {noblePhantasm.effects.length} effect
-                {noblePhantasm.effects.length !== 1 ? 's' : ''}
-              </Badge>
-              <Badge size="lg" variant="light" color={accent.tertiary}>
-                {noblePhantasm.skills.length} skill
-                {noblePhantasm.skills.length !== 1 ? 's' : ''}
-              </Badge>
+              {noblePhantasm.is_global !== undefined && (
+                <GlobalBadge isGlobal={noblePhantasm.is_global} size="md" />
+              )}
             </Group>
           </Stack>
         </Group>
 
-        <Paper
-          p="md"
-          radius="md"
-          withBorder
-          {...getCardHoverProps({
-            style: getLoreGlassStyles(isDark),
-          })}
-        >
-          <RichText
-            text={noblePhantasm.lore}
-            statusEffects={statusEffects}
-            skills={linkedCharacter?.skills}
-            talent={linkedCharacter?.talent}
-            italic
-            lineHeight={1.6}
-          />
-        </Paper>
+        {noblePhantasm.lore && (
+          <Paper
+            p="md"
+            radius="md"
+            withBorder
+            {...getCardHoverProps({
+              style: getLoreGlassStyles(isDark),
+            })}
+          >
+            <RichText
+              text={noblePhantasm.lore}
+              statusEffects={statusEffects}
+              skills={linkedCharacter?.skills}
+              talent={linkedCharacter?.talent}
+              italic
+              lineHeight={1.6}
+            />
+          </Paper>
+        )}
       </DetailPageHero>
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>

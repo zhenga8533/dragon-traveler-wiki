@@ -1,6 +1,5 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
 import {
-  Badge,
   Container,
   Group,
   Paper,
@@ -158,7 +157,7 @@ export default function NoblePhantasms() {
         } else if (col === 'skills') {
           cmp = b.skills.length - a.skills.length;
         } else if (col === 'global') {
-          cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
+          cmp = (b.is_global === true ? 1 : 0) - (a.is_global === true ? 1 : 0);
         }
         if (cmp !== 0) return applyDir(cmp, dir);
       }
@@ -267,27 +266,14 @@ export default function NoblePhantasms() {
                                 link={false}
                               />
                             )}
-                            <GlobalBadge isGlobal={np.is_global} size="sm" />
-                            <Badge
-                              variant="light"
-                              size="sm"
-                              color={accent.primary}
-                            >
-                              {np.effects.length} effect
-                              {np.effects.length !== 1 ? 's' : ''}
-                            </Badge>
-                            <Badge
-                              variant="light"
-                              size="sm"
-                              color={accent.tertiary}
-                            >
-                              {np.skills.length} skill
-                              {np.skills.length !== 1 ? 's' : ''}
-                            </Badge>
                           </Group>
-                          <Text size="xs" c="dimmed" lineClamp={2}>
-                            {np.lore}
-                          </Text>
+                          {(np.lore || np.effects[0]?.description || np.skills[0]?.description) && (
+                            <Text size="xs" c="dimmed" lineClamp={2}>
+                              {np.lore ??
+                                np.effects[0]?.description ??
+                                np.skills[0]?.description}
+                            </Text>
+                          )}
                         </Stack>
                       </Group>
                     </Paper>
@@ -407,7 +393,13 @@ export default function NoblePhantasms() {
                             <Text size="sm">{np.skills.length}</Text>
                           </Table.Td>
                           <Table.Td>
-                            <GlobalBadge isGlobal={np.is_global} size="sm" />
+                            {np.is_global !== undefined ? (
+                              <GlobalBadge isGlobal={np.is_global} size="sm" />
+                            ) : (
+                              <Text size="sm" c="dimmed">
+                                —
+                              </Text>
+                            )}
                           </Table.Td>
                         </Table.Tr>
                       );
