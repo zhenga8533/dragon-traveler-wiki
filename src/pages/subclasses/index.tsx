@@ -6,6 +6,7 @@ import { createClassFilterGroup } from '@/components/common/EntityFilterGroups';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import RichText from '@/components/common/RichText';
 import SortableTh from '@/components/ui/SortableTh';
@@ -183,12 +184,15 @@ export default function Subclasses() {
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <ListPageHeader title="Subclasses" timestamp={mostRecentUpdate}>
-          <SuggestModal
-            buttonLabel="Suggest a Subclass"
-            modalTitle="Suggest a New Subclass"
-            issueTitle="[Subclass] New subclass suggestion"
-            fields={SUBCLASS_FIELDS}
-          />
+          <Group gap="xs">
+            <ExportButton data={subclasses} filename="subclasses.json" />
+            <SuggestModal
+              buttonLabel="Suggest a Subclass"
+              modalTitle="Suggest a New Subclass"
+              issueTitle="[Subclass] New subclass suggestion"
+              fields={SUBCLASS_FIELDS}
+            />
+          </Group>
         </ListPageHeader>
 
         <ListPageShell

@@ -9,6 +9,7 @@ import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import PaginationControl from '@/components/ui/PaginationControl';
@@ -298,12 +299,15 @@ export default function RelicPage() {
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <ListPageHeader title="Relics" timestamp={mostRecentUpdate}>
-          <SuggestModal
-            buttonLabel="Suggest Relic"
-            modalTitle="Suggest New Relic"
-            issueTitle="[Relic] New relic suggestion"
-            fields={RELIC_FIELDS}
-          />
+          <Group gap="xs">
+            <ExportButton data={relics} filename="relic.json" />
+            <SuggestModal
+              buttonLabel="Suggest Relic"
+              modalTitle="Suggest New Relic"
+              issueTitle="[Relic] New relic suggestion"
+              fields={RELIC_FIELDS}
+            />
+          </Group>
         </ListPageHeader>
 
         <Tabs value={activeTab} onChange={handleTabChange}>

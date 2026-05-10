@@ -4,6 +4,7 @@ import EntityFilter from '@/components/common/EntityFilter';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
@@ -195,13 +196,16 @@ export default function Artifacts() {
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <ListPageHeader title="Artifacts" timestamp={mostRecentUpdate}>
-          <SuggestModal
-            buttonLabel="Suggest an Artifact"
-            modalTitle="Suggest a New Artifact"
-            issueTitle="[Artifact] New artifact suggestion"
-            fields={ARTIFACT_FIELDS}
-            arrayFields={ARTIFACT_EFFECT_ARRAY_FIELDS}
-          />
+          <Group gap="xs">
+            <ExportButton data={artifacts} filename="artifacts.json" />
+            <SuggestModal
+              buttonLabel="Suggest an Artifact"
+              modalTitle="Suggest a New Artifact"
+              issueTitle="[Artifact] New artifact suggestion"
+              fields={ARTIFACT_FIELDS}
+              arrayFields={ARTIFACT_EFFECT_ARRAY_FIELDS}
+            />
+          </Group>
         </ListPageHeader>
 
         <ListPageShell

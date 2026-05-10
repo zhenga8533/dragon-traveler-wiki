@@ -12,6 +12,7 @@ import {
   CardGridLoading,
   ViewModeLoading,
 } from '@/components/layout/PageLoadingSkeleton';
+import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
@@ -343,21 +344,27 @@ export default function Howlkins() {
           }
         >
           {activeTab === 'golden-alliances' ? (
-            <SuggestModal
-              buttonLabel="Suggest a Golden Alliance"
-              modalTitle="Suggest a New Golden Alliance"
-              issueTitle="[Golden Alliance] New golden alliance suggestion"
-              fields={GOLDEN_ALLIANCE_FIELDS}
-              arrayFields={GOLDEN_ALLIANCE_EFFECTS_FIELDS}
-            />
+            <Group gap="xs">
+              <ExportButton data={goldenAlliances} filename="golden-alliances.json" />
+              <SuggestModal
+                buttonLabel="Suggest a Golden Alliance"
+                modalTitle="Suggest a New Golden Alliance"
+                issueTitle="[Golden Alliance] New golden alliance suggestion"
+                fields={GOLDEN_ALLIANCE_FIELDS}
+                arrayFields={GOLDEN_ALLIANCE_EFFECTS_FIELDS}
+              />
+            </Group>
           ) : (
-            <SuggestModal
-              buttonLabel="Suggest a Howlkin"
-              modalTitle="Suggest a New Howlkin"
-              issueTitle="[Howlkin] New howlkin suggestion"
-              fields={HOWLKIN_FIELDS}
-              arrayFields={HOWLKIN_STATS_FIELDS}
-            />
+            <Group gap="xs">
+              <ExportButton data={howlkins} filename="howlkins.json" />
+              <SuggestModal
+                buttonLabel="Suggest a Howlkin"
+                modalTitle="Suggest a New Howlkin"
+                issueTitle="[Howlkin] New howlkin suggestion"
+                fields={HOWLKIN_FIELDS}
+                arrayFields={HOWLKIN_STATS_FIELDS}
+              />
+            </Group>
           )}
         </ListPageHeader>
 

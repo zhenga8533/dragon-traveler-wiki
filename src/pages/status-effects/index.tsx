@@ -18,6 +18,7 @@ import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '@/constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
@@ -152,12 +153,15 @@ export default function StatusEffects() {
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <ListPageHeader title="Status Effects" timestamp={mostRecentUpdate}>
-          <SuggestModal
-            buttonLabel="Suggest a Status Effect"
-            modalTitle="Suggest a New Status Effect"
-            issueTitle="[Status Effect] New status effect suggestion"
-            fields={STATUS_EFFECT_FIELDS}
-          />
+          <Group gap="xs">
+            <ExportButton data={effects} filename="status-effects.json" />
+            <SuggestModal
+              buttonLabel="Suggest a Status Effect"
+              modalTitle="Suggest a New Status Effect"
+              issueTitle="[Status Effect] New status effect suggestion"
+              fields={STATUS_EFFECT_FIELDS}
+            />
+          </Group>
         </ListPageHeader>
 
         <ListPageShell

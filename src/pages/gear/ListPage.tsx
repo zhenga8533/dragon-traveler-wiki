@@ -6,6 +6,7 @@ import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, {
   type ArrayFieldDef,
   type FieldDef,
@@ -360,20 +361,26 @@ export default function GearPage() {
           }
         >
           {activeTab === 'gear-sets' ? (
-            <SuggestModal
-              buttonLabel="Suggest Gear Set"
-              modalTitle="Suggest New Gear Set"
-              issueTitle="[Gear Set] New gear set suggestion"
-              fields={GEAR_SET_FIELDS}
-            />
+            <Group gap="xs">
+              <ExportButton data={gearSets} filename="gear-sets.json" />
+              <SuggestModal
+                buttonLabel="Suggest Gear Set"
+                modalTitle="Suggest New Gear Set"
+                issueTitle="[Gear Set] New gear set suggestion"
+                fields={GEAR_SET_FIELDS}
+              />
+            </Group>
           ) : (
-            <SuggestModal
-              buttonLabel="Suggest Gear"
-              modalTitle="Suggest New Gear"
-              issueTitle="[Gear] New gear suggestion"
-              fields={gearFields}
-              arrayFields={GEAR_STATS_ARRAY_FIELDS}
-            />
+            <Group gap="xs">
+              <ExportButton data={gear} filename="gear.json" />
+              <SuggestModal
+                buttonLabel="Suggest Gear"
+                modalTitle="Suggest New Gear"
+                issueTitle="[Gear] New gear suggestion"
+                fields={gearFields}
+                arrayFields={GEAR_STATS_ARRAY_FIELDS}
+              />
+            </Group>
           )}
         </ListPageHeader>
 

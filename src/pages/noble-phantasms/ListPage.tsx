@@ -20,6 +20,7 @@ import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import {
   CURSOR_POINTER_STYLE,
@@ -176,12 +177,15 @@ export default function NoblePhantasms() {
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <ListPageHeader title="Noble Phantasms" timestamp={mostRecentUpdate}>
-          <SuggestModal
-            buttonLabel="Suggest a Noble Phantasm"
-            modalTitle="Suggest a New Noble Phantasm"
-            issueTitle="[Noble Phantasm] New noble phantasm suggestion"
-            fields={noblePhantasmFields}
-          />
+          <Group gap="xs">
+            <ExportButton data={noblePhantasms} filename="noble-phantasm.json" />
+            <SuggestModal
+              buttonLabel="Suggest a Noble Phantasm"
+              modalTitle="Suggest a New Noble Phantasm"
+              issueTitle="[Noble Phantasm] New noble phantasm suggestion"
+              fields={noblePhantasmFields}
+            />
+          </Group>
         </ListPageHeader>
 
         <ListPageShell

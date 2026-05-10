@@ -10,6 +10,7 @@ import RichText from '@/components/common/RichText';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
+import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import SortableTh from '@/components/ui/SortableTh';
 import {
@@ -235,12 +236,15 @@ export default function Wyrmspells() {
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <ListPageHeader title="Wyrmspells" timestamp={mostRecentUpdate}>
-          <SuggestModal
-            buttonLabel="Suggest a Wyrmspell"
-            modalTitle="Suggest a New Wyrmspell"
-            issueTitle="[Wyrmspell] New wyrmspell suggestion"
-            fields={WYRMSPELL_FIELDS}
-          />
+          <Group gap="xs">
+            <ExportButton data={wyrmspells} filename="wyrmspells.json" />
+            <SuggestModal
+              buttonLabel="Suggest a Wyrmspell"
+              modalTitle="Suggest a New Wyrmspell"
+              issueTitle="[Wyrmspell] New wyrmspell suggestion"
+              fields={WYRMSPELL_FIELDS}
+            />
+          </Group>
         </ListPageHeader>
 
         <ListPageShell
