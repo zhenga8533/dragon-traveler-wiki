@@ -204,7 +204,7 @@ export default function GoldenAllianceDetailPage() {
                             radius="sm"
                           />
                         )}
-                        <Stack gap={2} style={{ flex: 1 }}>
+                        <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
                           <Group gap="xs" wrap="wrap">
                             <Text fw={600} size="sm">
                               {name}

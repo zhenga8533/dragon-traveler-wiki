@@ -282,7 +282,7 @@ export default function WyrmPage() {
                 w={72}
                 h={72}
                 fit="contain"
-                radius="xl"
+                radius="sm"
               />
             </Box>
           )}

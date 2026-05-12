@@ -13,7 +13,7 @@ export const BRAND_TITLE_STYLE = {
 
 export const TAG_BADGE_STYLE = {
   flexShrink: 0,
-  maxWidth: 'max-content',
+  minWidth: 'max-content',
   whiteSpace: 'nowrap',
 } as const satisfies CSSProperties;
 

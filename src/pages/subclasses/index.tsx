@@ -264,9 +264,9 @@ export default function Subclasses() {
                               loading="lazy"
                             />
                           )}
-                          <Stack gap={2} style={{ flex: 1 }}>
+                          <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
                             <Text fw={600}>{item.name}</Text>
-                            <Group gap="xs">
+                            <Group gap="xs" wrap="wrap">
                               <ClassTag characterClass={item.class} size="xs" />
                               <TierBadge
                                 tier={String(item.tier)}

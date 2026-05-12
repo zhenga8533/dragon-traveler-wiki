@@ -493,7 +493,7 @@ export default function Howlkins() {
                                   radius="sm"
                                 />
                               )}
-                              <Stack gap={2} style={{ flex: 1 }}>
+                              <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
                                 <Group gap="sm" wrap="wrap">
                                   <Text
                                     fw={600}

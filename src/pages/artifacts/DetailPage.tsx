@@ -116,7 +116,7 @@ function TreasureCard({
               loading="lazy"
             />
           )}
-          <Stack gap={4} style={{ flex: 1 }}>
+          <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
             <Text fw={700} size="lg">
               {treasure.name}
             </Text>

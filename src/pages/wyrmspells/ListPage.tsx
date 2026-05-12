@@ -317,7 +317,7 @@ export default function Wyrmspells() {
                             loading="lazy"
                           />
                         )}
-                        <Stack gap={4} style={{ flex: 1 }}>
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
                           <Group gap="sm" wrap="wrap">
                             <Text fw={600} className="dt-link-text">
                               {spell.name}

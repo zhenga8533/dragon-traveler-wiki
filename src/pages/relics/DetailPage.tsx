@@ -241,7 +241,7 @@ export default function OracleScrollPage() {
                               loading="lazy"
                             />
                           )}
-                          <Stack gap={4} style={{ flex: 1 }}>
+                          <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
                             <Group gap="xs" align="center" wrap="wrap">
                               <Text
                                 fw={700}

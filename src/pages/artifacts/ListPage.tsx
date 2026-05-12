@@ -273,7 +273,7 @@ export default function Artifacts() {
                             loading="lazy"
                           />
                         )}
-                        <Stack gap={4} style={{ flex: 1 }}>
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
                           <Group gap="sm">
                             <Text fw={600} size="lg" className="dt-link-text">
                               {artifact.name}

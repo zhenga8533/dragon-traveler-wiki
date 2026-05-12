@@ -478,7 +478,7 @@ export default function GearPage() {
                                 radius="sm"
                               />
                             )}
-                            <Stack gap={4} style={{ flex: 1 }}>
+                            <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
                               <Group gap="sm" wrap="wrap">
                                 <Text
                                   fw={700}
@@ -583,9 +583,10 @@ export default function GearPage() {
                                   <SafeImage
                                     src={iconSrc}
                                     alt={item.name}
-                                    w={32}
-                                    h={32}
+                                    w={40}
+                                    h={40}
                                     fit="contain"
+                                    loading="lazy"
                                   />
                                 )}
                               </Table.Td>

@@ -171,7 +171,7 @@ export default function WyrmspellPage() {
                 w={72}
                 h={72}
                 fit="contain"
-                radius="xl"
+                radius="sm"
               />
             </Box>
           )}

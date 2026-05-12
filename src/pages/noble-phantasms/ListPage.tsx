@@ -253,7 +253,7 @@ export default function NoblePhantasms() {
                             loading="lazy"
                           />
                         )}
-                        <Stack gap={4} style={{ flex: 1 }}>
+                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
                           <Text
                             fw={700}
                             className="dt-link-text"
