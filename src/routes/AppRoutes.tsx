@@ -6,40 +6,38 @@ import { Container } from '@mantine/core';
 import { lazy, Suspense } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
-const Home = lazy(() => import('@/pages/home'));
+const Home = lazy(() => import('@/pages/home/Page'));
 const Artifacts = lazy(() => import('@/pages/artifacts/ListPage'));
 const ArtifactPage = lazy(() => import('@/pages/artifacts/DetailPage'));
-const Characters = lazy(() => import('@/pages/characters'));
-const CharacterPage = lazy(() => import('@/pages/character'));
+const Characters = lazy(() => import('@/pages/characters/ListPage'));
+const CharacterPage = lazy(() => import('@/pages/characters/DetailPage'));
 const GearPage = lazy(() => import('@/pages/gear/ListPage'));
 const GearSetPage = lazy(() => import('@/pages/gear/DetailPage'));
 const RelicPage = lazy(() => import('@/pages/relics/ListPage'));
 const OracleScrollPage = lazy(() => import('@/pages/relics/DetailPage'));
-const Howlkins = lazy(() => import('@/pages/howlkins'));
-const GoldenAlliancePage = lazy(
-  () => import('@/pages/howlkins/GoldenAllianceDetailPage')
-);
+const Howlkins = lazy(() => import('@/pages/howlkins/ListPage'));
+const GoldenAlliancePage = lazy(() => import('@/pages/howlkins/DetailPage'));
 const NoblePhantasms = lazy(() => import('@/pages/noble-phantasms/ListPage'));
 const NoblePhantasmPage = lazy(
   () => import('@/pages/noble-phantasms/DetailPage')
 );
-const Resources = lazy(() => import('@/pages/resources'));
-const Subclasses = lazy(() => import('@/pages/subclasses'));
-const StatusEffects = lazy(() => import('@/pages/status-effects'));
+const Resources = lazy(() => import('@/pages/resources/Page'));
+const Subclasses = lazy(() => import('@/pages/subclasses/ListPage'));
+const StatusEffects = lazy(() => import('@/pages/status-effects/ListPage'));
 const DragonSpells = lazy(() => import('@/pages/wyrmspells/ListPage'));
 const WyrmspellPage = lazy(() => import('@/pages/wyrmspells/DetailPage'));
 const WyrmsListPage = lazy(() => import('@/pages/wyrms/ListPage'));
 const WyrmPage = lazy(() => import('@/pages/wyrms/DetailPage'));
-const TierList = lazy(() => import('@/pages/tier-list'));
-const Teams = lazy(() => import('@/pages/teams'));
-const TeamPage = lazy(() => import('@/pages/team/TeamPage'));
-const SavedTeamPage = lazy(() => import('@/pages/team/SavedTeamPage'));
-const Codes = lazy(() => import('@/pages/codes'));
-const Events = lazy(() => import('@/pages/events'));
-const UsefulLinks = lazy(() => import('@/pages/useful-links'));
-const Changelog = lazy(() => import('@/pages/changelog'));
+const TierList = lazy(() => import('@/pages/tier-list/Page'));
+const Teams = lazy(() => import('@/pages/teams/ListPage'));
+const TeamPage = lazy(() => import('@/pages/teams/TeamPage'));
+const SavedTeamPage = lazy(() => import('@/pages/teams/SavedTeamPage'));
+const Codes = lazy(() => import('@/pages/codes/Page'));
+const Events = lazy(() => import('@/pages/events/Page'));
+const UsefulLinks = lazy(() => import('@/pages/useful-links/Page'));
+const Changelog = lazy(() => import('@/pages/changelog/Page'));
 const BeginnerQA = lazy(() => import('@/pages/guides/BeginnerQA'));
-const FAQ = lazy(() => import('@/pages/faq'));
+const FAQ = lazy(() => import('@/pages/faq/Page'));
 const StarUpgradeCalculator = lazy(
   () => import('@/pages/guides/StarUpgradeCalculator')
 );
@@ -50,7 +48,7 @@ const DiamondCalculator = lazy(
   () => import('@/pages/guides/DiamondCalculator')
 );
 const ShovelEventGuide = lazy(() => import('@/pages/guides/ShovelEventGuide'));
-const NotFound = lazy(() => import('@/pages/not-found'));
+const NotFound = lazy(() => import('@/pages/not-found/Page'));
 
 const DETAIL_ROUTE_RE =
   /^\/(?:artifacts|characters|howlkins|noble-phantasms|gear-sets|oracle-scrolls|wyrmspells|wyrms|teams(?:\/saved)?)(\/[^/]+)+$/;
