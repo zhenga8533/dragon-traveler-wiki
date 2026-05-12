@@ -1,5 +1,5 @@
 import SafeImage from '@/components/ui/SafeImage';
-import { getWyrmIcon } from '@/assets';
+import { getWyrmPortrait } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import {
@@ -208,7 +208,7 @@ export default function WyrmsListPage() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((wyrm) => {
-                  const iconSrc = getWyrmIcon(wyrm.name);
+                  const iconSrc = getWyrmPortrait(wyrm.name);
                   const phaseColor = WYRM_PHASE_COLOR[wyrm.phase];
                   return (
                     <Paper
@@ -276,13 +276,11 @@ export default function WyrmsListPage() {
                       <SortableTh sortKey="faction" sortCol={sortCol} sortDir={sortDir} onSort={handleSort}>
                         Faction
                       </SortableTh>
-                      <Table.Th>Evolves From</Table.Th>
-                      <Table.Th>Evolves To</Table.Th>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((wyrm) => {
-                      const iconSrc = getWyrmIcon(wyrm.name);
+                      const iconSrc = getWyrmPortrait(wyrm.name);
                       const phaseColor = WYRM_PHASE_COLOR[wyrm.phase];
                       return (
                         <Table.Tr
@@ -325,38 +323,6 @@ export default function WyrmsListPage() {
                           </Table.Td>
                           <Table.Td>
                             <FactionTag faction={wyrm.faction} size="sm" />
-                          </Table.Td>
-                          <Table.Td>
-                            {wyrm.evolves_from ? (
-                              <Text
-                                component={Link}
-                                to={`/wyrms/${toEntitySlug(wyrm.evolves_from)}`}
-                                size="sm"
-                                className="dt-link-text"
-                                style={{ textDecoration: 'none' }}
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                {wyrm.evolves_from}
-                              </Text>
-                            ) : (
-                              <Text size="sm" c="dimmed">—</Text>
-                            )}
-                          </Table.Td>
-                          <Table.Td>
-                            {wyrm.evolves_to ? (
-                              <Text
-                                component={Link}
-                                to={`/wyrms/${toEntitySlug(wyrm.evolves_to)}`}
-                                size="sm"
-                                className="dt-link-text"
-                                style={{ textDecoration: 'none' }}
-                                onClick={(e) => e.stopPropagation()}
-                              >
-                                {wyrm.evolves_to}
-                              </Text>
-                            ) : (
-                              <Text size="sm" c="dimmed">—</Text>
-                            )}
                           </Table.Td>
                         </Table.Tr>
                       );

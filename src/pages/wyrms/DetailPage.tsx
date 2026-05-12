@@ -1,5 +1,5 @@
 import SafeImage from '@/components/ui/SafeImage';
-import { getWyrmIcon, getWyrmPortrait, getWyrmSkillIcon } from '@/assets';
+import { getWyrmIcon, getWyrmIllustration, getWyrmPortrait, getWyrmSkillIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
@@ -256,8 +256,8 @@ export default function WyrmPage() {
     );
   }
 
-  const iconSrc = getWyrmIcon(wyrm.name);
-  const portraitSrc = getWyrmPortrait(wyrm.name);
+  const iconSrc = getWyrmPortrait(wyrm.name);
+  const illustrationSrc = getWyrmIllustration(wyrm.name);
   const qualityColor = QUALITY_COLOR[wyrm.quality];
   const phaseColor = WYRM_PHASE_COLOR[wyrm.phase];
   const stickyTopOffset = 'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))';
@@ -348,10 +348,10 @@ export default function WyrmPage() {
               >
                 <Stack gap="xs">
                   <Text fw={600} size="sm">
-                    Portrait
+                    Illustration
                   </Text>
                   <SafeImage
-                    src={portraitSrc}
+                    src={illustrationSrc}
                     alt={wyrm.name}
                     fit="contain"
                     mah={420}
