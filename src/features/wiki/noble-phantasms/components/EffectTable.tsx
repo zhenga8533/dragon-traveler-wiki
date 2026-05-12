@@ -35,58 +35,58 @@ export default function EffectTable({
 
   return (
     <Box style={{ overflowX: 'auto' }}>
-    <Table striped withTableBorder withColumnBorders>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th style={COMPACT_COL_STYLE}>Tier</Table.Th>
-          <Table.Th style={COMPACT_COL_STYLE}>Unlock</Table.Th>
-          <Table.Th>Description</Table.Th>
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>
-        {sortedEffects.map((effect, idx) => {
-          const tierDetail = getNoblePhantasmTierDetail(effect.tier);
-          return (
-            <Table.Tr
-              key={`${effect.tier ?? 'none'}-${effect.tier_level ?? 'none'}-${idx}`}
-            >
-              <Table.Td style={COMPACT_COL_STYLE}>
-                {effect.tier ? (
-                  <Badge
+      <Table striped withTableBorder withColumnBorders>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th style={COMPACT_COL_STYLE}>Tier</Table.Th>
+            <Table.Th style={COMPACT_COL_STYLE}>Unlock</Table.Th>
+            <Table.Th>Description</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {sortedEffects.map((effect, idx) => {
+            const tierDetail = getNoblePhantasmTierDetail(effect.tier);
+            return (
+              <Table.Tr
+                key={`${effect.tier ?? 'none'}-${effect.tier_level ?? 'none'}-${idx}`}
+              >
+                <Table.Td style={COMPACT_COL_STYLE}>
+                  {effect.tier ? (
+                    <Badge
+                      size="sm"
+                      variant="light"
+                      color={tierDetail?.color ?? 'gray'}
+                    >
+                      {effect.tier}
+                    </Badge>
+                  ) : (
+                    <Text size="sm" c="dimmed">
+                      —
+                    </Text>
+                  )}
+                </Table.Td>
+                <Table.Td style={COMPACT_COL_STYLE}>
+                  <Text
                     size="sm"
-                    variant="light"
-                    color={tierDetail?.color ?? 'gray'}
+                    fw={tierDetail ? 600 : 400}
+                    c={tierDetail || effect.tier_level != null ? undefined : 'dimmed'}
                   >
-                    {effect.tier}
-                  </Badge>
-                ) : (
-                  <Text size="sm" c="dimmed">
-                    —
+                    {tierDetail?.label ?? effect.tier_level ?? '—'}
                   </Text>
-                )}
-              </Table.Td>
-              <Table.Td style={COMPACT_COL_STYLE}>
-                <Text
-                  size="sm"
-                  fw={tierDetail ? 600 : 400}
-                  c={tierDetail || effect.tier_level != null ? undefined : 'dimmed'}
-                >
-                  {tierDetail?.label ?? effect.tier_level ?? '—'}
-                </Text>
-              </Table.Td>
-              <Table.Td>
-                <RichText
-                  text={effect.description}
-                  statusEffects={statusEffects}
-                  skills={skills}
-                  talent={talent}
-                />
-              </Table.Td>
-            </Table.Tr>
-          );
-        })}
-      </Table.Tbody>
-    </Table>
+                </Table.Td>
+                <Table.Td>
+                  <RichText
+                    text={effect.description}
+                    statusEffects={statusEffects}
+                    skills={skills}
+                    talent={talent}
+                  />
+                </Table.Td>
+              </Table.Tr>
+            );
+          })}
+        </Table.Tbody>
+      </Table>
     </Box>
   );
 }

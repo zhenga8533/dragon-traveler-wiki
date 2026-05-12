@@ -231,48 +231,48 @@ export default function GoldenAllianceDetailPage() {
             </SimpleGrid>
           </Stack>
 
-          <Stack gap="xs">
-            <Text fw={600} size="sm" c={isDark ? 'gray.1' : 'dark.7'}>
+          <Stack gap="md">
+            <Title order={2} size="h3">
               Alliance Effects
-            </Text>
+            </Title>
             <Box style={{ overflowX: 'auto' }}>
-            <Table withTableBorder withColumnBorders>
-              <Table.Thead>
-                <Table.Tr>
-                  <Table.Th style={{ width: 70 }}>Level</Table.Th>
-                  <Table.Th>Stats</Table.Th>
-                </Table.Tr>
-              </Table.Thead>
-              <Table.Tbody>
-                {alliance.effects.map((effect) => (
-                  <Table.Tr key={effect.level}>
-                    <Table.Td>
-                      <Badge
-                        variant="light"
-                        size="sm"
-                        color={accent.secondary}
-                      >
-                        {effect.level}
-                      </Badge>
-                    </Table.Td>
-                    <Table.Td>
-                      <Group gap={4} wrap="wrap">
-                        {effect.stats.map((stat, i) => (
-                          <Badge
-                            key={i}
-                            variant="outline"
-                            size="sm"
-                            color={accent.secondary}
-                          >
-                            {stat}
-                          </Badge>
-                        ))}
-                      </Group>
-                    </Table.Td>
+              <Table striped withTableBorder withColumnBorders>
+                <Table.Thead>
+                  <Table.Tr>
+                    <Table.Th style={{ width: 70 }}>Level</Table.Th>
+                    <Table.Th>Stats</Table.Th>
                   </Table.Tr>
-                ))}
-              </Table.Tbody>
-            </Table>
+                </Table.Thead>
+                <Table.Tbody>
+                  {alliance.effects.map((effect) => (
+                    <Table.Tr key={effect.level}>
+                      <Table.Td>
+                        <Badge
+                          variant="light"
+                          size="sm"
+                          color={accent.secondary}
+                        >
+                          {effect.level}
+                        </Badge>
+                      </Table.Td>
+                      <Table.Td>
+                        <Group gap={4} wrap="wrap">
+                          {effect.stats.map((stat, i) => (
+                            <Badge
+                              key={i}
+                              variant="outline"
+                              size="sm"
+                              color={accent.secondary}
+                            >
+                              {stat}
+                            </Badge>
+                          ))}
+                        </Group>
+                      </Table.Td>
+                    </Table.Tr>
+                  ))}
+                </Table.Tbody>
+              </Table>
             </Box>
           </Stack>
 

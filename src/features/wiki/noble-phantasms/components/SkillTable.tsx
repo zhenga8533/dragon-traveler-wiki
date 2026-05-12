@@ -36,52 +36,52 @@ export default function SkillTable({
 
   return (
     <Box style={{ overflowX: 'auto' }}>
-    <Table striped withTableBorder withColumnBorders>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th style={COMPACT_COL_STYLE}>Level</Table.Th>
-          <Table.Th style={COMPACT_COL_STYLE}>Tier</Table.Th>
-          <Table.Th>Description</Table.Th>
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>
-        {sortedSkills.map((skill, idx) => {
-          const tierDetail = getNoblePhantasmTierDetail(skill.tier);
-          return (
-            <Table.Tr key={`${skill.level}-${skill.tier ?? 'none'}-${idx}`}>
-              <Table.Td style={COMPACT_COL_STYLE}>
-                <Text size="sm" fw={600}>
-                  {skill.level}
-                </Text>
-              </Table.Td>
-              <Table.Td style={COMPACT_COL_STYLE}>
-                {skill.tier ? (
-                  <Badge
-                    size="sm"
-                    variant="light"
-                    color={tierDetail?.color ?? 'gray'}
-                  >
-                    {skill.tier}
-                  </Badge>
-                ) : (
-                  <Text size="sm" c="dimmed">
-                    —
+      <Table striped withTableBorder withColumnBorders>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th style={COMPACT_COL_STYLE}>Level</Table.Th>
+            <Table.Th style={COMPACT_COL_STYLE}>Tier</Table.Th>
+            <Table.Th>Description</Table.Th>
+          </Table.Tr>
+        </Table.Thead>
+        <Table.Tbody>
+          {sortedSkills.map((skill, idx) => {
+            const tierDetail = getNoblePhantasmTierDetail(skill.tier);
+            return (
+              <Table.Tr key={`${skill.level}-${skill.tier ?? 'none'}-${idx}`}>
+                <Table.Td style={COMPACT_COL_STYLE}>
+                  <Text size="sm" fw={600}>
+                    {skill.level}
                   </Text>
-                )}
-              </Table.Td>
-              <Table.Td>
-                <RichText
-                  text={skill.description}
-                  statusEffects={statusEffects}
-                  skills={characterSkills}
-                  talent={talent}
-                />
-              </Table.Td>
-            </Table.Tr>
-          );
-        })}
-      </Table.Tbody>
-    </Table>
+                </Table.Td>
+                <Table.Td style={COMPACT_COL_STYLE}>
+                  {skill.tier ? (
+                    <Badge
+                      size="sm"
+                      variant="light"
+                      color={tierDetail?.color ?? 'gray'}
+                    >
+                      {skill.tier}
+                    </Badge>
+                  ) : (
+                    <Text size="sm" c="dimmed">
+                      —
+                    </Text>
+                  )}
+                </Table.Td>
+                <Table.Td>
+                  <RichText
+                    text={skill.description}
+                    statusEffects={statusEffects}
+                    skills={characterSkills}
+                    talent={talent}
+                  />
+                </Table.Td>
+              </Table.Tr>
+            );
+          })}
+        </Table.Tbody>
+      </Table>
     </Box>
   );
 }

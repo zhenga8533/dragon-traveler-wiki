@@ -228,6 +228,7 @@ export default function ArtifactPage() {
           { label: 'Artifacts', path: '/artifacts' },
           { label: artifact.name },
         ]}
+        py={{ base: 'lg', sm: 'xl' }}
       >
         <Group gap="lg" align="flex-start" wrap="nowrap">
           {iconSrc && (

@@ -15,26 +15,26 @@ export default function QualitiesTable({
   if (qualities.length === 0) return null;
   return (
     <Box style={{ overflowX: 'auto' }}>
-    <Table striped withTableBorder withColumnBorders>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th style={COMPACT_COL_STYLE}>Quality</Table.Th>
-          <Table.Th>Effect</Table.Th>
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>
-        {qualities.map((q) => (
-          <Table.Tr key={q.quality}>
-            <Table.Td style={COMPACT_COL_STYLE}>
-              <QualityIcon quality={q.quality} />
-            </Table.Td>
-            <Table.Td>
-              <RichText text={q.effect} statusEffects={statusEffects} />
-            </Table.Td>
+      <Table striped withTableBorder withColumnBorders>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th style={COMPACT_COL_STYLE}>Quality</Table.Th>
+            <Table.Th>Effect</Table.Th>
           </Table.Tr>
-        ))}
-      </Table.Tbody>
-    </Table>
+        </Table.Thead>
+        <Table.Tbody>
+          {qualities.map((q) => (
+            <Table.Tr key={q.quality}>
+              <Table.Td style={COMPACT_COL_STYLE}>
+                <QualityIcon quality={q.quality} />
+              </Table.Td>
+              <Table.Td>
+                <RichText text={q.effect} statusEffects={statusEffects} />
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
     </Box>
   );
 }

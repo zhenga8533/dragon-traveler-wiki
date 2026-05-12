@@ -18,26 +18,26 @@ export default function StarUpgradesTable({
         Star Upgrades
       </Title>
       <Box style={{ overflowX: 'auto' }}>
-      <Table striped withTableBorder withColumnBorders>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th style={COMPACT_COL_STYLE}>Stars</Table.Th>
-            <Table.Th>Effect</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {wyrm.star_upgrades.map((upgrade) => (
-            <Table.Tr key={upgrade.star}>
-              <Table.Td style={COMPACT_COL_STYLE}>
-                <Text fw={600} size="sm">★{upgrade.star}</Text>
-              </Table.Td>
-              <Table.Td>
-                <RichText text={upgrade.description} statusEffects={statusEffects} />
-              </Table.Td>
+        <Table striped withTableBorder withColumnBorders>
+          <Table.Thead>
+            <Table.Tr>
+              <Table.Th style={COMPACT_COL_STYLE}>Stars</Table.Th>
+              <Table.Th>Effect</Table.Th>
             </Table.Tr>
-          ))}
-        </Table.Tbody>
-      </Table>
+          </Table.Thead>
+          <Table.Tbody>
+            {wyrm.star_upgrades.map((upgrade) => (
+              <Table.Tr key={upgrade.star}>
+                <Table.Td style={COMPACT_COL_STYLE}>
+                  <Text fw={600} size="sm">★{upgrade.star}</Text>
+                </Table.Td>
+                <Table.Td>
+                  <RichText text={upgrade.description} statusEffects={statusEffects} />
+                </Table.Td>
+              </Table.Tr>
+            ))}
+          </Table.Tbody>
+        </Table>
       </Box>
     </Stack>
   );
