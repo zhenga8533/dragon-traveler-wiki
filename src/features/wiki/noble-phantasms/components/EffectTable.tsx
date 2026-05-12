@@ -7,7 +7,7 @@ import {
   getNoblePhantasmTierOrder,
 } from '@/features/wiki/noble-phantasms/utils';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { Badge, Table, Text } from '@mantine/core';
+import { Badge, Box, Table, Text } from '@mantine/core';
 
 export default function EffectTable({
   effects,
@@ -34,6 +34,7 @@ export default function EffectTable({
   }
 
   return (
+    <Box style={{ overflowX: 'auto' }}>
     <Table striped withTableBorder withColumnBorders>
       <Table.Thead>
         <Table.Tr>
@@ -86,5 +87,6 @@ export default function EffectTable({
         })}
       </Table.Tbody>
     </Table>
+    </Box>
   );
 }

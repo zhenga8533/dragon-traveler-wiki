@@ -52,28 +52,30 @@ function EffectTable({
 }) {
   if (effects.length === 0) return null;
   return (
-    <Table striped withTableBorder withColumnBorders>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th style={COMPACT_COL_STYLE}>Level</Table.Th>
-          <Table.Th>Effect</Table.Th>
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>
-        {effects.map((eff) => (
-          <Table.Tr key={eff.level}>
-            <Table.Td style={COMPACT_COL_STYLE}>
-              <Text size="sm" fw={600}>
-                {eff.level}
-              </Text>
-            </Table.Td>
-            <Table.Td>
-              <RichText text={eff.description} statusEffects={statusEffects} />
-            </Table.Td>
+    <Box style={{ overflowX: 'auto' }}>
+      <Table striped withTableBorder withColumnBorders>
+        <Table.Thead>
+          <Table.Tr>
+            <Table.Th style={COMPACT_COL_STYLE}>Level</Table.Th>
+            <Table.Th>Effect</Table.Th>
           </Table.Tr>
-        ))}
-      </Table.Tbody>
-    </Table>
+        </Table.Thead>
+        <Table.Tbody>
+          {effects.map((eff) => (
+            <Table.Tr key={eff.level}>
+              <Table.Td style={COMPACT_COL_STYLE}>
+                <Text size="sm" fw={600}>
+                  {eff.level}
+                </Text>
+              </Table.Td>
+              <Table.Td>
+                <RichText text={eff.description} statusEffects={statusEffects} />
+              </Table.Td>
+            </Table.Tr>
+          ))}
+        </Table.Tbody>
+      </Table>
+    </Box>
   );
 }
 
@@ -93,7 +95,7 @@ function TreasureCard({
   const iconSrc = getTreasureIcon(artifactName, treasure.name);
   return (
     <Paper
-      p="lg"
+      p="md"
       radius="md"
       withBorder
       {...getCardHoverProps({

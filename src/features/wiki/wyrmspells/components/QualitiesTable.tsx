@@ -3,7 +3,7 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import { COMPACT_COL_STYLE } from '@/constants/styles';
 import type { WyrmspellQuality } from '@/features/wiki/wyrmspells/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { Table } from '@mantine/core';
+import { Box, Table } from '@mantine/core';
 
 export default function QualitiesTable({
   qualities,
@@ -14,6 +14,7 @@ export default function QualitiesTable({
 }) {
   if (qualities.length === 0) return null;
   return (
+    <Box style={{ overflowX: 'auto' }}>
     <Table striped withTableBorder withColumnBorders>
       <Table.Thead>
         <Table.Tr>
@@ -34,5 +35,6 @@ export default function QualitiesTable({
         ))}
       </Table.Tbody>
     </Table>
+    </Box>
   );
 }

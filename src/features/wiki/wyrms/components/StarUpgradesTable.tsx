@@ -2,7 +2,7 @@ import RichText from '@/components/common/RichText';
 import { COMPACT_COL_STYLE } from '@/constants/styles';
 import type { Wyrm } from '@/features/wiki/wyrms/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { Stack, Table, Text, Title } from '@mantine/core';
+import { Box, Stack, Table, Text, Title } from '@mantine/core';
 
 export default function StarUpgradesTable({
   wyrm,
@@ -17,6 +17,7 @@ export default function StarUpgradesTable({
       <Title order={2} size="h3">
         Star Upgrades
       </Title>
+      <Box style={{ overflowX: 'auto' }}>
       <Table striped withTableBorder withColumnBorders>
         <Table.Thead>
           <Table.Tr>
@@ -37,6 +38,7 @@ export default function StarUpgradesTable({
           ))}
         </Table.Tbody>
       </Table>
+      </Box>
     </Stack>
   );
 }

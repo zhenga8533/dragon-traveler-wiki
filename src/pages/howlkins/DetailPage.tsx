@@ -167,10 +167,10 @@ export default function GoldenAllianceDetailPage() {
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="lg">
-          <Stack gap="xs">
-            <Text fw={600} size="sm" c={isDark ? 'gray.1' : 'dark.7'}>
+          <Stack gap="md">
+            <Title order={2} size="h3">
               Members
-            </Text>
+            </Title>
             <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="sm">
               {sortedMembers.map((name) => {
                 const howlkin = howlkinMap.get(name);
@@ -235,6 +235,7 @@ export default function GoldenAllianceDetailPage() {
             <Text fw={600} size="sm" c={isDark ? 'gray.1' : 'dark.7'}>
               Alliance Effects
             </Text>
+            <Box style={{ overflowX: 'auto' }}>
             <Table withTableBorder withColumnBorders>
               <Table.Thead>
                 <Table.Tr>
@@ -272,6 +273,7 @@ export default function GoldenAllianceDetailPage() {
                 ))}
               </Table.Tbody>
             </Table>
+            </Box>
           </Stack>
 
           <ChangeHistory history={changesData[decodedName]} />

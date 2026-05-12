@@ -284,13 +284,13 @@ export default function OracleScrollPage() {
               <Stack key={group.type} gap="md">
                 {isSanctuary && illustrationExists ? (
                   <Grid gutter="md" align="flex-start">
-                    <Grid.Col span={{ base: 12, sm: 7 }}>
+                    <Grid.Col span={{ base: 12, md: 7 }} order={{ base: 2, md: 1 }}>
                       <Stack gap="md">
                         <Title order={2} size="h3">{group.type}</Title>
                         {relicCards}
                       </Stack>
                     </Grid.Col>
-                    <Grid.Col span={{ base: 12, sm: 5 }}>
+                    <Grid.Col span={{ base: 12, md: 5 }} order={{ base: 1, md: 2 }}>
                       <Paper
                         p="md"
                         radius="lg"
