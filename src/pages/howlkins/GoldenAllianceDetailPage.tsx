@@ -6,7 +6,8 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import QualityIcon from '@/components/ui/QualityIcon';
 import SafeImage from '@/components/ui/SafeImage';
-import { QUALITY_ORDER } from '@/constants/colors';
+import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
+import { getCardHoverProps } from '@/constants/styles';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
 import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
 import { getHowlkinIcon } from '@/assets';
@@ -176,8 +177,21 @@ export default function GoldenAllianceDetailPage() {
                 const iconSrc = howlkin
                   ? getHowlkinIcon(name, howlkin.quality)
                   : undefined;
+                const qualityColor = howlkin ? QUALITY_COLOR[howlkin.quality] : undefined;
                 return (
-                  <Paper key={name} p="sm" radius="md" withBorder>
+                  <Paper
+                    key={name}
+                    p="sm"
+                    radius="md"
+                    withBorder
+                    {...(qualityColor
+                      ? getCardHoverProps({
+                          style: {
+                            borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
+                          },
+                        })
+                      : getCardHoverProps())}
+                  >
                     <Stack gap="xs">
                       <Group gap="sm" wrap="nowrap">
                         {iconSrc && (

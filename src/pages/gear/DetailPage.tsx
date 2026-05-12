@@ -347,13 +347,18 @@ export default function GearSetPage() {
           <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
             {setItems.map((item) => {
               const iconSrc = getGearIcon(item.type, item.name);
+              const itemQualityColor = QUALITY_COLOR[item.quality];
               return (
                 <Paper
                   key={item.name}
                   p="md"
                   radius="md"
                   withBorder
-                  {...getCardHoverProps()}
+                  {...getCardHoverProps({
+                    style: {
+                      borderTop: `3px solid var(--mantine-color-${itemQualityColor}-${isDark ? 7 : 5})`,
+                    },
+                  })}
                 >
                   <Stack gap="sm">
                     <Group gap="md" wrap="nowrap" align="flex-start">

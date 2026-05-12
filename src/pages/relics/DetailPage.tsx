@@ -222,7 +222,11 @@ export default function OracleScrollPage() {
                       p="md"
                       radius="md"
                       withBorder
-                      {...getCardHoverProps()}
+                      {...getCardHoverProps({
+                        style: {
+                          borderTop: `3px solid var(--mantine-color-${QUALITY_COLOR[relic.quality]}-${isDark ? 7 : 5})`,
+                        },
+                      })}
                     >
                       <Stack gap="sm">
                         <Group gap="md" wrap="nowrap" align="flex-start">
@@ -238,15 +242,17 @@ export default function OracleScrollPage() {
                             />
                           )}
                           <Stack gap={4} style={{ flex: 1 }}>
-                            <Text
-                              fw={700}
-                              size="lg"
-                              className="dt-link-text"
-                              lineClamp={1}
-                            >
-                              {relic.name}
-                            </Text>
-                            <QualityIcon quality={relic.quality} />
+                            <Group gap="xs" align="center" wrap="wrap">
+                              <Text
+                                fw={700}
+                                size="lg"
+                                className="dt-link-text"
+                                lineClamp={1}
+                              >
+                                {relic.name}
+                              </Text>
+                              <QualityIcon quality={relic.quality} />
+                            </Group>
                           </Stack>
                         </Group>
 
