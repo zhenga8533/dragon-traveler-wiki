@@ -10,7 +10,6 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR, RELIC_TYPE_ORDER } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getCardHoverProps } from '@/constants/styles';
-import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
 import type { Relic } from '@/features/wiki/relics/types';
 import {
   getRelicOracleScroll,
@@ -18,25 +17,30 @@ import {
 } from '@/features/wiki/relics/utils';
 import RichText from '@/components/common/RichText';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
+import { useDarkMode, useDataFetch, useGradientAccent, useMobileTooltip } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
   toEntitySlug,
 } from '@/utils/entity-slug';
+import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
+import type { CharacterIllustration } from '@/assets';
 import {
   Badge,
   Box,
   Container,
+  Grid,
   Group,
   Paper,
   SimpleGrid,
   Stack,
   Text,
   Title,
+  UnstyledButton,
 } from '@mantine/core';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { IoExpand } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function OracleScrollPage() {
@@ -44,6 +48,9 @@ export default function OracleScrollPage() {
   const { scrollName } = useParams<{ scrollName: string }>();
   const navigate = useNavigate();
   const isDark = useDarkMode();
+  const tooltipProps = useMobileTooltip();
+  const [previewOpen, setPreviewOpen] = useState(false);
+  const [illustrationExists, setIllustrationExists] = useState(false);
 
   const { data: relics, loading } = useDataFetch<Relic[]>(
     'data/relic.json',
@@ -171,111 +178,182 @@ export default function OracleScrollPage() {
         ]}
         py={{ base: 'lg', sm: 'xl' }}
       >
-        <Stack gap="lg">
-          <Stack gap={6}>
-            <Group gap="sm" align="center" wrap="wrap">
-              <Title
-                order={1}
-                c={isDark ? 'white' : 'dark'}
-                fz={{ base: '1.5rem', sm: '2.125rem' }}
-                style={{ wordBreak: 'break-word' }}
-              >
-                {decodedScrollName}
-              </Title>
-              <QualityIcon quality={scrollRelics[0].quality} size={32} />
-              <Badge variant="light" color={accent.secondary} size="lg">
-                {scrollRelics.length} relic
-                {scrollRelics.length !== 1 ? 's' : ''}
-              </Badge>
-            </Group>
-            <LastUpdated timestamp={lastUpdated} />
-          </Stack>
-          {illustrationSrc && (
-            <SafeImage
-              src={illustrationSrc}
-              alt={decodedScrollName}
-              radius="md"
-              style={{
-                border: `2px solid var(--mantine-color-${heroQualityColor}-${isDark ? 7 : 4})`,
-                boxShadow: `0 4px 32px var(--mantine-color-${heroQualityColor}-${isDark ? 9 : 2})`,
-              }}
-            />
-          )}
+        <Stack gap={6}>
+          <Group gap="sm" align="center" wrap="wrap">
+            <Title
+              order={1}
+              c={isDark ? 'white' : 'dark'}
+              fz={{ base: '1.5rem', sm: '2.125rem' }}
+              style={{ wordBreak: 'break-word' }}
+            >
+              {decodedScrollName}
+            </Title>
+            <QualityIcon quality={scrollRelics[0].quality} size={32} />
+            <Badge variant="light" color={accent.secondary} size="lg">
+              {scrollRelics.length} relic
+              {scrollRelics.length !== 1 ? 's' : ''}
+            </Badge>
+          </Group>
+          <LastUpdated timestamp={lastUpdated} />
         </Stack>
       </DetailPageHero>
 
+      {illustrationSrc && (
+        <img
+          key={illustrationSrc}
+          src={illustrationSrc}
+          style={{ display: 'none' }}
+          aria-hidden="true"
+          onLoad={() => setIllustrationExists(true)}
+          onError={() => setIllustrationExists(false)}
+        />
+      )}
+
+      {illustrationExists && (
+        <IllustrationPreviewModal
+          opened={previewOpen}
+          onClose={() => setPreviewOpen(false)}
+          characterName={decodedScrollName}
+          illustrations={[{ name: decodedScrollName, src: illustrationSrc, type: 'image' } satisfies CharacterIllustration]}
+          activeIllustration={{ name: decodedScrollName, src: illustrationSrc, type: 'image' }}
+          activeIllustrationIndex={0}
+          hasMultipleIllustrations={false}
+          showPreviousIllustration={() => {}}
+          showNextIllustration={() => {}}
+          onSelectIllustration={() => {}}
+          tooltipProps={tooltipProps}
+        />
+      )}
+
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="lg">
-          {scrollRelicsByType.map((group) => (
-            <Stack key={group.type} gap="md">
-              <Group gap="sm" align="center">
-                <RelicTypeTag type={group.type} size="md" />
-                <Text size="sm" c="dimmed">
-                  {group.relics.length} relic
-                  {group.relics.length !== 1 ? 's' : ''}
-                </Text>
-              </Group>
+          {scrollRelicsByType.map((group) => {
+            const isSanctuary = group.type === 'Sanctuary Relic';
 
-              <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
-                {group.relics.map((relic) => {
-                  const iconSrc = getRelicIcon(relic.name, relic.quality);
-                  return (
+            const relicCards = group.relics.map((relic) => {
+              const iconSrc = getRelicIcon(relic.name, relic.quality);
+              return (
+                <Paper
+                  key={relic.name}
+                  p="md"
+                  radius="md"
+                  withBorder
+                  {...getCardHoverProps({
+                    style: {
+                      borderTop: `3px solid var(--mantine-color-${QUALITY_COLOR[relic.quality]}-${isDark ? 7 : 5})`,
+                    },
+                  })}
+                >
+                  <Stack gap="sm">
+                    <Group gap="md" wrap="nowrap" align="flex-start">
+                      {iconSrc && (
+                        <SafeImage
+                          src={iconSrc}
+                          alt={relic.name}
+                          w={64}
+                          h={64}
+                          fit="contain"
+                          radius="sm"
+                          loading="lazy"
+                        />
+                      )}
+                      <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
+                        <Group gap="xs" align="center" wrap="wrap">
+                          <Text fw={700} size="lg" className="dt-link-text" lineClamp={1}>
+                            {relic.name}
+                          </Text>
+                          <QualityIcon quality={relic.quality} />
+                        </Group>
+                      </Stack>
+                    </Group>
+
                     <Paper
-                      key={relic.name}
-                      p="md"
-                      radius="md"
+                      p="sm"
+                      radius="sm"
                       withBorder
-                      {...getCardHoverProps({
-                        style: {
-                          borderTop: `3px solid var(--mantine-color-${QUALITY_COLOR[relic.quality]}-${isDark ? 7 : 5})`,
-                        },
-                      })}
+                      {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
                     >
-                      <Stack gap="sm">
-                        <Group gap="md" wrap="nowrap" align="flex-start">
-                          {iconSrc && (
+                      <RichText text={relic.lore} statusEffects={statusEffects} italic />
+                    </Paper>
+                  </Stack>
+                </Paper>
+              );
+            });
+
+            return (
+              <Stack key={group.type} gap="md">
+                {isSanctuary && illustrationExists ? (
+                  <Grid gutter="md" align="flex-start">
+                    <Grid.Col span={{ base: 12, sm: 7 }}>
+                      <Stack gap="md">
+                        <Title order={2} size="h3">{group.type}</Title>
+                        {relicCards}
+                      </Stack>
+                    </Grid.Col>
+                    <Grid.Col span={{ base: 12, sm: 5 }}>
+                      <Paper
+                        p="md"
+                        radius="lg"
+                        withBorder
+                        {...getCardHoverProps({ style: { overflow: 'hidden' } })}
+                      >
+                        <Stack gap="xs">
+                          <Text fw={600} size="sm">Illustration</Text>
+                          <UnstyledButton
+                            onClick={() => setPreviewOpen(true)}
+                            style={{
+                              display: 'block',
+                              width: '100%',
+                              borderRadius: 'var(--mantine-radius-md)',
+                              overflow: 'hidden',
+                              position: 'relative',
+                            }}
+                          >
                             <SafeImage
-                              src={iconSrc}
-                              alt={relic.name}
-                              w={64}
-                              h={64}
+                              src={illustrationSrc}
+                              alt={decodedScrollName}
                               fit="contain"
-                              radius="sm"
+                              mah={420}
                               loading="lazy"
                             />
-                          )}
-                          <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-                            <Group gap="xs" align="center" wrap="wrap">
-                              <Text
-                                fw={700}
-                                size="lg"
-                                className="dt-link-text"
-                                lineClamp={1}
-                              >
-                                {relic.name}
-                              </Text>
-                              <QualityIcon quality={relic.quality} />
+                            <Box
+                              style={{
+                                position: 'absolute',
+                                inset: 0,
+                                background:
+                                  'linear-gradient(180deg, transparent var(--dt-gradient-overlay-mid), rgba(0,0,0,0.55) 100%)',
+                                pointerEvents: 'none',
+                              }}
+                            />
+                            <Group
+                              justify="space-between"
+                              align="center"
+                              style={{ position: 'absolute', bottom: 12, left: 12, right: 12 }}
+                            >
+                              <Stack gap={2}>
+                                <Text size="sm" fw={600} c="white">{decodedScrollName}</Text>
+                                <Text size="xs" c="gray.2">Artwork</Text>
+                              </Stack>
+                              <Badge leftSection={<IoExpand />} variant="light" color={accent.primary} size="md">
+                                View
+                              </Badge>
                             </Group>
-                          </Stack>
-                        </Group>
-
-                        <Paper
-                          p="sm"
-                          radius="sm"
-                          withBorder
-                          {...getCardHoverProps({
-                            style: getLoreGlassStyles(isDark),
-                          })}
-                        >
-                          <RichText text={relic.lore} statusEffects={statusEffects} italic />
-                        </Paper>
-                      </Stack>
-                    </Paper>
-                  );
-                })}
-              </SimpleGrid>
-            </Stack>
-          ))}
+                          </UnstyledButton>
+                        </Stack>
+                      </Paper>
+                    </Grid.Col>
+                  </Grid>
+                ) : (
+                  <>
+                    <Title order={2} size="h3">{group.type}</Title>
+                    <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
+                      {relicCards}
+                    </SimpleGrid>
+                  </>
+                )}
+              </Stack>
+            );
+          })}
 
           <ChangeHistory history={undefined} extraHistories={relicHistories} />
 
