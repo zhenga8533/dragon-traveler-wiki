@@ -7,6 +7,7 @@ import {
   orderFilterOptions,
 } from '@/components/common/EntityFilterGroups';
 import FilteredListShell from '@/components/layout/FilteredListShell';
+import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import {
   CardGridLoading,
@@ -22,8 +23,6 @@ import {
 } from '@/features/wiki/howlkins/form-fields';
 import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
-import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
-import PaginationControl from '@/components/ui/PaginationControl';
 import SortableTh from '@/components/ui/SortableTh';
 import { QUALITY_ORDER } from '@/constants/colors';
 import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
@@ -56,10 +55,8 @@ import {
   Table,
   Tabs,
   Text,
-  TextInput,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
-import { IoSearch } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
 interface HowlkinFilters {
@@ -348,7 +345,7 @@ export default function Howlkins() {
                   />
                 }
                 gridContent={
-                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                     {howlkinPageItems.map((howlkin) => {
                       const iconSrc = getHowlkinIcon(howlkin.name, howlkin.quality);
                       const isPharaoh = howlkin.name === PHARAOH_NAME;
@@ -362,7 +359,7 @@ export default function Howlkins() {
                           {...(allianceSlug
                             ? { component: Link, to: `/howlkins/${allianceSlug}` }
                             : ({} as { component?: typeof Link; to: string }))}
-                          p="sm"
+                          p="md"
                           radius="md"
                           withBorder
                           {...getCardHoverProps({
@@ -401,8 +398,8 @@ export default function Howlkins() {
                                 <SafeImage
                                   src={iconSrc}
                                   alt={howlkin.name}
-                                  w={56}
-                                  h={56}
+                                  w={64}
+                                  h={64}
                                   fit="contain"
                                   radius="sm"
                                 />
@@ -410,8 +407,9 @@ export default function Howlkins() {
                               <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
                                 <Group gap="sm" wrap="wrap">
                                   <Text
-                                    fw={600}
+                                    fw={700}
                                     className={allianceSlug ? 'dt-link-text' : undefined}
+                                    lineClamp={1}
                                   >
                                     {howlkin.name}
                                   </Text>
@@ -440,7 +438,7 @@ export default function Howlkins() {
                     <Table
                       striped
                       highlightOnHover
-                      style={getMinWidthStyle(720)}
+                      style={getMinWidthStyle(800)}
                     >
                       <Table.Thead>
                         <Table.Tr>
@@ -579,24 +577,24 @@ export default function Howlkins() {
             {!alliancesLoading &&
               !alliancesError &&
               goldenAlliances.length > 0 && (
-                <Paper p="md" radius="md" withBorder data-no-hover>
-                  <Stack gap="md">
-                    <TextInput
-                      placeholder="Search by name or member..."
-                      leftSection={<IoSearch size={14} />}
-                      value={allianceSearch}
-                      onChange={(e) => setAllianceSearch(e.currentTarget.value)}
-                    />
-                    {filteredAlliances.length === 0 ? (
-                      <NoResultsSuggestions
-                        title="No alliances found"
-                        message="No alliances match the search."
-                        onReset={() => setAllianceSearch('')}
-                        resetLabel="Clear search"
-                      />
-                    ) : (
-                      <SimpleGrid cols={{ base: 1, md: 2 }} spacing="sm">
-                        {alliancePageItems.map((alliance) => (
+                <SearchableGridPanel
+                  search={allianceSearch}
+                  onSearchChange={setAllianceSearch}
+                  searchPlaceholder="Search by name or member..."
+                  hasResults={filteredAlliances.length > 0}
+                  noResultsTitle="No alliances found"
+                  noResultsMessage="No alliances match the search."
+                  onResetSearch={() => setAllianceSearch('')}
+                  currentPage={alliancePage}
+                  totalPages={allianceTotalPages}
+                  onPageChange={setAlliancePage}
+                  totalItems={filteredAlliances.length}
+                  pageSize={alliancePageSize}
+                  pageSizeOptions={alliancePageSizeOptions}
+                  onPageSizeChange={setAlliancePageSize}
+                >
+                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                    {alliancePageItems.map((alliance) => (
                           <Paper
                             key={alliance.name}
                             component={Link}
@@ -689,20 +687,8 @@ export default function Howlkins() {
                             </Stack>
                           </Paper>
                         ))}
-                      </SimpleGrid>
-                    )}
-
-                    <PaginationControl
-                      currentPage={alliancePage}
-                      totalPages={allianceTotalPages}
-                      onChange={setAlliancePage}
-                      totalItems={filteredAlliances.length}
-                      pageSize={alliancePageSize}
-                      pageSizeOptions={alliancePageSizeOptions}
-                      onPageSizeChange={setAlliancePageSize}
-                    />
-                  </Stack>
-                </Paper>
+                  </SimpleGrid>
+                </SearchableGridPanel>
               )}
           </Tabs.Panel>
         </Tabs>

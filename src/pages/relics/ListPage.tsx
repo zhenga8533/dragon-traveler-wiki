@@ -7,6 +7,7 @@ import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import FilteredListShell from '@/components/layout/FilteredListShell';
+import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
@@ -14,8 +15,6 @@ import SuggestModal from '@/components/tools/SuggestModal';
 import RichText from '@/components/common/RichText';
 import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
-import PaginationControl from '@/components/ui/PaginationControl';
 import SortableTh from '@/components/ui/SortableTh';
 import { RELIC_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
 import {
@@ -54,10 +53,8 @@ import {
   Table,
   Tabs,
   Text,
-  TextInput,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
-import { IoSearch } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 
 interface RelicFilters {
@@ -411,7 +408,7 @@ export default function RelicPage() {
                     <Table
                       striped
                       highlightOnHover
-                      style={getMinWidthStyle(680)}
+                      style={getMinWidthStyle(800)}
                     >
                       <Table.Thead>
                         <Table.Tr>
@@ -530,25 +527,24 @@ export default function RelicPage() {
               emptyMessage="No oracle scroll data available yet."
               skeletonCards={4}
             >
-              <Paper p="md" radius="md" withBorder data-no-hover>
-                <Stack gap="md">
-                  <TextInput
-                    placeholder="Search by oracle scroll or relic name..."
-                    leftSection={<IoSearch size={14} />}
-                    value={oracleSearch}
-                    onChange={(e) => setOracleSearch(e.currentTarget.value)}
-                  />
-
-                  {filteredOracleScrolls.length === 0 ? (
-                    <NoResultsSuggestions
-                      title="No oracle scrolls found"
-                      message="No oracle scrolls match the search."
-                      onReset={() => setOracleSearch('')}
-                      resetLabel="Clear search"
-                    />
-                  ) : (
-                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                      {oraclePageItems.map((scrollName) => {
+              <SearchableGridPanel
+                search={oracleSearch}
+                onSearchChange={setOracleSearch}
+                searchPlaceholder="Search by oracle scroll or relic name..."
+                hasResults={filteredOracleScrolls.length > 0}
+                noResultsTitle="No oracle scrolls found"
+                noResultsMessage="No oracle scrolls match the search."
+                onResetSearch={() => setOracleSearch('')}
+                currentPage={oraclePage}
+                totalPages={oracleTotalPages}
+                onPageChange={setOraclePage}
+                totalItems={filteredOracleScrolls.length}
+                pageSize={oraclePageSize}
+                pageSizeOptions={oraclePageSizeOptions}
+                onPageSizeChange={setOraclePageSize}
+              >
+                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                  {oraclePageItems.map((scrollName) => {
                         const items = relicsByOracle.get(scrollName) ?? [];
                         const illustrationSrc = getOracleScrollImage(scrollName);
                         return (
@@ -640,20 +636,8 @@ export default function RelicPage() {
                           </Paper>
                         );
                       })}
-                    </SimpleGrid>
-                  )}
-
-                  <PaginationControl
-                    currentPage={oraclePage}
-                    totalPages={oracleTotalPages}
-                    onChange={setOraclePage}
-                    totalItems={filteredOracleScrolls.length}
-                    pageSize={oraclePageSize}
-                    pageSizeOptions={oraclePageSizeOptions}
-                    onPageSizeChange={setOraclePageSize}
-                  />
-                </Stack>
-              </Paper>
+                </SimpleGrid>
+              </SearchableGridPanel>
             </ListPageShell>
           </Tabs.Panel>
         </Tabs>

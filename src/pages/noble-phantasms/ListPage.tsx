@@ -246,8 +246,8 @@ export default function NoblePhantasms() {
                           <SafeImage
                             src={iconSrc}
                             alt={np.name}
-                            w={56}
-                            h={56}
+                            w={64}
+                            h={64}
                             fit="contain"
                             radius="sm"
                             loading="lazy"
@@ -288,7 +288,7 @@ export default function NoblePhantasms() {
             }
             tableContent={
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                <Table striped highlightOnHover style={getMinWidthStyle(820)}>
+                <Table striped highlightOnHover style={getMinWidthStyle(800)}>
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Icon</Table.Th>

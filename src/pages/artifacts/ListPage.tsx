@@ -213,7 +213,7 @@ export default function Artifacts() {
                         )}
                         <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
                           <Group gap="sm">
-                            <Text fw={600} size="lg" className="dt-link-text">
+                            <Text fw={700} className="dt-link-text" lineClamp={1}>
                               {artifact.name}
                             </Text>
                             <QualityIcon quality={artifact.quality} />
@@ -251,7 +251,7 @@ export default function Artifacts() {
             }
             tableContent={
               <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                <Table striped highlightOnHover style={getMinWidthStyle(600)}>
+                <Table striped highlightOnHover style={getMinWidthStyle(800)}>
                   <Table.Thead>
                     <Table.Tr>
                       <Table.Th>Icon</Table.Th>

@@ -138,7 +138,7 @@ export default function Wyrmspells() {
       viewMode: STORAGE_KEY.WYRMSPELL_VIEW_MODE,
       sort: STORAGE_KEY.WYRMSPELL_SORT,
     },
-    defaultViewMode: 'list',
+    defaultViewMode: 'grid',
     filterFn: (spell, filters) => {
       if (
         filters.search &&
@@ -289,7 +289,7 @@ export default function Wyrmspells() {
             pageSizeOptions={pageSizeOptions}
             onPageSizeChange={setPageSize}
             gridContent={
-              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 {pageItems.map((spell) => {
                   const iconSrc = getWyrmspellIcon(spell.name, spell.type);
                   const maxQuality = getMaxQuality(spell);
@@ -298,7 +298,7 @@ export default function Wyrmspells() {
                       key={spell.name}
                       component={Link}
                       to={`/wyrmspells/${toEntitySlug(spell.name)}`}
-                      p="sm"
+                      p="md"
                       radius="md"
                       withBorder
                       {...getCardHoverProps({
@@ -311,15 +311,16 @@ export default function Wyrmspells() {
                           <SafeImage
                             src={iconSrc}
                             alt={spell.name}
-                            w={56}
-                            h={56}
+                            w={64}
+                            h={64}
                             fit="contain"
+                            radius="sm"
                             loading="lazy"
                           />
                         )}
                         <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
                           <Group gap="sm" wrap="wrap">
-                            <Text fw={600} className="dt-link-text">
+                            <Text fw={700} className="dt-link-text" lineClamp={1}>
                               {spell.name}
                             </Text>
                             {maxQuality && (
@@ -345,10 +346,12 @@ export default function Wyrmspells() {
                             )}
                           </Group>
                           {maxQuality && (
-                            <RichText
-                              text={maxQuality.effect}
-                              statusEffects={statusEffects}
-                            />
+                            <Text size="xs" c="dimmed" lineClamp={2}>
+                              <RichText
+                                text={maxQuality.effect}
+                                statusEffects={statusEffects}
+                              />
+                            </Text>
                           )}
                         </Stack>
                       </Group>

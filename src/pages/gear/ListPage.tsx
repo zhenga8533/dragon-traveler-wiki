@@ -5,6 +5,7 @@ import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import FilteredListShell from '@/components/layout/FilteredListShell';
+import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
@@ -13,8 +14,6 @@ import {
   GEAR_SET_FIELDS,
   GEAR_STATS_ARRAY_FIELDS,
 } from '@/features/wiki/gear/form-fields';
-import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
-import PaginationControl from '@/components/ui/PaginationControl';
 import SortableTh from '@/components/ui/SortableTh';
 import { GEAR_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
 import {
@@ -51,10 +50,8 @@ import {
   Table,
   Tabs,
   Text,
-  TextInput,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
-import { IoSearch } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
 
 interface GearFilters {
@@ -481,7 +478,7 @@ export default function GearPage() {
                     <Table
                       striped
                       highlightOnHover
-                      style={getMinWidthStyle(760)}
+                      style={getMinWidthStyle(800)}
                     >
                       <Table.Thead>
                         <Table.Tr>
@@ -605,25 +602,24 @@ export default function GearPage() {
               emptyMessage="No gear set data available yet."
               skeletonCards={4}
             >
-              <Paper p="md" radius="md" withBorder data-no-hover>
-                <Stack gap="md">
-                  <TextInput
-                    placeholder="Search by set name or bonus..."
-                    leftSection={<IoSearch size={14} />}
-                    value={gearSetSearch}
-                    onChange={(e) => setGearSetSearch(e.currentTarget.value)}
-                  />
-
-                  {filteredGearSets.length === 0 ? (
-                    <NoResultsSuggestions
-                      title="No gear sets found"
-                      message="No gear sets match the search."
-                      onReset={() => setGearSetSearch('')}
-                      resetLabel="Clear search"
-                    />
-                  ) : (
-                    <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                      {gearSetPageItems.map((set) => {
+              <SearchableGridPanel
+                search={gearSetSearch}
+                onSearchChange={setGearSetSearch}
+                searchPlaceholder="Search by set name or bonus..."
+                hasResults={filteredGearSets.length > 0}
+                noResultsTitle="No gear sets found"
+                noResultsMessage="No gear sets match the search."
+                onResetSearch={() => setGearSetSearch('')}
+                currentPage={gearSetPage}
+                totalPages={gearSetTotalPages}
+                onPageChange={setGearSetPage}
+                totalItems={filteredGearSets.length}
+                pageSize={gearSetPageSize}
+                pageSizeOptions={gearSetPageSizeOptions}
+                onPageSizeChange={setGearSetPageSize}
+              >
+                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+                  {gearSetPageItems.map((set) => {
                         const items = gearItemsBySet.get(set.name) ?? [];
                         const setBonus = set.set_bonus;
                         const bonusQuantity = setBonus?.quantity ?? 0;
@@ -688,20 +684,8 @@ export default function GearPage() {
                           </Paper>
                         );
                       })}
-                    </SimpleGrid>
-                  )}
-
-                  <PaginationControl
-                    currentPage={gearSetPage}
-                    totalPages={gearSetTotalPages}
-                    onChange={setGearSetPage}
-                    totalItems={filteredGearSets.length}
-                    pageSize={gearSetPageSize}
-                    pageSizeOptions={gearSetPageSizeOptions}
-                    onPageSizeChange={setGearSetPageSize}
-                  />
-                </Stack>
-              </Paper>
+                </SimpleGrid>
+              </SearchableGridPanel>
             </ListPageShell>
           </Tabs.Panel>
         </Tabs>

@@ -24,6 +24,7 @@ import {
   shouldRedirectToEntitySlug,
   toEntitySlug,
 } from '@/utils/entity-slug';
+import IllustrationPreviewCard from '@/components/common/IllustrationPreviewCard';
 import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
 import type { CharacterIllustration } from '@/assets';
 import {
@@ -37,10 +38,8 @@ import {
   Stack,
   Text,
   Title,
-  UnstyledButton,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
-import { IoExpand } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 
 export default function OracleScrollPage() {
@@ -291,56 +290,12 @@ export default function OracleScrollPage() {
                       </Stack>
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, md: 5 }} order={{ base: 1, md: 2 }}>
-                      <Paper
-                        p="md"
-                        radius="lg"
-                        withBorder
-                        {...getCardHoverProps({ style: { overflow: 'hidden' } })}
-                      >
-                        <Stack gap="xs">
-                          <Text fw={600} size="sm">Illustration</Text>
-                          <UnstyledButton
-                            onClick={() => setPreviewOpen(true)}
-                            style={{
-                              display: 'block',
-                              width: '100%',
-                              borderRadius: 'var(--mantine-radius-md)',
-                              overflow: 'hidden',
-                              position: 'relative',
-                            }}
-                          >
-                            <SafeImage
-                              src={illustrationSrc}
-                              alt={decodedScrollName}
-                              fit="contain"
-                              mah={420}
-                              loading="lazy"
-                            />
-                            <Box
-                              style={{
-                                position: 'absolute',
-                                inset: 0,
-                                background:
-                                  'linear-gradient(180deg, transparent var(--dt-gradient-overlay-mid), rgba(0,0,0,0.55) 100%)',
-                                pointerEvents: 'none',
-                              }}
-                            />
-                            <Group
-                              justify="space-between"
-                              align="center"
-                              style={{ position: 'absolute', bottom: 12, left: 12, right: 12 }}
-                            >
-                              <Stack gap={2}>
-                                <Text size="sm" fw={600} c="white">{decodedScrollName}</Text>
-                                <Text size="xs" c="gray.2">Artwork</Text>
-                              </Stack>
-                              <Badge leftSection={<IoExpand />} variant="light" color={accent.primary} size="md">
-                                View
-                              </Badge>
-                            </Group>
-                          </UnstyledButton>
-                        </Stack>
-                      </Paper>
+                      <IllustrationPreviewCard
+                        src={illustrationSrc}
+                        name={decodedScrollName}
+                        accentColor={accent.primary}
+                        onExpand={() => setPreviewOpen(true)}
+                      />
                     </Grid.Col>
                   </Grid>
                 ) : (
@@ -355,27 +310,28 @@ export default function OracleScrollPage() {
             );
           })}
 
-          <ChangeHistory history={undefined} extraHistories={relicHistories} />
-
-          <DetailPageNavigation
-            previousItem={
-              previousScroll
-                ? {
-                    label: previousScroll,
-                    path: `/oracle-scrolls/${toEntitySlug(previousScroll)}`,
-                  }
-                : null
-            }
-            nextItem={
-              nextScroll
-                ? {
-                    label: nextScroll,
-                    path: `/oracle-scrolls/${toEntitySlug(nextScroll)}`,
-                  }
-                : null
-            }
-          />
         </Stack>
+
+        <ChangeHistory history={undefined} extraHistories={relicHistories} />
+
+        <DetailPageNavigation
+          previousItem={
+            previousScroll
+              ? {
+                  label: previousScroll,
+                  path: `/oracle-scrolls/${toEntitySlug(previousScroll)}`,
+                }
+              : null
+          }
+          nextItem={
+            nextScroll
+              ? {
+                  label: nextScroll,
+                  path: `/oracle-scrolls/${toEntitySlug(nextScroll)}`,
+                }
+              : null
+          }
+        />
       </Container>
     </Box>
   );

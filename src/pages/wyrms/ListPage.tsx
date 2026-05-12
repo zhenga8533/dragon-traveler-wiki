@@ -205,7 +205,7 @@ export default function WyrmsListPage() {
             pageSizeOptions={pageSizeOptions}
             onPageSizeChange={setPageSize}
             gridContent={
-              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
+              <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 {pageItems.map((wyrm) => {
                   const iconSrc = getWyrmPortrait(wyrm.name);
                   const phaseColor = WYRM_PHASE_COLOR[wyrm.phase];
@@ -214,7 +214,7 @@ export default function WyrmsListPage() {
                       key={wyrm.name}
                       component={Link}
                       to={`/wyrms/${toEntitySlug(wyrm.name)}`}
-                      p="sm"
+                      p="md"
                       radius="md"
                       withBorder
                       {...getCardHoverProps({
@@ -227,15 +227,16 @@ export default function WyrmsListPage() {
                           <SafeImage
                             src={iconSrc}
                             alt={wyrm.name}
-                            w={56}
-                            h={56}
+                            w={64}
+                            h={64}
                             fit="contain"
+                            radius="sm"
                             loading="lazy"
                           />
                         )}
                         <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
                           <Group gap="sm" wrap="wrap">
-                            <Text fw={600} className="dt-link-text">
+                            <Text fw={700} className="dt-link-text" lineClamp={1}>
                               {wyrm.name}
                             </Text>
                             <QualityIcon quality={wyrm.quality} />
@@ -246,10 +247,14 @@ export default function WyrmsListPage() {
                             </Badge>
                             <FactionTag faction={wyrm.faction} size="sm" />
                           </Group>
-                          <RichText
-                            text={wyrm.battle_description}
-                            statusEffects={statusEffects}
-                          />
+                          {wyrm.battle_description && (
+                            <Text size="xs" c="dimmed" lineClamp={2}>
+                              <RichText
+                                text={wyrm.battle_description}
+                                statusEffects={statusEffects}
+                              />
+                            </Text>
+                          )}
                         </Stack>
                       </Group>
                     </Paper>

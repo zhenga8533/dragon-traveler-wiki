@@ -276,27 +276,28 @@ export default function GoldenAllianceDetailPage() {
             </Box>
           </Stack>
 
-          <ChangeHistory history={changesData[decodedName]} />
-
-          <DetailPageNavigation
-            previousItem={
-              previousAlliance
-                ? {
-                    label: previousAlliance,
-                    path: `/howlkins/${toEntitySlug(previousAlliance)}`,
-                  }
-                : null
-            }
-            nextItem={
-              nextAlliance
-                ? {
-                    label: nextAlliance,
-                    path: `/howlkins/${toEntitySlug(nextAlliance)}`,
-                  }
-                : null
-            }
-          />
         </Stack>
+
+        <ChangeHistory history={changesData[decodedName]} />
+
+        <DetailPageNavigation
+          previousItem={
+            previousAlliance
+              ? {
+                  label: previousAlliance,
+                  path: `/howlkins/${toEntitySlug(previousAlliance)}`,
+                }
+              : null
+          }
+          nextItem={
+            nextAlliance
+              ? {
+                  label: nextAlliance,
+                  path: `/howlkins/${toEntitySlug(nextAlliance)}`,
+                }
+              : null
+          }
+        />
       </Container>
     </Box>
   );

@@ -1,5 +1,6 @@
 import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmIllustration, getWyrmPortrait, type CharacterIllustration } from '@/assets';
+import IllustrationPreviewCard from '@/components/common/IllustrationPreviewCard';
 import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
@@ -44,11 +45,9 @@ import {
   Stack,
   Text,
   Title,
-  UnstyledButton,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useEffect, useMemo, useState } from 'react';
-import { IoExpand } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function phaseIndex(phase: WyrmPhase): number {
@@ -205,74 +204,12 @@ export default function WyrmPage() {
             >
               {illustrationSrc && (
                 <>
-                  <Paper
-                    p="md"
-                    radius="lg"
-                    withBorder
-                    {...getCardHoverProps({ style: { overflow: 'hidden' } })}
-                  >
-                    <Stack gap="xs">
-                      <Text fw={600} size="sm">
-                        Illustration
-                      </Text>
-                      <UnstyledButton
-                        onClick={() => setPreviewOpen(true)}
-                        style={{
-                          display: 'block',
-                          width: '100%',
-                          minHeight: isDesktop ? undefined : 44,
-                          borderRadius: 'var(--mantine-radius-md)',
-                          overflow: 'hidden',
-                          position: 'relative',
-                        }}
-                      >
-                        <SafeImage
-                          src={illustrationSrc}
-                          alt={wyrm.name}
-                          fit="contain"
-                          mah={420}
-                          loading="lazy"
-                        />
-                        <Box
-                          style={{
-                            position: 'absolute',
-                            inset: 0,
-                            background:
-                              'linear-gradient(180deg, transparent var(--dt-gradient-overlay-mid), rgba(0,0,0,0.55) 100%)',
-                            pointerEvents: 'none',
-                          }}
-                        />
-                        <Group
-                          justify="space-between"
-                          align="center"
-                          style={{
-                            position: 'absolute',
-                            bottom: 12,
-                            left: 12,
-                            right: 12,
-                          }}
-                        >
-                          <Stack gap={2}>
-                            <Text size="sm" fw={600} c="white">
-                              {wyrm.name}
-                            </Text>
-                            <Text size="xs" c="gray.2">
-                              Artwork
-                            </Text>
-                          </Stack>
-                          <Badge
-                            leftSection={<IoExpand />}
-                            variant="light"
-                            color={accent.primary}
-                            size={isDesktop ? 'md' : 'lg'}
-                          >
-                            View
-                          </Badge>
-                        </Group>
-                      </UnstyledButton>
-                    </Stack>
-                  </Paper>
-
+                  <IllustrationPreviewCard
+                    src={illustrationSrc}
+                    name={wyrm.name}
+                    accentColor={accent.primary}
+                    onExpand={() => setPreviewOpen(true)}
+                  />
                   <IllustrationPreviewModal
                     opened={previewOpen}
                     onClose={() => setPreviewOpen(false)}
