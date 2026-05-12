@@ -47,6 +47,7 @@ const NAV_ITEMS: NavItem[] = [
       { label: 'Resources', path: '/resources' },
       { label: 'Subclasses', path: '/subclasses' },
       { label: 'Status Effects', path: '/status-effects' },
+      { label: 'Wyrms', path: '/wyrms' },
       { label: 'Wyrmspells', path: '/wyrmspells' },
     ],
   },

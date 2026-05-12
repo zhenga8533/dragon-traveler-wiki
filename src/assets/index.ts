@@ -43,13 +43,28 @@ export const QUALITY_ICON_MAP: Record<Quality, string> = {
 
 // ── Wyrms ────────────────────────────────────────────────────────────────────
 
+export function getWyrmIcon(name: string): string | undefined {
+  if (!name) return undefined;
+  return `${BASE}assets/wyrm/${normalizeKey(name)}/avatar.png`;
+}
+
+export function getWyrmPortrait(name: string): string | undefined {
+  if (!name) return undefined;
+  return `${BASE}assets/wyrm/${normalizeKey(name)}/portrait.png`;
+}
+
+export function getWyrmSkillIcon(wyrmName: string, skillName: string): string | undefined {
+  if (!wyrmName || !skillName) return undefined;
+  return `${BASE}assets/wyrm/${normalizeKey(wyrmName)}/skills/${normalizeKey(skillName)}.png`;
+}
+
 export const FACTION_WYRM_MAP: Record<FactionName, string> = {
-  'Elemental Echo': `${BASE}assets/wyrms/fire_whelp.png`,
-  'Wild Spirit': `${BASE}assets/wyrms/emerald_whelp.png`,
-  'Arcane Wisdom': `${BASE}assets/wyrms/butterfly_whelp.png`,
-  'Sanctum Glory': `${BASE}assets/wyrms/light_whelp.png`,
-  'Otherworld Return': `${BASE}assets/wyrms/shadow_whelp.png`,
-  'Illusion Veil': `${BASE}assets/wyrms/dark_whelp.png`,
+  'Elemental Echo': `${BASE}assets/wyrm/fire_whelp/avatar.png`,
+  'Wild Spirit': `${BASE}assets/wyrm/emerald_whelp/avatar.png`,
+  'Arcane Wisdom': `${BASE}assets/wyrm/butterfly_whelp/avatar.png`,
+  'Sanctum Glory': `${BASE}assets/wyrm/light_whelp/avatar.png`,
+  'Otherworld Return': `${BASE}assets/wyrm/shadow_whelp/avatar.png`,
+  'Illusion Veil': `${BASE}assets/wyrm/dark_whelp/avatar.png`,
 };
 
 // ── Artifacts ────────────────────────────────────────────────────────────────

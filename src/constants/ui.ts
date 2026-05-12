@@ -97,6 +97,7 @@ export const DETAIL_ROUTE_PATTERNS = [
   /^\/noble-phantasms\/.+/,
   /^\/oracle-scrolls\/.+/,
   /^\/wyrmspells\/.+/,
+  /^\/wyrms\/.+/,
   /^\/teams\/.+/,
 ];
 
@@ -148,6 +149,9 @@ export const STORAGE_KEY = {
   RELIC_ORACLE_SCROLL_SEARCH: 'relics:oracleScrollSearch',
   HOWLKIN_SORT: 'howlkins:sort',
   WYRMSPELL_SORT: 'wyrmspells:sort',
+  WYRM_VIEW_MODE: 'wyrms:viewMode',
+  WYRM_FILTERS: 'wyrms:filters',
+  WYRM_SORT: 'wyrms:sort',
   NOBLE_PHANTASM_SORT: 'noble-phantasms:sort',
   STATUS_EFFECT_SORT: 'status-effects:sort',
   SUBCLASS_SORT: 'subclasses:sort',

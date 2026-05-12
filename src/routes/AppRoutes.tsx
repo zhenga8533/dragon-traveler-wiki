@@ -28,6 +28,8 @@ const Subclasses = lazy(() => import('@/pages/subclasses'));
 const StatusEffects = lazy(() => import('@/pages/status-effects'));
 const DragonSpells = lazy(() => import('@/pages/wyrmspells/ListPage'));
 const WyrmspellPage = lazy(() => import('@/pages/wyrmspells/DetailPage'));
+const WyrmsListPage = lazy(() => import('@/pages/wyrms/ListPage'));
+const WyrmPage = lazy(() => import('@/pages/wyrms/DetailPage'));
 const TierList = lazy(() => import('@/pages/tier-list'));
 const Teams = lazy(() => import('@/pages/teams'));
 const TeamPage = lazy(() => import('@/pages/team/TeamPage'));
@@ -51,7 +53,7 @@ const ShovelEventGuide = lazy(() => import('@/pages/guides/ShovelEventGuide'));
 const NotFound = lazy(() => import('@/pages/not-found'));
 
 const DETAIL_ROUTE_RE =
-  /^\/(?:artifacts|characters|howlkins|noble-phantasms|gear-sets|oracle-scrolls|wyrmspells|teams(?:\/saved)?)(\/[^/]+)+$/;
+  /^\/(?:artifacts|characters|howlkins|noble-phantasms|gear-sets|oracle-scrolls|wyrmspells|wyrms|teams(?:\/saved)?)(\/[^/]+)+$/;
 
 function RouteFallback() {
   const { pathname } = useLocation();
@@ -95,6 +97,8 @@ export default function AppRoutes() {
         <Route path="/status-effects" element={<StatusEffects />} />
         <Route path="/wyrmspells" element={<DragonSpells />} />
         <Route path="/wyrmspells/:name" element={<WyrmspellPage />} />
+        <Route path="/wyrms" element={<WyrmsListPage />} />
+        <Route path="/wyrms/:name" element={<WyrmPage />} />
         <Route path="/tier-list" element={<TierList />} />
         <Route path="/teams" element={<Teams />} />
         <Route path="/teams/saved/:teamSlug" element={<SavedTeamPage />} />

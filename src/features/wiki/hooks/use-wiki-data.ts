@@ -4,6 +4,7 @@ import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import type { Subclass } from '@/features/wiki/subclasses/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
+import type { Wyrm } from '@/features/wiki/wyrms/types';
 import { useDataFetch } from '@/hooks/use-data-fetch';
 import type { StarTierData } from '@/types/star-level';
 
@@ -37,4 +38,8 @@ export function useArtifacts() {
 
 export function useStarLevels() {
   return useDataFetch<StarTierData[]>('data/star-levels.json', []);
+}
+
+export function useWyrms() {
+  return useDataFetch<Wyrm[]>('data/wyrms.json', []);
 }
