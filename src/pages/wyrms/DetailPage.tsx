@@ -1,5 +1,6 @@
 import SafeImage from '@/components/ui/SafeImage';
-import { getWyrmIllustration, getWyrmPortrait } from '@/assets';
+import { getWyrmIllustration, getWyrmPortrait, type CharacterIllustration } from '@/assets';
+import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
@@ -25,7 +26,7 @@ import EvolutionSection from '@/features/wiki/wyrms/components/EvolutionSection'
 import SkillCard from '@/features/wiki/wyrms/components/SkillCard';
 import StarUpgradesTable from '@/features/wiki/wyrms/components/StarUpgradesTable';
 import { useStatusEffects, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
-import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
+import { useDarkMode, useDataFetch, useGradientAccent, useMobileTooltip } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
 import {
   findEntityByParam,
@@ -43,9 +44,11 @@ import {
   Stack,
   Text,
   Title,
+  UnstyledButton,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
-import { useEffect, useMemo } from 'react';
+import { useEffect, useMemo, useState } from 'react';
+import { IoExpand } from 'react-icons/io5';
 import { useNavigate, useParams } from 'react-router-dom';
 
 function phaseIndex(phase: WyrmPhase): number {
@@ -58,6 +61,8 @@ export default function WyrmPage() {
   const { accent } = useGradientAccent();
   const isDark = useDarkMode();
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
+  const tooltipProps = useMobileTooltip();
+  const [previewOpen, setPreviewOpen] = useState(false);
 
   const { data: wyrms, loading } = useWyrms();
   const { data: statusEffects } = useStatusEffects();
@@ -198,26 +203,91 @@ export default function WyrmPage() {
                 alignSelf: 'flex-start',
               }}
             >
-              <Paper
-                p="md"
-                radius="lg"
-                withBorder
-                {...getCardHoverProps({ style: { overflow: 'hidden' } })}
-              >
-                <Stack gap="xs">
-                  <Text fw={600} size="sm">
-                    Illustration
-                  </Text>
-                  <SafeImage
-                    src={illustrationSrc}
-                    alt={wyrm.name}
-                    fit="contain"
-                    mah={420}
-                    radius="md"
-                    loading="lazy"
+              {illustrationSrc && (
+                <>
+                  <Paper
+                    p="md"
+                    radius="lg"
+                    withBorder
+                    {...getCardHoverProps({ style: { overflow: 'hidden' } })}
+                  >
+                    <Stack gap="xs">
+                      <Text fw={600} size="sm">
+                        Illustration
+                      </Text>
+                      <UnstyledButton
+                        onClick={() => setPreviewOpen(true)}
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          minHeight: isDesktop ? undefined : 44,
+                          borderRadius: 'var(--mantine-radius-md)',
+                          overflow: 'hidden',
+                          position: 'relative',
+                        }}
+                      >
+                        <SafeImage
+                          src={illustrationSrc}
+                          alt={wyrm.name}
+                          fit="contain"
+                          mah={420}
+                          loading="lazy"
+                        />
+                        <Box
+                          style={{
+                            position: 'absolute',
+                            inset: 0,
+                            background:
+                              'linear-gradient(180deg, transparent var(--dt-gradient-overlay-mid), rgba(0,0,0,0.55) 100%)',
+                            pointerEvents: 'none',
+                          }}
+                        />
+                        <Group
+                          justify="space-between"
+                          align="center"
+                          style={{
+                            position: 'absolute',
+                            bottom: 12,
+                            left: 12,
+                            right: 12,
+                          }}
+                        >
+                          <Stack gap={2}>
+                            <Text size="sm" fw={600} c="white">
+                              {wyrm.name}
+                            </Text>
+                            <Text size="xs" c="gray.2">
+                              Artwork
+                            </Text>
+                          </Stack>
+                          <Badge
+                            leftSection={<IoExpand />}
+                            variant="light"
+                            color={accent.primary}
+                            size={isDesktop ? 'md' : 'lg'}
+                          >
+                            View
+                          </Badge>
+                        </Group>
+                      </UnstyledButton>
+                    </Stack>
+                  </Paper>
+
+                  <IllustrationPreviewModal
+                    opened={previewOpen}
+                    onClose={() => setPreviewOpen(false)}
+                    characterName={wyrm.name}
+                    illustrations={[{ name: wyrm.name, src: illustrationSrc, type: 'image' } satisfies CharacterIllustration]}
+                    activeIllustration={{ name: wyrm.name, src: illustrationSrc, type: 'image' }}
+                    activeIllustrationIndex={0}
+                    hasMultipleIllustrations={false}
+                    showPreviousIllustration={() => {}}
+                    showNextIllustration={() => {}}
+                    onSelectIllustration={() => {}}
+                    tooltipProps={tooltipProps}
                   />
-                </Stack>
-              </Paper>
+                </>
+              )}
 
               <StarUpgradesTable wyrm={wyrm} statusEffects={statusEffects} />
             </Stack>

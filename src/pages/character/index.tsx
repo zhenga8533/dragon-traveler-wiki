@@ -46,7 +46,7 @@ import {
 } from '@/features/characters/hooks/use-character-page-data';
 import CharacterBuildSection from '@/features/characters/components/CharacterBuildSection';
 import CharacterHeroSection from '@/features/characters/components/CharacterHeroSection';
-import IllustrationPreviewModal from '@/features/characters/components/IllustrationPreviewModal';
+import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
 import CharacterSkillsSection from '@/features/characters/components/CharacterSkillsSection';
 import CharacterVariantSelector from '@/features/characters/components/CharacterVariantSelector';
 import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
