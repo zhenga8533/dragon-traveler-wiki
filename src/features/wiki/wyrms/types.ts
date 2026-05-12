@@ -12,7 +12,6 @@ export const WYRM_PHASE_ORDER: WyrmPhase[] = [
 export interface WyrmSkill {
   name: string;
   description: string;
-  icon?: string;
 }
 
 export interface WyrmStarUpgrade {
