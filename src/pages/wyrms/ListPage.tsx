@@ -16,7 +16,6 @@ import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import {
   FACTION_NAMES,
-  QUALITY_COLOR,
   QUALITY_ORDER,
 } from '@/constants/colors';
 import {
@@ -26,7 +25,7 @@ import {
   getMinWidthStyle,
 } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
-import type { Wyrm, WyrmPhase } from '@/features/wiki/wyrms/types';
+import type { WyrmPhase } from '@/features/wiki/wyrms/types';
 import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
 import { useStatusEffects, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
 import { applyDir, useFilteredPageData } from '@/hooks';
