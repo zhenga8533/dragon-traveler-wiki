@@ -1,5 +1,5 @@
 import SafeImage from '@/components/ui/SafeImage';
-import { getWyrmIcon, getWyrmIllustration, getWyrmPortrait, getWyrmSkillIcon } from '@/assets';
+import { getWyrmIllustration, getWyrmPortrait } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
@@ -11,12 +11,14 @@ import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
-import { COMPACT_COL_STYLE, getCardHoverProps, getHeroIconBoxStyles } from '@/constants/styles';
+import { getCardHoverProps, getHeroIconBoxStyles } from '@/constants/styles';
 import { BREAKPOINTS } from '@/constants/ui';
 import type { Wyrm, WyrmPhase } from '@/features/wiki/wyrms/types';
 import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
+import EvolutionSection from '@/features/wiki/wyrms/components/EvolutionSection';
+import SkillCard from '@/features/wiki/wyrms/components/SkillCard';
+import StarUpgradesTable from '@/features/wiki/wyrms/components/StarUpgradesTable';
 import { useStatusEffects, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
 import {
@@ -33,163 +35,15 @@ import {
   Paper,
   SimpleGrid,
   Stack,
-  Table,
   Text,
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useEffect, useMemo } from 'react';
-import { Link, useNavigate, useParams } from 'react-router-dom';
-
-const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
-  'Juvenile Phase': 'violet',
-  'Growth Phase': 'yellow',
-  'Final Phase': 'orange',
-};
+import { useNavigate, useParams } from 'react-router-dom';
 
 function phaseIndex(phase: WyrmPhase): number {
   return WYRM_PHASE_ORDER.indexOf(phase);
-}
-
-function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves To'; w: Wyrm; isDark: boolean }) {
-  const iconSrc = getWyrmIcon(w.name);
-  const qualityColor = QUALITY_COLOR[w.quality];
-  const phaseColor = WYRM_PHASE_COLOR[w.phase];
-
-  return (
-    <Paper
-      component={Link}
-      to={`/wyrms/${toEntitySlug(w.name)}`}
-      p="lg"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        interactive: true,
-        style: {
-          textDecoration: 'none',
-          flex: 1,
-          borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
-        },
-      })}
-    >
-      <Stack gap="sm">
-        <Text size="xs" tt="uppercase" fw={700} c={`${qualityColor}.${isDark ? 4 : 6}`} style={{ letterSpacing: '0.06em' }}>
-          {label}
-        </Text>
-        <Group gap="md" align="center" wrap="nowrap">
-          {iconSrc && (
-            <SafeImage
-              src={iconSrc}
-              alt={w.name}
-              w={56}
-              h={56}
-              fit="contain"
-              style={{ flexShrink: 0 }}
-            />
-          )}
-          <Stack gap={6}>
-            <Text fw={700} size="md" className="dt-link-text" style={{ lineHeight: 1.2 }}>
-              {w.name}
-            </Text>
-            <Group gap="xs" wrap="wrap">
-              <QualityIcon quality={w.quality} />
-              <Badge variant="light" size="xs" color={phaseColor}>
-                {w.phase}
-              </Badge>
-            </Group>
-            <FactionTag faction={w.faction} size="sm" />
-          </Stack>
-        </Group>
-      </Stack>
-    </Paper>
-  );
-}
-
-function EvolutionSection({ wyrm, allWyrms, isDark }: { wyrm: Wyrm; allWyrms: Wyrm[]; isDark: boolean }) {
-  const byName = useMemo(() => new Map(allWyrms.map((w) => [w.name, w])), [allWyrms]);
-  const prev = wyrm.evolves_from ? byName.get(wyrm.evolves_from) : undefined;
-  const next = wyrm.evolves_to ? byName.get(wyrm.evolves_to) : undefined;
-
-  if (!prev && !next) return null;
-
-  return (
-    <Stack gap="md">
-      <Title order={2} size="h3">
-        Evolution
-      </Title>
-      <Group gap="sm" align="stretch" wrap="wrap">
-        {prev && <EvolutionCard label="Evolves From" w={prev} isDark={isDark} />}
-        {next && <EvolutionCard label="Evolves To" w={next} isDark={isDark} />}
-      </Group>
-    </Stack>
-  );
-}
-
-function SkillCard({
-  wyrm,
-  skill,
-  statusEffects,
-}: {
-  wyrm: Wyrm;
-  skill: Wyrm['skills'][number];
-  statusEffects: StatusEffect[];
-}) {
-  const iconSrc = getWyrmSkillIcon(wyrm.name, skill.name);
-
-  return (
-    <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
-      <Stack gap="md">
-        <Group gap="md" wrap="nowrap" align="flex-start">
-          {iconSrc && (
-            <SafeImage
-              src={iconSrc}
-              alt={skill.name}
-              w={48}
-              h={48}
-              fit="contain"
-              radius="sm"
-              style={{ flexShrink: 0 }}
-            />
-          )}
-          <Text fw={700} size="lg" style={{ lineHeight: 1.3 }}>
-            {skill.name}
-          </Text>
-        </Group>
-        <RichText text={skill.description} statusEffects={statusEffects} />
-      </Stack>
-    </Paper>
-  );
-}
-
-function StarUpgradesTable({ wyrm }: { wyrm: Wyrm }) {
-  if (wyrm.star_upgrades.length === 0) return null;
-  return (
-    <Stack gap="md">
-      <Title order={2} size="h3">
-        Star Upgrades
-      </Title>
-      <Table striped withTableBorder withColumnBorders>
-        <Table.Thead>
-          <Table.Tr>
-            <Table.Th style={COMPACT_COL_STYLE}>Stars</Table.Th>
-            <Table.Th>Effect</Table.Th>
-          </Table.Tr>
-        </Table.Thead>
-        <Table.Tbody>
-          {wyrm.star_upgrades.map((upgrade) => (
-            <Table.Tr key={upgrade.star}>
-              <Table.Td style={COMPACT_COL_STYLE}>
-                <Text fw={600} size="sm">★{upgrade.star}</Text>
-              </Table.Td>
-              <Table.Td>
-                <Text size="sm">{upgrade.description}</Text>
-              </Table.Td>
-            </Table.Tr>
-          ))}
-        </Table.Tbody>
-      </Table>
-    </Stack>
-  );
 }
 
 export default function WyrmPage() {

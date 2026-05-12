@@ -7,10 +7,10 @@ import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
-import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
+import SuggestModal from '@/components/tools/SuggestModal';
+import { SUBCLASS_FIELDS } from '@/features/wiki/subclasses/form-fields';
 import RichText from '@/components/common/RichText';
 import SortableTh from '@/components/ui/SortableTh';
-import { CLASS_ORDER } from '@/constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import ClassTag from '@/components/ui/ClassTag';
@@ -38,44 +38,6 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-
-const SUBCLASS_FIELDS: FieldDef[] = [
-  {
-    name: 'name',
-    label: 'Name',
-    type: 'text',
-    required: true,
-    placeholder: 'Subclass name',
-  },
-  {
-    name: 'class',
-    label: 'Class',
-    type: 'select',
-    required: true,
-    options: CLASS_ORDER,
-  },
-  {
-    name: 'tier',
-    label: 'Tier',
-    type: 'number',
-    required: true,
-    placeholder: '1, 2, or 3',
-  },
-  {
-    name: 'bonuses',
-    label: 'Bonuses',
-    type: 'textarea',
-    required: true,
-    placeholder: 'One bonus per line',
-  },
-  {
-    name: 'effect',
-    label: 'Effect',
-    type: 'textarea',
-    required: true,
-    placeholder: 'Describe the subclass effect',
-  },
-];
 
 interface SubclassFilters {
   search: string;

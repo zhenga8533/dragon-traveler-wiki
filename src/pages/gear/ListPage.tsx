@@ -7,10 +7,11 @@ import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
-import SuggestModal, {
-  type ArrayFieldDef,
-  type FieldDef,
-} from '@/components/tools/SuggestModal';
+import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
+import {
+  GEAR_SET_FIELDS,
+  GEAR_STATS_ARRAY_FIELDS,
+} from '@/features/wiki/gear/form-fields';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import PaginationControl from '@/components/ui/PaginationControl';
 import SortableTh from '@/components/ui/SortableTh';
@@ -53,54 +54,6 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Link, useNavigate } from 'react-router-dom';
-
-const GEAR_SET_FIELDS: FieldDef[] = [
-  {
-    name: 'name',
-    label: 'Name',
-    type: 'text',
-    required: true,
-    placeholder: 'Gear set name',
-  },
-  {
-    name: 'bonus_quantity',
-    label: 'Set Bonus Quantity',
-    type: 'number',
-    required: true,
-    placeholder: 'e.g. 2 (use 0 for no set bonus)',
-  },
-  {
-    name: 'bonus_description',
-    label: 'Set Bonus Description',
-    type: 'textarea',
-    placeholder: 'Describe the set bonus effect',
-  },
-];
-
-const GEAR_STATS_ARRAY_FIELDS: ArrayFieldDef[] = [
-  {
-    name: 'stats',
-    label: 'Stats',
-    minItems: 1,
-    toDict: { key: 'stat', value: 'value' },
-    fields: [
-      {
-        name: 'stat',
-        label: 'Stat Name',
-        type: 'text',
-        required: true,
-        placeholder: 'e.g. HP',
-      },
-      {
-        name: 'value',
-        label: 'Value',
-        type: 'text',
-        required: true,
-        placeholder: 'e.g. 11810',
-      },
-    ],
-  },
-];
 
 interface GearFilters {
   search: string;

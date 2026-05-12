@@ -13,10 +13,13 @@ import {
   ViewModeLoading,
 } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
-import SuggestModal, {
-  type ArrayFieldDef,
-  type FieldDef,
-} from '@/components/tools/SuggestModal';
+import SuggestModal from '@/components/tools/SuggestModal';
+import {
+  GOLDEN_ALLIANCE_EFFECTS_FIELDS,
+  GOLDEN_ALLIANCE_FIELDS,
+  HOWLKIN_FIELDS,
+  HOWLKIN_STATS_FIELDS,
+} from '@/features/wiki/howlkins/form-fields';
 import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
@@ -58,95 +61,6 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-
-const HOWLKIN_FIELDS: FieldDef[] = [
-  {
-    name: 'name',
-    label: 'Name',
-    type: 'text',
-    required: true,
-    placeholder: 'Howlkin name',
-  },
-  {
-    name: 'quality',
-    label: 'Quality',
-    type: 'select',
-    required: true,
-    options: QUALITY_ORDER,
-  },
-  {
-    name: 'passive_effects',
-    label: 'Passive Effects',
-    type: 'textarea',
-    required: true,
-    placeholder: 'Describe the passive effect(s), one per line',
-  },
-];
-
-const HOWLKIN_STATS_FIELDS: ArrayFieldDef[] = [
-  {
-    name: 'basic_stats',
-    label: 'Basic Stats',
-    minItems: 1,
-    fields: [
-      {
-        name: 'stat',
-        label: 'Stat',
-        type: 'text',
-        required: true,
-        placeholder: 'e.g. Belligerence',
-      },
-      {
-        name: 'value',
-        label: 'Value',
-        type: 'text',
-        required: true,
-        placeholder: 'e.g. 108',
-      },
-    ],
-  },
-];
-
-const GOLDEN_ALLIANCE_FIELDS: FieldDef[] = [
-  {
-    name: 'name',
-    label: 'Alliance Name',
-    type: 'text',
-    required: true,
-    placeholder: 'Golden alliance name',
-  },
-  {
-    name: 'howlkins',
-    label: 'Members',
-    type: 'textarea',
-    required: true,
-    placeholder: 'One Howlkin name per line',
-  },
-];
-
-const GOLDEN_ALLIANCE_EFFECTS_FIELDS: ArrayFieldDef[] = [
-  {
-    name: 'effects',
-    label: 'Alliance Effects',
-    minItems: 1,
-    fields: [
-      {
-        name: 'level',
-        label: 'Level',
-        type: 'number',
-        required: true,
-        placeholder: 'e.g. 1',
-      },
-      {
-        name: 'stats',
-        label: 'Stats',
-        type: 'textarea',
-        required: true,
-        placeholder: 'List stats for this level (comma or newline separated)',
-      },
-    ],
-  },
-];
 
 interface HowlkinFilters {
   search: string;

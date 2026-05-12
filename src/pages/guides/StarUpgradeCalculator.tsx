@@ -1,5 +1,6 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
 import { QUALITY_ICON_MAP } from '@/assets';
+import { parseNumberInput } from '@/utils';
 import StatCard from '@/components/ui/StatCard';
 import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
@@ -62,19 +63,6 @@ const HEART_TRIAL_RATES = {
 const SHARDS_PER_DUPE = 60;
 
 type QualityOption = keyof typeof HEART_TRIAL_RATES;
-
-function parseNumberInput(value: string | number): number | null {
-  if (typeof value === 'number') {
-    return Number.isFinite(value) ? value : null;
-  }
-
-  if (value.trim() === '') {
-    return null;
-  }
-
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
-}
 
 export default function StarUpgradeCalculator() {
   const { accent } = useGradientAccent();

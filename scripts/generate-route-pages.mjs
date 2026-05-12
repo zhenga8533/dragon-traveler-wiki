@@ -13,7 +13,7 @@ const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const distDir = path.resolve(projectRoot, 'dist');
 const dataDir = path.resolve(projectRoot, process.env.DATA_DIR || '../data');
-const assetsDir = path.resolve(projectRoot, process.env.ASSETS_DIR || 'src/assets');
+const assetsDir = path.resolve(projectRoot, process.env.ASSETS_DIR || '../dragon-traveler-data/assets');
 const routeMetaPath = path.resolve(projectRoot, 'src/constants/route-meta.ts');
 const indexHtmlPath = path.join(distDir, 'index.html');
 

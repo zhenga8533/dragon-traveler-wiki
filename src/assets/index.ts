@@ -176,17 +176,11 @@ export function getWyrmspellIcon(name: string, type?: string): string | undefine
 
 // ── Event ────────────────────────────────────────────────────────────────────
 
-function toEventSlug(name: string): string {
-  return name
-    .toLowerCase()
-    .replace(/[^a-z0-9]+/g, '_')
-    .replace(/^_+|_+$/g, '');
-}
 
 export const placeholderEventImage = `${BASE}assets/event/placeholder.webp`;
 
 export function getEventImage(eventName: string): string {
-  return `${BASE}assets/event/${toEventSlug(eventName)}.webp`;
+  return `${BASE}assets/event/${normalizeKey(eventName)}.webp`;
 }
 
 // ── Character ────────────────────────────────────────────────────────────────

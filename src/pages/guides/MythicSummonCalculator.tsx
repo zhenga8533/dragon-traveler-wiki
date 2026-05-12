@@ -1,5 +1,6 @@
 import GuideHeroCard from './components/GuideHeroCard';
 import StatCard from '@/components/ui/StatCard';
+import { parseNumberInput } from '@/utils';
 import {
   getCardHoverProps,
 } from '@/constants/styles';
@@ -79,19 +80,6 @@ const MILESTONES: Milestone[] = [
   { summons: 240, shards: 15 },
   { summons: 300, shards: 20 },
 ];
-
-function parseNumberInput(value: string | number): number | null {
-  if (typeof value === 'number') {
-    return Number.isFinite(value) ? value : null;
-  }
-
-  if (value.trim() === '') {
-    return null;
-  }
-
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
-}
 
 function calculateGuaranteedPulls(
   currentPulls: number,

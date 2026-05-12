@@ -21,6 +21,7 @@ export {
   formatShortDate,
   getLatestTimestamp,
 } from './timestamps';
+export { parseNumberInput } from './number';
 export { isRecord } from './type-guards';
 
 export type { CharacterFilters } from '@/features/characters/utils/filter-characters';

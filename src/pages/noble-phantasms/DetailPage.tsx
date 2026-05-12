@@ -9,22 +9,15 @@ import EntityNotFound from '@/components/ui/EntityNotFound';
 import RichText from '@/components/common/RichText';
 import { getLoreGlassStyles } from '@/constants/glass';
 import {
-  COMPACT_COL_STYLE,
   getCardHoverProps,
   getHeroIconBoxStyles,
 } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
-import type { Character, Skill, Talent } from '@/features/characters/types';
+import type { Character } from '@/features/characters/types';
 import GlobalBadge from '@/components/ui/GlobalBadge';
-import type {
-  NoblePhantasm,
-  NoblePhantasmEffect,
-  NoblePhantasmSkill,
-} from '@/features/wiki/noble-phantasms/types';
-import {
-  getNoblePhantasmTierDetail,
-  getNoblePhantasmTierOrder,
-} from '@/features/wiki/noble-phantasms/utils';
+import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
+import EffectTable from '@/features/wiki/noble-phantasms/components/EffectTable';
+import SkillTable from '@/features/wiki/noble-phantasms/components/SkillTable';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
@@ -34,175 +27,15 @@ import {
   toEntitySlug,
 } from '@/utils/entity-slug';
 import {
-  Badge,
   Box,
   Container,
   Group,
   Paper,
   Stack,
-  Table,
-  Text,
   Title,
 } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-function EffectTable({
-  effects,
-  statusEffects,
-  skills,
-  talent,
-}: {
-  effects: NoblePhantasmEffect[];
-  statusEffects: StatusEffect[];
-  skills?: Skill[];
-  talent?: Talent | null;
-}) {
-  const sortedEffects = [...effects].sort(
-    (a, b) =>
-      getNoblePhantasmTierOrder(a.tier) - getNoblePhantasmTierOrder(b.tier)
-  );
-
-  if (sortedEffects.length === 0) {
-    return (
-      <Text c="dimmed" size="sm">
-        No effect breakpoints recorded.
-      </Text>
-    );
-  }
-
-  
-  return (
-    <Table striped withTableBorder withColumnBorders>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th style={COMPACT_COL_STYLE}>Tier</Table.Th>
-          <Table.Th style={COMPACT_COL_STYLE}>Unlock</Table.Th>
-          <Table.Th>Description</Table.Th>
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>
-        {sortedEffects.map((effect, idx) => {
-          const tierDetail = getNoblePhantasmTierDetail(effect.tier);
-          return (
-            <Table.Tr
-              key={`${effect.tier ?? 'none'}-${effect.tier_level ?? 'none'}-${idx}`}
-            >
-              <Table.Td style={COMPACT_COL_STYLE}>
-                {effect.tier ? (
-                  <Badge
-                    size="sm"
-                    variant="light"
-                    color={tierDetail?.color ?? 'gray'}
-                  >
-                    {effect.tier}
-                  </Badge>
-                ) : (
-                  <Text size="sm" c="dimmed">
-                    —
-                  </Text>
-                )}
-              </Table.Td>
-              <Table.Td style={COMPACT_COL_STYLE}>
-                <Text
-                  size="sm"
-                  fw={tierDetail ? 600 : 400}
-                  c={tierDetail || effect.tier_level != null ? undefined : 'dimmed'}
-                >
-                  {tierDetail?.label ?? effect.tier_level ?? '—'}
-                </Text>
-              </Table.Td>
-              <Table.Td>
-                <RichText
-                  text={effect.description}
-                  statusEffects={statusEffects}
-                  skills={skills}
-                  talent={talent}
-                />
-              </Table.Td>
-            </Table.Tr>
-          );
-        })}
-      </Table.Tbody>
-    </Table>
-  );
-}
-
-function SkillTable({
-  skills,
-  statusEffects,
-  characterSkills,
-  talent,
-}: {
-  skills: NoblePhantasmSkill[];
-  statusEffects: StatusEffect[];
-  characterSkills?: Skill[];
-  talent?: Talent | null;
-}) {
-  const sortedSkills = [...skills].sort((a, b) => {
-    const levelCmp = a.level - b.level;
-    if (levelCmp !== 0) return levelCmp;
-    return getNoblePhantasmTierOrder(a.tier) - getNoblePhantasmTierOrder(b.tier);
-  });
-
-  if (sortedSkills.length === 0) {
-    return (
-      <Text c="dimmed" size="sm">
-        No skill levels recorded.
-      </Text>
-    );
-  }
-
-  
-  return (
-    <Table striped withTableBorder withColumnBorders>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th style={COMPACT_COL_STYLE}>Level</Table.Th>
-          <Table.Th style={COMPACT_COL_STYLE}>Tier</Table.Th>
-          <Table.Th>Description</Table.Th>
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>
-        {sortedSkills.map((skill, idx) => {
-          const tierDetail = getNoblePhantasmTierDetail(skill.tier);
-          return (
-            <Table.Tr key={`${skill.level}-${skill.tier ?? 'none'}-${idx}`}>
-              <Table.Td style={COMPACT_COL_STYLE}>
-                <Text size="sm" fw={600}>
-                  {skill.level}
-                </Text>
-              </Table.Td>
-              <Table.Td style={COMPACT_COL_STYLE}>
-                {skill.tier ? (
-                  <Badge
-                    size="sm"
-                    variant="light"
-                    color={tierDetail?.color ?? 'gray'}
-                  >
-                    {skill.tier}
-                  </Badge>
-                ) : (
-                  <Text size="sm" c="dimmed">
-                    —
-                  </Text>
-                )}
-              </Table.Td>
-              <Table.Td>
-                <RichText
-                  text={skill.description}
-                  statusEffects={statusEffects}
-                  skills={characterSkills}
-                  talent={talent}
-                />
-              </Table.Td>
-            </Table.Tr>
-          );
-        })}
-      </Table.Tbody>
-    </Table>
-  );
-}
 
 export default function NoblePhantasmPage() {
   const { name } = useParams<{ name: string }>();

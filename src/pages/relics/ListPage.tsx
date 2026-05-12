@@ -10,7 +10,8 @@ import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
-import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
+import SuggestModal from '@/components/tools/SuggestModal';
+import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import PaginationControl from '@/components/ui/PaginationControl';
 import SortableTh from '@/components/ui/SortableTh';
@@ -56,43 +57,6 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-
-const RELIC_FIELDS: FieldDef[] = [
-  {
-    name: 'name',
-    label: 'Name',
-    type: 'text',
-    required: true,
-    placeholder: 'Relic name',
-  },
-  {
-    name: 'type',
-    label: 'Type',
-    type: 'select',
-    required: true,
-    options: [...RELIC_TYPE_ORDER],
-  },
-  {
-    name: 'quality',
-    label: 'Quality',
-    type: 'select',
-    required: true,
-    options: [...QUALITY_ORDER],
-  },
-  {
-    name: 'oracle_scroll',
-    label: 'Oracle Scroll',
-    type: 'text',
-    placeholder: 'Oracle scroll name (leave blank if none)',
-  },
-  {
-    name: 'lore',
-    label: 'Lore',
-    type: 'textarea',
-    required: true,
-    placeholder: 'Relic lore text',
-  },
-];
 
 interface RelicFilters {
   search: string;

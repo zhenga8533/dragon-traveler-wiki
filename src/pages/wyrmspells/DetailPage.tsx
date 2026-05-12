@@ -4,7 +4,6 @@ import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
-import RichText from '@/components/common/RichText';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
@@ -14,11 +13,11 @@ import {
   WYRMSPELL_TYPE_COLOR,
   getStableTagColor,
 } from '@/constants/colors';
-import { COMPACT_COL_STYLE, getHeroIconBoxStyles } from '@/constants/styles';
-import type { Wyrmspell, WyrmspellQuality } from '@/features/wiki/wyrmspells/types';
+import { getHeroIconBoxStyles } from '@/constants/styles';
+import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
+import QualitiesTable from '@/features/wiki/wyrmspells/components/QualitiesTable';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
 import {
@@ -31,44 +30,11 @@ import {
   Box,
   Container,
   Group,
-  Table,
   Stack,
   Title,
 } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-function QualitiesTable({
-  qualities,
-  statusEffects,
-}: {
-  qualities: WyrmspellQuality[];
-  statusEffects: StatusEffect[];
-}) {
-  if (qualities.length === 0) return null;
-  return (
-    <Table striped withTableBorder withColumnBorders>
-      <Table.Thead>
-        <Table.Tr>
-          <Table.Th style={COMPACT_COL_STYLE}>Quality</Table.Th>
-          <Table.Th>Effect</Table.Th>
-        </Table.Tr>
-      </Table.Thead>
-      <Table.Tbody>
-        {qualities.map((q) => (
-          <Table.Tr key={q.quality}>
-            <Table.Td style={COMPACT_COL_STYLE}>
-              <QualityIcon quality={q.quality} />
-            </Table.Td>
-            <Table.Td>
-              <RichText text={q.effect} statusEffects={statusEffects} />
-            </Table.Td>
-          </Table.Tr>
-        ))}
-      </Table.Tbody>
-    </Table>
-  );
-}
 
 export default function WyrmspellPage() {
   const { name } = useParams<{ name: string }>();

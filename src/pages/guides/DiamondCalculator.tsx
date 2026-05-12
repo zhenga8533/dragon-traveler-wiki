@@ -1,5 +1,6 @@
 import StatCard from '@/components/ui/StatCard';
 import { getCardHoverProps } from '@/constants/styles';
+import { parseNumberInput } from '@/utils';
 import { useGradientAccent } from '@/hooks';
 import {
   ActionIcon,
@@ -334,19 +335,6 @@ const WILD_HUNT_OPTIONS: Option[] = [
 ];
 
 const SUPREME_MONTHLY_CARD = 10200;
-
-function parseNumberInput(value: string | number): number | null {
-  if (typeof value === 'number') {
-    return Number.isFinite(value) ? value : null;
-  }
-
-  if (value.trim() === '') {
-    return null;
-  }
-
-  const parsed = Number(value);
-  return Number.isFinite(parsed) ? parsed : null;
-}
 
 function buildDefaultRows(baseSources: BaseSource[]): SourceRow[] {
   return baseSources.map((source) => ({
