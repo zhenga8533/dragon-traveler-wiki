@@ -144,6 +144,22 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    pattern: '/wyrms',
+    meta: {
+      title: 'Wyrms',
+      description:
+        'Browse Wyrms with type, quality, and passive ability details.',
+    },
+  },
+  {
+    pattern: '/wyrms/:name',
+    meta: {
+      title: 'Wyrm Details',
+      description:
+        'Full Wyrm breakdown with passive abilities, quality tiers, and related Wyrmspells.',
+    },
+  },
+  {
     pattern: '/wyrmspells',
     meta: {
       title: 'Wyrmspells',

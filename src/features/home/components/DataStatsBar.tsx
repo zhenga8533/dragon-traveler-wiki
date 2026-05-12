@@ -22,6 +22,7 @@ import {
 	IoShield,
 	IoSparkles,
 	IoStatsChart,
+	IoEgg,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import LastUpdated from '@/components/common/LastUpdated';
@@ -37,6 +38,7 @@ import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import type { Subclass } from '@/features/wiki/subclasses/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import type { Relic } from '@/features/wiki/relics/types';
+import type { Wyrm } from '@/features/wiki/wyrms/types';
 
 type StatItem = {
 	label: string;
@@ -59,6 +61,7 @@ export default function DataStatsBar() {
 		accent.secondary,
 		accent.tertiary,
 		accent.primary,
+		accent.secondary,
 	];
 
 	const { data: characters, loading: l1 } = useDataFetch<Character[]>(
@@ -101,6 +104,10 @@ export default function DataStatsBar() {
 		'data/relic.json',
 		[]
 	);
+	const { data: wyrms, loading: l11 } = useDataFetch<Wyrm[]>(
+		'data/wyrms.json',
+		[]
+	);
 
 	const mostRecentUpdate = useMemo(() => {
 		let latest = 0;
@@ -115,6 +122,7 @@ export default function DataStatsBar() {
 			gear,
 			subclasses,
 			relics,
+			wyrms,
 		];
 		for (const list of updateLists) {
 			for (const item of list) {
@@ -134,13 +142,14 @@ export default function DataStatsBar() {
 		gear,
 		subclasses,
 		relics,
+		wyrms,
 	]);
 
-	if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9 || l10) {
+	if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9 || l10 || l11) {
 		return (
 			<Card padding="lg" radius="md" withBorder {...getCardHoverProps()}>
-				<SimpleGrid cols={{ base: 2, sm: 5, lg: 10 }} spacing={0}>
-					{Array.from({ length: 10 }).map((_, i) => (
+				<SimpleGrid cols={{ base: 2, sm: 4, lg: 11 }} spacing={0}>
+					{Array.from({ length: 11 }).map((_, i) => (
 						<Stack key={i} gap={4} align="center" py="sm">
 							<Skeleton height={28} width={28} radius="md" />
 							<Skeleton height={12} width={30} radius="xs" />
@@ -223,6 +232,13 @@ export default function DataStatsBar() {
 			color: accentCycle[9],
 			icon: IoFlame,
 		},
+		{
+			label: 'Wyrms',
+			count: wyrms.length,
+			to: '/wyrms',
+			color: accentCycle[10],
+			icon: IoEgg,
+		},
 	];
 
 	return (
@@ -241,7 +257,7 @@ export default function DataStatsBar() {
 						Wiki Database
 					</Title>
 				</Group>
-				<SimpleGrid cols={{ base: 2, sm: 5, lg: 10 }} spacing={0}>
+				<SimpleGrid cols={{ base: 2, sm: 4, lg: 11 }} spacing={0}>
 					{stats.map((stat) => (
 						<Box
 							key={stat.to}

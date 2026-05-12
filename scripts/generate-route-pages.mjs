@@ -367,6 +367,45 @@ function writeRoutePages() {
         );
       },
     },
+    {
+      pattern: '/wyrms/:name',
+      file: 'wyrms.json',
+      getName: (item) => item?.name,
+      getDescription: (item, baseDescription) => {
+        const desc = item?.description ? truncateText(item.description, 140) : '';
+        return truncateText(
+          `${item?.name ?? 'Wyrm'} — ${item?.phase ?? ''} ${item?.faction ?? ''}. ${desc ? `${desc} ` : ''}${baseDescription}`
+        );
+      },
+    },
+    {
+      pattern: '/wyrmspells/:name',
+      file: 'wyrmspells.json',
+      getName: (item) => item?.name,
+      getDescription: (item, baseDescription) => {
+        const qualities = item?.qualities;
+        const maxEffect = Array.isArray(qualities) && qualities.length > 0
+          ? qualities[qualities.length - 1]?.effect
+          : null;
+        const effectSnippet = maxEffect ? truncateText(maxEffect, 120) : '';
+        return truncateText(
+          `${item?.name ?? 'Wyrmspell'} details. ${effectSnippet ? `${effectSnippet} ` : ''}${baseDescription}`
+        );
+      },
+    },
+    {
+      pattern: '/howlkins/:allianceName',
+      file: 'golden-alliances.json',
+      getName: (item) => item?.name,
+      getDescription: (item, baseDescription) => {
+        const members = Array.isArray(item?.howlkins) && item.howlkins.length > 0
+          ? `Members: ${item.howlkins.slice(0, 4).join(', ')}${item.howlkins.length > 4 ? ` and ${item.howlkins.length - 4} more` : ''}. `
+          : '';
+        return truncateText(
+          `${item?.name ?? 'Golden Alliance'} details. ${members}${baseDescription}`
+        );
+      },
+    },
   ];
 
   for (const config of dynamicRouteConfigs) {
@@ -432,6 +471,25 @@ function writeRoutePages() {
       };
 
       writePage(routePath, meta, imageUrl);
+    }
+  }
+
+  const oracleScrollsMeta = routeMetaByPattern.get('/oracle-scrolls/:scrollName');
+  if (oracleScrollsMeta) {
+    const relicItems = readJsonArray('relic.json');
+    const scrollsSeen = new Set();
+    for (const item of relicItems) {
+      const scrollName = item?.oracle_scroll ?? item?.oracle_sroll;
+      if (!scrollName) continue;
+      const slug = toEntitySlug(scrollName);
+      if (!slug || scrollsSeen.has(slug)) continue;
+      scrollsSeen.add(slug);
+      writePage(`/oracle-scrolls/${slug}`, {
+        title: String(scrollName),
+        description: truncateText(
+          `${scrollName} oracle scroll. ${oracleScrollsMeta.description}`
+        ),
+      });
     }
   }
 
