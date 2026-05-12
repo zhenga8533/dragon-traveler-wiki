@@ -13,8 +13,14 @@ import { QUALITY_COLOR } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getCardHoverProps, getHeroIconBoxStyles } from '@/constants/styles';
 import { BREAKPOINTS } from '@/constants/ui';
-import type { Wyrm, WyrmPhase } from '@/features/wiki/wyrms/types';
+import type { WyrmPhase } from '@/features/wiki/wyrms/types';
 import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
+
+const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
+  'Juvenile Phase': 'violet',
+  'Growth Phase': 'yellow',
+  'Final Phase': 'orange',
+};
 import EvolutionSection from '@/features/wiki/wyrms/components/EvolutionSection';
 import SkillCard from '@/features/wiki/wyrms/components/SkillCard';
 import StarUpgradesTable from '@/features/wiki/wyrms/components/StarUpgradesTable';
@@ -171,9 +177,7 @@ export default function WyrmPage() {
             {...getCardHoverProps({ style: getLoreGlassStyles(isDark) })}
           >
             <Stack gap="xs">
-              <Text size="sm" lh={1.6} fs="italic">
-                {wyrm.description}
-              </Text>
+              <RichText text={wyrm.description} statusEffects={statusEffects} italic lineHeight={1.6} />
               {wyrm.battle_description && (
                 <RichText text={wyrm.battle_description} statusEffects={statusEffects} />
               )}
@@ -215,7 +219,7 @@ export default function WyrmPage() {
                 </Stack>
               </Paper>
 
-              <StarUpgradesTable wyrm={wyrm} />
+              <StarUpgradesTable wyrm={wyrm} statusEffects={statusEffects} />
             </Stack>
           </Grid.Col>
 

@@ -1,5 +1,6 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets';
+import RichText from '@/components/common/RichText';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
@@ -26,6 +27,7 @@ import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear, GearSet, GearType } from '@/features/wiki/gear/types';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import {
   applyDir,
   useDataFetch,
@@ -101,6 +103,7 @@ export default function GearPage() {
     loading: gearSetsLoading,
     error: gearSetsError,
   } = useDataFetch<GearSet[]>('data/gear-sets.json', []);
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
 
   const gearSetOptions = useMemo(
     () =>
@@ -464,7 +467,7 @@ export default function GearPage() {
                                 )}
                               </Group>
                               <Text size="xs" c="dimmed" lineClamp={2}>
-                                {item.lore}
+                                <RichText text={item.lore} statusEffects={statusEffects} italic />
                               </Text>
                             </Stack>
                           </Group>
@@ -575,9 +578,11 @@ export default function GearPage() {
                               </Table.Td>
                               <Table.Td>
                                 <Text size="sm" c="dimmed">
-                                  {setBonus && setBonus.quantity > 0
-                                    ? `${setBonus.quantity}-piece: ${setBonus.description}`
-                                    : '—'}
+                                  {setBonus && setBonus.quantity > 0 ? (
+                                    <>{setBonus.quantity}-piece:{' '}
+                                      <RichText text={setBonus.description} statusEffects={statusEffects} />
+                                    </>
+                                  ) : '—'}
                                 </Text>
                               </Table.Td>
                             </Table.Tr>

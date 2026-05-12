@@ -20,6 +20,7 @@ export interface RichTextProps {
   italic?: boolean;
   lineHeight?: number;
   color?: string;
+  disablePopovers?: boolean;
 }
 
 interface ReferenceBadgeProps {
@@ -29,6 +30,7 @@ interface ReferenceBadgeProps {
   color: string;
   description?: string;
   lines?: string[];
+  disablePopovers?: boolean;
 }
 
 function ReferenceBadge({
@@ -38,11 +40,12 @@ function ReferenceBadge({
   color,
   description,
   lines,
+  disablePopovers,
 }: ReferenceBadgeProps) {
   const hasDetails = Boolean(description) || (lines?.length ?? 0) > 0;
   const badgeLabel = displayName ?? name;
 
-  if (!hasDetails) {
+  if (!hasDetails || disablePopovers) {
     return (
       <Badge variant="light" color={color} size="sm" component="span">
         {badgeLabel}
@@ -128,6 +131,7 @@ export default function RichText({
   italic = false,
   lineHeight,
   color,
+  disablePopovers,
 }: RichTextProps) {
   const segments = splitEffectRefs(text);
   const { resources } = useContext(ResourcesContext);
@@ -173,6 +177,7 @@ export default function RichText({
               name={statusEffect.name}
               displayName={seg.name}
               statusEffects={statusEffects}
+              disablePopover={disablePopovers}
             />
           );
         }
@@ -202,6 +207,7 @@ export default function RichText({
               label="Skill"
               color={accent.secondary}
               description={skill.description}
+              disablePopovers={disablePopovers}
             />
           );
         }
@@ -230,6 +236,7 @@ export default function RichText({
               label="Talent"
               color={accent.tertiary}
               lines={talentLines}
+              disablePopovers={disablePopovers}
             />
           );
         }

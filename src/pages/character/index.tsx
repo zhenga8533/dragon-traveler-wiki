@@ -27,6 +27,7 @@ import { useParams } from 'react-router-dom';
 import SafeImage from '@/components/ui/SafeImage';
 import { getSubclassIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
+import RichText from '@/components/common/RichText';
 import ClassTag from '@/components/ui/ClassTag';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import EntityNotFound from '@/components/ui/EntityNotFound';
@@ -413,9 +414,11 @@ export default function CharacterPage() {
                               )}
                             </Group>
                             {subclassDetails?.effect && (
-                              <Text size="xs" style={{ lineHeight: 1.4 }}>
-                                {subclassDetails.effect}
-                              </Text>
+                              <RichText
+                                text={subclassDetails.effect}
+                                statusEffects={statusEffects}
+                                disablePopovers
+                              />
                             )}
                             {subclassBonuses.length > 0 && (
                               <Text

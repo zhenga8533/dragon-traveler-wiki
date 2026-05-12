@@ -344,7 +344,7 @@ export default function CharacterPageBuildSection({
                           </Text>
                           {topEffect && (
                             <Text size="xs" c="dimmed" lineClamp={2}>
-                              {topEffect.description}
+                              <RichText text={topEffect.description} statusEffects={statusEffects} />
                             </Text>
                           )}
                         </Stack>
@@ -385,9 +385,11 @@ export default function CharacterPageBuildSection({
                           )}
                         </Group>
                         {entry.effect && (
-                          <Text size="xs" style={{ lineHeight: 1.4 }}>
-                            {entry.effect}
-                          </Text>
+                          <RichText
+                            text={entry.effect}
+                            statusEffects={statusEffects}
+                            disablePopovers
+                          />
                         )}
                         {entry.bonuses.length > 0 && (
                           <Text
@@ -546,9 +548,11 @@ export default function CharacterPageBuildSection({
                                 Set Bonus: {entry.setBonus.quantity} Piece
                                 {entry.setBonus.quantity > 1 ? 's' : ''}
                               </Badge>
-                              <Text size="xs" style={{ lineHeight: 1.35 }}>
-                                {entry.setBonus.description}
-                              </Text>
+                              <RichText
+                                text={entry.setBonus.description}
+                                statusEffects={statusEffects}
+                                disablePopovers
+                              />
                             </Stack>
                           )}
                         {statsEntries.length > 0 && (
@@ -575,9 +579,11 @@ export default function CharacterPageBuildSection({
                             <Text size="xs" c="dimmed" fw={600}>
                               Lore
                             </Text>
-                            <Text size="xs" style={{ lineHeight: 1.35 }}>
-                              {entry.lore}
-                            </Text>
+                            <RichText
+                              text={entry.lore}
+                              statusEffects={statusEffects}
+                              disablePopovers
+                            />
                           </Stack>
                         )}
                       </Stack>
@@ -689,9 +695,11 @@ export default function CharacterPageBuildSection({
                           <Text size="xs" c="dimmed" fw={600}>
                             Effect
                           </Text>
-                          <Text size="xs" style={{ lineHeight: 1.35 }}>
-                            {setBonus.description}
-                          </Text>
+                          <RichText
+                            text={setBonus.description}
+                            statusEffects={statusEffects}
+                            disablePopovers
+                          />
                         </Stack>
                       </Stack>
                     );
@@ -728,7 +736,7 @@ export default function CharacterPageBuildSection({
                               {setBonus.pieces}/{setBonus.requiredPieces} pieces
                             </Text>
                             <Text size="xs" c="dimmed" lineClamp={2}>
-                              {setBonus.description}
+                              <RichText text={setBonus.description} statusEffects={statusEffects} />
                             </Text>
                           </Stack>
                         </Paper>

@@ -6,18 +6,21 @@ import { IMAGE_SIZE, POPOVER_BADGE_WIDTH } from '@/constants/ui';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { normalizeName } from '@/utils';
 import IconBadge from '@/components/ui/IconBadge';
+import RichText from '@/components/common/RichText';
 import SafeImage from '@/components/ui/SafeImage';
 
 export interface StatusEffectBadgeProps {
   name: string;
   statusEffects: StatusEffect[];
   displayName?: string;
+  disablePopover?: boolean;
 }
 
 export default function StatusEffectBadge({
   name,
   statusEffects,
   displayName,
+  disablePopover,
 }: StatusEffectBadgeProps) {
   const effect = statusEffects.find(
     (e) => normalizeName(e.name) === normalizeName(name)
@@ -33,6 +36,14 @@ export default function StatusEffectBadge({
 
   const color = STATE_COLOR[effect.type];
   const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name, effect.type) : undefined;
+
+  if (disablePopover) {
+    return (
+      <Badge variant="light" color={color} size="sm" component="span">
+        {displayName ?? name}
+      </Badge>
+    );
+  }
 
   return (
     <IconBadge
@@ -52,9 +63,11 @@ export default function StatusEffectBadge({
               {effect.type}
             </Badge>
           </Group>
-          <Text size="xs" style={WHITE_SPACE_PRE_LINE_STYLE}>
-            {effect.effect}
-          </Text>
+          <RichText
+            text={effect.effect}
+            statusEffects={statusEffects}
+            disablePopovers
+          />
           {effect.remark && (
             <Text
               size="xs"

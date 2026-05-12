@@ -1,5 +1,7 @@
 import { getWyrmspellIcon } from '@/assets';
+import RichText from '@/components/common/RichText';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useDataFetch } from '@/hooks';
@@ -22,10 +24,8 @@ export default function WyrmspellBadge({
   name,
   size = 'sm',
 }: WyrmspellBadgeProps) {
-  const { data: wyrmspells } = useDataFetch<Wyrmspell[]>(
-    'data/wyrmspells.json',
-    []
-  );
+  const { data: wyrmspells } = useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
 
   const wyrmspell =
     wyrmspells.find(
@@ -78,9 +78,11 @@ export default function WyrmspellBadge({
             </Group>
 
             {maxQuality && (
-              <Text size="xs" c="dimmed" style={{ lineHeight: 1.4 }}>
-                {maxQuality.effect}
-              </Text>
+              <RichText
+                text={maxQuality.effect}
+                statusEffects={statusEffects}
+                disablePopovers
+              />
             )}
 
             <Anchor

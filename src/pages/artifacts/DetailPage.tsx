@@ -123,9 +123,7 @@ function TreasureCard({
             <ClassTag characterClass={treasure.character_class} size="sm" />
           </Stack>
         </Group>
-        <Text size="sm" c="dimmed" fs="italic" lh={1.6}>
-          {treasure.lore}
-        </Text>
+        <RichText text={treasure.lore} statusEffects={statusEffects} italic lineHeight={1.6} />
         <EffectTable effects={treasure.effect} statusEffects={statusEffects} />
       </Stack>
     </Paper>
@@ -287,9 +285,7 @@ export default function ArtifactPage() {
             style: getLoreGlassStyles(isDark),
           })}
         >
-          <Text size="sm" lh={1.6} fs="italic">
-            {artifact.lore}
-          </Text>
+          <RichText text={artifact.lore} statusEffects={statusEffects} italic lineHeight={1.6} />
         </Paper>
       </DetailPageHero>
 

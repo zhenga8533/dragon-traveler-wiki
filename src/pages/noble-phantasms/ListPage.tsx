@@ -37,6 +37,8 @@ import {
 } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import RichText from '@/components/common/RichText';
 import { getLatestTimestamp } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
@@ -60,10 +62,8 @@ export default function NoblePhantasms() {
     loading,
     error,
   } = useDataFetch<NoblePhantasm[]>('data/noble-phantasm.json', []);
-  const { data: characters } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
+  const { data: characters } = useDataFetch<Character[]>('data/characters.json', []);
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
 
   const noblePhantasmFields = useMemo<FieldDef[]>(() => {
     const nameCounts = buildCharacterNameCounts(characters);
@@ -273,9 +273,10 @@ export default function NoblePhantasms() {
                           </Group>
                           {(np.lore || np.effects[0]?.description || np.skills[0]?.description) && (
                             <Text size="xs" c="dimmed" lineClamp={2}>
-                              {np.lore ??
-                                np.effects[0]?.description ??
-                                np.skills[0]?.description}
+                              <RichText
+                                text={np.lore ?? np.effects[0]?.description ?? np.skills[0]?.description ?? ''}
+                                statusEffects={statusEffects}
+                              />
                             </Text>
                           )}
                         </Stack>

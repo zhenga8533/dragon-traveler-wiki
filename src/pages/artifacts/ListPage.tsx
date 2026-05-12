@@ -6,6 +6,7 @@ import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
+import RichText from '@/components/common/RichText';
 import SortableTh from '@/components/ui/SortableTh';
 import {
   ARTIFACT_EFFECT_ARRAY_FIELDS,
@@ -22,6 +23,7 @@ import { STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import type { Artifact } from '@/features/wiki/artifacts/types';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import {
   applyDir,
   useDataFetch,
@@ -60,6 +62,7 @@ export default function Artifacts() {
     loading,
     error,
   } = useDataFetch<Artifact[]>('data/artifacts.json', []);
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
   const {
     filters,
     setFilters,
@@ -237,7 +240,7 @@ export default function Artifacts() {
                             </Badge>
                           </Group>
                           <Text size="xs" c="dimmed" lineClamp={2}>
-                            {artifact.lore}
+                            <RichText text={artifact.lore} statusEffects={statusEffects} italic />
                           </Text>
                         </Stack>
                       </Group>

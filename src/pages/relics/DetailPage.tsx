@@ -16,6 +16,8 @@ import {
   getRelicOracleScroll,
   getRelicTypeOrder,
 } from '@/features/wiki/relics/utils';
+import RichText from '@/components/common/RichText';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
 import type { ChangesFile } from '@/types/changes';
 import {
@@ -51,6 +53,7 @@ export default function OracleScrollPage() {
     'data/changes/relic.json',
     {}
   );
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
 
   // All distinct oracle scroll names, sorted
   const oracleScrollNames = useMemo(() => {
@@ -264,9 +267,7 @@ export default function OracleScrollPage() {
                             style: getLoreGlassStyles(isDark),
                           })}
                         >
-                          <Text size="sm" c="dimmed" fs="italic">
-                            {relic.lore}
-                          </Text>
+                          <RichText text={relic.lore} statusEffects={statusEffects} italic />
                         </Paper>
                       </Stack>
                     </Paper>

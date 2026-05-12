@@ -11,7 +11,9 @@ import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
+import RichText from '@/components/common/RichText';
 import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import PaginationControl from '@/components/ui/PaginationControl';
 import SortableTh from '@/components/ui/SortableTh';
@@ -93,6 +95,7 @@ export default function RelicPage() {
     loading,
     error,
   } = useDataFetch<Relic[]>('data/relic.json', []);
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
 
   const {
     filters,
@@ -394,7 +397,7 @@ export default function RelicPage() {
                                 )}
                               </Group>
                               <Text size="xs" c="dimmed" lineClamp={2}>
-                                {item.lore}
+                                <RichText text={item.lore} statusEffects={statusEffects} italic />
                               </Text>
                             </Stack>
                           </Group>
@@ -504,7 +507,7 @@ export default function RelicPage() {
                             </Table.Td>
                             <Table.Td>
                               <Text size="sm" c="dimmed" lineClamp={2}>
-                                {item.lore}
+                                <RichText text={item.lore} statusEffects={statusEffects} italic />
                               </Text>
                             </Table.Td>
                           </Table.Tr>

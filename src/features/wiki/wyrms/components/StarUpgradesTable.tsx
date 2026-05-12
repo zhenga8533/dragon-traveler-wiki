@@ -1,8 +1,16 @@
+import RichText from '@/components/common/RichText';
 import { COMPACT_COL_STYLE } from '@/constants/styles';
 import type { Wyrm } from '@/features/wiki/wyrms/types';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { Stack, Table, Text, Title } from '@mantine/core';
 
-export default function StarUpgradesTable({ wyrm }: { wyrm: Wyrm }) {
+export default function StarUpgradesTable({
+  wyrm,
+  statusEffects = [],
+}: {
+  wyrm: Wyrm;
+  statusEffects?: StatusEffect[];
+}) {
   if (wyrm.star_upgrades.length === 0) return null;
   return (
     <Stack gap="md">
@@ -23,7 +31,7 @@ export default function StarUpgradesTable({ wyrm }: { wyrm: Wyrm }) {
                 <Text fw={600} size="sm">★{upgrade.star}</Text>
               </Table.Td>
               <Table.Td>
-                <Text size="sm">{upgrade.description}</Text>
+                <RichText text={upgrade.description} statusEffects={statusEffects} />
               </Table.Td>
             </Table.Tr>
           ))}

@@ -1,11 +1,14 @@
 import { getWyrmspellIcon } from '@/assets';
+import RichText from '@/components/common/RichText';
 import { WYRMSPELL_TYPE_COLOR, getStableTagColor } from '@/constants/colors';
 import { getCardHoverProps } from '@/constants/styles';
 import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
+import { useDataFetch } from '@/hooks';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { Badge, Group, Paper, Stack, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
@@ -22,6 +25,7 @@ export default function WyrmspellCard({
   type,
   wyrmspells = [],
 }: WyrmspellCardProps) {
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
   const wyrmspell = wyrmspells.find((w) => w.name === name);
   const displayType = type || wyrmspell?.type || 'Unknown';
   const iconSrc = getWyrmspellIcon(name, displayType);
@@ -71,7 +75,7 @@ export default function WyrmspellCard({
         </Group>
         {maxQuality && (
           <Text size="xs" c="dimmed" ta="center" lineClamp={2}>
-            {maxQuality.effect}
+            <RichText text={maxQuality.effect} statusEffects={statusEffects} />
           </Text>
         )}
       </Stack>

@@ -1,6 +1,7 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
 import { getGearIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
+import RichText from '@/components/common/RichText';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
@@ -24,6 +25,7 @@ import {
 } from '@/features/characters/utils/character-route';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { Gear, GearSet } from '@/features/wiki/gear/types';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import {
   useDarkMode,
   useDataFetch,
@@ -72,6 +74,10 @@ export default function GearSetPage() {
   const { data: gearChangesData } = useDataFetch<ChangesFile>(
     'data/changes/gear.json',
     {}
+  );
+  const { data: statusEffects } = useDataFetch<StatusEffect[]>(
+    'data/status-effects.json',
+    []
   );
 
   const decodedSetName = useMemo(() => {
@@ -255,7 +261,8 @@ export default function GearSetPage() {
           <LastUpdated timestamp={lastUpdatedTimestamp} />
           {setBonus && setBonus.quantity > 0 && (
             <Text c="dimmed" size="sm">
-              {setBonus.quantity}-piece set bonus: {setBonus.description}
+              {setBonus.quantity}-piece set bonus:{' '}
+              <RichText text={setBonus.description} statusEffects={statusEffects} />
             </Text>
           )}
           {recommendedStats !== null && (
@@ -286,7 +293,7 @@ export default function GearSetPage() {
               <Text size="sm" c="dimmed">
                 Activate {setBonus.quantity} piece
                 {setBonus.quantity !== 1 ? 's' : ''} to gain{' '}
-                {setBonus.description}
+                <RichText text={setBonus.description} statusEffects={statusEffects} />
               </Text>
             </Stack>
           </Paper>
@@ -390,7 +397,7 @@ export default function GearSetPage() {
                           />
                         </Group>
                         <Text size="sm" c="dimmed" fs="italic" lineClamp={2}>
-                          {item.lore}
+                          <RichText text={item.lore} statusEffects={statusEffects} italic />
                         </Text>
                       </Stack>
                     </Group>
