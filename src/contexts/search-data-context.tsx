@@ -1,7 +1,25 @@
 /* eslint-disable react-refresh/only-export-components */
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import type { Character } from '@/features/characters/types';
-import type { TierList } from '@/features/tier-list/types';
+import { useTeams } from '@/features/teams/hooks/use-teams-data';
 import type { Team } from '@/features/teams/types';
+import { useTierLists } from '@/features/tier-list/hooks/use-tier-list-data';
+import type { TierList } from '@/features/tier-list/types';
+import {
+  useArtifacts,
+  useCodes,
+  useEvents,
+  useGear,
+  useHowlkins,
+  useNoblePhantasms,
+  useRelics,
+  useResources,
+  useStatusEffects,
+  useSubclasses,
+  useUsefulLinks,
+  useWyrms,
+  useWyrmspells,
+} from '@/features/wiki/hooks/use-wiki-data';
 import type { Artifact } from '@/features/wiki/artifacts/types';
 import type { GameEvent } from '@/features/wiki/events/types';
 import type { Gear } from '@/features/wiki/gear/types';
@@ -12,7 +30,6 @@ import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import type { Subclass } from '@/features/wiki/subclasses/types';
 import type { Wyrm } from '@/features/wiki/wyrms/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
-import { useDataFetch } from '@/hooks/use-data-fetch';
 import type { Code } from '@/types/code';
 import type { Resource } from '@/types/resource';
 import type { UsefulLink } from '@/types/useful-link';
@@ -57,49 +74,22 @@ export const SearchDataContext = createContext<SearchDataContextValue>({
 });
 
 export function SearchDataProvider({ children }: { children: ReactNode }) {
-  const { data: characters } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
-  const { data: artifacts } = useDataFetch<Artifact[]>(
-    'data/artifacts.json',
-    []
-  );
-  const { data: gear } = useDataFetch<Gear[]>('data/gear.json', []);
-  const { data: howlkins } = useDataFetch<Howlkin[]>('data/howlkins.json', []);
-  const { data: relics } = useDataFetch<Relic[]>('data/relic.json', []);
-  const { data: resources } = useDataFetch<Resource[]>(
-    'data/resources.json',
-    []
-  );
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>(
-    'data/status-effects.json',
-    []
-  );
-  const { data: subclasses } = useDataFetch<Subclass[]>(
-    'data/subclasses.json',
-    []
-  );
-  const { data: wyrmspells } = useDataFetch<Wyrmspell[]>(
-    'data/wyrmspells.json',
-    []
-  );
-  const { data: noblePhantasms } = useDataFetch<NoblePhantasm[]>(
-    'data/noble-phantasm.json',
-    []
-  );
-  const { data: wyrms } = useDataFetch<Wyrm[]>('data/wyrms.json', []);
-  const { data: teams } = useDataFetch<Team[]>('data/teams.json', []);
-  const { data: codes } = useDataFetch<Code[]>('data/codes.json', []);
-  const { data: events } = useDataFetch<GameEvent[]>('data/events.json', []);
-  const { data: usefulLinks } = useDataFetch<UsefulLink[]>(
-    'data/useful-links.json',
-    []
-  );
-  const { data: tierLists } = useDataFetch<TierList[]>(
-    'data/tier-lists.json',
-    []
-  );
+  const { data: characters } = useCharacters();
+  const { data: artifacts } = useArtifacts();
+  const { data: gear } = useGear();
+  const { data: howlkins } = useHowlkins();
+  const { data: relics } = useRelics();
+  const { data: resources } = useResources();
+  const { data: statusEffects } = useStatusEffects();
+  const { data: subclasses } = useSubclasses();
+  const { data: wyrmspells } = useWyrmspells();
+  const { data: noblePhantasms } = useNoblePhantasms();
+  const { data: wyrms } = useWyrms();
+  const { data: teams } = useTeams();
+  const { data: codes } = useCodes();
+  const { data: events } = useEvents();
+  const { data: usefulLinks } = useUsefulLinks();
+  const { data: tierLists } = useTierLists();
 
   const value = useMemo(
     () => ({
