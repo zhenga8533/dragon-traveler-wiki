@@ -4,7 +4,7 @@ import type { FactionName } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 import { normalizeKey, normalizeQualityKey } from '@/assets/utils';
 
-const BASE = import.meta.env.BASE_URL;
+const BASE = import.meta.env.VITE_ASSETS_BASE ?? import.meta.env.BASE_URL;
 
 // ── Class ────────────────────────────────────────────────────────────────────
 

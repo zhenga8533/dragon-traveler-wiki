@@ -3,6 +3,8 @@ name: Deploy to GitHub Pages
 on:
   push:
     branches: [main]
+  repository_dispatch:
+    types: [data-updated]
   workflow_dispatch:
     inputs:
       data_branch:
@@ -50,16 +52,11 @@ jobs:
         run: npm run build --ignore-scripts
         env:
           DATA_DIR: private-data/data
-          ASSETS_DIR: private-data/assets
           VITE_APP_BASE: /
+          VITE_ASSETS_BASE: ${{ vars.R2_PUBLIC_URL }}
 
       - name: Copy data into dist
         run: cp -r private-data/data dist/data
-
-      - name: Copy assets into dist
-        run: |
-          mkdir -p dist/assets
-          cp -r private-data/assets/* dist/assets/
 
       - name: Setup Pages
         uses: actions/configure-pages@v5
