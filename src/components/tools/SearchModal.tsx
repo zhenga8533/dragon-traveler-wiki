@@ -1,12 +1,16 @@
 import SafeImage from '@/components/ui/SafeImage';
-import { getArtifactIcon } from '@/assets';
-import { getGearIcon } from '@/assets';
-import { getHowlkinIcon } from '@/assets';
-import { getNoblePhantasmIcon } from '@/assets';
-import { getResourceIcon } from '@/assets';
-import { getStatusEffectIcon } from '@/assets';
-import { getSubclassIcon } from '@/assets';
-import { getWyrmspellIcon } from '@/assets';
+import {
+  getArtifactIcon,
+  getGearIcon,
+  getHowlkinIcon,
+  getNoblePhantasmIcon,
+  getRelicIcon,
+  getResourceIcon,
+  getStatusEffectIcon,
+  getSubclassIcon,
+  getWyrmPortrait,
+  getWyrmspellIcon,
+} from '@/assets';
 import { normalizeContentType } from '@/constants/content-types';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import { SearchDataContext } from '@/contexts';
@@ -63,15 +67,17 @@ type SearchResult = {
     | 'event'
     | 'gear'
     | 'howlkin'
+    | 'noble-phantasm'
+    | 'page'
+    | 'relic'
     | 'resource'
     | 'status-effect'
     | 'subclass'
+    | 'team'
     | 'tier-list'
     | 'useful-link'
-    | 'wyrmspell'
-    | 'noble-phantasm'
-    | 'team'
-    | 'page';
+    | 'wyrm'
+    | 'wyrmspell';
   title: string;
   subtitle?: string;
   path: string;
@@ -102,6 +108,11 @@ const PAGES = [
     keywords: 'noble phantasm noble phantasms database',
   },
   {
+    title: 'Relics',
+    path: '/relics',
+    keywords: 'relics sanctuary fated legendary ritual vessel oracle scroll',
+  },
+  {
     title: 'Resources',
     path: '/resources',
     keywords: 'resources materials currency items',
@@ -120,6 +131,11 @@ const PAGES = [
     title: 'Status Effects',
     path: '/status-effects',
     keywords: 'status effects buffs debuffs',
+  },
+  {
+    title: 'Wyrms',
+    path: '/wyrms',
+    keywords: 'wyrms dragons dragon companions battle faction',
   },
   {
     title: 'Wyrmspells',
@@ -193,14 +209,16 @@ const CATEGORY_LABELS: Record<SearchResult['type'], string> = {
   gear: 'Gear',
   howlkin: 'Howlkins',
   'noble-phantasm': 'Noble Phantasms',
+  page: 'Pages',
+  relic: 'Relics',
   resource: 'Resources',
   'status-effect': 'Status Effects',
   subclass: 'Subclasses',
+  team: 'Teams',
   'tier-list': 'Tier Lists',
   'useful-link': 'Useful Links',
+  wyrm: 'Wyrms',
   wyrmspell: 'Wyrmspells',
-  team: 'Teams',
-  page: 'Pages',
 };
 
 interface SearchModalProps {
@@ -225,9 +243,11 @@ export default function SearchModal({
     artifacts,
     gear,
     howlkins,
+    relics,
     resources,
     statusEffects,
     subclasses,
+    wyrms,
     wyrmspells,
     noblePhantasms,
     teams,
@@ -323,6 +343,23 @@ export default function SearchModal({
             threshold: 0.3,
           })
         : null,
+      relics: relics.length
+        ? new Fuse(relics, {
+            keys: ['name', 'type', 'quality', 'lore'],
+            threshold: 0.3,
+          })
+        : null,
+      wyrms: wyrms.length
+        ? new Fuse(wyrms, {
+            keys: [
+              { name: 'name', weight: 2 },
+              'faction',
+              'description',
+              'battle_description',
+            ],
+            threshold: 0.3,
+          })
+        : null,
       noblePhantasms: noblePhantasms.length
         ? new Fuse(noblePhantasms, {
             keys: ['name', 'character', 'lore'],
@@ -371,15 +408,17 @@ export default function SearchModal({
       characters,
       artifacts,
       gear,
+      howlkins,
+      relics,
+      resources,
       statusEffects,
       subclasses,
+      wyrms,
       wyrmspells,
-      teams,
-      howlkins,
       noblePhantasms,
-      resources,
-      events,
+      teams,
       codes,
+      events,
       usefulLinks,
       tierLists,
     ]
@@ -512,7 +551,7 @@ export default function SearchModal({
             type: 'team' as const,
             title: r.item.name,
             subtitle: `${r.item.members.length} characters`,
-            path: '/teams',
+            path: `/teams/${toEntitySlug(r.item.name)}`,
             icon: IoPeopleOutline,
             color: 'green',
           }))
@@ -631,13 +670,43 @@ export default function SearchModal({
       );
     }
 
-    return results.slice(0, 18);
+    if (fuseIndices.relics) {
+      results.push(
+        ...fuseIndices.relics
+          .search(q)
+          .slice(0, 5)
+          .map((r) => ({
+            type: 'relic' as const,
+            title: r.item.name,
+            subtitle: r.item.type,
+            path: '/relics',
+            icon: getRelicIcon(r.item.name, r.item.quality) ?? IoDiamondOutline,
+            color: 'violet',
+          }))
+      );
+    }
+
+    if (fuseIndices.wyrms) {
+      results.push(
+        ...fuseIndices.wyrms
+          .search(q)
+          .slice(0, 5)
+          .map((r) => ({
+            type: 'wyrm' as const,
+            title: r.item.name,
+            subtitle: `${r.item.faction} · ${r.item.phase}`,
+            path: `/wyrms/${toEntitySlug(r.item.name)}`,
+            icon: getWyrmPortrait(r.item.name) ?? IoFlameOutline,
+            color: 'red',
+          }))
+      );
+    }
+
+    return results;
   }, [debouncedQuery, fuseIndices, characterNameCounts]);
 
   useEffect(() => {
-    queueMicrotask(() => {
-      setSelectedIndex(0);
-    });
+    setSelectedIndex(0);
   }, [searchResults]);
 
   const handleSelect = (result: SearchResult) => {
@@ -830,6 +899,7 @@ export default function SearchModal({
                 const isNewCategory =
                   index === 0 || searchResults[index - 1].type !== result.type;
                 const isCharacterResult = result.type === 'character';
+                const isPortraitResult = result.type === 'character' || result.type === 'wyrm';
                 const rowMinHeight = isMobile ? 56 : 52;
                 const showEnterHint = isSelected && !isMobile;
                 return (
@@ -877,14 +947,14 @@ export default function SearchModal({
                           style={{
                             width: 36,
                             height: 36,
-                            borderRadius: isCharacterResult ? '50%' : '8px',
+                            borderRadius: isPortraitResult ? '50%' : '8px',
                             display: 'flex',
                             alignItems: 'center',
                             justifyContent: 'center',
-                            backgroundColor: isCharacterResult
+                            backgroundColor: isPortraitResult
                               ? 'transparent'
                               : `var(--mantine-color-${result.color}-1)`,
-                            overflow: isCharacterResult ? 'visible' : 'hidden',
+                            overflow: isPortraitResult ? 'visible' : 'hidden',
                             flexShrink: 0,
                           }}
                         >
@@ -899,22 +969,18 @@ export default function SearchModal({
                             <SafeImage
                               src={result.icon}
                               alt={result.title}
-                              fit="cover"
+                              fit={isPortraitResult ? 'cover' : 'contain'}
                               style={{
                                 width: '100%',
                                 height: '100%',
-                                objectPosition: 'top center',
+                                objectPosition: isPortraitResult ? 'top center' : 'center',
+                                padding: isPortraitResult ? 0 : 4,
                               }}
                             />
                           ) : (
                             (() => {
-                              const Icon = result.icon;
-                              return (
-                                <Icon
-                                  size={20}
-                                  color={`var(--mantine-color-${result.color}-6)`}
-                                />
-                              );
+                              const Icon = result.icon as IconType;
+                              return <Icon size={20} color={`var(--mantine-color-${result.color}-6)`} />;
                             })()
                           )}
                         </Box>
@@ -964,9 +1030,9 @@ export default function SearchModal({
           {!query && (
             <Box p={isMobile ? 'lg' : 'xl'} ta="center">
               <Text c="dimmed" size="sm">
-                Search artifacts, characters, howlkins, resources, status
-                effects, wyrmspells, teams, events, codes, tier lists, links,
-                and pages
+                Search characters, artifacts, gear, relics, wyrms, wyrmspells,
+                noble phantasms, howlkins, subclasses, resources, status
+                effects, teams, events, codes, tier lists, links, and pages
               </Text>
               <Group justify="center" gap="xs" mt="md">
                 <Text size="xs" c="dimmed">
