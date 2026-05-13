@@ -43,7 +43,6 @@ import {
   Paper,
   SimpleGrid,
   Stack,
-  Text,
   Title,
 } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';

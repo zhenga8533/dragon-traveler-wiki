@@ -213,8 +213,8 @@ export default function OracleScrollPage() {
           opened={previewOpen}
           onClose={() => setPreviewOpen(false)}
           characterName={decodedScrollName}
-          illustrations={[{ name: decodedScrollName, src: illustrationSrc, type: 'image' } satisfies CharacterIllustration]}
-          activeIllustration={{ name: decodedScrollName, src: illustrationSrc, type: 'image' }}
+          illustrations={[{ name: decodedScrollName, src: illustrationSrc!, type: 'image' } satisfies CharacterIllustration]}
+          activeIllustration={{ name: decodedScrollName, src: illustrationSrc!, type: 'image' }}
           activeIllustrationIndex={0}
           hasMultipleIllustrations={false}
           showPreviousIllustration={() => {}}
@@ -291,7 +291,7 @@ export default function OracleScrollPage() {
                     </Grid.Col>
                     <Grid.Col span={{ base: 12, md: 5 }} order={{ base: 1, md: 2 }}>
                       <IllustrationPreviewCard
-                        src={illustrationSrc}
+                        src={illustrationSrc!}
                         name={decodedScrollName}
                         accentColor={accent.primary}
                         onExpand={() => setPreviewOpen(true)}

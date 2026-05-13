@@ -602,7 +602,7 @@ export function useTierListState({
           ),
         }))
         .filter((row) => row.entries.length > 0),
-    [characterNameCounts, getCharacterFromKey, state.placements, state.tierDefs]
+    [getCharacterFromKey, state.placements, state.tierDefs]
   );
 
   const updateMeta = useCallback((patch: Partial<TierListBuilderMetaState>) => {
