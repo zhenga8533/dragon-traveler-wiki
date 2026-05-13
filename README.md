@@ -7,20 +7,21 @@ A community-driven English wiki for the Chinese mobile game **Dragon Traveler** 
 ## Features
 
 - Character database with stats, abilities, and subclasses
-- Subclass database with class-linked tiers, bonuses, and effects
-- Gear database with set-based equipment pages
-- Status effects reference
-- Wyrmspell database
-- Howlkin database
-- Tier list and team builder tools
-- Redemption codes tracker
-- Fuzzy search and keyboard shortcuts
+- Artifact, gear, relic, and noble phantasm databases
+- Wyrm and wyrmspell databases
+- Howlkin and golden alliance databases
+- Subclass and status effects references
+- Resources and useful links directories
+- Game events tracker and redemption codes tracker
+- Tier list viewer/builder and team builder
+- Fuzzy global search and keyboard shortcuts
 - Dark/light theme toggle
 
 ## Tech Stack
 
 - **Framework**: React 19, TypeScript, Vite 7, Mantine v8
 - **Routing**: React Router DOM 7
+- **Drag-and-drop**: @dnd-kit/core
 - **Hosting**: GitHub Pages with automated deployment and custom domain (`dtwiki.org`)
 
 ## Getting Started
@@ -51,33 +52,42 @@ Output is written to `dist/`. In CI, data is fetched from the private [dragon-tr
 
 ```
 dragon-traveler-wiki/
-├── src/             # React source (components, pages, hooks, constants, etc.)
+├── src/             # React source — see src/README.md for details
 ├── public/          # Static assets copied as-is to dist
 ├── scripts/         # Build-time scripts
 └── .github/         # CI/CD workflows
 ```
+
+See [`src/README.md`](src/README.md) for a full breakdown of the source architecture and conventions.
 
 ## Routing
 
 | Route | Page |
 | --- | --- |
 | `/` | Home |
-| `/characters` | Character list |
-| `/characters/:name` | Character detail |
-| `/artifacts` / `/artifacts/:name` | Artifact database |
-| `/gear` / `/gear-sets/:setName` | Gear & gear sets |
-| `/noble-phantasms` / `/noble-phantasms/:name` | Noble Phantasms |
-| `/status-effects` | Status effects |
-| `/wyrmspells` | Wyrmspells |
-| `/howlkins` | Howlkins |
-| `/subclasses` | Subclasses |
-| `/resources` | Resources |
+| `/artifacts` / `/artifacts/:name` | Artifact list / detail |
+| `/characters` / `/characters/:name` | Character list / detail |
+| `/gear` / `/gear-sets/:setName` | Gear list / gear set detail |
+| `/relics` / `/oracle-scrolls/:scrollName` | Relic list / oracle scroll detail |
+| `/howlkins` / `/howlkins/:allianceName` | Howlkin list / golden alliance detail |
+| `/noble-phantasms` / `/noble-phantasms/:name` | Noble phantasm list / detail |
+| `/wyrms` / `/wyrms/:name` | Wyrm list / detail |
+| `/wyrmspells` / `/wyrmspells/:name` | Wyrmspell list / detail |
+| `/subclasses` | Subclass list |
+| `/status-effects` | Status effects list |
+| `/resources` | Resources directory |
+| `/useful-links` | Community links directory |
 | `/tier-list` | Tier list viewer/builder |
-| `/teams` / `/teams/:teamName` | Teams |
-| `/codes` | Redemption codes |
-| `/useful-links` | Community links |
+| `/teams` / `/teams/:teamName` / `/teams/saved/:teamSlug` | Team list / detail / saved team |
+| `/codes` | Redemption codes tracker |
+| `/events` | Game events tracker |
 | `/changelog` | Changelog |
-| `/guides/...` | Guides |
+| `/guides/beginner-qa` | Beginner Q&A |
+| `/guides/faq` | FAQ |
+| `/guides/star-upgrade-calculator` | Star upgrade calculator |
+| `/guides/mythic-summon-calculator` | Mythic summon calculator |
+| `/guides/diamond-calculator` | Diamond calculator |
+| `/guides/shovel-event` | Shovel event guide |
 
 ## Contributing
 
