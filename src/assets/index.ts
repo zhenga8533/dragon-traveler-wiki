@@ -10,109 +10,109 @@ const BASE = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 // ── Class ────────────────────────────────────────────────────────────────────
 
 export const CLASS_ICON_MAP: Record<CharacterClass, string> = {
-  Guardian: `${BASE}assets/class/guardian.png`,
-  Priest: `${BASE}assets/class/priest.png`,
-  Assassin: `${BASE}assets/class/assassin.png`,
-  Warrior: `${BASE}assets/class/warrior.png`,
-  Archer: `${BASE}assets/class/archer.png`,
-  Mage: `${BASE}assets/class/mage.png`,
+  Guardian: `${BASE}class/guardian.png`,
+  Priest: `${BASE}class/priest.png`,
+  Assassin: `${BASE}class/assassin.png`,
+  Warrior: `${BASE}class/warrior.png`,
+  Archer: `${BASE}class/archer.png`,
+  Mage: `${BASE}class/mage.png`,
 };
 
 // ── Faction ──────────────────────────────────────────────────────────────────
 
 export const FACTION_ICON_MAP: Record<FactionName, string> = {
-  'Elemental Echo': `${BASE}assets/faction/elemental_echo.png`,
-  'Wild Spirit': `${BASE}assets/faction/wild_spirit.png`,
-  'Arcane Wisdom': `${BASE}assets/faction/arcane_wisdom.png`,
-  'Sanctum Glory': `${BASE}assets/faction/sanctum_glory.png`,
-  'Otherworld Return': `${BASE}assets/faction/otherworld_return.png`,
-  'Illusion Veil': `${BASE}assets/faction/illusion_veil.png`,
+  'Elemental Echo': `${BASE}faction/elemental_echo.png`,
+  'Wild Spirit': `${BASE}faction/wild_spirit.png`,
+  'Arcane Wisdom': `${BASE}faction/arcane_wisdom.png`,
+  'Sanctum Glory': `${BASE}faction/sanctum_glory.png`,
+  'Otherworld Return': `${BASE}faction/otherworld_return.png`,
+  'Illusion Veil': `${BASE}faction/illusion_veil.png`,
 };
 
 // ── Quality ──────────────────────────────────────────────────────────────────
 
 export const QUALITY_ICON_MAP: Record<Quality, string> = {
-  UR: `${BASE}assets/quality/ur.png`,
-  'SSR EX': `${BASE}assets/quality/ssr_ex.png`,
-  'SSR+': `${BASE}assets/quality/ssr_plus.png`,
-  SSR: `${BASE}assets/quality/ssr.png`,
-  SR: `${BASE}assets/quality/sr.png`,
-  R: `${BASE}assets/quality/r.png`,
-  N: `${BASE}assets/quality/n.png`,
-  C: `${BASE}assets/quality/c.png`,
+  UR: `${BASE}quality/ur.png`,
+  'SSR EX': `${BASE}quality/ssr_ex.png`,
+  'SSR+': `${BASE}quality/ssr_plus.png`,
+  SSR: `${BASE}quality/ssr.png`,
+  SR: `${BASE}quality/sr.png`,
+  R: `${BASE}quality/r.png`,
+  N: `${BASE}quality/n.png`,
+  C: `${BASE}quality/c.png`,
 };
 
 // ── Wyrms ────────────────────────────────────────────────────────────────────
 
 export function getWyrmIcon(name: string): string | undefined {
   if (!name) return undefined;
-  return `${BASE}assets/wyrm/${normalizeKey(name)}/avatar.png`;
+  return `${BASE}wyrm/${normalizeKey(name)}/avatar.png`;
 }
 
 export function getWyrmPortrait(name: string): string | undefined {
   if (!name) return undefined;
-  return `${BASE}assets/wyrm/${normalizeKey(name)}/portrait.png`;
+  return `${BASE}wyrm/${normalizeKey(name)}/portrait.png`;
 }
 
 export function getWyrmIllustration(name: string): string | undefined {
   if (!name) return undefined;
-  return `${BASE}assets/wyrm/${normalizeKey(name)}/illustration.png`;
+  return `${BASE}wyrm/${normalizeKey(name)}/illustration.png`;
 }
 
 export function getWyrmSkillIcon(wyrmName: string, skillName: string): string | undefined {
   if (!wyrmName || !skillName) return undefined;
-  return `${BASE}assets/wyrm/${normalizeKey(wyrmName)}/skills/${normalizeKey(skillName)}.png`;
+  return `${BASE}wyrm/${normalizeKey(wyrmName)}/skills/${normalizeKey(skillName)}.png`;
 }
 
 export const FACTION_WYRM_MAP: Record<FactionName, string> = {
-  'Elemental Echo': `${BASE}assets/wyrm/blazing_dragon/portrait.png`,
-  'Wild Spirit': `${BASE}assets/wyrm/jade_dragon/portrait.png`,
-  'Arcane Wisdom': `${BASE}assets/wyrm/nymph_dragon/portrait.png`,
-  'Sanctum Glory': `${BASE}assets/wyrm/heavenglow_dragon/portrait.png`,
-  'Otherworld Return': `${BASE}assets/wyrm/nethercrypt_dragon/portrait.png`,
-  'Illusion Veil': `${BASE}assets/wyrm/shadowbane_dragon/portrait.png`,
+  'Elemental Echo': `${BASE}wyrm/blazing_dragon/portrait.png`,
+  'Wild Spirit': `${BASE}wyrm/jade_dragon/portrait.png`,
+  'Arcane Wisdom': `${BASE}wyrm/nymph_dragon/portrait.png`,
+  'Sanctum Glory': `${BASE}wyrm/heavenglow_dragon/portrait.png`,
+  'Otherworld Return': `${BASE}wyrm/nethercrypt_dragon/portrait.png`,
+  'Illusion Veil': `${BASE}wyrm/shadowbane_dragon/portrait.png`,
 };
 
 // ── Artifacts ────────────────────────────────────────────────────────────────
 
 export function getArtifactIcon(name: string): string | undefined {
   if (!name) return undefined;
-  return `${BASE}assets/artifacts/${normalizeKey(name)}/artifact.png`;
+  return `${BASE}artifacts/${normalizeKey(name)}/artifact.png`;
 }
 
 export function getTreasureIcon(artifactName: string, treasureName: string): string | undefined {
   if (!artifactName || !treasureName) return undefined;
-  return `${BASE}assets/artifacts/${normalizeKey(artifactName)}/treasures/${normalizeKey(treasureName)}.png`;
+  return `${BASE}artifacts/${normalizeKey(artifactName)}/treasures/${normalizeKey(treasureName)}.png`;
 }
 
 // ── Gear ─────────────────────────────────────────────────────────────────────
 
 export const GEAR_TYPE_ICON_MAP: Record<GearType, string> = {
-  Headgear: `${BASE}assets/gear/icons/headgear.png`,
-  Chestplate: `${BASE}assets/gear/icons/chestplate.png`,
-  Bracers: `${BASE}assets/gear/icons/bracers.png`,
-  Boots: `${BASE}assets/gear/icons/boots.png`,
-  Weapon: `${BASE}assets/gear/icons/weapon.png`,
-  Accessory: `${BASE}assets/gear/icons/accessory.png`,
+  Headgear: `${BASE}gear/icons/headgear.png`,
+  Chestplate: `${BASE}gear/icons/chestplate.png`,
+  Bracers: `${BASE}gear/icons/bracers.png`,
+  Boots: `${BASE}gear/icons/boots.png`,
+  Weapon: `${BASE}gear/icons/weapon.png`,
+  Accessory: `${BASE}gear/icons/accessory.png`,
 };
 
 export function getGearIcon(type: string, name: string): string | undefined {
   if (!type || !name) return undefined;
-  return `${BASE}assets/gear/${normalizeKey(type)}/${normalizeKey(name)}.png`;
+  return `${BASE}gear/${normalizeKey(type)}/${normalizeKey(name)}.png`;
 }
 
 // ── Howlkin ──────────────────────────────────────────────────────────────────
 
 export function getHowlkinIcon(name: string, quality: string): string | undefined {
   if (!name || !quality) return undefined;
-  return `${BASE}assets/howlkin/${normalizeQualityKey(quality)}/${normalizeKey(name)}.png`;
+  return `${BASE}howlkin/${normalizeQualityKey(quality)}/${normalizeKey(name)}.png`;
 }
 
 // ── Noble Phantasm ───────────────────────────────────────────────────────────
 
 export function getNoblePhantasmIcon(name: string): string | undefined {
   if (!name) return undefined;
-  return `${BASE}assets/noble_phantasm/${normalizeKey(name)}.png`;
+  return `${BASE}noble_phantasm/${normalizeKey(name)}.png`;
 }
 
 // ── Relic ────────────────────────────────────────────────────────────────────
@@ -124,33 +124,33 @@ function normalizeRelicQualityKey(quality: string): string {
 
 export function getRelicIcon(name: string, quality: string): string | undefined {
   if (!name || !quality) return undefined;
-  return `${BASE}assets/relic/${normalizeRelicQualityKey(quality)}/${normalizeKey(name)}.png`;
+  return `${BASE}relic/${normalizeRelicQualityKey(quality)}/${normalizeKey(name)}.png`;
 }
 
 export function getOracleScrollImage(name: string): string | undefined {
   if (!name) return undefined;
-  return `${BASE}assets/relic/oracle_scroll/${normalizeKey(name)}.png`;
+  return `${BASE}relic/oracle_scroll/${normalizeKey(name)}.png`;
 }
 
 // ── Resource ─────────────────────────────────────────────────────────────────
 
 export function getResourceIcon(name: string, category: string): string | undefined {
   if (!name || !category) return undefined;
-  return `${BASE}assets/resource/${category.toLowerCase()}/${normalizeKey(name)}.png`;
+  return `${BASE}resource/${category.toLowerCase()}/${normalizeKey(name)}.png`;
 }
 
 // ── Skill ────────────────────────────────────────────────────────────────────
 
 export function getSkillIcon(skillName: string): string | undefined {
   if (!skillName) return undefined;
-  return `${BASE}assets/skill/${normalizeKey(skillName)}.png`;
+  return `${BASE}skill/${normalizeKey(skillName)}.png`;
 }
 
 // ── Status Effect ────────────────────────────────────────────────────────────
 
 export function getStatusEffectIcon(name: string, type: string): string | undefined {
   if (!name || !type) return undefined;
-  return `${BASE}assets/status_effect/${normalizeKey(type)}/${normalizeKey(name)}.png`;
+  return `${BASE}status_effect/${normalizeKey(type)}/${normalizeKey(name)}.png`;
 }
 
 // ── Subclass ─────────────────────────────────────────────────────────────────
@@ -159,9 +159,9 @@ export function getSubclassIcon(subclassName: string, characterClass?: string): 
   if (!subclassName) return undefined;
   const subclassKey = normalizeKey(subclassName);
   if (characterClass) {
-    return `${BASE}assets/subclass/${normalizeKey(characterClass)}/${subclassKey}.png`;
+    return `${BASE}subclass/${normalizeKey(characterClass)}/${subclassKey}.png`;
   }
-  return `${BASE}assets/subclass/${subclassKey}.png`;
+  return `${BASE}subclass/${subclassKey}.png`;
 }
 
 // ── Wyrmspell ────────────────────────────────────────────────────────────────
@@ -170,18 +170,18 @@ export function getWyrmspellIcon(name: string, type?: string): string | undefine
   if (!name) return undefined;
   const nameKey = normalizeKey(name);
   if (type) {
-    return `${BASE}assets/wyrmspell/${normalizeKey(type)}/${nameKey}.png`;
+    return `${BASE}wyrmspell/${normalizeKey(type)}/${nameKey}.png`;
   }
-  return `${BASE}assets/wyrmspell/${nameKey}.png`;
+  return `${BASE}wyrmspell/${nameKey}.png`;
 }
 
 // ── Event ────────────────────────────────────────────────────────────────────
 
 
-export const placeholderEventImage = `${BASE}assets/event/placeholder.webp`;
+export const placeholderEventImage = `${BASE}event/placeholder.webp`;
 
 export function getEventImage(eventName: string): string {
-  return `${BASE}assets/event/${normalizeKey(eventName)}.webp`;
+  return `${BASE}event/${normalizeKey(eventName)}.webp`;
 }
 
 // ── Character ────────────────────────────────────────────────────────────────
@@ -204,7 +204,7 @@ let manifestPromise: Promise<CharacterManifest> | null = null;
 
 function getManifest(): Promise<CharacterManifest> {
   if (!manifestPromise) {
-    manifestPromise = fetch(`${BASE}assets/character/manifest.json`).then((r) => r.json());
+    manifestPromise = fetch(`${BASE}character/manifest.json`).then((r) => r.json());
   }
   return manifestPromise;
 }
@@ -220,7 +220,7 @@ export function getPortrait(
 ): string | undefined {
   if (!characterName) return undefined;
   const key = resolveAssetKey(characterName, characterKey);
-  return `${BASE}assets/character/${key}/portrait.png`;
+  return `${BASE}character/${key}/portrait.png`;
 }
 
 export async function getIllustrations(
@@ -233,7 +233,7 @@ export async function getIllustrations(
   if (!entries || entries.length === 0) return [];
   return entries.map((e) => ({
     name: e.name,
-    src: `${BASE}assets/character/${key}/illustrations/${e.file}`,
+    src: `${BASE}character/${key}/illustrations/${e.file}`,
     type: e.type,
   }));
 }
@@ -252,7 +252,7 @@ export async function getTalentIcon(
 ): Promise<string | undefined> {
   if (!characterName) return undefined;
   const key = resolveAssetKey(characterName, characterKey);
-  return `${BASE}assets/character/${key}/talent.png`;
+  return `${BASE}character/${key}/talent.png`;
 }
 
 export async function getCharacterSkillIcon(
@@ -262,5 +262,5 @@ export async function getCharacterSkillIcon(
 ): Promise<string | undefined> {
   if (!characterName || !skillName) return undefined;
   const key = resolveAssetKey(characterName, characterKey);
-  return `${BASE}assets/character/${key}/skills/${normalizeKey(skillName)}.png`;
+  return `${BASE}character/${key}/skills/${normalizeKey(skillName)}.png`;
 }
