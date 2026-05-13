@@ -1,3 +1,4 @@
+import SafeImage from '@/components/ui/SafeImage';
 import { getArtifactIcon } from '@/assets';
 import { getGearIcon } from '@/assets';
 import { getHowlkinIcon } from '@/assets';
@@ -895,13 +896,13 @@ export default function SearchModal({
                               routePath={result.path}
                             />
                           ) : typeof result.icon === 'string' ? (
-                            <img
+                            <SafeImage
                               src={result.icon}
                               alt={result.title}
+                              fit="cover"
                               style={{
                                 width: '100%',
                                 height: '100%',
-                                objectFit: 'cover',
                                 objectPosition: 'top center',
                               }}
                             />

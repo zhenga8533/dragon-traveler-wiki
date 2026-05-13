@@ -1,9 +1,9 @@
 import type { MantineColor, MantineSize } from '@mantine/core';
 import { Badge, Popover } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { useState } from 'react';
 import { CURSOR_DEFAULT_STYLE, CURSOR_POINTER_STYLE } from '@/constants/styles';
 import { POPOVER_BADGE_WIDTH } from '@/constants/ui';
+import SafeImage from '@/components/ui/SafeImage';
 
 export interface IconBadgeProps {
   label: ReactNode;
@@ -25,23 +25,16 @@ export default function IconBadge({
   component = 'span',
   popoverContent,
 }: IconBadgeProps) {
-  const [imgError, setImgError] = useState(false);
-  const [prevIconSrc, setPrevIconSrc] = useState(iconSrc);
-
-  if (iconSrc !== prevIconSrc) {
-    setPrevIconSrc(iconSrc);
-    setImgError(false);
-  }
-
-  const iconElement =
-    iconSrc && !imgError ? (
-      <img
-        src={iconSrc}
-        alt=""
-        style={{ width: iconSize, height: iconSize, objectFit: 'contain', display: 'block' }}
-        onError={() => setImgError(true)}
-      />
-    ) : undefined;
+  const iconElement = iconSrc ? (
+    <SafeImage
+      src={iconSrc}
+      alt=""
+      w={iconSize}
+      h={iconSize}
+      fit="contain"
+      style={{ display: 'block' }}
+    />
+  ) : undefined;
 
   const badge = (
     <Badge

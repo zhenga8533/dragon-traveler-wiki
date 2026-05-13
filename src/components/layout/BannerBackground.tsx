@@ -1,3 +1,4 @@
+import SafeImage from '@/components/ui/SafeImage';
 import { getHomeHeroPlaceholderGradient } from '@/constants/styles';
 import { TRANSITION } from '@/constants/ui';
 import { BannerContext, UiOpacityContext } from '@/contexts';
@@ -200,15 +201,15 @@ export default function BannerBackground() {
             />
           ) : null}
           {selectedBanner && selectedBanner.type !== 'video' && (
-            <img
+            <SafeImage
               src={selectedBanner.src}
               alt=""
+              fit="cover"
               style={{
                 position: 'absolute',
                 inset: 0,
                 width: '100%',
                 height: '100%',
-                objectFit: 'cover',
                 objectPosition: 'center top',
                 opacity: bannerLoaded ? bannerMediaOpacity : 0,
                 transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
