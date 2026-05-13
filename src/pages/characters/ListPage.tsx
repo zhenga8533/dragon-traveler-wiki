@@ -17,7 +17,7 @@ import { getLatestTimestamp } from '@/utils';
 import { ActionIcon, Button, Container, Group, Stack, Title, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo } from 'react';
-import { IoPeople, IoStarOutline } from 'react-icons/io5';
+import { IoPeople, IoPersonOutline } from 'react-icons/io5';
 
 export default function Characters() {
   const { accent } = useGradientAccent();
@@ -62,7 +62,7 @@ export default function Characters() {
                   onClick={openManager}
                   aria-label="My Characters"
                 >
-                  <IoStarOutline size={16} />
+                  <IoPersonOutline size={16} />
                 </ActionIcon>
               </Tooltip>
             ) : (
@@ -70,7 +70,7 @@ export default function Characters() {
                 variant="light"
                 color={accent.primary}
                 size="xs"
-                leftSection={<IoStarOutline size={16} />}
+                leftSection={<IoPersonOutline size={16} />}
                 onClick={openManager}
                 aria-label="My Characters"
               >

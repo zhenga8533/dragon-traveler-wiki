@@ -1,3 +1,4 @@
+import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import { QUALITY_ORDER } from '@/constants/colors';
 import { CharacterOwnershipContext } from '@/contexts';
 import type { Character } from '@/features/characters/types';
@@ -23,7 +24,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useMemo, useState } from 'react';
-import { IoBarChart, IoFilter, IoSearch, IoStar } from 'react-icons/io5';
+import { IoBarChart, IoFilter, IoPerson, IoSearch } from 'react-icons/io5';
 import CharacterPortrait from './CharacterPortrait';
 import StarLevelBubbleChart from './StarLevelBubbleChart';
 
@@ -61,6 +62,7 @@ export default function CharacterOwnershipManager({
 
   const [search, setSearch] = useState('');
   const [chartOpened, { open: openChart, close: closeChart }] = useDisclosure(false);
+  const [confirmClearOpened, { open: openConfirmClear, close: closeConfirmClear }] = useDisclosure(false);
 
   const grouped = useMemo(() => {
     const lower = search.toLowerCase();
@@ -82,7 +84,7 @@ export default function CharacterOwnershipManager({
       onClose={onClose}
       title={
         <Group gap="xs">
-          <IoStar />
+          <IoPerson />
           <Text fw={600}>My Characters</Text>
           {ownedCount > 0 && (
             <Text size="sm" c="dimmed">
@@ -109,15 +111,28 @@ export default function CharacterOwnershipManager({
       lockScroll={false}
     >
       <Stack gap="md">
-        <TextInput
-          placeholder="Search characters…"
-          value={search}
-          onChange={(e) => setSearch(e.currentTarget.value)}
-          leftSection={<IoSearch size={14} />}
-          rightSection={
-            search ? <CloseButton size="sm" onClick={() => setSearch('')} /> : null
-          }
-        />
+        <Group gap="xs" align="center">
+          <TextInput
+            placeholder="Search characters…"
+            value={search}
+            onChange={(e) => setSearch(e.currentTarget.value)}
+            leftSection={<IoSearch size={14} />}
+            rightSection={
+              search ? <CloseButton size="sm" onClick={() => setSearch('')} /> : null
+            }
+            style={{ flex: 1 }}
+          />
+          {ownedCount > 0 && (
+            <Button
+              variant="subtle"
+              color="red"
+              size="xs"
+              onClick={openConfirmClear}
+            >
+              Clear All
+            </Button>
+          )}
+        </Group>
 
         {activeFilterCount > 0 && (
           <Group gap="xs">
@@ -177,24 +192,21 @@ export default function CharacterOwnershipManager({
           ))
         )}
 
-        {ownedCount > 0 && (
-          <Group justify="flex-end" pt="xs">
-            <Button
-              variant="subtle"
-              color="red"
-              size="xs"
-              onClick={() =>
-                Object.keys(ownedCharacters).forEach((key) =>
-                  setCharacterStarLevel(key, null)
-                )
-              }
-            >
-              Clear All
-            </Button>
-          </Group>
-        )}
       </Stack>
     </Modal>
+
+    <ConfirmActionModal
+      opened={confirmClearOpened}
+      title="Clear all characters?"
+      message="This will remove all owned characters and star levels. This cannot be undone."
+      confirmLabel="Clear All"
+      confirmColor="red"
+      onCancel={closeConfirmClear}
+      onConfirm={() => {
+        Object.keys(ownedCharacters).forEach((key) => setCharacterStarLevel(key, null));
+        closeConfirmClear();
+      }}
+    />
 
     <StarLevelBubbleChart
       characters={characters}

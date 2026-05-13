@@ -1,3 +1,4 @@
+import SafeImage from '@/components/ui/SafeImage';
 import { getPortrait } from '@/assets';
 import { QUALITY_BORDER_COLOR } from '@/constants/colors';
 import { CharacterOwnershipContext } from '@/contexts';
@@ -311,13 +312,11 @@ function BubbleCanvas({ bubbles, positions, config, interactive }: BubbleCanvasP
               cursor: interactive ? 'pointer' : undefined,
             }}
           >
-            <img
-              src={
-                b.portrait ??
-                `https://placehold.co/${d}x${d}?text=${encodeURIComponent(b.char.name.charAt(0))}`
-              }
+            <SafeImage
+              src={b.portrait}
               alt={b.char.name}
-              style={{ width: '100%', height: '100%', objectFit: 'cover', display: 'block' }}
+              style={{ width: '100%', height: '100%', display: 'block' }}
+              fit="cover"
             />
           </Box>
         );
