@@ -1,4 +1,5 @@
-﻿import SafeImage from '@/components/ui/SafeImage';
+﻿import ExpandableText from '@/components/ui/ExpandableText';
+import SafeImage from '@/components/ui/SafeImage';
 import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -463,9 +464,9 @@ export default function GearPage() {
                                   </Badge>
                                 )}
                               </Group>
-                              <Text size="xs" c="dimmed" lineClamp={2}>
+                              <ExpandableText size="xs">
                                 <RichText text={item.lore} statusEffects={statusEffects} italic />
-                              </Text>
+                              </ExpandableText>
                             </Stack>
                           </Group>
                         </Paper>

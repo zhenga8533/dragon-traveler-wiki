@@ -1,3 +1,4 @@
+import ExpandableText from '@/components/ui/ExpandableText';
 import { getCardHoverProps } from '@/constants/styles';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import EventBanner from '@/features/wiki/events/components/EventBanner';
@@ -106,9 +107,7 @@ export default function ActiveEventsSection() {
                   <EventCharacterAvatars characters={event.characters} />
                 )}
                 {event.description && (
-                  <Text size="xs" c="dimmed" lineClamp={2}>
-                    {event.description}
-                  </Text>
+                  <ExpandableText size="xs">{event.description}</ExpandableText>
                 )}
                 {event.start_date && (
                   <Text size="xs" c="dimmed" mt="auto">

@@ -1,4 +1,5 @@
 ﻿import { useMemo } from 'react';
+import ExpandableText from '@/components/ui/ExpandableText';
 import { getNoblePhantasmIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import ClassTag from '@/components/ui/ClassTag';
@@ -343,9 +344,9 @@ export default function CharacterPageBuildSection({
                             {linkedNoblePhantasm.name}
                           </Text>
                           {topEffect && (
-                            <Text size="xs" c="dimmed" lineClamp={2}>
+                            <ExpandableText size="xs">
                               <RichText text={topEffect.description} statusEffects={statusEffects} />
-                            </Text>
+                            </ExpandableText>
                           )}
                         </Stack>
                       </Group>
@@ -463,9 +464,9 @@ export default function CharacterPageBuildSection({
                                 )}
                               </Group>
                               {entry.bonuses.length > 0 && (
-                                <Text size="xs" c="dimmed" lineClamp={2}>
+                                <ExpandableText size="xs">
                                   Bonuses: {entry.bonuses.join(', ')}
-                                </Text>
+                                </ExpandableText>
                               )}
                             </Stack>
                           </Group>
@@ -735,9 +736,9 @@ export default function CharacterPageBuildSection({
                             <Text size="xs" c="dimmed">
                               {setBonus.pieces}/{setBonus.requiredPieces} pieces
                             </Text>
-                            <Text size="xs" c="dimmed" lineClamp={2}>
+                            <ExpandableText size="xs">
                               <RichText text={setBonus.description} statusEffects={statusEffects} />
-                            </Text>
+                            </ExpandableText>
                           </Stack>
                         </Paper>
                       </Tooltip>

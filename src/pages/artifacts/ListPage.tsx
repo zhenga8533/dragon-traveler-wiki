@@ -1,4 +1,5 @@
-﻿import SafeImage from '@/components/ui/SafeImage';
+﻿import ExpandableText from '@/components/ui/ExpandableText';
+import SafeImage from '@/components/ui/SafeImage';
 import { getArtifactIcon } from '@/assets';
 import EntityFilter from '@/components/common/EntityFilter';
 import FilteredListShell from '@/components/layout/FilteredListShell';
@@ -239,9 +240,9 @@ export default function Artifacts() {
                               {artifact.treasures.length !== 1 ? 's' : ''}
                             </Badge>
                           </Group>
-                          <Text size="xs" c="dimmed" lineClamp={2}>
+                          <ExpandableText size="xs">
                             <RichText text={artifact.lore} statusEffects={statusEffects} italic />
-                          </Text>
+                          </ExpandableText>
                         </Stack>
                       </Group>
                     </Paper>

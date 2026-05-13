@@ -1,3 +1,4 @@
+import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmPortrait } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -248,12 +249,12 @@ export default function WyrmsListPage() {
                             <FactionTag faction={wyrm.faction} size="sm" />
                           </Group>
                           {wyrm.battle_description && (
-                            <Text size="xs" c="dimmed" lineClamp={2}>
+                            <ExpandableText size="xs">
                               <RichText
                                 text={wyrm.battle_description}
                                 statusEffects={statusEffects}
                               />
-                            </Text>
+                            </ExpandableText>
                           )}
                         </Stack>
                       </Group>

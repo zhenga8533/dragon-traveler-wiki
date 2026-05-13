@@ -1,3 +1,4 @@
+import ExpandableText from '@/components/ui/ExpandableText';
 import { getWyrmspellIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import { WYRMSPELL_TYPE_COLOR, getStableTagColor } from '@/constants/colors';
@@ -74,9 +75,9 @@ export default function WyrmspellCard({
           )}
         </Group>
         {maxQuality && (
-          <Text size="xs" c="dimmed" ta="center" lineClamp={2}>
+          <ExpandableText size="xs" ta="center">
             <RichText text={maxQuality.effect} statusEffects={statusEffects} />
-          </Text>
+          </ExpandableText>
         )}
       </Stack>
     </Paper>

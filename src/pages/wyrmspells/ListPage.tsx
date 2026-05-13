@@ -1,3 +1,4 @@
+import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmspellIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -346,12 +347,12 @@ export default function Wyrmspells() {
                             )}
                           </Group>
                           {maxQuality && (
-                            <Text size="xs" c="dimmed" lineClamp={2}>
+                            <ExpandableText size="xs">
                               <RichText
                                 text={maxQuality.effect}
                                 statusEffects={statusEffects}
                               />
-                            </Text>
+                            </ExpandableText>
                           )}
                         </Stack>
                       </Group>

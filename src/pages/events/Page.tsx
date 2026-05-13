@@ -1,4 +1,5 @@
-﻿import SafeImage from '@/components/ui/SafeImage';
+﻿import ExpandableText from '@/components/ui/ExpandableText';
+import SafeImage from '@/components/ui/SafeImage';
 import { getPortrait } from '@/assets';
 import type { Character } from '@/features/characters/types';
 import {
@@ -39,7 +40,6 @@ import { getLatestTimestamp } from '@/utils';
 import { getEventTypeColor, isGameEventActive } from '@/utils/event-utils';
 import {
   Alert,
-  Anchor,
   Badge,
   Button,
   Card,
@@ -55,7 +55,7 @@ import {
   Title,
 } from '@mantine/core';
 import { DatePickerInput } from '@mantine/dates';
-import { useEffect, useMemo, useRef, useState } from 'react';
+import { useEffect, useMemo } from 'react';
 import { IoCalendarOutline, IoInformationCircleOutline } from 'react-icons/io5';
 
 const EVENTS_PER_PAGE = 12;
@@ -269,31 +269,6 @@ function EventFilter({
   );
 }
 
-function ExpandableText({ text, size = 'sm' }: { text: string; size?: string }) {
-  const [expanded, setExpanded] = useState(false);
-  const [isClamped, setIsClamped] = useState(false);
-  const ref = useRef<HTMLParagraphElement>(null);
-
-  useEffect(() => {
-    if (!expanded && ref.current) {
-      setIsClamped(ref.current.scrollHeight > ref.current.clientHeight);
-    }
-  }, [text, expanded]);
-
-  return (
-    <Stack gap={2}>
-      <Text ref={ref} size={size} c="dimmed" lineClamp={expanded ? undefined : 2}>
-        {text}
-      </Text>
-      {(isClamped || expanded) && (
-        <Anchor size="xs" onClick={() => setExpanded((v) => !v)}>
-          {expanded ? 'Show less' : 'Show more'}
-        </Anchor>
-      )}
-    </Stack>
-  );
-}
-
 function useEventDisplay(event: GameEvent) {
   const { accent } = useGradientAccent();
   const active = isGameEventActive(event);
@@ -339,7 +314,7 @@ function EventCard({ event }: { event: GameEvent }) {
         )}
 
         {event.description && (
-          <ExpandableText text={event.description} />
+          <ExpandableText>{event.description}</ExpandableText>
         )}
 
         <EventDates
@@ -383,9 +358,7 @@ function EventListItem({ event }: { event: GameEvent }) {
           )}
 
           {event.description && (
-            <Text size="sm" c="dimmed" lineClamp={2}>
-              {event.description}
-            </Text>
+            <ExpandableText>{event.description}</ExpandableText>
           )}
 
           <EventDates

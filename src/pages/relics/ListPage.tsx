@@ -1,4 +1,5 @@
-﻿import SafeImage from '@/components/ui/SafeImage';
+﻿import ExpandableText from '@/components/ui/ExpandableText';
+import SafeImage from '@/components/ui/SafeImage';
 import {
   getOracleScrollImage,
   getRelicIcon,
@@ -393,9 +394,9 @@ export default function RelicPage() {
                                   </Badge>
                                 )}
                               </Group>
-                              <Text size="xs" c="dimmed" lineClamp={2}>
+                              <ExpandableText size="xs">
                                 <RichText text={item.lore} statusEffects={statusEffects} italic />
-                              </Text>
+                              </ExpandableText>
                             </Stack>
                           </Group>
                         </Paper>
@@ -503,9 +504,9 @@ export default function RelicPage() {
                               )}
                             </Table.Td>
                             <Table.Td>
-                              <Text size="sm" c="dimmed" lineClamp={2}>
+                              <ExpandableText size="sm">
                                 <RichText text={item.lore} statusEffects={statusEffects} italic />
-                              </Text>
+                              </ExpandableText>
                             </Table.Td>
                           </Table.Tr>
                         );

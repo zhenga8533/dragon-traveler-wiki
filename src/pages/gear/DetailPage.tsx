@@ -1,4 +1,5 @@
-﻿import SafeImage from '@/components/ui/SafeImage';
+﻿import ExpandableText from '@/components/ui/ExpandableText';
+import SafeImage from '@/components/ui/SafeImage';
 import { getGearIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import RichText from '@/components/common/RichText';
@@ -396,9 +397,9 @@ export default function GearSetPage() {
                             size={IMAGE_SIZE.ICON_LG}
                           />
                         </Group>
-                        <Text size="sm" c="dimmed" fs="italic" lineClamp={2}>
+                        <ExpandableText size="sm">
                           <RichText text={item.lore} statusEffects={statusEffects} italic />
-                        </Text>
+                        </ExpandableText>
                       </Stack>
                     </Group>
 

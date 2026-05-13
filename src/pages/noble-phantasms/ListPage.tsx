@@ -1,4 +1,5 @@
-﻿import SafeImage from '@/components/ui/SafeImage';
+﻿import ExpandableText from '@/components/ui/ExpandableText';
+import SafeImage from '@/components/ui/SafeImage';
 import {
   Container,
   Group,
@@ -272,12 +273,12 @@ export default function NoblePhantasms() {
                             )}
                           </Group>
                           {(np.lore || np.effects[0]?.description || np.skills[0]?.description) && (
-                            <Text size="xs" c="dimmed" lineClamp={2}>
+                            <ExpandableText size="xs">
                               <RichText
                                 text={np.lore ?? np.effects[0]?.description ?? np.skills[0]?.description ?? ''}
                                 statusEffects={statusEffects}
                               />
-                            </Text>
+                            </ExpandableText>
                           )}
                         </Stack>
                       </Group>
