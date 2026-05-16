@@ -267,7 +267,7 @@ export default function RelicPage() {
           <Group gap="xs">
             <ExportButton data={relics} filename="relic.json" />
             <SuggestModal
-              buttonLabel="Suggest Relic"
+              buttonLabel="Suggest"
               modalTitle="Suggest New Relic"
               issueTitle="[Relic] New relic suggestion"
               fields={RELIC_FIELDS}

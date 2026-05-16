@@ -149,7 +149,7 @@ export default function Subclasses() {
           <Group gap="xs">
             <ExportButton data={subclasses} filename="subclasses.json" />
             <SuggestModal
-              buttonLabel="Suggest a Subclass"
+              buttonLabel="Suggest"
               modalTitle="Suggest a New Subclass"
               issueTitle="[Subclass] New subclass suggestion"
               fields={SUBCLASS_FIELDS}

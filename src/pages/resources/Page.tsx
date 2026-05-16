@@ -24,6 +24,7 @@ import {
   type ChipFilterGroup,
   type FieldDef,
 } from '@/components';
+import ExportButton from '@/components/tools/ExportButton';
 import {
   QUALITY_ORDER,
   RESOURCE_CATEGORY_COLOR,
@@ -166,12 +167,15 @@ export default function Resources() {
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <ListPageHeader title="Resources" timestamp={mostRecentUpdate}>
-          <SuggestModal
-            buttonLabel="Suggest a Resource"
-            modalTitle="Suggest a New Resource"
-            issueTitle="[Resource] New resource suggestion"
-            fields={RESOURCE_FIELDS}
-          />
+          <Group gap="xs">
+            <ExportButton data={resources} filename="resources.json" />
+            <SuggestModal
+              buttonLabel="Suggest"
+              modalTitle="Suggest a New Resource"
+              issueTitle="[Resource] New resource suggestion"
+              fields={RESOURCE_FIELDS}
+            />
+          </Group>
         </ListPageHeader>
 
         <ListPageShell

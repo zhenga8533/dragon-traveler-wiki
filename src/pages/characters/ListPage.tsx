@@ -5,6 +5,7 @@ import {
   ListPageShell,
   SuggestModal,
 } from '@/components';
+import ExportButton from '@/components/tools/ExportButton';
 import { CHARACTER_FIELDS } from '@/features/characters/form-fields';
 import { CHARACTER_GRID_COLS } from '@/constants/ui';
 import CharacterOwnershipManager from '@/features/characters/components/CharacterOwnershipManager';
@@ -77,8 +78,9 @@ export default function Characters() {
                 My Characters
               </Button>
             )}
+            <ExportButton data={characters} filename="characters.json" />
             <SuggestModal
-              buttonLabel="Suggest a Character"
+              buttonLabel="Suggest"
               modalTitle="Suggest a New Character"
               issueTitle="[Character] New character suggestion"
               fields={CHARACTER_FIELDS}

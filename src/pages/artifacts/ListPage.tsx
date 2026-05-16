@@ -138,7 +138,7 @@ export default function Artifacts() {
           <Group gap="xs">
             <ExportButton data={artifacts} filename="artifacts.json" />
             <SuggestModal
-              buttonLabel="Suggest an Artifact"
+              buttonLabel="Suggest"
               modalTitle="Suggest a New Artifact"
               issueTitle="[Artifact] New artifact suggestion"
               fields={ARTIFACT_FIELDS}

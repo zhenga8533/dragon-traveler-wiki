@@ -258,7 +258,7 @@ export default function Howlkins() {
             <Group gap="xs">
               <ExportButton data={goldenAlliances} filename="golden-alliances.json" />
               <SuggestModal
-                buttonLabel="Suggest a Golden Alliance"
+                buttonLabel="Suggest"
                 modalTitle="Suggest a New Golden Alliance"
                 issueTitle="[Golden Alliance] New golden alliance suggestion"
                 fields={GOLDEN_ALLIANCE_FIELDS}
@@ -269,7 +269,7 @@ export default function Howlkins() {
             <Group gap="xs">
               <ExportButton data={howlkins} filename="howlkins.json" />
               <SuggestModal
-                buttonLabel="Suggest a Howlkin"
+                buttonLabel="Suggest"
                 modalTitle="Suggest a New Howlkin"
                 issueTitle="[Howlkin] New howlkin suggestion"
                 fields={HOWLKIN_FIELDS}

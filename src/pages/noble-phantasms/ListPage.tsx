@@ -181,7 +181,7 @@ export default function NoblePhantasms() {
           <Group gap="xs">
             <ExportButton data={noblePhantasms} filename="noble-phantasm.json" />
             <SuggestModal
-              buttonLabel="Suggest a Noble Phantasm"
+              buttonLabel="Suggest"
               modalTitle="Suggest a New Noble Phantasm"
               issueTitle="[Noble Phantasm] New noble phantasm suggestion"
               fields={noblePhantasmFields}

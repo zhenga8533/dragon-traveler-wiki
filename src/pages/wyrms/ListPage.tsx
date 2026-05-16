@@ -12,6 +12,10 @@ import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
+import SuggestModal, {
+  type ArrayFieldDef,
+  type FieldDef,
+} from '@/components/tools/SuggestModal';
 import SortableTh from '@/components/ui/SortableTh';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
@@ -51,6 +55,91 @@ const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
   'Growth Phase': 'yellow',
   'Final Phase': 'orange',
 };
+
+const WYRM_FIELDS: FieldDef[] = [
+  {
+    name: 'name',
+    label: 'Name',
+    type: 'text',
+    required: true,
+    placeholder: 'Wyrm name',
+  },
+  {
+    name: 'faction',
+    label: 'Faction',
+    type: 'select',
+    required: true,
+    options: FACTION_NAMES,
+  },
+  {
+    name: 'phase',
+    label: 'Phase',
+    type: 'select',
+    required: true,
+    options: WYRM_PHASE_ORDER,
+  },
+  {
+    name: 'quality',
+    label: 'Quality',
+    type: 'select',
+    required: true,
+    options: QUALITY_ORDER,
+  },
+  {
+    name: 'description',
+    label: 'Description',
+    type: 'textarea',
+    required: true,
+    placeholder: 'Describe the wyrm',
+  },
+  {
+    name: 'battle_description',
+    label: 'Battle Description',
+    type: 'textarea',
+    placeholder: 'Describe battle effects or utility',
+  },
+  {
+    name: 'evolves_from',
+    label: 'Evolves From',
+    type: 'text',
+    placeholder: 'Previous wyrm name',
+  },
+  {
+    name: 'evolves_to',
+    label: 'Evolves To',
+    type: 'text',
+    placeholder: 'Next wyrm name',
+  },
+];
+
+const WYRM_ARRAY_FIELDS: ArrayFieldDef[] = [
+  {
+    name: 'skills',
+    label: 'Skills',
+    fields: [
+      { name: 'name', label: 'Skill Name', type: 'text', required: true },
+      {
+        name: 'description',
+        label: 'Skill Description',
+        type: 'textarea',
+        required: true,
+      },
+    ],
+  },
+  {
+    name: 'star_upgrades',
+    label: 'Star Upgrades',
+    fields: [
+      { name: 'star', label: 'Star', type: 'number', required: true },
+      {
+        name: 'description',
+        label: 'Description',
+        type: 'textarea',
+        required: true,
+      },
+    ],
+  },
+];
 
 interface WyrmFilters {
   search: string;
@@ -164,7 +253,16 @@ export default function WyrmsListPage() {
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <ListPageHeader title="Wyrms" timestamp={mostRecentUpdate}>
-          <ExportButton data={wyrms} filename="wyrms.json" />
+          <Group gap="xs">
+            <ExportButton data={wyrms} filename="wyrms.json" />
+            <SuggestModal
+              buttonLabel="Suggest"
+              modalTitle="Suggest a New Wyrm"
+              issueTitle="[Wyrm] New wyrm suggestion"
+              fields={WYRM_FIELDS}
+              arrayFields={WYRM_ARRAY_FIELDS}
+            />
+          </Group>
         </ListPageHeader>
 
         <ListPageShell

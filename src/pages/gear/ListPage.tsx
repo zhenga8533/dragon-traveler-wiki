@@ -318,7 +318,7 @@ export default function GearPage() {
             <Group gap="xs">
               <ExportButton data={gearSets} filename="gear-sets.json" />
               <SuggestModal
-                buttonLabel="Suggest Gear Set"
+                buttonLabel="Suggest"
                 modalTitle="Suggest New Gear Set"
                 issueTitle="[Gear Set] New gear set suggestion"
                 fields={GEAR_SET_FIELDS}
@@ -328,7 +328,7 @@ export default function GearPage() {
             <Group gap="xs">
               <ExportButton data={gear} filename="gear.json" />
               <SuggestModal
-                buttonLabel="Suggest Gear"
+                buttonLabel="Suggest"
                 modalTitle="Suggest New Gear"
                 issueTitle="[Gear] New gear suggestion"
                 fields={gearFields}

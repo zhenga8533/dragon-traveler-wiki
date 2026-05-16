@@ -240,7 +240,7 @@ export default function Wyrmspells() {
           <Group gap="xs">
             <ExportButton data={wyrmspells} filename="wyrmspells.json" />
             <SuggestModal
-              buttonLabel="Suggest a Wyrmspell"
+              buttonLabel="Suggest"
               modalTitle="Suggest a New Wyrmspell"
               issueTitle="[Wyrmspell] New wyrmspell suggestion"
               fields={WYRMSPELL_FIELDS}

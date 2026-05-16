@@ -156,7 +156,7 @@ export default function StatusEffects() {
           <Group gap="xs">
             <ExportButton data={effects} filename="status-effects.json" />
             <SuggestModal
-              buttonLabel="Suggest a Status Effect"
+              buttonLabel="Suggest"
               modalTitle="Suggest a New Status Effect"
               issueTitle="[Status Effect] New status effect suggestion"
               fields={STATUS_EFFECT_FIELDS}

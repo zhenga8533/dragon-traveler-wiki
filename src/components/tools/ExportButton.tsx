@@ -44,7 +44,7 @@ export default function ExportButton({ data, filename }: ExportButtonProps) {
       leftSection={<IoDownloadOutline size={16} />}
       onClick={handleExport}
     >
-      Export JSON
+      Export
     </Button>
   );
 }
