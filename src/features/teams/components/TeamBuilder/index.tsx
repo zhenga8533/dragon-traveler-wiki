@@ -91,6 +91,7 @@ export default function TeamBuilder({
     handleDragStart,
     handleFactionChange,
     handleNameCommit,
+    handleOverdriveEnabledChange,
     handleOverdriveOrderChange,
     handlePasteApply,
     handleRemoveFromTeam,
@@ -99,6 +100,7 @@ export default function TeamBuilder({
     hasAnyBuilderData,
     json,
     meta,
+    overdriveEnabled,
     overdriveOrderBySlot,
     slotNotes,
     slots,
@@ -249,9 +251,11 @@ export default function TeamBuilder({
 
           <SlotsGrid
             slots={slots}
+            overdriveEnabled={overdriveEnabled}
             overdriveOrderBySlot={overdriveOrderBySlot}
             slotNotes={slotNotes}
             charMap={characterByIdentity}
+            onOverdriveEnabledChange={handleOverdriveEnabledChange}
             onOverdriveOrderChange={handleOverdriveOrderChange}
             onRemove={handleRemoveFromTeam}
             onNoteChange={handleSlotNoteChange}

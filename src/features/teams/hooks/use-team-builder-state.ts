@@ -67,6 +67,7 @@ export interface TeamBuilderMetaState {
 
 export interface TeamBuilderState {
   slots: Array<string | null>;
+  overdriveEnabled: boolean;
   overdriveSequence: number[];
   bench: string[];
   benchNotes: Record<string, string>;
@@ -80,6 +81,7 @@ export type TeamBuilderAction =
   | { type: 'SET_SLOT'; slotIndex: number; characterKey: string | null }
   | { type: 'SET_BENCH'; bench: string[]; benchNotes?: Record<string, string> }
   | { type: 'UPDATE_META'; patch: Partial<TeamBuilderMetaState> }
+  | { type: 'SET_OVERDRIVE_ENABLED'; enabled: boolean }
   | { type: 'SET_OVERDRIVE_SEQUENCE'; payload: number[] }
   | { type: 'SET_SLOT_NOTE'; slotIndex: number; note: string }
   | { type: 'SET_SLOT_NOTES'; payload: string[] }
@@ -102,6 +104,7 @@ interface CharacterLocationInBuilder {
 function createEmptyBuilderState(): TeamBuilderState {
   return {
     slots: Array<string | null>(GRID_SIZE).fill(null),
+    overdriveEnabled: false,
     overdriveSequence: [],
     bench: [],
     benchNotes: {},
@@ -155,6 +158,8 @@ function teamBuilderReducer(
           ...action.patch,
         },
       };
+    case 'SET_OVERDRIVE_ENABLED':
+      return { ...state, overdriveEnabled: action.enabled };
     case 'SET_OVERDRIVE_SEQUENCE':
       return { ...state, overdriveSequence: action.payload };
     case 'SET_SLOT_NOTE': {
@@ -253,6 +258,7 @@ function toBuilderState(
   nextState.overdriveSequence = parsedOverdriveEntries
     .map((entry) => entry.slotIndex)
     .slice(0, MAX_ROSTER_SIZE);
+  nextState.overdriveEnabled = nextState.overdriveSequence.length > 0;
 
   const seenBenchKeys = new Set<string>();
   const normalizedBenchEntries = (data.bench || [])
@@ -375,13 +381,14 @@ export function useTeamBuilderState({
 
   const overdriveOrderBySlot = useMemo(() => {
     const orderBySlot = new Map<number, number>();
+    if (!state.overdriveEnabled) return orderBySlot;
     state.overdriveSequence.forEach((slotIndex, orderIndex) => {
       if (state.slots[slotIndex]) {
         orderBySlot.set(slotIndex, orderIndex + 1);
       }
     });
     return orderBySlot;
-  }, [state.overdriveSequence, state.slots]);
+  }, [state.overdriveEnabled, state.overdriveSequence, state.slots]);
 
   const teamNames = useMemo(() => {
     const names = new Set<string>();
@@ -400,7 +407,7 @@ export function useTeamBuilderState({
     () =>
       teamSize > 0 ||
       state.bench.length > 0 ||
-      state.overdriveSequence.length > 0 ||
+      state.overdriveEnabled ||
       state.slotNotes.some((note) => Boolean(normalizeNote(note))) ||
       Object.values(state.benchNotes).some((note) =>
         Boolean(normalizeNote(note))
@@ -418,21 +425,23 @@ export function useTeamBuilderState({
     const members: TeamMember[] = [];
     let overdriveOrder = 1;
 
-    for (const slotIndex of state.overdriveSequence) {
-      const characterKey = state.slots[slotIndex];
-      if (!characterKey) continue;
-      const note = normalizeNote(state.slotNotes[slotIndex]);
-      members.push({
-        ...toCharacterReferenceFromKey(
-          characterKey,
-          charMap,
-          characterByIdentity,
-          characterNameCounts
-        ),
-        overdrive_order: overdriveOrder++,
-        position: { row: Math.floor(slotIndex / 3), col: slotIndex % 3 },
-        ...(note ? { note } : {}),
-      });
+    if (state.overdriveEnabled) {
+      for (const slotIndex of state.overdriveSequence) {
+        const characterKey = state.slots[slotIndex];
+        if (!characterKey) continue;
+        const note = normalizeNote(state.slotNotes[slotIndex]);
+        members.push({
+          ...toCharacterReferenceFromKey(
+            characterKey,
+            charMap,
+            characterByIdentity,
+            characterNameCounts
+          ),
+          overdrive_order: overdriveOrder++,
+          position: { row: Math.floor(slotIndex / 3), col: slotIndex % 3 },
+          ...(note ? { note } : {}),
+        });
+      }
     }
 
     for (let slotIndex = 0; slotIndex < GRID_SIZE; slotIndex += 1) {
@@ -493,6 +502,7 @@ export function useTeamBuilderState({
     overdriveOrderBySlot,
     state.bench,
     state.benchNotes,
+    state.overdriveEnabled,
     state.overdriveSequence,
     state.slotNotes,
     state.slots,
@@ -535,7 +545,9 @@ export function useTeamBuilderState({
       roster,
       faction: state.meta.faction,
       contentType: state.meta.contentType,
-      overdriveCount: state.overdriveSequence.length,
+      overdriveCount: state.overdriveEnabled
+        ? state.overdriveSequence.length
+        : 0,
       teamWyrmspells: state.teamWyrmspells,
       wyrmspells,
     });
@@ -543,6 +555,7 @@ export function useTeamBuilderState({
     getCharacterFromKey,
     state.meta.contentType,
     state.meta.faction,
+    state.overdriveEnabled,
     state.overdriveSequence.length,
     state.slots,
     state.teamWyrmspells,
@@ -610,6 +623,10 @@ export function useTeamBuilderState({
     },
     []
   );
+
+  const handleOverdriveEnabledChange = useCallback((enabled: boolean) => {
+    dispatch({ type: 'SET_OVERDRIVE_ENABLED', enabled });
+  }, []);
 
   const removeOverdriveSlot = useCallback(
     (slotIndex: number) => {
@@ -1178,6 +1195,7 @@ export function useTeamBuilderState({
     handleDragStart,
     handleFactionChange,
     handleNameCommit,
+    handleOverdriveEnabledChange,
     handleOverdriveOrderChange,
     handlePasteApply,
     handleRemoveFromTeam,
@@ -1186,6 +1204,7 @@ export function useTeamBuilderState({
     hasAnyBuilderData,
     json,
     meta: state.meta,
+    overdriveEnabled: state.overdriveEnabled,
     overdriveOrderBySlot,
     slotNotes: state.slotNotes,
     slots: state.slots,

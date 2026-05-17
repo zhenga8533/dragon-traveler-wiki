@@ -9,13 +9,19 @@ import {
   Select,
   SimpleGrid,
   Stack,
+  Switch,
   Text,
   Textarea,
   TextInput,
   Tooltip,
 } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
-import { useInputCommit, useIsMobile, useMobileTooltip } from '@/hooks';
+import {
+  useGradientAccent,
+  useInputCommit,
+  useIsMobile,
+  useMobileTooltip,
+} from '@/hooks';
 import type { CSSProperties } from 'react';
 import { memo, useMemo } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
@@ -210,6 +216,7 @@ export function SlotCard({
   charName,
   char,
   overdriveOrder,
+  overdriveEnabled,
   note,
   onOverdriveOrderChange,
   onRemove,
@@ -222,6 +229,7 @@ export function SlotCard({
   charName: string | null;
   char: Character | undefined;
   overdriveOrder: number | null;
+  overdriveEnabled: boolean;
   note: string;
   onOverdriveOrderChange: (value: number | null) => void;
   onRemove: () => void;
@@ -231,6 +239,7 @@ export function SlotCard({
   nameCounts?: Map<string, number>;
 }) {
   const isMobile = useIsMobile();
+  const { accent } = useGradientAccent();
   const { setNodeRef, isOver } = useDroppable({ id: `slot-${index}` });
 
   let borderColor: string | undefined;
@@ -275,7 +284,7 @@ export function SlotCard({
               style={{ width: '100%' }}
             >
               {overdriveOrder != null ? (
-                <Badge size="xs" circle variant="filled" color="orange">
+                <Badge size="xs" circle variant="filled" color={accent.primary}>
                   {overdriveOrder}
                 </Badge>
               ) : (
@@ -307,39 +316,43 @@ export function SlotCard({
                 style={{ position: 'absolute', top: 2, right: 2 }}
               />
             </Box>
-            <Group gap={4} wrap="nowrap" style={{ width: '100%' }}>
-              <Button
-                size="compact-xs"
-                variant={overdriveOrder != null ? 'filled' : 'light'}
-                color="orange"
-                leftSection={
-                  overdriveOrder != null ? <IoCheckmark size={12} /> : undefined
-                }
-                onClick={() =>
-                  onOverdriveOrderChange(
-                    overdriveOrder == null
-                      ? 1
-                      : overdriveOrder >= 6
+            {overdriveEnabled && (
+              <Group gap={4} wrap="nowrap" style={{ width: '100%' }}>
+                <Button
+                  size="compact-xs"
+                  variant={overdriveOrder != null ? 'filled' : 'light'}
+                  color={accent.primary}
+                  leftSection={
+                    overdriveOrder != null ? (
+                      <IoCheckmark size={12} />
+                    ) : undefined
+                  }
+                  onClick={() =>
+                    onOverdriveOrderChange(
+                      overdriveOrder == null
                         ? 1
-                        : overdriveOrder + 1
-                  )
-                }
-                style={{ flex: 1 }}
-              >
-                {overdriveOrder != null ? `OD ${overdriveOrder}` : 'OD'}
-              </Button>
-              {overdriveOrder != null && (
-                <ActionIcon
-                  size="xs"
-                  variant="light"
-                  color="red"
-                  onClick={() => onOverdriveOrderChange(null)}
-                  aria-label="Disable overdrive"
+                        : overdriveOrder >= 6
+                          ? 1
+                          : overdriveOrder + 1
+                    )
+                  }
+                  style={{ flex: 1 }}
                 >
-                  <IoClose size={10} />
-                </ActionIcon>
-              )}
-            </Group>
+                  {overdriveOrder != null ? `OD ${overdriveOrder}` : 'OD'}
+                </Button>
+                {overdriveOrder != null && (
+                  <ActionIcon
+                    size="xs"
+                    variant="light"
+                    color={accent.primary}
+                    onClick={() => onOverdriveOrderChange(null)}
+                    aria-label="Disable overdrive"
+                  >
+                    <IoClose size={10} />
+                  </ActionIcon>
+                )}
+              </Group>
+            )}
           </Stack>
         ) : (
           // Desktop: existing layout with absolute-positioned controls
@@ -360,7 +373,7 @@ export function SlotCard({
                 size="sm"
                 circle
                 variant="filled"
-                color="orange"
+                color={accent.primary}
                 style={{ position: 'absolute', top: 4, left: 4 }}
               >
                 {overdriveOrder}
@@ -381,49 +394,53 @@ export function SlotCard({
                   style={{ position: 'absolute', top: 2, right: 2 }}
                 />
               </Box>
-              <Group gap={6} align="center" wrap="nowrap">
-                <ActionIcon
-                  size="sm"
-                  variant="light"
-                  color="orange"
-                  onClick={() =>
-                    onOverdriveOrderChange(
-                      overdriveOrder == null ? 1 : overdriveOrder - 1
-                    )
-                  }
-                  aria-label="Decrease overdrive order"
-                >
-                  <IoRemove size={12} />
-                </ActionIcon>
-                <Button
-                  size="compact-xs"
-                  variant={overdriveOrder != null ? 'filled' : 'light'}
-                  color="orange"
-                  leftSection={
-                    overdriveOrder != null ? (
-                      <IoCheckmark size={12} />
-                    ) : undefined
-                  }
-                  onClick={() =>
-                    onOverdriveOrderChange(overdriveOrder != null ? null : 1)
-                  }
-                >
-                  {overdriveOrder != null ? `OD ${overdriveOrder}` : 'OD Off'}
-                </Button>
-                <ActionIcon
-                  size="sm"
-                  variant="light"
-                  color="orange"
-                  onClick={() =>
-                    onOverdriveOrderChange(
-                      overdriveOrder == null ? 1 : overdriveOrder + 1
-                    )
-                  }
-                  aria-label="Increase overdrive order"
-                >
-                  <IoAdd size={12} />
-                </ActionIcon>
-              </Group>
+              {overdriveEnabled && (
+                <Group gap={6} align="center" wrap="nowrap">
+                  <ActionIcon
+                    size="sm"
+                    variant="light"
+                    color={accent.primary}
+                    onClick={() =>
+                      onOverdriveOrderChange(
+                        overdriveOrder == null ? 1 : overdriveOrder - 1
+                      )
+                    }
+                    aria-label="Decrease overdrive order"
+                  >
+                    <IoRemove size={12} />
+                  </ActionIcon>
+                  <Button
+                    size="compact-xs"
+                    variant={overdriveOrder != null ? 'filled' : 'light'}
+                    color={accent.primary}
+                    leftSection={
+                      overdriveOrder != null ? (
+                        <IoCheckmark size={12} />
+                      ) : undefined
+                    }
+                    onClick={() =>
+                      onOverdriveOrderChange(overdriveOrder != null ? null : 1)
+                    }
+                  >
+                    {overdriveOrder != null
+                      ? `OD ${overdriveOrder}`
+                      : 'OD Off'}
+                  </Button>
+                  <ActionIcon
+                    size="sm"
+                    variant="light"
+                    color={accent.primary}
+                    onClick={() =>
+                      onOverdriveOrderChange(
+                        overdriveOrder == null ? 1 : overdriveOrder + 1
+                      )
+                    }
+                    aria-label="Increase overdrive order"
+                  >
+                    <IoAdd size={12} />
+                  </ActionIcon>
+                </Group>
+              )}
             </Stack>
           </>
         )
@@ -440,9 +457,11 @@ export function SlotCard({
 
 export function SlotsGrid({
   slots,
+  overdriveEnabled,
   overdriveOrderBySlot,
   slotNotes,
   charMap,
+  onOverdriveEnabledChange,
   onOverdriveOrderChange,
   onRemove,
   onNoteChange,
@@ -450,9 +469,11 @@ export function SlotsGrid({
   nameCounts,
 }: {
   slots: (string | null)[];
+  overdriveEnabled: boolean;
   overdriveOrderBySlot: Map<number, number>;
   slotNotes: string[];
   charMap: Map<string, Character>;
+  onOverdriveEnabledChange: (enabled: boolean) => void;
   onOverdriveOrderChange: (index: number, value: number | null) => void;
   onRemove: (index: number) => void;
   onNoteChange: (index: number, note: string) => void;
@@ -467,6 +488,7 @@ export function SlotsGrid({
 
   const isDragging = !!activeId;
   const mobileTooltip = useMobileTooltip();
+  const { accent } = useGradientAccent();
 
   return (
     <Stack gap="xs">
@@ -474,9 +496,22 @@ export function SlotsGrid({
         <Text size="sm" fw={600}>
           Team Grid
         </Text>
-        <Text size="xs" c="dimmed">
-          Drag to position · Click to add · Set OD order directly (1-6)
-        </Text>
+        <Group gap="sm" wrap="nowrap">
+          <Text size="xs" c="dimmed">
+            Drag to position · Click to add
+            {overdriveEnabled ? ' · Set OD order directly (1-6)' : ''}
+          </Text>
+          <Switch
+            size="sm"
+            color={accent.primary}
+            checked={overdriveEnabled}
+            onChange={(event) =>
+              onOverdriveEnabledChange(event.currentTarget.checked)
+            }
+            label="Overdrive"
+            aria-label="Toggle overdrive order controls"
+          />
+        </Group>
       </Group>
 
       <Box>
@@ -534,6 +569,7 @@ export function SlotsGrid({
                       index={idx}
                       charName={slots[idx]}
                       char={slots[idx] ? charMap.get(slots[idx]!) : undefined}
+                      overdriveEnabled={overdriveEnabled}
                       overdriveOrder={overdriveOrderBySlot.get(idx) ?? null}
                       note={slotNotes[idx]}
                       onOverdriveOrderChange={(value) =>
