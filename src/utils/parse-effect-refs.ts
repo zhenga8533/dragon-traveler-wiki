@@ -23,7 +23,7 @@ export function splitEffectRefs(text: string): TextSegment[] {
   const segments: TextSegment[] = [];
   let lastIndex = 0;
 
-  // Match [refs], *italic*, X-Y%, X%, bare numbers — in priority order
+  // Match [refs], *italic*, X-Y / X-Y%, X%, bare numbers in priority order.
   const re = /\[([^\]]+)\]|\*([^*]+)\*|(\d+(?:\.\d+)?)-(\d+(?:\.\d+)?)(?:%)?|(\d+(?:\.\d+)?)%|\b(\d+(?:\.\d+)?)\b/g;
   let match: RegExpExecArray | null;
   while ((match = re.exec(text)) !== null) {
