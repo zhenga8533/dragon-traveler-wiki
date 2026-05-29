@@ -38,7 +38,7 @@ import {
 import { useDebouncedValue, useDisclosure, useHotkeys } from '@mantine/hooks';
 import Fuse from 'fuse.js';
 import type { ReactNode } from 'react';
-import { Fragment, useContext, useEffect, useMemo, useState } from 'react';
+import { Fragment, useContext, useMemo, useState } from 'react';
 import type { IconType } from 'react-icons';
 import {
   IoArrowBack,
@@ -705,18 +705,19 @@ export default function SearchModal({
     return results;
   }, [debouncedQuery, fuseIndices, characterNameCounts]);
 
-  useEffect(() => {
-    setSelectedIndex(0);
-  }, [searchResults]);
-
   const handleSelect = (result: SearchResult) => {
     navigate(result.path);
     handleClose();
   };
 
+  const handleQueryChange = (nextQuery: string) => {
+    setQuery(nextQuery);
+    setSelectedIndex(0);
+  };
+
   const handleClose = () => {
     close();
-    setQuery('');
+    handleQueryChange('');
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
@@ -819,7 +820,7 @@ export default function SearchModal({
             <TextInput
               placeholder="Search all wiki content..."
               value={query}
-              onChange={(e) => setQuery(e.currentTarget.value)}
+              onChange={(e) => handleQueryChange(e.currentTarget.value)}
               onKeyDown={handleKeyDown}
               leftSection={
                 <IoSearch
@@ -833,7 +834,7 @@ export default function SearchModal({
                     {query && (
                       <ActionIcon
                         variant="subtle"
-                        onClick={() => setQuery('')}
+                        onClick={() => handleQueryChange('')}
                         size="md"
                         color="gray"
                         aria-label="Clear search"
@@ -854,7 +855,7 @@ export default function SearchModal({
                 ) : query ? (
                   <ActionIcon
                     variant="subtle"
-                    onClick={() => setQuery('')}
+                    onClick={() => handleQueryChange('')}
                     size="sm"
                     color="gray"
                     aria-label="Clear search"

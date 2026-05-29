@@ -4,6 +4,9 @@ import {
   BASE_URL,
   DEFAULT_DESCRIPTION,
   DEFAULT_IMAGE,
+  DEFAULT_IMAGE_ALT,
+  DEFAULT_IMAGE_HEIGHT,
+  DEFAULT_IMAGE_WIDTH,
   ROUTE_META,
   SITE_NAME,
   type RouteMeta as RouteMetaType,
@@ -66,12 +69,18 @@ export default function RouteMeta() {
     upsertMetaTag('property', 'og:description', routeMeta.description);
     upsertMetaTag('property', 'og:url', pageUrl);
     upsertMetaTag('property', 'og:type', 'website');
+    upsertMetaTag('property', 'og:site_name', SITE_NAME);
     upsertMetaTag('property', 'og:image', DEFAULT_IMAGE);
+    upsertMetaTag('property', 'og:image:secure_url', DEFAULT_IMAGE);
+    upsertMetaTag('property', 'og:image:width', DEFAULT_IMAGE_WIDTH);
+    upsertMetaTag('property', 'og:image:height', DEFAULT_IMAGE_HEIGHT);
+    upsertMetaTag('property', 'og:image:alt', DEFAULT_IMAGE_ALT);
 
     upsertMetaTag('name', 'twitter:card', 'summary_large_image');
     upsertMetaTag('name', 'twitter:title', pageTitle);
     upsertMetaTag('name', 'twitter:description', routeMeta.description);
     upsertMetaTag('name', 'twitter:image', DEFAULT_IMAGE);
+    upsertMetaTag('name', 'twitter:image:alt', DEFAULT_IMAGE_ALT);
   }, [pathname, routeMeta]);
 
   return null;

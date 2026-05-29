@@ -127,7 +127,7 @@ function parseRouteMetaSource(source) {
 
   const routeMetaChunk = source.slice(arrayStart, arrayEnd);
   const entryRegex =
-    /\{\s*pattern:\s*'([^']+)'\s*,\s*meta:\s*\{\s*title:\s*'([^']+)'\s*,\s*description:\s*'([\s\S]*?)'\s*,?\s*\}\s*,?\s*\}/g;
+    /\{\s*pattern:\s*'([^']+)'\s*,\s*meta:\s*\{\s*title:\s*'([^']+)'\s*,\s*description:\s*'((?:\\'|[^'])*)'\s*,?\s*\}\s*,?\s*\}/g;
 
   const routes = [];
   let match;
@@ -136,7 +136,7 @@ function parseRouteMetaSource(source) {
       pattern: match[1],
       meta: {
         title: match[2],
-        description: match[3].replace(/\s+/g, ' ').trim(),
+        description: match[3].replace(/\\'/g, "'").replace(/\s+/g, ' ').trim(),
       },
     });
   }
@@ -149,13 +149,18 @@ function parseRouteMetaSource(source) {
   };
 }
 
-function replaceFirstMeta(html, attr, key, value) {
+function upsertMeta(html, attr, key, value) {
   const pattern = new RegExp(
     `<meta\\s+${attr}=["']${escapeRegExp(key)}["']\\s+content=["'][^"']*["']\\s*\\/?>`,
     'i'
   );
   const replacement = `<meta ${attr}="${key}" content="${escapeHtml(value)}" />`;
-  return html.replace(pattern, replacement);
+
+  if (pattern.test(html)) {
+    return html.replace(pattern, replacement);
+  }
+
+  return html.replace(/<\/head>/i, `    ${replacement}\n  </head>`);
 }
 
 function removeMeta(html, attr, key) {
@@ -195,12 +200,14 @@ function buildRouteHtml(
     /<title>[\s\S]*?<\/title>/i,
     `<title>${escapeHtml(pageTitle)}</title>`
   );
-  html = replaceFirstMeta(html, 'name', 'description', meta.description);
-  html = replaceFirstMeta(html, 'property', 'og:title', pageTitle);
-  html = replaceFirstMeta(html, 'property', 'og:description', meta.description);
-  html = replaceFirstMeta(html, 'property', 'og:url', pageUrl);
-  html = replaceFirstMeta(html, 'name', 'twitter:title', pageTitle);
-  html = replaceFirstMeta(
+  html = upsertMeta(html, 'name', 'description', meta.description);
+  html = upsertMeta(html, 'property', 'og:title', pageTitle);
+  html = upsertMeta(html, 'property', 'og:description', meta.description);
+  html = upsertMeta(html, 'property', 'og:url', pageUrl);
+  html = upsertMeta(html, 'property', 'og:type', 'website');
+  html = upsertMeta(html, 'property', 'og:site_name', siteName);
+  html = upsertMeta(html, 'name', 'twitter:title', pageTitle);
+  html = upsertMeta(
     html,
     'name',
     'twitter:description',
@@ -208,9 +215,20 @@ function buildRouteHtml(
   );
 
   if (imageUrl) {
-    html = replaceFirstMeta(html, 'property', 'og:image', imageUrl);
-    html = replaceFirstMeta(html, 'name', 'twitter:image', imageUrl);
-    html = replaceFirstMeta(
+    const isDefaultImage = imageUrl === `${baseUrl}/banner.png`;
+    html = upsertMeta(html, 'property', 'og:image', imageUrl);
+    html = upsertMeta(html, 'property', 'og:image:secure_url', imageUrl);
+    if (isDefaultImage) {
+      html = upsertMeta(html, 'property', 'og:image:width', '2796');
+      html = upsertMeta(html, 'property', 'og:image:height', '1290');
+    } else {
+      html = removeMeta(html, 'property', 'og:image:width');
+      html = removeMeta(html, 'property', 'og:image:height');
+    }
+    html = upsertMeta(html, 'property', 'og:image:alt', `${pageTitle} preview`);
+    html = upsertMeta(html, 'name', 'twitter:image', imageUrl);
+    html = upsertMeta(html, 'name', 'twitter:image:alt', `${pageTitle} preview`);
+    html = upsertMeta(
       html,
       'name',
       'twitter:card',
@@ -218,8 +236,13 @@ function buildRouteHtml(
     );
   } else {
     html = removeMeta(html, 'property', 'og:image');
+    html = removeMeta(html, 'property', 'og:image:secure_url');
+    html = removeMeta(html, 'property', 'og:image:width');
+    html = removeMeta(html, 'property', 'og:image:height');
+    html = removeMeta(html, 'property', 'og:image:alt');
     html = removeMeta(html, 'name', 'twitter:image');
-    html = replaceFirstMeta(html, 'name', 'twitter:card', 'summary');
+    html = removeMeta(html, 'name', 'twitter:image:alt');
+    html = upsertMeta(html, 'name', 'twitter:card', 'summary');
   }
 
   return html;
@@ -274,7 +297,7 @@ function writeRoutePages() {
   );
   const writtenPaths = new Set();
 
-  const writePage = (routePath, meta, imageUrl = null) => {
+  const writePage = (routePath, meta, imageUrl = defaultImage) => {
     if (!routePath || routePath === '/') {
       return;
     }
@@ -287,7 +310,7 @@ function writeRoutePages() {
       meta,
       siteName,
       baseUrl,
-      imageUrl
+      imageUrl ?? defaultImage
     );
     writeHtmlForPath(routePath, html);
     writtenPaths.add(routePath);
@@ -525,7 +548,7 @@ function writeRoutePages() {
     fallbackMeta,
     siteName,
     baseUrl,
-    null
+    defaultImage
   );
   writeFileSync(path.join(distDir, '404.html'), notFoundHtml, 'utf-8');
 }

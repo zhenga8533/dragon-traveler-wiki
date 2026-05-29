@@ -13,6 +13,9 @@ export const DEFAULT_DESCRIPTION =
   'A comprehensive wiki for Dragon Traveler game information, characters, resources, and more.';
 export const BASE_URL = 'https://dtwiki.org';
 export const DEFAULT_IMAGE = `${BASE_URL}/banner.png`;
+export const DEFAULT_IMAGE_ALT = 'Dragon Traveler Wiki banner';
+export const DEFAULT_IMAGE_WIDTH = '2796';
+export const DEFAULT_IMAGE_HEIGHT = '1290';
 
 export const ROUTE_META: RouteMetaEntry[] = [
   {
@@ -124,7 +127,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Resources',
       description:
-        "Search and filter game resources by category and quality, with descriptions covering each item's purpose and use.",
+        'Search and filter game resources by category and quality, with descriptions covering each item\'s purpose and use.',
     },
   },
   {
