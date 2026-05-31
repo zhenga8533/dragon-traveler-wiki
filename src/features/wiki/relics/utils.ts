@@ -1,7 +1,7 @@
 import type { Relic, RelicType } from './types';
 
 export function getRelicOracleScroll(relic: Relic): string | null {
-  return relic.oracle_scroll ?? relic.oracle_sroll ?? null;
+  return relic.oracle_scroll ?? null;
 }
 
 export function getRelicTypeOrder(

@@ -502,7 +502,7 @@ function writeRoutePages() {
     const relicItems = readJsonArray('relic.json');
     const scrollsSeen = new Set();
     for (const item of relicItems) {
-      const scrollName = item?.oracle_scroll ?? item?.oracle_sroll;
+      const scrollName = item?.oracle_scroll;
       if (!scrollName) continue;
       const slug = toEntitySlug(scrollName);
       if (!slug || scrollsSeen.has(slug)) continue;

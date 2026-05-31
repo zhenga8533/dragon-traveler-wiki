@@ -8,7 +8,6 @@ export type RelicType =
 
 export interface Relic {
   name: string;
-  oracle_sroll?: string | null;
   oracle_scroll?: string | null;
   lore: string;
   type: RelicType;
