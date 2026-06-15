@@ -17,6 +17,10 @@ export const TAG_BADGE_STYLE = {
   whiteSpace: 'nowrap',
 } as const satisfies CSSProperties;
 
+export const RICH_TEXT_BADGE_STYLE = {
+  verticalAlign: 'middle',
+} as const satisfies CSSProperties;
+
 type CardHoverPropsOptions = {
   interactive?: boolean;
   style?: CSSProperties;

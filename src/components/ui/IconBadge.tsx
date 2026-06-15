@@ -1,7 +1,11 @@
 import type { MantineColor, MantineSize } from '@mantine/core';
 import { Badge, Popover } from '@mantine/core';
 import type { ReactNode } from 'react';
-import { CURSOR_DEFAULT_STYLE, CURSOR_POINTER_STYLE } from '@/constants/styles';
+import {
+  CURSOR_DEFAULT_STYLE,
+  CURSOR_POINTER_STYLE,
+  RICH_TEXT_BADGE_STYLE,
+} from '@/constants/styles';
 import { POPOVER_BADGE_WIDTH } from '@/constants/ui';
 import SafeImage from '@/components/ui/SafeImage';
 
@@ -43,7 +47,10 @@ export default function IconBadge({
       size={size}
       // Mantine's polymorphic type overloads don't accept string directly; cast needed.
       component={component as 'span'}
-      style={popoverContent ? CURSOR_POINTER_STYLE : CURSOR_DEFAULT_STYLE}
+      style={{
+        ...RICH_TEXT_BADGE_STYLE,
+        ...(popoverContent ? CURSOR_POINTER_STYLE : CURSOR_DEFAULT_STYLE),
+      }}
       leftSection={iconElement}
     >
       {label}

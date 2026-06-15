@@ -1,6 +1,10 @@
 import { Badge, Group, Popover, Stack, Text } from '@mantine/core';
 import { useContext } from 'react';
-import { CURSOR_POINTER_STYLE, WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
+import {
+  CURSOR_POINTER_STYLE,
+  RICH_TEXT_BADGE_STYLE,
+  WHITE_SPACE_PRE_LINE_STYLE,
+} from '@/constants/styles';
 import { POPOVER_MAX_WIDTH } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
 import type { Skill, Talent } from '@/features/characters/types';
@@ -47,7 +51,13 @@ function ReferenceBadge({
 
   if (!hasDetails || disablePopovers) {
     return (
-      <Badge variant="light" color={color} size="sm" component="span">
+      <Badge
+        variant="light"
+        color={color}
+        size="sm"
+        component="span"
+        style={RICH_TEXT_BADGE_STYLE}
+      >
         {badgeLabel}
       </Badge>
     );
@@ -61,7 +71,7 @@ function ReferenceBadge({
           color={color}
           size="sm"
           component="span"
-          style={CURSOR_POINTER_STYLE}
+          style={{ ...RICH_TEXT_BADGE_STYLE, ...CURSOR_POINTER_STYLE }}
         >
           {badgeLabel}
         </Badge>
@@ -192,7 +202,7 @@ export default function RichText({
                 color={accent.secondary}
                 size="sm"
                 component="span"
-                style={CURSOR_POINTER_STYLE}
+                style={{ ...RICH_TEXT_BADGE_STYLE, ...CURSOR_POINTER_STYLE }}
                 onClick={() => onSkillClick(skill.name)}
               >
                 {seg.name}
@@ -221,7 +231,7 @@ export default function RichText({
                 color={accent.tertiary}
                 size="sm"
                 component="span"
-                style={CURSOR_POINTER_STYLE}
+                style={{ ...RICH_TEXT_BADGE_STYLE, ...CURSOR_POINTER_STYLE }}
                 onClick={onTalentClick}
               >
                 {seg.name}
@@ -255,6 +265,7 @@ export default function RichText({
             color="gray"
             size="sm"
             component="span"
+            style={RICH_TEXT_BADGE_STYLE}
           >
             {seg.name}
           </Badge>

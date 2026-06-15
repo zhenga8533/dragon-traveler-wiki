@@ -1,7 +1,10 @@
 import { Badge, Group, Stack, Text } from '@mantine/core';
 import { getStatusEffectIcon } from '@/assets';
 import { STATE_COLOR } from '@/constants/colors';
-import { WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
+import {
+  RICH_TEXT_BADGE_STYLE,
+  WHITE_SPACE_PRE_LINE_STYLE,
+} from '@/constants/styles';
 import { IMAGE_SIZE, POPOVER_BADGE_WIDTH } from '@/constants/ui';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { normalizeName } from '@/utils';
@@ -28,7 +31,13 @@ export default function StatusEffectBadge({
 
   if (!effect) {
     return (
-      <Badge variant="light" color="gray" size="sm" component="span">
+      <Badge
+        variant="light"
+        color="gray"
+        size="sm"
+        component="span"
+        style={RICH_TEXT_BADGE_STYLE}
+      >
         {displayName ?? name}
       </Badge>
     );
@@ -39,7 +48,13 @@ export default function StatusEffectBadge({
 
   if (disablePopover) {
     return (
-      <Badge variant="light" color={color} size="sm" component="span">
+      <Badge
+        variant="light"
+        color={color}
+        size="sm"
+        component="span"
+        style={RICH_TEXT_BADGE_STYLE}
+      >
         {displayName ?? name}
       </Badge>
     );
