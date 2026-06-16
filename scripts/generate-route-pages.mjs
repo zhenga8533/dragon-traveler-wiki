@@ -1,9 +1,8 @@
 import {
-  copyFileSync,
   existsSync,
-  mkdirSync,
   readFileSync,
   writeFileSync,
+  mkdirSync,
 } from 'node:fs';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -13,9 +12,16 @@ const __dirname = path.dirname(__filename);
 const projectRoot = path.resolve(__dirname, '..');
 const distDir = path.resolve(projectRoot, 'dist');
 const dataDir = path.resolve(projectRoot, process.env.DATA_DIR || '../data');
-const assetsDir = path.resolve(projectRoot, process.env.ASSETS_DIR || '../dragon-traveler-data/assets');
 const routeMetaPath = path.resolve(projectRoot, 'src/constants/route-meta.ts');
 const indexHtmlPath = path.join(distDir, 'index.html');
+
+const rawAssetsBase = process.env.VITE_ASSETS_BASE ?? '';
+const assetsBase =
+  rawAssetsBase.startsWith('http://') || rawAssetsBase.startsWith('https://')
+    ? rawAssetsBase.endsWith('/')
+      ? rawAssetsBase
+      : `${rawAssetsBase}/`
+    : null;
 
 function escapeRegExp(value) {
   return value.replace(/[.*+?^${}()|[\]\\]/g, '\\$&');
@@ -248,30 +254,9 @@ function buildRouteHtml(
   return html;
 }
 
-function getCharacterDefaultIllustrationRelativePath(characterSlug) {
-  const extensionCandidates = ['png', 'jpg', 'jpeg', 'webp'];
-  for (const extension of extensionCandidates) {
-    const sourcePath = path.join(
-      assetsDir,
-      'character',
-      characterSlug,
-      'illustrations',
-      `default.${extension}`
-    );
-
-    if (!existsSync(sourcePath)) {
-      continue;
-    }
-
-    const destinationDir = path.join(distDir, 'character-illustrations');
-    const destinationFileName = `${characterSlug}.${extension}`;
-    const destinationPath = path.join(destinationDir, destinationFileName);
-    mkdirSync(destinationDir, { recursive: true });
-    copyFileSync(sourcePath, destinationPath);
-    return `/character-illustrations/${destinationFileName}`;
-  }
-
-  return null;
+function getCharacterIllustrationUrl(characterSlug) {
+  if (!assetsBase) return null;
+  return `${assetsBase}character/${characterSlug}/illustrations/default.png`;
 }
 
 function writeRoutePages() {
@@ -482,11 +467,7 @@ function writeRoutePages() {
       const routePath = config.pattern.replace(/:[^/]+$/, slug);
       const imageUrl =
         config.pattern === '/characters/:name'
-          ? (() => {
-              const relativePath =
-                getCharacterDefaultIllustrationRelativePath(slug);
-              return relativePath ? `${baseUrl}${relativePath}` : null;
-            })()
+          ? getCharacterIllustrationUrl(slug)
           : null;
       const meta = {
         title: String(name ?? baseMeta.title),
