@@ -33,7 +33,7 @@ import {
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
-import { applyDir, useFilteredPageData } from '@/hooks';
+import { applyDir, useFilteredPageData, useSearchParamFilter } from '@/hooks';
 import type { ResourceCategory } from '@/types/resource';
 import { getLatestTimestamp } from '@/utils';
 
@@ -157,6 +157,7 @@ export default function Resources() {
       return a.name.localeCompare(b.name);
     },
   });
+  useSearchParamFilter(setFilters);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(resources),

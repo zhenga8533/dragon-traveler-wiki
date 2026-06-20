@@ -18,6 +18,9 @@ import { getStableTagColor } from '@/constants/colors';
 import { getCardHoverProps } from '@/constants/styles';
 import { useDataFetch } from '@/hooks';
 import type { UsefulLink } from '@/types/useful-link';
+import { useEffect } from 'react';
+import { useLocation } from 'react-router-dom';
+import { toEntitySlug } from '@/utils/entity-slug';
 
 const LINK_FIELDS: FieldDef[] = [
   {
@@ -63,11 +66,17 @@ const ICON_MAP: Record<string, IconType> = {
 };
 
 export default function UsefulLinks() {
+  const { hash } = useLocation();
   const {
     data: links,
     loading,
     error,
   } = useDataFetch<UsefulLink[]>('data/useful-links.json', []);
+
+  useEffect(() => {
+    if (!hash || links.length === 0) return;
+    document.getElementById(hash.slice(1))?.scrollIntoView({ block: 'center' });
+  }, [hash, links]);
 
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
@@ -101,6 +110,7 @@ export default function UsefulLinks() {
             return (
               <Card
                 key={link.link}
+                id={toEntitySlug(link.name)}
                 padding="lg"
                 radius="md"
                 withBorder

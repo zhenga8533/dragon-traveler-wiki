@@ -57,6 +57,7 @@ export { useInputCommit } from './use-input-commit';
 export { useSidebar } from './use-sidebar';
 export { applyDir, useSortState } from './use-sort';
 export { useEntityTabParam, useTabParam } from './use-tab-param';
+export { useSearchParamFilter, useSearchParamText } from './use-search-param-filter';
 
 // Re-export hook types
 export type { DataFetchResult } from './use-data-fetch';

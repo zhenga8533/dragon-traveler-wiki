@@ -52,6 +52,8 @@ export interface SearchDataContextValue {
   events: GameEvent[];
   usefulLinks: UsefulLink[];
   tierLists: TierList[];
+  loading: boolean;
+  errors: Error[];
 }
 
 export const SearchDataContext = createContext<SearchDataContextValue>({
@@ -71,25 +73,65 @@ export const SearchDataContext = createContext<SearchDataContextValue>({
   events: [],
   usefulLinks: [],
   tierLists: [],
+  loading: false,
+  errors: [],
 });
 
 export function SearchDataProvider({ children }: { children: ReactNode }) {
-  const { data: characters } = useCharacters();
-  const { data: artifacts } = useArtifacts();
-  const { data: gear } = useGear();
-  const { data: howlkins } = useHowlkins();
-  const { data: relics } = useRelics();
-  const { data: resources } = useResources();
-  const { data: statusEffects } = useStatusEffects();
-  const { data: subclasses } = useSubclasses();
-  const { data: wyrmspells } = useWyrmspells();
-  const { data: noblePhantasms } = useNoblePhantasms();
-  const { data: wyrms } = useWyrms();
-  const { data: teams } = useTeams();
-  const { data: codes } = useCodes();
-  const { data: events } = useEvents();
-  const { data: usefulLinks } = useUsefulLinks();
-  const { data: tierLists } = useTierLists();
+  const characterResult = useCharacters();
+  const artifactResult = useArtifacts();
+  const gearResult = useGear();
+  const howlkinResult = useHowlkins();
+  const relicResult = useRelics();
+  const resourceResult = useResources();
+  const statusEffectResult = useStatusEffects();
+  const subclassResult = useSubclasses();
+  const wyrmspellResult = useWyrmspells();
+  const noblePhantasmResult = useNoblePhantasms();
+  const wyrmResult = useWyrms();
+  const teamResult = useTeams();
+  const codeResult = useCodes();
+  const eventResult = useEvents();
+  const usefulLinkResult = useUsefulLinks();
+  const tierListResult = useTierLists();
+
+  const results = [
+    characterResult,
+    artifactResult,
+    gearResult,
+    howlkinResult,
+    relicResult,
+    resourceResult,
+    statusEffectResult,
+    subclassResult,
+    wyrmspellResult,
+    noblePhantasmResult,
+    wyrmResult,
+    teamResult,
+    codeResult,
+    eventResult,
+    usefulLinkResult,
+    tierListResult,
+  ];
+  const loading = results.some((result) => result.loading);
+  const errors = results.flatMap((result) => (result.error ? [result.error] : []));
+
+  const characters = characterResult.data;
+  const artifacts = artifactResult.data;
+  const gear = gearResult.data;
+  const howlkins = howlkinResult.data;
+  const relics = relicResult.data;
+  const resources = resourceResult.data;
+  const statusEffects = statusEffectResult.data;
+  const subclasses = subclassResult.data;
+  const wyrmspells = wyrmspellResult.data;
+  const noblePhantasms = noblePhantasmResult.data;
+  const wyrms = wyrmResult.data;
+  const teams = teamResult.data;
+  const codes = codeResult.data;
+  const events = eventResult.data;
+  const usefulLinks = usefulLinkResult.data;
+  const tierLists = tierListResult.data;
 
   const value = useMemo(
     () => ({
@@ -109,6 +151,8 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
       events,
       usefulLinks,
       tierLists,
+      loading,
+      errors,
     }),
     [
       characters,
@@ -127,6 +171,8 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
       events,
       usefulLinks,
       tierLists,
+      loading,
+      errors,
     ]
   );
 

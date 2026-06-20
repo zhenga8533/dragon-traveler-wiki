@@ -23,6 +23,7 @@ import {
   useDataFetch,
   useFilteredPageData,
   useGradientAccent,
+  useSearchParamFilter,
 } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import { getClassRank } from '@/utils/class-order';
@@ -136,6 +137,7 @@ export default function Subclasses() {
       return a.name.localeCompare(b.name);
     },
   });
+  useSearchParamFilter(setFilters);
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(subclasses),

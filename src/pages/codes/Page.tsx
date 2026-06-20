@@ -17,6 +17,7 @@ import {
   useGradientAccent,
   useMobileTooltip,
   usePageSize,
+  useSearchParamText,
   useTabParam,
 } from '@/hooks';
 import { useViewMode, type ViewMode } from '@/hooks/use-filters';
@@ -57,6 +58,7 @@ import {
 } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useSearchParams } from 'react-router-dom';
 import {
   IoCheckmark,
   IoChevronDown,
@@ -153,6 +155,8 @@ type TabFilter = 'active' | 'expired';
 const CODES_PER_PAGE = 20;
 
 export default function Codes() {
+  const [searchParams] = useSearchParams();
+  const destinationSearch = searchParams.get('search');
   const tooltipProps = useMobileTooltip();
   const { accent } = useGradientAccent();
   const {
@@ -171,7 +175,7 @@ export default function Codes() {
     'expired',
   ]);
   const tab = tabParam as TabFilter;
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState(() => destinationSearch ?? '');
   const [viewMode, setViewMode] = useViewMode({
     storageKey: STORAGE_KEY.CODES_VIEW_MODE,
     defaultMode: 'list',
@@ -190,6 +194,8 @@ export default function Codes() {
     useDisclosure(false);
   const [clearAllOpened, { open: openClearAll, close: closeClearAll }] =
     useDisclosure(false);
+
+  useSearchParamText(setSearch);
 
   useEffect(() => {
     try {

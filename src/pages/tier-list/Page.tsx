@@ -51,6 +51,7 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { useSearchParams } from 'react-router-dom';
+import { useSearchParamText } from '@/hooks';
 
 function matchesTierListFilters(
   tierList: TierListType,
@@ -109,9 +110,12 @@ export default function TierList() {
     });
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
   const [search, setSearch] = useState(() => {
+    const destinationSearch = searchParams.get('search');
+    if (destinationSearch !== null) return destinationSearch;
     if (typeof window === 'undefined') return '';
     return window.localStorage.getItem(STORAGE_KEY.TIER_LIST_SEARCH) || '';
   });
+  useSearchParamText(setSearch);
   const mode = parseTabMode(searchParams.get('mode'));
   const {
     editData,

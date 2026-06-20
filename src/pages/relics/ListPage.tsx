@@ -37,6 +37,7 @@ import {
   useFilteredPageData,
   useGradientAccent,
   usePageSize,
+  useSearchParamFilter,
   useTabParam,
 } from '@/hooks';
 import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
@@ -175,6 +176,7 @@ export default function RelicPage() {
       return nameCmp;
     },
   });
+  useSearchParamFilter(setFilters);
 
   // Oracle Scrolls tab
   const oracleScrollNames = useMemo(() => {

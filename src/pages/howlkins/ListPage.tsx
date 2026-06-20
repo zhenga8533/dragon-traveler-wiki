@@ -38,6 +38,7 @@ import {
   useFilteredPageData,
   useGradientAccent,
   usePageSize,
+  useSearchParamFilter,
   useTabParam,
 } from '@/hooks';
 import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
@@ -152,6 +153,7 @@ export default function Howlkins() {
       return a.name.localeCompare(b.name);
     },
   });
+  useSearchParamFilter(setFilters);
 
   const [allianceSearch, setAllianceSearch] = useState(() => {
     if (typeof window === 'undefined') return '';

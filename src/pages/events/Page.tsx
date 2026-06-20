@@ -32,6 +32,7 @@ import {
   useIsMobile,
   usePageSize,
   usePagination,
+  useSearchParamFilter,
   useTabParam,
   useViewMode,
 } from '@/hooks';
@@ -443,6 +444,7 @@ export default function Events() {
       emptyFilters: EMPTY_EVENT_FILTERS,
       storageKey: STORAGE_KEY.EVENT_FILTERS,
     });
+  useSearchParamFilter(setEventFilters);
   const { isOpen: eventFilterOpen, toggle: toggleEventFilter } =
     useFilterPanel();
   const [eventViewMode, setEventViewMode] = useViewMode({

@@ -23,7 +23,7 @@ import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '@/constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData } from '@/hooks';
+import { applyDir, useDataFetch, useFilteredPageData, useSearchParamFilter } from '@/hooks';
 import type { StatusEffect, StatusEffectType } from '@/features/wiki/status-effects/types';
 import { getLatestTimestamp } from '@/utils';
 
@@ -136,6 +136,7 @@ export default function StatusEffects() {
       return a.name.localeCompare(b.name);
     },
   });
+  useSearchParamFilter(setFilters);
 
   const filterGroups = useMemo(() => {
     const typeSet = new Set(effects.map((e) => e.type));

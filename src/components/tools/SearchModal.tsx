@@ -13,7 +13,7 @@ import {
 } from '@/assets';
 import { normalizeContentType } from '@/constants/content-types';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
-import { SearchDataContext } from '@/contexts';
+import { SearchDataContext, SearchDataProvider } from '@/contexts';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import {
   buildCharacterNameCounts,
@@ -38,7 +38,7 @@ import {
 import { useDebouncedValue, useDisclosure, useHotkeys } from '@mantine/hooks';
 import Fuse from 'fuse.js';
 import type { ReactNode } from 'react';
-import { Fragment, useContext, useMemo, useState } from 'react';
+import { Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
 import type { IconType } from 'react-icons';
 import {
   IoArrowBack,
@@ -58,6 +58,7 @@ import {
   IoSparklesOutline,
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
+import { OPEN_GLOBAL_SEARCH_EVENT } from './global-search-events';
 
 type SearchResult = {
   type:
@@ -221,13 +222,47 @@ const CATEGORY_LABELS: Record<SearchResult['type'], string> = {
   wyrmspell: 'Wyrmspells',
 };
 
+const MAX_RESULTS = 30;
+
+function searchPath(path: string, query: string, params?: Record<string, string>) {
+  const searchParams = new URLSearchParams({ ...params, search: query });
+  return `${path}?${searchParams.toString()}`;
+}
+
+function titleMatchRank(title: string, query: string) {
+  const normalizedTitle = title.trim().toLocaleLowerCase();
+  const normalizedQuery = query.trim().toLocaleLowerCase();
+  if (normalizedTitle === normalizedQuery) return 0;
+  if (normalizedTitle.startsWith(normalizedQuery)) return 1;
+  if (normalizedTitle.includes(normalizedQuery)) return 2;
+  return 3;
+}
+
+function rankAndLimitResults(results: SearchResult[], query: string) {
+  const groups = new Map<SearchResult['type'], SearchResult[]>();
+  for (const result of results) {
+    const group = groups.get(result.type) ?? [];
+    group.push(result);
+    groups.set(result.type, group);
+  }
+
+  return [...groups.values()]
+    .map((group) => group.sort((a, b) => titleMatchRank(a.title, query) - titleMatchRank(b.title, query)))
+    .sort(
+      (a, b) =>
+        titleMatchRank(a[0].title, query) - titleMatchRank(b[0].title, query)
+    )
+    .flat()
+    .slice(0, MAX_RESULTS);
+}
+
 interface SearchModalProps {
   trigger?: (props: { open: () => void }) => ReactNode;
   enableHotkeys?: boolean;
   initiallyOpened?: boolean;
 }
 
-export default function SearchModal({
+function SearchModalContent({
   trigger,
   enableHotkeys = true,
   initiallyOpened = false,
@@ -236,6 +271,7 @@ export default function SearchModal({
   const [query, setQuery] = useState('');
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const resultRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const navigate = useNavigate();
   const { accent } = useGradientAccent();
   const isMobile = useIsMobile();
@@ -257,7 +293,10 @@ export default function SearchModal({
     events,
     usefulLinks,
     tierLists,
+    loading,
+    errors,
   } = useContext(SearchDataContext);
+  const isSearchPending = query.trim() !== debouncedQuery.trim();
 
   const searchShortcutHint = 'Search (/)';
 
@@ -504,7 +543,7 @@ export default function SearchModal({
               type: 'status-effect' as const,
               title: r.item.name,
               subtitle: r.item.type,
-              path: '/status-effects',
+              path: searchPath('/status-effects', r.item.name),
               icon: iconSrc ?? IoSparklesOutline,
               color: 'cyan',
             };
@@ -521,7 +560,7 @@ export default function SearchModal({
             type: 'subclass' as const,
             title: r.item.name,
             subtitle: `${r.item.class} • Tier ${r.item.tier}`,
-            path: '/subclasses',
+            path: searchPath('/subclasses', r.item.name),
             icon: getSubclassIcon(r.item.name, r.item.class) ?? IoGridOutline,
             color: 'grape',
           }))
@@ -569,7 +608,7 @@ export default function SearchModal({
             type: 'howlkin' as const,
             title: r.item.name,
             subtitle: `${r.item.quality} Howlkin`,
-            path: '/howlkins',
+            path: searchPath('/howlkins', r.item.name, { tab: 'howlkins' }),
             icon: getHowlkinIcon(r.item.name, r.item.quality) ?? IoPawOutline,
             color: 'orange',
           }))
@@ -601,7 +640,7 @@ export default function SearchModal({
             type: 'resource' as const,
             title: r.item.name,
             subtitle: `${r.item.category} • ${r.item.quality}`,
-            path: '/resources',
+            path: searchPath('/resources', r.item.name),
             icon: getResourceIcon(r.item.name, r.item.category) ?? IoCubeOutline,
             color: 'teal',
           }))
@@ -617,7 +656,9 @@ export default function SearchModal({
             type: 'event' as const,
             title: r.item.name,
             subtitle: isGameEventActive(r.item) ? 'Active event' : 'Past event',
-            path: `/events?tab=${isGameEventActive(r.item) ? 'active' : 'past'}`,
+            path: searchPath('/events', r.item.name, {
+              tab: isGameEventActive(r.item) ? 'active' : 'past',
+            }),
             icon: IoCalendarOutline,
             color: 'green',
           }))
@@ -633,7 +674,9 @@ export default function SearchModal({
             type: 'code' as const,
             title: r.item.code,
             subtitle: isCodeActive(r.item) ? 'Active code' : 'Expired code',
-            path: '/codes',
+            path: searchPath('/codes', r.item.code, {
+              tab: isCodeActive(r.item) ? 'active' : 'expired',
+            }),
             icon: IoFlashOutline,
             color: 'cyan',
           }))
@@ -649,7 +692,7 @@ export default function SearchModal({
             type: 'useful-link' as const,
             title: r.item.name,
             subtitle: r.item.application,
-            path: '/useful-links',
+            path: `/useful-links#${toEntitySlug(r.item.name)}`,
             icon: IoDocumentTextOutline,
             color: 'indigo',
           }))
@@ -665,7 +708,7 @@ export default function SearchModal({
             type: 'tier-list' as const,
             title: r.item.name,
             subtitle: `${normalizeContentType(r.item.content_type, 'All')} • ${r.item.author}`,
-            path: '/tier-list',
+            path: searchPath('/tier-list', r.item.name),
             icon: IoDocumentTextOutline,
             color: 'pink',
           }))
@@ -681,7 +724,7 @@ export default function SearchModal({
             type: 'relic' as const,
             title: r.item.name,
             subtitle: r.item.type,
-            path: '/relics',
+            path: searchPath('/relics', r.item.name, { tab: 'relics' }),
             icon: getRelicIcon(r.item.name, r.item.quality) ?? IoDiamondOutline,
             color: 'violet',
           }))
@@ -704,8 +747,16 @@ export default function SearchModal({
       );
     }
 
-    return results;
+    return rankAndLimitResults(results, q);
   }, [debouncedQuery, fuseIndices, characterNameCounts]);
+  const activeSelectedIndex = searchResults.length
+    ? Math.min(selectedIndex, searchResults.length - 1)
+    : 0;
+
+  useEffect(() => {
+    if (!opened || isSearchPending) return;
+    resultRefs.current[activeSelectedIndex]?.scrollIntoView({ block: 'nearest' });
+  }, [activeSelectedIndex, isSearchPending, opened]);
 
   const handleSelect = (result: SearchResult) => {
     navigate(result.path);
@@ -723,7 +774,7 @@ export default function SearchModal({
   };
 
   const handleKeyDown = (e: React.KeyboardEvent) => {
-    if (searchResults.length === 0) return;
+    if (isSearchPending || searchResults.length === 0) return;
 
     if (e.key === 'ArrowDown') {
       e.preventDefault();
@@ -733,11 +784,16 @@ export default function SearchModal({
       setSelectedIndex(
         (i) => (i - 1 + searchResults.length) % searchResults.length
       );
-    } else if (e.key === 'Enter' && searchResults[selectedIndex]) {
+    } else if (e.key === 'Enter' && searchResults[activeSelectedIndex]) {
       e.preventDefault();
-      handleSelect(searchResults[selectedIndex]);
+      handleSelect(searchResults[activeSelectedIndex]);
     }
   };
+
+  useEffect(() => {
+    window.addEventListener(OPEN_GLOBAL_SEARCH_EVENT, open);
+    return () => window.removeEventListener(OPEN_GLOBAL_SEARCH_EVENT, open);
+  }, [open]);
 
   return (
     <>
@@ -822,6 +878,15 @@ export default function SearchModal({
             }}
           >
             <TextInput
+              role="combobox"
+              aria-autocomplete="list"
+              aria-controls="global-search-results"
+              aria-expanded={!isSearchPending && searchResults.length > 0}
+              aria-activedescendant={
+                !isSearchPending && searchResults[activeSelectedIndex]
+                  ? `global-search-result-${activeSelectedIndex}`
+                  : undefined
+              }
               placeholder="Search all wiki content..."
               value={query}
               onChange={(e) => handleQueryChange(e.currentTarget.value)}
@@ -882,7 +947,23 @@ export default function SearchModal({
             />
           </Box>
 
-          {query && searchResults.length === 0 && (
+          {query && (loading || isSearchPending) && (
+            <Box p={isMobile ? 'lg' : 'xl'} ta="center" role="status">
+              <Text c="dimmed" size="sm">
+                Searching…
+              </Text>
+            </Box>
+          )}
+
+          {query && !loading && errors.length > 0 && (
+            <Box px="md" py="xs" role="status">
+              <Text c="orange" size="xs" ta="center">
+                Some search sources could not be loaded; results may be incomplete.
+              </Text>
+            </Box>
+          )}
+
+          {query && !loading && !isSearchPending && searchResults.length === 0 && (
             <Box p={isMobile ? 'lg' : 'xl'} ta="center">
               <Text c="dimmed" size="sm">
                 No results found for "{query}"
@@ -890,8 +971,11 @@ export default function SearchModal({
             </Box>
           )}
 
-          {searchResults.length > 0 && (
+          {!isSearchPending && searchResults.length > 0 && (
             <Stack
+              id="global-search-results"
+              role="listbox"
+              aria-label="Search results"
               gap={0}
               style={{
                 maxHeight: isMobile ? 'calc(100dvh - 116px)' : '500px',
@@ -900,7 +984,7 @@ export default function SearchModal({
               }}
             >
               {searchResults.map((result, index) => {
-                const isSelected = index === selectedIndex;
+                const isSelected = index === activeSelectedIndex;
                 const isNewCategory =
                   index === 0 || searchResults[index - 1].type !== result.type;
                 const isCharacterResult = result.type === 'character';
@@ -933,6 +1017,12 @@ export default function SearchModal({
                       </Box>
                     )}
                     <UnstyledButton
+                      ref={(node) => {
+                        resultRefs.current[index] = node;
+                      }}
+                      id={`global-search-result-${index}`}
+                      role="option"
+                      aria-selected={isSelected}
                       onClick={() => handleSelect(result)}
                       onMouseEnter={() => setSelectedIndex(index)}
                       py={isMobile ? 10 : 8}
@@ -1051,5 +1141,13 @@ export default function SearchModal({
         </Box>
       </Modal>
     </>
+  );
+}
+
+export default function SearchModal(props: SearchModalProps) {
+  return (
+    <SearchDataProvider>
+      <SearchModalContent {...props} />
+    </SearchDataProvider>
   );
 }

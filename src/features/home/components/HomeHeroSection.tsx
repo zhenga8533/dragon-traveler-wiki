@@ -1,4 +1,4 @@
-import SearchModal from '@/components/tools/SearchModal';
+import { OPEN_GLOBAL_SEARCH_EVENT } from '@/components/tools/LazySearchModal';
 import { GLASS } from '@/constants/glass';
 import {
   HOME_HERO_TITLE_STYLE,
@@ -262,24 +262,19 @@ export default function HomeHeroSection() {
                 justify="center"
                 style={{ width: '100%', maxWidth: isMobile ? 440 : undefined }}
               >
-                <SearchModal
-                  enableHotkeys={false}
-                  trigger={({ open }) => (
-                    <Button
-                      onClick={open}
-                      size={isMobile ? 'md' : 'sm'}
-                      fullWidth={isMobile}
-                      radius="md"
-                      variant="light"
-                      color={accent.primary}
-                      styles={HOME_CTA_BUTTON_STYLES}
-                      leftSection={<IoSearch size={16} />}
-                      style={{ minHeight: isMobile ? 44 : undefined }}
-                    >
-                      Search the Wiki
-                    </Button>
-                  )}
-                />
+                <Button
+                  onClick={() => window.dispatchEvent(new Event(OPEN_GLOBAL_SEARCH_EVENT))}
+                  size={isMobile ? 'md' : 'sm'}
+                  fullWidth={isMobile}
+                  radius="md"
+                  variant="light"
+                  color={accent.primary}
+                  styles={HOME_CTA_BUTTON_STYLES}
+                  leftSection={<IoSearch size={16} />}
+                  style={{ minHeight: isMobile ? 44 : undefined }}
+                >
+                  Search the Wiki
+                </Button>
                 <Group gap={4} visibleFrom="sm">
                   <Text size="xs" style={homeHeroMetaTextStyle}>
                     press
