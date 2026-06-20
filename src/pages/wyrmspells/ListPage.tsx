@@ -3,6 +3,7 @@ import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmspellIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
+import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import {
   createQualityFilterGroup,
   orderFilterOptions,
@@ -21,7 +22,6 @@ import {
   getStableTagColor,
 } from '@/constants/colors';
 import {
-  CURSOR_POINTER_STYLE,
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
   getMinWidthStyle,
@@ -47,7 +47,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const WYRMSPELL_TYPE_FILTER_ORDER = [
   'Breach',
@@ -105,7 +105,6 @@ const EMPTY_FILTERS: WyrmspellFilters = {
 };
 
 export default function Wyrmspells() {
-  const navigate = useNavigate();
   const { data: statusEffects } = useStatusEffects();
   const {
     data: wyrmspells,
@@ -407,13 +406,7 @@ export default function Wyrmspells() {
                       const iconSrc = getWyrmspellIcon(spell.name, spell.type);
                       const maxQuality = getMaxQuality(spell);
                       return (
-                        <Table.Tr
-                          key={spell.name}
-                          style={CURSOR_POINTER_STYLE}
-                          onClick={() =>
-                            navigate(`/wyrmspells/${toEntitySlug(spell.name)}`)
-                          }
-                        >
+                        <Table.Tr key={spell.name}>
                           <Table.Td>
                             {iconSrc && (
                               <SafeImage
@@ -426,19 +419,11 @@ export default function Wyrmspells() {
                               />
                             )}
                           </Table.Td>
-                          <Table.Td>
-                            <Text
-                              component={Link}
-                              to={`/wyrmspells/${toEntitySlug(spell.name)}`}
-                              fw={600}
-                              size="sm"
-                              className="dt-link-text"
-                              style={{ textDecoration: 'none' }}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {spell.name}
-                            </Text>
-                          </Table.Td>
+                          <EntityTableLinkCell
+                            to={`/wyrmspells/${toEntitySlug(spell.name)}`}
+                          >
+                            {spell.name}
+                          </EntityTableLinkCell>
                           <Table.Td>
                             <Badge
                               variant="light"

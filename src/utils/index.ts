@@ -13,7 +13,14 @@ export {
 } from '@/features/characters/utils/filter-characters';
 export { buildExpiredCodeUrl } from './github-issues';
 export { parseEffectRefs, splitEffectRefs } from './parse-effect-refs';
-export { loadSavedFromStorage, parseTabMode } from './saved-storage';
+export {
+  loadSavedFromStorage,
+  parseTabMode,
+  readStoredJson,
+  readStoredStringSet,
+  writeStoredJson,
+  writeStoredStringSet,
+} from './saved-storage';
 export { normalizeName } from './string';
 export {
   formatExactDate,

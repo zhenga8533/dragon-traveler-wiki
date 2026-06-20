@@ -606,7 +606,7 @@
     box-shadow 180ms ease;
 }
 
-.card-hover:hover:not([data-no-hover]) {
+.card-hover-interactive:hover:not([data-no-hover]) {
   transform: translateY(-2px);
   box-shadow:
     var(--mantine-shadow-md),
@@ -630,7 +630,7 @@
     transition: none;
   }
 
-  .card-hover:hover:not([data-no-hover]) {
+  .card-hover-interactive:hover:not([data-no-hover]) {
     transform: none;
   }
 }
@@ -729,7 +729,21 @@ body {
 
 .mantine-Paper-root[data-with-border],
 .mantine-Card-root[data-with-border] {
-  border: 1px solid transparent;
+  border-color: var(--mantine-color-default-border);
+  background: color-mix(
+    in srgb,
+    var(--mantine-color-body) calc(var(--dt-surface-opacity, 1) * 100%),
+    transparent
+  );
+  transition:
+    transform 180ms ease,
+    box-shadow 180ms ease,
+    border-color 180ms ease;
+}
+
+.mantine-Paper-root[data-with-border].card-hover-interactive,
+.mantine-Card-root[data-with-border].card-hover-interactive {
+  border-color: transparent;
   background:
     linear-gradient(
         color-mix(
@@ -746,14 +760,10 @@ body {
       padding-box,
     linear-gradient(135deg, var(--dt-surface-glow-a), var(--dt-surface-glow-b))
       border-box;
-  transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
 }
 
-.mantine-Paper-root[data-with-border]:hover:not([data-no-hover]),
-.mantine-Card-root[data-with-border]:hover:not([data-no-hover]) {
+.mantine-Paper-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]),
+.mantine-Card-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]) {
   transform: translateY(-2px);
   box-shadow:
     var(--mantine-shadow-md),
@@ -817,8 +827,8 @@ body {
     transition: none;
   }
 
-  .mantine-Paper-root[data-with-border]:hover:not([data-no-hover]),
-  .mantine-Card-root[data-with-border]:hover:not([data-no-hover]) {
+  .mantine-Paper-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]),
+  .mantine-Card-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]) {
     transform: none;
   }
 }

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useState } from 'react';
+import { readStoredJson, writeStoredJson } from '@/utils/saved-storage';
 
 export interface SortState {
   col: string | null;
@@ -13,25 +14,22 @@ const DEFAULT_SORT: SortState = { col: null, dir: 'asc' };
  */
 export function useSortState(storageKey: string) {
   const [sortState, setSortState] = useState<SortState>(() => {
-    try {
-      const stored = localStorage.getItem(storageKey);
-      if (stored) {
-        const parsed = JSON.parse(stored) as SortState;
-        if (
+    return readStoredJson(
+      storageKey,
+      DEFAULT_SORT,
+      (value): value is SortState => {
+        if (value === null || typeof value !== 'object') return false;
+        const parsed = value as Partial<SortState>;
+        return (
           (parsed.col === null || typeof parsed.col === 'string') &&
           (parsed.dir === 'asc' || parsed.dir === 'desc')
-        ) {
-          return parsed;
-        }
+        );
       }
-    } catch {
-      // ignore
-    }
-    return DEFAULT_SORT;
+    );
   });
 
   useEffect(() => {
-    localStorage.setItem(storageKey, JSON.stringify(sortState));
+    writeStoredJson(storageKey, sortState);
   }, [storageKey, sortState]);
 
   const handleSort = useCallback((key: string) => {

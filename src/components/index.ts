@@ -8,6 +8,8 @@ export { default as ClassTag } from '@/components/ui/ClassTag';
 export { default as DataFetchError } from '@/components/ui/DataFetchError';
 export { default as EmptyState } from '@/components/ui/EmptyState';
 export { default as EntityFilter } from './common/EntityFilter';
+export { default as EntitySummaryCard } from './common/EntitySummaryCard';
+export { default as EntityTableLinkCell } from './common/EntityTableLinkCell';
 export { default as EntityNotFound } from '@/components/ui/EntityNotFound';
 export { default as FactionTag } from '@/components/ui/FactionTag';
 export { default as GearTypeTag } from '@/features/wiki/gear/components/GearTypeTag';

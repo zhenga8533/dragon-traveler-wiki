@@ -2,6 +2,8 @@
 import SafeImage from '@/components/ui/SafeImage';
 import { getArtifactIcon } from '@/assets';
 import EntityFilter from '@/components/common/EntityFilter';
+import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
+import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
@@ -15,9 +17,6 @@ import {
 } from '@/features/wiki/artifacts/form-fields';
 import { QUALITY_ORDER } from '@/constants/colors';
 import {
-  CURSOR_POINTER_STYLE,
-  LINK_BLOCK_RESET_STYLE,
-  getCardHoverProps,
   getMinWidthStyle,
 } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
@@ -37,7 +36,6 @@ import {
   Badge,
   Container,
   Group,
-  Paper,
   ScrollArea,
   SimpleGrid,
   Stack,
@@ -45,7 +43,6 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 
 interface ArtifactFilters {
   search: string;
@@ -56,7 +53,6 @@ const EMPTY_FILTERS: ArtifactFilters = {
 };
 
 export default function Artifacts() {
-  const navigate = useNavigate();
   const { accent } = useGradientAccent();
   const {
     data: artifacts,
@@ -188,64 +184,45 @@ export default function Artifacts() {
                 {pageItems.map((artifact) => {
                   const iconSrc = getArtifactIcon(artifact.name);
                   return (
-                    <Paper
+                    <EntitySummaryCard
                       key={artifact.name}
-                      component={Link}
                       to={`/artifacts/${toEntitySlug(artifact.name)}`}
-                      p="md"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps({
-                        interactive: true,
-                        style: LINK_BLOCK_RESET_STYLE,
-                      })}
-                    >
-                      <Group gap="md" align="flex-start" wrap="nowrap">
-                        {iconSrc && (
-                          <SafeImage
-                            src={iconSrc}
-                            alt={artifact.name}
-                            w={64}
-                            h={64}
-                            fit="contain"
-                            radius="sm"
-                            loading="lazy"
+                      title={artifact.name}
+                      imageSrc={iconSrc}
+                      titleAccessory={<QualityIcon quality={artifact.quality} />}
+                      metadata={
+                        <Group gap="xs">
+                          <Badge
+                            variant="light"
+                            size="sm"
+                            color={accent.secondary}
+                          >
+                            {artifact.rows}x{artifact.columns}
+                          </Badge>
+                          <GlobalBadge
+                            isGlobal={artifact.is_global}
+                            size="sm"
                           />
-                        )}
-                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-                          <Group gap="sm">
-                            <Text fw={700} className="dt-link-text" lineClamp={1}>
-                              {artifact.name}
-                            </Text>
-                            <QualityIcon quality={artifact.quality} />
-                          </Group>
-                          <Group gap="xs">
-                            <Badge
-                              variant="light"
-                              size="sm"
-                              color={accent.secondary}
-                            >
-                              {artifact.rows}x{artifact.columns}
-                            </Badge>
-                            <GlobalBadge
-                              isGlobal={artifact.is_global}
-                              size="sm"
-                            />
-                            <Badge
-                              variant="light"
-                              size="sm"
-                              color={accent.tertiary}
-                            >
-                              {artifact.treasures.length} treasure
-                              {artifact.treasures.length !== 1 ? 's' : ''}
-                            </Badge>
-                          </Group>
-                          <ExpandableText size="xs">
-                            <RichText text={artifact.lore} statusEffects={statusEffects} italic />
-                          </ExpandableText>
-                        </Stack>
-                      </Group>
-                    </Paper>
+                          <Badge
+                            variant="light"
+                            size="sm"
+                            color={accent.tertiary}
+                          >
+                            {artifact.treasures.length} treasure
+                            {artifact.treasures.length !== 1 ? 's' : ''}
+                          </Badge>
+                        </Group>
+                      }
+                      description={
+                        <ExpandableText size="xs">
+                          <RichText
+                            text={artifact.lore}
+                            statusEffects={statusEffects}
+                            italic
+                          />
+                        </ExpandableText>
+                      }
+                    />
                   );
                 })}
               </SimpleGrid>
@@ -302,15 +279,7 @@ export default function Artifacts() {
                     {pageItems.map((artifact) => {
                       const iconSrc = getArtifactIcon(artifact.name);
                       return (
-                        <Table.Tr
-                          key={artifact.name}
-                          style={CURSOR_POINTER_STYLE}
-                          onClick={() =>
-                            navigate(
-                              `/artifacts/${toEntitySlug(artifact.name)}`
-                            )
-                          }
-                        >
+                        <Table.Tr key={artifact.name}>
                           <Table.Td>
                             {iconSrc && (
                               <SafeImage
@@ -324,19 +293,12 @@ export default function Artifacts() {
                               />
                             )}
                           </Table.Td>
-                          <Table.Td>
-                            <Text
-                              component={Link}
-                              to={`/artifacts/${toEntitySlug(artifact.name)}`}
-                              size="sm"
-                              fw={500}
-                              className="dt-link-text"
-                              style={{ textDecoration: 'none' }}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {artifact.name}
-                            </Text>
-                          </Table.Td>
+                          <EntityTableLinkCell
+                            to={`/artifacts/${toEntitySlug(artifact.name)}`}
+                            fontWeight={500}
+                          >
+                            {artifact.name}
+                          </EntityTableLinkCell>
                           <Table.Td>
                             <QualityIcon quality={artifact.quality} />
                           </Table.Td>

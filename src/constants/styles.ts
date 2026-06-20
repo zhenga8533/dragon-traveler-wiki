@@ -31,15 +31,14 @@ type CharacterPortraitHoverOptions = {
 };
 
 /**
- * Returns className (and optional style) for card hover effect.
- * The actual transition/lift is handled by `.card-hover` in themed-cards.css.
- * withBorder Paper/Card elements get hover automatically via CSS selectors there.
+ * Returns the shared surface class and, for genuinely interactive surfaces,
+ * opts into pointer and elevation affordances.
  */
 export function getCardHoverProps(options: CardHoverPropsOptions = {}) {
   const { interactive = false, style } = options;
   const className = interactive
     ? 'card-hover card-hover-interactive'
-    : 'card-hover';
+    : 'card-surface-static';
   return style ? { className, style } : { className };
 }
 

@@ -1,7 +1,7 @@
 import { getAccentForPath, PARENT_ACCENTS } from '@/constants/accents';
 import { IMAGE_SIZE, NAV_ITEM_HEIGHT, STORAGE_KEY } from '@/constants/ui';
 import { SearchDataContext } from '@/contexts';
-import { isCodeActive } from '@/utils';
+import { isCodeActive, readStoredStringSet } from '@/utils';
 import { isGameEventActive } from '@/utils/event-utils';
 import { Badge, Group, NavLink, Tooltip } from '@mantine/core';
 import {
@@ -139,23 +139,13 @@ export default function Navigation({
   const location = useLocation();
   const { codes, events } = useContext(SearchDataContext);
 
-  const loadRedeemedCodes = () => {
-    try {
-      const raw = localStorage.getItem(STORAGE_KEY.REDEEMED_CODES);
-      if (raw) return new Set<string>(JSON.parse(raw));
-    } catch {
-      /* ignore */
-    }
-    return new Set<string>();
-  };
-
   const [redeemedCodes, setRedeemedCodes] = useState<Set<string>>(() =>
-    loadRedeemedCodes()
+    readStoredStringSet(STORAGE_KEY.REDEEMED_CODES)
   );
 
   useEffect(() => {
     const syncRedeemedCodes = () => {
-      setRedeemedCodes(loadRedeemedCodes());
+      setRedeemedCodes(readStoredStringSet(STORAGE_KEY.REDEEMED_CODES));
     };
 
     const handleStorage = (event: StorageEvent) => {

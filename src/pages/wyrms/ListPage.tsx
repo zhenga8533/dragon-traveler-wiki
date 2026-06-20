@@ -3,6 +3,7 @@ import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmPortrait } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
+import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import {
   createQualityFilterGroup,
   orderFilterOptions,
@@ -24,7 +25,6 @@ import {
   QUALITY_ORDER,
 } from '@/constants/colors';
 import {
-  CURSOR_POINTER_STYLE,
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
   getMinWidthStyle,
@@ -48,7 +48,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
   'Juvenile Phase': 'violet',
@@ -160,7 +160,6 @@ function phaseIndex(phase: WyrmPhase): number {
 }
 
 export default function WyrmsListPage() {
-  const navigate = useNavigate();
   const { data: statusEffects } = useStatusEffects();
   const { data: wyrms, loading, error } = useWyrms();
 
@@ -386,11 +385,7 @@ export default function WyrmsListPage() {
                       const iconSrc = getWyrmPortrait(wyrm.name);
                       const phaseColor = WYRM_PHASE_COLOR[wyrm.phase];
                       return (
-                        <Table.Tr
-                          key={wyrm.name}
-                          style={CURSOR_POINTER_STYLE}
-                          onClick={() => navigate(`/wyrms/${toEntitySlug(wyrm.name)}`)}
-                        >
+                        <Table.Tr key={wyrm.name}>
                           <Table.Td>
                             {iconSrc && (
                               <SafeImage
@@ -403,19 +398,11 @@ export default function WyrmsListPage() {
                               />
                             )}
                           </Table.Td>
-                          <Table.Td>
-                            <Text
-                              component={Link}
-                              to={`/wyrms/${toEntitySlug(wyrm.name)}`}
-                              fw={600}
-                              size="sm"
-                              className="dt-link-text"
-                              style={{ textDecoration: 'none' }}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {wyrm.name}
-                            </Text>
-                          </Table.Td>
+                          <EntityTableLinkCell
+                            to={`/wyrms/${toEntitySlug(wyrm.name)}`}
+                          >
+                            {wyrm.name}
+                          </EntityTableLinkCell>
                           <Table.Td>
                             <Badge variant="light" size="sm" color={phaseColor}>
                               {wyrm.phase}

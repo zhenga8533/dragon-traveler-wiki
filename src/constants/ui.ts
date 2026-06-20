@@ -89,18 +89,6 @@ export const POPOVER_MAX_WIDTH = 320;
 /** Max width for badge/icon popovers (status effects, resources). */
 export const POPOVER_BADGE_WIDTH = 280;
 
-export const DETAIL_ROUTE_PATTERNS = [
-  /^\/artifacts\/.+/,
-  /^\/characters\/.+/,
-  /^\/gear-sets\/.+/,
-  /^\/howlkins\/.+/,
-  /^\/noble-phantasms\/.+/,
-  /^\/oracle-scrolls\/.+/,
-  /^\/wyrmspells\/.+/,
-  /^\/wyrms\/.+/,
-  /^\/teams\/.+/,
-];
-
 export const STORAGE_KEY = {
   CHARACTER_VIEW_MODE: 'characters:viewMode',
   CHARACTER_FILTERS: 'characters:filters',

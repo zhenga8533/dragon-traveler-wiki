@@ -1,5 +1,5 @@
 import { useEffect, useMemo } from 'react';
-import { matchPath, useLocation } from 'react-router-dom';
+import { useLocation } from 'react-router-dom';
 import {
   BASE_URL,
   DEFAULT_DESCRIPTION,
@@ -8,6 +8,7 @@ import {
   DEFAULT_IMAGE_HEIGHT,
   DEFAULT_IMAGE_WIDTH,
   ROUTE_META,
+  getRouteMetaEntry,
   SITE_NAME,
   type RouteMeta as RouteMetaType,
 } from '@/constants/route-meta';
@@ -30,11 +31,7 @@ function upsertMetaTag(
 }
 
 function getRouteMeta(pathname: string): RouteMetaType {
-  const explicit = ROUTE_META.find(
-    ({ pattern }) =>
-      pattern !== '*' &&
-      matchPath({ path: pattern, end: true }, pathname) !== null
-  );
+  const explicit = getRouteMetaEntry(pathname);
 
   if (explicit) {
     return explicit.meta;

@@ -5,8 +5,8 @@
   "type": "module",
   "scripts": {
     "dev": "vite",
-    "build": "tsc -b && vite build && node scripts/generate-route-pages.mjs",
-    "build:analyze": "ANALYZE=true npm run build",
+    "build": "tsc -b && vite build --configLoader runner && node scripts/generate-route-pages.mjs",
+    "build:analyze": "tsc -b && vite build --configLoader runner --mode analyze",
     "lint": "eslint .",
     "preview": "vite preview"
   },

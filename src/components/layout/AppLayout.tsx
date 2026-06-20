@@ -1,14 +1,10 @@
-import KonamiEasterEgg from '@/components/tools/KonamiEasterEgg';
-import SearchModal from '@/components/tools/SearchModal';
+import LazyKonamiEasterEgg from '@/components/tools/LazyKonamiEasterEgg';
+import LazySearchModal from '@/components/tools/LazySearchModal';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { getGlassStyles } from '@/constants/glass';
 import { BRAND_TITLE_STYLE, LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
-import {
-  DETAIL_ROUTE_PATTERNS,
-  HEADER_HEIGHT,
-  SIDEBAR,
-  TRANSITION,
-} from '@/constants/ui';
+import { isDetailRoute } from '@/constants/route-meta';
+import { HEADER_HEIGHT, SIDEBAR, TRANSITION } from '@/constants/ui';
 import { BannerContext } from '@/contexts';
 import { useDarkMode, useIsMobile, useSidebar } from '@/hooks';
 import AppRoutes from '@/routes/AppRoutes';
@@ -31,11 +27,7 @@ import Footer from './Footer';
 import Navigation from './Navigation';
 import PageTransition from './PageTransition';
 import ScrollToTop from './ScrollToTop';
-import SettingsPanel from './SettingsPanel';
-
-function isBaseRoute(pathname: string): boolean {
-  return !DETAIL_ROUTE_PATTERNS.some((pattern) => pattern.test(pathname));
-}
+import LazySettingsPanel from './LazySettingsPanel';
 
 export default function AppLayout() {
   const [mobileOpened, { toggle: toggleMobile, close: closeMobile }] =
@@ -48,7 +40,7 @@ export default function AppLayout() {
   const isHome = location.pathname === '/';
   const showBanner =
     selectedBanner !== null &&
-    (isHome || (showOnAllRoutes && isBaseRoute(location.pathname)));
+    (isHome || (showOnAllRoutes && !isDetailRoute(location.pathname)));
 
   const glassStyles = getGlassStyles(isDark);
 
@@ -120,8 +112,8 @@ export default function AppLayout() {
             </Link>
           </Group>
           <Group gap="xs" wrap="nowrap">
-            <SearchModal />
-            <SettingsPanel />
+            <LazySearchModal />
+            <LazySettingsPanel />
           </Group>
         </Group>
       </AppShell.Header>
@@ -164,7 +156,7 @@ export default function AppLayout() {
       </AppShell.Main>
 
       <ScrollToTop />
-      <KonamiEasterEgg />
+      <LazyKonamiEasterEgg />
     </AppShell>
   );
 }

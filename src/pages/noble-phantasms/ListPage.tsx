@@ -3,7 +3,6 @@ import SafeImage from '@/components/ui/SafeImage';
 import {
   Container,
   Group,
-  Paper,
   ScrollArea,
   SimpleGrid,
   Stack,
@@ -11,10 +10,11 @@ import {
   Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
 import { getPortrait } from '@/assets';
 import { getNoblePhantasmIcon } from '@/assets';
 import CharacterTag from '@/features/characters/components/CharacterTag';
+import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
+import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import EntityFilter from '@/components/common/EntityFilter';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import SortableTh from '@/components/ui/SortableTh';
@@ -23,12 +23,7 @@ import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
-import {
-  CURSOR_POINTER_STYLE,
-  LINK_BLOCK_RESET_STYLE,
-  getCardHoverProps,
-  getMinWidthStyle,
-} from '@/constants/styles';
+import { getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import {
   applyDir,
@@ -56,7 +51,6 @@ const EMPTY_FILTERS: NoblePhantasmFilters = {
 };
 
 export default function NoblePhantasms() {
-  const navigate = useNavigate();
   const { accent } = useGradientAccent();
   const {
     data: noblePhantasms,
@@ -230,59 +224,41 @@ export default function NoblePhantasms() {
                 {pageItems.map((np) => {
                   const iconSrc = getNoblePhantasmIcon(np.name);
                   return (
-                    <Paper
+                    <EntitySummaryCard
                       key={np.name}
-                      component={Link}
                       to={`/noble-phantasms/${toEntitySlug(np.name)}`}
-                      p="md"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps({
-                        interactive: true,
-                        style: LINK_BLOCK_RESET_STYLE,
-                      })}
-                    >
-                      <Group gap="md" align="flex-start" wrap="nowrap">
-                        {iconSrc && (
-                          <SafeImage
-                            src={iconSrc}
-                            alt={np.name}
-                            w={64}
-                            h={64}
-                            fit="contain"
-                            radius="sm"
-                            loading="lazy"
-                          />
-                        )}
-                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-                          <Text
-                            fw={700}
-                            className="dt-link-text"
-                            lineClamp={1}
-                          >
-                            {np.name}
-                          </Text>
-                          <Group gap="xs" wrap="wrap">
-                            {np.character && (
-                              <CharacterTag
-                                name={np.character}
-                                size="sm"
-                                color={accent.secondary}
-                                link={false}
-                              />
-                            )}
-                          </Group>
-                          {(np.lore || np.effects[0]?.description || np.skills[0]?.description) && (
-                            <ExpandableText size="xs">
-                              <RichText
-                                text={np.lore ?? np.effects[0]?.description ?? np.skills[0]?.description ?? ''}
-                                statusEffects={statusEffects}
-                              />
-                            </ExpandableText>
+                      title={np.name}
+                      imageSrc={iconSrc}
+                      metadata={
+                        <Group gap="xs" wrap="wrap">
+                          {np.character && (
+                            <CharacterTag
+                              name={np.character}
+                              size="sm"
+                              color={accent.secondary}
+                              link={false}
+                            />
                           )}
-                        </Stack>
-                      </Group>
-                    </Paper>
+                        </Group>
+                      }
+                      description={
+                        (np.lore ||
+                          np.effects[0]?.description ||
+                          np.skills[0]?.description) && (
+                          <ExpandableText size="xs">
+                            <RichText
+                              text={
+                                np.lore ??
+                                np.effects[0]?.description ??
+                                np.skills[0]?.description ??
+                                ''
+                              }
+                              statusEffects={statusEffects}
+                            />
+                          </ExpandableText>
+                        )
+                      }
+                    />
                   );
                 })}
               </SimpleGrid>
@@ -339,15 +315,7 @@ export default function NoblePhantasms() {
                     {pageItems.map((np) => {
                       const iconSrc = getNoblePhantasmIcon(np.name);
                       return (
-                        <Table.Tr
-                          key={np.name}
-                          style={CURSOR_POINTER_STYLE}
-                          onClick={() =>
-                            navigate(
-                              `/noble-phantasms/${toEntitySlug(np.name)}`
-                            )
-                          }
-                        >
+                        <Table.Tr key={np.name}>
                           <Table.Td>
                             {iconSrc ? (
                               <SafeImage
@@ -365,19 +333,11 @@ export default function NoblePhantasms() {
                               </Text>
                             )}
                           </Table.Td>
-                          <Table.Td>
-                            <Text
-                              component={Link}
-                              to={`/noble-phantasms/${toEntitySlug(np.name)}`}
-                              size="sm"
-                              fw={600}
-                              className="dt-link-text"
-                              style={{ textDecoration: 'none' }}
-                              onClick={(e) => e.stopPropagation()}
-                            >
-                              {np.name}
-                            </Text>
-                          </Table.Td>
+                          <EntityTableLinkCell
+                            to={`/noble-phantasms/${toEntitySlug(np.name)}`}
+                          >
+                            {np.name}
+                          </EntityTableLinkCell>
                           <Table.Td>
                             {np.character ? (
                               <CharacterTag

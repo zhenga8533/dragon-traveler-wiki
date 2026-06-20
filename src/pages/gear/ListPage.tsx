@@ -4,6 +4,7 @@ import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
+import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
@@ -18,7 +19,6 @@ import {
 import SortableTh from '@/components/ui/SortableTh';
 import { GEAR_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
 import {
-  CURSOR_POINTER_STYLE,
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,
   getMinWidthStyle,
@@ -53,7 +53,7 @@ import {
   Text,
 } from '@mantine/core';
 import { useEffect, useMemo, useState } from 'react';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 
 interface GearFilters {
   search: string;
@@ -90,7 +90,6 @@ export default function GearPage() {
     'gear-sets',
   ]);
 
-  const navigate = useNavigate();
   const {
     data: gear,
     loading,
@@ -525,13 +524,7 @@ export default function GearPage() {
                           const setBonus = setData?.set_bonus ?? item.set_bonus;
                           const iconSrc = getGearIcon(item.type, item.name);
                           return (
-                            <Table.Tr
-                              key={item.name}
-                              style={CURSOR_POINTER_STYLE}
-                              onClick={() =>
-                                navigate(`/gear-sets/${toEntitySlug(item.set)}`)
-                              }
-                            >
+                            <Table.Tr key={item.name}>
                               <Table.Td>
                                 {iconSrc && (
                                   <SafeImage
@@ -544,19 +537,11 @@ export default function GearPage() {
                                   />
                                 )}
                               </Table.Td>
-                              <Table.Td>
-                                <Text
-                                  component={Link}
-                                  to={`/gear-sets/${toEntitySlug(item.set)}`}
-                                  fw={600}
-                                  size="sm"
-                                  className="dt-link-text"
-                                  style={{ textDecoration: 'none' }}
-                                  onClick={(e) => e.stopPropagation()}
-                                >
-                                  {item.name}
-                                </Text>
-                              </Table.Td>
+                              <EntityTableLinkCell
+                                to={`/gear-sets/${toEntitySlug(item.set)}`}
+                              >
+                                {item.name}
+                              </EntityTableLinkCell>
                               <Table.Td>
                                 <GearTypeTag type={item.type} />
                               </Table.Td>

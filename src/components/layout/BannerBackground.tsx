@@ -19,6 +19,13 @@ export default function BannerBackground() {
   const { bannerMediaOpacity, bannerOverlayOpacity } =
     useContext(UiOpacityContext);
   const selectedBannerSrc = selectedBanner?.src;
+  const responsiveBannerProps =
+    selectedBannerSrc === '/banner.png'
+      ? {
+          srcSet: '/banner-1280.webp 1280w, /banner-2560.webp 2560w',
+          sizes: '100vw',
+        }
+      : {};
   const [measuredMedia, setMeasuredMedia] = useState<{
     src: string;
     height: number;
@@ -67,7 +74,13 @@ export default function BannerBackground() {
     (el: HTMLImageElement | null) => {
       if (!el) return;
       const update = () => {
-        if (el.naturalHeight > 0) updateMeasuredHeight(el.naturalHeight);
+        if (el.naturalHeight > 0) {
+          const normalizedHeight =
+            selectedBannerSrc === '/banner.png' && el.naturalWidth > 0
+              ? el.naturalHeight * (2796 / el.naturalWidth)
+              : el.naturalHeight;
+          updateMeasuredHeight(normalizedHeight);
+        }
       };
       const markLoaded = () => setBannerLoaded(true);
       if (el.complete) {
@@ -77,7 +90,7 @@ export default function BannerBackground() {
       el.addEventListener('load', update, { once: true });
       el.addEventListener('load', markLoaded, { once: true });
     },
-    [setBannerLoaded, updateMeasuredHeight]
+    [selectedBannerSrc, setBannerLoaded, updateMeasuredHeight]
   );
 
   const videoRef = useCallback(
@@ -190,6 +203,7 @@ export default function BannerBackground() {
             <img
               ref={imgRef}
               src={selectedBanner.src}
+              {...responsiveBannerProps}
               alt=""
               fetchPriority="high"
               onLoad={() => setBannerLoaded(true)}
@@ -203,6 +217,7 @@ export default function BannerBackground() {
           {selectedBanner && selectedBanner.type !== 'video' && (
             <SafeImage
               src={selectedBanner.src}
+              {...responsiveBannerProps}
               alt=""
               fit="cover"
               style={{

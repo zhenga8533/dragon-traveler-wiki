@@ -3,6 +3,7 @@ import {
   ListPageLoading,
 } from '@/components/layout/PageLoadingSkeleton';
 import { Container } from '@mantine/core';
+import { isDetailRoute } from '@/constants/route-meta';
 import { lazy, Suspense } from 'react';
 import { Route, Routes, useLocation } from 'react-router-dom';
 
@@ -50,12 +51,9 @@ const DiamondCalculator = lazy(
 const ShovelEventGuide = lazy(() => import('@/pages/guides/ShovelEventGuide'));
 const NotFound = lazy(() => import('@/pages/not-found/Page'));
 
-const DETAIL_ROUTE_RE =
-  /^\/(?:artifacts|characters|howlkins|noble-phantasms|gear-sets|oracle-scrolls|wyrmspells|wyrms|teams(?:\/saved)?)(\/[^/]+)+$/;
-
 function RouteFallback() {
   const { pathname } = useLocation();
-  const isDetail = DETAIL_ROUTE_RE.test(pathname);
+  const isDetail = isDetailRoute(pathname);
   return isDetail ? (
     <Container size="xl" py="xl">
       <DetailPageLoading />

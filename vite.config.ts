@@ -1,10 +1,13 @@
 import react from '@vitejs/plugin-react';
 import { existsSync, readFileSync } from 'fs';
 import path from 'path';
+import { fileURLToPath } from 'url';
 import { visualizer } from 'rollup-plugin-visualizer';
 import type { Plugin } from 'vite';
 import { defineConfig, loadEnv } from 'vite';
 import { ViteImageOptimizer } from 'vite-plugin-image-optimizer';
+
+const rootDir = path.dirname(fileURLToPath(import.meta.url));
 
 function serveDataDir(dataDir: string): Plugin {
   const prefixes = ['/data/', '/dragon-traveler-wiki/data/'];
@@ -81,7 +84,7 @@ export default defineConfig(({ mode }) => {
         jpg: { quality: 85 },
         webp: { quality: 85 },
       }),
-      ...(env.ANALYZE === 'true'
+      ...(mode === 'analyze' || env.ANALYZE === 'true'
         ? [
             visualizer({
               filename: 'dist/stats.html',
@@ -94,7 +97,24 @@ export default defineConfig(({ mode }) => {
     base: env.VITE_APP_BASE ?? '/',
     resolve: {
       alias: {
-        '@': path.resolve(__dirname, './src'),
+        '@': path.resolve(rootDir, './src'),
+      },
+    },
+    build: {
+      rollupOptions: {
+        output: {
+          manualChunks(id) {
+            if (id.includes('node_modules/@mantine/')) return 'mantine';
+            if (
+              id.includes('node_modules/react/') ||
+              id.includes('node_modules/react-dom/') ||
+              id.includes('node_modules/react-router')
+            ) {
+              return 'react-vendor';
+            }
+            if (id.includes('node_modules/react-icons/')) return 'icons';
+          },
+        },
       },
     },
   };

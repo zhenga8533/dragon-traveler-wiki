@@ -1,4 +1,4 @@
-import HowlkinBadge from '@/components/ui/HowlkinBadge';
+import ResolvedHowlkinBadge from '@/components/ui/ResolvedHowlkinBadge';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import WyrmspellBadge from '@/components/ui/WyrmspellBadge';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
@@ -343,10 +343,11 @@ export default function BeginnerQA() {
             </QA>
 
             <QA q="What should I exchange Golden Leaves for?">
-              <HowlkinBadge name="Black Dragon" /> ≥{' '}
-              <HowlkinBadge name="Pumpkin Knight" /> &gt;{' '}
+              <ResolvedHowlkinBadge name="Black Dragon" /> ≥{' '}
+              <ResolvedHowlkinBadge name="Pumpkin Knight" /> &gt;{' '}
               <WyrmspellBadge name="Agility Aura" /> &gt; Mythic Wyrm Spells
-              &gt; <HowlkinBadge name="Titan" /> ≥ <HowlkinBadge name="Hydra" />{' '}
+              &gt; <ResolvedHowlkinBadge name="Titan" /> ≥{' '}
+              <ResolvedHowlkinBadge name="Hydra" />{' '}
               &gt; Mythic Artifacts.
               <br />
               Avoid exchanging for Diamond-equivalent currency or generic

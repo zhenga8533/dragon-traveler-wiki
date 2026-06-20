@@ -28,6 +28,8 @@ import {
   getLatestTimestamp,
   isCodeActive,
   isCodeExpired,
+  readStoredStringSet,
+  writeStoredStringSet,
 } from '@/utils';
 import { showInfoToast, showSuccessToast } from '@/utils/toast';
 import {
@@ -137,18 +139,13 @@ function buildCodeRewardArrayFields(resources: Resource[]): ArrayFieldDef[] {
 }
 
 function loadRedeemed(): Set<string> {
-  try {
-    const raw = localStorage.getItem(STORAGE_KEY.REDEEMED_CODES);
-    if (raw) return new Set(JSON.parse(raw));
-  } catch {
-    /* ignore */
-  }
-  return new Set();
+  return readStoredStringSet(STORAGE_KEY.REDEEMED_CODES);
 }
 
 function saveRedeemed(set: Set<string>) {
-  localStorage.setItem(STORAGE_KEY.REDEEMED_CODES, JSON.stringify([...set]));
-  window.dispatchEvent(new Event('redeemed-codes-updated'));
+  if (writeStoredStringSet(STORAGE_KEY.REDEEMED_CODES, set)) {
+    window.dispatchEvent(new Event('redeemed-codes-updated'));
+  }
 }
 
 type ViewFilter = 'unredeemed' | 'redeemed' | 'all';

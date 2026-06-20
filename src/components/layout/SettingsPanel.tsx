@@ -98,9 +98,13 @@ const PALETTE_SWATCHES: {
   },
 ];
 
-export default function SettingsPanel() {
+export default function SettingsPanel({
+  initiallyOpened = false,
+}: {
+  initiallyOpened?: boolean;
+}) {
   const [opened, { toggle: toggleOpened, close: closeOpened }] =
-    useDisclosure(false);
+    useDisclosure(initiallyOpened);
   const [isSelectDropdownOpen, setIsSelectDropdownOpen] = useState(false);
   const [isBannerDropdownOpen, setIsBannerDropdownOpen] = useState(false);
   const { colorScheme, setColorScheme } = useMantineColorScheme();
@@ -629,6 +633,7 @@ export default function SettingsPanel() {
           color={accent.primary}
           size="xl"
           aria-label="Open settings panel"
+          aria-haspopup="dialog"
           onClick={toggleOpened}
         >
           <IoSettingsOutline />
@@ -673,6 +678,7 @@ export default function SettingsPanel() {
             color={accent.primary}
             size="lg"
             aria-label="Open settings panel"
+            aria-haspopup="dialog"
             onClick={toggleOpened}
           >
             <IoSettingsOutline />

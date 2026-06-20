@@ -1,3 +1,5 @@
+import { matchPath } from 'react-router-dom';
+
 export type RouteMeta = {
   title: string;
   description: string;
@@ -5,6 +7,7 @@ export type RouteMeta = {
 
 export type RouteMetaEntry = {
   pattern: string;
+  kind?: 'list' | 'detail';
   meta: RouteMeta;
 };
 
@@ -36,6 +39,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
   },
   {
     pattern: '/artifacts/:name',
+    kind: 'detail',
     meta: {
       title: 'Artifact Details',
       description:
@@ -52,6 +56,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
   },
   {
     pattern: '/characters/:name',
+    kind: 'detail',
     meta: {
       title: 'Character Details',
       description:
@@ -68,6 +73,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
   },
   {
     pattern: '/gear-sets/:setName',
+    kind: 'detail',
     meta: {
       title: 'Gear Set Details',
       description:
@@ -84,6 +90,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
   },
   {
     pattern: '/howlkins/:allianceName',
+    kind: 'detail',
     meta: {
       title: 'Golden Alliance Details',
       description:
@@ -100,6 +107,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
   },
   {
     pattern: '/noble-phantasms/:name',
+    kind: 'detail',
     meta: {
       title: 'Noble Phantasm Details',
       description:
@@ -116,6 +124,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
   },
   {
     pattern: '/oracle-scrolls/:scrollName',
+    kind: 'detail',
     meta: {
       title: 'Oracle Scroll Details',
       description:
@@ -156,6 +165,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
   },
   {
     pattern: '/wyrms/:name',
+    kind: 'detail',
     meta: {
       title: 'Wyrm Details',
       description:
@@ -172,6 +182,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
   },
   {
     pattern: '/wyrmspells/:name',
+    kind: 'detail',
     meta: {
       title: 'Wyrmspell Details',
       description:
@@ -196,6 +207,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
   },
   {
     pattern: '/teams/:teamName',
+    kind: 'detail',
     meta: {
       title: 'Team Details',
       description:
@@ -204,6 +216,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
   },
   {
     pattern: '/teams/saved/:teamSlug',
+    kind: 'detail',
     meta: {
       title: 'Saved Team',
       description:
@@ -299,3 +312,15 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
 ];
+
+export function getRouteMetaEntry(pathname: string): RouteMetaEntry | undefined {
+  return ROUTE_META.find(
+    ({ pattern }) =>
+      pattern !== '*' &&
+      matchPath({ path: pattern, end: true }, pathname) !== null
+  );
+}
+
+export function isDetailRoute(pathname: string): boolean {
+  return getRouteMetaEntry(pathname)?.kind === 'detail';
+}

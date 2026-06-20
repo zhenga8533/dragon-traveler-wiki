@@ -224,13 +224,15 @@ const CATEGORY_LABELS: Record<SearchResult['type'], string> = {
 interface SearchModalProps {
   trigger?: (props: { open: () => void }) => ReactNode;
   enableHotkeys?: boolean;
+  initiallyOpened?: boolean;
 }
 
 export default function SearchModal({
   trigger,
   enableHotkeys = true,
+  initiallyOpened = false,
 }: SearchModalProps) {
-  const [opened, { open, close }] = useDisclosure(false);
+  const [opened, { open, close }] = useDisclosure(initiallyOpened);
   const [query, setQuery] = useState('');
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [selectedIndex, setSelectedIndex] = useState(0);
@@ -749,6 +751,7 @@ export default function SearchModal({
             size="xl"
             onClick={open}
             aria-label={searchShortcutHint}
+            aria-haspopup="dialog"
           >
             <IoSearch size={IMAGE_SIZE.ICON_LG} />
           </ActionIcon>
@@ -757,6 +760,7 @@ export default function SearchModal({
         <UnstyledButton
           onClick={open}
           aria-label={searchShortcutHint}
+          aria-haspopup="dialog"
           className="search-pill-trigger"
           style={{
             display: 'flex',

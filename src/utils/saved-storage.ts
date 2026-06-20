@@ -1,3 +1,46 @@
+export function readStoredJson<T>(
+  storageKey: string,
+  fallback: T,
+  isValid: (value: unknown) => value is T
+): T {
+  if (typeof window === 'undefined') return fallback;
+  try {
+    const raw = window.localStorage.getItem(storageKey);
+    if (raw === null) return fallback;
+    const parsed: unknown = JSON.parse(raw);
+    return isValid(parsed) ? parsed : fallback;
+  } catch {
+    return fallback;
+  }
+}
+
+export function writeStoredJson<T>(storageKey: string, value: T): boolean {
+  if (typeof window === 'undefined') return false;
+  try {
+    window.localStorage.setItem(storageKey, JSON.stringify(value));
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+export function readStoredStringSet(storageKey: string): Set<string> {
+  const values = readStoredJson(
+    storageKey,
+    [] as string[],
+    (value): value is string[] =>
+      Array.isArray(value) && value.every((item) => typeof item === 'string')
+  );
+  return new Set(values);
+}
+
+export function writeStoredStringSet(
+  storageKey: string,
+  values: Set<string>
+): boolean {
+  return writeStoredJson(storageKey, [...values]);
+}
+
 /**
  * Generic utility for loading and normalizing saved items from localStorage.
  * Handles missing `last_updated` timestamps by backfilling them.

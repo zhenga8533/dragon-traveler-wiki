@@ -29,6 +29,7 @@ export default function IconBadge({
   component = 'span',
   popoverContent,
 }: IconBadgeProps) {
+  const needsButtonSemantics = Boolean(popoverContent) && component === 'span';
   const iconElement = iconSrc ? (
     <SafeImage
       src={iconSrc}
@@ -51,6 +52,23 @@ export default function IconBadge({
         ...RICH_TEXT_BADGE_STYLE,
         ...(popoverContent ? CURSOR_POINTER_STYLE : CURSOR_DEFAULT_STYLE),
       }}
+      role={needsButtonSemantics ? 'button' : undefined}
+      tabIndex={needsButtonSemantics ? 0 : undefined}
+      aria-label={
+        needsButtonSemantics && typeof label === 'string'
+          ? `Details for ${label}`
+          : undefined
+      }
+      onKeyDown={
+        needsButtonSemantics
+          ? (event) => {
+              if (event.key === 'Enter' || event.key === ' ') {
+                event.preventDefault();
+                event.currentTarget.click();
+              }
+            }
+          : undefined
+      }
       leftSection={iconElement}
     >
       {label}

@@ -1,4 +1,5 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
+import { readStoredJson, writeStoredJson } from '@/utils/saved-storage';
 
 export type ViewMode = 'grid' | 'list';
 
@@ -61,22 +62,21 @@ export function useFilters<T extends object>({
   storageKey,
 }: UseFiltersOptions<T>) {
   const [filters, setFilters] = useState<T>(() => {
-    if (storageKey && typeof window !== 'undefined') {
-      try {
-        const stored = window.localStorage.getItem(storageKey);
-        if (stored) {
-          return { ...emptyFilters, ...JSON.parse(stored) };
-        }
-      } catch {
-        // ignore invalid JSON
-      }
+    if (storageKey) {
+      const stored = readStoredJson<Record<string, unknown>>(
+        storageKey,
+        {},
+        (value): value is Record<string, unknown> =>
+          value !== null && typeof value === 'object' && !Array.isArray(value)
+      );
+      return { ...emptyFilters, ...stored };
     }
     return emptyFilters;
   });
 
   useEffect(() => {
     if (storageKey) {
-      window.localStorage.setItem(storageKey, JSON.stringify(filters));
+      writeStoredJson(storageKey, filters);
     }
   }, [storageKey, filters]);
 
