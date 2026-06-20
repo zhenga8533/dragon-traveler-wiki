@@ -3,6 +3,7 @@ import {
   type CharacterIllustration,
 } from '@/assets';
 import { normalizeKey } from '@/assets/utils';
+import { DEFAULT_BANNER_SRC } from '@/constants/banner';
 import { STORAGE_KEY } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import { useDataFetch } from '@/hooks/use-data-fetch';
@@ -31,7 +32,7 @@ export interface BannerOption {
 const DEFAULT_BANNER_OPTION: BannerOption = {
   value: 'default',
   label: 'Default banner',
-  src: '/banner.png',
+  src: DEFAULT_BANNER_SRC,
   type: 'image',
 };
 

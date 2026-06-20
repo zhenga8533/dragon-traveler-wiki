@@ -221,12 +221,13 @@ function buildRouteHtml(
   );
 
   if (imageUrl) {
-    const isDefaultImage = imageUrl === `${baseUrl}/banner.png`;
+    const isDefaultImage =
+      imageUrl === `${baseUrl}/images/banners/default-social.jpg`;
     html = upsertMeta(html, 'property', 'og:image', imageUrl);
     html = upsertMeta(html, 'property', 'og:image:secure_url', imageUrl);
     if (isDefaultImage) {
-      html = upsertMeta(html, 'property', 'og:image:width', '2796');
-      html = upsertMeta(html, 'property', 'og:image:height', '1290');
+      html = upsertMeta(html, 'property', 'og:image:width', '1200');
+      html = upsertMeta(html, 'property', 'og:image:height', '630');
     } else {
       html = removeMeta(html, 'property', 'og:image:width');
       html = removeMeta(html, 'property', 'og:image:height');

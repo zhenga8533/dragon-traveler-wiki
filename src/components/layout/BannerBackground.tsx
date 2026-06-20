@@ -1,4 +1,9 @@
 import SafeImage from '@/components/ui/SafeImage';
+import {
+  DEFAULT_BANNER_ORIGINAL_WIDTH,
+  DEFAULT_BANNER_SRC,
+  DEFAULT_BANNER_SRC_SET,
+} from '@/constants/banner';
 import { getHomeHeroPlaceholderGradient } from '@/constants/styles';
 import { TRANSITION } from '@/constants/ui';
 import { BannerContext, UiOpacityContext } from '@/contexts';
@@ -20,9 +25,9 @@ export default function BannerBackground() {
     useContext(UiOpacityContext);
   const selectedBannerSrc = selectedBanner?.src;
   const responsiveBannerProps =
-    selectedBannerSrc === '/banner.png'
+    selectedBannerSrc === DEFAULT_BANNER_SRC
       ? {
-          srcSet: '/banner-1280.webp 1280w, /banner-2560.webp 2560w',
+          srcSet: DEFAULT_BANNER_SRC_SET,
           sizes: '100vw',
         }
       : {};
@@ -76,8 +81,9 @@ export default function BannerBackground() {
       const update = () => {
         if (el.naturalHeight > 0) {
           const normalizedHeight =
-            selectedBannerSrc === '/banner.png' && el.naturalWidth > 0
-              ? el.naturalHeight * (2796 / el.naturalWidth)
+            selectedBannerSrc === DEFAULT_BANNER_SRC && el.naturalWidth > 0
+              ? el.naturalHeight *
+                (DEFAULT_BANNER_ORIGINAL_WIDTH / el.naturalWidth)
               : el.naturalHeight;
           updateMeasuredHeight(normalizedHeight);
         }
