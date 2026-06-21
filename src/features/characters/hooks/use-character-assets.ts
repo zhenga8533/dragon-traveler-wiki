@@ -5,7 +5,6 @@ import {
   getTalentIcon,
   type CharacterIllustration,
 } from '@/assets';
-import { getSkillIcon } from '@/assets';
 import type { Character } from '@/features/characters/types';
 
 const EMPTY_SKILL_ICONS = new Map<string, string>();
@@ -116,11 +115,6 @@ export function useCharacterAssets(
 
     Promise.all(
       character.skills.map(async (skill): Promise<[string, string] | null> => {
-        if (skill.type === 'Divine Skill') {
-          const divineIcon = getSkillIcon('divinity');
-          return divineIcon ? [skill.name, divineIcon] : null;
-        }
-
         const typeKey = (skill.type ?? '').replace(/ Skill$/i, '').toLowerCase();
         const icon = await getCharacterSkillIcon(
           character.name,

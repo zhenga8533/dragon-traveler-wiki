@@ -14,8 +14,7 @@ export type SkillType =
   | 'Overdrive'
   | 'Ultimate Skill'
   | 'Secret Skill'
-  | 'Special Skill'
-  | 'Divine Skill';
+  | 'Special Skill';
 
 export interface Skill {
   name: string;
@@ -23,6 +22,17 @@ export interface Skill {
   description: string;
   cooldown: number | string;
   cost?: number | null;
+}
+
+export interface DivinityChoice {
+  name: string;
+  description: string;
+  cooldown: number;
+}
+
+export interface DivinityLevel {
+  level: number;
+  choices: DivinityChoice[];
 }
 
 export interface TalentLevel {
@@ -103,6 +113,7 @@ export interface Character {
   summary?: string;
   talent?: Talent | null;
   skills: Skill[];
+  divinity?: DivinityLevel[];
   noble_phantasm: string;
   recommended_gear?: RecommendedGear | null;
   recommended_subclasses?: string[];
