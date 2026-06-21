@@ -251,7 +251,7 @@ export default function Teams() {
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
           <Group gap="xs">
-            {(mode === 'view' || mode === 'saved') && (
+            {!isMobile && (mode === 'view' || mode === 'saved') && (
               <PageFilterHeaderControls
                 viewMode={viewMode}
                 onViewModeChange={setViewMode}
@@ -276,6 +276,29 @@ export default function Teams() {
             )}
           </Group>
         </Group>
+
+        {isMobile && (mode === 'view' || mode === 'saved') && (
+          <PageFilterHeaderControls
+            sticky
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            filterCount={activeFilterCount}
+            filterOpen={filterOpen}
+            onFilterToggle={toggleFilter}
+          >
+            <EntityFilter
+              groups={entityFilterGroups}
+              selected={viewFilters}
+              onChange={handleFilterChange}
+              onClear={handleClearFilters}
+              search={search}
+              onSearchChange={setSearch}
+              searchPlaceholder={
+                mode === 'saved' ? 'Search saved teams...' : 'Search teams...'
+              }
+            />
+          </PageFilterHeaderControls>
+        )}
 
         {loading &&
           (mode === 'builder' ? (

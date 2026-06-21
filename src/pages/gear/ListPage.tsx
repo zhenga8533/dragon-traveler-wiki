@@ -390,10 +390,7 @@ export default function GearPage() {
                         });
                       }
                     }}
-                    onClear={() => {
-                      setFilters(EMPTY_FILTERS);
-                      setGearSetSearch('');
-                    }}
+                    onClear={() => setFilters(EMPTY_FILTERS)}
                     search={filters.search}
                     onSearchChange={(value) =>
                       setFilters({ ...filters, search: value })

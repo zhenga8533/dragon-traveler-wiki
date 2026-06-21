@@ -116,10 +116,13 @@ export default function CharacterFilter({
               }
               onChange={(val) => {
                 const next = val.length === 0 ? null : val[val.length - 1];
+                const globalOnly =
+                  next === 'global' ? true : next === 'cn' ? false : null;
                 onChange({
                   ...filters,
-                  globalOnly:
-                    next === 'global' ? true : next === 'cn' ? false : null,
+                  globalOnly,
+                  inGlobalAssets:
+                    globalOnly === true ? false : filters.inGlobalAssets,
                 });
               }}
               options={[
@@ -135,12 +138,14 @@ export default function CharacterFilter({
             <FilterChipGroup
               size={chipSize}
               value={filters.inGlobalAssets ? ['inGlobalAssets'] : []}
-              onChange={(val) =>
+              onChange={(val) => {
+                const inGlobalAssets = val.includes('inGlobalAssets');
                 onChange({
                   ...filters,
-                  inGlobalAssets: val.includes('inGlobalAssets'),
-                })
-              }
+                  inGlobalAssets,
+                  globalOnly: inGlobalAssets ? null : filters.globalOnly,
+                });
+              }}
               options={[{ value: 'inGlobalAssets', label: 'Exists' }]}
             />
           </FilterSection>
@@ -198,9 +203,24 @@ export default function CharacterFilter({
                   size={chipSize}
                   data={starLevelOptions}
                   value={filters.minStarLevel}
-                  onChange={(val) =>
-                    onChange({ ...filters, minStarLevel: val })
-                  }
+                  onChange={(val) => {
+                    const minIndex = val
+                      ? starLevelOptions.findIndex((option) => option.value === val)
+                      : -1;
+                    const maxIndex = filters.maxStarLevel
+                      ? starLevelOptions.findIndex(
+                          (option) => option.value === filters.maxStarLevel
+                        )
+                      : -1;
+                    onChange({
+                      ...filters,
+                      minStarLevel: val,
+                      maxStarLevel:
+                        minIndex >= 0 && maxIndex >= 0 && minIndex > maxIndex
+                          ? null
+                          : filters.maxStarLevel,
+                    });
+                  }}
                   clearable
                   comboboxProps={{ withinPortal: !isMobile }}
                 />
@@ -210,9 +230,24 @@ export default function CharacterFilter({
                   size={chipSize}
                   data={starLevelOptions}
                   value={filters.maxStarLevel}
-                  onChange={(val) =>
-                    onChange({ ...filters, maxStarLevel: val })
-                  }
+                  onChange={(val) => {
+                    const maxIndex = val
+                      ? starLevelOptions.findIndex((option) => option.value === val)
+                      : -1;
+                    const minIndex = filters.minStarLevel
+                      ? starLevelOptions.findIndex(
+                          (option) => option.value === filters.minStarLevel
+                        )
+                      : -1;
+                    onChange({
+                      ...filters,
+                      maxStarLevel: val,
+                      minStarLevel:
+                        minIndex >= 0 && maxIndex >= 0 && minIndex > maxIndex
+                          ? null
+                          : filters.minStarLevel,
+                    });
+                  }}
                   clearable
                   comboboxProps={{ withinPortal: !isMobile }}
                 />

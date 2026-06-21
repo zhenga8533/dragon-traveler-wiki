@@ -72,7 +72,7 @@ interface EventFilters {
   servers: string[];
   types: string[];
   characters: string[];
-  dateRange: [Date | null, Date | null];
+  dateRange: [Date | string | null, Date | string | null];
 }
 
 const EMPTY_EVENT_FILTERS: EventFilters = {
@@ -89,6 +89,22 @@ interface EventEntry {
   server: 'Global' | 'TW';
   sortDate: string;
   event: GameEvent;
+}
+
+function normalizeFilterDate(value: Date | string | null): Date | null {
+  if (value === null) return null;
+  if (value instanceof Date) {
+    return Number.isNaN(value.getTime()) ? null : new Date(value);
+  }
+  const localDateMatch = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value);
+  const parsed = localDateMatch
+    ? new Date(
+        Number(localDateMatch[1]),
+        Number(localDateMatch[2]) - 1,
+        Number(localDateMatch[3])
+      )
+    : new Date(value);
+  return Number.isNaN(parsed.getTime()) ? null : parsed;
 }
 
 function EventBadges({
@@ -254,7 +270,7 @@ function EventFilter({
               onChange={(value) =>
                 onChange({
                   ...filters,
-                  dateRange: value as [Date | null, Date | null],
+                  dateRange: value,
                 })
               }
               placeholder="Pick date range"
@@ -414,6 +430,7 @@ function EventListSkeleton() {
 
 export default function Events() {
   const { accent } = useGradientAccent();
+  const isPageMobile = useIsMobile();
   const {
     data: events,
     loading,
@@ -477,28 +494,26 @@ export default function Events() {
   );
 
   const serverOptions = useMemo(
-    () => [...new Set(scopedEvents.map((entry) => entry.server))].sort(),
-    [scopedEvents]
+    () => [...new Set(allEvents.map((entry) => entry.server))].sort(),
+    [allEvents]
   );
 
   const typeOptions = useMemo(
     () =>
       [
         ...new Set(
-          scopedEvents
+          allEvents
             .map((entry) => entry.event.type)
             .filter(Boolean) as string[]
         ),
       ].sort((a, b) => a.localeCompare(b)),
-    [scopedEvents]
+    [allEvents]
   );
 
   const characterOptions = useMemo(
     () =>
-      [
-        ...new Set(scopedEvents.flatMap((entry) => entry.event.characters)),
-      ].sort(),
-    [scopedEvents]
+      [...new Set(allEvents.flatMap((entry) => entry.event.characters))].sort(),
+    [allEvents]
   );
 
   const filtered = useMemo(() => {
@@ -537,7 +552,8 @@ export default function Events() {
       ) {
         return false;
       }
-      const [rangeStart, rangeEnd] = eventFilters.dateRange;
+      const rangeStart = normalizeFilterDate(eventFilters.dateRange[0]);
+      const rangeEnd = normalizeFilterDate(eventFilters.dateRange[1]);
       if (rangeStart !== null || rangeEnd !== null) {
         const parseLocal = (s: string) => {
           const [y, m, d] = s.split('-').map(Number);
@@ -599,7 +615,7 @@ export default function Events() {
             <Title order={1}>Events</Title>
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
-          {!loading && !error && (
+          {!isPageMobile && !loading && !error && (
             <PageFilterHeaderControls
               viewMode={eventViewMode}
               onViewModeChange={setEventViewMode}
@@ -618,6 +634,26 @@ export default function Events() {
             </PageFilterHeaderControls>
           )}
         </Group>
+
+        {isPageMobile && !loading && !error && (
+          <PageFilterHeaderControls
+            sticky
+            viewMode={eventViewMode}
+            onViewModeChange={setEventViewMode}
+            filterCount={eventFilterCount}
+            filterOpen={eventFilterOpen}
+            onFilterToggle={toggleEventFilter}
+          >
+            <EventFilter
+              filters={eventFilters}
+              onChange={setEventFilters}
+              serverOptions={serverOptions}
+              typeOptions={typeOptions}
+              characterOptions={characterOptions}
+              portraitByName={portraitByName}
+            />
+          </PageFilterHeaderControls>
+        )}
 
         <Alert
           icon={<IoInformationCircleOutline size={IMAGE_SIZE.ICON_LG} />}

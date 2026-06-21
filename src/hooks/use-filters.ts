@@ -54,6 +54,39 @@ interface UseFiltersOptions<T> {
   storageKey?: string;
 }
 
+function mergeStoredFilterShape<T>(defaults: T, stored: unknown): T {
+  if (Array.isArray(defaults)) {
+    return (Array.isArray(stored) ? stored : defaults) as T;
+  }
+
+  if (defaults === null) {
+    return (
+      stored === null ||
+      typeof stored === 'string' ||
+      typeof stored === 'boolean' ||
+      typeof stored === 'number'
+        ? stored
+        : defaults
+    ) as T;
+  }
+
+  if (typeof defaults !== 'object') {
+    return (typeof stored === typeof defaults ? stored : defaults) as T;
+  }
+
+  if (stored === null || typeof stored !== 'object' || Array.isArray(stored)) {
+    return defaults;
+  }
+
+  const output: Record<string, unknown> = {};
+  const defaultRecord = defaults as Record<string, unknown>;
+  const storedRecord = stored as Record<string, unknown>;
+  for (const [key, defaultValue] of Object.entries(defaultRecord)) {
+    output[key] = mergeStoredFilterShape(defaultValue, storedRecord[key]);
+  }
+  return output as T;
+}
+
 /**
  * Generic hook for managing filter state with optional localStorage persistence
  */
@@ -69,7 +102,7 @@ export function useFilters<T extends object>({
         (value): value is Record<string, unknown> =>
           value !== null && typeof value === 'object' && !Array.isArray(value)
       );
-      return { ...emptyFilters, ...stored };
+      return mergeStoredFilterShape(emptyFilters, stored);
     }
     return emptyFilters;
   });

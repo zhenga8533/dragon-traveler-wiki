@@ -1,6 +1,6 @@
 import { useIsMobile } from '@/hooks';
 import { Group, Stack } from '@mantine/core';
-import type { ReactNode } from 'react';
+import { useState, type ReactNode } from 'react';
 import type { ChipFilterGroup } from './EntityFilterGroups';
 import {
   FilterChipGroup,
@@ -38,15 +38,21 @@ export default function EntityFilter({
   afterGroups,
 }: EntityFilterProps) {
   const isMobile = useIsMobile();
+  const [searchResetKey, setSearchResetKey] = useState(0);
   const hasChipFilters = Object.values(selected).some((v) => v.length > 0);
   const hasSearch = search !== undefined && search !== '';
   const hasFilters = (hasActiveFilters ?? hasChipFilters) || hasSearch;
+  const handleClear = () => {
+    setSearchResetKey((current) => current + 1);
+    onClear();
+  };
 
   return (
     <Stack gap={8}>
       {onSearchChange !== undefined && (
         <Group gap="xs" align="center" wrap="wrap">
           <FilterSearchInput
+            key={searchResetKey}
             placeholder={searchPlaceholder}
             value={search ?? ''}
             onSearch={onSearchChange}
@@ -56,7 +62,7 @@ export default function EntityFilter({
           {hasFilters && (
             <FilterClearButton
               size={isMobile ? 'md' : 'compact-xs'}
-              onClick={onClear}
+              onClick={handleClear}
             />
           )}
         </Group>
@@ -66,7 +72,7 @@ export default function EntityFilter({
         <Group justify="flex-end">
           <FilterClearButton
             size={isMobile ? 'md' : 'compact-xs'}
-            onClick={onClear}
+            onClick={handleClear}
           />
         </Group>
       )}

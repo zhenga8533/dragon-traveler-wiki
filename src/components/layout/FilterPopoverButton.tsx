@@ -2,7 +2,7 @@ import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { useGradientAccent, useIsMobile } from '@/hooks';
 import { ActionIcon, Badge, Button, Indicator, Popover, Tooltip } from '@mantine/core';
-import { type ReactNode } from 'react';
+import { useId, type ReactNode } from 'react';
 import { IoFilter } from 'react-icons/io5';
 
 interface FilterPopoverButtonProps {
@@ -22,6 +22,18 @@ export default function FilterPopoverButton({
 }: FilterPopoverButtonProps) {
   const { accent } = useGradientAccent();
   const isMobile = useIsMobile();
+  const panelId = useId();
+  const handleClose = () => {
+    if (filterOpen) onFilterToggle();
+  };
+
+  const disclosureProps = children
+    ? {
+        'aria-controls': panelId,
+        'aria-expanded': filterOpen,
+        'aria-haspopup': 'dialog' as const,
+      }
+    : {};
 
   const filterButton = isMobile ? (
     <Tooltip label={buttonLabel}>
@@ -37,6 +49,7 @@ export default function FilterPopoverButton({
           size="lg"
           onClick={onFilterToggle}
           aria-label={buttonLabel}
+          {...disclosureProps}
         >
           <IoFilter size={IMAGE_SIZE.ICON_MD} />
         </ActionIcon>
@@ -56,6 +69,7 @@ export default function FilterPopoverButton({
         ) : null
       }
       onClick={onFilterToggle}
+      {...disclosureProps}
     >
       {buttonLabel}
     </Button>
@@ -66,7 +80,7 @@ export default function FilterPopoverButton({
       {children && !isMobile ? (
         <Popover
           opened={filterOpen}
-          onDismiss={onFilterToggle}
+          onDismiss={handleClose}
           width={480}
           position="bottom-end"
           withArrow
@@ -76,6 +90,7 @@ export default function FilterPopoverButton({
         >
           <Popover.Target>{filterButton}</Popover.Target>
           <Popover.Dropdown
+            id={panelId}
             p="sm"
             style={{
               maxHeight: '70dvh',
@@ -92,8 +107,9 @@ export default function FilterPopoverButton({
 
       {isMobile && children && (
         <MobileBottomDrawer
+          id={panelId}
           opened={filterOpen}
-          onClose={onFilterToggle}
+          onClose={handleClose}
           title={buttonLabel}
           closeButtonProps={{
             'aria-label': `Close ${buttonLabel.toLowerCase()}`,

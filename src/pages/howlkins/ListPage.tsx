@@ -335,10 +335,7 @@ export default function Howlkins() {
                         [key]: values as Quality[],
                       })
                     }
-                    onClear={() => {
-                      resetFilters();
-                      setAllianceSearch('');
-                    }}
+                    onClear={resetFilters}
                     search={filters.search}
                     onSearchChange={(value) =>
                       setFilters({ ...filters, search: value })

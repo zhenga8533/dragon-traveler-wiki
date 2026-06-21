@@ -5,14 +5,13 @@ import {
   FilterSection,
 } from '@/components/common/FilterControls';
 import { ListPageLoading } from '@/components/layout/PageLoadingSkeleton';
-import MobileBottomDrawer from '@/components/ui/MobileBottomDrawer';
+import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
 import PaginationControl from '@/components/ui/PaginationControl';
 import { IMAGE_SIZE } from '@/constants/ui';
 import {
   useDataFetch,
   useFilterPanel,
   useGradientAccent,
-  useIsMobile,
   usePageSize,
   useTabParam,
 } from '@/hooks';
@@ -26,7 +25,6 @@ import {
   Container,
   Group,
   Paper,
-  Popover,
   Stack,
   Tabs,
   Text,
@@ -38,7 +36,6 @@ import {
   IoAddCircle,
   IoCheckmarkCircle,
   IoCloseCircle,
-  IoFilter,
 } from 'react-icons/io5';
 
 // ─── Site changelog types ─────────────────────────────────────────────────────
@@ -162,7 +159,6 @@ const EVENT_TYPE_LABEL: Record<DataEvent['eventType'], string> = {
 
 function DataHistory() {
   const { accent } = useGradientAccent();
-  const isMobile = useIsMobile();
   const [events, setEvents] = useState<DataEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -292,81 +288,14 @@ function DataHistory() {
         <Text size="sm" c="dimmed">
           {filtered.length} change{filtered.length !== 1 ? 's' : ''}
         </Text>
-        {isMobile ? (
-          <Button
-            variant="default"
-            color={accent.primary}
-            size="xs"
-            leftSection={<IoFilter size={16} />}
-            rightSection={
-              selectedCategories.length > 0 ? (
-                <Badge size="xs" circle variant="filled" color={accent.primary}>
-                  {selectedCategories.length}
-                </Badge>
-              ) : null
-            }
-            onClick={toggleFilter}
-          >
-            Filters
-          </Button>
-        ) : (
-          <Popover
-            opened={filterOpen}
-            width={480}
-            position="bottom-end"
-            withArrow
-            offset={8}
-            shadow="md"
-            closeOnClickOutside
-            onDismiss={toggleFilter}
-          >
-            <Popover.Target>
-              <Button
-                variant="default"
-                color={accent.primary}
-                size="xs"
-                leftSection={<IoFilter size={16} />}
-                rightSection={
-                  selectedCategories.length > 0 ? (
-                    <Badge
-                      size="xs"
-                      circle
-                      variant="filled"
-                      color={accent.primary}
-                    >
-                      {selectedCategories.length}
-                    </Badge>
-                  ) : null
-                }
-                onClick={toggleFilter}
-              >
-                Filters
-              </Button>
-            </Popover.Target>
-            <Popover.Dropdown
-              p="sm"
-              style={{
-                maxHeight: '70dvh',
-                overflowY: 'auto',
-                overscrollBehavior: 'contain',
-              }}
-            >
-              {filterContent}
-            </Popover.Dropdown>
-          </Popover>
-        )}
-      </Group>
-
-      {isMobile && (
-        <MobileBottomDrawer
-          opened={filterOpen}
-          onClose={toggleFilter}
-          title="Filters"
-          closeButtonProps={{ 'aria-label': 'Close filters' }}
+        <FilterPopoverButton
+          filterCount={selectedCategories.length}
+          filterOpen={filterOpen}
+          onFilterToggle={toggleFilter}
         >
           {filterContent}
-        </MobileBottomDrawer>
-      )}
+        </FilterPopoverButton>
+      </Group>
 
       {filtered.length === 0 ? (
         <Text c="dimmed" ta="center" py="lg">

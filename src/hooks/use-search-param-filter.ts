@@ -5,7 +5,7 @@ import { useSearchParams } from 'react-router-dom';
 export function useSearchParamFilter<F extends { search: string }>(
   setFilters: Dispatch<SetStateAction<F>>
 ) {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('search');
 
   useEffect(() => {
@@ -13,17 +13,23 @@ export function useSearchParamFilter<F extends { search: string }>(
     setFilters((current) =>
       current.search === search ? current : { ...current, search }
     );
-  }, [search, setFilters]);
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete('search');
+    setSearchParams(nextParams, { replace: true });
+  }, [search, searchParams, setFilters, setSearchParams]);
 }
 
 export function useSearchParamText(
   setValue: Dispatch<SetStateAction<string>>
 ) {
-  const [searchParams] = useSearchParams();
+  const [searchParams, setSearchParams] = useSearchParams();
   const search = searchParams.get('search');
 
   useEffect(() => {
     if (search === null) return;
     setValue((current) => (current === search ? current : search));
-  }, [search, setValue]);
+    const nextParams = new URLSearchParams(searchParams);
+    nextParams.delete('search');
+    setSearchParams(nextParams, { replace: true });
+  }, [search, searchParams, setSearchParams, setValue]);
 }

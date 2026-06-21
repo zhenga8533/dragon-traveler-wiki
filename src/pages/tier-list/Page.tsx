@@ -358,7 +358,7 @@ export default function TierList() {
             <LastUpdated timestamp={mostRecentUpdate} />
           </Group>
           <Group gap="xs">
-            {(mode === 'view' || mode === 'saved') && (
+            {!isMobile && (mode === 'view' || mode === 'saved') && (
               <PageFilterHeaderControls
                 viewMode={viewMode}
                 onViewModeChange={setViewMode}
@@ -383,6 +383,32 @@ export default function TierList() {
             )}
           </Group>
         </Group>
+
+
+        {isMobile && (mode === 'view' || mode === 'saved') && (
+          <PageFilterHeaderControls
+            sticky
+            viewMode={viewMode}
+            onViewModeChange={setViewMode}
+            filterCount={activeFilterCount}
+            filterOpen={filterOpen}
+            onFilterToggle={toggleFilter}
+          >
+            <EntityFilter
+              groups={entityFilterGroups}
+              selected={viewFilters}
+              onChange={handleFilterChange}
+              onClear={handleClearFilters}
+              search={search}
+              onSearchChange={setSearch}
+              searchPlaceholder={
+                mode === 'saved'
+                  ? 'Search saved tier lists...'
+                  : 'Search tier lists...'
+              }
+            />
+          </PageFilterHeaderControls>
+        )}
 
         {loading &&
           (mode === 'builder' ? (
