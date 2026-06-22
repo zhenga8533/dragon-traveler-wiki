@@ -44,7 +44,7 @@ export default function StatusEffectBadge({
   }
 
   const color = STATE_COLOR[effect.type];
-  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name, effect.type) : undefined;
+  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.slug, effect.type) : undefined;
 
   if (disablePopover) {
     return (

@@ -3,7 +3,8 @@ import { getCardHoverProps } from '@/constants/styles';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import EventBanner from '@/features/wiki/events/components/EventBanner';
 import EventCharacterAvatars from '@/features/wiki/events/components/EventCharacterAvatars';
-import { useDataFetch, useGradientAccent } from '@/hooks';
+import { useEvents } from '@/features/wiki/hooks/use-wiki-data';
+import { useGradientAccent } from '@/hooks';
 import type { GameEvent } from '@/types';
 import { getEventTypeColor, isGameEventActive } from '@/utils/event-utils';
 import {
@@ -19,10 +20,7 @@ import { useMemo } from 'react';
 
 export default function ActiveEventsSection() {
   const { accent } = useGradientAccent();
-  const { data: events, loading } = useDataFetch<GameEvent[]>(
-    'data/events.json',
-    []
-  );
+  const { data: events, loading } = useEvents() as { data: GameEvent[]; loading: boolean };
 
   const activeEvents = useMemo<GameEvent[]>(() => {
     return events
@@ -80,7 +78,7 @@ export default function ActiveEventsSection() {
               <Card.Section>
                 <EventBanner
                   characters={event.characters}
-                  eventName={event.name}
+                  eventName={event.slug}
                   height={130}
                   radius="0"
                   alt={event.name}

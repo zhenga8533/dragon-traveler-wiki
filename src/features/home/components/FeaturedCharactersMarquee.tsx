@@ -2,7 +2,6 @@ import { TIER_COLOR } from '@/constants/colors';
 import { normalizeContentType } from '@/constants/content-types';
 import { TierListReferenceContext } from '@/contexts/tier-list-reference-context';
 import CharacterCard from '@/features/characters/components/CharacterCard';
-import type { Character } from '@/features/characters/types';
 import {
   buildCharacterByIdentityMap,
   buildCharacterNameCounts,
@@ -12,7 +11,8 @@ import {
   getCharacterRoutePathByName,
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
-import { useDataFetch, useGradientAccent } from '@/hooks';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import { useGradientAccent } from '@/hooks';
 import styles from '@/styles/featured-characters-marquee.module.css';
 import {
   Badge,
@@ -34,10 +34,7 @@ export default function FeaturedCharactersMarquee() {
     selectedTierListName,
   } = useContext(TierListReferenceContext);
   const { accent } = useGradientAccent();
-  const { data: characters, loading: loadingChars } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
+  const { data: characters, loading: loadingChars } = useCharacters();
 
   const loading = loadingTiers || loadingChars;
 

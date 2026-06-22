@@ -14,12 +14,10 @@ import {
   getStableTagColor,
 } from '@/constants/colors';
 import { getHeroIconBoxStyles } from '@/constants/styles';
-import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import QualitiesTable from '@/features/wiki/wyrmspells/components/QualitiesTable';
-import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
-import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
-import type { ChangesFile } from '@/types/changes';
+import { useStatusEffects, useWyrmspellChanges, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
@@ -42,15 +40,9 @@ export default function WyrmspellPage() {
   const { accent } = useGradientAccent();
   const isDark = useDarkMode();
 
-  const { data: wyrmspells, loading } = useDataFetch<Wyrmspell[]>(
-    'data/wyrmspells.json',
-    []
-  );
+  const { data: wyrmspells, loading } = useWyrmspells();
   const { data: statusEffects } = useStatusEffects();
-  const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/wyrmspells.json',
-    {}
-  );
+  const { data: changesData } = useWyrmspellChanges();
 
   const wyrmspell = useMemo(
     () => findEntityByParam(wyrmspells, name, (w) => w.name),
@@ -182,7 +174,7 @@ export default function WyrmspellPage() {
           </Stack>
         </Stack>
 
-        <ChangeHistory history={changesData[wyrmspell.name]} />
+        <ChangeHistory history={changesData[wyrmspell.slug]} />
 
         <DetailPageNavigation
           previousItem={

@@ -19,7 +19,7 @@ import SafeImage from '@/components/ui/SafeImage';
 export interface CharacterFilterProps {
   filters: CharacterFilters;
   onChange: (filters: CharacterFilters) => void;
-  effectOptions: { label: string; value: string; icon?: boolean; type?: string }[];
+  effectOptions: { label: string; value: string; slug: string; icon?: boolean; type?: string }[];
   showTierFilter?: boolean;
   tierOptions?: string[];
   starLevelOptions?: { value: string; label: string }[];
@@ -162,7 +162,7 @@ export default function CharacterFilter({
                 placeholder="Filter by status effect..."
                 renderOption={({ option }) => {
                   const effect = effectOptions.find((o) => o.value === option.value);
-                  const iconSrc = effect?.icon && effect.type ? getStatusEffectIcon(option.label, effect.type) : undefined;
+                  const iconSrc = effect?.icon && effect.type && effect.slug ? getStatusEffectIcon(effect.slug, effect.type) : undefined;
                   return (
                     <Group gap="xs" align="center">
                       {iconSrc ? (

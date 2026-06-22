@@ -16,8 +16,7 @@ import { SiGooglesheets } from 'react-icons/si';
 import { ListPageShell, SuggestModal, type FieldDef } from '@/components';
 import { getStableTagColor } from '@/constants/colors';
 import { getCardHoverProps } from '@/constants/styles';
-import { useDataFetch } from '@/hooks';
-import type { UsefulLink } from '@/types/useful-link';
+import { useUsefulLinks } from '@/features/wiki/hooks/use-wiki-data';
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
 import { toEntitySlug } from '@/utils/entity-slug';
@@ -71,7 +70,7 @@ export default function UsefulLinks() {
     data: links,
     loading,
     error,
-  } = useDataFetch<UsefulLink[]>('data/useful-links.json', []);
+  } = useUsefulLinks();
 
   useEffect(() => {
     if (!hash || links.length === 0) return;

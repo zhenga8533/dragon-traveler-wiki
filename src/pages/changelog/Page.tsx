@@ -8,8 +8,8 @@ import { ListPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
 import PaginationControl from '@/components/ui/PaginationControl';
 import { IMAGE_SIZE } from '@/constants/ui';
+import { useChangelog } from '@/features/wiki/hooks/use-wiki-data';
 import {
-  useDataFetch,
   useFilterPanel,
   useGradientAccent,
   usePageSize,
@@ -398,10 +398,7 @@ function DataHistory() {
 
 export default function Changelog() {
   const { accent } = useGradientAccent();
-  const { data: changelog, loading } = useDataFetch<ChangelogEntry[]>(
-    'data/changelog.json',
-    []
-  );
+  const { data: changelog, loading } = useChangelog() as { data: ChangelogEntry[]; loading: boolean };
   const [activeTab, handleTabChange] = useTabParam('tab', 'site', [
     'site',
     'data',

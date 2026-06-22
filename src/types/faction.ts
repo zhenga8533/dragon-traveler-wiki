@@ -21,6 +21,7 @@ export type Wyrm =
   | 'Dark Whelp';
 
 export interface Faction {
+  slug: string;
   name: FactionName;
   wyrm: Wyrm;
   description: string;

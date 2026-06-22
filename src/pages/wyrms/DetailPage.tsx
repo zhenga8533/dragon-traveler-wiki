@@ -26,9 +26,8 @@ const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
 import EvolutionSection from '@/features/wiki/wyrms/components/EvolutionSection';
 import SkillCard from '@/features/wiki/wyrms/components/SkillCard';
 import StarUpgradesTable from '@/features/wiki/wyrms/components/StarUpgradesTable';
-import { useStatusEffects, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
-import { useDarkMode, useDataFetch, useGradientAccent, useMobileTooltip } from '@/hooks';
-import type { ChangesFile } from '@/types/changes';
+import { useStatusEffects, useWyrmChanges, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
+import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
@@ -64,7 +63,7 @@ export default function WyrmPage() {
 
   const { data: wyrms, loading } = useWyrms();
   const { data: statusEffects } = useStatusEffects();
-  const { data: changesData } = useDataFetch<ChangesFile>('data/changes/wyrms.json', {});
+  const { data: changesData } = useWyrmChanges();
 
   const wyrm = useMemo(
     () => findEntityByParam(wyrms, name, (w) => w.name),
@@ -255,7 +254,7 @@ export default function WyrmPage() {
           </Grid.Col>
         </Grid>
 
-        <ChangeHistory history={changesData[wyrm.name]} />
+        <ChangeHistory history={changesData[wyrm.slug]} />
 
         <DetailPageNavigation
           previousItem={

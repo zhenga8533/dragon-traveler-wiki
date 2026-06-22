@@ -22,16 +22,34 @@ export {
   useTierLists,
 } from '@/features/tier-list/hooks/use-tier-list-data';
 export {
+  useArtifactChanges,
   useArtifacts,
+  useChangelog,
+  useCodes,
+  useEvents,
   useGear,
+  useGearChanges,
+  useGearSetChanges,
   useGearSets,
+  useGoldenAllianceChanges,
+  useGoldenAlliances,
+  useHowlkins,
+  useNoblePhantasmChanges,
   useNoblePhantasms,
+  useRelicChanges,
+  useRelics,
+  useResources,
   useStarLevels,
   useStatusEffects,
   useSubclasses,
+  useUsefulLinks,
+  useWyrmChanges,
+  useWyrms,
+  useWyrmspellChanges,
   useWyrmspells,
 } from '@/features/wiki/hooks/use-wiki-data';
 export { useFactions } from './use-factions';
+export { useLocalePath, useLocaleChangesPath } from './use-locale-path';
 export { useDarkMode } from './use-dark-mode';
 export { useDataFetch } from './use-data-fetch';
 export { useFilteredPageData } from './use-filtered-page-data';

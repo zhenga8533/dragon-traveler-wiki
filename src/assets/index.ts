@@ -134,9 +134,10 @@ export function getOracleScrollImage(name: string): string | undefined {
 
 // ── Resource ─────────────────────────────────────────────────────────────────
 
-export function getResourceIcon(name: string, category: string): string | undefined {
-  if (!name || !category) return undefined;
-  return `${BASE}resource/${category.toLowerCase()}/${normalizeKey(name)}.png`;
+/** Build a resource icon path using the resource's stable slug. */
+export function getResourceIcon(slug: string, category: string): string | undefined {
+  if (!slug || !category) return undefined;
+  return `${BASE}resource/${category.toLowerCase()}/${slug}.png`;
 }
 
 // ── Skill ────────────────────────────────────────────────────────────────────
@@ -148,9 +149,10 @@ export function getSkillIcon(skillName: string): string | undefined {
 
 // ── Status Effect ────────────────────────────────────────────────────────────
 
-export function getStatusEffectIcon(name: string, type: string): string | undefined {
-  if (!name || !type) return undefined;
-  return `${BASE}status_effect/${normalizeKey(type)}/${normalizeKey(name)}.png`;
+/** Build a status-effect icon path using the effect's stable slug. */
+export function getStatusEffectIcon(slug: string, type: string): string | undefined {
+  if (!slug || !type) return undefined;
+  return `${BASE}status_effect/${normalizeKey(type)}/${slug}.png`;
 }
 
 // ── Subclass ─────────────────────────────────────────────────────────────────
@@ -180,8 +182,9 @@ export function getWyrmspellIcon(name: string, type?: string): string | undefine
 
 export const placeholderEventImage = `${BASE}event/placeholder.webp`;
 
-export function getEventImage(eventName: string): string {
-  return `${BASE}event/${normalizeKey(eventName)}.webp`;
+/** Build an event banner path using the event's stable slug. */
+export function getEventImage(slug: string): string {
+  return `${BASE}event/${slug}.webp`;
 }
 
 // ── Character ────────────────────────────────────────────────────────────────

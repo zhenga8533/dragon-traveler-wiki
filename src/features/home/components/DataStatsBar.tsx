@@ -27,18 +27,20 @@ import {
 import { Link } from 'react-router-dom';
 import LastUpdated from '@/components/common/LastUpdated';
 import { getCardHoverProps } from '@/constants/styles';
-import { useDataFetch, useGradientAccent } from '@/hooks';
-import type { Artifact } from '@/features/wiki/artifacts/types';
-import type { Character } from '@/features/characters/types';
-import type { Gear } from '@/features/wiki/gear/types';
-import type { Howlkin } from '@/features/wiki/howlkins/types';
-import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
-import type { Resource } from '@/types/resource';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import type { Subclass } from '@/features/wiki/subclasses/types';
-import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
-import type { Relic } from '@/features/wiki/relics/types';
-import type { Wyrm } from '@/features/wiki/wyrms/types';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import {
+  useArtifacts,
+  useGear,
+  useHowlkins,
+  useNoblePhantasms,
+  useRelics,
+  useResources,
+  useStatusEffects,
+  useSubclasses,
+  useWyrms,
+  useWyrmspells,
+} from '@/features/wiki/hooks/use-wiki-data';
+import { useGradientAccent } from '@/hooks';
 
 type StatItem = {
 	label: string;
@@ -64,50 +66,17 @@ export default function DataStatsBar() {
 		accent.secondary,
 	];
 
-	const { data: characters, loading: l1 } = useDataFetch<Character[]>(
-		'data/characters.json',
-		[]
-	);
-	const { data: wyrmspells, loading: l2 } = useDataFetch<Wyrmspell[]>(
-		'data/wyrmspells.json',
-		[]
-	);
-	const { data: statusEffects, loading: l3 } = useDataFetch<StatusEffect[]>(
-		'data/status-effects.json',
-		[]
-	);
-	const { data: artifacts, loading: l4 } = useDataFetch<Artifact[]>(
-		'data/artifacts.json',
-		[]
-	);
-	const { data: resources, loading: l5 } = useDataFetch<Resource[]>(
-		'data/resources.json',
-		[]
-	);
-	const { data: noblePhantasms, loading: l6 } = useDataFetch<NoblePhantasm[]>(
-		'data/noble-phantasm.json',
-		[]
-	);
-	const { data: howlkins, loading: l7 } = useDataFetch<Howlkin[]>(
-		'data/howlkins.json',
-		[]
-	);
-	const { data: gear, loading: l8 } = useDataFetch<Gear[]>(
-		'data/gear.json',
-		[]
-	);
-	const { data: subclasses, loading: l9 } = useDataFetch<Subclass[]>(
-		'data/subclasses.json',
-		[]
-	);
-	const { data: relics, loading: l10 } = useDataFetch<Relic[]>(
-		'data/relic.json',
-		[]
-	);
-	const { data: wyrms, loading: l11 } = useDataFetch<Wyrm[]>(
-		'data/wyrms.json',
-		[]
-	);
+	const { data: characters, loading: l1 } = useCharacters();
+	const { data: wyrmspells, loading: l2 } = useWyrmspells();
+	const { data: statusEffects, loading: l3 } = useStatusEffects();
+	const { data: artifacts, loading: l4 } = useArtifacts();
+	const { data: resources, loading: l5 } = useResources();
+	const { data: noblePhantasms, loading: l6 } = useNoblePhantasms();
+	const { data: howlkins, loading: l7 } = useHowlkins();
+	const { data: gear, loading: l8 } = useGear();
+	const { data: subclasses, loading: l9 } = useSubclasses();
+	const { data: relics, loading: l10 } = useRelics();
+	const { data: wyrms, loading: l11 } = useWyrms();
 
 	const mostRecentUpdate = useMemo(() => {
 		let latest = 0;

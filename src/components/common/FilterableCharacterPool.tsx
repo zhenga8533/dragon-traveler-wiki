@@ -74,7 +74,9 @@ export default function FilterableCharacterPool({
       .map((effect) => ({
         label: effect.name,
         value: effect.name,
+        slug: effect.slug,
         icon: effect.icon !== false,
+        type: effect.type,
       }));
   }, [characters, statusEffects]);
 

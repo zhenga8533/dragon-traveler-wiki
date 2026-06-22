@@ -3,6 +3,7 @@ import {
   BannerProvider,
   CharacterOwnershipProvider,
   GradientThemeProvider,
+  LocaleProvider,
   ResourcesProvider,
   TierListReferenceProvider,
   UiOpacityProvider,
@@ -10,18 +11,20 @@ import {
 
 export default function AppProviders({ children }: { children: ReactNode }) {
   return (
-    <ResourcesProvider>
-      <TierListReferenceProvider>
-        <GradientThemeProvider>
-          <UiOpacityProvider>
-            <BannerProvider>
-              <CharacterOwnershipProvider>
-                {children}
-              </CharacterOwnershipProvider>
-            </BannerProvider>
-          </UiOpacityProvider>
-        </GradientThemeProvider>
-      </TierListReferenceProvider>
-    </ResourcesProvider>
+    <LocaleProvider>
+      <ResourcesProvider>
+        <TierListReferenceProvider>
+          <GradientThemeProvider>
+            <UiOpacityProvider>
+              <BannerProvider>
+                <CharacterOwnershipProvider>
+                  {children}
+                </CharacterOwnershipProvider>
+              </BannerProvider>
+            </UiOpacityProvider>
+          </GradientThemeProvider>
+        </TierListReferenceProvider>
+      </ResourcesProvider>
+    </LocaleProvider>
   );
 }

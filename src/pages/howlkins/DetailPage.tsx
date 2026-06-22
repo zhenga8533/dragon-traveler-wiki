@@ -9,10 +9,10 @@ import SafeImage from '@/components/ui/SafeImage';
 import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
 import { getCardHoverProps } from '@/constants/styles';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
-import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
+import type { Howlkin } from '@/features/wiki/howlkins/types';
 import { getHowlkinIcon } from '@/assets';
-import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
-import type { ChangesFile } from '@/types/changes';
+import { useGoldenAllianceChanges, useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
@@ -40,15 +40,9 @@ export default function GoldenAllianceDetailPage() {
   const navigate = useNavigate();
   const isDark = useDarkMode();
 
-  const { data: alliances, loading } = useDataFetch<GoldenAlliance[]>(
-    'data/golden-alliances.json',
-    []
-  );
-  const { data: howlkins } = useDataFetch<Howlkin[]>('data/howlkins.json', []);
-  const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/golden-alliances.json',
-    {}
-  );
+  const { data: alliances, loading } = useGoldenAlliances();
+  const { data: howlkins } = useHowlkins();
+  const { data: changesData } = useGoldenAllianceChanges();
 
   const decodedName = useMemo(
     () =>
@@ -278,7 +272,7 @@ export default function GoldenAllianceDetailPage() {
 
         </Stack>
 
-        <ChangeHistory history={changesData[decodedName]} />
+        <ChangeHistory history={changesData[alliance.slug]} />
 
         <DetailPageNavigation
           previousItem={

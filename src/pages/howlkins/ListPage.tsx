@@ -31,10 +31,10 @@ import { toEntitySlug } from '@/utils/entity-slug';
 import QualityIcon from '@/components/ui/QualityIcon';
 import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
-import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
+import type { Howlkin } from '@/features/wiki/howlkins/types';
+import { useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
-  useDataFetch,
   useFilteredPageData,
   useGradientAccent,
   usePageSize,
@@ -84,13 +84,13 @@ export default function Howlkins() {
     data: howlkins,
     loading: howlkinsLoading,
     error: howlkinsError,
-  } = useDataFetch<Howlkin[]>('data/howlkins.json', []);
+  } = useHowlkins();
 
   const {
     data: goldenAlliances,
     loading: alliancesLoading,
     error: alliancesError,
-  } = useDataFetch<GoldenAlliance[]>('data/golden-alliances.json', []);
+  } = useGoldenAlliances();
 
   const {
     filters,

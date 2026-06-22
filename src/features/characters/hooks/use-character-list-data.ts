@@ -41,7 +41,7 @@ export interface CharacterListData {
   sortDir: 'asc' | 'desc';
   handleSort: (key: string) => void;
   characterNameCounts: Map<string, number>;
-  effectOptions: { label: string; value: string; icon?: boolean; type?: string }[];
+  effectOptions: { label: string; value: string; slug: string; icon?: boolean; type?: string }[];
   tierOptions: string[];
   selectedTierListName: string | null;
   getTierLabel: (char: Character) => string | undefined;
@@ -112,6 +112,7 @@ export function useCharacterListData(
       .map((effect) => ({
         label: effect.name,
         value: effect.name,
+        slug: effect.slug,
         icon: effect.icon !== false,
         type: effect.type,
       }));

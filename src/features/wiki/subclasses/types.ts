@@ -1,6 +1,7 @@
 import type { CharacterClass } from '@/features/characters/types';
 
 export interface Subclass {
+  slug: string;
   name: string;
   class: CharacterClass;
   tier: number;

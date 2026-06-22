@@ -5,8 +5,7 @@ import {
 import { normalizeKey } from '@/assets/utils';
 import { DEFAULT_BANNER_SRC } from '@/constants/banner';
 import { STORAGE_KEY } from '@/constants/ui';
-import type { Character } from '@/features/characters/types';
-import { useDataFetch } from '@/hooks/use-data-fetch';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import {
   createContext,
   createElement,
@@ -79,10 +78,7 @@ export const BannerContext = createContext<BannerContextValue>({
 });
 
 export function BannerProvider({ children }: { children: ReactNode }) {
-  const { data: characters } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
+  const { data: characters } = useCharacters();
 
   const [showOnAllRoutes, setShowOnAllRoutes] = useState(() => {
     if (typeof window === 'undefined') return false;

@@ -32,7 +32,7 @@ export default function ResourceBadge({
     (r) => normalizeName(r.name) === normalizeName(name)
   );
 
-  const iconSrc = resource ? getResourceIcon(name, resource.category) : undefined;
+  const iconSrc = resource ? getResourceIcon(resource.slug, resource.category) : undefined;
   const iconSize = size === 'xs' ? IMAGE_SIZE.ICON_XS : IMAGE_SIZE.ICON_SM;
   const label = `${displayName ?? name}${quantity != null ? ` x${quantity.toLocaleString()}` : ''}`;
 

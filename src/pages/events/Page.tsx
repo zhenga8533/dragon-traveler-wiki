@@ -1,7 +1,8 @@
 ﻿import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getPortrait } from '@/assets';
-import type { Character } from '@/features/characters/types';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import { useEvents } from '@/features/wiki/hooks/use-wiki-data';
 import {
   buildCharacterNameCounts,
   getCharacterRouteSlug,
@@ -25,7 +26,6 @@ import type { ViewMode } from '@/hooks';
 import {
   countActiveFilters,
   getPageSizeStorageKey,
-  useDataFetch,
   useFilterPanel,
   useFilters,
   useGradientAccent,
@@ -309,7 +309,7 @@ function EventCard({ event }: { event: GameEvent }) {
       <Card.Section style={{ position: 'relative' }}>
         <EventBanner
           characters={event.characters}
-          eventName={event.name}
+          eventName={event.slug}
           height={160}
           radius="0"
         />
@@ -353,7 +353,7 @@ function EventListItem({ event }: { event: GameEvent }) {
       <Group align="stretch" gap="md" wrap="nowrap">
         <EventBanner
           characters={event.characters}
-          eventName={event.name}
+          eventName={event.slug}
           height={96}
           width={160}
           visibleFrom="sm"
@@ -435,8 +435,8 @@ export default function Events() {
     data: events,
     loading,
     error,
-  } = useDataFetch<GameEvent[]>('data/events.json', []);
-  const { data: characters } = useDataFetch<Character[]>('data/characters.json', []);
+  } = useEvents();
+  const { data: characters } = useCharacters();
 
   const portraitByName = useMemo(() => {
     const nameCounts = buildCharacterNameCounts(characters);

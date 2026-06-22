@@ -12,6 +12,7 @@ export interface NoblePhantasmSkill {
 }
 
 export interface NoblePhantasm {
+  slug: string;
   name: string;
   character: string | null;
   is_global?: boolean;

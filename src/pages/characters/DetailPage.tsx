@@ -542,8 +542,8 @@ export default function CharacterPage() {
 
         <ChangeHistory
           history={
-            changesData[`${character.name}__${character.quality}`] ??
-            changesData[character.name]
+            changesData[`${character.slug}__${character.quality}`] ??
+            changesData[character.slug]
           }
         />
 

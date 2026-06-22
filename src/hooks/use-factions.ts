@@ -1,6 +1,8 @@
 import type { Faction } from '@/types/faction';
+import { useLocalePath } from '@/hooks/use-locale-path';
 import { useDataFetch } from './use-data-fetch';
 
 export function useFactions() {
-  return useDataFetch<Faction[]>('data/factions.json', []);
+  const path = useLocalePath('factions.json');
+  return useDataFetch<Faction[]>(path, []);
 }

@@ -26,11 +26,10 @@ import {
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
-import type { Gear, GearSet, GearType } from '@/features/wiki/gear/types';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import type { Gear, GearType } from '@/features/wiki/gear/types';
+import { useGear, useGearSets, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
-  useDataFetch,
   useFilteredPageData,
   useGradientAccent,
   usePageSize,
@@ -94,13 +93,13 @@ export default function GearPage() {
     data: gear,
     loading,
     error,
-  } = useDataFetch<Gear[]>('data/gear.json', []);
+  } = useGear();
   const {
     data: gearSets,
     loading: gearSetsLoading,
     error: gearSetsError,
-  } = useDataFetch<GearSet[]>('data/gear-sets.json', []);
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
+  } = useGearSets();
+  const { data: statusEffects } = useStatusEffects();
 
   const gearSetOptions = useMemo(
     () =>

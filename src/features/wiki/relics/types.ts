@@ -7,6 +7,7 @@ export type RelicType =
   | 'Symbol of Theocracy';
 
 export interface Relic {
+  slug: string;
   name: string;
   oracle_scroll?: string | null;
   lore: string;

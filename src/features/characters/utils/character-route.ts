@@ -52,6 +52,13 @@ function getPreferredCharacterByName(
   return preferredByName.get(normalized);
 }
 
+/**
+ * Returns the stable identity key for a character.
+ *
+ * - Character object → `slug__quality` (matches data repo identity.py)
+ * - String overload → lowercased `name__quality` (legacy; for React keys only,
+ *   NOT for change-history JSON lookups)
+ */
 export function getCharacterIdentityKey(
   characterOrName: Character | string,
   quality?: string
@@ -59,11 +66,17 @@ export function getCharacterIdentityKey(
   if (typeof characterOrName === 'string') {
     return `${characterOrName.trim().toLowerCase()}__${(quality ?? '').trim().toLowerCase()}`;
   }
-  return `${characterOrName.name.trim().toLowerCase()}__${characterOrName.quality.trim().toLowerCase()}`;
+  return `${characterOrName.slug}__${characterOrName.quality}`;
 }
 
-export function getCharacterBaseSlug(name: string): string {
-  return toEntitySlug(name);
+/** Returns the route base slug for a character (the character's data slug). */
+export function getCharacterBaseSlug(character: Character): string;
+export function getCharacterBaseSlug(name: string): string;
+export function getCharacterBaseSlug(characterOrName: Character | string): string {
+  if (typeof characterOrName === 'string') {
+    return toEntitySlug(characterOrName);
+  }
+  return characterOrName.slug;
 }
 
 export function buildCharacterNameCounts(
@@ -71,7 +84,7 @@ export function buildCharacterNameCounts(
 ): Map<string, number> {
   const counts = new Map<string, number>();
   for (const character of characters) {
-    const key = getCharacterBaseSlug(character.name);
+    const key = character.slug;
     counts.set(key, (counts.get(key) ?? 0) + 1);
   }
   return counts;
@@ -81,7 +94,7 @@ export function getCharacterRouteSlug(
   character: Character,
   nameCounts?: Map<string, number>
 ): string {
-  const base = getCharacterBaseSlug(character.name);
+  const base = character.slug;
   const count = nameCounts?.get(base) ?? 1;
   if (count <= 1) return base;
   const qualitySuffix = toEntitySlug(character.quality, { allowPlus: true });
@@ -95,8 +108,9 @@ export function getCharacterRoutePath(
   return `/characters/${getCharacterRouteSlug(character, nameCounts)}`;
 }
 
+/** Builds a route path by name only (legacy; prefers slug-based lookup instead). */
 export function getCharacterRoutePathByName(name: string): string {
-  return `/characters/${getCharacterBaseSlug(name)}`;
+  return `/characters/${toEntitySlug(name)}`;
 }
 
 export function buildPreferredCharacterByNameMap(
@@ -180,7 +194,7 @@ export function toCharacterReferenceFromKey(
   );
   const characterName = character?.name ?? characterKey;
   const isMultiQualityName =
-    (nameCounts?.get(getCharacterBaseSlug(characterName)) ?? 1) > 1;
+    (nameCounts?.get(character?.slug ?? toEntitySlug(characterName)) ?? 1) > 1;
 
   return {
     character_name: characterName,
@@ -234,10 +248,8 @@ export function resolveCharacterRoute(
       incomingSlug
   );
   if (matchedByExactSlug) {
-    const baseSlug = getCharacterBaseSlug(matchedByExactSlug.name);
-    const variants = characters.filter(
-      (entry) => getCharacterBaseSlug(entry.name) === baseSlug
-    );
+    const baseSlug = matchedByExactSlug.slug;
+    const variants = characters.filter((entry) => entry.slug === baseSlug);
     return {
       character: matchedByExactSlug,
       variants,
@@ -246,10 +258,8 @@ export function resolveCharacterRoute(
     };
   }
 
-  const baseSlug = toEntitySlug(incomingSlug);
-  const variants = characters.filter(
-    (entry) => getCharacterBaseSlug(entry.name) === baseSlug
-  );
+  const baseSlug = incomingSlug;
+  const variants = characters.filter((entry) => entry.slug === baseSlug);
 
   if (variants.length === 1) {
     return {
@@ -260,10 +270,25 @@ export function resolveCharacterRoute(
     };
   }
 
+  // Legacy fallback: try name-derived slug for old bookmarked URLs
+  const legacySlug = toEntitySlug(incomingSlug);
+  const legacyVariants = characters.filter(
+    (entry) => entry.slug === legacySlug || toEntitySlug(entry.name) === legacySlug
+  );
+
+  if (legacyVariants.length === 1) {
+    return {
+      character: legacyVariants[0],
+      variants: legacyVariants,
+      baseSlug: legacyVariants[0].slug,
+      incomingSlug,
+    };
+  }
+
   return {
     character: null,
-    variants,
-    baseSlug: variants.length > 0 ? baseSlug : null,
+    variants: legacyVariants.length > 0 ? legacyVariants : variants,
+    baseSlug: legacyVariants.length > 0 ? legacySlug : variants.length > 0 ? baseSlug : null,
     incomingSlug,
   };
 }

@@ -20,6 +20,7 @@ export interface WyrmStarUpgrade {
 }
 
 export interface Wyrm {
+  slug: string;
   name: string;
   faction: FactionName;
   phase: WyrmPhase;

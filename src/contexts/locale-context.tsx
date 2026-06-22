@@ -1,0 +1,52 @@
+import { createContext, useCallback, useMemo, useState, type ReactNode } from 'react';
+import {
+  DEFAULT_LOCALE,
+  SUPPORTED_LOCALES,
+  type SupportedLocale,
+} from '@/lib/data-paths';
+
+const STORAGE_KEY = 'dragon-traveler-wiki:locale';
+
+function readStoredLocale(): SupportedLocale {
+  try {
+    const stored = localStorage.getItem(STORAGE_KEY);
+    if (stored && (SUPPORTED_LOCALES as readonly string[]).includes(stored)) {
+      return stored as SupportedLocale;
+    }
+  } catch {
+    // localStorage unavailable
+  }
+  return DEFAULT_LOCALE;
+}
+
+export interface LocaleContextValue {
+  locale: SupportedLocale;
+  setLocale: (locale: SupportedLocale) => void;
+}
+
+export const LocaleContext = createContext<LocaleContextValue>({
+  locale: DEFAULT_LOCALE,
+  setLocale: () => {},
+});
+
+export function LocaleProvider({ children }: { children: ReactNode }) {
+  const [locale, setLocaleState] = useState<SupportedLocale>(readStoredLocale);
+
+  const setLocale = useCallback((next: SupportedLocale) => {
+    try {
+      localStorage.setItem(STORAGE_KEY, next);
+    } catch {
+      // ignore
+    }
+    setLocaleState(next);
+  }, []);
+
+  const value = useMemo<LocaleContextValue>(
+    () => ({ locale, setLocale }),
+    [locale, setLocale]
+  );
+
+  return (
+    <LocaleContext.Provider value={value}>{children}</LocaleContext.Provider>
+  );
+}

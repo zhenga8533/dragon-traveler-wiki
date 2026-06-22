@@ -13,14 +13,12 @@ import {
   getHeroIconBoxStyles,
 } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
-import type { Character } from '@/features/characters/types';
 import GlobalBadge from '@/components/ui/GlobalBadge';
-import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
 import EffectTable from '@/features/wiki/noble-phantasms/components/EffectTable';
 import SkillTable from '@/features/wiki/noble-phantasms/components/SkillTable';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
-import type { ChangesFile } from '@/types/changes';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import { useNoblePhantasmChanges, useNoblePhantasms, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
@@ -43,22 +41,10 @@ export default function NoblePhantasmPage() {
   const { accent } = useGradientAccent();
   const isDark = useDarkMode();
 
-  const { data: noblePhantasms, loading } = useDataFetch<NoblePhantasm[]>(
-    'data/noble-phantasm.json',
-    []
-  );
-  const { data: characters } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>(
-    'data/status-effects.json',
-    []
-  );
-  const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/noble-phantasm.json',
-    {}
-  );
+  const { data: noblePhantasms, loading } = useNoblePhantasms();
+  const { data: characters } = useCharacters();
+  const { data: statusEffects } = useStatusEffects();
+  const { data: changesData } = useNoblePhantasmChanges();
 
   const noblePhantasm = useMemo(() => {
     return findEntityByParam(noblePhantasms, name, (np) => np.name);
@@ -228,7 +214,7 @@ export default function NoblePhantasmPage() {
           </Stack>
         </Stack>
 
-        <ChangeHistory history={changesData[noblePhantasm.name]} />
+        <ChangeHistory history={changesData[noblePhantasm.slug]} />
 
         <DetailPageNavigation
           previousItem={

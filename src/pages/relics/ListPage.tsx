@@ -15,7 +15,6 @@ import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
 import RichText from '@/components/common/RichText';
 import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import SortableTh from '@/components/ui/SortableTh';
 import { RELIC_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
 import {
@@ -31,9 +30,9 @@ import {
   getRelicOracleScroll,
   getRelicTypeOrder,
 } from '@/features/wiki/relics/utils';
+import { useRelics, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
-  useDataFetch,
   useFilteredPageData,
   useGradientAccent,
   usePageSize,
@@ -93,8 +92,8 @@ export default function RelicPage() {
     data: relics,
     loading,
     error,
-  } = useDataFetch<Relic[]>('data/relic.json', []);
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
+  } = useRelics();
+  const { data: statusEffects } = useStatusEffects();
 
   const {
     filters,

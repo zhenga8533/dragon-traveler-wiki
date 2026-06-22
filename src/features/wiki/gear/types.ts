@@ -14,12 +14,14 @@ export interface GearSetBonus {
 }
 
 export interface GearSet {
+  slug: string;
   name: string;
   set_bonus?: GearSetBonus;
   last_updated?: number;
 }
 
 export interface Gear {
+  slug: string;
   name: string;
   set: string;
   type: GearType;

@@ -25,15 +25,13 @@ import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import { getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import { useNoblePhantasms, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
-  useDataFetch,
   useFilteredPageData,
   useGradientAccent,
 } from '@/hooks';
-import type { Character } from '@/features/characters/types';
-import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import RichText from '@/components/common/RichText';
 import { getLatestTimestamp } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
@@ -56,9 +54,9 @@ export default function NoblePhantasms() {
     data: noblePhantasms,
     loading,
     error,
-  } = useDataFetch<NoblePhantasm[]>('data/noble-phantasm.json', []);
-  const { data: characters } = useDataFetch<Character[]>('data/characters.json', []);
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
+  } = useNoblePhantasms();
+  const { data: characters } = useCharacters();
+  const { data: statusEffects } = useStatusEffects();
 
   const noblePhantasmFields = useMemo<FieldDef[]>(() => {
     const nameCounts = buildCharacterNameCounts(characters);

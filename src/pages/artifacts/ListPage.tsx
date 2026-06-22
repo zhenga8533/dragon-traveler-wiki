@@ -22,11 +22,9 @@ import {
 import { STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GlobalBadge from '@/components/ui/GlobalBadge';
-import type { Artifact } from '@/features/wiki/artifacts/types';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import { useArtifacts, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
-  useDataFetch,
   useFilteredPageData,
   useGradientAccent,
 } from '@/hooks';
@@ -58,8 +56,8 @@ export default function Artifacts() {
     data: artifacts,
     loading,
     error,
-  } = useDataFetch<Artifact[]>('data/artifacts.json', []);
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
+  } = useArtifacts();
+  const { data: statusEffects } = useStatusEffects();
   const {
     filters,
     setFilters,

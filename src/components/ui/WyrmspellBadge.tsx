@@ -1,10 +1,8 @@
 import { getWyrmspellIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
-import { useDataFetch } from '@/hooks';
+import { useStatusEffects, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
 import { normalizeName } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import type { MantineSize } from '@mantine/core';
@@ -24,8 +22,8 @@ export default function WyrmspellBadge({
   name,
   size = 'sm',
 }: WyrmspellBadgeProps) {
-  const { data: wyrmspells } = useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
+  const { data: wyrmspells } = useWyrmspells();
+  const { data: statusEffects } = useStatusEffects();
 
   const wyrmspell =
     wyrmspells.find(

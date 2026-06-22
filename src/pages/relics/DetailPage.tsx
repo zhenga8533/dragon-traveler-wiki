@@ -10,15 +10,13 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR, RELIC_TYPE_ORDER } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getCardHoverProps } from '@/constants/styles';
-import type { Relic } from '@/features/wiki/relics/types';
 import {
   getRelicOracleScroll,
   getRelicTypeOrder,
 } from '@/features/wiki/relics/utils';
 import RichText from '@/components/common/RichText';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { useDarkMode, useDataFetch, useGradientAccent, useMobileTooltip } from '@/hooks';
-import type { ChangesFile } from '@/types/changes';
+import { useRelicChanges, useRelics, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
@@ -51,15 +49,9 @@ export default function OracleScrollPage() {
   const [previewOpen, setPreviewOpen] = useState(false);
   const [illustrationExists, setIllustrationExists] = useState(false);
 
-  const { data: relics, loading } = useDataFetch<Relic[]>(
-    'data/relic.json',
-    []
-  );
-  const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/relic.json',
-    {}
-  );
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
+  const { data: relics, loading } = useRelics();
+  const { data: changesData } = useRelicChanges();
+  const { data: statusEffects } = useStatusEffects();
 
   // All distinct oracle scroll names, sorted
   const oracleScrollNames = useMemo(() => {
@@ -162,8 +154,8 @@ export default function OracleScrollPage() {
 
   // Collect per-relic change histories to display alongside the scroll
   const relicHistories = scrollRelics
-    .filter((r) => changesData[r.name])
-    .map((r) => ({ label: r.name, history: changesData[r.name] }));
+    .filter((r) => changesData[r.slug])
+    .map((r) => ({ label: r.name, history: changesData[r.slug] }));
 
   return (
     <Box>

@@ -1,4 +1,6 @@
 export { BannerContext, BannerProvider } from './banner-context';
+export { LocaleContext, LocaleProvider } from './locale-context';
+export type { LocaleContextValue } from './locale-context';
 export {
   CharacterOwnershipContext,
   CharacterOwnershipProvider,

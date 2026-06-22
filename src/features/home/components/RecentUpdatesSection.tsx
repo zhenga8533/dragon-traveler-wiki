@@ -1,6 +1,6 @@
 import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
 import { getCardHoverProps } from '@/constants/styles';
-import { useDataFetch } from '@/hooks';
+import { useChangelog } from '@/features/wiki/hooks/use-wiki-data';
 
 interface ChangelogEntry {
 	date: string;
@@ -20,10 +20,7 @@ const TYPE_COLORS: Record<string, string> = {
 };
 
 export default function RecentUpdatesSection() {
-	const { data: changelog, loading } = useDataFetch<ChangelogEntry[]>(
-		'data/changelog.json',
-		[]
-	);
+	const { data: changelog, loading } = useChangelog() as { data: ChangelogEntry[]; loading: boolean };
 
 	if (loading) {
 		return (

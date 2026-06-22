@@ -29,10 +29,9 @@ import {
 import { STORAGE_KEY } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
-import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
-import { applyDir, useDataFetch, useFilteredPageData } from '@/hooks';
+import { useStatusEffects, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
+import { applyDir, useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
@@ -110,7 +109,7 @@ export default function Wyrmspells() {
     data: wyrmspells,
     loading,
     error,
-  } = useDataFetch<Wyrmspell[]>('data/wyrmspells.json', []);
+  } = useWyrmspells();
   const {
     filters,
     setFilters,

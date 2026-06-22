@@ -23,8 +23,9 @@ import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import { STATE_COLOR, STATE_ORDER } from '@/constants/colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
-import { applyDir, useDataFetch, useFilteredPageData, useSearchParamFilter } from '@/hooks';
-import type { StatusEffect, StatusEffectType } from '@/features/wiki/status-effects/types';
+import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
+import { applyDir, useFilteredPageData, useSearchParamFilter } from '@/hooks';
+import type { StatusEffectType } from '@/features/wiki/status-effects/types';
 import { getLatestTimestamp } from '@/utils';
 
 const STATUS_EFFECT_FIELDS: FieldDef[] = [
@@ -78,7 +79,7 @@ export default function StatusEffects() {
     data: effects,
     loading,
     error,
-  } = useDataFetch<StatusEffect[]>('data/status-effects.json', []);
+  } = useStatusEffects();
   const {
     filters,
     setFilters,
@@ -209,7 +210,7 @@ export default function StatusEffects() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((effect) => {
-                  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name, effect.type) : undefined;
+                  const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.slug, effect.type) : undefined;
                   return (
                     <Paper
                       key={effect.name}
@@ -282,7 +283,7 @@ export default function StatusEffects() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((effect) => {
-                      const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.name, effect.type) : undefined;
+                      const iconSrc = effect.icon !== false ? getStatusEffectIcon(effect.slug, effect.type) : undefined;
                       return (
                         <Table.Tr key={effect.name}>
                           <Table.Td>

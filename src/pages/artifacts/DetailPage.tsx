@@ -15,14 +15,9 @@ import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getCardHoverProps, getHeroIconBoxStyles } from '@/constants/styles';
 import EffectTable from '@/features/wiki/artifacts/components/EffectTable';
-import type {
-  Artifact,
-  ArtifactTreasure,
-} from '@/features/wiki/artifacts/types';
+import type { ArtifactTreasure } from '@/features/wiki/artifacts/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { useDarkMode, useDataFetch, useGradientAccent } from '@/hooks';
-import type { ChangesFile } from '@/types/changes';
-import type { Faction } from '@/types/faction';
+import { useArtifactChanges, useArtifacts, useDarkMode, useFactions, useGradientAccent, useStatusEffects } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
@@ -101,19 +96,10 @@ export default function ArtifactPage() {
   const { accent } = useGradientAccent();
   const isDark = useDarkMode();
 
-  const { data: artifacts, loading } = useDataFetch<Artifact[]>(
-    'data/artifacts.json',
-    []
-  );
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>(
-    'data/status-effects.json',
-    []
-  );
-  const { data: factions } = useDataFetch<Faction[]>('data/factions.json', []);
-  const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/artifacts.json',
-    {}
-  );
+  const { data: artifacts, loading } = useArtifacts();
+  const { data: statusEffects } = useStatusEffects();
+  const { data: factions } = useFactions();
+  const { data: changesData } = useArtifactChanges();
 
   const artifact = useMemo(() => {
     return findEntityByParam(artifacts, name, (a) => a.name);
@@ -296,7 +282,7 @@ export default function ArtifactPage() {
           )}
         </Stack>
 
-        <ChangeHistory history={changesData[artifact.name]} />
+        <ChangeHistory history={changesData[artifact.slug]} />
 
         <DetailPageNavigation
           previousItem={

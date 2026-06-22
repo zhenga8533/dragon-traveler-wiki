@@ -1,4 +1,5 @@
 export interface GameEvent {
+  slug: string;
   name: string;
   event_id: string | null;
   type: string;

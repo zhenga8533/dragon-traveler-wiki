@@ -10,7 +10,7 @@ export type ResourceCategory =
   | 'Shard';
 
 export interface Resource {
-  id?: number;
+  slug: string;
   name: string;
   description: string;
   category: ResourceCategory;

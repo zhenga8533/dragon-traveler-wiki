@@ -97,6 +97,7 @@ export interface ActivatedSetBonus {
 }
 
 export interface Character {
+  slug: string;
   name: string;
   title: string;
   quality: Quality;

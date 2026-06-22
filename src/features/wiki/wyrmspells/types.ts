@@ -10,6 +10,7 @@ export interface WyrmspellQuality {
 }
 
 export interface Wyrmspell {
+  slug: string;
   name: string;
   type: WyrmspellType;
   qualities: WyrmspellQuality[];

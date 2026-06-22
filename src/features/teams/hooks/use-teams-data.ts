@@ -1,11 +1,14 @@
 import type { ChangesFile } from '@/types/changes';
 import type { Team } from '@/features/teams/types';
+import { useLocalePath, useLocaleChangesPath } from '@/hooks/use-locale-path';
 import { useDataFetch } from '@/hooks/use-data-fetch';
 
 export function useTeams() {
-  return useDataFetch<Team[]>('data/teams.json', []);
+  const path = useLocalePath('teams.json');
+  return useDataFetch<Team[]>(path, []);
 }
 
 export function useTeamChanges() {
-  return useDataFetch<ChangesFile>('data/changes/teams.json', {});
+  const path = useLocaleChangesPath('teams.json');
+  return useDataFetch<ChangesFile>(path, {});
 }

@@ -250,7 +250,7 @@ export default function CharacterPageSkillsSection({
 											</Paper>
 										))}
 									</Stack>
-									{idx < character.divinity.length - 1 && (
+									{idx < (character.divinity?.length ?? 0) - 1 && (
 										<Divider mt="md" />
 									)}
 								</Box>

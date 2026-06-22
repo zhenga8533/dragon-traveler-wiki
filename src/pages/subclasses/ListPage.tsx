@@ -16,11 +16,9 @@ import { STORAGE_KEY } from '@/constants/ui';
 import ClassTag from '@/components/ui/ClassTag';
 import type { CharacterClass } from '@/features/characters/types';
 import TierBadge from '@/components/ui/TierBadge';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import type { Subclass } from '@/features/wiki/subclasses/types';
+import { useStatusEffects, useSubclasses } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
-  useDataFetch,
   useFilteredPageData,
   useGradientAccent,
   useSearchParamFilter,
@@ -67,11 +65,8 @@ export default function Subclasses() {
     data: subclasses,
     loading,
     error,
-  } = useDataFetch<Subclass[]>('data/subclasses.json', []);
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>(
-    'data/status-effects.json',
-    []
-  );
+  } = useSubclasses();
+  const { data: statusEffects } = useStatusEffects();
 
   const {
     filters,

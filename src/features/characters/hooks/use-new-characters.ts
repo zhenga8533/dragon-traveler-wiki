@@ -1,14 +1,15 @@
-import { useDataFetch } from '@/hooks';
+import { useCharacterChanges } from '@/features/characters/hooks/use-characters-data';
 import { useMemo } from 'react';
 
 type CharactersChanges = Record<string, { added?: number }>;
 
-/** Returns a Set of lowercased identity keys (name__quality) for characters with the latest "added" timestamp. */
+/**
+ * Returns a Set of stable identity keys (slug__quality) for characters with
+ * the latest "added" timestamp.  Keys in the JSON are already slug-based after
+ * the data migration; no further normalisation is needed.
+ */
 export function useNewCharacters(): Set<string> {
-  const { data } = useDataFetch<CharactersChanges>(
-    'data/changes/characters.json',
-    {}
-  );
+  const { data } = useCharacterChanges() as { data: CharactersChanges };
 
   return useMemo(() => {
     const entries = Object.entries(data);
@@ -26,8 +27,7 @@ export function useNewCharacters(): Set<string> {
     const newKeys = new Set<string>();
     for (const [key, value] of entries) {
       if (value.added === maxAdded) {
-        // Key format in JSON: "Name__Quality" — normalize to lowercase to match getCharacterIdentityKey
-        newKeys.add(key.trim().toLowerCase());
+        newKeys.add(key);
       }
     }
     return newKeys;

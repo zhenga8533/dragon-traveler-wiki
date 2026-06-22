@@ -3,6 +3,7 @@ import type { Quality } from '@/types/quality';
 export type HowlkinBasicStats = Record<string, number | string>;
 
 export interface Howlkin {
+  slug: string;
   name: string;
   quality: Quality;
   basic_stats: HowlkinBasicStats;
@@ -16,6 +17,7 @@ export interface GoldenAllianceEffect {
 }
 
 export interface GoldenAlliance {
+  slug: string;
   name: string;
   howlkins: string[];
   effects: GoldenAllianceEffect[];

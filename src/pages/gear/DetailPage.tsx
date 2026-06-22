@@ -18,22 +18,19 @@ import { getLoreGlassStyles } from '@/constants/glass';
 import { CURSOR_POINTER_STYLE, getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import type { Character } from '@/features/characters/types';
 import {
   buildCharacterNameCounts,
   getCharacterRouteSlug,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
-import type { Gear, GearSet } from '@/features/wiki/gear/types';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import { useCharacters } from '@/features/characters/hooks/use-characters-data';
+import { useGear, useGearChanges, useGearSetChanges, useGearSets, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   useDarkMode,
-  useDataFetch,
   useGradientAccent,
   useMobileTooltip,
 } from '@/hooks';
-import type { ChangesFile } from '@/types/changes';
 import type { Quality } from '@/types/quality';
 import {
   findEntityByParam,
@@ -62,24 +59,12 @@ export default function GearSetPage() {
   const navigate = useNavigate();
   const isDark = useDarkMode();
   const tooltipProps = useMobileTooltip();
-  const { data: gear, loading } = useDataFetch<Gear[]>('data/gear.json', []);
-  const { data: gearSets } = useDataFetch<GearSet[]>('data/gear-sets.json', []);
-  const { data: characters } = useDataFetch<Character[]>(
-    'data/characters.json',
-    []
-  );
-  const { data: changesData } = useDataFetch<ChangesFile>(
-    'data/changes/gear-sets.json',
-    {}
-  );
-  const { data: gearChangesData } = useDataFetch<ChangesFile>(
-    'data/changes/gear.json',
-    {}
-  );
-  const { data: statusEffects } = useDataFetch<StatusEffect[]>(
-    'data/status-effects.json',
-    []
-  );
+  const { data: gear, loading } = useGear();
+  const { data: gearSets } = useGearSets();
+  const { data: characters } = useCharacters();
+  const { data: changesData } = useGearSetChanges();
+  const { data: gearChangesData } = useGearChanges();
+  const { data: statusEffects } = useStatusEffects();
 
   const decodedSetName = useMemo(() => {
     const fromSetData = findEntityByParam(
@@ -120,10 +105,10 @@ export default function GearSetPage() {
 
   const gearItemHistories = useMemo(() => {
     return setItems
-      .filter((item) => gearChangesData[item.name])
+      .filter((item) => gearChangesData[item.slug])
       .map((item) => ({
         label: item.name,
-        history: gearChangesData[item.name],
+        history: gearChangesData[item.slug],
       }));
   }, [setItems, gearChangesData]);
 
@@ -438,7 +423,7 @@ export default function GearSetPage() {
         </Stack>
 
         <ChangeHistory
-          history={changesData[decodedSetName]}
+          history={setData ? changesData[setData.slug] : undefined}
           extraHistories={gearItemHistories}
         />
 

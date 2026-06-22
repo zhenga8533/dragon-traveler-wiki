@@ -11,6 +11,7 @@ export type StatusEffectType =
   | 'Utility / Special';
 
 export interface StatusEffect {
+  slug: string;
   name: string;
   alts: string[];
   type: StatusEffectType;

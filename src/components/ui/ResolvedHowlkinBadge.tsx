@@ -1,6 +1,5 @@
 import WikiHowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
-import type { Howlkin } from '@/features/wiki/howlkins/types';
-import { useDataFetch } from '@/hooks';
+import { useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
 import { normalizeName } from '@/utils';
 import type { MantineSize } from '@mantine/core';
 
@@ -14,7 +13,7 @@ export default function ResolvedHowlkinBadge({
   name,
   size = 'sm',
 }: ResolvedHowlkinBadgeProps) {
-  const { data: howlkins } = useDataFetch<Howlkin[]>('data/howlkins.json', []);
+  const { data: howlkins } = useHowlkins();
   const howlkin = howlkins.find(
     (entry) => normalizeName(entry.name) === normalizeName(name)
   );

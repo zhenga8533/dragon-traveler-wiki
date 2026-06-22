@@ -11,13 +11,13 @@ import {
 import { IoCheckmark, IoCopyOutline } from 'react-icons/io5';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import { getCardHoverProps } from '@/constants/styles';
-import { useDataFetch, useMobileTooltip } from '@/hooks';
-import type { Code } from '@/types/code';
+import { useCodes } from '@/features/wiki/hooks/use-wiki-data';
+import { useMobileTooltip } from '@/hooks';
 import { isCodeActive } from '@/utils';
 
 export default function ActiveCodesSection() {
 	const tooltipProps = useMobileTooltip();
-	const { data: codes, loading } = useDataFetch<Code[]>('data/codes.json', []);
+	const { data: codes, loading } = useCodes();
 	const activeCodes = codes.filter(isCodeActive).reverse().slice(0, 5);
 
 	if (loading) {

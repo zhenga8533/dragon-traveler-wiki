@@ -8,7 +8,7 @@ import {
   type ReactNode,
 } from 'react';
 import { STORAGE_KEY } from '@/constants/ui';
-import { useDataFetch } from '@/hooks/use-data-fetch';
+import { useTierLists } from '@/features/tier-list/hooks/use-tier-list-data';
 import type { TierList as TierListType } from '@/features/tier-list/types';
 import { loadSavedFromStorage } from '@/utils/saved-storage';
 
@@ -41,10 +41,7 @@ export function TierListReferenceProvider({
 }: {
   children: ReactNode;
 }) {
-  const { data: tierLists, loading } = useDataFetch<TierListType[]>(
-    'data/tier-lists.json',
-    []
-  );
+  const { data: tierLists, loading } = useTierLists();
   const [savedTierLists, setSavedTierLists] = useState<TierListType[]>(() =>
     readSavedTierLists()
   );

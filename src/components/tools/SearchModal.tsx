@@ -537,7 +537,7 @@ function SearchModalContent({
           .slice(0, 5)
           .map((r) => {
             const hasIcon = r.item.icon !== false;
-            const iconSrc = hasIcon ? getStatusEffectIcon(r.item.name, r.item.type) : undefined;
+            const iconSrc = hasIcon ? getStatusEffectIcon(r.item.slug, r.item.type) : undefined;
             
             return {
               type: 'status-effect' as const,
@@ -641,7 +641,7 @@ function SearchModalContent({
             title: r.item.name,
             subtitle: `${r.item.category} • ${r.item.quality}`,
             path: searchPath('/resources', r.item.name),
-            icon: getResourceIcon(r.item.name, r.item.category) ?? IoCubeOutline,
+            icon: getResourceIcon(r.item.slug, r.item.category) ?? IoCubeOutline,
             color: 'teal',
           }))
       );

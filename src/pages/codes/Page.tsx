@@ -12,8 +12,8 @@ import ViewToggle from '@/components/ui/ViewToggle';
 import { CURSOR_POINTER_STYLE, getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import ResourceBadge from '@/components/ui/ResourceBadge';
+import { useCodes, useResources } from '@/features/wiki/hooks/use-wiki-data';
 import {
-  useDataFetch,
   useGradientAccent,
   useMobileTooltip,
   usePageSize,
@@ -107,7 +107,7 @@ function buildCodeRewardArrayFields(resources: Resource[]): ArrayFieldDef[] {
   const resourceNames = resources.map((r) => r.name).sort();
   const resourceIcons: Record<string, string> = {};
   for (const resource of resources) {
-    const icon = getResourceIcon(resource.name, resource.category);
+    const icon = getResourceIcon(resource.slug, resource.category);
     if (icon) {
       resourceIcons[resource.name] = icon;
     }
@@ -163,11 +163,8 @@ export default function Codes() {
     data: codes,
     loading,
     error,
-  } = useDataFetch<Code[]>('data/codes.json', []);
-  const { data: resources } = useDataFetch<Resource[]>(
-    'data/resources.json',
-    []
-  );
+  } = useCodes();
+  const { data: resources } = useResources();
   const [redeemed, setRedeemed] = useState<Set<string>>(() => loadRedeemed());
   const [view, setView] = useState<ViewFilter>('unredeemed');
   const [tabParam, handleTabChange] = useTabParam('tab', 'active', [
