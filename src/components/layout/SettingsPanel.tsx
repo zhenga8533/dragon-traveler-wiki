@@ -6,9 +6,11 @@ import type { CustomMantineAccent, GradientPalette } from '@/contexts';
 import {
   BannerContext,
   CharacterOwnershipContext,
+  LocaleContext,
   TierListReferenceContext,
   UiOpacityContext,
 } from '@/contexts';
+import { SUPPORTED_LOCALES } from '@/lib/data-paths';
 import { useDarkMode, useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import {
   ActionIcon,
@@ -33,6 +35,16 @@ import {
 import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoDownload, IoFolderOpen, IoSettingsOutline } from 'react-icons/io5';
+
+const LOCALE_OPTIONS: { value: string; label: string }[] = [
+  { value: 'enUS', label: 'English (US)' },
+  { value: 'zhCN', label: '简体中文' },
+  { value: 'zhTW', label: '繁體中文' },
+  { value: 'jaJP', label: '日本語' },
+  { value: 'koKR', label: '한국어' },
+  { value: 'thTH', label: 'ภาษาไทย' },
+  { value: 'viVN', label: 'Tiếng Việt' },
+].filter((opt) => (SUPPORTED_LOCALES as readonly string[]).includes(opt.value));
 
 const CUSTOM_COLOR_FIELDS: {
   key: 'colorA' | 'colorB';
@@ -142,6 +154,7 @@ export default function SettingsPanel({
   } = useContext(UiOpacityContext);
   const { grayUnowned, setGrayUnowned, showCharacterTiers, setShowCharacterTiers } =
     useContext(CharacterOwnershipContext);
+  const { locale, setLocale } = useContext(LocaleContext);
 
   useEffect(() => {
     if (isMobile || !opened) return;
@@ -223,6 +236,27 @@ export default function SettingsPanel({
 
   const settingsContent = (
     <Stack gap="md">
+      <Paper p="sm" radius="md" withBorder>
+        <Stack gap="xs">
+          <Text size="sm" fw={600}>
+            Language
+          </Text>
+          <Select
+            size={controlSize}
+            data={LOCALE_OPTIONS}
+            value={locale}
+            onChange={(value) => value && setLocale(value as typeof locale)}
+            comboboxProps={selectComboboxProps}
+            onDropdownOpen={() => setIsSelectDropdownOpen(true)}
+            onDropdownClose={() => setIsSelectDropdownOpen(false)}
+            allowDeselect={false}
+          />
+          <Text size="xs" c="dimmed">
+            Changes which localized data files are loaded. Reload the page after switching.
+          </Text>
+        </Stack>
+      </Paper>
+
       <Paper p="sm" radius="md" withBorder>
         <Stack gap="xs">
           <Group justify="space-between" align="center" wrap="nowrap">
