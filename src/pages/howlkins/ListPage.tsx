@@ -625,10 +625,11 @@ export default function Howlkins() {
                                     })
                                     .map((howlkinSlug) => {
                                       const howlkin = howlkinMap.get(howlkinSlug);
+                                      if (!howlkin) return null;
                                       return (
                                         <HowlkinBadge
                                           key={howlkinSlug}
-                                          name={howlkin?.name ?? howlkinSlug}
+                                          name={howlkin.name}
                                           howlkin={howlkin}
                                         />
                                       );

@@ -188,7 +188,7 @@ export function TeamHeroSection({
                         return (
                           <Tooltip
                             key={artifactSlug}
-                            label={artifact?.name ?? artifactSlug}
+                            label={artifact?.name}
                             {...tooltipProps}
                           >
                             <Link
@@ -226,7 +226,7 @@ export function TeamHeroSection({
                                     {iconSrc && (
                                       <SafeImage
                                         src={iconSrc}
-                                        alt={artifact?.name ?? artifactSlug}
+                                        alt={artifact?.name}
                                         w={52}
                                         h={52}
                                         fit="contain"
@@ -243,7 +243,7 @@ export function TeamHeroSection({
                                         fw={600}
                                         className="dt-link-text"
                                       >
-                                        {artifact?.name ?? artifactSlug}
+                                        {artifact?.name}
                                       </Text>
                                     </Text>
                                     <Group gap={6} align="center">

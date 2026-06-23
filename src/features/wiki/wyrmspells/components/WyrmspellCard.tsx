@@ -28,16 +28,16 @@ export default function WyrmspellCard({
   const wyrmspell = wyrmspells.find(
     (w) => w.slug === name || w.name === name
   );
-  const displayType = type || wyrmspell?.type || 'Unknown';
-  const iconSrc = getWyrmspellIcon(wyrmspell?.slug ?? name, displayType);
-  const maxQuality = wyrmspell ? getMaxQuality(wyrmspell) : null;
+  if (!wyrmspell) return null;
 
-  const displayName = wyrmspell?.name ?? name;
+  const displayType = type || wyrmspell.type || 'Unknown';
+  const iconSrc = getWyrmspellIcon(wyrmspell.slug, displayType);
+  const maxQuality = getMaxQuality(wyrmspell);
 
   return (
     <Paper
       component={Link}
-      to={`/wyrmspells/${wyrmspell?.slug ?? name}`}
+      to={`/wyrmspells/${wyrmspell.slug}`}
       p="sm"
       radius="md"
       withBorder
@@ -47,7 +47,7 @@ export default function WyrmspellCard({
         {iconSrc && (
           <SafeImage
             src={iconSrc}
-            alt={displayName}
+            alt={wyrmspell.name}
             w={48}
             h={48}
             fit="contain"
@@ -56,7 +56,7 @@ export default function WyrmspellCard({
         )}
         <Group gap={4} justify="center" align="center">
           <Text size="sm" fw={600} ta="center" className="dt-link-text">
-            {displayName}
+            {wyrmspell.name}
           </Text>
           {maxQuality && <QualityIcon quality={maxQuality.quality} />}
         </Group>
@@ -72,7 +72,7 @@ export default function WyrmspellCard({
           >
             {displayType}
           </Badge>
-          {wyrmspell?.exclusive_faction && (
+          {wyrmspell.exclusive_faction && (
             <FactionTag faction={wyrmspell.exclusive_faction} size="xs" />
           )}
         </Group>

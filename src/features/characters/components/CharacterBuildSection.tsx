@@ -514,15 +514,15 @@ export default function CharacterPageBuildSection({
                             >
                               {entry.name}
                             </Text>
-                            {(entry.setName || entry.quality) && (
+                            {(entry.setDisplayName || entry.quality) && (
                               <Group gap={4} wrap="wrap">
-                                {entry.setName && (
+                                {entry.setDisplayName && (
                                   <Badge
                                     variant="light"
                                     color={accent.secondary}
                                     size="xs"
                                   >
-                                    {entry.setDisplayName ?? entry.setName} Set
+                                    {entry.setDisplayName} Set
                                   </Badge>
                                 )}
                                 {entryQuality && (
@@ -624,9 +624,11 @@ export default function CharacterPageBuildSection({
                                   <Text size="sm" fw={600} truncate>
                                     {entry.name}
                                   </Text>
-                                  <Text size="xs" c="dimmed" truncate>
-                                    {entry.setDisplayName ?? entry.setName} Set
-                                  </Text>
+                                  {entry.setDisplayName && (
+                                    <Text size="xs" c="dimmed" truncate>
+                                      {entry.setDisplayName} Set
+                                    </Text>
+                                  )}
                                 </Stack>
                               </Group>
                             </Paper>
@@ -652,9 +654,9 @@ export default function CharacterPageBuildSection({
                                 <Text size="sm" fw={600} truncate>
                                   {entry.name}
                                 </Text>
-                                {entry.setName && (
+                                {entry.setDisplayName && (
                                   <Text size="xs" c="dimmed" truncate>
-                                    {entry.setDisplayName ?? entry.setName} Set
+                                    {entry.setDisplayName} Set
                                   </Text>
                                 )}
                               </Stack>
@@ -678,7 +680,7 @@ export default function CharacterPageBuildSection({
                     const tooltipLabel = (
                       <Stack gap="xs">
                         <Text fw={700} size="sm" style={{ lineHeight: 1.25 }}>
-                          {setBonus.setDisplayName ?? setBonus.setName} Set
+                          {setBonus.setDisplayName} Set
                         </Text>
                         <Divider />
                         <Group gap={6} wrap="wrap">
@@ -723,7 +725,7 @@ export default function CharacterPageBuildSection({
                           <Stack gap={4}>
                             <Group justify="space-between" gap="xs">
                               <Text fw={600} size="sm" truncate>
-                                {setBonus.setDisplayName ?? setBonus.setName}
+                                {setBonus.setDisplayName}
                               </Text>
                               <Badge
                                 variant="filled"

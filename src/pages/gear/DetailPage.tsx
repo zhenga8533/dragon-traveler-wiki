@@ -146,29 +146,24 @@ export default function GearSetPage() {
 
   const [showAllCharacters, setShowAllCharacters] = useState(false);
 
-  const gearSetBySlug = useMemo(
-    () => new Map(gearSets.map((entry) => [entry.slug, entry])),
-    [gearSets]
-  );
-
   // Match list page: sort by slug
-  const orderedSetSlugs = useMemo(
+  const orderedSets = useMemo(
     () =>
-      Array.from(new Set(gearSets.map((entry) => entry.slug))).sort((a, b) =>
-        a.localeCompare(b)
+      Array.from(new Map(gearSets.map((entry) => [entry.slug, entry])).values()).sort(
+        (a, b) => a.slug.localeCompare(b.slug)
       ),
     [gearSets]
   );
 
   const setIndex = useMemo(() => {
     if (!decodedSetSlug) return -1;
-    return orderedSetSlugs.findIndex((s) => s === decodedSetSlug);
-  }, [decodedSetSlug, orderedSetSlugs]);
+    return orderedSets.findIndex((s) => s.slug === decodedSetSlug);
+  }, [decodedSetSlug, orderedSets]);
 
-  const previousSetSlug = setIndex > 0 ? orderedSetSlugs[setIndex - 1] : null;
-  const nextSetSlug =
-    setIndex >= 0 && setIndex < orderedSetSlugs.length - 1
-      ? orderedSetSlugs[setIndex + 1]
+  const previousSet = setIndex > 0 ? orderedSets[setIndex - 1] : null;
+  const nextSet =
+    setIndex >= 0 && setIndex < orderedSets.length - 1
+      ? orderedSets[setIndex + 1]
       : null;
 
   if (loading) {
@@ -416,18 +411,18 @@ export default function GearSetPage() {
 
         <DetailPageNavigation
           previousItem={
-            previousSetSlug
+            previousSet
               ? {
-                  label: `${gearSetBySlug.get(previousSetSlug)?.name ?? previousSetSlug} Set`,
-                  path: `/gear-sets/${previousSetSlug}`,
+                  label: `${previousSet.name} Set`,
+                  path: `/gear-sets/${previousSet.slug}`,
                 }
               : null
           }
           nextItem={
-            nextSetSlug
+            nextSet
               ? {
-                  label: `${gearSetBySlug.get(nextSetSlug)?.name ?? nextSetSlug} Set`,
-                  path: `/gear-sets/${nextSetSlug}`,
+                  label: `${nextSet.name} Set`,
+                  path: `/gear-sets/${nextSet.slug}`,
                 }
               : null
           }

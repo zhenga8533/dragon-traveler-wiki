@@ -348,7 +348,7 @@ export function useCharacterPageData(
       if (!existing) {
         sets.set(key, {
           setName: entry.setName,
-          setDisplayName: entry.setDisplayName ?? null,
+          setDisplayName: entry.setDisplayName,
           pieces: 1,
           requiredPieces,
           description,

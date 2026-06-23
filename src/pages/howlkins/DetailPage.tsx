@@ -35,7 +35,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 export default function GoldenAllianceDetailPage() {
   const { accent } = useGradientAccent();
-  const { allianceSlug } = useParams<{ allianceSlug: string }>();
+  const { allianceSlug: allianceParam } = useParams<{ allianceSlug: string }>();
   const navigate = useNavigate();
   const isDark = useDarkMode();
 
@@ -43,21 +43,16 @@ export default function GoldenAllianceDetailPage() {
   const { data: howlkins } = useHowlkins();
   const { data: changesData } = useGoldenAllianceChanges();
 
-  const allianceSlug = useMemo(
-    () => findEntityByParam(alliances, allianceSlug, (a) => a.slug)?.slug ?? '',
-    [alliances, allianceSlug]
+  const alliance = useMemo(
+    () => findEntityByParam(alliances, allianceParam, (a) => a.slug) ?? null,
+    [alliances, allianceParam]
   );
 
   useEffect(() => {
-    if (!allianceSlug || !allianceSlug) return;
-    if (!shouldRedirectToEntitySlug(allianceSlug, allianceSlug)) return;
-    navigate(`/howlkins/${allianceSlug}`, { replace: true });
-  }, [allianceSlug, navigate, allianceSlug]);
-
-  const alliance = useMemo(
-    () => alliances.find((a) => a.slug === allianceSlug) ?? null,
-    [alliances, allianceSlug]
-  );
+    if (!alliance || !allianceParam) return;
+    if (!shouldRedirectToEntitySlug(allianceParam, alliance.slug)) return;
+    navigate(`/howlkins/${alliance.slug}`, { replace: true });
+  }, [alliance, allianceParam, navigate]);
 
   const howlkinMap = useMemo(() => {
     const map = new Map<string, Howlkin>();
@@ -79,26 +74,21 @@ export default function GoldenAllianceDetailPage() {
     });
   }, [alliance, howlkinMap]);
 
-  const allAllianceSlugs = useMemo(
-    () => alliances.map((a) => a.slug).sort((a, b) => a.localeCompare(b)),
-    [alliances]
-  );
-
-  const allianceBySlug = useMemo(
-    () => new Map(alliances.map((a) => [a.slug, a])),
+  const orderedAlliances = useMemo(
+    () => [...alliances].sort((a, b) => a.slug.localeCompare(b.slug)),
     [alliances]
   );
 
   const allianceIndex = useMemo(
-    () => allAllianceSlugs.findIndex((s) => s === allianceSlug),
-    [allAllianceSlugs, allianceSlug]
+    () => alliance ? orderedAlliances.findIndex((a) => a.slug === alliance.slug) : -1,
+    [orderedAlliances, alliance]
   );
 
-  const previousAllianceSlug =
-    allianceIndex > 0 ? allAllianceSlugs[allianceIndex - 1] : null;
-  const nextAllianceSlug =
-    allianceIndex >= 0 && allianceIndex < allAllianceSlugs.length - 1
-      ? allAllianceSlugs[allianceIndex + 1]
+  const previousAlliance =
+    allianceIndex > 0 ? orderedAlliances[allianceIndex - 1] : null;
+  const nextAlliance =
+    allianceIndex >= 0 && allianceIndex < orderedAlliances.length - 1
+      ? orderedAlliances[allianceIndex + 1]
       : null;
 
   if (loading) {
@@ -113,7 +103,7 @@ export default function GoldenAllianceDetailPage() {
     return (
       <EntityNotFound
         entityType="Golden Alliance"
-        name={allianceSlug}
+        name={allianceParam}
         backLabel="Back to Howlkins"
         backPath="/howlkins?tab=golden-alliances"
       />
@@ -131,7 +121,7 @@ export default function GoldenAllianceDetailPage() {
             label: 'Golden Alliances',
             path: '/howlkins?tab=golden-alliances',
           },
-          { label: alliance?.name ?? allianceSlug },
+          { label: alliance.name },
         ]}
         py={{ base: 'lg', sm: 'xl' }}
       >
@@ -143,7 +133,7 @@ export default function GoldenAllianceDetailPage() {
               fz={{ base: '1.5rem', sm: '2.125rem' }}
               style={{ wordBreak: 'break-word' }}
             >
-              {alliance?.name ?? allianceSlug}
+              {alliance.name}
             </Title>
             <Badge variant="light" color={accent.secondary} size="lg">
               {alliance.howlkins.length} member
@@ -165,30 +155,27 @@ export default function GoldenAllianceDetailPage() {
             <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="sm">
               {sortedMembers.map((howlkinSlug) => {
                 const howlkin = howlkinMap.get(howlkinSlug);
-                const iconSrc = howlkin
-                  ? getHowlkinIcon(howlkin.slug, howlkin.quality)
-                  : undefined;
-                const qualityColor = howlkin ? QUALITY_COLOR[howlkin.quality] : undefined;
+                if (!howlkin) return null;
+                const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
+                const qualityColor = QUALITY_COLOR[howlkin.quality];
                 return (
                   <Paper
                     key={howlkinSlug}
                     p="sm"
                     radius="md"
                     withBorder
-                    {...(qualityColor
-                      ? getCardHoverProps({
-                          style: {
-                            borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
-                          },
-                        })
-                      : getCardHoverProps())}
+                    {...getCardHoverProps({
+                      style: {
+                        borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
+                      },
+                    })}
                   >
                     <Stack gap="xs">
                       <Group gap="sm" wrap="nowrap">
                         {iconSrc && (
                           <SafeImage
                             src={iconSrc}
-                            alt={howlkin?.name ?? howlkinSlug}
+                            alt={howlkin.name}
                             w={44}
                             h={44}
                             fit="contain"
@@ -198,23 +185,18 @@ export default function GoldenAllianceDetailPage() {
                         <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
                           <Group gap="xs" wrap="wrap">
                             <Text fw={600} size="sm">
-                              {howlkin?.name ?? howlkinSlug}
+                              {howlkin.name}
                             </Text>
-                            {howlkin && (
-                              <QualityIcon quality={howlkin.quality} size={14} />
-                            )}
+                            <QualityIcon quality={howlkin.quality} size={14} />
                           </Group>
-                          {howlkin &&
-                            (howlkin.passive_effects ?? []).map((e, i) => (
-                              <Text key={i} size="xs" c="dimmed">
-                                {e}
-                              </Text>
-                            ))}
+                          {(howlkin.passive_effects ?? []).map((e, i) => (
+                            <Text key={i} size="xs" c="dimmed">
+                              {e}
+                            </Text>
+                          ))}
                         </Stack>
                       </Group>
-                      {howlkin && (
-                        <HowlkinStats stats={howlkin.basic_stats} size="xs" />
-                      )}
+                      <HowlkinStats stats={howlkin.basic_stats} size="xs" />
                     </Stack>
                   </Paper>
                 );
@@ -273,18 +255,18 @@ export default function GoldenAllianceDetailPage() {
 
         <DetailPageNavigation
           previousItem={
-            previousAllianceSlug
+            previousAlliance
               ? {
-                  label: allianceBySlug.get(previousAllianceSlug)?.name ?? previousAllianceSlug,
-                  path: `/howlkins/${previousAllianceSlug}`,
+                  label: previousAlliance.name,
+                  path: `/howlkins/${previousAlliance.slug}`,
                 }
               : null
           }
           nextItem={
-            nextAllianceSlug
+            nextAlliance
               ? {
-                  label: allianceBySlug.get(nextAllianceSlug)?.name ?? nextAllianceSlug,
-                  path: `/howlkins/${nextAllianceSlug}`,
+                  label: nextAlliance.name,
+                  path: `/howlkins/${nextAlliance.slug}`,
                 }
               : null
           }
