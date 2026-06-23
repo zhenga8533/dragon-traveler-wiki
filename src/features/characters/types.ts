@@ -82,6 +82,7 @@ export type RecommendedGearDetail = RecommendedGearEntry & {
   icon: string;
   slotIcon: string;
   setName: string | null;
+  setDisplayName: string | null;
   setBonus: GearSetBonus | null;
   quality: string | undefined;
   lore: string | undefined;
@@ -90,6 +91,7 @@ export type RecommendedGearDetail = RecommendedGearEntry & {
 
 export interface ActivatedSetBonus {
   setName: string;
+  setDisplayName: string | null;
   pieces: number;
   requiredPieces: number;
   description: string;

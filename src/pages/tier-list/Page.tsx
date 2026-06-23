@@ -25,6 +25,7 @@ import TierListBuilder from '@/features/tier-list/components/TierListBuilder';
 import TierListSavedTab from '@/features/tier-list/components/TierListSavedTab';
 import TierListViewTab from '@/features/tier-list/components/TierListViewTab';
 import type { TierList as TierListType } from '@/features/tier-list/types';
+import { migrateStoredTierList } from '@/features/tier-list/components/TierListBuilder/utils';
 import {
   countActiveFilters,
   useBuilderEditState,
@@ -255,8 +256,8 @@ export default function TierList() {
 
   const refreshSavedTierLists = useCallback(() => {
     setSavedTierLists(
-      loadSavedFromStorage<TierListType>(STORAGE_KEY.TIER_LIST_MY_SAVED, (v) =>
-        Array.isArray(v.entries)
+      loadSavedFromStorage<TierListType>(STORAGE_KEY.TIER_LIST_MY_SAVED,
+        (v) => Array.isArray(v.entries), migrateStoredTierList
       )
     );
   }, []);

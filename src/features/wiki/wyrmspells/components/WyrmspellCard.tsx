@@ -9,7 +9,6 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
-import { toEntitySlug } from '@/utils/entity-slug';
 import { Badge, Group, Paper, Stack, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 import { Link } from 'react-router-dom';
@@ -26,15 +25,19 @@ export default function WyrmspellCard({
   wyrmspells = [],
 }: WyrmspellCardProps) {
   const { data: statusEffects } = useStatusEffects();
-  const wyrmspell = wyrmspells.find((w) => w.name === name);
+  const wyrmspell = wyrmspells.find(
+    (w) => w.slug === name || w.name === name
+  );
   const displayType = type || wyrmspell?.type || 'Unknown';
-  const iconSrc = getWyrmspellIcon(name, displayType);
+  const iconSrc = getWyrmspellIcon(wyrmspell?.slug ?? name, displayType);
   const maxQuality = wyrmspell ? getMaxQuality(wyrmspell) : null;
+
+  const displayName = wyrmspell?.name ?? name;
 
   return (
     <Paper
       component={Link}
-      to={`/wyrmspells/${toEntitySlug(name)}`}
+      to={`/wyrmspells/${wyrmspell?.slug ?? name}`}
       p="sm"
       radius="md"
       withBorder
@@ -44,7 +47,7 @@ export default function WyrmspellCard({
         {iconSrc && (
           <SafeImage
             src={iconSrc}
-            alt={name}
+            alt={displayName}
             w={48}
             h={48}
             fit="contain"
@@ -53,7 +56,7 @@ export default function WyrmspellCard({
         )}
         <Group gap={4} justify="center" align="center">
           <Text size="sm" fw={600} ta="center" className="dt-link-text">
-            {name}
+            {displayName}
           </Text>
           {maxQuality && <QualityIcon quality={maxQuality.quality} />}
         </Group>

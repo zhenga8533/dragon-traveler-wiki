@@ -496,8 +496,8 @@ function SearchModalContent({
             type: 'artifact' as const,
             title: r.item.name,
             subtitle: `${r.item.quality} Artifact`,
-            path: `/artifacts/${toEntitySlug(r.item.name)}`,
-            icon: getArtifactIcon(r.item.name) ?? IoDiamondOutline,
+            path: `/artifacts/${r.item.slug}`,
+            icon: getArtifactIcon(r.item.slug) ?? IoDiamondOutline,
             color: 'teal',
           }))
       );
@@ -513,7 +513,7 @@ function SearchModalContent({
             title: r.item.name,
             subtitle: `${r.item.type} • ${r.item.set}`,
             path: `/gear-sets/${toEntitySlug(r.item.set)}`,
-            icon: getGearIcon(r.item.type, r.item.name) ?? IoShieldOutline,
+            icon: getGearIcon(r.item.type, r.item.slug) ?? IoShieldOutline,
             color: 'teal',
           }))
       );
@@ -562,7 +562,7 @@ function SearchModalContent({
             title: r.item.name,
             subtitle: `${r.item.class} • Tier ${r.item.tier}`,
             path: searchPath('/subclasses', r.item.name),
-            icon: getSubclassIcon(r.item.name, r.item.class) ?? IoGridOutline,
+            icon: getSubclassIcon(r.item.slug, r.item.class) ?? IoGridOutline,
             color: 'grape',
           }))
       );
@@ -577,8 +577,8 @@ function SearchModalContent({
             type: 'wyrmspell' as const,
             title: r.item.name,
             subtitle: r.item.type,
-            path: `/wyrmspells/${toEntitySlug(r.item.name)}`,
-            icon: getWyrmspellIcon(r.item.name, r.item.type) ?? IoFlameOutline,
+            path: `/wyrmspells/${r.item.slug}`,
+            icon: getWyrmspellIcon(r.item.slug, r.item.type) ?? IoFlameOutline,
             color: 'indigo',
           }))
       );
@@ -610,7 +610,7 @@ function SearchModalContent({
             title: r.item.name,
             subtitle: `${r.item.quality} Howlkin`,
             path: searchPath('/howlkins', r.item.name, { tab: 'howlkins' }),
-            icon: getHowlkinIcon(r.item.name, r.item.quality) ?? IoPawOutline,
+            icon: getHowlkinIcon(r.item.slug, r.item.quality) ?? IoPawOutline,
             color: 'orange',
           }))
       );
@@ -625,8 +625,8 @@ function SearchModalContent({
             type: 'noble-phantasm' as const,
             title: r.item.name,
             subtitle: r.item.character || 'Noble Phantasm',
-            path: `/noble-phantasms/${toEntitySlug(r.item.name)}`,
-            icon: getNoblePhantasmIcon(r.item.name) ?? IoFlashOutline,
+            path: `/noble-phantasms/${r.item.slug}`,
+            icon: getNoblePhantasmIcon(r.item.slug) ?? IoFlashOutline,
             color: 'teal',
           }))
       );
@@ -726,7 +726,7 @@ function SearchModalContent({
             title: r.item.name,
             subtitle: r.item.type,
             path: searchPath('/relics', r.item.name, { tab: 'relics' }),
-            icon: getRelicIcon(r.item.name, r.item.quality) ?? IoDiamondOutline,
+            icon: getRelicIcon(r.item.slug, r.item.quality) ?? IoDiamondOutline,
             color: 'violet',
           }))
       );
@@ -741,8 +741,8 @@ function SearchModalContent({
             type: 'wyrm' as const,
             title: r.item.name,
             subtitle: `${FACTION_SLUG_TO_NAME[r.item.faction] ?? r.item.faction} · ${r.item.phase}`,
-            path: `/wyrms/${toEntitySlug(r.item.name)}`,
-            icon: getWyrmPortrait(r.item.name) ?? IoFlameOutline,
+            path: `/wyrms/${r.item.slug}`,
+            icon: getWyrmPortrait(r.item.slug) ?? IoFlameOutline,
             color: 'red',
           }))
       );

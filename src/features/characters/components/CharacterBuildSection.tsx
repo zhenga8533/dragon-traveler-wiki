@@ -22,7 +22,7 @@ import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
-import { toEntitySlug } from '@/utils/entity-slug';
+
 import { toQuality } from '@/utils/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import {
@@ -316,7 +316,7 @@ export default function CharacterPageBuildSection({
         >
           <Stack gap="md">
             {linkedNoblePhantasm && (() => {
-              const npIcon = getNoblePhantasmIcon(linkedNoblePhantasm.name);
+              const npIcon = getNoblePhantasmIcon(linkedNoblePhantasm.slug);
               const topEffect = linkedNoblePhantasm.effects[0];
               return (
                 <Stack gap="sm">
@@ -324,7 +324,7 @@ export default function CharacterPageBuildSection({
                     Recommended Noble Phantasm
                   </Text>
                   <Link
-                    to={`/noble-phantasms/${toEntitySlug(linkedNoblePhantasm.name)}`}
+                    to={`/noble-phantasms/${linkedNoblePhantasm.slug}`}
                     style={{ textDecoration: 'none' }}
                   >
                     <Paper p="sm" radius="md" withBorder {...getCardHoverProps()}>
@@ -522,7 +522,7 @@ export default function CharacterPageBuildSection({
                                     color={accent.secondary}
                                     size="xs"
                                   >
-                                    {entry.setName} Set
+                                    {entry.setDisplayName ?? entry.setName} Set
                                   </Badge>
                                 )}
                                 {entryQuality && (
@@ -601,7 +601,7 @@ export default function CharacterPageBuildSection({
                       >
                         {entry.setName ? (
                           <Link
-                            to={`/gear-sets/${toEntitySlug(entry.setName)}`}
+                            to={`/gear-sets/${entry.setName}`}
                             style={{ textDecoration: 'none', width: '100%', display: 'block' }}
                           >
                             <Paper
@@ -625,7 +625,7 @@ export default function CharacterPageBuildSection({
                                     {entry.name}
                                   </Text>
                                   <Text size="xs" c="dimmed" truncate>
-                                    {entry.setName} Set
+                                    {entry.setDisplayName ?? entry.setName} Set
                                   </Text>
                                 </Stack>
                               </Group>
@@ -654,7 +654,7 @@ export default function CharacterPageBuildSection({
                                 </Text>
                                 {entry.setName && (
                                   <Text size="xs" c="dimmed" truncate>
-                                    {entry.setName} Set
+                                    {entry.setDisplayName ?? entry.setName} Set
                                   </Text>
                                 )}
                               </Stack>
@@ -678,7 +678,7 @@ export default function CharacterPageBuildSection({
                     const tooltipLabel = (
                       <Stack gap="xs">
                         <Text fw={700} size="sm" style={{ lineHeight: 1.25 }}>
-                          {setBonus.setName} Set
+                          {setBonus.setDisplayName ?? setBonus.setName} Set
                         </Text>
                         <Divider />
                         <Group gap={6} wrap="wrap">
@@ -723,7 +723,7 @@ export default function CharacterPageBuildSection({
                           <Stack gap={4}>
                             <Group justify="space-between" gap="xs">
                               <Text fw={600} size="sm" truncate>
-                                {setBonus.setName}
+                                {setBonus.setDisplayName ?? setBonus.setName}
                               </Text>
                               <Badge
                                 variant="filled"

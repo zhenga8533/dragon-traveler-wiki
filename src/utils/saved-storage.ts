@@ -44,10 +44,14 @@ export function writeStoredStringSet(
 /**
  * Generic utility for loading and normalizing saved items from localStorage.
  * Handles missing `last_updated` timestamps by backfilling them.
+ *
+ * Pass an optional `migrate` callback to upgrade items that were stored in a
+ * legacy format. Migrated items are written back so the conversion runs once.
  */
 export function loadSavedFromStorage<T extends { last_updated?: number }>(
   storageKey: string,
-  isValid: (value: Partial<T>) => boolean
+  isValid: (value: Partial<T>) => boolean,
+  migrate?: (value: Partial<T>) => T
 ): T[] {
   if (typeof window === 'undefined') return [];
   try {
@@ -61,14 +65,21 @@ export function loadSavedFromStorage<T extends { last_updated?: number }>(
       if (value === null || typeof value !== 'object') continue;
       const maybe = value as Partial<T>;
       if (!isValid(maybe)) continue;
-      if ((maybe.last_updated ?? 0) > 0) {
-        items.push(maybe as T);
-        continue;
+
+      // Run migration if provided — always write result back so it only runs once
+      const item = migrate ? migrate(maybe) : (maybe as T);
+      if (migrate) {
+        parsed[key] = item;
+        changed = true;
       }
-      changed = true;
-      const normalized = { ...(maybe as T), last_updated: now };
-      parsed[key] = normalized;
-      items.push(normalized);
+
+      if ((item.last_updated ?? 0) <= 0) {
+        item.last_updated = now;
+        parsed[key] = item;
+        changed = true;
+      }
+
+      items.push(item);
     }
     items.sort((a, b) => (b.last_updated ?? 0) - (a.last_updated ?? 0));
     if (changed) {

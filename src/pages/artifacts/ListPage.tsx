@@ -180,11 +180,11 @@ export default function Artifacts() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 {pageItems.map((artifact) => {
-                  const iconSrc = getArtifactIcon(artifact.name);
+                  const iconSrc = getArtifactIcon(artifact.slug);
                   return (
                     <EntitySummaryCard
                       key={artifact.name}
-                      to={`/artifacts/${toEntitySlug(artifact.name)}`}
+                      to={`/artifacts/${artifact.slug}`}
                       title={artifact.name}
                       imageSrc={iconSrc}
                       titleAccessory={<QualityIcon quality={artifact.quality} />}
@@ -275,7 +275,7 @@ export default function Artifacts() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((artifact) => {
-                      const iconSrc = getArtifactIcon(artifact.name);
+                      const iconSrc = getArtifactIcon(artifact.slug);
                       return (
                         <Table.Tr key={artifact.name}>
                           <Table.Td>
@@ -292,7 +292,7 @@ export default function Artifacts() {
                             )}
                           </Table.Td>
                           <EntityTableLinkCell
-                            to={`/artifacts/${toEntitySlug(artifact.name)}`}
+                            to={`/artifacts/${artifact.slug}`}
                             fontWeight={500}
                           >
                             {artifact.name}

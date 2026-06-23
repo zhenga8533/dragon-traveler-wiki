@@ -19,6 +19,7 @@ import TeamBuilder from '@/features/teams/components/TeamBuilder';
 import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
 import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
 import type { Team } from '@/features/teams/types';
+import { migrateStoredTeam } from '@/features/teams/components/TeamBuilder/utils';
 import {
   countActiveFilters,
   getPageSizeStorageKey,
@@ -124,7 +125,7 @@ export default function Teams() {
   const [savedTeams, setSavedTeams] = useState<Team[]>(() =>
     mode === 'saved'
       ? loadSavedFromStorage<Team>(STORAGE_KEY.TEAMS_MY_SAVED, (v) =>
-          Array.isArray(v.members)
+          Array.isArray(v.members), migrateStoredTeam
         )
       : []
   );
@@ -328,7 +329,8 @@ export default function Teams() {
                   setSavedTeams(
                     loadSavedFromStorage<Team>(
                       STORAGE_KEY.TEAMS_MY_SAVED,
-                      (v) => Array.isArray(v.members)
+                      (v) => Array.isArray(v.members),
+                      migrateStoredTeam
                     )
                   );
                 }

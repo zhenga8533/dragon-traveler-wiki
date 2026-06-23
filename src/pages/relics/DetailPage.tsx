@@ -222,7 +222,7 @@ export default function OracleScrollPage() {
             const isSanctuary = group.type === 'Sanctuary Relic';
 
             const relicCards = group.relics.map((relic) => {
-              const iconSrc = getRelicIcon(relic.name, relic.quality);
+              const iconSrc = getRelicIcon(relic.slug, relic.quality);
               return (
                 <Paper
                   key={relic.name}

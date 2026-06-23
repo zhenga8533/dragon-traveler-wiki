@@ -83,7 +83,7 @@ export default function AppRoutes() {
         />
         <Route path="/howlkins" element={<Howlkins />} />
         <Route
-          path="/howlkins/:allianceName"
+          path="/howlkins/:allianceSlug"
           element={<GoldenAlliancePage />}
         />
         <Route path="/noble-phantasms" element={<NoblePhantasms />} />

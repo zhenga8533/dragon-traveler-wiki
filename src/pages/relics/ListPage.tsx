@@ -340,7 +340,7 @@ export default function RelicPage() {
                 gridContent={
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                     {relicPageItems.map((item) => {
-                      const iconSrc = getRelicIcon(item.name, item.quality);
+                      const iconSrc = getRelicIcon(item.slug, item.quality);
                       const oracleScroll = getRelicOracleScroll(item);
                       const scrollSlug = oracleScroll
                         ? toEntitySlug(oracleScroll)
@@ -452,7 +452,7 @@ export default function RelicPage() {
                       </Table.Thead>
                       <Table.Tbody>
                         {relicPageItems.map((item) => {
-                          const iconSrc = getRelicIcon(item.name, item.quality);
+                          const iconSrc = getRelicIcon(item.slug, item.quality);
                           const oracleScroll = getRelicOracleScroll(item);
                           return (
                           <Table.Tr key={item.name}>
@@ -602,7 +602,7 @@ export default function RelicPage() {
                                 <Stack gap={4}>
                                   {items.map((relic) => {
                                     const relicIconSrc = getRelicIcon(
-                                      relic.name,
+                                      relic.slug,
                                       relic.quality
                                     );
                                     return (

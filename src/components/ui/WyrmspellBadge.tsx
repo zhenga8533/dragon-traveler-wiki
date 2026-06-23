@@ -27,10 +27,12 @@ export default function WyrmspellBadge({
 
   const wyrmspell =
     wyrmspells.find(
-      (entry) => normalizeName(entry.name) === normalizeName(name)
+      (entry) =>
+        normalizeName(entry.name) === normalizeName(name) ||
+        entry.slug === toEntitySlug(name)
     ) ?? undefined;
 
-  const iconSrc = getWyrmspellIcon(name, wyrmspell?.type);
+  const iconSrc = getWyrmspellIcon(wyrmspell?.slug ?? toEntitySlug(name), wyrmspell?.type);
   const color = wyrmspell ? WYRMSPELL_TYPE_COLOR[wyrmspell.type] : 'gray';
   const maxQuality = wyrmspell ? getMaxQuality(wyrmspell) : null;
 

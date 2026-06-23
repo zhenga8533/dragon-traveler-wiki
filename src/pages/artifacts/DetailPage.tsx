@@ -21,7 +21,6 @@ import { useArtifactChanges, useArtifacts, useDarkMode, useFactions, useGradient
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
-  toEntitySlug,
 } from '@/utils/entity-slug';
 import {
   Badge,
@@ -39,18 +38,18 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 function TreasureCard({
   treasure,
-  artifactName,
+  artifactSlug,
   isDark,
   qualityColor,
   statusEffects,
 }: {
   treasure: ArtifactTreasure;
-  artifactName: string;
+  artifactSlug: string;
   isDark: boolean;
   qualityColor: string;
   statusEffects: StatusEffect[];
 }) {
-  const iconSrc = getTreasureIcon(artifactName, treasure.name);
+  const iconSrc = getTreasureIcon(artifactSlug, treasure.name);
   return (
     <Paper
       p="md"
@@ -102,13 +101,13 @@ export default function ArtifactPage() {
   const { data: changesData } = useArtifactChanges();
 
   const artifact = useMemo(() => {
-    return findEntityByParam(artifacts, name, (a) => a.name);
+    return findEntityByParam(artifacts, name, (a) => a.slug);
   }, [artifacts, name]);
 
   useEffect(() => {
     if (!artifact || !name) return;
-    if (!shouldRedirectToEntitySlug(name, artifact.name)) return;
-    navigate(`/artifacts/${toEntitySlug(artifact.name)}`, { replace: true });
+    if (!shouldRedirectToEntitySlug(name, artifact.slug)) return;
+    navigate(`/artifacts/${artifact.slug}`, { replace: true });
   }, [artifact, name, navigate]);
 
   // Match list page: sort by quality, then name
@@ -125,17 +124,13 @@ export default function ArtifactPage() {
 
   const artifactIndex = useMemo(() => {
     if (!artifact) return -1;
-    return orderedArtifacts.findIndex(
-      (entry) => entry.name.toLowerCase() === artifact.name.toLowerCase()
-    );
+    return orderedArtifacts.findIndex((entry) => entry.slug === artifact.slug);
   }, [artifact, orderedArtifacts]);
 
   const recommendingFactions = useMemo(() => {
     if (!artifact) return [];
     return factions.filter((f) =>
-      f.recommended_artifacts.some(
-        (a) => a.toLowerCase() === artifact.name.toLowerCase()
-      )
+      f.recommended_artifacts.some((a) => a === artifact.slug)
     );
   }, [factions, artifact]);
 
@@ -165,7 +160,7 @@ export default function ArtifactPage() {
     );
   }
 
-  const iconSrc = getArtifactIcon(artifact.name);
+  const iconSrc = getArtifactIcon(artifact.slug);
   const qualityColor = QUALITY_COLOR[artifact.quality];
 
   return (
@@ -222,7 +217,7 @@ export default function ArtifactPage() {
                   Recommended by:
                 </Text>
                 {recommendingFactions.map((f) => (
-                  <FactionTag key={f.name} faction={f.name} size="sm" />
+                  <FactionTag key={f.slug} faction={f.slug} size="sm" />
                 ))}
               </Group>
             )}
@@ -271,7 +266,7 @@ export default function ArtifactPage() {
                   <TreasureCard
                     key={treasure.name}
                     treasure={treasure}
-                    artifactName={artifact.name}
+                    artifactSlug={artifact.slug}
                     isDark={isDark}
                     qualityColor={qualityColor}
                     statusEffects={statusEffects}
@@ -289,7 +284,7 @@ export default function ArtifactPage() {
             previousArtifact
               ? {
                   label: previousArtifact.name,
-                  path: `/artifacts/${toEntitySlug(previousArtifact.name)}`,
+                  path: `/artifacts/${previousArtifact.slug}`,
                 }
               : null
           }
@@ -297,7 +292,7 @@ export default function ArtifactPage() {
             nextArtifact
               ? {
                   label: nextArtifact.name,
-                  path: `/artifacts/${toEntitySlug(nextArtifact.name)}`,
+                  path: `/artifacts/${nextArtifact.slug}`,
                 }
               : null
           }

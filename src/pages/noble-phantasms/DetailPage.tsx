@@ -22,7 +22,6 @@ import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
-  toEntitySlug,
 } from '@/utils/entity-slug';
 import {
   Box,
@@ -47,15 +46,13 @@ export default function NoblePhantasmPage() {
   const { data: changesData } = useNoblePhantasmChanges();
 
   const noblePhantasm = useMemo(() => {
-    return findEntityByParam(noblePhantasms, name, (np) => np.name);
+    return findEntityByParam(noblePhantasms, name, (np) => np.slug);
   }, [name, noblePhantasms]);
 
   useEffect(() => {
     if (!noblePhantasm || !name) return;
-    if (!shouldRedirectToEntitySlug(name, noblePhantasm.name)) return;
-    navigate(`/noble-phantasms/${toEntitySlug(noblePhantasm.name)}`, {
-      replace: true,
-    });
+    if (!shouldRedirectToEntitySlug(name, noblePhantasm.slug)) return;
+    navigate(`/noble-phantasms/${noblePhantasm.slug}`, { replace: true });
   }, [name, navigate, noblePhantasm]);
 
   // Match list page: sort by character, then name
@@ -71,9 +68,7 @@ export default function NoblePhantasmPage() {
 
   const noblePhantasmIndex = useMemo(() => {
     if (!noblePhantasm) return -1;
-    return orderedNoblePhantasms.findIndex(
-      (entry) => entry.name.toLowerCase() === noblePhantasm.name.toLowerCase()
-    );
+    return orderedNoblePhantasms.findIndex((entry) => entry.slug === noblePhantasm.slug);
   }, [noblePhantasm, orderedNoblePhantasms]);
 
   const previousNoblePhantasm =
@@ -112,7 +107,7 @@ export default function NoblePhantasmPage() {
     );
   }
 
-  const iconSrc = getNoblePhantasmIcon(noblePhantasm.name);
+  const iconSrc = getNoblePhantasmIcon(noblePhantasm.slug);
 
   return (
     <Box>
@@ -221,7 +216,7 @@ export default function NoblePhantasmPage() {
             previousNoblePhantasm
               ? {
                   label: previousNoblePhantasm.name,
-                  path: `/noble-phantasms/${toEntitySlug(previousNoblePhantasm.name)}`,
+                  path: `/noble-phantasms/${previousNoblePhantasm.slug}`,
                 }
               : null
           }
@@ -229,7 +224,7 @@ export default function NoblePhantasmPage() {
             nextNoblePhantasm
               ? {
                   label: nextNoblePhantasm.name,
-                  path: `/noble-phantasms/${toEntitySlug(nextNoblePhantasm.name)}`,
+                  path: `/noble-phantasms/${nextNoblePhantasm.slug}`,
                 }
               : null
           }

@@ -55,7 +55,7 @@ export function useTeamDetailData({
 
   const artifactMap = useMemo(() => {
     const map = new Map<string, Artifact>();
-    for (const artifact of artifacts) map.set(artifact.name, artifact);
+    for (const artifact of artifacts) map.set(artifact.slug, artifact);
     return map;
   }, [artifacts]);
 

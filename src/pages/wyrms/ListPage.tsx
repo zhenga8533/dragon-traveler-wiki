@@ -37,7 +37,7 @@ import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
 import { useStatusEffects, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
 import { applyDir, useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { toEntitySlug } from '@/utils/entity-slug';
+
 import {
   Badge,
   Container,
@@ -307,13 +307,13 @@ export default function WyrmsListPage() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 {pageItems.map((wyrm) => {
-                  const iconSrc = getWyrmPortrait(wyrm.name);
+                  const iconSrc = getWyrmPortrait(wyrm.slug);
                   const phaseColor = WYRM_PHASE_COLOR[wyrm.phase];
                   return (
                     <Paper
                       key={wyrm.name}
                       component={Link}
-                      to={`/wyrms/${toEntitySlug(wyrm.name)}`}
+                      to={`/wyrms/${wyrm.slug}`}
                       p="md"
                       radius="md"
                       withBorder
@@ -384,7 +384,7 @@ export default function WyrmsListPage() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((wyrm) => {
-                      const iconSrc = getWyrmPortrait(wyrm.name);
+                      const iconSrc = getWyrmPortrait(wyrm.slug);
                       const phaseColor = WYRM_PHASE_COLOR[wyrm.phase];
                       return (
                         <Table.Tr key={wyrm.name}>
@@ -401,7 +401,7 @@ export default function WyrmsListPage() {
                             )}
                           </Table.Td>
                           <EntityTableLinkCell
-                            to={`/wyrms/${toEntitySlug(wyrm.name)}`}
+                            to={`/wyrms/${wyrm.slug}`}
                           >
                             {wyrm.name}
                           </EntityTableLinkCell>

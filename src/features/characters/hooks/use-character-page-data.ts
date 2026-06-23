@@ -282,7 +282,7 @@ export function useCharacterPageData(
         const details = subclassBySlug.get(subclassSlug);
         return {
           name: details?.name ?? subclassSlug,
-          icon: getSubclassIcon(details?.name ?? subclassSlug, details?.class),
+          icon: getSubclassIcon(details?.slug ?? subclassSlug, details?.class),
           tier: details?.tier,
           className: details?.class,
           bonuses: details?.bonuses ?? [],
@@ -302,7 +302,7 @@ export function useCharacterPageData(
   const gearSetByName = useMemo(() => {
     const map = new Map<string, GearSet>();
     for (const item of gearSets) {
-      map.set(item.name.toLowerCase(), item);
+      map.set(item.slug, item);
     }
     return map;
   }, [gearSets]);
@@ -311,12 +311,13 @@ export function useCharacterPageData(
     return recommendedGearEntries.map((entry) => {
       const gearItem = gearBySlug.get(entry.name);
       const setName = gearItem?.set?.trim() ?? '';
-      const setData = setName ? gearSetByName.get(setName.toLowerCase()) : null;
+      const setData = setName ? gearSetByName.get(setName) : null;
       const setBonus = setData?.set_bonus ?? gearItem?.set_bonus ?? null;
       return {
         ...entry,
         name: gearItem?.name ?? entry.name,
         setName: setName || null,
+        setDisplayName: setData?.name ?? null,
         setBonus,
         quality: gearItem?.quality,
         lore: gearItem?.lore,
@@ -330,6 +331,7 @@ export function useCharacterPageData(
       string,
       {
         setName: string;
+        setDisplayName: string | null;
         pieces: number;
         requiredPieces: number;
         description: string;
@@ -346,6 +348,7 @@ export function useCharacterPageData(
       if (!existing) {
         sets.set(key, {
           setName: entry.setName,
+          setDisplayName: entry.setDisplayName ?? null,
           pieces: 1,
           requiredPieces,
           description,

@@ -26,7 +26,7 @@ import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useMobileTooltip, useGradientAccent } from '@/hooks';
 import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import type { Faction } from '@/types/faction';
-import { toEntitySlug } from '@/utils/entity-slug';
+
 import {
   Badge,
   Box,
@@ -182,17 +182,17 @@ export function TeamHeroSection({
                       Recommended Artifacts
                     </Text>
                     <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="sm">
-                      {factionInfo.recommended_artifacts.map((artifactName) => {
-                        const iconSrc = getArtifactIcon(artifactName);
-                        const artifact = artifactMap.get(artifactName);
+                      {factionInfo.recommended_artifacts.map((artifactSlug) => {
+                        const artifact = artifactMap.get(artifactSlug);
+                        const iconSrc = getArtifactIcon(artifactSlug);
                         return (
                           <Tooltip
-                            key={artifactName}
-                            label={artifactName}
+                            key={artifactSlug}
+                            label={artifact?.name ?? artifactSlug}
                             {...tooltipProps}
                           >
                             <Link
-                              to={`/artifacts/${toEntitySlug(artifactName)}`}
+                              to={`/artifacts/${artifactSlug}`}
                               style={{ textDecoration: 'none' }}
                             >
                               <Paper
@@ -226,7 +226,7 @@ export function TeamHeroSection({
                                     {iconSrc && (
                                       <SafeImage
                                         src={iconSrc}
-                                        alt={artifactName}
+                                        alt={artifact?.name ?? artifactSlug}
                                         w={52}
                                         h={52}
                                         fit="contain"
@@ -243,7 +243,7 @@ export function TeamHeroSection({
                                         fw={600}
                                         className="dt-link-text"
                                       >
-                                        {artifactName}
+                                        {artifact?.name ?? artifactSlug}
                                       </Text>
                                     </Text>
                                     <Group gap={6} align="center">

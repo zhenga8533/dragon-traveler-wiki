@@ -18,6 +18,7 @@ import {
 } from '@/hooks';
 import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
 import type { Team } from '@/features/teams/types';
+import { migrateStoredTeam } from '@/features/teams/components/TeamBuilder/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
   exportTeamCompositionAsImage,
@@ -38,19 +39,16 @@ function readSavedTeamBySlug(slug: string): Team | null {
       'members' in (val as object) &&
       Array.isArray((val as Team).members)
     ) {
-      const team = val as Team;
-      if ((team.last_updated ?? 0) > 0) return team;
-
-      const normalized: Team = {
-        ...team,
-        last_updated: Math.floor(Date.now() / 1000),
-      };
-      saves[slug] = normalized;
+      const migrated = migrateStoredTeam(val as Partial<Team>);
+      if ((migrated.last_updated ?? 0) <= 0) {
+        migrated.last_updated = Math.floor(Date.now() / 1000);
+      }
+      saves[slug] = migrated;
       window.localStorage.setItem(
         STORAGE_KEY.TEAMS_MY_SAVED,
         JSON.stringify(saves)
       );
-      return normalized;
+      return migrated;
     }
     return null;
   } catch {

@@ -388,14 +388,14 @@ export default function CharacterPage() {
                         const subclassClass =
                           subclassDetails?.class ?? character.character_class;
                         const subclassIcon = getSubclassIcon(
-                          subclassDetails?.name ?? subclass,
+                          subclassDetails?.slug ?? subclass,
                           subclassClass
                         );
                         const subclassBonuses = subclassDetails?.bonuses ?? [];
                         const tooltipLabel = (
                           <Stack gap={6}>
                             <Text size="xs" fw={700}>
-                              {subclass}
+                              {subclassDetails?.name ?? subclass}
                             </Text>
                             <Group gap={6} wrap="wrap">
                               {subclassDetails?.tier && (
@@ -466,7 +466,7 @@ export default function CharacterPage() {
                                   gap={6}
                                 >
                                   <Text size="xs" fw={600} ta="center">
-                                    {subclass}
+                                    {subclassDetails?.name ?? subclass}
                                   </Text>
                                   {subclassDetails?.tier && (
                                     <TierBadge

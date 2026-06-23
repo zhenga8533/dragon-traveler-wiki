@@ -10,6 +10,7 @@ import {
 import { STORAGE_KEY } from '@/constants/ui';
 import { useTierLists } from '@/features/tier-list/hooks/use-tier-list-data';
 import type { TierList as TierListType } from '@/features/tier-list/types';
+import { migrateStoredTierList } from '@/features/tier-list/components/TierListBuilder/utils';
 import { loadSavedFromStorage } from '@/utils/saved-storage';
 
 export interface TierListReferenceContextValue {
@@ -32,7 +33,8 @@ export const TierListReferenceContext =
 function readSavedTierLists(): TierListType[] {
   return loadSavedFromStorage<TierListType>(
     STORAGE_KEY.TIER_LIST_MY_SAVED,
-    (v) => Array.isArray(v.entries)
+    (v) => Array.isArray(v.entries),
+    migrateStoredTierList
   );
 }
 

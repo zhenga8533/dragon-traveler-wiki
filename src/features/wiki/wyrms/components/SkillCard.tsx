@@ -15,7 +15,7 @@ export default function SkillCard({
   skill: Wyrm['skills'][number];
   statusEffects: StatusEffect[];
 }) {
-  const iconSrc = getWyrmSkillIcon(wyrm.name, skill.name);
+  const iconSrc = getWyrmSkillIcon(wyrm.slug, skill.name);
 
   return (
     <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>

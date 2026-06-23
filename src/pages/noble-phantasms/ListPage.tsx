@@ -220,11 +220,11 @@ export default function NoblePhantasms() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 {pageItems.map((np) => {
-                  const iconSrc = getNoblePhantasmIcon(np.name);
+                  const iconSrc = getNoblePhantasmIcon(np.slug);
                   return (
                     <EntitySummaryCard
                       key={np.name}
-                      to={`/noble-phantasms/${toEntitySlug(np.name)}`}
+                      to={`/noble-phantasms/${np.slug}`}
                       title={np.name}
                       imageSrc={iconSrc}
                       metadata={
@@ -311,7 +311,7 @@ export default function NoblePhantasms() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((np) => {
-                      const iconSrc = getNoblePhantasmIcon(np.name);
+                      const iconSrc = getNoblePhantasmIcon(np.slug);
                       return (
                         <Table.Tr key={np.name}>
                           <Table.Td>
@@ -332,7 +332,7 @@ export default function NoblePhantasms() {
                             )}
                           </Table.Td>
                           <EntityTableLinkCell
-                            to={`/noble-phantasms/${toEntitySlug(np.name)}`}
+                            to={`/noble-phantasms/${np.slug}`}
                           >
                             {np.name}
                           </EntityTableLinkCell>

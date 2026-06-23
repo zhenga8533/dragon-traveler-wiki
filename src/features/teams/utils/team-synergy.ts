@@ -147,7 +147,7 @@ export function computeTeamSynergy({
   const selectedWyrmspellCount = selectedWyrmspells.length;
 
   const dragonsCallSpell = teamWyrmspells.dragons_call
-    ? wyrmspells.find((spell) => spell.name === teamWyrmspells.dragons_call)
+    ? wyrmspells.find((spell) => spell.slug === teamWyrmspells.dragons_call)
     : null;
 
   const dragonsCallFactionMatch =

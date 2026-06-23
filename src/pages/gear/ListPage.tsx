@@ -38,7 +38,7 @@ import {
 import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
 import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
-import { toEntitySlug } from '@/utils/entity-slug';
+
 import {
   Badge,
   Container,
@@ -227,14 +227,14 @@ export default function GearPage() {
   });
 
   const gearSetByName = useMemo(
-    () => new Map(gearSets.map((entry) => [entry.name, entry])),
+    () => new Map(gearSets.map((entry) => [entry.slug, entry])),
     [gearSets]
   );
 
   const gearItemsBySet = useMemo(() => {
     const map = new Map<string, Gear[]>();
     for (const item of gear) {
-      const list = map.get(item.set) ?? [];
+      const list = map.get(item.set) ?? [];  // item.set is a slug
       list.push(item);
       map.set(item.set, list);
     }
@@ -402,12 +402,12 @@ export default function GearPage() {
                     {gearPageItems.map((item) => {
                       const setData = gearSetByName.get(item.set);
                       const setBonus = setData?.set_bonus ?? item.set_bonus;
-                      const iconSrc = getGearIcon(item.type, item.name);
+                      const iconSrc = getGearIcon(item.type, item.slug);
                       return (
                         <Paper
                           key={item.name}
                           component={Link}
-                          to={`/gear-sets/${toEntitySlug(item.set)}`}
+                          to={`/gear-sets/${item.set}`}
                           p="md"
                           radius="md"
                           withBorder
@@ -518,7 +518,7 @@ export default function GearPage() {
                         {gearPageItems.map((item) => {
                           const setData = gearSetByName.get(item.set);
                           const setBonus = setData?.set_bonus ?? item.set_bonus;
-                          const iconSrc = getGearIcon(item.type, item.name);
+                          const iconSrc = getGearIcon(item.type, item.slug);
                           return (
                             <Table.Tr key={item.name}>
                               <Table.Td>
@@ -534,7 +534,7 @@ export default function GearPage() {
                                 )}
                               </Table.Td>
                               <EntityTableLinkCell
-                                to={`/gear-sets/${toEntitySlug(item.set)}`}
+                                to={`/gear-sets/${item.set}`}
                               >
                                 {item.name}
                               </EntityTableLinkCell>
@@ -602,7 +602,7 @@ export default function GearPage() {
               >
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                   {gearSetPageItems.map((set) => {
-                        const items = gearItemsBySet.get(set.name) ?? [];
+                        const items = gearItemsBySet.get(set.slug) ?? [];
                         const setBonus = set.set_bonus;
                         const bonusQuantity = setBonus?.quantity ?? 0;
                         const bonusDescription = setBonus?.description ?? '';
@@ -610,7 +610,7 @@ export default function GearPage() {
                           <Paper
                             key={set.name}
                             component={Link}
-                            to={`/gear-sets/${toEntitySlug(set.name)}`}
+                            to={`/gear-sets/${set.slug}`}
                             p="md"
                             radius="md"
                             withBorder

@@ -290,13 +290,13 @@ export default function Wyrmspells() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 {pageItems.map((spell) => {
-                  const iconSrc = getWyrmspellIcon(spell.name, spell.type);
+                  const iconSrc = getWyrmspellIcon(spell.slug, spell.type);
                   const maxQuality = getMaxQuality(spell);
                   return (
                     <Paper
                       key={spell.name}
                       component={Link}
-                      to={`/wyrmspells/${toEntitySlug(spell.name)}`}
+                      to={`/wyrmspells/${spell.slug}`}
                       p="md"
                       radius="md"
                       withBorder
@@ -402,7 +402,7 @@ export default function Wyrmspells() {
                   </Table.Thead>
                   <Table.Tbody>
                     {pageItems.map((spell) => {
-                      const iconSrc = getWyrmspellIcon(spell.name, spell.type);
+                      const iconSrc = getWyrmspellIcon(spell.slug, spell.type);
                       const maxQuality = getMaxQuality(spell);
                       return (
                         <Table.Tr key={spell.name}>
@@ -419,7 +419,7 @@ export default function Wyrmspells() {
                             )}
                           </Table.Td>
                           <EntityTableLinkCell
-                            to={`/wyrmspells/${toEntitySlug(spell.name)}`}
+                            to={`/wyrmspells/${spell.slug}`}
                           >
                             {spell.name}
                           </EntityTableLinkCell>

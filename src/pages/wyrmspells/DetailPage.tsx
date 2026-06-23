@@ -21,7 +21,6 @@ import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
-  toEntitySlug,
 } from '@/utils/entity-slug';
 import {
   Badge,
@@ -45,14 +44,14 @@ export default function WyrmspellPage() {
   const { data: changesData } = useWyrmspellChanges();
 
   const wyrmspell = useMemo(
-    () => findEntityByParam(wyrmspells, name, (w) => w.name),
+    () => findEntityByParam(wyrmspells, name, (w) => w.slug),
     [wyrmspells, name]
   );
 
   useEffect(() => {
     if (!wyrmspell || !name) return;
-    if (!shouldRedirectToEntitySlug(name, wyrmspell.name)) return;
-    navigate(`/wyrmspells/${toEntitySlug(wyrmspell.name)}`, { replace: true });
+    if (!shouldRedirectToEntitySlug(name, wyrmspell.slug)) return;
+    navigate(`/wyrmspells/${wyrmspell.slug}`, { replace: true });
   }, [wyrmspell, name, navigate]);
 
   const orderedWyrmspells = useMemo(
@@ -73,9 +72,7 @@ export default function WyrmspellPage() {
 
   const wyrmspellIndex = useMemo(() => {
     if (!wyrmspell) return -1;
-    return orderedWyrmspells.findIndex(
-      (w) => w.name.toLowerCase() === wyrmspell.name.toLowerCase()
-    );
+    return orderedWyrmspells.findIndex((w) => w.slug === wyrmspell.slug);
   }, [wyrmspell, orderedWyrmspells]);
 
   const previousWyrmspell =
@@ -104,7 +101,7 @@ export default function WyrmspellPage() {
     );
   }
 
-  const iconSrc = getWyrmspellIcon(wyrmspell.name, wyrmspell.type);
+  const iconSrc = getWyrmspellIcon(wyrmspell.slug, wyrmspell.type);
   const maxQuality = getMaxQuality(wyrmspell);
   const typeColor =
     WYRMSPELL_TYPE_COLOR[wyrmspell.type] ?? getStableTagColor(wyrmspell.type);
@@ -181,7 +178,7 @@ export default function WyrmspellPage() {
             previousWyrmspell
               ? {
                   label: previousWyrmspell.name,
-                  path: `/wyrmspells/${toEntitySlug(previousWyrmspell.name)}`,
+                  path: `/wyrmspells/${previousWyrmspell.slug}`,
                 }
               : null
           }
@@ -189,7 +186,7 @@ export default function WyrmspellPage() {
             nextWyrmspell
               ? {
                   label: nextWyrmspell.name,
-                  path: `/wyrmspells/${toEntitySlug(nextWyrmspell.name)}`,
+                  path: `/wyrmspells/${nextWyrmspell.slug}`,
                 }
               : null
           }

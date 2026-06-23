@@ -2,7 +2,7 @@ import {
   getIllustrations,
   type CharacterIllustration,
 } from '@/assets';
-import { normalizeKey } from '@/assets/utils';
+
 import { DEFAULT_BANNER_SRC } from '@/constants/banner';
 import { STORAGE_KEY } from '@/constants/ui';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
@@ -113,7 +113,7 @@ export function BannerProvider({ children }: { children: ReactNode }) {
   const characterNameByAssetKey = useMemo(() => {
     const map = new Map<string, string>();
     for (const character of characters) {
-      const key = normalizeKey(character.name);
+      const key = character.slug;
       if (!map.has(key)) map.set(key, character.name);
     }
     return map;

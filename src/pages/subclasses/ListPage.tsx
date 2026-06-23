@@ -202,7 +202,7 @@ export default function Subclasses() {
             gridContent={
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
                 {pageItems.map((item) => {
-                  const subclassIcon = getSubclassIcon(item.name, item.class);
+                  const subclassIcon = getSubclassIcon(item.slug, item.class);
                   return (
                     <Paper
                       key={item.name}

@@ -1,6 +1,8 @@
 import { normalizeContentType } from '@/constants/content-types';
 import type { CharacterClass } from '@/features/characters/types';
-import type { FactionSlug } from '@/types/faction';
+import { FACTION_NAME_TO_SLUG, FACTION_SLUGS } from '@/types/faction';
+import type { FactionName, FactionSlug } from '@/types/faction';
+import { toEntitySlug } from '@/utils/entity-slug';
 import type { Team, TeamBenchMember, TeamMember } from '@/features/teams/types';
 import { normalizeOptionalNote } from '@/utils/normalize-note';
 import { toQuality } from '@/utils/quality';
@@ -97,8 +99,19 @@ export function normalizeTeamFromPartial(
         const seen = new Set<string>();
         const members: TeamMember[] = [];
         for (const member of partial.members) {
-          if (!isTeamMemberLike(member)) continue;
-          const identity = teamMemberIdentity(member);
+          if (!isRecord(member)) continue;
+          // Support both new slug format and legacy character_name format
+          const slug =
+            typeof member.character_slug === 'string'
+              ? member.character_slug
+              : typeof member.character_name === 'string'
+                ? toEntitySlug(member.character_name as string)
+                : null;
+          if (!slug) continue;
+
+          const normalizedQuality = toQuality(member.character_quality);
+          const identity =
+            `${slug}__${normalizedQuality ?? ''}`.toLowerCase();
           if (seen.has(identity)) continue;
           seen.add(identity);
 
@@ -106,13 +119,10 @@ export function normalizeTeamFromPartial(
             typeof member.position?.row === 'number' &&
             typeof member.position?.col === 'number';
           const normalizedMemberNote = normalizeOptionalNote(member.note);
-          const normalizedQuality = toQuality(member.character_quality);
 
           members.push({
-            character_slug: member.character_slug,
-            ...(normalizedQuality
-              ? { character_quality: normalizedQuality }
-              : {}),
+            character_slug: slug,
+            ...(normalizedQuality ? { character_quality: normalizedQuality } : {}),
             overdrive_order:
               typeof member.overdrive_order === 'number'
                 ? member.overdrive_order
@@ -167,16 +177,16 @@ export function normalizeTeamFromPartial(
   const normalizedWyrmspells = isRecord(partial.wyrmspells)
     ? {
         ...(typeof partial.wyrmspells.breach === 'string'
-          ? { breach: partial.wyrmspells.breach }
+          ? { breach: toEntitySlug(partial.wyrmspells.breach) }
           : {}),
         ...(typeof partial.wyrmspells.refuge === 'string'
-          ? { refuge: partial.wyrmspells.refuge }
+          ? { refuge: toEntitySlug(partial.wyrmspells.refuge) }
           : {}),
         ...(typeof partial.wyrmspells.wildcry === 'string'
-          ? { wildcry: partial.wyrmspells.wildcry }
+          ? { wildcry: toEntitySlug(partial.wyrmspells.wildcry) }
           : {}),
         ...(typeof partial.wyrmspells.dragons_call === 'string'
-          ? { dragons_call: partial.wyrmspells.dragons_call }
+          ? { dragons_call: toEntitySlug(partial.wyrmspells.dragons_call) }
           : {}),
       }
     : fallback.wyrmspells;
@@ -192,10 +202,13 @@ export function normalizeTeamFromPartial(
       partial.content_type,
       fallback.content_type
     ),
-    faction:
-      typeof partial.faction === 'string'
-        ? (partial.faction as FactionSlug)
-        : fallback.faction,
+    faction: (() => {
+      if (typeof partial.faction !== 'string') return fallback.faction;
+      if (FACTION_SLUGS.includes(partial.faction as FactionSlug))
+        return partial.faction as FactionSlug;
+      // Legacy: display name like "Elemental Echo" → "elemental_echo"
+      return FACTION_NAME_TO_SLUG[partial.faction as FactionName] ?? fallback.faction;
+    })(),
     members: normalizedMembers,
     ...(normalizedBench ? { bench: normalizedBench } : {}),
     ...(normalizedWyrmspells ? { wyrmspells: normalizedWyrmspells } : {}),
@@ -204,4 +217,19 @@ export function normalizeTeamFromPartial(
         ? partial.last_updated
         : fallback.last_updated,
   };
+}
+
+const TEAM_MIGRATION_FALLBACK: Team = {
+  name: '',
+  author: '',
+  content_type: 'All',
+  description: '',
+  faction: 'elemental_echo',
+  members: [],
+  last_updated: 0,
+};
+
+/** Migrates a stored team from any legacy format to the current schema. */
+export function migrateStoredTeam(partial: Partial<Team>): Team {
+  return normalizeTeamFromPartial(partial, TEAM_MIGRATION_FALLBACK);
 }

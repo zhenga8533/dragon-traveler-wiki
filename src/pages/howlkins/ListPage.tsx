@@ -27,7 +27,7 @@ import SortableTh from '@/components/ui/SortableTh';
 import { QUALITY_ORDER } from '@/constants/colors';
 import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import { toEntitySlug } from '@/utils/entity-slug';
+
 import QualityIcon from '@/components/ui/QualityIcon';
 import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
@@ -194,7 +194,7 @@ export default function Howlkins() {
   const howlkinMap = useMemo(() => {
     const map = new Map<string, Howlkin>();
     for (const h of howlkins) {
-      map.set(h.name, h);
+      map.set(h.slug, h);
     }
     return map;
   }, [howlkins]);
@@ -202,8 +202,8 @@ export default function Howlkins() {
   const howlkinToAlliance = useMemo(() => {
     const map = new Map<string, string>();
     for (const alliance of goldenAlliances) {
-      for (const name of alliance.howlkins) {
-        map.set(name, alliance.name);
+      for (const slug of alliance.howlkins) {
+        map.set(slug, alliance.slug);
       }
     }
     return map;
@@ -346,12 +346,9 @@ export default function Howlkins() {
                 gridContent={
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                     {howlkinPageItems.map((howlkin) => {
-                      const iconSrc = getHowlkinIcon(howlkin.name, howlkin.quality);
+                      const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
                       const isPharaoh = howlkin.name === PHARAOH_NAME;
-                      const allianceName = howlkinToAlliance.get(howlkin.name);
-                      const allianceSlug = allianceName
-                        ? toEntitySlug(allianceName)
-                        : undefined;
+                      const allianceSlug = howlkinToAlliance.get(howlkin.slug);
                       return (
                         <Paper
                           key={howlkin.name}
@@ -464,12 +461,9 @@ export default function Howlkins() {
                       </Table.Thead>
                       <Table.Tbody>
                         {howlkinPageItems.map((howlkin) => {
-                          const iconSrc = getHowlkinIcon(howlkin.name, howlkin.quality);
+                          const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
                           const isPharaoh = howlkin.name === PHARAOH_NAME;
-                          const allianceName = howlkinToAlliance.get(howlkin.name);
-                          const allianceSlug = allianceName
-                            ? toEntitySlug(allianceName)
-                            : undefined;
+                          const allianceSlug = howlkinToAlliance.get(howlkin.slug);
                           return (
                             <Table.Tr
                               key={howlkin.name}
@@ -597,7 +591,7 @@ export default function Howlkins() {
                           <Paper
                             key={alliance.name}
                             component={Link}
-                            to={`/howlkins/${toEntitySlug(alliance.name)}`}
+                            to={`/howlkins/${alliance.slug}`}
                             p="md"
                             radius="md"
                             withBorder
@@ -629,13 +623,16 @@ export default function Howlkins() {
                                       if (qA !== qB) return qA - qB;
                                       return a.localeCompare(b);
                                     })
-                                    .map((name) => (
-                                      <HowlkinBadge
-                                        key={name}
-                                        name={name}
-                                        howlkin={howlkinMap.get(name)}
-                                      />
-                                    ))}
+                                    .map((howlkinSlug) => {
+                                      const howlkin = howlkinMap.get(howlkinSlug);
+                                      return (
+                                        <HowlkinBadge
+                                          key={howlkinSlug}
+                                          name={howlkin?.name ?? howlkinSlug}
+                                          howlkin={howlkin}
+                                        />
+                                      );
+                                    })}
                                 </Group>
                               </div>
 

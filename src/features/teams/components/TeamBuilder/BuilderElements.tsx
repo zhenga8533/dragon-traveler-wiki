@@ -699,7 +699,7 @@ function renderWyrmspellOption({
 }: {
   option: { label: string; value: string; type?: string };
 }) {
-  const iconSrc = getWyrmspellIcon(option.label, option.type);
+  const iconSrc = getWyrmspellIcon(option.value, option.type);
   return (
     <Group gap="xs" align="center">
       {iconSrc ? (
@@ -723,34 +723,34 @@ export function WyrmspellSelector({
     () =>
       wyrmspells
         .filter((w) => w.type === 'Breach')
-        .map((w) => ({ value: w.name, label: w.name, type: w.type })),
+        .map((w) => ({ value: w.slug, label: w.name, type: w.type })),
     [wyrmspells]
   );
   const refugeOptions = useMemo(
     () =>
       wyrmspells
         .filter((w) => w.type === 'Refuge')
-        .map((w) => ({ value: w.name, label: w.name, type: w.type })),
+        .map((w) => ({ value: w.slug, label: w.name, type: w.type })),
     [wyrmspells]
   );
   const wildcryOptions = useMemo(
     () =>
       wyrmspells
         .filter((w) => w.type === 'Wildcry')
-        .map((w) => ({ value: w.name, label: w.name, type: w.type })),
+        .map((w) => ({ value: w.slug, label: w.name, type: w.type })),
     [wyrmspells]
   );
   const dragonsCallOptions = useMemo(
     () =>
       wyrmspells
         .filter((w) => w.type === "Dragon's Call")
-        .map((w) => ({ value: w.name, label: w.name, type: w.type })),
+        .map((w) => ({ value: w.slug, label: w.name, type: w.type })),
     [wyrmspells]
   );
 
   function leftIcon(name: string | undefined) {
     if (!name) return undefined;
-    const wyrmspell = wyrmspells.find((w) => w.name === name);
+    const wyrmspell = wyrmspells.find((w) => w.slug === name);
     const src = getWyrmspellIcon(name, wyrmspell?.type);
     return src ? (
       <SafeImage src={src} alt="" w={16} h={16} fit="contain" />

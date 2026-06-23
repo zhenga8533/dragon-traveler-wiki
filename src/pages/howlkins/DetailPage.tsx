@@ -16,7 +16,6 @@ import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
-  toEntitySlug,
 } from '@/utils/entity-slug';
 import type { Quality } from '@/types/quality';
 import {
@@ -36,7 +35,7 @@ import { useNavigate, useParams } from 'react-router-dom';
 
 export default function GoldenAllianceDetailPage() {
   const { accent } = useGradientAccent();
-  const { allianceName } = useParams<{ allianceName: string }>();
+  const { allianceSlug } = useParams<{ allianceSlug: string }>();
   const navigate = useNavigate();
   const isDark = useDarkMode();
 
@@ -44,29 +43,25 @@ export default function GoldenAllianceDetailPage() {
   const { data: howlkins } = useHowlkins();
   const { data: changesData } = useGoldenAllianceChanges();
 
-  const decodedName = useMemo(
-    () =>
-      findEntityByParam(alliances, allianceName, (a) => a.name)?.name ?? '',
-    [alliances, allianceName]
+  const allianceSlug = useMemo(
+    () => findEntityByParam(alliances, allianceSlug, (a) => a.slug)?.slug ?? '',
+    [alliances, allianceSlug]
   );
 
   useEffect(() => {
-    if (!decodedName || !allianceName) return;
-    if (!shouldRedirectToEntitySlug(allianceName, decodedName)) return;
-    navigate(`/howlkins/${toEntitySlug(decodedName)}`, { replace: true });
-  }, [decodedName, navigate, allianceName]);
+    if (!allianceSlug || !allianceSlug) return;
+    if (!shouldRedirectToEntitySlug(allianceSlug, allianceSlug)) return;
+    navigate(`/howlkins/${allianceSlug}`, { replace: true });
+  }, [allianceSlug, navigate, allianceSlug]);
 
   const alliance = useMemo(
-    () =>
-      alliances.find(
-        (a) => a.name.toLowerCase() === decodedName.toLowerCase()
-      ) ?? null,
-    [alliances, decodedName]
+    () => alliances.find((a) => a.slug === allianceSlug) ?? null,
+    [alliances, allianceSlug]
   );
 
   const howlkinMap = useMemo(() => {
     const map = new Map<string, Howlkin>();
-    for (const h of howlkins) map.set(h.name, h);
+    for (const h of howlkins) map.set(h.slug, h);
     return map;
   }, [howlkins]);
 
@@ -84,24 +79,26 @@ export default function GoldenAllianceDetailPage() {
     });
   }, [alliance, howlkinMap]);
 
-  const allAllianceNames = useMemo(
-    () => alliances.map((a) => a.name).sort((a, b) => a.localeCompare(b)),
+  const allAllianceSlugs = useMemo(
+    () => alliances.map((a) => a.slug).sort((a, b) => a.localeCompare(b)),
+    [alliances]
+  );
+
+  const allianceBySlug = useMemo(
+    () => new Map(alliances.map((a) => [a.slug, a])),
     [alliances]
   );
 
   const allianceIndex = useMemo(
-    () =>
-      allAllianceNames.findIndex(
-        (n) => n.toLowerCase() === decodedName.toLowerCase()
-      ),
-    [allAllianceNames, decodedName]
+    () => allAllianceSlugs.findIndex((s) => s === allianceSlug),
+    [allAllianceSlugs, allianceSlug]
   );
 
-  const previousAlliance =
-    allianceIndex > 0 ? allAllianceNames[allianceIndex - 1] : null;
-  const nextAlliance =
-    allianceIndex >= 0 && allianceIndex < allAllianceNames.length - 1
-      ? allAllianceNames[allianceIndex + 1]
+  const previousAllianceSlug =
+    allianceIndex > 0 ? allAllianceSlugs[allianceIndex - 1] : null;
+  const nextAllianceSlug =
+    allianceIndex >= 0 && allianceIndex < allAllianceSlugs.length - 1
+      ? allAllianceSlugs[allianceIndex + 1]
       : null;
 
   if (loading) {
@@ -116,7 +113,7 @@ export default function GoldenAllianceDetailPage() {
     return (
       <EntityNotFound
         entityType="Golden Alliance"
-        name={allianceName}
+        name={allianceSlug}
         backLabel="Back to Howlkins"
         backPath="/howlkins?tab=golden-alliances"
       />
@@ -134,7 +131,7 @@ export default function GoldenAllianceDetailPage() {
             label: 'Golden Alliances',
             path: '/howlkins?tab=golden-alliances',
           },
-          { label: decodedName },
+          { label: alliance?.name ?? allianceSlug },
         ]}
         py={{ base: 'lg', sm: 'xl' }}
       >
@@ -146,7 +143,7 @@ export default function GoldenAllianceDetailPage() {
               fz={{ base: '1.5rem', sm: '2.125rem' }}
               style={{ wordBreak: 'break-word' }}
             >
-              {decodedName}
+              {alliance?.name ?? allianceSlug}
             </Title>
             <Badge variant="light" color={accent.secondary} size="lg">
               {alliance.howlkins.length} member
@@ -166,15 +163,15 @@ export default function GoldenAllianceDetailPage() {
               Members
             </Title>
             <SimpleGrid cols={{ base: 1, sm: 2, md: 3 }} spacing="sm">
-              {sortedMembers.map((name) => {
-                const howlkin = howlkinMap.get(name);
+              {sortedMembers.map((howlkinSlug) => {
+                const howlkin = howlkinMap.get(howlkinSlug);
                 const iconSrc = howlkin
-                  ? getHowlkinIcon(name, howlkin.quality)
+                  ? getHowlkinIcon(howlkin.slug, howlkin.quality)
                   : undefined;
                 const qualityColor = howlkin ? QUALITY_COLOR[howlkin.quality] : undefined;
                 return (
                   <Paper
-                    key={name}
+                    key={howlkinSlug}
                     p="sm"
                     radius="md"
                     withBorder
@@ -191,7 +188,7 @@ export default function GoldenAllianceDetailPage() {
                         {iconSrc && (
                           <SafeImage
                             src={iconSrc}
-                            alt={name}
+                            alt={howlkin?.name ?? howlkinSlug}
                             w={44}
                             h={44}
                             fit="contain"
@@ -201,7 +198,7 @@ export default function GoldenAllianceDetailPage() {
                         <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
                           <Group gap="xs" wrap="wrap">
                             <Text fw={600} size="sm">
-                              {name}
+                              {howlkin?.name ?? howlkinSlug}
                             </Text>
                             {howlkin && (
                               <QualityIcon quality={howlkin.quality} size={14} />
@@ -276,18 +273,18 @@ export default function GoldenAllianceDetailPage() {
 
         <DetailPageNavigation
           previousItem={
-            previousAlliance
+            previousAllianceSlug
               ? {
-                  label: previousAlliance,
-                  path: `/howlkins/${toEntitySlug(previousAlliance)}`,
+                  label: allianceBySlug.get(previousAllianceSlug)?.name ?? previousAllianceSlug,
+                  path: `/howlkins/${previousAllianceSlug}`,
                 }
               : null
           }
           nextItem={
-            nextAlliance
+            nextAllianceSlug
               ? {
-                  label: nextAlliance,
-                  path: `/howlkins/${toEntitySlug(nextAlliance)}`,
+                  label: allianceBySlug.get(nextAllianceSlug)?.name ?? nextAllianceSlug,
+                  path: `/howlkins/${nextAllianceSlug}`,
                 }
               : null
           }

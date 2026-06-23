@@ -1,22 +1,24 @@
 import { normalizeContentType } from '@/constants/content-types';
+import { DEFAULT_TIER_DEFINITIONS } from '@/constants/colors';
 import type { Quality } from '@/types/quality';
 import type { TierList } from '@/features/tier-list/types';
 import { normalizeOptionalNote } from '@/utils/normalize-note';
 import { toQuality } from '@/utils/quality';
 import { isRecord } from '@/utils/type-guards';
+import { toEntitySlug } from '@/utils/entity-slug';
 
 export function isTierEntryLike(value: unknown): value is {
-  character_slug: string;
+  character_slug?: string;
+  character_name?: string; // legacy format
   character_quality?: Quality;
   tier: string;
   note?: string;
 } {
   if (!isRecord(value)) return false;
 
-  if (
-    typeof value.character_slug !== 'string' ||
-    typeof value.tier !== 'string'
-  ) {
+  const hasSlug = typeof value.character_slug === 'string';
+  const hasLegacyName = typeof value.character_name === 'string';
+  if ((!hasSlug && !hasLegacyName) || typeof value.tier !== 'string') {
     return false;
   }
 
@@ -57,10 +59,13 @@ export function normalizeTierListFromPartial(
   fallback: TierList
 ): TierList {
   const getEntryIdentity = (entry: {
-    character_slug: string;
+    character_slug?: string;
+    character_name?: string;
     character_quality?: string;
   }): string => {
-    return `${entry.character_slug}__${entry.character_quality ?? ''}`.toLowerCase();
+    const slug =
+      entry.character_slug ?? toEntitySlug(entry.character_name ?? '');
+    return `${slug}__${entry.character_quality ?? ''}`.toLowerCase();
   };
 
   const normalizedTiers = Array.isArray(partial.tiers)
@@ -88,8 +93,11 @@ export function normalizeTierListFromPartial(
           seenCharacters.add(identity);
           const normalizedEntryNote = normalizeOptionalNote(entry.note);
           const normalizedQuality = toQuality(entry.character_quality);
+          const slug =
+            entry.character_slug ?? toEntitySlug(entry.character_name ?? '');
+          if (!slug) continue;
           entries.push({
-            character_slug: entry.character_slug,
+            character_slug: slug,
             ...(normalizedQuality
               ? { character_quality: normalizedQuality }
               : {}),
@@ -119,4 +127,19 @@ export function normalizeTierListFromPartial(
         ? partial.last_updated
         : fallback.last_updated,
   };
+}
+
+const TIER_LIST_MIGRATION_FALLBACK: TierList = {
+  name: '',
+  author: '',
+  content_type: 'All',
+  description: '',
+  tiers: DEFAULT_TIER_DEFINITIONS.map((t) => ({ name: t.name })),
+  entries: [],
+  last_updated: 0,
+};
+
+/** Migrates a stored tier list from any legacy format to the current schema. */
+export function migrateStoredTierList(partial: Partial<TierList>): TierList {
+  return normalizeTierListFromPartial(partial, TIER_LIST_MIGRATION_FALLBACK);
 }

@@ -35,7 +35,6 @@ import type { Quality } from '@/types/quality';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
-  toEntitySlug,
 } from '@/utils/entity-slug';
 import {
   Badge,
@@ -66,42 +65,30 @@ export default function GearSetPage() {
   const { data: gearChangesData } = useGearChanges();
   const { data: statusEffects } = useStatusEffects();
 
-  const decodedSetName = useMemo(() => {
-    const fromSetData = findEntityByParam(
-      gearSets,
-      setName,
-      (entry) => entry.name
-    );
-    if (fromSetData) return fromSetData.name;
-    const setNamesFromGear = [...new Set(gear.map((item) => item.set))];
-    return findEntityByParam(setNamesFromGear, setName, (value) => value) ?? '';
-  }, [gear, gearSets, setName]);
-
   const setData = useMemo(
-    () =>
-      gearSets.find(
-        (entry) => entry.name.toLowerCase() === decodedSetName.toLowerCase()
-      ) ?? null,
-    [decodedSetName, gearSets]
+    () => findEntityByParam(gearSets, setName, (entry) => entry.slug) ?? null,
+    [gearSets, setName]
   );
 
+  const decodedSetSlug = setData?.slug ?? setName ?? '';
+
   useEffect(() => {
-    if (!decodedSetName || !setName) return;
-    if (!shouldRedirectToEntitySlug(setName, decodedSetName)) return;
-    navigate(`/gear-sets/${toEntitySlug(decodedSetName)}`, { replace: true });
-  }, [decodedSetName, navigate, setName]);
+    if (!decodedSetSlug || !setName) return;
+    if (!shouldRedirectToEntitySlug(setName, decodedSetSlug)) return;
+    navigate(`/gear-sets/${decodedSetSlug}`, { replace: true });
+  }, [decodedSetSlug, navigate, setName]);
 
   const setItems = useMemo(() => {
-    if (!decodedSetName) return [];
+    if (!decodedSetSlug) return [];
     return gear
-      .filter((item) => item.set.toLowerCase() === decodedSetName.toLowerCase())
+      .filter((item) => item.set === decodedSetSlug)
       .sort((a, b) => {
         const typeCmp =
           GEAR_TYPE_ORDER.indexOf(a.type) - GEAR_TYPE_ORDER.indexOf(b.type);
         if (typeCmp !== 0) return typeCmp;
         return a.name.localeCompare(b.name);
       });
-  }, [decodedSetName, gear]);
+  }, [decodedSetSlug, gear]);
 
   const gearItemHistories = useMemo(() => {
     return setItems
@@ -159,29 +146,29 @@ export default function GearSetPage() {
 
   const [showAllCharacters, setShowAllCharacters] = useState(false);
 
-  // Match list page: sort by name
-  const orderedSetNames = useMemo(
+  const gearSetBySlug = useMemo(
+    () => new Map(gearSets.map((entry) => [entry.slug, entry])),
+    [gearSets]
+  );
+
+  // Match list page: sort by slug
+  const orderedSetSlugs = useMemo(
     () =>
-      Array.from(
-        new Set([
-          ...gearSets.map((entry) => entry.name),
-          ...gear.map((item) => item.set),
-        ])
-      ).sort((a, b) => a.localeCompare(b)),
-    [gearSets, gear]
+      Array.from(new Set(gearSets.map((entry) => entry.slug))).sort((a, b) =>
+        a.localeCompare(b)
+      ),
+    [gearSets]
   );
 
   const setIndex = useMemo(() => {
-    if (!decodedSetName) return -1;
-    return orderedSetNames.findIndex(
-      (entry) => entry.toLowerCase() === decodedSetName.toLowerCase()
-    );
-  }, [decodedSetName, orderedSetNames]);
+    if (!decodedSetSlug) return -1;
+    return orderedSetSlugs.findIndex((s) => s === decodedSetSlug);
+  }, [decodedSetSlug, orderedSetSlugs]);
 
-  const previousSetName = setIndex > 0 ? orderedSetNames[setIndex - 1] : null;
-  const nextSetName =
-    setIndex >= 0 && setIndex < orderedSetNames.length - 1
-      ? orderedSetNames[setIndex + 1]
+  const previousSetSlug = setIndex > 0 ? orderedSetSlugs[setIndex - 1] : null;
+  const nextSetSlug =
+    setIndex >= 0 && setIndex < orderedSetSlugs.length - 1
+      ? orderedSetSlugs[setIndex + 1]
       : null;
 
   if (loading) {
@@ -192,7 +179,7 @@ export default function GearSetPage() {
     );
   }
 
-  if (!decodedSetName || setItems.length === 0) {
+  if (!decodedSetSlug || setItems.length === 0) {
     return (
       <EntityNotFound
         entityType="Gear Set"
@@ -225,7 +212,7 @@ export default function GearSetPage() {
         qualityColor={qualityColor}
         breadcrumbItems={[
           { label: 'Gear', path: '/gear' },
-          { label: decodedSetName },
+          { label: setData?.name ?? decodedSetSlug },
         ]}
         py={{ base: 'lg', sm: 'xl' }}
       >
@@ -237,7 +224,7 @@ export default function GearSetPage() {
               fz={{ base: '1.5rem', sm: '2.125rem' }}
               style={{ wordBreak: 'break-word' }}
             >
-              {decodedSetName} Set
+              {setData?.name ?? decodedSetSlug} Set
             </Title>
             <QualityIcon quality={setItems[0].quality} size={32} />
             <Badge variant="light" color={accent.secondary} size="lg">
@@ -339,7 +326,7 @@ export default function GearSetPage() {
         <Stack gap="lg">
           <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
             {setItems.map((item) => {
-              const iconSrc = getGearIcon(item.type, item.name);
+              const iconSrc = getGearIcon(item.type, item.slug);
               const itemQualityColor = QUALITY_COLOR[item.quality];
               return (
                 <Paper
@@ -429,18 +416,18 @@ export default function GearSetPage() {
 
         <DetailPageNavigation
           previousItem={
-            previousSetName
+            previousSetSlug
               ? {
-                  label: `${previousSetName} Set`,
-                  path: `/gear-sets/${toEntitySlug(previousSetName)}`,
+                  label: `${gearSetBySlug.get(previousSetSlug)?.name ?? previousSetSlug} Set`,
+                  path: `/gear-sets/${previousSetSlug}`,
                 }
               : null
           }
           nextItem={
-            nextSetName
+            nextSetSlug
               ? {
-                  label: `${nextSetName} Set`,
-                  path: `/gear-sets/${toEntitySlug(nextSetName)}`,
+                  label: `${gearSetBySlug.get(nextSetSlug)?.name ?? nextSetSlug} Set`,
+                  path: `/gear-sets/${nextSetSlug}`,
                 }
               : null
           }

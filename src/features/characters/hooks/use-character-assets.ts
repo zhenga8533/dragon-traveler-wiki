@@ -52,7 +52,7 @@ export function useCharacterAssets(
       setIllustrationsError(null);
     });
 
-    getIllustrations(character.name, characterAssetKey)
+    getIllustrations(character.slug, characterAssetKey)
       .then((imgs) => {
         if (isCancelled) return;
 
@@ -88,7 +88,7 @@ export function useCharacterAssets(
       return;
     }
 
-    getTalentIcon(character.name, characterAssetKey)
+    getTalentIcon(character.slug, characterAssetKey)
       .then((icon) => {
         if (!isCancelled) {
           setTalentIcon(icon);
@@ -117,11 +117,11 @@ export function useCharacterAssets(
       character.skills.map(async (skill): Promise<[string, string] | null> => {
         const typeKey = (skill.type ?? '').replace(/ Skill$/i, '').toLowerCase();
         const icon = await getCharacterSkillIcon(
-          character.name,
+          character.slug,
           typeKey,
           characterAssetKey
         );
-        return icon ? [skill.name, icon] : null;
+        return icon ? [skill.type ?? typeKey, icon] : null;
       })
     )
       .then((results) => {

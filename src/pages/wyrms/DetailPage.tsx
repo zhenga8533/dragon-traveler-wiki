@@ -31,7 +31,6 @@ import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
-  toEntitySlug,
 } from '@/utils/entity-slug';
 import {
   Badge,
@@ -66,14 +65,14 @@ export default function WyrmPage() {
   const { data: changesData } = useWyrmChanges();
 
   const wyrm = useMemo(
-    () => findEntityByParam(wyrms, name, (w) => w.name),
+    () => findEntityByParam(wyrms, name, (w) => w.slug),
     [wyrms, name]
   );
 
   useEffect(() => {
     if (!wyrm || !name) return;
-    if (!shouldRedirectToEntitySlug(name, wyrm.name)) return;
-    navigate(`/wyrms/${toEntitySlug(wyrm.name)}`, { replace: true });
+    if (!shouldRedirectToEntitySlug(name, wyrm.slug)) return;
+    navigate(`/wyrms/${wyrm.slug}`, { replace: true });
   }, [wyrm, name, navigate]);
 
   const orderedWyrms = useMemo(
@@ -88,9 +87,7 @@ export default function WyrmPage() {
 
   const wyrmIndex = useMemo(() => {
     if (!wyrm) return -1;
-    return orderedWyrms.findIndex(
-      (w) => w.name.toLowerCase() === wyrm.name.toLowerCase()
-    );
+    return orderedWyrms.findIndex((w) => w.slug === wyrm.slug);
   }, [wyrm, orderedWyrms]);
 
   const previousWyrm = wyrmIndex > 0 ? orderedWyrms[wyrmIndex - 1] : null;
@@ -118,8 +115,8 @@ export default function WyrmPage() {
     );
   }
 
-  const iconSrc = getWyrmPortrait(wyrm.name);
-  const illustrationSrc = getWyrmIllustration(wyrm.name);
+  const iconSrc = getWyrmPortrait(wyrm.slug);
+  const illustrationSrc = getWyrmIllustration(wyrm.slug);
   const qualityColor = QUALITY_COLOR[wyrm.quality];
   const phaseColor = WYRM_PHASE_COLOR[wyrm.phase];
   const stickyTopOffset = 'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))';
@@ -259,12 +256,12 @@ export default function WyrmPage() {
         <DetailPageNavigation
           previousItem={
             previousWyrm
-              ? { label: previousWyrm.name, path: `/wyrms/${toEntitySlug(previousWyrm.name)}` }
+              ? { label: previousWyrm.name, path: `/wyrms/${previousWyrm.slug}` }
               : null
           }
           nextItem={
             nextWyrm
-              ? { label: nextWyrm.name, path: `/wyrms/${toEntitySlug(nextWyrm.name)}` }
+              ? { label: nextWyrm.name, path: `/wyrms/${nextWyrm.slug}` }
               : null
           }
         />

@@ -5,7 +5,7 @@ import { QUALITY_COLOR } from '@/constants/colors';
 import { getCardHoverProps } from '@/constants/styles';
 import { getWyrmIcon } from '@/assets';
 import type { Wyrm, WyrmPhase } from '@/features/wiki/wyrms/types';
-import { toEntitySlug } from '@/utils/entity-slug';
+
 import { Badge, Group, Paper, Stack, Text, Title } from '@mantine/core';
 import { useMemo } from 'react';
 import { Link } from 'react-router-dom';
@@ -17,14 +17,14 @@ const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
 };
 
 function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves To'; w: Wyrm; isDark: boolean }) {
-  const iconSrc = getWyrmIcon(w.name);
+  const iconSrc = getWyrmIcon(w.slug);
   const qualityColor = QUALITY_COLOR[w.quality];
   const phaseColor = WYRM_PHASE_COLOR[w.phase];
 
   return (
     <Paper
       component={Link}
-      to={`/wyrms/${toEntitySlug(w.name)}`}
+      to={`/wyrms/${w.slug}`}
       p="lg"
       radius="md"
       withBorder
@@ -71,9 +71,9 @@ function EvolutionCard({ label, w, isDark }: { label: 'Evolves From' | 'Evolves 
 }
 
 export default function EvolutionSection({ wyrm, allWyrms, isDark }: { wyrm: Wyrm; allWyrms: Wyrm[]; isDark: boolean }) {
-  const byName = useMemo(() => new Map(allWyrms.map((w) => [w.name, w])), [allWyrms]);
-  const prev = wyrm.evolves_from ? byName.get(wyrm.evolves_from) : undefined;
-  const next = wyrm.evolves_to ? byName.get(wyrm.evolves_to) : undefined;
+  const bySlug = useMemo(() => new Map(allWyrms.map((w) => [w.slug, w])), [allWyrms]);
+  const prev = wyrm.evolves_from ? bySlug.get(wyrm.evolves_from) : undefined;
+  const next = wyrm.evolves_to ? bySlug.get(wyrm.evolves_to) : undefined;
 
   if (!prev && !next) return null;
 
