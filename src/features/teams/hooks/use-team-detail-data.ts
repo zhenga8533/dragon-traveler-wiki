@@ -50,7 +50,7 @@ export function useTeamDetailData({
 
   const factionInfo = useMemo(() => {
     if (!team) return null;
-    return factions.find((f) => f.name === team.faction) ?? null;
+    return factions.find((f) => f.slug === team.faction) ?? null;
   }, [factions, team]);
 
   const artifactMap = useMemo(() => {
@@ -78,7 +78,7 @@ export function useTeamDetailData({
     const roster = team.members
       .map((member) =>
         resolveCharacterByNameAndQuality(
-          member.character_name,
+          member.character_slug,
           member.character_quality,
           charMap,
           characterByIdentity

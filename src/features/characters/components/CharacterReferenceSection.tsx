@@ -15,7 +15,7 @@ import FactionTag from '@/components/ui/FactionTag';
 import { normalizeContentType } from '@/constants/content-types';
 import { getCardHoverProps } from '@/constants/styles';
 import type { Character } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { Team, TeamMemberPosition } from '@/features/teams/types';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
@@ -36,7 +36,7 @@ interface CharacterReferenceSectionProps {
 interface TeamInclusion {
 	teamName: string;
 	role: 'Main' | 'Bench';
-	faction: FactionName;
+	faction: FactionSlug;
 	contentType: string;
 	overdriveOrder: number | null;
 	note: string | null;
@@ -77,14 +77,13 @@ export default function CharacterReferenceSection({
 			return [];
 		}
 
-		const name = character.name.toLowerCase();
 		const results: TeamInclusion[] = [];
 
 		for (const team of teams) {
 			const member =
 				team.members.find(
 					(entry) =>
-						entry.character_name.toLowerCase() === name &&
+						entry.character_slug === character.slug &&
 						(!entry.character_quality ||
 							entry.character_quality === character.quality)
 				) ?? null;
@@ -103,10 +102,10 @@ export default function CharacterReferenceSection({
 
 			const benchEntry =
 				team.bench?.find((entry) => {
-					const benchName = getTeamBenchEntryName(entry).toLowerCase();
+					const benchSlug = getTeamBenchEntryName(entry);
 					const benchQuality = getTeamBenchEntryQuality(entry);
 					return (
-						benchName === name &&
+						benchSlug === character.slug &&
 						(!benchQuality || benchQuality === character.quality)
 					);
 				}) ?? null;

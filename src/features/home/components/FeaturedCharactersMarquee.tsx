@@ -8,7 +8,6 @@ import {
   buildPreferredCharacterByNameMap,
   getCharacterIdentityKey,
   getCharacterRoutePath,
-  getCharacterRoutePathByName,
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
@@ -79,15 +78,15 @@ export default function FeaturedCharactersMarquee() {
   const renderCharacters = (keyPrefix: string) =>
     topEntries.map((entry) => {
       const char = resolveCharacterByNameAndQuality(
-        entry.character_name,
+        entry.character_slug,
         entry.character_quality,
         charMap,
         characterByIdentity
       );
-      const resolvedName = char?.name ?? entry.character_name;
+      const resolvedName = char?.name ?? entry.character_slug;
       return (
         <Stack
-          key={`${keyPrefix}-${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
+          key={`${keyPrefix}-${getCharacterIdentityKey(entry.character_slug, entry.character_quality)}-${entry.tier}`}
           className={styles.featuredItem}
           gap={2}
           align="center"
@@ -100,7 +99,7 @@ export default function FeaturedCharactersMarquee() {
             routePath={
               char
                 ? getCharacterRoutePath(char, nameCounts)
-                : getCharacterRoutePathByName(entry.character_name)
+                : `/characters/${entry.character_slug}`
             }
           />
           <Badge size="xs" variant="light" color={TIER_COLOR[entry.tier]}>

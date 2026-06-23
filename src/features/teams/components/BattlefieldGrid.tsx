@@ -173,16 +173,16 @@ export function BattlefieldGrid({
 							}
 
 							const character = resolveCharacterByNameAndQuality(
-								member.character_name,
+								member.character_slug,
 								member.character_quality,
 								charMap,
 								characterByIdentity
 							);
 							const routePath = getCharacterPath(
-								member.character_name,
+								member.character_slug,
 								member.character_quality
 							);
-							const resolvedName = character?.name ?? member.character_name;
+							const resolvedName = character?.name ?? member.character_slug;
 
 							return (
 								<Paper

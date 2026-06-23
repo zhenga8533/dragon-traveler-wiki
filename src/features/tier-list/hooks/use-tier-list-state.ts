@@ -181,7 +181,7 @@ function toBuilderState(
 
   for (const entry of data.entries) {
     const characterKey = getCharacterKeyFromReference(
-      entry.character_name,
+      entry.character_slug,
       entry.character_quality
     );
     if (seenCharacters.has(characterKey)) continue;

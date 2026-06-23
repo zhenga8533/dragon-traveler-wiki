@@ -24,6 +24,7 @@ import type { Team } from '@/features/teams/types';
 import type { Artifact } from '@/features/wiki/artifacts/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 import { useMobileTooltip, useGradientAccent } from '@/hooks';
+import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import type { Faction } from '@/types/faction';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
@@ -104,7 +105,7 @@ export function TeamHeroSection({
             <Box style={getHeroIconBoxStyles(isDark, factionColor, true)}>
               <SafeImage
                 src={FACTION_WYRM_MAP[team.faction]}
-                alt={`${team.faction} Whelp`}
+                alt={`${FACTION_SLUG_TO_NAME[team.faction]} Whelp`}
                 w={64}
                 h={64}
                 fit="contain"

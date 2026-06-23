@@ -1,6 +1,6 @@
 // Re-export barrel — import directly from domain files for new code.
 export { CLASS_COLOR, CLASS_ORDER } from './class-colors';
-export { FACTION_COLOR, FACTION_NAMES } from './faction-colors';
+export { FACTION_COLOR, FACTION_NAMES, FACTION_SLUGS } from './faction-colors';
 export { GEAR_TYPE_COLOR, GEAR_TYPE_ORDER } from './gear-colors';
 export {
   QUALITY_BORDER_COLOR,

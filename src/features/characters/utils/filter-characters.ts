@@ -1,6 +1,6 @@
 import { QUALITY_ORDER } from '@/constants/colors';
 import type { Character, CharacterClass } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 import { getCharacterIdentityKey } from './character-route';
 import { parseEffectRefs } from '@/utils/parse-effect-refs';
@@ -9,7 +9,7 @@ export interface CharacterFilters {
   search: string;
   qualities: Quality[];
   classes: CharacterClass[];
-  factions: FactionName[];
+  factions: FactionSlug[];
   tiers: string[];
   statusEffects: string[];
   globalOnly: boolean | null;
@@ -62,7 +62,7 @@ export function filterCharacters(
     }
     if (
       filters.factions.length > 0 &&
-      !c.factions.some((f) => filters.factions.includes(f))
+      !filters.factions.some((slug) => c.factions.includes(slug))
     ) {
       return false;
     }

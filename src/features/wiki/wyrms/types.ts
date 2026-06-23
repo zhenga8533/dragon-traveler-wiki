@@ -1,4 +1,4 @@
-import type { FactionName } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 
 export type WyrmPhase = 'Juvenile Phase' | 'Growth Phase' | 'Final Phase';
@@ -22,7 +22,7 @@ export interface WyrmStarUpgrade {
 export interface Wyrm {
   slug: string;
   name: string;
-  faction: FactionName;
+  faction: FactionSlug;
   phase: WyrmPhase;
   quality: Quality;
   description: string;

@@ -1,4 +1,4 @@
-import type { FactionName } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { GearSetBonus, GearType } from '@/features/wiki/gear/types';
 import type { Quality } from '@/types/quality';
 
@@ -102,7 +102,7 @@ export interface Character {
   title: string;
   quality: Quality;
   character_class: CharacterClass;
-  factions: FactionName[];
+  factions: FactionSlug[];
   is_global: boolean;
   subclasses: string[];
   height: string;

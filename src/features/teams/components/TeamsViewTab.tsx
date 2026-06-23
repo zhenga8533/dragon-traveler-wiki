@@ -23,7 +23,7 @@ import {
 } from '@/constants/content-types';
 import { CURSOR_POINTER_STYLE, getMinWidthStyle } from '@/constants/styles';
 import type { Character } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
+import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import type { Team } from '@/features/teams/types';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
@@ -136,8 +136,8 @@ export default function TeamsViewTab({
 										<Table.Td>
 											<Group gap="sm" wrap="nowrap">
 												<SafeImage
-													src={FACTION_WYRM_MAP[team.faction as FactionName]}
-													alt={`${team.faction} Whelp`}
+													src={FACTION_WYRM_MAP[team.faction]}
+													alt={`${FACTION_SLUG_TO_NAME[team.faction]} Whelp`}
 													w={28}
 													h={28}
 													fit="contain"
@@ -176,7 +176,7 @@ export default function TeamsViewTab({
 														</Badge>
 														<TeamCharacterAvatars
 															refs={team.members.map((member) => ({
-																name: member.character_name,
+																name: member.character_slug,
 																quality: member.character_quality,
 															}))}
 															preferredByName={charMap}
@@ -225,7 +225,7 @@ export default function TeamsViewTab({
 										</Table.Td>
 										<Table.Td>
 											<FactionTag
-												faction={team.faction as FactionName}
+												faction={team.faction}
 												size="sm"
 											/>
 										</Table.Td>

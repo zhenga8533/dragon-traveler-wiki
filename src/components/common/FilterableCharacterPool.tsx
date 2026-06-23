@@ -133,7 +133,7 @@ export default function FilterableCharacterPool({
     if (!list) return map;
     for (const entry of list.entries) {
       const resolved = resolveCharacterByNameAndQuality(
-        entry.character_name,
+        entry.character_slug,
         entry.character_quality,
         preferredCharacterByName,
         characterByIdentity

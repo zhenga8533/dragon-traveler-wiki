@@ -23,7 +23,7 @@ import {
 } from '@/constants/styles';
 import { useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
+import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import type { Team } from '@/features/teams/types';
 import {
 	getTeamBenchEntryName,
@@ -51,7 +51,7 @@ export default function TeamCard({
 	const { accent } = useGradientAccent();
 	const isLargeTeamCardLayout = useMediaQuery('(min-width: 75em)');
 
-	const borderTopStyle = `3px solid var(--mantine-color-${FACTION_COLOR[team.faction as FactionName] ?? accent.primary}-5)`;
+	const borderTopStyle = `3px solid var(--mantine-color-${FACTION_COLOR[team.faction] ?? accent.primary}-5)`;
 
 	const interactiveProps = onNavigate
 		? {
@@ -87,10 +87,10 @@ export default function TeamCard({
 					gap="xs"
 				>
 					<Group gap="xs" wrap="nowrap" style={{ minWidth: 0 }}>
-						{FACTION_WYRM_MAP[team.faction as FactionName] && (
+						{FACTION_WYRM_MAP[team.faction] && (
 							<SafeImage
-								src={FACTION_WYRM_MAP[team.faction as FactionName]}
-								alt={`${team.faction} Whelp`}
+								src={FACTION_WYRM_MAP[team.faction]}
+								alt={`${FACTION_SLUG_TO_NAME[team.faction]} Whelp`}
 								w={32}
 								h={32}
 								fit="contain"
@@ -109,7 +109,7 @@ export default function TeamCard({
 				{/* Tags */}
 				<Group gap="xs">
 					{team.faction && (
-						<FactionTag faction={team.faction as FactionName} size="sm" />
+						<FactionTag faction={team.faction} size="sm" />
 					)}
 					{team.content_type && (
 						<Badge
@@ -159,7 +159,7 @@ export default function TeamCard({
 							</Badge>
 							<TeamCharacterAvatars
 								refs={team.members.map((member) => ({
-									name: member.character_name,
+									name: member.character_slug,
 									quality: member.character_quality,
 								}))}
 								preferredByName={charMap}

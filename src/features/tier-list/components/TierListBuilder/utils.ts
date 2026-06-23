@@ -6,7 +6,7 @@ import { toQuality } from '@/utils/quality';
 import { isRecord } from '@/utils/type-guards';
 
 export function isTierEntryLike(value: unknown): value is {
-  character_name: string;
+  character_slug: string;
   character_quality?: Quality;
   tier: string;
   note?: string;
@@ -14,7 +14,7 @@ export function isTierEntryLike(value: unknown): value is {
   if (!isRecord(value)) return false;
 
   if (
-    typeof value.character_name !== 'string' ||
+    typeof value.character_slug !== 'string' ||
     typeof value.tier !== 'string'
   ) {
     return false;
@@ -57,10 +57,10 @@ export function normalizeTierListFromPartial(
   fallback: TierList
 ): TierList {
   const getEntryIdentity = (entry: {
-    character_name: string;
+    character_slug: string;
     character_quality?: string;
   }): string => {
-    return `${entry.character_name}__${entry.character_quality ?? ''}`.toLowerCase();
+    return `${entry.character_slug}__${entry.character_quality ?? ''}`.toLowerCase();
   };
 
   const normalizedTiers = Array.isArray(partial.tiers)
@@ -89,7 +89,7 @@ export function normalizeTierListFromPartial(
           const normalizedEntryNote = normalizeOptionalNote(entry.note);
           const normalizedQuality = toQuality(entry.character_quality);
           entries.push({
-            character_name: entry.character_name,
+            character_slug: entry.character_slug,
             ...(normalizedQuality
               ? { character_quality: normalizedQuality }
               : {}),

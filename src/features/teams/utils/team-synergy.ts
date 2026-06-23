@@ -1,6 +1,7 @@
 import type { ContentType } from '@/constants/content-types';
 import type { Character } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
+import { FACTION_SLUG_TO_NAME } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { TeamWyrmspells } from '@/features/teams/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 
@@ -41,9 +42,6 @@ function getSynergyGrade(score: number): string {
   return 'D';
 }
 
-function normalizeFactionValue(value: string): string {
-  return value.trim().toLowerCase();
-}
 
 function getCharacterCombatText(character: Character): string {
   const skillText = character.skills
@@ -61,14 +59,14 @@ function hasCombatKeyword(character: Character, regex: RegExp): boolean {
   return regex.test(getCharacterCombatText(character));
 }
 
-const FACTION_MECHANIC_REGEX: Record<FactionName, RegExp> = {
-  'Elemental Echo':
+const FACTION_MECHANIC_REGEX: Record<FactionSlug, RegExp> = {
+  elemental_echo:
     /ignite|shock|chill|detonation|evaporation|elemental reaction/i,
-  'Wild Spirit': /wild|rage/i,
-  'Arcane Wisdom': /awakening/i,
-  'Sanctum Glory': /grace|morale|fervor/i,
-  'Otherworld Return': /deathrattle|summon|whelp|revive/i,
-  'Illusion Veil': /punishment|energy consumption|overdrive energy/i,
+  wild_spirit: /wild|rage/i,
+  arcane_wisdom: /awakening/i,
+  sanctum_glory: /grace|morale|fervor/i,
+  otherworld_return: /deathrattle|summon|whelp|revive/i,
+  illusion_veil: /punishment|energy consumption|overdrive energy/i,
 };
 
 export function computeTeamSynergy({
@@ -80,7 +78,7 @@ export function computeTeamSynergy({
   wyrmspells,
 }: {
   roster: Character[];
-  faction: FactionName | null;
+  faction: FactionSlug | null;
   contentType: ContentType;
   overdriveCount: number;
   teamWyrmspells: TeamWyrmspells;
@@ -95,17 +93,8 @@ export function computeTeamSynergy({
     );
   }
 
-  const normalizedSelectedFaction = faction
-    ? normalizeFactionValue(faction)
-    : null;
-
-  const matchingFactionCount = normalizedSelectedFaction
-    ? roster.filter((c) =>
-        c.factions.some(
-          (memberFaction) =>
-            normalizeFactionValue(memberFaction) === normalizedSelectedFaction
-        )
-      ).length
+  const matchingFactionCount = faction
+    ? roster.filter((c) => c.factions.includes(faction)).length
     : 0;
 
   const frontlineCount = roster.filter(
@@ -186,7 +175,7 @@ export function computeTeamSynergy({
           ? 6
           : 0,
     detail: faction
-      ? `${matchingFactionCount}/${rosterSize || 0} members match ${faction}`
+      ? `${matchingFactionCount}/${rosterSize || 0} members match ${faction ? (FACTION_SLUG_TO_NAME[faction] ?? faction) : faction}`
       : 'Set a faction for tighter guidance',
   };
 

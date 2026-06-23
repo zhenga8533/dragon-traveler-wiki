@@ -24,7 +24,7 @@ import {
 } from '@/constants/content-types';
 import { getMinWidthStyle } from '@/constants/styles';
 import type { Character } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
+import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import type { Team } from '@/features/teams/types';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
@@ -151,10 +151,10 @@ export default function TeamsSavedTab({
 						<Table.Tr key={team.name}>
 							<Table.Td>
 								<Group gap="sm" wrap="nowrap">
-									{FACTION_WYRM_MAP[team.faction as FactionName] && (
+									{FACTION_WYRM_MAP[team.faction] && (
 										<SafeImage
-											src={FACTION_WYRM_MAP[team.faction as FactionName]}
-											alt={`${team.faction} Whelp`}
+											src={FACTION_WYRM_MAP[team.faction]}
+											alt={`${FACTION_SLUG_TO_NAME[team.faction]} Whelp`}
 											w={28}
 											h={28}
 											fit="contain"
@@ -183,7 +183,7 @@ export default function TeamsSavedTab({
 											</Badge>
 											<TeamCharacterAvatars
 												refs={team.members.map((m) => ({
-													name: m.character_name,
+													name: m.character_slug,
 													quality: m.character_quality,
 												}))}
 												preferredByName={charMap}
@@ -233,7 +233,7 @@ export default function TeamsSavedTab({
 							<Table.Td>
 								{team.faction && (
 									<FactionTag
-										faction={team.faction as FactionName}
+										faction={team.faction}
 										size="sm"
 									/>
 								)}

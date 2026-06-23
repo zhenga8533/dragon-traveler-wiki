@@ -5,7 +5,7 @@ import { toQuality } from '@/utils/quality';
 export function isTeamBenchMember(value: unknown): value is TeamBenchMember {
   if (typeof value !== 'object' || value === null) return false;
   const record = value as Record<string, unknown>;
-  if (typeof record.character_name !== 'string') return false;
+  if (typeof record.character_slug !== 'string') return false;
 
   if (
     record.note !== undefined &&
@@ -26,7 +26,7 @@ export function isTeamBenchMember(value: unknown): value is TeamBenchMember {
 }
 
 export function getTeamBenchEntryName(entry: TeamBenchMember): string {
-  return entry.character_name;
+  return entry.character_slug;
 }
 
 export function getTeamBenchEntryQuality(
@@ -45,7 +45,7 @@ export function normalizeTeamBenchEntry(
   value: unknown
 ): TeamBenchMember | null {
   if (typeof value === 'string') {
-    return { character_name: value };
+    return { character_slug: value };
   }
 
   if (!isTeamBenchMember(value)) {
@@ -55,7 +55,7 @@ export function normalizeTeamBenchEntry(
   const normalizedQuality = toQuality(value.character_quality);
   const normalizedNote = normalizeOptionalNote(value.note);
   return {
-    character_name: value.character_name,
+    character_slug: value.character_slug,
     ...(normalizedQuality ? { character_quality: normalizedQuality } : {}),
     ...(normalizedNote ? { note: normalizedNote } : {}),
   };

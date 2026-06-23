@@ -1,12 +1,12 @@
-import { FACTION_NAMES, type FactionName } from '@/types/faction';
+import { FACTION_NAMES, FACTION_SLUGS, type FactionSlug } from '@/types/faction';
 
-export { FACTION_NAMES };
+export { FACTION_NAMES, FACTION_SLUGS };
 
-export const FACTION_COLOR: Record<FactionName, string> = {
-  'Elemental Echo': 'red',
-  'Wild Spirit': 'green',
-  'Arcane Wisdom': 'blue',
-  'Sanctum Glory': 'yellow',
-  'Otherworld Return': 'violet',
-  'Illusion Veil': 'dark',
+export const FACTION_COLOR: Record<FactionSlug, string> = {
+  elemental_echo: 'red',
+  wild_spirit: 'green',
+  arcane_wisdom: 'blue',
+  sanctum_glory: 'yellow',
+  otherworld_return: 'violet',
+  illusion_veil: 'dark',
 };

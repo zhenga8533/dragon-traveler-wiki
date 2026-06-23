@@ -1,6 +1,6 @@
 import type { CharacterClass } from '@/features/characters/types';
 import type { GearType } from '@/features/wiki/gear/types';
-import type { FactionName } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 import { normalizeKey, normalizeQualityKey } from '@/assets/utils';
 
@@ -20,13 +20,13 @@ export const CLASS_ICON_MAP: Record<CharacterClass, string> = {
 
 // ── Faction ──────────────────────────────────────────────────────────────────
 
-export const FACTION_ICON_MAP: Record<FactionName, string> = {
-  'Elemental Echo': `${BASE}faction/elemental_echo.png`,
-  'Wild Spirit': `${BASE}faction/wild_spirit.png`,
-  'Arcane Wisdom': `${BASE}faction/arcane_wisdom.png`,
-  'Sanctum Glory': `${BASE}faction/sanctum_glory.png`,
-  'Otherworld Return': `${BASE}faction/otherworld_return.png`,
-  'Illusion Veil': `${BASE}faction/illusion_veil.png`,
+export const FACTION_ICON_MAP: Record<FactionSlug, string> = {
+  elemental_echo: `${BASE}faction/elemental_echo.png`,
+  wild_spirit: `${BASE}faction/wild_spirit.png`,
+  arcane_wisdom: `${BASE}faction/arcane_wisdom.png`,
+  sanctum_glory: `${BASE}faction/sanctum_glory.png`,
+  otherworld_return: `${BASE}faction/otherworld_return.png`,
+  illusion_veil: `${BASE}faction/illusion_veil.png`,
 };
 
 // ── Quality ──────────────────────────────────────────────────────────────────
@@ -64,13 +64,13 @@ export function getWyrmSkillIcon(wyrmName: string, skillName: string): string | 
   return `${BASE}wyrm/${normalizeKey(wyrmName)}/skills/${normalizeKey(skillName)}.png`;
 }
 
-export const FACTION_WYRM_MAP: Record<FactionName, string> = {
-  'Elemental Echo': `${BASE}wyrm/blazing_dragon/portrait.png`,
-  'Wild Spirit': `${BASE}wyrm/jade_dragon/portrait.png`,
-  'Arcane Wisdom': `${BASE}wyrm/nymph_dragon/portrait.png`,
-  'Sanctum Glory': `${BASE}wyrm/heavenglow_dragon/portrait.png`,
-  'Otherworld Return': `${BASE}wyrm/nethercrypt_dragon/portrait.png`,
-  'Illusion Veil': `${BASE}wyrm/shadowbane_dragon/portrait.png`,
+export const FACTION_WYRM_MAP: Record<FactionSlug, string> = {
+  elemental_echo: `${BASE}wyrm/blazing_dragon/portrait.png`,
+  wild_spirit: `${BASE}wyrm/jade_dragon/portrait.png`,
+  arcane_wisdom: `${BASE}wyrm/nymph_dragon/portrait.png`,
+  sanctum_glory: `${BASE}wyrm/heavenglow_dragon/portrait.png`,
+  otherworld_return: `${BASE}wyrm/nethercrypt_dragon/portrait.png`,
+  illusion_veil: `${BASE}wyrm/shadowbane_dragon/portrait.png`,
 };
 
 // ── Artifacts ────────────────────────────────────────────────────────────────

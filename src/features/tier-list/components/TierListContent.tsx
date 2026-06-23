@@ -149,12 +149,12 @@ export default function TierListContent({
 											const char = resolveTierEntryCharacter(entry);
 											const routePath = char
 												? getCharacterRoutePath(char, characterNameCounts)
-												: getCharacterRoutePathByName(entry.character_name);
+												: getCharacterRoutePathByName(entry.character_slug);
 											const entryNote = entry.note?.trim() || undefined;
 											return (
 												<CharacterCard
-													key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
-													name={char?.name ?? entry.character_name}
+													key={`${getCharacterIdentityKey(entry.character_slug, entry.character_quality)}-${entry.tier}`}
+													name={char?.name ?? entry.character_slug}
 													label={undefined}
 													quality={char?.quality}
 													routePath={routePath}
@@ -181,14 +181,14 @@ export default function TierListContent({
 													const char = resolveTierEntryCharacter(entry);
 													const routePath = char
 														? getCharacterRoutePath(char, characterNameCounts)
-														: getCharacterRoutePathByName(entry.character_name);
+														: getCharacterRoutePathByName(entry.character_slug);
 													const resolvedName =
-														char?.name ?? entry.character_name;
+														char?.name ?? entry.character_slug;
 													const displayName = resolvedName;
 													const entryNote = entry.note?.trim() || '';
 													return (
 														<Table.Tr
-															key={`${getCharacterIdentityKey(entry.character_name, entry.character_quality)}-${entry.tier}`}
+															key={`${getCharacterIdentityKey(entry.character_slug, entry.character_quality)}-${entry.tier}`}
 														>
 															<Table.Td>
 																<Group gap="sm" wrap="nowrap">

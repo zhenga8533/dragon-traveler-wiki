@@ -81,7 +81,7 @@ export default function CharacterPage() {
     tierListCharacterNote,
     selectedTierListName,
     linkedNoblePhantasm,
-    subclassByName,
+    subclassBySlug,
     recommendedGearDetails,
     recommendedSubclassEntries,
     activatedSetBonuses,
@@ -384,11 +384,11 @@ export default function CharacterPage() {
                     </Text>
                     <SimpleGrid cols={2} spacing="xs">
                       {character.subclasses.map((subclass) => {
-                        const subclassDetails = subclassByName.get(subclass);
+                        const subclassDetails = subclassBySlug.get(subclass);
                         const subclassClass =
                           subclassDetails?.class ?? character.character_class;
                         const subclassIcon = getSubclassIcon(
-                          subclass,
+                          subclassDetails?.name ?? subclass,
                           subclassClass
                         );
                         const subclassBonuses = subclassDetails?.bonuses ?? [];

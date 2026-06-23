@@ -12,6 +12,7 @@ import {
   getWyrmspellIcon,
 } from '@/assets';
 import { normalizeContentType } from '@/constants/content-types';
+import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import { SearchDataContext, SearchDataProvider } from '@/contexts';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
@@ -374,7 +375,7 @@ function SearchModalContent({
         : null,
       teams: teams.length
         ? new Fuse(teams, {
-            keys: ['name', 'description', 'members.character_name'],
+            keys: ['name', 'description', 'members.character_slug'],
             threshold: 0.3,
           })
         : null,
@@ -439,7 +440,7 @@ function SearchModalContent({
               'author',
               'content_type',
               'description',
-              'entries.character_name',
+              'entries.character_slug',
             ],
             threshold: 0.3,
           })
@@ -739,7 +740,7 @@ function SearchModalContent({
           .map((r) => ({
             type: 'wyrm' as const,
             title: r.item.name,
-            subtitle: `${r.item.faction} · ${r.item.phase}`,
+            subtitle: `${FACTION_SLUG_TO_NAME[r.item.faction] ?? r.item.faction} · ${r.item.phase}`,
             path: `/wyrms/${toEntitySlug(r.item.name)}`,
             icon: getWyrmPortrait(r.item.name) ?? IoFlameOutline,
             color: 'red',

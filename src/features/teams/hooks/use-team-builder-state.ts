@@ -1,4 +1,4 @@
-import { FACTION_COLOR, FACTION_NAMES } from '@/constants/colors';
+import { FACTION_COLOR, FACTION_SLUGS } from '@/constants/colors';
 import {
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
@@ -37,7 +37,7 @@ import {
 import { computeTeamSynergy } from '@/features/teams/utils/team-synergy';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { useCharacterResolution } from '@/hooks';
-import type { FactionName } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import { showWarningToast } from '@/utils/toast';
 import type {
   DragEndEvent,
@@ -55,14 +55,14 @@ import {
 
 const DEFAULT_TEAM_NAME = 'My Team';
 const DEFAULT_TEAM_AUTHOR = 'Anonymous';
-const DEFAULT_TEAM_FACTION = 'Elemental Echo' as FactionName;
+const DEFAULT_TEAM_FACTION = 'elemental_echo' as FactionSlug;
 
 export interface TeamBuilderMetaState {
   name: string;
   author: string;
   contentType: ContentType;
   description: string;
-  faction: FactionName | null;
+  faction: FactionSlug | null;
 }
 
 export interface TeamBuilderState {
@@ -194,10 +194,10 @@ function teamBuilderReducer(
   }
 }
 
-function parseFactionName(value: string | null): FactionName | null {
+function parseFactionName(value: string | null): FactionSlug | null {
   if (!value) return null;
-  return FACTION_NAMES.includes(value as FactionName)
-    ? (value as FactionName)
+  return FACTION_SLUGS.includes(value as FactionSlug)
+    ? (value as FactionSlug)
     : null;
 }
 
@@ -224,7 +224,7 @@ function toBuilderState(
 
   for (const member of data.members) {
     const characterKey = getCharacterKeyFromReference(
-      member.character_name,
+      member.character_slug,
       member.character_quality
     );
     if (usedKeys.has(characterKey)) continue;

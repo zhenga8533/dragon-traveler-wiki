@@ -1,4 +1,4 @@
-import type { FactionName } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 
 export type WyrmspellType = 'Breach' | 'Refuge' | 'Wildcry' | "Dragon's Call";
@@ -14,7 +14,7 @@ export interface Wyrmspell {
   name: string;
   type: WyrmspellType;
   qualities: WyrmspellQuality[];
-  exclusive_faction: FactionName | null;
+  exclusive_faction: FactionSlug | null;
   last_updated: number;
 }
 

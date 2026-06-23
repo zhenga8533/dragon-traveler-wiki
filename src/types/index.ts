@@ -43,7 +43,17 @@ export type {
   WyrmspellType,
 } from '@/features/wiki/wyrmspells/types';
 export type { Code } from './code';
-export type { Faction, FactionName, Wyrm } from './faction';
+export type {
+  Faction,
+  FactionName,
+  FactionSlug,
+  Wyrm,
+} from './faction';
+export {
+  FACTION_NAME_TO_SLUG,
+  FACTION_SLUG_TO_NAME,
+  FACTION_SLUGS,
+} from './faction';
 export type { Quality } from './quality';
 export type { Resource, ResourceCategory } from './resource';
 export type { UsefulLink } from './useful-link';

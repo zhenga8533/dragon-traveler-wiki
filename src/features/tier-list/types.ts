@@ -9,7 +9,7 @@ export interface TierDefinition {
 }
 
 export interface TierEntry {
-  character_name: string;
+  character_slug: string;
   character_quality?: Quality;
   tier: Tier;
   note?: string;

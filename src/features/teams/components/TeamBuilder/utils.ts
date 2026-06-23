@@ -1,6 +1,6 @@
 import { normalizeContentType } from '@/constants/content-types';
 import type { CharacterClass } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { Team, TeamBenchMember, TeamMember } from '@/features/teams/types';
 import { normalizeOptionalNote } from '@/utils/normalize-note';
 import { toQuality } from '@/utils/quality';
@@ -47,7 +47,7 @@ export function getValidRows(charClass: CharacterClass): number[] {
 }
 
 export function isTeamMemberLike(value: unknown): value is TeamMember {
-  if (!isRecord(value) || typeof value.character_name !== 'string') {
+  if (!isRecord(value) || typeof value.character_slug !== 'string') {
     return false;
   }
 
@@ -62,10 +62,10 @@ export function isTeamMemberLike(value: unknown): value is TeamMember {
 }
 
 function teamMemberIdentity(member: {
-  character_name: string;
+  character_slug: string;
   character_quality?: string | null;
 }): string {
-  return `${member.character_name}__${member.character_quality ?? ''}`.toLowerCase();
+  return `${member.character_slug}__${member.character_quality ?? ''}`.toLowerCase();
 }
 
 export function getPastedTeamPatch(value: unknown): Partial<Team> | null {
@@ -109,7 +109,7 @@ export function normalizeTeamFromPartial(
           const normalizedQuality = toQuality(member.character_quality);
 
           members.push({
-            character_name: member.character_name,
+            character_slug: member.character_slug,
             ...(normalizedQuality
               ? { character_quality: normalizedQuality }
               : {}),
@@ -194,7 +194,7 @@ export function normalizeTeamFromPartial(
     ),
     faction:
       typeof partial.faction === 'string'
-        ? (partial.faction as FactionName)
+        ? (partial.faction as FactionSlug)
         : fallback.faction,
     members: normalizedMembers,
     ...(normalizedBench ? { bench: normalizedBench } : {}),

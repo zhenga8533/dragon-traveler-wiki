@@ -95,7 +95,7 @@ export interface CharacterPageData {
   tierListCharacterNote: string | null;
   selectedTierListName: string | null;
   linkedNoblePhantasm: NoblePhantasm | null;
-  subclassByName: Map<string, Subclass>;
+  subclassBySlug: Map<string, Subclass>;
   recommendedGearDetails: RecommendedGearDetail[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
   activatedSetBonuses: ActivatedSetBonus[];
@@ -192,8 +192,7 @@ export function useCharacterPageData(
       return null;
     return (
       selectedTierList.entries.find(
-        (entry) =>
-          entry.character_name.toLowerCase() === character.name.toLowerCase()
+        (entry) => entry.character_slug === character.slug
       ) ?? null
     );
   }, [selectedTierList, character, isPreferredCharacterForNameReferences]);
@@ -243,16 +242,14 @@ export function useCharacterPageData(
   const linkedNoblePhantasm = useMemo(() => {
     if (!character?.noble_phantasm) return null;
     return (
-      noblePhantasms.find(
-        (np) => np.name.toLowerCase() === character.noble_phantasm.toLowerCase()
-      ) ?? null
+      noblePhantasms.find((np) => np.slug === character.noble_phantasm) ?? null
     );
   }, [character, noblePhantasms]);
 
-  const subclassByName = useMemo(() => {
+  const subclassBySlug = useMemo(() => {
     const map = new Map<string, Subclass>();
     for (const subclass of subclasses) {
-      map.set(subclass.name, subclass);
+      map.set(subclass.slug, subclass);
     }
     return map;
   }, [subclasses]);
@@ -263,14 +260,14 @@ export function useCharacterPageData(
       RecommendedGearEntry & { label: string; icon: string; slotIcon: string }
     > = [];
     for (const cfg of GEAR_SLOT_CONFIG) {
-      const gearName = (character.recommended_gear[cfg.slot] ?? '').trim();
-      if (!gearName) continue;
+      const gearSlug = (character.recommended_gear[cfg.slot] ?? '').trim();
+      if (!gearSlug) continue;
       entries.push({
         slot: cfg.slot,
         type: cfg.type,
-        name: gearName,
+        name: gearSlug,
         label: cfg.label,
-        icon: getGearIcon(cfg.type, gearName) ?? cfg.fallbackIcon,
+        icon: getGearIcon(cfg.type, gearSlug) ?? cfg.fallbackIcon,
         slotIcon: cfg.fallbackIcon,
       });
     }
@@ -279,25 +276,25 @@ export function useCharacterPageData(
 
   const recommendedSubclassEntries = useMemo<RecommendedSubclassEntry[]>(() => {
     return (character?.recommended_subclasses ?? [])
-      .map((subclassName) => subclassName.trim())
-      .filter((subclassName) => subclassName.length > 0)
-      .map((subclassName) => {
-        const details = subclassByName.get(subclassName);
+      .map((subclassSlug) => subclassSlug.trim())
+      .filter((subclassSlug) => subclassSlug.length > 0)
+      .map((subclassSlug) => {
+        const details = subclassBySlug.get(subclassSlug);
         return {
-          name: subclassName,
-          icon: getSubclassIcon(subclassName, details?.class),
+          name: details?.name ?? subclassSlug,
+          icon: getSubclassIcon(details?.name ?? subclassSlug, details?.class),
           tier: details?.tier,
           className: details?.class,
           bonuses: details?.bonuses ?? [],
           effect: details?.effect,
         };
       });
-  }, [character, subclassByName]);
+  }, [character, subclassBySlug]);
 
-  const gearByName = useMemo(() => {
+  const gearBySlug = useMemo(() => {
     const map = new Map<string, Gear>();
     for (const item of gear) {
-      map.set(item.name.toLowerCase(), item);
+      map.set(item.slug, item);
     }
     return map;
   }, [gear]);
@@ -312,12 +309,13 @@ export function useCharacterPageData(
 
   const recommendedGearDetails = useMemo<RecommendedGearDetail[]>(() => {
     return recommendedGearEntries.map((entry) => {
-      const gearItem = gearByName.get(entry.name.toLowerCase());
+      const gearItem = gearBySlug.get(entry.name);
       const setName = gearItem?.set?.trim() ?? '';
       const setData = setName ? gearSetByName.get(setName.toLowerCase()) : null;
       const setBonus = setData?.set_bonus ?? gearItem?.set_bonus ?? null;
       return {
         ...entry,
+        name: gearItem?.name ?? entry.name,
         setName: setName || null,
         setBonus,
         quality: gearItem?.quality,
@@ -325,7 +323,7 @@ export function useCharacterPageData(
         stats: gearItem?.stats,
       };
     });
-  }, [recommendedGearEntries, gearByName, gearSetByName]);
+  }, [recommendedGearEntries, gearBySlug, gearSetByName]);
 
   const activatedSetBonuses = useMemo<ActivatedSetBonus[]>(() => {
     const sets = new Map<
@@ -390,7 +388,7 @@ export function useCharacterPageData(
     tierListCharacterNote,
     selectedTierListName,
     linkedNoblePhantasm,
-    subclassByName,
+    subclassBySlug,
     recommendedGearDetails,
     recommendedSubclassEntries,
     activatedSetBonuses,

@@ -111,7 +111,7 @@ export default function TierListViewTab({
 									return resolved
 										? getCharacterIdentityKey(resolved)
 										: getCharacterIdentityKey(
-												e.character_name,
+												e.character_slug,
 												e.character_quality
 											);
 								})

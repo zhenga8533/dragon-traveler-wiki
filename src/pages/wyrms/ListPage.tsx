@@ -5,6 +5,7 @@ import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import {
+  createFactionFilterGroup,
   createQualityFilterGroup,
   orderFilterOptions,
 } from '@/components/common/EntityFilterGroups';
@@ -22,6 +23,7 @@ import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import {
   FACTION_NAMES,
+  FACTION_SLUGS,
   QUALITY_ORDER,
 } from '@/constants/colors';
 import {
@@ -232,7 +234,7 @@ export default function WyrmsListPage() {
 
   const factionOptions = useMemo(() => {
     const factions = new Set(wyrms.map((w) => w.faction));
-    return FACTION_NAMES.filter((f) => factions.has(f));
+    return FACTION_SLUGS.filter((f) => factions.has(f));
   }, [wyrms]);
 
   const filterGroups: ChipFilterGroup[] = useMemo(() => {
@@ -242,7 +244,7 @@ export default function WyrmsListPage() {
     if (qualityOptions.length > 0)
       groups.push(createQualityFilterGroup({ label: 'Quality', options: qualityOptions }));
     if (factionOptions.length > 0)
-      groups.push({ key: 'factions', label: 'Faction', options: factionOptions });
+      groups.push(createFactionFilterGroup({ label: 'Faction', options: factionOptions }));
     return groups;
   }, [phaseOptions, qualityOptions, factionOptions]);
 

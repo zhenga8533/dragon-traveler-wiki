@@ -158,7 +158,7 @@ export default function TierList() {
   const resolveTierEntryCharacter = useCallback(
     (entry: TierListType['entries'][number]) =>
       resolveCharacterByNameAndQuality(
-        entry.character_name,
+        entry.character_slug,
         entry.character_quality,
         preferredCharacterByName,
         characterByIdentity

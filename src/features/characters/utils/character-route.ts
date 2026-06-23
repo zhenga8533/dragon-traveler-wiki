@@ -158,23 +158,31 @@ export function getCharacterByReferenceKey(
 }
 
 export function resolveCharacterReferenceKey(
-  name: string,
+  nameOrSlug: string,
   quality: string | null | undefined,
   characters: Character[],
   preferredByName: Map<string, Character>,
   byIdentity: Map<string, Character>
 ): string {
-  const exactKey = getCharacterIdentityKey(name, quality ?? '');
+  // Try direct slug+quality lookup in byIdentity (slug__Quality)
+  if (quality) {
+    const slugKey = `${nameOrSlug}__${quality}`;
+    if (byIdentity.has(slugKey)) return slugKey;
+  }
+
+  const exactKey = getCharacterIdentityKey(nameOrSlug, quality ?? '');
   if (quality && byIdentity.has(exactKey)) {
     return exactKey;
   }
 
-  const preferred = getPreferredCharacterByName(name, preferredByName);
+  const preferred = getPreferredCharacterByName(nameOrSlug, preferredByName);
   if (preferred) return getCharacterIdentityKey(preferred);
 
-  const normalizedName = normalizeCharacterNameKey(name);
+  const normalizedName = normalizeCharacterNameKey(nameOrSlug);
   const first = characters.find(
-    (character) => normalizeCharacterNameKey(character.name) === normalizedName
+    (character) =>
+      character.slug === nameOrSlug ||
+      normalizeCharacterNameKey(character.name) === normalizedName
   );
   if (first) return getCharacterIdentityKey(first);
 
@@ -186,18 +194,18 @@ export function toCharacterReferenceFromKey(
   preferredByName: Map<string, Character>,
   byIdentity: Map<string, Character>,
   nameCounts?: Map<string, number>
-): { character_name: string; character_quality?: Quality } {
+): { character_slug: string; character_quality?: Quality } {
   const character = getCharacterByReferenceKey(
     characterKey,
     preferredByName,
     byIdentity
   );
-  const characterName = character?.name ?? characterKey;
+  const characterSlug = character?.slug ?? characterKey;
   const isMultiQualityName =
-    (nameCounts?.get(character?.slug ?? toEntitySlug(characterName)) ?? 1) > 1;
+    (nameCounts?.get(character?.slug ?? toEntitySlug(character?.name ?? characterKey)) ?? 1) > 1;
 
   return {
-    character_name: characterName,
+    character_slug: characterSlug,
     ...(isMultiQualityName && character?.quality
       ? { character_quality: character.quality }
       : {}),
@@ -205,15 +213,31 @@ export function toCharacterReferenceFromKey(
 }
 
 export function resolveCharacterByNameAndQuality(
-  name: string,
+  nameOrSlug: string,
   quality: string | null | undefined,
   preferredByName: Map<string, Character>,
   byIdentity: Map<string, Character>
 ): Character | null {
-  const identity = getCharacterIdentityKey(name, quality ?? '');
+  // Try direct slug+quality lookup (slug__Quality format used by byIdentity)
+  if (quality) {
+    const slugKey = `${nameOrSlug}__${quality}`;
+    const bySlug = byIdentity.get(slugKey);
+    if (bySlug) return bySlug;
+  }
+
+  const identity = getCharacterIdentityKey(nameOrSlug, quality ?? '');
   const exact = byIdentity.get(identity);
   if (exact) return exact;
-  return getPreferredCharacterByName(name, preferredByName) ?? null;
+
+  const byName = getPreferredCharacterByName(nameOrSlug, preferredByName);
+  if (byName) return byName;
+
+  // Fallback: scan byIdentity for any char whose slug matches the input
+  for (const char of byIdentity.values()) {
+    if (char.slug === nameOrSlug) return char;
+  }
+
+  return null;
 }
 
 export interface CharacterRouteMatch {

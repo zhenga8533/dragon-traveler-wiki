@@ -91,7 +91,7 @@ export default function EntityFilter({
                 label: (
                   <Group gap={4} wrap="nowrap" align="center">
                     {group.icon?.(option)}
-                    <span>{option}</span>
+                    <span>{group.labelFn ? group.labelFn(option) : option}</span>
                   </Group>
                 ),
               })

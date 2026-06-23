@@ -1,10 +1,11 @@
 import { CLASS_ICON_MAP } from '@/assets';
 import { FACTION_ICON_MAP } from '@/assets';
-import { CLASS_ORDER, FACTION_NAMES, QUALITY_ORDER } from '@/constants/colors';
+import { CLASS_ORDER, FACTION_SLUGS, QUALITY_ORDER } from '@/constants/colors';
 import { IMAGE_SIZE } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import type { CharacterClass } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
+import { FACTION_SLUG_TO_NAME } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 import SafeImage from '@/components/ui/SafeImage';
 import type { ReactNode } from 'react';
@@ -14,6 +15,7 @@ export interface ChipFilterGroup {
   label: string;
   options: string[];
   icon?: (value: string) => ReactNode;
+  labelFn?: (value: string) => string;
 }
 
 interface BaseFilterGroupOptions {
@@ -94,21 +96,22 @@ export function createClassFilterGroup({
 export function createFactionFilterGroup({
   key = 'factions',
   label = 'Faction',
-  options = FACTION_NAMES,
-}: OrderedFilterGroupOptions<FactionName> = {}): ChipFilterGroup {
+  options = FACTION_SLUGS,
+}: OrderedFilterGroupOptions<FactionSlug> = {}): ChipFilterGroup {
   return {
     key,
     label,
     options: [...options],
+    labelFn: (value: string) => FACTION_SLUG_TO_NAME[value as FactionSlug] ?? value,
     icon: (value: string) => {
       const iconSrc =
-        FACTION_ICON_MAP[value as FactionName] ??
+        FACTION_ICON_MAP[value as FactionSlug] ??
         (FACTION_ICON_MAP as Record<string, string | undefined>)[value];
 
       return iconSrc ? (
         <SafeImage
           src={iconSrc}
-          alt={value}
+          alt={FACTION_SLUG_TO_NAME[value as FactionSlug] ?? value}
           w={IMAGE_SIZE.ICON_SM}
           h={IMAGE_SIZE.ICON_SM}
           fit="contain"

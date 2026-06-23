@@ -27,7 +27,7 @@ import { memo, useMemo } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '@/assets';
 import { getWyrmspellIcon } from '@/assets';
-import { FACTION_NAMES } from '@/constants/colors';
+import { FACTION_SLUGS } from '@/constants/colors';
 import {
   CONTENT_TYPE_OPTIONS,
   type ContentType,
@@ -38,7 +38,8 @@ import {
   TRANSITION,
 } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
-import type { FactionName } from '@/types/faction';
+import { FACTION_SLUG_TO_NAME } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { TeamWyrmspells } from '@/features/teams/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import {
@@ -68,7 +69,7 @@ export const TeamMetaFields = memo(function TeamMetaFields({
   name: string;
   author: string;
   contentType: ContentType;
-  faction: FactionName | null;
+  faction: FactionSlug | null;
   description: string;
   onNameCommit: (value: string) => void;
   onAuthorCommit: (value: string) => void;
@@ -108,14 +109,14 @@ export const TeamMetaFields = memo(function TeamMetaFields({
         />
         <Select
           placeholder="Faction..."
-          data={FACTION_NAMES.map((f) => ({
+          data={FACTION_SLUGS.map((f) => ({
             value: f,
-            label: f,
+            label: FACTION_SLUG_TO_NAME[f],
           }))}
           value={faction}
           onChange={onFactionChange}
           renderOption={renderFactionOption}
-          searchable={FACTION_NAMES.length >= 10}
+          searchable={FACTION_SLUGS.length >= 10}
           leftSection={(() => {
             if (!faction) return undefined;
             const iconSrc = FACTION_ICON_MAP[faction];
@@ -197,8 +198,8 @@ export function DraggableCharCard({
   );
 }
 
-function renderFactionOption({ option }: { option: { label: string } }) {
-  const iconSrc = FACTION_ICON_MAP[option.label as FactionName];
+function renderFactionOption({ option }: { option: { value: string; label: string } }) {
+  const iconSrc = FACTION_ICON_MAP[option.value as FactionSlug];
   return (
     <Group gap="xs" align="center">
       {iconSrc ? (

@@ -1,5 +1,5 @@
 import type { ContentType } from '@/constants/content-types';
-import type { FactionName } from '@/types/faction';
+import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
 
 export interface TeamMemberPosition {
@@ -8,7 +8,7 @@ export interface TeamMemberPosition {
 }
 
 export interface TeamMember {
-  character_name: string;
+  character_slug: string;
   character_quality?: Quality;
   overdrive_order: number | null;
   note?: string;
@@ -16,7 +16,7 @@ export interface TeamMember {
 }
 
 export interface TeamBenchMember {
-  character_name: string;
+  character_slug: string;
   character_quality?: Quality;
   note?: string;
 }
@@ -33,7 +33,7 @@ export interface Team {
   author: string;
   content_type: ContentType;
   description: string;
-  faction: FactionName;
+  faction: FactionSlug;
   members: TeamMember[];
   bench?: TeamBenchMember[];
   wyrmspells?: TeamWyrmspells;
