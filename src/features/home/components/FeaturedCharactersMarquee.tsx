@@ -6,7 +6,6 @@ import {
   buildCharacterByIdentityMap,
   buildCharacterNameCounts,
   buildPreferredCharacterByNameMap,
-  getCharacterIdentityKey,
   getCharacterRoutePath,
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
@@ -86,7 +85,7 @@ export default function FeaturedCharactersMarquee() {
       const resolvedName = char?.name ?? entry.character_slug;
       return (
         <Stack
-          key={`${keyPrefix}-${getCharacterIdentityKey(entry.character_slug, entry.character_quality)}-${entry.tier}`}
+          key={`${keyPrefix}-${entry.character_slug}-${entry.tier}`}
           className={styles.featuredItem}
           gap={2}
           align="center"

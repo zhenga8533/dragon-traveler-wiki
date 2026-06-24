@@ -2,7 +2,7 @@ import { getPortrait } from '@/assets';
 import { QUALITY_BORDER_COLOR } from '@/constants/colors';
 import { getCharacterPortraitHoverProps } from '@/constants/styles';
 import { CharacterOwnershipContext } from '@/contexts';
-import { getCharacterIdentityKey, getCharacterRoutePathByName } from '@/features/characters/utils/character-route';
+import { getCharacterRoutePathByName } from '@/features/characters/utils/character-route';
 import type { Quality } from '@/types/quality';
 import { Image, Tooltip, type TooltipProps } from '@mantine/core';
 import type { CSSProperties, ReactNode } from 'react';
@@ -57,9 +57,10 @@ export default function CharacterPortrait({
     borderColor ??
     (quality ? QUALITY_BORDER_COLOR[quality] : 'var(--mantine-color-gray-5)');
 
-  // Only dim when quality is known — prevents misidentifying same-named characters of different quality
+  // routeAssetKey is the character slug extracted from the route path — use it as the ownership key.
+  // Only dim when we have a slug to look up, preventing false matches on portrait-only usages.
   const dimmed =
-    grayUnowned && quality != null && !isOwned(getCharacterIdentityKey(name, quality));
+    grayUnowned && routeAssetKey != null && !isOwned(routeAssetKey);
 
   const portrait = (
     <Image

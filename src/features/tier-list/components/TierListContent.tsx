@@ -25,7 +25,6 @@ import { CHARACTER_GRID_SPACING, IMAGE_SIZE } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import type { TierList as TierListType } from '@/features/tier-list/types';
 import {
-	getCharacterIdentityKey,
 	getCharacterRoutePath,
 	getCharacterRoutePathByName,
 } from '@/features/characters/utils/character-route';
@@ -153,7 +152,7 @@ export default function TierListContent({
 											const entryNote = entry.note?.trim() || undefined;
 											return (
 												<CharacterCard
-													key={`${getCharacterIdentityKey(entry.character_slug, entry.character_quality)}-${entry.tier}`}
+													key={`${entry.character_slug}-${entry.tier}`}
 													name={char?.name ?? entry.character_slug}
 													label={undefined}
 													quality={char?.quality}
@@ -188,7 +187,7 @@ export default function TierListContent({
 													const entryNote = entry.note?.trim() || '';
 													return (
 														<Table.Tr
-															key={`${getCharacterIdentityKey(entry.character_slug, entry.character_quality)}-${entry.tier}`}
+															key={`${entry.character_slug}-${entry.tier}`}
 														>
 															<Table.Td>
 																<Group gap="sm" wrap="nowrap">

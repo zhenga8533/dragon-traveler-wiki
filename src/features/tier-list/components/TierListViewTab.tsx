@@ -108,12 +108,7 @@ export default function TierListViewTab({
 								})
 								.map((e) => {
 									const resolved = resolveTierEntryCharacter(e);
-									return resolved
-										? getCharacterIdentityKey(resolved)
-										: getCharacterIdentityKey(
-												e.character_slug,
-												e.character_quality
-											);
+									return resolved ? getCharacterIdentityKey(resolved) : e.character_slug;
 								})
 						);
 						const unranked = sortCharactersByQuality(

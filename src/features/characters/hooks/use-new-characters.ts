@@ -3,11 +3,7 @@ import { useMemo } from 'react';
 
 type CharactersChanges = Record<string, { added?: number }>;
 
-/**
- * Returns a Set of stable identity keys (slug__quality) for characters with
- * the latest "added" timestamp.  Keys in the JSON are already slug-based after
- * the data migration; no further normalisation is needed.
- */
+/** Returns a Set of character slugs for characters with the latest "added" timestamp. */
 export function useNewCharacters(): Set<string> {
   const { data } = useCharacterChanges() as { data: CharactersChanges };
 

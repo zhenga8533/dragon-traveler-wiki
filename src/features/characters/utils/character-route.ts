@@ -1,6 +1,5 @@
 import { QUALITY_ORDER } from '@/constants/quality';
 import type { Character } from '@/features/characters/types';
-import type { Quality } from '@/types/quality';
 import { safeDecodeURIComponent, toEntitySlug } from '@/utils/entity-slug';
 
 const QUALITY_RANK = new Map<Quality, number>(
@@ -52,21 +51,9 @@ function getPreferredCharacterByName(
   return preferredByName.get(normalized);
 }
 
-/**
- * Returns the stable identity key for a character.
- *
- * - Character object → `slug__quality` (matches data repo identity.py)
- * - String overload → lowercased `name__quality` (legacy; for React keys only,
- *   NOT for change-history JSON lookups)
- */
-export function getCharacterIdentityKey(
-  characterOrName: Character | string,
-  quality?: string
-): string {
-  if (typeof characterOrName === 'string') {
-    return `${characterOrName.trim().toLowerCase()}__${(quality ?? '').trim().toLowerCase()}`;
-  }
-  return `${characterOrName.slug}__${characterOrName.quality}`;
+/** Returns the stable identity key for a character (its slug, which always embeds quality). */
+export function getCharacterIdentityKey(character: Character): string {
+  return character.slug;
 }
 
 /** Returns the route base slug for a character (the character's data slug). */
@@ -155,85 +142,52 @@ export function getCharacterByReferenceKey(
 
 export function resolveCharacterReferenceKey(
   nameOrSlug: string,
-  quality: string | null | undefined,
+  _quality: string | null | undefined,
   characters: Character[],
   preferredByName: Map<string, Character>,
   byIdentity: Map<string, Character>
 ): string {
-  // Try direct slug+quality lookup in byIdentity (slug__Quality)
-  if (quality) {
-    const slugKey = `${nameOrSlug}__${quality}`;
-    if (byIdentity.has(slugKey)) return slugKey;
-  }
+  // Direct slug lookup — primary path since slugs are globally unique
+  if (byIdentity.has(nameOrSlug)) return nameOrSlug;
 
-  const exactKey = getCharacterIdentityKey(nameOrSlug, quality ?? '');
-  if (quality && byIdentity.has(exactKey)) {
-    return exactKey;
-  }
-
+  // Name-based lookup (handles display names like "Athena")
   const preferred = getPreferredCharacterByName(nameOrSlug, preferredByName);
-  if (preferred) return getCharacterIdentityKey(preferred);
+  if (preferred) return preferred.slug;
 
+  // Fallback: scan by slug or normalized name
   const normalizedName = normalizeCharacterNameKey(nameOrSlug);
   const first = characters.find(
     (character) =>
       character.slug === nameOrSlug ||
       normalizeCharacterNameKey(character.name) === normalizedName
   );
-  if (first) return getCharacterIdentityKey(first);
+  if (first) return first.slug;
 
-  return exactKey;
+  return nameOrSlug;
 }
 
 export function toCharacterReferenceFromKey(
   characterKey: string,
-  preferredByName: Map<string, Character>,
+  _preferredByName: Map<string, Character>,
   byIdentity: Map<string, Character>,
-  nameCounts?: Map<string, number>
-): { character_slug: string; character_quality?: Quality } {
-  const character = getCharacterByReferenceKey(
-    characterKey,
-    preferredByName,
-    byIdentity
-  );
-  const characterSlug = character?.slug ?? characterKey;
-  const isMultiQualityName =
-    (nameCounts?.get(character?.slug ?? toEntitySlug(character?.name ?? characterKey)) ?? 1) > 1;
-
-  return {
-    character_slug: characterSlug,
-    ...(isMultiQualityName && character?.quality
-      ? { character_quality: character.quality }
-      : {}),
-  };
+  _nameCounts?: Map<string, number>
+): { character_slug: string } {
+  const character = byIdentity.get(characterKey);
+  return { character_slug: character?.slug ?? characterKey };
 }
 
 export function resolveCharacterByNameAndQuality(
   nameOrSlug: string,
-  quality: string | null | undefined,
+  _quality: string | null | undefined,
   preferredByName: Map<string, Character>,
   byIdentity: Map<string, Character>
 ): Character | null {
-  // Try direct slug+quality lookup (slug__Quality format used by byIdentity)
-  if (quality) {
-    const slugKey = `${nameOrSlug}__${quality}`;
-    const bySlug = byIdentity.get(slugKey);
-    if (bySlug) return bySlug;
-  }
+  // Direct slug lookup — primary path since slugs are globally unique
+  const bySlug = byIdentity.get(nameOrSlug);
+  if (bySlug) return bySlug;
 
-  const identity = getCharacterIdentityKey(nameOrSlug, quality ?? '');
-  const exact = byIdentity.get(identity);
-  if (exact) return exact;
-
-  const byName = getPreferredCharacterByName(nameOrSlug, preferredByName);
-  if (byName) return byName;
-
-  // Fallback: scan byIdentity for any char whose slug matches the input
-  for (const char of byIdentity.values()) {
-    if (char.slug === nameOrSlug) return char;
-  }
-
-  return null;
+  // Name-based lookup (handles display names like "Athena")
+  return getPreferredCharacterByName(nameOrSlug, preferredByName) ?? null;
 }
 
 export interface CharacterRouteMatch {

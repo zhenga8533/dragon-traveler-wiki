@@ -39,6 +39,28 @@ export const CharacterOwnershipContext =
     setShowCharacterTiers: () => {},
   });
 
+// Migrate ownership keys from the old "slug__quality" format to plain slug.
+function migrateOwnershipKeys(data: Record<string, string>): Record<string, string> {
+  const migrated: Record<string, string> = {};
+  let changed = false;
+  for (const [key, value] of Object.entries(data)) {
+    const separatorIndex = key.indexOf('__');
+    if (separatorIndex !== -1) {
+      migrated[key.slice(0, separatorIndex)] = value;
+      changed = true;
+    } else {
+      migrated[key] = value;
+    }
+  }
+  if (changed) {
+    window.localStorage.setItem(
+      STORAGE_KEY.CHARACTER_OWNERSHIP,
+      JSON.stringify(migrated)
+    );
+  }
+  return migrated;
+}
+
 function loadOwnedFromStorage(): Record<string, string> {
   if (typeof window === 'undefined') return {};
   try {
@@ -51,7 +73,7 @@ function loadOwnedFromStorage(): Record<string, string> {
       Array.isArray(parsed)
     )
       return {};
-    return parsed as Record<string, string>;
+    return migrateOwnershipKeys(parsed as Record<string, string>);
   } catch {
     return {};
   }
