@@ -92,13 +92,9 @@ export function buildCharacterNameCounts(
 
 export function getCharacterRouteSlug(
   character: Character,
-  nameCounts?: Map<string, number>
+  _nameCounts?: Map<string, number>
 ): string {
-  const base = character.slug;
-  const count = nameCounts?.get(base) ?? 1;
-  if (count <= 1) return base;
-  const qualitySuffix = toEntitySlug(character.quality, { allowPlus: true });
-  return qualitySuffix ? `${base}_${qualitySuffix}` : base;
+  return character.slug;
 }
 
 export function getCharacterRoutePath(

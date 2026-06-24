@@ -1,19 +1,19 @@
 import type { CharacterClass } from '@/features/characters/types';
 
 export const CLASS_ORDER: CharacterClass[] = [
-  'Guardian',
-  'Priest',
-  'Assassin',
-  'Warrior',
-  'Archer',
-  'Mage',
+  'guardian',
+  'priest',
+  'assassin',
+  'warrior',
+  'archer',
+  'mage',
 ];
 
 export const CLASS_COLOR: Record<CharacterClass, string> = {
-  Guardian: 'blue',
-  Priest: 'teal',
-  Assassin: 'grape',
-  Warrior: 'red',
-  Archer: 'orange',
-  Mage: 'violet',
+  guardian: 'blue',
+  priest: 'teal',
+  assassin: 'grape',
+  warrior: 'red',
+  archer: 'orange',
+  mage: 'violet',
 };

@@ -31,17 +31,17 @@ export const ROW_CLASS_HINTS = [
 
 export function getValidRows(charClass: CharacterClass): number[] {
   switch (charClass) {
-    case 'Guardian':
+    case 'guardian':
       return [0];
-    case 'Warrior':
+    case 'warrior':
       return [0, 1];
-    case 'Assassin':
+    case 'assassin':
       return [0, 1, 2];
-    case 'Priest':
+    case 'priest':
       return [1, 2];
-    case 'Mage':
+    case 'mage':
       return [1, 2];
-    case 'Archer':
+    case 'archer':
       return [1, 2];
     default:
       return [0, 1, 2];

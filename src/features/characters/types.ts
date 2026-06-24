@@ -3,12 +3,12 @@ import type { GearSetBonus, GearType } from '@/features/wiki/gear/types';
 import type { Quality } from '@/types/quality';
 
 export type CharacterClass =
-  | 'Guardian'
-  | 'Priest'
-  | 'Assassin'
-  | 'Warrior'
-  | 'Archer'
-  | 'Mage';
+  | 'guardian'
+  | 'priest'
+  | 'assassin'
+  | 'warrior'
+  | 'archer'
+  | 'mage';
 
 export type SkillType =
   | 'Overdrive'

@@ -47,7 +47,6 @@ export type {
   Faction,
   FactionName,
   FactionSlug,
-  Wyrm,
 } from './faction';
 export {
   FACTION_NAME_TO_SLUG,

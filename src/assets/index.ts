@@ -10,12 +10,12 @@ const BASE = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;
 // ── Class ────────────────────────────────────────────────────────────────────
 
 export const CLASS_ICON_MAP: Record<CharacterClass, string> = {
-  Guardian: `${BASE}class/guardian.png`,
-  Priest: `${BASE}class/priest.png`,
-  Assassin: `${BASE}class/assassin.png`,
-  Warrior: `${BASE}class/warrior.png`,
-  Archer: `${BASE}class/archer.png`,
-  Mage: `${BASE}class/mage.png`,
+  guardian: `${BASE}class/guardian.png`,
+  priest: `${BASE}class/priest.png`,
+  assassin: `${BASE}class/assassin.png`,
+  warrior: `${BASE}class/warrior.png`,
+  archer: `${BASE}class/archer.png`,
+  mage: `${BASE}class/mage.png`,
 };
 
 // ── Faction ──────────────────────────────────────────────────────────────────

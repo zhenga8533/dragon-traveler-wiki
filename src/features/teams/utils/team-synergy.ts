@@ -98,17 +98,17 @@ export function computeTeamSynergy({
     : 0;
 
   const frontlineCount = roster.filter(
-    (c) => c.character_class === 'Guardian' || c.character_class === 'Warrior'
+    (c) => c.character_class === 'guardian' || c.character_class === 'warrior'
   ).length;
   const sustainCount = roster.filter(
-    (c) => c.character_class === 'Priest'
+    (c) => c.character_class === 'priest'
   ).length;
   const damageCount = roster.filter(
     (c) =>
-      c.character_class === 'Assassin' ||
-      c.character_class === 'Archer' ||
-      c.character_class === 'Mage' ||
-      c.character_class === 'Warrior'
+      c.character_class === 'assassin' ||
+      c.character_class === 'archer' ||
+      c.character_class === 'mage' ||
+      c.character_class === 'warrior'
   ).length;
 
   const controlRegex =

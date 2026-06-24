@@ -479,7 +479,7 @@ function SearchModalContent({
           .map((r) => ({
             type: 'character' as const,
             title: r.item.name,
-            subtitle: `${r.item.quality} ${r.item.character_class}`,
+            subtitle: `${r.item.quality} ${r.item.character_class.charAt(0).toUpperCase()}${r.item.character_class.slice(1)}`,
             path: getCharacterRoutePath(r.item, characterNameCounts),
             icon: IoPersonOutline,
             color: 'blue',
@@ -560,7 +560,7 @@ function SearchModalContent({
           .map((r) => ({
             type: 'subclass' as const,
             title: r.item.name,
-            subtitle: `${r.item.class} • Tier ${r.item.tier}`,
+            subtitle: `${r.item.class.charAt(0).toUpperCase()}${r.item.class.slice(1)} • Tier ${r.item.tier}`,
             path: searchPath('/subclasses', r.item.name),
             icon: getSubclassIcon(r.item.slug, r.item.class) ?? IoGridOutline,
             color: 'grape',

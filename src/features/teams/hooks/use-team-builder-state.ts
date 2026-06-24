@@ -685,7 +685,7 @@ export function useTeamBuilderState({
         id: 'teambuilder-invalid-placement',
         title: 'Invalid slot placement',
         message: character
-          ? `${displayName} (${character.character_class}) cannot be placed in ${targetRowLabel}.`
+          ? `${displayName} (${character.character_class.charAt(0).toUpperCase()}${character.character_class.slice(1)}) cannot be placed in ${targetRowLabel}.`
           : `${displayName} cannot be placed in ${targetRowLabel}.`,
         autoClose: 2400,
       });

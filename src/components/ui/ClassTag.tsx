@@ -26,9 +26,11 @@ function ClassTag({
     ? (CLASS_ICON_MAP as Record<string, string | undefined>)[characterClass]
     : undefined;
 
+  const label = `${characterClass.charAt(0).toUpperCase()}${characterClass.slice(1)}`;
+
   return (
     <EntityTagBadge
-      label={characterClass}
+      label={label}
       color={color ?? classColor ?? accent.secondary}
       iconSrc={iconSrc}
       size={size}

@@ -41,18 +41,10 @@ export const FACTION_NAME_TO_SLUG: Record<FactionName, FactionSlug> = {
   'Illusion Veil': 'illusion_veil',
 };
 
-export type Wyrm =
-  | 'Fire Whelp'
-  | 'Butterfly Whelp'
-  | 'Emerald Whelp'
-  | 'Shadow Whelp'
-  | 'Light Whelp'
-  | 'Dark Whelp';
-
 export interface Faction {
   slug: string;
   name: FactionName;
-  wyrm: Wyrm;
+  wyrms: string[];
   description: string;
   recommended_artifacts: string[];
   last_updated: number;
