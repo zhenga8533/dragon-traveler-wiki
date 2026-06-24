@@ -16,7 +16,6 @@ import CharacterTag from '@/features/characters/components/CharacterTag';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import EntityFilter from '@/components/common/EntityFilter';
-import GlobalBadge from '@/components/ui/GlobalBadge';
 import SortableTh from '@/components/ui/SortableTh';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import ListPageHeader from '@/components/layout/ListPageHeader';
@@ -85,19 +84,13 @@ export default function NoblePhantasms() {
         options: characterOptions,
         optionIcons: characterIcons,
       },
-      {
-        name: 'is_global',
-        label: 'Available on Global server',
-        type: 'boolean',
-      },
-      {
-        name: 'lore',
-        label: 'Lore',
-        type: 'textarea',
-        placeholder: 'Noble Phantasm lore',
-      },
     ];
   }, [characters]);
+
+  const charNameBySlug = useMemo(
+    () => new Map(characters.map((c) => [c.slug, c.name])),
+    [characters]
+  );
 
   const {
     filters,
@@ -130,9 +123,10 @@ export default function NoblePhantasms() {
     filterFn: (np, filters) => {
       if (!filters.search) return true;
       const q = filters.search.toLowerCase();
+      const charName = charNameBySlug.get(np.character_slug ?? '') ?? '';
       return (
         np.name.toLowerCase().includes(q) ||
-        (np.character || '').toLowerCase().includes(q)
+        charName.toLowerCase().includes(q)
       );
     },
     sortFn: (a, b, col, dir) => {
@@ -141,8 +135,8 @@ export default function NoblePhantasms() {
         if (col === 'name') {
           cmp = a.name.localeCompare(b.name);
         } else if (col === 'character') {
-          const cA = a.character ?? '';
-          const cB = b.character ?? '';
+          const cA = charNameBySlug.get(a.character_slug ?? '') ?? '';
+          const cB = charNameBySlug.get(b.character_slug ?? '') ?? '';
           if (!cA && cB) return 1;
           if (cA && !cB) return -1;
           cmp = cA.localeCompare(cB);
@@ -150,12 +144,12 @@ export default function NoblePhantasms() {
           cmp = b.effects.length - a.effects.length;
         } else if (col === 'skills') {
           cmp = b.skills.length - a.skills.length;
-        } else if (col === 'global') {
-          cmp = (b.is_global === true ? 1 : 0) - (a.is_global === true ? 1 : 0);
         }
         if (cmp !== 0) return applyDir(cmp, dir);
       }
-      const charCmp = (a.character ?? '').localeCompare(b.character ?? '');
+      const cA = charNameBySlug.get(a.character_slug ?? '') ?? '';
+      const cB = charNameBySlug.get(b.character_slug ?? '') ?? '';
+      const charCmp = cA.localeCompare(cB);
       if (charCmp !== 0) return charCmp;
       return a.name.localeCompare(b.name);
     },
@@ -229,9 +223,9 @@ export default function NoblePhantasms() {
                       imageSrc={iconSrc}
                       metadata={
                         <Group gap="xs" wrap="wrap">
-                          {np.character && (
+                          {np.character_slug && charNameBySlug.get(np.character_slug) && (
                             <CharacterTag
-                              name={np.character}
+                              name={charNameBySlug.get(np.character_slug)!}
                               size="sm"
                               color={accent.secondary}
                               link={false}
@@ -240,13 +234,10 @@ export default function NoblePhantasms() {
                         </Group>
                       }
                       description={
-                        (np.lore ||
-                          np.effects[0]?.description ||
-                          np.skills[0]?.description) && (
+                        (np.effects[0]?.description || np.skills[0]?.description) && (
                           <ExpandableText size="xs">
                             <RichText
                               text={
-                                np.lore ??
                                 np.effects[0]?.description ??
                                 np.skills[0]?.description ??
                                 ''
@@ -299,14 +290,6 @@ export default function NoblePhantasms() {
                       >
                         Skills
                       </SortableTh>
-                      <SortableTh
-                        sortKey="global"
-                        sortCol={sortCol}
-                        sortDir={sortDir}
-                        onSort={handleSort}
-                      >
-                        Global
-                      </SortableTh>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
@@ -337,9 +320,9 @@ export default function NoblePhantasms() {
                             {np.name}
                           </EntityTableLinkCell>
                           <Table.Td>
-                            {np.character ? (
+                            {np.character_slug && charNameBySlug.get(np.character_slug) ? (
                               <CharacterTag
-                                name={np.character}
+                                name={charNameBySlug.get(np.character_slug)!}
                                 size="sm"
                                 color={accent.secondary}
                                 link={false}
@@ -355,15 +338,6 @@ export default function NoblePhantasms() {
                           </Table.Td>
                           <Table.Td>
                             <Text size="sm">{np.skills.length}</Text>
-                          </Table.Td>
-                          <Table.Td>
-                            {np.is_global !== undefined ? (
-                              <GlobalBadge isGlobal={np.is_global} size="sm" />
-                            ) : (
-                              <Text size="sm" c="dimmed">
-                                —
-                              </Text>
-                            )}
                           </Table.Td>
                         </Table.Tr>
                       );

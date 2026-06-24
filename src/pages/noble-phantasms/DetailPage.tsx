@@ -7,13 +7,8 @@ import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import RichText from '@/components/common/RichText';
-import { getLoreGlassStyles } from '@/constants/glass';
-import {
-  getCardHoverProps,
-  getHeroIconBoxStyles,
-} from '@/constants/styles';
+import { getHeroIconBoxStyles } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
-import GlobalBadge from '@/components/ui/GlobalBadge';
 import EffectTable from '@/features/wiki/noble-phantasms/components/EffectTable';
 import SkillTable from '@/features/wiki/noble-phantasms/components/SkillTable';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
@@ -27,7 +22,6 @@ import {
   Box,
   Container,
   Group,
-  Paper,
   Stack,
   Title,
 } from '@mantine/core';
@@ -59,7 +53,7 @@ export default function NoblePhantasmPage() {
   const orderedNoblePhantasms = useMemo(
     () =>
       [...noblePhantasms].sort((a, b) => {
-        const charCmp = (a.character ?? '').localeCompare(b.character ?? '');
+        const charCmp = (a.character_slug ?? '').localeCompare(b.character_slug ?? '');
         if (charCmp !== 0) return charCmp;
         return a.name.localeCompare(b.name);
       }),
@@ -82,10 +76,8 @@ export default function NoblePhantasmPage() {
       : null;
 
   const linkedCharacter = useMemo(() => {
-    if (!noblePhantasm?.character) return null;
-    return characters.find(
-      (c) => c.name.toLowerCase() === noblePhantasm.character!.toLowerCase()
-    );
+    if (!noblePhantasm?.character_slug) return null;
+    return characters.find((c) => c.slug === noblePhantasm.character_slug);
   }, [characters, noblePhantasm]);
 
   if (loading) {
@@ -146,40 +138,17 @@ export default function NoblePhantasmPage() {
             </Title>
             <LastUpdated timestamp={noblePhantasm.last_updated ?? 0} />
 
-            <Group gap="sm" mt={4}>
-              {noblePhantasm.character && (
+            {linkedCharacter && (
+              <Group gap="sm" mt={4}>
                 <CharacterTag
-                  name={noblePhantasm.character}
+                  name={linkedCharacter.name}
                   color={accent.secondary}
                   size="lg"
                 />
-              )}
-              {noblePhantasm.is_global !== undefined && (
-                <GlobalBadge isGlobal={noblePhantasm.is_global} size="md" />
-              )}
-            </Group>
+              </Group>
+            )}
           </Stack>
         </Group>
-
-        {noblePhantasm.lore && (
-          <Paper
-            p="md"
-            radius="md"
-            withBorder
-            {...getCardHoverProps({
-              style: getLoreGlassStyles(isDark),
-            })}
-          >
-            <RichText
-              text={noblePhantasm.lore}
-              statusEffects={statusEffects}
-              skills={linkedCharacter?.skills}
-              talent={linkedCharacter?.talent}
-              italic
-              lineHeight={1.6}
-            />
-          </Paper>
-        )}
       </DetailPageHero>
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
