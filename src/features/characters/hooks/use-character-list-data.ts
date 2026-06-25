@@ -107,11 +107,11 @@ export function useCharacterListData(
     const referencedEffects = new Set(extractAllEffectRefs(characters));
 
     return statusEffects
-      .filter((effect) => referencedEffects.has(effect.name))
+      .filter((effect) => referencedEffects.has(effect.slug))
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((effect) => ({
         label: effect.name,
-        value: effect.name,
+        value: effect.slug,
         slug: effect.slug,
         icon: effect.icon !== false,
         type: effect.type,

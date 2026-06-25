@@ -13,7 +13,6 @@ export type StatusEffectType =
 export interface StatusEffect {
   slug: string;
   name: string;
-  alts: string[];
   type: StatusEffectType;
   effect: string;
   remark: string;

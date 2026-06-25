@@ -4,7 +4,7 @@ import type { ChangesFile } from '@/types/changes';
 import { LocaleContext } from '@/contexts/locale-context';
 import { useLocalePath, useLocaleChangesPath } from '@/hooks/use-locale-path';
 import { useDataFetch } from '@/hooks/use-data-fetch';
-import { dataPath, DEFAULT_LOCALE } from '@/lib/data-paths';
+import { changesPath, dataPath, DEFAULT_LOCALE } from '@/lib/data-paths';
 
 export function useCharacters() {
   const { locale } = useContext(LocaleContext);
@@ -39,6 +39,22 @@ export function useCharacters() {
 }
 
 export function useCharacterChanges() {
-  const path = useLocaleChangesPath('characters.json');
-  return useDataFetch<ChangesFile>(path, {});
+  const { locale } = useContext(LocaleContext);
+  const localePath = useLocaleChangesPath('characters.json');
+  const enUSPath = changesPath('characters.json', DEFAULT_LOCALE);
+
+  const localeResult = useDataFetch<ChangesFile>(localePath, {});
+  const enUSResult = useDataFetch<ChangesFile>(enUSPath, {});
+
+  const data = useMemo(() => {
+    if (locale === DEFAULT_LOCALE) return localeResult.data;
+    // Merge: locale entries win; enUS fills in slugs absent from the locale changes file.
+    return { ...enUSResult.data, ...localeResult.data };
+  }, [locale, localeResult.data, enUSResult.data]);
+
+  return {
+    data,
+    loading: localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
+    error: locale === DEFAULT_LOCALE ? localeResult.error : enUSResult.error,
+  };
 }

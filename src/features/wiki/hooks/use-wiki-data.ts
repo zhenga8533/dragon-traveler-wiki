@@ -10,6 +10,9 @@ import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import type { Wyrm } from '@/features/wiki/wyrms/types';
 import { useLocalePath, useLocaleChangesPath } from '@/hooks/use-locale-path';
 import { useDataFetch } from '@/hooks/use-data-fetch';
+import { useContext, useMemo } from 'react';
+import { LocaleContext } from '@/contexts/locale-context';
+import { dataPath, DEFAULT_LOCALE } from '@/lib/data-paths';
 import type { ChangelogEntry } from '@/types/changelog';
 import type { ChangesFile } from '@/types/changes';
 import type { Code } from '@/types/code';
@@ -23,8 +26,34 @@ export function useWyrmspells() {
 }
 
 export function useStatusEffects() {
-  const path = useLocalePath('status-effects.json');
-  return useDataFetch<StatusEffect[]>(path, []);
+  const { locale } = useContext(LocaleContext);
+  const localePath = useLocalePath('status-effects.json');
+  const enUSPath = dataPath('status-effects.json', DEFAULT_LOCALE);
+
+  const localeResult = useDataFetch<StatusEffect[]>(localePath, []);
+  // Always fetch enUS so that English bracket references in enUS-fallback characters
+  // (those missing from the current locale) can still be matched.
+  const enUSResult = useDataFetch<StatusEffect[]>(enUSPath, []);
+
+  const data = useMemo(() => {
+    if (locale === DEFAULT_LOCALE) return localeResult.data;
+    // Locale entries win (translated names match translated bracket text).
+    // enUS entries provide English names for characters that fell back to enUS data.
+    const localeBySlug = new Map(localeResult.data.map((se) => [se.slug, se]));
+    const merged = [...localeResult.data];
+    for (const enSE of enUSResult.data) {
+      if (!localeBySlug.has(enSE.slug)) {
+        merged.push(enSE);
+      }
+    }
+    return merged;
+  }, [locale, localeResult.data, enUSResult.data]);
+
+  return {
+    data,
+    loading: localeResult.loading || (locale !== DEFAULT_LOCALE && enUSResult.loading),
+    error: locale === DEFAULT_LOCALE ? localeResult.error : enUSResult.error,
+  };
 }
 
 export function useNoblePhantasms() {

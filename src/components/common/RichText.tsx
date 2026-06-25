@@ -121,15 +121,8 @@ const findByName = <T extends { name: string }>(
 
 const findStatusEffect = (
   statusEffects: StatusEffect[],
-  name: string
-): StatusEffect | undefined => {
-  const candidates = fuzzyNames(name);
-  return statusEffects.find(
-    (se) =>
-      candidates.includes(normalizeName(se.name)) ||
-      se.alts.some((alt) => candidates.includes(normalizeName(alt)))
-  );
-};
+  slug: string
+): StatusEffect | undefined => statusEffects.find((se) => se.slug === slug);
 
 export default function RichText({
   text,
@@ -179,13 +172,12 @@ export default function RichText({
           return <Text key={i} component="span" size="sm" c="blue" fw={600}>{seg.content}</Text>;
         }
 
-        const statusEffect = findStatusEffect(statusEffects, seg.name);
-        if (statusEffect) {
+        if (seg.type === 'statusRef') {
+          const statusEffect = findStatusEffect(statusEffects, seg.name);
           return (
             <StatusEffectBadge
               key={i}
-              name={statusEffect.name}
-              displayName={seg.name}
+              name={statusEffect?.name ?? seg.name}
               statusEffects={statusEffects}
               disablePopover={disablePopovers}
             />
