@@ -48,7 +48,7 @@ export default function EffectTable({
             const tierDetail = getNoblePhantasmTierDetail(effect.tier);
             return (
               <Table.Tr
-                key={`${effect.tier ?? 'none'}-${effect.tier_level ?? 'none'}-${idx}`}
+                key={`${effect.tier ?? 'none'}-${idx}`}
               >
                 <Table.Td style={COMPACT_COL_STYLE}>
                   {effect.tier ? (
@@ -69,9 +69,9 @@ export default function EffectTable({
                   <Text
                     size="sm"
                     fw={tierDetail ? 600 : 400}
-                    c={tierDetail || effect.tier_level != null ? undefined : 'dimmed'}
+                    c={tierDetail ? undefined : 'dimmed'}
                   >
-                    {tierDetail?.label ?? effect.tier_level ?? '—'}
+                    {tierDetail?.label ?? '—'}
                   </Text>
                 </Table.Td>
                 <Table.Td>

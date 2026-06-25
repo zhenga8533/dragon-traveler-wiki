@@ -12,7 +12,6 @@ import CharacterOwnershipManager from '@/features/characters/components/Characte
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { useCharacterListData } from '@/features/characters/hooks/use-character-list-data';
 import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
-import { buildCharacterNameCounts } from '@/features/characters/utils/character-route';
 import { useGradientAccent, useIsMobile } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import { ActionIcon, Button, Container, Group, Stack, Tooltip } from '@mantine/core';
@@ -30,11 +29,6 @@ export default function Characters() {
 
   const mostRecentUpdate = useMemo(
     () => getLatestTimestamp(characters),
-    [characters]
-  );
-
-  const characterNameCounts = useMemo(
-    () => buildCharacterNameCounts(characters),
     [characters]
   );
 
@@ -91,7 +85,6 @@ export default function Characters() {
           activeFilterCount={listData.activeFilterCount}
           opened={managerOpened}
           onClose={closeManager}
-          characterNameCounts={characterNameCounts}
         />
 
         <ListPageShell

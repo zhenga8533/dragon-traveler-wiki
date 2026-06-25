@@ -13,6 +13,20 @@ import {
   normalizeTeamBenchEntry,
 } from '@/features/teams/utils/team-bench';
 
+interface LegacyTeamMember {
+  character_slug?: string;
+  character_name?: string;
+  character_quality?: TeamMember['character_quality'];
+  overdrive_order?: number | null;
+  note?: string;
+  position?: TeamMember['position'];
+}
+
+type TeamPatch = Partial<Omit<Team, 'members' | 'bench'>> & {
+  members?: LegacyTeamMember[];
+  bench?: unknown[];
+};
+
 export const MAX_ROSTER_SIZE = 6;
 export const GRID_SIZE = 9; // 3×3 grid
 
@@ -48,8 +62,14 @@ export function getValidRows(charClass: CharacterClass): number[] {
   }
 }
 
-export function isTeamMemberLike(value: unknown): value is TeamMember {
-  if (!isRecord(value) || typeof value.character_slug !== 'string') {
+export function isTeamMemberLike(value: unknown): value is LegacyTeamMember {
+  if (!isRecord(value)) {
+    return false;
+  }
+
+  const hasSlug = typeof value.character_slug === 'string';
+  const hasLegacyName = typeof value.character_name === 'string';
+  if (!hasSlug && !hasLegacyName) {
     return false;
   }
 
@@ -70,28 +90,28 @@ function teamMemberIdentity(member: {
   return `${member.character_slug}__${member.character_quality ?? ''}`.toLowerCase();
 }
 
-export function getPastedTeamPatch(value: unknown): Partial<Team> | null {
+export function getPastedTeamPatch(value: unknown): TeamPatch | null {
   if (Array.isArray(value)) {
     if (value.every(isTeamMemberLike)) {
       return { members: value };
     }
 
     if (value.length === 1 && isRecord(value[0])) {
-      return value[0] as Partial<Team>;
+      return value[0] as TeamPatch;
     }
 
     return null;
   }
 
   if (isRecord(value)) {
-    return value as Partial<Team>;
+    return value as TeamPatch;
   }
 
   return null;
 }
 
 export function normalizeTeamFromPartial(
-  partial: Partial<Team>,
+  partial: TeamPatch,
   fallback: Team
 ): Team {
   const normalizedMembers = Array.isArray(partial.members)
@@ -115,9 +135,14 @@ export function normalizeTeamFromPartial(
           if (seen.has(identity)) continue;
           seen.add(identity);
 
+          const position = member.position;
           const hasValidPosition =
-            typeof member.position?.row === 'number' &&
-            typeof member.position?.col === 'number';
+            isRecord(position) &&
+            typeof position.row === 'number' &&
+            typeof position.col === 'number';
+          const normalizedPosition = hasValidPosition
+            ? { row: position.row as number, col: position.col as number }
+            : null;
           const normalizedMemberNote = normalizeOptionalNote(member.note);
 
           members.push({
@@ -128,14 +153,7 @@ export function normalizeTeamFromPartial(
                 ? member.overdrive_order
                 : null,
             ...(normalizedMemberNote ? { note: normalizedMemberNote } : {}),
-            ...(hasValidPosition
-              ? {
-                  position: {
-                    row: member.position!.row,
-                    col: member.position!.col,
-                  },
-                }
-              : {}),
+            ...(normalizedPosition ? { position: normalizedPosition } : {}),
           });
         }
         return members;

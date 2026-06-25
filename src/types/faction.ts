@@ -42,7 +42,7 @@ export const FACTION_NAME_TO_SLUG: Record<FactionName, FactionSlug> = {
 };
 
 export interface Faction {
-  slug: string;
+  slug: FactionSlug;
   name: FactionName;
   wyrms: string[];
   description: string;

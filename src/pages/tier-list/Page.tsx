@@ -151,7 +151,6 @@ export default function TierList() {
   const {
     preferredByName: preferredCharacterByName,
     byIdentity: characterByIdentity,
-    nameCounts: characterNameCounts,
   } = useCharacterResolution(characters);
 
   const charMap = preferredCharacterByName;
@@ -450,7 +449,6 @@ export default function TierList() {
                 visibleTierLists={visibleTierLists}
                 characters={characters}
                 resolveTierEntryCharacter={resolveTierEntryCharacter}
-                characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
                 onClearFilters={handleClearFilters}
                 onOpenFilters={toggleFilter}
@@ -469,7 +467,6 @@ export default function TierList() {
                 savedTierLists={savedTierLists}
                 visibleSavedTierLists={visibleSavedTierLists}
                 resolveTierEntryCharacter={resolveTierEntryCharacter}
-                characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
                 search={search}
                 onClearFilters={handleClearFilters}

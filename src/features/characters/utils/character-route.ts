@@ -52,6 +52,31 @@ function getPreferredCharacterByName(
   return preferredByName.get(normalized);
 }
 
+function getCharacterByLegacyNameAndQuality(
+  nameOrSlug: string,
+  quality: string | null | undefined,
+  candidates: Iterable<Character>
+): Character | undefined {
+  if (!quality) return undefined;
+
+  const normalizedName = normalizeCharacterNameKey(nameOrSlug);
+  const normalizedSlug = toEntitySlug(nameOrSlug);
+  if (!normalizedName && !normalizedSlug) return undefined;
+
+  for (const character of candidates) {
+    if (character.quality !== quality) continue;
+    if (character.slug === nameOrSlug) return character;
+    if (normalizeCharacterNameKey(character.name) === normalizedName) {
+      return character;
+    }
+    if (toEntitySlug(character.name) === normalizedSlug) {
+      return character;
+    }
+  }
+
+  return undefined;
+}
+
 /** Returns the stable identity key for a character (its slug, which always embeds quality). */
 export function getCharacterIdentityKey(character: Character): string {
   return character.slug;
@@ -65,17 +90,6 @@ export function getCharacterBaseSlug(characterOrName: Character | string): strin
     return toEntitySlug(characterOrName);
   }
   return characterOrName.slug;
-}
-
-export function buildCharacterNameCounts(
-  characters: Character[]
-): Map<string, number> {
-  const counts = new Map<string, number>();
-  for (const character of characters) {
-    const key = character.slug;
-    counts.set(key, (counts.get(key) ?? 0) + 1);
-  }
-  return counts;
 }
 
 export function getCharacterRouteSlug(character: Character): string {
@@ -137,13 +151,20 @@ export function getCharacterByReferenceKey(
 
 export function resolveCharacterReferenceKey(
   nameOrSlug: string,
-  _quality: string | null | undefined,
+  quality: string | null | undefined,
   characters: Character[],
   preferredByName: Map<string, Character>,
   byIdentity: Map<string, Character>
 ): string {
   // Direct slug lookup — primary path since slugs are globally unique
   if (byIdentity.has(nameOrSlug)) return nameOrSlug;
+
+  const qualityMatch = getCharacterByLegacyNameAndQuality(
+    nameOrSlug,
+    quality,
+    characters
+  );
+  if (qualityMatch) return qualityMatch.slug;
 
   // Name-based lookup (handles display names like "Athena")
   const preferred = getPreferredCharacterByName(nameOrSlug, preferredByName);
@@ -172,13 +193,20 @@ export function toCharacterReferenceFromKey(
 
 export function resolveCharacterByNameAndQuality(
   nameOrSlug: string,
-  _quality: string | null | undefined,
+  quality: string | null | undefined,
   preferredByName: Map<string, Character>,
   byIdentity: Map<string, Character>
 ): Character | null {
   // Direct slug lookup — primary path since slugs are globally unique
   const bySlug = byIdentity.get(nameOrSlug);
   if (bySlug) return bySlug;
+
+  const qualityMatch = getCharacterByLegacyNameAndQuality(
+    nameOrSlug,
+    quality,
+    byIdentity.values()
+  );
+  if (qualityMatch) return qualityMatch;
 
   // Name-based lookup (handles display names like "Athena")
   return getPreferredCharacterByName(nameOrSlug, preferredByName) ?? null;
@@ -189,6 +217,16 @@ export interface CharacterRouteMatch {
   variants: Character[];
   baseSlug: string | null;
   incomingSlug: string;
+}
+
+function getSameNameVariants(
+  character: Character,
+  characters: Character[]
+): Character[] {
+  const normalizedName = normalizeCharacterNameKey(character.name);
+  return characters.filter(
+    (entry) => normalizeCharacterNameKey(entry.name) === normalizedName
+  );
 }
 
 export function resolveCharacterRoute(
@@ -211,24 +249,10 @@ export function resolveCharacterRoute(
     (entry) => getCharacterRouteSlug(entry).toLowerCase() === incomingSlug
   );
   if (matchedByExactSlug) {
-    const baseSlug = matchedByExactSlug.slug;
-    const variants = characters.filter((entry) => entry.slug === baseSlug);
     return {
       character: matchedByExactSlug,
-      variants,
-      baseSlug,
-      incomingSlug,
-    };
-  }
-
-  const baseSlug = incomingSlug;
-  const variants = characters.filter((entry) => entry.slug === baseSlug);
-
-  if (variants.length === 1) {
-    return {
-      character: variants[0],
-      variants,
-      baseSlug,
+      variants: getSameNameVariants(matchedByExactSlug, characters),
+      baseSlug: toEntitySlug(matchedByExactSlug.name),
       incomingSlug,
     };
   }
@@ -242,16 +266,16 @@ export function resolveCharacterRoute(
   if (legacyVariants.length === 1) {
     return {
       character: legacyVariants[0],
-      variants: legacyVariants,
-      baseSlug: legacyVariants[0].slug,
+      variants: getSameNameVariants(legacyVariants[0], characters),
+      baseSlug: toEntitySlug(legacyVariants[0].name),
       incomingSlug,
     };
   }
 
   return {
     character: null,
-    variants: legacyVariants.length > 0 ? legacyVariants : variants,
-    baseSlug: legacyVariants.length > 0 ? legacySlug : variants.length > 0 ? baseSlug : null,
+    variants: legacyVariants,
+    baseSlug: legacyVariants.length > 0 ? legacySlug : null,
     incomingSlug,
   };
 }

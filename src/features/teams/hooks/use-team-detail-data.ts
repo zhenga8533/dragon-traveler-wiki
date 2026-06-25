@@ -19,7 +19,6 @@ interface UseTeamDetailDataParams {
   artifacts: Artifact[];
   charMap: Map<string, Character>;
   characterByIdentity: Map<string, Character>;
-  characterNameCounts: Map<string, number>;
   wyrmspells: Wyrmspell[];
   fallbackFactionColor: string;
 }

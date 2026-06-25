@@ -16,7 +16,6 @@ import CharacterPortrait from './CharacterPortrait';
 
 interface CharacterTableProps {
   pageItems: Character[];
-  characterNameCounts: Map<string, number>;
   sortCol: string | null;
   sortDir: 'asc' | 'desc';
   handleSort: (key: string) => void;

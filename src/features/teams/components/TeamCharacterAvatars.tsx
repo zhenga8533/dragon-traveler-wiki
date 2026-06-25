@@ -28,7 +28,6 @@ export default function TeamCharacterAvatars({
 	gap?: number;
 	wrap?: 'wrap' | 'nowrap';
 	maxVisible?: number;
-	nameCounts?: Map<string, number>;
 }) {
 	const shouldLimitVisibleCount =
 		typeof maxVisible === 'number' &&

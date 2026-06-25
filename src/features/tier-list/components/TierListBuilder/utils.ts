@@ -7,13 +7,19 @@ import { toQuality } from '@/utils/quality';
 import { isRecord } from '@/utils/type-guards';
 import { toEntitySlug } from '@/utils/entity-slug';
 
-export function isTierEntryLike(value: unknown): value is {
+interface LegacyTierEntry {
   character_slug?: string;
-  character_name?: string; // legacy format
+  character_name?: string;
   character_quality?: Quality;
   tier: string;
   note?: string;
-} {
+}
+
+type TierListPatch = Partial<Omit<TierList, 'entries'>> & {
+  entries?: LegacyTierEntry[];
+};
+
+export function isTierEntryLike(value: unknown): value is LegacyTierEntry {
   if (!isRecord(value)) return false;
 
   const hasSlug = typeof value.character_slug === 'string';
@@ -34,7 +40,7 @@ export function isTierEntryLike(value: unknown): value is {
 
 export function getPastedTierListPatch(
   value: unknown
-): Partial<TierList> | null {
+): TierListPatch | null {
   if (Array.isArray(value)) {
     if (value.every(isTierEntryLike)) {
       return { entries: value };
@@ -55,7 +61,7 @@ export function getPastedTierListPatch(
 }
 
 export function normalizeTierListFromPartial(
-  partial: Partial<TierList>,
+  partial: TierListPatch,
   fallback: TierList
 ): TierList {
   const getEntryIdentity = (entry: {

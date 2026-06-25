@@ -77,7 +77,6 @@ export default function TeamBuilder({
     bench,
     benchNotes,
     characterByIdentity,
-    characterNameCounts,
     factionColor,
     getCharacterFromKey,
     getCharacterPath,
@@ -260,7 +259,6 @@ export default function TeamBuilder({
             onRemove={handleRemoveFromTeam}
             onNoteChange={handleSlotNoteChange}
             activeId={activeId}
-            nameCounts={characterNameCounts}
           />
 
           <Stack gap="xs">
@@ -272,7 +270,6 @@ export default function TeamBuilder({
               charMap={characterByIdentity}
               benchNotes={benchNotes}
               onBenchNoteChange={handleBenchNoteChange}
-              nameCounts={characterNameCounts}
             />
           </Stack>
 
@@ -289,7 +286,6 @@ export default function TeamBuilder({
                     charKey={getCharacterIdentityKey(c)}
                     char={c}
                     size={isMobile ? 56 : undefined}
-                    nameCounts={characterNameCounts}
                     onClick={() =>
                       handleAddToNextSlot(getCharacterIdentityKey(c))
                     }

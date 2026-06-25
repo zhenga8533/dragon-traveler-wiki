@@ -37,7 +37,6 @@ export default function CharacterList({
     sortCol,
     sortDir,
     handleSort,
-    characterNameCounts,
     effectOptions,
     tierOptions,
     selectedTierListName,
@@ -72,7 +71,6 @@ export default function CharacterList({
   const tableContent = (
     <CharacterTable
       pageItems={pageItems}
-      characterNameCounts={characterNameCounts}
       sortCol={sortCol}
       sortDir={sortDir}
       handleSort={handleSort}

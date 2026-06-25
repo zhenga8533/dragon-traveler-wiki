@@ -20,7 +20,6 @@ interface TierListSavedTabProps {
 	resolveTierEntryCharacter: (
 		entry: TierListType['entries'][number]
 	) => Character | null | undefined;
-	characterNameCounts: Map<string, number>;
 	viewMode: string;
 	search: string;
 	onClearFilters: () => void;
@@ -38,7 +37,6 @@ export default function TierListSavedTab({
 	savedTierLists,
 	visibleSavedTierLists,
 	resolveTierEntryCharacter,
-	characterNameCounts,
 	viewMode,
 	search,
 	onClearFilters,
@@ -136,7 +134,6 @@ export default function TierListSavedTab({
 							<TierListContent
 								tierList={tierList}
 								resolveTierEntryCharacter={resolveTierEntryCharacter}
-								characterNameCounts={characterNameCounts}
 								viewMode={viewMode}
 								headerActions={headerActions}
 								disableNameClamp={isExporting === tierList.name}

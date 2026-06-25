@@ -5,7 +5,6 @@ import { CharacterOwnershipContext, TierListReferenceContext } from '@/contexts'
 import type { Character } from '@/features/characters/types';
 import {
   buildCharacterByIdentityMap,
-  buildCharacterNameCounts,
   buildPreferredCharacterByNameMap,
   getCharacterIdentityKey,
   resolveCharacterByNameAndQuality,
@@ -40,7 +39,6 @@ export interface CharacterListData {
   sortCol: string | null;
   sortDir: 'asc' | 'desc';
   handleSort: (key: string) => void;
-  characterNameCounts: Map<string, number>;
   effectOptions: { label: string; value: string; slug: string; icon?: boolean; type?: string }[];
   tierOptions: string[];
   selectedTierListName: string | null;
@@ -117,11 +115,6 @@ export function useCharacterListData(
         type: effect.type,
       }));
   }, [characters, statusEffects]);
-
-  const characterNameCounts = useMemo(
-    () => buildCharacterNameCounts(characters),
-    [characters]
-  );
 
   const preferredCharacterByName = useMemo(
     () => buildPreferredCharacterByNameMap(characters),
@@ -275,7 +268,6 @@ export function useCharacterListData(
     sortCol,
     sortDir,
     handleSort,
-    characterNameCounts,
     effectOptions,
     tierOptions,
     selectedTierListName,

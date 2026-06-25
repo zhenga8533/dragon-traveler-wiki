@@ -34,7 +34,6 @@ interface TierListContentProps {
 	resolveTierEntryCharacter: (
 		entry: TierListType['entries'][number]
 	) => Character | null | undefined;
-	characterNameCounts: Map<string, number>;
 	viewMode: string;
 	headerActions: ReactNode;
 	exportRefCallback?: (node: HTMLDivElement | null) => void;

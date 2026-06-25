@@ -302,8 +302,7 @@ export function useTeamBuilderState({
   const [draftHydrated, setDraftHydrated] = useState(false);
   const [activeId, setActiveId] = useState<string | null>(null);
 
-  const { byIdentity: characterByIdentity, nameCounts: characterNameCounts } =
-    useCharacterResolution(characters);
+  const { byIdentity: characterByIdentity } = useCharacterResolution(characters);
 
   const getCharacterFromKey = useCallback(
     (characterKey: string) =>
@@ -1177,7 +1176,6 @@ export function useTeamBuilderState({
     bench: state.bench,
     benchNotes: state.benchNotes,
     characterByIdentity,
-    characterNameCounts,
     factionColor,
     getCharacterFromKey,
     getCharacterPath,

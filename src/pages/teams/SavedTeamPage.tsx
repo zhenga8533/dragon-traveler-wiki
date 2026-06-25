@@ -108,7 +108,6 @@ export default function SavedTeamPage() {
   const {
     preferredByName: charMap,
     byIdentity: characterByIdentity,
-    nameCounts: characterNameCounts,
   } = useCharacterResolution(characters);
 
   const {
@@ -123,7 +122,6 @@ export default function SavedTeamPage() {
     artifacts,
     charMap,
     characterByIdentity,
-    characterNameCounts,
     wyrmspells,
     fallbackFactionColor: accent.secondary,
   });

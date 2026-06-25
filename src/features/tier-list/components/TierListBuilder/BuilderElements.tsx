@@ -108,7 +108,6 @@ export function DraggableCharCard({
   overlay?: boolean;
   tier?: string;
   size?: number;
-  nameCounts?: Map<string, number>;
 }) {
   const dragKey = charKey ?? name;
   const { attributes, listeners, setNodeRef, isDragging } = useDraggable({

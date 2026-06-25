@@ -36,7 +36,6 @@ interface TierListViewTabProps {
 	resolveTierEntryCharacter: (
 		entry: TierListType['entries'][number]
 	) => Character | null | undefined;
-	characterNameCounts: Map<string, number>;
 	viewMode: string;
 	onClearFilters: () => void;
 	onOpenFilters: () => void;
@@ -53,7 +52,6 @@ export default function TierListViewTab({
 	visibleTierLists,
 	characters,
 	resolveTierEntryCharacter,
-	characterNameCounts,
 	viewMode,
 	onClearFilters,
 	onOpenFilters,
@@ -135,7 +133,6 @@ export default function TierListViewTab({
 									<TierListContent
 										tierList={tierList}
 										resolveTierEntryCharacter={resolveTierEntryCharacter}
-										characterNameCounts={characterNameCounts}
 										viewMode={viewMode}
 										headerActions={headerActions}
 										disableNameClamp={isExporting === tierList.name}

@@ -35,7 +35,6 @@ interface TeamCardProps {
 	team: Team;
 	charMap: Map<string, Character>;
 	characterByIdentity: Map<string, Character>;
-	characterNameCounts: Map<string, number>;
 	onNavigate?: () => void;
 	actions: ReactNode;
 }
@@ -44,7 +43,6 @@ export default function TeamCard({
 	team,
 	charMap,
 	characterByIdentity,
-	characterNameCounts,
 	onNavigate,
 	actions,
 }: TeamCardProps) {
@@ -164,7 +162,6 @@ export default function TeamCard({
 								}))}
 								preferredByName={charMap}
 								byIdentity={characterByIdentity}
-								nameCounts={characterNameCounts}
 								size={isLargeTeamCardLayout ? 64 : 56}
 								layout="wrap"
 								gap={isLargeTeamCardLayout ? 6 : 4}
@@ -197,7 +194,6 @@ export default function TeamCard({
 										}))}
 										preferredByName={charMap}
 										byIdentity={characterByIdentity}
-										nameCounts={characterNameCounts}
 										size={isLargeTeamCardLayout ? 52 : 44}
 										isSubstitute
 										layout="wrap"

@@ -616,7 +616,7 @@ function SearchModalContent({
           .map((r) => ({
             type: 'noble-phantasm' as const,
             title: r.item.name,
-            subtitle: r.item.character || 'Noble Phantasm',
+            subtitle: r.item.character_slug || 'Noble Phantasm',
             path: `/noble-phantasms/${r.item.slug}`,
             icon: getNoblePhantasmIcon(r.item.slug) ?? IoFlashOutline,
             color: 'teal',

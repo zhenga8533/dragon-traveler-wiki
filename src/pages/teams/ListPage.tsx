@@ -143,7 +143,6 @@ export default function Teams() {
   const {
     preferredByName: charMap,
     byIdentity: characterByIdentity,
-    nameCounts: characterNameCounts,
   } = useCharacterResolution(characters);
 
   const contentTypeOptions = useMemo(() => [...CONTENT_TYPE_OPTIONS], []);
@@ -350,7 +349,6 @@ export default function Teams() {
                 filteredTeams={filteredTeams}
                 charMap={charMap}
                 characterByIdentity={characterByIdentity}
-                characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
                 search={search}
                 onClearFilters={handleClearFilters}
@@ -371,7 +369,6 @@ export default function Teams() {
                 filteredSavedTeams={filteredSavedTeams}
                 charMap={charMap}
                 characterByIdentity={characterByIdentity}
-                characterNameCounts={characterNameCounts}
                 viewMode={viewMode}
                 search={search}
                 onClearFilters={handleClearFilters}

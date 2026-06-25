@@ -34,8 +34,6 @@ interface CharacterOwnershipManagerProps {
   activeFilterCount: number;
   opened: boolean;
   onClose: () => void;
-  /** Passed down for correct portrait routing when multiple variants share a name. */
-  characterNameCounts: Map<string, number>;
 }
 
 export default function CharacterOwnershipManager({

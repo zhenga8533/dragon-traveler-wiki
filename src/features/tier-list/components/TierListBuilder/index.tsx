@@ -71,7 +71,6 @@ export default function TierListBuilder({
   const actionButtonSize = isMobile ? 'md' : 'sm';
   const {
     activeId,
-    characterNameCounts,
     getCharacterFromKey,
     handleAddTier,
     handleAuthorCommit,
@@ -272,7 +271,6 @@ export default function TierListBuilder({
                         char={character}
                         tier={tier}
                         size={isMobile ? 56 : undefined}
-                        nameCounts={characterNameCounts}
                       />
                       <CharacterNoteButton
                         value={notes[n] || ''}
@@ -344,7 +342,6 @@ export default function TierListBuilder({
                       charKey={getCharacterIdentityKey(c)}
                       char={c}
                       size={isMobile ? 56 : undefined}
-                      nameCounts={characterNameCounts}
                     />
                   );
                 })}
@@ -366,7 +363,6 @@ export default function TierListBuilder({
                           charKey={activeId}
                           char={activeChar}
                           overlay
-                          nameCounts={characterNameCounts}
                         />
                       );
                     })()
