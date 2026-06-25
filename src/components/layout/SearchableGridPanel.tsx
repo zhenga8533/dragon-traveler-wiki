@@ -1,6 +1,7 @@
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import PaginationControl from '@/components/ui/PaginationControl';
-import { Paper, Stack, TextInput } from '@mantine/core';
+import { StaticSurface } from '@/components/ui/Surface';
+import { Stack, TextInput } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { IoSearch } from 'react-icons/io5';
 
@@ -42,7 +43,7 @@ export default function SearchableGridPanel({
   children,
 }: SearchableGridPanelProps) {
   return (
-    <Paper p="md" radius="md" withBorder data-no-hover>
+    <StaticSurface p="md" data-no-hover>
       <Stack gap="md">
         <TextInput
           placeholder={searchPlaceholder}
@@ -72,6 +73,6 @@ export default function SearchableGridPanel({
           onPageSizeChange={onPageSizeChange}
         />
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }

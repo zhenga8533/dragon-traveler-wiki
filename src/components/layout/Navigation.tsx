@@ -23,7 +23,7 @@ import {
   IoShield,
   IoTrophy,
 } from 'react-icons/io5';
-import { Link, useLocation } from 'react-router-dom';
+import { Link, matchPath, useLocation } from 'react-router-dom';
 
 type NavItem = {
   label: string;
@@ -116,6 +116,18 @@ const expandedNavStyles = {
 const getIconColor = (accent: string, isActive: boolean) =>
   `var(--mantine-color-${accent}-${isActive ? '6' : '5'})`;
 
+const NAV_ACTIVE_PATTERNS: Record<string, string[]> = {
+  '/gear': ['/gear', '/gear-sets/:setName'],
+  '/relics': ['/relics', '/oracle-scrolls/:scrollName'],
+};
+
+function isNavPathActive(navPath: string, pathname: string) {
+  const patterns = NAV_ACTIVE_PATTERNS[navPath] ?? [navPath, `${navPath}/*`];
+  return patterns.some(
+    (pattern) => matchPath({ path: pattern, end: true }, pathname) !== null
+  );
+}
+
 const renderNavIcon = (
   Icon: ComponentType<{ size?: number; color?: string }>,
   accent: string,
@@ -179,7 +191,9 @@ export default function Navigation({
     const initial: Record<string, boolean> = {};
     for (const item of NAV_ITEMS) {
       if (item.children) {
-        const active = item.children.some((c) => location.pathname === c.path);
+        const active = item.children.some((c) =>
+          isNavPathActive(c.path, location.pathname)
+        );
         if (active) initial[item.label] = true;
       }
     }
@@ -190,7 +204,9 @@ export default function Navigation({
     const labelsToOpen: string[] = [];
     for (const item of NAV_ITEMS) {
       if (item.children) {
-        const active = item.children.some((c) => location.pathname === c.path);
+        const active = item.children.some((c) =>
+          isNavPathActive(c.path, location.pathname)
+        );
         if (active) {
           labelsToOpen.push(item.label);
         }
@@ -215,7 +231,7 @@ export default function Navigation({
       {NAV_ITEMS.map((item) => {
         if (item.children) {
           const isChildActive = item.children.some(
-            (child) => location.pathname === child.path
+            (child) => isNavPathActive(child.path, location.pathname)
           );
           const parentAccent = PARENT_ACCENTS[item.label];
 
@@ -271,7 +287,7 @@ export default function Navigation({
                     component={Link}
                     to={child.path}
                     label={child.label}
-                    active={location.pathname === child.path}
+                    active={isNavPathActive(child.path, location.pathname)}
                     color={childAccent}
                     onClick={onNavigate}
                   />
@@ -282,7 +298,7 @@ export default function Navigation({
         }
 
         const itemAccent = getAccentForPath(item.path!);
-        const isActive = location.pathname === item.path;
+        const isActive = isNavPathActive(item.path!, location.pathname);
 
         if (!showLabels) {
           const tooltipLabel =

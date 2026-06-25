@@ -1,17 +1,19 @@
 import {
-  Anchor,
-  Box,
-  Card,
+  Badge,
   Container,
   Group,
   SimpleGrid,
   Stack,
+  Text,
   ThemeIcon,
-  Title,
 } from '@mantine/core';
-import { IoCalendar, IoList, IoPricetag } from 'react-icons/io5';
-import { Link } from 'react-router-dom';
-import { getCardHoverProps } from '@/constants/styles';
+import {
+  IoCalendar,
+  IoGameController,
+  IoGlobe,
+  IoList,
+  IoPricetag,
+} from 'react-icons/io5';
 import { CharacterOwnershipContext } from '@/contexts';
 import { useGradientAccent } from '@/hooks';
 import { useContext } from 'react';
@@ -20,7 +22,20 @@ import ActiveEventsSection from '@/features/home/components/ActiveEventsSection'
 import DataStatsBar from '@/features/home/components/DataStatsBar';
 import FeaturedCharactersMarquee from '@/features/home/components/FeaturedCharactersMarquee';
 import HomeHeroSection from '@/features/home/components/HomeHeroSection';
+import HomeSectionCard from '@/features/home/components/HomeSectionCard';
 import RecentUpdatesSection from '@/features/home/components/RecentUpdatesSection';
+
+const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];
+
+const LANGUAGES = [
+  'English',
+  'Japanese',
+  'Korean',
+  'Simplified Chinese',
+  'Traditional Chinese',
+  'Thai',
+  'Vietnamese',
+];
 
 export default function Home() {
   const { accent } = useGradientAccent();
@@ -30,115 +45,88 @@ export default function Home() {
     <Stack gap={0}>
       <HomeHeroSection />
 
-      {/* Content sections */}
       <Container
         size="lg"
         py={{ base: 'lg', sm: 'xl' }}
         mt={{ base: 'sm', sm: 'md' }}
       >
         <Stack gap="xl">
-          {/* Featured Characters Marquee */}
           {showCharacterTiers && <FeaturedCharactersMarquee />}
 
-          {/* Data stats bar */}
           <DataStatsBar />
 
-          {/* Active Codes & Recent Updates row */}
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-            <Box>
-              <Card
-                padding="lg"
-                radius="md"
-                withBorder
-                h="100%"
-                {...getCardHoverProps()}
-              >
-                <Stack gap="md">
-                  <Group justify="space-between">
-                    <Group gap="sm">
-                      <ThemeIcon
-                        variant="light"
-                        color={accent.primary}
-                        size="lg"
-                        radius="md"
-                      >
-                        <IoPricetag size={20} />
-                      </ThemeIcon>
-                      <Title order={2} size="h3">
-                        Active Codes
-                      </Title>
-                    </Group>
-                    <Anchor component={Link} to="/codes" size="xs" c={accent.primary}>
-                      View all codes →
-                    </Anchor>
-                  </Group>
-                  <ActiveCodesSection />
-                </Stack>
-              </Card>
-            </Box>
-
-            <Box>
-              <Card
-                padding="lg"
-                radius="md"
-                withBorder
-                h="100%"
-                {...getCardHoverProps()}
-              >
-                <Stack gap="md">
-                  <Group justify="space-between">
-                    <Group gap="sm">
-                      <ThemeIcon
-                        variant="light"
-                        color={accent.primary}
-                        size="lg"
-                        radius="md"
-                      >
-                        <IoList size={20} />
-                      </ThemeIcon>
-                      <Title order={2} size="h3">
-                        Recent Updates
-                      </Title>
-                    </Group>
-                    <Anchor component={Link} to="/changelog" size="xs" c={accent.primary}>
-                      View full changelog →
-                    </Anchor>
-                  </Group>
-                  <RecentUpdatesSection />
-                </Stack>
-              </Card>
-            </Box>
-          </SimpleGrid>
-
-          {/* Active Events */}
-          <Card
-            padding="lg"
-            radius="md"
-            withBorder
-            {...getCardHoverProps()}
-          >
+          <HomeSectionCard title="About the Game" icon={IoGameController}>
             <Stack gap="md">
-              <Group justify="space-between">
-                <Group gap="sm">
-                  <ThemeIcon
+              <Text size="sm" fs="italic" c="dimmed">
+                Love x Comedy x Isekai = The Ultimate Bishoujo RPG!
+              </Text>
+              <Text size="sm">
+                Dragon Traveler is a free-to-play idle RPG developed and
+                published by GameTree. Play as Fafnir, heir of the legendary
+                dragon, in a rom-com isekai adventure featuring card-based
+                combat, strategic Dragon Soul mechanics, and a colorful cast of
+                characters.
+              </Text>
+              <Group gap="xs" wrap="wrap">
+                {GENRES.map((genre) => (
+                  <Badge
+                    key={genre}
                     variant="light"
                     color={accent.primary}
-                    size="lg"
-                    radius="md"
+                    size="sm"
                   >
-                    <IoCalendar size={20} />
-                  </ThemeIcon>
-                  <Title order={2} size="h3">
-                    Active Events
-                  </Title>
-                </Group>
-                <Anchor component={Link} to="/events" size="xs" c={accent.primary}>
-                  View all events →
-                </Anchor>
+                    {genre}
+                  </Badge>
+                ))}
+                <Badge variant="light" color={accent.secondary} size="sm">
+                  Free to Play
+                </Badge>
               </Group>
-              <ActiveEventsSection />
+              <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
+                <ThemeIcon
+                  variant="light"
+                  color={accent.secondary}
+                  size="md"
+                  radius="md"
+                  style={{ flexShrink: 0 }}
+                >
+                  <IoGlobe size={16} />
+                </ThemeIcon>
+                <Text size="sm" c="dimmed" style={{ wordBreak: 'break-word' }}>
+                  {LANGUAGES.join(' | ')}
+                </Text>
+              </Group>
             </Stack>
-          </Card>
+          </HomeSectionCard>
+
+          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
+            <HomeSectionCard
+              title="Active Codes"
+              icon={IoPricetag}
+              to="/codes"
+              linkLabel="View all codes"
+            >
+              <ActiveCodesSection />
+            </HomeSectionCard>
+
+            <HomeSectionCard
+              title="Recent Updates"
+              icon={IoList}
+              to="/changelog"
+              linkLabel="View full changelog"
+            >
+              <RecentUpdatesSection />
+            </HomeSectionCard>
+          </SimpleGrid>
+
+          <HomeSectionCard
+            title="Active Events"
+            icon={IoCalendar}
+            to="/events"
+            linkLabel="View all events"
+          >
+            <ActiveEventsSection />
+          </HomeSectionCard>
         </Stack>
       </Container>
     </Stack>

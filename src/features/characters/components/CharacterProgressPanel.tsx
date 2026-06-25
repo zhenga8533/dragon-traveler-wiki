@@ -1,0 +1,42 @@
+import { StaticSurface } from '@/components/ui/Surface';
+import { Select, Stack, Text } from '@mantine/core';
+
+interface StarLevelOption {
+  value: string;
+  label: string;
+}
+
+interface CharacterProgressPanelProps {
+  starLevelOptions: StarLevelOption[];
+  value: string;
+  onChange: (value: string | null) => void;
+}
+
+export default function CharacterProgressPanel({
+  starLevelOptions,
+  value,
+  onChange,
+}: CharacterProgressPanelProps) {
+  if (starLevelOptions.length <= 1) {
+    return null;
+  }
+
+  return (
+    <StaticSurface p="md">
+      <Stack gap="sm">
+        <Text fw={600} size="sm">
+          My Progress
+        </Text>
+        <Select
+          label="Star Level"
+          description="Track your owned star level for this character."
+          data={starLevelOptions}
+          value={value}
+          onChange={onChange}
+          comboboxProps={{ withinPortal: false }}
+          size="sm"
+        />
+      </Stack>
+    </StaticSurface>
+  );
+}

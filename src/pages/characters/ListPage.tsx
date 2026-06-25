@@ -1,7 +1,7 @@
 import {
   CharacterList,
   EmptyState,
-  LastUpdated,
+  ListPageHeader,
   ListPageShell,
   SuggestModal,
 } from '@/components';
@@ -15,7 +15,7 @@ import { useNewCharacters } from '@/features/characters/hooks/use-new-characters
 import { buildCharacterNameCounts } from '@/features/characters/utils/character-route';
 import { useGradientAccent, useIsMobile } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { ActionIcon, Button, Container, Group, Stack, Title, Tooltip } from '@mantine/core';
+import { ActionIcon, Button, Container, Group, Stack, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useMemo } from 'react';
 import { IoPeople, IoPersonOutline } from 'react-icons/io5';
@@ -48,11 +48,7 @@ export default function Characters() {
   return (
     <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
-        <Group justify="space-between" align="center" wrap="wrap">
-          <Group gap="sm" align="baseline">
-            <Title order={1}>Characters</Title>
-            <LastUpdated timestamp={mostRecentUpdate} />
-          </Group>
+        <ListPageHeader title="Characters" timestamp={mostRecentUpdate}>
           <Group gap="xs">
             {isMobile ? (
               <Tooltip label="My Characters">
@@ -87,7 +83,7 @@ export default function Characters() {
               excludeFromJson={['additional_info']}
             />
           </Group>
-        </Group>
+        </ListPageHeader>
 
         <CharacterOwnershipManager
           characters={listData.filteredAndSorted}

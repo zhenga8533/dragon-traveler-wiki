@@ -1,42 +1,14 @@
-import {
-  ActionIcon,
-  Alert,
-  Badge,
-  Box,
-  Center,
-  Container,
-  Grid,
-  Group,
-  Paper,
-  Select,
-  SimpleGrid,
-  Skeleton,
-  Stack,
-  Text,
-  Tooltip,
-  UnstyledButton,
-} from '@mantine/core';
+import { Box, Container, Grid, Stack } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
 import { useCallback, useContext, useMemo, useState } from 'react';
-import {
-  IoChevronBack,
-  IoChevronForward,
-  IoExpand,
-} from 'react-icons/io5';
 import { useParams } from 'react-router-dom';
-import SafeImage from '@/components/ui/SafeImage';
-import { getSubclassIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
-import RichText from '@/components/common/RichText';
-import ClassTag from '@/components/ui/ClassTag';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import ErrorBoundary from '@/components/ui/ErrorBoundary';
-import TierBadge from '@/components/ui/TierBadge';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
-import { getCardHoverProps } from '@/constants/styles';
 import { BREAKPOINTS } from '@/constants/ui';
-import { useCharacterAssets, useGradientAccent, useMobileTooltip, useStarLevels } from '@/hooks';
+import { useCharacterAssets, useMobileTooltip, useStarLevels } from '@/hooks';
 import { CharacterOwnershipContext } from '@/contexts';
 import { getCharacterIdentityKey } from '@/features/characters/utils/character-route';
 import { buildStarLevels } from '@/types/star-level';
@@ -46,21 +18,26 @@ import {
 } from '@/features/characters/hooks/use-character-page-data';
 import CharacterBuildSection from '@/features/characters/components/CharacterBuildSection';
 import CharacterHeroSection from '@/features/characters/components/CharacterHeroSection';
+import CharacterIllustrationPanel from '@/features/characters/components/CharacterIllustrationPanel';
+import CharacterProgressPanel from '@/features/characters/components/CharacterProgressPanel';
 import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
 import CharacterSkillsSection from '@/features/characters/components/CharacterSkillsSection';
+import CharacterSubclassPanel from '@/features/characters/components/CharacterSubclassPanel';
 import CharacterVariantSelector from '@/features/characters/components/CharacterVariantSelector';
 import { useNewCharacters } from '@/features/characters/hooks/use-new-characters';
 
 export default function CharacterPage() {
   const tooltipProps = useMobileTooltip();
-  const { accent } = useGradientAccent();
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
   const { name } = useParams<{ name: string }>();
   const { getCharacterStarLevel, setCharacterStarLevel } = useContext(
     CharacterOwnershipContext
   );
   const { data: rawStarLevels } = useStarLevels();
-  const starLevels = useMemo(() => buildStarLevels(rawStarLevels), [rawStarLevels]);
+  const starLevels = useMemo(
+    () => buildStarLevels(rawStarLevels),
+    [rawStarLevels]
+  );
   const starLevelOptions = useMemo(
     () => [
       { value: '', label: 'Not owned' },
@@ -152,7 +129,6 @@ export default function CharacterPage() {
     );
   }
 
-  const activeIllustrationName = activeIllustration?.name;
   const stickyTopOffset =
     'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))';
   const { previousItem, nextItem } = getCharacterNavPaths(
@@ -185,308 +161,39 @@ export default function CharacterPage() {
                 alignSelf: 'flex-start',
               }}
             >
-              <Box>
-                {illustrationsLoading ? (
-                  <Paper p="md" radius="lg" withBorder {...getCardHoverProps()}>
-                    <Stack gap="xs">
-                      <Group justify="space-between" align="center">
-                        <Text fw={600} size="sm">
-                          Illustrations
-                        </Text>
-                        <Text size="xs" c="dimmed">
-                          Loading...
-                        </Text>
-                      </Group>
-                      <Skeleton height={320} radius="md" />
-                    </Stack>
-                  </Paper>
-                ) : illustrationsError ? (
-                  <Paper p="md" radius="lg" withBorder {...getCardHoverProps()}>
-                    <Stack gap="sm">
-                      <Text fw={600} size="sm">
-                        Illustrations
-                      </Text>
-                      <Alert
-                        color="red"
-                        variant="light"
-                        title="Couldn't load illustrations"
-                      >
-                        {illustrationsError}
-                      </Alert>
-                    </Stack>
-                  </Paper>
-                ) : illustrations.length > 0 ? (
-                  <Stack gap="sm">
-                    <Paper
-                      p="md"
-                      radius="lg"
-                      withBorder
-                      {...getCardHoverProps({ style: { overflow: 'hidden' } })}
-                    >
-                      <Stack gap="xs">
-                        <Group justify="space-between" align="center">
-                          <Text fw={600} size="sm">
-                            Illustrations
-                          </Text>
-                          {activeIllustrationIndex >= 0 &&
-                            (hasMultipleIllustrations ? (
-                              <Group gap={2} align="center">
-                                <ActionIcon
-                                  onClick={showPreviousIllustration}
-                                  variant="subtle"
-                                  color={accent.primary}
-                                  size="sm"
-                                  aria-label="Previous illustration"
-                                >
-                                  <IoChevronBack />
-                                </ActionIcon>
-                                <Text size="xs" c="dimmed">
-                                  {activeIllustrationIndex + 1}/
-                                  {illustrations.length}
-                                </Text>
-                                <ActionIcon
-                                  onClick={showNextIllustration}
-                                  variant="subtle"
-                                  color={accent.primary}
-                                  size="sm"
-                                  aria-label="Next illustration"
-                                >
-                                  <IoChevronForward />
-                                </ActionIcon>
-                              </Group>
-                            ) : (
-                              <Text size="xs" c="dimmed">
-                                {activeIllustrationIndex + 1}/
-                                {illustrations.length}
-                              </Text>
-                            ))}
-                        </Group>
-                        <UnstyledButton
-                          onClick={() => setPreviewOpen(true)}
-                          style={{
-                            display: 'block',
-                            width: '100%',
-                            minHeight: isDesktop ? undefined : 44,
-                            borderRadius: 'var(--mantine-radius-md)',
-                            overflow: 'hidden',
-                            position: 'relative',
-                          }}
-                        >
-                          {activeIllustration?.type === 'video' ? (
-                            <Box
-                              component="video"
-                              src={activeIllustration.src}
-                              style={{
-                                width: '100%',
-                                maxHeight: 420,
-                                display: 'block',
-                              }}
-                            />
-                          ) : (
-                            <SafeImage
-                              src={activeIllustration?.src}
-                              alt={
-                                activeIllustration
-                                  ? `${character.name} - ${activeIllustration.name}`
-                                  : character.name
-                              }
-                              fit="contain"
-                              mah={420}
-                              loading="lazy"
-                            />
-                          )}
-                          <Box
-                            style={{
-                              position: 'absolute',
-                              inset: 0,
-                              background:
-                                'linear-gradient(180deg, transparent var(--dt-gradient-overlay-mid), rgba(0,0,0,0.55) 100%)',
-                              pointerEvents: 'none',
-                            }}
-                          />
-                          <Group
-                            justify="space-between"
-                            align="center"
-                            style={{
-                              position: 'absolute',
-                              bottom: 12,
-                              left: 12,
-                              right: 12,
-                            }}
-                          >
-                            <Stack gap={2}>
-                              <Text size="sm" fw={600} c="white">
-                                {activeIllustrationName ?? character.name}
-                              </Text>
-                              <Text size="xs" c="gray.2">
-                                {activeIllustration?.type === 'video'
-                                  ? 'Animation'
-                                  : 'Artwork'}
-                              </Text>
-                            </Stack>
-                            <Badge
-                              leftSection={<IoExpand />}
-                              variant="light"
-                              color={accent.primary}
-                              size={isDesktop ? 'md' : 'lg'}
-                            >
-                              View
-                            </Badge>
-                          </Group>
-                        </UnstyledButton>
-                      </Stack>
-                    </Paper>
-                  </Stack>
-                ) : (
-                  <Paper p="xl" radius="lg" withBorder {...getCardHoverProps()}>
-                    <Center h={300}>
-                      <Text c="dimmed">No illustrations available</Text>
-                    </Center>
-                  </Paper>
-                )}
-              </Box>
+              <CharacterIllustrationPanel
+                characterName={character.name}
+                activeIllustration={activeIllustration}
+                activeIllustrationIndex={activeIllustrationIndex}
+                illustrationsLength={illustrations.length}
+                hasMultipleIllustrations={hasMultipleIllustrations}
+                illustrationsLoading={illustrationsLoading}
+                illustrationsError={illustrationsError}
+                isDesktop={isDesktop}
+                onOpenPreview={() => setPreviewOpen(true)}
+                onPrevious={showPreviousIllustration}
+                onNext={showNextIllustration}
+              />
 
-              {/* My Progress */}
-              {starLevelOptions.length > 1 && (
-                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
-                  <Stack gap="sm">
-                    <Text fw={600} size="sm">
-                      My Progress
-                    </Text>
-                    <Select
-                      label="Star Level"
-                      description="Track your owned star level for this character."
-                      data={starLevelOptions}
-                      value={
-                        getCharacterStarLevel(
-                          getCharacterIdentityKey(character)
-                        ) ?? ''
-                      }
-                      onChange={(val) =>
-                        setCharacterStarLevel(
-                          getCharacterIdentityKey(character),
-                          val || null
-                        )
-                      }
-                      comboboxProps={{ withinPortal: false }}
-                      size="sm"
-                    />
-                  </Stack>
-                </Paper>
-              )}
+              <CharacterProgressPanel
+                starLevelOptions={starLevelOptions}
+                value={
+                  getCharacterStarLevel(getCharacterIdentityKey(character)) ??
+                  ''
+                }
+                onChange={(val) =>
+                  setCharacterStarLevel(
+                    getCharacterIdentityKey(character),
+                    val || null
+                  )
+                }
+              />
 
-              {/* Subclasses */}
-              {character.subclasses.length > 0 && (
-                <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
-                  <Stack gap="sm">
-                    <Text fw={600} size="sm">
-                      Subclasses
-                    </Text>
-                    <SimpleGrid cols={2} spacing="xs">
-                      {character.subclasses.map((subclass) => {
-                        const subclassDetails = subclassBySlug.get(subclass);
-                        const subclassClass =
-                          subclassDetails?.class ?? character.character_class;
-                        const subclassIcon = getSubclassIcon(
-                          subclassDetails?.slug ?? subclass,
-                          subclassClass
-                        );
-                        const subclassBonuses = subclassDetails?.bonuses ?? [];
-                        const tooltipLabel = (
-                          <Stack gap={6}>
-                            <Text size="xs" fw={700}>
-                              {subclassDetails?.name ?? subclass}
-                            </Text>
-                            <Group gap={6} wrap="wrap">
-                              {subclassDetails?.tier && (
-                                <TierBadge
-                                  tier={String(subclassDetails.tier)}
-                                  showPrefix
-                                  size="xs"
-                                  index={subclassDetails.tier - 1}
-                                />
-                              )}
-                              {subclassDetails?.class && (
-                                <ClassTag
-                                  characterClass={subclassDetails.class}
-                                  size="xs"
-                                />
-                              )}
-                            </Group>
-                            {subclassDetails?.effect && (
-                              <RichText
-                                text={subclassDetails.effect}
-                                statusEffects={statusEffects}
-                                disablePopovers
-                              />
-                            )}
-                            {subclassBonuses.length > 0 && (
-                              <Text
-                                size="xs"
-                                c="dimmed"
-                                style={{ lineHeight: 1.4 }}
-                              >
-                                Bonuses: {subclassBonuses.join(', ')}
-                              </Text>
-                            )}
-                          </Stack>
-                        );
-                        return (
-                          <Tooltip
-                            key={subclass}
-                            label={tooltipLabel}
-                            multiline
-                            {...tooltipProps}
-                            maw={300}
-                          >
-                            <Paper
-                              p="xs"
-                              radius="sm"
-                              withBorder
-                              {...getCardHoverProps()}
-                            >
-                              <Stack gap={6} align="center">
-                                {subclassIcon && (
-                                  <Center>
-                                    <SafeImage
-                                      src={subclassIcon}
-                                      alt={subclass}
-                                      w={100}
-                                      h={93}
-                                      fit="contain"
-                                      loading="lazy"
-                                    />
-                                  </Center>
-                                )}
-
-                                <Group
-                                  justify="center"
-                                  align="center"
-                                  wrap="wrap"
-                                  gap={6}
-                                >
-                                  <Text size="xs" fw={600} ta="center">
-                                    {subclassDetails?.name ?? subclass}
-                                  </Text>
-                                  {subclassDetails?.tier && (
-                                    <TierBadge
-                                      tier={String(subclassDetails.tier)}
-                                      showPrefix
-                                      size="xs"
-                                      index={subclassDetails.tier - 1}
-                                    />
-                                  )}
-                                </Group>
-                              </Stack>
-                            </Paper>
-                          </Tooltip>
-                        );
-                      })}
-                    </SimpleGrid>
-                  </Stack>
-                </Paper>
-              )}
-
+              <CharacterSubclassPanel
+                character={character}
+                subclassBySlug={subclassBySlug}
+                statusEffects={statusEffects}
+              />
             </Stack>
           </Grid.Col>
 

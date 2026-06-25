@@ -1,8 +1,9 @@
-import { Paper, Stack } from '@mantine/core';
+import { Stack } from '@mantine/core';
 import type { ReactNode } from 'react';
 import type { ViewMode } from '@/hooks/use-filters';
 import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
 import PaginationControl from '@/components/ui/PaginationControl';
+import { StaticSurface } from '@/components/ui/Surface';
 import FilterToolbar from './FilterToolbar';
 
 interface FilteredListShellProps {
@@ -49,7 +50,7 @@ export default function FilteredListShell({
   const defaultEmpty = `No ${noun}s match the current filters.`;
 
   return (
-    <Paper p="md" radius="md" withBorder data-no-hover>
+    <StaticSurface p="md" data-no-hover>
       <Stack gap="md">
         <FilterToolbar
           count={count}
@@ -88,6 +89,6 @@ export default function FilteredListShell({
           />
         )}
       </Stack>
-    </Paper>
+    </StaticSurface>
   );
 }
