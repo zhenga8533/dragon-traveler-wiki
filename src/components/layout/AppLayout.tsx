@@ -139,8 +139,7 @@ export default function AppLayout() {
           overflow: 'clip',
           display: 'flex',
           flexDirection: 'column',
-          background:
-            'linear-gradient(180deg, rgba(255,255,255,0.02) 0%, rgba(255,255,255,0) 22%), var(--mantine-color-body)',
+          background: 'var(--mantine-color-body)',
         }}
       >
         {showBanner && <BannerBackground />}

@@ -88,13 +88,13 @@ export function FilterMultiSelect({ color, ...props }: MultiSelectProps) {
 
 export interface FilterClearButtonProps {
   onClick: () => void;
-  size?: 'compact-xs' | 'xs' | 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md';
   label?: string;
 }
 
 export function FilterClearButton({
   onClick,
-  size = 'compact-xs',
+  size = 'xs',
   label = 'Clear',
 }: FilterClearButtonProps) {
   const { accent } = useGradientAccent();
@@ -121,7 +121,7 @@ export interface FilterSectionProps {
 export function FilterSection({ label, info, children }: FilterSectionProps) {
   return (
     <Group gap="xs" align="center" wrap="wrap">
-      <Group gap={4} align="center" style={{ minWidth: 60 }}>
+      <Group gap={4} align="center" style={{ minWidth: 80 }}>
         <Text size="xs" fw={600} tt="uppercase" c="dimmed">
           {label}
         </Text>

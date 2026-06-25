@@ -8,7 +8,7 @@ interface GlobalBadgeProps {
 
 function GlobalBadge({ isGlobal, size = 'sm' }: GlobalBadgeProps) {
   return (
-    <Badge variant="light" size={size} color={isGlobal ? 'green' : 'orange'}>
+    <Badge variant="light" size={size} color={isGlobal ? 'teal' : 'gray'}>
       {isGlobal ? 'Global' : 'TW / CN'}
     </Badge>
   );

@@ -15,7 +15,7 @@ function EntityTagBadge({
   label,
   color,
   iconSrc,
-  iconSize = 12,
+  iconSize = 14,
   size = 'sm',
 }: EntityTagBadgeProps) {
   return (

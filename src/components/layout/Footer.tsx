@@ -114,8 +114,8 @@ export default function Footer() {
               aria-expanded={showLegal}
               aria-controls="footer-legal"
               c={accentColor}
-              size="xs"
-              fw={600}
+              size="sm"
+              fw={500}
               style={ICON_TEXT_FLEX_STYLE}
             >
               {showLegal ? <IoChevronUp /> : <IoChevronDown />}

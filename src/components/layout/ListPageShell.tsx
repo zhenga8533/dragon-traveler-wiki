@@ -1,5 +1,5 @@
 import DataFetchError from '@/components/ui/DataFetchError';
-import { Text } from '@mantine/core';
+import { Stack, Text } from '@mantine/core';
 import { type ReactNode } from 'react';
 import { CardGridLoading, ListPageLoading } from './PageLoadingSkeleton';
 
@@ -49,7 +49,11 @@ export default function ListPageShell({
     );
   }
   if (!hasData) {
-    return <Text c="dimmed">{emptyMessage}</Text>;
+    return (
+      <Stack align="center" py="xl">
+        <Text c="dimmed">{emptyMessage}</Text>
+      </Stack>
+    );
   }
   return <>{children}</>;
 }

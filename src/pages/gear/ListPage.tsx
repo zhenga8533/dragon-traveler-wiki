@@ -630,7 +630,7 @@ export default function GearPage() {
                                 </Text>
                                 {bonusQuantity > 0 && (
                                   <Badge
-                                    variant="outline"
+                                    variant="light"
                                     size="sm"
                                     color={accent.tertiary}
                                   >

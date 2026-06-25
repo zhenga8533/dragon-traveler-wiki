@@ -82,17 +82,16 @@ export default function CharacterPageHeroSection({
           }}
         />
       )}
-      {!isDark && (
-        <Box
-          style={{
-            position: 'absolute',
-            inset: 0,
-            background:
-              'linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.75))',
-            pointerEvents: 'none',
-          }}
-        />
-      )}
+      <Box
+        style={{
+          position: 'absolute',
+          inset: 0,
+          background: isDark
+            ? 'transparent'
+            : 'linear-gradient(180deg, rgba(255,255,255,0.6), rgba(255,255,255,0.75))',
+          pointerEvents: 'none',
+        }}
+      />
 
       {/* Content overlay */}
       <Container
@@ -132,7 +131,7 @@ export default function CharacterPageHeroSection({
                 <Group gap="md" align="center" wrap="wrap">
                   <Title
                     order={1}
-                    c={isDark ? 'white' : 'dark'}
+                    c="var(--mantine-color-text)"
                     fz={{ base: '2.25rem', sm: '3rem' }}
                     lh={1}
                     style={{ wordBreak: 'break-word' }}
@@ -144,9 +143,9 @@ export default function CharacterPageHeroSection({
 
                 {character.title && (
                   <Text
-                    size="lg"
-                    fw={600}
-                    c={isDark ? 'gray.4' : 'gray.7'}
+                    size="md"
+                    fw={500}
+                    c="dimmed"
                     style={{ letterSpacing: '0.01em' }}
                   >
                     {character.title}
@@ -170,7 +169,7 @@ export default function CharacterPageHeroSection({
                 </Group>
 
                 {/* Factions */}
-                <Group gap={8}>
+                <Group gap="xs">
                   {character.factions.map((f) => (
                     <FactionTag key={f} faction={f} size="md" />
                   ))}
@@ -180,12 +179,12 @@ export default function CharacterPageHeroSection({
                 <Group gap="md" wrap="wrap" align="center">
                   <Group gap="sm">
                     {character.height && (
-                      <Text size="sm" c="dimmed" fw={500}>
+                      <Text size="sm" c="dimmed">
                         HT: {character.height}
                       </Text>
                     )}
                     {character.weight && (
-                      <Text size="sm" c="dimmed" fw={500}>
+                      <Text size="sm" c="dimmed">
                         WT: {character.weight}
                       </Text>
                     )}

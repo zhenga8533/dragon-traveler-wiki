@@ -576,14 +576,19 @@
   --mantine-primary-color-contrast: var(--mantine-color-pink-contrast);
 }
 
-/* CharacterCard button wrapper — scales the whole card on hover */
+/* CharacterCard button wrapper — lifts the whole card on hover */
 .character-card-btn {
   border-radius: var(--mantine-radius-md);
-  transition: transform 150ms ease;
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .character-card-btn:hover {
-  transform: scale(1.05);
+  transform: translateY(-2px);
+  box-shadow:
+    var(--mantine-shadow-md),
+    0 10px 28px rgba(2, 6, 23, 0.12);
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -593,6 +598,7 @@
 
   .character-card-btn:hover {
     transform: none;
+    box-shadow: none;
   }
 }
 
@@ -622,8 +628,8 @@
    via the .mantine-Paper-root[data-with-border] rules below. */
 .card-hover {
   transition:
-    transform 180ms ease,
-    box-shadow 180ms ease;
+    transform 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .card-hover-interactive:hover:not([data-no-hover]) {
@@ -756,9 +762,9 @@ body {
     transparent
   );
   transition:
-    transform 180ms ease,
-    box-shadow 180ms ease,
-    border-color 180ms ease;
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease;
 }
 
 .mantine-Paper-root[data-with-border].card-hover-interactive,
@@ -821,8 +827,8 @@ body {
 
 .dt-stat-link .mantine-ThemeIcon-root {
   transition:
-    transform 180ms ease,
-    box-shadow 180ms ease;
+    transform 150ms ease,
+    box-shadow 150ms ease;
 }
 
 .dt-stat-link:hover .mantine-ThemeIcon-root {

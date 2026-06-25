@@ -12,11 +12,12 @@ import { IoCheckmark, IoCopyOutline } from 'react-icons/io5';
 import ResourceBadge from '@/components/ui/ResourceBadge';
 import { getCardHoverProps } from '@/constants/styles';
 import { useCodes } from '@/features/wiki/hooks/use-wiki-data';
-import { useMobileTooltip } from '@/hooks';
+import { useGradientAccent, useMobileTooltip } from '@/hooks';
 import { isCodeActive } from '@/utils';
 
 export default function ActiveCodesSection() {
 	const tooltipProps = useMobileTooltip();
+	const { accent } = useGradientAccent();
 	const { data: codes, loading } = useCodes();
 	const activeCodes = codes.filter(isCodeActive).reverse().slice(0, 5);
 
@@ -57,7 +58,7 @@ export default function ActiveCodesSection() {
 								<Tooltip label={copied ? 'Copied!' : 'Copy'} {...tooltipProps}>
 									<ActionIcon
 										variant="subtle"
-										color={copied ? 'teal' : 'gray'}
+										color={copied ? accent.primary : 'gray'}
 										size="sm"
 										onClick={copy}
 										aria-label={copied ? 'Copied!' : 'Copy code'}
@@ -73,7 +74,7 @@ export default function ActiveCodesSection() {
 						</CopyButton>
 					</Group>
 					{Object.keys(entry.rewards ?? {}).length > 0 && (
-						<Group gap={4} mt={4} wrap="wrap">
+						<Group gap={4} mt="xs" wrap="wrap">
 							{Object.entries(entry.rewards ?? {}).map(([name, qty]) => (
 								<ResourceBadge
 									key={name}
