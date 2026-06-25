@@ -161,12 +161,8 @@ export default function BannerBackground() {
   const driftingStyle = parallaxEnabled
     ? {
         position: 'absolute' as const,
-        left: 0,
-        right: 0,
-        top: -MAX_PARALLAX_OFFSET,
-        bottom: -MAX_PARALLAX_OFFSET,
-        transform: `translate3d(0, -${parallaxOffset}px, 0) scale(1.08)`,
-        transformOrigin: 'center top',
+        inset: 0,
+        transform: `translate3d(0, -${parallaxOffset}px, 0)`,
         willChange: 'transform',
       }
     : {

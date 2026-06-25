@@ -46,7 +46,7 @@ export default function FeaturedCharactersMarquee() {
         }}
       >
         <Group gap="md" wrap="nowrap" justify="center">
-          {Array.from({ length: 7 }, (_, i) => (
+          {Array.from({ length: 8 }, (_, i) => (
             <Stack key={i} gap={4} align="center" style={{ flexShrink: 0 }}>
               <Skeleton height={64} width={64} radius="50%" />
               <Skeleton height={18} width={36} radius="sm" />
@@ -107,7 +107,7 @@ export default function FeaturedCharactersMarquee() {
       );
     });
 
-  const duration = topEntries.length * 3;
+  const duration = Math.max(topEntries.length * 3, 12);
 
   const tierListMeta = [
     tierList.name,
@@ -142,7 +142,7 @@ export default function FeaturedCharactersMarquee() {
       <Box
         style={{
           overflowX: 'hidden',
-          overflowY: 'visible',
+          overflowY: 'clip',
           padding: '8px 0',
           width: '100%',
           contain: 'inline-size',
@@ -163,6 +163,12 @@ export default function FeaturedCharactersMarquee() {
             e.currentTarget.style.animationPlayState = 'paused';
           }}
           onMouseLeave={(e) => {
+            e.currentTarget.style.animationPlayState = 'running';
+          }}
+          onTouchStart={(e) => {
+            e.currentTarget.style.animationPlayState = 'paused';
+          }}
+          onTouchEnd={(e) => {
             e.currentTarget.style.animationPlayState = 'running';
           }}
         >
