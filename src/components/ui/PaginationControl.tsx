@@ -1,15 +1,5 @@
-import { useIsMobile } from '@/hooks';
-import { ActionIcon, Group, Paper, Select, Stack, Text } from '@mantine/core';
-import type { ReactNode } from 'react';
+import { ActionIcon, Divider, Group, Select, Text } from '@mantine/core';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
-
-function LabelText({ children }: { children: ReactNode }) {
-  return (
-    <Text size="xs" c="dimmed" fw={600} tt="uppercase">
-      {children}
-    </Text>
-  );
-}
 
 interface PaginationControlProps {
   currentPage: number;
@@ -33,7 +23,6 @@ export default function PaginationControl({
   pageSizeOptions,
   onPageSizeChange,
 }: PaginationControlProps) {
-  const isMobile = useIsMobile();
   const hasItems = totalItems === undefined ? totalPages > 0 : totalItems > 0;
   const hasPagination = totalPages > 1;
   const hasPageSizeSelector =
@@ -48,28 +37,6 @@ export default function PaginationControl({
   const rangeEnd = hasItemsCount
     ? Math.min(totalItems, currentPage * pageSize)
     : 0;
-  const pageSizeData = (pageSizeOptions ?? []).map((option) => ({
-    value: String(option),
-    label: `${option} / page`,
-  }));
-  const pageNumberData = Array.from({ length: totalPages }, (_, index) => {
-    const pageNumber = index + 1;
-
-    return {
-      value: String(pageNumber),
-      label: `Page ${pageNumber}`,
-    };
-  });
-
-  const hasItemsData = totalItems !== undefined && pageSize !== undefined;
-  const summaryValue = hasItemsData
-    ? `${rangeStart}-${rangeEnd} of ${totalItems}`
-    : `${currentPage} of ${totalPages}`;
-  const summaryLabel = hasItemsData
-    ? `Showing items · page ${currentPage} of ${totalPages}`
-    : hasPagination
-      ? 'Current page'
-      : undefined;
 
   const fitsOnOnePage =
     totalItems !== undefined &&
@@ -77,140 +44,105 @@ export default function PaginationControl({
     pageSizeOptions.length > 0 &&
     totalItems <= Math.min(...pageSizeOptions);
 
-  if (!hasItems || fitsOnOnePage || (!hasPagination && !hasPageSizeSelector)) return null;
+  if (!hasItems || fitsOnOnePage || (!hasPagination && !hasPageSizeSelector))
+    return null;
 
-  const commonSelectProps = {
-    allowDeselect: false,
-    size: 'sm' as const,
-    radius: 'xl',
+  const summaryText = hasItemsCount
+    ? `${rangeStart}–${rangeEnd} of ${totalItems}`
+    : `Page ${currentPage} of ${totalPages}`;
+
+  const pageNumberData = Array.from({ length: totalPages }, (_, i) => ({
+    value: String(i + 1),
+    label: String(i + 1),
+  }));
+
+  const pageSizeData = (pageSizeOptions ?? []).map((n) => ({
+    value: String(n),
+    label: `${n} / page`,
+  }));
+
+  function handleChange(page: number) {
+    if (page === currentPage) return;
+    onChange(page);
+    if (scrollToTop) window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  const selectProps = {
+    allowDeselect: false as const,
+    size: 'xs' as const,
+    radius: 'md' as const,
     comboboxProps: { position: 'bottom-end' as const },
     styles: { input: { fontWeight: 600 } },
   };
 
-  const commonActionIconProps = {
-    variant: 'subtle',
-    color: 'gray',
-    size: 'md',
-    radius: 'xl',
-  } as const;
-
-  function handleChange(page: number) {
-    if (page === currentPage) {
-      return;
-    }
-
-    onChange(page);
-    if (scrollToTop) {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    }
-  }
+  const actionIconProps = {
+    variant: 'subtle' as const,
+    color: 'gray' as const,
+    size: 'sm' as const,
+    radius: 'md' as const,
+  };
 
   return (
     <nav aria-label="Pagination navigation">
-      <Stack gap="xs">
-        <Paper
-          withBorder
-          radius="xl"
-          p={isMobile ? 'sm' : 'md'}
-          bg="var(--mantine-color-body)"
-          style={{ boxShadow: 'var(--mantine-shadow-xs)' }}
-        >
-          <Group
-            justify={isMobile ? 'center' : 'space-between'}
-            align={isMobile ? 'center' : 'flex-end'}
-            wrap="wrap"
-            gap="sm"
-          >
-            <Stack
-              gap={2}
-              align={isMobile ? 'center' : 'flex-start'}
-              style={{ flexShrink: 0 }}
-            >
-              {summaryLabel && <LabelText>{summaryLabel}</LabelText>}
-              <Text size="sm" fw={600}>
-                {summaryValue}
+      <Group justify="space-between" align="center" wrap="wrap" gap="xs">
+        <Text size="sm" c="dimmed">
+          {summaryText}
+        </Text>
+
+        <Group gap={6} align="center" wrap="nowrap">
+          {hasPagination && (
+            <Group gap={4} align="center" wrap="nowrap">
+              <ActionIcon
+                {...actionIconProps}
+                onClick={() => handleChange(currentPage - 1)}
+                disabled={currentPage <= 1}
+                aria-label="Previous page"
+              >
+                <IoChevronBack size={12} />
+              </ActionIcon>
+
+              <Select
+                {...selectProps}
+                aria-label="Page number"
+                value={String(currentPage)}
+                data={pageNumberData}
+                onChange={(value) => value && handleChange(Number(value))}
+                searchable={totalPages > 12}
+                w={58}
+                styles={{ input: { fontWeight: 600, textAlign: 'center' } }}
+              />
+
+              <Text size="xs" c="dimmed" style={{ whiteSpace: 'nowrap' }}>
+                of {totalPages}
               </Text>
-            </Stack>
 
-            <Group
-              gap="sm"
-              align={isMobile ? 'center' : 'flex-end'}
-              justify={isMobile ? 'center' : 'flex-end'}
-              wrap="wrap"
-              style={{ flexGrow: 1 }}
-            >
-              {hasPagination && (
-                <Group
-                  gap="xs"
-                  wrap="nowrap"
-                  align={isMobile ? 'center' : 'flex-end'}
-                >
-                  <ActionIcon
-                    {...commonActionIconProps}
-                    onClick={() => handleChange(currentPage - 1)}
-                    disabled={currentPage <= 1}
-                    aria-label="Previous page"
-                  >
-                    <IoChevronBack size={14} />
-                  </ActionIcon>
-
-                  <Stack
-                    gap={4}
-                    align={isMobile ? 'center' : 'flex-end'}
-                    style={{ flex: isMobile ? 1 : undefined }}
-                  >
-                    <LabelText>Page</LabelText>
-                    <Select
-                      {...commonSelectProps}
-                      aria-label="Page number"
-                      value={String(currentPage)}
-                      data={pageNumberData}
-                      onChange={(value) => {
-                        if (!value) {
-                          return;
-                        }
-
-                        handleChange(Number(value));
-                      }}
-                      searchable={totalPages > 12}
-                      w={isMobile ? '100%' : 136}
-                    />
-                  </Stack>
-
-                  <ActionIcon
-                    {...commonActionIconProps}
-                    onClick={() => handleChange(currentPage + 1)}
-                    disabled={currentPage >= totalPages}
-                    aria-label="Next page"
-                  >
-                    <IoChevronForward size={14} />
-                  </ActionIcon>
-                </Group>
-              )}
-
-              {hasPageSizeSelector && (
-                <Stack gap={4} align={isMobile ? 'center' : 'flex-end'}>
-                  <LabelText>Items per page</LabelText>
-                  <Select
-                    {...commonSelectProps}
-                    aria-label="Items per page"
-                    value={pageSize === undefined ? null : String(pageSize)}
-                    data={pageSizeData}
-                    onChange={(value) => {
-                      if (!value || !onPageSizeChange) {
-                        return;
-                      }
-
-                      onPageSizeChange(Number(value));
-                    }}
-                    w={isMobile ? '100%' : 132}
-                  />
-                </Stack>
-              )}
+              <ActionIcon
+                {...actionIconProps}
+                onClick={() => handleChange(currentPage + 1)}
+                disabled={currentPage >= totalPages}
+                aria-label="Next page"
+              >
+                <IoChevronForward size={12} />
+              </ActionIcon>
             </Group>
-          </Group>
-        </Paper>
-      </Stack>
+          )}
+
+          {hasPagination && hasPageSizeSelector && (
+            <Divider orientation="vertical" h={20} style={{ alignSelf: 'center' }} />
+          )}
+
+          {hasPageSizeSelector && (
+            <Select
+              {...selectProps}
+              aria-label="Items per page"
+              value={pageSize === undefined ? null : String(pageSize)}
+              data={pageSizeData}
+              onChange={(value) => value && onPageSizeChange?.(Number(value))}
+              w={100}
+            />
+          )}
+        </Group>
+      </Group>
     </nav>
   );
 }
