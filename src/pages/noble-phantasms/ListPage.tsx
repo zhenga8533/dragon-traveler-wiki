@@ -224,6 +224,7 @@ export default function NoblePhantasms() {
                               size="sm"
                               color={accent.secondary}
                               link={false}
+                              routePath={`/characters/${np.character_slug}`}
                             />
                           )}
                         </Group>
@@ -321,6 +322,7 @@ export default function NoblePhantasms() {
                                 size="sm"
                                 color={accent.secondary}
                                 link={false}
+                                routePath={`/characters/${np.character_slug}`}
                               />
                             ) : (
                               <Text size="sm" c="dimmed">

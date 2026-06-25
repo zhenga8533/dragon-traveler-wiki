@@ -8,6 +8,7 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
+import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
 import EffectTable from '@/features/wiki/noble-phantasms/components/EffectTable';
 import SkillTable from '@/features/wiki/noble-phantasms/components/SkillTable';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
@@ -143,6 +144,7 @@ export default function NoblePhantasmPage() {
                   name={linkedCharacter.name}
                   color={accent.secondary}
                   size="lg"
+                  routePath={getCharacterRoutePath(linkedCharacter)}
                 />
               </Group>
             )}
