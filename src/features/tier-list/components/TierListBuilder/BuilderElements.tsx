@@ -100,7 +100,6 @@ export function DraggableCharCard({
   overlay,
   tier,
   size,
-  nameCounts,
 }: {
   name: string;
   label?: string;
@@ -131,7 +130,7 @@ export function DraggableCharCard({
       };
 
   const routePath =
-    char && nameCounts ? getCharacterRoutePath(char, nameCounts) : undefined;
+    char ? getCharacterRoutePath(char) : undefined;
 
   return (
     <div

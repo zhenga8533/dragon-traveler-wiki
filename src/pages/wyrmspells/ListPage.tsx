@@ -33,7 +33,6 @@ import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useStatusEffects, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
 import { applyDir, useFilteredPageData } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { toEntitySlug } from '@/utils/entity-slug';
 import {
   Badge,
   Container,

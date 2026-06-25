@@ -29,7 +29,6 @@ import {
   useGradientAccent,
 } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
-import { toEntitySlug } from '@/utils/entity-slug';
 import {
   Badge,
   Container,

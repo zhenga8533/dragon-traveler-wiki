@@ -6,7 +6,6 @@ import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
-import RichText from '@/components/common/RichText';
 import { getHeroIconBoxStyles } from '@/constants/styles';
 import CharacterTag from '@/features/characters/components/CharacterTag';
 import EffectTable from '@/features/wiki/noble-phantasms/components/EffectTable';

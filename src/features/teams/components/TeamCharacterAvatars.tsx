@@ -17,7 +17,6 @@ export default function TeamCharacterAvatars({
 	gap = 4,
 	wrap = 'wrap',
 	maxVisible,
-	nameCounts,
 }: {
 	refs: Array<{ name: string; quality?: string }>;
 	preferredByName: Map<string, Character>;
@@ -49,7 +48,7 @@ export default function TeamCharacterAvatars({
 			byIdentity
 		);
 		const displayName = char?.name ?? entry.name;
-		const assetKey = char && nameCounts ? getCharacterRouteSlug(char, nameCounts) : undefined;
+		const assetKey = char ? getCharacterRouteSlug(char) : undefined;
 		return (
 			<CharacterPortrait
 				key={`${isSubstitute ? 'sub' : 'main'}-${entry.name}-${entry.quality ?? ''}`}

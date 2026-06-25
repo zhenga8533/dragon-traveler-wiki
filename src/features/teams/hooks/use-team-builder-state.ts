@@ -434,8 +434,7 @@ export function useTeamBuilderState({
           ...toCharacterReferenceFromKey(
             characterKey,
             charMap,
-            characterByIdentity,
-            characterNameCounts
+            characterByIdentity
           ),
           overdrive_order: overdriveOrder++,
           position: { row: Math.floor(slotIndex / 3), col: slotIndex % 3 },
@@ -452,8 +451,7 @@ export function useTeamBuilderState({
         ...toCharacterReferenceFromKey(
           characterKey,
           charMap,
-          characterByIdentity,
-          characterNameCounts
+          characterByIdentity
         ),
         overdrive_order: null,
         position: { row: Math.floor(slotIndex / 3), col: slotIndex % 3 },
@@ -476,8 +474,7 @@ export function useTeamBuilderState({
         const reference = toCharacterReferenceFromKey(
           characterKey,
           charMap,
-          characterByIdentity,
-          characterNameCounts
+          characterByIdentity
         );
         const note = normalizeNote(state.benchNotes[characterKey]);
         return note ? { ...reference, note } : reference;
@@ -493,7 +490,6 @@ export function useTeamBuilderState({
   }, [
     charMap,
     characterByIdentity,
-    characterNameCounts,
     deferredAuthor,
     deferredContentType,
     deferredDescription,
@@ -571,9 +567,9 @@ export function useTeamBuilderState({
         characterByIdentity
       );
       if (!character) return getCharacterRoutePathByName(characterName);
-      return getCharacterRoutePath(character, characterNameCounts);
+      return getCharacterRoutePath(character);
     },
-    [charMap, characterByIdentity, characterNameCounts]
+    [charMap, characterByIdentity]
   );
 
   const updateMeta = useCallback((patch: Partial<TeamBuilderMetaState>) => {

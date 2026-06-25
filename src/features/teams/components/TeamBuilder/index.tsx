@@ -315,10 +315,7 @@ export default function TeamBuilder({
                             disableLink
                             routePath={
                               activeChar
-                                ? getCharacterRoutePath(
-                                    activeChar,
-                                    characterNameCounts
-                                  )
+                                ? getCharacterRoutePath(activeChar)
                                 : undefined
                             }
                           />

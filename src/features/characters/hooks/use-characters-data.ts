@@ -1,7 +1,7 @@
 import { useContext, useMemo } from 'react';
 import type { Character } from '@/features/characters/types';
 import type { ChangesFile } from '@/types/changes';
-import { LocaleContext } from '@/contexts/locale-context';
+import { LocaleContext } from '@/contexts/locale';
 import { useLocalePath, useLocaleChangesPath } from '@/hooks/use-locale-path';
 import { useDataFetch } from '@/hooks/use-data-fetch';
 import { changesPath, dataPath, DEFAULT_LOCALE } from '@/lib/data-paths';

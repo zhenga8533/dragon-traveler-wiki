@@ -507,8 +507,7 @@ export function useTierListState({
           ...toCharacterReferenceFromKey(
             characterKey,
             charMap,
-            characterByIdentity,
-            characterNameCounts
+            characterByIdentity
           ),
           tier: tierDef.name,
           ...(state.notes[characterKey]
@@ -521,7 +520,6 @@ export function useTierListState({
   }, [
     charMap,
     characterByIdentity,
-    characterNameCounts,
     deferredAuthor,
     deferredCategoryName,
     deferredDescription,

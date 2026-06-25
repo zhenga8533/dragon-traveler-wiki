@@ -4,7 +4,6 @@ import { TierListReferenceContext } from '@/contexts/tier-list-reference-context
 import CharacterCard from '@/features/characters/components/CharacterCard';
 import {
   buildCharacterByIdentityMap,
-  buildCharacterNameCounts,
   buildPreferredCharacterByNameMap,
   getCharacterRoutePath,
   resolveCharacterByNameAndQuality,
@@ -63,7 +62,6 @@ export default function FeaturedCharactersMarquee() {
 
   const charMap = buildPreferredCharacterByNameMap(characters);
   const characterByIdentity = buildCharacterByIdentityMap(characters);
-  const nameCounts = buildCharacterNameCounts(characters);
   const topTierNames =
     tierList.tiers && tierList.tiers.length >= 2
       ? [tierList.tiers[0].name, tierList.tiers[1].name]
@@ -97,7 +95,7 @@ export default function FeaturedCharactersMarquee() {
             size={64}
             routePath={
               char
-                ? getCharacterRoutePath(char, nameCounts)
+                ? getCharacterRoutePath(char)
                 : `/characters/${entry.character_slug}`
             }
           />

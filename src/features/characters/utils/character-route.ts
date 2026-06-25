@@ -1,5 +1,6 @@
 import { QUALITY_ORDER } from '@/constants/quality';
 import type { Character } from '@/features/characters/types';
+import type { Quality } from '@/types/quality';
 import { safeDecodeURIComponent, toEntitySlug } from '@/utils/entity-slug';
 
 const QUALITY_RANK = new Map<Quality, number>(
@@ -77,18 +78,12 @@ export function buildCharacterNameCounts(
   return counts;
 }
 
-export function getCharacterRouteSlug(
-  character: Character,
-  _nameCounts?: Map<string, number>
-): string {
+export function getCharacterRouteSlug(character: Character): string {
   return character.slug;
 }
 
-export function getCharacterRoutePath(
-  character: Character,
-  nameCounts?: Map<string, number>
-): string {
-  return `/characters/${getCharacterRouteSlug(character, nameCounts)}`;
+export function getCharacterRoutePath(character: Character): string {
+  return `/characters/${getCharacterRouteSlug(character)}`;
 }
 
 /** Builds a route path by name only (legacy; prefers slug-based lookup instead). */
@@ -169,8 +164,7 @@ export function resolveCharacterReferenceKey(
 export function toCharacterReferenceFromKey(
   characterKey: string,
   _preferredByName: Map<string, Character>,
-  byIdentity: Map<string, Character>,
-  _nameCounts?: Map<string, number>
+  byIdentity: Map<string, Character>
 ): { character_slug: string } {
   const character = byIdentity.get(characterKey);
   return { character_slug: character?.slug ?? characterKey };
@@ -199,8 +193,7 @@ export interface CharacterRouteMatch {
 
 export function resolveCharacterRoute(
   characters: Character[],
-  param: string | undefined,
-  nameCounts?: Map<string, number>
+  param: string | undefined
 ): CharacterRouteMatch {
   const incomingSlug = safeDecodeURIComponent(param ?? '')
     .trim()
@@ -214,12 +207,8 @@ export function resolveCharacterRoute(
     };
   }
 
-  const resolvedCounts = nameCounts ?? buildCharacterNameCounts(characters);
-
   const matchedByExactSlug = characters.find(
-    (entry) =>
-      getCharacterRouteSlug(entry, resolvedCounts).toLowerCase() ===
-      incomingSlug
+    (entry) => getCharacterRouteSlug(entry).toLowerCase() === incomingSlug
   );
   if (matchedByExactSlug) {
     const baseSlug = matchedByExactSlug.slug;

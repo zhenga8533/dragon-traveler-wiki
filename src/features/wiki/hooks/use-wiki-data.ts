@@ -11,7 +11,7 @@ import type { Wyrm } from '@/features/wiki/wyrms/types';
 import { useLocalePath, useLocaleChangesPath } from '@/hooks/use-locale-path';
 import { useDataFetch } from '@/hooks/use-data-fetch';
 import { useContext, useMemo } from 'react';
-import { LocaleContext } from '@/contexts/locale-context';
+import { LocaleContext } from '@/contexts/locale';
 import { dataPath, DEFAULT_LOCALE } from '@/lib/data-paths';
 import type { ChangelogEntry } from '@/types/changelog';
 import type { ChangesFile } from '@/types/changes';

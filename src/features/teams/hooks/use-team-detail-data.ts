@@ -30,7 +30,6 @@ export function useTeamDetailData({
   artifacts,
   charMap,
   characterByIdentity,
-  characterNameCounts,
   wyrmspells,
   fallbackFactionColor,
 }: UseTeamDetailDataParams) {
@@ -43,9 +42,9 @@ export function useTeamDetailData({
         characterByIdentity
       );
       if (!character) return getCharacterRoutePathByName(characterName);
-      return getCharacterRoutePath(character, characterNameCounts);
+      return getCharacterRoutePath(character);
     },
-    [charMap, characterByIdentity, characterNameCounts]
+    [charMap, characterByIdentity]
   );
 
   const factionInfo = useMemo(() => {

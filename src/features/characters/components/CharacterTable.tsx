@@ -27,7 +27,6 @@ interface CharacterTableProps {
 
 export default function CharacterTable({
   pageItems,
-  characterNameCounts,
   sortCol,
   sortDir,
   handleSort,
@@ -94,7 +93,7 @@ export default function CharacterTable({
               <Table.Td>
                 <UnstyledButton
                   component={Link}
-                  to={getCharacterRoutePath(char, characterNameCounts)}
+                  to={getCharacterRoutePath(char)}
                 >
                   <Group gap="sm" wrap="nowrap">
                     <CharacterPortrait
@@ -102,7 +101,7 @@ export default function CharacterTable({
                       size={40}
                       quality={char.quality}
                       borderWidth={3}
-                      routePath={getCharacterRoutePath(char, characterNameCounts)}
+                      routePath={getCharacterRoutePath(char)}
                       style={{ flexShrink: 0 }}
                       isNew={newCharacterKeys?.has(getCharacterIdentityKey(char))}
                     />

@@ -33,11 +33,7 @@ import {
 } from '@/hooks';
 import RichText from '@/components/common/RichText';
 import { getLatestTimestamp } from '@/utils';
-import { toEntitySlug } from '@/utils/entity-slug';
-import {
-  buildCharacterNameCounts,
-  getCharacterRouteSlug,
-} from '@/features/characters/utils/character-route';
+import { getCharacterRouteSlug } from '@/features/characters/utils/character-route';
 
 interface NoblePhantasmFilters {
   search: string;
@@ -58,14 +54,13 @@ export default function NoblePhantasms() {
   const { data: statusEffects } = useStatusEffects();
 
   const noblePhantasmFields = useMemo<FieldDef[]>(() => {
-    const nameCounts = buildCharacterNameCounts(characters);
     const characterOptions = [...new Set(characters.map((c) => c.name))].sort(
       (a, b) => a.localeCompare(b)
     );
     const characterIcons: Record<string, string> = {};
     for (const char of characters) {
       if (characterIcons[char.name]) continue;
-      const portrait = getPortrait(char.name, getCharacterRouteSlug(char, nameCounts));
+      const portrait = getPortrait(char.name, getCharacterRouteSlug(char));
       if (portrait) characterIcons[char.name] = portrait;
     }
     return [

@@ -173,10 +173,7 @@ export default function TierListViewTab({
 																name={c.name}
 																label={undefined}
 																quality={c.quality}
-																routePath={getCharacterRoutePath(
-																	c,
-																	characterNameCounts
-																)}
+																routePath={getCharacterRoutePath(c)}
 															/>
 														);
 													})}
@@ -211,14 +208,11 @@ export default function TierListViewTab({
 																					name={c.name}
 																					size={32}
 																					quality={c.quality}
-																					routePath={getCharacterRoutePath(c, characterNameCounts)}
+																					routePath={getCharacterRoutePath(c)}
 																				/>
 																				<Text
 																					component={Link}
-																					to={getCharacterRoutePath(
-																						c,
-																						characterNameCounts
-																					)}
+																					to={getCharacterRoutePath(c)}
 																					size="sm"
 																					fw={500}
 																					className="dt-link-text"

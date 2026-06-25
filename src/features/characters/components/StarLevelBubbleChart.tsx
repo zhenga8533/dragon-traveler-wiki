@@ -4,7 +4,6 @@ import { QUALITY_BORDER_COLOR } from '@/constants/colors';
 import { CharacterOwnershipContext } from '@/contexts';
 import type { Character } from '@/features/characters/types';
 import {
-  buildCharacterNameCounts,
   getCharacterIdentityKey,
   getCharacterRouteSlug,
 } from '@/features/characters/utils/character-route';
@@ -456,11 +455,6 @@ export default function StarLevelBubbleChart({
     return map;
   }, [characters]);
 
-  const characterNameCounts = useMemo(
-    () => buildCharacterNameCounts(characters),
-    [characters]
-  );
-
   const bubbles = useMemo((): BubbleItem[] => {
     const items: BubbleItem[] = [];
     for (const [identityKey, levelValue] of Object.entries(ownedCharacters)) {
@@ -473,13 +467,13 @@ export default function StarLevelBubbleChart({
         starLevel,
         displayName: char.name,
         r: getBubbleRadius(starLevel.copies, config.baseSize, config.scale, config.sizeExponent),
-        portrait: getPortrait(char.name, getCharacterRouteSlug(char, characterNameCounts)),
+        portrait: getPortrait(char.name, getCharacterRouteSlug(char)),
         tierColor: TIER_GLOW[starLevel.tier],
         qualityBorder: QUALITY_BORDER_COLOR[char.quality] ?? '#9e9e9e',
       });
     }
     return items.sort((a, b) => b.r - a.r);
-  }, [ownedCharacters, charByIdentity, starLevelMap, characterNameCounts, config.baseSize, config.scale, config.sizeExponent]);
+  }, [ownedCharacters, charByIdentity, starLevelMap, config.baseSize, config.scale, config.sizeExponent]);
 
   const positions = useMemo(() => {
     const { padding, centerBias, stretchX, stretchY } = config;

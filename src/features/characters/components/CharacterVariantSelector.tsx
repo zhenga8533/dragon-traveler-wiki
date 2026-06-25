@@ -23,12 +23,10 @@ import {
 
 interface CharacterVariantSelectorProps {
 	variants: Character[];
-	characterNameCounts: Map<string, number>;
 }
 
 export default function CharacterVariantSelector({
 	variants,
-	characterNameCounts,
 }: CharacterVariantSelectorProps) {
 
 	if (variants.length === 0) {
@@ -50,10 +48,7 @@ export default function CharacterVariantSelector({
 
 				<SimpleGrid cols={{ base: 1, sm: 2 }} spacing="sm">
 					{variants.map((variant) => {
-						const routePath = getCharacterRoutePath(
-							variant,
-							characterNameCounts
-						);
+						const routePath = getCharacterRoutePath(variant);
 
 						return (
 							<UnstyledButton

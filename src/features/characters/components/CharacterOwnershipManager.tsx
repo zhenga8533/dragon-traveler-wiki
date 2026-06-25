@@ -44,7 +44,6 @@ export default function CharacterOwnershipManager({
   activeFilterCount,
   opened,
   onClose,
-  characterNameCounts,
 }: CharacterOwnershipManagerProps) {
   const { ownedCharacters, setCharacterStarLevel } = useContext(
     CharacterOwnershipContext
@@ -168,7 +167,7 @@ export default function CharacterOwnershipManager({
                       quality={char.quality}
                       size={36}
                       borderWidth={2}
-                      routePath={getCharacterRoutePath(char, characterNameCounts)}
+                      routePath={getCharacterRoutePath(char)}
                       link
                     />
                     <Text size="sm" fw={500} style={{ flex: 1, minWidth: 0 }} truncate>

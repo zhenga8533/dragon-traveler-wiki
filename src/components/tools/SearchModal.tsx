@@ -16,10 +16,7 @@ import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import { SearchDataContext, SearchDataProvider } from '@/contexts';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import {
-  buildCharacterNameCounts,
-  getCharacterRoutePath,
-} from '@/features/characters/utils/character-route';
+import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
 import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import { isCodeActive } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
@@ -301,11 +298,6 @@ function SearchModalContent({
 
   const searchShortcutHint = 'Search (/)';
 
-  const characterNameCounts = useMemo(
-    () => buildCharacterNameCounts(characters),
-    [characters]
-  );
-
   useHotkeys(
     enableHotkeys
       ? [
@@ -480,7 +472,7 @@ function SearchModalContent({
             type: 'character' as const,
             title: r.item.name,
             subtitle: `${r.item.quality} ${r.item.character_class.charAt(0).toUpperCase()}${r.item.character_class.slice(1)}`,
-            path: getCharacterRoutePath(r.item, characterNameCounts),
+            path: getCharacterRoutePath(r.item),
             icon: IoPersonOutline,
             color: 'blue',
           }))
@@ -749,7 +741,7 @@ function SearchModalContent({
     }
 
     return rankAndLimitResults(results, q);
-  }, [debouncedQuery, fuseIndices, characterNameCounts]);
+  }, [debouncedQuery, fuseIndices]);
   const activeSelectedIndex = searchResults.length
     ? Math.min(selectedIndex, searchResults.length - 1)
     : 0;

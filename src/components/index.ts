@@ -39,7 +39,6 @@ export {
   ListPageLoading,
 } from './layout/PageLoadingSkeleton';
 export { default as JsonModal } from './tools/JsonModal';
-export { default as KeyboardShortcuts } from './tools/KeyboardShortcuts';
 export { default as SearchModal } from './tools/SearchModal';
 export { default as SuggestModal } from './tools/SuggestModal';
 export { default as TeamBuilder } from '@/features/teams/components/TeamBuilder';

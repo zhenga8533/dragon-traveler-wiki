@@ -1,4 +1,4 @@
-import { Group, SimpleGrid, Text } from '@mantine/core';
+import { SimpleGrid } from '@mantine/core';
 import {
   CHARACTER_GRID_COLS,
   CHARACTER_GRID_SPACING,
@@ -18,7 +18,6 @@ interface CharacterListProps {
   data: CharacterListData;
   cols?: { base?: number; xs?: number; sm?: number; md?: number };
   spacing?: number | string;
-  showFilter?: boolean;
   newCharacterKeys?: Set<string>;
 }
 
@@ -26,7 +25,6 @@ export default function CharacterList({
   data,
   cols = CHARACTER_GRID_COLS,
   spacing = CHARACTER_GRID_SPACING,
-  showFilter = true,
   newCharacterKeys,
 }: CharacterListProps) {
   const {
@@ -64,7 +62,7 @@ export default function CharacterList({
           name={char.name}
           quality={char.quality}
           tierLabel={getTierLabel(char)}
-          routePath={getCharacterRoutePath(char, characterNameCounts)}
+          routePath={getCharacterRoutePath(char)}
           isNew={newCharacterKeys?.has(getCharacterIdentityKey(char))}
         />
       ))}
@@ -83,20 +81,6 @@ export default function CharacterList({
       newCharacterKeys={newCharacterKeys}
     />
   );
-
-  if (!showFilter) {
-    return (
-      <>
-        <Group justify="space-between" align="center" wrap="wrap" mb="md">
-          <Text size="sm" c="dimmed">
-            {filteredAndSorted.length} character
-            {filteredAndSorted.length !== 1 ? 's' : ''}
-          </Text>
-        </Group>
-        {viewMode === 'grid' ? gridContent : tableContent}
-      </>
-    );
-  }
 
   return (
     <FilteredListShell

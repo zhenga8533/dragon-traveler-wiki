@@ -51,7 +51,6 @@ export default function CharacterPage() {
     character,
     sameNameVariants,
     routeBaseSlug,
-    characterNameCounts,
     characterAssetKey,
     isPreferredCharacterForNameReferences,
     tierLabel,
@@ -114,7 +113,6 @@ export default function CharacterPage() {
       return (
         <CharacterVariantSelector
           variants={sameNameVariants}
-          characterNameCounts={characterNameCounts}
         />
       );
     }
@@ -133,8 +131,7 @@ export default function CharacterPage() {
     'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))';
   const { previousItem, nextItem } = getCharacterNavPaths(
     previousCharacter,
-    nextCharacter,
-    characterNameCounts
+    nextCharacter
   );
 
   return (

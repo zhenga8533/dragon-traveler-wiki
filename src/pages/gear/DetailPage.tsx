@@ -19,7 +19,6 @@ import { CURSOR_POINTER_STYLE, getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import {
-  buildCharacterNameCounts,
   getCharacterRouteSlug,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
@@ -124,11 +123,6 @@ export default function GearSetPage() {
         return a.name.localeCompare(b.name);
       });
   }, [characters, setItemNames]);
-
-  const characterNameCounts = useMemo(
-    () => buildCharacterNameCounts(characters),
-    [characters]
-  );
 
   const recommendedStats = useMemo(() => {
     const ssrChars = characters.filter((c) =>
@@ -282,8 +276,8 @@ export default function GearSetPage() {
                     name={character.name}
                     size={44}
                     quality={character.quality}
-                    assetKey={getCharacterRouteSlug(character, characterNameCounts)}
-                    routePath={getCharacterRoutePath(character, characterNameCounts)}
+                    assetKey={getCharacterRouteSlug(character)}
+                    routePath={getCharacterRoutePath(character)}
                     link
                     tooltip={tooltipLabel}
                     tooltipProps={tooltipProps}

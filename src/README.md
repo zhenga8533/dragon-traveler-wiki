@@ -8,7 +8,7 @@ src/
 ├── components/
 │   ├── common/      # Shared one-off components (ExpandableText, SafeImage, RichText, etc.)
 │   ├── layout/      # Page-level shells (AppLayout, ListPageShell, FilteredListShell, etc.)
-│   ├── tools/       # Floating tools (SearchModal, ExportButton, KeyboardShortcuts, etc.)
+│   ├── tools/       # Floating tools (SearchModal, ExportButton, SuggestModal, etc.)
 │   └── ui/          # Low-level UI primitives (ClassTag, SafeImage, etc.)
 ├── constants/       # App-wide constants (colors, styles, ui, accents, glass)
 ├── contexts/        # React contexts (SearchDataContext, gradient theme, UI opacity, etc.)

@@ -1,7 +1,6 @@
 import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import {
-  buildCharacterNameCounts,
   buildPreferredCharacterByNameMap,
   getCharacterRouteSlug,
 } from '@/features/characters/utils/character-route';
@@ -23,10 +22,6 @@ export default function EventCharacterAvatars({
     () => buildPreferredCharacterByNameMap(characterData),
     [characterData]
   );
-  const nameCounts = useMemo(
-    () => buildCharacterNameCounts(characterData),
-    [characterData]
-  );
 
   if (characters.length === 0) return null;
 
@@ -34,7 +29,7 @@ export default function EventCharacterAvatars({
     <Group gap="xs" wrap="wrap">
       {characters.map((char) => {
         const resolved = preferredByName.get(char);
-        const assetKey = resolved ? getCharacterRouteSlug(resolved, nameCounts) : undefined;
+        const assetKey = resolved ? getCharacterRouteSlug(resolved) : undefined;
         return (
           <CharacterPortrait
             key={char}

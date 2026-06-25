@@ -45,7 +45,6 @@ interface TierListContentProps {
 export default function TierListContent({
 	tierList,
 	resolveTierEntryCharacter,
-	characterNameCounts,
 	viewMode,
 	headerActions,
 	exportRefCallback,
@@ -147,7 +146,7 @@ export default function TierListContent({
 										{entries.map((entry) => {
 											const char = resolveTierEntryCharacter(entry);
 											const routePath = char
-												? getCharacterRoutePath(char, characterNameCounts)
+												? getCharacterRoutePath(char)
 												: getCharacterRoutePathByName(entry.character_slug);
 											const entryNote = entry.note?.trim() || undefined;
 											return (
@@ -179,7 +178,7 @@ export default function TierListContent({
 												{entries.map((entry) => {
 													const char = resolveTierEntryCharacter(entry);
 													const routePath = char
-														? getCharacterRoutePath(char, characterNameCounts)
+														? getCharacterRoutePath(char)
 														: getCharacterRoutePathByName(entry.character_slug);
 													const resolvedName =
 														char?.name ?? entry.character_slug;

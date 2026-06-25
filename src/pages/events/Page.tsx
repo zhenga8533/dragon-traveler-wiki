@@ -4,7 +4,6 @@ import { getPortrait } from '@/assets';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { useEvents } from '@/features/wiki/hooks/use-wiki-data';
 import {
-  buildCharacterNameCounts,
   getCharacterRouteSlug,
 } from '@/features/characters/utils/character-route';
 import EntityFilter from '@/components/common/EntityFilter';
@@ -439,11 +438,10 @@ export default function Events() {
   const { data: characters } = useCharacters();
 
   const portraitByName = useMemo(() => {
-    const nameCounts = buildCharacterNameCounts(characters);
     const map = new Map<string, string>();
     for (const char of characters) {
       if (!map.has(char.name)) {
-        const portrait = getPortrait(char.name, getCharacterRouteSlug(char, nameCounts));
+        const portrait = getPortrait(char.name, getCharacterRouteSlug(char));
         if (portrait) map.set(char.name, portrait);
       }
     }

@@ -88,7 +88,6 @@ export interface CharacterPageData {
   character: Character | null | undefined;
   sameNameVariants: Character[];
   routeBaseSlug: string | null;
-  characterNameCounts: Map<string, number>;
   characterAssetKey: string | undefined;
   isPreferredCharacterForNameReferences: boolean;
   tierLabel: string | null;
@@ -125,14 +124,12 @@ export function useCharacterPageData(
   const { data: teams } = useTeams();
   const { data: changesData } = useCharacterChanges();
 
-  const {
-    preferredByName: preferredCharacterByName,
-    nameCounts: characterNameCounts,
-  } = useCharacterResolution(characters);
+  const { preferredByName: preferredCharacterByName } =
+    useCharacterResolution(characters);
 
   const routeMatch = useMemo(
-    () => resolveCharacterRoute(characters, name, characterNameCounts),
-    [characters, name, characterNameCounts]
+    () => resolveCharacterRoute(characters, name),
+    [characters, name]
   );
 
   const character = routeMatch.character;
@@ -146,10 +143,7 @@ export function useCharacterPageData(
     if (!name) return;
 
     if (character) {
-      const canonicalSlug = getCharacterRouteSlug(
-        character,
-        characterNameCounts
-      );
+      const canonicalSlug = getCharacterRouteSlug(character);
       if (routeMatch.incomingSlug === canonicalSlug) return;
       navigate(`/characters/${canonicalSlug}`, { replace: true });
       return;
@@ -161,7 +155,6 @@ export function useCharacterPageData(
     }
   }, [
     character,
-    characterNameCounts,
     name,
     navigate,
     routeMatch.baseSlug,
@@ -236,8 +229,8 @@ export function useCharacterPageData(
 
   const characterAssetKey = useMemo(() => {
     if (!character) return undefined;
-    return getCharacterRouteSlug(character, characterNameCounts);
-  }, [character, characterNameCounts]);
+    return getCharacterRouteSlug(character);
+  }, [character]);
 
   const linkedNoblePhantasm = useMemo(() => {
     if (!character?.noble_phantasm) return null;
@@ -384,7 +377,6 @@ export function useCharacterPageData(
     character,
     sameNameVariants,
     routeBaseSlug: routeMatch.baseSlug,
-    characterNameCounts,
     characterAssetKey,
     isPreferredCharacterForNameReferences,
     tierLabel,
@@ -407,20 +399,19 @@ export function useCharacterPageData(
 /** Returns the route paths for prev/next character navigation. */
 export function getCharacterNavPaths(
   previousCharacter: Character | null,
-  nextCharacter: Character | null,
-  characterNameCounts: Map<string, number>
+  nextCharacter: Character | null
 ) {
   return {
     previousItem: previousCharacter
       ? {
           label: previousCharacter.name,
-          path: getCharacterRoutePath(previousCharacter, characterNameCounts),
+          path: getCharacterRoutePath(previousCharacter),
         }
       : null,
     nextItem: nextCharacter
       ? {
           label: nextCharacter.name,
-          path: getCharacterRoutePath(nextCharacter, characterNameCounts),
+          path: getCharacterRoutePath(nextCharacter),
         }
       : null,
   };
