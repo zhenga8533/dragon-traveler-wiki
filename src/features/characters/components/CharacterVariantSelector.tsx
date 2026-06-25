@@ -34,7 +34,7 @@ export default function CharacterVariantSelector({
 	}
 
 	return (
-		<Container size="lg" py="md">
+		<Container size="xl" py="md">
 			<Stack gap="md">
 				<Stack gap={4}>
 					<Text size="lg" fw={700}>

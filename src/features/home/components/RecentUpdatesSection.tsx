@@ -32,7 +32,9 @@ export default function RecentUpdatesSection() {
 		);
 	}
 
-	const recentEntries = [...changelog].slice(0, 3);
+	const recentEntries = [...changelog]
+		.sort((a, b) => (b.date ?? '').localeCompare(a.date ?? ''))
+		.slice(0, 3);
 
 	if (recentEntries.length === 0) {
 		return (

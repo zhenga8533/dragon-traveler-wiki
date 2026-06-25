@@ -9,7 +9,7 @@ import {
   getCardHoverProps,
   RICH_TOOLTIP_STYLES,
 } from '@/constants/styles';
-import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
+import { IMAGE_SIZE, POPOVER_MAX_WIDTH, TRANSITION } from '@/constants/ui';
 import CharacterReferenceSection from '@/features/characters/components/CharacterReferenceSection';
 import type {
   ActivatedSetBonus,
@@ -73,7 +73,7 @@ function QuoteCard({ text, attribution, label }: { text: string; attribution: st
         </Text>
       )}
       <Paper p="md" radius="md" style={glassStyles}>
-        <Stack gap={8}>
+        <Stack gap="xs">
           <Text
             fs="italic"
             size="sm"
@@ -122,7 +122,7 @@ function LoreBlock({ lore, showLabel, statusEffects, skills, talent, onSkillClic
     onSkillClick,
     onTalentClick,
     italic: true,
-    lineHeight: 1.8,
+    lineHeight: 1.7,
   } as const;
 
   const glassStyles = getLoreGlassStyles(isDark);
@@ -409,7 +409,7 @@ export default function CharacterPageBuildSection({
                         key={entry.name}
                         label={tooltipLabel}
                         multiline
-                        maw={300}
+                        maw={POPOVER_MAX_WIDTH}
                         styles={RICH_TOOLTIP_STYLES}
                         {...mobileTooltip}
                       >
@@ -595,7 +595,7 @@ export default function CharacterPageBuildSection({
                         key={entry.slot}
                         label={tooltipLabel}
                         multiline
-                        maw={340}
+                        maw={POPOVER_MAX_WIDTH}
                         styles={RICH_TOOLTIP_STYLES}
                         {...mobileTooltip}
                       >
@@ -638,6 +638,7 @@ export default function CharacterPageBuildSection({
                             p="sm"
                             radius="md"
                             withBorder
+                            style={{ width: '100%' }}
                             {...getCardHoverProps()}
                           >
                             <Group gap="sm" wrap="nowrap">
@@ -712,7 +713,7 @@ export default function CharacterPageBuildSection({
                         key={setBonus.setName}
                         label={tooltipLabel}
                         multiline
-                        maw={320}
+                        maw={POPOVER_MAX_WIDTH}
                         styles={RICH_TOOLTIP_STYLES}
                         {...mobileTooltip}
                       >

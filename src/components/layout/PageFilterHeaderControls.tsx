@@ -1,5 +1,5 @@
 import ViewToggle from '@/components/ui/ViewToggle';
-import { HEADER_HEIGHT, Z_INDEX } from '@/constants/ui';
+import { Z_INDEX } from '@/constants/ui';
 import type { ViewMode } from '@/hooks/use-filters';
 import { Box, Group } from '@mantine/core';
 import { type ReactNode } from 'react';
@@ -32,7 +32,7 @@ export default function PageFilterHeaderControls({
         sticky
           ? {
               position: 'sticky',
-              top: `calc(${HEADER_HEIGHT.MOBILE}px + var(--mantine-spacing-xs))`,
+              top: 'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-xs))',
               zIndex: Z_INDEX.STICKY,
               padding: 'var(--mantine-spacing-xs)',
               borderRadius: 'var(--mantine-radius-md)',

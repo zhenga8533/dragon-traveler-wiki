@@ -22,7 +22,7 @@ export default function CharacterProgressPanel({
   }
 
   return (
-    <StaticSurface p="md">
+    <StaticSurface p="md" radius="lg">
       <Stack gap="sm">
         <Text fw={600} size="sm">
           My Progress

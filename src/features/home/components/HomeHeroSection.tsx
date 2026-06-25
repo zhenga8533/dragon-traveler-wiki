@@ -211,8 +211,8 @@ export default function HomeHeroSection() {
                 href="https://dt.game-tree.com/"
                 target="_blank"
                 rel="noopener noreferrer"
-                visibleFrom="sm"
-                size="sm"
+                size={isMobile ? 'md' : 'sm'}
+                fullWidth={isMobile}
                 variant="outline"
                 color="gray"
                 styles={HOME_CTA_BUTTON_STYLES}

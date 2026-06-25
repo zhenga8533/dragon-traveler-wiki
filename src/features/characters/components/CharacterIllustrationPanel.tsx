@@ -1,6 +1,7 @@
 import type { CharacterIllustration } from '@/assets';
 import SafeImage from '@/components/ui/SafeImage';
 import { StaticSurface } from '@/components/ui/Surface';
+import { NAV_ITEM_HEIGHT } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
 import {
   ActionIcon,
@@ -24,7 +25,7 @@ interface CharacterIllustrationPanelProps {
   hasMultipleIllustrations: boolean;
   illustrationsLoading: boolean;
   illustrationsError: string | null;
-  isDesktop: boolean;
+  isDesktop: boolean | undefined;
   onOpenPreview: () => void;
   onPrevious: () => void;
   onNext: () => void;
@@ -58,7 +59,7 @@ export default function CharacterIllustrationPanel({
               Loading...
             </Text>
           </Group>
-          <Skeleton height={320} radius="md" />
+          <Skeleton height={420} radius="md" />
         </Stack>
       </StaticSurface>
     );
@@ -132,7 +133,7 @@ export default function CharacterIllustrationPanel({
           style={{
             display: 'block',
             width: '100%',
-            minHeight: isDesktop ? undefined : 44,
+            minHeight: isDesktop ? undefined : NAV_ITEM_HEIGHT,
             borderRadius: 'var(--mantine-radius-md)',
             overflow: 'hidden',
             position: 'relative',
@@ -188,7 +189,7 @@ export default function CharacterIllustrationPanel({
               leftSection={<IoExpand />}
               variant="light"
               color={accent.primary}
-              size={isDesktop ? 'md' : 'lg'}
+              size="md"
             >
               View
             </Badge>

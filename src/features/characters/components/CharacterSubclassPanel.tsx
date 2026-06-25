@@ -36,12 +36,12 @@ export default function CharacterSubclassPanel({
   }
 
   return (
-    <StaticSurface p="md">
+    <StaticSurface p="md" radius="lg">
       <Stack gap="sm">
         <Text fw={600} size="sm">
           Subclasses
         </Text>
-        <SimpleGrid cols={2} spacing="xs">
+        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs">
           {character.subclasses.map((subclass) => {
             const subclassDetails = subclassBySlug.get(subclass);
             const subclassClass =

@@ -62,7 +62,7 @@ export default function ActiveEventsSection() {
             event.event_id ??
             (event.is_global
               ? `global:${event.name}`
-              : `tw:${event.name}:${event.start_date}`);
+              : `tw:${event.name}:${event.start_date ?? event.name}`);
           const typeColor = event.is_global
             ? accent.primary
             : getEventTypeColor(event.type);
@@ -107,10 +107,19 @@ export default function ActiveEventsSection() {
                 {event.description && (
                   <ExpandableText size="xs">{event.description}</ExpandableText>
                 )}
-                {event.start_date && (
-                  <Text size="xs" c="dimmed" mt="auto">
-                    Started: {event.start_date}
-                  </Text>
+                {(event.start_date || event.end_date) && (
+                  <Stack gap={2} mt="auto">
+                    {event.start_date && (
+                      <Text size="xs" c="dimmed">
+                        Started: {event.start_date}
+                      </Text>
+                    )}
+                    {event.end_date && (
+                      <Text size="xs" c="dimmed">
+                        Ends: {event.end_date}
+                      </Text>
+                    )}
+                  </Stack>
                 )}
               </Stack>
             </Card>
