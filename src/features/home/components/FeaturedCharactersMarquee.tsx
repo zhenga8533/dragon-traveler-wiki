@@ -18,11 +18,8 @@ import {
   Skeleton,
   Stack,
   Text,
-  ThemeIcon,
-  Title,
 } from '@mantine/core';
 import { useContext } from 'react';
-import { IoTrophy } from 'react-icons/io5';
 
 export default function FeaturedCharactersMarquee() {
   const {
@@ -37,22 +34,16 @@ export default function FeaturedCharactersMarquee() {
 
   if (loading) {
     return (
-      <Stack gap="md">
-        <Group gap="sm" justify="center">
-          <Skeleton height={32} width={32} radius="md" />
-          <Skeleton height={24} width={160} radius="sm" />
+      <Box style={{ overflowX: 'hidden', width: '100%' }}>
+        <Group gap="md" wrap="nowrap" justify="center">
+          {Array.from({ length: 7 }, (_, i) => (
+            <Stack key={i} gap={4} align="center" style={{ flexShrink: 0 }}>
+              <Skeleton height={64} width={64} radius="50%" />
+              <Skeleton height={18} width={36} radius="sm" />
+            </Stack>
+          ))}
         </Group>
-        <Box style={{ overflowX: 'hidden', width: '100%' }}>
-          <Group gap="md" wrap="nowrap" justify="center">
-            {Array.from({ length: 7 }, (_, i) => (
-              <Stack key={i} gap={4} align="center" style={{ flexShrink: 0 }}>
-                <Skeleton height={64} width={64} radius="50%" />
-                <Skeleton height={18} width={36} radius="sm" />
-              </Stack>
-            ))}
-          </Group>
-        </Box>
-      </Stack>
+      </Box>
     );
   }
 
@@ -115,16 +106,8 @@ export default function FeaturedCharactersMarquee() {
 
   return (
     <Stack gap="md">
-      <Group gap="sm" justify="center">
-        <ThemeIcon variant="light" color={accent.secondary} size="lg" radius="md">
-          <IoTrophy size={20} />
-        </ThemeIcon>
-        <Title order={2} size="h3">
-          Featured Characters
-        </Title>
-      </Group>
       {(tierListMeta.length > 0 || tierList.author) && (
-        <Text size="xs" c="dimmed" ta="center">
+        <Text size="xs" c="dimmed">
           {tierListMeta.map((item, index) => (
             <Text key={item} span inherit>
               {index > 0 ? ' · ' : ''}
@@ -177,7 +160,6 @@ export default function FeaturedCharactersMarquee() {
           {renderCharacters('b')}
         </Group>
       </Box>
-      <Box h="xs" />
     </Stack>
   );
 }

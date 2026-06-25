@@ -1,13 +1,11 @@
 import {
 	Box,
-	Card,
 	Group,
 	SimpleGrid,
 	Skeleton,
 	Stack,
 	Text,
 	ThemeIcon,
-	Title,
 } from '@mantine/core';
 import { useMemo } from 'react';
 import {
@@ -21,12 +19,10 @@ import {
 	IoPeople,
 	IoShield,
 	IoSparkles,
-	IoStatsChart,
 	IoEgg,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
 import LastUpdated from '@/components/common/LastUpdated';
-import { getCardHoverProps } from '@/constants/styles';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import {
   useArtifacts,
@@ -116,17 +112,15 @@ export default function DataStatsBar() {
 
 	if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9 || l10 || l11) {
 		return (
-			<Card padding="lg" radius="md" withBorder {...getCardHoverProps()}>
-				<SimpleGrid cols={{ base: 2, sm: 4, lg: 11 }} spacing={0}>
-					{Array.from({ length: 11 }).map((_, i) => (
-						<Stack key={i} gap={4} align="center" py="sm">
-							<Skeleton height={28} width={28} radius="md" />
-							<Skeleton height={12} width={30} radius="xs" />
-							<Skeleton height={10} width={50} radius="xs" />
-						</Stack>
-					))}
-				</SimpleGrid>
-			</Card>
+			<SimpleGrid cols={{ base: 3, sm: 6, lg: 11 }} spacing={0}>
+				{Array.from({ length: 11 }).map((_, i) => (
+					<Stack key={i} gap={4} align="center" py="sm">
+						<Skeleton height={28} width={28} radius="md" />
+						<Skeleton height={12} width={30} radius="xs" />
+						<Skeleton height={10} width={50} radius="xs" />
+					</Stack>
+				))}
+			</SimpleGrid>
 		);
 	}
 
@@ -211,61 +205,46 @@ export default function DataStatsBar() {
 	];
 
 	return (
-		<Card padding="lg" radius="md" withBorder {...getCardHoverProps()}>
-			<Stack gap="md">
-				<Group gap="sm">
-					<ThemeIcon
-						variant="light"
-						color={accent.secondary}
-						size="lg"
-						radius="md"
+		<Stack gap="md">
+			<SimpleGrid cols={{ base: 3, sm: 6, lg: 11 }} spacing={0}>
+				{stats.map((stat) => (
+					<Box
+						key={stat.to}
+						component={Link}
+						to={stat.to}
+						py="sm"
+						px="xs"
+						className="dt-stat-link"
+						style={{ textDecoration: 'none' }}
 					>
-						<IoStatsChart size={20} />
-					</ThemeIcon>
-					<Title order={2} size="h3">
-						Wiki Database
-					</Title>
-				</Group>
-				<SimpleGrid cols={{ base: 2, sm: 4, lg: 11 }} spacing={0}>
-					{stats.map((stat) => (
-						<Box
-							key={stat.to}
-							component={Link}
-							to={stat.to}
-							py="sm"
-							px="xs"
-							className="dt-stat-link"
-							style={{ textDecoration: 'none' }}
-						>
-							<Stack gap={4} align="center">
-								<ThemeIcon
-									variant="light"
-									color={stat.color}
-									size="lg"
-									radius="md"
-								>
-									<stat.icon size={16} />
-								</ThemeIcon>
-								<Text
-									fw={700}
-									size="sm"
-									ta="center"
-									lh={1}
-									c={`${stat.color}.7`}
-								>
-									{stat.count}
-								</Text>
-								<Text size="xs" c="dimmed" ta="center" lh={1.3}>
-									{stat.label}
-								</Text>
-							</Stack>
-						</Box>
-					))}
-				</SimpleGrid>
-				<Group justify="center">
-					<LastUpdated timestamp={mostRecentUpdate} />
-				</Group>
-			</Stack>
-		</Card>
+						<Stack gap={4} align="center">
+							<ThemeIcon
+								variant="light"
+								color={stat.color}
+								size="lg"
+								radius="md"
+							>
+								<stat.icon size={16} />
+							</ThemeIcon>
+							<Text
+								fw={700}
+								size="sm"
+								ta="center"
+								lh={1}
+								c={`${stat.color}.7`}
+							>
+								{stat.count}
+							</Text>
+							<Text size="xs" c="dimmed" ta="center" lh={1.3}>
+								{stat.label}
+							</Text>
+						</Stack>
+					</Box>
+				))}
+			</SimpleGrid>
+			<Group justify="center">
+				<LastUpdated timestamp={mostRecentUpdate} />
+			</Group>
+		</Stack>
 	);
 }

@@ -13,6 +13,8 @@ import {
   IoGlobe,
   IoList,
   IoPricetag,
+  IoStatsChart,
+  IoTrophy,
 } from 'react-icons/io5';
 import { CharacterOwnershipContext } from '@/contexts';
 import { useGradientAccent } from '@/hooks';
@@ -51,9 +53,49 @@ export default function Home() {
         mt={{ base: 'sm', sm: 'md' }}
       >
         <Stack gap="xl">
-          {showCharacterTiers && <FeaturedCharactersMarquee />}
+          {showCharacterTiers && (
+            <HomeSectionCard
+              title="Featured Characters"
+              icon={IoTrophy}
+              to="/tier-list"
+              linkLabel="View tier list"
+            >
+              <FeaturedCharactersMarquee />
+            </HomeSectionCard>
+          )}
 
-          <DataStatsBar />
+          <HomeSectionCard
+            title="Active Events"
+            icon={IoCalendar}
+            to="/events"
+            linkLabel="View all events"
+          >
+            <ActiveEventsSection />
+          </HomeSectionCard>
+
+          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
+            <HomeSectionCard
+              title="Active Codes"
+              icon={IoPricetag}
+              to="/codes"
+              linkLabel="View all codes"
+            >
+              <ActiveCodesSection />
+            </HomeSectionCard>
+
+            <HomeSectionCard
+              title="Recent Updates"
+              icon={IoList}
+              to="/changelog"
+              linkLabel="View full changelog"
+            >
+              <RecentUpdatesSection />
+            </HomeSectionCard>
+          </SimpleGrid>
+
+          <HomeSectionCard title="Database" icon={IoStatsChart}>
+            <DataStatsBar />
+          </HomeSectionCard>
 
           <HomeSectionCard title="About the Game" icon={IoGameController}>
             <Stack gap="md">
@@ -97,35 +139,6 @@ export default function Home() {
                 </Text>
               </Group>
             </Stack>
-          </HomeSectionCard>
-
-          <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-            <HomeSectionCard
-              title="Active Codes"
-              icon={IoPricetag}
-              to="/codes"
-              linkLabel="View all codes"
-            >
-              <ActiveCodesSection />
-            </HomeSectionCard>
-
-            <HomeSectionCard
-              title="Recent Updates"
-              icon={IoList}
-              to="/changelog"
-              linkLabel="View full changelog"
-            >
-              <RecentUpdatesSection />
-            </HomeSectionCard>
-          </SimpleGrid>
-
-          <HomeSectionCard
-            title="Active Events"
-            icon={IoCalendar}
-            to="/events"
-            linkLabel="View all events"
-          >
-            <ActiveEventsSection />
           </HomeSectionCard>
         </Stack>
       </Container>
