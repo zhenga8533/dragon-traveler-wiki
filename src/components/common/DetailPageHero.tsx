@@ -2,7 +2,7 @@ import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
   getDetailHeroGradient,
-} from '@/constants/styles';
+} from '@/constants/detail-styles';
 import { Box, Container, Stack } from '@mantine/core';
 import type { ReactNode } from 'react';
 

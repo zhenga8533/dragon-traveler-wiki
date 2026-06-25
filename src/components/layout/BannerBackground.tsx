@@ -4,7 +4,7 @@ import {
   DEFAULT_BANNER_SRC,
   DEFAULT_BANNER_SRC_SET,
 } from '@/constants/banner';
-import { getHomeHeroPlaceholderGradient } from '@/constants/styles';
+import { getHomeHeroPlaceholderGradient } from '@/constants/home-styles';
 import { TRANSITION } from '@/constants/ui';
 import { BannerContext, UiOpacityContext } from '@/contexts';
 import { useDarkMode } from '@/hooks';

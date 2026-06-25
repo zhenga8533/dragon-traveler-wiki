@@ -95,26 +95,23 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
   const usefulLinkResult = useUsefulLinks();
   const tierListResult = useTierLists();
 
-  const results = [
-    characterResult,
-    artifactResult,
-    gearResult,
-    howlkinResult,
-    relicResult,
-    resourceResult,
-    statusEffectResult,
-    subclassResult,
-    wyrmspellResult,
-    noblePhantasmResult,
-    wyrmResult,
-    teamResult,
-    codeResult,
-    eventResult,
-    usefulLinkResult,
-    tierListResult,
-  ];
-  const loading = results.some((result) => result.loading);
-  const errors = results.flatMap((result) => (result.error ? [result.error] : []));
+  const loading =
+    characterResult.loading ||
+    artifactResult.loading ||
+    gearResult.loading ||
+    howlkinResult.loading ||
+    relicResult.loading ||
+    resourceResult.loading ||
+    statusEffectResult.loading ||
+    subclassResult.loading ||
+    wyrmspellResult.loading ||
+    noblePhantasmResult.loading ||
+    wyrmResult.loading ||
+    teamResult.loading ||
+    codeResult.loading ||
+    eventResult.loading ||
+    usefulLinkResult.loading ||
+    tierListResult.loading;
 
   const characters = characterResult.data;
   const artifacts = artifactResult.data;
@@ -152,7 +149,24 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
       usefulLinks,
       tierLists,
       loading,
-      errors,
+      errors: [
+        characterResult.error,
+        artifactResult.error,
+        gearResult.error,
+        howlkinResult.error,
+        relicResult.error,
+        resourceResult.error,
+        statusEffectResult.error,
+        subclassResult.error,
+        wyrmspellResult.error,
+        noblePhantasmResult.error,
+        wyrmResult.error,
+        teamResult.error,
+        codeResult.error,
+        eventResult.error,
+        usefulLinkResult.error,
+        tierListResult.error,
+      ].filter((e): e is Error => e !== null),
     }),
     [
       characters,
@@ -172,7 +186,22 @@ export function SearchDataProvider({ children }: { children: ReactNode }) {
       usefulLinks,
       tierLists,
       loading,
-      errors,
+      characterResult.error,
+      artifactResult.error,
+      gearResult.error,
+      howlkinResult.error,
+      relicResult.error,
+      resourceResult.error,
+      statusEffectResult.error,
+      subclassResult.error,
+      wyrmspellResult.error,
+      noblePhantasmResult.error,
+      wyrmResult.error,
+      teamResult.error,
+      codeResult.error,
+      eventResult.error,
+      usefulLinkResult.error,
+      tierListResult.error,
     ]
   );
 

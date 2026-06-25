@@ -576,6 +576,26 @@
   --mantine-primary-color-contrast: var(--mantine-color-pink-contrast);
 }
 
+/* CharacterCard button wrapper — scales the whole card on hover */
+.character-card-btn {
+  border-radius: var(--mantine-radius-md);
+  transition: transform 150ms ease;
+}
+
+.character-card-btn:hover {
+  transform: scale(1.05);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character-card-btn {
+    transition: none;
+  }
+
+  .character-card-btn:hover {
+    transform: none;
+  }
+}
+
 /* Portrait hover — declarative CSS replacement for JS onMouseEnter/onMouseLeave */
 .portrait-hover {
   transition:

@@ -14,7 +14,7 @@ import {
 import { normalizeContentType } from '@/constants/content-types';
 import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
-import { SearchDataContext, SearchDataProvider } from '@/contexts';
+import { SearchDataContext } from '@/contexts';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
 import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
@@ -1138,9 +1138,5 @@ function SearchModalContent({
 }
 
 export default function SearchModal(props: SearchModalProps) {
-  return (
-    <SearchDataProvider>
-      <SearchModalContent {...props} />
-    </SearchDataProvider>
-  );
+  return <SearchModalContent {...props} />;
 }

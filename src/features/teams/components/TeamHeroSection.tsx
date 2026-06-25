@@ -12,10 +12,10 @@ import {
 import { GLASS_BORDER, getLoreGlassStyles } from '@/constants/glass';
 import {
   DETAIL_HERO_WRAPPER_STYLES,
-  getCardHoverProps,
   getDetailHeroGradient,
   getHeroIconBoxStyles,
-} from '@/constants/styles';
+} from '@/constants/detail-styles';
+import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';

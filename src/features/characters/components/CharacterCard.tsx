@@ -1,6 +1,6 @@
 import { Group, Stack, Text, UnstyledButton } from '@mantine/core';
 import { Link } from 'react-router-dom';
-import { CHARACTER_CARD, TRANSITION } from '@/constants/ui';
+import { CHARACTER_CARD } from '@/constants/ui';
 
 import type { Quality } from '@/types/quality';
 import { getCharacterRoutePathByName } from '@/features/characters/utils/character-route';
@@ -98,20 +98,7 @@ export default function CharacterCard({
     <UnstyledButton
       component={Link}
       to={routePath ?? getCharacterRoutePathByName(name)}
-      style={{
-        borderRadius: 'var(--mantine-radius-md)',
-        transition: `transform ${TRANSITION.FAST} ${TRANSITION.EASE}`,
-      }}
-      styles={{
-        root: {
-          '&:hover': {
-            transform: 'scale(1.05)',
-          },
-          '&:hover img': {
-            boxShadow: 'var(--mantine-shadow-md)',
-          },
-        },
-      }}
+      className="character-card-btn"
     >
       {content}
     </UnstyledButton>

@@ -5,6 +5,7 @@ import {
   GradientThemeProvider,
   LocaleProvider,
   ResourcesProvider,
+  SearchDataProvider,
   TierListReferenceProvider,
   UiOpacityProvider,
 } from './contexts';
@@ -18,7 +19,9 @@ export default function AppProviders({ children }: { children: ReactNode }) {
             <UiOpacityProvider>
               <BannerProvider>
                 <CharacterOwnershipProvider>
-                  {children}
+                  <SearchDataProvider>
+                    {children}
+                  </SearchDataProvider>
                 </CharacterOwnershipProvider>
               </BannerProvider>
             </UiOpacityProvider>

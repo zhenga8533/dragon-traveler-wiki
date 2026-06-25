@@ -5,7 +5,7 @@ import {
   getHomeHeroPlayNowStyle,
   getHomeHeroSubtitleStyle,
   getHomeHeroWordmarkStyle,
-} from '@/constants/styles';
+} from '@/constants/home-styles';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
 import {
@@ -14,7 +14,6 @@ import {
   Button,
   Container,
   Group,
-  Image,
   Kbd,
   Stack,
   Text,
@@ -71,191 +70,186 @@ export default function HomeHeroSection() {
         style={{ position: 'relative', zIndex: 1, width: '100%' }}
         py={{ base: 'xl', sm: 72 }}
       >
-        <Stack gap={isMobile ? 'md' : 'lg'} maw={760}>
-          <Box style={{ textAlign: isMobile ? 'center' : 'left' }}>
-            <Image
-              src="/logo.png"
-              alt="Dragon Traveler Wiki"
-              h={{ base: 80, sm: 110 }}
-              w="auto"
-              fit="contain"
-              mx={isMobile ? 'auto' : undefined}
-              mb="sm"
-            />
-            <Stack gap="sm" align={isMobile ? 'center' : 'flex-start'}>
-              <Badge
-                radius="xl"
-                variant="gradient"
-                gradient={{
-                  from: accent.secondary,
-                  to: accent.primary,
-                  deg: 110,
+        <Stack
+          gap="lg"
+          maw={760}
+          align={isMobile ? 'center' : 'flex-start'}
+          style={{ textAlign: isMobile ? 'center' : 'left' }}
+        >
+          <Stack gap="sm" align={isMobile ? 'center' : 'flex-start'}>
+            <Badge
+              radius="xl"
+              variant="gradient"
+              gradient={{
+                from: accent.secondary,
+                to: accent.primary,
+                deg: 110,
+              }}
+              style={{ letterSpacing: 0.3 }}
+            >
+              Community Resource Hub
+            </Badge>
+            <Title order={1} style={HOME_HERO_TITLE_STYLE}>
+              <Text component="span" inherit style={homeHeroWordmarkStyle}>
+                Dragon Traveler
+              </Text>{' '}
+              <Text
+                component="span"
+                inherit
+                style={{
+                  color: isDark
+                    ? 'var(--mantine-color-white)'
+                    : 'var(--mantine-color-dark-9)',
                 }}
-                style={{ letterSpacing: 0.3 }}
               >
-                Community Resource Hub
+                Wiki
+              </Text>
+            </Title>
+            <Text size="lg" style={homeHeroSubtitleStyle}>
+              A{' '}
+              <Text
+                component="span"
+                inherit
+                fw={700}
+                style={{
+                  color: isDark
+                    ? 'var(--mantine-primary-color-1)'
+                    : 'var(--mantine-primary-color-8)',
+                }}
+              >
+                community-driven
+              </Text>{' '}
+              wiki for{' '}
+              <Text
+                component="span"
+                inherit
+                fw={700}
+                style={{
+                  color: isDark
+                    ? `var(--mantine-color-${accent.secondary}-1)`
+                    : `var(--mantine-color-${accent.secondary}-8)`,
+                }}
+              >
+                Dragon Traveler
+              </Text>
+            </Text>
+            <Text size="sm" style={homeHeroMetaTextStyle}>
+              Authored by{' '}
+              <Text
+                component="span"
+                inherit
+                fw={700}
+                style={{
+                  color: isDark
+                    ? `var(--mantine-color-${accent.tertiary}-2)`
+                    : `var(--mantine-color-${accent.tertiary}-8)`,
+                }}
+              >
+                Litee
+              </Text>{' '}
+              <Text
+                component="span"
+                inherit
+                style={{
+                  color: isDark
+                    ? `var(--mantine-color-${accent.secondary}-1)`
+                    : `var(--mantine-color-${accent.secondary}-8)`,
+                }}
+              >
+                (Server: Freya 2)
+              </Text>
+            </Text>
+            <Group
+              justify={isMobile ? 'center' : 'flex-start'}
+              gap={8}
+              wrap="wrap"
+            >
+              <Badge variant="light" color={accent.primary} radius="xl">
+                Character Builds
               </Badge>
-              <Title order={1} style={HOME_HERO_TITLE_STYLE}>
-                <Text component="span" inherit style={homeHeroWordmarkStyle}>
-                  Dragon Traveler
-                </Text>{' '}
-                <Text
-                  component="span"
-                  inherit
-                  style={{
-                    color: isDark
-                      ? 'var(--mantine-color-white)'
-                      : 'var(--mantine-color-dark-9)',
-                  }}
-                >
-                  Wiki
-                </Text>
-              </Title>
-              <Text size="lg" style={homeHeroSubtitleStyle}>
-                A{' '}
-                <Text
-                  component="span"
-                  inherit
-                  fw={700}
-                  style={{
-                    color: isDark
-                      ? 'var(--mantine-primary-color-1)'
-                      : 'var(--mantine-primary-color-8)',
-                  }}
-                >
-                  community-driven
-                </Text>{' '}
-                wiki for{' '}
-                <Text
-                  component="span"
-                  inherit
-                  fw={700}
-                  style={{
-                    color: isDark
-                      ? `var(--mantine-color-${accent.secondary}-1)`
-                      : `var(--mantine-color-${accent.secondary}-8)`,
-                  }}
-                >
-                  Dragon Traveler
-                </Text>
-              </Text>
-              <Text size="sm" style={homeHeroMetaTextStyle}>
-                Authored by{' '}
-                <Text
-                  component="span"
-                  inherit
-                  fw={700}
-                  style={{
-                    color: isDark
-                      ? `var(--mantine-color-${accent.tertiary}-2)`
-                      : `var(--mantine-color-${accent.tertiary}-8)`,
-                  }}
-                >
-                  Litee
-                </Text>{' '}
-                <Text
-                  component="span"
-                  inherit
-                  style={{
-                    color: isDark
-                      ? `var(--mantine-color-${accent.secondary}-1)`
-                      : `var(--mantine-color-${accent.secondary}-8)`,
-                  }}
-                >
-                  (Server: Freya 2)
-                </Text>
-              </Text>
-              <Group
-                justify={isMobile ? 'center' : 'flex-start'}
-                gap={8}
-                wrap="wrap"
+              <Badge variant="light" color={accent.secondary} radius="xl">
+                Team Tools
+              </Badge>
+              <Badge variant="light" color={accent.tertiary} radius="xl">
+                Codes & Updates
+              </Badge>
+            </Group>
+          </Stack>
+
+          <Stack gap="sm" align={isMobile ? 'center' : 'flex-start'} style={{ width: '100%' }}>
+            <Group
+              gap="sm"
+              justify={isMobile ? 'center' : 'flex-start'}
+              wrap="wrap"
+              style={{ maxWidth: isMobile ? 440 : undefined }}
+            >
+              <Button
+                component={Link}
+                to="/characters"
+                size="md"
+                fullWidth={isMobile}
+                color={accent.primary}
+                styles={HOME_CTA_BUTTON_STYLES}
+                leftSection={<IoPeople size={IMAGE_SIZE.ICON_LG} />}
               >
-                <Badge variant="light" color={accent.primary} radius="xl">
-                  Character Builds
-                </Badge>
-                <Badge variant="light" color={accent.secondary} radius="xl">
-                  Team Tools
-                </Badge>
-                <Badge variant="light" color={accent.tertiary} radius="xl">
-                  Codes & Updates
-                </Badge>
-              </Group>
-            </Stack>
-            <Stack gap="sm" mt="md" align={isMobile ? 'center' : 'flex-start'}>
-              <Group
-                gap="sm"
-                justify={isMobile ? 'center' : 'flex-start'}
-                wrap="wrap"
-                style={{ width: '100%', maxWidth: isMobile ? 440 : undefined }}
+                Browse Characters
+              </Button>
+              <Button
+                component={Link}
+                to="/tier-list"
+                size="md"
+                fullWidth={isMobile}
+                variant="light"
+                color={accent.primary}
+                styles={HOME_CTA_BUTTON_STYLES}
+                leftSection={<IoTrophy size={IMAGE_SIZE.ICON_LG} />}
               >
-                <Button
-                  component={Link}
-                  to="/characters"
-                  size="md"
-                  fullWidth={isMobile}
-                  color={accent.primary}
-                  styles={HOME_CTA_BUTTON_STYLES}
-                  leftSection={<IoPeople size={IMAGE_SIZE.ICON_LG} />}
-                >
-                  Browse Characters
-                </Button>
-                <Button
-                  component={Link}
-                  to="/tier-list"
-                  size="md"
-                  fullWidth={isMobile}
-                  variant="light"
-                  color={accent.primary}
-                  styles={HOME_CTA_BUTTON_STYLES}
-                  leftSection={<IoTrophy size={IMAGE_SIZE.ICON_LG} />}
-                >
-                  View Tier List
-                </Button>
-                <Button
-                  component="a"
-                  href="https://dt.game-tree.com/"
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  visibleFrom="sm"
-                  size="sm"
-                  variant="outline"
-                  color="gray"
-                  styles={HOME_CTA_BUTTON_STYLES}
-                  leftSection={<IoGameController size={IMAGE_SIZE.ICON_LG} />}
-                  rightSection={<IoOpenOutline size={14} />}
-                  style={homeHeroPlayNowStyle}
-                >
-                  Play Now
-                </Button>
-              </Group>
-              <Group
-                gap="xs"
-                justify={isMobile ? 'center' : 'flex-start'}
-                style={{ width: '100%', maxWidth: isMobile ? 440 : undefined }}
+                View Tier List
+              </Button>
+              <Button
+                component="a"
+                href="https://dt.game-tree.com/"
+                target="_blank"
+                rel="noopener noreferrer"
+                visibleFrom="sm"
+                size="sm"
+                variant="outline"
+                color="gray"
+                styles={HOME_CTA_BUTTON_STYLES}
+                leftSection={<IoGameController size={IMAGE_SIZE.ICON_LG} />}
+                rightSection={<IoOpenOutline size={14} />}
+                style={homeHeroPlayNowStyle}
               >
-                <Button
-                  onClick={() =>
-                    window.dispatchEvent(new Event(OPEN_GLOBAL_SEARCH_EVENT))
-                  }
-                  size={isMobile ? 'md' : 'sm'}
-                  fullWidth={isMobile}
-                  variant="light"
-                  color={accent.primary}
-                  styles={HOME_CTA_BUTTON_STYLES}
-                  leftSection={<IoSearch size={16} />}
-                  style={{ minHeight: isMobile ? 44 : undefined }}
-                >
-                  Search the Wiki
-                </Button>
-                <Group gap={4} visibleFrom="sm">
-                  <Text size="xs" style={homeHeroMetaTextStyle}>
-                    press
-                  </Text>
-                  <Kbd size="xs">/</Kbd>
-                </Group>
+                Play Now
+              </Button>
+            </Group>
+            <Group
+              gap="xs"
+              justify={isMobile ? 'center' : 'flex-start'}
+              style={{ maxWidth: isMobile ? 440 : undefined }}
+            >
+              <Button
+                onClick={() =>
+                  window.dispatchEvent(new Event(OPEN_GLOBAL_SEARCH_EVENT))
+                }
+                size={isMobile ? 'md' : 'sm'}
+                fullWidth={isMobile}
+                variant="light"
+                color={accent.primary}
+                styles={HOME_CTA_BUTTON_STYLES}
+                leftSection={<IoSearch size={16} />}
+                style={{ minHeight: isMobile ? 44 : undefined }}
+              >
+                Search the Wiki
+              </Button>
+              <Group gap={4} visibleFrom="sm">
+                <Text size="xs" style={homeHeroMetaTextStyle}>
+                  press
+                </Text>
+                <Kbd size="xs">/</Kbd>
               </Group>
-            </Stack>
-          </Box>
+            </Group>
+          </Stack>
         </Stack>
       </Container>
     </Box>

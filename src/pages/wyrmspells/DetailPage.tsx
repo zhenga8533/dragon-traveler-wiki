@@ -13,7 +13,7 @@ import {
   WYRMSPELL_TYPE_COLOR,
   getStableTagColor,
 } from '@/constants/colors';
-import { getHeroIconBoxStyles } from '@/constants/styles';
+import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import QualitiesTable from '@/features/wiki/wyrmspells/components/QualitiesTable';
 import { useStatusEffects, useWyrmspellChanges, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';

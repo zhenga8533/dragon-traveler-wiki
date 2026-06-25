@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 
 export interface DataFetchResult<T> {
   data: T;
@@ -62,13 +62,16 @@ export function useDataFetch<T>(
   initial: T,
   parse?: (raw: unknown) => T
 ): DataFetchResult<T> {
+  const parseRef = useRef(parse);
+  parseRef.current = parse;
+
   const hasCachedValue = dataCache.has(path);
   const [data, setData] = useState<T>(() => {
     if (!hasCachedValue) return initial;
     const raw = dataCache.get(path);
-    if (parse) {
+    if (parseRef.current) {
       try {
-        return parse(raw);
+        return parseRef.current(raw);
       } catch {
         return initial;
       }
@@ -91,7 +94,8 @@ export function useDataFetch<T>(
     fetchJsonCached(path)
       .then((result) => {
         if (isCancelled) return;
-        setData(parse ? parse(result) : (result as T));
+        const currentParse = parseRef.current;
+        setData(currentParse ? currentParse(result) : (result as T));
       })
       .catch((err) => {
         if (isCancelled) return;
@@ -106,9 +110,6 @@ export function useDataFetch<T>(
     return () => {
       isCancelled = true;
     };
-    // `parse` is intentionally omitted from deps — it is expected to be a stable
-    // module-level reference (e.g. a Zod schema's bound .parse method).
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [path]);
 
   return { data, loading, error };
