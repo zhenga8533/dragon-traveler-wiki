@@ -17,7 +17,7 @@ import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import RichText from '@/components/common/RichText';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
-import { useDarkMode } from '@/hooks';
+import { useDarkMode, useGradientAccent } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
 
@@ -168,10 +168,13 @@ export default function CharacterLoreSection({
   scrollToSkill,
   scrollToTalent,
 }: CharacterLoreSectionProps) {
+  const { accent } = useGradientAccent();
+
   if (!character.lore && !character.summary) return null;
 
   return (
     <CollapsibleSectionCard
+      color={accent.primary}
       header={
         <Stack gap={2}>
           <Title order={2} size="h3">

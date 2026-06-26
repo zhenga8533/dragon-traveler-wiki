@@ -118,6 +118,7 @@ export default function TierListContent({
 							<CollapsibleSectionCard
 								key={tier}
 								defaultExpanded
+								color={getTierColor(tier, tierIndex)}
 								header={
 									<Stack gap={4}>
 										<Badge

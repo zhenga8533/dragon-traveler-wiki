@@ -147,6 +147,7 @@ export default function TierListViewTab({
 									{unranked.length > 0 && (
 										<CollapsibleSectionCard
 											defaultExpanded={false}
+											color="gray"
 											header={
 												<Badge
 													variant="filled"

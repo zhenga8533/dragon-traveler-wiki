@@ -344,6 +344,7 @@ function FAQSectionCard({
 }) {
   return (
     <CollapsibleSectionCard
+      color={accentColor}
       header={
         <Stack gap={2}>
           <Title order={3}>{section.title}</Title>

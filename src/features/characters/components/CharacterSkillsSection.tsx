@@ -45,6 +45,7 @@ export default function CharacterPageSkillsSection({
 			{talentLevels.length > 0 && (
 				<CollapsibleSectionCard
 					id="talent-section"
+					color={accent.primary}
 					header={
 						<Stack gap={2}>
 							<Title order={2} size="h3">
@@ -100,6 +101,7 @@ export default function CharacterPageSkillsSection({
 			{/* Skills Section */}
 			{character.skills.length > 0 && (
 				<CollapsibleSectionCard
+					color={accent.primary}
 					header={
 						<Stack gap={2}>
 							<Title order={2} size="h3">
@@ -190,6 +192,7 @@ export default function CharacterPageSkillsSection({
 			{/* Divinity Section */}
 			{character.divinity && character.divinity.length > 0 && (
 				<CollapsibleSectionCard
+					color={accent.primary}
 					header={
 						<Stack gap={2}>
 							<Title order={2} size="h3">
