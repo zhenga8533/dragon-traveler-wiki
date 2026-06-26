@@ -114,7 +114,9 @@ export default function CharacterPageSkillsSection({
 					<Stack gap="md">
 						{character.skills.map((skill) => {
 								const typeKey = (skill.type ?? '').replace(/ Skill$/i, '').toLowerCase();
-								const skillIcon = skillIcons.get(skill.type ?? typeKey);
+								const skillIcon = typeKey === 'divine'
+									? divineIcon
+									: skillIcons.get(skill.type ?? typeKey);
 								const isPassiveCooldown =
 									skill.cooldown === 0 || skill.cooldown === '0';
 								const cooldownLabel = isPassiveCooldown
