@@ -9,8 +9,7 @@ import {
   resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
-import { useGradientAccent } from '@/hooks';
-import styles from '@/styles/featured-characters-marquee.module.css';
+import styles from '@/features/home/styles/marquee.module.css';
 import {
   Badge,
   Box,
@@ -27,7 +26,6 @@ export default function FeaturedCharactersMarquee() {
     loading: loadingTiers,
     selectedTierListName,
   } = useContext(TierListReferenceContext);
-  const { accent } = useGradientAccent();
   const { data: characters, loading: loadingChars } = useCharacters();
 
   const loading = loadingTiers || loadingChars;

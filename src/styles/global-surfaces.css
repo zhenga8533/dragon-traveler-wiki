@@ -1,0 +1,147 @@
+html {
+  scrollbar-gutter: stable;
+}
+
+body {
+  background:
+    radial-gradient(
+      circle at 20% -10%,
+      var(--dt-surface-glow-a) 0%,
+      transparent 34%
+    ),
+    radial-gradient(
+      circle at 90% 10%,
+      var(--dt-surface-glow-b) 0%,
+      transparent 32%
+    ),
+    linear-gradient(var(--dt-grid-line) 1px, transparent 1px),
+    linear-gradient(90deg, var(--dt-grid-line) 1px, transparent 1px),
+    var(--mantine-color-body);
+  background-size:
+    auto,
+    auto,
+    28px 28px,
+    28px 28px,
+    auto;
+  background-position:
+    center,
+    center,
+    0 0,
+    0 0,
+    center;
+}
+
+:focus-visible {
+  outline: 2px solid var(--dt-focus-ring);
+  outline-offset: 2px;
+}
+
+.mantine-Input-input:focus,
+.mantine-Input-input:focus-within,
+.mantine-Input-input[data-expanded='true'] {
+  border-color: var(--dt-focus-border) !important;
+  box-shadow: 0 0 0 1px var(--dt-focus-ring) !important;
+}
+
+.mantine-Anchor-root,
+.dt-link-text {
+  color: light-dark(var(--dt-link-color-light), var(--dt-link-color-dark));
+}
+
+.mantine-Anchor-root:hover,
+.dt-link-text:hover {
+  filter: saturate(1.08);
+}
+
+.mantine-Paper-root[data-with-border],
+.mantine-Card-root[data-with-border] {
+  border-color: var(--mantine-color-default-border);
+  background: color-mix(
+    in srgb,
+    var(--mantine-color-body) calc(var(--dt-surface-opacity, 1) * 100%),
+    transparent
+  );
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease,
+    border-color 150ms ease;
+}
+
+.dt-themed-surface {
+  border-color: var(--mantine-color-default-border);
+  background: color-mix(
+    in srgb,
+    var(--mantine-color-body) calc(var(--dt-surface-opacity, 1) * 100%),
+    transparent
+  );
+}
+
+.mantine-Paper-root[data-with-border].card-hover-interactive,
+.mantine-Card-root[data-with-border].card-hover-interactive {
+  border-color: transparent;
+  background:
+    linear-gradient(
+        color-mix(
+          in srgb,
+          var(--mantine-color-body) calc(var(--dt-surface-opacity, 1) * 100%),
+          transparent
+        ),
+        color-mix(
+          in srgb,
+          var(--mantine-color-body) calc(var(--dt-surface-opacity, 1) * 100%),
+          transparent
+        )
+      )
+      padding-box,
+    linear-gradient(135deg, var(--dt-surface-glow-a), var(--dt-surface-glow-b))
+      border-box;
+}
+
+.mantine-Paper-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]),
+.mantine-Card-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]) {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--mantine-shadow-md),
+    0 10px 28px rgba(2, 6, 23, 0.12);
+}
+
+.mantine-NavLink-root[data-active='true'] {
+  box-shadow: inset 3px 0 0 0
+    light-dark(var(--dt-link-color-light), var(--dt-link-color-dark));
+  background-color: color-mix(
+    in srgb,
+    var(--dt-surface-glow-a) 45%,
+    transparent
+  );
+}
+
+.mantine-Tabs-tab[data-active='true'] {
+  color: light-dark(var(--dt-link-color-light), var(--dt-link-color-dark));
+  border-color: light-dark(
+    var(--dt-link-color-light),
+    var(--dt-link-color-dark)
+  );
+}
+
+@media (max-width: 48em) {
+  body {
+    background-size:
+      auto,
+      auto,
+      20px 20px,
+      20px 20px,
+      auto;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .mantine-Paper-root[data-with-border],
+  .mantine-Card-root[data-with-border] {
+    transition: none;
+  }
+
+  .mantine-Paper-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]),
+  .mantine-Card-root[data-with-border].card-hover-interactive:hover:not([data-no-hover]) {
+    transform: none;
+  }
+}

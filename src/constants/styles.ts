@@ -44,7 +44,7 @@ export function getCardHoverProps(options: CardHoverPropsOptions = {}) {
 
 /**
  * Returns a CSS class for character portrait hover effect (scale + shadow).
- * Actual transitions are handled by `.portrait-hover` in themed-cards.css.
+ * Actual transitions are handled by `.portrait-hover` in interactions.css.
  */
 export function getCharacterPortraitHoverProps(
   options: CharacterPortraitHoverOptions = {}

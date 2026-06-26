@@ -6,7 +6,7 @@ import '@mantine/notifications/styles.css';
 import { StrictMode } from 'react';
 import { createRoot } from 'react-dom/client';
 import App from './App';
-import './styles/themed-cards.css';
+import './styles/global.css';
 import { theme } from './theme';
 
 if (import.meta.env.PROD) {

@@ -1,0 +1,107 @@
+/* CharacterCard button wrapper — lifts the whole card on hover */
+.character-card-btn {
+  border-radius: var(--mantine-radius-md);
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.character-card-btn:hover {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--mantine-shadow-md),
+    0 10px 28px rgba(2, 6, 23, 0.12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .character-card-btn {
+    transition: none;
+  }
+
+  .character-card-btn:hover {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
+/* Portrait hover — declarative CSS replacement for JS onMouseEnter/onMouseLeave */
+.portrait-hover {
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.2);
+}
+
+.portrait-hover:hover {
+  transform: scale(1.08);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.25);
+}
+
+.portrait-hover-substitute {
+  box-shadow: 0 1px 4px rgba(0, 0, 0, 0.16);
+}
+
+.portrait-hover-substitute:hover {
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.2);
+}
+
+/* Card hover utility class — for cards/papers without withBorder that still
+   need the lift-and-shadow effect. withBorder elements get this automatically
+   via the .mantine-Paper-root[data-with-border] rules below. */
+.card-hover {
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.card-hover-interactive:hover:not([data-no-hover]) {
+  transform: translateY(-2px);
+  box-shadow:
+    var(--mantine-shadow-md),
+    0 10px 28px rgba(2, 6, 23, 0.12);
+}
+
+.card-hover-interactive {
+  cursor: pointer;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .portrait-hover {
+    transition: none;
+  }
+
+  .portrait-hover:hover {
+    transform: none;
+  }
+
+  .card-hover {
+    transition: none;
+  }
+
+  .card-hover-interactive:hover:not([data-no-hover]) {
+    transform: none;
+  }
+}
+
+.dt-stat-link .mantine-ThemeIcon-root {
+  transition:
+    transform 150ms ease,
+    box-shadow 150ms ease;
+}
+
+.dt-stat-link:hover .mantine-ThemeIcon-root {
+  transform: translateY(-3px) scale(1.1);
+  box-shadow: 0 4px 14px rgba(0, 0, 0, 0.14);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .dt-stat-link .mantine-ThemeIcon-root {
+    transition: none;
+  }
+
+  .dt-stat-link:hover .mantine-ThemeIcon-root {
+    transform: none;
+    box-shadow: none;
+  }
+}
+
