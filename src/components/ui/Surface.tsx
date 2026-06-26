@@ -14,7 +14,12 @@ export interface InteractiveSurfaceProps extends StaticSurfaceProps {
 
 const SurfacePaper = Paper as unknown as ComponentType<StaticSurfaceProps>;
 
-/** Standard non-interactive application surface. */
+/**
+ * Standard non-interactive application surface.
+ *
+ * Use this for ordinary content panels/cards that should follow the selected
+ * palette and the Settings > Opacity > UI Surfaces slider.
+ */
 export function StaticSurface({
   component,
   className,
@@ -31,7 +36,12 @@ export function StaticSurface({
   );
 }
 
-/** Surface for links, buttons, and other keyboard-operable controls. */
+/**
+ * Surface for links, buttons, and other keyboard-operable controls.
+ *
+ * Use this when the whole panel is clickable/focusable and should get the
+ * shared hover/elevation treatment.
+ */
 export function InteractiveSurface({
   component,
   className,

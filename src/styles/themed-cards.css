@@ -820,6 +820,15 @@ body {
     border-color 150ms ease;
 }
 
+.dt-themed-surface {
+  border-color: var(--mantine-color-default-border);
+  background: color-mix(
+    in srgb,
+    var(--mantine-color-body) calc(var(--dt-surface-opacity, 1) * 100%),
+    transparent
+  );
+}
+
 .mantine-Paper-root[data-with-border].card-hover-interactive,
 .mantine-Card-root[data-with-border].card-hover-interactive {
   border-color: transparent;

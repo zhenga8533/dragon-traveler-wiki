@@ -83,8 +83,13 @@ Checklist for adding a new dataset (e.g. "Mounts"):
 ## Styling Conventions
 
 - Use `var(--mantine-color-*)` for theme-aware colors; never hardcode hex values
-- Glass card styles: `getLoreGlassStyles(isDark)` from `constants/glass`
-- Card hover: `CARD_HOVER_STYLES` + `cardHoverHandlers` from `constants/styles`
+- App content surfaces: prefer `StaticSurface` or `InteractiveSurface` from `components/ui/Surface`
+- Plain bordered Mantine `Paper`/`Card` surfaces are also themed by global CSS, but the surface wrappers make intent clearer
+- Non-`Paper` surfaces such as sticky toolbars or custom buttons should use the `dt-themed-surface` class
+- Glass chrome/overlays: use `getGlassStyles(isDark)` from `constants/glass`
+- Lore or translucent detail panels: use `getLoreGlassStyles(isDark)` from `constants/glass`
+- The Settings > Opacity > UI Surfaces slider controls `--dt-surface-opacity`; semantic state colors, media overlays, status badges, and data-color encodings should not use that variable
+- Palette-aware accent controls should use `useGradientAccent()` or Mantine primary-color variants rather than hard-coded color names
 - Quality-tier border colors: `QUALITY_BORDER_COLOR[quality]` from `constants/colors`
 - Row/position colors: red = Front, orange = Middle, blue = Back
 

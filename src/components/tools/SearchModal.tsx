@@ -810,7 +810,7 @@ function SearchModalContent({
           onClick={open}
           aria-label={searchShortcutHint}
           aria-haspopup="dialog"
-          className="search-pill-trigger"
+          className="search-pill-trigger dt-themed-surface"
           style={{
             display: 'flex',
             alignItems: 'center',
@@ -818,7 +818,6 @@ function SearchModalContent({
             padding: '5px 10px 5px 12px',
             borderRadius: 'var(--mantine-radius-md)',
             border: '1px solid var(--mantine-color-default-border)',
-            background: 'var(--mantine-color-default)',
             color: 'var(--mantine-color-dimmed)',
             minWidth: 150,
           }}

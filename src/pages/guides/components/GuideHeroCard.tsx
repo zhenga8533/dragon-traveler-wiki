@@ -32,8 +32,8 @@ export default function GuideHeroCard({
         style: {
           backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
           backgroundColor: isDark
-            ? 'var(--dt-home-hero-card-dark)'
-            : 'var(--dt-home-hero-card-light)',
+            ? 'color-mix(in srgb, var(--dt-home-hero-card-dark) calc(var(--dt-surface-opacity, 0.9) * 100%), transparent)'
+            : 'color-mix(in srgb, var(--dt-home-hero-card-light) calc(var(--dt-surface-opacity, 0.9) * 100%), transparent)',
         },
       })}
     >

@@ -7,8 +7,8 @@ import {
   type CSSProperties,
 } from 'react';
 import { IoDocumentTextOutline } from 'react-icons/io5';
-import { GLASS } from '@/constants/glass';
-import { useGradientAccent, useMobileTooltip } from '@/hooks';
+import { GLASS, getGlassStyles } from '@/constants/glass';
+import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 
 interface CharacterNoteButtonProps {
   value: string;
@@ -24,6 +24,7 @@ function CharacterNoteButton({
   style,
 }: CharacterNoteButtonProps) {
   const { accent } = useGradientAccent();
+  const isDark = useDarkMode();
   const mobileTooltip = useMobileTooltip();
   const [opened, setOpened] = useState(false);
   const [draftValue, setDraftValue] = useState(value);
@@ -130,10 +131,7 @@ function CharacterNoteButton({
       <Popover.Dropdown
         p="xs"
         style={{
-          border: '1px solid var(--mantine-color-default-border)',
-          background: 'var(--mantine-color-body)',
-          backdropFilter: `blur(${GLASS.BLUR})`,
-          WebkitBackdropFilter: `blur(${GLASS.BLUR})`,
+          ...getGlassStyles(isDark),
           boxShadow: 'var(--mantine-shadow-md)',
         }}
       >

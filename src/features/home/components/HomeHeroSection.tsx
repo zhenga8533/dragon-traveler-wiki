@@ -7,7 +7,7 @@ import {
   getHomeHeroSubtitleStyle,
   getHomeHeroWordmarkStyle,
 } from '@/constants/home-styles';
-import { GLASS, GLASS_BORDER } from '@/constants/glass';
+import { getHeroNavGlassStyles } from '@/constants/glass';
 import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
 import { BannerContext } from '@/contexts';
 import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
@@ -68,6 +68,7 @@ export default function HomeHeroSection() {
   const homeHeroSubtitleStyle = getHomeHeroSubtitleStyle(isDark);
   const homeHeroMetaTextStyle = getHomeHeroMetaTextStyle(isDark);
   const homeHeroPlayNowStyle = getHomeHeroPlayNowStyle(isDark);
+  const homeHeroNavCardStyle = getHeroNavGlassStyles(isDark);
 
   const HERO_ACCENT_CYCLE = [
     accent.primary,
@@ -322,13 +323,8 @@ export default function HomeHeroSection() {
                   radius="lg"
                   className="card-hover card-hover-interactive"
                   style={{
+                    ...homeHeroNavCardStyle,
                     textDecoration: 'none',
-                    backdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
-                    WebkitBackdropFilter: `blur(${GLASS.BLUR_SUBTLE})`,
-                    backgroundColor: isDark
-                      ? 'rgba(255, 255, 255, 0.07)'
-                      : 'rgba(255, 255, 255, 0.72)',
-                    border: isDark ? GLASS_BORDER.dark : GLASS_BORDER.light,
                   }}
                 >
                   <Group gap="sm" wrap="nowrap">

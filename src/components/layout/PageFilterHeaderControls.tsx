@@ -28,6 +28,7 @@ export default function PageFilterHeaderControls({
 }: PageFilterHeaderControlsProps) {
   return (
     <Box
+      className={sticky ? 'dt-themed-surface' : undefined}
       style={
         sticky
           ? {
@@ -36,7 +37,6 @@ export default function PageFilterHeaderControls({
               zIndex: Z_INDEX.STICKY,
               padding: 'var(--mantine-spacing-xs)',
               borderRadius: 'var(--mantine-radius-md)',
-              background: 'var(--mantine-color-body)',
               border: '1px solid var(--mantine-color-default-border)',
             }
           : undefined
