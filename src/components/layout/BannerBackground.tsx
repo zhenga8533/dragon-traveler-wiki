@@ -251,9 +251,11 @@ export default function BannerBackground() {
               left: -80,
               borderRadius: '50%',
               background:
-                'radial-gradient(circle, rgba(236,72,153,0.32) 0%, rgba(236,72,153,0) var(--dt-gradient-radial-falloff))',
+                'radial-gradient(circle, var(--dt-surface-glow-a) 0%, transparent var(--dt-gradient-radial-falloff))',
               filter: 'blur(4px)',
               pointerEvents: 'none',
+              animation: reduceMotion ? 'none' : 'blobDriftA 22s ease-in-out infinite',
+              willChange: 'transform',
             }}
           />
           <Box
@@ -265,9 +267,12 @@ export default function BannerBackground() {
               right: -90,
               borderRadius: '50%',
               background:
-                'radial-gradient(circle, rgba(59,130,246,0.3) 0%, rgba(59,130,246,0) var(--dt-gradient-radial-falloff))',
+                'radial-gradient(circle, var(--dt-surface-glow-b) 0%, transparent var(--dt-gradient-radial-falloff))',
               filter: 'blur(6px)',
               pointerEvents: 'none',
+              animation: reduceMotion ? 'none' : 'blobDriftB 18s ease-in-out infinite',
+              animationDelay: '-6s',
+              willChange: 'transform',
             }}
           />
         </Box>

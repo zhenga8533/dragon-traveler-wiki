@@ -26,6 +26,7 @@ import FeaturedCharactersMarquee from '@/features/home/components/FeaturedCharac
 import HomeHeroSection from '@/features/home/components/HomeHeroSection';
 import HomeSectionCard from '@/features/home/components/HomeSectionCard';
 import RecentUpdatesSection from '@/features/home/components/RecentUpdatesSection';
+import ScrollReveal from '@/components/ui/ScrollReveal';
 
 const GENRES = ['Strategy', 'RPG', 'Card Game', 'Idle', 'Comedy', 'Anime'];
 
@@ -54,92 +55,104 @@ export default function Home() {
       >
         <Stack gap="xl">
           {showCharacterTiers && (
-            <HomeSectionCard
-              title="Featured Characters"
-              icon={IoTrophy}
-              to="/tier-list"
-              linkLabel="View tier list"
-            >
-              <FeaturedCharactersMarquee />
-            </HomeSectionCard>
+            <ScrollReveal>
+              <HomeSectionCard
+                title="Featured Characters"
+                icon={IoTrophy}
+                to="/tier-list"
+                linkLabel="View tier list"
+              >
+                <FeaturedCharactersMarquee />
+              </HomeSectionCard>
+            </ScrollReveal>
           )}
 
-          <HomeSectionCard
-            title="Active Events"
-            icon={IoCalendar}
-            to="/events"
-            linkLabel="View all events"
-          >
-            <ActiveEventsSection />
-          </HomeSectionCard>
+          <ScrollReveal>
+            <HomeSectionCard
+              title="Active Events"
+              icon={IoCalendar}
+              to="/events"
+              linkLabel="View all events"
+            >
+              <ActiveEventsSection />
+            </HomeSectionCard>
+          </ScrollReveal>
 
           <SimpleGrid cols={{ base: 1, md: 2 }} spacing="lg">
-            <HomeSectionCard
-              title="Active Codes"
-              icon={IoPricetag}
-              to="/codes"
-              linkLabel="View all codes"
-            >
-              <ActiveCodesSection />
-            </HomeSectionCard>
+            <ScrollReveal>
+              <HomeSectionCard
+                title="Active Codes"
+                icon={IoPricetag}
+                to="/codes"
+                linkLabel="View all codes"
+              >
+                <ActiveCodesSection />
+              </HomeSectionCard>
+            </ScrollReveal>
 
-            <HomeSectionCard
-              title="Recent Updates"
-              icon={IoList}
-              to="/changelog"
-              linkLabel="View full changelog"
-            >
-              <RecentUpdatesSection />
-            </HomeSectionCard>
+            <ScrollReveal delay={80}>
+              <HomeSectionCard
+                title="Recent Updates"
+                icon={IoList}
+                to="/changelog"
+                linkLabel="View full changelog"
+              >
+                <RecentUpdatesSection />
+              </HomeSectionCard>
+            </ScrollReveal>
           </SimpleGrid>
 
-          <HomeSectionCard title="Database" icon={IoStatsChart}>
-            <DataStatsBar />
-          </HomeSectionCard>
+          <ScrollReveal>
+            <HomeSectionCard title="Database" icon={IoStatsChart}>
+              <DataStatsBar />
+            </HomeSectionCard>
+          </ScrollReveal>
 
-          <HomeSectionCard title="About the Game" icon={IoGameController}>
-            <Stack gap="md">
-              <Text size="sm" fs="italic" c="dimmed">
-                Love x Comedy x Isekai = The Ultimate Bishoujo RPG!
-              </Text>
-              <Text size="sm">
-                Dragon Traveler is a free-to-play idle RPG developed and
-                published by GameTree. Play as Fafnir, heir of the legendary
-                dragon, in a rom-com isekai adventure featuring card-based
-                combat, strategic Dragon Soul mechanics, and a colorful cast of
-                characters.
-              </Text>
-              <Group gap="xs" wrap="wrap">
-                {GENRES.map((genre) => (
-                  <Badge
-                    key={genre}
-                    variant="light"
-                    color={accent.primary}
-                    size="sm"
-                  >
-                    {genre}
-                  </Badge>
-                ))}
-                <Badge variant="light" color={accent.secondary} size="sm">
-                  Free to Play
-                </Badge>
-              </Group>
-              <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
-                <ThemeIcon
-                  variant="light"
-                  color={accent.secondary}
-                  size="md"
-                  radius="md"
-                  style={{ flexShrink: 0 }}
-                >
-                  <IoGlobe size={16} />
-                </ThemeIcon>
-                <Text size="sm" c="dimmed" style={{ wordBreak: 'break-word' }}>
-                  {LANGUAGES.join(' | ')}
+          <ScrollReveal>
+            <HomeSectionCard title="About the Game" icon={IoGameController}>
+              <Stack gap="md">
+                <Text size="sm" fs="italic" c="dimmed">
+                  Love x Comedy x Isekai = The Ultimate Bishoujo RPG!
                 </Text>
-              </Group>
-            </Stack>
-          </HomeSectionCard>
+                <Text size="sm">
+                  Dragon Traveler is a free-to-play idle RPG developed and
+                  published by GameTree. Play as Fafnir, heir of the legendary
+                  dragon, in a rom-com isekai adventure featuring card-based
+                  combat, strategic Dragon Soul mechanics, and a colorful cast of
+                  characters.
+                </Text>
+                <Group gap="xs" wrap="wrap">
+                  {GENRES.map((genre) => (
+                    <Badge
+                      key={genre}
+                      variant="light"
+                      color={accent.primary}
+                      size="sm"
+                    >
+                      {genre}
+                    </Badge>
+                  ))}
+                  <Badge variant="light" color={accent.secondary} size="sm">
+                    Free to Play
+                  </Badge>
+                </Group>
+                <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
+                  <ThemeIcon
+                    variant="light"
+                    color={accent.secondary}
+                    size="md"
+                    radius="md"
+                    style={{ flexShrink: 0 }}
+                  >
+                    <IoGlobe size={16} />
+                  </ThemeIcon>
+                  <Text size="sm" c="dimmed" style={{ wordBreak: 'break-word' }}>
+                    {LANGUAGES.join(' | ')}
+                  </Text>
+                </Group>
+              </Stack>
+            </HomeSectionCard>
+          </ScrollReveal>
         </Stack>
       </Container>
     </Stack>

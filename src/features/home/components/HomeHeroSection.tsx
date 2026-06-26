@@ -76,7 +76,12 @@ export default function HomeHeroSection() {
           align={isMobile ? 'center' : 'flex-start'}
           style={{ textAlign: isMobile ? 'center' : 'left' }}
         >
-          <Stack gap="sm" align={isMobile ? 'center' : 'flex-start'}>
+          <Stack
+            gap="sm"
+            align={isMobile ? 'center' : 'flex-start'}
+            className="home-hero-anim-in"
+            style={{ animationDelay: '0ms' }}
+          >
             <Badge
               radius="xl"
               variant="gradient"
@@ -176,7 +181,12 @@ export default function HomeHeroSection() {
             </Group>
           </Stack>
 
-          <Stack gap="sm" align={isMobile ? 'center' : 'flex-start'} style={{ width: '100%' }}>
+          <Stack
+            gap="sm"
+            align={isMobile ? 'center' : 'flex-start'}
+            className="home-hero-anim-in"
+            style={{ width: '100%', animationDelay: '200ms' }}
+          >
             <Group
               gap="sm"
               justify={isMobile ? 'center' : 'flex-start'}
