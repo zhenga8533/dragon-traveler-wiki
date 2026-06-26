@@ -1,6 +1,6 @@
-import { Badge } from '@mantine/core';
+﻿import { Badge } from '@mantine/core';
 import type { CSSProperties } from 'react';
-import { getTierColor } from '@/constants/colors';
+import { getTierColor } from '@/constants/tier-colors';
 
 export interface TierBadgeProps {
   tier: string;

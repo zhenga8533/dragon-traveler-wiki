@@ -1,6 +1,6 @@
-import { Badge, Box, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
+﻿import { Badge, Box, Paper, SimpleGrid, Stack, Text } from '@mantine/core';
 import CharacterCard from '@/features/characters/components/CharacterCard';
-import { getTierColor } from '@/constants/colors';
+import { getTierColor } from '@/constants/tier-colors';
 import type { Quality } from '@/types/quality';
 
 export interface TierExportRow {

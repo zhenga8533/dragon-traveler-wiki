@@ -25,11 +25,8 @@ import {
   type FieldDef,
 } from '@/components';
 import ExportButton from '@/components/tools/ExportButton';
-import {
-  QUALITY_ORDER,
-  RESOURCE_CATEGORY_COLOR,
-  RESOURCE_CATEGORY_ORDER,
-} from '@/constants/colors';
+import { QUALITY_ORDER } from '@/constants/quality';
+import { RESOURCE_CATEGORY_COLOR, RESOURCE_CATEGORY_ORDER } from '@/constants/resource-colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';

@@ -56,7 +56,7 @@ import {
   IoSparklesOutline,
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-import { OPEN_GLOBAL_SEARCH_EVENT } from './global-search-events';
+import { OPEN_GLOBAL_SEARCH_EVENT } from '@/utils/global-search-events';
 
 type SearchResult = {
   type:

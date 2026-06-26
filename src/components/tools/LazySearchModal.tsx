@@ -10,10 +10,10 @@ import {
 import { useHotkeys } from '@mantine/hooks';
 import { lazy, Suspense, useEffect, useState } from 'react';
 import { IoSearch } from 'react-icons/io5';
-import { OPEN_GLOBAL_SEARCH_EVENT } from './global-search-events';
+import { OPEN_GLOBAL_SEARCH_EVENT } from '@/utils/global-search-events';
 
 const SearchModal = lazy(() => import('./SearchModal'));
-export { OPEN_GLOBAL_SEARCH_EVENT } from './global-search-events';
+export { OPEN_GLOBAL_SEARCH_EVENT } from '@/utils/global-search-events';
 
 function SearchTrigger({ onOpen }: { onOpen: () => void }) {
   const { accent } = useGradientAccent();

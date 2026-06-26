@@ -1,5 +1,6 @@
-import type { FieldDef } from '@/components/tools/SuggestModal';
-import { RELIC_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
+﻿import type { FieldDef } from '@/components/tools/SuggestModal';
+import { QUALITY_ORDER } from '@/constants/quality';
+import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 
 export const RELIC_FIELDS: FieldDef[] = [
   {

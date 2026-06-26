@@ -1,6 +1,6 @@
 import { useContext } from 'react';
 import { LocaleContext } from '@/contexts/locale';
-import { changesPath, dataPath } from '@/lib/data-paths';
+import { changesPath, dataPath } from '@/utils/data-paths';
 
 /** Returns the locale-aware fetch path for a data file. */
 export function useLocalePath(filename: string): string {

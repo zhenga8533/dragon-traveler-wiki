@@ -1,4 +1,4 @@
-import { Box, Container } from '@mantine/core';
+﻿import { Box, Container } from '@mantine/core';
 import { useEffect, useRef, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
@@ -18,7 +18,7 @@ import {
 } from '@/hooks';
 import { useTeamDetailData } from '@/features/teams/hooks/use-team-detail-data';
 import type { Team } from '@/features/teams/types';
-import { migrateStoredTeam } from '@/features/teams/components/TeamBuilder/utils';
+import { migrateStoredTeam } from '@/features/teams/utils/team-builder';
 import { toEntitySlug } from '@/utils/entity-slug';
 import {
   exportTeamCompositionAsImage,

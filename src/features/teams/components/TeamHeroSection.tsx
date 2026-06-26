@@ -4,7 +4,7 @@ import { FACTION_WYRM_MAP } from '@/assets';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import RichText from '@/components/common/RichText';
-import { FACTION_COLOR } from '@/constants/colors';
+import { FACTION_COLOR } from '@/constants/faction-colors';
 import {
   getContentTypeColor,
   normalizeContentType,

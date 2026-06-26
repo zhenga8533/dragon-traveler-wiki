@@ -1,6 +1,6 @@
-import SafeImage from '@/components/ui/SafeImage';
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getPortrait } from '@/assets';
-import { QUALITY_BORDER_COLOR } from '@/constants/colors';
+import { QUALITY_BORDER_COLOR } from '@/constants/quality';
 import { CharacterOwnershipContext } from '@/contexts';
 import type { Character } from '@/features/characters/types';
 import {

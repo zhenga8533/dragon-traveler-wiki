@@ -1,7 +1,7 @@
-import { getHowlkinIcon } from '@/assets';
+﻿import { getHowlkinIcon } from '@/assets';
 import IconBadge from '@/components/ui/IconBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { QUALITY_COLOR } from '@/constants/colors';
+import { QUALITY_COLOR } from '@/constants/quality';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
 import { useGradientAccent } from '@/hooks';
 import type { MantineSize } from '@mantine/core';

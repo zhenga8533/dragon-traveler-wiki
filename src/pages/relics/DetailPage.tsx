@@ -7,7 +7,8 @@ import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { QUALITY_COLOR, RELIC_TYPE_ORDER } from '@/constants/colors';
+import { QUALITY_COLOR } from '@/constants/quality';
+import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getCardHoverProps } from '@/constants/styles';
 import {

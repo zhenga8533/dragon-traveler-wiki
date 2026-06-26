@@ -1,4 +1,4 @@
-import ExpandableText from '@/components/ui/ExpandableText';
+﻿import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmPortrait } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -21,11 +21,8 @@ import SuggestModal, {
 import SortableTh from '@/components/ui/SortableTh';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import {
-  FACTION_NAMES,
-  FACTION_SLUGS,
-  QUALITY_ORDER,
-} from '@/constants/colors';
+import { FACTION_NAMES, FACTION_SLUGS } from '@/constants/faction-colors';
+import { QUALITY_ORDER } from '@/constants/quality';
 import {
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,

@@ -1,6 +1,8 @@
-import { CLASS_ICON_MAP } from '@/assets';
+﻿import { CLASS_ICON_MAP } from '@/assets';
 import { FACTION_ICON_MAP } from '@/assets';
-import { CLASS_ORDER, FACTION_SLUGS, QUALITY_ORDER } from '@/constants/colors';
+import { CLASS_ORDER } from '@/constants/class-colors';
+import { FACTION_SLUGS } from '@/constants/faction-colors';
+import { QUALITY_ORDER } from '@/constants/quality';
 import { IMAGE_SIZE } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import type { CharacterClass } from '@/features/characters/types';

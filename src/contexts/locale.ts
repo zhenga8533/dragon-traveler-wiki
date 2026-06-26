@@ -1,5 +1,5 @@
 import { createContext } from 'react';
-import { DEFAULT_LOCALE, type SupportedLocale } from '@/lib/data-paths';
+import { DEFAULT_LOCALE, type SupportedLocale } from '@/utils/data-paths';
 
 export interface LocaleContextValue {
   locale: SupportedLocale;

@@ -1,5 +1,5 @@
-import { normalizeContentType } from '@/constants/content-types';
-import { DEFAULT_TIER_DEFINITIONS } from '@/constants/colors';
+﻿import { normalizeContentType } from '@/constants/content-types';
+import { DEFAULT_TIER_DEFINITIONS } from '@/constants/tier-colors';
 import type { Quality } from '@/types/quality';
 import type { TierList } from '@/features/tier-list/types';
 import { normalizeOptionalNote } from '@/utils/normalize-note';

@@ -11,7 +11,7 @@ import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
 import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
+import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { getCardHoverProps } from '@/constants/styles';

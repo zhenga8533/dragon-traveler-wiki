@@ -1,5 +1,5 @@
-import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
-import { QUALITY_ORDER } from '@/constants/colors';
+﻿import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import { QUALITY_ORDER } from '@/constants/quality';
 import { CharacterOwnershipContext } from '@/contexts';
 import type { Character } from '@/features/characters/types';
 import {

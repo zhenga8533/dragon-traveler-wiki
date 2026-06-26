@@ -16,7 +16,8 @@ import SuggestModal from '@/components/tools/SuggestModal';
 import RichText from '@/components/common/RichText';
 import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
 import SortableTh from '@/components/ui/SortableTh';
-import { RELIC_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
+import { QUALITY_ORDER } from '@/constants/quality';
+import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 import {
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,

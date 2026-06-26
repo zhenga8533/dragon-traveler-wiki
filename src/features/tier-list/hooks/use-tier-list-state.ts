@@ -1,4 +1,4 @@
-import { DEFAULT_TIER_DEFINITIONS } from '@/constants/colors';
+﻿import { DEFAULT_TIER_DEFINITIONS } from '@/constants/tier-colors';
 import {
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
@@ -18,7 +18,7 @@ import { normalizeNote } from '@/utils/normalize-note';
 import {
   getPastedTierListPatch,
   normalizeTierListFromPartial,
-} from '@/features/tier-list/components/TierListBuilder/utils';
+} from '@/features/tier-list/utils/tier-list-builder';
 import type {
   TierDefinition,
   TierList,

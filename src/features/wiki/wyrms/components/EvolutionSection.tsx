@@ -1,7 +1,7 @@
-import SafeImage from '@/components/ui/SafeImage';
+﻿import SafeImage from '@/components/ui/SafeImage';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { QUALITY_COLOR } from '@/constants/colors';
+import { QUALITY_COLOR } from '@/constants/quality';
 import { getCardHoverProps } from '@/constants/styles';
 import { getWyrmIcon } from '@/assets';
 import type { Wyrm, WyrmPhase } from '@/features/wiki/wyrms/types';

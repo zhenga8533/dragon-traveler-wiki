@@ -1,4 +1,4 @@
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+﻿import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import { createFactionFilterGroup } from '@/components/common/EntityFilterGroups';
 import LastUpdated from '@/components/common/LastUpdated';
@@ -19,7 +19,7 @@ import TeamBuilder from '@/features/teams/components/TeamBuilder';
 import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
 import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
 import type { Team } from '@/features/teams/types';
-import { migrateStoredTeam } from '@/features/teams/components/TeamBuilder/utils';
+import { migrateStoredTeam } from '@/features/teams/utils/team-builder';
 import {
   countActiveFilters,
   getPageSizeStorageKey,

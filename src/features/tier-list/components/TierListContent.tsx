@@ -1,4 +1,4 @@
-import {
+﻿import {
 	Badge,
 	Group,
 	ScrollArea,
@@ -16,7 +16,7 @@ import CollapsibleSectionCard from '@/components/ui/CollapsibleSectionCard';
 import FactionTag from '@/components/ui/FactionTag';
 import LastUpdated from '@/components/common/LastUpdated';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { getTierColor, TIER_ORDER } from '@/constants/colors';
+import { getTierColor, TIER_ORDER } from '@/constants/tier-colors';
 import {
 	getContentTypeColor,
 	normalizeContentType,

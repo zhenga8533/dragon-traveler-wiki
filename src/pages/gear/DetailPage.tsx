@@ -9,11 +9,8 @@ import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import QualityIcon from '@/components/ui/QualityIcon';
-import {
-  GEAR_TYPE_ORDER,
-  QUALITY_COLOR,
-  QUALITY_ORDER,
-} from '@/constants/colors';
+import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
+import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { CURSOR_POINTER_STYLE, getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';

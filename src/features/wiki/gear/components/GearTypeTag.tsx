@@ -1,6 +1,6 @@
-import { GEAR_TYPE_ICON_MAP } from '@/assets';
+﻿import { GEAR_TYPE_ICON_MAP } from '@/assets';
 import EntityTagBadge from '@/components/ui/EntityTagBadge';
-import { GEAR_TYPE_COLOR } from '@/constants/colors';
+import { GEAR_TYPE_COLOR } from '@/constants/gear-colors';
 import type { GearType } from '@/features/wiki/gear/types';
 import { useGradientAccent } from '@/hooks';
 import { memo } from 'react';

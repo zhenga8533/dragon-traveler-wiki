@@ -15,7 +15,7 @@ import {
   ARTIFACT_EFFECT_ARRAY_FIELDS,
   ARTIFACT_FIELDS,
 } from '@/features/wiki/artifacts/form-fields';
-import { QUALITY_ORDER } from '@/constants/colors';
+import { QUALITY_ORDER } from '@/constants/quality';
 import {
   getMinWidthStyle,
 } from '@/constants/styles';

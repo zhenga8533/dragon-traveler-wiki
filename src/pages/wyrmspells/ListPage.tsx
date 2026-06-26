@@ -1,4 +1,4 @@
-import ExpandableText from '@/components/ui/ExpandableText';
+﻿import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmspellIcon } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -15,12 +15,10 @@ import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import SortableTh from '@/components/ui/SortableTh';
-import {
-  FACTION_NAMES,
-  QUALITY_ORDER,
-  WYRMSPELL_TYPE_COLOR,
-  getStableTagColor,
-} from '@/constants/colors';
+import { FACTION_NAMES } from '@/constants/faction-colors';
+import { QUALITY_ORDER } from '@/constants/quality';
+import { getStableTagColor } from '@/constants/tag-colors';
+import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import {
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,

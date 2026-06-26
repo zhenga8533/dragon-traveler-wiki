@@ -24,7 +24,7 @@ import {
 import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
 import SortableTh from '@/components/ui/SortableTh';
-import { QUALITY_ORDER } from '@/constants/colors';
+import { QUALITY_ORDER } from '@/constants/quality';
 import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 

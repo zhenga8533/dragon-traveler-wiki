@@ -1,5 +1,5 @@
-import type { ArrayFieldDef, FieldDef } from '@/components/tools/SuggestModal';
-import { QUALITY_ORDER } from '@/constants/colors';
+﻿import type { ArrayFieldDef, FieldDef } from '@/components/tools/SuggestModal';
+import { QUALITY_ORDER } from '@/constants/quality';
 
 export const HOWLKIN_FIELDS: FieldDef[] = [
   {

@@ -1,5 +1,6 @@
-import type { FieldDef } from '@/components/tools/SuggestModal';
-import { CLASS_ORDER, QUALITY_ORDER } from '@/constants/colors';
+﻿import type { FieldDef } from '@/components/tools/SuggestModal';
+import { CLASS_ORDER } from '@/constants/class-colors';
+import { QUALITY_ORDER } from '@/constants/quality';
 
 export const CHARACTER_FIELDS: FieldDef[] = [
   {

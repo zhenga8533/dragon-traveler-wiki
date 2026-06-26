@@ -1,6 +1,6 @@
-import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+﻿import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import JsonModal from '@/components/tools/JsonModal';
-import { getTierColor } from '@/constants/colors';
+import { getTierColor } from '@/constants/tier-colors';
 import { STORAGE_KEY } from '@/constants/ui';
 import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
 import type { Character } from '@/features/characters/types';

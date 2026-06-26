@@ -1,4 +1,4 @@
-import {
+﻿import {
   Badge,
   Container,
   Group,
@@ -20,7 +20,7 @@ import ListPageHeader from '@/components/layout/ListPageHeader';
 import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
-import { STATE_COLOR, STATE_ORDER } from '@/constants/colors';
+import { STATE_COLOR, STATE_ORDER } from '@/constants/status-effect-colors';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';

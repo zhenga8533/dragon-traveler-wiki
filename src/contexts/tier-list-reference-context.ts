@@ -1,4 +1,4 @@
-import {
+﻿import {
   createContext,
   createElement,
   useCallback,
@@ -10,7 +10,7 @@ import {
 import { STORAGE_KEY } from '@/constants/ui';
 import { useTierLists } from '@/features/tier-list/hooks/use-tier-list-data';
 import type { TierList as TierListType } from '@/features/tier-list/types';
-import { migrateStoredTierList } from '@/features/tier-list/components/TierListBuilder/utils';
+import { migrateStoredTierList } from '@/features/tier-list/utils/tier-list-builder';
 import { loadSavedFromStorage } from '@/utils/saved-storage';
 
 export interface TierListReferenceContextValue {

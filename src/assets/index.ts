@@ -2,7 +2,7 @@ import type { CharacterClass } from '@/features/characters/types';
 import type { GearType } from '@/features/wiki/gear/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
-import { normalizeKey, normalizeQualityKey } from '@/assets/utils';
+import { normalizeKey, normalizeQualityKey } from '@/utils/asset-utils';
 
 const rawBase: string = import.meta.env.VITE_ASSETS_BASE ?? import.meta.env.BASE_URL;
 const BASE = rawBase.endsWith('/') ? rawBase : `${rawBase}/`;

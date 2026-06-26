@@ -1,4 +1,4 @@
-import { QUALITY_ORDER } from '@/constants/colors';
+﻿import { QUALITY_ORDER } from '@/constants/quality';
 import type { Character, CharacterClass } from '@/features/characters/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';

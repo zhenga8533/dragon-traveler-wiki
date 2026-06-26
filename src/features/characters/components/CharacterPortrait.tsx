@@ -1,5 +1,5 @@
-import { getPortrait } from '@/assets';
-import { QUALITY_BORDER_COLOR } from '@/constants/colors';
+﻿import { getPortrait } from '@/assets';
+import { QUALITY_BORDER_COLOR } from '@/constants/quality';
 import { getCharacterPortraitHoverProps } from '@/constants/styles';
 import { CharacterOwnershipContext } from '@/contexts';
 import { getCharacterRoutePathByName } from '@/features/characters/utils/character-route';

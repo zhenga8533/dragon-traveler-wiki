@@ -1,4 +1,4 @@
-import { TIER_COLOR } from '@/constants/colors';
+﻿import { TIER_COLOR } from '@/constants/tier-colors';
 import { normalizeContentType } from '@/constants/content-types';
 import { TierListReferenceContext } from '@/contexts/tier-list-reference-context';
 import CharacterCard from '@/features/characters/components/CharacterCard';

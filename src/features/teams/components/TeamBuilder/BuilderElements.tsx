@@ -1,4 +1,4 @@
-import { useDraggable, useDroppable } from '@dnd-kit/core';
+﻿import { useDraggable, useDroppable } from '@dnd-kit/core';
 import {
   ActionIcon,
   Badge,
@@ -27,7 +27,7 @@ import { memo, useMemo } from 'react';
 import { IoAdd, IoCheckmark, IoClose, IoRemove } from 'react-icons/io5';
 import { FACTION_ICON_MAP } from '@/assets';
 import { getWyrmspellIcon } from '@/assets';
-import { FACTION_SLUGS } from '@/constants/colors';
+import { FACTION_SLUGS } from '@/constants/faction-colors';
 import {
   CONTENT_TYPE_OPTIONS,
   type ContentType,
@@ -52,7 +52,7 @@ import {
   ROW_CLASS_HINTS,
   ROW_COLORS,
   ROW_STRIP_LABELS,
-} from './utils';
+} from '@/features/teams/utils/team-builder';
 
 export const TeamMetaFields = memo(function TeamMetaFields({
   name,

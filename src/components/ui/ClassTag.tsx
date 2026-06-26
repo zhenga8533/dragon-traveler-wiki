@@ -1,6 +1,6 @@
-import { CLASS_ICON_MAP } from '@/assets';
+﻿import { CLASS_ICON_MAP } from '@/assets';
 import EntityTagBadge from '@/components/ui/EntityTagBadge';
-import { CLASS_COLOR } from '@/constants/colors';
+import { CLASS_COLOR } from '@/constants/class-colors';
 import type { CharacterClass } from '@/features/characters/types';
 import { useGradientAccent } from '@/hooks';
 import { memo } from 'react';

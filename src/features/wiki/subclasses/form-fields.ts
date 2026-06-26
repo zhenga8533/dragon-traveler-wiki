@@ -1,5 +1,5 @@
-import type { FieldDef } from '@/components/tools/SuggestModal';
-import { CLASS_ORDER } from '@/constants/colors';
+﻿import type { FieldDef } from '@/components/tools/SuggestModal';
+import { CLASS_ORDER } from '@/constants/class-colors';
 
 export const SUBCLASS_FIELDS: FieldDef[] = [
   {

@@ -1,6 +1,6 @@
-import { Badge, Group, Stack, Text } from '@mantine/core';
+﻿import { Badge, Group, Stack, Text } from '@mantine/core';
 import { getStatusEffectIcon } from '@/assets';
-import { STATE_COLOR } from '@/constants/colors';
+import { STATE_COLOR } from '@/constants/status-effect-colors';
 import {
   RICH_TEXT_BADGE_STYLE,
   WHITE_SPACE_PRE_LINE_STYLE,

@@ -1,4 +1,4 @@
-import { CLASS_ORDER } from '@/constants/colors';
+﻿import { CLASS_ORDER } from '@/constants/class-colors';
 import type { CharacterClass } from '@/features/characters/types';
 
 const FALLBACK_RANK = 999;

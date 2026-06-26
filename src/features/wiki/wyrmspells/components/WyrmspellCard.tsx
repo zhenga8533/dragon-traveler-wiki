@@ -1,7 +1,8 @@
-import ExpandableText from '@/components/ui/ExpandableText';
+﻿import ExpandableText from '@/components/ui/ExpandableText';
 import { getWyrmspellIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
-import { WYRMSPELL_TYPE_COLOR, getStableTagColor } from '@/constants/colors';
+import { getStableTagColor } from '@/constants/tag-colors';
+import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import { getCardHoverProps } from '@/constants/styles';
 import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import FactionTag from '@/components/ui/FactionTag';

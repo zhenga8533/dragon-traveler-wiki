@@ -4,7 +4,7 @@ import type { ChangesFile } from '@/types/changes';
 import { LocaleContext } from '@/contexts/locale';
 import { useLocalePath, useLocaleChangesPath } from '@/hooks/use-locale-path';
 import { useDataFetch } from '@/hooks/use-data-fetch';
-import { changesPath, dataPath, DEFAULT_LOCALE } from '@/lib/data-paths';
+import { changesPath, dataPath, DEFAULT_LOCALE } from '@/utils/data-paths';
 
 export function useCharacters() {
   const { locale } = useContext(LocaleContext);

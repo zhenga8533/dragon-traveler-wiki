@@ -17,7 +17,8 @@ import {
   GEAR_STATS_ARRAY_FIELDS,
 } from '@/features/wiki/gear/form-fields';
 import SortableTh from '@/components/ui/SortableTh';
-import { GEAR_TYPE_ORDER, QUALITY_ORDER } from '@/constants/colors';
+import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
+import { QUALITY_ORDER } from '@/constants/quality';
 import {
   LINK_BLOCK_RESET_STYLE,
   getCardHoverProps,

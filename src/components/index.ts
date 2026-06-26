@@ -1,51 +1,80 @@
 // Component exports for cleaner imports
+
+// ── Characters ───────────────────────────────────────────────────────────────
 export { default as CharacterCard } from '@/features/characters/components/CharacterCard';
 export { default as CharacterFilter } from '@/features/characters/components/CharacterFilter';
+export type { CharacterFilterProps } from '@/features/characters/components/CharacterFilter';
 export { default as CharacterList } from '@/features/characters/components/CharacterList';
 export { default as CharacterTag } from '@/features/characters/components/CharacterTag';
-export { default as FilterableCharacterPool } from '@/components/common/FilterableCharacterPool';
-export { default as ClassTag } from '@/components/ui/ClassTag';
-export { default as DataFetchError } from '@/components/ui/DataFetchError';
-export { default as EmptyState } from '@/components/ui/EmptyState';
-export { default as EntityFilter } from './common/EntityFilter';
-export { default as EntitySummaryCard } from './common/EntitySummaryCard';
-export { default as EntityTableLinkCell } from './common/EntityTableLinkCell';
-export { default as EntityNotFound } from '@/components/ui/EntityNotFound';
-export { default as FactionTag } from '@/components/ui/FactionTag';
+export { default as FilterableCharacterPool } from './common/FilterableCharacterPool';
+
+// ── Wiki features ─────────────────────────────────────────────────────────────
 export { default as GearTypeTag } from '@/features/wiki/gear/components/GearTypeTag';
-export { default as GlobalBadge } from '@/components/ui/GlobalBadge';
 export { default as HowlkinBadge } from '@/features/wiki/howlkins/components/HowlkinBadge';
 export { default as HowlkinStats } from '@/features/wiki/howlkins/components/HowlkinStats';
-export { default as InlineMarkup } from '@/components/ui/InlineMarkup';
-export { default as LastUpdated } from './common/LastUpdated';
-export { default as NoResultsSuggestions } from '@/components/ui/NoResultsSuggestions';
-export { default as PaginationControl } from '@/components/ui/PaginationControl';
-export { default as QualityIcon } from '@/components/ui/QualityIcon';
-export { default as ResourceBadge } from '@/components/ui/ResourceBadge';
-export { default as RichText } from '@/components/common/RichText';
-export { default as SortableTh } from '@/components/ui/SortableTh';
 export { default as StatusEffectBadge } from '@/features/wiki/status-effects/components/StatusEffectBadge';
-export { default as TierBadge } from '@/components/ui/TierBadge';
-export { default as ViewToggle } from '@/components/ui/ViewToggle';
 export { default as WyrmspellCard } from '@/features/wiki/wyrmspells/components/WyrmspellCard';
+
+// ── Teams / Tier list ─────────────────────────────────────────────────────────
+export { default as TeamBuilder } from '@/features/teams/components/TeamBuilder';
+export { default as TierListBuilder } from '@/features/tier-list/components/TierListBuilder';
+
+// ── UI primitives ─────────────────────────────────────────────────────────────
+export { default as ClassTag } from './ui/ClassTag';
+export { default as CollapsibleSectionCard } from './ui/CollapsibleSectionCard';
+export { default as ConfirmActionModal } from './ui/ConfirmActionModal';
+export { default as DataFetchError } from './ui/DataFetchError';
+export { default as EmptyState } from './ui/EmptyState';
+export { default as EntityNotFound } from './ui/EntityNotFound';
+export { default as EntityTagBadge } from './ui/EntityTagBadge';
+export type { EntityTagBadgeProps } from './ui/EntityTagBadge';
+export { default as ErrorBoundary } from './ui/ErrorBoundary';
+export { default as ExpandableText } from './ui/ExpandableText';
+export { default as FactionTag } from './ui/FactionTag';
+export type { FactionTagProps } from './ui/FactionTag';
+export { default as GlobalBadge } from './ui/GlobalBadge';
+export { default as IconBadge } from './ui/IconBadge';
+export { default as InlineMarkup } from './ui/InlineMarkup';
+export { default as MobileBottomDrawer } from './ui/MobileBottomDrawer';
+export { default as NoResultsSuggestions } from './ui/NoResultsSuggestions';
+export { default as NoteTooltipIcon } from './ui/NoteTooltipIcon';
+export { default as PaginationControl } from './ui/PaginationControl';
+export { default as QualityIcon } from './ui/QualityIcon';
+export { default as ResolvedHowlkinBadge } from './ui/ResolvedHowlkinBadge';
+export type { ResolvedHowlkinBadgeProps } from './ui/ResolvedHowlkinBadge';
+export { default as ResourceBadge } from './ui/ResourceBadge';
+export type { ResourceBadgeProps } from './ui/ResourceBadge';
+export { default as SafeImage } from './ui/SafeImage';
+export { default as SortableTh } from './ui/SortableTh';
+export { default as StatCard } from './ui/StatCard';
+export { InteractiveSurface, StaticSurface } from './ui/Surface';
+export type { InteractiveSurfaceProps, StaticSurfaceProps } from './ui/Surface';
+export { default as TierBadge } from './ui/TierBadge';
+export type { TierBadgeProps } from './ui/TierBadge';
+export { default as ViewToggle } from './ui/ViewToggle';
+export { default as WyrmspellBadge } from './ui/WyrmspellBadge';
+export type { WyrmspellBadgeProps } from './ui/WyrmspellBadge';
+
+// ── Common ────────────────────────────────────────────────────────────────────
+export { default as EntityFilter } from './common/EntityFilter';
+export type { ChipFilterGroup, EntityFilterProps } from './common/EntityFilter';
+export { default as EntitySummaryCard } from './common/EntitySummaryCard';
+export { default as EntityTableLinkCell } from './common/EntityTableLinkCell';
+export { default as LastUpdated } from './common/LastUpdated';
+export { default as RichText } from './common/RichText';
+export type { RichTextProps } from './common/RichText';
+
+// ── Layout ────────────────────────────────────────────────────────────────────
 export { default as Breadcrumbs } from './layout/Breadcrumbs';
 export { default as FilteredListShell } from './layout/FilteredListShell';
 export { default as FilterToolbar } from './layout/FilterToolbar';
 export { default as Footer } from './layout/Footer';
 export { default as ListPageHeader } from './layout/ListPageHeader';
 export { default as ListPageShell } from './layout/ListPageShell';
-export {
-  DetailPageLoading,
-  ListPageLoading,
-} from './layout/PageLoadingSkeleton';
+export { DetailPageLoading, ListPageLoading } from './layout/PageLoadingSkeleton';
+
+// ── Tools ─────────────────────────────────────────────────────────────────────
 export { default as JsonModal } from './tools/JsonModal';
 export { default as SearchModal } from './tools/SearchModal';
 export { default as SuggestModal } from './tools/SuggestModal';
-export { default as TeamBuilder } from '@/features/teams/components/TeamBuilder';
-export { default as TierListBuilder } from '@/features/tier-list/components/TierListBuilder';
-
-// Re-export component props
-export type { CharacterFilterProps } from '@/features/characters/components/CharacterFilter';
-export type { ChipFilterGroup, EntityFilterProps } from './common/EntityFilter';
-export type { RichTextProps } from '@/components/common/RichText';
 export type { ArrayFieldDef, FieldDef } from './tools/SuggestModal';

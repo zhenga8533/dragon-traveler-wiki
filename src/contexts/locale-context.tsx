@@ -3,7 +3,7 @@ import {
   DEFAULT_LOCALE,
   SUPPORTED_LOCALES,
   type SupportedLocale,
-} from '@/lib/data-paths';
+} from '@/utils/data-paths';
 import { LocaleContext, type LocaleContextValue } from './locale';
 
 const STORAGE_KEY = 'dragon-traveler-wiki:locale';

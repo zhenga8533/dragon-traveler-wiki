@@ -1,6 +1,6 @@
-import { FACTION_ICON_MAP } from '@/assets';
+﻿import { FACTION_ICON_MAP } from '@/assets';
 import EntityTagBadge from '@/components/ui/EntityTagBadge';
-import { FACTION_COLOR } from '@/constants/colors';
+import { FACTION_COLOR } from '@/constants/faction-colors';
 import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import type { FactionSlug } from '@/types/faction';
 import { memo } from 'react';

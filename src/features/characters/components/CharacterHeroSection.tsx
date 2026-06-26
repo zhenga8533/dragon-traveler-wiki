@@ -1,11 +1,11 @@
-import type { CharacterIllustration } from '@/assets';
+﻿import type { CharacterIllustration } from '@/assets';
 import { GlobalBadge } from '@/components';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
 import ClassTag from '@/components/ui/ClassTag';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { QUALITY_BORDER_COLOR } from '@/constants/colors';
+import { QUALITY_BORDER_COLOR } from '@/constants/quality';
 import { CHARACTER_HERO } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
 import { useDarkMode } from '@/hooks';

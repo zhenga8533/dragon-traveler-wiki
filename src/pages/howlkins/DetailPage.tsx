@@ -1,4 +1,4 @@
-import ChangeHistory from '@/components/common/ChangeHistory';
+﻿import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
@@ -6,7 +6,7 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import QualityIcon from '@/components/ui/QualityIcon';
 import SafeImage from '@/components/ui/SafeImage';
-import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/colors';
+import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/quality';
 import { getCardHoverProps } from '@/constants/styles';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
 import type { Howlkin } from '@/features/wiki/howlkins/types';

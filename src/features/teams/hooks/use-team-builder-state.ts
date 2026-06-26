@@ -1,4 +1,4 @@
-import { FACTION_COLOR, FACTION_SLUGS } from '@/constants/colors';
+﻿import { FACTION_COLOR, FACTION_SLUGS } from '@/constants/faction-colors';
 import {
   DEFAULT_CONTENT_TYPE,
   normalizeContentType,
@@ -23,7 +23,7 @@ import {
   MAX_ROSTER_SIZE,
   normalizeTeamFromPartial,
   ROW_LABELS,
-} from '@/features/teams/components/TeamBuilder/utils';
+} from '@/features/teams/utils/team-builder';
 import type { Team, TeamMember, TeamWyrmspells } from '@/features/teams/types';
 import {
   insertUniqueBefore,

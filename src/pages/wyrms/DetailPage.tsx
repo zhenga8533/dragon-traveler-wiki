@@ -1,4 +1,4 @@
-import SafeImage from '@/components/ui/SafeImage';
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmIcon, getWyrmIllustration, getWyrmPortrait, type CharacterIllustration } from '@/assets';
 import IllustrationPreviewCard from '@/components/common/IllustrationPreviewCard';
 import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
@@ -11,7 +11,7 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import { QUALITY_COLOR } from '@/constants/colors';
+import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { getCardHoverProps } from '@/constants/styles';

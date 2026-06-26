@@ -1,4 +1,4 @@
-import {
+﻿import {
   Anchor,
   Badge,
   Box,
@@ -14,7 +14,7 @@ import { FaDiscord } from 'react-icons/fa';
 import { IoBookOutline, IoLinkOutline } from 'react-icons/io5';
 import { SiGooglesheets } from 'react-icons/si';
 import { ListPageShell, SuggestModal, type FieldDef } from '@/components';
-import { getStableTagColor } from '@/constants/colors';
+import { getStableTagColor } from '@/constants/tag-colors';
 import { getCardHoverProps } from '@/constants/styles';
 import { useUsefulLinks } from '@/features/wiki/hooks/use-wiki-data';
 import { useEffect } from 'react';

@@ -1,4 +1,4 @@
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+﻿import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import {
   createClassFilterGroup,
@@ -25,7 +25,7 @@ import TierListBuilder from '@/features/tier-list/components/TierListBuilder';
 import TierListSavedTab from '@/features/tier-list/components/TierListSavedTab';
 import TierListViewTab from '@/features/tier-list/components/TierListViewTab';
 import type { TierList as TierListType } from '@/features/tier-list/types';
-import { migrateStoredTierList } from '@/features/tier-list/components/TierListBuilder/utils';
+import { migrateStoredTierList } from '@/features/tier-list/utils/tier-list-builder';
 import {
   countActiveFilters,
   useBuilderEditState,

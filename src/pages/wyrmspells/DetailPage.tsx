@@ -1,4 +1,4 @@
-import SafeImage from '@/components/ui/SafeImage';
+﻿import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmspellIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
@@ -8,11 +8,9 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import {
-  QUALITY_ORDER,
-  WYRMSPELL_TYPE_COLOR,
-  getStableTagColor,
-} from '@/constants/colors';
+import { QUALITY_ORDER } from '@/constants/quality';
+import { getStableTagColor } from '@/constants/tag-colors';
+import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import QualitiesTable from '@/features/wiki/wyrmspells/components/QualitiesTable';

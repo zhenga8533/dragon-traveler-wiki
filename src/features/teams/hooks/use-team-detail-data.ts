@@ -1,5 +1,5 @@
-import { useCallback, useMemo } from 'react';
-import { FACTION_COLOR } from '@/constants/colors';
+﻿import { useCallback, useMemo } from 'react';
+import { FACTION_COLOR } from '@/constants/faction-colors';
 import { normalizeContentType } from '@/constants/content-types';
 import type { Artifact } from '@/features/wiki/artifacts/types';
 import type { Character } from '@/features/characters/types';

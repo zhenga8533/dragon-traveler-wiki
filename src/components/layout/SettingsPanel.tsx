@@ -10,7 +10,7 @@ import {
   TierListReferenceContext,
   UiOpacityContext,
 } from '@/contexts';
-import { SUPPORTED_LOCALES } from '@/lib/data-paths';
+import { SUPPORTED_LOCALES } from '@/utils/data-paths';
 import { useDarkMode, useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
 import {
   ActionIcon,

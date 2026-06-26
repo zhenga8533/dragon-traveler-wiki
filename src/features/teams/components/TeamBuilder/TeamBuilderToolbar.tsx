@@ -1,4 +1,4 @@
-import {
+﻿import {
   ActionIcon,
   Badge,
   Button,
@@ -17,7 +17,7 @@ import {
   IoTrash,
 } from 'react-icons/io5';
 import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
-import { MAX_ROSTER_SIZE } from './utils';
+import { MAX_ROSTER_SIZE } from '@/features/teams/utils/team-builder';
 
 interface TeamBuilderToolbarProps {
   json: string;
