@@ -127,9 +127,9 @@ export function getRelicIcon(name: string, quality: string): string | undefined 
   return `${BASE}relic/${normalizeRelicQualityKey(quality)}/${normalizeKey(name)}.png`;
 }
 
-export function getOracleScrollImage(name: string): string | undefined {
+export function getOracleScrollVideo(name: string): string | undefined {
   if (!name) return undefined;
-  return `${BASE}relic/oracle_scroll/${normalizeKey(name)}.png`;
+  return `${BASE}relic/oracle_scroll/${normalizeKey(name)}.mp4`;
 }
 
 // ── Resource ─────────────────────────────────────────────────────────────────

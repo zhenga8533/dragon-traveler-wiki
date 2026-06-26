@@ -1,7 +1,7 @@
 ﻿import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
 import {
-  getOracleScrollImage,
+  getOracleScrollVideo,
   getRelicIcon,
 } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
@@ -548,7 +548,7 @@ export default function RelicPage() {
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                   {oraclePageItems.map((scrollName) => {
                         const items = relicsByOracle.get(scrollName) ?? [];
-                        const illustrationSrc = getOracleScrollImage(scrollName);
+                        const videoSrc = getOracleScrollVideo(scrollName);
                         return (
                           <Paper
                             key={scrollName}
@@ -564,15 +564,19 @@ export default function RelicPage() {
                             })}
                           >
                             <Stack gap={0}>
-                              {illustrationSrc && (
-                                <SafeImage
-                                  src={illustrationSrc}
-                                  alt={scrollName}
-                                  h={130}
-                                  fit="cover"
+                              {videoSrc && (
+                                <video
+                                  src={videoSrc}
+                                  autoPlay
+                                  muted
+                                  loop
+                                  playsInline
                                   style={{
                                     display: 'block',
-                                    objectPosition: 'top',
+                                    width: '100%',
+                                    height: 130,
+                                    objectFit: 'cover',
+                                    objectPosition: 'center',
                                     borderTopLeftRadius: 'var(--mantine-radius-md)',
                                     borderTopRightRadius: 'var(--mantine-radius-md)',
                                   }}

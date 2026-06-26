@@ -1,5 +1,5 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
-import { getOracleScrollImage, getRelicIcon } from '@/assets';
+import { getOracleScrollVideo, getRelicIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
@@ -29,7 +29,6 @@ import {
   Badge,
   Box,
   Container,
-  Grid,
   Group,
   Paper,
   SimpleGrid,
@@ -47,7 +46,6 @@ export default function OracleScrollPage() {
   const isDark = useDarkMode();
   const tooltipProps = useMobileTooltip();
   const [previewOpen, setPreviewOpen] = useState(false);
-  const [illustrationExists, setIllustrationExists] = useState(false);
 
   const { data: relics, loading } = useRelics();
   const { data: changesData } = useRelicChanges();
@@ -150,7 +148,7 @@ export default function OracleScrollPage() {
     );
   }
 
-  const illustrationSrc = getOracleScrollImage(decodedScrollName);
+  const illustrationSrc = getOracleScrollVideo(decodedScrollName);
 
   // Collect per-relic change histories to display alongside the scroll
   const relicHistories = scrollRelics
@@ -190,23 +188,12 @@ export default function OracleScrollPage() {
       </DetailPageHero>
 
       {illustrationSrc && (
-        <img
-          key={illustrationSrc}
-          src={illustrationSrc}
-          style={{ display: 'none' }}
-          aria-hidden="true"
-          onLoad={() => setIllustrationExists(true)}
-          onError={() => setIllustrationExists(false)}
-        />
-      )}
-
-      {illustrationExists && (
         <IllustrationPreviewModal
           opened={previewOpen}
           onClose={() => setPreviewOpen(false)}
           characterName={decodedScrollName}
-          illustrations={[{ name: decodedScrollName, src: illustrationSrc!, type: 'image' } satisfies CharacterIllustration]}
-          activeIllustration={{ name: decodedScrollName, src: illustrationSrc!, type: 'image' }}
+          illustrations={[{ name: decodedScrollName, src: illustrationSrc, type: 'video' } satisfies CharacterIllustration]}
+          activeIllustration={{ name: decodedScrollName, src: illustrationSrc, type: 'video' }}
           activeIllustrationIndex={0}
           hasMultipleIllustrations={false}
           showPreviousIllustration={() => {}}
@@ -218,9 +205,17 @@ export default function OracleScrollPage() {
 
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="lg">
-          {scrollRelicsByType.map((group) => {
-            const isSanctuary = group.type === 'Sanctuary Relic';
+          {illustrationSrc && (
+            <IllustrationPreviewCard
+              src={illustrationSrc}
+              name={decodedScrollName}
+              type="video"
+              accentColor={accent.primary}
+              onExpand={() => setPreviewOpen(true)}
+            />
+          )}
 
+          {scrollRelicsByType.map((group) => {
             const relicCards = group.relics.map((relic) => {
               const iconSrc = getRelicIcon(relic.slug, relic.quality);
               return (
@@ -273,31 +268,10 @@ export default function OracleScrollPage() {
 
             return (
               <Stack key={group.type} gap="md">
-                {isSanctuary && illustrationExists ? (
-                  <Grid gutter="md" align="flex-start">
-                    <Grid.Col span={{ base: 12, md: 7 }} order={{ base: 2, md: 1 }}>
-                      <Stack gap="md">
-                        <Title order={2} size="h3">{group.type}</Title>
-                        {relicCards}
-                      </Stack>
-                    </Grid.Col>
-                    <Grid.Col span={{ base: 12, md: 5 }} order={{ base: 1, md: 2 }}>
-                      <IllustrationPreviewCard
-                        src={illustrationSrc!}
-                        name={decodedScrollName}
-                        accentColor={accent.primary}
-                        onExpand={() => setPreviewOpen(true)}
-                      />
-                    </Grid.Col>
-                  </Grid>
-                ) : (
-                  <>
-                    <Title order={2} size="h3">{group.type}</Title>
-                    <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
-                      {relicCards}
-                    </SimpleGrid>
-                  </>
-                )}
+                <Title order={2} size="h3">{group.type}</Title>
+                <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
+                  {relicCards}
+                </SimpleGrid>
               </Stack>
             );
           })}
@@ -312,7 +286,6 @@ export default function OracleScrollPage() {
               ? {
                   label: previousScroll,
                   path: `/oracle-scrolls/${toEntitySlug(previousScroll)}`,
-                  iconSrc: getOracleScrollImage(previousScroll),
                 }
               : null
           }
@@ -321,7 +294,6 @@ export default function OracleScrollPage() {
               ? {
                   label: nextScroll,
                   path: `/oracle-scrolls/${toEntitySlug(nextScroll)}`,
-                  iconSrc: getOracleScrollImage(nextScroll),
                 }
               : null
           }

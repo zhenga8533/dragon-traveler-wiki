@@ -3,11 +3,13 @@ import { getCardHoverProps } from '@/constants/styles';
 import { BREAKPOINTS } from '@/constants/ui';
 import { Badge, Box, Group, Paper, Stack, Text, UnstyledButton } from '@mantine/core';
 import { useMediaQuery } from '@mantine/hooks';
+import { useState } from 'react';
 import { IoExpand } from 'react-icons/io5';
 
 interface IllustrationPreviewCardProps {
   src: string;
   name: string;
+  type?: 'image' | 'video';
   subtitle?: string;
   label?: string;
   accentColor: string;
@@ -17,12 +19,16 @@ interface IllustrationPreviewCardProps {
 export default function IllustrationPreviewCard({
   src,
   name,
+  type = 'image',
   subtitle = 'Artwork',
   label = 'Illustration',
   accentColor,
   onExpand,
 }: IllustrationPreviewCardProps) {
   const isDesktop = useMediaQuery(BREAKPOINTS.DESKTOP);
+  const [failed, setFailed] = useState(false);
+
+  if (failed) return null;
 
   return (
     <Paper
@@ -46,7 +52,20 @@ export default function IllustrationPreviewCard({
             position: 'relative',
           }}
         >
-          <SafeImage src={src} alt={name} fit="contain" mah={420} loading="lazy" />
+          {type === 'video' ? (
+            <Box
+              component="video"
+              src={src}
+              autoPlay
+              muted
+              loop
+              playsInline
+              onError={() => setFailed(true)}
+              style={{ width: '100%', maxHeight: 420, display: 'block', objectFit: 'contain' }}
+            />
+          ) : (
+            <SafeImage src={src} alt={name} fit="contain" mah={420} loading="lazy" />
+          )}
           <Box
             style={{
               position: 'absolute',
