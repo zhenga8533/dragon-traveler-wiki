@@ -286,6 +286,7 @@ export default function ArtifactPage() {
               ? {
                   label: previousArtifact.name,
                   path: `/artifacts/${previousArtifact.slug}`,
+                  iconSrc: getArtifactIcon(previousArtifact.slug),
                 }
               : null
           }
@@ -294,6 +295,7 @@ export default function ArtifactPage() {
               ? {
                   label: nextArtifact.name,
                   path: `/artifacts/${nextArtifact.slug}`,
+                  iconSrc: getArtifactIcon(nextArtifact.slug),
                 }
               : null
           }

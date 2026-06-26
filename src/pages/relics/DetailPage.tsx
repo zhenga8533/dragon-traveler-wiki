@@ -312,6 +312,7 @@ export default function OracleScrollPage() {
               ? {
                   label: previousScroll,
                   path: `/oracle-scrolls/${toEntitySlug(previousScroll)}`,
+                  iconSrc: getOracleScrollImage(previousScroll),
                 }
               : null
           }
@@ -320,6 +321,7 @@ export default function OracleScrollPage() {
               ? {
                   label: nextScroll,
                   path: `/oracle-scrolls/${toEntitySlug(nextScroll)}`,
+                  iconSrc: getOracleScrollImage(nextScroll),
                 }
               : null
           }

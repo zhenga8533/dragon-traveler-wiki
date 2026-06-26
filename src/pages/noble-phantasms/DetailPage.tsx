@@ -187,6 +187,7 @@ export default function NoblePhantasmPage() {
               ? {
                   label: previousNoblePhantasm.name,
                   path: `/noble-phantasms/${previousNoblePhantasm.slug}`,
+                  iconSrc: getNoblePhantasmIcon(previousNoblePhantasm.slug),
                 }
               : null
           }
@@ -195,6 +196,7 @@ export default function NoblePhantasmPage() {
               ? {
                   label: nextNoblePhantasm.name,
                   path: `/noble-phantasms/${nextNoblePhantasm.slug}`,
+                  iconSrc: getNoblePhantasmIcon(nextNoblePhantasm.slug),
                 }
               : null
           }

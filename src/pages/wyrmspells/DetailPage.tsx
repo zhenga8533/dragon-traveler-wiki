@@ -179,6 +179,7 @@ export default function WyrmspellPage() {
               ? {
                   label: previousWyrmspell.name,
                   path: `/wyrmspells/${previousWyrmspell.slug}`,
+                  iconSrc: getWyrmspellIcon(previousWyrmspell.name, previousWyrmspell.type),
                 }
               : null
           }
@@ -187,6 +188,7 @@ export default function WyrmspellPage() {
               ? {
                   label: nextWyrmspell.name,
                   path: `/wyrmspells/${nextWyrmspell.slug}`,
+                  iconSrc: getWyrmspellIcon(nextWyrmspell.name, nextWyrmspell.type),
                 }
               : null
           }

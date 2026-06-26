@@ -1,6 +1,6 @@
 import { useContext, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets';
+import { GEAR_TYPE_ICON_MAP, getGearIcon, getPortrait } from '@/assets';
 import { getSubclassIcon } from '@/assets';
 import { CharacterOwnershipContext, TierListReferenceContext } from '@/contexts';
 import type { ChangesFile } from '@/types/changes';
@@ -406,12 +406,14 @@ export function getCharacterNavPaths(
       ? {
           label: previousCharacter.name,
           path: getCharacterRoutePath(previousCharacter),
+          iconSrc: getPortrait(previousCharacter.slug),
         }
       : null,
     nextItem: nextCharacter
       ? {
           label: nextCharacter.name,
           path: getCharacterRoutePath(nextCharacter),
+          iconSrc: getPortrait(nextCharacter.slug),
         }
       : null,
   };

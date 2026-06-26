@@ -1,10 +1,12 @@
 import { Box, Group, Paper, Text } from '@mantine/core';
 import { IoChevronBack, IoChevronForward } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
+import SafeImage from '@/components/ui/SafeImage';
 
 type DetailNavigationItem = {
   label: string;
   path: string;
+  iconSrc?: string;
 };
 
 interface DetailPageNavigationProps {
@@ -34,6 +36,9 @@ export default function DetailPageNavigation({
             >
               <Group gap="xs" className="dt-link-text">
                 <IoChevronBack />
+                {previousItem.iconSrc && (
+                  <SafeImage src={previousItem.iconSrc} alt={previousItem.label} w={28} h={28} fit="contain" loading="lazy" />
+                )}
                 <Text size="sm">Previous: {previousItem.label}</Text>
               </Group>
             </Paper>
@@ -62,6 +67,9 @@ export default function DetailPageNavigation({
             >
               <Group gap="xs" className="dt-link-text">
                 <Text size="sm">Next: {nextItem.label}</Text>
+                {nextItem.iconSrc && (
+                  <SafeImage src={nextItem.iconSrc} alt={nextItem.label} w={28} h={28} fit="contain" loading="lazy" />
+                )}
                 <IoChevronForward />
               </Group>
             </Paper>

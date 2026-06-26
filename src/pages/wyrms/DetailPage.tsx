@@ -1,5 +1,5 @@
 import SafeImage from '@/components/ui/SafeImage';
-import { getWyrmIllustration, getWyrmPortrait, type CharacterIllustration } from '@/assets';
+import { getWyrmIcon, getWyrmIllustration, getWyrmPortrait, type CharacterIllustration } from '@/assets';
 import IllustrationPreviewCard from '@/components/common/IllustrationPreviewCard';
 import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
 import ChangeHistory from '@/components/common/ChangeHistory';
@@ -257,12 +257,12 @@ export default function WyrmPage() {
         <DetailPageNavigation
           previousItem={
             previousWyrm
-              ? { label: previousWyrm.name, path: `/wyrms/${previousWyrm.slug}` }
+              ? { label: previousWyrm.name, path: `/wyrms/${previousWyrm.slug}`, iconSrc: getWyrmIcon(previousWyrm.name) }
               : null
           }
           nextItem={
             nextWyrm
-              ? { label: nextWyrm.name, path: `/wyrms/${nextWyrm.slug}` }
+              ? { label: nextWyrm.name, path: `/wyrms/${nextWyrm.slug}`, iconSrc: getWyrmIcon(nextWyrm.name) }
               : null
           }
         />
