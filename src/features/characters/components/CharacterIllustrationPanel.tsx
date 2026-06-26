@@ -143,6 +143,10 @@ export default function CharacterIllustrationPanel({
             <Box
               component="video"
               src={activeIllustration.src}
+              autoPlay
+              muted
+              loop
+              playsInline
               style={{
                 width: '100%',
                 maxHeight: 420,
