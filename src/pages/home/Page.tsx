@@ -51,7 +51,6 @@ export default function Home() {
       <Container
         size="lg"
         py={{ base: 'lg', sm: 'xl' }}
-        mt={{ base: 'sm', sm: 'md' }}
       >
         <Stack gap="xl">
           {showCharacterTiers && (

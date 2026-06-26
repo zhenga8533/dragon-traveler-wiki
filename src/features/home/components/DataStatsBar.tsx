@@ -227,8 +227,8 @@ export default function DataStatsBar() {
 								<stat.icon size={16} />
 							</ThemeIcon>
 							<Text
-								fw={700}
-								size="sm"
+								fw={800}
+								size="lg"
 								ta="center"
 								lh={1}
 								c={`${stat.color}.7`}

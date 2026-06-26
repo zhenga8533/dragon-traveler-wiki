@@ -365,6 +365,22 @@ export default function HomeHeroSection() {
           </Box>
         </Group>
       </Container>
+
+      {/* Smooth fade into page background — only when no banner image is present */}
+      {!selectedBanner && (
+        <Box
+          style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 120,
+            background: 'linear-gradient(to bottom, transparent, var(--mantine-color-body))',
+            pointerEvents: 'none',
+            zIndex: 2,
+          }}
+        />
+      )}
     </Box>
   );
 }

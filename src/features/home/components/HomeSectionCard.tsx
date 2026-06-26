@@ -2,6 +2,7 @@ import { StaticSurface } from '@/components/ui/Surface';
 import { useGradientAccent } from '@/hooks';
 import {
   Anchor,
+  Box,
   Group,
   Stack,
   ThemeIcon,
@@ -32,7 +33,17 @@ export default function HomeSectionCard({
   const iconColor = color ?? accent.primary;
 
   return (
-    <StaticSurface p="lg" h="100%">
+    <StaticSurface p="lg" h="100%" style={{ position: 'relative', overflow: 'hidden' }}>
+      <Box
+        style={{
+          position: 'absolute',
+          top: 0,
+          left: 0,
+          right: 0,
+          height: 3,
+          background: `linear-gradient(90deg, var(--mantine-color-${iconColor}-5), var(--mantine-color-${iconColor}-3))`,
+        }}
+      />
       <Stack gap="md">
         <Group justify="space-between" align="center" gap="sm">
           <Group gap="sm">
