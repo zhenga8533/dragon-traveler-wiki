@@ -1,4 +1,3 @@
-import SafeImage from '@/components/ui/SafeImage';
 import {
   DEFAULT_BANNER_ORIGINAL_WIDTH,
   DEFAULT_BANNER_SRC,
@@ -10,11 +9,111 @@ import { BannerContext, UiOpacityContext } from '@/contexts';
 import { useDarkMode } from '@/hooks';
 import { Box } from '@mantine/core';
 import { useReducedMotion } from '@mantine/hooks';
-import { useCallback, useContext, useEffect, useRef, useState } from 'react';
+import {
+  useCallback,
+  useContext,
+  useEffect,
+  useState,
+  type CSSProperties,
+} from 'react';
 
 const measuredHeightBySource = new Map<string, number>();
 const PARALLAX_RATE = 0.14;
 const MAX_PARALLAX_OFFSET = 220;
+const FALLBACK_BANNER_HEIGHT = 350;
+
+type MeasuredMedia = {
+  src: string;
+  height: number;
+} | null;
+
+type BannerGeometry = {
+  outerStyle: CSSProperties;
+  stageStyle: CSSProperties;
+  driftingStyle: CSSProperties;
+};
+
+function getNormalizedImageHeight(
+  el: HTMLImageElement,
+  src: string | undefined
+) {
+  if (el.naturalHeight <= 0) return 0;
+  if (src === DEFAULT_BANNER_SRC && el.naturalWidth > 0) {
+    return (
+      el.naturalHeight * (DEFAULT_BANNER_ORIGINAL_WIDTH / el.naturalWidth)
+    );
+  }
+  return el.naturalHeight;
+}
+
+function getMediaHeight(src: string | undefined, measuredMedia: MeasuredMedia) {
+  if (!src) return 0;
+  return (
+    measuredHeightBySource.get(src) ??
+    (measuredMedia?.src === src ? measuredMedia.height : 0)
+  );
+}
+
+function getBannerGeometry(
+  height: number,
+  parallaxEnabled: boolean,
+  scrollY: number
+): BannerGeometry {
+  const parallaxOffset = parallaxEnabled
+    ? Math.min(scrollY * PARALLAX_RATE, MAX_PARALLAX_OFFSET)
+    : 0;
+
+  if (!parallaxEnabled) {
+    return {
+      outerStyle: {
+        position: 'absolute',
+        top: 0,
+        left: 0,
+        right: 0,
+        height,
+        overflow: 'hidden',
+        pointerEvents: 'none',
+        zIndex: 0,
+      },
+      stageStyle: {
+        position: 'relative',
+        height: '100%',
+        overflow: 'hidden',
+      },
+      driftingStyle: {
+        position: 'absolute',
+        inset: 0,
+      },
+    };
+  }
+
+  return {
+    outerStyle: {
+      position: 'absolute',
+      top: 0,
+      left: 0,
+      right: 0,
+      bottom: 0,
+      pointerEvents: 'none',
+      zIndex: 0,
+    },
+    stageStyle: {
+      position: 'sticky',
+      top: 0,
+      height: `max(${height}px, 100dvh)`,
+      overflow: 'hidden',
+    },
+    driftingStyle: {
+      position: 'absolute',
+      top: 0,
+      right: 0,
+      bottom: -MAX_PARALLAX_OFFSET,
+      left: 0,
+      transform: `translate3d(0, -${parallaxOffset}px, 0)`,
+      willChange: 'transform',
+    },
+  };
+}
 
 export default function BannerBackground() {
   const isDark = useDarkMode();
@@ -31,12 +130,9 @@ export default function BannerBackground() {
           sizes: '100vw',
         }
       : {};
-  const [measuredMedia, setMeasuredMedia] = useState<{
-    src: string;
-    height: number;
-  } | null>(null);
+  const [measuredMedia, setMeasuredMedia] = useState<MeasuredMedia>(null);
   const [scrollY, setScrollY] = useState(0);
-  const containerRef = useRef<HTMLDivElement>(null);
+  const [failedMedia, setFailedMedia] = useState<string | null>(null);
   const parallaxEnabled = slowScrollEnabled && !reduceMotion;
 
   useEffect(() => {
@@ -79,14 +175,7 @@ export default function BannerBackground() {
     (el: HTMLImageElement | null) => {
       if (!el) return;
       const update = () => {
-        if (el.naturalHeight > 0) {
-          const normalizedHeight =
-            selectedBannerSrc === DEFAULT_BANNER_SRC && el.naturalWidth > 0
-              ? el.naturalHeight *
-                (DEFAULT_BANNER_ORIGINAL_WIDTH / el.naturalWidth)
-              : el.naturalHeight;
-          updateMeasuredHeight(normalizedHeight);
-        }
+        updateMeasuredHeight(getNormalizedImageHeight(el, selectedBannerSrc));
       };
       const markLoaded = () => setBannerLoaded(true);
       if (el.complete) {
@@ -114,64 +203,20 @@ export default function BannerBackground() {
     [setBannerLoaded, updateMeasuredHeight]
   );
 
-  const cachedHeight = selectedBannerSrc
-    ? measuredHeightBySource.get(selectedBannerSrc)
-    : undefined;
-  const mediaHeight = selectedBannerSrc
-    ? (cachedHeight ??
-      (measuredMedia?.src === selectedBannerSrc ? measuredMedia.height : 0))
-    : 0;
+  const mediaHeight = getMediaHeight(selectedBannerSrc, measuredMedia);
+  const height = mediaHeight > 0 ? mediaHeight : FALLBACK_BANNER_HEIGHT;
+  const mediaFailed = failedMedia === selectedBannerSrc;
 
-  const height = mediaHeight > 0 ? mediaHeight : 350;
-  const parallaxOffset = parallaxEnabled
-    ? Math.min(scrollY * PARALLAX_RATE, MAX_PARALLAX_OFFSET)
-    : 0;
-  const outerStyle = parallaxEnabled
-    ? {
-        position: 'absolute' as const,
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        pointerEvents: 'none' as const,
-        zIndex: 0,
-      }
-    : {
-        position: 'absolute' as const,
-        top: 0,
-        left: 0,
-        right: 0,
-        height,
-        overflow: 'hidden' as const,
-        pointerEvents: 'none' as const,
-        zIndex: 0,
-      };
-  const stageStyle = parallaxEnabled
-    ? {
-        position: 'sticky' as const,
-        top: 0,
-        height: `max(${height}px, 100dvh)`,
-        overflow: 'hidden' as const,
-      }
-    : {
-        position: 'relative' as const,
-        height: '100%',
-        overflow: 'hidden' as const,
-      };
-  const driftingStyle = parallaxEnabled
-    ? {
-        position: 'absolute' as const,
-        inset: 0,
-        transform: `translate3d(0, -${parallaxOffset}px, 0)`,
-        willChange: 'transform',
-      }
-    : {
-        position: 'absolute' as const,
-        inset: 0,
-      };
+  // Static mode clips the banner to the media height. Slow-scroll mode instead
+  // covers the full page and lets a sticky stage drift the media underneath it.
+  const { outerStyle, stageStyle, driftingStyle } = getBannerGeometry(
+    height,
+    parallaxEnabled,
+    scrollY
+  );
 
   return (
-    <Box ref={containerRef} style={outerStyle}>
+    <Box style={outerStyle}>
       <Box style={stageStyle}>
         <Box style={driftingStyle}>
           <Box
@@ -201,38 +246,26 @@ export default function BannerBackground() {
                 transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
               }}
             />
-          ) : selectedBanner ? (
+          ) : selectedBanner && !mediaFailed ? (
             <img
               ref={imgRef}
               src={selectedBanner.src}
               {...responsiveBannerProps}
               alt=""
               fetchPriority="high"
-              onLoad={() => setBannerLoaded(true)}
-              style={{
-                display: 'block',
-                width: '100%',
-                visibility: 'hidden',
-              }}
-            />
-          ) : null}
-          {selectedBanner && selectedBanner.type !== 'video' && (
-            <SafeImage
-              src={selectedBanner.src}
-              {...responsiveBannerProps}
-              alt=""
-              fit="cover"
+              onError={() => setFailedMedia(selectedBanner.src)}
               style={{
                 position: 'absolute',
                 inset: 0,
                 width: '100%',
                 height: '100%',
+                objectFit: 'cover',
                 objectPosition: 'center top',
                 opacity: bannerLoaded ? bannerMediaOpacity : 0,
                 transition: `opacity ${TRANSITION.SLOW} ${TRANSITION.EASE}`,
               }}
             />
-          )}
+          ) : null}
           <Box
             style={{
               position: 'absolute',
