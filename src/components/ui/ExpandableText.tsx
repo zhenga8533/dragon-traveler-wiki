@@ -29,8 +29,11 @@ export default function ExpandableText({ children, size = 'sm', ta }: Expandable
           component="button"
           type="button"
           size="xs"
+          ta={ta ?? 'left'}
           onClick={(e) => {
+            e.preventDefault();
             e.stopPropagation();
+            e.nativeEvent.stopImmediatePropagation();
             setExpanded((v) => !v);
           }}
         >
