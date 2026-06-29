@@ -17,11 +17,12 @@ jobs:
       cancel-in-progress: false
 
     steps:
-      - name: Apply labels and comment
+      - name: Apply labels and check for duplicates
         uses: actions/github-script@v7
         with:
           script: |
             const title = context.payload.issue.title;
+            const body = context.payload.issue.body ?? '';
             const match = title.match(/^\[([^\]]+)\]/);
             if (!match) return;
 
@@ -56,6 +57,7 @@ jobs:
                 labelName === 'suggestion' ? '0e8a16' : '5319e7'
               );
             }
+            await ensureLabel('duplicate', 'cfd3d7');
 
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
@@ -64,13 +66,99 @@ jobs:
               labels,
             });
 
-            await github.rest.issues.createComment({
-              owner: context.repo.owner,
-              repo: context.repo.repo,
-              issue_number: context.issue.number,
-              body: [
-                `**Thanks for your suggestion!**`,
-                ``,
-                `Your issue has been labeled and will be reviewed by a maintainer.`
-              ].join('\n')
-            });
+            // Extract JSON from a SuggestModal-generated issue body and
+            // normalize it (sorted keys, deterministic) for comparison.
+            function extractNormalizedJson(issueBody) {
+              const jsonMatch = issueBody?.match(/```json\n([\s\S]*?)\n```/);
+              if (!jsonMatch) return null;
+              try {
+                const parsed = JSON.parse(jsonMatch[1]);
+                return JSON.stringify(sortKeys(parsed));
+              } catch {
+                return null;
+              }
+            }
+
+            function sortKeys(value) {
+              if (Array.isArray(value)) return value.map(sortKeys);
+              if (value !== null && typeof value === 'object') {
+                return Object.fromEntries(
+                  Object.entries(value)
+                    .sort(([a], [b]) => a.localeCompare(b))
+                    .map(([k, v]) => [k, sortKeys(v)])
+                );
+              }
+              return value;
+            }
+
+            const newJson = extractNormalizedJson(body);
+
+            // Search for an existing open suggestion with the same title and
+            // identical JSON. Only check when the new issue has parseable JSON
+            // (i.e. was submitted via SuggestModal).
+            let duplicateOf = null;
+            if (newJson !== null) {
+              let page = 1;
+              outer: while (true) {
+                const { data: existingIssues } = await github.rest.issues.listForRepo({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  state: 'open',
+                  labels: 'suggestion',
+                  per_page: 100,
+                  page,
+                });
+
+                for (const issue of existingIssues) {
+                  if (issue.number === context.issue.number) continue;
+                  if (issue.title !== title) continue;
+                  const existingJson = extractNormalizedJson(issue.body ?? '');
+                  if (existingJson !== null && existingJson === newJson) {
+                    duplicateOf = issue;
+                    break outer;
+                  }
+                }
+
+                if (existingIssues.length < 100) break;
+                page++;
+              }
+            }
+
+            if (duplicateOf) {
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['duplicate'],
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: [
+                  `**This suggestion is a duplicate.**`,
+                  ``,
+                  `An identical suggestion already exists in #${duplicateOf.number}.`,
+                  ``,
+                  `This issue has been closed automatically. If you have additional context to add, please comment on the original issue.`,
+                ].join('\n'),
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: 'closed',
+                state_reason: 'not_planned',
+              });
+            } else {
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: [
+                  `**Thanks for your suggestion!**`,
+                  ``,
+                  `Your issue has been labeled and will be reviewed by a maintainer.`,
+                ].join('\n'),
+              });
+            }
