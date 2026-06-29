@@ -98,6 +98,11 @@ export default function NoblePhantasms() {
     [characters]
   );
 
+  const charBySlug = useMemo(
+    () => new Map(characters.map((c) => [c.slug, c])),
+    [characters]
+  );
+
   const {
     filters,
     setFilters,
@@ -221,6 +226,7 @@ export default function NoblePhantasms() {
               <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                 {pageItems.map((np) => {
                   const iconSrc = getNoblePhantasmIcon(np.slug);
+                  const linkedChar = np.character_slug ? charBySlug.get(np.character_slug) : undefined;
                   return (
                     <EntitySummaryCard
                       key={np.name}
@@ -250,6 +256,8 @@ export default function NoblePhantasms() {
                                 ''
                               }
                               statusEffects={statusEffects}
+                              skills={linkedChar?.skills}
+                              talent={linkedChar?.talent}
                             />
                           </ExpandableText>
                         )
