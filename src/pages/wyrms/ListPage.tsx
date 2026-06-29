@@ -68,7 +68,7 @@ const WYRM_FIELDS: FieldDef[] = [
     label: 'Faction',
     type: 'select',
     required: true,
-    options: FACTION_NAMES,
+    options: FACTION_SLUGS.map((slug, i) => ({ value: slug, label: FACTION_NAMES[i] })),
   },
   {
     name: 'phase',

@@ -104,12 +104,14 @@ const CODE_PAGE_SIZE_OPTIONS: Record<ViewMode, readonly number[]> = {
 };
 
 function buildCodeRewardArrayFields(resources: Resource[]): ArrayFieldDef[] {
-  const resourceNames = resources.map((r) => r.name).sort();
+  const resourceOptions = resources
+    .map((r) => ({ value: r.slug, label: r.name }))
+    .sort((a, b) => a.label.localeCompare(b.label));
   const resourceIcons: Record<string, string> = {};
   for (const resource of resources) {
     const icon = getResourceIcon(resource.slug, resource.category);
     if (icon) {
-      resourceIcons[resource.name] = icon;
+      resourceIcons[resource.slug] = icon;
     }
   }
 
@@ -125,7 +127,7 @@ function buildCodeRewardArrayFields(resources: Resource[]): ArrayFieldDef[] {
           type: 'select',
           required: true,
           placeholder: 'Select a resource',
-          options: resourceNames,
+          options: resourceOptions,
           optionIcons: resourceIcons,
         },
         {

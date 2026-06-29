@@ -54,14 +54,25 @@ export default function NoblePhantasms() {
   const { data: statusEffects } = useStatusEffects();
 
   const noblePhantasmFields = useMemo<FieldDef[]>(() => {
-    const characterOptions = [...new Set(characters.map((c) => c.name))].sort(
-      (a, b) => a.localeCompare(b)
-    );
+    const nameCounts = new Map<string, number>();
+    for (const char of characters) {
+      nameCounts.set(char.name, (nameCounts.get(char.name) ?? 0) + 1);
+    }
+    const characterOptions = characters
+      .map((c) => {
+        const slug = getCharacterRouteSlug(c);
+        const label =
+          (nameCounts.get(c.name) ?? 1) > 1
+            ? `${c.name} (${c.quality})`
+            : c.name;
+        return { value: slug, label };
+      })
+      .sort((a, b) => a.label.localeCompare(b.label));
     const characterIcons: Record<string, string> = {};
     for (const char of characters) {
-      if (characterIcons[char.name]) continue;
-      const portrait = getPortrait(char.name, getCharacterRouteSlug(char));
-      if (portrait) characterIcons[char.name] = portrait;
+      const slug = getCharacterRouteSlug(char);
+      const portrait = getPortrait(char.name, slug);
+      if (portrait) characterIcons[slug] = portrait;
     }
     return [
       {
@@ -72,7 +83,7 @@ export default function NoblePhantasms() {
         placeholder: 'Noble Phantasm name',
       },
       {
-        name: 'character',
+        name: 'character_slug',
         label: 'Character',
         type: 'select',
         required: true,

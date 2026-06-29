@@ -33,15 +33,28 @@ import {
 
 export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number';
 
+export interface SelectOption {
+  value: string;
+  label: string;
+}
+
 export interface FieldDef {
   name: string;
   label: string;
   type: FieldType;
   required?: boolean;
   placeholder?: string;
-  options?: readonly string[];
+  options?: readonly (string | SelectOption)[];
   optionIcons?: Record<string, string>;
   description?: string;
+}
+
+function getOptionValue(opt: string | SelectOption): string {
+  return typeof opt === 'string' ? opt : opt.value;
+}
+
+function getOptionLabel(opt: string | SelectOption): string {
+  return typeof opt === 'string' ? opt : opt.label;
 }
 
 export interface ArrayFieldDef {
@@ -272,7 +285,11 @@ export default function SuggestModal({
       if (f.required && isBlank(value)) return false;
 
       if (f.type === 'select' && typeof value === 'string' && value !== '') {
-        if (f.options && f.options.length > 0 && !f.options.includes(value)) {
+        if (
+          f.options &&
+          f.options.length > 0 &&
+          !f.options.some((o) => getOptionValue(o) === value)
+        ) {
           return false;
         }
       }
@@ -316,7 +333,7 @@ export default function SuggestModal({
             value !== '' &&
             f.options &&
             f.options.length > 0 &&
-            !f.options.includes(value)
+            !f.options.some((o) => getOptionValue(o) === value)
           ) {
             return false;
           }
@@ -356,8 +373,8 @@ export default function SuggestModal({
             placeholder={f.placeholder}
             description={f.description}
             data={(f.options ?? []).map((option) => ({
-              value: option,
-              label: option,
+              value: getOptionValue(option),
+              label: getOptionLabel(option),
             }))}
             value={(value as string) || null}
             onChange={(v) => onChange(v ?? '')}

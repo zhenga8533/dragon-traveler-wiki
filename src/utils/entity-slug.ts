@@ -23,7 +23,7 @@ export function toEntitySlug(
     .toLowerCase()
     .normalize('NFKD')
     .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s+/g, '_')
+    .replace(/[-\s]+/g, '_')
     .replace(charPattern, '')
     .replace(/_+/g, '_')
     .replace(/^_+|_+$/g, '');

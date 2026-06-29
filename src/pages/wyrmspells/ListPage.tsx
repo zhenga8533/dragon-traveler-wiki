@@ -15,7 +15,7 @@ import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import SortableTh from '@/components/ui/SortableTh';
-import { FACTION_NAMES } from '@/constants/faction-colors';
+import { FACTION_NAMES, FACTION_SLUGS } from '@/constants/faction-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { getStableTagColor } from '@/constants/tag-colors';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
@@ -85,7 +85,7 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
     name: 'exclusive_faction',
     label: 'Exclusive Faction (optional)',
     type: 'select',
-    options: FACTION_NAMES,
+    options: FACTION_SLUGS.map((slug, i) => ({ value: slug, label: FACTION_NAMES[i] })),
   },
 ];
 

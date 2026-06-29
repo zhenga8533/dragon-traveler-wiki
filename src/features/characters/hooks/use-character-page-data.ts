@@ -9,6 +9,7 @@ import type {
   Character,
   RecommendedGearDetail,
   RecommendedGearEntry,
+  RecommendedGearSlot,
   RecommendedSubclassEntry,
 } from '@/features/characters/types';
 import type { Gear, GearSet } from '@/features/wiki/gear/types';
@@ -40,7 +41,7 @@ import {
 } from '@/features/wiki/hooks/use-wiki-data';
 
 const GEAR_SLOT_CONFIG: Array<{
-  slot: keyof NonNullable<Character['recommended_gear']>;
+  slot: RecommendedGearSlot;
   label: string;
   type: RecommendedGearEntry['type'];
   fallbackIcon: string;
@@ -248,12 +249,13 @@ export function useCharacterPageData(
   }, [subclasses]);
 
   const recommendedGearEntries = useMemo(() => {
-    if (!character?.recommended_gear) return [];
+    const loadout = character?.recommended_gear?.[0];
+    if (!loadout) return [];
     const entries: Array<
       RecommendedGearEntry & { label: string; icon: string; slotIcon: string }
     > = [];
     for (const cfg of GEAR_SLOT_CONFIG) {
-      const gearSlug = (character.recommended_gear[cfg.slot] ?? '').trim();
+      const gearSlug = (loadout.slots[cfg.slot] ?? '').trim();
       if (!gearSlug) continue;
       entries.push({
         slot: cfg.slot,
