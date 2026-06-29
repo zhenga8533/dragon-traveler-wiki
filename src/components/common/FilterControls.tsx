@@ -88,7 +88,7 @@ export function FilterMultiSelect({ color, ...props }: MultiSelectProps) {
 
 export interface FilterClearButtonProps {
   onClick: () => void;
-  size?: 'xs' | 'sm' | 'md';
+  size?: 'xs' | 'sm' | 'md' | 'compact-xs';
   label?: string;
 }
 
