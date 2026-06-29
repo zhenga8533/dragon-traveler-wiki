@@ -4,7 +4,7 @@ import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { getGlassStyles } from '@/constants/glass';
 import { BRAND_TITLE_STYLE, LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import { isDetailRoute } from '@/constants/route-meta';
-import { HEADER_HEIGHT, SIDEBAR, TRANSITION } from '@/constants/ui';
+import { HEADER_HEIGHT, IMAGE_SIZE, SIDEBAR, TRANSITION } from '@/constants/ui';
 import { BannerContext } from '@/contexts';
 import { useDarkMode, useIsMobile, useSidebar } from '@/hooks';
 import AppRoutes from '@/routes/AppRoutes';
@@ -86,7 +86,7 @@ export default function AppLayout() {
                 aria-label="Toggle sidebar"
                 visibleFrom="sm"
               >
-                {sidebar.isCollapsed ? <IoChevronForward /> : <IoChevronBack />}
+                {sidebar.isCollapsed ? <IoChevronForward size={IMAGE_SIZE.ICON_LG} /> : <IoChevronBack size={IMAGE_SIZE.ICON_LG} />}
               </ActionIcon>
             </Tooltip>
             <Link
@@ -95,7 +95,7 @@ export default function AppLayout() {
                 ...LINK_BLOCK_RESET_STYLE,
                 display: 'flex',
                 alignItems: 'center',
-                gap: '0.5rem',
+                gap: 'var(--mantine-spacing-sm)',
               }}
             >
               <Image

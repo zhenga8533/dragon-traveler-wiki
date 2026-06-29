@@ -34,7 +34,7 @@ import {
   IoTrophy,
 } from 'react-icons/io5';
 import { Link } from 'react-router-dom';
-import { useContext, type ComponentType } from 'react';
+import { useContext, useMemo, type ComponentType } from 'react';
 
 const HOME_CTA_BUTTON_STYLES = {
   root: {
@@ -70,12 +70,10 @@ export default function HomeHeroSection() {
   const homeHeroPlayNowStyle = getHomeHeroPlayNowStyle(isDark);
   const homeHeroNavCardStyle = getHeroNavGlassStyles(isDark);
 
-  const HERO_ACCENT_CYCLE = [
-    accent.primary,
-    accent.secondary,
-    accent.tertiary,
-    accent.primary,
-  ];
+  const HERO_ACCENT_CYCLE = useMemo(
+    () => [accent.primary, accent.secondary, accent.tertiary, accent.primary],
+    [accent.primary, accent.secondary, accent.tertiary]
+  );
 
   // Bleed to edges by exactly matching the AppShell.Main padding on each breakpoint.
   const negMargin = `calc(var(--mantine-spacing-${isMobile ? 'sm' : 'md'}) * -1)`;

@@ -112,7 +112,7 @@ export default function DataStatsBar() {
 
 	if (l1 || l2 || l3 || l4 || l5 || l6 || l7 || l8 || l9 || l10 || l11) {
 		return (
-			<SimpleGrid cols={{ base: 3, sm: 6, lg: 11 }} spacing={0}>
+			<SimpleGrid cols={{ base: 4, sm: 6, lg: 11 }} spacing={0}>
 				{Array.from({ length: 11 }).map((_, i) => (
 					<Stack key={i} gap={4} align="center" py="sm">
 						<Skeleton height={28} width={28} radius="md" />
@@ -206,7 +206,7 @@ export default function DataStatsBar() {
 
 	return (
 		<Stack gap="md">
-			<SimpleGrid cols={{ base: 3, sm: 6, lg: 11 }} spacing={0}>
+			<SimpleGrid cols={{ base: 4, sm: 6, lg: 11 }} spacing={0}>
 				{stats.map((stat) => (
 					<Box
 						key={stat.to}

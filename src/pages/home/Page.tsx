@@ -135,7 +135,7 @@ export default function Home() {
                     Free to Play
                   </Badge>
                 </Group>
-                <Group gap="sm" wrap="nowrap" style={{ overflow: 'hidden' }}>
+                <Group gap="xs" wrap="wrap" align="center">
                   <ThemeIcon
                     variant="light"
                     color={accent.secondary}
@@ -145,9 +145,11 @@ export default function Home() {
                   >
                     <IoGlobe size={16} />
                   </ThemeIcon>
-                  <Text size="sm" c="dimmed" style={{ wordBreak: 'break-word' }}>
-                    {LANGUAGES.join(' | ')}
-                  </Text>
+                  {LANGUAGES.map((lang) => (
+                    <Badge key={lang} variant="light" color={accent.secondary} size="sm">
+                      {lang}
+                    </Badge>
+                  ))}
                 </Group>
               </Stack>
             </HomeSectionCard>

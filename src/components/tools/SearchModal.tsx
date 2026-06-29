@@ -23,6 +23,8 @@ import { toEntitySlug } from '@/utils/entity-slug';
 import { isGameEventActive } from '@/utils/event-utils';
 import {
   ActionIcon,
+  Alert,
+  Badge,
   Box,
   Group,
   Kbd,
@@ -193,6 +195,25 @@ const PAGES = [
     keywords: 'links resources tools external',
   },
 ];
+
+const ENTITY_HINTS = [
+  { label: 'Characters', icon: IoPersonOutline, color: 'blue' },
+  { label: 'Artifacts', icon: IoDiamondOutline, color: 'teal' },
+  { label: 'Gear', icon: IoShieldOutline, color: 'teal' },
+  { label: 'Noble Phantasms', icon: IoFlashOutline, color: 'teal' },
+  { label: 'Relics', icon: IoDiamondOutline, color: 'violet' },
+  { label: 'Howlkins', icon: IoPawOutline, color: 'orange' },
+  { label: 'Wyrms', icon: IoFlameOutline, color: 'red' },
+  { label: 'Wyrmspells', icon: IoFlameOutline, color: 'indigo' },
+  { label: 'Subclasses', icon: IoGridOutline, color: 'grape' },
+  { label: 'Status Effects', icon: IoSparklesOutline, color: 'cyan' },
+  { label: 'Resources', icon: IoCubeOutline, color: 'teal' },
+  { label: 'Teams', icon: IoPeopleOutline, color: 'green' },
+  { label: 'Events', icon: IoCalendarOutline, color: 'green' },
+  { label: 'Codes', icon: IoFlashOutline, color: 'cyan' },
+  { label: 'Tier Lists', icon: IoDocumentTextOutline, color: 'pink' },
+  { label: 'Pages & Guides', icon: IoDocumentTextOutline, color: 'gray' },
+] as const;
 
 // PAGES Fuse index is module-level — the list never changes at runtime.
 const PAGE_FUSE = new Fuse(PAGES, {
@@ -797,7 +818,7 @@ function SearchModalContent({
           <ActionIcon
             variant="default"
             color={accent.primary}
-            size="xl"
+            size="lg"
             onClick={open}
             aria-label={searchShortcutHint}
             aria-haspopup="dialog"
@@ -948,10 +969,10 @@ function SearchModalContent({
           )}
 
           {query && !loading && errors.length > 0 && (
-            <Box px="md" py="xs" role="status">
-              <Text c="orange" size="xs" ta="center">
-                Some search sources could not be loaded; results may be incomplete.
-              </Text>
+            <Box px="md" pt="xs" role="status">
+              <Alert color="orange" variant="light" py="xs" px="sm">
+                <Text size="xs">Some search sources could not be loaded; results may be incomplete.</Text>
+              </Alert>
             </Box>
           )}
 
@@ -964,6 +985,7 @@ function SearchModalContent({
           )}
 
           {!isSearchPending && searchResults.length > 0 && (
+            <>
             <Stack
               id="global-search-results"
               role="listbox"
@@ -1112,23 +1134,35 @@ function SearchModalContent({
                 );
               })}
             </Stack>
+            {searchResults.length === MAX_RESULTS && (
+              <Box
+                py="xs"
+                ta="center"
+                style={{ borderTop: '1px solid var(--mantine-color-default-border)' }}
+              >
+                <Text size="xs" c="dimmed">
+                  Showing top {MAX_RESULTS} results · try a more specific search
+                </Text>
+              </Box>
+            )}
+            </>
           )}
 
           {!query && (
-            <Box p={isMobile ? 'lg' : 'xl'} ta="center">
-              <Text c="dimmed" size="sm">
-                Search characters, artifacts, gear, relics, wyrms, wyrmspells,
-                noble phantasms, howlkins, subclasses, resources, status
-                effects, teams, events, codes, tier lists, links, and pages
-              </Text>
-              <Group justify="center" gap="xs" mt="md">
-                <Text size="xs" c="dimmed">
-                  Navigate with
-                </Text>
+            <Stack p={isMobile ? 'lg' : 'xl'} gap="md" align="center">
+              <Group gap="xs" justify="center" wrap="wrap" style={{ maxWidth: 440 }}>
+                {ENTITY_HINTS.map(({ label, icon: Icon, color }) => (
+                  <Badge key={label} variant="light" color={color} size="xs" leftSection={<Icon size={9} />}>
+                    {label}
+                  </Badge>
+                ))}
+              </Group>
+              <Group justify="center" gap="xs">
+                <Text size="xs" c="dimmed">Navigate with</Text>
                 <Kbd size="xs">↑</Kbd>
                 <Kbd size="xs">↓</Kbd>
               </Group>
-            </Box>
+            </Stack>
           )}
         </Box>
       </Modal>

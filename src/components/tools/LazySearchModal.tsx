@@ -27,7 +27,7 @@ function SearchTrigger({ onOpen }: { onOpen: () => void }) {
         <ActionIcon
           variant="default"
           color={accent.primary}
-          size="xl"
+          size="lg"
           onClick={onOpen}
           aria-label={label}
           aria-haspopup="dialog"

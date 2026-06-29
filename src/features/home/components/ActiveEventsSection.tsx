@@ -48,16 +48,15 @@ export default function ActiveEventsSection() {
   }
 
   return (
-    <Stack gap="sm">
-      <SimpleGrid
-        cols={{
-          base: 1,
-          sm: activeEvents.length > 1 ? 2 : 1,
-          md: activeEvents.length,
-        }}
-        spacing="sm"
-      >
-        {activeEvents.map((event) => {
+    <SimpleGrid
+      cols={{
+        base: 1,
+        sm: activeEvents.length > 1 ? 2 : 1,
+        md: activeEvents.length,
+      }}
+      spacing="sm"
+    >
+      {activeEvents.map((event) => {
           const id =
             event.event_id ??
             (event.is_global
@@ -125,7 +124,6 @@ export default function ActiveEventsSection() {
             </Card>
           );
         })}
-      </SimpleGrid>
-    </Stack>
+    </SimpleGrid>
   );
 }

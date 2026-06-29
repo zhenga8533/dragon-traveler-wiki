@@ -1,4 +1,4 @@
-import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
+﻿import { Badge, Group, Paper, Skeleton, Stack, Text } from '@mantine/core';
 import { getCardHoverProps } from '@/constants/styles';
 import { useChangelog } from '@/features/wiki/hooks/use-wiki-data';
 
@@ -62,9 +62,11 @@ export default function RecentUpdatesSection() {
 							<Badge size="xs" variant="light" color="gray">
 								{entry.changes.length} changes
 							</Badge>
-							<Text size="xs" c="dimmed">
-								{entry.date}
-							</Text>
+							{entry.version && (
+								<Text size="xs" c="dimmed">
+									{entry.date}
+								</Text>
+							)}
 						</Group>
 					</Group>
 					<Stack gap={2}>

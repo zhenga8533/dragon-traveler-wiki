@@ -1,3 +1,4 @@
+import { IMAGE_SIZE } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
 import { ActionIcon, Tooltip } from '@mantine/core';
 import { lazy, Suspense, useState } from 'react';
@@ -21,7 +22,7 @@ function SettingsTrigger({ onOpen }: { onOpen: () => void }) {
         aria-haspopup="dialog"
         onClick={onOpen}
       >
-        <IoSettingsOutline />
+        <IoSettingsOutline size={IMAGE_SIZE.ICON_LG} />
       </ActionIcon>
     </Tooltip>
   );
