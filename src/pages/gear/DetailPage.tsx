@@ -108,9 +108,10 @@ export default function GearSetPage() {
     return ssrChars
       .filter(
         (c) =>
-          c.recommended_gear &&
-          Object.values(c.recommended_gear).some(
-            (itemName) => itemName && setItemNames.has(itemName)
+          c.recommended_gear?.some((loadout) =>
+            Object.values(loadout.slots).some(
+              (slug) => slug && setItemNames.has(slug)
+            )
           )
       )
       .sort((a, b) => {

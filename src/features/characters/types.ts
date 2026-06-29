@@ -53,13 +53,19 @@ export type RecommendedGearSlot =
   | 'weapon'
   | 'accessory';
 
-export interface RecommendedGear {
-  headgear?: string;
-  chestplate?: string;
-  bracers?: string;
-  boots?: string;
-  weapon?: string;
-  accessory?: string;
+export interface RecommendedGearSlots {
+  headgear?: string | null;
+  chestplate?: string | null;
+  bracers?: string | null;
+  boots?: string | null;
+  weapon?: string | null;
+  accessory?: string | null;
+}
+
+export interface RecommendedGearLoadout {
+  label: string;
+  description: string;
+  slots: RecommendedGearSlots;
 }
 
 export interface RecommendedGearEntry {
@@ -118,7 +124,7 @@ export interface Character {
   skills: Skill[];
   divinity?: DivinityLevel[];
   noble_phantasm: string;
-  recommended_gear?: RecommendedGear | null;
+  recommended_gear?: RecommendedGearLoadout[] | null;
   recommended_subclasses?: string[];
   last_updated: number;
 }

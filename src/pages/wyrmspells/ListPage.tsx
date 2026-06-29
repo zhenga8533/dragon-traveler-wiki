@@ -65,6 +65,7 @@ const WYRMSPELL_FIELDS: FieldDef[] = [
     label: 'Type',
     type: 'select',
     required: true,
+    options: WYRMSPELL_TYPE_FILTER_ORDER,
   },
   {
     name: 'quality',
