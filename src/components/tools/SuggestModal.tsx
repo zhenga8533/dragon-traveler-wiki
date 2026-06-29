@@ -1,4 +1,4 @@
-﻿import SafeImage from '@/components/ui/SafeImage';
+import SafeImage from '@/components/ui/SafeImage';
 import { FACTION_ICON_MAP } from '@/assets';
 import { GEAR_TYPE_ICON_MAP } from '@/assets';
 import { QUALITY_ICON_MAP } from '@/assets';
@@ -15,6 +15,7 @@ import {
   Tooltip,
   Group,
   Modal,
+  NumberInput,
   Select,
   Stack,
   Switch,
@@ -28,10 +29,11 @@ import {
   IoAdd,
   IoAddCircleOutline,
   IoClose,
+  IoCopy,
   IoOpenOutline,
 } from 'react-icons/io5';
 
-export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number';
+export type FieldType = 'text' | 'textarea' | 'select' | 'boolean' | 'number' | 'url';
 
 export interface SelectOption {
   value: string;
@@ -90,10 +92,16 @@ function buildInitialValues(
   return values;
 }
 
+function newRowId(): string {
+  return typeof crypto !== 'undefined' && crypto.randomUUID
+    ? crypto.randomUUID()
+    : Math.random().toString(36).slice(2);
+}
+
 function buildInitialArrayRow(
   fields: FieldDef[]
 ): Record<string, string | boolean> {
-  return buildInitialValues(fields);
+  return { ...buildInitialValues(fields), _id: newRowId() };
 }
 
 function isBlank(value: string | boolean | undefined): boolean {
@@ -110,6 +118,37 @@ function isValidUrl(value: string): boolean {
   } catch {
     return false;
   }
+}
+
+function getFieldError(f: FieldDef, value: string | boolean): string | undefined {
+  if (f.required && isBlank(value)) return `${f.label} is required`;
+  if (
+    f.type === 'url' &&
+    typeof value === 'string' &&
+    value.trim() !== '' &&
+    !isValidUrl(value)
+  ) {
+    return 'Must be a valid http:// or https:// URL';
+  }
+  if (
+    f.type === 'number' &&
+    typeof value === 'string' &&
+    value.trim() !== '' &&
+    Number.isNaN(Number(value))
+  ) {
+    return 'Must be a valid number';
+  }
+  if (
+    f.type === 'select' &&
+    typeof value === 'string' &&
+    value !== '' &&
+    f.options &&
+    f.options.length > 0 &&
+    !f.options.some((o) => getOptionValue(o) === value)
+  ) {
+    return 'Invalid selection';
+  }
+  return undefined;
 }
 
 const AUTO_OPTION_ICON_MAP: Record<string, string> = {
@@ -145,6 +184,9 @@ export default function SuggestModal({
     }
     return init;
   });
+  const [touched, setTouched] = useState<Set<string>>(new Set());
+  const [submitAttempted, setSubmitAttempted] = useState(false);
+  const [jsonTooLong, setJsonTooLong] = useState(false);
 
   const reset = useCallback(() => {
     setValues(buildInitialValues(fields));
@@ -157,11 +199,22 @@ export default function SuggestModal({
 
   const handleOpen = () => {
     reset();
+    setTouched(new Set());
+    setSubmitAttempted(false);
+    setJsonTooLong(false);
     open();
   };
 
   const setField = (name: string, value: string | boolean) => {
     setValues((prev) => ({ ...prev, [name]: value }));
+  };
+
+  const markTouched = (name: string) => {
+    setTouched((prev) => {
+      const next = new Set(prev);
+      next.add(name);
+      return next;
+    });
   };
 
   const setArrayField = (
@@ -246,6 +299,7 @@ export default function SuggestModal({
   };
 
   const handleSubmit = () => {
+    setSubmitAttempted(true);
     if (!isValid()) return;
     const data = buildJsonData();
     const jsonStr = JSON.stringify(data, null, 2);
@@ -253,24 +307,28 @@ export default function SuggestModal({
     const fullUrl = buildIssueUrl({ title: issueTitle, body });
 
     if (fullUrl.length > MAX_GITHUB_ISSUE_URL_LENGTH) {
-      // URL too long, open issue with template but empty JSON
       const emptyUrl = buildIssueUrl({
         title: issueTitle,
         body: buildEmptyIssueBody(''),
       });
       window.open(emptyUrl, '_blank');
+      setJsonTooLong(true);
       showWarningToast({
         title: 'JSON is too large for URL',
         message:
-          'Please use the Copy JSON button and paste it into the GitHub issue body.',
+          'The GitHub issue opened with an empty template. Use the Copy JSON button to copy your data and paste it into the issue body.',
         autoClose: 8000,
       });
-      // Keep modal open so user can copy JSON
       return;
     }
 
     window.open(fullUrl, '_blank');
     close();
+  };
+
+  const handleCopyJson = () => {
+    const jsonStr = JSON.stringify(buildJsonData(), null, 2);
+    navigator.clipboard.writeText(jsonStr);
   };
 
   const isValid = (
@@ -281,36 +339,7 @@ export default function SuggestModal({
     > = arrayValues
   ) => {
     for (const f of fields) {
-      const value = formValues[f.name];
-      if (f.required && isBlank(value)) return false;
-
-      if (f.type === 'select' && typeof value === 'string' && value !== '') {
-        if (
-          f.options &&
-          f.options.length > 0 &&
-          !f.options.some((o) => getOptionValue(o) === value)
-        ) {
-          return false;
-        }
-      }
-
-      if (
-        f.type === 'number' &&
-        typeof value === 'string' &&
-        value.trim() !== '' &&
-        Number.isNaN(Number(value))
-      ) {
-        return false;
-      }
-
-      if (
-        (f.name === 'link' || f.name.toLowerCase().includes('url')) &&
-        typeof value === 'string' &&
-        value.trim() !== '' &&
-        !isValidUrl(value)
-      ) {
-        return false;
-      }
+      if (getFieldError(f, formValues[f.name])) return false;
     }
 
     for (const af of arrayFields ?? []) {
@@ -325,26 +354,7 @@ export default function SuggestModal({
 
       for (const row of filledRows) {
         for (const f of af.fields) {
-          const value = row[f.name];
-          if (f.required && isBlank(value)) return false;
-          if (
-            f.type === 'select' &&
-            typeof value === 'string' &&
-            value !== '' &&
-            f.options &&
-            f.options.length > 0 &&
-            !f.options.some((o) => getOptionValue(o) === value)
-          ) {
-            return false;
-          }
-          if (
-            f.type === 'number' &&
-            typeof value === 'string' &&
-            value.trim() !== '' &&
-            Number.isNaN(Number(value))
-          ) {
-            return false;
-          }
+          if (getFieldError(f, row[f.name])) return false;
         }
       }
     }
@@ -358,8 +368,10 @@ export default function SuggestModal({
   const renderField = (
     f: FieldDef,
     value: string | boolean,
-    onChange: (val: string | boolean) => void
+    onChange: (val: string | boolean) => void,
+    fieldOptions?: { error?: string; onBlur?: () => void }
   ) => {
+    const { error, onBlur } = fieldOptions ?? {};
     switch (f.type) {
       case 'select': {
         const selectedValue = (value as string) || '';
@@ -378,9 +390,11 @@ export default function SuggestModal({
             }))}
             value={(value as string) || null}
             onChange={(v) => onChange(v ?? '')}
+            onBlur={onBlur}
             clearable
             searchable={(f.options?.length ?? 0) >= 10}
             withAsterisk={f.required}
+            error={error}
             leftSection={
               selectedIcon ? (
                 <SafeImage
@@ -430,23 +444,41 @@ export default function SuggestModal({
             description={f.description}
             value={value as string}
             onChange={(e) => onChange(e.currentTarget.value)}
+            onBlur={onBlur}
             autosize
             minRows={2}
             maxRows={6}
             withAsterisk={f.required}
+            error={error}
           />
         );
       case 'number':
         return (
-          <TextInput
+          <NumberInput
             key={f.name}
-            type="number"
             label={f.label}
             placeholder={f.placeholder}
             description={f.description}
+            value={value === '' ? '' : Number(value as string)}
+            onChange={(v) => onChange(v === '' ? '' : String(v))}
+            onBlur={onBlur}
+            withAsterisk={f.required}
+            error={error}
+          />
+        );
+      case 'url':
+        return (
+          <TextInput
+            key={f.name}
+            type="url"
+            label={f.label}
+            placeholder={f.placeholder ?? 'https://'}
+            description={f.description}
             value={value as string}
             onChange={(e) => onChange(e.currentTarget.value)}
+            onBlur={onBlur}
             withAsterisk={f.required}
+            error={error}
           />
         );
       default:
@@ -458,7 +490,9 @@ export default function SuggestModal({
             description={f.description}
             value={value as string}
             onChange={(e) => onChange(e.currentTarget.value)}
+            onBlur={onBlur}
             withAsterisk={f.required}
+            error={error}
           />
         );
     }
@@ -506,7 +540,17 @@ export default function SuggestModal({
           </Text>
 
           {fields.map((f) =>
-            renderField(f, values[f.name], (val) => setField(f.name, val))
+            renderField(
+              f,
+              values[f.name],
+              (val) => setField(f.name, val),
+              {
+                error: touched.has(f.name) || submitAttempted
+                  ? getFieldError(f, values[f.name])
+                  : undefined,
+                onBlur: () => markTouched(f.name),
+              }
+            )
           )}
 
           {arrayFields?.map((af) => (
@@ -525,32 +569,52 @@ export default function SuggestModal({
                   Add
                 </Button>
               </Group>
-              {arrayValues[af.name]?.map((row, idx) => (
-                <Group key={idx} gap="xs" align="flex-end" wrap="nowrap">
-                  <Group gap="xs" style={{ flex: 1 }} grow wrap="wrap">
-                    {af.fields.map((f) =>
-                      renderField(f, row[f.name], (val) =>
-                        setArrayField(af.name, idx, f.name, val)
-                      )
+              {arrayValues[af.name]?.map((row, idx) => {
+                const rowId = row._id as string;
+                return (
+                  <Group key={rowId} gap="xs" align="flex-end" wrap="nowrap">
+                    <Group gap="xs" style={{ flex: 1 }} grow wrap="wrap">
+                      {af.fields.map((f) =>
+                        renderField(
+                          f,
+                          row[f.name],
+                          (val) => setArrayField(af.name, idx, f.name, val),
+                          {
+                            error: submitAttempted
+                              ? getFieldError(f, row[f.name])
+                              : undefined,
+                          }
+                        )
+                      )}
+                    </Group>
+                    {arrayValues[af.name].length > 1 && (
+                      <ActionIcon
+                        variant="subtle"
+                        color="red"
+                        size={isMobile ? 'md' : 'sm'}
+                        onClick={() => removeArrayRow(af.name, idx)}
+                        aria-label="Remove row"
+                      >
+                        <IoClose size={14} />
+                      </ActionIcon>
                     )}
                   </Group>
-                  {arrayValues[af.name].length > 1 && (
-                    <ActionIcon
-                      variant="subtle"
-                      color="red"
-                      size={isMobile ? 'md' : 'sm'}
-                      onClick={() => removeArrayRow(af.name, idx)}
-                      aria-label="Remove row"
-                    >
-                      <IoClose size={14} />
-                    </ActionIcon>
-                  )}
-                </Group>
-              ))}
+                );
+              })}
             </Stack>
           ))}
 
           <Group justify="flex-end" mt="md">
+            {jsonTooLong && (
+              <Button
+                variant="light"
+                color={accent.secondary}
+                leftSection={<IoCopy size={16} />}
+                onClick={handleCopyJson}
+              >
+                Copy JSON
+              </Button>
+            )}
             <Button
               color={accent.primary}
               leftSection={<IoOpenOutline size={16} />}

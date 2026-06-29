@@ -1,4 +1,4 @@
-import { useCallback, useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useRef, useState } from 'react';
 import { readStoredJson, writeStoredJson } from '@/utils/saved-storage';
 
 export type ViewMode = 'grid' | 'list';
@@ -107,6 +107,10 @@ export function useFilters<T extends object>({
     return emptyFilters;
   });
 
+  // Keep a ref so resetFilters stays stable even if caller recreates emptyFilters each render.
+  const emptyFiltersRef = useRef(emptyFilters);
+  emptyFiltersRef.current = emptyFilters;
+
   useEffect(() => {
     if (storageKey) {
       writeStoredJson(storageKey, filters);
@@ -114,8 +118,8 @@ export function useFilters<T extends object>({
   }, [storageKey, filters]);
 
   const resetFilters = useCallback(() => {
-    setFilters(emptyFilters);
-  }, [emptyFilters]);
+    setFilters(emptyFiltersRef.current);
+  }, []);
 
   const updateFilter = useCallback((key: keyof T, value: T[keyof T]) => {
     setFilters((prev) => ({ ...prev, [key]: value }));
@@ -165,6 +169,7 @@ export function countActiveFilters<T extends object>(filters: T): number {
           ).length
         );
       }
+      if (typeof v === 'boolean') return acc + (v ? 1 : 0);
       if (typeof v === 'string') return acc + (v ? 1 : 0);
       return acc;
     },

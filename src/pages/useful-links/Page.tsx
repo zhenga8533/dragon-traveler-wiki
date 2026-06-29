@@ -52,7 +52,7 @@ const LINK_FIELDS: FieldDef[] = [
   {
     name: 'link',
     label: 'URL',
-    type: 'text',
+    type: 'url',
     required: true,
     placeholder: 'https://example.com',
   },
