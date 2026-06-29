@@ -68,7 +68,6 @@ export default function RouteMeta() {
     upsertMetaTag('property', 'og:type', 'website');
     upsertMetaTag('property', 'og:site_name', SITE_NAME);
     upsertMetaTag('property', 'og:image', DEFAULT_IMAGE);
-    upsertMetaTag('property', 'og:image:secure_url', DEFAULT_IMAGE);
     upsertMetaTag('property', 'og:image:width', DEFAULT_IMAGE_WIDTH);
     upsertMetaTag('property', 'og:image:height', DEFAULT_IMAGE_HEIGHT);
     upsertMetaTag('property', 'og:image:alt', DEFAULT_IMAGE_ALT);

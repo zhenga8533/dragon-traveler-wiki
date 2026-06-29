@@ -41,21 +41,10 @@ function toEntitySlug(value) {
     .trim()
     .toLowerCase()
     .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s+/g, '_')
+    .replace(/[̀-ͯ]/g, '')
+    .replace(/[-\s]+/g, '_')
     .replace(/[^a-z0-9_]/g, '')
     .replace(/_+/g, '_')
-    .replace(/^_+|_+$/g, '');
-}
-
-function normalizeQualitySuffix(value) {
-  return String(value ?? '')
-    .trim()
-    .toLowerCase()
-    .normalize('NFKD')
-    .replace(/[\u0300-\u036f]/g, '')
-    .replace(/\s+/g, '_')
-    .replace(/[^a-z0-9_+]/g, '')
     .replace(/^_+|_+$/g, '');
 }
 
@@ -133,7 +122,7 @@ function parseRouteMetaSource(source) {
 
   const routeMetaChunk = source.slice(arrayStart, arrayEnd);
   const entryRegex =
-    /\{\s*pattern:\s*'([^']+)'\s*,\s*meta:\s*\{\s*title:\s*'([^']+)'\s*,\s*description:\s*'((?:\\'|[^'])*)'\s*,?\s*\}\s*,?\s*\}/g;
+    /\{\s*pattern:\s*'([^']+)'[^{}]*?meta:\s*\{\s*title:\s*'([^']+)'\s*,\s*description:\s*'((?:\\'|[^'])*)'\s*,?\s*\}\s*,?\s*\}/g;
 
   const routes = [];
   let match;
@@ -213,18 +202,14 @@ function buildRouteHtml(
   html = upsertMeta(html, 'property', 'og:type', 'website');
   html = upsertMeta(html, 'property', 'og:site_name', siteName);
   html = upsertMeta(html, 'name', 'twitter:title', pageTitle);
-  html = upsertMeta(
-    html,
-    'name',
-    'twitter:description',
-    meta.description
-  );
+  html = upsertMeta(html, 'name', 'twitter:description', meta.description);
+
+  html = removeMeta(html, 'property', 'og:image:secure_url');
 
   if (imageUrl) {
     const isDefaultImage =
       imageUrl === `${baseUrl}/images/banners/default-social.jpg`;
     html = upsertMeta(html, 'property', 'og:image', imageUrl);
-    html = upsertMeta(html, 'property', 'og:image:secure_url', imageUrl);
     if (isDefaultImage) {
       html = upsertMeta(html, 'property', 'og:image:width', '1200');
       html = upsertMeta(html, 'property', 'og:image:height', '630');
@@ -235,15 +220,9 @@ function buildRouteHtml(
     html = upsertMeta(html, 'property', 'og:image:alt', `${pageTitle} preview`);
     html = upsertMeta(html, 'name', 'twitter:image', imageUrl);
     html = upsertMeta(html, 'name', 'twitter:image:alt', `${pageTitle} preview`);
-    html = upsertMeta(
-      html,
-      'name',
-      'twitter:card',
-      'summary_large_image'
-    );
+    html = upsertMeta(html, 'name', 'twitter:card', 'summary_large_image');
   } else {
     html = removeMeta(html, 'property', 'og:image');
-    html = removeMeta(html, 'property', 'og:image:secure_url');
     html = removeMeta(html, 'property', 'og:image:width');
     html = removeMeta(html, 'property', 'og:image:height');
     html = removeMeta(html, 'property', 'og:image:alt');
@@ -314,11 +293,20 @@ function writeRoutePages() {
     writePage(route.pattern, route.meta);
   }
 
+  // Build a character slug-to-name map for use by other entity descriptions.
+  const characterItems = readJsonArray('enUS/characters.json');
+  const charSlugToName = new Map(
+    characterItems
+      .filter((c) => c.slug)
+      .map((c) => [c.slug, c.name])
+  );
+
   const dynamicRouteConfigs = [
     {
       pattern: '/characters/:name',
-      file: 'characters.json',
+      file: 'enUS/characters.json',
       getName: (item) => item?.name,
+      getSlug: (item) => item?.slug,
       getDescription: (item, baseDescription) => {
         const title = item?.title ? `, ${item.title}` : '';
         return truncateText(
@@ -328,8 +316,9 @@ function writeRoutePages() {
     },
     {
       pattern: '/artifacts/:name',
-      file: 'artifacts.json',
+      file: 'enUS/artifacts.json',
       getName: (item) => item?.name,
+      getSlug: (item) => item?.slug,
       getDescription: (item, baseDescription) => {
         const lore = item?.lore ? truncateText(item.lore, 140) : '';
         return truncateText(
@@ -339,12 +328,14 @@ function writeRoutePages() {
     },
     {
       pattern: '/noble-phantasms/:name',
-      file: 'noble-phantasm.json',
+      file: 'enUS/noble-phantasm.json',
       getName: (item) => item?.name,
+      getSlug: (item) => item?.slug,
       getDescription: (item, baseDescription) => {
-        const owner = item?.character
-          ? `Linked character: ${item.character}. `
-          : '';
+        const charName = item?.character_slug
+          ? (charSlugToName.get(item.character_slug) ?? null)
+          : null;
+        const owner = charName ? `Linked character: ${charName}. ` : '';
         return truncateText(
           `${item?.name ?? 'Noble Phantasm'} details. ${owner}${baseDescription}`
         );
@@ -352,8 +343,9 @@ function writeRoutePages() {
     },
     {
       pattern: '/teams/:teamName',
-      file: 'teams.json',
+      file: 'enUS/teams.json',
       getName: (item) => item?.name,
+      getSlug: (item) => item?.slug,
       getDescription: (item, baseDescription) => {
         const teamDesc = item?.description
           ? `${truncateText(item.description, 140)} `
@@ -365,11 +357,12 @@ function writeRoutePages() {
     },
     {
       pattern: '/gear-sets/:setName',
-      file: 'gear-sets.json',
+      file: 'enUS/gear-sets.json',
       getName: (item) => item?.name,
+      getSlug: (item) => item?.slug,
       getDescription: (item, baseDescription) => {
-        const bonus = item?.set_bonus?.description
-          ? `Set bonus: ${truncateText(item.set_bonus.description, 120)}. `
+        const bonus = item?.bonus_description
+          ? `Set bonus: ${truncateText(item.bonus_description, 120)}. `
           : '';
         return truncateText(
           `${item?.name ?? 'Gear Set'} details. ${bonus}${baseDescription}`
@@ -378,8 +371,9 @@ function writeRoutePages() {
     },
     {
       pattern: '/wyrms/:name',
-      file: 'wyrms.json',
+      file: 'enUS/wyrms.json',
       getName: (item) => item?.name,
+      getSlug: (item) => item?.slug,
       getDescription: (item, baseDescription) => {
         const desc = item?.description ? truncateText(item.description, 140) : '';
         return truncateText(
@@ -389,13 +383,15 @@ function writeRoutePages() {
     },
     {
       pattern: '/wyrmspells/:name',
-      file: 'wyrmspells.json',
+      file: 'enUS/wyrmspells.json',
       getName: (item) => item?.name,
+      getSlug: (item) => item?.slug,
       getDescription: (item, baseDescription) => {
         const qualities = item?.qualities;
-        const maxEffect = Array.isArray(qualities) && qualities.length > 0
-          ? qualities[qualities.length - 1]?.effect
-          : null;
+        const maxEffect =
+          Array.isArray(qualities) && qualities.length > 0
+            ? qualities[qualities.length - 1]?.effect
+            : null;
         const effectSnippet = maxEffect ? truncateText(maxEffect, 120) : '';
         return truncateText(
           `${item?.name ?? 'Wyrmspell'} details. ${effectSnippet ? `${effectSnippet} ` : ''}${baseDescription}`
@@ -404,12 +400,14 @@ function writeRoutePages() {
     },
     {
       pattern: '/howlkins/:allianceName',
-      file: 'golden-alliances.json',
+      file: 'enUS/golden-alliances.json',
       getName: (item) => item?.name,
+      getSlug: (item) => item?.slug,
       getDescription: (item, baseDescription) => {
-        const members = Array.isArray(item?.howlkins) && item.howlkins.length > 0
-          ? `Members: ${item.howlkins.slice(0, 4).join(', ')}${item.howlkins.length > 4 ? ` and ${item.howlkins.length - 4} more` : ''}. `
-          : '';
+        const members =
+          Array.isArray(item?.howlkins) && item.howlkins.length > 0
+            ? `Members: ${item.howlkins.slice(0, 4).join(', ')}${item.howlkins.length > 4 ? ` and ${item.howlkins.length - 4} more` : ''}. `
+            : '';
         return truncateText(
           `${item?.name ?? 'Golden Alliance'} details. ${members}${baseDescription}`
         );
@@ -424,45 +422,12 @@ function writeRoutePages() {
     }
 
     const items = readJsonArray(config.file);
-    const characterNameCounts =
-      config.pattern === '/characters/:name'
-        ? (() => {
-            const counts = new Map();
-            for (const item of items) {
-              const baseSlug = toEntitySlug(config.getName(item));
-              if (!baseSlug) continue;
-              counts.set(baseSlug, (counts.get(baseSlug) ?? 0) + 1);
-            }
-            return counts;
-          })()
-        : null;
-    const characterBasePagesWritten = new Set();
 
     for (const item of items) {
       const name = config.getName(item);
-      const baseSlug = toEntitySlug(name);
-      if (!baseSlug) {
+      const slug = config.getSlug(item) ?? toEntitySlug(name);
+      if (!slug) {
         continue;
-      }
-
-      let slug = baseSlug;
-      if (config.pattern === '/characters/:name') {
-        const hasMultipleRarities =
-          (characterNameCounts?.get(baseSlug) ?? 0) > 1;
-        if (hasMultipleRarities) {
-          const qualitySuffix = normalizeQualitySuffix(item?.quality);
-          slug = qualitySuffix ? `${baseSlug}_${qualitySuffix}` : baseSlug;
-
-          if (!characterBasePagesWritten.has(baseSlug)) {
-            characterBasePagesWritten.add(baseSlug);
-            writePage(`/characters/${baseSlug}`, {
-              title: String(name ?? baseMeta.title),
-              description: truncateText(
-                `${name ?? 'Character'} has multiple rarities. Open this page to choose a rarity-specific build and detail page.`
-              ),
-            });
-          }
-        }
       }
 
       const routePath = config.pattern.replace(/:[^/]+$/, slug);
@@ -481,7 +446,7 @@ function writeRoutePages() {
 
   const oracleScrollsMeta = routeMetaByPattern.get('/oracle-scrolls/:scrollName');
   if (oracleScrollsMeta) {
-    const relicItems = readJsonArray('relic.json');
+    const relicItems = readJsonArray('enUS/relic.json');
     const scrollsSeen = new Set();
     for (const item of relicItems) {
       const scrollName = item?.oracle_scroll;
@@ -493,26 +458,6 @@ function writeRoutePages() {
         title: String(scrollName),
         description: truncateText(
           `${scrollName} oracle scroll. ${oracleScrollsMeta.description}`
-        ),
-      });
-    }
-  }
-
-  const gearSetsMeta = routeMetaByPattern.get('/gear-sets/:setName');
-  if (gearSetsMeta) {
-    const gearItems = readJsonArray('gear.json');
-    const setNames = new Set();
-    for (const item of gearItems) {
-      const setName = item?.set;
-      const slug = toEntitySlug(setName);
-      if (!slug || setNames.has(slug)) {
-        continue;
-      }
-      setNames.add(slug);
-      writePage(`/gear-sets/${slug}`, {
-        title: String(setName ?? gearSetsMeta.title),
-        description: truncateText(
-          `${setName ?? 'Gear Set'} details. ${gearSetsMeta.description}`
         ),
       });
     }
