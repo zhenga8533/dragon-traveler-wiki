@@ -1,4 +1,4 @@
-import type { CharacterIllustration } from '@/assets';
+import type { Illustration } from '@/assets';
 import SafeImage from '@/components/ui/SafeImage';
 import { StaticSurface } from '@/components/ui/Surface';
 import { NAV_ITEM_HEIGHT } from '@/constants/ui';
@@ -19,7 +19,7 @@ import { IoChevronBack, IoChevronForward, IoExpand } from 'react-icons/io5';
 
 interface CharacterIllustrationPanelProps {
   characterName: string;
-  activeIllustration: CharacterIllustration | null;
+  activeIllustration: Illustration | null;
   activeIllustrationIndex: number;
   illustrationsLength: number;
   hasMultipleIllustrations: boolean;

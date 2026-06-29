@@ -1,6 +1,6 @@
 import {
   getIllustrations,
-  type CharacterIllustration,
+  type Illustration,
 } from '@/assets';
 
 import { DEFAULT_BANNER_SRC } from '@/constants/banner';
@@ -25,7 +25,7 @@ export interface BannerOption {
   value: string;
   label: string;
   src: string;
-  type: CharacterIllustration['type'];
+  type: Illustration['type'];
 }
 
 const DEFAULT_BANNER_OPTION: BannerOption = {

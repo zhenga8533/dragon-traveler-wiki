@@ -1,4 +1,5 @@
 import { Group, Table } from '@mantine/core';
+import type { KeyboardEvent } from 'react';
 import { IoChevronDown, IoChevronUp } from 'react-icons/io5';
 
 interface SortableThProps {
@@ -18,10 +19,21 @@ export default function SortableTh({
 }: SortableThProps) {
   const active = sortCol === sortKey;
   const Icon = active && sortDir === 'desc' ? IoChevronDown : IoChevronUp;
+  const ariaSort = active ? (sortDir === 'asc' ? 'ascending' : 'descending') : 'none';
+
+  const handleKeyDown = (e: KeyboardEvent<HTMLTableCellElement>) => {
+    if (e.key === 'Enter' || e.key === ' ') {
+      e.preventDefault();
+      onSort(sortKey);
+    }
+  };
 
   return (
     <Table.Th
       onClick={() => onSort(sortKey)}
+      onKeyDown={handleKeyDown}
+      tabIndex={0}
+      aria-sort={ariaSort}
       style={{
         cursor: 'pointer',
         userSelect: 'none',

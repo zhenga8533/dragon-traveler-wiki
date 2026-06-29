@@ -187,9 +187,9 @@ export function getEventImage(slug: string): string {
   return `${BASE}event/${slug}.webp`;
 }
 
-// ── Character ────────────────────────────────────────────────────────────────
+// ── Illustrations ────────────────────────────────────────────────────────────
 
-export interface CharacterIllustration {
+export interface Illustration {
   name: string;
   src: string;
   type: 'image' | 'video';
@@ -229,7 +229,7 @@ export function getPortrait(
 export async function getIllustrations(
   characterName: string,
   characterKey?: string
-): Promise<CharacterIllustration[]> {
+): Promise<Illustration[]> {
   const key = resolveAssetKey(characterName, characterKey);
   const manifest = await getManifest();
   const entries = manifest[key];

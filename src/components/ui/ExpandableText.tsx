@@ -26,10 +26,11 @@ export default function ExpandableText({ children, size = 'sm', ta }: Expandable
       </Text>
       {(isClamped || expanded) && (
         <Anchor
+          component="button"
+          type="button"
           size="xs"
           onClick={(e) => {
             e.stopPropagation();
-            e.preventDefault();
             setExpanded((v) => !v);
           }}
         >

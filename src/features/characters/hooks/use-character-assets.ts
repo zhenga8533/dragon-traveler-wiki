@@ -3,20 +3,20 @@ import {
   getCharacterSkillIcon,
   getIllustrations,
   getTalentIcon,
-  type CharacterIllustration,
+  type Illustration,
 } from '@/assets';
 import type { Character } from '@/features/characters/types';
 
 const EMPTY_SKILL_ICONS = new Map<string, string>();
 
 interface UseCharacterAssetsResult {
-  illustrations: CharacterIllustration[];
+  illustrations: Illustration[];
   illustrationsLoading: boolean;
   illustrationsError: string | null;
   talentIcon: string | undefined;
   skillIcons: Map<string, string>;
-  setSelectedIllustration: (illustration: CharacterIllustration | null) => void;
-  activeIllustration: CharacterIllustration | null;
+  setSelectedIllustration: (illustration: Illustration | null) => void;
+  activeIllustration: Illustration | null;
   activeIllustrationIndex: number;
   hasMultipleIllustrations: boolean;
   showPreviousIllustration: () => void;
@@ -27,7 +27,7 @@ export function useCharacterAssets(
   character: Character | null | undefined,
   characterAssetKey?: string
 ): UseCharacterAssetsResult {
-  const [illustrations, setIllustrations] = useState<CharacterIllustration[]>(
+  const [illustrations, setIllustrations] = useState<Illustration[]>(
     []
   );
   const [illustrationsLoading, setIllustrationsLoading] = useState(false);
@@ -35,7 +35,7 @@ export function useCharacterAssets(
     null
   );
   const [selectedIllustration, setSelectedIllustration] =
-    useState<CharacterIllustration | null>(null);
+    useState<Illustration | null>(null);
   const [talentIcon, setTalentIcon] = useState<string | undefined>();
   const [skillIcons, setSkillIcons] = useState<Map<string, string>>(new Map());
 

@@ -1,4 +1,4 @@
-﻿import type { CharacterIllustration } from '@/assets';
+﻿import type { Illustration } from '@/assets';
 import { GlobalBadge } from '@/components';
 import LastUpdated from '@/components/common/LastUpdated';
 import Breadcrumbs from '@/components/layout/Breadcrumbs';
@@ -23,7 +23,7 @@ import CharacterPortrait from './CharacterPortrait';
 
 interface CharacterPageHeroSectionProps {
   character: Character;
-  activeIllustration: CharacterIllustration | null;
+  activeIllustration: Illustration | null;
   assetKey?: string;
   isNew?: boolean;
 }

@@ -28,7 +28,7 @@ import {
 	IoExpand,
 	IoFilm,
 } from 'react-icons/io5';
-import type { CharacterIllustration } from '@/assets';
+import type { Illustration } from '@/assets';
 import { getCardHoverProps } from '@/constants/styles';
 import { TRANSITION } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
@@ -48,21 +48,21 @@ type TooltipInteractionProps = {
 interface IllustrationPreviewModalProps {
 	opened: boolean;
 	onClose: () => void;
-	characterName: string;
-	illustrations: CharacterIllustration[];
-	activeIllustration: CharacterIllustration | null;
+	entityName: string;
+	illustrations: Illustration[];
+	activeIllustration: Illustration | null;
 	activeIllustrationIndex: number;
 	hasMultipleIllustrations: boolean;
 	showPreviousIllustration: () => void;
 	showNextIllustration: () => void;
-	onSelectIllustration: (illustration: CharacterIllustration) => void;
+	onSelectIllustration: (illustration: Illustration) => void;
 	tooltipProps: TooltipInteractionProps;
 }
 
 export default function IllustrationPreviewModal({
 	opened,
 	onClose,
-	characterName,
+	entityName,
 	illustrations,
 	activeIllustration,
 	activeIllustrationIndex,
@@ -170,13 +170,13 @@ export default function IllustrationPreviewModal({
 			{activeIllustration && (
 				<Stack gap="md">
 					<VisuallyHidden role="status" aria-live="polite" aria-atomic="true">
-						{`Illustration ${activeIllustrationIndex + 1} of ${illustrations.length}: ${activeIllustrationName ?? characterName}`}
+						{`Illustration ${activeIllustrationIndex + 1} of ${illustrations.length}: ${activeIllustrationName ?? entityName}`}
 					</VisuallyHidden>
 
 					<Group justify="space-between" align="center">
 						<Group gap="sm" align="center">
 							<Text fw={600} size="lg">
-								{activeIllustrationName ?? characterName}
+								{activeIllustrationName ?? entityName}
 							</Text>
 							{activeIllustrationIndex >= 0 && (
 								<Badge variant="light" color="gray">
@@ -249,7 +249,7 @@ export default function IllustrationPreviewModal({
 						) : (
 							<SafeImage
 								src={activeIllustration.src}
-								alt={`${characterName} - ${activeIllustration.name}`}
+								alt={`${entityName} - ${activeIllustration.name}`}
 								fit="contain"
 								mah={isFullscreen ? '100dvh' : '70vh'}
 								radius={isFullscreen ? 0 : 'lg'}

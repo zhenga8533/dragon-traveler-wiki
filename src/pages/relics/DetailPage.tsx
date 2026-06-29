@@ -25,7 +25,7 @@ import {
 } from '@/utils/entity-slug';
 import IllustrationPreviewCard from '@/components/common/IllustrationPreviewCard';
 import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
-import type { CharacterIllustration } from '@/assets';
+import type { Illustration } from '@/assets';
 import {
   Badge,
   Box,
@@ -192,8 +192,8 @@ export default function OracleScrollPage() {
         <IllustrationPreviewModal
           opened={previewOpen}
           onClose={() => setPreviewOpen(false)}
-          characterName={decodedScrollName}
-          illustrations={[{ name: decodedScrollName, src: illustrationSrc, type: 'video' } satisfies CharacterIllustration]}
+          entityName={decodedScrollName}
+          illustrations={[{ name: decodedScrollName, src: illustrationSrc, type: 'video' } satisfies Illustration]}
           activeIllustration={{ name: decodedScrollName, src: illustrationSrc, type: 'video' }}
           activeIllustrationIndex={0}
           hasMultipleIllustrations={false}

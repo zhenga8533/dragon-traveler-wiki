@@ -1,5 +1,5 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
-import { getWyrmIcon, getWyrmIllustration, getWyrmPortrait, type CharacterIllustration } from '@/assets';
+import { getWyrmIcon, getWyrmIllustration, getWyrmPortrait, type Illustration } from '@/assets';
 import IllustrationPreviewCard from '@/components/common/IllustrationPreviewCard';
 import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
 import ChangeHistory from '@/components/common/ChangeHistory';
@@ -209,8 +209,8 @@ export default function WyrmPage() {
                   <IllustrationPreviewModal
                     opened={previewOpen}
                     onClose={() => setPreviewOpen(false)}
-                    characterName={wyrm.name}
-                    illustrations={[{ name: wyrm.name, src: illustrationSrc, type: 'image' } satisfies CharacterIllustration]}
+                    entityName={wyrm.name}
+                    illustrations={[{ name: wyrm.name, src: illustrationSrc, type: 'image' } satisfies Illustration]}
                     activeIllustration={{ name: wyrm.name, src: illustrationSrc, type: 'image' }}
                     activeIllustrationIndex={0}
                     hasMultipleIllustrations={false}

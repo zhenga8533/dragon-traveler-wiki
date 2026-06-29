@@ -233,7 +233,7 @@ export default function CharacterPage() {
         <IllustrationPreviewModal
           opened={previewOpen}
           onClose={() => setPreviewOpen(false)}
-          characterName={character.name}
+          entityName={character.name}
           illustrations={illustrations}
           activeIllustration={activeIllustration}
           activeIllustrationIndex={activeIllustrationIndex}
