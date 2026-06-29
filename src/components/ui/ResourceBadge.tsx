@@ -29,12 +29,12 @@ export default function ResourceBadge({
   const { resources } = useContext(ResourcesContext);
 
   const resource = resources.find(
-    (r) => normalizeName(r.name) === normalizeName(name)
+    (r) => r.slug === name || normalizeName(r.name) === normalizeName(name)
   );
 
   const iconSrc = resource ? getResourceIcon(resource.slug, resource.category) : undefined;
   const iconSize = size === 'xs' ? IMAGE_SIZE.ICON_XS : IMAGE_SIZE.ICON_SM;
-  const label = `${displayName ?? name}${quantity != null ? ` x${quantity.toLocaleString()}` : ''}`;
+  const label = `${displayName ?? resource?.name ?? name}${quantity != null ? ` x${quantity.toLocaleString()}` : ''}`;
 
   return (
     <IconBadge
