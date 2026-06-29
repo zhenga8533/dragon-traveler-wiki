@@ -1,4 +1,3 @@
-import SafeImage from '@/components/ui/SafeImage';
 import {
   getArtifactIcon,
   getGearIcon,
@@ -11,20 +10,21 @@ import {
   getWyrmPortrait,
   getWyrmspellIcon,
 } from '@/assets';
+import SafeImage from '@/components/ui/SafeImage';
 import { normalizeContentType } from '@/constants/content-types';
-import { FACTION_SLUG_TO_NAME } from '@/types/faction';
-import { IMAGE_SIZE, TRANSITION } from '@/constants/ui';
+import { IMAGE_SIZE, STORAGE_KEY, TRANSITION } from '@/constants/ui';
 import { SearchDataContext } from '@/contexts';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
 import { useGradientAccent, useIsMobile, useMobileTooltip } from '@/hooks';
+import { FACTION_SLUG_TO_NAME } from '@/types/faction';
 import { isCodeActive } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { isGameEventActive } from '@/utils/event-utils';
+import { OPEN_GLOBAL_SEARCH_EVENT } from '@/utils/global-search-events';
 import {
   ActionIcon,
   Alert,
-  Badge,
   Box,
   Group,
   Kbd,
@@ -38,7 +38,14 @@ import {
 import { useDebouncedValue, useDisclosure, useHotkeys } from '@mantine/hooks';
 import Fuse from 'fuse.js';
 import type { ReactNode } from 'react';
-import { Fragment, useContext, useEffect, useMemo, useRef, useState } from 'react';
+import {
+  Fragment,
+  useContext,
+  useEffect,
+  useMemo,
+  useRef,
+  useState,
+} from 'react';
 import type { IconType } from 'react-icons';
 import {
   IoArrowBack,
@@ -56,9 +63,9 @@ import {
   IoSearch,
   IoShieldOutline,
   IoSparklesOutline,
+  IoTimeOutline,
 } from 'react-icons/io5';
 import { useNavigate } from 'react-router-dom';
-import { OPEN_GLOBAL_SEARCH_EVENT } from '@/utils/global-search-events';
 
 type SearchResult = {
   type:
@@ -196,24 +203,34 @@ const PAGES = [
   },
 ];
 
-const ENTITY_HINTS = [
-  { label: 'Characters', icon: IoPersonOutline, color: 'blue' },
-  { label: 'Artifacts', icon: IoDiamondOutline, color: 'teal' },
-  { label: 'Gear', icon: IoShieldOutline, color: 'teal' },
-  { label: 'Noble Phantasms', icon: IoFlashOutline, color: 'teal' },
-  { label: 'Relics', icon: IoDiamondOutline, color: 'violet' },
-  { label: 'Howlkins', icon: IoPawOutline, color: 'orange' },
-  { label: 'Wyrms', icon: IoFlameOutline, color: 'red' },
-  { label: 'Wyrmspells', icon: IoFlameOutline, color: 'indigo' },
-  { label: 'Subclasses', icon: IoGridOutline, color: 'grape' },
-  { label: 'Status Effects', icon: IoSparklesOutline, color: 'cyan' },
-  { label: 'Resources', icon: IoCubeOutline, color: 'teal' },
-  { label: 'Teams', icon: IoPeopleOutline, color: 'green' },
-  { label: 'Events', icon: IoCalendarOutline, color: 'green' },
-  { label: 'Codes', icon: IoFlashOutline, color: 'cyan' },
-  { label: 'Tier Lists', icon: IoDocumentTextOutline, color: 'pink' },
-  { label: 'Pages & Guides', icon: IoDocumentTextOutline, color: 'gray' },
-] as const;
+const MAX_RECENT = 5;
+
+function loadRecentSearches(): string[] {
+  try {
+    const raw = localStorage.getItem(STORAGE_KEY.RECENT_SEARCHES);
+    const parsed = raw ? JSON.parse(raw) : [];
+    return Array.isArray(parsed)
+      ? parsed.filter((s): s is string => typeof s === 'string')
+      : [];
+  } catch {
+    return [];
+  }
+}
+
+function saveRecentSearch(query: string, prev: string[]): string[] {
+  const trimmed = query.trim();
+  if (!trimmed) return prev;
+  const next = [trimmed, ...prev.filter((s) => s !== trimmed)].slice(
+    0,
+    MAX_RECENT
+  );
+  try {
+    localStorage.setItem(STORAGE_KEY.RECENT_SEARCHES, JSON.stringify(next));
+  } catch {
+    /* ignore */
+  }
+  return next;
+}
 
 // PAGES Fuse index is module-level — the list never changes at runtime.
 const PAGE_FUSE = new Fuse(PAGES, {
@@ -243,7 +260,11 @@ const CATEGORY_LABELS: Record<SearchResult['type'], string> = {
 
 const MAX_RESULTS = 30;
 
-function searchPath(path: string, query: string, params?: Record<string, string>) {
+function searchPath(
+  path: string,
+  query: string,
+  params?: Record<string, string>
+) {
   const searchParams = new URLSearchParams({ ...params, search: query });
   return `${path}?${searchParams.toString()}`;
 }
@@ -266,7 +287,12 @@ function rankAndLimitResults(results: SearchResult[], query: string) {
   }
 
   return [...groups.values()]
-    .map((group) => group.sort((a, b) => titleMatchRank(a.title, query) - titleMatchRank(b.title, query)))
+    .map((group) =>
+      group.sort(
+        (a, b) =>
+          titleMatchRank(a.title, query) - titleMatchRank(b.title, query)
+      )
+    )
     .sort(
       (a, b) =>
         titleMatchRank(a[0].title, query) - titleMatchRank(b[0].title, query)
@@ -290,6 +316,9 @@ function SearchModalContent({
   const [query, setQuery] = useState('');
   const [debouncedQuery] = useDebouncedValue(query, 150);
   const [selectedIndex, setSelectedIndex] = useState(0);
+  const [recentSearches, setRecentSearches] = useState<string[]>(() =>
+    loadRecentSearches()
+  );
   const resultRefs = useRef<Array<HTMLButtonElement | null>>([]);
   const navigate = useNavigate();
   const { accent } = useGradientAccent();
@@ -551,8 +580,10 @@ function SearchModalContent({
           .slice(0, 5)
           .map((r) => {
             const hasIcon = r.item.icon !== false;
-            const iconSrc = hasIcon ? getStatusEffectIcon(r.item.slug, r.item.type) : undefined;
-            
+            const iconSrc = hasIcon
+              ? getStatusEffectIcon(r.item.slug, r.item.type)
+              : undefined;
+
             return {
               type: 'status-effect' as const,
               title: r.item.name,
@@ -655,7 +686,8 @@ function SearchModalContent({
             title: r.item.name,
             subtitle: `${r.item.category} • ${r.item.quality}`,
             path: searchPath('/resources', r.item.name),
-            icon: getResourceIcon(r.item.slug, r.item.category) ?? IoCubeOutline,
+            icon:
+              getResourceIcon(r.item.slug, r.item.category) ?? IoCubeOutline,
             color: 'teal',
           }))
       );
@@ -769,10 +801,15 @@ function SearchModalContent({
 
   useEffect(() => {
     if (!opened || isSearchPending) return;
-    resultRefs.current[activeSelectedIndex]?.scrollIntoView({ block: 'nearest' });
+    resultRefs.current[activeSelectedIndex]?.scrollIntoView({
+      block: 'nearest',
+    });
   }, [activeSelectedIndex, isSearchPending, opened]);
 
   const handleSelect = (result: SearchResult) => {
+    if (query.trim()) {
+      setRecentSearches((prev) => saveRecentSearch(query, prev));
+    }
     navigate(result.path);
     handleClose();
   };
@@ -814,7 +851,11 @@ function SearchModalContent({
       {trigger ? (
         trigger({ open })
       ) : isMobile ? (
-        <Tooltip label={searchShortcutHint} {...mobileTooltip} position="bottom">
+        <Tooltip
+          label={searchShortcutHint}
+          {...mobileTooltip}
+          position="bottom"
+        >
           <ActionIcon
             variant="default"
             color={accent.primary}
@@ -971,194 +1012,276 @@ function SearchModalContent({
           {query && !loading && errors.length > 0 && (
             <Box px="md" pt="xs" role="status">
               <Alert color="orange" variant="light" py="xs" px="sm">
-                <Text size="xs">Some search sources could not be loaded; results may be incomplete.</Text>
+                <Text size="xs">
+                  Some search sources could not be loaded; results may be
+                  incomplete.
+                </Text>
               </Alert>
             </Box>
           )}
 
-          {query && !loading && !isSearchPending && searchResults.length === 0 && (
-            <Box p={isMobile ? 'lg' : 'xl'} ta="center">
-              <Text c="dimmed" size="sm">
-                No results found for "{query}"
-              </Text>
-            </Box>
-          )}
-
-          {!isSearchPending && searchResults.length > 0 && (
-            <>
-            <Stack
-              id="global-search-results"
-              role="listbox"
-              aria-label="Search results"
-              gap={0}
-              style={{
-                maxHeight: isMobile ? 'calc(100dvh - 116px)' : '500px',
-                overflowY: 'auto',
-                paddingBottom: 6,
-              }}
-            >
-              {searchResults.map((result, index) => {
-                const isSelected = index === activeSelectedIndex;
-                const isNewCategory =
-                  index === 0 || searchResults[index - 1].type !== result.type;
-                const isCharacterResult = result.type === 'character';
-                const isPortraitResult = result.type === 'character' || result.type === 'wyrm';
-                const rowMinHeight = isMobile ? 56 : 52;
-                const showEnterHint = isSelected && !isMobile;
-                return (
-                  <Fragment key={`${result.type}-${result.title}-${index}`}>
-                    {isNewCategory && (
-                      <Box
-                        px="md"
-                        pb={5}
-                        pt={index === 0 ? 8 : 12}
-                        style={{
-                          borderTop:
-                            index === 0
-                              ? 'none'
-                              : '1px solid var(--mantine-color-default-border)',
-                        }}
-                      >
-                        <Text
-                          size="xs"
-                          c={result.color}
-                          fw={600}
-                          tt="uppercase"
-                          style={{ letterSpacing: '0.04em', lineHeight: 1.25 }}
-                        >
-                          {CATEGORY_LABELS[result.type]}
-                        </Text>
-                      </Box>
-                    )}
-                    <UnstyledButton
-                      ref={(node) => {
-                        resultRefs.current[index] = node;
-                      }}
-                      id={`global-search-result-${index}`}
-                      role="option"
-                      aria-selected={isSelected}
-                      onClick={() => handleSelect(result)}
-                      onMouseEnter={() => setSelectedIndex(index)}
-                      py={isMobile ? 10 : 8}
-                      px="md"
-                      style={{
-                        display: 'block',
-                        width: '100%',
-                        minHeight: rowMinHeight,
-                        backgroundColor: isSelected
-                          ? 'var(--mantine-color-default-hover)'
-                          : 'transparent',
-                        transition: `background-color ${TRANSITION.FAST}`,
-                      }}
-                    >
-                      <Group wrap="nowrap" gap={isMobile ? 'sm' : 'md'}>
-                        <Box
-                          style={{
-                            width: 36,
-                            height: 36,
-                            borderRadius: isPortraitResult ? '50%' : '8px',
-                            display: 'flex',
-                            alignItems: 'center',
-                            justifyContent: 'center',
-                            backgroundColor: isPortraitResult
-                              ? 'transparent'
-                              : `var(--mantine-color-${result.color}-1)`,
-                            overflow: isPortraitResult ? 'visible' : 'hidden',
-                            flexShrink: 0,
-                          }}
-                        >
-                          {isCharacterResult ? (
-                            <CharacterPortrait
-                              name={result.title}
-                              size={36}
-                              borderWidth={0}
-                              routePath={result.path}
-                            />
-                          ) : typeof result.icon === 'string' ? (
-                            <SafeImage
-                              src={result.icon}
-                              alt={result.title}
-                              fit={isPortraitResult ? 'cover' : 'contain'}
-                              style={{
-                                width: '100%',
-                                height: '100%',
-                                objectPosition: isPortraitResult ? 'top center' : 'center',
-                                padding: isPortraitResult ? 0 : 4,
-                              }}
-                            />
-                          ) : (
-                            (() => {
-                              const Icon = result.icon as IconType;
-                              return <Icon size={20} color={`var(--mantine-color-${result.color}-6)`} />;
-                            })()
-                          )}
-                        </Box>
-                        <div style={{ flex: 1, minWidth: 0 }}>
-                          <Text
-                            size="sm"
-                            fw={500}
-                            truncate
-                            style={{ lineHeight: 1.2 }}
-                          >
-                            {result.title}
-                          </Text>
-                          <Text
-                            size="xs"
-                            c="dimmed"
-                            truncate
-                            style={{
-                              visibility: result.subtitle
-                                ? 'visible'
-                                : 'hidden',
-                              lineHeight: 1.2,
-                              marginTop: 2,
-                            }}
-                          >
-                            {result.subtitle ?? '\u00a0'}
-                          </Text>
-                        </div>
-                        <Text
-                          size="xs"
-                          c="dimmed"
-                          style={{
-                            visibility: showEnterHint ? 'visible' : 'hidden',
-                            width: isMobile ? 0 : 28,
-                            flexShrink: 0,
-                          }}
-                        >
-                          {!isMobile && <Kbd size="xs">↵</Kbd>}
-                        </Text>
-                      </Group>
-                    </UnstyledButton>
-                  </Fragment>
-                );
-              })}
-            </Stack>
-            {searchResults.length === MAX_RESULTS && (
-              <Box
-                py="xs"
-                ta="center"
-                style={{ borderTop: '1px solid var(--mantine-color-default-border)' }}
-              >
-                <Text size="xs" c="dimmed">
-                  Showing top {MAX_RESULTS} results · try a more specific search
+          {query &&
+            !loading &&
+            !isSearchPending &&
+            searchResults.length === 0 && (
+              <Box p={isMobile ? 'lg' : 'xl'} ta="center">
+                <Text c="dimmed" size="sm">
+                  No results found for "{query}"
                 </Text>
               </Box>
             )}
+
+          {!isSearchPending && searchResults.length > 0 && (
+            <>
+              <Stack
+                id="global-search-results"
+                role="listbox"
+                aria-label="Search results"
+                gap={0}
+                style={{
+                  maxHeight: isMobile ? 'calc(100dvh - 116px)' : '500px',
+                  overflowY: 'auto',
+                  paddingBottom: 6,
+                }}
+              >
+                {searchResults.map((result, index) => {
+                  const isSelected = index === activeSelectedIndex;
+                  const isNewCategory =
+                    index === 0 ||
+                    searchResults[index - 1].type !== result.type;
+                  const isCharacterResult = result.type === 'character';
+                  const isPortraitResult =
+                    result.type === 'character' || result.type === 'wyrm';
+                  const rowMinHeight = isMobile ? 56 : 52;
+                  const showEnterHint = isSelected && !isMobile;
+                  return (
+                    <Fragment key={`${result.type}-${result.title}-${index}`}>
+                      {isNewCategory && (
+                        <Box
+                          px="md"
+                          pb={5}
+                          pt={index === 0 ? 8 : 12}
+                          style={{
+                            borderTop:
+                              index === 0
+                                ? 'none'
+                                : '1px solid var(--mantine-color-default-border)',
+                          }}
+                        >
+                          <Text
+                            size="xs"
+                            c={result.color}
+                            fw={600}
+                            tt="uppercase"
+                            style={{
+                              letterSpacing: '0.04em',
+                              lineHeight: 1.25,
+                            }}
+                          >
+                            {CATEGORY_LABELS[result.type]}
+                          </Text>
+                        </Box>
+                      )}
+                      <UnstyledButton
+                        ref={(node) => {
+                          resultRefs.current[index] = node;
+                        }}
+                        id={`global-search-result-${index}`}
+                        role="option"
+                        aria-selected={isSelected}
+                        onClick={() => handleSelect(result)}
+                        onMouseEnter={() => setSelectedIndex(index)}
+                        py={isMobile ? 10 : 8}
+                        px="md"
+                        style={{
+                          display: 'block',
+                          width: '100%',
+                          minHeight: rowMinHeight,
+                          backgroundColor: isSelected
+                            ? 'var(--mantine-color-default-hover)'
+                            : 'transparent',
+                          transition: `background-color ${TRANSITION.FAST}`,
+                        }}
+                      >
+                        <Group wrap="nowrap" gap={isMobile ? 'sm' : 'md'}>
+                          <Box
+                            style={{
+                              width: 36,
+                              height: 36,
+                              borderRadius: isPortraitResult ? '50%' : '8px',
+                              display: 'flex',
+                              alignItems: 'center',
+                              justifyContent: 'center',
+                              backgroundColor: isPortraitResult
+                                ? 'transparent'
+                                : `var(--mantine-color-${result.color}-1)`,
+                              overflow: isPortraitResult ? 'visible' : 'hidden',
+                              flexShrink: 0,
+                            }}
+                          >
+                            {isCharacterResult ? (
+                              <CharacterPortrait
+                                name={result.title}
+                                size={36}
+                                borderWidth={0}
+                                routePath={result.path}
+                              />
+                            ) : typeof result.icon === 'string' ? (
+                              <SafeImage
+                                src={result.icon}
+                                alt={result.title}
+                                fit={isPortraitResult ? 'cover' : 'contain'}
+                                style={{
+                                  width: '100%',
+                                  height: '100%',
+                                  objectPosition: isPortraitResult
+                                    ? 'top center'
+                                    : 'center',
+                                  padding: isPortraitResult ? 0 : 4,
+                                }}
+                              />
+                            ) : (
+                              (() => {
+                                const Icon = result.icon as IconType;
+                                return (
+                                  <Icon
+                                    size={20}
+                                    color={`var(--mantine-color-${result.color}-6)`}
+                                  />
+                                );
+                              })()
+                            )}
+                          </Box>
+                          <div style={{ flex: 1, minWidth: 0 }}>
+                            <Text
+                              size="sm"
+                              fw={500}
+                              truncate
+                              style={{ lineHeight: 1.2 }}
+                            >
+                              {result.title}
+                            </Text>
+                            <Text
+                              size="xs"
+                              c="dimmed"
+                              truncate
+                              style={{
+                                visibility: result.subtitle
+                                  ? 'visible'
+                                  : 'hidden',
+                                lineHeight: 1.2,
+                                marginTop: 2,
+                              }}
+                            >
+                              {result.subtitle ?? '\u00a0'}
+                            </Text>
+                          </div>
+                          <Text
+                            size="xs"
+                            c="dimmed"
+                            style={{
+                              visibility: showEnterHint ? 'visible' : 'hidden',
+                              width: isMobile ? 0 : 28,
+                              flexShrink: 0,
+                            }}
+                          >
+                            {!isMobile && <Kbd size="xs">↵</Kbd>}
+                          </Text>
+                        </Group>
+                      </UnstyledButton>
+                    </Fragment>
+                  );
+                })}
+              </Stack>
+              {searchResults.length === MAX_RESULTS && (
+                <Box
+                  py="xs"
+                  ta="center"
+                  style={{
+                    borderTop: '1px solid var(--mantine-color-default-border)',
+                  }}
+                >
+                  <Text size="xs" c="dimmed">
+                    Showing top {MAX_RESULTS} results · try a more specific
+                    search
+                  </Text>
+                </Box>
+              )}
             </>
           )}
 
           {!query && (
-            <Stack p={isMobile ? 'lg' : 'xl'} gap="md" align="center">
-              <Group gap="xs" justify="center" wrap="wrap" style={{ maxWidth: 440 }}>
-                {ENTITY_HINTS.map(({ label, icon: Icon, color }) => (
-                  <Badge key={label} variant="light" color={color} size="xs" leftSection={<Icon size={9} />}>
-                    {label}
-                  </Badge>
-                ))}
-              </Group>
+            <Stack p={isMobile ? 'lg' : 'xl'} gap="md">
+              <Text size="xs" c="dimmed" ta="center">
+                Search characters, gear, codes, wyrms, and more…
+              </Text>
+              {recentSearches.length > 0 && (
+                <Stack gap={0}>
+                  <Group justify="space-between" align="center" mb={4}>
+                    <Text
+                      size="xs"
+                      fw={600}
+                      c="dimmed"
+                      tt="uppercase"
+                      style={{ letterSpacing: '0.04em' }}
+                    >
+                      Recent
+                    </Text>
+                    <UnstyledButton
+                      onClick={() => {
+                        setRecentSearches([]);
+                        try {
+                          localStorage.removeItem(STORAGE_KEY.RECENT_SEARCHES);
+                        } catch {
+                          /* ignore */
+                        }
+                      }}
+                      style={{
+                        color: 'var(--mantine-color-dimmed)',
+                        fontSize: 'var(--mantine-font-size-xs)',
+                      }}
+                    >
+                      Clear
+                    </UnstyledButton>
+                  </Group>
+                  {recentSearches.map((term) => (
+                    <UnstyledButton
+                      key={term}
+                      onClick={() => handleQueryChange(term)}
+                      py={8}
+                      px="xs"
+                      style={{
+                        display: 'flex',
+                        alignItems: 'center',
+                        gap: 10,
+                        borderRadius: 'var(--mantine-radius-sm)',
+                        width: '100%',
+                      }}
+                      styles={{
+                        root: {
+                          '&:hover': {
+                            backgroundColor:
+                              'var(--mantine-color-default-hover)',
+                          },
+                        },
+                      }}
+                    >
+                      <IoTimeOutline
+                        size={14}
+                        color="var(--mantine-color-dimmed)"
+                        style={{ flexShrink: 0 }}
+                      />
+                      <Text size="sm" c="dimmed" truncate style={{ flex: 1 }}>
+                        {term}
+                      </Text>
+                    </UnstyledButton>
+                  ))}
+                </Stack>
+              )}
               <Group justify="center" gap="xs">
-                <Text size="xs" c="dimmed">Navigate with</Text>
+                <Text size="xs" c="dimmed">
+                  Navigate with
+                </Text>
                 <Kbd size="xs">↑</Kbd>
                 <Kbd size="xs">↓</Kbd>
               </Group>

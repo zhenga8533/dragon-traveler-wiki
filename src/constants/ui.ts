@@ -161,4 +161,5 @@ export const STORAGE_KEY = {
   UI_GRAY_UNOWNED: 'ui:grayUnowned',
   UI_SHOW_CHARACTER_TIERS: 'ui:showCharacterTiers',
   BUBBLE_CHART_CONFIG: 'characters:bubbleChartConfig',
+  RECENT_SEARCHES: 'search:recent',
 } as const;
