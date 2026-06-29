@@ -114,6 +114,7 @@ export function buildPreferredCharacterByNameMap(
     const keys = new Set([
       candidate.name,
       normalizeCharacterNameKey(candidate.name),
+      toEntitySlug(candidate.name),
     ]);
 
     for (const key of keys) {

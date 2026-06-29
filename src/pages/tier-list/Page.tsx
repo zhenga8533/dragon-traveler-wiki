@@ -478,6 +478,7 @@ export default function TierList() {
                 onRequestDelete={setPendingDeleteSavedTierList}
                 onGoToBuilder={() => setSearchParams({ mode: 'builder' })}
                 characterFilter={matchesCharacterViewFilters}
+                hasCharacterFilters={hasCharacterFilters}
               />
             )}
 

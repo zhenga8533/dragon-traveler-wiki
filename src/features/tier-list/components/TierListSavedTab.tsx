@@ -31,6 +31,7 @@ interface TierListSavedTabProps {
 	onRequestDelete: (name: string) => void;
 	onGoToBuilder: () => void;
 	characterFilter: (character: Character) => boolean;
+	hasCharacterFilters: boolean;
 }
 
 export default function TierListSavedTab({
@@ -48,6 +49,7 @@ export default function TierListSavedTab({
 	onRequestDelete,
 	onGoToBuilder,
 	characterFilter,
+	hasCharacterFilters,
 }: TierListSavedTabProps) {
 	const isMobile = useIsMobile();
 	const { accent } = useGradientAccent();
@@ -140,7 +142,7 @@ export default function TierListSavedTab({
 								exportRefCallback={(node) =>
 									exportRefCallback(tierList.name, node)
 								}
-								characterFilter={characterFilter}
+								characterFilter={hasCharacterFilters ? characterFilter : undefined}
 							/>
 						</Tabs.Panel>
 					);
