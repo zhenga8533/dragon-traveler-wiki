@@ -72,6 +72,9 @@ export default function RouteMeta() {
     upsertMetaTag('property', 'og:image:height', DEFAULT_IMAGE_HEIGHT);
     upsertMetaTag('property', 'og:image:alt', DEFAULT_IMAGE_ALT);
 
+    const secureUrl = document.querySelector<HTMLMetaElement>('meta[property="og:image:secure_url"]');
+    secureUrl?.remove();
+
     upsertMetaTag('name', 'twitter:card', 'summary_large_image');
     upsertMetaTag('name', 'twitter:title', pageTitle);
     upsertMetaTag('name', 'twitter:description', routeMeta.description);
