@@ -16,7 +16,6 @@ import {
   toCharacterReferenceFromKey,
 } from '@/features/characters/utils/character-route';
 import { normalizeNote } from '@/utils/normalize-note';
-import { toEntitySlug } from '@/utils/entity-slug';
 import {
   getPastedTeamPatch,
   getValidRows,
@@ -223,7 +222,7 @@ function toBuilderState(
   const parsedOverdriveEntries: Array<{ slotIndex: number; order: number }> =
     [];
 
-  for (const member of (data.member_groups?.[0]?.members ?? [])) {
+  for (const member of data.members) {
     const characterKey = getCharacterKeyFromReference(
       member.character_slug,
       member.character_quality
@@ -262,7 +261,7 @@ function toBuilderState(
   nextState.overdriveEnabled = nextState.overdriveSequence.length > 0;
 
   const seenBenchKeys = new Set<string>();
-  const normalizedBenchEntries = (data.member_groups?.[0]?.bench || [])
+  const normalizedBenchEntries = (data.bench || [])
     .map((benchEntry) => {
       const benchName = getTeamBenchEntryName(benchEntry);
       const benchQuality = getTeamBenchEntryQuality(benchEntry);
@@ -459,34 +458,27 @@ export function useTeamBuilderState({
       });
     }
 
-    const teamName = deferredName || DEFAULT_TEAM_NAME;
-
-    const benchMembers = state.bench.map((characterKey) => {
-      const reference = toCharacterReferenceFromKey(
-        characterKey,
-        charMap,
-        characterByIdentity
-      );
-      const note = normalizeNote(state.benchNotes[characterKey]);
-      return note ? { ...reference, note } : reference;
-    });
-
-    const group = {
-      label: 'default',
-      members,
-      ...(benchMembers.length > 0 ? { bench: benchMembers } : {}),
-    };
-
     const nextTeam: Team = {
-      name: teamName,
-      slug: toEntitySlug(teamName),
+      name: deferredName || DEFAULT_TEAM_NAME,
       author: deferredAuthor || DEFAULT_TEAM_AUTHOR,
       content_type: deferredContentType,
       description: deferredDescription,
       faction: deferredFaction || DEFAULT_TEAM_FACTION,
-      member_groups: [group],
+      members,
       last_updated: 0,
     };
+
+    if (state.bench.length > 0) {
+      nextTeam.bench = state.bench.map((characterKey) => {
+        const reference = toCharacterReferenceFromKey(
+          characterKey,
+          charMap,
+          characterByIdentity
+        );
+        const note = normalizeNote(state.benchNotes[characterKey]);
+        return note ? { ...reference, note } : reference;
+      });
+    }
 
     const hasWyrmspells = Object.values(state.teamWyrmspells).some(Boolean);
     if (hasWyrmspells) {

@@ -28,21 +28,14 @@ export interface TeamWyrmspells {
   dragons_call?: string;
 }
 
-export interface TeamMemberGroup {
-  label: string;
-  description?: string;
-  members: TeamMember[];
-  bench?: TeamBenchMember[];
-}
-
 export interface Team {
   name: string;
-  slug: string;
   author: string;
   content_type: ContentType;
   description: string;
   faction: FactionSlug;
-  member_groups: TeamMemberGroup[];
+  members: TeamMember[];
+  bench?: TeamBenchMember[];
   wyrmspells?: TeamWyrmspells;
-  last_updated?: number;
+  last_updated: number;
 }

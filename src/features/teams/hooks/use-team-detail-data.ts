@@ -73,8 +73,7 @@ export function useTeamDetailData({
       });
     }
 
-    const firstGroupMembers = team.member_groups[0]?.members ?? [];
-    const roster = firstGroupMembers
+    const roster = team.members
       .map((member) =>
         resolveCharacterByNameAndQuality(
           member.character_slug,
@@ -89,7 +88,7 @@ export function useTeamDetailData({
       roster,
       faction: team.faction,
       contentType: normalizeContentType(team.content_type, 'All'),
-      overdriveCount: firstGroupMembers.filter(
+      overdriveCount: team.members.filter(
         (member) => member.overdrive_order != null
       ).length,
       teamWyrmspells: team.wyrmspells || {},

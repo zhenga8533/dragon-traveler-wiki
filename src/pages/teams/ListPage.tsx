@@ -125,7 +125,7 @@ export default function Teams() {
   const [savedTeams, setSavedTeams] = useState<Team[]>(() =>
     mode === 'saved'
       ? loadSavedFromStorage<Team>(STORAGE_KEY.TEAMS_MY_SAVED, (v) =>
-          Array.isArray(v.member_groups) || Array.isArray((v as { members?: unknown }).members), migrateStoredTeam
+          Array.isArray(v.members), migrateStoredTeam
         )
       : []
   );
@@ -328,7 +328,7 @@ export default function Teams() {
                   setSavedTeams(
                     loadSavedFromStorage<Team>(
                       STORAGE_KEY.TEAMS_MY_SAVED,
-                      (v) => Array.isArray(v.member_groups) || Array.isArray((v as { members?: unknown }).members),
+                      (v) => Array.isArray(v.members),
                       migrateStoredTeam
                     )
                   );

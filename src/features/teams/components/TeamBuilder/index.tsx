@@ -1,4 +1,4 @@
-﻿import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import { STORAGE_KEY } from '@/constants/ui';
 import CharacterCard from '@/features/characters/components/CharacterCard';
 import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
@@ -386,7 +386,7 @@ export default function TeamBuilder({
           >
             <Stack gap="md">
               <BattlefieldGrid
-                members={teamData.member_groups?.[0]?.members ?? []}
+                members={teamData.members}
                 charMap={charMap}
                 characterByIdentity={characterByIdentity}
                 getCharacterPath={getCharacterPath}
@@ -396,9 +396,9 @@ export default function TeamBuilder({
                 disableNameClamp
                 desktopMode
               />
-              {(teamData.member_groups?.[0]?.bench?.length ?? 0) > 0 && (
+              {teamData.bench && teamData.bench.length > 0 && (
                 <BenchSection
-                  bench={teamData.member_groups?.[0]?.bench ?? []}
+                  bench={teamData.bench}
                   charMap={charMap}
                   characterByIdentity={characterByIdentity}
                   getCharacterPath={getCharacterPath}

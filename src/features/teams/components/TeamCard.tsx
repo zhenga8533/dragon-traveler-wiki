@@ -140,73 +140,70 @@ export default function TeamCard({
 					</Text>
 				)}
 
-				{/* Member portraits — always show first group for card preview */}
+				{/* Member portraits */}
 				<Paper p="xs" radius="sm" bg="var(--mantine-color-default-hover)">
 					<Stack gap="xs">
-						{team.member_groups.map((group, i) => {
-							const bench = group.bench ?? [];
-							return (
-								<Stack key={i} gap="xs">
-									{i > 0 && <Divider size="xs" />}
-									<Group gap="xs" align="flex-start" wrap="nowrap">
+						<Group gap="xs" align="flex-start" wrap="nowrap">
+							<Badge
+								size="xs"
+								variant="light"
+								color={accent.primary}
+								style={{
+									minWidth: 66,
+									justifyContent: 'center',
+								}}
+							>
+								Main {team.members.length}
+							</Badge>
+							<TeamCharacterAvatars
+								refs={team.members.map((member) => ({
+									name: member.character_slug,
+									quality: member.character_quality,
+								}))}
+								preferredByName={charMap}
+								byIdentity={characterByIdentity}
+								size={isLargeTeamCardLayout ? 64 : 56}
+								layout="wrap"
+								gap={isLargeTeamCardLayout ? 6 : 4}
+								wrap={isLargeTeamCardLayout ? 'nowrap' : 'wrap'}
+								maxVisible={isLargeTeamCardLayout ? 6 : 5}
+							/>
+						</Group>
+						{(team.bench?.length ?? 0) > 0 && (
+							<>
+								<Divider size="xs" />
+								<Group gap="xs" align="flex-start" wrap="nowrap">
+									<Tooltip label="Substitutes — direct replacements for main team members" withArrow maw={200} multiline>
 										<Badge
 											size="xs"
 											variant="light"
-											color={accent.primary}
-											style={{ minWidth: 66, justifyContent: 'center' }}
+											color="gray"
+											style={{
+												minWidth: 66,
+												justifyContent: 'center',
+												cursor: 'default',
+											}}
 										>
-											{team.member_groups.length > 1
-												? group.label || `Build ${i + 1}`
-												: `Main ${group.members.length}`}
+											Subs {team.bench!.length}
 										</Badge>
-										<TeamCharacterAvatars
-											refs={group.members.map((member) => ({
-												name: member.character_slug,
-												quality: member.character_quality,
-											}))}
-											preferredByName={charMap}
-											byIdentity={characterByIdentity}
-											size={isLargeTeamCardLayout ? 64 : 56}
-											layout="wrap"
-											gap={isLargeTeamCardLayout ? 6 : 4}
-											wrap={isLargeTeamCardLayout ? 'nowrap' : 'wrap'}
-											maxVisible={isLargeTeamCardLayout ? 6 : 5}
-										/>
-									</Group>
-									{bench.length > 0 && (
-										<>
-											<Divider size="xs" />
-											<Group gap="xs" align="flex-start" wrap="nowrap">
-												<Tooltip label="Substitutes — direct replacements for main team members" withArrow maw={200} multiline>
-													<Badge
-														size="xs"
-														variant="light"
-														color="gray"
-														style={{ minWidth: 66, justifyContent: 'center', cursor: 'default' }}
-													>
-														Subs {bench.length}
-													</Badge>
-												</Tooltip>
-												<TeamCharacterAvatars
-													refs={bench.map((entry) => ({
-														name: getTeamBenchEntryName(entry),
-														quality: getTeamBenchEntryQuality(entry),
-													}))}
-													preferredByName={charMap}
-													byIdentity={characterByIdentity}
-													size={isLargeTeamCardLayout ? 52 : 44}
-													isSubstitute
-													layout="wrap"
-													gap={isLargeTeamCardLayout ? 6 : 4}
-													wrap={isLargeTeamCardLayout ? 'nowrap' : 'wrap'}
-													maxVisible={isLargeTeamCardLayout ? 6 : 5}
-												/>
-											</Group>
-										</>
-									)}
-								</Stack>
-							);
-						})}
+									</Tooltip>
+									<TeamCharacterAvatars
+										refs={team.bench!.map((entry) => ({
+											name: getTeamBenchEntryName(entry),
+											quality: getTeamBenchEntryQuality(entry),
+										}))}
+										preferredByName={charMap}
+										byIdentity={characterByIdentity}
+										size={isLargeTeamCardLayout ? 52 : 44}
+										isSubstitute
+										layout="wrap"
+										gap={isLargeTeamCardLayout ? 6 : 4}
+										wrap={isLargeTeamCardLayout ? 'nowrap' : 'wrap'}
+										maxVisible={isLargeTeamCardLayout ? 6 : 5}
+									/>
+								</Group>
+							</>
+						)}
 					</Stack>
 				</Paper>
 			</Stack>

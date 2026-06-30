@@ -1,4 +1,4 @@
-import {
+﻿import {
   getArtifactIcon,
   getGearIcon,
   getHowlkinIcon,
@@ -636,7 +636,7 @@ function SearchModalContent({
           .map((r) => ({
             type: 'team' as const,
             title: r.item.name,
-            subtitle: `${r.item.member_groups.reduce((sum, g) => sum + g.members.length, 0)} characters`,
+            subtitle: `${r.item.members.length} characters`,
             path: `/teams/${toEntitySlug(r.item.name)}`,
             icon: IoPeopleOutline,
             color: 'green',

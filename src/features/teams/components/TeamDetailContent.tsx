@@ -1,15 +1,12 @@
-﻿import {
+import {
 	Badge,
 	Box,
 	Button,
 	Group,
-	SegmentedControl,
 	SimpleGrid,
 	Stack,
-	Text,
 	Title,
 } from '@mantine/core';
-import { useState } from 'react';
 import type { RefObject } from 'react';
 import { IoDownload } from 'react-icons/io5';
 import WyrmspellCard from '@/features/wiki/wyrmspells/components/WyrmspellCard';
@@ -76,9 +73,6 @@ export default function TeamDetailContent({
 	onExportAsImage,
 }: TeamDetailContentProps) {
 	const hasWyrmspells = hasTeamWyrmspells(team);
-	const [selectedGroupIndex, setSelectedGroupIndex] = useState(0);
-	const activeGroup = team.member_groups[selectedGroupIndex] ?? team.member_groups[0];
-	const multipleGroups = team.member_groups.length > 1;
 
 	return (
 		<Stack gap="xl">
@@ -125,7 +119,7 @@ export default function TeamDetailContent({
 							Team Composition
 						</Title>
 						<Badge variant="light" color={accentPrimary} size="sm">
-							{activeGroup?.members.length ?? 0} members
+							{team.members.length} members
 						</Badge>
 					</Group>
 					<Button
@@ -139,28 +133,10 @@ export default function TeamDetailContent({
 						Export Image
 					</Button>
 				</Group>
-
-				{multipleGroups && (
-					<SegmentedControl
-						value={String(selectedGroupIndex)}
-						onChange={(val) => setSelectedGroupIndex(Number(val))}
-						data={team.member_groups.map((g, i) => ({
-							label: g.label || `Build ${i + 1}`,
-							value: String(i),
-						}))}
-					/>
-				)}
-
-				{activeGroup?.description && (
-					<Text size="sm" c="dimmed">
-						{activeGroup.description}
-					</Text>
-				)}
-
 				<Box ref={exportRef} style={{ padding: 8 }}>
 					<Stack gap="md">
 						<BattlefieldGrid
-							members={activeGroup?.members ?? []}
+							members={team.members}
 							charMap={charMap}
 							characterByIdentity={characterByIdentity}
 							getCharacterPath={getCharacterPath}
@@ -171,9 +147,9 @@ export default function TeamDetailContent({
 							desktopMode={exporting}
 						/>
 
-						{(activeGroup?.bench?.length ?? 0) > 0 && (
+						{team.bench && team.bench.length > 0 && (
 							<BenchSection
-								bench={activeGroup?.bench ?? []}
+								bench={team.bench}
 								charMap={charMap}
 								characterByIdentity={characterByIdentity}
 								getCharacterPath={getCharacterPath}
@@ -183,6 +159,7 @@ export default function TeamDetailContent({
 								desktopMode={exporting}
 							/>
 						)}
+
 					</Stack>
 				</Box>
 			</Stack>

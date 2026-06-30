@@ -80,61 +80,48 @@ export default function CharacterReferenceSection({
 		const results: TeamInclusion[] = [];
 
 		for (const team of teams) {
-			let foundMain = false;
-			let foundBench = false;
+				const member =
+					team.members?.find(
+						(entry) =>
+							entry.character_slug === character.slug &&
+							(!entry.character_quality ||
+								entry.character_quality === character.quality)
+					) ?? null;
 
-			for (const group of team.member_groups ?? []) {
-				if (!foundMain) {
-					const member =
-						group.members?.find(
-							(entry) =>
-								entry.character_slug === character.slug &&
-								(!entry.character_quality ||
-									entry.character_quality === character.quality)
-						) ?? null;
-
-					if (member) {
-						foundMain = true;
-						results.push({
-							teamName: team.name,
-							role: 'Main',
-							faction: team.faction,
-							contentType: normalizeContentType(team.content_type, 'All'),
-							overdriveOrder: member.overdrive_order,
-							note: member.note?.trim() || null,
-							position: member.position ?? null,
-						});
-					}
+				if (member) {
+					results.push({
+						teamName: team.name,
+						role: 'Main',
+						faction: team.faction,
+						contentType: normalizeContentType(team.content_type, 'All'),
+						overdriveOrder: member.overdrive_order,
+						note: member.note?.trim() || null,
+						position: member.position ?? null,
+					});
 				}
 
-				if (!foundBench) {
-					const benchEntry =
-						group.bench?.find((entry) => {
-							const benchSlug = getTeamBenchEntryName(entry);
-							const benchQuality = getTeamBenchEntryQuality(entry);
-							return (
-								benchSlug === character.slug &&
-								(!benchQuality || benchQuality === character.quality)
-							);
-						}) ?? null;
+				const benchEntry =
+					team.bench?.find((entry) => {
+						const benchSlug = getTeamBenchEntryName(entry);
+						const benchQuality = getTeamBenchEntryQuality(entry);
+						return (
+							benchSlug === character.slug &&
+							(!benchQuality || benchQuality === character.quality)
+						);
+					}) ?? null;
 
-					if (benchEntry) {
-						foundBench = true;
-						const benchNote = getTeamBenchEntryNote(benchEntry) ?? null;
-						results.push({
-							teamName: team.name,
-							role: 'Bench',
-							faction: team.faction,
-							contentType: normalizeContentType(team.content_type, 'All'),
-							overdriveOrder: null,
-							note: benchNote?.trim() || null,
-							position: null,
-						});
-					}
+				if (benchEntry) {
+					const benchNote = getTeamBenchEntryNote(benchEntry) ?? null;
+					results.push({
+						teamName: team.name,
+						role: 'Bench',
+						faction: team.faction,
+						contentType: normalizeContentType(team.content_type, 'All'),
+						overdriveOrder: null,
+						note: benchNote?.trim() || null,
+						position: null,
+					});
 				}
-
-				if (foundMain && foundBench) break;
-			}
 		}
 
 		const roleOrder: Record<TeamInclusion['role'], number> = {
