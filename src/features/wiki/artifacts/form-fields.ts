@@ -17,11 +17,6 @@ export const ARTIFACT_FIELDS: FieldDef[] = [
     options: QUALITY_ORDER,
   },
   {
-    name: 'is_global',
-    label: 'Available on Global server',
-    type: 'boolean',
-  },
-  {
     name: 'lore',
     label: 'Lore',
     type: 'textarea',

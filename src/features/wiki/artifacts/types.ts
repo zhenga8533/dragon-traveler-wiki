@@ -16,7 +16,6 @@ export interface ArtifactTreasure {
 export interface Artifact {
   slug: string;
   name: string;
-  is_global: boolean;
   lore: string;
   quality: Quality;
   effect: ArtifactEffect[];

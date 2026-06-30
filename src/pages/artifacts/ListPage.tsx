@@ -21,7 +21,6 @@ import {
 } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
 import { useArtifacts, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
@@ -106,8 +105,6 @@ export default function Artifacts() {
           cmp = a.rows * a.columns - b.rows * b.columns;
         } else if (col === 'treasures') {
           cmp = b.treasures.length - a.treasures.length;
-        } else if (col === 'global') {
-          cmp = (b.is_global ? 1 : 0) - (a.is_global ? 1 : 0);
         }
         if (cmp !== 0) return applyDir(cmp, dir);
       }
@@ -196,10 +193,6 @@ export default function Artifacts() {
                           >
                             {artifact.rows}x{artifact.columns}
                           </Badge>
-                          <GlobalBadge
-                            isGlobal={artifact.is_global}
-                            size="sm"
-                          />
                           <Badge
                             variant="light"
                             size="sm"
@@ -262,14 +255,6 @@ export default function Artifacts() {
                       >
                         Treasures
                       </SortableTh>
-                      <SortableTh
-                        sortKey="global"
-                        sortCol={sortCol}
-                        sortDir={sortDir}
-                        onSort={handleSort}
-                      >
-                        Global
-                      </SortableTh>
                     </Table.Tr>
                   </Table.Thead>
                   <Table.Tbody>
@@ -310,12 +295,6 @@ export default function Artifacts() {
                           </Table.Td>
                           <Table.Td>
                             <Text size="sm">{artifact.treasures.length}</Text>
-                          </Table.Td>
-                          <Table.Td>
-                            <GlobalBadge
-                              isGlobal={artifact.is_global}
-                              size="sm"
-                            />
                           </Table.Td>
                         </Table.Tr>
                       );

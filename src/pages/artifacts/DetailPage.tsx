@@ -9,7 +9,6 @@ import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import ClassTag from '@/components/ui/ClassTag';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
-import GlobalBadge from '@/components/ui/GlobalBadge';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
@@ -207,8 +206,7 @@ export default function ArtifactPage() {
               <Badge size="lg" variant="light" color={accent.secondary}>
                 {artifact.rows}x{artifact.columns}
               </Badge>
-              <GlobalBadge isGlobal={artifact.is_global} size="md" />
-              <Badge size="lg" variant="light" color={accent.tertiary}>
+<Badge size="lg" variant="light" color={accent.tertiary}>
                 {artifact.treasures.length} treasure
                 {artifact.treasures.length !== 1 ? 's' : ''}
               </Badge>

@@ -19,7 +19,6 @@ import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
-import GlobalBadge from '@/components/ui/GlobalBadge';
 import type { Team } from '@/features/teams/types';
 import type { Artifact } from '@/features/wiki/artifacts/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
@@ -251,12 +250,6 @@ export function TeamHeroSection({
                                         <QualityIcon
                                           quality={artifact.quality}
                                           size={IMAGE_SIZE.ICON_LG}
-                                        />
-                                      )}
-                                      {artifact && (
-                                        <GlobalBadge
-                                          isGlobal={artifact.is_global}
-                                          size="xs"
                                         />
                                       )}
                                       {artifact && (
