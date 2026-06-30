@@ -21,7 +21,7 @@ import RichText from '@/components/common/RichText';
 import SafeImage from '@/components/ui/SafeImage';
 import { getNoblePhantasmIcon } from '@/assets';
 import { getCardHoverProps, RICH_TOOLTIP_STYLES } from '@/constants/styles';
-import { POPOVER_MAX_WIDTH } from '@/constants/ui';
+import { IMAGE_SIZE, POPOVER_MAX_WIDTH } from '@/constants/ui';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type {
   RecommendedGearLoadoutData,
@@ -96,8 +96,8 @@ export default function CharacterRecommendedBuildSection({
                       <SafeImage
                         src={npIcon}
                         alt={linkedNoblePhantasm.name}
-                        w={48}
-                        h={48}
+                        w={IMAGE_SIZE.CARD_ICON_SM}
+                        h={IMAGE_SIZE.CARD_ICON_SM}
                         fit="contain"
                         loading="lazy"
                       />
@@ -394,8 +394,8 @@ export default function CharacterRecommendedBuildSection({
                             <SafeImage
                               src={entry.icon}
                               alt={`${entry.label}: ${entry.name}`}
-                              w={48}
-                              h={48}
+                              w={IMAGE_SIZE.CARD_ICON_SM}
+                              h={IMAGE_SIZE.CARD_ICON_SM}
                               fit="contain"
                               loading="lazy"
                             />

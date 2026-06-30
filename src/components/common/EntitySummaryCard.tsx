@@ -1,6 +1,7 @@
 import SafeImage from '@/components/ui/SafeImage';
 import { InteractiveSurface } from '@/components/ui/Surface';
 import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
+import { IMAGE_SIZE } from '@/constants/ui';
 import { Group, Stack, Text } from '@mantine/core';
 import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
@@ -37,8 +38,8 @@ export default function EntitySummaryCard({
           <SafeImage
             src={imageSrc}
             alt={imageAlt}
-            w={64}
-            h={64}
+            w={IMAGE_SIZE.CARD_ICON}
+            h={IMAGE_SIZE.CARD_ICON}
             fit="contain"
             radius="sm"
             loading="lazy"

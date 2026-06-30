@@ -15,7 +15,7 @@ import { QUALITY_COLOR } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { getCardHoverProps } from '@/constants/styles';
-import { BREAKPOINTS } from '@/constants/ui';
+import { BREAKPOINTS, IMAGE_SIZE } from '@/constants/ui';
 import type { WyrmPhase } from '@/features/wiki/wyrms/types';
 import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
 
@@ -139,8 +139,8 @@ export default function WyrmPage() {
               <SafeImage
                 src={iconSrc}
                 alt={wyrm.name}
-                w={72}
-                h={72}
+                w={IMAGE_SIZE.DETAIL_ICON}
+                h={IMAGE_SIZE.DETAIL_ICON}
                 fit="contain"
                 radius="sm"
               />

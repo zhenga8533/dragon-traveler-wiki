@@ -12,6 +12,7 @@ import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import { Badge, Group, Paper, Stack, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
+import { IMAGE_SIZE } from '@/constants/ui';
 import { Link } from 'react-router-dom';
 
 interface WyrmspellCardProps {
@@ -49,8 +50,8 @@ export default function WyrmspellCard({
           <SafeImage
             src={iconSrc}
             alt={wyrmspell.name}
-            w={48}
-            h={48}
+            w={IMAGE_SIZE.CARD_ICON_SM}
+            h={IMAGE_SIZE.CARD_ICON_SM}
             fit="contain"
             loading="lazy"
           />

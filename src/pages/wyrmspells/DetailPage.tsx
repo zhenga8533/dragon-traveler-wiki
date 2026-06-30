@@ -12,6 +12,7 @@ import { QUALITY_ORDER } from '@/constants/quality';
 import { getStableTagColor } from '@/constants/tag-colors';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
+import { IMAGE_SIZE } from '@/constants/ui';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import QualitiesTable from '@/features/wiki/wyrmspells/components/QualitiesTable';
 import { useStatusEffects, useWyrmspellChanges, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
@@ -121,8 +122,8 @@ export default function WyrmspellPage() {
               <SafeImage
                 src={iconSrc}
                 alt={wyrmspell.name}
-                w={72}
-                h={72}
+                w={IMAGE_SIZE.DETAIL_ICON}
+                h={IMAGE_SIZE.DETAIL_ICON}
                 fit="contain"
                 radius="sm"
               />

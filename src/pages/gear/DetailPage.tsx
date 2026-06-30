@@ -333,8 +333,8 @@ export default function GearSetPage() {
                         <SafeImage
                           src={iconSrc}
                           alt={item.name}
-                          w={64}
-                          h={64}
+                          w={IMAGE_SIZE.CARD_ICON}
+                          h={IMAGE_SIZE.CARD_ICON}
                           fit="contain"
                           radius="sm"
                           loading="lazy"

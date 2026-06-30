@@ -1,6 +1,7 @@
 import SafeImage from '@/components/ui/SafeImage';
 import RichText from '@/components/common/RichText';
 import { getCardHoverProps } from '@/constants/styles';
+import { IMAGE_SIZE } from '@/constants/ui';
 import { getWyrmSkillIcon } from '@/assets';
 import type { Wyrm } from '@/features/wiki/wyrms/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
@@ -25,8 +26,8 @@ export default function SkillCard({
             <SafeImage
               src={iconSrc}
               alt={skill.name}
-              w={48}
-              h={48}
+              w={IMAGE_SIZE.CARD_ICON_SM}
+              h={IMAGE_SIZE.CARD_ICON_SM}
               fit="contain"
               radius="sm"
               style={{ flexShrink: 0 }}

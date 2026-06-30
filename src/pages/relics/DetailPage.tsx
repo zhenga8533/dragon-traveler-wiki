@@ -11,6 +11,7 @@ import { QUALITY_COLOR } from '@/constants/quality';
 import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getCardHoverProps } from '@/constants/styles';
+import { IMAGE_SIZE } from '@/constants/ui';
 import {
   getRelicOracleScroll,
   getRelicTypeOrder,
@@ -237,8 +238,8 @@ export default function OracleScrollPage() {
                         <SafeImage
                           src={iconSrc}
                           alt={relic.name}
-                          w={64}
-                          h={64}
+                          w={IMAGE_SIZE.CARD_ICON}
+                          h={IMAGE_SIZE.CARD_ICON}
                           fit="contain"
                           radius="sm"
                           loading="lazy"

@@ -28,7 +28,7 @@ import {
   getCardHoverProps,
   getMinWidthStyle,
 } from '@/constants/styles';
-import { STORAGE_KEY } from '@/constants/ui';
+import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import type { WyrmPhase } from '@/features/wiki/wyrms/types';
 import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
 import { useStatusEffects, useWyrms } from '@/features/wiki/hooks/use-wiki-data';
@@ -324,8 +324,8 @@ export default function WyrmsListPage() {
                           <SafeImage
                             src={iconSrc}
                             alt={wyrm.name}
-                            w={64}
-                            h={64}
+                            w={IMAGE_SIZE.CARD_ICON}
+                            h={IMAGE_SIZE.CARD_ICON}
                             fit="contain"
                             radius="sm"
                             loading="lazy"
@@ -390,8 +390,8 @@ export default function WyrmsListPage() {
                               <SafeImage
                                 src={iconSrc}
                                 alt={wyrm.name}
-                                w={40}
-                                h={40}
+                                w={IMAGE_SIZE.PORTRAIT_SM}
+                                h={IMAGE_SIZE.PORTRAIT_SM}
                                 fit="contain"
                                 loading="lazy"
                               />

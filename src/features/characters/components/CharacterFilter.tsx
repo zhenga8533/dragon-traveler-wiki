@@ -13,6 +13,7 @@ import {
 import type { CharacterFilters } from '@/features/characters/utils/filter-characters';
 import { EMPTY_FILTERS } from '@/features/characters/utils/filter-characters';
 import { useIsMobile } from '@/hooks';
+import { IMAGE_SIZE } from '@/constants/ui';
 import { Group, Select, SimpleGrid, Text } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
 
@@ -169,8 +170,8 @@ export default function CharacterFilter({
                         <SafeImage
                           src={iconSrc}
                           alt=""
-                          w={18}
-                          h={18}
+                          w={IMAGE_SIZE.ICON_LG}
+                          h={IMAGE_SIZE.ICON_LG}
                           fit="contain"
                         />
                       ) : null}

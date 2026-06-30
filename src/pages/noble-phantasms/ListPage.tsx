@@ -23,7 +23,7 @@ import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import { getMinWidthStyle } from '@/constants/styles';
-import { STORAGE_KEY } from '@/constants/ui';
+import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { useNoblePhantasms, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
@@ -317,8 +317,8 @@ export default function NoblePhantasms() {
                               <SafeImage
                                 src={iconSrc}
                                 alt={np.name}
-                                w={40}
-                                h={40}
+                                w={IMAGE_SIZE.PORTRAIT_SM}
+                                h={IMAGE_SIZE.PORTRAIT_SM}
                                 fit="contain"
                                 radius="sm"
                                 loading="lazy"

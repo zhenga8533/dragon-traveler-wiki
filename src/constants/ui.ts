@@ -24,6 +24,9 @@ export const IMAGE_SIZE = {
   ICON_MD: 16,
   ICON_LG: 18,
   PORTRAIT_SM: 40,
+  CARD_ICON_SM: 48,
+  CARD_ICON: 64,
+  DETAIL_ICON: 72,
 } as const;
 
 /** Debounce delay (ms) before committing a text input value to state. */

@@ -15,6 +15,7 @@ import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { getCardHoverProps } from '@/constants/styles';
+import { IMAGE_SIZE } from '@/constants/ui';
 import EffectTable from '@/features/wiki/artifacts/components/EffectTable';
 import type { ArtifactTreasure } from '@/features/wiki/artifacts/types';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
@@ -68,8 +69,8 @@ function TreasureCard({
             <SafeImage
               src={iconSrc}
               alt={treasure.name}
-              w={64}
-              h={64}
+              w={IMAGE_SIZE.CARD_ICON}
+              h={IMAGE_SIZE.CARD_ICON}
               fit="contain"
               radius="sm"
               style={{ flexShrink: 0 }}
@@ -181,8 +182,8 @@ export default function ArtifactPage() {
               <SafeImage
                 src={iconSrc}
                 alt={artifact.name}
-                w={72}
-                h={72}
+                w={IMAGE_SIZE.DETAIL_ICON}
+                h={IMAGE_SIZE.DETAIL_ICON}
                 fit="contain"
                 radius="sm"
               />

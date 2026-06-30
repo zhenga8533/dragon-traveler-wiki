@@ -26,7 +26,7 @@ import EmptyState from '@/components/ui/EmptyState';
 import SortableTh from '@/components/ui/SortableTh';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
-import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 
 import QualityIcon from '@/components/ui/QualityIcon';
 import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
@@ -363,8 +363,8 @@ export default function Howlkins() {
                                 <SafeImage
                                   src={iconSrc}
                                   alt={howlkin.name}
-                                  w={64}
-                                  h={64}
+                                  w={IMAGE_SIZE.CARD_ICON}
+                                  h={IMAGE_SIZE.CARD_ICON}
                                   fit="contain"
                                   radius="sm"
                                 />
@@ -441,8 +441,8 @@ export default function Howlkins() {
                                   <SafeImage
                                     src={iconSrc}
                                     alt={howlkin.name}
-                                    w={40}
-                                    h={40}
+                                    w={IMAGE_SIZE.PORTRAIT_SM}
+                                    h={IMAGE_SIZE.PORTRAIT_SM}
                                     fit="contain"
                                     radius="sm"
                                   />

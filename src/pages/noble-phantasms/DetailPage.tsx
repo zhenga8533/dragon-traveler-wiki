@@ -7,6 +7,7 @@ import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import { getHeroIconBoxStyles } from '@/constants/detail-styles';
+import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterTag from '@/features/characters/components/CharacterTag';
 import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
 import EffectTable from '@/features/wiki/noble-phantasms/components/EffectTable';
@@ -119,8 +120,8 @@ export default function NoblePhantasmPage() {
               <SafeImage
                 src={iconSrc}
                 alt={noblePhantasm.name}
-                w={72}
-                h={72}
+                w={IMAGE_SIZE.DETAIL_ICON}
+                h={IMAGE_SIZE.DETAIL_ICON}
                 fit="contain"
                 radius="sm"
               />

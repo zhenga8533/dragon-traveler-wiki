@@ -12,7 +12,7 @@ import { SUBCLASS_FIELDS } from '@/features/wiki/subclasses/form-fields';
 import RichText from '@/components/common/RichText';
 import SortableTh from '@/components/ui/SortableTh';
 import { getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
-import { STORAGE_KEY } from '@/constants/ui';
+import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import ClassTag from '@/components/ui/ClassTag';
 import type { CharacterClass } from '@/features/characters/types';
 import TierBadge from '@/components/ui/TierBadge';
@@ -217,8 +217,8 @@ export default function Subclasses() {
                             <SafeImage
                               src={subclassIcon}
                               alt={item.name}
-                              w={52}
-                              h={48}
+                              w={IMAGE_SIZE.CARD_ICON_SM}
+                              h={IMAGE_SIZE.CARD_ICON_SM}
                               fit="contain"
                               loading="lazy"
                             />
@@ -309,8 +309,8 @@ export default function Subclasses() {
                               <SafeImage
                                 src={subclassIcon}
                                 alt={item.name}
-                                w={48}
-                                h={44}
+                                w={IMAGE_SIZE.CARD_ICON_SM}
+                                h={IMAGE_SIZE.CARD_ICON_SM}
                                 fit="contain"
                                 loading="lazy"
                               />

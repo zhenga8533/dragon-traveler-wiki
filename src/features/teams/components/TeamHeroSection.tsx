@@ -106,8 +106,8 @@ export function TeamHeroSection({
               <SafeImage
                 src={FACTION_WYRM_MAP[team.faction]}
                 alt={`${FACTION_SLUG_TO_NAME[team.faction]} Whelp`}
-                w={64}
-                h={64}
+                w={IMAGE_SIZE.CARD_ICON}
+                h={IMAGE_SIZE.CARD_ICON}
                 fit="contain"
               />
             </Box>

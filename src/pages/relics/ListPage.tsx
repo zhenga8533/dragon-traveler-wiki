@@ -23,7 +23,7 @@ import {
   getCardHoverProps,
   getMinWidthStyle,
 } from '@/constants/styles';
-import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
 import type { Relic, RelicType } from '@/features/wiki/relics/types';
@@ -365,8 +365,8 @@ export default function RelicPage() {
                               <SafeImage
                                 src={iconSrc}
                                 alt={item.name}
-                                w={64}
-                                h={64}
+                                w={IMAGE_SIZE.CARD_ICON}
+                                h={IMAGE_SIZE.CARD_ICON}
                                 fit="contain"
                                 radius="sm"
                               />
@@ -462,8 +462,8 @@ export default function RelicPage() {
                                 <SafeImage
                                   src={iconSrc}
                                   alt={item.name}
-                                  w={40}
-                                  h={40}
+                                  w={IMAGE_SIZE.PORTRAIT_SM}
+                                  h={IMAGE_SIZE.PORTRAIT_SM}
                                   fit="contain"
                                   loading="lazy"
                                 />
