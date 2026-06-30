@@ -95,8 +95,8 @@ export default function GearSetPage() {
       }));
   }, [setItems, gearChangesData]);
 
-  const setItemNames = useMemo(
-    () => new Set(setItems.map((i) => i.name)),
+  const setItemSlugs = useMemo(
+    () => new Set(setItems.map((i) => i.slug)),
     [setItems]
   );
 
@@ -110,7 +110,7 @@ export default function GearSetPage() {
         (c) =>
           c.recommended_gear?.some((loadout) =>
             Object.values(loadout.slots).some(
-              (slug) => slug && setItemNames.has(slug)
+              (slug) => slug && setItemSlugs.has(slug)
             )
           )
       )
@@ -120,7 +120,7 @@ export default function GearSetPage() {
         if (qualityDiff !== 0) return qualityDiff;
         return a.name.localeCompare(b.name);
       });
-  }, [characters, setItemNames]);
+  }, [characters, setItemSlugs]);
 
   const recommendedStats = useMemo(() => {
     const ssrChars = characters.filter((c) =>
