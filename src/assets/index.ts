@@ -32,6 +32,7 @@ export const FACTION_ICON_MAP: Record<FactionSlug, string> = {
 // ── Quality ──────────────────────────────────────────────────────────────────
 
 export const QUALITY_ICON_MAP: Record<Quality, string> = {
+  'UR+': `${BASE}quality/ur_plus.png`,
   UR: `${BASE}quality/ur.png`,
   'SSR EX': `${BASE}quality/ssr_ex.png`,
   'SSR+': `${BASE}quality/ssr_plus.png`,

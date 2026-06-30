@@ -2,6 +2,7 @@
 // `Quality` is derived from it so that adding a new tier here automatically
 // causes TypeScript to flag every Record<Quality, …> that is now incomplete.
 export const QUALITY_ORDER = [
+  'UR+',
   'UR',
   'SSR EX',
   'SSR+',
@@ -15,6 +16,7 @@ export const QUALITY_ORDER = [
 export type Quality = (typeof QUALITY_ORDER)[number];
 
 export const QUALITY_COLOR: Record<Quality, string> = {
+  'UR+': 'grape',
   UR: 'pink',
   'SSR EX': 'red',
   'SSR+': 'orange',
@@ -26,6 +28,7 @@ export const QUALITY_COLOR: Record<Quality, string> = {
 };
 
 export const QUALITY_BORDER_COLOR: Record<Quality, string> = {
+  'UR+': 'var(--mantine-color-grape-5)',
   UR: 'var(--mantine-color-pink-6)',
   'SSR EX': 'var(--mantine-color-red-6)',
   'SSR+': 'var(--mantine-color-orange-5)',

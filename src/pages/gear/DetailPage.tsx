@@ -46,7 +46,7 @@ import {
 import { useEffect, useMemo, useState } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
 
-const SSR_AND_ABOVE: Quality[] = ['UR', 'SSR EX', 'SSR+', 'SSR'];
+const SSR_AND_ABOVE: Quality[] = ['UR+', 'UR', 'SSR EX', 'SSR+', 'SSR'];
 
 export default function GearSetPage() {
   const { accent } = useGradientAccent();
