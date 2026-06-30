@@ -8,6 +8,7 @@ import QualityIcon from '@/components/ui/QualityIcon';
 import { QUALITY_BORDER_COLOR } from '@/constants/quality';
 import { CHARACTER_HERO } from '@/constants/ui';
 import type { Character } from '@/features/characters/types';
+import { getCharacterRoutePath } from '@/features/characters/utils/character-route';
 import { useDarkMode } from '@/hooks';
 import {
   Box,
@@ -108,6 +109,7 @@ export default function CharacterPageHeroSection({
                 size={CHARACTER_HERO.PORTRAIT_SIZE}
                 quality={character.quality}
                 assetKey={assetKey}
+                routePath={getCharacterRoutePath(character)}
                 borderWidth={CHARACTER_HERO.BORDER_WIDTH}
                 borderColor={QUALITY_BORDER_COLOR[character.quality]}
                 style={{ boxShadow: 'var(--mantine-shadow-xl)' }}

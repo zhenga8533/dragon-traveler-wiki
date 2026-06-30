@@ -2,6 +2,7 @@ import { Badge, Box, Group } from '@mantine/core';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import type { Character } from '@/features/characters/types';
 import {
+	getCharacterRoutePath,
 	getCharacterRouteSlug,
 	resolveCharacterByNameAndQuality,
 } from '@/features/characters/utils/character-route';
@@ -55,6 +56,7 @@ export default function TeamCharacterAvatars({
 				size={size}
 				quality={char?.quality}
 				assetKey={assetKey}
+				routePath={char ? getCharacterRoutePath(char) : undefined}
 				isSubstitute={isSubstitute}
 				tooltip={isSubstitute ? `${displayName} (Sub)` : displayName}
 			/>

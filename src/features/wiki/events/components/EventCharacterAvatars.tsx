@@ -2,6 +2,7 @@ import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import {
   buildPreferredCharacterByNameMap,
+  getCharacterRoutePath,
   getCharacterRouteSlug,
 } from '@/features/characters/utils/character-route';
 import { useCharacters } from '@/hooks';
@@ -37,6 +38,7 @@ export default function EventCharacterAvatars({
             size={size}
             quality={resolved?.quality}
             assetKey={assetKey}
+            routePath={resolved ? getCharacterRoutePath(resolved) : undefined}
             link
             tooltip={char}
             loading="lazy"
