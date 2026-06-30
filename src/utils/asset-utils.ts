@@ -10,6 +10,5 @@ export function normalizeKey(name: string): string {
 }
 
 export function normalizeQualityKey(quality: string): string {
-  const normalized = normalizeKey(quality);
-  return normalized === 'ssr' && quality.includes('+') ? 'ssr_plus' : normalized;
+  return normalizeKey(quality);
 }

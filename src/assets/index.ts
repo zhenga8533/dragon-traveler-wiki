@@ -117,14 +117,9 @@ export function getNoblePhantasmIcon(name: string): string | undefined {
 
 // ── Relic ────────────────────────────────────────────────────────────────────
 
-function normalizeRelicQualityKey(quality: string): string {
-  const normalized = normalizeQualityKey(quality);
-  return normalized === 'ssr_plus' ? 'ssr' : normalized;
-}
-
 export function getRelicIcon(name: string, quality: string): string | undefined {
   if (!name || !quality) return undefined;
-  return `${BASE}relic/${normalizeRelicQualityKey(quality)}/${normalizeKey(name)}.png`;
+  return `${BASE}relic/${normalizeQualityKey(quality)}/${normalizeKey(name)}.png`;
 }
 
 export function getOracleScrollVideo(name: string): string | undefined {
