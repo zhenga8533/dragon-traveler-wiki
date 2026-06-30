@@ -636,7 +636,7 @@ function SearchModalContent({
           .map((r) => ({
             type: 'team' as const,
             title: r.item.name,
-            subtitle: `${r.item.members.length} characters`,
+            subtitle: `${r.item.member_groups.reduce((sum, g) => sum + g.members.length, 0)} characters`,
             path: `/teams/${toEntitySlug(r.item.name)}`,
             icon: IoPeopleOutline,
             color: 'green',

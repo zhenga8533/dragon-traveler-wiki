@@ -1,3 +1,4 @@
+import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import {
   Badge,
@@ -5,6 +6,7 @@ import {
   Divider,
   Group,
   Paper,
+  SegmentedControl,
   SimpleGrid,
   Stack,
   Text,
@@ -22,8 +24,7 @@ import { getCardHoverProps, RICH_TOOLTIP_STYLES } from '@/constants/styles';
 import { POPOVER_MAX_WIDTH } from '@/constants/ui';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
 import type {
-  ActivatedSetBonus,
-  RecommendedGearDetail,
+  RecommendedGearLoadoutData,
   RecommendedSubclassEntry,
 } from '@/features/characters/types';
 import type { NoblePhantasm } from '@/features/wiki/noble-phantasms/types';
@@ -32,25 +33,28 @@ import { useGradientAccent, useMobileTooltip } from '@/hooks';
 import { toQuality } from '@/utils/quality';
 
 interface CharacterRecommendedBuildSectionProps {
-  recommendedGearDetails: RecommendedGearDetail[];
+  recommendedGearLoadouts: RecommendedGearLoadoutData[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
-  activatedSetBonuses: ActivatedSetBonus[];
   linkedNoblePhantasm: NoblePhantasm | null;
   statusEffects: StatusEffect[];
 }
 
 export default function CharacterRecommendedBuildSection({
-  recommendedGearDetails,
+  recommendedGearLoadouts,
   recommendedSubclassEntries,
-  activatedSetBonuses,
   linkedNoblePhantasm,
   statusEffects,
 }: CharacterRecommendedBuildSectionProps) {
   const { accent } = useGradientAccent();
   const mobileTooltip = useMobileTooltip();
+  const [selectedLoadoutIndex, setSelectedLoadoutIndex] = useState(0);
+
+  const activeLoadout = recommendedGearLoadouts[selectedLoadoutIndex] ?? recommendedGearLoadouts[0];
+  const recommendedGearDetails = activeLoadout?.details ?? [];
+  const activatedSetBonuses = activeLoadout?.activatedSetBonuses ?? [];
 
   if (
-    recommendedGearDetails.length === 0 &&
+    recommendedGearLoadouts.length === 0 &&
     recommendedSubclassEntries.length === 0 &&
     linkedNoblePhantasm === null
   ) {
@@ -236,11 +240,29 @@ export default function CharacterRecommendedBuildSection({
           </Stack>
         )}
 
-        {recommendedGearDetails.length > 0 && (
+        {recommendedGearLoadouts.length > 0 && (
           <Stack gap="xs">
-            <Text fw={600} size="sm">
-              Recommended Gear
-            </Text>
+            <Group justify="space-between" align="center" gap="sm" wrap="wrap">
+              <Text fw={600} size="sm">
+                Recommended Gear
+              </Text>
+              {recommendedGearLoadouts.length > 1 && (
+                <SegmentedControl
+                  size="xs"
+                  value={String(selectedLoadoutIndex)}
+                  onChange={(val) => setSelectedLoadoutIndex(Number(val))}
+                  data={recommendedGearLoadouts.map((l, i) => ({
+                    label: l.loadout.label || `Build ${i + 1}`,
+                    value: String(i),
+                  }))}
+                />
+              )}
+            </Group>
+            {activeLoadout?.loadout.description && (
+              <Text size="xs" c="dimmed">
+                {activeLoadout.loadout.description}
+              </Text>
+            )}
             <SimpleGrid cols={{ base: 1, sm: 2, lg: 3 }} spacing="sm">
               {recommendedGearDetails.map((entry) => {
                 const entryQuality = toQuality(entry.quality);

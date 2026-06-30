@@ -172,7 +172,7 @@ export default function TeamsViewTab({
 															Main
 														</Badge>
 														<TeamCharacterAvatars
-															refs={team.members.map((member) => ({
+															refs={(team.member_groups[0]?.members ?? []).map((member) => ({
 																name: member.character_slug,
 																quality: member.character_quality,
 															}))}
@@ -182,7 +182,7 @@ export default function TeamsViewTab({
 															maxVisible={5}
 														/>
 													</Group>
-													{(team.bench?.length ?? 0) > 0 && (
+													{(team.member_groups[0]?.bench?.length ?? 0) > 0 && (
 														<>
 															<Divider size="xs" />
 															<Group gap="xs" align="center" wrap="nowrap">
@@ -202,7 +202,7 @@ export default function TeamsViewTab({
 																	</Badge>
 																</Tooltip>
 																<TeamCharacterAvatars
-																	refs={team.bench!.map((entry) => ({
+																	refs={(team.member_groups[0]?.bench ?? []).map((entry) => ({
 																		name: getTeamBenchEntryName(entry),
 																		quality: getTeamBenchEntryQuality(entry),
 																	}))}

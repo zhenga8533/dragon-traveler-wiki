@@ -41,7 +41,7 @@ export default function CharacterSubclassPanel({
         <Text fw={600} size="sm">
           Subclasses
         </Text>
-        <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="xs">
+        <SimpleGrid cols={{ base: 2, sm: 2 }} spacing="xs">
           {character.subclasses.map((subclass) => {
             const subclassDetails = subclassBySlug.get(subclass);
             const subclassClass =
@@ -102,8 +102,8 @@ export default function CharacterSubclassPanel({
                         <SafeImage
                           src={subclassIcon}
                           alt={subclass}
-                          w={100}
-                          h={93}
+                          w={56}
+                          h={52}
                           fit="contain"
                           loading="lazy"
                         />

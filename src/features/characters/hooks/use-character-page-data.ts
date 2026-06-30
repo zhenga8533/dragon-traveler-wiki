@@ -1,4 +1,4 @@
-import { useContext, useEffect, useMemo } from 'react';
+import { useCallback, useContext, useEffect, useMemo } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { GEAR_TYPE_ICON_MAP, getGearIcon, getPortrait } from '@/assets';
 import { getSubclassIcon } from '@/assets';
@@ -9,6 +9,8 @@ import type {
   Character,
   RecommendedGearDetail,
   RecommendedGearEntry,
+  RecommendedGearLoadout,
+  RecommendedGearLoadoutData,
   RecommendedGearSlot,
   RecommendedSubclassEntry,
 } from '@/features/characters/types';
@@ -96,9 +98,8 @@ export interface CharacterPageData {
   selectedTierListName: string | null;
   linkedNoblePhantasm: NoblePhantasm | null;
   subclassBySlug: Map<string, Subclass>;
-  recommendedGearDetails: RecommendedGearDetail[];
+  recommendedGearLoadouts: RecommendedGearLoadoutData[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
-  activatedSetBonuses: ActivatedSetBonus[];
   teams: Team[];
   statusEffects: StatusEffect[];
   changesData: ChangesFile;
@@ -248,27 +249,6 @@ export function useCharacterPageData(
     return map;
   }, [subclasses]);
 
-  const recommendedGearEntries = useMemo(() => {
-    const loadout = character?.recommended_gear?.[0];
-    if (!loadout) return [];
-    const entries: Array<
-      RecommendedGearEntry & { label: string; icon: string; slotIcon: string }
-    > = [];
-    for (const cfg of GEAR_SLOT_CONFIG) {
-      const gearSlug = (loadout.slots[cfg.slot] ?? '').trim();
-      if (!gearSlug) continue;
-      entries.push({
-        slot: cfg.slot,
-        type: cfg.type,
-        name: gearSlug,
-        label: cfg.label,
-        icon: getGearIcon(cfg.type, gearSlug) ?? cfg.fallbackIcon,
-        slotIcon: cfg.fallbackIcon,
-      });
-    }
-    return entries;
-  }, [character]);
-
   const recommendedSubclassEntries = useMemo<RecommendedSubclassEntry[]>(() => {
     return (character?.recommended_subclasses ?? [])
       .map((subclassSlug) => subclassSlug.trim())
@@ -302,77 +282,112 @@ export function useCharacterPageData(
     return map;
   }, [gearSets]);
 
-  const recommendedGearDetails = useMemo<RecommendedGearDetail[]>(() => {
-    return recommendedGearEntries.map((entry) => {
-      const gearItem = gearBySlug.get(entry.name);
-      const setName = gearItem?.set?.trim() ?? '';
-      const setData = setName ? gearSetByName.get(setName) : null;
-      const setBonus = setData?.set_bonus ?? gearItem?.set_bonus ?? null;
+  const resolveLoadoutDetails = useCallback(
+    (loadout: RecommendedGearLoadout): RecommendedGearDetail[] => {
+      const entries: Array<
+        RecommendedGearEntry & { label: string; icon: string; slotIcon: string }
+      > = [];
+      for (const cfg of GEAR_SLOT_CONFIG) {
+        const gearSlug = (loadout.slots[cfg.slot] ?? '').trim();
+        if (!gearSlug) continue;
+        entries.push({
+          slot: cfg.slot,
+          type: cfg.type,
+          name: gearSlug,
+          label: cfg.label,
+          icon: getGearIcon(cfg.type, gearSlug) ?? cfg.fallbackIcon,
+          slotIcon: cfg.fallbackIcon,
+        });
+      }
+      return entries.map((entry) => {
+        const gearItem = gearBySlug.get(entry.name);
+        const setName = gearItem?.set?.trim() ?? '';
+        const setData = setName ? gearSetByName.get(setName) : null;
+        const setBonus = setData?.set_bonus ?? gearItem?.set_bonus ?? null;
+        return {
+          ...entry,
+          name: gearItem?.name ?? entry.name,
+          setName: setName || null,
+          setDisplayName: setData?.name ?? null,
+          setBonus,
+          quality: gearItem?.quality,
+          lore: gearItem?.lore,
+          stats: gearItem?.stats,
+        };
+      });
+    },
+    [gearBySlug, gearSetByName]
+  );
+
+  const resolveActivatedSetBonuses = useCallback(
+    (details: RecommendedGearDetail[]): ActivatedSetBonus[] => {
+      const sets = new Map<
+        string,
+        {
+          setName: string;
+          setDisplayName: string | null;
+          pieces: number;
+          requiredPieces: number;
+          description: string;
+        }
+      >();
+
+      for (const entry of details) {
+        if (!entry.setName) continue;
+        const key = entry.setName.toLowerCase();
+        const existing = sets.get(key);
+        const requiredPieces = entry.setBonus?.quantity ?? 0;
+        const description = (entry.setBonus?.description ?? '').trim();
+
+        if (!existing) {
+          sets.set(key, {
+            setName: entry.setName,
+            setDisplayName: entry.setDisplayName,
+            pieces: 1,
+            requiredPieces,
+            description,
+          });
+        } else {
+          existing.pieces += 1;
+          if (existing.requiredPieces <= 0 && requiredPieces > 0)
+            existing.requiredPieces = requiredPieces;
+          if (!existing.description && description)
+            existing.description = description;
+        }
+      }
+
+      return [...sets.values()]
+        .map((entry) => ({
+          ...entry,
+          activations:
+            entry.requiredPieces > 0
+              ? Math.floor(entry.pieces / entry.requiredPieces)
+              : 0,
+        }))
+        .filter(
+          (entry) => entry.activations > 0 && entry.description.length > 0
+        )
+        .sort((a, b) => {
+          if (b.activations !== a.activations)
+            return b.activations - a.activations;
+          if (b.pieces !== a.pieces) return b.pieces - a.pieces;
+          return a.setName.localeCompare(b.setName);
+        });
+    },
+    []
+  );
+
+  const recommendedGearLoadouts = useMemo<RecommendedGearLoadoutData[]>(() => {
+    const loadouts = character?.recommended_gear ?? [];
+    return loadouts.map((loadout) => {
+      const details = resolveLoadoutDetails(loadout);
       return {
-        ...entry,
-        name: gearItem?.name ?? entry.name,
-        setName: setName || null,
-        setDisplayName: setData?.name ?? null,
-        setBonus,
-        quality: gearItem?.quality,
-        lore: gearItem?.lore,
-        stats: gearItem?.stats,
+        loadout,
+        details,
+        activatedSetBonuses: resolveActivatedSetBonuses(details),
       };
     });
-  }, [recommendedGearEntries, gearBySlug, gearSetByName]);
-
-  const activatedSetBonuses = useMemo<ActivatedSetBonus[]>(() => {
-    const sets = new Map<
-      string,
-      {
-        setName: string;
-        setDisplayName: string | null;
-        pieces: number;
-        requiredPieces: number;
-        description: string;
-      }
-    >();
-
-    for (const entry of recommendedGearDetails) {
-      if (!entry.setName) continue;
-      const key = entry.setName.toLowerCase();
-      const existing = sets.get(key);
-      const requiredPieces = entry.setBonus?.quantity ?? 0;
-      const description = (entry.setBonus?.description ?? '').trim();
-
-      if (!existing) {
-        sets.set(key, {
-          setName: entry.setName,
-          setDisplayName: entry.setDisplayName,
-          pieces: 1,
-          requiredPieces,
-          description,
-        });
-      } else {
-        existing.pieces += 1;
-        if (existing.requiredPieces <= 0 && requiredPieces > 0)
-          existing.requiredPieces = requiredPieces;
-        if (!existing.description && description)
-          existing.description = description;
-      }
-    }
-
-    return [...sets.values()]
-      .map((entry) => ({
-        ...entry,
-        activations:
-          entry.requiredPieces > 0
-            ? Math.floor(entry.pieces / entry.requiredPieces)
-            : 0,
-      }))
-      .filter((entry) => entry.activations > 0 && entry.description.length > 0)
-      .sort((a, b) => {
-        if (b.activations !== a.activations)
-          return b.activations - a.activations;
-        if (b.pieces !== a.pieces) return b.pieces - a.pieces;
-        return a.setName.localeCompare(b.setName);
-      });
-  }, [recommendedGearDetails]);
+  }, [character, resolveLoadoutDetails, resolveActivatedSetBonuses]);
 
   return {
     loading,
@@ -386,9 +401,8 @@ export function useCharacterPageData(
     selectedTierListName,
     linkedNoblePhantasm,
     subclassBySlug,
-    recommendedGearDetails,
+    recommendedGearLoadouts,
     recommendedSubclassEntries,
-    activatedSetBonuses,
     teams,
     statusEffects,
     changesData,

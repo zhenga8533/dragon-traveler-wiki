@@ -104,6 +104,12 @@ export interface ActivatedSetBonus {
   activations: number;
 }
 
+export interface RecommendedGearLoadoutData {
+  loadout: RecommendedGearLoadout;
+  details: RecommendedGearDetail[];
+  activatedSetBonuses: ActivatedSetBonus[];
+}
+
 export interface Character {
   slug: string;
   name: string;

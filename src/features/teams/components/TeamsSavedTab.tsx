@@ -179,7 +179,7 @@ export default function TeamsSavedTab({
 												Main
 											</Badge>
 											<TeamCharacterAvatars
-												refs={team.members.map((m) => ({
+												refs={(team.member_groups[0]?.members ?? []).map((m) => ({
 													name: m.character_slug,
 													quality: m.character_quality,
 												}))}
@@ -189,7 +189,7 @@ export default function TeamsSavedTab({
 												maxVisible={5}
 											/>
 										</Group>
-										{(team.bench?.length ?? 0) > 0 && (
+										{(team.member_groups[0]?.bench?.length ?? 0) > 0 && (
 											<>
 												<Divider size="xs" />
 												<Group gap="xs" align="center" wrap="nowrap">
@@ -209,7 +209,7 @@ export default function TeamsSavedTab({
 														</Badge>
 													</Tooltip>
 													<TeamCharacterAvatars
-														refs={team.bench!.map((e) => ({
+														refs={(team.member_groups[0]?.bench ?? []).map((e) => ({
 															name: getTeamBenchEntryName(e),
 															quality: getTeamBenchEntryQuality(e),
 														}))}

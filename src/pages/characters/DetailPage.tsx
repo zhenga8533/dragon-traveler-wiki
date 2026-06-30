@@ -58,9 +58,8 @@ export default function CharacterPage() {
     selectedTierListName,
     linkedNoblePhantasm,
     subclassBySlug,
-    recommendedGearDetails,
+    recommendedGearLoadouts,
     recommendedSubclassEntries,
-    activatedSetBonuses,
     teams,
     statusEffects,
     changesData,
@@ -208,9 +207,8 @@ export default function CharacterPage() {
                   tierLabel={tierLabel}
                   tierListCharacterNote={tierListCharacterNote}
                   statusEffects={statusEffects}
-                  recommendedGearDetails={recommendedGearDetails}
+                  recommendedGearLoadouts={recommendedGearLoadouts}
                   recommendedSubclassEntries={recommendedSubclassEntries}
-                  activatedSetBonuses={activatedSetBonuses}
                   linkedNoblePhantasm={linkedNoblePhantasm}
                   scrollToSkill={scrollToSkill}
                   scrollToTalent={scrollToTalent}

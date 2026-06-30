@@ -36,8 +36,8 @@ function readSavedTeamBySlug(slug: string): Team | null {
     if (
       val !== null &&
       typeof val === 'object' &&
-      'members' in (val as object) &&
-      Array.isArray((val as Team).members)
+      (('member_groups' in (val as object) && Array.isArray((val as Team).member_groups)) ||
+        ('members' in (val as object) && Array.isArray((val as { members?: unknown }).members)))
     ) {
       const migrated = migrateStoredTeam(val as Partial<Team>);
       if ((migrated.last_updated ?? 0) <= 0) {

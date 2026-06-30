@@ -1,7 +1,6 @@
 import type {
-  ActivatedSetBonus,
   Character,
-  RecommendedGearDetail,
+  RecommendedGearLoadoutData,
   RecommendedSubclassEntry,
 } from '@/features/characters/types';
 import type { Team } from '@/features/teams/types';
@@ -19,9 +18,8 @@ interface CharacterPageBuildSectionProps {
   tierLabel: string | null;
   tierListCharacterNote: string | null;
   statusEffects: StatusEffect[];
-  recommendedGearDetails: RecommendedGearDetail[];
+  recommendedGearLoadouts: RecommendedGearLoadoutData[];
   recommendedSubclassEntries: RecommendedSubclassEntry[];
-  activatedSetBonuses: ActivatedSetBonus[];
   linkedNoblePhantasm: NoblePhantasm | null;
   scrollToSkill: (skillName: string) => void;
   scrollToTalent: () => void;
@@ -35,9 +33,8 @@ export default function CharacterPageBuildSection({
   tierLabel,
   tierListCharacterNote,
   statusEffects,
-  recommendedGearDetails,
+  recommendedGearLoadouts,
   recommendedSubclassEntries,
-  activatedSetBonuses,
   linkedNoblePhantasm,
   scrollToSkill,
   scrollToTalent,
@@ -61,9 +58,8 @@ export default function CharacterPageBuildSection({
       />
 
       <CharacterRecommendedBuildSection
-        recommendedGearDetails={recommendedGearDetails}
+        recommendedGearLoadouts={recommendedGearLoadouts}
         recommendedSubclassEntries={recommendedSubclassEntries}
-        activatedSetBonuses={activatedSetBonuses}
         linkedNoblePhantasm={linkedNoblePhantasm}
         statusEffects={statusEffects}
       />
