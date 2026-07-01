@@ -109,7 +109,10 @@ export function useFilters<T extends object>({
 
   // Keep a ref so resetFilters stays stable even if caller recreates emptyFilters each render.
   const emptyFiltersRef = useRef(emptyFilters);
-  emptyFiltersRef.current = emptyFilters;
+
+  useEffect(() => {
+    emptyFiltersRef.current = emptyFilters;
+  }, [emptyFilters]);
 
   useEffect(() => {
     if (storageKey) {

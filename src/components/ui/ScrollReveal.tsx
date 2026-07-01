@@ -12,10 +12,7 @@ export default function ScrollReveal({ children, delay = 0 }: ScrollRevealProps)
   const reduceMotion = useReducedMotion();
 
   useEffect(() => {
-    if (reduceMotion === true) {
-      setVisible(true);
-      return;
-    }
+    if (reduceMotion === true) return;
     const el = ref.current;
     if (!el) return;
     const observer = new IntersectionObserver(

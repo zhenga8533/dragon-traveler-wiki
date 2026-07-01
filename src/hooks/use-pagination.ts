@@ -154,7 +154,7 @@ function clampPage(page: number, totalPages: number) {
 export function usePagination(
   total: number,
   pageSize: number,
-  filterKey: string
+  filterKey: unknown
 ) {
   const safeTotal = Number.isFinite(total) ? Math.max(0, total) : 0;
   const safePageSize =

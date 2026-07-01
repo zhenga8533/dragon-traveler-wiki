@@ -1,4 +1,4 @@
-import { useEffect, useMemo, useRef } from 'react';
+import { useEffect, useMemo } from 'react';
 import type { ViewMode } from './use-filters';
 import {
   countActiveFilters,
@@ -82,17 +82,10 @@ export function useFilteredPageData<T, F extends object>(
     [data, filters, sortCol, sortDir, filterFn, sortFn]
   );
 
-  const prevFiltersRef = useRef(filters);
-  const filterVersionRef = useRef(0);
-  if (prevFiltersRef.current !== filters) {
-    prevFiltersRef.current = filters;
-    filterVersionRef.current += 1;
-  }
-
   const { page, setPage, totalPages, offset } = usePagination(
     filtered.length,
     activePageSize,
-    filterVersionRef.current
+    filters
   );
 
   useEffect(() => {

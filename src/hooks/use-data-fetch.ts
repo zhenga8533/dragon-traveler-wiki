@@ -63,15 +63,14 @@ export function useDataFetch<T>(
   parse?: (raw: unknown) => T
 ): DataFetchResult<T> {
   const parseRef = useRef(parse);
-  parseRef.current = parse;
 
   const hasCachedValue = dataCache.has(path);
   const [data, setData] = useState<T>(() => {
     if (!hasCachedValue) return initial;
     const raw = dataCache.get(path);
-    if (parseRef.current) {
+    if (parse) {
       try {
-        return parseRef.current(raw);
+        return parse(raw);
       } catch {
         return initial;
       }
@@ -80,6 +79,10 @@ export function useDataFetch<T>(
   });
   const [loading, setLoading] = useState(() => !hasCachedValue);
   const [error, setError] = useState<Error | null>(null);
+
+  useEffect(() => {
+    parseRef.current = parse;
+  }, [parse]);
 
   useEffect(() => {
     let isCancelled = false;
