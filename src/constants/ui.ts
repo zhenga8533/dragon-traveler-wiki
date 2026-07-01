@@ -128,6 +128,8 @@ export const STORAGE_KEY = {
   GEAR_TAB: 'gear:tab',
   GEAR_FILTERS: 'gear:filters',
   GEAR_SET_SEARCH: 'gear-sets:search',
+  GEAR_USAGE_QUALITY_FILTER: 'gear:usageQualityFilter',
+  GEAR_USAGE_SEARCH: 'gear:usageSearch',
   GOLDEN_ALLIANCE_SEARCH: 'golden-alliances:search',
   CHARACTER_SORT: 'characters:sort',
   RESOURCE_SORT: 'resources:sort',
