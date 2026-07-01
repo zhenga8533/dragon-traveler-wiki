@@ -52,6 +52,7 @@ import {
   useGradientAccent,
   useMobileTooltip,
   usePageSize,
+  useSortState,
   useTabParam,
 } from '@/hooks';
 import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
@@ -363,17 +364,9 @@ export default function GearPage() {
       );
   }, [gear, usageEligibleCharacters]);
 
-  const [usageSortCol, setUsageSortCol] = useState<string | null>(null);
-  const [usageSortDir, setUsageSortDir] = useState<'asc' | 'desc'>('desc');
-
-  const handleUsageSort = (key: string) => {
-    if (usageSortCol === key) {
-      setUsageSortDir((dir) => (dir === 'asc' ? 'desc' : 'asc'));
-    } else {
-      setUsageSortCol(key);
-      setUsageSortDir(key === 'name' ? 'asc' : 'desc');
-    }
-  };
+  const { sortState: usageSortState, handleSort: handleUsageSort } =
+    useSortState(STORAGE_KEY.GEAR_USAGE_SORT);
+  const { col: usageSortCol, dir: usageSortDir } = usageSortState;
 
   const sortedGearItemUsage = useMemo(() => {
     if (!usageSortCol) return gearItemUsage;
