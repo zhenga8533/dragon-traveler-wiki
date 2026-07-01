@@ -9,10 +9,8 @@ import {
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import ListPageHeader from '@/components/layout/ListPageHeader';
-import {
-  CardGridLoading,
-  ViewModeLoading,
-} from '@/components/layout/PageLoadingSkeleton';
+import ListPageShell from '@/components/layout/ListPageShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
 import {
@@ -25,23 +23,22 @@ import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
 import SortableTh from '@/components/ui/SortableTh';
 import { QUALITY_ORDER } from '@/constants/quality';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle, optionalLinkProps } from '@/constants/styles';
 import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 
 import QualityIcon from '@/components/ui/QualityIcon';
 import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
 import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
-import type { Howlkin } from '@/features/wiki/howlkins/types';
+import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
 import { useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
   useFilteredPageData,
   useGradientAccent,
-  usePageSize,
   useSearchParamFilter,
+  useSecondaryTabList,
   useTabParam,
 } from '@/hooks';
-import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
 import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
 import {
@@ -56,7 +53,7 @@ import {
   Tabs,
   Text,
 } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 interface HowlkinFilters {
@@ -151,20 +148,6 @@ export default function Howlkins() {
   });
   useSearchParamFilter(setFilters);
 
-  const [allianceSearch, setAllianceSearch] = useState(() => {
-    if (typeof window === 'undefined') return '';
-    return (
-      window.localStorage.getItem(STORAGE_KEY.GOLDEN_ALLIANCE_SEARCH) || ''
-    );
-  });
-
-  useEffect(() => {
-    window.localStorage.setItem(
-      STORAGE_KEY.GOLDEN_ALLIANCE_SEARCH,
-      allianceSearch
-    );
-  }, [allianceSearch]);
-
   const qualityOptions = useMemo(() => {
     return orderFilterOptions(
       howlkins.flatMap((howlkin) => (howlkin.quality ? [howlkin.quality] : [])),
@@ -205,40 +188,29 @@ export default function Howlkins() {
     return map;
   }, [goldenAlliances]);
 
-  const filteredAlliances = useMemo(() => {
-    if (!allianceSearch) return goldenAlliances;
-    const q = allianceSearch.toLowerCase();
-    return goldenAlliances.filter(
-      (a) =>
-        a.name.toLowerCase().includes(q) ||
-        a.howlkins.some((h) => h.toLowerCase().includes(q))
-    );
-  }, [goldenAlliances, allianceSearch]);
+  const allianceSearchFn = useCallback(
+    (alliance: GoldenAlliance, query: string) =>
+      alliance.name.toLowerCase().includes(query) ||
+      alliance.howlkins.some((h) => h.toLowerCase().includes(query)),
+    []
+  );
 
   const {
-    pageSize: alliancePageSize,
-    setPageSize: setAlliancePageSize,
-    pageSizeOptions: alliancePageSizeOptions,
-  } = usePageSize([10, 20, 30, 50], {
-    defaultSize: PAGE_SIZE,
-    storageKey: getPageSizeStorageKey(STORAGE_KEY.GOLDEN_ALLIANCE_SEARCH),
-  });
-
-  const {
+    search: allianceSearch,
+    setSearch: setAllianceSearch,
+    filtered: filteredAlliances,
+    pageItems: alliancePageItems,
     page: alliancePage,
     setPage: setAlliancePage,
     totalPages: allianceTotalPages,
-    offset: allianceOffset,
-  } = usePagination(filteredAlliances.length, alliancePageSize, allianceSearch);
-
-  useEffect(() => {
-    setAlliancePage(1);
-  }, [alliancePageSize, setAlliancePage]);
-
-  const alliancePageItems = filteredAlliances.slice(
-    allianceOffset,
-    allianceOffset + alliancePageSize
-  );
+    pageSize: alliancePageSize,
+    setPageSize: setAlliancePageSize,
+    pageSizeOptions: alliancePageSizeOptions,
+  } = useSecondaryTabList(goldenAlliances, {
+    searchFn: allianceSearchFn,
+    storageKeys: { search: STORAGE_KEY.GOLDEN_ALLIANCE_SEARCH },
+    pageSize: PAGE_SIZE,
+  });
 
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
@@ -346,9 +318,7 @@ export default function Howlkins() {
                       return (
                         <Paper
                           key={howlkin.name}
-                          {...(allianceSlug
-                            ? { component: Link, to: `/howlkins/${allianceSlug}` }
-                            : ({} as { component?: typeof Link; to: string }))}
+                          {...optionalLinkProps(allianceSlug, '/howlkins')}
                           p="md"
                           radius="md"
                           withBorder
@@ -450,9 +420,7 @@ export default function Howlkins() {
                               </Table.Td>
                               <Table.Td>
                                 <Text
-                                  {...(allianceSlug
-                                    ? { component: Link, to: `/howlkins/${allianceSlug}` }
-                                    : ({} as { component?: typeof Link; to: string }))}
+                                  {...optionalLinkProps(allianceSlug, '/howlkins')}
                                   fw={600}
                                   size="sm"
                                   className={allianceSlug ? 'dt-link-text' : undefined}
@@ -490,46 +458,33 @@ export default function Howlkins() {
           </Tabs.Panel>
 
           <Tabs.Panel value="golden-alliances" pt="md">
-            {alliancesLoading && <CardGridLoading cards={4} cardHeight={180} />}
-
-            {!alliancesLoading && alliancesError && (
-              <DataFetchError
-                title="Could not load golden alliances"
-                message={alliancesError.message}
-                onRetry={() => window.location.reload()}
-              />
-            )}
-
-            {!alliancesLoading &&
-              !alliancesError &&
-              goldenAlliances.length === 0 && (
-                <EmptyState
-                  title="No golden alliances yet"
-                  description="Golden alliance data hasn't been added yet."
-                  color={accent.primary}
-                />
-              )}
-
-            {!alliancesLoading &&
-              !alliancesError &&
-              goldenAlliances.length > 0 && (
-                <SearchableGridPanel
-                  search={allianceSearch}
-                  onSearchChange={setAllianceSearch}
-                  searchPlaceholder="Search by name or member..."
-                  hasResults={filteredAlliances.length > 0}
-                  noResultsTitle="No alliances found"
-                  noResultsMessage="No alliances match the search."
-                  onResetSearch={() => setAllianceSearch('')}
-                  currentPage={alliancePage}
-                  totalPages={allianceTotalPages}
-                  onPageChange={setAlliancePage}
-                  totalItems={filteredAlliances.length}
-                  pageSize={alliancePageSize}
-                  pageSizeOptions={alliancePageSizeOptions}
-                  onPageSizeChange={setAlliancePageSize}
-                >
-                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+            <ListPageShell
+              loading={alliancesLoading}
+              error={alliancesError}
+              hasData={goldenAlliances.length > 0}
+              emptyMessage="Golden alliance data hasn't been added yet."
+              errorTitle="Could not load golden alliances"
+              skeletonCards={4}
+              skeletonType="grid"
+              skeletonCardHeight={180}
+            >
+              <SearchableGridPanel
+                search={allianceSearch}
+                onSearchChange={setAllianceSearch}
+                searchPlaceholder="Search by name or member..."
+                hasResults={filteredAlliances.length > 0}
+                noResultsTitle="No alliances found"
+                noResultsMessage="No alliances match the search."
+                onResetSearch={() => setAllianceSearch('')}
+                currentPage={alliancePage}
+                totalPages={allianceTotalPages}
+                onPageChange={setAlliancePage}
+                totalItems={filteredAlliances.length}
+                pageSize={alliancePageSize}
+                pageSizeOptions={alliancePageSizeOptions}
+                onPageSizeChange={setAlliancePageSize}
+              >
+                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                     {alliancePageItems.map((alliance) => (
                           <Paper
                             key={alliance.name}
@@ -627,9 +582,9 @@ export default function Howlkins() {
                             </Stack>
                           </Paper>
                         ))}
-                  </SimpleGrid>
-                </SearchableGridPanel>
-              )}
+                </SimpleGrid>
+              </SearchableGridPanel>
+            </ListPageShell>
           </Tabs.Panel>
         </Tabs>
       </Stack>

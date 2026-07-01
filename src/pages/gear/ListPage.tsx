@@ -4,6 +4,7 @@ import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets';
 import RichText from '@/components/common/RichText';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
+import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
 import {
@@ -43,7 +44,7 @@ import {
 import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
-import type { Gear, GearType } from '@/features/wiki/gear/types';
+import type { Gear, GearSet, GearType } from '@/features/wiki/gear/types';
 import { useGear, useGearSets, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
@@ -51,11 +52,9 @@ import {
   useFilteredPageData,
   useGradientAccent,
   useMobileTooltip,
-  usePageSize,
-  useSortState,
+  useSecondaryTabList,
   useTabParam,
 } from '@/hooks';
-import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
 import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
 
@@ -72,7 +71,7 @@ import {
   Tabs,
   Text,
 } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
 
 type UsageQualityFilter = 'ssr-plus' | 'ssr' | 'all';
@@ -364,78 +363,66 @@ export default function GearPage() {
       );
   }, [gear, usageEligibleCharacters]);
 
-  const { sortState: usageSortState, handleSort: handleUsageSort } =
-    useSortState(STORAGE_KEY.GEAR_USAGE_SORT);
-  const { col: usageSortCol, dir: usageSortDir } = usageSortState;
+  const usageSearchFn = useCallback(
+    (entry: (typeof gearItemUsage)[number], query: string) =>
+      entry.item.name.toLowerCase().includes(query) ||
+      entry.item.set.toLowerCase().includes(query),
+    []
+  );
 
-  const sortedGearItemUsage = useMemo(() => {
-    if (!usageSortCol) return gearItemUsage;
-    const sorted = [...gearItemUsage].sort((a, b) => {
+  const usageSortFn = useCallback(
+    (
+      a: (typeof gearItemUsage)[number],
+      b: (typeof gearItemUsage)[number],
+      col: string | null,
+      dir: 'asc' | 'desc'
+    ) => {
       let cmp = 0;
-      if (usageSortCol === 'name') {
+      if (col === 'name') {
         cmp = a.item.name.localeCompare(b.item.name);
-      } else if (usageSortCol === 'type') {
+      } else if (col === 'type') {
         cmp =
           GEAR_TYPE_ORDER.indexOf(a.item.type) -
             GEAR_TYPE_ORDER.indexOf(b.item.type) ||
           a.item.name.localeCompare(b.item.name);
-      } else if (usageSortCol === 'set') {
+      } else if (col === 'set') {
         cmp =
           a.item.set.localeCompare(b.item.set) ||
           a.item.name.localeCompare(b.item.name);
-      } else {
+      } else if (col === 'count') {
         cmp = a.count - b.count;
+      } else {
+        return 0;
       }
-      return applyDir(cmp, usageSortDir);
-    });
-    return sorted;
-  }, [gearItemUsage, usageSortCol, usageSortDir]);
-
-  const [usageSearch, setUsageSearch] = useState(() => {
-    if (typeof window === 'undefined') return '';
-    return window.localStorage.getItem(STORAGE_KEY.GEAR_USAGE_SEARCH) || '';
-  });
-
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY.GEAR_USAGE_SEARCH, usageSearch);
-  }, [usageSearch]);
-
-  const filteredGearItemUsage = useMemo(() => {
-    const query = usageSearch.trim().toLowerCase();
-    if (!query) return sortedGearItemUsage;
-    return sortedGearItemUsage.filter(
-      (entry) =>
-        entry.item.name.toLowerCase().includes(query) ||
-        entry.item.set.toLowerCase().includes(query)
-    );
-  }, [sortedGearItemUsage, usageSearch]);
+      return applyDir(cmp, dir);
+    },
+    []
+  );
 
   const {
-    pageSize: usagePageSize,
-    setPageSize: setUsagePageSize,
-    pageSizeOptions: usagePageSizeOptions,
-  } = usePageSize([10, 20, 30, 50], {
-    defaultSize: PAGE_SIZE,
-    storageKey: getPageSizeStorageKey(STORAGE_KEY.GEAR_USAGE_SEARCH),
-  });
-
-  const usagePaginationKey = `${usageSearch}|${usageQualityFilter}|${usageSortCol}|${usageSortDir}`;
-
-  const {
+    search: usageSearch,
+    setSearch: setUsageSearch,
+    sortCol: usageSortCol,
+    sortDir: usageSortDir,
+    handleSort: handleUsageSort,
+    filtered: filteredGearItemUsage,
+    pageItems: usagePageItems,
     page: usagePage,
     setPage: setUsagePage,
     totalPages: usageTotalPages,
-    offset: usageOffset,
-  } = usePagination(filteredGearItemUsage.length, usagePageSize, usagePaginationKey);
-
-  useEffect(() => {
-    setUsagePage(1);
-  }, [usagePageSize, setUsagePage]);
-
-  const usagePageItems = filteredGearItemUsage.slice(
-    usageOffset,
-    usageOffset + usagePageSize
-  );
+    pageSize: usagePageSize,
+    setPageSize: setUsagePageSize,
+    pageSizeOptions: usagePageSizeOptions,
+  } = useSecondaryTabList(gearItemUsage, {
+    searchFn: usageSearchFn,
+    sortFn: usageSortFn,
+    storageKeys: {
+      search: STORAGE_KEY.GEAR_USAGE_SEARCH,
+      sort: STORAGE_KEY.GEAR_USAGE_SORT,
+    },
+    pageSize: PAGE_SIZE,
+    extraPaginationKey: usageQualityFilter,
+  });
 
   const [expandedUsageItems, setExpandedUsageItems] = useState<Set<string>>(
     () => new Set()
@@ -462,53 +449,36 @@ export default function GearPage() {
     setUsageQualityFilter(DEFAULT_USAGE_QUALITY_FILTER);
   };
 
-  const [gearSetSearch, setGearSetSearch] = useState(() => {
-    if (typeof window === 'undefined') return '';
-    return window.localStorage.getItem(STORAGE_KEY.GEAR_SET_SEARCH) || '';
-  });
+  const gearSetSearchFn = useCallback((set: GearSet, query: string) => {
+    const bonusDesc = set.set_bonus?.description ?? '';
+    return (
+      set.name.toLowerCase().includes(query) ||
+      bonusDesc.toLowerCase().includes(query)
+    );
+  }, []);
 
-  useEffect(() => {
-    window.localStorage.setItem(STORAGE_KEY.GEAR_SET_SEARCH, gearSetSearch);
-  }, [gearSetSearch]);
-
-  const filteredGearSets = useMemo(() => {
-    const query = gearSetSearch.trim().toLowerCase();
-    return gearSets
-      .filter((set) => {
-        if (!query) return true;
-        const bonusDesc = set.set_bonus?.description ?? '';
-        return (
-          set.name.toLowerCase().includes(query) ||
-          bonusDesc.toLowerCase().includes(query)
-        );
-      })
-      .sort((a, b) => a.name.localeCompare(b.name));
-  }, [gearSets, gearSetSearch]);
+  const gearSetSortFn = useCallback(
+    (a: GearSet, b: GearSet) => a.name.localeCompare(b.name),
+    []
+  );
 
   const {
-    pageSize: gearSetPageSize,
-    setPageSize: setGearSetPageSize,
-    pageSizeOptions: gearSetPageSizeOptions,
-  } = usePageSize([10, 20, 30, 50], {
-    defaultSize: PAGE_SIZE,
-    storageKey: getPageSizeStorageKey(STORAGE_KEY.GEAR_SET_SEARCH),
-  });
-
-  const {
+    search: gearSetSearch,
+    setSearch: setGearSetSearch,
+    filtered: filteredGearSets,
+    pageItems: gearSetPageItems,
     page: gearSetPage,
     setPage: setGearSetPage,
     totalPages: gearSetTotalPages,
-    offset: gearSetOffset,
-  } = usePagination(filteredGearSets.length, gearSetPageSize, gearSetSearch);
-
-  useEffect(() => {
-    setGearSetPage(1);
-  }, [gearSetPageSize, setGearSetPage]);
-
-  const gearSetPageItems = filteredGearSets.slice(
-    gearSetOffset,
-    gearSetOffset + gearSetPageSize
-  );
+    pageSize: gearSetPageSize,
+    setPageSize: setGearSetPageSize,
+    pageSizeOptions: gearSetPageSizeOptions,
+  } = useSecondaryTabList(gearSets, {
+    searchFn: gearSetSearchFn,
+    sortFn: gearSetSortFn,
+    storageKeys: { search: STORAGE_KEY.GEAR_SET_SEARCH },
+    pageSize: PAGE_SIZE,
+  });
 
   const mostRecentUpdate = useMemo(() => getLatestTimestamp(gear), [gear]);
   const mostRecentSetUpdate = useMemo(
@@ -618,67 +588,43 @@ export default function GearPage() {
                       const setBonus = setData?.set_bonus ?? item.set_bonus;
                       const iconSrc = getGearIcon(item.type, item.slug);
                       return (
-                        <Paper
+                        <EntitySummaryCard
                           key={item.name}
-                          component={Link}
                           to={`/gear-sets/${item.set}`}
-                          p="md"
-                          radius="md"
-                          withBorder
-                          {...getCardHoverProps({
-                            interactive: true,
-                            style: LINK_BLOCK_RESET_STYLE,
-                          })}
-                        >
-                          <Group gap="md" align="flex-start" wrap="nowrap">
-                            {iconSrc && (
-                              <SafeImage
-                                src={iconSrc}
-                                alt={item.name}
-                                w={IMAGE_SIZE.CARD_ICON}
-                                h={IMAGE_SIZE.CARD_ICON}
-                                fit="contain"
-                                radius="sm"
-                              />
-                            )}
-                            <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-                              <Group gap="sm" wrap="wrap">
-                                <Text
-                                  fw={700}
-                                  className="dt-link-text"
-                                  lineClamp={1}
-                                >
-                                  {item.name}
-                                </Text>
-                                {item.quality && (
-                                  <QualityIcon quality={item.quality} />
-                                )}
-                              </Group>
-                              <Group gap="xs" wrap="wrap">
-                                <GearTypeTag type={item.type} />
+                          title={item.name}
+                          imageSrc={iconSrc}
+                          titleAccessory={
+                            item.quality && (
+                              <QualityIcon quality={item.quality} />
+                            )
+                          }
+                          metadata={
+                            <Group gap="xs" wrap="wrap">
+                              <GearTypeTag type={item.type} />
+                              <Badge
+                                variant="light"
+                                size="sm"
+                                color={accent.secondary}
+                              >
+                                {item.set}
+                              </Badge>
+                              {setBonus && setBonus.quantity > 0 && (
                                 <Badge
-                                  variant="light"
+                                  variant="outline"
                                   size="sm"
-                                  color={accent.secondary}
+                                  color={accent.tertiary}
                                 >
-                                  {item.set}
+                                  {setBonus.quantity}-piece set
                                 </Badge>
-                                {setBonus && setBonus.quantity > 0 && (
-                                  <Badge
-                                    variant="outline"
-                                    size="sm"
-                                    color={accent.tertiary}
-                                  >
-                                    {setBonus.quantity}-piece set
-                                  </Badge>
-                                )}
-                              </Group>
-                              <ExpandableText size="xs">
-                                <RichText text={item.lore} statusEffects={statusEffects} italic />
-                              </ExpandableText>
-                            </Stack>
-                          </Group>
-                        </Paper>
+                              )}
+                            </Group>
+                          }
+                          description={
+                            <ExpandableText size="xs">
+                              <RichText text={item.lore} statusEffects={statusEffects} italic />
+                            </ExpandableText>
+                          }
+                        />
                       );
                     })}
                   </SimpleGrid>

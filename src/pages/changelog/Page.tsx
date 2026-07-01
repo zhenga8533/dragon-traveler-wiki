@@ -251,9 +251,6 @@ function DataHistory() {
 
   const filterContent = (
     <EntityFilter
-      groups={[]}
-      selected={{}}
-      onChange={() => {}}
       onClear={clearFilters}
       hasActiveFilters={selectedCategories.length > 0}
       afterGroups={

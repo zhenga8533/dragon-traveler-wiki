@@ -1,5 +1,5 @@
 import SafeImage from '@/components/ui/SafeImage';
-import { InteractiveSurface } from '@/components/ui/Surface';
+import { InteractiveSurface, StaticSurface } from '@/components/ui/Surface';
 import { LINK_BLOCK_RESET_STYLE } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import { Group, Stack, Text } from '@mantine/core';
@@ -7,7 +7,8 @@ import type { ReactNode } from 'react';
 import { Link } from 'react-router-dom';
 
 interface EntitySummaryCardProps {
-  to: string;
+  /** Omit (or pass null) to render a non-interactive card, e.g. when no linked entity exists yet. */
+  to?: string | null;
   title: string;
   imageSrc?: string;
   imageAlt?: string;
@@ -26,12 +27,12 @@ export default function EntitySummaryCard({
   metadata,
   description,
 }: EntitySummaryCardProps) {
+  const Surface = to ? InteractiveSurface : StaticSurface;
+
   return (
-    <InteractiveSurface
-      component={Link}
-      to={to}
+    <Surface
       p="md"
-      style={LINK_BLOCK_RESET_STYLE}
+      {...(to ? { component: Link, to, style: LINK_BLOCK_RESET_STYLE } : {})}
     >
       <Group gap="md" align="flex-start" wrap="nowrap">
         {imageSrc && (
@@ -47,7 +48,7 @@ export default function EntitySummaryCard({
         )}
         <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
           <Group gap="sm" wrap="wrap">
-            <Text fw={700} className="dt-link-text" lineClamp={1}>
+            <Text fw={700} className={to ? 'dt-link-text' : undefined} lineClamp={1}>
               {title}
             </Text>
             {titleAccessory}
@@ -56,6 +57,6 @@ export default function EntitySummaryCard({
           {description}
         </Stack>
       </Group>
-    </InteractiveSurface>
+    </Surface>
   );
 }

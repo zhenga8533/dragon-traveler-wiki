@@ -29,6 +29,7 @@ export function useSortState(storageKey: string) {
   });
 
   useEffect(() => {
+    if (!storageKey) return;
     writeStoredJson(storageKey, sortState);
   }, [storageKey, sortState]);
 

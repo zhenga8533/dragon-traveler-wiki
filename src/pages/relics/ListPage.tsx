@@ -7,6 +7,7 @@ import {
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
+import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import FilteredListShell from '@/components/layout/FilteredListShell';
 import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import ListPageHeader from '@/components/layout/ListPageHeader';
@@ -36,11 +37,10 @@ import {
   applyDir,
   useFilteredPageData,
   useGradientAccent,
-  usePageSize,
   useSearchParamFilter,
+  useSecondaryTabList,
   useTabParam,
 } from '@/hooks';
-import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
 import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
 import { toEntitySlug } from '@/utils/entity-slug';
@@ -56,7 +56,7 @@ import {
   Tabs,
   Text,
 } from '@mantine/core';
-import { useEffect, useMemo, useState } from 'react';
+import { useCallback, useMemo } from 'react';
 import { Link } from 'react-router-dom';
 
 interface RelicFilters {
@@ -209,56 +209,33 @@ export default function RelicPage() {
     return map;
   }, [relics]);
 
-  const [oracleSearch, setOracleSearch] = useState(() => {
-    if (typeof window === 'undefined') return '';
-    return (
-      window.localStorage.getItem(STORAGE_KEY.RELIC_ORACLE_SCROLL_SEARCH) || ''
-    );
-  });
-
-  useEffect(() => {
-    window.localStorage.setItem(
-      STORAGE_KEY.RELIC_ORACLE_SCROLL_SEARCH,
-      oracleSearch
-    );
-  }, [oracleSearch]);
-
-  const filteredOracleScrolls = useMemo(() => {
-    const query = oracleSearch.trim().toLowerCase();
-    return oracleScrollNames.filter((name) => {
-      if (!query) return true;
+  const oracleSearchFn = useCallback(
+    (name: string, query: string) => {
       const relicsInScroll = relicsByOracle.get(name) ?? [];
       return (
         name.toLowerCase().includes(query) ||
         relicsInScroll.some((r) => r.name.toLowerCase().includes(query))
       );
-    });
-  }, [oracleScrollNames, oracleSearch, relicsByOracle]);
+    },
+    [relicsByOracle]
+  );
 
   const {
-    pageSize: oraclePageSize,
-    setPageSize: setOraclePageSize,
-    pageSizeOptions: oraclePageSizeOptions,
-  } = usePageSize([10, 20, 30, 50], {
-    defaultSize: PAGE_SIZE,
-    storageKey: getPageSizeStorageKey(STORAGE_KEY.RELIC_ORACLE_SCROLL_SEARCH),
-  });
-
-  const {
+    search: oracleSearch,
+    setSearch: setOracleSearch,
+    filtered: filteredOracleScrolls,
+    pageItems: oraclePageItems,
     page: oraclePage,
     setPage: setOraclePage,
     totalPages: oracleTotalPages,
-    offset: oracleOffset,
-  } = usePagination(filteredOracleScrolls.length, oraclePageSize, oracleSearch);
-
-  useEffect(() => {
-    setOraclePage(1);
-  }, [oraclePageSize, setOraclePage]);
-
-  const oraclePageItems = filteredOracleScrolls.slice(
-    oracleOffset,
-    oracleOffset + oraclePageSize
-  );
+    pageSize: oraclePageSize,
+    setPageSize: setOraclePageSize,
+    pageSizeOptions: oraclePageSizeOptions,
+  } = useSecondaryTabList(oracleScrollNames, {
+    searchFn: oracleSearchFn,
+    storageKeys: { search: STORAGE_KEY.RELIC_ORACLE_SCROLL_SEARCH },
+    pageSize: PAGE_SIZE,
+  });
 
   const mostRecentUpdate = useMemo(() => getLatestTimestamp(relics), [relics]);
 
@@ -347,61 +324,36 @@ export default function RelicPage() {
                         ? toEntitySlug(oracleScroll)
                         : null;
                       return (
-                        <Paper
+                        <EntitySummaryCard
                           key={item.name}
-                          {...(scrollSlug
-                            ? { component: Link, to: `/oracle-scrolls/${scrollSlug}` }
-                            : ({} as { component?: typeof Link; to: string }))}
-                          p="md"
-                          radius="md"
-                          withBorder
-                          {...getCardHoverProps({
-                            interactive: !!scrollSlug,
-                            style: scrollSlug ? LINK_BLOCK_RESET_STYLE : undefined,
-                          })}
-                        >
-                          <Group gap="md" align="flex-start" wrap="nowrap">
-                            {iconSrc && (
-                              <SafeImage
-                                src={iconSrc}
-                                alt={item.name}
-                                w={IMAGE_SIZE.CARD_ICON}
-                                h={IMAGE_SIZE.CARD_ICON}
-                                fit="contain"
-                                radius="sm"
-                              />
-                            )}
-                            <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-                              <Group gap="sm" wrap="wrap">
-                                <Text
-                                  fw={700}
-                                  className={scrollSlug ? 'dt-link-text' : undefined}
-                                  lineClamp={1}
+                          to={scrollSlug ? `/oracle-scrolls/${scrollSlug}` : null}
+                          title={item.name}
+                          imageSrc={iconSrc}
+                          titleAccessory={
+                            item.quality && (
+                              <QualityIcon quality={item.quality} />
+                            )
+                          }
+                          metadata={
+                            <Group gap="xs" wrap="wrap">
+                              <RelicTypeTag type={item.type} />
+                              {oracleScroll && (
+                                <Badge
+                                  variant="light"
+                                  size="sm"
+                                  color={accent.secondary}
                                 >
-                                  {item.name}
-                                </Text>
-                                {item.quality && (
-                                  <QualityIcon quality={item.quality} />
-                                )}
-                              </Group>
-                              <Group gap="xs" wrap="wrap">
-                                <RelicTypeTag type={item.type} />
-                                {oracleScroll && (
-                                  <Badge
-                                    variant="light"
-                                    size="sm"
-                                    color={accent.secondary}
-                                  >
-                                    {oracleScroll}
-                                  </Badge>
-                                )}
-                              </Group>
-                              <ExpandableText size="xs">
-                                <RichText text={item.lore} statusEffects={statusEffects} italic />
-                              </ExpandableText>
-                            </Stack>
-                          </Group>
-                        </Paper>
+                                  {oracleScroll}
+                                </Badge>
+                              )}
+                            </Group>
+                          }
+                          description={
+                            <ExpandableText size="xs">
+                              <RichText text={item.lore} statusEffects={statusEffects} italic />
+                            </ExpandableText>
+                          }
+                        />
                       );
                     })}
                   </SimpleGrid>

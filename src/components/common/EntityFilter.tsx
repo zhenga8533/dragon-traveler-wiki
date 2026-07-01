@@ -13,9 +13,9 @@ import {
 export type { ChipFilterGroup } from './EntityFilterGroups';
 
 export interface EntityFilterProps {
-  groups: ChipFilterGroup[];
-  selected: Record<string, string[]>;
-  onChange: (key: string, values: string[]) => void;
+  groups?: ChipFilterGroup[];
+  selected?: Record<string, string[]>;
+  onChange?: (key: string, values: string[]) => void;
   onClear: () => void;
   hasActiveFilters?: boolean;
   search?: string;
@@ -26,8 +26,8 @@ export interface EntityFilterProps {
 }
 
 export default function EntityFilter({
-  groups,
-  selected,
+  groups = [],
+  selected = {},
   onChange,
   onClear,
   hasActiveFilters,
@@ -83,7 +83,7 @@ export default function EntityFilter({
         <FilterSection key={group.key} label={group.label}>
           <FilterChipGroup
             value={selected[group.key] ?? []}
-            onChange={(val) => onChange(group.key, val)}
+            onChange={(val) => onChange?.(group.key, val)}
             size={isMobile ? 'md' : 'xs'}
             options={group.options.map(
               (option): FilterChipOption => ({

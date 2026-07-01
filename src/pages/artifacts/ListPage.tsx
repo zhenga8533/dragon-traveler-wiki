@@ -156,9 +156,6 @@ export default function Artifacts() {
             onResetFilters={resetFilters}
             filterContent={
               <EntityFilter
-                groups={[]}
-                selected={{}}
-                onChange={() => {}}
                 onClear={resetFilters}
                 search={filters.search}
                 onSearchChange={(value) =>

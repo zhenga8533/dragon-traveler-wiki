@@ -3,6 +3,7 @@ import SafeImage from '@/components/ui/SafeImage';
 import { getWyrmPortrait } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import EntityFilter from '@/components/common/EntityFilter';
+import EntitySummaryCard from '@/components/common/EntitySummaryCard';
 import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import {
   createFactionFilterGroup,
@@ -23,11 +24,7 @@ import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
 import { FACTION_NAMES, FACTION_SLUGS } from '@/constants/faction-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
-import {
-  LINK_BLOCK_RESET_STYLE,
-  getCardHoverProps,
-  getMinWidthStyle,
-} from '@/constants/styles';
+import { getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import type { WyrmPhase } from '@/features/wiki/wyrms/types';
 import { WYRM_PHASE_ORDER } from '@/features/wiki/wyrms/types';
@@ -39,15 +36,12 @@ import {
   Badge,
   Container,
   Group,
-  Paper,
   ScrollArea,
   SimpleGrid,
   Stack,
   Table,
-  Text,
 } from '@mantine/core';
 import { useMemo } from 'react';
-import { Link } from 'react-router-dom';
 
 const WYRM_PHASE_COLOR: Record<WyrmPhase, string> = {
   'Juvenile Phase': 'violet',
@@ -307,54 +301,31 @@ export default function WyrmsListPage() {
                   const iconSrc = getWyrmPortrait(wyrm.slug);
                   const phaseColor = WYRM_PHASE_COLOR[wyrm.phase];
                   return (
-                    <Paper
+                    <EntitySummaryCard
                       key={wyrm.name}
-                      component={Link}
                       to={`/wyrms/${wyrm.slug}`}
-                      p="md"
-                      radius="md"
-                      withBorder
-                      {...getCardHoverProps({
-                        interactive: true,
-                        style: LINK_BLOCK_RESET_STYLE,
-                      })}
-                    >
-                      <Group gap="md" align="flex-start" wrap="nowrap">
-                        {iconSrc && (
-                          <SafeImage
-                            src={iconSrc}
-                            alt={wyrm.name}
-                            w={IMAGE_SIZE.CARD_ICON}
-                            h={IMAGE_SIZE.CARD_ICON}
-                            fit="contain"
-                            radius="sm"
-                            loading="lazy"
-                          />
-                        )}
-                        <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-                          <Group gap="sm" wrap="wrap">
-                            <Text fw={700} className="dt-link-text" lineClamp={1}>
-                              {wyrm.name}
-                            </Text>
-                            <QualityIcon quality={wyrm.quality} />
-                          </Group>
-                          <Group gap="xs" wrap="wrap">
-                            <Badge variant="light" size="sm" color={phaseColor}>
-                              {wyrm.phase}
-                            </Badge>
-                            <FactionTag faction={wyrm.faction} size="sm" />
-                          </Group>
-                          {wyrm.battle_description && (
-                            <ExpandableText size="xs">
-                              <RichText
-                                text={wyrm.battle_description}
-                                statusEffects={statusEffects}
-                              />
-                            </ExpandableText>
-                          )}
-                        </Stack>
-                      </Group>
-                    </Paper>
+                      title={wyrm.name}
+                      imageSrc={iconSrc}
+                      titleAccessory={<QualityIcon quality={wyrm.quality} />}
+                      metadata={
+                        <Group gap="xs" wrap="wrap">
+                          <Badge variant="light" size="sm" color={phaseColor}>
+                            {wyrm.phase}
+                          </Badge>
+                          <FactionTag faction={wyrm.faction} size="sm" />
+                        </Group>
+                      }
+                      description={
+                        wyrm.battle_description && (
+                          <ExpandableText size="xs">
+                            <RichText
+                              text={wyrm.battle_description}
+                              statusEffects={statusEffects}
+                            />
+                          </ExpandableText>
+                        )
+                      }
+                    />
                   );
                 })}
               </SimpleGrid>

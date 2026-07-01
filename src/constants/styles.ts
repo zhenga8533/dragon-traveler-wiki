@@ -1,4 +1,5 @@
 import type { CSSProperties } from 'react';
+import { Link } from 'react-router-dom';
 
 export const BRAND_TITLE_STYLE = {
   fontFamily: '"Space Grotesk", "Plus Jakarta Sans", system-ui, sans-serif',
@@ -128,4 +129,15 @@ export const CURSOR_DEFAULT_STYLE = {
 
 export function getMinWidthStyle(minWidth: number): CSSProperties {
   return { minWidth };
+}
+
+/**
+ * Returns `component`/`to` props for a card/row that should only be a link
+ * when a target slug is known. Spread alongside `getCardHoverProps`.
+ */
+export function optionalLinkProps(
+  slug: string | null | undefined,
+  basePath: string
+): { component?: typeof Link; to?: string } {
+  return slug ? { component: Link, to: `${basePath}/${slug}` } : {};
 }
