@@ -3,8 +3,6 @@ import RichText from '@/components/common/RichText';
 import { WYRMSPELL_TYPE_COLOR } from '@/constants/wyrmspell-colors';
 import { getMaxQuality } from '@/features/wiki/wyrmspells/types';
 import { useStatusEffects, useWyrmspells } from '@/features/wiki/hooks/use-wiki-data';
-import { normalizeName } from '@/utils';
-import { toEntitySlug } from '@/utils/entity-slug';
 import type { MantineSize } from '@mantine/core';
 import { Anchor, Badge, Group, Stack, Text } from '@mantine/core';
 import SafeImage from './SafeImage';
@@ -14,31 +12,28 @@ import QualityIcon from './QualityIcon';
 import { Link } from 'react-router-dom';
 
 export interface WyrmspellBadgeProps {
-  name: string;
+  /** Wyrmspell slug (e.g. "agility_aura") — the canonical key in wyrmspells.json. */
+  slug: string;
   size?: MantineSize;
 }
 
 export default function WyrmspellBadge({
-  name,
+  slug,
   size = 'sm',
 }: WyrmspellBadgeProps) {
   const { data: wyrmspells } = useWyrmspells();
   const { data: statusEffects } = useStatusEffects();
 
-  const wyrmspell =
-    wyrmspells.find(
-      (entry) =>
-        normalizeName(entry.name) === normalizeName(name) ||
-        entry.slug === toEntitySlug(name)
-    ) ?? undefined;
+  const wyrmspell = wyrmspells.find((entry) => entry.slug === slug);
+  const label = wyrmspell?.name ?? slug;
 
-  const iconSrc = getWyrmspellIcon(wyrmspell?.slug ?? toEntitySlug(name), wyrmspell?.type);
+  const iconSrc = getWyrmspellIcon(slug, wyrmspell?.type);
   const color = wyrmspell ? WYRMSPELL_TYPE_COLOR[wyrmspell.type] : 'gray';
   const maxQuality = wyrmspell ? getMaxQuality(wyrmspell) : null;
 
   return (
     <IconBadge
-      label={name}
+      label={label}
       color={color}
       size={size}
       iconSrc={iconSrc ?? undefined}
@@ -49,7 +44,7 @@ export default function WyrmspellBadge({
               {iconSrc && (
                 <SafeImage
                   src={iconSrc}
-                  alt={name}
+                  alt={label}
                   w={32}
                   h={32}
                   fit="contain"
@@ -87,7 +82,7 @@ export default function WyrmspellBadge({
 
             <Anchor
               component={Link}
-              to={`/wyrmspells/${toEntitySlug(name)}`}
+              to={`/wyrmspells/${slug}`}
               size="xs"
             >
               View details →

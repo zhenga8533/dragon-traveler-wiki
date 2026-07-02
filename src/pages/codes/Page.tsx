@@ -75,8 +75,8 @@ import {
 function aggregateRewards(codes: Code[]): Map<string, number> {
   const totals = new Map<string, number>();
   for (const code of codes) {
-    for (const [name, qty] of Object.entries(code.rewards ?? {})) {
-      totals.set(name, (totals.get(name) || 0) + qty);
+    for (const [slug, qty] of Object.entries(code.rewards ?? {})) {
+      totals.set(slug, (totals.get(slug) || 0) + qty);
     }
   }
   return totals;
@@ -477,10 +477,10 @@ export default function Codes() {
                     {tabUnclaimedRewards.size > 0 ? (
                       <Group gap="xs" wrap="wrap">
                         {[...tabUnclaimedRewards.entries()].map(
-                          ([name, qty]) => (
+                          ([slug, qty]) => (
                             <ResourceBadge
-                              key={name}
-                              name={name}
+                              key={slug}
+                              slug={slug}
                               quantity={qty}
                             />
                           )
@@ -530,10 +530,10 @@ export default function Codes() {
                     </Group>
                     {tabClaimedRewards.size > 0 ? (
                       <Group gap="xs" wrap="wrap">
-                        {[...tabClaimedRewards.entries()].map(([name, qty]) => (
+                        {[...tabClaimedRewards.entries()].map(([slug, qty]) => (
                           <ResourceBadge
-                            key={name}
-                            name={name}
+                            key={slug}
+                            slug={slug}
                             quantity={qty}
                           />
                         ))}
@@ -666,8 +666,8 @@ export default function Codes() {
                 </Group>
                 {Object.keys(entry.rewards ?? {}).length > 0 && (
                   <Group gap="xs" mt="xs" wrap="wrap">
-                    {Object.entries(entry.rewards ?? {}).map(([name, qty]) => (
-                      <ResourceBadge key={name} name={name} quantity={qty} />
+                    {Object.entries(entry.rewards ?? {}).map(([slug, qty]) => (
+                      <ResourceBadge key={slug} slug={slug} quantity={qty} />
                     ))}
                   </Group>
                 )}
@@ -752,10 +752,10 @@ export default function Codes() {
                       {Object.keys(entry.rewards ?? {}).length > 0 && (
                         <Group gap="xs" wrap="wrap">
                           {Object.entries(entry.rewards ?? {}).map(
-                            ([name, quantity]) => (
+                            ([slug, quantity]) => (
                               <ResourceBadge
-                                key={name}
-                                name={name}
+                                key={slug}
+                                slug={slug}
                                 quantity={quantity}
                               />
                             )

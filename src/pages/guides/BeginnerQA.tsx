@@ -21,59 +21,59 @@ import GuideHeroCard from './components/GuideHeroCard';
 
 const FACTION_GIFTS: {
   faction: string;
-  ssr: { name: string; pts: number };
-  sr: { name: string; pts: number };
-  r: { name: string; pts: number };
-  n: { name: string; pts: number };
+  ssr: { slug: string; pts: number };
+  sr: { slug: string; pts: number };
+  r: { slug: string; pts: number };
+  n: { slug: string; pts: number };
 }[] = [
   {
     faction: 'Any',
-    ssr: { name: 'Luxury Tea Set', pts: 150 },
-    sr: { name: 'Grilled Steak', pts: 75 },
-    r: { name: 'Banquet Cake', pts: 30 },
-    n: { name: 'Apple', pts: 15 },
+    ssr: { slug: 'luxury_tea_set', pts: 150 },
+    sr: { slug: 'grilled_steak', pts: 75 },
+    r: { slug: 'banquet_cake', pts: 30 },
+    n: { slug: 'fresh_apple', pts: 15 },
   },
   {
     faction: 'Elemental Echo',
-    ssr: { name: 'Amber Necklace', pts: 100 },
-    sr: { name: 'Obsidian Arrowhead', pts: 50 },
-    r: { name: 'Coral Ornament', pts: 20 },
-    n: { name: 'Dandelion', pts: 10 },
+    ssr: { slug: 'amber_necklace', pts: 100 },
+    sr: { slug: 'obsidian_arrowhead', pts: 50 },
+    r: { slug: 'coral_ornament', pts: 20 },
+    n: { slug: 'dandelion', pts: 10 },
   },
   {
     faction: 'Illusion Veil',
-    ssr: { name: 'Black Lotus', pts: 100 },
-    sr: { name: 'Forbidden Scroll', pts: 50 },
-    r: { name: 'Rotten Branch', pts: 20 },
-    n: { name: 'Cave Mushroom', pts: 10 },
+    ssr: { slug: 'black_lotus', pts: 100 },
+    sr: { slug: 'forbidden_scroll', pts: 50 },
+    r: { slug: 'rotten_branch', pts: 20 },
+    n: { slug: 'cave_mushroom', pts: 10 },
   },
   {
     faction: 'Arcane Wisdom',
-    ssr: { name: 'Lilac and Gooseberry', pts: 100 },
-    sr: { name: 'Potion Class Notes', pts: 50 },
-    r: { name: 'Ink and Quill', pts: 20 },
-    n: { name: 'Manna', pts: 10 },
+    ssr: { slug: 'lilac_and_gooseberry', pts: 100 },
+    sr: { slug: 'potion_class_notes', pts: 50 },
+    r: { slug: 'ink_and_quill', pts: 20 },
+    n: { slug: 'manna', pts: 10 },
   },
   {
     faction: 'Otherworld Return',
-    ssr: { name: 'Soul Bell', pts: 100 },
-    sr: { name: 'Graveyard Lily', pts: 50 },
-    r: { name: 'Preservative', pts: 20 },
-    n: { name: 'Ritual Candle', pts: 10 },
+    ssr: { slug: 'soul_bell', pts: 100 },
+    sr: { slug: 'graveyard_lily', pts: 50 },
+    r: { slug: 'preservative', pts: 20 },
+    n: { slug: 'ritual_candle', pts: 10 },
   },
   {
     faction: 'Sanctum Glory',
-    ssr: { name: 'Stained Glass Window Decoration', pts: 100 },
-    sr: { name: 'Griffin Doll', pts: 50 },
-    r: { name: "A Knight's Tale", pts: 20 },
-    n: { name: 'Wooden Training Sword', pts: 10 },
+    ssr: { slug: 'stained_glass_window_decoration', pts: 100 },
+    sr: { slug: 'griffin_doll', pts: 50 },
+    r: { slug: 'a_knights_tale', pts: 20 },
+    n: { slug: 'wooden_training_sword', pts: 10 },
   },
   {
     faction: 'Wild Spirit',
-    ssr: { name: 'Treant Sapling', pts: 100 },
-    sr: { name: 'Ring Casting Mold', pts: 50 },
-    r: { name: 'Fairy Dust', pts: 20 },
-    n: { name: 'Elven Biscuit', pts: 10 },
+    ssr: { slug: 'treant_sapling', pts: 100 },
+    sr: { slug: 'ring_casting_mold', pts: 50 },
+    r: { slug: 'fairy_dust', pts: 20 },
+    n: { slug: 'elven_biscuit', pts: 10 },
   },
 ];
 
@@ -88,7 +88,7 @@ const GUILD_EXPEDITION_PRIORITIES: {
     objective: 'Bosses',
     reward: (
       <>
-        Chance for key, <ResourceBadge name="Leaf of the World Tree" />, Auction
+        Chance for key, <ResourceBadge slug="leaf_of_the_world_tree" />, Auction
         addition
       </>
     ),
@@ -98,8 +98,8 @@ const GUILD_EXPEDITION_PRIORITIES: {
     objective: 'Normal enemies/ locked chests',
     reward: (
       <>
-        Key, <ResourceBadge name="Leaf of the World Tree" /> / Gems, Faction
-        Runes, <ResourceBadge name="Dragonblood" />
+        Key, <ResourceBadge slug="leaf_of_the_world_tree" /> / Gems, Faction
+        Runes, <ResourceBadge slug="dragonblood" />
       </>
     ),
   },
@@ -119,7 +119,7 @@ const GUILD_EXPEDITION_PRIORITIES: {
     objective: 'Cart Full of Dragon Souls',
     reward: (
       <>
-        1x <ResourceBadge name="Wyrm Essence" /> Pack (1 hr)
+        1x <ResourceBadge slug="wyrm_essence" /> Pack (1 hr)
       </>
     ),
   },
@@ -128,7 +128,7 @@ const GUILD_EXPEDITION_PRIORITIES: {
     objective: 'Dragon Soul Stone',
     reward: (
       <>
-        5x <ResourceBadge name="Wyrm Essence" />
+        5x <ResourceBadge slug="wyrm_essence" />
       </>
     ),
   },
@@ -137,7 +137,7 @@ const GUILD_EXPEDITION_PRIORITIES: {
     objective: 'Ancient Tree',
     reward: (
       <>
-        1x <ResourceBadge name="Luminary EXP" /> Pack (1 hr)
+        1x <ResourceBadge slug="luminary_exp" /> Pack (1 hr)
       </>
     ),
   },
@@ -146,7 +146,7 @@ const GUILD_EXPEDITION_PRIORITIES: {
     objective: 'Cart Full of Gold',
     reward: (
       <>
-        1x <ResourceBadge name="Gold" /> Pack (1 hr)
+        1x <ResourceBadge slug="gold" /> Pack (1 hr)
       </>
     ),
   },
@@ -155,7 +155,7 @@ const GUILD_EXPEDITION_PRIORITIES: {
     objective: 'Gold',
     reward: (
       <>
-        7500 <ResourceBadge name="Gold" />
+        7500 <ResourceBadge slug="gold" />
       </>
     ),
   },
@@ -222,7 +222,8 @@ export default function BeginnerQA() {
             <Title order={2}>Summoning &amp; Characters</Title>
 
             <QA q="Which characters should I prioritize summoning?">
-              Go for at least 8 copies of <CharacterTag name="Ifrit" /> (AoE
+              Go for at least 8 copies of{' '}
+              <CharacterTag slug="ifrit_ssr_plus" /> (AoE
               attack, physical defense reduction) to reach Red 1★ for the
               powerful Level 4 passive. Then try to summon at least 1 copy of
               each limited character.
@@ -230,25 +231,27 @@ export default function BeginnerQA() {
 
             <QA q="How should I pull characters strategically?">
               Most characters need higher stars to become fully viable. For
-              F2P/new players, save <ResourceBadge name="Diamond" /> and{' '}
-              <ResourceBadge name="Fated Summoning Ticket" /> for strong
+              F2P/new players, save <ResourceBadge slug="diamond" /> and{' '}
+              <ResourceBadge slug="fated_summoning_ticket" /> for strong
               universal cards or for your core team archetype. Target Purple 6★
               / Red 1★ to unlock Level 4 passives.
             </QA>
 
             <QA q="How should I set my Wishlist?">
               Fill all 8 slots or it will not activate. For SSR+, take up to two{' '}
-              <CharacterTag name="Titania" />, then prioritize{' '}
-              <CharacterTag name="Scheherazade" />,{' '}
-              <CharacterTag name="Huginn & Muninn" />,{' '}
-              <CharacterTag name="Gullveig" />, and{' '}
-              <CharacterTag name="Anubis" />. Also, try to acquire one copy of
-              each SSR+ Luminary.
+              <CharacterTag slug="titania_ssr_plus" />, then prioritize{' '}
+              <CharacterTag slug="scheherazade_ssr_plus" />,{' '}
+              <CharacterTag slug="huginn_muninn_ssr_plus" />,{' '}
+              <CharacterTag slug="gullveig_ssr_plus" />, and{' '}
+              <CharacterTag slug="anubis_ssr_plus" />. Also, try to acquire one
+              copy of each SSR+ Luminary.
               <br />
-              For SSR, prioritize <CharacterTag name="Atanith" />,{' '}
-              <CharacterTag name="Lorilin" />, <CharacterTag name="Nemesis" />,{' '}
-              <CharacterTag name="Chiron" />, <CharacterTag name="Caligula" />,
-              and <CharacterTag name="Herman" />.<br />
+              For SSR, prioritize <CharacterTag slug="atanith_ssr" />,{' '}
+              <CharacterTag slug="lorilin_ssr" />,{' '}
+              <CharacterTag slug="nemesis_ssr" />,{' '}
+              <CharacterTag slug="chiron_ssr" />,{' '}
+              <CharacterTag slug="caligula_ssr" />, and{' '}
+              <CharacterTag slug="herman_ssr" />.<br />
               Note that this is just the reccommended order for F2P and new
               players; if you have a specific team composition in mind, you may
               want to prioritize different characters.
@@ -269,27 +272,28 @@ export default function BeginnerQA() {
             </QA>
 
             <QA q="Which shops should I buy from?">
-              • Mystery Shop: <ResourceBadge name="Exploration Guide" />{' '}
-              (daily), <ResourceBadge name="Primal Amber" />
+              • Mystery Shop: <ResourceBadge slug="exploration_guide" />{' '}
+              (daily), <ResourceBadge slug="primal_amber" />
               (monthly).
               <br />• Arena Shop: discounted{' '}
-              <ResourceBadge name="Mythic Summoning Ticket" /> &gt;{' '}
-              <ResourceBadge name="Primal Amber" /> &gt; full-price{' '}
-              <ResourceBadge name="Mythic Summoning Ticket" />.
-              <br />• God Realm Shop: <ResourceBadge name="Fate Horn" />{' '}
-              (weekly) &gt; <ResourceBadge name="Aurora Dust" /> (daily) &gt;{' '}
-              <CharacterTag name="Medusa SSR" /> (one copy first, then shards).
-              <br />• Guild Shop: <ResourceBadge name="Dragonblood" /> (weekly)
-              &gt; shards. Buy <ResourceBadge name="Leaf of the World Tree" />{' '}
+              <ResourceBadge slug="mythic_summoning_ticket" /> &gt;{' '}
+              <ResourceBadge slug="primal_amber" /> &gt; full-price{' '}
+              <ResourceBadge slug="mythic_summoning_ticket" />.
+              <br />• God Realm Shop: <ResourceBadge slug="fate_horn" />{' '}
+              (weekly) &gt; <ResourceBadge slug="aurora_dust" /> (daily) &gt;{' '}
+              <CharacterTag slug="medusa_ssr" /> (SSR, one copy first, then
+              shards).
+              <br />• Guild Shop: <ResourceBadge slug="dragonblood" /> (weekly)
+              &gt; shards. Buy <ResourceBadge slug="leaf_of_the_world_tree" />{' '}
               here if stuck on evolution.
             </QA>
 
             <QA q="How should I buy Treasure Hunt resources?">
               Prioritize daily purchases based on your Diamond reserve:
-              <br />• 1 <ResourceBadge name="Soul Elixir" /> (up to 3 if needed)
-              <br />• 1 <ResourceBadge name="Legacy Dragon Crystal" /> (up to 5
+              <br />• 1 <ResourceBadge slug="soul_elixir" /> (up to 3 if needed)
+              <br />• 1 <ResourceBadge slug="legacy_dragon_crystal" /> (up to 5
               if needed)
-              <br />• 5-10 <ResourceBadge name="Golden Horn" /> (reccommended to
+              <br />• 5-10 <ResourceBadge slug="golden_horn" /> (reccommended to
               stop buying after core artifacts are unlocked)
               <br />
               Save everything until the matching event starts. Buy ALL fate
@@ -310,15 +314,15 @@ export default function BeginnerQA() {
             <QA q="How do I evolve Dragons?">
               Dragon star-up uses Dragon Souls. If you lack the exact soul, you
               can substitute lower-tier souls or{' '}
-              <ResourceBadge name="Dragonblood" />. Conversion: 3 Small = 1
+              <ResourceBadge slug="dragonblood" />. Conversion: 3 Small = 1
               Medium, and 4 Medium = 1 Large.
             </QA>
 
             <QA q="What should I prioritize in Dispatch?">
-              <ResourceBadge name="Luminary EXP" /> ≥{' '}
-              <ResourceBadge name="Gold" /> &gt;{' '}
-              <ResourceBadge name="Leaf of the World Tree" /> ≥{' '}
-              <ResourceBadge name="Diamond" />.
+              <ResourceBadge slug="luminary_exp" /> ≥{' '}
+              <ResourceBadge slug="gold" /> &gt;{' '}
+              <ResourceBadge slug="leaf_of_the_world_tree" /> ≥{' '}
+              <ResourceBadge slug="diamond" />.
             </QA>
 
             <QA q="What attributes are best for equipment?">
@@ -343,11 +347,11 @@ export default function BeginnerQA() {
             </QA>
 
             <QA q="What should I exchange Golden Leaves for?">
-              <ResolvedHowlkinBadge name="Black Dragon" /> ≥{' '}
-              <ResolvedHowlkinBadge name="Pumpkin Knight" /> &gt;{' '}
-              <WyrmspellBadge name="Agility Aura" /> &gt; Mythic Wyrm Spells
-              &gt; <ResolvedHowlkinBadge name="Titan" /> ≥{' '}
-              <ResolvedHowlkinBadge name="Hydra" />{' '}
+              <ResolvedHowlkinBadge slug="black_dragon" /> ≥{' '}
+              <ResolvedHowlkinBadge slug="pumpkin_knight" /> &gt;{' '}
+              <WyrmspellBadge slug="agility_aura" /> &gt; Mythic Wyrm Spells
+              &gt; <ResolvedHowlkinBadge slug="titan" /> ≥{' '}
+              <ResolvedHowlkinBadge slug="hydra" />{' '}
               &gt; Mythic Artifacts.
               <br />
               Avoid exchanging for Diamond-equivalent currency or generic
@@ -357,7 +361,7 @@ export default function BeginnerQA() {
             <QA q="What are the Guild priorities?">
               Always do Guild Wars (losses still give points). Always hit the
               Guild Dragon (primary{' '}
-              <ResourceBadge name="Leaf of the World Tree" />
+              <ResourceBadge slug="leaf_of_the_world_tree" />
               source). In Exploration, prioritize Limited Resources &gt; Rune
               Crystals &gt; Dragon Soul Statues.
               <br />
@@ -441,9 +445,9 @@ export default function BeginnerQA() {
                         </Text>
                       </Table.Td>
                       {[ssr, sr, r, n].map((gift) => (
-                        <Table.Td key={gift.name}>
+                        <Table.Td key={gift.slug}>
                           <Group gap={4} wrap="nowrap">
-                            <ResourceBadge name={gift.name} />
+                            <ResourceBadge slug={gift.slug} />
                             <Text
                               size="xs"
                               c="dimmed"
@@ -470,9 +474,9 @@ export default function BeginnerQA() {
               Most magic damage comes from Mages and Priests; Priests are
               commonly support-focused with lower output. Many meta Mages are
               currently utility-focused, with fewer high-damage exceptions (such
-              as <CharacterTag name="Gabriele" /> or
-              <CharacterTag name="Poseidon" />
-              ), so physical pressure is often more common.
+              as <CharacterTag slug="gabriele_ssr_plus" /> or{' '}
+              <CharacterTag slug="poseidon_ssr_ex" />), so physical pressure is
+              often more common.
             </QA>
           </Stack>
         </Card>

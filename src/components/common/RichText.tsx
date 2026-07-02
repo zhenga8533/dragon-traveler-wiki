@@ -119,11 +119,6 @@ const findByName = <T extends { name: string }>(
   return items?.find((item) => candidates.includes(normalizeName(item.name)));
 };
 
-const findStatusEffect = (
-  statusEffects: StatusEffect[],
-  slug: string
-): StatusEffect | undefined => statusEffects.find((se) => se.slug === slug);
-
 export default function RichText({
   text,
   statusEffects,
@@ -173,11 +168,10 @@ export default function RichText({
         }
 
         if (seg.type === 'statusRef') {
-          const statusEffect = findStatusEffect(statusEffects, seg.name);
           return (
             <StatusEffectBadge
               key={i}
-              name={statusEffect?.name ?? seg.name}
+              slug={seg.name}
               statusEffects={statusEffects}
               disablePopover={disablePopovers}
             />
@@ -247,7 +241,7 @@ export default function RichText({
           (r) => normalizeName(r.name) === normalizeName(seg.name)
         );
         if (resource) {
-          return <ResourceBadge key={i} name={resource.name} displayName={seg.name} />;
+          return <ResourceBadge key={i} slug={resource.slug} displayName={seg.name} />;
         }
 
         return (

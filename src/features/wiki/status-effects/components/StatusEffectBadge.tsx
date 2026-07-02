@@ -7,27 +7,26 @@ import {
 } from '@/constants/styles';
 import { IMAGE_SIZE, POPOVER_BADGE_WIDTH } from '@/constants/ui';
 import type { StatusEffect } from '@/features/wiki/status-effects/types';
-import { normalizeName } from '@/utils';
 import IconBadge from '@/components/ui/IconBadge';
 import RichText from '@/components/common/RichText';
 import SafeImage from '@/components/ui/SafeImage';
 
 export interface StatusEffectBadgeProps {
-  name: string;
+  /** Status effect slug (e.g. "taunt") — the canonical key in status-effects.json. */
+  slug: string;
   statusEffects: StatusEffect[];
   displayName?: string;
   disablePopover?: boolean;
 }
 
 export default function StatusEffectBadge({
-  name,
+  slug,
   statusEffects,
   displayName,
   disablePopover,
 }: StatusEffectBadgeProps) {
-  const effect = statusEffects.find(
-    (e) => normalizeName(e.name) === normalizeName(name)
-  );
+  const effect = statusEffects.find((e) => e.slug === slug);
+  const label = displayName ?? effect?.name ?? slug;
 
   if (!effect) {
     return (
@@ -38,7 +37,7 @@ export default function StatusEffectBadge({
         component="span"
         style={RICH_TEXT_BADGE_STYLE}
       >
-        {displayName ?? name}
+        {label}
       </Badge>
     );
   }
@@ -55,14 +54,14 @@ export default function StatusEffectBadge({
         component="span"
         style={RICH_TEXT_BADGE_STYLE}
       >
-        {displayName ?? name}
+        {label}
       </Badge>
     );
   }
 
   return (
     <IconBadge
-      label={displayName ?? name}
+      label={label}
       color={color}
       size="sm"
       iconSrc={iconSrc}

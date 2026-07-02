@@ -10,7 +10,7 @@ interface StatCardProps {
   value: number | string;
   color: string;
   subtitle?: string;
-  resourceName?: string;
+  resourceSlug?: string;
   showIcon?: boolean;
   showTitle?: boolean;
   showResourceQuantity?: boolean;
@@ -22,7 +22,7 @@ function StatCard({
   value,
   color,
   subtitle,
-  resourceName,
+  resourceSlug,
   showIcon = true,
   showTitle = true,
   showResourceQuantity = true,
@@ -49,10 +49,10 @@ function StatCard({
         <Text size="xl" fw={700} ta="center" lh={1.2}>
           {displayValue}
         </Text>
-        {resourceName ? (
+        {resourceSlug ? (
           <Group gap="xs" justify="center" wrap="wrap">
             <ResourceBadge
-              name={resourceName}
+              slug={resourceSlug}
               quantity={showResourceQuantity ? quantity : undefined}
               size="sm"
             />

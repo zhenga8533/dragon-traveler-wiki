@@ -75,10 +75,10 @@ export default function ActiveCodesSection() {
 					</Group>
 					{Object.keys(entry.rewards ?? {}).length > 0 && (
 						<Group gap={4} mt="xs" wrap="wrap">
-							{Object.entries(entry.rewards ?? {}).map(([name, qty]) => (
+							{Object.entries(entry.rewards ?? {}).map(([slug, qty]) => (
 								<ResourceBadge
-									key={name}
-									name={name}
+									key={slug}
+									slug={slug}
 									quantity={qty}
 									size="xs"
 								/>

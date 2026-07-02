@@ -14,6 +14,8 @@ import { useMobileTooltip } from '@/hooks';
 interface CharacterPortraitProps {
   name: string;
   size: number;
+  /** Overrides the image's accessible name. Pass "" when a sibling label already names the character, to avoid double announcement. */
+  alt?: string;
   quality?: Quality;
   borderWidth?: number;
   borderColor?: string;
@@ -34,6 +36,7 @@ interface CharacterPortraitProps {
 export default function CharacterPortrait({
   name,
   size,
+  alt,
   quality,
   borderWidth = 2,
   borderColor,
@@ -66,7 +69,7 @@ export default function CharacterPortrait({
   const portrait = (
     <SafeImage
       src={getPortrait(name, resolvedAssetKey)}
-      alt={name}
+      alt={alt ?? name}
       w={size}
       h={size}
       fit={fit}

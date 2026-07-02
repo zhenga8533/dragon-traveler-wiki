@@ -107,7 +107,7 @@ export default function ShovelEventGuide() {
               <Stack gap="xs">
                 <Text>
                   • Daily buy: 800-
-                  <ResourceBadge name="Diamond" /> pack (20 shovels).
+                  <ResourceBadge slug="diamond" /> pack (20 shovels).
                 </Text>
                 <Text>
                   • Hoard for days 1–4. Spend in bulk on day 5 onward.

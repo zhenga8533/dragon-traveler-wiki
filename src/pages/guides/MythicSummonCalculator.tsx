@@ -397,28 +397,28 @@ export default function MythicSummonCalculator() {
     };
 
     if (targetShards && targetShards > 0) {
-      requiredSummons['Mythic Luminary Shard'] = findSummonsForTarget(
+      requiredSummons['mythic_luminary_shard'] = findSummonsForTarget(
         (summons) => getExpectedBySummons(summons).mythicShards,
         targetShards
       );
     }
 
     if (targetWishingLilies && targetWishingLilies > 0) {
-      requiredSummons['Wishing Lily'] = findSummonsForTarget(
+      requiredSummons['wishing_lily'] = findSummonsForTarget(
         (summons) => getExpectedBySummons(summons).wishingLilies,
         targetWishingLilies
       );
     }
 
     if (targetSubstituteDolls && targetSubstituteDolls > 0) {
-      requiredSummons['6-Star Substitute Doll Fragment'] = findSummonsForTarget(
+      requiredSummons['6_star_substitute_doll_fragment'] = findSummonsForTarget(
         (summons) => getExpectedBySummons(summons).substituteDolls,
         targetSubstituteDolls
       );
     }
 
     if (targetDiamonds && targetDiamonds > 0) {
-      requiredSummons['Diamond'] = findSummonsForTarget(
+      requiredSummons['diamond'] = findSummonsForTarget(
         (summons) => getExpectedBySummons(summons).diamonds,
         targetDiamonds
       );
@@ -518,11 +518,11 @@ export default function MythicSummonCalculator() {
 
             {Object.entries(reverseResults).length > 0 && (
               <Stack gap="xs">
-                {Object.entries(reverseResults).map(([resource, summons]) => (
-                  <Alert key={resource} variant="light" color={accent.primary} p="sm">
+                {Object.entries(reverseResults).map(([resourceSlug, summons]) => (
+                  <Alert key={resourceSlug} variant="light" color={accent.primary} p="sm">
                     <Group justify="space-between" wrap="nowrap">
                       <Text size="sm">
-                        <ResourceBadge name={resource} size="xs" /> need{' '}
+                        <ResourceBadge slug={resourceSlug} size="xs" /> need{' '}
                         <strong>{summons}</strong> summons
                       </Text>
                       <Text size="xs" c="dimmed">
@@ -634,7 +634,7 @@ export default function MythicSummonCalculator() {
                 value={results.totalMythicShards.toFixed(1)}
                 color={accent.primary}
                 subtitle={`${results.mythicShards.toFixed(1)} drops + ${results.milestoneShards} milestone`}
-                resourceName="Mythic Luminary Shard"
+                resourceSlug="mythic_luminary_shard"
                 showIcon={false}
                 showTitle={false}
                 showResourceQuantity={false}
@@ -645,7 +645,7 @@ export default function MythicSummonCalculator() {
                 value={results.wishingLilies.toFixed(1)}
                 color="pink"
                 subtitle={`${results.wishingLiliesFromRates.toFixed(1)} drops + ${results.wishingLiliesBonus.toFixed(0)} bonus`}
-                resourceName="Wishing Lily"
+                resourceSlug="wishing_lily"
                 showIcon={false}
                 showTitle={false}
                 showResourceQuantity={false}
@@ -656,7 +656,7 @@ export default function MythicSummonCalculator() {
                 value={results.substituteDollFragments.toFixed(1)}
                 color="cyan"
                 subtitle="From regular-pull drop rates"
-                resourceName="6-Star Substitute Doll Fragment"
+                resourceSlug="6_star_substitute_doll_fragment"
                 showIcon={false}
                 showTitle={false}
                 showResourceQuantity={false}
@@ -667,7 +667,7 @@ export default function MythicSummonCalculator() {
                 value={results.diamonds.toFixed(1)}
                 color="yellow"
                 subtitle="From regular-pull drop rates"
-                resourceName="Diamond"
+                resourceSlug="diamond"
                 showIcon={false}
                 showTitle={false}
                 showResourceQuantity={false}
@@ -690,31 +690,31 @@ export default function MythicSummonCalculator() {
                     <Table.Tbody>
                       {[
                         {
-                          name: 'Mythic Luminary Shard',
+                          slug: 'mythic_luminary_shard',
                           expected: results.totalMythicShards,
                           simulated: simResult.totalShards,
                         },
                         {
-                          name: 'Wishing Lily',
+                          slug: 'wishing_lily',
                           expected: results.wishingLilies,
                           simulated: simResult.wishingLilies,
                         },
                         {
-                          name: '6-Star Substitute Doll Fragment',
+                          slug: '6_star_substitute_doll_fragment',
                           expected: results.substituteDollFragments,
                           simulated: simResult.substituteDolls,
                         },
                         {
-                          name: 'Diamond',
+                          slug: 'diamond',
                           expected: results.diamonds,
                           simulated: simResult.diamonds,
                         },
-                      ].map(({ name, expected, simulated }) => {
+                      ].map(({ slug, expected, simulated }) => {
                         const diff = simulated - expected;
                         return (
-                          <Table.Tr key={name}>
+                          <Table.Tr key={slug}>
                             <Table.Td>
-                              <ResourceBadge name={name} size="xs" />
+                              <ResourceBadge slug={slug} size="xs" />
                             </Table.Td>
                             <Table.Td ta="right" c="dimmed">
                               {expected.toFixed(1)}
@@ -747,7 +747,7 @@ export default function MythicSummonCalculator() {
             Next milestone: <strong>{nextMilestone.summons} summons</strong> for{' '}
             <strong>{nextMilestone.shards}</strong>{' '}
             <ResourceBadge
-              name="Mythic Luminary Shard"
+              slug="mythic_luminary_shard"
               quantity={nextMilestone.shards}
               size="xs"
             />{' '}
@@ -771,7 +771,7 @@ export default function MythicSummonCalculator() {
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
-                  <ResourceBadge name="Mythic Luminary Shard" />
+                  <ResourceBadge slug="mythic_luminary_shard" />
                 </Text>
               </Group>
               <Table>
@@ -837,7 +837,7 @@ export default function MythicSummonCalculator() {
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
-                  <ResourceBadge name="Wishing Lily" />
+                  <ResourceBadge slug="wishing_lily" />
                 </Text>
               </Group>
               <Table>
@@ -886,7 +886,7 @@ export default function MythicSummonCalculator() {
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
-                  <ResourceBadge name="6-Star Substitute Doll Fragment" />
+                  <ResourceBadge slug="6_star_substitute_doll_fragment" />
                 </Text>
               </Group>
               <Table>
@@ -933,7 +933,7 @@ export default function MythicSummonCalculator() {
             <Stack gap="xs">
               <Group gap="xs">
                 <Text fw={600}>
-                  <ResourceBadge name="Diamond" />
+                  <ResourceBadge slug="diamond" />
                 </Text>
               </Group>
               <Table>
@@ -981,7 +981,7 @@ export default function MythicSummonCalculator() {
           <Stack gap="xs">
             <Text fw={600}>
               Milestone rewards (
-              <ResourceBadge name="Mythic Luminary Shard" />)
+              <ResourceBadge slug="mythic_luminary_shard" />)
             </Text>
             <Table>
               <Table.Thead>

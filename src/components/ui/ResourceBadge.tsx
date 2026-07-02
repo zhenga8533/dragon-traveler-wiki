@@ -5,13 +5,12 @@ import { getResourceIcon } from '@/assets';
 import { WHITE_SPACE_PRE_LINE_STYLE } from '@/constants/styles';
 import { IMAGE_SIZE, POPOVER_BADGE_WIDTH } from '@/constants/ui';
 import { ResourcesContext } from '@/contexts';
-import { normalizeName } from '@/utils';
 import IconBadge from '@/components/ui/IconBadge';
 import InlineMarkup from '@/components/ui/InlineMarkup';
 
 export interface ResourceBadgeProps {
-  /** Resource name (must match a name in resources.json). */
-  name: string;
+  /** Resource slug (e.g. "dragonblood") — the canonical key in resources.json. */
+  slug: string;
   /** Optional override for the displayed label text. */
   displayName?: string;
   /** Optional quantity — omitted when not applicable. */
@@ -21,20 +20,18 @@ export interface ResourceBadgeProps {
 }
 
 export default function ResourceBadge({
-  name,
+  slug,
   displayName,
   quantity,
   size = 'sm',
 }: ResourceBadgeProps) {
   const { resources } = useContext(ResourcesContext);
 
-  const resource = resources.find(
-    (r) => r.slug === name || normalizeName(r.name) === normalizeName(name)
-  );
+  const resource = resources.find((r) => r.slug === slug);
 
   const iconSrc = resource ? getResourceIcon(resource.slug, resource.category) : undefined;
   const iconSize = size === 'xs' ? IMAGE_SIZE.ICON_XS : IMAGE_SIZE.ICON_SM;
-  const label = `${displayName ?? resource?.name ?? name}${quantity != null ? ` x${quantity.toLocaleString()}` : ''}`;
+  const label = `${displayName ?? resource?.name ?? slug}${quantity != null ? ` x${quantity.toLocaleString()}` : ''}`;
 
   return (
     <IconBadge
@@ -48,7 +45,7 @@ export default function ResourceBadge({
         resource ? (
           <Stack gap="xs" maw={POPOVER_BADGE_WIDTH}>
             <Group gap="xs" wrap="nowrap">
-              {iconSrc && <SafeImage src={iconSrc} alt={name} w={IMAGE_SIZE.ICON_LG} h={IMAGE_SIZE.ICON_LG} />}
+              {iconSrc && <SafeImage src={iconSrc} alt={resource.name} w={IMAGE_SIZE.ICON_LG} h={IMAGE_SIZE.ICON_LG} />}
               <Text fw={600} size="sm">
                 {resource.name}
               </Text>
