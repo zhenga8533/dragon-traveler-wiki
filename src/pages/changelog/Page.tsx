@@ -16,7 +16,10 @@ import {
   useTabParam,
 } from '@/hooks';
 import { getPageSizeStorageKey, usePagination } from '@/hooks/use-pagination';
-import type { FieldDiff } from '@/types/changes';
+import { LocaleContext } from '@/contexts/locale';
+import { changesPath, dataPath } from '@/utils/data-paths';
+import type { SupportedLocale } from '@/utils/data-paths';
+import type { ChangesFile, FieldDiff } from '@/types/changes';
 import {
   Badge,
   Box,
@@ -31,7 +34,7 @@ import {
   Timeline,
   Title,
 } from '@mantine/core';
-import { useCallback, useEffect, useState } from 'react';
+import { useCallback, useContext, useEffect, useState } from 'react';
 import {
   IoAddCircle,
   IoCheckmarkCircle,
@@ -60,19 +63,6 @@ const CHANGELOG_PAGE_SIZE_OPTIONS = [10, 20, 30, 50] as const;
 
 // ─── Data changes types ───────────────────────────────────────────────────────
 
-interface RawChangeEvent {
-  timestamp: number;
-  type?: 'removed' | 'readded';
-  fields?: Record<string, unknown>;
-}
-
-interface EntityHistory {
-  added: number;
-  changes: RawChangeEvent[];
-}
-
-type ChangesFile = Record<string, EntityHistory>;
-
 interface DataEvent {
   id: string;
   timestamp: number;
@@ -81,10 +71,11 @@ interface DataEvent {
   category: string;
   categoryLabel: string;
   eventType: 'updated' | 'removed' | 'readded';
-  fields?: Record<string, unknown>;
+  fields?: Record<string, FieldDiff>;
 }
 
 // ─── Known change files ───────────────────────────────────────────────────────
+// Keep in sync with LOCALE_FILE_SET / GLOBAL_FILE_SET in utils/data-paths.ts.
 
 const DATA_FILES: { file: string; label: string }[] = [
   { file: 'characters', label: 'Characters' },
@@ -92,8 +83,10 @@ const DATA_FILES: { file: string; label: string }[] = [
   { file: 'tier-lists', label: 'Tier Lists' },
   { file: 'teams', label: 'Teams' },
   { file: 'noble-phantasm', label: 'Noble Phantasms' },
+  { file: 'relic', label: 'Relics' },
   { file: 'golden-alliances', label: 'Golden Alliances' },
   { file: 'codes', label: 'Codes' },
+  { file: 'events', label: 'Events' },
   { file: 'factions', label: 'Factions' },
   { file: 'gear', label: 'Gear' },
   { file: 'gear-sets', label: 'Gear Sets' },
@@ -101,9 +94,31 @@ const DATA_FILES: { file: string; label: string }[] = [
   { file: 'resources', label: 'Resources' },
   { file: 'status-effects', label: 'Status Effects' },
   { file: 'subclasses', label: 'Subclasses' },
+  { file: 'wyrms', label: 'Wyrms' },
   { file: 'wyrmspells', label: 'Wyrmspells' },
   { file: 'useful-links', label: 'Useful Links' },
 ];
+
+// Categories keyed by `slug` in their changes file, with a separate `name` field
+// in their data file to resolve for display. Categories not listed here (teams,
+// tier-lists, codes, useful-links) are already keyed by their display identifier.
+const SLUG_KEYED_FILES = new Set([
+  'characters',
+  'artifacts',
+  'noble-phantasm',
+  'relic',
+  'golden-alliances',
+  'events',
+  'factions',
+  'gear',
+  'gear-sets',
+  'howlkins',
+  'resources',
+  'status-effects',
+  'subclasses',
+  'wyrms',
+  'wyrmspells',
+]);
 
 const SITE_PAGE_SIZE = 10;
 const DATA_PAGE_SIZE = 15;
@@ -127,6 +142,27 @@ function formatEntityName(entityId: string): string {
     return entityId.slice(0, entityId.indexOf('__'));
   }
   return entityId;
+}
+
+/** Fetches `{slug, name}` records for a category and maps slug → name, if applicable. */
+async function fetchSlugNameMap(
+  base: string,
+  file: string,
+  locale: SupportedLocale
+): Promise<Map<string, string> | null> {
+  if (!SLUG_KEYED_FILES.has(file)) return null;
+  try {
+    const res = await fetch(`${base}${dataPath(`${file}.json`, locale)}`);
+    if (!res.ok) return null;
+    const entities: { slug?: string; name?: string }[] = await res.json();
+    const map = new Map<string, string>();
+    for (const entity of entities) {
+      if (entity.slug && entity.name) map.set(entity.slug, entity.name);
+    }
+    return map;
+  } catch {
+    return null;
+  }
 }
 
 function useToggleSet<T>() {
@@ -159,6 +195,7 @@ const EVENT_TYPE_LABEL: Record<DataEvent['eventType'], string> = {
 
 function DataHistory() {
   const { accent } = useGradientAccent();
+  const { locale } = useContext(LocaleContext);
   const [events, setEvents] = useState<DataEvent[]>([]);
   const [loading, setLoading] = useState(true);
   const [selectedCategories, setSelectedCategories] = useState<string[]>([]);
@@ -170,22 +207,31 @@ function DataHistory() {
   } = useToggleSet<string>();
 
   useEffect(() => {
+    let isCancelled = false;
+    queueMicrotask(() => {
+      if (!isCancelled) setLoading(true);
+    });
     const base = import.meta.env.BASE_URL ?? '/';
     Promise.all(
       DATA_FILES.map(async ({ file, label }) => {
         try {
-          const res = await fetch(`${base}data/changes/${file}.json`);
-          if (!res.ok) return { events: [] as DataEvent[] };
-          const data: ChangesFile = await res.json();
+          const [changesRes, nameMap] = await Promise.all([
+            fetch(`${base}${changesPath(`${file}.json`, locale)}`),
+            fetchSlugNameMap(base, file, locale),
+          ]);
+          if (!changesRes.ok) return { events: [] as DataEvent[] };
+          const data: ChangesFile = await changesRes.json();
 
           const out: DataEvent[] = [];
           for (const [entityId, entity] of Object.entries(data)) {
+            const slug = formatEntityName(entityId);
+            const entityName = nameMap?.get(slug) ?? slug;
             entity.changes.forEach((change, i) => {
               out.push({
                 id: `${file}__${entityId}__${i}`,
                 timestamp: change.timestamp,
                 entityId,
-                entityName: entityId,
+                entityName,
                 category: file,
                 categoryLabel: label,
                 eventType:
@@ -204,17 +250,18 @@ function DataHistory() {
         }
       })
     ).then((results) => {
+      if (isCancelled) return;
       const all = results
         .flatMap((r) => r.events)
-        .map((e) => ({
-          ...e,
-          entityName: formatEntityName(e.entityId),
-        }))
         .sort((a, b) => b.timestamp - a.timestamp);
       setEvents(all);
       setLoading(false);
     });
-  }, []);
+
+    return () => {
+      isCancelled = true;
+    };
+  }, [locale]);
 
   const filtered =
     selectedCategories.length === 0
