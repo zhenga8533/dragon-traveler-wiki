@@ -4,7 +4,8 @@ import { getCharacterPortraitHoverProps } from '@/constants/styles';
 import { CharacterOwnershipContext } from '@/contexts';
 import { getCharacterRoutePathByName } from '@/features/characters/utils/character-route';
 import type { Quality } from '@/types/quality';
-import { Image, Tooltip, type TooltipProps } from '@mantine/core';
+import SafeImage from '@/components/ui/SafeImage';
+import { Tooltip, type TooltipProps } from '@mantine/core';
 import type { CSSProperties, ReactNode } from 'react';
 import { useContext } from 'react';
 import { Link } from 'react-router-dom';
@@ -63,7 +64,7 @@ export default function CharacterPortrait({
     grayUnowned && routeAssetKey != null && !isOwned(routeAssetKey);
 
   const portrait = (
-    <Image
+    <SafeImage
       src={getPortrait(name, resolvedAssetKey)}
       alt={name}
       w={size}

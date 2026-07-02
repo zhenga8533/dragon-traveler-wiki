@@ -1,7 +1,8 @@
-import { Group, Image, Paper, Skeleton, UnstyledButton } from '@mantine/core';
+import { Group, Paper, Skeleton, UnstyledButton } from '@mantine/core';
 import { useEffect, useReducer, useState } from 'react';
 import { getIllustrations } from '@/assets';
 import { getEventImage, placeholderEventImage } from '@/assets';
+import SafeImage from '@/components/ui/SafeImage';
 
 const INDICATOR_DOT_SIZE = 8;
 const BANNER_TICK_MS = 3000;
@@ -150,17 +151,14 @@ export default function EventBanner({
       {loading ? (
         <Skeleton height={height} radius={radius} />
       ) : (
-        <Image
+        <SafeImage
           src={src ?? namedImage ?? placeholderEventImage}
+          fallbackSrc={placeholderEventImage}
           h={height}
           w={width}
           radius={radius}
           fit="cover"
           alt={alt}
-          onError={(e) => {
-            e.currentTarget.src = placeholderEventImage;
-            e.currentTarget.onerror = null;
-          }}
         />
       )}
       {total > 1 && (

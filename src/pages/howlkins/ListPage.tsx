@@ -23,7 +23,7 @@ import DataFetchError from '@/components/ui/DataFetchError';
 import EmptyState from '@/components/ui/EmptyState';
 import SortableTh from '@/components/ui/SortableTh';
 import { QUALITY_ORDER } from '@/constants/quality';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle, optionalLinkProps } from '@/constants/styles';
+import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
 import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 
 import QualityIcon from '@/components/ui/QualityIcon';
@@ -315,19 +315,8 @@ export default function Howlkins() {
                     {howlkinPageItems.map((howlkin) => {
                       const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
                       const allianceSlug = howlkinToAlliance.get(howlkin.slug);
-                      return (
-                        <Paper
-                          key={howlkin.name}
-                          {...optionalLinkProps(allianceSlug, '/howlkins')}
-                          p="md"
-                          radius="md"
-                          withBorder
-                          {...getCardHoverProps({
-                            interactive: !!allianceSlug,
-                            style: allianceSlug ? LINK_BLOCK_RESET_STYLE : undefined,
-                          })}
-                        >
-                          <Stack gap="xs">
+                      const cardContent = (
+                        <Stack gap="xs">
                             <Group gap="sm" wrap="nowrap">
                               {iconSrc && (
                                 <SafeImage
@@ -363,6 +352,33 @@ export default function Howlkins() {
                             </Group>
                             <HowlkinStats stats={howlkin.basic_stats} />
                           </Stack>
+                      );
+                      const cardHoverProps = getCardHoverProps({
+                        interactive: !!allianceSlug,
+                        style: allianceSlug ? LINK_BLOCK_RESET_STYLE : undefined,
+                      });
+
+                      return allianceSlug ? (
+                        <Paper
+                          key={howlkin.name}
+                          component={Link}
+                          to={`/howlkins/${allianceSlug}`}
+                          p="md"
+                          radius="md"
+                          withBorder
+                          {...cardHoverProps}
+                        >
+                          {cardContent}
+                        </Paper>
+                      ) : (
+                        <Paper
+                          key={howlkin.name}
+                          p="md"
+                          radius="md"
+                          withBorder
+                          {...cardHoverProps}
+                        >
+                          {cardContent}
                         </Paper>
                       );
                     })}
@@ -419,15 +435,22 @@ export default function Howlkins() {
                                 )}
                               </Table.Td>
                               <Table.Td>
-                                <Text
-                                  {...optionalLinkProps(allianceSlug, '/howlkins')}
-                                  fw={600}
-                                  size="sm"
-                                  className={allianceSlug ? 'dt-link-text' : undefined}
-                                  style={allianceSlug ? { textDecoration: 'none' } : undefined}
-                                >
-                                  {howlkin.name}
-                                </Text>
+                                {allianceSlug ? (
+                                  <Text
+                                    component={Link}
+                                    to={`/howlkins/${allianceSlug}`}
+                                    fw={600}
+                                    size="sm"
+                                    className="dt-link-text"
+                                    style={{ textDecoration: 'none' }}
+                                  >
+                                    {howlkin.name}
+                                  </Text>
+                                ) : (
+                                  <Text fw={600} size="sm">
+                                    {howlkin.name}
+                                  </Text>
+                                )}
                               </Table.Td>
                               <Table.Td>
                                 <QualityIcon quality={howlkin.quality} />

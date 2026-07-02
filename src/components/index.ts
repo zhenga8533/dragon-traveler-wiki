@@ -45,6 +45,7 @@ export type { ResolvedHowlkinBadgeProps } from './ui/ResolvedHowlkinBadge';
 export { default as ResourceBadge } from './ui/ResourceBadge';
 export type { ResourceBadgeProps } from './ui/ResourceBadge';
 export { default as SafeImage } from './ui/SafeImage';
+export { default as SafeVideo } from './ui/SafeVideo';
 export { default as SortableTh } from './ui/SortableTh';
 export { default as StatCard } from './ui/StatCard';
 export { InteractiveSurface, StaticSurface } from './ui/Surface';

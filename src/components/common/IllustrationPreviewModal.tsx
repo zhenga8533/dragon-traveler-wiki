@@ -13,6 +13,7 @@
 	VisuallyHidden,
 } from '@mantine/core';
 import SafeImage from '@/components/ui/SafeImage';
+import SafeVideo from '@/components/ui/SafeVideo';
 import {
 	type KeyboardEvent as ReactKeyboardEvent,
 	useCallback,
@@ -236,10 +237,10 @@ export default function IllustrationPreviewModal({
 						})}
 					>
 						{activeIllustration.type === 'video' ? (
-							<Box
-								component="video"
+							<SafeVideo
 								src={activeIllustration.src}
 								controls
+								preload="auto"
 								style={{
 									width: '100%',
 									maxHeight: isFullscreen ? '100dvh' : '70vh',

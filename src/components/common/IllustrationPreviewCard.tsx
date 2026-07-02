@@ -1,4 +1,5 @@
 import SafeImage from '@/components/ui/SafeImage';
+import SafeVideo from '@/components/ui/SafeVideo';
 import { getCardHoverProps } from '@/constants/styles';
 import { BREAKPOINTS } from '@/constants/ui';
 import { Badge, Box, Group, Paper, Stack, Text, UnstyledButton } from '@mantine/core';
@@ -53,13 +54,11 @@ export default function IllustrationPreviewCard({
           }}
         >
           {type === 'video' ? (
-            <Box
-              component="video"
+            <SafeVideo
               src={src}
               autoPlay
               muted
               loop
-              playsInline
               onError={() => setFailed(true)}
               style={{ width: '100%', maxHeight: 420, display: 'block', objectFit: 'contain' }}
             />

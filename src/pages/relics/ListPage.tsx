@@ -1,5 +1,6 @@
 ﻿import ExpandableText from '@/components/ui/ExpandableText';
 import SafeImage from '@/components/ui/SafeImage';
+import SafeVideo from '@/components/ui/SafeVideo';
 import {
   getOracleScrollVideo,
   getRelicIcon,
@@ -518,12 +519,11 @@ export default function RelicPage() {
                           >
                             <Stack gap={0}>
                               {videoSrc && (
-                                <video
+                                <SafeVideo
                                   src={videoSrc}
                                   autoPlay
                                   muted
                                   loop
-                                  playsInline
                                   style={{
                                     display: 'block',
                                     width: '100%',

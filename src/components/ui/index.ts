@@ -23,6 +23,7 @@ export { default as QualityIcon } from './QualityIcon';
 export { default as ResourceBadge } from './ResourceBadge';
 export type { ResourceBadgeProps } from './ResourceBadge';
 export { default as SafeImage } from './SafeImage';
+export { default as SafeVideo } from './SafeVideo';
 export { default as SortableTh } from './SortableTh';
 export { default as StatCard } from './StatCard';
 export { InteractiveSurface, StaticSurface } from './Surface';

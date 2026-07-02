@@ -1,22 +1,43 @@
 import type { ImageProps } from '@mantine/core';
 import { Image } from '@mantine/core';
-import { useState } from 'react';
+import { useEffect, useState, type SyntheticEvent } from 'react';
 
 export interface SafeImageProps extends ImageProps {
   alt?: string;
+  fallbackSrc?: string;
   loading?: 'lazy' | 'eager';
 }
 
-export default function SafeImage({ src, alt, loading, ...props }: SafeImageProps) {
-  const [error, setError] = useState(false);
-  const [prevSrc, setPrevSrc] = useState(src);
+export default function SafeImage({
+  src,
+  alt,
+  fallbackSrc,
+  loading,
+  onError,
+  ...props
+}: SafeImageProps) {
+  const [displaySrc, setDisplaySrc] = useState(src);
 
-  if (src !== prevSrc) {
-    setPrevSrc(src);
-    setError(false);
-  }
+  useEffect(() => {
+    setDisplaySrc(src);
+  }, [src]);
 
-  if (error || !src) return null;
+  if (!displaySrc) return null;
 
-  return <Image src={src} alt={alt} loading={loading} onError={() => setError(true)} {...props} />;
+  return (
+    <Image
+      src={displaySrc}
+      alt={alt}
+      loading={loading}
+      onError={(event: SyntheticEvent<HTMLImageElement, Event>) => {
+        onError?.(event);
+        if (fallbackSrc && displaySrc !== fallbackSrc) {
+          setDisplaySrc(fallbackSrc);
+          return;
+        }
+        setDisplaySrc(undefined);
+      }}
+      {...props}
+    />
+  );
 }

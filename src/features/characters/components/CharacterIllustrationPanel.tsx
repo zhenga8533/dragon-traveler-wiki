@@ -1,5 +1,6 @@
 import type { Illustration } from '@/assets';
 import SafeImage from '@/components/ui/SafeImage';
+import SafeVideo from '@/components/ui/SafeVideo';
 import { StaticSurface } from '@/components/ui/Surface';
 import { NAV_ITEM_HEIGHT } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
@@ -140,13 +141,11 @@ export default function CharacterIllustrationPanel({
           }}
         >
           {activeIllustration.type === 'video' ? (
-            <Box
-              component="video"
+            <SafeVideo
               src={activeIllustration.src}
               autoPlay
               muted
               loop
-              playsInline
               style={{
                 width: '100%',
                 maxHeight: 420,

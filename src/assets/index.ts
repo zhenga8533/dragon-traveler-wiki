@@ -237,14 +237,6 @@ export async function getIllustrations(
   }));
 }
 
-export async function getIllustration(
-  characterName: string,
-  characterKey?: string
-): Promise<string | undefined> {
-  const list = await getIllustrations(characterName, characterKey);
-  return list.length > 0 ? list[0].src : undefined;
-}
-
 export async function getTalentIcon(
   characterName: string,
   characterKey?: string

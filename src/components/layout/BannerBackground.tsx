@@ -3,6 +3,7 @@ import {
   DEFAULT_BANNER_SRC,
   DEFAULT_BANNER_SRC_SET,
 } from '@/constants/banner';
+import SafeVideo from '@/components/ui/SafeVideo';
 import { getHomeHeroPlaceholderGradient } from '@/constants/home-styles';
 import { TRANSITION } from '@/constants/ui';
 import { BannerContext, UiOpacityContext } from '@/contexts';
@@ -227,13 +228,12 @@ export default function BannerBackground() {
             }}
           />
           {selectedBanner?.type === 'video' ? (
-            <video
+            <SafeVideo
               ref={videoRef}
               src={selectedBanner.src}
               autoPlay
               loop
               muted
-              playsInline
               onLoadedData={() => setBannerLoaded(true)}
               style={{
                 position: 'absolute',
