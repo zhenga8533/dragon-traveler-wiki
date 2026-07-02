@@ -234,11 +234,10 @@ export default function NoblePhantasms() {
                         <Group gap="xs" wrap="wrap">
                           {np.character_slug && charNameBySlug.get(np.character_slug) && (
                             <CharacterTag
-                              name={charNameBySlug.get(np.character_slug)!}
+                              slug={np.character_slug}
                               size="sm"
                               color={accent.secondary}
                               link={false}
-                              routePath={`/characters/${np.character_slug}`}
                             />
                           )}
                         </Group>
@@ -334,11 +333,10 @@ export default function NoblePhantasms() {
                           <Table.Td>
                             {np.character_slug && charNameBySlug.get(np.character_slug) ? (
                               <CharacterTag
-                                name={charNameBySlug.get(np.character_slug)!}
+                                slug={np.character_slug}
                                 size="sm"
                                 color={accent.secondary}
                                 link={false}
-                                routePath={`/characters/${np.character_slug}`}
                               />
                             ) : (
                               <Text size="sm" c="dimmed">
