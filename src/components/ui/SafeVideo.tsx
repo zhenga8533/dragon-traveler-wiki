@@ -27,7 +27,11 @@ const SafeVideo = forwardRef<HTMLVideoElement, SafeVideoProps>(
   ) => {
     const videoRef = useRef<HTMLVideoElement>(null);
 
-    useImperativeHandle(forwardedRef, () => videoRef.current as HTMLVideoElement);
+    useImperativeHandle(
+      forwardedRef,
+      () => videoRef.current as HTMLVideoElement,
+      []
+    );
 
     useEffect(() => {
       const video = videoRef.current;

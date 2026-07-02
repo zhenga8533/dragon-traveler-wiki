@@ -166,10 +166,18 @@ export default function BannerBackground() {
     (height: number) => {
       if (height <= 0) return;
       if (!selectedBannerSrc) return;
+      const measured = measuredHeightBySource.get(selectedBannerSrc);
+      if (
+        measured === height &&
+        measuredMedia?.src === selectedBannerSrc &&
+        measuredMedia.height === height
+      ) {
+        return;
+      }
       measuredHeightBySource.set(selectedBannerSrc, height);
       setMeasuredMedia({ src: selectedBannerSrc, height });
     },
-    [selectedBannerSrc]
+    [measuredMedia, selectedBannerSrc]
   );
 
   const imgRef = useCallback(
