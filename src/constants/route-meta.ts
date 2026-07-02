@@ -202,7 +202,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     meta: {
       title: 'Teams',
       description:
-        'Browse and build teams with faction and content-type filters, synergy scoring, and character roster details.',
+        'Browse and build teams with faction and content-type filters, Wyrmspell loadouts, and character roster details.',
     },
   },
   {

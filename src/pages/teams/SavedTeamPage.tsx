@@ -115,14 +115,12 @@ export default function SavedTeamPage() {
     factionInfo,
     artifactMap,
     factionColor,
-    teamSynergy,
   } = useTeamDetailData({
     team,
     factions,
     artifacts,
     charMap,
     characterByIdentity,
-    wyrmspells,
     fallbackFactionColor: accent.secondary,
   });
 
@@ -213,7 +211,6 @@ export default function SavedTeamPage() {
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <TeamDetailContent
           team={team}
-          teamSynergy={teamSynergy}
           charMap={charMap}
           characterByIdentity={characterByIdentity}
           getCharacterPath={getCharacterPath}

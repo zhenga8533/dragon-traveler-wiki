@@ -34,8 +34,6 @@ import {
   getTeamBenchEntryNote,
   getTeamBenchEntryQuality,
 } from '@/features/teams/utils/team-bench';
-import { computeTeamSynergy } from '@/features/teams/utils/team-synergy';
-import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { useCharacterResolution } from '@/hooks';
 import type { FactionSlug } from '@/types/faction';
 import { showWarningToast } from '@/utils/toast';
@@ -93,7 +91,6 @@ export interface UseTeamBuilderStateOptions {
   characters: Character[];
   charMap: Map<string, Character>;
   initialData?: Team | null;
-  wyrmspells?: Wyrmspell[];
 }
 
 interface CharacterLocationInBuilder {
@@ -292,7 +289,6 @@ export function useTeamBuilderState({
   characters,
   charMap,
   initialData,
-  wyrmspells = [],
 }: UseTeamBuilderStateOptions) {
   const [state, dispatch] = useReducer(
     teamBuilderReducer,
@@ -529,33 +525,6 @@ export function useTeamBuilderState({
       ),
     [characters, usedNames]
   );
-
-  const synergy = useMemo(() => {
-    const roster = state.slots
-      .filter((slotValue): slotValue is string => Boolean(slotValue))
-      .map((slotValue) => getCharacterFromKey(slotValue))
-      .filter((character): character is Character => Boolean(character));
-
-    return computeTeamSynergy({
-      roster,
-      faction: state.meta.faction,
-      contentType: state.meta.contentType,
-      overdriveCount: state.overdriveEnabled
-        ? state.overdriveSequence.length
-        : 0,
-      teamWyrmspells: state.teamWyrmspells,
-      wyrmspells,
-    });
-  }, [
-    getCharacterFromKey,
-    state.meta.contentType,
-    state.meta.faction,
-    state.overdriveEnabled,
-    state.overdriveSequence.length,
-    state.slots,
-    state.teamWyrmspells,
-    wyrmspells,
-  ]);
 
   const getCharacterPath = useCallback(
     (characterName: string, characterQuality?: string | null) => {
@@ -1202,7 +1171,6 @@ export function useTeamBuilderState({
     overdriveOrderBySlot,
     slotNotes: state.slotNotes,
     slots: state.slots,
-    synergy,
     teamData,
     teamSize,
     teamWyrmspells: state.teamWyrmspells,

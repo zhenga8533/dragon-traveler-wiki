@@ -9,7 +9,6 @@ import {
 } from '@/features/characters/utils/character-route';
 import { BattlefieldGrid } from '@/features/teams/components/BattlefieldGrid';
 import { BenchSection } from '@/features/teams/components/BenchSection';
-import TeamSynergyAssistant from '@/features/teams/components/TeamSynergyAssistant';
 import { useTeamBuilderState } from '@/features/teams/hooks/use-team-builder-state';
 import type { Team } from '@/features/teams/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
@@ -103,7 +102,6 @@ export default function TeamBuilder({
     overdriveOrderBySlot,
     slotNotes,
     slots,
-    synergy,
     teamData,
     teamSize,
     teamWyrmspells,
@@ -111,7 +109,6 @@ export default function TeamBuilder({
     characters,
     charMap,
     initialData,
-    wyrmspells,
   });
 
   const sensors = useSensors(
@@ -239,8 +236,6 @@ export default function TeamBuilder({
             onSubmit={handleSubmitSuggestion}
             onClear={openClearConfirm}
           />
-
-          <TeamSynergyAssistant synergy={synergy} />
 
           <WyrmspellSelector
             wyrmspells={wyrmspells}

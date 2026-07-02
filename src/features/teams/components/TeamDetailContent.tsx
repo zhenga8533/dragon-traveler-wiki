@@ -10,19 +10,16 @@ import {
 import type { RefObject } from 'react';
 import { IoDownload } from 'react-icons/io5';
 import WyrmspellCard from '@/features/wiki/wyrmspells/components/WyrmspellCard';
-import TeamSynergyAssistant from '@/features/teams/components/TeamSynergyAssistant';
 import { useMobileTooltip } from '@/hooks';
 import type { Character } from '@/features/characters/types';
 import type { Team, TeamWyrmspells } from '@/features/teams/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { hasTeamWyrmspells } from '@/features/teams/utils/team-page';
-import type { TeamSynergyResult } from '@/features/teams/utils/team-synergy';
 import { BattlefieldGrid } from '@/features/teams/components/BattlefieldGrid';
 import { BenchSection } from '@/features/teams/components/BenchSection';
 
 interface TeamDetailContentProps {
 	team: Team;
-	teamSynergy: TeamSynergyResult;
 	charMap: Map<string, Character>;
 	characterByIdentity: Map<string, Character>;
 	getCharacterPath: (
@@ -59,7 +56,6 @@ function renderWyrmspellCard(
 
 export default function TeamDetailContent({
 	team,
-	teamSynergy,
 	charMap,
 	characterByIdentity,
 	getCharacterPath,
@@ -76,8 +72,6 @@ export default function TeamDetailContent({
 
 	return (
 		<Stack gap="xl">
-			<TeamSynergyAssistant synergy={teamSynergy} />
-
 			{hasWyrmspells && (
 				<Stack gap="md">
 					<Title order={2} size="h3">
