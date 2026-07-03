@@ -1,33 +1,14 @@
-﻿import ExpandableText from '@/components/ui/ExpandableText';
-import SafeImage from '@/components/ui/SafeImage';
-import SafeVideo from '@/components/ui/SafeVideo';
-import {
-  getOracleScrollVideo,
-  getRelicIcon,
-} from '@/assets';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
+﻿import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
-import EntitySummaryCard from '@/components/common/EntitySummaryCard';
-import FilteredListShell from '@/components/layout/FilteredListShell';
-import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import ListPageHeader from '@/components/layout/ListPageHeader';
-import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
-import RichText from '@/components/common/RichText';
 import { RELIC_FIELDS } from '@/features/wiki/relics/form-fields';
-import SortableTh from '@/components/ui/SortableTh';
 import { QUALITY_ORDER } from '@/constants/quality';
 import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
-import {
-  LINK_BLOCK_RESET_STYLE,
-  getCardHoverProps,
-  getMinWidthStyle,
-} from '@/constants/styles';
-import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import QualityIcon from '@/components/ui/QualityIcon';
-import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
+import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import RelicsTab from '@/features/wiki/relics/components/RelicsTab';
+import OracleScrollsTab from '@/features/wiki/relics/components/OracleScrollsTab';
 import type { OracleScrollRef, Relic, RelicType } from '@/features/wiki/relics/types';
 import { getRelicTypeOrder } from '@/features/wiki/relics/utils';
 import { useRelics, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
@@ -41,20 +22,8 @@ import {
 } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
-import {
-  Badge,
-  Container,
-  Group,
-  Paper,
-  ScrollArea,
-  SimpleGrid,
-  Stack,
-  Table,
-  Tabs,
-  Text,
-} from '@mantine/core';
+import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 
 interface RelicFilters {
   search: string;
@@ -257,339 +226,54 @@ export default function RelicPage() {
           </Tabs.List>
 
           <Tabs.Panel value="relics" pt="md">
-            <ListPageShell
+            <RelicsTab
               loading={loading}
               error={error}
-              errorTitle="Could not load relics"
-              hasData={relics.length > 0}
-              emptyMessage="No relic data available yet."
-              skeletonCards={4}
-            >
-              <FilteredListShell
-                count={filtered.length}
-                noun="relic"
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-                filterCount={activeFilterCount}
-                filterOpen={filterOpen}
-                onFilterToggle={toggleFilter}
-                onResetFilters={resetFilters}
-                emptyMessage="No relics match the current filters."
-                page={relicPage}
-                totalPages={relicTotalPages}
-                onPageChange={setRelicPage}
-                pageSize={relicPageSize}
-                pageSizeOptions={relicPageSizeOptions}
-                onPageSizeChange={setRelicPageSize}
-                filterContent={
-                  <EntityFilter
-                    groups={FILTER_GROUPS}
-                    selected={{
-                      types: filters.types,
-                      qualities: filters.qualities,
-                    }}
-                    onChange={(key, values) => {
-                      if (key === 'types') {
-                        setFilters({
-                          ...filters,
-                          types: values as RelicType[],
-                        });
-                        return;
-                      }
-                      if (key === 'qualities') {
-                        setFilters({
-                          ...filters,
-                          qualities: values as Quality[],
-                        });
-                      }
-                    }}
-                    onClear={() => setFilters(EMPTY_FILTERS)}
-                    search={filters.search}
-                    onSearchChange={(value) =>
-                      setFilters({ ...filters, search: value })
-                    }
-                    searchPlaceholder="Search by name, oracle scroll, or lore..."
-                  />
-                }
-                gridContent={
-                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                    {relicPageItems.map((item) => {
-                      const iconSrc = getRelicIcon(item.slug, item.quality);
-                      const oracleScroll = item.oracle_scroll;
-                      return (
-                        <EntitySummaryCard
-                          key={item.name}
-                          to={oracleScroll ? `/oracle-scrolls/${oracleScroll.slug}` : null}
-                          title={item.name}
-                          imageSrc={iconSrc}
-                          titleAccessory={
-                            item.quality && (
-                              <QualityIcon quality={item.quality} />
-                            )
-                          }
-                          metadata={
-                            <Group gap="xs" wrap="wrap">
-                              <RelicTypeTag type={item.type} />
-                              {oracleScroll && (
-                                <Badge
-                                  variant="light"
-                                  size="sm"
-                                  color={accent.secondary}
-                                >
-                                  {oracleScroll.name}
-                                </Badge>
-                              )}
-                            </Group>
-                          }
-                          description={
-                            <ExpandableText size="xs">
-                              <RichText text={item.lore} statusEffects={statusEffects} italic />
-                            </ExpandableText>
-                          }
-                        />
-                      );
-                    })}
-                  </SimpleGrid>
-                }
-                tableContent={
-                  <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                    <Table
-                      striped
-                      highlightOnHover
-                      style={getMinWidthStyle(800)}
-                    >
-                      <Table.Thead>
-                        <Table.Tr>
-                          <Table.Th>Icon</Table.Th>
-                          <SortableTh
-                            sortKey="name"
-                            sortCol={sortCol}
-                            sortDir={sortDir}
-                            onSort={handleSort}
-                          >
-                            Name
-                          </SortableTh>
-                          <SortableTh
-                            sortKey="type"
-                            sortCol={sortCol}
-                            sortDir={sortDir}
-                            onSort={handleSort}
-                          >
-                            Type
-                          </SortableTh>
-                          <SortableTh
-                            sortKey="rarity"
-                            sortCol={sortCol}
-                            sortDir={sortDir}
-                            onSort={handleSort}
-                          >
-                            Rarity
-                          </SortableTh>
-                          <SortableTh
-                            sortKey="oracle"
-                            sortCol={sortCol}
-                            sortDir={sortDir}
-                            onSort={handleSort}
-                          >
-                            Oracle Scroll
-                          </SortableTh>
-                          <Table.Th>Lore</Table.Th>
-                        </Table.Tr>
-                      </Table.Thead>
-                      <Table.Tbody>
-                        {relicPageItems.map((item) => {
-                          const iconSrc = getRelicIcon(item.slug, item.quality);
-                          const oracleScroll = item.oracle_scroll;
-                          return (
-                          <Table.Tr key={item.name}>
-                            <Table.Td>
-                              {iconSrc && (
-                                <SafeImage
-                                  src={iconSrc}
-                                  alt={item.name}
-                                  w={IMAGE_SIZE.PORTRAIT_SM}
-                                  h={IMAGE_SIZE.PORTRAIT_SM}
-                                  fit="contain"
-                                  loading="lazy"
-                                />
-                              )}
-                            </Table.Td>
-                            <Table.Td>
-                              <Text
-                                fw={600}
-                                size="sm"
-                                className={oracleScroll ? 'dt-link-text' : undefined}
-                              >
-                                {item.name}
-                              </Text>
-                            </Table.Td>
-                            <Table.Td>
-                              <RelicTypeTag type={item.type} />
-                            </Table.Td>
-                            <Table.Td>
-                              {item.quality && (
-                                <QualityIcon quality={item.quality} />
-                              )}
-                            </Table.Td>
-                            <Table.Td>
-                              {oracleScroll ? (
-                                <Badge
-                                  component={Link}
-                                  to={`/oracle-scrolls/${oracleScroll.slug}`}
-                                  variant="light"
-                                  size="sm"
-                                  color={accent.secondary}
-                                  style={{ cursor: 'pointer', textDecoration: 'none' }}
-                                  onClick={(e: React.MouseEvent) => e.stopPropagation()}
-                                >
-                                  {oracleScroll.name}
-                                </Badge>
-                              ) : (
-                                <Text size="sm" c="dimmed">
-                                  —
-                                </Text>
-                              )}
-                            </Table.Td>
-                            <Table.Td>
-                              <ExpandableText size="sm">
-                                <RichText text={item.lore} statusEffects={statusEffects} italic />
-                              </ExpandableText>
-                            </Table.Td>
-                          </Table.Tr>
-                        );
-                        })}
-                      </Table.Tbody>
-                    </Table>
-                  </ScrollArea>
-                }
-              />
-            </ListPageShell>
+              relics={relics}
+              filtered={filtered}
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
+              activeFilterCount={activeFilterCount}
+              filterOpen={filterOpen}
+              onFilterToggle={toggleFilter}
+              onResetFilters={resetFilters}
+              page={relicPage}
+              totalPages={relicTotalPages}
+              onPageChange={setRelicPage}
+              pageSize={relicPageSize}
+              pageSizeOptions={relicPageSizeOptions}
+              onPageSizeChange={setRelicPageSize}
+              filters={filters}
+              onFiltersChange={setFilters}
+              emptyFilters={EMPTY_FILTERS}
+              filterGroups={FILTER_GROUPS}
+              sortCol={sortCol}
+              sortDir={sortDir}
+              onSort={handleSort}
+              pageItems={relicPageItems}
+              accent={accent}
+              statusEffects={statusEffects}
+            />
           </Tabs.Panel>
 
           <Tabs.Panel value="oracle-scrolls" pt="md">
-            <ListPageShell
+            <OracleScrollsTab
               loading={loading}
               error={error}
-              errorTitle="Could not load oracle scrolls"
-              hasData={oracleScrolls.length > 0}
-              emptyMessage="No oracle scroll data available yet."
-              skeletonCards={4}
-            >
-              <SearchableGridPanel
-                search={oracleSearch}
-                onSearchChange={setOracleSearch}
-                searchPlaceholder="Search by oracle scroll or relic name..."
-                hasResults={filteredOracleScrolls.length > 0}
-                noResultsTitle="No oracle scrolls found"
-                noResultsMessage="No oracle scrolls match the search."
-                onResetSearch={() => setOracleSearch('')}
-                currentPage={oraclePage}
-                totalPages={oracleTotalPages}
-                onPageChange={setOraclePage}
-                totalItems={filteredOracleScrolls.length}
-                pageSize={oraclePageSize}
-                pageSizeOptions={oraclePageSizeOptions}
-                onPageSizeChange={setOraclePageSize}
-              >
-                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                  {oraclePageItems.map((scroll) => {
-                        const items = relicsByOracle.get(scroll.slug) ?? [];
-                        const videoSrc = getOracleScrollVideo(scroll.slug);
-                        return (
-                          <Paper
-                            key={scroll.slug}
-                            component={Link}
-                            to={`/oracle-scrolls/${scroll.slug}`}
-                            p={0}
-                            radius="md"
-                            withBorder
-                            style={{ overflow: 'hidden' }}
-                            {...getCardHoverProps({
-                              interactive: true,
-                              style: LINK_BLOCK_RESET_STYLE,
-                            })}
-                          >
-                            <Stack gap={0}>
-                              {videoSrc && (
-                                <SafeVideo
-                                  src={videoSrc}
-                                  autoPlay
-                                  muted
-                                  loop
-                                  style={{
-                                    display: 'block',
-                                    width: '100%',
-                                    height: 130,
-                                    objectFit: 'cover',
-                                    objectPosition: 'center',
-                                    borderTopLeftRadius: 'var(--mantine-radius-md)',
-                                    borderTopRightRadius: 'var(--mantine-radius-md)',
-                                  }}
-                                />
-                              )}
-                              <Stack gap="xs" p="md">
-                                <Group justify="space-between" align="center">
-                                  <Text
-                                    fw={700}
-                                    className="dt-link-text"
-                                    lineClamp={1}
-                                    style={{ flex: 1 }}
-                                  >
-                                    {scroll.name}
-                                  </Text>
-                                  <Badge
-                                    variant="light"
-                                    size="sm"
-                                    color={accent.secondary}
-                                    style={{ flexShrink: 0 }}
-                                  >
-                                    {items.length} relic
-                                    {items.length === 1 ? '' : 's'}
-                                  </Badge>
-                                </Group>
-
-                                <Stack gap={4}>
-                                  {items.map((relic) => {
-                                    const relicIconSrc = getRelicIcon(
-                                      relic.slug,
-                                      relic.quality
-                                    );
-                                    return (
-                                      <Group
-                                        key={relic.name}
-                                        gap="xs"
-                                        wrap="nowrap"
-                                      >
-                                        {relicIconSrc && (
-                                          <SafeImage
-                                            src={relicIconSrc}
-                                            alt={relic.name}
-                                            w={24}
-                                            h={24}
-                                            fit="contain"
-                                            radius="sm"
-                                          />
-                                        )}
-                                        <Text
-                                          size="sm"
-                                          fw={500}
-                                          style={{ flex: 1 }}
-                                        >
-                                          {relic.name}
-                                        </Text>
-                                        <RelicTypeTag type={relic.type} />
-                                      </Group>
-                                    );
-                                  })}
-                                </Stack>
-                              </Stack>
-                            </Stack>
-                          </Paper>
-                        );
-                      })}
-                </SimpleGrid>
-              </SearchableGridPanel>
-            </ListPageShell>
+              oracleScrolls={oracleScrolls}
+              search={oracleSearch}
+              onSearchChange={setOracleSearch}
+              filtered={filteredOracleScrolls}
+              page={oraclePage}
+              totalPages={oracleTotalPages}
+              onPageChange={setOraclePage}
+              pageItems={oraclePageItems}
+              pageSize={oraclePageSize}
+              pageSizeOptions={oraclePageSizeOptions}
+              onPageSizeChange={setOraclePageSize}
+              relicsByOracle={relicsByOracle}
+              accent={accent}
+            />
           </Tabs.Panel>
         </Tabs>
       </Stack>

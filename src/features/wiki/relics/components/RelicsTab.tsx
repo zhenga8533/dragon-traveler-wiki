@@ -1,0 +1,291 @@
+import { Link } from 'react-router-dom';
+import { Badge, Group, ScrollArea, SimpleGrid, Table, Text } from '@mantine/core';
+import ExpandableText from '@/components/ui/ExpandableText';
+import SafeImage from '@/components/ui/SafeImage';
+import { getRelicIcon } from '@/assets';
+import RichText from '@/components/common/RichText';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
+import EntitySummaryCard from '@/components/common/EntitySummaryCard';
+import FilteredListShell from '@/components/layout/FilteredListShell';
+import ListPageShell from '@/components/layout/ListPageShell';
+import SortableTh from '@/components/ui/SortableTh';
+import QualityIcon from '@/components/ui/QualityIcon';
+import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
+import type { Relic, RelicType } from '@/features/wiki/relics/types';
+import { IMAGE_SIZE } from '@/constants/ui';
+import { getMinWidthStyle } from '@/constants/styles';
+import type { GradientPaletteAccents } from '@/contexts';
+import type { ViewMode } from '@/hooks';
+import type { Quality } from '@/types/quality';
+import type { StatusEffect } from '@/features/wiki/status-effects/types';
+
+interface RelicFilters {
+  search: string;
+  types: RelicType[];
+  qualities: Quality[];
+}
+
+interface RelicsTabProps {
+  loading: boolean;
+  error: Error | null;
+  relics: Relic[];
+  filtered: Relic[];
+  viewMode: ViewMode;
+  onViewModeChange: (mode: ViewMode) => void;
+  activeFilterCount: number;
+  filterOpen: boolean;
+  onFilterToggle: () => void;
+  onResetFilters: () => void;
+  page: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  pageSize: number;
+  pageSizeOptions: readonly number[];
+  onPageSizeChange: (pageSize: number) => void;
+  filters: RelicFilters;
+  onFiltersChange: (filters: RelicFilters) => void;
+  emptyFilters: RelicFilters;
+  filterGroups: ChipFilterGroup[];
+  sortCol: string | null;
+  sortDir: 'asc' | 'desc';
+  onSort: (col: string) => void;
+  pageItems: Relic[];
+  accent: GradientPaletteAccents;
+  statusEffects: StatusEffect[];
+}
+
+export default function RelicsTab({
+  loading,
+  error,
+  relics,
+  filtered,
+  viewMode,
+  onViewModeChange,
+  activeFilterCount,
+  filterOpen,
+  onFilterToggle,
+  onResetFilters,
+  page,
+  totalPages,
+  onPageChange,
+  pageSize,
+  pageSizeOptions,
+  onPageSizeChange,
+  filters,
+  onFiltersChange,
+  emptyFilters,
+  filterGroups,
+  sortCol,
+  sortDir,
+  onSort,
+  pageItems,
+  accent,
+  statusEffects,
+}: RelicsTabProps) {
+  return (
+    <ListPageShell
+      loading={loading}
+      error={error}
+      errorTitle="Could not load relics"
+      hasData={relics.length > 0}
+      emptyMessage="No relic data available yet."
+      skeletonCards={4}
+    >
+      <FilteredListShell
+        count={filtered.length}
+        noun="relic"
+        viewMode={viewMode}
+        onViewModeChange={onViewModeChange}
+        filterCount={activeFilterCount}
+        filterOpen={filterOpen}
+        onFilterToggle={onFilterToggle}
+        onResetFilters={onResetFilters}
+        emptyMessage="No relics match the current filters."
+        page={page}
+        totalPages={totalPages}
+        onPageChange={onPageChange}
+        pageSize={pageSize}
+        pageSizeOptions={pageSizeOptions}
+        onPageSizeChange={onPageSizeChange}
+        filterContent={
+          <EntityFilter
+            groups={filterGroups}
+            selected={{
+              types: filters.types,
+              qualities: filters.qualities,
+            }}
+            onChange={(key, values) => {
+              if (key === 'types') {
+                onFiltersChange({
+                  ...filters,
+                  types: values as RelicType[],
+                });
+                return;
+              }
+              if (key === 'qualities') {
+                onFiltersChange({
+                  ...filters,
+                  qualities: values as Quality[],
+                });
+              }
+            }}
+            onClear={() => onFiltersChange(emptyFilters)}
+            search={filters.search}
+            onSearchChange={(value) =>
+              onFiltersChange({ ...filters, search: value })
+            }
+            searchPlaceholder="Search by name, oracle scroll, or lore..."
+          />
+        }
+        gridContent={
+          <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+            {pageItems.map((item) => {
+              const iconSrc = getRelicIcon(item.slug, item.quality);
+              const oracleScroll = item.oracle_scroll;
+              return (
+                <EntitySummaryCard
+                  key={item.name}
+                  to={oracleScroll ? `/oracle-scrolls/${oracleScroll.slug}` : null}
+                  title={item.name}
+                  imageSrc={iconSrc}
+                  titleAccessory={
+                    item.quality && <QualityIcon quality={item.quality} />
+                  }
+                  metadata={
+                    <Group gap="xs" wrap="wrap">
+                      <RelicTypeTag type={item.type} />
+                      {oracleScroll && (
+                        <Badge variant="light" size="sm" color={accent.secondary}>
+                          {oracleScroll.name}
+                        </Badge>
+                      )}
+                    </Group>
+                  }
+                  description={
+                    <ExpandableText size="xs">
+                      <RichText
+                        text={item.lore}
+                        statusEffects={statusEffects}
+                        italic
+                      />
+                    </ExpandableText>
+                  }
+                />
+              );
+            })}
+          </SimpleGrid>
+        }
+        tableContent={
+          <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+            <Table striped highlightOnHover style={getMinWidthStyle(800)}>
+              <Table.Thead>
+                <Table.Tr>
+                  <Table.Th>Icon</Table.Th>
+                  <SortableTh
+                    sortKey="name"
+                    sortCol={sortCol}
+                    sortDir={sortDir}
+                    onSort={onSort}
+                  >
+                    Name
+                  </SortableTh>
+                  <SortableTh
+                    sortKey="type"
+                    sortCol={sortCol}
+                    sortDir={sortDir}
+                    onSort={onSort}
+                  >
+                    Type
+                  </SortableTh>
+                  <SortableTh
+                    sortKey="rarity"
+                    sortCol={sortCol}
+                    sortDir={sortDir}
+                    onSort={onSort}
+                  >
+                    Rarity
+                  </SortableTh>
+                  <SortableTh
+                    sortKey="oracle"
+                    sortCol={sortCol}
+                    sortDir={sortDir}
+                    onSort={onSort}
+                  >
+                    Oracle Scroll
+                  </SortableTh>
+                  <Table.Th>Lore</Table.Th>
+                </Table.Tr>
+              </Table.Thead>
+              <Table.Tbody>
+                {pageItems.map((item) => {
+                  const iconSrc = getRelicIcon(item.slug, item.quality);
+                  const oracleScroll = item.oracle_scroll;
+                  return (
+                    <Table.Tr key={item.name}>
+                      <Table.Td>
+                        {iconSrc && (
+                          <SafeImage
+                            src={iconSrc}
+                            alt={item.name}
+                            w={IMAGE_SIZE.PORTRAIT_SM}
+                            h={IMAGE_SIZE.PORTRAIT_SM}
+                            fit="contain"
+                            loading="lazy"
+                          />
+                        )}
+                      </Table.Td>
+                      <Table.Td>
+                        <Text
+                          fw={600}
+                          size="sm"
+                          className={oracleScroll ? 'dt-link-text' : undefined}
+                        >
+                          {item.name}
+                        </Text>
+                      </Table.Td>
+                      <Table.Td>
+                        <RelicTypeTag type={item.type} />
+                      </Table.Td>
+                      <Table.Td>
+                        {item.quality && <QualityIcon quality={item.quality} />}
+                      </Table.Td>
+                      <Table.Td>
+                        {oracleScroll ? (
+                          <Badge
+                            component={Link}
+                            to={`/oracle-scrolls/${oracleScroll.slug}`}
+                            variant="light"
+                            size="sm"
+                            color={accent.secondary}
+                            style={{ cursor: 'pointer', textDecoration: 'none' }}
+                            onClick={(e: React.MouseEvent) => e.stopPropagation()}
+                          >
+                            {oracleScroll.name}
+                          </Badge>
+                        ) : (
+                          <Text size="sm" c="dimmed">
+                            —
+                          </Text>
+                        )}
+                      </Table.Td>
+                      <Table.Td>
+                        <ExpandableText size="sm">
+                          <RichText
+                            text={item.lore}
+                            statusEffects={statusEffects}
+                            italic
+                          />
+                        </ExpandableText>
+                      </Table.Td>
+                    </Table.Tr>
+                  );
+                })}
+              </Table.Tbody>
+            </Table>
+          </ScrollArea>
+        }
+      />
+    </ListPageShell>
+  );
+}

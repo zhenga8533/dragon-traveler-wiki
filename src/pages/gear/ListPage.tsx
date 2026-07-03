@@ -1,49 +1,24 @@
-﻿import ExpandableText from '@/components/ui/ExpandableText';
-import SafeImage from '@/components/ui/SafeImage';
-import { GEAR_TYPE_ICON_MAP, getGearIcon } from '@/assets';
-import RichText from '@/components/common/RichText';
+﻿import SafeImage from '@/components/ui/SafeImage';
+import { GEAR_TYPE_ICON_MAP } from '@/assets';
 import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
-import EntitySummaryCard from '@/components/common/EntitySummaryCard';
-import EntityTableLinkCell from '@/components/common/EntityTableLinkCell';
 import { createQualityFilterGroup } from '@/components/common/EntityFilterGroups';
-import {
-  FilterClearButton,
-  FilterSearchInput,
-  FilterSection,
-} from '@/components/common/FilterControls';
-import FilteredListShell from '@/components/layout/FilteredListShell';
-import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
-import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import ListPageHeader from '@/components/layout/ListPageHeader';
-import ListPageShell from '@/components/layout/ListPageShell';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal, { type FieldDef } from '@/components/tools/SuggestModal';
 import {
   GEAR_SET_FIELDS,
   GEAR_STATS_ARRAY_FIELDS,
 } from '@/features/wiki/gear/form-fields';
-import SortableTh from '@/components/ui/SortableTh';
-import NoResultsSuggestions from '@/components/ui/NoResultsSuggestions';
-import PaginationControl from '@/components/ui/PaginationControl';
-import { StaticSurface } from '@/components/ui/Surface';
-import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
-import {
-  getCharacterRoutePath,
-  getCharacterRouteSlug,
-} from '@/features/characters/utils/character-route';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
 import { QUALITY_ORDER } from '@/constants/quality';
-import {
-  CURSOR_POINTER_STYLE,
-  LINK_BLOCK_RESET_STYLE,
-  getCardHoverProps,
-  getMinWidthStyle,
-} from '@/constants/styles';
-import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
-import QualityIcon from '@/components/ui/QualityIcon';
-import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
+import { STORAGE_KEY, PAGE_SIZE } from '@/constants/ui';
+import GearTab from '@/features/wiki/gear/components/GearTab';
+import GearSetsTab from '@/features/wiki/gear/components/GearSetsTab';
+import GearUsageTab, {
+  type GearItemUsage,
+  type UsageQualityFilter,
+} from '@/features/wiki/gear/components/GearUsageTab';
 import type { Gear, GearSet, GearType } from '@/features/wiki/gear/types';
 import { useGear, useGearSets, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
@@ -58,23 +33,8 @@ import {
 import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
 
-import {
-  Badge,
-  Container,
-  Group,
-  Paper,
-  ScrollArea,
-  SegmentedControl,
-  SimpleGrid,
-  Stack,
-  Table,
-  Tabs,
-  Text,
-} from '@mantine/core';
+import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useEffect, useMemo, useState } from 'react';
-import { Link } from 'react-router-dom';
-
-type UsageQualityFilter = 'ssr-plus' | 'ssr' | 'all';
 
 const USAGE_QUALITY_OPTIONS: { value: UsageQualityFilter; label: string }[] = [
   { value: 'ssr-plus', label: 'SSR+ and above' },
@@ -319,7 +279,7 @@ export default function GearPage() {
     );
   }, [characters, usageQualityFilter]);
 
-  const gearItemUsage = useMemo(() => {
+  const gearItemUsage = useMemo<GearItemUsage[]>(() => {
     const charactersByItem = new Map<string, Set<string>>();
     for (const character of usageEligibleCharacters) {
       const usedItems = new Set<string>();
@@ -527,532 +487,88 @@ export default function GearPage() {
           </Tabs.List>
 
           <Tabs.Panel value="gear" pt="md">
-            <ListPageShell
+            <GearTab
               loading={loading}
               error={error}
-              errorTitle="Could not load gear"
-              hasData={gear.length > 0}
-              emptyMessage="No gear data available yet."
-              skeletonCards={4}
-            >
-              <FilteredListShell
-                count={filtered.length}
-                noun="gear item"
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-                filterCount={activeFilterCount}
-                filterOpen={filterOpen}
-                onFilterToggle={toggleFilter}
-                onResetFilters={resetFilters}
-                emptyMessage="No gear matches the current filters."
-                page={gearPage}
-                totalPages={gearTotalPages}
-                onPageChange={setGearPage}
-                pageSize={gearPageSize}
-                pageSizeOptions={gearPageSizeOptions}
-                onPageSizeChange={setGearPageSize}
-                filterContent={
-                  <EntityFilter
-                    groups={FILTER_GROUPS}
-                    selected={{
-                      types: filters.types,
-                      qualities: filters.qualities,
-                    }}
-                    onChange={(key, values) => {
-                      if (key === 'types') {
-                        setFilters({
-                          ...filters,
-                          types: values as GearType[],
-                        });
-                        return;
-                      }
-                      if (key === 'qualities') {
-                        setFilters({
-                          ...filters,
-                          qualities: values as Quality[],
-                        });
-                      }
-                    }}
-                    onClear={() => setFilters(EMPTY_FILTERS)}
-                    search={filters.search}
-                    onSearchChange={(value) =>
-                      setFilters({ ...filters, search: value })
-                    }
-                    searchPlaceholder="Search by gear or set..."
-                  />
-                }
-                gridContent={
-                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                    {gearPageItems.map((item) => {
-                      const setData = gearSetByName.get(item.set);
-                      const setBonus = setData?.set_bonus ?? item.set_bonus;
-                      const iconSrc = getGearIcon(item.type, item.slug);
-                      return (
-                        <EntitySummaryCard
-                          key={item.name}
-                          to={`/gear-sets/${item.set}`}
-                          title={item.name}
-                          imageSrc={iconSrc}
-                          titleAccessory={
-                            item.quality && (
-                              <QualityIcon quality={item.quality} />
-                            )
-                          }
-                          metadata={
-                            <Group gap="xs" wrap="wrap">
-                              <GearTypeTag type={item.type} />
-                              <Badge
-                                variant="light"
-                                size="sm"
-                                color={accent.secondary}
-                              >
-                                {item.set}
-                              </Badge>
-                              {setBonus && setBonus.quantity > 0 && (
-                                <Badge
-                                  variant="outline"
-                                  size="sm"
-                                  color={accent.tertiary}
-                                >
-                                  {setBonus.quantity}-piece set
-                                </Badge>
-                              )}
-                            </Group>
-                          }
-                          description={
-                            <ExpandableText size="xs">
-                              <RichText text={item.lore} statusEffects={statusEffects} italic />
-                            </ExpandableText>
-                          }
-                        />
-                      );
-                    })}
-                  </SimpleGrid>
-                }
-                tableContent={
-                  <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                    <Table
-                      striped
-                      highlightOnHover
-                      style={getMinWidthStyle(800)}
-                    >
-                      <Table.Thead>
-                        <Table.Tr>
-                          <Table.Th>Icon</Table.Th>
-                          <SortableTh
-                            sortKey="name"
-                            sortCol={sortCol}
-                            sortDir={sortDir}
-                            onSort={handleSort}
-                          >
-                            Name
-                          </SortableTh>
-                          <SortableTh
-                            sortKey="type"
-                            sortCol={sortCol}
-                            sortDir={sortDir}
-                            onSort={handleSort}
-                          >
-                            Type
-                          </SortableTh>
-                          <SortableTh
-                            sortKey="set"
-                            sortCol={sortCol}
-                            sortDir={sortDir}
-                            onSort={handleSort}
-                          >
-                            Set
-                          </SortableTh>
-                          <SortableTh
-                            sortKey="rarity"
-                            sortCol={sortCol}
-                            sortDir={sortDir}
-                            onSort={handleSort}
-                          >
-                            Rarity
-                          </SortableTh>
-                          <Table.Th>Set Bonus</Table.Th>
-                        </Table.Tr>
-                      </Table.Thead>
-                      <Table.Tbody>
-                        {gearPageItems.map((item) => {
-                          const setData = gearSetByName.get(item.set);
-                          const setBonus = setData?.set_bonus ?? item.set_bonus;
-                          const iconSrc = getGearIcon(item.type, item.slug);
-                          return (
-                            <Table.Tr key={item.name}>
-                              <Table.Td>
-                                {iconSrc && (
-                                  <SafeImage
-                                    src={iconSrc}
-                                    alt={item.name}
-                                    w={IMAGE_SIZE.PORTRAIT_SM}
-                                    h={IMAGE_SIZE.PORTRAIT_SM}
-                                    fit="contain"
-                                    loading="lazy"
-                                  />
-                                )}
-                              </Table.Td>
-                              <EntityTableLinkCell
-                                to={`/gear-sets/${item.set}`}
-                              >
-                                {item.name}
-                              </EntityTableLinkCell>
-                              <Table.Td>
-                                <GearTypeTag type={item.type} />
-                              </Table.Td>
-                              <Table.Td>
-                                <Badge
-                                  variant="light"
-                                  size="sm"
-                                  color={accent.secondary}
-                                >
-                                  {item.set}
-                                </Badge>
-                              </Table.Td>
-                              <Table.Td>
-                                {item.quality && (
-                                  <QualityIcon quality={item.quality} />
-                                )}
-                              </Table.Td>
-                              <Table.Td>
-                                <Text size="sm" c="dimmed">
-                                  {setBonus && setBonus.quantity > 0 ? (
-                                    <>{setBonus.quantity}-piece:{' '}
-                                      <RichText text={setBonus.description} statusEffects={statusEffects} />
-                                    </>
-                                  ) : '—'}
-                                </Text>
-                              </Table.Td>
-                            </Table.Tr>
-                          );
-                        })}
-                      </Table.Tbody>
-                    </Table>
-                  </ScrollArea>
-                }
-              />
-            </ListPageShell>
+              gear={gear}
+              filtered={filtered}
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
+              activeFilterCount={activeFilterCount}
+              filterOpen={filterOpen}
+              onFilterToggle={toggleFilter}
+              onResetFilters={resetFilters}
+              page={gearPage}
+              totalPages={gearTotalPages}
+              onPageChange={setGearPage}
+              pageSize={gearPageSize}
+              pageSizeOptions={gearPageSizeOptions}
+              onPageSizeChange={setGearPageSize}
+              filters={filters}
+              onFiltersChange={setFilters}
+              emptyFilters={EMPTY_FILTERS}
+              filterGroups={FILTER_GROUPS}
+              sortCol={sortCol}
+              sortDir={sortDir}
+              onSort={handleSort}
+              pageItems={gearPageItems}
+              gearSetByName={gearSetByName}
+              accent={accent}
+              statusEffects={statusEffects}
+            />
           </Tabs.Panel>
 
           <Tabs.Panel value="gear-sets" pt="md">
-            <ListPageShell
+            <GearSetsTab
               loading={gearSetsLoading}
               error={gearSetsError}
-              errorTitle="Could not load gear sets"
-              hasData={gearSets.length > 0}
-              emptyMessage="No gear set data available yet."
-              skeletonCards={4}
-            >
-              <SearchableGridPanel
-                search={gearSetSearch}
-                onSearchChange={setGearSetSearch}
-                searchPlaceholder="Search by set name or bonus..."
-                hasResults={filteredGearSets.length > 0}
-                noResultsTitle="No gear sets found"
-                noResultsMessage="No gear sets match the search."
-                onResetSearch={() => setGearSetSearch('')}
-                currentPage={gearSetPage}
-                totalPages={gearSetTotalPages}
-                onPageChange={setGearSetPage}
-                totalItems={filteredGearSets.length}
-                pageSize={gearSetPageSize}
-                pageSizeOptions={gearSetPageSizeOptions}
-                onPageSizeChange={setGearSetPageSize}
-              >
-                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                  {gearSetPageItems.map((set) => {
-                        const items = gearItemsBySet.get(set.slug) ?? [];
-                        const setBonus = set.set_bonus;
-                        const bonusQuantity = setBonus?.quantity ?? 0;
-                        const bonusDescription = setBonus?.description ?? '';
-                        return (
-                          <Paper
-                            key={set.name}
-                            component={Link}
-                            to={`/gear-sets/${set.slug}`}
-                            p="md"
-                            radius="md"
-                            withBorder
-                            {...getCardHoverProps({
-                              interactive: true,
-                              style: LINK_BLOCK_RESET_STYLE,
-                            })}
-                          >
-                            <Stack gap="xs">
-                              <Group justify="space-between" align="center">
-                                <Text
-                                  fw={700}
-                                  className="dt-link-text"
-                                  lineClamp={1}
-                                >
-                                  {set.name}
-                                </Text>
-                                {bonusQuantity > 0 && (
-                                  <Badge
-                                    variant="light"
-                                    size="sm"
-                                    color={accent.tertiary}
-                                  >
-                                    {bonusQuantity}-piece
-                                  </Badge>
-                                )}
-                              </Group>
-
-                              <Text size="sm" c="dimmed">
-                                {bonusQuantity > 0
-                                  ? bonusDescription ||
-                                    'No set bonus description.'
-                                  : 'No set bonus.'}
-                              </Text>
-
-                              <Group gap="xs" wrap="wrap">
-                                <Badge
-                                  variant="light"
-                                  size="sm"
-                                  color={accent.secondary}
-                                >
-                                  {items.length} item
-                                  {items.length === 1 ? '' : 's'}
-                                </Badge>
-                                {items.slice(0, 4).map((item) => (
-                                  <GearTypeTag
-                                    key={item.name}
-                                    type={item.type}
-                                  />
-                                ))}
-                              </Group>
-                            </Stack>
-                          </Paper>
-                        );
-                      })}
-                </SimpleGrid>
-              </SearchableGridPanel>
-            </ListPageShell>
+              gearSets={gearSets}
+              search={gearSetSearch}
+              onSearchChange={setGearSetSearch}
+              filtered={filteredGearSets}
+              page={gearSetPage}
+              totalPages={gearSetTotalPages}
+              onPageChange={setGearSetPage}
+              pageItems={gearSetPageItems}
+              pageSize={gearSetPageSize}
+              pageSizeOptions={gearSetPageSizeOptions}
+              onPageSizeChange={setGearSetPageSize}
+              gearItemsBySet={gearItemsBySet}
+              accent={accent}
+            />
           </Tabs.Panel>
 
           <Tabs.Panel value="usage" pt="md">
-            <ListPageShell
+            <GearUsageTab
               loading={loading || gearSetsLoading || charactersLoading}
               error={error || gearSetsError || charactersError}
-              errorTitle="Could not load gear usage"
-              hasData={gearSets.length > 0}
-              emptyMessage="No gear set data available yet."
-              skeletonCards={4}
-            >
-              <StaticSurface p="md" data-no-hover>
-                <Stack gap="md">
-                  <Group justify="space-between" align="center" wrap="wrap" gap="xs">
-                    <Text size="sm" c="dimmed">
-                      {filteredGearItemUsage.length} gear item
-                      {filteredGearItemUsage.length !== 1 ? 's' : ''} · based on{' '}
-                      {usageEligibleCharacters.length} character
-                      {usageEligibleCharacters.length === 1 ? '' : 's'}
-                    </Text>
-                    <FilterPopoverButton
-                      filterCount={usageFilterCount}
-                      filterOpen={usageFilterOpen}
-                      onFilterToggle={toggleUsageFilter}
-                    >
-                      <Stack gap={8}>
-                        <Group gap="xs" align="center" wrap="wrap">
-                          <FilterSearchInput
-                            placeholder="Search by gear or set..."
-                            value={usageSearch}
-                            onSearch={setUsageSearch}
-                            size="xs"
-                            style={{ flex: 1, minWidth: 180 }}
-                          />
-                          {usageFilterCount > 0 && (
-                            <FilterClearButton
-                              size="compact-xs"
-                              onClick={resetUsageFilters}
-                            />
-                          )}
-                        </Group>
-                        <FilterSection label="Quality">
-                          <SegmentedControl
-                            value={usageQualityFilter}
-                            onChange={(value) =>
-                              setUsageQualityFilter(value as UsageQualityFilter)
-                            }
-                            data={USAGE_QUALITY_OPTIONS.map((option) => ({
-                              value: option.value,
-                              label: option.label,
-                            }))}
-                            color={accent.primary}
-                            size="xs"
-                          />
-                        </FilterSection>
-                      </Stack>
-                    </FilterPopoverButton>
-                  </Group>
-
-                  {filteredGearItemUsage.length === 0 ? (
-                    <NoResultsSuggestions
-                      title="No gear found"
-                      message="No gear matches the current filters."
-                      onReset={resetUsageFilters}
-                      onOpenFilters={toggleUsageFilter}
-                    />
-                  ) : (
-                    <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                      <Table
-                        striped
-                        highlightOnHover
-                        style={getMinWidthStyle(800)}
-                      >
-                        <Table.Thead>
-                          <Table.Tr>
-                            <Table.Th>Icon</Table.Th>
-                            <SortableTh
-                              sortKey="name"
-                              sortCol={usageSortCol}
-                              sortDir={usageSortDir}
-                              onSort={handleUsageSort}
-                            >
-                              Name
-                            </SortableTh>
-                            <SortableTh
-                              sortKey="type"
-                              sortCol={usageSortCol}
-                              sortDir={usageSortDir}
-                              onSort={handleUsageSort}
-                            >
-                              Type
-                            </SortableTh>
-                            <SortableTh
-                              sortKey="set"
-                              sortCol={usageSortCol}
-                              sortDir={usageSortDir}
-                              onSort={handleUsageSort}
-                            >
-                              Set
-                            </SortableTh>
-                            <SortableTh
-                              sortKey="count"
-                              sortCol={usageSortCol}
-                              sortDir={usageSortDir}
-                              onSort={handleUsageSort}
-                            >
-                              Characters
-                            </SortableTh>
-                            <Table.Th>Used By</Table.Th>
-                          </Table.Tr>
-                        </Table.Thead>
-                        <Table.Tbody>
-                          {usagePageItems.map(
-                            ({ item, characters: usingCharacters, count, percentage }) => {
-                              const iconSrc = getGearIcon(item.type, item.slug);
-                              return (
-                                <Table.Tr key={item.name}>
-                                  <Table.Td>
-                                    {iconSrc && (
-                                      <SafeImage
-                                        src={iconSrc}
-                                        alt={item.name}
-                                        w={IMAGE_SIZE.PORTRAIT_SM}
-                                        h={IMAGE_SIZE.PORTRAIT_SM}
-                                        fit="contain"
-                                        loading="lazy"
-                                      />
-                                    )}
-                                  </Table.Td>
-                                  <EntityTableLinkCell to={`/gear-sets/${item.set}`}>
-                                    {item.name}
-                                  </EntityTableLinkCell>
-                                  <Table.Td>
-                                    <GearTypeTag type={item.type} />
-                                  </Table.Td>
-                                  <Table.Td>
-                                    <Badge
-                                      variant="light"
-                                      size="sm"
-                                      color={accent.secondary}
-                                    >
-                                      {item.set}
-                                    </Badge>
-                                  </Table.Td>
-                                  <Table.Td>
-                                    <Badge
-                                      variant="light"
-                                      size="sm"
-                                      color={accent.tertiary}
-                                    >
-                                      {count} ({percentage}%)
-                                    </Badge>
-                                  </Table.Td>
-                                  <Table.Td>
-                                    {usingCharacters.length > 0 ? (
-                                      (() => {
-                                        const isExpanded = expandedUsageItems.has(
-                                          item.slug
-                                        );
-                                        const shown = isExpanded
-                                          ? usingCharacters
-                                          : usingCharacters.slice(0, 6);
-                                        const remaining =
-                                          usingCharacters.length - 6;
-                                        return (
-                                          <Group gap={4} wrap="wrap">
-                                            {shown.map((character) => (
-                                              <CharacterPortrait
-                                                key={`${item.name}-${character.name}-${character.quality}`}
-                                                name={character.name}
-                                                size={32}
-                                                quality={character.quality}
-                                                assetKey={getCharacterRouteSlug(character)}
-                                                routePath={getCharacterRoutePath(character)}
-                                                link
-                                                tooltip={character.name}
-                                                tooltipProps={tooltipProps}
-                                              />
-                                            ))}
-                                            {remaining > 0 && (
-                                              <Badge
-                                                variant="light"
-                                                color="gray"
-                                                size="sm"
-                                                style={CURSOR_POINTER_STYLE}
-                                                onClick={() =>
-                                                  toggleExpandedUsageItem(item.slug)
-                                                }
-                                              >
-                                                {isExpanded
-                                                  ? 'Show less'
-                                                  : `+${remaining} more`}
-                                              </Badge>
-                                            )}
-                                          </Group>
-                                        );
-                                      })()
-                                    ) : (
-                                      <Text size="sm" c="dimmed">
-                                        —
-                                      </Text>
-                                    )}
-                                  </Table.Td>
-                                </Table.Tr>
-                              );
-                            }
-                          )}
-                        </Table.Tbody>
-                      </Table>
-                    </ScrollArea>
-                  )}
-
-                  <PaginationControl
-                    currentPage={usagePage}
-                    totalPages={usageTotalPages}
-                    onChange={setUsagePage}
-                    totalItems={filteredGearItemUsage.length}
-                    pageSize={usagePageSize}
-                    pageSizeOptions={usagePageSizeOptions}
-                    onPageSizeChange={setUsagePageSize}
-                  />
-                </Stack>
-              </StaticSurface>
-            </ListPageShell>
+              gearSets={gearSets}
+              filteredGearItemUsage={filteredGearItemUsage}
+              usageEligibleCharacters={usageEligibleCharacters}
+              usageFilterCount={usageFilterCount}
+              usageFilterOpen={usageFilterOpen}
+              onUsageFilterToggle={toggleUsageFilter}
+              usageSearch={usageSearch}
+              onUsageSearchChange={setUsageSearch}
+              onResetUsageFilters={resetUsageFilters}
+              usageQualityFilter={usageQualityFilter}
+              onUsageQualityFilterChange={setUsageQualityFilter}
+              usageQualityOptions={USAGE_QUALITY_OPTIONS}
+              usageSortCol={usageSortCol}
+              usageSortDir={usageSortDir}
+              onUsageSort={handleUsageSort}
+              usagePageItems={usagePageItems}
+              expandedUsageItems={expandedUsageItems}
+              onToggleExpandedUsageItem={toggleExpandedUsageItem}
+              usagePage={usagePage}
+              usageTotalPages={usageTotalPages}
+              onUsagePageChange={setUsagePage}
+              usagePageSize={usagePageSize}
+              usagePageSizeOptions={usagePageSizeOptions}
+              onUsagePageSizeChange={setUsagePageSize}
+              accent={accent}
+              tooltipProps={tooltipProps}
+            />
           </Tabs.Panel>
         </Tabs>
       </Stack>

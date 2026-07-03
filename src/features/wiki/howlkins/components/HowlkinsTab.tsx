@@ -1,0 +1,292 @@
+import { Link } from 'react-router-dom';
+import { Group, Paper, ScrollArea, SimpleGrid, Stack, Table, Text } from '@mantine/core';
+import SafeImage from '@/components/ui/SafeImage';
+import { getHowlkinIcon } from '@/assets';
+import type { ChipFilterGroup } from '@/components/common/EntityFilter';
+import EntityFilter from '@/components/common/EntityFilter';
+import FilteredListShell from '@/components/layout/FilteredListShell';
+import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
+import DataFetchError from '@/components/ui/DataFetchError';
+import EmptyState from '@/components/ui/EmptyState';
+import SortableTh from '@/components/ui/SortableTh';
+import QualityIcon from '@/components/ui/QualityIcon';
+import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
+import type { Howlkin } from '@/features/wiki/howlkins/types';
+import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
+import { IMAGE_SIZE } from '@/constants/ui';
+import type { GradientPaletteAccents } from '@/contexts';
+import type { ViewMode } from '@/hooks';
+import type { Quality } from '@/types/quality';
+
+interface HowlkinFilters {
+  search: string;
+  qualities: Quality[];
+}
+
+interface HowlkinsTabProps {
+  loading: boolean;
+  error: Error | null;
+  howlkins: Howlkin[];
+  filtered: Howlkin[];
+  viewMode: ViewMode;
+  onViewModeChange: (mode: ViewMode) => void;
+  activeFilterCount: number;
+  filterOpen: boolean;
+  onFilterToggle: () => void;
+  onResetFilters: () => void;
+  page: number;
+  totalPages: number;
+  onPageChange: (page: number) => void;
+  pageSize: number;
+  pageSizeOptions: readonly number[];
+  onPageSizeChange: (pageSize: number) => void;
+  filters: HowlkinFilters;
+  onFiltersChange: (filters: HowlkinFilters) => void;
+  filterGroups: ChipFilterGroup[];
+  sortCol: string | null;
+  sortDir: 'asc' | 'desc';
+  onSort: (col: string) => void;
+  pageItems: Howlkin[];
+  howlkinToAlliance: Map<string, string>;
+  accent: GradientPaletteAccents;
+}
+
+export default function HowlkinsTab({
+  loading,
+  error,
+  howlkins,
+  filtered,
+  viewMode,
+  onViewModeChange,
+  activeFilterCount,
+  filterOpen,
+  onFilterToggle,
+  onResetFilters,
+  page,
+  totalPages,
+  onPageChange,
+  pageSize,
+  pageSizeOptions,
+  onPageSizeChange,
+  filters,
+  onFiltersChange,
+  filterGroups,
+  sortCol,
+  sortDir,
+  onSort,
+  pageItems,
+  howlkinToAlliance,
+  accent,
+}: HowlkinsTabProps) {
+  return (
+    <>
+      {loading && (
+        <ViewModeLoading viewMode={viewMode} cards={4} cardHeight={180} />
+      )}
+
+      {!loading && error && (
+        <DataFetchError
+          title="Could not load howlkins"
+          message={error.message}
+          onRetry={() => window.location.reload()}
+        />
+      )}
+
+      {!loading && !error && howlkins.length === 0 && (
+        <EmptyState
+          title="No howlkins yet"
+          description="Howlkin data hasn't been added yet."
+          color={accent.primary}
+        />
+      )}
+
+      {!loading && !error && howlkins.length > 0 && (
+        <FilteredListShell
+          count={filtered.length}
+          noun="howlkin"
+          viewMode={viewMode}
+          onViewModeChange={onViewModeChange}
+          filterCount={activeFilterCount}
+          filterOpen={filterOpen}
+          onFilterToggle={onFilterToggle}
+          onResetFilters={onResetFilters}
+          emptyMessage="No howlkins match the current filters."
+          page={page}
+          totalPages={totalPages}
+          onPageChange={onPageChange}
+          pageSize={pageSize}
+          pageSizeOptions={pageSizeOptions}
+          onPageSizeChange={onPageSizeChange}
+          filterContent={
+            <EntityFilter
+              groups={filterGroups}
+              selected={{ qualities: filters.qualities }}
+              onChange={(key, values) =>
+                onFiltersChange({
+                  ...filters,
+                  [key]: values as Quality[],
+                })
+              }
+              onClear={onResetFilters}
+              search={filters.search}
+              onSearchChange={(value) =>
+                onFiltersChange({ ...filters, search: value })
+              }
+              searchPlaceholder="Search by name..."
+            />
+          }
+          gridContent={
+            <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
+              {pageItems.map((howlkin) => {
+                const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
+                const allianceSlug = howlkinToAlliance.get(howlkin.slug);
+                const cardContent = (
+                  <Stack gap="xs">
+                    <Group gap="sm" wrap="nowrap">
+                      {iconSrc && (
+                        <SafeImage
+                          src={iconSrc}
+                          alt={howlkin.name}
+                          w={IMAGE_SIZE.CARD_ICON}
+                          h={IMAGE_SIZE.CARD_ICON}
+                          fit="contain"
+                          radius="sm"
+                        />
+                      )}
+                      <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
+                        <Group gap="sm" wrap="wrap">
+                          <Text
+                            fw={700}
+                            className={allianceSlug ? 'dt-link-text' : undefined}
+                            lineClamp={1}
+                          >
+                            {howlkin.name}
+                          </Text>
+                          <QualityIcon quality={howlkin.quality} />
+                        </Group>
+                        <Stack gap={2}>
+                          {(howlkin.passive_effects ?? []).map((e, i) => (
+                            <Text key={i} size="sm" c="dimmed">
+                              {e}
+                            </Text>
+                          ))}
+                        </Stack>
+                      </Stack>
+                    </Group>
+                    <HowlkinStats stats={howlkin.basic_stats} />
+                  </Stack>
+                );
+                const cardHoverProps = getCardHoverProps({
+                  interactive: !!allianceSlug,
+                  style: allianceSlug ? LINK_BLOCK_RESET_STYLE : undefined,
+                });
+
+                return allianceSlug ? (
+                  <Paper
+                    key={howlkin.name}
+                    component={Link}
+                    to={`/howlkins/${allianceSlug}`}
+                    p="md"
+                    radius="md"
+                    withBorder
+                    {...cardHoverProps}
+                  >
+                    {cardContent}
+                  </Paper>
+                ) : (
+                  <Paper key={howlkin.name} p="md" radius="md" withBorder {...cardHoverProps}>
+                    {cardContent}
+                  </Paper>
+                );
+              })}
+            </SimpleGrid>
+          }
+          tableContent={
+            <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
+              <Table striped highlightOnHover style={getMinWidthStyle(800)}>
+                <Table.Thead>
+                  <Table.Tr>
+                    <Table.Th>Icon</Table.Th>
+                    <SortableTh
+                      sortKey="name"
+                      sortCol={sortCol}
+                      sortDir={sortDir}
+                      onSort={onSort}
+                    >
+                      Name
+                    </SortableTh>
+                    <SortableTh
+                      sortKey="quality"
+                      sortCol={sortCol}
+                      sortDir={sortDir}
+                      onSort={onSort}
+                    >
+                      Quality
+                    </SortableTh>
+                    <Table.Th>Basic Stats</Table.Th>
+                    <Table.Th>Passive Effects</Table.Th>
+                  </Table.Tr>
+                </Table.Thead>
+                <Table.Tbody>
+                  {pageItems.map((howlkin) => {
+                    const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
+                    const allianceSlug = howlkinToAlliance.get(howlkin.slug);
+                    return (
+                      <Table.Tr key={howlkin.name}>
+                        <Table.Td>
+                          {iconSrc && (
+                            <SafeImage
+                              src={iconSrc}
+                              alt={howlkin.name}
+                              w={IMAGE_SIZE.PORTRAIT_SM}
+                              h={IMAGE_SIZE.PORTRAIT_SM}
+                              fit="contain"
+                              radius="sm"
+                            />
+                          )}
+                        </Table.Td>
+                        <Table.Td>
+                          {allianceSlug ? (
+                            <Text
+                              component={Link}
+                              to={`/howlkins/${allianceSlug}`}
+                              fw={600}
+                              size="sm"
+                              className="dt-link-text"
+                              style={{ textDecoration: 'none' }}
+                            >
+                              {howlkin.name}
+                            </Text>
+                          ) : (
+                            <Text fw={600} size="sm">
+                              {howlkin.name}
+                            </Text>
+                          )}
+                        </Table.Td>
+                        <Table.Td>
+                          <QualityIcon quality={howlkin.quality} />
+                        </Table.Td>
+                        <Table.Td>
+                          <HowlkinStats stats={howlkin.basic_stats} />
+                        </Table.Td>
+                        <Table.Td>
+                          <Stack gap={2}>
+                            {(howlkin.passive_effects ?? []).map((e, i) => (
+                              <Text key={i} size="sm" c="dimmed">
+                                {e}
+                              </Text>
+                            ))}
+                          </Stack>
+                        </Table.Td>
+                      </Table.Tr>
+                    );
+                  })}
+                </Table.Tbody>
+              </Table>
+            </ScrollArea>
+          }
+        />
+      )}
+    </>
+  );
+}

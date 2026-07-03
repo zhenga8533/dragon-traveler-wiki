@@ -1,16 +1,9 @@
-﻿import SafeImage from '@/components/ui/SafeImage';
-import { getHowlkinIcon } from '@/assets';
-import type { ChipFilterGroup } from '@/components/common/EntityFilter';
-import EntityFilter from '@/components/common/EntityFilter';
+﻿import type { ChipFilterGroup } from '@/components/common/EntityFilter';
 import {
   createQualityFilterGroup,
   orderFilterOptions,
 } from '@/components/common/EntityFilterGroups';
-import FilteredListShell from '@/components/layout/FilteredListShell';
-import SearchableGridPanel from '@/components/layout/SearchableGridPanel';
 import ListPageHeader from '@/components/layout/ListPageHeader';
-import ListPageShell from '@/components/layout/ListPageShell';
-import { ViewModeLoading } from '@/components/layout/PageLoadingSkeleton';
 import ExportButton from '@/components/tools/ExportButton';
 import SuggestModal from '@/components/tools/SuggestModal';
 import {
@@ -19,16 +12,11 @@ import {
   HOWLKIN_FIELDS,
   HOWLKIN_STATS_FIELDS,
 } from '@/features/wiki/howlkins/form-fields';
-import DataFetchError from '@/components/ui/DataFetchError';
-import EmptyState from '@/components/ui/EmptyState';
-import SortableTh from '@/components/ui/SortableTh';
 import { QUALITY_ORDER } from '@/constants/quality';
-import { LINK_BLOCK_RESET_STYLE, getCardHoverProps, getMinWidthStyle } from '@/constants/styles';
-import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
+import { PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 
-import QualityIcon from '@/components/ui/QualityIcon';
-import HowlkinBadge from '@/features/wiki/howlkins/components/HowlkinBadge';
-import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
+import HowlkinsTab from '@/features/wiki/howlkins/components/HowlkinsTab';
+import GoldenAlliancesTab from '@/features/wiki/howlkins/components/GoldenAlliancesTab';
 import type { GoldenAlliance, Howlkin } from '@/features/wiki/howlkins/types';
 import { useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
 import {
@@ -41,20 +29,8 @@ import {
 } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
-import {
-  Badge,
-  Container,
-  Group,
-  Paper,
-  ScrollArea,
-  SimpleGrid,
-  Stack,
-  Table,
-  Tabs,
-  Text,
-} from '@mantine/core';
+import { Container, Group, Stack, Tabs } from '@mantine/core';
 import { useCallback, useMemo } from 'react';
-import { Link } from 'react-router-dom';
 
 interface HowlkinFilters {
   search: string;
@@ -255,359 +231,53 @@ export default function Howlkins() {
           </Tabs.List>
 
           <Tabs.Panel value="howlkins" pt="md">
-            {howlkinsLoading && (
-              <ViewModeLoading viewMode={viewMode} cards={4} cardHeight={180} />
-            )}
-
-            {!howlkinsLoading && howlkinsError && (
-              <DataFetchError
-                title="Could not load howlkins"
-                message={howlkinsError.message}
-                onRetry={() => window.location.reload()}
-              />
-            )}
-
-            {!howlkinsLoading && !howlkinsError && howlkins.length === 0 && (
-              <EmptyState
-                title="No howlkins yet"
-                description="Howlkin data hasn't been added yet."
-                color={accent.primary}
-              />
-            )}
-
-            {!howlkinsLoading && !howlkinsError && howlkins.length > 0 && (
-              <FilteredListShell
-                count={filtered.length}
-                noun="howlkin"
-                viewMode={viewMode}
-                onViewModeChange={setViewMode}
-                filterCount={activeFilterCount}
-                filterOpen={filterOpen}
-                onFilterToggle={toggleFilter}
-                onResetFilters={resetFilters}
-                emptyMessage="No howlkins match the current filters."
-                page={howlkinPage}
-                totalPages={howlkinTotalPages}
-                onPageChange={setHowlkinPage}
-                pageSize={howlkinPageSize}
-                pageSizeOptions={howlkinPageSizeOptions}
-                onPageSizeChange={setHowlkinPageSize}
-                filterContent={
-                  <EntityFilter
-                    groups={filterGroups}
-                    selected={{ qualities: filters.qualities }}
-                    onChange={(key, values) =>
-                      setFilters({
-                        ...filters,
-                        [key]: values as Quality[],
-                      })
-                    }
-                    onClear={resetFilters}
-                    search={filters.search}
-                    onSearchChange={(value) =>
-                      setFilters({ ...filters, search: value })
-                    }
-                    searchPlaceholder="Search by name..."
-                  />
-                }
-                gridContent={
-                  <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                    {howlkinPageItems.map((howlkin) => {
-                      const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
-                      const allianceSlug = howlkinToAlliance.get(howlkin.slug);
-                      const cardContent = (
-                        <Stack gap="xs">
-                            <Group gap="sm" wrap="nowrap">
-                              {iconSrc && (
-                                <SafeImage
-                                  src={iconSrc}
-                                  alt={howlkin.name}
-                                  w={IMAGE_SIZE.CARD_ICON}
-                                  h={IMAGE_SIZE.CARD_ICON}
-                                  fit="contain"
-                                  radius="sm"
-                                />
-                              )}
-                              <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
-                                <Group gap="sm" wrap="wrap">
-                                  <Text
-                                    fw={700}
-                                    className={allianceSlug ? 'dt-link-text' : undefined}
-                                    lineClamp={1}
-                                  >
-                                    {howlkin.name}
-                                  </Text>
-                                  <QualityIcon quality={howlkin.quality} />
-                                </Group>
-                                <Stack gap={2}>
-                                  {(howlkin.passive_effects ?? []).map(
-                                    (e, i) => (
-                                      <Text key={i} size="sm" c="dimmed">
-                                        {e}
-                                      </Text>
-                                    )
-                                  )}
-                                </Stack>
-                              </Stack>
-                            </Group>
-                            <HowlkinStats stats={howlkin.basic_stats} />
-                          </Stack>
-                      );
-                      const cardHoverProps = getCardHoverProps({
-                        interactive: !!allianceSlug,
-                        style: allianceSlug ? LINK_BLOCK_RESET_STYLE : undefined,
-                      });
-
-                      return allianceSlug ? (
-                        <Paper
-                          key={howlkin.name}
-                          component={Link}
-                          to={`/howlkins/${allianceSlug}`}
-                          p="md"
-                          radius="md"
-                          withBorder
-                          {...cardHoverProps}
-                        >
-                          {cardContent}
-                        </Paper>
-                      ) : (
-                        <Paper
-                          key={howlkin.name}
-                          p="md"
-                          radius="md"
-                          withBorder
-                          {...cardHoverProps}
-                        >
-                          {cardContent}
-                        </Paper>
-                      );
-                    })}
-                  </SimpleGrid>
-                }
-                tableContent={
-                  <ScrollArea type="auto" scrollbarSize={6} offsetScrollbars>
-                    <Table
-                      striped
-                      highlightOnHover
-                      style={getMinWidthStyle(800)}
-                    >
-                      <Table.Thead>
-                        <Table.Tr>
-                          <Table.Th>Icon</Table.Th>
-                          <SortableTh
-                            sortKey="name"
-                            sortCol={sortCol}
-                            sortDir={sortDir}
-                            onSort={handleSort}
-                          >
-                            Name
-                          </SortableTh>
-                          <SortableTh
-                            sortKey="quality"
-                            sortCol={sortCol}
-                            sortDir={sortDir}
-                            onSort={handleSort}
-                          >
-                            Quality
-                          </SortableTh>
-                          <Table.Th>Basic Stats</Table.Th>
-                          <Table.Th>Passive Effects</Table.Th>
-                        </Table.Tr>
-                      </Table.Thead>
-                      <Table.Tbody>
-                        {howlkinPageItems.map((howlkin) => {
-                          const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
-                          const allianceSlug = howlkinToAlliance.get(howlkin.slug);
-                          return (
-                            <Table.Tr
-                              key={howlkin.name}
-                            >
-                              <Table.Td>
-                                {iconSrc && (
-                                  <SafeImage
-                                    src={iconSrc}
-                                    alt={howlkin.name}
-                                    w={IMAGE_SIZE.PORTRAIT_SM}
-                                    h={IMAGE_SIZE.PORTRAIT_SM}
-                                    fit="contain"
-                                    radius="sm"
-                                  />
-                                )}
-                              </Table.Td>
-                              <Table.Td>
-                                {allianceSlug ? (
-                                  <Text
-                                    component={Link}
-                                    to={`/howlkins/${allianceSlug}`}
-                                    fw={600}
-                                    size="sm"
-                                    className="dt-link-text"
-                                    style={{ textDecoration: 'none' }}
-                                  >
-                                    {howlkin.name}
-                                  </Text>
-                                ) : (
-                                  <Text fw={600} size="sm">
-                                    {howlkin.name}
-                                  </Text>
-                                )}
-                              </Table.Td>
-                              <Table.Td>
-                                <QualityIcon quality={howlkin.quality} />
-                              </Table.Td>
-                              <Table.Td>
-                                <HowlkinStats stats={howlkin.basic_stats} />
-                              </Table.Td>
-                              <Table.Td>
-                                <Stack gap={2}>
-                                  {(howlkin.passive_effects ?? []).map(
-                                    (e, i) => (
-                                      <Text key={i} size="sm" c="dimmed">
-                                        {e}
-                                      </Text>
-                                    )
-                                  )}
-                                </Stack>
-                              </Table.Td>
-                            </Table.Tr>
-                          );
-                        })}
-                      </Table.Tbody>
-                    </Table>
-                  </ScrollArea>
-                }
-              />
-            )}
+            <HowlkinsTab
+              loading={howlkinsLoading}
+              error={howlkinsError}
+              howlkins={howlkins}
+              filtered={filtered}
+              viewMode={viewMode}
+              onViewModeChange={setViewMode}
+              activeFilterCount={activeFilterCount}
+              filterOpen={filterOpen}
+              onFilterToggle={toggleFilter}
+              onResetFilters={resetFilters}
+              page={howlkinPage}
+              totalPages={howlkinTotalPages}
+              onPageChange={setHowlkinPage}
+              pageSize={howlkinPageSize}
+              pageSizeOptions={howlkinPageSizeOptions}
+              onPageSizeChange={setHowlkinPageSize}
+              filters={filters}
+              onFiltersChange={setFilters}
+              filterGroups={filterGroups}
+              sortCol={sortCol}
+              sortDir={sortDir}
+              onSort={handleSort}
+              pageItems={howlkinPageItems}
+              howlkinToAlliance={howlkinToAlliance}
+              accent={accent}
+            />
           </Tabs.Panel>
 
           <Tabs.Panel value="golden-alliances" pt="md">
-            <ListPageShell
+            <GoldenAlliancesTab
               loading={alliancesLoading}
               error={alliancesError}
-              hasData={goldenAlliances.length > 0}
-              emptyMessage="Golden alliance data hasn't been added yet."
-              errorTitle="Could not load golden alliances"
-              skeletonCards={4}
-              skeletonType="grid"
-              skeletonCardHeight={180}
-            >
-              <SearchableGridPanel
-                search={allianceSearch}
-                onSearchChange={setAllianceSearch}
-                searchPlaceholder="Search by name or member..."
-                hasResults={filteredAlliances.length > 0}
-                noResultsTitle="No alliances found"
-                noResultsMessage="No alliances match the search."
-                onResetSearch={() => setAllianceSearch('')}
-                currentPage={alliancePage}
-                totalPages={allianceTotalPages}
-                onPageChange={setAlliancePage}
-                totalItems={filteredAlliances.length}
-                pageSize={alliancePageSize}
-                pageSizeOptions={alliancePageSizeOptions}
-                onPageSizeChange={setAlliancePageSize}
-              >
-                <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                    {alliancePageItems.map((alliance) => (
-                          <Paper
-                            key={alliance.name}
-                            component={Link}
-                            to={`/howlkins/${alliance.slug}`}
-                            p="md"
-                            radius="md"
-                            withBorder
-                            {...getCardHoverProps({
-                              interactive: true,
-                              style: LINK_BLOCK_RESET_STYLE,
-                            })}
-                          >
-                            <Stack gap="sm">
-                              <Text fw={700} size="lg" className="dt-link-text">
-                                {alliance.name}
-                              </Text>
-
-                              <div>
-                                <Text size="xs" c="dimmed" fw={600} mb={4}>
-                                  MEMBERS ({alliance.howlkins.length})
-                                </Text>
-                                <Group gap="xs" wrap="wrap">
-                                  {[...alliance.howlkins]
-                                    .sort((a, b) => {
-                                      const qA = QUALITY_ORDER.indexOf(
-                                        howlkinMap.get(a)?.quality ??
-                                          ('' as Quality)
-                                      );
-                                      const qB = QUALITY_ORDER.indexOf(
-                                        howlkinMap.get(b)?.quality ??
-                                          ('' as Quality)
-                                      );
-                                      if (qA !== qB) return qA - qB;
-                                      return a.localeCompare(b);
-                                    })
-                                    .map((howlkinSlug) => {
-                                      const howlkin = howlkinMap.get(howlkinSlug);
-                                      if (!howlkin) return null;
-                                      return (
-                                        <HowlkinBadge
-                                          key={howlkinSlug}
-                                          name={howlkin.name}
-                                          howlkin={howlkin}
-                                        />
-                                      );
-                                    })}
-                                </Group>
-                              </div>
-
-                              <div>
-                                <Text size="xs" c="dimmed" fw={600} mb={4}>
-                                  ALLIANCE EFFECTS
-                                </Text>
-                                <Table withTableBorder withColumnBorders>
-                                  <Table.Thead>
-                                    <Table.Tr>
-                                      <Table.Th style={{ width: 70 }}>
-                                        Level
-                                      </Table.Th>
-                                      <Table.Th>Stats</Table.Th>
-                                    </Table.Tr>
-                                  </Table.Thead>
-                                  <Table.Tbody>
-                                    {alliance.effects.map((effect) => (
-                                      <Table.Tr key={effect.level}>
-                                        <Table.Td>
-                                          <Badge
-                                            variant="light"
-                                            size="sm"
-                                            color={accent.secondary}
-                                          >
-                                            {effect.level}
-                                          </Badge>
-                                        </Table.Td>
-                                        <Table.Td>
-                                          <Group gap={4} wrap="wrap">
-                                            {effect.stats.map((stat, i) => (
-                                              <Badge
-                                                key={i}
-                                                variant="outline"
-                                                size="sm"
-                                                color={accent.secondary}
-                                              >
-                                                {stat}
-                                              </Badge>
-                                            ))}
-                                          </Group>
-                                        </Table.Td>
-                                      </Table.Tr>
-                                    ))}
-                                  </Table.Tbody>
-                                </Table>
-                              </div>
-                            </Stack>
-                          </Paper>
-                        ))}
-                </SimpleGrid>
-              </SearchableGridPanel>
-            </ListPageShell>
+              goldenAlliances={goldenAlliances}
+              search={allianceSearch}
+              onSearchChange={setAllianceSearch}
+              filtered={filteredAlliances}
+              page={alliancePage}
+              totalPages={allianceTotalPages}
+              onPageChange={setAlliancePage}
+              pageItems={alliancePageItems}
+              pageSize={alliancePageSize}
+              pageSizeOptions={alliancePageSizeOptions}
+              onPageSizeChange={setAlliancePageSize}
+              howlkinMap={howlkinMap}
+              accent={accent}
+            />
           </Tabs.Panel>
         </Tabs>
       </Stack>
