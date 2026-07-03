@@ -28,11 +28,8 @@ import {
 import { IMAGE_SIZE, PAGE_SIZE, STORAGE_KEY } from '@/constants/ui';
 import QualityIcon from '@/components/ui/QualityIcon';
 import RelicTypeTag from '@/features/wiki/relics/components/RelicTypeTag';
-import type { Relic, RelicType } from '@/features/wiki/relics/types';
-import {
-  getRelicOracleScroll,
-  getRelicTypeOrder,
-} from '@/features/wiki/relics/utils';
+import type { OracleScrollRef, Relic, RelicType } from '@/features/wiki/relics/types';
+import { getRelicTypeOrder } from '@/features/wiki/relics/utils';
 import { useRelics, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
   applyDir,
@@ -44,7 +41,6 @@ import {
 } from '@/hooks';
 import type { Quality } from '@/types/quality';
 import { getLatestTimestamp } from '@/utils';
-import { toEntitySlug } from '@/utils/entity-slug';
 import {
   Badge,
   Container,
@@ -137,7 +133,7 @@ export default function RelicPage() {
       const matchesSearch =
         !filters.search ||
         item.name.toLowerCase().includes(query) ||
-        (getRelicOracleScroll(item) ?? '').toLowerCase().includes(query) ||
+        (item.oracle_scroll?.name ?? '').toLowerCase().includes(query) ||
         item.lore.toLowerCase().includes(query);
       const matchesType =
         filters.types.length === 0 || filters.types.includes(item.type);
@@ -152,8 +148,8 @@ export default function RelicPage() {
         getRelicTypeOrder(b.type, RELIC_TYPE_ORDER);
       const qualityCmp =
         QUALITY_ORDER.indexOf(a.quality) - QUALITY_ORDER.indexOf(b.quality);
-      const oracleCmp = (getRelicOracleScroll(a) ?? '').localeCompare(
-        getRelicOracleScroll(b) ?? ''
+      const oracleCmp = (a.oracle_scroll?.name ?? '').localeCompare(
+        b.oracle_scroll?.name ?? ''
       );
       const nameCmp = a.name.localeCompare(b.name);
 
@@ -180,23 +176,22 @@ export default function RelicPage() {
   useSearchParamFilter(setFilters);
 
   // Oracle Scrolls tab
-  const oracleScrollNames = useMemo(() => {
-    const names = new Set<string>();
+  const oracleScrolls = useMemo(() => {
+    const bySlug = new Map<string, OracleScrollRef>();
     for (const relic of relics) {
-      const oracleScroll = getRelicOracleScroll(relic);
-      if (oracleScroll) names.add(oracleScroll);
+      if (relic.oracle_scroll) bySlug.set(relic.oracle_scroll.slug, relic.oracle_scroll);
     }
-    return [...names].sort((a, b) => a.localeCompare(b));
+    return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name));
   }, [relics]);
 
   const relicsByOracle = useMemo(() => {
     const map = new Map<string, Relic[]>();
     for (const relic of relics) {
-      const oracleScroll = getRelicOracleScroll(relic);
-      if (!oracleScroll) continue;
-      const list = map.get(oracleScroll) ?? [];
+      const slug = relic.oracle_scroll?.slug;
+      if (!slug) continue;
+      const list = map.get(slug) ?? [];
       list.push(relic);
-      map.set(oracleScroll, list);
+      map.set(slug, list);
     }
     for (const list of map.values()) {
       list.sort((a, b) => {
@@ -211,10 +206,10 @@ export default function RelicPage() {
   }, [relics]);
 
   const oracleSearchFn = useCallback(
-    (name: string, query: string) => {
-      const relicsInScroll = relicsByOracle.get(name) ?? [];
+    (scroll: OracleScrollRef, query: string) => {
+      const relicsInScroll = relicsByOracle.get(scroll.slug) ?? [];
       return (
-        name.toLowerCase().includes(query) ||
+        scroll.name.toLowerCase().includes(query) ||
         relicsInScroll.some((r) => r.name.toLowerCase().includes(query))
       );
     },
@@ -232,7 +227,7 @@ export default function RelicPage() {
     pageSize: oraclePageSize,
     setPageSize: setOraclePageSize,
     pageSizeOptions: oraclePageSizeOptions,
-  } = useSecondaryTabList(oracleScrollNames, {
+  } = useSecondaryTabList(oracleScrolls, {
     searchFn: oracleSearchFn,
     storageKeys: { search: STORAGE_KEY.RELIC_ORACLE_SCROLL_SEARCH },
     pageSize: PAGE_SIZE,
@@ -320,14 +315,11 @@ export default function RelicPage() {
                   <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
                     {relicPageItems.map((item) => {
                       const iconSrc = getRelicIcon(item.slug, item.quality);
-                      const oracleScroll = getRelicOracleScroll(item);
-                      const scrollSlug = oracleScroll
-                        ? toEntitySlug(oracleScroll)
-                        : null;
+                      const oracleScroll = item.oracle_scroll;
                       return (
                         <EntitySummaryCard
                           key={item.name}
-                          to={scrollSlug ? `/oracle-scrolls/${scrollSlug}` : null}
+                          to={oracleScroll ? `/oracle-scrolls/${oracleScroll.slug}` : null}
                           title={item.name}
                           imageSrc={iconSrc}
                           titleAccessory={
@@ -344,7 +336,7 @@ export default function RelicPage() {
                                   size="sm"
                                   color={accent.secondary}
                                 >
-                                  {oracleScroll}
+                                  {oracleScroll.name}
                                 </Badge>
                               )}
                             </Group>
@@ -407,7 +399,7 @@ export default function RelicPage() {
                       <Table.Tbody>
                         {relicPageItems.map((item) => {
                           const iconSrc = getRelicIcon(item.slug, item.quality);
-                          const oracleScroll = getRelicOracleScroll(item);
+                          const oracleScroll = item.oracle_scroll;
                           return (
                           <Table.Tr key={item.name}>
                             <Table.Td>
@@ -443,14 +435,14 @@ export default function RelicPage() {
                               {oracleScroll ? (
                                 <Badge
                                   component={Link}
-                                  to={`/oracle-scrolls/${toEntitySlug(oracleScroll)}`}
+                                  to={`/oracle-scrolls/${oracleScroll.slug}`}
                                   variant="light"
                                   size="sm"
                                   color={accent.secondary}
                                   style={{ cursor: 'pointer', textDecoration: 'none' }}
                                   onClick={(e: React.MouseEvent) => e.stopPropagation()}
                                 >
-                                  {oracleScroll}
+                                  {oracleScroll.name}
                                 </Badge>
                               ) : (
                                 <Text size="sm" c="dimmed">
@@ -479,7 +471,7 @@ export default function RelicPage() {
               loading={loading}
               error={error}
               errorTitle="Could not load oracle scrolls"
-              hasData={oracleScrollNames.length > 0}
+              hasData={oracleScrolls.length > 0}
               emptyMessage="No oracle scroll data available yet."
               skeletonCards={4}
             >
@@ -500,14 +492,14 @@ export default function RelicPage() {
                 onPageSizeChange={setOraclePageSize}
               >
                 <SimpleGrid cols={{ base: 1, sm: 2 }} spacing="md">
-                  {oraclePageItems.map((scrollName) => {
-                        const items = relicsByOracle.get(scrollName) ?? [];
-                        const videoSrc = getOracleScrollVideo(scrollName);
+                  {oraclePageItems.map((scroll) => {
+                        const items = relicsByOracle.get(scroll.slug) ?? [];
+                        const videoSrc = getOracleScrollVideo(scroll.slug);
                         return (
                           <Paper
-                            key={scrollName}
+                            key={scroll.slug}
                             component={Link}
-                            to={`/oracle-scrolls/${toEntitySlug(scrollName)}`}
+                            to={`/oracle-scrolls/${scroll.slug}`}
                             p={0}
                             radius="md"
                             withBorder
@@ -543,7 +535,7 @@ export default function RelicPage() {
                                     lineClamp={1}
                                     style={{ flex: 1 }}
                                   >
-                                    {scrollName}
+                                    {scroll.name}
                                   </Text>
                                   <Badge
                                     variant="light"

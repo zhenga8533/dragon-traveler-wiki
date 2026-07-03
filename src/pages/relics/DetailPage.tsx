@@ -12,17 +12,14 @@ import { RELIC_TYPE_ORDER } from '@/constants/relic-colors';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
-import {
-  getRelicOracleScroll,
-  getRelicTypeOrder,
-} from '@/features/wiki/relics/utils';
+import { getRelicTypeOrder } from '@/features/wiki/relics/utils';
+import type { OracleScrollRef } from '@/features/wiki/relics/types';
 import RichText from '@/components/common/RichText';
 import { useRelicChanges, useRelics, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import { useDarkMode, useGradientAccent, useMobileTooltip } from '@/hooks';
 import {
   findEntityByParam,
   shouldRedirectToEntitySlug,
-  toEntitySlug,
 } from '@/utils/entity-slug';
 import IllustrationPreviewCard from '@/components/common/IllustrationPreviewCard';
 import IllustrationPreviewModal from '@/components/common/IllustrationPreviewModal';
@@ -53,38 +50,30 @@ export default function OracleScrollPage() {
   const { data: changesData } = useRelicChanges();
   const { data: statusEffects } = useStatusEffects();
 
-  // All distinct oracle scroll names, sorted
-  const oracleScrollNames = useMemo(() => {
-    const names = new Set<string>();
+  // All distinct oracle scrolls, sorted by name
+  const oracleScrolls = useMemo(() => {
+    const bySlug = new Map<string, OracleScrollRef>();
     for (const relic of relics) {
-      const oracleScroll = getRelicOracleScroll(relic);
-      if (oracleScroll) names.add(oracleScroll);
+      if (relic.oracle_scroll) bySlug.set(relic.oracle_scroll.slug, relic.oracle_scroll);
     }
-    return [...names].sort((a, b) => a.localeCompare(b));
+    return [...bySlug.values()].sort((a, b) => a.name.localeCompare(b.name));
   }, [relics]);
 
-  const decodedScrollName = useMemo(
-    () =>
-      findEntityByParam(oracleScrollNames, scrollName, (name) => name) ?? '',
-    [oracleScrollNames, scrollName]
+  const currentScroll = useMemo(
+    () => findEntityByParam(oracleScrolls, scrollName, (s) => s.slug),
+    [oracleScrolls, scrollName]
   );
 
   useEffect(() => {
-    if (!decodedScrollName || !scrollName) return;
-    if (!shouldRedirectToEntitySlug(scrollName, decodedScrollName)) return;
-    navigate(`/oracle-scrolls/${toEntitySlug(decodedScrollName)}`, {
-      replace: true,
-    });
-  }, [decodedScrollName, navigate, scrollName]);
+    if (!currentScroll || !scrollName) return;
+    if (!shouldRedirectToEntitySlug(scrollName, currentScroll.slug)) return;
+    navigate(`/oracle-scrolls/${currentScroll.slug}`, { replace: true });
+  }, [currentScroll, navigate, scrollName]);
 
   const scrollRelics = useMemo(() => {
-    if (!decodedScrollName) return [];
+    if (!currentScroll) return [];
     return relics
-      .filter(
-        (r) =>
-          getRelicOracleScroll(r)?.toLowerCase() ===
-          decodedScrollName.toLowerCase()
-      )
+      .filter((r) => r.oracle_scroll?.slug === currentScroll.slug)
       .sort((a, b) => {
         const typeCmp =
           getRelicTypeOrder(a.type, RELIC_TYPE_ORDER) -
@@ -92,7 +81,7 @@ export default function OracleScrollPage() {
         if (typeCmp !== 0) return typeCmp;
         return a.name.localeCompare(b.name);
       });
-  }, [relics, decodedScrollName]);
+  }, [relics, currentScroll]);
 
   const scrollRelicsByType = useMemo(() => {
     return RELIC_TYPE_ORDER.map((type) => ({
@@ -103,17 +92,17 @@ export default function OracleScrollPage() {
 
   const scrollIndex = useMemo(
     () =>
-      oracleScrollNames.findIndex(
-        (n) => n.toLowerCase() === decodedScrollName.toLowerCase()
-      ),
-    [oracleScrollNames, decodedScrollName]
+      currentScroll
+        ? oracleScrolls.findIndex((s) => s.slug === currentScroll.slug)
+        : -1,
+    [oracleScrolls, currentScroll]
   );
 
   const previousScroll =
-    scrollIndex > 0 ? oracleScrollNames[scrollIndex - 1] : null;
+    scrollIndex > 0 ? oracleScrolls[scrollIndex - 1] : null;
   const nextScroll =
-    scrollIndex >= 0 && scrollIndex < oracleScrollNames.length - 1
-      ? oracleScrollNames[scrollIndex + 1]
+    scrollIndex >= 0 && scrollIndex < oracleScrolls.length - 1
+      ? oracleScrolls[scrollIndex + 1]
       : null;
 
   const lastUpdated = useMemo(
@@ -139,7 +128,7 @@ export default function OracleScrollPage() {
     );
   }
 
-  if (!decodedScrollName || scrollRelics.length === 0) {
+  if (!currentScroll || scrollRelics.length === 0) {
     return (
       <EntityNotFound
         entityType="Oracle Scroll"
@@ -150,7 +139,7 @@ export default function OracleScrollPage() {
     );
   }
 
-  const illustrationSrc = getOracleScrollVideo(decodedScrollName);
+  const illustrationSrc = getOracleScrollVideo(currentScroll.slug);
 
   // Collect per-relic change histories to display alongside the scroll
   const relicHistories = scrollRelics
@@ -165,7 +154,7 @@ export default function OracleScrollPage() {
         breadcrumbItems={[
           { label: 'Relics', path: '/relics' },
           { label: 'Oracle Scrolls', path: '/relics?tab=oracle-scrolls' },
-          { label: decodedScrollName },
+          { label: currentScroll.name },
         ]}
         py={{ base: 'lg', sm: 'xl' }}
       >
@@ -177,7 +166,7 @@ export default function OracleScrollPage() {
               fz={{ base: '1.5rem', sm: '2.125rem' }}
               style={{ wordBreak: 'break-word' }}
             >
-              {decodedScrollName}
+              {currentScroll.name}
             </Title>
             <QualityIcon quality={scrollRelics[0].quality} size={32} />
             <Badge variant="light" color={accent.secondary} size="lg">
@@ -193,9 +182,9 @@ export default function OracleScrollPage() {
         <IllustrationPreviewModal
           opened={previewOpen}
           onClose={() => setPreviewOpen(false)}
-          entityName={decodedScrollName}
-          illustrations={[{ name: decodedScrollName, src: illustrationSrc, type: 'video' } satisfies Illustration]}
-          activeIllustration={{ name: decodedScrollName, src: illustrationSrc, type: 'video' }}
+          entityName={currentScroll.name}
+          illustrations={[{ name: currentScroll.name, src: illustrationSrc, type: 'video' } satisfies Illustration]}
+          activeIllustration={{ name: currentScroll.name, src: illustrationSrc, type: 'video' }}
           activeIllustrationIndex={0}
           hasMultipleIllustrations={false}
           showPreviousIllustration={() => {}}
@@ -210,7 +199,7 @@ export default function OracleScrollPage() {
           {illustrationSrc && (
             <IllustrationPreviewCard
               src={illustrationSrc}
-              name={decodedScrollName}
+              name={currentScroll.name}
               type="video"
               accentColor={accent.primary}
               onExpand={() => setPreviewOpen(true)}
@@ -286,16 +275,16 @@ export default function OracleScrollPage() {
           previousItem={
             previousScroll
               ? {
-                  label: previousScroll,
-                  path: `/oracle-scrolls/${toEntitySlug(previousScroll)}`,
+                  label: previousScroll.name,
+                  path: `/oracle-scrolls/${previousScroll.slug}`,
                 }
               : null
           }
           nextItem={
             nextScroll
               ? {
-                  label: nextScroll,
-                  path: `/oracle-scrolls/${toEntitySlug(nextScroll)}`,
+                  label: nextScroll.name,
+                  path: `/oracle-scrolls/${nextScroll.slug}`,
                 }
               : null
           }

@@ -1,8 +1,4 @@
-import type { Relic, RelicType } from './types';
-
-export function getRelicOracleScroll(relic: Relic): string | null {
-  return relic.oracle_scroll ?? null;
-}
+import type { RelicType } from './types';
 
 export function getRelicTypeOrder(
   type: RelicType,

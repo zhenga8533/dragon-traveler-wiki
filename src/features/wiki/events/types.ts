@@ -4,6 +4,7 @@ export interface GameEvent {
   event_id: string | null;
   type: string;
   description: string;
+  /** Character slugs (e.g. "tamamo_ssr_plus") — canonical keys in characters.json. */
   characters: string[];
   is_global: boolean;
   start_date?: string;

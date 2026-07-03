@@ -1,15 +1,15 @@
 import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import {
-  buildPreferredCharacterByNameMap,
+  buildCharacterByIdentityMap,
   getCharacterRoutePath,
-  getCharacterRouteSlug,
 } from '@/features/characters/utils/character-route';
 import { useCharacters } from '@/hooks';
 import { Group } from '@mantine/core';
 import { useMemo } from 'react';
 
 interface EventCharacterAvatarsProps {
+  /** Character slugs (e.g. "tamamo_ssr_plus"). */
   characters: string[];
   size?: number;
 }
@@ -19,8 +19,8 @@ export default function EventCharacterAvatars({
   size = IMAGE_SIZE.PORTRAIT_SM,
 }: EventCharacterAvatarsProps) {
   const { data: characterData } = useCharacters();
-  const preferredByName = useMemo(
-    () => buildPreferredCharacterByNameMap(characterData),
+  const byIdentity = useMemo(
+    () => buildCharacterByIdentityMap(characterData),
     [characterData]
   );
 
@@ -28,19 +28,18 @@ export default function EventCharacterAvatars({
 
   return (
     <Group gap="xs" wrap="wrap">
-      {characters.map((char) => {
-        const resolved = preferredByName.get(char);
-        const assetKey = resolved ? getCharacterRouteSlug(resolved) : undefined;
+      {characters.map((slug) => {
+        const resolved = byIdentity.get(slug);
         return (
           <CharacterPortrait
-            key={char}
-            name={char}
+            key={slug}
+            name={resolved?.name ?? slug}
             size={size}
             quality={resolved?.quality}
-            assetKey={assetKey}
-            routePath={resolved ? getCharacterRoutePath(resolved) : undefined}
+            assetKey={slug}
+            routePath={resolved ? getCharacterRoutePath(resolved) : `/characters/${slug}`}
             link
-            tooltip={char}
+            tooltip={resolved?.name ?? slug}
             loading="lazy"
           />
         );

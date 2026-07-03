@@ -6,10 +6,16 @@ export type RelicType =
   | 'Fated Relic'
   | 'Symbol of Theocracy';
 
+export interface OracleScrollRef {
+  name: string;
+  /** Canonical, locale-invariant identifier for the oracle scroll grouping. */
+  slug: string;
+}
+
 export interface Relic {
   slug: string;
   name: string;
-  oracle_scroll?: string | null;
+  oracle_scroll?: OracleScrollRef | null;
   lore: string;
   type: RelicType;
   quality: Quality;
