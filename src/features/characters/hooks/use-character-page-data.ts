@@ -235,9 +235,11 @@ export function useCharacterPageData(
   }, [character]);
 
   const linkedNoblePhantasm = useMemo(() => {
-    if (!character?.noble_phantasm) return null;
+    if (!character?.recommended_noble_phantasm) return null;
     return (
-      noblePhantasms.find((np) => np.slug === character.noble_phantasm) ?? null
+      noblePhantasms.find(
+        (np) => np.slug === character.recommended_noble_phantasm
+      ) ?? null
     );
   }, [character, noblePhantasms]);
 

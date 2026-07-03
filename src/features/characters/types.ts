@@ -129,7 +129,7 @@ export interface Character {
   talent?: Talent | null;
   skills: Skill[];
   divinity?: DivinityLevel[];
-  noble_phantasm: string;
+  recommended_noble_phantasm: string;
   recommended_gear?: RecommendedGearLoadout[] | null;
   recommended_subclasses?: string[];
   last_updated: number;
