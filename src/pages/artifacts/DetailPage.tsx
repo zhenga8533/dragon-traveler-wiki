@@ -1,12 +1,11 @@
 ﻿import SafeImage from '@/components/ui/SafeImage';
-import { getArtifactIcon, getTreasureIcon } from '@/assets';
+import { getArtifactIcon } from '@/assets';
 import ChangeHistory from '@/components/common/ChangeHistory';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
 import RichText from '@/components/common/RichText';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
-import ClassTag from '@/components/ui/ClassTag';
 import EntityNotFound from '@/components/ui/EntityNotFound';
 import FactionTag from '@/components/ui/FactionTag';
 import QualityIcon from '@/components/ui/QualityIcon';
@@ -16,8 +15,7 @@ import { getHeroIconBoxStyles } from '@/constants/detail-styles';
 import { getCardHoverProps } from '@/constants/styles';
 import { IMAGE_SIZE } from '@/constants/ui';
 import EffectTable from '@/features/wiki/artifacts/components/EffectTable';
-import type { ArtifactTreasure } from '@/features/wiki/artifacts/types';
-import type { StatusEffect } from '@/features/wiki/status-effects/types';
+import TreasureCard from '@/features/wiki/artifacts/components/TreasureCard';
 import { useArtifactChanges, useArtifacts, useDarkMode, useFactions, useGradientAccent, useStatusEffects } from '@/hooks';
 import {
   findEntityByParam,
@@ -36,59 +34,6 @@ import {
 } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
 import { useNavigate, useParams } from 'react-router-dom';
-
-function TreasureCard({
-  treasure,
-  artifactSlug,
-  isDark,
-  qualityColor,
-  statusEffects,
-}: {
-  treasure: ArtifactTreasure;
-  artifactSlug: string;
-  isDark: boolean;
-  qualityColor: string;
-  statusEffects: StatusEffect[];
-}) {
-  const iconSrc = getTreasureIcon(artifactSlug, treasure.name);
-  return (
-    <Paper
-      p="md"
-      radius="md"
-      withBorder
-      {...getCardHoverProps({
-        style: {
-          borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
-        },
-      })}
-    >
-      <Stack gap="md">
-        <Group gap="md" wrap="nowrap" align="flex-start">
-          {iconSrc && (
-            <SafeImage
-              src={iconSrc}
-              alt={treasure.name}
-              w={IMAGE_SIZE.CARD_ICON}
-              h={IMAGE_SIZE.CARD_ICON}
-              fit="contain"
-              radius="sm"
-              style={{ flexShrink: 0 }}
-              loading="lazy"
-            />
-          )}
-          <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-            <Text fw={700} size="lg">
-              {treasure.name}
-            </Text>
-            <ClassTag characterClass={treasure.character_class} size="sm" />
-          </Stack>
-        </Group>
-        <RichText text={treasure.lore} statusEffects={statusEffects} italic lineHeight={1.6} />
-        <EffectTable effects={treasure.effect} statusEffects={statusEffects} />
-      </Stack>
-    </Paper>
-  );
-}
 
 export default function ArtifactPage() {
   const { name } = useParams<{ name: string }>();

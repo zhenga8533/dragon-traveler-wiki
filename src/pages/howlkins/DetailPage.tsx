@@ -4,13 +4,9 @@ import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import EntityNotFound from '@/components/ui/EntityNotFound';
-import QualityIcon from '@/components/ui/QualityIcon';
-import SafeImage from '@/components/ui/SafeImage';
-import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/quality';
-import { getCardHoverProps } from '@/constants/styles';
-import HowlkinStats from '@/features/wiki/howlkins/components/HowlkinStats';
+import { QUALITY_ORDER } from '@/constants/quality';
+import AllianceMemberCard from '@/features/wiki/howlkins/components/AllianceMemberCard';
 import type { Howlkin } from '@/features/wiki/howlkins/types';
-import { getHowlkinIcon } from '@/assets';
 import { useGoldenAllianceChanges, useGoldenAlliances, useHowlkins } from '@/features/wiki/hooks/use-wiki-data';
 import { useDarkMode, useGradientAccent } from '@/hooks';
 import {
@@ -23,11 +19,9 @@ import {
   Box,
   Container,
   Group,
-  Paper,
   SimpleGrid,
   Stack,
   Table,
-  Text,
   Title,
 } from '@mantine/core';
 import { useEffect, useMemo } from 'react';
@@ -156,49 +150,12 @@ export default function GoldenAllianceDetailPage() {
               {sortedMembers.map((howlkinSlug) => {
                 const howlkin = howlkinMap.get(howlkinSlug);
                 if (!howlkin) return null;
-                const iconSrc = getHowlkinIcon(howlkin.slug, howlkin.quality);
-                const qualityColor = QUALITY_COLOR[howlkin.quality];
                 return (
-                  <Paper
+                  <AllianceMemberCard
                     key={howlkinSlug}
-                    p="sm"
-                    radius="md"
-                    withBorder
-                    {...getCardHoverProps({
-                      style: {
-                        borderTop: `3px solid var(--mantine-color-${qualityColor}-${isDark ? 7 : 5})`,
-                      },
-                    })}
-                  >
-                    <Stack gap="xs">
-                      <Group gap="sm" wrap="nowrap">
-                        {iconSrc && (
-                          <SafeImage
-                            src={iconSrc}
-                            alt={howlkin.name}
-                            w={44}
-                            h={44}
-                            fit="contain"
-                            radius="sm"
-                          />
-                        )}
-                        <Stack gap={2} style={{ flex: 1, minWidth: 0 }}>
-                          <Group gap="xs" wrap="wrap">
-                            <Text fw={600} size="sm">
-                              {howlkin.name}
-                            </Text>
-                            <QualityIcon quality={howlkin.quality} size={14} />
-                          </Group>
-                          {(howlkin.passive_effects ?? []).map((e, i) => (
-                            <Text key={i} size="xs" c="dimmed">
-                              {e}
-                            </Text>
-                          ))}
-                        </Stack>
-                      </Group>
-                      <HowlkinStats stats={howlkin.basic_stats} size="xs" />
-                    </Stack>
-                  </Paper>
+                    howlkin={howlkin}
+                    isDark={isDark}
+                  />
                 );
               })}
             </SimpleGrid>

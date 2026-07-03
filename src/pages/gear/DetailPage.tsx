@@ -1,8 +1,5 @@
-﻿import ExpandableText from '@/components/ui/ExpandableText';
-import SafeImage from '@/components/ui/SafeImage';
-import { getGearIcon } from '@/assets';
+﻿import RichText from '@/components/common/RichText';
 import ChangeHistory from '@/components/common/ChangeHistory';
-import RichText from '@/components/common/RichText';
 import DetailPageHero from '@/components/common/DetailPageHero';
 import DetailPageNavigation from '@/components/common/DetailPageNavigation';
 import LastUpdated from '@/components/common/LastUpdated';
@@ -13,13 +10,12 @@ import { GEAR_TYPE_ORDER } from '@/constants/gear-colors';
 import { QUALITY_COLOR, QUALITY_ORDER } from '@/constants/quality';
 import { getLoreGlassStyles } from '@/constants/glass';
 import { CURSOR_POINTER_STYLE, getCardHoverProps } from '@/constants/styles';
-import { IMAGE_SIZE } from '@/constants/ui';
 import CharacterPortrait from '@/features/characters/components/CharacterPortrait';
 import {
   getCharacterRouteSlug,
   getCharacterRoutePath,
 } from '@/features/characters/utils/character-route';
-import GearTypeTag from '@/features/wiki/gear/components/GearTypeTag';
+import GearSetItemCard from '@/features/wiki/gear/components/GearSetItemCard';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { useGear, useGearChanges, useGearSetChanges, useGearSets, useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 import {
@@ -312,87 +308,14 @@ export default function GearSetPage() {
       <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
         <Stack gap="lg">
           <SimpleGrid cols={{ base: 1, md: 2 }} spacing="md">
-            {setItems.map((item) => {
-              const iconSrc = getGearIcon(item.type, item.slug);
-              const itemQualityColor = QUALITY_COLOR[item.quality];
-              return (
-                <Paper
-                  key={item.name}
-                  p="md"
-                  radius="md"
-                  withBorder
-                  {...getCardHoverProps({
-                    style: {
-                      borderTop: `3px solid var(--mantine-color-${itemQualityColor}-${isDark ? 7 : 5})`,
-                    },
-                  })}
-                >
-                  <Stack gap="sm">
-                    <Group gap="md" wrap="nowrap" align="flex-start">
-                      {iconSrc && (
-                        <SafeImage
-                          src={iconSrc}
-                          alt={item.name}
-                          w={IMAGE_SIZE.CARD_ICON}
-                          h={IMAGE_SIZE.CARD_ICON}
-                          fit="contain"
-                          radius="sm"
-                          loading="lazy"
-                        />
-                      )}
-                      <Stack gap={4} style={{ flex: 1, minWidth: 0 }}>
-                        <Text
-                          fw={700}
-                          size="lg"
-                          className="dt-link-text"
-                          lineClamp={1}
-                        >
-                          {item.name}
-                        </Text>
-                        <Group gap="xs" wrap="wrap">
-                          <GearTypeTag type={item.type} />
-                          <QualityIcon
-                            quality={item.quality}
-                            size={IMAGE_SIZE.ICON_LG}
-                          />
-                        </Group>
-                        <ExpandableText size="sm">
-                          <RichText text={item.lore} statusEffects={statusEffects} italic />
-                        </ExpandableText>
-                      </Stack>
-                    </Group>
-
-                    <Stack gap="xs">
-                      <Text fw={600} size="sm">
-                        Stats
-                      </Text>
-                      <SimpleGrid cols={2} spacing="xs">
-                        {Object.entries(item.stats).map(
-                          ([statName, statValue]) => (
-                            <Paper
-                              key={statName}
-                              withBorder
-                              radius="sm"
-                              p="xs"
-                              {...getCardHoverProps()}
-                            >
-                              <Stack gap={2}>
-                                <Text size="xs" c="dimmed" lineClamp={1}>
-                                  {statName}
-                                </Text>
-                                <Text size="sm" fw={700} lineClamp={1}>
-                                  {String(statValue)}
-                                </Text>
-                              </Stack>
-                            </Paper>
-                          )
-                        )}
-                      </SimpleGrid>
-                    </Stack>
-                  </Stack>
-                </Paper>
-              );
-            })}
+            {setItems.map((item) => (
+              <GearSetItemCard
+                key={item.name}
+                item={item}
+                isDark={isDark}
+                statusEffects={statusEffects}
+              />
+            ))}
           </SimpleGrid>
         </Stack>
 
