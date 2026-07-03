@@ -164,6 +164,7 @@ export const STORAGE_KEY = {
   UI_SURFACE_OPACITY: 'ui:surfaceOpacity',
   CHANGELOG_TAB: 'changelog:tab',
   CHARACTER_OWNERSHIP: 'characters:ownership',
+  UI_CHARACTER_TRACKING_ENABLED: 'ui:characterTrackingEnabled',
   UI_GRAY_UNOWNED: 'ui:grayUnowned',
   UI_SHOW_CHARACTER_TIERS: 'ui:showCharacterTiers',
   BUBBLE_CHART_CONFIG: 'characters:bubbleChartConfig',

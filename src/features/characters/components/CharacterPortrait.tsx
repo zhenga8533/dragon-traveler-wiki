@@ -54,7 +54,9 @@ export default function CharacterPortrait({
   isNew = false,
 }: CharacterPortraitProps) {
   const mobileTooltip = useMobileTooltip();
-  const { grayUnowned, isOwned } = useContext(CharacterOwnershipContext);
+  const { characterTrackingEnabled, grayUnowned, isOwned } = useContext(
+    CharacterOwnershipContext
+  );
   const routeAssetKey = routePath?.match(/^\/characters\/([^/?#]+)/)?.[1];
   const resolvedAssetKey = assetKey ?? routeAssetKey;
   const resolvedBorderColor =
@@ -64,7 +66,10 @@ export default function CharacterPortrait({
   // routeAssetKey is the character slug extracted from the route path — use it as the ownership key.
   // Only dim when we have a slug to look up, preventing false matches on portrait-only usages.
   const dimmed =
-    grayUnowned && routeAssetKey != null && !isOwned(routeAssetKey);
+    characterTrackingEnabled &&
+    grayUnowned &&
+    routeAssetKey != null &&
+    !isOwned(routeAssetKey);
 
   const portrait = (
     <SafeImage

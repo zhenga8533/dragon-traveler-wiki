@@ -152,8 +152,14 @@ export default function SettingsPanel({
     setSurfaceOpacity,
     resetOpacitySettings,
   } = useContext(UiOpacityContext);
-  const { grayUnowned, setGrayUnowned, showCharacterTiers, setShowCharacterTiers } =
-    useContext(CharacterOwnershipContext);
+  const {
+    characterTrackingEnabled,
+    setCharacterTrackingEnabled,
+    grayUnowned,
+    setGrayUnowned,
+    showCharacterTiers,
+    setShowCharacterTiers,
+  } = useContext(CharacterOwnershipContext);
   const { locale, setLocale } = useContext(LocaleContext);
 
   useEffect(() => {
@@ -420,10 +426,21 @@ export default function SettingsPanel({
           <Switch
             size={isMobile ? 'md' : 'sm'}
             color={accent.primary}
-            label="Gray out unowned characters"
-            checked={grayUnowned}
-            onChange={(e) => setGrayUnowned(e.currentTarget.checked)}
+            label="Track character ownership"
+            checked={characterTrackingEnabled}
+            onChange={(e) =>
+              setCharacterTrackingEnabled(e.currentTarget.checked)
+            }
           />
+          {characterTrackingEnabled && (
+            <Switch
+              size={isMobile ? 'md' : 'sm'}
+              color={accent.primary}
+              label="Gray out unowned characters"
+              checked={grayUnowned}
+              onChange={(e) => setGrayUnowned(e.currentTarget.checked)}
+            />
+          )}
           <Switch
             size={isMobile ? 'md' : 'sm'}
             color={accent.primary}

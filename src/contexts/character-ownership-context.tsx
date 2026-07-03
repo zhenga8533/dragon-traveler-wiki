@@ -14,6 +14,13 @@ export interface CharacterOwnershipContextValue {
   getCharacterStarLevel: (identityKey: string) => string | null;
   /** Returns true if the character identity key has any star level set. */
   isOwned: (identityKey: string) => boolean;
+  /**
+   * Master toggle for character-tracking features: the "My Progress" section
+   * on character detail pages, the "My Characters" button/tab on the list
+   * page, and graying out unowned characters.
+   */
+  characterTrackingEnabled: boolean;
+  setCharacterTrackingEnabled: (value: boolean) => void;
   /** When true, character cards gray out characters that are not owned. */
   grayUnowned: boolean;
   setGrayUnowned: (value: boolean) => void;
@@ -33,6 +40,8 @@ export const CharacterOwnershipContext =
     setCharacterStarLevel: () => {},
     getCharacterStarLevel: () => null,
     isOwned: () => false,
+    characterTrackingEnabled: true,
+    setCharacterTrackingEnabled: () => {},
     grayUnowned: false,
     setGrayUnowned: () => {},
     showCharacterTiers: true,
@@ -99,6 +108,9 @@ export function CharacterOwnershipProvider({
   const [ownedCharacters, setOwnedCharacters] = useState<Record<string, string>>(
     () => loadOwnedFromStorage()
   );
+  const [characterTrackingEnabled, setCharacterTrackingEnabledState] = useState<boolean>(
+    () => loadBoolPref(STORAGE_KEY.UI_CHARACTER_TRACKING_ENABLED, true)
+  );
   const [grayUnowned, setGrayUnownedState] = useState<boolean>(
     () => loadGrayUnownedFromStorage()
   );
@@ -131,6 +143,14 @@ export function CharacterOwnershipProvider({
   const isOwned = (identityKey: string): boolean =>
     identityKey in ownedCharacters;
 
+  const setCharacterTrackingEnabled = (value: boolean) => {
+    setCharacterTrackingEnabledState(value);
+    window.localStorage.setItem(
+      STORAGE_KEY.UI_CHARACTER_TRACKING_ENABLED,
+      String(value)
+    );
+  };
+
   const setGrayUnowned = (value: boolean) => {
     setGrayUnownedState(value);
     window.localStorage.setItem(STORAGE_KEY.UI_GRAY_UNOWNED, String(value));
@@ -148,6 +168,8 @@ export function CharacterOwnershipProvider({
         setCharacterStarLevel,
         getCharacterStarLevel,
         isOwned,
+        characterTrackingEnabled,
+        setCharacterTrackingEnabled,
         grayUnowned,
         setGrayUnowned,
         showCharacterTiers,

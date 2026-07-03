@@ -8,6 +8,7 @@ import {
 import ExportButton from '@/components/tools/ExportButton';
 import { CHARACTER_FIELDS } from '@/features/characters/form-fields';
 import { CHARACTER_GRID_COLS } from '@/constants/ui';
+import { CharacterOwnershipContext } from '@/contexts';
 import CharacterOwnershipManager from '@/features/characters/components/CharacterOwnershipManager';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import { useCharacterListData } from '@/features/characters/hooks/use-character-list-data';
@@ -16,7 +17,7 @@ import { useGradientAccent, useIsMobile } from '@/hooks';
 import { getLatestTimestamp } from '@/utils';
 import { ActionIcon, Button, Container, Group, Stack, Tooltip } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
-import { useMemo } from 'react';
+import { useContext, useMemo } from 'react';
 import { IoPeople, IoPersonOutline } from 'react-icons/io5';
 
 export default function Characters() {
@@ -35,6 +36,7 @@ export default function Characters() {
   const listData = useCharacterListData(characters);
   const newCharacterKeys = useNewCharacters();
   const isMobile = useIsMobile();
+  const { characterTrackingEnabled } = useContext(CharacterOwnershipContext);
 
   const [managerOpened, { open: openManager, close: closeManager }] =
     useDisclosure(false);
@@ -44,30 +46,31 @@ export default function Characters() {
       <Stack gap="md">
         <ListPageHeader title="Characters" timestamp={mostRecentUpdate}>
           <Group gap="xs">
-            {isMobile ? (
-              <Tooltip label="My Characters">
-                <ActionIcon
+            {characterTrackingEnabled &&
+              (isMobile ? (
+                <Tooltip label="My Characters">
+                  <ActionIcon
+                    variant="light"
+                    color={accent.primary}
+                    size="lg"
+                    onClick={openManager}
+                    aria-label="My Characters"
+                  >
+                    <IoPersonOutline size={16} />
+                  </ActionIcon>
+                </Tooltip>
+              ) : (
+                <Button
                   variant="light"
                   color={accent.primary}
-                  size="lg"
+                  size="xs"
+                  leftSection={<IoPersonOutline size={16} />}
                   onClick={openManager}
                   aria-label="My Characters"
                 >
-                  <IoPersonOutline size={16} />
-                </ActionIcon>
-              </Tooltip>
-            ) : (
-              <Button
-                variant="light"
-                color={accent.primary}
-                size="xs"
-                leftSection={<IoPersonOutline size={16} />}
-                onClick={openManager}
-                aria-label="My Characters"
-              >
-                My Characters
-              </Button>
-            )}
+                  My Characters
+                </Button>
+              ))}
             <ExportButton data={characters} filename="characters.json" />
             <SuggestModal
               buttonLabel="Suggest"
@@ -79,13 +82,15 @@ export default function Characters() {
           </Group>
         </ListPageHeader>
 
-        <CharacterOwnershipManager
-          characters={listData.filteredAndSorted}
-          totalCharacters={characters.length}
-          activeFilterCount={listData.activeFilterCount}
-          opened={managerOpened}
-          onClose={closeManager}
-        />
+        {characterTrackingEnabled && (
+          <CharacterOwnershipManager
+            characters={listData.filteredAndSorted}
+            totalCharacters={characters.length}
+            activeFilterCount={listData.activeFilterCount}
+            opened={managerOpened}
+            onClose={closeManager}
+          />
+        )}
 
         <ListPageShell
           loading={loading}

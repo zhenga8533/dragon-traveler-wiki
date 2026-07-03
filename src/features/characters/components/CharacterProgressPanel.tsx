@@ -1,5 +1,7 @@
 import { StaticSurface } from '@/components/ui/Surface';
+import { CharacterOwnershipContext } from '@/contexts';
 import { Select, Stack, Text } from '@mantine/core';
+import { useContext } from 'react';
 
 interface StarLevelOption {
   value: string;
@@ -17,7 +19,9 @@ export default function CharacterProgressPanel({
   value,
   onChange,
 }: CharacterProgressPanelProps) {
-  if (starLevelOptions.length <= 1) {
+  const { characterTrackingEnabled } = useContext(CharacterOwnershipContext);
+
+  if (!characterTrackingEnabled || starLevelOptions.length <= 1) {
     return null;
   }
 
