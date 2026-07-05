@@ -23,11 +23,6 @@ jobs:
           script: |
             const title = context.payload.issue.title;
             const body = context.payload.issue.body ?? '';
-            const match = title.match(/^\[([^\]]+)\]/);
-            if (!match) return;
-
-            const entityLabel = match[1].toLowerCase();
-            const labels = ['suggestion', entityLabel];
 
             async function ensureLabel(labelName, color) {
               try {
@@ -51,13 +46,97 @@ jobs:
               }
             }
 
+            async function closeAsDuplicate(originalIssueNumber, kind) {
+              await ensureLabel('duplicate', 'cfd3d7');
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['duplicate'],
+              });
+              await github.rest.issues.createComment({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                body: [
+                  `**This ${kind} is a duplicate.**`,
+                  ``,
+                  `An identical ${kind} already exists in #${originalIssueNumber}.`,
+                  ``,
+                  `This issue has been closed automatically. If you have additional context to add, please comment on the original issue.`,
+                ].join('\n'),
+              });
+              await github.rest.issues.update({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                state: 'closed',
+                state_reason: 'not_planned',
+              });
+            }
+
+            // ── Expired-code report ──────────────────────────────────────────
+            if (title.startsWith('[Code] Report expired:')) {
+              await ensureLabel('codes', 'e4e669');
+              await github.rest.issues.addLabels({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: context.issue.number,
+                labels: ['codes'],
+              });
+
+              let duplicateNumber = null;
+              let page = 1;
+              outer: while (true) {
+                const { data: issues } = await github.rest.issues.listForRepo({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  state: 'open',
+                  labels: 'codes',
+                  per_page: 100,
+                  page,
+                });
+                for (const issue of issues) {
+                  if (issue.number === context.issue.number) continue;
+                  if (issue.title === title) {
+                    duplicateNumber = issue.number;
+                    break outer;
+                  }
+                }
+                if (issues.length < 100) break;
+                page++;
+              }
+
+              if (duplicateNumber) {
+                await closeAsDuplicate(duplicateNumber, 'report');
+              } else {
+                await github.rest.issues.createComment({
+                  owner: context.repo.owner,
+                  repo: context.repo.repo,
+                  issue_number: context.issue.number,
+                  body: [
+                    `**Thanks for the report!**`,
+                    ``,
+                    `This code has been flagged as expired and will be reviewed by a maintainer.`,
+                  ].join('\n'),
+                });
+              }
+              return;
+            }
+
+            // ── Suggestion issue ─────────────────────────────────────────────
+            const match = title.match(/^\[([^\]]+)\]/);
+            if (!match) return;
+
+            const entityLabel = match[1].toLowerCase();
+            const labels = ['suggestion', entityLabel];
+
             for (const labelName of labels) {
               await ensureLabel(
                 labelName,
                 labelName === 'suggestion' ? '0e8a16' : '5319e7'
               );
             }
-            await ensureLabel('duplicate', 'cfd3d7');
 
             await github.rest.issues.addLabels({
               owner: context.repo.owner,
@@ -125,31 +204,7 @@ jobs:
             }
 
             if (duplicateOf) {
-              await github.rest.issues.addLabels({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                labels: ['duplicate'],
-              });
-              await github.rest.issues.createComment({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                body: [
-                  `**This suggestion is a duplicate.**`,
-                  ``,
-                  `An identical suggestion already exists in #${duplicateOf.number}.`,
-                  ``,
-                  `This issue has been closed automatically. If you have additional context to add, please comment on the original issue.`,
-                ].join('\n'),
-              });
-              await github.rest.issues.update({
-                owner: context.repo.owner,
-                repo: context.repo.repo,
-                issue_number: context.issue.number,
-                state: 'closed',
-                state_reason: 'not_planned',
-              });
+              await closeAsDuplicate(duplicateOf.number, 'suggestion');
             } else {
               await github.rest.issues.createComment({
                 owner: context.repo.owner,
