@@ -1,4 +1,5 @@
 import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
+import { STICKY_POOL_COLUMN_STYLE } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import CharacterCard from '@/features/characters/components/CharacterCard';
 import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
@@ -13,6 +14,7 @@ import { useTeamBuilderState } from '@/features/teams/hooks/use-team-builder-sta
 import type { Team } from '@/features/teams/types';
 import type { Wyrmspell } from '@/features/wiki/wyrmspells/types';
 import { useDarkMode, useIsMobile, useMobileTooltip } from '@/hooks';
+import type { PoolLayout } from '@/hooks';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { downloadElementAsImage } from '@/utils/export-image';
 import { buildSuggestionIssueUrls } from '@/utils/github-issues';
@@ -25,7 +27,7 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import { Box, Stack, Text } from '@mantine/core';
+import { Box, Flex, Stack, Text } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
@@ -45,6 +47,9 @@ interface TeamBuilderProps {
   charMap: Map<string, Character>;
   initialData?: Team | null;
   wyrmspells?: Wyrmspell[];
+  poolLayout: PoolLayout;
+  onPoolLayoutChange: (layout: PoolLayout) => void;
+  canUseSidePoolLayout: boolean;
 }
 
 /* ── Main TeamBuilder ── */
@@ -54,6 +59,9 @@ export default function TeamBuilder({
   charMap,
   initialData,
   wyrmspells = [],
+  poolLayout: layout,
+  onPoolLayoutChange: setLayout,
+  canUseSidePoolLayout: canUseSideLayout,
 }: TeamBuilderProps) {
   const [pasteModalOpened, { open: openPasteModal, close: closePasteModal }] =
     useDisclosure(false);
@@ -243,52 +251,77 @@ export default function TeamBuilder({
             onChange={handleWyrmspellChange}
           />
 
-          <SlotsGrid
-            slots={slots}
-            overdriveEnabled={overdriveEnabled}
-            overdriveOrderBySlot={overdriveOrderBySlot}
-            slotNotes={slotNotes}
-            charMap={characterByIdentity}
-            onOverdriveEnabledChange={handleOverdriveEnabledChange}
-            onOverdriveOrderChange={handleOverdriveOrderChange}
-            onRemove={handleRemoveFromTeam}
-            onNoteChange={handleSlotNoteChange}
-            activeId={activeId}
-          />
+          <Flex
+            gap="md"
+            align={layout === 'side' ? 'flex-start' : 'stretch'}
+            direction={layout === 'side' ? 'row' : 'column'}
+          >
+            <Stack
+              gap="md"
+              style={layout === 'side' ? { flex: '3 3 0%', minWidth: 0 } : undefined}
+            >
+              <SlotsGrid
+                slots={slots}
+                overdriveEnabled={overdriveEnabled}
+                overdriveOrderBySlot={overdriveOrderBySlot}
+                slotNotes={slotNotes}
+                charMap={characterByIdentity}
+                onOverdriveEnabledChange={handleOverdriveEnabledChange}
+                onOverdriveOrderChange={handleOverdriveOrderChange}
+                onRemove={handleRemoveFromTeam}
+                onNoteChange={handleSlotNoteChange}
+                activeId={activeId}
+              />
 
-          <Stack gap="xs">
-            <Text size="sm" fw={600}>
-              Bench
-            </Text>
-            <BenchPool
-              bench={bench}
-              charMap={characterByIdentity}
-              benchNotes={benchNotes}
-              onBenchNoteChange={handleBenchNoteChange}
-            />
-          </Stack>
+              <Stack gap="xs">
+                <Text size="sm" fw={600}>
+                  Bench
+                </Text>
+                <BenchPool
+                  bench={bench}
+                  charMap={characterByIdentity}
+                  benchNotes={benchNotes}
+                  onBenchNoteChange={handleBenchNoteChange}
+                />
+              </Stack>
+            </Stack>
 
-          <FilterableCharacterPool characters={availableCharacters}>
-            {(filtered, filterHeader, paginationControl) => (
-              <AvailablePool
-                filterHeader={filterHeader}
-                paginationControl={paginationControl}
+            <Box
+              style={
+                layout === 'side'
+                  ? { flex: '2 2 0%', minWidth: 0, ...STICKY_POOL_COLUMN_STYLE }
+                  : undefined
+              }
+            >
+              <FilterableCharacterPool
+                characters={availableCharacters}
+                layout={layout}
+                onLayoutChange={setLayout}
+                canToggleLayout={canUseSideLayout}
               >
-                {filtered.map((c) => (
-                  <DraggableCharCard
-                    key={getCharacterIdentityKey(c)}
-                    name={c.name}
-                    charKey={getCharacterIdentityKey(c)}
-                    char={c}
-                    size={isMobile ? 56 : undefined}
-                    onClick={() =>
-                      handleAddToNextSlot(getCharacterIdentityKey(c))
-                    }
-                  />
-                ))}
-              </AvailablePool>
-            )}
-          </FilterableCharacterPool>
+                {(filtered, filterHeader, paginationControl, cols) => (
+                  <AvailablePool
+                    filterHeader={filterHeader}
+                    paginationControl={paginationControl}
+                    cols={cols}
+                  >
+                    {filtered.map((c) => (
+                      <DraggableCharCard
+                        key={getCharacterIdentityKey(c)}
+                        name={c.name}
+                        charKey={getCharacterIdentityKey(c)}
+                        char={c}
+                        size={isMobile ? 56 : undefined}
+                        onClick={() =>
+                          handleAddToNextSlot(getCharacterIdentityKey(c))
+                        }
+                      />
+                    ))}
+                  </AvailablePool>
+                )}
+              </FilterableCharacterPool>
+            </Box>
+          </Flex>
         </Stack>
 
         {typeof document !== 'undefined'

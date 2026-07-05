@@ -14,7 +14,7 @@ import {
   matchesContentTypeFilters,
   normalizeContentTypeFilters,
 } from '@/constants/content-types';
-import { STORAGE_KEY } from '@/constants/ui';
+import { BUILDER_SIDE_LAYOUT_CONTAINER_SIZE, STORAGE_KEY } from '@/constants/ui';
 import TeamBuilder from '@/features/teams/components/TeamBuilder';
 import TeamsSavedTab from '@/features/teams/components/TeamsSavedTab';
 import TeamsViewTab from '@/features/teams/components/TeamsViewTab';
@@ -31,6 +31,7 @@ import {
   useIsMobile,
   usePageSize,
   usePagination,
+  usePoolLayout,
   useTeams,
   useViewMode,
   useWyrmspells,
@@ -122,6 +123,11 @@ export default function Teams() {
     navigate,
   });
   const isMobile = useIsMobile();
+  const {
+    layout: poolLayout,
+    setLayout: setPoolLayout,
+    canUseSideLayout: canUseSidePoolLayout,
+  } = usePoolLayout();
   const [savedTeams, setSavedTeams] = useState<Team[]>(() =>
     mode === 'saved'
       ? loadSavedFromStorage<Team>(STORAGE_KEY.TEAMS_MY_SAVED, (v) =>
@@ -242,8 +248,13 @@ export default function Teams() {
     return latest;
   }, [teams]);
 
+  const containerSize =
+    mode === 'builder' && poolLayout === 'side'
+      ? BUILDER_SIDE_LAYOUT_CONTAINER_SIZE
+      : 'lg';
+
   return (
-    <Container size="lg" py={{ base: 'lg', sm: 'xl' }}>
+    <Container size={containerSize} py={{ base: 'lg', sm: 'xl' }}>
       <Stack gap="md">
         <Group justify="space-between" align="center" wrap="wrap" gap="sm">
           <Group gap="sm" align="baseline">
@@ -385,6 +396,9 @@ export default function Teams() {
                 charMap={charMap}
                 initialData={navigationEditTeam ?? editData}
                 wyrmspells={wyrmspells}
+                poolLayout={poolLayout}
+                onPoolLayoutChange={setPoolLayout}
+                canUseSidePoolLayout={canUseSidePoolLayout}
               />
             )}
           </>

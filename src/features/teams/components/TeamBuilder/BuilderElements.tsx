@@ -590,10 +590,12 @@ export function AvailablePool({
   children,
   filterHeader,
   paginationControl,
+  cols,
 }: {
   children: React.ReactNode;
   filterHeader?: React.ReactNode;
   paginationControl?: React.ReactNode;
+  cols?: number;
 }) {
   const { setNodeRef, isOver } = useDroppable({ id: 'available' });
 
@@ -618,7 +620,7 @@ export function AvailablePool({
           </Text>
         )}
         <SimpleGrid
-          cols={{ base: 2, xs: 3, sm: 4, md: 6 }}
+          cols={cols ?? { base: 2, xs: 3, sm: 4, md: 6 }}
           spacing={CHARACTER_GRID_SPACING}
           style={{ minHeight: 40 }}
         >

@@ -1,6 +1,7 @@
 ﻿import ConfirmActionModal from '@/components/ui/ConfirmActionModal';
 import JsonModal from '@/components/tools/JsonModal';
 import { getTierColor } from '@/constants/tier-colors';
+import { STICKY_POOL_COLUMN_STYLE } from '@/constants/styles';
 import { STORAGE_KEY } from '@/constants/ui';
 import FilterableCharacterPool from '@/components/common/FilterableCharacterPool';
 import type { Character } from '@/features/characters/types';
@@ -11,6 +12,7 @@ import CharacterNoteButton from '@/components/common/CharacterNoteButton';
 import { useTierListState } from '@/features/tier-list/hooks/use-tier-list-state';
 import type { TierList } from '@/features/tier-list/types';
 import { useDarkMode, useGradientAccent, useIsMobile } from '@/hooks';
+import type { PoolLayout } from '@/hooks';
 import { toEntitySlug } from '@/utils/entity-slug';
 import { downloadElementAsImage } from '@/utils/export-image';
 import { buildSuggestionIssueUrls } from '@/utils/github-issues';
@@ -26,6 +28,7 @@ import {
 import {
   Box,
   Button,
+  Flex,
   Group,
   Stack,
   TextInput,
@@ -47,12 +50,18 @@ interface TierListBuilderProps {
   characters: Character[];
   charMap: Map<string, Character>;
   initialData?: TierList | null;
+  poolLayout: PoolLayout;
+  onPoolLayoutChange: (layout: PoolLayout) => void;
+  canUseSidePoolLayout: boolean;
 }
 
 export default function TierListBuilder({
   characters,
   charMap,
   initialData,
+  poolLayout: layout,
+  onPoolLayoutChange: setLayout,
+  canUseSidePoolLayout: canUseSideLayout,
 }: TierListBuilderProps) {
   const { accent } = useGradientAccent();
   const [pasteModalOpened, { open: openPasteModal, close: closePasteModal }] =
@@ -237,117 +246,149 @@ export default function TierListBuilder({
             onClear={openClearConfirm}
           />
 
-          {tierDefs.map((tierDef, index) => {
-            const tier = tierDef.name;
-            const names = placements[tier] || [];
-            const color = getTierColor(tier, index);
+          <Flex
+            gap="md"
+            align={layout === 'side' ? 'flex-start' : 'stretch'}
+            direction={layout === 'side' ? 'row' : 'column'}
+          >
+            <Stack
+              gap="md"
+              style={layout === 'side' ? { flex: '3 3 0%', minWidth: 0 } : undefined}
+            >
+              {tierDefs.map((tierDef, index) => {
+                const tier = tierDef.name;
+                const names = placements[tier] || [];
+                const color = getTierColor(tier, index);
 
-            return (
-              <TierDropZone
-                key={tier}
-                id={`tier-${tier}`}
-                label={`${tier} Tier`}
-                color={color}
-                note={tierDef.note}
-                onNoteChange={(note) => handleTierNoteChange(tier, note)}
-                onDelete={() => handleDeleteTier(tier)}
-                onMoveUp={() => handleMoveTierUp(index)}
-                onMoveDown={() => handleMoveTierDown(index)}
-                isFirst={index === 0}
-                isLast={index === tierDefs.length - 1}
-                canDelete={tierDefs.length > 1}
-              >
-                {names.map((n) => {
-                  const character = getCharacterFromKey(n);
-                  return (
-                    <Box
-                      key={n}
-                      style={{ position: 'relative', display: 'inline-block' }}
-                    >
-                      <DraggableCharCard
-                        name={character?.name ?? n}
-                        label={undefined}
-                        charKey={n}
-                        char={character}
-                        tier={tier}
-                        size={isMobile ? 56 : undefined}
-                      />
-                      <CharacterNoteButton
-                        value={notes[n] || ''}
-                        onCommit={(value) =>
-                          handleCharacterNoteChange(n, value)
-                        }
-                        style={{
-                          position: 'absolute',
-                          top: 2,
-                          left: 'calc(50% + 24px)',
-                          transform: 'translateX(-50%)',
-                        }}
-                      />
-                    </Box>
-                  );
-                })}
-              </TierDropZone>
-            );
-          })}
+                return (
+                  <TierDropZone
+                    key={tier}
+                    id={`tier-${tier}`}
+                    label={`${tier} Tier`}
+                    color={color}
+                    note={tierDef.note}
+                    onNoteChange={(note) => handleTierNoteChange(tier, note)}
+                    onDelete={() => handleDeleteTier(tier)}
+                    onMoveUp={() => handleMoveTierUp(index)}
+                    onMoveDown={() => handleMoveTierDown(index)}
+                    isFirst={index === 0}
+                    isLast={index === tierDefs.length - 1}
+                    canDelete={tierDefs.length > 1}
+                  >
+                    {names.map((n) => {
+                      const character = getCharacterFromKey(n);
+                      return (
+                        <Box
+                          key={n}
+                          style={{
+                            position: 'relative',
+                            display: 'inline-block',
+                          }}
+                        >
+                          <DraggableCharCard
+                            name={character?.name ?? n}
+                            label={undefined}
+                            charKey={n}
+                            char={character}
+                            tier={tier}
+                            size={isMobile ? 56 : undefined}
+                          />
+                          <CharacterNoteButton
+                            value={notes[n] || ''}
+                            onCommit={(value) =>
+                              handleCharacterNoteChange(n, value)
+                            }
+                            style={{
+                              position: 'absolute',
+                              top: 2,
+                              left: 'calc(50% + 24px)',
+                              transform: 'translateX(-50%)',
+                            }}
+                          />
+                        </Box>
+                      );
+                    })}
+                  </TierDropZone>
+                );
+              })}
 
-          <Group gap="sm" wrap="wrap">
-            <TextInput
-              placeholder="New tier name (e.g. F)"
-              value={newTierName}
-              onChange={(e) => handleNewTierNameChange(e.currentTarget.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleAddTier();
-              }}
-              size={actionButtonSize}
-              style={{ width: isMobile ? '100%' : 150 }}
-            />
-            <TextInput
-              placeholder="Tier note (optional)"
-              value={newTierNote}
-              onChange={(e) => handleNewTierNoteChange(e.currentTarget.value)}
-              onKeyDown={(e) => {
-                if (e.key === 'Enter') handleAddTier();
-              }}
-              size={actionButtonSize}
-              style={{ flex: 1, minWidth: isMobile ? '100%' : 140 }}
-            />
-            <Button
-              size={actionButtonSize}
-              variant="light"
-              color={accent.primary}
-              leftSection={<IoAddOutline size={14} />}
-              onClick={handleAddTier}
-              disabled={
-                !newTierName.trim() ||
-                tierDefs.some((t) => t.name === newTierName.trim())
+              <Group gap="sm" wrap="wrap">
+                <TextInput
+                  placeholder="New tier name (e.g. F)"
+                  value={newTierName}
+                  onChange={(e) =>
+                    handleNewTierNameChange(e.currentTarget.value)
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleAddTier();
+                  }}
+                  size={actionButtonSize}
+                  style={{ width: isMobile ? '100%' : 150 }}
+                />
+                <TextInput
+                  placeholder="Tier note (optional)"
+                  value={newTierNote}
+                  onChange={(e) =>
+                    handleNewTierNoteChange(e.currentTarget.value)
+                  }
+                  onKeyDown={(e) => {
+                    if (e.key === 'Enter') handleAddTier();
+                  }}
+                  size={actionButtonSize}
+                  style={{ flex: 1, minWidth: isMobile ? '100%' : 140 }}
+                />
+                <Button
+                  size={actionButtonSize}
+                  variant="light"
+                  color={accent.primary}
+                  leftSection={<IoAddOutline size={14} />}
+                  onClick={handleAddTier}
+                  disabled={
+                    !newTierName.trim() ||
+                    tierDefs.some((t) => t.name === newTierName.trim())
+                  }
+                >
+                  Add Tier
+                </Button>
+              </Group>
+            </Stack>
+
+            <Box
+              style={
+                layout === 'side'
+                  ? { flex: '2 2 0%', minWidth: 0, ...STICKY_POOL_COLUMN_STYLE }
+                  : undefined
               }
             >
-              Add Tier
-            </Button>
-          </Group>
-
-          <FilterableCharacterPool characters={unrankedCharacters}>
-            {(filtered, filterHeader, paginationControl) => (
-              <UnrankedPool
-                filterHeader={filterHeader}
-                paginationControl={paginationControl}
+              <FilterableCharacterPool
+                characters={unrankedCharacters}
+                layout={layout}
+                onLayoutChange={setLayout}
+                canToggleLayout={canUseSideLayout}
               >
-                {filtered.map((c) => {
-                  return (
-                    <DraggableCharCard
-                      key={getCharacterIdentityKey(c)}
-                      name={c.name}
-                      label={undefined}
-                      charKey={getCharacterIdentityKey(c)}
-                      char={c}
-                      size={isMobile ? 56 : undefined}
-                    />
-                  );
-                })}
-              </UnrankedPool>
-            )}
-          </FilterableCharacterPool>
+                {(filtered, filterHeader, paginationControl, cols) => (
+                  <UnrankedPool
+                    filterHeader={filterHeader}
+                    paginationControl={paginationControl}
+                    cols={cols}
+                  >
+                    {filtered.map((c) => {
+                      return (
+                        <DraggableCharCard
+                          key={getCharacterIdentityKey(c)}
+                          name={c.name}
+                          label={undefined}
+                          charKey={getCharacterIdentityKey(c)}
+                          char={c}
+                          size={isMobile ? 56 : undefined}
+                        />
+                      );
+                    })}
+                  </UnrankedPool>
+                )}
+              </FilterableCharacterPool>
+            </Box>
+          </Flex>
         </Stack>
 
         {typeof document !== 'undefined'

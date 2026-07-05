@@ -130,3 +130,13 @@ export function getMinWidthStyle(minWidth: number): CSSProperties {
   return { minWidth };
 }
 
+/** Keeps the builder character pool in view (with its own scroll) while the
+ * main builder column scrolls past it, when shown side-by-side. */
+export const STICKY_POOL_COLUMN_STYLE = {
+  position: 'sticky',
+  top: 'calc(var(--app-shell-header-offset, 0px) + var(--mantine-spacing-md))',
+  maxHeight:
+    'calc(100vh - var(--app-shell-header-offset, 0px) - var(--mantine-spacing-md) * 2)',
+  overflowY: 'auto',
+} as const satisfies CSSProperties;
+

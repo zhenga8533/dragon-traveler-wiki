@@ -6,11 +6,13 @@ import { getCardHoverProps } from '@/constants/styles';
 import { BREAKPOINTS } from '@/constants/ui';
 import { TierListReferenceContext } from '@/contexts';
 import { useGradientAccent } from '@/hooks';
+import type { PoolLayout } from '@/hooks';
 import {
   buildRowAlignedPageSizeOptions,
   usePageSize,
   usePagination,
 } from '@/hooks/use-pagination';
+import PoolLayoutToggle from '@/components/common/PoolLayoutToggle';
 import type { Character } from '@/features/characters/types';
 import {
   buildCharacterByIdentityMap,
@@ -31,17 +33,27 @@ import { useStatusEffects } from '@/features/wiki/hooks/use-wiki-data';
 
 const ROWS_PER_PAGE = 6;
 
+/** Column count for the pool grid when it's rendered as a side-by-side column. */
+const SIDE_LAYOUT_COLS = 5;
+
 interface FilterableCharacterPoolProps {
   characters: Character[];
+  layout?: PoolLayout;
+  onLayoutChange?: (layout: PoolLayout) => void;
+  canToggleLayout?: boolean;
   children: (
     filtered: Character[],
     filterHeader: React.ReactNode,
-    paginationControl: React.ReactNode
+    paginationControl: React.ReactNode,
+    cols: number
   ) => React.ReactNode;
 }
 
 export default function FilterableCharacterPool({
   characters,
+  layout = 'below',
+  onLayoutChange,
+  canToggleLayout = false,
   children,
 }: FilterableCharacterPoolProps) {
   const { tierLists, selectedTierListName } = useContext(
@@ -56,7 +68,10 @@ export default function FilterableCharacterPool({
   const isMd = useMediaQuery(BREAKPOINTS.MD);
   const isSm = useMediaQuery(BREAKPOINTS.DESKTOP);
   const isXs = useMediaQuery(BREAKPOINTS.XS);
-  const cols = isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
+  // The side column has a fixed width regardless of viewport, so it uses a
+  // fixed column count instead of the viewport-driven breakpoints below.
+  const cols =
+    layout === 'side' ? SIDE_LAYOUT_COLS : isMd ? 6 : isSm ? 4 : isXs ? 3 : 2;
   const pageSizeOptions = useMemo(
     () => buildRowAlignedPageSizeOptions(cols, [4, 6, 8, 10]),
     [cols]
@@ -189,22 +204,32 @@ export default function FilterableCharacterPool({
           {filtered.length} available character
           {filtered.length !== 1 ? 's' : ''}
         </Text>
-        <Button
-          variant="default"
-          color={accent.primary}
-          size="xs"
-          leftSection={<IoFilter size={16} />}
-          rightSection={
-            activeFilterCount > 0 ? (
-              <Badge size="xs" circle variant="filled" color={accent.primary}>
-                {activeFilterCount}
-              </Badge>
-            ) : null
-          }
-          onClick={toggleFilter}
-        >
-          Filters
-        </Button>
+        <Group gap="xs" wrap="nowrap">
+          {canToggleLayout && onLayoutChange && (
+            <PoolLayoutToggle layout={layout} onChange={onLayoutChange} />
+          )}
+          <Button
+            variant="default"
+            color={accent.primary}
+            size="xs"
+            leftSection={<IoFilter size={16} />}
+            rightSection={
+              activeFilterCount > 0 ? (
+                <Badge
+                  size="xs"
+                  circle
+                  variant="filled"
+                  color={accent.primary}
+                >
+                  {activeFilterCount}
+                </Badge>
+              ) : null
+            }
+            onClick={toggleFilter}
+          >
+            Filters
+          </Button>
+        </Group>
       </Group>
 
       <Collapse in={filterOpen}>
@@ -230,9 +255,8 @@ export default function FilterableCharacterPool({
       pageSize={pageSize}
       pageSizeOptions={pageSizeOptions}
       onPageSizeChange={setPageSize}
-      scrollToTop
     />
   );
 
-  return <>{children(paginated, filterHeader, paginationControl)}</>;
+  return <>{children(paginated, filterHeader, paginationControl, cols)}</>;
 }

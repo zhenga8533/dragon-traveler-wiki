@@ -82,7 +82,12 @@ export const BREAKPOINTS = {
   XS: '(min-width: 36em)',
   DESKTOP: '(min-width: 48em)',
   MD: '(min-width: 62em)',
+  LG: '(min-width: 75em)',
 } as const;
+
+/** Container width used by the team/tier-list builder pages when the character
+ * pool is shown side-by-side, so the extra column has real room to use. */
+export const BUILDER_SIDE_LAYOUT_CONTAINER_SIZE = '100rem';
 
 /** WCAG minimum touch target height, also used as nav item height */
 export const NAV_ITEM_HEIGHT = 44;
@@ -169,4 +174,5 @@ export const STORAGE_KEY = {
   UI_SHOW_CHARACTER_TIERS: 'ui:showCharacterTiers',
   BUBBLE_CHART_CONFIG: 'characters:bubbleChartConfig',
   RECENT_SEARCHES: 'search:recent',
+  BUILDER_POOL_LAYOUT: 'builder:poolLayout',
 } as const;

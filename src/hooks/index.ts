@@ -70,6 +70,8 @@ export {
   usePageSize,
   usePagination,
 } from './use-pagination';
+export { usePoolLayout } from './use-pool-layout';
+export type { PoolLayout } from './use-pool-layout';
 export { useBuilderEditState } from './use-builder-edit-state';
 export { useInputCommit } from './use-input-commit';
 export { useSecondaryTabList } from './use-secondary-tab-list';
