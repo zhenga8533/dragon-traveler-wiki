@@ -47,6 +47,12 @@ jobs:
             }
 
             async function closeAsDuplicate(originalIssueNumber, kind) {
+              await github.rest.reactions.createForIssue({
+                owner: context.repo.owner,
+                repo: context.repo.repo,
+                issue_number: originalIssueNumber,
+                content: '+1',
+              });
               await ensureLabel('duplicate', 'cfd3d7');
               await github.rest.issues.addLabels({
                 owner: context.repo.owner,
