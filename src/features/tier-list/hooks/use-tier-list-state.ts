@@ -53,17 +53,11 @@ export interface TierListBuilderMetaState {
   description: string;
 }
 
-export interface TierListBuilderDraftState {
-  newTierName: string;
-  newTierNote: string;
-}
-
 export interface TierListBuilderState {
   tierDefs: TierDefinition[];
   placements: TierPlacements;
   notes: Record<string, string>;
   meta: TierListBuilderMetaState;
-  drafts: TierListBuilderDraftState;
 }
 
 export type TierListBuilderAction =
@@ -75,7 +69,6 @@ export type TierListBuilderAction =
   | { type: 'ADD_TIER'; name: string; note?: string }
   | { type: 'DELETE_TIER'; tierName: string }
   | { type: 'MOVE_TIER'; fromIndex: number; toIndex: number }
-  | { type: 'UPDATE_NEW_TIER_DRAFT'; patch: Partial<TierListBuilderDraftState> }
   | { type: 'RESET' };
 
 export interface UseTierListStateOptions {
@@ -112,10 +105,6 @@ function createEmptyBuilderState(): TierListBuilderState {
       author: '',
       categoryName: DEFAULT_CONTENT_TYPE,
       description: '',
-    },
-    drafts: {
-      newTierName: '',
-      newTierNote: '',
     },
   };
 }
@@ -207,10 +196,6 @@ function toBuilderState(
       categoryName: normalizeContentType(data.content_type),
       description: data.description || '',
     },
-    drafts: {
-      newTierName: '',
-      newTierNote: '',
-    },
   };
 }
 
@@ -261,10 +246,6 @@ function tierListBuilderReducer(
           ...state.placements,
           [action.name]: [],
         },
-        drafts: {
-          newTierName: '',
-          newTierNote: '',
-        },
       };
     }
     case 'DELETE_TIER': {
@@ -301,14 +282,6 @@ function tierListBuilderReducer(
       nextTierDefs.splice(action.toIndex, 0, movedTier);
       return { ...state, tierDefs: nextTierDefs };
     }
-    case 'UPDATE_NEW_TIER_DRAFT':
-      return {
-        ...state,
-        drafts: {
-          ...state.drafts,
-          ...action.patch,
-        },
-      };
     case 'RESET':
       return createEmptyBuilderState();
     default:
@@ -567,17 +540,8 @@ export function useTierListState({
       state.meta.name.trim().length > 0 ||
       state.meta.author.trim().length > 0 ||
       state.meta.description.trim().length > 0 ||
-      state.meta.categoryName !== DEFAULT_CONTENT_TYPE ||
-      state.drafts.newTierName.trim().length > 0 ||
-      Boolean(normalizeNote(state.drafts.newTierNote)),
-    [
-      hasAnyPlaced,
-      state.drafts.newTierName,
-      state.drafts.newTierNote,
-      state.meta,
-      state.notes,
-      state.tierDefs,
-    ]
+      state.meta.categoryName !== DEFAULT_CONTENT_TYPE,
+    [hasAnyPlaced, state.meta, state.notes, state.tierDefs]
   );
 
   const tierExportRows = useMemo<TierExportRow[]>(
@@ -636,14 +600,6 @@ export function useTierListState({
     [updateMeta]
   );
 
-  const handleNewTierNameChange = useCallback((newTierName: string) => {
-    dispatch({ type: 'UPDATE_NEW_TIER_DRAFT', patch: { newTierName } });
-  }, []);
-
-  const handleNewTierNoteChange = useCallback((newTierNote: string) => {
-    dispatch({ type: 'UPDATE_NEW_TIER_DRAFT', patch: { newTierNote } });
-  }, []);
-
   const handleCharacterNoteChange = useCallback(
     (characterKey: string, note: string) => {
       dispatch({
@@ -680,34 +636,37 @@ export function useTierListState({
     [state.tierDefs.length]
   );
 
-  const handleAddTier = useCallback(() => {
-    const trimmedTierName = state.drafts.newTierName.trim();
-    if (!trimmedTierName) {
-      showWarningToast({
-        id: 'tierlistbuilder-tier-name-required',
-        title: 'Tier name required',
-        message: 'Enter a tier name before adding a new tier.',
-        autoClose: 2400,
-      });
-      return;
-    }
+  const handleAddTier = useCallback(
+    (name: string, note?: string) => {
+      const trimmedTierName = name.trim();
+      if (!trimmedTierName) {
+        showWarningToast({
+          id: 'tierlistbuilder-tier-name-required',
+          title: 'Tier name required',
+          message: 'Enter a tier name before adding a new tier.',
+          autoClose: 2400,
+        });
+        return;
+      }
 
-    if (state.tierDefs.some((tierDef) => tierDef.name === trimmedTierName)) {
-      showWarningToast({
-        id: 'tierlistbuilder-tier-name-duplicate',
-        title: 'Tier already exists',
-        message: `A tier named "${trimmedTierName}" already exists. Use a different name.`,
-        autoClose: 2400,
-      });
-      return;
-    }
+      if (state.tierDefs.some((tierDef) => tierDef.name === trimmedTierName)) {
+        showWarningToast({
+          id: 'tierlistbuilder-tier-name-duplicate',
+          title: 'Tier already exists',
+          message: `A tier named "${trimmedTierName}" already exists. Use a different name.`,
+          autoClose: 2400,
+        });
+        return;
+      }
 
-    dispatch({
-      type: 'ADD_TIER',
-      name: trimmedTierName,
-      note: normalizeNote(state.drafts.newTierNote),
-    });
-  }, [state.drafts.newTierName, state.drafts.newTierNote, state.tierDefs]);
+      dispatch({
+        type: 'ADD_TIER',
+        name: trimmedTierName,
+        note: normalizeNote(note),
+      });
+    },
+    [state.tierDefs]
+  );
 
   const handlePasteApply = useCallback(
     (pasteText: string) => {
@@ -824,8 +783,6 @@ export function useTierListState({
     handleMoveTierDown,
     handleMoveTierUp,
     handleNameCommit,
-    handleNewTierNameChange,
-    handleNewTierNoteChange,
     handlePasteApply,
     handleSort,
     handleTierNoteChange,
@@ -833,8 +790,6 @@ export function useTierListState({
     hasAnyPlaced,
     json,
     meta: state.meta,
-    newTierName: state.drafts.newTierName,
-    newTierNote: state.drafts.newTierNote,
     notes: state.notes,
     placements: state.placements,
     tierDefs: state.tierDefs,

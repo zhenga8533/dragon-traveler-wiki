@@ -2,7 +2,9 @@ import { useDraggable, useDroppable } from '@dnd-kit/core';
 import {
   ActionIcon,
   Badge,
+  Button,
   Group,
+  type MantineSize,
   Paper,
   Popover,
   Select,
@@ -16,7 +18,7 @@ import {
 import { useInputCommit, useMobileTooltip } from '@/hooks';
 import type { CSSProperties } from 'react';
 import { memo, useEffect, useRef, useState } from 'react';
-import { IoChevronDown, IoChevronUp, IoTrash } from 'react-icons/io5';
+import { IoAddOutline, IoChevronDown, IoChevronUp, IoTrash } from 'react-icons/io5';
 import {
   CONTENT_TYPE_OPTIONS,
   type ContentType,
@@ -88,6 +90,64 @@ export const TierListMetaFields = memo(function TierListMetaFields({
         maxRows={4}
         style={{ width: '100%' }}
       />
+    </Group>
+  );
+});
+
+export const AddTierRow = memo(function AddTierRow({
+  existingNames,
+  onAdd,
+  accentColor,
+  size,
+  isMobile,
+}: {
+  existingNames: string[];
+  onAdd: (name: string, note?: string) => void;
+  accentColor: string;
+  size: MantineSize;
+  isMobile: boolean;
+}) {
+  const [name, setName] = useState('');
+  const [note, setNote] = useState('');
+
+  function submit() {
+    onAdd(name, note);
+    setName('');
+    setNote('');
+  }
+
+  return (
+    <Group gap="sm" wrap="wrap">
+      <TextInput
+        placeholder="New tier name (e.g. F)"
+        value={name}
+        onChange={(e) => setName(e.currentTarget.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') submit();
+        }}
+        size={size}
+        style={{ width: isMobile ? '100%' : 150 }}
+      />
+      <TextInput
+        placeholder="Tier note (optional)"
+        value={note}
+        onChange={(e) => setNote(e.currentTarget.value)}
+        onKeyDown={(e) => {
+          if (e.key === 'Enter') submit();
+        }}
+        size={size}
+        style={{ flex: 1, minWidth: isMobile ? '100%' : 140 }}
+      />
+      <Button
+        size={size}
+        variant="light"
+        color={accentColor}
+        leftSection={<IoAddOutline size={14} />}
+        onClick={submit}
+        disabled={!name.trim() || existingNames.includes(name.trim())}
+      >
+        Add Tier
+      </Button>
     </Group>
   );
 });

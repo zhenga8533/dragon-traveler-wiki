@@ -25,19 +25,12 @@ import {
   useSensor,
   useSensors,
 } from '@dnd-kit/core';
-import {
-  Box,
-  Button,
-  Flex,
-  Group,
-  Stack,
-  TextInput,
-} from '@mantine/core';
+import { Box, Flex, Stack } from '@mantine/core';
 import { useDisclosure } from '@mantine/hooks';
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { createPortal } from 'react-dom';
-import { IoAddOutline } from 'react-icons/io5';
 import {
+  AddTierRow,
   DraggableCharCard,
   TierDropZone,
   TierListMetaFields,
@@ -93,8 +86,6 @@ export default function TierListBuilder({
     handleMoveTierDown,
     handleMoveTierUp,
     handleNameCommit,
-    handleNewTierNameChange,
-    handleNewTierNoteChange,
     handlePasteApply,
     handleSort,
     handleTierNoteChange,
@@ -102,8 +93,6 @@ export default function TierListBuilder({
     hasAnyPlaced,
     json,
     meta,
-    newTierName,
-    newTierNote,
     notes,
     placements,
     tierDefs,
@@ -312,45 +301,13 @@ export default function TierListBuilder({
                 );
               })}
 
-              <Group gap="sm" wrap="wrap">
-                <TextInput
-                  placeholder="New tier name (e.g. F)"
-                  value={newTierName}
-                  onChange={(e) =>
-                    handleNewTierNameChange(e.currentTarget.value)
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleAddTier();
-                  }}
-                  size={actionButtonSize}
-                  style={{ width: isMobile ? '100%' : 150 }}
-                />
-                <TextInput
-                  placeholder="Tier note (optional)"
-                  value={newTierNote}
-                  onChange={(e) =>
-                    handleNewTierNoteChange(e.currentTarget.value)
-                  }
-                  onKeyDown={(e) => {
-                    if (e.key === 'Enter') handleAddTier();
-                  }}
-                  size={actionButtonSize}
-                  style={{ flex: 1, minWidth: isMobile ? '100%' : 140 }}
-                />
-                <Button
-                  size={actionButtonSize}
-                  variant="light"
-                  color={accent.primary}
-                  leftSection={<IoAddOutline size={14} />}
-                  onClick={handleAddTier}
-                  disabled={
-                    !newTierName.trim() ||
-                    tierDefs.some((t) => t.name === newTierName.trim())
-                  }
-                >
-                  Add Tier
-                </Button>
-              </Group>
+              <AddTierRow
+                existingNames={tierDefs.map((t) => t.name)}
+                onAdd={handleAddTier}
+                accentColor={accent.primary}
+                size={actionButtonSize}
+                isMobile={isMobile}
+              />
             </Stack>
 
             <Box
