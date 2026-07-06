@@ -304,6 +304,14 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
+    pattern: '/guides/dtdle',
+    meta: {
+      title: 'DTdle',
+      description:
+        'Guess the daily Dragon Traveler character with class, quality, faction, origin, height, and weight hints.',
+    },
+  },
+  {
     pattern: '*',
     meta: {
       title: 'Page Not Found',

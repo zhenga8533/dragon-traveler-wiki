@@ -75,6 +75,10 @@ const NAV_ITEMS: NavItem[] = [
         label: 'Shovel Event Guide',
         path: '/guides/shovel-event',
       },
+      {
+        label: 'DTdle',
+        path: '/guides/dtdle',
+      },
     ],
   },
   { label: 'Tier List', path: '/tier-list', icon: IoTrophy },

@@ -177,4 +177,6 @@ export const STORAGE_KEY = {
   BUBBLE_CHART_CONFIG: 'characters:bubbleChartConfig',
   RECENT_SEARCHES: 'search:recent',
   BUILDER_POOL_LAYOUT: 'builder:poolLayout',
+  DTDLE_STATE: 'dtdle:state',
+  DTDLE_STATS: 'dtdle:stats',
 } as const;

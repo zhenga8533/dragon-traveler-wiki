@@ -49,6 +49,7 @@ const DiamondCalculator = lazy(
   () => import('@/pages/guides/DiamondCalculator')
 );
 const ShovelEventGuide = lazy(() => import('@/pages/guides/ShovelEventGuide'));
+const Dtdle = lazy(() => import('@/pages/guides/Dtdle'));
 const NotFound = lazy(() => import('@/pages/not-found/Page'));
 
 function RouteFallback() {
@@ -118,6 +119,7 @@ export default function AppRoutes() {
           element={<DiamondCalculator />}
         />
         <Route path="/guides/shovel-event" element={<ShovelEventGuide />} />
+        <Route path="/guides/dtdle" element={<Dtdle />} />
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>
