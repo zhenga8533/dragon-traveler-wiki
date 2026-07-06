@@ -1,17 +1,15 @@
-import { Badge, Button, Collapse, Group, Paper, Text } from '@mantine/core';
+import { Group, Text } from '@mantine/core';
 import { useDisclosure, useMediaQuery } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
-import { IoFilter } from 'react-icons/io5';
-import { getCardHoverProps } from '@/constants/styles';
 import { BREAKPOINTS } from '@/constants/ui';
 import { TierListReferenceContext } from '@/contexts';
-import { useGradientAccent } from '@/hooks';
 import type { PoolLayout } from '@/hooks';
 import {
   buildRowAlignedPageSizeOptions,
   usePageSize,
   usePagination,
 } from '@/hooks/use-pagination';
+import FilterPopoverButton from '@/components/layout/FilterPopoverButton';
 import PoolLayoutToggle from '@/components/common/PoolLayoutToggle';
 import type { Character } from '@/features/characters/types';
 import {
@@ -59,7 +57,6 @@ export default function FilterableCharacterPool({
   const { tierLists, selectedTierListName } = useContext(
     TierListReferenceContext
   );
-  const { accent } = useGradientAccent();
   const { data: statusEffects } = useStatusEffects();
   const [filters, setFilters] = useState<CharacterFilters>(EMPTY_FILTERS);
   const [filterOpen, { toggle: toggleFilter }] = useDisclosure(false);
@@ -198,42 +195,20 @@ export default function FilterableCharacterPool({
     (filters.globalOnly !== null ? 1 : 0);
 
   const filterHeader = (
-    <>
-      <Group justify="space-between" align="center" wrap="wrap">
-        <Text size="sm" c="dimmed">
-          {filtered.length} available character
-          {filtered.length !== 1 ? 's' : ''}
-        </Text>
-        <Group gap="xs" wrap="nowrap">
-          {canToggleLayout && onLayoutChange && (
-            <PoolLayoutToggle layout={layout} onChange={onLayoutChange} />
-          )}
-          <Button
-            variant="default"
-            color={accent.primary}
-            size="xs"
-            leftSection={<IoFilter size={16} />}
-            rightSection={
-              activeFilterCount > 0 ? (
-                <Badge
-                  size="xs"
-                  circle
-                  variant="filled"
-                  color={accent.primary}
-                >
-                  {activeFilterCount}
-                </Badge>
-              ) : null
-            }
-            onClick={toggleFilter}
-          >
-            Filters
-          </Button>
-        </Group>
-      </Group>
-
-      <Collapse in={filterOpen}>
-        <Paper p="md" radius="md" withBorder {...getCardHoverProps()}>
+    <Group justify="space-between" align="center" wrap="wrap">
+      <Text size="sm" c="dimmed">
+        {filtered.length} available character
+        {filtered.length !== 1 ? 's' : ''}
+      </Text>
+      <Group gap="xs" wrap="nowrap">
+        {canToggleLayout && onLayoutChange && (
+          <PoolLayoutToggle layout={layout} onChange={onLayoutChange} />
+        )}
+        <FilterPopoverButton
+          filterCount={activeFilterCount}
+          filterOpen={filterOpen}
+          onFilterToggle={toggleFilter}
+        >
           <CharacterFilter
             filters={filters}
             onChange={setFilters}
@@ -241,9 +216,9 @@ export default function FilterableCharacterPool({
             showTierFilter={Boolean(selectedTierListName)}
             tierOptions={tierOptions}
           />
-        </Paper>
-      </Collapse>
-    </>
+        </FilterPopoverButton>
+      </Group>
+    </Group>
   );
 
   const paginationControl = (
