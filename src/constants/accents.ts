@@ -25,17 +25,17 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   '/oracle-scrolls': 'yellow',
 
   // Toolbox
-  '/guides/beginner-qa': 'teal',
-  '/guides/star-upgrade-calculator': 'teal',
-  '/guides/diamond-calculator': 'teal',
-  '/guides/shovel-event': 'green',
+  '/toolbox/beginner-qa': 'teal',
+  '/toolbox/star-upgrade-calculator': 'teal',
+  '/toolbox/diamond-calculator': 'teal',
+  '/toolbox/shovel-event': 'green',
 
   // Other sections
   '/tier-list': 'orange',
   '/teams': 'pink',
   '/codes': 'yellow',
   '/events': 'green',
-  '/useful-links': 'gray',
+  '/toolbox/useful-links': 'gray',
   '/changelog': 'grape',
 } as const;
 
@@ -81,8 +81,8 @@ export function getAccentForPath(path: string): SectionAccent {
     return 'pink';
   }
 
-  // Check for guides prefix
-  if (path.startsWith('/guides/')) {
+  // Check for toolbox prefix
+  if (path.startsWith('/toolbox/')) {
     return 'teal';
   }
 

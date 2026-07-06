@@ -240,7 +240,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
-    pattern: '/useful-links',
+    pattern: '/toolbox/useful-links',
     meta: {
       title: 'Useful Links',
       description:
@@ -256,7 +256,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
-    pattern: '/guides/faq',
+    pattern: '/toolbox/faq',
     meta: {
       title: 'FAQ',
       description:
@@ -264,7 +264,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
-    pattern: '/guides/beginner-qa',
+    pattern: '/toolbox/beginner-qa',
     meta: {
       title: 'Beginner Q&A Guide',
       description:
@@ -272,7 +272,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
-    pattern: '/guides/star-upgrade-calculator',
+    pattern: '/toolbox/star-upgrade-calculator',
     meta: {
       title: 'Star Upgrade Calculator',
       description:
@@ -280,7 +280,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
-    pattern: '/guides/mythic-summon-calculator',
+    pattern: '/toolbox/mythic-summon-calculator',
     meta: {
       title: 'Mythic Summon Calculator',
       description:
@@ -288,7 +288,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
-    pattern: '/guides/diamond-calculator',
+    pattern: '/toolbox/diamond-calculator',
     meta: {
       title: 'Diamond Calculator',
       description:
@@ -296,7 +296,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
-    pattern: '/guides/shovel-event',
+    pattern: '/toolbox/shovel-event',
     meta: {
       title: 'Shovel Event Guide',
       description:
@@ -304,7 +304,7 @@ export const ROUTE_META: RouteMetaEntry[] = [
     },
   },
   {
-    pattern: '/guides/dtdle',
+    pattern: '/toolbox/dtdle',
     meta: {
       title: 'DTdle',
       description:

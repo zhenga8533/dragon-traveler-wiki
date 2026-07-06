@@ -98,15 +98,15 @@ const NAV_ITEMS: NavItem[] = [
         children: [
           {
             label: 'Star Upgrade Calculator',
-            path: '/guides/star-upgrade-calculator',
+            path: '/toolbox/star-upgrade-calculator',
           },
           {
             label: 'Mythic Summon Calculator',
-            path: '/guides/mythic-summon-calculator',
+            path: '/toolbox/mythic-summon-calculator',
           },
           {
             label: 'Diamond Calculator',
-            path: '/guides/diamond-calculator',
+            path: '/toolbox/diamond-calculator',
           },
         ],
       },
@@ -114,17 +114,17 @@ const NAV_ITEMS: NavItem[] = [
         label: 'Strategy Guides',
         icon: IoBook,
         children: [
-          { label: 'Beginner Q&A', path: '/guides/beginner-qa' },
-          { label: 'Shovel Event Guide', path: '/guides/shovel-event' },
+          { label: 'Beginner Q&A', path: '/toolbox/beginner-qa' },
+          { label: 'Shovel Event Guide', path: '/toolbox/shovel-event' },
         ],
       },
       {
         label: 'Misc',
         icon: IoEllipsisHorizontalOutline,
         children: [
-          { label: 'FAQ', path: '/guides/faq' },
-          { label: 'Useful Links', path: '/useful-links' },
-          { label: 'DTdle', path: '/guides/dtdle' },
+          { label: 'FAQ', path: '/toolbox/faq' },
+          { label: 'Useful Links', path: '/toolbox/useful-links' },
+          { label: 'DTdle', path: '/toolbox/dtdle' },
         ],
       },
     ],

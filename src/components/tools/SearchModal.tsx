@@ -152,32 +152,32 @@ const PAGES = [
   },
   {
     title: 'FAQ',
-    path: '/guides/faq',
+    path: '/toolbox/faq',
     keywords: 'faq frequently asked questions help guide beginner',
   },
   {
     title: 'Beginner Q&A',
-    path: '/guides/beginner-qa',
+    path: '/toolbox/beginner-qa',
     keywords: 'beginner guide faq help tutorial',
   },
   {
     title: 'Shovel Event Guide',
-    path: '/guides/shovel-event',
+    path: '/toolbox/shovel-event',
     keywords: 'shovel event digging layers efficiency bombs rockets',
   },
   {
     title: 'Star Upgrade Calculator',
-    path: '/guides/star-upgrade-calculator',
+    path: '/toolbox/star-upgrade-calculator',
     keywords: 'calculator star upgrade cost',
   },
   {
     title: 'Mythic Summon Calculator',
-    path: '/guides/mythic-summon-calculator',
+    path: '/toolbox/mythic-summon-calculator',
     keywords: 'mythic summon calculator pull rates rewards pity simulation',
   },
   {
     title: 'Diamond Calculator',
-    path: '/guides/diamond-calculator',
+    path: '/toolbox/diamond-calculator',
     keywords: 'diamond calculator income spending budget projection',
   },
   {
@@ -198,7 +198,7 @@ const PAGES = [
   },
   {
     title: 'Useful Links',
-    path: '/useful-links',
+    path: '/toolbox/useful-links',
     keywords: 'links resources tools external',
   },
 ];
@@ -738,7 +738,7 @@ function SearchModalContent({
             type: 'useful-link' as const,
             title: r.item.name,
             subtitle: r.item.application,
-            path: `/useful-links#${toEntitySlug(r.item.name)}`,
+            path: `/toolbox/useful-links#${toEntitySlug(r.item.name)}`,
             icon: IoDocumentTextOutline,
             color: 'indigo',
           }))

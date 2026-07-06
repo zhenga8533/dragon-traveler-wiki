@@ -5,7 +5,13 @@ import {
 import { Container } from '@mantine/core';
 import { isDetailRoute } from '@/constants/route-meta';
 import { lazy, Suspense } from 'react';
-import { Route, Routes, useLocation } from 'react-router-dom';
+import {
+  Navigate,
+  Route,
+  Routes,
+  useLocation,
+  useParams,
+} from 'react-router-dom';
 
 const Home = lazy(() => import('@/pages/home/Page'));
 const Artifacts = lazy(() => import('@/pages/artifacts/ListPage'));
@@ -51,6 +57,11 @@ const DiamondCalculator = lazy(
 const ShovelEventGuide = lazy(() => import('@/pages/guides/ShovelEventGuide'));
 const Dtdle = lazy(() => import('@/pages/guides/Dtdle'));
 const NotFound = lazy(() => import('@/pages/not-found/Page'));
+
+function GuidesLegacyRedirect() {
+  const { '*': rest } = useParams();
+  return <Navigate to={`/toolbox/${rest}`} replace />;
+}
 
 function RouteFallback() {
   const { pathname } = useLocation();
@@ -102,24 +113,32 @@ export default function AppRoutes() {
         <Route path="/teams/:teamName" element={<TeamPage />} />
         <Route path="/codes" element={<Codes />} />
         <Route path="/events" element={<Events />} />
-        <Route path="/useful-links" element={<UsefulLinks />} />
+        <Route path="/toolbox/useful-links" element={<UsefulLinks />} />
         <Route path="/changelog" element={<Changelog />} />
-        <Route path="/guides/faq" element={<FAQ />} />
-        <Route path="/guides/beginner-qa" element={<BeginnerQA />} />
+        <Route path="/toolbox/faq" element={<FAQ />} />
+        <Route path="/toolbox/beginner-qa" element={<BeginnerQA />} />
         <Route
-          path="/guides/star-upgrade-calculator"
+          path="/toolbox/star-upgrade-calculator"
           element={<StarUpgradeCalculator />}
         />
         <Route
-          path="/guides/mythic-summon-calculator"
+          path="/toolbox/mythic-summon-calculator"
           element={<MythicSummonCalculator />}
         />
         <Route
-          path="/guides/diamond-calculator"
+          path="/toolbox/diamond-calculator"
           element={<DiamondCalculator />}
         />
-        <Route path="/guides/shovel-event" element={<ShovelEventGuide />} />
-        <Route path="/guides/dtdle" element={<Dtdle />} />
+        <Route path="/toolbox/shovel-event" element={<ShovelEventGuide />} />
+        <Route path="/toolbox/dtdle" element={<Dtdle />} />
+
+        {/* Legacy redirects: preserve old bookmarked/shared links */}
+        <Route
+          path="/useful-links"
+          element={<Navigate to="/toolbox/useful-links" replace />}
+        />
+        <Route path="/guides/*" element={<GuidesLegacyRedirect />} />
+
         <Route path="*" element={<NotFound />} />
       </Routes>
     </Suspense>

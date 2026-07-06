@@ -64,7 +64,7 @@ const FAQ_SECTIONS: FAQSection[] = [
         answer: (
           <>
             Start with the{' '}
-            <Anchor component={Link} to="/guides/beginner-qa">
+            <Anchor component={Link} to="/toolbox/beginner-qa">
               Beginner Q&amp;A
             </Anchor>{' '}
             for practical early-game priorities, pull planning, and common
@@ -155,15 +155,15 @@ const FAQ_SECTIONS: FAQSection[] = [
         answer: (
           <>
             You can find tools like the{' '}
-            <Anchor component={Link} to="/guides/star-upgrade-calculator">
+            <Anchor component={Link} to="/toolbox/star-upgrade-calculator">
               Star Upgrade Calculator
             </Anchor>{' '}
             and{' '}
-            <Anchor component={Link} to="/guides/mythic-summon-calculator">
+            <Anchor component={Link} to="/toolbox/mythic-summon-calculator">
               Mythic Summon Calculator
             </Anchor>{' '}
             and{' '}
-            <Anchor component={Link} to="/guides/diamond-calculator">
+            <Anchor component={Link} to="/toolbox/diamond-calculator">
               Diamond Calculator
             </Anchor>{' '}
             in the Guides section.
@@ -249,7 +249,7 @@ const FAQ_SECTIONS: FAQSection[] = [
         answer: (
           <>
             Yes. Visit{' '}
-            <Anchor component={Link} to="/useful-links">
+            <Anchor component={Link} to="/toolbox/useful-links">
               Useful Links
             </Anchor>{' '}
             for project/community channels to submit corrections and additions.
@@ -285,7 +285,7 @@ const FAQ_SECTIONS: FAQSection[] = [
         answer: (
           <>
             Yes. The{' '}
-            <Anchor component={Link} to="/useful-links">
+            <Anchor component={Link} to="/toolbox/useful-links">
               Useful Links
             </Anchor>{' '}
             page collects official and community resources.
