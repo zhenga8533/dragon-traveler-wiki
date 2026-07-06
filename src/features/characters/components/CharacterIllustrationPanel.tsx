@@ -14,7 +14,13 @@ import {
   Text,
   UnstyledButton,
 } from '@mantine/core';
-import { IoChevronBack, IoChevronForward, IoExpand } from 'react-icons/io5';
+import {
+  IoChevronBack,
+  IoChevronForward,
+  IoExpand,
+  IoStar,
+  IoStarOutline,
+} from 'react-icons/io5';
 
 interface CharacterIllustrationPanelProps {
   characterName: string;
@@ -26,6 +32,8 @@ interface CharacterIllustrationPanelProps {
   onOpenPreview: () => void;
   onPrevious: () => void;
   onNext: () => void;
+  isFavorite?: boolean;
+  onToggleFavorite?: () => void;
 }
 
 export default function CharacterIllustrationPanel({
@@ -38,6 +46,8 @@ export default function CharacterIllustrationPanel({
   onOpenPreview,
   onPrevious,
   onNext,
+  isFavorite,
+  onToggleFavorite,
 }: CharacterIllustrationPanelProps) {
   const { accent } = useGradientAccent();
   const activeIllustrationName = activeIllustration?.name;
@@ -90,75 +100,96 @@ export default function CharacterIllustrationPanel({
               </Text>
             ))}
         </Group>
-        <UnstyledButton
-          onClick={onOpenPreview}
-          style={{
-            display: 'block',
-            width: '100%',
-            minHeight: isDesktop ? undefined : NAV_ITEM_HEIGHT,
-            borderRadius: 'var(--mantine-radius-md)',
-            overflow: 'hidden',
-            position: 'relative',
-          }}
-        >
-          {activeIllustration.type === 'video' ? (
-            <SafeVideo
-              src={activeIllustration.src}
-              autoPlay
-              muted
-              loop
-              style={{
-                width: '100%',
-                maxHeight: 420,
-                display: 'block',
-              }}
-            />
-          ) : (
-            <SafeImage
-              src={activeIllustration.src}
-              alt={`${characterName} - ${activeIllustration.name}`}
-              fit="contain"
-              mah={420}
-              loading="lazy"
-            />
-          )}
-          <Box
+        <Box style={{ position: 'relative' }}>
+          <UnstyledButton
+            onClick={onOpenPreview}
             style={{
-              position: 'absolute',
-              inset: 0,
-              background:
-                'linear-gradient(180deg, transparent var(--dt-gradient-overlay-mid), rgba(0,0,0,0.55) 100%)',
-              pointerEvents: 'none',
-            }}
-          />
-          <Group
-            justify="space-between"
-            align="center"
-            style={{
-              position: 'absolute',
-              bottom: 12,
-              left: 12,
-              right: 12,
+              display: 'block',
+              width: '100%',
+              minHeight: isDesktop ? undefined : NAV_ITEM_HEIGHT,
+              borderRadius: 'var(--mantine-radius-md)',
+              overflow: 'hidden',
+              position: 'relative',
             }}
           >
-            <Stack gap={2}>
-              <Text size="sm" fw={600} c="white">
-                {activeIllustrationName ?? characterName}
-              </Text>
-              <Text size="xs" c="gray.2">
-                {activeIllustration.type === 'video' ? 'Animation' : 'Artwork'}
-              </Text>
-            </Stack>
-            <Badge
-              leftSection={<IoExpand />}
-              variant="light"
-              color={accent.primary}
-              size="md"
+            {activeIllustration.type === 'video' ? (
+              <SafeVideo
+                src={activeIllustration.src}
+                autoPlay
+                muted
+                loop
+                style={{
+                  width: '100%',
+                  maxHeight: 420,
+                  display: 'block',
+                }}
+              />
+            ) : (
+              <SafeImage
+                src={activeIllustration.src}
+                alt={`${characterName} - ${activeIllustration.name}`}
+                fit="contain"
+                mah={420}
+                loading="lazy"
+              />
+            )}
+            <Box
+              style={{
+                position: 'absolute',
+                inset: 0,
+                background:
+                  'linear-gradient(180deg, transparent var(--dt-gradient-overlay-mid), rgba(0,0,0,0.55) 100%)',
+                pointerEvents: 'none',
+              }}
+            />
+            <Group
+              justify="space-between"
+              align="center"
+              style={{
+                position: 'absolute',
+                bottom: 12,
+                left: 12,
+                right: 12,
+              }}
             >
-              View
-            </Badge>
-          </Group>
-        </UnstyledButton>
+              <Stack gap={2}>
+                <Text size="sm" fw={600} c="white">
+                  {activeIllustrationName ?? characterName}
+                </Text>
+                <Text size="xs" c="gray.2">
+                  {activeIllustration.type === 'video' ? 'Animation' : 'Artwork'}
+                </Text>
+              </Stack>
+              <Badge
+                leftSection={<IoExpand />}
+                variant="light"
+                color={accent.primary}
+                size="md"
+              >
+                View
+              </Badge>
+            </Group>
+          </UnstyledButton>
+          {onToggleFavorite && (
+            <ActionIcon
+              onClick={onToggleFavorite}
+              variant="filled"
+              color="dark"
+              radius="xl"
+              size="sm"
+              aria-label={
+                isFavorite ? 'Remove from favorites' : 'Add to favorites'
+              }
+              style={{ position: 'absolute', top: 8, right: 8, opacity: 0.85 }}
+            >
+              {isFavorite ? (
+                <IoStar color="gold" />
+              ) : (
+                <IoStarOutline color="white" />
+              )}
+            </ActionIcon>
+          )}
+        </Box>
       </Stack>
     </StaticSurface>
   );

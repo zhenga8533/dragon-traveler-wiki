@@ -36,6 +36,12 @@ import { useDisclosure } from '@mantine/hooks';
 import { useContext, useEffect, useMemo, useState } from 'react';
 import { IoDownload, IoFolderOpen, IoSettingsOutline } from 'react-icons/io5';
 
+const RANDOM_MODE_LABEL: Record<'all' | 'png' | 'mp4', string> = {
+  all: '',
+  png: 'PNG ',
+  mp4: 'MP4 ',
+};
+
 const LOCALE_OPTIONS: { value: string; label: string }[] = [
   { value: 'enUS', label: 'English (US)' },
   { value: 'zhCN', label: '简体中文' },
@@ -142,6 +148,10 @@ export default function SettingsPanel({
     setShowOnAllRoutes,
     slowScrollEnabled,
     setSlowScrollEnabled,
+    favoritesOnly,
+    setFavoritesOnly,
+    randomBannerMode,
+    favoritesMatchingCurrentMode,
   } = useContext(BannerContext);
   const {
     bannerMediaOpacity,
@@ -535,6 +545,23 @@ export default function SettingsPanel({
             setSlowScrollEnabled(event.currentTarget.checked)
           }
         />
+        {randomBannerMode && (
+          <Switch
+            mt="xs"
+            size={isMobile ? 'md' : 'sm'}
+            color={accent.primary}
+            label="Randomize only from favorite illustrations"
+            description={
+              !favoritesOnly
+                ? 'Reveals a ★ button on illustrations to mark favorites'
+                : favoritesMatchingCurrentMode === 0
+                  ? `No favorite ${RANDOM_MODE_LABEL[randomBannerMode]}illustrations yet — falls back to all illustrations`
+                  : undefined
+            }
+            checked={favoritesOnly}
+            onChange={(event) => setFavoritesOnly(event.currentTarget.checked)}
+          />
+        )}
       </Paper>
 
       <Paper

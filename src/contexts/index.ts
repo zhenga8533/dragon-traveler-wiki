@@ -7,6 +7,11 @@ export {
   CharacterOwnershipProvider,
 } from './character-ownership-context';
 export type { CharacterOwnershipContextValue } from './character-ownership-context';
+export {
+  FavoriteIllustrationsContext,
+  FavoriteIllustrationsProvider,
+} from './favorite-illustrations-context';
+export type { FavoriteIllustrationsContextValue } from './favorite-illustrations-context';
 export type { BannerContextValue } from './banner-context';
 export {
   DEFAULT_PALETTE,

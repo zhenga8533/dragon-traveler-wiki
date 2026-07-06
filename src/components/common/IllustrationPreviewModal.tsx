@@ -28,6 +28,8 @@ import {
 	IoContract,
 	IoExpand,
 	IoFilm,
+	IoStar,
+	IoStarOutline,
 } from 'react-icons/io5';
 import type { Illustration } from '@/assets';
 import { getCardHoverProps } from '@/constants/styles';
@@ -58,6 +60,8 @@ interface IllustrationPreviewModalProps {
 	showNextIllustration: () => void;
 	onSelectIllustration: (illustration: Illustration) => void;
 	tooltipProps: TooltipInteractionProps;
+	isFavorite?: boolean;
+	onToggleFavorite?: () => void;
 }
 
 export default function IllustrationPreviewModal({
@@ -72,6 +76,8 @@ export default function IllustrationPreviewModal({
 	showNextIllustration,
 	onSelectIllustration,
 	tooltipProps,
+	isFavorite,
+	onToggleFavorite,
 }: IllustrationPreviewModalProps) {
 	const { accent } = useGradientAccent();
 	const mediaContainerRef = useRef<HTMLDivElement>(null);
@@ -186,6 +192,24 @@ export default function IllustrationPreviewModal({
 							)}
 						</Group>
 						<Group gap="xs">
+							{onToggleFavorite && (
+								<Tooltip
+									label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
+									{...tooltipProps}
+								>
+									<ActionIcon
+										onClick={onToggleFavorite}
+										aria-label={
+											isFavorite ? 'Remove from favorites' : 'Add to favorites'
+										}
+										variant="default"
+										color={accent.primary}
+										radius="xl"
+									>
+										{isFavorite ? <IoStar color="gold" /> : <IoStarOutline />}
+									</ActionIcon>
+								</Tooltip>
+							)}
 							{activeIllustration.type === 'image' && (
 								<Tooltip
 									label={isFullscreen ? 'Exit fullscreen' : 'Fullscreen'}

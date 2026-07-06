@@ -5,10 +5,12 @@ import {
 
 import { DEFAULT_BANNER_SRC } from '@/constants/banner';
 import { STORAGE_KEY } from '@/constants/ui';
+import { FavoriteIllustrationsContext } from './favorite-illustrations-context';
 import { useCharacters } from '@/features/characters/hooks/use-characters-data';
 import {
   createContext,
   createElement,
+  useContext,
   useEffect,
   useMemo,
   useState,
@@ -37,7 +39,8 @@ const DEFAULT_BANNER_OPTION: BannerOption = {
 
 function pickRandomBanner(
   options: BannerOption[],
-  mode: 'all' | 'png' | 'mp4'
+  mode: 'all' | 'png' | 'mp4',
+  favorites?: Set<string>
 ): BannerOption | null {
   const candidates = options.filter((option) => {
     if (option.value === DEFAULT_BANNER_OPTION.value) return false;
@@ -45,6 +48,20 @@ function pickRandomBanner(
     if (mode === 'mp4') return option.type === 'video';
     return true;
   });
+
+  // Restrict to favorites when requested, but fall back to the full candidate
+  // pool if no favorites match so the banner never silently stops rotating.
+  if (favorites && favorites.size > 0) {
+    const favoriteCandidates = candidates.filter((option) =>
+      favorites.has(option.value)
+    );
+    if (favoriteCandidates.length > 0) {
+      return favoriteCandidates[
+        Math.floor(Math.random() * favoriteCandidates.length)
+      ];
+    }
+  }
+
   if (candidates.length === 0) return null;
   return candidates[Math.floor(Math.random() * candidates.length)];
 }
@@ -61,6 +78,12 @@ export interface BannerContextValue {
   setShowOnAllRoutes: (value: boolean) => void;
   slowScrollEnabled: boolean;
   setSlowScrollEnabled: (value: boolean) => void;
+  favoritesOnly: boolean;
+  setFavoritesOnly: (value: boolean) => void;
+  /** Which random mode is active, or null if a specific/no/default banner is selected. */
+  randomBannerMode: 'all' | 'png' | 'mp4' | null;
+  /** Count of favorited illustrations matching randomBannerMode's media type. */
+  favoritesMatchingCurrentMode: number;
 }
 
 export const BannerContext = createContext<BannerContextValue>({
@@ -75,10 +98,15 @@ export const BannerContext = createContext<BannerContextValue>({
   setShowOnAllRoutes: () => {},
   slowScrollEnabled: false,
   setSlowScrollEnabled: () => {},
+  favoritesOnly: false,
+  setFavoritesOnly: () => {},
+  randomBannerMode: null,
+  favoritesMatchingCurrentMode: 0,
 });
 
 export function BannerProvider({ children }: { children: ReactNode }) {
   const { data: characters } = useCharacters();
+  const { favoriteIllustrations } = useContext(FavoriteIllustrationsContext);
 
   const [showOnAllRoutes, setShowOnAllRoutes] = useState(() => {
     if (typeof window === 'undefined') return false;
@@ -90,6 +118,13 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     if (typeof window === 'undefined') return false;
     return (
       window.localStorage.getItem(STORAGE_KEY.HOME_BANNER_SLOW_SCROLL) ===
+      'true'
+    );
+  });
+  const [favoritesOnly, setFavoritesOnly] = useState(() => {
+    if (typeof window === 'undefined') return false;
+    return (
+      window.localStorage.getItem(STORAGE_KEY.HOME_BANNER_FAVORITES_ONLY) ===
       'true'
     );
   });
@@ -157,18 +192,20 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       return;
     }
 
+    const favoritesFilter = favoritesOnly ? favoriteIllustrations : undefined;
+
     if (bannerPreference === RANDOM_BANNER_ALL_VALUE) {
-      const random = pickRandomBanner(bannerOptions, 'all');
+      const random = pickRandomBanner(bannerOptions, 'all', favoritesFilter);
       setSelectedBannerValue(random?.value ?? DEFAULT_BANNER_OPTION.value);
       return;
     }
     if (bannerPreference === RANDOM_BANNER_PNG_VALUE) {
-      const random = pickRandomBanner(bannerOptions, 'png');
+      const random = pickRandomBanner(bannerOptions, 'png', favoritesFilter);
       setSelectedBannerValue(random?.value ?? DEFAULT_BANNER_OPTION.value);
       return;
     }
     if (bannerPreference === RANDOM_BANNER_MP4_VALUE) {
-      const random = pickRandomBanner(bannerOptions, 'mp4');
+      const random = pickRandomBanner(bannerOptions, 'mp4', favoritesFilter);
       setSelectedBannerValue(random?.value ?? DEFAULT_BANNER_OPTION.value);
       return;
     }
@@ -181,10 +218,16 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       return;
     }
 
-    const random = pickRandomBanner(bannerOptions, 'all');
+    const random = pickRandomBanner(bannerOptions, 'all', favoritesFilter);
     setSelectedBannerValue(random?.value ?? DEFAULT_BANNER_OPTION.value);
     setBannerPreference(DEFAULT_BANNER_PREFERENCE);
-  }, [bannerOptions, bannerOptionsReady, bannerPreference]);
+  }, [
+    bannerOptions,
+    bannerOptionsReady,
+    bannerPreference,
+    favoritesOnly,
+    favoriteIllustrations,
+  ]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -206,6 +249,14 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       String(slowScrollEnabled)
     );
   }, [slowScrollEnabled]);
+
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    window.localStorage.setItem(
+      STORAGE_KEY.HOME_BANNER_FAVORITES_ONLY,
+      String(favoritesOnly)
+    );
+  }, [favoritesOnly]);
 
   const selectedBanner =
     selectedBannerValue === null || !bannerOptionsReady
@@ -237,6 +288,25 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     setBannerLoaded(false);
   }, [selectedBanner?.src]);
 
+  const randomBannerMode: 'all' | 'png' | 'mp4' | null =
+    bannerPreference === RANDOM_BANNER_ALL_VALUE
+      ? 'all'
+      : bannerPreference === RANDOM_BANNER_PNG_VALUE
+        ? 'png'
+        : bannerPreference === RANDOM_BANNER_MP4_VALUE
+          ? 'mp4'
+          : null;
+
+  const favoritesMatchingCurrentMode = useMemo(() => {
+    if (!randomBannerMode) return 0;
+    return bannerOptions.filter((option) => {
+      if (!favoriteIllustrations.has(option.value)) return false;
+      if (randomBannerMode === 'png') return option.type === 'image';
+      if (randomBannerMode === 'mp4') return option.type === 'video';
+      return true;
+    }).length;
+  }, [bannerOptions, favoriteIllustrations, randomBannerMode]);
+
   const value = useMemo(
     () => ({
       selectedBanner,
@@ -250,6 +320,10 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       setShowOnAllRoutes,
       slowScrollEnabled,
       setSlowScrollEnabled,
+      favoritesOnly,
+      setFavoritesOnly,
+      randomBannerMode,
+      favoritesMatchingCurrentMode,
     }),
     [
       selectedBanner,
@@ -258,6 +332,9 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       bannerPreference,
       showOnAllRoutes,
       slowScrollEnabled,
+      favoritesOnly,
+      randomBannerMode,
+      favoritesMatchingCurrentMode,
     ]
   );
 

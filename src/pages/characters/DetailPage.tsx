@@ -9,7 +9,11 @@ import ErrorBoundary from '@/components/ui/ErrorBoundary';
 import { DetailPageLoading } from '@/components/layout/PageLoadingSkeleton';
 import { BREAKPOINTS } from '@/constants/ui';
 import { useCharacterAssets, useMobileTooltip, useStarLevels } from '@/hooks';
-import { CharacterOwnershipContext } from '@/contexts';
+import {
+  BannerContext,
+  CharacterOwnershipContext,
+  FavoriteIllustrationsContext,
+} from '@/contexts';
 import { getCharacterIdentityKey } from '@/features/characters/utils/character-route';
 import { buildStarLevels } from '@/types/star-level';
 import {
@@ -33,6 +37,10 @@ export default function CharacterPage() {
   const { getCharacterStarLevel, setCharacterStarLevel } = useContext(
     CharacterOwnershipContext
   );
+  const { isFavoriteIllustration, toggleFavoriteIllustration } = useContext(
+    FavoriteIllustrationsContext
+  );
+  const { favoritesOnly } = useContext(BannerContext);
   const { data: rawStarLevels } = useStarLevels();
   const starLevels = useMemo(
     () => buildStarLevels(rawStarLevels),
@@ -80,6 +88,19 @@ export default function CharacterPage() {
   } = useCharacterAssets(character, characterAssetKey);
 
   const newCharacterKeys = useNewCharacters();
+
+  const activeIllustrationFavoriteKey =
+    favoritesOnly && characterAssetKey && activeIllustrationIndex >= 0
+      ? `${characterAssetKey}::${activeIllustrationIndex}`
+      : null;
+  const isActiveIllustrationFavorite = activeIllustrationFavoriteKey
+    ? isFavoriteIllustration(activeIllustrationFavoriteKey)
+    : false;
+  const toggleActiveIllustrationFavorite = useCallback(() => {
+    if (activeIllustrationFavoriteKey) {
+      toggleFavoriteIllustration(activeIllustrationFavoriteKey);
+    }
+  }, [activeIllustrationFavoriteKey, toggleFavoriteIllustration]);
 
   const [previewOpen, setPreviewOpen] = useState(false);
 
@@ -165,6 +186,12 @@ export default function CharacterPage() {
                 onOpenPreview={() => setPreviewOpen(true)}
                 onPrevious={showPreviousIllustration}
                 onNext={showNextIllustration}
+                isFavorite={isActiveIllustrationFavorite}
+                onToggleFavorite={
+                  activeIllustrationFavoriteKey
+                    ? toggleActiveIllustrationFavorite
+                    : undefined
+                }
               />
 
               <CharacterProgressPanel
@@ -236,6 +263,12 @@ export default function CharacterPage() {
           showNextIllustration={showNextIllustration}
           onSelectIllustration={setSelectedIllustration}
           tooltipProps={tooltipProps}
+          isFavorite={isActiveIllustrationFavorite}
+          onToggleFavorite={
+            activeIllustrationFavoriteKey
+              ? toggleActiveIllustrationFavorite
+              : undefined
+          }
         />
 
         <ChangeHistory
