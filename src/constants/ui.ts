@@ -64,7 +64,7 @@ export const CHARACTER_GRID_SPACING = 12;
 
 // Sidebar dimensions
 export const SIDEBAR = {
-  WIDTH_EXPANDED: 220,
+  WIDTH_EXPANDED: 240,
   WIDTH_COLLAPSED: 70,
 } as const;
 

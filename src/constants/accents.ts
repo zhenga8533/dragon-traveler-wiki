@@ -24,7 +24,7 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
   '/relics': 'yellow',
   '/oracle-scrolls': 'yellow',
 
-  // Guides
+  // Toolbox
   '/guides/beginner-qa': 'teal',
   '/guides/star-upgrade-calculator': 'teal',
   '/guides/diamond-calculator': 'teal',
@@ -42,7 +42,7 @@ export const SECTION_ACCENTS: Record<string, SectionAccent> = {
 // Parent section accents (for nav items with children)
 export const PARENT_ACCENTS: Record<string, SectionAccent> = {
   Database: 'blue',
-  Guides: 'teal',
+  Toolbox: 'teal',
 } as const;
 
 /**

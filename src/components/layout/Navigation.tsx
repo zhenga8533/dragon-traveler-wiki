@@ -13,11 +13,12 @@ import {
 } from 'react';
 import {
   IoBook,
+  IoCalculatorOutline,
   IoCalendar,
+  IoConstructOutline,
+  IoEllipsisHorizontalOutline,
   IoGift,
-  IoHelpCircleOutline,
   IoHome,
-  IoLink,
   IoList,
   IoServer,
   IoShield,
@@ -25,12 +26,48 @@ import {
 } from 'react-icons/io5';
 import { Link, matchPath, useLocation } from 'react-router-dom';
 
+type NavLeaf = { label: string; path: string };
+type NavGroup = {
+  label: string;
+  icon?: ComponentType;
+  children: NavLeaf[];
+};
 type NavItem = {
   label: string;
   path?: string;
   icon?: ComponentType;
-  children?: { label: string; path: string; icon?: ComponentType }[];
+  children?: (NavLeaf | NavGroup)[];
 };
+
+function isNavGroup(child: NavLeaf | NavGroup): child is NavGroup {
+  return 'children' in child;
+}
+
+function groupHasActiveChild(group: NavGroup, pathname: string) {
+  return group.children.some((leaf) => isNavPathActive(leaf.path, pathname));
+}
+
+function childIsActive(child: NavLeaf | NavGroup, pathname: string) {
+  return isNavGroup(child)
+    ? groupHasActiveChild(child, pathname)
+    : isNavPathActive(child.path, pathname);
+}
+
+function getActiveGroupKeys(pathname: string) {
+  const keys: string[] = [];
+  for (const item of NAV_ITEMS) {
+    if (!item.children) continue;
+    if (item.children.some((child) => childIsActive(child, pathname))) {
+      keys.push(item.label);
+    }
+    for (const child of item.children) {
+      if (isNavGroup(child) && groupHasActiveChild(child, pathname)) {
+        keys.push(`${item.label}>${child.label}`);
+      }
+    }
+  }
+  return keys;
+}
 
 const NAV_ITEMS: NavItem[] = [
   { label: 'Home', path: '/', icon: IoHome },
@@ -52,32 +89,43 @@ const NAV_ITEMS: NavItem[] = [
     ],
   },
   {
-    label: 'Guides',
-    icon: IoBook,
+    label: 'Toolbox',
+    icon: IoConstructOutline,
     children: [
       {
-        label: 'Beginner Q&A',
-        path: '/guides/beginner-qa',
+        label: 'Calculators',
+        icon: IoCalculatorOutline,
+        children: [
+          {
+            label: 'Star Upgrade Calculator',
+            path: '/guides/star-upgrade-calculator',
+          },
+          {
+            label: 'Mythic Summon Calculator',
+            path: '/guides/mythic-summon-calculator',
+          },
+          {
+            label: 'Diamond Calculator',
+            path: '/guides/diamond-calculator',
+          },
+        ],
       },
       {
-        label: 'Star Upgrade Calculator',
-        path: '/guides/star-upgrade-calculator',
+        label: 'Strategy Guides',
+        icon: IoBook,
+        children: [
+          { label: 'Beginner Q&A', path: '/guides/beginner-qa' },
+          { label: 'Shovel Event Guide', path: '/guides/shovel-event' },
+        ],
       },
       {
-        label: 'Mythic Summon Calculator',
-        path: '/guides/mythic-summon-calculator',
-      },
-      {
-        label: 'Diamond Calculator',
-        path: '/guides/diamond-calculator',
-      },
-      {
-        label: 'Shovel Event Guide',
-        path: '/guides/shovel-event',
-      },
-      {
-        label: 'DTdle',
-        path: '/guides/dtdle',
+        label: 'Misc',
+        icon: IoEllipsisHorizontalOutline,
+        children: [
+          { label: 'FAQ', path: '/guides/faq' },
+          { label: 'Useful Links', path: '/useful-links' },
+          { label: 'DTdle', path: '/guides/dtdle' },
+        ],
       },
     ],
   },
@@ -85,8 +133,6 @@ const NAV_ITEMS: NavItem[] = [
   { label: 'Teams', path: '/teams', icon: IoShield },
   { label: 'Events', path: '/events', icon: IoCalendar },
   { label: 'Codes', path: '/codes', icon: IoGift },
-  { label: 'FAQ', path: '/guides/faq', icon: IoHelpCircleOutline },
-  { label: 'Useful Links', path: '/useful-links', icon: IoLink },
   { label: 'Changelog', path: '/changelog', icon: IoList },
 ];
 
@@ -128,20 +174,15 @@ const NAV_ACTIVE_PATTERNS: Record<string, string[]> = {
 function isNavPathActive(navPath: string, pathname: string) {
   const patterns = NAV_ACTIVE_PATTERNS[navPath] ?? [navPath, `${navPath}/*`];
   return patterns.some(
-    (pattern) => matchPath({ path: pattern, end: true }, pathname) !== null
+    (pattern) => matchPath({ path: pattern, end: true }, pathname) !== null,
   );
 }
 
 const renderNavIcon = (
   Icon: ComponentType<{ size?: number; color?: string }>,
   accent: string,
-  isActive: boolean
-) => (
-  <Icon
-    size={IMAGE_SIZE.ICON_LG}
-    color={getIconColor(accent, isActive)}
-  />
-);
+  isActive: boolean,
+) => <Icon size={IMAGE_SIZE.ICON_LG} color={getIconColor(accent, isActive)} />;
 
 export default function Navigation({
   onNavigate,
@@ -156,7 +197,7 @@ export default function Navigation({
   const { codes, events } = useContext(SearchDataContext);
 
   const [redeemedCodes, setRedeemedCodes] = useState<Set<string>>(() =>
-    readStoredStringSet(STORAGE_KEY.REDEEMED_CODES)
+    readStoredStringSet(STORAGE_KEY.REDEEMED_CODES),
   );
 
   useEffect(() => {
@@ -181,41 +222,26 @@ export default function Navigation({
   const activeCodesCount = useMemo(
     () =>
       codes.filter(
-        (code) => isCodeActive(code) && !redeemedCodes.has(code.code)
+        (code) => isCodeActive(code) && !redeemedCodes.has(code.code),
       ).length,
-    [codes, redeemedCodes]
+    [codes, redeemedCodes],
   );
 
   const activeEventsCount = useMemo(
     () => events.filter((event) => isGameEventActive(event)).length,
-    [events]
+    [events],
   );
 
   const [openGroups, setOpenGroups] = useState<Record<string, boolean>>(() => {
     const initial: Record<string, boolean> = {};
-    for (const item of NAV_ITEMS) {
-      if (item.children) {
-        const active = item.children.some((c) =>
-          isNavPathActive(c.path, location.pathname)
-        );
-        if (active) initial[item.label] = true;
-      }
+    for (const key of getActiveGroupKeys(location.pathname)) {
+      initial[key] = true;
     }
     return initial;
   });
 
   useEffect(() => {
-    const labelsToOpen: string[] = [];
-    for (const item of NAV_ITEMS) {
-      if (item.children) {
-        const active = item.children.some((c) =>
-          isNavPathActive(c.path, location.pathname)
-        );
-        if (active) {
-          labelsToOpen.push(item.label);
-        }
-      }
-    }
+    const labelsToOpen = getActiveGroupKeys(location.pathname);
 
     if (labelsToOpen.length > 0) {
       queueMicrotask(() => {
@@ -234,8 +260,8 @@ export default function Navigation({
     <>
       {NAV_ITEMS.map((item) => {
         if (item.children) {
-          const isChildActive = item.children.some(
-            (child) => isNavPathActive(child.path, location.pathname)
+          const isChildActive = item.children.some((child) =>
+            childIsActive(child, location.pathname),
           );
           const parentAccent = PARENT_ACCENTS[item.label];
 
@@ -284,6 +310,56 @@ export default function Navigation({
               styles={expandedNavStyles}
             >
               {item.children.map((child) => {
+                if (isNavGroup(child)) {
+                  const groupKey = `${item.label}>${child.label}`;
+                  const isSubgroupActive = groupHasActiveChild(
+                    child,
+                    location.pathname,
+                  );
+                  return (
+                    <NavLink
+                      key={child.label}
+                      label={child.label}
+                      opened={openGroups[groupKey] ?? false}
+                      onChange={(opened) =>
+                        setOpenGroups((prev) => ({
+                          ...prev,
+                          [groupKey]: opened,
+                        }))
+                      }
+                      childrenOffset={16}
+                      leftSection={
+                        child.icon &&
+                        renderNavIcon(
+                          child.icon,
+                          parentAccent,
+                          isSubgroupActive,
+                        )
+                      }
+                      active={isSubgroupActive}
+                      color={parentAccent}
+                    >
+                      {child.children.map((leaf) => {
+                        const leafAccent = getAccentForPath(leaf.path);
+                        return (
+                          <NavLink
+                            key={leaf.path}
+                            component={Link}
+                            to={leaf.path}
+                            label={leaf.label}
+                            active={isNavPathActive(
+                              leaf.path,
+                              location.pathname,
+                            )}
+                            color={leafAccent}
+                            onClick={onNavigate}
+                          />
+                        );
+                      })}
+                    </NavLink>
+                  );
+                }
+
                 const childAccent = getAccentForPath(child.path);
                 return (
                   <NavLink
