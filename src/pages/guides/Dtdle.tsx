@@ -1,28 +1,20 @@
-import { Alert, Card, Container, Loader, SimpleGrid, Stack } from '@mantine/core';
-import {
-  IoCheckmarkCircleOutline,
-  IoFlame,
-  IoGameControllerOutline,
-  IoTrophy,
-} from 'react-icons/io5';
-import DataFetchError from '@/components/ui/DataFetchError';
-import StatCard from '@/components/ui/StatCard';
-import GuessSelect from '@/features/dtdle/components/GuessSelect';
-import GuessTable from '@/features/dtdle/components/GuessTable';
-import { useDtdleGame } from '@/features/dtdle/hooks/useDtdleGame';
+import { Card, Container, Stack, Tabs } from '@mantine/core';
+import { IoGameControllerOutline } from 'react-icons/io5';
+import AbilityMode from '@/features/dtdle/components/AbilityMode';
+import ClassicMode from '@/features/dtdle/components/ClassicMode';
+import IllustrationMode from '@/features/dtdle/components/IllustrationMode';
+import QuoteMode from '@/features/dtdle/components/QuoteMode';
+import { useTabParam } from '@/hooks';
 import GuideHeroCard from './components/GuideHeroCard';
 
+const VALID_MODES = ['classic', 'quote', 'ability', 'illustration'];
+
 export default function Dtdle() {
-  const {
-    loading,
-    error,
-    eligible,
-    answer,
-    gameState,
-    stats,
-    guessedCharacters,
-    submitGuess,
-  } = useDtdleGame();
+  const [activeMode, setActiveMode] = useTabParam(
+    'mode',
+    'classic',
+    VALID_MODES
+  );
 
   return (
     <Container size="md" py={{ base: 'lg', sm: 'xl' }}>
@@ -31,58 +23,37 @@ export default function Dtdle() {
           icon={<IoGameControllerOutline size={24} />}
           title="DTdle"
           subtitle="Guess today's mystery character. One character a day, unlimited guesses."
-        >
-          <SimpleGrid cols={{ base: 3 }} spacing="md">
-            <StatCard
-              icon={<IoCheckmarkCircleOutline size={20} />}
-              title="Games Played"
-              value={stats.gamesPlayed}
-              color="blue"
-            />
-            <StatCard
-              icon={<IoFlame size={20} />}
-              title="Current Streak"
-              value={stats.currentStreak}
-              color="orange"
-            />
-            <StatCard
-              icon={<IoTrophy size={20} />}
-              title="Max Streak"
-              value={stats.maxStreak}
-              color="yellow"
-            />
-          </SimpleGrid>
-        </GuideHeroCard>
+        />
 
-        <Card withBorder radius="md" p="lg">
-          <Stack gap="md">
-            {error ? (
-              <DataFetchError
-                title="Could not load characters"
-                message={error.message}
-                onRetry={() => window.location.reload()}
-              />
-            ) : loading || !answer ? (
-              <Loader size="sm" />
-            ) : (
-              <>
-                {gameState.solved && (
-                  <Alert color="green" title="Solved!">
-                    Today's character was {answer.name}. Come back tomorrow
-                    for a new one.
-                  </Alert>
-                )}
-                <GuessSelect
-                  characters={eligible}
-                  guessedSlugs={gameState.guessedSlugs}
-                  onSubmitGuess={submitGuess}
-                  disabled={gameState.solved}
-                />
-                <GuessTable guesses={guessedCharacters} answer={answer} />
-              </>
-            )}
-          </Stack>
-        </Card>
+        <Tabs value={activeMode} onChange={setActiveMode}>
+          <Tabs.List>
+            <Tabs.Tab value="classic">Classic</Tabs.Tab>
+            <Tabs.Tab value="quote">Quote</Tabs.Tab>
+            <Tabs.Tab value="ability">Ability</Tabs.Tab>
+            <Tabs.Tab value="illustration">Illustration</Tabs.Tab>
+          </Tabs.List>
+
+          <Tabs.Panel value="classic" pt="md">
+            <Card withBorder radius="md" p="lg">
+              <ClassicMode />
+            </Card>
+          </Tabs.Panel>
+          <Tabs.Panel value="quote" pt="md">
+            <Card withBorder radius="md" p="lg">
+              <QuoteMode />
+            </Card>
+          </Tabs.Panel>
+          <Tabs.Panel value="ability" pt="md">
+            <Card withBorder radius="md" p="lg">
+              <AbilityMode />
+            </Card>
+          </Tabs.Panel>
+          <Tabs.Panel value="illustration" pt="md">
+            <Card withBorder radius="md" p="lg">
+              <IllustrationMode />
+            </Card>
+          </Tabs.Panel>
+        </Tabs>
       </Stack>
     </Container>
   );

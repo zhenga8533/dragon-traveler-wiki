@@ -22,12 +22,13 @@ export function addDaysIso(dateStr: string, days: number): string {
   return date.toISOString().slice(0, 10);
 }
 
-export function pickForDate(
+function pickForDate(
   dateStr: string,
   ring: ReturnType<typeof buildRing>,
-  excludedSlugs: ReadonlySet<string>
+  excludedSlugs: ReadonlySet<string>,
+  modeSalt = ''
 ): string {
-  const dateHash = fnv1aHash32(dateStr);
+  const dateHash = fnv1aHash32(modeSalt ? `${modeSalt}:${dateStr}` : dateStr);
   return pickFromRing(ring, dateHash, excludedSlugs);
 }
 
@@ -35,10 +36,15 @@ export function pickForDate(
  * Derives today's answer with no stored schedule: replays the trailing
  * `LOOKBACK_DAYS` window forward-in-time so each day's exclusion set is
  * built the same deterministic way, then applies the same rule to today.
+ *
+ * `modeSalt` namespaces the hash so different game modes each get their own
+ * independent daily answer from the same ring. Leaving it empty preserves
+ * Classic mode's original (already-live) hash input exactly.
  */
 export function getTodayAnswerSlug(
   todayStr: string,
-  eligibleSlugsSorted: string[]
+  eligibleSlugsSorted: string[],
+  modeSalt = ''
 ): string {
   const ring = buildRing(eligibleSlugsSorted);
   const history: string[] = [];
@@ -46,9 +52,9 @@ export function getTodayAnswerSlug(
   for (let d = LOOKBACK_DAYS; d >= 1; d--) {
     const dayStr = addDaysIso(todayStr, -d);
     const excluded = new Set(history.slice(-LOOKBACK_DAYS));
-    history.push(pickForDate(dayStr, ring, excluded));
+    history.push(pickForDate(dayStr, ring, excluded, modeSalt));
   }
 
   const excluded = new Set(history.slice(-LOOKBACK_DAYS));
-  return pickForDate(todayStr, ring, excluded);
+  return pickForDate(todayStr, ring, excluded, modeSalt);
 }

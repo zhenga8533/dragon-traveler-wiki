@@ -179,4 +179,12 @@ export const STORAGE_KEY = {
   BUILDER_POOL_LAYOUT: 'builder:poolLayout',
   DTDLE_STATE: 'dtdle:state',
   DTDLE_STATS: 'dtdle:stats',
+  DTDLE_QUOTE_STATE: 'dtdle:quote:state',
+  DTDLE_QUOTE_STATS: 'dtdle:quote:stats',
+  DTDLE_ABILITY_STATE: 'dtdle:ability:state',
+  DTDLE_ABILITY_STATS: 'dtdle:ability:stats',
+  DTDLE_ABILITY_GRAYSCALE: 'dtdle:ability:grayscale',
+  DTDLE_ABILITY_ROTATE: 'dtdle:ability:rotate',
+  DTDLE_ILLUSTRATION_STATE: 'dtdle:illustration:state',
+  DTDLE_ILLUSTRATION_STATS: 'dtdle:illustration:stats',
 } as const;
