@@ -18,6 +18,7 @@ export default function GuessSelect({
   disabled,
 }: GuessSelectProps) {
   const [value, setValue] = useState<string | null>(null);
+  const [searchValue, setSearchValue] = useState('');
   const guessed = useMemo(() => new Set(guessedSlugs), [guessedSlugs]);
 
   const characterBySlug = useMemo(
@@ -42,6 +43,8 @@ export default function GuessSelect({
       placeholder={disabled ? "You've solved today's DTdle!" : 'Type a name…'}
       data={data}
       value={value}
+      searchValue={searchValue}
+      onSearchChange={setSearchValue}
       searchable
       clearable
       disabled={disabled}
@@ -70,6 +73,7 @@ export default function GuessSelect({
       }}
       onChange={(slug) => {
         setValue(null);
+        setSearchValue('');
         if (slug) onSubmitGuess(slug);
       }}
     />

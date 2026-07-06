@@ -5,6 +5,7 @@ import {
   IoGameControllerOutline,
   IoTrophy,
 } from 'react-icons/io5';
+import DataFetchError from '@/components/ui/DataFetchError';
 import StatCard from '@/components/ui/StatCard';
 import GuessSelect from '@/features/dtdle/components/GuessSelect';
 import GuessTable from '@/features/dtdle/components/GuessTable';
@@ -14,6 +15,7 @@ import GuideHeroCard from './components/GuideHeroCard';
 export default function Dtdle() {
   const {
     loading,
+    error,
     eligible,
     answer,
     gameState,
@@ -54,7 +56,13 @@ export default function Dtdle() {
 
         <Card withBorder radius="md" p="lg">
           <Stack gap="md">
-            {loading || !answer ? (
+            {error ? (
+              <DataFetchError
+                title="Could not load characters"
+                message={error.message}
+                onRetry={() => window.location.reload()}
+              />
+            ) : loading || !answer ? (
               <Loader size="sm" />
             ) : (
               <>

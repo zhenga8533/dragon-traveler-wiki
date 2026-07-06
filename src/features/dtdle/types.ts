@@ -1,5 +1,3 @@
-export type ColumnStatus = 'exact' | 'higher' | 'lower' | 'partial' | 'none';
-
 export interface GuessComparison {
   classStatus: 'exact' | 'none';
   qualityStatus: 'exact' | 'higher' | 'lower';
