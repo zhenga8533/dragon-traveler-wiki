@@ -24,10 +24,6 @@ __pycache__/
 .venv/
 *.pyc
 
-# Dolt database
-dolt-db/
-.dolt/
-
 # IDE / OS
 .vscode/*
 !.vscode/extensions.json
