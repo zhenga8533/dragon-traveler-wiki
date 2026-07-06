@@ -1,4 +1,4 @@
-import type { CharacterClass } from '@/features/characters/types';
+import type { CharacterClass, CharacterIllustrationEntry } from '@/features/characters/types';
 import type { GearType } from '@/features/wiki/gear/types';
 import type { FactionSlug } from '@/types/faction';
 import type { Quality } from '@/types/quality';
@@ -191,23 +191,6 @@ export interface Illustration {
   type: 'image' | 'video';
 }
 
-interface ManifestEntry {
-  name: string;
-  file: string;
-  type: 'image' | 'video';
-}
-
-type CharacterManifest = Record<string, ManifestEntry[]>;
-
-let manifestPromise: Promise<CharacterManifest> | null = null;
-
-function getManifest(): Promise<CharacterManifest> {
-  if (!manifestPromise) {
-    manifestPromise = fetch(`${BASE}character/manifest.json`).then((r) => r.json());
-  }
-  return manifestPromise;
-}
-
 function resolveAssetKey(characterName: string, characterKey?: string): string {
   const explicitKey = (characterKey ?? '').trim();
   return normalizeKey(explicitKey || characterName);
@@ -222,14 +205,13 @@ export function getPortrait(
   return `${BASE}character/${key}/portrait.png`;
 }
 
-export async function getIllustrations(
+export function resolveIllustrations(
   characterName: string,
-  characterKey?: string
-): Promise<Illustration[]> {
-  const key = resolveAssetKey(characterName, characterKey);
-  const manifest = await getManifest();
-  const entries = manifest[key];
+  characterKey: string | undefined,
+  entries: CharacterIllustrationEntry[] | undefined
+): Illustration[] {
   if (!entries || entries.length === 0) return [];
+  const key = resolveAssetKey(characterName, characterKey);
   return entries.map((e) => ({
     name: e.name,
     src: `${BASE}character/${key}/illustrations/${e.file}`,

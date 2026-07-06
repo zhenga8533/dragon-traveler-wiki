@@ -1,8 +1,10 @@
 import { Group, Paper, Skeleton, UnstyledButton } from '@mantine/core';
-import { useEffect, useReducer, useState } from 'react';
-import { getIllustrations } from '@/assets';
+import { useEffect, useMemo, useState } from 'react';
+import { resolveIllustrations } from '@/assets';
 import { getEventImage, placeholderEventImage } from '@/assets';
 import SafeImage from '@/components/ui/SafeImage';
+import { buildCharacterByIdentityMap } from '@/features/characters/utils/character-route';
+import { useCharacters } from '@/hooks';
 
 const INDICATOR_DOT_SIZE = 8;
 const BANNER_TICK_MS = 3000;
@@ -48,40 +50,18 @@ interface IllustrationState {
   goTo: (i: number) => void;
 }
 
-type IllustState = { srcs: string[]; idx: number; loading: boolean };
-type IllustAction =
-  | { type: 'reset' }
-  | { type: 'loaded'; srcs: string[] }
-  | { type: 'goTo'; idx: number }
-  | { type: 'tick' };
-
-function illustReducer(state: IllustState, action: IllustAction): IllustState {
-  switch (action.type) {
-    case 'reset':
-      return { srcs: [], idx: 0, loading: true };
-    case 'loaded':
-      return { srcs: action.srcs, idx: 0, loading: false };
-    case 'goTo':
-      return { ...state, idx: action.idx };
-    case 'tick':
-      return { ...state, idx: state.srcs.length > 0 ? (state.idx + 1) % state.srcs.length : 0 };
-  }
-}
-
 function useIllustration(characters: string[]): IllustrationState {
-  const [{ srcs, idx, loading }, dispatch] = useReducer(illustReducer, {
-    srcs: [],
-    idx: 0,
-    loading: true,
-  });
-  const charKey = characters.join(',');
+  const { data: characterData } = useCharacters();
+  const byIdentity = useMemo(
+    () => buildCharacterByIdentityMap(characterData),
+    [characterData]
+  );
 
-  useEffect(() => {
-    let cancelled = false;
-    dispatch({ type: 'reset' });
-    Promise.all(
-      characters.map(async (char) => {
-        const list = await getIllustrations(char);
+  const srcs = useMemo(() => {
+    return characters
+      .map((slug) => {
+        const character = byIdentity.get(slug);
+        const list = resolveIllustrations(slug, slug, character?.illustrations);
         const img =
           list.find(
             (il) => il.type === 'image' && il.name.toLowerCase() === 'default'
@@ -90,20 +70,22 @@ function useIllustration(characters: string[]): IllustrationState {
           list[0];
         return img?.src ?? null;
       })
-    ).then((results) => {
-      if (!cancelled) {
-        dispatch({ type: 'loaded', srcs: results.filter((s): s is string => s !== null) });
-      }
-    });
-    return () => {
-      cancelled = true;
-    };
-  }, [charKey, characters]);
+      .filter((s): s is string => s !== null);
+  }, [characters, byIdentity]);
+
+  const loading = characterData.length === 0;
+
+  const [srcsForIdx, setSrcsForIdx] = useState<string[] | null>(null);
+  const [idx, setIdx] = useState(0);
+  if (srcs !== srcsForIdx) {
+    setSrcsForIdx(srcs);
+    setIdx(0);
+  }
 
   const sharedTick = useSharedBannerTick(srcs.length > 1);
   useEffect(() => {
     if (srcs.length <= 1) return;
-    dispatch({ type: 'tick' });
+    setIdx((i) => (i + 1) % srcs.length);
   // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [sharedTick]);
 
@@ -112,7 +94,7 @@ function useIllustration(characters: string[]): IllustrationState {
     idx,
     total: srcs.length,
     loading,
-    goTo: (i) => dispatch({ type: 'goTo', idx: i }),
+    goTo: setIdx,
   };
 }
 

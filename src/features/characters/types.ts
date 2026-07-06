@@ -110,6 +110,12 @@ export interface RecommendedGearLoadoutData {
   activatedSetBonuses: ActivatedSetBonus[];
 }
 
+export interface CharacterIllustrationEntry {
+  name: string;
+  file: string;
+  type: 'image' | 'video';
+}
+
 export interface Character {
   slug: string;
   name: string;
@@ -132,5 +138,6 @@ export interface Character {
   recommended_noble_phantasm: string;
   recommended_gear?: RecommendedGearLoadout[] | null;
   recommended_subclasses?: string[];
+  illustrations?: CharacterIllustrationEntry[];
   last_updated: number;
 }

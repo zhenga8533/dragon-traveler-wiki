@@ -6,12 +6,10 @@ import { NAV_ITEM_HEIGHT } from '@/constants/ui';
 import { useGradientAccent } from '@/hooks';
 import {
   ActionIcon,
-  Alert,
   Badge,
   Box,
   Center,
   Group,
-  Skeleton,
   Stack,
   Text,
   UnstyledButton,
@@ -24,8 +22,6 @@ interface CharacterIllustrationPanelProps {
   activeIllustrationIndex: number;
   illustrationsLength: number;
   hasMultipleIllustrations: boolean;
-  illustrationsLoading: boolean;
-  illustrationsError: string | null;
   isDesktop: boolean | undefined;
   onOpenPreview: () => void;
   onPrevious: () => void;
@@ -38,8 +34,6 @@ export default function CharacterIllustrationPanel({
   activeIllustrationIndex,
   illustrationsLength,
   hasMultipleIllustrations,
-  illustrationsLoading,
-  illustrationsError,
   isDesktop,
   onOpenPreview,
   onPrevious,
@@ -47,39 +41,6 @@ export default function CharacterIllustrationPanel({
 }: CharacterIllustrationPanelProps) {
   const { accent } = useGradientAccent();
   const activeIllustrationName = activeIllustration?.name;
-
-  if (illustrationsLoading) {
-    return (
-      <StaticSurface p="md" radius="lg">
-        <Stack gap="xs">
-          <Group justify="space-between" align="center">
-            <Text fw={600} size="sm">
-              Illustrations
-            </Text>
-            <Text size="xs" c="dimmed">
-              Loading...
-            </Text>
-          </Group>
-          <Skeleton height={420} radius="md" />
-        </Stack>
-      </StaticSurface>
-    );
-  }
-
-  if (illustrationsError) {
-    return (
-      <StaticSurface p="md" radius="lg">
-        <Stack gap="sm">
-          <Text fw={600} size="sm">
-            Illustrations
-          </Text>
-          <Alert color="red" variant="light" title="Couldn't load illustrations">
-            {illustrationsError}
-          </Alert>
-        </Stack>
-      </StaticSurface>
-    );
-  }
 
   if (!activeIllustration || illustrationsLength === 0) {
     return (

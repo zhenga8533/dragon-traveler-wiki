@@ -1,5 +1,5 @@
 import {
-  getIllustrations,
+  resolveIllustrations,
   type Illustration,
 } from '@/assets';
 
@@ -95,10 +95,6 @@ export function BannerProvider({ children }: { children: ReactNode }) {
   });
 
   const [bannerLoaded, setBannerLoaded] = useState(false);
-  const [bannerOptionsReady, setBannerOptionsReady] = useState(false);
-  const [bannerOptions, setBannerOptions] = useState<BannerOption[]>([
-    DEFAULT_BANNER_OPTION,
-  ]);
   const [bannerPreference, setBannerPreference] = useState(() => {
     if (typeof window === 'undefined') return DEFAULT_BANNER_PREFERENCE;
     return (
@@ -110,69 +106,48 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     null
   );
 
-  const characterNameByAssetKey = useMemo(() => {
-    const map = new Map<string, string>();
+  const bannerSourcesByAssetKey = useMemo(() => {
+    const map = new Map<
+      string,
+      { characterName: string; illustrations: Illustration[] }
+    >();
     for (const character of characters) {
-      const key = character.slug;
-      if (!map.has(key)) map.set(key, character.name);
+      const assetKey = character.slug;
+      if (map.has(assetKey)) continue;
+      map.set(assetKey, {
+        characterName: character.name,
+        illustrations: resolveIllustrations(
+          assetKey,
+          assetKey,
+          character.illustrations
+        ),
+      });
     }
     return map;
   }, [characters]);
 
-  useEffect(() => {
-    let isCancelled = false;
-
-    async function loadBannerOptions(): Promise<void> {
-      const entries = Array.from(characterNameByAssetKey.entries());
-      if (entries.length === 0) return;
-
-      try {
-        const mediaByCharacter = await Promise.all(
-          entries.map(async ([assetKey, characterName]) => {
-            const illustrations = await getIllustrations(assetKey, assetKey);
-            return { assetKey, characterName, illustrations };
-          })
-        );
-
-        if (isCancelled) return;
-
-        const loadedOptions: BannerOption[] = [DEFAULT_BANNER_OPTION];
-        for (const {
-          assetKey,
-          characterName,
-          illustrations,
-        } of mediaByCharacter) {
-          illustrations.forEach((illustration, index) => {
-            loadedOptions.push({
-              value: `${assetKey}::${index}`,
-              label: `${characterName} — ${illustration.name}`,
-              src: illustration.src,
-              type: illustration.type,
-            });
-          });
-        }
-
-        const orderedOptions = [
-          DEFAULT_BANNER_OPTION,
-          ...loadedOptions
-            .filter((option) => option.value !== DEFAULT_BANNER_OPTION.value)
-            .sort((a, b) => a.label.localeCompare(b.label)),
-        ];
-
-        setBannerOptions(orderedOptions);
-      } finally {
-        if (!isCancelled) setBannerOptionsReady(true);
-      }
+  const bannerOptions = useMemo(() => {
+    const loadedOptions: BannerOption[] = [DEFAULT_BANNER_OPTION];
+    for (const [assetKey, { characterName, illustrations }] of bannerSourcesByAssetKey) {
+      illustrations.forEach((illustration, index) => {
+        loadedOptions.push({
+          value: `${assetKey}::${index}`,
+          label: `${characterName} — ${illustration.name}`,
+          src: illustration.src,
+          type: illustration.type,
+        });
+      });
     }
 
-    loadBannerOptions().catch((error) => {
-      console.error('Failed to load home banner options:', error);
-    });
+    return [
+      DEFAULT_BANNER_OPTION,
+      ...loadedOptions
+        .filter((option) => option.value !== DEFAULT_BANNER_OPTION.value)
+        .sort((a, b) => a.label.localeCompare(b.label)),
+    ];
+  }, [bannerSourcesByAssetKey]);
 
-    return () => {
-      isCancelled = true;
-    };
-  }, [characterNameByAssetKey]);
+  const bannerOptionsReady = characters.length > 0;
 
   useEffect(() => {
     if (!bannerOptionsReady) return;

@@ -69,8 +69,6 @@ export default function CharacterPage() {
 
   const {
     illustrations,
-    illustrationsLoading,
-    illustrationsError,
     talentIcon,
     skillIcons,
     setSelectedIllustration,
@@ -163,8 +161,6 @@ export default function CharacterPage() {
                 activeIllustrationIndex={activeIllustrationIndex}
                 illustrationsLength={illustrations.length}
                 hasMultipleIllustrations={hasMultipleIllustrations}
-                illustrationsLoading={illustrationsLoading}
-                illustrationsError={illustrationsError}
                 isDesktop={isDesktop}
                 onOpenPreview={() => setPreviewOpen(true)}
                 onPrevious={showPreviousIllustration}

@@ -1,8 +1,8 @@
 import { useCallback, useEffect, useMemo, useState } from 'react';
 import {
   getCharacterSkillIcon,
-  getIllustrations,
   getTalentIcon,
+  resolveIllustrations,
   type Illustration,
 } from '@/assets';
 import type { Character } from '@/features/characters/types';
@@ -11,8 +11,6 @@ const EMPTY_SKILL_ICONS = new Map<string, string>();
 
 interface UseCharacterAssetsResult {
   illustrations: Illustration[];
-  illustrationsLoading: boolean;
-  illustrationsError: string | null;
   talentIcon: string | undefined;
   skillIcons: Map<string, string>;
   setSelectedIllustration: (illustration: Illustration | null) => void;
@@ -27,59 +25,33 @@ export function useCharacterAssets(
   character: Character | null | undefined,
   characterAssetKey?: string
 ): UseCharacterAssetsResult {
-  const [illustrations, setIllustrations] = useState<Illustration[]>(
-    []
+  const illustrations = useMemo(
+    () =>
+      character
+        ? resolveIllustrations(character.slug, characterAssetKey, character.illustrations)
+        : [],
+    [character, characterAssetKey]
   );
-  const [illustrationsLoading, setIllustrationsLoading] = useState(false);
-  const [illustrationsError, setIllustrationsError] = useState<string | null>(
-    null
-  );
+  // Sentinel `null` (never a real illustrations array, even an empty one) ensures the
+  // reset below also runs on the very first render, not just on later changes.
+  const [illustrationsForSelection, setIllustrationsForSelection] = useState<
+    Illustration[] | null
+  >(null);
   const [selectedIllustration, setSelectedIllustration] =
     useState<Illustration | null>(null);
   const [talentIcon, setTalentIcon] = useState<string | undefined>();
   const [skillIcons, setSkillIcons] = useState<Map<string, string>>(new Map());
 
-  useEffect(() => {
-    let isCancelled = false;
-
-    if (!character) {
-      return;
-    }
-
-    queueMicrotask(() => {
-      if (isCancelled) return;
-      setIllustrationsLoading(true);
-      setIllustrationsError(null);
-    });
-
-    getIllustrations(character.slug, characterAssetKey)
-      .then((imgs) => {
-        if (isCancelled) return;
-
-        setIllustrations(imgs);
-        const defaultImage =
-          imgs.find((img) => img.name.toLowerCase() === 'default') ?? imgs[0];
-        setSelectedIllustration(defaultImage ?? null);
-      })
-      .catch(() => {
-        if (isCancelled) return;
-
-        console.error(
-          `Failed to load illustrations for character "${character.name}"`
-        );
-        setIllustrations([]);
-        setIllustrationsError('Unable to load illustrations right now.');
-        setSelectedIllustration(null);
-      })
-      .finally(() => {
-        if (isCancelled) return;
-        setIllustrationsLoading(false);
-      });
-
-    return () => {
-      isCancelled = true;
-    };
-  }, [character, characterAssetKey]);
+  // Reset the selection to the default illustration whenever the character (and thus
+  // its illustration list) changes. Adjusted during render, per React's guidance for
+  // resetting state when a value changes, rather than in an effect.
+  if (illustrations !== illustrationsForSelection) {
+    setIllustrationsForSelection(illustrations);
+    const defaultImage =
+      illustrations.find((img) => img.name.toLowerCase() === 'default') ??
+      illustrations[0];
+    setSelectedIllustration(defaultImage ?? null);
+  }
 
   useEffect(() => {
     let isCancelled = false;
@@ -162,15 +134,6 @@ export function useCharacterAssets(
     );
   }, [activeIllustration, illustrations]);
 
-  const displayIllustrations = character ? illustrations : [];
-  const displayIllustrationsLoading = character ? illustrationsLoading : false;
-  const displayIllustrationsError = character ? illustrationsError : null;
-  const displayActiveIllustration = character ? activeIllustration : null;
-  const displayActiveIllustrationIndex = character
-    ? activeIllustrationIndex
-    : -1;
-  const displayHasMultipleIllustrations =
-    Boolean(character) && displayIllustrations.length > 1;
   const displayTalentIcon = character ? talentIcon : undefined;
   const displaySkillIcons =
     character && character.skills ? skillIcons : EMPTY_SKILL_ICONS;
@@ -192,15 +155,13 @@ export function useCharacterAssets(
   }, [illustrations, activeIllustrationIndex]);
 
   return {
-    illustrations: displayIllustrations,
-    illustrationsLoading: displayIllustrationsLoading,
-    illustrationsError: displayIllustrationsError,
+    illustrations,
     talentIcon: displayTalentIcon,
     skillIcons: displaySkillIcons,
     setSelectedIllustration,
-    activeIllustration: displayActiveIllustration,
-    activeIllustrationIndex: displayActiveIllustrationIndex,
-    hasMultipleIllustrations: displayHasMultipleIllustrations,
+    activeIllustration,
+    activeIllustrationIndex,
+    hasMultipleIllustrations: illustrations.length > 1,
     showPreviousIllustration,
     showNextIllustration,
   };
