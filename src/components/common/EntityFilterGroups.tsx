@@ -68,6 +68,10 @@ export function createQualityFilterGroup({
   };
 }
 
+function capitalize(value: string): string {
+  return `${value.charAt(0).toUpperCase()}${value.slice(1)}`;
+}
+
 export function createClassFilterGroup({
   key = 'classes',
   label = 'Class',
@@ -77,6 +81,7 @@ export function createClassFilterGroup({
     key,
     label,
     options: [...options],
+    labelFn: capitalize,
     icon: (value: string) => {
       const iconSrc =
         CLASS_ICON_MAP[value as CharacterClass] ??
