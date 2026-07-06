@@ -130,6 +130,9 @@ export function BannerProvider({ children }: { children: ReactNode }) {
   });
 
   const [bannerLoaded, setBannerLoaded] = useState(false);
+  const [prevBannerSrc, setPrevBannerSrc] = useState<string | undefined>(
+    undefined
+  );
   const [bannerPreference, setBannerPreference] = useState(() => {
     if (typeof window === 'undefined') return DEFAULT_BANNER_PREFERENCE;
     return (
@@ -137,10 +140,6 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       DEFAULT_BANNER_PREFERENCE
     );
   });
-  const [selectedBannerValue, setSelectedBannerValue] = useState<string | null>(
-    null
-  );
-
   const bannerSourcesByAssetKey = useMemo(() => {
     const map = new Map<
       string,
@@ -184,43 +183,40 @@ export function BannerProvider({ children }: { children: ReactNode }) {
 
   const bannerOptionsReady = characters.length > 0;
 
-  useEffect(() => {
-    if (!bannerOptionsReady) return;
-
-    if (bannerPreference === NO_BANNER_VALUE) {
-      setSelectedBannerValue(null);
-      return;
-    }
+  const selectedBannerValue = useMemo(() => {
+    if (!bannerOptionsReady) return null;
+    if (bannerPreference === NO_BANNER_VALUE) return null;
 
     const favoritesFilter = favoritesOnly ? favoriteIllustrations : undefined;
 
     if (bannerPreference === RANDOM_BANNER_ALL_VALUE) {
-      const random = pickRandomBanner(bannerOptions, 'all', favoritesFilter);
-      setSelectedBannerValue(random?.value ?? DEFAULT_BANNER_OPTION.value);
-      return;
+      return (
+        pickRandomBanner(bannerOptions, 'all', favoritesFilter)?.value ??
+        DEFAULT_BANNER_OPTION.value
+      );
     }
     if (bannerPreference === RANDOM_BANNER_PNG_VALUE) {
-      const random = pickRandomBanner(bannerOptions, 'png', favoritesFilter);
-      setSelectedBannerValue(random?.value ?? DEFAULT_BANNER_OPTION.value);
-      return;
+      return (
+        pickRandomBanner(bannerOptions, 'png', favoritesFilter)?.value ??
+        DEFAULT_BANNER_OPTION.value
+      );
     }
     if (bannerPreference === RANDOM_BANNER_MP4_VALUE) {
-      const random = pickRandomBanner(bannerOptions, 'mp4', favoritesFilter);
-      setSelectedBannerValue(random?.value ?? DEFAULT_BANNER_OPTION.value);
-      return;
+      return (
+        pickRandomBanner(bannerOptions, 'mp4', favoritesFilter)?.value ??
+        DEFAULT_BANNER_OPTION.value
+      );
     }
 
     const exists = bannerOptions.some(
       (option) => option.value === bannerPreference
     );
-    if (exists) {
-      setSelectedBannerValue(bannerPreference);
-      return;
-    }
+    if (exists) return bannerPreference;
 
-    const random = pickRandomBanner(bannerOptions, 'all', favoritesFilter);
-    setSelectedBannerValue(random?.value ?? DEFAULT_BANNER_OPTION.value);
-    setBannerPreference(DEFAULT_BANNER_PREFERENCE);
+    return (
+      pickRandomBanner(bannerOptions, 'all', favoritesFilter)?.value ??
+      DEFAULT_BANNER_OPTION.value
+    );
   }, [
     bannerOptions,
     bannerOptionsReady,
@@ -228,6 +224,23 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     favoritesOnly,
     favoriteIllustrations,
   ]);
+
+  // Self-heal a persisted preference that no longer matches any known
+  // option (e.g. a favorited illustration was removed from the data set),
+  // so the settings UI reflects a valid selection going forward.
+  useEffect(() => {
+    if (!bannerOptionsReady) return;
+    const isKnownPreference =
+      bannerPreference === NO_BANNER_VALUE ||
+      bannerPreference === RANDOM_BANNER_ALL_VALUE ||
+      bannerPreference === RANDOM_BANNER_PNG_VALUE ||
+      bannerPreference === RANDOM_BANNER_MP4_VALUE ||
+      bannerOptions.some((option) => option.value === bannerPreference);
+
+    if (!isKnownPreference) {
+      setBannerPreference(DEFAULT_BANNER_PREFERENCE); // eslint-disable-line react-hooks/set-state-in-effect -- corrects stale persisted data; selectedBannerValue above already derives a valid fallback for this render regardless of this write-back.
+    }
+  }, [bannerOptions, bannerOptionsReady, bannerPreference]);
 
   useEffect(() => {
     if (typeof window === 'undefined') return;
@@ -264,6 +277,11 @@ export function BannerProvider({ children }: { children: ReactNode }) {
       : (bannerOptions.find((option) => option.value === selectedBannerValue) ??
         DEFAULT_BANNER_OPTION);
 
+  if (selectedBanner?.src !== prevBannerSrc) {
+    setPrevBannerSrc(selectedBanner?.src);
+    setBannerLoaded(false);
+  }
+
   const bannerSelectData = useMemo(
     () => [
       {
@@ -283,10 +301,6 @@ export function BannerProvider({ children }: { children: ReactNode }) {
     ],
     [bannerOptions]
   );
-
-  useEffect(() => {
-    setBannerLoaded(false);
-  }, [selectedBanner?.src]);
 
   const randomBannerMode: 'all' | 'png' | 'mp4' | null =
     bannerPreference === RANDOM_BANNER_ALL_VALUE
